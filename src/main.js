@@ -3,6 +3,7 @@ import VueI18n from 'vue-i18n';
 import languages from './i18n';
 import App from './App.vue';
 import router from './router';
+import schema from './schema';
 
 Vue.use(VueI18n);
 
@@ -20,6 +21,8 @@ Vue.prototype.changeLanguage = function changeLanguage(lang) {
     this.$i18n.locale = lang;
   }
 };
+
+Vue.prototype.routerConfig = schema;
 
 new Vue({
   el: '#app',
