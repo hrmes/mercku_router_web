@@ -1,10 +1,12 @@
 <template>
-  <div>welcome</div>
+  <div>{{$t('test')}}</div>
 </template>
 
 <script>
 export default {
-  mounted() {}
+  mounted() {
+    this.changeLanguage('en-US');
+  }
 };
 </script>
 
