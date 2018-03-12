@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="button-container">
-      <van-button>{{$t('trans0001')}}</van-button>
+      <van-button>{{$t('trans0018')}}</van-button>
     </div>
   </div>
 </template>

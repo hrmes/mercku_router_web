@@ -11,7 +11,7 @@
       <a class="policy-link" href="">{{$t('trans0139')}}</a>
     </div>
     <div class="button-container">
-      <van-button size="normal">{{$t('trans0138')}}</van-button>
+      <van-button size="normal" @click="agree">{{$t('trans0138')}}</van-button>
     </div>
   </div>
 
@@ -19,8 +19,19 @@
 
 <script>
 export default {
-  mounted() {
-
+  methods: {
+    agree() {
+      this.isInitial();
+    },
+    isInitial() {
+      this.$http.isinitial().then((res) => {
+        if (res.result) {
+          this.$router.replace({ path: '/wlan' });
+        } else {
+          this.$router.replace({ path: '/login' });
+        }
+      }).catch(err => err);
+    }
   }
 };
 </script>
