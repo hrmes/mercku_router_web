@@ -12,21 +12,18 @@ import wlan from '../pages/wlan/index.vue';
 import checkNetwork from '../pages/check-network/index.vue';
 import wanSuccess from '../pages/wan-success/index.vue';
 
-
 Vue.use(Router);
 export default new Router({
   routes: [
-
     {
       path: '/',
-      redirect: '/wan-check'
+      redirect: '/welcome'
     },
     {
       path: '/welcome',
       component: welcome
     },
     {
-
       path: '/wan-check',
       name: 'wan-check',
       component: wanCheck
@@ -72,6 +69,5 @@ export default new Router({
       path: '/wan-success',
       component: wanSuccess
     }
-
   ]
 });
