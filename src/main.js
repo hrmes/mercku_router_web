@@ -1,15 +1,22 @@
 import Vue from 'vue';
+import { Button, Field } from 'vant';
 import { changeLanguage, i18n } from './i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
 import http from './http';
+import util from './util/util';
+
+Vue.use(Button);
+Vue.use(Field);
 
 Vue.prototype.$http = http;
 
 Vue.prototype.changeLanguage = changeLanguage;
 
 Vue.prototype.routerConfig = schema;
+
+util.adapt(375, 100);
 
 new Vue({
   el: '#app',
