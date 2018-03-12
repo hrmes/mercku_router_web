@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Button, Field, Icon } from 'vant';
+import { Button, Field, Icon, Checkbox } from 'vant';
 import { changeLanguage, i18n } from './i18n';
 import App from './App.vue';
 import router from './router';
@@ -10,6 +10,7 @@ import util from './util/util';
 Vue.use(Button);
 Vue.use(Field);
 Vue.use(Icon);
+Vue.use(Checkbox);
 
 Vue.prototype.$http = http;
 

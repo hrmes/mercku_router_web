@@ -36,5 +36,15 @@ body,
     background: transparent;
   }
 }
+.van-checkbox .van-icon-success {
+  border: 1px solid rgb(213, 184, 132);
+  border-radius: 0.02rem;
+  color: #000;
+}
+.van-checkbox__control:checked + .van-icon-success {
+  border-color: rgb(213, 184, 132);
+  background-color: rgb(213, 184, 132);
+  color: rgb(14, 14, 14);
+}
 </style>
 
