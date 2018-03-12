@@ -69,7 +69,6 @@ export default {
       text-decoration: underline;
     }
   }
-
   .button-container {
     text-align: center;
     margin-top: 1.42rem;

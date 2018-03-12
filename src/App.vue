@@ -4,49 +4,59 @@
 </transition>
 </template>
 <script>
-import 'vant/packages/vant-css/src/base.css';
+  import 'vant/packages/vant-css/src/base.css';
 
-export default {};
+  export default {};
 </script>
 
 <style lang="scss">
-html {
-  background: rgb(16, 16, 16);
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+  html {
+    background: rgb(16, 16, 16);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-html,
-body,
-.container {
-  color: rgb(182, 182, 182);
-  font-size: 0.14rem;
-}
-.van-button {
-  border-radius: 1rem;
-  background: transparent;
-  color: rgb(213, 184, 132);
-  border-color: rgb(213, 184, 132);
-  width: 2rem;
-  height: 0.5rem;
-}
-.van-field {
-  background: transparent;
-  border-bottom: 0.5px solid rgb(213, 184, 132);
-  padding: 5px 10px 5px 0;
+  }
+
+  html,
+  body,
+  .container {
+    color: rgb(182, 182, 182);
+    font-size: 0.14rem;
+  }
+
+  .van-button {
+    border-radius: 1rem;
+    background: transparent;
+    color: rgb(213, 184, 132);
+    border-color: rgb(213, 184, 132);
+    width: 2rem;
+    height: 0.5rem;
+  }
+
+  .van-field {
+    background: transparent;
+    border-bottom: 0.5px solid rgb(213, 184, 132);
+    padding: 5px 10px 5px 0;
+
   .van-field__control {
     color: rgb(124, 124, 124);
     background: transparent;
   }
-}
-.van-checkbox .van-icon-success {
-  border: 1px solid rgb(213, 184, 132);
-  border-radius: 0.02rem;
-  color: #000;
-}
-.van-checkbox__control:checked + .van-icon-success {
-  border-color: rgb(213, 184, 132);
-  background-color: rgb(213, 184, 132);
-  color: rgb(14, 14, 14);
-}
+
+  }
+  .van-checkbox .van-icon-success {
+    border: 1px solid rgb(213, 184, 132);
+    border-radius: 0.02rem;
+    color: #000;
+  }
+
+  .van-checkbox__control:checked + .van-icon-success {
+    border-color: rgb(213, 184, 132);
+    background-color: rgb(213, 184, 132);
+    color: rgb(14, 14, 14);
+  }
+
+  .space {
+    height: .2rem;
+  }
 </style>
 
