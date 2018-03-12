@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import welcome from '../pages/welcome/index.vue';
 import login from '../pages/login/index.vue';
 import wlan from '../pages/wlan/index.vue';
+import checkNetwork from '../pages/check-network/index.vue';
 
 Vue.use(Router);
 export default new Router({
@@ -22,6 +23,10 @@ export default new Router({
     {
       path: '/wlan',
       component: wlan
+    },
+    {
+      path: '/check-network',
+      component: checkNetwork
     }
   ]
 });
