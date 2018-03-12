@@ -16,7 +16,8 @@ html {
 html,
 body,
 .container {
-  height: 100%;
+  color: rgb(182, 182, 182);
+  font-size: 0.14rem;
 }
 .van-button {
   border-radius: 1rem;
