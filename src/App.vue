@@ -22,6 +22,8 @@ body,
   border-radius: 1rem;
   background: transparent;
   color: rgb(182, 182, 182);
+  width: 2rem;
+  height: 0.5rem;
 }
 </style>
 

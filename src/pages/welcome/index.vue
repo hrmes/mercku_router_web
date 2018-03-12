@@ -7,10 +7,10 @@
     <div>
       <p class="p1"></p>
       <p class="p2"></p>
-      <a class="policy-link" href=""></a>
+      <a class="policy-link" href="">{{$t('trans0139')}}</a>
     </div>
     <div class="button-container">
-      <van-button size="normal">普通按钮</van-button>
+      <van-button size="normal">{{$t('trans0138')}}</van-button>
     </div>
   </div>
 
@@ -19,7 +19,7 @@
 <script>
 export default {
   mounted() {
-    this.changeLanguage('en-US');
+
   }
 };
 </script>

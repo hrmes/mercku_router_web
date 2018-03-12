@@ -22,7 +22,6 @@ export function changeLanguage(lang) {
     console.log('language not exist!');
   } else {
     // change language
-    console.log(this.$i18n, this);
     i18n.locale = lang;
   }
 }
