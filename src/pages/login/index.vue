@@ -39,7 +39,7 @@ export default {
     }
   }
   .pwd-container {
-    margin-top: 0.25rem;
+    margin-top: 0.33rem;
     position: relative;
     .pwd-input {
       width: 100%;
@@ -58,7 +58,7 @@ export default {
   }
   .button-container {
     text-align: center;
-    margin-top: 1.4rem;
+    margin-top: 1.3rem;
   }
 }
 </style>
