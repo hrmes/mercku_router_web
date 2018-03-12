@@ -2,6 +2,7 @@
 
   <div class="welcome-page">
     <div class="banner-container">
+      <p>{{$t('trans0136')}}</p>
       <img src="" alt="">
     </div>
     <div class="policy">
@@ -30,6 +31,9 @@ export default {
   .banner-container {
     width: 3.35rem;
     height: 2.69rem;
+    font-size: 0.2rem;
+    text-align: center;
+    color: rgb(1, 1, 1);
   }
   .policy {
     text-align: right;
