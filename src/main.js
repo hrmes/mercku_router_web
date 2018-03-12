@@ -22,7 +22,7 @@ Vue.prototype.changeLanguage = changeLanguage;
 Vue.prototype.routerConfig = schema;
 Vue.prototype.$confirm = Dialog.confirm;
 
-util.adapt(375, 100);
+util.adapt(375, 375);
 
 new Vue({
   el: '#app',
