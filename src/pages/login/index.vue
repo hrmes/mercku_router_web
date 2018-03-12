@@ -39,7 +39,7 @@ export default {
     }
   }
   .pwd-container {
-    margin-top: 0.35rem;
+    margin-top: 0.25rem;
     position: relative;
     .pwd-input {
       width: 100%;

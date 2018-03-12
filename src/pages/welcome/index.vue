@@ -30,7 +30,7 @@ export default {
   padding: 0.6rem 0.2rem 0;
   .banner-container {
     width: 3.35rem;
-    height: 2.69rem;
+    height: 2.7rem;
     font-size: 0.2rem;
     text-align: center;
     color: rgb(1, 1, 1);
@@ -61,7 +61,7 @@ export default {
 
   .button-container {
     text-align: center;
-    margin-top: 1.2rem;
+    margin-top: 1.42rem;
   }
 }
 </style>
