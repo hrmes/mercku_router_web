@@ -1,7 +1,7 @@
 <template>
-<transition>
+<!--<transition>-->
   <router-view></router-view>
-</transition>
+<!--</transition>-->
 </template>
 <script>
   import 'vant/packages/vant-css/src/base.css';
