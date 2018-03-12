@@ -3,7 +3,7 @@
   <div class="welcome-page">
     <div class="banner-container">
       <p>{{$t('trans0136')}}</p>
-      <img src="" alt="">
+      <img src="../../../static/1.jpg" alt="">
     </div>
     <div class="policy">
       <p class="p1">{{$t('trans0137')}}</p>
@@ -27,13 +27,25 @@ export default {
 
 <style lang="scss" scoped>
 .welcome-page {
-  padding: 0.6rem 0.2rem;
+  padding: 0.6rem 0.2rem 0;
   .banner-container {
     width: 3.35rem;
     height: 2.69rem;
     font-size: 0.2rem;
     text-align: center;
     color: rgb(1, 1, 1);
+    position: relative;
+    p {
+      position: absolute;
+      width: 100%;
+      top: 0.25rem;
+      font-weight: bold;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 0.16rem;
+    }
   }
   .policy {
     text-align: right;
