@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Button, Field, Icon, Checkbox, Dialog, Cell, CellGroup } from 'vant';
+import { Button, Field, Icon, Checkbox, Dialog, Cell, CellGroup, Toast } from 'vant';
 import { changeLanguage, i18n } from './i18n';
 import App from './App.vue';
 import router from './router';
@@ -11,7 +11,6 @@ Vue.use(Button);
 Vue.use(Field);
 Vue.use(Icon);
 Vue.use(Checkbox);
-
 
 Vue.prototype.$toast = Toast;
 
