@@ -2,19 +2,25 @@
   <div class="container">
     <div class="status"/>
     <div class="content">
-      <div class="left active" v-if="option.left.disabled">
+      <div class="left active" v-if="option.left.disabled" @click="leftClick()">
         <van-icon :name="option.left.icon" class="active"/>
       </div>
-      <div class="center"  v-if="option.center">{{$t(`${option.center.text}`)}}</div>
-      <div class="right active"  v-if="option.right">{{$t(`${option.right.text}`)}}</div>
+      <div class="center" v-if="option.center">{{$t(`${option.center.text}`)}}</div>
+      <div class="right active" v-if="option.right" @click="rightClick()">{{$t(`${option.right.text}`)}}
+      </div>
     </div>
   </div>
 </template>
 <script>
   export default {
-    props: ['option'],
-    data() {
-      return {};
+    props: ['option', 'onLeftClick', 'onRightClick'],
+    methods: {
+      leftClick() {
+        this.onLeftClick();
+      },
+      rightClick() {
+        this.onRightClick();
+      }
     }
   };
 </script>
@@ -30,20 +36,15 @@
   .content {
     height: .44rem;
 
-  /*.active:hover{*/
-  /*color: #f7d699;*/
-
-  /*}*/
   .left {
+    z-index: 1111;
     position: absolute;
     line-height: .44rem;
-    left: .2rem;
+    left: .15rem;
     width: .5rem;
     font-size: 12px;
     height: .44rem;
     top: .2rem;
-    line-height: .44rem;
-
   i {
     width: .12rem;
     height: .2rem;
@@ -72,8 +73,9 @@
   }
 
   .right {
+    z-index: 1111;
     position: absolute;
-    right: .2rem;
+    right: .15rem;
     font-size: .14rem;
     color: #D5B884;
     text-align: right;

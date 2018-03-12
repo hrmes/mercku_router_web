@@ -7,6 +7,9 @@ import staticIp from '../pages/static-ip/index.vue';
 import pppoe from '../pages/pppoe/index.vue';
 import dhcp from '../pages/dhcp/index.vue';
 import complete from '../pages/complete/index.vue';
+import login from '../pages/login/index.vue';
+import wlan from '../pages/wlan/index.vue';
+
 
 Vue.use(Router);
 export default new Router({
@@ -21,6 +24,7 @@ export default new Router({
       component: welcome
     },
     {
+
       path: '/wan-check',
       name: 'wan-check',
       component: wanCheck
@@ -50,5 +54,14 @@ export default new Router({
       name: 'complete',
       component: complete
     },
+    {
+      path: '/login',
+      component: login
+    },
+    {
+      path: '/wlan',
+      component: wlan
+    }
+
   ]
 });
