@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="button-container">
-      <van-button @click="login">{{$t('trans0001')}}</van-button>
+      <van-button @click="login(password)">{{$t('trans0001')}}</van-button>
     </div>
   </div>
 </template>
@@ -28,19 +28,30 @@ export default {
       inputType: InputTypes.password
     };
   },
+  mounted() {
+    // 进入登录页面后，首先尝试用默认密码登录一次
+    this.login('');
+  },
   methods: {
-    login() {
+    login(pwd) {
       const loader = this.$toast.loading({
         mask: true,
         message: '',
         duration: 0,
         forbidClick: true
       });
-      this.$http.login(this.password).then(() => {
-        this.$router.replace({ path: '/check-network' });
+      this.$http.login(pwd).then(() => {
+        if (this.$router.returnUrl) {
+          window.location.href = this.$router.returnUrl;
+        } else {
+          this.$router.replace({ path: '/wlan' });
+        }
         loader.clear();
       }).catch((err) => {
-        console.log(err);
+        if (pwd) {
+          // 弹出错误提示
+          console.log(err);
+        }
         loader.clear();
       });
     },
