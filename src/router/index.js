@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import welcome from '../pages/welcome/index.vue';
-import wanCheck from '../pages/wan-check/index.vue';
+import wanFail from '../pages/wan-fail/index.vue';
 import wanHand from '../pages/wan-hand/index.vue';
 import staticIp from '../pages/static-ip/index.vue';
 import pppoe from '../pages/pppoe/index.vue';
@@ -24,9 +24,9 @@ export default new Router({
       component: welcome
     },
     {
-      path: '/wan-check',
-      name: 'wan-check',
-      component: wanCheck
+      path: '/wan-fail',
+      name: 'wan-fail',
+      component: wanFail
     },
     {
       path: '/wan-hand',

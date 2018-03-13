@@ -43,7 +43,7 @@
           title: '标题',
           message: '弹窗内容'
         }).then(() => {
-          // on confirm
+          this.$router.replace('/complete');
         }).catch(() => {
           // on cancel
         });
@@ -63,6 +63,8 @@
     box-sizing: border-box;
     margin: 0 auto;
     border-radius: .16rem;
+    overflow: hidden;
+    margin-top: .2rem;
     background: url("../../../static/123.png") no-repeat;
     background-size: cover;
 

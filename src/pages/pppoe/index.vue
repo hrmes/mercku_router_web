@@ -1,7 +1,19 @@
 <template>
-  <div class="wan-hand-container">
+  <div class="pppoe-container">
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
     <div class="message">{{$t('trans0154')}}</div>
+    <div class="form">
+      <van-cell-group>
+        <van-field type="text"  :placeholder="$t('trans0155')"/>
+        <div class="password-info">
+          <van-field type="password"  :placeholder="$t('trans0156')"/>
+          <div class="pwd-preview"><van-icon name="password-view"  /></div>
+        </div>
+      </van-cell-group>
+      <div class="button-info">
+        <van-button size="normal" @click="$router.replace('/complete')">{{$t('trans0055')}}</van-button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -38,7 +50,7 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  .wan-hand-container {
+  .pppoe-container {
 
   .message {
     height: .5rem;
@@ -49,46 +61,37 @@
     background: rgb(0, 0, 0);
 
   }
-  .list{
-    margin-top: .2rem;
-
+  .form{
 
   }
-  .item{
-    height: .8rem;
-    /*border: 1px solid red;*/
-    width: 100%;
-    display: table;
-  .text{
-    display: table-cell;
-    overflow: hidden;
-    vertical-align: middle;
-    padding-left: .15rem;
-  label{
-    display: block;
+  .password-info{
+    padding-right: .3rem;
+    position: relative;
   }
-  :first-child{
-    font-size: .14rem;
-    color: rgb(182,182,182);
+  .van-field{
+    margin-top: .3rem;
+
   }
-  :last-child{
-    font-size: .12rem;
-    color: rgb(124,124,124);
-    padding-top: .05rem;
+  .button-info {
+    text-align: center;
+    margin-top: .6rem;
   }
+  .pwd-preview {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    top:30%;
+
+    width: 0.2rem;
+    text-align: center;
   }
-  .icon{
-    display: table-cell;
-    vertical-align: middle;
-    text-align: right;
+  .van-cell-group{
+    background: transparent !important;
     padding-right: .15rem;
-  i{
-    color: #D5B884;
   }
-
+  .van-hairline--bottom::after, .van-hairline--left::after, .van-hairline--right::after, .van-hairline--surround::after, .van-hairline--top-bottom::after, .van-hairline--top::after, .van-hairline::after{
+    border: none !important;
   }
-  }
-
   }
 
 

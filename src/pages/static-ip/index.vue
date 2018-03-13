@@ -1,7 +1,22 @@
 <template>
-  <div class="wan-hand-container">
+  <div class="static-ip-container">
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
     <div class="message">{{$t('trans0150')}}</div>
+    <div class="form">
+      <van-cell-group>
+        <label class="title">{{$t('trans0151')}}</label>
+        <van-field placeholder="0.0.0.0"/>
+        <label class="title">{{$t('trans0152')}}</label>
+        <van-field placeholder="0.0.0.0"/>
+        <label class="title">{{$t('trans0153')}}</label>
+        <van-field placeholder="0.0.0.0"/>
+        <label class="title">{{$t('trans0236')}}</label>
+        <van-field placeholder="0.0.0.0"/>
+      </van-cell-group>
+    </div>
+    <div class="button-info">
+      <van-button size="normal" @click="$router.replace('/complete')">{{$t('trans0055')}}</van-button>
+    </div>
   </div>
 </template>
 <script>
@@ -38,7 +53,7 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  .wan-hand-container {
+  .static-ip-container {
 
   .message {
     height: .5rem;
@@ -49,44 +64,32 @@
     background: rgb(0, 0, 0);
 
   }
-  .list{
+
+  .form {
+    margin-top: .3rem;
+
+  label {
+    display: block;
+    height: .3rem;
+    line-height: .3rem;
+    font-size: .14rem;
+    color: rgb(182, 182, 182);
     margin-top: .2rem;
 
-
-  }
-  .item{
-    height: .8rem;
-    /*border: 1px solid red;*/
-    width: 100%;
-    display: table;
-  .text{
-    display: table-cell;
-    overflow: hidden;
-    vertical-align: middle;
-    padding-left: .15rem;
-  label{
-    display: block;
-  }
-  :first-child{
-    font-size: .14rem;
-    color: rgb(182,182,182);
-  }
-  :last-child{
-    font-size: .12rem;
-    color: rgb(124,124,124);
-    padding-top: .05rem;
-  }
-  }
-  .icon{
-    display: table-cell;
-    vertical-align: middle;
-    text-align: right;
-    padding-right: .15rem;
-  i{
-    color: #D5B884;
   }
 
   }
+  .button-info {
+    text-align: center;
+    margin-top: .6rem;
+  }
+
+  .van-cell-group {
+    background: transparent !important;
+  }
+
+  .van-field, .van-hairline--bottom::after, .van-hairline--left::after, .van-hairline--right::after, .van-hairline--surround::after, .van-hairline--top-bottom::after, .van-hairline--top::after, .van-hairline::after {
+    border: none !important;
   }
 
   }
