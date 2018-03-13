@@ -21,16 +21,7 @@
 export default {
   methods: {
     agree() {
-      this.isInitial();
-    },
-    isInitial() {
-      this.$http.isinitial().then((res) => {
-        if (res.result) {
-          this.$router.replace({ path: '/wlan' });
-        } else {
-          this.$router.replace({ path: '/login' });
-        }
-      }).catch(err => err);
+      this.$router.replace({ path: '/login' });
     }
   }
 };

@@ -18,6 +18,7 @@ axios.interceptors.response.use(
 );
 
 const methods = {
+  checkLogin: 'router.check_login',
   login: 'router.login',
   isinitial: 'is_initial',
   update: 'router.config.update',
@@ -26,6 +27,11 @@ const methods = {
 
 const baseUrl = '/app';
 export default {
+  checkLogin() {
+    return axios.post(baseUrl, {
+      method: methods.login
+    });
+  },
   login(pwd) {
     return axios.post(baseUrl, {
       method: methods.login,

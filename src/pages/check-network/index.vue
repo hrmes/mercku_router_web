@@ -13,7 +13,17 @@
 <script>
 export default {
   mounted() {
-
+    this.$http.testWan().then((res) => {
+      if (res.result) {
+        this.$router.replace({ path: '/wan-success' });
+      }
+    }).catch((err) => {
+      let path = '/wan-fail';
+      if (err && err.error) {
+        path = `${path}/${err.error.code}`;
+      }
+      this.$router.replace({ path });
+    });
   }
 };
 </script>
