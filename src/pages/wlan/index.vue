@@ -8,12 +8,7 @@
     </div>
     <div class="wlan-settings">
       <div class="ssid-container">
-        <div class="ssid-input">
-          <van-field v-model="ssid" :placeholder="$t('trans0168')" />
-        </div>
-        <div class="ssid-preview">
-          <van-icon name="password-view" />
-        </div>
+        <van-field v-model="ssid" :placeholder="$t('trans0168')" />
       </div>
       <div class="pwd-container">
         <div class="pwd-input">
@@ -26,7 +21,7 @@
       <div class="check-container">
         <van-checkbox v-model="checked" shape="square">{{$t('trans0166')}}</van-checkbox>
       </div>
-      <div class="adminpwd-container">
+      <div v-if="!checked" class="adminpwd-container">
         <div class="adminpwd-input">
           <van-field v-model="adminPwd" :placeholder="$t('trans0067')" />
         </div>
@@ -36,7 +31,7 @@
       </div>
     </div>
     <div class="button-container">
-      <van-button>{{$t('trans0018')}}</van-button>
+      <van-button @click="complete">{{$t('trans0018')}}</van-button>
     </div>
   </div>
 </template>
@@ -45,11 +40,21 @@
 export default {
   data() {
     return {
-      checked: false,
+      checked: true,
       ssid: '',
       pwd: '',
       adminPwd: ''
     };
+  },
+  methods: {
+    complete() {
+      // 字段检查
+      if (true) {
+        this.routerConfig.setWIFI(this.ssid, this.pwd);
+        this.routerConfig.setAdminPwd(this.checked ? this.pwd : this.adminPwd);
+        this.$router.replace({ path: '/check-network' });
+      }
+    }
   }
 };
 </script>
