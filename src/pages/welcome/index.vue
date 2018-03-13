@@ -31,8 +31,6 @@ export default {
 .welcome-page {
   padding: 0.6rem 0.2rem 0;
   .banner-container {
-    width: 3.35rem;
-    height: 2.7rem;
     font-size: 0.2rem;
     text-align: center;
     color: rgb(1, 1, 1);
@@ -44,8 +42,8 @@ export default {
       font-weight: bold;
     }
     img {
-      width: 100%;
-      height: 100%;
+      width: 3.35rem;
+      height: 2.7rem;
       border-radius: 0.16rem;
     }
   }
