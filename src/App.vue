@@ -1,7 +1,7 @@
 <template>
-<!--<transition>-->
+  <!--<transition>-->
   <router-view></router-view>
-<!--</transition>-->
+  <!--</transition>-->
 </template>
 <script>
   import 'vant/packages/vant-css/src/base.css';
@@ -19,8 +19,7 @@
   html,
   body,
   .container {
-    padding-top: constant(safe-area-inset-top);  
-  color: rgb(182, 182, 182);
+    color: rgb(182, 182, 182);
     font-size: 0.14rem;
   }
 
