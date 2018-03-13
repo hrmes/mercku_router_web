@@ -1,5 +1,5 @@
 <template>
-  <div class="wan-check-container">
+  <div class="dhcp-container">
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
     <div class="status-info">
       <div class="state">{{$t('trans0157')}}</div>
@@ -44,9 +44,7 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  .wan-check-container {
-    padding-right: .15rem;
-    padding-left: .15rem;
+  .dhcp-container {
 
   .status-info {
     width: 3.35rem;

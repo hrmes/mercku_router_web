@@ -14,6 +14,7 @@
     background: rgb(16, 16, 16);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    -moz-user-select:none;-webkit-user-select:none
   }
 
   html,
@@ -21,6 +22,9 @@
   .container {
     color: rgb(182, 182, 182);
     font-size: 0.14rem;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    background: rgb(16, 16, 16);
   }
 
   .van-button {

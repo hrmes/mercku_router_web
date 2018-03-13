@@ -34,7 +34,11 @@
 
   .container {
     min-height: .44rem;
+    position: relative;
+    background: rgb(16, 16, 16);
+    top: 0;
     box-sizing: border-box;
+
 
   .status {
     height: .2rem;
