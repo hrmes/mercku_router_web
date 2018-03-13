@@ -17,15 +17,12 @@ export default {
       if (res.data.result) {
         this.$router.replace({ path: '/wan-success' });
       } else {
-        let path = '/wan-fail/1';
-        this.$router.replace({ path });
+        this.$router.replace('/wan-fail/1');
       }
     }).catch((err) => {
-      let path = '/wan-fail';
       if (err && err.error) {
-        path = `${path}/${err.error.code}`;
+        this.$router.replace(`/wan-fail}/${err.error.code}`);
       }
-      this.$router.replace({ path });
     });
   }
 };
