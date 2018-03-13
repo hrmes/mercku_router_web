@@ -16,6 +16,9 @@ export default {
     this.$http.testWan().then((res) => {
       if (res.data.result) {
         this.$router.replace({ path: '/wan-success' });
+      } else {
+        let path = '/wan-fail/1';
+        this.$router.replace({ path });
       }
     }).catch((err) => {
       let path = '/wan-fail';

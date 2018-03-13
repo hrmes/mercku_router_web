@@ -9,7 +9,7 @@
       <img src="../../../static/1.jpg" alt="">
     </div>
     <div class="button-container">
-      <van-button size="normal" @click="agree">{{$t('trans0081')}}</van-button>
+      <van-button size="normal" @click="next">{{$t('trans0081')}}</van-button>
     </div>
   </div>
 
@@ -18,7 +18,13 @@
 <script>
 export default {
   methods: {
-
+    next() {
+      this.$http.update(this.routerConfig.getConfig()).then((res) => {
+        this.$router.replace({ path: '/complete' });
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
   }
 };
 </script>
