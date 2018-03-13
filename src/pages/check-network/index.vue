@@ -14,7 +14,7 @@
 export default {
   mounted() {
     this.$http.testWan().then((res) => {
-      if (res.result) {
+      if (res.data.result) {
         this.$router.replace({ path: '/wan-success' });
       }
     }).catch((err) => {
