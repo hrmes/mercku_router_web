@@ -29,6 +29,13 @@ const routerConfig = () => {
     pppoe: 'pppoe'
   };
   return {
+    getConfig() {
+      return {
+        wifi: Object.assign({}, config.wifi),
+        admin: Object.assign({}, config.admin),
+        wan: Object.assign({}, config.wan)
+      };
+    },
     setWIFI(ssid, pwd) {
       config.wifi.ssid = ssid;
       config.wifi.password = pwd;
