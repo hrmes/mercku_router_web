@@ -54,3 +54,19 @@ export default {
     }
   }
 };
+
+export const isIphone = () => {
+  const u = navigator.userAgent;
+  const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+  const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+  if (isiOS) {
+    return true;
+  }
+
+  if (isAndroid) {
+    return false;
+  }
+
+  return false;
+};
+

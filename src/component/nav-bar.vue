@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="status"/>
+    <div v-if="hasBar()" class="status has-topbar" />
     <div class="content">
       <div class="left active" v-if="option.left.disabled" @click="leftClick()">
         <van-icon :name="option.left.icon" class="active"/>
@@ -12,6 +12,8 @@
   </div>
 </template>
 <script>
+  import { isIphone } from '../util/util';
+
   export default {
     props: ['option', 'onLeftClick', 'onRightClick'],
     methods: {
@@ -20,13 +22,18 @@
       },
       rightClick() {
         this.onRightClick();
+      },
+      hasBar() {
+        return isIphone();
       }
     }
   };
 </script>
 <style lang="scss" rel="stylesheet/scss">
+  @import "../util/iphonex.scss";
+
   .container {
-    height: .64rem;
+    min-height: .44rem;
     box-sizing: border-box;
 
   .status {
@@ -34,6 +41,7 @@
   }
 
   .content {
+    position: relative;
     height: .44rem;
 
   .left {
@@ -44,7 +52,8 @@
     width: .5rem;
     font-size: 12px;
     height: .44rem;
-    top: .2rem;
+    /*top: .2rem;*/
+
   i {
     width: .12rem;
     height: .2rem;
@@ -59,28 +68,26 @@
 
   .center {
     text-align: center;
-    padding-left: .8rem;
-    padding-right: .8rem;
+    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: .16rem;
     color: #D5B884;
     height: .44rem;
-    position: relative;
+    position: absolute;
     line-height: .44rem;
 
   }
-
   .right {
     z-index: 1111;
     position: absolute;
-    right: .15rem;
+    right: 0;
     font-size: .14rem;
     color: #D5B884;
     text-align: right;
     height: .44rem;
-    top: .2rem;
+    /*top: .2rem;*/
     line-height: .44rem;
   }
 

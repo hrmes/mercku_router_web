@@ -19,7 +19,8 @@
   html,
   body,
   .container {
-    color: rgb(182, 182, 182);
+    padding-top: constant(safe-area-inset-top);  
+  color: rgb(182, 182, 182);
     font-size: 0.14rem;
   }
 

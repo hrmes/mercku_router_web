@@ -1,35 +1,12 @@
 <template>
-  <div class="wan-hand-container">
+  <div class="wan-check-container">
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
-    <div class="message">{{$t('trans0143')}}</div>
-    <div class="list">
-      <div class="item" @click="$router.push('/pppoe')">
-        <div class="text">
-          <label class="title">{{$t('trans0144')}}</label>
-          <label class="des">{{$t('trans0145')}}</label>
-        </div>
-        <div class="icon">
-          <van-icon name="arrow"/>
-        </div>
-      </div>
-      <div class="item" @click="$router.push('/dhcp')">
-        <div class="text">
-          <label class="title">{{$t('trans0146')}}</label>
-          <label class="des">{{$t('trans0147')}}</label>
-        </div>
-        <div class="icon">
-          <van-icon name="arrow"/>
-        </div>
-      </div>
-      <div class="item" @click="$router.push('/static-ip')">
-        <div class="text">
-          <label class="title">{{$t('trans0148')}}</label>
-          <label class="des">{{$t('trans0149')}}</label>
-        </div>
-        <div class="icon">
-          <van-icon name="arrow"/>
-        </div>
-      </div>
+    <div class="status-info">
+      <div class="state">{{$t('trans0157')}}</div>
+
+    </div>
+    <div class="button-info">
+      <van-button size="normal" @click="$router.replace('/complete')">{{$t('trans0081')}}</van-button>
     </div>
   </div>
 </template>
@@ -49,7 +26,7 @@
           },
           center: {
             disabled: true,
-            text: 'trans0142'
+            text: 'trans0146'
           },
           right: {
             disabled: false,
@@ -67,58 +44,38 @@
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-  .wan-hand-container {
-
-  .message {
-    height: .5rem;
-    line-height: .5rem;
-    font-size: .12rem;
-    text-align: center;
-    color: rgb(124, 124, 124);
-    background: rgb(0, 0, 0);
-
-  }
-  .list{
-    margin-top: .2rem;
-
-
-  }
-  .item{
-    height: .8rem;
-    /*border: 1px solid red;*/
-    width: 100%;
-    display: table;
-  .text{
-    display: table-cell;
-    overflow: hidden;
-    vertical-align: middle;
-    padding-left: .15rem;
-  label{
-    display: block;
-  }
-  :first-child{
-    font-size: .14rem;
-    color: rgb(182,182,182);
-  }
-  :last-child{
-    font-size: .12rem;
-    color: rgb(124,124,124);
-    padding-top: .05rem;
-  }
-  }
-  .icon{
-    display: table-cell;
-    vertical-align: middle;
-    text-align: right;
+  .wan-check-container {
     padding-right: .15rem;
-  i{
-    color: #D5B884;
+    padding-left: .15rem;
+
+  .status-info {
+    width: 3.35rem;
+    height: 2.7rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+    border-radius: .16rem;
+    margin-top: .2rem;
+    overflow: hidden;
+    background: url("../../../static/123.png") no-repeat;
+    background-size: cover;
+
+
+
+  .state {
+    font-size: .2rem;
+    text-align: center;
+    color: rgb(1, 1, 1);
+    margin-top: .6rem;
+  }
+
+
+  }
+
+  .button-info {
+    text-align: center;
+    margin-top: 1.42rem;
   }
 
   }
-  }
-
-  }
-
 
 </style>
