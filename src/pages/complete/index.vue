@@ -132,7 +132,7 @@
 
   .button-info {
     text-align: center;
-    position: fixed;
+    position: absolute;
     overflow: hidden;
     bottom: .5rem;
     width: 3.45rem;
