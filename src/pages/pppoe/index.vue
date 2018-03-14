@@ -102,9 +102,12 @@
 
   .button-info {
     text-align: center;
-    margin-top: .6rem;
+    position: absolute;
+    overflow: hidden;
+    bottom: .5rem;
+    width: 3.75rem;
+    background: rgb(16, 16, 16);
   }
-
   .pwd-preview {
     position: absolute;
     right: 0;
