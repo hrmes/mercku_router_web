@@ -65,6 +65,7 @@ body,
   width: 100%;
   height: 100%;
   transition: all 0.8s ease;
+  box-sizing: border-box;
 }
 
 .slide-left-enter,
@@ -129,16 +130,14 @@ body,
   display: inline-block;
   width: 0.2rem;
   height: 0.16rem;
-
-  & .i-close {
-    background: url(../static/ic_invisible.png);
-    background-size: 100%;
-  }
-
-  & .i-open {
-    background: url(../static/ic_visible.png);
-    background-size: 100%;
-  }
+}
+.i.i-open {
+  background: url(../static/ic_visible.png);
+  background-size: 100%;
+}
+.i.close {
+  background: url(../static/ic_invisible.png);
+  background-size: 100%;
 }
 .van-dialog {
   width: 2.6rem;
