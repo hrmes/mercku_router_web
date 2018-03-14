@@ -5,10 +5,10 @@
     </div>
     <div class="pwd-container">
       <div class="pwd-input">
-        <van-field :type="inputType"  v-model="password" :placeholder="$t('trans0067')" />
+        <van-field :type="showPwd?InputTypes.text:InputTypes.password"  v-model="password" :placeholder="$t('trans0067')" />
       </div>
       <div class="pwd-preview">
-        <van-icon name="password-view" @click="previewPwd" />
+        <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
       </div>
     </div>
     <div class="button-container">
@@ -17,15 +17,16 @@
   </div>
 </template>
 <script>
-const InputTypes = {
-  password: 'password',
-  text: 'text'
-};
+
 export default {
   data() {
     return {
       password: '',
-      inputType: InputTypes.password
+      showPwd: false,
+      InputTypes: {
+        password: 'password',
+        text: 'text'
+      }
     };
   },
   mounted() {
@@ -55,8 +56,9 @@ export default {
         loader.clear();
       });
     },
-    previewPwd() {
-      this.inputType = InputTypes.text === this.inputType ? InputTypes.password : InputTypes.text;
+
+    changePwdStatus() {
+      this.showPwd = !this.showPwd;
     }
   }
 };

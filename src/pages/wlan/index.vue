@@ -12,10 +12,10 @@
       </div>
       <div class="pwd-container">
         <div class="pwd-input">
-          <van-field :type="pwdType" v-model="pwd" :placeholder="$t('trans0003')" />
+          <van-field :type="showPwd?InputTypes.text:InputTypes.password" v-model="pwd" :placeholder="$t('trans0003')" />
         </div>
         <div class="pwd-preview">
-          <i class="icon icon-open" @click="previewPwd"></i>
+          <i class="i" :class="{'i-open':!showPwd,'i-close':showPwd}" @click="changePwdStatus"></i>
         </div>
       </div>
       <div class="check-container">
@@ -23,10 +23,10 @@
       </div>
       <div v-if="!checked" class="adminpwd-container">
         <div class="adminpwd-input">
-          <van-field :type="adminPwdType" v-model="adminPwd" :placeholder="$t('trans0067')" />
+          <van-field :type="showAdminPwd?InputTypes.text:InputTypes.password" v-model="adminPwd" :placeholder="$t('trans0067')" />
         </div>
         <div class="adminpwd-preview">
-          <van-icon name="password-view" @click="previewAdminPwd"/>
+          <i class="i" :class="{'i-open':!showAdminPwd,'i-close':showAdminPwd}" @click="changeAdminPwdStatus"></i>
         </div>
       </div>
     </div>
@@ -37,10 +37,7 @@
 </template>
 
 <script>
-const InputTypes = {
-  password: 'password',
-  text: 'text'
-};
+
 
 export default {
   data() {
@@ -49,18 +46,20 @@ export default {
       ssid: '',
       pwd: '',
       adminPwd: '',
-      pwdType: InputTypes.password,
-      adminPwdType: InputTypes.password
+      showPwd: false,
+      showAdminPwd: false,
+      InputTypes: {
+        password: 'password',
+        text: 'text'
+      }
     };
   },
   methods: {
-    previewPwd() {
-      this.pwdType =
-        InputTypes.text === this.pwdType ? InputTypes.password : InputTypes.text;
+    changePwdStatus() {
+      this.showPwd = !this.showPwd;
     },
-    previewAdminPwd() {
-      this.adminPwdType =
-        InputTypes.text === this.adminPwdType ? InputTypes.password : InputTypes.text;
+    changeAdminPwdStatus() {
+      this.showPwd = !this.showPwd;
     },
     complete() {
       if (/^\s*$/g.test(this.ssid)) {
