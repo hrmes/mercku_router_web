@@ -8,7 +8,7 @@
         <div class="password-info">
           <van-field :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password"/>
           <div class="pwd-preview">
-            <van-icon name="password-view" @click="isShowPwd()"/>
+            <i class="i" :class="!pwdShow?'i-close':'i-open'" @click="isShowPwd()"></i>
           </div>
         </div>
       </van-cell-group>
