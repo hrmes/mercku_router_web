@@ -6,11 +6,13 @@ import router from './router';
 import schema from './schema';
 import http from './http';
 import util from './util/util';
+import nav from './component/nav-bar.vue';
 
 Vue.use(Button);
 Vue.use(Field);
 Vue.use(Icon);
 Vue.use(Checkbox);
+Vue.component('nav-bar', nav);
 
 Vue.prototype.$toast = Toast;
 

@@ -9,7 +9,7 @@
     <div class="policy">
       <p class="p1">{{$t('trans0137')}}</p>
       <div style="clear:both;"></div>
-      <a class="policy-link" href="">{{$t('trans0139')}}</a>
+      <a class="policy-link" href="#/policy">{{$t('trans0139')}}</a>
     </div>
     <div class="button-container">
       <van-button size="normal" @click="agree">{{$t('trans0138')}}</van-button>

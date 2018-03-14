@@ -11,6 +11,7 @@ import login from '../pages/login/index.vue';
 import wlan from '../pages/wlan/index.vue';
 import checkNetwork from '../pages/check-network/index.vue';
 import wanSuccess from '../pages/wan-success/index.vue';
+import policy from '../pages/policy/index.vue';
 
 Vue.use(Router);
 export default new Router({
@@ -68,6 +69,10 @@ export default new Router({
     {
       path: '/wan-success',
       component: wanSuccess
+    },
+    {
+      path: '/policy',
+      component: policy
     }
   ]
 });
