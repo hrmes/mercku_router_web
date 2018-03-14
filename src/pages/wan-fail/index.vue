@@ -6,7 +6,7 @@
       <div class="message">{{$route.params.state==='1'?$t('trans0161'):$t('trans0182')}}</div>
     </div>
     <div class="button-info">
-      <van-button size="normal" @click="$router.push('/wan-hand')">{{$t('trans0019')}}</van-button>
+      <van-button size="normal" @click="$router.replace('/wan-hand')">{{$t('trans0019')}}</van-button>
       <div class="space"></div>
       <van-button size="normal" @click="$router.replace('/check-network')">{{$t('trans0162')}}</van-button>
     </div>
@@ -38,7 +38,6 @@
       };
     },
     mounted() {
-      console.log(this.$route.params.state);
     },
     methods: {
       onRightClick() {
