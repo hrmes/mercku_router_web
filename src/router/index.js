@@ -24,7 +24,7 @@ export default new Router({
       component: welcome
     },
     {
-      path: '/wan-fail/:state',
+      path: '/wan-fail/:state?',
       name: 'wan-fail',
       component: wanFail
     },
