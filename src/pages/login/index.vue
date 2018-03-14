@@ -1,5 +1,6 @@
 <template>
   <div class="login-page">
+     <nav-bar />
     <div class="bg-container">
       <img class="logo" src="../../../static/1.jpg" alt="">
     </div>
@@ -17,6 +18,7 @@
   </div>
 </template>
 <script>
+import nav from '../../component/nav-bar.vue';
 
 export default {
   data() {
@@ -32,6 +34,9 @@ export default {
   mounted() {
     // 进入登录页面后，首先尝试用默认密码登录一次
     this.login('');
+  },
+  components: {
+    'nav-bar': nav
   },
   methods: {
     login(pwd) {
@@ -65,7 +70,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .login-page {
-  padding: 0.6rem 0.2rem 0;
+  padding: 0rem 0.2rem;
   .bg-container {
     height: 3rem;
     background: url(../../../static/1.jpg);
