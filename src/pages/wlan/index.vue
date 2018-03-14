@@ -15,7 +15,7 @@
           <van-field :type="pwdType" v-model="pwd" :placeholder="$t('trans0003')" />
         </div>
         <div class="pwd-preview">
-          <van-icon name="password-view" @click="previewPwd"/>
+          <i class="icon icon-open" @click="previewPwd"></i>
         </div>
       </div>
       <div class="check-container">

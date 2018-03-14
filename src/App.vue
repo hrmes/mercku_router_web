@@ -77,5 +77,18 @@ body,
 .space {
   height: 0.2rem;
 }
+.icon {
+  display: inline-block;
+  width: 0.2rem;
+  height: 0.16rem;
+  &.icon-close {
+    background: url(../static/ic_invisible.png);
+    background-size: 100%;
+  }
+  &.icon-open {
+    background: url(../static/ic_visible.png);
+    background-size: 100%;
+  }
+}
 </style>
 
