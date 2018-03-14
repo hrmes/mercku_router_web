@@ -86,5 +86,6 @@ export default {
     text-align: center;
     margin-top: 1.42rem;
   }
+
 }
 </style>
