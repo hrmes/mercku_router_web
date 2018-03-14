@@ -169,7 +169,7 @@ body,
     line-height: 0.6rem !important;
     box-sizing: border-box;
 
-    & :active {
+    &:active {
       border: none;
     }
   }
