@@ -70,3 +70,11 @@ export const isIphone = () => {
   return false;
 };
 
+export const ipRexp = (ip) => {
+  const pattern = /^(0|[1-9]?|1\d\d?|2[0-4]\d|25[0-5])\.(0|[1-9]?|1\d\d?|2[0-4]\d|25[0-5])\.(0|[1-9]?|1\d\d?|2[0-4]\d|25[0-5])\.(0|[1-9]?|1\d\d?|2[0-4]\d|25[0-5])$/;
+  if (ip && pattern.test(ip)) {
+    return true;
+  }
+  return false;
+};
+

@@ -5,22 +5,23 @@
     <div class="form">
       <van-cell-group>
         <label class="title">{{$t('trans0151')}}</label>
-        <van-field placeholder="0.0.0.0"/>
+        <van-field placeholder="0.0.0.0" v-model="form.ip"/>
         <label class="title">{{$t('trans0152')}}</label>
-        <van-field placeholder="0.0.0.0"/>
+        <van-field placeholder="0.0.0.0" v-model="form.mask"/>
         <label class="title">{{$t('trans0153')}}</label>
-        <van-field placeholder="0.0.0.0"/>
+        <van-field placeholder="0.0.0.0" v-model="form.gateway"/>
         <label class="title">{{$t('trans0236')}}</label>
-        <van-field placeholder="0.0.0.0"/>
+        <van-field placeholder="0.0.0.0" v-model="form.dns"/>
       </van-cell-group>
     </div>
     <div class="button-info">
-      <van-button size="normal" @click="$router.replace('/complete')">{{$t('trans0055')}}</van-button>
+      <van-button size="normal" @click="submit()" :disabled="disabled">{{$t('trans0055')}}</van-button>
     </div>
   </div>
 </template>
 <script>
   import navBar from '../../component/nav-bar.vue';
+  import { ipRexp } from '../../util/util';
 
   export default {
     components: {
@@ -41,12 +42,40 @@
             disabled: false,
             text: '',
           }
+        },
+        disabled: true,
+        form: {
+          ip: '',
+          mask: '',
+          gateway: '',
+          dns: ''
         }
       };
     },
     methods: {
       onLeftClick() {
         this.$router.back();
+      },
+      submit() {
+        if (!ipRexp(this.form.ip)) {
+          this.$toast('ip格式错误');
+          return false;
+        }
+        if (!ipRexp(this.form.mask)) {
+          this.$toast('mask格式错误');
+          return false;
+        }
+        if (!ipRexp(this.form.gateway)) {
+          this.$toast('gateway格式错误');
+          return false;
+        }
+        if (!ipRexp(this.form.dns)) {
+          this.$toast('dns格式错误');
+          return false;
+        }
+        this.routerConfig.setWan('pppoe', this.form);
+        this.$router.replace('/complete');
+        return true;
       }
     }
   };

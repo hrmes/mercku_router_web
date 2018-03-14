@@ -3,12 +3,12 @@
     <nav-bar :option="option" :onRightClick="onRightClick"/>
     <div class="status-info">
       <div class="state">{{$t('trans0180')}}</div>
-      <div class="message">{{$t('trans0161')}}</div>
+      <div class="message">{{$route.params.state==='1'?$t('trans0161'):$t('trans0182')}}</div>
     </div>
     <div class="button-info">
       <van-button size="normal" @click="$router.push('/wan-hand')">{{$t('trans0019')}}</van-button>
       <div class="space"></div>
-      <van-button size="normal">{{$t('trans0162')}}</van-button>
+      <van-button size="normal" @click="$router.replace('/check-network')">{{$t('trans0162')}}</van-button>
     </div>
   </div>
 </template>
@@ -37,11 +37,13 @@
         }
       };
     },
+    mounted() {
+      console.log(this.$route.params.state);
+    },
     methods: {
       onRightClick() {
         this.$confirm({
-          title: '标题',
-          message: '弹窗内容'
+          message: this.$t('trans0164')
         }).then(() => {
           this.$router.replace('/complete');
         }).catch(() => {
