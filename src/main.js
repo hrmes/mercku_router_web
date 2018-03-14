@@ -22,7 +22,6 @@ Vue.prototype.changeLanguage = changeLanguage;
 Vue.prototype.routerConfig = schema;
 Vue.prototype.$confirm = Dialog.confirm;
 Vue.prototype.webview = (() => {
-  debugger;
   const qs = window.location.search.substring(1);
   if (qs && qs.includes('fromapp=1')) {
     return true;
