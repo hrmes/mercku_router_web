@@ -12,10 +12,10 @@
       </div>
       <div class="pwd-container">
         <div class="pwd-input">
-          <van-field v-model="pwd" :placeholder="$t('trans0003')" />
+          <van-field :type="pwdType" v-model="pwd" :placeholder="$t('trans0003')" />
         </div>
         <div class="pwd-preview">
-          <van-icon name="password-view" />
+          <van-icon name="password-view" @click="previewPwd"/>
         </div>
       </div>
       <div class="check-container">
@@ -23,37 +23,69 @@
       </div>
       <div v-if="!checked" class="adminpwd-container">
         <div class="adminpwd-input">
-          <van-field v-model="adminPwd" :placeholder="$t('trans0067')" />
+          <van-field :type="adminPwdType" v-model="adminPwd" :placeholder="$t('trans0067')" />
         </div>
         <div class="adminpwd-preview">
-          <van-icon name="password-view" />
+          <van-icon name="password-view" @click="previewAdminPwd"/>
         </div>
       </div>
     </div>
     <div class="button-container">
-      <van-button @click="complete">{{$t('trans0018')}}</van-button>
+      <van-button @click="complete" :disabled="disabled">{{$t('trans0018')}}</van-button>
     </div>
   </div>
 </template>
 
 <script>
+const InputTypes = {
+  password: 'password',
+  text: 'text'
+};
+
 export default {
   data() {
     return {
       checked: true,
       ssid: '',
       pwd: '',
-      adminPwd: ''
+      adminPwd: '',
+      pwdType: InputTypes.password,
+      adminPwdType: InputTypes.password
     };
   },
   methods: {
+    previewPwd() {
+      this.pwdType =
+        InputTypes.text === this.pwdType ? InputTypes.password : InputTypes.text;
+    },
+    previewAdminPwd() {
+      this.adminPwdType =
+        InputTypes.text === this.adminPwdType ? InputTypes.password : InputTypes.text;
+    },
     complete() {
-      // 字段检查
-      if (true) {
-        this.routerConfig.setWIFI(this.ssid, this.pwd);
-        this.routerConfig.setAdminPwd(this.checked ? this.pwd : this.adminPwd);
-        this.$router.replace({ path: '/check-network' });
+      if (/^\s*$/g.test(this.ssid)) {
+        this.$toast(this.$t('trans0139'));
+        return;
       }
+
+      if (/[\w\d]{8,24}/g.test(this.pwd)) {
+        /\s/g.test(this.pwd) ? this.$toast(this.$t('trans0237')) : this.$toast(this.$t('trans0169'));
+        return;
+      }
+
+      if (!this.checked && /[\w\d]{8,24}/g.test(this.adminPwd)) {
+        /\s/g.test(this.adminPwd) ? this.$toast(this.$t('trans0237')) : this.$toast(this.$t('trans0169'));
+        return;
+      }
+
+      this.routerConfig.setWIFI(this.ssid, this.pwd);
+      this.routerConfig.setAdminPwd(this.checked ? this.pwd : this.adminPwd);
+      this.$router.replace({ path: '/check-network' });
+    }
+  },
+  computed: {
+    disabled() {
+      return !this.ssid || !this.pwd || !(this.checked || this.adminPwd);
     }
   }
 };

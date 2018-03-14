@@ -23,18 +23,19 @@ html {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
     'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
-    -moz-user-select:none;-webkit-user-select:none
-  }
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
 
-  html,
-  body,
-  .container {
-    color: rgb(182, 182, 182);
-    font-size: 0.14rem;
-    -moz-user-select:none;
-    -webkit-user-select:none;
-    background: rgb(16, 16, 16);
-  }
+html,
+body,
+.container {
+  color: rgb(182, 182, 182);
+  font-size: 0.14rem;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  background: rgb(16, 16, 16);
+}
 .van-button {
   border-radius: 1rem;
   background: transparent;
@@ -65,7 +66,14 @@ html {
   background-color: rgb(213, 184, 132);
   color: rgb(14, 14, 14);
 }
-
+.van-button--disabled {
+  color: rgb(85, 75, 58);
+  border: 1px solid rgb(85, 75, 58);
+}
+.van-button:active {
+  color: rgb(255, 230, 186);
+  border: 1px solid rgb(255, 230, 186);
+}
 .space {
   height: 0.2rem;
 }
