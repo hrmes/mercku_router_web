@@ -50,7 +50,7 @@
     },
     methods: {
       onLeftClick() {
-        this.$router.back();
+        this.$router.replace('/wan-hand');
       },
       isShowPwd() {
         this.pwdShow = !this.pwdShow;

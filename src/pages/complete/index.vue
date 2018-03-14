@@ -4,9 +4,9 @@
     <div class="status-info">
       <van-icon name="checked" class="icon"/>
       <label class="state">{{$t('trans0170')}}</label>
-      <label class="code" v-if="!config.wifi.ssid">{{$t('trans0171')}}</label>
+      <label class="code" v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
     </div>
-    <div class="wif-info" v-if="!config.wifi.ssid">
+    <div class="wif-info" v-if="config.wifi.ssid">
       <div><span class="icon"></span><span class="title">{{$t('trans0168')}}</span>：<span
         class="value">{{config.wifi.ssid}}</span>
       </div>

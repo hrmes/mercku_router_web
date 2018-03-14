@@ -3,7 +3,7 @@
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
     <div class="message">{{$t('trans0143')}}</div>
     <div class="list">
-      <div class="item" @click="$router.push('/pppoe')">
+      <div class="item" @click="$router.replace('/pppoe')">
         <div class="text">
           <label class="title">{{$t('trans0144')}}</label>
           <label class="des">{{$t('trans0145')}}</label>
@@ -12,7 +12,7 @@
           <van-icon name="arrow"/>
         </div>
       </div>
-      <div class="item" @click="$router.push('/dhcp')">
+      <div class="item" @click="$router.replace('/dhcp')">
         <div class="text">
           <label class="title">{{$t('trans0146')}}</label>
           <label class="des">{{$t('trans0147')}}</label>
@@ -21,7 +21,7 @@
           <van-icon name="arrow"/>
         </div>
       </div>
-      <div class="item" @click="$router.push('/static-ip')">
+      <div class="item" @click="$router.replace('/static-ip')">
         <div class="text">
           <label class="title">{{$t('trans0148')}}</label>
           <label class="des">{{$t('trans0149')}}</label>
@@ -44,7 +44,7 @@
       return {
         option: {
           left: {
-            disabled: true,
+            disabled: false,
             icon: 'arrow-left',
           },
           center: {

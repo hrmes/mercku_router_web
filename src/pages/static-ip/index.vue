@@ -53,7 +53,7 @@
     },
     methods: {
       onLeftClick() {
-        this.$router.back();
+        this.$router.replace('/wan-hand');
       },
       submit() {
         if (!ipRexp(this.form.ip)) {
