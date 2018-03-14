@@ -21,6 +21,13 @@ Vue.prototype.$http = http;
 Vue.prototype.changeLanguage = changeLanguage;
 Vue.prototype.routerConfig = schema;
 Vue.prototype.$confirm = Dialog.confirm;
+Vue.prototype.webview = (() => {
+  const qs = window.location.href.search.substring(1);
+  if (qs && qs.includes('fromapp=1')) {
+    return true;
+  }
+  return false;
+})();
 
 util.adapt(375, 375);
 
