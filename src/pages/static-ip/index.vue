@@ -43,7 +43,6 @@
             text: '',
           }
         },
-        disabled: true,
         form: {
           ip: '',
           mask: '',
@@ -76,6 +75,11 @@
         this.routerConfig.setWan('pppoe', this.form);
         this.$router.replace('/complete');
         return true;
+      }
+    },
+    computed: {
+      disabled() {
+        return !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask;
       }
     }
   };

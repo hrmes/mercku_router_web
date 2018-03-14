@@ -13,7 +13,7 @@
         </div>
       </van-cell-group>
       <div class="button-info">
-        <van-button size="normal" @click="submit()">{{$t('trans0055')}}</van-button>
+        <van-button size="normal" @click="submit()" :disabled="disabled">{{$t('trans0055')}}</van-button>
       </div>
     </div>
   </div>
@@ -54,6 +54,11 @@
       submit() {
         this.routerConfig.setWan('pppoe', this.form);
         this.$router.replace('/complete');
+      }
+    },
+    computed: {
+      disabled() {
+        return !this.form.account || !this.form.password;
       }
     }
   };
