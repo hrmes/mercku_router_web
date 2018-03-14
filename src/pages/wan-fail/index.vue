@@ -37,9 +37,6 @@ export default {
       }
     };
   },
-  mounted() {
-    console.log(this.$route.params.state);
-  },
   methods: {
     onRightClick() {
       this.$confirm({
@@ -89,5 +86,6 @@ export default {
     text-align: center;
     margin-top: 1.42rem;
   }
+
 }
 </style>

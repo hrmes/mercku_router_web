@@ -8,7 +8,7 @@ import 'vant/packages/vant-css/src/base.css';
 
 export default {
   mounted() {
-    this.$http.checkLogin().then(res => res).catch((err) => {
+    this.$http.checkLogin().then(res => res).catch(() => {
       // 用户未登录
       this.$router.returnUrl = window.location.href;
       this.$router.replace({ path: '/login' });
@@ -36,6 +36,7 @@ body,
   -webkit-user-select: none;
   background: rgb(16, 16, 16);
 }
+
 .van-button {
   border-radius: 1rem;
   background: transparent;
@@ -66,14 +67,17 @@ body,
   background-color: rgb(213, 184, 132);
   color: rgb(14, 14, 14);
 }
+
 .van-button--disabled {
   color: rgb(85, 75, 58);
   border: 1px solid rgb(85, 75, 58);
 }
+
 .van-button:active {
   color: rgb(255, 230, 186);
   border: 1px solid rgb(255, 230, 186);
 }
+
 .space {
   height: 0.2rem;
 }
@@ -88,6 +92,36 @@ body,
   &.icon-open {
     background: url(../static/ic_visible.png);
     background-size: 100%;
+  }
+}
+.van-dialog {
+  width: 2.6rem;
+  height: 1.65rem;
+  border-radius: 0.1rem;
+
+  .van-dialog__content {
+    padding: 0 !important;
+    display: table;
+    height: 1.05rem;
+    vertical-align: middle;
+    width: 100%;
+    text-align: center;
+    font-size: 0.16rem;
+    color: rgb(51, 51, 51);
+    .van-dialog__message {
+      display: table-cell;
+      vertical-align: middle;
+      margin: 0 auto;
+      padding: 0 0.55rem;
+      text-align: center;
+    }
+  }
+  .van-button {
+    border-radius: 0 !important;
+    color: black !important;
+    height: 0.6rem !important;
+    line-height: 0.6rem !important;
+    box-sizing: border-box;
   }
 }
 </style>
