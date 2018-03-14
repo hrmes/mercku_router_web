@@ -6,7 +6,7 @@
 
     </div>
     <div class="button-info">
-      <van-button size="normal" @click="$router.replace('/complete')">{{$t('trans0081')}}</van-button>
+      <van-button size="normal" @click="submit()">{{$t('trans0081')}}</van-button>
     </div>
   </div>
 </template>
@@ -38,6 +38,15 @@
     methods: {
       onLeftClick() {
         this.$router.back();
+      },
+      submit() {
+        this.routerConfig.setWan('dhcp');
+        this.$http.update(this.routerConfig.getConfig()).then((res) => {
+          this.$router.replace('/complete');
+        })
+          .catch((err) => {
+            console.error(err);
+          });
       }
     }
   };

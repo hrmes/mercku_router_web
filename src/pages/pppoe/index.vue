@@ -6,9 +6,9 @@
       <van-cell-group>
         <van-field type="text" :placeholder="$t('trans0155')" v-model="form.account"/>
         <div class="password-info">
-          <van-field type="password" :placeholder="$t('trans0156')" v-model="form.password"/>
+          <van-field :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password"/>
           <div class="pwd-preview">
-            <van-icon name="password-view"/>
+            <van-icon name="password-view" @click="isShowPwd()"/>
           </div>
         </div>
       </van-cell-group>
@@ -44,16 +44,25 @@
         form: {
           account: '',
           password: ''
-        }
+        },
+        pwdShow: false
       };
     },
     methods: {
       onLeftClick() {
         this.$router.back();
       },
+      isShowPwd() {
+        this.pwdShow = !this.pwdShow;
+      },
       submit() {
         this.routerConfig.setWan('pppoe', this.form);
-        this.$router.replace('/complete');
+        this.$http.update(this.routerConfig.getConfig()).then((res) => {
+          this.$router.replace('/complete');
+        })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     computed: {

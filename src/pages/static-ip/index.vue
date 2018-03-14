@@ -57,23 +57,28 @@
       },
       submit() {
         if (!ipRexp(this.form.ip)) {
-          this.$toast('ip格式错误');
+          this.$toast(this.$t('trans0238'));
           return false;
         }
         if (!ipRexp(this.form.mask)) {
-          this.$toast('mask格式错误');
+          this.$toast(this.$t('trans0239'));
           return false;
         }
         if (!ipRexp(this.form.gateway)) {
-          this.$toast('gateway格式错误');
+          this.$toast(this.$t('trans0240'));
           return false;
         }
         if (!ipRexp(this.form.dns)) {
-          this.$toast('dns格式错误');
+          this.$toast(this.$t('trans0241'));
           return false;
         }
         this.routerConfig.setWan('pppoe', this.form);
-        this.$router.replace('/complete');
+        this.$http.update(this.routerConfig.getConfig()).then((res) => {
+          this.$router.replace('/complete');
+        })
+          .catch((err) => {
+            console.error(err);
+          });
         return true;
       }
     },
