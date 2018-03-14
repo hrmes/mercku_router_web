@@ -135,7 +135,7 @@ body,
   background: url(../static/ic_visible.png);
   background-size: 100%;
 }
-.i.close {
+.i.i-close {
   background: url(../static/ic_invisible.png);
   background-size: 100%;
 }
