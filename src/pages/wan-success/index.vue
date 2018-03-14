@@ -1,9 +1,8 @@
 <template>
 
   <div class="wan-success-page">
-    <div class="header">
-      {{$t('trans0142')}}
-    </div>
+    <nav-bar :option="option"/>
+
     <div class="banner-container">
       <p>{{$t('trans0157')}}</p>
       <img src="../../../static/1.jpg" alt="">
@@ -16,7 +15,18 @@
 </template>
 
 <script>
+import nav from '../../component/nav-bar.vue';
+
 export default {
+  data() {
+    return {
+      option: {
+        center: {
+          text: 'trans0142'
+        }
+      }
+    };
+  },
   methods: {
     next() {
       this.$http.update(this.routerConfig.getConfig()).then((res) => {
@@ -25,13 +35,16 @@ export default {
         console.log(err);
       });
     }
+  },
+  components: {
+    'nav-bar': nav
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .wan-success-page {
-  padding: 0rem 0.2rem;
+  padding: 0rem 0.15rem;
   .header {
     height: 0.44rem;
     line-height: 0.44rem;
@@ -47,6 +60,7 @@ export default {
     color: rgb(1, 1, 1);
     position: relative;
     margin-top: 0.25rem;
+    margin: 0 auto;
     p {
       position: absolute;
       width: 100%;

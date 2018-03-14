@@ -1,6 +1,7 @@
 <template>
 
   <div class="welcome-page">
+    <nav-bar/>
     <div class="banner-container">
       <p>{{$t('trans0136')}}</p>
       <img src="../../../static/1.jpg" alt="">
@@ -18,18 +19,24 @@
 </template>
 
 <script>
+import nav from '../../component/nav-bar.vue';
+
 export default {
   methods: {
     agree() {
       this.$router.replace({ path: '/login' });
     }
+  },
+  components: {
+    'nav-bar': nav
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .welcome-page {
-  padding: 0.6rem 0.2rem 0;
+  padding: 0rem 0.15rem;
+  margin: 0 auto;
   .banner-container {
     font-size: 0.2rem;
     text-align: center;

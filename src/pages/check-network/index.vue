@@ -1,5 +1,7 @@
 <template>
+
     <div class="check-network-page">
+      <nav-bar></nav-bar>
       <div class="banner-container">
         <img src="../../../static/1.jpg" alt="">
       </div>
@@ -11,6 +13,8 @@
 </template>
 
 <script>
+import nav from '../../component/nav-bar.vue';
+
 export default {
   mounted() {
     this.$http.testWan().then((res) => {
@@ -24,19 +28,23 @@ export default {
         this.$router.replace(`/wan-fail}/${err.error.code}`);
       }
     });
+  },
+  components: {
+    'nav-bar': nav
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .check-network-page {
-  padding: 0.6rem 0.2rem 0;
+  padding: 0 0.15rem;
   .banner-container {
     width: 3.35rem;
     height: 2.7rem;
     font-size: 0.2rem;
     text-align: center;
     color: rgb(1, 1, 1);
+    margin: 0 auto;
     position: relative;
     p {
       position: absolute;

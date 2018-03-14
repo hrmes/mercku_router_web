@@ -1,8 +1,6 @@
 <template>
   <div class="wlan-page">
-    <div class="header">
-      {{$t('trans0222')}}
-    </div>
+    <nav-bar :option="option"/>
     <div class="h1">
       {{$t('trans0167')}}
     </div>
@@ -37,7 +35,7 @@
 </template>
 
 <script>
-
+import nav from '../../component/nav-bar.vue';
 
 export default {
   data() {
@@ -51,6 +49,11 @@ export default {
       InputTypes: {
         password: 'password',
         text: 'text'
+      },
+      option: {
+        center: {
+          text: 'trans0222'
+        }
       }
     };
   },
@@ -86,6 +89,9 @@ export default {
     disabled() {
       return !this.ssid || !this.pwd || !(this.checked || this.adminPwd);
     }
+  },
+  components: {
+    'nav-bar': nav
   }
 };
 </script>
