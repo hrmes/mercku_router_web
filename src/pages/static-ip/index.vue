@@ -119,7 +119,11 @@
   }
   .button-info {
     text-align: center;
-    margin-top: .6rem;
+    position: fixed;
+    overflow: hidden;
+    bottom: .5rem;
+    width: 3.45rem;
+    background: rgb(16, 16, 16);
   }
 
   .van-cell-group {

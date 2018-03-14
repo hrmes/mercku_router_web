@@ -54,8 +54,8 @@ export default {
 <style lang="scss" rel="stylesheet/scss" scoped>
 .wan-check-container {
   padding-right: 0.15rem;
+  overflow: hidden;
   padding-left: 0.15rem;
-
   .status-info {
     width: 3.35rem;
     height: 2.7rem;
@@ -84,7 +84,11 @@ export default {
 
   .button-info {
     text-align: center;
-    margin-top: 1.42rem;
+    position: fixed;
+    overflow: hidden;
+    bottom: .5rem;
+    width: 3.45rem;
+    background: rgb(16, 16, 16);
   }
 
 }
