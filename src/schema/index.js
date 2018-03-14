@@ -83,7 +83,7 @@ const routerConfig = () => {
           Object.assign(result, config.wan.static);
           break;
         case wanType.pppoe:
-          Object.assign(result, config.wan.static);
+          Object.assign(result, config.wan.pppoe);
           break;
         default:
           break;
