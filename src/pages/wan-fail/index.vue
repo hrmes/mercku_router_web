@@ -63,7 +63,7 @@ export default {
     margin: 0 auto;
     border-radius: 0.16rem;
     overflow: hidden;
-    margin-top: 0.2rem;
+    /*margin-top: 0.2rem;*/
     background: url('../../../static/123.png') no-repeat;
     background-size: cover;
 
