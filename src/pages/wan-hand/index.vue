@@ -66,7 +66,7 @@
   };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" type="text/scss" scoped>
   .wan-hand-container {
 
   .message {
@@ -88,6 +88,10 @@
     /*border: 1px solid red;*/
     width: 100%;
     display: table;
+    &:active{
+      background: rgb(0, 0, 0);
+      opacity: 0.9;
+    }
     .text{
       display: table-cell;
       overflow: hidden;

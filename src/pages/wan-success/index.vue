@@ -42,7 +42,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" type="text/scss" scoped>
 .wan-success-page {
   padding: 0rem 0.15rem;
   .header {

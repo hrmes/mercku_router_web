@@ -64,80 +64,72 @@
   };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" type="text/scss" scoped>
   .wan-check-container {
     padding-right: .15rem;
     padding-left: .15rem;
 
-  .status-info {
-    margin-top: .6rem;
-    text-align: center;
+    .status-info {
+      margin-top: .6rem;
+      text-align: center;
 
-  .icon {
-    font-size: .6rem;
-    color: rgb(213, 184, 132);
-  }
+      .icon {
+        font-size: .6rem;
+        color: rgb(213, 184, 132);
+      }
 
-  label {
-    display: block;
-  }
+      label {
+        display: block;
+      }
 
-  .state {
-    font-size: .18rem;
-    color: rgb(182, 182, 182);
-    margin-top: .2rem;
-  }
+      .state {
+        font-size: .18rem;
+        color: rgb(182, 182, 182);
+        margin-top: .2rem;
+      }
 
-  .code {
-    font-size: .14rem;
-    color: rgb(182, 182, 182);
-    margin-top: .1rem;
-    font-weight: 100;
-  }
+      .code {
+        font-size: .14rem;
+        color: rgb(182, 182, 182);
+        margin-top: .1rem;
+        font-weight: 100;
+      }
 
-  }
-  .wif-info {
-    margin-top: .4rem;
-    text-align: center;
-    width: 100%;
+    }
+    .wif-info {
+      margin-top: .4rem;
+      text-align: center;
+      width: 100%;
 
-  div {
-    color: rgb(182, 182, 182);
-    font-weight: 100;
-    line-height: .3rem;
-    font-size: .16rem;
+      div {
+        color: rgb(182, 182, 182);
+        font-weight: 100;
+        line-height: .3rem;
+        font-size: .16rem;
 
-  .icon {
-    border: .03rem solid rgb(213, 184, 132);
-    display: inline-block;
-    border-radius: .03rem;
-    margin-bottom: .02rem;
-  }
+        .icon {
+          border: .03rem solid rgb(213, 184, 132);
+          display: inline-block;
+          border-radius: .03rem;
+          margin-bottom: .02rem;
+        }
 
-  .title {
-    display: inline-block;
-    width: .8rem;
-    text-align: right;
-  }
+        .title {
+          display: inline-block;
+          width: .8rem;
+          text-align: right;
+        }
 
-  .value {
-    display: inline-block;
-    text-align: left;
-    width: 1rem;
-  }
+        .value {
+          display: inline-block;
+          text-align: left;
+          width: 1rem;
+        }
 
-  }
+      }
 
-  }
+    }
 
-  .button-info {
-    text-align: center;
-    position: absolute;
-    overflow: hidden;
-    bottom: .5rem;
-    width: 3.45rem;
-    background: rgb(16, 16, 16);
-  }
   }
 
 </style>

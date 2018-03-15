@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div class="button-container">
+    <div class="button-info">
       <van-button @click="complete" :disabled="disabled">{{$t('trans0018')}}</van-button>
     </div>
   </div>
@@ -95,7 +95,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" type="text/scss" scoped>
 .wlan-page {
   .header {
     height: 0.44rem;
@@ -136,14 +136,6 @@ export default {
         text-align: center;
       }
     }
-  }
-  .button-container {
-    text-align: center;
-    position: absolute;
-    overflow: hidden;
-    bottom: .5rem;
-    width: 3.75rem;
-    background: rgb(16, 16, 16);
   }
 }
 </style>

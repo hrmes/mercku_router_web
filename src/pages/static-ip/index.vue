@@ -90,49 +90,41 @@
   };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" type="text/scss" scoped>
   .static-ip-container {
 
-  .message {
-    height: .5rem;
-    line-height: .5rem;
-    font-size: .12rem;
-    text-align: center;
-    color: rgb(124, 124, 124);
-    background: rgb(0, 0, 0);
+    .message {
+      height: .5rem;
+      line-height: .5rem;
+      font-size: .12rem;
+      text-align: center;
+      color: rgb(124, 124, 124);
+      background: rgb(0, 0, 0);
 
-  }
+    }
 
-  .form {
-    margin-top: .3rem;
+    .form {
+      margin-top: .3rem;
 
-  label {
-    display: block;
-    height: .3rem;
-    line-height: .3rem;
-    font-size: .14rem;
-    color: rgb(182, 182, 182);
-    margin-top: .2rem;
+      label {
+        display: block;
+        height: .3rem;
+        line-height: .3rem;
+        font-size: .14rem;
+        color: rgb(182, 182, 182);
+        margin-top: .2rem;
 
-  }
+      }
 
-  }
-  .button-info {
-    text-align: center;
-    position: absolute;
-    overflow: hidden;
-    bottom: .5rem;
-    width: 3.75rem;
-    background: rgb(16, 16, 16);
-  }
+    }
 
-  .van-cell-group {
-    background: transparent !important;
-  }
+    .van-cell-group {
+      background: transparent !important;
+    }
 
-  .van-field, .van-hairline--bottom::after, .van-hairline--left::after, .van-hairline--right::after, .van-hairline--surround::after, .van-hairline--top-bottom::after, .van-hairline--top::after, .van-hairline::after {
-    border: none !important;
-  }
+    .van-field, .van-hairline--bottom::after, .van-hairline--left::after, .van-hairline--right::after, .van-hairline--surround::after, .van-hairline--top-bottom::after, .van-hairline--top::after, .van-hairline::after {
+      border: none !important;
+    }
 
   }
 

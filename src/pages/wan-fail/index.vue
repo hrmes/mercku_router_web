@@ -5,11 +5,11 @@
       <div class="state">{{$t('trans0180')}}</div>
       <div class="message">{{$route.params.state==='1'?$t('trans0161'):$t('trans0182')}}</div>
     </div>
-    <div class="button-info">
-      <van-button size="normal" @click="$router.replace('/wan-hand')">{{$t('trans0019')}}</van-button>
-      <div class="space"></div>
-      <van-button size="normal" @click="$router.replace('/check-network')">{{$t('trans0162')}}</van-button>
-    </div>
+      <div class="button-info">
+        <van-button size="normal" @click="$router.replace('/wan-hand')">{{$t('trans0019')}}</van-button>
+        <div class="space"></div>
+        <van-button size="normal" @click="$router.replace('/check-network')">{{$t('trans0162')}}</van-button>
+      </div>
   </div>
 </template>
 <script>
@@ -51,7 +51,7 @@ export default {
 };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" type="text/scss" scoped>
 .wan-check-container {
   padding-right: 0.15rem;
   overflow: hidden;
@@ -81,15 +81,5 @@ export default {
       color: rgb(0, 0, 0);
     }
   }
-
-  .button-info {
-    text-align: center;
-    position: absolute;
-    overflow: hidden;
-    bottom: .5rem;
-    width: 3.45rem;
-    background: rgb(16, 16, 16);
-  }
-
 }
 </style>

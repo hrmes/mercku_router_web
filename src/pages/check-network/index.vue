@@ -35,7 +35,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" type="text/scss" scoped>
 .check-network-page {
   padding: 0 0.15rem;
   .banner-container {

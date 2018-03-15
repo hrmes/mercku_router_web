@@ -12,7 +12,7 @@
         <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
       </div>
     </div>
-    <div class="button-container">
+    <div class="button-info">
       <van-button @click="login(password)">{{$t('trans0001')}}</van-button>
     </div>
   </div>
@@ -68,7 +68,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss" type="text/scss" scoped>
 .login-page {
   padding: 0rem 0.2rem;
   .bg-container {
@@ -102,14 +102,6 @@ export default {
       width: 0.2rem;
       text-align: center;
     }
-  }
-  .button-container {
-    text-align: center;
-    position: absolute;
-    overflow: hidden;
-    bottom: .5rem;
-    width: 3.45rem;
-    background: rgb(16, 16, 16);
   }
 }
 </style>

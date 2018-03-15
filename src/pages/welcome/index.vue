@@ -11,7 +11,7 @@
       <div style="clear:both;"></div>
       <a class="policy-link" href="#/policy">{{$t('trans0139')}}</a>
     </div>
-    <div class="button-container">
+    <div class="button-info">
       <van-button size="normal" @click="agree">{{$t('trans0138')}}</van-button>
     </div>
   </div>
@@ -33,7 +33,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" type="text/scss" scoped>
 .welcome-page {
   padding: 0rem 0.15rem;
   margin: 0 auto;
@@ -65,13 +65,6 @@ export default {
       text-decoration: underline;
     }
   }
-  .button-container {
-    text-align: center;
-    position: absolute;
-    overflow: hidden;
-    bottom: .5rem;
-    width: 3.45rem;
-    background: rgb(16, 16, 16);
-  }
+
 }
 </style>

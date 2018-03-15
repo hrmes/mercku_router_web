@@ -52,40 +52,28 @@
   };
 </script>
 
-<style lang="scss" rel="stylesheet/scss" scoped>
+<style lang="scss" type="text/scss" scoped>
   .dhcp-container {
 
-  .status-info {
-    width: 3.35rem;
-    height: 2.7rem;
-    box-sizing: border-box;
-    margin: 0 auto;
-    border-radius: .16rem;
-    margin-top: .2rem;
-    overflow: hidden;
-    background: url("../../../static/123.png") no-repeat;
-    background-size: cover;
+    .status-info {
+      width: 3.35rem;
+      height: 2.7rem;
+      box-sizing: border-box;
+      margin: 0 auto;
+      border-radius: .16rem;
+      margin-top: .2rem;
+      overflow: hidden;
+      background: url("../../../static/123.png") no-repeat;
+      background-size: cover;
 
+      .state {
+        font-size: .2rem;
+        text-align: center;
+        color: rgb(1, 1, 1);
+        margin-top: .6rem;
+      }
 
-
-  .state {
-    font-size: .2rem;
-    text-align: center;
-    color: rgb(1, 1, 1);
-    margin-top: .6rem;
-  }
-
-
-  }
-
-  .button-info {
-    text-align: center;
-    position: absolute;
-    overflow: hidden;
-    bottom: .5rem;
-    width: 3.75rem;
-    background: rgb(16, 16, 16);
-  }
+    }
 
   }
 
