@@ -1,8 +1,34 @@
 <template>
   <div>
-    <nav-bar/>
-    <div>
+    <nav-bar :option="option" :onLeftClick="option.left.click"/>
+    <div class="policy-container">
     使用协议使用协议使用协议
     </div>
     </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      option: {
+        left: {
+          disabled: true,
+          icon: 'arrow-left',
+          click() {
+            this.$router.replace({ path: '/welcome' });
+          }
+        },
+        center: {
+          text: 'trans0139'
+        }
+      }
+    };
+  }
+};
+</script>
+<style lang="scss" scoped>
+.policy-container {
+  padding: 0 0.15rem;
+}
+</style>
