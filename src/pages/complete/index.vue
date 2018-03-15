@@ -23,113 +23,109 @@
   </div>
 </template>
 <script>
-  import navBar from '../../component/nav-bar.vue';
+import navBar from '../../component/nav-bar.vue';
 
-  export default {
-    components: {
-      'nav-bar': navBar
-    },
-    data() {
-      return {
-        option: {
-          left: {
-            disabled: false,
-            icon: '',
-          },
-          center: {
-            disabled: true,
-            text: 'trans0222'
-          },
-          right: {
-            disabled: false,
-            text: '',
-          },
+export default {
+  components: {
+    'nav-bar': navBar
+  },
+  data() {
+    return {
+      option: {
+        left: {
+          disabled: false,
+          icon: '',
         },
-        config: this.routerConfig.getConfig(),
-      };
-    },
-    method: {
-      closeWeb() {
-        this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+        center: {
+          disabled: true,
+          text: 'trans0222'
+        },
+        right: {
+          disabled: false,
+          text: '',
+        },
       },
-      jump2Sys() {
-        this.$http.post2native('PUT', 'JUMP_SYSTEM_WIFI_SETTING');
-      }
+      config: this.routerConfig.getConfig(),
+    };
+  },
+  method: {
+    closeWeb() {
+      this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
     },
-    computed: {
-      isWebView() {
-        return this.webview;
-      }
+    jump2Sys() {
+      this.$http.post2native('PUT', 'JUMP_SYSTEM_WIFI_SETTING');
+      this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
     }
-  };
+  },
+  computed: {
+    isWebView() {
+      return this.webview;
+    }
+  }
+};
 </script>
 
 <style lang="scss" type="text/scss" scoped>
-  .wan-check-container {
-    padding-right: .15rem;
-    padding-left: .15rem;
+.wan-check-container {
+  padding-right: 0.15rem;
+  padding-left: 0.15rem;
 
-    .status-info {
-      margin-top: .6rem;
-      text-align: center;
+  .status-info {
+    margin-top: 0.6rem;
+    text-align: center;
+
+    .icon {
+      font-size: 0.6rem;
+      color: rgb(213, 184, 132);
+    }
+
+    label {
+      display: block;
+    }
+
+    .state {
+      font-size: 0.18rem;
+      color: rgb(182, 182, 182);
+      margin-top: 0.2rem;
+    }
+
+    .code {
+      font-size: 0.14rem;
+      color: rgb(182, 182, 182);
+      margin-top: 0.1rem;
+      font-weight: 100;
+    }
+  }
+  .wif-info {
+    margin-top: 0.4rem;
+    text-align: center;
+    width: 100%;
+
+    div {
+      color: rgb(182, 182, 182);
+      font-weight: 100;
+      line-height: 0.3rem;
+      font-size: 0.16rem;
 
       .icon {
-        font-size: .6rem;
-        color: rgb(213, 184, 132);
+        border: 0.03rem solid rgb(213, 184, 132);
+        display: inline-block;
+        border-radius: 0.03rem;
+        margin-bottom: 0.02rem;
       }
 
-      label {
-        display: block;
+      .title {
+        display: inline-block;
+        width: 0.8rem;
+        text-align: right;
       }
 
-      .state {
-        font-size: .18rem;
-        color: rgb(182, 182, 182);
-        margin-top: .2rem;
+      .value {
+        display: inline-block;
+        text-align: left;
+        width: 1rem;
       }
-
-      .code {
-        font-size: .14rem;
-        color: rgb(182, 182, 182);
-        margin-top: .1rem;
-        font-weight: 100;
-      }
-
     }
-    .wif-info {
-      margin-top: .4rem;
-      text-align: center;
-      width: 100%;
-
-      div {
-        color: rgb(182, 182, 182);
-        font-weight: 100;
-        line-height: .3rem;
-        font-size: .16rem;
-
-        .icon {
-          border: .03rem solid rgb(213, 184, 132);
-          display: inline-block;
-          border-radius: .03rem;
-          margin-bottom: .02rem;
-        }
-
-        .title {
-          display: inline-block;
-          width: .8rem;
-          text-align: right;
-        }
-
-        .value {
-          display: inline-block;
-          text-align: left;
-          width: 1rem;
-        }
-
-      }
-
-    }
-
   }
-
+}
 </style>
