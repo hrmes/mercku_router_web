@@ -31,8 +31,6 @@ Vue.prototype.webview = (() => {
   return false;
 })();
 
-console.log(Vue.prototype.webview);
-
 util.adapt(375, 375);
 
 new Vue({

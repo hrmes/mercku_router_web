@@ -34,95 +34,87 @@
   </div>
 </template>
 <script>
-  import navBar from '../../component/nav-bar.vue';
+import navBar from '../../component/nav-bar.vue';
 
-  export default {
-    components: {
-      'nav-bar': navBar
-    },
-    data() {
-      return {
-        option: {
-          left: {
-            disabled: false,
-            icon: 'arrow-left',
-          },
-          center: {
-            disabled: true,
-            text: 'trans0142'
-          },
-          right: {
-            disabled: false,
-            text: '',
-          }
+export default {
+  components: {
+    'nav-bar': navBar
+  },
+  data() {
+    return {
+      option: {
+        left: {
+          disabled: false,
+          icon: 'arrow-left',
+        },
+        center: {
+          disabled: true,
+          text: 'trans0142'
+        },
+        right: {
+          disabled: false,
+          text: '',
         }
-      };
-    },
-    methods: {
-      onLeftClick() {
-        this.$router.back();
       }
+    };
+  },
+  methods: {
+    onLeftClick() {
+      this.$router.back();
     }
-  };
+  }
+};
 </script>
 
 <style lang="scss" type="text/scss" scoped>
-  .wan-hand-container {
-
+.wan-hand-container {
   .message {
-    height: .5rem;
-    line-height: .5rem;
-    font-size: .12rem;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.12rem;
     text-align: center;
     color: rgb(124, 124, 124);
     background: rgb(0, 0, 0);
-
   }
-  .list{
-    margin-top: .2rem;
-
-
+  .list {
+    margin-top: 0.2rem;
   }
-  .item{
-    height: .8rem;
+  .item {
+    height: 0.8rem;
     /*border: 1px solid red;*/
     width: 100%;
     display: table;
-    &:active{
+    &:active {
       background: rgb(0, 0, 0);
       opacity: 0.9;
     }
-    .text{
+    .text {
       display: table-cell;
       overflow: hidden;
       vertical-align: middle;
-      padding-left: .15rem;
-      label{
+      padding-left: 0.15rem;
+      label {
         display: block;
       }
-      :first-child{
-        font-size: .14rem;
-        color: rgb(182,182,182);
+      :first-child {
+        font-size: 0.14rem;
+        color: rgb(182, 182, 182);
       }
-      :last-child{
-        font-size: .12rem;
-        color: rgb(124,124,124);
-        padding-top: .05rem;
+      :last-child {
+        font-size: 0.12rem;
+        color: rgb(124, 124, 124);
+        padding-top: 0.05rem;
       }
     }
-    .icon{
+    .icon {
       display: table-cell;
       vertical-align: middle;
       text-align: right;
-      padding-right: .15rem;
-      i{
-        color: #D5B884;
+      padding-right: 0.15rem;
+      i {
+        color: #d5b884;
       }
-
     }
   }
-
-  }
-
-
+}
 </style>

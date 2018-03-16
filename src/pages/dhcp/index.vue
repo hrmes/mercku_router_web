@@ -1,9 +1,11 @@
 <template>
   <div class="dhcp-container">
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
-    <div class="status-info">
-      <div class="state">{{$t('trans0157')}}</div>
-
+    <div class="space">
+      <div class="status-info">
+        <img src="../../../static/1.jpg" alt="">
+        <div class="state">{{$t('trans0157')}}</div>
+      </div>
     </div>
     <div class="button-info">
       <van-button size="normal" @click="submit()">{{$t('trans0081')}}</van-button>
@@ -55,24 +57,29 @@
 <style lang="scss" type="text/scss" scoped>
   .dhcp-container {
 
+    .space{
+      padding: 0 .15rem;
+    }
     .status-info {
-      width: 3.35rem;
-      height: 2.7rem;
-      box-sizing: border-box;
-      margin: 0 auto;
-      border-radius: .16rem;
-      margin-top: .2rem;
-      overflow: hidden;
-      background: url("../../../static/123.png") no-repeat;
-      background-size: cover;
-
+      font-size: 0.2rem;
+      text-align: center;
+      color: rgb(1, 1, 1);
+      position: relative;
       .state {
-        font-size: .2rem;
+        position: absolute;
+        width: 100%;
+        top: 0.25rem;
+        font-size: 0.2rem;
         text-align: center;
         color: rgb(1, 1, 1);
-        margin-top: .6rem;
+        /*height: 0.65rem;*/
+        /*line-height: 0.65rem;*/
       }
-
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 0.16rem;
+      }
     }
 
   }

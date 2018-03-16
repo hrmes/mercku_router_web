@@ -49,8 +49,8 @@ export default {
       font-weight: bold;
     }
     img {
-      width: 3.35rem;
-      height: 2.7rem;
+      width: 100%;
+      height: 100%;
       border-radius: 0.16rem;
     }
   }
@@ -65,6 +65,5 @@ export default {
       text-decoration: underline;
     }
   }
-
 }
 </style>
