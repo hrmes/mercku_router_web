@@ -22,8 +22,6 @@
     },
     watch: {
       $route(to, from) {
-        console.log(to.path);
-
         if (to.path === '/wan-hand') {
           if (childPages.includes(from.path)) {
             this.transitionName = 'slide-right';
@@ -31,7 +29,6 @@
         } else {
           this.transitionName = 'slide-left';
         }
-        console.log(this.transitionName);
       }
     }
 
@@ -68,12 +65,12 @@
     box-sizing: border-box;
     overflow: hidden;
   }
-
   .slide-left-enter,
   .slide-right-leave-active {
     opacity: 0;
     -webkit-transform: translateX(100%);
     transform: translateX(100%);
+    /*border: 1px solid red;*/
   }
 
   .slide-left-leave-active,
@@ -81,6 +78,7 @@
     opacity: 0;
     -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
+    /*border: 1px solid red;*/
   }
 
   .van-button {
