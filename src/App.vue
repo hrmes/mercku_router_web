@@ -47,25 +47,26 @@ html {
 }
 
 html,
-body,
-.container {
+body {
   color: rgb(182, 182, 182);
   font-size: 0.14rem;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
   background: rgb(16, 16, 16);
+  width: 100%;
+  height: 100%;
+  position: relative;
+  max-width: 768px;
+  margin: 0 auto;
 }
 
 .app-container {
-  position: absolute;
-  left: 0;
-  top: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   transition: all 0.5s ease;
   box-sizing: border-box;
-  overflow: hidden;
 }
 
 .slide-left-enter,

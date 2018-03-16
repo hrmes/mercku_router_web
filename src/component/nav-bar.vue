@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="header-container">
     <div v-if="hasBar()" class="status has-topbar"/>
     <div class="content">
       <div class="left" v-if="option.left && option.left.disabled" @click="leftClick()">
@@ -12,115 +12,113 @@
   </div>
 </template>
 <script>
-  import { isIphone } from '../util/util';
+import { isIphone } from '../util/util';
 
-  export default {
-    props: {
-      onLeftClick: {
-        type: Function
-      },
-      onRightClick: {
-        type: Function
-      },
-      option: {
-        default: function defaultValue() {
-          return {};
-        }
-      }
+export default {
+  props: {
+    onLeftClick: {
+      type: Function
     },
-    methods: {
-      leftClick() {
-        this.onLeftClick();
-      },
-      rightClick() {
-        this.onRightClick();
-      },
-      hasBar() {
-        return isIphone();
+    onRightClick: {
+      type: Function
+    },
+    option: {
+      default: function defaultValue() {
+        return {};
       }
     }
-  };
-</script>
-<style lang="scss" type="text/scss">
-  @import '../util/iphonex.scss';
-
-  .container {
-    min-height: 0.44rem;
-    position: relative;
-    background: rgb(16, 16, 16);
-    top: 0;
-    box-sizing: border-box;
-
-    .status {
-      height: 0.2rem;
+  },
+  methods: {
+    leftClick() {
+      this.onLeftClick();
+    },
+    rightClick() {
+      this.onRightClick();
+    },
+    hasBar() {
+      return isIphone();
     }
+  }
+};
+</script>
+<style lang="scss" type="text/scss" scoped>
+@import '../util/iphonex.scss';
 
-    .content {
-      position: relative;
+.header-container {
+  min-height: 0.44rem;
+  position: relative;
+  background: rgb(16, 16, 16);
+  top: 0;
+  box-sizing: border-box;
+
+  .status {
+    height: 0.2rem;
+  }
+
+  .content {
+    position: relative;
+    height: 0.44rem;
+
+    .left {
+      z-index: 1111;
+      position: absolute;
+      line-height: 0.44rem;
+      left: 0.15rem;
+      width: 0.5rem;
+      font-size: 12px;
       height: 0.44rem;
 
-      .left {
-        z-index: 1111;
-        position: absolute;
-        line-height: 0.44rem;
-        left: 0.15rem;
-        width: 0.5rem;
-        font-size: 12px;
-        height: 0.44rem;
-
-        /*top: .2rem;*/
-        i {
-          width: 0.12rem;
-          height: 0.2rem;
-          font-size: 0.16rem;
-          position: absolute;
-          top: 0.12rem;
-          color: #d5b884;
-        }
-
-        :active {
-          color: #ffdea1;
-        }
-
-        :hover {
-          color: #ffdda1;
-        }
-
-      }
-
-      .center {
-        text-align: center;
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      /*top: .2rem;*/
+      i {
+        width: 0.12rem;
+        height: 0.2rem;
         font-size: 0.16rem;
-        color: #d5b884;
-        height: 0.44rem;
         position: absolute;
-        line-height: 0.44rem;
+        top: 0.12rem;
+        color: #d5b884;
       }
 
-      .right {
-        z-index: 1111;
-        position: absolute;
-        right: 0;
-        font-size: 0.14rem;
-        color: #d5b884;
-        text-align: right;
-        height: 0.44rem;
-        /*top: .2rem;*/
-        line-height: 0.44rem;
+      :active {
+        color: #ffdea1;
+      }
 
-        :active {
-          color: #ffdea1;
-        }
+      :hover {
+        color: #ffdda1;
+      }
+    }
 
-        :hover {
-          color: #ffdda1;
-        }
+    .center {
+      text-align: center;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.16rem;
+      color: #d5b884;
+      height: 0.44rem;
+      position: absolute;
+      line-height: 0.44rem;
+    }
 
+    .right {
+      z-index: 1111;
+      position: absolute;
+      right: 0;
+      font-size: 0.14rem;
+      color: #d5b884;
+      text-align: right;
+      height: 0.44rem;
+      /*top: .2rem;*/
+      line-height: 0.44rem;
+
+      :active {
+        color: #ffdea1;
+      }
+
+      :hover {
+        color: #ffdda1;
       }
     }
   }
+}
 </style>
