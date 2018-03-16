@@ -23,10 +23,8 @@ export default {
   watch: {
     $route(to, from) {
       console.log(to.path);
-      if (to.path === '/wan-hand') {
-        if (['/pppoe', '/dhcp', '/static-ip'].includes(from.path)) {
-          this.transitionName = 'slide-right';
-        }
+      if (to.path === '/wan-hand' && ['/pppoe', '/dhcp', '/static-ip'].includes(from.path)) {
+        this.transitionName = 'slide-right';
       } else if (to.path === '/welcome') {
         this.transitionName = 'slide-right';
       } else {
