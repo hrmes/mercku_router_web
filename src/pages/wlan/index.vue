@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import nav from '../../component/nav-bar.vue';
 
 export default {
   data() {
@@ -89,9 +88,6 @@ export default {
     disabled() {
       return !this.ssid || !this.pwd || !(this.checked || this.adminPwd);
     }
-  },
-  components: {
-    'nav-bar': nav
   }
 };
 </script>

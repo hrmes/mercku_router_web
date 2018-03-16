@@ -18,8 +18,6 @@
   </div>
 </template>
 <script>
-import nav from '../../component/nav-bar.vue';
-
 export default {
   data() {
     return {
@@ -34,9 +32,6 @@ export default {
   mounted() {
     // 进入登录页面后，首先尝试用默认密码登录一次
     this.login('');
-  },
-  components: {
-    'nav-bar': nav
   },
   methods: {
     login(pwd) {

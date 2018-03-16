@@ -20,113 +20,109 @@
   </div>
 </template>
 <script>
-  import navBar from '../../component/nav-bar.vue';
-  import { ipRexp } from '../../util/util';
+import { ipRexp } from '../../util/util';
 
-  export default {
-    components: {
-      'nav-bar': navBar
-    },
-    data() {
-      return {
-        option: {
-          left: {
-            disabled: true,
-            icon: 'arrow-left',
-          },
-          center: {
-            disabled: true,
-            text: 'trans0148'
-          },
-          right: {
-            disabled: false,
-            text: '',
-          }
+export default {
+  data() {
+    return {
+      option: {
+        left: {
+          disabled: true,
+          icon: 'arrow-left',
         },
-        form: {
-          ip: '',
-          mask: '',
-          gateway: '',
-          dns: ''
+        center: {
+          disabled: true,
+          text: 'trans0148'
+        },
+        right: {
+          disabled: false,
+          text: '',
         }
-      };
-    },
-    methods: {
-      onLeftClick() {
-        this.$router.replace('/wan-hand');
       },
-      submit() {
-        if (!ipRexp(this.form.ip)) {
-          this.$toast(this.$t('trans0238'));
-          return false;
-        }
-        if (!ipRexp(this.form.mask)) {
-          this.$toast(this.$t('trans0239'));
-          return false;
-        }
-        if (!ipRexp(this.form.gateway)) {
-          this.$toast(this.$t('trans0240'));
-          return false;
-        }
-        if (!ipRexp(this.form.dns)) {
-          this.$toast(this.$t('trans0241'));
-          return false;
-        }
-        this.routerConfig.setWan('pppoe', this.form);
-        this.$http.update(this.routerConfig.getConfig()).then((res) => {
-          this.$router.replace('/complete');
-        })
-          .catch((err) => {
-            console.error(err);
-          });
-        return true;
+      form: {
+        ip: '',
+        mask: '',
+        gateway: '',
+        dns: ''
       }
+    };
+  },
+  methods: {
+    onLeftClick() {
+      this.$router.replace('/wan-hand');
     },
-    computed: {
-      disabled() {
-        return !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask;
+    submit() {
+      if (!ipRexp(this.form.ip)) {
+        this.$toast(this.$t('trans0238'));
+        return false;
       }
+      if (!ipRexp(this.form.mask)) {
+        this.$toast(this.$t('trans0239'));
+        return false;
+      }
+      if (!ipRexp(this.form.gateway)) {
+        this.$toast(this.$t('trans0240'));
+        return false;
+      }
+      if (!ipRexp(this.form.dns)) {
+        this.$toast(this.$t('trans0241'));
+        return false;
+      }
+      this.routerConfig.setWan('pppoe', this.form);
+      this.$http.update(this.routerConfig.getConfig()).then((res) => {
+        this.$router.replace('/complete');
+      })
+        .catch((err) => {
+          console.error(err);
+        });
+      return true;
     }
-  };
+  },
+  computed: {
+    disabled() {
+      return !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask;
+    }
+  }
+};
 </script>
 
 <style lang="scss" type="text/scss" scoped>
-  .static-ip-container {
-
-    .message {
-      height: .5rem;
-      line-height: .5rem;
-      font-size: .12rem;
-      text-align: center;
-      color: rgb(124, 124, 124);
-      background: rgb(0, 0, 0);
-
-    }
-
-    .form {
-      margin-top: .3rem;
-
-      label {
-        display: block;
-        height: .3rem;
-        line-height: .3rem;
-        font-size: .14rem;
-        color: rgb(182, 182, 182);
-        margin-top: .2rem;
-
-      }
-
-    }
-
-    .van-cell-group {
-      background: transparent !important;
-    }
-
-    .van-field, .van-hairline--bottom::after, .van-hairline--left::after, .van-hairline--right::after, .van-hairline--surround::after, .van-hairline--top-bottom::after, .van-hairline--top::after, .van-hairline::after {
-      border: none !important;
-    }
-
+.static-ip-container {
+  .message {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    font-size: 0.12rem;
+    text-align: center;
+    color: rgb(124, 124, 124);
+    background: rgb(0, 0, 0);
   }
 
+  .form {
+    margin-top: 0.3rem;
 
+    label {
+      display: block;
+      height: 0.3rem;
+      line-height: 0.3rem;
+      font-size: 0.14rem;
+      color: rgb(182, 182, 182);
+      margin-top: 0.2rem;
+    }
+  }
+
+  .van-cell-group {
+    background: transparent !important;
+  }
+
+  .van-field,
+  .van-hairline--bottom::after,
+  .van-hairline--left::after,
+  .van-hairline--right::after,
+  .van-hairline--surround::after,
+  .van-hairline--top-bottom::after,
+  .van-hairline--top::after,
+  .van-hairline::after {
+    border: none !important;
+  }
+}
 </style>
