@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-     <nav-bar />
+     <nav-bar :option="option"/>
     <div class="bg-container">
       <img class="logo" src="../../../static/1.jpg" alt="">
     </div>
@@ -18,8 +18,6 @@
   </div>
 </template>
 <script>
-import nav from '../../component/nav-bar.vue';
-
 export default {
   data() {
     return {
@@ -28,15 +26,17 @@ export default {
       InputTypes: {
         password: 'password',
         text: 'text'
+      },
+      option: {
+        left: {
+          icon: 'arrow-left'
+        }
       }
     };
   },
   mounted() {
     // 进入登录页面后，首先尝试用默认密码登录一次
     this.login('');
-  },
-  components: {
-    'nav-bar': nav
   },
   methods: {
     login(pwd) {

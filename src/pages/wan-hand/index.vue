@@ -34,25 +34,17 @@
   </div>
 </template>
 <script>
-import navBar from '../../component/nav-bar.vue';
-
 export default {
-  components: {
-    'nav-bar': navBar
-  },
   data() {
     return {
       option: {
         left: {
-          disabled: false,
           icon: 'arrow-left',
         },
         center: {
-          disabled: true,
           text: 'trans0142'
         },
         right: {
-          disabled: false,
           text: '',
         }
       }

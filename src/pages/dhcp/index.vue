@@ -13,25 +13,17 @@
   </div>
 </template>
 <script>
-  import navBar from '../../component/nav-bar.vue';
-
   export default {
-    components: {
-      'nav-bar': navBar
-    },
     data() {
       return {
         option: {
           left: {
-            disabled: true,
             icon: 'arrow-left',
           },
           center: {
-            disabled: true,
             text: 'trans0146'
           },
           right: {
-            disabled: false,
             text: '',
           }
         }
@@ -56,8 +48,7 @@
 
 <style lang="scss" type="text/scss" scoped>
   .dhcp-container {
-
-    .space{
+    .space {
       padding: 0 .15rem;
     }
     .status-info {
@@ -81,7 +72,5 @@
         border-radius: 0.16rem;
       }
     }
-
   }
-
 </style>

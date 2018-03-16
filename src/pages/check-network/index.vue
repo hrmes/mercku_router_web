@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import nav from '../../component/nav-bar.vue';
-
 export default {
   mounted() {
     this.$http.testWan().then((res) => {
@@ -28,9 +26,6 @@ export default {
         this.$router.replace(`/wan-fail}/${err.error.code}`);
       }
     });
-  },
-  components: {
-    'nav-bar': nav
   }
 };
 </script>

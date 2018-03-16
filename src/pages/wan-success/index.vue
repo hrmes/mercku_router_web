@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import nav from '../../component/nav-bar.vue';
-
 export default {
   data() {
     return {
@@ -35,9 +33,6 @@ export default {
         console.log(err);
       });
     }
-  },
-  components: {
-    'nav-bar': nav
   }
 };
 </script>

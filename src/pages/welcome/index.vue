@@ -19,16 +19,11 @@
 </template>
 
 <script>
-import nav from '../../component/nav-bar.vue';
-
 export default {
   methods: {
     agree() {
       this.$router.replace({ path: '/login' });
     }
-  },
-  components: {
-    'nav-bar': nav
   }
 };
 </script>
