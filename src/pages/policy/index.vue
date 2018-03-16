@@ -13,7 +13,6 @@ export default {
     return {
       option: {
         left: {
-          disabled: true,
           icon: 'arrow-left',
           click() {
             this.$router.replace({ path: '/welcome' });

@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-     <nav-bar />
+     <nav-bar :option="option"/>
     <div class="bg-container">
       <img class="logo" src="../../../static/1.jpg" alt="">
     </div>
@@ -26,6 +26,11 @@ export default {
       InputTypes: {
         password: 'password',
         text: 'text'
+      },
+      option: {
+        left: {
+          icon: 'arrow-left'
+        }
       }
     };
   },

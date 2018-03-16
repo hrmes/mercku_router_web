@@ -27,15 +27,12 @@ export default {
     return {
       option: {
         left: {
-          disabled: true,
           icon: 'arrow-left',
         },
         center: {
-          disabled: true,
           text: 'trans0148'
         },
         right: {
-          disabled: false,
           text: '',
         }
       },

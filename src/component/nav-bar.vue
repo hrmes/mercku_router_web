@@ -2,7 +2,7 @@
   <div class="header-container">
     <div v-if="hasBar()" class="status has-topbar"/>
     <div class="content">
-      <div class="left" v-if="option.left && option.left.disabled" @click="leftClick()">
+      <div class="left" v-if="option.left" @click="leftClick()">
         <van-icon :name="option.left.icon" class="active"/>
       </div>
       <div class="center" v-if="option.center">{{$t(`${option.center.text}`)}}</div>
