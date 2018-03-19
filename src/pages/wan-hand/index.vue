@@ -1,7 +1,7 @@
 <template>
   <div class="wan-hand-container">
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
-    <div class="message">{{$t('trans0143')}}</div>
+    <div class="message">{{$t('trans0143')}} </div>
     <div class="list">
       <div class="item" @click="$router.replace('/pppoe')">
         <div class="text">
