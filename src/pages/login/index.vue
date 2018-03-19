@@ -2,7 +2,7 @@
   <div class="login-page">
      <nav-bar :option="option"/>
     <div class="bg-container">
-      <img class="logo" src="../../../static/1.jpg" alt="">
+      <img class="logo" src="../../../static/img_login_logo.png" alt="">
     </div>
     <div class="pwd-container">
       <div class="pwd-input">
@@ -36,7 +36,7 @@ export default {
   },
   mounted() {
     // 进入登录页面后，首先尝试用默认密码登录一次
-    this.login('');
+    // this.login('');
   },
   methods: {
     login(pwd) {
@@ -71,9 +71,10 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .login-page {
   padding: 0rem 0.2rem;
+  background: url(../../../static/img_bg_login.png);
+  background-size: 100%;
   .bg-container {
     height: 3rem;
-    background: url(../../../static/1.jpg);
     background-size: 100% 100%;
     position: relative;
     .logo {

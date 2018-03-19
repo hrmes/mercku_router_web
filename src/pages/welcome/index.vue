@@ -35,13 +35,12 @@ export default {
   .banner-container {
     font-size: 0.2rem;
     text-align: center;
-    color: rgb(1, 1, 1);
+    color: #fff;
     position: relative;
     p {
       position: absolute;
       width: 100%;
       top: 0.25rem;
-      font-weight: bold;
     }
     img {
       width: 100%;

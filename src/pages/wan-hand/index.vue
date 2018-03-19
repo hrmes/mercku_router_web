@@ -38,9 +38,6 @@ export default {
   data() {
     return {
       option: {
-        left: {
-          icon: 'arrow-left',
-        },
         center: {
           text: 'trans0142'
         },

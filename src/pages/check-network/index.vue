@@ -2,8 +2,8 @@
 
     <div class="check-network-page">
       <nav-bar></nav-bar>
-      <div class="banner-container">
-        <img src="../../../static/1.jpg" alt="">
+      <div class="test-container">
+        <div class="tester"></div>
       </div>
     <div class="info">
       <p class="p1">{{$t('trans0140')}}</p>
@@ -15,42 +15,50 @@
 <script>
 export default {
   mounted() {
-    this.$http.testWan().then((res) => {
-      if (res.data.result) {
-        this.$router.replace({ path: '/wan-success' });
-      } else {
-        this.$router.replace('/wan-fail/1');
-      }
-    }).catch((err) => {
-      if (err && err.error) {
-        this.$router.replace(`/wan-fail}/${err.error.code}`);
-      }
-    });
+    // this.$http.testWan().then((res) => {
+    //   if (res.data.result) {
+    //     this.$router.replace({ path: '/wan-success' });
+    //   } else {
+    //     this.$router.replace('/wan-fail/1');
+    //   }
+    // }).catch((err) => {
+    //   if (err && err.error) {
+    //     this.$router.replace(`/wan-fail}/${err.error.code}`);
+    //   }
+    // });
   }
 };
 </script>
 
 <style lang="scss" type="text/scss" scoped>
+@keyframes speed-tester {
+  0% {
+    background: url(../../../static/animation/img_test_animation_01.png);
+    background-size: 100%;
+  }
+  33% {
+    background: url(../../../static/animation/img_test_animation_02.png);
+    background-size: 100%;
+  }
+  66% {
+    background: url(../../../static/animation/img_test_animation_03.png);
+    background-size: 100%;
+  }
+  100% {
+    background: url(../../../static/animation/img_test_animation_04.png);
+    background-size: 100%;
+  }
+}
 .check-network-page {
   padding: 0 0.15rem;
-  .banner-container {
-    width: 3.35rem;
-    height: 2.7rem;
-    font-size: 0.2rem;
-    text-align: center;
-    color: rgb(1, 1, 1);
-    margin: 0 auto;
-    position: relative;
-    p {
-      position: absolute;
-      width: 100%;
-      top: 0.25rem;
-      font-weight: bold;
-    }
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 0.16rem;
+  .test-container {
+    .tester {
+      width: 3.45rem;
+      height: 3.45rem;
+      background: url(../../../static/animation/img_test_animation_01.png);
+      background-size: 100%;
+      animation: speed-tester 0.8s linear infinite;
+      /*alternate*/
     }
   }
   .info {
