@@ -2,7 +2,7 @@
   <div class="wan-check-container">
     <nav-bar :option="option" :onRightClick="onRightClick"/>
     <div class="status-info">
-      <img src="../../../static/1.jpg" alt="">
+      <img src="../../../static/img_bg_dhcp_02@1.5x.png" alt="">
       <div class="state">{{$t('trans0180')}}</div>
       <div class="message">{{$route.params.state==='1'?$t('trans0161'):$t('trans0182')}}</div>
     </div>

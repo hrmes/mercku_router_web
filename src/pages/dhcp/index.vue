@@ -3,7 +3,7 @@
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
     <div class="space">
       <div class="status-info">
-        <img src="../../../static/1.jpg" alt="">
+        <img src="../../../static/img_bg_dhcp@1.5x.png" alt="">
         <div class="state">{{$t('trans0157')}}</div>
       </div>
     </div>
