@@ -4,7 +4,7 @@
     <nav-bar/>
     <div class="banner-container">
       <p>{{$t('trans0136')}}</p>
-      <img src="../../../static/1.jpg" alt="">
+      <img src="../../../static/img_bg_welcome_page.png" alt="">
     </div>
     <div class="policy">
       <p class="p1">{{$t('trans0137')}}</p>
@@ -56,7 +56,7 @@ export default {
       float: right;
     }
     .policy-link {
-      color: rgb(182, 182, 182);
+      color: rgb(213, 184, 132);
       text-decoration: underline;
     }
   }

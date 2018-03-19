@@ -2,9 +2,9 @@
   <div>
     <nav-bar :option="option" :onLeftClick="option.left.click"/>
     <div class="policy-container">
-    使用协议使用协议使用协议
+      使用协议使用协议使用协议
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
