@@ -4,7 +4,7 @@
     <div class="message">{{$t('trans0150')}}</div>
     <div class="form">
       <van-cell-group>
-        <label class="title">{{$t('trans0151')}} <span v-if="blurItems.includes('ip')">{{$t('无效地址')}}</span></label>
+        <label class="title">{{$t('trans0151')}} <span v-if="blurItems.includes('ip')">{{$t('trans0231')}}</span></label>
         <van-field placeholder="0.0.0.0" v-model="form.ip" @blur="onBlur('ip',form.ip)"/>
         <label class="title">{{$t('trans0152')}} <span v-if="blurItems.includes('mask')">{{$t('trans0231')}}</span></label>
         <van-field placeholder="0.0.0.0" v-model="form.mask" @blur="onBlur('mask',form.mask)"/>
