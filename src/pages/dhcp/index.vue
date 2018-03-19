@@ -3,7 +3,7 @@
     <nav-bar :option="option" :onLeftClick="onLeftClick"/>
     <div class="space">
       <div class="status-info">
-        <img src="../../../static/img_bg_dhcp@1.5x.png" alt="">
+        <img src="../../../static/img_bg_dhcp_02.png" alt="">
         <div class="state">{{$t('trans0157')}}</div>
       </div>
     </div>
@@ -13,64 +13,64 @@
   </div>
 </template>
 <script>
-  export default {
-    data() {
-      return {
-        option: {
-          left: {
-            icon: 'arrow-left',
-          },
-          center: {
-            text: 'trans0146'
-          },
-          right: {
-            text: '',
-          }
+export default {
+  data() {
+    return {
+      option: {
+        left: {
+          icon: 'arrow-left',
+        },
+        center: {
+          text: 'trans0146'
+        },
+        right: {
+          text: '',
         }
-      };
-    },
-    methods: {
-      onLeftClick() {
-        this.$router.replace('/wan-hand');
-      },
-      submit() {
-        this.routerConfig.setWan('dhcp');
-        this.$http.update(this.routerConfig.getConfig()).then((res) => {
-          this.$router.replace('/complete');
-        })
-          .catch((err) => {
-            console.error(err);
-          });
       }
+    };
+  },
+  methods: {
+    onLeftClick() {
+      this.$router.replace('/wan-hand');
+    },
+    submit() {
+      this.routerConfig.setWan('dhcp');
+      this.$http.update(this.routerConfig.getConfig()).then((res) => {
+        this.$router.replace('/complete');
+      })
+        .catch((err) => {
+          console.error(err);
+        });
     }
-  };
+  }
+};
 </script>
 
 <style lang="scss" type="text/scss" scoped>
-  .dhcp-container {
-    .space {
-      padding: 0 .15rem;
-    }
-    .status-info {
+.dhcp-container {
+  .space {
+    padding: 0 0.15rem;
+  }
+  .status-info {
+    font-size: 0.2rem;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    .state {
+      position: absolute;
+      width: 100%;
+      top: 0.25rem;
       font-size: 0.2rem;
       text-align: center;
-      color: rgb(1, 1, 1);
-      position: relative;
-      .state {
-        position: absolute;
-        width: 100%;
-        top: 0.25rem;
-        font-size: 0.2rem;
-        text-align: center;
-        color: rgb(1, 1, 1);
-        /*height: 0.65rem;*/
-        /*line-height: 0.65rem;*/
-      }
-      img {
-        width: 100%;
-        height: 100%;
-        border-radius: 0.16rem;
-      }
+      color: #fff;
+      /*height: 0.65rem;*/
+      /*line-height: 0.65rem;*/
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 0.16rem;
     }
   }
+}
 </style>

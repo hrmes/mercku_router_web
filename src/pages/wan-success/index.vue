@@ -5,7 +5,7 @@
 
     <div class="banner-container">
       <p>{{$t('trans0157')}}</p>
-      <img src="../../../static/1.jpg" alt="">
+      <img src="../../../static/img_bg_dhcp.png" alt="">
     </div>
     <div class="button-container">
       <van-button size="normal" @click="next">{{$t('trans0081')}}</van-button>
@@ -48,11 +48,9 @@ export default {
     text-align: center;
   }
   .banner-container {
-    width: 3.35rem;
-    height: 2.7rem;
     font-size: 0.2rem;
     text-align: center;
-    color: rgb(1, 1, 1);
+    color: #fff;
     position: relative;
     margin-top: 0.25rem;
     margin: 0 auto;
@@ -62,7 +60,7 @@ export default {
       top: 0.25rem;
       font-weight: bold;
       font-size: 0.16rem;
-      color: rgb(51, 51, 51);
+      color: #fff;
     }
     img {
       width: 100%;

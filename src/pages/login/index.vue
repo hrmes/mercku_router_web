@@ -36,7 +36,7 @@ export default {
   },
   mounted() {
     // 进入登录页面后，首先尝试用默认密码登录一次
-    // this.login('');
+    this.login('');
   },
   methods: {
     login(pwd) {

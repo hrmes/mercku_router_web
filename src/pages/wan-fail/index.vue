@@ -2,7 +2,7 @@
   <div class="wan-check-container">
     <nav-bar :option="option" :onRightClick="onRightClick"/>
     <div class="status-info">
-      <img src="../../../static/img_bg_dhcp_02@1.5x.png" alt="">
+      <img src="../../../static/img_bg_dhcp_02.png" alt="">
       <div class="state">{{$t('trans0180')}}</div>
       <div class="message">{{$route.params.state==='1'?$t('trans0161'):$t('trans0182')}}</div>
     </div>
@@ -52,7 +52,7 @@ export default {
   .status-info {
     font-size: 0.2rem;
     text-align: center;
-    color: rgb(1, 1, 1);
+    color: #fff;
     position: relative;
     .state {
       position: absolute;
@@ -60,7 +60,7 @@ export default {
       top: 0.25rem;
       font-size: 0.2rem;
       text-align: center;
-      color: rgb(1, 1, 1);
+      color: #fff;
       /*height: 0.65rem;*/
       /*line-height: 0.65rem;*/
     }
@@ -70,7 +70,7 @@ export default {
       top: 0.7rem;
       text-align: center;
       font-size: 0.12rem;
-      color: rgb(0, 0, 0);
+      color: #fff;
     }
     img {
       width: 100%;

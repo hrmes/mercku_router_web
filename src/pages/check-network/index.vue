@@ -15,17 +15,17 @@
 <script>
 export default {
   mounted() {
-    // this.$http.testWan().then((res) => {
-    //   if (res.data.result) {
-    //     this.$router.replace({ path: '/wan-success' });
-    //   } else {
-    //     this.$router.replace('/wan-fail/1');
-    //   }
-    // }).catch((err) => {
-    //   if (err && err.error) {
-    //     this.$router.replace(`/wan-fail}/${err.error.code}`);
-    //   }
-    // });
+    this.$http.testWan().then((res) => {
+      if (res.data.result) {
+        this.$router.replace({ path: '/wan-success' });
+      } else {
+        this.$router.replace('/wan-fail/1');
+      }
+    }).catch((err) => {
+      if (err && err.error) {
+        this.$router.replace(`/wan-fail}/${err.error.code}`);
+      }
+    });
   }
 };
 </script>
@@ -57,7 +57,8 @@ export default {
       height: 3.45rem;
       background: url(../../../static/animation/img_test_animation_01.png);
       background-size: 100%;
-      animation: speed-tester 0.8s linear infinite;
+      animation: speed-tester 1s linear infinite;
+      margin: 0 auto;
       /*alternate*/
     }
   }
