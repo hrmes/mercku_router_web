@@ -2,8 +2,15 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import zhCN from './zh-CN.json';
 import enUS from './en-US.json';
+import codeMap from './code-map.json';
 
 Vue.use(VueI18n);
+
+Object.keys(codeMap).forEach((code) => {
+  debugger;
+  zhCN[code] = zhCN[codeMap[code]];
+  enUS[code] = enUS[codeMap[code]];
+});
 
 export const i18n = new VueI18n({
   locale: 'zh-CN',
@@ -13,6 +20,7 @@ export const i18n = new VueI18n({
   }
 });
 
+console.log(i18n);
 // export default {
 //   ,
 //   i18n

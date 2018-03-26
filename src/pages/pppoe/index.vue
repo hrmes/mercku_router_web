@@ -49,11 +49,13 @@ export default {
     },
     submit() {
       this.routerConfig.setWan('pppoe', this.form);
-      this.$http.update(this.routerConfig.getConfig()).then((res) => {
+      this.$http.update(this.routerConfig.getConfig()).then(() => {
         this.$router.replace('/complete');
       })
         .catch((err) => {
-          console.log(err);
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          }
         });
     }
   },

@@ -54,9 +54,9 @@ export default {
         }
         loader.clear();
       }).catch((err) => {
-        if (pwd) {
+        if (pwd && err && err.error) {
           // 弹出错误提示
-          console.log(err);
+          this.$toast(this.$t(err.error.code));
         }
         loader.clear();
       });

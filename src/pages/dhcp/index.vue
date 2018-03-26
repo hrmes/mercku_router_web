@@ -35,11 +35,13 @@ export default {
     },
     submit() {
       this.routerConfig.setWan('dhcp');
-      this.$http.update(this.routerConfig.getConfig()).then((res) => {
+      this.$http.update(this.routerConfig.getConfig()).then(() => {
         this.$router.replace('/complete');
       })
         .catch((err) => {
-          console.error(err);
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          }
         });
     }
   }

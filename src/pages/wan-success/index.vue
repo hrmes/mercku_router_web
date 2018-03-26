@@ -27,10 +27,12 @@ export default {
   },
   methods: {
     next() {
-      this.$http.update(this.routerConfig.getConfig()).then((res) => {
+      this.$http.update(this.routerConfig.getConfig()).then(() => {
         this.$router.replace({ path: '/complete' });
       }).catch((err) => {
-        console.log(err);
+        if (err && err.error) {
+          this.$toast(this.$t(err.error.code));
+        }
       });
     }
   }
