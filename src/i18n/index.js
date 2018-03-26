@@ -7,7 +7,6 @@ import codeMap from './code-map.json';
 Vue.use(VueI18n);
 
 Object.keys(codeMap).forEach((code) => {
-  debugger;
   zhCN[code] = zhCN[codeMap[code]];
   enUS[code] = enUS[codeMap[code]];
 });
