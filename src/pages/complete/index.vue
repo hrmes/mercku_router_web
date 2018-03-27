@@ -40,7 +40,7 @@ export default {
       config: this.routerConfig.getConfig(),
     };
   },
-  method: {
+  methods: {
     closeWeb() {
       this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
     },

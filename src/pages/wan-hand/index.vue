@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       option: {
+
         center: {
           text: 'trans0142'
         },
@@ -49,7 +50,14 @@ export default {
   },
   methods: {
     onLeftClick() {
-      this.$router.back();
+      this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+    }
+  },
+  mounted() {
+    if (this.webview) {
+      this.option.left = {
+        icon: 'arrow-left'
+      };
     }
   }
 };

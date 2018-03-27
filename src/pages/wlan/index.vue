@@ -1,6 +1,6 @@
 <template>
   <div class="wlan-page">
-    <nav-bar :option="option"/>
+    <nav-bar :option="option" :onLeftClick="onLeftClick"/>
     <div class="h1">
       {{$t('trans0167')}}
     </div>
@@ -50,13 +50,24 @@ export default {
         text: 'text'
       },
       option: {
+        left: {},
         center: {
           text: 'trans0222'
         }
       }
     };
   },
+  mounted() {
+    if (this.webview) {
+      this.option.left = {
+        icon: 'arrow-left'
+      };
+    }
+  },
   methods: {
+    onLeftClick() {
+      this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+    },
     changePwdStatus() {
       this.showPwd = !this.showPwd;
     },
