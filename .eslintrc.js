@@ -18,6 +18,8 @@ module.exports = {
     'no-debugger': 0,
     'no-unused-expressions': 0,
     'no-mixed-operators': 0,
-    'no-unused-vars': 'warn'
+    'no-unused-vars': 'warn',
+    'import/no-dynamic-require': 0,
+    'arrow-parens': 0
   }
 };

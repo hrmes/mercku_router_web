@@ -1,16 +1,16 @@
 <template>
   <div class="wan-check-container">
-    <nav-bar :option="option" :onRightClick="onRightClick"/>
+    <nav-bar :option="option" :onRightClick="onRightClick" />
     <div class="status-info">
       <img src="../../../static/img_bg_dhcp_02.png" alt="">
       <div class="state">{{$t('trans0180')}}</div>
       <div class="message">{{$route.params.state==='1'?$t('trans0161'):$t('trans0182')}}</div>
     </div>
-      <div class="button-info">
-        <van-button size="normal" @click="$router.replace('/wan-hand')">{{$t('trans0019')}}</van-button>
-        <div class="space"></div>
-        <van-button size="normal" @click="$router.replace('/check-network')">{{$t('trans0162')}}</van-button>
-      </div>
+    <div class="button-info">
+      <van-button size="normal" @click="$router.replace('/wan-hand')">{{$t('trans0019')}}</van-button>
+      <div class="space"></div>
+      <van-button size="normal" @click="$router.replace('/check-network')">{{$t('trans0162')}}</van-button>
+    </div>
   </div>
 </template>
 <script>
@@ -19,13 +19,13 @@ export default {
     return {
       option: {
         left: {
-          icon: '',
+          icon: ''
         },
         center: {
           text: 'trans0223'
         },
         right: {
-          text: 'trans0163',
+          text: 'trans0163'
         }
       }
     };
@@ -34,11 +34,15 @@ export default {
     onRightClick() {
       this.$confirm({
         message: this.$t('trans0164')
-      }).then(() => {
-        this.$router.replace('/complete');
-      }).catch(() => {
-        // on cancel
-      });
+      })
+        .then(() => {
+          this.$http.update(this.routerConfig.getConfig()).then(() => {
+            this.$router.replace('/complete');
+          });
+        })
+        .catch(() => {
+          // on cancel
+        });
     }
   }
 };
