@@ -46,7 +46,6 @@ export default {
         duration: 0,
         forbidClick: true
       });
-      debugger;
       this.$http.login(pwd).then(() => {
         if (this.$router.returnUrl) {
           window.location.href = this.$router.returnUrl;
