@@ -1,10 +1,10 @@
 <template>
 
-    <div class="check-network-page">
-      <nav-bar></nav-bar>
-      <div class="test-container">
-        <div class="tester"></div>
-      </div>
+  <div class="check-network-page">
+    <nav-bar></nav-bar>
+    <div class="test-container">
+      <div class="tester"></div>
+    </div>
     <div class="info">
       <p class="p1">{{$t('trans0140')}}</p>
       <p class="p2">{{$t('trans0141')}}</p>
@@ -15,17 +15,20 @@
 <script>
 export default {
   mounted() {
-    this.$http.testWan().then((res) => {
-      if (res.data.result) {
-        this.$router.replace({ path: '/wan-success' });
-      } else {
-        this.$router.replace('/wan-fail/1');
-      }
-    }).catch((err) => {
-      if (err && err.error) {
-        this.$router.replace(`/wan-fail}/${err.error.code}`);
-      }
-    });
+    this.$http
+      .testWan()
+      .then(res => {
+        if (res.data.result) {
+          this.$router.replace({ path: '/wan-success' });
+        } else {
+          this.$router.replace('/wan-fail/1');
+        }
+      })
+      .catch(err => {
+        if (err && err.error) {
+          this.$router.replace(`/wan-fail}/${err.error.code}`);
+        }
+      });
   }
 };
 </script>
