@@ -1,12 +1,12 @@
 <template>
   <div class="login-page">
-     <nav-bar :option="option"/>
+    <nav-bar :option="option" />
     <div class="bg-container">
       <img class="logo" src="../../../static/img_login_logo.png" alt="">
     </div>
     <div class="pwd-container">
       <div class="pwd-input">
-        <van-field :type="showPwd?InputTypes.text:InputTypes.password"  v-model="password" :placeholder="$t('trans0067')" />
+        <van-field :type="showPwd?InputTypes.text:InputTypes.password" v-model="password" :placeholder="$t('trans0067')" />
       </div>
       <div class="pwd-preview">
         <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
@@ -46,20 +46,25 @@ export default {
         duration: 0,
         forbidClick: true
       });
-      this.$http.login(pwd).then(() => {
-        if (this.$router.returnUrl) {
-          window.location.href = this.$router.returnUrl;
-        } else {
-          this.$router.replace({ path: '/wlan' });
-        }
-        loader.clear();
-      }).catch((err) => {
-        if (pwd && err && err.error) {
-          // 弹出错误提示
-          this.$toast(this.$t(err.error.code));
-        }
-        loader.clear();
-      });
+      this.$http
+        .login(pwd)
+        .then(() => {
+          if (this.$router.returnUrl) {
+            window.location.href = this.$router.returnUrl;
+          } else {
+            this.$router.replace({ path: '/wlan' });
+          }
+          loader.clear();
+        })
+        .catch(err => {
+          if (pwd && err && err.error) {
+            // 弹出错误提示
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
+          }
+          loader.clear();
+        });
     },
 
     changePwdStatus() {

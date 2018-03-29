@@ -1,6 +1,6 @@
 <template>
   <div class="dhcp-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick"/>
+    <nav-bar :option="option" :onLeftClick="onLeftClick" />
     <div class="space">
       <div class="status-info">
         <img src="../../../static/img_bg_dhcp_02.png" alt="">
@@ -18,13 +18,13 @@ export default {
     return {
       option: {
         left: {
-          icon: 'arrow-left',
+          icon: 'arrow-left'
         },
         center: {
           text: 'trans0146'
         },
         right: {
-          text: '',
+          text: ''
         }
       }
     };
@@ -35,12 +35,16 @@ export default {
     },
     submit() {
       this.routerConfig.setWan('dhcp');
-      this.$http.update(this.routerConfig.getConfig()).then(() => {
-        this.$router.replace('/complete');
-      })
-        .catch((err) => {
+      this.$http
+        .update(this.routerConfig.getConfig())
+        .then(() => {
+          this.$router.replace('/complete');
+        })
+        .catch(err => {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
           }
         });
     }

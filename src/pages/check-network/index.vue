@@ -27,6 +27,8 @@ export default {
       .catch(err => {
         if (err && err.error) {
           this.$router.replace(`/wan-fail}/${err.error.code}`);
+        } else {
+          this.$toast(this.$t('trans0039'));
         }
       });
   }

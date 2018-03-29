@@ -1,12 +1,12 @@
 <template>
   <div class="pppoe-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick"/>
+    <nav-bar :option="option" :onLeftClick="onLeftClick" />
     <div class="message">{{$t('trans0154')}}</div>
     <div class="form">
       <van-cell-group>
-        <van-field type="text" :placeholder="$t('trans0155')" v-model="form.account"/>
+        <van-field type="text" :placeholder="$t('trans0155')" v-model="form.account" />
         <div class="password-info">
-          <van-field :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password"/>
+          <van-field :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password" />
           <div class="pwd-preview">
             <i class="i" :class="!pwdShow?'i-close':'i-open'" @click="isShowPwd()"></i>
           </div>
@@ -24,13 +24,13 @@ export default {
     return {
       option: {
         left: {
-          icon: 'arrow-left',
+          icon: 'arrow-left'
         },
         center: {
           text: 'trans0144'
         },
         right: {
-          text: '',
+          text: ''
         }
       },
       form: {
@@ -49,12 +49,16 @@ export default {
     },
     submit() {
       this.routerConfig.setWan('pppoe', this.form);
-      this.$http.update(this.routerConfig.getConfig()).then(() => {
-        this.$router.replace('/complete');
-      })
-        .catch((err) => {
+      this.$http
+        .update(this.routerConfig.getConfig())
+        .then(() => {
+          this.$router.replace('/complete');
+        })
+        .catch(err => {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
           }
         });
     }

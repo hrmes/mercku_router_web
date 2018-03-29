@@ -1,17 +1,25 @@
 <template>
   <div class="static-ip-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick"/>
+    <nav-bar :option="option" :onLeftClick="onLeftClick" />
     <div class="message">{{$t('trans0150')}}</div>
     <div class="form">
       <van-cell-group>
-        <label class="title">{{$t('trans0151')}} <span v-if="blurItems.includes('ip')">{{$t('trans0231')}}</span></label>
-        <van-field placeholder="0.0.0.0" v-model="form.ip" @blur="onBlur('ip',form.ip)"/>
-        <label class="title">{{$t('trans0152')}} <span v-if="blurItems.includes('mask')">{{$t('trans0231')}}</span></label>
-        <van-field placeholder="0.0.0.0" v-model="form.mask" @blur="onBlur('mask',form.mask)"/>
-        <label class="title">{{$t('trans0153')}} <span v-if="blurItems.includes('gateway')">{{$t('trans0231')}}</span></label>
-        <van-field placeholder="0.0.0.0" v-model="form.gateway" @blur="onBlur('gateway',form.gateway)"/>
-        <label class="title">{{$t('trans0236')}} <span v-if="blurItems.includes('dns')">{{$t('trans0231')}}</span></label>
-        <van-field placeholder="0.0.0.0" v-model="form.dns" @blur="onBlur('dns',form.dns)"/>
+        <label class="title">{{$t('trans0151')}}
+          <span v-if="blurItems.includes('ip')">{{$t('trans0231')}}</span>
+        </label>
+        <van-field placeholder="0.0.0.0" v-model="form.ip" @blur="onBlur('ip',form.ip)" />
+        <label class="title">{{$t('trans0152')}}
+          <span v-if="blurItems.includes('mask')">{{$t('trans0231')}}</span>
+        </label>
+        <van-field placeholder="0.0.0.0" v-model="form.mask" @blur="onBlur('mask',form.mask)" />
+        <label class="title">{{$t('trans0153')}}
+          <span v-if="blurItems.includes('gateway')">{{$t('trans0231')}}</span>
+        </label>
+        <van-field placeholder="0.0.0.0" v-model="form.gateway" @blur="onBlur('gateway',form.gateway)" />
+        <label class="title">{{$t('trans0236')}}
+          <span v-if="blurItems.includes('dns')">{{$t('trans0231')}}</span>
+        </label>
+        <van-field placeholder="0.0.0.0" v-model="form.dns" @blur="onBlur('dns',form.dns)" />
       </van-cell-group>
     </div>
     <div class="button-info">
@@ -28,13 +36,13 @@ export default {
       blurItems: [],
       option: {
         left: {
-          icon: 'arrow-left',
+          icon: 'arrow-left'
         },
         center: {
           text: 'trans0148'
         },
         right: {
-          text: '',
+          text: ''
         }
       },
       form: {
@@ -76,12 +84,16 @@ export default {
         return false;
       }
       this.routerConfig.setWan('pppoe', this.form);
-      this.$http.update(this.routerConfig.getConfig()).then(() => {
-        this.$router.replace('/complete');
-      })
-        .catch((err) => {
+      this.$http
+        .update(this.routerConfig.getConfig())
+        .then(() => {
+          this.$router.replace('/complete');
+        })
+        .catch(err => {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
           }
         });
       return true;
@@ -89,7 +101,9 @@ export default {
   },
   computed: {
     disabled() {
-      return !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask;
+      return (
+        !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask
+      );
     }
   }
 };
