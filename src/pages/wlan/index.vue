@@ -1,6 +1,6 @@
 <template>
   <div class="wlan-page">
-    <nav-bar :option="option" :onLeftClick="onLeftClick"/>
+    <nav-bar :option="option" :onLeftClick="onLeftClick" />
     <div class="h1">
       {{$t('trans0167')}}
     </div>
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -79,14 +78,23 @@ export default {
         this.$toast(this.$t('trans0139'));
         return;
       }
+      const { length } = this.ssid.replace(/[\u0391-\uFFE5]/g, 'aa');
+      if (length > 20 || length < 1) {
+        this.$toast(this.$t('trans0261'));
+        return;
+      }
 
       if (!/[\w\d]{8,24}/g.test(this.pwd)) {
-        /\s/g.test(this.pwd) ? this.$toast(this.$t('trans0237')) : this.$toast(this.$t('trans0169'));
+        /\s/g.test(this.pwd)
+          ? this.$toast(this.$t('trans0237'))
+          : this.$toast(this.$t('trans0169'));
         return;
       }
 
       if (!this.checked && !/[\w\d]{8,24}/g.test(this.adminPwd)) {
-        /\s/g.test(this.adminPwd) ? this.$toast(this.$t('trans0237')) : this.$toast(this.$t('trans0169'));
+        /\s/g.test(this.adminPwd)
+          ? this.$toast(this.$t('trans0237'))
+          : this.$toast(this.$t('trans0169'));
         return;
       }
 

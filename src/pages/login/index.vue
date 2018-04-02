@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="button-info">
-      <van-button @click="login(password)">{{$t('trans0001')}}</van-button>
+      <van-button @click="login(password)" :disabled="!password">{{$t('trans0001')}}</van-button>
     </div>
   </div>
 </template>
@@ -28,13 +28,16 @@ export default {
         text: 'text'
       },
       option: {
-        left: {
-          icon: 'arrow-left'
-        }
+        left: {}
       }
     };
   },
   mounted() {
+    if (this.webview) {
+      this.option.left = {
+        icon: 'arrow-left'
+      };
+    }
     // 进入登录页面后，首先尝试用默认密码登录一次
     this.login('');
   },
@@ -57,12 +60,15 @@ export default {
           loader.clear();
         })
         .catch(err => {
-          if (pwd && err && err.error) {
-            // 弹出错误提示
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$toast(this.$t('trans0039'));
+          if (pwd) {
+            if (err && err.error) {
+              // 弹出错误提示
+              this.$toast(this.$t(err.error.code));
+            } else {
+              this.$toast(this.$t('trans0039'));
+            }
           }
+
           loader.clear();
         });
     },
