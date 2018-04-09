@@ -8,6 +8,7 @@ const routerConfig = () => {
       password: ''
     },
     timezone: {
+      name: '',
       timezone: '',
       position: ''
     },
@@ -37,7 +38,11 @@ const routerConfig = () => {
       return {
         wifi: Object.assign({}, config.wifi),
         admin: Object.assign({}, config.admin),
-        wan: Object.assign({}, config.wan)
+        wan: Object.assign({}, config.wan),
+        timezone: {
+          timezone: config.timezone.timezone,
+          position: config.timezone.position
+        }
       };
     },
     setWIFI(ssid, pwd) {
@@ -46,6 +51,14 @@ const routerConfig = () => {
     },
     getWIFI() {
       return Object.assign({}, config.wifi);
+    },
+    setTimezone(name, timezone, position) {
+      config.timezone.name = name;
+      config.timezone.timezone = timezone;
+      config.timezone.position = position || 0;
+    },
+    getTimezone() {
+      return Object.assign({}, config.timezone);
     },
     setAdminPwd(pwd) {
       config.admin.password = pwd;

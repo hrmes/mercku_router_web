@@ -33,6 +33,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$i18n.locale);
     if (this.webview) {
       this.option.left = {
         icon: 'arrow-left'

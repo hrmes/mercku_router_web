@@ -28,7 +28,17 @@
         </div>
       </div>
       <div class="timezone-container">
-        <label for="">{{$t('trans0272')}}</label>
+        <label class="timezone-left">{{$t('trans0272')}}</label>
+        <div class="right-container">
+          <div class="timezone-info">
+            <div class="timezone-value">{{timezone.timezone}}</div>
+            <div class="timezone-name">{{timezone.name}}</div>
+          </div>
+          <div class="icon-right" @click="selectTimezone">
+            <van-icon name="arrow" class="active" />
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="button-info">
@@ -56,7 +66,8 @@ export default {
         center: {
           text: 'trans0222'
         }
-      }
+      },
+      timezone: this.routerConfig.getTimezone()
     };
   },
   mounted() {
@@ -69,6 +80,9 @@ export default {
   methods: {
     onLeftClick() {
       this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+    },
+    selectTimezone() {
+      this.$router.replace({ path: '/timezone' });
     },
     changePwdStatus() {
       this.showPwd = !this.showPwd;
@@ -127,6 +141,7 @@ export default {
     color: rgb(124, 124, 124);
     padding: 0.16rem 0 0.16rem 0.2rem;
   }
+
   .wlan-settings {
     padding: 0 0.2rem;
     .ssid-container,
@@ -134,6 +149,32 @@ export default {
     .adminpwd-container,
     .check-container,
     .timezone-container {
+      .right-container {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1.7rem;
+        height: 0.3rem;
+      }
+      .timezone-info {
+        position: absolute;
+        right: 20px;
+      }
+      .icon-right {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .van-icon {
+        &.active {
+          color: #ffdea1;
+        }
+
+        &:hover {
+          color: #ffdda1;
+        }
+      }
       margin-top: 0.35rem;
       position: relative;
       .ssid-input,
@@ -153,6 +194,20 @@ export default {
         z-index: 1;
         width: 0.2rem;
         text-align: center;
+      }
+      .timezone-left {
+        display: inline-block;
+        line-height: 0.3rem;
+      }
+
+      .timezone-name,
+      .timezone-value {
+        text-align: right;
+        width: 1.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.12rem;
       }
     }
   }
