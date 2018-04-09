@@ -52,15 +52,18 @@ export default {
       this.$http
         .login(pwd)
         .then(() => {
+          loader.clear();
           if (this.$router.returnUrl) {
             window.location.href = this.$router.returnUrl;
           } else {
             this.$router.replace({ path: '/wlan' });
           }
-          loader.clear();
+          //
         })
         .catch(err => {
+          loader.clear();
           if (pwd) {
+            console.log(this.$toast.fail);
             if (err && err.error) {
               // 弹出错误提示
               this.$toast(this.$t(err.error.code));
@@ -69,7 +72,7 @@ export default {
             }
           }
 
-          loader.clear();
+          //
         });
     },
 

@@ -14,6 +14,10 @@ Vue.use(Icon);
 Vue.use(Checkbox);
 Vue.component('nav-bar', nav);
 
+// debugger;
+// Toast.setDefaultOptions({
+//   duration: 5000
+// });
 Vue.prototype.$toast = Toast;
 
 Vue.use(Cell);
