@@ -2,23 +2,6 @@ import axios from 'axios';
 
 // axios.defaults.headers['content-type'] = 'application/json';
 
-axios.interceptors.response.use(
-  response => response,
-  (error) => {
-    // Do something with response error
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          window.location.hash = '#/login';
-          break;
-        default:
-          break;
-      }
-    }
-    return Promise.reject(error.response.data);
-  }
-);
-
 let methods;
 if (process.env.NODE_ENV === 'development') {
   methods = {
@@ -55,7 +38,7 @@ if (process.env.NODE_ENV === 'development') {
     },
     isinitial: {
       url: '/app',
-      action: 'is_initial'
+      action: 'router.is_initial'
     },
     update: {
       url: '/app',
@@ -63,11 +46,11 @@ if (process.env.NODE_ENV === 'development') {
     },
     testWan: {
       url: '/app',
-      action: 'router.test_wan'
+      action: 'router.is_wan_connected'
     }
   };
 }
-export default {
+const http = {
   checkLogin() {
     return axios.post(methods.checkLogin.url, {
       method: methods.checkLogin.action
@@ -113,3 +96,11 @@ export default {
     }
   }
 };
+
+const configResponseInterceptors = (success, error) => {
+  const noop = res => res;
+  const successCallback = success || noop;
+  const errorCallback = error || noop;
+  axios.interceptors.response.use(successCallback, errorCallback);
+};
+export { http, configResponseInterceptors };

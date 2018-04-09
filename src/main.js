@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import { Button, Field, Icon, Checkbox, Dialog, Cell, CellGroup, Toast } from 'vant';
-import { changeLanguage, i18n } from './i18n';
+import { changeLanguage, i18n, translate } from './i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
-import http from './http';
+import { http, configResponseInterceptors } from './http';
 import util from './util/util';
 import nav from './component/nav-bar.vue';
 
@@ -19,6 +19,24 @@ Vue.prototype.$toast = Toast;
 Vue.use(Cell);
 Vue.use(CellGroup);
 
+configResponseInterceptors(
+  res => res,
+  error => {
+    // test translate
+    // console.log(translate('trans0001'));
+    // Do something with response error
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          window.location.hash = '#/login';
+          break;
+        default:
+          break;
+      }
+    }
+    return Promise.reject(error.response.data);
+  }
+);
 Vue.prototype.$http = http;
 Vue.prototype.changeLanguage = changeLanguage;
 Vue.prototype.routerConfig = schema;

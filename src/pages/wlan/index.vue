@@ -27,6 +27,9 @@
           <i class="i" :class="{'i-open':!showAdminPwd,'i-close':showAdminPwd}" @click="changeAdminPwdStatus"></i>
         </div>
       </div>
+      <div class="timezone-container">
+        <label for="">{{$t('trans0272')}}</label>
+      </div>
     </div>
     <div class="button-info">
       <van-button @click="complete" :disabled="disabled">{{$t('trans0018')}}</van-button>
@@ -129,7 +132,8 @@ export default {
     .ssid-container,
     .pwd-container,
     .adminpwd-container,
-    .check-container {
+    .check-container,
+    .timezone-container {
       margin-top: 0.35rem;
       position: relative;
       .ssid-input,

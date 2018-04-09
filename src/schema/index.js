@@ -7,6 +7,10 @@ const routerConfig = () => {
     admin: {
       password: ''
     },
+    timezone: {
+      timezone: '',
+      position: ''
+    },
     wan: {
       type: '' // static,dhcp,pppoe
       /*
