@@ -29,12 +29,12 @@
       </div>
       <div class="timezone-container">
         <label class="timezone-left">{{$t('trans0272')}}</label>
-        <div class="right-container">
+        <div class="right-container" @click="selectTimezone">
           <div class="timezone-info">
             <div class="timezone-value">{{timezone.timezone}}</div>
             <div class="timezone-name">{{timezone.name}}</div>
           </div>
-          <div class="icon-right" @click="selectTimezone">
+          <div class="icon-right">
             <van-icon name="arrow" class="active" />
           </div>
         </div>
