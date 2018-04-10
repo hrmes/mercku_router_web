@@ -64,7 +64,6 @@ export default {
         .catch(err => {
           loader.clear();
           if (pwd) {
-            console.log(this.$toast.fail);
             if (err && err.error) {
               // 弹出错误提示
               this.$toast(this.$t(err.error.code));

@@ -2,54 +2,36 @@ import axios from 'axios';
 
 // axios.defaults.headers['content-type'] = 'application/json';
 
-let methods;
-if (process.env.NODE_ENV === 'development') {
-  methods = {
-    checkLogin: {
-      url: 'https://mock.hyku.org/api/app1',
-      action: 'router.check_login'
-    },
-    login: {
-      url: 'https://mock.hyku.org/api/app2',
-      action: 'router.login'
-    },
-    isinitial: {
-      url: 'https://mock.hyku.org/api/app3',
-      action: 'is_initial'
-    },
-    update: {
-      url: 'https://mock.hyku.org/api/app4',
-      action: 'router.config.update'
-    },
-    testWan: {
-      url: 'https://mock.hyku.org/api/app5',
-      action: 'router.test_wan'
-    }
-  };
-} else {
-  methods = {
-    checkLogin: {
-      url: '/app',
-      action: 'router.check_login'
-    },
-    login: {
-      url: '/app',
-      action: 'router.login'
-    },
-    isinitial: {
-      url: '/app',
-      action: 'router.is_initial'
-    },
-    update: {
-      url: '/app',
-      action: 'router.config.update'
-    },
-    testWan: {
-      url: '/app',
-      action: 'router.is_wan_connected'
-    }
-  };
-}
+const mockServer = 'https://mock.hyku.org/api';
+const url = '/app';
+const develop = process.env.NODE_ENV === 'development';
+const methods = {
+  checkLogin: {
+    url: develop ? `${mockServer}/app1` : url,
+    action: 'router.check_login'
+  },
+  login: {
+    url: develop ? `${mockServer}/app2` : url,
+    action: 'router.login'
+  },
+  isinitial: {
+    url: develop ? `${mockServer}/app3` : url,
+    action: 'router.is_initial'
+  },
+  update: {
+    url: develop ? `${mockServer}/app4` : url,
+    action: 'router.config.update'
+  },
+  testWan: {
+    url: develop ? `${mockServer}/app5` : url,
+    action: 'router.is_wan_connected'
+  },
+  getTimezone: {
+    url: develop ? `${mockServer}/app6` : url,
+    action: 'router.timezone.get'
+  }
+};
+
 const http = {
   checkLogin() {
     return axios.post(methods.checkLogin.url, {
@@ -80,6 +62,11 @@ const http = {
   testWan() {
     return axios.post(methods.testWan.url, {
       method: methods.testWan.action
+    });
+  },
+  getTimezone() {
+    return axios.post(methods.getTimezone.url, {
+      method: methods.getTimezone.action
     });
   },
   post2native(action, type, data) {

@@ -67,7 +67,8 @@ export default {
           text: 'trans0222'
         }
       },
-      timezone: this.routerConfig.getTimezone()
+      timezone: this.routerConfig.getTimezone(),
+      timezones: require(`../../timezones/${this.$i18n.locale}.json`)
     };
   },
   mounted() {
@@ -75,6 +76,39 @@ export default {
       this.option.left = {
         icon: 'arrow-left'
       };
+    }
+    // 如果没有时区，从服务器获取
+    if (!this.timezone.timezone) {
+      this.$http
+        .getTimezone()
+        .then(res => {
+          const { result } = res.data;
+          const timezone = this.timezones.filter(t => {
+            if (
+              t.timezone === result.timezone &&
+              t.position - '0' === result.position - '0'
+            ) {
+              return true;
+            }
+            return false;
+          })[0];
+          this.routerConfig.setTimezone(
+            timezone.name,
+            timezone.timezone,
+            timezone.position
+          );
+          this.timezone.name = timezone.name;
+          this.timezone.position = timezone.position;
+          this.timezone.timezone = timezone.timezone;
+        })
+        .catch(err => {
+          if (err && err.error) {
+            // 弹出错误提示
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
+          }
+        });
     }
   },
   methods: {
