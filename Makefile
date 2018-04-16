@@ -1,11 +1,11 @@
 NPM_VERSION=5.8.0
 
-all: build
+all: install
 
-build: depend
-	npm run build
+install: depend
+	make build
 
-depend: package.json package-lock.json
+depend: package.json package-lock.json check_npm_version
 	npm ci
 
 check_npm_version:
@@ -13,4 +13,12 @@ ifneq ($(shell npm -v),$(NPM_VERSION))
 	$(error npm-v$(NPM_VERSION) required)
 endif
 
-.PHONY: all build depend check_npm_version
+####### For development #####################
+# use this target for development, though not so fancy
+dev: package.json check_npm_version
+	npm i
+
+build:
+	npm run build
+
+.PHONY: all build depend check_npm_version dev build
