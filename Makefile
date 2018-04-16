@@ -18,7 +18,7 @@ endif
 dev: package.json check_npm_version
 	npm i
 
-build:
+build: check_npm_version
 	npm run build
 
 .PHONY: all build depend check_npm_version dev build
