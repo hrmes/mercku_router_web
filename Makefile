@@ -14,7 +14,8 @@ ifneq ($(shell npm -v),$(NPM_VERSION))
 endif
 
 ####### For development #####################
-# use this target for development, though not so fancy
+# use these targets for development, though not so fancy
+# if you are familiar with the original npm commands.
 dev: package.json check_npm_version
 	npm i
 
