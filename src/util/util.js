@@ -22,7 +22,7 @@ export default {
         needWidth = width;
       }
       rem = needWidth / 3.75;
-      rem = rem > 100 ? rem : 100;
+      rem = rem > 100 ? 100 : rem;
       // const rem = width / 3.75;
       rootStyle = `html{font-size:${rem}px !important;width:${needWidth}px !important}`;
       rootItem = document.getElementById('rootsize') || document.createElement('style');
