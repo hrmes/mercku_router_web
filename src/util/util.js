@@ -11,11 +11,14 @@ export default {
     function refreshRem() {
       const width = docEl.clientWidth || 0;
       const height = docEl.clientHeight || 0;
-      const needHeight = width / (375 / 667);
+      const ratio = 375 / 667;
+      const needHeight = width / ratio;
+
       let needWidth;
       let rem;
       if (needHeight > height) {
-        needWidth = height * (375 / 667);
+        needWidth = height * ratio;
+
       } else {
         needWidth = width;
       }
