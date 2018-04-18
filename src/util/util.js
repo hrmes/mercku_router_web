@@ -18,7 +18,6 @@ export default {
       let rem;
       if (needHeight > height) {
         needWidth = height * ratio;
-
       } else {
         needWidth = width;
       }
