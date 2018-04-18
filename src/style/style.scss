@@ -67,6 +67,7 @@ html {
   .van-field__control {
     color: rgb(124, 124, 124);
     background: transparent;
+    font-size: 0.14rem;
   }
 }
 
@@ -81,7 +82,15 @@ html {
   background-color: rgb(213, 184, 132);
   color: rgb(14, 14, 14);
 }
-
+.van-button {
+  line-height: 0.5rem;
+}
+.van-checkbox__label {
+  font-size: 0.14rem;
+}
+.van-button__text {
+  font-size: 0.12rem;
+}
 .van-button--disabled {
   color: rgb(85, 75, 58);
   border: 1px solid rgb(85, 75, 58);

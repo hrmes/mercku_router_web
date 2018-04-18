@@ -232,6 +232,7 @@ export default {
       .timezone-left {
         display: inline-block;
         line-height: 0.3rem;
+        font-size: 0.14rem;
       }
 
       .timezone-name,

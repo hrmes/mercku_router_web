@@ -74,6 +74,7 @@ export default {
       text-align: center;
       color: rgb(142, 142, 147);
       margin: 0;
+      font-size: 0.16rem;
     }
   }
 }

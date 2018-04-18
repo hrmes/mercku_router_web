@@ -53,10 +53,12 @@ export default {
     .p1 {
       width: 2rem;
       float: right;
+      font-size: 0.14rem;
     }
     .policy-link {
       color: rgb(213, 184, 132);
       text-decoration: underline;
+      font-size: 0.12rem;
     }
   }
 }
