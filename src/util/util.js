@@ -6,7 +6,6 @@ export default {
     let tid;
     let rootItem;
     let rootStyle;
-    const designWidth = 375;
 
     function refreshRem() {
       const width = docEl.clientWidth || 0;
