@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar :option="option" :onLeftClick="option.left.click"/>
+    <nav-bar :option="option" :onLeftClick="option.left.click" />
     <div class="policy-container">
       使用协议使用协议使用协议
     </div>
@@ -29,5 +29,6 @@ export default {
 <style lang="scss" scoped>
 .policy-container {
   padding: 0 0.15rem;
+  color: #b6b6b6;
 }
 </style>
