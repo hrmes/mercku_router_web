@@ -31,7 +31,7 @@
         <label class="timezone-left">{{$t('trans0272')}}</label>
         <div class="right-container" @click="selectTimezone">
           <div class="timezone-info">
-            <div class="timezone-value">{{timezone.timezone}}</div>
+            <div class="timezone-value">{{timezone.timename}}</div>
             <div class="timezone-name">{{timezone.name}}</div>
           </div>
           <div class="icon-right">

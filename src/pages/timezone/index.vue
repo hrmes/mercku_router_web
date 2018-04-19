@@ -3,7 +3,7 @@
     <nav-bar :option="option" :onLeftClick="onLeftClick" />
     <div class="list">
       <div @click="set(timezone)" class="timezone" :key="index" v-for="(timezone,index) in timezones">
-        <div class="value">{{timezone.timezone}}</div>
+        <div class="value">{{timezone.timename}}</div>
         <div class="label">{{timezone.name}}</div>
       </div>
     </div>
