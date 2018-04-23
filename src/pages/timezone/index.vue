@@ -1,6 +1,6 @@
 <template>
   <div class="timezone-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick" />
+    <nav-bar :option="option" />
     <div class="list">
       <div @click="set(timezone)" class="timezone" :key="index" v-for="(timezone,index) in timezones">
         <div class="value">{{timezone.timename}}</div>
@@ -15,19 +15,20 @@ export default {
     return {
       option: {
         left: {
-          icon: 'arrow-left'
+          icon: true,
+          text: 'arrow-left',
+          click() {
+            this.$router.replace({ path: '/wlan' });
+          }
         },
         center: {
-          text: 'trans0273'
+          text: this.$t('trans0273')
         }
       },
       timezones: require(`../../timezones/${this.$i18n.locale}.json`)
     };
   },
   methods: {
-    onLeftClick() {
-      this.$router.replace({ path: '/wlan' });
-    },
     set(timezone) {
       this.routerConfig.setTimezone(
         timezone.timename,

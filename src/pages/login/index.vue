@@ -36,7 +36,8 @@ export default {
     console.log(this.$i18n.locale);
     if (this.webview) {
       this.option.left = {
-        icon: 'arrow-left'
+        icon: true,
+        text: 'arrow-left'
       };
     }
     // 进入登录页面后，首先尝试用默认密码登录一次

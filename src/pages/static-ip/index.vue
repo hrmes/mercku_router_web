@@ -1,6 +1,6 @@
 <template>
   <div class="static-ip-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick" />
+    <nav-bar :option="option" />
     <div class="message">{{$t('trans0150')}}</div>
     <div class="form">
       <van-cell-group>
@@ -36,13 +36,14 @@ export default {
       blurItems: [],
       option: {
         left: {
-          icon: 'arrow-left'
+          icon: true,
+          text: 'arrow-left',
+          click() {
+            this.$router.replace('/wan-hand');
+          }
         },
         center: {
-          text: 'trans0148'
-        },
-        right: {
-          text: ''
+          text: this.$t('trans0148')
         }
       },
       form: {
@@ -54,9 +55,6 @@ export default {
     };
   },
   methods: {
-    onLeftClick() {
-      this.$router.replace('/wan-hand');
-    },
     onBlur(item, v) {
       if (!ipRexp(v)) {
         const items = this.blurItems;

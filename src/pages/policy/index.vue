@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar :option="option" :onLeftClick="option.left.click" />
+    <nav-bar :option="option" />
     <div class="policy-container">
       使用协议使用协议使用协议
     </div>
@@ -13,7 +13,8 @@ export default {
     return {
       option: {
         left: {
-          icon: 'arrow-left',
+          icon: true,
+          text: 'arrow-left',
           click() {
             this.$router.replace({ path: '/welcome' });
           }
