@@ -23,7 +23,7 @@ export default {
         },
         right: {
           text: this.$t('trans0163'),
-          click() {
+          click: () => {
             this.$confirm({
               message: this.$t('trans0164')
             })

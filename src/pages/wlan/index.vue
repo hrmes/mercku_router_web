@@ -75,7 +75,10 @@ export default {
     if (this.webview) {
       this.option.left = {
         icon: true,
-        text: 'arrow-left'
+        text: 'arrow-left',
+        click: () => {
+          this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+        }
       };
     }
     // 如果没有时区，从服务器获取
@@ -113,9 +116,6 @@ export default {
     }
   },
   methods: {
-    onLeftClick() {
-      this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
-    },
     selectTimezone() {
       this.routerConfig.setWIFI(this.ssid, this.pwd);
       this.routerConfig.setAdminPwd(this.checked ? this.pwd : this.adminPwd);

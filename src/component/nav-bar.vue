@@ -67,15 +67,15 @@ export default {
   },
   methods: {
     leftClick() {
-      const click = this.left.click || noop;
+      const click = this.option.left.click || noop;
       click();
     },
     centerClick() {
-      const click = this.center.click || noop;
+      const click = this.option.center.click || noop;
       click();
     },
     rightClick() {
-      const click = this.right.click || noop;
+      const click = this.option.right.click || noop;
       click();
     },
     hasBar() {

@@ -49,7 +49,7 @@ export default {
     if (this.webview) {
       this.option.left = {
         icon: 'arrow-left',
-        click() {
+        click: () => {
           this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
         }
       };
