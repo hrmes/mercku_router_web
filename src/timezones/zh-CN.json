@@ -328,20 +328,20 @@
   {
     "name": "雅库茨克",
     "timezone": 9,
-    "position": 2,
+    "position": 3,
     "timename": "GMT+09:00"
   },
   {
     "name": "阿德莱德",
     "timezone": 9,
-    "position": 3,
+    "position": 4,
     "timename": "GMT+09:30"
   },
 
   {
     "name": "达尔文",
     "timezone": 9,
-    "position": 4,
+    "position": 5,
     "timename": "GMT+09:30"
   },
 
