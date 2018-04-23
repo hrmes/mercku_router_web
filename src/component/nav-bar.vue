@@ -16,16 +16,9 @@
 import { isIphone } from '../util/util';
 export default {
   props: {
-    onLeftClick: {
-      type: Function
-    },
-    onRightClick: {
-      type: Function
-    },
     option: {
-      default: function defaultValue() {
-        return {};
-      }
+      type: Object,
+      default: () => {}
     }
   },
   methods: {
