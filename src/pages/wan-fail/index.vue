@@ -15,7 +15,6 @@
 </template>
 <script>
 export default {
-  props: ['s'],
   data() {
     return {
       test: 0,
