@@ -14,9 +14,13 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
+  props: ['s'],
   data() {
     return {
+      test: 0,
       option: {
         left: {
           icon: ''

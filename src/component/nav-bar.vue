@@ -1,19 +1,19 @@
 <template>
   <div class="header-container">
-    <div v-if="hasBar()" class="status has-topbar"/>
+    <div v-if="hasBar()" class="status has-topbar" />
     <div class="content">
       <div class="left" v-if="option.left" @click="leftClick()">
-        <van-icon :name="option.left.icon" class="active"/>
+        <van-icon :name="option.left.icon" class="active" />
       </div>
       <div class="center" v-if="option.center">{{$t(`${option.center.text}`)}}</div>
       <div class="right" v-if="option.right" @click="rightClick()">{{$t(`${option.right.text}`)}}
       </div>
     </div>
   </div>
+
 </template>
 <script>
 import { isIphone } from '../util/util';
-
 export default {
   props: {
     onLeftClick: {

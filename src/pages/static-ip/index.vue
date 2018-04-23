@@ -122,7 +122,8 @@ export default {
 
   .form {
     margin-top: 0.3rem;
-
+    padding-left: 0.15rem;
+    padding-right: 0.15rem;
     label {
       display: block;
       height: 0.3rem;
