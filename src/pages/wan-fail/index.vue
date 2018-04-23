@@ -17,7 +17,6 @@
 export default {
   data() {
     return {
-      test: 0,
       option: {
         left: {
           icon: ''
