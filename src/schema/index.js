@@ -52,7 +52,8 @@ const routerConfig = () => {
     getWIFI() {
       return Object.assign({}, config.wifi);
     },
-    setTimezone(name, timezone, position) {
+    setTimezone(timename, name, timezone, position) {
+      config.timezone.timename = timename;
       config.timezone.name = name;
       config.timezone.timezone = timezone;
       config.timezone.position = position || 0;
