@@ -31,6 +31,7 @@ export default {
   methods: {
     set(timezone) {
       this.routerConfig.setTimezone(
+        timezone.timename,
         timezone.name,
         timezone.timezone,
         timezone.position

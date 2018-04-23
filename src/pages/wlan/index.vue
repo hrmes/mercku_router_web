@@ -52,9 +52,9 @@ export default {
   data() {
     return {
       checked: true,
-      ssid: '',
-      pwd: '',
-      adminPwd: '',
+      ssid: this.routerConfig.getConfig().wifi.ssid || '',
+      pwd: this.routerConfig.getConfig().wifi.password || '',
+      adminPwd: this.routerConfig.getConfig().admin.password || '',
       showPwd: false,
       showAdminPwd: false,
       InputTypes: {
@@ -97,10 +97,12 @@ export default {
             return false;
           })[0];
           this.routerConfig.setTimezone(
+            timezone.timename,
             timezone.name,
             timezone.timezone,
             timezone.position
           );
+          this.timezone.timename = timezone.timename;
           this.timezone.name = timezone.name;
           this.timezone.position = timezone.position;
           this.timezone.timezone = timezone.timezone;
@@ -125,7 +127,7 @@ export default {
       this.showPwd = !this.showPwd;
     },
     changeAdminPwdStatus() {
-      this.showPwd = !this.showPwd;
+      this.showAdminPwd = !this.showAdminPwd;
     },
     complete() {
       if (/^\s*$/g.test(this.ssid)) {
@@ -246,7 +248,6 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: 0.12rem;
-        line-height: 0.3rem;
       }
     }
   }
