@@ -1,6 +1,6 @@
 <template>
   <div class="wan-check-container">
-    <nav-bar :option="option" :onRightClick="onRightClick" />
+    <nav-bar :option="option" />
     <div class="status-info">
       <img src="../../../static/img_bg_dhcp_02.png" alt="">
       <div class="state">{{$t('trans0180')}}</div>
@@ -22,25 +22,23 @@ export default {
           text: this.$t('trans0223')
         },
         right: {
-          text: this.$t('trans0163')
+          text: this.$t('trans0163'),
+          click() {
+            this.$confirm({
+              message: this.$t('trans0164')
+            })
+              .then(() => {
+                this.$http.update(this.routerConfig.getConfig()).then(() => {
+                  this.$router.replace('/complete');
+                });
+              })
+              .catch(() => {
+                // on cancel
+              });
+          }
         }
       }
     };
-  },
-  methods: {
-    onRightClick() {
-      this.$confirm({
-        message: this.$t('trans0164')
-      })
-        .then(() => {
-          this.$http.update(this.routerConfig.getConfig()).then(() => {
-            this.$router.replace('/complete');
-          });
-        })
-        .catch(() => {
-          // on cancel
-        });
-    }
   }
 };
 </script>

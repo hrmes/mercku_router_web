@@ -1,6 +1,6 @@
 <template>
   <div class="static-ip-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick" />
+    <nav-bar :option="option" />
     <div class="message">{{$t('trans0150')}}</div>
     <div class="form">
       <van-cell-group>
@@ -37,7 +37,10 @@ export default {
       option: {
         left: {
           icon: true,
-          text: 'arrow-left'
+          text: 'arrow-left',
+          click() {
+            this.$router.replace('/wan-hand');
+          }
         },
         center: {
           text: this.$t('trans0148')
@@ -52,9 +55,6 @@ export default {
     };
   },
   methods: {
-    onLeftClick() {
-      this.$router.replace('/wan-hand');
-    },
     onBlur(item, v) {
       if (!ipRexp(v)) {
         const items = this.blurItems;

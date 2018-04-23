@@ -1,6 +1,6 @@
 <template>
   <div class="dhcp-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick" />
+    <nav-bar :option="option" />
     <div class="space">
       <div class="status-info">
         <img src="../../../static/img_bg_dhcp_02.png" alt="">
@@ -19,7 +19,10 @@ export default {
       option: {
         left: {
           icon: true,
-          text: 'arrow-left'
+          text: 'arrow-left',
+          click() {
+            this.$router.replace('/wan-hand');
+          }
         },
         center: {
           text: this.$t('trans0146')
@@ -28,9 +31,6 @@ export default {
     };
   },
   methods: {
-    onLeftClick() {
-      this.$router.replace('/wan-hand');
-    },
     submit() {
       this.routerConfig.setWan('dhcp');
       this.$http

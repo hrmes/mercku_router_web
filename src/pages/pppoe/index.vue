@@ -1,6 +1,6 @@
 <template>
   <div class="pppoe-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick" />
+    <nav-bar :option="option" />
     <div class="message">{{$t('trans0154')}}</div>
     <div class="form">
       <van-cell-group>
@@ -25,7 +25,10 @@ export default {
       option: {
         left: {
           icon: true,
-          text: 'arrow-left'
+          text: 'arrow-left',
+          click() {
+            this.$router.replace('/wan-hand');
+          }
         },
         center: {
           text: this.$t('trans0144')
@@ -39,9 +42,6 @@ export default {
     };
   },
   methods: {
-    onLeftClick() {
-      this.$router.replace('/wan-hand');
-    },
     isShowPwd() {
       this.pwdShow = !this.pwdShow;
     },

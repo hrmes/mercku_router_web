@@ -1,6 +1,6 @@
 <template>
   <div class="wan-hand-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick" />
+    <nav-bar :option="option" />
     <div class="message">{{$t('trans0143')}} </div>
     <div class="list">
       <div class="item" @click="$router.replace('/pppoe')">
@@ -44,15 +44,14 @@ export default {
       }
     };
   },
-  methods: {
-    onLeftClick() {
-      this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
-    }
-  },
+  methods: {},
   mounted() {
     if (this.webview) {
       this.option.left = {
-        icon: 'arrow-left'
+        icon: 'arrow-left',
+        click() {
+          this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+        }
       };
     }
   }
