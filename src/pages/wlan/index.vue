@@ -116,6 +116,8 @@ export default {
       this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
     },
     selectTimezone() {
+      this.routerConfig.setWIFI(this.ssid, this.pwd);
+      this.routerConfig.setAdminPwd(this.checked ? this.pwd : this.adminPwd);
       this.$router.replace({ path: '/timezone' });
     },
     changePwdStatus() {
@@ -243,6 +245,7 @@ export default {
         text-overflow: ellipsis;
         white-space: nowrap;
         font-size: 0.12rem;
+        line-height: 0.3rem;
       }
     }
   }

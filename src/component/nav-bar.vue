@@ -14,6 +14,7 @@
 </template>
 <script>
 import { isIphone } from '../util/util';
+
 export default {
   props: {
     onLeftClick: {

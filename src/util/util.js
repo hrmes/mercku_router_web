@@ -84,11 +84,9 @@ export const isIphone = () => {
   if (isiOS) {
     return true;
   }
-
   if (isAndroid) {
     return false;
   }
-
   return false;
 };
 
