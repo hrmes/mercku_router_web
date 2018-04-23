@@ -1,7 +1,7 @@
 <template>
 
   <div class="wan-success-page">
-    <nav-bar :option="option"/>
+    <nav-bar :option="option" />
 
     <div class="banner-container">
       <p>{{$t('trans0157')}}</p>
@@ -20,20 +20,23 @@ export default {
     return {
       option: {
         center: {
-          text: 'trans0142'
+          text: this.$t('trans0142')
         }
       }
     };
   },
   methods: {
     next() {
-      this.$http.update(this.routerConfig.getConfig()).then(() => {
-        this.$router.replace({ path: '/complete' });
-      }).catch((err) => {
-        if (err && err.error) {
-          this.$toast(this.$t(err.error.code));
-        }
-      });
+      this.$http
+        .update(this.routerConfig.getConfig())
+        .then(() => {
+          this.$router.replace({ path: '/complete' });
+        })
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          }
+        });
     }
   }
 };

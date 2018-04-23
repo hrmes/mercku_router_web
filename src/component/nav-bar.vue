@@ -2,11 +2,17 @@
   <div class="header-container">
     <div v-if="hasBar()" class="status has-topbar" />
     <div class="content">
-      <div class="left" v-if="option.left" @click="leftClick()">
-        <van-icon :name="option.left.icon" class="active" />
+      <div class="left" v-if="option.left" @click="leftClick">
+        <van-icon v-if="option.left.icon" :name="option.left.text" class="active" />
+        <span v-if="!option.left.icon">{{option.left.text}}</span>
       </div>
-      <div class="center" v-if="option.center">{{$t(`${option.center.text}`)}}</div>
-      <div class="right" v-if="option.right" @click="rightClick()">{{$t(`${option.right.text}`)}}
+      <div class="center" v-if="option.center" @click="centerClick">
+        <van-icon v-if="option.center.icon" :name="option.center.text" class="active" />
+        <span v-if="!option.center.icon">{{option.center.text}}</span>
+      </div>
+      <div class="right" v-if="option.right" @click="rightClick">
+        <van-icon v-if="option.right.icon" :name="option.right.text" class="active" />
+        <span v-if="!option.right.icon">{{option.right.text}}</span>
       </div>
     </div>
   </div>
@@ -15,19 +21,62 @@
 <script>
 import { isIphone } from '../util/util';
 
+const noop = () => {};
 export default {
+  /*
+    option:{
+      left:{
+        icon:bool,  when icon is true ,the text is icon name class
+        text:string,
+        click:function
+      },
+      center:{
+        icon:bool,
+        text:string,
+        click:function
+      },
+      right:{
+        icon:bool,
+        text:string,
+        click:function
+      }
+    }
+
+  */
   props: {
     option: {
       type: Object,
-      default: () => {}
+      default: () => ({
+        left: {
+          icon: false,
+          text: '',
+          click: noop
+        },
+        center: {
+          icon: false,
+          text: '',
+          click: noop
+        },
+        right: {
+          icon: false,
+          text: '',
+          click: noop
+        }
+      })
     }
   },
   methods: {
     leftClick() {
-      this.onLeftClick();
+      const click = this.left.click || noop;
+      click();
+    },
+    centerClick() {
+      const click = this.center.click || noop;
+      click();
     },
     rightClick() {
-      this.onRightClick();
+      const click = this.right.click || noop;
+      click();
     },
     hasBar() {
       return isIphone();

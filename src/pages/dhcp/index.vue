@@ -18,13 +18,11 @@ export default {
     return {
       option: {
         left: {
-          icon: 'arrow-left'
+          icon: true,
+          text: 'arrow-left'
         },
         center: {
-          text: 'trans0146'
-        },
-        right: {
-          text: ''
+          text: this.$t('trans0146')
         }
       }
     };

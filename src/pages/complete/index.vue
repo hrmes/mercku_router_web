@@ -1,23 +1,30 @@
 <template>
   <div class="wan-check-container">
-    <nav-bar :option="option"/>
+    <nav-bar :option="option" />
     <div class="status-info">
-      <van-icon name="checked" class="icon"/>
+      <van-icon name="checked" class="icon" />
       <label class="state">{{$t('trans0170')}}</label>
       <label class="code" v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
     </div>
     <div class="wif-info" v-if="config.wifi.ssid">
-      <div><span class="icon"></span><span class="title">{{$t('trans0168')}}</span>：<span
-        class="value">{{config.wifi.ssid}}</span>
+      <div>
+        <span class="icon"></span>
+        <span class="title">{{$t('trans0168')}}</span>：
+        <span class="value">{{config.wifi.ssid}}</span>
       </div>
-      <div><span class="icon"></span><span class="title">{{$t('trans0003')}}</span>：<span
-        class="value">{{config.wifi.password}}</span></div>
-      <div><span class="icon"></span><span class="title">{{$t('trans0067')}}</span>：<span
-        class="value">{{config.admin.password}}</span></div>
+      <div>
+        <span class="icon"></span>
+        <span class="title">{{$t('trans0003')}}</span>：
+        <span class="value">{{config.wifi.password}}</span>
+      </div>
+      <div>
+        <span class="icon"></span>
+        <span class="title">{{$t('trans0067')}}</span>：
+        <span class="value">{{config.admin.password}}</span>
+      </div>
     </div>
     <div class="button-info" v-if="isWebView">
-      <van-button size="normal" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'):
-        $t('trans0233')}}
+      <van-button size="normal" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'): $t('trans0233')}}
       </van-button>
     </div>
   </div>
@@ -27,17 +34,11 @@ export default {
   data() {
     return {
       option: {
-        left: {
-          icon: '',
-        },
         center: {
-          text: 'trans0222'
-        },
-        right: {
-          text: '',
-        },
+          text: this.$t('trans0222')
+        }
       },
-      config: this.routerConfig.getConfig(),
+      config: this.routerConfig.getConfig()
     };
   },
   methods: {

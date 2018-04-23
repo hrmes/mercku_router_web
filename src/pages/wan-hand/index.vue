@@ -1,6 +1,6 @@
 <template>
   <div class="wan-hand-container">
-    <nav-bar :option="option" :onLeftClick="onLeftClick"/>
+    <nav-bar :option="option" :onLeftClick="onLeftClick" />
     <div class="message">{{$t('trans0143')}} </div>
     <div class="list">
       <div class="item" @click="$router.replace('/pppoe')">
@@ -9,7 +9,7 @@
           <label class="des">{{$t('trans0145')}}</label>
         </div>
         <div class="icon">
-          <van-icon name="arrow"/>
+          <van-icon name="arrow" />
         </div>
       </div>
       <div class="item" @click="$router.replace('/dhcp')">
@@ -18,7 +18,7 @@
           <label class="des">{{$t('trans0147')}}</label>
         </div>
         <div class="icon">
-          <van-icon name="arrow"/>
+          <van-icon name="arrow" />
         </div>
       </div>
       <div class="item" @click="$router.replace('/static-ip')">
@@ -27,7 +27,7 @@
           <label class="des">{{$t('trans0149')}}</label>
         </div>
         <div class="icon">
-          <van-icon name="arrow"/>
+          <van-icon name="arrow" />
         </div>
       </div>
     </div>
@@ -38,12 +38,8 @@ export default {
   data() {
     return {
       option: {
-
         center: {
-          text: 'trans0142'
-        },
-        right: {
-          text: '',
+          text: this.$t('trans0142')
         }
       }
     };

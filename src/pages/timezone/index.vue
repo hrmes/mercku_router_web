@@ -15,10 +15,11 @@ export default {
     return {
       option: {
         left: {
-          icon: 'arrow-left'
+          icon: true,
+          text: 'arrow-left'
         },
         center: {
-          text: 'trans0273'
+          text: this.$t('trans0273')
         }
       },
       timezones: require(`../../timezones/${this.$i18n.locale}.json`)

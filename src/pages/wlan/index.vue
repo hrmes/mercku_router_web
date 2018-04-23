@@ -1,6 +1,6 @@
 <template>
   <div class="wlan-page">
-    <nav-bar :option="option" :onLeftClick="onLeftClick" />
+    <nav-bar :option="option" />
     <div class="h1">
       {{$t('trans0167')}}
     </div>
@@ -64,7 +64,7 @@ export default {
       option: {
         left: {},
         center: {
-          text: 'trans0222'
+          text: this.$t('trans0222')
         }
       },
       timezone: this.routerConfig.getTimezone(),
@@ -74,7 +74,8 @@ export default {
   mounted() {
     if (this.webview) {
       this.option.left = {
-        icon: 'arrow-left'
+        icon: true,
+        text: 'arrow-left'
       };
     }
     // 如果没有时区，从服务器获取

@@ -36,13 +36,11 @@ export default {
       blurItems: [],
       option: {
         left: {
-          icon: 'arrow-left'
+          icon: true,
+          text: 'arrow-left'
         },
         center: {
-          text: 'trans0148'
-        },
-        right: {
-          text: ''
+          text: this.$t('trans0148')
         }
       },
       form: {
