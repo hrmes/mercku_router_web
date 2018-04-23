@@ -25,7 +25,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      console.log(to.path);
+      // console.log(to.path);
       if (
         to.path === '/wan-hand' &&
         ['/pppoe', '/dhcp', '/static-ip'].includes(from.path)
@@ -36,7 +36,7 @@ export default {
       } else {
         this.transitionName = 'slide-left';
       }
-      console.log(this.transitionName);
+      // console.log(this.transitionName);
     }
   }
 };

@@ -80,7 +80,11 @@ html {
 .van-checkbox__control:checked + .van-icon-success {
   border-color: rgb(213, 184, 132);
   background-color: rgb(213, 184, 132);
+
   color: rgb(14, 14, 14);
+}
+.van-checkbox--checked {
+  background-color: #d5b884;
 }
 .van-button {
   line-height: 0.5rem;
