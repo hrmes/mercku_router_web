@@ -79,19 +79,13 @@ export default {
 
 export const isIphone = () => {
   const u = navigator.userAgent;
-  const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
+  // const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
   const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-  if (isiOS) {
-    return true;
-  }
-  if (isAndroid) {
-    return false;
-  }
-  return false;
+  return isiOS;
 };
 
 export const ipRexp = ip => {
-  const pattern = /^(0|[1-9]?|1\d\d?|2[0-4]\d|25[0-5])\.(0|[1-9]?|1\d\d?|2[0-4]\d|25[0-5])\.(0|[1-9]?|1\d\d?|2[0-4]\d|25[0-5])\.(0|[1-9]?|1\d\d?|2[0-4]\d|25[0-5])$/;
+  const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
   if (ip && pattern.test(ip)) {
     return true;
   }

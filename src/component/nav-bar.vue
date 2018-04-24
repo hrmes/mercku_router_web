@@ -68,15 +68,15 @@ export default {
   methods: {
     leftClick() {
       const click = this.option.left.click || noop;
-      click();
+      return click();
     },
     centerClick() {
       const click = this.option.center.click || noop;
-      click();
+      return click();
     },
     rightClick() {
       const click = this.option.right.click || noop;
-      click();
+      return click();
     },
     hasBar() {
       return isIphone();
