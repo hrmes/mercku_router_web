@@ -179,6 +179,7 @@ export default {
     background: #000;
     color: rgb(124, 124, 124);
     padding: 0.16rem 0 0.16rem 0.2rem;
+    font-size: 0.16rem;
   }
 
   .wlan-settings {

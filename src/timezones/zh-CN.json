@@ -36,13 +36,13 @@
     "timename": "GMT-07:00"
   },
   {
-    "name": "山地时间（美国和加拿大）",
+    "name": "山地时间(美国和加拿大)",
     "timezone": -7,
     "position": 2,
     "timename": "GMT-07:00"
   },
   {
-    "name": "中部时间（美国和加拿大）",
+    "name": "中部时间(美国和加拿大)",
     "timezone": -6,
     "position": 1,
     "timename": "GMT-06:00"
@@ -66,19 +66,19 @@
     "timename": "GMT-05:00"
   },
   {
-    "name": "东部时间（美国和加拿大）",
+    "name": "东部时间(美国和加拿大)",
     "timezone": -5,
     "position": 2,
     "timename": "GMT-05:00"
   },
   {
-    "name": "印第安那州（东部）",
+    "name": "印第安那州(东部)",
     "timezone": -5,
     "position": 3,
     "timename": "GMT-05:00"
   },
   {
-    "name": "大西洋时间（加拿大）",
+    "name": "大西洋时间(加拿大)",
     "timezone": -4,
     "position": 1,
     "timename": "GMT-04:00"
@@ -126,7 +126,7 @@
     "timename": "GMT-01:00"
   },
   {
-    "name": "卡萨布兰卡（蒙罗维亚)）",
+    "name": "卡萨布兰卡(蒙罗维亚))",
     "timezone": 0,
     "position": 1,
     "timename": "GMT+00:00"
@@ -192,6 +192,12 @@
     "timename": "GMT+02:00"
   },
   {
+    "name": "哈拉雷、比勒陀利亚",
+    "timezone": 2,
+    "position": 4,
+    "timename": "GMT+02:00"
+  },
+  {
     "name": "赫尔辛基、基辅、里加、索非亚、塔林、维尔纽斯",
     "timezone": 2,
     "position": 5,
@@ -203,12 +209,7 @@
     "position": 6,
     "timename": "GMT+02:00"
   },
-  {
-    "name": "哈拉雷、比勒陀利亚",
-    "timezone": 2,
-    "position": 4,
-    "timename": "GMT+02:00"
-  },
+
   {
     "name": "巴格达、科威特、利雅得",
     "timezone": 3,
