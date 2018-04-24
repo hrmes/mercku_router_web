@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { Button, Field, Icon, Checkbox, Dialog, Cell, CellGroup, Toast } from 'vant';
+import FastClick from 'fastclick';
 import { changeLanguage, i18n } from './i18n';
 import App from './App.vue';
 import router from './router';
@@ -22,42 +23,46 @@ Vue.prototype.$toast = Toast;
 
 Vue.use(Cell);
 Vue.use(CellGroup);
-
-configResponseInterceptors(
-  res => res,
-  error => {
-    // test translate
-    // console.log(translate('trans0001'));
-    // Do something with response error
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          window.location.hash = '#/login';
-          break;
-        default:
-          break;
+const launch = () => {
+  FastClick.attach(document.body);
+  configResponseInterceptors(
+    res => res,
+    error => {
+      // test translate
+      // console.log(translate('trans0001'));
+      // Do something with response error
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            window.location.hash = '#/login';
+            break;
+          default:
+            break;
+        }
       }
+      return Promise.reject(error.response.data);
     }
-    return Promise.reject(error.response.data);
-  }
-);
-Vue.prototype.$http = http;
-Vue.prototype.changeLanguage = changeLanguage;
-Vue.prototype.routerConfig = schema;
-Vue.prototype.$confirm = Dialog.confirm;
-Vue.prototype.webview = (() => {
-  const qs = window.location.search.substring(1);
-  if (qs && qs.includes('fromapp=1')) {
-    return true;
-  }
-  return false;
-})();
+  );
+  Vue.prototype.$http = http;
+  Vue.prototype.changeLanguage = changeLanguage;
+  Vue.prototype.routerConfig = schema;
+  Vue.prototype.$confirm = Dialog.confirm;
+  Vue.prototype.webview = (() => {
+    const qs = window.location.search.substring(1);
+    if (qs && qs.includes('fromapp=1')) {
+      return true;
+    }
+    return false;
+  })();
+  util.adapt(375, 375);
 
-util.adapt(375, 375);
-
-new Vue({
-  el: '#app',
-  i18n,
-  router,
-  render: h => h(App)
+  new Vue({
+    el: '#app',
+    i18n,
+    router,
+    render: h => h(App)
+  });
+};
+document.addEventListener('DOMContentLoaded', () => {
+  launch();
 });
