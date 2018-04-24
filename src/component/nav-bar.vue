@@ -1,6 +1,6 @@
 <template>
   <div class="header-container">
-    <div v-if="hasBar()" class="status has-topbar" />
+    <!-- <div v-if="hasBar()" class="status has-topbar" /> -->
     <div class="content">
       <div class="left" v-if="option.left" @click="leftClick">
         <van-icon v-if="option.left.icon" :name="option.left.text" class="active" />
