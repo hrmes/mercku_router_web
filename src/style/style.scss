@@ -11,7 +11,9 @@ body {
   position: relative;
   max-width: 750px;
   margin: 0 auto;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  overflow: hidden;
 }
 
 .app-container {
@@ -73,7 +75,7 @@ body {
   color: #000;
 }
 
-.van-checkbox__control:checked+.van-icon-success {
+.van-checkbox__control:checked + .van-icon-success {
   border-color: rgb(213, 184, 132);
   background-color: rgb(213, 184, 132);
   color: rgb(14, 14, 14);
