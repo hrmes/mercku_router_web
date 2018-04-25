@@ -81,7 +81,7 @@ export default {
         this.$toast(this.$t('trans0241'));
         return false;
       }
-      this.routerConfig.setWan('pppoe', this.form);
+      this.routerConfig.setWan('static', this.form);
       this.$http
         .update(this.routerConfig.getConfig())
         .then(() => {
