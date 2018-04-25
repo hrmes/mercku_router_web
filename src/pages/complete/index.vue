@@ -116,7 +116,7 @@ export default {
       .value {
         display: inline-block;
         text-align: left;
-        width: 1rem;
+        width: 1.8rem;
       }
     }
   }
