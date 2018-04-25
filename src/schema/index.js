@@ -2,7 +2,8 @@ const routerConfig = () => {
   const config = {
     wifi: {
       ssid: '',
-      password: ''
+      password: '',
+      hidden: false
     },
     admin: {
       password: ''
@@ -35,7 +36,7 @@ const routerConfig = () => {
   };
   return {
     getConfig() {
-      return {
+      const result = {
         wifi: Object.assign({}, config.wifi),
         admin: Object.assign({}, config.admin),
         wan: Object.assign({}, config.wan),
@@ -44,6 +45,7 @@ const routerConfig = () => {
           position: config.timezone.position
         }
       };
+      return result;
     },
     setWIFI(ssid, pwd) {
       config.wifi.ssid = ssid;
