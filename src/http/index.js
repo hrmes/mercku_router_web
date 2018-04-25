@@ -52,10 +52,24 @@ const http = {
     });
   },
   update(config) {
+    // check params
+    const conf = {};
+    if (config.wifi.ssid) {
+      conf.wifi = config.wifi;
+    }
+    if (config.admin.password) {
+      conf.admin = config.admin;
+    }
+    if (config.timezone.timezone) {
+      conf.timezone = config.timezone;
+    }
+    if (config.wan.type) {
+      conf.wan = config.wan;
+    }
     return axios.post(methods.update.url, {
       method: methods.update.action,
       params: {
-        config
+        conf
       }
     });
   },

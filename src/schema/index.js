@@ -39,16 +39,12 @@ const routerConfig = () => {
       const result = {
         wifi: Object.assign({}, config.wifi),
         admin: Object.assign({}, config.admin),
-
+        wan: Object.assign({}, config.wan),
         timezone: {
           timezone: config.timezone.timezone,
           position: config.timezone.position
         }
       };
-      // 可能没有配置wan口参数
-      if (config.wan.type) {
-        result.wan = Object.assign({}, config.wan);
-      }
       return result;
     },
     setWIFI(ssid, pwd) {

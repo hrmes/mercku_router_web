@@ -50,11 +50,12 @@
 <script>
 export default {
   data() {
+    const config = this.routerConfig.getConfig();
     return {
       checked: true,
-      ssid: this.routerConfig.getConfig().wifi.ssid || '',
-      pwd: this.routerConfig.getConfig().wifi.password || '',
-      adminPwd: this.routerConfig.getConfig().admin.password || '',
+      ssid: config.wifi.ssid,
+      pwd: config.wifi.password,
+      adminPwd: config.admin.password,
       showPwd: false,
       showAdminPwd: false,
       InputTypes: {
