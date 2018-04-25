@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import { Button, Field, Icon, Checkbox, Dialog, Cell, CellGroup, Toast } from 'vant';
 import FastClick from 'fastclick';
+// vant local icon font
+import 'vant/lib/vant-css/icon-local.css';
+
 import { changeLanguage, i18n } from './i18n';
 import App from './App.vue';
 import router from './router';
