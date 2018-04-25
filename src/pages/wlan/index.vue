@@ -13,7 +13,7 @@
           <van-field :type="showPwd?InputTypes.text:InputTypes.password" v-model="pwd" :placeholder="$t('trans0003')" />
         </div>
         <div class="pwd-preview">
-          <i class="i" :class="{'i-open':!showPwd,'i-close':showPwd}" @click="changePwdStatus"></i>
+          <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
         </div>
       </div>
       <div class="check-container">
@@ -24,7 +24,7 @@
           <van-field :type="showAdminPwd?InputTypes.text:InputTypes.password" v-model="adminPwd" :placeholder="$t('trans0067')" />
         </div>
         <div class="adminpwd-preview">
-          <i class="i" :class="{'i-open':!showAdminPwd,'i-close':showAdminPwd}" @click="changeAdminPwdStatus"></i>
+          <i class="i" :class="{'i-open':showAdminPwd,'i-close':!showAdminPwd}" @click="changeAdminPwdStatus"></i>
         </div>
       </div>
       <div class="timezone-container">
