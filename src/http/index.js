@@ -69,7 +69,7 @@ const http = {
     return axios.post(methods.update.url, {
       method: methods.update.action,
       params: {
-        conf
+        config: conf
       }
     });
   },
