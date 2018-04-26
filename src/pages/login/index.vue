@@ -37,7 +37,10 @@ export default {
     if (this.webview) {
       this.option.left = {
         icon: true,
-        text: 'arrow-left'
+        text: 'arrow-left',
+        click: () => {
+          this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+        }
       };
     }
     // 进入登录页面后，首先尝试用默认密码登录一次
