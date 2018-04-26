@@ -2,36 +2,34 @@ import axios from 'axios';
 
 // axios.defaults.headers['content-type'] = 'application/json';
 
-const mockServer = 'https://mock.hyku.org/api';
 const url = '/app';
-const develop = process.env.NODE_ENV === 'development';
 const methods = {
   checkLogin: {
-    url: develop ? `${mockServer}/app1` : url,
+    url,
     action: 'router.check_login'
   },
   login: {
-    url: develop ? `${mockServer}/app2` : url,
+    url,
     action: 'router.login'
   },
   isinitial: {
-    url: develop ? `${mockServer}/app3` : url,
+    url,
     action: 'router.is_initial'
   },
   update: {
-    url: develop ? `${mockServer}/app4` : url,
+    url,
     action: 'router.config.update'
   },
   testWan: {
-    url: develop ? `${mockServer}/app5` : url,
+    url,
     action: 'router.is_wan_connected'
   },
   getTimezone: {
-    url: develop ? `${mockServer}/app6` : url,
+    url,
     action: 'router.timezone.get'
   },
   getWIFI: {
-    url: develop ? `${mockServer}/app7` : url,
+    url,
     action: 'router.wifi.get'
   }
 };

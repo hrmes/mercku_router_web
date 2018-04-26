@@ -86,10 +86,12 @@ export default {
     this.$http
       .getWIFI()
       .then(res => {
-        const result = res.data;
+        const { result } = res.data;
         this.ssid = result.ssid;
         this.pwd = result.password;
+        this.adminPwd = result.admin_password;
         this.routerConfig.setWIFI(result.ssid, result.password);
+        this.routerConfig.setAdminPwd(this.adminPwd);
       })
       .catch(err => {
         if (err && err.error) {

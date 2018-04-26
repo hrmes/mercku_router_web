@@ -40,8 +40,8 @@ module.exports = {
 
     cssSourceMap: true,
     proxyTable: {
-      '/api': {
-        target: 'https://mock.hyku.org',
+      '/app': {
+        target: 'http://mywifi.mercku.tech',
         changeOrigin: true,
         secure: true
       }
