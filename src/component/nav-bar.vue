@@ -89,10 +89,12 @@ export default {
 
 .header-container {
   min-height: 0.44rem;
-  position: relative;
+  width: 100%;
+  position: absolute;
   background: rgb(16, 16, 16);
   top: 0;
   box-sizing: border-box;
+  z-index: 1000;
 
   .status {
     height: 0.2rem;
