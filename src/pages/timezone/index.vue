@@ -58,6 +58,7 @@ export default {
   .list-container {
     height: 100%;
     .list {
+      padding-bottom: 0.1rem; // for iphonex
       .timezone {
         padding: 0.1rem 0.15rem;
         font-size: 0.12rem;
