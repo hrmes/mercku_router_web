@@ -216,7 +216,7 @@ export default {
       }
       .timezone-info {
         position: absolute;
-        right: 20px;
+        right: 0.2rem;
       }
       .icon-right {
         position: absolute;
@@ -239,7 +239,7 @@ export default {
       .pwd-input,
       .adminpwd-input {
         width: 100%;
-        padding-right: 20px;
+        padding-right: 0.2rem;
         box-sizing: border-box;
       }
       .ssid-preview,

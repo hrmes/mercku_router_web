@@ -109,7 +109,7 @@ export default {
     position: relative;
     .pwd-input {
       width: 100%;
-      padding-right: 20px;
+      padding-right: 0.2rem;
       box-sizing: border-box;
     }
     .pwd-preview {

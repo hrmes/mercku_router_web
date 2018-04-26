@@ -85,11 +85,10 @@ export default {
 };
 </script>
 <style lang="scss" type="text/scss" scoped>
-@import '../util/iphonex.scss';
-
 .header-container {
   min-height: 0.44rem;
-  width: 100%;
+  left: 0.2rem;
+  right: 0.2rem;
   position: absolute;
   background: rgb(16, 16, 16);
   top: 0;
@@ -106,21 +105,19 @@ export default {
 
     .left {
       z-index: 1111;
-      position: absolute;
       line-height: 0.44rem;
-      left: 0.15rem;
       width: 0.5rem;
-      font-size: 12px;
+      font-size: 0.12rem;
       height: 0.44rem;
+      display: inline-block;
 
       /*top: .2rem;*/
       i {
-        width: 0.12rem;
-        height: 0.2rem;
-        font-size: 0.16rem;
+        font-size: 0.19rem;
         position: absolute;
         top: 0.12rem;
         color: #d5b884;
+        font-weight: 900;
       }
 
       :active {
@@ -134,7 +131,7 @@ export default {
 
     .center {
       text-align: center;
-      width: 100%;
+
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -142,12 +139,16 @@ export default {
       color: #d5b884;
       height: 0.44rem;
       position: absolute;
+      left: 0.5rem;
+      right: 0.5rem;
       line-height: 0.44rem;
+      display: inline-block;
     }
 
     .right {
       z-index: 1111;
       position: absolute;
+      display: inline-block;
       right: 0;
       font-size: 0.14rem;
       color: #d5b884;
@@ -155,6 +156,7 @@ export default {
       height: 0.44rem;
       /*top: .2rem;*/
       line-height: 0.44rem;
+      width: 0.5rem;
 
       :active {
         color: #ffdea1;

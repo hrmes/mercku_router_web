@@ -73,7 +73,6 @@ export default {
   }
   .item {
     height: 0.8rem;
-    /*border: 1px solid red;*/
     width: 100%;
     display: table;
     &:active {
