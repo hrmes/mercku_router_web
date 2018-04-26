@@ -52,7 +52,8 @@ const launch = () => {
   Vue.prototype.$confirm = Dialog.confirm;
   Vue.prototype.webview = (() => {
     const qs = window.location.search.substring(1);
-    if (qs && qs.includes('fromapp=1')) {
+    // use indexOf instead includes
+    if (qs && qs.indexOf('fromapp=1') > -1) {
       return true;
     }
     return false;

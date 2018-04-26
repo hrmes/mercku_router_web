@@ -23,7 +23,7 @@ export default {
       rem = needWidth / 3.75;
       rem = rem > 100 ? 100 : rem;
       // const rem = width / 3.75;
-      rootStyle = `html{font-size:${rem}px !important;width:${needWidth}px !important}`;
+      rootStyle = `html{font-size:${rem}px !important;width:${needWidth}px !important;height:${height}px !important}`;
       rootItem = document.getElementById('rootsize') || document.createElement('style');
       if (!document.getElementById('rootsize')) {
         document.getElementsByTagName('head')[0].appendChild(rootItem);
@@ -42,14 +42,14 @@ export default {
     }
 
     refreshRem();
-    win.addEventListener(
-      'resize',
-      () => {
-        clearTimeout(tid);
-        tid = setTimeout(refreshRem, 300);
-      },
-      false
-    );
+    // win.addEventListener(
+    //   'resize',
+    //   () => {
+    //     clearTimeout(tid);
+    //     tid = setTimeout(refreshRem, 300);
+    //   },
+    //   false
+    // );
 
     win.addEventListener(
       'pageshow',

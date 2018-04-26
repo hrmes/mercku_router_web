@@ -29,10 +29,19 @@ const methods = {
   getTimezone: {
     url: develop ? `${mockServer}/app6` : url,
     action: 'router.timezone.get'
+  },
+  getWIFI: {
+    url: develop ? `${mockServer}/app7` : url,
+    action: 'router.wifi.get'
   }
 };
 
 const http = {
+  getWIFI() {
+    return axios.post(methods.getWIFI.url, {
+      method: methods.getWIFI.action
+    });
+  },
   checkLogin() {
     return axios.post(methods.checkLogin.url, {
       method: methods.checkLogin.action
