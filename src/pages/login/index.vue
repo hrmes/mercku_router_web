@@ -91,6 +91,7 @@ export default {
   padding: 0rem 0.2rem;
   background: url(../../../static/img_bg_login.png);
   background-size: 100%;
+  background-repeat: no-repeat;
   .bg-container {
     height: 3rem;
     background-size: 100% 100%;
