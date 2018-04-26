@@ -14,3 +14,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 /web-dev.tar
+/www_files.tar.bz2
