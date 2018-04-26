@@ -52,7 +52,7 @@ export default {
   data() {
     const config = this.routerConfig.getConfig();
     return {
-      checked: true,
+      checked: false,
       ssid: config.wifi.ssid,
       pwd: config.wifi.password,
       adminPwd: config.admin.password,

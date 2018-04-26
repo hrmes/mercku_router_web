@@ -22,4 +22,7 @@ dev: package.json check_npm_version
 build: check_npm_version
 	npm run build
 
-.PHONY: all build depend check_npm_version dev build
+tar: dev build
+	tar cf web-dev.tar -C dist .
+
+.PHONY: all build depend check_npm_version dev build tar
