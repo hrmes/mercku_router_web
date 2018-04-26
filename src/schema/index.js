@@ -73,10 +73,11 @@ const routerConfig = () => {
       if (!Object.keys(wanType).includes(type)) {
         console.log('wan type not support!');
       } else {
-        config.wan.type = type;
+        const wan = {};
+        wan.type = type;
         switch (type) {
           case wanType.static:
-            config.wan.static = {
+            wan.static = {
               ip: options.ip,
               mask: options.mask,
               gateway: options.gateway,
@@ -84,7 +85,7 @@ const routerConfig = () => {
             };
             break;
           case wanType.pppoe:
-            config.wan.pppoe = {
+            wan.pppoe = {
               account: options.account,
               password: options.password
             };
@@ -92,6 +93,7 @@ const routerConfig = () => {
           default:
             break;
         }
+        config.wan = wan;
       }
     },
     getWan() {
