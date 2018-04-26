@@ -3,9 +3,11 @@
     <nav-bar :option="option" />
     <div class="list-container" ref="wrapper">
       <div class="list">
-        <div @click="set(timezone)" class="timezone" :key="index" v-for="(timezone,index) in timezones">
-          <div class="value">{{timezone.timename}}</div>
-          <div class="label">{{timezone.name}}</div>
+        <div class="timezone" :key="index" v-for="(timezone,index) in timezones">
+          <div @click="setTimezone(timezone)">
+            <div class="value">{{timezone.timename}}</div>
+            <div class="label">{{timezone.name}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -18,7 +20,8 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.scroll = new BScroll(this.$refs.wrapper, {
-        scrollY: true
+        scrollY: true,
+        click: true
       });
     });
   },
@@ -40,7 +43,7 @@ export default {
     };
   },
   methods: {
-    set(timezone) {
+    setTimezone(timezone) {
       this.routerConfig.setTimezone(
         timezone.timename,
         timezone.name,
