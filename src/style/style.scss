@@ -96,8 +96,8 @@ body {
 }
 
 .van-button--disabled {
-  color: rgb(85, 75, 58);
-  border: 1px solid rgb(85, 75, 58);
+  color: rgb(85, 75, 58) !important;
+  border: 1px solid rgb(85, 75, 58) !important;
 }
 
 .van-button:active {
@@ -163,4 +163,34 @@ body {
   bottom: 0.5rem;
   transform: translateX(-50%);
   left: 50%;
+}
+
+.van-toast {
+  color: rgb(182, 182, 182);
+  background-color: rgba(51, 51, 51, 1);
+}
+.van-toast--default {
+  min-height: initial;
+  width: auto;
+  padding: 15px;
+}
+.van-loading__spinner.van-loading__spinner--circular {
+  display: none;
+}
+@keyframes loading {
+  0% {
+    background: url(../../static/img_loading_01@3x.png) no-repeat;
+    background-size: 100%;
+  }
+  100% {
+    background: url(../../static/img_loading_02@3x.png) no-repeat;
+    background-size: 100%;
+  }
+}
+.van-loading.van-loading--circular {
+  animation: loading 1s linear infinite;
+  background: url(../../static/img_loading_01@3x.png) no-repeat;
+  width: 120px;
+  height: 42px;
+  margin: 0;
 }

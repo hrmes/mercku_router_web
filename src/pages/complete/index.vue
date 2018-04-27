@@ -6,23 +6,28 @@
       <label class="state">{{$t('trans0170')}}</label>
       <label class="code" v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
     </div>
-    <div class="wif-info" v-if="config.wifi.ssid">
-      <div>
-        <span class="icon"></span>
-        <span class="title">{{$t('trans0168')}}</span>：
-        <span class="value">{{config.wifi.ssid}}</span>
-      </div>
-      <div>
-        <span class="icon"></span>
-        <span class="title">{{$t('trans0003')}}</span>：
-        <span class="value">{{config.wifi.password}}</span>
-      </div>
-      <div>
-        <span class="icon"></span>
-        <span class="title">{{$t('trans0067')}}</span>：
-        <span class="value">{{config.admin.password}}</span>
+    <div style="display:table;width:100%;">
+      <div style="display:table-cell;text-align:center;">
+        <div class="wif-info" v-if="config.wifi.ssid">
+          <div>
+            <span class="icon"></span>
+            <span class="title">{{$t('trans0168')}}</span>：
+            <span class="value">{{config.wifi.ssid}}</span>
+          </div>
+          <div>
+            <span class="icon"></span>
+            <span class="title">{{$t('trans0003')}}</span>：
+            <span class="value">{{config.wifi.password}}</span>
+          </div>
+          <div>
+            <span class="icon"></span>
+            <span class="title">{{$t('trans0067')}}</span>：
+            <span class="value">{{config.admin.password}}</span>
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="button-info" v-if="isWebView">
       <van-button size="normal" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'): $t('trans0233')}}
       </van-button>
@@ -91,8 +96,8 @@ export default {
   }
   .wif-info {
     margin-top: 0.4rem;
-    text-align: center;
-    width: 100%;
+    text-align: left;
+    display: inline-block;
 
     div {
       color: rgb(182, 182, 182);
@@ -109,14 +114,12 @@ export default {
 
       .title {
         display: inline-block;
-        width: 0.8rem;
         text-align: right;
       }
 
       .value {
         display: inline-block;
         text-align: left;
-        width: 1.8rem;
       }
     }
   }
