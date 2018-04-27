@@ -5,7 +5,7 @@ import { changeLanguage, i18n } from './i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
-import { http, configResponseInterceptors } from './http';
+import { http, configResponseInterceptors, configRequestInterceptors } from './http';
 import util from './util/util';
 import nav from './component/nav-bar.vue';
 
@@ -23,14 +23,41 @@ Vue.prototype.$toast = Toast;
 
 Vue.use(Cell);
 Vue.use(CellGroup);
+const loader = {
+  open: false,
+  instance: null
+};
 const launch = () => {
   FastClick.attach(document.body);
-  configResponseInterceptors(
-    res => res,
+  configRequestInterceptors(
+    config => {
+      loader.instance = Toast.loading({
+        mask: true,
+        message: '',
+        duration: 0,
+        forbidClick: true
+      });
+      loader.open = true;
+      return config;
+    },
     error => {
-      // test translate
-      // console.log(translate('trans0001'));
-      // Do something with response error
+      if (loader.open) {
+        loader.instance.clear();
+      }
+      return Promise.reject(error);
+    }
+  );
+  configResponseInterceptors(
+    res => {
+      if (loader.open) {
+        loader.instance.clear();
+      }
+      return res;
+    },
+    error => {
+      if (loader.open) {
+        loader.instance.clear();
+      }
       if (error.response) {
         switch (error.response.status) {
           case 401:

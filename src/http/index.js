@@ -111,4 +111,11 @@ const configResponseInterceptors = (success, error) => {
   const errorCallback = error || noop;
   axios.interceptors.response.use(successCallback, errorCallback);
 };
-export { http, configResponseInterceptors };
+
+const configRequestInterceptors = (before, error) => {
+  const noop = res => res;
+  const beforeFn = before || noop;
+  const errorCallback = error || noop;
+  axios.interceptors.request.use(beforeFn, errorCallback);
+};
+export { http, configResponseInterceptors, configRequestInterceptors };

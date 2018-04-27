@@ -48,16 +48,9 @@ export default {
   },
   methods: {
     login(pwd) {
-      const loader = this.$toast.loading({
-        mask: true,
-        message: '',
-        duration: 0,
-        forbidClick: true
-      });
       this.$http
         .login(pwd)
         .then(() => {
-          loader.clear();
           if (this.$router.returnUrl) {
             window.location.href = this.$router.returnUrl;
           } else {
@@ -66,7 +59,6 @@ export default {
           //
         })
         .catch(err => {
-          loader.clear();
           if (pwd) {
             if (err && err.error) {
               // 弹出错误提示
@@ -75,8 +67,6 @@ export default {
               this.$toast(this.$t('trans0039'));
             }
           }
-
-          //
         });
     },
 
