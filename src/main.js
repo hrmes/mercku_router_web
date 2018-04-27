@@ -31,6 +31,8 @@ const launch = () => {
   FastClick.attach(document.body);
   configRequestInterceptors(
     config => {
+      const conf = config;
+      conf.timeout = 20000; // add timeout
       loader.instance = Toast.loading({
         mask: true,
         message: '',
@@ -38,7 +40,7 @@ const launch = () => {
         forbidClick: true
       });
       loader.open = true;
-      return config;
+      return conf;
     },
     error => {
       if (loader.open) {
