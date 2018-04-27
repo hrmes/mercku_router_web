@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import 'babel-polyfill';
 import { Button, Field, Icon, Checkbox, Dialog, Cell, CellGroup, Toast } from 'vant';
 import FastClick from 'fastclick';
 import { changeLanguage, i18n } from './i18n';
@@ -79,10 +80,10 @@ const launch = () => {
   // get querystring
   const qs = window.location.search.substring(1);
   // set language
-  changeLanguage(qs.indexOf('lang=zh') > -1 ? 'zh-CN' : 'en-US');
+  changeLanguage(qs.includes('lang=zh') ? 'zh-CN' : 'en-US');
   Vue.prototype.webview = (() => {
     // use indexOf instead includes
-    if (qs && qs.indexOf('fromapp=1') > -1) {
+    if (qs && qs.includes('fromapp=1')) {
       return true;
     }
     return false;
