@@ -1,4 +1,3 @@
-
 const utils = require('./utils');
 const webpack = require('webpack');
 const config = require('../config');
@@ -51,7 +50,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
-      inject: true
+      inject: true,
+      favicon: 'static/favicon.ico'
     })
     // copy custom static assets
     // new CopyWebpackPlugin([
