@@ -87,8 +87,8 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .header-container {
   min-height: 0.44rem;
-  left: 0.2rem;
-  right: 0.2rem;
+  left: 0;
+  right: 0;
   position: fixed;
   background: rgb(16, 16, 16);
   top: 0;
@@ -106,10 +106,11 @@ export default {
     .left {
       z-index: 1111;
       line-height: 0.44rem;
-      width: 0.5rem;
+      width: 0.29rem;
       font-size: 0.12rem;
       height: 0.44rem;
       display: inline-block;
+      padding-left: 0.15rem;
 
       /*top: .2rem;*/
       i {
@@ -157,6 +158,7 @@ export default {
       /*top: .2rem;*/
       line-height: 0.44rem;
       width: 0.5rem;
+      padding-right: 0.15rem;
 
       :active {
         color: #ffdea1;

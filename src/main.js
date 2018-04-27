@@ -47,8 +47,11 @@ const launch = () => {
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.routerConfig = schema;
   Vue.prototype.$confirm = Dialog.confirm;
+  // get querystring
+  const qs = window.location.search.substring(1);
+  // set language
+  changeLanguage(qs.indexOf('lang=zh') > -1 ? 'zh-CN' : 'en-US');
   Vue.prototype.webview = (() => {
-    const qs = window.location.search.substring(1);
     // use indexOf instead includes
     if (qs && qs.indexOf('fromapp=1') > -1) {
       return true;
