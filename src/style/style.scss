@@ -189,7 +189,8 @@ body {
 }
 .van-loading.van-loading--circular {
   animation: loading 1s linear infinite;
-  background: url(../../static/img_loading_01@3x.png) no-repeat;
+  background-size: 100%;
+  background-repeat: no-repeat;
   width: 120px;
   height: 42px;
   margin: 0;
