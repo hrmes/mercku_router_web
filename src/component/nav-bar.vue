@@ -89,7 +89,7 @@ export default {
   min-height: 0.44rem;
   left: 0.2rem;
   right: 0.2rem;
-  position: absolute;
+  position: fixed;
   background: rgb(16, 16, 16);
   top: 0;
   box-sizing: border-box;
