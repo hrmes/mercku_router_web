@@ -9,6 +9,6 @@ describe('util.js', () => {
     expect(ipRexp('')).to.be.false;
   });
   it('is not ip', () => {
-    expect(ipRexp('255.255.255.255')).to.be.false;
+    expect(ipRexp('255.255.255.256')).to.be.false;
   });
 });
