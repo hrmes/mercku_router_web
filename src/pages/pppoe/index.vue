@@ -75,7 +75,7 @@ export default {
     height: 0.5rem;
     line-height: 0.5rem;
     font-size: 0.12rem;
-    text-align: center;
+    text-align: left;
     color: rgb(124, 124, 124);
     background: rgb(0, 0, 0);
   }
