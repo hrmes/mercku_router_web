@@ -82,25 +82,28 @@ export default {
         }
       };
     }
-    // 获取之前的wifi信息
-    this.$http
-      .getWIFI()
-      .then(res => {
-        const { result } = res.data;
-        this.ssid = result.ssid;
-        this.pwd = result.password;
-        this.adminPwd = result.admin_password;
-        this.routerConfig.setWIFI(result.ssid, result.password);
-        this.routerConfig.setAdminPwd(this.adminPwd);
-      })
-      .catch(err => {
-        if (err && err.error) {
-          // 弹出错误提示
-          this.$toast(this.$t(err.error.code));
-        } else {
-          this.$toast(this.$t('trans0039'));
-        }
-      });
+    // 没有设置wifi信息，从服务器拉取
+    if (!this.ssid) {
+      this.$http
+        .getWIFI()
+        .then(res => {
+          const { result } = res.data;
+          this.ssid = result.ssid;
+          this.pwd = result.password;
+          this.adminPwd = result.admin_password;
+          this.routerConfig.setWIFI(result.ssid, result.password);
+          this.routerConfig.setAdminPwd(this.adminPwd);
+        })
+        .catch(err => {
+          if (err && err.error) {
+            // 弹出错误提示
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
+          }
+        });
+    }
+
     // 如果没有时区，从服务器获取
     if (!this.timezone.timezone) {
       this.$http

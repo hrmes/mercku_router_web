@@ -11,17 +11,17 @@
         <div class="wif-info" v-if="config.wifi.ssid">
           <div>
             <span class="icon"></span>
-            <span class="title">{{$t('trans0168')}}</span>：
+            <span class="title">{{$t('trans0168')}}</span>:
             <span class="value">{{config.wifi.ssid}}</span>
           </div>
           <div>
             <span class="icon"></span>
-            <span class="title">{{$t('trans0003')}}</span>：
+            <span class="title">{{$t('trans0003')}}</span>:
             <span class="value">{{config.wifi.password}}</span>
           </div>
           <div>
             <span class="icon"></span>
-            <span class="title">{{$t('trans0067')}}</span>：
+            <span class="title">{{$t('trans0067')}}</span>:
             <span class="value">{{config.admin.password}}</span>
           </div>
         </div>
@@ -69,7 +69,7 @@ export default {
   padding-left: 0.15rem;
 
   .status-info {
-    margin-top: 0.6rem;
+    margin-top: 0.9rem;
     text-align: center;
 
     .icon {
@@ -95,21 +95,23 @@ export default {
     }
   }
   .wif-info {
-    margin-top: 0.4rem;
+    margin-top: 0.5rem;
     text-align: left;
     display: inline-block;
 
     div {
       color: rgb(182, 182, 182);
       font-weight: 100;
-      line-height: 0.3rem;
+      margin-bottom: 0.1rem;
       font-size: 0.16rem;
 
       .icon {
-        border: 0.03rem solid rgb(213, 184, 132);
         display: inline-block;
-        border-radius: 0.03rem;
+        width: 0.05rem;
+        height: 0.05rem;
+        border-radius: 50%;
         margin-bottom: 0.02rem;
+        margin-right: 0.08rem;
       }
 
       .title {
@@ -120,6 +122,7 @@ export default {
       .value {
         display: inline-block;
         text-align: left;
+        margin-left: 0.05rem;
       }
     }
   }
