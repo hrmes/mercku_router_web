@@ -78,6 +78,7 @@ export default {
     text-align: left;
     color: rgb(124, 124, 124);
     background: rgb(0, 0, 0);
+    padding: 0.1rem 0.15rem;
   }
 
   .form {
