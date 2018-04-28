@@ -61,12 +61,12 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .wan-hand-container {
   .message {
-    height: 0.5rem;
-    line-height: 0.5rem;
+    line-height: 1.8;
     font-size: 0.12rem;
-    text-align: center;
+    text-align: left;
     color: rgb(124, 124, 124);
     background: rgb(0, 0, 0);
+    padding: 0.1rem 0.15rem;
   }
   .list {
     margin-top: 0.2rem;

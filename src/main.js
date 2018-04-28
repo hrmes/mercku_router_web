@@ -30,17 +30,21 @@ const loader = {
 };
 const launch = () => {
   FastClick.attach(document.body);
+  const NO_LOADING_METHODS = ['router.check_login', 'router.is_wan_connected'];
   configRequestInterceptors(
     config => {
       const conf = config;
       conf.timeout = 20000; // add timeout
-      loader.instance = Toast.loading({
-        mask: true,
-        message: '',
-        duration: 0,
-        forbidClick: true
-      });
-      loader.open = true;
+      // 添加不显示loading的例外
+      if (!NO_LOADING_METHODS.includes(conf.data.method)) {
+        loader.instance = Toast.loading({
+          mask: true,
+          message: '',
+          duration: 0,
+          forbidClick: true
+        });
+        loader.open = true;
+      }
       return conf;
     },
     error => {

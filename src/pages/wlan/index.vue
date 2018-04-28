@@ -27,9 +27,9 @@
           <i class="i" :class="{'i-open':showAdminPwd,'i-close':!showAdminPwd}" @click="changeAdminPwdStatus"></i>
         </div>
       </div>
-      <div class="timezone-container">
+      <div class="timezone-container" @click="selectTimezone">
         <label class="timezone-left">{{$t('trans0272')}}</label>
-        <div class="right-container" @click="selectTimezone">
+        <div class="right-container">
           <div class="timezone-info">
             <div class="timezone-value">{{timezone.timename}}</div>
             <div class="timezone-name">{{timezone.name}}</div>
@@ -204,6 +204,12 @@ export default {
 
   .wlan-settings {
     padding: 0 0.2rem;
+    // .timezone-container {
+    //   &:active {
+    //     background: #000;
+    //     opacity: 0.9;
+    //   }
+    // }
     .ssid-container,
     .pwd-container,
     .adminpwd-container,
@@ -255,6 +261,7 @@ export default {
         width: 0.2rem;
         text-align: center;
       }
+
       .timezone-left {
         display: inline-block;
         line-height: 0.3rem;

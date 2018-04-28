@@ -21,7 +21,8 @@ export default {
     this.$nextTick(() => {
       this.scroll = new BScroll(this.$refs.wrapper, {
         scrollY: true,
-        click: true
+        click: true,
+        tap: true
       });
     });
   },
@@ -65,6 +66,10 @@ export default {
       .timezone {
         padding: 0.1rem 0.15rem;
         font-size: 0.12rem;
+        &:active {
+          background: rgb(0, 0, 0);
+          opacity: 0.9;
+        }
       }
     }
   }
