@@ -110,8 +110,7 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .static-ip-container {
   .message {
-    height: 0.5rem;
-    line-height: 0.5rem;
+    line-height: 1.8;
     font-size: 0.12rem;
     text-align: left;
     color: rgb(124, 124, 124);
