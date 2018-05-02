@@ -18,11 +18,14 @@ export default {
     this.$http
       .testWan()
       .then(res => {
-        if (res.data.result) {
-          this.$router.replace({ path: '/wan-success' });
-        } else {
-          this.$router.replace('/wan-fail/1');
-        }
+        const timer = setTimeout(() => {
+          clearTimeout(timer);
+          if (res.data.result) {
+            this.$router.replace({ path: '/wan-success' });
+          } else {
+            this.$router.replace('/wan-fail/1');
+          }
+        }, 3000);
       })
       .catch(err => {
         if (err && err.error) {

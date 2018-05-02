@@ -132,6 +132,7 @@ export default {
           this.timezone.timezone = timezone.timezone;
         })
         .catch(err => {
+          debugger;
           if (err && err.error) {
             // 弹出错误提示
             this.$toast(this.$t(err.error.code));
@@ -158,6 +159,7 @@ export default {
         this.$toast(this.$t('trans0139'));
         return;
       }
+      //用aa替换中文字符，便于计算长度
       const { length } = this.ssid.replace(/[\u0391-\uFFE5]/g, 'aa');
       if (length > 20 || length < 1) {
         this.$toast(this.$t('trans0261'));
