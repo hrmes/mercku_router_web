@@ -111,6 +111,7 @@ export default {
       height: 0.44rem;
       display: inline-block;
       padding-left: 0.15rem;
+      padding-right: 0.15rem;
 
       /*top: .2rem;*/
       i {
@@ -119,14 +120,15 @@ export default {
         top: 0.12rem;
         color: #d5b884;
         font-weight: 900;
+        // z-index: -1;
       }
 
-      :active {
-        color: #ffdea1;
-      }
-
-      :hover {
-        color: #ffdda1;
+      &:active {
+        i {
+          color: #ffdea1;
+          opacity: 0.5;
+        }
+        // background: red;
       }
     }
 
