@@ -14,19 +14,8 @@ export default {
       transitionName: 'slide-left'
     };
   },
-  mounted() {
-    this.$http
-      .checkLogin()
-      .then(res => res)
-      .catch(() => {
-        // 用户未登录
-        this.$router.returnUrl = window.location.href;
-        this.$router.replace({ path: '/login' });
-      });
-  },
   watch: {
     $route(to, from) {
-      // console.log(to.path);
       if (
         to.path === '/wan-hand' &&
         ['/pppoe', '/dhcp', '/static-ip'].includes(from.path)

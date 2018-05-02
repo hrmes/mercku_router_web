@@ -133,7 +133,6 @@ export default {
         })
         .catch(err => {
           if (err && err.error) {
-            console.log(this);
             // 弹出错误提示
             this.$toast(this.$t(err.error.code));
           } else {

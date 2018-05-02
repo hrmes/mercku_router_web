@@ -32,7 +32,7 @@ export default {
       }
     };
   },
-  mounted() {
+  created() {
     if (this.webview) {
       this.option.left = {
         icon: true,
@@ -42,8 +42,6 @@ export default {
         }
       };
     }
-    // 进入登录页面后，首先尝试用默认密码登录一次
-    this.login('');
   },
   methods: {
     login(pwd) {
@@ -58,13 +56,11 @@ export default {
           //
         })
         .catch(err => {
-          if (pwd) {
-            if (err && err.error) {
-              // 弹出错误提示
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$toast(this.$t('trans0039'));
-            }
+          if (err && err.error) {
+            // 弹出错误提示
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
           }
         });
     },

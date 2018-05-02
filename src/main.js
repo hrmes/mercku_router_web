@@ -16,10 +16,6 @@ Vue.use(Icon);
 Vue.use(Checkbox);
 Vue.component('nav-bar', nav);
 
-// debugger;
-// Toast.setDefaultOptions({
-//   duration: 5000
-// });
 Vue.prototype.$toast = Toast;
 
 Vue.use(Cell);
@@ -31,12 +27,18 @@ const loader = {
 const launch = () => {
   FastClick.attach(document.body);
   const NO_LOADING_METHODS = ['router.check_login', 'router.is_wan_connected'];
+  const ROUTER_LOGIN = 'router.login';
   configRequestInterceptors(
     config => {
       const conf = config;
       conf.timeout = 20000; // add timeout
       // 添加不显示loading的例外
-      if (!NO_LOADING_METHODS.includes(conf.data.method)) {
+      if (
+        !(
+          NO_LOADING_METHODS.includes(conf.data.method) ||
+          (conf.data.method === ROUTER_LOGIN && !conf.data.params.admin_password)
+        )
+      ) {
         loader.instance = Toast.loading({
           mask: true,
           message: '',
@@ -94,6 +96,32 @@ const launch = () => {
   })();
   util.adapt(375, 375);
 
+  let loginChecked = false;
+  router.beforeEach((to, form, next) => {
+    console.log('router beforeeach');
+
+    if (!loginChecked) {
+      http.checkLogin().then(res => {
+        if (!res.data.result) {
+          // 未登录
+          http
+            .login('')
+            .then(() => {
+              next();
+            })
+            .catch(() => {
+              router.returnUrl = window.location.href;
+              next({ path: '/login' });
+            });
+        } else {
+          next();
+        }
+      });
+    } else {
+      next();
+    }
+    loginChecked = true;
+  });
   new Vue({
     el: '#app',
     i18n,
