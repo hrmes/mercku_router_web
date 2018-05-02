@@ -132,8 +132,8 @@ export default {
           this.timezone.timezone = timezone.timezone;
         })
         .catch(err => {
-          debugger;
           if (err && err.error) {
+            console.log(this);
             // 弹出错误提示
             this.$toast(this.$t(err.error.code));
           } else {
@@ -166,14 +166,14 @@ export default {
         return;
       }
 
-      if (!/[\w\d]{8,24}/g.test(this.pwd)) {
+      if (!/[a-zA-Z0-9\W_]{8,24}/g.test(this.pwd)) {
         /\s/g.test(this.pwd)
           ? this.$toast(this.$t('trans0237'))
           : this.$toast(this.$t('trans0169'));
         return;
       }
 
-      if (!this.checked && !/[\w\d]{8,24}/g.test(this.adminPwd)) {
+      if (!this.checked && !/[a-zA-Z0-9\W_]{8,24}/g.test(this.adminPwd)) {
         /\s/g.test(this.adminPwd)
           ? this.$toast(this.$t('trans0237'))
           : this.$toast(this.$t('trans0169'));
