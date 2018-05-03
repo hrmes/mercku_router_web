@@ -34,6 +34,7 @@ const launch = () => {
       conf.timeout = 20000; // add timeout
       // 添加不显示loading的例外
       if (
+        !loader.instance &&
         !(
           NO_LOADING_METHODS.includes(conf.data.method) ||
           (conf.data.method === ROUTER_LOGIN && !conf.data.params.admin_password)
@@ -52,6 +53,8 @@ const launch = () => {
     error => {
       if (loader.open) {
         loader.instance.clear();
+        loader.open = false;
+        loader.instance = null;
       }
       return Promise.reject(error);
     }
@@ -60,16 +63,21 @@ const launch = () => {
     res => {
       if (loader.open) {
         loader.instance.clear();
+        loader.open = false;
+        loader.instance = null;
       }
       return res;
     },
     error => {
       if (loader.open) {
         loader.instance.clear();
+        loader.open = false;
+        loader.instance = null;
       }
       if (error.response) {
         switch (error.response.status) {
           case 401:
+            router.returnUrl = window.location.href;
             window.location.hash = '#/login';
             break;
           default:
@@ -110,7 +118,6 @@ const launch = () => {
               next();
             })
             .catch(() => {
-              router.returnUrl = window.location.href;
               next({ path: '/login' });
             });
         } else {

@@ -132,6 +132,7 @@ export default {
           this.timezone.timezone = timezone.timezone;
         })
         .catch(err => {
+          console.log(err);
           if (err && err.error) {
             // 弹出错误提示
             this.$toast(this.$t(err.error.code));
