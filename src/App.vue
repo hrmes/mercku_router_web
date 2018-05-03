@@ -16,17 +16,21 @@ export default {
   },
   watch: {
     $route(to, from) {
-      if (
-        to.path === '/wan-hand' &&
-        ['/pppoe', '/dhcp', '/static-ip'].includes(from.path)
-      ) {
-        this.transitionName = 'slide-right';
-      } else if (to.path === '/welcome') {
-        this.transitionName = 'slide-right';
+      if (this.webview) {
+        if (
+          to.path === '/wan-hand' &&
+          ['/pppoe', '/dhcp', '/static-ip'].includes(from.path)
+        ) {
+          this.transitionName = 'slide-right';
+        } else if (to.path === '/welcome') {
+          this.transitionName = 'slide-right';
+        } else {
+          this.transitionName = 'slide-left';
+        }
       } else {
-        this.transitionName = 'slide-left';
+        this.transitionName = '';
       }
-      // console.log(this.transitionName);
+      console.log('animation name is:', this.transitionName);
     }
   }
 };
