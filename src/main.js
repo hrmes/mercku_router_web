@@ -108,7 +108,8 @@ const launch = () => {
   router.beforeEach((to, form, next) => {
     console.log('router beforeeach');
 
-    if (!loginChecked) {
+    // 欢迎页不需要检查登录
+    if (to.path !== '/welcome' && !loginChecked) {
       http.checkLogin().then(res => {
         if (!res.data.result) {
           // 未登录
