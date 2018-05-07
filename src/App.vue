@@ -30,7 +30,6 @@ export default {
       } else {
         this.transitionName = '';
       }
-      console.log('animation name is:', this.transitionName);
     }
   }
 };

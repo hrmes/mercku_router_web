@@ -105,11 +105,14 @@ const launch = () => {
   util.adapt(375, 375);
 
   let loginChecked = false;
+  const Pages = {
+    welcome: '/welcome',
+    login: '/login',
+    wlan: '/wlan'
+  };
   router.beforeEach((to, form, next) => {
-    console.log('router beforeeach');
-
     // 欢迎页不需要检查登录
-    if (to.path !== '/welcome' && !loginChecked) {
+    if (to.path !== Pages.welcome && !loginChecked) {
       loginChecked = true;
       http.checkLogin().then(res => {
         if (!res.data.result) {
@@ -117,18 +120,18 @@ const launch = () => {
           http
             .login('')
             .then(() => {
-              if (to.path === '/login') {
-                next({ path: '/wlan' });
+              if (to.path === Pages.login) {
+                next({ path: Pages.wlan });
               } else {
                 next();
               }
             })
             .catch(() => {
-              next({ path: '/login' });
+              next({ path: Pages.login });
             });
         } else {
-          if (to.path === '/login') {
-            next({ path: '/wlan' });
+          if (to.path === Pages.login) {
+            next({ path: Pages.wlan });
           }
           next();
         }
