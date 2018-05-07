@@ -110,25 +110,32 @@ const launch = () => {
 
     // 欢迎页不需要检查登录
     if (to.path !== '/welcome' && !loginChecked) {
+      loginChecked = true;
       http.checkLogin().then(res => {
         if (!res.data.result) {
           // 未登录
           http
             .login('')
             .then(() => {
-              next();
+              if (to.path === '/login') {
+                next({ path: '/wlan' });
+              } else {
+                next();
+              }
             })
             .catch(() => {
               next({ path: '/login' });
             });
         } else {
+          if (to.path === '/login') {
+            next({ path: '/wlan' });
+          }
           next();
         }
       });
     } else {
       next();
     }
-    loginChecked = true;
   });
   new Vue({
     el: '#app',
