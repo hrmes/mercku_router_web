@@ -1,6 +1,6 @@
 <template>
   <transition :name="transitionName">
-    <router-view class="app-container"></router-view>
+    <router-view class="app-container" :class="{'animation':isWebview}"></router-view>
   </transition>
 </template>
 <script>
@@ -13,6 +13,11 @@ export default {
     return {
       transitionName: 'slide-left'
     };
+  },
+  computed: {
+    isWebview() {
+      return this.webview;
+    }
   },
   watch: {
     $route(to, from) {

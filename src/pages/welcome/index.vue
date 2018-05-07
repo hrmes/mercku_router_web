@@ -1,7 +1,7 @@
 <template>
 
   <div class="welcome-page">
-    <nav-bar/>
+    <nav-bar :option="option" />
     <div class="banner-container">
       <p>{{$t('trans0136')}}</p>
       <img src="../../../static/img_bg_welcome_page.png" alt="">
@@ -20,6 +20,15 @@
 
 <script>
 export default {
+  data() {
+    return {
+      option: {
+        center: {
+          text: this.$t('trans0001')
+        }
+      }
+    };
+  },
   methods: {
     agree() {
       this.$router.replace({ path: '/login' });

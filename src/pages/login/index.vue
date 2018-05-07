@@ -48,10 +48,13 @@ export default {
       this.$http
         .login(pwd)
         .then(() => {
-          if (this.$router.returnUrl) {
+          if (
+            this.$router.returnUrl &&
+            !this.$router.returnUrl.includes('/welcome')
+          ) {
             window.location.href = this.$router.returnUrl;
           } else {
-            this.$router.replace({ path: '/wlan' });
+            this.$router.replace({ path: '/check-network' });
           }
           //
         })
