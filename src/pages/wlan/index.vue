@@ -52,7 +52,8 @@ export default {
   data() {
     const config = this.routerConfig.getConfig();
     return {
-      checked: config.wifi.password === config.admin.password,
+      checked:
+        config.wifi.password === config.admin.password && config.wifi.password,
       ssid: config.wifi.ssid,
       pwd: config.wifi.password,
       adminPwd: config.admin.password,
@@ -91,7 +92,8 @@ export default {
           this.ssid = result.ssid;
           this.pwd = result.password;
           this.adminPwd = result.admin_password;
-          this.checked = result.password === result.admin_password;
+          this.checked =
+            result.password === result.admin_password && result.password;
           this.routerConfig.setWIFI(result.ssid, result.password);
           this.routerConfig.setAdminPwd(this.adminPwd);
         })
