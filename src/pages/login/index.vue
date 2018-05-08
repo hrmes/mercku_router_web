@@ -48,10 +48,7 @@ export default {
       this.$http
         .login(pwd)
         .then(() => {
-          if (
-            this.$router.returnUrl &&
-            !this.$router.returnUrl.includes('/welcome')
-          ) {
+          if (this.$router.returnUrl) {
             window.location.href = this.$router.returnUrl;
           } else {
             this.$router.replace({ path: '/check-network' });

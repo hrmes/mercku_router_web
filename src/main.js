@@ -75,9 +75,13 @@ const launch = () => {
         loader.instance = null;
       }
       if (error.response) {
+        const href = window.location.href;
         switch (error.response.status) {
           case 401:
-            router.returnUrl = window.location.href;
+            // 欢迎页和登录页不记录returnURL
+            if (href.includes('/login') && href.includes('/welcome')) {
+              router.returnUrl = window.location.href;
+            }
             window.location.hash = '#/login';
             break;
           default:

@@ -31,7 +31,14 @@ export default {
   },
   methods: {
     agree() {
-      this.$router.replace({ path: '/login' });
+      this.$http
+        .login('')
+        .then(() => {
+          this.$router.replace({ path: '/wlan' });
+        })
+        .catch(() => {
+          this.$router.replace({ path: '/login' });
+        });
     }
   }
 };
