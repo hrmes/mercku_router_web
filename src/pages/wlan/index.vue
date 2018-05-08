@@ -168,17 +168,21 @@ export default {
         return;
       }
 
-      if (!/[a-zA-Z0-9\W_]{8,24}/g.test(this.pwd)) {
-        /\s/g.test(this.pwd)
-          ? this.$toast(this.$t('trans0237'))
-          : this.$toast(this.$t('trans0169'));
+      if (!/^[a-zA-Z0-9\W_]{8,24}$/g.test(this.pwd)) {
+        this.$toast(this.$t('trans0169'));
+        return;
+      }
+      if (/\s/g.test(this.pwd)) {
+        this.$toast(this.$t('trans0228'));
         return;
       }
 
-      if (!this.checked && !/[a-zA-Z0-9\W_]{8,24}/g.test(this.adminPwd)) {
-        /\s/g.test(this.adminPwd)
-          ? this.$toast(this.$t('trans0237'))
-          : this.$toast(this.$t('trans0169'));
+      if (!this.checked && !/^[a-zA-Z0-9\W_]{8,24}$/g.test(this.adminPwd)) {
+        this.$toast(this.$t('trans0169'));
+        return;
+      }
+      if (!this.checked && /\s/g.test(this.adminPwd)) {
+        this.$toast(this.$t('trans0228'));
         return;
       }
 
