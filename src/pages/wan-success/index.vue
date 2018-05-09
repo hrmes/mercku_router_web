@@ -20,7 +20,7 @@ export default {
     return {
       option: {
         center: {
-          text: this.$t('trans0142')
+          text: this.$t('trans0223')
         }
       }
     };
@@ -35,6 +35,8 @@ export default {
         .catch(err => {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
           }
         });
     }

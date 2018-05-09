@@ -189,8 +189,44 @@ body {
     background-size: 100%;
   }
 }
+@-webkit-keyframes loading {
+  0% {
+    background: url(../../static/img_loading_01@3x.png) no-repeat;
+    background-size: 100%;
+  }
+  100% {
+    background: url(../../static/img_loading_02@3x.png) no-repeat;
+    background-size: 100%;
+  }
+}
+
+@-o-keyframes loading {
+  0% {
+    background: url(../../static/img_loading_01@3x.png) no-repeat;
+    background-size: 100%;
+  }
+  100% {
+    background: url(../../static/img_loading_02@3x.png) no-repeat;
+    background-size: 100%;
+  }
+}
+
+@-moz-keyframes loading {
+  0% {
+    background: url(../../static/img_loading_01@3x.png) no-repeat;
+    background-size: 100%;
+  }
+  100% {
+    background: url(../../static/img_loading_02@3x.png) no-repeat;
+    background-size: 100%;
+  }
+}
+
 .van-loading.van-loading--circular {
   animation: loading 1s linear infinite;
+  -webkit-animation: loading 1s linear infinite;
+  -ms-animation: loading 1s linear infinite;
+  -o-animation: loading 1s linear infinite;
   background-size: 100%;
   background-repeat: no-repeat;
   width: 120px;
