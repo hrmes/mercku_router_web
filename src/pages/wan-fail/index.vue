@@ -4,7 +4,7 @@
     <div class="status-info">
       <img src="../../../static/img_bg_dhcp_02.png" alt="">
       <div class="state">{{$t('trans0180')}}</div>
-      <div class="message">{{$route.params.state==='1'?$t('trans0161'):$t('trans0182')}}</div>
+      <div class="message">{{$route.params.state==='unlinked'?$t('trans0161'):$t('trans0182')}}</div>
     </div>
     <div class="button-info">
       <van-button size="normal" @click="$router.replace('/wan-hand')">{{$t('trans0019')}}</van-button>

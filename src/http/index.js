@@ -22,7 +22,7 @@ const methods = {
   },
   testWan: {
     url,
-    action: 'router.is_wan_connected'
+    action: 'router.check_wan_status'
   },
   getTimezone: {
     url,

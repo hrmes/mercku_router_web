@@ -29,16 +29,16 @@ export default {
       .then(res => {
         const timer = setTimeout(() => {
           clearTimeout(timer);
-          if (res.data.result) {
+          if (res.data.result === 'connected') {
             this.$router.replace({ path: '/wan-success' });
           } else {
-            this.$router.replace('/wan-fail/1');
+            this.$router.replace(`/wan-fail/${res.data.result}`);
           }
         }, 3000);
       })
       .catch(err => {
         if (err && err.error) {
-          this.$router.replace(`/wan-fail}/${err.error.code}`);
+          this.$toast(this.$t(err.error.code));
         } else {
           this.$toast(this.$t('trans0039'));
         }
@@ -66,60 +66,6 @@ export default {
     background-size: 100%;
   }
 }
-@-webkit-keyframes speed-tester {
-  0% {
-    background: url(../../../static/animation/img_test_animation_01.png);
-    background-size: 100%;
-  }
-  33% {
-    background: url(../../../static/animation/img_test_animation_02.png);
-    background-size: 100%;
-  }
-  66% {
-    background: url(../../../static/animation/img_test_animation_03.png);
-    background-size: 100%;
-  }
-  100% {
-    background: url(../../../static/animation/img_test_animation_04.png);
-    background-size: 100%;
-  }
-}
-@-moz-keyframes speed-tester {
-  0% {
-    background: url(../../../static/animation/img_test_animation_01.png);
-    background-size: 100%;
-  }
-  33% {
-    background: url(../../../static/animation/img_test_animation_02.png);
-    background-size: 100%;
-  }
-  66% {
-    background: url(../../../static/animation/img_test_animation_03.png);
-    background-size: 100%;
-  }
-  100% {
-    background: url(../../../static/animation/img_test_animation_04.png);
-    background-size: 100%;
-  }
-}
-@-o-keyframes speed-tester {
-  0% {
-    background: url(../../../static/animation/img_test_animation_01.png);
-    background-size: 100%;
-  }
-  33% {
-    background: url(../../../static/animation/img_test_animation_02.png);
-    background-size: 100%;
-  }
-  66% {
-    background: url(../../../static/animation/img_test_animation_03.png);
-    background-size: 100%;
-  }
-  100% {
-    background: url(../../../static/animation/img_test_animation_04.png);
-    background-size: 100%;
-  }
-}
 .check-network-page {
   padding: 0 0.15rem;
   .test-container {
@@ -129,9 +75,6 @@ export default {
       background: url(../../../static/animation/img_test_animation_01.png);
       background-size: 100%;
       animation: speed-tester 1s linear infinite;
-      -webkit-animation: speed-tester 1s linear infinite;
-      -o-animation: speed-tester 1s linear infinite;
-      -moz-animation: speed-tester 1s linear infinite;
       margin: 0 auto;
       /*alternate*/
     }
