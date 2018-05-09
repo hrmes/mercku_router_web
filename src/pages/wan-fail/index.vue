@@ -25,12 +25,23 @@ export default {
           text: this.$t('trans0163'),
           click: () => {
             this.$confirm({
-              message: this.$t('trans0164')
+              message: this.$t('trans0164'),
+              confirmButtonText: this.$t('trans0024'),
+              cancelButtonText: this.$t('trans0025')
             })
               .then(() => {
-                this.$http.update(this.routerConfig.getConfig()).then(() => {
-                  this.$router.replace('/complete');
-                });
+                this.$http
+                  .update(this.routerConfig.getConfig())
+                  .then(() => {
+                    this.$router.replace('/complete');
+                  })
+                  .catch(err => {
+                    if (err && err.error) {
+                      this.$router.replace({ path: '/login' });
+                    } else {
+                      this.$toast(this.$t('trans0039'));
+                    }
+                  });
               })
               .catch(() => {
                 // on cancel
