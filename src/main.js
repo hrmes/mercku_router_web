@@ -26,7 +26,7 @@ const loader = {
 };
 const launch = () => {
   FastClick.attach(document.body);
-  const NO_LOADING_METHODS = ['router.check_login', 'router.is_wan_connected'];
+  const NO_LOADING_METHODS = ['router.check_login', 'router.check_wan_status'];
   const ROUTER_LOGIN = 'router.login';
   configRequestInterceptors(
     config => {
