@@ -36,8 +36,13 @@ export default {
         .then(() => {
           this.$router.replace({ path: '/wlan' });
         })
-        .catch(() => {
-          this.$router.replace({ path: '/login' });
+        .catch(err => {
+          // 能调通app但是登录错误，说明连的是本家wifi.
+          if (err && err.error) {
+            this.$router.replace({ path: '/login' });
+          } else {
+            this.$toast(this.$t('trans0039'));
+          }
         });
     }
   }
