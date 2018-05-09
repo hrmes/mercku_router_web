@@ -158,7 +158,7 @@ export default {
     },
     complete() {
       if (/^\s*$/g.test(this.ssid)) {
-        this.$toast(this.$t('trans0139'));
+        this.$toast(this.$t('trans0237'));
         return;
       }
       // 用aa替换中文字符，便于计算长度
