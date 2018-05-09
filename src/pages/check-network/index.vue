@@ -1,7 +1,7 @@
 <template>
 
   <div class="check-network-page">
-    <nav-bar></nav-bar>
+    <nav-bar :option="option"></nav-bar>
     <div class="test-container">
       <div class="tester"></div>
     </div>
@@ -14,6 +14,15 @@
 
 <script>
 export default {
+  data() {
+    return {
+      option: {
+        center: {
+          text: this.$t('trans0223')
+        }
+      }
+    };
+  },
   mounted() {
     this.$http
       .testWan()
