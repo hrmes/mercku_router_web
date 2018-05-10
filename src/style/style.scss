@@ -66,9 +66,29 @@ body {
   padding: 5px 10px 5px 0;
   .van-field__control {
     //color: rgb(124, 124, 124);
-    color: rgb(182, 182, 182);
+    color: rgb(210, 210, 210);
+    //color: green;
     background: transparent;
     font-size: 0.14rem;
+    &::-webkit-input-placeholder {
+      color: rgb(124, 124, 124) !important;
+      //color: red;
+    }
+
+    &:-moz-placeholder {
+      color: rgb(124, 124, 124) !important;
+      //color: red;
+    }
+
+    &::-moz-placeholder {
+      color: rgb(124, 124, 124) !important;
+      //color: red;
+    }
+
+    &:-ms-input-placeholder {
+      color: rgb(124, 124, 124) !important;
+      //color: red;
+    }
   }
 }
 

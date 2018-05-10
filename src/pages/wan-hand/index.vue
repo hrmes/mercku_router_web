@@ -48,7 +48,7 @@ export default {
             if (this.webview) {
               this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
             } else {
-              this.$router.replace('/wan-fail');
+              this.$router.back();
             }
           }
         }
