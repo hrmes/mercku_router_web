@@ -13,7 +13,9 @@
     "build": "node build/build.js",
     "version": "node build/version.js"
   },
-  "pre-commit": ["version"],
+  "pre-commit": [
+    "version"
+  ],
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
@@ -96,5 +98,11 @@
     "node": ">= 6.0.0",
     "npm": ">= 3.0.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8", "ios > 9", "Android > 4.2"]
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8",
+    "ios > 9",
+    "Android > 4.2"
+  ]
 }

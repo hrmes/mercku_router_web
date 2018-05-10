@@ -200,6 +200,7 @@ export default {
 </script>
 <style lang="scss" type="text/scss" scoped>
 .wlan-page {
+  position: relative;
   .header {
     height: 0.44rem;
     line-height: 0.44rem;
