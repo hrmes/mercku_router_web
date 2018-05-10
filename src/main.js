@@ -154,3 +154,4 @@ const launch = () => {
 document.addEventListener('DOMContentLoaded', () => {
   launch();
 });
+console.log('%cWeb version is : RC13', 'color:red');

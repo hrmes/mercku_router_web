@@ -42,12 +42,13 @@ export default {
           text: this.$t('trans0142')
         },
         left: {
-          icon: 'arrow-left',
+          icon: true,
+          text: 'arrow-left',
           click: () => {
             if (this.webview) {
               this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
             } else {
-              this.$router.replace('/wan-hand');
+              this.$router.replace('/wan-fail');
             }
           }
         }
