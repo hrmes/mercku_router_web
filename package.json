@@ -2,7 +2,7 @@
   "name": "mercku_web",
   "version": "1.0.0",
   "description": "mercku router setting",
-  "author": "两瓶阿萨姆丶 <vivibearsir@163.com>",
+  "author": "mercku inc.",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -10,8 +10,10 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js",
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "version": "node build/version.js"
   },
+  "pre-commit": ["version"],
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
@@ -72,6 +74,7 @@
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
     "postcss-url": "^7.2.1",
+    "pre-commit": "^1.2.2",
     "rimraf": "^2.6.0",
     "sass-loader": "^6.0.7",
     "semver": "^5.3.0",

@@ -9,6 +9,7 @@ import schema from './schema';
 import { http, configResponseInterceptors, configRequestInterceptors } from './http';
 import util from './util/util';
 import nav from './component/nav-bar.vue';
+import v from '../version.json';
 
 Vue.use(Button);
 Vue.use(Field);
@@ -155,4 +156,4 @@ document.addEventListener('DOMContentLoaded', () => {
   launch();
 });
 // 暂时先这样，最好的办法是通过pre-commit每次自动新增
-console.log('%cWeb version is : RC13', 'color:red');
+console.log(`%cWeb version is : RC${v.version}`, 'color:red');
