@@ -23,7 +23,7 @@
       </van-cell-group>
     </div>
     <div class="button-info">
-      <van-button size="normal" @click="submit()" :disabled="disabled">{{$t('trans0055')}}</van-button>
+      <van-button size="normal" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</van-button>
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
           }
         },
         center: {
-          text: this.$t('trans0148')
+          text: this.$t('trans0142')
         }
       },
       form: {

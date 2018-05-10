@@ -25,7 +25,7 @@ export default {
           }
         },
         center: {
-          text: this.$t('trans0146')
+          text: this.$t('trans0142')
         }
       }
     };
