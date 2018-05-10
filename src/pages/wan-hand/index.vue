@@ -40,20 +40,19 @@ export default {
       option: {
         center: {
           text: this.$t('trans0142')
+        },
+        left: {
+          icon: 'arrow-left',
+          click: () => {
+            if (this.webview) {
+              this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+            } else {
+              this.$router.replace('/wan-hand');
+            }
+          }
         }
       }
     };
-  },
-  methods: {},
-  mounted() {
-    if (this.webview) {
-      this.option.left = {
-        icon: 'arrow-left',
-        click: () => {
-          this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
-        }
-      };
-    }
   }
 };
 </script>
