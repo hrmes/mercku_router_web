@@ -11,21 +11,21 @@ body {
   position: relative;
   max-width: 750px;
   margin: 0 auto;
-  font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei',
-    'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
   overflow: hidden;
 }
 
 .app-container {
   width: 100%;
   height: 100%;
-
   box-sizing: border-box;
   padding-top: 0.44rem !important;
 }
+
 .animation {
   transition: all 0.5s ease;
 }
+
 .slide-left-enter,
 .slide-right-leave-active {
   opacity: 0;
@@ -42,6 +42,7 @@ body {
 
 .van-button {
   border-radius: 0.5rem;
+  line-height: 1 !important;
   background: transparent;
   color: rgb(213, 184, 132);
   border-color: rgb(213, 184, 132);
@@ -66,28 +67,20 @@ body {
   padding: 5px 10px 5px 0;
   .van-field__control {
     //color: rgb(124, 124, 124);
-    color: rgb(210, 210, 210);
-    //color: green;
+    color: rgb(210, 210, 210); //color: green;
     background: transparent;
     font-size: 0.14rem;
     &::-webkit-input-placeholder {
-      color: rgb(124, 124, 124) !important;
-      //color: red;
+      color: rgb(124, 124, 124) !important; //color: red;
     }
-
     &:-moz-placeholder {
-      color: rgb(124, 124, 124) !important;
-      //color: red;
+      color: rgb(124, 124, 124) !important; //color: red;
     }
-
     &::-moz-placeholder {
-      color: rgb(124, 124, 124) !important;
-      //color: red;
+      color: rgb(124, 124, 124) !important; //color: red;
     }
-
     &:-ms-input-placeholder {
-      color: rgb(124, 124, 124) !important;
-      //color: red;
+      color: rgb(124, 124, 124) !important; //color: red;
     }
   }
 }
@@ -98,7 +91,7 @@ body {
   color: #000;
 }
 
-.van-checkbox__control:checked + .van-icon-success {
+.van-checkbox__control:checked+.van-icon-success {
   border-color: rgb(213, 184, 132);
   background-color: rgb(213, 184, 132);
   color: rgb(14, 14, 14);
@@ -191,14 +184,17 @@ body {
   color: rgb(182, 182, 182);
   background-color: rgba(51, 51, 51, 1);
 }
+
 .van-toast--default {
   min-height: initial;
   width: auto;
   padding: 15px;
 }
+
 .van-loading__spinner.van-loading__spinner--circular {
   display: none;
 }
+
 @keyframes loading {
   0% {
     background: url(../../static/img_loading_01@3x.png) no-repeat;

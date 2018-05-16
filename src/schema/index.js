@@ -8,11 +8,11 @@ const routerConfig = () => {
     admin: {
       password: ''
     },
-    timezone: {
-      name: '',
-      timezone: '',
-      position: ''
-    },
+    // timezone: {
+    //   name: '',
+    //   timezone: '',
+    //   position: ''
+    // },
     wan: {
       type: '' // static,dhcp,pppoe
       /*
@@ -40,10 +40,10 @@ const routerConfig = () => {
         wifi: Object.assign({}, config.wifi),
         admin: Object.assign({}, config.admin),
         wan: Object.assign({}, config.wan),
-        timezone: {
-          timezone: config.timezone.timezone,
-          position: config.timezone.position
-        }
+        // timezone: {
+        //   timezone: config.timezone.timezone,
+        //   position: config.timezone.position
+        // }
       };
       return result;
     },

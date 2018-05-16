@@ -27,7 +27,7 @@
           <i class="i" :class="{'i-open':showAdminPwd,'i-close':!showAdminPwd}" @click="changeAdminPwdStatus"></i>
         </div>
       </div>
-      <div class="timezone-container" @click="selectTimezone">
+      <!-- <div class="timezone-container" @click="selectTimezone">
         <label class="timezone-left">{{$t('trans0272')}}</label>
         <div class="right-container">
           <div class="timezone-info">
@@ -38,8 +38,7 @@
             <van-icon name="arrow" class="active" />
           </div>
         </div>
-
-      </div>
+      </div> -->
     </div>
     <div class="button-info">
       <van-button @click="complete" :disabled="disabled">{{$t('trans0018')}}</van-button>
@@ -68,9 +67,9 @@ export default {
         center: {
           text: this.$t('trans0222')
         }
-      },
-      timezone: this.routerConfig.getTimezone(),
-      timezones: require(`../../timezones/${this.$i18n.locale}.json`)
+      }
+      // timezone: this.routerConfig.getTimezone(),
+      // timezones: require(`../../timezones/${this.$i18n.locale}.json`)
     };
   },
   mounted() {
@@ -107,49 +106,49 @@ export default {
         });
     }
 
-    // 如果没有时区，从服务器获取
-    if (!this.timezone.timezone) {
-      this.$http
-        .getTimezone()
-        .then(res => {
-          const { result } = res.data;
-          const timezone = this.timezones.filter(t => {
-            if (
-              t.timezone === result.timezone &&
-              t.position - '0' === result.position - '0'
-            ) {
-              return true;
-            }
-            return false;
-          })[0];
-          this.routerConfig.setTimezone(
-            timezone.timename,
-            timezone.name,
-            timezone.timezone,
-            timezone.position
-          );
-          this.timezone.timename = timezone.timename;
-          this.timezone.name = timezone.name;
-          this.timezone.position = timezone.position;
-          this.timezone.timezone = timezone.timezone;
-        })
-        .catch(err => {
-          console.log(err);
-          if (err && err.error) {
-            // 弹出错误提示
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$toast(this.$t('trans0039'));
-          }
-        });
-    }
+    // // 如果没有时区，从服务器获取
+    // if (!this.timezone.timezone) {
+    //   this.$http
+    //     .getTimezone()
+    //     .then(res => {
+    //       const { result } = res.data;
+    //       const timezone = this.timezones.filter(t => {
+    //         if (
+    //           t.timezone === result.timezone &&
+    //           t.position - '0' === result.position - '0'
+    //         ) {
+    //           return true;
+    //         }
+    //         return false;
+    //       })[0];
+    //       this.routerConfig.setTimezone(
+    //         timezone.timename,
+    //         timezone.name,
+    //         timezone.timezone,
+    //         timezone.position
+    //       );
+    //       this.timezone.timename = timezone.timename;
+    //       this.timezone.name = timezone.name;
+    //       this.timezone.position = timezone.position;
+    //       this.timezone.timezone = timezone.timezone;
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //       if (err && err.error) {
+    //         // 弹出错误提示
+    //         this.$toast(this.$t(err.error.code));
+    //       } else {
+    //         this.$toast(this.$t('trans0039'));
+    //       }
+    //     });
+    // }
   },
   methods: {
-    selectTimezone() {
-      this.routerConfig.setWIFI(this.ssid, this.pwd);
-      this.routerConfig.setAdminPwd(this.checked ? this.pwd : this.adminPwd);
-      this.$router.replace({ path: '/timezone' });
-    },
+    // selectTimezone() {
+    //   this.routerConfig.setWIFI(this.ssid, this.pwd);
+    //   this.routerConfig.setAdminPwd(this.checked ? this.pwd : this.adminPwd);
+    //   this.$router.replace({ path: '/timezone' });
+    // },
     changePwdStatus() {
       this.showPwd = !this.showPwd;
     },
