@@ -59,6 +59,7 @@ export default {
   padding-right: 0.15rem;
   overflow: hidden;
   padding-left: 0.15rem;
+  position: relative;
   .status-info {
     font-size: 0.2rem;
     text-align: center;
