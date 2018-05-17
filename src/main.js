@@ -1,12 +1,26 @@
 import Vue from 'vue';
 import 'babel-polyfill';
-import { Button, Field, Icon, Checkbox, Dialog, Cell, CellGroup, Toast } from 'vant';
+import Button from 'vant/lib/button';
+import Field from 'vant/lib/field';
+import Icon from 'vant/lib/icon';
+import Checkbox from 'vant/lib/checkbox';
+import Dialog from 'vant/lib/dialog';
+import Cell from 'vant/lib/cell';
+import CellGroup from 'vant/lib/cell-group';
+import Toast from 'vant/lib/toast';
 import FastClick from 'fastclick';
-import { changeLanguage, i18n } from './i18n';
+import {
+  changeLanguage,
+  i18n
+} from './i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
-import { http, configResponseInterceptors, configRequestInterceptors } from './http';
+import {
+  http,
+  configResponseInterceptors,
+  configRequestInterceptors
+} from './http';
 import util from './util/util';
 import nav from './component/nav-bar.vue';
 import v from '../version.json';
@@ -34,8 +48,7 @@ const launch = () => {
       const conf = config;
       conf.timeout = 20000; // add timeout
       // 添加不显示loading的例外
-      if (
-        !loader.instance &&
+      if (!loader.instance &&
         !(
           NO_LOADING_METHODS.includes(conf.data.method) ||
           (conf.data.method === ROUTER_LOGIN && !conf.data.params.admin_password)
@@ -126,17 +139,23 @@ const launch = () => {
             .login('')
             .then(() => {
               if (to.path === Pages.login) {
-                next({ path: Pages.wlan });
+                next({
+                  path: Pages.wlan
+                });
               } else {
                 next();
               }
             })
             .catch(() => {
-              next({ path: Pages.login });
+              next({
+                path: Pages.login
+              });
             });
         } else {
           if (to.path === Pages.login) {
-            next({ path: Pages.wlan });
+            next({
+              path: Pages.wlan
+            });
           }
           next();
         }
