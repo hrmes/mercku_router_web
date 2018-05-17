@@ -1,7 +1,7 @@
 <template>
   <div class="timezone-container">
     <nav-bar :option="option" />
-    <div class="list-container" ref="wrapper" :class="{'overflow':!isWebView}">
+    <div class="list-container" ref="wrapper">
       <div class="list">
         <div class="timezone" :key="index" v-for="(timezone,index) in timezones">
           <div @click="setTimezone(timezone)">
@@ -18,15 +18,13 @@ import BScroll from 'better-scroll';
 
 export default {
   mounted() {
-    if (this.webview) {
-      this.$nextTick(() => {
-        this.scroll = new BScroll(this.$refs.wrapper, {
-          scrollY: true,
-          click: true,
-          tap: true
-        });
+    this.$nextTick(() => {
+      this.scroll = new BScroll(this.$refs.wrapper, {
+        scrollY: true,
+        click: true,
+        tap: true
       });
-    }
+    });
   },
   data() {
     return {
@@ -54,11 +52,6 @@ export default {
         timezone.position
       );
       this.$router.replace({ path: '/wlan' });
-    }
-  },
-  computed: {
-    isWebView() {
-      return this.webview;
     }
   }
 };

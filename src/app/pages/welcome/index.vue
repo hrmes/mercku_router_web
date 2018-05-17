@@ -4,7 +4,7 @@
     <nav-bar :option="option" />
     <div class="banner-container">
       <p>{{$t('trans0136')}}</p>
-      <img src="../../../static/img_bg_welcome_page.png" alt="">
+      <img src="../../assets/images/img_bg_welcome_page.png" alt="">
     </div>
     <div class="policy">
       <p class="p1">{{$t('trans0137')}}</p>

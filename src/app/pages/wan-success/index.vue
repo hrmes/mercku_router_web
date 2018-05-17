@@ -5,7 +5,7 @@
 
     <div class="banner-container">
       <p>{{$t('trans0157')}}</p>
-      <img src="../../../static/img_bg_dhcp.png" alt="">
+      <img src="../../assets/images/img_bg_dhcp.png" alt="">
     </div>
     <div class="button-container">
       <van-button size="normal" @click="next">{{$t('trans0081')}}</van-button>

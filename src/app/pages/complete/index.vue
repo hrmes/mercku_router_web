@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div class="button-info" v-if="isWebView">
+    <div class="button-info">
       <van-button size="normal" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'): $t('trans0233')}}
       </van-button>
     </div>
@@ -53,11 +53,6 @@ export default {
     jump2Sys() {
       this.$http.post2native('PUT', 'JUMP_SYSTEM_WIFI_SETTING');
       this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
-    }
-  },
-  computed: {
-    isWebView() {
-      return this.webview;
     }
   }
 };

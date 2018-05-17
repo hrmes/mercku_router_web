@@ -63,7 +63,13 @@ export default {
         text: 'text'
       },
       option: {
-        left: {},
+        left: {
+          icon: true,
+          text: 'arrow-left',
+          click: () => {
+            this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+          }
+        },
         center: {
           text: this.$t('trans0222')
         }
@@ -73,15 +79,6 @@ export default {
     };
   },
   mounted() {
-    if (this.webview) {
-      this.option.left = {
-        icon: true,
-        text: 'arrow-left',
-        click: () => {
-          this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
-        }
-      };
-    }
     // 没有设置wifi信息，从服务器拉取
     if (!this.ssid) {
       this.$http

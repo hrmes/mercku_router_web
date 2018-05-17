@@ -131,12 +131,12 @@ body {
 }
 
 .i.i-open {
-  background: url(../../static/ic_visible.png);
+  background: url(../assets/images/ic_visible.png);
   background-size: 100%;
 }
 
 .i.i-close {
-  background: url(../../static/ic_invisible.png);
+  background: url(../assets/images/ic_invisible.png);
   background-size: 100%;
 }
 
@@ -197,11 +197,11 @@ body {
 
 @keyframes loading {
   0% {
-    background: url(../../static/img_loading_01@3x.png) no-repeat;
+    background: url(../assets/images/img_loading_01@3x.png) no-repeat;
     background-size: 100%;
   }
   100% {
-    background: url(../../static/img_loading_02@3x.png) no-repeat;
+    background: url(../assets/images/img_loading_02@3x.png) no-repeat;
     background-size: 100%;
   }
 }

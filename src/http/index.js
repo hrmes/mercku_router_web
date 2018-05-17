@@ -67,9 +67,9 @@ const http = {
     if (config.admin.password) {
       conf.admin = config.admin;
     }
-    if (config.timezone.timezone) {
-      conf.timezone = config.timezone;
-    }
+    // if (config.timezone.timezone) {
+    //   conf.timezone = config.timezone;
+    // }
     if (config.wan.type) {
       conf.wan = config.wan;
     }
@@ -118,4 +118,8 @@ const configRequestInterceptors = (before, error) => {
   const errorCallback = error || noop;
   axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export { http, configResponseInterceptors, configRequestInterceptors };
+export {
+  http,
+  configResponseInterceptors,
+  configRequestInterceptors
+};

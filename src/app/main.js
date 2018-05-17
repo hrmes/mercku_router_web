@@ -1,26 +1,43 @@
 import Vue from 'vue';
 import 'babel-polyfill';
-import { Button, Field, Icon, Checkbox, Dialog, Cell, CellGroup, Toast } from 'vant';
+
+import Button from 'vant/lib/button';
+import Field from 'vant/lib/field';
+import Icon from 'vant/lib/icon';
+import Checkbox from 'vant/lib/checkbox';
+import Dialog from 'vant/lib/dialog';
+import Cell from 'vant/lib/cell';
+import CellGroup from 'vant/lib/cell-group';
+import Toast from 'vant/lib/toast';
+
 import FastClick from 'fastclick';
-import { changeLanguage, i18n } from './i18n';
+import {
+  changeLanguage,
+  i18n
+} from '../i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
-import { http, configResponseInterceptors, configRequestInterceptors } from './http';
+import {
+  http,
+  configResponseInterceptors,
+  configRequestInterceptors
+} from '../http';
 import util from './util/util';
 import nav from './component/nav-bar.vue';
-import v from '../version.json';
+import v from '../../version.json';
 
 Vue.use(Button);
 Vue.use(Field);
 Vue.use(Icon);
 Vue.use(Checkbox);
+Vue.use(Cell);
+Vue.use(CellGroup);
+
 Vue.component('nav-bar', nav);
 
 Vue.prototype.$toast = Toast;
 
-Vue.use(Cell);
-Vue.use(CellGroup);
 const loader = {
   open: false,
   instance: null
@@ -34,8 +51,7 @@ const launch = () => {
       const conf = config;
       conf.timeout = 20000; // add timeout
       // 添加不显示loading的例外
-      if (
-        !loader.instance &&
+      if (!loader.instance &&
         !(
           NO_LOADING_METHODS.includes(conf.data.method) ||
           (conf.data.method === ROUTER_LOGIN && !conf.data.params.admin_password)
@@ -76,14 +92,11 @@ const launch = () => {
         loader.instance = null;
       }
       if (error.response) {
-        const href = window.location.href;
         switch (error.response.status) {
           case 401:
-            // 欢迎页和登录页不记录returnURL
-            if (href.includes('/login') && href.includes('/welcome')) {
-              router.returnUrl = window.location.href;
+            if (!window.location.href.includes('/login')) {
+              window.location.hash = '#/pre-login';
             }
-            window.location.hash = '#/login';
             break;
           default:
             break;
@@ -100,48 +113,39 @@ const launch = () => {
   const qs = window.location.search.substring(1);
   // set language
   changeLanguage(qs.includes('lang=zh') ? 'zh-CN' : 'en-US');
-  Vue.prototype.webview = (() => {
-    // use indexOf instead includes
-    if (qs && qs.includes('fromapp=1')) {
-      return true;
-    }
-    return false;
-  })();
+  // Vue.prototype.webview = (() => {
+  //   // use indexOf instead includes
+  //   if (qs && qs.includes('fromapp=1')) {
+  //     return true;
+  //   }
+  //   return false;
+  // })();
   util.adapt(375, 375);
 
-  let loginChecked = false;
-  const Pages = {
-    welcome: '/welcome',
-    login: '/login',
-    wlan: '/wlan'
+  Vue.prototype.authorize = {
+    authorized: false,
+    get() {
+      return this.authorized;
+    },
+    set(authorize) {
+      this.authorized = authorize;
+    }
   };
+
+  const PagesRequireAuth = [];
+  router.options.routes.forEach((route) => {
+    if (route.requireAuth) {
+      PagesRequireAuth.push(route.name);
+    }
+  });
+
   router.beforeEach((to, form, next) => {
-    // 欢迎页不需要检查登录
-    if (to.path !== Pages.welcome && !loginChecked) {
-      loginChecked = true;
-      http.checkLogin().then(res => {
-        if (!res.data.result) {
-          // 未登录
-          http
-            .login('')
-            .then(() => {
-              if (to.path === Pages.login) {
-                next({ path: Pages.wlan });
-              } else {
-                next();
-              }
-            })
-            .catch(() => {
-              next({ path: Pages.login });
-            });
-        } else {
-          if (to.path === Pages.login) {
-            next({ path: Pages.wlan });
-          }
-          next();
-        }
+    if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
+      next({
+        path: `/pre-login/${encodeURIComponent(to.path)}`
       });
     } else {
+      // 不需要授权的页面
       next();
     }
   });
@@ -155,5 +159,5 @@ const launch = () => {
 document.addEventListener('DOMContentLoaded', () => {
   launch();
 });
-// 暂时先这样，最好的办法是通过pre-commit每次自动新增
+// 通过pre-commit每次自动新增
 console.log(`%cWeb version is : RC${v.version}`, 'color:red');

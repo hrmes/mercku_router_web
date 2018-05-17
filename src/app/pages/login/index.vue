@@ -2,7 +2,7 @@
   <div class="login-page">
     <nav-bar :option="option" />
     <div class="bg-container">
-      <img class="logo" src="../../../static/img_login_logo.png" alt="">
+      <img class="logo" src="../../assets/images/img_login_logo.png" alt="">
     </div>
     <div class="pwd-container">
       <div class="pwd-input">
@@ -28,20 +28,15 @@ export default {
         text: 'text'
       },
       option: {
-        left: {}
+        left: {
+          icon: true,
+          text: 'arrow-left',
+          click: () => {
+            this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+          }
+        }
       }
     };
-  },
-  created() {
-    if (this.webview) {
-      this.option.left = {
-        icon: true,
-        text: 'arrow-left',
-        click: () => {
-          this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
-        }
-      };
-    }
   },
   methods: {
     login(pwd) {
@@ -74,7 +69,7 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .login-page {
   padding: 0rem 0.2rem;
-  background: url(../../../static/img_bg_login.png);
+  background: url(../../assets/images/img_bg_login.png);
   background-size: 100%;
   background-repeat: no-repeat;
   .bg-container {
