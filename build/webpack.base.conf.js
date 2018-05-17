@@ -21,7 +21,9 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/app/main.js'
+    vendor: ['axios', 'babel-polyfill', 'vue', 'vue-i18n', 'vue-router'],
+    app: './src/app/main.js',
+    pc: './src/pc/main.js'
   },
   output: {
     path: config.build.assetsRoot,

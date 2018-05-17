@@ -64,7 +64,7 @@ const routes = [{
   path: '/login',
   name: 'login',
   component: login,
-  requireAuth: true
+  requireAuth: false
 }, {
   path: '/wlan',
   name: 'wlan',

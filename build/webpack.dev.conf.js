@@ -52,16 +52,28 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor']
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
     new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
+      filename: 'app.html',
+      template: 'app.html',
+      inject: true,
+      favicon: 'favicon.ico',
+      chunks: ['vendor', 'app']
+    }),
+    new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
       inject: true,
-      favicon: 'favicon.ico'
+      favicon: 'favicon.ico',
+      chunks: ['vendor', 'pc']
     })
+
     // copy custom static assets
     // new CopyWebpackPlugin([
     //   {

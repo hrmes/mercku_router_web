@@ -145,7 +145,7 @@ const launch = () => {
         path: `/pre-login/${encodeURIComponent(to.path)}`
       });
     } else {
-      // 不需要授权的页面
+      // 不需要授权的页面，这里有个问题，如果用户直接输入了登陆页面，是不会尝试自动登陆的
       next();
     }
   });
