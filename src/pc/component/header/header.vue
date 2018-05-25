@@ -7,7 +7,7 @@
       <div class="lang-selector">
         <div class="current" @click="showLangPopup()">{{language.text}}</div>
         <ul class="popup" v-show="showPopup">
-          <li v-for="lang in Languages" @click="selectLang(lang)">{{lang.text}}</li>
+          <li :class="{'current-lang':lang===language}" v-for="lang in Languages" @click="selectLang(lang)">{{lang.text}}</li>
         </ul>
       </div>
       <div v-show="!isLoginPage" class="exit" @click="exit()">
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     showLangPopup() {
-      this.showPopup = true;
+      this.showPopup = !this.showPopup;
     },
     selectLang(lang) {
       this.language = lang;
@@ -73,10 +73,23 @@ export default {
       position: relative;
       .popup {
         position: absolute;
-        width: 200px;
+        width: 150px;
+        border: 1px solid #b6b6b6;
+        background: #fff;
         top: 30px;
+        right: 0;
+        padding: 15px 10px;
+        border-radius: 2px;
+        z-index: 999;
         li {
           list-style: none;
+          margin-bottom: 20px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          &.current-lang {
+            color: #4237dd;
+          }
         }
       }
     }

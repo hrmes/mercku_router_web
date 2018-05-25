@@ -1,5 +1,6 @@
 <template>
   <div class="login-container">
+    <m-step :steps="steps" :current="current"></m-step>
     <button v-if="initial" class="btn">{{$t('trans0222')}}</button>
     <div class="login-form" v-if="!initial">
       <m-input type="password" />
@@ -12,15 +13,19 @@
 <script>
 import policy from '../../component/policy/index.vue';
 import mInput from '../../component/input/input.vue';
+import mStep from '../../component/step/index.vue';
 
 export default {
   components: {
     policy,
-    mInput
+    mInput,
+    mStep
   },
   data() {
     return {
-      initial: false
+      initial: false,
+      steps: ['第一步', '第二步', '第三步'],
+      current: 0
     };
   },
   mounted() {
