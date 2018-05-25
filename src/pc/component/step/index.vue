@@ -26,31 +26,26 @@ export default {
 </script>
 <style lang="scss" scoped>
 .step-container {
+  height: 80px;
   .step {
     display: inline-block;
     position: relative;
-    .left-line {
-      width: 150px;
-    }
-    .right-line {
-      width: 100px;
-    }
+
     .left-line,
     .right-line {
       height: 3px;
       background: #bdbdbd;
       display: inline-block;
       position: relative;
-      top: -45px;
     }
     &:first-child {
       .left-line {
-        display: none;
+        visibility: hidden;
       }
     }
     &:last-child {
       .right-line {
-        display: none;
+        visibility: hidden;
       }
     }
     .step-content {
@@ -72,6 +67,10 @@ export default {
       text-align: center;
       font-size: 16px;
       color: #333;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
     }
     &.steped {
       .step-number {
@@ -83,6 +82,48 @@ export default {
       .right-line {
         background: #00d061;
       }
+    }
+  }
+}
+@media screen and(min-width: 480px) {
+  .step-container {
+    .step {
+      .left-line {
+        width: 150px;
+      }
+      .right-line {
+        width: 150px;
+      }
+      .left-line,
+      .right-line {
+        top: -10px;
+      }
+    }
+  }
+}
+@media screen and(max-width: 479px) {
+  .step-container {
+    height: 60px;
+    .step {
+      .step-number {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+      }
+    }
+    .left-line {
+      width: 30px;
+    }
+    .right-line {
+      width: 30px;
+    }
+    .left-line,
+    .right-line {
+      height: 3px;
+      background: #bdbdbd;
+      display: inline-block;
+      position: relative;
+      top: -5px;
     }
   }
 }

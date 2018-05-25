@@ -70,14 +70,14 @@ export default {
   }
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 480px) {
   .input-container {
     width: 350px;
     display: inline-block;
   }
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 479px) {
   .input-container {
     display: block;
     width: 80%;
