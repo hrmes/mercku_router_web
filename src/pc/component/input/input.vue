@@ -45,43 +45,43 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.input-container {
+  position: relative;
+  .input {
+    height: 48px;
+    width: 100%;
+    border-radius: 4px;
+    outline: 0;
+    border: 1px solid #e1e1e1;
+    &.has-icon {
+      padding-right: 30px;
+    }
+  }
+  .icon-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: center;
+    width: 30px;
+
+    .icon {
+      height: 48px;
+    }
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .input-container {
     width: 350px;
     display: inline-block;
-    position: relative;
-    .input {
-      height: 48px;
-      width: 100%;
-      border-radius: 4px;
-      outline: 0;
-      border: 1px solid #e1e1e1;
-      &.has-icon {
-        padding-right: 30px;
-      }
-    }
-    .icon-container {
-      position: absolute;
-      right: 0;
-      top: 0;
-      text-align: center;
-      width: 30px;
-
-      .icon {
-        height: 48px;
-      }
-    }
   }
 }
 
 @media screen and (max-width: 1023px) {
   .input-container {
-    .input {
-      height: 32px;
-      border-radius: 4px;
-      outline: 0;
-      border: 1px solid #e1e1e1;
-    }
+    display: block;
+    width: 80%;
+    margin: 0 auto;
   }
 }
 </style>

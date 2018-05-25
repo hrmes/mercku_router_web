@@ -29,9 +29,7 @@ const launch = () => {
       if (error.response) {
         switch (error.response.status) {
           case 401:
-            if (!window.location.href.includes('/login')) {
-              window.location.hash = '#/pre-login';
-            }
+            window.location.hash = '#/login';
             break;
           default:
             break;
