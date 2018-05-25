@@ -23,31 +23,27 @@ ul {
   padding: 0 15px;
   font-size: 14px;
   border-radius: 4px;
-  height: 32px;
+  height: 58px;
   user-select: none;
-  transition: all .3s linear;
   position: relative;
-  &.btn-primary {
-    background: red;
+  color: #fff;
+  background: #2b008c;
+  &:active {
+    background: #3d00c8;
+  }
+  &.disabled {
+    background: #999;
   }
 }
 
-.input {
-  height: 32px;
-  border-radius: 4px;
-  outline: 0;
-  border: 1px solid #e1e1e1;
+@media screen and (min-width:1024px) {
+  .btn {
+    width: 350px;
+  }
 }
-
-@media screen and (min-width:1024px) {}
 
 @media screen and (max-width:1023px) {
   .btn {
-    display: block;
-    width: 80%;
-    margin: 0 auto;
-  }
-  .input {
     display: block;
     width: 80%;
     margin: 0 auto;

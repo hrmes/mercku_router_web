@@ -1,9 +1,9 @@
 <template>
   <div class="login-container">
-    <button v-if="initial" class="btn btn-primary">{{$t('trans0222')}}</button>
+    <button v-if="initial" class="btn">{{$t('trans0222')}}</button>
     <div class="login-form" v-if="!initial">
-      <input class="input" type="password">
-      <button class="btn btn-primary">登陆</button>
+      <m-input type="password" />
+      <button class="btn">登陆</button>
     </div>
     <policy/>
   </div>
@@ -11,10 +11,12 @@
 </template>
 <script>
 import policy from '../../component/policy/index.vue';
+import mInput from '../../component/input/input.vue';
 
 export default {
   components: {
-    policy
+    policy,
+    mInput
   },
   data() {
     return {
