@@ -10,7 +10,7 @@ import './style/common.scss';
 
 export default {
   components: {
-    MerckuHeader
+    'mercku-header': MerckuHeader
   },
   created() {
     this.$http
@@ -29,3 +29,4 @@ export default {
       });
   }
 };
+</script>

@@ -6,7 +6,7 @@ import {
   i18n
 } from '../i18n';
 import router from './router';
-import App from './Desktop.vue';
+import Desktop from './Desktop.vue';
 import {
   http,
   configResponseInterceptors,
@@ -50,7 +50,8 @@ const launch = () => {
     el: '#web',
     i18n,
     router,
-    render: h => h(App)
+    render: h => h(Desktop)
+
   });
 };
 document.addEventListener('DOMContentLoaded', () => {
