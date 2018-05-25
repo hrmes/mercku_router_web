@@ -4,17 +4,6 @@
   </transition>
 </template>
 <script>
-/*
-  Button,
-  Field,
-  Icon,
-  Checkbox,
-  Dialog,
-  Cell,
-  CellGroup,
-  Toast
-
-*/
 import 'vant/lib/vant-css/base.css';
 import 'vant/lib/vant-css/button.css';
 import 'vant/lib/vant-css/field.css';

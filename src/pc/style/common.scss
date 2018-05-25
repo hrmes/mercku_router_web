@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+.btn {
+  outline: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  padding: 0 15px;
+  font-size: 14px;
+  border-radius: 4px;
+  height: 32px;
+  user-select: none;
+  transition: all .3s linear;
+  position: relative;
+  &.btn-primary {
+    background: red;
+  }
+}
+
+.input {
+  height: 32px;
+  border-radius: 4px;
+  outline: 0;
+  border: 1px solid #e1e1e1;
+}
+
+@media screen and (min-width:1024px) {}
+
+@media screen and (max-width:1023px) {
+  .btn {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+  }
+  .input {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
