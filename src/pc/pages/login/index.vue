@@ -5,6 +5,7 @@
     <div class="login-form" v-if="!initial">
       <m-input type="password" />
       <button class="btn">登陆</button>
+      <button @click="next">下一步</button>
     </div>
     <policy/>
   </div>
@@ -40,6 +41,11 @@ export default {
       .catch(() => {
         this.$loading.close();
       });
+  },
+  methods: {
+    next() {
+      this.current += 1;
+    }
   }
 };
 </script>
