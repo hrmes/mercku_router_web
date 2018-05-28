@@ -3,6 +3,7 @@
     <div class="right-container">
       <div class="lang-selector">
         <div class="current" @click.stop="showLangPopup()">{{language.text}}</div>
+        <span class="drop-trangle"></span>
         <transition name="popup">
           <ul class="popup" v-show="showPopup">
             <li :class="{'current-lang':lang===language}" v-for="lang in Languages" @click="selectLang(lang)">{{lang.text}}</li>
@@ -69,7 +70,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header-container {
-  padding: 30px 50px;
+  padding: 20px 50px;
   .logo {
     float: left;
   }
@@ -79,6 +80,12 @@ export default {
       display: inline-block;
       cursor: pointer;
       position: relative;
+      .drop-trangle {
+        display: inline-block;
+        background: url(../../assets/images/ic_pack_up.png) no-repeat center;
+        width: 10px;
+        height: 6px;
+      }
       .popup {
         position: absolute;
         width: 150px;

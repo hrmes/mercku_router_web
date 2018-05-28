@@ -1,8 +1,9 @@
 <template>
   <div class="container">
-    <mercku-header class="header"></mercku-header>
+
     <mercku-menu class="menu" :menus="menus" v-if="!isLogin"></mercku-menu>
     <div class="app-container" :class="{'has-menu':!isLogin}">
+      <mercku-header class="header"></mercku-header>
       <router-view></router-view>
     </div>
 
@@ -89,10 +90,10 @@ export default {
 <style lang="scss" scoped>
 .container {
   height: 100%;
-  padding-top: 80px;
+  // padding-top: 80px;
   position: relative;
   .header {
-    position: fixed;
+    // position: fixed;
     top: 0;
     width: 100%;
     padding-left: 300px;
