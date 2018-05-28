@@ -43,8 +43,7 @@ const launch = () => {
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
   Vue.prototype.changeLanguage = changeLanguage;
-  // set language
-  changeLanguage('zh-CN');
+
 
   new Vue({
     el: '#web',

@@ -19,12 +19,12 @@
 <script>
 const Languages = [
   {
-    text: 'English',
-    value: 'en-US'
-  },
-  {
     text: '简体中文',
     value: 'zh-CN'
+  },
+  {
+    text: 'English',
+    value: 'en-US'
   }
 ];
 export default {
@@ -36,6 +36,7 @@ export default {
     };
   },
   mounted() {
+    this.changeLanguage(this.language.value);
     if (window.addEventListener) {
       document.body.addEventListener('click', () => {
         this.showPopup = false;

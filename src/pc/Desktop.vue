@@ -31,13 +31,13 @@ export default {
     return {
       menus: [
         {
-          icon: '',
+          icon: 'wifi',
           text: 'trans0173',
           url: '/bussiness/wodewifi',
           expand: this.$route.path.includes('/bussiness/wodewifi')
         },
         {
-          icon: '',
+          icon: 'setting',
           text: 'trans0019',
           expand:
             this.$route.path.includes('/bussiness/wifishezhi') ||
@@ -46,22 +46,18 @@ export default {
             this.$route.path.includes('/bussiness/chongqi'),
           children: [
             {
-              icon: '',
               text: 'trans0103',
               url: '/bussiness/wifishezhi'
             },
             {
-              icon: '/shezhi',
               text: 'trans0142',
               url: '/bussiness/wangluoshezhi'
             },
             {
-              icon: '',
               text: 'trans0297',
               url: '/bussiness/anquan'
             },
             {
-              icon: '',
               text: 'trans0122',
               url: '/bussiness/chongqi'
             }
