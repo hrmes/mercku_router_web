@@ -2,7 +2,9 @@
   <div class="container">
     <mercku-header class="header"></mercku-header>
     <mercku-menu class="menu" :menus="menus" v-if="!isLogin"></mercku-menu>
-    <router-view class="app-container" :class="{'has-menu':isLogin}"></router-view>
+    <div class="app-container" :class="{'has-menu':!isLogin}">
+      <router-view></router-view>
+    </div>
 
   </div>
 
