@@ -1,10 +1,10 @@
 <template>
   <div class="bussiness-container">
-    <p style="text-align:center;">业务主页</p>
-    <router-view></router-view>
+    <!-- <p style="text-align:center;">业务主页</p> -->
+    <!-- <router-view></router-view>
     <div class="download">
 
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

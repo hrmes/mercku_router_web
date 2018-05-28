@@ -4,7 +4,7 @@
     <button v-if="initial" class="btn">{{$t('trans0222')}}</button>
     <div class="login-form" v-if="!initial">
       <m-input type="password" />
-      <button class="btn">登陆</button>
+      <button class="btn">{{this.$t('trans0001')}}</button>
       <button @click="next">下一步</button>
     </div>
     <policy/>

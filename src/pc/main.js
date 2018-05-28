@@ -13,6 +13,7 @@ import {
   configRequestInterceptors
 } from '../http';
 import loading from './component/loading/index';
+import toast from './component/toast/index';
 import v from '../../version.json';
 
 const launch = () => {
@@ -40,9 +41,10 @@ const launch = () => {
   );
   Vue.prototype.$http = http;
   Vue.prototype.$loading = loading;
+  Vue.prototype.$toast = toast;
   Vue.prototype.changeLanguage = changeLanguage;
   // set language
-  changeLanguage('en-US');
+  changeLanguage('zh-CN');
 
   new Vue({
     el: '#web',

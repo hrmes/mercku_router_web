@@ -15,11 +15,10 @@ const Loading = {
     if (!this.instance) {
       const Construtor = Vue.extend(LoadingComponent);
       this.instance = new Construtor({
-        el: document.createElement('div'),
         propsData: {
           template: opt.template
         }
-      });
+      }).$mount();
       document.body.appendChild(this.instance.$el);
     }
   },
