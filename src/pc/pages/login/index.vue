@@ -1,9 +1,11 @@
 <template>
   <div class="login-container">
-    <button v-if="initial" class="btn btn-primary">{{$t('trans0222')}}</button>
+    <m-step :steps="steps" :current="current"></m-step>
+    <button v-if="initial" class="btn">{{$t('trans0222')}}</button>
     <div class="login-form" v-if="!initial">
-      <input class="input" type="password">
-      <button class="btn btn-primary">登陆</button>
+      <m-input type="password" />
+      <button class="btn">{{this.$t('trans0001')}}</button>
+      <button @click="next">下一步</button>
     </div>
     <policy/>
     <m-switch :checked="true" :onChange='this.swicthChange' />
@@ -15,24 +17,20 @@
 </template>
 <script>
 import policy from '../../component/policy/index.vue';
-import Switch from '../../component/switch/index.vue';
-import Progress from '../../component/progress/index.vue';
+import mInput from '../../component/input/input.vue';
+import mStep from '../../component/step/index.vue';
 
 export default {
   components: {
     policy,
-    'm-switch': Switch,
-    'm-progress': Progress
-  },
-  methods: {
-    swicthChange(v) {
-      console.log(v);
-    }
+    mInput,
+    mStep
   },
   data() {
     return {
       initial: false,
-      width: 50
+      steps: ['第一步', '第二步', '第三步'],
+      current: 0
     };
   },
   mounted() {
@@ -50,6 +48,11 @@ export default {
       .catch(() => {
         this.$loading.close();
       });
+  },
+  methods: {
+    next() {
+      this.current += 1;
+    }
   }
 };
 </script>
