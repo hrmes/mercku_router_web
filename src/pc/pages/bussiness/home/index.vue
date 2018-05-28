@@ -1,153 +1,153 @@
 <template>
-    <div class="home-container">
-        <div class="check-info">
-            <div class="name">Tom's wifi</div>
-            <div class="router-icon"><img src="../../../assets/1.png" alt=""></div>
-            <div class='check-status'>
-                <span class='testing' v-if='true'> {{$t('trans0298')}}正在检测你的网络，请等待…</span>
-                <img class="success-line" v-if='true' src="../../../assets/1.png" alt="">
-                <img class='fail-line' v-if='false' src="../../../assets/1.png" alt="">
-            </div>
-            <div class="network-icon"><img src="../../../assets/1.png" alt=""></div>
-            <div class="speed">
-                <span>21.16</span>M
-            </div>
-            <Button class="check-btn" v-if='true'>测速</Button>
-        </div>
-        <div class="router-info">
-            <div class="item">
-                <div class="title">{{$t('trans0299')}}路由器信息</div>
-                <div class='message'>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0187')}}型号：</label>
-                        Mercku m1
-                    </div>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0300')}}路由器ROM版本：</label>
-                        Mercku 稳定版2.18.15
-                    </div>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0188')}}MAC地址：</label>
-                        F0:B4:29:77:59:
-                    </div>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0251')}}SN：</label>
-                        6816/02252767
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="title">{{$t('trans0301')}}外网状态</div>
-                <div class='message'>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0302')}}连接类型：</label>
-                        Mercku m1
-                    </div>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0151')}}IP地址：</label>
-                        Mercku 稳定版2.18.15
-                    </div>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0152')}}子网掩码：</label>
-                        F0:B4:29:77:59:
-                    </div>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0236')}}DNS：</label>
-                        6816/02252767
-                    </div>
-                    <div class="m-item">
-                        <label class="m-title">{{$t('trans0153')}}网关：</label>
-                        6816/02252767
-                    </div>
-                </div>
-            </div>
-            <div class="item real-time-network">
-                <div class="title">{{$t('trans0303')}}实时网络状态</div>
-                <div class="content">
-                    <div class="real-time-info">
-                        <div class="down">
-                            <label class="r-title">实时下行：</label>
-                            <i class='r-dwon-icon'></i>
-                            <span class="speed">0.5</span>
-                            <span class="unit"> KB/s</span>
-                        </div>
-                        <div class='up'>
-                            <label class="r-title">实时上行：</label>
-                            <i class='r-up-icon'></i>
-                            <span class="speed">0.7</span>
-                            <span class="unit"> KB/s</span>
-                        </div>
-                    </div>
-                    <div class="speep-info">
-                        <div class='up'>
-                            <i class="f-up-icon"></i>
-                            <div>
-                                <p>
-                                    <span class="speed">21.15</span>
-                                    <span class='unit'> MB/s</span>
-                                </p>
-                                <p class="note">最快上传</p>
-                            </div>
-                        </div>
-                        <div class="down">
-                            <i class="f-down-icon"></i>
-                            <div>
-                                <p>
-                                    <span class="speed">2.15</span>
-                                    <span class='unit'> MB/s</span>
-                                </p>
-                                <p class="note">最快下载</p>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item term-flow-info">
-                <div class="title">{{$t('trans0308')}}终端流量统计</div>
-                <div class="speep-info">
-                    <div class='up'>
-                        <i class="f-up-icon"></i>
-                        <div>
-                            <p>
-                                <span class="speed">21.15</span>
-                                <span class='unit'> MB/s</span>
-                            </p>
-                            <p class="note">最快上传</p>
-                        </div>
-                    </div>
-                    <div class='up'>
-                        <i class="f-up-icon"></i>
-                        <div>
-                            <p>
-                                <span class="speed">21.15</span>
-                                <span class='unit'> MB/s</span>
-                            </p>
-                            <p class="note">最快上传</p>
-                        </div>
-                    </div>
-                    <div class='up'>
-                        <i class="f-up-icon"></i>
-                        <div>
-                            <p>
-                                <span class="speed">21.15</span>
-                                <span class='unit'> MB/s</span>
-                            </p>
-                            <p class="note">最快上传</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class='mesh-info'>
-            <div class="title">{{$t('trans0308')}}Mesh状态</div>
-            <div class="content">
-                <div v-for="item in meshStatus" class="mesh" :class="diffMesh(item)" :style="item.main&&{width:' 260px ',margin:' 0 25px'}">
-
-                </div>
-            </div>
-        </div>
+  <div class="home-container">
+    <div class="check-info">
+      <div class="name">Tom's wifi</div>
+      <div class="router-icon"><img src="../../../assets/1.png" alt=""></div>
+      <div class='check-status'>
+        <span class='testing' v-if='true'> {{$t('trans0298')}}</span>
+        <img class="success-line" v-if='true' src="../../../assets/1.png" alt="">
+        <img class='fail-line' v-if='false' src="../../../assets/1.png" alt="">
+      </div>
+      <div class="network-icon"><img src="../../../assets/1.png" alt=""></div>
+      <div class="speed">
+        <span>21.16</span>M
+      </div>
+      <Button class="check-btn" v-if='true'>测速</Button>
     </div>
+    <div class="router-info">
+      <div class="item">
+        <div class="title">{{$t('trans0299')}}</div>
+        <div class='message'>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0187')}}</label>
+            Mercku m1
+          </div>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0300')}}</label>
+            Mercku 稳定版2.18.15
+          </div>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0188')}}</label>
+            F0:B4:29:77:59:
+          </div>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0251')}}</label>
+            6816/02252767
+          </div>
+        </div>
+      </div>
+      <div class="item">
+        <div class="title">{{$t('trans0301')}}</div>
+        <div class='message'>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0302')}}</label>
+            Mercku m1
+          </div>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0151')}}</label>
+            Mercku 稳定版2.18.15
+          </div>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0152')}}</label>
+            F0:B4:29:77:59:
+          </div>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0236')}}</label>
+            6816/02252767
+          </div>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0153')}}</label>
+            6816/02252767
+          </div>
+        </div>
+      </div>
+      <div class="item real-time-network">
+        <div class="title">{{$t('trans0303')}}</div>
+        <div class="content">
+          <div class="real-time-info">
+            <div class="down">
+              <label class="r-title">实时下行：</label>
+              <i class='r-dwon-icon'></i>
+              <span class="speed">0.5</span>
+              <span class="unit"> KB/s</span>
+            </div>
+            <div class='up'>
+              <label class="r-title">实时上行：</label>
+              <i class='r-up-icon'></i>
+              <span class="speed">0.7</span>
+              <span class="unit"> KB/s</span>
+            </div>
+          </div>
+          <div class="speep-info">
+            <div class='up'>
+              <i class="f-up-icon"></i>
+              <div>
+                <p>
+                  <span class="speed">21.15</span>
+                  <span class='unit'> MB/s</span>
+                </p>
+                <p class="note">最快上传</p>
+              </div>
+            </div>
+            <div class="down">
+              <i class="f-down-icon"></i>
+              <div>
+                <p>
+                  <span class="speed">2.15</span>
+                  <span class='unit'> MB/s</span>
+                </p>
+                <p class="note">最快下载</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item term-flow-info">
+        <div class="title">{{$t('trans0308')}}</div>
+        <div class="speep-info">
+          <div class='up'>
+            <i class="f-up-icon"></i>
+            <div>
+              <p>
+                <span class="speed">21.15</span>
+                <span class='unit'> MB/s</span>
+              </p>
+              <p class="note">最快上传</p>
+            </div>
+          </div>
+          <div class='up'>
+            <i class="f-up-icon"></i>
+            <div>
+              <p>
+                <span class="speed">21.15</span>
+                <span class='unit'> MB/s</span>
+              </p>
+              <p class="note">最快上传</p>
+            </div>
+          </div>
+          <div class='up'>
+            <i class="f-up-icon"></i>
+            <div>
+              <p>
+                <span class="speed">21.15</span>
+                <span class='unit'> MB/s</span>
+              </p>
+              <p class="note">最快上传</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='mesh-info'>
+      <div class="title">{{$t('trans0308')}}Mesh状态</div>
+      <div class="content">
+        <div v-for="item in meshStatus" class="mesh" :class="diffMesh(item)" :style="item.main&&{width:' 260px ',margin:' 0 25px'}">
+
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -206,7 +206,7 @@ export default {
 <style lang="scss" scoped>
 .home-container {
   padding: 0 30px;
-  padding-bottom: 80px;
+  padding-bottom: 30px;
   .check-info {
     font-size: 16px;
     font-weight: 400;
