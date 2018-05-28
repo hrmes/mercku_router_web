@@ -6,7 +6,7 @@ const toast = (options) => {
     ...{
       text: 'toast1',
       duration: 3000,
-      type: 'error'
+      type: 'success'
     },
     options
   };
