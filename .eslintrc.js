@@ -21,5 +21,6 @@ module.exports = {
     'no-unused-vars': 'warn',
     'import/no-dynamic-require': 0,
     'arrow-parens': 0,
+    'indent': 0
   },
 };
