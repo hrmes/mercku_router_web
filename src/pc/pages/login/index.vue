@@ -8,6 +8,10 @@
       <button @click="next">下一步</button>
     </div>
     <policy/>
+    <m-switch :checked="true" :onChange='this.swicthChange' />
+    <div style='width:500px;height:500px;background:black;padding-top:50px'>
+      <m-progress :width='width' />
+    </div>
   </div>
 
 </template>
@@ -30,6 +34,9 @@ export default {
     };
   },
   mounted() {
+    // setInterval(() => {
+    //   this.width += 1;
+    // }, 200);
     this.$loading.open();
     // 尝试自动登录，如果自动登录成功，则展示设置按钮，否则展示登录按钮。
     this.$http
