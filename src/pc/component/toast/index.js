@@ -8,7 +8,7 @@ const toast = (options) => {
       duration: 3000,
       type: 'success'
     },
-    options
+    ...options
   };
 
   const Construtor = Vue.extend(Toast);

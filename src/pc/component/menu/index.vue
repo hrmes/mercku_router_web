@@ -210,6 +210,7 @@ export default {
     border-bottom: 1px solid #e1e1e1;
     &.small-device-expand {
       height: 100%;
+      border: none;
     }
     .small-device {
       display: inline-block;

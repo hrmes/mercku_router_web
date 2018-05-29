@@ -59,7 +59,16 @@ export default {
       this.showPopup = false;
     },
     exit() {
-      this.$router.replace({ path: '/login' });
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0323'),
+        callback: {
+          ok: () => {
+            this.$router.replace({ path: '/login' });
+          }
+        }
+      });
     }
   },
   computed: {

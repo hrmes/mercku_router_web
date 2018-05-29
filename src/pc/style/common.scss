@@ -36,6 +36,16 @@ ul {
   position: relative;
   color: #fff;
   background: #4237dd;
+  &.btn-default {
+    background: #fff;
+    color: #606266;
+    border: 1px solid #dcdfe6;
+    &:active {
+      color: #409eff;
+      border-color: #c6e2ff;
+      background-color: #ecf5ff;
+    }
+  }
   &:active {
     background: #6156ff;
   }
