@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-
     <mercku-menu class="menu" :menus="menus" v-if="!isLogin"></mercku-menu>
     <div class="app-container" :class="{'has-menu':!isLogin}">
       <mercku-header class="header"></mercku-header>
@@ -36,8 +35,8 @@ export default {
         {
           icon: 'wifi',
           text: 'trans0173',
-          url: '/bussiness/wodewifi',
-          expand: this.$route.path.includes('/bussiness/wodewifi')
+          url: '/home',
+          expand: this.$route.path.includes('/home')
         },
         {
           icon: 'setting',
@@ -113,5 +112,7 @@ export default {
       padding-left: 300px;
     }
   }
+}
+@media screen and (max-width: 479px) {
 }
 </style>
