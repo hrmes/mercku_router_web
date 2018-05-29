@@ -14,6 +14,7 @@ import {
 } from '../http';
 import loading from './component/loading/index';
 import toast from './component/toast/index';
+import dialog from './component/dialog/index';
 import v from '../../version.json';
 
 const launch = () => {
@@ -42,6 +43,7 @@ const launch = () => {
   Vue.prototype.$http = http;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
+  Vue.prototype.$dialog = dialog;
   Vue.prototype.changeLanguage = changeLanguage;
 
 
@@ -50,7 +52,6 @@ const launch = () => {
     i18n,
     router,
     render: h => h(Desktop)
-
   });
 };
 document.addEventListener('DOMContentLoaded', () => {

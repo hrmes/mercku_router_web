@@ -5,14 +5,19 @@
     </div>
   </transition>
 </template>
+
 <script>
+// this.$toast({
+//   type:'success',
+//   text：''
+// })
 export default {
   data() {
     return {
       visible: false,
       duration: 3000,
       text: '',
-      type: 'error',
+      type: 'success',
       timer: null
     };
   },
@@ -45,6 +50,9 @@ export default {
   transform: translate(-50%, 50%);
   &.error {
     background: #f73035;
+  }
+  &.success {
+    background: #19d191;
   }
   &.toast-enter-active {
     transition: all 0.3s ease-in;

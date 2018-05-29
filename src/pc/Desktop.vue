@@ -1,8 +1,8 @@
 <template>
   <div class="container">
-    <mercku-header class="header"></mercku-header>
     <mercku-menu class="menu" :menus="menus" v-if="!isLogin"></mercku-menu>
     <div class="app-container" :class="{'has-menu':!isLogin}">
+      <mercku-header class="header" :class="{'login-page':isLogin}"></mercku-header>
       <router-view></router-view>
     </div>
 
@@ -89,27 +89,35 @@ export default {
 <style lang="scss" scoped>
 .container {
   height: 100%;
-  padding-top: 80px;
   position: relative;
   .header {
-    position: fixed;
-    top: 0;
     width: 100%;
     padding-left: 300px;
-  }
-  .menu {
-    width: 300px;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1000;
+    &.login-page {
+      background: #fff;
+    }
   }
   .app-container {
     width: 100%;
     height: 100%;
+    position: relative;
     &.has-menu {
       padding-left: 300px;
+    }
+  }
+}
+@media screen and (max-width: 479px) {
+}
+@media screen and (max-width: 768px) {
+  .container {
+    padding-top: 65px;
+    .app-container {
+      &.has-menu {
+        padding-left: 0;
+      }
+    }
+    .header {
+      display: none;
     }
   }
 }

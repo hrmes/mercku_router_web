@@ -10,7 +10,7 @@ const Loading = {
   instance: null,
   open(options) {
     const opt = { ...defaultOptions,
-      options
+      ...options
     };
     if (!this.instance) {
       const Construtor = Vue.extend(LoadingComponent);

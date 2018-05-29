@@ -3,10 +3,10 @@ import axios from 'axios';
 // axios.defaults.headers['content-type'] = 'application/json';
 
 const url = '/app';
-const Methods = {
+const methods = {
   checkLogin: {
     url,
-    action: 'router.check_login'
+    action: 'router.is_login'
   },
   login: {
     url,
@@ -22,7 +22,7 @@ const Methods = {
   },
   testWan: {
     url,
-    action: 'router.check_wan_status'
+    action: 'router.wan_status.get'
   },
   getTimezone: {
     url,
@@ -31,85 +31,31 @@ const Methods = {
   getWIFI: {
     url,
     action: 'router.wifi.get'
-  },
-  logout: {
-    url,
-    action: 'router.logout'
-  },
-  reboot: {
-    url,
-    action: 'router.reboot'
-  },
-  getWanRTInfo: {
-    url,
-    action: 'router.wan.rt_info.get'
-  },
-  getWanInfo: {
-    url,
-    action: 'router.wan.config.get'
-  },
-  testSpeed: {
-    url,
-    action: ''
-  },
-  getMeshInfo: {
-    url,
-    action: ''
   }
 };
 
 const http = {
-  logout() {
-    return axios.post(Methods.logout.url, {
-      method: Methods.logout.action
-    });
-  },
-  reboot() {
-    return axios.post(Methods.reboot.url, {
-      method: Methods.reboot.action
-    });
-  },
-  getWanRTInfo() {
-    return axios.post(Methods.getWanRTInfo.url, {
-      method: Methods.getWanRTInfo.action
-    });
-  },
-  getWanInfo() {
-    return axios.post(Methods.getWanInfo.url, {
-      method: Methods.getWanInfo.action
-    });
-  },
-  getMeshInfo() {
-    return axios.post(Methods.getMeshInfo.url, {
-      method: Methods.getMeshInfo.action
-    });
-  },
-  testSpeed() {
-    return axios.post(Methods.testSpeed.url, {
-      method: Methods.testSpeed.action
-    });
-  },
   getWIFI() {
-    return axios.post(Methods.getWIFI.url, {
-      method: Methods.getWIFI.action
+    return axios.post(methods.getWIFI.url, {
+      method: methods.getWIFI.action
     });
   },
   checkLogin() {
-    return axios.post(Methods.checkLogin.url, {
-      method: Methods.checkLogin.action
+    return axios.post(methods.checkLogin.url, {
+      method: methods.checkLogin.action
     });
   },
   login(pwd) {
-    return axios.post(Methods.login.url, {
-      method: Methods.login.action,
+    return axios.post(methods.login.url, {
+      method: methods.login.action,
       params: {
         admin_password: pwd
       }
     });
   },
   isinitial() {
-    return axios.post(Methods.isinitial.url, {
-      method: Methods.isinitial.action
+    return axios.post(methods.isinitial.url, {
+      method: methods.isinitial.action
     });
   },
   update(config) {
@@ -127,21 +73,21 @@ const http = {
     if (config.wan.type) {
       conf.wan = config.wan;
     }
-    return axios.post(Methods.update.url, {
-      method: Methods.update.action,
+    return axios.post(methods.update.url, {
+      method: methods.update.action,
       params: {
         config: conf
       }
     });
   },
   testWan() {
-    return axios.post(Methods.testWan.url, {
-      method: Methods.testWan.action
+    return axios.post(methods.testWan.url, {
+      method: methods.testWan.action
     });
   },
   getTimezone() {
-    return axios.post(Methods.getTimezone.url, {
-      method: Methods.getTimezone.action
+    return axios.post(methods.getTimezone.url, {
+      method: methods.getTimezone.action
     });
   },
   post2native(action, type, data) {
@@ -172,4 +118,8 @@ const configRequestInterceptors = (before, error) => {
   const errorCallback = error || noop;
   axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export { http, configResponseInterceptors, configRequestInterceptors };
+export {
+  http,
+  configResponseInterceptors,
+  configRequestInterceptors
+};
