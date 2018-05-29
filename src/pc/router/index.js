@@ -5,6 +5,7 @@ import home from '../pages/bussiness/home/index.vue';
 import network from '../pages/bussiness/setting/network.vue';
 import wifi from '../pages/bussiness/setting/wifi.vue';
 import safe from '../pages/bussiness/setting/safe.vue';
+import reboot from '../pages/bussiness/setting/reboot.vue';
 
 Vue.use(Router);
 const routes = [{
@@ -30,6 +31,10 @@ const routes = [{
   path: '/setting/safe',
   name: 'safe',
   component: safe,
+}, {
+  path: '/setting/reboot',
+  name: 'reboot',
+  component: reboot,
 }];
 export default new Router({
   routes
