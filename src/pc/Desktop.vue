@@ -95,6 +95,9 @@ export default {
     padding-left: 300px;
     &.login-page {
       background: #fff;
+      display: block;
+      position: fixed;
+      top: 0;
     }
   }
   .app-container {

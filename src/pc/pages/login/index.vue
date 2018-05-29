@@ -13,10 +13,37 @@
         </div>
         <div style="clear:both;"></div>
         <span class="welcome-text">{{$t('trans0136')}}</span>
-        <button v-if="initial" class="btn">{{$t('trans0222')}}</button>
-        <div class="login-form" v-if="!initial">
-          <m-input type="password" />
-          <button class="btn">{{this.$t('trans0001')}}</button>
+        <div v-if="!loading">
+          <button v-if="initial" class="btn">{{$t('trans0222')}}</button>
+          <div class="login-form" v-if="!initial">
+            <div class="password-container">
+              <label for="">
+                <span>{{$t('trans0067')}}</span>
+              </label>
+              <m-input type="password" />
+            </div>
+            <button class="btn">{{this.$t('trans0001')}}</button>
+          </div>
+        </div>
+        <div class="loadding" v-if="loading">
+          <img src="../../assets/images/loading.gif" alt="">
+        </div>
+        <div class="small-device-download">
+          <div class="logo-container">
+            <img class="app-logo" src="../../assets/images/ic_mercku.png" alt="">
+          </div>
+          <div class="down-text">
+            <div>{{$t('trans0314')}}</div>
+            <div>
+              {{$t('trans0292')}}</div>
+          </div>
+
+          <div class="down-button-container">
+            <a class="down-button" href="">{{$t('trans0262')}}</a>
+          </div>
+        </div>
+        <div class="small-device-image">
+          <img src="../../assets/images/img_bg_mobile.png" alt="">
         </div>
       </div>
       <policy class="policy" />
@@ -37,25 +64,23 @@ export default {
   },
   data() {
     return {
-      initial: true,
-      steps: ['第一步', '第二步', '第三步'],
-      current: 0
+      initial: false,
+      loading: false
     };
   },
   mounted() {
-    // this.$loading.open();
-    // // 尝试自动登录，如果自动登录成功，则展示设置按钮，否则展示登录按钮。
-    // this.$http
-    //   .login('')
-    //   .then(() => {
-    //     this.initial = true;
-    //     this.$loading.close();
-    //   })
-    //   .catch(() => {
-    //     this.$loading.close();
-    //   });
-  },
-  methods: {}
+    this.loading = true;
+    // 尝试自动登录，如果自动登录成功，则展示设置按钮，否则展示登录按钮。
+    this.$http
+      .login('')
+      .then(() => {
+        this.initial = true;
+        this.loading = false;
+      })
+      .catch(() => {
+        this.loading = false;
+      });
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -69,8 +94,32 @@ export default {
     height: 100%;
     background: url(../../assets/images/img_main_picture.png) no-repeat center;
     background-position-y: bottom;
+    .loadding {
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
     .center-form {
       text-align: center;
+      .small-device-download {
+        display: none;
+      }
+      .small-device-image {
+        display: none;
+      }
+      .password-container {
+        label {
+          display: block;
+          font-size: 14px;
+
+          width: 350px;
+          margin: 0 auto;
+          margin-bottom: 10px;
+          text-align: left;
+        }
+        margin-bottom: 30px;
+      }
       .download {
         padding: 0 50px;
         width: 200px;
@@ -116,6 +165,79 @@ export default {
     width: 100%;
     text-align: center;
     color: #333;
+  }
+}
+@media screen and(max-width: 768px) {
+  .login-container {
+    .policy {
+      background: #fff;
+      bottom: 0;
+      padding: 10px;
+      font-size: 12px;
+    }
+
+    .bg {
+      background: none;
+      .center-form {
+        .password-container {
+          label {
+            width: 80%;
+          }
+        }
+        .welcome-text {
+          font-size: 24px;
+        }
+        .small-device-image {
+          display: block;
+          img {
+            height: 176px;
+          }
+        }
+        .small-device-download {
+          display: block;
+          margin: 0 auto;
+          margin-top: 45px;
+          background: #f1f1f1;
+          width: 80%;
+          text-align: left;
+          padding: 20px 10px;
+          height: 88px;
+          border-radius: 4px;
+          .logo-container {
+            float: left;
+          }
+
+          .down-text {
+            text-align: left;
+            float: left;
+            font-size: 12px;
+            color: #333;
+            margin-left: 12px;
+            > div:first-child {
+              padding-top: 8px;
+            }
+            > div:last-child {
+              padding-bottom: 8px;
+            }
+          }
+          .down-button-container {
+            float: right;
+            .down-button {
+              text-decoration: none;
+              color: #4237dd;
+              border: 1px solid #4237dd;
+              padding: 10px 15px;
+              border-radius: 2px;
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    .download {
+      display: none;
+    }
   }
 }
 </style>

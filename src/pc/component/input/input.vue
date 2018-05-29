@@ -51,6 +51,7 @@ export default {
     outline: 0;
     border: 1px solid #e1e1e1;
     font-size: 14px;
+    padding: 10px;
     &.has-icon {
       padding-right: 30px;
     }

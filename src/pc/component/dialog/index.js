@@ -1,12 +1,11 @@
 import Vue from 'vue';
 import Dialog from './index.vue';
 
-const mergeOptions = (opt1, opt2) => {
-  return {
-    ...opt1,
-    ...opt2
-  };
-};
+const mergeOptions = (opt1, opt2) => ({
+  ...opt1,
+  ...opt2
+});
+
 const dialog = {
   info(options) {
     const opt = mergeOptions({

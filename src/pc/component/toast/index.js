@@ -1,19 +1,15 @@
 import Vue from 'vue';
 import Toast from './index.vue';
 
-const toast = (options) => {
-  const opt = {
-    ...{
-      text: 'toast1',
-      duration: 3000,
-      type: 'success'
-    },
-    ...options
-  };
-
+const toast = (text = '', duration = 3000, type = 'error') => {
   const Construtor = Vue.extend(Toast);
   this.instance = new Construtor({
-    data: opt
+    data: {
+      text,
+      duration,
+      type
+    }
+
   }).$mount();
   this.instance.visible = true;
   document.body.appendChild(this.instance.$el);
