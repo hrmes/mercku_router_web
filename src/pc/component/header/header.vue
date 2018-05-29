@@ -11,7 +11,6 @@
             <li :class="{'current-lang':lang===language}" v-for="lang in Languages" @click="selectLang(lang)">{{lang.text}}</li>
           </ul>
         </transition>
-
       </div>
       <div v-show="!isLoginPage" class="exit" @click="exit()">
         {{$t('trans0021')}}

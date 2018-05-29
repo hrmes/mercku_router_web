@@ -89,21 +89,10 @@ export default {
 <style lang="scss" scoped>
 .container {
   height: 100%;
-  // padding-top: 80px;
   position: relative;
   .header {
-    // position: fixed;
-    top: 0;
     width: 100%;
     padding-left: 300px;
-  }
-  .menu {
-    width: 300px;
-    height: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 1000;
   }
   .app-container {
     width: 100%;
@@ -114,5 +103,18 @@ export default {
   }
 }
 @media screen and (max-width: 479px) {
+}
+@media screen and (max-width: 768px) {
+  .container {
+    padding-top: 68px;
+    .app-container {
+      &.has-menu {
+        padding-left: 0;
+      }
+    }
+    .header {
+      display: none;
+    }
+  }
 }
 </style>

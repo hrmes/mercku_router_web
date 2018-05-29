@@ -1,9 +1,13 @@
 <template>
-  <div class="menu-container">
+  <div class="menu-container" :class="{'small-device-expand':showMenu}">
     <div class="logo-container">
       <img src="../../assets/images/MERCKU_LOGO_web_top.png" alt="">
     </div>
-    <ul class="menu">
+    <div class="small-device">
+      <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
+      <span class="menu-icon menu" @click="show()"></span>
+    </div>
+    <ul class="menu" :class="{'show':showMenu}">
       <li class="menu-item" @click="jump(menu)" v-for="menu in menus" :class="{'selected':$route.path.includes(menu.url)}">
         <span class="menu-icon" :class="[menu.icon]"></span>
         <span class="menu-text">{{$t(menu.text)}}</span>
@@ -32,7 +36,8 @@ export default {
   },
   data() {
     return {
-      current: null
+      current: null,
+      showMenu: false
     };
   },
   methods: {
@@ -42,7 +47,16 @@ export default {
       } else {
         this.$router.push({ path: menu.url });
         this.current = menu;
+        this.showMenu = false;
       }
+    },
+    changeLang() {
+      const zh = 'zh-CN';
+      const en = 'en-US';
+      this.changeLanguage(this.$i18n.locale === en ? zh : en);
+    },
+    show() {
+      this.showMenu = !this.showMenu;
     }
   }
 };
@@ -50,6 +64,32 @@ export default {
 <style lang="scss" scoped>
 .menu-container {
   background: #fff;
+  .small-device {
+    display: none;
+    float: right;
+    padding: 20px;
+    .menu-icon {
+      display: inline-block;
+      width: 21px;
+      height: 21px;
+      &.language {
+        &.zh-CN {
+          background: url(../../assets/images/ic_language_exchange_02.png)
+            no-repeat center;
+        }
+        &.en-US {
+          background: url(../../assets/images/ic_language_exchange_01.png)
+            no-repeat center;
+        }
+      }
+      &.menu {
+        width: 24px;
+        margin-left: 40px;
+        background: url(../../assets/images/ic_top_bar_pull_down.png) no-repeat
+          center;
+      }
+    }
+  }
   .logo-container {
     padding: 60px;
     text-align: center;
@@ -59,6 +99,7 @@ export default {
     }
   }
   .menu {
+    background: #fff;
     .menu-item,
     .menu-child {
       font-size: 16px;
@@ -131,6 +172,7 @@ export default {
     transition: all 0.1s ease-in-out;
     height: 0;
     overflow: hidden;
+    background: #fff;
     &.show {
       height: auto;
     }
@@ -148,8 +190,49 @@ export default {
     }
   }
 }
-@media screen and (max-width: 479px) {
+@media screen and (min-width: 769px) {
   .menu-container {
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+  }
+}
+@media screen and (max-width: 768px) {
+  .menu-container {
+    position: fixed;
+    top: 0;
+    height: 65px;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid #e1e1e1;
+    &.small-device-expand {
+      height: 100%;
+    }
+    .small-device {
+      display: inline-block;
+    }
+    .logo-container {
+      padding: 20px;
+      display: inline-block;
+      img {
+        width: 140px;
+        height: 21px;
+      }
+    }
+    .menu {
+      // display: none;
+      //position: fixed;
+      // top: 65px;
+      // bottom: 0;
+      // width: 100%;
+      display: none;
+      &.show {
+        display: block;
+      }
+    }
     .qr-container {
       display: none;
     }
