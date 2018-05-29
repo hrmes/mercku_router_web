@@ -58,6 +58,12 @@ input::-webkit-input-placeholder {
   color: #bdbdbd;
 }
 
+@media screen and (min-width:769px) {
+  .btn {
+    width: 350px;
+  }
+}
+
 @media screen and (max-width:768px) {
   .btn {
     display: block;
