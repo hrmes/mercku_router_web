@@ -7,10 +7,10 @@
 </template>
 
 <script>
-/* this.$toast({
-  type:'success',
-  text：''
-})*/
+// this.$toast({
+//   type:'success',
+//   text：''
+// })
 export default {
   data() {
     return {

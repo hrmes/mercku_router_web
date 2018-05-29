@@ -51,19 +51,19 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 @keyframes speed-tester {
   0% {
-    background: url(../../../static/animation/img_test_animation_01.png);
+    background: url(../../assets/images/animation/img_test_animation_01.png);
     background-size: 100%;
   }
   33% {
-    background: url(../../../static/animation/img_test_animation_02.png);
+    background: url(../../assets/images/animation/img_test_animation_02.png);
     background-size: 100%;
   }
   66% {
-    background: url(../../../static/animation/img_test_animation_03.png);
+    background: url(../../assets/images/animation/img_test_animation_03.png);
     background-size: 100%;
   }
   100% {
-    background: url(../../../static/animation/img_test_animation_04.png);
+    background: url(../../assets/images/animation/img_test_animation_04.png);
     background-size: 100%;
   }
 }
@@ -73,7 +73,7 @@ export default {
     .tester {
       width: 3.45rem;
       height: 3.45rem;
-      background: url(../../../static/animation/img_test_animation_01.png);
+      background: url(../../assets/images/animation/img_test_animation_01.png);
       background-size: 100%;
       animation: speed-tester 1s linear infinite;
       margin: 0 auto;

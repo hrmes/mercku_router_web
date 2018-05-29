@@ -12,7 +12,7 @@ import FastClick from 'fastclick';
 import {
   changeLanguage,
   i18n
-} from './i18n';
+} from '../i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
@@ -20,10 +20,10 @@ import {
   http,
   configResponseInterceptors,
   configRequestInterceptors
-} from './http';
+} from '../http';
 import util from './util/util';
 import nav from './component/nav-bar.vue';
-import v from '../version.json';
+import v from '../../version.json';
 
 Vue.use(Button);
 Vue.use(Field);
