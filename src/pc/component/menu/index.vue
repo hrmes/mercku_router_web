@@ -19,6 +19,10 @@
           </li>
         </ul>
       </li>
+      <li class="menu-item exit" @click="exit()">
+        <span class="menu-icon exit"></span>
+        <span class="menu-text">{{$t('trans0021')}}</span>
+      </li>
     </ul>
     <div class="qr-container">
       <img src="../../assets/images/qr.png" alt="">
@@ -57,6 +61,18 @@ export default {
     },
     show() {
       this.showMenu = !this.showMenu;
+    },
+    exit() {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0323'),
+        callback: {
+          ok: () => {
+            this.$router.replace({ path: '/login' });
+          }
+        }
+      });
     }
   }
 };
@@ -112,7 +128,9 @@ export default {
     }
     .menu-item {
       position: relative;
-      height: 50px;
+      &.exit {
+        display: none;
+      }
       .menu-icon {
         width: 18px;
         height: 18px;
@@ -127,6 +145,9 @@ export default {
         &.setting {
           background: url(../../assets/images/ic_setting_router.png) no-repeat
             center;
+        }
+        &.exit {
+          background: url(../../assets/images/ic_logout.png) no-repeat center;
         }
       }
       &.selected {
@@ -154,8 +175,8 @@ export default {
           center;
         position: absolute;
         right: 20px;
-        top: 50%;
-        margin-top: -3px;
+        top: 21px;
+        //margin-top: -3px;
       }
     }
 
@@ -232,6 +253,11 @@ export default {
       display: none;
       &.show {
         display: block;
+      }
+      .menu-item {
+        &.exit {
+          display: block;
+        }
       }
     }
     .qr-container {

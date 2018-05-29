@@ -37,10 +37,11 @@ export default {
       }
     },
     restoryOverflow() {
-      document.body.style.overflow = this.bodyOverflow;
+      document.body.style.overflow = this.bodyOverflow || 'auto';
     },
     close() {
       this.$el.addEventListener('transitionend', () => {
+        this.restoryOverflow();
         this.$el.parentNode.removeChild(this.$el);
       });
     },
@@ -54,9 +55,6 @@ export default {
       this.callback.cancel && this.callback.cancel();
       this.close();
     }
-  },
-  destroyed() {
-    this.restoryOverflow();
   }
 };
 </script>
