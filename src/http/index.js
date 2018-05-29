@@ -6,7 +6,7 @@ const url = '/app';
 const methods = {
   checkLogin: {
     url,
-    action: 'router.check_login'
+    action: 'router.is_login'
   },
   login: {
     url,
@@ -22,7 +22,7 @@ const methods = {
   },
   testWan: {
     url,
-    action: 'router.check_wan_status'
+    action: 'router.wan_status.get'
   },
   getTimezone: {
     url,

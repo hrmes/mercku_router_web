@@ -41,7 +41,7 @@ const loader = {
 };
 const launch = () => {
   FastClick.attach(document.body);
-  const NO_LOADING_METHODS = ['router.check_login', 'router.check_wan_status'];
+  const NO_LOADING_METHODS = ['router.is_login', 'router.wan_status.get'];
   const ROUTER_LOGIN = 'router.login';
   configRequestInterceptors(
     config => {
@@ -133,7 +133,7 @@ const launch = () => {
     if (to.path !== Pages.welcome && !loginChecked) {
       loginChecked = true;
       http.checkLogin().then(res => {
-        if (!res.data.result) {
+        if (!res.data.result.status) {
           // 未登录
           http
             .login('')
