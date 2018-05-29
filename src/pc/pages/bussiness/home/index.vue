@@ -1,19 +1,23 @@
 <template>
   <div class="home-container">
     <div class="check-info">
-      <div class="name">Tom's wifi</div>
-      <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
-      <div class='check-status'>
-        <span class='testing' v-if='true'> {{$t('trans0298')}}...</span>
+      <div class="row-1">
+        <div class="name">Tom's wifi</div>
+        <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
+      </div>
+      <div class='check-status row-2'>
+        <span class='testing' v-if='false'> {{$t('trans0298')}}...</span>
         <span class="success-line" v-if='true'></span>
         <span class='fail-line' v-if='false'></span>
         <span class='fail-info' v-if='false'>
           <i class="fail-icon"></i>
         </span>
       </div>
-      <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
-      <div class="speed">
-        <span>21.16</span>M
+      <div class="row-3">
+        <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
+        <div class="speed">
+          <span>21.16</span>M
+        </div>
       </div>
       <button class="btn check-btn">{{this.$t('trans0008')}}</button>
     </div>
@@ -219,6 +223,16 @@ export default {
   padding: 0 30px;
   padding-bottom: 30px;
   .check-info {
+    .row-1 {
+      display: flex;
+      max-width: 200px;
+      align-items: center;
+    }
+    .row-3 {
+      max-width: 200px;
+      display: flex;
+      align-items: center;
+    }
     font-size: 16px;
     font-weight: 400;
     color: #333333;
@@ -227,6 +241,7 @@ export default {
     align-items: center;
     height: 150px;
     width: 100%;
+
     flex-wrap: wrap;
     .name {
       //   font-weight: bold;
@@ -248,11 +263,15 @@ export default {
       }
     }
     .check-status {
-      width: 440px;
+      flex: 1;
+      max-width: 440px;
+      min-width: 150px;
       position: relative;
       .success-line {
         position: absolute;
-        width: 440px;
+        max-width: 440px;
+        min-width: 150px;
+        width: 100%;
         height: 3px;
         border: 2px dashed #4237dd;
         box-sizing: border-box;
@@ -317,7 +336,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     .item {
-      min-width: 520px;
+      // min-width: 400px;
       width: calc(50% - 10px);
       min-height: 220px;
       overflow: hidden;
@@ -357,6 +376,7 @@ export default {
         padding-top: 10px;
         .m-item {
           width: 50%;
+          // min-width: 200px;
           font-size: 14px;
           color: #333333;
           padding-top: 20px;
@@ -563,6 +583,28 @@ export default {
           }
         }
       }
+    }
+  }
+}
+@media screen and (max-width: 1068px) {
+  .check-info {
+    padding-bottom: 30px;
+  }
+  .row-1 {
+    width: 120px;
+    justify-content: center;
+    flex-flow: column-reverse;
+  }
+  .row-3 {
+    width: 120px;
+    flex-flow: column;
+  }
+}
+@media screen and (max-width: 1220px) {
+  .router-info {
+    flex-direction: column;
+    .item {
+      width: 100% !important;
     }
   }
 }
