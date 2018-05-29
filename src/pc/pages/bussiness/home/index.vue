@@ -2,36 +2,39 @@
   <div class="home-container">
     <div class="check-info">
       <div class="name">Tom's wifi</div>
-      <div class="router-icon"><img src="../../../assets/1.png" alt=""></div>
+      <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
       <div class='check-status'>
-        <span class='testing' v-if='true'> {{$t('trans0298')}}</span>
-        <img class="success-line" v-if='true' src="../../../assets/1.png" alt="">
-        <img class='fail-line' v-if='false' src="../../../assets/1.png" alt="">
+        <span class='testing' v-if='true'> {{$t('trans0298')}}...</span>
+        <span class="success-line" v-if='true'></span>
+        <span class='fail-line' v-if='false'></span>
+        <span class='fail-info' v-if='false'>
+          <i class="fail-icon"></i>
+        </span>
       </div>
-      <div class="network-icon"><img src="../../../assets/1.png" alt=""></div>
+      <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
       <div class="speed">
         <span>21.16</span>M
       </div>
-      <Button class="check-btn" v-if='true'>测速</Button>
+      <button class="btn check-btn">{{this.$t('trans0008')}}</button>
     </div>
     <div class="router-info">
       <div class="item">
         <div class="title">{{$t('trans0299')}}</div>
         <div class='message'>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0187')}}</label>
+            <label class="m-title">{{$t('trans0187')}}：</label>
             Mercku m1
           </div>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0300')}}</label>
+            <label class="m-title">{{$t('trans0300')}}：</label>
             Mercku 稳定版2.18.15
           </div>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0188')}}</label>
+            <label class="m-title">{{$t('trans0188')}}：</label>
             F0:B4:29:77:59:
           </div>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0251')}}</label>
+            <label class="m-title">{{$t('trans0251')}}:</label>
             6816/02252767
           </div>
         </div>
@@ -40,23 +43,23 @@
         <div class="title">{{$t('trans0301')}}</div>
         <div class='message'>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0302')}}</label>
+            <label class="m-title">{{$t('trans0302')}}：</label>
             Mercku m1
           </div>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0151')}}</label>
+            <label class="m-title">{{$t('trans0151')}}：</label>
             Mercku 稳定版2.18.15
           </div>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0152')}}</label>
+            <label class="m-title">{{$t('trans0152')}}：</label>
             F0:B4:29:77:59:
           </div>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0236')}}</label>
+            <label class="m-title">{{$t('trans0236')}}：</label>
             6816/02252767
           </div>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0153')}}</label>
+            <label class="m-title">{{$t('trans0153')}}：</label>
             6816/02252767
           </div>
         </div>
@@ -66,37 +69,37 @@
         <div class="content">
           <div class="real-time-info">
             <div class="down">
-              <label class="r-title">实时下行：</label>
+              <label class="r-title">{{$t('trans0305')}}：</label>
               <i class='r-dwon-icon'></i>
               <span class="speed">0.5</span>
               <span class="unit"> KB/s</span>
             </div>
             <div class='up'>
-              <label class="r-title">实时上行：</label>
+              <label class="r-title">{{$t('trans0304')}}：</label>
               <i class='r-up-icon'></i>
               <span class="speed">0.7</span>
               <span class="unit"> KB/s</span>
             </div>
           </div>
           <div class="speep-info">
-            <div class='up'>
+            <div>
               <i class="f-up-icon"></i>
               <div>
                 <p>
                   <span class="speed">21.15</span>
                   <span class='unit'> MB/s</span>
                 </p>
-                <p class="note">最快上传</p>
+                <p class="note">{{$t('trans0306')}}</p>
               </div>
             </div>
-            <div class="down">
+            <div>
               <i class="f-down-icon"></i>
               <div>
                 <p>
                   <span class="speed">2.15</span>
                   <span class='unit'> MB/s</span>
                 </p>
-                <p class="note">最快下载</p>
+                <p class="note">{{$t('trans0307')}}</p>
               </div>
 
             </div>
@@ -106,44 +109,52 @@
       <div class="item term-flow-info">
         <div class="title">{{$t('trans0308')}}</div>
         <div class="speep-info">
-          <div class='up'>
-            <i class="f-up-icon"></i>
+          <div>
+            <i class="t-dwon-icon"></i>
             <div>
               <p>
                 <span class="speed">21.15</span>
-                <span class='unit'> MB/s</span>
+                <span class='unit'> MB</span>
               </p>
-              <p class="note">最快上传</p>
+              <p class="note">{{$t('trans0309')}}</p>
             </div>
           </div>
-          <div class='up'>
-            <i class="f-up-icon"></i>
+          <div>
+            <i class="t-up-icon"></i>
             <div>
               <p>
                 <span class="speed">21.15</span>
-                <span class='unit'> MB/s</span>
+                <span class='unit'> MB</span>
               </p>
-              <p class="note">最快上传</p>
+              <p class="note">{{$t('trans0310')}}</p>
             </div>
           </div>
-          <div class='up'>
-            <i class="f-up-icon"></i>
+          <div>
+            <i class="t-count-icon"></i>
             <div>
               <p>
-                <span class="speed">21.15</span>
-                <span class='unit'> MB/s</span>
+                <span class="speed">8</span>
               </p>
-              <p class="note">最快上传</p>
+              <p class="note">{{$t('trans0311')}}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class='mesh-info'>
-      <div class="title">{{$t('trans0308')}}Mesh状态</div>
+      <div class="title">{{$t('trans0312')}}</div>
       <div class="content">
-        <div v-for="item in meshStatus" class="mesh" :class="diffMesh(item)" :style="item.main&&{width:' 260px ',margin:' 0 25px'}">
-
+        <div v-for="item in meshStatus" class="mesh" :class="diffMesh(item)">
+          <div class="message">
+            <img src="../../../assets/images/ic_main_router.png" alt="" v-if='item.main'>
+            <img src="../../../assets/images/ic_plug.png" alt="" v-if='!item.main'>
+            <span>{{item.name}}</span>
+          </div>
+          <div class="status">
+            <img src="../../../assets/images/ic_plug_bad.png" alt="" v-if='item.status===1'>
+            <img src="../../../assets/images/ic_plug_fine.png" alt="" v-if='item.status===2'>
+            <img src="../../../assets/images/ic_plug_good.png" alt="" v-if='item.status===3'>
+          </div>
         </div>
       </div>
     </div>
@@ -156,9 +167,15 @@ export default {
       meshStatus: [
         {
           main: true,
-          name: 'm2',
+          name: '主路由名称过长 该怎么办呢~~~~',
           status: 3
         },
+        {
+          main: false,
+          name: 'bee',
+          status: 3
+        },
+
         {
           main: false,
           name: 'bee',
@@ -169,12 +186,6 @@ export default {
           main: false,
           name: 'bee',
           status: 1
-        },
-
-        {
-          main: false,
-          name: 'bee',
-          status: 2
         }
       ]
     };
@@ -194,9 +205,9 @@ export default {
             className = 'signal-1';
             break;
           default:
-            [];
             break;
         }
+        className = `${className} ${item.main && 'main'}`;
       }
       return className;
     }
@@ -226,8 +237,6 @@ export default {
         display: inline-block;
         width: 50px;
         height: 50px;
-        border: 1px solid red;
-        border-radius: 50px;
       }
     }
     .router-icon {
@@ -245,14 +254,34 @@ export default {
         position: absolute;
         width: 440px;
         height: 3px;
+        border: 2px dashed #4237dd;
         box-sizing: border-box;
       }
       .fail-line {
         position: absolute;
         width: 440px;
-        height: 24px;
+        height: 2px;
+        border: 2px dashed #999999;
         box-sizing: border-box;
-        top: -12px;
+      }
+      .fail-info {
+        position: absolute;
+        padding: 0 10px;
+        background: #f1f1f1;
+        z-index: 111;
+        width: 57px;
+        height: 32px;
+        background: #f1f1f1;
+        top: -16px;
+        right: 50%;
+        transform: translateX(50%);
+      }
+      .fail-icon {
+        position: absolute;
+        width: 37px;
+        height: 31px;
+        background: url('../../../assets/images/ic_wifi_wrong.png');
+        background-size: 100% 100%;
       }
       .testing {
         display: inline-block;
@@ -269,8 +298,6 @@ export default {
       margin-left: 30px;
       height: 50px;
       width: 160px;
-      background: #4237dd;
-      color: white;
     }
     .speed {
       font-weight: 200;
@@ -321,6 +348,7 @@ export default {
         font-size: 14px;
         letter-spacing: -0.1px;
         color: #999999;
+        margin-left: 3px !important;
       }
       .message {
         width: 100%;
@@ -346,7 +374,6 @@ export default {
         min-height: 165px;
         div {
           display: inline-block;
-          padding-left: 10px;
           flex: 1;
           text-align: center;
           p {
@@ -358,19 +385,38 @@ export default {
         .f-up-icon {
           width: 36px;
           height: 36px;
-          border: 1px solid red;
-          border-radius: 36px;
           display: inline-block;
-          background: url('../../../assets/1.png') no-repeat;
+          background: url('../../../assets/images/ic_fast_upload.png') no-repeat;
           background-size: 100% 100%;
         }
         .f-down-icon {
           width: 36px;
           height: 36px;
-          border: 1px solid red;
-          border-radius: 36px;
           display: inline-block;
-          background: url('../../../assets/1.png') no-repeat;
+          background: url('../../../assets/images/ic_fast_download.png')
+            no-repeat;
+          background-size: 100% 100%;
+        }
+        .t-dwon-icon {
+          width: 25px;
+          height: 34px;
+          display: inline-block;
+          background: url('../../../assets/images/ic_ic_download.png') no-repeat;
+          background-size: 100% 100%;
+        }
+        .t-up-icon {
+          width: 25px;
+          height: 34px;
+          display: inline-block;
+          background: url('../../../assets/images/ic_upload.png') no-repeat;
+          background-size: 100% 100%;
+        }
+        .t-count-icon {
+          width: 36px;
+          height: 36px;
+          display: inline-block;
+          background: url('../../../assets/images/ic_contact_advice.png')
+            no-repeat;
           background-size: 100% 100%;
         }
       }
@@ -408,7 +454,8 @@ export default {
               width: 12px;
               height: 16px;
               display: inline-block;
-              background: url('../../../assets/1.png') no-repeat;
+              background: url('../../../assets/images/ic_ic_download.png')
+                no-repeat;
               background-size: 100% 100%;
             }
           }
@@ -419,7 +466,7 @@ export default {
               width: 12px;
               height: 16px;
               display: inline-block;
-              background: url('../../../assets/1.png') no-repeat;
+              background: url('../../../assets/images/ic_upload.png') no-repeat;
               background-size: 100% 100%;
             }
           }
@@ -455,21 +502,65 @@ export default {
         height: 120px;
         margin: 0 10px;
         border-radius: 6px;
+        overflow: hidden;
+        display: flex;
+
         &.signal-3 {
           background: linear-gradient(to left bottom, #20e779, #19d191);
         }
         &.signal-2 {
-          background: linear-gradient(to left bottom, #0089ff, #05effe);
+          background: linear-gradient(to left bottom, #0089ff, #05befe);
         }
         &.signal-1 {
           background: linear-gradient(to left bottom, #ff9575, #ff527a);
         }
-        &.main {
-          width: 260px;
-          margin: 0 25px;
+        .message {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding-left: 20px;
+          width: 50%;
+          img {
+            width: 22px;
+            height: 27px;
+          }
+          span {
+            font-size: 14px;
+            color: white;
+            padding-top: 10px;
+            display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
-        &.node {
-          width: 220px;
+        .status {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          img {
+            width: 60px;
+            height: 60px;
+          }
+        }
+      }
+      .main {
+        width: 260px;
+        margin: 0 25px;
+        display: flex;
+        .message {
+          img {
+            width: 50px;
+            height: 24px;
+          }
+        }
+        .status {
+          img {
+            width: 80px;
+            height: 80px;
+          }
         }
       }
     }

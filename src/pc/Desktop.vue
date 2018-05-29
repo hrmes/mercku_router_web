@@ -35,33 +35,33 @@ export default {
         {
           icon: 'wifi',
           text: 'trans0173',
-          url: '/bussiness/wodewifi',
-          expand: this.$route.path.includes('/bussiness/wodewifi')
+          url: '/home',
+          expand: this.$route.path.includes('/home')
         },
         {
           icon: 'setting',
           text: 'trans0019',
           expand:
-            this.$route.path.includes('/bussiness/wifishezhi') ||
-            this.$route.path.includes('/bussiness/wangluoshezhi') ||
-            this.$route.path.includes('/bussiness/anquan') ||
-            this.$route.path.includes('/bussiness/chongqi'),
+            this.$route.path.includes('/setting/wifi') ||
+            this.$route.path.includes('/setting/network') ||
+            this.$route.path.includes('/setting/safe') ||
+            this.$route.path.includes('/setting/reboot'),
           children: [
             {
               text: 'trans0103',
-              url: '/bussiness/wifishezhi'
+              url: '/setting/wifi'
             },
             {
               text: 'trans0142',
-              url: '/bussiness/wangluoshezhi'
+              url: '/setting/network'
             },
             {
               text: 'trans0297',
-              url: '/bussiness/anquan'
+              url: '/setting/safe'
             },
             {
               text: 'trans0122',
-              url: '/bussiness/chongqi'
+              url: '/setting/reboot'
             }
           ]
         }
