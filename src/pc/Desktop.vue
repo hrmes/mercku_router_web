@@ -92,7 +92,6 @@ export default {
   position: relative;
   .header {
     width: 100%;
-    padding-left: 300px;
     &.login-page {
       background: #fff;
       display: block;

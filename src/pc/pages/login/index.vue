@@ -169,6 +169,7 @@ export default {
 }
 @media screen and(max-width: 768px) {
   .login-container {
+    top: 0;
     .policy {
       background: #fff;
       bottom: 0;
@@ -178,6 +179,7 @@ export default {
 
     .bg {
       background: none;
+      height: auto;
       .center-form {
         .password-container {
           label {
@@ -186,6 +188,8 @@ export default {
         }
         .welcome-text {
           font-size: 24px;
+          margin-top: 25px;
+          margin-bottom: 35px;
         }
         .small-device-image {
           display: block;
