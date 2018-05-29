@@ -1,12 +1,9 @@
 <template>
   <div class="input-container">
     <input class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
-    <div class="icon-container" v-if="isPwdInput">
-      <button class="icon" @click="changePwdStatus()">
-        {{showPwd?'隐藏':'显示'}}
-      </button>
+    <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
+      <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
     </div>
-
   </div>
 </template>
 
@@ -53,6 +50,7 @@ export default {
     border-radius: 4px;
     outline: 0;
     border: 1px solid #e1e1e1;
+    font-size: 14px;
     &.has-icon {
       padding-right: 30px;
     }
@@ -62,10 +60,21 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    width: 30px;
+    height: 48px;
+    width: 50px;
+    cursor: pointer;
 
     .icon {
-      height: 48px;
+      width: 20px;
+      height: 20px;
+      margin-top: 14px;
+      display: inline-block;
+      &.show {
+        background: url(../../assets/images/ic_visible.png) no-repeat center;
+      }
+      &.hide {
+        background: url(../../assets/images/ic_invisible.png) no-repeat center;
+      }
     }
   }
 }

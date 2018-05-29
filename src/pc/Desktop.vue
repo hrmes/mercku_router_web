@@ -2,7 +2,7 @@
   <div class="container">
     <mercku-menu class="menu" :menus="menus" v-if="!isLogin"></mercku-menu>
     <div class="app-container" :class="{'has-menu':!isLogin}">
-      <mercku-header class="header"></mercku-header>
+      <mercku-header class="header" :class="{'login-page':isLogin}"></mercku-header>
       <router-view></router-view>
     </div>
 
@@ -93,10 +93,14 @@ export default {
   .header {
     width: 100%;
     padding-left: 300px;
+    &.login-page {
+      background: #fff;
+    }
   }
   .app-container {
     width: 100%;
     height: 100%;
+    position: relative;
     &.has-menu {
       padding-left: 300px;
     }
@@ -106,7 +110,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .container {
-    padding-top: 68px;
+    padding-top: 65px;
     .app-container {
       &.has-menu {
         padding-left: 0;
