@@ -20,7 +20,7 @@
               <label for="">
                 <span>{{$t('trans0067')}}</span>
               </label>
-              <m-input type="password" v-model="password" />
+              <m-input :placeholder="$t('trans0321')" type="password" v-model="password" />
             </div>
             <button class="btn" @click="login()">{{this.$t('trans0001')}}</button>
           </div>

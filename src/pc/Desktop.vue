@@ -3,7 +3,9 @@
     <mercku-menu class="menu" :menus="menus" v-if="!hasMenu"></mercku-menu>
     <div class="app-container" :class="{'has-menu':!hasMenu}">
       <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
-      <router-view></router-view>
+      <router-view>
+
+      </router-view>
       <policy class="policy" />
     </div>
 
@@ -112,8 +114,6 @@ export default {
     }
   }
   .policy {
-    position: absolute;
-    bottom: 10px;
     width: 100%;
     text-align: center;
     color: #333;
@@ -132,7 +132,6 @@ export default {
       display: none;
     }
     .policy {
-      position: static;
       font-size: 12px;
     }
   }

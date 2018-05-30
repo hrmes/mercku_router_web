@@ -26,14 +26,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .step-container {
-  height: 80px;
-  display: inline-block;
+  height: 100px;
+  display: flex;
   .step {
-    display: inline-block;
+    flex: 1;
+    display: flex;
     position: relative;
-
+    justify-content: center;
+    align-items: center;
     .left-line,
     .right-line {
+      flex: 1;
       height: 3px;
       background: #bdbdbd;
       display: inline-block;
@@ -91,14 +94,10 @@ export default {
   .step-container {
     .step {
       .left-line {
-        width: 80px;
+        width: 100px;
       }
       .right-line {
         width: 100px;
-      }
-      .left-line,
-      .right-line {
-        top: -10px;
       }
     }
   }
@@ -124,11 +123,11 @@ export default {
     }
     .left-line,
     .right-line {
+      flex: 1;
       height: 3px;
       background: #bdbdbd;
       display: inline-block;
       position: relative;
-      top: -5px;
     }
   }
 }
