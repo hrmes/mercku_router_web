@@ -104,7 +104,7 @@ export default {
 }
 @media screen and(max-width: 768px) {
   .step-container {
-    height: 60px;
+    height: 100px;
     .step {
       .step-number {
         width: 30px;

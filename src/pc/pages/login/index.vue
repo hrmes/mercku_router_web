@@ -82,6 +82,7 @@ export default {
       this.$http
         .login(this.password)
         .then(() => {
+          this.authorize.set(true);
           this.$router.push({ path: '/home' });
         })
         .catch(err => {

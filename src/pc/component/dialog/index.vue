@@ -115,10 +115,22 @@ export default {
     opacity: 0;
   }
 }
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 768px) {
   .dialog-container {
     .dialog-content {
       width: 80%;
+      .dialog-buttons {
+        white-space: nowrap;
+        button {
+          width: 100%;
+          display: block;
+          margin: 0;
+          margin-top: 10px;
+          &:first-child {
+            margin-top: 0;
+          }
+        }
+      }
     }
   }
 }

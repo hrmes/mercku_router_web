@@ -37,7 +37,7 @@ export default {
   text-align: left;
   cursor: pointer;
   height: 18px;
-  display: inline-block;
+  display: block;
   .box {
     float: left;
     width: 18px;

@@ -1,6 +1,6 @@
 <template>
-  <div class="input-container">
-    <input v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
+  <div class="input-container" :class="{'disabled':disabled}">
+    <input :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
     <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
       <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
     </div>
@@ -17,6 +17,10 @@ export default {
     value: {},
     placeholder: {
       type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -32,7 +36,9 @@ export default {
   },
   methods: {
     changePwdStatus() {
-      this.showPwd = !this.showPwd;
+      if (!this.disabled) {
+        this.showPwd = !this.showPwd;
+      }
     },
     onInput() {
       this.$emit('input', this.inputValue);
@@ -57,6 +63,11 @@ export default {
 <style lang="scss" scoped>
 .input-container {
   position: relative;
+  &.disabled {
+    .icon-container {
+      cursor: default;
+    }
+  }
   .input {
     height: 48px;
     width: 100%;

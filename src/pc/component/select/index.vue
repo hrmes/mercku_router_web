@@ -4,9 +4,11 @@
     <div class="icon-container">
       <span class="icon" :class="{'open':opened,'close':!opened}"></span>
     </div>
-    <ul class="select-popup" v-show="this.opened">
-      <li @click="select(option)" v-for="option in options">{{option.text}}</li>
-    </ul>
+    <transition name="select">
+      <ul class="select-popup" v-show="this.opened">
+        <li :key="option.value" @click.stop="select(option)" v-for="option in options">{{option.text}}</li>
+      </ul>
+    </transition>
   </div>
 </template>
 
@@ -49,6 +51,7 @@ export default {
   line-height: 26px;
   position: relative;
   padding-right: 50px;
+
   cursor: pointer;
   .select-popup {
     width: 100%;
@@ -59,10 +62,19 @@ export default {
     background: #f1f1f1;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    max-height: 200px;
+    border: 1px solid #e1e1e1;
+    overflow: hidden;
     li {
       list-style: none;
       padding: 10px;
       cursor: pointer;
+      &:active {
+        background: #fff;
+      }
+      &:hover {
+        background: #fff;
+      }
     }
   }
   .icon-container {
