@@ -27,6 +27,7 @@ export default {
 <style lang="scss" scoped>
 .step-container {
   height: 80px;
+  display: inline-block;
   .step {
     display: inline-block;
     position: relative;
@@ -71,6 +72,7 @@ export default {
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
+      margin-top: 8px;
     }
     &.steped {
       .step-number {
@@ -85,14 +87,14 @@ export default {
     }
   }
 }
-@media screen and(min-width: 480px) {
+@media screen and(min-width: 769px) {
   .step-container {
     .step {
       .left-line {
-        width: 150px;
+        width: 80px;
       }
       .right-line {
-        width: 150px;
+        width: 100px;
       }
       .left-line,
       .right-line {
@@ -101,7 +103,7 @@ export default {
     }
   }
 }
-@media screen and(max-width: 479px) {
+@media screen and(max-width: 768px) {
   .step-container {
     height: 60px;
     .step {
@@ -109,6 +111,9 @@ export default {
         width: 30px;
         height: 30px;
         line-height: 30px;
+      }
+      .step-text {
+        font-size: 12px;
       }
     }
     .left-line {

@@ -3,7 +3,7 @@ import LoadingComponent from './loading.vue';
 
 
 const defaultOptions = {
-  template: '加载中'
+  template: ''
 };
 
 const Loading = {
@@ -15,16 +15,20 @@ const Loading = {
     if (!this.instance) {
       const Construtor = Vue.extend(LoadingComponent);
       this.instance = new Construtor({
-        propsData: {
+        data: {
           template: opt.template
         }
       }).$mount();
+      this.instance.visible = true;
       document.body.appendChild(this.instance.$el);
     }
   },
   close() {
     if (this.instance) {
-      this.instance.$el.remove();
+      this.instance.visible = false;
+      this.instance.$el.addEventListener('transitionend', () => {
+        this.instance.$el.remove();
+      });
     }
   }
 };

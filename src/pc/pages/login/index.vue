@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <!-- <m-step :steps="steps" :current="current"></m-step> -->
+
     <div class="bg">
       <div class="center-form">
         <div class="download">
@@ -20,9 +20,9 @@
               <label for="">
                 <span>{{$t('trans0067')}}</span>
               </label>
-              <m-input type="password" />
+              <m-input type="password" v-model="password" />
             </div>
-            <button class="btn">{{this.$t('trans0001')}}</button>
+            <button class="btn" @click="login()">{{this.$t('trans0001')}}</button>
           </div>
         </div>
         <div class="loadding" v-if="loading">
@@ -46,26 +46,22 @@
           <img src="../../assets/images/img_bg_mobile.png" alt="">
         </div>
       </div>
-      <policy class="policy" />
     </div>
   </div>
 
 </template>
 <script>
-import policy from '../../component/policy/index.vue';
 import mInput from '../../component/input/input.vue';
-import mStep from '../../component/step/index.vue';
 
 export default {
   components: {
-    policy,
-    mInput,
-    mStep
+    mInput
   },
   data() {
     return {
       initial: false,
-      loading: false
+      loading: false,
+      password: ''
     };
   },
   mounted() {
@@ -80,6 +76,22 @@ export default {
       .catch(() => {
         this.loading = false;
       });
+  },
+  methods: {
+    login() {
+      this.$http
+        .login(this.password)
+        .then(() => {
+          this.$router.push({ path: '/home' });
+        })
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
+          }
+        });
+    }
   }
 };
 </script>
@@ -159,25 +171,14 @@ export default {
     #fff
   ); /* Firefox 3.6 - 15 */
   background: linear-gradient(to top right, #fafafa, #fff); /* 标准的语法 */
-  .policy {
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    text-align: center;
-    color: #333;
-  }
 }
 @media screen and(max-width: 768px) {
   .login-container {
-    .policy {
-      background: #fff;
-      bottom: 0;
-      padding: 10px;
-      font-size: 12px;
-    }
-
+    top: 0;
+    bottom: 60px;
     .bg {
       background: none;
+      height: auto;
       .center-form {
         .password-container {
           label {
@@ -186,6 +187,8 @@ export default {
         }
         .welcome-text {
           font-size: 24px;
+          margin-top: 25px;
+          margin-bottom: 35px;
         }
         .small-device-image {
           display: block;

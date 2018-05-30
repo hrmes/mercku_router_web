@@ -1,9 +1,10 @@
 <template>
   <div class="container">
-    <mercku-menu class="menu" :menus="menus" v-if="!isLogin"></mercku-menu>
-    <div class="app-container" :class="{'has-menu':!isLogin}">
-      <mercku-header class="header" :class="{'login-page':isLogin}"></mercku-header>
+    <mercku-menu class="menu" :menus="menus" v-if="!hasMenu"></mercku-menu>
+    <div class="app-container" :class="{'has-menu':!hasMenu}">
+      <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
       <router-view></router-view>
+      <policy class="policy" />
     </div>
 
   </div>
@@ -12,21 +13,21 @@
 <script>
 import MerckuHeader from './component/header/header.vue';
 import MerckuMenu from './component/menu/index.vue';
+import policy from './component/policy/index.vue';
 import './style/common.scss';
 
 export default {
   components: {
     'mercku-header': MerckuHeader,
-    'mercku-menu': MerckuMenu
-  },
-  methods: {
-    entered() {
-      console.log('entered');
-    }
+    'mercku-menu': MerckuMenu,
+    policy
   },
   computed: {
-    isLogin() {
-      return this.$route.path.includes('login');
+    hasMenu() {
+      return this.$route.path.includes('login') || this.$route.path.includes('wlan');
+    },
+    hasExit() {
+      return !this.hasMenu;
     }
   },
   data() {
@@ -86,18 +87,20 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .container {
   height: 100%;
   position: relative;
   .header {
     width: 100%;
-    padding-left: 300px;
-    &.login-page {
+    &.has-menu {
       background: #fff;
       display: block;
       position: fixed;
       top: 0;
+      .logo-container {
+        display: inline-block;
+      }
     }
   }
   .app-container {
@@ -108,8 +111,13 @@ export default {
       padding-left: 300px;
     }
   }
-}
-@media screen and (max-width: 479px) {
+  .policy {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    color: #333;
+  }
 }
 @media screen and (max-width: 768px) {
   .container {
@@ -121,6 +129,11 @@ export default {
     }
     .header {
       display: none;
+    }
+    .policy {
+      background: #fff;
+      bottom: 0;
+      font-size: 12px;
     }
   }
 }

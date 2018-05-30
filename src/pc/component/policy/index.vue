@@ -94,6 +94,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .policy-container {
+    height: 60px;
     .copy,
     .policy {
       display: block;

@@ -1,5 +1,8 @@
 <template>
   <header class="header-container">
+    <div class="logo-container">
+      <img src="../../assets/images/MERCKU_LOGO_web_top.png" alt="">
+    </div>
     <div class="right-container">
       <div class="lang-selector">
         <div class="current" @click.stop="showLangPopup()">
@@ -12,7 +15,10 @@
           </ul>
         </transition>
       </div>
-      <div v-show="!isLoginPage" class="exit" @click="exit()">
+      <div class="small-device">
+        <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
+      </div>
+      <div v-show="hasExit" class="exit" @click="exit()">
         {{$t('trans0021')}}
       </div>
     </div>
@@ -30,6 +36,12 @@ const Languages = [
   }
 ];
 export default {
+  props: {
+    hasExit: {
+      type: Boolean,
+      default: true
+    }
+  },
   data() {
     return {
       language: Languages[0],
@@ -58,6 +70,11 @@ export default {
       this.changeLanguage(lang.value);
       this.showPopup = false;
     },
+    changeLang() {
+      const zh = 'zh-CN';
+      const en = 'en-US';
+      this.changeLanguage(this.$i18n.locale === en ? zh : en);
+    },
     exit() {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -70,23 +87,24 @@ export default {
         }
       });
     }
-  },
-  computed: {
-    isLoginPage() {
-      return this.$route.path.includes('login');
-    }
   }
 };
 </script>
 <style lang="scss" scoped>
 .header-container {
   padding: 20px 50px;
-  height: 60px;
+  height: 65px;
+  .logo-container {
+    display: none;
+  }
   .logo {
     float: left;
   }
   .right-container {
     float: right;
+    .small-device {
+      display: none;
+    }
     .lang-selector {
       display: inline-block;
       cursor: pointer;
@@ -146,6 +164,46 @@ export default {
       display: inline-block;
       cursor: pointer;
       margin-left: 50px;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .header-container {
+    padding: 20px;
+    .logo-container {
+      display: block;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .right-container {
+      .lang-selector {
+        display: none;
+      }
+      .small-device {
+        display: inline-block;
+        .menu-icon {
+          display: inline-block;
+          width: 21px;
+          height: 21px;
+          &.language {
+            &.zh-CN {
+              background: url(../../assets/images/ic_language_exchange_02.png)
+                no-repeat center;
+            }
+            &.en-US {
+              background: url(../../assets/images/ic_language_exchange_01.png)
+                no-repeat center;
+            }
+          }
+          &.menu {
+            width: 24px;
+            margin-left: 40px;
+            background: url(../../assets/images/ic_top_bar_pull_down.png)
+              no-repeat center;
+          }
+        }
+      }
     }
   }
 }
