@@ -1,5 +1,5 @@
 <template>
-  <div class="setting-wifi-container">
+  <div class="setting-safe-container">
     <div class="content">
       <div class='w-header'>
         {{$t('')}} 修改管理密码
@@ -7,9 +7,13 @@
       <div class='form'>
         <div class='input-info'>
           <label for="" class="title"> {{$t('trans0117')}}</label>
-          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+          <div>
+            <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+          </div>
           <label for="" class="title">{{$t('trans0113')}}</label>
-          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+          <div>
+            <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+          </div>
         </div>
         <div class="btn-info">
           <button class="btn">{{$t('trans0081')}}</button>
@@ -41,7 +45,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.setting-wifi-container {
+.setting-safe-container {
   position: relative;
   padding: 0 30px;
   height: 100%;
@@ -68,6 +72,7 @@ export default {
         font-size: 14px;
         color: #333333;
         margin-top: 30px;
+        margin-bottom: 10px;
       }
 
       .btn-info {

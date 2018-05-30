@@ -7,9 +7,13 @@
       <div class='form'>
         <div class='input-info'>
           <label for="" class="title"> {{$t('trans0168')}}</label>
-          <m-input type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+          <div>
+            <m-input type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+          </div>
           <label for="" class="title">{{$t('trans0172')}}</label>
-          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+          <div>
+            <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+          </div>
         </div>
         <div class="check-info">
           <label for=""> {{$t('trans0255')}}</label>
@@ -74,6 +78,7 @@ export default {
         font-size: 14px;
         color: #333333;
         margin-top: 30px;
+        margin-bottom: 10px;
       }
 
       .btn-info {
