@@ -60,39 +60,21 @@
                         <div class="note">{{$t('trans0147')}}</div>
                         <div v-if="netType==='pppoe'">
                             <label for="" class="title"> {{$t('trans0155')}}</label>
-                            <div class='input-box'>
-                                <input type="text" :placeholder="`${$t('trans0321')}${$t('trans0155')}`" />
-                            </div>
+                            <m-input type="text" :placeholder="`${$t('trans0321')}${$t('trans0155')}`"></m-input>
                             <label for="" class="title">{{$t('trans0156')}}</label>
-                            <div class='input-box'>
-                                <input :type="isPsd?'password':'text'" :placeholder="`${$t('trans0321')}${$t('trans0156')}`" class="psd-input" />
-                                <span class='psd-icon'>
-                                    <i :class="isPsd?'is-psd':'no-psd'" @click="showPsd()"></i>
-                                </span>
-                            </div>
+                            <m-input type='password' :placeholder="`${$t('trans0321')}${$t('trans0156')}`" />
                         </div>
                         <div v-if="netType==='ip'">
                             <label for="" class="title"> {{$t('trans0151')}}</label>
-                            <div class='input-box'>
-                                <input type="text" placeholder="0.0.0.0" />
-                            </div>
+                            <m-input type="text" placeholder="0.0.0.0" />
                             <label for="" class="title"> {{$t('trans0152')}}</label>
-                            <div class='input-box'>
-                                <input type="text" placeholder="0.0.0.0" />
-                            </div>
+                            <m-input type="text" placeholder="0.0.0.0" />
                             <label for="" class="title"> {{$t('trans0153')}}</label>
-                            <div class='input-box'>
-                                <input type="text" placeholder="0.0.0.0" />
-                            </div>
+                            <m-input type="text" placeholder="0.0.0.0" />
                             <label for="" class="title"> {{$t('trans0236')}}</label>
-                            <div class='input-box'>
-                                <input type="text" placeholder="0.0.0.0" />
-                            </div>
+                            <m-input type="text" placeholder="0.0.0.0" />
                             <label for="" class="title"> {{$t('trans0320')}}</label>
-                            <div class='input-box'>
-                                <input type="text" placeholder="0.0.0.0" />
-                            </div>
-
+                            <m-input type="text" placeholder="0.0.0.0" />
                         </div>
 
                         <div class="btn-info">
@@ -106,13 +88,18 @@
     </div>
 </template>
 <script>
+import Input from '../../../component/input/input.vue';
+
 export default {
+  components: {
+    'm-input': Input
+  },
   data() {
     return {
       network: ['testing', 'fail', 'success'],
       status: 'success',
       isPsd: true,
-      netType: 'dncp'
+      netType: 'ip'
     };
   },
   methods: {
@@ -247,6 +234,35 @@ export default {
           .btn-info {
             margin-top: 40px;
           }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .setting-wifi-container {
+    padding: 10px;
+    .content {
+      min-height: 510px;
+      .form {
+        width: 100%;
+        padding: 0 20px;
+        .title {
+          margin-top: 20px;
+          margin-bottom: 10px;
+        }
+        .check-info {
+          display: flex;
+          align-items: center;
+          margin-top: 20px;
+          label {
+            margin-right: 10px;
+            font-size: 16px;
+            color: #333333;
+          }
+        }
+        .btn-info {
+          margin-top: 30px;
         }
       }
     }

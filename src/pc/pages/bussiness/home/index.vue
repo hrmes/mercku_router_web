@@ -19,7 +19,9 @@
           <span>21.16</span>M
         </div>
       </div>
-      <button class="btn check-btn">{{this.$t('trans0008')}}</button>
+      <div class="btn-info">
+        <button class="btn check-btn">{{this.$t('trans0008')}}</button>
+      </div>
     </div>
     <div class="router-info">
       <div class="item">
@@ -85,8 +87,8 @@
               <span class="unit"> KB/s</span>
             </div>
           </div>
-          <div class="speep-info">
-            <div>
+          <div class="speep-info real-wrap">
+            <div class="extra">
               <i class="f-up-icon"></i>
               <div>
                 <p>
@@ -96,7 +98,7 @@
                 <p class="note">{{$t('trans0306')}}</p>
               </div>
             </div>
-            <div>
+            <div class="extra">
               <i class="f-down-icon"></i>
               <div>
                 <p>
@@ -113,7 +115,7 @@
       <div class="item term-flow-info">
         <div class="title">{{$t('trans0308')}}</div>
         <div class="speep-info">
-          <div>
+          <div class="extra">
             <i class="t-dwon-icon"></i>
             <div>
               <p>
@@ -123,7 +125,7 @@
               <p class="note">{{$t('trans0309')}}</p>
             </div>
           </div>
-          <div>
+          <div class="extra">
             <i class="t-up-icon"></i>
             <div>
               <p>
@@ -133,7 +135,7 @@
               <p class="note">{{$t('trans0310')}}</p>
             </div>
           </div>
-          <div>
+          <div class="extra">
             <i class="t-count-icon"></i>
             <div>
               <p>
@@ -232,6 +234,7 @@ export default {
       max-width: 200px;
       display: flex;
       align-items: center;
+      margin-right: 20px;
     }
     font-size: 16px;
     font-weight: 400;
@@ -278,7 +281,8 @@ export default {
       }
       .fail-line {
         position: absolute;
-        width: 440px;
+        max-width: 440px;
+        min-width: 150px;
         height: 2px;
         border: 2px dashed #999999;
         box-sizing: border-box;
@@ -306,7 +310,8 @@ export default {
         display: inline-block;
         font-size: 12px;
         text-align: center;
-        width: 440px;
+        max-width: 440px;
+        min-width: 150px;
         font-weight: 200;
         color: #333333;
         position: absolute;
@@ -314,12 +319,13 @@ export default {
       }
     }
     .check-btn {
-      margin-left: 30px;
+      // margin-left: 30px;
       height: 50px;
       width: 160px;
     }
     .speed {
       font-weight: 200;
+      // margin-right: 20px;
       span {
         font-size: 24px;
         color: #000;
@@ -345,6 +351,10 @@ export default {
       border-radius: 8px;
       box-sizing: border-box;
       padding: 0 20px;
+      .extra {
+        min-width: 140px;
+        // text-align: left;
+      }
       .title {
         font-size: 16px;
         color: #333333;
@@ -376,7 +386,6 @@ export default {
         padding-top: 10px;
         .m-item {
           width: 50%;
-          // min-width: 200px;
           font-size: 14px;
           color: #333333;
           padding-top: 20px;
@@ -389,6 +398,7 @@ export default {
       .speep-info {
         flex: 1;
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
         min-height: 165px;
@@ -396,6 +406,7 @@ export default {
           display: inline-block;
           flex: 1;
           text-align: center;
+          // min-width: 200px;
           p {
             margin: 0;
             padding: 0;
@@ -441,9 +452,22 @@ export default {
         }
       }
     }
+    .term-flow-info {
+      .speep-info {
+        div {
+          text-align: left;
+        }
+      }
+    }
     .real-time-network {
       .content {
         display: flex;
+        flex-wrap: wrap;
+        min-height: 165px;
+        .real-wrap {
+          min-width: 270px;
+          min-height: 60px !important;
+        }
         .real-time-info {
           position: relative;
           &::after {
@@ -457,7 +481,7 @@ export default {
           }
           width: 260px;
           display: flex;
-          height: 165px;
+          // height: 165px;
           overflow: hidden;
           flex-direction: column;
           justify-content: center;
@@ -520,7 +544,9 @@ export default {
       .mesh {
         width: 220px;
         height: 120px;
-        margin: 0 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 20px;
         border-radius: 6px;
         overflow: hidden;
         display: flex;
@@ -568,7 +594,8 @@ export default {
       }
       .main {
         width: 260px;
-        margin: 0 25px;
+        margin-top: 10px;
+        margin-right: 40px;
         display: flex;
         .message {
           img {
@@ -605,6 +632,139 @@ export default {
     flex-direction: column;
     .item {
       width: 100% !important;
+    }
+  }
+}
+@media screen and (max-width: 540px) {
+  .home-container {
+    .router-info {
+      .item {
+        .message {
+          flex-direction: column;
+          padding-bottom: 20px;
+          .m-item {
+            width: 100%;
+            padding-top: 10px;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-container {
+    .btn-info {
+      width: 100%;
+      margin-top: 20px;
+      .btn {
+        height: 44px;
+      }
+    }
+    padding: 10px;
+    padding-top: 30px;
+    .router-info {
+      .term-flow-info {
+        .speep-info {
+          .extra {
+            text-align: left;
+            .t-dwon-icon,
+            .t-up-icon {
+              width: 25px;
+              height: 30px;
+            }
+            .t-count-icon {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+      .real-wrap {
+        min-height: 60px !important;
+        margin: 10px 0;
+        div {
+          text-align: left !important;
+        }
+        i {
+          width: 30px !important;
+          height: 30px !important;
+        }
+      }
+      .item {
+        padding: 0 10px;
+        .title {
+          height: 44px;
+          line-height: 44px;
+          font-size: 14px;
+          padding: 0;
+        }
+      }
+      .speed {
+        font-size: 20px !important;
+      }
+      .unit {
+        font-size: 12px !important;
+      }
+      .note {
+        font-size: 12px !important;
+      }
+      .real-time-network {
+        .real-time-info {
+          .down {
+            padding-top: 20px;
+          }
+          width: 100% !important;
+          height: auto !important;
+          &::after {
+            border: none !important;
+          }
+
+          .r-title {
+            font-size: 14px !important;
+          }
+        }
+      }
+    }
+    .check-info {
+      .speed {
+        // padding-top: 10px;
+        span {
+          font-size: 14px;
+        }
+      }
+      .row-1 {
+        width: 100px;
+        font-size: 12px !important;
+      }
+      .row-3 {
+        width: 100px;
+        font-size: 12px !important;
+        margin: 0;
+      }
+      .network-icon {
+        padding: 0 10px;
+        img {
+          display: inline-block;
+          width: 36px;
+          height: 36px;
+        }
+      }
+      .router-icon {
+        padding: 0 10px;
+        img {
+          display: inline-block;
+          width: 50px;
+          height: 18px;
+        }
+      }
+      .check-status {
+        min-width: 100px;
+        .success-line {
+          min-width: 100px;
+        }
+      }
     }
   }
 }
