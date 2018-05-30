@@ -1,116 +1,128 @@
 <template>
-    <div class="setting-network-container">
-        <div class="content">
-            <div class="network-info">
-                <div class="w-header">
-                    {{$t('trans0316')}}
-                </div>
-                <div class="status">
-                    <div v-if="status===network[0]">
-                        <img src="../../../assets/images/img_test_internet.png" alt="">
-                        <p>{{$t('trans0298')}}...</p>
-                    </div>
-                    <div v-if="status===network[1]">
-                        <img src="../../../assets/images/img_no_network_access.png" alt="">
-                        <p>{{$t('trans0319')}}</p>
-                    </div>
-                    <div v-if="status===network[2]">
-                        <img src="../../../assets/images/img_internet_normal.png" alt="">
-                        <p>{{$t('trans0318')}}</p>
-                        <div class="seccess-info">
-                            <div>
-                                <label for="">{{$t('trans0302')}}：</label>
-                                <span>DHCP</span>
-                            </div>
-                            <div>
-                                <label for="">{{$t('trans0151')}}：</label>
-                                <span>123123213123</span>
-                            </div>
-                            <div>
-                                <label for="">{{$t('trans0152')}}：</label>
-                                <span>123123123213123</span>
-                            </div>
-                            <div>
-                                <label for="">{{$t('trans0153')}}：</label>
-                                <span>123123123123123</span>
-                            </div>
-                            <div>
-                                <label for="">{{$t('trans0236')}}：</label>
-                                <span>123123123123123123</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="network-setting">
-                <div class="w-header">
-                    {{$t('trans0142')}}
-                </div>
-                <div class="setting-info">
-                    <div class='form'>
-                        <label for="" class="title"> {{$t('trans0317')}}</label>
-                        <select name="" id="">
-                            <option value="dhcp">DHCP</option>
-                            <option value="dhcp">静态UP</option>
-                            <option value="dhcp">PPPOE</option>
-                        </select>
-                        <div class="note">{{$t('trans0147')}}</div>
-                        <div v-if="netType==='pppoe'">
-                            <label for="" class="title"> {{$t('trans0155')}}</label>
-                            <div>
-                                <m-input type="text" :placeholder="`${$t('trans0321')}${$t('trans0155')}`"></m-input>
-                            </div>
-                            <label for="" class="title">{{$t('trans0156')}}</label>
-                            <div>
-                                <m-input type='password' :placeholder="`${$t('trans0321')}${$t('trans0156')}`" />
-                            </div>
-                        </div>
-                        <div v-if="netType==='ip'">
-                            <label for="" class="title"> {{$t('trans0151')}}</label>
-                            <div>
-                                <m-input type="text" placeholder="0.0.0.0" />
-                            </div>
-                            <label for="" class="title"> {{$t('trans0152')}}</label>
-                            <div>
-                                <m-input type="text" placeholder="0.0.0.0" />
-                            </div>
-                            <label for="" class="title"> {{$t('trans0153')}}</label>
-                            <div>
-                                <m-input type="text" placeholder="0.0.0.0" />
-                            </div>
-                            <label for="" class="title"> {{$t('trans0236')}}</label>
-                            <div>
-                                <m-input type="text" placeholder="0.0.0.0" />
-                            </div>
-                            <label for="" class="title"> {{$t('trans0320')}}</label>
-                            <div>
-                                <m-input type="text" placeholder="0.0.0.0" />
-                            </div>
-                        </div>
-
-                        <div class="btn-info">
-                            <button class="btn">{{$t('trans0081')}}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="setting-network-container">
+    <div class="content">
+      <div class="network-info">
+        <div class="w-header">
+          {{$t('trans0316')}}
         </div>
+        <div class="status">
+          <div v-if="status===network[0]">
+            <img src="../../../assets/images/img_test_internet.png" alt="">
+            <p>{{$t('trans0298')}}...</p>
+          </div>
+          <div v-if="status===network[1]">
+            <img src="../../../assets/images/img_no_network_access.png" alt="">
+            <p>{{$t('trans0319')}}</p>
+          </div>
+          <div v-if="status===network[2]">
+            <img src="../../../assets/images/img_internet_normal.png" alt="">
+            <p>{{$t('trans0318')}}</p>
+            <div class="seccess-info">
+              <div>
+                <label for="">{{$t('trans0302')}}：</label>
+                <span>DHCP</span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0151')}}：</label>
+                <span>123123213123</span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0152')}}：</label>
+                <span>123123123213123</span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0153')}}：</label>
+                <span>123123123123123</span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0236')}}：</label>
+                <span>123123123123123123</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="network-setting">
+        <div class="w-header">
+          {{$t('trans0142')}}
+        </div>
+        <div class="setting-info">
+          <div class='form'>
+            <label for="" class="title"> {{$t('trans0317')}}</label>
+            <m-select v-model="netType" :options="options"></m-select>
+            <div class="note">{{$t('trans0147')}}</div>
+            <div v-if="netType==='pppoe'">
+              <label for="" class="title"> {{$t('trans0155')}}</label>
+              <div>
+                <m-input type="text" :placeholder="`${$t('trans0321')}${$t('trans0155')}`"></m-input>
+              </div>
+              <label for="" class="title">{{$t('trans0156')}}</label>
+              <div>
+                <m-input type='password' :placeholder="`${$t('trans0321')}${$t('trans0156')}`" />
+              </div>
+            </div>
+            <div v-if="netType==='ip'">
+              <label for="" class="title"> {{$t('trans0151')}}</label>
+              <div>
+                <m-input type="text" placeholder="0.0.0.0" />
+              </div>
+              <label for="" class="title"> {{$t('trans0152')}}</label>
+              <div>
+                <m-input type="text" placeholder="0.0.0.0" />
+              </div>
+              <label for="" class="title"> {{$t('trans0153')}}</label>
+              <div>
+                <m-input type="text" placeholder="0.0.0.0" />
+              </div>
+              <label for="" class="title"> {{$t('trans0236')}}</label>
+              <div>
+                <m-input type="text" placeholder="0.0.0.0" />
+              </div>
+              <label for="" class="title"> {{$t('trans0320')}}</label>
+              <div>
+                <m-input type="text" placeholder="0.0.0.0" />
+              </div>
+            </div>
+
+            <div class="btn-info">
+              <button class="btn">{{$t('trans0081')}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
+  </div>
+  </div>
 </template>
 <script>
 import Input from '../../../component/input/input.vue';
+import mSelect from '../../../component/select/index.vue';
 
 export default {
   components: {
-    'm-input': Input
+    'm-input': Input,
+    mSelect
   },
   data() {
     return {
       network: ['testing', 'fail', 'success'],
       status: 'fail',
       isPsd: true,
-      netType: 'pppoe'
+      netType: 'pppoe',
+      options: [
+        {
+          value: 'dhcp',
+          text: 'dhcp'
+        },
+        {
+          value: 'pppoe',
+          text: '宽带拨号'
+        },
+        {
+          value: 'static',
+          text: '静态IP'
+        }
+      ]
     };
   },
   methods: {

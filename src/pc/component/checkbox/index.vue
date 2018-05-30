@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      checked: false
+      checked: this.value
     };
   },
   methods: {

@@ -1,0 +1,92 @@
+<template>
+  <div class="select-container" @click="open()">
+    <div class="select">{{selected.text}}</div>
+    <div class="icon-container">
+      <span class="icon" :class="{'open':opened,'close':!opened}"></span>
+    </div>
+    <ul class="select-popup" v-show="this.opened">
+      <li @click="select(option)" v-for="option in options">{{option.text}}</li>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    options: {
+      type: Array,
+      default: () => []
+    },
+    value: {}
+  },
+  data() {
+    return {
+      selected: this.options.filter(o => o.value === this.value)[0],
+      opened: false
+    };
+  },
+  methods: {
+    select(option) {
+      this.selected = option;
+      this.opened = false;
+      this.$emit('input', this.selected.value);
+    },
+    open() {
+      this.opened = !this.opened;
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.select-container {
+  height: 48px;
+  width: 100%;
+  border-radius: 4px;
+  outline: 0;
+  border: 1px solid #e1e1e1;
+  font-size: 14px;
+  padding: 10px;
+  line-height: 26px;
+  position: relative;
+  padding-right: 50px;
+  cursor: pointer;
+  .select-popup {
+    width: 100%;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    top: 48px;
+    background: #f1f1f1;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    li {
+      list-style: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+  }
+  .icon-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: center;
+    height: 48px;
+    width: 50px;
+    cursor: pointer;
+    .icon {
+      width: 20px;
+      height: 20px;
+      margin-top: 14px;
+      display: inline-block;
+      &.open {
+        background: url(../../assets/images/ic_pack_up.png) no-repeat center;
+      }
+      &.close {
+        background: url(../../assets/images/ic_pull_down.png) no-repeat center;
+      }
+    }
+  }
+  .select {
+  }
+}
+</style>
