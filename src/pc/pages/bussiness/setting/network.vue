@@ -2,7 +2,7 @@
     <div class="setting-network-container">
         <div class="content">
             <div class="network-info">
-                <div class="title">
+                <div class="w-header">
                     {{$t('trans0316')}}
                 </div>
                 <div class="status">
@@ -43,20 +43,17 @@
                 </div>
             </div>
             <div class="network-setting">
-                <div class="title">
+                <div class="w-header">
                     {{$t('trans0142')}}
                 </div>
                 <div class="setting-info">
                     <div class='form'>
                         <label for="" class="title"> {{$t('trans0317')}}</label>
-                        <div class='input-box'>
-                            <!-- <input type="text" :placeholder="$t('')" /> -->
-                            <select name="" id="">
-                                <option value="dhcp">DHCP</option>
-                                <option value="dhcp">静态UP</option>
-                                <option value="dhcp">PPPOE</option>
-                            </select>
-                        </div>
+                        <select name="" id="">
+                            <option value="dhcp">DHCP</option>
+                            <option value="dhcp">静态UP</option>
+                            <option value="dhcp">PPPOE</option>
+                        </select>
                         <div class="note">{{$t('trans0147')}}</div>
                         <div v-if="netType==='pppoe'">
                             <label for="" class="title"> {{$t('trans0155')}}</label>
@@ -97,9 +94,9 @@ export default {
   data() {
     return {
       network: ['testing', 'fail', 'success'],
-      status: 'success',
+      status: 'fail',
       isPsd: true,
-      netType: 'ip'
+      netType: 'pppoe'
     };
   },
   methods: {
@@ -118,7 +115,7 @@ export default {
   padding: 0 30px;
   padding-bottom: 30px;
   .content {
-    .title {
+    .w-header {
       height: 60px;
       border-bottom: 1px solid #f1f1f1;
       font-size: 16px;
@@ -181,25 +178,6 @@ export default {
             color: #999999;
             padding: 5px 0;
           }
-          .input-box {
-            width: 350px;
-            height: 50px;
-            border: 1px solid #b6b6b6;
-            position: relative;
-            // margin-top: 10px;
-            border-radius: 3px;
-            box-sizing: border-box;
-            input {
-              margin: 1px;
-              height: 46px;
-              width: 346px;
-              border: none;
-              font-size: 16px;
-              outline: none;
-              padding-left: 10px;
-              position: relative;
-            }
-          }
           .title {
             display: inline-block;
             font-size: 14px;
@@ -207,29 +185,6 @@ export default {
             line-height: 1;
             margin-top: 30px;
             height: 30px;
-          }
-
-          .psd-input {
-            width: 286px !important;
-          }
-          .psd-icon {
-            display: inline-block;
-            width: 54px;
-            text-align: center;
-            .is-psd {
-              display: inline-block;
-              cursor: pointer;
-              width: 20px;
-              height: 14px;
-              background: url('../../../assets/images/ic_invisible.png');
-            }
-            .no-psd {
-              display: inline-block;
-              cursor: pointer;
-              width: 20px;
-              height: 12px;
-              background: url('../../../assets/images/ic_visible.png');
-            }
           }
           .btn-info {
             margin-top: 40px;
@@ -240,16 +195,28 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .setting-wifi-container {
+  .setting-network-container {
     padding: 10px;
     .content {
+      .w-header {
+        font-size: 14px;
+        height: 44px;
+        line-height: 44px;
+      }
+      .network-info {
+        min-height: 300px !important;
+        img {
+          width: 185px;
+        }
+      }
       min-height: 510px;
       .form {
         width: 100%;
-        padding: 0 20px;
+
         .title {
-          margin-top: 20px;
+          margin-top: 20px !important;
           margin-bottom: 10px;
+          height: auto !important;
         }
         .check-info {
           display: flex;
