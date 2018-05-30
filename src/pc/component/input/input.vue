@@ -1,6 +1,6 @@
 <template>
   <div class="input-container">
-    <input v-model="inputValue" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
+    <input v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
     <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
       <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
     </div>
@@ -14,7 +14,10 @@ export default {
       type: String,
       default: 'text'
     },
-    value: {}
+    value: {},
+    placeholder: {
+      type: String
+    }
   },
   data() {
     return {

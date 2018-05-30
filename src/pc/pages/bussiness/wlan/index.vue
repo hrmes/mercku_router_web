@@ -4,12 +4,16 @@
       <m-step :steps="steps" :current="current"></m-step>
     </div>
     <div class="step-content">
-      <div v-if="current===0">1</div>
+      <div v-if="current===0">
+        <label for="">
+          <span>{{}}</span>
+        </label>
+      </div>
       <div v-if="current===1">2</div>
       <div v-if="current===2">3</div>
     </div>
     <div class="button-container">
-      <button class="btn">{{current$('trans0055')}}</button>
+      <button class="btn">{{$t('trans0055')}}</button>
     </div>
   </div>
 
@@ -47,7 +51,8 @@ export default {
 }
 @media screen and(max-width: 768px) {
   .wlan-container {
-    top: 0;
+    position: static;
+    overflow: hidden;
   }
 }
 </style>
