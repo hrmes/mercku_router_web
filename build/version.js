@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-var spawn = require('child_process').spawn;
+var exec = require('child_process').exec;
 
+console.log(exec)
 
 const fsPath = path.join(__dirname, '../version.json');
 fs.readFile(fsPath, 'utf8', (err, data) => {
@@ -14,6 +15,13 @@ fs.readFile(fsPath, 'utf8', (err, data) => {
     if (err) throw err;
     console.log('write new version ok.');
     console.log('git add version.json');
-    spawn('git add version.json');
+    exec('node -v', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      console.log(`stdout: ${stdout}`);
+      console.log(`stderr: ${stderr}`);
+    });
   });
 });
