@@ -28,23 +28,23 @@
         <div class="loadding" v-if="loading">
           <img src="../../assets/images/loading.gif" alt="">
         </div>
-        <div class="small-device-download">
-          <div class="logo-container">
-            <img class="app-logo" src="../../assets/images/ic_mercku.png" alt="">
-          </div>
-          <div class="down-text">
-            <div>{{$t('trans0314')}}</div>
-            <div>
-              {{$t('trans0292')}}</div>
-          </div>
+      </div>
+      <div class="small-device-download">
+        <div class="logo-container">
+          <img class="app-logo" src="../../assets/images/ic_mercku.png" alt="">
+        </div>
+        <div class="down-text">
+          <div>{{$t('trans0314')}}</div>
+          <div>
+            {{$t('trans0292')}}</div>
+        </div>
 
-          <div class="down-button-container">
-            <a class="down-button" href="">{{$t('trans0262')}}</a>
-          </div>
+        <div class="down-button-container">
+          <a class="down-button" href="">{{$t('trans0262')}}</a>
         </div>
-        <div class="small-device-image">
-          <img src="../../assets/images/img_bg_mobile.png" alt="">
-        </div>
+      </div>
+      <div class="small-device-image">
+        <img src="../../assets/images/img_bg_mobile.png" alt="">
       </div>
     </div>
   </div>
@@ -112,14 +112,15 @@ export default {
         height: 32px;
       }
     }
+    .small-device-download {
+      display: none;
+    }
+    .small-device-image {
+      display: none;
+    }
     .center-form {
       text-align: center;
-      .small-device-download {
-        display: none;
-      }
-      .small-device-image {
-        display: none;
-      }
+
       .password-container {
         label {
           display: block;
@@ -174,66 +175,63 @@ export default {
 }
 @media screen and(max-width: 768px) {
   .login-container {
-    top: 0;
-    bottom: 60px;
+    position: static;
     .bg {
       background: none;
       height: auto;
-      .center-form {
-        .password-container {
-          label {
-            width: 80%;
+      overflow: hidden;
+      .small-device-image {
+        display: block;
+        img {
+          width: 100%;
+        }
+      }
+      .small-device-download {
+        width: 80%;
+        display: block;
+        margin: 0 auto;
+        margin-top: 45px;
+        background: #f1f1f1;
+        text-align: left;
+        padding: 20px 10px;
+        height: 88px;
+        border-radius: 4px;
+        .logo-container {
+          float: left;
+        }
+
+        .down-text {
+          text-align: left;
+          float: left;
+          font-size: 12px;
+          color: #333;
+          margin-left: 12px;
+          > div:first-child {
+            padding-top: 8px;
+          }
+          > div:last-child {
+            padding-bottom: 8px;
           }
         }
+        .down-button-container {
+          float: right;
+          .down-button {
+            text-decoration: none;
+            color: #4237dd;
+            border: 1px solid #4237dd;
+            padding: 10px;
+            border-radius: 2px;
+            display: block;
+          }
+        }
+      }
+      .center-form {
+        width: 80%;
+        margin: 0 auto;
         .welcome-text {
           font-size: 24px;
           margin-top: 25px;
           margin-bottom: 35px;
-        }
-        .small-device-image {
-          display: block;
-          img {
-            height: 176px;
-          }
-        }
-        .small-device-download {
-          display: block;
-          margin: 0 auto;
-          margin-top: 45px;
-          background: #f1f1f1;
-          width: 80%;
-          text-align: left;
-          padding: 20px 10px;
-          height: 88px;
-          border-radius: 4px;
-          .logo-container {
-            float: left;
-          }
-
-          .down-text {
-            text-align: left;
-            float: left;
-            font-size: 12px;
-            color: #333;
-            margin-left: 12px;
-            > div:first-child {
-              padding-top: 8px;
-            }
-            > div:last-child {
-              padding-bottom: 8px;
-            }
-          }
-          .down-button-container {
-            float: right;
-            .down-button {
-              text-decoration: none;
-              color: #4237dd;
-              border: 1px solid #4237dd;
-              padding: 10px 15px;
-              border-radius: 2px;
-              display: block;
-            }
-          }
         }
       }
     }
