@@ -42,7 +42,7 @@ export default {
 <style lang="scss" scoped>
 .policy-container {
   text-align: center;
-  padding-bottom: 30px;
+  padding: 30px;
   .policy-text {
     text-decoration: underline;
     cursor: pointer;
@@ -96,6 +96,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .policy-container {
+    padding: 10px;
     .copy,
     .policy-text {
       display: block;
