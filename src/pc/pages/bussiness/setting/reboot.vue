@@ -1,6 +1,9 @@
 <template>
   <div class="setting-safe-container">
     <div class="content">
+      <div class='w-header'>
+        {{$t('trans0122')}}
+      </div>
       <div class='form'>
         <img src="../../../assets/images/img_restart.png" alt="">
         <p> {{$t('trans0121')}}</p>
@@ -32,16 +35,26 @@ export default {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
-    min-height: 510px;
+    // min-height: 510px;
     position: relative;
+    .w-header {
+      height: 60px;
+      border-bottom: 1px solid #f1f1f1;
+      font-size: 16px;
+      color: #333333;
+      line-height: 60px;
+      font-weight: 400;
+    }
     .form {
-      position: absolute;
+      // position: absolute;
       // padding-top: 100px;
       width: 100%;
       padding: 20px;
       text-align: center;
-      right: 50%;
-      transform: translateX(50%);
+      margin: 0 auto;
+      padding-bottom: 50px;
+      // right: 50%;
+      // transform: translateX(50%);
       img {
         width: 180px;
       }
@@ -55,6 +68,11 @@ export default {
   .setting-safe-container {
     padding: 10px;
     .content {
+      .w-header {
+        font-size: 14px;
+        height: 44px;
+        line-height: 44px;
+      }
       min-height: 510px;
       background: white;
     }
