@@ -6,6 +6,7 @@ import network from '../pages/bussiness/setting/network.vue';
 import wifi from '../pages/bussiness/setting/wifi.vue';
 import safe from '../pages/bussiness/setting/safe.vue';
 import reboot from '../pages/bussiness/setting/reboot.vue';
+import wlan from '../pages/bussiness/wlan/index.vue';
 
 Vue.use(Router);
 const routes = [{
@@ -35,7 +36,12 @@ const routes = [{
   path: '/setting/reboot',
   name: 'reboot',
   component: reboot,
+}, {
+  path: '/wlan',
+  name: 'wlan',
+  component: wlan,
 }];
+
 export default new Router({
   routes
 });

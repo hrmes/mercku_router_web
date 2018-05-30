@@ -18,7 +18,7 @@
       <div class="small-device">
         <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
       </div>
-      <div v-show="!isLoginPage" class="exit" @click="exit()">
+      <div v-show="hasExit" class="exit" @click="exit()">
         {{$t('trans0021')}}
       </div>
     </div>
@@ -36,6 +36,12 @@ const Languages = [
   }
 ];
 export default {
+  props: {
+    hasExit: {
+      type: Boolean,
+      default: true
+    }
+  },
   data() {
     return {
       language: Languages[0],
@@ -80,11 +86,6 @@ export default {
           }
         }
       });
-    }
-  },
-  computed: {
-    isLoginPage() {
-      return this.$route.path.includes('login');
     }
   }
 };

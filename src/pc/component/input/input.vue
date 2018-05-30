@@ -1,6 +1,6 @@
 <template>
   <div class="input-container">
-    <input class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
+    <input v-model="inputValue" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
     <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
       <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
     </div>
@@ -13,16 +13,26 @@ export default {
     type: {
       type: String,
       default: 'text'
-    }
+    },
+    value: {}
   },
   data() {
     return {
-      showPwd: false
+      showPwd: false,
+      inputValue: this.value || ''
     };
+  },
+  watch: {
+    value() {
+      this.inputValue = this.value;
+    }
   },
   methods: {
     changePwdStatus() {
       this.showPwd = !this.showPwd;
+    },
+    onInput() {
+      this.$emit('input', this.inputValue);
     }
   },
   computed: {
@@ -80,17 +90,17 @@ export default {
   }
 }
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 769px) {
   .input-container {
     width: 350px;
     display: inline-block;
   }
 }
 
-@media screen and (max-width: 479px) {
+@media screen and (max-width: 768px) {
   .input-container {
     display: block;
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
   }
 }
