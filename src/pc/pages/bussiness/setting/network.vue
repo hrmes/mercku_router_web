@@ -57,21 +57,35 @@
                         <div class="note">{{$t('trans0147')}}</div>
                         <div v-if="netType==='pppoe'">
                             <label for="" class="title"> {{$t('trans0155')}}</label>
-                            <m-input type="text" :placeholder="`${$t('trans0321')}${$t('trans0155')}`"></m-input>
+                            <div>
+                                <m-input type="text" :placeholder="`${$t('trans0321')}${$t('trans0155')}`"></m-input>
+                            </div>
                             <label for="" class="title">{{$t('trans0156')}}</label>
-                            <m-input type='password' :placeholder="`${$t('trans0321')}${$t('trans0156')}`" />
+                            <div>
+                                <m-input type='password' :placeholder="`${$t('trans0321')}${$t('trans0156')}`" />
+                            </div>
                         </div>
                         <div v-if="netType==='ip'">
                             <label for="" class="title"> {{$t('trans0151')}}</label>
-                            <m-input type="text" placeholder="0.0.0.0" />
+                            <div>
+                                <m-input type="text" placeholder="0.0.0.0" />
+                            </div>
                             <label for="" class="title"> {{$t('trans0152')}}</label>
-                            <m-input type="text" placeholder="0.0.0.0" />
+                            <div>
+                                <m-input type="text" placeholder="0.0.0.0" />
+                            </div>
                             <label for="" class="title"> {{$t('trans0153')}}</label>
-                            <m-input type="text" placeholder="0.0.0.0" />
+                            <div>
+                                <m-input type="text" placeholder="0.0.0.0" />
+                            </div>
                             <label for="" class="title"> {{$t('trans0236')}}</label>
-                            <m-input type="text" placeholder="0.0.0.0" />
+                            <div>
+                                <m-input type="text" placeholder="0.0.0.0" />
+                            </div>
                             <label for="" class="title"> {{$t('trans0320')}}</label>
-                            <m-input type="text" placeholder="0.0.0.0" />
+                            <div>
+                                <m-input type="text" placeholder="0.0.0.0" />
+                            </div>
                         </div>
 
                         <div class="btn-info">
