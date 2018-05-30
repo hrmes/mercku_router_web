@@ -7,26 +7,25 @@
       <div class='form'>
         <div class='input-info'>
           <label for="" class="title"> {{$t('trans0168')}}</label>
-          <div>
-            <m-input type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-          </div>
+
+          <m-input type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+
           <label for="" class="title">{{$t('trans0172')}}</label>
-          <div>
-            <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+
+          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+
+          <div class="check-info">
+            <label for=""> {{$t('trans0255')}}</label>
+            <m-switch></m-switch>
+            <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
+            <m-switch></m-switch>
           </div>
-        </div>
-        <div class="check-info">
-          <label for=""> {{$t('trans0255')}}</label>
-          <m-switch></m-switch>
-          <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
-          <m-switch></m-switch>
-        </div>
-        <div class="btn-info">
-          <button class="btn">{{$t('trans0081')}}</button>
+          <div class="btn-info">
+            <button class="btn">{{$t('trans0081')}}</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 <script>
@@ -54,12 +53,12 @@ export default {
 .setting-wifi-container {
   position: relative;
   padding: 0 30px;
-  height: 100%;
+  // height: 100%;
   .content {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
-    height: 95%;
+    // height: 95%;
     position: relative;
     .w-header {
       height: 60px;
@@ -70,11 +69,12 @@ export default {
       font-weight: 400;
     }
     .form {
-      position: absolute;
-      right: 50%;
-      transform: translateX(50%);
+      display: flex;
+      justify-content: center;
+      padding-bottom: 50px;
+
       .title {
-        display: inline-block;
+        display: block;
         font-size: 14px;
         color: #333333;
         margin-top: 30px;
@@ -109,7 +109,10 @@ export default {
       min-height: 450px;
       .form {
         width: 100%;
-        padding: 0 20px;
+
+        .input-info {
+          width: 100%;
+        }
         .title {
           margin-top: 20px;
           margin-bottom: 10px;

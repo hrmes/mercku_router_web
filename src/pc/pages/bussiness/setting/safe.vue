@@ -7,13 +7,9 @@
       <div class='form'>
         <div class='input-info'>
           <label for="" class="title"> {{$t('trans0117')}}</label>
-          <div>
-            <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-          </div>
+          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
           <label for="" class="title">{{$t('trans0113')}}</label>
-          <div>
-            <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-          </div>
+          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
         </div>
         <div class="btn-info">
           <button class="btn">{{$t('trans0081')}}</button>
@@ -48,12 +44,12 @@ export default {
 .setting-safe-container {
   position: relative;
   padding: 0 30px;
-  height: 100%;
+
   .content {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
-    height: 95%;
+
     position: relative;
     .w-header {
       height: 60px;
@@ -64,11 +60,13 @@ export default {
       font-weight: 400;
     }
     .form {
-      position: absolute;
-      right: 50%;
-      transform: translateX(50%);
+      display: flex;
+      justify-content: center;
+      padding-bottom: 30px;
+      flex-direction: column;
+      align-items: center;
       .title {
-        display: inline-block;
+        display: block;
         font-size: 14px;
         color: #333333;
         margin-top: 30px;
@@ -77,6 +75,7 @@ export default {
 
       .btn-info {
         margin-top: 40px;
+        display: block;
       }
       .check-info {
         display: flex;
@@ -103,7 +102,10 @@ export default {
       min-height: 450px;
       .form {
         width: 100%;
-        padding: 0 20px;
+        // padding: 0 20px;
+        .input-info {
+          width: 100%;
+        }
         .title {
           margin-top: 20px;
           margin-bottom: 10px;
@@ -119,6 +121,7 @@ export default {
           }
         }
         .btn-info {
+          width: 100%;
           margin-top: 30px;
         }
       }
