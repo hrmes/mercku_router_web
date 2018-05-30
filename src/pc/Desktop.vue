@@ -123,6 +123,7 @@ export default {
   .container {
     padding-top: 65px;
     .app-container {
+      height: auto;
       &.has-menu {
         padding-left: 0;
       }
@@ -131,8 +132,7 @@ export default {
       display: none;
     }
     .policy {
-      background: #fff;
-      bottom: 0;
+      position: static;
       font-size: 12px;
     }
   }
