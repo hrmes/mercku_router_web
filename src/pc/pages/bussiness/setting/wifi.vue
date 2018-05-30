@@ -1,41 +1,45 @@
 <template>
-    <div class="setting-wifi-container">
-        <div class="content">
-            <div class='header'>
-                {{$t('trans0167')}}
-            </div>
-            <div class='form'>
-                <label for="" class="title"> {{$t('trans0168')}}</label>
-                <div class='input-box'>
-                    <input type="text" :placeholder="`${$t('trans0321')}${$t('trans0168')}`" />
-                </div>
-                <label for="" class="title">{{$t('trans0172')}}</label>
-                <div class='input-box'>
-                    <input :type="isPsd?'password':'text'" :placeholder="`${$t('trans0321')}${$t('trans0172')}`" class="psd-input" />
-                    <span class='psd-icon'>
-                        <i :class="isPsd?'is-psd':'no-psd'" @click="showPsd()"></i>
-                    </span>
-                </div>
-                <div class="check-info">
-                    <label for=""> {{$t('trans0255')}}</label>
-                    <m-switch></m-switch>
-                    <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
-                    <m-switch></m-switch>
-                </div>
-                <div class="btn-info">
-                    <button class="btn">{{$t('trans0081')}}</button>
-                </div>
-            </div>
+  <div class="setting-wifi-container">
+    <div class="content">
+      <div class='header'>
+        {{$t('trans0167')}}
+      </div>
+      <div class='form'>
+        <label for="" class="title"> {{$t('trans0168')}}</label>
+
+        <m-input type='text' :placeholder="`${$t('trans0321')}${$t('trans0168')}`"></m-input>
+        <!-- <input type="text" /> -->
+
+        <label for="" class="title">{{$t('trans0172')}}</label>
+
+        <m-input type='password' :placeholder="`${$t('trans0321')}${$t('trans0168')}`"></m-input>
+        <!-- <input :type="isPsd?'password':'text'" :placeholder="`${$t('trans0321')}${$t('trans0172')}`" class="psd-input" />
+          <span class='psd-icon'>
+            <i :class="isPsd?'is-psd':'no-psd'" @click="showPsd()"></i>
+          </span> -->
+
+        <div class="check-info">
+          <label for=""> {{$t('trans0255')}}</label>
+          <m-switch></m-switch>
+          <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
+          <m-switch></m-switch>
         </div>
+        <div class="btn-info">
+          <button class="btn">{{$t('trans0081')}}</button>
+        </div>
+      </div>
     </div>
-    </div>
+  </div>
+  </div>
 </template>
 <script>
 import Switch from '../../../component/switch/index.vue';
+import Input from '../../../component/input/input.vue';
 
 export default {
   components: {
-    'm-switch': Switch
+    'm-switch': Switch,
+    'm-input': Input
   },
   data() {
     return {
@@ -132,6 +136,15 @@ export default {
           font-size: 16px;
           color: #333333;
         }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .setting-wifi-container {
+    padding: 10px;
+    .content {
+      .form {
       }
     }
   }
