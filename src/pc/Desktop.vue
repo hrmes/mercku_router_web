@@ -6,7 +6,7 @@
       <router-view>
 
       </router-view>
-      <policy class="policy" />
+      <policy :class="{'fix-bottom':hasMenu}" class="policy" />
     </div>
 
   </div>
@@ -100,6 +100,7 @@ export default {
       display: block;
       position: fixed;
       top: 0;
+      z-index: 1000;
       .logo-container {
         display: inline-block;
       }
@@ -117,6 +118,10 @@ export default {
     width: 100%;
     text-align: center;
     color: #333;
+    &.fix-bottom {
+      position: absolute;
+      bottom: 0;
+    }
   }
 }
 @media screen and (max-width: 768px) {
@@ -133,6 +138,9 @@ export default {
     }
     .policy {
       font-size: 12px;
+      &.fix-bottom {
+        position: static;
+      }
     }
   }
 }

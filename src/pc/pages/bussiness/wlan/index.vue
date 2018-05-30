@@ -27,6 +27,7 @@
             <span>{{$t('trans0067')}}</span>
           </label>
           <m-input type="password" :placeholder="$t('trans0321')" v-model="ssid" />
+          <m-checkbox class="checkbox" v-model="checked" :text="$t('trans0293')"></m-checkbox>
         </div>
         <div class="button-container">
           <button @click="step2()" class="btn">{{$t('trans0081')}}</button>
@@ -44,10 +45,13 @@
 <script>
 import mStep from '../../../component/step/index.vue';
 import mInput from '../../../component/input/input.vue';
+import mCheckbox from '../../../component/checkbox/index.vue';
+
 export default {
   components: {
     mStep,
-    mInput
+    mInput,
+    mCheckbox
   },
   data() {
     return {
@@ -86,7 +90,7 @@ export default {
     },
     step2() {
       this.current = 2;
-      //提交表单
+      // 提交表单
     }
   }
 };
@@ -112,9 +116,14 @@ export default {
       text-align: center;
       img {
         display: block;
+        margin: 0 auto;
       }
       .form-item {
         margin-top: 20px;
+        text-align: left;
+        .checkbox {
+          margin-top: 10px;
+        }
         &:first-child {
           margin-top: 0;
         }
