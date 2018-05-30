@@ -92,7 +92,7 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .setting-wifi-container {
+  .setting-safe-container {
     padding: 10px;
     .content {
       .w-header {
