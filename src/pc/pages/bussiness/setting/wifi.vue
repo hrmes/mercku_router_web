@@ -7,9 +7,9 @@
       <div class='form'>
         <div class='input-info'>
           <label for="" class="title"> {{$t('trans0168')}}</label>
-          <m-input type='text' :placeholder="`${$t('trans0321')}${$t('trans0168')}`"></m-input>
+          <m-input type='text' :placeholder="`${$t('trans0321')}`"></m-input>
           <label for="" class="title">{{$t('trans0172')}}</label>
-          <m-input type='password' :placeholder="`${$t('trans0321')}${$t('trans0168')}`"></m-input>
+          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
         </div>
         <div class="check-info">
           <label for=""> {{$t('trans0255')}}</label>
@@ -96,7 +96,12 @@ export default {
   .setting-wifi-container {
     padding: 10px;
     .content {
-      min-height: 510px;
+      .w-header {
+        font-size: 14px;
+        height: 44px;
+        line-height: 44px;
+      }
+      min-height: 450px;
       .form {
         width: 100%;
         padding: 0 20px;
