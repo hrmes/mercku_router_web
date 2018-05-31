@@ -6,14 +6,12 @@
       </div>
       <div class='form'>
         <div class='input-info'>
-          <label for="" class="title"> {{$t('trans0168')}}</label>
-
-          <m-input type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-
-          <label for="" class="title">{{$t('trans0172')}}</label>
-
-          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-
+          <div class="item">
+            <m-input :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+          </div>
+          <div class="item">
+            <m-input :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+          </div>
           <div class="check-info">
             <label for=""> {{$t('trans0255')}}</label>
             <m-switch></m-switch>
@@ -71,14 +69,9 @@ export default {
     .form {
       display: flex;
       justify-content: center;
-      padding-bottom: 50px;
-
-      .title {
-        display: block;
-        font-size: 14px;
-        color: #333333;
-        margin-top: 30px;
-        margin-bottom: 10px;
+      padding: 50px 0;
+      .item {
+        margin-bottom: 20px;
       }
 
       .btn-info {
@@ -87,7 +80,6 @@ export default {
       .check-info {
         display: flex;
         align-items: center;
-        margin-top: 30px;
         label {
           margin-right: 10px;
           font-size: 16px;

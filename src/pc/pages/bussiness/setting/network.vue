@@ -48,39 +48,34 @@
         </div>
         <div class="setting-info">
           <div class='form'>
-            <label for="" class="title"> {{$t('trans0317')}}</label>
-            <m-select v-model="netType" :options="options"></m-select>
-            <div class="note">{{$t('trans0147')}}</div>
+            <div class="item">
+              <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
+              <div class="note">{{$t('trans0147')}}</div>
+            </div>
             <div v-if="netType==='pppoe'">
-              <label for="" class="title"> {{$t('trans0155')}}</label>
-              <div>
-                <m-input type="text" :placeholder="`${$t('trans0321')}${$t('trans0155')}`"></m-input>
+              <div class="item">
+                <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}${$t('trans0155')}`"></m-input>
               </div>
-              <label for="" class="title">{{$t('trans0156')}}</label>
-              <div>
-                <m-input type='password' :placeholder="`${$t('trans0321')}${$t('trans0156')}`" />
+              <div class="item">
+                <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}${$t('trans0156')}`" />
               </div>
             </div>
             <div v-if="netType==='ip'">
-              <label for="" class="title"> {{$t('trans0151')}}</label>
-              <div>
-                <m-input type="text" placeholder="0.0.0.0" />
+              <div class="item">
+                <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" />
               </div>
-              <label for="" class="title"> {{$t('trans0152')}}</label>
-              <div>
-                <m-input type="text" placeholder="0.0.0.0" />
+              <div class="item">
+                <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" />
               </div>
-              <label for="" class="title"> {{$t('trans0153')}}</label>
-              <div>
-                <m-input type="text" placeholder="0.0.0.0" />
+
+              <div class="item">
+                <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" />
               </div>
-              <label for="" class="title"> {{$t('trans0236')}}</label>
-              <div>
-                <m-input type="text" placeholder="0.0.0.0" />
+              <div class="item">
+                <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" />
               </div>
-              <label for="" class="title"> {{$t('trans0320')}}</label>
-              <div>
-                <m-input type="text" placeholder="0.0.0.0" />
+              <div class="item">
+                <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" />
               </div>
             </div>
 
@@ -198,7 +193,10 @@ export default {
         justify-content: center;
         align-items: center;
         .form {
-          padding-bottom: 30px;
+          padding: 30px 0;
+          .item {
+            margin-bottom: 20px;
+          }
           .note {
             font-size: 12px;
             color: #999999;
