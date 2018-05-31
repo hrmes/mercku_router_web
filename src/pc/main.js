@@ -45,7 +45,33 @@ const launch = () => {
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
   Vue.prototype.changeLanguage = changeLanguage;
+  Vue.prototype.authorize = {
+    authorized: false,
+    get() {
+      return this.authorized;
+    },
+    set(auth) {
+      this.authorized = auth;
+    }
+  };
 
+
+  const PagesRequireAuth = [];
+  router.options.routes.forEach((route) => {
+    if (route.requireAuth) {
+      PagesRequireAuth.push(route.name);
+    }
+  });
+
+  // router.beforeEach((to, form, next) => {
+  //   if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
+  //     next({
+  //       path: '/login'
+  //     });
+  //   } else {
+  //     next();
+  //   }
+  // });
 
   new Vue({
     el: '#web',
@@ -59,3 +85,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // 通过pre-commit每次自动新 增
 console.log(`%cWeb version is : RC${v.version}`, 'color:red');
+

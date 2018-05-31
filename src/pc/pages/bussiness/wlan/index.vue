@@ -15,7 +15,7 @@
           <label for="">
             <span>{{$t('trans0172')}}</span>
           </label>
-          <m-input type="password" :placeholder="$t('trans0321')" v-model="ssid" />
+          <m-input type="password" :placeholder="$t('trans0321')" v-model="password" />
         </div>
         <div class="button-container">
           <button @click="step1()" class="btn">{{$t('trans0055')}}</button>
@@ -26,10 +26,11 @@
           <label for="">
             <span>{{$t('trans0067')}}</span>
           </label>
-          <m-input type="password" :placeholder="$t('trans0321')" v-model="ssid" />
+          <m-input type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="admin_password" />
           <m-checkbox class="checkbox" v-model="checked" :text="$t('trans0293')"></m-checkbox>
         </div>
         <div class="button-container">
+          <button @click="step0()" class="btn">{{$t('trans0081')}}</button>
           <button @click="step2()" class="btn">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -85,12 +86,22 @@ export default {
     }
   },
   methods: {
+    step0() {
+      this.current = 0;
+    },
     step1() {
       this.current = 1;
     },
     step2() {
       this.current = 2;
       // 提交表单
+    }
+  },
+  watch: {
+    checked(newVal) {
+      if (newVal === true) {
+        this.admin_password = this.password;
+      }
     }
   }
 };
@@ -103,10 +114,10 @@ export default {
   bottom: 0;
   background: #fff;
   .step {
-    margin-top: 50px;
     text-align: center;
     width: 800px;
     margin: 0 auto;
+    margin-top: 50px;
   }
   .step-content {
     margin: 50px 0;
@@ -130,6 +141,13 @@ export default {
       }
       .button-container {
         margin-top: 50px;
+        button {
+          display: block;
+          margin-top: 10px;
+          &.first-child {
+            margin-top: 0;
+          }
+        }
       }
       label {
         display: block;

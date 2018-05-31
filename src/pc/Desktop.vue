@@ -26,7 +26,9 @@ export default {
   },
   computed: {
     hasMenu() {
-      return this.$route.path.includes('login') || this.$route.path.includes('wlan');
+      return (
+        this.$route.path.includes('login') || this.$route.path.includes('wlan')
+      );
     },
     hasExit() {
       return !this.hasMenu;
@@ -70,22 +72,6 @@ export default {
         }
       ]
     };
-  },
-  created() {
-    this.$http
-      .checkLogin()
-      .then(res => {
-        if (!res.data.result) {
-          this.$route.replace({ path: '/login' });
-        }
-      })
-      .catch(err => {
-        if (err && err.error) {
-          this.$toast(this.$t(err.error.code));
-        } else {
-          this.$toast(this.$t('trans0039'));
-        }
-      });
   }
 };
 </script>
