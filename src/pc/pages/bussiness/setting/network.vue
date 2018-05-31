@@ -60,7 +60,7 @@
                 <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}${$t('trans0156')}`" />
               </div>
             </div>
-            <div v-if="netType==='ip'">
+            <div v-if="netType==='static'">
               <div class="item">
                 <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" />
               </div>
@@ -102,7 +102,6 @@ export default {
     return {
       network: ['testing', 'fail', 'success'],
       status: 'fail',
-      isPsd: true,
       netType: 'pppoe',
       options: [
         {
