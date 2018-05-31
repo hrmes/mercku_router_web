@@ -170,6 +170,7 @@
 export default {
   data() {
     return {
+      netStatus: ['connected'],
       meshStatus: [
         {
           main: true,
@@ -195,6 +196,11 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    this.$http.testWan().then(res => {
+      console.log(res);
+    });
   },
   methods: {
     diffMesh(item) {

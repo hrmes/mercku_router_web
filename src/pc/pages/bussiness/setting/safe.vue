@@ -17,7 +17,6 @@
       </div>
     </div>
   </div>
-  </div>
 </template>
 <script>
 import Switch from '../../../component/switch/index.vue';

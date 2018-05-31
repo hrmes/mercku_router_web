@@ -6,14 +6,16 @@
       </div>
       <div class='form'>
         <div class='input-info'>
-          <label for="" class="title"> {{$t('trans0168')}}</label>
-
-          <m-input type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-
-          <label for="" class="title">{{$t('trans0172')}}</label>
-
-          <m-input type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-
+          <m-form :model="form" :rules='rules'>
+            <m-form-item prop='ssid'>
+              <label for="" class="title"> {{$t('trans0168')}}</label>
+              <m-input type='text' :placeholder="`${$t('trans0321')}`" v-model='form.ssid'></m-input>
+            </m-form-item>
+            <m-form-item prop='password'>
+              <label for="" class="title">{{$t('trans0172')}}</label>
+              <m-input type='password' :placeholder="`${$t('trans0321')}`" v-model='form.password'></m-input>
+            </m-form-item>
+          </m-form>
           <div class="check-info">
             <label for=""> {{$t('trans0255')}}</label>
             <m-switch></m-switch>
@@ -21,7 +23,7 @@
             <m-switch></m-switch>
           </div>
           <div class="btn-info">
-            <button class="btn">{{$t('trans0081')}}</button>
+            <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
@@ -31,20 +33,36 @@
 <script>
 import Switch from '../../../component/switch/index.vue';
 import Input from '../../../component/input/input.vue';
+import Form from '../../../component/form/index.vue';
+import FormItem from '../../../component/formItem/index.vue';
 
 export default {
   components: {
     'm-switch': Switch,
+    'm-form-item': FormItem,
+    'm-form': Form,
     'm-input': Input
   },
   data() {
     return {
-      isPsd: true
+      isPsd: true,
+      form: {
+        ssid: '123',
+        password: '12323'
+      },
+      rules: [
+        {
+          ssid: { require: true }
+        }
+      ]
     };
   },
   methods: {
     showPsd() {
       this.isPsd = !this.isPsd;
+    },
+    submit() {
+      console.log(this.form);
     }
   }
 };
