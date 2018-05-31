@@ -61,9 +61,8 @@
               </div>
             </div>
             <div v-if="netType==='static'">
-              <label for="" class="title"> {{$t('trans0151')}}</label>
-              <div>
-                <m-input type="text" placeholder="0.0.0.0" />
+              <div class="item">
+                <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" />
               </div>
               <div class="item">
                 <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" />

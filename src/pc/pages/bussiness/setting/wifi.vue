@@ -7,13 +7,11 @@
       <div class='form'>
         <div class='input-info'>
           <m-form :model="form" :rules='rules'>
-            <m-form-item prop='ssid'>
-              <label for="" class="title"> {{$t('trans0168')}}</label>
-              <m-input type='text' :placeholder="`${$t('trans0321')}`" v-model='form.ssid'></m-input>
+            <m-form-item class="item" prop='ssid'>
+              <m-input :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
             </m-form-item>
-            <m-form-item prop='password'>
-              <label for="" class="title">{{$t('trans0172')}}</label>
-              <m-input type='password' :placeholder="`${$t('trans0321')}`" v-model='form.password'></m-input>
+            <m-form-item class="item" prop='password'>
+              <m-input :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
             </m-form-item>
           </m-form>
           <div class="check-info">
