@@ -6,10 +6,12 @@
         <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
       </div>
       <div class='check-status row-2'>
-        <span class='testing' v-if='false'> {{$t('trans0298')}}...</span>
-        <span class="success-line" v-if='true'></span>
-        <span class='fail-line' v-if='false'></span>
-        <span class='fail-info' v-if='false'>
+        <div class="check-txt-info">
+          <span class='testing' v-if="netStatus==='testing'"> {{$t('trans0298')}}...</span>
+        </div>
+        <span class="success-line" v-if="netStatus==='connected' || netStatus==='testing'"></span>
+        <span class='fail-line' v-if="netStatus==='unlinked'"></span>
+        <span class='fail-info' v-if="netStatus==='unlinked'">
           <i class="fail-icon"></i>
         </span>
       </div>
@@ -19,8 +21,8 @@
           <span>21.16</span>M
         </div>
       </div>
-      <div class="btn-info">
-        <button class="btn check-btn">{{this.$t('trans0008')}}</button>
+      <div class="btn-info" v-if="netStatus==='connected'">
+        <button class="btn check-btn" @click='testSpeed()'>{{$t('trans0008')}}</button>
       </div>
     </div>
     <div class="router-info">
@@ -164,13 +166,62 @@
         </div>
       </div>
     </div>
+    <div class='speed-model-info' v-if='speedModelOpen'>
+      <div class="shadow"></div>
+      <div class='speed-content'>
+        <div v-if="speedStatus==='testing'">
+          <div class="test-info"></div>
+          <p>{{$t('trans0045')}}...</p>
+        </div>
+        <div v-if="speedStatus==='completed'" class="speed-completed">
+          <div class="speed-result-info">
+            <div class="extra">
+              <i class="p-dwon-icon"></i>
+              <div>
+                <p>
+                  <span class="speed">21.15</span>
+                  <span class='unit'> MB</span>
+                </p>
+                <p class="note">{{$t('trans0306')}}</p>
+              </div>
+            </div>
+            <div class="extra">
+              <i class="p-up-icon"></i>
+              <div>
+                <p>
+                  <span class="speed">21.15</span>
+                  <span class='unit'> MB</span>
+                </p>
+                <p class="note">{{$t('trans0306')}}</p>
+              </div>
+            </div>
+            <div class="extra">
+              <i class="p-count-icon"></i>
+              <div>
+                <p>
+                  <span class="speed">21.15</span>
+                  <span class='unit'> MB</span>
+                </p>
+                <p class="note">{{$t('trans0306')}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="btn-info">
+            <button class="cmp-btn" @click="()=>speedModelOpen=false">{{$t('trans0018')}}</button>
+            <button class="re-btn" @click="testSpeed()">{{$t('trans0279')}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      netStatus: ['connected'],
+      netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      speedStatus: 'testing',
+      speedModelOpen: false,
       meshStatus: [
         {
           main: true,
@@ -198,11 +249,33 @@ export default {
     };
   },
   mounted() {
-    this.$http.testWan().then(res => {
-      console.log(res);
-    });
+    this.testWan();
+    // this.$loading.open();
   },
   methods: {
+    testWan() {
+      this.netStatus = 'testing';
+      const timer = setTimeout(() => {
+        this.$http
+          .testWan()
+          .then(res => {
+            clearTimeout(timer);
+            console.log(res);
+            this.netStatus = res.data.result.status;
+          })
+          .catch(() => {
+            clearTimeout(timer);
+            this.netStatus = 'unlinked';
+          });
+      }, 1000);
+    },
+    testSpeed() {
+      this.speedModelOpen = true;
+      this.speedStatus = 'testing';
+      setTimeout(() => {
+        // this.speedStatus = 'completed';
+      }, 3000);
+    },
     diffMesh(item) {
       let className = '';
       if (item) {
@@ -228,6 +301,163 @@ export default {
 </script>
 <style lang="scss" scoped>
 .home-container {
+  .speed-model-info {
+    .shadow {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      opacity: 0.7;
+      position: fixed;
+      z-index: -1;
+    }
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @keyframes speed-testing {
+      0% {
+        background: url('../../../assets/images/img_test_01.png') no-repeat;
+      }
+      50% {
+        background: url('../../../assets/images/img_test_02.png') no-repeat;
+      }
+      100% {
+        background: url('../../../assets/images/img_test_03.png') no-repeat;
+      }
+    }
+    .speed-content {
+      text-align: center;
+      .test-info {
+        background: url('../../../assets/images/img_test_01.png') no-repeat;
+        background-size: 100% 100%;
+        width: 330px;
+        height: 330px;
+        animation: speed-testing 1s linear infinite;
+      }
+      p {
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 200;
+      }
+      .speed-completed {
+        width: 600px;
+        height: 265px;
+        background: white;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        .speed-result-info {
+          flex: 1;
+
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: row;
+          .extra {
+            flex: 1;
+            p {
+              margin: 0;
+              padding: 0;
+            }
+            text-align: left;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .p-dwon-icon {
+              width: 25px;
+              height: 34px;
+              display: inline-block;
+              background: url('../../../assets/images/ic_ic_download.png')
+                no-repeat;
+              background-size: 100% 100%;
+              margin-right: 5px;
+            }
+            .p-up-icon {
+              width: 25px;
+              height: 34px;
+              display: inline-block;
+              background: url('../../../assets/images/ic_upload.png') no-repeat;
+              background-size: 100% 100%;
+              margin-right: 5px;
+            }
+            .p-count-icon {
+              width: 30px;
+              height: 30px;
+              display: inline-block;
+              background: url('../../../assets/images/ic_broadband.png')
+                no-repeat;
+              background-size: 100% 100%;
+              margin-right: 5px;
+            }
+            .title {
+              font-size: 16px;
+              color: #333333;
+              font-weight: 600;
+              padding: 15px 0;
+              border-bottom: 1px solid #f1f1f1;
+            }
+            .speed {
+              font-size: 22px;
+              font-weight: bold;
+              padding: 0 3px;
+              color: #000;
+            }
+            .unit {
+              font-size: 12px;
+              font-weight: normal;
+              letter-spacing: -0.2px;
+              color: #333333;
+            }
+            .note {
+              font-size: 12px;
+              letter-spacing: -0.1px;
+              color: #999999;
+              margin-left: 3px !important;
+            }
+          }
+        }
+        .btn-info {
+          height: 100px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .cmp-btn {
+            width: 120px;
+            height: 42px;
+            border-radius: 4px;
+            border: solid 1px #b6b6b6;
+            color: #333333;
+            background: white;
+            outline: none;
+            box-sizing: border-box;
+            &:active {
+              opacity: 0.6;
+            }
+          }
+          .re-btn {
+            outline: none;
+            width: 120px;
+            height: 42px;
+            border-radius: 4px;
+            background-color: #4237dd;
+            border: solid 1px #4237dd;
+            color: #ffffff;
+            margin-left: 40px;
+            &:active {
+              opacity: 0.6;
+            }
+          }
+        }
+      }
+    }
+  }
   padding: 0 30px;
   padding-bottom: 30px;
   .check-info {
@@ -275,6 +505,7 @@ export default {
       flex: 1;
       max-width: 440px;
       min-width: 150px;
+      min-height: 60px;
       position: relative;
       .success-line {
         position: absolute;
@@ -289,7 +520,8 @@ export default {
         position: absolute;
         max-width: 440px;
         min-width: 150px;
-        height: 2px;
+        width: 100%;
+        height: 3px;
         border: 2px dashed #999999;
         box-sizing: border-box;
       }
@@ -300,8 +532,9 @@ export default {
         z-index: 111;
         width: 57px;
         height: 32px;
+        // padding: 10px;
         background: #f1f1f1;
-        top: -16px;
+        top: 13px;
         right: 50%;
         transform: translateX(50%);
       }
@@ -312,16 +545,23 @@ export default {
         background: url('../../../assets/images/ic_wifi_wrong.png');
         background-size: 100% 100%;
       }
+      .check-txt-info {
+        position: relative;
+        min-height: 30px;
+      }
       .testing {
         display: inline-block;
         font-size: 12px;
         text-align: center;
-        max-width: 440px;
-        min-width: 150px;
+        width: 100%;
+        min-width: 100px;
         font-weight: 200;
         color: #333333;
         position: absolute;
-        top: -24px;
+        bottom: 10px;
+        // top: -24px;
+        right: 50%;
+        transform: translateX(50%);
       }
     }
     .check-btn {
@@ -627,6 +867,9 @@ export default {
     width: 120px;
     justify-content: center;
     flex-flow: column-reverse;
+    .name {
+      padding-top: 6px;
+    }
   }
   .row-3 {
     width: 120px;
@@ -661,6 +904,14 @@ export default {
 
 @media screen and (max-width: 768px) {
   .home-container {
+    .speed-model-info {
+      .speed-content {
+        .test-info {
+          width: 150px;
+          height: 150px;
+        }
+      }
+    }
     .btn-info {
       width: 100%;
       margin-top: 20px;
@@ -767,7 +1018,16 @@ export default {
       }
       .check-status {
         min-width: 100px;
-        .success-line {
+        .fail-info {
+          width: 44px;
+          top: 20px;
+        }
+        .fail-icon {
+          width: 24px;
+          height: 20px;
+        }
+        .success-line,
+        .fail-line {
           min-width: 100px;
         }
       }
