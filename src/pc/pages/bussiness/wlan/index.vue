@@ -6,16 +6,10 @@
     <div class="step-content">
       <div class="step-item" v-if="current===0">
         <div class="form-item">
-          <label for="">
-            <span>{{$t('trans0168')}}</span>
-          </label>
-          <m-input :placeholder="$t('trans0321')" v-model="ssid" />
+          <m-input :label="$t('trans0168')" :placeholder="$t('trans0321')" v-model="ssid" />
         </div>
         <div class="form-item">
-          <label for="">
-            <span>{{$t('trans0172')}}</span>
-          </label>
-          <m-input type="password" :placeholder="$t('trans0321')" v-model="password" />
+          <m-input :label="$t('trans0172')" type="password" :placeholder="$t('trans0321')" v-model="password" />
         </div>
         <div class="button-container">
           <button @click="step1()" class="btn">{{$t('trans0055')}}</button>
@@ -23,10 +17,7 @@
       </div>
       <div class="step-item" v-if="current===1">
         <div class="form-item">
-          <label for="">
-            <span>{{$t('trans0067')}}</span>
-          </label>
-          <m-input type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="admin_password" />
+          <m-input :label="$t('trans0067')" type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="admin_password" />
           <m-checkbox class="checkbox" v-model="checked" :text="$t('trans0293')"></m-checkbox>
         </div>
         <div class="button-container">
@@ -148,13 +139,6 @@ export default {
             margin-top: 0;
           }
         }
-      }
-      label {
-        display: block;
-        font-size: 14px;
-        width: 350px;
-        margin-bottom: 10px;
-        text-align: left;
       }
     }
   }

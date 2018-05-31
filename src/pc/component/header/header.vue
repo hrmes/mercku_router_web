@@ -120,11 +120,13 @@ export default {
         height: 6px;
         position: relative;
         top: -3px;
+        background: url(../../assets/images/ic_pull_down.png) no-repeat center;
+        transition: transform 0.3s linear;
         &.up {
-          background: url(../../assets/images/ic_pack_up.png) no-repeat center;
+          transform: rotate(180deg);
         }
         &.down {
-          background: url(../../assets/images/ic_pull_down.png) no-repeat center;
+          transform: rotate(0);
         }
       }
       .popup {

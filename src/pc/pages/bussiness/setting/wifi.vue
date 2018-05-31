@@ -89,14 +89,9 @@ export default {
     .form {
       display: flex;
       justify-content: center;
-      padding-bottom: 50px;
-
-      .title {
-        display: block;
-        font-size: 14px;
-        color: #333333;
-        margin-top: 30px;
-        margin-bottom: 10px;
+      padding: 50px 0;
+      .item {
+        margin-bottom: 20px;
       }
 
       .btn-info {
@@ -105,7 +100,6 @@ export default {
       .check-info {
         display: flex;
         align-items: center;
-        margin-top: 30px;
         label {
           margin-right: 10px;
           font-size: 16px;

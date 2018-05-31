@@ -1,9 +1,15 @@
 <template>
   <div class="input-container" :class="{'disabled':disabled}">
-    <input :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
-    <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
-      <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
+    <label for="">
+      <span>{{label}}</span>
+    </label>
+    <div class="inputarea">
+      <input :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
+      <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
+        <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -21,6 +27,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    label: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -67,6 +77,15 @@ export default {
     .icon-container {
       cursor: default;
     }
+  }
+  .inputarea {
+    position: relative;
+  }
+  label {
+    display: block;
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 14px;
   }
   .input {
     height: 48px;

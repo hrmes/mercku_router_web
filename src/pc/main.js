@@ -83,6 +83,6 @@ const launch = () => {
 document.addEventListener('DOMContentLoaded', () => {
   launch();
 });
-// 通过pre-commit每次自动新增
-console.log(`%cWeb version is : RC${v.version}`, 'color:red');
 
+
+console.log(`%cWeb version is : RC${v.version}`, 'color:red');

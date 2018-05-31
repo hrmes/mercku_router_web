@@ -1,14 +1,18 @@
 <template>
   <div class="select-container" @click="open()">
-    <div class="select">{{selected.text}}</div>
-    <div class="icon-container">
-      <span class="icon" :class="{'open':opened,'close':!opened}"></span>
+    <label for="">{{label}}</label>
+    <div class="select">
+      <div class="">{{selected.text}}</div>
+      <div class="icon-container">
+        <span class="icon" :class="{'open':opened,'close':!opened}"></span>
+      </div>
+      <transition name="select">
+        <ul class="select-popup" v-show="this.opened">
+          <li :key="option.value" @click.stop="select(option)" v-for="option in options">{{option.text}}</li>
+        </ul>
+      </transition>
     </div>
-    <transition name="select">
-      <ul class="select-popup" v-show="this.opened">
-        <li :key="option.value" @click.stop="select(option)" v-for="option in options">{{option.text}}</li>
-      </ul>
-    </transition>
+
   </div>
 </template>
 
@@ -19,7 +23,11 @@ export default {
       type: Array,
       default: () => []
     },
-    value: {}
+    value: {},
+    label: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -41,16 +49,23 @@ export default {
 </script>
 <style lang="scss" scoped>
 .select-container {
-  height: 48px;
-  width: 100%;
-  border-radius: 4px;
-  outline: 0;
-  border: 1px solid #e1e1e1;
-  font-size: 14px;
-  padding: 10px;
-  line-height: 26px;
-  position: relative;
-  padding-right: 50px;
+  .select {
+    height: 48px;
+    width: 100%;
+    border-radius: 4px;
+    outline: 0;
+    border: 1px solid #e1e1e1;
+    font-size: 14px;
+    padding: 10px;
+    line-height: 26px;
+    position: relative;
+    padding-right: 50px;
+  }
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
 
   cursor: pointer;
   .select-popup {
@@ -90,15 +105,16 @@ export default {
       height: 20px;
       margin-top: 14px;
       display: inline-block;
+      background: url(../../assets/images/ic_input_box_pull_down.png) no-repeat
+        center;
+      transition: transform 0.2s linear;
       &.open {
-        background: url(../../assets/images/ic_pack_up.png) no-repeat center;
+        transform: rotate(180deg);
       }
       &.close {
-        background: url(../../assets/images/ic_pull_down.png) no-repeat center;
+        transform: rotate(0);
       }
     }
-  }
-  .select {
   }
 }
 </style>

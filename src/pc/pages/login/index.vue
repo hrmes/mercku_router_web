@@ -17,10 +17,7 @@
           <button v-if="initial" class="btn">{{$t('trans0222')}}</button>
           <div class="login-form" v-if="!initial">
             <div class="password-container">
-              <label for="">
-                <span>{{$t('trans0067')}}</span>
-              </label>
-              <m-input :placeholder="$t('trans0321')" type="password" v-model="password" />
+              <m-input :label="$t('trans0067')" :placeholder="$t('trans0321')" type="password" v-model="password" />
             </div>
             <button class="btn" @click="login()">{{this.$t('trans0001')}}</button>
           </div>
@@ -123,15 +120,6 @@ export default {
       text-align: center;
 
       .password-container {
-        label {
-          display: block;
-          font-size: 14px;
-
-          width: 350px;
-          margin: 0 auto;
-          margin-bottom: 10px;
-          text-align: left;
-        }
         margin-bottom: 30px;
       }
       .download {

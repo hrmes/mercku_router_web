@@ -3,7 +3,7 @@
     <mercku-menu class="menu" :menus="menus" v-if="!hasMenu"></mercku-menu>
     <div class="app-container" :class="{'has-menu':!hasMenu}">
       <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
-      <router-view>
+      <router-view class="router-view">
 
       </router-view>
       <policy :class="{'fix-bottom':hasMenu}" class="policy" />
@@ -26,9 +26,7 @@ export default {
   },
   computed: {
     hasMenu() {
-      return (
-        this.$route.path.includes('login') || this.$route.path.includes('wlan')
-      );
+      return this.$route.path.includes('login') || this.$route.path.includes('wlan');
     },
     hasExit() {
       return !this.hasMenu;
@@ -96,9 +94,14 @@ export default {
     width: 100%;
     height: 100%;
     position: relative;
+    display: flex;
+    flex-direction: column;
     &.has-menu {
       padding-left: 300px;
     }
+  }
+  .router-view {
+    flex: 1;
   }
   .policy {
     width: 100%;
