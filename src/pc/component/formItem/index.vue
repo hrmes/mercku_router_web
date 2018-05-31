@@ -73,6 +73,7 @@ export default {
   &.form-item-error {
     input {
       border-color: red !important;
+      transition: border 0.3 linear;
     }
   }
   &.form-item-success {
