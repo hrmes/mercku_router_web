@@ -1,6 +1,5 @@
 <template>
-  <div class="login-container" @keyup.13="login">
-
+  <div tabindex="0" class="login-container" @keyup.enter="login">
     <div class="bg">
       <div class="center-form">
         <div class="download">
@@ -19,7 +18,7 @@
             <div class="password-container">
               <m-input :label="$t('trans0067')" :placeholder="$t('trans0321')" type="password" v-model="password" />
             </div>
-            <button class="btn" @click="login()">{{this.$t('trans0001')}}</button>
+            <button class="btn" @click.stop="login()">{{this.$t('trans0001')}}</button>
           </div>
         </div>
         <div class="loadding" v-if="loading">

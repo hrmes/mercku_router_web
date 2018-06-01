@@ -18,7 +18,7 @@ const methods = {
   },
   update: {
     url,
-    action: 'router.config.update'
+    action: 'mesh.config.update'
   },
   testWan: {
     url,
@@ -60,10 +60,6 @@ const methods = {
   reboot: {
     url,
     action: 'mesh.node.reboot'
-  },
-  updateAdminPassword: {
-    url,
-    action: 'user.password.update'
   }
 };
 
@@ -114,16 +110,13 @@ const http = {
   update(config) {
     // check params
     const conf = {};
-    if (config.wifi.ssid) {
+    if (config.wifi && config.wifi.ssid) {
       conf.wifi = config.wifi;
-    }
-    if (config.admin.password) {
-      conf.admin = config.admin;
     }
     // if (config.timezone.timezone) {
     //   conf.timezone = config.timezone;
     // }
-    if (config.wan.type) {
+    if (config.wan && config.wan.type) {
       conf.wan = config.wan;
     }
     return axios.post(methods.update.url, {

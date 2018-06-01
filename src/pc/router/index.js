@@ -7,6 +7,7 @@ import wifi from '../pages/bussiness/setting/wifi.vue';
 import safe from '../pages/bussiness/setting/safe.vue';
 import reboot from '../pages/bussiness/setting/reboot.vue';
 import wlan from '../pages/bussiness/wlan/index.vue';
+import disappear from '../pages/bussiness/disappear/index.vue';
 
 Vue.use(Router);
 const routes = [{
@@ -46,7 +47,13 @@ const routes = [{
   name: 'wlan',
   component: wlan,
   requireAuth: true
+}, {
+  path: '/disappear',
+  name: 'disappear',
+  component: disappear,
+  requireAuth: true
 }];
+
 
 export default new Router({
   routes
