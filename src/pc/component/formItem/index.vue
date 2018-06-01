@@ -1,7 +1,7 @@
 <template>
   <div class="form-item" :class="{'form-item-success':success,'form-item-error':error}">
     <slot></slot>
-    <span class="error-message" v-if="error">{{message}}</span>
+    <span class="error-message" v-show="error">{{message}}</span>
   </div>
 </template>
 <script>
@@ -64,11 +64,13 @@ export default {
 </script>
 <style lang="scss">
 .form-item {
+  height: 100px;
   .error-message {
     color: red;
     font-size: 12px;
     display: block;
     padding: 5px 0;
+    height: 26px;
   }
   &.form-item-error {
     input {

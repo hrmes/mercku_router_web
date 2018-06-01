@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div class="login-container" @keyup.13="login">
 
     <div class="bg">
       <div class="center-form">

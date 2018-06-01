@@ -63,15 +63,15 @@ const launch = () => {
     }
   });
 
-  // router.beforeEach((to, form, next) => {
-  //   if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
-  //     next({
-  //       path: '/login'
-  //     });
-  //   } else {
-  //     next();
-  //   }
-  // });
+  router.beforeEach((to, form, next) => {
+    if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
+      next({
+        path: '/login'
+      });
+    } else {
+      next();
+    }
+  });
 
   new Vue({
     el: '#web',
