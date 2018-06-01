@@ -92,7 +92,7 @@ export default {
       .isinitial()
       .then(res => {
         if (!res.data.result.status) {
-          // /this.$router.push({ path: '/login' });
+          this.$router.push({ path: '/login' });
         }
       })
       .catch(err => {
@@ -122,8 +122,10 @@ export default {
         this.current = 2;
         const timer = setInterval(() => {
           this.countdown -= 1;
+          if (this.countdown === 0) {
+            clearInterval(timer);
+          }
         }, 1000);
-
         // 清除认证状态
         this.authorize.set(false);
         // 提交表单
