@@ -31,10 +31,63 @@ const methods = {
   getWIFI: {
     url,
     action: 'router.wifi.get'
+  },
+  // new
+  meshWanSpeedTest: {
+    url,
+    action: 'mesh.wan_speed.test'
+  },
+  getRouterMeta: {
+    url,
+    action: 'router.meta.get'
+  },
+  getNetInfo: {
+    url,
+    action: 'router.net.get'
+  },
+  getDeviceCount: {
+    url,
+    action: 'mesh.device.count.get'
+  },
+  getMeshNode: {
+    url,
+    action: 'mesh.node.get'
+  },
+  meshWan: {
+    url,
+    action: 'mesh.wan.get'
+  },
+  reboot: {
+    url,
+    action: 'mesh.node.reboot'
+  },
+  updateAdminPassword: {
+    url,
+    action: 'user.password.update'
   }
 };
 
 const http = {
+  getRouter() {
+    return axios.post(methods.getRouterMeta.url, {
+      method: methods.getRouterMeta.action
+    });
+  },
+  getNet() {
+    return axios.post(methods.getNetInfo.url, {
+      method: methods.getNetInfo.action
+    });
+  },
+  getDeviceCount() {
+    return axios.post(methods.getDeviceCount.url, {
+      method: methods.getDeviceCount.action
+    });
+  },
+  getMeshNode() {
+    return axios.post(methods.getMeshNode.url, {
+      method: methods.getMeshNode.action
+    });
+  },
   getWIFI() {
     return axios.post(methods.getWIFI.url, {
       method: methods.getWIFI.action
