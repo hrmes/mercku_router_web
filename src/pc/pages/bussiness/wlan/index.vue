@@ -123,6 +123,9 @@ export default {
         const timer = setInterval(() => {
           this.countdown -= 1;
         }, 1000);
+
+        // 清除认证状态
+        this.authorize.set(false);
         // 提交表单
         this.$http
           .update({
@@ -136,7 +139,7 @@ export default {
             // 尝试链接路由器
             const timer1 = setInterval(() => {
               if (this.countdown > 0) {
-                this.$http.getRouterMeta().then(() => {
+                this.$http.getRouter().then(() => {
                   clearInterval(timer);
                   clearInterval(timer1);
                   this.$router.push({ path: '/login' });
