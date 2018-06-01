@@ -81,7 +81,12 @@ export default {
         this.$toast(this.$t('trans0241'));
         return false;
       }
-      this.routerConfig.setWan('static', this.form);
+      // dns为数组
+      const form = {
+        ...this.form,
+        dns: [this.form.dns]
+      };
+      this.routerConfig.setWan('static', form);
       this.$http
         .update(this.routerConfig.getConfig())
         .then(() => {
@@ -99,9 +104,7 @@ export default {
   },
   computed: {
     disabled() {
-      return (
-        !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask
-      );
+      return !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask;
     }
   }
 };

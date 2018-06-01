@@ -6,12 +6,12 @@
       </div>
       <div class='form'>
         <div class='input-info'>
-          <m-form :model="form" :rules='rules'>
+          <m-form ref="form" :model="form" :rules='rules'>
             <m-form-item class="item" prop='ssid'>
-              <m-input :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+              <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
             </m-form-item>
             <m-form-item class="item" prop='password'>
-              <m-input :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+              <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
             </m-form-item>
           </m-form>
           <div class="check-info">
@@ -48,11 +48,9 @@ export default {
         ssid: '123',
         password: '12323'
       },
-      rules: [
-        {
-          ssid: { require: true }
-        }
-      ]
+      rules: {
+        ssid: [{ rule: /1234444/g, message: '你填错了' }]
+      }
     };
   },
   methods: {
@@ -62,6 +60,9 @@ export default {
     submit() {
       console.log(this.form);
     }
+  },
+  mounted() {
+    console.log('validatate result:', this.$refs.form.validate());
   }
 };
 </script>
