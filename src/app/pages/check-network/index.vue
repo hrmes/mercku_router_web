@@ -2,12 +2,19 @@
 
   <div class="check-network-page">
     <nav-bar :option="option"></nav-bar>
-    <div class="test-container">
-      <div class="tester"></div>
+    <div v-if="connMercku">
+      <div class="test-container">
+        <div class="tester"></div>
+      </div>
+      <div class="info">
+        <p class="p1">{{$t('trans0140')}}</p>
+        <p class="p2">{{$t('trans0141')}}</p>
+      </div>
     </div>
-    <div class="info">
-      <p class="p1">{{$t('trans0140')}}</p>
-      <p class="p2">{{$t('trans0141')}}</p>
+    <div class="unconnected" v-if="!connMercku">
+      <img src="../../assets/images/img_loading_fail@3x.png" alt="">
+      <div>{{$t('trans0039')}}</div>
+      <van-button class="retry-button" @click="retry">{{$t('trans0162')}}</van-button>
     </div>
   </div>
 </template>
@@ -20,30 +27,43 @@ export default {
         center: {
           text: this.$t('trans0223')
         }
-      }
+      },
+      connMercku: true
     };
   },
-  mounted() {
-    this.$http
-      .testWan()
-      .then(res => {
-        const timer = setTimeout(() => {
-          clearTimeout(timer);
-          const { status } = res.data.result;
-          if (status === 'connected') {
-            this.$router.replace({ path: '/wan-success' });
+  methods: {
+    retry() {
+      this.connMercku = true;
+      this.check();
+    },
+    check() {
+      this.$http
+        .testWan()
+        .then(res => {
+          const timer = setTimeout(() => {
+            clearTimeout(timer);
+            const { status } = res.data.result;
+            if (status === 'connected') {
+              this.$router.replace({ path: '/wan-success' });
+            } else {
+              this.$router.replace(`/wan-fail/${status}`);
+            }
+          }, 3000);
+        })
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.replace(`/wan-fail/${status}`);
+            const timer = setTimeout(() => {
+              clearTimeout(timer);
+              this.connMercku = false;
+            }, 3000);
           }
-        }, 3000);
-      })
-      .catch(err => {
-        if (err && err.error) {
-          this.$toast(this.$t(err.error.code));
-        } else {
-          this.$toast(this.$t('trans0039'));
-        }
-      });
+        });
+    }
+  },
+  mounted() {
+    this.check();
   }
 };
 </script>
@@ -88,6 +108,22 @@ export default {
       color: rgb(142, 142, 147);
       margin: 0;
       font-size: 0.16rem;
+    }
+  }
+  .unconnected {
+    width: 3.45rem;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    img {
+      width: 1.2rem;
+      margin-bottom: 0.2rem;
+    }
+    .retry-button {
+      margin-top: 0.3rem;
     }
   }
 }

@@ -81,7 +81,7 @@ const routerConfig = () => {
               ip: options.ip,
               mask: options.mask,
               gateway: options.gateway,
-              dns: [options.dns]
+              dns: options.dns
             };
             break;
           case wanType.pppoe:
