@@ -222,6 +222,8 @@ export default {
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       speedStatus: 'testing',
       speedModelOpen: false,
+      routerInfo: {},
+      netInfo: {},
       meshStatus: [
         {
           main: true,
@@ -250,9 +252,23 @@ export default {
   },
   mounted() {
     this.testWan();
+    this.getRouter();
+    this.getNet();
     // this.$loading.open();
   },
   methods: {
+    getRouter() {
+      this.$http.getRouter().then(res => {
+        this.routerInfo = res.data.result;
+        console.log(this.routerInfo);
+      });
+    },
+    getNet() {
+      this.$http.getNet().then(res => {
+        this.netInfo = res.data.result;
+        console.log(this.netInfo);
+      });
+    },
     testWan() {
       this.netStatus = 'testing';
       const timer = setTimeout(() => {
@@ -260,7 +276,6 @@ export default {
           .testWan()
           .then(res => {
             clearTimeout(timer);
-            console.log(res);
             this.netStatus = res.data.result.status;
           })
           .catch(() => {
@@ -322,15 +337,15 @@ export default {
     @keyframes speed-testing {
       0% {
         background: url('../../../assets/images/img_test_01.png') no-repeat;
-        background-size: 100%;
+        background-size: 100% 100%;
       }
       50% {
         background: url('../../../assets/images/img_test_02.png') no-repeat;
-        background-size: 100%;
+        background-size: 100% 100%;
       }
       100% {
         background: url('../../../assets/images/img_test_03.png') no-repeat;
-        background-size: 100%;
+        background-size: 100% 100%;
       }
     }
     .speed-content {
@@ -349,7 +364,7 @@ export default {
       }
       .speed-completed {
         width: 600px;
-        height: 265px;
+        min-height: 265px;
         background: white;
         border-radius: 5px;
         display: flex;
@@ -909,9 +924,29 @@ export default {
   .home-container {
     .speed-model-info {
       .speed-content {
+        width: 100%;
         .test-info {
           width: 150px;
           height: 150px;
+          margin: 0 auto;
+        }
+        .speed-completed {
+          padding: 10px;
+          .speed-result-info {
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding-top: 20px;
+            .extra {
+              min-width: 120px;
+
+              // padding-right: 10px;
+              padding-bottom: 20px;
+            }
+          }
+          width: 80%;
+          margin: 0 auto;
+          min-height: 265px !important;
         }
       }
     }
