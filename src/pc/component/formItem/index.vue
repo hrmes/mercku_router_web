@@ -32,17 +32,20 @@ export default {
     },
     validate() {
       const value = this.$parent.model[this.prop];
+      let result = true;
       // 检验
       if (this.validators && this.validators.length) {
         for (let j = 0; j < this.validators.length; j += 1) {
           const validator = this.validators[j];
           if (!validator.rule(value)) {
             this.result = false;
+            result = false;
             this.message = validator.message;
             break;
           }
         }
       }
+      return result;
     }
   },
   mounted() {
