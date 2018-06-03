@@ -122,9 +122,11 @@ export default {
       display: inline-block;
       &.show {
         background: url(../../assets/images/ic_visible.png) no-repeat center;
+        background-size: 100%;
       }
       &.hide {
         background: url(../../assets/images/ic_invisible.png) no-repeat center;
+        background-size: 100%;
       }
     }
   }

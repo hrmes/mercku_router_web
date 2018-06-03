@@ -105,6 +105,7 @@ export default {
     width: 100%;
     height: 100%;
     background: url(../../assets/images/img_main_picture.png) no-repeat center;
+    background-size: 100%;
     background-position-y: bottom;
     .loadding {
       img {
@@ -189,6 +190,10 @@ export default {
         border-radius: 4px;
         .logo-container {
           float: left;
+          img {
+            width: 48px;
+            height: 48px;
+          }
         }
 
         .down-text {

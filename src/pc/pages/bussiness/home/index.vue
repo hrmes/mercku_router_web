@@ -154,8 +154,8 @@
       <div class="content">
         <div v-for="item in meshStatus" class="mesh" :class="diffMesh(item)">
           <div class="message">
-            <img src="../../../assets/images/ic_main_router.png" alt="" v-if='item.main'>
-            <img src="../../../assets/images/ic_plug.png" alt="" v-if='!item.main'>
+            <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if='item.main'>
+            <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if='!item.main'>
             <span>{{item.name}}</span>
           </div>
           <div class="status">
@@ -507,16 +507,16 @@ export default {
       padding: 0 20px;
       img {
         display: inline-block;
-        width: 50px;
-        height: 50px;
+        width: 55px;
+        height: 55px;
       }
     }
     .router-icon {
       padding: 0 20px;
       img {
         display: inline-block;
-        width: 70px;
-        height: 28px;
+        width: 40px;
+        height: 55px;
       }
     }
     .check-status {
@@ -832,8 +832,8 @@ export default {
           padding-left: 20px;
           width: 50%;
           img {
-            width: 22px;
-            height: 27px;
+            width: 32px;
+            height: 29px;
           }
           span {
             font-size: 14px;
@@ -863,8 +863,8 @@ export default {
         display: flex;
         .message {
           img {
-            width: 50px;
-            height: 24px;
+            width: 40px;
+            height: 55px;
           }
         }
         .status {
@@ -1042,16 +1042,16 @@ export default {
         padding: 0 10px;
         img {
           display: inline-block;
-          width: 36px;
-          height: 36px;
+          width: 55px;
+          height: 55px;
         }
       }
       .router-icon {
         padding: 0 10px;
         img {
           display: inline-block;
-          width: 50px;
-          height: 18px;
+          width: 40px;
+          height: 55px;
         }
       }
       .check-status {
