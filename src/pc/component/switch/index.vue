@@ -1,20 +1,30 @@
 <template>
-  <input class="switch switch-animation" type="checkbox" :checked='checked' :disabled='disabled' @click='this.change'>
+  <input class="switch switch-animation" type="checkbox" :checked='checked' :disabled='disabled' @change='change()'>
 </template>
 <script>
 export default {
   data() {
     return {
-      checked: false
+      checked: this.value || false
     };
   },
-  props: ['onChange', 'disabled'],
+  props: {
+    onChange: {
+      type: Function
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    value: {
+      type: Boolean,
+      default: true
+    }
+  },
   methods: {
     change() {
       this.checked = !this.checked;
-      if (this.onChange) {
-        this.onChange(this.checked);
-      }
+      this.$emit('input', this.value);
     }
   }
 };
