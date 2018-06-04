@@ -13,7 +13,7 @@ export default {
   },
   data() {
     return {
-      validator: {},
+      validators: [],
       result: null, // null表示没有进行校验，true通过，false未通过
       message: ''
     };
@@ -28,19 +28,17 @@ export default {
   },
   methods: {
     bindVidator() {
-      const v = this.$parent.rules[this.prop];
-      if (v) {
-        this.validator = v;
-      }
+      this.validators = this.$parent.rules[this.prop] || [];
     },
     validate() {
       const value = this.$parent.model[this.prop];
       // 检验
-      if (this.validator && this.validator.length) {
-        for (let j = 0; j < this.validator.length; j += 1) {
-          if (!this.validator[j].rule.test(value)) {
+      if (this.validators && this.validators.length) {
+        for (let j = 0; j < this.validators.length; j += 1) {
+          const validator = this.validators[j];
+          if (!validator.rule(value)) {
             this.result = false;
-            this.message = this.validator[j].message;
+            this.message = validator.message;
             break;
           }
         }
@@ -54,11 +52,6 @@ export default {
     this.$on('focus', () => {
       this.result = null;
     });
-
-    // console.log(this.prop);
-    // console.log(this.$parent.model);
-    // console.log(this.$parent.rules);
-    // 通过prop判断是否校验表单
   }
 };
 </script>

@@ -26,7 +26,11 @@ export default {
   },
   computed: {
     hasMenu() {
-      return this.$route.path.includes('login') || this.$route.path.includes('wlan');
+      return (
+        this.$route.path.includes('login') ||
+        this.$route.path.includes('wlan') ||
+        this.$route.path.includes('disappear')
+      );
     },
     hasExit() {
       return !this.hasMenu;

@@ -3,24 +3,17 @@ const routerConfig = () => {
     wifi: {
       ssid: '',
       password: '',
-      hidden: false
+      hidden: false,
+      admin_password: ''
     },
-    admin: {
-      password: ''
-    },
-    // timezone: {
-    //   name: '',
-    //   timezone: '',
-    //   position: ''
-    // },
     wan: {
       type: '' // static,dhcp,pppoe
       /*
-        static:{
+        netinfo: {
           ip:'',
           mask:'',
           gateway:'',
-          dns:''
+          dns:[]
         }
         pppoe:{
           account:'',
@@ -38,36 +31,17 @@ const routerConfig = () => {
     getConfig() {
       const result = {
         wifi: Object.assign({}, config.wifi),
-        admin: Object.assign({}, config.admin),
         wan: Object.assign({}, config.wan),
-        // timezone: {
-        //   timezone: config.timezone.timezone,
-        //   position: config.timezone.position
-        // }
       };
       return result;
     },
-    setWIFI(ssid, pwd) {
+    setWIFI(ssid, pwd, adminPassword) {
       config.wifi.ssid = ssid;
       config.wifi.password = pwd;
+      config.wifi.admin_password = adminPassword;
     },
     getWIFI() {
       return Object.assign({}, config.wifi);
-    },
-    setTimezone(timename, name, timezone, position) {
-      config.timezone.timename = timename;
-      config.timezone.name = name;
-      config.timezone.timezone = timezone;
-      config.timezone.position = position || 0;
-    },
-    getTimezone() {
-      return Object.assign({}, config.timezone);
-    },
-    setAdminPwd(pwd) {
-      config.admin.password = pwd;
-    },
-    getAdminPwd() {
-      return config.admin.password;
     },
     setWan(type, options) {
       if (!Object.keys(wanType).includes(type)) {
@@ -77,7 +51,7 @@ const routerConfig = () => {
         wan.type = type;
         switch (type) {
           case wanType.static:
-            wan.static = {
+            wan.netinfo = {
               ip: options.ip,
               mask: options.mask,
               gateway: options.gateway,
@@ -102,7 +76,7 @@ const routerConfig = () => {
       };
       switch (config.wan.type) {
         case wanType.static:
-          Object.assign(result, config.wan.static);
+          Object.assign(result, config.wan.netinfo);
           break;
         case wanType.pppoe:
           Object.assign(result, config.wan.pppoe);

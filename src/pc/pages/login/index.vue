@@ -1,6 +1,5 @@
 <template>
-  <div class="login-container" @keyup.13="login">
-
+  <div tabindex="0" class="login-container" @keyup.enter="login">
     <div class="bg">
       <div class="center-form">
         <div class="download">
@@ -14,12 +13,12 @@
         <div style="clear:both;"></div>
         <span class="welcome-text">{{$t('trans0136')}}</span>
         <div v-if="!loading">
-          <button v-if="initial" class="btn">{{$t('trans0222')}}</button>
+          <button v-if="initial" class="btn" @click="towlan">{{$t('trans0222')}}</button>
           <div class="login-form" v-if="!initial">
             <div class="password-container">
               <m-input :label="$t('trans0067')" :placeholder="$t('trans0321')" type="password" v-model="password" />
             </div>
-            <button class="btn" @click="login()">{{this.$t('trans0001')}}</button>
+            <button class="btn" @click.stop="login()">{{this.$t('trans0001')}}</button>
           </div>
         </div>
         <div class="loadding" v-if="loading">
@@ -37,7 +36,7 @@
         </div>
 
         <div class="down-button-container">
-          <a class="down-button" href="">{{$t('trans0262')}}</a>
+          <a class="down-button" href="www.mercku.tech">{{$t('trans0262')}}</a>
         </div>
       </div>
       <div class="small-device-image">
@@ -75,6 +74,9 @@ export default {
       });
   },
   methods: {
+    towlan() {
+      this.$router.push({ path: '/wlan' });
+    },
     login() {
       this.$http
         .login(this.password)
