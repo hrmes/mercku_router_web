@@ -78,20 +78,18 @@ export default {
       this.isPsd = !this.isPsd;
     },
     submit() {
-      console.log(this.form);
       if (this.$refs.form.validate()) {
-        this.$http.update({
-          wifi: this.form
-        });
+        this.$http
+          .update({
+            wifi: this.form
+          })
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
-    }
-  },
-  watch: {
-    form: {
-      handler: v => {
-        console.log(v);
-      },
-      deep: true
     }
   },
   mounted() {

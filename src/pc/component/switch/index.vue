@@ -24,7 +24,7 @@ export default {
   methods: {
     change() {
       this.checked = !this.checked;
-      this.$emit('input', this.value);
+      this.$emit('input', this.checked);
     }
   }
 };
