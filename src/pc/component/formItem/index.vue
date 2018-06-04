@@ -60,13 +60,12 @@ export default {
 </script>
 <style lang="scss">
 .form-item {
-  height: 100px;
+  min-height: 105px;
   .error-message {
     color: red;
     font-size: 12px;
     display: block;
     padding: 5px 0;
-    height: 26px;
   }
   &.form-item-error {
     input {
