@@ -92,10 +92,12 @@ export default {
         &.zh-CN {
           background: url(../../assets/images/ic_language_exchange_02.png)
             no-repeat center;
+          background-size: 100%;
         }
         &.en-US {
           background: url(../../assets/images/ic_language_exchange_01.png)
             no-repeat center;
+          background-size: 100%;
         }
       }
       &.menu {
@@ -103,6 +105,7 @@ export default {
         margin-left: 40px;
         background: url(../../assets/images/ic_top_bar_pull_down.png) no-repeat
           center;
+        background-size: 100%;
       }
     }
   }
@@ -141,19 +144,23 @@ export default {
         &.wifi {
           background: url(../../assets/images/ic_home_normal.png) no-repeat
             center;
+          background-size: 100%;
         }
         &.setting {
           background: url(../../assets/images/ic_setting_router.png) no-repeat
             center;
+          background-size: 100%;
         }
         &.exit {
           background: url(../../assets/images/ic_logout.png) no-repeat center;
+          background-size: 100%;
         }
       }
       &.selected {
         .menu-icon.wifi {
           background: url(../../assets/images/ic_home_selected.png) no-repeat
             center;
+          background-size: 100%;
         }
       }
       .menu-expand {
@@ -162,6 +169,7 @@ export default {
         height: 6px;
         background: url(../../assets/images/ic_side_bar_pick_up.png) no-repeat
           center;
+        background-size: 100%;
         position: absolute;
         right: 20px;
         top: 50%;
@@ -173,6 +181,7 @@ export default {
         height: 6px;
         background: url(../../assets/images/ic_side_bar_pull_down.png) no-repeat
           center;
+        background-size: 100%;
         position: absolute;
         right: 20px;
         top: 21px;

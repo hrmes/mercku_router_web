@@ -107,6 +107,7 @@ export default {
       display: inline-block;
       background: url(../../assets/images/ic_input_box_pull_down.png) no-repeat
         center;
+      background-size: 100%;
       transition: transform 0.2s linear;
       &.open {
         transform: rotate(180deg);

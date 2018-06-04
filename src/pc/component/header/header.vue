@@ -121,6 +121,7 @@ export default {
         position: relative;
         top: -3px;
         background: url(../../assets/images/ic_pull_down.png) no-repeat center;
+        background-size: 100%;
         transition: transform 0.3s linear;
         &.up {
           transform: rotate(180deg);
@@ -192,10 +193,12 @@ export default {
             &.zh-CN {
               background: url(../../assets/images/ic_language_exchange_02.png)
                 no-repeat center;
+              background-size: 100%;
             }
             &.en-US {
               background: url(../../assets/images/ic_language_exchange_01.png)
                 no-repeat center;
+              background-size: 100%;
             }
           }
           &.menu {
@@ -203,6 +206,7 @@ export default {
             margin-left: 40px;
             background: url(../../assets/images/ic_top_bar_pull_down.png)
               no-repeat center;
+            background-size: 100%;
           }
         }
       }

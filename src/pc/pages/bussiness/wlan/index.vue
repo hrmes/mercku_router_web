@@ -69,11 +69,17 @@ export default {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0237')
           },
-          { rule: value => /^.{1,20}$/g.test(value), message: this.$t('trans0261') }
+          {
+            rule: value => /^.{1,20}$/g.test(value),
+            message: this.$t('trans0261')
+          }
         ],
         password: [
           { rule: value => !/\s/g.test(value), message: this.$t('trans0228') },
-          { rule: value => /^[a-zA-Z0-9\W_]{8,24}$/g.test(value), message: this.$t('trans0169') }
+          {
+            rule: value => /^[a-zA-Z0-9\W_]{8,24}$/g.test(value),
+            message: this.$t('trans0169')
+          }
         ]
       },
       form2: {
@@ -82,7 +88,10 @@ export default {
       form2Rules: {
         admin_password: [
           { rule: value => !/\s/g.test(value), message: this.$t('trans0228') },
-          { rule: value => /^[a-zA-Z0-9\W_]{8,24}$/g.test(value), message: this.$t('trans0169') }
+          {
+            rule: value => /^[a-zA-Z0-9\W_]{8,24}$/g.test(value),
+            message: this.$t('trans0169')
+          }
         ]
       }
     };
