@@ -148,19 +148,16 @@ export default {
           })
           .then(() => {
             // 尝试链接路由器
-            const timer1 = setInterval(() => {
-              if (this.countdown > 0) {
-                this.$http.getRouter().then(() => {
-                  clearInterval(timer);
-                  clearInterval(timer1);
-                  this.$router.push({ path: '/login' });
-                });
-              } else {
+            this.$reconnect({
+              onsuccess: () => {
                 clearInterval(timer);
-                clearInterval(timer1);
+                this.$router.push({ path: '/login' });
+              },
+              ontimeout: () => {
+                clearInterval(timer);
                 this.$router.push({ path: '/disappear' });
               }
-            }, 10000);
+            });
           })
           .catch(err => {
             if (err && err.error) {
