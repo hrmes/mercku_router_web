@@ -60,23 +60,35 @@ const methods = {
   reboot: {
     url,
     action: 'mesh.node.reboot'
-  }
+  },
 };
 
 const http = {
+  speedTesting() {
+    return axios.post(methods.meshWanSpeedTest.url, {
+      method: methods.meshWanSpeedTest.action
+    });
+  },
   getRouter() {
     return axios.post(methods.getRouterMeta.url, {
       method: methods.getRouterMeta.action
     });
   },
-  getNet() {
+  getNet(data) {
     return axios.post(methods.getNetInfo.url, {
-      method: methods.getNetInfo.action
+      method: methods.getNetInfo.action,
+      params: { ...data
+      }
     });
   },
   getDeviceCount() {
     return axios.post(methods.getDeviceCount.url, {
       method: methods.getDeviceCount.action
+    });
+  },
+  getTraffic() {
+    return axios.post(methods.meshWan.url, {
+      method: methods.meshWan.action
     });
   },
   getMeshNode() {

@@ -16,7 +16,7 @@
           </m-form>
           <div class="check-info">
             <label for=""> {{$t('trans0255')}}</label>
-            <m-switch></m-switch>
+            <m-switch onChange=''></m-switch>
             <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
             <m-switch></m-switch>
           </div>
@@ -59,7 +59,8 @@ export default {
     },
     submit() {
       console.log(this.form);
-    }
+    },
+    change24G(v) {}
   },
   mounted() {
     console.log('validatate result:', this.$refs.form.validate());

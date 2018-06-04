@@ -10,19 +10,19 @@
           <span class='testing' v-if="netStatus==='testing'"> {{$t('trans0298')}}...</span>
         </div>
         <span class="success-line" v-if="netStatus==='connected' || netStatus==='testing'"></span>
-        <span class='fail-line' v-if="netStatus==='unlinked'"></span>
-        <span class='fail-info' v-if="netStatus==='unlinked'">
+        <span class='fail-line' v-if="netStatus==='unlinked' ||netStatus==='linked'"></span>
+        <span class='fail-info' v-if="netStatus==='unlinked'  ||netStatus==='linked'">
           <i class="fail-icon"></i>
         </span>
       </div>
       <div class="row-3">
         <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
         <div class="speed">
-          <span>21.16</span>M
+          <span>{{traffice.traffic? format(traffice.traffic.bandwidth):'-'}}</span>M
         </div>
       </div>
       <div class="btn-info" v-if="netStatus==='connected'">
-        <button class="btn check-btn" @click='testSpeed()'>{{$t('trans0008')}}</button>
+        <button class="btn check-btn" @click='createSpeedTimer()'>{{$t('trans0008')}}</button>
       </div>
     </div>
     <div class="router-info">
@@ -31,19 +31,24 @@
         <div class='message'>
           <div class="m-item">
             <label class="m-title">{{$t('trans0187')}}：</label>
-            Mercku m1
+            {{this.routerInfo.alias || '—'}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0300')}}：</label>
-            Mercku 稳定版2.18.15
+            {{this.routerInfo.mac?this.routerInfo.mac.wan :'—'}}
           </div>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0188')}}：</label>
-            F0:B4:29:77:59:
+            <label class="m-title">{{$t('trans0200')}}：</label>
+            {{this.routerInfo.mac?this.routerInfo.mac.lan : '—'}}
           </div>
+          <div class="m-item">
+            <label class="m-title">{{$t('trans0201')}}：</label>
+            {{this.routerInfo.version || '—'}}
+          </div>
+
           <div class="m-item">
             <label class="m-title">{{$t('trans0251')}}:</label>
-            6816/02252767
+            {{this.routerInfo.sn || '—'}}
           </div>
         </div>
       </div>
@@ -52,23 +57,23 @@
         <div class='message'>
           <div class="m-item">
             <label class="m-title">{{$t('trans0302')}}：</label>
-            Mercku m1
+            {{this.netInfo.type || '—'}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0151')}}：</label>
-            Mercku 稳定版2.18.15
+            {{this.netInfo.netinfo?this.netInfo.netinfo.ip : '—'}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0152')}}：</label>
-            F0:B4:29:77:59:
+            {{this.netInfo.netinfo?this.netInfo.netinfo.mask : '—'}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0236')}}：</label>
-            6816/02252767
+            {{this.netInfo.netinfo?this.netInfo.netinfo.dns.join('/') :'—'}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0153')}}：</label>
-            6816/02252767
+            {{this.netInfo.type || '—'}}
           </div>
         </div>
       </div>
@@ -79,13 +84,13 @@
             <div class="down">
               <label class="r-title">{{$t('trans0305')}}：</label>
               <i class='r-dwon-icon'></i>
-              <span class="speed">0.5</span>
+              <span class="speed">{{traffice.realtime? format(traffice.realtime.down):'-'}}</span>
               <span class="unit"> KB/s</span>
             </div>
             <div class='up'>
               <label class="r-title">{{$t('trans0304')}}：</label>
               <i class='r-up-icon'></i>
-              <span class="speed">0.7</span>
+              <span class="speed">{{traffice.peak?format(traffice.peak.up):'-'}}</span>
               <span class="unit"> KB/s</span>
             </div>
           </div>
@@ -94,8 +99,8 @@
               <i class="f-up-icon"></i>
               <div>
                 <p>
-                  <span class="speed">21.15</span>
-                  <span class='unit'> MB/s</span>
+                  <span class="speed">{{traffice.peak?format(traffice.peak.up):'-'}}</span>
+                  <span class='unit'> Mb/s</span>
                 </p>
                 <p class="note">{{$t('trans0306')}}</p>
               </div>
@@ -104,8 +109,8 @@
               <i class="f-down-icon"></i>
               <div>
                 <p>
-                  <span class="speed">2.15</span>
-                  <span class='unit'> MB/s</span>
+                  <span class="speed">{{traffice.realtime?format(traffice.realtime.down):'-'}}</span>
+                  <span class='unit'> Mb/s</span>
                 </p>
                 <p class="note">{{$t('trans0307')}}</p>
               </div>
@@ -121,8 +126,8 @@
             <i class="t-dwon-icon"></i>
             <div>
               <p>
-                <span class="speed">21.15</span>
-                <span class='unit'> MB</span>
+                <span class="speed">{{traffice.traffic?format(traffice.traffic.dl):'-'}}</span>
+                <span class='unit'> Mb</span>
               </p>
               <p class="note">{{$t('trans0309')}}</p>
             </div>
@@ -131,8 +136,8 @@
             <i class="t-up-icon"></i>
             <div>
               <p>
-                <span class="speed">21.15</span>
-                <span class='unit'> MB</span>
+                <span class="speed">{{traffice.traffic?format(traffice.traffic.ul):'-'}}</span>
+                <span class='unit'> Mb</span>
               </p>
               <p class="note">{{$t('trans0310')}}</p>
             </div>
@@ -141,7 +146,7 @@
             <i class="t-count-icon"></i>
             <div>
               <p>
-                <span class="speed">8</span>
+                <span class="speed">{{deviceCount.count||'-'}}</span>
               </p>
               <p class="note">{{$t('trans0311')}}</p>
             </div>
@@ -152,16 +157,17 @@
     <div class='mesh-info'>
       <div class="title">{{$t('trans0312')}}</div>
       <div class="content">
-        <div v-for="item in meshStatus" class="mesh" :class="diffMesh(item)">
+        <div v-for="item in meshNode" class="mesh" :class="diffMesh(item)">
           <div class="message">
-            <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if='item.main'>
-            <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if='!item.main'>
-            <span>{{item.name}}</span>
+            <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if='item.is_gw'>
+            <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if='!item.is_gw'>
+            <span>{{item.alias}}</span>
+
           </div>
           <div class="status">
-            <img src="../../../assets/images/ic_plug_bad.png" alt="" v-if='item.status===1'>
-            <img src="../../../assets/images/ic_plug_fine.png" alt="" v-if='item.status===2'>
-            <img src="../../../assets/images/ic_plug_good.png" alt="" v-if='item.status===3'>
+            <img src="../../../assets/images/ic_plug_bad.png" alt="" v-if='item.rssi<-60'>
+            <img src="../../../assets/images/ic_plug_fine.png" alt="" v-if='item.rssi<-50 && item.rssi>-60'>
+            <img src="../../../assets/images/ic_plug_good.png" alt="" v-if='item.rssi>=-50'>
           </div>
         </div>
       </div>
@@ -173,42 +179,42 @@
           <div class="test-info"></div>
           <p>{{$t('trans0045')}}...</p>
         </div>
-        <div v-if="speedStatus==='completed'" class="speed-completed">
+        <div v-if="speedStatus==='done'" class="speed-completed">
           <div class="speed-result-info">
             <div class="extra">
               <i class="p-dwon-icon"></i>
               <div>
                 <p>
-                  <span class="speed">21.15</span>
-                  <span class='unit'> MB</span>
+                  <span class="speed">{{speedInfo.speed?format(speedInfo.speed.down):'—'}}</span>
+                  <span class='unit'> KB/s</span>
                 </p>
-                <p class="note">{{$t('trans0306')}}</p>
+                <p class="note">{{$t('trans0007')}}</p>
               </div>
             </div>
             <div class="extra">
               <i class="p-up-icon"></i>
               <div>
                 <p>
-                  <span class="speed">21.15</span>
-                  <span class='unit'> MB</span>
+                  <span class="speed">{{speedInfo.speed?format(speedInfo.speed.up):'—'}}</span>
+                  <span class='unit'> KB/s</span>
                 </p>
-                <p class="note">{{$t('trans0306')}}</p>
+                <p class="note">{{$t('trans0006')}}</p>
               </div>
             </div>
             <div class="extra">
               <i class="p-count-icon"></i>
               <div>
                 <p>
-                  <span class="speed">21.15</span>
-                  <span class='unit'> MB</span>
+                  <span class="speed">{{speedInfo.speed?format(speedInfo.speed.down*8):'-'}}</span>
+                  <span class='unit'> M</span>
                 </p>
-                <p class="note">{{$t('trans0306')}}</p>
+                <p class="note">{{$t('trans0029')}}</p>
               </div>
             </div>
           </div>
           <div class="btn-info">
             <button class="cmp-btn" @click="()=>speedModelOpen=false">{{$t('trans0018')}}</button>
-            <button class="re-btn" @click="testSpeed()">{{$t('trans0279')}}</button>
+            <button class="re-btn" @click="createSpeedTimer()">{{$t('trans0279')}}</button>
           </div>
         </div>
       </div>
@@ -222,51 +228,123 @@ export default {
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       speedStatus: 'testing',
       speedModelOpen: false,
+      speedInfo: {},
       routerInfo: {},
       netInfo: {},
-      meshStatus: [
-        {
-          main: true,
-          name: '主路由名称过长 该怎么办呢~~~~',
-          status: 3
-        },
-        {
-          main: false,
-          name: 'bee',
-          status: 3
-        },
-
-        {
-          main: false,
-          name: 'bee',
-          status: 2
-        },
-
-        {
-          main: false,
-          name: 'bee',
-          status: 1
-        }
-      ]
+      traffice: {},
+      deviceCount: {},
+      isFetching: false,
+      meshNode: [],
+      timer1: null,
+      timer2: null,
+      timer3: null,
+      timer4: null
     };
   },
   mounted() {
     this.testWan();
     this.getRouter();
     this.getNet();
-    // this.$loading.open();
+    this.createTimer();
   },
+
   methods: {
+    format(v) {
+      return (v / (1024 * 1024)).toFixed(1);
+    },
+    createTimer() {
+      this.getTraffic();
+      this.getDeviceCount();
+      this.getMeshNode();
+    },
+    clearTimer() {
+      clearInterval(this.timer1);
+      clearInterval(this.timer2);
+      clearInterval(this.timer3);
+    },
+    speedTesting() {
+      this.$http
+        .speedTesting()
+        .then(res => {
+          if (res.status === 200) {
+            this.speedStatus = res.data.result.status;
+            this.speedInfo = res.data.result;
+            if (res.data.result.status === 'done') {
+              clearInterval(this.timer4);
+            }
+          }
+        })
+        .catch(() => {
+          clearInterval(this.timer4);
+        });
+    },
+    createSpeedTimer() {
+      this.speedModelOpen = true;
+      this.speedStatus = 'testing';
+      this.speedTesting();
+      this.timer4 = setInterval(() => {
+        this.speedTesting();
+      }, 1000 * 5);
+    },
+    getTraffic() {
+      clearInterval(this.timer1);
+      this.$http
+        .getTraffic()
+        .then(res => {
+          this.isFetching = false;
+          if (res.status === 200) {
+            this.traffice = res.data.result;
+            this.timer1 = setInterval(() => {
+              this.getTraffic();
+            }, 1000 * 15);
+          }
+        })
+        .catch(() => {
+          clearInterval(this.timer1);
+        });
+    },
+    getDeviceCount() {
+      clearInterval(this.timer2);
+      this.$http
+        .getDeviceCount()
+        .then(res => {
+          clearInterval(this.timer2);
+          if (res.status === 200) {
+            this.deviceCount = res.data.result;
+            this.timer2 = setInterval(() => {
+              this.getDeviceCount();
+            }, 1000 * 20);
+          }
+        })
+        .catch(() => {
+          clearInterval(this.timer2);
+        });
+    },
+    getMeshNode() {
+      clearInterval(this.timer3);
+      this.$http
+        .getMeshNode()
+        .then(res => {
+          clearInterval(this.timer3);
+          if (res.status === 200) {
+            this.meshNode = res.data.result;
+            this.timer3 = setInterval(() => {
+              this.getMeshNode();
+            }, 1000 * 30);
+          }
+        })
+        .catch(() => {
+          clearInterval(this.timer3);
+        });
+    },
     getRouter() {
       this.$http.getRouter().then(res => {
         this.routerInfo = res.data.result;
-        console.log(this.routerInfo);
       });
     },
     getNet() {
-      this.$http.getNet().then(res => {
+      this.$http.getNet({ type: 'wan' }).then(res => {
         this.netInfo = res.data.result;
-        console.log(this.netInfo);
       });
     },
     testWan() {
@@ -284,33 +362,26 @@ export default {
           });
       }, 1000);
     },
-    testSpeed() {
-      this.speedModelOpen = true;
-      this.speedStatus = 'testing';
-      setTimeout(() => {
-        this.speedStatus = 'completed';
-      }, 3000);
-    },
+
     diffMesh(item) {
       let className = '';
       if (item) {
-        switch (item.status) {
-          case 3:
-            className = 'signal-3';
-            break;
-          case 2:
-            className = 'signal-2';
-            break;
-          case 1:
-            className = 'signal-1';
-            break;
-          default:
-            break;
+        if (item.rssi >= -50) {
+          className = 'signal-3';
         }
-        className = `${className} ${item.main && 'main'}`;
+        if (item.rssi < -50 && item.rssi > -60) {
+          className = 'signal-2';
+        }
+        if (item.rssi < -60) {
+          className = 'signal-1';
+        }
+        className = `${className} ${item.is_gw && 'main'}`;
       }
       return className;
     }
+  },
+  destroyed() {
+    this.clearTimer();
   }
 };
 </script>
