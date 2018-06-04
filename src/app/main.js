@@ -11,10 +11,7 @@ import CellGroup from 'vant/lib/cell-group';
 import Toast from 'vant/lib/toast';
 
 import FastClick from 'fastclick';
-import {
-  changeLanguage,
-  i18n
-} from '../i18n';
+import { changeLanguage, i18n } from '../i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
@@ -51,10 +48,12 @@ const launch = () => {
       const conf = config;
       conf.timeout = 20000; // add timeout
       // 添加不显示loading的例外
-      if (!loader.instance &&
+      if (
+        !loader.instance &&
         !(
           NO_LOADING_METHODS.includes(conf.data.method) ||
-          (conf.data.method === ROUTER_LOGIN && !conf.data.params.admin_password)
+          (conf.data.method === ROUTER_LOGIN &&
+            !conf.data.params.admin_password)
         )
       ) {
         loader.instance = Toast.loading({
@@ -133,7 +132,7 @@ const launch = () => {
   };
 
   const PagesRequireAuth = [];
-  router.options.routes.forEach((route) => {
+  router.options.routes.forEach(route => {
     if (route.requireAuth) {
       PagesRequireAuth.push(route.name);
     }
@@ -161,4 +160,3 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 // 通过pre-commit每次自动新增
 console.log(`%cWeb version is : RC${v.version}`, 'color:red');
-

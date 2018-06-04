@@ -135,8 +135,7 @@ export default {
             clearInterval(timer);
           }
         }, 1000);
-        // 清除认证状态
-        this.authorize.set(false);
+
         // 提交表单
         this.$http
           .update({
