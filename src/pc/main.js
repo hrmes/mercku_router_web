@@ -72,13 +72,6 @@ const launch = () => {
     }, 10000);
   };
 
-  const PagesRequireAuth = [];
-  router.options.routes.forEach(route => {
-    if (route.requireAuth) {
-      PagesRequireAuth.push(route.name);
-    }
-  });
-
   new Vue({
     el: '#web',
     i18n,

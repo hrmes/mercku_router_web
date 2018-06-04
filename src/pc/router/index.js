@@ -23,44 +23,37 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: home,
-    requireAuth: true
+    component: home
   },
   {
     path: '/setting/network',
     name: 'network',
-    component: network,
-    requireAuth: true
+    component: network
   },
   {
     path: '/setting/wifi',
     name: 'wifi',
-    component: wifi,
-    requireAuth: true
+    component: wifi
   },
   {
     path: '/setting/safe',
     name: 'safe',
-    component: safe,
-    requireAuth: true
+    component: safe
   },
   {
     path: '/setting/reboot',
     name: 'reboot',
-    component: reboot,
-    requireAuth: true
+    component: reboot
   },
   {
     path: '/wlan',
     name: 'wlan',
-    component: wlan,
-    requireAuth: true
+    component: wlan
   },
   {
     path: '/disappear',
     name: 'disappear',
-    component: disappear,
-    requireAuth: false
+    component: disappear
   }
 ];
 

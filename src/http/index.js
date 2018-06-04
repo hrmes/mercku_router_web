@@ -125,10 +125,13 @@ const http = {
     if (config.wifi && config.wifi.ssid) {
       conf.wifi = config.wifi;
     }
+    if (config.admin.password) {
+      conf.admin = config.admin;
+    }
     // if (config.timezone.timezone) {
     //   conf.timezone = config.timezone;
     // }
-    if (config.wan && config.wan.type) {
+    if (config.wan.type) {
       conf.wan = config.wan;
     }
     return axios.post(methods.update.url, {
