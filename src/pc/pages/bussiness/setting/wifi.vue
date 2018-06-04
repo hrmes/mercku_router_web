@@ -81,15 +81,44 @@ export default {
       if (this.$refs.form.validate()) {
         this.$http
           .update({
+            // .getRouter({
             wifi: this.form
           })
           .then(res => {
+            this.$dialog.info({});
+            this.$reconnect({
+              onsuccess: () => {
+                // clearInterval(timer);
+                // this.$router.push({ path: '/login' });
+              },
+              ontimeout: () => {
+                this.$router.push({ path: '/disappear' });
+              },
+              onprogress: percent => {
+                console.log(percent);
+              }
+            });
             console.log(res);
           })
           .catch(err => {
-            console.log(err);
+            if (err && err.error) {
+              this.$toast(this.$t(err.error.code));
+            } else {
+              this.$toast(this.$t('trans0039'));
+            }
           });
       }
+    }
+  },
+  watch: {
+    form: {
+      handler() {
+        // const l = this.form.bands['2.4G'].enabled;
+        // const h = this.form.bands['5G'].enabled;
+        this.form.bands['2.4G'].enabled = false;
+        console.log(this.form);
+      },
+      deep: true
     }
   },
   mounted() {
@@ -119,9 +148,9 @@ export default {
     .form {
       display: flex;
       justify-content: center;
-      padding: 50px 0;
+      padding: 30px 0;
       .item {
-        margin-bottom: 20px;
+        // margin-bottom: 20px;
       }
 
       .btn-info {

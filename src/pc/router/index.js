@@ -10,50 +10,59 @@ import wlan from '../pages/bussiness/wlan/index.vue';
 import disappear from '../pages/bussiness/disappear/index.vue';
 
 Vue.use(Router);
-const routes = [{
-  path: '/',
-  redirect: '/home'
-}, {
-  path: '/login',
-  name: 'login',
-  component: login
-}, {
-  path: '/home',
-  name: 'home',
-  component: home,
-  requireAuth: true
-}, {
-  path: '/setting/network',
-  name: 'network',
-  component: network,
-  requireAuth: true
-}, {
-  path: '/setting/wifi',
-  name: 'wifi',
-  component: wifi,
-  requireAuth: true
-}, {
-  path: '/setting/safe',
-  name: 'safe',
-  component: safe,
-  requireAuth: true
-}, {
-  path: '/setting/reboot',
-  name: 'reboot',
-  component: reboot,
-  requireAuth: true
-}, {
-  path: '/wlan',
-  name: 'wlan',
-  component: wlan,
-  requireAuth: true
-}, {
-  path: '/disappear',
-  name: 'disappear',
-  component: disappear,
-  requireAuth: true
-}];
-
+const routes = [
+  {
+    path: '/',
+    redirect: '/home'
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: login
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: home,
+    requireAuth: true
+  },
+  {
+    path: '/setting/network',
+    name: 'network',
+    component: network,
+    requireAuth: true
+  },
+  {
+    path: '/setting/wifi',
+    name: 'wifi',
+    component: wifi,
+    requireAuth: true
+  },
+  {
+    path: '/setting/safe',
+    name: 'safe',
+    component: safe,
+    requireAuth: true
+  },
+  {
+    path: '/setting/reboot',
+    name: 'reboot',
+    component: reboot,
+    requireAuth: true
+  },
+  {
+    path: '/wlan',
+    name: 'wlan',
+    component: wlan,
+    requireAuth: true
+  },
+  {
+    path: '/disappear',
+    name: 'disappear',
+    component: disappear,
+    requireAuth: false
+  }
+];
 
 export default new Router({
   routes

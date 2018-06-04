@@ -7,7 +7,7 @@
       <div class='form'>
         <img src="../../../assets/images/img_restart.png" alt="">
         <p> {{$t('trans0121')}}</p>
-        <button class="btn re-btn"> {{$t('trans0122')}}</button>
+        <button class="btn re-btn" @click="submit()"> {{$t('trans0122')}}</button>
       </div>
     </div>
   </div>
@@ -15,14 +15,20 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      isPsd: true
-    };
-  },
   methods: {
-    showPsd() {
-      this.isPsd = !this.isPsd;
+    submit() {
+      this.$reconnect({
+        onsuccess: () => {
+          // clearInterval(timer);
+          // this.$router.push({ path: '/login' });
+        },
+        ontimeout: () => {
+          this.$router.push({ path: '/disappear' });
+        },
+        onprogress: percent => {
+          console.log(percent);
+        }
+      });
     }
   }
 };
