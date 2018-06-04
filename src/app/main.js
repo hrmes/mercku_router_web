@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import 'babel-polyfill';
+<<<<<<< HEAD:src/app/main.js
 
+=======
+>>>>>>> origin:src/main.js
 import Button from 'vant/lib/button';
 import Field from 'vant/lib/field';
 import Icon from 'vant/lib/icon';
@@ -9,12 +12,19 @@ import Dialog from 'vant/lib/dialog';
 import Cell from 'vant/lib/cell';
 import CellGroup from 'vant/lib/cell-group';
 import Toast from 'vant/lib/toast';
+<<<<<<< HEAD:src/app/main.js
 
+=======
+>>>>>>> origin:src/main.js
 import FastClick from 'fastclick';
 import {
   changeLanguage,
   i18n
+<<<<<<< HEAD:src/app/main.js
 } from '../i18n';
+=======
+} from './i18n';
+>>>>>>> origin:src/main.js
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
@@ -22,7 +32,11 @@ import {
   http,
   configResponseInterceptors,
   configRequestInterceptors
+<<<<<<< HEAD:src/app/main.js
 } from '../http';
+=======
+} from './http';
+>>>>>>> origin:src/main.js
 import util from './util/util';
 import nav from './component/nav-bar.vue';
 import v from '../../version.json';
@@ -140,9 +154,42 @@ const launch = () => {
   });
 
   router.beforeEach((to, form, next) => {
+<<<<<<< HEAD:src/app/main.js
     if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
       next({
         path: `/pre-login/${encodeURIComponent(to.path)}`
+=======
+    // 欢迎页不需要检查登录
+    if (to.path !== Pages.welcome && !loginChecked) {
+      loginChecked = true;
+      http.checkLogin().then(res => {
+        if (!res.data.result.status) {
+          // 未登录
+          http
+            .login('')
+            .then(() => {
+              if (to.path === Pages.login) {
+                next({
+                  path: Pages.wlan
+                });
+              } else {
+                next();
+              }
+            })
+            .catch(() => {
+              next({
+                path: Pages.login
+              });
+            });
+        } else {
+          if (to.path === Pages.login) {
+            next({
+              path: Pages.wlan
+            });
+          }
+          next();
+        }
+>>>>>>> origin:src/main.js
       });
     } else {
       // 不需要授权的页面，这里有个问题，如果用户直接输入了登陆页面，是不会尝试自动登陆的
