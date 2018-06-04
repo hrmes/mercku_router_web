@@ -16,9 +16,9 @@
           </m-form>
           <div class="check-info">
             <label for=""> {{$t('trans0255')}}</label>
-            <m-switch onChange=''></m-switch>
+            <m-switch v-model="form.bands[`2.4G`].enabled" />
             <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
-            <m-switch></m-switch>
+            <m-switch v-model="form.bands[`5G`].enabled" />
           </div>
           <div class="btn-info">
             <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
@@ -45,11 +45,31 @@ export default {
     return {
       isPsd: true,
       form: {
-        ssid: '123',
-        password: '12323'
+        ssid: '',
+        password: '',
+        bands: {
+          '2.4G': { enabled: true },
+          '5G': { enabled: true }
+        }
       },
       rules: {
-        ssid: [{ rule: /1234444/g, message: '你填错了' }]
+        ssid: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0237')
+          },
+          {
+            rule: value => /^.{1,20}$/g.test(value),
+            message: this.$t('trans0261')
+          }
+        ],
+        password: [
+          { rule: value => !/\s/g.test(value), message: this.$t('trans0228') },
+          {
+            rule: value => /^[a-zA-Z0-9\W_]{8,24}$/g.test(value),
+            message: this.$t('trans0169')
+          }
+        ]
       }
     };
   },
@@ -59,11 +79,23 @@ export default {
     },
     submit() {
       console.log(this.form);
-    },
-    change24G(v) {}
+      if (this.$refs.form.validate()) {
+        this.$http.update({
+          wifi: this.form
+        });
+      }
+    }
+  },
+  watch: {
+    form: {
+      handler: v => {
+        console.log(v);
+      },
+      deep: true
+    }
   },
   mounted() {
-    console.log('validatate result:', this.$refs.form.validate());
+    // console.log('validatate result:', this.$refs.form.validate());
   }
 };
 </script>
