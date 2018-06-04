@@ -7,6 +7,7 @@
         <div class="dialog-title">{{$t('trans0139')}}</div>
         <div class="dialog-content" v-html="policy"></div>
         <div class="button-container">
+
           <button class="btn" @click="close()">{{$t('trans0024')}}</button>
         </div>
       </div>
@@ -21,11 +22,23 @@ export default {
       show: false
     };
   },
+  mounted() {},
   methods: {
+    setOverflow() {
+      this.bodyOverflow = document.body.style.overflow;
+      if (this.bodyOverflow !== 'hidden') {
+        document.body.style.overflow = 'hidden';
+      }
+    },
+    restoryOverflow() {
+      document.body.style.overflow = this.bodyOverflow || 'auto';
+    },
     showPolicy() {
+      this.setOverflow();
       this.show = true;
     },
     close() {
+      this.restoryOverflow();
       this.show = false;
     }
   },
