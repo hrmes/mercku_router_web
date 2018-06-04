@@ -125,12 +125,6 @@ const http = {
     if (config.wifi && config.wifi.ssid) {
       conf.wifi = config.wifi;
     }
-<<<<<<< HEAD
-    // if (config.timezone.timezone) {
-    //   conf.timezone = config.timezone;
-    // }
-    if (config.wan && config.wan.type) {
-=======
     if (config.admin.password) {
       conf.admin = config.admin;
     }
@@ -138,7 +132,6 @@ const http = {
     //   conf.timezone = config.timezone;
     // }
     if (config.wan.type) {
->>>>>>> origin
       conf.wan = config.wan;
     }
     return axios.post(methods.update.url, {

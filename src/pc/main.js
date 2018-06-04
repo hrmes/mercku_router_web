@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import 'babel-polyfill';
-
 import {
   changeLanguage,
   i18n
@@ -18,28 +17,22 @@ import dialog from './component/dialog/index';
 import v from '../../version.json';
 
 const launch = () => {
-  configRequestInterceptors(
-    config => {
-      const conf = config;
-      return conf;
-    },
-    error => Promise.reject(error)
-  );
-  configResponseInterceptors(
-    res => res,
-    error => {
-      if (error.response) {
-        switch (error.response.status) {
-          case 401:
-            window.location.hash = '#/login';
-            break;
-          default:
-            break;
-        }
+  configRequestInterceptors(config => {
+    const conf = config;
+    return conf;
+  }, error => Promise.reject(error));
+  configResponseInterceptors(res => res, error => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          window.location.hash = '#/login';
+          break;
+        default:
+          break;
       }
-      return Promise.reject(error.response.data);
     }
-  );
+    return Promise.reject(error.response.data);
+  });
   Vue.prototype.$http = http;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
@@ -55,23 +48,19 @@ const launch = () => {
     }
   };
 
-
   const PagesRequireAuth = [];
-  router.options.routes.forEach((route) => {
-    if (route.requireAuth) {
-      PagesRequireAuth.push(route.name);
-    }
-  });
+  router
+    .options
+    .routes
+    .forEach((route) => {
+      if (route.requireAuth) {
+        PagesRequireAuth.push(route.name);
+      }
+    });
 
-  // router.beforeEach((to, form, next) => {
-  //   if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
-  //     next({
-  //       path: '/login'
-  //     });
-  //   } else {
-  //     next();
-  //   }
-  // });
+  // router.beforeEach((to, form, next) => {   if
+  // (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
+  // next({       path: '/login'     });   } else {     next();   } });
 
   new Vue({
     el: '#web',
@@ -83,6 +72,5 @@ const launch = () => {
 document.addEventListener('DOMContentLoaded', () => {
   launch();
 });
-
 
 console.log(`%cWeb version is : RC${v.version}`, 'color:red');
