@@ -64,7 +64,7 @@ const methods = {
   meshMeta: {
     url,
     action: 'mesh.meta.get'
-  },
+  }
 };
 
 const http = {
@@ -91,7 +91,8 @@ const http = {
   getNet(data) {
     return axios.post(methods.getNetInfo.url, {
       method: methods.getNetInfo.action,
-      params: { ...data
+      params: {
+        ...data
       }
     });
   },
@@ -136,10 +137,10 @@ const http = {
   update(config) {
     // check params
     const conf = {};
-    if (config.wifi && config.wifi.ssid) {
+    if (config.wifi && Object.keys(config.wifi).length) {
       conf.wifi = config.wifi;
     }
-    if (config.wan && config.wan.type) {
+    if (config.wan && Object.keys(config.wan).length) {
       conf.wan = config.wan;
     }
     return axios.post(methods.update.url, {
@@ -187,8 +188,4 @@ const configRequestInterceptors = (before, error) => {
   const errorCallback = error || noop;
   axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-};
+export { http, configResponseInterceptors, configRequestInterceptors };
