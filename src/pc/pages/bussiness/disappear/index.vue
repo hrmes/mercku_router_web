@@ -9,7 +9,18 @@
 export default {
   methods: {
     tohome() {
-      this.$router.push({ path: '/home' });
+      this.$http
+        .getRouter()
+        .then(() => {
+          this.$router.push({ path: '/login' });
+        })
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
+          }
+        });
     }
   }
 };

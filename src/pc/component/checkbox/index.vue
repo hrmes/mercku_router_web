@@ -48,7 +48,7 @@ export default {
     width: 18px;
     height: 18px;
     border-radius: 2px;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #e1e1e1;
     &.checked {
       background: url(../../assets/images/ic_selected.png) no-repeat center;
       border: none;

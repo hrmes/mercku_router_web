@@ -27,6 +27,7 @@ const Loading = {
       this.instance.visible = false;
       this.instance.$el.addEventListener('transitionend', () => {
         this.instance.$el.remove();
+        this.instance = null;
       });
     }
   }
