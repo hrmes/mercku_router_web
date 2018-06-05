@@ -253,10 +253,10 @@ export default {
 
   methods: {
     format(v) {
-      return (v / (1000 * 8)).toFixed(1);
+      return (v / (1024 * 8)).toFixed(1);
     },
     bandWidth(v) {
-      return (v / (1000 * 1000)).toFixed(1);
+      return (v / (1024 * 1024)).toFixed(1);
     },
     macFormat(v) {
       return v.match(/.{2}/g).join(':');
@@ -555,6 +555,7 @@ export default {
           justify-content: center;
           align-items: center;
           .cmp-btn {
+            cursor: pointer;
             width: 120px;
             height: 42px;
             border-radius: 4px;
@@ -568,6 +569,7 @@ export default {
             }
           }
           .re-btn {
+            cursor: pointer;
             outline: none;
             width: 120px;
             height: 42px;
