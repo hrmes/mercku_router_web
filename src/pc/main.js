@@ -18,22 +18,28 @@ import dialog from './component/dialog/index';
 import v from '../../version.json';
 
 const launch = () => {
-  configRequestInterceptors(config => {
-    const conf = config;
-    return conf;
-  }, error => Promise.reject(error));
-  configResponseInterceptors(res => res, error => {
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          window.location.hash = '#/login';
-          break;
-        default:
-          break;
+  configRequestInterceptors(
+    config => {
+      const conf = config;
+      return conf;
+    },
+    error => Promise.reject(error)
+  );
+  configResponseInterceptors(
+    res => res,
+    error => {
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            window.location.hash = '#/login';
+            break;
+          default:
+            break;
+        }
       }
+      return Promise.reject(error.response.data);
     }
-    return Promise.reject(error.response.data);
-  });
+  );
   Vue.prototype.$http = http;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
