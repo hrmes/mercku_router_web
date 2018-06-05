@@ -54,9 +54,9 @@
         </div>
         <div class="setting-info">
           <div class='form'>
-            <div class="item">
+            <div class="item" style="min-height:110px">
               <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
-              <div class="note">{{$t('trans0147')}}</div>
+              <div class="note" v-if="netType==='dhcp'">{{$t('trans0147')}}</div>
             </div>
             <m-form v-if="netType==='pppoe'" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
               <m-form-item class="item" prop='account'>
@@ -263,18 +263,7 @@ export default {
         }
       });
     },
-    submit() {
-      let form = { type: this.netType };
-      if (this.netType === 'pppoe' && this.$refs.pppoeForm.validate()) {
-        form = { ...form, pppoe: { ...this.pppoeForm } };
-      } else if (this.netType !== 'dhcp') {
-        return;
-      }
-      if (this.netType === 'static' && this.$refs.staticForm.validate()) {
-        form = { ...form, netinfo: { ...this.staticForm } };
-      } else if (this.netType !== 'dhcp') {
-        return;
-      }
+    save(form) {
       this.$http
         .update({ wan: { ...form } })
         .then(res => {
@@ -294,9 +283,26 @@ export default {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$toast(this.$t('trans0039'));
+            this.$router.push({ path: '/disappear' });
           }
         });
+    },
+    submit() {
+      let form = { type: this.netType };
+      if (this.netType === 'dhcp') {
+        this.save(form);
+        return;
+      }
+      if (this.netType === 'pppoe' && this.$refs.pppoeForm.validate()) {
+        form = { ...form, pppoe: { ...this.pppoeForm } };
+        this.save(form);
+        return;
+      }
+      if (this.netType === 'static' && this.$refs.staticForm.validate()) {
+        form = { ...form, netinfo: { ...this.staticForm } };
+        this.save(form);
+        return;
+      }
     }
   }
 };
