@@ -106,7 +106,7 @@ export default {
   data() {
     const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
     function expRules(v) {
-      return v ? pattern.test(v) : true;
+      return !/^\s*$/g.test(v) ? pattern.test(v) : true;
     }
     return {
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
@@ -244,7 +244,9 @@ export default {
         .then(res => {
           this.$dialog.info({});
           this.$reconnect({
-            onsuccess: () => {},
+            onsuccess: () => {
+              this.$router.push({ path: '/home' });
+            },
             ontimeout: () => {
               this.$router.push({ path: '/disappear' });
             },
@@ -261,12 +263,6 @@ export default {
             this.$toast(this.$t('trans0039'));
           }
         });
-    },
-    showPsd() {
-      this.isPsd = !this.isPsd;
-    },
-    select(v) {
-      console.log(v);
     }
   }
 };
