@@ -388,7 +388,7 @@ export default {
       return className;
     }
   },
-  destroyed() {
+  beforeDestroy() {
     this.clearTimer();
   }
 };
