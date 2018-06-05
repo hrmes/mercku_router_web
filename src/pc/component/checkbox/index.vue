@@ -47,6 +47,8 @@ export default {
     &.checked {
       background: url(../../assets/images/ic_selected.png) no-repeat center;
       border: none;
+      background-size: 90%;
+      background-color: #00d061;
     }
   }
   .text {
