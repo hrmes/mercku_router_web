@@ -1,8 +1,10 @@
 <template>
   <div class="disappear-container">
-    <img src="../../../assets/images/img_no_network_access.png" alt="">
-    <div class="text">{{$t('trans0039')}}</div>
-    <button @click="tohome" class="btn">{{$t('trans0063')}}</button>
+    <div class="inner">
+      <img src="../../../assets/images/img_no_network_access.png" alt="">
+      <div class="text">{{$t('trans0039')}}</div>
+      <button @click="tohome" class="btn">{{$t('trans0063')}}</button>
+    </div>
   </div>
 </template>
 <script>
@@ -55,10 +57,12 @@ export default {
 }
 @media screen and(max-width: 678px) {
   .disappear-container {
-    width: 80%;
-    margin: 0 auto;
-    .btn {
-      margin-bottom: 40px;
+    .inner {
+      width: 80%;
+      margin: 0 auto;
+      .btn {
+        margin-bottom: 40px;
+      }
     }
   }
 }
