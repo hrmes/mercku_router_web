@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import 'babel-polyfill';
 
-import { changeLanguage, i18n } from '../i18n';
+import {
+  changeLanguage,
+  i18n
+} from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -42,8 +45,6 @@ const launch = () => {
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
   Vue.prototype.changeLanguage = changeLanguage;
-<<<<<<< HEAD
-=======
   Vue.prototype.authorize = {
     authorized: false,
     get() {
@@ -53,7 +54,6 @@ const launch = () => {
       this.authorized = auth;
     }
   };
->>>>>>> origin/modify
   Vue.prototype.$reconnect = options => {
     const opt = {
       ...{
@@ -84,8 +84,6 @@ const launch = () => {
     }, 10000);
   };
 
-<<<<<<< HEAD
-=======
   const PagesRequireAuth = [];
   router.options.routes.forEach(route => {
     if (route.requireAuth) {
@@ -103,7 +101,6 @@ const launch = () => {
   //   }
   // });
 
->>>>>>> origin/modify
   new Vue({
     el: '#web',
     i18n,
