@@ -18,7 +18,7 @@
       <div class="row-3">
         <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
         <div class="speed">
-          <span>{{traffice.traffic? format(traffice.traffic.bandwidth):'-'}}</span>M
+          <span>{{traffice.traffic? bandWidth(traffice.traffic.bandwidth):'-'}}</span>M
         </div>
       </div>
 
@@ -206,7 +206,7 @@
               <i class="p-count-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{speedInfo.speed?format(speedInfo.speed.down*8):'-'}}</span>
+                  <span class="speed">{{speedInfo.speed?bandWidth(speedInfo.speed.down):'-'}}</span>
                   <span class='unit'> M</span>
                 </p>
                 <p class="note">{{$t('trans0029')}}</p>
@@ -254,6 +254,9 @@ export default {
   methods: {
     format(v) {
       return (v / (1000 * 8)).toFixed(1);
+    },
+    bandWidth(v) {
+      return (v / (1000 * 8 * 1000)).toFixed(1);
     },
     macFormat(v) {
       return v.match(/.{2}/g).join(':');
