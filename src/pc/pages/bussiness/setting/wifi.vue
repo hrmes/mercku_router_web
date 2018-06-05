@@ -89,16 +89,23 @@ export default {
   },
   methods: {
     getMeshData() {
-      this.$http.getMeshData().then(res => {
-        if (res.data.result) {
-          this.meshData = res.data.result;
-          this.form.ssid = this.meshData.ssid;
-          this.form.password = this.meshData.password;
-          this.band1 = this.meshData.bands['2.4G'].enabled;
-          this.band2 = this.meshData.bands['5G'].enabled;
-          this.hidden = this.meshData.hidden;
-        }
-      });
+      this.$loading.open();
+      this.$http
+        .getMeshData()
+        .then(res => {
+          this.$loading.close();
+          if (res.data.result) {
+            this.meshData = res.data.result;
+            this.form.ssid = this.meshData.ssid;
+            this.form.password = this.meshData.password;
+            this.band1 = this.meshData.bands['2.4G'].enabled;
+            this.band2 = this.meshData.bands['5G'].enabled;
+            this.hidden = this.meshData.hidden;
+          }
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     changeband1(v) {
       if (v === false) {
@@ -114,7 +121,6 @@ export default {
       if (this.$refs.form.validate()) {
         this.$http
           .update({
-            // .getRouter({
             wifi: {
               ...this.form,
               bands: {
