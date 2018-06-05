@@ -17,6 +17,9 @@
               <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
             </m-form-item>
           </m-form>
+          <div class="ssid-hidden">
+            <m-checkbox v-model='hidden' :text="$t('trans0111')"></m-checkbox>
+          </div>
           <div class="check-info">
             <label for=""> {{$t('trans0255')}}</label>
             <m-switch v-model="band1" :onChange="changeband1" />
@@ -37,6 +40,7 @@ import Input from '../../../component/input/input.vue';
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Progress from '../../../component/progress/index.vue';
+import Checkbox from '../../../component/checkbox/index.vue';
 
 export default {
   components: {
@@ -44,13 +48,16 @@ export default {
     'm-form-item': FormItem,
     'm-form': Form,
     'm-input': Input,
-    'm-proress': Progress
+    'm-proress': Progress,
+    'm-checkbox': Checkbox
   },
   data() {
     return {
       band1: true,
       band2: true,
       reboot: false,
+      hidden: false,
+      meshData: {},
       form: {
         ssid: '',
         password: '',
@@ -81,6 +88,18 @@ export default {
     };
   },
   methods: {
+    getMeshData() {
+      this.$http.getMeshData().then(res => {
+        if (res.data.result) {
+          this.meshData = res.data.result;
+          this.form.ssid = this.meshData.ssid;
+          this.form.password = this.meshData.password;
+          this.band1 = this.meshData.bands['2.4G'].enabled;
+          this.band2 = this.meshData.bands['5G'].enabled;
+          this.hidden = this.meshData.hidden;
+        }
+      });
+    },
     changeband1(v) {
       if (v === false) {
         this.band2 = true;
@@ -128,12 +147,15 @@ export default {
     }
   },
   mounted() {
-    // console.log('validatate result:', this.$refs.form.validate());
+    this.getMeshData();
   }
 };
 </script>
 <style lang="scss" scoped>
 .setting-wifi-container {
+  .ssid-hidden {
+    margin-bottom: 10px;
+  }
   position: relative;
   padding: 0 30px;
   // height: 100%;

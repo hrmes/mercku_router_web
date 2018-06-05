@@ -371,7 +371,7 @@ export default {
             clearTimeout(timer);
             this.netStatus = 'unlinked';
           });
-      }, 3000);
+      }, 1000);
     },
 
     diffMesh(item) {
