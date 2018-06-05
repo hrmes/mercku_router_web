@@ -9,7 +9,7 @@
         <div class="check-txt-info">
           <span class='testing' v-if="netStatus==='testing'"> {{$t('trans0298')}}...</span>
         </div>
-        <span class="success-line" v-if="netStatus==='connected' || netStatus==='testing'"></span>
+        <span class="success-line" :class="{'testing-animation':netStatus==='testing'}" v-if="netStatus==='connected' || netStatus==='testing'"></span>
         <span class='fail-line' v-if="netStatus==='unlinked' ||netStatus==='linked'"></span>
         <span class='fail-info' v-if="netStatus==='unlinked'  ||netStatus==='linked'">
           <i class="fail-icon"></i>
@@ -21,9 +21,10 @@
           <span>{{traffice.traffic? format(traffice.traffic.bandwidth):'-'}}</span>M
         </div>
       </div>
-      <div class="btn-info" v-if="netStatus==='connected'">
-        <button class="btn check-btn" @click='createSpeedTimer()'>{{$t('trans0008')}}</button>
-      </div>
+
+    </div>
+    <div class="test-speed-btn-container">
+      <button class="btn check-btn" v-if="netStatus==='connected'" @click='createSpeedTimer()'>{{$t('trans0008')}}</button>
     </div>
     <div class="router-info">
       <div class="item">
@@ -363,7 +364,7 @@ export default {
             clearTimeout(timer);
             this.netStatus = 'unlinked';
           });
-      }, 1000);
+      }, 3000);
     },
 
     diffMesh(item) {
@@ -389,7 +390,34 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@keyframes speed-test-line {
+  0% {
+    width: 10%;
+  }
+  30% {
+    width: 30%;
+  }
+  60% {
+    width: 50%;
+  }
+  80% {
+    width: 80%;
+  }
+  100% {
+    width: 100%;
+  }
+}
 .home-container {
+  .test-speed-btn-container {
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    margin-bottom: 20px;
+    .btn {
+      width: 160px;
+      height: 50px;
+    }
+  }
   .speed-model-info {
     .shadow {
       width: 100%;
@@ -553,6 +581,10 @@ export default {
   padding: 0 30px;
   padding-bottom: 30px;
   .check-info {
+    .btn-info {
+      width: 100%;
+      text-align: center;
+    }
     .row-1 {
       display: flex;
       max-width: 200px;
@@ -570,7 +602,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 150px;
+    height: 100px;
     width: 100%;
 
     flex-wrap: wrap;
@@ -607,6 +639,17 @@ export default {
         height: 3px;
         border: 2px dashed #4237dd;
         box-sizing: border-box;
+
+        &.testing-animation {
+          border: none;
+          &::after {
+            content: '';
+            display: block;
+            border: 2px dashed #4237dd;
+            animation: speed-test-line linear 2s infinite;
+          }
+        }
+        //animation: speed-test-line 1s linear 2s infinite;
       }
       .fail-line {
         position: absolute;
@@ -1116,16 +1159,16 @@ export default {
         padding: 0 10px;
         img {
           display: inline-block;
-          width: 55px;
-          height: 55px;
+          width: 41px;
+          height: 41px;
         }
       }
       .router-icon {
         padding: 0 10px;
         img {
           display: inline-block;
-          width: 40px;
-          height: 55px;
+          width: 28px;
+          height: 37px;
         }
       }
       .check-status {

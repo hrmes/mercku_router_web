@@ -1,15 +1,14 @@
 import Vue from 'vue';
 import LoadingComponent from './loading.vue';
 
-
 const defaultOptions = {
   template: ''
 };
-
 const Loading = {
   instance: null,
   open(options) {
-    const opt = { ...defaultOptions,
+    const opt = {
+      ...defaultOptions,
       ...options
     };
     if (!this.instance) {
