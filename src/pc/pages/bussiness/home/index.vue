@@ -253,7 +253,7 @@ export default {
       return (v / (1024 * 1024)).toFixed(1);
     },
     macFormat(v) {
-      return v.match(/.{2}/g).join('.');
+      return v.match(/.{2}/g).join(':');
     },
     createTimer() {
       this.getTraffic();

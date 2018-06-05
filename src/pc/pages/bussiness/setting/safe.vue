@@ -53,8 +53,7 @@ export default {
             this.$dialog.info({});
             this.$reconnect({
               onsuccess: () => {
-                // clearInterval(timer);
-                // this.$router.push({ path: '/login' });
+                this.$router.push({ path: '/home' });
               },
               ontimeout: () => {
                 this.$router.push({ path: '/disappear' });

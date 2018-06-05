@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import 'babel-polyfill';
 
-import { changeLanguage, i18n } from '../i18n';
+import {
+  changeLanguage,
+  i18n
+} from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -42,6 +45,18 @@ const launch = () => {
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
   Vue.prototype.changeLanguage = changeLanguage;
+<<<<<<< HEAD
+=======
+  Vue.prototype.authorize = {
+    authorized: false,
+    get() {
+      return this.authorized;
+    },
+    set(auth) {
+      this.authorized = auth;
+    }
+  };
+>>>>>>> 4cf3e13a5afe844f12aba705adf1261239e860fb
   Vue.prototype.$reconnect = options => {
     const opt = {
       ...{
@@ -72,6 +87,26 @@ const launch = () => {
     }, 10000);
   };
 
+<<<<<<< HEAD
+=======
+  const PagesRequireAuth = [];
+  router.options.routes.forEach(route => {
+    if (route.requireAuth) {
+      PagesRequireAuth.push(route.name);
+    }
+  });
+
+  // router.beforeEach((to, form, next) => {
+  //   if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
+  //     next({
+  //       path: '/login'
+  //     });
+  //   } else {
+  //     next();
+  //   }
+  // });
+
+>>>>>>> 4cf3e13a5afe844f12aba705adf1261239e860fb
   new Vue({
     el: '#web',
     i18n,
