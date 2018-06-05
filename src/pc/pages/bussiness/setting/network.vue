@@ -1,20 +1,23 @@
 <template>
   <div class="setting-network-container">
+    <div v-if="reboot">
+      <m-proress></m-proress>
+    </div>
     <div class="content">
       <div class="network-info">
         <div class="w-header">
           {{$t('trans0316')}}
         </div>
         <div class="status">
-          <div v-if="netStatus==='testing'">
+          <div v-if="isTesting">
             <img src="../../../assets/images/img_test_internet.png" alt="">
             <p>{{$t('trans0298')}}...</p>
           </div>
-          <div v-if="netStatus==='unlinked'||netStatus==='linked'">
+          <div v-if="isUnlinked||isLinked">
             <img src="../../../assets/images/img_no_network_access.png" alt="">
             <p>{{$t('trans0319')}}</p>
           </div>
-          <div v-if="netStatus==='connected'">
+          <div v-if="isConnected">
             <img src="../../../assets/images/img_internet_normal.png" alt="">
             <p>{{$t('trans0318')}}</p>
             <div class="seccess-info" v-if='this.netInfo.netinfo'>
@@ -45,16 +48,16 @@
           </div>
         </div>
       </div>
-      <div class="network-setting">
+      <div class="network-setting" v-if="!isTesting">
         <div class="w-header">
           {{$t('trans0142')}}
         </div>
         <div class="setting-info">
           <div class='form'>
-            <m-form-item class="item">
+            <div class="item">
               <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
               <div class="note">{{$t('trans0147')}}</div>
-            </m-form-item>
+            </div>
             <m-form v-if="netType==='pppoe'" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
               <m-form-item class="item" prop='account'>
                 <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.account"></m-input>
@@ -81,7 +84,7 @@
               </m-form-item>
             </m-form>
             <div class="btn-info">
-              <button class="btn">{{$t('trans0081')}}</button>
+              <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
             </div>
           </div>
         </div>
@@ -95,22 +98,25 @@ import mSelect from '../../../component/select/index.vue';
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
+import Progress from '../../../component/progress/index.vue';
 
 export default {
   components: {
     'm-input': Input,
     'm-form-item': FormItem,
     'm-form': Form,
-    'm-select': mSelect
+    'm-select': mSelect,
+    'm-proress': Progress
   },
   data() {
     const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
     function expRules(v) {
-      return !/^\s*$/g.test(v) ? pattern.test(v) : true;
+      return v === undefined ? pattern.test(v) : true;
     }
     return {
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       netType: 'dhcp',
+      reboot: false,
       netInfo: {},
       staticForm: {
         ip: '',
@@ -210,6 +216,20 @@ export default {
     this.testWan();
     this.getNet();
   },
+  computed: {
+    isTesting() {
+      return this.netStatus === 'testing';
+    },
+    isConnected() {
+      return this.netStatus === 'connected';
+    },
+    isLinked() {
+      return this.netStatus === 'linked';
+    },
+    isUnlinked() {
+      return this.netStatus === 'unlinked';
+    }
+  },
   methods: {
     testWan() {
       this.netStatus = 'testing';
@@ -231,30 +251,28 @@ export default {
       let form = { tyep: this.netType };
       if (this.netType === 'pppoe' && this.$refs.pppoeForm.validate()) {
         form = { ...form, pppoe: { ...this.pppoeForm } };
-      } else {
+      } else if (this.netType !== 'dhcp') {
         return;
       }
       if (this.netType === 'static' && this.$refs.staticForm.validate()) {
         form = { ...form, netinfo: { ...this.staticForm } };
-      } else {
+      } else if (this.netType !== 'dhcp') {
         return;
       }
       this.$http
         .update({ wan: { ...form } })
         .then(res => {
-          this.$dialog.info({});
-          this.$reconnect({
-            onsuccess: () => {
-              this.$router.push({ path: '/home' });
-            },
-            ontimeout: () => {
-              this.$router.push({ path: '/disappear' });
-            },
-            onprogress: percent => {
-              console.log(percent);
-            }
-          });
-          console.log(res);
+          if (res.status === 200) {
+            this.reboot = true;
+            this.$reconnect({
+              onsuccess: () => {
+                this.$router.push({ path: '/home' });
+              },
+              ontimeout: () => {
+                this.$router.push({ path: '/disappear' });
+              }
+            });
+          }
         })
         .catch(err => {
           if (err && err.error) {

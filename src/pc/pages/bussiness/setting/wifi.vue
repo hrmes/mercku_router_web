@@ -1,5 +1,8 @@
 <template>
   <div class="setting-wifi-container">
+    <div v-if="reboot">
+      <m-proress></m-proress>
+    </div>
     <div class="content">
       <div class='w-header'>
         {{$t('trans0167')}}
@@ -16,9 +19,9 @@
           </m-form>
           <div class="check-info">
             <label for=""> {{$t('trans0255')}}</label>
-            <m-switch v-model="form.bands[`2.4G`].enabled" />
+            <m-switch v-model="band1" :onChange="changeband1" />
             <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
-            <m-switch v-model="form.bands[`5G`].enabled" />
+            <m-switch v-model="band2" :onChange="changeband2" />
           </div>
           <div class="btn-info">
             <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
@@ -33,18 +36,21 @@ import Switch from '../../../component/switch/index.vue';
 import Input from '../../../component/input/input.vue';
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
+import Progress from '../../../component/progress/index.vue';
 
 export default {
   components: {
     'm-switch': Switch,
     'm-form-item': FormItem,
     'm-form': Form,
-    'm-input': Input
+    'm-input': Input,
+    'm-proress': Progress
   },
   data() {
     return {
       band1: true,
       band2: true,
+      reboot: false,
       form: {
         ssid: '',
         password: '',
@@ -75,30 +81,41 @@ export default {
     };
   },
   methods: {
-    showPsd() {
-      this.isPsd = !this.isPsd;
+    changeband1(v) {
+      if (v === false) {
+        this.band2 = true;
+      }
+    },
+    changeband2(v) {
+      if (v === false) {
+        this.band1 = true;
+      }
     },
     submit() {
       if (this.$refs.form.validate()) {
         this.$http
           .update({
             // .getRouter({
-            wifi: this.form
+            wifi: {
+              ...this.form,
+              bands: {
+                '2.4G': { enabled: this.band1 },
+                '5G': { enabled: this.band2 }
+              }
+            }
           })
           .then(res => {
-            this.$dialog.info({});
-            this.$reconnect({
-              onsuccess: () => {
-                this.$router.push({ path: '/home' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/disappear' });
-              },
-              onprogress: percent => {
-                console.log(percent);
-              }
-            });
-            console.log(res);
+            if (res.status === 200) {
+              this.reboot = true;
+              this.$reconnect({
+                onsuccess: () => {
+                  this.$router.push({ path: '/home' });
+                },
+                ontimeout: () => {
+                  this.$router.push({ path: '/disappear' });
+                }
+              });
+            }
           })
           .catch(err => {
             if (err && err.error) {
@@ -108,17 +125,6 @@ export default {
             }
           });
       }
-    }
-  },
-  watch: {
-    form: {
-      handler() {
-        // const l = this.form.bands['2.4G'].enabled;
-        // const h = this.form.bands['5G'].enabled;
-        this.form.bands['2.4G'].enabled = false;
-        console.log(this.form);
-      },
-      deep: true
     }
   },
   mounted() {

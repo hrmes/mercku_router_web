@@ -5,7 +5,7 @@
 export default {
   data() {
     return {
-      checked: this.value || false
+      checked: this.value
     };
   },
   props: {
@@ -21,10 +21,16 @@ export default {
       default: true
     }
   },
+  watch: {
+    value(v) {
+      this.checked = v;
+    }
+  },
   methods: {
     change() {
       this.checked = !this.checked;
       this.$emit('input', this.checked);
+      this.onChange(this.checked);
     }
   }
 };
