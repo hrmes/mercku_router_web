@@ -29,6 +29,11 @@ export default {
       this.checked = !this.checked;
       this.$emit('input', this.checked);
     }
+  },
+  watch: {
+    value(v) {
+      this.checked = v;
+    }
   }
 };
 </script>
