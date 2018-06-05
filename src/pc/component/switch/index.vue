@@ -1,5 +1,5 @@
 <template>
-  <input class="switch switch-animation" type="checkbox" :checked='checked' :disabled='disabled' @change='change()'>
+  <input class="switch switch-animation" type="checkbox" :checked='value' :disabled='disabled' @change='change()'>
 </template>
 <script>
 export default {

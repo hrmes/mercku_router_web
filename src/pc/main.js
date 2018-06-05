@@ -42,6 +42,18 @@ const launch = () => {
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
   Vue.prototype.changeLanguage = changeLanguage;
+<<<<<<< HEAD
+=======
+  Vue.prototype.authorize = {
+    authorized: false,
+    get() {
+      return this.authorized;
+    },
+    set(auth) {
+      this.authorized = auth;
+    }
+  };
+>>>>>>> origin/modify
   Vue.prototype.$reconnect = options => {
     const opt = {
       ...{
@@ -72,6 +84,26 @@ const launch = () => {
     }, 10000);
   };
 
+<<<<<<< HEAD
+=======
+  const PagesRequireAuth = [];
+  router.options.routes.forEach(route => {
+    if (route.requireAuth) {
+      PagesRequireAuth.push(route.name);
+    }
+  });
+
+  // router.beforeEach((to, form, next) => {
+  //   if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
+  //     next({
+  //       path: '/login'
+  //     });
+  //   } else {
+  //     next();
+  //   }
+  // });
+
+>>>>>>> origin/modify
   new Vue({
     el: '#web',
     i18n,

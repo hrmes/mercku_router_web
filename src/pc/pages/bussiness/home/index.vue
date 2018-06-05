@@ -35,15 +35,15 @@
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0300')}}：</label>
-            {{this.routerInfo.mac?this.routerInfo.mac.wan :'—'}}
+            {{this.routerInfo.version || '—'}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0200')}}：</label>
-            {{this.routerInfo.mac?this.routerInfo.mac.lan : '—'}}
+            {{this.routerInfo.mac? macFormat(this.routerInfo.mac.wan) :'—'}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0201')}}：</label>
-            {{this.routerInfo.version || '—'}}
+            {{this.routerInfo.mac?macFormat(this.routerInfo.mac.lan) : '—'}}
           </div>
 
           <div class="m-item">
@@ -73,7 +73,7 @@
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0153')}}：</label>
-            {{this.netInfo.type || '—'}}
+            {{this.netInfo.netinfo?this.netInfo.netinfo.gateway:'—'}}
           </div>
         </div>
       </div>
@@ -251,6 +251,9 @@ export default {
   methods: {
     format(v) {
       return (v / (1024 * 1024)).toFixed(1);
+    },
+    macFormat(v) {
+      return v.match(/.{2}/g).join('.');
     },
     createTimer() {
       this.getTraffic();
