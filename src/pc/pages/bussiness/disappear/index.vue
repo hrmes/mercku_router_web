@@ -12,7 +12,13 @@ export default {
       this.$http
         .getRouter()
         .then(() => {
-          this.$router.push({ path: '/home' });
+          this.$http.checkLogin().then(res => {
+            if (res.data.status) {
+              this.$router.push({ path: '/home' });
+            } else {
+              this.$router.push({ path: '/login' });
+            }
+          });
         })
         .catch(err => {
           if (err && err.error) {

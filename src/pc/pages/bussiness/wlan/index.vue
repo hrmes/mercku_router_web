@@ -108,7 +108,7 @@ export default {
         if (err && err.error) {
           this.$toast(this.$t(err.error.code));
         } else {
-          this.$toast(this.$t('trans0039'));
+          this.$router.push({ path: '/disappear' });
         }
       });
   },
@@ -162,7 +162,7 @@ export default {
             if (err && err.error) {
               this.$toast(this.$t(err.error.code));
             } else {
-              this.$toast(this.$t('trans0039'));
+              this.$router.push({ path: '/disappear' });
             }
           });
       }

@@ -78,16 +78,19 @@ export default {
       this.$router.push({ path: '/wlan' });
     },
     login() {
+      this.$loading.open();
       this.$http
         .login(this.password)
         .then(() => {
+          this.$loading.close();
           this.$router.push({ path: '/home' });
         })
         .catch(err => {
+          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$toast(this.$t('trans0039'));
+            this.$router.push({ path: '/disappear' });
           }
         });
     }
