@@ -1,5 +1,8 @@
 <template>
   <div class="setting-wifi-container">
+    <div v-if="reboot">
+      <m-proress></m-proress>
+    </div>
     <div class="content">
       <div class='w-header'>
         {{$t('trans0167')}}
@@ -26,13 +29,9 @@
         </div>
       </div>
     </div>
-    <div>
-      <m-proress></m-proress>
-    </div>
   </div>
 </template>
 <script>
-import Vue from 'vue';
 import Switch from '../../../component/switch/index.vue';
 import Input from '../../../component/input/input.vue';
 import Form from '../../../component/form/index.vue';
@@ -51,6 +50,7 @@ export default {
     return {
       band1: true,
       band2: true,
+      reboot: false,
       form: {
         ssid: '',
         password: '',
@@ -94,8 +94,8 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         this.$http
-          // .update({
-          .getRouter({
+          .update({
+            // .getRouter({
             wifi: {
               ...this.form,
               bands: {
@@ -105,26 +105,17 @@ export default {
             }
           })
           .then(res => {
-            this.$loading.open({
-              template: new (Vue.extend(Progress))({
-                propsData: {
-                  percent: '100%'
+            if (res.status === 200) {
+              this.reboot = true;
+              this.$reconnect({
+                onsuccess: () => {
+                  this.$router.push({ path: '/home' });
+                },
+                ontimeout: () => {
+                  this.$router.push({ path: '/disappear' });
                 }
-              }).$mount()
-            });
-
-            // this.$reconnect({
-            //   onsuccess: () => {
-            //     this.$router.push({ path: '/home' });
-            //   },
-            //   ontimeout: () => {
-            //     this.$router.push({ path: '/disappear' });
-            //   },
-            //   onprogress: percent => {
-            //     console.log(percent);
-            //   }
-            // });
-            console.log(res);
+              });
+            }
           })
           .catch(err => {
             if (err && err.error) {

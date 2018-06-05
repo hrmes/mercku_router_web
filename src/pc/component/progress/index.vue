@@ -2,8 +2,8 @@
   <div class="reboot-model-contanier">
     <div class='shadow'></div>
     <div class='progress-wrapper'>
-      <div class="progress">
-        <div class="progress-bar progress-bar-info progress-bar-striped active" :style='this.styles'>
+      <div class="progress" ref='progress'>
+        <div class="progress-bar progress-bar-info progress-bar-striped active" :style='styles'>
           <!-- <div class="progress-value">100%</div> -->
         </div>
       </div>
@@ -16,25 +16,27 @@ export default {
   data() {
     return {
       during: 60,
-      width: '0%'
+      percent: 0,
+      timer: null,
+      styles: {
+        width: 0
+      }
     };
   },
-  props: ['percent'],
-  computed: {
-    styles() {
-      return {
-        width: `${this.width}`
-      };
-    }
-  },
   mounted() {
-    const timer = setInterval(() => {
+    const average = 100 / this.during;
+    this.timer = setInterval(() => {
       this.during -= 1;
-
+      this.percent += average;
+      this.styles.width = `${this.percent}%`;
       if (this.during === 0) {
-        clearTimeout(timer);
+        clearTimeout(this.timer);
       }
     }, 1000);
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer);
+    console.log('clear');
   }
 };
 </script>
@@ -134,14 +136,13 @@ export default {
     height: 100%;
     font-size: 12px;
     line-height: 20px;
+    max-width: 300px;
+    overflow: hidden;
     color: #fff;
     text-align: center;
     background-color: #00d061;
     -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-    -webkit-transition: width 0.6s ease;
-    -o-transition: width 0.6s ease;
-    transition: width 0.6s ease;
+    transition: width 1s ease;
   }
 
   @keyframes progress-bar-stripes {
@@ -185,7 +186,7 @@ export default {
     height: 10px;
     background: #ffffff;
     // padding: 2px;
-    overflow: visible;
+    overflow: height;
     border-radius: 20px;
   }
 
@@ -233,6 +234,14 @@ export default {
     0% {
       width: 0;
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  .progress-wrapper {
+    width: 80% !important;
+  }
+  .progress-bar {
+    max-width: 80% !important;
   }
 }
 </style>

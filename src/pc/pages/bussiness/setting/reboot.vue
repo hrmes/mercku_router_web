@@ -1,5 +1,8 @@
 <template>
   <div class="setting-safe-container">
+    <div v-if="reboot">
+      <m-proress></m-proress>
+    </div>
     <div class="content">
       <div class='w-header'>
         {{$t('trans0122')}}
@@ -14,20 +17,41 @@
   </div>
 </template>
 <script>
+import Progress from '../../../component/progress/index.vue';
+
 export default {
+  components: {
+    'm-proress': Progress
+  },
+  data() {
+    return {
+      reboot: false
+    };
+  },
   methods: {
     submit() {
-      this.$reconnect({
-        onsuccess: () => {
-          this.$router.push({ path: '/home' });
-        },
-        ontimeout: () => {
-          this.$router.push({ path: '/disappear' });
-        },
-        onprogress: percent => {
-          console.log(percent);
-        }
-      });
+      this.$http
+        .reboot()
+        .then(res => {
+          if (res.status === 200) {
+            this.reboot = true;
+            this.$reconnect({
+              onsuccess: () => {
+                this.$router.push({ path: '/home' });
+              },
+              ontimeout: () => {
+                this.$router.push({ path: '/disappear' });
+              }
+            });
+          }
+        })
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$toast(this.$t('trans0039'));
+          }
+        });
     }
   }
 };

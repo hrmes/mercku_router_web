@@ -1,5 +1,8 @@
 <template>
   <div class="setting-safe-container">
+    <div v-if="reboot">
+      <m-proress></m-proress>
+    </div>
     <div class="content">
       <div class='w-header'>
         {{$t('trans0067')}}
@@ -21,15 +24,18 @@
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
+import Progress from '../../../component/progress/index.vue';
 
 export default {
   components: {
     'm-input': Input,
     'm-form-item': FormItem,
-    'm-form': Form
+    'm-form': Form,
+    'm-proress': Progress
   },
   data() {
     return {
+      reboot: false,
       form: {
         admin_password: ''
       },
@@ -50,19 +56,17 @@ export default {
         this.$http
           .update({ wifi: { ...this.form } })
           .then(res => {
-            this.$dialog.info({});
-            this.$reconnect({
-              onsuccess: () => {
-                this.$router.push({ path: '/home' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/disappear' });
-              },
-              onprogress: percent => {
-                console.log(percent);
-              }
-            });
-            console.log(res);
+            if (res.status === 200) {
+              this.reboot = true;
+              this.$reconnect({
+                onsuccess: () => {
+                  this.$router.push({ path: '/home' });
+                },
+                ontimeout: () => {
+                  this.$router.push({ path: '/disappear' });
+                }
+              });
+            }
           })
           .catch(err => {
             if (err && err.error) {

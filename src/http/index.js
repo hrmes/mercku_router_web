@@ -64,6 +64,11 @@ const methods = {
 };
 
 const http = {
+  reboot() {
+    return axios.post(methods.reboot.url, {
+      method: methods.reboot.action
+    });
+  },
   speedTesting() {
     return axios.post(methods.meshWanSpeedTest.url, {
       method: methods.meshWanSpeedTest.action
