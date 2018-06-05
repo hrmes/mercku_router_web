@@ -6,8 +6,6 @@ import Field from 'vant/lib/field';
 import Icon from 'vant/lib/icon';
 import Checkbox from 'vant/lib/checkbox';
 import Dialog from 'vant/lib/dialog';
-import Cell from 'vant/lib/cell';
-import CellGroup from 'vant/lib/cell-group';
 import Toast from 'vant/lib/toast';
 
 import FastClick from 'fastclick';
@@ -28,8 +26,6 @@ Vue.use(Button);
 Vue.use(Field);
 Vue.use(Icon);
 Vue.use(Checkbox);
-Vue.use(Cell);
-Vue.use(CellGroup);
 
 Vue.component('nav-bar', nav);
 

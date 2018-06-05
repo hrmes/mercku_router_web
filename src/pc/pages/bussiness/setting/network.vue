@@ -301,7 +301,6 @@ export default {
       if (this.netType === 'static' && this.$refs.staticForm.validate()) {
         form = { ...form, netinfo: { ...this.staticForm } };
         this.save(form);
-        return;
       }
     }
   }
