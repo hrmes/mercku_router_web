@@ -20,9 +20,9 @@
           <div v-if="isConnected">
             <img src="../../../assets/images/img_internet_normal.png" alt="">
             <p>{{$t('trans0318')}}</p>
-            <div class="seccess-info" v-if='this.netInfo.netinfo'>
+            <div class="seccess-info">
               <div>
-                <label for="">{{$t('trans0302')}}：</label>
+                <label for="">{{$t('trans0317')}}：</label>
                 <span>
                   {{this.netInfo.type || '—'}}
                 </span>
@@ -244,7 +244,23 @@ export default {
     },
     getNet() {
       this.$http.getNet({ type: 'wan' }).then(res => {
-        this.netInfo = res.data.result;
+        if (res.data.result) {
+          this.netInfo = res.data.result;
+          this.netType = this.netInfo.type;
+          if (this.netInfo.type === 'pppoe') {
+            this.pppoeForm.account = this.netType.pppoe.account;
+            this.pppoeForm.password = this.netType.pppoe.password;
+          }
+          if (this.netInfo.type === 'static') {
+            this.staticForm = {
+              ip: this.netInfo.netinfo.ip,
+              mask: this.netInfo.netinfo.mask,
+              gateway: this.netInfo.netinfo.gateway,
+              dns1: this.netInfo.netinfo.dns[0],
+              dns2: this.netInfo.netinfo.dns[1] || ''
+            };
+          }
+        }
       });
     },
     submit() {
