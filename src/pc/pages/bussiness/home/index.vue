@@ -299,39 +299,51 @@ export default {
     },
     getTraffic() {
       clearInterval(this.timer1);
-      this.$http.getTraffic().then(res => {
-        this.isFetching = false;
-        if (res.status === 200) {
+      this.$http
+        .getTraffic()
+        .then(res => {
           this.traffice = res.data.result;
           this.timer1 = setInterval(() => {
             this.getTraffic();
           }, 1000 * 15);
-        }
-      });
+        })
+        .catch(() => {
+          this.timer1 = setInterval(() => {
+            this.getTraffic();
+          }, 1000 * 15);
+        });
     },
     getDeviceCount() {
       clearInterval(this.timer2);
-      this.$http.getDeviceCount().then(res => {
-        clearInterval(this.timer2);
-        if (res.status === 200) {
+      this.$http
+        .getDeviceCount()
+        .then(res => {
           this.deviceCount = res.data.result;
           this.timer2 = setInterval(() => {
             this.getDeviceCount();
           }, 1000 * 20);
-        }
-      });
+        })
+        .catch(() => {
+          this.timer2 = setInterval(() => {
+            this.getDeviceCount();
+          }, 1000 * 20);
+        });
     },
     getMeshNode() {
       clearInterval(this.timer3);
-      this.$http.getMeshNode().then(res => {
-        clearInterval(this.timer3);
-        if (res.status === 200) {
+      this.$http
+        .getMeshNode()
+        .then(res => {
           this.meshNode = res.data.result;
           this.timer3 = setInterval(() => {
             this.getMeshNode();
           }, 1000 * 30);
-        }
-      });
+        })
+        .catch(() => {
+          this.timer3 = setInterval(() => {
+            this.getMeshNode();
+          }, 1000 * 30);
+        });
     },
     getRouter() {
       this.$http.getRouter().then(res => {
