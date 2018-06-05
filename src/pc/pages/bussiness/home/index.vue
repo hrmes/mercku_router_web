@@ -256,7 +256,7 @@ export default {
       return (v / (1000 * 8)).toFixed(1);
     },
     bandWidth(v) {
-      return (v / (1000 * 8 * 1000)).toFixed(1);
+      return (v / (1000 * 1000)).toFixed(1);
     },
     macFormat(v) {
       return v.match(/.{2}/g).join(':');
