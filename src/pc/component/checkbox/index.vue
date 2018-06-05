@@ -29,6 +29,11 @@ export default {
       this.checked = !this.checked;
       this.$emit('input', this.checked);
     }
+  },
+  watch: {
+    value(v) {
+      this.checked = v;
+    }
   }
 };
 </script>
@@ -47,6 +52,8 @@ export default {
     &.checked {
       background: url(../../assets/images/ic_selected.png) no-repeat center;
       border: none;
+      background-size: 90%;
+      background-color: #00d061;
     }
   }
   .text {

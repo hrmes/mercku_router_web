@@ -57,7 +57,7 @@
         <div class="title">{{$t('trans0301')}}</div>
         <div class='message'>
           <div class="m-item">
-            <label class="m-title">{{$t('trans0302')}}：</label>
+            <label class="m-title">{{$t('trans0317')}}：</label>
             {{this.netInfo.type || '—'}}
           </div>
           <div class="m-item">
@@ -399,19 +399,19 @@ export default {
 <style lang="scss" scoped>
 @keyframes speed-test-line {
   0% {
-    width: 10%;
+    opacity: 0;
   }
   30% {
-    width: 30%;
+    opacity: 0.1;
   }
   60% {
-    width: 50%;
+    opacity: 0.6;
   }
   80% {
-    width: 80%;
+    opacity: 0.8;
   }
   100% {
-    width: 100%;
+    opacity: 1;
   }
 }
 .home-container {
@@ -422,7 +422,6 @@ export default {
     margin-bottom: 20px;
     .btn {
       width: 160px;
-      height: 50px;
     }
   }
   .speed-model-info {
@@ -653,7 +652,7 @@ export default {
             content: '';
             display: block;
             border: 2px dashed #4237dd;
-            animation: speed-test-line linear 2s infinite;
+            animation: speed-test-line linear 1s infinite;
           }
         }
         //animation: speed-test-line 1s linear 2s infinite;
