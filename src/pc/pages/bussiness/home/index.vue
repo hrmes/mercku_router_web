@@ -253,7 +253,7 @@ export default {
 
   methods: {
     format(v) {
-      return (v / (1024 * 1024)).toFixed(1);
+      return (v / (1000 * 8)).toFixed(1);
     },
     macFormat(v) {
       return v.match(/.{2}/g).join(':');
