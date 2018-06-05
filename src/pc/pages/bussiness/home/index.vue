@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="check-info">
       <div class="row-1">
-        <div class="name">Tom's wifi</div>
+        <div class="name">{{ssid||'—'}}</div>
         <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
       </div>
       <div class='check-status row-2'>
@@ -228,6 +228,7 @@ export default {
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       speedStatus: 'testing',
       speedModelOpen: false,
+      ssid: '',
       speedInfo: {},
       routerInfo: {},
       netInfo: {},
@@ -246,6 +247,7 @@ export default {
     this.getRouter();
     this.getNet();
     this.createTimer();
+    this.getSsid();
   },
 
   methods: {
@@ -264,6 +266,11 @@ export default {
       clearInterval(this.timer1);
       clearInterval(this.timer2);
       clearInterval(this.timer3);
+    },
+    getSsid() {
+      this.$http.getMeshData().then(res => {
+        this.ssid = res.data.result.ssid;
+      });
     },
     speedTesting() {
       this.$http

@@ -61,12 +61,21 @@ const methods = {
     url,
     action: 'mesh.node.reboot'
   },
+  meshMeta: {
+    url,
+    action: 'mesh.meta.get'
+  },
 };
 
 const http = {
   reboot() {
     return axios.post(methods.reboot.url, {
       method: methods.reboot.action
+    });
+  },
+  getMeshData() {
+    return axios.post(methods.meshMeta.url, {
+      method: methods.meshMeta.action
     });
   },
   speedTesting() {
@@ -130,12 +139,6 @@ const http = {
     if (config.wifi && config.wifi.ssid) {
       conf.wifi = config.wifi;
     }
-    if (config.admin && config.admin.password) {
-      conf.admin = config.admin;
-    }
-    // if (config.timezone.timezone) {
-    //   conf.timezone = config.timezone;
-    // }
     if (config.wan && config.wan.type) {
       conf.wan = config.wan;
     }

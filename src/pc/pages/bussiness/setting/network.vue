@@ -248,7 +248,7 @@ export default {
       });
     },
     submit() {
-      let form = { tyep: this.netType };
+      let form = { type: this.netType };
       if (this.netType === 'pppoe' && this.$refs.pppoeForm.validate()) {
         form = { ...form, pppoe: { ...this.pppoeForm } };
       } else if (this.netType !== 'dhcp') {
