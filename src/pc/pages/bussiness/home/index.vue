@@ -214,7 +214,7 @@
             </div>
           </div>
           <div class="btn-info">
-            <button class="cmp-btn" @click="()=>speedModelOpen=false">{{$t('trans0018')}}</button>
+            <button class="cmp-btn" @click="closeSpeedModal">{{$t('trans0018')}}</button>
             <button class="re-btn" @click="createSpeedTimer()">{{$t('trans0279')}}</button>
           </div>
         </div>
@@ -252,6 +252,19 @@ export default {
   },
 
   methods: {
+    closeSpeedModal() {
+      this.speedModelOpen = false;
+      this.restoryOverflow();
+    },
+    setOverflow() {
+      this.bodyOverflow = document.body.style.overflow;
+      if (this.bodyOverflow !== 'hidden') {
+        document.body.style.overflow = 'hidden';
+      }
+    },
+    restoryOverflow() {
+      document.body.style.overflow = this.bodyOverflow || 'auto';
+    },
     format(v) {
       return (v / (1024 * 8)).toFixed(1);
     },
@@ -295,6 +308,7 @@ export default {
     createSpeedTimer() {
       this.speedModelOpen = true;
       this.speedStatus = 'testing';
+      this.setOverflow();
       this.speedTesting();
       this.timer4 = setInterval(() => {
         this.speedTesting();

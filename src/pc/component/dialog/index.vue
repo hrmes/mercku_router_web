@@ -115,6 +115,19 @@ export default {
     opacity: 0;
   }
 }
+@media screen and (min-width: 769px) {
+  .dialog-container {
+    .dialog-content {
+      width: 420px;
+      .dialog-message {
+        text-align: left;
+      }
+      .dialog-buttons {
+        text-align: right;
+      }
+    }
+  }
+}
 @media screen and (max-width: 768px) {
   .dialog-container {
     .dialog-content {

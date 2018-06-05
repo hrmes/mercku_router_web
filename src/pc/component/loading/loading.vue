@@ -16,6 +16,23 @@ export default {
       visible: false,
       template: ''
     };
+  },
+  mounted() {
+    this.setOverflow();
+  },
+  methods: {
+    setOverflow() {
+      this.bodyOverflow = document.body.style.overflow;
+      if (this.bodyOverflow !== 'hidden') {
+        document.body.style.overflow = 'hidden';
+      }
+    },
+    restoryOverflow() {
+      document.body.style.overflow = this.bodyOverflow || 'auto';
+    }
+  },
+  beforeDestroy() {
+    this.restoryOverflow;
   }
 };
 </script>

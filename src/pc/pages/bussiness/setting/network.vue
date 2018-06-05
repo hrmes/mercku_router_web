@@ -345,7 +345,7 @@ export default {
         }
         .seccess-info {
           text-align: left;
-          margin-bottom: 30px;
+          margin: 30px;
           div {
             margin-top: 10px;
           }

@@ -24,6 +24,7 @@ export default {
     };
   },
   mounted() {
+    this.setOverflow();
     const average = 100 / this.during;
     this.timer = setInterval(() => {
       this.during -= 1;
@@ -34,7 +35,19 @@ export default {
       }
     }, 1000);
   },
+  methods: {
+    setOverflow() {
+      this.bodyOverflow = document.body.style.overflow;
+      if (this.bodyOverflow !== 'hidden') {
+        document.body.style.overflow = 'hidden';
+      }
+    },
+    restoryOverflow() {
+      document.body.style.overflow = this.bodyOverflow || 'auto';
+    }
+  },
   beforeDestroy() {
+    this.restoryOverflow();
     clearTimeout(this.timer);
     console.log('clear');
   }
