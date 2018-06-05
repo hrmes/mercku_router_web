@@ -12,7 +12,7 @@ export default {
       this.$http
         .getRouter()
         .then(() => {
-          this.$router.push({ path: '/login' });
+          this.$router.push({ path: '/home' });
         })
         .catch(err => {
           if (err && err.error) {
