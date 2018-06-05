@@ -106,7 +106,7 @@ export default {
   data() {
     const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
     function expRules(v) {
-      return !/^\s*$/g.test(v) ? pattern.test(v) : true;
+      return v === undefined ? pattern.test(v) : true;
     }
     return {
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接

@@ -83,24 +83,6 @@ const launch = () => {
       }
     }, 10000);
   };
-
-  const PagesRequireAuth = [];
-  router.options.routes.forEach(route => {
-    if (route.requireAuth) {
-      PagesRequireAuth.push(route.name);
-    }
-  });
-
-  // router.beforeEach((to, form, next) => {
-  //   if (PagesRequireAuth.includes(to.name) && !Vue.prototype.authorize.get()) {
-  //     next({
-  //       path: '/login'
-  //     });
-  //   } else {
-  //     next();
-  //   }
-  // });
-
   new Vue({
     el: '#web',
     i18n,
