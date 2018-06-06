@@ -1,6 +1,6 @@
 <template>
   <div class="step-container">
-    <div class="step" :class="{'steped':index<=current}" v-for="(step,index) in steps">
+    <div class="step" :key="index" :class="{'steped':index<=current}" v-for="(step,index) in steps">
       <div class="left-line"></div>
       <div class="step-content">
         <div class="step-number">{{index+1}}</div>

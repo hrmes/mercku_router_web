@@ -24,12 +24,12 @@ describe('switch component', () => {
       done();
     });
   });
-  // it('change props', () => {
-  //   wrapper.setData({
-  //     checked: true
-  //   });
-  //   vm.$on('input', (v) => {
-  //     expect(v).to.be.true;
-  //   });
-  // });
+  it('change props', () => {
+    wrapper.setData({
+      checked: true
+    });
+    vm.$on('input', (v) => {
+      expect(v).to.be.true;
+    });
+  });
 });
