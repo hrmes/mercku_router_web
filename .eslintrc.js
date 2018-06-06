@@ -1,10 +1,10 @@
 module.exports = {
   root: true,
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: 'babel-eslint'
   },
   env: {
-    browser: true,
+    browser: true
   },
   extends: 'airbnb-base',
 
@@ -21,7 +21,8 @@ module.exports = {
     'no-unused-vars': 'warn',
     'import/no-dynamic-require': 0,
     'arrow-parens': 0,
-    "no-param-reassign": 0,
-    'indent': 0,
-  },
+    'no-param-reassign': 0,
+    indent: 0,
+    'no-underscore-dangle': 0
+  }
 };

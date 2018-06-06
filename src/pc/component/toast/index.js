@@ -3,16 +3,15 @@ import Toast from './index.vue';
 
 const toast = (text = '', duration = 3000, type = 'error') => {
   const Construtor = Vue.extend(Toast);
-  this.instance = new Construtor({
+  const instance = new Construtor({
     data: {
       text,
       duration,
       type
     }
-
   }).$mount();
-  this.instance.visible = true;
-  document.body.appendChild(this.instance.$el);
+  instance.visible = true;
+  document.body.appendChild(instance.$el);
 };
 
 export default toast;
