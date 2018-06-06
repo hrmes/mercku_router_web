@@ -10,16 +10,13 @@ describe('toast', () => {
     });
   });
   it('toast is close', done => {
-    toast('toast', 1000, 'error');
-    setTimeout(() => {
-      const wrapper = document.body.querySelector('.toast-container');
-      wrapper.addEventListener('transitionend', () => {
-        setTimeout(() => {
-          expect(document.body.querySelector('.toast-container')).to.be.not
-            .exist;
-          done();
-        }, 900);
-      });
+    toast('toast', 100, 'error');
+    const wrapper = document.body.querySelector('.toast-container');
+    wrapper.addEventListener('transitionend', () => {
+      setTimeout(() => {
+        expect(document.body.querySelector('.toast-container')).to.be.not.exist;
+        done();
+      }, 1000);
     });
   });
 });
