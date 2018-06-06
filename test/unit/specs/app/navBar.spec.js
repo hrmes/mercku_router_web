@@ -1,7 +1,5 @@
-import {
-  mount
-} from 'vue-test-utils';
-import navBar from '../../../src/component/nav-bar.vue';
+import { mount } from 'vue-test-utils';
+import navBar from '../../../../src/app/component/nav-bar.vue';
 
 describe('nav-bar.vue', () => {
   // const wrapper = mount(navBar);
@@ -38,13 +36,18 @@ describe('nav-bar.vue', () => {
   // });
   let wrapper;
 
-
   // default
   it('check default props', () => {
     wrapper = mount(navBar);
-    expect(wrapper.vm.$el.querySelector('.left').children[0].textContent).eql('');
-    expect(wrapper.vm.$el.querySelector('.center').children[0].textContent).eql('');
-    expect(wrapper.vm.$el.querySelector('.right').children[0].textContent).eql('');
+    expect(wrapper.vm.$el.querySelector('.left').children[0].textContent).eql(
+      ''
+    );
+    expect(wrapper.vm.$el.querySelector('.center').children[0].textContent).eql(
+      ''
+    );
+    expect(wrapper.vm.$el.querySelector('.right').children[0].textContent).eql(
+      ''
+    );
     expect(wrapper.vm.$el.querySelector('.left').click()).to.be.undefined;
     expect(wrapper.vm.$el.querySelector('.center').click()).to.be.undefined;
     expect(wrapper.vm.$el.querySelector('.right').click()).to.be.undefined;
@@ -62,7 +65,9 @@ describe('nav-bar.vue', () => {
         }
       }
     });
-    expect(wrapper.vm.$el.querySelector('.left').children[0].getAttribute('name')).eql('test-class');
+    expect(
+      wrapper.vm.$el.querySelector('.left').children[0].getAttribute('name')
+    ).eql('test-class');
   });
 
   it('check left text', () => {
@@ -76,7 +81,9 @@ describe('nav-bar.vue', () => {
         }
       }
     });
-    expect(wrapper.vm.$el.querySelector('.left').children[0].textContent).eql('test text');
+    expect(wrapper.vm.$el.querySelector('.left').children[0].textContent).eql(
+      'test text'
+    );
   });
 
   it('check left click default', () => {
@@ -93,7 +100,6 @@ describe('nav-bar.vue', () => {
 
     expect(wrapper.vm.leftClick()).to.be.undefined;
   });
-
 
   it('check left click', () => {
     const option = {
@@ -128,7 +134,9 @@ describe('nav-bar.vue', () => {
         }
       }
     });
-    expect(wrapper.vm.$el.querySelector('.center').children[0].getAttribute('name')).eql('test-class');
+    expect(
+      wrapper.vm.$el.querySelector('.center').children[0].getAttribute('name')
+    ).eql('test-class');
   });
 
   it('check center text', () => {
@@ -142,7 +150,9 @@ describe('nav-bar.vue', () => {
         }
       }
     });
-    expect(wrapper.vm.$el.querySelector('.center').children[0].textContent).eql('test text');
+    expect(wrapper.vm.$el.querySelector('.center').children[0].textContent).eql(
+      'test text'
+    );
   });
 
   it('check center click default', () => {
@@ -158,7 +168,6 @@ describe('nav-bar.vue', () => {
     });
     expect(wrapper.vm.centerClick()).to.be.undefined;
   });
-
 
   it('check center click', () => {
     const option = {
@@ -193,7 +202,9 @@ describe('nav-bar.vue', () => {
         }
       }
     });
-    expect(wrapper.vm.$el.querySelector('.right').children[0].getAttribute('name')).eql('test-class');
+    expect(
+      wrapper.vm.$el.querySelector('.right').children[0].getAttribute('name')
+    ).eql('test-class');
   });
 
   it('check right text', () => {
@@ -207,7 +218,9 @@ describe('nav-bar.vue', () => {
         }
       }
     });
-    expect(wrapper.vm.$el.querySelector('.right').children[0].textContent).eql('test text');
+    expect(wrapper.vm.$el.querySelector('.right').children[0].textContent).eql(
+      'test text'
+    );
   });
 
   it('check center click default', () => {
@@ -223,7 +236,6 @@ describe('nav-bar.vue', () => {
     });
     expect(wrapper.vm.rightClick()).to.be.undefined;
   });
-
 
   it('check right click', () => {
     const option = {

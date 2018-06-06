@@ -1,5 +1,5 @@
 // import util, { isIphone, ipRexp } from '../../../src/util/util';
-import { ipRexp } from '../../../src/util/util';
+import { ipRexp } from '../../../../src/app/util/util';
 
 describe('util.js', () => {
   it('is ip', () => {

@@ -17,11 +17,12 @@ module.exports = function karmaConfig(config) {
 
     reporters: ['spec', 'coverage'],
 
-    files: ['./index.js'],
+    files: ['./app.js', './pc.js'],
     singleRun: false,
 
     preprocessors: {
-      './index.js': ['webpack', 'sourcemap']
+      './app.js': ['webpack', 'sourcemap'],
+      './pc.js': ['webpack', 'sourcemap']
     },
 
     webpack: webpackConfig,
