@@ -25,17 +25,22 @@ export default {
   },
   mounted() {
     this.setOverflow();
-    const average = 100 / this.during;
-    this.timer = setInterval(() => {
-      this.during -= 1;
-      this.percent += average;
-      this.styles.width = `${this.percent}%`;
-      if (this.during === 0) {
-        clearTimeout(this.timer);
-      }
-    }, 1000);
+    this.createTiemr();
   },
   methods: {
+    createTiemr() {
+      if (this.during !== 0) {
+        const average = 100 / this.during;
+        this.timer = setInterval(() => {
+          this.during -= 1;
+          this.percent += average;
+          this.styles.width = `${this.percent}%`;
+          if (this.during === 0) {
+            clearTimeout(this.timer);
+          }
+        }, 1000);
+      }
+    },
     setOverflow() {
       this.bodyOverflow = document.body.style.overflow;
       if (this.bodyOverflow !== 'hidden') {

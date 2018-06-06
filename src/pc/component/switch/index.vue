@@ -1,11 +1,12 @@
 <template>
-  <input class="switch switch-animation" type="checkbox" :checked='value' :disabled='disabled' @change='change()'>
+  <input class="switch switch-animation" type="checkbox" :checked='value' :disabled='disabledValue' @change='change()'>
 </template>
 <script>
 export default {
   data() {
     return {
-      checked: this.value
+      checked: this.value,
+      disabledValue: this.disabled
     };
   },
   props: {
@@ -24,6 +25,9 @@ export default {
   watch: {
     value(v) {
       this.checked = v;
+    },
+    disabled(v) {
+      this.disabledValue = v;
     }
   },
   methods: {
