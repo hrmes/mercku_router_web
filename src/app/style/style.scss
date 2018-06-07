@@ -11,7 +11,8 @@ body {
   position: relative;
   max-width: 750px;
   margin: 0 auto;
-  font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei',
+    'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
 }
@@ -88,11 +89,10 @@ body {
 
 .van-checkbox .van-icon-success {
   border: 1px solid rgb(213, 184, 132);
-  border-radius: 0.02rem;
-  color: #000;
+  border-radius: 2px;
 }
 
-.van-checkbox__control:checked+.van-icon-success {
+.van-checkbox__control:checked + .van-icon-success {
   border-color: rgb(213, 184, 132);
   background-color: rgb(213, 184, 132);
   color: rgb(14, 14, 14);

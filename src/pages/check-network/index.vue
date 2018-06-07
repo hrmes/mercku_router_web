@@ -29,7 +29,7 @@ export default {
       .then(res => {
         const timer = setTimeout(() => {
           clearTimeout(timer);
-          const {status} = res.data.result;
+          const { status } = res.data.result;
           if (status === 'connected') {
             this.$router.replace({ path: '/wan-success' });
           } else {
