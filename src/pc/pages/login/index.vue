@@ -36,7 +36,7 @@
         </div>
 
         <div class="down-button-container">
-          <a class="down-button" href="www.mercku.tech">{{$t('trans0262')}}</a>
+          <a class="down-button" href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
         </div>
       </div>
       <div class="small-device-image">
