@@ -1,7 +1,4 @@
-import {
-  mount
-}
-from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import Switch from '../../../../src/pc/component/switch/index.vue';
 
 describe('switch component', () => {
@@ -12,11 +9,11 @@ describe('switch component', () => {
     vm.$el && vm.$el.parentNode && vm.$el.parentNode.removeChild(vm.$el);
   });
 
-  it('check default props', (done) => {
+  it('check default props', done => {
     wrapper = mount(Switch);
     vm = wrapper.vm;
     wrapper.setProps({
-      value: true,
+      value: true
     });
     vm.$nextTick(() => {
       expect(vm.$el.getAttribute('type')).to.eql('checkbox');
@@ -25,36 +22,49 @@ describe('switch component', () => {
       done();
     });
   });
-  it('check mehods is right', (done) => {
-    wrapper = mount(Switch);
-    wrapper.setProps({
-      value: false,
-
-      onChange: (v) => {
-        expect(v).to.be.true;
+  it('check mehods is right', done => {
+    wrapper = mount(
+      {
+        template: '<m-switch ref="sw" v-model="check" />',
+        components: {
+          'm-switch': Switch
+        }
+      },
+      {
+        data() {
+          return {
+            check: false
+          };
+        }
       }
-    });
-    vm = wrapper.vm;
-    vm.change();
+    );
+    wrapper.vm.$refs.sw.change();
+    // wrapper.setProps({
+    //   value: false,
+
+    //   onChange: v => {
+    //     expect(v).to.be.true;
+    //   }
+    // });
+    // vm = wrapper.vm;
+    // vm.change();
     expect(vm.checked).to.be.true;
     vm.$nextTick(() => {
-      expect(vm.$el.checked).to.be.true;
+      expect(wrapper.vm.$refs.sw.checked).to.be.true;
       done();
-    })
+    });
   });
-  it('change props', (done) => {
+  it('change props', done => {
     wrapper = mount(Switch, {
       propsData: {
         value: false,
-        disabled: false,
-
+        disabled: false
       }
     });
     vm = wrapper.vm;
     wrapper.setProps({
       value: true,
-      disabled: true,
-
+      disabled: true
     });
     wrapper.vm.$nextTick(() => {
       expect(vm.checked).to.be.true;

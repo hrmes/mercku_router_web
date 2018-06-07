@@ -1,7 +1,4 @@
-import {
-  mount
-}
-from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import Progress from '../../../../src/pc/component/progress/index.vue';
 
 describe('progress component', () => {
@@ -11,7 +8,7 @@ describe('progress component', () => {
     vm.$destroy && vm.$destroy();
     vm.$el && vm.$el.parentNode && vm.$el.parentNode.removeChild(vm.$el);
   });
-  it('progress default data', (done) => {
+  it('progress default data', done => {
     wrapper = mount(Progress);
     vm = wrapper.vm;
     wrapper.setData({
@@ -27,19 +24,19 @@ describe('progress component', () => {
       done();
     });
   });
-  it('progress methods', (done) => {
+  it('progress methods', done => {
     wrapper = mount(Progress);
     vm = wrapper.vm;
     wrapper.setData({
       during: 0,
       percent: 0,
-      timer: null,
+      timer: null
     });
     vm.createTiemr();
     vm.$nextTick(() => {
       setTimeout(() => {
-        expect(1 < vm.percent < 2).to.be.true
-      }, 1000)
+        expect(1 < vm.percent < 2).to.be.true;
+      }, 1000);
       // expect(vm.timer).to.eql(null);
       done();
     });
