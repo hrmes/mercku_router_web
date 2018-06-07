@@ -2,7 +2,7 @@
   <div class="home-container">
     <div class="check-info">
       <div class="row-1">
-        <div class="name">{{ssid||'—'}}</div>
+        <div class="name">{{ssid||'-'}}</div>
         <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
       </div>
       <div class='check-status row-2'>
@@ -18,7 +18,7 @@
       <div class="row-3">
         <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
         <div class="speed">
-          <span>{{bandWidth(localTraffice.traffic.bandwidth)}}</span>M
+          <span>{{bandWidth(localTraffice.bandwidth)}}</span>M
         </div>
       </div>
 
