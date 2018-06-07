@@ -24,25 +24,26 @@
               <div>
                 <label for="">{{$t('trans0317')}}：</label>
                 <span>
-                  {{this.netInfo.type || '—'}}
+                  {{localNetInfo.type}}
                 </span>
               </div>
               <div>
                 <label for="">{{$t('trans0151')}}：</label>
-                <span> {{this.netInfo.netinfo?this.netInfo.netinfo.ip : '—'}}</span>
+                {{localNetInfo.netinfo.ip}}
               </div>
               <div>
                 <label for="">{{$t('trans0152')}}：</label>
-                <span> {{this.netInfo.netinfo?this.netInfo.netinfo.mask : '—'}}</span>
+                {{localNetInfo.netinfo.mask }}
               </div>
               <div>
                 <label for="">{{$t('trans0153')}}：</label>
-                <span> {{this.netInfo.netinfo?this.netInfo.netinfo.gateway:'—'}}</span>
-
+                <span>
+                  {{localNetInfo.netinfo.gateway}}
+                </span>
               </div>
               <div>
                 <label for="">{{$t('trans0236')}}：</label>
-                <span> {{this.netInfo.netinfo?this.netInfo.netinfo.dns.join('/') :'—'}}</span>
+                {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
               </div>
             </div>
           </div>
@@ -111,7 +112,7 @@ export default {
   data() {
     const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
     function expRules(v) {
-      return v === undefined ? pattern.test(v) : true;
+      return v === undefined ? true : pattern.test(v);
     }
     return {
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
@@ -228,6 +229,21 @@ export default {
     },
     isUnlinked() {
       return this.netStatus === 'unlinked';
+    },
+    localNetInfo() {
+      const local = {
+        type: '-',
+        netinfo: {
+          ip: '-',
+          mask: '-',
+          gateway: '-', // 可选
+          dns: []
+        }
+      };
+      if (this.netInfo && this.netInfo.netinfo) {
+        return { ...local, ...this.netInfo };
+      }
+      return local;
     }
   },
   methods: {

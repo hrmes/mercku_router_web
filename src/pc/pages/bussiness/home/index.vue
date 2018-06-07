@@ -7,18 +7,18 @@
       </div>
       <div class='check-status row-2'>
         <div class="check-txt-info">
-          <span class='testing' v-if="netStatus==='testing'"> {{$t('trans0298')}}...</span>
+          <span class='testing' v-if="isTesting"> {{$t('trans0298')}}...</span>
         </div>
-        <span class="success-line" :class="{'testing-animation':netStatus==='testing'}" v-if="netStatus==='connected' || netStatus==='testing'"></span>
-        <span class='fail-line' v-if="netStatus==='unlinked' ||netStatus==='linked'"></span>
-        <span class='fail-info' v-if="netStatus==='unlinked'  ||netStatus==='linked'">
+        <span class="success-line" :class="{'testing-animation':isTesting}" v-if="isConnected || isTesting"></span>
+        <span class='fail-line' v-if="isUnlinked ||isLinked"></span>
+        <span class='fail-info' v-if="isUnlinked ||isLinked">
           <i class="fail-icon"></i>
         </span>
       </div>
       <div class="row-3">
         <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
         <div class="speed">
-          <span>{{traffice.traffic? bandWidth(traffice.traffic.bandwidth):'-'}}</span>M
+          <span>{{bandWidth(localTraffice.traffic.bandwidth)}}</span>M
         </div>
       </div>
 
@@ -32,24 +32,24 @@
         <div class='message'>
           <div class="m-item">
             <label class="m-title">{{$t('trans0187')}}：</label>
-            {{this.routerInfo.alias || '—'}}
+            {{localRouterInfo.alias}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0300')}}：</label>
-            {{this.routerInfo.version || '—'}}
+            {{localRouterInfo.version }}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0200')}}：</label>
-            {{this.routerInfo.mac? macFormat(this.routerInfo.mac.wan) :'—'}}
+            {{macFormat(localRouterInfo.mac.wan) }}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0201')}}：</label>
-            {{this.routerInfo.mac?macFormat(this.routerInfo.mac.lan) : '—'}}
+            {{macFormat(localRouterInfo.mac.lan) }}
           </div>
 
           <div class="m-item">
             <label class="m-title">{{$t('trans0251')}}:</label>
-            {{this.routerInfo.sn || '—'}}
+            {{localRouterInfo.sn }}
           </div>
         </div>
       </div>
@@ -58,23 +58,23 @@
         <div class='message'>
           <div class="m-item">
             <label class="m-title">{{$t('trans0317')}}：</label>
-            {{this.netInfo.type || '—'}}
+            {{localNetInfo.type}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0151')}}：</label>
-            {{this.netInfo.netinfo?this.netInfo.netinfo.ip : '—'}}
+            {{localNetInfo.netinfo.ip}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0152')}}：</label>
-            {{this.netInfo.netinfo?this.netInfo.netinfo.mask : '—'}}
+            {{localNetInfo.netinfo.mask }}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0236')}}：</label>
-            {{this.netInfo.netinfo?this.netInfo.netinfo.dns.join('/') :'—'}}
+            {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0153')}}：</label>
-            {{this.netInfo.netinfo?this.netInfo.netinfo.gateway:'—'}}
+            {{localNetInfo.netinfo.gateway}}
           </div>
         </div>
       </div>
@@ -85,13 +85,13 @@
             <div class="down">
               <label class="r-title">{{$t('trans0305')}}：</label>
               <i class='r-dwon-icon'></i>
-              <span class="speed">{{traffice.realtime? format(traffice.realtime.down):'-'}}</span>
+              <span class="speed">{{format(localTraffice.speed.realtime.down)}}</span>
               <span class="unit"> KB/s</span>
             </div>
             <div class='up'>
               <label class="r-title">{{$t('trans0304')}}：</label>
               <i class='r-up-icon'></i>
-              <span class="speed">{{traffice.peak?format(traffice.peak.up):'-'}}</span>
+              <span class="speed">{{format(localTraffice.speed.peak.up)}}</span>
               <span class="unit"> KB/s</span>
             </div>
           </div>
@@ -100,7 +100,7 @@
               <i class="f-up-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{traffice.peak?format(traffice.peak.up):'-'}}</span>
+                  <span class="speed">{{format(localTraffice.speed.peak.up)}}</span>
                   <span class='unit'> Mb/s</span>
                 </p>
                 <p class="note">{{$t('trans0306')}}</p>
@@ -110,7 +110,7 @@
               <i class="f-down-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{traffice.realtime?format(traffice.realtime.down):'-'}}</span>
+                  <span class="speed">{{format(localTraffice.speed.realtime.down)}}</span>
                   <span class='unit'> Mb/s</span>
                 </p>
                 <p class="note">{{$t('trans0307')}}</p>
@@ -127,7 +127,7 @@
             <i class="t-dwon-icon"></i>
             <div>
               <p>
-                <span class="speed">{{traffice.traffic?format(traffice.traffic.dl):'-'}}</span>
+                <span class="speed">{{format(localTraffice.traffic.dl)}}</span>
                 <span class='unit'> Mb</span>
               </p>
               <p class="note">{{$t('trans0309')}}</p>
@@ -137,7 +137,7 @@
             <i class="t-up-icon"></i>
             <div>
               <p>
-                <span class="speed">{{traffice.traffic?format(traffice.traffic.ul):'-'}}</span>
+                <span class="speed">{{format(localTraffice.traffic.ul)}}</span>
                 <span class='unit'> Mb</span>
               </p>
               <p class="note">{{$t('trans0310')}}</p>
@@ -186,7 +186,7 @@
               <i class="p-dwon-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{speedInfo.speed?format(speedInfo.speed.down):'—'}}</span>
+                  <span class="speed">{{format(localSpeedInfo.speed.down)}}</span>
                   <span class='unit'> KB/s</span>
                 </p>
                 <p class="note">{{$t('trans0007')}}</p>
@@ -196,7 +196,7 @@
               <i class="p-up-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{speedInfo.speed?format(speedInfo.speed.up):'—'}}</span>
+                  <span class="speed">{{format(localSpeedInfo.speed.up)}}</span>
                   <span class='unit'> KB/s</span>
                 </p>
                 <p class="note">{{$t('trans0006')}}</p>
@@ -206,7 +206,7 @@
               <i class="p-count-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{speedInfo.speed?bandWidth(speedInfo.speed.down):'-'}}</span>
+                  <span class="speed">{{bandWidth(localSpeedInfo.speed.down)}}</span>
                   <span class='unit'> M</span>
                 </p>
                 <p class="note">{{$t('trans0029')}}</p>
@@ -250,7 +250,92 @@ export default {
     this.createTimer();
     this.getSsid();
   },
-
+  computed: {
+    isTesting() {
+      return this.netStatus === 'testing';
+    },
+    isConnected() {
+      return this.netStatus === 'connected';
+    },
+    isLinked() {
+      return this.netStatus === 'linked';
+    },
+    isUnlinked() {
+      return this.netStatus === 'unlinked';
+    },
+    localTraffice() {
+      const local = {
+        speed: {
+          peak: {
+            up: '-',
+            down: '-'
+          },
+          realtime: {
+            up: '-',
+            down: '-'
+          },
+          average: {
+            up: '-',
+            down: '-'
+          }
+        },
+        traffic: {
+          ul: '-',
+          dl: '-'
+        },
+        bandwidth: '-'
+      };
+      if (this.traffice && this.traffice.speed) {
+        return { ...local, ...this.traffice };
+      }
+      return { ...local };
+    },
+    localNetInfo() {
+      const local = {
+        type: '-',
+        netinfo: {
+          ip: '-',
+          mask: '-',
+          gateway: '-', // 可选
+          dns: []
+        }
+      };
+      if (this.netInfo && this.netInfo.netinfo) {
+        return { ...local, ...this.netInfo };
+      }
+      return local;
+    },
+    localRouterInfo() {
+      const local = {
+        sn: '-',
+        alias: '-',
+        mac: { lan: '-', wan: '-' },
+        owner: '-',
+        model: '-',
+        version: '-',
+        mesh_id: '-',
+        is_gw: '-',
+        rssi: '-',
+        status: '-'
+      };
+      if (this.routerInfo && this.routerInfo.mac) {
+        return { ...local, ...this.routerInfo };
+      }
+      return local;
+    },
+    localSpeedInfo() {
+      const local = {
+        speed: {
+          up: '-',
+          down: '-'
+        }
+      };
+      if (this.speedInfo && this.speedInfo.speed) {
+        return { ...local, ...this.speedInfo };
+      }
+      return local;
+    }
+  },
   methods: {
     closeSpeedModal() {
       this.speedModelOpen = false;
@@ -266,13 +351,13 @@ export default {
       document.body.style.overflow = this.bodyOverflow || 'auto';
     },
     format(v) {
-      return (v / (1024 * 8)).toFixed(1);
+      return !isNaN(v) ? (v / (1024 * 8)).toFixed(1) : v;
     },
     bandWidth(v) {
-      return (v / (1024 * 1024)).toFixed(1);
+      return !isNaN(v) ? (v / (1024 * 1024)).toFixed(1) : v;
     },
     macFormat(v) {
-      return v.match(/.{2}/g).join(':');
+      return v.length > 2 ? v.match(/.{2}/g).join(':') : v;
     },
     createTimer() {
       this.getTraffic();

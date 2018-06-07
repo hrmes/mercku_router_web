@@ -33,6 +33,7 @@ export default {
   methods: {
     change() {
       this.checked = !this.checked;
+      this.value = this.checked;
       this.$emit('input', this.checked);
       this.onChange(this.checked);
     }
