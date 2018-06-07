@@ -7,7 +7,7 @@ const routerConfig = () => {
       admin_password: ''
     },
     wan: {
-      type: '' // static,dhcp,pppoe
+      type: 'dhcp' // static,dhcp,pppoe
       /*
         netinfo: {
           ip:'',
@@ -31,7 +31,7 @@ const routerConfig = () => {
     getConfig() {
       const result = {
         wifi: Object.assign({}, config.wifi),
-        wan: Object.assign({}, config.wan),
+        wan: Object.assign({}, config.wan)
       };
       return result;
     },
