@@ -5,9 +5,15 @@ from '@vue/test-utils';
 import Progress from '../../../../src/pc/component/progress/index.vue';
 
 describe('progress component', () => {
-  const wrapper = mount(Progress);
-  const vm = wrapper.vm;
+  let wrapper;
+  let vm;
+  afterEach(() => {
+    vm.$destroy && vm.$destroy();
+    vm.$el && vm.$el.parentNode && vm.$el.parentNode.removeChild(vm.$el);
+  });
   it('progress default data', (done) => {
+    wrapper = mount(Progress);
+    vm = wrapper.vm;
     wrapper.setData({
       during: 60,
       percent: 0,
@@ -21,14 +27,20 @@ describe('progress component', () => {
       done();
     });
   });
-  it('progress timer', (done) => {
+  it('progress methods', (done) => {
+    wrapper = mount(Progress);
+    vm = wrapper.vm;
     wrapper.setData({
       during: 0,
-      percent: 80,
+      percent: 0,
+      timer: null,
     });
+    vm.createTiemr();
     vm.$nextTick(() => {
-      expect(vm.timer).to.eql(null);
-      console.log(vm.$el.querySelector('.progress-wrapper').offsetWidth);
+      setTimeout(() => {
+        expect(1 < vm.percent < 2).to.be.true
+      }, 1000)
+      // expect(vm.timer).to.eql(null);
       done();
     });
   });
