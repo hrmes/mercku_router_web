@@ -39,15 +39,6 @@ describe('switch component', () => {
       }
     );
     wrapper.vm.$refs.sw.change();
-    // wrapper.setProps({
-    //   value: false,
-
-    //   onChange: v => {
-    //     expect(v).to.be.true;
-    //   }
-    // });
-    // vm = wrapper.vm;
-    // vm.change();
     expect(vm.checked).to.be.true;
     vm.$nextTick(() => {
       expect(wrapper.vm.$refs.sw.checked).to.be.true;
