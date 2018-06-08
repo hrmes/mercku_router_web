@@ -35,7 +35,7 @@ describe('progress component', () => {
     vm.createTiemr();
     vm.$nextTick(() => {
       setTimeout(() => {
-        expect(1 < vm.percent < 2).to.be.true;
+        expect(Math.round(vm.percent) === 1).to.be.true;
       }, 1000);
       // expect(vm.timer).to.eql(null);
       done();
