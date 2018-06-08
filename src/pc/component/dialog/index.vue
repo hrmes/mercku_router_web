@@ -35,7 +35,7 @@ export default {
       document.body.style.overflow = 'hidden';
     },
     restoryOverflow() {
-      document.body.style.overflow = this.bodyOverflow || 'auto';
+      document.body.style.overflow = this.bodyOverflow || '';
     },
     close() {
       this.$el.addEventListener('transitionend', () => {

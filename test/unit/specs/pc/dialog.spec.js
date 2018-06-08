@@ -1,7 +1,7 @@
 import dialog from '../../../../src/pc/component/dialog/index';
 
 describe('dialog', () => {
-  it('info', done => {
+  it('check info dialog props and ok method', done => {
     dialog.info({
       title: 'title',
       message: 'info',
@@ -32,14 +32,17 @@ describe('dialog', () => {
       const vm = wrapper.__vue__.$parent;
       const overflow = document.body.style.overflow;
       expect(document.body.style.overflow).to.eql('hidden');
-      wrapper.addEventListener('transitionend', () => {
+      vm.ok();
+
+      setTimeout(() => {
         expect(vm.visible).to.be.false;
         expect(document.body.style.overflow).to.eql(overflow);
         done();
-      });
-      vm.ok();
+      }, 1000);
     }, 300);
+  });
 
+  it('check info dialog cancel method', done => {
     dialog.info({
       title: 'title',
       message: 'info',
@@ -55,12 +58,12 @@ describe('dialog', () => {
       const wrapper = document.body.querySelector('.dialog-container');
       const vm = wrapper.__vue__.$parent;
       const overflow = document.body.style.overflow;
-      wrapper.addEventListener('transitionend', () => {
+      vm.cancel();
+      setTimeout(() => {
         expect(vm.visible).to.be.false;
         expect(document.body.style.overflow).to.eql(overflow);
         done();
-      });
-      vm.cancel();
+      }, 1000);
     }, 300);
   });
 });
