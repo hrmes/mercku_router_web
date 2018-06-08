@@ -363,9 +363,12 @@ export default {
       this.getMeshNode();
     },
     clearTimer() {
-      clearInterval(this.timer1);
-      clearInterval(this.timer2);
-      clearInterval(this.timer3);
+      clearTimeout(this.timer1);
+      clearTimeout(this.timer2);
+      clearTimeout(this.timer3);
+      this.timer1 = null;
+      this.timer2 = null;
+      this.timer3 = null;
     },
     getSsid() {
       this.$http.getMeshData().then(res => {
@@ -398,49 +401,49 @@ export default {
       }, 1000 * 5);
     },
     getTraffic() {
-      clearInterval(this.timer1);
+      clearTimeout(this.timer1);
       this.$http
         .getTraffic()
         .then(res => {
           this.traffice = res.data.result;
-          this.timer1 = setInterval(() => {
+          this.timer1 = setTimeout(() => {
             this.getTraffic();
           }, 1000 * 15);
         })
         .catch(() => {
-          this.timer1 = setInterval(() => {
+          this.timer1 = setTimeout(() => {
             this.getTraffic();
           }, 1000 * 15);
         });
     },
     getDeviceCount() {
-      clearInterval(this.timer2);
+      clearTimeout(this.timer2);
       this.$http
         .getDeviceCount()
         .then(res => {
           this.deviceCount = res.data.result;
-          this.timer2 = setInterval(() => {
+          this.timer2 = setTimeout(() => {
             this.getDeviceCount();
           }, 1000 * 20);
         })
         .catch(() => {
-          this.timer2 = setInterval(() => {
+          this.timer2 = setTimeout(() => {
             this.getDeviceCount();
           }, 1000 * 20);
         });
     },
     getMeshNode() {
-      clearInterval(this.timer3);
+      clearTimeout(this.timer3);
       this.$http
         .getMeshNode()
         .then(res => {
           this.meshNode = res.data.result;
-          this.timer3 = setInterval(() => {
+          this.timer3 = setTimeout(() => {
             this.getMeshNode();
           }, 1000 * 30);
         })
         .catch(() => {
-          this.timer3 = setInterval(() => {
+          this.timer3 = setTimeout(() => {
             this.getMeshNode();
           }, 1000 * 30);
         });
@@ -490,6 +493,7 @@ export default {
   },
   beforeDestroy() {
     this.clearTimer();
+    console.log(this.timer1);
   }
 };
 </script>
