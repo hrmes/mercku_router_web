@@ -229,6 +229,7 @@ export default {
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       speedStatus: 'testing',
       speedModelOpen: false,
+      enter: true,
       ssid: '',
       speedInfo: {},
       routerInfo: {},
@@ -402,50 +403,65 @@ export default {
     },
     getTraffic() {
       clearTimeout(this.timer1);
+      this.timer1 = null;
       this.$http
         .getTraffic()
         .then(res => {
-          this.traffice = res.data.result;
-          this.timer1 = setTimeout(() => {
-            this.getTraffic();
-          }, 1000 * 15);
+          if (this.enter) {
+            this.traffice = res.data.result;
+            this.timer1 = setTimeout(() => {
+              this.getTraffic();
+            }, 1000 * 15);
+          }
         })
         .catch(() => {
-          this.timer1 = setTimeout(() => {
-            this.getTraffic();
-          }, 1000 * 15);
+          if (this.enter) {
+            this.timer1 = setTimeout(() => {
+              this.getTraffic();
+            }, 1000 * 15);
+          }
         });
     },
     getDeviceCount() {
       clearTimeout(this.timer2);
+      this.timer2 = null;
       this.$http
         .getDeviceCount()
         .then(res => {
           this.deviceCount = res.data.result;
-          this.timer2 = setTimeout(() => {
-            this.getDeviceCount();
-          }, 1000 * 20);
+          if (this.enter) {
+            this.timer2 = setTimeout(() => {
+              this.getDeviceCount();
+            }, 1000 * 20);
+          }
         })
         .catch(() => {
-          this.timer2 = setTimeout(() => {
-            this.getDeviceCount();
-          }, 1000 * 20);
+          if (this.enter) {
+            this.timer2 = setTimeout(() => {
+              this.getDeviceCount();
+            }, 1000 * 20);
+          }
         });
     },
     getMeshNode() {
       clearTimeout(this.timer3);
+      this.timer3 = null;
       this.$http
         .getMeshNode()
         .then(res => {
           this.meshNode = res.data.result;
-          this.timer3 = setTimeout(() => {
-            this.getMeshNode();
-          }, 1000 * 30);
+          if (this.enter) {
+            this.timer3 = setTimeout(() => {
+              this.getMeshNode();
+            }, 1000 * 30);
+          }
         })
         .catch(() => {
-          this.timer3 = setTimeout(() => {
-            this.getMeshNode();
-          }, 1000 * 30);
+          if (this.enter) {
+            this.timer3 = setTimeout(() => {
+              this.getMeshNode();
+            }, 1000 * 30);
+          }
         });
     },
     getRouter() {
@@ -492,8 +508,8 @@ export default {
     }
   },
   beforeDestroy() {
+    this.enter = false;
     this.clearTimer();
-    console.log(this.timer1);
   }
 };
 </script>
