@@ -4,7 +4,7 @@
       <span>{{label}}</span>
     </label>
     <div class="inputarea">
-      <input @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
+      <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
       <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
         <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
       </div>
