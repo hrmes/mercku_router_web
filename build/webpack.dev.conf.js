@@ -26,10 +26,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   devServer: {
     clientLogLevel: 'warning',
     historyApiFallback: {
-      rewrites: [{
-        from: /.*/,
-        to: path.posix.join(config.dev.assetsPublicPath, 'index.html')
-      }]
+      rewrites: [
+        {
+          from: /.*/,
+          to: path.posix.join(config.dev.assetsPublicPath, 'index.html')
+        }
+      ]
     },
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
@@ -37,10 +39,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     host: HOST || config.dev.host,
     port: PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
-    overlay: config.dev.errorOverlay ? {
-      warnings: false,
-      errors: true
-    } : false,
+    overlay: config.dev.errorOverlay
+      ? {
+          warnings: false,
+          errors: true
+        }
+      : false,
     publicPath: config.dev.assetsPublicPath,
     proxy: config.dev.proxyTable,
     quiet: true, // necessary for FriendlyErrorsPlugin
@@ -64,14 +68,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: 'app.html',
       inject: true,
       favicon: 'favicon.ico',
-      chunks: ['vendor', 'app']
+      chunks: ['manifest', 'vendor', 'app']
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
       inject: true,
       favicon: 'favicon.ico',
-      chunks: ['vendor', 'pc']
+      chunks: ['manifest', 'vendor', 'pc']
     })
 
     // copy custom static assets
@@ -101,10 +105,14 @@ module.exports = new Promise((resolve, reject) => {
         new FriendlyErrorsPlugin({
           compilationSuccessInfo: {
             messages: [
-              `Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`
+              `Your application is running here: http://${
+                devWebpackConfig.devServer.host
+              }:${port}`
             ]
           },
-          onErrors: config.dev.notifyOnErrors ? utils.createNotifierCallback() : undefined
+          onErrors: config.dev.notifyOnErrors
+            ? utils.createNotifierCallback()
+            : undefined
         })
       );
 
