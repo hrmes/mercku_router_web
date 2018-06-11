@@ -108,6 +108,8 @@ export default {
     height: 100%;
     background: url(../../assets/images/img_main_picture.png) no-repeat center;
     background-position-y: bottom;
+    background-size: auto 40%;
+
     .loadding {
       img {
         width: 32px;
