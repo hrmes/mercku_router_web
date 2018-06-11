@@ -85,14 +85,14 @@
             <div class="down">
               <label class="r-title">{{$t('trans0305')}}：</label>
               <i class='r-dwon-icon'></i>
-              <span class="speed">{{format(localTraffice.speed.realtime.down)}}</span>
-              <span class="unit"> KB/s</span>
+              <span class="speed">{{format(localTraffice.speed.realtime.down).value}}</span>
+              <span class="unit"> {{format(localTraffice.speed.realtime.down).unit}}/s</span>
             </div>
             <div class='up'>
               <label class="r-title">{{$t('trans0304')}}：</label>
               <i class='r-up-icon'></i>
-              <span class="speed">{{format(localTraffice.speed.realtime.up)}}</span>
-              <span class="unit"> KB/s</span>
+              <span class="speed">{{format(localTraffice.speed.realtime.up).value}}</span>
+              <span class="unit"> {{format(localTraffice.speed.realtime.up).unit}}/s</span>
             </div>
           </div>
           <div class="speep-info real-wrap">
@@ -100,8 +100,8 @@
               <i class="f-up-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{format(localTraffice.speed.peak.up/1000)}}</span>
-                  <span class='unit'> Mb/s</span>
+                  <span class="speed">{{format(localTraffice.speed.peak.up).value}}</span>
+                  <span class='unit'> {{format(localTraffice.speed.peak.up).unit}}/s</span>
                 </p>
                 <p class="note">{{$t('trans0306')}}</p>
               </div>
@@ -110,8 +110,8 @@
               <i class="f-down-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{format(localTraffice.speed.peak.down/1000)}}</span>
-                  <span class='unit'> Mb/s</span>
+                  <span class="speed">{{format(localTraffice.speed.peak.down).value}}</span>
+                  <span class='unit'> {{format(localTraffice.speed.peak.down).unit}}/s</span>
                 </p>
                 <p class="note">{{$t('trans0307')}}</p>
               </div>
@@ -127,8 +127,8 @@
             <i class="t-dwon-icon"></i>
             <div>
               <p>
-                <span class="speed">{{format(localTraffice.traffic.dl/1000)}}</span>
-                <span class='unit'> Mb</span>
+                <span class="speed">{{format(localTraffice.traffic.dl).value}}</span>
+                <span class='unit'> {{format(localTraffice.traffic.dl).unit}}</span>
               </p>
               <p class="note">{{$t('trans0309')}}</p>
             </div>
@@ -137,8 +137,8 @@
             <i class="t-up-icon"></i>
             <div>
               <p>
-                <span class="speed">{{format(localTraffice.traffic.ul/1000)}}</span>
-                <span class='unit'> Mb</span>
+                <span class="speed">{{format(localTraffice.traffic.ul).value}}</span>
+                <span class='unit'> {{format(localTraffice.traffic.ul).unit}}</span>
               </p>
               <p class="note">{{$t('trans0310')}}</p>
             </div>
@@ -186,8 +186,8 @@
               <i class="p-dwon-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{format(localSpeedInfo.speed.down)}}</span>
-                  <span class='unit'> KB/s</span>
+                  <span class="speed">{{format(localSpeedInfo.speed.down).value}}</span>
+                  <span class='unit'> {{format(localSpeedInfo.speed.down).unit}}/s</span>
                 </p>
                 <p class="note">{{$t('trans0007')}}</p>
               </div>
@@ -196,8 +196,8 @@
               <i class="p-up-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{format(localSpeedInfo.speed.up)}}</span>
-                  <span class='unit'> KB/s</span>
+                  <span class="speed">{{format(localSpeedInfo.speed.up).value}}</span>
+                  <span class='unit'> {{format(localSpeedInfo.speed.up).unit}}/s</span>
                 </p>
                 <p class="note">{{$t('trans0006')}}</p>
               </div>
@@ -338,6 +338,28 @@ export default {
     }
   },
   methods: {
+    format(v) {
+      const units = ['KB', 'MB'];
+      let index = -1;
+      if (!isNaN(v)) {
+        v /= 8;
+        do {
+          v /= 1024;
+          index += 1;
+        } while (v > 1024 && v < units.length - 1);
+        return {
+          value: v,
+          unit: units[index]
+        };
+      }
+      return {
+        value: '-',
+        unit: 'KB'
+      };
+    },
+    bandWidth(v) {
+      return !isNaN(v) ? (v / (1024 * 1024)).toFixed(1) : v;
+    },
     closeSpeedModal() {
       this.speedModelOpen = false;
       this.restoryOverflow();
@@ -349,12 +371,7 @@ export default {
     restoryOverflow() {
       document.body.style.overflow = this.bodyOverflow || 'auto';
     },
-    format(v) {
-      return !isNaN(v) ? (v / (1024 * 8)).toFixed(1) : v;
-    },
-    bandWidth(v) {
-      return !isNaN(v) ? (v / (1024 * 1024)).toFixed(1) : v;
-    },
+
     macFormat(v) {
       return v.length > 2 ? v.match(/.{2}/g).join(':') : v;
     },
