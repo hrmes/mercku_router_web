@@ -1,0 +1,140 @@
+<template>
+  <div class="container">
+    <mercku-menu class="menu" :menus="menus" v-if="!hasMenu"></mercku-menu>
+    <div class="app-container" :class="{'has-menu':!hasMenu}">
+      <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
+      <router-view class="router-view">
+
+      </router-view>
+      <policy :class="{'fix-bottom':hasMenu}" class="policy" />
+    </div>
+
+  </div>
+
+</template>
+<script>
+import MerckuHeader from './component/header/header.vue';
+import MerckuMenu from './component/menu/index.vue';
+import policy from './component/policy/index.vue';
+import './style/common.scss';
+
+export default {
+  components: {
+    'mercku-header': MerckuHeader,
+    'mercku-menu': MerckuMenu,
+    policy
+  },
+  computed: {
+    hasMenu() {
+      return (
+        this.$route.path.includes('login') ||
+        this.$route.path.includes('wlan') ||
+        this.$route.path.includes('disappear')
+      );
+    },
+    hasExit() {
+      return !this.hasMenu;
+    }
+  },
+  data() {
+    return {
+      menus: [
+        {
+          icon: 'wifi',
+          text: 'trans0173',
+          url: '/home',
+          expand: this.$route.path.includes('/home')
+        },
+        {
+          icon: 'setting',
+          text: 'trans0019',
+          expand:
+            this.$route.path.includes('/setting/wifi') ||
+            this.$route.path.includes('/setting/network') ||
+            this.$route.path.includes('/setting/safe') ||
+            this.$route.path.includes('/setting/reboot'),
+          children: [
+            {
+              text: 'trans0103',
+              url: '/setting/wifi'
+            },
+            {
+              text: 'trans0142',
+              url: '/setting/network'
+            },
+            {
+              text: 'trans0297',
+              url: '/setting/safe'
+            },
+            {
+              text: 'trans0122',
+              url: '/setting/reboot'
+            }
+          ]
+        }
+      ]
+    };
+  }
+};
+</script>
+<style lang="scss">
+.container {
+  height: 100%;
+  position: relative;
+  .header {
+    width: 100%;
+    &.has-menu {
+      background: #fff;
+      display: block;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      .logo-container {
+        display: inline-block;
+      }
+    }
+  }
+  .app-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    &.has-menu {
+      padding-left: 300px;
+    }
+  }
+  .router-view {
+    flex: 1;
+  }
+  .policy {
+    width: 100%;
+    text-align: center;
+    color: #333;
+    &.fix-bottom {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .container {
+    padding-top: 65px;
+    .app-container {
+      height: auto;
+      &.has-menu {
+        padding-left: 0;
+      }
+    }
+    .header {
+      display: none;
+    }
+    .policy {
+      font-size: 12px;
+      &.fix-bottom {
+        position: static;
+      }
+    }
+  }
+}
+</style>

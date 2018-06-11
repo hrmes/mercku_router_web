@@ -11,9 +11,9 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const env =
-  process.env.NODE_ENV === 'testing'
-    ? require('../config/test.env')
-    : require('../config/prod.env');
+  process.env.NODE_ENV === 'testing' ?
+  require('../config/test.env') :
+  require('../config/prod.env');
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -55,18 +55,27 @@ const webpackConfig = merge(baseWebpackConfig, {
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
-      cssProcessorOptions: config.build.productionSourceMap
-        ? { safe: true, map: { inline: false } }
-        : { safe: true }
+      cssProcessorOptions: config.build.productionSourceMap ? {
+        safe: true,
+        map: {
+          inline: false
+        }
+      } : {
+        safe: true
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor']
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
-      template: 'index.html',
+      filename: process.env.NODE_ENV === 'testing' ? 'app.html' : config.build.app,
+      template: 'app.html',
       inject: true,
-      favicon: 'static/favicon.ico',
+      favicon: 'favicon.ico',
+      chunks: ['vendor', 'app'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -77,6 +86,23 @@ const webpackConfig = merge(baseWebpackConfig, {
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
+    new HtmlWebpackPlugin({
+      filename: process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
+      template: 'index.html',
+      inject: true,
+      favicon: 'favicon.ico',
+      chunks: ['vendor', 'pc'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency'
+    }),
+
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
     // enable scope hoisting
