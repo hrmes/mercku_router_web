@@ -22,7 +22,7 @@ export default {
       this.$router.replace({ path: redirect });
     } else {
       this.$http.checkLogin().then(res => {
-        this.authorize.set(res.data.result);
+        this.authorize.set(res.data.result.status);
         if (!this.authorize.get()) {
           // 未登录
           this.$http
