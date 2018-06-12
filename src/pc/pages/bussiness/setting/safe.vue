@@ -8,7 +8,7 @@
         {{$t('trans0067')}}
       </div>
       <m-form ref="form" class='form' :model="form" :rules='rules'>
-        <m-form-item class="item" prop='new_password'>
+        <m-form-item class="item" prop='admin_password'>
           <m-input :label="$t('trans0113')" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.admin_password"></m-input>
         </m-form-item>
         <div class="btn-info">

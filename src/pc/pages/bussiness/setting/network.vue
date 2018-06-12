@@ -116,8 +116,8 @@ export default {
     }
     return {
       networkArr: {
-        dhcp: '动态ip',
-        static: '静态ip',
+        dhcp: '动态IP',
+        static: '静态IP',
         pppoe: '宽带拨号'
       },
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
