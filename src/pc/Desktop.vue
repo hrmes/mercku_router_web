@@ -86,7 +86,6 @@ export default {
     &.has-menu {
       background: #fff;
       display: block;
-      position: fixed;
       top: 0;
       z-index: 1000;
       .logo-container {
@@ -117,9 +116,17 @@ export default {
     }
   }
 }
+@media screen and (min-width: 769px) {
+  .container {
+    .header {
+      &.has-menu {
+        position: fixed;
+      }
+    }
+  }
+}
 @media screen and (max-width: 768px) {
   .container {
-    padding-top: 65px;
     .app-container {
       height: auto;
       &.has-menu {

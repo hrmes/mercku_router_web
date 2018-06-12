@@ -30,7 +30,7 @@ export default {
     }
   },
   beforeDestroy() {
-    this.restoryOverflow;
+    this.restoryOverflow();
   }
 };
 </script>

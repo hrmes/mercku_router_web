@@ -232,11 +232,8 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .menu-container {
-    position: fixed;
-    top: 0;
     height: 65px;
     width: 100%;
-    z-index: 1000;
     border-bottom: 1px solid #e1e1e1;
     &.small-device-expand {
       height: 100%;
