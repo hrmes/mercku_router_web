@@ -1092,7 +1092,7 @@ export default {
           width: 50%;
           img {
             width: 32px;
-            height: 29px;
+            // height: 29px;
           }
           span {
             font-size: 14px;
@@ -1111,7 +1111,7 @@ export default {
           align-items: center;
           img {
             width: 60px;
-            height: 60px;
+            // height: 60px;
           }
         }
       }
@@ -1123,13 +1123,13 @@ export default {
         .message {
           img {
             width: 40px;
-            height: 55px;
+            // height: 55px;
           }
         }
         .status {
           img {
             width: 80px;
-            height: 80px;
+            // height: 80px;
           }
         }
       }
