@@ -11,7 +11,7 @@
       <li class="menu-item" @click="jump(menu)" v-for="menu in menus" :class="{'selected':$route.path.includes(menu.url)}">
         <span class="menu-icon" :class="[menu.icon]"></span>
         <span class="menu-text">{{$t(menu.text)}}</span>
-        <span v-if="menu.children" :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
+        <span v-if="menu.children" class="menu-trigle" :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
         <ul v-if="menu.children" class="menu-children" :class="{'show':menu.expand}">
           <li class="menu-child" @click.stop="jump(child)" v-for="child in menu.children" :class="{'selected':$route.path.includes(child.url)}">
             <span class="menu-icon"></span>
@@ -163,19 +163,7 @@ export default {
           background-size: 100%;
         }
       }
-      .menu-expand {
-        display: inline-block;
-        width: 12px;
-        height: 6px;
-        background: url(../../assets/images/ic_side_bar_pick_up.png) no-repeat
-          center;
-        background-size: 100%;
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        margin-top: -3px;
-      }
-      .menu-collapse {
+      .menu-trigle {
         display: inline-block;
         width: 12px;
         height: 6px;
@@ -184,8 +172,16 @@ export default {
         background-size: 100%;
         position: absolute;
         right: 20px;
-        top: 21px;
-        //margin-top: -3px;
+        top: 50%;
+        margin-top: -3px;
+        transition: transform 0.3s linear;
+        &.menu-expand {
+          transform: rotate(-180deg);
+        }
+        &.menu-collapse {
+          transform: rotate(0);
+          top: 25px;
+        }
       }
     }
 
