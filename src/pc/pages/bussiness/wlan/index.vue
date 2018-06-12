@@ -114,7 +114,7 @@ export default {
   },
   computed: {
     steps() {
-      return [this.$t('trans0167'), this.$t('trans0295'), this.$t('trans0296')];
+      return [this.$t('trans0324'), this.$t('trans0067'), this.$t('trans0018')];
     }
   },
   methods: {
@@ -199,15 +199,12 @@ export default {
       img {
         display: block;
         margin: 0 auto;
+        width: 100%;
       }
       .form-item {
-        margin-top: 20px;
         text-align: left;
         .checkbox {
           margin-top: 10px;
-        }
-        &:first-child {
-          margin-top: 0;
         }
       }
       .button-container {

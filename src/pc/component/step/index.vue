@@ -76,6 +76,7 @@ export default {
       transform: translateX(-50%);
       width: 100%;
       margin-top: 8px;
+      padding: 0 10px;
     }
     &.steped {
       .step-number {

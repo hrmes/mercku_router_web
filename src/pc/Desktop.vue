@@ -81,6 +81,9 @@ export default {
 .container {
   height: 100%;
   position: relative;
+  &.no-menu {
+    height: 100%;
+  }
   .header {
     width: 100%;
     &.has-menu {
@@ -128,9 +131,9 @@ export default {
 @media screen and (max-width: 768px) {
   .container {
     .app-container {
-      height: auto;
       &.has-menu {
         padding-left: 0;
+        height: calc(100% - 65px);
       }
     }
     .header {

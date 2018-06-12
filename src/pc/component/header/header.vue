@@ -44,7 +44,6 @@ export default {
   },
   data() {
     return {
-      language: Languages[0],
       showPopup: false,
       Languages
     };
@@ -61,12 +60,19 @@ export default {
       });
     }
   },
+  computed: {
+    language() {
+      return this.getDefaultLanguage();
+    }
+  },
   methods: {
+    getDefaultLanguage() {
+      return Languages.filter(l => l.value === this.$i18n.locale)[0];
+    },
     showLangPopup() {
       this.showPopup = !this.showPopup;
     },
     selectLang(lang) {
-      this.language = lang;
       this.changeLanguage(lang.value);
       this.showPopup = false;
     },
