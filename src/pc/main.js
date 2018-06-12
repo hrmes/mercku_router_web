@@ -1,10 +1,7 @@
 import Vue from 'vue';
 import 'babel-polyfill';
 
-import {
-  changeLanguage,
-  i18n
-} from '../i18n';
+import { changeLanguage, i18n } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -61,7 +58,7 @@ const launch = () => {
       const percent = ((total - count) / total).toFixed(2);
       opt.onprogress(percent);
       console.log('reconnet progress...percent:', percent);
-      if (count > 0) {
+      if (count >= 0) {
         http.getRouter().then(() => {
           clearInterval(timer);
           opt.onsuccess();
