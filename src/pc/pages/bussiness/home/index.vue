@@ -346,7 +346,7 @@ export default {
         do {
           v /= 1024;
           index += 1;
-        } while (v > 1024 && v < units.length - 1);
+        } while (v > 1024 && index < units.length - 1);
         return {
           value: v.toFixed(1),
           unit: units[index]
