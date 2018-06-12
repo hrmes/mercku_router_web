@@ -24,7 +24,7 @@
               <div>
                 <label for="">{{$t('trans0317')}}：</label>
                 <span>
-                  {{localNetInfo.type}}
+                  {{networkArr[localNetInfo.type]}}
                 </span>
               </div>
               <div>
@@ -115,6 +115,11 @@ export default {
       return v === undefined ? true : pattern.test(v);
     }
     return {
+      networkArr: {
+        dhcp: '动态ip',
+        static: '静态ip',
+        pppoe: '宽带拨号'
+      },
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       netType: 'dhcp',
       reboot: false,
