@@ -22,7 +22,7 @@
           <div>
             <span class="icon"></span>
             <span class="title">{{$t('trans0067')}}</span>:
-            <span class="value">{{config.admin.password}}</span>
+            <span class="value">{{config.wifi.admin_password}}</span>
           </div>
         </div>
       </div>
