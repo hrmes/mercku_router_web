@@ -7,16 +7,14 @@
       <div class='w-header'>
         {{$t('trans0067')}}
       </div>
-      <div class='form'>
-        <m-form ref="form" :model="form" :rules='rules'>
-          <m-form-item class="item" prop='new_password'>
-            <m-input :label="$t('trans0113')" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.admin_password"></m-input>
-          </m-form-item>
-        </m-form>
+      <m-form ref="form" class='form' :model="form" :rules='rules'>
+        <m-form-item class="item" prop='new_password'>
+          <m-input :label="$t('trans0113')" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.admin_password"></m-input>
+        </m-form-item>
         <div class="btn-info">
           <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
         </div>
-      </div>
+      </m-form>
     </div>
   </div>
 </template>
@@ -105,12 +103,14 @@ export default {
       padding: 30px 0;
       flex-direction: column;
       align-items: center;
+      align-items: center;
       .item {
         // margin-bottom: 20px;
       }
 
       .btn-info {
         display: block;
+        text-align: center !important;
       }
       .check-info {
         display: flex;
@@ -138,6 +138,9 @@ export default {
       .form {
         width: 100%;
         // padding: 0 20px;
+        .form-item {
+          width: 100%;
+        }
         .input-info {
           width: 100%;
         }
