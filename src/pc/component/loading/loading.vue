@@ -28,9 +28,6 @@ export default {
     restoryOverflow() {
       document.body.style.overflow = this.bodyOverflow || 'auto';
     }
-  },
-  beforeDestroy() {
-    this.restoryOverflow();
   }
 };
 </script>
