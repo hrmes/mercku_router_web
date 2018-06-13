@@ -69,7 +69,9 @@ const methods = {
 
 const http = {
   reboot() {
-    return axios.post(methods.reboot.url, { method: methods.reboot.action });
+    return axios.post(methods.reboot.url, {
+      method: methods.reboot.action
+    });
   },
   getMeshData() {
     return axios.post(methods.meshMeta.url, {
@@ -100,7 +102,9 @@ const http = {
     });
   },
   getTraffic() {
-    return axios.post(methods.meshWan.url, { method: methods.meshWan.action });
+    return axios.post(methods.meshWan.url, {
+      method: methods.meshWan.action
+    });
   },
   getMeshNode() {
     return axios.post(methods.getMeshNode.url, {
@@ -109,7 +113,9 @@ const http = {
     });
   },
   getWIFI() {
-    return axios.post(methods.getWIFI.url, { method: methods.getWIFI.action });
+    return axios.post(methods.getWIFI.url, {
+      method: methods.getWIFI.action
+    });
   },
   checkLogin() {
     return axios.post(methods.checkLogin.url, {
@@ -146,7 +152,9 @@ const http = {
     });
   },
   testWan() {
-    return axios.post(methods.testWan.url, { method: methods.testWan.action });
+    return axios.post(methods.testWan.url, {
+      method: methods.testWan.action
+    });
   },
   getTimezone() {
     return axios.post(methods.getTimezone.url, {
@@ -161,9 +169,15 @@ const http = {
     };
     const messageString = JSON.stringify(message);
     try {
-      window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
+      window
+        .webkit
+        .messageHandlers
+        .callbackHandler
+        .postMessage(messageString);
     } catch (err) {
-      window.android && window.android.call(messageString);
+      window.android && window
+        .android
+        .call(messageString);
     }
   }
 };
@@ -172,13 +186,23 @@ const configResponseInterceptors = (success, error) => {
   const noop = res => res;
   const successCallback = success || noop;
   const errorCallback = error || noop;
-  axios.interceptors.response.use(successCallback, errorCallback);
+  axios
+    .interceptors
+    .response
+    .use(successCallback, errorCallback);
 };
 
 const configRequestInterceptors = (before, error) => {
   const noop = res => res;
   const beforeFn = before || noop;
   const errorCallback = error || noop;
-  axios.interceptors.request.use(beforeFn, errorCallback);
+  axios
+    .interceptors
+    .request
+    .use(beforeFn, errorCallback);
 };
-export { http, configResponseInterceptors, configRequestInterceptors };
+export {
+  http,
+  configResponseInterceptors,
+  configRequestInterceptors
+};
