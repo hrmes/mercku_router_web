@@ -116,9 +116,9 @@ export default {
     }
     return {
       networkArr: {
-        dhcp: '动态IP',
-        static: '静态IP',
-        pppoe: '宽带拨号'
+        dhcp: this.$t('trans0146'),
+        static: this.$t('trans0148'),
+        pppoe: this.$t('trans0144')
       },
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       netType: 'dhcp',
