@@ -1,42 +1,44 @@
 <template>
-  <div class="wlan-container">
-    <div class="step">
-      <m-step :steps="steps" :current="current"></m-step>
-    </div>
-    <div class="step-content">
-      <div class="step-item" v-show="current===0">
-        <m-form ref="form1" :model="form1" :rules="form1Rules">
-          <m-form-item class="form-item" prop="ssid">
-            <m-input :label="$t('trans0168')" :placeholder="$t('trans0321')" v-model="form1.ssid" />
-          </m-form-item>
-          <m-form-item class="form-item" prop="password">
-            <m-input :label="$t('trans0172')" type="password" :placeholder="$t('trans0321')" v-model="form1.password" />
-          </m-form-item>
-          <div class="button-container">
-            <button @click="step1()" class="btn">{{$t('trans0055')}}</button>
-          </div>
-        </m-form>
+  <layout style="height:100%;">
+    <div class="wlan-container">
+      <div class="step">
+        <m-step :steps="steps" :current="current"></m-step>
+      </div>
+      <div class="step-content">
+        <div class="step-item" v-show="current===0">
+          <m-form ref="form1" :model="form1" :rules="form1Rules">
+            <m-form-item class="form-item" prop="ssid">
+              <m-input :label="$t('trans0168')" :placeholder="$t('trans0321')" v-model="form1.ssid" />
+            </m-form-item>
+            <m-form-item class="form-item" prop="password">
+              <m-input :label="$t('trans0172')" type="password" :placeholder="$t('trans0321')" v-model="form1.password" />
+            </m-form-item>
+            <div class="button-container">
+              <button @click="step1()" class="btn">{{$t('trans0055')}}</button>
+            </div>
+          </m-form>
 
+        </div>
+        <div class="step-item" v-show="current===1">
+          <m-form ref="form2" :model="form2" :rules="form2Rules">
+            <m-form-item class="form-item" prop="admin_password">
+              <m-input :label="$t('trans0067')" type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="form2.admin_password" />
+            </m-form-item>
+            <m-checkbox class="checkbox" v-model="checked" :text="$t('trans0293')"></m-checkbox>
+            <div class="button-container">
+              <button @click="step0()" class="btn">{{$t('trans0057')}}</button>
+              <button @click="step2()" class="btn">{{$t('trans0081')}}</button>
+            </div>
+          </m-form>
+        </div>
+        <div class="step-item" v-if="current===2">
+          <img src="../../../assets/images/img_setting.png" alt="">
+          <span>{{$t('trans0294')}}{{countdown}}s</span>
+        </div>
       </div>
-      <div class="step-item" v-show="current===1">
-        <m-form ref="form2" :model="form2" :rules="form2Rules">
-          <m-form-item class="form-item" prop="admin_password">
-            <m-input :label="$t('trans0067')" type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="form2.admin_password" />
-          </m-form-item>
-          <m-checkbox class="checkbox" v-model="checked" :text="$t('trans0293')"></m-checkbox>
-          <div class="button-container">
-            <button @click="step0()" class="btn">{{$t('trans0057')}}</button>
-            <button @click="step2()" class="btn">{{$t('trans0081')}}</button>
-          </div>
-        </m-form>
-      </div>
-      <div class="step-item" v-if="current===2">
-        <img src="../../../assets/images/img_setting.png" alt="">
-        <span>{{$t('trans0294')}}{{countdown}}s</span>
-      </div>
-    </div>
 
-  </div>
+    </div>
+  </layout>
 
 </template>
 <script>
@@ -45,6 +47,7 @@ import mInput from '../../../component/input/input.vue';
 import mCheckbox from '../../../component/checkbox/index.vue';
 import mForm from '../../../component/form/index.vue';
 import mFormItem from '../../../component/formItem/index.vue';
+import layout from '../../../layout.vue';
 
 export default {
   components: {
@@ -52,7 +55,8 @@ export default {
     mInput,
     mCheckbox,
     mForm,
-    mFormItem
+    mFormItem,
+    layout
   },
   data() {
     return {

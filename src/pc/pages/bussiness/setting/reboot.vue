@@ -1,27 +1,31 @@
 <template>
-  <div class="setting-safe-container">
-    <div v-if="reboot">
-      <m-proress></m-proress>
-    </div>
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0122')}}
+  <layout style="height:100%;">
+    <div class="setting-safe-container">
+      <div v-if="reboot">
+        <m-proress></m-proress>
       </div>
-      <div class='form'>
-        <img src="../../../assets/images/img_restart.png" alt="">
-        <p> {{$t('trans0121')}}</p>
-        <button class="btn re-btn" @click="submit()"> {{$t('trans0122')}}</button>
+      <div class="content">
+        <div class='w-header'>
+          {{$t('trans0122')}}
+        </div>
+        <div class='form'>
+          <img src="../../../assets/images/img_restart.png" alt="">
+          <p> {{$t('trans0121')}}</p>
+          <button class="btn re-btn" @click="submit()"> {{$t('trans0122')}}</button>
+        </div>
       </div>
     </div>
-  </div>
-  </div>
+  </layout>
+
 </template>
 <script>
 import Progress from '../../../component/progress/index.vue';
+import layout from '../../../layout.vue';
 
 export default {
   components: {
-    'm-proress': Progress
+    'm-proress': Progress,
+    layout
   },
   data() {
     return {
