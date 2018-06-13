@@ -9,10 +9,15 @@ export default {
   methods: {
     validate() {
       let result = true;
+
       this.$children.forEach(child => {
-        if (!child.validate()) {
-          result = false;
+        console.log('child is:', child);
+        if (child.validate) {
+          if (!child.validate()) {
+            result = false;
+          }
         }
+        return true;
       });
       return result;
     }
