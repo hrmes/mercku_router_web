@@ -58,6 +58,8 @@
             <div class="item" style="min-height:110px">
               <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
               <div class="note" v-if="netType==='dhcp'">{{$t('trans0147')}}</div>
+              <div class="note" v-if="netType==='pppoe'">{{$t('trans0154')}}</div>
+              <div class="note" v-if="netType==='static'">{{$t('trans0150')}}</div>
             </div>
             <m-form v-show="netType==='pppoe'" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
               <m-form-item class="item" prop='account'>
