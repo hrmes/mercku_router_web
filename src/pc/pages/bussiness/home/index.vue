@@ -416,11 +416,6 @@ export default {
         })
         .catch(() => {
           clearInterval(this.timer4);
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/disappear' });
-          }
         });
     },
     createSpeedTimer() {
@@ -446,11 +441,6 @@ export default {
           }
         })
         .catch(() => {
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/disappear' });
-          }
           if (this.enter) {
             this.timer1 = setTimeout(() => {
               this.getTraffic();
@@ -805,6 +795,11 @@ export default {
       min-width: 150px;
       min-height: 60px;
       position: relative;
+      &::after {
+        content: '';
+        min-width: inherit;
+        max-width: inherit;
+      }
       .success-line {
         position: absolute;
         max-width: 440px;
