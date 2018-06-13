@@ -37,6 +37,7 @@ export default {
 <style lang="scss" scoped>
 .disappear-container {
   background: #fff;
+  flex: 1;
   img {
     display: block;
     width: 200px;

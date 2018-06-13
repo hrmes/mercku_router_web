@@ -4,7 +4,7 @@
       <m-step :steps="steps" :current="current"></m-step>
     </div>
     <div class="step-content">
-      <div class="step-item" v-if="current===0">
+      <div class="step-item" v-show="current===0">
         <m-form ref="form1" :model="form1" :rules="form1Rules">
           <m-form-item class="form-item" prop="ssid">
             <m-input :label="$t('trans0168')" :placeholder="$t('trans0321')" v-model="form1.ssid" />
@@ -18,12 +18,12 @@
         </m-form>
 
       </div>
-      <div class="step-item" v-if="current===1">
+      <div class="step-item" v-show="current===1">
         <m-form ref="form2" :model="form2" :rules="form2Rules">
-          <m-form-item class="form-item">
+          <m-form-item class="form-item" prop="admin_password">
             <m-input :label="$t('trans0067')" type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="form2.admin_password" />
-            <m-checkbox class="checkbox" v-model="checked" :text="$t('trans0293')"></m-checkbox>
           </m-form-item>
+          <m-checkbox class="checkbox" v-model="checked" :text="$t('trans0293')"></m-checkbox>
           <div class="button-container">
             <button @click="step0()" class="btn">{{$t('trans0057')}}</button>
             <button @click="step2()" class="btn">{{$t('trans0081')}}</button>

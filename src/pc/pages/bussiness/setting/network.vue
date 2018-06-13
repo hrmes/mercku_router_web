@@ -59,7 +59,7 @@
               <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
               <div class="note" v-if="netType==='dhcp'">{{$t('trans0147')}}</div>
             </div>
-            <m-form v-if="netType==='pppoe'" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
+            <m-form v-show="netType==='pppoe'" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
               <m-form-item class="item" prop='account'>
                 <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.account"></m-input>
               </m-form-item>
@@ -67,7 +67,7 @@
                 <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.password" />
               </m-form-item>
             </m-form>
-            <m-form v-if="netType==='static'" ref="staticForm" :model="staticForm" :rules='staticRules'>
+            <m-form v-show="netType==='static'" ref="staticForm" :model="staticForm" :rules='staticRules'>
               <m-form-item class="item" prop='ip'>
                 <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" />
               </m-form-item>
