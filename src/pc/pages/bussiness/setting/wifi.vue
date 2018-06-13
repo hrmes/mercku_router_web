@@ -18,7 +18,7 @@
             </m-form-item>
           </m-form>
           <div class="ssid-hidden">
-            <m-checkbox v-model='hidden' :text="$t('trans0111')"></m-checkbox>
+            <m-checkbox v-model='form.hidden' :text="$t('trans0111')"></m-checkbox>
           </div>
           <div class="check-info">
             <label for=""> {{$t('trans0255')}}</label>
@@ -56,11 +56,11 @@ export default {
       band1: true,
       band2: true,
       reboot: false,
-      hidden: false,
       meshData: {},
       form: {
         ssid: '',
         password: '',
+        hidden: false,
         bands: {
           '2.4G': { enabled: true },
           '5G': { enabled: true }
