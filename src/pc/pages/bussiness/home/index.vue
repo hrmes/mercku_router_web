@@ -58,7 +58,7 @@
         <div class='message'>
           <div class="m-item">
             <label class="m-title">{{$t('trans0317')}}：</label>
-            {{localNetInfo.type}}
+            {{ networkArr[localNetInfo.type]}}
           </div>
           <div class="m-item">
             <label class="m-title">{{$t('trans0151')}}：</label>
@@ -226,9 +226,16 @@
 export default {
   data() {
     return {
+      networkArr: {
+        '-': '-',
+        dhcp: this.$t('trans0146'),
+        static: this.$t('trans0148'),
+        pppoe: this.$t('trans0144')
+      },
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       speedStatus: 'testing',
       speedModelOpen: false,
+      TextBandwidth: '-',
       enter: true,
       ssid: '',
       speedInfo: {},
@@ -491,7 +498,7 @@ export default {
           this.routerInfo = res.data.result;
         })
         .catch(err => {
-          if (err.response && err.response.status === 401) {
+          if (err.response && err.response.status === 400) {
             this.timer5 = setTimeout(() => {
               this.getRouter();
             }, 1000 * 3);
@@ -1166,15 +1173,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1220px) {
-  .router-info {
-    flex-direction: column;
-    .item {
-      width: 100% !important;
-    }
-  }
-}
-@media screen and (max-width: 540px) {
+@media screen and (min-width: 769px) and (max-width: 1000px) {
   .home-container {
     .router-info {
       .item {
@@ -1185,6 +1184,74 @@ export default {
             width: 100%;
             padding-top: 10px;
             font-size: 14px;
+          }
+        }
+      }
+      .real-time-network {
+        .content {
+          .speep-info {
+            justify-content: flex-start;
+            div {
+              text-align: left;
+            }
+          }
+          .real-time-info {
+            text-align: left;
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            .down {
+              flex: 1;
+            }
+            .up {
+              padding: 0;
+              flex: 1;
+            }
+            &::after {
+              border: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1366px) {
+  .router-info {
+    flex-direction: column;
+    .item {
+      width: 100% !important;
+    }
+  }
+}
+@media screen and (min-width: 1367px) and (max-width: 1680px) {
+  .home-container {
+    .router-info {
+      .real-time-network {
+        .content {
+          .speep-info {
+            justify-content: flex-start;
+            div {
+              text-align: left;
+            }
+          }
+          .real-time-info {
+            text-align: left;
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            .down {
+              flex: 1;
+            }
+            .up {
+              padding: 0;
+              flex: 1;
+            }
+            &::after {
+              border: none;
+            }
           }
         }
       }
@@ -1232,6 +1299,19 @@ export default {
     padding: 10px;
     padding-top: 30px;
     .router-info {
+      flex-direction: column;
+      .item {
+        width: 100%;
+        .message {
+          flex-direction: column;
+          padding-bottom: 20px;
+          .m-item {
+            width: 100%;
+            padding-top: 10px;
+            font-size: 14px;
+          }
+        }
+      }
       .term-flow-info {
         .speep-info {
           .extra {
