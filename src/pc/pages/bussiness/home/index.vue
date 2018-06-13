@@ -491,7 +491,7 @@ export default {
           this.routerInfo = res.data.result;
         })
         .catch(err => {
-          if (error.response && error.response.status === 401) {
+          if (err.response && err.response.status === 401) {
             this.timer5 = setTimeout(() => {
               this.getRouter();
             }, 1000 * 3);
@@ -1165,6 +1165,7 @@ export default {
     flex-flow: column;
   }
 }
+
 @media screen and (max-width: 1220px) {
   .router-info {
     flex-direction: column;
