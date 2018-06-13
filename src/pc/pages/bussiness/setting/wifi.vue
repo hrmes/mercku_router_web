@@ -105,6 +105,11 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/disappear' });
+          }
         });
     },
     changeband1(v) {

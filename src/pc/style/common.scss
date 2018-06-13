@@ -89,3 +89,7 @@ input::-webkit-input-placeholder {
   border-radius: 4px;
   background-color: #fff;
 }
+::-ms-clear,
+::-ms-reveal {
+  display: none;
+}
