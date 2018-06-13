@@ -219,6 +219,7 @@ export default {
     };
   },
   mounted() {
+    document.body.querySelector('.app-container').style.height = 'auto';
     this.testWan();
     this.getNet();
   },
