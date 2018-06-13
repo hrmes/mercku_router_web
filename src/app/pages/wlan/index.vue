@@ -51,7 +51,9 @@ export default {
   data() {
     const config = this.routerConfig.getConfig();
     return {
-      checked: config.wifi.password === config.wifi.admin_password && config.wifi.password,
+      checked:
+        config.wifi.password === config.wifi.admin_password &&
+        config.wifi.password,
       ssid: config.wifi.ssid,
       pwd: config.wifi.password,
       adminPwd: config.wifi.admin_password,
@@ -85,8 +87,13 @@ export default {
           this.ssid = result.ssid;
           this.pwd = result.password;
           this.adminPwd = result.admin_password;
-          this.checked = result.password === result.admin_password && result.password;
-          this.routerConfig.setWIFI(result.ssid, result.password, this.adminPwd);
+          this.checked =
+            result.password === result.admin_password && result.password;
+          this.routerConfig.setWIFI(
+            result.ssid,
+            result.password,
+            this.adminPwd
+          );
         })
         .catch(err => {
           if (err && err.error) {
@@ -117,7 +124,7 @@ export default {
         return;
       }
 
-      if (!/^[a-zA-Z0-9\W_]{8,24}$/g.test(this.pwd)) {
+      if (!/^[a-zA-Z0-9]{8,24}$/g.test(this.pwd)) {
         this.$toast(this.$t('trans0169'));
         return;
       }
@@ -126,7 +133,7 @@ export default {
         return;
       }
 
-      if (!this.checked && !/^[a-zA-Z0-9\W_]{8,24}$/g.test(this.adminPwd)) {
+      if (!this.checked && !/^[a-zA-Z0-9]{8,24}$/g.test(this.adminPwd)) {
         this.$toast(this.$t('trans0169'));
         return;
       }
@@ -134,7 +141,11 @@ export default {
         this.$toast(this.$t('trans0228'));
         return;
       }
-      this.routerConfig.setWIFI(this.ssid, this.pwd, this.checked ? this.pwd : this.adminPwd);
+      this.routerConfig.setWIFI(
+        this.ssid,
+        this.pwd,
+        this.checked ? this.pwd : this.adminPwd
+      );
       this.$router.replace({ path: '/check-network' });
     }
   },
