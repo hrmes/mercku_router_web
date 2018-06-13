@@ -103,7 +103,7 @@ export default {
             this.hidden = this.meshData.hidden;
           }
         })
-        .catch(() => {
+        .catch(err => {
           this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));

@@ -142,19 +142,9 @@ export default {
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
-          },
-          {
-            rule: value => /^.{1,20}$/g.test(value),
-            message: this.$t('trans0261')
           }
         ],
-        password: [
-          { rule: value => !/\s/g.test(value), message: this.$t('trans0232') },
-          {
-            rule: value => /^[a-zA-Z0-9]{8,24}$/g.test(value),
-            message: this.$t('trans0169')
-          }
-        ]
+        password: [{ rule: value => !/\s/g.test(value), message: this.$t('trans0232') }]
       },
       staticRules: {
         ip: [

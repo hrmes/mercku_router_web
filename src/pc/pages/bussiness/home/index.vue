@@ -449,7 +449,12 @@ export default {
             }, 1000 * 15);
           }
         })
-        .catch(() => {
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/disappear' });
+          }
           if (this.enter) {
             this.timer1 = setTimeout(() => {
               this.getTraffic();
