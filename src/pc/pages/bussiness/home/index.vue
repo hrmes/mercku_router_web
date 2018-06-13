@@ -374,7 +374,7 @@ export default {
     },
     setOverflow() {
       this.bodyOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = 'auto';
     },
     restoryOverflow() {
       document.body.style.overflow = this.bodyOverflow || 'auto';
