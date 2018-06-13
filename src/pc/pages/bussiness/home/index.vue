@@ -241,7 +241,8 @@ export default {
       timer1: null,
       timer2: null,
       timer3: null,
-      timer4: null
+      timer4: null,
+      timer5: null
     };
   },
   mounted() {
@@ -482,9 +483,20 @@ export default {
         });
     },
     getRouter() {
-      this.$http.getRouter().then(res => {
-        this.routerInfo = res.data.result;
-      });
+      this.$http
+        .getRouter()
+        .then(res => {
+          this.timer5 = null;
+          clearTimeout(this.timer5);
+          this.routerInfo = res.data.result;
+        })
+        .catch(err => {
+          if (error.response && error.response.status === 401) {
+            this.timer5 = setTimeout(() => {
+              this.getRouter();
+            }, 1000 * 3);
+          }
+        });
     },
     getNet() {
       this.$http.getNet({ type: 'wan' }).then(res => {
