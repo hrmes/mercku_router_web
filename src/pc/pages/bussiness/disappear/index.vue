@@ -15,7 +15,7 @@ export default {
         .getRouter()
         .then(() => {
           this.$http.checkLogin().then(res => {
-            if (res.data.status) {
+            if (res.data.result.status) {
               this.$router.push({ path: '/home' });
             } else {
               this.$router.push({ path: '/login' });
