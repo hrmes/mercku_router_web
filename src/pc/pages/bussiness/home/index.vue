@@ -256,7 +256,8 @@ export default {
       timer2: null,
       timer3: null,
       timer4: null,
-      timer5: null
+      timer5: null,
+      timer6: null
     };
   },
   mounted() {
@@ -408,6 +409,12 @@ export default {
         this.ssid = res.data.result.ssid;
       });
     },
+    speedIsTimeOut() {
+      this.timer6 = setTimeout(() => {
+        clearInterval(this.timer4);
+        clearTimeout(this.timer6);
+      }, 1000 * 30);
+    },
     speedTesting() {
       this.$http
         .speedTesting()
@@ -417,6 +424,7 @@ export default {
             this.speedInfo = res.data.result;
             if (res.data.result.status === 'done') {
               clearInterval(this.timer4);
+              clearTimeout(this.timer6);
             }
           }
         })
@@ -429,6 +437,7 @@ export default {
       this.speedStatus = 'testing';
       this.setOverflow();
       this.speedTesting();
+      this.speedIsTimeOut();
       this.timer4 = setInterval(() => {
         this.speedTesting();
       }, 1000 * 5);
