@@ -149,7 +149,7 @@ export default {
         password: [
           { rule: value => !/\s/g.test(value), message: this.$t('trans0232') },
           {
-            rule: value => /^[a-zA-Z0-9\W_]{8,24}$/g.test(value),
+            rule: value => /^[a-zA-Z0-9]{8,24}$/g.test(value),
             message: this.$t('trans0169')
           }
         ]
