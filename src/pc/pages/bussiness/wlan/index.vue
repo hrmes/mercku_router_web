@@ -66,12 +66,12 @@ export default {
       form1Rules: {
         ssid: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
-          },
-          {
             rule: value => /^.{1,20}$/g.test(value),
             message: this.$t('trans0261')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0237')
           }
         ],
         password: [
