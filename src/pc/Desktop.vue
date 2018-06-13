@@ -121,9 +121,6 @@ export default {
     display: flex;
     flex-direction: column;
   }
-  .router-view {
-    flex: 1;
-  }
   .policy {
     width: 100%;
     text-align: center;

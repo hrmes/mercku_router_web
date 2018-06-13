@@ -578,6 +578,8 @@ export default {
       opacity: 0.7;
       position: fixed;
       z-index: -1;
+      left: 0;
+      top: 0;
     }
     position: fixed;
     width: 100%;

@@ -58,6 +58,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .setting-safe-container {
+  flex: 1;
+  height: 100%;
   position: relative;
   padding: 0 30px;
   .content {

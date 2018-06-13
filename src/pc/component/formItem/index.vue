@@ -7,10 +7,6 @@
 <script>
 export default {
   props: ['prop'],
-  created() {
-    // bindValiadator
-    this.bindVidator();
-  },
   data() {
     return {
       validators: [],
@@ -49,6 +45,7 @@ export default {
     }
   },
   mounted() {
+    this.bindVidator();
     this.$on('blur', () => {
       this.validate();
     });

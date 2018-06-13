@@ -27,7 +27,7 @@ const Loading = {
       this.instance.visible = false;
       this.instance.$el.addEventListener('transitionend', () => {
         this.instance.restoryOverflow();
-        this.instance.$el.remove();
+        this.$el.parentNode.removeChild(this.$el);
         this.instance = null;
       });
     }
