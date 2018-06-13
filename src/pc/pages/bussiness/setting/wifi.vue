@@ -1,38 +1,40 @@
 <template>
-  <div class="setting-wifi-container">
-    <div v-if="reboot">
-      <m-proress></m-proress>
-    </div>
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0167')}}
+  <layout style="height:100%;">
+    <div class="setting-wifi-container">
+      <div v-if="reboot">
+        <m-proress></m-proress>
       </div>
-      <div class='form'>
-        <div class='input-info'>
-          <m-form ref="form" :model="form" :rules='rules'>
-            <m-form-item class="item" prop='ssid'>
-              <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-            </m-form-item>
-            <m-form-item class="item" prop='password'>
-              <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-            </m-form-item>
-          </m-form>
-          <div class="ssid-hidden">
-            <m-checkbox v-model='form.hidden' :text="$t('trans0111')"></m-checkbox>
-          </div>
-          <div class="check-info">
-            <label for=""> {{$t('trans0255')}}</label>
-            <m-switch v-model="band1" :onChange="changeband1" />
-            <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
-            <m-switch v-model="band2" :onChange="changeband2" />
-          </div>
-          <div class="btn-info">
-            <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
+      <div class="content">
+        <div class='w-header'>
+          {{$t('trans0167')}}
+        </div>
+        <div class='form'>
+          <div class='input-info'>
+            <m-form ref="form" :model="form" :rules='rules'>
+              <m-form-item class="item" prop='ssid'>
+                <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+              </m-form-item>
+              <m-form-item class="item" prop='password'>
+                <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+              </m-form-item>
+            </m-form>
+            <div class="ssid-hidden">
+              <m-checkbox v-model='form.hidden' :text="$t('trans0111')"></m-checkbox>
+            </div>
+            <div class="check-info">
+              <label for=""> {{$t('trans0255')}}</label>
+              <m-switch v-model="band1" :onChange="changeband1" />
+              <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
+              <m-switch v-model="band2" :onChange="changeband2" />
+            </div>
+            <div class="btn-info">
+              <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </layout>
 </template>
 <script>
 import Switch from '../../../component/switch/index.vue';
@@ -41,6 +43,7 @@ import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import Checkbox from '../../../component/checkbox/index.vue';
+import layout from '../../../layout.vue';
 
 export default {
   components: {
@@ -49,7 +52,8 @@ export default {
     'm-form': Form,
     'm-input': Input,
     'm-proress': Progress,
-    'm-checkbox': Checkbox
+    'm-checkbox': Checkbox,
+    layout
   },
   data() {
     return {

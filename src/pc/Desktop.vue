@@ -1,28 +1,17 @@
 <template>
   <div class="container">
     <mercku-menu class="menu" :menus="menus" v-if="!hasMenu"></mercku-menu>
-    <div class="app-container" :class="{'has-menu':!hasMenu}">
-      <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
-      <router-view class="router-view">
-
-      </router-view>
-      <policy :class="{'fix-bottom':hasMenu}" class="policy" />
-    </div>
-
+    <router-view class="router-view"></router-view>
   </div>
 
 </template>
 <script>
-import MerckuHeader from './component/header/header.vue';
 import MerckuMenu from './component/menu/index.vue';
-import policy from './component/policy/index.vue';
 import './style/common.scss';
 
 export default {
   components: {
-    'mercku-header': MerckuHeader,
-    'mercku-menu': MerckuMenu,
-    policy
+    'mercku-menu': MerckuMenu
   },
   computed: {
     hasMenu() {
@@ -116,7 +105,6 @@ export default {
   }
   .app-container {
     width: 100%;
-    height: 100%;
     position: relative;
     display: flex;
     flex-direction: column;

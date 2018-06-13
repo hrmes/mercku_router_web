@@ -1,14 +1,21 @@
 <template>
-  <div class="disappear-container">
-    <div class="inner">
-      <img src="../../../assets/images/img_no_network_access.png" alt="">
-      <div class="text">{{$t('trans0039')}}</div>
-      <button @click="tohome" class="btn">{{$t('trans0063')}}</button>
+  <layout style="height:100%;">
+    <div class="disappear-container">
+      <div class="inner">
+        <img src="../../../assets/images/img_no_network_access.png" alt="">
+        <div class="text">{{$t('trans0039')}}</div>
+        <button @click="tohome" class="btn">{{$t('trans0063')}}</button>
+      </div>
     </div>
-  </div>
+  </layout>
 </template>
 <script>
+import layout from '../../../layout.vue';
+
 export default {
+  components: {
+    layout
+  },
   methods: {
     tohome() {
       this.$http

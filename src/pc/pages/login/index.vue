@@ -1,57 +1,61 @@
 <template>
-  <div tabindex="0" class="login-container" @keyup.enter="login">
-    <div class="bg">
-      <div class="center-form">
-        <div class="download">
-          <img src="../../assets/images/qr.png" alt="">
-          <div class="text">
+  <layout style="height:100%;">
+    <div tabindex="0" class="login-container" @keyup.enter="login">
+      <div class="bg">
+        <div class="center-form">
+          <div class="download">
+            <img src="../../assets/images/qr.png" alt="">
+            <div class="text">
+              <div>{{$t('trans0314')}}</div>
+              <div>
+                {{$t('trans0292')}}</div>
+            </div>
+          </div>
+          <div style="clear:both;"></div>
+          <span class="welcome-text">{{$t('trans0136')}}</span>
+          <div v-if="!loading">
+            <button v-if="initial" class="btn" @click="towlan">{{$t('trans0222')}}</button>
+            <div class="login-form" v-if="!initial">
+              <div class="password-container">
+                <m-input :label="$t('trans0067')" :placeholder="$t('trans0321')" type="password" v-model="password" />
+              </div>
+              <button class="btn" @click.stop="login()">{{this.$t('trans0001')}}</button>
+            </div>
+          </div>
+          <div class="loadding" v-if="loading">
+            <img src="../../assets/images/loading.gif" alt="">
+          </div>
+        </div>
+        <div class="small-device-download">
+          <div class="logo-container">
+            <img class="app-logo" src="../../assets/images/ic_mercku.png" alt="">
+          </div>
+          <div class="down-text">
             <div>{{$t('trans0314')}}</div>
             <div>
               {{$t('trans0292')}}</div>
           </div>
-        </div>
-        <div style="clear:both;"></div>
-        <span class="welcome-text">{{$t('trans0136')}}</span>
-        <div v-if="!loading">
-          <button v-if="initial" class="btn" @click="towlan">{{$t('trans0222')}}</button>
-          <div class="login-form" v-if="!initial">
-            <div class="password-container">
-              <m-input :label="$t('trans0067')" :placeholder="$t('trans0321')" type="password" v-model="password" />
-            </div>
-            <button class="btn" @click.stop="login()">{{this.$t('trans0001')}}</button>
+
+          <div class="down-button-container">
+            <a class="down-button" href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
           </div>
         </div>
-        <div class="loadding" v-if="loading">
-          <img src="../../assets/images/loading.gif" alt="">
+        <div class="small-device-image">
+          <img src="../../assets/images/img_bg_mobile.png" alt="">
         </div>
-      </div>
-      <div class="small-device-download">
-        <div class="logo-container">
-          <img class="app-logo" src="../../assets/images/ic_mercku.png" alt="">
-        </div>
-        <div class="down-text">
-          <div>{{$t('trans0314')}}</div>
-          <div>
-            {{$t('trans0292')}}</div>
-        </div>
-
-        <div class="down-button-container">
-          <a class="down-button" href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
-        </div>
-      </div>
-      <div class="small-device-image">
-        <img src="../../assets/images/img_bg_mobile.png" alt="">
       </div>
     </div>
-  </div>
+  </layout>
 
 </template>
 <script>
 import mInput from '../../component/input/input.vue';
+import layout from '../../layout.vue';
 
 export default {
   components: {
-    mInput
+    mInput,
+    layout
   },
   data() {
     return {

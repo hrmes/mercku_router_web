@@ -1,35 +1,39 @@
 <template>
-  <div class="setting-safe-container">
-    <div v-if="reboot">
-      <m-proress></m-proress>
-    </div>
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0067')}}
+  <layout style="height:100%;">
+    <div class="setting-safe-container">
+      <div v-if="reboot">
+        <m-proress></m-proress>
       </div>
-      <m-form ref="form" class='form' :model="form" :rules='rules'>
-        <m-form-item class="item" prop='admin_password'>
-          <m-input :label="$t('trans0113')" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.admin_password"></m-input>
-        </m-form-item>
-        <div class="btn-info">
-          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+      <div class="content">
+        <div class='w-header'>
+          {{$t('trans0067')}}
         </div>
-      </m-form>
+        <m-form ref="form" class='form' :model="form" :rules='rules'>
+          <m-form-item class="item" prop='admin_password'>
+            <m-input :label="$t('trans0113')" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.admin_password"></m-input>
+          </m-form-item>
+          <div class="btn-info">
+            <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+          </div>
+        </m-form>
+      </div>
     </div>
-  </div>
+  </layout>
 </template>
 <script>
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
 import Progress from '../../../component/progress/index.vue';
+import layout from '../../../layout.vue';
 
 export default {
   components: {
     'm-input': Input,
     'm-form-item': FormItem,
     'm-form': Form,
-    'm-proress': Progress
+    'm-proress': Progress,
+    layout
   },
   data() {
     return {

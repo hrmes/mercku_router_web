@@ -1,100 +1,102 @@
 <template>
-  <div class="setting-network-container">
-    <div v-if="reboot">
-      <m-proress></m-proress>
-    </div>
-    <div class="content">
-      <div class="network-info">
-        <div class="w-header">
-          {{$t('trans0316')}}
+  <layout>
+    <div class="setting-network-container">
+      <div v-if="reboot">
+        <m-proress></m-proress>
+      </div>
+      <div class="content">
+        <div class="network-info">
+          <div class="w-header">
+            {{$t('trans0316')}}
+          </div>
+          <div class="status">
+            <div v-if="isTesting">
+              <img src="../../../assets/images/img_test_internet.png" alt="">
+              <p>{{$t('trans0298')}}...</p>
+            </div>
+            <div v-if="isUnlinked||isLinked">
+              <img src="../../../assets/images/img_no_network_access.png" alt="">
+              <p>{{$t('trans0319')}}</p>
+            </div>
+            <div v-if="isConnected">
+              <img src="../../../assets/images/img_internet_normal.png" alt="">
+              <p>{{$t('trans0318')}}</p>
+              <div class="seccess-info">
+                <div>
+                  <label for="">{{$t('trans0317')}}：</label>
+                  <span>
+                    {{networkArr[localNetInfo.type]}}
+                  </span>
+                </div>
+                <div>
+                  <label for="">{{$t('trans0151')}}：</label>
+                  {{localNetInfo.netinfo.ip}}
+                </div>
+                <div>
+                  <label for="">{{$t('trans0152')}}：</label>
+                  {{localNetInfo.netinfo.mask }}
+                </div>
+                <div>
+                  <label for="">{{$t('trans0153')}}：</label>
+                  <span>
+                    {{localNetInfo.netinfo.gateway}}
+                  </span>
+                </div>
+                <div>
+                  <label for="">{{$t('trans0236')}}：</label>
+                  {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="status">
-          <div v-if="isTesting">
-            <img src="../../../assets/images/img_test_internet.png" alt="">
-            <p>{{$t('trans0298')}}...</p>
+        <div class="network-setting" v-if="!isTesting">
+          <div class="w-header">
+            {{$t('trans0142')}}
           </div>
-          <div v-if="isUnlinked||isLinked">
-            <img src="../../../assets/images/img_no_network_access.png" alt="">
-            <p>{{$t('trans0319')}}</p>
-          </div>
-          <div v-if="isConnected">
-            <img src="../../../assets/images/img_internet_normal.png" alt="">
-            <p>{{$t('trans0318')}}</p>
-            <div class="seccess-info">
-              <div>
-                <label for="">{{$t('trans0317')}}：</label>
-                <span>
-                  {{networkArr[localNetInfo.type]}}
-                </span>
+          <div class="setting-info">
+            <div class='form'>
+              <div class="item" style="min-height:110px">
+                <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
+                <div class="note" v-if="netType==='dhcp'">{{$t('trans0147')}}</div>
+                <div class="note" v-if="netType==='pppoe'">{{$t('trans0154')}}</div>
+                <div class="note" v-if="netType==='static'">{{$t('trans0150')}}</div>
               </div>
-              <div>
-                <label for="">{{$t('trans0151')}}：</label>
-                {{localNetInfo.netinfo.ip}}
-              </div>
-              <div>
-                <label for="">{{$t('trans0152')}}：</label>
-                {{localNetInfo.netinfo.mask }}
-              </div>
-              <div>
-                <label for="">{{$t('trans0153')}}：</label>
-                <span>
-                  {{localNetInfo.netinfo.gateway}}
-                </span>
-              </div>
-              <div>
-                <label for="">{{$t('trans0236')}}：</label>
-                {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+              <m-form v-show="netType==='pppoe'" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
+                <m-form-item class="item" prop='account'>
+                  <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.account"></m-input>
+                </m-form-item>
+                <m-form-item class="item" prop='password'>
+                  <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.password" />
+                </m-form-item>
+              </m-form>
+              <m-form v-show="netType==='static'" ref="staticForm" :model="staticForm" :rules='staticRules'>
+                <m-form-item class="item" prop='ip'>
+                  <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" />
+                </m-form-item>
+                <m-form-item class="item" prop='mask'>
+                  <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" />
+                </m-form-item>
+                <m-form-item class="item" prop='gateway'>
+                  <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" />
+                </m-form-item>
+                <m-form-item class="item" prop='dns1'>
+                  <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns1" />
+                </m-form-item>
+                <m-form-item class="item" prop='dns2'>
+                  <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns2" />
+                </m-form-item>
+              </m-form>
+              <div class="btn-info">
+                <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="network-setting" v-if="!isTesting">
-        <div class="w-header">
-          {{$t('trans0142')}}
-        </div>
-        <div class="setting-info">
-          <div class='form'>
-            <div class="item" style="min-height:110px">
-              <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
-              <div class="note" v-if="netType==='dhcp'">{{$t('trans0147')}}</div>
-              <div class="note" v-if="netType==='pppoe'">{{$t('trans0154')}}</div>
-              <div class="note" v-if="netType==='static'">{{$t('trans0150')}}</div>
-            </div>
-            <m-form v-show="netType==='pppoe'" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
-              <m-form-item class="item" prop='account'>
-                <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.account"></m-input>
-              </m-form-item>
-              <m-form-item class="item" prop='password'>
-                <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.password" />
-              </m-form-item>
-            </m-form>
-            <m-form v-show="netType==='static'" ref="staticForm" :model="staticForm" :rules='staticRules'>
-              <m-form-item class="item" prop='ip'>
-                <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" />
-              </m-form-item>
-              <m-form-item class="item" prop='mask'>
-                <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" />
-              </m-form-item>
-              <m-form-item class="item" prop='gateway'>
-                <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" />
-              </m-form-item>
-              <m-form-item class="item" prop='dns1'>
-                <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns1" />
-              </m-form-item>
-              <m-form-item class="item" prop='dns2'>
-                <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns2" />
-              </m-form-item>
-            </m-form>
-            <div class="btn-info">
-              <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </div>
-  </div>
-  </div>
+  </layout>
 </template>
 <script>
 import mSelect from '../../../component/select/index.vue';
@@ -102,6 +104,7 @@ import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
 import Progress from '../../../component/progress/index.vue';
+import layout from '../../../layout.vue';
 
 export default {
   components: {
@@ -109,7 +112,8 @@ export default {
     'm-form-item': FormItem,
     'm-form': Form,
     'm-select': mSelect,
-    'm-proress': Progress
+    'm-proress': Progress,
+    layout
   },
   data() {
     const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
@@ -211,7 +215,6 @@ export default {
     };
   },
   mounted() {
-    document.body.querySelector('.app-container').style.height = 'auto';
     this.testWan();
     this.getNet();
   },
