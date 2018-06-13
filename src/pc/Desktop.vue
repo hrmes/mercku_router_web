@@ -78,6 +78,24 @@ export default {
 };
 </script>
 <style lang="scss">
+@media screen and (min-width: 769px) and (max-width: 1366px) {
+  .container {
+    .app-container {
+      &.has-menu {
+        padding-left: 250px;
+      }
+    }
+  }
+}
+@media screen and (min-width: 1367px) {
+  .container {
+    .app-container {
+      &.has-menu {
+        padding-left: 300px;
+      }
+    }
+  }
+}
 .container {
   height: 100%;
   position: relative;
@@ -102,9 +120,6 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    &.has-menu {
-      padding-left: 300px;
-    }
   }
   .router-view {
     flex: 1;

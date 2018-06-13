@@ -12,7 +12,7 @@ Object.keys(codeMap).forEach(code => {
 });
 
 export const i18n = new VueI18n({
-  locale: 'zh-CN',
+  locale: 'en-US',
   messages: {
     'zh-CN': zhCN,
     'en-US': enUS

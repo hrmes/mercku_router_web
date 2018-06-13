@@ -216,7 +216,17 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 769px) and (max-width: 1366px) {
+  .menu-container {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+  }
+}
+@media screen and (min-width: 1367px) {
   .menu-container {
     width: 300px;
     height: 100%;
