@@ -180,6 +180,8 @@ export default {
 @media screen and(max-width: 768px) {
   .login-container {
     position: static;
+    background: #fff;
+
     .bg {
       background: none;
       height: auto;
@@ -236,6 +238,7 @@ export default {
       .center-form {
         width: 80%;
         margin: 0 auto;
+        min-height: initial;
         .welcome-text {
           font-size: 24px;
           margin-top: 25px;
