@@ -666,7 +666,7 @@ export default {
     .speed-content {
       text-align: center;
       .test-info {
-        //background: url('../../../assets/images/img_test_01.png') no-repeat;
+        background: url('../../../assets/images/img_test_01.png') no-repeat;
         background-size: 100%;
         width: 330px;
         height: 330px;
