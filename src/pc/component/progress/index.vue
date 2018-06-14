@@ -78,7 +78,7 @@ export default {
   .note {
     margin-top: 20px;
     font-size: 18px;
-    color: #ffffff;
+    color: #ffffff !important;
     font-weight: 100;
   }
 }
