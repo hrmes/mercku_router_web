@@ -265,8 +265,8 @@ export default {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
           if (this.netInfo.type === 'pppoe') {
-            this.pppoeForm.account = this.netType.pppoe.account;
-            this.pppoeForm.password = this.netType.pppoe.password;
+            this.pppoeForm.account = this.netInfo.pppoe.account;
+            this.pppoeForm.password = this.netInfo.pppoe.password;
           }
           if (this.netInfo.type === 'static') {
             this.staticForm = {
