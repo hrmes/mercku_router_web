@@ -8,7 +8,7 @@
         </div>
       </div>
     </div>
-    <div class="note">重启中,请等待...{{during}}s</div>
+    <div class="note">{{$t('trans0322')}}{{during}}s</div>
   </div>
 </template>
 <script>
