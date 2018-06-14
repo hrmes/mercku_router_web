@@ -1213,7 +1213,7 @@ export default {
   .home-container {
     .check-info {
       .check-status {
-        width: 200px !important;
+        width: 150px !important;
       }
     }
     .router-info {
