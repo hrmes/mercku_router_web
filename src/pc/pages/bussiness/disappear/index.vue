@@ -46,6 +46,7 @@ export default {
   background: #fff;
   padding: 50px;
   flex: auto;
+  min-height: 500px;
   img {
     display: block;
     width: 200px;

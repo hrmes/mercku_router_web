@@ -54,6 +54,9 @@ export default {
 .policy-container {
   text-align: center;
   padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .policy-text {
     text-decoration: underline;
     cursor: pointer;

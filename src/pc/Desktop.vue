@@ -86,14 +86,15 @@ export default {
   }
 }
 .container {
-  min-height: 100%;
-  height: 0;
+  height: 100vh;
   position: relative;
+  display: flex;
   &.no-menu {
     height: 100%;
   }
   .header {
     width: 100%;
+    flex: 0 0 auto;
     &.has-menu {
       background: #fff;
       display: block;
@@ -106,8 +107,7 @@ export default {
   }
   .app-container {
     width: 100%;
-    min-height: 100%;
-    height: 0;
+    min-height: 100vh;
     position: relative;
     display: flex;
     flex-direction: column;
