@@ -106,8 +106,9 @@ const launch = () => {
   Vue.prototype.$confirm = Dialog.confirm;
   // get querystring
   const qs = window.location.search.substring(1);
+
   // set language
-  changeLanguage(qs.includes('lang=zh') ? 'zh-CN' : 'en-US');
+  i18n.locale = qs.includes('lang=zh') ? 'zh-CN' : 'en-US';
   // Vue.prototype.webview = (() => {
   //   // use indexOf instead includes
   //   if (qs && qs.includes('fromapp=1')) {

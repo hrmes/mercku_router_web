@@ -12,7 +12,7 @@ Object.keys(codeMap).forEach(code => {
 });
 
 export const i18n = new VueI18n({
-  locale: 'en-US',
+  locale: localStorage.getItem('lang'),
   messages: {
     'zh-CN': zhCN,
     'en-US': enUS
@@ -24,6 +24,8 @@ export function changeLanguage(lang) {
   } else {
     // change language
     i18n.locale = lang;
+    localStorage.setItem('lang', lang);
+    window.location.reload();
   }
 }
 export function translate(key, locale) {

@@ -52,6 +52,9 @@ export default {
     this.$on('focus', () => {
       this.result = null;
     });
+    this.$on('change', () => {
+      this.result = null;
+    });
   }
 };
 </script>

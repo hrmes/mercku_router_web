@@ -1,5 +1,5 @@
 <template>
-  <layout style="height:100%;">
+  <layout>
     <div class="setting-safe-container">
       <div v-if="reboot">
         <m-proress></m-proress>
@@ -81,8 +81,6 @@ export default {
 .setting-safe-container {
   position: relative;
   padding: 0 30px;
-  flex: 1;
-  height: 100%;
   .content {
     border-radius: 8px;
     padding: 0 20px;

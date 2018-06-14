@@ -42,6 +42,7 @@ export default {
   watch: {
     value() {
       this.inputValue = this.value;
+      this.$parent.$emit('change');
     }
   },
   methods: {

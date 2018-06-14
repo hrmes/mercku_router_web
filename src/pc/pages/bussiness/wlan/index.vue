@@ -1,5 +1,5 @@
 <template>
-  <layout style="height:100%;">
+  <layout>
     <div class="wlan-container">
       <div class="step">
         <m-step :steps="steps" :current="current"></m-step>
@@ -31,7 +31,7 @@
             </div>
           </m-form>
         </div>
-        <div class="step-item" v-if="current===2">
+        <div class="step-item" v-show="current===2">
           <img src="../../../assets/images/img_setting.png" alt="">
           <span>{{$t('trans0294')}}{{countdown}}s</span>
         </div>
@@ -183,10 +183,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .wlan-container {
-  position: absolute;
-  top: 60px;
   width: 100%;
-  bottom: 0;
   background: #fff;
   .step {
     text-align: center;
