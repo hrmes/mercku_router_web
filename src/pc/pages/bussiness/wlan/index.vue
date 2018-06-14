@@ -24,7 +24,7 @@
             <m-form-item class="form-item" prop="admin_password">
               <m-input :label="$t('trans0067')" type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="form2.admin_password" />
             </m-form-item>
-            <m-checkbox class="checkbox" v-model="checked" :text="$t('trans0293')"></m-checkbox>
+            <m-checkbox class="checkbox" v-model="checked" @change="clearAdminPwd()" :text="$t('trans0293')"></m-checkbox>
             <div class="button-container">
               <button @click="step0()" class="btn">{{$t('trans0057')}}</button>
               <button @click="step2()" class="btn">{{$t('trans0081')}}</button>
@@ -122,6 +122,11 @@ export default {
     }
   },
   methods: {
+    clearAdminPwd(v) {
+      if (!v) {
+        this.form2.admin_password = '';
+      }
+    },
     step0() {
       this.current = 0;
     },

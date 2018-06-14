@@ -25,10 +25,11 @@ const Loading = {
   close() {
     if (this.instance) {
       this.instance.visible = false;
+      const self = this;
       this.instance.$el.addEventListener('transitionend', () => {
-        this.instance.restoryOverflow();
-        this.instance.$el.parentNode.removeChild(this.$el);
-        this.instance = null;
+        self.instance.restoryOverflow();
+        self.instance.$el.parentNode.removeChild(self.instance.$el);
+        self.instance = null;
       });
     }
   }

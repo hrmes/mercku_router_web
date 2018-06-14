@@ -118,7 +118,8 @@ export default {
   data() {
     const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
     function expRules(v) {
-      return v === undefined ? true : pattern.test(v);
+      console.log('value is:', v);
+      return v ? true : pattern.test(v);
     }
     return {
       networkArr: {
@@ -149,7 +150,10 @@ export default {
           }
         ],
         password: [
-          { rule: value => !/\s/g.test(value), message: this.$t('trans0232') }
+          {
+            rule: value => /\s/g.test(value),
+            message: this.$t('trans0232')
+          }
         ]
       },
       staticRules: {

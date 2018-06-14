@@ -29,129 +29,133 @@
           <button class="btn check-btn" v-if="netStatus==='connected'" @click='createSpeedTimer()' style='height:44px'>{{$t('trans0008')}}</button>
         </div>
         <div class="router-info">
-          <div class="item">
-            <div class="title">{{$t('trans0299')}}</div>
-            <div class='message'>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0187')}}：</label>
-                {{localRouterInfo.alias}}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0300')}}：</label>
-                {{localRouterInfo.version }}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0200')}}：</label>
-                {{macFormat(localRouterInfo.mac.wan) }}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0201')}}：</label>
-                {{macFormat(localRouterInfo.mac.lan) }}
-              </div>
+          <div class="row">
+            <div class="item">
+              <div class="title">{{$t('trans0299')}}</div>
+              <div class='message'>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0187')}}：</label>
+                  {{localRouterInfo.alias}}
+                </div>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0300')}}：</label>
+                  {{localRouterInfo.version }}
+                </div>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0200')}}：</label>
+                  {{macFormat(localRouterInfo.mac.wan) }}
+                </div>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0201')}}：</label>
+                  {{macFormat(localRouterInfo.mac.lan) }}
+                </div>
 
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0251')}}:</label>
-                {{localRouterInfo.sn }}
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0251')}}:</label>
+                  {{localRouterInfo.sn }}
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="title">{{$t('trans0301')}}</div>
+              <div class='message'>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0317')}}：</label>
+                  {{ networkArr[localNetInfo.type]}}
+                </div>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0151')}}：</label>
+                  {{localNetInfo.netinfo.ip}}
+                </div>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0152')}}：</label>
+                  {{localNetInfo.netinfo.mask }}
+                </div>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0236')}}：</label>
+                  {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                </div>
+                <div class="m-item">
+                  <label class="m-title">{{$t('trans0153')}}：</label>
+                  {{localNetInfo.netinfo.gateway}}
+                </div>
               </div>
             </div>
           </div>
-          <div class="item">
-            <div class="title">{{$t('trans0301')}}</div>
-            <div class='message'>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0317')}}：</label>
-                {{ networkArr[localNetInfo.type]}}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0151')}}：</label>
-                {{localNetInfo.netinfo.ip}}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0152')}}：</label>
-                {{localNetInfo.netinfo.mask }}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0236')}}：</label>
-                {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0153')}}：</label>
-                {{localNetInfo.netinfo.gateway}}
+          <div class="row">
+            <div class="item real-time-network">
+              <div class="title">{{$t('trans0303')}}</div>
+              <div class="content">
+                <div class="real-time-info">
+                  <div class="down">
+                    <label class="r-title">{{$t('trans0305')}}：</label>
+                    <i class='r-dwon-icon'></i>
+                    <span class="speed">{{format(localTraffice.speed.realtime.down).value}}</span>
+                    <span class="unit"> {{format(localTraffice.speed.realtime.down).unit}}/s</span>
+                  </div>
+                  <div class='up'>
+                    <label class="r-title">{{$t('trans0304')}}：</label>
+                    <i class='r-up-icon'></i>
+                    <span class="speed">{{format(localTraffice.speed.realtime.up).value}}</span>
+                    <span class="unit"> {{format(localTraffice.speed.realtime.up).unit}}/s</span>
+                  </div>
+                </div>
+                <div class="speep-info real-wrap">
+                  <div class="extra">
+                    <i class="f-up-icon"></i>
+                    <div>
+                      <p>
+                        <span class="speed">{{format(localTraffice.speed.peak.up).value}}</span>
+                        <span class='unit'> {{format(localTraffice.speed.peak.up).unit}}/s</span>
+                      </p>
+                      <p class="note">{{$t('trans0306')}}</p>
+                    </div>
+                  </div>
+                  <div class="extra">
+                    <i class="f-down-icon"></i>
+                    <div>
+                      <p>
+                        <span class="speed">{{format(localTraffice.speed.peak.down).value}}</span>
+                        <span class='unit'> {{format(localTraffice.speed.peak.down).unit}}/s</span>
+                      </p>
+                      <p class="note">{{$t('trans0307')}}</p>
+                    </div>
+
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="item real-time-network">
-            <div class="title">{{$t('trans0303')}}</div>
-            <div class="content">
-              <div class="real-time-info">
-                <div class="down">
-                  <label class="r-title">{{$t('trans0305')}}：</label>
-                  <i class='r-dwon-icon'></i>
-                  <span class="speed">{{format(localTraffice.speed.realtime.down).value}}</span>
-                  <span class="unit"> {{format(localTraffice.speed.realtime.down).unit}}/s</span>
-                </div>
-                <div class='up'>
-                  <label class="r-title">{{$t('trans0304')}}：</label>
-                  <i class='r-up-icon'></i>
-                  <span class="speed">{{format(localTraffice.speed.realtime.up).value}}</span>
-                  <span class="unit"> {{format(localTraffice.speed.realtime.up).unit}}/s</span>
-                </div>
-              </div>
-              <div class="speep-info real-wrap">
+            <div class="item term-flow-info">
+              <div class="title">{{$t('trans0308')}}</div>
+              <div class="speep-info">
                 <div class="extra">
-                  <i class="f-up-icon"></i>
+                  <i class="t-dwon-icon"></i>
                   <div>
                     <p>
-                      <span class="speed">{{format(localTraffice.speed.peak.up).value}}</span>
-                      <span class='unit'> {{format(localTraffice.speed.peak.up).unit}}/s</span>
+                      <span class="speed">{{format(localTraffice.traffic.dl).value}}</span>
+                      <span class='unit'> {{format(localTraffice.traffic.dl).unit}}</span>
                     </p>
-                    <p class="note">{{$t('trans0306')}}</p>
+                    <p class="note">{{$t('trans0309')}}</p>
                   </div>
                 </div>
                 <div class="extra">
-                  <i class="f-down-icon"></i>
+                  <i class="t-up-icon"></i>
                   <div>
                     <p>
-                      <span class="speed">{{format(localTraffice.speed.peak.down).value}}</span>
-                      <span class='unit'> {{format(localTraffice.speed.peak.down).unit}}/s</span>
+                      <span class="speed">{{format(localTraffice.traffic.ul).value}}</span>
+                      <span class='unit'> {{format(localTraffice.traffic.ul).unit}}</span>
                     </p>
-                    <p class="note">{{$t('trans0307')}}</p>
+                    <p class="note">{{$t('trans0310')}}</p>
                   </div>
-
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="item term-flow-info">
-            <div class="title">{{$t('trans0308')}}</div>
-            <div class="speep-info">
-              <div class="extra">
-                <i class="t-dwon-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{format(localTraffice.traffic.dl).value}}</span>
-                    <span class='unit'> {{format(localTraffice.traffic.dl).unit}}</span>
-                  </p>
-                  <p class="note">{{$t('trans0309')}}</p>
-                </div>
-              </div>
-              <div class="extra">
-                <i class="t-up-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{format(localTraffice.traffic.ul).value}}</span>
-                    <span class='unit'> {{format(localTraffice.traffic.ul).unit}}</span>
-                  </p>
-                  <p class="note">{{$t('trans0310')}}</p>
-                </div>
-              </div>
-              <div class="extra">
-                <i class="t-count-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{deviceCount.count||'-'}}</span>
-                  </p>
-                  <p class="note">{{$t('trans0311')}}</p>
+                <div class="extra">
+                  <i class="t-count-icon"></i>
+                  <div>
+                    <p>
+                      <span class="speed">{{deviceCount.count||'-'}}</span>
+                    </p>
+                    <p class="note">{{$t('trans0311')}}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -384,7 +388,7 @@ export default {
     },
     setOverflow() {
       this.bodyOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = 'hidden';
     },
     restoryOverflow() {
       document.body.style.overflow = this.bodyOverflow || 'auto';
@@ -590,14 +594,25 @@ export default {
     opacity: 1;
   }
 }
+@keyframes speed-testing {
+  0% {
+    background: url('../../../assets/images/img_test_01.png');
+    //background: red;
+    background-size: 100% 100%;
+  }
+  50% {
+    background: url('../../../assets/images/img_test_01.png');
+    // background: green;
+    background-size: 100% 100%;
+  }
+  100% {
+    //background: black;
+    background: url('../../../assets/images/img_test_01.png');
+    background-size: 100% 100%;
+  }
+}
 .home-container {
   flex: auto;
-  .home-inner {
-    // height: 100vh;
-    // display: flex;
-    // flex: auto;
-    // flex-direction: column;
-  }
   .test-speed-btn-container {
     width: 100%;
     text-align: center;
@@ -627,24 +642,11 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    @keyframes speed-testing {
-      0% {
-        background: url('../../../assets/images/img_test_01.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      50% {
-        background: url('../../../assets/images/img_test_02.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      100% {
-        background: url('../../../assets/images/img_test_03.png') no-repeat;
-        background-size: 100% 100%;
-      }
-    }
+
     .speed-content {
       text-align: center;
       .test-info {
-        background: url('../../../assets/images/img_test_01.png') no-repeat;
+        //background: url('../../../assets/images/img_test_01.png') no-repeat;
         background-size: 100%;
         width: 330px;
         height: 330px;
@@ -657,7 +659,7 @@ export default {
       }
       .speed-completed {
         width: 600px;
-        min-height: 265px;
+        height: 280px;
         background: white;
         border-radius: 5px;
         display: flex;
@@ -819,16 +821,11 @@ export default {
       }
     }
     .check-status {
-      // flex: 1;
-      // max-width: 440px;
-      // min-width: 150px;
       width: 440px;
       min-height: 60px;
       position: relative;
       .success-line {
         position: absolute;
-        // max-width: 440px;
-        // min-width: 150px;
         width: 100%;
         height: 3px;
         border: 2px dashed #4237dd;
@@ -912,19 +909,29 @@ export default {
     position: relative;
     width: 100%;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    .row {
+      width: 100%;
+    }
     .item {
-      // min-width: 400px;
-      width: calc(50% - 10px);
-      min-height: 220px;
+      width: 49%;
       overflow: hidden;
       background: white;
       margin-bottom: 20px;
       border-radius: 8px;
       box-sizing: border-box;
       padding: 0 20px;
+      min-height: 200px;
+
+      &:nth-child(1) {
+        float: left;
+      }
+      &:nth-child(2) {
+        float: right;
+      }
       .extra {
         min-width: 140px;
         // text-align: left;
@@ -957,7 +964,7 @@ export default {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        padding-top: 10px;
+        padding-bottom: 15px;
         .m-item {
           width: 50%;
           font-size: 14px;
@@ -975,12 +982,11 @@ export default {
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        // min-height: 165px;
+        min-height: 148px;
         div {
           display: inline-block;
           flex: 1;
           text-align: center;
-          // min-width: 200px;
           p {
             margin: 0;
             padding: 0;
@@ -1028,29 +1034,21 @@ export default {
     }
     .term-flow-info {
       .speep-info {
-        min-height: 165px;
-        // &::after {
-        //   content: '';
-        //   display: block;
-        //   min-height: inherit;
-        //   font-size: 0;
-        // }
+        padding: 15px 0;
         div {
           text-align: left;
         }
       }
     }
     .real-time-network {
+      display: flex;
+      flex-direction: column;
       .content {
         display: flex;
         flex-wrap: wrap;
-        min-height: 165px;
-        // &::after {
-        //   content: '';
-        //   display: block;
-        //   min-height: inherit;
-        //   font-size: 0;
-        // }
+        padding: 15px 0;
+        flex: auto;
+
         .real-wrap {
           min-width: 270px;
           min-height: 60px !important;
@@ -1124,7 +1122,8 @@ export default {
       min-height: 200px;
       align-items: center;
       flex-wrap: wrap;
-      justify-content: flex-start;
+
+      padding-top: 15px;
       :nth-child(1) {
         margin-left: 0 !important;
       }
