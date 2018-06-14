@@ -207,7 +207,7 @@ export default {
     position: absolute;
     width: 100%;
     text-align: center;
-    top: 45%;
+    top: 600px;
     font-size: 14px;
     color: #333;
     img {

@@ -78,9 +78,12 @@ const http = {
       method: methods.meshMeta.action
     });
   },
-  speedTesting() {
+  speedTesting(force) {
     return axios.post(methods.meshWanSpeedTest.url, {
-      method: methods.meshWanSpeedTest.action
+      method: methods.meshWanSpeedTest.action,
+      parmas: {
+        force: force
+      }
     });
   },
   getRouter() {

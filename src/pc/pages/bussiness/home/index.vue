@@ -185,7 +185,7 @@
               <div class="test-info"></div>
               <p>{{$t('trans0045')}}...</p>
             </div>
-            <div v-if="speedStatus==='done'" class="speed-completed">
+            <div v-if="speedStatus==='done' || speedStatus==='failed'" class="speed-completed">
               <div class="speed-result-info">
                 <div class="extra">
                   <i class="p-dwon-icon"></i>
@@ -219,8 +219,8 @@
                 </div>
               </div>
               <div class="btn-info">
-                <button class="cmp-btn" @click="closeSpeedModal">{{$t('trans0018')}}</button>
-                <button class="re-btn" @click="createSpeedTimer()">{{$t('trans0279')}}</button>
+                <button class="cmp-btn" @click="createSpeedTimer(true)">{{$t('trans0279')}}</button>
+                <button class="re-btn" @click="closeSpeedModal">{{$t('trans0018')}}</button>
               </div>
             </div>
           </div>
@@ -424,11 +424,15 @@ export default {
       this.timer6 = setTimeout(() => {
         clearInterval(this.timer4);
         clearTimeout(this.timer6);
+        this.speedStatus = 'done';
       }, 1000 * 30);
     },
-    speedTesting() {
+    speedTesting(force) {
+      if (force === undefined) {
+        force = force;
+      }
       this.$http
-        .speedTesting()
+        .speedTesting(force)
         .then(res => {
           if (res.status === 200) {
             this.speedStatus = res.data.result.status;
@@ -437,20 +441,31 @@ export default {
               clearInterval(this.timer4);
               clearTimeout(this.timer6);
             }
+            if (res.data.result.status === 'failed') {
+              clearInterval(this.timer4);
+              clearTimeout(this.timer6);
+            }
           }
         })
         .catch(() => {
+          this.speedStatus = 'done';
           clearInterval(this.timer4);
+          clearTimeout(this.timer6);
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/disappear' });
+          }
         });
     },
-    createSpeedTimer() {
+    createSpeedTimer(force) {
       this.speedModelOpen = true;
       this.speedStatus = 'testing';
       this.setOverflow();
       this.speedTesting();
       this.speedIsTimeOut();
       this.timer4 = setInterval(() => {
-        this.speedTesting();
+        this.speedTesting(force);
       }, 1000 * 5);
     },
     getTraffic() {
