@@ -104,7 +104,6 @@ export default {
 <style lang="scss" scoped>
 .login-container {
   width: 100%;
-  min-height: 800px;
   flex: auto;
 
   .bg {

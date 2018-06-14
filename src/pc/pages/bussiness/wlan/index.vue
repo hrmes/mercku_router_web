@@ -186,7 +186,6 @@ export default {
   width: 100%;
   flex: auto;
   background: #fff;
-  min-height: 800px;
   .step {
     text-align: center;
     width: 800px;

@@ -86,7 +86,6 @@ export default {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
-    min-height: 800px;
     position: relative;
     .w-header {
       height: 60px;

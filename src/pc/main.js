@@ -54,22 +54,22 @@ const launch = () => {
     let count = 60; // 60s重试时间
     const total = 60;
     const timer = setInterval(() => {
-      count -= 10;
+      count -= 1;
       const percent = ((total - count) / total).toFixed(2);
       opt.onprogress(percent);
       console.log('reconnet progress...percent:', percent);
-      if (count >= 0) {
+      if (count > 0 && count % 10 === 0) {
         http.getRouter().then(() => {
           clearInterval(timer);
           opt.onsuccess();
           console.log('reconnect success');
         });
-      } else {
+      } else if (count === 0) {
         clearInterval(timer);
         opt.ontimeout();
         console.log('reconnect timeout');
       }
-    }, 10000);
+    }, 1000);
   };
   new Vue({
     el: '#web',

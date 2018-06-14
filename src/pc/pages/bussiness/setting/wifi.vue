@@ -73,12 +73,12 @@ export default {
       rules: {
         ssid: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
-          },
-          {
             rule: value => /^.{1,20}$/g.test(value),
             message: this.$t('trans0261')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0237')
           }
         ],
         password: [
@@ -169,11 +169,6 @@ export default {
 <style lang="scss" scoped>
 .setting-wifi-container {
   flex: auto;
-  &::after {
-    content: '';
-    min-height: inherit;
-    font-size: 0;
-  }
   .ssid-hidden {
     margin-bottom: 10px;
   }
@@ -184,7 +179,6 @@ export default {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
-    min-height: 800px;
     position: relative;
     .w-header {
       height: 60px;
