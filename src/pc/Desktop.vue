@@ -67,28 +67,15 @@ export default {
 };
 </script>
 <style lang="scss">
-@media screen and (min-width: 769px) and (max-width: 1366px) {
+@media screen and (max-width: 768px) {
   .container {
-    .app-container {
-      &.has-menu {
-        padding-left: 250px;
-      }
-    }
-  }
-}
-@media screen and (min-width: 1367px) {
-  .container {
-    .app-container {
-      &.has-menu {
-        padding-left: 300px;
-      }
-    }
+    flex-direction: column;
   }
 }
 .container {
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
-  // display: flex;
+  display: flex;
   &.no-menu {
     height: 100%;
   }

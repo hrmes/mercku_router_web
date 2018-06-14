@@ -207,7 +207,7 @@ export default {
     position: absolute;
     width: 100%;
     text-align: center;
-    bottom: 80px;
+    top: 45%;
     font-size: 14px;
     color: #333;
     img {
@@ -218,22 +218,26 @@ export default {
 }
 @media screen and (min-width: 769px) and (max-width: 1366px) {
   .menu-container {
+    display: inline-block;
     width: 250px;
-    height: 100%;
-    position: fixed;
+    min-height: 100vh;
     left: 0;
     top: 0;
     z-index: 1000;
+    flex: auto;
+    position: relative;
   }
 }
 @media screen and (min-width: 1367px) {
   .menu-container {
+    display: inline-block;
     width: 300px;
-    height: 100%;
-    position: fixed;
+    min-height: 100vh;
     left: 0;
     top: 0;
     z-index: 1000;
+    flex: auto;
+    position: relative;
   }
 }
 @media screen and (max-width: 768px) {
