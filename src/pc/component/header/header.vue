@@ -118,7 +118,7 @@ export default {
       position: relative;
       .current-text {
         display: inline-block;
-        width: 60px;
+        width: 70px;
         text-align: center;
         height: 21px;
       }
