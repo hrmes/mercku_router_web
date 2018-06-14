@@ -118,7 +118,8 @@ export default {
       position: relative;
       .current-text {
         display: inline-block;
-        width: 80px;
+        width: 60px;
+        text-align: center;
         height: 21px;
       }
       .drop-trangle {

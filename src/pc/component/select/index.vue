@@ -35,6 +35,11 @@ export default {
       opened: false
     };
   },
+  watch: {
+    value(val) {
+      this.selected = this.options.filter(o => o.value === val)[0];
+    }
+  },
   methods: {
     select(option) {
       this.selected = option;
