@@ -124,6 +124,7 @@ export default {
     }
     .center-form {
       text-align: center;
+      min-height: 800px;
 
       .password-container {
         margin-bottom: 30px;
