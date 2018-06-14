@@ -25,7 +25,7 @@
 
       </div>
       <div class="test-speed-btn-container">
-        <button class="btn check-btn" v-if="netStatus==='connected'" @click='createSpeedTimer()'>{{$t('trans0008')}}</button>
+        <button class="btn check-btn" v-if="netStatus==='connected'" @click='createSpeedTimer()' style='height:44px'>{{$t('trans0008')}}</button>
       </div>
       <div class="router-info">
         <div class="item">
@@ -455,7 +455,12 @@ export default {
             }, 1000 * 15);
           }
         })
-        .catch(() => {
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/disappear' });
+          }
           if (this.enter) {
             this.timer1 = setTimeout(() => {
               this.getTraffic();
@@ -805,21 +810,16 @@ export default {
       }
     }
     .check-status {
-      flex: 1;
-      max-width: 440px;
-      min-width: 150px;
+      // flex: 1;
+      // max-width: 440px;
+      // min-width: 150px;
+      width: 440px;
       min-height: 60px;
       position: relative;
-      &::after {
-        content: '';
-        min-width: inherit;
-        // max-width: inherit;
-        font-size: 0;
-      }
       .success-line {
         position: absolute;
-        max-width: 440px;
-        min-width: 150px;
+        // max-width: 440px;
+        // min-width: 150px;
         width: 100%;
         height: 3px;
         border: 2px dashed #4237dd;
@@ -837,8 +837,8 @@ export default {
       }
       .fail-line {
         position: absolute;
-        max-width: 440px;
-        min-width: 150px;
+        // max-width: 440px;
+        // min-width: 150px;
         width: 100%;
         height: 3px;
         border: 2px dashed #999999;
@@ -966,12 +966,7 @@ export default {
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        min-height: 165px;
-        &::after {
-          content: '';
-          min-height: inherit;
-          font-size: 0;
-        }
+        // min-height: 165px;
         div {
           display: inline-block;
           flex: 1;
@@ -1024,6 +1019,13 @@ export default {
     }
     .term-flow-info {
       .speep-info {
+        min-height: 165px;
+        // &::after {
+        //   content: '';
+        //   display: block;
+        //   min-height: inherit;
+        //   font-size: 0;
+        // }
         div {
           text-align: left;
         }
@@ -1034,12 +1036,12 @@ export default {
         display: flex;
         flex-wrap: wrap;
         min-height: 165px;
-        &::after {
-          content: '';
-          display: block;
-          min-height: inherit;
-          font-size: 0;
-        }
+        // &::after {
+        //   content: '';
+        //   display: block;
+        //   min-height: inherit;
+        //   font-size: 0;
+        // }
         .real-wrap {
           min-width: 270px;
           min-height: 60px !important;
@@ -1209,6 +1211,11 @@ export default {
 
 @media screen and (min-width: 769px) and (max-width: 1000px) {
   .home-container {
+    .check-info {
+      .check-status {
+        width: 200px !important;
+      }
+    }
     .router-info {
       .item {
         .message {
@@ -1252,15 +1259,28 @@ export default {
   }
 }
 @media screen and (min-width: 769px) and (max-width: 1366px) {
-  .router-info {
-    flex-direction: column;
-    .item {
-      width: 100% !important;
+  .home-container {
+    .check-info {
+      .check-status {
+        width: 300px;
+      }
+    }
+    .router-info {
+      flex-direction: column;
+      .item {
+        width: 100% !important;
+      }
     }
   }
 }
 @media screen and (min-width: 1367px) and (max-width: 1680px) {
   .home-container {
+    .check-info {
+      .check-status {
+        width: 400px;
+      }
+    }
+
     .router-info {
       .real-time-network {
         .content {
@@ -1441,7 +1461,7 @@ export default {
         }
       }
       .check-status {
-        min-width: 100px;
+        width: calc(100% - 200px);
         .fail-info {
           width: 44px;
           top: 20px;

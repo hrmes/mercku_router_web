@@ -55,22 +55,17 @@ export default {
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
+        this.$loading.open();
         this.$http
           .update({ wifi: { ...this.form } })
           .then(res => {
+            this.$loading.close();
             if (res.status === 200) {
-              this.reboot = true;
-              this.$reconnect({
-                onsuccess: () => {
-                  this.$router.push({ path: '/home' });
-                },
-                ontimeout: () => {
-                  this.$router.push({ path: '/disappear' });
-                }
-              });
+              this.$router.push({ path: '/login' });
             }
           })
           .catch(err => {
+            this.$loading.close();
             if (err && err.error) {
               this.$toast(this.$t(err.error.code));
             } else {
