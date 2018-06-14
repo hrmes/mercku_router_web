@@ -1,5 +1,5 @@
 <template>
-  <div class="select-container" @click="open()">
+  <div class="select-container" @click.stop="open()">
     <label for="">{{label}}</label>
     <div class="select">
       <div class="">{{selected.text}}</div>
@@ -40,7 +40,19 @@ export default {
       this.selected = this.options.filter(o => o.value === val)[0];
     }
   },
+  mounted() {
+    if (window.addEventListener) {
+      document.body.addEventListener('click', () => {
+        this.opened = false;
+      });
+    } else if (window.attachEvent) {
+      document.body.attachEvent('click', () => {
+        this.opened = false;
+      });
+    }
+  },
   methods: {
+    addEvent() {},
     select(option) {
       this.selected = option;
       this.opened = false;
@@ -48,6 +60,13 @@ export default {
     },
     open() {
       this.opened = !this.opened;
+    }
+  },
+  beforeDestroy() {
+    if (window.addEventListener) {
+      document.body.removeEventListener('click');
+    } else if (window.attachEvent) {
+      document.body.detachEvent('click');
     }
   }
 };

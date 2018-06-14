@@ -94,6 +94,13 @@ export default {
         }
       });
     }
+  },
+  beforeDestroy() {
+    if (window.addEventListener) {
+      document.body.removeEventListener('click');
+    } else if (window.attachEvent) {
+      document.body.detachEvent('click');
+    }
   }
 };
 </script>
