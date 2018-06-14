@@ -88,7 +88,7 @@ export default {
 .container {
   height: 100vh;
   position: relative;
-  display: flex;
+  // display: flex;
   &.no-menu {
     height: 100%;
   }
