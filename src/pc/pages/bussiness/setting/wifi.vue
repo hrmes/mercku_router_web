@@ -104,7 +104,7 @@ export default {
             this.form.password = this.meshData.password;
             this.band1 = this.meshData.bands['2.4G'].enabled;
             this.band2 = this.meshData.bands['5G'].enabled;
-            this.hidden = this.meshData.hidden;
+            this.form.hidden = this.meshData.hidden;
           }
         })
         .catch(err => {

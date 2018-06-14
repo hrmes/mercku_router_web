@@ -35,7 +35,7 @@
               <div class='message'>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0187')}}：</label>
-                  {{localRouterInfo.alias}}
+                  {{routerModel[localRouterInfo.sn.slice(0,2)]}}
                 </div>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0300')}}：</label>
@@ -165,7 +165,6 @@
           <div class="title">{{$t('trans0312')}}</div>
           <div class="content">
             <div v-for="item in meshNode" class="mesh" :class="diffMesh(item)">
-
               <div class="message">
                 <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if="item.model==='M2'">
                 <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if="item.model==='Bee'">
@@ -244,6 +243,12 @@ export default {
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144')
+      },
+      routerModel: {
+        '-': '-',
+        '00': '电源适配器',
+        '01': 'M2',
+        '02': 'Bee'
       },
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       speedStatus: 'testing',

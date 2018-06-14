@@ -231,6 +231,7 @@ export default {
             border: 1px solid #4237dd;
             padding: 10px;
             border-radius: 2px;
+            font-size: 14px;
             display: block;
           }
         }

@@ -118,8 +118,7 @@ export default {
   data() {
     const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
     function expRules(v) {
-      console.log('value is:', v);
-      return v ? true : pattern.test(v);
+      return v === undefined || v === '' || v === null ? true : pattern.test(v);
     }
     return {
       networkArr: {
@@ -150,10 +149,7 @@ export default {
           }
         ],
         password: [
-          {
-            rule: value => /\s/g.test(value),
-            message: this.$t('trans0232')
-          }
+          { rule: value => /^\s/g.test(value), message: this.$t('trans0232') }
         ]
       },
       staticRules: {
@@ -271,8 +267,8 @@ export default {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
           if (this.netInfo.type === 'pppoe') {
-            this.pppoeForm.account = this.netType.pppoe.account;
-            this.pppoeForm.password = this.netType.pppoe.password;
+            this.pppoeForm.account = this.netInfo.pppoe.account;
+            this.pppoeForm.password = this.netInfo.pppoe.password;
           }
           if (this.netInfo.type === 'static') {
             this.staticForm = {
