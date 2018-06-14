@@ -96,8 +96,8 @@ export default {
     &.has-menu {
       background: #fff;
       display: block;
-      top: 0;
-      z-index: 1000;
+      // top: 0;
+      // z-index: 1000;
       .logo-container {
         display: inline-block;
       }
@@ -105,17 +105,22 @@ export default {
   }
   .app-container {
     width: 100%;
+    min-height: 100%;
+    &::after {
+      content: '';
+      min-height: inherit;
+      font-size: 0;
+    }
     position: relative;
     display: flex;
     flex-direction: column;
+    background: #fff;
   }
   .policy {
     width: 100%;
     text-align: center;
     color: #333;
     &.fix-bottom {
-      position: absolute;
-      bottom: 0;
     }
   }
 }
@@ -123,7 +128,7 @@ export default {
   .container {
     .header {
       &.has-menu {
-        position: fixed;
+        // position: fixed;
       }
     }
   }

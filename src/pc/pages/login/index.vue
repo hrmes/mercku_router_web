@@ -1,5 +1,5 @@
 <template>
-  <layout style="height:100%;">
+  <layout>
     <div tabindex="0" class="login-container" @keyup.enter="login">
       <div class="bg">
         <div class="center-form">
@@ -103,10 +103,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .login-container {
-  position: absolute;
-  top: 60px;
   width: 100%;
-  bottom: 0;
   .bg {
     width: 100%;
     height: 100%;
@@ -235,6 +232,28 @@ export default {
           font-size: 24px;
           margin-top: 25px;
           margin-bottom: 35px;
+        }
+      }
+    }
+
+    .download {
+      display: none;
+    }
+  }
+}
+@media screen and (width: 320px) {
+  .login-container {
+    .bg {
+      .small-device-download {
+        .down-text {
+          width: 80px;
+          margin-top: 5px;
+          > div:last-child {
+            display: none;
+          }
+        }
+        .down-button-container {
+          margin-top: 5px;
         }
       }
     }

@@ -1,8 +1,10 @@
 <template>
   <transition name="checkbox">
-    <div @click="check()" class="checkbox-container">
-      <div class="box" :class="{'checked':checked}"></div>
-      <div class="text">{{text}}</div>
+    <div class="checkbox-container">
+      <label @click="check()">
+        <div class="box" :class="{'checked':checked}"></div>
+        <div class="text">{{text}}</div>
+      </label>
     </div>
 
   </transition>
@@ -40,9 +42,12 @@ export default {
 <style lang="scss">
 .checkbox-container {
   text-align: left;
-  cursor: pointer;
+
   height: 18px;
   display: block;
+  label {
+    cursor: pointer;
+  }
   .box {
     float: left;
     width: 18px;

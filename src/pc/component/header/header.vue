@@ -49,7 +49,8 @@ export default {
     };
   },
   mounted() {
-    this.changeLanguage(this.language.value);
+    this.$i18n.locale = this.language.value;
+    // this.changeLanguage();
     if (window.addEventListener) {
       document.body.addEventListener('click', () => {
         this.showPopup = false;

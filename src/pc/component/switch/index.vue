@@ -1,5 +1,5 @@
 <template>
-  <input class="switch switch-animation" type="checkbox" :checked='value' :disabled='disabledValue' @change='change()'>
+  <div class="switch switch-animation" :class="{'checked':value,'disabled':disabledValue}" @click='change()'></div>
 </template>
 <script>
 export default {
@@ -69,13 +69,13 @@ export default {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
-.switch:checked {
+.switch.checked {
   border-color: #00d061;
   box-shadow: #00d061 0 0 0 16px inset;
   background-color: #00d061;
 }
 
-.switch:checked:before {
+.switch.checked:before {
   left: 26px;
 }
 .switch.switch-animation {
@@ -86,12 +86,12 @@ export default {
   transition: left 0.3s;
 }
 
-.switch.switch-animation:checked {
+.switch.switch-animation.checked {
   box-shadow: #00d061 0 0 0 16px inset;
   background-color: #00d061;
   transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
 }
-.switch.switch-animation:checked:before {
+.switch.switch-animation.checked:before {
   transition: left 0.3s;
 }
 </style>

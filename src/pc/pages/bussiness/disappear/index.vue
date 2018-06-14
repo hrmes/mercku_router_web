@@ -1,5 +1,5 @@
 <template>
-  <layout style="height:100%;">
+  <layout>
     <div class="disappear-container">
       <div class="inner">
         <img src="../../../assets/images/img_no_network_access.png" alt="">
@@ -44,7 +44,8 @@ export default {
 <style lang="scss" scoped>
 .disappear-container {
   background: #fff;
-  flex: 1;
+  padding: 50px;
+  // flex: 1;
   img {
     display: block;
     width: 200px;
