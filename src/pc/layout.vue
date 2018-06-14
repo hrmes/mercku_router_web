@@ -1,7 +1,9 @@
 <template>
   <div class="app-container" :class="{'has-menu':!hasMenu}">
     <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
-    <slot></slot>
+    <slot>
+
+    </slot>
     <policy :class="{'fix-bottom':hasMenu}" class="policy" />
   </div>
 </template>

@@ -114,13 +114,13 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    background: #fff;
   }
   .policy {
     width: 100%;
     text-align: center;
     color: #333;
     &.fix-bottom {
+      background: #fff;
     }
   }
 }

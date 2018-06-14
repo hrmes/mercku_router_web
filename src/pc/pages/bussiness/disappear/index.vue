@@ -45,7 +45,8 @@ export default {
 .disappear-container {
   background: #fff;
   padding: 50px;
-  // flex: 1;
+  flex: auto;
+  min-height: 800px;
   img {
     display: block;
     width: 200px;

@@ -148,7 +148,9 @@ export default {
             message: this.$t('trans0232')
           }
         ],
-        password: [{ rule: value => !/\s/g.test(value), message: this.$t('trans0232') }]
+        password: [
+          { rule: value => !/\s/g.test(value), message: this.$t('trans0232') }
+        ]
       },
       staticRules: {
         ip: [
@@ -327,6 +329,7 @@ export default {
 .setting-network-container {
   position: relative;
   padding: 0 30px;
+  flex: auto;
   padding-bottom: 30px;
   .content {
     .w-header {

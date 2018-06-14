@@ -1,6 +1,6 @@
 <template>
   <layout>
-    <div tabindex="0" class="login-container" @keyup.enter="login">
+    <div class="login-container" @keyup.enter="login">
       <div class="bg">
         <div class="center-form">
           <div class="download">
@@ -104,12 +104,12 @@ export default {
 <style lang="scss" scoped>
 .login-container {
   width: 100%;
+  min-height: 800px;
+  flex: auto;
+
   .bg {
     width: 100%;
     height: 100%;
-    background: url(../../assets/images/img_main_picture.png) no-repeat center;
-    background-position-y: bottom;
-    background-size: auto 40%;
 
     .loadding {
       img {
@@ -152,22 +152,30 @@ export default {
       }
     }
   }
-  background: -webkit-linear-gradient(
-    left bottom,
-    #fafafa,
-    #fff
-  ); /* Safari 5.1 - 6.0 */
-  background: -o-linear-gradient(
-    top right,
-    #fafafa,
-    #fff
-  ); /* Opera 11.1 - 12.0 */
-  background: -moz-linear-gradient(
-    top right,
-    #fafafa,
-    #fff
-  ); /* Firefox 3.6 - 15 */
-  background: linear-gradient(to top right, #fafafa, #fff); /* 标准的语法 */
+  // background-color: -webkit-linear-gradient(
+  //   left bottom,
+  //   #fafafa,
+  //   #fff
+  // ); /* Safari 5.1 - 6.0 */
+  // background-color: -o-linear-gradient(
+  //   top right,
+  //   #fafafa,
+  //   #fff
+  // ); /* Opera 11.1 - 12.0 */
+  // background-color: -moz-linear-gradient(
+  //   top right,
+  //   #fafafa,
+  //   #fff
+  // ); /* Firefox 3.6 - 15 */
+  // background-color: linear-gradient(
+  //   to top right,
+  //   #fafafa,
+  //   #fff
+  // ); /* 标准的语法 */
+  background: url(../../assets/images/img_main_picture.png) #fff no-repeat
+    center;
+  background-position-y: bottom;
+  background-size: auto 40%;
 }
 @media screen and(max-width: 768px) {
   .login-container {

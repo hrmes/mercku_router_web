@@ -104,7 +104,7 @@ export default {
             this.form.password = this.meshData.password;
             this.band1 = this.meshData.bands['2.4G'].enabled;
             this.band2 = this.meshData.bands['5G'].enabled;
-            this.form.hidden = this.meshData.hidden;
+            this.hidden = this.meshData.hidden;
           }
         })
         .catch(err => {
@@ -168,6 +168,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .setting-wifi-container {
+  flex: auto;
+  &::after {
+    content: '';
+    min-height: inherit;
+    font-size: 0;
+  }
   .ssid-hidden {
     margin-bottom: 10px;
   }
@@ -178,7 +184,7 @@ export default {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
-    // height: 95%;
+    min-height: 800px;
     position: relative;
     .w-header {
       height: 60px;
