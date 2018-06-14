@@ -1,10 +1,10 @@
 <template>
   <div class="app-container" :class="{'has-menu':!hasMenu}">
-    <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
-    <slot>
-
-    </slot>
-    <policy :class="{'fix-bottom':hasMenu}" class="policy" />
+    <div class="flex-wrap">
+      <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
+      <slot></slot>
+      <policy :class="{'fix-bottom':hasMenu}" class="policy" />
+    </div>
   </div>
 </template>
 <script>
@@ -30,3 +30,10 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.flex-wrap {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+</style>
