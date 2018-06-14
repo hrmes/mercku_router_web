@@ -28,8 +28,11 @@ const launch = () => {
       if (error.response) {
         switch (error.response.status) {
           case 401:
-            window.location.hash = '#/login';
-            break;
+            if (!window.location.href.includes('login')) {
+              window.location.href = '/';
+              break;
+            }
+
           default:
             break;
         }
