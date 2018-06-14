@@ -32,9 +32,7 @@ const launch = () => {
               window.location.href = '/';
               break;
             }
-
           default:
-            break;
         }
       }
       return Promise.reject(error.response.data);

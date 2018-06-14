@@ -148,7 +148,9 @@ export default {
             message: this.$t('trans0232')
           }
         ],
-        password: [{ rule: value => /^\s/g.test(value), message: this.$t('trans0232') }]
+        password: [
+          { rule: value => /^\s/g.test(value), message: this.$t('trans0232') }
+        ]
       },
       staticRules: {
         ip: [

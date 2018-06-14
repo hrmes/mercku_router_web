@@ -30,6 +30,7 @@ export default {
     check() {
       this.checked = !this.checked;
       this.$emit('input', this.checked);
+      this.$emit('change', this.checked);
     }
   },
   watch: {
