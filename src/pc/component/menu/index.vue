@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       current: null,
-      showMenu: false
+      showMenu: false,
+      bodyOverflow: ''
     };
   },
   methods: {
@@ -52,6 +53,7 @@ export default {
         this.$router.push({ path: menu.url });
         this.current = menu;
         this.showMenu = false;
+        document.body.style.overflow = this.bodyOverflow || 'auto';
       }
     },
     changeLang() {
@@ -61,6 +63,12 @@ export default {
     },
     show() {
       this.showMenu = !this.showMenu;
+      if (this.showMenu) {
+        this.bodyOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = this.bodyOverflow || 'auto';
+      }
     },
     exit() {
       this.$dialog.confirm({
@@ -111,7 +119,7 @@ export default {
     }
   }
   .logo-container {
-    padding: 60px;
+    padding: 60px 0;
     text-align: center;
     img {
       width: 160px;
@@ -208,7 +216,7 @@ export default {
     position: absolute;
     width: 100%;
     text-align: center;
-    top: 600px;
+    bottom: 80px;
     font-size: 14px;
     color: #333;
     img {
@@ -221,24 +229,26 @@ export default {
   .menu-container {
     display: inline-block;
     width: 250px;
-    min-height: 100vh;
+    height: 100vh;
     left: 0;
     top: 0;
     z-index: 1000;
     flex: auto;
     position: relative;
+    min-height: 650px;
   }
 }
 @media screen and (min-width: 1367px) {
   .menu-container {
     display: inline-block;
     width: 300px;
-    min-height: 100vh;
+    height: 100vh;
     left: 0;
     top: 0;
     z-index: 1000;
     flex: auto;
     position: relative;
+    min-height: 650px;
   }
 }
 @media screen and (max-width: 768px) {

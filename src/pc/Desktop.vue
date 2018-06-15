@@ -67,11 +67,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@media screen and (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-}
 .container {
   min-height: 100vh;
   position: relative;
@@ -85,8 +80,6 @@ export default {
     &.has-menu {
       background: #fff;
       display: block;
-      // top: 0;
-      // z-index: 1000;
       .logo-container {
         display: inline-block;
       }
@@ -107,17 +100,9 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) {
-  .container {
-    .header {
-      &.has-menu {
-        // position: fixed;
-      }
-    }
-  }
-}
 @media screen and (max-width: 768px) {
   .container {
+    flex-direction: column;
     .app-container {
       &.has-menu {
         padding-left: 0;
