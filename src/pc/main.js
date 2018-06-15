@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import 'babel-polyfill';
 
-import { changeLanguage, i18n } from '../i18n';
+import {
+  changeLanguage,
+  i18n
+} from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -30,9 +33,10 @@ const launch = () => {
           case 401:
             if (!window.location.href.includes('login')) {
               window.location.href = '/';
-              break;
             }
+            break;
           default:
+            break;
         }
       }
       return Promise.reject(error.response.data);

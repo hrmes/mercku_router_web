@@ -429,7 +429,7 @@ export default {
     },
     speedTesting(force) {
       if (force === undefined) {
-        force = force;
+        force = false;
       }
       this.$http
         .speedTesting(force)
@@ -447,7 +447,7 @@ export default {
             }
           }
         })
-        .catch(() => {
+        .catch(err => {
           this.speedStatus = 'done';
           clearInterval(this.timer4);
           clearTimeout(this.timer6);
@@ -616,19 +616,22 @@ export default {
 }
 @keyframes speed-testing {
   0% {
-    background: url('../../../assets/images/img_test_01.png');
-    //background: red;
-    background-size: 100% 100%;
+    transform: scale(0.5);
   }
-  50% {
-    background: url('../../../assets/images/img_test_01.png');
-    // background: green;
-    background-size: 100% 100%;
+  20% {
+    transform: scale(0.6);
+  }
+  40% {
+    transform: scale(0.7);
+  }
+  60% {
+    transform: scale(0.8);
+  }
+  80% {
+    transform: scale(0.9);
   }
   100% {
-    //background: black;
-    background: url('../../../assets/images/img_test_01.png');
-    background-size: 100% 100%;
+    transform: scale(1);
   }
 }
 .home-container {
@@ -666,11 +669,11 @@ export default {
     .speed-content {
       text-align: center;
       .test-info {
-        background: url('../../../assets/images/img_test_01.png') no-repeat;
+        background: url('../../../assets/images/img_test_03.png') no-repeat;
         background-size: 100%;
         width: 330px;
         height: 330px;
-        animation: speed-testing 1s linear infinite;
+        animation: speed-testing 0.7s linear infinite;
       }
       p {
         color: #ffffff;

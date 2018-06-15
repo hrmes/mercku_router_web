@@ -82,7 +82,7 @@ const http = {
     return axios.post(methods.meshWanSpeedTest.url, {
       method: methods.meshWanSpeedTest.action,
       parmas: {
-        force: force
+        force
       }
     });
   },
