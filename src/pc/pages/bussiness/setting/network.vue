@@ -316,7 +316,16 @@ export default {
         return;
       }
       if (this.netType === 'static' && this.$refs.staticForm.validate()) {
-        form = { ...form, netinfo: { ...this.staticForm } };
+        const params = {
+          ip: this.staticForm.ip,
+          mask: this.staticForm.mask,
+          gateway: this.staticForm.gateway,
+          dns: [this.staticForm.dns1]
+        };
+        if (this.staticForm.dns2) {
+          params.dns.push(this.staticForm.dns2);
+        }
+        form = { ...form, netinfo: { ...params } };
         this.save(form);
       }
     }
