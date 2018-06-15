@@ -94,7 +94,8 @@ export default {
   }
   .app-container {
     width: 100%;
-
+    display: flex;
+    flex-direction: column;
     position: relative;
   }
   .policy {

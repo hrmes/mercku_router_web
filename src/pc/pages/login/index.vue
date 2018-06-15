@@ -213,11 +213,12 @@ export default {
         .down-text {
           text-align: left;
           float: left;
-          font-size: 12px;
+          font-size: 10px;
           color: #333;
           margin-left: 12px;
+          padding: 4px 0;
           > div:first-child {
-            padding-top: 8px;
+            padding-top: 5px;
           }
           > div:last-child {
             padding-bottom: 8px;
@@ -225,6 +226,7 @@ export default {
         }
         .down-button-container {
           float: right;
+          padding-top: 5px;
           .down-button {
             text-decoration: none;
             color: #4237dd;
@@ -265,7 +267,7 @@ export default {
           }
         }
         .down-button-container {
-          margin-top: 5px;
+          padding-top: 5px;
         }
       }
     }
