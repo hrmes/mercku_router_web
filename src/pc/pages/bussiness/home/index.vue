@@ -425,7 +425,7 @@ export default {
         clearInterval(this.timer4);
         clearTimeout(this.timer6);
         this.speedStatus = 'done';
-      }, 1000 * 30);
+      }, 1000 * 40);
     },
     speedTesting(force) {
       if (force === undefined) {
