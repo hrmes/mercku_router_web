@@ -41,7 +41,8 @@ export default {
   data() {
     return {
       current: null,
-      showMenu: false
+      showMenu: false,
+      bodyOverflow: ''
     };
   },
   methods: {
@@ -52,6 +53,7 @@ export default {
         this.$router.push({ path: menu.url });
         this.current = menu;
         this.showMenu = false;
+        document.body.style.overflow = this.bodyOverflow || 'auto';
       }
     },
     changeLang() {
@@ -61,6 +63,8 @@ export default {
     },
     show() {
       this.showMenu = !this.showMenu;
+      this.bodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
     },
     exit() {
       this.$dialog.confirm({
