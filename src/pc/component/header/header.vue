@@ -52,13 +52,9 @@ export default {
     this.$i18n.locale = this.language.value;
     // this.changeLanguage();
     if (window.addEventListener) {
-      document.body.addEventListener('click', () => {
-        this.showPopup = false;
-      });
+      document.body.addEventListener('click', this.close);
     } else if (window.attachEvent) {
-      document.body.attachEvent('click', () => {
-        this.showPopup = false;
-      });
+      document.body.attachEvent('click', this.close);
     }
   },
   computed: {
@@ -67,6 +63,9 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.showPopup = false;
+    },
     getDefaultLanguage() {
       return Languages.filter(l => l.value === this.$i18n.locale)[0];
     },
@@ -97,9 +96,9 @@ export default {
   },
   beforeDestroy() {
     if (window.addEventListener) {
-      document.body.removeEventListener('click');
+      document.body.removeEventListener('click', this.close);
     } else if (window.attachEvent) {
-      document.body.detachEvent('click');
+      document.body.detachEvent('click', this.close);
     }
   }
 };

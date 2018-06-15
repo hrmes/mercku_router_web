@@ -42,13 +42,9 @@ export default {
   },
   mounted() {
     if (window.addEventListener) {
-      document.body.addEventListener('click', () => {
-        this.opened = false;
-      });
+      document.body.addEventListener('click', this.close);
     } else if (window.attachEvent) {
-      document.body.attachEvent('click', () => {
-        this.opened = false;
-      });
+      document.body.attachEvent('click', this.close);
     }
   },
   methods: {
@@ -60,13 +56,16 @@ export default {
     },
     open() {
       this.opened = !this.opened;
+    },
+    close() {
+      this.opened = false;
     }
   },
   beforeDestroy() {
     if (window.addEventListener) {
-      document.body.removeEventListener('click');
+      document.body.removeEventListener('click', this.close);
     } else if (window.attachEvent) {
-      document.body.detachEvent('click');
+      document.body.detachEvent('click', this.close);
     }
   }
 };
