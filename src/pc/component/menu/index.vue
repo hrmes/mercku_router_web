@@ -63,8 +63,12 @@ export default {
     },
     show() {
       this.showMenu = !this.showMenu;
-      this.bodyOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
+      if (this.showMenu) {
+        this.bodyOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = this.bodyOverflow || 'auto';
+      }
     },
     exit() {
       this.$dialog.confirm({
