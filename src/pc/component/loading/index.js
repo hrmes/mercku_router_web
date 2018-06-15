@@ -23,14 +23,23 @@ const Loading = {
     }
   },
   close() {
+    console.log('close', this.instance);
     if (this.instance) {
       this.instance.visible = false;
       const self = this;
+      this.instance.restoryOverflow();
       this.instance.$el.addEventListener('transitionend', () => {
-        self.instance.restoryOverflow();
         self.instance.$el.parentNode.removeChild(self.instance.$el);
         self.instance = null;
       });
+      // fix ie bug
+      const timer = setTimeout(() => {
+        if (self.instance) {
+          self.instance.$el.parentNode.removeChild(self.instance.$el);
+          self.instance = null;
+        }
+        clearTimeout(timer);
+      }, 500);
     }
   }
 };
