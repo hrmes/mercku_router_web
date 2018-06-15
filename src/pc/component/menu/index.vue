@@ -84,6 +84,7 @@ export default {
     display: none;
     float: right;
     padding: 20px;
+
     .menu-icon {
       display: inline-block;
       width: 21px;
@@ -248,6 +249,8 @@ export default {
     &.small-device-expand {
       height: 100%;
       border: none;
+      position: fixed;
+      z-index: 1000;
     }
     .small-device {
       display: inline-block;
