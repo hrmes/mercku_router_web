@@ -23,11 +23,12 @@
               <span>{{bandWidth(localTraffice.bandwidth)}}</span>M
             </div>
           </div>
-
+          <div>
+            <button class="btn check-btn" @click='createSpeedTimer()' :class="netStatus!=='connected'&&'disabled'" style='height:44px' :disabled="netStatus!=='connected'">{{$t('trans0008')}}</button>
+          </div>
         </div>
-        <div class="test-speed-btn-container">
-          <button class="btn check-btn" v-if="netStatus==='connected'" @click='createSpeedTimer()' style='height:44px'>{{$t('trans0008')}}</button>
-        </div>
+        <!-- <div class="test-speed-btn-container">
+        </div> -->
         <div class="router-info">
           <div class="row">
             <div class="item">
@@ -820,7 +821,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
+    min-height: 100px;
+    margin-bottom: 20px;
     width: 100%;
 
     flex-wrap: wrap;
@@ -832,7 +834,7 @@ export default {
       img {
         display: inline-block;
         width: 55px;
-        height: 55px;
+        // height: 55px;
       }
     }
     .router-icon {
@@ -840,7 +842,7 @@ export default {
       img {
         display: inline-block;
         width: 40px;
-        height: 55px;
+        // height: 55px;
       }
     }
     .check-status {
@@ -915,7 +917,7 @@ export default {
     .check-btn {
       // margin-left: 30px;
       height: 50px;
-      width: 160px;
+      width: 100px;
     }
     .speed {
       font-weight: 200;
@@ -1222,25 +1224,29 @@ export default {
     }
   }
 }
-@media screen and (max-width: 1068px) {
+
+@media screen and (min-width: 769px) and (max-width: 1000px) {
   .check-info {
-    padding-bottom: 30px;
+    // padding-bottom: 30px;
   }
   .row-1 {
-    width: 120px;
+    min-width: 100px;
     justify-content: center;
     flex-flow: column-reverse;
+    img {
+      width: 30px !important;
+    }
     .name {
       padding-top: 6px;
     }
   }
   .row-3 {
-    width: 120px;
+    min-width: 80px;
     flex-flow: column;
+    img {
+      width: 40px !important;
+    }
   }
-}
-
-@media screen and (min-width: 769px) and (max-width: 1000px) {
   .home-container {
     .check-info {
       .check-status {

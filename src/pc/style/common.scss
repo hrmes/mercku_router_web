@@ -8,8 +8,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei',
-    'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
   -moz-user-select: none;
   -o-user-select: none;
   -khtml-user-select: none;
@@ -52,6 +51,7 @@ ul {
     background: #6156ff;
   }
   &.disabled {
+    cursor: not-allowed;
     background: #999;
   }
 }
@@ -89,6 +89,7 @@ input::-webkit-input-placeholder {
   border-radius: 4px;
   background-color: #fff;
 }
+
 ::-ms-clear,
 ::-ms-reveal {
   display: none;
