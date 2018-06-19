@@ -118,6 +118,7 @@ export default {
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    margin: 0 auto;
     img {
       width: 1.2rem;
       margin-bottom: 0.2rem;

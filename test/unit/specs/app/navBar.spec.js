@@ -1,6 +1,4 @@
-import {
-  mount
-} from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import navBar from '../../../../src/app/component/nav-bar.vue';
 
 describe('nav-bar.vue', () => {

@@ -4,15 +4,20 @@
     <div class='progress-wrapper'>
       <div class="progress" ref='progress'>
         <div class="progress-bar progress-bar-info progress-bar-striped active" :style='styles'>
-          <!-- <div class="progress-value">100%</div> -->
         </div>
       </div>
     </div>
-    <div class="note">{{$t('trans0322')}}{{during}}s</div>
+    <div class="note">{{label}}{{during}}s</div>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    label: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       during: 60,

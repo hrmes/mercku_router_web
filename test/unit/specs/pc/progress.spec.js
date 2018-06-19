@@ -37,7 +37,6 @@ describe('progress component', () => {
       setTimeout(() => {
         expect(Math.round(vm.percent) === 1).to.be.true;
       }, 1000);
-      // expect(vm.timer).to.eql(null);
       done();
     });
   });

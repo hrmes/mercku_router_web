@@ -2,7 +2,7 @@
   <layout>
     <div class="setting-safe-container">
       <div v-if="reboot">
-        <m-proress></m-proress>
+        <m-proress :label="$t('trans0322')"></m-proress>
       </div>
       <div class="content">
         <div class='w-header'>

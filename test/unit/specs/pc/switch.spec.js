@@ -16,9 +16,8 @@ describe('switch component', () => {
       value: true
     });
     vm.$nextTick(() => {
-      expect(vm.$el.getAttribute('type')).to.eql('checkbox');
-      expect(vm.checked).to.eql(true);
-      expect(vm.$el.checked).to.be.true;
+      expect(vm.checked).to.be.true;
+      expect(Array.from(vm.$el.classList).includes('checked')).to.be.true;
       done();
     });
   });
@@ -60,7 +59,7 @@ describe('switch component', () => {
     wrapper.vm.$nextTick(() => {
       expect(vm.checked).to.be.true;
       expect(vm.disabledValue).to.eql(true);
-      expect(vm.$el.disabled).to.be.true;
+      expect(Array.from(vm.$el.classList).includes('disabled')).to.be.true;
       done();
     });
   });

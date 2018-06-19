@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      selected: this.options.filter(o => o.value === this.value)[0],
+      selected: this.options.filter(o => o.value === this.value)[0] || {},
       opened: false
     };
   },

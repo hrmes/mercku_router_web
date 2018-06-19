@@ -2,7 +2,7 @@
   <layout>
     <div class="setting-network-container">
       <div v-if="reboot">
-        <m-proress></m-proress>
+        <m-proress :label="$t('trans0322')"></m-proress>
       </div>
       <div class="content">
         <div class="network-info">
@@ -148,7 +148,12 @@ export default {
             message: this.$t('trans0232')
           }
         ],
-        password: [{ rule: value => !/^\s*$/g.test(value), message: this.$t('trans0232') }]
+        password: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          }
+        ]
       },
       staticRules: {
         ip: [
