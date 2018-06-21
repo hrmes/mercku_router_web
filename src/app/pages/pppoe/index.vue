@@ -81,7 +81,7 @@ export default {
   }
 
   .form {
-    padding-left: 0.15rem;
+    padding: 0.15rem;
   }
 
   .password-info {
