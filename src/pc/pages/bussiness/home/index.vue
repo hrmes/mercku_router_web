@@ -9,7 +9,7 @@
           </div>
           <div class='check-status row-2'>
             <div class="check-txt-info">
-              <span class='testing' v-if="isTesting"> {{$t('trans0298')}}...</span>
+              <span class='testing' v-if="isTesting"> {{$t('trans0298')}}</span>
             </div>
             <span class="success-line" :class="{'testing-animation':isTesting}" v-if="isConnected || isTesting"></span>
             <span class='fail-line' v-if="isUnlinked ||isLinked"></span>
@@ -20,7 +20,7 @@
           <div class="row-3">
             <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
             <div class="speed">
-              <span>{{bandWidth(localTraffice.bandwidth)}}</span>M
+              <span>{{bandWidth(localTraffice.bandwidth)}}</span><label style="font-weight:normal">M</label>
             </div>
           </div>
           <div>
@@ -742,7 +742,7 @@ export default {
             .speed {
               font-size: 22px;
               font-weight: bold;
-              padding: 0 3px;
+              padding: 0 5px;
               color: #000;
             }
             .unit {
@@ -833,7 +833,7 @@ export default {
       padding: 0 20px;
       img {
         display: inline-block;
-        width: 55px;
+        width: 49px;
         // height: 55px;
       }
     }
@@ -841,7 +841,7 @@ export default {
       padding: 0 20px;
       img {
         display: inline-block;
-        width: 40px;
+        width: 38px;
         // height: 55px;
       }
     }
@@ -964,7 +964,7 @@ export default {
       .title {
         font-size: 16px;
         color: #333333;
-        font-weight: 600;
+        font-weight: bold;
         padding: 15px 0;
         border-bottom: 1px solid #f1f1f1;
       }
@@ -1105,7 +1105,7 @@ export default {
           }
           .down {
             .r-dwon-icon {
-              width: 12px;
+              width: 11px;
               height: 16px;
               display: inline-block;
               background: url('../../../assets/images/ic_ic_download.png')
@@ -1117,7 +1117,7 @@ export default {
             padding-top: 15px;
 
             .r-up-icon {
-              width: 12px;
+              width: 11px;
               height: 16px;
               display: inline-block;
               background: url('../../../assets/images/ic_upload.png') no-repeat;
@@ -1368,21 +1368,20 @@ export default {
             flex-wrap: wrap;
             padding-top: 20px;
             .extra {
-              min-width: 120px;
-
+              min-width: 100%;
               // padding-right: 10px;
-              padding-bottom: 20px;
+              padding-bottom: 30px;
             }
           }
           width: 80%;
           margin: 0 auto;
-          min-height: 265px !important;
+          height: auto !important;
         }
       }
     }
     .btn-info {
       width: 100%;
-      margin-top: 20px;
+      // margin-top: 20px;
       .btn {
         height: 44px;
       }
