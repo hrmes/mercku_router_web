@@ -60,6 +60,7 @@ export default {
 .policy-container {
   text-align: center;
   padding: 30px;
+  font-size: 12px;
   .policy-text {
     text-decoration: underline;
     cursor: pointer;
@@ -114,6 +115,7 @@ export default {
 @media screen and (max-width: 768px) {
   .policy-container {
     padding: 10px;
+    background: #fff;
     .copy,
     .policy-text {
       display: block;

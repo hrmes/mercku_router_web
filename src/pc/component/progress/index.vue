@@ -78,7 +78,7 @@ export default {
     left: 0;
     z-index: -1;
     background: #000;
-    opacity: 0.5;
+    opacity: 0.8;
   }
   .note {
     margin-top: 20px;
@@ -113,38 +113,7 @@ export default {
   }
   .progress-striped .progress-bar,
   .progress-bar-striped {
-    background-image: -webkit-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.15) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(255, 255, 255, 0.15) 75%,
-      transparent 75%,
-      transparent
-    );
-    background-image: -o-linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.15) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(255, 255, 255, 0.15) 75%,
-      transparent 75%,
-      transparent
-    );
-    background-image: linear-gradient(
-      45deg,
-      rgba(255, 255, 255, 0.15) 25%,
-      transparent 25%,
-      transparent 50%,
-      rgba(255, 255, 255, 0.15) 50%,
-      rgba(255, 255, 255, 0.15) 75%,
-      transparent 75%,
-      transparent
-    );
-    -webkit-background-size: 40px 40px;
-    background-size: 40px 40px;
+    background: #00d061;
   }
   .progress-bar {
     float: left;
@@ -201,8 +170,6 @@ export default {
   .progress {
     height: 10px;
     background: #ffffff;
-    // padding: 2px;
-    overflow: height;
     border-radius: 20px;
   }
 
