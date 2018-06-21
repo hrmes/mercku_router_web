@@ -19,7 +19,7 @@
           </div>
           <div class="row-3">
             <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
-            <div class="speed" style="min-width:70px;text-align:left">
+            <div class="speed" style="min-width:60px;padding-right:16px;text-align:left">
               <span>{{bandWidth(localTraffice.bandwidth)}}</span>
               <label style="font-weight:normal">M</label>
             </div>
