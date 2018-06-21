@@ -81,7 +81,7 @@ export default {
 .setting-safe-container {
   position: relative;
   flex: auto;
-  padding: 0 50px;
+  padding: 0 2%;
   display: flex;
   .content {
     border-radius: 8px;

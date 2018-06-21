@@ -169,7 +169,7 @@ export default {
 <style lang="scss" scoped>
 .setting-wifi-container {
   flex: auto;
-  padding: 0 50px;
+  padding: 0 2%;
   display: flex;
   .ssid-hidden {
     margin-bottom: 10px;
