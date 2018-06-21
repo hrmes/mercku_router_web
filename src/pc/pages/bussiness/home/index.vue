@@ -4,7 +4,7 @@
       <div class="home-inner">
         <div class="check-info">
           <div class="row-1">
-            <div class="name" style="min-width:60px;text-align:right">{{ssid||'-'}}</div>
+            <div class="name" style="min-width:60px">{{ssid||'-'}}</div>
             <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
           </div>
           <div class='check-status row-2'>
@@ -19,7 +19,7 @@
           </div>
           <div class="row-3">
             <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
-            <div class="speed" style="min-width:60px;padding-right:16px;text-align:left">
+            <div class="speed" style="min-width:60px;">
               <span>{{bandWidth(localTraffice.bandwidth)}}</span>
               <label style="font-weight:normal">M</label>
             </div>
@@ -800,12 +800,14 @@ export default {
       display: flex;
       max-width: 200px;
       align-items: center;
+      text-align: center;
     }
     .row-3 {
       max-width: 200px;
       display: flex;
       align-items: center;
       margin-right: 20px;
+      text-align: center;
     }
     font-size: 16px;
     font-weight: 400;
@@ -1229,6 +1231,7 @@ export default {
     min-width: 100px;
     justify-content: center;
     flex-flow: column-reverse;
+    font-size: 12px;
     img {
       width: 30px !important;
     }
@@ -1239,6 +1242,7 @@ export default {
   .row-3 {
     min-width: 80px;
     flex-flow: column;
+    font-size: 12px;
     img {
       width: 40px !important;
     }
@@ -1470,18 +1474,24 @@ export default {
       .row-1 {
         width: 100px;
         font-size: 12px !important;
+        justify-content: center;
+        flex-flow: column-reverse;
+        text-align: center !important;
       }
+
       .row-3 {
         width: 100px;
         font-size: 12px !important;
+        justify-content: center;
+        flex-flow: column;
         margin: 0;
+        text-align: center !important;
       }
       .network-icon {
         padding: 0 10px;
         img {
           display: inline-block;
-          width: 41px;
-          height: 41px;
+          width: 40px;
         }
       }
       .router-icon {
