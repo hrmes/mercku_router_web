@@ -270,9 +270,7 @@ export default {
       timer2: null,
       timer3: null,
       timer4: null,
-      timer5: null,
-      timer6: null,
-      timer7: null
+      timer5: null
     };
   },
   mounted() {
@@ -424,21 +422,6 @@ export default {
         this.ssid = res.data.result.ssid;
       });
     },
-    speedIsTimeOut() {
-      this.speedTestNumber();
-      this.timer6 = setTimeout(() => {
-        clearInterval(this.timer4);
-        clearInterval(this.timer7);
-        clearTimeout(this.timer6);
-        this.speedStatus = 'done';
-        this.testSpeedNumber = 40;
-      }, 1000 * 40);
-    },
-    speedTestNumber() {
-      this.timer7 = setInterval(() => {
-        this.testSpeedNumber -= 1;
-      }, 1000);
-    },
     speedTesting(force) {
       if (force === undefined) {
         force = false;
@@ -451,12 +434,10 @@ export default {
             this.speedInfo = res.data.result;
             if (res.data.result.status === 'done') {
               clearInterval(this.timer4);
-              clearTimeout(this.timer6);
               this.testSpeedNumber = 40;
             }
             if (res.data.result.status === 'failed') {
               clearInterval(this.timer4);
-              clearTimeout(this.timer6);
               this.testSpeedNumber = 40;
             }
           }
@@ -464,7 +445,6 @@ export default {
         .catch(err => {
           this.speedStatus = 'done';
           clearInterval(this.timer4);
-          clearTimeout(this.timer6);
           this.testSpeedNumber = 40;
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
@@ -478,10 +458,18 @@ export default {
       this.speedStatus = 'testing';
       this.setOverflow();
       this.speedTesting();
-      this.speedIsTimeOut();
       this.timer4 = setInterval(() => {
-        this.speedTesting(force);
-      }, 1000 * 5);
+        if (this.testSpeedNumber <= 0) {
+          clearInterval(this.timer4);
+          this.speedStatus = 'done';
+          this.testSpeedNumber = 40;
+          return;
+        }
+        if (this.testSpeedNumber % 5 == 0 && this.testSpeedNumber != 40) {
+          this.speedTesting(force);
+        }
+        this.testSpeedNumber--;
+      }, 1000);
     },
     getTraffic() {
       clearTimeout(this.timer1);
