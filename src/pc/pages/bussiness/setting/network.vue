@@ -340,7 +340,7 @@ export default {
 <style lang="scss" scoped>
 .setting-network-container {
   position: relative;
-  padding: 0 50px;
+  padding: 0 2%;
   flex: auto;
   display: flex;
   .content {

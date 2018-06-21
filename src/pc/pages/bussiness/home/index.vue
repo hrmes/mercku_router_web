@@ -629,6 +629,7 @@ export default {
 }
 .home-container {
   flex: auto;
+  padding: 0 2%;
   .test-speed-btn-container {
     width: 100%;
     text-align: center;
@@ -789,7 +790,7 @@ export default {
       }
     }
   }
-  padding: 0 50px;
+
   .check-info {
     .btn-info {
       width: 100%;
