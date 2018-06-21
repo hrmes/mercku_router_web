@@ -133,8 +133,8 @@
                   <i class="t-dwon-icon"></i>
                   <div>
                     <p>
-                      <span class="speed">{{format(localTraffice.traffic.dl).value}}</span>
-                      <span class='unit'> {{format(localTraffice.traffic.dl).unit}}</span>
+                      <span class="speed">{{format(localTraffice.traffic.dl,'tranffic').value}}</span>
+                      <span class='unit'> {{format(localTraffice.traffic.dl,'tranffic').unit}}</span>
                     </p>
                     <p class="note">{{$t('trans0309')}}</p>
                   </div>
@@ -143,8 +143,8 @@
                   <i class="t-up-icon"></i>
                   <div>
                     <p>
-                      <span class="speed">{{format(localTraffice.traffic.ul).value}}</span>
-                      <span class='unit'> {{format(localTraffice.traffic.ul).unit}}</span>
+                      <span class="speed">{{format(localTraffice.traffic.ul,'tranffic').value}}</span>
+                      <span class='unit'> {{format(localTraffice.traffic.ul,'tranffic').unit}}</span>
                     </p>
                     <p class="note">{{$t('trans0310')}}</p>
                   </div>
@@ -366,11 +366,11 @@ export default {
     }
   },
   methods: {
-    format(v) {
+    format(v, type) {
       const units = ['KB', 'MB'];
       let index = -1;
       if (!isNaN(v)) {
-        v /= 8;
+        if (!type && type !== 'traffic') v /= 8;
         do {
           v /= 1024;
           index += 1;
