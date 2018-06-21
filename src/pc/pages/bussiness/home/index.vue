@@ -600,20 +600,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @keyframes speed-test-line {
-  0% {
-    opacity: 0;
+  form {
+    width: 0%;
   }
-  30% {
-    opacity: 0.1;
-  }
-  60% {
-    opacity: 0.6;
-  }
-  80% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 1;
+  to {
+    width: 100%;
   }
 }
 @keyframes speed-testing {
@@ -860,6 +851,7 @@ export default {
           background: none;
           &::after {
             content: '';
+            width: 10%;
             display: block;
             height: 3px;
             background: url('../../../assets/images/ic_test_line.png') repeat-x;
