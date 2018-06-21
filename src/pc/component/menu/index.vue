@@ -229,7 +229,6 @@ export default {
   .menu-container {
     display: inline-block;
     width: 250px;
-    height: 100vh;
     left: 0;
     top: 0;
     z-index: 1000;
@@ -242,7 +241,6 @@ export default {
   .menu-container {
     display: inline-block;
     width: 300px;
-    height: 100vh;
     left: 0;
     top: 0;
     z-index: 1000;

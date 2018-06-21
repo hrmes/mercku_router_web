@@ -5,4 +5,11 @@ describe('toast', () => {
     toast('toast', 100, 'error');
     expect(document.body.querySelector('.toast-container')).to.be.exist;
   });
+  it('toast is close', done => {
+    toast('toast', 100, 'error');
+    setTimeout(() => {
+      expect(document.body.querySelector('.toast-container')).to.be.not.exist;
+      done();
+    }, 500);
+  });
 });

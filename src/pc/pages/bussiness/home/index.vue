@@ -797,8 +797,7 @@ export default {
       }
     }
   }
-  padding: 0 30px;
-  padding-bottom: 30px;
+  padding: 0 50px;
   .check-info {
     .btn-info {
       width: 100%;

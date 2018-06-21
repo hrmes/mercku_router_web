@@ -17,6 +17,12 @@
 </template>
 <script>
 export default {
+  props: {
+    locale: {
+      type: String,
+      default: 'zh-CN'
+    }
+  },
   data() {
     return {
       show: false
@@ -42,7 +48,7 @@ export default {
   },
   computed: {
     policy() {
-      if (this.$i18n.locale === 'zh-CN') {
+      if (this.locale === 'zh-CN') {
         return require('./policy-cn.html');
       }
       return require('./policy-en.html');

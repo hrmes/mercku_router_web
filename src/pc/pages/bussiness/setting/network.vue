@@ -340,10 +340,11 @@ export default {
 <style lang="scss" scoped>
 .setting-network-container {
   position: relative;
-  padding: 0 30px;
+  padding: 0 50px;
   flex: auto;
-  padding-bottom: 30px;
+  display: flex;
   .content {
+    flex: 1;
     .w-header {
       height: 60px;
       border-bottom: 1px solid #f1f1f1;
@@ -432,7 +433,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .setting-network-container {
-    padding: 10px;
+    padding: 20px 16px;
     .content {
       .w-header {
         font-size: 14px;

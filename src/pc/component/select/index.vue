@@ -124,9 +124,9 @@ export default {
     width: 50px;
     cursor: pointer;
     .icon {
-      width: 20px;
-      height: 20px;
-      margin-top: 14px;
+      width: 12px;
+      height: 6px;
+      margin-top: 21px;
       display: inline-block;
       background: url(../../assets/images/ic_input_box_pull_down.png) no-repeat
         center;
