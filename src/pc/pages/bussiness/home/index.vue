@@ -24,7 +24,7 @@
               <label style="font-weight:normal">M</label>
             </div>
           </div>
-          <div>
+          <div class='check-btn-info'>
             <button class="btn check-btn" @click='createSpeedTimer()' :class="netStatus!=='connected'&&'disabled'" style='height:44px' :disabled="netStatus!=='connected'">{{$t('trans0008')}}</button>
           </div>
         </div>
@@ -185,7 +185,7 @@
           <div class='speed-content'>
             <div v-if="speedStatus==='testing'">
               <div class="test-info"></div>
-              <p>{{$t('trans0045')}}...</p>
+              <p>{{$t('trans0045')}}.. {{testSpeedNumber}}s</p>
             </div>
             <div v-if="speedStatus==='done' || speedStatus==='failed'" class="speed-completed">
               <div class="speed-result-info">
@@ -252,6 +252,7 @@ export default {
         '01': 'M2',
         '02': 'Bee'
       },
+      testSpeedNumber: 40,
       netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       speedStatus: 'testing',
       speedModelOpen: false,
@@ -270,7 +271,8 @@ export default {
       timer3: null,
       timer4: null,
       timer5: null,
-      timer6: null
+      timer6: null,
+      timer7: null
     };
   },
   mounted() {
@@ -423,11 +425,19 @@ export default {
       });
     },
     speedIsTimeOut() {
+      this.speedTestNumber();
       this.timer6 = setTimeout(() => {
         clearInterval(this.timer4);
+        clearInterval(this.timer7);
         clearTimeout(this.timer6);
         this.speedStatus = 'done';
+        this.testSpeedNumber = 40;
       }, 1000 * 40);
+    },
+    speedTestNumber() {
+      this.timer7 = setInterval(() => {
+        this.testSpeedNumber -= 1;
+      }, 1000);
     },
     speedTesting(force) {
       if (force === undefined) {
@@ -442,10 +452,12 @@ export default {
             if (res.data.result.status === 'done') {
               clearInterval(this.timer4);
               clearTimeout(this.timer6);
+              this.testSpeedNumber = 40;
             }
             if (res.data.result.status === 'failed') {
               clearInterval(this.timer4);
               clearTimeout(this.timer6);
+              this.testSpeedNumber = 40;
             }
           }
         })
@@ -453,6 +465,7 @@ export default {
           this.speedStatus = 'done';
           clearInterval(this.timer4);
           clearTimeout(this.timer6);
+          this.testSpeedNumber = 40;
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -1226,6 +1239,13 @@ export default {
 @media screen and (min-width: 769px) and (max-width: 1000px) {
   .check-info {
     // padding-bottom: 30px;
+    .check-btn-info {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  .row-2 {
+    margin-top: -35px;
   }
   .row-1 {
     min-width: 100px;
@@ -1236,7 +1256,8 @@ export default {
       width: 30px !important;
     }
     .name {
-      padding-top: 6px;
+      font-weight: bold;
+      line-height: 30px;
     }
   }
   .row-3 {
@@ -1250,7 +1271,7 @@ export default {
   .home-container {
     .check-info {
       .check-status {
-        width: 150px !important;
+        width: 300px !important;
       }
     }
     .router-info {
@@ -1477,8 +1498,13 @@ export default {
         justify-content: center;
         flex-flow: column-reverse;
         text-align: center !important;
+        .name {
+          line-height: 20px;
+        }
       }
-
+      .row-2 {
+        margin-top: -20px;
+      }
       .row-3 {
         width: 100px;
         font-size: 12px !important;
