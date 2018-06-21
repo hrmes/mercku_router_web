@@ -47,7 +47,6 @@ export default {
   width: 46px;
   height: 22px;
   position: relative;
-  border: 1px solid #858585;
   background-color: #858585;
   box-shadow: #a1a0a0 0 0 0 0 inset;
   border-radius: 22px;
@@ -62,8 +61,8 @@ export default {
   width: 16px;
   height: 16px;
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 3px;
+  left: 3px;
   border-radius: 16px;
   background-color: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);

@@ -81,12 +81,14 @@ export default {
 .setting-safe-container {
   position: relative;
   flex: auto;
-  padding: 0 30px;
+  padding: 0 50px;
+  display: flex;
   .content {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
     position: relative;
+    flex: 1;
     .w-header {
       height: 60px;
       border-bottom: 1px solid #f1f1f1;
@@ -125,7 +127,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .setting-safe-container {
-    padding: 10px;
+    padding: 20px 16px;
     .content {
       .w-header {
         font-size: 14px;

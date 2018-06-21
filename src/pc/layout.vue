@@ -3,7 +3,7 @@
     <div class="flex-wrap">
       <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
       <slot></slot>
-      <policy :class="{'fix-bottom':hasMenu}" class="policy" />
+      <policy :locale="$i18n.locale" :class="{'fix-bottom':hasMenu}" class="policy" />
     </div>
   </div>
 </template>
@@ -31,9 +31,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.flex-wrap {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
+@media screen and (min-width: 769px) {
+  .flex-wrap {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 768px) {
+  .flex-wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 65px);
+  }
 }
 </style>

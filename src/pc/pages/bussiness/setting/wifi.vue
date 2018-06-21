@@ -169,17 +169,18 @@ export default {
 <style lang="scss" scoped>
 .setting-wifi-container {
   flex: auto;
+  padding: 0 50px;
+  display: flex;
   .ssid-hidden {
     margin-bottom: 10px;
   }
   position: relative;
-  padding: 0 30px;
-  // height: 100%;
   .content {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
     position: relative;
+    flex: 1;
     .w-header {
       height: 60px;
       border-bottom: 1px solid #f1f1f1;
@@ -213,7 +214,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .setting-wifi-container {
-    padding: 10px;
+    padding: 20px 16px;
     .content {
       .w-header {
         font-size: 14px;

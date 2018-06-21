@@ -4,11 +4,11 @@
       <div class="home-inner">
         <div class="check-info">
           <div class="row-1">
-            <div class="name">{{ssid||'-'}}</div>
+            <div class="name" style="min-width:60px;text-align:right">{{ssid||'-'}}</div>
             <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
           </div>
           <div class='check-status row-2'>
-            <div class="check-txt-info">
+            <div class="check-txt-info" >
               <span class='testing' v-if="isTesting"> {{$t('trans0298')}}</span>
             </div>
             <span class="success-line" :class="{'testing-animation':isTesting}" v-if="isConnected || isTesting"></span>
@@ -19,7 +19,7 @@
           </div>
           <div class="row-3">
             <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
-            <div class="speed">
+            <div class="speed" style="min-width:70px;text-align:left">
               <span>{{bandWidth(localTraffice.bandwidth)}}</span><label style="font-weight:normal">M</label>
             </div>
           </div>
@@ -797,8 +797,7 @@ export default {
       }
     }
   }
-  padding: 0 30px;
-  padding-bottom: 30px;
+  padding: 0 50px;
   .check-info {
     .btn-info {
       width: 100%;
@@ -853,14 +852,16 @@ export default {
         position: absolute;
         width: 100%;
         height: 3px;
-        border: 2px dashed #4237dd;
+        // border: 2px dashed #4237dd;
+        background: url('../../../assets/images/ic_test_line.png') repeat-x;
         box-sizing: border-box;
         &.testing-animation {
-          border: none;
+          background: none;
           &::after {
             content: '';
             display: block;
-            border: 2px dashed #4237dd;
+            height: 3px;
+            background: url('../../../assets/images/ic_test_line.png') repeat-x;
             animation: speed-test-line linear 1s infinite;
           }
         }
@@ -872,7 +873,8 @@ export default {
         // min-width: 150px;
         width: 100%;
         height: 3px;
-        border: 2px dashed #999999;
+        // border: 2px dashed #999999;
+        background: url('../../../assets/images/ic_test_line_fail.png') repeat-x;
         box-sizing: border-box;
       }
       .fail-info {
