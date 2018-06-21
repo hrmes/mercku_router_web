@@ -134,6 +134,7 @@ export default {
         width: 200px;
         float: right;
         height: 150px;
+        margin-top: 40px;
 
         img {
           width: 80px;
