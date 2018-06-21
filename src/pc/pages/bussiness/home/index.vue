@@ -8,7 +8,7 @@
             <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
           </div>
           <div class='check-status row-2'>
-            <div class="check-txt-info" >
+            <div class="check-txt-info">
               <span class='testing' v-if="isTesting"> {{$t('trans0298')}}</span>
             </div>
             <span class="success-line" :class="{'testing-animation':isTesting}" v-if="isConnected || isTesting"></span>
@@ -20,7 +20,8 @@
           <div class="row-3">
             <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
             <div class="speed" style="min-width:70px;text-align:left">
-              <span>{{bandWidth(localTraffice.bandwidth)}}</span><label style="font-weight:normal">M</label>
+              <span>{{bandWidth(localTraffice.bandwidth)}}</span>
+              <label style="font-weight:normal">M</label>
             </div>
           </div>
           <div>
@@ -707,8 +708,8 @@ export default {
             justify-content: center;
             align-items: center;
             .p-dwon-icon {
-              width: 25px;
-              height: 34px;
+              width: 20px;
+              height: 29px;
               display: inline-block;
               background: url('../../../assets/images/ic_ic_download.png')
                 no-repeat;
@@ -716,8 +717,8 @@ export default {
               margin-right: 5px;
             }
             .p-up-icon {
-              width: 25px;
-              height: 34px;
+              width: 20px;
+              height: 29px;
               display: inline-block;
               background: url('../../../assets/images/ic_upload.png') no-repeat;
               background-size: 100% 100%;
@@ -973,7 +974,7 @@ export default {
       .speed {
         font-size: 26px;
         font-weight: bold;
-        padding: 0 3px;
+        padding: 0 5px;
       }
       .unit {
         font-size: 14px;
@@ -1036,15 +1037,15 @@ export default {
           background-size: 100% 100%;
         }
         .t-dwon-icon {
-          width: 25px;
-          height: 34px;
+          width: 20px;
+          height: 29px;
           display: inline-block;
           background: url('../../../assets/images/ic_ic_download.png') no-repeat;
           background-size: 100% 100%;
         }
         .t-up-icon {
-          width: 25px;
-          height: 34px;
+          width: 20px;
+          height: 29px;
           display: inline-block;
           background: url('../../../assets/images/ic_upload.png') no-repeat;
           background-size: 100% 100%;
@@ -1107,8 +1108,8 @@ export default {
           }
           .down {
             .r-dwon-icon {
-              width: 11px;
-              height: 16px;
+              width: 10px;
+              height: 14.5px;
               display: inline-block;
               background: url('../../../assets/images/ic_ic_download.png')
                 no-repeat;
@@ -1119,8 +1120,8 @@ export default {
             padding-top: 15px;
 
             .r-up-icon {
-              width: 11px;
-              height: 16px;
+              width: 10px;
+              height: 14.5px;
               display: inline-block;
               background: url('../../../assets/images/ic_upload.png') no-repeat;
               background-size: 100% 100%;

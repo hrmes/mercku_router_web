@@ -86,8 +86,8 @@ export default {
     }
   }
   .app-container {
-    width: 100%;
     display: flex;
+    flex: 1;
     flex-direction: column;
     position: relative;
   }

@@ -122,8 +122,8 @@ export default {
     padding: 60px 0;
     text-align: center;
     img {
-      width: 160px;
-      height: 23px;
+      width: 180px;
+      height: 27px;
     }
   }
   .menu {
@@ -227,12 +227,8 @@ export default {
 }
 @media screen and (min-width: 769px) and (max-width: 1366px) {
   .menu-container {
-    display: inline-block;
     width: 250px;
-    left: 0;
-    top: 0;
     z-index: 1000;
-    flex: auto;
     position: relative;
     min-height: 650px;
   }
@@ -244,13 +240,13 @@ export default {
     left: 0;
     top: 0;
     z-index: 1000;
-    flex: auto;
     position: relative;
     min-height: 650px;
   }
 }
 @media screen and (max-width: 768px) {
   .menu-container {
+    display: inline-block;
     height: 65px;
     width: 100%;
     border-bottom: 1px solid #e1e1e1;
