@@ -172,7 +172,7 @@ export default {
   padding: 0 2%;
   display: flex;
   .ssid-hidden {
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
   position: relative;
   .content {

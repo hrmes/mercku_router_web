@@ -465,10 +465,10 @@ export default {
           this.testSpeedNumber = 40;
           return;
         }
-        if (this.testSpeedNumber % 5 == 0 && this.testSpeedNumber != 40) {
+        if (this.testSpeedNumber % 5 === 0 && this.testSpeedNumber !== 40) {
           this.speedTesting(force);
         }
-        this.testSpeedNumber--;
+        this.testSpeedNumber -= 1;
       }, 1000);
     },
     getTraffic() {
