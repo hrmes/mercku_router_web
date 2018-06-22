@@ -51,9 +51,10 @@ export default {
   data() {
     const config = this.routerConfig.getConfig();
     return {
-      checked:
+      checked: !!(
         config.wifi.password === config.wifi.admin_password &&
-        config.wifi.password,
+        config.wifi.password
+      ),
       ssid: config.wifi.ssid,
       pwd: config.wifi.password,
       adminPwd: config.wifi.admin_password,
