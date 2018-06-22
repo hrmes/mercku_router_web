@@ -184,12 +184,13 @@ body {
 .van-toast {
   color: rgb(182, 182, 182);
   background-color: rgba(51, 51, 51, 1);
+  border-radius: 3px;
 }
 
 .van-toast--default {
   min-height: initial;
   width: auto;
-  padding: 15px;
+  padding: 45px 16px;
 }
 
 .van-loading__spinner.van-loading__spinner--circular {
@@ -211,7 +212,7 @@ body {
   animation: loading 1s linear infinite;
   background-size: 100%;
   background-repeat: no-repeat;
-  width: 120px;
-  height: 42px;
+  width: 88px;
+  height: 30px;
   margin: 0;
 }
