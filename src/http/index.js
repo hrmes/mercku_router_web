@@ -18,11 +18,11 @@ const methods = {
   },
   update: {
     url,
-    action: 'mesh.config.update'
+    action: 'mesh.config.update' // (已拆分)
   },
   testWan: {
     url,
-    action: 'mesh.wan.status.get'
+    action: 'mesh.wan.status.get' // 获取WAN口状态
   },
   getTimezone: {
     url,
@@ -31,37 +31,57 @@ const methods = {
   // new
   meshWanSpeedTest: {
     url,
-    action: 'mesh.wan.speed.test'
+    action: 'mesh.wan.speed.test' // WAN口速度测试
   },
   getRouterMeta: {
     url,
-    action: 'router.meta.get'
+    action: 'router.meta.get' // 获取路由器基础信息
   },
 
   reboot: {
     url,
-    action: 'mesh.node.reboot'
+    action: 'mesh.node.reboot' // 路由器重启
   },
   meshMeta: {
     url,
-    action: 'mesh.meta.get'
+    action: 'mesh.meta.get' // 获取组网信息
+  },
+  getDeviceCount: {
+    url,
+    action: 'mesh.device.count.get' // 获取连接设备数量
+  },
+  getMeshNode: {
+    url,
+    action: 'mesh.node.get' // 获取当前组网状态
   },
   // v0.8这里改动比较大
   getNetInfo: {
     url,
-    action: 'router.net.get'
-  },
-  getDeviceCount: {
-    url,
-    action: 'mesh.device.count.get'
-  },
-  getMeshNode: {
-    url,
-    action: 'mesh.node.get'
+    action: 'router.net.get' // 已修改 => mesh.info.wan.net.get
   },
   meshWan: {
     url,
-    action: 'mesh.wan.get'
+    action: 'mesh.wan.get' // 已修改为 => mesh.info.wan.stats.get
+  },
+  getWanNetInfo: {
+    url,
+    action: 'mesh.info.wan.net.get' // 获取组网WAN口上网信息
+  },
+  getWanNetStats: {
+    url,
+    action: 'mesh.info.wan.stats.get' // 获取组网WAN口统计状态
+  },
+  meshWifiUpdate: {
+    url,
+    action: 'mesh.config.wifi.update' // 组网wifi配置更新
+  },
+  meshWanUpdate: {
+    url,
+    action: 'mesh.config.wan.net.update' // 组网WAN口配置更新
+  },
+  meshLanUpdate: {
+    url,
+    action: 'mesh.config.lan.net.update' // 组网Lan口配置更新
   }
 };
 
@@ -165,9 +185,15 @@ const http = {
     };
     const messageString = JSON.stringify(message);
     try {
-      window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
+      window
+        .webkit
+        .messageHandlers
+        .callbackHandler
+        .postMessage(messageString);
     } catch (err) {
-      window.android && window.android.call(messageString);
+      window.android && window
+        .android
+        .call(messageString);
     }
   }
 };
@@ -176,13 +202,23 @@ const configResponseInterceptors = (success, error) => {
   const noop = res => res;
   const successCallback = success || noop;
   const errorCallback = error || noop;
-  axios.interceptors.response.use(successCallback, errorCallback);
+  axios
+    .interceptors
+    .response
+    .use(successCallback, errorCallback);
 };
 
 const configRequestInterceptors = (before, error) => {
   const noop = res => res;
   const beforeFn = before || noop;
   const errorCallback = error || noop;
-  axios.interceptors.request.use(beforeFn, errorCallback);
+  axios
+    .interceptors
+    .request
+    .use(beforeFn, errorCallback);
 };
-export { http, configResponseInterceptors, configRequestInterceptors };
+export {
+  http,
+  configResponseInterceptors,
+  configRequestInterceptors
+};

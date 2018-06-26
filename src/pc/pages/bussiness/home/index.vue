@@ -883,14 +883,15 @@ export default {
         height: 32px;
         // padding: 10px;
         background: #f1f1f1;
-        top: 13px;
+        top: 18px;
         right: 50%;
         transform: translateX(50%);
       }
       .fail-icon {
+        margin-left: 6px;
         position: absolute;
-        width: 37px;
-        height: 31px;
+        width: 26px;
+        height: 26px;
         background: url('../../../assets/images/ic_wifi_wrong.png');
         background-size: 100% 100%;
       }
@@ -1523,8 +1524,8 @@ export default {
           top: 20px;
         }
         .fail-icon {
-          width: 24px;
-          height: 20px;
+          width: 26px;
+          height: 26px;
         }
         .success-line,
         .fail-line {

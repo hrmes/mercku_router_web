@@ -18,14 +18,16 @@
                 <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
               </m-form-item>
             </m-form>
-            <div class="ssid-hidden">
-              <m-checkbox v-model='form.hidden' :text="$t('trans0111')"></m-checkbox>
+            <div class="item" style="min-height:110px">
+              <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
             </div>
             <div class="check-info">
-              <label for=""> {{$t('trans0255')}}</label>
-              <m-switch v-model="band1" :onChange="changeband1" />
-              <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
-              <m-switch v-model="band2" :onChange="changeband2" />
+              <label for=""> {{$t('trans0110')}} </label>
+              <div class="tool">
+                <m-popover v-model='popShow' />
+                <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="popIsShow">
+              </div>
+              <m-switch v-model="form.hidden" :onChange="changeband1" />
             </div>
             <div class="btn-info">
               <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
@@ -38,12 +40,14 @@
 </template>
 <script>
 import Switch from '../../../component/switch/index.vue';
+import mSelect from '../../../component/select/index.vue';
 import Input from '../../../component/input/input.vue';
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import Checkbox from '../../../component/checkbox/index.vue';
 import layout from '../../../layout.vue';
+import Popover from '../../../component/popover/index';
 
 export default {
   components: {
@@ -53,14 +57,32 @@ export default {
     'm-input': Input,
     'm-proress': Progress,
     'm-checkbox': Checkbox,
+    'm-popover': Popover,
+    'm-select': mSelect,
     layout
   },
   data() {
     return {
+      band: '2.4G5G',
+      popShow: false,
       band1: true,
       band2: true,
       reboot: false,
       meshData: {},
+      options: [
+        {
+          value: '2.4G5G',
+          text: this.$t('trans0327')
+        },
+        {
+          value: '2.4G',
+          text: this.$t('trans0328')
+        },
+        {
+          value: '5G',
+          text: this.$t('trans0329')
+        }
+      ],
       form: {
         ssid: '',
         password: '',
@@ -92,6 +114,9 @@ export default {
     };
   },
   methods: {
+    popIsShow() {
+      this.popShow = !this.popShow;
+    },
     getMeshMeta() {
       this.$loading.open();
       this.$http
@@ -203,10 +228,20 @@ export default {
       .check-info {
         display: flex;
         align-items: center;
+        position: relative;
         label {
-          margin-right: 10px;
+          margin-right: 2px;
           font-size: 16px;
           color: #333333;
+        }
+        .tool {
+          position: relative;
+          width: 30px;
+          img {
+            position: relative;
+            top: -8px;
+            cursor: pointer;
+          }
         }
       }
     }
@@ -237,7 +272,7 @@ export default {
           align-items: center;
           margin-top: 20px;
           label {
-            margin-right: 10px;
+            margin-right: 2px;
             font-size: 16px;
             color: #333333;
           }
