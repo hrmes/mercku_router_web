@@ -22,25 +22,31 @@ const methods = {
   },
   testWan: {
     url,
-    action: 'router.wan_status.get'
+    action: 'mesh.wan.status.get'
   },
   getTimezone: {
     url,
     action: 'router.timezone.get'
   },
-  getWIFI: {
-    url,
-    action: 'router.wifi.get'
-  },
   // new
   meshWanSpeedTest: {
     url,
-    action: 'mesh.wan_speed.test'
+    action: 'mesh.wan.speed.test'
   },
   getRouterMeta: {
     url,
     action: 'router.meta.get'
   },
+
+  reboot: {
+    url,
+    action: 'mesh.node.reboot'
+  },
+  meshMeta: {
+    url,
+    action: 'mesh.meta.get'
+  },
+  // v0.8这里改动比较大
   getNetInfo: {
     url,
     action: 'router.net.get'
@@ -56,14 +62,6 @@ const methods = {
   meshWan: {
     url,
     action: 'mesh.wan.get'
-  },
-  reboot: {
-    url,
-    action: 'mesh.node.reboot'
-  },
-  meshMeta: {
-    url,
-    action: 'mesh.meta.get'
   }
 };
 
@@ -73,7 +71,7 @@ const http = {
       method: methods.reboot.action
     });
   },
-  getMeshData() {
+  getMeshMeta() {
     return axios.post(methods.meshMeta.url, {
       method: methods.meshMeta.action
     });
@@ -113,11 +111,6 @@ const http = {
     return axios.post(methods.getMeshNode.url, {
       method: methods.getMeshNode.action,
       parmas: {}
-    });
-  },
-  getWIFI() {
-    return axios.post(methods.getWIFI.url, {
-      method: methods.getWIFI.action
     });
   },
   checkLogin() {
@@ -172,15 +165,9 @@ const http = {
     };
     const messageString = JSON.stringify(message);
     try {
-      window
-        .webkit
-        .messageHandlers
-        .callbackHandler
-        .postMessage(messageString);
+      window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
     } catch (err) {
-      window.android && window
-        .android
-        .call(messageString);
+      window.android && window.android.call(messageString);
     }
   }
 };
@@ -189,23 +176,13 @@ const configResponseInterceptors = (success, error) => {
   const noop = res => res;
   const successCallback = success || noop;
   const errorCallback = error || noop;
-  axios
-    .interceptors
-    .response
-    .use(successCallback, errorCallback);
+  axios.interceptors.response.use(successCallback, errorCallback);
 };
 
 const configRequestInterceptors = (before, error) => {
   const noop = res => res;
   const beforeFn = before || noop;
   const errorCallback = error || noop;
-  axios
-    .interceptors
-    .request
-    .use(beforeFn, errorCallback);
+  axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-};
+export { http, configResponseInterceptors, configRequestInterceptors };

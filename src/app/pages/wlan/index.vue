@@ -82,7 +82,7 @@ export default {
     // 没有设置wifi信息，从服务器拉取
     if (!this.ssid) {
       this.$http
-        .getWIFI()
+        .getMeshMeta()
         .then(res => {
           const { result } = res.data;
           this.ssid = result.ssid;

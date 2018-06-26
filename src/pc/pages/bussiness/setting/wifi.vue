@@ -92,10 +92,10 @@ export default {
     };
   },
   methods: {
-    getMeshData() {
+    getMeshMeta() {
       this.$loading.open();
       this.$http
-        .getMeshData()
+        .getMeshMeta()
         .then(res => {
           this.$loading.close();
           if (res.data.result) {
@@ -162,7 +162,7 @@ export default {
     }
   },
   mounted() {
-    this.getMeshData();
+    this.getMeshMeta();
   }
 };
 </script>

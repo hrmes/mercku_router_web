@@ -418,7 +418,7 @@ export default {
       this.timer3 = null;
     },
     getSsid() {
-      this.$http.getMeshData().then(res => {
+      this.$http.getMeshMeta().then(res => {
         this.ssid = res.data.result.ssid;
       });
     },
