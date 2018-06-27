@@ -46,11 +46,11 @@ export default {
     },
     title: {
       type: String,
-      default: this.$t('trans0110')
+      default: ''
     },
     content: {
       type: String,
-      default: this.$t('trans0325')
+      default: ''
     },
     position: {
       type: String,
