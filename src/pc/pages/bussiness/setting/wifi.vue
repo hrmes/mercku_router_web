@@ -48,10 +48,6 @@ import FormItem from '../../../component/formItem/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import Checkbox from '../../../component/checkbox/index.vue';
 import layout from '../../../layout.vue';
-<<<<<<< HEAD
-=======
-import Popover from '../../../component/popover/index.vue';
->>>>>>> 3645a306266eef2fc92ff9fee33bb3396b6508de
 
 export default {
   components: {
