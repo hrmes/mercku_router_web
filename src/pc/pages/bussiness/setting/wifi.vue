@@ -24,7 +24,7 @@
             <div class="check-info">
               <label for=""> {{$t('trans0110')}} </label>
               <div class="tool">
-                <m-popover v-model='popShow' />
+                <m-popover v-model='popShow' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
                 <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="popIsShow">
               </div>
               <m-switch v-model="form.hidden" :onChange="changehandle" />
