@@ -86,6 +86,32 @@ const methods = {
 };
 
 const http = {
+  /* v0.8 start */
+  getWanNetInfo() {
+    return axios.post(methods.getWanNetInfo.url, {
+      method: methods.getWanNetInfo.action
+    });
+  },
+  getWanNetStats() {
+    return axios.post(methods.getWanNetStats.url, {
+      method: methods.getWanNetStats.action
+    });
+  },
+  meshWifiUpdate(config) {
+    return axios.post(methods.meshWifiUpdate.url, {
+      method: methods.meshWifiUpdate.action,
+      params: { ...config.wifi
+      }
+    });
+  },
+  meshWanUpdate(config) {
+    return axios.post(methods.meshWanUpdate.url, {
+      method: methods.meshWanUpdate.action,
+      params: { ...config.wifi
+      }
+    });
+  },
+  /* v0.8 end */
   reboot() {
     return axios.post(methods.reboot.url, {
       method: methods.reboot.action

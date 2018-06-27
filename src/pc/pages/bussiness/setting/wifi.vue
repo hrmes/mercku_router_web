@@ -27,7 +27,7 @@
                 <m-popover v-model='popShow' />
                 <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="popIsShow">
               </div>
-              <m-switch v-model="form.hidden" :onChange="changeband1" />
+              <m-switch v-model="form.hidden" :onChange="changehandle" />
             </div>
             <div class="btn-info">
               <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
@@ -41,13 +41,13 @@
 <script>
 import Switch from '../../../component/switch/index.vue';
 import mSelect from '../../../component/select/index.vue';
+import Popover from '../../../component/popover/index.vue';
 import Input from '../../../component/input/input.vue';
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import Checkbox from '../../../component/checkbox/index.vue';
 import layout from '../../../layout.vue';
-import Popover from '../../../component/popover/index';
 
 export default {
   components: {
@@ -65,8 +65,6 @@ export default {
     return {
       band: '2.4G5G',
       popShow: false,
-      band1: true,
-      band2: true,
       reboot: false,
       meshData: {},
       options: [
@@ -117,6 +115,33 @@ export default {
     popIsShow() {
       this.popShow = !this.popShow;
     },
+    filterBands(bands) {
+      this.form.bands['2.4G'].enabled = bands['2.4G'].enabled;
+      this.form.bands['5G'].enabled = bands['5G'].enabled;
+      if (bands['2.4G'].enabled && bands['5G'].enabled) {
+        this.band = '2.4G5G';
+      }
+      if (bands['2.4G'].enabled && !bands['5G'].enabled) {
+        this.band = '2.4G';
+      }
+      if (!bands['2.4G'].enabled && bands['5G'].enabled) {
+        this.band = '5G';
+      }
+    },
+    filterSelectBands() {
+      if (this.band === '2.4G5G') {
+        this.form.bands['2.4G'].enabled = true;
+        this.form.bands['5G'].enabled = true;
+      }
+      if (this.band === '2.4G') {
+        this.form.bands['2.4G'].enabled = true;
+        this.form.bands['5G'].enabled = false;
+      }
+      if (this.band === '5G') {
+        this.form.bands['2.4G'].enabled = false;
+        this.form.bands['5G'].enabled = true;
+      }
+    },
     getMeshMeta() {
       this.$loading.open();
       this.$http
@@ -127,8 +152,7 @@ export default {
             this.meshData = res.data.result;
             this.form.ssid = this.meshData.ssid;
             this.form.password = this.meshData.password;
-            this.band1 = this.meshData.bands['2.4G'].enabled;
-            this.band2 = this.meshData.bands['5G'].enabled;
+            this.filterBands(this.meshData.bands);
             this.form.hidden = this.meshData.hidden;
           }
         })
@@ -141,26 +165,16 @@ export default {
           }
         });
     },
-    changeband1(v) {
-      if (v === false) {
-        this.band2 = true;
-      }
-    },
-    changeband2(v) {
-      if (v === false) {
-        this.band1 = true;
-      }
+    changehandle(v) {
+      this.form.hidden = v;
     },
     submit() {
+      this.filterSelectBands();
       if (this.$refs.form.validate()) {
         this.$http
-          .update({
+          .meshWifiUpdate({
             wifi: {
-              ...this.form,
-              bands: {
-                '2.4G': { enabled: this.band1 },
-                '5G': { enabled: this.band2 }
-              }
+              ...this.form
             }
           })
           .then(res => {

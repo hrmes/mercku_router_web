@@ -276,7 +276,7 @@ export default {
   mounted() {
     this.testWan();
     this.getRouter();
-    this.getNet();
+    this.getWanNetInfo();
     this.createTimer();
     this.getSsid();
   },
@@ -405,7 +405,7 @@ export default {
       return v.length > 2 ? v.match(/.{2}/g).join(':') : v;
     },
     createTimer() {
-      this.getTraffic();
+      this.getWanNetStats();
       this.getDeviceCount();
       this.getMeshNode();
     },
@@ -471,16 +471,16 @@ export default {
         this.testSpeedNumber -= 1;
       }, 1000);
     },
-    getTraffic() {
+    getWanNetStats() {
       clearTimeout(this.timer1);
       this.timer1 = null;
       this.$http
-        .getTraffic()
+        .getWanNetStats()
         .then(res => {
           if (this.enter) {
             this.traffice = res.data.result;
             this.timer1 = setTimeout(() => {
-              this.getTraffic();
+              this.getWanNetStats();
             }, 1000 * 15);
           }
         })
@@ -492,7 +492,7 @@ export default {
           }
           if (this.enter) {
             this.timer1 = setTimeout(() => {
-              this.getTraffic();
+              this.getWanNetStats();
             }, 1000 * 15);
           }
         });
@@ -555,8 +555,8 @@ export default {
           }
         });
     },
-    getNet() {
-      this.$http.getNet({ type: 'wan' }).then(res => {
+    getWanNetInfo() {
+      this.$http.getWanNetInfo().then(res => {
         this.netInfo = res.data.result;
       });
     },
