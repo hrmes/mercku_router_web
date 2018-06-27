@@ -47,7 +47,7 @@ import FormItem from '../../../component/formItem/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import Checkbox from '../../../component/checkbox/index.vue';
 import layout from '../../../layout.vue';
-import Popover from '../../../component/popover/index';
+import Popover from '../../../component/popover/index.vue';
 
 export default {
   components: {

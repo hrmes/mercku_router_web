@@ -154,10 +154,10 @@ const http = {
   update(config) {
     // check params
     const conf = {};
-    if (config.wifi && Object.keys(config.wifi).length) {
+    if (config.wifi && config.wifi.ssid) {
       conf.wifi = config.wifi;
     }
-    if (config.wan && Object.keys(config.wan).length) {
+    if (config.wan && config.wan.type) {
       conf.wan = config.wan;
     }
     return axios.post(methods.update.url, {
@@ -185,15 +185,9 @@ const http = {
     };
     const messageString = JSON.stringify(message);
     try {
-      window
-        .webkit
-        .messageHandlers
-        .callbackHandler
-        .postMessage(messageString);
+      window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
     } catch (err) {
-      window.android && window
-        .android
-        .call(messageString);
+      window.android && window.android.call(messageString);
     }
   }
 };
@@ -202,23 +196,13 @@ const configResponseInterceptors = (success, error) => {
   const noop = res => res;
   const successCallback = success || noop;
   const errorCallback = error || noop;
-  axios
-    .interceptors
-    .response
-    .use(successCallback, errorCallback);
+  axios.interceptors.response.use(successCallback, errorCallback);
 };
 
 const configRequestInterceptors = (before, error) => {
   const noop = res => res;
   const beforeFn = before || noop;
   const errorCallback = error || noop;
-  axios
-    .interceptors
-    .request
-    .use(beforeFn, errorCallback);
+  axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-};
+export { http, configResponseInterceptors, configRequestInterceptors };
