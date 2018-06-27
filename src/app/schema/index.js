@@ -7,7 +7,7 @@ const routerConfig = () => {
       admin_password: ''
     },
     wan: {
-      type: 'dhcp' // static,dhcp,pppoe
+      type: '' // static,dhcp,pppoe
       /*
         netinfo: {
           ip:'',

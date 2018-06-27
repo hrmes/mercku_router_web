@@ -43,8 +43,10 @@ export default {
       this.$http
         .login(pwd)
         .then(() => {
-          if (this.$router.returnUrl) {
-            window.location.href = this.$router.returnUrl;
+          const { redirect } = this.$route.params;
+          console.log('redirect is:', redirect);
+          if (redirect) {
+            this.$router.replace({ path: redirect });
           } else {
             this.$router.replace({ path: '/check-network' });
           }
