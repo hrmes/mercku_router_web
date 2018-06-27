@@ -1,10 +1,7 @@
 import Vue from 'vue';
 import 'babel-polyfill';
 
-import {
-  changeLanguage,
-  i18n
-} from '../i18n';
+import { changeLanguage, i18n } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -83,8 +80,6 @@ const launch = () => {
     render: h => h(Desktop)
   });
 };
-document.addEventListener('DOMContentLoaded', () => {
-  launch();
-});
+document.addEventListener('DOMContentLoaded', launch);
 
 console.log(`%cWeb version is : RC${v.version}`, 'color:red');
