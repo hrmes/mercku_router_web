@@ -122,6 +122,7 @@ export default {
     }
     return {
       networkArr: {
+        '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144')
