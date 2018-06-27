@@ -30,11 +30,11 @@
                 </div>
                 <div>
                   <label for="">{{$t('trans0151')}}：</label>
-                  {{localNetInfo.netinfo.ip}}
+                  <span> {{localNetInfo.netinfo.ip}}</span>
                 </div>
                 <div>
                   <label for="">{{$t('trans0152')}}：</label>
-                  {{localNetInfo.netinfo.mask }}
+                  <span> {{localNetInfo.netinfo.mask }} </span>
                 </div>
                 <div>
                   <label for="">{{$t('trans0153')}}：</label>
@@ -44,7 +44,9 @@
                 </div>
                 <div>
                   <label for="">{{$t('trans0236')}}：</label>
-                  {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                  <span>
+                    {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                  </span>
                 </div>
               </div>
             </div>

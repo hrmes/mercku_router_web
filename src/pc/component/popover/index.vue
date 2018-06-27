@@ -1,13 +1,13 @@
 <template>
-    <div class="pop-info" v-if="hidden" v-clickoutside="handleClose">
-        <div class="pop">
-            <div class="title">{{title}}</div>
-            <div class="content"> {{content}} </div>
-        </div>
-        <div class="pos">
-          <i></i>     
-        </div>
+  <div class="pop-info" v-if="hidden" v-clickoutside="handleClose">
+    <div class="pop">
+      <div class="title">{{title}}</div>
+      <div class="content"> {{content}} </div>
     </div>
+    <div class="pos">
+      <i></i>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -46,12 +46,11 @@ export default {
     },
     title: {
       type: String,
-      default: '隐藏SSID'
+      default: this.$t('trans0110')
     },
     content: {
       type: String,
-      default:
-        '隐藏SSID后，Wi-Fi名称将不可见，你只能在Wi-Fi列表手动输入无线名称进行连接'
+      default: this.$t('trans0325')
     },
     position: {
       type: String,
