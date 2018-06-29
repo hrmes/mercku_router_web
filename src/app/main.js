@@ -37,7 +37,7 @@ const loader = {
 };
 const launch = () => {
   FastClick.attach(document.body);
-  const NO_LOADING_METHODS = ['router.is_login', 'router.wan_status.get'];
+  const NO_LOADING_METHODS = ['router.is_login', 'mesh.wan.status.get'];
   const ROUTER_LOGIN = 'router.login';
   configRequestInterceptors(
     config => {
@@ -152,8 +152,6 @@ const launch = () => {
     render: h => h(App)
   });
 };
-document.addEventListener('DOMContentLoaded', () => {
-  launch();
-});
+document.addEventListener('DOMContentLoaded', launch);
 // 通过pre-commit每次自动新增
 console.log(`%cWeb version is : RC${v.version}`, 'color:red');

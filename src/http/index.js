@@ -18,62 +18,106 @@ const methods = {
   },
   update: {
     url,
-    action: 'mesh.config.update'
+    action: 'mesh.config.update' // (已拆分)
   },
   testWan: {
     url,
-    action: 'router.wan_status.get'
+    action: 'mesh.wan.status.get' // 获取WAN口状态
   },
   getTimezone: {
     url,
     action: 'router.timezone.get'
   },
-  getWIFI: {
-    url,
-    action: 'router.wifi.get'
-  },
   // new
   meshWanSpeedTest: {
     url,
-    action: 'mesh.wan_speed.test'
+    action: 'mesh.wan.speed.test' // WAN口速度测试
   },
   getRouterMeta: {
     url,
-    action: 'router.meta.get'
+    action: 'router.meta.get' // 获取路由器基础信息
   },
-  getNetInfo: {
-    url,
-    action: 'router.net.get'
-  },
-  getDeviceCount: {
-    url,
-    action: 'mesh.device.count.get'
-  },
-  getMeshNode: {
-    url,
-    action: 'mesh.node.get'
-  },
-  meshWan: {
-    url,
-    action: 'mesh.wan.get'
-  },
+
   reboot: {
     url,
-    action: 'mesh.node.reboot'
+    action: 'mesh.node.reboot' // 路由器重启
   },
   meshMeta: {
     url,
-    action: 'mesh.meta.get'
+    action: 'mesh.meta.get' // 获取组网信息
+  },
+  getDeviceCount: {
+    url,
+    action: 'mesh.device.count.get' // 获取连接设备数量
+  },
+  getMeshNode: {
+    url,
+    action: 'mesh.node.get' // 获取当前组网状态
+  },
+  // v0.8这里改动比较大
+  getNetInfo: {
+    url,
+    action: 'router.net.get' // 已修改 => mesh.info.wan.net.get
+  },
+  meshWan: {
+    url,
+    action: 'mesh.wan.get' // 已修改为 => mesh.info.wan.stats.get
+  },
+  getWanNetInfo: {
+    url,
+    action: 'mesh.info.wan.net.get' // 获取组网WAN口上网信息
+  },
+  getWanNetStats: {
+    url,
+    action: 'mesh.info.wan.stats.get' // 获取组网WAN口统计状态
+  },
+  meshWifiUpdate: {
+    url,
+    action: 'mesh.config.wifi.update' // 组网wifi配置更新
+  },
+  meshWanUpdate: {
+    url,
+    action: 'mesh.config.wan.net.update' // 组网WAN口配置更新
+  },
+  meshLanUpdate: {
+    url,
+    action: 'mesh.config.lan.net.update' // 组网Lan口配置更新
   }
 };
 
 const http = {
+  /* v0.8 start */
+  getWanNetInfo() {
+    return axios.post(methods.getWanNetInfo.url, {
+      method: methods.getWanNetInfo.action
+    });
+  },
+  getWanNetStats() {
+    return axios.post(methods.getWanNetStats.url, {
+      method: methods.getWanNetStats.action
+    });
+  },
+  meshWifiUpdate(config) {
+    return axios.post(methods.meshWifiUpdate.url, {
+      method: methods.meshWifiUpdate.action,
+      params: { ...config.wifi
+      }
+    });
+  },
+  meshWanUpdate(config) {
+    return axios.post(methods.meshWanUpdate.url, {
+      method: methods.meshWanUpdate.action,
+      params: { ...config.wan
+      }
+    });
+  },
+  /* v0.8 end */
   reboot() {
     return axios.post(methods.reboot.url, {
       method: methods.reboot.action
     });
   },
-  getMeshData() {
+  getMeshMeta() {
     return axios.post(methods.meshMeta.url, {
       method: methods.meshMeta.action
     });
@@ -115,11 +159,6 @@ const http = {
       parmas: {}
     });
   },
-  getWIFI() {
-    return axios.post(methods.getWIFI.url, {
-      method: methods.getWIFI.action
-    });
-  },
   checkLogin() {
     return axios.post(methods.checkLogin.url, {
       method: methods.checkLogin.action
@@ -141,10 +180,10 @@ const http = {
   update(config) {
     // check params
     const conf = {};
-    if (config.wifi && Object.keys(config.wifi).length) {
+    if (config.wifi && config.wifi.ssid) {
       conf.wifi = config.wifi;
     }
-    if (config.wan && Object.keys(config.wan).length) {
+    if (config.wan && config.wan.type) {
       conf.wan = config.wan;
     }
     return axios.post(methods.update.url, {
@@ -172,15 +211,9 @@ const http = {
     };
     const messageString = JSON.stringify(message);
     try {
-      window
-        .webkit
-        .messageHandlers
-        .callbackHandler
-        .postMessage(messageString);
+      window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
     } catch (err) {
-      window.android && window
-        .android
-        .call(messageString);
+      window.android && window.android.call(messageString);
     }
   }
 };
@@ -189,20 +222,14 @@ const configResponseInterceptors = (success, error) => {
   const noop = res => res;
   const successCallback = success || noop;
   const errorCallback = error || noop;
-  axios
-    .interceptors
-    .response
-    .use(successCallback, errorCallback);
+  axios.interceptors.response.use(successCallback, errorCallback);
 };
 
 const configRequestInterceptors = (before, error) => {
   const noop = res => res;
   const beforeFn = before || noop;
   const errorCallback = error || noop;
-  axios
-    .interceptors
-    .request
-    .use(beforeFn, errorCallback);
+  axios.interceptors.request.use(beforeFn, errorCallback);
 };
 export {
   http,

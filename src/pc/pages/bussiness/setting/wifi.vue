@@ -18,14 +18,16 @@
                 <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
               </m-form-item>
             </m-form>
-            <div class="ssid-hidden">
-              <m-checkbox v-model='form.hidden' :text="$t('trans0111')"></m-checkbox>
+            <div class="item" style="min-height:110px">
+              <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
             </div>
             <div class="check-info">
-              <label for=""> {{$t('trans0255')}}</label>
-              <m-switch v-model="band1" :onChange="changeband1" />
-              <label for="" style="margin-left:40px"> {{$t('trans0256')}}</label>
-              <m-switch v-model="band2" :onChange="changeband2" />
+              <label for=""> {{$t('trans0110')}} </label>
+              <div class="tool">
+                <m-popover v-model='popShow' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+                <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="popIsShow">
+              </div>
+              <m-switch v-model="form.hidden" :onChange="changehandle" />
             </div>
             <div class="btn-info">
               <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
@@ -38,6 +40,8 @@
 </template>
 <script>
 import Switch from '../../../component/switch/index.vue';
+import mSelect from '../../../component/select/index.vue';
+import Popover from '../../../component/popover/index.vue';
 import Input from '../../../component/input/input.vue';
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
@@ -53,14 +57,30 @@ export default {
     'm-input': Input,
     'm-proress': Progress,
     'm-checkbox': Checkbox,
+    'm-popover': Popover,
+    'm-select': mSelect,
     layout
   },
   data() {
     return {
-      band1: true,
-      band2: true,
+      band: '2.4G5G',
+      popShow: false,
       reboot: false,
       meshData: {},
+      options: [
+        {
+          value: '2.4G5G',
+          text: this.$t('trans0327')
+        },
+        {
+          value: '2.4G',
+          text: this.$t('trans0328')
+        },
+        {
+          value: '5G',
+          text: this.$t('trans0329')
+        }
+      ],
       form: {
         ssid: '',
         password: '',
@@ -92,18 +112,47 @@ export default {
     };
   },
   methods: {
-    getMeshData() {
+    popIsShow() {
+      this.popShow = !this.popShow;
+    },
+    filterBands(bands) {
+      this.form.bands['2.4G'].enabled = bands['2.4G'].enabled;
+      this.form.bands['5G'].enabled = bands['5G'].enabled;
+      if (bands['2.4G'].enabled && bands['5G'].enabled) {
+        this.band = '2.4G5G';
+      }
+      if (bands['2.4G'].enabled && !bands['5G'].enabled) {
+        this.band = '2.4G';
+      }
+      if (!bands['2.4G'].enabled && bands['5G'].enabled) {
+        this.band = '5G';
+      }
+    },
+    filterSelectBands() {
+      if (this.band === '2.4G5G') {
+        this.form.bands['2.4G'].enabled = true;
+        this.form.bands['5G'].enabled = true;
+      }
+      if (this.band === '2.4G') {
+        this.form.bands['2.4G'].enabled = true;
+        this.form.bands['5G'].enabled = false;
+      }
+      if (this.band === '5G') {
+        this.form.bands['2.4G'].enabled = false;
+        this.form.bands['5G'].enabled = true;
+      }
+    },
+    getMeshMeta() {
       this.$loading.open();
       this.$http
-        .getMeshData()
+        .getMeshMeta()
         .then(res => {
           this.$loading.close();
           if (res.data.result) {
             this.meshData = res.data.result;
             this.form.ssid = this.meshData.ssid;
             this.form.password = this.meshData.password;
-            this.band1 = this.meshData.bands['2.4G'].enabled;
-            this.band2 = this.meshData.bands['5G'].enabled;
+            this.filterBands(this.meshData.bands);
             this.form.hidden = this.meshData.hidden;
           }
         })
@@ -116,26 +165,16 @@ export default {
           }
         });
     },
-    changeband1(v) {
-      if (v === false) {
-        this.band2 = true;
-      }
-    },
-    changeband2(v) {
-      if (v === false) {
-        this.band1 = true;
-      }
+    changehandle(v) {
+      this.form.hidden = v;
     },
     submit() {
+      this.filterSelectBands();
       if (this.$refs.form.validate()) {
         this.$http
-          .update({
+          .meshWifiUpdate({
             wifi: {
-              ...this.form,
-              bands: {
-                '2.4G': { enabled: this.band1 },
-                '5G': { enabled: this.band2 }
-              }
+              ...this.form
             }
           })
           .then(res => {
@@ -162,7 +201,7 @@ export default {
     }
   },
   mounted() {
-    this.getMeshData();
+    this.getMeshMeta();
   }
 };
 </script>
@@ -203,10 +242,20 @@ export default {
       .check-info {
         display: flex;
         align-items: center;
+        position: relative;
         label {
-          margin-right: 10px;
-          font-size: 16px;
+          margin-right: 2px;
+          font-size: 14px;
           color: #333333;
+        }
+        .tool {
+          position: relative;
+          width: 30px;
+          img {
+            position: relative;
+            top: -8px;
+            cursor: pointer;
+          }
         }
       }
     }
@@ -237,7 +286,7 @@ export default {
           align-items: center;
           margin-top: 20px;
           label {
-            margin-right: 10px;
+            margin-right: 2px;
             font-size: 16px;
             color: #333333;
           }

@@ -147,7 +147,7 @@ export default {
 
         // 提交表单
         this.$http
-          .update({
+          .meshWifiUpdate({
             wifi: {
               ssid: this.form1.ssid,
               password: this.form1.password,

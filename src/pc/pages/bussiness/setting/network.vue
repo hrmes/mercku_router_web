@@ -30,11 +30,11 @@
                 </div>
                 <div>
                   <label for="">{{$t('trans0151')}}：</label>
-                  {{localNetInfo.netinfo.ip}}
+                  <span> {{localNetInfo.netinfo.ip}}</span>
                 </div>
                 <div>
                   <label for="">{{$t('trans0152')}}：</label>
-                  {{localNetInfo.netinfo.mask }}
+                  <span> {{localNetInfo.netinfo.mask }} </span>
                 </div>
                 <div>
                   <label for="">{{$t('trans0153')}}：</label>
@@ -44,7 +44,9 @@
                 </div>
                 <div>
                   <label for="">{{$t('trans0236')}}：</label>
-                  {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                  <span>
+                    {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                  </span>
                 </div>
               </div>
             </div>
@@ -122,6 +124,7 @@ export default {
     }
     return {
       networkArr: {
+        '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144')
@@ -221,7 +224,7 @@ export default {
   },
   mounted() {
     this.testWan();
-    this.getNet();
+    this.getWanNetInfo();
   },
   computed: {
     isTesting() {
@@ -264,8 +267,8 @@ export default {
           this.netStatus = 'unlinked';
         });
     },
-    getNet() {
-      this.$http.getNet({ type: 'wan' }).then(res => {
+    getWanNetInfo() {
+      this.$http.getWanNetInfo().then(res => {
         if (res.data.result) {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
@@ -275,11 +278,11 @@ export default {
           }
           if (this.netInfo.type === 'static') {
             this.staticForm = {
-              ip: this.netInfo.netinfo.ip,
-              mask: this.netInfo.netinfo.mask,
-              gateway: this.netInfo.netinfo.gateway,
-              dns1: this.netInfo.netinfo.dns[0],
-              dns2: this.netInfo.netinfo.dns[1] || ''
+              ip: this.netInfo.static.netinfo.ip,
+              mask: this.netInfo.static.netinfo.mask,
+              gateway: this.netInfo.static.netinfo.gateway,
+              dns1: this.netInfo.static.netinfo.dns[0],
+              dns2: this.netInfo.static.netinfo.dns[1] || ''
             };
           }
         }
@@ -287,7 +290,7 @@ export default {
     },
     save(form) {
       this.$http
-        .update({ wan: { ...form } })
+        .meshWanUpdate({ wan: { ...form } })
         .then(res => {
           if (res.status === 200) {
             this.reboot = true;

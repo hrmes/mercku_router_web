@@ -57,7 +57,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http
-          .update({ wifi: { ...this.form } })
+          .meshWifiUpdate({ wifi: { ...this.form } })
           .then(res => {
             this.$loading.close();
             if (res.status === 200) {

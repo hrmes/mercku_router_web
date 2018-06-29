@@ -32,7 +32,9 @@ export default {
               this.$router.replace({ path: '/wlan' });
             })
             .catch(() => {
-              this.$router.replace({ path: '/login' });
+              this.$router.replace({
+                path: `/login/${encodeURIComponent(redirect)}`
+              });
             });
         } else {
           this.$router.replace({ path: redirect });

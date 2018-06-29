@@ -22,65 +22,78 @@ Vue.use(Router);
 //   component: welcome
 // },
 
-const routes = [{
-  path: '/pre-login/:redirect?',
-  name: '/pre-login',
-  component: preLogin,
-  requireAuth: false
-}, {
-  path: '/',
-  redirect: '/wlan'
-}, {
-  path: '/wan-fail/:state?',
-  name: 'wan-fail',
-  component: wanFail,
-  requireAuth: true
-}, {
-  path: '/wan-hand',
-  name: 'wan-hand',
-  component: wanHand,
-  requireAuth: true
-}, {
-  path: '/static-ip',
-  name: 'static-ip',
-  component: staticIp,
-  requireAuth: true
-}, {
-  path: '/pppoe',
-  name: 'pppoe',
-  component: pppoe,
-  requireAuth: true
-}, {
-  path: '/dhcp',
-  name: 'dhcp',
-  component: dhcp,
-  requireAuth: true
-}, {
-  path: '/complete',
-  name: 'complete',
-  component: complete,
-  requireAuth: true
-}, {
-  path: '/login',
-  name: 'login',
-  component: login,
-  requireAuth: false
-}, {
-  path: '/wlan',
-  name: 'wlan',
-  component: wlan,
-  requireAuth: true
-}, {
-  path: '/check-network',
-  name: 'check-network',
-  component: checkNetwork,
-  requireAuth: true
-}, {
-  path: '/wan-success',
-  name: 'wan-success',
-  component: wanSuccess,
-  requireAuth: true
-}];
+const routes = [
+  {
+    path: '/pre-login/:redirect?',
+    name: '/pre-login',
+    component: preLogin,
+    requireAuth: false
+  },
+  {
+    path: '/',
+    redirect: '/wlan'
+  },
+  {
+    path: '/wan-fail/:state?',
+    name: 'wan-fail',
+    component: wanFail,
+    requireAuth: true
+  },
+  {
+    path: '/wan-hand',
+    name: 'wan-hand',
+    component: wanHand,
+    requireAuth: true
+  },
+  {
+    path: '/static-ip',
+    name: 'static-ip',
+    component: staticIp,
+    requireAuth: true
+  },
+  {
+    path: '/pppoe',
+    name: 'pppoe',
+    component: pppoe,
+    requireAuth: true
+  },
+  {
+    path: '/dhcp',
+    name: 'dhcp',
+    component: dhcp,
+    requireAuth: true
+  },
+  {
+    path: '/complete',
+    name: 'complete',
+    component: complete,
+    requireAuth: true
+  },
+  {
+    path: '/login/:redirect?',
+    name: 'login',
+    component: login,
+    requireAuth: false
+  },
+  {
+    path: '/wlan',
+    name: 'wlan',
+    component: wlan,
+    requireAuth: true
+  },
+  {
+    path: '/check-network',
+    name: 'check-network',
+    component: checkNetwork,
+    requireAuth: true
+  },
+  {
+    path: '/wan-success',
+    name: 'wan-success',
+    component: wanSuccess,
+    requireAuth: true
+  }
+];
 // , {
 // path: '/policy',
 //  component: policy
