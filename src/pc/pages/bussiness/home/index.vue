@@ -368,7 +368,7 @@ export default {
   },
   methods: {
     format(v, type) {
-      const units = ['KB', 'MB','GB','TB','PB'];
+      const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
       let index = -1;
       if (!isNaN(v)) {
         if (!type && type !== 'traffic') v /= 8;
