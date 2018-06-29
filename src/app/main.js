@@ -37,7 +37,7 @@ const loader = {
 };
 const launch = () => {
   FastClick.attach(document.body);
-  const NO_LOADING_METHODS = ['router.is_login', 'router.wan_status.get'];
+  const NO_LOADING_METHODS = ['router.is_login', 'mesh.wan.status.get'];
   const ROUTER_LOGIN = 'router.login';
   configRequestInterceptors(
     config => {

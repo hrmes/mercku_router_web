@@ -27,14 +27,14 @@
         </div>
       </div>
     </div>
-    <div class="note" v-if="deadline>0">
+    <div class="note" v-if="showProgress">
 
       <div class="progress-bar">
         <div class="progress-bar-inner"></div>
       </div>
       <span>{{$t('trans0322')}}{{deadline}}s</span>
     </div>
-    <div class="button-info" v-if="deadline<=0">
+    <div class="button-info" v-if="!showProgress">
       <van-button size="normal" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'): $t('trans0233')}}
       </van-button>
     </div>
@@ -54,6 +54,11 @@ export default {
       deadline: 40
     };
   },
+  computed: {
+    showProgress() {
+      return this.deadline > 0;
+    }
+  },
   methods: {
     closeWeb() {
       this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
@@ -64,13 +69,20 @@ export default {
     }
   },
   mounted() {
-    this.timer = setInterval(() => {
-      if (this.deadline <= 0) {
-        clearInterval(this.timer);
-        return;
-      }
-      this.deadline -= 1;
-    }, 1000);
+    if (
+      (this.config.wifi && this.config.wifi.ssid) ||
+      (this.config.wan && this.config.wan.type)
+    ) {
+      this.timer = setInterval(() => {
+        if (this.deadline <= 0) {
+          clearInterval(this.timer);
+          return;
+        }
+        this.deadline -= 1;
+      }, 1000);
+    } else {
+      this.deadline = 0;
+    }
   }
 };
 </script>
