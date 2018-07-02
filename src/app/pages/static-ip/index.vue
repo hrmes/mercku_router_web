@@ -7,19 +7,19 @@
         <label class="title">{{$t('trans0151')}}
           <span v-if="blurItems.includes('ip')">{{$t('trans0231')}}</span>
         </label>
-        <van-field placeholder="0.0.0.0" v-model="form.ip" @blur="onBlur('ip',form.ip)" />
+        <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.ip" @blur="onBlur('ip',form.ip)" />
         <label class="title">{{$t('trans0152')}}
           <span v-if="blurItems.includes('mask')">{{$t('trans0231')}}</span>
         </label>
-        <van-field placeholder="0.0.0.0" v-model="form.mask" @blur="onBlur('mask',form.mask)" />
+        <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.mask" @blur="onBlur('mask',form.mask)" />
         <label class="title">{{$t('trans0153')}}
           <span v-if="blurItems.includes('gateway')">{{$t('trans0231')}}</span>
         </label>
-        <van-field placeholder="0.0.0.0" v-model="form.gateway" @blur="onBlur('gateway',form.gateway)" />
+        <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.gateway" @blur="onBlur('gateway',form.gateway)" />
         <label class="title">{{$t('trans0236')}}
           <span v-if="blurItems.includes('dns')">{{$t('trans0231')}}</span>
         </label>
-        <van-field placeholder="0.0.0.0" v-model="form.dns" @blur="onBlur('dns',form.dns)" />
+        <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.dns" @blur="onBlur('dns',form.dns)" />
       </van-cell-group>
     </div>
     <div class="button-info">
@@ -104,7 +104,9 @@ export default {
   },
   computed: {
     disabled() {
-      return !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask;
+      return (
+        !this.form.ip || !this.form.gateway || !this.form.dns || !this.form.mask
+      );
     }
   }
 };

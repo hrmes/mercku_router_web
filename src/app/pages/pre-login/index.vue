@@ -20,7 +20,7 @@ export default {
     } else if (this.authorize.get()) {
       // 是否已经查询过授权
       this.$router.replace({ path: redirect });
-    } else {
+    } else { 
       this.$http.checkLogin().then(res => {
         this.authorize.set(res.data.result.status);
         if (!this.authorize.get()) {

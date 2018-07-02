@@ -4,9 +4,9 @@
     <div class="message">{{$t('trans0154')}}</div>
     <div class="form">
       <van-cell-group>
-        <van-field type="text" :placeholder="$t('trans0155')" v-model="form.account" />
+        <van-field autocomplete="new-password" type="text" :placeholder="$t('trans0155')" v-model="form.account" />
         <div class="password-info">
-          <van-field :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password" />
+          <van-field autocomplete="new-password" :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password" />
           <div class="pwd-preview">
             <i class="i" :class="!pwdShow?'i-close':'i-open'" @click="isShowPwd()"></i>
           </div>
