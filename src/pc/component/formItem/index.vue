@@ -42,6 +42,15 @@ export default {
         }
       }
       return result;
+    },
+    extraValidate(validator, arg, msg) {
+      let result = true;
+      if (!validator(...arg)) {
+        this.result = false;
+        result = false;
+        this.message = msg;
+      }
+      return result;
     }
   },
   mounted() {
