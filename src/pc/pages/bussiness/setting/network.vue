@@ -74,10 +74,10 @@
               </m-form>
               <m-form v-show="netType==='static'" ref="staticForm" :model="staticForm" :rules='staticRules'>
                 <m-form-item class="item" prop='ip'>
-                  <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" />
+                  <m-input :label="$t('trans0151')" type="text" ref="ip" placeholder="0.0.0.0" v-model="staticForm.ip" :onBlur="ipChange" />
                 </m-form-item>
                 <m-form-item class="item" prop='mask'>
-                  <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" />
+                  <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" ref="mast" />
                 </m-form-item>
                 <m-form-item class="item" prop='gateway'>
                   <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" />
@@ -107,6 +107,7 @@ import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
 import Progress from '../../../component/progress/index.vue';
 import layout from '../../../layout.vue';
+import { ipRule } from '../../../../app/util/util.js';
 
 export default {
   components: {
@@ -166,6 +167,10 @@ export default {
           },
           {
             rule: value => pattern.test(value),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => ipRule(value, this.staticForm.mask),
             message: this.$t('trans0231')
           }
         ],
@@ -256,6 +261,7 @@ export default {
     }
   },
   methods: {
+    ipChange() {},
     testWan() {
       this.netStatus = 'testing';
       this.$http
