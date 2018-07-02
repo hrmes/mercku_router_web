@@ -1,26 +1,31 @@
 <template>
   <div class="static-ip-container">
     <nav-bar :option="option" />
+    <div class="new-type-info">
+      <span>{{$t('trans0317')}}</span>
+      <span>
+        {{format[type]}}
+        <van-icon name="arrow" />
+      </span>
+    </div>
     <div class="message">{{$t('trans0150')}}</div>
     <div class="form">
-      <van-cell-group>
-        <label class="title">{{$t('trans0151')}}
-          <span v-if="blurItems.includes('ip')">{{$t('trans0231')}}</span>
-        </label>
-        <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.ip" @blur="onBlur('ip',form.ip)" />
-        <label class="title">{{$t('trans0152')}}
-          <span v-if="blurItems.includes('mask')">{{$t('trans0231')}}</span>
-        </label>
-        <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.mask" @blur="onBlur('mask',form.mask)" />
-        <label class="title">{{$t('trans0153')}}
-          <span v-if="blurItems.includes('gateway')">{{$t('trans0231')}}</span>
-        </label>
-        <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.gateway" @blur="onBlur('gateway',form.gateway)" />
-        <label class="title">{{$t('trans0236')}}
-          <span v-if="blurItems.includes('dns')">{{$t('trans0231')}}</span>
-        </label>
-        <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.dns" @blur="onBlur('dns',form.dns)" />
-      </van-cell-group>
+      <label class="title">{{$t('trans0151')}}
+        <span v-if="blurItems.includes('ip')">{{$t('trans0231')}}</span>
+      </label>
+      <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.ip" @blur="onBlur('ip',form.ip)" />
+      <label class="title">{{$t('trans0152')}}
+        <span v-if="blurItems.includes('mask')">{{$t('trans0231')}}</span>
+      </label>
+      <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.mask" @blur="onBlur('mask',form.mask)" />
+      <label class="title">{{$t('trans0153')}}
+        <span v-if="blurItems.includes('gateway')">{{$t('trans0231')}}</span>
+      </label>
+      <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.gateway" @blur="onBlur('gateway',form.gateway)" />
+      <label class="title">{{$t('trans0236')}}
+        <span v-if="blurItems.includes('dns')">{{$t('trans0231')}}</span>
+      </label>
+      <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.dns" @blur="onBlur('dns',form.dns)" />
     </div>
     <div class="button-info">
       <van-button size="normal" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</van-button>
@@ -32,8 +37,15 @@ import { ipRexp, ipRule } from '../../util/util';
 
 export default {
   data() {
+    const config = this.routerConfig.getWan();
     return {
       blurItems: [],
+      format: {
+        dhcp: this.$t('trans0146'),
+        static: this.$t('trans0148'),
+        pppoe: this.$t('trans0144')
+      },
+      type: config.type,
       option: {
         left: {
           icon: true,
@@ -47,13 +59,14 @@ export default {
         }
       },
       form: {
-        ip: '',
-        mask: '',
-        gateway: '',
-        dns: ''
+        ip: config.ip,
+        mask: config.mask,
+        gateway: config.gateway,
+        dns: config.dns && config.dns[0]
       }
     };
   },
+  mounted() {},
   methods: {
     onBlur(item, v) {
       if (!ipRexp(v)) {
@@ -143,6 +156,27 @@ export default {
 
 <style lang="scss" type="text/scss" scoped>
 .static-ip-container {
+  .new-type-info {
+    height: 50px;
+    line-height: 50px;
+    display: flex;
+    color: rgb(182, 182, 182);
+    background: rgb(14, 14, 14);
+    font-size: 14px;
+    padding: 0 0.15rem;
+    margin-bottom: 0.2rem;
+    justify-content: space-between;
+    :last-child {
+      text-align: right;
+      display: flex;
+      align-items: center;
+      i {
+        color: #d5b884;
+        font-weight: 400;
+        margin-left: 0.1rem;
+      }
+    }
+  }
   .message {
     line-height: 1.8;
     font-size: 0.12rem;

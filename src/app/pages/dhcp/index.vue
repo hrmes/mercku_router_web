@@ -1,12 +1,14 @@
 <template>
   <div class="dhcp-container">
     <nav-bar :option="option" />
-    <div class="space">
-      <div class="status-info">
-        <!-- <img src="../../assets/images/img_bg_dhcp_02.png" alt=""> -->
-        <div class="state">{{$t('trans0157')}}</div>
-      </div>
+    <div class="new-type-info">
+      <span>{{$t('trans0317')}}</span>
+      <span>
+        {{format[type]}}
+        <van-icon name="arrow" />
+      </span>
     </div>
+    <div class="message">{{$t('trans0147')}}</div>
     <div class="button-info">
       <van-button size="normal" @click="submit()">{{$t('trans0081')}}</van-button>
     </div>
@@ -15,7 +17,14 @@
 <script>
 export default {
   data() {
+    const config = this.routerConfig.getWan();
     return {
+      format: {
+        dhcp: this.$t('trans0146'),
+        static: this.$t('trans0148'),
+        pppoe: this.$t('trans0144')
+      },
+      type: config.type,
       option: {
         left: {
           icon: true,
@@ -52,6 +61,36 @@ export default {
 
 <style lang="scss" type="text/scss" scoped>
 .dhcp-container {
+  .new-type-info {
+    height: 50px;
+    line-height: 50px;
+    display: flex;
+    color: rgb(182, 182, 182);
+    background: rgb(14, 14, 14);
+    font-size: 14px;
+    padding: 0 0.15rem;
+    margin-bottom: 0.2rem;
+    justify-content: space-between;
+    :last-child {
+      text-align: right;
+      display: flex;
+      align-items: center;
+      i {
+        color: #d5b884;
+        font-weight: 400;
+        margin-left: 0.1rem;
+      }
+    }
+  }
+  .message {
+    line-height: 1.8;
+    font-size: 0.12rem;
+    text-align: left;
+    color: rgb(124, 124, 124);
+    background: rgb(0, 0, 0);
+    padding: 0.1rem 0.15rem;
+  }
+
   .space {
     padding: 0 0.15rem;
   }
