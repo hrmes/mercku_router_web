@@ -34,7 +34,7 @@ export default {
 @media screen and (min-width: 769px) {
   .flex-wrap {
     display: flex;
-    min-height: 100vh;
+
     flex-direction: column;
   }
 }
@@ -42,7 +42,10 @@ export default {
   .flex-wrap {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 65px);
+    min-height: 100vh;
+    &.has-menu {
+      min-height: calc(100vh - 65px);
+    }
   }
 }
 </style>
