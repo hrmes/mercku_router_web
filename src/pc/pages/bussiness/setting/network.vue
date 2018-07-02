@@ -333,7 +333,7 @@ export default {
         if (this.staticForm.dns2) {
           params.dns.push(this.staticForm.dns2);
         }
-        form = { ...form, netinfo: { ...params } };
+        form = { ...form, static: { netinfo: { ...params } } };
         this.save(form);
       }
     }
