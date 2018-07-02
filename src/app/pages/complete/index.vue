@@ -2,7 +2,7 @@
   <div class="wan-check-container">
     <nav-bar :option="option" />
     <div class="status-info">
-      <van-icon name="checked" class="icon" />
+      <img src="../../assets/images/ic_succeed.png" alt="">
       <label class="state">{{$t('trans0170')}}</label>
       <label class="code" v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
     </div>
@@ -159,9 +159,9 @@ export default {
     margin-top: 0.9rem;
     text-align: center;
 
-    .icon {
-      font-size: 0.6rem;
-      color: rgb(213, 184, 132);
+    img {
+      width: 0.6rem;
+      height: 0.6rem;
     }
 
     label {
