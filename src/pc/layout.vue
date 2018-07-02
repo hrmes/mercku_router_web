@@ -1,6 +1,6 @@
 <template>
-  <div class="app-container" :class="{'has-menu':!hasMenu}">
-    <div class="flex-wrap">
+  <div class="app-container">
+    <div class="flex-wrap" :class="{'has-menu':!hasMenu}">
       <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
       <slot></slot>
       <policy :locale="$i18n.locale" :class="{'fix-bottom':hasMenu}" class="policy" />
@@ -34,7 +34,7 @@ export default {
 @media screen and (min-width: 769px) {
   .flex-wrap {
     display: flex;
-
+    min-height: 100vh;
     flex-direction: column;
   }
 }
