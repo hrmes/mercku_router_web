@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import { ipRexp } from '../../util/util';
+import { ipRexp, ipRule } from '../../util/util';
 
 export default {
   data() {
@@ -62,6 +62,35 @@ export default {
         this.blurItems = [...this.blurItems, ...items];
       } else if (this.blurItems.includes(item)) {
         this.blurItems = this.blurItems.filter(i => i !== item);
+      }
+      if ((item === 'ip' || item === 'gateway') && v && this.form.mask) {
+        if (!ipRule(v, this.form.mask)) {
+          const items = this.blurItems;
+          items.push(item);
+          this.blurItems = [...this.blurItems, ...items];
+        } else {
+          this.blurItems = this.blurItems.filter(i => i !== item);
+        }
+      }
+      if (item === 'mask' && v) {
+        if (this.form.ip) {
+          if (!ipRule(this.form.ip, v)) {
+            const items = this.blurItems;
+            items.push('ip');
+            this.blurItems = [...this.blurItems, ...items];
+          } else {
+            this.blurItems = this.blurItems.filter(i => i !== 'ip');
+          }
+        }
+        if (this.form.gateway) {
+          if (!ipRule(this.form.gateway, v)) {
+            const items = this.blurItems;
+            items.push('gateway');
+            this.blurItems = [...this.blurItems, ...items];
+          } else {
+            this.blurItems = this.blurItems.filter(i => i !== 'gateway');
+          }
+        }
       }
     },
     submit() {

@@ -89,7 +89,7 @@ function sex(arr) {
     .reduce((pre, next) => pre + next);
 }
 export const ipRule = (ip, gateway) => {
-  if (!gateway) {
+  if (!gateway || !ip || !ipRexp(ip) || !ipRexp(gateway)) {
     return true;
   }
   if (ip && gateway) {
