@@ -31,6 +31,9 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    onBlur: {
+      type: Function
     }
   },
   data() {
@@ -55,6 +58,7 @@ export default {
       this.$emit('input', this.inputValue);
     },
     blur() {
+      this.onBlur && this.onBlur();
       this.$parent.$emit('blur');
     },
     focus() {

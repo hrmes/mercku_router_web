@@ -2,10 +2,34 @@
   <div class="wan-check-container">
     <nav-bar :option="option" />
     <div class="status-info">
-      <img src="../../assets/images/img_bg_dhcp_02.png" alt="">
-      <div class="state">{{$t('trans0180')}}</div>
-      <div class="message">{{$route.params.state==='unlinked'?$t('trans0161'):$t('trans0182')}}</div>
+      <img src="../../assets/images/img_default_empty@3x.png" alt="">
+      <div class="message">{{$route.params.state==='unlinked'?$t('trans0161'):$t('trans0180')}}</div>
     </div>
+    <div class="net-info-container">
+      <div class="net-info">
+        <div>
+          <label for="">{{$t('trans0317')}}：</label>
+          <span>{{access}}</span>
+        </div>
+        <div>
+          <label for="">{{$t('trans0151')}}：</label>
+          <span>{{netinfo.ip}}</span>
+        </div>
+        <div>
+          <label for="">{{$t('trans0152')}}：</label>
+          <span>{{netinfo.mask}}</span>
+        </div>
+        <div>
+          <label for="">{{$t('trans0153')}}：</label>
+          <span>{{netinfo.gateway}}</span>
+        </div>
+        <div>
+          <label for="">{{$t('trans0236')}}：</label>
+          <span>{{netinfo.dns.join('/')}}</span>
+        </div>
+      </div>
+    </div>
+
     <div class="button-info">
       <van-button size="normal" @click="$router.push('/wan-hand')">{{$t('trans0019')}}</van-button>
       <div class="space"></div>
@@ -48,8 +72,31 @@ export default {
               });
           }
         }
-      }
+      },
+      netinfo: {
+        ip: '',
+        mask: '',
+        gateway: '',
+        dns: ''
+      },
+      access: ''
     };
+  },
+  mounted() {
+    this.$http
+      .getWanNetInfo()
+      .then(res => {
+        this.netinfo = res.data.result.netinfo;
+        this.access = res.data.result.type;
+      })
+      .catch(err => {
+        if (err && err.error) {
+          // 弹出错误提示
+          this.$toast(this.$t(err.error.code));
+        } else {
+          this.$toast(this.$t('trans0039'));
+        }
+      });
   }
 };
 </script>
@@ -65,28 +112,31 @@ export default {
     text-align: center;
     color: #fff;
     position: relative;
-    .state {
-      position: absolute;
-      width: 100%;
-      top: 0.25rem;
-      font-size: 0.2rem;
-      text-align: center;
-      color: #fff;
-      /*height: 0.65rem;*/
-      /*line-height: 0.65rem;*/
-    }
     .message {
-      position: absolute;
       width: 100%;
-      top: 0.7rem;
       text-align: center;
-      font-size: 0.12rem;
-      color: #fff;
+      font-size: 0.14rem;
+      color: rgb(182, 182, 182);
     }
+
     img {
-      width: 100%;
-      height: 100%;
-      border-radius: 0.16rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-top: 0.3rem;
+    }
+  }
+  .net-info-container {
+    display: flex;
+    align-items: center;
+    margin-top: 0.4rem;
+    font-size: 16px;
+    .net-info {
+      display: inline-block;
+      margin: 0 auto;
+      > div {
+        text-align: left;
+        margin-top: 0.1rem;
+      }
     }
   }
 }

@@ -1,9 +1,9 @@
 <template>
-  <div class="app-container" :class="{'has-menu':!hasMenu}">
-    <div class="flex-wrap">
-      <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
+  <div class="app-container">
+    <div class="flex-wrap" :class="{'has-menu':!menu_hidden}">
+      <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':menu_hidden}"></mercku-header>
       <slot></slot>
-      <policy :locale="$i18n.locale" :class="{'fix-bottom':hasMenu}" class="policy" />
+      <policy :locale="$i18n.locale" :class="{'fix-bottom':menu_hidden}" class="policy" />
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
     policy
   },
   computed: {
-    hasMenu() {
+    menu_hidden() {
       return (
         this.$route.path.includes('login') ||
         this.$route.path.includes('wlan') ||
@@ -25,24 +25,23 @@ export default {
       );
     },
     hasExit() {
-      return !this.hasMenu;
+      return !this.menu_hidden;
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-@media screen and (min-width: 769px) {
-  .flex-wrap {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
+.flex-wrap {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
+
 @media screen and (max-width: 768px) {
   .flex-wrap {
-    display: flex;
-    flex-direction: column;
-    min-height: calc(100vh - 65px);
+    &.has-menu {
+      min-height: calc(100vh - 65px);
+    }
   }
 }
 </style>

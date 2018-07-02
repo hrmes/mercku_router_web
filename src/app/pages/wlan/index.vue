@@ -6,11 +6,11 @@
     </div>
     <div class="wlan-settings">
       <div class="ssid-container">
-        <van-field v-model="ssid" :placeholder="$t('trans0168')" />
+        <van-field autocomplete="new-password" v-model="ssid" :placeholder="$t('trans0168')" />
       </div>
       <div class="pwd-container">
         <div class="pwd-input">
-          <van-field :type="showPwd?InputTypes.text:InputTypes.password" v-model="pwd" :placeholder="$t('trans0003')" />
+          <van-field autocomplete="new-password" :type="showPwd?InputTypes.text:InputTypes.password" v-model="pwd" :placeholder="$t('trans0003')" />
         </div>
         <div class="pwd-preview">
           <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
@@ -21,7 +21,7 @@
       </div>
       <div v-if="!checked" class="adminpwd-container">
         <div class="adminpwd-input">
-          <van-field :type="showAdminPwd?InputTypes.text:InputTypes.password" v-model="adminPwd" :placeholder="$t('trans0067')" />
+          <van-field autocomplete="new-password" :type="showAdminPwd?InputTypes.text:InputTypes.password" v-model="adminPwd" :placeholder="$t('trans0067')" />
         </div>
         <div class="adminpwd-preview">
           <i class="i" :class="{'i-open':showAdminPwd,'i-close':!showAdminPwd}" @click="changeAdminPwdStatus"></i>

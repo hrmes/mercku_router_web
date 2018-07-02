@@ -73,11 +73,11 @@
                 </m-form-item>
               </m-form>
               <m-form v-show="netType==='static'" ref="staticForm" :model="staticForm" :rules='staticRules'>
-                <m-form-item class="item" prop='ip'>
-                  <m-input :label="$t('trans0151')" type="text" ref="ip" placeholder="0.0.0.0" v-model="staticForm.ip" :onBlur="ipChange" />
+                <m-form-item class="item" prop='ip' ref="ip">
+                  <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" />
                 </m-form-item>
-                <m-form-item class="item" prop='mask'>
-                  <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" ref="mast" />
+                <m-form-item class="item" prop='mask' ref="mast">
+                  <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" :onBlur="maskChange" />
                 </m-form-item>
                 <m-form-item class="item" prop='gateway'>
                   <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" />
@@ -168,10 +168,6 @@ export default {
           {
             rule: value => pattern.test(value),
             message: this.$t('trans0231')
-          },
-          {
-            rule: value => ipRule(value, this.staticForm.mask),
-            message: this.$t('trans0231')
           }
         ],
         mask: [
@@ -261,7 +257,15 @@ export default {
     }
   },
   methods: {
-    ipChange() {},
+    maskChange() {
+      console.log('123');
+      this.$refs.ip.extraValidate(
+        ipRule,
+        this.$t('trans0231'),
+        this.staticForm.ip,
+        this.staticForm.mask
+      );
+    },
     testWan() {
       this.netStatus = 'testing';
       this.$http

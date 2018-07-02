@@ -6,7 +6,7 @@
     </div>
     <div class="pwd-container">
       <div class="pwd-input">
-        <van-field :type="showPwd?InputTypes.text:InputTypes.password" v-model="password" :placeholder="$t('trans0067')" />
+        <van-field autocomplete="new-password" :type="showPwd?InputTypes.text:InputTypes.password" v-model="password" :placeholder="$t('trans0067')" />
       </div>
       <div class="pwd-preview">
         <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
