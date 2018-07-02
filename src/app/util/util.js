@@ -88,7 +88,7 @@ export const ipRexp = ip => {
   return false;
 };
 
-function sex(arr) {
+function move_bit(arr) {
   return arr
     .reverse()
     .map((v, index) => Number(v) << (index * 8))
@@ -101,7 +101,7 @@ export const ipRule = (ip, gateway) => {
   if (ip && gateway) {
     const ips = ip.split('.');
     const gateways = gateway.split('.');
-    const reslut = sex(ips) & ~sex(gateways);
+    const reslut = move_bit(ips) & ~move_bit(gateways);
     if (reslut >= 1 && reslut <= 254) {
       return true;
     }
