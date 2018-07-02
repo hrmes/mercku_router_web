@@ -74,10 +74,10 @@ export default {
         }
       },
       netinfo: {
-        ip: '',
-        mask: '',
-        gateway: '',
-        dns: ''
+        ip: '-.-.-.-',
+        mask: '-.-.-.-',
+        gateway: '-.-.-.-',
+        dns: ['-.-.-.-']
       },
       access: ''
     };
@@ -88,6 +88,11 @@ export default {
       .then(res => {
         this.netinfo = res.data.result.netinfo;
         this.access = res.data.result.type;
+        const { result } = res.data;
+        this.routerConfig.setWan(
+          this.access,
+          result.pppoe || (result.static && result.static.netinfo) || ''
+        );
       })
       .catch(err => {
         if (err && err.error) {

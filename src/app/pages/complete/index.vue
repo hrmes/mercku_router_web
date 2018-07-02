@@ -6,24 +6,22 @@
       <label class="state">{{$t('trans0170')}}</label>
       <label class="code" v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
     </div>
-    <div style="display:table;width:100%;">
-      <div style="display:table-cell;text-align:center;">
-        <div class="wif-info" v-if="config.wifi.ssid">
-          <div>
-            <span class="icon"></span>
-            <span class="title">{{$t('trans0168')}}</span>:
-            <span class="value">{{config.wifi.ssid}}</span>
-          </div>
-          <div>
-            <span class="icon"></span>
-            <span class="title">{{$t('trans0003')}}</span>:
-            <span class="value">{{config.wifi.password}}</span>
-          </div>
-          <div>
-            <span class="icon"></span>
-            <span class="title">{{$t('trans0067')}}</span>:
-            <span class="value">{{config.wifi.admin_password}}</span>
-          </div>
+    <div class="net-info-container" v-if="config.wifi.ssid">
+      <div class="net-info">
+        <div>
+          <span class="icon"></span>
+          <span class="title">{{$t('trans0168')}}</span>:
+          <span class="value">{{config.wifi.ssid}}</span>
+        </div>
+        <div>
+          <span class="icon"></span>
+          <span class="title">{{$t('trans0003')}}</span>:
+          <span class="value">{{config.wifi.password}}</span>
+        </div>
+        <div>
+          <span class="icon"></span>
+          <span class="title">{{$t('trans0067')}}</span>:
+          <span class="value">{{config.wifi.admin_password}}</span>
         </div>
       </div>
     </div>
@@ -120,6 +118,43 @@ export default {
       }
     }
   }
+  .net-info-container {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    .net-info {
+      text-align: left;
+      display: inline-block;
+      margin: 0 auto;
+
+      div {
+        color: rgb(182, 182, 182);
+        font-weight: 100;
+        margin-bottom: 0.1rem;
+        font-size: 0.16rem;
+
+        .icon {
+          display: inline-block;
+          width: 0.05rem;
+          height: 0.05rem;
+          border-radius: 50%;
+          margin-bottom: 0.02rem;
+          margin-right: 0.08rem;
+        }
+
+        .title {
+          display: inline-block;
+          text-align: right;
+        }
+
+        .value {
+          display: inline-block;
+          text-align: left;
+          margin-left: 0.05rem;
+        }
+      }
+    }
+  }
   .status-info {
     margin-top: 0.9rem;
     text-align: center;
@@ -144,38 +179,6 @@ export default {
       color: rgb(182, 182, 182);
       margin-top: 0.1rem;
       font-weight: 100;
-    }
-  }
-  .wif-info {
-    margin-top: 0.5rem;
-    text-align: left;
-    display: inline-block;
-
-    div {
-      color: rgb(182, 182, 182);
-      font-weight: 100;
-      margin-bottom: 0.1rem;
-      font-size: 0.16rem;
-
-      .icon {
-        display: inline-block;
-        width: 0.05rem;
-        height: 0.05rem;
-        border-radius: 50%;
-        margin-bottom: 0.02rem;
-        margin-right: 0.08rem;
-      }
-
-      .title {
-        display: inline-block;
-        text-align: right;
-      }
-
-      .value {
-        display: inline-block;
-        text-align: left;
-        margin-left: 0.05rem;
-      }
     }
   }
 }

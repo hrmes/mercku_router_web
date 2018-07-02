@@ -21,7 +21,14 @@ export default {
         center: {
           text: this.$t('trans0223')
         }
-      }
+      },
+      netinfo: {
+        ip: '-.-.-.-',
+        mask: '-.-.-.-',
+        gateway: '-.-.-.-',
+        dns: ['-.-.-.-']
+      },
+      access: ''
     };
   },
   methods: {
@@ -39,6 +46,27 @@ export default {
           }
         });
     }
+  },
+  mounted() {
+    this.$http
+      .getWanNetInfo()
+      .then(res => {
+        this.netinfo = res.data.result.netinfo;
+        this.access = res.data.result.type;
+        const { result } = res.data;
+        this.routerConfig.setWan(
+          this.access,
+          result.pppoe || (result.static && result.static.netinfo) || ''
+        );
+      })
+      .catch(err => {
+        if (err && err.error) {
+          // 弹出错误提示
+          this.$toast(this.$t(err.error.code));
+        } else {
+          this.$toast(this.$t('trans0039'));
+        }
+      });
   }
 };
 </script>
