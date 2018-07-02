@@ -74,13 +74,13 @@
               </m-form>
               <m-form v-show="netType==='static'" ref="staticForm" :model="staticForm" :rules='staticRules'>
                 <m-form-item class="item" prop='ip' ref="ip">
-                  <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" />
+                  <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" :onBlur="ipChange" />
                 </m-form-item>
                 <m-form-item class="item" prop='mask' ref="mast">
                   <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" :onBlur="maskChange" />
                 </m-form-item>
-                <m-form-item class="item" prop='gateway'>
-                  <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" />
+                <m-form-item class="item" prop='gateway' ref="gateway">
+                  <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" :onBlur="getwayChange" />
                 </m-form-item>
                 <m-form-item class="item" prop='dns1'>
                   <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns1" />
@@ -257,12 +257,33 @@ export default {
     }
   },
   methods: {
-    maskChange() {
-      console.log('123');
+    ipChange() {
       this.$refs.ip.extraValidate(
         ipRule,
         this.$t('trans0231'),
         this.staticForm.ip,
+        this.staticForm.mask
+      );
+    },
+    getwayChange() {
+      this.$refs.gateway.extraValidate(
+        ipRule,
+        this.$t('trans0231'),
+        this.staticForm.gateway,
+        this.staticForm.mask
+      );
+    },
+    maskChange() {
+      this.$refs.ip.extraValidate(
+        ipRule,
+        this.$t('trans0231'),
+        this.staticForm.ip,
+        this.staticForm.mask
+      );
+      this.$refs.gateway.extraValidate(
+        ipRule,
+        this.$t('trans0231'),
+        this.staticForm.gateway,
         this.staticForm.mask
       );
     },
