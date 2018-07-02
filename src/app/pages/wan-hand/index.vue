@@ -45,6 +45,7 @@ export default {
           icon: true,
           text: 'arrow-left',
           click: () => {
+            this.$router.back();
             this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
           }
         }

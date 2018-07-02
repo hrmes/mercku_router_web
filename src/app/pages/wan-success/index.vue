@@ -2,7 +2,6 @@
 
   <div class="wan-success-page">
     <nav-bar :option="option" />
-
     <div class="banner-container">
       <p>{{$t('trans0157')}}</p>
       <img src="../../assets/images/img_bg_dhcp.png" alt="">

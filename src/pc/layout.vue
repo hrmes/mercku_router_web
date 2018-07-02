@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
-    <div class="flex-wrap" :class="{'has-menu':!hasMenu}">
-      <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':hasMenu}"></mercku-header>
+    <div class="flex-wrap" :class="{'has-menu':!menu_hidden}">
+      <mercku-header :hasExit="hasExit" class="header" :class="{'has-menu':menu_hidden}"></mercku-header>
       <slot></slot>
-      <policy :locale="$i18n.locale" :class="{'fix-bottom':hasMenu}" class="policy" />
+      <policy :locale="$i18n.locale" :class="{'fix-bottom':menu_hidden}" class="policy" />
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
     policy
   },
   computed: {
-    hasMenu() {
+    menu_hidden() {
       return (
         this.$route.path.includes('login') ||
         this.$route.path.includes('wlan') ||
@@ -25,7 +25,7 @@ export default {
       );
     },
     hasExit() {
-      return !this.hasMenu;
+      return !this.menu_hidden;
     }
   }
 };

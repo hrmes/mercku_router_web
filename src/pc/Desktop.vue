@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <mercku-menu class="menu" :menus="menus" v-if="!hasMenu"></mercku-menu>
+    <mercku-menu class="menu" :menus="menus" v-if="!menu_hidden"></mercku-menu>
     <router-view class="router-view"></router-view>
   </div>
 
@@ -14,15 +14,12 @@ export default {
     'mercku-menu': MerckuMenu
   },
   computed: {
-    hasMenu() {
+    menu_hidden() {
       return (
         this.$route.path.includes('login') ||
         this.$route.path.includes('wlan') ||
         this.$route.path.includes('disappear')
       );
-    },
-    hasExit() {
-      return !this.hasMenu;
     }
   },
   data() {

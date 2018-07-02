@@ -3,7 +3,7 @@
     <nav-bar :option="option" />
     <div class="space">
       <div class="status-info">
-        <img src="../../assets/images/img_bg_dhcp_02.png" alt="">
+        <!-- <img src="../../assets/images/img_bg_dhcp_02.png" alt=""> -->
         <div class="state">{{$t('trans0157')}}</div>
       </div>
     </div>
