@@ -107,6 +107,7 @@ import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
 import Progress from '../../../component/progress/index.vue';
 import layout from '../../../layout.vue';
+import { ipRule } from '../../../../app/util/util.js';
 
 export default {
   components: {
@@ -166,6 +167,10 @@ export default {
           },
           {
             rule: value => pattern.test(value),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => ipRule(value, this.staticForm.mask),
             message: this.$t('trans0231')
           }
         ],

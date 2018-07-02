@@ -21,12 +21,16 @@ export default {
         needWidth = width;
       }
       rem = needWidth / 3.75;
-      rem = rem > 100 ? 100 : rem;
+      rem = rem > 100 ?
+        100 :
+        rem;
       // const rem = width / 3.75;
       rootStyle = `html{font-size:${rem}px !important;width:${needWidth}px !important;height:${height}px !important}`;
       rootItem = document.getElementById('rootsize') || document.createElement('style');
       if (!document.getElementById('rootsize')) {
-        document.getElementsByTagName('head')[0].appendChild(rootItem);
+        document
+          .getElementsByTagName('head')[0]
+          .appendChild(rootItem);
         rootItem.id = 'rootsize';
       }
       if (rootItem.styleSheet) {
@@ -42,37 +46,23 @@ export default {
     }
 
     refreshRem();
-    // win.addEventListener(
-    //   'resize',
-    //   () => {
-    //     clearTimeout(tid);
-    //     tid = setTimeout(refreshRem, 300);
-    //   },
-    //   false
-    // );
+    // win.addEventListener(   'resize',   () => {     clearTimeout(tid);     tid =
+    // setTimeout(refreshRem, 300);   },   false );
 
-    win.addEventListener(
-      'pageshow',
-      e => {
-        if (e.persisted) {
-          // 浏览器后退的时候重新计算
-          clearTimeout(tid);
-          tid = setTimeout(refreshRem, 300);
-        }
-      },
-      false
-    );
+    win.addEventListener('pageshow', e => {
+      if (e.persisted) {
+        // 浏览器后退的时候重新计算
+        clearTimeout(tid);
+        tid = setTimeout(refreshRem, 300);
+      }
+    }, false);
 
     if (doc.readyState === 'complete') {
       doc.body.style.fontSize = '16px';
     } else {
-      doc.addEventListener(
-        'DOMContentLoaded',
-        () => {
-          doc.body.style.fontSize = '16px';
-        },
-        false
-      );
+      doc.addEventListener('DOMContentLoaded', () => {
+        doc.body.style.fontSize = '16px';
+      }, false);
     }
   }
 };
@@ -90,4 +80,25 @@ export const ipRexp = ip => {
     return true;
   }
   return false;
+};
+
+function sex(arr) {
+  return arr
+    .reverse()
+    .map((v, index) => Number(v) << (index * 8))
+    .reduce((pre, next) => pre + next);
+}
+export const ipRule = (ip, gateway) => {
+  if (!gateway) {
+    return true;
+  }
+  if (ip && gateway) {
+    const ips = ip.split('.');
+    const gateways = gateway.split('.');
+    const reslut = sex(ips) & ~sex(gateways);
+    if (reslut >= 1 && reslut <= 254) {
+      return true;
+    }
+    return false;
+  }
 };

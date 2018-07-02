@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import 'babel-polyfill';
-
-import { changeLanguage, i18n } from '../i18n';
+import {
+  changeLanguage,
+  i18n
+} from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
