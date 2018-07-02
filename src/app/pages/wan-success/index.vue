@@ -3,8 +3,8 @@
   <div class="wan-success-page">
     <nav-bar :option="option" />
     <div class="banner-container">
+      <img src="../../assets/images/ic_succeed.png" alt="">
       <p>{{$t('trans0157')}}</p>
-      <img src="../../assets/images/img_bg_dhcp.png" alt="">
     </div>
     <div class="button-container">
       <van-button size="normal" @click="next">{{$t('trans0081')}}</van-button>
@@ -97,9 +97,8 @@ export default {
       color: #fff;
     }
     img {
-      width: 100%;
-      height: 100%;
-      border-radius: 0.16rem;
+      width: 0.6rem;
+      height: 0.6rem;
     }
   }
   .button-container {
