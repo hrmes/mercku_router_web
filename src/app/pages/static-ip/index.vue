@@ -1,7 +1,7 @@
 <template>
   <div class="static-ip-container">
     <nav-bar :option="option" />
-    <div class="new-type-info" @click="this.$router.replace('/wan-hand')">
+    <div class="new-type-info" @click="$router.replace('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
         {{format[type]}}

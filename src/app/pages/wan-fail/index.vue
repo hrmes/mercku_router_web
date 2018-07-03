@@ -86,11 +86,11 @@ export default {
   methods: {
     forward2set() {
       if (this.access === WanType.pppoe) {
-        this.$router.push({ path: 'pppoe' });
+        this.$router.push({ path: '/pppoe' });
       } else if (this.access === WanType.static) {
-        this.$router.push({ path: 'static' });
+        this.$router.push({ path: '/static' });
       } else if (this.access === WanType.dhcp) {
-        this.$router.push({ path: 'dhcp' });
+        this.$router.push({ path: '/dhcp' });
       }
     }
   },
