@@ -567,7 +567,7 @@ export default {
         .catch(err => {
           if (err.response && err.response.status === 400) {
             this.timer6 = setTimeout(() => {
-              this.getRouter();
+              this.getWanNetInfo();
             }, 1000 * 3);
           }
         });
