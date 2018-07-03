@@ -1524,8 +1524,9 @@ export default {
           top: 20px;
         }
         .fail-icon {
-          width: 26px;
-          height: 26px;
+          width: 18px;
+          height: 18px;
+          margin-top: 2px;
         }
         .success-line,
         .fail-line {
