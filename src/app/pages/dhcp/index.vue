@@ -1,7 +1,7 @@
 <template>
   <div class="dhcp-container">
     <nav-bar :option="option" />
-    <div class="new-type-info" @clcik="()=>this.$router.push('/wan-hand')">
+    <div class="new-type-info" @click="this.$router.replace('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
         {{format[type]}}

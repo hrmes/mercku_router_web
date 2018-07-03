@@ -3,7 +3,7 @@
     <nav-bar :option="option" />
     <div class="message">{{$t('trans0143')}} </div>
     <div class="list">
-      <div class="item" @click="checkType('/pppoe')">
+      <div class="item" @click="checkType('pppoe')">
         <div class="text">
           <label class="title">{{$t('trans0144')}}</label>
           <label class="des">{{$t('trans0145')}}</label>
@@ -12,7 +12,7 @@
           <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
         </div>
       </div>
-      <div class="item" @click="checkType('/dhcp')">
+      <div class="item" @click="checkType('dhcp')">
         <div class="text">
           <label class="title">{{$t('trans0146')}}</label>
           <label class="des">{{$t('trans0147')}}</label>
@@ -21,7 +21,7 @@
           <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
         </div>
       </div>
-      <div class="item" @click="checkType('/static')">
+      <div class="item" @click="checkType('static')">
         <div class="text">
           <label class="title">{{$t('trans0148')}}</label>
           <label class="des">{{$t('trans0149')}}</label>
@@ -37,6 +37,7 @@
 export default {
   data() {
     const config = this.routerConfig.getWan();
+    console.log(config);
     return {
       type: config.type,
       option: {

@@ -107,7 +107,7 @@ import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
 import Progress from '../../../component/progress/index.vue';
 import layout from '../../../layout.vue';
-import { ipRule } from '../../../../app/util/util';
+import { ipRule } from '../../../../util/util';
 
 export default {
   components: {
