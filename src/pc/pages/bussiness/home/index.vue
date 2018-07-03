@@ -166,7 +166,7 @@
         <div class='mesh-info'>
           <div class="title">{{$t('trans0312')}}</div>
           <div class="content">
-            <div v-for="item in meshNode" class="mesh" :class="diffMesh(item)">
+            <div :key="item" v-for="item in meshNode" class="mesh" :class="diffMesh(item)">
               <div class="message">
                 <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if="item.model==='M2'">
                 <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if="item.model==='Bee'">
