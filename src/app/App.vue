@@ -22,7 +22,7 @@ export default {
     };
   },
   watch: {
-    $route(to, from) {
+    $route(to) {
       if (to.path === '/wan-fail') {
         this.transitionName = 'slide-right';
       } else {
