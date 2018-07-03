@@ -170,7 +170,7 @@
               <div class="message">
                 <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if="item.model==='M2'">
                 <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if="item.model==='Bee'">
-                <span>{{item.alias}}</span>
+                <span>{{item.name}}</span>
               </div>
               <div class="status">
                 <img src="../../../assets/images/ic_plug_bad.png" alt="" v-if='item.rssi<-60'>

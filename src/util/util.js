@@ -91,7 +91,7 @@ export const ipRexp = ip => {
 function moveBit(arr) {
   return arr
     .reverse()
-    .map((v, index) => Number(v) << (index * 8))
+    .map((v, index) => Number(v) * Math.pow(2, index * 8))
     .reduce((pre, next) => pre + next);
 }
 export const ipRule = (ip, mask) => {
@@ -101,8 +101,10 @@ export const ipRule = (ip, mask) => {
   if (ip && mask) {
     const ips = ip.split('.');
     const masks = mask.split('.');
-    const reslut = moveBit(ips) & ~moveBit(masks);
-    if (reslut >= 1 && reslut < ~moveBit(masks)) {
+    const i = moveBit(ips);
+    const m = ~moveBit(masks);
+    const reslut = i & m;
+    if (reslut >= 1 && reslut < m) {
       return true;
     }
     return false;
