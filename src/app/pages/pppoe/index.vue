@@ -85,14 +85,13 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .pppoe-container {
   .new-type-info {
-    height: 50px;
-    line-height: 50px;
+    height: 0.5rem;
+    line-height: 0.5rem;
     display: flex;
     color: rgb(182, 182, 182);
     background: rgb(14, 14, 14);
     font-size: 14px;
     padding: 0 0.15rem;
-    margin-bottom: 0.2rem;
     justify-content: space-between;
     :last-child {
       text-align: right;
@@ -110,7 +109,6 @@ export default {
     font-size: 0.12rem;
     text-align: left;
     color: rgb(124, 124, 124);
-    background: rgb(0, 0, 0);
     padding: 0.1rem 0.15rem;
   }
 

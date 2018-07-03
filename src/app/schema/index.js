@@ -66,7 +66,6 @@ const routerConfig = () => {
             password: options.password
           };
         }
-
       }
     },
     getWan() {

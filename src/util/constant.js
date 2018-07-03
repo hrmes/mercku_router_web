@@ -3,3 +3,5 @@ export const WanType = {
   static: 'static',
   dhcp: 'dhcp'
 };
+
+export default WanType;

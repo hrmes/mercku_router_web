@@ -39,6 +39,7 @@
 </template>
 <script>
 import { WanType } from '../../../util/constant';
+
 export default {
   data() {
     return {
@@ -75,7 +76,7 @@ export default {
         },
         left: {
           icon: true,
-          text: 'arrow',
+          text: 'arrow-left',
           click: () => {
             this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
           }
