@@ -18,7 +18,7 @@ import {
   configResponseInterceptors,
   configRequestInterceptors
 } from '../http';
-import util from './util/util';
+import util from '../util/util';
 import nav from './component/nav-bar.vue';
 import v from '../../version.json';
 

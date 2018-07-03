@@ -49,23 +49,21 @@ const routerConfig = () => {
       } else {
         const wan = {};
         wan.type = type;
-        switch (type) {
-          case wanType.static:
-            wan.netinfo = {
-              ip: options.ip,
-              mask: options.mask,
-              gateway: options.gateway,
-              dns: options.dns
-            };
-            break;
-          case wanType.pppoe:
-            wan.pppoe = {
-              account: options.account,
-              password: options.password
-            };
-            break;
-          default:
-            break;
+        if (!options) {
+          return;
+        }
+        if (wanType.static === type) {
+          wan.netinfo = {
+            ip: options.ip,
+            mask: options.mask,
+            gateway: options.gateway,
+            dns: options.dns
+          };
+        } else if (wanType.pppoe === type) {
+          wan.pppoe = {
+            account: options.account,
+            password: options.password
+          };
         }
         config.wan = wan;
       }

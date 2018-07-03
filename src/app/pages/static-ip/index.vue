@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import { ipRexp, ipRule } from '../../util/util';
+import { ipRexp, ipRule } from '../../../util/util';
 
 export default {
   data() {
