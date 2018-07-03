@@ -1,7 +1,7 @@
 <template>
   <div class="pppoe-container">
     <nav-bar :option="option" />
-    <div class="new-type-info">
+    <div class="new-type-info" @clcik="()=>this.$router.push('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
         {{format[type]}}
@@ -27,14 +27,14 @@
 export default {
   data() {
     const config = this.routerConfig.getWan();
-    console.log(config);
+
     return {
       option: {
         left: {
           icon: true,
           text: 'arrow-left',
           click: () => {
-            this.$router.replace('/wan-hand');
+            this.$router.back();
           }
         },
         center: {

@@ -1,7 +1,7 @@
 <template>
   <div class="static-ip-container">
     <nav-bar :option="option" />
-    <div class="new-type-info">
+    <div class="new-type-info" @clcik="()=>this.$router.push('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
         {{format[type]}}
@@ -51,7 +51,7 @@ export default {
           icon: true,
           text: 'arrow-left',
           click: () => {
-            this.$router.replace('/wan-hand');
+            this.$router.back();
           }
         },
         center: {

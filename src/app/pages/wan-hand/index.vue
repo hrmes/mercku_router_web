@@ -3,31 +3,31 @@
     <nav-bar :option="option" />
     <div class="message">{{$t('trans0143')}} </div>
     <div class="list">
-      <div class="item" @click="$router.replace('/pppoe')">
+      <div class="item" @click="checkType('/pppoe')">
         <div class="text">
           <label class="title">{{$t('trans0144')}}</label>
           <label class="des">{{$t('trans0145')}}</label>
         </div>
-        <div class="icon">
-          <van-icon name="arrow" />
+        <div class="icon" v-if="type==='pppoe'">
+          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
         </div>
       </div>
-      <div class="item" @click="$router.replace('/dhcp')">
+      <div class="item" @click="checkType('/dhcp')">
         <div class="text">
           <label class="title">{{$t('trans0146')}}</label>
           <label class="des">{{$t('trans0147')}}</label>
         </div>
-        <div class="icon">
-          <van-icon name="arrow" />
+        <div class="icon" v-if="type==='dhcp'">
+          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
         </div>
       </div>
-      <div class="item" @click="$router.replace('/static-ip')">
+      <div class="item" @click="checkType('/static')">
         <div class="text">
           <label class="title">{{$t('trans0148')}}</label>
           <label class="des">{{$t('trans0149')}}</label>
         </div>
-        <div class="icon">
-          <van-icon name="arrow" />
+        <div class="icon" v-if="type==='static'">
+          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
         </div>
       </div>
     </div>
@@ -36,7 +36,9 @@
 <script>
 export default {
   data() {
+    const config = this.routerConfig.getWan();
     return {
+      type: config.type,
       option: {
         center: {
           text: this.$t('trans0142')
@@ -51,6 +53,25 @@ export default {
         }
       }
     };
+  },
+  methods: {
+    checkType(type) {
+      this.type = type;
+      switch (type) {
+        case 'pppoe':
+          this.$router.replace('/pppoe');
+          break;
+        case 'dhcp':
+          this.$router.replace('/dhcp');
+          break;
+        case 'static':
+          this.$router.replace('/static-ip');
+          break;
+        default:
+          break;
+      }
+      this.routerConfig.setWan(type);
+    }
   }
 };
 </script>
