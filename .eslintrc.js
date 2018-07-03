@@ -24,6 +24,7 @@ module.exports = {
     'no-param-reassign': 0,
     indent: 0,
     'no-underscore-dangle': 0,
-    'no-bitwise': 0
+    'no-bitwise': 0,
+    'no-restricted-properties': 0
   }
 };
