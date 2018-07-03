@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-// import welcome from '../pages/welcome/index.vue';
 import wanFail from '../pages/wan-fail/index.vue';
 import wanHand from '../pages/wan-hand/index.vue';
 import staticIp from '../pages/static-ip/index.vue';
@@ -12,7 +11,6 @@ import wlan from '../pages/wlan/index.vue';
 import checkNetwork from '../pages/check-network/index.vue';
 import wanSuccess from '../pages/wan-success/index.vue';
 import preLogin from '../pages/pre-login/index.vue';
-// import policy from '../pages/policy/index.vue';
 // import timezone from '../pages/timezone/index.vue';
 
 Vue.use(Router);
