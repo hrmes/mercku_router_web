@@ -43,7 +43,7 @@ export default {
       }
       return result;
     },
-    extraValidate(validator, arg, msg) {
+    extraValidate(validator, msg, ...arg) {
       let result = true;
       if (!validator(...arg)) {
         this.result = false;

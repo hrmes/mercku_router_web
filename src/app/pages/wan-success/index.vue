@@ -3,10 +3,34 @@
   <div class="wan-success-page">
     <nav-bar :option="option" />
     <div class="banner-container">
+      <img src="../../assets/images/ic_succeed.png" alt="">
       <p>{{$t('trans0157')}}</p>
-      <img src="../../assets/images/img_bg_dhcp.png" alt="">
     </div>
-    <div class="button-container">
+    <div class="net-info-container">
+      <div class="net-info">
+        <div>
+          <label for="">{{$t('trans0317')}}：</label>
+          <span>{{access}}</span>
+        </div>
+        <div>
+          <label for="">{{$t('trans0151')}}：</label>
+          <span>{{netinfo.ip}}</span>
+        </div>
+        <div>
+          <label for="">{{$t('trans0152')}}：</label>
+          <span>{{netinfo.mask}}</span>
+        </div>
+        <div>
+          <label for="">{{$t('trans0153')}}：</label>
+          <span>{{netinfo.gateway}}</span>
+        </div>
+        <div>
+          <label for="">{{$t('trans0236')}}：</label>
+          <span>{{netinfo.dns.join('/')}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="button-info">
       <van-button size="normal" @click="next">{{$t('trans0081')}}</van-button>
     </div>
   </div>
@@ -21,7 +45,14 @@ export default {
         center: {
           text: this.$t('trans0223')
         }
-      }
+      },
+      netinfo: {
+        ip: '-.-.-.-',
+        mask: '-.-.-.-',
+        gateway: '-.-.-.-',
+        dns: ['-.-.-.-']
+      },
+      access: ''
     };
   },
   methods: {
@@ -39,6 +70,27 @@ export default {
           }
         });
     }
+  },
+  mounted() {
+    this.$http
+      .getWanNetInfo()
+      .then(res => {
+        this.netinfo = res.data.result.netinfo;
+        this.access = res.data.result.type;
+        const { result } = res.data;
+        this.routerConfig.setWan(
+          this.access,
+          result.pppoe || (result.static && result.static.netinfo) || ''
+        );
+      })
+      .catch(err => {
+        if (err && err.error) {
+          // 弹出错误提示
+          this.$toast(this.$t(err.error.code));
+        } else {
+          this.$toast(this.$t('trans0039'));
+        }
+      });
   }
 };
 </script>
@@ -58,20 +110,29 @@ export default {
     text-align: center;
     color: #fff;
     position: relative;
-    margin-top: 0.25rem;
-    margin: 0 auto;
+    margin-top: 0.9rem;
     p {
-      position: absolute;
       width: 100%;
-      top: 0.25rem;
-      font-weight: bold;
-      font-size: 0.16rem;
-      color: #fff;
+      font-size: 0.14rem;
+      color: rgb(182, 182, 182);
     }
     img {
-      width: 100%;
-      height: 100%;
-      border-radius: 0.16rem;
+      width: 0.6rem;
+      height: 0.6rem;
+    }
+  }
+  .net-info-container {
+    display: flex;
+    align-items: center;
+    margin-top: 0.4rem;
+    font-size: 16px;
+    .net-info {
+      display: inline-block;
+      margin: 0 auto;
+      > div {
+        text-align: left;
+        margin-top: 0.1rem;
+      }
     }
   }
   .button-container {

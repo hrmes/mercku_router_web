@@ -1,17 +1,22 @@
 <template>
   <div class="pppoe-container">
     <nav-bar :option="option" />
+    <div class="new-type-info" @click="$router.replace('/wan-hand')">
+      <span>{{$t('trans0317')}}</span>
+      <span>
+        {{format[type]}}
+        <van-icon name="arrow" />
+      </span>
+    </div>
     <div class="message">{{$t('trans0154')}}</div>
     <div class="form">
-      <van-cell-group>
-        <van-field autocomplete="new-password" type="text" :placeholder="$t('trans0155')" v-model="form.account" />
-        <div class="password-info">
-          <van-field autocomplete="new-password" :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password" />
-          <div class="pwd-preview">
-            <i class="i" :class="!pwdShow?'i-close':'i-open'" @click="isShowPwd()"></i>
-          </div>
+      <van-field autocomplete="new-password" type="text" :placeholder="$t('trans0155')" v-model="form.account" />
+      <div class="password-info">
+        <van-field autocomplete="new-password" :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password" />
+        <div class="pwd-preview">
+          <i class="i" :class="!pwdShow?'i-close':'i-open'" @click="isShowPwd()"></i>
         </div>
-      </van-cell-group>
+      </div>
       <div class="button-info">
         <van-button size="normal" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</van-button>
       </div>
@@ -21,22 +26,30 @@
 <script>
 export default {
   data() {
+    const config = this.routerConfig.getWan();
+
     return {
       option: {
         left: {
           icon: true,
           text: 'arrow-left',
           click: () => {
-            this.$router.replace('/wan-hand');
+            this.$router.back();
           }
         },
         center: {
           text: this.$t('trans0142')
         }
       },
+      format: {
+        dhcp: this.$t('trans0146'),
+        static: this.$t('trans0148'),
+        pppoe: this.$t('trans0144')
+      },
+      type: config.type,
       form: {
-        account: '',
-        password: ''
+        account: config.account,
+        password: config.password
       },
       pwdShow: false
     };
@@ -71,12 +84,31 @@ export default {
 
 <style lang="scss" type="text/scss" scoped>
 .pppoe-container {
+  .new-type-info {
+    height: 0.5rem;
+    line-height: 0.5rem;
+    display: flex;
+    color: rgb(182, 182, 182);
+    background: rgb(14, 14, 14);
+    font-size: 14px;
+    padding: 0 0.15rem;
+    justify-content: space-between;
+    :last-child {
+      text-align: right;
+      display: flex;
+      align-items: center;
+      i {
+        color: #d5b884;
+        font-weight: 400;
+        margin-left: 0.1rem;
+      }
+    }
+  }
   .message {
     line-height: 1.8;
     font-size: 0.12rem;
     text-align: left;
     color: rgb(124, 124, 124);
-    background: rgb(0, 0, 0);
     padding: 0.1rem 0.15rem;
   }
 

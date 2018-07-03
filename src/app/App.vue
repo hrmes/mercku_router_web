@@ -22,13 +22,8 @@ export default {
     };
   },
   watch: {
-    $route(to, from) {
-      if (
-        to.path === '/wan-hand' &&
-        ['/pppoe', '/dhcp', '/static-ip'].includes(from.path)
-      ) {
-        this.transitionName = 'slide-right';
-      } else if (to.path === '/welcome') {
+    $route(to) {
+      if (to.path === '/wan-fail') {
         this.transitionName = 'slide-right';
       } else {
         this.transitionName = 'slide-left';

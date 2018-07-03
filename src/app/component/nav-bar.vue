@@ -19,7 +19,7 @@
 
 </template>
 <script>
-import { isIphone } from '../util/util';
+import { isIphone } from '../../util/util';
 
 const noop = () => {};
 export default {

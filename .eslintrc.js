@@ -23,6 +23,7 @@ module.exports = {
     'arrow-parens': 0,
     'no-param-reassign': 0,
     indent: 0,
-    'no-underscore-dangle': 0
+    'no-underscore-dangle': 0,
+    'no-bitwise': 0
   }
 };

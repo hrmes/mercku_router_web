@@ -31,13 +31,15 @@
     </div>
 
     <div class="button-info">
-      <van-button size="normal" @click="$router.push('/wan-hand')">{{$t('trans0019')}}</van-button>
+      <van-button size="normal" @click="forward2set()">{{$t('trans0019')}}</van-button>
       <div class="space"></div>
       <van-button size="normal" @click="$router.replace('/check-network')">{{$t('trans0162')}}</van-button>
     </div>
   </div>
 </template>
 <script>
+import { WanType } from '../../../util/constant';
+
 export default {
   data() {
     return {
@@ -71,16 +73,34 @@ export default {
                 // on cancel
               });
           }
+        },
+        left: {
+          icon: true,
+          text: 'arrow-left',
+          click: () => {
+            this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+          }
         }
       },
       netinfo: {
-        ip: '',
-        mask: '',
-        gateway: '',
-        dns: ''
+        ip: '-.-.-.-',
+        mask: '-.-.-.-',
+        gateway: '-.-.-.-',
+        dns: ['-.-.-.-']
       },
       access: ''
     };
+  },
+  methods: {
+    forward2set() {
+      if (this.access === WanType.pppoe) {
+        this.$router.push({ path: '/pppoe' });
+      } else if (this.access === WanType.static) {
+        this.$router.push({ path: '/static' });
+      } else if (this.access === WanType.dhcp) {
+        this.$router.push({ path: '/dhcp' });
+      }
+    }
   },
   mounted() {
     this.$http
@@ -88,6 +108,11 @@ export default {
       .then(res => {
         this.netinfo = res.data.result.netinfo;
         this.access = res.data.result.type;
+        const { result } = res.data;
+        this.routerConfig.setWan(
+          this.access,
+          result.pppoe || (result.static && result.static.netinfo) || ''
+        );
       })
       .catch(err => {
         if (err && err.error) {
