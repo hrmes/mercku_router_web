@@ -94,15 +94,15 @@ function moveBit(arr) {
     .map((v, index) => Number(v) << (index * 8))
     .reduce((pre, next) => pre + next);
 }
-export const ipRule = (ip, gateway) => {
-  if (!gateway || !ip || !ipRexp(ip) || !ipRexp(gateway)) {
+export const ipRule = (ip, mask) => {
+  if (!mask || !ip || !ipRexp(ip) || !ipRexp(mask)) {
     return true;
   }
-  if (ip && gateway) {
+  if (ip && mask) {
     const ips = ip.split('.');
-    const gateways = gateway.split('.');
-    const reslut = moveBit(ips) & ~moveBit(gateways);
-    if (reslut >= 1 && reslut < ~moveBit(gateways)) {
+    const masks = mask.split('.');
+    const reslut = moveBit(ips) & ~moveBit(masks);
+    if (reslut >= 1 && reslut < ~moveBit(masks)) {
       return true;
     }
     return false;
