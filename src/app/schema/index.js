@@ -49,6 +49,7 @@ const routerConfig = () => {
       } else {
         const wan = {};
         wan.type = type;
+        config.wan = wan;
         if (!options) {
           return;
         }
@@ -65,7 +66,7 @@ const routerConfig = () => {
             password: options.password
           };
         }
-        config.wan = wan;
+
       }
     },
     getWan() {
