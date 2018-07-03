@@ -4,13 +4,13 @@
     <div class="new-type-info" @click="$router.replace('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
-        {{format[type]}}
+        {{this.$t(type)}}
         <van-icon name="arrow" />
       </span>
     </div>
     <div class="message">{{$t('trans0154')}}</div>
     <div class="form">
-      <van-field autocomplete="new-password" type="text" :placeholder="$t('trans0155')" v-model="form.account" />
+      <van-field class="account" autocomplete="new-password" type="text" :placeholder="$t('trans0155')" v-model="form.account" />
       <div class="password-info">
         <van-field autocomplete="new-password" :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password" />
         <div class="pwd-preview">
@@ -40,11 +40,6 @@ export default {
         center: {
           text: this.$t('trans0142')
         }
-      },
-      format: {
-        dhcp: this.$t('trans0146'),
-        static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
       },
       type: config.type,
       form: {
@@ -110,18 +105,19 @@ export default {
     text-align: left;
     color: rgb(124, 124, 124);
     padding: 0.1rem 0.15rem;
+    margin-top: 0.2rem;
   }
 
   .form {
-    padding: 0.15rem;
+    padding: 0 0.15rem;
   }
 
+  .account {
+    margin-top: 0.15rem;
+  }
   .password-info {
     padding-right: 0.3rem;
     position: relative;
-  }
-
-  .van-field {
     margin-top: 0.3rem;
   }
 

@@ -4,7 +4,7 @@
     <div class="new-type-info" @click="$router.replace('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
-        {{format[type]}}
+        {{this.$t(type)}}
         <van-icon name="arrow" />
       </span>
     </div>
@@ -19,11 +19,6 @@ export default {
   data() {
     const config = this.routerConfig.getWan();
     return {
-      format: {
-        dhcp: this.$t('trans0146'),
-        static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
-      },
       type: config.type,
       option: {
         left: {

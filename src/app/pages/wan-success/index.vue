@@ -10,7 +10,7 @@
       <div class="net-info">
         <div>
           <label for="">{{$t('trans0317')}}：</label>
-          <span>{{access}}</span>
+          <span>{{this.$t(access)}}</span>
         </div>
         <div>
           <label for="">{{$t('trans0151')}}：</label>

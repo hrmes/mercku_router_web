@@ -1,0 +1,5 @@
+{
+  "pppoe": "trans0144",
+  "static": "trans0148",
+  "dhcp": "trans0146"
+}
