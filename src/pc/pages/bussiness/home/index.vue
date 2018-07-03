@@ -270,7 +270,8 @@ export default {
       timer2: null,
       timer3: null,
       timer4: null,
-      timer5: null
+      timer5: null,
+      timer6: null
     };
   },
   mounted() {
@@ -556,9 +557,20 @@ export default {
         });
     },
     getWanNetInfo() {
-      this.$http.getWanNetInfo().then(res => {
-        this.netInfo = res.data.result;
-      });
+      this.$http
+        .getWanNetInfo()
+        .then(res => {
+          this.timer6 = null;
+          clearTimeout(this.timer6);
+          this.netInfo = res.data.result;
+        })
+        .catch(err => {
+          if (err.response && err.response.status === 400) {
+            this.timer6 = setTimeout(() => {
+              this.getRouter();
+            }, 1000 * 3);
+          }
+        });
     },
     testWan() {
       this.netStatus = 'testing';
