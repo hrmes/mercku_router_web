@@ -72,6 +72,13 @@ export default {
                 // on cancel
               });
           }
+        },
+        left: {
+          icon: true,
+          text: 'arrow',
+          click: () => {
+            this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+          }
         }
       },
       netinfo: {
