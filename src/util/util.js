@@ -102,7 +102,7 @@ export const ipRule = (ip, gateway) => {
     const ips = ip.split('.');
     const gateways = gateway.split('.');
     const reslut = moveBit(ips) & ~moveBit(gateways);
-    if (reslut >= 1 && reslut <= 254) {
+    if (reslut >= 1 && reslut < ~moveBit(gateways)) {
       return true;
     }
     return false;
