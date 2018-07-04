@@ -233,6 +233,7 @@
 </template>
 <script>
 import layout from '../../../layout.vue';
+import * as CONSTANT from '../../../../util/constant';
 
 export default {
   components: {

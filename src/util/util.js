@@ -1,5 +1,5 @@
 export default {
-  adapt : () => {
+  adapt: () => {
     const doc = document;
     const win = window;
     const docEl = doc.documentElement;
@@ -21,9 +21,9 @@ export default {
         needWidth = width;
       }
       rem = needWidth / 3.75;
-      rem = rem > 100
-        ? 100
-        : rem;
+      rem = rem > 100 ?
+        100 :
+        rem;
       // const rem = width / 3.75;
       rootStyle = `html{font-size:${rem}px !important;width:${needWidth}px !important;height:${height}px !important}`;
       rootItem = document.getElementById('rootsize') || document.createElement('style');
@@ -75,7 +75,7 @@ export const isIphone = () => {
 };
 
 export const ipRexp = ip => {
-  const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/qwq eeeqw;
+  const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
   if (ip && pattern.test(ip)) {
     return true;
   }
