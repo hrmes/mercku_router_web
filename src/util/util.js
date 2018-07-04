@@ -82,21 +82,18 @@ export const ipRexp = ip => {
   return false;
 };
 
-function moveBit(arr) {
-  return arr
-    .reverse()
-    .map((v, index) => Number(v) * Math.pow(2, index * 8))
-    .reduce((pre, next) => pre + next);
+function moveBit(ip) {
+  return (
+    ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0
+  );
 }
 export const ipRule = (ip, mask) => {
   if (!mask || !ip || !ipRexp(ip) || !ipRexp(mask)) {
     return true;
   }
   if (ip && mask) {
-    const ips = ip.split('.');
-    const masks = mask.split('.');
-    const i = moveBit(ips);
-    const m = ~moveBit(masks);
+    const i = moveBit(ip);
+    const m = ~moveBit(mask);
     const reslut = i & m;
     if (reslut >= 1 && reslut < m) {
       return true;

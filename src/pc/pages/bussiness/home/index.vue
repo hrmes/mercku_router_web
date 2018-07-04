@@ -166,7 +166,7 @@
         <div class='mesh-info'>
           <div class="title">{{$t('trans0312')}}</div>
           <div class="content">
-            <div v-for="item in meshNode" class="mesh" :class="diffMesh(item)">
+            <div :key="index" v-for="(item,index) in meshNode" class="mesh" :class="diffMesh(item)">
               <div class="message">
                 <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if="item.model==='M2'">
                 <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if="item.model==='Bee'">
@@ -270,7 +270,8 @@ export default {
       timer2: null,
       timer3: null,
       timer4: null,
-      timer5: null
+      timer5: null,
+      timer6: null
     };
   },
   mounted() {
@@ -556,9 +557,20 @@ export default {
         });
     },
     getWanNetInfo() {
-      this.$http.getWanNetInfo().then(res => {
-        this.netInfo = res.data.result;
-      });
+      this.$http
+        .getWanNetInfo()
+        .then(res => {
+          this.timer6 = null;
+          clearTimeout(this.timer6);
+          this.netInfo = res.data.result;
+        })
+        .catch(err => {
+          if (err.response && err.response.status === 400) {
+            this.timer6 = setTimeout(() => {
+              this.getWanNetInfo();
+            }, 1000 * 3);
+          }
+        });
     },
     testWan() {
       this.netStatus = 'testing';
