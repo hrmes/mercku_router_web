@@ -42,6 +42,7 @@ import { WanType } from '../../../util/constant';
 
 export default {
   data() {
+    const wanConfig = this.routerConfig.getWan();
     return {
       option: {
         center: {
@@ -83,12 +84,12 @@ export default {
         }
       },
       netinfo: {
-        ip: '-.-.-.-',
-        mask: '-.-.-.-',
-        gateway: '-.-.-.-',
-        dns: ['-.-.-.-']
+        ip: wanConfig.ip || '-.-.-.-',
+        mask: wanConfig.mask || '-.-.-.-',
+        gateway: wanConfig.gateway || '-.-.-.-',
+        dns: wanConfig.dns || ['-.-.-.-']
       },
-      access: ''
+      access: wanConfig.type
     };
   },
   methods: {
@@ -99,6 +100,8 @@ export default {
         this.$router.push({ path: '/static' });
       } else if (this.access === WanType.dhcp) {
         this.$router.push({ path: '/dhcp' });
+      } else {
+        this.$router.push({ path: '/wan-hand' });
       }
     }
   },
@@ -116,8 +119,8 @@ export default {
       })
       .catch(err => {
         if (err && err.error) {
-          // 弹出错误提示
-          this.$toast(this.$t(err.error.code));
+          // 这里不做错误提示，失败了就失败了
+          // this.$toast(this.$t(err.error.code));
         } else {
           this.$toast(this.$t('trans0039'));
         }
