@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class='check-btn-info'>
-            <button class="btn check-btn" @click='createSpeedTimer()' :class="netStatus!==CONSTANTS.WanNetStatus['connected']&&'disabled'" style='height:44px' :disabled="netStatus!==CONSTANTS.WanNetStatus['connected']">{{$t('trans0008')}}</button>
+            <button class="btn check-btn" @click='createSpeedTimer()' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
           </div>
         </div>
         <!-- <div class="test-speed-btn-container">
@@ -183,11 +183,11 @@
         <div class='speed-model-info' v-if='speedModelOpen'>
           <div class="shadow"></div>
           <div class='speed-content'>
-            <div v-if="speedStatus===CONSTANTS.SpeedTestStatus['testing']">
+            <div v-if="isSpeedTesting">
               <div class="test-info"></div>
               <p>{{$t('trans0045')}}.. {{testSpeedNumber}}s</p>
             </div>
-            <div v-if="speedStatus===CONSTANTS.SpeedTestStatus['done'] || speedStatus===CONSTANTS.SpeedTestStatus['failed']" class="speed-completed">
+            <div v-if="isSpeedDone || isSpeedFailed" class="speed-completed">
               <div class="speed-result-info">
                 <div class="extra">
                   <i class="p-dwon-icon"></i>
@@ -241,7 +241,7 @@ export default {
   },
   data() {
     return {
-      CONSTANTS: CONSTANTS,
+      CONSTANTS: { ...CONSTANTS },
       networkArr: {
         '-': '-',
         dhcp: this.$t('trans0146'),
@@ -253,8 +253,8 @@ export default {
         ...CONSTANTS.RouterSnModel
       },
       testSpeedNumber: 40,
-      netStatus: CONSTANTS.WanNetStatus['unlinked'], // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
-      speedStatus: CONSTANTS.SpeedTestStatus['testing'],
+      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      speedStatus: CONSTANTS.SpeedTestStatus.testing,
       speedModelOpen: false,
       TextBandwidth: '-',
       enter: true,
@@ -283,17 +283,27 @@ export default {
   },
   computed: {
     isTesting() {
-      return this.netStatus === CONSTANTS.WanNetStatus['testing'];
+      return this.netStatus === CONSTANTS.WanNetStatus.testing;
     },
     isConnected() {
-      return this.netStatus === CONSTANTS.WanNetStatus['connected'];
+      return this.netStatus === CONSTANTS.WanNetStatus.connected;
     },
     isLinked() {
-      return this.netStatus === CONSTANTS.WanNetStatus['linked'];
+      return this.netStatus === CONSTANTS.WanNetStatus.linked;
     },
     isUnlinked() {
-      return this.netStatus === CONSTANTS.WanNetStatus['unlinked'];
+      return this.netStatus === CONSTANTS.WanNetStatus.unlinked;
     },
+    isSpeedDone() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.done;
+    },
+    isSpeedTesting() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.testing;
+    },
+    isSpeedFailed() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.failed;
+    },
+
     localTraffice() {
       const local = {
         speed: {
@@ -433,20 +443,18 @@ export default {
           if (res.status === 200) {
             this.speedStatus = res.data.result.status;
             this.speedInfo = res.data.result;
-            if (res.data.result.status === CONSTANTS.SpeedTestStatus['done']) {
+            if (res.data.result.status === CONSTANTS.SpeedTestStatus.done) {
               clearInterval(this.timer4);
               this.testSpeedNumber = 40;
             }
-            if (
-              res.data.result.status === CONSTANTS.SpeedTestStatus['failed']
-            ) {
+            if (res.data.result.status === CONSTANTS.SpeedTestStatus.failed) {
               clearInterval(this.timer4);
               this.testSpeedNumber = 40;
             }
           }
         })
         .catch(err => {
-          this.speedStatus = CONSTANTS.SpeedTestStatus['done'];
+          this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           clearInterval(this.timer4);
           this.testSpeedNumber = 40;
           if (err && err.error) {
@@ -458,13 +466,13 @@ export default {
     },
     createSpeedTimer(force) {
       this.speedModelOpen = true;
-      this.speedStatus = CONSTANTS.SpeedTestStatus['testing'];
+      this.speedStatus = CONSTANTS.SpeedTestStatus.testing;
       this.setOverflow();
       this.speedTesting();
       this.timer4 = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
           clearInterval(this.timer4);
-          this.speedStatus = CONSTANTS.SpeedTestStatus['done'];
+          this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           this.testSpeedNumber = 40;
           return;
         }
@@ -575,7 +583,7 @@ export default {
         });
     },
     testWan() {
-      this.netStatus = CONSTANTS.WanNetStatus['testing'];
+      this.netStatus = CONSTANTS.WanNetStatus.testing;
       const timer = setTimeout(() => {
         this.$http
           .testWan()
@@ -585,7 +593,7 @@ export default {
           })
           .catch(() => {
             clearTimeout(timer);
-            this.netStatus = CONSTANTS.WanNetStatus['unlinked'];
+            this.netStatus = CONSTANTS.WanNetStatus.unlinked;
           });
       }, 1000);
     },
