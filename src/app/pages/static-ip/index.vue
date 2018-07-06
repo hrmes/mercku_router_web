@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import { ipRexp, ipRule } from '../../../util/util';
+import { ipRexp, ipRule, isMulticast, isLoopback } from '../../../util/util';
 
 export default {
   data() {
@@ -64,7 +64,7 @@ export default {
   mounted() {},
   methods: {
     onBlur(item, v) {
-      if (!ipRexp(v)) {
+      if (!ipRexp(v) || isMulticast(v) || isLoopback(v)) {
         const items = this.blurItems;
         items.push(item);
         this.blurItems = [...this.blurItems, ...items];

@@ -82,10 +82,10 @@
                 <m-form-item class="item" prop='gateway' ref="gateway">
                   <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" :onBlur="getwayChange" />
                 </m-form-item>
-                <m-form-item class="item" prop='dns1'>
+                <m-form-item class="item" prop='dns1' ref="dns">
                   <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns1" />
                 </m-form-item>
-                <m-form-item class="item" prop='dns2'>
+                <m-form-item class="item" prop='dns2' ref="backupdns">
                   <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns2" />
                 </m-form-item>
               </m-form>
@@ -107,7 +107,7 @@ import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
 import Progress from '../../../component/progress/index.vue';
 import layout from '../../../layout.vue';
-import { ipRule } from '../../../../util/util';
+import { ipRule, isMulticast, isLoopback } from '../../../../util/util';
 
 export default {
   components: {
@@ -257,6 +257,30 @@ export default {
     }
   },
   methods: {
+    DNSChange() {
+      this.$refs.dns.extraValidate(
+        (...arg) => !isMulticast(...arg),
+        this.$t('trans0231'),
+        this.staticForm.dns1
+      );
+      this.$refs.dns.extraValidate(
+        (...arg) => !isLoopback(arg),
+        this.$t('trans0231'),
+        this.staticForm.dns1
+      );
+    },
+    backupDNSChange() {
+      this.$refs.backupdns.extraValidate(
+        (...arg) => !isMulticast(...arg),
+        this.$t('trans0231'),
+        this.staticForm.dns2
+      );
+      this.$refs.backupdns.extraValidate(
+        (...arg) => !isLoopback(arg),
+        this.$t('trans0231'),
+        this.staticForm.dns2
+      );
+    },
     ipChange() {
       this.$refs.ip.extraValidate(
         ipRule,

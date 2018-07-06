@@ -97,7 +97,7 @@ export default {
       if (this.access === WanType.pppoe) {
         this.$router.push({ path: '/pppoe' });
       } else if (this.access === WanType.static) {
-        this.$router.push({ path: '/static' });
+        this.$router.push({ path: '/static-ip' });
       } else if (this.access === WanType.dhcp) {
         this.$router.push({ path: '/dhcp' });
       } else {
