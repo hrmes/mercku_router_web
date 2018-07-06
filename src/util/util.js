@@ -111,6 +111,21 @@ export const isLoopback = ip => {
   return false;
 };
 
+export const isValidMask = ip => {
+  const i = ip2int(ip)
+    .toString(2)
+    .padStart(32, '0');
+  const result = i.split('0');
+  if (result.length !== 2) {
+    return false;
+  }
+  // 有效mask
+  if (result[0].includes('0') || result[1].includes('1')) {
+    return false;
+  }
+  return true;
+};
+
 export const ipRule = (ip, mask) => {
   if (!mask || !ip || !ipRexp(ip) || !ipRexp(mask)) {
     return true;

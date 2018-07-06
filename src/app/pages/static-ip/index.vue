@@ -33,7 +33,13 @@
   </div>
 </template>
 <script>
-import { ipRexp, ipRule, isMulticast, isLoopback } from '../../../util/util';
+import {
+  ipRexp,
+  ipRule,
+  isMulticast,
+  isLoopback,
+  isValidMask
+} from '../../../util/util';
 
 export default {
   data() {
@@ -81,6 +87,11 @@ export default {
         }
       }
       if (item === 'mask' && v) {
+        if (!isValidMask(v)) {
+          const items = this.blurItems;
+          items.push(item);
+          this.blurItems = [...this.blurItems, ...items];
+        }
         if (this.form.ip) {
           if (!ipRule(this.form.ip, v)) {
             const items = this.blurItems;

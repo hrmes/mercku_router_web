@@ -107,7 +107,12 @@ import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
 import Progress from '../../../component/progress/index.vue';
 import layout from '../../../layout.vue';
-import { ipRule, isMulticast, isLoopback } from '../../../../util/util';
+import {
+  ipRule,
+  isMulticast,
+  isLoopback,
+  isValidMask
+} from '../../../../util/util';
 
 export default {
   components: {
@@ -177,6 +182,10 @@ export default {
           },
           {
             rule: value => pattern.test(value),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => isValidMask(value),
             message: this.$t('trans0231')
           }
         ],
