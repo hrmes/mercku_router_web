@@ -4,7 +4,7 @@
       <div class="home-inner">
         <div class="check-info">
           <div class="row-1">
-            <div class="name" style="min-width:60px">{{ssid||'-'}}</div>
+            <div class="name" style="min-width:60px;overflow:hidden;text-overflow:ellipsis;" :title="ssid">{{ssid||'-'}}</div>
             <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
           </div>
           <div class='check-status row-2'>
@@ -19,9 +19,11 @@
           </div>
           <div class="row-3">
             <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
-            <div class="speed" style="min-width:60px;">
-              <span>{{bandWidth(localTraffice.bandwidth)}}</span>
-              <label style="font-weight:normal">M</label>
+            <div class="speed" style="min-width:60px;" :title="bandWidth(localTraffice.bandwidth) + 'M'">
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">{{bandWidth(localTraffice.bandwidth)}}
+                <label style="font-weight:normal">M</label>
+              </span>
+
             </div>
           </div>
           <div class='check-btn-info'>
