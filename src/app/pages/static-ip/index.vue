@@ -85,6 +85,7 @@ export default {
       if (item === 'mask' && v) {
         if (!isValidMask(v)) {
           this.blurItems.push(item);
+          return;
         }
         if (this.form.ip) {
           if (!ipRule(this.form.ip, v)) {

@@ -42,7 +42,6 @@ import { WanType } from '../../../util/constant';
 
 export default {
   data() {
-    const wanConfig = this.routerConfig.getWan();
     return {
       option: {
         center: {
@@ -84,15 +83,25 @@ export default {
         }
       },
       netinfo: {
+        ip: '-.-.-.-',
+        mask: '-.-.-.-',
+        gateway: '-.-.-.-',
+        dns: ['-.-.-.-']
+      },
+      access: ''
+    };
+  },
+  methods: {
+    setWan() {
+      const wanConfig = this.routerConfig.getWan();
+      this.netinfo = {
         ip: wanConfig.ip || '-.-.-.-',
         mask: wanConfig.mask || '-.-.-.-',
         gateway: wanConfig.gateway || '-.-.-.-',
         dns: wanConfig.dns || ['-.-.-.-']
-      },
-      access: wanConfig.type
-    };
-  },
-  methods: {
+      };
+      this.access = wanConfig.type;
+    },
     forward2set() {
       if (this.access === WanType.pppoe) {
         this.$router.push({ path: '/pppoe' });
@@ -106,6 +115,7 @@ export default {
     }
   },
   mounted() {
+    this.setWan();
     this.$http
       .getWanNetInfo()
       .then(res => {
@@ -116,6 +126,7 @@ export default {
           this.access,
           result.pppoe || (result.static && result.static.netinfo) || ''
         );
+        this.setWan();
       })
       .catch(err => {
         if (err && err.error) {
