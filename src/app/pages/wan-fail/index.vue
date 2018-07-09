@@ -56,8 +56,11 @@ export default {
               cancelButtonText: this.$t('trans0025')
             })
               .then(() => {
+                const config = this.routerConfig.getConfig();
                 this.$http
-                  .update(this.routerConfig.getConfig())
+                  .update({
+                    ...config.wifi
+                  })
                   .then(() => {
                     this.$router.replace('/complete');
                   })
