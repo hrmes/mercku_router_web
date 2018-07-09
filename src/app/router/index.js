@@ -27,7 +27,7 @@ const routes = [
     redirect: '/wlan'
   },
   {
-    path: '/wan-fail/:state?',
+    path: '/wan-fail/:state?/:immediate?',
     name: 'wan-fail',
     component: wanFail,
     requireAuth: true

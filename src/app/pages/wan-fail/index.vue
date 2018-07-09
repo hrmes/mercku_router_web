@@ -78,7 +78,11 @@ export default {
           icon: true,
           text: 'arrow-left',
           click: () => {
-            this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+            if (this.$route.params.immediate) {
+              this.$router.replace('/wlan');
+            } else {
+              this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+            }
           }
         }
       },
