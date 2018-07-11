@@ -115,7 +115,8 @@ export const isValidMask = ip => {
   const i = ip2int(ip)
     .toString(2)
     .padStart(32, '0');
-  const result = i.split('0');
+  const result = i.split('10');
+  console.log(result);
   if (result.length !== 2) {
     return false;
   }
@@ -127,8 +128,11 @@ export const isValidMask = ip => {
 };
 
 export const ipRule = (ip, mask) => {
-  if (!mask || !ip || !ipRexp(ip) || !ipRexp(mask)) {
+  if (!mask || !ip) {
     return true;
+  }
+  if (!ipRexp(ip) || !ipRexp(mask)) {
+    return false;
   }
 
   if (ip && mask) {

@@ -85,6 +85,7 @@ export default {
       if (item === 'mask' && v) {
         if (!isValidMask(v)) {
           this.blurItems.push(item);
+          return;
         }
         if (this.form.ip) {
           if (!ipRule(this.form.ip, v)) {
@@ -103,19 +104,19 @@ export default {
       }
     },
     submit() {
-      if (!ipRexp(this.form.ip)) {
+      if (this.blurItems.includes('ip')) {
         this.$toast(this.$t('trans0238'));
         return false;
       }
-      if (!ipRexp(this.form.mask)) {
+      if (this.blurItems.includes('mask')) {
         this.$toast(this.$t('trans0239'));
         return false;
       }
-      if (!ipRexp(this.form.gateway)) {
+      if (this.blurItems.includes('gateway')) {
         this.$toast(this.$t('trans0240'));
         return false;
       }
-      if (!ipRexp(this.form.dns)) {
+      if (this.blurItems.includes('dns')) {
         this.$toast(this.$t('trans0241'));
         return false;
       }

@@ -46,7 +46,7 @@ export default {
             if (status === 'connected') {
               this.$router.replace({ path: '/wan-success' });
             } else {
-              this.$router.replace(`/wan-fail/${status}`);
+              this.$router.replace(`/wan-fail/${status}/true`);
             }
           }, 3000);
         })
