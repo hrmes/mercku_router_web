@@ -298,14 +298,7 @@ export default {
         this.staticForm.mask
       );
     },
-    getwayChange() {
-      this.$refs.gateway.extraValidate(
-        ipRule,
-        this.$t('trans0231'),
-        this.staticForm.gateway,
-        this.staticForm.mask
-      );
-    },
+    getwayChange() {},
     maskChange() {
       this.$refs.ip.extraValidate(
         ipRule,
