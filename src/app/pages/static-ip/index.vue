@@ -94,13 +94,6 @@ export default {
             this.blurItems = this.blurItems.filter(i => i !== 'ip');
           }
         }
-        if (this.form.gateway) {
-          if (!ipRule(this.form.gateway, v)) {
-            this.blurItems.push('gateway');
-          } else {
-            this.blurItems = this.blurItems.filter(i => i !== 'gateway');
-          }
-        }
       }
     },
     submit() {

@@ -2,8 +2,8 @@
   <div class="reboot-model-contanier">
     <div class='shadow'></div>
     <div class='progress-wrapper'>
-      <div class="progress" ref='progress'>
-        <div class="progress-bar progress-bar-info progress-bar-striped active" :style='styles'>
+      <div class="progress">
+        <div class="progress-bar" :style='styles'>
         </div>
       </div>
     </div>
@@ -39,6 +39,7 @@ export default {
         this.during -= 1;
         this.percent += average;
         this.styles.width = `${this.percent}%`;
+        console.log('percent is:', this.percent);
         if (!this.during) clearTimeout(this.timer);
       }, 1000);
     },
@@ -87,41 +88,22 @@ export default {
     font-weight: 100;
   }
 }
+.progress {
+  height: 10px;
+  background: #ffffff;
+  border-radius: 50px;
+}
 .progress-wrapper {
   width: 300px;
   z-index: 2001;
-  .progress-bar.active {
-    animation: reverse progress-bar-stripes 0.4s linear infinite,
-      animate-positive 2s;
-  }
-
-  .progress .progress-bar {
-    border-radius: 20px;
-    position: relative;
-    animation: animate-positive 2s;
-  }
-
-  .progress.active .progress-bar,
-  .progress-bar.active {
-    -webkit-animation: progress-bar-stripes 2s linear infinite;
-    -o-animation: progress-bar-stripes 2s linear infinite;
-    animation: progress-bar-stripes 2s linear infinite;
-  }
-
-  .progress-bar-info {
-    background-color: #00d061;
-  }
-  .progress-striped .progress-bar,
-  .progress-bar-striped {
-    background: #00d061;
-  }
   .progress-bar {
     float: left;
     width: 0;
     height: 100%;
+    border-radius: 50px;
     font-size: 12px;
+    max-width: 100%;
     line-height: 20px;
-    max-width: 300px;
     overflow: hidden;
     color: #fff;
     text-align: center;
@@ -129,102 +111,10 @@ export default {
     -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     transition: width 1s ease;
   }
-
-  @keyframes progress-bar-stripes {
-    from {
-      background-position: 40px 0;
-    }
-
-    to {
-      background-position: 0 0;
-    }
-  }
-
-  @-o-keyframes progress-bar-stripes {
-    from {
-      background-position: 40px 0;
-    }
-
-    to {
-      background-position: 0 0;
-    }
-  }
-
-  .progress .progress-value:after {
-    content: '';
-    border-top: 10px solid #191919;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: absolute;
-    bottom: -6px;
-    left: 26%;
-  }
-
-  :before,
-  :after {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
-
-  .progress {
-    height: 10px;
-    background: #ffffff;
-    border-radius: 20px;
-  }
-
-  .progress .progress-bar {
-    border-radius: 20px;
-    position: relative;
-    animation: animate-positive 2s;
-  }
-
-  .progress .progress-value {
-    display: block;
-    padding: 3px 7px;
-    font-size: 13px;
-    color: #fff;
-    border-radius: 4px;
-    background: #191919;
-    border: 1px solid #000;
-    position: absolute;
-    top: -40px;
-    right: -10px;
-  }
-
-  .progress .progress-value:after {
-    content: '';
-    border-top: 10px solid #191919;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    position: absolute;
-    bottom: -6px;
-    left: 26%;
-  }
-
-  .progress-bar.active {
-    animation: reverse progress-bar-stripes 0.4s linear infinite,
-      animate-positive 2s;
-  }
-
-  @-webkit-keyframes animate-positive {
-    0% {
-      width: 0;
-    }
-  }
-
-  @keyframes animate-positive {
-    0% {
-      width: 0;
-    }
-  }
 }
 @media screen and (max-width: 768px) {
   .progress-wrapper {
     width: 80% !important;
-  }
-  .progress-bar {
-    max-width: 80% !important;
   }
 }
 </style>
