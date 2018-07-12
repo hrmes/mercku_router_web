@@ -142,6 +142,7 @@ export default {
           this.countdown -= 1;
           if (this.countdown === 0) {
             clearInterval(timer);
+            this.$router.push({ path: '/disappear' });
           }
         }, 1000);
 
