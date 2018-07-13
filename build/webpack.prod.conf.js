@@ -8,6 +8,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const env =
   process.env.NODE_ENV === 'testing' ?
@@ -43,16 +44,14 @@ const webpackConfig = merge(baseWebpackConfig, {
         }
       }),
       new OptimizeCSSPlugin({
-        cssProcessorOptions: config.build.productionSourceMap ?
-          {
-            safe: true,
-            map: {
-              inline: false
-            }
-          } :
-          {
-            safe: true
+        cssProcessorOptions: config.build.productionSourceMap ? {
+          safe: true,
+          map: {
+            inline: false
           }
+        } : {
+          safe: true
+        }
       }),
     ],
     splitChunks: {
