@@ -168,7 +168,8 @@
         <div class='mesh-info'>
           <div class="title">{{$t('trans0312')}}</div>
           <div class="content">
-            <div :key="index" v-for="(item,index) in meshNode" class="mesh" :class="diffMesh(item)">
+            <div id="topo" style="width:100%;height:500px;"></div>
+            <!-- <div :key="index" v-for="(item,index) in meshNode" class="mesh" :class="diffMesh(item)">
               <div class="message">
                 <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if="item.model==='M2'">
                 <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if="item.model==='Bee'">
@@ -179,7 +180,7 @@
                 <img src="../../../assets/images/ic_plug_fine.png" alt="" v-if='item.rssi<-50 && item.rssi>-60'>
                 <img src="../../../assets/images/ic_plug_good.png" alt="" v-if='item.rssi>=-50'>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class='speed-model-info' v-if='speedModelOpen'>
@@ -234,7 +235,159 @@
   </layout>
 </template>
 <script>
+import echarts from 'echarts';
 import layout from '../../../layout.vue';
+
+/**
+ *
+ *
+ * 绘制拓扑图部分
+ *
+ *
+ *
+ */
+const Color = {
+  good: '#00FF00',
+  bad: '#FF0000'
+};
+
+// 大于-50均认为优秀
+const isGood = rssi => rssi > -50;
+
+// 去重
+function distinct(source) {
+  return source.map(r => {
+    const neighbors = [];
+    r.neighbors.forEach(n => {
+      const node = source.filter(s => s.sn === n.sn)[0];
+      node.neighbors = node.neighbors.filter(nn => nn.sn !== r.sn);
+      neighbors.push({
+        entity: node,
+        origin: n
+      });
+    });
+    r.neighbors = neighbors;
+    return r;
+  });
+}
+
+// 找网关,此处认为sn为0就是网关
+function findGateway(source) {
+  return source.filter(s => s.is_gw)[0];
+}
+
+// 找绿色的节点
+function findGreenNode(root, source) {
+  let green = [];
+  root.neighbors.forEach(n => {
+    if (!green.includes(n.entity) && isGood(n.origin.rssi)) {
+      green.push(n.entity);
+      green = green.concat(findGreenNode(n.entity, source));
+    }
+  });
+  return green;
+}
+
+// 找红色节点
+function findRedNode(gateway, green, source) {
+  const red = [];
+  source.forEach(s => {
+    if (!green.includes(s) && s !== gateway) {
+      red.push(s);
+    }
+  });
+  return red;
+}
+
+// 生成绘图需要的节点数据
+function genNodes(gateway, green, red) {
+  function genNode(node, color, symbolSize = 50) {
+    return {
+      name: node.name,
+      isnode: true,
+      itemStyle: {
+        color
+      },
+      symbolSize
+    };
+  }
+  const nodes = [];
+  // m2
+  nodes.push(genNode(gateway, Color.good, 100));
+
+  // 绿点
+  green.forEach(g => {
+    nodes.push(genNode(g, Color.good));
+  });
+
+  // 红点
+  red.forEach(r => {
+    nodes.push(genNode(r, Color.bad));
+  });
+
+  return nodes;
+}
+
+// 生成绘图需要的线条信息
+function genLines(gateway, green, red) {
+  function genLine(source, target, color) {
+    return {
+      source: source.name,
+      target: target.name,
+      lineStyle: {
+        color
+      }
+    };
+  }
+
+  const lines = [];
+  gateway.neighbors.forEach(n => {
+    lines.push(genLine(gateway, n.entity, Color.good));
+  });
+
+  red.forEach(r => {
+    r.neighbors.forEach(n => {
+      if (isGood(n.origin.rssi)) {
+        lines.push(genLine(r, n.entity, Color.good));
+      } else {
+        lines.push(genLine(r, n.entity, Color.bad));
+      }
+    });
+  });
+
+  green.forEach(r => {
+    r.neighbors.forEach(n => {
+      if (isGood(n.origin.rssi)) {
+        lines.push(genLine(r, n.entity, Color.good));
+      } else if (!green.includes(n)) {
+        // 双绿点过滤红线
+        lines.push(genLine(r, n.entity, Color.bad));
+      }
+    });
+  });
+
+  return lines;
+}
+
+// 生成所有绘图数据
+function genData(array) {
+  const RouterDistincted = distinct(array);
+
+  const gateway = findGateway(RouterDistincted);
+
+  const green = findGreenNode(gateway, RouterDistincted);
+
+  const red = findRedNode(gateway, green, RouterDistincted);
+
+  const nodes = genNodes(gateway, green, red);
+
+  const lines = genLines(gateway, green, red);
+
+  return {
+    nodes,
+    lines
+  };
+}
 
 export default {
   components: {
@@ -273,7 +426,8 @@ export default {
       timer3: null,
       timer4: null,
       timer5: null,
-      timer6: null
+      timer6: null,
+      chart: null
     };
   },
   mounted() {
@@ -282,6 +436,7 @@ export default {
     this.getWanNetInfo();
     this.createTimer();
     this.getSsid();
+    this.initChart();
   },
   computed: {
     isTesting() {
@@ -370,6 +525,59 @@ export default {
     }
   },
   methods: {
+    initChart() {
+      this.chart = echarts.init(document.getElementById('topo'));
+      window.addEventListener('resize', () => {
+        this.chart && this.chart.resize();
+      });
+    },
+    drawTopo(routers) {
+      const data = genData(routers);
+      const option = {
+        // bottom: 10,
+        series: [
+          {
+            type: 'graph',
+            layout: 'circular',
+            focusNodeAdjacency: true,
+            label: {
+              normal: {
+                show: true
+              }
+            },
+            edgeLabel: {
+              normal: {
+                show: false
+              },
+              emphasis: {
+                textStyle: {
+                  fontSize: 20
+                }
+              }
+            },
+            data: data.nodes,
+            links: data.lines,
+            lineStyle: {
+              width: 2
+            },
+            tooltip: {
+              backgroundColor: 'green',
+              textStyle: {
+                fontSize: 18
+              },
+
+              formatter(params) {
+                if (!params.data.isnode) {
+                  return `rssi:${params.data.rssi}`;
+                }
+                return params.data.ip;
+              }
+            }
+          }
+        ]
+      };
+      this.chart.setOption(option);
+    },
     format(v, type) {
       const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
       let index = -1;
@@ -527,7 +735,8 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
-          this.meshNode = res.data.result;
+          // this.meshNode = res.data.result;
+          this.drawTopo(res.data.result);
           if (this.enter) {
             this.timer3 = setTimeout(() => {
               this.getMeshNode();
