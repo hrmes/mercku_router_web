@@ -3,6 +3,7 @@ const utils = require('./utils');
 const config = require('../config');
 const vueLoaderConfig = require('./vue-loader.conf');
 
+
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
@@ -19,7 +20,6 @@ const createLintingRule = () => ({
 });
 
 module.exports = {
-  mode: process.env.NODE_ENV,
   context: path.resolve(__dirname, '../'),
   entry: {
     vendor: ['axios', 'babel-polyfill', 'vue', 'vue-i18n', 'vue-router'],
@@ -30,8 +30,7 @@ module.exports = {
     path: config.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production' ?
-      config.build.assetsPublicPath :
-      config.dev.assetsPublicPath
+      config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
