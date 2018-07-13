@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import 'babel-polyfill';
+
 
 import Button from 'vant/lib/button';
 import Field from 'vant/lib/field';
@@ -9,7 +9,10 @@ import Dialog from 'vant/lib/dialog';
 import Toast from 'vant/lib/toast';
 
 import FastClick from 'fastclick';
-import { changeLanguage, i18n } from '../i18n';
+import {
+  changeLanguage,
+  i18n
+} from '../i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
@@ -44,8 +47,7 @@ const launch = () => {
       const conf = config;
       conf.timeout = 20000; // add timeout
       // 添加不显示loading的例外
-      if (
-        !loader.instance &&
+      if (!loader.instance &&
         !(
           NO_LOADING_METHODS.includes(conf.data.method) ||
           (conf.data.method === ROUTER_LOGIN &&
