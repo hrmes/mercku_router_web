@@ -32,7 +32,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   },
   optimization: {
     runtimeChunk: {
-      name: 'manifest'
+      name: entrypoint => `${entrypoint.name}`
     },
     minimizer: [
       new UglifyJsPlugin({
