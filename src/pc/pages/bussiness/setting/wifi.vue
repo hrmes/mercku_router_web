@@ -124,9 +124,9 @@ export default {
     };
   },
   computed: {
-    filterBands() {
+    combineBands() {
       const hash = {};
-      this.options.forEacch(v => {
+      this.options.forEach(v => {
         hash[v.value] = v.bands;
       });
       return hash;
@@ -141,8 +141,8 @@ export default {
         .map(v => bands[v].enabled)
         .join('');
     },
-    filterBands(bands) {
-      this.options.forEacch(v => {
+    splitBands(bands) {
+      this.options.forEach(v => {
         if (this.bandsToStr(bands) === this.bandsToStr(v.bands)) {
           this.band = v.value;
         }
@@ -159,7 +159,7 @@ export default {
             this.form.ssid = this.meshData.ssid;
             this.form.password = this.meshData.password;
             this.form.bands = this.meshData.bands;
-            this.filterBands(this.meshData.bands);
+            this.splitBands(this.meshData.bands);
             this.form.hidden = this.meshData.hidden;
           }
         })
@@ -181,7 +181,7 @@ export default {
           .meshWifiUpdate({
             wifi: {
               ...this.form,
-              bands: this.filterBands[this.band]
+              bands: this.combineBands[this.band]
             }
           })
           .then(res => {
