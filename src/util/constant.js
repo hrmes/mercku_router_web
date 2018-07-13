@@ -29,7 +29,7 @@ export const AppMessage = {
 };
 export default {
   WanType,
-  wanNetStatus,
-  routerSnModel,
-  speedTestStatus
+  WanNetStatus,
+  RouterSnModel,
+  SpeedTestStatus
 };
