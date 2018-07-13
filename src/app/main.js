@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import 'babel-polyfill';
 
 import Button from 'vant/lib/button';
 import Field from 'vant/lib/field';
