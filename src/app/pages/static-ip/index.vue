@@ -33,7 +33,13 @@
   </div>
 </template>
 <script>
-import { ipRexp, ipRule } from '../../../util/util';
+import {
+  ipRexp,
+  ipRule,
+  isMulticast,
+  isLoopback,
+  isValidMask
+} from '../../../util/util';
 
 export default {
   data() {
@@ -64,57 +70,46 @@ export default {
   mounted() {},
   methods: {
     onBlur(item, v) {
-      if (!ipRexp(v)) {
-        const items = this.blurItems;
-        items.push(item);
-        this.blurItems = [...this.blurItems, ...items];
+      if (!ipRexp(v) || isMulticast(v) || isLoopback(v)) {
+        this.blurItems.push(item);
       } else if (this.blurItems.includes(item)) {
         this.blurItems = this.blurItems.filter(i => i !== item);
       }
       if ((item === 'ip' || item === 'gateway') && v && this.form.mask) {
         if (!ipRule(v, this.form.mask)) {
-          const items = this.blurItems;
-          items.push(item);
-          this.blurItems = [...this.blurItems, ...items];
+          this.blurItems.push(item);
         } else {
           this.blurItems = this.blurItems.filter(i => i !== item);
         }
       }
       if (item === 'mask' && v) {
+        if (!isValidMask(v)) {
+          this.blurItems.push(item);
+          return;
+        }
         if (this.form.ip) {
           if (!ipRule(this.form.ip, v)) {
-            const items = this.blurItems;
-            items.push('ip');
-            this.blurItems = [...this.blurItems, ...items];
+            this.blurItems.push('ip');
           } else {
             this.blurItems = this.blurItems.filter(i => i !== 'ip');
-          }
-        }
-        if (this.form.gateway) {
-          if (!ipRule(this.form.gateway, v)) {
-            const items = this.blurItems;
-            items.push('gateway');
-            this.blurItems = [...this.blurItems, ...items];
-          } else {
-            this.blurItems = this.blurItems.filter(i => i !== 'gateway');
           }
         }
       }
     },
     submit() {
-      if (!ipRexp(this.form.ip)) {
+      if (this.blurItems.includes('ip')) {
         this.$toast(this.$t('trans0238'));
         return false;
       }
-      if (!ipRexp(this.form.mask)) {
+      if (this.blurItems.includes('mask')) {
         this.$toast(this.$t('trans0239'));
         return false;
       }
-      if (!ipRexp(this.form.gateway)) {
+      if (this.blurItems.includes('gateway')) {
         this.$toast(this.$t('trans0240'));
         return false;
       }
-      if (!ipRexp(this.form.dns)) {
+      if (this.blurItems.includes('dns')) {
         this.$toast(this.$t('trans0241'));
         return false;
       }

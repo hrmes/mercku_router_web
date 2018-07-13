@@ -30,7 +30,7 @@
       <div class="progress-bar">
         <div class="progress-bar-inner"></div>
       </div>
-      <span>{{$t('trans0322')}}{{deadline}}s</span>
+      <span>{{$t('trans0294')}}{{deadline}}s</span>
     </div>
     <div class="button-info" v-if="!showProgress">
       <van-button size="normal" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'): $t('trans0233')}}

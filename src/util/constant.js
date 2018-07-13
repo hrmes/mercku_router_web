@@ -19,15 +19,17 @@ export const SpeedTestStatus = {
   done: 'done',
   failed: 'failed'
 };
-
 export const Bands = {
   '2.4G': '2.4G',
   '5G': '5G'
 };
-
 export const AppMessage = {
   closewebpage: 'CLOSE_WEB_PAGE',
   forward2wifi: 'JUMP_SYSTEM_WIFI_SETTING'
 };
-
-export default WanType;
+export default {
+  WanType,
+  wanNetStatus,
+  routerSnModel,
+  speedTestStatus
+};

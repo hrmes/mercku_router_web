@@ -2,7 +2,7 @@
   <layout>
     <div class="setting-wifi-container">
       <div v-if="reboot">
-        <m-proress :label="$t('trans0322')"></m-proress>
+        <m-proress :label="$t('trans0315')"></m-proress>
       </div>
       <div class="content">
         <div class='w-header'>

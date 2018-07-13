@@ -1,9 +1,6 @@
 <template>
   <layout>
     <div class="setting-safe-container">
-      <div v-if="reboot">
-        <m-proress :label="$t('trans0322')"></m-proress>
-      </div>
       <div class="content">
         <div class='w-header'>
           {{$t('trans0067')}}
@@ -37,7 +34,6 @@ export default {
   },
   data() {
     return {
-      reboot: false,
       form: {
         admin_password: ''
       },
