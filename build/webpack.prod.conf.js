@@ -55,12 +55,12 @@ const webpackConfig = merge(baseWebpackConfig, {
       }),
     ],
     splitChunks: {
-      chunks: 'async',
+      chunks: 'all',
       minSize: 30000,
       minChunks: 1,
       maxAsyncRequests: 5,
       maxInitialRequests: 3,
-      name: false,
+      name: true,
       cacheGroups: {
         vendor: {
           name: 'vendor',
@@ -115,7 +115,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       template: 'app.html',
       inject: true,
       favicon: 'favicon.ico',
-      chunks: ['manifest', 'vendor', 'app'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -131,7 +130,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       template: 'index.html',
       inject: true,
       favicon: 'favicon.ico',
-      chunks: ['manifest', 'vendor', 'pc'],
       minify: {
         removeComments: true,
         collapseWhitespace: true,
