@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class='check-btn-info'>
-            <button class="btn check-btn" @click='createSpeedTimer()' :class="netStatus!=='connected'&&'disabled'" style='height:44px' :disabled="netStatus!=='connected'">{{$t('trans0008')}}</button>
+            <button class="btn check-btn" @click='createSpeedTimer()' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
           </div>
         </div>
         <!-- <div class="test-speed-btn-container">
@@ -186,11 +186,11 @@
         <div class='speed-model-info' v-if='speedModelOpen'>
           <div class="shadow"></div>
           <div class='speed-content'>
-            <div v-if="speedStatus==='testing'">
+            <div v-if="isSpeedTesting">
               <div class="test-info"></div>
               <p>{{$t('trans0045')}}.. {{testSpeedNumber}}s</p>
             </div>
-            <div v-if="speedStatus==='done' || speedStatus==='failed'" class="speed-completed">
+            <div v-if="isSpeedDone || isSpeedFailed" class="speed-completed">
               <div class="speed-result-info">
                 <div class="extra">
                   <i class="p-dwon-icon"></i>
@@ -237,6 +237,7 @@
 <script>
 import echarts from 'echarts';
 import layout from '../../../layout.vue';
+import * as CONSTANTS from '../../../../util/constant';
 
 /**
  *
@@ -395,6 +396,7 @@ export default {
   },
   data() {
     return {
+      CONSTANTS: { ...CONSTANTS },
       networkArr: {
         '-': '-',
         dhcp: this.$t('trans0146'),
@@ -403,13 +405,11 @@ export default {
       },
       routerModel: {
         '-': '-',
-        '00': '电源适配器',
-        '01': 'M2',
-        '02': 'Bee'
+        ...CONSTANTS.RouterSnModel
       },
       testSpeedNumber: 40,
-      netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
-      speedStatus: 'testing',
+      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      speedStatus: CONSTANTS.SpeedTestStatus.testing,
       speedModelOpen: false,
       TextBandwidth: '-',
       enter: true,
@@ -440,17 +440,27 @@ export default {
   },
   computed: {
     isTesting() {
-      return this.netStatus === 'testing';
+      return this.netStatus === CONSTANTS.WanNetStatus.testing;
     },
     isConnected() {
-      return this.netStatus === 'connected';
+      return this.netStatus === CONSTANTS.WanNetStatus.connected;
     },
     isLinked() {
-      return this.netStatus === 'linked';
+      return this.netStatus === CONSTANTS.WanNetStatus.linked;
     },
     isUnlinked() {
-      return this.netStatus === 'unlinked';
+      return this.netStatus === CONSTANTS.WanNetStatus.unlinked;
     },
+    isSpeedDone() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.done;
+    },
+    isSpeedTesting() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.testing;
+    },
+    isSpeedFailed() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.failed;
+    },
+
     localTraffice() {
       const local = {
         speed: {
@@ -643,18 +653,18 @@ export default {
           if (res.status === 200) {
             this.speedStatus = res.data.result.status;
             this.speedInfo = res.data.result;
-            if (res.data.result.status === 'done') {
+            if (res.data.result.status === CONSTANTS.SpeedTestStatus.done) {
               clearInterval(this.timer4);
               this.testSpeedNumber = 40;
             }
-            if (res.data.result.status === 'failed') {
+            if (res.data.result.status === CONSTANTS.SpeedTestStatus.failed) {
               clearInterval(this.timer4);
               this.testSpeedNumber = 40;
             }
           }
         })
         .catch(err => {
-          this.speedStatus = 'done';
+          this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           clearInterval(this.timer4);
           this.testSpeedNumber = 40;
           if (err && err.error) {
@@ -666,13 +676,13 @@ export default {
     },
     createSpeedTimer(force) {
       this.speedModelOpen = true;
-      this.speedStatus = 'testing';
+      this.speedStatus = CONSTANTS.SpeedTestStatus.testing;
       this.setOverflow();
       this.speedTesting();
       this.timer4 = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
           clearInterval(this.timer4);
-          this.speedStatus = 'done';
+          this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           this.testSpeedNumber = 40;
           return;
         }
@@ -784,7 +794,7 @@ export default {
         });
     },
     testWan() {
-      this.netStatus = 'testing';
+      this.netStatus = CONSTANTS.WanNetStatus.testing;
       const timer = setTimeout(() => {
         this.$http
           .testWan()
@@ -794,7 +804,7 @@ export default {
           })
           .catch(() => {
             clearTimeout(timer);
-            this.netStatus = 'unlinked';
+            this.netStatus = CONSTANTS.WanNetStatus.unlinked;
           });
       }, 1000);
     },
