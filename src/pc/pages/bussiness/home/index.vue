@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class='check-btn-info'>
-            <button class="btn check-btn" @click='createSpeedTimer()' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
+            <button class="btn check-btn" @click='createSpeedTimer(false)' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
           </div>
         </div>
         <!-- <div class="test-speed-btn-container">
@@ -407,7 +407,8 @@ export default {
         '-': '-',
         ...CONSTANTS.RouterSnModel
       },
-      testSpeedNumber: 40,
+      testTimeout: 60,
+      testSpeedNumber: 60,
       netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       speedStatus: CONSTANTS.SpeedTestStatus.testing,
       speedModelOpen: false,
@@ -655,18 +656,18 @@ export default {
             this.speedInfo = res.data.result;
             if (res.data.result.status === CONSTANTS.SpeedTestStatus.done) {
               clearInterval(this.timer4);
-              this.testSpeedNumber = 40;
+              this.testSpeedNumber = this.testTimeout;
             }
             if (res.data.result.status === CONSTANTS.SpeedTestStatus.failed) {
               clearInterval(this.timer4);
-              this.testSpeedNumber = 40;
+              this.testSpeedNumber = this.testTimeout;
             }
           }
         })
         .catch(err => {
           this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           clearInterval(this.timer4);
-          this.testSpeedNumber = 40;
+          this.testSpeedNumber = this.testTimeout;
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -678,16 +679,19 @@ export default {
       this.speedModelOpen = true;
       this.speedStatus = CONSTANTS.SpeedTestStatus.testing;
       this.setOverflow();
-      this.speedTesting();
+      this.speedTesting(force);
       this.timer4 = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
           clearInterval(this.timer4);
           this.speedStatus = CONSTANTS.SpeedTestStatus.done;
-          this.testSpeedNumber = 40;
+          this.testSpeedNumber = this.testTimeout;
           return;
         }
-        if (this.testSpeedNumber % 5 === 0 && this.testSpeedNumber !== 40) {
-          this.speedTesting(force);
+        if (
+          this.testSpeedNumber % 5 === 0 &&
+          this.testSpeedNumber !== this.testTimeout
+        ) {
+          this.speedTesting();
         }
         this.testSpeedNumber -= 1;
       }, 1000);
