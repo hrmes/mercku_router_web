@@ -29,32 +29,49 @@ export default {
           icon: 'wifi',
           text: 'trans0173',
           url: '/home',
-          expand: this.$route.path.includes('/home')
+          key: 1
         },
         {
           icon: 'setting',
           text: 'trans0019',
-          expand:
-            this.$route.path.includes('/setting/wifi') ||
-            this.$route.path.includes('/setting/network') ||
-            this.$route.path.includes('/setting/safe') ||
-            this.$route.path.includes('/setting/reboot'),
+          key: 2,
           children: [
             {
+              key: 21,
               text: 'trans0103',
               url: '/setting/wifi'
             },
             {
+              key: 22,
               text: 'trans0142',
               url: '/setting/network'
             },
             {
+              key: 23,
               text: 'trans0297',
               url: '/setting/safe'
             },
             {
+              key: 24,
               text: 'trans0122',
               url: '/setting/reboot'
+            }
+          ]
+        },
+        {
+          key: 3,
+          icon: '',
+          text: '估计升级',
+          children: [
+            {
+              url: '/dasdsadas',
+              key: 31,
+              text: '在线升级'
+            },
+            {
+              url: '/dasdasdasdasdas',
+              key: 32,
+              text: '在线升级'
             }
           ]
         }
