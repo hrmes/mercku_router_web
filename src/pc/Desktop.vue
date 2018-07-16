@@ -61,17 +61,17 @@ export default {
         {
           key: 3,
           icon: '',
-          text: '估计升级',
+          text: '固件升级',
           children: [
             {
-              url: '/dasdsadas',
+              url: '/upgrade/online',
               key: 31,
               text: '在线升级'
             },
             {
-              url: '/dasdasdasdasdas',
+              url: '/upgrade/offline',
               key: 32,
-              text: '在线升级'
+              text: '离线升级'
             }
           ]
         }
