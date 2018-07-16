@@ -82,10 +82,49 @@ const methods = {
   meshLanUpdate: {
     url,
     action: 'mesh.config.lan.net.update' // 组网Lan口配置更新
+  },
+  // v0.9
+  firmwareUpload: {
+    url,
+    action: '/firmware_upload' // 上传固件
+  },
+  checkUpdation: {
+    url,
+    action: 'mesh.node.check_updation' // 检测升级列表
+  },
+  upgrade: {
+    url,
+    action: 'mesh.node.check_updation' // 在线升级
+  },
+  localUpgrade: {
+    url,
+    action: 'mesh.node.local_upgrade' // 离线升级
   }
 };
 
 const http = {
+  /* v0.9 start */
+  firmwareUpload() {
+
+  },
+  checkUpdation() {
+    return axios.post(methods.checkUpdation.url, {
+      method: methods.checkUpdation.action
+    });
+  },
+  meshUpgrade() {
+    return axios.post(methods.upgrade.url, {
+      method: methods.upgrade.action
+    });
+  },
+  meshLocalUpgrade(params) {
+    return axios.post(methods.localUpgrade.url, {
+      method: methods.localUpgrade.action,
+      params: { ...params
+      }
+    });
+  },
+  /* v0.9 end */
   /* v0.8 start */
   getWanNetInfo() {
     return axios.post(methods.getWanNetInfo.url, {
