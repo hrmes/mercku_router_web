@@ -98,7 +98,6 @@ export default {
         const expand = this.$route.path.includes(m.url);
         return { ...m, expand };
       });
-      console.log('list is', list);
       return list;
     }
   },

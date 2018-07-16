@@ -259,14 +259,16 @@ const isGood = rssi => rssi > -50;
 function distinct(source) {
   return source.map(r => {
     const neighbors = [];
-    r.neighbors.forEach(n => {
-      const node = source.filter(s => s.sn === n.sn)[0];
-      node.neighbors = node.neighbors.filter(nn => nn.sn !== r.sn);
-      neighbors.push({
-        entity: node,
-        origin: n
+    if (r.neighbors) {
+      r.neighbors.forEach(n => {
+        const node = source.filter(s => s.sn === n.sn)[0];
+        node.neighbors = node.neighbors.filter(nn => nn.sn !== r.sn);
+        neighbors.push({
+          entity: node,
+          origin: n
+        });
       });
-    });
+    }
     r.neighbors = neighbors;
     return r;
   });
@@ -545,7 +547,6 @@ export default {
     drawTopo(routers) {
       const data = genData(routers);
       const option = {
-        // bottom: 10,
         series: [
           {
             type: 'graph',
@@ -1116,7 +1117,7 @@ export default {
         padding: 0 10px;
         background: #f1f1f1;
         z-index: 111;
-        width: 57px;
+        width: 50px;
         height: 32px;
         // padding: 10px;
         background: #f1f1f1;
@@ -1126,9 +1127,10 @@ export default {
       }
       .fail-icon {
         margin-left: 6px;
+        margin-top: 3px;
         position: absolute;
-        width: 26px;
-        height: 26px;
+        width: 20px;
+        height: 20px;
         background: url('../../../assets/images/ic_wifi_wrong.png');
         background-size: 100% 100%;
       }
@@ -1757,17 +1759,31 @@ export default {
       .check-status {
         width: calc(100% - 200px);
         .fail-info {
-          width: 44px;
+          width: 20px;
           top: 20px;
+          padding: 0;
         }
         .fail-icon {
-          width: 18px;
-          height: 18px;
-          margin-top: 2px;
+          width: 16px;
+          height: 16px;
+          margin-top: 3px;
+          margin-left: 3px;
         }
         .success-line,
         .fail-line {
           min-width: 100px;
+          &.testing-animation {
+            background: none;
+            &::after {
+              content: '';
+              width: 10%;
+              display: block;
+              height: 3px;
+              background: url('../../../assets/images/ic_test_line.png')
+                repeat-x;
+              animation: speed-test-line linear 0.6s infinite;
+            }
+          }
         }
       }
     }
