@@ -90,6 +90,19 @@ const methods = {
   routerAdminGet: {
     url,
     action: 'router.admin.get'
+  },
+  // v0.9
+  firmwareUpload: {
+    url,
+    action: 'firmware_upload' // 上传固件
+  },
+  firmwareList: {
+    url,
+    action: 'mesh.firmware.get' // 检测在线升级列表
+  },
+  upgrade: {
+    url,
+    action: 'mesh.node.upgrade' // 升级
   }
 };
 
@@ -105,6 +118,37 @@ const http = {
       params
     });
   },
+  /* v0.9 start */
+  firmwareUpload(parmas, callback) {
+    const { CancelToken } = axios;
+    const source = CancelToken.source();
+    return axios({
+      url: `${methods.firmwareUpload.url}/${methods.firmwareUpload.action}`,
+      method: 'post',
+      data: parmas,
+      cancelToken: source.token,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: progressEvent => {
+        callback(progressEvent);
+      }
+    });
+  },
+  firmwareList() {
+    return axios.post(methods.firmwareList.url, {
+      method: methods.firmwareList.action
+    });
+  },
+  upgrade(params) {
+    return axios.post(methods.upgrade.url, {
+      method: methods.upgrade.action,
+      params: {
+        ...params
+      }
+    });
+  },
+  /* v0.9 end */
   /* v0.8 start */
   getWanNetInfo() {
     return axios.post(methods.getWanNetInfo.url, {
