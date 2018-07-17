@@ -216,8 +216,7 @@ const http = {
   },
   getMeshNode() {
     return axios.post(methods.getMeshNode.url, {
-      method: methods.getMeshNode.action,
-      parmas: {}
+      method: methods.getMeshNode.action
     });
   },
   checkLogin() {
