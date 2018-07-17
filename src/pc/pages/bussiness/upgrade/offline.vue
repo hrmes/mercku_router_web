@@ -14,19 +14,20 @@
         </div>
         <m-upload :fileList="fileList" :multiple="multiple" :accept="accept" :berforUpload="beforeUpload" :uploadFiles="uploadFiles" :handleRemove="handleRemove" />
         <button class="btn" @click="submit">上传</button>
+        <div>
+          <ul>
+            <li v-for="node in localNodes" :key="node.sn">
+              <p>{{node.sn}}</p>
+              <p>{{node.model}}</p>
+              <p>{{node.name}}</p>
+              <p>{{node.version.current}}</p>
+              <p>{{node.version.latest}}</p>
+            </li>
+          </ul>
+          <button class="btn" @click="upgrade">全部更新</button>
+        </div>
       </div>
-      <div>
-        <ul>
-          <li v-for="node in localNodes" :key="node.sn">
-            <p>{{node.sn}}</p>
-            <p>{{node.model}}</p>
-            <p>{{node.name}}</p>
-            <p>{{node.version.current}}</p>
-            <p>{{node.version.latest}}</p>
-          </li>
-        </ul>
-        <button class="btn" @click="upgrade">上传</button>
-      </div>
+
     </div>
   </layout>
 
