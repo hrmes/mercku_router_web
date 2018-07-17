@@ -98,7 +98,7 @@ const methods = {
   },
   firmwareList: {
     url,
-    action: 'mesh.firmware.get' // 检测在线升级列表
+    action: 'mesh.node.upgradable.get' // 检测在线升级列表
   },
   upgrade: {
     url,
@@ -143,9 +143,7 @@ const http = {
   upgrade(params) {
     return axios.post(methods.upgrade.url, {
       method: methods.upgrade.action,
-      params: {
-        ...params
-      }
+      params
     });
   },
   /* v0.9 end */
@@ -200,12 +198,10 @@ const http = {
       method: methods.getRouterMeta.action
     });
   },
-  getNet(data) {
+  getNet(params) {
     return axios.post(methods.getNetInfo.url, {
       method: methods.getNetInfo.action,
-      params: {
-        ...data
-      }
+      params
     });
   },
   getDeviceCount() {
