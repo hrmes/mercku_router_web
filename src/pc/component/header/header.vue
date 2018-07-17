@@ -147,13 +147,13 @@ export default {
       .popup {
         position: absolute;
         width: 150px;
-        border: 1px solid #b6b6b6;
         background: #fff;
         right: 0;
         margin-top: 10px;
         padding: 0 10px;
         border-radius: 2px;
         z-index: 999;
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
         opacity: 1;
         &.popup-enter-active {
           transition: opacity 0.2s ease-in;
