@@ -82,10 +82,29 @@ const methods = {
   meshLanUpdate: {
     url,
     action: 'mesh.config.lan.net.update' // 组网Lan口配置更新
+  },
+  meshAdminUpdate: {
+    url,
+    action: 'mesh.config.admin.update'
+  },
+  routerAdminGet: {
+    url,
+    action: 'router.admin.get'
   }
 };
 
 const http = {
+  getAdmin() {
+    return axios.post(methods.routerAdminGet.url, {
+      method: methods.meshAdminUpdate.action
+    });
+  },
+  updateAdmin(params) {
+    return axios.post(methods.meshAdminUpdate.url, {
+      method: methods.meshAdminUpdate.action,
+      params
+    });
+  },
   /* v0.8 start */
   getWanNetInfo() {
     return axios.post(methods.getWanNetInfo.url, {
@@ -100,14 +119,16 @@ const http = {
   meshWifiUpdate(config) {
     return axios.post(methods.meshWifiUpdate.url, {
       method: methods.meshWifiUpdate.action,
-      params: { ...config.wifi
+      params: {
+        ...config.wifi
       }
     });
   },
   meshWanUpdate(config) {
     return axios.post(methods.meshWanUpdate.url, {
       method: methods.meshWanUpdate.action,
-      params: { ...config.wan
+      params: {
+        ...config.wan
       }
     });
   },
@@ -168,7 +189,7 @@ const http = {
     return axios.post(methods.login.url, {
       method: methods.login.action,
       params: {
-        admin_password: pwd
+        password: pwd
       }
     });
   },
@@ -185,6 +206,9 @@ const http = {
     }
     if (config.wan && config.wan.type) {
       conf.wan = config.wan;
+    }
+    if (config.admin && config.admin.password) {
+      conf.admin = config.admin;
     }
     return axios.post(methods.update.url, {
       method: methods.update.action,
@@ -231,8 +255,4 @@ const configRequestInterceptors = (before, error) => {
   const errorCallback = error || noop;
   axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-};
+export { http, configResponseInterceptors, configRequestInterceptors };
