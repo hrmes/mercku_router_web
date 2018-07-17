@@ -86,41 +86,48 @@ const methods = {
   // v0.9
   firmwareUpload: {
     url,
-    action: '/firmware_upload' // 上传固件
+    action: 'firmware_upload' // 上传固件
   },
-  checkUpdation: {
+  firmwareList: {
     url,
-    action: 'mesh.node.check_updation' // 检测升级列表
+    action: 'mesh.firmware.get' // 检测在线升级列表
   },
   upgrade: {
     url,
-    action: 'mesh.node.check_updation' // 在线升级
-  },
-  localUpgrade: {
-    url,
-    action: 'mesh.node.local_upgrade' // 离线升级
+    action: 'mesh.node.upgrade' // 升级
   }
 };
 
 const http = {
   /* v0.9 start */
-  firmwareUpload() {
-
-  },
-  checkUpdation() {
-    return axios.post(methods.checkUpdation.url, {
-      method: methods.checkUpdation.action
+  firmwareUpload(parmas, callback) {
+    const {
+      CancelToken
+    } = axios;
+    const source = CancelToken.source();
+    return axios({
+      url: `${methods.firmwareUpload.url}/${methods.firmwareUpload.action}`,
+      method: 'post',
+      data: parmas,
+      cancelToken: source.token,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: progressEvent => {
+        callback(progressEvent);
+      }
     });
   },
-  meshUpgrade() {
+  firmwareList() {
+    return axios.post(methods.firmwareList.url, {
+      method: methods.firmwareList.action
+    });
+  },
+  upgrade(params) {
     return axios.post(methods.upgrade.url, {
-      method: methods.upgrade.action
-    });
-  },
-  meshLocalUpgrade(params) {
-    return axios.post(methods.localUpgrade.url, {
-      method: methods.localUpgrade.action,
-      params: { ...params
+      method: methods.upgrade.action,
+      params: {
+        ...params
       }
     });
   },

@@ -40,14 +40,14 @@ export default {
     };
   },
   mounted() {
-    this.checkUpdation();
+    this.firmwareList();
   },
 
   methods: {
-    checkUpdation() {
+    firmwareList() {
       this.status = CONSTANTS.UpgradeStatus.checking;
       this.$http
-        .checkUpdation()
+        .firmwareList()
         .then(res => {
           const data = res.data.result;
           const filterNodes = data.filter(node => node.updatable);
@@ -64,7 +64,7 @@ export default {
     },
     submit() {
       this.$http
-        .meshUpgrade()
+        .upgrade({})
         .then(() => {
           this.$router.push('/upgrading');
         })

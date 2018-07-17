@@ -12,11 +12,20 @@
           </p>
           <p>{{$t('trans0333')}}</p>
         </div>
-
-        <span class="btn btn-success fileinput-button">
-          <span>上传</span>
-          <input type="file" @change="fileUpload" />
-        </span>
+        <m-upload :fileList="fileList" :multiple="multiple" :accept="accept" :berforUpload="beforeUpload" :uploadFiles="uploadFiles" :handleRemove="handleRemove" />
+        <button class="btn" @click="submit">上传</button>
+      </div>
+      <div>
+        <ul>
+          <li v-for="node in localNodes" :key="node.sn">
+            <p>{{node.sn}}</p>
+            <p>{{node.model}}</p>
+            <p>{{node.name}}</p>
+            <p>{{node.version.current}}</p>
+            <p>{{node.version.latest}}</p>
+          </li>
+        </ul>
+        <button class="btn" @click="upgrade">上传</button>
       </div>
     </div>
   </layout>
@@ -24,38 +33,85 @@
 </template>
 <script>
 import layout from '../../../layout.vue';
+import Upload from '../../../component/upload/index.vue';
 
 export default {
   components: {
-    layout
+    layout,
+    'm-upload': Upload
   },
   data() {
     return {
-      reboot: false
+      fileList: [],
+      multiple: 1,
+      accept: '.bin',
+      percentage: 0,
+      status: 'uploading',
+      localNodes: []
     };
   },
   methods: {
-    fileUpload(e) {
-      console.log(e);
+    getExtendName(fileName) {
+      const r = fileName.split('.');
+      if (r.length) {
+        return r[r.length - 1];
+      }
+      return '';
+    },
+    beforeUpload(file) {
+      const entendName = this.getExtendName(file.name);
+      if (!/bin/i.test(entendName)) {
+        console.log('文件名不匹配', entendName);
+        return false;
+      }
+      if (file.size === 0) {
+        console.log('文件大小不匹配', file.size);
+        return false;
+      }
+      return true;
+    },
+    uploadFiles(file) {
+      this.fileList.push(file);
+    },
+    handleRemove(file) {
+      this.fileList = this.fileList.filter(v => v.name !== file.name);
+    },
+    submit() {
+      const fd = new FormData();
+      this.fileList.forEach(v => fd.append('file', v));
+      this.$http
+        .firmwareUpload(fd, progressEvent => {
+          console.log(progressEvent);
+          if (progressEvent.lengthComputable) {
+            this.percentage = progressEvent.loaded / progressEvent.total * 100;
+            this.status =
+              progressEvent.loaded >= progressEvent.total
+                ? 'success'
+                : 'uploading';
+          }
+        })
+        .then(res => {
+          console.log(res);
+          const data = res.data.result;
+          if (data.length > 0) {
+            this.localNodes = data.filter(v => v.updatable);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    upgrade() {
+      const ids = this.localNodes.map(v => v.sn);
+      this.$http.upgrade({ node_ids: ids, local: true }).then(res => {
+        console.log(res);
+      });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .upgrade-offline-container {
-  .fileinput-button {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-  }
-  .fileinput-button input {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    opacity: 0;
-    -ms-filter: 'alpha(opacity=0)';
-    font-size: 200px;
-  }
   position: relative;
   flex: auto;
   padding: 0 2%;
