@@ -2,53 +2,61 @@
   <layout>
     <div class="upgrade-offline-container">
       <div class="content">
-        <div class='w-header'>{{$t('trans0204')}}</div>
-        <div class="form">
-          <div class="description">
-            <h4>
-              <img src="../../../assets/images/ic_question.png" alt="">
-              <span> {{$t('trans0331')}}</span>
-            </h4>
-            <p>1. 官网Mercku官方网站，下载最新固件。
-              <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
-            </p>
-            <p>2. {{$t('trans0333')}}</p>
-            <p>3. {{$t('trans0333')}}</p>
-          </div>
-          <div class="upload">
-            <m-upload :label="$t('trans0339')" :percentage="percentage" :uploadStatus="status" :fileList="fileList" :multiple="multiple" :accept="accept" :berforUpload="beforeUpload" :uploadFiles="uploadFiles" :handleRemove="handleRemove" />
-          </div>
-          <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
-            <p class="title">{{$t('trans0333')}}</p>
-            <div class="nodes-info">
-              <div v-for="node in localNodes" :key="node.sn" class="node">
-                <div class="badge-info">
-                  <img src="../../../assets/images/ic_new_version.png" alt="">
-                  <span>{{$t('trans0210')}}{{node.version.latest}}</span>
-                </div>
-                <div class="message">
-                  <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
-                  <img class="img-bee" v-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
-                  <div>
-                    <p class="node-name">{{node.name}}</p>
-                    <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
-                    <p class="node-version">
-                      <span class="dot"></span>
-                      <span>{{$t('trans0209')}}{{node.version.current}}</span>
-                    </p>
+        <div class="pc-wrapper">
+          <div class='w-header'>{{$t('trans0204')}}</div>
+          <div class="form">
+            <div class="description">
+              <h4>
+                <img src="../../../assets/images/ic_question.png" alt="">
+                <span> {{$t('trans0331')}}</span>
+              </h4>
+              <p>1. 官网Mercku官方网站，下载最新固件。
+                <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
+              </p>
+              <p>2. {{$t('trans0333')}}</p>
+              <p>3. {{$t('trans0333')}}</p>
+            </div>
+            <div class="upload">
+              <m-upload :label="$t('trans0339')" :multiple="multiple" :accept="accept" :getLocalNodes="getLocalNodes" />
+            </div>
+            <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
+              <p class="title">{{$t('trans0333')}}</p>
+              <div class="nodes-info">
+                <div v-for="node in localNodes" :key="node.sn" class="node">
+                  <div class="badge-info">
+                    <img src="../../../assets/images/ic_new_version.png" alt="">
+                    <span>{{$t('trans0210')}}{{node.version.latest}}</span>
+                  </div>
+                  <div class="message">
+                    <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
+                    <img class="img-bee" v-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
+                    <div>
+                      <p class="node-name">{{node.name}}</p>
+                      <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
+                      <p class="node-version">
+                        <span class="dot"></span>
+                        <span>{{$t('trans0209')}}{{node.version.current}}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="btn-info">
+                <button class="btn re-btn" @click="submit()">{{$t('trans0211')}}</button>
+              </div>
             </div>
-            <div class="btn-info">
-              <button class="btn re-btn" @click="submit()">{{$t('trans0211')}}</button>
+            <div class="description-wrapper" v-if="uploadComplete&&!hasUpgradablityNodes">
+              <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
+              <p>1. 下载路由器固件时，请仔细核对路由器底部标签上的型号和产品名称，确保准确性。</p>
+              <p>{{$t('trans0337')}}</p>
             </div>
           </div>
-          <div class="description-wrapper">
-            <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
-            <p>1. 下载路由器固件时，请仔细核对路由器底部标签上的型号和产品名称，确保准确性。</p>
-            <p>{{$t('trans0337')}}</p>
-          </div>
+        </div>
+        <div class="mobile-wrapper">
+          <img src="../../../assets/images/ic_hint.png" alt="">
+          <p>离线升级请通过电脑浏览器访问 Mercku官网下载最新固件
+          </p>
+          <p>www.mercku.tech</p>
         </div>
       </div>
     </div>
@@ -80,12 +88,10 @@ export default {
   data() {
     return {
       RouterSnModel,
-      fileList: [],
       multiple: 1,
-      accept: '.bin',
-      percentage: 0,
-      status: 'uploading',
-      localNodes: arr
+      accept: '.ma',
+      localNodes: arr,
+      uploadComplete: false
     };
   },
   computed: {
@@ -94,54 +100,9 @@ export default {
     }
   },
   methods: {
-    getExtendName(fileName) {
-      const r = fileName.split('.');
-      if (r.length) {
-        return r[r.length - 1];
-      }
-      return '';
-    },
-    beforeUpload(file) {
-      const entendName = this.getExtendName(file.name);
-      if (!/bin/i.test(entendName)) {
-        console.log('文件名不匹配', entendName);
-        return false;
-      }
-      if (file.size === 0) {
-        console.log('文件大小不匹配', file.size);
-        return false;
-      }
-      return true;
-    },
-    uploadFiles(file) {
-      this.fileList.push(file);
-      this.submit();
-    },
-    handleRemove(file) {
-      this.fileList = this.fileList.filter(v => v.name !== file.name);
-    },
-    submit() {
-      const fd = new FormData();
-      this.fileList.forEach(v => fd.append('file', v));
-      this.$http
-        .firmwareUpload(fd, progressEvent => {
-          console.log(progressEvent);
-          if (progressEvent.lengthComputable) {
-            this.percentage = progressEvent.loaded / progressEvent.total;
-            console.log(this.percentage);
-            this.status =
-              progressEvent.loaded >= progressEvent.total
-                ? 'success'
-                : 'uploading';
-          }
-        })
-        .then(res => {
-          const data = res.data.result;
-          this.localNodes = data.filter(v => v.updatable);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    getLocalNodes(nodes, state) {
+      this.uploadComplete = state;
+      this.localNodes = nodes;
     },
     upgrade() {
       const ids = this.localNodes.map(v => v.sn);
@@ -323,8 +284,29 @@ export default {
     }
   }
 }
+@media screen and (min-width: 769px) {
+  .pc-wrapper {
+    display: block;
+  }
+  .mobile-wrapper {
+    display: none;
+  }
+}
 @media screen and (max-width: 768px) {
-  .setting-safe-container {
+  .upgrade-offline-container {
+    .pc-wrapper {
+      display: none;
+    }
+    .mobile-wrapper {
+      display: block;
+      text-align: center;
+      font-size: 14px;
+      color: #333333;
+      img {
+        width: 30px;
+        margin-top: 70px;
+      }
+    }
     padding: 20px 16px;
     .content {
       .w-header {
@@ -332,7 +314,7 @@ export default {
         height: 44px;
         line-height: 44px;
       }
-      min-height: 510px;
+
       background: white;
     }
   }

@@ -32,9 +32,3 @@ export const UploadStatus = {
   fail: 'fail',
   uploading: 'uploading'
 };
-export default {
-  WanType,
-  WanNetStatus,
-  RouterSnModel,
-  SpeedTestStatus
-};

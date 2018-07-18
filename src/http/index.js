@@ -133,7 +133,7 @@ const http = {
         'Content-Type': 'multipart/form-data'
       },
       onUploadProgress: progressEvent => {
-        callback(progressEvent);
+        callback(progressEvent, source);
       }
     });
   },

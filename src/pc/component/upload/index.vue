@@ -4,15 +4,14 @@
       <p> <img src="../../assets/images/ic_upgrade.png" alt="">{{label}}</p>
       <input type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" title=" " />
     </div>
-    <div class='file'>
-      <!-- <div class='file' v-for="file in fileList" :key="file.lastModified"> -->
+    <div class='file' v-for="file in files" :key="file.lastModified">
       <img src="../../assets/images/ic_file.png" alt="" width="18" />
       <div class="des-cnt">
-        <span> mercku_123.bin 30MB</span>
-        <img src="../../assets/images/ic_delete.png" alt="" width="10" @click="remove(file)" />
-        <div class="line">
-          <span class="loading"></span>
-          <span>上传失败</span>
+        <span> {{file.name}} &nbsp;&nbsp;{{(file.size/1024/1024).toFixed(2)}}MB</span>
+        <img src="../../assets/images/ic_delete.png" alt="" width="10" @click="cancel(file)" />
+        <div class="line" v-if="!uplodaSuccess">
+          <span :class="`${uploadLoading&&'loading'} ${uploadFail&&'fail'}`" :style="style"></span>
+          <span v-if="uploadFail">上传失败</span>
         </div>
       </div>
 
@@ -20,75 +19,126 @@
   </div>
 </template>
 <script>
+import { UploadStatus } from '../../../util/constant';
+
 export default {
   props: {
+    getLocalNodes: {
+      type: Function,
+      default: () => {}
+    },
     acceptHttp: {
       type: Boolean,
       default: false
-    },
-      uploadStatus: {
-      type: String,
-      default: ''
     },
     label: {
       type: String,
       default: ''
     },
-    fileList: {
-      type: Array,
-      default: []
-    },
     multiple: {
-      type: Number,
-      default: 1
-    },
-    percentage: {
       type: Number,
       default: 1
     },
     accept: {
       type: String,
       default: ''
-    },
-    berforUpload: {
-      type: Function,
-      default: () => {}
-    },
-    uploadFiles: {
-      type: Function,
-      default: () => {}
-    },
-    handleRemove: {
-      type: Function,
-      default: () => {}
     }
   },
   data() {
     return {
-      chooseFiles: []
+      UploadStatus,
+      files: [],
+      percentage: 0,
+      status: UploadStatus.uploading,
+      source: null
     };
   },
+  computed: {
+    uplodaSuccess() {
+      return this.status === UploadStatus.success;
+    },
+    uploadLoading() {
+      return this.status === UploadStatus.uploading;
+    },
+    uploadFail() {
+      return this.status === UploadStatus.fail;
+    },
+    style() {
+      return {
+        width: `${this.percentage * 260}px`
+      };
+    }
+  },
   methods: {
+    getExtendName(fileName) {
+      const r = fileName.split('.');
+      if (r.length) {
+        return r[r.length - 1];
+      }
+      return '';
+    },
     handleChange(ev) {
       const files = ev.target.files;
       if (!files) return;
       const postFiles = Array.prototype.slice.call(files);
-      this.chooseFiles = this.chooseFiles.concat(postFiles);
-      this.upload(postFiles);
+      this.upload(postFiles[0]);
     },
-    upload(files) {
-      if (this.chooseFiles.length > this.multiple) {
-        this.chooseFiles = this.chooseFiles.filter(
-          v => v.name !== files[0].name
-        );
-        return;
+
+    upload(file) {
+      if (this.accept) {
+        const entendName = this.getExtendName(file.name);
+        if (!/ma/i.test(entendName)) {
+          this.$toast('文件名不匹配');
+          return false;
+        }
+        if (file.size === 0) {
+          this.$toast('文件大小不匹配');
+          return false;
+        }
       }
-      this.berforUpload(files[0]);
-      this.uploadFiles(files[0]);
+      if (!this.acceptHttp) {
+        this.files = [file];
+        this.post(this.files);
+      }
+      return true;
     },
-    remove(file) {
-      this.handleRemove(file);
-      this.chooseFiles = this.chooseFiles.filter(v => v.name !== file.name);
+    post(files) {
+      const fd = new FormData();
+      files.forEach(v => fd.append('file', v));
+      this.$http
+        .firmwareUpload(fd, (progressEvent, source) => {
+          this.source = source;
+          if (progressEvent.lengthComputable) {
+            this.percentage = Math.floor(
+              progressEvent.loaded / progressEvent.total
+            );
+            this.status =
+              progressEvent.loaded >= progressEvent.total
+                ? UploadStatus.success
+                : UploadStatus.uploading;
+          }
+        })
+        .then(res => {
+          const data = res.data.result;
+          const localNodes = data.filter(v => v.updatable);
+          this.getLocalNodes(localNodes, true);
+        })
+        .catch(err => {
+          if (err && err.error) {
+            this.status = UploadStatus.fail;
+            this.percentage = 0;
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/disappear' });
+          }
+        });
+    },
+    cancel(file) {
+      if (this.source) {
+        this.source.cancel('cancel upload');
+      }
+      this.files = this.files.filter(v => v.name !== file.name);
+      this.$refs.upload.value = null;
     }
   }
 };
@@ -140,7 +190,7 @@ export default {
         .loading {
           display: inline-block;
           height: 2px;
-          width: 30px;
+          transition: width 1s ease;
           border: 1px solid #67dd37;
           position: absolute;
           bottom: -1px;
@@ -148,7 +198,7 @@ export default {
         .fail {
           display: inline-block;
           height: 2px;
-          width: 30px;
+
           border: 1px solid red;
           position: absolute;
           bottom: -1px;
