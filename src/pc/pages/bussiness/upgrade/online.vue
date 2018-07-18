@@ -141,21 +141,10 @@ export default {
                 node_ids: nodeIds
               })
               .then(() => {
-                this.$loading.open({
-                  template: `<div class="upgrade-tip">${this.$t(
-                    'trans0213'
-                  )}</span>`
-                });
-                this.$reconnect({
+                this.$upgrade({
                   onsuccess: () => {
-                    this.$loading.close();
                     this.$router.push({ path: '/home' });
-                  },
-                  ontimeout: () => {
-                    this.$loading.close();
-                    this.$router.push({ path: '/disappear' });
-                  },
-                  timeout: 99999999
+                  }
                 });
               })
               .catch(err => {
