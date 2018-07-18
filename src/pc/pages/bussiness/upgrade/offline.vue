@@ -2,30 +2,36 @@
   <layout>
     <div class="upgrade-offline-container">
       <div class="content">
-        <div class='w-header'>
-          {{$t('trans0204')}}
+        <div class='w-header'>{{$t('trans0204')}}</div>
+        <div class="form">
+          <div class="description">
+            <h4>
+              <img src="../../../assets/images/ic_question.png" alt="">
+              <span> {{$t('trans0331')}}</span>
+            </h4>
+            <p>1. 官网Mercku官方网站，下载最新固件。
+              <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
+            </p>
+            <p>2. {{$t('trans0333')}}</p>
+            <p>3. {{$t('trans0333')}}</p>
+          </div>
+          <div class="upload">
+            <m-upload :label="$t('trans0339')" :fileList="fileList" :multiple="multiple" :accept="accept" :berforUpload="beforeUpload" :uploadFiles="uploadFiles" :handleRemove="handleRemove" />
+          </div>
+          <div class="nodes-wrapper">
+            <ul>
+              <li v-for="node in localNodes" :key="node.sn">
+                <p>{{node.sn}}</p>
+                <p>{{node.model}}</p>
+                <p>{{node.name}}</p>
+                <p>{{node.version.current}}</p>
+                <p>{{node.version.latest}}</p>
+              </li>
+            </ul>
+
+          </div>
         </div>
-        <div>
-          <p>{{$t('trans0331')}}</p>
-          <p>1. 官网Mercku官方网站，下载最新固件。
-            <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
-          </p>
-          <p>{{$t('trans0333')}}</p>
-        </div>
-        <m-upload :fileList="fileList" :multiple="multiple" :accept="accept" :berforUpload="beforeUpload" :uploadFiles="uploadFiles" :handleRemove="handleRemove" />
-        <button class="btn" @click="submit">上传</button>
-        <div>
-          <ul>
-            <li v-for="node in localNodes" :key="node.sn">
-              <p>{{node.sn}}</p>
-              <p>{{node.model}}</p>
-              <p>{{node.name}}</p>
-              <p>{{node.version.current}}</p>
-              <p>{{node.version.latest}}</p>
-            </li>
-          </ul>
-          <button class="btn" @click="upgrade">全部更新</button>
-        </div>
+
       </div>
 
     </div>
@@ -122,7 +128,6 @@ export default {
     padding: 0 20px;
     background: white;
     flex: 1;
-
     position: relative;
     .w-header {
       height: 60px;
@@ -133,20 +138,30 @@ export default {
       font-weight: 400;
     }
     .form {
-      // position: absolute;
-      // padding-top: 100px;
-      width: 100%;
-      padding: 20px;
-      text-align: center;
-      margin: 0 auto;
-      padding-bottom: 50px;
-      // right: 50%;
-      // transform: translateX(50%);
-      img {
-        width: 180px;
+      margin-left: 3%;
+    }
+    .description {
+      margin-top: 30px;
+      p {
+        margin: 0;
+        font-size: 14px;
+        color: #333333;
+        margin-bottom: 20px;
       }
-      .re-btn {
-        margin-top: 50px;
+      h4 {
+        display: flex;
+        align-items: center;
+        font-weight: normal;
+        margin: 0;
+        margin-bottom: 40px;
+        img {
+          width: 20px;
+          margin-right: 10px;
+          span {
+            font-size: 16px;
+            color: #333333;
+          }
+        }
       }
     }
   }

@@ -8,6 +8,7 @@
       </div>
     </div>
     <div class="note">{{label}}{{during}}s</div>
+    <p style="color:white">{{description}}</p>
   </div>
 </template>
 <script>
@@ -16,11 +17,18 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    during: {
+      type: Number,
+      default: 60
+    },
+    description: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
-      during: 60,
       percent: 0,
       timer: null,
       styles: {
