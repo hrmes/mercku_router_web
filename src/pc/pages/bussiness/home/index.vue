@@ -341,11 +341,11 @@ function genNodes(gateway, green, red) {
       bottom: 'bottom'
     };
     if (angle >= 0 && angle <= 90) {
-      labelPosition = Position.top;
+      labelPosition = Positions.top;
     } else if (angle > 90 && angle < 270) {
-      labelPosition = Position.bottom;
+      labelPosition = Positions.bottom;
     } else if (angle >= 270 && angle <= 360) {
-      labelPosition = Position.top;
+      labelPosition = Positions.top;
     }
     const n = {
       name: node.name,
