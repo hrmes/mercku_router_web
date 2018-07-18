@@ -47,12 +47,13 @@ const launch = () => {
       ...{
         onsuccess: () => {},
         ontimeout: () => {},
-        onprogress: () => {}
+        onprogress: () => {},
+        timeout: 60
       },
       ...options
     };
-    let count = 60; // 60s重试时间
-    const total = 60;
+    let count = opt.timeout; // 60s重试时间
+    const total = opt.timeout;
     const timer = setInterval(() => {
       count -= 1;
       const percent = ((total - count) / total).toFixed(2);
