@@ -1,16 +1,13 @@
 <template>
   <layout>
     <div class="setting-safe-container">
-      <div v-if="reboot">
-        <m-proress :label="$t('trans0322')"></m-proress>
-      </div>
       <div class="content">
         <div class='w-header'>
           {{$t('trans0067')}}
         </div>
         <m-form ref="form" class='form' :model="form" :rules='rules'>
-          <m-form-item class="item" prop='admin_password'>
-            <m-input :label="$t('trans0113')" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.admin_password"></m-input>
+          <m-form-item class="item" prop='password'>
+            <m-input :label="$t('trans0113')" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.password"></m-input>
           </m-form-item>
           <div class="btn-info">
             <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
@@ -37,12 +34,11 @@ export default {
   },
   data() {
     return {
-      reboot: false,
       form: {
-        admin_password: ''
+        password: ''
       },
       rules: {
-        admin_password: [
+        password: [
           { rule: value => !/\s/g.test(value), message: this.$t('trans0228') },
           {
             rule: value => /^[a-zA-Z0-9]{8,24}$/g.test(value),
@@ -57,7 +53,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http
-          .meshWifiUpdate({ wifi: { ...this.form } })
+          .updateAdmin(this.form)
           .then(res => {
             this.$loading.close();
             if (res.status === 200) {

@@ -72,12 +72,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       favicon: 'favicon.ico',
       chunks: ['manifest', 'vendor', 'pc']
     }),
+
     // copy custom static assets
-    // new CopyWebpackPlugin([{
-    //   from: path.resolve(__dirname, '../static'),
-    //   to: config.dev.assetsSubDirectory,
-    //   ignore: ['.*']
-    // }])
+    new CopyWebpackPlugin([{
+      from: path.resolve(__dirname, '../static'),
+      to: config.dev.assetsSubDirectory,
+      ignore: ['.*']
+    }])
   ]
 
 });

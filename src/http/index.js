@@ -82,10 +82,73 @@ const methods = {
   meshLanUpdate: {
     url,
     action: 'mesh.config.lan.net.update' // 组网Lan口配置更新
+  },
+  meshAdminUpdate: {
+    url,
+    action: 'mesh.config.admin.update'
+  },
+  routerAdminGet: {
+    url,
+    action: 'router.admin.get'
+  },
+  // v0.9
+  firmwareUpload: {
+    url,
+    action: 'firmware_upload' // 上传固件
+  },
+  firmwareList: {
+    url,
+    action: 'mesh.node.upgradability.get' // 检测在线升级列表
+  },
+  upgrade: {
+    url,
+    action: 'mesh.node.upgrade' // 升级
   }
 };
 
 const http = {
+  getAdmin() {
+    return axios.post(methods.routerAdminGet.url, {
+      method: methods.meshAdminUpdate.action
+    });
+  },
+  updateAdmin(params) {
+    return axios.post(methods.meshAdminUpdate.url, {
+      method: methods.meshAdminUpdate.action,
+      params
+    });
+  },
+  /* v0.9 start */
+  firmwareUpload(parmas, callback) {
+    const {
+      CancelToken
+    } = axios;
+    const source = CancelToken.source();
+    return axios({
+      url: `/${methods.firmwareUpload.action}`,
+      method: 'post',
+      data: parmas,
+      cancelToken: source.token,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: progressEvent => {
+        callback(progressEvent);
+      }
+    });
+  },
+  firmwareList() {
+    return axios.post(methods.firmwareList.url, {
+      method: methods.firmwareList.action
+    });
+  },
+  upgrade(params) {
+    return axios.post(methods.upgrade.url, {
+      method: methods.upgrade.action,
+      params
+    });
+  },
+  /* v0.9 end */
   /* v0.8 start */
   getWanNetInfo() {
     return axios.post(methods.getWanNetInfo.url, {
@@ -100,14 +163,16 @@ const http = {
   meshWifiUpdate(config) {
     return axios.post(methods.meshWifiUpdate.url, {
       method: methods.meshWifiUpdate.action,
-      params: { ...config.wifi
+      params: {
+        ...config.wifi
       }
     });
   },
   meshWanUpdate(config) {
     return axios.post(methods.meshWanUpdate.url, {
       method: methods.meshWanUpdate.action,
-      params: { ...config.wan
+      params: {
+        ...config.wan
       }
     });
   },
@@ -135,12 +200,10 @@ const http = {
       method: methods.getRouterMeta.action
     });
   },
-  getNet(data) {
+  getNet(params) {
     return axios.post(methods.getNetInfo.url, {
       method: methods.getNetInfo.action,
-      params: {
-        ...data
-      }
+      params
     });
   },
   getDeviceCount() {
@@ -155,8 +218,7 @@ const http = {
   },
   getMeshNode() {
     return axios.post(methods.getMeshNode.url, {
-      method: methods.getMeshNode.action,
-      parmas: {}
+      method: methods.getMeshNode.action
     });
   },
   checkLogin() {
@@ -185,6 +247,9 @@ const http = {
     }
     if (config.wan && config.wan.type) {
       conf.wan = config.wan;
+    }
+    if (config.admin && config.admin.password) {
+      conf.admin = config.admin;
     }
     return axios.post(methods.update.url, {
       method: methods.update.action,

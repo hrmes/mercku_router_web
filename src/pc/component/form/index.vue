@@ -11,7 +11,6 @@ export default {
       let result = true;
 
       this.$children.forEach(child => {
-        console.log('child is:', child);
         if (child.validate) {
           if (!child.validate()) {
             result = false;

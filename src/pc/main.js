@@ -1,8 +1,12 @@
 import Vue from 'vue';
+<<<<<<< HEAD
 import {
   changeLanguage,
   i18n
 } from '../i18n';
+=======
+import { changeLanguage, i18n } from '../i18n';
+>>>>>>> v0.9
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -61,16 +65,16 @@ const launch = () => {
       const percent = ((total - count) / total).toFixed(2);
       opt.onprogress(percent);
       console.log('reconnet progress...percent:', percent);
-      if (count > 0 && count % 10 === 0) {
+      if (count === 0) {
+        clearInterval(timer);
+        opt.ontimeout();
+        console.log('reconnect timeout');
+      } else if (count !== total && count % 10 === 0) {
         http.getRouter().then(() => {
           clearInterval(timer);
           opt.onsuccess();
           console.log('reconnect success');
         });
-      } else if (count === 0) {
-        clearInterval(timer);
-        opt.ontimeout();
-        console.log('reconnect timeout');
       }
     }, 1000);
   };

@@ -23,7 +23,6 @@ const Loading = {
     }
   },
   close() {
-    console.log('close', this.instance);
     if (this.instance) {
       this.instance.visible = false;
       const self = this;

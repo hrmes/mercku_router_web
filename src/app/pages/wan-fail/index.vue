@@ -56,8 +56,11 @@ export default {
               cancelButtonText: this.$t('trans0025')
             })
               .then(() => {
+                const config = this.routerConfig.getConfig();
                 this.$http
-                  .update(this.routerConfig.getConfig())
+                  .update({
+                    ...config.wifi
+                  })
                   .then(() => {
                     this.$router.replace('/complete');
                   })
@@ -78,31 +81,48 @@ export default {
           icon: true,
           text: 'arrow-left',
           click: () => {
-            this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+            if (this.$route.params.immediate) {
+              this.$router.replace('/wlan');
+            } else {
+              this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
+            }
           }
         }
       },
       netinfo: {
-        ip: '-.-.-.-',
-        mask: '-.-.-.-',
-        gateway: '-.-.-.-',
-        dns: ['-.-.-.-']
+        ip: '-',
+        mask: '-',
+        gateway: '-',
+        dns: ['-']
       },
       access: ''
     };
   },
   methods: {
+    setWan() {
+      const wanConfig = this.routerConfig.getWan();
+      this.netinfo = {
+        ip: wanConfig.ip || '-',
+        mask: wanConfig.mask || '-',
+        gateway: wanConfig.gateway || '-',
+        dns: wanConfig.dns || ['-']
+      };
+      this.access = wanConfig.type;
+    },
     forward2set() {
       if (this.access === WanType.pppoe) {
         this.$router.push({ path: '/pppoe' });
       } else if (this.access === WanType.static) {
-        this.$router.push({ path: '/static' });
+        this.$router.push({ path: '/static-ip' });
       } else if (this.access === WanType.dhcp) {
         this.$router.push({ path: '/dhcp' });
+      } else {
+        this.$router.push({ path: '/wan-hand' });
       }
     }
   },
   mounted() {
+    this.setWan();
     this.$http
       .getWanNetInfo()
       .then(res => {
@@ -113,11 +133,12 @@ export default {
           this.access,
           result.pppoe || (result.static && result.static.netinfo) || ''
         );
+        this.setWan();
       })
       .catch(err => {
         if (err && err.error) {
-          // 弹出错误提示
-          this.$toast(this.$t(err.error.code));
+          // 这里不做错误提示，失败了就失败了
+          // this.$toast(this.$t(err.error.code));
         } else {
           this.$toast(this.$t('trans0039'));
         }

@@ -10,24 +10,31 @@ export const WanNetStatus = {
   unlinked: 'unlinked'
 };
 export const RouterSnModel = {
-  '00': '电源适配器',
-  '01': 'M2',
-  '02': 'Bee'
+  AC: '00',
+  M2: '01',
+  Bee: '02'
 };
 export const SpeedTestStatus = {
   testing: 'testing',
   done: 'done',
   failed: 'failed'
 };
-
 export const Bands = {
   '2.4G': '2.4G',
   '5G': '5G'
 };
-
 export const AppMessage = {
   closewebpage: 'CLOSE_WEB_PAGE',
   forward2wifi: 'JUMP_SYSTEM_WIFI_SETTING'
 };
-
-export default WanType;
+export const UploadStatus = {
+  success: 'success',
+  fail: 'fail',
+  uploading: 'uploading'
+};
+export default {
+  WanType,
+  WanNetStatus,
+  RouterSnModel,
+  SpeedTestStatus
+};

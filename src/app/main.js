@@ -1,6 +1,5 @@
 import Vue from 'vue';
 
-
 import Button from 'vant/lib/button';
 import Field from 'vant/lib/field';
 import Icon from 'vant/lib/icon';
@@ -50,8 +49,7 @@ const launch = () => {
       if (!loader.instance &&
         !(
           NO_LOADING_METHODS.includes(conf.data.method) ||
-          (conf.data.method === ROUTER_LOGIN &&
-            !conf.data.params.admin_password)
+          (conf.data.method === ROUTER_LOGIN && !conf.data.params.password)
         )
       ) {
         loader.instance = Toast.loading({
