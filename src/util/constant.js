@@ -32,6 +32,7 @@ export const UpgradeStatus = {
   updatable: 'updatable',
   unrenewable: 'unrenewable'
 };
+
 export default {
   WanType,
   WanNetStatus,

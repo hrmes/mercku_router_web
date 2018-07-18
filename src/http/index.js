@@ -123,7 +123,7 @@ const http = {
     const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
-      url: `${methods.firmwareUpload.url}/${methods.firmwareUpload.action}`,
+      url: `/${methods.firmwareUpload.action}`,
       method: 'post',
       data: parmas,
       cancelToken: source.token,
