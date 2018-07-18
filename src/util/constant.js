@@ -10,9 +10,9 @@ export const WanNetStatus = {
   unlinked: 'unlinked'
 };
 export const RouterSnModel = {
-  '00': '电源适配器',
-  '01': 'M2',
-  '02': 'Bee'
+  AC: '00',
+  M2: '01',
+  Bee: '02'
 };
 export const SpeedTestStatus = {
   testing: 'testing',
