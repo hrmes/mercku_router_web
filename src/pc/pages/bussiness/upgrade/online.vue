@@ -1,25 +1,28 @@
 <template>
   <layout>
     <div class="upgrade-online-container">
-      <m-progress v-if="upgrade" :label="$t('trans0141')" :description="$t('trans0212')" :during="10*1000"></m-progress>
+      <m-progress v-if="upgrade" :label="$t('trans0141')" :description="$t('trans0212')" :during="duraing"></m-progress>
       <div class="content">
         <div class='w-header'>
           {{$t('trans0202')}}
         </div>
-        <div class="nodes-wrapper" v-if="status==='hasNodes'">
+        <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
           <div class="nodes-info">
-            <div v-for="node in test" :key="node.sn" class="node">
+            <div v-for="node in nodes" :key="node.sn" class="node">
               <div class="badge-info">
                 <img src="../../../assets/images/ic_new_version.png" alt="">
                 <span>{{$t('trans0210')}}{{node.version.latest}}</span>
               </div>
               <div class="message">
-                <img v-if="node.model.id==='01'" src="../../../assets/images/img_m2.png" alt="">
-                <img v-if="node.model.id==='02'" src="../../../assets/images/img_bee.png" alt="">
+                <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
+                <img class="img-bee" v-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
                 <div>
-                  <p>{{node.name}}</p>
-                  <p>{{$t('trans0252')}}{{node.sn}}</p>
-                  <p> · {{$t('trans0252')}}{{node.version.current}}</p>
+                  <p class="node-name">{{node.name}}</p>
+                  <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
+                  <p class="node-version">
+                    <span class="dot"></span>
+                    <span>{{$t('trans0209')}}{{node.version.current}}</span>
+                  </p>
                 </div>
               </div>
             </div>
@@ -29,13 +32,13 @@
           </div>
         </div>
         <div class="msg-wrapper" v-else>
-          <div v-if="status==='none'">
+          <div v-if="!hasUpgradablityNodes && !requestResult.fail">
             <img src="../../../assets/images/img_new_version.png" alt="" width="220">
             <p>{{$t('trans0259')}}</p>
           </div>
-          <div v-if="status==='fail'">
-            <img src="../../../assets/images/img_new_version.png" alt="" width="220">
-            <p>{{$t('trans0319')}}</p>
+          <div v-if="requestResult.fail">
+            <img src="../../../assets/images/img_no_network_access.png" alt="" width="220">
+            <p>{{requestResult.message}}</p>
           </div>
         </div>
       </div>
@@ -46,6 +49,7 @@
 <script>
 import layout from '../../../layout.vue';
 import Progress from '../../../component/progress/index.vue';
+import { RouterSnModel } from '../../../../util/constant';
 
 const arr = Array.from(new Array(10)).map((_, i) => ({
   sn: `01010301230123${i}`,
@@ -64,13 +68,22 @@ export default {
   data() {
     return {
       upgrade: false,
-      status: '',
-      nodes: [],
-      test: arr
+      duraing: 10000,
+      nodes: arr,
+      RouterSnModel,
+      requestResult: {
+        fail: false,
+        message: ''
+      }
     };
   },
   mounted() {
-    this.firmwareList();
+    //this.firmwareList();
+  },
+  computed: {
+    hasUpgradablityNodes() {
+      return this.nodes.length > 0;
+    }
   },
   methods: {
     firmwareList() {
@@ -80,19 +93,43 @@ export default {
         .then(res => {
           this.$loading.close();
           const data = res.data.result;
-          const filterNodes = data.filter(node => node.updatable);
-          this.nodes = filterNodes;
-          if (this.nodes.length > 0) {
-            this.status = 'hasNodes';
-          } else {
-            this.status = 'none';
-          }
+          this.nodes = data.filter(node => {
+            // 过滤可升级节点
+            const cstr = node.version.current.split('.');
+            const lstr = node.version.latest.split('.');
+
+            const current = {
+              major: parseInt(cstr[0], 10),
+              minor: parseInt(cstr[1], 10),
+              patch: parseInt(cstr[2], 10)
+            };
+            const lastest = {
+              major: parseInt(lstr[0], 10),
+              minor: parseInt(lstr[1], 10),
+              patch: parseInt(lstr[2], 10)
+            };
+
+            if (lastest.major > current.major) {
+              return true;
+            } else if (
+              lastest.major === current.major &&
+              lastest.minor > current.minor
+            ) {
+              return true;
+            } else if (
+              lastest.minor === current.minor &&
+              lastest.patch >= current.patch
+            ) {
+              return true;
+            }
+            return false;
+          });
         })
         .catch(err => {
           this.$loading.close();
           if (err && err.error) {
-            this.status = 'fail';
-            this.$toast(this.$t(err.error.code));
+            this.requestResult.fail = true;
+            this.requestResult.message = this.$t(err.error.code);
           } else {
             this.$router.push({ path: '/disappear' });
           }
@@ -105,8 +142,11 @@ export default {
         message: this.$t('trans0212'),
         callback: {
           ok: () => {
+            const nodeIds = this.nodes.map(n => n.sn);
             this.$http
-              .upgrade({})
+              .upgrade({
+                node_ids: nodeIds
+              })
               .then(() => {
                 this.upgrade = true;
               })
@@ -163,34 +203,57 @@ export default {
           width: 340px;
           height: 132px;
           background: #f1f1f1;
-          border-radius: 4px;
+          border-radius: 5px;
           margin-left: 20px;
           margin-top: 20px;
           .message {
             display: flex;
-            margin-top: 30px;
-            align-items: center;
+            margin-top: 40px;
+            align-items: start;
             padding: 0 20px;
-            height: 100px;
-            img {
+            .img-m2 {
               width: 50px;
+            }
+            .img-bee {
+              width: 50px;
+            }
+            .dot {
+              display: inline-block;
+              width: 3px;
+              height: 3px;
+              border-radius: 50%;
+              background: #000;
+              position: relative;
+              top: -3px;
+            }
+            .node-name {
+              padding: 0;
+              margin: 0;
+              text-align: left;
+              font-size: 12px;
+              padding-top: 5px;
+              padding-top: 0px;
+              font-size: 14px;
+              font-weight: bold;
+            }
+            .node-sn {
+              padding: 0;
+              margin: 0;
+              text-align: left;
+              font-size: 12px;
+              padding-top: 5px;
+            }
+            .node-version {
+              padding: 0;
+              margin: 0;
+              text-align: left;
+              font-size: 12px;
+              padding-top: 5px;
+              font-size: 10px;
+              padding-top: 10px;
             }
             div {
               padding-left: 20px;
-              :first-child {
-                font-size: 14px;
-                font-weight: bold;
-              }
-              :last-child {
-                font-size: 10px;
-              }
-              p {
-                padding: 0;
-                margin: 0;
-                text-align: left;
-                font-size: 12px;
-                padding-top: 5px;
-              }
             }
           }
           .badge-info {
@@ -201,8 +264,9 @@ export default {
             align-items: center;
             height: 30px;
             // border-radius: 100px;
-            border-top-left-radius: 100px;
-            border-bottom-left-radius: 100px;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+            border-top-right-radius: 5px;
             background-image: linear-gradient(290deg, #4237dd, #7037dd);
             float: right;
             img {
