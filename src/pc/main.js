@@ -31,7 +31,7 @@ const launch = () => {
             }
             break;
           case 400:
-            if (error.response.data.err.code == 600007) {
+            if (error.response.data.error.code === 600007) {
               Vue.prototype.$upgrade();
             }
           default:
