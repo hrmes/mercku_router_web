@@ -60,7 +60,7 @@ export default {
         },
         {
           key: 3,
-          icon: '',
+          icon: 'upgrade',
           text: 'trans0197',
           children: [
             {

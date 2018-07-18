@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       upgrade: false,
-      duraing: 10000,
+      duraing: 30000,
       nodes: [],
       RouterSnModel,
       requestResult: {
