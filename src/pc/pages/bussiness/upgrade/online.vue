@@ -51,15 +51,6 @@ import layout from '../../../layout.vue';
 import Progress from '../../../component/progress/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 
-const arr = Array.from(new Array(10)).map((_, i) => ({
-  sn: `01010301230123${i}`,
-  model: { id: i % 2 === 0 ? '01' : '02' },
-  name: `mercku_00${i}`,
-  version: {
-    current: `0.0.${i}`,
-    latest: '1.1.1'
-  }
-}));
 export default {
   components: {
     layout,
@@ -69,7 +60,7 @@ export default {
     return {
       upgrade: false,
       duraing: 10000,
-      nodes: arr,
+      nodes: [],
       RouterSnModel,
       requestResult: {
         fail: false,
@@ -78,7 +69,7 @@ export default {
     };
   },
   mounted() {
-    //this.firmwareList();
+    this.firmwareList();
   },
   computed: {
     hasUpgradablityNodes() {
@@ -139,7 +130,7 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0211'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0212'),
+        message: this.$t('trans0213'),
         callback: {
           ok: () => {
             const nodeIds = this.nodes.map(n => n.sn);
@@ -188,7 +179,6 @@ export default {
     }
     .nodes-wrapper {
       text-align: center;
-      height: 100%;
       display: flex;
       justify-content: space-between;
       flex-direction: column;
@@ -204,7 +194,7 @@ export default {
           height: 132px;
           background: #f1f1f1;
           border-radius: 5px;
-          margin-left: 20px;
+          margin-right: 20px;
           margin-top: 20px;
           .message {
             display: flex;
@@ -283,7 +273,7 @@ export default {
         }
       }
       .btn-info {
-        height: 200px;
+        margin: 100px 0;
       }
     }
     .msg-wrapper {
@@ -301,7 +291,7 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .setting-safe-container {
+  .upgrade-online-container {
     padding: 20px 16px;
     .content {
       .w-header {
@@ -311,6 +301,69 @@ export default {
       }
       min-height: 510px;
       background: white;
+      .nodes-wrapper {
+        .nodes-info {
+          .node {
+            width: 80%;
+            min-width: 303px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+        .btn-info {
+          margin: 20px 0;
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 769px) {
+  .upgrade-online-container {
+    padding: 20px 16px;
+    .content {
+      .w-header {
+        font-size: 14px;
+        height: 44px;
+        line-height: 44px;
+      }
+      background: white;
+      .nodes-wrapper {
+        .nodes-info {
+          .node {
+            width: 303px;
+            min-width: 303px;
+            margin-right: 0;
+          }
+        }
+        .btn-info {
+          margin: 20px 0;
+        }
+      }
+    }
+  }
+}
+@media screen and (width: 320px) {
+  .upgrade-online-container {
+    padding: 20px 16px;
+    .content {
+      .w-header {
+        font-size: 14px;
+        height: 44px;
+        line-height: 44px;
+      }
+      background: white;
+      .nodes-wrapper {
+        .nodes-info {
+          .node {
+            width: 253px;
+            min-width: 253px;
+            margin-right: 0;
+          }
+        }
+        .btn-info {
+          margin: 20px 0;
+        }
+      }
     }
   }
 }
