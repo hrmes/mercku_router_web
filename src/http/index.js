@@ -106,7 +106,7 @@ const http = {
     } = axios;
     const source = CancelToken.source();
     return axios({
-      url: `${methods.firmwareUpload.url}/${methods.firmwareUpload.action}`,
+      url: `/${methods.firmwareUpload.action}`,
       method: 'post',
       data: parmas,
       cancelToken: source.token,
@@ -126,9 +126,7 @@ const http = {
   upgrade(params) {
     return axios.post(methods.upgrade.url, {
       method: methods.upgrade.action,
-      params: {
-        ...params
-      }
+      params
     });
   },
   /* v0.9 end */
