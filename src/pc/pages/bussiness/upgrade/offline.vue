@@ -106,8 +106,12 @@ export default {
     },
     upgrade() {
       const ids = this.localNodes.map(v => v.sn);
-      this.$http.upgrade({ node_ids: ids, local: true }).then(res => {
-        console.log(res);
+      this.$http.upgrade({ node_ids: ids, local: true }).then(() => {
+        this.$upgrade({
+          onsuccess: () => {
+            this.$router.push({ path: '/home' });
+          }
+        });
       });
     }
   }

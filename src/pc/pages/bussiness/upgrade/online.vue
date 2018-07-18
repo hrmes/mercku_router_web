@@ -1,7 +1,6 @@
 <template>
   <layout>
     <div class="upgrade-online-container">
-      <m-progress v-if="upgrade" :label="$t('trans0141')" :description="$t('trans0212')" :during="duraing"></m-progress>
       <div class="content">
         <div class='w-header'>
           {{$t('trans0202')}}
@@ -58,8 +57,7 @@ export default {
   },
   data() {
     return {
-      upgrade: false,
-      duraing: 10000,
+      duraing: 30000,
       nodes: [],
       RouterSnModel,
       requestResult: {
@@ -118,6 +116,7 @@ export default {
         })
         .catch(err => {
           this.$loading.close();
+
           if (err && err.error) {
             this.requestResult.fail = true;
             this.requestResult.message = this.$t(err.error.code);
@@ -133,17 +132,23 @@ export default {
         message: this.$t('trans0213'),
         callback: {
           ok: () => {
+            this.$loading.open({
+              template: this.$t('trans0212')
+            });
             const nodeIds = this.nodes.map(n => n.sn);
             this.$http
               .upgrade({
                 node_ids: nodeIds
               })
               .then(() => {
-                this.upgrade = true;
+                this.$upgrade({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/home' });
+                  }
+                });
               })
               .catch(err => {
                 if (err && err.error) {
-                  this.upgrade = false;
                   this.$toast(this.$t(err.error.code));
                 } else {
                   this.$router.push({ path: '/disappear' });

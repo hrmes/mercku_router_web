@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { changeLanguage, i18n } from '../i18n';
+import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -30,6 +30,10 @@ const launch = () => {
               window.location.href = '/';
             }
             break;
+          case 400:
+            if (error.response.data.error.code === 600007) {
+              Vue.prototype.$upgrade();
+            }
           default:
             break;
         }
@@ -47,12 +51,13 @@ const launch = () => {
       ...{
         onsuccess: () => {},
         ontimeout: () => {},
-        onprogress: () => {}
+        onprogress: () => {},
+        timeout: 60
       },
       ...options
     };
-    let count = 60; // 60s重试时间
-    const total = 60;
+    let count = opt.timeout; // 60s重试时间
+    const total = opt.timeout;
     const timer = setInterval(() => {
       count -= 1;
       const percent = ((total - count) / total).toFixed(2);
@@ -70,6 +75,31 @@ const launch = () => {
         });
       }
     }, 1000);
+  };
+  Vue.prototype.$upgrade = options => {
+    loading.open({
+      template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
+    });
+    const opt = {
+      ...{
+        onsuccess: () => {},
+        ontimeout: () => {},
+        onprogress: () => {},
+        timeout: 99999999
+      },
+      ...options
+    };
+    Vue.prototype.$reconnect({
+      onsuccess: () => {
+        loading.close();
+        opt.onsuccess();
+      },
+      ontimeout: () => {
+        this.$loading.close();
+        opt.ontimeout();
+      },
+      timeout: opt.timeout
+    });
   };
   new Vue({
     el: '#web',
