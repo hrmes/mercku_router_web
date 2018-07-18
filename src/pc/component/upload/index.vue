@@ -2,22 +2,34 @@
   <div class="upload-wrapper">
     <div class="btn btn-success fileinput-button">
       <p> <img src="../../assets/images/ic_upgrade.png" alt="">{{label}}</p>
-      <input type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" />
+      <input type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" title=" " />
     </div>
     <div class='file'>
       <!-- <div class='file' v-for="file in fileList" :key="file.lastModified"> -->
       <img src="../../assets/images/ic_file.png" alt="" width="18" />
       <div class="des-cnt">
         <span> mercku_123.bin 30MB</span>
-        <img src="../../assets/images/ic_delete.png" alt="" width="10" />
+        <img src="../../assets/images/ic_delete.png" alt="" width="10" @click="remove(file)" />
+        <div class="line">
+          <span class="loading"></span>
+          <span>上传失败</span>
+        </div>
       </div>
-      <!-- <button @click="remove(file)">clear</button> -->
+
     </div>
   </div>
 </template>
 <script>
 export default {
   props: {
+    acceptHttp: {
+      type: Boolean,
+      default: false
+    },
+      uploadStatus: {
+      type: String,
+      default: ''
+    },
     label: {
       type: String,
       default: ''
@@ -27,6 +39,10 @@ export default {
       default: []
     },
     multiple: {
+      type: Number,
+      default: 1
+    },
+    percentage: {
       type: Number,
       default: 1
     },
@@ -84,17 +100,65 @@ export default {
     margin-left: 20px;
     display: flex;
     align-items: center;
-    width: 260px;
+    width: 300px;
     .des-cnt {
-      width: 200px;
+      width: 260px;
+      position: relative;
+      margin-left: 10px;
+      padding-bottom: 5px;
+      .del-btn {
+        display: inline-block;
+        width: 13px;
+        height: 14px;
+        background: url(../../assets/images/ic_delete.png);
+        background-size: 100%;
+        border-radius: 13px;
+        cursor: pointer;
+        // &:hover {
+        //   border: 1px solid #4237dd;
+        // }
+      }
       img {
         float: right;
         margin-top: 5px;
+        cursor: pointer;
+        border: 1px red;
+        :hover {
+          border: 1px solid red;
+        }
       }
       span {
-        margin: 0 10px;
         font-size: 14px;
         color: #999999;
+      }
+      .line {
+        position: absolute;
+        width: 100%;
+        bottom: -5px;
+        height: 2px;
+        border: 1px solid #f1f1f1;
+        .loading {
+          display: inline-block;
+          height: 2px;
+          width: 30px;
+          border: 1px solid #67dd37;
+          position: absolute;
+          bottom: -1px;
+        }
+        .fail {
+          display: inline-block;
+          height: 2px;
+          width: 30px;
+          border: 1px solid red;
+          position: absolute;
+          bottom: -1px;
+        }
+        span {
+          display: inline-block;
+          color: red;
+          font-size: 12px;
+          margin-top: 5px;
+        }
       }
     }
   }
@@ -117,12 +181,12 @@ export default {
         width: 14px;
         margin-right: 5px;
       }
-      cursor: pointer;
       font-size: 14px;
       font-weight: normal;
     }
   }
   .fileinput-button input {
+    cursor: pointer;
     position: absolute;
     right: 0px;
     top: 0px;

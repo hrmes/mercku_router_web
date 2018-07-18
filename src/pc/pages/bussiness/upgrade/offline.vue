@@ -16,9 +16,10 @@
             <p>3. {{$t('trans0333')}}</p>
           </div>
           <div class="upload">
-            <m-upload :label="$t('trans0339')" :fileList="fileList" :multiple="multiple" :accept="accept" :berforUpload="beforeUpload" :uploadFiles="uploadFiles" :handleRemove="handleRemove" />
+            <m-upload :label="$t('trans0339')" :percentage="percentage" :uploadStatus="status" :fileList="fileList" :multiple="multiple" :accept="accept" :berforUpload="beforeUpload" :uploadFiles="uploadFiles" :handleRemove="handleRemove" />
           </div>
           <div class="nodes-wrapper">
+            <p>{{$t('trans0333')}}</p>
             <ul>
               <li v-for="node in localNodes" :key="node.sn">
                 <p>{{node.sn}}</p>
@@ -79,6 +80,7 @@ export default {
     },
     uploadFiles(file) {
       this.fileList.push(file);
+      this.submit();
     },
     handleRemove(file) {
       this.fileList = this.fileList.filter(v => v.name !== file.name);
@@ -90,7 +92,8 @@ export default {
         .firmwareUpload(fd, progressEvent => {
           console.log(progressEvent);
           if (progressEvent.lengthComputable) {
-            this.percentage = progressEvent.loaded / progressEvent.total * 100;
+            this.percentage = progressEvent.loaded / progressEvent.total;
+            console.log(this.percentage);
             this.status =
               progressEvent.loaded >= progressEvent.total
                 ? 'success'
@@ -98,11 +101,8 @@ export default {
           }
         })
         .then(res => {
-          console.log(res);
           const data = res.data.result;
-          if (data.length > 0) {
-            this.localNodes = data.filter(v => v.updatable);
-          }
+          this.localNodes = data.filter(v => v.updatable);
         })
         .catch(err => {
           console.log(err);
@@ -138,7 +138,7 @@ export default {
       font-weight: 400;
     }
     .form {
-      margin-left: 3%;
+      margin: 0 3%;
     }
     .description {
       margin-top: 30px;
@@ -163,6 +163,10 @@ export default {
           }
         }
       }
+    }
+    .nodes-wrapper {
+      border-top: 1px solid #f1f1f1;
+      margin-top: 50px;
     }
   }
 }

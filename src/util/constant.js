@@ -27,6 +27,11 @@ export const AppMessage = {
   closewebpage: 'CLOSE_WEB_PAGE',
   forward2wifi: 'JUMP_SYSTEM_WIFI_SETTING'
 };
+export const UploadStatus = {
+  success: 'success',
+  fail: 'fail',
+  uploading: 'uploading'
+};
 export default {
   WanType,
   WanNetStatus,
