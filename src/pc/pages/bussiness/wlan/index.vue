@@ -147,11 +147,13 @@ export default {
 
         // 提交表单
         this.$http
-          .meshWifiUpdate({
+          .update({
             wifi: {
               ssid: this.form1.ssid,
-              password: this.form1.password,
-              admin_password: this.form2.admin_password
+              password: this.form1.password
+            },
+            admin: {
+              password: this.form2.admin_password
             }
           })
           .then(() => {

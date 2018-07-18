@@ -50,13 +50,12 @@
 export default {
   data() {
     const config = this.routerConfig.getConfig();
+    const checked = this.isChecked(config.wifi.password, config.admin.password);
     return {
-      checked:
-        config.wifi.password === config.wifi.admin_password &&
-        config.wifi.password !== '',
+      checked,
       ssid: config.wifi.ssid,
       pwd: config.wifi.password,
-      adminPwd: config.wifi.admin_password,
+      adminPwd: config.admin.password,
       showPwd: false,
       showAdminPwd: false,
       InputTypes: {
@@ -80,20 +79,16 @@ export default {
   mounted() {
     // 没有设置wifi信息，从服务器拉取
     if (!this.ssid) {
-      this.$http
-        .getMeshMeta()
-        .then(res => {
-          const { result } = res.data;
-          this.ssid = result.ssid;
-          this.pwd = result.password;
-          this.adminPwd = result.admin_password;
-          this.checked =
-            result.password === result.admin_password && result.password !== '';
-          this.routerConfig.setWIFI(
-            result.ssid,
-            result.password,
-            this.adminPwd
-          );
+      Promise.all([this.$http.getMeshMeta(), this.$http.getAdmin()])
+        .then(results => {
+          const wifi = results[0].data.result;
+          const admin = results[1].data.result;
+          this.ssid = wifi.ssid;
+          this.pwd = wifi.password;
+          this.adminPwd = admin.password;
+          this.checked = this.isChecked(this.ssid, this.pwd);
+          this.routerConfig.setWIFI(this.ssid, this.pwd);
+          this.routerConfig.setAdmin(this.adminPwd);
         })
         .catch(err => {
           if (err && err.error) {
@@ -106,6 +101,9 @@ export default {
     }
   },
   methods: {
+    isChecked(password, adminPwd) {
+      return password === adminPwd && password !== '';
+    },
     changePwdStatus() {
       this.showPwd = !this.showPwd;
     },
@@ -141,11 +139,8 @@ export default {
         this.$toast(this.$t('trans0228'));
         return;
       }
-      this.routerConfig.setWIFI(
-        this.ssid,
-        this.pwd,
-        this.checked ? this.pwd : this.adminPwd
-      );
+      this.routerConfig.setWIFI(this.ssid, this.pwd);
+      this.routerConfig.setAdmin(this.checked ? this.pwd : this.adminPwd);
       this.$router.replace({ path: '/check-network' });
     }
   },

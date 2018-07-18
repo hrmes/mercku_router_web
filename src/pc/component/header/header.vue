@@ -11,7 +11,7 @@
         </div>
         <transition name="popup">
           <ul class="popup" v-show="showPopup">
-            <li :class="{'current-lang':lang===language}" v-for="lang in Languages" @click="selectLang(lang)">{{lang.text}}</li>
+            <li :key="lang.value" :class="{'current-lang':lang===language}" v-for="lang in Languages" @click="selectLang(lang)">{{lang.text}}</li>
           </ul>
         </transition>
       </div>

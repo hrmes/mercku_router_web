@@ -83,6 +83,14 @@ const methods = {
     url,
     action: 'mesh.config.lan.net.update' // 组网Lan口配置更新
   },
+  meshAdminUpdate: {
+    url,
+    action: 'mesh.config.admin.update'
+  },
+  routerAdminGet: {
+    url,
+    action: 'router.admin.get'
+  },
   // v0.9
   firmwareUpload: {
     url,
@@ -90,7 +98,7 @@ const methods = {
   },
   firmwareList: {
     url,
-    action: 'mesh.firmware.get' // 检测在线升级列表
+    action: 'mesh.node.upgradable.get' // 检测在线升级列表
   },
   upgrade: {
     url,
@@ -99,11 +107,20 @@ const methods = {
 };
 
 const http = {
+  getAdmin() {
+    return axios.post(methods.routerAdminGet.url, {
+      method: methods.meshAdminUpdate.action
+    });
+  },
+  updateAdmin(params) {
+    return axios.post(methods.meshAdminUpdate.url, {
+      method: methods.meshAdminUpdate.action,
+      params
+    });
+  },
   /* v0.9 start */
   firmwareUpload(parmas, callback) {
-    const {
-      CancelToken
-    } = axios;
+    const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
       url: `/${methods.firmwareUpload.action}`,
@@ -144,14 +161,16 @@ const http = {
   meshWifiUpdate(config) {
     return axios.post(methods.meshWifiUpdate.url, {
       method: methods.meshWifiUpdate.action,
-      params: { ...config.wifi
+      params: {
+        ...config.wifi
       }
     });
   },
   meshWanUpdate(config) {
     return axios.post(methods.meshWanUpdate.url, {
       method: methods.meshWanUpdate.action,
-      params: { ...config.wan
+      params: {
+        ...config.wan
       }
     });
   },
@@ -179,12 +198,10 @@ const http = {
       method: methods.getRouterMeta.action
     });
   },
-  getNet(data) {
+  getNet(params) {
     return axios.post(methods.getNetInfo.url, {
       method: methods.getNetInfo.action,
-      params: {
-        ...data
-      }
+      params
     });
   },
   getDeviceCount() {
@@ -199,8 +216,7 @@ const http = {
   },
   getMeshNode() {
     return axios.post(methods.getMeshNode.url, {
-      method: methods.getMeshNode.action,
-      parmas: {}
+      method: methods.getMeshNode.action
     });
   },
   checkLogin() {
@@ -212,7 +228,7 @@ const http = {
     return axios.post(methods.login.url, {
       method: methods.login.action,
       params: {
-        admin_password: pwd
+        password: pwd
       }
     });
   },
@@ -229,6 +245,9 @@ const http = {
     }
     if (config.wan && config.wan.type) {
       conf.wan = config.wan;
+    }
+    if (config.admin && config.admin.password) {
+      conf.admin = config.admin;
     }
     return axios.post(methods.update.url, {
       method: methods.update.action,
@@ -275,8 +294,4 @@ const configRequestInterceptors = (before, error) => {
   const errorCallback = error || noop;
   axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-};
+export { http, configResponseInterceptors, configRequestInterceptors };

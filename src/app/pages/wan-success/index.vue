@@ -47,10 +47,10 @@ export default {
         }
       },
       netinfo: {
-        ip: '-.-.-.-',
-        mask: '-.-.-.-',
-        gateway: '-.-.-.-',
-        dns: ['-.-.-.-']
+        ip: '-',
+        mask: '-',
+        gateway: '-',
+        dns: ['-']
       },
       access: ''
     };
