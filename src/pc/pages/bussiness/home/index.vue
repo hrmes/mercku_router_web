@@ -39,7 +39,7 @@
               <div class='message'>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0187')}}：</label>
-                  {{routerModel[localRouterInfo.sn.slice(0,2)]}}
+                  {{getModel(localRouterInfo.sn.slice(0,2))}}
                 </div>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0300')}}：</label>
@@ -168,19 +168,7 @@
         <div class='mesh-info'>
           <div class="title">{{$t('trans0312')}}</div>
           <div class="content">
-            <div id="topo" style="width:100%;height:500px;"></div>
-            <!-- <div :key="index" v-for="(item,index) in meshNode" class="mesh" :class="diffMesh(item)">
-              <div class="message">
-                <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if="item.model==='M2'">
-                <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if="item.model==='Bee'">
-                <span>{{item.name}}</span>
-              </div>
-              <div class="status">
-                <img src="../../../assets/images/ic_plug_bad.png" alt="" v-if='item.rssi<-60'>
-                <img src="../../../assets/images/ic_plug_fine.png" alt="" v-if='item.rssi<-50 && item.rssi>-60'>
-                <img src="../../../assets/images/ic_plug_good.png" alt="" v-if='item.rssi>=-50'>
-              </div>
-            </div> -->
+            <div id="topo" style="width:100%;height:550px;"></div>
           </div>
         </div>
         <div class='speed-model-info' v-if='speedModelOpen'>
@@ -238,6 +226,11 @@
 import echarts from 'echarts';
 import layout from '../../../layout.vue';
 import * as CONSTANTS from '../../../../util/constant';
+import picGateway from '../../../assets/images/ic_m2_green_80x80px@2x.png';
+import picM2Good from '../../../assets/images/ic_m2_green_60x60px@2x.png';
+import picM2Bad from '../../../assets/images/ic_m2_orange_60x60px@2x.png';
+import picBeeGood from '../../../assets/images/ic_bee_green_60x60px@2x.png';
+import picBeeBad from '../../../assets/images/ic_bee_orange_60x60px@2x.png';
 
 /**
  *
@@ -248,8 +241,8 @@ import * as CONSTANTS from '../../../../util/constant';
  *
  */
 const Color = {
-  good: '#00FF00',
-  bad: '#FF0000'
+  good: '#00d061',
+  bad: '#ff6f00'
 };
 
 // 大于-50均认为优秀
@@ -304,19 +297,76 @@ function findRedNode(gateway, green, source) {
 
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red) {
+  function getPositions() {
+    const count = 1 + green.length + red.length;
+    const radius = 40; // 这里需要动态调整半径
+    const pos = [];
+    if (count === 1) {
+      pos.push({ x: 0, y: 0, angel: 0 });
+      return pos;
+    }
+    if (count === 2) {
+      pos.push({ x: 0, y: radius, angel: 0 });
+      pos.push({ x: 0, y: -radius, angel: 180 });
+    }
+
+    const angle = 2 * Math.PI / count;
+    for (let i = 0; i < count; i += 1) {
+      pos.push({
+        x: radius * Math.sin(angle * i),
+        y: -radius * Math.cos(angle * i),
+        angle: 360 / count * i
+      });
+    }
+    return pos;
+  }
+  const pos = getPositions();
+  let currentIndex = 0;
   function genNode(node, color, symbolSize = 50) {
-    return {
+    let symbol = 'image://';
+    let labelPosition;
+    if (node.is_gw) {
+      symbol += picGateway;
+    } else {
+      const id = (node.model && node.model.id) || node.sn.slice(0, 2);
+      if (id === CONSTANTS.RouterSnModel.M2) {
+        symbol += color === Color.good ? picM2Good : picM2Bad;
+      } else if (id === CONSTANTS.RouterSnModel.Bee) {
+        symbol += color === Color.good ? picBeeGood : picBeeBad;
+      }
+    }
+    const angle = pos[currentIndex].angle;
+    const Positions = {
+      top: 'top',
+      bottom: 'bottom'
+    };
+    if (angle >= 0 && angle <= 90) {
+      labelPosition = Positions.top;
+    } else if (angle > 90 && angle < 270) {
+      labelPosition = Positions.bottom;
+    } else if (angle >= 270 && angle <= 360) {
+      labelPosition = Positions.top;
+    }
+    const n = {
       name: node.name,
-      isnode: true,
+      ...pos[currentIndex],
       itemStyle: {
         color
       },
+      label: {
+        normal: {
+          position: labelPosition
+        }
+      },
+      symbol,
       symbolSize
     };
+    currentIndex += 1;
+    return n;
   }
   const nodes = [];
   // m2
-  nodes.push(genNode(gateway, Color.good, 100));
+  nodes.push(genNode(gateway, Color.good, 80));
 
   // 绿点
   green.forEach(g => {
@@ -404,10 +454,6 @@ export default {
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144')
-      },
-      routerModel: {
-        '-': '-',
-        ...CONSTANTS.RouterSnModel
       },
       testTimeout: 60,
       testSpeedNumber: 60,
@@ -538,6 +584,16 @@ export default {
     }
   },
   methods: {
+    getModel(id) {
+      let result = '-';
+      Object.keys(CONSTANTS.RouterSnModel).forEach(key => {
+        const model = CONSTANTS.RouterSnModel[key];
+        if (model === id) {
+          result = key;
+        }
+      });
+      return result;
+    },
     initChart() {
       this.chart = echarts.init(document.getElementById('topo'));
       window.addEventListener('resize', () => {
@@ -547,43 +603,47 @@ export default {
     drawTopo(routers) {
       const data = genData(routers);
       const option = {
+        color: [Color.good, Color.bad],
+        top: 10,
+        legend: [
+          {
+            data: [
+              {
+                name: this.$t('trans0193'),
+                icon: 'circle'
+              },
+              {
+                name: this.$t('trans0196'),
+                icon: 'circle'
+              }
+            ],
+            left: 0,
+            orient: 'vertical',
+            selectedMode: false
+          }
+        ],
         series: [
           {
             type: 'graph',
-            layout: 'circular',
-            focusNodeAdjacency: true,
+            edgeSymbol: ['circle', 'circle'],
+            edgeSymbolSize: 3,
+            cursor: 'default',
+            hoverAnimation: false,
             label: {
               normal: {
-                show: true
-              }
-            },
-            edgeLabel: {
-              normal: {
-                show: false
-              },
-              emphasis: {
-                textStyle: {
-                  fontSize: 20
-                }
+                show: true,
+                position: 'bottom',
+                color: '#333'
               }
             },
             data: data.nodes,
             links: data.lines,
+            categories: [
+              { name: this.$t('trans0193') },
+              { name: this.$t('trans0196') }
+            ],
             lineStyle: {
-              width: 2
-            },
-            tooltip: {
-              backgroundColor: 'green',
-              textStyle: {
-                fontSize: 18
-              },
-
-              formatter(params) {
-                if (!params.data.isnode) {
-                  return `rssi:${params.data.rssi}`;
-                }
-                return params.data.ip;
-              }
+              width: 3
             }
           }
         ]
@@ -812,23 +872,6 @@ export default {
             this.netStatus = CONSTANTS.WanNetStatus.unlinked;
           });
       }, 1000);
-    },
-
-    diffMesh(item) {
-      let className = '';
-      if (item) {
-        if (item.rssi >= -50) {
-          className = 'signal-3';
-        }
-        if (item.rssi < -50 && item.rssi > -60) {
-          className = 'signal-2';
-        }
-        if (item.rssi < -60) {
-          className = 'signal-1';
-        }
-        className = `${className} ${item.is_gw && 'main'}`;
-      }
-      return className;
     }
   },
   beforeDestroy() {
@@ -1390,75 +1433,6 @@ export default {
       padding-top: 15px;
       :nth-child(1) {
         margin-left: 0 !important;
-      }
-      .mesh {
-        width: 220px;
-        height: 120px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-right: 20px;
-        border-radius: 6px;
-        overflow: hidden;
-        display: flex;
-
-        &.signal-3 {
-          background: linear-gradient(to left bottom, #20e779, #19d191);
-        }
-        &.signal-2 {
-          background: linear-gradient(to left bottom, #0089ff, #05befe);
-        }
-        &.signal-1 {
-          background: linear-gradient(to left bottom, #ff9575, #ff527a);
-        }
-        .message {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding-left: 20px;
-          width: 50%;
-          img {
-            width: 32px;
-            // height: 29px;
-          }
-          span {
-            font-size: 14px;
-            color: white;
-            padding-top: 10px;
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-        }
-        .status {
-          flex: 1;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          img {
-            width: 60px;
-            // height: 60px;
-          }
-        }
-      }
-      .main {
-        width: 260px;
-        margin-top: 10px;
-        margin-right: 40px;
-        display: flex;
-        .message {
-          img {
-            width: 40px;
-            // height: 55px;
-          }
-        }
-        .status {
-          img {
-            width: 80px;
-            // height: 80px;
-          }
-        }
       }
     }
   }
