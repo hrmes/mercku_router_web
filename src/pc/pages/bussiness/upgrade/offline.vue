@@ -135,13 +135,22 @@ export default {
     },
     upgrade() {
       const ids = this.localNodes.map(v => v.sn);
-      this.$http.upgradeMeshNode({ node_ids: ids, local: true }).then(() => {
-        this.$upgrade({
-          onsuccess: () => {
-            this.$router.push({ path: '/home' });
+      this.$http
+        .upgradeMeshNode({ node_ids: ids, local: true })
+        .then(() => {
+          this.$upgrade({
+            onsuccess: () => {
+              this.$router.push({ path: '/home' });
+            }
+          });
+        })
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
           }
         });
-      });
     }
   }
 };

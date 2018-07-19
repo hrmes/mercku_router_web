@@ -148,7 +148,7 @@ const http = {
       method: methods.firmwareList.action
     });
   },
-  upgrade(params) {
+  upgradeMeshNode(params) {
     return axios.post(methods.meshNodeUpgrade.url, {
       method: methods.meshNodeUpgrade.action,
       params

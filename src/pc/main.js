@@ -1,9 +1,5 @@
 import Vue from 'vue';
-import {
-  changeLanguage,
-  i18n,
-  translate
-} from '../i18n';
+import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -17,41 +13,7 @@ import dialog from './component/dialog/index';
 import v from '../../version.json';
 
 const launch = () => {
-  configRequestInterceptors(
-    config => {
-      const conf = config;
-      return conf;
-    },
-    error => Promise.reject(error)
-  );
-  configResponseInterceptors(
-    res => res,
-    error => {
-      if (error.response) {
-        switch (error.response.status) {
-          case 401:
-            if (!window.location.href.includes('login')) {
-              window.location.href = '/';
-            }
-            break;
-          case 400:
-            if (error.response.data.error.code === 600007) {
-              Vue.prototype.$upgrade();
-            }
-            break;
-          default:
-            break;
-        }
-      }
-      return Promise.reject(error.response.data);
-    }
-  );
-  Vue.prototype.$http = http;
-  Vue.prototype.$loading = loading;
-  Vue.prototype.$toast = toast;
-  Vue.prototype.$dialog = dialog;
-  Vue.prototype.changeLanguage = changeLanguage;
-  Vue.prototype.$reconnect = options => {
+  const reconnect = options => {
     const opt = {
       ...{
         onsuccess: () => {},
@@ -81,7 +43,7 @@ const launch = () => {
       }
     }, 1000);
   };
-  Vue.prototype.$upgrade = options => {
+  const upgrade = options => {
     loading.open({
       template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
     });
@@ -94,7 +56,7 @@ const launch = () => {
       },
       ...options
     };
-    Vue.prototype.$reconnect({
+    reconnect({
       onsuccess: () => {
         loading.close();
         opt.onsuccess();
@@ -106,6 +68,46 @@ const launch = () => {
       timeout: opt.timeout
     });
   };
+
+  configRequestInterceptors(
+    config => {
+      const conf = config;
+      return conf;
+    },
+    error => Promise.reject(error)
+  );
+  configResponseInterceptors(
+    res => res,
+    error => {
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            if (!window.location.href.includes('login')) {
+              window.location.href = '/';
+            }
+            break;
+          case 400:
+            // 6000007 升级中
+            if (error.response.data.error.code === 600007) {
+              upgrade();
+            }
+            break;
+          default:
+            break;
+        }
+      }
+      return Promise.reject(error.response.data);
+    }
+  );
+
+  Vue.prototype.$http = http;
+  Vue.prototype.$loading = loading;
+  Vue.prototype.$toast = toast;
+  Vue.prototype.$dialog = dialog;
+  Vue.prototype.changeLanguage = changeLanguage;
+  Vue.prototype.$reconnect = reconnect;
+  Vue.prototype.$upgrade = upgrade;
+
   new Vue({
     el: '#web',
     i18n,
