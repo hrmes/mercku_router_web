@@ -17,7 +17,7 @@
               <p>3. {{$t('trans0333')}}</p>
             </div>
             <div class="upload">
-              <m-upload :label="$t('trans0339')" :multiple="multiple" :accept="accept" :getLocalNodes="getLocalNodes" />
+              <m-upload :label="$t('trans0339')" :multiple="multiple" :accept="accept" :onSuccess="onSuccess" :onError="onError" />
             </div>
             <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
               <p class="title">{{$t('trans0333')}}</p>
@@ -42,7 +42,7 @@
                 </div>
               </div>
               <div class="btn-info">
-                <button class="btn re-btn" @click="submit()">{{$t('trans0211')}}</button>
+                <button class="btn re-btn">{{$t('trans0211')}}</button>
               </div>
             </div>
             <div class="description-wrapper" v-if="uploadComplete&&!hasUpgradablityNodes">
@@ -54,9 +54,9 @@
         </div>
         <div class="mobile-wrapper">
           <img src="../../../assets/images/ic_hint.png" alt="">
-          <p>离线升级请通过电脑浏览器访问 Mercku官网下载最新固件
+          <p>请在电脑上进行离线升级，手机网页不支持该操作
           </p>
-          <p>www.mercku.tech</p>
+
         </div>
       </div>
     </div>
@@ -69,7 +69,7 @@ import Upload from '../../../component/upload/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 
-const arr = Array.from(new Array(0)).map((_, i) => ({
+const arr = Array.from(new Array(3)).map((_, i) => ({
   sn: `01010301230123${i}`,
   model: { id: i % 2 === 0 ? '01' : '02' },
   name: `mercku_00${i}`,
@@ -87,6 +87,7 @@ export default {
   },
   data() {
     return {
+      files: [],
       RouterSnModel,
       multiple: 1,
       accept: '.ma',
@@ -94,15 +95,45 @@ export default {
       uploadComplete: false
     };
   },
+  beforeRouteLeave(_, __, next) {
+    this.$dialog.confirm({
+      okText: this.$t('trans0024'),
+      cancelText: this.$t('trans0025'),
+      message: this.$t('trans0334'),
+      callback: {
+        ok: () => {
+          next();
+        },
+        cancel: () => {
+          next(false);
+        }
+      }
+    });
+  },
   computed: {
     hasUpgradablityNodes() {
       return this.localNodes.length > 0;
+    },
+    hasUploadFile() {
+      return this.files.length > 0;
     }
   },
   methods: {
-    getLocalNodes(nodes, state) {
-      this.uploadComplete = state;
-      this.localNodes = nodes;
+    onSuccess(res, files) {
+      this.files = files;
+      this.uploadComplete = true;
+      const data = res.data.result;
+      if (data && data.length > 0) {
+        this.localNodes = data.filter(v => v.updatable);
+      }
+    },
+    onError(err, files) {
+      this.files = files;
+      if (err && err.error) {
+        this.$toast(this.$t(err.error.code));
+      } else {
+        // this.$router.push({ path: '/disappear' });
+      }
     },
     upgrade() {
       const ids = this.localNodes.map(v => v.sn);

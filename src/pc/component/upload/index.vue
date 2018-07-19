@@ -1,15 +1,15 @@
 <template>
   <div class="upload-wrapper">
     <div class="btn btn-success fileinput-button">
-      <p> <img src="../../assets/images/ic_upgrade.png" alt="">{{label}}</p>
-      <input type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" title=" " />
+      <label for="upload-file"> <img src="../../assets/images/ic_upgrade.png" alt="">{{label}}</label>
+      <input id="upload-file" type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" hidden="hidden" />
     </div>
     <div class='file' v-for="file in files" :key="file.lastModified">
       <img src="../../assets/images/ic_file.png" alt="" width="18" />
       <div class="des-cnt">
         <span> {{file.name}} &nbsp;&nbsp;{{(file.size/1024/1024).toFixed(2)}}MB</span>
         <img src="../../assets/images/ic_delete.png" alt="" width="10" @click="cancel(file)" />
-        <div class="line" v-if="!uplodaSuccess">
+        <div class="line" v-if="uplodaSuccess">
           <span :class="`${uploadLoading&&'loading'} ${uploadFail&&'fail'}`" :style="style"></span>
           <span v-if="uploadFail">上传失败</span>
         </div>
@@ -23,7 +23,11 @@ import { UploadStatus } from '../../../util/constant';
 
 export default {
   props: {
-    getLocalNodes: {
+    onSuccess: {
+      type: Function,
+      default: () => {}
+    },
+    onError: {
       type: Function,
       default: () => {}
     },
@@ -50,7 +54,10 @@ export default {
       files: [],
       percentage: 0,
       status: UploadStatus.uploading,
-      source: null
+      source: null,
+      style: {
+        width: 0
+      }
     };
   },
   computed: {
@@ -62,11 +69,6 @@ export default {
     },
     uploadFail() {
       return this.status === UploadStatus.fail;
-    },
-    style() {
-      return {
-        width: `${this.percentage * 260}px`
-      };
     }
   },
   methods: {
@@ -87,7 +89,7 @@ export default {
     upload(file) {
       if (this.accept) {
         const entendName = this.getExtendName(file.name);
-        if (!/ma/i.test(entendName)) {
+        if (!/^ma$/i.test(entendName)) {
           this.$toast('文件名不匹配');
           return false;
         }
@@ -110,8 +112,9 @@ export default {
           this.source = source;
           if (progressEvent.lengthComputable) {
             this.percentage = Math.floor(
-              progressEvent.loaded / progressEvent.total
+              progressEvent.loaded / progressEvent.total * 100
             );
+            this.style.width = `${this.percentage / 100 * 260}px`;
             this.status =
               progressEvent.loaded >= progressEvent.total
                 ? UploadStatus.success
@@ -119,18 +122,13 @@ export default {
           }
         })
         .then(res => {
-          const data = res.data.result;
-          const localNodes = data.filter(v => v.updatable);
-          this.getLocalNodes(localNodes, true);
+          this.status = UploadStatus.success;
+          this.onSuccess(res, this.files);
         })
         .catch(err => {
-          if (err && err.error) {
-            this.status = UploadStatus.fail;
-            this.percentage = 0;
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/disappear' });
-          }
+          this.status = UploadStatus.fail;
+          this.percentage = 0;
+          this.onError(err, this.files);
         });
     },
     cancel(file) {
@@ -146,16 +144,26 @@ export default {
 <style lang="scss" scoped>
 .upload-wrapper {
   display: flex;
+
   .file {
     margin-left: 20px;
     display: flex;
     align-items: center;
     width: 300px;
+    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+    font-size: 14px;
+    color: #999999;
+    padding: 0 5px;
+    &:hover {
+      background: #f9f9f9;
+      border-radius: 4px;
+      color: #409eff;
+    }
     .des-cnt {
       width: 260px;
       position: relative;
       margin-left: 10px;
-      padding-bottom: 5px;
+      cursor: pointer;
       .del-btn {
         display: inline-block;
         width: 13px;
@@ -164,9 +172,6 @@ export default {
         background-size: 100%;
         border-radius: 13px;
         cursor: pointer;
-        // &:hover {
-        //   border: 1px solid #4237dd;
-        // }
       }
       img {
         float: right;
@@ -176,10 +181,6 @@ export default {
         :hover {
           border: 1px solid red;
         }
-      }
-      span {
-        font-size: 14px;
-        color: #999999;
       }
       .line {
         position: absolute;
@@ -220,12 +221,13 @@ export default {
     position: relative;
     display: inline-block;
     overflow: hidden;
-    p {
+    label {
       display: flex;
       justify-content: center;
       width: 100%;
       height: 100%;
       align-items: center;
+      cursor: pointer;
       margin: 0;
       img {
         width: 14px;
