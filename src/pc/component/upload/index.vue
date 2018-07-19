@@ -11,7 +11,7 @@
         <img src="../../assets/images/ic_delete.png" alt="" width="10" @click="cancel(file)" />
         <div class="line" v-if="uplodaSuccess">
           <span :class="`${uploadLoading&&'loading'} ${uploadFail&&'fail'}`" :style="style"></span>
-          <span v-if="uploadFail">上传失败</span>
+          <span v-if="uploadFail">{{$t('trans0341')}}</span>
         </div>
       </div>
 
@@ -90,11 +90,11 @@ export default {
       if (this.accept) {
         const entendName = this.getExtendName(file.name);
         if (!/^ma$/i.test(entendName)) {
-          this.$toast('文件名不匹配');
+          this.$toast(this.$t('trans0271'));
           return false;
         }
         if (file.size === 0) {
-          this.$toast('文件大小不匹配');
+          this.$toast(this.$t('trans0341'));
           return false;
         }
       }
