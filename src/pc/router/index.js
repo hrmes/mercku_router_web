@@ -7,7 +7,9 @@ import wifi from '../pages/bussiness/setting/wifi.vue';
 import safe from '../pages/bussiness/setting/safe.vue';
 import reboot from '../pages/bussiness/setting/reboot.vue';
 import wlan from '../pages/bussiness/wlan/index.vue';
-import disappear from '../pages/bussiness/disappear/index.vue';
+import unconnect from '../pages/error/unconnect/index.vue';
+import online from '../pages/bussiness/upgrade/online.vue';
+import offline from '../pages/bussiness/upgrade/offline.vue';
 
 Vue.use(Router);
 const routes = [
@@ -51,9 +53,19 @@ const routes = [
     component: wlan
   },
   {
-    path: '/disappear',
-    name: 'disappear',
-    component: disappear
+    path: '/unconnect',
+    name: 'unconnect',
+    component: unconnect
+  },
+  {
+    path: '/upgrade/online',
+    name: 'online',
+    component: online
+  },
+  {
+    path: '/upgrade/offline',
+    name: 'offline',
+    component: offline
   }
 ];
 

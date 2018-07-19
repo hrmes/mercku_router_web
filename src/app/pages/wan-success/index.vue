@@ -47,10 +47,10 @@ export default {
         }
       },
       netinfo: {
-        ip: '-.-.-.-',
-        mask: '-.-.-.-',
-        gateway: '-.-.-.-',
-        dns: ['-.-.-.-']
+        ip: '-',
+        mask: '-',
+        gateway: '-',
+        dns: ['-']
       },
       access: ''
     };
@@ -58,7 +58,7 @@ export default {
   methods: {
     next() {
       this.$http
-        .update(this.routerConfig.getConfig())
+        .updateMeshConfig(this.routerConfig.getConfig())
         .then(() => {
           this.$router.replace({ path: '/complete' });
         })

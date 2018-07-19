@@ -58,7 +58,7 @@ export default {
               .then(() => {
                 const config = this.routerConfig.getConfig();
                 this.$http
-                  .update({
+                  .updateMeshConfig({
                     ...config.wifi
                   })
                   .then(() => {
@@ -90,10 +90,10 @@ export default {
         }
       },
       netinfo: {
-        ip: '-.-.-.-',
-        mask: '-.-.-.-',
-        gateway: '-.-.-.-',
-        dns: ['-.-.-.-']
+        ip: '-',
+        mask: '-',
+        gateway: '-',
+        dns: ['-']
       },
       access: ''
     };
@@ -102,10 +102,10 @@ export default {
     setWan() {
       const wanConfig = this.routerConfig.getWan();
       this.netinfo = {
-        ip: wanConfig.ip || '-.-.-.-',
-        mask: wanConfig.mask || '-.-.-.-',
-        gateway: wanConfig.gateway || '-.-.-.-',
-        dns: wanConfig.dns || ['-.-.-.-']
+        ip: wanConfig.ip || '-',
+        mask: wanConfig.mask || '-',
+        gateway: wanConfig.gateway || '-',
+        dns: wanConfig.dns || ['-']
       };
       this.access = wanConfig.type;
     },
