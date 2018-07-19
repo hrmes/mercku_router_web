@@ -1,17 +1,17 @@
 <template>
   <div class="upload-wrapper">
-    <div class="btn btn-success fileinput-button">
-      <label for="upload-file"> <img src="../../assets/images/ic_upgrade.png" alt="">{{label}}</label>
-      <input id="upload-file" type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" hidden="hidden" />
-    </div>
+    <button class="btn btn-success fileinput-button" :disabled="uploadLoading" @click="click">
+      <label> <img src="../../assets/images/ic_upgrade.png" alt="">{{label}}</label>
+      <input type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" hidden="hidden" />
+    </button>
     <div class='file' v-for="file in files" :key="file.lastModified">
       <img src="../../assets/images/ic_file.png" alt="" width="18" />
       <div class="des-cnt">
         <span> {{file.name}} &nbsp;&nbsp;{{(file.size/1024/1024).toFixed(2)}}MB</span>
         <img src="../../assets/images/ic_delete.png" alt="" width="10" @click="cancel(file)" />
-        <div class="line" v-if="uplodaSuccess">
-          <span :class="`${uploadLoading&&'loading'} ${uploadFail&&'fail'}`" :style="style"></span>
-          <span v-if="uploadFail">{{$t('trans0341')}}</span>
+        <div class="line" v-if="!uplodaSuccess">
+          <span :class="{'loading':uploadLoading,'fail':uploadFail}" :style="style"></span>
+          <span v-if="uploadFail">{{$t(err) || $t('trans0341')}}</span>
         </div>
       </div>
 
@@ -53,8 +53,9 @@ export default {
       UploadStatus,
       files: [],
       percentage: 0,
-      status: UploadStatus.uploading,
+      status: UploadStatus.success,
       source: null,
+      err: '',
       style: {
         width: 0
       }
@@ -72,6 +73,10 @@ export default {
     }
   },
   methods: {
+    click() {
+      console.log(this.$refs.upload);
+      this.$refs.upload.click();
+    },
     getExtendName(fileName) {
       const r = fileName.split('.');
       if (r.length) {
@@ -126,9 +131,12 @@ export default {
           this.onSuccess(res, this.files);
         })
         .catch(err => {
+          if (err && err.error) {
+            this.err = err.error.code;
+          }
           this.status = UploadStatus.fail;
           this.percentage = 0;
-          this.onError(err, this.files);
+          this.onError(err, this.files, this.source);
         });
     },
     cancel(file) {
@@ -214,8 +222,11 @@ export default {
     }
   }
   .btn {
-    width: 106px;
+    width: auto;
     height: 32px;
+    &[disabled] {
+      background: #999;
+    }
   }
   .fileinput-button {
     position: relative;

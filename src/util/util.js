@@ -1,5 +1,3 @@
-import { SubmitBar } from 'vant';
-
 export default {
   adapt: () => {
     const doc = document;
@@ -154,15 +152,15 @@ export const ipRule = (ip, mask) => {
 
 export const compareVersion = (version1, version2) => {
   const v1 = version1.split('.').reduce((sum, next) => {
-    sum = sum << 8;
+    sum <<= 8;
     sum += parseInt(next, 10);
     return sum;
   }, 0);
   const v2 = version2.split('.').reduce((sum, next) => {
-    sum = sum << 8;
+    sum <<= 8;
     sum += parseInt(next, 10);
     return sum;
   }, 0);
 
-  return v2 > v1 ? true : false;
+  return v2 > v1;
 };

@@ -54,6 +54,7 @@ import layout from '../../../layout.vue';
 import Progress from '../../../component/progress/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 import { compareVersion } from '../../../../util/util';
+
 export default {
   components: {
     layout,
@@ -61,7 +62,6 @@ export default {
   },
   data() {
     return {
-      duraing: 30000,
       nodes: [],
       RouterSnModel,
       Errors: {
@@ -255,7 +255,6 @@ export default {
               font-weight: 100;
             }
           }
-          // flex: 1;
         }
       }
       .btn-info {
@@ -290,8 +289,7 @@ export default {
       .nodes-wrapper {
         .nodes-info {
           .node {
-            width: 80%;
-            min-width: 303px;
+            width: 303px;
             margin-left: auto;
             margin-right: auto;
           }
@@ -303,7 +301,22 @@ export default {
     }
   }
 }
-@media screen and (min-width: 700px) and (max-width: 769px) {
+@media screen and (min-width: 769px) and (max-width: 999px) {
+  .upgrade-online-container {
+    .content {
+      .nodes-wrapper {
+        .nodes-info {
+          .node {
+            width: 340px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 768px) {
   .upgrade-online-container {
     padding: 20px 16px;
     .content {
@@ -318,7 +331,7 @@ export default {
           .node {
             width: 303px;
             min-width: 303px;
-            margin-right: 0;
+            margin-left: 0;
           }
         }
         .btn-info {

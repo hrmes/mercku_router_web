@@ -10,11 +10,13 @@
                 <img src="../../../assets/images/ic_question.png" alt="">
                 <span> {{$t('trans0331')}}</span>
               </h4>
-              <p>1. 官网Mercku官方网站，下载最新固件。
+              <p>1.
+                <span>{{$t('trans0332')}}</span>
                 <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
+                <span>,{{$t('trans0346')}}</span>
               </p>
-              <p>{{$t('trans0333')}}</p>
-              <p>{{$t('trans0332')}}</p>
+              <p>2.{{$t('trans0339')}}</p>
+              <p>3.{{$t('trans0348')}}</p>
             </div>
             <div class="upload">
               <m-upload :label="$t('trans0339')" :multiple="multiple" :accept="accept" :onSuccess="onSuccess" :onError="onError" />
@@ -47,8 +49,8 @@
             </div>
             <div class="description-wrapper" v-if="uploadComplete&&!hasUpgradablityNodes">
               <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
-              <p>1. 下载路由器固件时，请仔细核对路由器底部标签上的型号和产品名称，确保准确性。</p>
               <p>{{$t('trans0337')}}</p>
+              <p>{{$t('trans0335')}}</p>
             </div>
           </div>
         </div>
@@ -67,16 +69,6 @@ import Upload from '../../../component/upload/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 
-const arr = Array.from(new Array(3)).map((_, i) => ({
-  sn: `01010301230123${i}`,
-  model: { id: i % 2 === 0 ? '01' : '02' },
-  name: `mercku_00${i}`,
-  version: {
-    current: `0.0.${i}`,
-    latest: '1.1.1'
-  }
-}));
-
 export default {
   components: {
     layout,
@@ -89,24 +81,28 @@ export default {
       RouterSnModel,
       multiple: 1,
       accept: '.ma',
-      localNodes: arr,
+      localNodes: [],
       uploadComplete: false
     };
   },
   beforeRouteLeave(_, __, next) {
-    this.$dialog.confirm({
-      okText: this.$t('trans0024'),
-      cancelText: this.$t('trans0025'),
-      message: this.$t('trans0334'),
-      callback: {
-        ok: () => {
-          next();
-        },
-        cancel: () => {
-          next(false);
+    if (this.uploadComplete) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0334'),
+        callback: {
+          ok: () => {
+            next();
+          },
+          cancel: () => {
+            next(false);
+          }
         }
-      }
-    });
+      });
+    } else {
+      next();
+    }
   },
   computed: {
     hasUpgradablityNodes() {
@@ -125,11 +121,12 @@ export default {
         this.localNodes = data.filter(v => v.updatable);
       }
     },
-    onError(err, files) {
+    onError(err, files, cancel) {
       this.files = files;
-      if (err && err.error) {
-        this.$toast(this.$t(err.error.code));
-      } else {
+      if (cancel.token.reason) {
+        return;
+      }
+      if (!err || !err.error) {
         this.$router.push({ path: '/unconnect' });
       }
     },
@@ -321,7 +318,7 @@ export default {
         }
       }
       .btn-info {
-        margin-top: 40px;
+        margin: 100px 0;
       }
     }
   }
@@ -350,14 +347,23 @@ export default {
       }
     }
     padding: 20px 16px;
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 999px) {
+  .upgrade-offline-container {
     .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
+      .nodes-wrapper {
+        .nodes-info {
+          .node {
+            width: 340px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
       }
-
-      background: white;
+      .btn-info {
+        margin: 20px 0;
+      }
     }
   }
 }
