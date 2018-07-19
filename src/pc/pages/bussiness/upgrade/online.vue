@@ -53,7 +53,7 @@
 import layout from '../../../layout.vue';
 import Progress from '../../../component/progress/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
-
+import { compareVersion } from '../../../../util/util';
 export default {
   components: {
     layout,
@@ -89,37 +89,9 @@ export default {
         .then(res => {
           this.$loading.close();
           const data = res.data.result;
-          this.nodes = data.filter(node => {
-            // 过滤可升级节点
-            const cstr = node.version.current.split('.');
-            const lstr = node.version.latest.split('.');
-
-            const current = {
-              major: parseInt(cstr[0], 10),
-              minor: parseInt(cstr[1], 10),
-              patch: parseInt(cstr[2], 10)
-            };
-            const lastest = {
-              major: parseInt(lstr[0], 10),
-              minor: parseInt(lstr[1], 10),
-              patch: parseInt(lstr[2], 10)
-            };
-
-            if (lastest.major > current.major) {
-              return true;
-            } else if (
-              lastest.major === current.major &&
-              lastest.minor > current.minor
-            ) {
-              return true;
-            } else if (
-              lastest.minor === current.minor &&
-              lastest.patch >= current.patch
-            ) {
-              return true;
-            }
-            return false;
-          });
+          this.nodes = data.filter(node =>
+            compareVersion(node.version.current, node.version.lastest)
+          );
         })
         .catch(err => {
           this.$loading.close();

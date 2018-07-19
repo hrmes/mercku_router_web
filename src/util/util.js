@@ -149,3 +149,15 @@ export const ipRule = (ip, mask) => {
   }
   return true;
 };
+
+export const compareVersion = (version1, version2) => {
+  // 过滤可升级节点
+  const cstr = version1.split('.').join('');
+  const lstr = version2.split('.').join('');
+
+  const v1 = parseInt(cstr, 10);
+
+  const v2 = parseInt(lstr, 10);
+
+  return v2 > v1 ? true : false;
+};
