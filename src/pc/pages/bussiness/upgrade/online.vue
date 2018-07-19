@@ -31,12 +31,16 @@
           </div>
         </div>
         <div class="msg-wrapper" v-else>
-          <div v-if="!hasUpgradablityNodes && !requestResult.fail">
+          <div v-if="!hasUpgradablityNodes && !requestResult.error">
             <img src="../../../assets/images/img_new_version.png" alt="" width="220">
             <p>{{$t('trans0259')}}</p>
           </div>
-          <div v-if="requestResult.fail">
+          <div v-if="requestResult.error && requestResult.error === Errors.NO_INTERNET_ACCESS">
             <img src="../../../assets/images/img_no_network_access.png" alt="" width="220">
+            <p>{{requestResult.message}}</p>
+          </div>
+          <div v-if="requestResult.error && requestResult.error !== Errors.NO_INTERNET_ACCESS">
+            <img src="../../../assets/images/img_error.png" alt="" width="220">
             <p>{{requestResult.message}}</p>
           </div>
         </div>
@@ -60,8 +64,11 @@ export default {
       duraing: 30000,
       nodes: [],
       RouterSnModel,
+      Errors: {
+        NO_INTERNET_ACCESS: 600003 // 无法连接到服务器错误特殊处理
+      },
       requestResult: {
-        fail: false,
+        error: null,
         message: ''
       }
     };
@@ -116,12 +123,16 @@ export default {
         })
         .catch(err => {
           this.$loading.close();
-
           if (err && err.error) {
-            this.requestResult.fail = true;
-            this.requestResult.message = this.$t(err.error.code);
+            if (err.error.code === 600003) {
+              this.requestResult.error = this.Errors.NO_INTERNET_ACCESS;
+              this.requestResult.message = this.$t('trans0319');
+            } else {
+              this.requestResult.error = true;
+              this.requestResult.message = this.$t('trans0345');
+            }
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },
@@ -137,7 +148,7 @@ export default {
             });
             const nodeIds = this.nodes.map(n => n.sn);
             this.$http
-              .upgrade({
+              .upgradeMeshNode({
                 node_ids: nodeIds
               })
               .then(() => {
@@ -151,7 +162,7 @@ export default {
                 if (err && err.error) {
                   this.$toast(this.$t(err.error.code));
                 } else {
-                  this.$router.push({ path: '/disappear' });
+                  this.$router.push({ path: '/unconnect' });
                 }
               });
           }

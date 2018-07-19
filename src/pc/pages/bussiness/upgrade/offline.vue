@@ -132,12 +132,12 @@ export default {
       if (err && err.error) {
         this.$toast(this.$t(err.error.code));
       } else {
-        // this.$router.push({ path: '/disappear' });
+        this.$router.push({ path: '/unconnect' });
       }
     },
     upgrade() {
       const ids = this.localNodes.map(v => v.sn);
-      this.$http.upgrade({ node_ids: ids, local: true }).then(() => {
+      this.$http.upgradeMeshNode({ node_ids: ids, local: true }).then(() => {
         this.$upgrade({
           onsuccess: () => {
             this.$router.push({ path: '/home' });

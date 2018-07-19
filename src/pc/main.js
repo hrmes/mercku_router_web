@@ -17,31 +17,35 @@ import dialog from './component/dialog/index';
 import v from '../../version.json';
 
 const launch = () => {
-  configRequestInterceptors(config => {
-    const conf = config;
-    return conf;
-  }, error => Promise.reject(error));
-  configResponseInterceptors(res => res, error => {
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          if (!window.location.href.includes('login')) {
-            window.location.href = '/';
-          }
-          break;
-        case 400:
-          if (error.response.data.error.code === 600007) {
-            Vue
-              .prototype
-              .$upgrade();
-          }
-          break;
-        default:
-          break;
+  configRequestInterceptors(
+    config => {
+      const conf = config;
+      return conf;
+    },
+    error => Promise.reject(error)
+  );
+  configResponseInterceptors(
+    res => res,
+    error => {
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            if (!window.location.href.includes('login')) {
+              window.location.href = '/';
+            }
+            break;
+          case 400:
+            if (error.response.data.error.code === 600007) {
+              Vue.prototype.$upgrade();
+            }
+            break;
+          default:
+            break;
+        }
       }
+      return Promise.reject(error.response.data);
     }
-    return Promise.reject(error.response.data);
-  });
+  );
   Vue.prototype.$http = http;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
@@ -69,13 +73,11 @@ const launch = () => {
         opt.ontimeout();
         console.log('reconnect timeout');
       } else if (count !== total && count % 10 === 0) {
-        http
-          .getRouter()
-          .then(() => {
-            clearInterval(timer);
-            opt.onsuccess();
-            console.log('reconnect success');
-          });
+        http.getRouter().then(() => {
+          clearInterval(timer);
+          opt.onsuccess();
+          console.log('reconnect success');
+        });
       }
     }, 1000);
   };
@@ -92,21 +94,17 @@ const launch = () => {
       },
       ...options
     };
-    Vue
-      .prototype
-      .$reconnect({
-        onsuccess: () => {
-          loading.close();
-          opt.onsuccess();
-        },
-        ontimeout: () => {
-          this
-            .$loading
-            .close();
-          opt.ontimeout();
-        },
-        timeout: opt.timeout
-      });
+    Vue.prototype.$reconnect({
+      onsuccess: () => {
+        loading.close();
+        opt.onsuccess();
+      },
+      ontimeout: () => {
+        this.$loading.close();
+        opt.ontimeout();
+      },
+      timeout: opt.timeout
+    });
   };
   new Vue({
     el: '#web',

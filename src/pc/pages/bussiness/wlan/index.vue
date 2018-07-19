@@ -112,7 +112,7 @@ export default {
         if (err && err.error) {
           this.$toast(this.$t(err.error.code));
         } else {
-          this.$router.push({ path: '/disappear' });
+          this.$router.push({ path: '/unconnect' });
         }
       });
   },
@@ -147,7 +147,7 @@ export default {
 
         // 提交表单
         this.$http
-          .update({
+          .updateMeshConfig({
             wifi: {
               ssid: this.form1.ssid,
               password: this.form1.password
@@ -165,7 +165,7 @@ export default {
               },
               ontimeout: () => {
                 clearInterval(timer);
-                this.$router.push({ path: '/disappear' });
+                this.$router.push({ path: '/unconnect' });
               }
             });
           })
@@ -173,7 +173,7 @@ export default {
             if (err && err.error) {
               this.$toast(this.$t(err.error.code));
             } else {
-              this.$router.push({ path: '/disappear' });
+              this.$router.push({ path: '/unconnect' });
             }
           });
       }
