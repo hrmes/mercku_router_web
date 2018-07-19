@@ -88,7 +88,7 @@ const methods = {
   },
   routerAdminGet: {
     url,
-    action: 'router.admin.get'
+    action: 'router.config.admin.get'
   },
   // v0.9
   firmwareUpload: {
@@ -117,7 +117,7 @@ const http = {
   },
   getAdmin() {
     return axios.post(methods.routerAdminGet.url, {
-      method: methods.meshAdminUpdate.action
+      method: methods.routerAdminGet.action
     });
   },
   updateAdmin(params) {
