@@ -85,7 +85,7 @@ export default {
       // position: absolute;
       // padding-top: 100px;
       width: 100%;
-      padding: 20px;
+      padding: 30px;
       text-align: center;
       margin: 0 auto;
       padding-bottom: 50px;

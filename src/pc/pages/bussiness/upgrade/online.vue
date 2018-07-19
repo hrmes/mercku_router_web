@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="msg-wrapper" v-else>
-          <div v-if="!hasUpgradablityNodes && !requestResult.error">
+          <div v-if="!hasUpgradablityNodes && requestResult.complete &&  !requestResult.error">
             <img src="../../../assets/images/img_new_version.png" alt="" width="220">
             <p>{{$t('trans0259')}}</p>
           </div>
@@ -68,6 +68,7 @@ export default {
         NO_INTERNET_ACCESS: 600003 // 无法连接到服务器错误特殊处理
       },
       requestResult: {
+        complete: false,
         error: null,
         message: ''
       }
@@ -89,12 +90,14 @@ export default {
         .then(res => {
           this.$loading.close();
           const data = res.data.result;
+          this.requestResult.complete = true;
           this.nodes = data.filter(node =>
             compareVersion(node.version.current, node.version.lastest)
           );
         })
         .catch(err => {
           this.$loading.close();
+          this.requestResult.complete = true;
           if (err && err.error) {
             if (err.error.code === 600003) {
               this.requestResult.error = this.Errors.NO_INTERNET_ACCESS;
@@ -264,7 +267,7 @@ export default {
     .msg-wrapper {
       width: 100%;
       text-align: center;
-      margin-top: 50px;
+      margin-top: 30px;
       img {
         width: 200px;
       }

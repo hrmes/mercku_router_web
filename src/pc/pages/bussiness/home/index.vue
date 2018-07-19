@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="m-item">
-                  <label class="m-title">{{$t('trans0251')}}:</label>
+                  <label class="m-title">{{$t('trans0251')}}：</label>
                   {{localRouterInfo.sn }}
                 </div>
               </div>

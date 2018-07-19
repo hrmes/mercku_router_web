@@ -447,6 +447,7 @@ export default {
         font-size: 16px;
         color: #333333;
         text-align: center;
+        padding: 20px 0;
         img {
           width: 220px;
           height: 220px;
