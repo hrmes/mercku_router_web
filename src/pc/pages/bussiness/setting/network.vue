@@ -60,11 +60,9 @@
             <div class='form'>
               <div class="item" style="min-height:110px">
                 <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
-                <div class="note" v-if="netType==='dhcp'">{{$t('trans0147')}}</div>
-                <div class="note" v-if="netType==='pppoe'">{{$t('trans0154')}}</div>
-                <div class="note" v-if="netType==='static'">{{$t('trans0150')}}</div>
+                <div class="note">{{netNote[netType]}}</div>
               </div>
-              <m-form v-show="netType==='pppoe'" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
+              <m-form v-show="isPppoe" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
                 <m-form-item class="item" prop='account'>
                   <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.account"></m-input>
                 </m-form-item>
@@ -72,7 +70,7 @@
                   <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.password" />
                 </m-form-item>
               </m-form>
-              <m-form v-show="netType==='static'" ref="staticForm" :model="staticForm" :rules='staticRules'>
+              <m-form v-show="isStatic" ref="staticForm" :model="staticForm" :rules='staticRules'>
                 <m-form-item class="item" prop='ip' ref="ip">
                   <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" :onBlur="ipChange" />
                 </m-form-item>
@@ -113,6 +111,7 @@ import {
   isLoopback,
   isValidMask
 } from '../../../../util/util';
+import * as CONSTANTS from '../../../../util/constant';
 
 export default {
   components: {
@@ -129,14 +128,20 @@ export default {
       return v === undefined || v === '' || v === null ? true : pattern.test(v);
     }
     return {
+      CONSTANTS: { ...CONSTANTS },
+      netNote: {
+        dhcp: this.$t('trans0147'),
+        static: this.$t('trans0150'),
+        pppoe: this.$t('trans0154')
+      },
       networkArr: {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144')
       },
-      netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
-      netType: 'dhcp',
+      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      netType: CONSTANTS.WanType.dhcp,
       reboot: false,
       netInfo: {},
       staticForm: {
@@ -233,21 +238,30 @@ export default {
     };
   },
   mounted() {
-    this.testWan();
+    this.getWanStatus();
     this.getWanNetInfo();
   },
   computed: {
     isTesting() {
-      return this.netStatus === 'testing';
+      return this.netStatus === CONSTANTS.WanNetStatus.testing;
     },
     isConnected() {
-      return this.netStatus === 'connected';
+      return this.netStatus === CONSTANTS.WanNetStatus.connected;
     },
     isLinked() {
-      return this.netStatus === 'linked';
+      return this.netStatus === CONSTANTS.WanNetStatus.linked;
     },
     isUnlinked() {
-      return this.netStatus === 'unlinked';
+      return this.netStatus === CONSTANTS.WanNetStatus.unlinked;
+    },
+    isPppoe() {
+      return this.netType === CONSTANTS.WanType.pppoe;
+    },
+    isStatic() {
+      return this.netType === CONSTANTS.WanType.static;
+    },
+    isDhcp() {
+      return this.netType === CONSTANTS.WanType.dhcp;
     },
     localNetInfo() {
       const local = {
@@ -313,15 +327,15 @@ export default {
         this.staticForm.mask
       );
     },
-    testWan() {
-      this.netStatus = 'testing';
+    getWanStatus() {
+      this.netStatus = CONSTANTS.WanNetStatus.testing;
       this.$http
-        .testWan()
+        .getWanStatus()
         .then(res => {
           this.netStatus = res.data.result.status;
         })
         .catch(() => {
-          this.netStatus = 'unlinked';
+          this.netStatus = CONSTANTS.WanNetStatus.unlinked;
         });
     },
     getWanNetInfo() {
@@ -329,11 +343,11 @@ export default {
         if (res.data.result) {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
-          if (this.netInfo.type === 'pppoe') {
+          if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
             this.pppoeForm.password = this.netInfo.pppoe.password;
           }
-          if (this.netInfo.type === 'static') {
+          if (this.isStatic) {
             this.staticForm = {
               ip: this.netInfo.static.netinfo.ip,
               mask: this.netInfo.static.netinfo.mask,
@@ -356,7 +370,7 @@ export default {
                 this.$router.push({ path: '/home' });
               },
               ontimeout: () => {
-                this.$router.push({ path: '/disappear' });
+                this.$router.push({ path: '/unconnect' });
               }
             });
           }
@@ -365,22 +379,28 @@ export default {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },
     submit() {
       let form = { type: this.netType };
-      if (this.netType === 'dhcp') {
+      if (this.netType === CONSTANTS.WanType.dhcp) {
         this.save(form);
         return;
       }
-      if (this.netType === 'pppoe' && this.$refs.pppoeForm.validate()) {
+      if (
+        this.netType === CONSTANTS.WanType.pppoe &&
+        this.$refs.pppoeForm.validate()
+      ) {
         form = { ...form, pppoe: { ...this.pppoeForm } };
         this.save(form);
         return;
       }
-      if (this.netType === 'static' && this.$refs.staticForm.validate()) {
+      if (
+        this.netType === CONSTANTS.WanType.static &&
+        this.$refs.staticForm.validate()
+      ) {
         const params = {
           ip: this.staticForm.ip,
           mask: this.staticForm.mask,
@@ -427,6 +447,7 @@ export default {
         font-size: 16px;
         color: #333333;
         text-align: center;
+        padding: 20px 0;
         img {
           width: 220px;
           height: 220px;

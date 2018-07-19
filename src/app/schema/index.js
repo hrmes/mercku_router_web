@@ -3,8 +3,10 @@ const routerConfig = () => {
     wifi: {
       ssid: '',
       password: '',
-      hidden: false,
-      admin_password: ''
+      hidden: false
+    },
+    admin: {
+      password: ''
     },
     wan: {
       type: '' // static,dhcp,pppoe
@@ -31,14 +33,20 @@ const routerConfig = () => {
     getConfig() {
       const result = {
         wifi: Object.assign({}, config.wifi),
+        admin: Object.assign({}, config.admin),
         wan: Object.assign({}, config.wan)
       };
       return result;
     },
-    setWIFI(ssid, pwd, adminPassword) {
+    setAdmin(pwd) {
+      config.admin.password = pwd;
+    },
+    getAdmin() {
+      return Object.assign({}, config.admin);
+    },
+    setWIFI(ssid, pwd) {
       config.wifi.ssid = ssid;
       config.wifi.password = pwd;
-      config.wifi.admin_password = adminPassword;
     },
     getWIFI() {
       return Object.assign({}, config.wifi);

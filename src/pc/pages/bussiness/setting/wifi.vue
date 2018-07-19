@@ -70,15 +70,27 @@ export default {
       options: [
         {
           value: '2.4G5G',
-          text: this.$t('trans0327')
+          text: this.$t('trans0327'),
+          bands: {
+            '2.4G': { enabled: true },
+            '5G': { enabled: true }
+          }
         },
         {
           value: '2.4G',
-          text: this.$t('trans0328')
+          text: this.$t('trans0328'),
+          bands: {
+            '2.4G': { enabled: true },
+            '5G': { enabled: false }
+          }
         },
         {
           value: '5G',
-          text: this.$t('trans0329')
+          text: this.$t('trans0329'),
+          bands: {
+            '2.4G': { enabled: false },
+            '5G': { enabled: true }
+          }
         }
       ],
       form: {
@@ -111,36 +123,30 @@ export default {
       }
     };
   },
+  computed: {
+    combineBands() {
+      const hash = {};
+      this.options.forEach(v => {
+        hash[v.value] = v.bands;
+      });
+      return hash;
+    }
+  },
   methods: {
     popIsShow() {
       this.popShow = !this.popShow;
     },
-    filterBands(bands) {
-      this.form.bands['2.4G'].enabled = bands['2.4G'].enabled;
-      this.form.bands['5G'].enabled = bands['5G'].enabled;
-      if (bands['2.4G'].enabled && bands['5G'].enabled) {
-        this.band = '2.4G5G';
-      }
-      if (bands['2.4G'].enabled && !bands['5G'].enabled) {
-        this.band = '2.4G';
-      }
-      if (!bands['2.4G'].enabled && bands['5G'].enabled) {
-        this.band = '5G';
-      }
+    bandsToStr(bands) {
+      return Object.keys(bands)
+        .map(v => bands[v].enabled)
+        .join('');
     },
-    filterSelectBands() {
-      if (this.band === '2.4G5G') {
-        this.form.bands['2.4G'].enabled = true;
-        this.form.bands['5G'].enabled = true;
-      }
-      if (this.band === '2.4G') {
-        this.form.bands['2.4G'].enabled = true;
-        this.form.bands['5G'].enabled = false;
-      }
-      if (this.band === '5G') {
-        this.form.bands['2.4G'].enabled = false;
-        this.form.bands['5G'].enabled = true;
-      }
+    splitBands(bands) {
+      this.options.forEach(v => {
+        if (this.bandsToStr(bands) === this.bandsToStr(v.bands)) {
+          this.band = v.value;
+        }
+      });
     },
     getMeshMeta() {
       this.$loading.open();
@@ -152,7 +158,8 @@ export default {
             this.meshData = res.data.result;
             this.form.ssid = this.meshData.ssid;
             this.form.password = this.meshData.password;
-            this.filterBands(this.meshData.bands);
+            this.form.bands = this.meshData.bands;
+            this.splitBands(this.meshData.bands);
             this.form.hidden = this.meshData.hidden;
           }
         })
@@ -161,7 +168,7 @@ export default {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },
@@ -169,12 +176,12 @@ export default {
       this.form.hidden = v;
     },
     submit() {
-      this.filterSelectBands();
       if (this.$refs.form.validate()) {
         this.$http
           .meshWifiUpdate({
             wifi: {
-              ...this.form
+              ...this.form,
+              bands: this.combineBands[this.band]
             }
           })
           .then(res => {
@@ -185,7 +192,7 @@ export default {
                   this.$router.push({ path: '/home' });
                 },
                 ontimeout: () => {
-                  this.$router.push({ path: '/disappear' });
+                  this.$router.push({ path: '/unconnect' });
                 }
               });
             }
@@ -194,7 +201,7 @@ export default {
             if (err && err.error) {
               this.$toast(this.$t(err.error.code));
             } else {
-              this.$router.push({ path: '/disappear' });
+              this.$router.push({ path: '/unconnect' });
             }
           });
       }

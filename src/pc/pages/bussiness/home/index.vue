@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class='check-btn-info'>
-            <button class="btn check-btn" @click='createSpeedTimer()' :class="netStatus!=='connected'&&'disabled'" style='height:44px' :disabled="netStatus!=='connected'">{{$t('trans0008')}}</button>
+            <button class="btn check-btn" @click='createSpeedTimer(false)' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
           </div>
         </div>
         <!-- <div class="test-speed-btn-container">
@@ -39,11 +39,11 @@
               <div class='message'>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0187')}}：</label>
-                  {{routerModel[localRouterInfo.sn.slice(0,2)]}}
+                  {{getModel(localRouterInfo.sn.slice(0,2))}}
                 </div>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0300')}}：</label>
-                  {{localRouterInfo.version }}
+                  {{localRouterInfo.version.current }}
                 </div>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0200')}}：</label>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="m-item">
-                  <label class="m-title">{{$t('trans0251')}}:</label>
+                  <label class="m-title">{{$t('trans0251')}}：</label>
                   {{localRouterInfo.sn }}
                 </div>
               </div>
@@ -168,28 +168,17 @@
         <div class='mesh-info'>
           <div class="title">{{$t('trans0312')}}</div>
           <div class="content">
-            <div :key="index" v-for="(item,index) in meshNode" class="mesh" :class="diffMesh(item)">
-              <div class="message">
-                <img src="../../../assets/images/ic_plug_m2.png" alt="" v-if="item.model==='M2'">
-                <img src="../../../assets/images/img_plug_Bee.png" alt="" v-if="item.model==='Bee'">
-                <span>{{item.name}}</span>
-              </div>
-              <div class="status">
-                <img src="../../../assets/images/ic_plug_bad.png" alt="" v-if='item.rssi<-60'>
-                <img src="../../../assets/images/ic_plug_fine.png" alt="" v-if='item.rssi<-50 && item.rssi>-60'>
-                <img src="../../../assets/images/ic_plug_good.png" alt="" v-if='item.rssi>=-50'>
-              </div>
-            </div>
+            <div id="topo" style="width:100%;height:550px;"></div>
           </div>
         </div>
         <div class='speed-model-info' v-if='speedModelOpen'>
           <div class="shadow"></div>
           <div class='speed-content'>
-            <div v-if="speedStatus==='testing'">
+            <div v-if="isSpeedTesting">
               <div class="test-info"></div>
               <p>{{$t('trans0045')}}.. {{testSpeedNumber}}s</p>
             </div>
-            <div v-if="speedStatus==='done' || speedStatus==='failed'" class="speed-completed">
+            <div v-if="isSpeedDone || isSpeedFailed" class="speed-completed">
               <div class="speed-result-info">
                 <div class="extra">
                   <i class="p-dwon-icon"></i>
@@ -234,7 +223,224 @@
   </layout>
 </template>
 <script>
+import echarts from 'echarts';
 import layout from '../../../layout.vue';
+import * as CONSTANTS from '../../../../util/constant';
+import picGateway from '../../../assets/images/ic_m2_green_80x80px@2x.png';
+import picM2Good from '../../../assets/images/ic_m2_green_60x60px@2x.png';
+import picM2Bad from '../../../assets/images/ic_m2_orange_60x60px@2x.png';
+import picBeeGood from '../../../assets/images/ic_bee_green_60x60px@2x.png';
+import picBeeBad from '../../../assets/images/ic_bee_orange_60x60px@2x.png';
+
+/**
+ *
+ *
+ * 绘制拓扑图部分
+ *
+ *
+ *
+ */
+const Color = {
+  good: '#00d061',
+  bad: '#ff6f00'
+};
+
+// 大于-50均认为优秀
+const isGood = rssi => rssi > -50;
+
+// 去重
+function distinct(source) {
+  return source.map(r => {
+    const neighbors = [];
+    if (r.neighbors) {
+      r.neighbors.forEach(n => {
+        const node = source.filter(s => s.sn === n.sn)[0];
+        node.neighbors = node.neighbors.filter(nn => nn.sn !== r.sn);
+        neighbors.push({
+          entity: node,
+          origin: n
+        });
+      });
+    }
+    r.neighbors = neighbors;
+    return r;
+  });
+}
+
+// 找网关,此处认为sn为0就是网关
+function findGateway(source) {
+  return source.filter(s => s.is_gw)[0];
+}
+
+// 找绿色的节点
+function findGreenNode(root, source) {
+  let green = [];
+  root.neighbors.forEach(n => {
+    if (!green.includes(n.entity) && isGood(n.origin.rssi)) {
+      green.push(n.entity);
+      green = green.concat(findGreenNode(n.entity, source));
+    }
+  });
+  return green;
+}
+
+// 找红色节点
+function findRedNode(gateway, green, source) {
+  const red = [];
+  source.forEach(s => {
+    if (!green.includes(s) && s !== gateway) {
+      red.push(s);
+    }
+  });
+  return red;
+}
+
+// 生成绘图需要的节点数据
+function genNodes(gateway, green, red) {
+  function getPositions() {
+    const count = 1 + green.length + red.length;
+    const radius = 40; // 这里需要动态调整半径
+    const pos = [];
+    if (count === 1) {
+      pos.push({ x: 0, y: 0, angel: 0 });
+      return pos;
+    }
+    if (count === 2) {
+      pos.push({ x: 0, y: radius, angel: 0 });
+      pos.push({ x: 0, y: -radius, angel: 180 });
+    }
+
+    const angle = 2 * Math.PI / count;
+    for (let i = 0; i < count; i += 1) {
+      pos.push({
+        x: radius * Math.sin(angle * i),
+        y: -radius * Math.cos(angle * i),
+        angle: 360 / count * i
+      });
+    }
+    return pos;
+  }
+  const pos = getPositions();
+  let currentIndex = 0;
+  function genNode(node, color, symbolSize = 50) {
+    let symbol = 'image://';
+    let labelPosition;
+    if (node.is_gw) {
+      symbol += picGateway;
+    } else {
+      const id = (node.model && node.model.id) || node.sn.slice(0, 2);
+      if (id === CONSTANTS.RouterSnModel.M2) {
+        symbol += color === Color.good ? picM2Good : picM2Bad;
+      } else if (id === CONSTANTS.RouterSnModel.Bee) {
+        symbol += color === Color.good ? picBeeGood : picBeeBad;
+      }
+    }
+    const angle = pos[currentIndex].angle;
+    const Positions = {
+      top: 'top',
+      bottom: 'bottom'
+    };
+    if (angle >= 0 && angle <= 90) {
+      labelPosition = Positions.top;
+    } else if (angle > 90 && angle < 270) {
+      labelPosition = Positions.bottom;
+    } else if (angle >= 270 && angle <= 360) {
+      labelPosition = Positions.top;
+    }
+    const n = {
+      name: node.name,
+      ...pos[currentIndex],
+      itemStyle: {
+        color
+      },
+      label: {
+        normal: {
+          position: labelPosition
+        }
+      },
+      symbol,
+      symbolSize
+    };
+    currentIndex += 1;
+    return n;
+  }
+  const nodes = [];
+  // m2
+  nodes.push(genNode(gateway, Color.good, 80));
+
+  // 绿点
+  green.forEach(g => {
+    nodes.push(genNode(g, Color.good));
+  });
+
+  // 红点
+  red.forEach(r => {
+    nodes.push(genNode(r, Color.bad));
+  });
+
+  return nodes;
+}
+
+// 生成绘图需要的线条信息
+function genLines(gateway, green, red) {
+  function genLine(source, target, color) {
+    return {
+      source: source.name,
+      target: target.name,
+      lineStyle: {
+        color
+      }
+    };
+  }
+
+  const lines = [];
+  gateway.neighbors.forEach(n => {
+    lines.push(genLine(gateway, n.entity, Color.good));
+  });
+
+  red.forEach(r => {
+    r.neighbors.forEach(n => {
+      if (isGood(n.origin.rssi)) {
+        lines.push(genLine(r, n.entity, Color.good));
+      } else {
+        lines.push(genLine(r, n.entity, Color.bad));
+      }
+    });
+  });
+
+  green.forEach(r => {
+    r.neighbors.forEach(n => {
+      if (isGood(n.origin.rssi)) {
+        lines.push(genLine(r, n.entity, Color.good));
+      } else if (!green.includes(n)) {
+        // 双绿点过滤红线
+        lines.push(genLine(r, n.entity, Color.bad));
+      }
+    });
+  });
+
+  return lines;
+}
+
+// 生成所有绘图数据
+function genData(array) {
+  const RouterDistincted = distinct(array);
+
+  const gateway = findGateway(RouterDistincted);
+
+  const green = findGreenNode(gateway, RouterDistincted);
+
+  const red = findRedNode(gateway, green, RouterDistincted);
+
+  const nodes = genNodes(gateway, green, red);
+
+  const lines = genLines(gateway, green, red);
+
+  return {
+    nodes,
+    lines
+  };
+}
 
 export default {
   components: {
@@ -242,21 +448,17 @@ export default {
   },
   data() {
     return {
+      CONSTANTS: { ...CONSTANTS },
       networkArr: {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144')
       },
-      routerModel: {
-        '-': '-',
-        '00': '电源适配器',
-        '01': 'M2',
-        '02': 'Bee'
-      },
-      testSpeedNumber: 40,
-      netStatus: 'unlinked', // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
-      speedStatus: 'testing',
+      testTimeout: 60,
+      testSpeedNumber: 60,
+      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      speedStatus: CONSTANTS.SpeedTestStatus.testing,
       speedModelOpen: false,
       TextBandwidth: '-',
       enter: true,
@@ -273,29 +475,41 @@ export default {
       timer3: null,
       timer4: null,
       timer5: null,
-      timer6: null
+      timer6: null,
+      chart: null
     };
   },
   mounted() {
-    this.testWan();
+    this.getWanStatus();
     this.getRouter();
     this.getWanNetInfo();
     this.createTimer();
     this.getSsid();
+    this.initChart();
   },
   computed: {
     isTesting() {
-      return this.netStatus === 'testing';
+      return this.netStatus === CONSTANTS.WanNetStatus.testing;
     },
     isConnected() {
-      return this.netStatus === 'connected';
+      return this.netStatus === CONSTANTS.WanNetStatus.connected;
     },
     isLinked() {
-      return this.netStatus === 'linked';
+      return this.netStatus === CONSTANTS.WanNetStatus.linked;
     },
     isUnlinked() {
-      return this.netStatus === 'unlinked';
+      return this.netStatus === CONSTANTS.WanNetStatus.unlinked;
     },
+    isSpeedDone() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.done;
+    },
+    isSpeedTesting() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.testing;
+    },
+    isSpeedFailed() {
+      return this.speedStatus === CONSTANTS.SpeedTestStatus.failed;
+    },
+
     localTraffice() {
       const local = {
         speed: {
@@ -370,6 +584,72 @@ export default {
     }
   },
   methods: {
+    getModel(id) {
+      let result = '-';
+      Object.keys(CONSTANTS.RouterSnModel).forEach(key => {
+        const model = CONSTANTS.RouterSnModel[key];
+        if (model === id) {
+          result = key;
+        }
+      });
+      return result;
+    },
+    initChart() {
+      this.chart = echarts.init(document.getElementById('topo'));
+      window.addEventListener('resize', () => {
+        this.chart && this.chart.resize();
+      });
+    },
+    drawTopo(routers) {
+      const data = genData(routers);
+      const option = {
+        color: [Color.good, Color.bad],
+        top: 10,
+        legend: [
+          {
+            data: [
+              {
+                name: this.$t('trans0193'),
+                icon: 'circle'
+              },
+              {
+                name: this.$t('trans0196'),
+                icon: 'circle'
+              }
+            ],
+            left: 0,
+            orient: 'vertical',
+            selectedMode: false
+          }
+        ],
+        series: [
+          {
+            type: 'graph',
+            edgeSymbol: ['circle', 'circle'],
+            edgeSymbolSize: 3,
+            cursor: 'default',
+            hoverAnimation: false,
+            label: {
+              normal: {
+                show: true,
+                position: 'bottom',
+                color: '#333'
+              }
+            },
+            data: data.nodes,
+            links: data.lines,
+            categories: [
+              { name: this.$t('trans0193') },
+              { name: this.$t('trans0196') }
+            ],
+            lineStyle: {
+              width: 3
+            }
+          }
+        ]
+      };
+      this.chart.setOption(option);
+    },
     format(v, type) {
       const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
       let index = -1;
@@ -435,41 +715,44 @@ export default {
           if (res.status === 200) {
             this.speedStatus = res.data.result.status;
             this.speedInfo = res.data.result;
-            if (res.data.result.status === 'done') {
+            if (res.data.result.status === CONSTANTS.SpeedTestStatus.done) {
               clearInterval(this.timer4);
-              this.testSpeedNumber = 40;
+              this.testSpeedNumber = this.testTimeout;
             }
-            if (res.data.result.status === 'failed') {
+            if (res.data.result.status === CONSTANTS.SpeedTestStatus.failed) {
               clearInterval(this.timer4);
-              this.testSpeedNumber = 40;
+              this.testSpeedNumber = this.testTimeout;
             }
           }
         })
         .catch(err => {
-          this.speedStatus = 'done';
+          this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           clearInterval(this.timer4);
-          this.testSpeedNumber = 40;
+          this.testSpeedNumber = this.testTimeout;
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },
     createSpeedTimer(force) {
       this.speedModelOpen = true;
-      this.speedStatus = 'testing';
+      this.speedStatus = CONSTANTS.SpeedTestStatus.testing;
       this.setOverflow();
-      this.speedTesting();
+      this.speedTesting(force);
       this.timer4 = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
           clearInterval(this.timer4);
-          this.speedStatus = 'done';
-          this.testSpeedNumber = 40;
+          this.speedStatus = CONSTANTS.SpeedTestStatus.done;
+          this.testSpeedNumber = this.testTimeout;
           return;
         }
-        if (this.testSpeedNumber % 5 === 0 && this.testSpeedNumber !== 40) {
-          this.speedTesting(force);
+        if (
+          this.testSpeedNumber % 5 === 0 &&
+          this.testSpeedNumber !== this.testTimeout
+        ) {
+          this.speedTesting();
         }
         this.testSpeedNumber -= 1;
       }, 1000);
@@ -491,7 +774,7 @@ export default {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
           if (this.enter) {
             this.timer1 = setTimeout(() => {
@@ -527,7 +810,8 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
-          this.meshNode = res.data.result;
+          // this.meshNode = res.data.result;
+          this.drawTopo(res.data.result);
           if (this.enter) {
             this.timer3 = setTimeout(() => {
               this.getMeshNode();
@@ -574,37 +858,20 @@ export default {
           }
         });
     },
-    testWan() {
-      this.netStatus = 'testing';
+    getWanStatus() {
+      this.netStatus = CONSTANTS.WanNetStatus.testing;
       const timer = setTimeout(() => {
         this.$http
-          .testWan()
+          .getWanStatus()
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
           })
           .catch(() => {
             clearTimeout(timer);
-            this.netStatus = 'unlinked';
+            this.netStatus = CONSTANTS.WanNetStatus.unlinked;
           });
       }, 1000);
-    },
-
-    diffMesh(item) {
-      let className = '';
-      if (item) {
-        if (item.rssi >= -50) {
-          className = 'signal-3';
-        }
-        if (item.rssi < -50 && item.rssi > -60) {
-          className = 'signal-2';
-        }
-        if (item.rssi < -60) {
-          className = 'signal-1';
-        }
-        className = `${className} ${item.is_gw && 'main'}`;
-      }
-      return className;
     }
   },
   beforeDestroy() {
@@ -893,7 +1160,7 @@ export default {
         padding: 0 10px;
         background: #f1f1f1;
         z-index: 111;
-        width: 57px;
+        width: 50px;
         height: 32px;
         // padding: 10px;
         background: #f1f1f1;
@@ -903,9 +1170,10 @@ export default {
       }
       .fail-icon {
         margin-left: 6px;
+        margin-top: 3px;
         position: absolute;
-        width: 26px;
-        height: 26px;
+        width: 20px;
+        height: 20px;
         background: url('../../../assets/images/ic_wifi_wrong.png');
         background-size: 100% 100%;
       }
@@ -1165,75 +1433,6 @@ export default {
       padding-top: 15px;
       :nth-child(1) {
         margin-left: 0 !important;
-      }
-      .mesh {
-        width: 220px;
-        height: 120px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-right: 20px;
-        border-radius: 6px;
-        overflow: hidden;
-        display: flex;
-
-        &.signal-3 {
-          background: linear-gradient(to left bottom, #20e779, #19d191);
-        }
-        &.signal-2 {
-          background: linear-gradient(to left bottom, #0089ff, #05befe);
-        }
-        &.signal-1 {
-          background: linear-gradient(to left bottom, #ff9575, #ff527a);
-        }
-        .message {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          padding-left: 20px;
-          width: 50%;
-          img {
-            width: 32px;
-            // height: 29px;
-          }
-          span {
-            font-size: 14px;
-            color: white;
-            padding-top: 10px;
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-        }
-        .status {
-          flex: 1;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          img {
-            width: 60px;
-            // height: 60px;
-          }
-        }
-      }
-      .main {
-        width: 260px;
-        margin-top: 10px;
-        margin-right: 40px;
-        display: flex;
-        .message {
-          img {
-            width: 40px;
-            // height: 55px;
-          }
-        }
-        .status {
-          img {
-            width: 80px;
-            // height: 80px;
-          }
-        }
       }
     }
   }
@@ -1534,17 +1733,31 @@ export default {
       .check-status {
         width: calc(100% - 200px);
         .fail-info {
-          width: 44px;
+          width: 20px;
           top: 20px;
+          padding: 0;
         }
         .fail-icon {
-          width: 18px;
-          height: 18px;
-          margin-top: 2px;
+          width: 16px;
+          height: 16px;
+          margin-top: 3px;
+          margin-left: 3px;
         }
         .success-line,
         .fail-line {
           min-width: 100px;
+          &.testing-animation {
+            background: none;
+            &::after {
+              content: '';
+              width: 10%;
+              display: block;
+              height: 3px;
+              background: url('../../../assets/images/ic_test_line.png')
+                repeat-x;
+              animation: speed-test-line linear 0.6s infinite;
+            }
+          }
         }
       }
     }

@@ -26,5 +26,12 @@ module.exports = {
     'no-underscore-dangle': 0,
     'no-bitwise': 0,
     'no-restricted-properties': 0
+  },
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: './build/webpack.base.conf.js'
+      }
+    }
   }
 };

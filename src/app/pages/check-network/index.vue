@@ -38,7 +38,7 @@ export default {
     },
     check() {
       this.$http
-        .testWan()
+        .getWanStatus()
         .then(res => {
           const timer = setTimeout(() => {
             clearTimeout(timer);

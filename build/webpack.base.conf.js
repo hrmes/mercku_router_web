@@ -37,6 +37,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       vue$: 'vue/dist/vue.esm.js',
+      echarts$: path.resolve(__dirname, '../static/echarts.min.js'),
       '@': resolve('src')
     }
   },

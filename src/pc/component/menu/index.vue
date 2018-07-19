@@ -8,12 +8,12 @@
       <span class="menu-icon menu" @click="show()"></span>
     </div>
     <ul class="menu" :class="{'show':showMenu}">
-      <li class="menu-item" @click="jump(menu)" v-for="menu in menus" :class="{'selected':$route.path.includes(menu.url)}">
+      <li class="menu-item" :key="menu.key" @click="jump(menu)" v-for="menu in list" :class="{'selected':$route.path.includes(menu.url)}">
         <span class="menu-icon" :class="[menu.icon]"></span>
         <span class="menu-text">{{$t(menu.text)}}</span>
         <span v-if="menu.children" class="menu-trigle" :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
         <ul v-if="menu.children" class="menu-children" :class="{'show':menu.expand}">
-          <li class="menu-child" @click.stop="jump(child)" v-for="child in menu.children" :class="{'selected':$route.path.includes(child.url)}">
+          <li class="menu-child" :key="child.key" @click.stop="jump(child)" v-for="child in menu.children" :class="{'selected':$route.path.includes(child.url)}">
             <span class="menu-icon"></span>
             <span class="menu-text">{{$t(child.text)}}</span>
           </li>
@@ -42,7 +42,8 @@ export default {
     return {
       current: null,
       showMenu: false,
-      bodyOverflow: ''
+      bodyOverflow: '',
+      list: []
     };
   },
   methods: {
@@ -81,7 +82,27 @@ export default {
           }
         }
       });
+    },
+    getList() {
+      const list = this.menus.map(m => {
+        if (m.children) {
+          let expand = false;
+          const children = m.children.map(mm => {
+            if (this.$route.path.includes(mm.url)) {
+              expand = true;
+            }
+            return { ...mm, children };
+          });
+          return { ...m, expand };
+        }
+        const expand = this.$route.path.includes(m.url);
+        return { ...m, expand };
+      });
+      return list;
     }
+  },
+  mounted() {
+    this.list = this.getList();
   }
 };
 </script>
@@ -162,6 +183,11 @@ export default {
         }
         &.exit {
           background: url(../../assets/images/ic_logout.png) no-repeat center;
+          background-size: 100%;
+        }
+        &.upgrade {
+          background: url(../../assets/images/ic_firmware_upgrade.png) no-repeat
+            center;
           background-size: 100%;
         }
       }

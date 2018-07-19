@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import 'babel-polyfill';
 
 import Button from 'vant/lib/button';
 import Field from 'vant/lib/field';
@@ -48,8 +47,7 @@ const launch = () => {
         !loader.instance &&
         !(
           NO_LOADING_METHODS.includes(conf.data.method) ||
-          (conf.data.method === ROUTER_LOGIN &&
-            !conf.data.params.admin_password)
+          (conf.data.method === ROUTER_LOGIN && !conf.data.params.password)
         )
       ) {
         loader.instance = Toast.loading({
