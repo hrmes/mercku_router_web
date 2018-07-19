@@ -34,6 +34,7 @@ const launch = () => {
             if (error.response.data.error.code === 600007) {
               Vue.prototype.$upgrade();
             }
+            break;
           default:
             break;
         }
