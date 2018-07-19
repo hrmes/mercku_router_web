@@ -13,8 +13,8 @@
               <p>1. 官网Mercku官方网站，下载最新固件。
                 <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
               </p>
-              <p>2. {{$t('trans0333')}}</p>
-              <p>3. {{$t('trans0333')}}</p>
+              <p>{{$t('trans0333')}}</p>
+              <p>{{$t('trans0332')}}</p>
             </div>
             <div class="upload">
               <m-upload :label="$t('trans0339')" :multiple="multiple" :accept="accept" :onSuccess="onSuccess" :onError="onError" />
@@ -54,9 +54,7 @@
         </div>
         <div class="mobile-wrapper">
           <img src="../../../assets/images/ic_hint.png" alt="">
-          <p>请在电脑上进行离线升级，手机网页不支持该操作
-          </p>
-
+          <p>{{$t('trans0343')}} </p>
         </div>
       </div>
     </div>
