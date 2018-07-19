@@ -19,7 +19,7 @@ export default {
   methods: {
     tohome() {
       this.$http
-        .getRouterMode()
+        .getRouter()
         .then(() => {
           this.$http.checkLogin().then(res => {
             if (res.data.result.status) {
