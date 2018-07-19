@@ -44,6 +44,11 @@ module.exports = {
         target: 'http://mywifi.mercku.tech',
         changeOrigin: true,
         secure: true
+      },
+      '/firmware_upload': {
+        target: 'http://mywifi.mercku.tech',
+        changeOrigin: true,
+        secure: true
       }
     }
   },
@@ -52,7 +57,6 @@ module.exports = {
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
     app: path.resolve(__dirname, '../dist/app.html'),
-
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),

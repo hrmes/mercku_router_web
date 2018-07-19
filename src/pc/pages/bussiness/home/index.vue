@@ -43,7 +43,7 @@
                 </div>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0300')}}：</label>
-                  {{localRouterInfo.version }}
+                  {{localRouterInfo.version.current }}
                 </div>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0200')}}：</label>
@@ -732,7 +732,7 @@ export default {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },
@@ -774,7 +774,7 @@ export default {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
           if (this.enter) {
             this.timer1 = setTimeout(() => {

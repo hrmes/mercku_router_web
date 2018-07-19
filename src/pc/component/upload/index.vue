@@ -87,7 +87,7 @@ export default {
     upload(file) {
       if (this.accept) {
         const entendName = this.getExtendName(file.name);
-        if (!/ma/i.test(entendName)) {
+        if (!/^ma$/i.test(entendName)) {
           this.$toast('文件名不匹配');
           return false;
         }
@@ -129,7 +129,7 @@ export default {
             this.percentage = 0;
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },

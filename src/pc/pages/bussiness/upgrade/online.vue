@@ -132,7 +132,7 @@ export default {
               this.requestResult.message = this.$t('trans0345');
             }
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },
@@ -162,7 +162,7 @@ export default {
                 if (err && err.error) {
                   this.$toast(this.$t(err.error.code));
                 } else {
-                  this.$router.push({ path: '/disappear' });
+                  this.$router.push({ path: '/unconnect' });
                 }
               });
           }

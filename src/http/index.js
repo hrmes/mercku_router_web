@@ -103,10 +103,20 @@ const methods = {
   upgrade: {
     url,
     action: 'mesh.node.upgrade' // 升级
+  },
+  routerMode: {
+    url,
+    action: 'router.mode.get'
   }
 };
 
 const http = {
+  getRouterMode() {
+    return axios.post(methods.routerMode.url, {
+      method: methods.routerMode.action
+    });
+  },
+
   getAdmin() {
     return axios.post(methods.routerAdminGet.url, {
       method: methods.meshAdminUpdate.action
@@ -120,9 +130,7 @@ const http = {
   },
   /* v0.9 start */
   firmwareUpload(parmas, callback) {
-    const {
-      CancelToken
-    } = axios;
+    const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
       url: `/${methods.firmwareUpload.action}`,
@@ -230,7 +238,7 @@ const http = {
     return axios.post(methods.login.url, {
       method: methods.login.action,
       params: {
-        admin_password: pwd
+        password: pwd
       }
     });
   },
@@ -296,8 +304,4 @@ const configRequestInterceptors = (before, error) => {
   const errorCallback = error || noop;
   axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-};
+export { http, configResponseInterceptors, configRequestInterceptors };
