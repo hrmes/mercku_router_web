@@ -1,3 +1,5 @@
+import { SubmitBar } from 'vant';
+
 export default {
   adapt: () => {
     const doc = document;
@@ -151,13 +153,16 @@ export const ipRule = (ip, mask) => {
 };
 
 export const compareVersion = (version1, version2) => {
-  // 过滤可升级节点
-  const cstr = version1.split('.').join('');
-  const lstr = version2.split('.').join('');
-
-  const v1 = parseInt(cstr, 10);
-
-  const v2 = parseInt(lstr, 10);
+  const v1 = version1.split('.').reduce((sum, next) => {
+    sum = sum << 8;
+    sum += parseInt(next, 10);
+    return sum;
+  }, 0);
+  const v2 = version2.split('.').reduce((sum, next) => {
+    sum = sum << 8;
+    sum += parseInt(next, 10);
+    return sum;
+  }, 0);
 
   return v2 > v1 ? true : false;
 };
