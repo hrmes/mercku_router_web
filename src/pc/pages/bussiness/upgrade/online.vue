@@ -148,9 +148,7 @@ export default {
             });
             const nodeIds = this.nodes.map(n => n.sn);
             this.$http
-              .upgradeMeshNode({
-                node_ids: nodeIds
-              })
+              .upgradeMeshNode({ node_ids: nodeIds })
               .then(() => {
                 this.$upgrade({
                   onsuccess: () => {
