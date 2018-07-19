@@ -238,7 +238,7 @@ export default {
     };
   },
   mounted() {
-    this.testWan();
+    this.getWanStatus();
     this.getWanNetInfo();
   },
   computed: {
@@ -327,10 +327,10 @@ export default {
         this.staticForm.mask
       );
     },
-    testWan() {
+    getWanStatus() {
       this.netStatus = CONSTANTS.WanNetStatus.testing;
       this.$http
-        .testWan()
+        .getWanStatus()
         .then(res => {
           this.netStatus = res.data.result.status;
         })

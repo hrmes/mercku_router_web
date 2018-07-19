@@ -120,7 +120,7 @@ export default {
       };
       this.routerConfig.setWan('static', form);
       this.$http
-        .update(this.routerConfig.getConfig())
+        .updateMeshConfig(this.routerConfig.getConfig())
         .then(() => {
           this.$router.replace('/complete');
         })

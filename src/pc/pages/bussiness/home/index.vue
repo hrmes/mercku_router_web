@@ -480,7 +480,7 @@ export default {
     };
   },
   mounted() {
-    this.testWan();
+    this.getWanStatus();
     this.getRouter();
     this.getWanNetInfo();
     this.createTimer();
@@ -858,11 +858,11 @@ export default {
           }
         });
     },
-    testWan() {
+    getWanStatus() {
       this.netStatus = CONSTANTS.WanNetStatus.testing;
       const timer = setTimeout(() => {
         this.$http
-          .testWan()
+          .getWanStatus()
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
