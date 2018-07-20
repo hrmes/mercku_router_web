@@ -28,6 +28,7 @@ export const AppMessage = {
   forward2wifi: 'JUMP_SYSTEM_WIFI_SETTING'
 };
 export const UploadStatus = {
+  ready: 'ready',
   success: 'success',
   fail: 'fail',
   uploading: 'uploading'

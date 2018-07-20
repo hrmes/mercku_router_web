@@ -19,9 +19,9 @@
               <p>3.{{$t('trans0348')}}</p>
             </div>
             <div class="upload">
-              <m-upload :label="$t('trans0339')" :multiple="multiple" :accept="accept" :onSuccess="onSuccess" :onError="onError" />
+              <m-upload ref="uploader" :onCanel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
             </div>
-            <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
+            <div class="nodes-wrapper" v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
               <p class="title">{{$t('trans0333')}}</p>
               <div class="nodes-info">
                 <div v-for="node in localNodes" :key="node.sn" class="node">
@@ -47,7 +47,7 @@
                 <button class="btn re-btn">{{$t('trans0211')}}</button>
               </div>
             </div>
-            <div class="description-wrapper" v-if="uploadComplete&&!hasUpgradablityNodes">
+            <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
               <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
               <p>{{$t('trans0337')}}</p>
               <p>{{$t('trans0335')}}</p>
@@ -66,27 +66,27 @@
 <script>
 import layout from '../../../layout.vue';
 import Upload from '../../../component/upload/index.vue';
-import Progress from '../../../component/progress/index.vue';
-import { RouterSnModel } from '../../../../util/constant';
+import { RouterSnModel, UploadStatus } from '../../../../util/constant';
+import { getFileExtendName } from '../../../../util/util';
 
 export default {
   components: {
     layout,
-    'm-upload': Upload,
-    'm-progress': Progress
+    'm-upload': Upload
   },
   data() {
     return {
       files: [],
       RouterSnModel,
-      multiple: 1,
       accept: '.ma',
       localNodes: [],
-      uploadComplete: false
+      UploadStatus,
+      uploadStatus: UploadStatus.ready,
+      cancelToken: null
     };
   },
   beforeRouteLeave(_, __, next) {
-    if (this.uploadComplete) {
+    if (this.uploadStatus === UploadStatus.success) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
@@ -107,28 +107,60 @@ export default {
   computed: {
     hasUpgradablityNodes() {
       return this.localNodes.length > 0;
-    },
-    hasUploadFile() {
-      return this.files.length > 0;
     }
   },
   methods: {
-    onSuccess(res, files) {
-      this.files = files;
-      this.uploadComplete = true;
-      const data = res.data.result;
-      if (data && data.length > 0) {
-        this.localNodes = data.filter(v => v.updatable);
+    beforeUpload(files) {
+      const file = files[0];
+      const uploader = this.$refs.uploader;
+      const entendName = getFileExtendName(file);
+      const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
+      if (!reg.test(entendName)) {
+        uploader.err = this.$t('trans0271');
+        return false;
       }
+      if (file.size === 0) {
+        uploader.err = this.$t('trans0341');
+        return false;
+      }
+      return true;
     },
-    onError(err, files, cancel) {
-      this.files = files;
-      if (cancel.token.reason) {
-        return;
-      }
-      if (!err || !err.error) {
-        this.$router.push({ path: '/unconnect' });
-      }
+    onCancel() {
+      this.cancelToken.cancel('cancel');
+    },
+    upload(files) {
+      this.uploadStatus = UploadStatus.uploading;
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      const uploader = this.$refs.uploader;
+      return this.$http
+        .firmwareUpload(formData, (progressEvent, token) => {
+          this.cancelToken = token;
+          const { loaded, total, lengthComputable } = progressEvent;
+          if (lengthComputable) {
+            uploader.percentage = Math.floor(loaded / total * 100);
+            uploader.status =
+              loaded >= total ? UploadStatus.success : UploadStatus.uploading;
+          }
+        })
+        .then(res => {
+          uploader.status = UploadStatus.success;
+          this.uploadStatus = UploadStatus.success;
+          const data = res.data.result;
+          if (data && data.length > 0) {
+            this.localNodes = data.filter(v => v.updatable);
+          }
+        })
+        .catch(err => {
+          uploader.status = UploadStatus.fail;
+          this.uploadStatus = UploadStatus.fail;
+          uploader.percentage = 0;
+          if (err && err.error) {
+            uploader.err = err.error.code;
+          } else if (!err.message) {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
     },
     upgrade() {
       const ids = this.localNodes.map(v => v.sn);
