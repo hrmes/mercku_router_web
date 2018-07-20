@@ -19,7 +19,7 @@
               <p>3.{{$t('trans0348')}}</p>
             </div>
             <div class="upload">
-              <m-upload ref="uploader" :onCanel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
+              <m-upload ref="uploader" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
             </div>
             <div class="nodes-wrapper" v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
               <p class="title">{{$t('trans0333')}}</p>
@@ -27,11 +27,11 @@
                 <div v-for="node in localNodes" :key="node.sn" class="node">
                   <div class="badge-info">
                     <img src="../../../assets/images/ic_new_version.png" alt="">
-                    <span>{{$t('trans0210')}}{{node.version.latest}}</span>
+                    <span>{{$t('trans0210')}}{{packageInfo.version}}</span>
                   </div>
                   <div class="message">
-                    <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
-                    <img class="img-bee" v-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
+                    <img class="img-m2" v-if="packageInfo.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
+                    <img class="img-bee" v-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
                     <div>
                       <p class="node-name">{{node.name}}</p>
                       <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
@@ -44,7 +44,7 @@
                 </div>
               </div>
               <div class="btn-info">
-                <button class="btn re-btn">{{$t('trans0211')}}</button>
+                <button @click="upgrade()" class="btn re-btn">{{$t('trans0211')}}</button>
               </div>
             </div>
             <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
@@ -82,7 +82,8 @@ export default {
       localNodes: [],
       UploadStatus,
       uploadStatus: UploadStatus.ready,
-      cancelToken: null
+      cancelToken: null,
+      packageInfo: null
     };
   },
   beforeRouteLeave(_, __, next) {
@@ -147,10 +148,8 @@ export default {
         .then(res => {
           uploader.status = UploadStatus.success;
           this.uploadStatus = UploadStatus.success;
-          const data = res.data.result;
-          if (data && data.length > 0) {
-            this.localNodes = data.filter(v => v.updatable);
-          }
+          this.localNodes = res.data.result.nodes;
+          this.packageInfo = res.data.result.fw_info;
         })
         .catch(err => {
           uploader.status = UploadStatus.fail;

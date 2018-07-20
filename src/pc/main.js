@@ -106,7 +106,7 @@ const launch = () => {
             break;
         }
       }
-      if (error.message) {
+      if (error.message === 'cancel') {
         return Promise.reject(error);
       }
       if (error.response && error.response.data) {
