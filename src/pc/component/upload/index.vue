@@ -70,7 +70,7 @@ export default {
       return this.status === UploadStatus.fail;
     },
     width() {
-      const percent = Math.min(this.percentage / 100, 100);
+      const percent = Math.min(this.percentage, 100);
       return `${percent}%`;
     }
   },

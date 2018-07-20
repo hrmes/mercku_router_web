@@ -129,10 +129,11 @@ export default {
       this.cancelToken.cancel('cancel');
     },
     upload(files) {
-      this.uploadStatus = UploadStatus.uploading;
       const formData = new FormData();
       formData.append('file', files[0]);
       const uploader = this.$refs.uploader;
+      this.uploadStatus = UploadStatus.uploading;
+      uploader.status = UploadStatus.uploading;
       return this.$http
         .firmwareUpload(formData, (progressEvent, token) => {
           this.cancelToken = token;
