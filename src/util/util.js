@@ -164,3 +164,13 @@ export const compareVersion = (version1, version2) => {
 
   return v2 > v1;
 };
+
+export const getFileExtendName = file => {
+  if (file) {
+    const r = file.name.split('.');
+    if (r.length) {
+      return r[r.length - 1];
+    }
+  }
+  return '';
+};

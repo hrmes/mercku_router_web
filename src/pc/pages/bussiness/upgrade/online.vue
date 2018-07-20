@@ -92,7 +92,7 @@ export default {
           const data = res.data.result;
           this.requestResult.complete = true;
           this.nodes = data.filter(node =>
-            compareVersion(node.version.current, node.version.lastest)
+            compareVersion(node.version.current, node.version.latest)
           );
         })
         .catch(err => {
@@ -118,9 +118,6 @@ export default {
         message: this.$t('trans0213'),
         callback: {
           ok: () => {
-            this.$loading.open({
-              template: this.$t('trans0212')
-            });
             const nodeIds = this.nodes.map(n => n.sn);
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds })

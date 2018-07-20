@@ -8,10 +8,10 @@
       <img src="../../assets/images/ic_file.png" alt="" width="18" />
       <div class="des-cnt">
         <span> {{file.name}} &nbsp;&nbsp;{{(file.size/1024/1024).toFixed(2)}}MB</span>
-        <img src="../../assets/images/ic_delete.png" alt="" width="10" @click="cancel(file)" />
+        <img v-if="uploadLoading" src="../../assets/images/ic_delete.png" alt="" width="10" @click="cancel(file)" />
         <div class="line" v-if="!uplodaSuccess">
-          <span :class="{'loading':uploadLoading,'fail':uploadFail}" :style="style"></span>
-          <span v-if="uploadFail">{{$t(err) || $t('trans0341')}}</span>
+          <span :class="{'loading':uploadLoading,'fail':uploadFail}" :style="{'width':width}"></span>
+          <span v-if="uploadFail">{{err || $t('trans0341')}}</span>
         </div>
       </div>
 
@@ -24,41 +24,39 @@ import { UploadStatus } from '../../../util/constant';
 export default {
   props: {
     onSuccess: {
-      type: Function,
-      default: () => {}
+      type: Function
     },
     onError: {
-      type: Function,
-      default: () => {}
+      type: Function
     },
-    acceptHttp: {
-      type: Boolean,
-      default: false
+    onCancel: {
+      type: Function
     },
     label: {
       type: String,
       default: ''
     },
     multiple: {
-      type: Number,
-      default: 1
+      type: Boolean,
+      default: false
     },
     accept: {
       type: String,
       default: ''
+    },
+    request: {
+      type: Function
+    },
+    beforeUpload: {
+      type: Function
     }
   },
   data() {
     return {
-      UploadStatus,
       files: [],
       percentage: 0,
-      status: UploadStatus.success,
-      source: null,
-      err: '',
-      style: {
-        width: 0
-      }
+      status: UploadStatus.ready,
+      err: ''
     };
   },
   computed: {
@@ -70,81 +68,48 @@ export default {
     },
     uploadFail() {
       return this.status === UploadStatus.fail;
+    },
+    width() {
+      const percent = Math.min(this.percentage / 100, 100);
+      return `${percent}%`;
     }
   },
   methods: {
     click() {
-      console.log(this.$refs.upload);
+      this.files = [];
+      this.err = '';
+      this.percentage = 0;
+      this.status = UploadStatus.ready;
+      this.$refs.upload.value = null;
       this.$refs.upload.click();
     },
-    getExtendName(fileName) {
-      const r = fileName.split('.');
-      if (r.length) {
-        return r[r.length - 1];
-      }
-      return '';
-    },
+
     handleChange(ev) {
       const files = ev.target.files;
-      if (!files) return;
+      if (files && !files.length) return;
       const postFiles = Array.prototype.slice.call(files);
-      this.upload(postFiles[0]);
+      this.upload(postFiles);
     },
-
-    upload(file) {
-      if (this.accept) {
-        const entendName = this.getExtendName(file.name);
-        if (!/^ma$/i.test(entendName)) {
-          this.$toast(this.$t('trans0271'));
-          return false;
-        }
-        if (file.size === 0) {
-          this.$toast(this.$t('trans0341'));
-          return false;
-        }
+    upload(files) {
+      this.files = files;
+      if (this.beforeUpload && !this.beforeUpload(this.files)) {
+        this.status = UploadStatus.fail;
+        return false;
       }
-      if (!this.acceptHttp) {
-        this.files = [file];
-        this.post(this.files);
+      if (!this.request) {
+        // 组件内部实现自己的上传逻辑 this.post(this.files);
+      } else {
+        // 外部上传
+        this.request(this.files);
       }
       return true;
     },
-    post(files) {
-      const fd = new FormData();
-      files.forEach(v => fd.append('file', v));
-      this.$http
-        .firmwareUpload(fd, (progressEvent, source) => {
-          this.source = source;
-          if (progressEvent.lengthComputable) {
-            this.percentage = Math.floor(
-              progressEvent.loaded / progressEvent.total * 100
-            );
-            this.style.width = `${this.percentage / 100 * 260}px`;
-            this.status =
-              progressEvent.loaded >= progressEvent.total
-                ? UploadStatus.success
-                : UploadStatus.uploading;
-          }
-        })
-        .then(res => {
-          this.status = UploadStatus.success;
-          this.onSuccess(res, this.files);
-        })
-        .catch(err => {
-          if (err && err.error) {
-            this.err = err.error.code;
-          }
-          this.status = UploadStatus.fail;
-          this.percentage = 0;
-          this.onError(err, this.files, this.source);
-        });
-    },
     cancel(file) {
-      if (this.source) {
-        this.source.cancel('cancel upload');
-      }
+      // 组件内部的取消逻辑
       this.files = this.files.filter(v => v.name !== file.name);
       this.$refs.upload.value = null;
+      this.status = UploadStatus.ready;
+      this.onCancel && this.onCancel(file);
     }
   }
 };
@@ -221,25 +186,27 @@ export default {
       }
     }
   }
-  .btn {
-    width: auto;
-    height: 32px;
-    &[disabled] {
-      background: #999;
-    }
-  }
   .fileinput-button {
     position: relative;
     display: inline-block;
-    overflow: hidden;
+    width: auto;
+    height: 32px;
+    cursor: pointer;
+    &[disabled] {
+      background: #999;
+      cursor: not-allowed;
+      label {
+        cursor: not-allowed;
+      }
+    }
     label {
       display: flex;
       justify-content: center;
       width: 100%;
       height: 100%;
       align-items: center;
-      cursor: pointer;
       margin: 0;
+      cursor: pointer;
       img {
         width: 14px;
         margin-right: 5px;

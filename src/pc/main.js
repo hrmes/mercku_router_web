@@ -43,32 +43,42 @@ const launch = () => {
       }
     }, 1000);
   };
-  const upgrade = options => {
-    loading.open({
-      template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
-    });
-    const opt = {
-      ...{
-        onsuccess: () => {},
-        ontimeout: () => {},
-        onprogress: () => {},
-        timeout: 99999999
-      },
-      ...options
+
+  const upgradeService = () => {
+    let serviceStarted = false;
+    return options => {
+      if (!serviceStarted) {
+        serviceStarted = true;
+        loading.open({
+          template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
+        });
+        const opt = {
+          ...{
+            onsuccess: () => {},
+            ontimeout: () => {},
+            onprogress: () => {},
+            timeout: 99999999
+          },
+          ...options
+        };
+        reconnect({
+          onsuccess: () => {
+            serviceStarted = false;
+            loading.close();
+            opt.onsuccess();
+          },
+          ontimeout: () => {
+            serviceStarted = false;
+            this.$loading.close();
+            opt.ontimeout();
+          },
+          timeout: opt.timeout
+        });
+      }
     };
-    reconnect({
-      onsuccess: () => {
-        loading.close();
-        opt.onsuccess();
-      },
-      ontimeout: () => {
-        this.$loading.close();
-        opt.ontimeout();
-      },
-      timeout: opt.timeout
-    });
   };
 
+  const upgrade = upgradeService();
   configRequestInterceptors(
     config => {
       const conf = config;
@@ -96,7 +106,13 @@ const launch = () => {
             break;
         }
       }
-      return Promise.reject(error.response.data);
+      if (error.message) {
+        return Promise.reject(error);
+      }
+      if (error.response && error.response.data) {
+        return Promise.reject(error.response.data);
+      }
+      return Promise.reject(error);
     }
   );
 

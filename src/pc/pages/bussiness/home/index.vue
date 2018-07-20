@@ -609,11 +609,11 @@ export default {
           {
             data: [
               {
-                name: this.$t('trans0193'),
+                name: `${this.$t('trans0193')}${this.$t('trans0193')}`,
                 icon: 'circle'
               },
               {
-                name: this.$t('trans0196'),
+                name: `${this.$t('trans0193')}${this.$t('trans0196')}`,
                 icon: 'circle'
               }
             ],
@@ -643,7 +643,7 @@ export default {
               { name: this.$t('trans0196') }
             ],
             lineStyle: {
-              width: 3
+              width: 2
             }
           }
         ]
