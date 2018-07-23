@@ -36,7 +36,7 @@ export default {
     submit() {
       this.$http
         .reboot()
-        .then(res => {
+        .then(() => {
           this.reboot = true;
           this.$reconnect({
             onsuccess: () => {

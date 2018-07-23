@@ -54,7 +54,7 @@ export default {
         this.$loading.open();
         this.$http
           .updateAdmin(this.form)
-          .then(res => {
+          .then(() => {
             this.$loading.close();
             this.$router.push({ path: '/login' });
           })
