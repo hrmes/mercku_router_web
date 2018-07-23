@@ -151,6 +151,9 @@ export const ipRule = (ip, mask) => {
 };
 
 export const compareVersion = (version1, version2) => {
+  if (!version2) {
+    return false;
+  }
   const v1 = version1.split('.').reduce((sum, next) => {
     sum <<= 8;
     sum += parseInt(next, 10);
