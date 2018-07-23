@@ -7,7 +7,7 @@
         </div>
       </div>
     </div>
-    <div class="note">{{label}}{{during}}s</div>
+    <div class="note">{{label}}{{countdown}}s</div>
     <p style="color:white">{{description}}</p>
   </div>
 </template>
@@ -33,7 +33,8 @@ export default {
       timer: null,
       styles: {
         width: 0
-      }
+      },
+      countdown: this.during
     };
   },
   mounted() {
@@ -44,11 +45,11 @@ export default {
     createTiemr() {
       const average = 100 / this.during;
       this.timer = setInterval(() => {
-        this.during -= 1;
+        this.countdown -= 1;
         this.percent += average;
         this.styles.width = `${this.percent}%`;
         console.log('percent is:', this.percent);
-        if (!this.during) clearTimeout(this.timer);
+        if (!this.countdown) clearTimeout(this.timer);
       }, 1000);
     },
     setOverflow() {
