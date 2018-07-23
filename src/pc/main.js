@@ -90,21 +90,18 @@ const launch = () => {
     res => res,
     error => {
       const { response } = error;
-      if (response) {
-        if (
-          response.status === 401 &&
-          !window.location.href.includes('login')
-        ) {
-          window.location.href = '/';
-        } else if (
-          response.status === 400 &&
-          response.data.error.code === 600007
-        ) {
-          upgrade();
-        }
-        return Promise.reject(error.response.data);
+      if (!response) {
+        return Promise.reject(error);
       }
-      return Promise.reject(error);
+      if (response.status === 401 && !window.location.href.includes('login')) {
+        window.location.href = '/';
+      } else if (
+        response.status === 400 &&
+        response.data.error.code === 600007
+      ) {
+        upgrade();
+      }
+      return Promise.reject(error.response.data);
     }
   );
 
