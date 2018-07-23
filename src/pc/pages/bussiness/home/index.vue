@@ -43,7 +43,7 @@
                 </div>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0300')}}：</label>
-                  {{localRouterInfo.version }}
+                  {{localRouterInfo.version.current }}
                 </div>
                 <div class="m-item">
                   <label class="m-title">{{$t('trans0200')}}：</label>
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="m-item">
-                  <label class="m-title">{{$t('trans0251')}}:</label>
+                  <label class="m-title">{{$t('trans0251')}}：</label>
                   {{localRouterInfo.sn }}
                 </div>
               </div>
@@ -480,7 +480,7 @@ export default {
     };
   },
   mounted() {
-    this.testWan();
+    this.getWanStatus();
     this.getRouter();
     this.getWanNetInfo();
     this.createTimer();
@@ -609,11 +609,11 @@ export default {
           {
             data: [
               {
-                name: this.$t('trans0193'),
+                name: `${this.$t('trans0193')}${this.$t('trans0193')}`,
                 icon: 'circle'
               },
               {
-                name: this.$t('trans0196'),
+                name: `${this.$t('trans0193')}${this.$t('trans0196')}`,
                 icon: 'circle'
               }
             ],
@@ -643,7 +643,7 @@ export default {
               { name: this.$t('trans0196') }
             ],
             lineStyle: {
-              width: 3
+              width: 2
             }
           }
         ]
@@ -732,7 +732,7 @@ export default {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },
@@ -774,7 +774,7 @@ export default {
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
           if (this.enter) {
             this.timer1 = setTimeout(() => {
@@ -858,11 +858,11 @@ export default {
           }
         });
     },
-    testWan() {
+    getWanStatus() {
       this.netStatus = CONSTANTS.WanNetStatus.testing;
       const timer = setTimeout(() => {
         this.$http
-          .testWan()
+          .getWanStatus()
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;

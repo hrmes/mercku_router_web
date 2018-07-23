@@ -58,7 +58,7 @@ export default {
               .then(() => {
                 const config = this.routerConfig.getConfig();
                 this.$http
-                  .update({
+                  .updateMeshConfig({
                     ...config.wifi
                   })
                   .then(() => {

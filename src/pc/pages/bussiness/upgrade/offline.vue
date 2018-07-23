@@ -2,53 +2,61 @@
   <layout>
     <div class="upgrade-offline-container">
       <div class="content">
-        <div class='w-header'>{{$t('trans0204')}}</div>
-        <div class="form">
-          <div class="description">
-            <h4>
-              <img src="../../../assets/images/ic_question.png" alt="">
-              <span> {{$t('trans0331')}}</span>
-            </h4>
-            <p>1. 官网Mercku官方网站，下载最新固件。
-              <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
-            </p>
-            <p>2. {{$t('trans0333')}}</p>
-            <p>3. {{$t('trans0333')}}</p>
-          </div>
-          <div class="upload">
-            <m-upload :label="$t('trans0339')" :percentage="percentage" :uploadStatus="status" :fileList="fileList" :multiple="multiple" :accept="accept" :berforUpload="beforeUpload" :uploadFiles="uploadFiles" :handleRemove="handleRemove" />
-          </div>
-          <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
-            <p class="title">{{$t('trans0333')}}</p>
-            <div class="nodes-info">
-              <div v-for="node in localNodes" :key="node.sn" class="node">
-                <div class="badge-info">
-                  <img src="../../../assets/images/ic_new_version.png" alt="">
-                  <span>{{$t('trans0210')}}{{node.version.latest}}</span>
-                </div>
-                <div class="message">
-                  <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
-                  <img class="img-bee" v-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
-                  <div>
-                    <p class="node-name">{{node.name}}</p>
-                    <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
-                    <p class="node-version">
-                      <span class="dot"></span>
-                      <span>{{$t('trans0209')}}{{node.version.current}}</span>
-                    </p>
+        <div class="pc-wrapper">
+          <div class='w-header'>{{$t('trans0204')}}</div>
+          <div class="form">
+            <div class="description">
+              <h4>
+                <img src="../../../assets/images/ic_question.png" alt="">
+                <span> {{$t('trans0331')}}</span>
+              </h4>
+              <p>1.
+                <span>{{$t('trans0332')}}</span>
+                <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
+                <span>,{{$t('trans0346')}}</span>
+              </p>
+              <p>2.{{$t('trans0339')}}</p>
+              <p>3.{{$t('trans0348')}}</p>
+            </div>
+            <div class="upload">
+              <m-upload ref="uploader" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
+            </div>
+            <div class="nodes-wrapper" v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
+              <p class="title">{{$t('trans0333')}}</p>
+              <div class="nodes-info">
+                <div v-for="node in localNodes" :key="node.sn" class="node">
+                  <div class="badge-info">
+                    <img src="../../../assets/images/ic_new_version.png" alt="">
+                    <span>{{$t('trans0210')}}{{packageInfo.version}}</span>
+                  </div>
+                  <div class="message">
+                    <img class="img-m2" v-if="packageInfo.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
+                    <img class="img-bee" v-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
+                    <div>
+                      <p class="node-name">{{node.name}}</p>
+                      <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
+                      <p class="node-version">
+                        <span class="dot"></span>
+                        <span>{{$t('trans0209')}}{{node.version.current}}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="btn-info">
+                <button @click="upgrade()" class="btn re-btn">{{$t('trans0211')}}</button>
+              </div>
             </div>
-            <div class="btn-info">
-              <button class="btn re-btn" @click="submit()">{{$t('trans0211')}}</button>
+            <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
+              <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
+              <p>{{$t('trans0337')}}</p>
+              <p>{{$t('trans0335')}}</p>
             </div>
           </div>
-          <div class="description-wrapper">
-            <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
-            <p>1. 下载路由器固件时，请仔细核对路由器底部标签上的型号和产品名称，确保准确性。</p>
-            <p>{{$t('trans0337')}}</p>
-          </div>
+        </div>
+        <div class="mobile-wrapper">
+          <img src="../../../assets/images/ic_hint.png" alt="">
+          <p>{{$t('trans0343')}} </p>
         </div>
       </div>
     </div>
@@ -58,35 +66,44 @@
 <script>
 import layout from '../../../layout.vue';
 import Upload from '../../../component/upload/index.vue';
-import Progress from '../../../component/progress/index.vue';
-import { RouterSnModel } from '../../../../util/constant';
-
-const arr = Array.from(new Array(0)).map((_, i) => ({
-  sn: `01010301230123${i}`,
-  model: { id: i % 2 === 0 ? '01' : '02' },
-  name: `mercku_00${i}`,
-  version: {
-    current: `0.0.${i}`,
-    latest: '1.1.1'
-  }
-}));
+import { RouterSnModel, UploadStatus } from '../../../../util/constant';
+import { getFileExtendName } from '../../../../util/util';
 
 export default {
   components: {
     layout,
-    'm-upload': Upload,
-    'm-progress': Progress
+    'm-upload': Upload
   },
   data() {
     return {
+      files: [],
       RouterSnModel,
-      fileList: [],
-      multiple: 1,
-      accept: '.bin',
-      percentage: 0,
-      status: 'uploading',
-      localNodes: arr
+      accept: '.ma',
+      localNodes: [],
+      UploadStatus,
+      uploadStatus: UploadStatus.ready,
+      cancelToken: null,
+      packageInfo: null
     };
+  },
+  beforeRouteLeave(_, __, next) {
+    if (this.uploadStatus === UploadStatus.success) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0334'),
+        callback: {
+          ok: () => {
+            next();
+          },
+          cancel: () => {
+            next(false);
+          }
+        }
+      });
+    } else {
+      next();
+    }
   },
   computed: {
     hasUpgradablityNodes() {
@@ -94,60 +111,75 @@ export default {
     }
   },
   methods: {
-    getExtendName(fileName) {
-      const r = fileName.split('.');
-      if (r.length) {
-        return r[r.length - 1];
-      }
-      return '';
-    },
-    beforeUpload(file) {
-      const entendName = this.getExtendName(file.name);
-      if (!/bin/i.test(entendName)) {
-        console.log('文件名不匹配', entendName);
+    beforeUpload(files) {
+      const file = files[0];
+      const uploader = this.$refs.uploader;
+      const entendName = getFileExtendName(file);
+      const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
+      if (!reg.test(entendName)) {
+        uploader.err = this.$t('trans0271');
         return false;
       }
       if (file.size === 0) {
-        console.log('文件大小不匹配', file.size);
+        uploader.err = this.$t('trans0341');
         return false;
       }
       return true;
     },
-    uploadFiles(file) {
-      this.fileList.push(file);
-      this.submit();
+    onCancel() {
+      this.cancelToken.cancel('cancel');
     },
-    handleRemove(file) {
-      this.fileList = this.fileList.filter(v => v.name !== file.name);
-    },
-    submit() {
-      const fd = new FormData();
-      this.fileList.forEach(v => fd.append('file', v));
-      this.$http
-        .firmwareUpload(fd, progressEvent => {
-          console.log(progressEvent);
-          if (progressEvent.lengthComputable) {
-            this.percentage = progressEvent.loaded / progressEvent.total;
-            console.log(this.percentage);
-            this.status =
-              progressEvent.loaded >= progressEvent.total
-                ? 'success'
-                : 'uploading';
+    upload(files) {
+      const formData = new FormData();
+      formData.append('file', files[0]);
+      const uploader = this.$refs.uploader;
+      this.uploadStatus = UploadStatus.uploading;
+      uploader.status = UploadStatus.uploading;
+      return this.$http
+        .firmwareUpload(formData, (progressEvent, token) => {
+          this.cancelToken = token;
+          const { loaded, total, lengthComputable } = progressEvent;
+          if (lengthComputable) {
+            uploader.percentage = Math.floor(loaded / total * 100);
+            uploader.status =
+              loaded >= total ? UploadStatus.success : UploadStatus.uploading;
           }
         })
         .then(res => {
-          const data = res.data.result;
-          this.localNodes = data.filter(v => v.updatable);
+          uploader.status = UploadStatus.success;
+          this.uploadStatus = UploadStatus.success;
+          this.localNodes = res.data.result.nodes;
+          this.packageInfo = res.data.result.fw_info;
         })
         .catch(err => {
-          console.log(err);
+          uploader.status = UploadStatus.fail;
+          this.uploadStatus = UploadStatus.fail;
+          uploader.percentage = 0;
+          if (err && err.error) {
+            uploader.err = err.error.code;
+          } else if (!err.message) {
+            this.$router.push({ path: '/unconnect' });
+          }
         });
     },
     upgrade() {
       const ids = this.localNodes.map(v => v.sn);
-      this.$http.upgrade({ node_ids: ids, local: true }).then(res => {
-        console.log(res);
-      });
+      this.$http
+        .upgradeMeshNode({ node_ids: ids, local: true })
+        .then(() => {
+          this.$upgrade({
+            onsuccess: () => {
+              this.$router.push({ path: '/home' });
+            }
+          });
+        })
+        .catch(err => {
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
     }
   }
 };
@@ -318,22 +350,52 @@ export default {
         }
       }
       .btn-info {
-        margin-top: 40px;
+        margin: 100px 0;
       }
     }
   }
 }
+@media screen and (min-width: 769px) {
+  .pc-wrapper {
+    display: block;
+  }
+  .mobile-wrapper {
+    display: none;
+  }
+}
 @media screen and (max-width: 768px) {
-  .setting-safe-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
+  .upgrade-offline-container {
+    .pc-wrapper {
+      display: none;
+    }
+    .mobile-wrapper {
+      display: block;
+      text-align: center;
+      font-size: 14px;
+      color: #333333;
+      img {
+        width: 30px;
+        margin-top: 70px;
       }
-      min-height: 510px;
-      background: white;
+    }
+    padding: 20px 16px;
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 999px) {
+  .upgrade-offline-container {
+    .content {
+      .nodes-wrapper {
+        .nodes-info {
+          .node {
+            width: 340px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      }
+      .btn-info {
+        margin: 20px 0;
+      }
     }
   }
 }

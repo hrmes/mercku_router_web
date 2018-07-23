@@ -1,7 +1,6 @@
 <template>
   <layout>
     <div class="upgrade-online-container">
-      <m-progress v-if="upgrade" :label="$t('trans0141')" :description="$t('trans0212')" :during="duraing"></m-progress>
       <div class="content">
         <div class='w-header'>
           {{$t('trans0202')}}
@@ -32,12 +31,16 @@
           </div>
         </div>
         <div class="msg-wrapper" v-else>
-          <div v-if="!hasUpgradablityNodes && !requestResult.fail">
+          <div v-if="!hasUpgradablityNodes && requestResult.complete &&  !requestResult.error">
             <img src="../../../assets/images/img_new_version.png" alt="" width="220">
             <p>{{$t('trans0259')}}</p>
           </div>
-          <div v-if="requestResult.fail">
+          <div v-if="requestResult.error && requestResult.error === Errors.NO_INTERNET_ACCESS">
             <img src="../../../assets/images/img_no_network_access.png" alt="" width="220">
+            <p>{{requestResult.message}}</p>
+          </div>
+          <div v-if="requestResult.error && requestResult.error !== Errors.NO_INTERNET_ACCESS">
+            <img src="../../../assets/images/img_error.png" alt="" width="220">
             <p>{{requestResult.message}}</p>
           </div>
         </div>
@@ -50,6 +53,7 @@
 import layout from '../../../layout.vue';
 import Progress from '../../../component/progress/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
+import { compareVersion } from '../../../../util/util';
 
 export default {
   components: {
@@ -58,12 +62,14 @@ export default {
   },
   data() {
     return {
-      upgrade: false,
-      duraing: 10000,
       nodes: [],
       RouterSnModel,
+      Errors: {
+        NO_INTERNET_ACCESS: 600003 // 无法连接到服务器错误特殊处理
+      },
       requestResult: {
-        fail: false,
+        complete: false,
+        error: null,
         message: ''
       }
     };
@@ -84,45 +90,24 @@ export default {
         .then(res => {
           this.$loading.close();
           const data = res.data.result;
-          this.nodes = data.filter(node => {
-            // 过滤可升级节点
-            const cstr = node.version.current.split('.');
-            const lstr = node.version.latest.split('.');
-
-            const current = {
-              major: parseInt(cstr[0], 10),
-              minor: parseInt(cstr[1], 10),
-              patch: parseInt(cstr[2], 10)
-            };
-            const lastest = {
-              major: parseInt(lstr[0], 10),
-              minor: parseInt(lstr[1], 10),
-              patch: parseInt(lstr[2], 10)
-            };
-
-            if (lastest.major > current.major) {
-              return true;
-            } else if (
-              lastest.major === current.major &&
-              lastest.minor > current.minor
-            ) {
-              return true;
-            } else if (
-              lastest.minor === current.minor &&
-              lastest.patch >= current.patch
-            ) {
-              return true;
-            }
-            return false;
-          });
+          this.requestResult.complete = true;
+          this.nodes = data.filter(node =>
+            compareVersion(node.version.current, node.version.latest)
+          );
         })
         .catch(err => {
           this.$loading.close();
+          this.requestResult.complete = true;
           if (err && err.error) {
-            this.requestResult.fail = true;
-            this.requestResult.message = this.$t(err.error.code);
+            if (err.error.code === 600003) {
+              this.requestResult.error = this.Errors.NO_INTERNET_ACCESS;
+              this.requestResult.message = this.$t('trans0319');
+            } else {
+              this.requestResult.error = true;
+              this.requestResult.message = this.$t('trans0345');
+            }
           } else {
-            this.$router.push({ path: '/disappear' });
+            this.$router.push({ path: '/unconnect' });
           }
         });
     },
@@ -135,18 +120,19 @@ export default {
           ok: () => {
             const nodeIds = this.nodes.map(n => n.sn);
             this.$http
-              .upgrade({
-                node_ids: nodeIds
-              })
+              .upgradeMeshNode({ node_ids: nodeIds })
               .then(() => {
-                this.upgrade = true;
+                this.$upgrade({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/home' });
+                  }
+                });
               })
               .catch(err => {
                 if (err && err.error) {
-                  this.upgrade = false;
                   this.$toast(this.$t(err.error.code));
                 } else {
-                  this.$router.push({ path: '/disappear' });
+                  this.$router.push({ path: '/unconnect' });
                 }
               });
           }
@@ -269,7 +255,6 @@ export default {
               font-weight: 100;
             }
           }
-          // flex: 1;
         }
       }
       .btn-info {
@@ -279,7 +264,7 @@ export default {
     .msg-wrapper {
       width: 100%;
       text-align: center;
-      margin-top: 50px;
+      margin-top: 30px;
       img {
         width: 200px;
       }
@@ -304,8 +289,7 @@ export default {
       .nodes-wrapper {
         .nodes-info {
           .node {
-            width: 80%;
-            min-width: 303px;
+            width: 303px;
             margin-left: auto;
             margin-right: auto;
           }
@@ -317,7 +301,22 @@ export default {
     }
   }
 }
-@media screen and (min-width: 700px) and (max-width: 769px) {
+@media screen and (min-width: 769px) and (max-width: 999px) {
+  .upgrade-online-container {
+    .content {
+      .nodes-wrapper {
+        .nodes-info {
+          .node {
+            width: 340px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 768px) {
   .upgrade-online-container {
     padding: 20px 16px;
     .content {
@@ -332,7 +331,7 @@ export default {
           .node {
             width: 303px;
             min-width: 303px;
-            margin-right: 0;
+            margin-left: 0;
           }
         }
         .btn-info {

@@ -18,7 +18,7 @@ export default {
       return (
         this.$route.path.includes('login') ||
         this.$route.path.includes('wlan') ||
-        this.$route.path.includes('disappear')
+        this.$route.path.includes('unconnect')
       );
     }
   },
@@ -60,7 +60,7 @@ export default {
         },
         {
           key: 3,
-          icon: '',
+          icon: 'upgrade',
           text: 'trans0197',
           children: [
             {

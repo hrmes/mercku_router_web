@@ -1,12 +1,9 @@
 import Vue from 'vue';
-<<<<<<< HEAD
 import {
   changeLanguage,
-  i18n
+  i18n,
+  translate
 } from '../i18n';
-=======
-import { changeLanguage, i18n } from '../i18n';
->>>>>>> v0.9
 import router from './router';
 import Desktop from './Desktop.vue';
 import {
@@ -20,46 +17,18 @@ import dialog from './component/dialog/index';
 import v from '../../version.json';
 
 const launch = () => {
-  configRequestInterceptors(
-    config => {
-      const conf = config;
-      return conf;
-    },
-    error => Promise.reject(error)
-  );
-  configResponseInterceptors(
-    res => res,
-    error => {
-      if (error.response) {
-        switch (error.response.status) {
-          case 401:
-            if (!window.location.href.includes('login')) {
-              window.location.href = '/';
-            }
-            break;
-          default:
-            break;
-        }
-      }
-      return Promise.reject(error.response.data);
-    }
-  );
-  Vue.prototype.$http = http;
-  Vue.prototype.$loading = loading;
-  Vue.prototype.$toast = toast;
-  Vue.prototype.$dialog = dialog;
-  Vue.prototype.changeLanguage = changeLanguage;
-  Vue.prototype.$reconnect = options => {
+  const reconnect = options => {
     const opt = {
       ...{
         onsuccess: () => {},
         ontimeout: () => {},
-        onprogress: () => {}
+        onprogress: () => {},
+        timeout: 60
       },
       ...options
     };
-    let count = 60; // 60s重试时间
-    const total = 60;
+    let count = opt.timeout; // 60s重试时间
+    const total = opt.timeout;
     const timer = setInterval(() => {
       count -= 1;
       const percent = ((total - count) / total).toFixed(2);
@@ -78,6 +47,87 @@ const launch = () => {
       }
     }, 1000);
   };
+
+  const upgradeService = () => {
+    let serviceStarted = false;
+    return options => {
+      if (!serviceStarted) {
+        serviceStarted = true;
+        loading.open({
+          template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
+        });
+        const opt = {
+          ...{
+            onsuccess: () => {},
+            ontimeout: () => {},
+            onprogress: () => {},
+            timeout: 99999999
+          },
+          ...options
+        };
+        reconnect({
+          onsuccess: () => {
+            serviceStarted = false;
+            loading.close();
+            opt.onsuccess();
+          },
+          ontimeout: () => {
+            serviceStarted = false;
+            this.$loading.close();
+            opt.ontimeout();
+          },
+          timeout: opt.timeout
+        });
+      }
+    };
+  };
+
+  const upgrade = upgradeService();
+  configRequestInterceptors(
+    config => {
+      const conf = config;
+      return conf;
+    },
+    error => Promise.reject(error)
+  );
+  configResponseInterceptors(
+    res => res,
+    error => {
+      if (error.response) {
+        switch (error.response.status) {
+          case 401:
+            if (!window.location.href.includes('login')) {
+              window.location.href = '/';
+            }
+            break;
+          case 400:
+            // 6000007 升级中
+            if (error.response.data.error.code === 600007) {
+              upgrade();
+            }
+            break;
+          default:
+            break;
+        }
+      }
+      if (error.message === 'cancel') {
+        return Promise.reject(error);
+      }
+      if (error.response && error.response.data) {
+        return Promise.reject(error.response.data);
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  Vue.prototype.$http = http;
+  Vue.prototype.$loading = loading;
+  Vue.prototype.$toast = toast;
+  Vue.prototype.$dialog = dialog;
+  Vue.prototype.changeLanguage = changeLanguage;
+  Vue.prototype.$reconnect = reconnect;
+  Vue.prototype.$upgrade = upgrade;
+
   new Vue({
     el: '#web',
     i18n,

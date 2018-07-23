@@ -75,7 +75,7 @@ export default {
       } else if (this.blurItems.includes(item)) {
         this.blurItems = this.blurItems.filter(i => i !== item);
       }
-      if ((item === 'ip' || item === 'gateway') && v && this.form.mask) {
+      if (item === 'ip' && v && this.form.mask) {
         if (!ipRule(v, this.form.mask)) {
           this.blurItems.push(item);
         } else {
@@ -120,7 +120,7 @@ export default {
       };
       this.routerConfig.setWan('static', form);
       this.$http
-        .update(this.routerConfig.getConfig())
+        .updateMeshConfig(this.routerConfig.getConfig())
         .then(() => {
           this.$router.replace('/complete');
         })

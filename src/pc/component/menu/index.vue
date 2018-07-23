@@ -185,6 +185,11 @@ export default {
           background: url(../../assets/images/ic_logout.png) no-repeat center;
           background-size: 100%;
         }
+        &.upgrade {
+          background: url(../../assets/images/ic_firmware_upgrade.png) no-repeat
+            center;
+          background-size: 100%;
+        }
       }
       &.selected {
         .menu-icon.wifi {
