@@ -87,7 +87,7 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0334'),
+        message: this.$t('trans0230'),
         callback: {
           ok: () => {
             next();
