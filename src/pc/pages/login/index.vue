@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="small-device-image">
-          <img src="../../assets/images/img_bg_mobile.png" alt="">
+          <img src="../../assets/images/img_bg_mobile.jpg" alt="">
         </div>
       </div>
     </div>
@@ -173,7 +173,7 @@ export default {
   //   #fafafa,
   //   #fff
   // ); /* 标准的语法 */
-  background: url(../../assets/images/img_main_picture.png) #fff no-repeat
+  background: url(../../assets/images/img_main_picture.jpg) #fff no-repeat
     center;
   background-position-y: bottom;
   background-size: auto 40%;

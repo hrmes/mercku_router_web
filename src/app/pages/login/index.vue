@@ -71,7 +71,7 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .login-page {
   padding: 0rem 0.2rem;
-  background: url(../../assets/images/img_bg_login.png);
+  background: url(../../assets/images/img_bg_login.jpg);
   background-size: 100%;
   background-repeat: no-repeat;
   .bg-container {
