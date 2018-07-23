@@ -56,9 +56,7 @@ export default {
           .updateAdmin(this.form)
           .then(res => {
             this.$loading.close();
-            if (res.status === 200) {
-              this.$router.push({ path: '/login' });
-            }
+            this.$router.push({ path: '/login' });
           })
           .catch(err => {
             this.$loading.close();
