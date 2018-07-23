@@ -89,30 +89,19 @@ const launch = () => {
   configResponseInterceptors(
     res => res,
     error => {
-      if (error.response) {
-        switch (error.response.status) {
-          case 401:
-            if (!window.location.href.includes('login')) {
-              window.location.href = '/';
-            }
-            break;
-          case 400:
-            // 6000007 升级中
-            if (error.response.data.error.code === 600007) {
-              upgrade();
-            }
-            break;
-          default:
-            break;
-        }
-      }
-      if (error.message === 'cancel') {
+      const { response } = error;
+      if (!response) {
         return Promise.reject(error);
       }
-      if (error.response && error.response.data) {
-        return Promise.reject(error.response.data);
+      if (response.status === 401 && !window.location.href.includes('login')) {
+        window.location.href = '/';
+      } else if (
+        response.status === 400 &&
+        response.data.error.code === 600007
+      ) {
+        upgrade();
       }
-      return Promise.reject(error);
+      return Promise.reject(error.response.data);
     }
   );
 

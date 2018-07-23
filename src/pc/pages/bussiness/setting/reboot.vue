@@ -37,17 +37,15 @@ export default {
       this.$http
         .reboot()
         .then(res => {
-          if (res.status === 200) {
-            this.reboot = true;
-            this.$reconnect({
-              onsuccess: () => {
-                this.$router.push({ path: '/home' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/unconnect' });
-              }
-            });
-          }
+          this.reboot = true;
+          this.$reconnect({
+            onsuccess: () => {
+              this.$router.push({ path: '/home' });
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
         })
         .catch(err => {
           if (err && err.error) {
