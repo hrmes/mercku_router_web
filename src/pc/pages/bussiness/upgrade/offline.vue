@@ -25,10 +25,6 @@
               <p class="title">{{$t('trans0333')}}</p>
               <div class="nodes-info">
                 <div v-for="node in localNodes" :key="node.sn" class="node">
-                  <div class="badge-info">
-                    <img src="../../../assets/images/ic_new_version.png" alt="">
-                    <span>{{$t('trans0210')}}{{packageInfo.version}}</span>
-                  </div>
                   <div class="message">
                     <img class="img-m2" v-if="packageInfo.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
                     <img class="img-bee" v-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
