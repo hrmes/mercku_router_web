@@ -154,7 +154,6 @@ export default {
         .catch(err => {
           uploader.status = UploadStatus.fail;
           this.uploadStatus = UploadStatus.fail;
-          uploader.percentage = 0;
           if (err && err.error) {
             uploader.err = err.error.code;
           } else if (!err.message) {
