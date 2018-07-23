@@ -19,8 +19,8 @@
           </div>
           <div class="row-3">
             <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
-            <div class="speed" style="min-width:60px;" :title="bandWidth(localTraffice.bandwidth) + 'M'">
-              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">{{bandWidth(localTraffice.bandwidth)}}
+            <div class="speed" style="min-width:60px;" :title="formatBandWidth(localTraffice.bandwidth) + 'M'">
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">{{bandwidth}}
                 <label style="font-weight:normal">M</label>
               </span>
 
@@ -204,7 +204,7 @@
                   <i class="p-count-icon"></i>
                   <div>
                     <p>
-                      <span class="speed">{{bandWidth(localSpeedInfo.speed.down)}}</span>
+                      <span class="speed">{{formatBandWidth(localSpeedInfo.speed.down)}}</span>
                       <span class='unit'> M</span>
                     </p>
                     <p class="note">{{$t('trans0029')}}</p>
@@ -488,6 +488,9 @@ export default {
     this.initChart();
   },
   computed: {
+    bandwidth() {
+      return this.formatBandWidth(this.localTraffice.bandwidth);
+    },
     isTesting() {
       return this.netStatus === CONSTANTS.WanNetStatus.testing;
     },
@@ -509,7 +512,6 @@ export default {
     isSpeedFailed() {
       return this.speedStatus === CONSTANTS.SpeedTestStatus.failed;
     },
-
     localTraffice() {
       const local = {
         speed: {
@@ -669,7 +671,7 @@ export default {
         unit: 'KB'
       };
     },
-    bandWidth(v) {
+    formatBandWidth(v) {
       return !isNaN(v) ? (v / (1024 * 1024)).toFixed(1) : v;
     },
     closeSpeedModal() {
