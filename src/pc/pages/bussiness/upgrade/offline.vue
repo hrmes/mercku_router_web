@@ -23,7 +23,7 @@
               </p>
             </div>
             <div class="upload">
-              <m-upload ref="uploader" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
+              <m-upload ref="uploader" :onChange="onChange" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
               <div class="package-info" v-if="uploadStatus === UploadStatus.success">
                 <p class="info-item">
                   <span>{{$t('trans0208')}}:</span>
@@ -126,6 +126,10 @@ export default {
     }
   },
   methods: {
+    onChange() {
+      const uploader = this.$refs.uploader;
+      this.uploadStatus = uploader.status;
+    },
     beforeUpload(files) {
       const file = files[0];
       const uploader = this.$refs.uploader;
