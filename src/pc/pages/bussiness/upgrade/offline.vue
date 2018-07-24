@@ -83,11 +83,12 @@ export default {
       UploadStatus,
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
-      packageInfo: null
+      packageInfo: null,
+      upgraded: false
     };
   },
   beforeRouteLeave(_, __, next) {
-    if (this.uploadStatus === UploadStatus.success) {
+    if (this.uploadStatus === UploadStatus.success && !this.upgraded) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
@@ -166,9 +167,10 @@ export default {
       this.$http
         .upgradeMeshNode({ node_ids: ids, local: true })
         .then(() => {
+          this.upgraded = true;
           this.$upgrade({
             onsuccess: () => {
-              this.$router.push({ path: '/home' });
+              this.$router.push({ path: '/login' });
             }
           });
         })
