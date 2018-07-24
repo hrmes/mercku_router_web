@@ -35,11 +35,16 @@ const launch = () => {
         opt.ontimeout();
         console.log('reconnect timeout');
       } else if (count !== total && count % 10 === 0) {
-        http.getRouter().then(() => {
-          clearInterval(timer);
-          opt.onsuccess();
-          console.log('reconnect success');
-        });
+        http
+          .getRouter()
+          .then(() => {
+            clearInterval(timer);
+            opt.onsuccess();
+            console.log('reconnect success');
+          })
+          .catch(() => {
+            // nothing to do
+          });
       }
     }, 1000);
   };

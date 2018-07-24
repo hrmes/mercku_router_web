@@ -124,7 +124,7 @@ export default {
               .then(() => {
                 this.$upgrade({
                   onsuccess: () => {
-                    this.$router.push({ path: '/home' });
+                    this.$router.push({ path: '/login' });
                   }
                 });
               })
