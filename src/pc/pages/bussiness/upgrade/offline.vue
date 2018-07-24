@@ -15,8 +15,12 @@
                 <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
                 <span>,{{$t('trans0346')}}</span>
               </p>
-              <p>2.{{$t('trans0339')}}</p>
-              <p>3.{{$t('trans0348')}}</p>
+              <p>2.
+                <span>{{$t('trans0339')}}</span>
+              </p>
+              <p>3.
+                <span>{{$t('trans0348')}}</span>
+              </p>
             </div>
             <div class="upload">
               <m-upload ref="uploader" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
