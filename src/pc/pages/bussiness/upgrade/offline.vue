@@ -171,7 +171,8 @@ export default {
           this.$upgrade({
             onsuccess: () => {
               this.$router.push({ path: '/login' });
-            }
+            },
+            timeout: 60000
           });
         })
         .catch(err => {
