@@ -28,8 +28,10 @@ const Loading = {
       const self = this;
       this.instance.restoryOverflow();
       this.instance.$el.addEventListener('transitionend', () => {
-        self.instance.$el.parentNode.removeChild(self.instance.$el);
-        self.instance = null;
+        if (self.instance) {
+          self.instance.$el.parentNode.removeChild(self.instance.$el);
+          self.instance = null;
+        }
       });
       // fix ie bug
       const timer = setTimeout(() => {
