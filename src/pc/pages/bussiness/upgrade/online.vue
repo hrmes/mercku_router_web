@@ -113,7 +113,7 @@ export default {
     },
     submit() {
       this.$dialog.confirm({
-        okText: this.$t('trans0211'),
+        okText: this.$t('trans0225'),
         cancelText: this.$t('trans0025'),
         message: this.$t('trans0213'),
         callback: {
