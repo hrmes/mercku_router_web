@@ -611,11 +611,11 @@ export default {
           {
             data: [
               {
-                name: `${this.$t('trans0302')}${this.$t('trans0193')}`,
+                name: `${this.$t('trans0302')} ${this.$t('trans0193')}`,
                 icon: 'circle'
               },
               {
-                name: `${this.$t('trans0302')}${this.$t('trans0196')}`,
+                name: `${this.$t('trans0302')} ${this.$t('trans0196')}`,
                 icon: 'circle'
               }
             ],
@@ -641,8 +641,8 @@ export default {
             data: data.nodes,
             links: data.lines,
             categories: [
-              { name: `${this.$t('trans0302')}${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0302')}${this.$t('trans0196')}` }
+              { name: `${this.$t('trans0302')} ${this.$t('trans0193')}` },
+              { name: `${this.$t('trans0302')} ${this.$t('trans0196')}` }
             ],
             lineStyle: {
               width: 2
