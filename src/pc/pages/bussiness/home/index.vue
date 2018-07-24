@@ -302,12 +302,13 @@ function genNodes(gateway, green, red) {
     const radius = 40; // 这里需要动态调整半径
     const pos = [];
     if (count === 1) {
-      pos.push({ x: 0, y: 0, angel: 0 });
+      pos.push({ x: 0, y: 0, angle: 0 });
       return pos;
     }
     if (count === 2) {
-      pos.push({ x: 0, y: radius, angel: 0 });
-      pos.push({ x: 0, y: -radius, angel: 180 });
+      pos.push({ x: 0, y: -radius, angle: 0 });
+      pos.push({ x: 0, y: radius, angle: 180 });
+      return pos;
     }
 
     const angle = 2 * Math.PI / count;
@@ -340,6 +341,7 @@ function genNodes(gateway, green, red) {
       top: 'top',
       bottom: 'bottom'
     };
+
     if (angle >= 0 && angle <= 90) {
       labelPosition = Positions.top;
     } else if (angle > 90 && angle < 270) {

@@ -170,7 +170,7 @@ export default {
           uploader.status = UploadStatus.fail;
           this.uploadStatus = UploadStatus.fail;
           if (err && err.error) {
-            uploader.err = err.error.code;
+            uploader.err = this.$t(err.error.code);
           } else if (!err.message) {
             this.$router.push({ path: '/unconnect' });
           }
