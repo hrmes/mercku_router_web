@@ -34,7 +34,7 @@ const launch = () => {
         clearInterval(timer);
         opt.ontimeout();
         console.log('reconnect timeout');
-      } else if (count !== total && count % 2 === 0) {
+      } else if (count !== total && count % 5 === 0) {
         http
           .getRouter()
           .then(() => {
