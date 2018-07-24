@@ -299,15 +299,15 @@ function findRedNode(gateway, green, source) {
 function genNodes(gateway, green, red) {
   function getPositions() {
     const count = 1 + green.length + red.length;
-    const radius = 30; // 这里需要动态调整半径
+    const radius = 10;
     const pos = [];
     if (count === 1) {
-      pos.push({ x: 0, y: 0, angle: 0 });
+      pos.push({ x: 0, y: 0, angle: 180 });
       return pos;
     }
     if (count === 2) {
-      pos.push({ x: 0, y: -10, angle: 0 });
-      pos.push({ x: 0, y: 10, angle: 180 });
+      pos.push({ x: 0, y: 0, angle: 0 });
+      pos.push({ x: 0, y: 2, angle: 180 });
       return pos;
     }
 
@@ -613,11 +613,11 @@ export default {
           {
             data: [
               {
-                name: `${this.$t('trans0193')}`,
+                name: `${this.$t('trans0302')} ${this.$t('trans0193')}`,
                 icon: 'circle'
               },
               {
-                name: `${this.$t('trans0196')}`,
+                name: `${this.$t('trans0302')} ${this.$t('trans0196')}`,
                 icon: 'circle'
               }
             ],
@@ -628,6 +628,7 @@ export default {
         ],
         series: [
           {
+            // height: 320,
             type: 'graph',
             edgeSymbol: ['circle', 'circle'],
             edgeSymbolSize: 3,
@@ -643,8 +644,8 @@ export default {
             data: data.nodes,
             links: data.lines,
             categories: [
-              { name: `${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0196')}` }
+              { name: `${this.$t('trans0302')} ${this.$t('trans0193')}` },
+              { name: `${this.$t('trans0302')} ${this.$t('trans0196')}` }
             ],
             lineStyle: {
               width: 2
