@@ -23,7 +23,21 @@
               </p>
             </div>
             <div class="upload">
-              <m-upload ref="uploader" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
+              <m-upload ref="uploader" :onChange="onChange" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
+              <div class="package-info" v-if="uploadStatus === UploadStatus.success">
+                <p class="info-item">
+                  <span>{{$t('trans0208')}}:</span>
+                  <span>{{(packageInfo.model.id === RouterSnModel.M2 ? 'M2' :'Bee') }}</span>
+                </p>
+                <p class="info-item">
+                  <span>{{$t('trans0342')}}:</span>
+                  <span>{{packageInfo.version}}</span>
+                </p>
+                <p class="info-item">
+                  <span>{{$t('trans0187')}}:</span>
+                  <span>{{(packageInfo.model.id === RouterSnModel.M2 ? 'M2' :'Bee') }}</span>
+                </p>
+              </div>
             </div>
             <div class="nodes-wrapper" v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
               <p class="title">{{$t('trans0333')}}</p>
@@ -112,6 +126,10 @@ export default {
     }
   },
   methods: {
+    onChange() {
+      const uploader = this.$refs.uploader;
+      this.uploadStatus = uploader.status;
+    },
     beforeUpload(files) {
       const file = files[0];
       const uploader = this.$refs.uploader;
@@ -156,7 +174,7 @@ export default {
           uploader.status = UploadStatus.fail;
           this.uploadStatus = UploadStatus.fail;
           if (err && err.error) {
-            uploader.err = err.error.code;
+            uploader.err = this.$t(err.error.code);
           } else if (!err.message) {
             this.$router.push({ path: '/unconnect' });
           }
@@ -171,7 +189,8 @@ export default {
           this.$upgrade({
             onsuccess: () => {
               this.$router.push({ path: '/login' });
-            }
+            },
+            timeout: 60000
           });
         })
         .catch(err => {
@@ -207,6 +226,17 @@ export default {
     }
     .form {
       margin: 0 3%;
+      .package-info {
+        background: #f1f1f1;
+        border-radius: 3px;
+        margin-top: 30px;
+        display: inline-block;
+        padding: 0 20px;
+        .info-item {
+          display: inline-block;
+          margin-right: 50px;
+        }
+      }
     }
     .description {
       margin-top: 30px;

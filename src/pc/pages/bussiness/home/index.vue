@@ -299,15 +299,16 @@ function findRedNode(gateway, green, source) {
 function genNodes(gateway, green, red) {
   function getPositions() {
     const count = 1 + green.length + red.length;
-    const radius = 40; // 这里需要动态调整半径
+    const radius = 30; // 这里需要动态调整半径
     const pos = [];
     if (count === 1) {
-      pos.push({ x: 0, y: 0, angel: 0 });
+      pos.push({ x: 0, y: 0, angle: 0 });
       return pos;
     }
     if (count === 2) {
-      pos.push({ x: 0, y: radius, angel: 0 });
-      pos.push({ x: 0, y: -radius, angel: 180 });
+      pos.push({ x: 0, y: -10, angle: 0 });
+      pos.push({ x: 0, y: 10, angle: 180 });
+      return pos;
     }
 
     const angle = 2 * Math.PI / count;
@@ -340,6 +341,7 @@ function genNodes(gateway, green, red) {
       top: 'top',
       bottom: 'bottom'
     };
+
     if (angle >= 0 && angle <= 90) {
       labelPosition = Positions.top;
     } else if (angle > 90 && angle < 270) {
@@ -611,16 +613,16 @@ export default {
           {
             data: [
               {
-                name: `${this.$t('trans0302')}${this.$t('trans0193')}`,
+                name: `${this.$t('trans0193')}`,
                 icon: 'circle'
               },
               {
-                name: `${this.$t('trans0302')}${this.$t('trans0196')}`,
+                name: `${this.$t('trans0196')}`,
                 icon: 'circle'
               }
             ],
-            left: 0,
             orient: 'vertical',
+            left: 0,
             selectedMode: false
           }
         ],
@@ -641,8 +643,8 @@ export default {
             data: data.nodes,
             links: data.lines,
             categories: [
-              { name: `${this.$t('trans0302')}${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0302')}${this.$t('trans0196')}` }
+              { name: `${this.$t('trans0193')}` },
+              { name: `${this.$t('trans0196')}` }
             ],
             lineStyle: {
               width: 2
@@ -679,11 +681,10 @@ export default {
       this.restoryOverflow();
     },
     setOverflow() {
-      this.bodyOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
     },
     restoryOverflow() {
-      document.body.style.overflow = this.bodyOverflow || 'auto';
+      document.body.style.overflow = 'auto';
     },
 
     macFormat(v) {

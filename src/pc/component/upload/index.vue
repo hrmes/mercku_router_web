@@ -29,6 +29,9 @@ export default {
     onError: {
       type: Function
     },
+    onChange: {
+      Function
+    },
     onCancel: {
       type: Function
     },
@@ -82,6 +85,7 @@ export default {
       this.status = UploadStatus.ready;
       this.$refs.upload.value = null;
       this.$refs.upload.click();
+      this.onChange && this.onChange();
     },
 
     handleChange(ev) {
