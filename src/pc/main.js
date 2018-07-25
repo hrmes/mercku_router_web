@@ -119,7 +119,6 @@ const launch = () => {
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
 
-  upgrade();
   new Vue({
     el: '#web',
     i18n,
