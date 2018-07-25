@@ -28,7 +28,7 @@ export function changeLanguage(lang) {
     console.log('language not exist!');
   } else {
     // change language
-    i18n.locale = lang;
+    // i18n.locale = lang;
     localStorage.setItem('lang', lang);
     window.location.reload();
   }
