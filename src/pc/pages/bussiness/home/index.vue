@@ -273,12 +273,11 @@ function findGateway(source) {
 }
 
 // 找绿色的节点
-function findGreenNode(root, source) {
-  let green = [];
+function findGreenNode(root, source, green) {
   root.neighbors.forEach(n => {
     if (!green.includes(n.entity) && isGood(n.origin.rssi)) {
       green.push(n.entity);
-      green = green.concat(findGreenNode(n.entity, source));
+      findGreenNode(n.entity, source, green);
     }
   });
   return green;
@@ -430,7 +429,8 @@ function genData(array) {
 
   const gateway = findGateway(RouterDistincted);
 
-  const green = findGreenNode(gateway, RouterDistincted);
+  const green = [];
+  findGreenNode(gateway, RouterDistincted, green);
 
   const red = findRedNode(gateway, green, RouterDistincted);
 
