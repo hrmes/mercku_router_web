@@ -178,7 +178,7 @@
   "trans0171": "Please reconnect network",
   "trans0172": "Wi-Fi password",
   "trans0173": "My Wi-Fi",
-  "trans0174": "Devices:",
+  "trans0174": "Devices: ",
   "trans0175":
     "To obtain a better connection, please place the new device within 10 meters (33 feet) of the main Wi-Fi unit, no more than two rooms apart, and preferably in an open location.",
   "trans0176": " ",
@@ -261,7 +261,7 @@
   "trans0249": "Successfully reset",
   "trans0250": "Weak",
   "trans0251": "SN",
-  "trans0252": "SN:",
+  "trans0252": "SN: ",
   "trans0253": "Wired",
   "trans0254": "Power on the router, observe the pilot light",
   "trans0255": "2.4G",
@@ -299,7 +299,7 @@
   "trans0283": "Cannot connect to the servers",
   "trans0284": "The process is easy to operate and control",
   "trans0285":
-    "No installing necessary and automatic assembling to achieve full Wi-Fi coverage",
+    "No installing necessary and automatic assembling of the Mesh network to achieve full Wi-Fi coverage",
   "trans0286": "Remote management",
   "trans0287": "Remotely access and manage your Wi-Fi system",
   "trans0288": "Blacklist management",
@@ -316,7 +316,7 @@
   "trans0299": "Mesh information",
   "trans0300": "Version",
   "trans0301": "WAN network status",
-  "trans0302": "Connection quality:",
+  "trans0302": "Connection quality: ",
   "trans0303": "Realtime network status",
   "trans0304": "Upload",
   "trans0305": "Download",
@@ -351,7 +351,8 @@
   "trans0332": "Visit the official website: ",
   "trans0333":
     "The firmware could be used in the following devices. Please confirm and click “Upgrade All” ",
-  "trans0335": "Such as: product name, model,version code",
+  "trans0334": " ",
+  "trans0335": "Such as: product name, model, version code",
   "trans0336":
     "The firmware can not be used in any router. Please upload the firmware again.",
   "trans0337":

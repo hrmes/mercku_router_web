@@ -13,7 +13,7 @@
               <p>1.
                 <span>{{$t('trans0332')}}</span>
                 <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
-                <span>,{{$t('trans0346')}}</span>
+                <span>,&nbsp;{{$t('trans0346')}}</span>
               </p>
               <p>2.
                 <span>{{$t('trans0339')}}</span>
@@ -27,7 +27,7 @@
               <div class="package-info" v-if="uploadStatus === UploadStatus.success">
                 <p class="info-item">
                   <span>{{$t('trans0208')}}:</span>
-                  <span>{{(packageInfo.model.id === RouterSnModel.M2 ? 'M2' :'Bee') }}</span>
+                  <span>{{productName}}</span>
                 </p>
                 <p class="info-item">
                   <span>{{$t('trans0342')}}:</span>
@@ -35,7 +35,7 @@
                 </p>
                 <p class="info-item">
                   <span>{{$t('trans0187')}}:</span>
-                  <span>{{(packageInfo.model.id === RouterSnModel.M2 ? 'M2' :'Bee') }}</span>
+                  <span>{{modelName }}</span>
                 </p>
               </div>
             </div>
@@ -98,7 +98,17 @@ export default {
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
       packageInfo: null,
-      upgraded: false
+      upgraded: false,
+      Products: {
+        M2: {
+          name: 'M2 Wi-Fi Router',
+          shortName: 'M2'
+        },
+        Bee: {
+          name: 'M2 Bee Node',
+          shortName: 'Bee'
+        }
+      }
     };
   },
   beforeRouteLeave(_, __, next) {
@@ -123,6 +133,16 @@ export default {
   computed: {
     hasUpgradablityNodes() {
       return this.localNodes.length > 0;
+    },
+    productName() {
+      return this.packageInfo.model.id === RouterSnModel.M2
+        ? this.Products.M2.name
+        : this.Products.Bee.name;
+    },
+    modelName() {
+      return this.packageInfo.model.id === RouterSnModel.M2
+        ? this.Products.M2.shortName
+        : this.Products.Bee.shortName;
     }
   },
   methods: {
@@ -181,25 +201,34 @@ export default {
         });
     },
     upgrade() {
-      const ids = this.localNodes.map(v => v.sn);
-      this.$http
-        .upgradeMeshNode({ node_ids: ids, local: true })
-        .then(() => {
-          this.upgraded = true;
-          this.$upgrade({
-            onsuccess: () => {
-              this.$router.push({ path: '/login' });
-            },
-            timeout: 60000
-          });
-        })
-        .catch(err => {
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
+      this.$dialog.confirm({
+        okText: this.$t('trans0225'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0213'),
+        callback: {
+          ok: () => {
+            const ids = this.localNodes.map(v => v.sn);
+            this.$http
+              .upgradeMeshNode({ node_ids: ids, local: true })
+              .then(() => {
+                this.upgraded = true;
+                this.$upgrade({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/login' });
+                  },
+                  timeout: 60000
+                });
+              })
+              .catch(err => {
+                if (err && err.error) {
+                  this.$toast(this.$t(err.error.code));
+                } else {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
           }
-        });
+        }
+      });
     }
   }
 };

@@ -1084,12 +1084,10 @@ export default {
     }
     .row-1 {
       display: flex;
-      max-width: 200px;
       align-items: center;
       text-align: center;
     }
     .row-3 {
-      max-width: 200px;
       display: flex;
       align-items: center;
       margin-right: 20px;

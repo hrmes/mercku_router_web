@@ -109,6 +109,9 @@ export default {
   height: 65px;
   .logo-container {
     display: none;
+    img {
+      width: 180px;
+    }
   }
   .logo {
     float: left;
@@ -192,6 +195,9 @@ export default {
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
+      img {
+        width: 180px;
+      }
     }
     .right-container {
       .lang-selector {

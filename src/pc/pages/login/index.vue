@@ -41,7 +41,7 @@
           </div>
         </div>
         <div class="small-device-image">
-          <img src="../../assets/images/img_bg_mobile.jpg" alt="">
+          <img src="../../assets/images/img_bg_mobile.png" alt="">
         </div>
       </div>
     </div>
