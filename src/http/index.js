@@ -127,13 +127,13 @@ const http = {
     });
   },
   /* v0.9 start */
-  firmwareUpload(parmas, callback) {
+  firmwareUpload(params, callback) {
     const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
       url: `/${methods.firmwareUpload.action}`,
       method: 'post',
-      data: parmas,
+      data: params,
       cancelToken: source.token,
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -196,7 +196,7 @@ const http = {
   speedTesting(force) {
     return axios.post(methods.meshWanSpeedTest.url, {
       method: methods.meshWanSpeedTest.action,
-      parmas: {
+      params: {
         force
       }
     });
