@@ -2,7 +2,8 @@ import Vue from 'vue';
 import LoadingComponent from './loading.vue';
 
 const defaultOptions = {
-  template: ''
+  template: '',
+  title: ''
 };
 const Loading = {
   instance: null,
@@ -15,7 +16,8 @@ const Loading = {
       const Construtor = Vue.extend(LoadingComponent);
       this.instance = new Construtor({
         data: {
-          template: opt.template
+          template: opt.template,
+          title: opt.title
         }
       }).$mount();
       this.instance.visible = true;

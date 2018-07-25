@@ -55,6 +55,7 @@ const launch = () => {
       if (!serviceStarted) {
         serviceStarted = true;
         loading.open({
+          title: `${translate('trans0212')}`,
           template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
         });
         const opt = {
@@ -118,6 +119,7 @@ const launch = () => {
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
 
+  upgrade();
   new Vue({
     el: '#web',
     i18n,
