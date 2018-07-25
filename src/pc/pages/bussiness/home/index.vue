@@ -1640,7 +1640,7 @@ export default {
             .t-dwon-icon,
             .t-up-icon {
               width: 25px;
-              height: 30px;
+              height: 36.25px;
             }
             .t-count-icon {
               width: 30px;
