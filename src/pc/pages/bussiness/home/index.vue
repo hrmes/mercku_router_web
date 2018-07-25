@@ -167,7 +167,7 @@
         </div>
         <div class='mesh-info'>
           <div class="title">{{$t('trans0312')}}</div>
-          <div class="content">
+          <div class="content" style="padding-top:0;">
             <div id="topo" style="width:100%;height:550px;"></div>
           </div>
         </div>
@@ -609,26 +609,32 @@ export default {
       const option = {
         color: [Color.good, Color.bad],
         top: 10,
+        title: {
+          subtext: this.$t('trans0302'),
+          subtextStyle: {
+            color: '#333'
+          }
+        },
         legend: [
           {
             data: [
               {
-                name: `${this.$t('trans0302')} ${this.$t('trans0193')}`,
+                name: `${this.$t('trans0193')}`,
                 icon: 'circle'
               },
               {
-                name: `${this.$t('trans0302')} ${this.$t('trans0196')}`,
+                name: `${this.$t('trans0196')}`,
                 icon: 'circle'
               }
             ],
             orient: 'vertical',
             left: 0,
+            top: 35,
             selectedMode: false
           }
         ],
         series: [
           {
-            // height: 320,
             type: 'graph',
             edgeSymbol: ['circle', 'circle'],
             edgeSymbolSize: 3,
@@ -644,8 +650,8 @@ export default {
             data: data.nodes,
             links: data.lines,
             categories: [
-              { name: `${this.$t('trans0302')} ${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0302')} ${this.$t('trans0196')}` }
+              { name: `${this.$t('trans0193')}` },
+              { name: `${this.$t('trans0196')}` }
             ],
             lineStyle: {
               width: 2
