@@ -92,8 +92,7 @@ const methods = {
   },
   // v0.9
   firmwareUpload: {
-    url,
-    action: 'firmware_upload' // 上传固件
+    url: '/firmware_upload' // 上传固件
   },
   firmwareList: {
     url,
@@ -109,29 +108,33 @@ const methods = {
   }
 };
 
+const request = (config, params) => {
+  const data = { method: config.action };
+  if (params) {
+    data.params = params;
+  }
+  return axios({
+    url: config.url,
+    method: 'post',
+    data
+  });
+};
 const http = {
   getRouterMode() {
-    return axios.post(methods.routerModeGet.url, {
-      method: methods.routerModeGet.action
-    });
+    return request(methods.routerModeGet);
   },
   getAdmin() {
-    return axios.post(methods.routerAdminGet.url, {
-      method: methods.routerAdminGet.action
-    });
+    return request(methods.routerAdminGet);
   },
   updateAdmin(params) {
-    return axios.post(methods.meshAdminUpdate.url, {
-      method: methods.meshAdminUpdate.action,
-      params
-    });
+    return request(methods.meshAdminUpdate, params);
   },
   /* v0.9 start */
   firmwareUpload(params, callback) {
     const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
-      url: `/${methods.firmwareUpload.action}`,
+      url: methods.firmwareUpload.url,
       method: 'post',
       data: params,
       cancelToken: source.token,
@@ -144,106 +147,64 @@ const http = {
     });
   },
   firmwareList() {
-    return axios.post(methods.firmwareList.url, {
-      method: methods.firmwareList.action
-    });
+    return request(methods.firmwareList);
   },
   upgradeMeshNode(params) {
-    return axios.post(methods.meshNodeUpgrade.url, {
-      method: methods.meshNodeUpgrade.action,
-      params
-    });
+    return request(methods.meshNodeUpgrade, params);
   },
   /* v0.9 end */
   /* v0.8 start */
   getWanNetInfo() {
-    return axios.post(methods.meshWanNetGet.url, {
-      method: methods.meshWanNetGet.action
-    });
+    return request(methods.meshWanNetGet);
   },
   getWanNetStats() {
-    return axios.post(methods.meshWanStatsGet.url, {
-      method: methods.meshWanStatsGet.action
-    });
+    return request(methods.meshWanStatsGet);
   },
   meshWifiUpdate(config) {
-    return axios.post(methods.meshWifiUpdate.url, {
-      method: methods.meshWifiUpdate.action,
-      params: {
-        ...config.wifi
-      }
+    return request(methods.meshWifiUpdate, {
+      ...config.wifi
     });
   },
   meshWanUpdate(config) {
-    return axios.post(methods.meshWanUpdate.url, {
-      method: methods.meshWanUpdate.action,
-      params: {
-        ...config.wan
-      }
+    return request(methods.meshWanUpdate, {
+      ...config.wan
     });
   },
   /* v0.8 end */
   reboot() {
-    return axios.post(methods.meshNodeReboot.url, {
-      method: methods.meshNodeReboot.action
-    });
+    return request(methods.meshNodeReboot);
   },
   getMeshMeta() {
-    return axios.post(methods.meshMetaGet.url, {
-      method: methods.meshMetaGet.action
-    });
+    return request(methods.meshMetaGet);
   },
   speedTesting(force) {
-    return axios.post(methods.meshWanSpeedTest.url, {
-      method: methods.meshWanSpeedTest.action,
-      params: {
-        force
-      }
-    });
+    return request(methods.meshWanSpeedTest, { force });
   },
   getRouter() {
-    return axios.post(methods.routerMetaGet.url, {
-      method: methods.routerMetaGet.action
-    });
+    return request(methods.routerMetaGet);
   },
   getNet(params) {
-    return axios.post(methods.routerNetGet.url, {
-      method: methods.routerNetGet.action,
-      params
-    });
+    return request(methods.routerNetGet, params);
   },
   getDeviceCount() {
-    return axios.post(methods.deviceCountGet.url, {
-      method: methods.deviceCountGet.action
-    });
+    return request(methods.deviceCountGet);
   },
   getTraffic() {
-    return axios.post(methods.meshWanGet.url, {
-      method: methods.meshWanGet.action
-    });
+    return request(methods.meshWanGet);
   },
   getMeshNode() {
-    return axios.post(methods.meshNodeGet.url, {
-      method: methods.meshNodeGet.action
-    });
+    return request(methods.meshNodeGet);
   },
   checkLogin() {
-    return axios.post(methods.routerIsLogin.url, {
-      method: methods.routerIsLogin.action
-    });
+    return request(methods.routerIsLogin);
   },
-  login(pwd) {
-    return axios.post(methods.routerLogin.url, {
-      method: methods.routerLogin.action,
-      params: {
-        password: pwd
-      }
+  login(password) {
+    return request(methods.routerLogin, {
+      password
     });
   },
   isinitial() {
-    return axios.post(methods.routerIsInitial.url, {
-      method: methods.routerIsInitial.action
-    });
+    return request(methods.routerIsInitial);
   },
   updateMeshConfig(config) {
     // check params
@@ -257,22 +218,13 @@ const http = {
     if (config.admin && config.admin.password) {
       conf.admin = config.admin;
     }
-    return axios.post(methods.meshConfigUpdate.url, {
-      method: methods.meshConfigUpdate.action,
-      params: {
-        config: conf
-      }
-    });
+    return request(methods.meshConfigUpdate, { config: conf });
   },
   getWanStatus() {
-    return axios.post(methods.meshWanStatusGet.url, {
-      method: methods.meshWanStatusGet.action
-    });
+    return request(methods.meshWanStatusGet);
   },
   getTimezone() {
-    return axios.post(methods.routerTimezoneGet.url, {
-      method: methods.routerTimezoneGet.action
-    });
+    return request(methods.routerTimezoneGet);
   },
   post2native(action, type, data) {
     const message = {
