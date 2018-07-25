@@ -13,8 +13,8 @@
                 <span>{{$t('trans0210')}}{{node.version.latest}}</span>
               </div>
               <div class="message">
-                <img class="img-m2" v-if="packageInfo.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
-                <img class="img-bee" v-else-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
+                <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
+                <img class="img-bee" v-else-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
                 <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
                 <div>
                   <p class="node-name">{{node.name}}</p>
