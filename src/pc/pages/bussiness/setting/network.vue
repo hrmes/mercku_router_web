@@ -361,7 +361,7 @@ export default {
     },
     save(form) {
       this.$http
-        .meshWanUpdate({ wan: { ...form } })
+        .meshWanUpdate({ ...form })
         .then(() => {
           this.reboot = true;
           this.$reconnect({

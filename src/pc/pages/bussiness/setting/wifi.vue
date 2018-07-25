@@ -179,10 +179,8 @@ export default {
       if (this.$refs.form.validate()) {
         this.$http
           .meshWifiUpdate({
-            wifi: {
-              ...this.form,
-              bands: this.combineBands[this.band]
-            }
+            ...this.form,
+            bands: this.combineBands[this.band]
           })
           .then(res => {
             if (res.status === 200) {

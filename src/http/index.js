@@ -160,15 +160,11 @@ const http = {
   getWanNetStats() {
     return request(methods.meshWanStatsGet);
   },
-  meshWifiUpdate(config) {
-    return request(methods.meshWifiUpdate, {
-      ...config.wifi
-    });
+  meshWifiUpdate(params) {
+    return request(methods.meshWifiUpdate, params);
   },
-  meshWanUpdate(config) {
-    return request(methods.meshWanUpdate, {
-      ...config.wan
-    });
+  meshWanUpdate(params) {
+    return request(methods.meshWanUpdate, params);
   },
   /* v0.8 end */
   reboot() {
@@ -199,9 +195,7 @@ const http = {
     return request(methods.routerIsLogin);
   },
   login(password) {
-    return request(methods.routerLogin, {
-      password
-    });
+    return request(methods.routerLogin, { password });
   },
   isinitial() {
     return request(methods.routerIsInitial);
