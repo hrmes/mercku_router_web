@@ -63,7 +63,7 @@ const launch = () => {
             onsuccess: () => {},
             ontimeout: () => {},
             onprogress: () => {},
-            timeout: 99999999
+            timeout: 3600000
           },
           ...options
         };
