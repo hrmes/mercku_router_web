@@ -5,7 +5,7 @@
         <m-step :steps="steps" :current="current"></m-step>
       </div>
       <div class="step-content">
-        <div class="step-item" v-show="current===0">
+        <div class="step-item step-item1" v-show="current===0">
           <m-form ref="form1" :model="form1" :rules="form1Rules">
             <m-form-item class="form-item" prop="ssid">
               <m-input :label="$t('trans0168')" :placeholder="$t('trans0321')" v-model="form1.ssid" />
@@ -19,19 +19,19 @@
           </m-form>
 
         </div>
-        <div class="step-item" v-show="current===1">
+        <div class="step-item step-item2" v-show="current===1">
           <m-form ref="form2" :model="form2" :rules="form2Rules">
             <m-form-item class="form-item" prop="admin_password">
               <m-input :label="$t('trans0067')" type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="form2.admin_password" />
             </m-form-item>
             <m-checkbox class="checkbox" v-model="checked" @change="clearAdminPwd()" :text="$t('trans0293')"></m-checkbox>
             <div class="button-container">
-              <button @click="step0()" class="btn">{{$t('trans0057')}}</button>
+              <button @click="step0()" class="btn btn-default ">{{$t('trans0057')}}</button>
               <button @click="step2()" class="btn">{{$t('trans0081')}}</button>
             </div>
           </m-form>
         </div>
-        <div class="step-item" v-show="current===2">
+        <div class="step-item step-item3" v-show="current===2">
           <img src="../../../assets/images/img_setting.png" alt="">
           <span>{{$t('trans0294')}}{{countdown}}s</span>
         </div>
@@ -205,7 +205,13 @@ export default {
     text-align: center;
     .step-item {
       display: inline-block;
+      width: 350px;
       text-align: center;
+      &.step-item1 {
+        .button-container {
+          margin-top: 0;
+        }
+      }
       img {
         display: block;
         margin: 0 auto;
@@ -217,13 +223,17 @@ export default {
           margin-top: 10px;
         }
       }
+
       .button-container {
-        margin-top: 50px;
+        margin-top: 36px;
+        display: flex;
         button {
-          display: block;
-          margin-top: 10px;
-          &.first-child {
-            margin-top: 0;
+          display: inline-block;
+          flex: 1;
+          margin-right: 20px;
+          width: auto;
+          &:last-child {
+            margin-right: 0;
           }
         }
       }
@@ -242,6 +252,15 @@ export default {
       margin: 50px auto;
       .step-item {
         display: block;
+        width: 100%;
+      }
+    }
+    .button-container {
+      margin-top: 10px;
+      button {
+        &:last-child {
+          margin-top: 0;
+        }
       }
     }
   }
