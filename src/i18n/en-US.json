@@ -350,7 +350,7 @@
   "trans0331": "About offline upgrade",
   "trans0332": "Visit the official website: ",
   "trans0333":
-    "The firmware could be used in the following devices. Please confirm and click “Upgrade All” ",
+    "The firmware could be used in the following devices. Please confirm and click “Upgrade” ",
   "trans0334": " ",
   "trans0335": "Such as: product name, model, version code",
   "trans0336":
@@ -368,6 +368,6 @@
   "trans0346": "Download the latest firmware",
   "trans0347": " ",
   "trans0348":
-    "Confirm the firmware can be used in the listed routers, then click \"Upgrade All\"",
+    "Confirm the firmware can be used in the listed routers, then click \"Upgrade\"",
   "trans0349": " "
 }
