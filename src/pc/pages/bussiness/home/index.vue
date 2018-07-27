@@ -167,7 +167,7 @@
         </div>
         <div class='mesh-info'>
           <div class="title">{{$t('trans0312')}}</div>
-          <div class="content" style="padding-top:0;">
+          <div class="content" >
             <div id="topo" style="width:100%;height:550px;"></div>
           </div>
         </div>
