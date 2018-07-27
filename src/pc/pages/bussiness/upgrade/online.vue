@@ -12,11 +12,16 @@
                 <img src="../../../assets/images/ic_new_version.png" alt="">
                 <span>{{$t('trans0210')}}{{node.version.latest}}</span>
               </div>
-              <div class="message">
-                <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
-                <img class="img-bee" v-else-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
-                <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
-                <div>
+              <div class="message" @click="check(node)">
+                <div class="check-container">
+                  <div class="checkbox" :class="{'checked':node.checked}"></div>
+                </div>
+                <div class="img-container">
+                  <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
+                  <img class="img-bee" v-else-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
+                  <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
+                </div>
+                <div class="info-container">
                   <p class="node-name">{{node.name}}</p>
                   <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
                   <p class="node-version">
@@ -53,13 +58,15 @@
 <script>
 import layout from '../../../layout.vue';
 import Progress from '../../../component/progress/index.vue';
+import mCheckbox from '../../../component/checkbox/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 import { compareVersion } from '../../../../util/util';
 
 export default {
   components: {
     layout,
-    'm-progress': Progress
+    'm-progress': Progress,
+    mCheckbox
   },
   data() {
     return {
@@ -84,6 +91,15 @@ export default {
     }
   },
   methods: {
+    check(node) {
+      this.nodes.forEach(n => {
+        if (n !== node) {
+          n.checked = false;
+        } else {
+          n.checked = true;
+        }
+      });
+    },
     firmwareList() {
       this.$loading.open();
       this.$http
@@ -92,6 +108,12 @@ export default {
           this.$loading.close();
           const data = res.data.result;
           this.requestResult.complete = true;
+          data.forEach(node => {
+            this.$set(node, 'checked', false);
+          });
+          if (data.length) {
+            data[0].checked = true;
+          }
           this.nodes = data.filter(node =>
             compareVersion(node.version.current, node.version.latest)
           );
@@ -119,7 +141,7 @@ export default {
         message: this.$t('trans0213'),
         callback: {
           ok: () => {
-            const nodeIds = this.nodes.map(n => n.sn);
+            const nodeIds = this.nodes.filter(n => n.checked).map(n => n.sn);
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds })
               .then(() => {
@@ -183,57 +205,91 @@ export default {
           border-radius: 5px;
           margin-right: 20px;
           margin-top: 20px;
+          position: relative;
           .message {
             display: flex;
-            margin-top: 40px;
             align-items: start;
             padding: 0 20px;
-            .img-m2 {
-              width: 50px;
+            height: 100%;
+            cursor: pointer;
+            .check-container,
+            .img-container,
+            .info-container {
+              display: flex;
+              align-items: center;
+              align-content: center;
+              height: 100%;
             }
-            .img-bee {
-              width: 50px;
+            .check-container {
+              margin-right: 20px;
+              .checkbox {
+                width: 18px;
+                height: 18px;
+                border-radius: 2px;
+                border: 1px solid #e1e1e1;
+                border-radius: 50%;
+                &.checked {
+                  background: url(../../../assets/images/ic_selected.png)
+                    no-repeat center;
+                  border: none;
+                  background-size: 90%;
+                  background-color: #00d061;
+                }
+              }
             }
-            .img-other {
-              width: 50px;
+            .img-container {
+              margin-right: 10px;
+              .img-m2 {
+                width: 50px;
+              }
+              .img-bee {
+                width: 50px;
+              }
+              .img-other {
+                width: 50px;
+              }
             }
-            .dot {
-              display: inline-block;
-              width: 3px;
-              height: 3px;
-              border-radius: 50%;
-              background: #000;
-              position: relative;
-              top: -3px;
-            }
-            .node-name {
-              padding: 0;
-              margin: 0;
-              text-align: left;
-              font-size: 12px;
-              padding-top: 5px;
-              padding-top: 0px;
-              font-size: 14px;
-              font-weight: bold;
-            }
-            .node-sn {
-              padding: 0;
-              margin: 0;
-              text-align: left;
-              font-size: 12px;
-              padding-top: 5px;
-            }
-            .node-version {
-              padding: 0;
-              margin: 0;
-              text-align: left;
-              font-size: 12px;
-              padding-top: 5px;
-              font-size: 10px;
-              padding-top: 10px;
-            }
-            div {
-              padding-left: 20px;
+
+            .info-container {
+              flex-direction: column;
+              align-items: start;
+              align-content: start;
+              justify-content: center;
+              .dot {
+                display: inline-block;
+                width: 3px;
+                height: 3px;
+                border-radius: 50%;
+                background: #000;
+                position: relative;
+                top: -3px;
+              }
+              .node-name {
+                padding: 0;
+                margin: 0;
+                text-align: left;
+                font-size: 12px;
+                padding-top: 5px;
+                padding-top: 0px;
+                font-size: 14px;
+                font-weight: bold;
+              }
+              .node-sn {
+                padding: 0;
+                margin: 0;
+                text-align: left;
+                font-size: 12px;
+                padding-top: 5px;
+              }
+              .node-version {
+                padding: 0;
+                margin: 0;
+                text-align: left;
+                font-size: 12px;
+                padding-top: 5px;
+                font-size: 10px;
+                padding-top: 10px;
+              }
             }
           }
           .badge-info {
@@ -248,7 +304,9 @@ export default {
             border-bottom-left-radius: 15px;
             border-top-right-radius: 5px;
             background-image: linear-gradient(290deg, #4237dd, #7037dd);
-            float: right;
+            position: absolute;
+            right: 0;
+            top: 0;
             img {
               width: 18px;
               margin-right: 5px;
@@ -262,7 +320,7 @@ export default {
         }
       }
       .btn-info {
-        margin: 100px 0;
+        margin: 50px 0;
       }
     }
     .msg-wrapper {

@@ -2,8 +2,8 @@
   <transition name="checkbox">
     <div class="checkbox-container">
       <label @click="check()">
-        <div class="box" :class="{'checked':checked}"></div>
-        <div class="text">{{text}}</div>
+        <div class="box" :class="{'checked':checked,'circle-shape':!rect}"></div>
+        <div class="text" v-if="text">{{text}}</div>
       </label>
     </div>
 
@@ -19,6 +19,10 @@ export default {
     },
     text: {
       type: String
+    },
+    rect: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -46,6 +50,7 @@ export default {
 
   height: 18px;
   display: block;
+
   label {
     cursor: pointer;
   }
@@ -55,6 +60,9 @@ export default {
     height: 18px;
     border-radius: 2px;
     border: 1px solid #e1e1e1;
+    &.circle-shape {
+      border-radius: 50%;
+    }
     &.checked {
       background: url(../../assets/images/ic_selected.png) no-repeat center;
       border: none;
