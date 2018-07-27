@@ -167,7 +167,7 @@
         </div>
         <div class='mesh-info'>
           <div class="title">{{$t('trans0312')}}</div>
-          <div class="content" >
+          <div class="content">
             <div id="topo" style="width:100%;height:550px;"></div>
           </div>
         </div>
@@ -249,13 +249,13 @@ const Color = {
 const isGood = rssi => rssi > -50;
 
 // 去重
-function distinct(source) {
+function distinct(source, gateway) {
   return source.map(r => {
     const neighbors = [];
     if (r.neighbors) {
       r.neighbors.forEach(n => {
         const node = source.filter(s => s.sn === n.sn)[0];
-        node.neighbors = node.neighbors.filter(nn => nn.sn !== r.sn);
+        node.neighbors = node.neighbors.filter(nn => nn.sn !== gateway.sn);
         neighbors.push({
           entity: node,
           origin: n
@@ -275,7 +275,11 @@ function findGateway(source) {
 // 找绿色的节点
 function findGreenNode(root, source, green) {
   root.neighbors.forEach(n => {
-    if (!green.includes(n.entity) && isGood(n.origin.rssi)) {
+    if (
+      !green.includes(n.entity) &&
+      isGood(n.origin.rssi) &&
+      root !== n.entity
+    ) {
       green.push(n.entity);
       findGreenNode(n.entity, source, green);
     }
@@ -396,7 +400,11 @@ function genLines(gateway, green, red) {
 
   const lines = [];
   gateway.neighbors.forEach(n => {
-    lines.push(genLine(gateway, n.entity, Color.good));
+    if (isGood(n.origin.rssi)) {
+      lines.push(genLine(gateway, n.entity, Color.good));
+    } else if (red.includes(n.entity)) {
+      lines.push(genLine(gateway, n.entity, Color.bad));
+    }
   });
 
   red.forEach(r => {
@@ -425,9 +433,9 @@ function genLines(gateway, green, red) {
 
 // 生成所有绘图数据
 function genData(array) {
-  const RouterDistincted = distinct(array);
+  const gateway = findGateway(array);
 
-  const gateway = findGateway(RouterDistincted);
+  const RouterDistincted = distinct(array, gateway);
 
   const green = [];
   findGreenNode(gateway, RouterDistincted, green);
