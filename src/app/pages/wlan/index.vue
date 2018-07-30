@@ -17,7 +17,8 @@
         </div>
       </div>
       <div class="check-container">
-        <van-checkbox v-model="checked" shape="square">{{$t('trans0166')}}</van-checkbox>
+        <mCheckbox v-model="checked" :text="$t('trans0166')" />
+        <!-- <van-checkbox v-model="checked" shape="square">{{}}</van-checkbox> -->
       </div>
       <div v-if="!checked" class="adminpwd-container">
         <div class="adminpwd-input">
@@ -35,7 +36,12 @@
 </template>
 
 <script>
+import mCheckbox from '../../component/checkbox/index.vue';
+
 export default {
+  components: {
+    mCheckbox
+  },
   data() {
     const config = this.routerConfig.getConfig();
     const checked = this.isChecked(config.wifi.password, config.admin.password);
@@ -53,7 +59,6 @@ export default {
       option: {
         left: {
           icon: true,
-          text: 'arrow-left',
           click: () => {
             this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
           }

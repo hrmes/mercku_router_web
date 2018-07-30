@@ -3,15 +3,14 @@
     <!-- <div v-if="hasBar()" class="status has-topbar" /> -->
     <div class="content">
       <div class="left" v-if="option.left" @click="leftClick">
-        <van-icon v-if="option.left.icon" :name="option.left.text" class="active" />
+        <img v-if="option.left.icon" class="icon-back" src="../assets/images/ic_back@3x.png" alt="">
         <span v-if="!option.left.icon">{{option.left.text}}</span>
       </div>
       <div class="center" v-if="option.center" @click="centerClick">
-        <van-icon v-if="option.center.icon" :name="option.center.text" class="active" />
         <span v-if="!option.center.icon">{{option.center.text}}</span>
       </div>
       <div class="right" v-if="option.right" @click="rightClick">
-        <van-icon v-if="option.right.icon" :name="option.right.text" class="active" />
+        <img v-if="option.right.icon" class="icon-forward" src="../assets/images/ic_back@3x.png" alt="">
         <span v-if="!option.right.icon">{{option.right.text}}</span>
       </div>
     </div>
@@ -112,23 +111,13 @@ export default {
       display: inline-block;
       padding-left: 0.15rem;
       padding-right: 0.15rem;
-
-      /*top: .2rem;*/
-      i {
-        font-size: 0.19rem;
+      position: relative;
+      .icon-back {
+        width: 0.12rem;
+        height: 0.19rem;
         position: absolute;
-        top: 0.12rem;
-        color: #d5b884;
-        font-weight: 900;
-        // z-index: -1;
-      }
-
-      &:active {
-        i {
-          color: #ffdea1;
-          opacity: 0.5;
-        }
-        // background: red;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
 
@@ -157,15 +146,20 @@ export default {
       color: #d5b884;
       text-align: right;
       height: 0.44rem;
-      /*top: .2rem;*/
       line-height: 0.44rem;
       width: 0.5rem;
       padding-right: 0.15rem;
-
+      .icon-forward {
+        width: 0.12rem;
+        height: 0.19rem;
+        transform: rotate(180deg);
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+      }
       :active {
         color: #ffdea1;
       }
-
       :hover {
         color: #ffdda1;
       }

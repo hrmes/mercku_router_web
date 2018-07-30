@@ -5,7 +5,7 @@
       <span>{{$t('trans0317')}}</span>
       <span>
         {{this.$t(type)}}
-        <van-icon name="arrow" />
+        <img class="icon-enter" src="../../assets/images/ic_inter@3x.png" />
       </span>
     </div>
     <div class="message">{{$t('trans0154')}}</div>
@@ -32,7 +32,6 @@ export default {
       option: {
         left: {
           icon: true,
-          text: 'arrow-left',
           click: () => {
             this.$router.back();
           }
@@ -88,6 +87,10 @@ export default {
     font-size: 14px;
     padding: 0 0.15rem;
     justify-content: space-between;
+    .icon-enter {
+      width: 0.074rem;
+      height: 0.12rem;
+    }
     :last-child {
       text-align: right;
       display: flex;

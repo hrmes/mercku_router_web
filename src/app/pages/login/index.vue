@@ -30,7 +30,6 @@ export default {
       option: {
         left: {
           icon: true,
-          text: 'arrow-left',
           click: () => {
             this.$http.post2native('PUT', 'CLOSE_WEB_PAGE');
           }

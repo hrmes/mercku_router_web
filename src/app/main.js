@@ -2,8 +2,6 @@ import Vue from 'vue';
 
 import Button from 'vant/lib/button';
 import Field from 'vant/lib/field';
-import Icon from 'vant/lib/icon';
-import Checkbox from 'vant/lib/checkbox';
 import Dialog from 'vant/lib/dialog';
 import Toast from 'vant/lib/toast';
 
@@ -23,8 +21,6 @@ import v from '../../version.json';
 
 Vue.use(Button);
 Vue.use(Field);
-Vue.use(Icon);
-Vue.use(Checkbox);
 
 Vue.component('nav-bar', nav);
 

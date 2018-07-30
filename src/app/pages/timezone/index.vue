@@ -31,7 +31,6 @@ export default {
       option: {
         left: {
           icon: true,
-          text: 'arrow-left',
           click: () => {
             this.$router.replace({ path: '/wlan' });
           }

@@ -79,7 +79,6 @@ export default {
         },
         left: {
           icon: true,
-          text: 'arrow-left',
           click: () => {
             if (this.$route.params.immediate) {
               this.$router.replace('/wlan');
