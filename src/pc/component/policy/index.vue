@@ -61,7 +61,7 @@ export default {
 <style lang="scss" scoped>
 .policy-container {
   text-align: center;
-  padding: 20px;
+  padding: 15px;
   font-size: 12px;
   .policy-text {
     text-decoration: underline;
