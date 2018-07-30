@@ -27,18 +27,6 @@
           <i class="i" :class="{'i-open':showAdminPwd,'i-close':!showAdminPwd}" @click="changeAdminPwdStatus"></i>
         </div>
       </div>
-      <!-- <div class="timezone-container" @click="selectTimezone">
-        <label class="timezone-left">{{$t('trans0272')}}</label>
-        <div class="right-container">
-          <div class="timezone-info">
-            <div class="timezone-value">{{timezone.timename}}</div>
-            <div class="timezone-name">{{timezone.name}}</div>
-          </div>
-          <div class="icon-right">
-            <van-icon name="arrow" class="active" />
-          </div>
-        </div>
-      </div> -->
     </div>
     <div class="button-info">
       <van-button @click="complete" :disabled="disabled">{{$t('trans0018')}}</van-button>
@@ -191,15 +179,6 @@ export default {
         right: 0;
         top: 50%;
         transform: translateY(-50%);
-      }
-      .van-icon {
-        &.active {
-          color: #ffdea1;
-        }
-
-        &:hover {
-          color: #ffdda1;
-        }
       }
       margin-top: 0.35rem;
       position: relative;

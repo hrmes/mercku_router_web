@@ -59,7 +59,7 @@ export default {
                 const config = this.routerConfig.getConfig();
                 this.$http
                   .updateMeshConfig({
-                    ...config.wifi
+                    wifi: config.wifi
                   })
                   .then(() => {
                     this.$router.replace('/complete');
