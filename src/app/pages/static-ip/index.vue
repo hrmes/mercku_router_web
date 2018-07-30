@@ -157,6 +157,7 @@ export default {
     .icon-enter {
       width: 0.074rem;
       height: 0.12rem;
+      margin-left: 0.1rem;
     }
     :last-child {
       text-align: right;

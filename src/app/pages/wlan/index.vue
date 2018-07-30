@@ -79,7 +79,7 @@ export default {
           this.ssid = wifi.ssid;
           this.pwd = wifi.password;
           this.adminPwd = admin.password;
-          this.checked = this.isChecked(this.ssid, this.pwd);
+          this.checked = this.isChecked(this.pwd, this.adminPwd);
           this.routerConfig.setWIFI(this.ssid, this.pwd);
           this.routerConfig.setAdmin(this.adminPwd);
         })

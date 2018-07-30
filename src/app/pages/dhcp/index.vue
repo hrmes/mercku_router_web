@@ -66,6 +66,7 @@ export default {
     justify-content: space-between;
     .icon-enter {
       width: 0.074rem;
+      margin-left: 0.1rem;
       height: 0.12rem;
     }
     :last-child {

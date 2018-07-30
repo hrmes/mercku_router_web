@@ -98,15 +98,13 @@ export default {
     };
   },
   methods: {
-    setWan() {
-      const wanConfig = this.routerConfig.getWan();
+    setWan(info = {}) {
       this.netinfo = {
-        ip: wanConfig.ip || '-',
-        mask: wanConfig.mask || '-',
-        gateway: wanConfig.gateway || '-',
-        dns: wanConfig.dns || ['-']
+        ip: info.ip || '-',
+        mask: info.mask || '-',
+        gateway: info.gateway || '-',
+        dns: info.dns || ['-']
       };
-      this.access = wanConfig.type;
     },
     forward2set() {
       if (this.access === WanType.pppoe) {
@@ -121,18 +119,16 @@ export default {
     }
   },
   mounted() {
-    this.setWan();
     this.$http
       .getWanNetInfo()
       .then(res => {
-        this.netinfo = res.data.result.netinfo;
+        this.setWan(res.data.result.netinfo);
         this.access = res.data.result.type;
         const { result } = res.data;
         this.routerConfig.setWan(
           this.access,
           result.pppoe || (result.static && result.static.netinfo) || ''
         );
-        this.setWan();
       })
       .catch(err => {
         if (err && err.error) {

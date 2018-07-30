@@ -37,7 +37,6 @@
 export default {
   data() {
     const config = this.routerConfig.getWan();
-    console.log(config);
     return {
       type: config.type,
       option: {
