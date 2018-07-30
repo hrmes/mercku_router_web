@@ -421,7 +421,7 @@ function genLines(gateway, green, red) {
     r.neighbors.forEach(n => {
       if (isGood(n.origin.rssi)) {
         lines.push(genLine(r, n.entity, Color.good));
-      } else if (!green.includes(n)) {
+      } else if (!green.includes(n.entity)) {
         // 双绿点过滤红线
         lines.push(genLine(r, n.entity, Color.bad));
       }
@@ -828,7 +828,6 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
-          // this.meshNode = res.data.result;
           this.drawTopo(res.data.result);
           if (this.enter) {
             this.timer3 = setTimeout(() => {
