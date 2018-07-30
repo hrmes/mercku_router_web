@@ -240,7 +240,7 @@ export default {
                 this.upgraded = true;
                 this.$upgrade({
                   onsuccess: () => {
-                    this.$router.push({ path: '/login' });
+                    this.$router.push({ path: '/home' });
                   },
                   timeout: 60000
                 });
