@@ -5,7 +5,9 @@
     <div class="policy-dialog" v-show="show">
       <div class="dialog-body">
         <div class="dialog-title">{{$t('trans0139')}}</div>
-        <div class="dialog-content" v-html="policy"></div>
+        <div class="dialog-content">
+          <div v-html="policy"></div>
+        </div>
         <div class="button-container">
 
           <button class="btn" @click="close()">{{$t('trans0024')}}</button>
@@ -87,14 +89,15 @@ export default {
         padding: 20px;
       }
       .dialog-content {
-        max-height: 250px;
-        min-height: 100px;
         overflow: auto;
         text-align: left;
         padding: 20px;
+        position: absolute;
+        bottom: 82px;
+        top: 62px;
       }
-      width: 600px;
-      padding: 0 0 20px 0;
+      width: 80%;
+      height: 80%;
       position: absolute;
       border-radius: 5px;
       box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -104,6 +107,9 @@ export default {
       z-index: 1000;
       .button-container {
         padding: 20px;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
         .btn {
           width: 120px;
           height: 42px;

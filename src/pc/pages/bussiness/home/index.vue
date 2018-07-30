@@ -926,6 +926,7 @@ export default {
     transform: scale(1);
   }
 }
+
 .home-container {
   flex: auto;
   padding: 0 2%;
@@ -1396,6 +1397,7 @@ export default {
           font-size: 14px;
           .r-title {
             font-size: 17px;
+            display: inline-block;
             color: #999999;
             font-weight: 200;
             border: none;
@@ -1452,7 +1454,60 @@ export default {
     }
   }
 }
+@media screen and (min-width: 1367px) and (max-width: 1680px) {
+  .home-container {
+    .check-info {
+      .check-status {
+        width: 400px;
+      }
+    }
 
+    .router-info {
+      .real-time-network {
+        .content {
+          .speep-info {
+            justify-content: flex-start;
+            div {
+              text-align: left;
+            }
+          }
+          .real-time-info {
+            text-align: left;
+            width: 100%;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            .down {
+              flex: 1;
+            }
+            .up {
+              padding: 0;
+              flex: 1;
+            }
+            &::after {
+              border: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1366px) {
+  .home-container {
+    .check-info {
+      .check-status {
+        width: 300px;
+      }
+    }
+    .router-info {
+      flex-direction: column;
+      .item {
+        width: 100% !important;
+      }
+    }
+  }
+}
 @media screen and (min-width: 769px) and (max-width: 1000px) {
   .check-info {
     // padding-bottom: 30px;
@@ -1533,61 +1588,6 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1366px) {
-  .home-container {
-    .check-info {
-      .check-status {
-        width: 300px;
-      }
-    }
-    .router-info {
-      flex-direction: column;
-      .item {
-        width: 100% !important;
-      }
-    }
-  }
-}
-@media screen and (min-width: 1367px) and (max-width: 1680px) {
-  .home-container {
-    .check-info {
-      .check-status {
-        width: 400px;
-      }
-    }
-
-    .router-info {
-      .real-time-network {
-        .content {
-          .speep-info {
-            justify-content: flex-start;
-            div {
-              text-align: left;
-            }
-          }
-          .real-time-info {
-            text-align: left;
-            width: 100%;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-            .down {
-              flex: 1;
-            }
-            .up {
-              padding: 0;
-              flex: 1;
-            }
-            &::after {
-              border: none;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
 @media screen and (max-width: 768px) {
   .home-container {
     .speed-model-info {
