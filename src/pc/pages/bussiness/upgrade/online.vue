@@ -255,15 +255,7 @@ export default {
               align-items: start;
               align-content: start;
               justify-content: center;
-              .dot {
-                display: inline-block;
-                width: 3px;
-                height: 3px;
-                border-radius: 50%;
-                background: #000;
-                position: relative;
-                top: -3px;
-              }
+
               .node-name {
                 padding: 0;
                 margin: 0;
@@ -289,6 +281,17 @@ export default {
                 padding-top: 5px;
                 font-size: 10px;
                 padding-top: 10px;
+                position: relative;
+                &:before {
+                  display: inline-block;
+                  width: 3px;
+                  height: 3px;
+                  border-radius: 50%;
+                  background: #000;
+                  position: absolute;
+                  top: 50%;
+                  transform: translateY(-50%);
+                }
               }
             }
           }
