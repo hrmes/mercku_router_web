@@ -56,7 +56,6 @@
                       <p class="node-name">{{node.name}}</p>
                       <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
                       <p class="node-version">
-                        <span class="dot"></span>
                         <span>{{$t('trans0209')}}{{node.version.current}}</span>
                       </p>
                     </div>
@@ -242,7 +241,7 @@ export default {
                   onsuccess: () => {
                     this.$router.push({ path: '/home' });
                   },
-                  timeout: 60000
+                  timeout: 100
                 });
               })
               .catch(err => {
@@ -431,10 +430,16 @@ export default {
                 margin: 0;
                 text-align: left;
                 font-size: 12px;
-                padding-top: 5px;
                 font-size: 10px;
-                padding-top: 10px;
+                margin-top: 10px;
+
+                position: relative;
+                span {
+                  display: inline-block;
+                  margin-left: 5px;
+                }
                 &:before {
+                  content: '';
                   display: inline-block;
                   width: 3px;
                   height: 3px;
