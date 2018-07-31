@@ -90,7 +90,7 @@ export default {
       // right: 50%;
       // transform: translateX(50%);
       img {
-        width: 180px;
+        width: 200px;
       }
       .re-btn {
         margin-top: 30px;

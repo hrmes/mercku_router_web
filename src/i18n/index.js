@@ -16,8 +16,9 @@ Object.keys(extra).forEach(ex => {
   enUS[ex] = enUS[extra[ex]];
 });
 
+const locale = localStorage.getItem('lang');
 export const i18n = new VueI18n({
-  locale: localStorage.getItem('lang'),
+  locale,
   messages: {
     'zh-CN': zhCN,
     'en-US': enUS

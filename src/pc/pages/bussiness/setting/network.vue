@@ -447,8 +447,7 @@ export default {
         text-align: center;
         padding: 20px 0;
         img {
-          width: 220px;
-          height: 220px;
+          width: 200px;
         }
         p {
           margin: 0;
