@@ -129,7 +129,6 @@ export default {
 
       div {
         color: rgb(182, 182, 182);
-        font-weight: 100;
         margin-bottom: 0.1rem;
         font-size: 0.16rem;
 
@@ -178,7 +177,6 @@ export default {
       font-size: 0.14rem;
       color: rgb(182, 182, 182);
       margin-top: 0.1rem;
-      font-weight: 100;
     }
   }
 }
