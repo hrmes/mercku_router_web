@@ -18,7 +18,7 @@
                 <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
               </m-form-item>
             </m-form>
-            <div class="item" style="min-height:110px">
+            <div class="item" style="margin-bottom:30px;">
               <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
             </div>
             <div class="check-info">
@@ -237,12 +237,9 @@ export default {
       display: flex;
       justify-content: center;
       padding: 30px 0;
-      .item {
-        // margin-bottom: 20px;
-      }
 
       .btn-info {
-        margin-top: 40px;
+        margin-top: 30px;
       }
       .check-info {
         display: flex;

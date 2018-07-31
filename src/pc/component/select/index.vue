@@ -86,7 +86,7 @@ export default {
   }
   label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-size: 14px;
   }
 

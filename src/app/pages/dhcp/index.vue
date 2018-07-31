@@ -10,7 +10,7 @@
     </div>
     <div class="message">{{$t('trans0147')}}</div>
     <div class="button-info">
-      <van-button size="normal" @click="submit()">{{$t('trans0081')}}</van-button>
+      <button class="btn btn-default" @click="submit()">{{$t('trans0081')}}</button>
     </div>
   </div>
 </template>

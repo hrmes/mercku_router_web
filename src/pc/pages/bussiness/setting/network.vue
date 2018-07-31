@@ -58,7 +58,7 @@
           </div>
           <div class="setting-info">
             <div class='form'>
-              <div class="item" style="min-height:110px">
+              <div class="item">
                 <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
                 <div class="note">{{netNote[netType]}}</div>
               </div>
@@ -503,7 +503,7 @@ export default {
             height: 30px;
           }
           .btn-info {
-            margin-top: 40px;
+            margin-top: 30px;
           }
         }
       }

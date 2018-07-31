@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="button-info">
-      <van-button @click="login(password)" :disabled="!password">{{$t('trans0001')}}</van-button>
+      <button class="btn btn-default" @click="login(password)" :disabled="!password">{{$t('trans0001')}}</button>
     </div>
   </div>
 </template>

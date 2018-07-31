@@ -69,22 +69,21 @@ export default {
 </script>
 <style lang="scss">
 .form-item {
-  min-height: 110px;
+  margin-bottom: 30px;
+  position: relative;
   .error-message {
     color: red;
     font-size: 12px;
     display: block;
-    padding: 5px 0;
+    padding-top: 4px;
+    line-height: 1;
+    position: absolute;
+    top: 100%;
   }
   &.form-item-error {
     input {
       border-color: red !important;
       transition: border 0.3 linear;
-    }
-  }
-  &.form-item-success {
-    input {
-      //border-color: red !important;
     }
   }
 }

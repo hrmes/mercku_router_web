@@ -31,9 +31,9 @@
     </div>
 
     <div class="button-info">
-      <van-button size="normal" @click="forward2set()">{{$t('trans0019')}}</van-button>
+      <button class="btn btn-default" @click="forward2set()">{{$t('trans0019')}}</button>
       <div class="space"></div>
-      <van-button size="normal" @click="$router.replace('/check-network')">{{$t('trans0162')}}</van-button>
+      <button class="btn btn-default" @click="$router.replace('/check-network')">{{$t('trans0162')}}</button>
     </div>
   </div>
 </template>

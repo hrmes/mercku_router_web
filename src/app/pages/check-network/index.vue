@@ -14,7 +14,7 @@
     <div class="unconnected" v-if="!connMercku">
       <img src="../../assets/images/img_loading_fail@3x.png" alt="">
       <div>{{$t('trans0039')}}</div>
-      <van-button class="retry-button" @click="retry">{{$t('trans0162')}}</van-button>
+      <button class="btn btn-default retry-button" @click="retry">{{$t('trans0162')}}</button>
     </div>
   </div>
 </template>

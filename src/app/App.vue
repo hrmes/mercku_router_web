@@ -5,7 +5,6 @@
 </template>
 <script>
 import 'vant/lib/vant-css/base.css';
-import 'vant/lib/vant-css/button.css';
 import 'vant/lib/vant-css/field.css';
 import 'vant/lib/vant-css/dialog.css';
 import 'vant/lib/vant-css/toast.css';

@@ -53,11 +53,10 @@ export default {
       }, 1000);
     },
     setOverflow() {
-      this.bodyOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
     },
     restoryOverflow() {
-      document.body.style.overflow = this.bodyOverflow || 'auto';
+      document.body.style.overflow = 'auto';
     }
   },
   beforeDestroy() {

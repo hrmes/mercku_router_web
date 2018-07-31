@@ -33,8 +33,7 @@
       <span>{{$t('trans0294')}}{{deadline}}s</span>
     </div>
     <div class="button-info" v-if="!showProgress">
-      <van-button size="normal" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'): $t('trans0233')}}
-      </van-button>
+      <button class="btn btn-default" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'): $t('trans0233')}}</button>
     </div>
   </div>
 </template>

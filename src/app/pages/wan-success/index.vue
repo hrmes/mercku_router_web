@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="button-info">
-      <van-button size="normal" @click="next">{{$t('trans0081')}}</van-button>
+      <button class="btn btn-default" @click="next">{{$t('trans0081')}}</button>
     </div>
   </div>
 

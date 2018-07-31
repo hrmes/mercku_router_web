@@ -449,7 +449,7 @@ export default {
         }
       }
       .btn-info {
-        margin: 50px 0;
+        margin: 30px 0;
       }
     }
   }

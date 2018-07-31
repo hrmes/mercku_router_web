@@ -20,7 +20,6 @@ export default {
       visible: false,
       message: '',
       title: '',
-      bodyOverflow: '',
       callback: {},
       okText: 'ok',
       cancelText: 'cancel'
@@ -31,11 +30,10 @@ export default {
   },
   methods: {
     setOverflow() {
-      this.bodyOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
     },
     restoryOverflow() {
-      document.body.style.overflow = this.bodyOverflow || '';
+      document.body.style.overflow = 'auto';
     },
     close() {
       this.$el.addEventListener('transitionend', () => {

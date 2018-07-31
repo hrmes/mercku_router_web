@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="button-info">
-      <van-button @click="complete" :disabled="disabled">{{$t('trans0018')}}</van-button>
+      <button class="btn btn-default" @click="complete" :disabled="disabled">{{$t('trans0018')}}</button>
     </div>
   </div>
 </template>

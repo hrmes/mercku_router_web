@@ -28,7 +28,7 @@
       <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.dns" @blur="onBlur('dns',form.dns)" />
     </div>
     <div class="button-info">
-      <van-button size="normal" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</van-button>
+      <button class="btn btn-default" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</button>
     </div>
   </div>
 </template>

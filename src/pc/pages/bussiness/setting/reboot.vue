@@ -93,7 +93,7 @@ export default {
         width: 180px;
       }
       .re-btn {
-        margin-top: 50px;
+        margin-top: 30px;
       }
     }
   }

@@ -42,14 +42,47 @@ body {
   transform: translateX(-100%);
 }
 
-.van-button {
-  border-radius: 0.5rem;
-  line-height: 1 !important;
+.btn {
+  border-radius: 50px;
+  line-height: 1;
   background: transparent;
   color: rgb(213, 184, 132);
-  border-color: rgb(213, 184, 132);
+  border: 1px solid rgb(213, 184, 132);
   width: 2rem;
   height: 0.5rem;
+  padding: 0 15px;
+  font-size: 14px;
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  text-align: center;
+  -webkit-appearance: none;
+  &::before {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    border: inherit;
+    border-color: #000;
+    background-color: #000;
+    border-radius: inherit;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  &:active {
+    color: rgb(255, 230, 186);
+    border: 1px solid rgb(255, 230, 186);
+    &::before {
+      opacity: 0.3;
+    }
+  }
+  &[disabled] {
+    color: rgb(85, 75, 58);
+    border: 1px solid rgb(85, 75, 58);
+  }
 }
 
 .van-field {
@@ -85,20 +118,6 @@ body {
       color: rgb(124, 124, 124) !important; //color: red;
     }
   }
-}
-
-.van-button__text {
-  font-size: 0.16rem;
-}
-
-.van-button--disabled {
-  color: rgb(85, 75, 58) !important;
-  border: 1px solid rgb(85, 75, 58) !important;
-}
-
-.van-button:active {
-  color: rgb(255, 230, 186);
-  border: 1px solid rgb(255, 230, 186);
 }
 
 .space {

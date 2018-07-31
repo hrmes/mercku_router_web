@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="button-info">
-        <van-button size="normal" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</van-button>
+        <button class="btn btn-default" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
