@@ -37,6 +37,7 @@
 
 <script>
 import mCheckbox from '../../component/checkbox/index.vue';
+import { getStringByte } from '../../../util/util';
 
 export default {
   components: {
@@ -108,8 +109,7 @@ export default {
         this.$toast(this.$t('trans0237'));
         return;
       }
-      // 用aa替换中文字符，便于计算长度
-      const { length } = this.ssid;
+      const length = getStringByte(this.ssid);
       if (length > 20 || length < 1) {
         this.$toast(this.$t('trans0261'));
         return;

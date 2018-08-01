@@ -48,6 +48,7 @@ import FormItem from '../../../component/formItem/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import Checkbox from '../../../component/checkbox/index.vue';
 import layout from '../../../layout.vue';
+import { getStringByte } from '../../../../util/util';
 
 export default {
   components: {
@@ -105,7 +106,7 @@ export default {
       rules: {
         ssid: [
           {
-            rule: value => /^.{1,20}$/g.test(value),
+            rule: value => getStringByte(value) <= 20,
             message: this.$t('trans0261')
           },
           {

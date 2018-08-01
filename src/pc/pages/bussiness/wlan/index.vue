@@ -48,6 +48,7 @@ import mCheckbox from '../../../component/checkbox/index.vue';
 import mForm from '../../../component/form/index.vue';
 import mFormItem from '../../../component/formItem/index.vue';
 import layout from '../../../layout.vue';
+import { getStringByte } from '../../../../util/util';
 
 export default {
   components: {
@@ -70,7 +71,7 @@ export default {
       form1Rules: {
         ssid: [
           {
-            rule: value => /^.{1,20}$/g.test(value),
+            rule: value => getStringByte(value) <= 20,
             message: this.$t('trans0261')
           },
           {
