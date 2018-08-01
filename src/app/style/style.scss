@@ -160,23 +160,3 @@ body {
 .van-loading__spinner.van-loading__spinner--circular {
   display: none;
 }
-
-@keyframes loading {
-  0% {
-    background: url(../assets/images/img_loading_01@3x.png) no-repeat;
-    background-size: 100%;
-  }
-  100% {
-    background: url(../assets/images/img_loading_02@3x.png) no-repeat;
-    background-size: 100%;
-  }
-}
-
-.van-loading.van-loading--circular {
-  animation: loading 1s linear infinite;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  width: 88px;
-  height: 30px;
-  margin: 0;
-}

@@ -1,9 +1,10 @@
 import Vue from 'vue';
 
 import Dialog from 'vant/lib/dialog';
-import Toast from 'vant/lib/toast';
 
 import FastClick from 'fastclick';
+import loading from './component/loading/index';
+import toast from './component/toast/index';
 import { changeLanguage, i18n } from '../i18n';
 import App from './App.vue';
 import router from './router';
@@ -14,17 +15,13 @@ import {
   configRequestInterceptors
 } from '../http';
 import util from '../util/util';
-import nav from './component/nav-bar.vue';
+import nav from './component/nav/nav-bar.vue';
 import v from '../../version.json';
 
 Vue.component('nav-bar', nav);
 
-Vue.prototype.$toast = Toast;
+Vue.prototype.$toast = toast;
 
-const loader = {
-  open: false,
-  instance: null
-};
 const launch = () => {
   FastClick.attach(document.body);
   const NO_LOADING_METHODS = ['router.is_login', 'mesh.wan.status.get'];
@@ -35,46 +32,27 @@ const launch = () => {
       conf.timeout = 20000; // add timeout
       // 添加不显示loading的例外
       if (
-        !loader.instance &&
         !(
           NO_LOADING_METHODS.includes(conf.data.method) ||
           (conf.data.method === ROUTER_LOGIN && !conf.data.params.password)
         )
       ) {
-        loader.instance = Toast.loading({
-          mask: true,
-          message: '',
-          duration: 0,
-          forbidClick: true
-        });
-        loader.open = true;
+        loading.open();
       }
       return conf;
     },
     error => {
-      if (loader.open) {
-        loader.instance.clear();
-        loader.open = false;
-        loader.instance = null;
-      }
+      loading.close();
       return Promise.reject(error);
     }
   );
   configResponseInterceptors(
     res => {
-      if (loader.open) {
-        loader.instance.clear();
-        loader.open = false;
-        loader.instance = null;
-      }
+      loading.close();
       return res;
     },
     error => {
-      if (loader.open) {
-        loader.instance.clear();
-        loader.open = false;
-        loader.instance = null;
-      }
+      loading.close();
       if (error.response) {
         switch (error.response.status) {
           case 401:
