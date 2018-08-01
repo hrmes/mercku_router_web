@@ -233,7 +233,7 @@ export default {
             const nodeIds = this.localNodes
               .filter(n => n.checked)
               .map(n => n.sn);
-            // this.$loading.open();
+            this.$loading.open();
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds, local: true })
               .then(() => {

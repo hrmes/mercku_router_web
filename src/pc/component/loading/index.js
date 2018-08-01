@@ -27,19 +27,20 @@ const Loading = {
   close() {
     if (this.instance) {
       this.instance.visible = false;
-      const self = this;
       this.instance.restoryOverflow();
-      this.instance.$el.addEventListener('transitionend', () => {
-        if (self.instance) {
-          self.instance.$el.parentNode.removeChild(self.instance.$el);
-          self.instance = null;
+      let instance = this.instance;
+      this.instance = null;
+      instance.$el.addEventListener('transitionend', () => {
+        if (instance) {
+          instance.$el.parentNode.removeChild(instance.$el);
+          instance = null;
         }
       });
       // fix ie bug
       const timer = setTimeout(() => {
-        if (self.instance) {
-          self.instance.$el.parentNode.removeChild(self.instance.$el);
-          self.instance = null;
+        if (instance) {
+          instance.$el.parentNode.removeChild(instance.$el);
+          instance = null;
         }
         clearTimeout(timer);
       }, 500);
