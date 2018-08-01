@@ -24,10 +24,10 @@
         <span class="menu-text">{{$t('trans0021')}}</span>
       </li>
     </ul>
-    <div class="qr-container">
+    <!-- <div class="qr-container">
       <img src="../../assets/images/qr.png" alt="">
       <div>{{$t('trans0314')}}</div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
