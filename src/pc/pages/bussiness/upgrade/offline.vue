@@ -427,6 +427,7 @@ export default {
                 text-align: left;
                 font-size: 12px;
                 padding-top: 5px;
+                white-space: nowrap;
               }
               .node-version {
                 padding: 0;

@@ -80,15 +80,10 @@ export default {
       font-weight: 400;
     }
     .form {
-      // position: absolute;
-      // padding-top: 100px;
       width: 100%;
-      padding: 30px;
       text-align: center;
       margin: 0 auto;
       padding-bottom: 50px;
-      // right: 50%;
-      // transform: translateX(50%);
       img {
         width: 200px;
       }

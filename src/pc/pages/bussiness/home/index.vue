@@ -1300,7 +1300,6 @@ export default {
       }
 
       .speep-info {
-        flex: 1;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -1644,6 +1643,7 @@ export default {
         .speep-info {
           .extra {
             text-align: left;
+            flex: auto;
             .t-dwon-icon,
             .t-up-icon {
               width: 25px;
