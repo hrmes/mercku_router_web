@@ -785,7 +785,7 @@ export default {
             this.traffice = res.data.result;
             this.timer1 = setTimeout(() => {
               this.getWanNetStats();
-            }, 1000 * 15);
+            }, 10000);
           }
         })
         .catch(err => {
@@ -797,7 +797,7 @@ export default {
           if (this.enter) {
             this.timer1 = setTimeout(() => {
               this.getWanNetStats();
-            }, 1000 * 15);
+            }, 10000);
           }
         });
     },
@@ -811,14 +811,14 @@ export default {
           if (this.enter) {
             this.timer2 = setTimeout(() => {
               this.getDeviceCount();
-            }, 1000 * 20);
+            }, 10000);
           }
         })
         .catch(() => {
           if (this.enter) {
             this.timer2 = setTimeout(() => {
               this.getDeviceCount();
-            }, 1000 * 20);
+            }, 10000);
           }
         });
     },
@@ -832,14 +832,14 @@ export default {
           if (this.enter) {
             this.timer3 = setTimeout(() => {
               this.getMeshNode();
-            }, 1000 * 30);
+            }, 10000);
           }
         })
         .catch(() => {
           if (this.enter) {
             this.timer3 = setTimeout(() => {
               this.getMeshNode();
-            }, 1000 * 30);
+            }, 10000);
           }
         });
     },

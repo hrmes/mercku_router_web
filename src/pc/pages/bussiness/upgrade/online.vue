@@ -141,9 +141,11 @@ export default {
         callback: {
           ok: () => {
             const nodeIds = this.nodes.filter(n => n.checked).map(n => n.sn);
+            this.$loading.open();
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds })
               .then(() => {
+                this.$loading.close();
                 this.$upgrade({
                   onsuccess: () => {
                     this.$router.push({ path: '/home' });
@@ -151,6 +153,7 @@ export default {
                 });
               })
               .catch(err => {
+                this.$loading.close();
                 if (err && err.error) {
                   this.$toast(this.$t(err.error.code));
                 } else {

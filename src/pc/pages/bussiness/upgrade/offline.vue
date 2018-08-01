@@ -233,9 +233,11 @@ export default {
             const nodeIds = this.localNodes
               .filter(n => n.checked)
               .map(n => n.sn);
+            this.$loading.open();
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds, local: true })
               .then(() => {
+                this.$loading.close();
                 this.upgraded = true;
                 this.$upgrade({
                   onsuccess: () => {
@@ -245,6 +247,7 @@ export default {
                 });
               })
               .catch(err => {
+                this.$loading.close();
                 if (err && err.error) {
                   this.$toast(this.$t(err.error.code));
                 } else {
