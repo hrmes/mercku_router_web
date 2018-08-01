@@ -1,6 +1,5 @@
 import Vue from 'vue';
 
-import Field from 'vant/lib/field';
 import Dialog from 'vant/lib/dialog';
 import Toast from 'vant/lib/toast';
 
@@ -17,8 +16,6 @@ import {
 import util from '../util/util';
 import nav from './component/nav-bar.vue';
 import v from '../../version.json';
-
-Vue.use(Field);
 
 Vue.component('nav-bar', nav);
 

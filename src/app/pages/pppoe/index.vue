@@ -10,12 +10,9 @@
     </div>
     <div class="message">{{$t('trans0154')}}</div>
     <div class="form">
-      <van-field class="account" autocomplete="new-password" type="text" :placeholder="$t('trans0155')" v-model="form.account" />
+      <m-input class="account" v-model="form.account" :placeholder="$t('trans0155')" />
       <div class="password-info">
-        <van-field autocomplete="new-password" :type="!pwdShow?'password':'text'" :placeholder="$t('trans0156')" v-model="form.password" />
-        <div class="pwd-preview">
-          <i class="i" :class="!pwdShow?'i-close':'i-open'" @click="isShowPwd()"></i>
-        </div>
+        <m-input type="password" class="account" v-model="form.password" :placeholder="$t('trans0156')" />
       </div>
       <div class="button-info">
         <button class="btn btn-default" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</button>
@@ -24,7 +21,12 @@
   </div>
 </template>
 <script>
+import mInput from '../../component/input/input.vue';
+
 export default {
+  components: {
+    mInput
+  },
   data() {
     const config = this.routerConfig.getWan();
 
@@ -44,14 +46,10 @@ export default {
       form: {
         account: config.account,
         password: config.password
-      },
-      pwdShow: false
+      }
     };
   },
   methods: {
-    isShowPwd() {
-      this.pwdShow = !this.pwdShow;
-    },
     submit() {
       this.routerConfig.setWan('pppoe', this.form);
       this.$http
@@ -120,7 +118,6 @@ export default {
     margin-top: 0.15rem;
   }
   .password-info {
-    padding-right: 0.3rem;
     position: relative;
     margin-top: 0.3rem;
   }

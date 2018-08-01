@@ -1,6 +1,6 @@
 <template>
   <div class="input-container" :class="{'disabled':disabled}">
-    <div class="inputarea">
+    <div class="inputarea" :class="{'no-margin':!isPwdInput}">
       <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
     </div>
     <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
@@ -29,9 +29,6 @@ export default {
     label: {
       type: String,
       default: ''
-    },
-    onBlur: {
-      type: Function
     }
   },
   data() {
@@ -56,7 +53,7 @@ export default {
       this.$emit('input', this.inputValue);
     },
     blur() {
-      this.onBlur && this.onBlur();
+      this.$emit('blur');
       Bus.$emit('blur');
     },
     focus() {
@@ -90,7 +87,10 @@ export default {
   }
   .inputarea {
     position: relative;
-    margin-right: 20px;
+    margin-right: 30px;
+    &.no-margin {
+      margin-right: 0;
+    }
     &::after {
       content: ' ';
       position: absolute;
@@ -109,7 +109,7 @@ export default {
     outline: 0;
     border: none;
     font-size: 14px;
-    background: #000;
+    background: transparent;
     color: #d2d2d2;
     -webkit-appearance: none;
     box-sizing: border-box;
