@@ -194,9 +194,11 @@ export const getStringByte = (str, charset = 'utf8') => {
       }
     }
   } else {
-    for (let i = 0, len = str.length; i < len; i++) {
-      charCode = str.charCodeAt(i);
-
+    // 高位编码单元（higher code point）使用一对（低位编码（lower valued））代理伪字符（”surrogate” pseudo-characters）来表示，从而构成一个真正的字符。
+    if (str.length > 1) {
+      total += 4;
+    } else {
+      charCode = str.charCodeAt(0);
       if (charCode <= 0x007f) {
         total += 1;
       } else if (charCode <= 0x07ff) {
