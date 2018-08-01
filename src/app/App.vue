@@ -4,8 +4,6 @@
   </transition>
 </template>
 <script>
-import 'vant/lib/vant-css/base.css';
-import 'vant/lib/vant-css/dialog.css';
 import './style/style.scss';
 
 export default {

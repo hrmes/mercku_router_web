@@ -1,9 +1,7 @@
 import Vue from 'vue';
-
-import Dialog from 'vant/lib/dialog';
-
 import FastClick from 'fastclick';
 import loading from './component/loading/index';
+import dialog from './component/dialog/index';
 import toast from './component/toast/index';
 import { changeLanguage, i18n } from '../i18n';
 import App from './App.vue';
@@ -70,19 +68,12 @@ const launch = () => {
   Vue.prototype.$http = http;
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.routerConfig = schema;
-  Vue.prototype.$confirm = Dialog.confirm;
+  Vue.prototype.$confirm = dialog.confirm;
   // get querystring
   const qs = window.location.search.substring(1);
 
   // set language
   i18n.locale = qs.includes('lang=zh') ? 'zh-CN' : 'en-US';
-  // Vue.prototype.webview = (() => {
-  //   // use indexOf instead includes
-  //   if (qs && qs.includes('fromapp=1')) {
-  //     return true;
-  //   }
-  //   return false;
-  // })();
   util.adapt(375, 375);
 
   Vue.prototype.authorize = {

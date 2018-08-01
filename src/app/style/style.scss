@@ -105,58 +105,9 @@ body {
   background-size: 100%;
 }
 
-.van-dialog {
-  width: 2.6rem;
-  height: 1.65rem;
-  border-radius: 0.1rem;
-  .van-dialog__content {
-    padding: 0 !important;
-    display: table;
-    height: 1.05rem;
-    vertical-align: middle;
-    width: 100%;
-    text-align: center;
-    font-size: 0.16rem;
-    color: rgb(51, 51, 51);
-    .van-dialog__message {
-      display: table-cell;
-      vertical-align: middle;
-      margin: 0 auto;
-      padding: 0 0.55rem;
-      text-align: center;
-    }
-  }
-  .van-button {
-    border-radius: 0 !important;
-    color: black !important;
-    height: 0.6rem !important;
-    line-height: 0.6rem !important;
-    box-sizing: border-box;
-    &:active {
-      border: none;
-    }
-  }
-}
-
 .button-info {
   position: absolute;
   bottom: 0.5rem;
   transform: translateX(-50%);
   left: 50%;
-}
-
-.van-toast {
-  color: rgb(182, 182, 182);
-  background-color: rgba(51, 51, 51, 1);
-  border-radius: 3px;
-}
-
-.van-toast--default {
-  min-height: initial;
-  width: auto;
-  padding: 45px 16px;
-}
-
-.van-loading__spinner.van-loading__spinner--circular {
-  display: none;
 }
