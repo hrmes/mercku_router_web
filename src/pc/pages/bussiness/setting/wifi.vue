@@ -18,9 +18,9 @@
                 <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
               </m-form-item>
             </m-form>
-            <div class="item" style="margin-bottom:30px;">
+            <!-- <div class="item" style="margin-bottom:30px;">
               <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
-            </div>
+            </div> -->
             <div class="check-info">
               <label for=""> {{$t('trans0110')}} </label>
               <div class="tool">
