@@ -33,7 +33,25 @@
         </div>
         <div class="step-item step-item3" v-show="current===2">
           <img src="../../../assets/images/img_setting.png" alt="">
-          <span>{{$t('trans0294')}}{{countdown}}s</span>
+          <div>{{$t('trans0294')}}{{countdown}}s</div>
+          <div style="margin-top:5px;">{{$t('trans0171')}}</div>
+          <div class="wifi-info">
+            <div class="wifi-info-inner">
+              <div>
+                <span class="title">{{$t('trans0168')}}</span>:
+                <span class="value">{{form1.ssid}}</span>
+              </div>
+              <div>
+                <span class="title">{{$t('trans0172')}}</span>:
+                <span class="value">{{form1.password}}</span>
+              </div>
+              <div>
+                <span class="title">{{$t('trans0067')}}</span>:
+                <span class="value">{{form2.admin_password}}</span>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -211,6 +229,32 @@ export default {
       &.step-item1 {
         .button-container {
           margin-top: 0;
+        }
+      }
+      &.step-item3 {
+        .wifi-info {
+          margin-top: 30px;
+          display: flex;
+          .wifi-info-inner {
+            display: inline-block;
+            margin: 0 auto;
+            text-align: left;
+            > div {
+              margin-top: 10px;
+              &:first-child {
+                margin-top: 0;
+              }
+            }
+            .title {
+              color: #999;
+              font-size: 14px;
+            }
+            .value {
+              color: #333;
+              font-size: 14px;
+              margin-left: 5px;
+            }
+          }
         }
       }
       img {
