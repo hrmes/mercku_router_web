@@ -110,6 +110,7 @@ export default {
         return;
       }
       const length = getStringByte(this.ssid);
+      console.log(this.ssid, length);
       if (length > 20 || length < 1) {
         this.$toast(this.$t('trans0261'));
         return;

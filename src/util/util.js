@@ -185,11 +185,10 @@ export const getStringByte = str => {
   /**
    * 高位编码单元（higher code point）使用一对（低位编码（lower valued））
    * 代理伪字符（”surrogate” pseudo-characters）来表示，从而构成一个真正的字符。
+   * 所以这里有个BUG，在计算高位字符会计算成6个
    * */
-  if (len > 1) {
-    total += 4;
-  } else {
-    charCode = str.charCodeAt(0);
+  for (let i = 0; i < len; i += 1) {
+    charCode = str.charCodeAt(i);
     if (charCode <= 0x007f) {
       total += 1;
     } else if (charCode <= 0x07ff) {
