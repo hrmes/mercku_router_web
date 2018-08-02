@@ -23,15 +23,12 @@
               <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">{{bandwidth}}
                 <label style="font-weight:normal">M</label>
               </span>
-
             </div>
           </div>
           <div class='check-btn-info'>
             <button class="btn check-btn" @click='createSpeedTimer(false)' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
           </div>
         </div>
-        <!-- <div class="test-speed-btn-container">
-        </div> -->
         <div class="router-info">
           <div class="row">
             <div class="item">
@@ -1148,15 +1145,11 @@ export default {
     width: 100%;
 
     flex-wrap: wrap;
-    .name {
-      //   font-weight: bold;
-    }
     .network-icon {
       padding: 0 20px;
       img {
         display: inline-block;
         width: 49px;
-        // height: 55px;
       }
     }
     .router-icon {
@@ -1164,18 +1157,15 @@ export default {
       img {
         display: inline-block;
         width: 38px;
-        // height: 55px;
       }
     }
     .check-status {
       width: 440px;
-      min-height: 60px;
       position: relative;
       .success-line {
         position: absolute;
         width: 100%;
         height: 3px;
-        // border: 2px dashed #4237dd;
         background: url('../../../assets/images/ic_test_line.png') repeat-x;
         box-sizing: border-box;
         &.testing-animation {
@@ -1193,11 +1183,8 @@ export default {
       }
       .fail-line {
         position: absolute;
-        // max-width: 440px;
-        // min-width: 150px;
         width: 100%;
         height: 3px;
-        // border: 2px dashed #999999;
         background: url('../../../assets/images/ic_test_line_fail.png') repeat-x;
         box-sizing: border-box;
       }
@@ -1208,9 +1195,8 @@ export default {
         z-index: 111;
         width: 50px;
         height: 32px;
-        // padding: 10px;
         background: #f1f1f1;
-        top: 18px;
+        top: -11px;
         right: 50%;
         transform: translateX(50%);
       }
@@ -1224,8 +1210,8 @@ export default {
         background-size: 100% 100%;
       }
       .check-txt-info {
-        position: relative;
-        min-height: 30px;
+        position: absolute;
+        width: 100%;
       }
       .testing {
         display: inline-block;
@@ -1237,23 +1223,19 @@ export default {
         color: #333333;
         position: absolute;
         bottom: 10px;
-        // top: -24px;
         right: 50%;
         transform: translateX(50%);
       }
     }
     .check-btn {
-      // margin-left: 30px;
       height: 50px;
       width: 100px;
     }
     .speed {
       font-weight: 200;
-      // margin-right: 20px;
       span {
         font-size: 24px;
         color: #000;
-        padding-right: 5px;
         font-weight: 400;
       }
     }
@@ -1287,7 +1269,6 @@ export default {
       }
       .extra {
         min-width: 140px;
-        // text-align: left;
       }
       .title {
         font-size: 16px;
@@ -1402,8 +1383,8 @@ export default {
         flex: auto;
 
         .real-wrap {
-          min-width: 270px;
           min-height: 60px !important;
+          flex: 1;
         }
         .real-time-info {
           position: relative;
@@ -1537,36 +1518,45 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1000px) {
+@media screen and (min-width: 769px) and (max-width: 1100px) {
   .check-info {
-    // padding-bottom: 30px;
     .check-btn-info {
       width: 100%;
       text-align: center;
+      margin-top: 40px;
     }
-  }
-  .row-2 {
-    margin-top: -35px;
   }
   .row-1 {
     min-width: 100px;
     justify-content: center;
     flex-flow: column-reverse;
     font-size: 12px;
+    position: relative;
     img {
       width: 30px !important;
     }
     .name {
-      font-weight: bold;
-      line-height: 30px;
+      position: absolute;
+      top: 100%;
     }
   }
   .row-3 {
     min-width: 80px;
     flex-flow: column;
     font-size: 12px;
+    position: relative;
     img {
       width: 40px !important;
+    }
+    .speed {
+      position: absolute;
+      top: 100%;
+      span {
+        font-weight: 200 !important;
+        label {
+          font-weight: 200 !important;
+        }
+      }
     }
   }
   .home-container {
@@ -1636,7 +1626,7 @@ export default {
             padding-top: 20px;
             .extra {
               min-width: 100%;
-              // padding-right: 10px;
+
               padding-bottom: 30px;
             }
           }
@@ -1648,7 +1638,6 @@ export default {
     }
     .btn-info {
       width: 100%;
-      // margin-top: 20px;
       .btn {
         height: 44px;
       }
@@ -1716,6 +1705,9 @@ export default {
         font-size: 12px !important;
       }
       .real-time-network {
+        .content {
+          flex-direction: column;
+        }
         .real-time-info {
           .down {
             padding-top: 20px;
@@ -1733,32 +1725,41 @@ export default {
       }
     }
     .check-info {
+      .check-btn-info {
+        width: 100%;
+        text-align: center;
+        margin-top: 40px;
+      }
       .speed {
-        // padding-top: 10px;
         span {
           font-size: 14px;
         }
       }
       .row-1 {
-        width: 100px;
+        width: 80px;
         font-size: 12px !important;
         justify-content: center;
         flex-flow: column-reverse;
         text-align: center !important;
+        position: relative;
         .name {
-          line-height: 20px;
+          position: absolute;
+          top: 100%;
         }
       }
-      .row-2 {
-        margin-top: -20px;
-      }
+
       .row-3 {
-        width: 100px;
+        width: 80px;
         font-size: 12px !important;
         justify-content: center;
         flex-flow: column;
         margin: 0;
         text-align: center !important;
+        position: relative;
+        .speed {
+          position: absolute;
+          top: 100%;
+        }
       }
       .network-icon {
         padding: 0 10px;
@@ -1778,15 +1779,15 @@ export default {
       .check-status {
         width: calc(100% - 200px);
         .fail-info {
-          width: 20px;
-          top: 20px;
+          width: 22px;
+          top: -10px;
           padding: 0;
         }
         .fail-icon {
           width: 16px;
           height: 16px;
           margin-top: 3px;
-          margin-left: 3px;
+          margin-left: 6px;
         }
         .success-line,
         .fail-line {
