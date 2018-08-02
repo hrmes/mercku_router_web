@@ -426,35 +426,58 @@ function genLines(gateway, green, red) {
   }
 
   const lines = [];
+
+  const drawed = [];
+
   gateway.neighbors.forEach(n => {
-    if (isGood(n.origin.rssi)) {
-      lines.push(genLine(gateway, n.entity, Color.good));
-    } else if (red.includes(n.entity)) {
-      lines.push(genLine(gateway, n.entity, Color.bad));
+    const temp1 = `${n.entity.sn}${gateway.sn}`;
+    const temp2 = `${gateway.sn}${n.entity.sn}`;
+
+    if (!drawed.includes(temp1) && !drawed.includes(temp2)) {
+      if (isGood(n.origin.rssi)) {
+        lines.push(genLine(gateway, n.entity, Color.good));
+      } else if (red.includes(n.entity)) {
+        lines.push(genLine(gateway, n.entity, Color.bad));
+      }
+      drawed.push(temp1);
+      drawed.push(temp2);
     }
   });
 
   red.forEach(r => {
     r.neighbors.forEach(n => {
-      if (isGood(n.origin.rssi)) {
-        lines.push(genLine(r, n.entity, Color.good));
-      } else {
-        lines.push(genLine(r, n.entity, Color.bad));
+      const temp1 = `${n.entity.sn}${r.sn}`;
+      const temp2 = `${r.sn}${n.entity.sn}`;
+
+      if (!drawed.includes(temp1) && !drawed.includes(temp2)) {
+        if (isGood(n.origin.rssi)) {
+          lines.push(genLine(r, n.entity, Color.good));
+        } else {
+          lines.push(genLine(r, n.entity, Color.bad));
+        }
+        drawed.push(temp1);
+        drawed.push(temp2);
       }
     });
   });
 
   green.forEach(r => {
     r.neighbors.forEach(n => {
-      if (isGood(n.origin.rssi)) {
-        lines.push(genLine(r, n.entity, Color.good));
-      } else if (!green.includes(n.entity)) {
-        // 双绿点过滤红线
-        lines.push(genLine(r, n.entity, Color.bad));
+      const temp1 = `${n.entity.sn}${r.sn}`;
+      const temp2 = `${r.sn}${n.entity.sn}`;
+
+      if (!drawed.includes(temp1) && !drawed.includes(temp2)) {
+        if (isGood(n.origin.rssi)) {
+          lines.push(genLine(r, n.entity, Color.good));
+        } else if (!green.includes(n.entity)) {
+          // 双绿点过滤红线
+          lines.push(genLine(r, n.entity, Color.bad));
+        }
+        drawed.push(temp1);
+        drawed.push(temp2);
       }
     });
   });
-
   return lines;
 }
 
