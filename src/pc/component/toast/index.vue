@@ -56,6 +56,7 @@ export default {
   left: 50%;
   transform: translate(-50%, 50%);
   white-space: nowrap;
+  text-align: center;
   &.error {
     background: #f73035;
   }
