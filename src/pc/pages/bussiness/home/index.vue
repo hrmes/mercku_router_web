@@ -1115,15 +1115,11 @@ export default {
     width: 100%;
 
     flex-wrap: wrap;
-    .name {
-      //   font-weight: bold;
-    }
     .network-icon {
       padding: 0 20px;
       img {
         display: inline-block;
         width: 49px;
-        // height: 55px;
       }
     }
     .router-icon {
@@ -1131,18 +1127,15 @@ export default {
       img {
         display: inline-block;
         width: 38px;
-        // height: 55px;
       }
     }
     .check-status {
       width: 440px;
-      // min-height: 60px;
       position: relative;
       .success-line {
         position: absolute;
         width: 100%;
         height: 3px;
-        // border: 2px dashed #4237dd;
         background: url('../../../assets/images/ic_test_line.png') repeat-x;
         box-sizing: border-box;
         &.testing-animation {
@@ -1160,11 +1153,8 @@ export default {
       }
       .fail-line {
         position: absolute;
-        // max-width: 440px;
-        // min-width: 150px;
         width: 100%;
         height: 3px;
-        // border: 2px dashed #999999;
         background: url('../../../assets/images/ic_test_line_fail.png') repeat-x;
         box-sizing: border-box;
       }
@@ -1175,7 +1165,6 @@ export default {
         z-index: 111;
         width: 50px;
         height: 32px;
-        // padding: 10px;
         background: #f1f1f1;
         top: -11px;
         right: 50%;
@@ -1193,7 +1182,6 @@ export default {
       .check-txt-info {
         position: absolute;
         width: 100%;
-        // min-height: 30px;
       }
       .testing {
         display: inline-block;
@@ -1205,23 +1193,19 @@ export default {
         color: #333333;
         position: absolute;
         bottom: 10px;
-        // top: -24px;
         right: 50%;
         transform: translateX(50%);
       }
     }
     .check-btn {
-      // margin-left: 30px;
       height: 50px;
       width: 100px;
     }
     .speed {
       font-weight: 200;
-      // margin-right: 20px;
       span {
         font-size: 24px;
         color: #000;
-        padding-right: 5px;
         font-weight: 400;
       }
     }
@@ -1255,7 +1239,6 @@ export default {
       }
       .extra {
         min-width: 140px;
-        // text-align: left;
       }
       .title {
         font-size: 16px;
@@ -1507,15 +1490,11 @@ export default {
 }
 @media screen and (min-width: 769px) and (max-width: 1100px) {
   .check-info {
-    // padding-bottom: 30px;
     .check-btn-info {
       width: 100%;
       text-align: center;
       margin-top: 40px;
     }
-  }
-  .row-2 {
-    // margin-top: -35px;
   }
   .row-1 {
     min-width: 100px;
@@ -1527,10 +1506,8 @@ export default {
       width: 30px !important;
     }
     .name {
-      // font-weight: bold;
-      // line-height: 30px;
       position: absolute;
-      bottom: -32px;
+      top: 100%;
     }
   }
   .row-3 {
@@ -1543,7 +1520,7 @@ export default {
     }
     .speed {
       position: absolute;
-      bottom: -32px;
+      top: 100%;
       span {
         font-weight: 200 !important;
         label {
@@ -1619,7 +1596,7 @@ export default {
             padding-top: 20px;
             .extra {
               min-width: 100%;
-              // padding-right: 10px;
+
               padding-bottom: 30px;
             }
           }
@@ -1631,7 +1608,6 @@ export default {
     }
     .btn-info {
       width: 100%;
-      // margin-top: 20px;
       .btn {
         height: 44px;
       }
@@ -1722,7 +1698,6 @@ export default {
         margin-top: 40px;
       }
       .speed {
-        // padding-top: 10px;
         span {
           font-size: 14px;
         }
@@ -1735,14 +1710,11 @@ export default {
         text-align: center !important;
         position: relative;
         .name {
-          // line-height: 20px;
           position: absolute;
-          bottom: -32px;
+          top: 100%;
         }
       }
-      .row-2 {
-        // margin-top: -20px;
-      }
+
       .row-3 {
         width: 80px;
         font-size: 12px !important;
@@ -1753,7 +1725,7 @@ export default {
         position: relative;
         .speed {
           position: absolute;
-          bottom: -25px;
+          top: 100%;
         }
       }
       .network-icon {
