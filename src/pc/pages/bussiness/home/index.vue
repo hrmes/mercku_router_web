@@ -332,8 +332,8 @@ function genNodes(gateway, green, red) {
       return pos;
     }
     if (count === 2) {
-      pos.push({ x: 0, y: 0, angle: -90 });
-      pos.push({ x: 0, y: 2, angle: -90 });
+      pos.push({ x: 0, y: 0, angle: 0 });
+      pos.push({ x: 0, y: 2, angle: 180 });
       return pos;
     }
 
@@ -370,9 +370,7 @@ function genNodes(gateway, green, red) {
       right: 'right'
     };
 
-    if (angle === -90) {
-      labelPosition = Positions.right;
-    } else if (angle >= 0 && angle <= 90) {
+    if (angle >= 0 && angle <= 90) {
       labelPosition = Positions.top;
     } else if (angle > 90 && angle < 270) {
       labelPosition = Positions.bottom;
@@ -398,7 +396,7 @@ function genNodes(gateway, green, red) {
   }
   const nodes = [];
   // m2
-  nodes.push(genNode(gateway, Color.good, 80));
+  nodes.push(genNode(gateway, Color.good, 70));
 
   // 绿点
   green.forEach(g => {
@@ -425,56 +423,51 @@ function genLines(gateway, green, red) {
     };
   }
 
+  const drawed = [];
+  function exist(node1, node2) {
+    const temp1 = `${node1.sn}${node2.sn}`;
+    const temp2 = `${node2.sn}${node1.sn}`;
+    if (!drawed.includes(temp1) && !drawed.includes(temp2)) {
+      drawed.push(temp1);
+      drawed.push(temp2);
+      return false;
+    }
+    return true;
+  }
+
   const lines = [];
 
-  const drawed = [];
-
   gateway.neighbors.forEach(n => {
-    const temp1 = `${n.entity.sn}${gateway.sn}`;
-    const temp2 = `${gateway.sn}${n.entity.sn}`;
-
-    if (!drawed.includes(temp1) && !drawed.includes(temp2)) {
+    if (!exist(n.entity, gateway)) {
       if (isGood(n.origin.rssi)) {
         lines.push(genLine(gateway, n.entity, Color.good));
       } else if (red.includes(n.entity)) {
         lines.push(genLine(gateway, n.entity, Color.bad));
       }
-      drawed.push(temp1);
-      drawed.push(temp2);
     }
   });
 
   red.forEach(r => {
     r.neighbors.forEach(n => {
-      const temp1 = `${n.entity.sn}${r.sn}`;
-      const temp2 = `${r.sn}${n.entity.sn}`;
-
-      if (!drawed.includes(temp1) && !drawed.includes(temp2)) {
+      if (!exist(n.entity, r)) {
         if (isGood(n.origin.rssi)) {
           lines.push(genLine(r, n.entity, Color.good));
         } else {
           lines.push(genLine(r, n.entity, Color.bad));
         }
-        drawed.push(temp1);
-        drawed.push(temp2);
       }
     });
   });
 
   green.forEach(r => {
     r.neighbors.forEach(n => {
-      const temp1 = `${n.entity.sn}${r.sn}`;
-      const temp2 = `${r.sn}${n.entity.sn}`;
-
-      if (!drawed.includes(temp1) && !drawed.includes(temp2)) {
+      if (!exist(n.entity, r)) {
         if (isGood(n.origin.rssi)) {
           lines.push(genLine(r, n.entity, Color.good));
         } else if (!green.includes(n.entity)) {
           // 双绿点过滤红线
           lines.push(genLine(r, n.entity, Color.bad));
         }
-        drawed.push(temp1);
-        drawed.push(temp2);
       }
     });
   });
