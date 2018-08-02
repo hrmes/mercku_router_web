@@ -243,7 +243,7 @@ const Color = {
 };
 
 // 大于-50均认为优秀
-const isGood = rssi => rssi > -50;
+const isGood = rssi => rssi > -60;
 
 // 去重
 function distinct(source, gateway) {
@@ -252,7 +252,33 @@ function distinct(source, gateway) {
     if (r.neighbors) {
       r.neighbors.forEach(n => {
         const node = source.filter(s => s.sn === n.sn)[0];
+        const nr = node.neighbors.filter(nnn => {
+          const sn = nnn.sn || nnn.entity.sn;
+          if (sn === r.sn) {
+            return true;
+          }
+          return false;
+        })[0];
         node.neighbors = node.neighbors.filter(nn => nn.sn !== gateway.sn);
+
+        // 选取最优信号
+        const rssi =
+          n.rssi > nr.rssi
+            ? n.rssi || n.origin.rssi
+            : nr.rssi || nr.origin.rssi;
+
+        if (n.rssi) {
+          n.rssi = rssi;
+        } else {
+          n.origin.rssi = rssi;
+        }
+        if (nr.rssi) {
+          nr.rssi = rssi;
+        } else {
+          nr.origin.rssi = rssi;
+        }
+        nr.rssi = rssi;
+
         neighbors.push({
           entity: node,
           origin: n
@@ -306,8 +332,8 @@ function genNodes(gateway, green, red) {
       return pos;
     }
     if (count === 2) {
-      pos.push({ x: 0, y: 0, angle: 0 });
-      pos.push({ x: 0, y: 2, angle: 180 });
+      pos.push({ x: 0, y: 0, angle: -90 });
+      pos.push({ x: 0, y: 2, angle: -90 });
       return pos;
     }
 
@@ -339,10 +365,14 @@ function genNodes(gateway, green, red) {
     const angle = pos[currentIndex].angle;
     const Positions = {
       top: 'top',
-      bottom: 'bottom'
+      bottom: 'bottom',
+      left: 'left',
+      right: 'right'
     };
 
-    if (angle >= 0 && angle <= 90) {
+    if (angle === -90) {
+      labelPosition = Positions.right;
+    } else if (angle >= 0 && angle <= 90) {
       labelPosition = Positions.top;
     } else if (angle > 90 && angle < 270) {
       labelPosition = Positions.bottom;

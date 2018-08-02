@@ -10,7 +10,7 @@
       </div>
       <div class="pwd-container">
         <div class="pwd-input">
-          <van-field autocomplete="new-password" :type="showPwd?InputTypes.text:InputTypes.password" v-model="pwd" :placeholder="$t('trans0003')" />
+          <van-field autocomplete="new-password" :type="showPwd?InputTypes.text:InputTypes.password" v-model="pwd" :placeholder="$t('trans0172')" />
         </div>
         <div class="pwd-preview">
           <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
@@ -110,6 +110,7 @@ export default {
         return;
       }
       const length = getStringByte(this.ssid);
+      console.log(this.ssid, length);
       if (length > 20 || length < 1) {
         this.$toast(this.$t('trans0261'));
         return;
