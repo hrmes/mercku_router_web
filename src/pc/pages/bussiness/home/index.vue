@@ -23,15 +23,12 @@
               <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">{{bandwidth}}
                 <label style="font-weight:normal">M</label>
               </span>
-
             </div>
           </div>
           <div class='check-btn-info'>
             <button class="btn check-btn" @click='createSpeedTimer(false)' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
           </div>
         </div>
-        <!-- <div class="test-speed-btn-container">
-        </div> -->
         <div class="router-info">
           <div class="row">
             <div class="item">
@@ -1139,7 +1136,7 @@ export default {
     }
     .check-status {
       width: 440px;
-      min-height: 60px;
+      // min-height: 60px;
       position: relative;
       .success-line {
         position: absolute;
@@ -1180,7 +1177,7 @@ export default {
         height: 32px;
         // padding: 10px;
         background: #f1f1f1;
-        top: 18px;
+        top: -11px;
         right: 50%;
         transform: translateX(50%);
       }
@@ -1194,8 +1191,9 @@ export default {
         background-size: 100% 100%;
       }
       .check-txt-info {
-        position: relative;
-        min-height: 30px;
+        position: absolute;
+        width: 100%;
+        // min-height: 30px;
       }
       .testing {
         display: inline-block;
@@ -1507,36 +1505,51 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1000px) {
+@media screen and (min-width: 769px) and (max-width: 1100px) {
   .check-info {
     // padding-bottom: 30px;
     .check-btn-info {
       width: 100%;
       text-align: center;
+      margin-top: 40px;
     }
   }
   .row-2 {
-    margin-top: -35px;
+    // margin-top: -35px;
   }
   .row-1 {
     min-width: 100px;
     justify-content: center;
     flex-flow: column-reverse;
     font-size: 12px;
+    position: relative;
     img {
       width: 30px !important;
     }
     .name {
-      font-weight: bold;
-      line-height: 30px;
+      // font-weight: bold;
+      // line-height: 30px;
+      position: absolute;
+      bottom: -32px;
     }
   }
   .row-3 {
     min-width: 80px;
     flex-flow: column;
     font-size: 12px;
+    position: relative;
     img {
       width: 40px !important;
+    }
+    .speed {
+      position: absolute;
+      bottom: -32px;
+      span {
+        font-weight: 200 !important;
+        label {
+          font-weight: 200 !important;
+        }
+      }
     }
   }
   .home-container {
@@ -1703,6 +1716,11 @@ export default {
       }
     }
     .check-info {
+      .check-btn-info {
+        width: 100%;
+        text-align: center;
+        margin-top: 40px;
+      }
       .speed {
         // padding-top: 10px;
         span {
@@ -1710,25 +1728,33 @@ export default {
         }
       }
       .row-1 {
-        width: 100px;
+        width: 80px;
         font-size: 12px !important;
         justify-content: center;
         flex-flow: column-reverse;
         text-align: center !important;
+        position: relative;
         .name {
-          line-height: 20px;
+          // line-height: 20px;
+          position: absolute;
+          bottom: -32px;
         }
       }
       .row-2 {
-        margin-top: -20px;
+        // margin-top: -20px;
       }
       .row-3 {
-        width: 100px;
+        width: 80px;
         font-size: 12px !important;
         justify-content: center;
         flex-flow: column;
         margin: 0;
         text-align: center !important;
+        position: relative;
+        .speed {
+          position: absolute;
+          bottom: -25px;
+        }
       }
       .network-icon {
         padding: 0 10px;
@@ -1748,15 +1774,15 @@ export default {
       .check-status {
         width: calc(100% - 200px);
         .fail-info {
-          width: 20px;
-          top: 20px;
+          width: 22px;
+          top: -10px;
           padding: 0;
         }
         .fail-icon {
           width: 16px;
           height: 16px;
           margin-top: 3px;
-          margin-left: 3px;
+          margin-left: 6px;
         }
         .success-line,
         .fail-line {
