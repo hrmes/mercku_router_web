@@ -247,7 +247,8 @@ const isGood = rssi => rssi > -60;
 
 // 去重
 function distinct(source, gateway) {
-  return source.map(r => {
+  console.log('source', source);
+  const result = source.map(r => {
     const neighbors = [];
     if (r.neighbors) {
       r.neighbors.forEach(n => {
@@ -262,22 +263,33 @@ function distinct(source, gateway) {
         node.neighbors = node.neighbors.filter(nn => nn.sn !== gateway.sn);
 
         // 选取最优信号
-        const rssi =
-          n.rssi > nr.rssi
-            ? n.rssi || n.origin.rssi
-            : nr.rssi || nr.origin.rssi;
+        let rssi1;
+        let rssi2;
 
-        if (n.rssi) {
+        if (typeof n.rssi !== 'undefined') {
+          rssi1 = n.rssi;
+        } else {
+          rssi1 = n.origin.rssi;
+        }
+
+        if (typeof nr.rssi !== 'undefined') {
+          rssi2 = nr.rssi;
+        } else {
+          rssi2 = nr.origin.rssi;
+        }
+
+        const rssi = rssi1 > rssi2 ? rssi1 : rssi2;
+
+        if (typeof n.rssi !== 'undefined') {
           n.rssi = rssi;
         } else {
           n.origin.rssi = rssi;
         }
-        if (nr.rssi) {
+        if (typeof nr.rssi !== 'undefined') {
           nr.rssi = rssi;
         } else {
           nr.origin.rssi = rssi;
         }
-        nr.rssi = rssi;
 
         neighbors.push({
           entity: node,
@@ -288,6 +300,7 @@ function distinct(source, gateway) {
     r.neighbors = neighbors;
     return r;
   });
+  return result;
 }
 
 // 找网关,此处认为sn为0就是网关
