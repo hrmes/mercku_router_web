@@ -1383,8 +1383,8 @@ export default {
         flex: auto;
 
         .real-wrap {
-          min-width: 270px;
           min-height: 60px !important;
+          flex: 1;
         }
         .real-time-info {
           position: relative;
@@ -1705,6 +1705,9 @@ export default {
         font-size: 12px !important;
       }
       .real-time-network {
+        .content {
+          flex-direction: column;
+        }
         .real-time-info {
           .down {
             padding-top: 20px;
