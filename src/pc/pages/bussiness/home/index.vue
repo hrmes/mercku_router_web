@@ -247,7 +247,6 @@ const isGood = rssi => rssi > -60;
 
 // 去重
 function distinct(source, gateway) {
-  console.log('source', source);
   const result = source.map(r => {
     const neighbors = [];
     if (r.neighbors) {
