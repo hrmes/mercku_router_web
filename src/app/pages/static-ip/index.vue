@@ -122,8 +122,15 @@ export default {
         dns: [this.form.dns]
       };
       this.routerConfig.setWan('static', form);
+      const config = this.routerConfig.getConfig();
+      config.wan = {
+        ...config.wan,
+        static: {
+          netinfo: config.wan.netinfo
+        }
+      };
       this.$http
-        .updateMeshConfig(this.routerConfig.getConfig())
+        .updateMeshConfig(config)
         .then(() => {
           this.$router.replace('/complete');
         })
