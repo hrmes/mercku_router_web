@@ -1,5 +1,7 @@
 <template>
+
   <div class="login-page">
+    <div class="bg"></div>
     <nav-bar :option="option" />
     <div class="bg-container">
       <img class="logo" src="../../assets/images/img_login_logo.png" alt="">
@@ -63,12 +65,25 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" type="text/scss" scoped>
+.bg {
+  background: #070707;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
 .login-page {
   padding: 0rem 0.2rem;
   background: url(../../assets/images/img_bg_login.jpg);
   background-size: 100%;
   background-repeat: no-repeat;
+  .header-container {
+    background: transparent;
+  }
   .bg-container {
     height: 3rem;
     background-size: 100% 100%;
