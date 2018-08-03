@@ -13,19 +13,19 @@
       <label class="title">{{$t('trans0151')}}
         <span v-if="blurItems.includes('ip')">{{$t('trans0231')}}</span>
       </label>
-      <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.ip" @blur="onBlur('ip',form.ip)" />
+      <m-input v-model="form.ip" placeholder="0.0.0.0" @blur="onBlur('ip',form.ip)" />
       <label class="title">{{$t('trans0152')}}
         <span v-if="blurItems.includes('mask')">{{$t('trans0231')}}</span>
       </label>
-      <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.mask" @blur="onBlur('mask',form.mask)" />
+      <m-input v-model="form.mask" placeholder="0.0.0.0" @blur="onBlur('mask',form.mask)" />
       <label class="title">{{$t('trans0153')}}
         <span v-if="blurItems.includes('gateway')">{{$t('trans0231')}}</span>
       </label>
-      <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.gateway" @blur="onBlur('gateway',form.gateway)" />
+      <m-input v-model="form.gateway" placeholder="0.0.0.0" @blur="onBlur('gateway',form.gateway)" />
       <label class="title">{{$t('trans0236')}}
         <span v-if="blurItems.includes('dns')">{{$t('trans0231')}}</span>
       </label>
-      <van-field autocomplete="new-password" placeholder="0.0.0.0" v-model="form.dns" @blur="onBlur('dns',form.dns)" />
+      <m-input v-model="form.dns" placeholder="0.0.0.0" @blur="onBlur('dns',form.dns)" />
     </div>
     <div class="button-info">
       <button class="btn btn-default" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</button>
@@ -33,6 +33,7 @@
   </div>
 </template>
 <script>
+import mInput from '../../component/input/input.vue';
 import {
   ipRexp,
   ipRule,
@@ -42,6 +43,9 @@ import {
 } from '../../../util/util';
 
 export default {
+  components: {
+    mInput
+  },
   data() {
     const config = this.routerConfig.getWan();
     return {
@@ -195,21 +199,6 @@ export default {
         padding-left: 0.1rem;
       }
     }
-  }
-
-  .van-cell-group {
-    background: transparent !important;
-  }
-
-  .van-field,
-  .van-hairline--bottom::after,
-  .van-hairline--left::after,
-  .van-hairline--right::after,
-  .van-hairline--surround::after,
-  .van-hairline--top-bottom::after,
-  .van-hairline--top::after,
-  .van-hairline::after {
-    border: none !important;
   }
 }
 </style>

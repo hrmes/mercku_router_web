@@ -6,27 +6,16 @@
     </div>
     <div class="wlan-settings">
       <div class="ssid-container">
-        <van-field autocomplete="new-password" v-model="ssid" :placeholder="$t('trans0168')" />
+        <m-input v-model="ssid" :placeholder="$t('trans0168')" />
       </div>
       <div class="pwd-container">
-        <div class="pwd-input">
-          <van-field autocomplete="new-password" :type="showPwd?InputTypes.text:InputTypes.password" v-model="pwd" :placeholder="$t('trans0172')" />
-        </div>
-        <div class="pwd-preview">
-          <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
-        </div>
+        <m-input type="password" v-model="pwd" :placeholder="$t('trans0172')" />
       </div>
       <div class="check-container">
         <mCheckbox v-model="checked" :text="$t('trans0166')" />
-        <!-- <van-checkbox v-model="checked" shape="square">{{}}</van-checkbox> -->
       </div>
       <div v-if="!checked" class="adminpwd-container">
-        <div class="adminpwd-input">
-          <van-field autocomplete="new-password" :type="showAdminPwd?InputTypes.text:InputTypes.password" v-model="adminPwd" :placeholder="$t('trans0067')" />
-        </div>
-        <div class="adminpwd-preview">
-          <i class="i" :class="{'i-open':showAdminPwd,'i-close':!showAdminPwd}" @click="changeAdminPwdStatus"></i>
-        </div>
+        <m-input type="password" v-model="adminPwd" :placeholder="$t('trans0067')" />
       </div>
     </div>
     <div class="button-info">
@@ -37,11 +26,13 @@
 
 <script>
 import mCheckbox from '../../component/checkbox/index.vue';
+import mInput from '../../component/input/input.vue';
 import { getStringByte } from '../../../util/util';
 
 export default {
   components: {
-    mCheckbox
+    mCheckbox,
+    mInput
   },
   data() {
     const config = this.routerConfig.getConfig();
@@ -97,12 +88,6 @@ export default {
   methods: {
     isChecked(password, adminPwd) {
       return password === adminPwd && password !== '';
-    },
-    changePwdStatus() {
-      this.showPwd = !this.showPwd;
-    },
-    changeAdminPwdStatus() {
-      this.showAdminPwd = !this.showAdminPwd;
     },
     complete() {
       if (/^\s*$/g.test(this.ssid)) {

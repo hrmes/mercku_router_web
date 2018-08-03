@@ -5,12 +5,7 @@
       <img class="logo" src="../../assets/images/img_login_logo.png" alt="">
     </div>
     <div class="pwd-container">
-      <div class="pwd-input">
-        <van-field autocomplete="new-password" :type="showPwd?InputTypes.text:InputTypes.password" v-model="password" :placeholder="$t('trans0067')" />
-      </div>
-      <div class="pwd-preview">
-        <i class="i" :class="{'i-open':showPwd,'i-close':!showPwd}" @click="changePwdStatus"></i>
-      </div>
+      <m-input type="password" v-model="password" :placeholder="$t('trans0067')" />
     </div>
     <div class="button-info">
       <button class="btn btn-default" @click="login(password)" :disabled="!password">{{$t('trans0001')}}</button>
@@ -18,7 +13,12 @@
   </div>
 </template>
 <script>
+import mInput from '../../component/input/input.vue';
+
 export default {
+  components: {
+    mInput
+  },
   data() {
     return {
       password: '',
@@ -59,10 +59,6 @@ export default {
             this.$toast(this.$t('trans0039'));
           }
         });
-    },
-
-    changePwdStatus() {
-      this.showPwd = !this.showPwd;
     }
   }
 };
@@ -89,20 +85,6 @@ export default {
   .pwd-container {
     margin-top: 0.33rem;
     position: relative;
-    .pwd-input {
-      width: 100%;
-      padding-right: 0.2rem;
-      box-sizing: border-box;
-    }
-    .pwd-preview {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 1;
-      width: 0.2rem;
-      text-align: center;
-    }
   }
 }
 </style>

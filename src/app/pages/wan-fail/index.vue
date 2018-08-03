@@ -52,30 +52,29 @@ export default {
           click: () => {
             this.$confirm({
               message: this.$t('trans0164'),
-              confirmButtonText: this.$t('trans0024'),
-              cancelButtonText: this.$t('trans0025')
-            })
-              .then(() => {
-                const config = this.routerConfig.getConfig();
-                this.$http
-                  .updateMeshConfig({
-                    wifi: config.wifi,
-                    admin: config.admin
-                  })
-                  .then(() => {
-                    this.$router.replace('/complete');
-                  })
-                  .catch(err => {
-                    if (err && err.error) {
-                      this.$router.replace({ path: '/login' });
-                    } else {
-                      this.$toast(this.$t('trans0039'));
-                    }
-                  });
-              })
-              .catch(() => {
-                // on cancel
-              });
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              callback: {
+                ok: () => {
+                  const config = this.routerConfig.getConfig();
+                  this.$http
+                    .updateMeshConfig({
+                      wifi: config.wifi,
+                      admin: config.admin
+                    })
+                    .then(() => {
+                      this.$router.replace('/complete');
+                    })
+                    .catch(err => {
+                      if (err && err.error) {
+                        this.$router.replace({ path: '/login' });
+                      } else {
+                        this.$toast(this.$t('trans0039'));
+                      }
+                    });
+                }
+              }
+            });
           }
         },
         left: {

@@ -1,16 +1,15 @@
 <template>
   <div class="header-container">
-    <!-- <div v-if="hasBar()" class="status has-topbar" /> -->
     <div class="content">
       <div class="left" v-if="option.left" @click="leftClick">
-        <img v-if="option.left.icon" class="icon-back" src="../assets/images/ic_back@3x.png" alt="">
+        <img v-if="option.left.icon" class="icon-back" src="../../assets/images/ic_back@3x.png" alt="">
         <span v-if="!option.left.icon">{{option.left.text}}</span>
       </div>
       <div class="center" v-if="option.center" @click="centerClick">
         <span v-if="!option.center.icon">{{option.center.text}}</span>
       </div>
       <div class="right" v-if="option.right" @click="rightClick">
-        <img v-if="option.right.icon" class="icon-forward" src="../assets/images/ic_back@3x.png" alt="">
+        <img v-if="option.right.icon" class="icon-forward" src="../../assets/images/ic_back@3x.png" alt="">
         <span v-if="!option.right.icon">{{option.right.text}}</span>
       </div>
     </div>
@@ -18,8 +17,6 @@
 
 </template>
 <script>
-import { isIphone } from '../../util/util';
-
 const noop = () => {};
 export default {
   /*
@@ -76,9 +73,6 @@ export default {
     rightClick() {
       const click = this.option.right.click || noop;
       return click();
-    },
-    hasBar() {
-      return isIphone();
     }
   }
 };
