@@ -39,6 +39,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@media screen and(max-width: 768px) {
+  .toast-container {
+    width: 80%;
+    white-space: normal !important;
+    padding: 10px !important;
+  }
+}
 .toast-container {
   color: #fff;
   position: fixed;
@@ -49,6 +56,7 @@ export default {
   left: 50%;
   transform: translate(-50%, 50%);
   white-space: nowrap;
+  text-align: center;
   &.error {
     background: #f73035;
   }

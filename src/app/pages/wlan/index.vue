@@ -9,7 +9,7 @@
         <m-input v-model="ssid" :placeholder="$t('trans0168')" />
       </div>
       <div class="pwd-container">
-        <m-input type="password" v-model="pwd" :placeholder="$t('trans0003')" />
+        <m-input type="password" v-model="pwd" :placeholder="$t('trans0172')" />
       </div>
       <div class="check-container">
         <mCheckbox v-model="checked" :text="$t('trans0166')" />
@@ -95,6 +95,7 @@ export default {
         return;
       }
       const length = getStringByte(this.ssid);
+      console.log(this.ssid, length);
       if (length > 20 || length < 1) {
         this.$toast(this.$t('trans0261'));
         return;

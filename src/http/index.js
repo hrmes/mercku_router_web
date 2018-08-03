@@ -12,6 +12,10 @@ const methods = {
     url,
     action: 'router.login'
   },
+  routerLogout: {
+    url,
+    action: 'router.logout'
+  },
   routerIsInitial: {
     url,
     action: 'router.is_initial'
@@ -120,6 +124,9 @@ const request = (config, params) => {
   });
 };
 const http = {
+  loginout() {
+    return request(methods.routerLogout);
+  },
   getRouterMode() {
     return request(methods.routerModeGet);
   },

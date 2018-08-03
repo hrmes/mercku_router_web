@@ -75,7 +75,7 @@ const launch = () => {
           },
           ontimeout: () => {
             serviceStarted = false;
-            this.$loading.close();
+            loading.close();
             opt.ontimeout();
           },
           timeout: opt.timeout
