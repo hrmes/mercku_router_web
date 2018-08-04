@@ -49,9 +49,6 @@ export default {
   },
   computed: {
     policy() {
-      if (this.locale === 'zh-CN') {
-        return require('./policy-cn.html');
-      }
       return require('./policy-en.html');
     }
   }
