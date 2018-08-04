@@ -106,6 +106,7 @@ const launch = () => {
         response.data.error.code === 600007
       ) {
         upgrade();
+        return Promise.reject({ upgrading: true });
       }
       return Promise.reject(error.response.data);
     }

@@ -799,6 +799,10 @@ export default {
           }
         })
         .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+
           this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           clearInterval(this.timer4);
           this.testSpeedNumber = this.testTimeout;
@@ -844,6 +848,9 @@ export default {
           }
         })
         .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {

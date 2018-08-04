@@ -214,8 +214,12 @@ export default {
           this.packageInfo = res.data.result.fw_info;
         })
         .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
           uploader.status = UploadStatus.fail;
           this.uploadStatus = UploadStatus.fail;
+
           if (err && err.error) {
             uploader.err = this.$t(err.error.code);
           } else if (!err.message) {
@@ -247,7 +251,11 @@ export default {
                 });
               })
               .catch(err => {
+                if (err.upgrading) {
+                  return;
+                }
                 this.$loading.close();
+
                 if (err && err.error) {
                   this.$toast(this.$t(err.error.code));
                 } else {

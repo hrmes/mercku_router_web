@@ -374,6 +374,9 @@ export default {
           });
         })
         .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
