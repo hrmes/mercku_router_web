@@ -1,0 +1,392 @@
+[
+  {
+    "name": "埃尼威托克岛,夸贾林环礁",
+    "timezone": 12,
+    "position": 1,
+    "timename": "GMT-12:00"
+  },
+  {
+    "name": "中途岛、萨摩亚群岛",
+    "timezone": 11,
+    "position": 1,
+    "timename": "GMT-11:00"
+  },
+  {
+    "name": "夏威夷",
+    "timezone": 10,
+    "position": 1,
+    "timename": "GMT-10:00"
+  },
+  {
+    "name": "阿拉斯加",
+    "timezone": 9,
+    "position": 1,
+    "timename": "GMT-09:00"
+  },
+  {
+    "name": "太平洋时间(美国和加拿大);提华纳",
+    "timezone": 8,
+    "position": 1,
+    "timename": "GMT-08:00"
+  },
+  {
+    "name": "亚利桑那",
+    "timezone": 7,
+    "position": 1,
+    "timename": "GMT-07:00"
+  },
+  {
+    "name": "山地时间(美国和加拿大)",
+    "timezone": 7,
+    "position": 2,
+    "timename": "GMT-07:00"
+  },
+  {
+    "name": "中部时间(美国和加拿大)",
+    "timezone": 6,
+    "position": 1,
+    "timename": "GMT-06:00"
+  },
+  {
+    "name": "墨西哥城，特古西加尔巴",
+    "timezone": 6,
+    "position": 2,
+    "timename": "GMT-06:00"
+  },
+  {
+    "name": "萨斯喀彻温省",
+    "timezone": 6,
+    "position": 3,
+    "timename": "GMT-06:00"
+  },
+  {
+    "name": "波哥大、利马、基多",
+    "timezone": 5,
+    "position": 1,
+    "timename": "GMT-05:00"
+  },
+  {
+    "name": "东部时间(美国和加拿大)",
+    "timezone": 5,
+    "position": 2,
+    "timename": "GMT-05:00"
+  },
+  {
+    "name": "印第安那州(东部)",
+    "timezone": 5,
+    "position": 3,
+    "timename": "GMT-05:00"
+  },
+  {
+    "name": "大西洋时间(加拿大)",
+    "timezone": 4,
+    "position": 1,
+    "timename": "GMT-04:00"
+  },
+  {
+    "name": "加拉加斯、拉巴斯",
+    "timezone": 4,
+    "position": 2,
+    "timename": "GMT-04:00"
+  },
+  {
+    "name": "圣地亚哥",
+    "timezone": 4,
+    "position": 3,
+    "timename": "GMT-04:00"
+  },
+  {
+    "name": "纽芬兰",
+    "timezone": 3,
+    "position": 1,
+    "timename": "GMT-03:30"
+  },
+  {
+    "name": "巴西利亚",
+    "timezone": 3,
+    "position": 2,
+    "timename": "GMT-03:00"
+  },
+  {
+    "name": "布宜诺斯艾利斯、乔治敦",
+    "timezone": 3,
+    "position": 3,
+    "timename": "GMT-03:00"
+  },
+  {
+    "name": "中大西洋",
+    "timezone": 2,
+    "position": 1,
+    "timename": "GMT-02:00"
+  },
+  {
+    "name": "亚速尔群岛、佛得角",
+    "timezone": 1,
+    "position": 1,
+    "timename": "GMT-01:00"
+  },
+  {
+    "name": "卡萨布兰卡(蒙罗维亚))",
+    "timezone": 0,
+    "position": 1,
+    "timename": "GMT+00:00"
+  },
+  {
+    "name": "格林威治标准时间：都柏林、爱丁堡、里斯本、伦敦",
+    "timezone": 0,
+    "position": 2,
+    "timename": "GMT+00:00"
+  },
+  {
+    "name": "阿姆斯特丹、柏林、伯尔尼、罗马、斯德哥尔摩、维也纳",
+    "timezone": -1,
+    "position": 1,
+    "timename": "GMT+01:00"
+  },
+  {
+    "name": "贝尔格莱德、布拉蒂斯拉瓦、布达佩斯、卢布尔雅那、布拉格",
+    "timezone": -1,
+    "position": 2,
+    "timename": "GMT+01:00"
+  },
+  {
+    "name": "巴塞罗那、马德里",
+    "timezone": -1,
+    "position": 3,
+    "timename": "GMT+01:00"
+  },
+  {
+    "name": "布鲁塞尔、哥本哈根、马德里、巴黎、维尔纽斯",
+    "timezone": -1,
+    "position": 4,
+    "timename": "GMT+01:00"
+  },
+  {
+    "name": "巴黎",
+    "timezone": -1,
+    "position": 5,
+    "timename": "GMT+01:00"
+  },
+  {
+    "name": "萨拉热窝、斯科普里、索菲亚、华沙、萨格勒布",
+    "timezone": -1,
+    "position": 6,
+    "timename": "GMT+01:00"
+  },
+  {
+    "name": "雅典、伊斯坦布尔、明斯克",
+    "timezone": -2,
+    "position": 1,
+    "timename": "GMT+02:00"
+  },
+  {
+    "name": "布加勒斯特",
+    "timezone": -2,
+    "position": 2,
+    "timename": "GMT+02:00"
+  },
+  {
+    "name": "开罗",
+    "timezone": -2,
+    "position": 3,
+    "timename": "GMT+02:00"
+  },
+  {
+    "name": "哈拉雷、比勒陀利亚",
+    "timezone": -2,
+    "position": 4,
+    "timename": "GMT+02:00"
+  },
+  {
+    "name": "赫尔辛基、基辅、里加、索非亚、塔林、维尔纽斯",
+    "timezone": -2,
+    "position": 5,
+    "timename": "GMT+02:00"
+  },
+  {
+    "name": "耶路撒冷",
+    "timezone": -2,
+    "position": 6,
+    "timename": "GMT+02:00"
+  },
+  {
+    "name": "巴格达、科威特、利雅得",
+    "timezone": -3,
+    "position": 1,
+    "timename": "GMT+03:00"
+  },
+  {
+    "name": "莫斯科、圣彼得堡、伏尔加格勒",
+    "timezone": -3,
+    "position": 2,
+    "timename": "GMT+03:00"
+  },
+  {
+    "name": "内罗毕",
+    "timezone": -3,
+    "position": 3,
+    "timename": "GMT+03:00"
+  },
+  {
+    "name": "德黑兰",
+    "timezone": -3,
+    "position": 4,
+    "timename": "GMT+03:30"
+  },
+  {
+    "name": "阿布扎比、马斯喀特",
+    "timezone": -4,
+    "position": 1,
+    "timename": "GMT+04:00"
+  },
+  {
+    "name": "巴库、第比利斯",
+    "timezone": -4,
+    "position": 2,
+    "timename": "GMT+04:00"
+  },
+  {
+    "name": "喀布尔",
+    "timezone": -4,
+    "position": 3,
+    "timename": "GMT+04:30"
+  },
+  {
+    "name": "叶卡捷琳堡",
+    "timezone": -5,
+    "position": 1,
+    "timename": "GMT+05:00"
+  },
+  {
+    "name": "伊斯兰堡、卡拉奇、塔什干",
+    "timezone": -5,
+    "position": 2,
+    "timename": "GMT+05:00"
+  },
+  {
+    "name": "孟买、加尔各答、马德拉斯、新德里",
+    "timezone": -5,
+    "position": 3,
+    "timename": "GMT+05:30"
+  },
+  {
+    "name": "阿斯塔纳、阿拉木图、达卡",
+    "timezone": -6,
+    "position": 1,
+    "timename": "GMT+06:00"
+  },
+  {
+    "name": "科伦坡",
+    "timezone": -6,
+    "position": 2,
+    "timename": "GMT+06:00"
+  },
+  {
+    "name": "曼谷、河内、雅加达",
+    "timezone": -7,
+    "position": 1,
+    "timename": "GMT+07:00"
+  },
+  {
+    "name": "北京、重庆、香港、乌鲁木齐",
+    "timezone": -8,
+    "position": 1,
+    "timename": "GMT+08:00"
+  },
+  {
+    "name": "珀斯",
+    "timezone": -8,
+    "position": 2,
+    "timename": "GMT+08:00"
+  },
+  {
+    "name": "新加坡",
+    "timezone": -8,
+    "position": 3,
+    "timename": "GMT+08:00"
+  },
+  {
+    "name": "台北",
+    "timezone": -8,
+    "position": 4,
+    "timename": "GMT+08:00"
+  },
+  {
+    "name": "大阪、札幌、东京",
+    "timezone": -9,
+    "position": 1,
+    "timename": "GMT+09:00"
+  },
+  {
+    "name": "首尔",
+    "timezone": -9,
+    "position": 2,
+    "timename": "GMT+09:00"
+  },
+  {
+    "name": "雅库茨克",
+    "timezone": -9,
+    "position": 3,
+    "timename": "GMT+09:00"
+  },
+  {
+    "name": "阿德莱德",
+    "timezone": -9,
+    "position": 4,
+    "timename": "GMT+09:30"
+  },
+  {
+    "name": "达尔文",
+    "timezone": -9,
+    "position": 5,
+    "timename": "GMT+09:30"
+  },
+  {
+    "name": "布里斯班",
+    "timezone": -10,
+    "position": 1,
+    "timename": "GMT+10:00"
+  },
+  {
+    "name": "堪培拉、墨尔本、悉尼",
+    "timezone": -10,
+    "position": 2,
+    "timename": "GMT+10:00"
+  },
+  {
+    "name": "关岛、莫尔兹比港",
+    "timezone": -10,
+    "position": 3,
+    "timename": "GMT+10:00"
+  },
+  {
+    "name": "霍巴特",
+    "timezone": -10,
+    "position": 4,
+    "timename": "GMT+10:00"
+  },
+  {
+    "name": "符拉迪沃斯托克",
+    "timezone": -10,
+    "position": 5,
+    "timename": "GMT+10:00"
+  },
+  {
+    "name": "马加丹、所罗门群岛、新喀里多尼亚",
+    "timezone": -11,
+    "position": 1,
+    "timename": "GMT+11:00"
+  },
+  {
+    "name": "奥克兰、威灵顿",
+    "timezone": -12,
+    "position": 1,
+    "timename": "GMT+12:00"
+  },
+  {
+    "name": "斐济、堪察加半岛、马绍尔群岛",
+    "timezone": -12,
+    "position": 2,
+    "timename": "GMT+12:00"
+  }
+]
