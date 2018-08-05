@@ -2,7 +2,7 @@
   <transition name="loading">
     <div class="loading-container" v-if="visible">
       <div class="inner">
-        <img src="../../assets/images/ic_loading.gif" alt="" width="40">
+        <img src="../../assets/images/ic_loading.gif" alt="">
         <div v-if="title" class="title">{{title}}</div>
         <div v-html="template"></div>
       </div>
