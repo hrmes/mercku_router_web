@@ -87,6 +87,7 @@ export default {
     .inner-rotate {
       width: 32px;
       height: 32px;
+      margin: 0 auto;
       animation: rotatesvg 0.6s linear infinite;
     }
   }
