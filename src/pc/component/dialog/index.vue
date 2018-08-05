@@ -80,9 +80,10 @@ export default {
         width: 80px;
         height: 42px;
         display: inline-block;
-        margin-left: 30px;
+        margin: 0 20px 0 30px;
         &:first-child {
           margin-left: 0;
+          margin-right: 0;
         }
       }
     }
