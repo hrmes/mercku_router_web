@@ -57,15 +57,18 @@ export default {
               callback: {
                 ok: () => {
                   const config = this.routerConfig.getConfig();
+                  this.$http.post2native('PUT', 'OPEN_LOADING');
                   this.$http
                     .updateMeshConfig({
                       wifi: config.wifi,
                       admin: config.admin
                     })
                     .then(() => {
+                      this.$http.post2native('PUT', 'CLOSE_LOADING');
                       this.$router.replace('/complete');
                     })
                     .catch(err => {
+                      this.$http.post2native('PUT', 'CLOSE_LOADING');
                       if (err && err.error) {
                         this.$router.replace({ path: '/login' });
                       } else {
@@ -119,9 +122,11 @@ export default {
     }
   },
   mounted() {
+    this.$http.post2native('PUT', 'OPEN_LOADING');
     this.$http
       .getWanNetInfo()
       .then(res => {
+        this.$http.post2native('PUT', 'CLOSE_LOADING');
         this.setWan(res.data.result.netinfo);
         this.access = res.data.result.type;
         const { result } = res.data;
@@ -131,6 +136,7 @@ export default {
         );
       })
       .catch(err => {
+        this.$http.post2native('PUT', 'CLOSE_LOADING');
         if (err && err.error) {
           // 这里不做错误提示，失败了就失败了
           // this.$toast(this.$t(err.error.code));

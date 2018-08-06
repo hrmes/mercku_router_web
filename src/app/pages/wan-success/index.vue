@@ -57,12 +57,15 @@ export default {
   },
   methods: {
     next() {
+      this.$http.post2native('PUT', 'OPEN_LOADING');
       this.$http
         .updateMeshConfig(this.routerConfig.getConfig())
         .then(() => {
+          this.$http.post2native('PUT', 'CLOSE_LOADING');
           this.$router.replace({ path: '/complete' });
         })
         .catch(err => {
+          this.$http.post2native('PUT', 'CLOSE_LOADING');
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -72,9 +75,11 @@ export default {
     }
   },
   mounted() {
+    this.$http.post2native('PUT', 'OPEN_LOADING');
     this.$http
       .getWanNetInfo()
       .then(res => {
+        this.$http.post2native('PUT', 'CLOSE_LOADING');
         this.netinfo = res.data.result.netinfo;
         this.access = res.data.result.type;
         const { result } = res.data;
@@ -84,6 +89,7 @@ export default {
         );
       })
       .catch(err => {
+        this.$http.post2native('PUT', 'CLOSE_LOADING');
         if (err && err.error) {
           // 弹出错误提示
           this.$toast(this.$t(err.error.code));
