@@ -36,12 +36,15 @@ export default {
   methods: {
     submit() {
       this.routerConfig.setWan('dhcp');
+      this.$http.post2native('PUT', 'OPEN_LOADING');
       this.$http
         .updateMeshConfig(this.routerConfig.getConfig())
         .then(() => {
+          this.$http.post2native('PUT', 'CLOSE_LOADING');
           this.$router.replace('/complete');
         })
         .catch(err => {
+          this.$http.post2native('PUT', 'CLOSE_LOADING');
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {

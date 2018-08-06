@@ -64,8 +64,10 @@ export default {
   mounted() {
     // 没有设置wifi信息，从服务器拉取
     if (!this.ssid) {
+      this.$http.post2native('PUT', 'OPEN_LOADING');
       Promise.all([this.$http.getMeshMeta(), this.$http.getAdmin()])
         .then(results => {
+          this.$http.post2native('PUT', 'CLOSE_LOADING');
           const wifi = results[0].data.result;
           const admin = results[1].data.result;
           this.ssid = wifi.ssid;
@@ -76,6 +78,7 @@ export default {
           this.routerConfig.setAdmin(this.adminPwd);
         })
         .catch(err => {
+          this.$http.post2native('PUT', 'CLOSE_LOADING');
           if (err && err.error) {
             // 弹出错误提示
             this.$toast(this.$t(err.error.code));
