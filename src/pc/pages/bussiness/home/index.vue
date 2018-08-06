@@ -173,7 +173,7 @@
           <div class='speed-content'>
             <div v-if="isSpeedTesting">
               <div class="test-info"></div>
-              <p>{{$t('trans0045')}}.. {{testSpeedNumber}}s</p>
+              <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
             </div>
             <div v-if="isSpeedDone || isSpeedFailed" class="speed-completed">
               <div class="speed-result-info">
