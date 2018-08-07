@@ -464,7 +464,6 @@ export default {
           }
           label {
             display: inline-block;
-            min-width: 80px;
             font-size: 14px;
             color: #999999;
           }

@@ -263,7 +263,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1366px) {
+@media screen and (min-width: 769px) and (max-width: 1599px) {
   .menu-container {
     width: 250px;
     z-index: 1000;
@@ -271,7 +271,7 @@ export default {
     min-height: 650px;
   }
 }
-@media screen and (min-width: 1367px) {
+@media screen and (min-width: 1600px) {
   .menu-container {
     display: inline-block;
     width: 300px;
