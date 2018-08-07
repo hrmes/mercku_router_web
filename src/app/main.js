@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import FastClick from 'fastclick';
-import loading from './component/loading/index';
 import dialog from './component/dialog/index';
 import toast from './component/toast/index';
 import { changeLanguage, i18n } from '../i18n';
@@ -22,35 +21,10 @@ Vue.prototype.$toast = toast;
 
 const launch = () => {
   FastClick.attach(document.body);
-  const NO_LOADING_METHODS = ['router.is_login', 'mesh.wan.status.get'];
-  const ROUTER_LOGIN = 'router.login';
-  configRequestInterceptors(
-    config => {
-      const conf = config;
-      conf.timeout = 20000; // add timeout
-      // 添加不显示loading的例外
-      if (
-        !(
-          NO_LOADING_METHODS.includes(conf.data.method) ||
-          (conf.data.method === ROUTER_LOGIN && !conf.data.params.password)
-        )
-      ) {
-        loading.open();
-      }
-      return conf;
-    },
-    error => {
-      loading.close();
-      return Promise.reject(error);
-    }
-  );
+  configRequestInterceptors(config => config, error => Promise.reject(error));
   configResponseInterceptors(
-    res => {
-      loading.close();
-      return res;
-    },
+    res => res,
     error => {
-      loading.close();
       if (error.response) {
         switch (error.response.status) {
           case 401:

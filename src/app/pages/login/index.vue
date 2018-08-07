@@ -41,11 +41,12 @@ export default {
   },
   methods: {
     login(pwd) {
+      this.$http.post2native('PUT', 'OPEN_LOADING');
       this.$http
         .login(pwd)
         .then(() => {
+          this.$http.post2native('PUT', 'CLOSE_LOADING');
           const { redirect } = this.$route.params;
-          console.log('redirect is:', redirect);
           if (redirect) {
             this.$router.replace({ path: redirect });
           } else {
@@ -54,6 +55,7 @@ export default {
           //
         })
         .catch(err => {
+          this.$http.post2native('PUT', 'CLOSE_LOADING');
           if (err && err.error) {
             // 弹出错误提示
             this.$toast(this.$t(err.error.code));
