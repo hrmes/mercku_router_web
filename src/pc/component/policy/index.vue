@@ -91,6 +91,10 @@ export default {
         position: absolute;
         bottom: 82px;
         top: 62px;
+        * {
+          font-family: Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB',
+            'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
+        }
       }
       width: 80%;
       height: 80%;
