@@ -168,11 +168,15 @@
             <div id="topo" style="width:100%;height:550px;"></div>
           </div>
         </div>
-        <div class='speed-model-info' v-if='speedModelOpen'>
+        <div class='speed-model-info' v-if='true'>
           <div class="shadow"></div>
           <div class='speed-content'>
             <div v-if="isSpeedTesting">
-              <div class="test-info"></div>
+              <div class="test-info">
+                <div class="animation-container1"></div>
+                <div class="animation-container2"></div>
+                <div class="animation-container3"></div>
+              </div>
               <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
             </div>
             <div v-if="isSpeedDone || isSpeedFailed" class="speed-completed">
@@ -693,22 +697,12 @@ export default {
 }
 @keyframes speed-testing {
   0% {
-    transform: scale(0.5);
-  }
-  20% {
-    transform: scale(0.6);
-  }
-  40% {
-    transform: scale(0.7);
-  }
-  60% {
-    transform: scale(0.8);
-  }
-  80% {
-    transform: scale(0.9);
+    transform: scale(0.3);
+    opacity: 1;
   }
   100% {
     transform: scale(1);
+    opacity: 0.6;
   }
 }
 
@@ -748,11 +742,47 @@ export default {
     .speed-content {
       text-align: center;
       .test-info {
-        background: url('../../../assets/images/img_test_03.png') no-repeat;
+        position: relative;
+        .animation-container1 {
+          background: rgba(65, 55, 221, 1);
+          width: 110px;
+          height: 110px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -55px;
+          margin-top: -55px;
+          border-radius: 50%;
+          animation: speed-testing 1s linear infinite;
+        }
+        .animation-container2 {
+          background: rgba(65, 55, 221, 0.6);
+          width: 220px;
+          height: 220px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -110px;
+          margin-top: -110px;
+          border-radius: 50%;
+          animation: speed-testing 1s linear infinite;
+        }
+        .animation-container3 {
+          background: rgba(65, 55, 221, 0.2);
+          width: 330px;
+          height: 330px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -165px;
+          margin-top: -165px;
+          border-radius: 50%;
+          animation: speed-testing 1s linear infinite;
+        }
+        //background: url('../../../assets/images/img_test_03.png') no-repeat;
         background-size: 100%;
         width: 330px;
         height: 330px;
-        animation: speed-testing 0.7s linear infinite;
       }
       p {
         color: #ffffff;
