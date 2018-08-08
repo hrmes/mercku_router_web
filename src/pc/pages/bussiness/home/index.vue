@@ -820,10 +820,11 @@ export default {
             .speed {
               font-size: 22px;
               font-weight: bold;
-              padding: 0 5px;
+              // padding: 0 5px;
               color: #000;
             }
             .unit {
+              padding-left: 5px;
               font-size: 12px;
               font-weight: normal;
               letter-spacing: -0.2px;
@@ -833,7 +834,7 @@ export default {
               font-size: 12px;
               letter-spacing: -0.1px;
               color: #999999;
-              margin-left: 3px !important;
+              // margin-left: 3px !important;
             }
           }
         }
@@ -885,6 +886,9 @@ export default {
       display: flex;
       align-items: center;
       text-align: center;
+      .name {
+        font-weight: bold;
+      }
     }
     .row-3 {
       display: flex;
@@ -995,6 +999,9 @@ export default {
         font-size: 24px;
         color: #000;
         font-weight: 400;
+        label {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -1038,7 +1045,7 @@ export default {
       .speed {
         font-size: 26px;
         font-weight: bold;
-        padding: 0 5px;
+        // padding: 0 5px;
       }
       .unit {
         font-size: 14px;
@@ -1050,7 +1057,7 @@ export default {
         font-size: 14px;
         letter-spacing: -0.1px;
         color: #999999;
-        margin-left: 3px !important;
+        // margin-left: 3px !important;
       }
       .message {
         width: 100%;
@@ -1074,6 +1081,10 @@ export default {
         justify-content: center;
         align-items: center;
         min-height: 148px;
+        i {
+          margin-right: 5px;
+          margin-bottom: 5px;
+        }
         div {
           display: inline-block;
           flex: 1;
@@ -1105,6 +1116,7 @@ export default {
           display: inline-block;
           background: url('../../../assets/images/ic_ic_download.png') no-repeat;
           background-size: 100% 100%;
+          margin-bottom: 5px;
         }
         .t-up-icon {
           width: 20px;
@@ -1112,6 +1124,7 @@ export default {
           display: inline-block;
           background: url('../../../assets/images/ic_upload.png') no-repeat;
           background-size: 100% 100%;
+          margin-bottom: 5px;
         }
         .t-count-icon {
           width: 36px;
@@ -1490,7 +1503,10 @@ export default {
       }
       .speed {
         span {
-          font-size: 14px;
+          font-size: 16px;
+          label {
+            font-size: 12px;
+          }
         }
       }
       .row-1 {
