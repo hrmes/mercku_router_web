@@ -168,7 +168,7 @@
             <div id="topo" style="width:100%;height:550px;"></div>
           </div>
         </div>
-        <div class='speed-model-info' v-if='true'>
+        <div class='speed-model-info' v-if='speedModelOpen'>
           <div class="shadow"></div>
           <div class='speed-content'>
             <div v-if="isSpeedTesting">
