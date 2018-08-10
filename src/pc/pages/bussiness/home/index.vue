@@ -172,7 +172,11 @@
           <div class="shadow"></div>
           <div class='speed-content'>
             <div v-if="isSpeedTesting">
-              <div class="test-info"></div>
+              <div class="test-info">
+                <div class="animation-container1"></div>
+                <div class="animation-container2"></div>
+                <div class="animation-container3"></div>
+              </div>
               <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
             </div>
             <div v-if="isSpeedDone || isSpeedFailed" class="speed-completed">
@@ -693,22 +697,12 @@ export default {
 }
 @keyframes speed-testing {
   0% {
-    transform: scale(0.5);
-  }
-  20% {
-    transform: scale(0.6);
-  }
-  40% {
-    transform: scale(0.7);
-  }
-  60% {
-    transform: scale(0.8);
-  }
-  80% {
-    transform: scale(0.9);
+    transform: scale(0.3);
+    opacity: 1;
   }
   100% {
     transform: scale(1);
+    opacity: 0.6;
   }
 }
 
@@ -748,11 +742,47 @@ export default {
     .speed-content {
       text-align: center;
       .test-info {
-        background: url('../../../assets/images/img_test_03.png') no-repeat;
+        position: relative;
+        .animation-container1 {
+          background: rgba(65, 55, 221, 1);
+          width: 110px;
+          height: 110px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -55px;
+          margin-top: -55px;
+          border-radius: 50%;
+          animation: speed-testing 1s linear infinite;
+        }
+        .animation-container2 {
+          background: rgba(65, 55, 221, 0.6);
+          width: 220px;
+          height: 220px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -110px;
+          margin-top: -110px;
+          border-radius: 50%;
+          animation: speed-testing 1s linear infinite;
+        }
+        .animation-container3 {
+          background: rgba(65, 55, 221, 0.2);
+          width: 330px;
+          height: 330px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-left: -165px;
+          margin-top: -165px;
+          border-radius: 50%;
+          animation: speed-testing 1s linear infinite;
+        }
+        //background: url('../../../assets/images/img_test_03.png') no-repeat;
         background-size: 100%;
         width: 330px;
         height: 330px;
-        animation: speed-testing 0.7s linear infinite;
       }
       p {
         color: #ffffff;
@@ -820,10 +850,11 @@ export default {
             .speed {
               font-size: 22px;
               font-weight: bold;
-              padding: 0 5px;
+              // padding: 0 5px;
               color: #000;
             }
             .unit {
+              padding-left: 5px;
               font-size: 12px;
               font-weight: normal;
               letter-spacing: -0.2px;
@@ -833,7 +864,7 @@ export default {
               font-size: 12px;
               letter-spacing: -0.1px;
               color: #999999;
-              margin-left: 3px !important;
+              // margin-left: 3px !important;
             }
           }
         }
@@ -885,6 +916,9 @@ export default {
       display: flex;
       align-items: center;
       text-align: center;
+      .name {
+        font-weight: bold;
+      }
     }
     .row-3 {
       display: flex;
@@ -995,6 +1029,9 @@ export default {
         font-size: 24px;
         color: #000;
         font-weight: 400;
+        label {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -1038,7 +1075,7 @@ export default {
       .speed {
         font-size: 26px;
         font-weight: bold;
-        padding: 0 5px;
+        // padding: 0 5px;
       }
       .unit {
         font-size: 14px;
@@ -1050,7 +1087,7 @@ export default {
         font-size: 14px;
         letter-spacing: -0.1px;
         color: #999999;
-        margin-left: 3px !important;
+        // margin-left: 3px !important;
       }
       .message {
         width: 100%;
@@ -1074,6 +1111,10 @@ export default {
         justify-content: center;
         align-items: center;
         min-height: 148px;
+        i {
+          margin-right: 5px;
+          margin-bottom: 5px;
+        }
         div {
           display: inline-block;
           flex: 1;
@@ -1105,6 +1146,7 @@ export default {
           display: inline-block;
           background: url('../../../assets/images/ic_ic_download.png') no-repeat;
           background-size: 100% 100%;
+          margin-bottom: 5px;
         }
         .t-up-icon {
           width: 20px;
@@ -1112,6 +1154,7 @@ export default {
           display: inline-block;
           background: url('../../../assets/images/ic_upload.png') no-repeat;
           background-size: 100% 100%;
+          margin-bottom: 5px;
         }
         .t-count-icon {
           width: 36px;
@@ -1490,7 +1533,10 @@ export default {
       }
       .speed {
         span {
-          font-size: 14px;
+          font-size: 16px;
+          label {
+            font-size: 12px;
+          }
         }
       }
       .row-1 {
