@@ -2,11 +2,28 @@
   <transition name="loading">
     <div class="loading-container" v-if="visible">
       <div class="inner">
-        <div class="inner-rotate">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-            <path d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z" transform="rotate(46.6166 25 25)">
-            </path>
-          </svg>
+        <div class="mercku_loading">
+          <div class="left">
+            <div class="out-wrapper">
+              <div class="outer-m"></div>
+              <div class="outer-mock-m"></div>
+            </div>
+            <div class="inner-wrapper">
+              <div class="inner-m"></div>
+              <div class="inner-mock-m"></div>
+            </div>
+          </div>
+          <div class="right">
+            <div class="out-wrapper">
+              <div class="outer-m"></div>
+              <div class="outer-mock-m"></div>
+            </div>
+            <div class="inner-wrapper">
+              <div class="inner-m"></div>
+              <div class="inner-mock-m"></div>
+            </div>
+          </div>
+
         </div>
         <div v-if="title" class="title">{{title}}</div>
         <div v-html="template"></div>
@@ -38,14 +55,116 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@keyframes rotatesvg {
-  0% {
-    transform: rotate(0);
+.mercku_loading {
+  position: relative;
+  width: 100.5px;
+  height: 33.5px;
+  margin: 300px auto;
+  transform: scale(1);
+  .left {
+    position: absolute;
+    left: 0;
   }
-  100% {
-    transform: rotate(360deg);
+
+  .right {
+    position: absolute;
+    left: 32.5px;
   }
 }
+
+.out-wrapper {
+  width: 67px;
+  height: 33.5px;
+  opacity: 0.5;
+}
+
+.outer-m,
+.outer-mock-m {
+  width: 51px;
+  height: 51px;
+  border-radius: 50%;
+  border-top: 8px solid rgba(216, 12, 24, 1);
+  border-left: 8px solid rgba(216, 12, 24, 1);
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  position: absolute;
+  left: 0;
+  transform: rotate(45deg);
+  animation: circle 1.5s linear infinite;
+}
+
+.outer-mock-m {
+  animation: circle-mock 1.5s linear infinite;
+}
+
+.inner-m,
+.inner-mock-m {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border-top: 8px solid rgba(216, 12, 24, 1);
+  border-left: 8px solid rgba(216, 12, 24, 1);
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  position: absolute;
+  left: 13.5px;
+  top: 13.5px;
+  transform: rotate(45deg);
+  animation: circle 1.5s linear infinite;
+}
+
+.inner-mock-m {
+  animation: circle-mock 1.5s linear infinite;
+}
+
+@keyframes circle {
+  0% {
+    transform: rotate(45deg);
+  }
+  10% {
+    transform: rotate(45deg);
+  }
+  20% {
+    transform: rotate(45deg);
+  }
+  30% {
+    transform: rotate(45deg);
+  }
+  40% {
+    transform: rotate(45deg);
+  }
+  50% {
+    transform: rotate(45deg);
+  }
+  100% {
+    transform: rotate(405deg);
+  }
+}
+
+@keyframes circle-mock {
+  0% {
+    transform: rotate(45deg);
+  }
+  10% {
+    transform: rotate(45deg);
+  }
+  20% {
+    transform: rotate(45deg);
+  }
+  30% {
+    transform: rotate(45deg);
+  }
+  40% {
+    transform: rotate(45deg);
+  }
+  50% {
+    transform: rotate(117deg);
+  }
+  100% {
+    transform: rotate(405deg);
+  }
+}
+
 .loading-container {
   position: fixed;
   top: 0;
@@ -54,13 +173,6 @@ export default {
   right: 0;
   z-index: 1001;
   background: rgba(0, 0, 0, 0.8);
-  svg {
-    width: 32px;
-    height: 32px;
-    path {
-      fill: #fff;
-    }
-  }
   &.loading-enter {
     opacity: 0;
   }
@@ -83,12 +195,6 @@ export default {
       font-size: 24px;
       margin-top: 10px;
       color: #fff;
-    }
-    .inner-rotate {
-      width: 32px;
-      height: 32px;
-      margin: 0 auto;
-      animation: rotatesvg 0.6s linear infinite;
     }
   }
 }
