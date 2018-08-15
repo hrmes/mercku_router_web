@@ -474,6 +474,7 @@ export default {
       return !isNaN(v) ? (v / (1024 * 1024)).toFixed(1) : v;
     },
     closeSpeedModal() {
+      this.createTimer();
       this.speedModelOpen = false;
       this.restoryOverflow();
     },
@@ -512,24 +513,17 @@ export default {
       this.$http
         .speedTesting(force)
         .then(res => {
-          if (res.status === 200) {
-            this.speedStatus = res.data.result.status;
-            this.speedInfo = res.data.result;
-            if (res.data.result.status === CONSTANTS.SpeedTestStatus.done) {
-              clearInterval(this.timer4);
-              this.testSpeedNumber = this.testTimeout;
-            }
-            if (res.data.result.status === CONSTANTS.SpeedTestStatus.failed) {
-              clearInterval(this.timer4);
-              this.testSpeedNumber = this.testTimeout;
-            }
+          this.speedStatus = res.data.result.status;
+          this.speedInfo = res.data.result;
+          if (res.data.result.status !== CONSTANTS.SpeedTestStatus.testing) {
+            clearInterval(this.timer4);
+            this.testSpeedNumber = this.testTimeout;
           }
         })
         .catch(err => {
           if (err.upgrading) {
             return;
           }
-
           this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           clearInterval(this.timer4);
           this.testSpeedNumber = this.testTimeout;
@@ -545,6 +539,7 @@ export default {
       this.speedStatus = CONSTANTS.SpeedTestStatus.testing;
       this.setOverflow();
       this.speedTesting(force);
+      this.clearTimer();
       this.timer4 = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
           clearInterval(this.timer4);
