@@ -6,7 +6,7 @@
       <div class="dialog-body">
         <div class="dialog-title">{{$t('trans0139')}}</div>
         <div class="dialog-content">
-          <div v-html="policy"></div>
+          <div style="height:100%" v-html="policy"></div>
         </div>
         <div class="button-container">
 
@@ -87,9 +87,9 @@ export default {
       .dialog-content {
         overflow: auto;
         text-align: left;
-        padding: 20px;
+        padding: 0 20px;
         position: absolute;
-        bottom: 82px;
+        bottom: 118px;
         top: 62px;
         * {
           font-family: Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB',
@@ -106,14 +106,10 @@ export default {
       transform: translate(-50%, -50%);
       z-index: 1000;
       .button-container {
-        padding: 20px;
+        padding: 30px;
         position: absolute;
         width: 100%;
         bottom: 0;
-        .btn {
-          width: 120px;
-          height: 42px;
-        }
       }
     }
   }
