@@ -40,11 +40,7 @@
             <img src="../../../assets/images/img_new_version.png" alt="" width="220">
             <p>{{$t('trans0259')}}</p>
           </div>
-          <div v-if="requestResult.error && requestResult.error === Errors.NO_INTERNET_ACCESS">
-            <img src="../../../assets/images/img_no_network_access.png" alt="" width="220">
-            <p>{{requestResult.message}}</p>
-          </div>
-          <div v-if="requestResult.error && requestResult.error !== Errors.NO_INTERNET_ACCESS">
+          <div v-if="requestResult.error">
             <img src="../../../assets/images/img_error.png" alt="" width="220">
             <p>{{requestResult.message}}</p>
           </div>
@@ -71,9 +67,6 @@ export default {
     return {
       nodes: [],
       RouterSnModel,
-      Errors: {
-        NO_INTERNET_ACCESS: 600003 // 无法连接到服务器错误特殊处理
-      },
       requestResult: {
         complete: false,
         error: null,
@@ -124,13 +117,8 @@ export default {
           this.$loading.close();
           this.requestResult.complete = true;
           if (err && err.error) {
-            if (err.error.code === 600003) {
-              this.requestResult.error = this.Errors.NO_INTERNET_ACCESS;
-              this.requestResult.message = this.$t('trans0319');
-            } else {
-              this.requestResult.error = true;
-              this.requestResult.message = this.$t('trans0345');
-            }
+            this.requestResult.error = true;
+            this.requestResult.message = this.$t('trans0345');
           } else {
             this.$router.push({ path: '/unconnect' });
           }

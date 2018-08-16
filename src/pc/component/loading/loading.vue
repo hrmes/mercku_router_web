@@ -56,16 +56,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mercku_loading {
+  * {
+    box-sizing: content-box;
+  }
   position: relative;
   width: 100.5px;
   height: 33.5px;
-  margin: 300px auto;
-  transform: scale(1);
+  margin: 0 auto;
   .left {
     position: absolute;
     left: 0;
   }
-
   .right {
     position: absolute;
     left: 32.5px;
