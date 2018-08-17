@@ -61,7 +61,7 @@ export default {
   }
   position: relative;
   width: 100.5px;
-  height: 33.5px;
+  height: 67px;
   margin: 0 auto;
   .left {
     position: absolute;
