@@ -6,7 +6,7 @@
       <div class="dialog-body">
         <div class="dialog-title">{{$t('trans0139')}}</div>
         <div class="dialog-content">
-          <div style="height:100%" v-html="policy"></div>
+          <div style="height:100%;padding:20px 0;font-size:0;" v-html="policy"></div>
         </div>
         <div class="button-container">
 
