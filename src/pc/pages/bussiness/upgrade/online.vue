@@ -140,6 +140,9 @@ export default {
                 this.$upgrade({
                   onsuccess: () => {
                     this.$router.push({ path: '/home' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
                   }
                 });
               })
