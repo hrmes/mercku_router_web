@@ -23,6 +23,7 @@ import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
 import Progress from '../../../component/progress/index.vue';
 import layout from '../../../layout.vue';
+import { passwordRule } from '../../../../util/util';
 
 export default {
   components: {
@@ -39,9 +40,8 @@ export default {
       },
       rules: {
         password: [
-          { rule: value => !/\s/g.test(value), message: this.$t('trans0228') },
           {
-            rule: value => /^[a-zA-Z0-9]{8,24}$/g.test(value),
+            rule: value => passwordRule.test(value),
             message: this.$t('trans0169')
           }
         ]

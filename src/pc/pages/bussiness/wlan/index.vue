@@ -66,7 +66,7 @@ import mCheckbox from '../../../component/checkbox/index.vue';
 import mForm from '../../../component/form/index.vue';
 import mFormItem from '../../../component/formItem/index.vue';
 import layout from '../../../layout.vue';
-import { getStringByte } from '../../../../util/util';
+import { getStringByte, passwordRule } from '../../../../util/util';
 
 export default {
   components: {
@@ -98,9 +98,8 @@ export default {
           }
         ],
         password: [
-          { rule: value => !/\s/g.test(value), message: this.$t('trans0228') },
           {
-            rule: value => /^[a-zA-Z0-9]{8,24}$/g.test(value),
+            rule: value => passwordRule.test(value),
             message: this.$t('trans0169')
           }
         ]
@@ -110,9 +109,8 @@ export default {
       },
       form2Rules: {
         admin_password: [
-          { rule: value => !/\s/g.test(value), message: this.$t('trans0228') },
           {
-            rule: value => /^[a-zA-Z0-9]{8,24}$/g.test(value),
+            rule: value => passwordRule.test(value),
             message: this.$t('trans0169')
           }
         ]
