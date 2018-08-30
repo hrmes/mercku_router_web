@@ -360,29 +360,38 @@ export default {
       });
     },
     save(form) {
-      this.$http
-        .meshWanUpdate({ ...form })
-        .then(() => {
-          this.reboot = true;
-          this.$reconnect({
-            onsuccess: () => {
-              this.$router.push({ path: '/home' });
-            },
-            ontimeout: () => {
-              this.$router.push({ path: '/unconnect' });
-            }
-          });
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0037'),
+        callback: {
+          ok: () => {
+            this.$http
+              .meshWanUpdate({ ...form })
+              .then(() => {
+                this.reboot = true;
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/home' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
+              })
+              .catch(err => {
+                if (err.upgrading) {
+                  return;
+                }
+                if (err && err.error) {
+                  this.$toast(this.$t(err.error.code));
+                } else {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
           }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+        }
+      });
     },
     submit() {
       let form = { type: this.netType };

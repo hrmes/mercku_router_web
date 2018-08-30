@@ -27,7 +27,7 @@
 <script>
 import mCheckbox from '../../component/checkbox/index.vue';
 import mInput from '../../component/input/input.vue';
-import { getStringByte } from '../../../util/util';
+import { getStringByte, passwordRule } from '../../../util/util';
 
 export default {
   components: {
@@ -104,23 +104,16 @@ export default {
         return;
       }
 
-      if (!/^[a-zA-Z0-9]{8,24}$/g.test(this.pwd)) {
+      if (!passwordRule.test(this.pwd)) {
         this.$toast(this.$t('trans0169'));
-        return;
-      }
-      if (/\s/g.test(this.pwd)) {
-        this.$toast(this.$t('trans0228'));
         return;
       }
 
-      if (!this.checked && !/^[a-zA-Z0-9]{8,24}$/g.test(this.adminPwd)) {
+      if (!this.checked && !passwordRule.test(this.adminPwd)) {
         this.$toast(this.$t('trans0169'));
         return;
       }
-      if (!this.checked && /\s/g.test(this.adminPwd)) {
-        this.$toast(this.$t('trans0228'));
-        return;
-      }
+
       this.routerConfig.setWIFI(this.ssid, this.pwd);
       this.routerConfig.setAdmin(this.checked ? this.pwd : this.adminPwd);
       this.$router.replace({ path: '/check-network' });

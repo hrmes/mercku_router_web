@@ -48,7 +48,7 @@ import FormItem from '../../../component/formItem/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import Checkbox from '../../../component/checkbox/index.vue';
 import layout from '../../../layout.vue';
-import { getStringByte } from '../../../../util/util';
+import { getStringByte, passwordRule } from '../../../../util/util';
 
 export default {
   components: {
@@ -115,9 +115,8 @@ export default {
           }
         ],
         password: [
-          { rule: value => !/\s/g.test(value), message: this.$t('trans0228') },
           {
-            rule: value => /^[a-zA-Z0-9]{8,24}$/g.test(value),
+            rule: value => passwordRule.test(value),
             message: this.$t('trans0169')
           }
         ]
@@ -181,34 +180,43 @@ export default {
     },
     submit() {
       if (this.$refs.form.validate()) {
-        this.$http
-          .meshWifiUpdate({
-            ...this.form,
-            bands: this.combineBands[this.band]
-          })
-          .then(res => {
-            if (res.status === 200) {
-              this.reboot = true;
-              this.$reconnect({
-                onsuccess: () => {
-                  this.$router.push({ path: '/home' });
-                },
-                ontimeout: () => {
-                  this.$router.push({ path: '/unconnect' });
-                }
-              });
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0229'),
+          callback: {
+            ok: () => {
+              this.$http
+                .meshWifiUpdate({
+                  ...this.form,
+                  bands: this.combineBands[this.band]
+                })
+                .then(res => {
+                  if (res.status === 200) {
+                    this.reboot = true;
+                    this.$reconnect({
+                      onsuccess: () => {
+                        this.$router.push({ path: '/home' });
+                      },
+                      ontimeout: () => {
+                        this.$router.push({ path: '/unconnect' });
+                      }
+                    });
+                  }
+                })
+                .catch(err => {
+                  if (err.upgrading) {
+                    return;
+                  }
+                  if (err && err.error) {
+                    this.$toast(this.$t(err.error.code));
+                  } else {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
             }
-          })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
-          });
+          }
+        });
       }
     }
   },

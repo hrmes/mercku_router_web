@@ -202,3 +202,5 @@ export const getStringByte = str => {
 
   return total;
 };
+
+export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
