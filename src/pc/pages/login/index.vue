@@ -87,7 +87,7 @@ export default {
         .login(this.password)
         .then(() => {
           this.$loading.close();
-          this.$router.push({ path: '/home' });
+          this.$router.push({ path: '/dashboard' });
         })
         .catch(err => {
           if (err.upgrading) {

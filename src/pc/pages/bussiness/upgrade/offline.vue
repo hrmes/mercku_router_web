@@ -245,7 +245,7 @@ export default {
                 this.upgraded = true;
                 this.$upgrade({
                   onsuccess: () => {
-                    this.$router.push({ path: '/home' });
+                    this.$router.push({ path: '/dashboard' });
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });

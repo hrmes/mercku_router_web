@@ -196,7 +196,7 @@ export default {
                     this.reboot = true;
                     this.$reconnect({
                       onsuccess: () => {
-                        this.$router.push({ path: '/home' });
+                        this.$router.push({ path: '/dashboard' });
                       },
                       ontimeout: () => {
                         this.$router.push({ path: '/unconnect' });

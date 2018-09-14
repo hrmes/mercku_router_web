@@ -109,7 +109,8 @@ import {
   ipRule,
   isMulticast,
   isLoopback,
-  isValidMask
+  isValidMask,
+  ipReg
 } from '../../../../util/util';
 import * as CONSTANTS from '../../../../util/constant';
 
@@ -123,10 +124,6 @@ export default {
     layout
   },
   data() {
-    const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
-    function expRules(v) {
-      return v === undefined || v === '' || v === null ? true : pattern.test(v);
-    }
     return {
       CONSTANTS: { ...CONSTANTS },
       netNote: {
@@ -176,7 +173,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => pattern.test(value),
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           }
         ],
@@ -186,7 +183,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => pattern.test(value),
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           },
           {
@@ -200,7 +197,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => pattern.test(value),
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           }
         ],
@@ -210,13 +207,13 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => pattern.test(value),
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           }
         ],
         dns2: [
           {
-            rule: expRules,
+            rule: value => (value ? ipReg.test(value) : value !== 0),
             message: this.$t('trans0231')
           }
         ]
@@ -372,7 +369,7 @@ export default {
                 this.reboot = true;
                 this.$reconnect({
                   onsuccess: () => {
-                    this.$router.push({ path: '/home' });
+                    this.$router.push({ path: '/dashboard' });
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
@@ -475,6 +472,7 @@ export default {
             display: inline-block;
             font-size: 14px;
             color: #999999;
+            font-weight: bold;
           }
           span {
             color: #333333;
@@ -496,9 +494,6 @@ export default {
         align-items: center;
         .form {
           padding: 20px 0;
-          .item {
-            // margin-bottom: 20px;
-          }
           .note {
             font-size: 12px;
             color: #999999;

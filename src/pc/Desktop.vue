@@ -28,7 +28,7 @@ export default {
         {
           icon: 'wifi',
           text: 'trans0173',
-          url: '/home',
+          url: '/dashboard',
           key: 1
         },
         {

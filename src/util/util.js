@@ -80,9 +80,11 @@ export const isIphone = () => {
   return isiOS;
 };
 
+export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
+export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
+
 export const ipRexp = ip => {
-  const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
-  if (ip && pattern.test(ip)) {
+  if (ip && ipReg.test(ip)) {
     return true;
   }
   return false;
@@ -102,6 +104,7 @@ export const isMulticast = ip => {
   }
   return false;
 };
+
 export const isLoopback = ip => {
   const i = ip2int(ip);
   // 环回地址
@@ -116,7 +119,6 @@ export const isValidMask = ip => {
     .toString(2)
     .padStart(32, '0');
   const result = i.split('10');
-  console.log(result);
   if (result.length !== 2) {
     return false;
   }
@@ -203,4 +205,30 @@ export const getStringByte = str => {
   return total;
 };
 
-export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
+// 格式化网络数据流量单位，value的初始单位应为B
+export const formatNetworkData = value => {
+  const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
+  let index = 0;
+  if (!isNaN(value)) {
+    do {
+      value /= 1024;
+      index += 1;
+    } while (value > 1024 && index < units.length - 1);
+    return {
+      value: value.toFixed(1),
+      unit: units[index]
+    };
+  }
+  return {
+    value: '-',
+    unit: units[0]
+  };
+};
+
+export const formatMac = mac => {
+  mac = mac.toUpperCase();
+  if (mac.length === 12) {
+    return mac.match(/.{2}/g).join(':');
+  }
+  return mac;
+};

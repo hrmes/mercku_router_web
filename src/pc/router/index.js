@@ -1,8 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import login from '../pages/login/index.vue';
-import home from '../pages/bussiness/home/index.vue';
+import dashboard from '../pages/bussiness/dashboard/index.vue';
+import device from '../pages/bussiness/dashboard/device.vue';
+import mesh from '../pages/bussiness/dashboard/mesh.vue';
+import internet from '../pages/bussiness/dashboard/internet.vue';
 import network from '../pages/bussiness/setting/network.vue';
+import timezone from '../pages/bussiness/setting/timezone.vue';
+import blacklist from '../pages/bussiness/setting/blacklist.vue';
 import wifi from '../pages/bussiness/setting/wifi.vue';
 import safe from '../pages/bussiness/setting/safe.vue';
 import reboot from '../pages/bussiness/setting/reboot.vue';
@@ -23,9 +28,27 @@ const routes = [
     component: login
   },
   {
-    path: '/home',
-    name: 'home',
-    component: home
+    path: '/dashboard',
+    name: 'dashboard',
+    component: dashboard,
+    redirect: '/dashboard/mesh',
+    children: [
+      {
+        path: '/dashboard/device',
+        name: 'name',
+        component: device
+      },
+      {
+        path: '/dashboard/mesh',
+        name: 'mesh',
+        component: mesh
+      },
+      {
+        path: '/dashboard/internet',
+        name: 'internet',
+        component: internet
+      }
+    ]
   },
   {
     path: '/setting/network',
@@ -46,6 +69,16 @@ const routes = [
     path: '/setting/reboot',
     name: 'reboot',
     component: reboot
+  },
+  {
+    path: '/setting/timezone',
+    name: 'timezone',
+    component: timezone
+  },
+  {
+    path: '/setting/blacklist',
+    name: 'blacklist',
+    component: blacklist
   },
   {
     path: '/wlan',
