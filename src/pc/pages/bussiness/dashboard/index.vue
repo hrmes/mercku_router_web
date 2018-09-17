@@ -19,7 +19,7 @@
             {{ssid||'-'}}
           </div>
         </div>
-        <div class="line" :class="{'testing':isTesting,'unconnected':(!testing && !isConnected)}">
+        <div class="line" :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
           <span class='testing' v-if="isTesting"> {{$t('trans0298')}}</span>
           <div class="icon-unconnected-container" v-if="isLinked || isUnlinked">
             <img src="../../../assets/images/ic_unconnected.png" alt="">
