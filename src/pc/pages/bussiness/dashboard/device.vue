@@ -989,7 +989,7 @@ export default {
         position: absolute;
         width: 20px;
         height: 20px;
-        background: url('../../../assets/images/ic_wifi_wrong.png');
+        background: url('../../../assets/images/ic_unconnected.png');
         background-size: 100% 100%;
       }
       .check-txt-info {
