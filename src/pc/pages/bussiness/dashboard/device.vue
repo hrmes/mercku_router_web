@@ -28,195 +28,13 @@
           <button class="btn check-btn" @click='createSpeedTimer(false)' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
         </div>
       </div>
-      <div class="router-info">
-        <div class="row">
-          <div class="item">
-            <div class="title">{{$t('trans0299')}}</div>
-            <div class='message'>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0187')}}：</label>
-                {{getModel(localRouterInfo.sn.slice(0,2))}}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0300')}}：</label>
-                {{localRouterInfo.version.current }}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0200')}}：</label>
-                {{macFormat(localRouterInfo.mac.wan) }}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0201')}}：</label>
-                {{macFormat(localRouterInfo.mac.lan) }}
-              </div>
+      <div class="device-wrapper" style="height:500px;background:white;padding:50px">
+        <m-time-picker/>
 
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0251')}}：</label>
-                {{localRouterInfo.sn }}
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="title">{{$t('trans0301')}}</div>
-            <div class='message'>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0317')}}：</label>
-                {{ networkArr[localNetInfo.type]}}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0151')}}：</label>
-                {{localNetInfo.netinfo.ip}}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0152')}}：</label>
-                {{localNetInfo.netinfo.mask }}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0236')}}：</label>
-                {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
-              </div>
-              <div class="m-item">
-                <label class="m-title">{{$t('trans0153')}}：</label>
-                {{localNetInfo.netinfo.gateway}}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="item real-time-network">
-            <div class="title">{{$t('trans0303')}}</div>
-            <div class="content">
-              <div class="real-time-info">
-                <div class="down">
-                  <label class="r-title">{{$t('trans0305')}}：</label>
-                  <i class='r-dwon-icon'></i>
-                  <span class="speed">{{format(localTraffice.speed.realtime.down).value}}</span>
-                  <span class="unit"> {{format(localTraffice.speed.realtime.down).unit}}/s</span>
-                </div>
-                <div class='up'>
-                  <label class="r-title">{{$t('trans0304')}}：</label>
-                  <i class='r-up-icon'></i>
-                  <span class="speed">{{format(localTraffice.speed.realtime.up).value}}</span>
-                  <span class="unit"> {{format(localTraffice.speed.realtime.up).unit}}/s</span>
-                </div>
-              </div>
-              <div class="speep-info real-wrap">
-                <div class="extra">
-                  <i class="f-up-icon"></i>
-                  <div>
-                    <p>
-                      <span class="speed">{{format(localTraffice.speed.peak.up).value}}</span>
-                      <span class='unit'> {{format(localTraffice.speed.peak.up).unit}}/s</span>
-                    </p>
-                    <p class="note">{{$t('trans0306')}}</p>
-                  </div>
-                </div>
-                <div class="extra">
-                  <i class="f-down-icon"></i>
-                  <div>
-                    <p>
-                      <span class="speed">{{format(localTraffice.speed.peak.down).value}}</span>
-                      <span class='unit'> {{format(localTraffice.speed.peak.down).unit}}/s</span>
-                    </p>
-                    <p class="note">{{$t('trans0307')}}</p>
-                  </div>
+      </div>
+      <div class="device-wrapper" style="height:500px;background:white;padding:50px">
 
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="item term-flow-info">
-            <div class="title">{{$t('trans0308')}}</div>
-            <div class="speep-info">
-              <div class="extra">
-                <i class="t-dwon-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{format(localTraffice.traffic.dl,'tranffic').value}}</span>
-                    <span class='unit'> {{format(localTraffice.traffic.dl,'tranffic').unit}}</span>
-                  </p>
-                  <p class="note">{{$t('trans0309')}}</p>
-                </div>
-              </div>
-              <div class="extra">
-                <i class="t-up-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{format(localTraffice.traffic.ul,'tranffic').value}}</span>
-                    <span class='unit'> {{format(localTraffice.traffic.ul,'tranffic').unit}}</span>
-                  </p>
-                  <p class="note">{{$t('trans0310')}}</p>
-                </div>
-              </div>
-              <div class="extra">
-                <i class="t-count-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{deviceCount.count||'-'}}</span>
-                  </p>
-                  <p class="note">{{$t('trans0311')}}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class='mesh-info'>
-        <div class="title">{{$t('trans0312')}}</div>
-        <div class="content">
-          <div id="topo" style="width:100%;height:550px;"></div>
-        </div>
-      </div>
-      <div class='speed-model-info' v-if='speedModelOpen'>
-        <div class="shadow"></div>
-        <div class='speed-content'>
-          <div v-if="isSpeedTesting">
-            <div class="test-info">
-              <div class="animation-container1"></div>
-              <div class="animation-container2"></div>
-              <div class="animation-container3"></div>
-            </div>
-            <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
-          </div>
-          <div v-if="isSpeedDone || isSpeedFailed" class="speed-completed">
-            <div class="speed-result-info">
-              <div class="extra">
-                <i class="p-dwon-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{format(localSpeedInfo.speed.down).value}}</span>
-                    <span class='unit'> {{format(localSpeedInfo.speed.down).unit}}/s</span>
-                  </p>
-                  <p class="note">{{$t('trans0007')}}</p>
-                </div>
-              </div>
-              <div class="extra">
-                <i class="p-up-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{format(localSpeedInfo.speed.up).value}}</span>
-                    <span class='unit'> {{format(localSpeedInfo.speed.up).unit}}/s</span>
-                  </p>
-                  <p class="note">{{$t('trans0006')}}</p>
-                </div>
-              </div>
-              <div class="extra">
-                <i class="p-count-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{formatBandWidth(localSpeedInfo.speed.down)}}</span>
-                    <span class='unit'> M</span>
-                  </p>
-                  <p class="note">{{$t('trans0029')}}</p>
-                </div>
-              </div>
-            </div>
-            <div class="btn-info">
-              <button class="cmp-btn" @click="createSpeedTimer(true)">{{$t('trans0279')}}</button>
-              <button class="re-btn" @click="closeSpeedModal">{{$t('trans0018')}}</button>
-            </div>
-          </div>
-        </div>
+        <m-date-picker/>
       </div>
     </div>
   </div>
@@ -227,6 +45,8 @@ import layout from '../../../layout.vue';
 import * as CONSTANTS from '../../../../util/constant';
 import { formatMac } from '../../../../util/util';
 import genData from './topo';
+import TimePicker from '../../../component/timePicker/index.vue';
+import DatePicker from '../../../component/datePicker/index.vue';
 
 const Color = {
   good: '#00d061',
@@ -234,7 +54,9 @@ const Color = {
 };
 export default {
   components: {
-    layout
+    layout,
+    'm-time-picker': TimePicker,
+    'm-date-picker': DatePicker
   },
   data() {
     return {
