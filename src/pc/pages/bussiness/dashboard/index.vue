@@ -20,7 +20,6 @@
           </div>
         </div>
         <div class="line" :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-          <span class='testing' v-if="isTesting"> {{$t('trans0298')}}</span>
           <div class="icon-unconnected-container" v-if="isLinked || isUnlinked">
             <img src="../../../assets/images/ic_unconnected.png" alt="">
           </div>
@@ -145,10 +144,11 @@ export default {
 .dashboard-container {
   flex: auto;
   padding: 0 2%;
-  margin-top: 80px;
+  margin-top: 50px;
   .net-info {
     display: flex;
     padding: 0 10%;
+    height: 100px;
     .icon-container {
       img {
         width: 50px;
@@ -162,6 +162,10 @@ export default {
       font-size: 16px;
       font-weight: bold;
       text-align: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
     }
     .line {
       flex: 1;
@@ -188,7 +192,7 @@ export default {
           transform: translateY(-50%);
           background: url('../../../assets/images/ic_test_line.png') repeat-x;
           background-size: auto 2px;
-          animation: speed-test-line linear 1s infinite;
+          animation: speed-test-line linear 0.8s infinite;
         }
       }
       .icon-unconnected-container {
@@ -212,37 +216,64 @@ export default {
     .wifi-container,
     .internet-container {
       width: 200px;
+      position: relative;
     }
     .device-container {
       .text-container {
         font-size: 14px;
       }
     }
-    .wifi-container {
-    }
-    .internet-container {
-    }
   }
   .router-view {
     margin-top: 50px;
   }
 }
-@media screen and (min-width: 1367px) and (max-width: 1680px) {
+@media screen and (min-width: 769px) and (max-width: 1440px) {
   .dashboard-container {
-  }
-}
-@media screen and (min-width: 769px) and (max-width: 1366px) {
-  .dashboard-container {
-  }
-}
-@media screen and (min-width: 769px) and (max-width: 1100px) {
-  .dashboard-container {
+    .net-info {
+      .device-container,
+      .wifi-container,
+      .internet-container {
+        width: 100px;
+      }
+    }
   }
 }
 @media screen and (max-width: 768px) {
   .dashboard-container {
-    padding: 10px;
-    padding-top: 30px;
+    .net-info {
+      padding: 0;
+      height: 50px;
+      .icon-container {
+        img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+      .text-container {
+        font-size: 14px;
+      }
+      .line {
+        height: 30px;
+        background-position-y: 14px;
+        &.testing {
+          &::after {
+            animation: speed-test-line linear 0.5s infinite;
+          }
+        }
+      }
+      .device-container,
+      .wifi-container,
+      .internet-container {
+        width: 60px;
+      }
+      .device-container {
+        .text-container {
+          font-size: 12px;
+          line-height: 1.8;
+        }
+      }
+    }
   }
 }
 </style>
