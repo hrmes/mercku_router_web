@@ -2,7 +2,7 @@
   <div class="select-container" @click.stop="open()">
     <label for="">{{label}}</label>
     <div class="select">
-      <div class="">{{selected.text}}</div>
+      <div class="select-text">{{selected.text}}</div>
       <div class="icon-container">
         <span class="icon" :class="{'open':opened,'close':!opened}"></span>
       </div>
@@ -84,6 +84,12 @@ export default {
     line-height: 26px;
     position: relative;
     padding-right: 50px;
+    .select-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 100%;
+      width: 100%;
+    }
   }
   label {
     display: block;
