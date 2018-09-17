@@ -949,7 +949,7 @@ export default {
         position: absolute;
         width: 100%;
         height: 3px;
-        background: url('../../../assets/images/ic_test_line.png') repeat-x;
+
         box-sizing: border-box;
         &.testing-animation {
           background: none;
@@ -958,7 +958,7 @@ export default {
             width: 10%;
             display: block;
             height: 3px;
-            background: url('../../../assets/images/ic_test_line.png') repeat-x;
+
             animation: speed-test-line linear 1s infinite;
           }
         }
@@ -968,7 +968,7 @@ export default {
         position: absolute;
         width: 100%;
         height: 3px;
-        background: url('../../../assets/images/ic_test_line_fail.png') repeat-x;
+
         box-sizing: border-box;
       }
       .fail-info {
@@ -1594,8 +1594,7 @@ export default {
               width: 10%;
               display: block;
               height: 3px;
-              background: url('../../../assets/images/ic_test_line.png')
-                repeat-x;
+
               animation: speed-test-line linear 0.6s infinite;
             }
           }

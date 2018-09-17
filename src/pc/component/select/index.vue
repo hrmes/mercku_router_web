@@ -72,6 +72,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .select-container {
+  width: 350px;
   .select {
     height: 48px;
     width: 100%;
@@ -102,7 +103,7 @@ export default {
     border-bottom-right-radius: 5px;
     max-height: 200px;
     border: 1px solid #e1e1e1;
-    overflow: hidden;
+    overflow: auto;
     li {
       list-style: none;
       padding: 10px;

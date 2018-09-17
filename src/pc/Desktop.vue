@@ -55,6 +55,11 @@ export default {
               key: 24,
               text: 'trans0122',
               url: '/setting/reboot'
+            },
+            {
+              key: 25,
+              text: 'trans0272',
+              url: '/setting/timezone'
             }
           ]
         },
