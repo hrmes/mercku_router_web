@@ -36,6 +36,10 @@ const methods = {
     url,
     action: 'mesh.config.timezone.update'
   },
+  meshNodeScan: {
+    url,
+    action: 'mesh.node.scan'
+  },
   // new
   meshWanSpeedTest: {
     url,
@@ -174,6 +178,9 @@ const http = {
   /* v0.8 start */
   getWanNetInfo() {
     return request(methods.meshWanNetGet);
+  },
+  scanMeshNode() {
+    return request(methods.meshNodeScan);
   },
   getWanNetStats() {
     return request(methods.meshWanStatsGet);

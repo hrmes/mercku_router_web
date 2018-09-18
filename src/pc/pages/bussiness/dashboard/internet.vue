@@ -94,7 +94,8 @@
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <span class="bandwidth">{{bandwidth}} </span>M
+              <span class="bandwidth">{{bandwidth.value}} </span>
+              <span style="margin-top:5px;">{{bandwidth.unit}}</span>
               <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
             </div>
           </div>
@@ -138,8 +139,8 @@
               <i class="p-count-icon"></i>
               <div>
                 <p>
-                  <span class="speed">{{newBandwidth}}</span>
-                  <span class='unit'> M</span>
+                  <span class="speed">{{newBandwidth.value}}</span>
+                  <span class='unit'> {{newBandwidth.unit}}</span>
                 </p>
                 <p class="note">{{$t('trans0029')}}</p>
               </div>
@@ -307,8 +308,23 @@ export default {
         unit: 'KB'
       };
     },
-    formatBandWidth(v) {
-      return !isNaN(v) ? (v / (1024 * 1024)).toFixed(1) : v;
+    formatBandWidth(value) {
+      const units = ['B', 'K', 'M', 'G', 'T', 'P'];
+      let index = 0;
+      if (!isNaN(value)) {
+        do {
+          value /= 1024;
+          index += 1;
+        } while (value > 1024 && index < units.length - 1);
+        return {
+          value: value.toFixed(1),
+          unit: units[index]
+        };
+      }
+      return {
+        value: '-',
+        unit: 'B'
+      };
     },
     closeSpeedModal() {
       this.createIntervalTask();

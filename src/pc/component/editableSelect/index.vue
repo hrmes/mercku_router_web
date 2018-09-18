@@ -2,13 +2,13 @@
   <div class="select-container" @click.stop="open()">
     <label for="">{{label}}</label>
     <div class="select">
-      <div class="select-text" :title="selected.text">{{selected.text}}</div>
+      <input class="select-text" :title="selected" v-model="selected" @input="input" />
       <div class="icon-container">
         <span class="icon" :class="{'open':opened,'close':!opened}"></span>
       </div>
       <transition name="select">
         <ul class="select-popup" v-show="this.opened">
-          <li :key="option.value" @click.stop="select(option)" v-for="option in options" :title="option.text">{{option.text}}</li>
+          <li :key="option" @click.stop="select(option)" v-for="option in options" :title="option">{{option}}</li>
         </ul>
       </transition>
     </div>
@@ -23,7 +23,7 @@ export default {
       type: Array,
       default: () => []
     },
-    value: {},
+    value: '',
     label: {
       type: String,
       default: ''
@@ -31,13 +31,13 @@ export default {
   },
   data() {
     return {
-      selected: this.options.filter(o => o.value === this.value)[0] || {},
+      selected: this.value,
       opened: false
     };
   },
   watch: {
     value(val) {
-      this.selected = this.options.filter(o => o.value === val)[0];
+      this.selected = val;
     }
   },
   mounted() {
@@ -49,13 +49,15 @@ export default {
   },
   methods: {
     addEvent() {},
+    input() {
+      this.$emit('input', this.selected);
+    },
     select(option) {
       this.selected = option;
-      this.opened = false;
-      this.$emit('input', this.selected.value);
+      this.$emit('input', this.selected);
     },
     open() {
-      this.opened = !this.opened;
+      this.opened = true;
     },
     close() {
       this.opened = false;
@@ -89,6 +91,8 @@ export default {
       text-overflow: ellipsis;
       height: 100%;
       width: 100%;
+      border: none;
+      outline: none;
     }
   }
   label {
