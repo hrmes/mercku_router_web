@@ -28,8 +28,24 @@ export default {
         {
           icon: 'wifi',
           text: 'trans0173',
-          url: '/dashboard',
-          key: 1
+          key: 1,
+          children: [
+            {
+              key: 11,
+              text: 'trans0103',
+              url: '/dashboard/device'
+            },
+            {
+              key: 12,
+              text: 'trans0299',
+              url: '/dashboard/mesh'
+            },
+            {
+              key: 13,
+              text: 'trans0301',
+              url: '/dashboard/internet'
+            }
+          ]
         },
         {
           icon: 'setting',
@@ -53,8 +69,13 @@ export default {
             },
             {
               key: 24,
-              text: 'trans0122',
-              url: '/setting/reboot'
+              text: 'trans0020',
+              url: '/setting/blacklist'
+            },
+            {
+              key: 25,
+              text: 'trans0272',
+              url: '/setting/timezone'
             }
           ]
         },

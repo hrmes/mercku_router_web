@@ -2,7 +2,7 @@
   <div class="select-container" @click.stop="open()">
     <label for="">{{label}}</label>
     <div class="select">
-      <div class="">{{selected.text}}</div>
+      <div class="select-text">{{selected.text}}</div>
       <div class="icon-container">
         <span class="icon" :class="{'open':opened,'close':!opened}"></span>
       </div>
@@ -72,6 +72,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .select-container {
+  width: 350px;
   .select {
     height: 48px;
     width: 100%;
@@ -83,6 +84,12 @@ export default {
     line-height: 26px;
     position: relative;
     padding-right: 50px;
+    .select-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 100%;
+      width: 100%;
+    }
   }
   label {
     display: block;
@@ -102,7 +109,7 @@ export default {
     border-bottom-right-radius: 5px;
     max-height: 200px;
     border: 1px solid #e1e1e1;
-    overflow: hidden;
+    overflow: auto;
     li {
       list-style: none;
       padding: 10px;

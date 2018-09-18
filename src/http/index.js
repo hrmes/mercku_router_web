@@ -28,9 +28,13 @@ const methods = {
     url,
     action: 'mesh.wan.status.get' // 获取WAN口状态
   },
-  routerTimezoneGet: {
+  meshInfoTimezoneGet: {
     url,
-    action: 'router.timezone.get'
+    action: 'mesh.info.timezone.get'
+  },
+  meshConfigTimezoneUpdate: {
+    url,
+    action: 'mesh.config.timezone.update'
   },
   // new
   meshWanSpeedTest: {
@@ -225,7 +229,10 @@ const http = {
     return request(methods.meshWanStatusGet);
   },
   getTimezone() {
-    return request(methods.routerTimezoneGet);
+    return request(methods.meshInfoTimezoneGet);
+  },
+  setTimezone(timezone) {
+    return request(methods.meshConfigTimezoneUpdate, timezone);
   },
   post2native(action, type, data) {
     const message = {

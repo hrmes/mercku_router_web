@@ -142,6 +142,8 @@ export default {
 }
 
 .dashboard-container {
+  display: flex;
+  flex-direction: column;
   flex: auto;
   padding: 0 2%;
   margin-top: 50px;
@@ -170,13 +172,13 @@ export default {
     .line {
       flex: 1;
       height: 50px;
-      background: url('../../../assets/images/ic_test_line.png') repeat-x;
+      background: url(../../../assets/images/ic_test_line_normal.png) repeat-x;
       background-position-y: 24px;
       background-size: auto 2px;
       text-align: center;
       position: relative;
       &.unconnected {
-        background: url(../../../assets/images/ic_test_line_fail.png) repeat-x;
+        background: url(../../../assets/images/ic_test_line_normal.png) repeat-x;
         background-position-y: 24px;
         background-size: auto 2px;
       }
@@ -190,7 +192,8 @@ export default {
           position: absolute;
           top: 50%;
           transform: translateY(-50%);
-          background: url('../../../assets/images/ic_test_line.png') repeat-x;
+          background: url('../../../assets/images/ic_test_line_testing.png')
+            repeat-x;
           background-size: auto 2px;
           animation: speed-test-line linear 0.8s infinite;
         }
