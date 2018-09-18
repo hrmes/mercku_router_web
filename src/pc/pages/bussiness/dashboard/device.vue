@@ -1,33 +1,6 @@
 <template>
   <div class="home-container">
     <div class="home-inner">
-      <div class="check-info">
-        <div class="row-1">
-          <div class="name" style="min-width:60px;overflow:hidden;text-overflow:ellipsis;" :title="ssid">{{ssid||'-'}}</div>
-          <div class="router-icon"><img src="../../../assets/images/ic_router.png" alt=""></div>
-        </div>
-        <div class='check-status row-2'>
-          <div class="check-txt-info">
-            <span class='testing' v-if="isTesting"> {{$t('trans0298')}}</span>
-          </div>
-          <span class="success-line" :class="{'testing-animation':isTesting}" v-if="isConnected || isTesting"></span>
-          <span class='fail-line' v-if="isUnlinked ||isLinked"></span>
-          <span class='fail-info' v-if="isUnlinked ||isLinked">
-            <i class="fail-icon"></i>
-          </span>
-        </div>
-        <div class="row-3">
-          <div class="network-icon"><img src="../../../assets/images/ic_internet.png" alt=""></div>
-          <div class="speed" style="min-width:60px;" :title="formatBandWidth(localTraffice.bandwidth) + 'M'">
-            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">{{bandwidth}}
-              <label style="font-weight:normal">M</label>
-            </span>
-          </div>
-        </div>
-        <div class='check-btn-info'>
-          <button class="btn check-btn" @click='createSpeedTimer(false)' :class="!isConnected&&'disabled'" style='height:44px' :disabled="!isConnected">{{$t('trans0008')}}</button>
-        </div>
-      </div>
       <div class="device-wrapper" style="height:500px;background:white;padding:50px">
         <m-time-picker/>
 
@@ -811,7 +784,7 @@ export default {
         position: absolute;
         width: 20px;
         height: 20px;
-        background: url('../../../assets/images/ic_wifi_wrong.png');
+        background: url('../../../assets/images/ic_unconnected.png');
         background-size: 100% 100%;
       }
       .check-txt-info {
