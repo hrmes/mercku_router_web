@@ -113,6 +113,10 @@ const methods = {
   routerModeGet: {
     url,
     action: 'router.mode.get'
+  },
+  meshDeviceGet: {
+    url,
+    action: 'mesh.device.get'
   }
 };
 
@@ -128,6 +132,9 @@ const request = (config, params) => {
   });
 };
 const http = {
+  meshDeviceGet() {
+    return request(methods.meshDeviceGet);
+  },
   loginout() {
     return request(methods.routerLogout);
   },

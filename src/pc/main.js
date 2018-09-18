@@ -1,7 +1,9 @@
 import Vue from 'vue';
+import moment from 'moment';
 import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
+
 import {
   http,
   configResponseInterceptors,
@@ -121,6 +123,7 @@ const launch = () => {
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
+  Vue.prototype.moment = moment;
 
   new Vue({
     el: '#web',
