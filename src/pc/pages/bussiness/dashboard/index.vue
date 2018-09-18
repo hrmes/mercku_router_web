@@ -142,6 +142,8 @@ export default {
 }
 
 .dashboard-container {
+  display: flex;
+  flex-direction: column;
   flex: auto;
   padding: 0 2%;
   margin-top: 50px;

@@ -11,7 +11,9 @@ import loading from './component/loading/index';
 import toast from './component/toast/index';
 import dialog from './component/dialog/index';
 import v from '../../version.json';
+import { MTable } from './component/table/index';
 
+Vue.use(MTable);
 const launch = () => {
   const reconnect = options => {
     const opt = {
