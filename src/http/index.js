@@ -184,7 +184,7 @@ const http = {
   getMeshMeta() {
     return request(methods.meshMetaGet);
   },
-  speedTesting(force) {
+  testSpeed(force) {
     return request(methods.meshWanSpeedTest, { force });
   },
   getRouter() {

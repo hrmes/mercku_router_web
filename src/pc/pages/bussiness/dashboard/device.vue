@@ -1147,14 +1147,6 @@ export default {
           background-size: 100% 100%;
           margin-bottom: 5px;
         }
-        .t-count-icon {
-          width: 36px;
-          height: 36px;
-          display: inline-block;
-          background: url('../../../assets/images/ic_contact_advice.png')
-            no-repeat;
-          background-size: 100% 100%;
-        }
       }
     }
     .term-flow-info {

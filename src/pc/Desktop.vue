@@ -31,18 +31,19 @@ export default {
           key: 1,
           children: [
             {
-              key: 11,
-              text: 'trans0103',
-              url: '/dashboard/device'
-            },
-            {
               key: 12,
-              text: 'trans0299',
+              text: 'trans0365',
               url: '/dashboard/mesh'
             },
             {
+              key: 11,
+              text: 'trans0235',
+              url: '/dashboard/device'
+            },
+
+            {
               key: 13,
-              text: 'trans0301',
+              text: 'trans0366',
               url: '/dashboard/internet'
             }
           ]

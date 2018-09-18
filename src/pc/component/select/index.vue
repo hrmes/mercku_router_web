@@ -2,13 +2,13 @@
   <div class="select-container" @click.stop="open()">
     <label for="">{{label}}</label>
     <div class="select">
-      <div class="select-text">{{selected.text}}</div>
+      <div class="select-text" :title="selected.text">{{selected.text}}</div>
       <div class="icon-container">
         <span class="icon" :class="{'open':opened,'close':!opened}"></span>
       </div>
       <transition name="select">
         <ul class="select-popup" v-show="this.opened">
-          <li :key="option.value" @click.stop="select(option)" v-for="option in options">{{option.text}}</li>
+          <li :key="option.value" @click.stop="select(option)" v-for="option in options" :title="option.text">{{option.text}}</li>
         </ul>
       </transition>
     </div>
@@ -114,11 +114,16 @@ export default {
       list-style: none;
       padding: 10px;
       cursor: pointer;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
       &:active {
-        background: #fff;
+        background: #4237dd;
+        color: #fff;
       }
       &:hover {
-        background: #fff;
+        background: #4237dd;
+        color: #fff;
       }
     }
   }

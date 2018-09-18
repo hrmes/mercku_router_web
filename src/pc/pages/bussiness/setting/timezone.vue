@@ -62,8 +62,8 @@ export default {
       this.$loading.open();
       const timezone = this.form.timezone.split(':');
       const data = {
-        offset: timezone[0],
-        position: timezone[1]
+        offset: parseInt(timezone[0], 10),
+        position: parseInt(timezone[1], 10)
       };
       this.$http
         .setTimezone(data)

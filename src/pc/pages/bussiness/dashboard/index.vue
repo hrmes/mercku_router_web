@@ -7,7 +7,7 @@
             <img src="../../../assets/images/ic_device.png" alt="">
           </div>
           <div class="text-container">
-            {{'终端设备'}}({{deviceCount}})
+            {{'trans0311'}}({{deviceCount}})
           </div>
         </div>
         <div class="line"></div>
