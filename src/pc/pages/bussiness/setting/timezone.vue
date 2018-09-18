@@ -5,6 +5,10 @@
         <div class='w-header'>
           {{$t('trans0273')}}
         </div>
+        <div class="current-timezone">
+          <p>{{$t('trans0373')}}</p>
+          <p>{{timezoneText}}</p>
+        </div>
         <m-form ref="form" class='form' :model="form">
           <m-form-item class="item" prop='password'>
             <m-select :label="$t('trans0273')" v-model="form.timezone" :options="timezones"></m-select>
@@ -33,6 +37,7 @@ export default {
   data() {
     return {
       timezones: [],
+      timezoneText: '',
       form: {
         timezone: ''
       }
@@ -52,10 +57,18 @@ export default {
     }));
   },
   methods: {
+    getTimezoneText() {
+      this.timezones.forEach(t => {
+        if (t.value === this.form.timezone) {
+          this.timezoneText = t.text;
+        }
+      });
+    },
     getTimezone() {
       this.$http.getTimezone().then(res => {
         const timezone = res.data.result;
         this.form.timezone = `${timezone.offset}:${timezone.position}`;
+        this.getTimezoneText();
       });
     },
     submit() {
@@ -70,6 +83,7 @@ export default {
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.getTimezoneText();
         })
         .catch(err => {
           if (err.upgrading) {
@@ -106,6 +120,14 @@ export default {
       line-height: 60px;
       font-weight: 400;
     }
+    .current-timezone {
+      width: 350px;
+      margin: 0 auto;
+      margin-top: 30px;
+      p {
+        margin-bottom: 10px;
+      }
+    }
     .form {
       display: flex;
       justify-content: center;
@@ -140,6 +162,9 @@ export default {
         line-height: 44px;
       }
       min-height: 450px;
+      .current-timezone {
+        width: 100%;
+      }
       .form {
         width: 100%;
         // padding: 0 20px;

@@ -5,7 +5,12 @@
         <div class='w-header'>
           {{$t('trans0194')}}
         </div>
+        <div class="type-container" v-show="current===0">
+          <div>{{$t('trans0364')}}</div>
+          <e-select label="修改设备名称" :options="options" v-model="select"></e-select>
+        </div>
       </div>
+
     </div>
   </layout>
 </template>
@@ -13,16 +18,22 @@
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
+import EditableSelect from '../../../component/editableSelect/index.vue';
 import Progress from '../../../component/progress/index.vue';
 import layout from '../../../layout.vue';
 import { passwordRule } from '../../../../util/util';
 
 export default {
   components: {
-    layout
+    layout,
+    eSelect: EditableSelect
   },
   data() {
-    return {};
+    return {
+      current: 0,
+      options: ['客厅', '厨房', '卫生间'],
+      select: '卫生间'
+    };
   },
   methods: {}
 };
