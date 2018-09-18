@@ -1,6 +1,6 @@
 <template>
   <layout>
-    <div>blacklist</div>
+    <div>添加mesh节点</div>
   </layout>
 </template>
 <script>

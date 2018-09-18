@@ -15,6 +15,7 @@ import wlan from '../pages/bussiness/wlan/index.vue';
 import unconnect from '../pages/error/unconnect/index.vue';
 import online from '../pages/bussiness/upgrade/online.vue';
 import offline from '../pages/bussiness/upgrade/offline.vue';
+import meshAdd from '../pages/bussiness/mesh/add.vue';
 
 Vue.use(Router);
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
         component: internet
       }
     ]
+  },
+  {
+    path: '/mesh/add',
+    name: 'meshadd',
+    component: meshAdd
   },
   {
     path: '/setting/network',
