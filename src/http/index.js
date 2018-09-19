@@ -53,6 +53,10 @@ const methods = {
     url,
     action: 'mesh.node.reboot' // 路由器重启
   },
+  meshNodeAdd: {
+    url,
+    action: 'mesh.node.add'
+  },
   meshMetaGet: {
     url,
     action: 'mesh.meta.get' // 获取组网信息
@@ -89,6 +93,10 @@ const methods = {
   meshWanUpdate: {
     url,
     action: 'mesh.config.wan.net.update' // 组网WAN口配置更新
+  },
+  nodeIsInMesh: {
+    url,
+    action: 'mesh.node.is_in_mesh'
   },
   meshLanUpdate: {
     url,
@@ -193,6 +201,12 @@ const http = {
   },
   testSpeed(force) {
     return request(methods.meshWanSpeedTest, { force });
+  },
+  addMeshNode(node) {
+    return request(methods.meshNodeAdd, node);
+  },
+  isInMesh(node) {
+    return request(methods.nodeIsInMesh, node);
   },
   getRouter() {
     return request(methods.routerMetaGet);
