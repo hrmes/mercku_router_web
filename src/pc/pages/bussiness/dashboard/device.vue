@@ -32,7 +32,7 @@
               <div class="name-wrap">
                 <div class="name-inner">
                   <a @click='()=>nameModalOpen(row)'>
-                    <span> {{row.alias||row.name}}</span>
+                    <span :title='row.alias||row.name'> {{row.alias||row.name}}</span>
                     <img src="../../../assets/images/ic_edit.png" alt="">
                   </a>
                 </div>
@@ -40,6 +40,9 @@
                   <span> {{bandMap[`${row.online_info.band}`]}}</span>
                   <span> {{transformDate(row.online_info.online_duration)}}</span>
                 </div>
+              </div>
+              <div class="mobile-icon">
+                <img src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
               </div>
             </li>
             <li class="column-ip">{{row.ip}}</li>
@@ -115,7 +118,7 @@ import MProgress from '../../../component/progress/index.vue';
 import MInput from '../../../component/input/input.vue';
 import MForm from '../../../component/form/index.vue';
 import MFormItem from '../../../component/formItem/index.vue';
-import { getStringByte, passwordRule } from '../../../../util/util';
+// import { getStringByte, passwordRule } from '../../../../util/util';
 
 export default {
   components: {
@@ -130,11 +133,12 @@ export default {
   },
   data() {
     return {
+      isMobile: false,
       reboot: false,
       modalShow: false,
       row: {},
       devices: [],
-      anme: '',
+      name: '',
       bandMap: {
         wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
@@ -144,8 +148,19 @@ export default {
   },
   mounted() {
     this.getDeviceList();
+    if (this.windowWidth() <= 768) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
   },
   methods: {
+    windowWidth() {
+      if (window.innerWidth) return window.innerWidth;
+      if (document.documentElement && document.documentElement.clientWidth) {
+        return document.documentElement.clientWidth;
+      }
+    },
     getDeviceList() {
       this.$http
         .meshDeviceGet()
@@ -204,22 +219,16 @@ export default {
         message: this.$t('trans0036'),
         callback: {
           ok: () => {
+            this.$loading.open();
             this.$http
               .addToblackList({
                 ...params
               })
               .then(() => {
-                this.reboot = true;
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
+                this.$loading.close();
               })
               .catch(err => {
+                this.$loading.close();
                 if (err.upgrading) {
                   return;
                 }
@@ -392,6 +401,9 @@ export default {
         align-items: center;
       }
       .column-name {
+        .mobile-icon {
+          display: none;
+        }
         width: 210px;
       }
       .column-ip {
@@ -455,7 +467,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 130px;
+            max-width: 130px;
           }
           img {
             width: 14px;
@@ -568,13 +580,48 @@ export default {
         .table-body {
           ul {
             flex-direction: column;
+            padding: 0;
+            overflow: inherit;
           }
         }
-        ul {
-        }
-        .column-icon {
-        }
         .column-name {
+          .mobile-icon {
+            display: block;
+            display: flex;
+            align-items: center;
+            padding-right: 20px;
+            img {
+              width: 14px;
+              height: 7px;
+              opacity: 0.7;
+            }
+          }
+          width: 100%;
+          background: white;
+          border-radius: 3px;
+          height: 60px;
+          position: relative;
+          overflow: inherit;
+          .name-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .des-inner {
+              position: absolute;
+              top: 60px;
+              z-index: 111;
+              span {
+              }
+            }
+          }
+          .column-icon {
+            justify-content: center;
+            img {
+              width: 26px;
+              height: 26px;
+            }
+          }
         }
         .column-ip {
         }
@@ -591,16 +638,7 @@ export default {
 
         .table-head {
         }
-        .icon-inner {
-          .band {
-          }
-          .band > img {
-          }
-        }
-        .des-inner {
-          span {
-          }
-        }
+
         .name-inner {
           a {
             &:hover {
