@@ -16,10 +16,12 @@ import unconnect from '../pages/error/unconnect/index.vue';
 import online from '../pages/bussiness/upgrade/online.vue';
 import offline from '../pages/bussiness/upgrade/offline.vue';
 import meshAdd from '../pages/bussiness/mesh/add.vue';
+import timeLimit from '../pages/bussiness/dashboard/limit/time.vue';
+import speedLimit from '../pages/bussiness/dashboard/limit/speed.vue';
+import blacklistLimit from '../pages/bussiness/dashboard/limit/blacklist';
 
 Vue.use(Router);
-const routes = [
-  {
+const routes = [{
     path: '/',
     redirect: '/login'
   },
@@ -33,10 +35,9 @@ const routes = [
     name: 'dashboard',
     component: dashboard,
     redirect: '/dashboard/mesh',
-    children: [
-      {
+    children: [{
         path: '/dashboard/device',
-        name: 'name',
+        name: 'device',
         component: device
       },
       {
@@ -55,6 +56,21 @@ const routes = [
     path: '/mesh/add',
     name: 'meshadd',
     component: meshAdd
+  },
+  {
+    path: '/limit/speed',
+    name: 'speed-limit',
+    component: speedLimit
+  },
+  {
+    path: '/limit/time',
+    name: 'time-limit',
+    component: timeLimit
+  },
+  {
+    path: '/limit/blacklist',
+    name: 'blacklist-limit',
+    component: blacklistLimit
   },
   {
     path: '/setting/network',
@@ -106,8 +122,7 @@ const routes = [
     name: 'offline',
     component: offline
   }
-];
-
+]
 export default new Router({
   routes
 });
