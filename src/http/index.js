@@ -227,8 +227,8 @@ const http = {
     return request(methods.meshWanUpdate, params);
   },
   /* v0.8 end */
-  reboot() {
-    return request(methods.meshNodeReboot);
+  reboot(nodeIds) {
+    return request(methods.meshNodeReboot, nodeIds);
   },
   getMeshMeta() {
     return request(methods.meshMetaGet);

@@ -109,6 +109,20 @@ import mCheckbox from '../../../component/checkbox/index.vue';
 import mStep from '../../../component/step/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 
+const Routes = [
+  {
+    name: 'M2 Bee Wi-Fi Mesh Node',
+    image: require('../../../assets/images/img_bee.png'),
+    tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
+    sn: '02'
+  },
+  {
+    name: 'M2 Standalone Wi-Fi router',
+    image: require('../../../assets/images/img_m2.png'),
+    tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
+    sn: '01'
+  }
+];
 export default {
   components: {
     layout,
@@ -118,32 +132,16 @@ export default {
   data() {
     return {
       RouterSnModel,
-      routers: [
-        {
-          name: 'M2 Bee Wi-Fi Mesh Node',
-          image: require('../../../assets/images/img_bee.png'),
-          tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
-          sn: '02'
-        },
-        {
-          name: 'M2 Standalone Wi-Fi router',
-          image: require('../../../assets/images/img_m2.png'),
-          tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
-          sn: '01'
-        }
-      ],
+      routers: Routes,
       current: -1,
       steps: ['', '', ''],
       scaning: false,
       nodes: [],
       added: false,
       addTimeout: 90,
-      selectedCategory: null,
+      selectedCategory: Routes[0],
       showHelpDialog: false
     };
-  },
-  mounted() {
-    this.selectedCategory = this.routers[0];
   },
   methods: {
     openHelpDialog() {
@@ -200,6 +198,7 @@ export default {
           this.checkTimer = setInterval(() => {
             if (timeout < 0) {
               this.added = false;
+              this.$loading.close();
               this.step(2);
             }
             if (timeout % 3 === 0) {
