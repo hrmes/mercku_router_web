@@ -103,7 +103,7 @@
   </layout>
 </template>
 <script>
-import Input from '../../../component/input/input.vue';
+// import Input from '../../../component/input/input.vue';
 import layout from '../../../layout.vue';
 import mCheckbox from '../../../component/checkbox/index.vue';
 import mStep from '../../../component/step/index.vue';

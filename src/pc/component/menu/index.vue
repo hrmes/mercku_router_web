@@ -50,7 +50,9 @@ export default {
       if (!menu.url && menu.children) {
         menu.expand = !menu.expand;
       } else {
-        this.$router.push({ path: menu.url });
+        this.$router.push({
+          path: menu.url
+        });
         this.current = menu;
         this.showMenu = false;
         document.body.style.overflow = 'auto';
