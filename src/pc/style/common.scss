@@ -72,6 +72,11 @@ ul {
   display: block;
   margin-top: 10px;
 }
+.add-mesh-tip {
+  color: #fff;
+  display: block;
+  margin-top: 10px;
+}
 
 input::-webkit-input-placeholder {
   color: #bdbdbd;
@@ -125,12 +130,8 @@ input::-webkit-input-placeholder {
   .m-table-title {
     line-height: 30px;
     padding: 5px 10px;
-
   }
-
-
 }
-
 
 .m-table-title::after,
 .m-table-title::before {
@@ -150,7 +151,7 @@ input::-webkit-input-placeholder {
 .m-table.m-table-head {
   user-select: none;
   min-height: 50px;
-  background: #f1f1f1
+  background: #f1f1f1;
 }
 
 .m-table.m-table-head th {

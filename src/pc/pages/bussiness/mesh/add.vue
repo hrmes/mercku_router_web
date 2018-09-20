@@ -162,6 +162,7 @@ export default {
       } else if (id === this.RouterSnModel.Bee) {
         return require('../../../assets/images/img_bee.png');
       }
+      return require('../../../assets/images/ic_general_router.png');
     },
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
@@ -171,12 +172,15 @@ export default {
       } else if (id === this.RouterSnModel.Bee) {
         return `Bee-${num}`;
       }
+      return '';
     },
     selectRouter(router) {
       this.selectedCategory = router;
     },
     selectNode(node) {
-      this.nodes.forEach(n => (n.selected = false));
+      this.nodes.forEach(n => {
+        n.selected = false;
+      });
       node.selected = true;
     },
     addMeshNode() {
@@ -185,11 +189,13 @@ export default {
         this.$toast(this.$t('trans0381'));
         return;
       }
-      this.$loading.open();
-      //超时90秒，间隔3秒
+      this.$loading.open({
+        template: `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`
+      });
+      // 超时90秒，间隔3秒
       this.$http
         .addMeshNode({ node })
-        .then(res => {
+        .then(() => {
           let timeout = this.addTimeout;
           this.checkTimer = setInterval(() => {
             if (timeout < 0) {
