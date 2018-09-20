@@ -2,7 +2,7 @@
   <layout>
     <div class="setting-network-container">
       <div v-if="reboot">
-        <m-proress :label="$t('trans0322')"></m-proress>
+        <m-progress :label="$t('trans0322')"></m-progress>
       </div>
       <div class="content">
         <div class="network-info">
@@ -120,7 +120,7 @@ export default {
     'm-form-item': FormItem,
     'm-form': Form,
     'm-select': mSelect,
-    'm-proress': Progress,
+    'm-progress': Progress,
     layout
   },
   data() {

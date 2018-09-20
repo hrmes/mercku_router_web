@@ -58,7 +58,7 @@ export default {
     },
     voidText: {
       type: String,
-      default: '暂无数据'
+      default: ''
     }
   },
   data() {

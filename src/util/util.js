@@ -232,3 +232,41 @@ export const formatMac = mac => {
   }
   return mac;
 };
+
+export const formatSpeed = (value) => {
+  value /= 8;
+  const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
+  let index = -1;
+  if (!isNaN(value)) {
+    do {
+      value /= 1024;
+      index += 1;
+    } while (value > 1024 && index < units.length - 1);
+    return {
+      value: value.toFixed(1),
+      unit: units[index]
+    };
+  }
+  return {
+    value: '-',
+    unit: 'KB'
+  };
+};
+export const formatBandWidth = (value) => {
+  const units = ['B', 'K', 'M', 'G', 'T', 'P'];
+  let index = 0;
+  if (!isNaN(value)) {
+    do {
+      value /= 1024;
+      index += 1;
+    } while (value > 1024 && index < units.length - 1);
+    return {
+      value: value.toFixed(1),
+      unit: units[index]
+    };
+  }
+  return {
+    value: '-',
+    unit: 'B'
+  };
+};

@@ -121,9 +121,16 @@ const methods = {
   meshDeviceGet: {
     url,
     action: 'mesh.device.get'
+  },
+  meshDeviceUpdate: {
+    url,
+    action: 'mesh.device.update'
+  },
+  addToblackList: {
+    url,
+    action: 'mesh.blacklist.add'
   }
 };
-
 const request = (config, params) => {
   const data = { method: config.action };
   if (params) {
@@ -136,6 +143,12 @@ const request = (config, params) => {
   });
 };
 const http = {
+  addToblackList(params) {
+    return request(methods.addToblackList, params);
+  },
+  meshDeviceUpdate(params) {
+    return request(methods.meshDeviceUpdate, params);
+  },
   meshDeviceGet() {
     return request(methods.meshDeviceGet);
   },

@@ -56,7 +56,7 @@
   </layout>
 </template>
 <script>
-import Input from '../../../component/input/input.vue';
+// import Input from '../../../component/input/input.vue';
 import layout from '../../../layout.vue';
 import mCheckbox from '../../../component/checkbox/index.vue';
 import mStep from '../../../component/step/index.vue';
@@ -90,7 +90,9 @@ export default {
   mounted() {},
   methods: {
     selectRouter(router) {
-      this.routers.forEach(r => (r.selected = false));
+      this.routers.forEach(r => {
+        r.selected = false;
+      });
       router.selected = true;
     },
     step(index) {

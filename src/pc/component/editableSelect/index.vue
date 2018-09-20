@@ -2,7 +2,7 @@
   <div class="select-container" @click.stop="open()">
     <label for="">{{label}}</label>
     <div class="select">
-      <input class="select-text" :title="selected" v-model="selected" @input="input" />
+      <input class="select-text" :title="selected" v-model="selected" @input="input" :placeholder="placeholder" />
       <div class="icon-container">
         <span class="icon" :class="{'open':opened,'close':!opened}"></span>
       </div>
@@ -25,6 +25,10 @@ export default {
     },
     value: '',
     label: {
+      type: String,
+      default: ''
+    },
+    placeholder: {
       type: String,
       default: ''
     }
@@ -74,6 +78,30 @@ export default {
 </script>
 <style lang="scss" scoped>
 .select-container {
+  &.small {
+    .select {
+      width: 290px;
+      height: 36px;
+      padding: 2px 10px;
+      .icon-container {
+        height: 100%;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        .icon {
+          margin: 0;
+        }
+      }
+      .select-popup {
+        top: 36px;
+        li {
+          padding: 6px 10px;
+        }
+      }
+    }
+  }
   width: 350px;
   .select {
     height: 48px;
@@ -108,7 +136,7 @@ export default {
     z-index: 999;
     left: 0;
     top: 48px;
-    background: #f1f1f1;
+    background: #fff;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     max-height: 200px;

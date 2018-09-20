@@ -14,6 +14,7 @@ import toast from './component/toast/index';
 import dialog from './component/dialog/index';
 import v from '../../version.json';
 import { MTable } from './component/table/index';
+import { formatSpeed, formatBandWidth } from '../util/util';
 
 Vue.use(MTable);
 const launch = () => {
@@ -124,6 +125,8 @@ const launch = () => {
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
   Vue.prototype.moment = moment;
+  Vue.prototype.formatBandWidth = formatBandWidth;
+  Vue.prototype.formatSpeed = formatSpeed;
 
   new Vue({
     el: '#web',
