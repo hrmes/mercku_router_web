@@ -8,8 +8,10 @@
       <div class="table-inner">
         <div class="table-head">
           <ul>
-            <li class="column-icon"></li>
-            <li class="column-name">{{$t('trans0005')}}</li>
+            <li class="column-name">
+              <div class="column-icon"></div>
+              {{$t('trans0005')}}
+            </li>
             <li class="column-ip">{{$t('trans0151')}}</li>
             <li class="column-mac">{{$t('trans0188')}}</li>
             <li class="column-real-time">{{$t('trans0367')}}</li>
@@ -18,94 +20,75 @@
             <li class="column-black-list">{{$t('trans0020')}}</li>
           </ul>
         </div>
-        <!-- <m-table :data="devices" stripe>
-          <m-table-column align="left" width='50'>
-            <template slot-scope="scope">
-              <div class="name-inner">
-                <i class="band" v-if="scope.row.online_info.band==='wired'"><img src="../../../assets/images/ic_device_cable@2x.png" alt=""></i>
-                <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
+        <div class="table-body">
+          <ul v-for="(row,i) in devices" :key='i'>
+            <li class="column-name">
+              <div class="column-icon">
+                <div class="icon-inner">
+                  <i class="band" v-if="row.online_info.band==='wired'"><img src="../../../assets/images/ic_device_cable@2x.png" alt=""></i>
+                  <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
+                </div>
               </div>
-            </template>
-          </m-table-column>
-          <m-table-column :label="$t('trans0005')" align="left" width='200'>
-            <template slot-scope="scope">
-              <div class="name-inner">
-                <a @click='()=>nameModalOpen(scope.row)'>
-                  <span> {{scope.row.name}}</span>
-                  <img src="../../../assets/images/ic_edit.png" alt="">
-                </a>
+              <div class="name-wrap">
+                <div class="name-inner">
+                  <a @click='()=>nameModalOpen(row)'>
+                    <span> {{row.alias||row.name}}</span>
+                    <img src="../../../assets/images/ic_edit.png" alt="">
+                  </a>
+                </div>
+                <div class="des-inner">
+                  <span> {{bandMap[`${row.online_info.band}`]}}</span>
+                  <span> {{transformDate(row.online_info.online_duration)}}</span>
+                </div>
               </div>
-            </template>
-          </m-table-column>
-          <m-table-column :label="$t('trans0375')" align="left" width='100'>
-            <template slot-scope="scope">
-              <div>
-                {{bandMap[`${scope.row.online_info.band}`]}}
-              </div>
-            </template>
-          </m-table-column>
-          <m-table-column :label="$t('trans0374')" align="left" width='150'>
-            <template slot-scope="scope">
-              <div>
-                {{transformDate(scope.row.online_info.online_duration)}}
-              </div>
-            </template>
-          </m-table-column>
-          <m-table-column prop="ip" :label="$t('trans0151')" align="left" width='180'></m-table-column>
-          <m-table-column prop="mac" :label="$t('trans0188')" align="left" width='180'></m-table-column>
-          <m-table-column :label="$t('trans0367')" align="left" width='150'>
-            <template slot-scope="scope">
+            </li>
+            <li class="column-ip">{{row.ip}}</li>
+            <li class="column-mac">{{row.mac}}</li>
+            <li class="column-real-time">
               <div class="speed-inner">
                 <div class="speed-wrap">
                   <img class='icon' src="../../../assets/images/ic_device_upload.png" alt="">
                   <label class="text-inner">
-                    <span> {{formatSpeed(scope.row.online_info.realtime_speed.up).value}}</span>
-                    <span> {{formatSpeed(scope.row.online_info.realtime_speed.up).unit}}/s</span>
+                    <span> {{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
+                    <span> {{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
                   </label>
                 </div>
                 <div class="speed-wrap">
                   <img class='icon' src="../../../assets/images/ic_device_download.png" alt="">
                   <label class="text-inner">
-                    <span>{{formatSpeed(scope.row.online_info.realtime_speed.down).value}}</span>
-                    <span>{{formatSpeed(scope.row.online_info.realtime_speed.down).unit}}/s</span>
+                    <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
+                    <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}/s</span>
                   </label>
                 </div>
               </div>
-            </template>
-          </m-table-column>
-          <m-table-column :label="$t('trans0015')" align="left" width='120'>
-            <template slot-scope="scope">
-              <div>
-                {{formatBandWidth(scope.row.online_info.traffic.ul+scope.row.online_info.traffic.dl).value}} {{formatBandWidth(scope.row.online_info.traffic.ul+scope.row.online_info.traffic.dl).unit}}
-              </div>
-            </template>
-          </m-table-column>
-          <m-table-column :label="$t('trans0368')" align="left" width='150'>
-            <template slot-scope="scope">
-              <div class="band-width-inner">
+            </li>
+            <li class="column-band">
+              {{formatBandWidth(row.online_info.traffic.ul+row.online_info.traffic.dl).value}} {{formatBandWidth(row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}
+
+            </li>
+            <li class="column-limit">
+              <div class="limit-inner">
                 <div class="item">
-                  <span :class="{'time-active':isTimeLimit(scope.row.limit_flags)}"> {{$t('trans0075')}}</span>
-                  <img v-show='isTimeLimit(scope.row.limit_flags)' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
+                  <span :class="{'time-active':isTimeLimit(row.limit_flags)}"> {{$t('trans0075')}}</span>
+                  <img v-show='isTimeLimit(row.limit_flags)' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
                 </div>
                 <div class="item">
-                  <span :class="{'speed-active':isSpeedLimit(scope.row.limit_flags)}"> {{$t('trans0014')}}</span>
-                  <img v-show='isSpeedLimit(scope.row.limit_flags)' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
+                  <span :class="{'speed-active':isSpeedLimit(row.limit_flags)}"> {{$t('trans0014')}}</span>
+                  <img v-show='isSpeedLimit(row.limit_flags)' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
                 </div>
                 <div class="item">
-                  <span :class="{'black-active':isBlackLimit(scope.row.limit_flags)}"> {{$t('trans0076')}}</span>
-                  <img v-show='isBlackLimit(scope.row.limit_flags)' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
+                  <span :class="{'black-active':isBlackLimit(row.limit_flags)}"> {{$t('trans0076')}}</span>
+                  <img v-show='isBlackLimit(row.limit_flags)' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
                 </div>
               </div>
-            </template>
-          </m-table-column>
-          <m-table-column :label="$t('trans0020')" align="left" width='160'>
-            <template slot-scope="scope">
-              <span class="black-btn" @click="()=>addToBlackList(scope.row.mac)">
+            </li>
+            <li class="column-black-list">
+              <span class="black-btn" @click="()=>addToBlackList(row.mac)">
                 {{$t('trans0016')}}
               </span>
-            </template>
-          </m-table-column>
-        </m-table> -->
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="edit-name-modal" v-if="modalShow">
@@ -113,7 +96,7 @@
       <div class="content">
         <div class="select-wrapper">
           <label class='title'>{{$t('修改设备名称')}}</label>
-          <m-edit-select v-model='name' :options='alias' class="small" placeholder="请输入名称" />
+          <input v-model='name' type="text" :placeholder="`${$t('请输入名称')}`">
         </div>
         <div class="btn-inner">
           <button @click="()=>modalShow=false" class="btn btn-default">{{$t('trans0025')}}</button>
@@ -129,9 +112,16 @@ import TimePicker from '../../../component/timePicker/index.vue';
 import DatePicker from '../../../component/datePicker/index.vue';
 import MEditSelect from '../../../component/editableSelect/index.vue';
 import MProgress from '../../../component/progress/index.vue';
+import MInput from '../../../component/input/input.vue';
+import MForm from '../../../component/form/index.vue';
+import MFormItem from '../../../component/formItem/index.vue';
+import { getStringByte, passwordRule } from '../../../../util/util';
 
 export default {
   components: {
+    MInput,
+    MForm,
+    MFormItem,
     MEditSelect,
     layout,
     MProgress,
@@ -144,23 +134,7 @@ export default {
       modalShow: false,
       row: {},
       devices: [],
-      alias: [
-        '客厅',
-        '主卧',
-        '书房',
-        '客房',
-        '儿童房',
-        '杂物间',
-        '衣帽间',
-        '游戏室',
-        '厨房',
-        '前厅',
-        '门厅',
-        '餐厅',
-        '卫生间',
-        '地下室',
-        '车库'
-      ],
+      anme: '',
       bandMap: {
         wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
@@ -198,7 +172,7 @@ export default {
       if (this.name) {
         const params = {
           device: {
-            name: this.name,
+            alias: this.name,
             mac: this.row.mac
           }
         };
@@ -344,6 +318,19 @@ export default {
       .title {
         color: #333333;
       }
+      .select-wrapper {
+        input {
+          width: 290px;
+          height: 36px;
+          border-radius: 4px;
+          background-color: #ffffff;
+          border: solid 1px #e6e6e6;
+          outline: none;
+          line-height: 36px;
+          padding-left: 10px;
+          margin-top: 10px;
+        }
+      }
       .btn-inner {
         display: flex;
         justify-content: center;
@@ -371,11 +358,41 @@ export default {
     }
     .table-inner {
       margin-top: 30px;
+      ul,
+      li {
+        text-decoration: none;
+        list-style: none;
+        // flex: auto;
+        display: flex;
+        color: #333333;
+        font-size: 14px;
+        overflow: hidden;
+      }
+      .table-head {
+        ul {
+          height: 50px;
+          padding: 0 10px;
+        }
+      }
+      .table-body {
+        ul {
+          border-bottom: 1px solid #f1f1f1;
+          padding: 15px 10px;
+        }
+      }
+      ul {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
       .column-icon {
         width: 50px;
+        display: flex;
+        align-items: center;
       }
       .column-name {
-        width: 200px;
+        width: 210px;
       }
       .column-ip {
         width: 150px;
@@ -395,25 +412,13 @@ export default {
       .column-black-list {
         width: 150px;
       }
+
       .table-head {
         height: 50px;
         background: #f1f1f1;
         width: 100%;
-        ul,
-        li {
-          text-decoration: none;
-          list-style: none;
-          // flex: auto;
-        }
-        ul {
-          width: 100%;
-          display: flex;
-          height: 50px;
-          justify-content: space-between;
-          align-items: center;
-        }
       }
-      .name-inner {
+      .icon-inner {
         display: flex;
         align-items: center;
         .band {
@@ -424,18 +429,33 @@ export default {
           width: 22px;
           height: 22px;
         }
+      }
+      .des-inner {
+        margin-top: 10px;
+        span {
+          margin-right: 10px;
+        }
+      }
+      .name-inner {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
         a {
           flex: 1;
           text-align: left;
           display: flex;
           cursor: pointer;
           align-items: center;
+
           &:hover {
-            // text-decoration: underline;
+            text-decoration: underline;
           }
           span {
             display: inline-block;
-            // width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 130px;
           }
           img {
             width: 14px;
@@ -460,7 +480,7 @@ export default {
           }
         }
       }
-      .band-width-inner {
+      .limit-inner {
         .item {
           text-align: left;
           span {
@@ -513,5 +533,129 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .device-container {
+    background: transparent;
+    padding: 0;
+    .edit-name-modal {
+      .opcity {
+      }
+
+      .content {
+        .title {
+        }
+        .select-wrapper {
+          input {
+          }
+        }
+        .btn-inner {
+          .btn {
+            &:last-child {
+            }
+          }
+        }
+      }
+    }
+
+    .device-wrapper {
+      .title {
+        border: none;
+      }
+      .table-inner {
+        background: transparent;
+        .table-head {
+          display: none;
+        }
+        .table-body {
+          ul {
+            flex-direction: column;
+          }
+        }
+        ul {
+        }
+        .column-icon {
+        }
+        .column-name {
+        }
+        .column-ip {
+        }
+        .column-mac {
+        }
+        .column-real-time {
+        }
+        .column-band {
+        }
+        .column-limit {
+        }
+        .column-black-list {
+        }
+
+        .table-head {
+        }
+        .icon-inner {
+          .band {
+          }
+          .band > img {
+          }
+        }
+        .des-inner {
+          span {
+          }
+        }
+        .name-inner {
+          a {
+            &:hover {
+            }
+            span {
+            }
+            img {
+            }
+          }
+        }
+        .speed-inner {
+          .speed-wrap {
+            &:last-child {
+            }
+            .icon {
+            }
+            .text-inner {
+            }
+          }
+        }
+        .limit-inner {
+          .item {
+            span {
+              &:hover {
+              }
+            }
+            .icon {
+            }
+          }
+          .item:nth-child(1) {
+            .time-active {
+              &:hover {
+              }
+            }
+          }
+          .item:nth-child(2) {
+            .speed-active {
+              &:hover {
+              }
+            }
+          }
+          .item:nth-child(3) {
+            .black-active {
+              &:hover {
+              }
+            }
+          }
+        }
+        .black-btn {
+          cursor: pointer;
+          &:hover {
+          }
+        }
+      }
+    }
+  }
 }
 </style>
