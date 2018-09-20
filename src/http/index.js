@@ -82,6 +82,10 @@ const methods = {
     url,
     action: 'mesh.info.wan.net.get' // 获取组网WAN口上网信息
   },
+  meshBlacklistDelete: {
+    url,
+    action: 'mesh.blacklist.delete'
+  },
   meshBlacklistGet: {
     url,
     action: 'mesh.blacklist.get'
@@ -212,6 +216,9 @@ const http = {
   },
   getBlacklist() {
     return request(methods.meshBlacklistGet);
+  },
+  removeBlacklist(macs) {
+    return request(methods.meshBlacklistDelete, { macs });
   },
   meshWifiUpdate(params) {
     return request(methods.meshWifiUpdate, params);
