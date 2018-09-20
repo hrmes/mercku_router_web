@@ -82,6 +82,10 @@ const methods = {
     url,
     action: 'mesh.info.wan.net.get' // 获取组网WAN口上网信息
   },
+  meshBlacklistGet: {
+    url,
+    action: 'mesh.blacklist.get'
+  },
   meshWanStatsGet: {
     url,
     action: 'mesh.info.wan.stats.get' // 获取组网WAN口统计状态
@@ -205,6 +209,9 @@ const http = {
   },
   getWanNetStats() {
     return request(methods.meshWanStatsGet);
+  },
+  getBlacklist() {
+    return request(methods.meshBlacklistGet);
   },
   meshWifiUpdate(params) {
     return request(methods.meshWifiUpdate, params);
