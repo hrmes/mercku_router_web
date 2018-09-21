@@ -32,7 +32,7 @@
                   <img :src="router.image" alt="">
                 </div>
                 <div class="text">{{router.name}}</div>
-                <div class="edit">
+                <div class="edit" @click="onClickRouterName(router)">
                   <img src="../../../assets/images/ic_edit.png" alt="">
                 </div>
               </div>
@@ -57,12 +57,23 @@
     <div v-if="reset">
       <m-progress :label="$t('trans0322')"></m-progress>
     </div>
+    <div class="edit-name-modal" v-if="showModal">
+      <div class="opcity"></div>
+      <div class="content">
+        <editable-select class="small" :options="options" :label="$t('trans0005')" v-model="newName"></editable-select>
+        <div class="btn-inner">
+          <button @click="closeUpdateModal" class="btn btn-default">{{$t('trans0025')}}</button>
+          <button @click="updateMehsNode(routerSelected,newName)" class="btn">{{$t('trans0024')}}</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import echarts from 'echarts';
 import layout from '../../../layout.vue';
 import Progress from '../../../component/progress/index.vue';
+import editableSelect from '../../../component/editableSelect/index.vue';
 import { formatMac } from '../../../../util/util';
 import genData from './topo';
 
@@ -73,7 +84,8 @@ const Color = {
 export default {
   components: {
     'm-progress': Progress,
-    layout
+    layout,
+    editableSelect
   },
   data() {
     return {
@@ -85,7 +97,27 @@ export default {
       showTable: false,
       routers: [],
       reboot: false,
-      reset: false
+      reset: false,
+      routerSelected: null,
+      showModal: false,
+      newName: '',
+      options: [
+        this.$t('trans0349'),
+        this.$t('trans0350'),
+        this.$t('trans0351'),
+        this.$t('trans0352'),
+        this.$t('trans0353'),
+        this.$t('trans0354'),
+        this.$t('trans0355'),
+        this.$t('trans0356'),
+        this.$t('trans0357'),
+        this.$t('trans0358'),
+        this.$t('trans0359'),
+        this.$t('trans0360'),
+        this.$t('trans0361'),
+        this.$t('trans0362'),
+        this.$t('trans0363')
+      ]
     };
   },
   mounted() {
@@ -93,6 +125,36 @@ export default {
     this.createIntervalTask();
   },
   methods: {
+    closeUpdateModal() {
+      this.newName = '';
+      this.showModal = false;
+    },
+    onClickRouterName(router) {
+      this.routerSelected = router;
+      this.newName = router.name;
+      this.showModal = true;
+    },
+    updateMehsNode(router, name) {
+      this.$loading.open();
+      this.$http
+        .updateMeshNode(router.sn, { name })
+        .then(() => {
+          this.$loading.close();
+          router.name = name;
+          this.showModal = false;
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+          this.$loading.close();
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
     deleteNode(router) {
       this.$dialog.confirm({
         okText: this.$t('trans0203'),
@@ -329,6 +391,52 @@ export default {
 .mesh-container {
   padding: 0 2%;
   display: flex;
+  .edit-name-modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    .opcity {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      background: rgba(0, 0, 0, 0.5);
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .content {
+      width: 330px;
+      height: 218px;
+      border-radius: 5px;
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+      background-color: #ffffff;
+      border: solid 1px #f1f1f1;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .select-container {
+        width: 100%;
+      }
+      .btn-inner {
+        display: flex;
+        justify-content: center;
+        .btn {
+          width: 120px;
+          height: 42px;
+          &:last-child {
+            margin-left: 30px;
+          }
+        }
+      }
+    }
+  }
   .mesh-info {
     .title {
       font-size: 16px;

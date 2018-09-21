@@ -53,6 +53,10 @@ const methods = {
     url,
     action: 'mesh.node.delete'
   },
+  meshNodeUpdate: {
+    url,
+    action: 'mesh.node.update'
+  },
   meshNodeReset: {
     url,
     action: 'mesh.node.reset'
@@ -252,6 +256,9 @@ const http = {
   },
   addMeshNode(node) {
     return request(methods.meshNodeAdd, node);
+  },
+  updateMeshNode(nodeId, data) {
+    return request(methods.meshNodeUpdate, { node_id: nodeId, data });
   },
   isInMesh(node) {
     return request(methods.nodeIsInMesh, node);
