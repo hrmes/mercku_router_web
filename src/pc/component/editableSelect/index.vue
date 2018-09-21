@@ -2,7 +2,7 @@
   <div class="select-container" @click.stop="open()">
     <label for="">{{label}}</label>
     <div class="select">
-      <input class="select-text" :title="selected" v-model="selected" @input="input" :placeholder="placeholder" />
+      <input ref="input" class="select-text" :title="selected" v-model="selected" @input="input" :placeholder="placeholder" />
       <div class="icon-container">
         <span class="icon" :class="{'open':opened,'close':!opened}"></span>
       </div>
@@ -58,6 +58,8 @@ export default {
     },
     select(option) {
       this.selected = option;
+      this.opened = false;
+      this.$refs.input.focus();
       this.$emit('input', this.selected);
     },
     open() {
@@ -76,7 +78,7 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .select-container {
   &.small {
     .select {
