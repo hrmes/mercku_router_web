@@ -33,7 +33,7 @@ export default {
             {
               key: 12,
               text: 'trans0365',
-              url: '/dashboard/mesh'
+              url: '/dashboard/mesh/topo'
             },
             {
               key: 11,
