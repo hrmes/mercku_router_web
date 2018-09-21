@@ -1,52 +1,39 @@
 <template>
-    <layout>
-        <div class="setting-wifi-container">
-            <div v-if="reboot">
-                <m-progress :label="$t('trans0315')"></m-progress>
-            </div>
-            <div class="content">
-                <div class='w-header'>
-                    {{$t('trans0167')}}
-                </div>
-                <div class='form'>
-                    <div class='input-info'>
-                        <m-form ref="form" :model="form" :rules='rules'>
-                            <m-form-item class="item" prop='ssid'>
-                                <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-                            </m-form-item>
-                            <m-form-item class="item" prop='password'>
-                                <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-                            </m-form-item>
-                        </m-form>
-                        <!-- <div class="item" style="margin-bottom:30px;">
-              <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
-            </div> -->
-                        <div class="check-info">
-                            <label for=""> {{$t('trans0110')}} </label>
-                            <div class="tool">
-                                <m-popover v-model='popShow' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-                                <img width="14" src="../../../../assets/images/ic_wifi_setting_question.png" alt="" @click="popIsShow">
-                            </div>
-                            <m-switch v-model="form.hidden" :onChange="changehandle" />
-                        </div>
-                        <div class="btn-info">
-                            <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <layout>
+    <div class="device-speed-container">
+      <div class="content">
+        <div class='w-header'>
+          {{$t('trans0014')}}
         </div>
-    </layout>
+        <div class='form'>
+          <div class='input-info'>
+            <div class="check-info">
+              <label for=""> {{$t('trans0369')}} </label>
+              <m-switch v-model="form.enabled" :onChange="changehandle" />
+            </div>
+            <m-form ref="form" :model="form" :rules='rules'>
+              <m-form-item class="item" prop='ssid'>
+                <m-input v-model="form.up" :label="`${$t('trans0304')}(KB/s)`" type='text' :placeholder="`${$t('trans0321')}`" :disabled='disabled'></m-input>
+              </m-form-item>
+              <m-form-item class="item" prop='password'>
+                <m-input v-model="form.down" :label=" `${$t('trans0305')}(KB/s)`" type='text' :placeholder="`${$t('trans0321')}`" :disabled='disabled'></m-input>
+              </m-form-item>
+            </m-form>
+            <div class="btn-info">
+              <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </layout>
 </template>
 <script>
 import Switch from '../../../../component/switch/index.vue';
 import mSelect from '../../../../component/select/index.vue';
-import Popover from '../../../../component/popover/index.vue';
 import Input from '../../../../component/input/input.vue';
 import Form from '../../../../component/form/index.vue';
 import FormItem from '../../../../component/formItem/index.vue';
-import Progress from '../../../../component/progress/index.vue';
-import Checkbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
 import { getStringByte, passwordRule } from '../../../../../util/util';
 
@@ -56,177 +43,76 @@ export default {
     'm-form-item': FormItem,
     'm-form': Form,
     'm-input': Input,
-    'm-progress': Progress,
-    'm-checkbox': Checkbox,
-    'm-popover': Popover,
-    'm-select': mSelect,
     layout
   },
   data() {
     return {
-      band: '2.4G5G',
-      popShow: false,
-      reboot: false,
-      meshData: {},
-      options: [
-        {
-          value: '2.4G5G',
-          text: this.$t('trans0327'),
-          bands: {
-            '2.4G': { enabled: true },
-            '5G': { enabled: true }
-          }
-        },
-        {
-          value: '2.4G',
-          text: this.$t('trans0328'),
-          bands: {
-            '2.4G': { enabled: true },
-            '5G': { enabled: false }
-          }
-        },
-        {
-          value: '5G',
-          text: this.$t('trans0329'),
-          bands: {
-            '2.4G': { enabled: false },
-            '5G': { enabled: true }
-          }
-        }
-      ],
+      disabled: true,
+      mac: '',
       form: {
-        ssid: '',
-        password: '',
-        hidden: false,
-        bands: {
-          '2.4G': { enabled: true },
-          '5G': { enabled: true }
-        }
+        up: '',
+        down: '',
+        enabled: false
       },
       rules: {
-        ssid: [
+        up: [
           {
-            rule: value => getStringByte(value) <= 20,
-            message: this.$t('trans0261')
-          },
-          {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => true,
             message: this.$t('trans0237')
           }
         ],
-        password: [
+        down: [
           {
-            rule: value => passwordRule.test(value),
+            rule: value => true,
             message: this.$t('trans0169')
           }
         ]
       }
     };
   },
-  computed: {
-    combineBands() {
-      const hash = {};
-      this.options.forEach(v => {
-        hash[v.value] = v.bands;
-      });
-      return hash;
+  mounted() {
+    this.mac = this.$route.params.mac;
+    if (this.$store.state.limits.speed) {
+      const speed = this.$store.state.limits.speed;
+      this.form = { ...speed };
     }
   },
   methods: {
-    popIsShow() {
-      this.popShow = !this.popShow;
-    },
-    bandsToStr(bands) {
-      return Object.keys(bands)
-        .map(v => bands[v].enabled)
-        .join('');
-    },
-    splitBands(bands) {
-      this.options.forEach(v => {
-        if (this.bandsToStr(bands) === this.bandsToStr(v.bands)) {
-          this.band = v.value;
-        }
-      });
-    },
-    getMeshMeta() {
-      this.$loading.open();
-      this.$http
-        .getMeshMeta()
-        .then(res => {
-          this.$loading.close();
-          if (res.data.result) {
-            this.meshData = res.data.result;
-            this.form.ssid = this.meshData.ssid;
-            this.form.password = this.meshData.password;
-            this.form.bands = this.meshData.bands;
-            this.splitBands(this.meshData.bands);
-            this.form.hidden = this.meshData.hidden;
-          }
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
-    },
     changehandle(v) {
-      this.form.hidden = v;
+      this.form.enabled = v;
+      this.disabled = !v;
     },
     submit() {
       if (this.$refs.form.validate()) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          message: this.$t('trans0229'),
-          callback: {
-            ok: () => {
-              this.$http
-                .meshWifiUpdate({
-                  ...this.form,
-                  bands: this.combineBands[this.band]
-                })
-                .then(res => {
-                  if (res.status === 200) {
-                    this.reboot = true;
-                    this.$reconnect({
-                      onsuccess: () => {
-                        this.$router.push({ path: '/dashboard' });
-                      },
-                      ontimeout: () => {
-                        this.$router.push({ path: '/unconnect' });
-                      }
-                    });
-                  }
-                })
-                .catch(err => {
-                  if (err.upgrading) {
-                    return;
-                  }
-                  if (err && err.error) {
-                    this.$toast(this.$t(err.error.code));
-                  } else {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
+        this.$http
+          .addSpeedLimit({
+            mac: this.mac,
+            SpeedLimit: {
+              ...this.form,
+              up: this.form.up ? Number(this.form.up) : 0,
+              down: this.form.down ? Number(this.form.down) : 0
             }
-          }
-        });
+          })
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            if (err.upgrading) {
+              return;
+            }
+            if (err && err.error) {
+              this.$toast(this.$t(err.error.code));
+            } else {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
       }
     }
-  },
-  mounted() {
-    this.getMeshMeta();
   }
 };
 </script>
 <style lang="scss" scoped>
-.setting-wifi-container {
+.device-speed-container {
   flex: auto;
   padding: 0 2%;
   display: flex;
@@ -260,8 +146,9 @@ export default {
         display: flex;
         align-items: center;
         position: relative;
+        margin-bottom: 30px;
         label {
-          margin-right: 2px;
+          margin-right: 30px;
           font-size: 14px;
           color: #333333;
         }
@@ -279,7 +166,7 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .setting-wifi-container {
+  .device-speed-container {
     padding: 20px 16px;
     .content {
       .w-header {
