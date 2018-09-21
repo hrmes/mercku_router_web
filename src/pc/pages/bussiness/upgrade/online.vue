@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="btn-info">
-            <button class="btn re-btn" @click="submit()">{{$t('trans0211')}}</button>
+            <button class="btn re-btn" @click="submit()">{{$t('trans0225')}}</button>
           </div>
         </div>
         <div class="msg-wrapper" v-else>

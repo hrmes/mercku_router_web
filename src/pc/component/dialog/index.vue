@@ -77,7 +77,7 @@ export default {
     .dialog-buttons {
       white-space: nowrap;
       button {
-        width: 80px;
+        width: 120px;
         height: 42px;
         display: inline-block;
         margin: 0 20px 0 30px;

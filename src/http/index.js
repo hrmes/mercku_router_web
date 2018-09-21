@@ -49,6 +49,14 @@ const methods = {
     url,
     action: 'router.meta.get' // 获取路由器基础信息
   },
+  meshNodeDelete: {
+    url,
+    action: 'mesh.node.delete'
+  },
+  meshNodeReset: {
+    url,
+    action: 'mesh.node.reset'
+  },
   meshNodeReboot: {
     url,
     action: 'mesh.node.reboot' // 路由器重启
@@ -225,6 +233,12 @@ const http = {
   },
   meshWanUpdate(params) {
     return request(methods.meshWanUpdate, params);
+  },
+  deleteMeshNode(node) {
+    return request(methods.meshNodeDelete, node);
+  },
+  resetMeshNode(nodeIds) {
+    return request(methods.meshNodeReset, nodeIds);
   },
   /* v0.8 end */
   reboot(nodeIds) {

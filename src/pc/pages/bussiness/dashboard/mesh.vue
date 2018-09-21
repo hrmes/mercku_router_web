@@ -5,7 +5,7 @@
         <div class="tabs">
           <span class="tab" :class="{'selected':!showTable}" @click="showTable=false">{{$t('trans0312')}}</span>
           <span>/</span>
-          <span class="tab" :class="{'selected':showTable}" @click="showTable=true">{{$t('trans0312')}}</span>
+          <span class="tab" :class="{'selected':showTable}" @click="showTable=true">{{$t('trans0384')}}</span>
         </div>
         <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
@@ -13,7 +13,10 @@
         <div id="topo" v-show="!showTable"></div>
         <div class="table" v-show="showTable">
           <div class="table-header">
-            <div class="name">{{$t('trans0005')}}</div>
+            <div class="name">
+              {{$t('trans0005')}}
+
+            </div>
             <div class="type">{{$t('trans0068')}}</div>
             <div class="sn">{{$t('trans0251')}}</div>
             <div class="version">{{$t('trans0300')}}</div>
@@ -23,7 +26,16 @@
           </div>
           <div class="table-content">
             <div class="router" v-for="router in routers" :key="router.sn">
-              <div class="name">{{router.name}}</div>
+              <div class="name">
+
+                <div class="icon">
+                  <img :src="router.image" alt="">
+                </div>
+                <div class="text">{{router.name}}</div>
+                <div class="edit">
+                  <img src="../../../assets/images/ic_edit.png" alt="">
+                </div>
+              </div>
               <div class="type">{{router.is_gw ? $t('trans0165'): $t('trans0186')}}</div>
               <div class="sn">{{router.sn}}</div>
               <div class="version">{{router.version.current}}</div>
@@ -40,6 +52,9 @@
       </div>
     </div>
     <div v-if="reboot">
+      <m-progress :label="$t('trans0322')"></m-progress>
+    </div>
+    <div v-if="reset">
       <m-progress :label="$t('trans0322')"></m-progress>
     </div>
   </div>
@@ -69,7 +84,8 @@ export default {
       chart: null,
       showTable: false,
       routers: [],
-      reboot: false
+      reboot: false,
+      reset: false
     };
   },
   mounted() {
@@ -77,39 +93,108 @@ export default {
     this.createIntervalTask();
   },
   methods: {
-    deleteNode(router) {},
-    rebootNode(router) {
-      this.$http
-        .reboot({ node_ids: [router.sn] })
-        .then(() => {
-          if (router.is_gw) {
-            this.reboot = true;
-            this.$reconnect({
-              onsuccess: () => {
-                this.reboot = false;
-                this.$router.push({ path: '/login' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/unconnect' });
-              }
-            });
-          } else {
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.routers = this.routers.filter(r => r.sn === router.sn);
+    deleteNode(router) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0203'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0218'),
+        callback: {
+          ok: () => {
+            this.$http
+              .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
+              .then(() => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.routers = this.routers.filter(r => r.sn === router.sn);
+              })
+              .catch(err => {
+                if (err.upgrading) {
+                  return;
+                }
+                if (err && err.error) {
+                  this.$toast(this.$t(err.error.code));
+                } else {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
           }
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+        }
+      });
     },
-    resetNode(router) {},
+    rebootNode(router) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0122'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0121'),
+        callback: {
+          ok: () => {
+            this.$http
+              .reboot({ node_ids: [router.sn] })
+              .then(() => {
+                if (router.is_gw) {
+                  this.reboot = true;
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.reboot = false;
+                      this.$router.push({ path: '/login' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                } else {
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.routers = this.routers.filter(r => r.sn === router.sn);
+                }
+              })
+              .catch(err => {
+                if (err.upgrading) {
+                  return;
+                }
+                if (err && err.error) {
+                  this.$toast(this.$t(err.error.code));
+                } else {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
+          }
+        }
+      });
+    },
+    resetNode(router) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0205'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0206'),
+        callback: {
+          ok: () => {
+            this.$http
+              .resetMeshNode({ node_ids: [router.sn] })
+              .then(() => {
+                this.reset = true;
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.reset = false;
+                    window.location.href = '/';
+                  },
+                  ontimeout: () => {
+                    window.location.href = '/';
+                  }
+                });
+              })
+              .catch(err => {
+                if (err.upgrading) {
+                  return;
+                }
+                if (err && err.error) {
+                  this.$toast(this.$t(err.error.code));
+                } else {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
+          }
+        }
+      });
+    },
     addMeshNode() {
       this.$router.push('/mesh/add');
     },
@@ -122,6 +207,17 @@ export default {
     drawTopo(routers) {
       this.routers = routers;
       const data = genData(routers);
+
+      data.nodes.forEach(n => {
+        this.routers.forEach(r => {
+          if (n.sn === r.sn) {
+            this.$set(r, 'image', n.symbol.replace('image://', ''));
+            // Object.assign()
+            // r.image = n.symbol;
+          }
+        });
+      });
+
       const option = {
         color: [Color.good, Color.bad],
 
@@ -272,7 +368,7 @@ export default {
     flex-direction: column;
     margin-bottom: 20px;
     .content {
-      padding: 15px 0;
+      padding-top: 15px;
 
       #topo {
         width: 100%;
@@ -284,9 +380,27 @@ export default {
           display: flex;
           padding: 15px 30px;
           background: #f1f1f1;
-          > div {
-            flex: 1;
-          }
+        }
+        .name {
+          flex: 1;
+        }
+        .sn {
+          width: 140px;
+        }
+        .type {
+          width: 120px;
+        }
+        .version {
+          width: 100px;
+        }
+        .ip {
+          width: 140px;
+        }
+        .mac {
+          width: 140px;
+        }
+        .operate {
+          width: 200px;
         }
         .table-content {
           padding: 0 30px;
@@ -294,7 +408,35 @@ export default {
             display: flex;
             padding: 30px 0;
             > div {
-              flex: 1;
+              display: flex;
+              align-items: center;
+            }
+            .name {
+              display: flex;
+              align-items: center;
+              .icon {
+                margin-right: 20px;
+                display: flex;
+                align-items: center;
+                img {
+                  width: 30px;
+                  height: 30px;
+                }
+              }
+              .text {
+                color: #333;
+                font-size: 14px;
+                width: 80px;
+              }
+              .edit {
+                cursor: pointer;
+                width: 16px;
+                height: 16px;
+                img {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
             }
             .operate {
               span {
