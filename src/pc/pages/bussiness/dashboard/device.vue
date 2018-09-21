@@ -12,17 +12,17 @@
               <div class="column-icon"></div>
               {{$t('trans0005')}}
             </li>
-            <li class="column-ip">{{$t('trans0151')}}</li>
-            <li class="column-mac">{{$t('trans0188')}}</li>
             <li class="column-real-time">{{$t('trans0367')}}</li>
             <li class="column-band">{{$t('trans0015')}}</li>
+            <li class="column-ip">{{$t('trans0151')}}</li>
+            <li class="column-mac">{{$t('trans0188')}}</li>
             <li class="column-limit">{{$t('trans0368')}}</li>
             <li class="column-black-list">{{$t('trans0020')}}</li>
           </ul>
         </div>
-        <div class="table-body">
+        <div class="table-body small-device-body">
           <ul v-for="(row,i) in devices" :key='i'>
-            <li class="column-name">
+            <li class="column-name" @click.stop="expandTable(row)">
               <div class="column-icon">
                 <div class="icon-inner">
                   <i class="band" v-if="row.online_info.band==='wired'"><img src="../../../assets/images/ic_device_cable@2x.png" alt=""></i>
@@ -31,23 +31,21 @@
               </div>
               <div class="name-wrap">
                 <div class="name-inner">
-                  <a @click='()=>nameModalOpen(row)'>
-                    <span :title='row.alias||row.name'> {{row.alias||row.name}}</span>
-                    <img src="../../../assets/images/ic_edit.png" alt="">
+                  <a @click.stop='()=>nameModalOpen(row)'>
+                    <span :title='row.name' :class="{'extand-name':row.expand}"> {{row.name}}</span>
+                    <img v-if='isMobile?(row.expand):true' src="../../../assets/images/ic_edit.png" alt="">
                   </a>
                 </div>
-                <div class="des-inner">
+                <div class="des-inner" v-if='isMobile?(row.expand):true'>
                   <span> {{bandMap[`${row.online_info.band}`]}}</span>
                   <span> {{transformDate(row.online_info.online_duration)}}</span>
                 </div>
               </div>
               <div class="mobile-icon">
-                <img src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
+                <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}" src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
               </div>
             </li>
-            <li class="column-ip">{{row.ip}}</li>
-            <li class="column-mac">{{row.mac}}</li>
-            <li class="column-real-time">
+            <li class="column-real-time" v-if='isMobile?(row.expand):true'>
               <div class="speed-inner">
                 <div class="speed-wrap">
                   <img class='icon' src="../../../assets/images/ic_device_upload.png" alt="">
@@ -65,27 +63,42 @@
                 </div>
               </div>
             </li>
-            <li class="column-band">
-              {{formatBandWidth(row.online_info.traffic.ul+row.online_info.traffic.dl).value}} {{formatBandWidth(row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}
-
+            <li class="column-band" v-if='isMobile?(row.expand):true'>
+              <span>{{$t('trans0015')}}</span>
+              <span> {{formatSpeed(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
+              <span> {{formatSpeed(row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
             </li>
-            <li class="column-limit">
+            <li class="column-ip device-item" v-if='isMobile?(row.expand):true'>
+              <span>{{$t('trans0151')}}</span>
+              <span> {{row.ip}}</span>
+            </li>
+            <li class="column-mac device-item" v-if='isMobile?(row.expand):true'>
+              <span>{{$t('trans0188')}}</span>
+              <span>{{formatMac(row.mac)}}</span>
+            </li>
+            <li class="column-limit" v-if='isMobile?(row.expand):true'>
               <div class="limit-inner">
-                <div class="item">
-                  <span :class="{'time-active':isTimeLimit(row.limit_flags)}"> {{$t('trans0075')}}</span>
-                  <img v-show='isTimeLimit(row.limit_flags)' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
+                <div class="item device-item" @click="()=>$router.push('/limit/time')">
+                  <span :class="{'time-active':row.time_limit}"> {{$t('trans0075')}}</span>
+                  <img v-if='!isMobile&&row.time_limit' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
+                  <span class="status">
+                    {{row.time_limit?$t('已限制'):$t('不限制')}}
+                    <img src="../../../assets/images/ic_inter.png" alt="">
+                  </span>
                 </div>
-                <div class="item">
-                  <span :class="{'speed-active':isSpeedLimit(row.limit_flags)}"> {{$t('trans0014')}}</span>
-                  <img v-show='isSpeedLimit(row.limit_flags)' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
+                <div class="item device-item" @click="()=>$router.push('/limit/speed')">
+                  <span :class="{'speed-active':row.speed_limit}"> {{$t('trans0014')}}</span>
+                  <img v-show='!isMobile&&row.speed_limit' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
+                  <span class="status">{{row.speed_limit?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
                 </div>
-                <div class="item">
-                  <span :class="{'black-active':isBlackLimit(row.limit_flags)}"> {{$t('trans0076')}}</span>
-                  <img v-show='isBlackLimit(row.limit_flags)' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
+                <div class="item device-item" @click="()=>$router.push('/limit/blacklist')">
+                  <span :class="{'black-active':row.blacklist}"> {{$t('trans0076')}}</span>
+                  <img v-show='!isMobile&&row.blacklist' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
+                  <span class="status">{{row.blacklist?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
                 </div>
               </div>
             </li>
-            <li class="column-black-list">
+            <li class="column-black-list" v-if='isMobile?(row.expand):true'>
               <span class="black-btn" @click="()=>addToBlackList(row.mac)">
                 {{$t('trans0016')}}
               </span>
@@ -118,7 +131,7 @@ import MProgress from '../../../component/progress/index.vue';
 import MInput from '../../../component/input/input.vue';
 import MForm from '../../../component/form/index.vue';
 import MFormItem from '../../../component/formItem/index.vue';
-// import { getStringByte, passwordRule } from '../../../../util/util';
+import { formatMac } from '../../../../util/util';
 
 export default {
   components: {
@@ -133,6 +146,7 @@ export default {
   },
   data() {
     return {
+      formatMac,
       isMobile: false,
       reboot: false,
       modalShow: false,
@@ -147,18 +161,41 @@ export default {
     };
   },
   mounted() {
+    const that = this;
+    this.getIsMobile(that);
+    window.onresize = function temp() {
+      const w = that.windowWidth();
+      if (w <= 768) {
+        that.isMobile = true;
+      } else {
+        that.isMobile = false;
+      }
+    };
     this.getDeviceList();
-    if (this.windowWidth() <= 768) {
-      this.isMobile = true;
-    } else {
-      this.isMobile = false;
-    }
   },
   methods: {
+    expandTable(row) {
+      if (!this.isMobile) {
+        return false;
+      }
+      this.devices.forEach(v => {
+        if (v.mac === row.mac) {
+          v.expand = !v.expand;
+        }
+      });
+    },
     windowWidth() {
       if (window.innerWidth) return window.innerWidth;
       if (document.documentElement && document.documentElement.clientWidth) {
         return document.documentElement.clientWidth;
+      }
+    },
+    getIsMobile(that) {
+      const w = that.windowWidth();
+      if (w <= 768) {
+        that.isMobile = true;
+      } else {
+        that.isMobile = false;
       }
     },
     getDeviceList() {
@@ -166,10 +203,12 @@ export default {
         .meshDeviceGet()
         .then(res => {
           if (res.data.result && res.data.result.length > 0) {
-            this.devices = res.data.result.sort(
-              (a, b) =>
-                a.online_info.online_duration - b.online_info.online_duration
-            );
+            this.devices = res.data.result
+              .sort(
+                (a, b) =>
+                  a.online_info.online_duration - b.online_info.online_duration
+              )
+              .map(v => ({ ...v, expand: false }));
           }
         })
         .catch(err => {
@@ -187,7 +226,7 @@ export default {
       if (this.name) {
         const params = {
           device: {
-            alias: this.name,
+            name: this.name,
             mac: this.row.mac
           }
         };
@@ -243,32 +282,17 @@ export default {
       });
     },
     nameModalOpen(row) {
+      if (this.isMobile && !row.expand) {
+        return false;
+      }
       this.modalShow = true;
       this.row = row;
-    },
-    isSpeedLimit(flags) {
-      if (flags) {
-        return flags.some(v => v === 'speed_limit');
-      }
-      return false;
-    },
-    isTimeLimit(flags) {
-      if (flags) {
-        return flags.some(v => v === 'time_limit');
-      }
-      return false;
-    },
-    isBlackLimit(flags) {
-      if (flags) {
-        return flags.some(v => v === 'blacklist');
-      }
-      return false;
     },
     transformDate(date) {
       date *= 1000;
       const now = new Date().getTime();
-      if (date === 0) {
-        return '--';
+      if (date < 0) {
+        return '-';
       } else if (date <= 5) {
         return this.$t('trans0010');
       } else if (date <= 60000 && date > 5) {
@@ -294,6 +318,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .device-container {
+  padding-bottom: 50px;
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -384,6 +409,7 @@ export default {
         }
       }
       .table-body {
+        margin-bottom: 50px;
         ul {
           border-bottom: 1px solid #f1f1f1;
           padding: 15px 10px;
@@ -407,9 +433,15 @@ export default {
         width: 210px;
       }
       .column-ip {
+        span:first-child {
+          display: none;
+        }
         width: 150px;
       }
       .column-mac {
+        span:first-child {
+          display: none;
+        }
         width: 150px;
       }
       .column-real-time {
@@ -417,6 +449,9 @@ export default {
       }
       .column-band {
         width: 100px;
+        span:first-child {
+          display: none;
+        }
       }
       .column-limit {
         width: 100px;
@@ -495,6 +530,7 @@ export default {
       .limit-inner {
         .item {
           text-align: left;
+
           span {
             text-align: left;
             cursor: pointer;
@@ -506,6 +542,10 @@ export default {
           }
           .icon {
             width: 11px;
+            display: block;
+          }
+          .status {
+            display: none;
           }
         }
         .item:nth-child(1) {
@@ -571,9 +611,12 @@ export default {
     .device-wrapper {
       .title {
         border: none;
+        padding: 0;
+        font-size: 16px;
       }
       .table-inner {
         background: transparent;
+        margin: 0;
         .table-head {
           display: none;
         }
@@ -582,114 +625,230 @@ export default {
             flex-direction: column;
             padding: 0;
             overflow: inherit;
+            background: white;
+            padding: 0 20px;
+            margin-top: 10px;
           }
         }
-        .column-name {
-          .mobile-icon {
-            display: block;
-            display: flex;
-            align-items: center;
-            padding-right: 20px;
-            img {
-              width: 14px;
-              height: 7px;
-              opacity: 0.7;
-            }
-          }
-          width: 100%;
-          background: white;
-          border-radius: 3px;
-          height: 60px;
-          position: relative;
-          overflow: inherit;
-          .name-wrap {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            .des-inner {
-              position: absolute;
-              top: 60px;
-              z-index: 111;
+        .small-device-body {
+          margin-bottom: 50px;
+          .name-inner {
+            a {
+              &:hover {
+                text-decoration: none;
+              }
               span {
+                &.extand-name {
+                  font-size: 24px;
+                }
+                max-width: 100%;
+              }
+              img {
               }
             }
           }
-          .column-icon {
+          .column-name {
+            .mobile-icon {
+              display: block;
+              display: flex;
+              align-items: center;
+              // padding-right: 20px;
+              img {
+                width: 14px;
+                height: 7px;
+                opacity: 0.7;
+                transition: all 0.3s;
+                &.i-collapse {
+                  transform: rotate(180deg);
+                }
+                &.i-expand {
+                  transform: rotate(0deg);
+                }
+              }
+            }
+            width: 100%;
+            background: white;
+            border-radius: 3px;
+            height: 60px;
+            position: relative;
+            overflow: inherit;
+            .name-wrap {
+              flex: 1;
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              .des-inner {
+                position: absolute;
+                top: 45px;
+                z-index: 111;
+                span {
+                }
+              }
+            }
+
+            .column-icon {
+              justify-content: flex-start;
+              img {
+                width: 26px;
+                height: 26px;
+              }
+            }
+          }
+          .column-real-time {
+            margin-top: 50px;
+            margin-bottom: 20px;
+            width: 100%;
+            // padding-left: 20px;
+            .speed-inner {
+              width: 100%;
+              display: flex;
+              flex-direction: row;
+              .speed-wrap {
+                // flex: 1;
+                padding-right: 30px;
+                display: flex;
+                justify-content: center;
+                position: relative;
+                .text-inner {
+                  padding-left: 5px;
+                  span:first-child {
+                    font-size: 20px;
+                  }
+                  span:last-child {
+                    font-size: 16px;
+                  }
+                }
+                &:first-child ::after {
+                  content: '';
+                  position: absolute;
+                  height: 10px;
+                  width: 1px;
+                  background: #999999;
+                  right: 0;
+                  top: 10px;
+                }
+                &:last-child {
+                  margin: 0;
+                  margin-left: 30px;
+                }
+              }
+            }
+          }
+          .column-band {
+            width: 100%;
+            // padding-left: 20px;
+            padding-bottom: 30px;
+            span {
+              line-height: 30px;
+            }
+            span:first-child {
+              display: block;
+              font-size: 14px;
+              letter-spacing: -0.6px;
+              padding-right: 10px;
+            }
+            span:nth-child(2) {
+              font-size: 20px;
+              padding-right: 5px;
+            }
+          }
+          .column-ip {
+            border-top: 1px solid #f1f1f1;
+            span:first-child {
+              display: block;
+            }
+          }
+          .column-mac {
+            span:first-child {
+              display: block;
+            }
+          }
+          .device-item {
+            height: 60px;
+            width: 100%;
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+          .column-limit {
+            width: 100%;
+          }
+          .limit-inner {
+            width: 100%;
+            .item {
+              span {
+                color: #333333;
+                &:hover {
+                  text-decoration: none;
+                }
+              }
+              .icon {
+                width: 11px;
+                display: none;
+              }
+              .status {
+                display: block;
+                display: flex;
+                align-items: center;
+                img {
+                  width: 7px;
+                  height: 12px;
+                  margin-left: 10px;
+                }
+              }
+            }
+            .item:nth-child(1) {
+              .time-active {
+                &:hover {
+                  color: none;
+                  text-decoration: none;
+                }
+              }
+            }
+            .item:nth-child(2) {
+              .speed-active {
+                &:hover {
+                  color: none;
+                  text-decoration: none;
+                }
+              }
+            }
+            .item:nth-child(3) {
+              .black-active {
+                &:hover {
+                  color: none;
+                  text-decoration: none;
+                }
+              }
+            }
+          }
+          .column-black-list {
+            width: 100%;
+            padding-top: 60px;
+            padding-bottom: 50px;
+            display: flex;
             justify-content: center;
-            img {
-              width: 26px;
-              height: 26px;
-            }
-          }
-        }
-        .column-ip {
-        }
-        .column-mac {
-        }
-        .column-real-time {
-        }
-        .column-band {
-        }
-        .column-limit {
-        }
-        .column-black-list {
-        }
-
-        .table-head {
-        }
-
-        .name-inner {
-          a {
-            &:hover {
-            }
-            span {
-            }
-            img {
-            }
-          }
-        }
-        .speed-inner {
-          .speed-wrap {
-            &:last-child {
-            }
-            .icon {
-            }
-            .text-inner {
-            }
-          }
-        }
-        .limit-inner {
-          .item {
-            span {
+            .black-btn {
+              display: block;
+              width: 255px;
+              height: 58px;
+              border-radius: 4px;
+              border: solid 1px #ff0500;
+              color: #ff0500;
+              text-align: center;
+              line-height: 58px;
+              cursor: pointer;
               &:hover {
-              }
-            }
-            .icon {
-            }
-          }
-          .item:nth-child(1) {
-            .time-active {
-              &:hover {
+                text-decoration: none;
               }
             }
           }
-          .item:nth-child(2) {
-            .speed-active {
-              &:hover {
-              }
-            }
+          .li-expand {
+            display: block;
           }
-          .item:nth-child(3) {
-            .black-active {
-              &:hover {
-              }
-            }
-          }
-        }
-        .black-btn {
-          cursor: pointer;
-          &:hover {
+          .li-collapse {
+            display: none;
           }
         }
       }
