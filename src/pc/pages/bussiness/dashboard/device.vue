@@ -78,7 +78,7 @@
             </li>
             <li class="column-limit" v-if='isMobile?(row.expand):true'>
               <div class="limit-inner">
-                <div class="item device-item" @click="()=>$router.push('/limit/time')">
+                <div class="item device-item" @click="()=>limitClick('time',row)">
                   <span :class="{'time-active':row.time_limit}"> {{$t('trans0075')}}</span>
                   <img v-if='!isMobile&&row.time_limit' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
                   <span class="status">
@@ -86,12 +86,12 @@
                     <img src="../../../assets/images/ic_inter.png" alt="">
                   </span>
                 </div>
-                <div class="item device-item" @click="()=>$router.push('/limit/speed')">
+                <div class="item device-item" @click="()=>limitClick('speed',row)">
                   <span :class="{'speed-active':row.speed_limit}"> {{$t('trans0014')}}</span>
                   <img v-show='!isMobile&&row.speed_limit' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
                   <span class="status">{{row.speed_limit?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
                 </div>
-                <div class="item device-item" @click="()=>$router.push('/limit/blacklist')">
+                <div class="item device-item" @click="()=>limitClick('blacklist',row)">
                   <span :class="{'black-active':row.blacklist}"> {{$t('trans0076')}}</span>
                   <img v-show='!isMobile&&row.blacklist' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
                   <span class="status">{{row.blacklist?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
@@ -111,8 +111,8 @@
       <div class="opcity"></div>
       <div class="content">
         <div class="select-wrapper">
-          <label class='title'>{{$t('修改设备名称')}}</label>
-          <input v-model='name' type="text" :placeholder="`${$t('请输入名称')}`">
+          <label class='title'>{{$t('设备名称')}}</label>
+          <input v-model='name' type="text" :placeholder="`${$t('请输入')}`">
         </div>
         <div class="btn-inner">
           <button @click="()=>modalShow=false" class="btn btn-default">{{$t('trans0025')}}</button>
@@ -174,6 +174,10 @@ export default {
     this.getDeviceList();
   },
   methods: {
+    limitClick(type, row) {
+      this.$router.push({ path: `/limit/${type}/${row.mac}` });
+      this.$store.state.limits[type] = row;
+    },
     expandTable(row) {
       if (!this.isMobile) {
         return false;

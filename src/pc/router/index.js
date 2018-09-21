@@ -60,17 +60,17 @@ const routes = [
     component: meshAdd
   },
   {
-    path: '/limit/speed',
+    path: '/limit/speed/:mac',
     name: 'speed-limit',
     component: speedLimit
   },
   {
-    path: '/limit/time',
+    path: '/limit/time/:mac',
     name: 'time-limit',
     component: timeLimit
   },
   {
-    path: '/limit/blacklist',
+    path: '/limit/blacklist/:mac',
     name: 'blacklist-limit',
     component: blacklistLimit
   },

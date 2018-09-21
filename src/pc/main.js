@@ -128,10 +128,35 @@ const launch = () => {
   Vue.prototype.formatBandWidth = formatBandWidth;
   Vue.prototype.formatSpeed = formatSpeed;
 
+  class Store {
+    constructor(Vue, options) {
+      const bus = new Vue({
+        data: {
+          state: options.state
+        }
+      });
+      this.install(Vue, bus);
+    }
+    install(Vue, bus) {
+      Vue.mixin({
+        beforeCreate() {
+          if (this.$options.store) {
+            Vue.prototype.$store = bus;
+          }
+        }
+      });
+    }
+  }
+  const store = new Store(Vue, {
+    state: {
+      limits: {}
+    }
+  });
   new Vue({
     el: '#web',
     i18n,
     router,
+    store,
     render: h => h(Desktop)
   });
 };

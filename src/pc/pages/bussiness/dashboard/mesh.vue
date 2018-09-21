@@ -25,14 +25,19 @@
             <div class="operate">{{$t('trans0370')}}</div>
           </div>
           <div class="table-content">
-            <div class="router" v-for="router in routers" :key="router.sn">
+            <div class="router" :class="{'expand':router.expand}" v-for="router in routers" :key="router.sn">
               <div class="name">
                 <div class="icon">
                   <img :src="router.image" alt="">
                 </div>
-                <div class="text">{{router.name}}</div>
-                <div class="edit" @click="onClickRouterName(router)">
-                  <img src="../../../assets/images/ic_edit.png" alt="">
+                <div class="wrap">
+                  <div class="text">{{router.name}}</div>
+                  <div class="edit" @click="onClickRouterName(router)">
+                    <img src="../../../assets/images/ic_edit.png" alt="">
+                  </div>
+                </div>
+                <div @click="router.expand = !router.expand" class="expand" :class="{'expand':router.expand,'collapse':!router.expand}">
+                  <img src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
                 </div>
               </div>
               <div class="type">
@@ -295,17 +300,24 @@ export default {
       });
     },
     drawTopo(routers) {
-      this.routers = routers;
-      const data = genData(routers);
+      const oldRouters = this.routers;
 
+      const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
+      this.routers = routers;
+
+      const data = genData(routers);
       data.nodes.forEach(n => {
         this.routers.forEach(r => {
           if (n.sn === r.sn) {
             this.$set(r, 'image', n.symbol.replace('image://', ''));
-            // Object.assign()
-            // r.image = n.symbol;
           }
         });
+      });
+      this.routers.forEach(r => {
+        if (selected.includes(r.sn)) {
+          this.$set(r, 'expand', true);
+        }
+        this.$set(r, 'expand', false);
       });
 
       const option = {
@@ -554,6 +566,25 @@ export default {
             .name {
               display: flex;
               align-items: center;
+              .expand {
+                display: none;
+                img {
+                  width: 17px;
+                  height: 7px;
+                  opacity: 0.7;
+                }
+                transition: all 0.3s;
+                &.expand {
+                  transform: rotate(180deg);
+                }
+                &.collapse {
+                  transform: rotate(0deg);
+                }
+              }
+              .wrap {
+                display: flex;
+                align-items: center;
+              }
               .icon {
                 margin-right: 20px;
                 display: flex;
@@ -614,6 +645,7 @@ export default {
       }
 
       .content {
+        width: 80%;
         .select-container {
         }
         .btn-inner {
@@ -655,15 +687,13 @@ export default {
           .table-header {
             display: none;
           }
+
           .name {
+            flex: none;
             height: 60px !important;
-            display: block !important;
             padding: 15px 0 !important;
             .icon {
-              display: inline-block !important;
-            }
-            .text {
-              display: inline-block;
+              width: 30px;
             }
             .edit {
               display: inline-block;
@@ -684,6 +714,7 @@ export default {
           .table-content {
             padding: 0;
             background: #f1f1f1;
+
             .router {
               display: flex;
               flex-direction: column;
@@ -693,6 +724,10 @@ export default {
               border-radius: 5px;
               height: 60px;
               overflow: hidden;
+              &.expand {
+                height: 550px;
+                overflow: auto;
+              }
               span.label {
                 display: inline;
               }
@@ -700,6 +735,9 @@ export default {
                 width: auto;
                 padding: 20px 0;
                 border-bottom: 1px solid #f1f1f1;
+                &:last-child {
+                  border-bottom: 0;
+                }
                 .label {
                   width: 50%;
                   display: inline-block;
@@ -712,12 +750,19 @@ export default {
                 }
               }
               .name {
+                .wrap {
+                  flex: 1;
+                }
+                .expand {
+                  display: block;
+                }
                 .icon {
                   img {
                   }
                 }
                 .text {
                 }
+
                 .edit {
                   img {
                   }

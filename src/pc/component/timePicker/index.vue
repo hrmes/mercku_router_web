@@ -1,29 +1,29 @@
 <template>
-    <div class="time-picker-panel">
-        <div class="input-wrap" @click.stop="open">
-            <input type="text" placeholder="请选择时间" v-model="value" disabled>
-            <span class="icon-inner">
-                <a class="icon">x</a>
-            </span>
-        </div>
-        <div class="combobox" ref="combo" v-show="opened">
-            <div class="select-inner">
-                <ul style="height:928px">
-                    <li v-for="(v,i) in hs" :key='i' @click.stop="(e)=>select('h',v,e)" :class="{'selected':time.h===v}">{{v}}</li>
-                </ul>
-            </div>
-            <div class="select-inner">
-                <ul style="height:2080px">
-                    <li v-for="(v,i) in ms" :key='i' @click.stop="(e)=>select('m',v,e)" :class="{'selected':time.m===v}">{{v}}</li>
-                </ul>
-            </div>
-            <!-- <div class="select-inner">
+  <div class="time-picker-panel">
+    <div class="input-wrap" @click.stop="open">
+      <input type="text" placeholder="请选择时间" v-model="value" disabled>
+      <span class="icon-inner">
+        <a class="icon">x</a>
+      </span>
+    </div>
+    <div class="combobox" ref="combo" v-show="opened">
+      <div class="select-inner">
+        <ul style="height:928px">
+          <li v-for="(v,i) in hs" :key='i' @click.stop="(e)=>select('h',v,e)" :class="{'selected':time.h===v}">{{v}}</li>
+        </ul>
+      </div>
+      <div class="select-inner">
+        <ul style="height:2080px">
+          <li v-for="(v,i) in ms" :key='i' @click.stop="(e)=>select('m',v,e)" :class="{'selected':time.m===v}">{{v}}</li>
+        </ul>
+      </div>
+      <!-- <div class="select-inner">
                 <ul style="height:2080px">
                     <li v-for="(v,i) in ms" :key='i' @click.stop="(e)=>select('s',v,e)" :class="{'selected':time.s===v}">{{v}}</li>
                 </ul>
             </div> -->
-        </div>
     </div>
+  </div>
 </template>
 <script>
 export default {
@@ -95,9 +95,11 @@ export default {
   position: relative;
   .combobox {
     position: absolute;
+    background: white;
     left: 0;
     display: flex;
     width: 168px;
+    z-index: 9999;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background-clip: padding-box;
     overflow: hidden;

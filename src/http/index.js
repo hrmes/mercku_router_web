@@ -157,6 +157,10 @@ const methods = {
   addToblackList: {
     url,
     action: 'mesh.blacklist.add'
+  },
+  addSpeedLimit: {
+    url,
+    action: 'mesh.device.speed_limit.add'
   }
 };
 const request = (config, params) => {
@@ -171,6 +175,9 @@ const request = (config, params) => {
   });
 };
 const http = {
+  addSpeedLimit(params) {
+    return request(methods.addSpeedLimit, params);
+  },
   addToblackList(params) {
     return request(methods.addToblackList, params);
   },
