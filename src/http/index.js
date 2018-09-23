@@ -161,6 +161,14 @@ const methods = {
   addSpeedLimit: {
     url,
     action: 'mesh.device.speed_limit.add'
+  },
+  addTimeLimit: {
+    url,
+    action: 'mesh.device.time_limit.add'
+  },
+  getTimeLimit: {
+    url,
+    action: 'mesh.device.time_limit.get'
   }
 };
 const request = (config, params) => {
@@ -175,6 +183,12 @@ const request = (config, params) => {
   });
 };
 const http = {
+  getTimeLimit(params) {
+    return request(methods.getTimeLimit, params);
+  },
+  addTimeLimit(params) {
+    return request(methods.addTimeLimit, params);
+  },
   addSpeedLimit(params) {
     return request(methods.addSpeedLimit, params);
   },

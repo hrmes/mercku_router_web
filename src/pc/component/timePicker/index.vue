@@ -3,7 +3,9 @@
     <div class="input-wrap" @click.stop="open">
       <input type="text" placeholder="请选择时间" v-model="value" disabled>
       <span class="icon-inner">
-        <a class="icon">x</a>
+        <a class="icon">
+          <img src="../../assets/images/rescreen-time.png" alt="">
+        </a>
       </span>
     </div>
     <div class="combobox" ref="combo" v-show="opened">
@@ -27,17 +29,31 @@
 </template>
 <script>
 export default {
+  props: {
+    inputValue: {
+      type: String
+    }
+  },
   data() {
     return {
       opened: false,
       hs: Array.from(new Array(24)).map((__, v) => this.formatCount(v)),
       ms: Array.from(new Array(60)).map((__, v) => this.formatCount(v)),
+      value: '',
       time: {
         h: '00',
-        m: '00',
-        s: '00'
+        m: '00'
       }
     };
+  },
+  watch: {
+    inputValue(v) {
+      this.value = v;
+      this.time = {
+        h: v.split(':')[0],
+        m: v.split(':')[1]
+      };
+    }
   },
   mounted() {
     if (window.addEventListener) {
@@ -58,7 +74,7 @@ export default {
       return v < 10 ? `0${v}` : `${v}`;
     },
     open() {
-      this.opened = !this.opened;
+      this.opened = true;
     },
     close() {
       if (!this.opened) {
@@ -76,13 +92,10 @@ export default {
       e.path[2].scrollTo(0, move + scrollTop);
     },
     select(type, v, e) {
-      this.scroll(e);
+      // this.scroll(e);
       this.time[type] = v;
-    }
-  },
-  computed: {
-    value() {
-      return `${this.time.h} : ${this.time.m} : ${this.time.s}`;
+      this.value = `${this.time.h}:${this.time.m} `;
+      this.$emit('input', this.value);
     }
   }
 };
@@ -138,10 +151,12 @@ export default {
         // transition: background 0.3s;
         cursor: pointer;
         &:hover {
-          background: #bdbdbd;
+          background: #4237dd;
+          color: white;
         }
         &.selected {
-          background: #f1f1f1;
+          background: #4237dd;
+          color: white;
         }
       }
     }
@@ -166,6 +181,14 @@ export default {
       display: inline-block;
       width: 38px;
       text-align: center;
+      a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 18px;
+        }
+      }
     }
   }
 }

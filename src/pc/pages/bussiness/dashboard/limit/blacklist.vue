@@ -1,232 +1,259 @@
 <template>
-    <layout>
-        <div class="setting-wifi-container">
-            <div v-if="reboot">
-                <m-progress :label="$t('trans0315')"></m-progress>
-            </div>
-            <div class="content">
-                <div class='w-header'>
-                    {{$t('trans0167')}}
-                </div>
-                <div class='form'>
-                    <div class='input-info'>
-                        <m-form ref="form" :model="form" :rules='rules'>
-                            <m-form-item class="item" prop='ssid'>
-                                <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-                            </m-form-item>
-                            <m-form-item class="item" prop='password'>
-                                <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-                            </m-form-item>
-                        </m-form>
-                        <!-- <div class="item" style="margin-bottom:30px;">
-              <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
-            </div> -->
-                        <div class="check-info">
-                            <label for=""> {{$t('trans0110')}} </label>
-                            <div class="tool">
-                                <m-popover v-model='popShow' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-                                <img width="14" src="../../../../assets/images/ic_wifi_setting_question.png" alt="" @click="popIsShow">
-                            </div>
-                            <m-switch v-model="form.hidden" :onChange="changehandle" />
-                        </div>
-                        <div class="btn-info">
-                            <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <layout>
+    <div class="device-time-container">
+      <div class="content">
+        <div class='w-header'>
+          {{$t('trans0075')}}
         </div>
-    </layout>
+        <div class='table'>
+          <div class="table-head">
+            <div class="column-date-stop">{{$t('trans0084')}}</div>
+            <div class="column-date-start">{{$t('trans0085')}}</div>
+            <div class="column-repeat">{{$t('trans0082')}}</div>
+            <div class="column-handle">{{$t('trans0370')}}</div>
+          </div>
+          <div class="table-body">
+            <div class="table-row" v-for="(row,index) in timeLimitList" :key='index'>
+              <div class="column-date-stop">
+                <span>{{row.time_begin}}</span>
+                <span class="mobile-start">&nbsp;-&nbsp;</span>
+                <span class="mobile-start">{{row.time_end}}</span>
+              </div>
+              <div class="column-date-start">{{row.time_end}}</div>
+              <div class="column-repeat">{{formatSchedules(row.schedule)}}</div>
+              <div class="column-handle">
+                <div class="check-wrap">
+                  <m-switch :onChange="changehandle" v-model="row.enabled" />
+                </div>
+                <a>{{$t('编辑')}}</a>
+                <a>{{$t('删除')}}</a>
+              </div>
+            </div>
+          </div>
+          <div class="btn-warp">
+            <button class="btn" @click='()=>modalShow=!modalShow'>{{$t('trans0035')}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal" v-if='modalShow'>
+        <div class="opcity"></div>
+        <div class="modal-content">
+          <div class="modal-form">
+            <div class="item">
+              <label for="">{{$t('trans0075')}}</label>
+              <m-switch :onChange="changehandle" />
+            </div>
+            <div class="item">
+              <label for="">{{$t('trans0084')}}</label>
+              <m-time-picker v-model="form.time_begin" />
+            </div>
+            <div class="item">
+              <label for="">{{$t('trans0085')}}</label>
+              <m-time-picker v-model="form.time_end" />
+            </div>
+            <div class="item">
+              <label for="">{{$t('trans0082')}}</label>
+              <div class="date-wrap">
+                <div class='check-inner' v-for="(item,i) in schedules" :key='i'>
+                  <m-checkbox v-model='item.checked' :text='item.label'></m-checkbox>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btn-info">
+            <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
+            <button class="btn" @click="submit">{{$t('trans0035')}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </layout>
 </template>
 <script>
 import Switch from '../../../../component/switch/index.vue';
 import mSelect from '../../../../component/select/index.vue';
-import Popover from '../../../../component/popover/index.vue';
-import Input from '../../../../component/input/input.vue';
-import Form from '../../../../component/form/index.vue';
-import FormItem from '../../../../component/formItem/index.vue';
-import Progress from '../../../../component/progress/index.vue';
-import Checkbox from '../../../../component/checkbox/index.vue';
+import MTimePicker from '../../../../component/timePicker/index.vue';
+import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
 import { getStringByte, passwordRule } from '../../../../../util/util';
 
 export default {
   components: {
     'm-switch': Switch,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-input': Input,
-    'm-progress': Progress,
-    'm-checkbox': Checkbox,
-    'm-popover': Popover,
-    'm-select': mSelect,
+    MTimePicker,
+    MCheckbox,
     layout
   },
   data() {
     return {
-      band: '2.4G5G',
-      popShow: false,
-      reboot: false,
-      meshData: {},
-      options: [
-        {
-          value: '2.4G5G',
-          text: this.$t('trans0327'),
-          bands: {
-            '2.4G': { enabled: true },
-            '5G': { enabled: true }
-          }
-        },
-        {
-          value: '2.4G',
-          text: this.$t('trans0328'),
-          bands: {
-            '2.4G': { enabled: true },
-            '5G': { enabled: false }
-          }
-        },
-        {
-          value: '5G',
-          text: this.$t('trans0329'),
-          bands: {
-            '2.4G': { enabled: false },
-            '5G': { enabled: true }
-          }
-        }
-      ],
+      disabled: true,
+      modalShow: false,
+      timeLimitList: [],
+      mac: '',
       form: {
-        ssid: '',
-        password: '',
-        hidden: false,
-        bands: {
-          '2.4G': { enabled: true },
-          '5G': { enabled: true }
-        }
+        mac: '',
+        time_begin: '00:00',
+        time_end: '00:00',
+        schedule: []
       },
-      rules: {
-        ssid: [
-          {
-            rule: value => getStringByte(value) <= 20,
-            message: this.$t('trans0261')
-          },
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
-          }
-        ],
-        password: [
-          {
-            rule: value => passwordRule.test(value),
-            message: this.$t('trans0169')
-          }
-        ]
-      }
+      schedules: [
+        {
+          label: this.$t('trans0086'),
+          checked: false,
+          value: 'Mon'
+        },
+        {
+          label: this.$t('trans0087'),
+          checked: false,
+          value: 'Tue'
+        },
+        {
+          label: this.$t('trans0088'),
+          checked: false,
+          value: 'Wed'
+        },
+        {
+          label: this.$t('trans0089'),
+          checked: false,
+          value: 'Thu'
+        },
+        {
+          label: this.$t('trans0090'),
+          checked: false,
+          value: 'Fri'
+        },
+        {
+          label: this.$t('trans0091'),
+          checked: false,
+          value: 'Sat'
+        },
+        {
+          label: this.$t('trans0092'),
+          checked: false,
+          value: 'Sun'
+        }
+      ]
     };
   },
-  computed: {
-    combineBands() {
-      const hash = {};
-      this.options.forEach(v => {
-        hash[v.value] = v.bands;
-      });
-      return hash;
-    }
+  mounted() {
+    this.form.mac = this.$route.params.mac;
+    this.getList();
   },
   methods: {
-    popIsShow() {
-      this.popShow = !this.popShow;
+    formatSchedules(arr) {
+      const newArr = [];
+      arr.forEach(s => {
+        this.schedules.forEach(v => {
+          if (s === v.value) {
+            newArr.push(v.label);
+          }
+        });
+      });
+      return newArr.join(' / ');
     },
-    bandsToStr(bands) {
-      return Object.keys(bands)
-        .map(v => bands[v].enabled)
-        .join('');
-    },
-    splitBands(bands) {
-      this.options.forEach(v => {
-        if (this.bandsToStr(bands) === this.bandsToStr(v.bands)) {
-          this.band = v.value;
-        }
+    getList() {
+      this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
+        this.timeLimitList = res.data.result;
       });
     },
-    getMeshMeta() {
-      this.$loading.open();
+    changehandle(v) {},
+    submit() {
+      this.schedules.forEach(item => {
+        if (item.checked) {
+          this.form.schedule.push(item.value);
+        }
+      });
       this.$http
-        .getMeshMeta()
+        .addTimeLimit({
+          ...this.form
+        })
         .then(res => {
-          this.$loading.close();
-          if (res.data.result) {
-            this.meshData = res.data.result;
-            this.form.ssid = this.meshData.ssid;
-            this.form.password = this.meshData.password;
-            this.form.bands = this.meshData.bands;
-            this.splitBands(this.meshData.bands);
-            this.form.hidden = this.meshData.hidden;
-          }
+          console.log(res);
         })
         .catch(err => {
           if (err.upgrading) {
             return;
           }
-          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
             this.$router.push({ path: '/unconnect' });
           }
         });
-    },
-    changehandle(v) {
-      this.form.hidden = v;
-    },
-    submit() {
-      if (this.$refs.form.validate()) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          message: this.$t('trans0229'),
-          callback: {
-            ok: () => {
-              this.$http
-                .meshWifiUpdate({
-                  ...this.form,
-                  bands: this.combineBands[this.band]
-                })
-                .then(res => {
-                  if (res.status === 200) {
-                    this.reboot = true;
-                    this.$reconnect({
-                      onsuccess: () => {
-                        this.$router.push({ path: '/dashboard' });
-                      },
-                      ontimeout: () => {
-                        this.$router.push({ path: '/unconnect' });
-                      }
-                    });
-                  }
-                })
-                .catch(err => {
-                  if (err.upgrading) {
-                    return;
-                  }
-                  if (err && err.error) {
-                    this.$toast(this.$t(err.error.code));
-                  } else {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
-            }
-          }
-        });
-      }
     }
-  },
-  mounted() {
-    this.getMeshMeta();
   }
 };
 </script>
 <style lang="scss" scoped>
-.setting-wifi-container {
+.device-time-container {
+  .modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99909;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .opcity {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.5);
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .btn-info {
+      display: flex;
+      margin-top: 50px;
+      justify-content: center;
+      .btn {
+        width: 120px;
+        height: 42px;
+        &:last-child {
+          margin-left: 30px;
+        }
+      }
+    }
+    .modal-content {
+      width: 496px;
+      height: 402px;
+      border-radius: 5px;
+      background-color: #ffffff;
+      padding: 30px;
+      .item {
+        display: flex;
+        align-items: center;
+        margin-top: 30px;
+        &:first-child {
+          margin: 0;
+        }
+        &:last-child {
+          align-items: flex-start;
+        }
+        label {
+          width: 70px;
+          font-size: 14px;
+          color: #333333;
+          overflow: hidden;
+        }
+        .date-wrap {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          width: 320px;
+          .check-inner {
+            width: 80px;
+            margin-bottom: 12px;
+          }
+        }
+      }
+    }
+  }
   flex: auto;
   padding: 0 2%;
   display: flex;
@@ -248,30 +275,58 @@ export default {
       line-height: 60px;
       font-weight: 400;
     }
-    .form {
-      display: flex;
-      justify-content: center;
-      padding: 30px 0;
-
-      .btn-info {
-        margin-top: 30px;
-      }
-      .check-info {
+    .table {
+      .btn-warp {
+        margin-top: 50px;
         display: flex;
-        align-items: center;
-        position: relative;
-        label {
-          margin-right: 2px;
-          font-size: 14px;
-          color: #333333;
+        justify-content: center;
+      }
+      margin-top: 30px;
+      .column-date-stop {
+        width: 180px;
+        .mobile-start {
+          display: none;
         }
-        .tool {
-          position: relative;
-          width: 30px;
-          img {
-            position: relative;
-            top: -8px;
-            cursor: pointer;
+      }
+      .column-date-start {
+        width: 180px;
+      }
+      .column-repeat {
+        flex: 1;
+      }
+      .column-handle {
+        width: 250px;
+      }
+      .table-head {
+        height: 50px;
+        background-color: #f1f1f1;
+        display: flex;
+        padding: 0 30px;
+        div {
+          display: flex;
+          height: 50px;
+          align-items: center;
+        }
+      }
+      .table-body {
+        .table-row {
+          display: flex;
+          padding: 30px 30px;
+          border-bottom: 1px solid #f1f1f1;
+          .column-handle {
+            display: flex;
+            align-items: center;
+            a {
+              margin-left: 50px;
+              cursor: pointer;
+              font-size: 14px;
+              &:hover {
+                text-decoration: underline;
+              }
+              &:last-child {
+                color: #ff0001;
+              }
+            }
           }
         }
       }
@@ -279,7 +334,7 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .setting-wifi-container {
+  .device-time-container {
     padding: 20px 16px;
     .content {
       .w-header {
@@ -288,28 +343,45 @@ export default {
         line-height: 44px;
       }
       min-height: 450px;
-      .form {
-        width: 100%;
-
-        .input-info {
-          width: 100%;
-        }
-        .title {
-          margin-top: 20px;
-          margin-bottom: 10px;
-        }
-        .check-info {
-          display: flex;
-          align-items: center;
-          margin-top: 20px;
-          label {
-            margin-right: 2px;
-            font-size: 16px;
-            color: #333333;
+      .table {
+        margin: 0;
+        .table-body {
+          .table-row {
+            flex-direction: column;
+            padding: 20px 0;
+            position: relative;
           }
         }
-        .btn-info {
-          margin-top: 30px;
+        .column-date-stop {
+          display: flex;
+          width: 100%;
+          .mobile-start {
+            display: block;
+          }
+        }
+        .column-date-start {
+          width: auto;
+          display: none;
+        }
+        .column-repeat {
+          width: 100%;
+          margin-top: 5px;
+        }
+        .column-handle {
+          width: 100%;
+          justify-content: flex-end;
+          margin-top: 20px;
+          a {
+            margin-left: 30px !important;
+          }
+          .check-wrap {
+            position: absolute;
+            right: 0;
+            top: 20px;
+          }
+        }
+        .table-head {
+          display: none;
         }
       }
     }

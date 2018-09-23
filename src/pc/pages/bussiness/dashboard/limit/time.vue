@@ -13,17 +13,17 @@
             <div class="column-handle">{{$t('trans0370')}}</div>
           </div>
           <div class="table-body">
-            <div class="table-row">
+            <div class="table-row" v-for="(row,index) in timeLimitList" :key='index'>
               <div class="column-date-stop">
-                <span>08:01</span>
+                <span>{{row.time_begin}}</span>
                 <span class="mobile-start">&nbsp;-&nbsp;</span>
-                <span class="mobile-start"> 09:11</span>
+                <span class="mobile-start">{{row.time_end}}</span>
               </div>
-              <div class="column-date-start">09:11</div>
-              <div class="column-repeat">周一 / 周二</div>
+              <div class="column-date-start">{{row.time_end}}</div>
+              <div class="column-repeat">{{formatSchedules(row.schedule)}}</div>
               <div class="column-handle">
                 <div class="check-wrap">
-                  <m-switch onChange="changehandle" />
+                  <m-switch :onChange="changehandle" v-model="row.enabled" />
                 </div>
                 <a>{{$t('编辑')}}</a>
                 <a>{{$t('删除')}}</a>
@@ -45,11 +45,11 @@
             </div>
             <div class="item">
               <label for="">{{$t('trans0084')}}</label>
-              <m-time-picker />
+              <m-time-picker v-model="form.time_begin" />
             </div>
             <div class="item">
               <label for="">{{$t('trans0085')}}</label>
-              <m-time-picker />
+              <m-time-picker v-model="form.time_end" />
             </div>
             <div class="item">
               <label for="">{{$t('trans0082')}}</label>
@@ -62,7 +62,7 @@
           </div>
           <div class="btn-info">
             <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-            <button class="btn">{{$t('trans0035')}}</button>
+            <button class="btn" @click="submit">{{$t('trans0035')}}</button>
           </div>
         </div>
       </div>
@@ -88,8 +88,14 @@ export default {
     return {
       disabled: true,
       modalShow: false,
+      timeLimitList: [],
       mac: '',
-      form: {},
+      form: {
+        mac: '',
+        time_begin: '00:00',
+        time_end: '00:00',
+        schedule: []
+      },
       schedules: [
         {
           label: this.$t('trans0086'),
@@ -129,30 +135,51 @@ export default {
       ]
     };
   },
-  mounted() {},
+  mounted() {
+    this.form.mac = this.$route.params.mac;
+    this.getList();
+  },
   methods: {
+    formatSchedules(arr) {
+      const newArr = [];
+      arr.forEach(s => {
+        this.schedules.forEach(v => {
+          if (s === v.value) {
+            newArr.push(v.label);
+          }
+        });
+      });
+      return newArr.join(' / ');
+    },
+    getList() {
+      this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
+        this.timeLimitList = res.data.result;
+      });
+    },
     changehandle(v) {},
     submit() {
-      if (this.$refs.form.validate()) {
-        this.$http
-          .addSpeedLimit({
-            mac: this.mac,
-            SpeedLimit: {}
-          })
-          .then(res => {
-            console.log(res);
-          })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
-          });
-      }
+      this.schedules.forEach(item => {
+        if (item.checked) {
+          this.form.schedule.push(item.value);
+        }
+      });
+      this.$http
+        .addTimeLimit({
+          ...this.form
+        })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
     }
   }
 };
