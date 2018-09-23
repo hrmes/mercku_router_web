@@ -3,9 +3,9 @@
     <div class='mesh-info'>
       <div class="title">
         <div class="tabs">
-          <span class="tab" :class="{'selected':!showTable}" @click="showTable=false">{{$t('trans0312')}}</span>
+          <span class="tab" :class="{'selected':!showTable}" @click="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</span>
           <span>/</span>
-          <span class="tab" :class="{'selected':showTable}" @click="showTable=true">{{$t('trans0384')}}</span>
+          <span class="tab" :class="{'selected':showTable}" @click="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</span>
         </div>
         <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
@@ -25,22 +25,41 @@
             <div class="operate">{{$t('trans0370')}}</div>
           </div>
           <div class="table-content">
-            <div class="router" v-for="router in routers" :key="router.sn">
+            <div class="router" :class="{'expand':router.expand}" v-for="router in routers" :key="router.sn">
               <div class="name">
-
                 <div class="icon">
                   <img :src="router.image" alt="">
                 </div>
-                <div class="text">{{router.name}}</div>
-                <div class="edit" @click="onClickRouterName(router)">
-                  <img src="../../../assets/images/ic_edit.png" alt="">
+                <div class="wrap">
+                  <div class="text">{{router.name}}</div>
+                  <div class="edit" @click="onClickRouterName(router)">
+                    <img src="../../../assets/images/ic_edit.png" alt="">
+                  </div>
+                </div>
+                <div @click="router.expand = !router.expand" class="expand" :class="{'expand':router.expand,'collapse':!router.expand}">
+                  <img src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
                 </div>
               </div>
-              <div class="type">{{router.is_gw ? $t('trans0165'): $t('trans0186')}}</div>
-              <div class="sn">{{router.sn}}</div>
-              <div class="version">{{router.version.current}}</div>
-              <div class="ip">{{router.ip}}</div>
-              <div class="mac">{{formatMac(router.mac.lan)}}</div>
+              <div class="type">
+                <span class="label">{{$t('trans0068')}}</span>
+                <span class="value">{{router.is_gw ? $t('trans0165'): $t('trans0186')}}</span>
+              </div>
+              <div class="sn">
+                <span class="label">{{$t('trans0251')}}</span>
+                <span class="value">{{router.sn}}</span>
+              </div>
+              <div class="version">
+                <span class="label">{{$t('trans0300')}}</span>
+                <span class="value"> {{router.version.current}}</span>
+              </div>
+              <div class="ip">
+                <span class="label">{{$t('trans0151')}}</span>
+                <span class="value">{{router.ip}}</span>
+              </div>
+              <div class="mac">
+                <span class="label">{{$t('trans0201')}}</span>
+                <span class="value">{{formatMac(router.mac.lan)}}</span>
+              </div>
               <div class="operate">
                 <span class="reboot" @click="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw" class="reset" @click="resetNode(router)">{{$t('trans0205')}}</span>
@@ -94,7 +113,7 @@ export default {
       meshNode: [],
       meshNodeTimer: null,
       chart: null,
-      showTable: false,
+      // showTable: false,
       routers: [],
       reboot: false,
       reset: false,
@@ -123,6 +142,20 @@ export default {
   mounted() {
     this.initChart();
     this.createIntervalTask();
+  },
+  computed: {
+    showTable() {
+      let result;
+      if (this.$route.params.category === 'topo') {
+        setTimeout(() => {
+          this.chart && this.chart.resize();
+        });
+        result = false;
+      } else {
+        result = true;
+      }
+      return result;
+    }
   },
   methods: {
     closeUpdateModal() {
@@ -267,17 +300,24 @@ export default {
       });
     },
     drawTopo(routers) {
-      this.routers = routers;
-      const data = genData(routers);
+      const oldRouters = this.routers;
 
+      const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
+      this.routers = routers;
+
+      const data = genData(routers);
       data.nodes.forEach(n => {
         this.routers.forEach(r => {
           if (n.sn === r.sn) {
             this.$set(r, 'image', n.symbol.replace('image://', ''));
-            // Object.assign()
-            // r.image = n.symbol;
           }
         });
+      });
+      this.routers.forEach(r => {
+        if (selected.includes(r.sn)) {
+          this.$set(r, 'expand', true);
+        }
+        this.$set(r, 'expand', false);
       });
 
       const option = {
@@ -287,7 +327,8 @@ export default {
           subtext: this.$t('trans0302'),
           subtextStyle: {
             color: '#333'
-          }
+          },
+          left: 20
         },
         legend: [
           {
@@ -302,7 +343,7 @@ export default {
               }
             ],
             orient: 'vertical',
-            left: 0,
+            left: 20,
             top: 35,
             selectedMode: false
           }
@@ -515,6 +556,9 @@ export default {
           .router {
             display: flex;
             padding: 30px 0;
+            span.label {
+              display: none;
+            }
             > div {
               display: flex;
               align-items: center;
@@ -522,6 +566,25 @@ export default {
             .name {
               display: flex;
               align-items: center;
+              .expand {
+                display: none;
+                img {
+                  width: 17px;
+                  height: 7px;
+                  opacity: 0.7;
+                }
+                transition: all 0.3s;
+                &.expand {
+                  transform: rotate(180deg);
+                }
+                &.collapse {
+                  transform: rotate(0deg);
+                }
+              }
+              .wrap {
+                display: flex;
+                align-items: center;
+              }
               .icon {
                 margin-right: 20px;
                 display: flex;
@@ -534,7 +597,8 @@ export default {
               .text {
                 color: #333;
                 font-size: 14px;
-                width: 80px;
+                margin-right: 10px;
+                // width: 80px;
               }
               .edit {
                 cursor: pointer;
@@ -566,6 +630,271 @@ export default {
               .reset,
               .delete {
                 color: #ff4949;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .mesh-container {
+    .edit-name-modal {
+      .opcity {
+      }
+
+      .content {
+        width: 80%;
+        .select-container {
+        }
+        .btn-inner {
+          .btn {
+            &:last-child {
+            }
+          }
+        }
+      }
+    }
+    .mesh-info {
+      background: #f1f1f1;
+      padding: 0;
+      .title {
+        .tabs {
+          .tab {
+            font-size: 14px;
+            &.selected {
+              &:hover {
+              }
+            }
+            &:hover {
+            }
+          }
+        }
+      }
+      .btn-add {
+        font-size: 12px;
+        width: 80px;
+      }
+
+      .content {
+        padding-top: 0;
+        #topo {
+          background: #fff;
+          border-radius: 5px;
+        }
+        .table {
+          .table-header {
+            display: none;
+          }
+
+          .name {
+            flex: none;
+            height: 60px !important;
+            padding: 15px 0 !important;
+            .icon {
+              width: 30px;
+            }
+            .edit {
+              display: inline-block;
+            }
+          }
+          .sn {
+          }
+          .type {
+          }
+          .version {
+          }
+          .ip {
+          }
+          .mac {
+          }
+          .operate {
+          }
+          .table-content {
+            padding: 0;
+            background: #f1f1f1;
+
+            .router {
+              display: flex;
+              flex-direction: column;
+              margin-bottom: 10px;
+              background: #fff;
+              padding: 0 20px;
+              border-radius: 5px;
+              height: 60px;
+              overflow: hidden;
+              &.expand {
+                height: 550px;
+                overflow: auto;
+              }
+              span.label {
+                display: inline;
+              }
+              > div {
+                width: auto;
+                padding: 20px 0;
+                border-bottom: 1px solid #f1f1f1;
+                &:last-child {
+                  border-bottom: 0;
+                }
+                .label {
+                  width: 50%;
+                  display: inline-block;
+                  text-align: left;
+                }
+                .value {
+                  width: 50%;
+                  display: inline-block;
+                  text-align: right;
+                }
+              }
+              .name {
+                .wrap {
+                  flex: 1;
+                }
+                .expand {
+                  display: block;
+                }
+                .icon {
+                  img {
+                  }
+                }
+                .text {
+                }
+
+                .edit {
+                  img {
+                  }
+                }
+              }
+              .operate {
+                display: flex;
+                flex-direction: column;
+                span {
+                  &:hover {
+                  }
+                  &:active {
+                  }
+                  &:first-child {
+                  }
+                }
+                .reboot {
+                  width: 255px;
+                  background: #4237dd;
+                  color: #fff;
+                  text-align: center;
+                  border-radius: 4px;
+                  height: 58px;
+                  line-height: 58px;
+                }
+                .reset,
+                .delete {
+                  width: 255px;
+                  background: transparent;
+                  border: 1px solid #ff0500;
+                  color: #ff0500;
+                  text-align: center;
+                  border-radius: 4px;
+                  height: 58px;
+                  line-height: 58px;
+                  margin-left: 0;
+                  margin-top: 20px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (width: 320px) {
+  .mesh-container {
+    .edit-name-modal {
+      .opcity {
+      }
+
+      .content {
+        .select-container {
+        }
+        .btn-inner {
+          .btn {
+            &:last-child {
+            }
+          }
+        }
+      }
+    }
+    .mesh-info {
+      .title {
+        .tabs {
+          .tab {
+            font-size: 14px;
+            &.selected {
+              &:hover {
+              }
+            }
+            &:hover {
+            }
+          }
+        }
+      }
+      .btn-add {
+        font-size: 12px;
+        width: 80px;
+      }
+
+      .content {
+        #topo {
+        }
+        .table {
+          .table-header {
+          }
+          .name {
+          }
+          .sn {
+          }
+          .type {
+          }
+          .version {
+          }
+          .ip {
+          }
+          .mac {
+          }
+          .operate {
+          }
+          .table-content {
+            .router {
+              > div {
+              }
+              .name {
+                .icon {
+                  img {
+                  }
+                }
+                .text {
+                }
+                .edit {
+                  img {
+                  }
+                }
+              }
+              .operate {
+                span {
+                  &:hover {
+                  }
+                  &:active {
+                  }
+                  &:first-child {
+                  }
+                }
+                .reboot {
+                }
+                .reset,
+                .delete {
+                }
               }
             }
           }

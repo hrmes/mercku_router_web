@@ -82,7 +82,7 @@ export default {
 .select-container {
   &.small {
     .select {
-      width: 290px;
+      width: 100%;
       height: 36px;
       padding: 2px 10px;
       .icon-container {

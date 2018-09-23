@@ -230,12 +230,25 @@ export default {
       this.current = index;
       if (this.current === 1) {
         this.scaning = true;
-        this.$http.scanMeshNode().then(res => {
-          this.nodes = res.data.result
-            .filter(n => n.sn.slice(0, 2) === this.selectedCategory.sn)
-            .map(n => ({ ...n, selected: false }));
-          this.scaning = false;
-        });
+        this.$http
+          .scanMeshNode()
+          .then(res => {
+            this.nodes = res.data.result
+              .filter(n => n.sn.slice(0, 2) === this.selectedCategory.sn)
+              .map(n => ({ ...n, selected: false }));
+            this.scaning = false;
+          })
+          .catch(err => {
+            if (err.upgrading) {
+              return;
+            }
+            this.scaning = false;
+            if (err && err.error) {
+              this.$toast(this.$t(err.error.code));
+            } else {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
       }
     }
   }

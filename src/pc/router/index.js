@@ -25,86 +25,106 @@ const routes = [
   {
     path: '/',
     redirect: '/login'
-  }, {
+  },
+  {
     path: '/login',
     name: 'login',
     component: login
-  }, {
+  },
+  {
     path: '/dashboard',
     name: 'dashboard',
     component: dashboard,
-    redirect: '/dashboard/mesh',
+    redirect: '/dashboard/mesh/topo',
     children: [
       {
         path: '/dashboard/device',
         name: 'device',
         component: device
-      }, {
-        path: '/dashboard/mesh',
+      },
+      {
+        path: '/dashboard/mesh/:category',
         name: 'mesh',
         component: mesh
-      }, {
+      },
+      {
         path: '/dashboard/internet',
         name: 'internet',
         component: internet
       }
     ]
-  }, {
+  },
+  {
     path: '/mesh/add',
     name: 'meshadd',
     component: meshAdd
-  }, {
+  },
+  {
     path: '/limit/speed/:mac',
     name: 'speed-limit',
     component: speedLimit
-  }, {
+  },
+  {
     path: '/limit/time/:mac',
     name: 'time-limit',
     component: timeLimit
-  }, {
+  },
+  {
     path: '/limit/blacklist/:mac',
     name: 'blacklist-limit',
     component: blacklistLimit
-  }, {
+  },
+  {
     path: '/setting/network',
     name: 'network',
     component: network
-  }, {
+  },
+  {
     path: '/setting/wifi',
     name: 'wifi',
     component: wifi
-  }, {
+  },
+  {
     path: '/setting/safe',
     name: 'safe',
     component: safe
-  }, {
+  },
+  {
     path: '/setting/reboot',
     name: 'reboot',
     component: reboot
-  }, {
+  },
+  {
     path: '/setting/timezone',
     name: 'timezone',
     component: timezone
-  }, {
+  },
+  {
     path: '/setting/blacklist',
     name: 'blacklist',
     component: blacklist
-  }, {
+  },
+  {
     path: '/wlan',
     name: 'wlan',
     component: wlan
-  }, {
+  },
+  {
     path: '/unconnect',
     name: 'unconnect',
     component: unconnect
-  }, {
+  },
+  {
     path: '/upgrade/online',
     name: 'online',
     component: online
-  }, {
+  },
+  {
     path: '/upgrade/offline',
     name: 'offline',
     component: offline
   }
-]
-export default new Router({routes});
+];
+export default new Router({
+  routes
+});
