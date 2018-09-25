@@ -2,10 +2,10 @@
   <layout>
     <div class="wlan-container">
       <div class="step">
-        <m-step :steps="steps" :current="current"></m-step>
+        <m-step :option="stepOption"></m-step>
       </div>
       <div class="step-content">
-        <div class="step-item step-item1" v-show="current===0">
+        <div class="step-item step-item1" v-show="stepOption.current===0">
           <m-form ref="form1" :model="form1" :rules="form1Rules">
             <m-form-item class="form-item" prop="ssid">
               <m-input :label="$t('trans0168')" :placeholder="$t('trans0321')" v-model="form1.ssid" />
@@ -19,7 +19,7 @@
           </m-form>
 
         </div>
-        <div class="step-item step-item2" v-show="current===1">
+        <div class="step-item step-item2" v-show="stepOption.current===1">
           <m-form ref="form2" :model="form2" :rules="form2Rules">
             <m-form-item class="form-item" prop="admin_password">
               <m-input :label="$t('trans0067')" type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="form2.admin_password" />
@@ -31,7 +31,7 @@
             </div>
           </m-form>
         </div>
-        <div class="step-item step-item3" v-show="current===2">
+        <div class="step-item step-item3" v-show="stepOption.current===2">
           <img src="../../../assets/images/img_setting.png" alt="">
           <div>{{$t('trans0294')}}{{countdown}}s</div>
           <div style="margin-top:5px;">{{$t('trans0171')}}</div>
@@ -79,6 +79,14 @@ export default {
   },
   data() {
     return {
+      stepOption: {
+        current: 0,
+        steps: [
+          { text: this.$t('trans0324'), success: true },
+          { text: this.$t('trans0067'), success: false },
+          { text: this.$t('trans0018'), success: false }
+        ]
+      },
       current: 0,
       checked: false,
       countdown: 60,
@@ -136,11 +144,6 @@ export default {
         }
       });
   },
-  computed: {
-    steps() {
-      return [this.$t('trans0324'), this.$t('trans0067'), this.$t('trans0018')];
-    }
-  },
   methods: {
     clearAdminPwd(v) {
       if (!v) {
@@ -148,16 +151,19 @@ export default {
       }
     },
     step0() {
-      this.current = 0;
+      this.stepOption.current = 0;
+      this.stepOption.steps[0].success = true;
     },
     step1() {
       if (this.$refs.form1.validate()) {
-        this.current = 1;
+        this.stepOption.current = 1;
+        this.stepOption.steps[1].success = true;
       }
     },
     step2() {
       if (this.$refs.form2.validate()) {
-        this.current = 2;
+        this.stepOption.current = 2;
+        this.stepOption.steps[2].success = true;
         const timer = setInterval(() => {
           this.countdown -= 1;
           if (this.countdown === 0) {
