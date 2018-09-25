@@ -194,11 +194,7 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return (
-        row.parent_control &&
-        row.parent_control.blacklist &&
-        row.parent_control.blacklist.length > 0
-      );
+      return row.parent_control && row.parent_control.mode === 'blacklist';
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -358,7 +354,7 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 99999;
+    z-index: 1001;
     .opcity {
       width: 100%;
       height: 100%;
@@ -709,6 +705,7 @@ export default {
             background: white;
             padding: 0 20px;
             margin-top: 10px;
+            border-radius: 3px;
           }
         }
         .small-device-body {

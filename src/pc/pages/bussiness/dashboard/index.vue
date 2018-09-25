@@ -244,6 +244,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .dashboard-container {
+    padding: 0 20px;
     .net-info {
       padding: 0;
       height: 50px;

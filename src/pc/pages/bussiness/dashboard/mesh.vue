@@ -430,7 +430,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
-  padding: 0 2%;
   display: flex;
   .edit-name-modal {
     position: fixed;

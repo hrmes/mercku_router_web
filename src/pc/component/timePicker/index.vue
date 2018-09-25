@@ -41,8 +41,8 @@ export default {
       ms: Array.from(new Array(60)).map((__, v) => this.formatCount(v)),
       inputValue: this.value,
       time: {
-        h: '00',
-        m: '00'
+        h: this.value.split(':')[0],
+        m: this.value.split(':')[1]
       }
     };
   },

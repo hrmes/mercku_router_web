@@ -156,6 +156,29 @@ export default {
         line-height: 44px;
       }
       min-height: 450px;
+      .table {
+        .operate,
+        .mac {
+          margin-top: 10px;
+        }
+        .operate {
+          text-align: right;
+        }
+        .table-header {
+          display: none;
+        }
+        .table-content {
+          .device {
+            flex-direction: column;
+            padding: 20px 0;
+            .name,
+            .mac,
+            .operate {
+              width: 100%;
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -89,6 +89,7 @@ export default {
       return v * (8 * 1024);
     },
     changehandle(v) {
+      this.$loading.open();
       this.form.enabled = v;
       this.$http
         .speedLimitUpdate({
@@ -98,10 +99,12 @@ export default {
           }
         })
         .then(() => {
+          this.$loading.close();
           this.disabled = !v;
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
+          this.$loading.close();
           if (err.upgrading) {
             return;
           }
@@ -113,6 +116,7 @@ export default {
         });
     },
     submit() {
+      this.$loading.open();
       if (this.form.up || this.form.down) {
         if (this.$refs.form.validate()) {
           this.$http
@@ -125,9 +129,11 @@ export default {
               }
             })
             .then(() => {
+              this.$loading.close();
               this.$toast(this.$t('trans0040'), 3000, 'success');
             })
             .catch(err => {
+              this.$loading.close();
               if (err.upgrading) {
                 return;
               }

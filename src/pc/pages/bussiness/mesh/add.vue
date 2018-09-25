@@ -414,10 +414,14 @@ export default {
         text-decoration: underline;
         cursor: pointer;
       }
+      .step-content {
+        width: 100%;
+      }
       .step-item {
         .button-container {
-          margin-top: 36px;
+          margin: 36px 0;
           display: flex;
+          width: 100%;
           button {
             display: inline-block;
             flex: 1;
@@ -451,7 +455,8 @@ export default {
           margin-top: 140px;
         }
         .scaning {
-          margin-top: 150px;
+          margin-top: 50px;
+          text-align: center;
           img {
             display: block;
             margin: 0 auto;
@@ -576,6 +581,21 @@ export default {
       }
       .info-container {
         width: 100%;
+        .step-item {
+          .button-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            button {
+              width: 100%;
+              margin: 0;
+              &:last-child {
+                margin-top: 20px;
+              }
+            }
+          }
+        }
       }
     }
   }

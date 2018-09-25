@@ -7,7 +7,7 @@
         </div>
         <div class="handle">
           <label for="">{{$t('trans0369')}}</label>
-          <m-switch :onChange="changehandle" />
+          <m-switch :onChange="changehandle" v-model="mode" />
         </div>
         <div class='table'>
           <div class="table-head">
@@ -20,13 +20,13 @@
             <div class="table-row" v-for="(row,index) in parentControlLimitList" :key='index'>
               <div class="column-address">{{row}}</div>
               <div class="column-handle">
-                <a>{{$t('编辑')}}</a>
-                <a>{{$t('删除')}}</a>
+                <!-- <a @click="modalOpen('edit',row)">{{$t('编辑')}}</a> -->
+                <a @click="delRow(row)">{{$t('删除')}}</a>
               </div>
             </div>
           </div>
           <div class="btn-warp">
-            <button class="btn" @click='()=>modalShow=!modalShow'>{{$t('trans0035')}}</button>
+            <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
           </div>
         </div>
       </div>
@@ -42,7 +42,8 @@
           </div>
           <div class="btn-info">
             <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-            <button class="btn" @click="submit">{{$t('trans0035')}}</button>
+            <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
+            <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
@@ -57,7 +58,6 @@ import Switch from '../../../../component/switch/index.vue';
 import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
-// import { getStringByte, passwordRule } from '../../../../../util/util';
 
 export default {
   components: {
@@ -71,8 +71,11 @@ export default {
   },
   data() {
     return {
+      modalStatus: 'add',
+      selectedRow: {},
       disabled: true,
       modalShow: false,
+      mode: false,
       parentControlLimitList: [],
       host: '',
       form: {
@@ -95,27 +98,107 @@ export default {
     this.getList();
   },
   methods: {
+    clearForm() {
+      this.form = {
+        ...this.form,
+        hosts: []
+      };
+      this.host = '';
+    },
+    modalOpen(type, row) {
+      this.modalStatus = type;
+      this.selectedRow = row;
+      if (type === 'edit') {
+        this.form.hosts = [row];
+        this.host = row;
+      }
+      this.modalShow = true;
+    },
     getList() {
-      this.$http.parentControlLimitGet({ mac: this.form.mac }).then(res => {
-        console.log(res.data.result);
-        if (res.data.result) {
-          this.parentControlLimitList = res.data.result.blacklist;
-        }
-      });
+      this.$http
+        .parentControlLimitGet({ mac: this.form.mac })
+        .then(res => {
+          console.log(res.data.result);
+          if (res.data.result) {
+            this.parentControlLimitList = res.data.result.blacklist;
+            this.mode = res.data.result.mode === 'blacklist';
+          }
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
     },
     changehandle(v) {
-      console.log(v);
+      this.$loading.open();
+      this.$http
+        .parentControlLimitUpdate({
+          mac: this.form.mac,
+          mode: v ? 'blacklist' : 'free'
+        })
+        .then(() => {
+          this.getList();
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(err => {
+          this.$loading.close();
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
+    delRow(row) {
+      this.$loading.open();
+      this.$http
+        .parentControlLimitDel({
+          mac: this.form.mac,
+          hosts: [row],
+          mode: 'blacklist'
+        })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.getList();
+        })
+        .catch(err => {
+          this.$loading.close();
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
     },
     submit() {
+      this.$loading.open();
       this.$http
         .parentControlLimitAdd({
           ...this.form,
           hosts: [this.host]
         })
         .then(() => {
+          this.$loading.close();
+          this.modalShow = false;
           this.getList();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
+          this.$loading.close();
           if (err.upgrading) {
             return;
           }
@@ -137,7 +220,7 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 99909;
+    z-index: 1001;
     display: flex;
     justify-content: center;
     align-items: center;
