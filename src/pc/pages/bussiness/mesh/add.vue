@@ -361,6 +361,7 @@ export default {
         background-color: #f1f1f1;
         margin-bottom: 30px;
         cursor: pointer;
+
         .check-container {
           display: flex;
           align-items: center;
@@ -409,6 +410,9 @@ export default {
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      .step {
+        width: 100%;
+      }
       .btn-help {
         font-size: 12px;
         text-decoration: underline;
@@ -421,10 +425,10 @@ export default {
         .button-container {
           margin: 36px 0;
           display: flex;
-          width: 100%;
+          justify-content: center;
           button {
             display: inline-block;
-            flex: 1;
+            // flex: 1;
             margin-right: 20px;
             width: 160px;
             &:last-child {
@@ -434,6 +438,7 @@ export default {
         }
       }
       .step-item0 {
+        margin-top: 50px;
         p {
           margin: 0;
           text-align: center;
@@ -481,13 +486,16 @@ export default {
             justify-content: center;
             align-items: center;
             cursor: pointer;
-
+            margin-top: 20px;
+            &:first-child {
+              margin-top: 0;
+            }
             .check-container {
-              flex: 1;
+              // flex: 1;
               display: flex;
               align-items: center;
               align-content: center;
-              margin-left: 20px;
+              // margin-left: 20px;
               .info {
                 margin-left: 20px;
                 p {
@@ -557,7 +565,12 @@ export default {
 @media screen and (max-width: 768px) {
   .help-dialog {
     padding: 0;
+    .help-dialog-content {
+      width: 80%;
+      padding: 15px;
+    }
   }
+
   .mesh-container {
     padding: 20px 16px;
     .content {
@@ -596,6 +609,13 @@ export default {
             }
           }
         }
+        .step-item1 {
+          .scan-result {
+            .router {
+              width: 300px;
+            }
+          }
+        }
       }
     }
   }
@@ -608,12 +628,31 @@ export default {
         .router {
           width: 250px;
           img {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
           }
         }
         .btn-next {
           width: 250px;
+        }
+      }
+      .info-container {
+        .step-item0 {
+          img {
+            width: 250px;
+            height: 250px;
+          }
+        }
+        .step-item1 {
+          .scan-result {
+            .router {
+              width: 100%;
+              img {
+                width: 70px;
+                height: 70px;
+              }
+            }
+          }
         }
       }
     }

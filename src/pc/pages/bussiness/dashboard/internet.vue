@@ -311,7 +311,7 @@ export default {
       };
     },
     formatBandWidth(value) {
-      const units = ['b', 'K', 'M', 'G', 'T', 'P'];
+      const units = ['bps', 'K', 'M', 'G', 'T', 'P'];
       let index = 0;
       if (!isNaN(value)) {
         do {
