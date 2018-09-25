@@ -230,7 +230,7 @@ export default {
     margin-top: 50px;
   }
   .step-content {
-    margin: 50px 0;
+    margin: 100px 0;
     text-align: center;
     .step-item {
       display: inline-block;
@@ -299,6 +299,7 @@ export default {
   .wlan-container {
     position: static;
     overflow: hidden;
+    padding: 20px 16px;
     .step {
       width: 100%;
     }

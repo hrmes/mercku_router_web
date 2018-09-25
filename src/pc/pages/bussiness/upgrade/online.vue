@@ -209,6 +209,7 @@ export default {
             align-items: start;
             padding: 0 20px;
             height: 100%;
+            align-items: center;
             cursor: pointer;
             .img-container,
             .info-container {
@@ -219,14 +220,9 @@ export default {
             }
             .img-container {
               margin-right: 10px;
-              .img-m2 {
+              img {
                 width: 100px;
-              }
-              .img-bee {
-                width: 100px;
-              }
-              .img-other {
-                width: 100px;
+                height: 100px;
               }
             }
 
@@ -341,6 +337,7 @@ export default {
         .nodes-info {
           .node {
             width: 303px;
+
             margin-left: auto;
             margin-right: auto;
           }
@@ -408,6 +405,14 @@ export default {
             width: 253px;
             min-width: 253px;
             margin-right: 0;
+            .message {
+              .img-container {
+                img {
+                  width: 70px;
+                  height: 70px;
+                }
+              }
+            }
           }
         }
         .btn-info {

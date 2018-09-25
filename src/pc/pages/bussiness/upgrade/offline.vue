@@ -61,7 +61,7 @@
                 </div>
               </div>
               <div class="btn-info">
-                <button @click="upgrade()" class="btn re-btn">{{$t('trans0211')}}</button>
+                <button @click="upgrade()" class="btn re-btn">{{$t('trans0225')}}</button>
               </div>
             </div>
             <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
@@ -376,6 +376,7 @@ export default {
             align-items: center;
             padding: 0 20px;
             height: 100%;
+            align-items: center;
             .img-container,
             .info-container {
               display: flex;
