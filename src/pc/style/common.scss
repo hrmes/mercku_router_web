@@ -56,7 +56,10 @@ ul {
       background-color: #ecf5ff;
     }
   }
-
+  &[disabled] {
+    cursor: not-allowed;
+    background: #999;
+  }
   &:active {
     background: #6156ff;
   }
