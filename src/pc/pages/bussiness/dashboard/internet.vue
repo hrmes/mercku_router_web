@@ -1103,15 +1103,18 @@ export default {
           height: 30px !important;
         }
       }
-      .item {
-        padding: 0 10px;
-        .title {
-          height: 44px;
-          line-height: 44px;
-          font-size: 14px;
-          padding: 0;
+      .row {
+        .item {
+          padding: 0 10px;
+          .title {
+            height: 44px;
+            line-height: 44px;
+            font-size: 14px;
+            padding: 0;
+          }
         }
       }
+
       .speed {
         font-size: 20px !important;
       }
