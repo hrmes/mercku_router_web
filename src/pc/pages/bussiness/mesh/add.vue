@@ -5,7 +5,7 @@
         <div class='w-header'>
           {{$t('trans0194')}}
         </div>
-        <div class="type-container" v-show="current===-1">
+        <div class="type-container" v-show="welcomePage">
           <div class="tip">{{$t('trans0364')}}</div>
           <div class="router-category-container">
             <div class="router" v-for="(router,index) in routers" :key="index" @click="selectRouter(router)">
@@ -16,24 +16,24 @@
               <img class="img" :src="router.image" alt="">
             </div>
           </div>
-          <button class="btn btn-next" @click="step(0)">{{$t('trans0055')}}</button>
+          <button class="btn btn-next" @click="forwardStep0()">{{$t('trans0055')}}</button>
         </div>
-        <div class="info-container" v-show="current>=0">
+        <div class="info-container" v-show="!welcomePage">
           <div class="step">
-            <m-step :steps="steps" :current="current"></m-step>
+            <m-step :option="stepsOption"></m-step>
           </div>
           <div class="step-content">
-            <div class="step-item step-item0" v-show="current===0">
+            <div class="step-item step-item0" v-show="stepsOption.current===0">
               <p>{{$t('trans0257')}}</p>
               <p>{{$t('trans0377')}}</p>
               <p>{{$t('trans0378')}}</p>
               <img :src="selectedCategory.tipImage" alt="">
               <div class="button-container">
-                <button @click="step(-1)" class="btn btn-default ">{{$t('trans0057')}}</button>
-                <button @click="step(1)" class="btn">{{$t('trans0055')}}</button>
+                <button @click="forwardWelcome()" class="btn btn-default ">{{$t('trans0057')}}</button>
+                <button @click="forwardStep1()" class="btn">{{$t('trans0055')}}</button>
               </div>
             </div>
-            <div class="step-item step-item1" v-show="current===1">
+            <div class="step-item step-item1" v-show="stepsOption.current===1">
               <div class="scaning" v-show="scaning">
                 <img src="../../../assets/images/loading.gif" alt="">
                 <p>{{$t('trans0334')}}</p>
@@ -50,19 +50,19 @@
                   <img class="img" :src="getNodeImg(node)" alt="">
                 </div>
                 <div class="button-container">
-                  <button @click="step(0)" class="btn btn-default ">{{$t('trans0057')}}</button>
-                  <button @click="addMeshNode" class="btn">{{$t('trans0055')}}</button>
+                  <button @click="forwardStep0()" class="btn btn-default ">{{$t('trans0057')}}</button>
+                  <button @click="addMeshNode()" class="btn">{{$t('trans0055')}}</button>
                 </div>
               </div>
               <div class="scan-empty" v-show="!scaning && !nodes.length">
                 <p>{{$t('trans0181')}}</p>
                 <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
                 <div class="button-container">
-                  <button @click="step(0)" class="btn">{{$t('trans0057')}}</button>
+                  <button @click="forwardStep0()" class="btn">{{$t('trans0057')}}</button>
                 </div>
               </div>
             </div>
-            <div class="step-item step-item2" v-show="current===2">
+            <div class="step-item step-item2" v-show="stepsOption.current===2">
               <div class="success" v-if="added">
                 <p>{{$t('trans0192')}}</p>
                 <div class="button-container">
@@ -133,8 +133,24 @@ export default {
     return {
       RouterSnModel,
       routers: Routes,
-      current: -1,
-      steps: ['', '', ''],
+      welcomePage: true,
+      stepsOption: {
+        current: 0,
+        steps: [
+          {
+            text: '',
+            success: false
+          },
+          {
+            text: '',
+            success: false
+          },
+          {
+            text: '',
+            success: false
+          }
+        ]
+      },
       scaning: false,
       nodes: [],
       added: false,
@@ -151,7 +167,7 @@ export default {
       this.showHelpDialog = false;
     },
     backMesh() {
-      this.$router.push({ path: '/dashboard/mesh' });
+      this.$router.push({ path: '/dashboard/mesh/topo' });
     },
     getNodeImg(node) {
       const id = node.sn.slice(0, 2);
@@ -199,14 +215,14 @@ export default {
             if (timeout < 0) {
               this.added = false;
               this.$loading.close();
-              this.step(2);
+              this.forwardStep2(true);
             }
             if (timeout % 3 === 0) {
               this.$http.isInMesh({ node }).then(res => {
                 if (res.data.result.status) {
                   this.$loading.close();
                   this.added = true;
-                  this.step(2);
+                  this.forwardStep2(true);
                   clearInterval(this.checkTimer);
                 }
               });
@@ -219,6 +235,7 @@ export default {
             return;
           }
           this.$loading.close();
+          this.forwardStep2(false);
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -226,30 +243,41 @@ export default {
           }
         });
     },
-    step(index) {
-      this.current = index;
-      if (this.current === 1) {
-        this.scaning = true;
-        this.$http
-          .scanMeshNode()
-          .then(res => {
-            this.nodes = res.data.result
-              .filter(n => n.sn.slice(0, 2) === this.selectedCategory.sn)
-              .map(n => ({ ...n, selected: false }));
-            this.scaning = false;
-          })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
-            this.scaning = false;
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
-          });
-      }
+    forwardWelcome() {
+      this.welcomePage = true;
+    },
+    forwardStep0() {
+      this.welcomePage = false;
+      this.stepsOption.current = 0;
+      this.stepsOption.steps[0].success = true;
+    },
+    forwardStep1() {
+      this.stepsOption.current = 1;
+      this.stepsOption.steps[1].success = true;
+      this.scaning = true;
+      this.$http
+        .scanMeshNode()
+        .then(res => {
+          this.nodes = res.data.result
+            .filter(n => n.sn.slice(0, 2) === this.selectedCategory.sn)
+            .map(n => ({ ...n, selected: false }));
+          this.scaning = false;
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+          this.scaning = false;
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
+    forwardStep2(result) {
+      this.stepsOption.current = 2;
+      this.stepsOption.steps[2].success = result;
     }
   }
 };

@@ -1,10 +1,12 @@
 <template>
   <div class="step-container">
-    <div class="step" :key="index" :class="{'steped':index<=current}" v-for="(step,index) in steps">
+    <div class="step" :key="index" :class="{'fail':!step.success && index <= option.current,'success':step.success && index <= option.current}" v-for="(step,index) in option.steps">
       <div class="left-line"></div>
       <div class="step-content">
-        <div class="step-number">{{index+1}}</div>
-        <div class="step-text">{{step}}</div>
+        <div class="step-number">
+          <span v-show="(index === option.current && step.success) || (index !== option.current)">{{index+1}}</span>
+        </div>
+        <div class="step-text">{{step.text}}</div>
       </div>
       <div class="right-line"></div>
     </div>
@@ -13,13 +15,8 @@
 <script>
 export default {
   props: {
-    steps: {
-      type: Array,
-      default: []
-    },
-    current: {
-      type: Number,
-      default: 0
+    option: {
+      type: Object
     }
   }
 };
@@ -54,6 +51,7 @@ export default {
     }
     .step-content {
       display: inline-block;
+      border-radius: 50%;
     }
     .step-number {
       border-radius: 50%;
@@ -78,7 +76,26 @@ export default {
       margin-top: 8px;
       padding: 0 10px;
     }
-    &.steped {
+    &.fail {
+      .step-number {
+        background: red;
+        border-color: red;
+        color: #fff;
+        position: relative;
+        &::before {
+          content: '×';
+          display: block;
+          color: #fff;
+          font-style: normal;
+          font-size: 34px;
+        }
+      }
+      .left-line,
+      .right-line {
+        background: red;
+      }
+    }
+    &.success {
       .step-number {
         background: #00d061;
         border-color: #00d061;

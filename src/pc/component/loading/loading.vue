@@ -51,6 +51,9 @@ export default {
     restoryOverflow() {
       document.body.style.overflow = 'auto';
     }
+  },
+  beforeDestroy() {
+    this.restoryOverflow();
   }
 };
 </script>
