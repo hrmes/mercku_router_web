@@ -61,6 +61,11 @@ ul {
     background: #6156ff;
   }
 
+  &[disabled] {
+    cursor: not-allowed;
+    background: #999;
+  }
+
   &.disabled {
     cursor: not-allowed;
     background: #999;
@@ -72,6 +77,7 @@ ul {
   display: block;
   margin-top: 10px;
 }
+
 .add-mesh-tip {
   color: #fff;
   display: block;

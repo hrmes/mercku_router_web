@@ -91,7 +91,7 @@ export default {
       const scrollTop = e.path[2].scrollTop;
       e.path[2].scrollTo(0, move + scrollTop);
     },
-    select(type, v, e) {
+    select(type, v) {
       // this.scroll(e);
       this.time[type] = v;
       this.value = `${this.time.h}:${this.time.m} `;

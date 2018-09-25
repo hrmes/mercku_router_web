@@ -23,7 +23,7 @@
               <div class="column-repeat">{{formatSchedules(row.schedule)}}</div>
               <div class="column-handle">
                 <div class="check-wrap">
-                  <m-switch :onChange="changehandle" v-model="row.enabled" />
+                  <m-switch :onChange="(v)=>changehandle(v,row)" v-model="row.enabled" />
                 </div>
                 <a>{{$t('编辑')}}</a>
                 <a>{{$t('删除')}}</a>
@@ -71,11 +71,11 @@
 </template>
 <script>
 import Switch from '../../../../component/switch/index.vue';
-import mSelect from '../../../../component/select/index.vue';
+// import mSelect from '../../../../component/select/index.vue';
 import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
-import { getStringByte, passwordRule } from '../../../../../util/util';
+// import { getStringByte, passwordRule } from '../../../../../util/util';
 
 export default {
   components: {
@@ -156,7 +156,30 @@ export default {
         this.timeLimitList = res.data.result;
       });
     },
-    changehandle(v) {},
+    changehandle(v, row) {
+      const params = {
+        mac: this.form.mac,
+        id: row.id,
+        enabled: row.enabled
+      };
+      this.$http
+        .timeLimitUpdate({
+          ...params
+        })
+        .then(() => {
+          this.getList();
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
     submit() {
       this.schedules.forEach(item => {
         if (item.checked) {

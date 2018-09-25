@@ -20,7 +20,7 @@
               </m-form-item>
             </m-form>
             <div class="btn-info">
-              <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
+              <button class="btn" :disabled='disabled' @click='submit()'>{{$t('trans0081')}}</button>
             </div>
           </div>
         </div>
@@ -30,12 +30,11 @@
 </template>
 <script>
 import Switch from '../../../../component/switch/index.vue';
-import mSelect from '../../../../component/select/index.vue';
 import Input from '../../../../component/input/input.vue';
 import Form from '../../../../component/form/index.vue';
 import FormItem from '../../../../component/formItem/index.vue';
 import layout from '../../../../layout.vue';
-import { getStringByte, passwordRule } from '../../../../../util/util';
+// import { getStringByte } from '../../../../../util/util';
 
 export default {
   components: {
@@ -57,13 +56,13 @@ export default {
       rules: {
         up: [
           {
-            rule: value => true,
+            rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0237')
           }
         ],
         down: [
           {
-            rule: value => true,
+            rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0169')
           }
         ]
@@ -73,11 +72,21 @@ export default {
   mounted() {
     this.mac = this.$route.params.mac;
     if (this.$store.state.limits.speed) {
-      const speed = this.$store.state.limits.speed;
-      this.form = { ...speed };
+      const speed = this.$store.state.limits.speed.speed_limit;
+      this.form = {
+        ...speed,
+        up: this.b_to_KB(speed.up),
+        down: this.b_to_KB(speed.down)
+      };
     }
   },
   methods: {
+    b_to_KB(v) {
+      return v / (8 * 1024);
+    },
+    KB_to_b(v) {
+      return v * (8 * 1024);
+    },
     changehandle(v) {
       this.form.enabled = v;
       this.disabled = !v;
@@ -89,8 +98,8 @@ export default {
             mac: this.mac,
             SpeedLimit: {
               ...this.form,
-              up: this.form.up ? Number(this.form.up) : 0,
-              down: this.form.down ? Number(this.form.down) : 0
+              up: this.form.up ? this.KB_to_b(Number(this.form.up)) : 0,
+              down: this.form.down ? this.KB_to_b(Number(this.form.down)) : 0
             }
           })
           .then(res => {

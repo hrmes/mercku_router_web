@@ -83,6 +83,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .input-container {
+  &.small {
+    .input {
+      height: 36px;
+    }
+  }
   position: relative;
   &.disabled {
     .icon-container {
@@ -109,6 +114,11 @@ export default {
     -webkit-appearance: none;
     &.has-icon {
       padding-right: 30px;
+    }
+    &:disabled {
+      background: #e1e1e1;
+      opacity: 0.8;
+      cursor: not-allowed;
     }
   }
   .icon-container {
@@ -139,6 +149,9 @@ export default {
 
 @media screen and (min-width: 769px) {
   .input-container {
+    &.small {
+      width: 100%;
+    }
     width: 350px;
     display: inline-block;
   }

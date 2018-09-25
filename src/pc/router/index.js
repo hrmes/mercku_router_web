@@ -18,11 +18,10 @@ import offline from '../pages/bussiness/upgrade/offline.vue';
 import meshAdd from '../pages/bussiness/mesh/add.vue';
 import timeLimit from '../pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from '../pages/bussiness/dashboard/limit/speed.vue';
-import blacklistLimit from '../pages/bussiness/dashboard/limit/blacklist';
+import blacklistLimit from '../pages/bussiness/dashboard/limit/blacklist.vue';
 
 Vue.use(Router);
-const routes = [
-  {
+const routes = [{
     path: '/',
     redirect: '/login'
   },
@@ -36,8 +35,7 @@ const routes = [
     name: 'dashboard',
     component: dashboard,
     redirect: '/dashboard/mesh/topo',
-    children: [
-      {
+    children: [{
         path: '/dashboard/device',
         name: 'device',
         component: device

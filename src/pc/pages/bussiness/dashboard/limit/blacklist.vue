@@ -1,30 +1,25 @@
 <template>
   <layout>
-    <div class="device-time-container">
+    <div class="device-blacklist-container">
       <div class="content">
         <div class='w-header'>
-          {{$t('trans0075')}}
+          {{$t('trans0076')}}
+        </div>
+        <div class="handle">
+          <label for="">{{$t('trans0369')}}</label>
+          <m-switch :onChange="changehandle" />
         </div>
         <div class='table'>
           <div class="table-head">
-            <div class="column-date-stop">{{$t('trans0084')}}</div>
-            <div class="column-date-start">{{$t('trans0085')}}</div>
-            <div class="column-repeat">{{$t('trans0082')}}</div>
+            <div class="column-address">{{$t('trans0076')}}
+              <span>{{$t('加入黑名单的网址会被自动拦截')}}</span>
+            </div>
             <div class="column-handle">{{$t('trans0370')}}</div>
           </div>
           <div class="table-body">
-            <div class="table-row" v-for="(row,index) in timeLimitList" :key='index'>
-              <div class="column-date-stop">
-                <span>{{row.time_begin}}</span>
-                <span class="mobile-start">&nbsp;-&nbsp;</span>
-                <span class="mobile-start">{{row.time_end}}</span>
-              </div>
-              <div class="column-date-start">{{row.time_end}}</div>
-              <div class="column-repeat">{{formatSchedules(row.schedule)}}</div>
+            <div class="table-row" v-for="(row,index) in parentControlLimitList" :key='index'>
+              <div class="column-address">{{row}}</div>
               <div class="column-handle">
-                <div class="check-wrap">
-                  <m-switch :onChange="changehandle" v-model="row.enabled" />
-                </div>
                 <a>{{$t('编辑')}}</a>
                 <a>{{$t('删除')}}</a>
               </div>
@@ -39,26 +34,11 @@
         <div class="opcity"></div>
         <div class="modal-content">
           <div class="modal-form">
-            <div class="item">
-              <label for="">{{$t('trans0075')}}</label>
-              <m-switch :onChange="changehandle" />
-            </div>
-            <div class="item">
-              <label for="">{{$t('trans0084')}}</label>
-              <m-time-picker v-model="form.time_begin" />
-            </div>
-            <div class="item">
-              <label for="">{{$t('trans0085')}}</label>
-              <m-time-picker v-model="form.time_end" />
-            </div>
-            <div class="item">
-              <label for="">{{$t('trans0082')}}</label>
-              <div class="date-wrap">
-                <div class='check-inner' v-for="(item,i) in schedules" :key='i'>
-                  <m-checkbox v-model='item.checked' :text='item.label'></m-checkbox>
-                </div>
-              </div>
-            </div>
+            <m-form ref="form" class='form' :model="form" :rules='rules'>
+              <m-form-item class="item" prop='password'>
+                <m-input class='small' :label="$t('trans0076')" type='text' :placeholder="`${$t('trans0321')}`" v-model="host"></m-input>
+              </m-form-item>
+            </m-form>
           </div>
           <div class="btn-info">
             <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
@@ -70,69 +50,44 @@
   </layout>
 </template>
 <script>
+import MForm from '../../../../component/form/index.vue';
+import MFormItem from '../../../../component/formItem/index.vue';
+import MInput from '../../../../component/input/input.vue';
 import Switch from '../../../../component/switch/index.vue';
-import mSelect from '../../../../component/select/index.vue';
 import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
-import { getStringByte, passwordRule } from '../../../../../util/util';
+// import { getStringByte, passwordRule } from '../../../../../util/util';
 
 export default {
   components: {
     'm-switch': Switch,
     MTimePicker,
     MCheckbox,
-    layout
+    layout,
+    MForm,
+    MFormItem,
+    MInput
   },
   data() {
     return {
       disabled: true,
       modalShow: false,
-      timeLimitList: [],
-      mac: '',
+      parentControlLimitList: [],
+      host: '',
       form: {
         mac: '',
-        time_begin: '00:00',
-        time_end: '00:00',
-        schedule: []
+        hosts: [],
+        mode: 'blacklist'
       },
-      schedules: [
-        {
-          label: this.$t('trans0086'),
-          checked: false,
-          value: 'Mon'
-        },
-        {
-          label: this.$t('trans0087'),
-          checked: false,
-          value: 'Tue'
-        },
-        {
-          label: this.$t('trans0088'),
-          checked: false,
-          value: 'Wed'
-        },
-        {
-          label: this.$t('trans0089'),
-          checked: false,
-          value: 'Thu'
-        },
-        {
-          label: this.$t('trans0090'),
-          checked: false,
-          value: 'Fri'
-        },
-        {
-          label: this.$t('trans0091'),
-          checked: false,
-          value: 'Sat'
-        },
-        {
-          label: this.$t('trans0092'),
-          checked: false,
-          value: 'Sun'
-        }
-      ]
+      rules: {
+        host: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0169')
+          }
+        ]
+      }
     };
   },
   mounted() {
@@ -140,35 +95,25 @@ export default {
     this.getList();
   },
   methods: {
-    formatSchedules(arr) {
-      const newArr = [];
-      arr.forEach(s => {
-        this.schedules.forEach(v => {
-          if (s === v.value) {
-            newArr.push(v.label);
-          }
-        });
-      });
-      return newArr.join(' / ');
-    },
     getList() {
-      this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
-        this.timeLimitList = res.data.result;
-      });
-    },
-    changehandle(v) {},
-    submit() {
-      this.schedules.forEach(item => {
-        if (item.checked) {
-          this.form.schedule.push(item.value);
+      this.$http.parentControlLimitGet({ mac: this.form.mac }).then(res => {
+        console.log(res.data.result);
+        if (res.data.result) {
+          this.parentControlLimitList = res.data.result.blacklist;
         }
       });
+    },
+    changehandle(v) {
+      console.log(v);
+    },
+    submit() {
       this.$http
-        .addTimeLimit({
-          ...this.form
+        .parentControlLimitAdd({
+          ...this.form,
+          hosts: [this.host]
         })
-        .then(res => {
-          console.log(res);
+        .then(() => {
+          this.getList();
         })
         .catch(err => {
           if (err.upgrading) {
@@ -185,7 +130,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.device-time-container {
+.device-blacklist-container {
   .modal {
     position: fixed;
     width: 100%;
@@ -220,8 +165,8 @@ export default {
       }
     }
     .modal-content {
-      width: 496px;
-      height: 402px;
+      width: 330px;
+      height: 218px;
       border-radius: 5px;
       background-color: #ffffff;
       padding: 30px;
@@ -275,6 +220,14 @@ export default {
       line-height: 60px;
       font-weight: 400;
     }
+    .handle {
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+      label {
+        padding: 0 30px 0 10px;
+      }
+    }
     .table {
       .btn-warp {
         margin-top: 50px;
@@ -282,26 +235,22 @@ export default {
         justify-content: center;
       }
       margin-top: 30px;
-      .column-date-stop {
-        width: 180px;
-        .mobile-start {
-          display: none;
-        }
-      }
-      .column-date-start {
-        width: 180px;
-      }
-      .column-repeat {
-        flex: 1;
-      }
       .column-handle {
         width: 250px;
+      }
+      .column-address {
+        span {
+          padding-left: 20px;
+          font-size: 12px;
+          color: #999999;
+        }
       }
       .table-head {
         height: 50px;
         background-color: #f1f1f1;
         display: flex;
         padding: 0 30px;
+        justify-content: space-between;
         div {
           display: flex;
           height: 50px;
@@ -313,11 +262,12 @@ export default {
           display: flex;
           padding: 30px 30px;
           border-bottom: 1px solid #f1f1f1;
+          justify-content: space-between;
           .column-handle {
             display: flex;
             align-items: center;
             a {
-              margin-left: 50px;
+              margin-right: 50px;
               cursor: pointer;
               font-size: 14px;
               &:hover {
@@ -334,7 +284,7 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .device-time-container {
+  .device-blacklist-container {
     padding: 20px 16px;
     .content {
       .w-header {
@@ -343,36 +293,36 @@ export default {
         line-height: 44px;
       }
       min-height: 450px;
+      .handle {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        label {
+          padding: 0 30px 0 0px;
+        }
+      }
       .table {
-        margin: 0;
+        margin-top: 20px;
         .table-body {
           .table-row {
-            flex-direction: column;
+            flex-direction: row;
             padding: 20px 0;
             position: relative;
           }
         }
-        .column-date-stop {
-          display: flex;
-          width: 100%;
-          .mobile-start {
-            display: block;
-          }
-        }
-        .column-date-start {
-          width: auto;
-          display: none;
-        }
-        .column-repeat {
-          width: 100%;
-          margin-top: 5px;
+        .column-address {
+          width: 200px;
+          overflow: height;
         }
         .column-handle {
           width: 100%;
           justify-content: flex-end;
-          margin-top: 20px;
+          // margin-top: 20px;
           a {
-            margin-left: 30px !important;
+            margin-right: 0 !important;
+            &:first-child {
+              margin-right: 20px !important;
+            }
           }
           .check-wrap {
             position: absolute;

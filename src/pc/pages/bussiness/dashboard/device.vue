@@ -31,9 +31,9 @@
               </div>
               <div class="name-wrap">
                 <div class="name-inner">
-                  <a @click.stop='()=>nameModalOpen(row)'>
+                  <a>
                     <span :title='row.name' :class="{'extand-name':row.expand}"> {{row.name}}</span>
-                    <img v-if='isMobile?(row.expand):true' src="../../../assets/images/ic_edit.png" alt="">
+                    <img @click.stop='()=>nameModalOpen(row)' v-if='isMobile?(row.expand):true' src="../../../assets/images/ic_edit.png" alt="">
                   </a>
                 </div>
                 <div class="des-inner" v-if='isMobile?(row.expand):true'>
@@ -79,22 +79,22 @@
             <li class="column-limit" v-if='isMobile?(row.expand):true'>
               <div class="limit-inner">
                 <div class="item device-item" @click="()=>limitClick('time',row)">
-                  <span :class="{'time-active':row.time_limit}"> {{$t('trans0075')}}</span>
-                  <img v-if='!isMobile&&row.time_limit' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
+                  <span :class="{'time-active':!isMobile&&isTimeLimit(row)}"> {{$t('trans0075')}}</span>
+                  <img v-if='!isMobile&&isTimeLimit(row)' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
                   <span class="status">
-                    {{row.time_limit?$t('已限制'):$t('不限制')}}
+                    {{isTimeLimit(row)?$t('已限制'):$t('不限制')}}
                     <img src="../../../assets/images/ic_inter.png" alt="">
                   </span>
                 </div>
                 <div class="item device-item" @click="()=>limitClick('speed',row)">
-                  <span :class="{'speed-active':row.speed_limit}"> {{$t('trans0014')}}</span>
-                  <img v-show='!isMobile&&row.speed_limit' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
-                  <span class="status">{{row.speed_limit?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
+                  <span :class="{'speed-active':!isMobile&&isSpeedLimit(row)}"> {{$t('trans0014')}}</span>
+                  <img v-show='!isMobile&&isSpeedLimit(row)' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
+                  <span class="status">{{isSpeedLimit(row)?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
                 </div>
                 <div class="item device-item" @click="()=>limitClick('blacklist',row)">
-                  <span :class="{'black-active':row.blacklist}"> {{$t('trans0076')}}</span>
-                  <img v-show='!isMobile&&row.blacklist' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
-                  <span class="status">{{row.blacklist?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
+                  <span :class="{'black-active':!isMobile&&isBlacklsitLimit(row)}"> {{$t('trans0076')}}</span>
+                  <img v-show='!isMobile&&isBlacklsitLimit(row)' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
+                  <span class="status">{{isBlacklsitLimit(row)?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
                 </div>
               </div>
             </li>
@@ -111,8 +111,11 @@
       <div class="opcity"></div>
       <div class="content">
         <div class="select-wrapper">
-          <label class='title'>{{$t('设备名称')}}</label>
-          <input v-model='name' type="text" :placeholder="`${$t('请输入')}`">
+          <m-form ref="form" class='form' :model="form" :rules='rules'>
+            <m-form-item class="item" prop='name'>
+              <m-input class='small' :label="$t('设备名称')" type='text' :placeholder="`${$t('trans0321')}`" v-model="form.name"></m-input>
+            </m-form-item>
+          </m-form>
         </div>
         <div class="btn-inner">
           <button @click="()=>modalShow=false" class="btn btn-default">{{$t('trans0025')}}</button>
@@ -152,11 +155,21 @@ export default {
       modalShow: false,
       row: {},
       devices: [],
-      name: '',
+      form: {
+        name: ''
+      },
       bandMap: {
         wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
         '5g': this.$t('trans0256')
+      },
+      rules: {
+        name: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          }
+        ]
       }
     };
   },
@@ -174,6 +187,19 @@ export default {
     this.getDeviceList();
   },
   methods: {
+    isTimeLimit(row) {
+      return row.time_limit && row.time_limit.length > 0;
+    },
+    isBlacklsitLimit(row) {
+      return (
+        row.parent_control &&
+        row.parent_control.blacklist &&
+        row.parent_control.blacklist.length > 0
+      );
+    },
+    isSpeedLimit(row) {
+      return row.speed_limit && row.speed_limit.up;
+    },
     limitClick(type, row) {
       this.$router.push({ path: `/limit/${type}/${row.mac}` });
       this.$store.state.limits[type] = row;
@@ -227,10 +253,10 @@ export default {
         });
     },
     updateDeviceName() {
-      if (this.name) {
+      if (this.$refs.form.validate()) {
         const params = {
           device: {
-            name: this.name,
+            name: this.form.name,
             mac: this.row.mac
           }
         };
@@ -458,7 +484,7 @@ export default {
         }
       }
       .column-limit {
-        width: 100px;
+        width: 120px;
       }
       .column-black-list {
         width: 150px;
@@ -498,9 +524,9 @@ export default {
           cursor: pointer;
           align-items: center;
 
-          &:hover {
-            text-decoration: underline;
-          }
+          // &:hover {
+          //   text-decoration: underline;
+          // }
           span {
             display: inline-block;
             overflow: hidden;
@@ -534,18 +560,24 @@ export default {
       .limit-inner {
         .item {
           text-align: left;
-
+          display: flex;
+          align-items: center;
           span {
             text-align: left;
             cursor: pointer;
             color: #999999;
+            font-size: 12px;
             &:hover {
               color: #333333;
               text-decoration: underline;
             }
           }
-          .icon {
+          img {
             width: 11px;
+            height: 8px;
+            margin-left: 3px;
+          }
+          .icon {
             display: block;
           }
           .status {
@@ -590,6 +622,48 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .device-container {
+    .edit-name-modal {
+      .content {
+        width: 295px;
+        height: 229px;
+        border-radius: 5px;
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04),
+          0 2px 4px 0 rgba(0, 0, 0, 0.12);
+        background-color: #ffffff;
+        border: solid 1px #f1f1f1;
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .title {
+          color: #333333;
+        }
+        .select-wrapper {
+          input {
+            width: 255px;
+            height: 36px;
+            border-radius: 4px;
+            background-color: #ffffff;
+            border: solid 1px #e6e6e6;
+            outline: none;
+            line-height: 36px;
+            padding-left: 10px;
+            margin-top: 10px;
+          }
+        }
+        .btn-inner {
+          display: flex;
+          justify-content: center;
+          .btn {
+            width: 120px;
+            height: 42px;
+            &:last-child {
+              margin-left: 30px;
+            }
+          }
+        }
+      }
+    }
     background: transparent;
     padding: 0;
     .edit-name-modal {

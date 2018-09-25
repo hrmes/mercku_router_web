@@ -169,20 +169,60 @@ const methods = {
   getTimeLimit: {
     url,
     action: 'mesh.device.time_limit.get'
+  },
+  timeLimitUpdate: {
+    url,
+    action: 'mesh.device.time_limit.update'
+  },
+  timeLimitDel: {
+    url,
+    action: 'mesh.device.time_limit.delete'
+  },
+  parentControlLimitGet: {
+    url,
+    action: 'mesh.device.parent_control.get'
+  },
+  parentControlLimitUpdate: {
+    url,
+    action: 'mesh.device.parent_control.update'
+  },
+  parentControlLimitAdd: {
+    url,
+    action: 'mesh.device.parent_control.add'
+  },
+  parentControlLimitDel: {
+    url,
+    action: 'mesh.device.parent_control.delete'
   }
 };
 const request = (config, params) => {
-  const data = { method: config.action };
+  const data = {
+    method: config.action
+  };
   if (params) {
     data.params = params;
   }
-  return axios({
-    url: config.url,
-    method: 'post',
-    data
-  });
+  return axios({url: config.url, method: 'post', data});
 };
 const http = {
+  parentControlLimitDel(params) {
+    return request(methods.parentControlLimitDel, params);
+  },
+  parentControlLimitAdd(params) {
+    return request(methods.parentControlLimitAdd, params);
+  },
+  parentControlLimitUpdate(params) {
+    return request(methods.parentControlLimitUpdate, params);
+  },
+  parentControlLimitGet(params) {
+    return request(methods.parentControlLimitGet, params);
+  },
+  timeLimitUpdate(params) {
+    return request(methods.timeLimitUpdate, params);
+  },
+  timeLimitDel(params) {
+    return request(methods.timeLimitDel, params);
+  },
   getTimeLimit(params) {
     return request(methods.getTimeLimit, params);
   },
@@ -215,7 +255,7 @@ const http = {
   },
   /* v0.9 start */
   firmwareUpload(params, callback) {
-    const { CancelToken } = axios;
+    const {CancelToken} = axios;
     const source = CancelToken.source();
     return axios({
       url: methods.firmwareUpload.url,
@@ -251,7 +291,7 @@ const http = {
     return request(methods.meshBlacklistGet);
   },
   removeBlacklist(macs) {
-    return request(methods.meshBlacklistDelete, { macs });
+    return request(methods.meshBlacklistDelete, {macs});
   },
   meshWifiUpdate(params) {
     return request(methods.meshWifiUpdate, params);
@@ -273,13 +313,16 @@ const http = {
     return request(methods.meshMetaGet);
   },
   testSpeed(force) {
-    return request(methods.meshWanSpeedTest, { force });
+    return request(methods.meshWanSpeedTest, {force});
   },
   addMeshNode(node) {
     return request(methods.meshNodeAdd, node);
   },
   updateMeshNode(nodeId, data) {
-    return request(methods.meshNodeUpdate, { node_id: nodeId, data });
+    return request(methods.meshNodeUpdate, {
+      node_id: nodeId,
+      data
+    });
   },
   isInMesh(node) {
     return request(methods.nodeIsInMesh, node);
@@ -303,7 +346,7 @@ const http = {
     return request(methods.routerIsLogin);
   },
   login(password) {
-    return request(methods.routerLogin, { password });
+    return request(methods.routerLogin, {password});
   },
   isinitial() {
     return request(methods.routerIsInitial);
@@ -320,7 +363,7 @@ const http = {
     if (config.admin && config.admin.password) {
       conf.admin = config.admin;
     }
-    return request(methods.meshConfigUpdate, { config: conf });
+    return request(methods.meshConfigUpdate, {config: conf});
   },
   getWanStatus() {
     return request(methods.meshWanStatusGet);
@@ -339,9 +382,15 @@ const http = {
     };
     const messageString = JSON.stringify(message);
     try {
-      window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
+      window
+        .webkit
+        .messageHandlers
+        .callbackHandler
+        .postMessage(messageString);
     } catch (err) {
-      window.android && window.android.call(messageString);
+      window.android && window
+        .android
+        .call(messageString);
     }
   }
 };
@@ -350,13 +399,19 @@ const configResponseInterceptors = (success, error) => {
   const noop = res => res;
   const successCallback = success || noop;
   const errorCallback = error || noop;
-  axios.interceptors.response.use(successCallback, errorCallback);
+  axios
+    .interceptors
+    .response
+    .use(successCallback, errorCallback);
 };
 
 const configRequestInterceptors = (before, error) => {
   const noop = res => res;
   const beforeFn = before || noop;
   const errorCallback = error || noop;
-  axios.interceptors.request.use(beforeFn, errorCallback);
+  axios
+    .interceptors
+    .request
+    .use(beforeFn, errorCallback);
 };
-export { http, configResponseInterceptors, configRequestInterceptors };
+export {http, configResponseInterceptors, configRequestInterceptors};
