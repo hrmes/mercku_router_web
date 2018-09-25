@@ -202,7 +202,7 @@ const request = (config, params) => {
   if (params) {
     data.params = params;
   }
-  return axios({url: config.url, method: 'post', data});
+  return axios({ url: config.url, method: 'post', data });
 };
 const http = {
   parentControlLimitDel(params) {
@@ -255,7 +255,7 @@ const http = {
   },
   /* v0.9 start */
   firmwareUpload(params, callback) {
-    const {CancelToken} = axios;
+    const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
       url: methods.firmwareUpload.url,
@@ -291,7 +291,7 @@ const http = {
     return request(methods.meshBlacklistGet);
   },
   removeBlacklist(macs) {
-    return request(methods.meshBlacklistDelete, {macs});
+    return request(methods.meshBlacklistDelete, { macs });
   },
   meshWifiUpdate(params) {
     return request(methods.meshWifiUpdate, params);
@@ -313,7 +313,7 @@ const http = {
     return request(methods.meshMetaGet);
   },
   testSpeed(force) {
-    return request(methods.meshWanSpeedTest, {force});
+    return request(methods.meshWanSpeedTest, { force });
   },
   addMeshNode(node) {
     return request(methods.meshNodeAdd, node);
@@ -346,7 +346,7 @@ const http = {
     return request(methods.routerIsLogin);
   },
   login(password) {
-    return request(methods.routerLogin, {password});
+    return request(methods.routerLogin, { password });
   },
   isinitial() {
     return request(methods.routerIsInitial);
@@ -363,7 +363,7 @@ const http = {
     if (config.admin && config.admin.password) {
       conf.admin = config.admin;
     }
-    return request(methods.meshConfigUpdate, {config: conf});
+    return request(methods.meshConfigUpdate, { config: conf });
   },
   getWanStatus() {
     return request(methods.meshWanStatusGet);
@@ -382,15 +382,9 @@ const http = {
     };
     const messageString = JSON.stringify(message);
     try {
-      window
-        .webkit
-        .messageHandlers
-        .callbackHandler
-        .postMessage(messageString);
+      window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
     } catch (err) {
-      window.android && window
-        .android
-        .call(messageString);
+      window.android && window.android.call(messageString);
     }
   }
 };
@@ -399,19 +393,13 @@ const configResponseInterceptors = (success, error) => {
   const noop = res => res;
   const successCallback = success || noop;
   const errorCallback = error || noop;
-  axios
-    .interceptors
-    .response
-    .use(successCallback, errorCallback);
+  axios.interceptors.response.use(successCallback, errorCallback);
 };
 
 const configRequestInterceptors = (before, error) => {
   const noop = res => res;
   const beforeFn = before || noop;
   const errorCallback = error || noop;
-  axios
-    .interceptors
-    .request
-    .use(beforeFn, errorCallback);
+  axios.interceptors.request.use(beforeFn, errorCallback);
 };
-export {http, configResponseInterceptors, configRequestInterceptors};
+export { http, configResponseInterceptors, configRequestInterceptors };
