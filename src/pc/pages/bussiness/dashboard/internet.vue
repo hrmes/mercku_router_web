@@ -73,24 +73,26 @@
         <div class="item traffic-container">
           <div class="title">{{$t('trans0308')}}</div>
           <div class="traffic-info">
-            <div class="extra">
-              <i class="t-dwon-icon"></i>
-              <div>
-                <p>
-                  <span class="speed">{{trafficDl.value}}</span>
-                  <span class='unit'> {{trafficDl.unit}}</span>
-                </p>
-                <p class="note">{{$t('trans0309')}}</p>
+            <div class="traffic">
+              <div class="extra">
+                <i class="t-dwon-icon"></i>
+                <div>
+                  <p>
+                    <span class="speed">{{trafficDl.value}}</span>
+                    <span class='unit'> {{trafficDl.unit}}</span>
+                  </p>
+                  <p class="note">{{$t('trans0309')}}</p>
+                </div>
               </div>
-            </div>
-            <div class="extra">
-              <i class="t-up-icon"></i>
-              <div>
-                <p>
-                  <span class="speed">{{trafficUl.value}}</span>
-                  <span class='unit'> {{trafficUl.unit}}</span>
-                </p>
-                <p class="note">{{$t('trans0310')}}</p>
+              <div class="extra">
+                <i class="t-up-icon"></i>
+                <div>
+                  <p>
+                    <span class="speed">{{trafficUl.value}}</span>
+                    <span class='unit'> {{trafficUl.unit}}</span>
+                  </p>
+                  <p class="note">{{$t('trans0310')}}</p>
+                </div>
               </div>
             </div>
             <div class="test-speed-btn-container">
@@ -309,7 +311,7 @@ export default {
       };
     },
     formatBandWidth(value) {
-      const units = ['B', 'K', 'M', 'G', 'T', 'P'];
+      const units = ['b', 'K', 'M', 'G', 'T', 'P'];
       let index = 0;
       if (!isNaN(value)) {
         do {
@@ -323,7 +325,7 @@ export default {
       }
       return {
         value: '-',
-        unit: 'B'
+        unit: 'K'
       };
     },
     closeSpeedModal() {
@@ -462,7 +464,6 @@ export default {
 
 .internet-container {
   flex: auto;
-  padding: 0 2%;
   .info-container {
     position: relative;
     width: 100%;
@@ -570,38 +571,42 @@ export default {
         padding: 15px 0;
         display: flex;
         min-height: 148px;
-        .extra {
-          text-align: left;
-          min-width: 140px;
-          flex: 1;
+        .traffic {
           display: flex;
-          align-content: center;
-          align-items: center;
-          i {
-            margin-right: 5px;
-            margin-bottom: 5px;
-          }
-          p {
-            margin: 0;
-            padding: 0;
+          flex: 1;
+          .extra {
             text-align: left;
-          }
-          .t-dwon-icon {
-            width: 20px;
-            height: 29px;
-            display: inline-block;
-            background: url('../../../assets/images/ic_ic_download.png')
-              no-repeat;
-            background-size: 100% 100%;
-            margin-bottom: 5px;
-          }
-          .t-up-icon {
-            width: 20px;
-            height: 29px;
-            display: inline-block;
-            background: url('../../../assets/images/ic_upload.png') no-repeat;
-            background-size: 100% 100%;
-            margin-bottom: 5px;
+            min-width: 140px;
+            flex: 1;
+            display: flex;
+            align-content: center;
+            align-items: center;
+            i {
+              margin-right: 5px;
+              margin-bottom: 5px;
+            }
+            p {
+              margin: 0;
+              padding: 0;
+              text-align: left;
+            }
+            .t-dwon-icon {
+              width: 20px;
+              height: 29px;
+              display: inline-block;
+              background: url('../../../assets/images/ic_ic_download.png')
+                no-repeat;
+              background-size: 100% 100%;
+              margin-bottom: 5px;
+            }
+            .t-up-icon {
+              width: 20px;
+              height: 29px;
+              display: inline-block;
+              background: url('../../../assets/images/ic_upload.png') no-repeat;
+              background-size: 100% 100%;
+              margin-bottom: 5px;
+            }
           }
         }
       }
@@ -679,7 +684,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1;
+    width: 200px;
     position: relative;
     &:before {
       content: '';
@@ -842,7 +847,6 @@ export default {
               font-size: 12px;
               letter-spacing: -0.1px;
               color: #999999;
-              // margin-left: 3px !important;
             }
           }
         }
@@ -1045,23 +1049,33 @@ export default {
         height: 44px;
       }
     }
-    padding: 10px;
-    padding-top: 30px;
     .info-container {
       flex-direction: column;
-      .item {
-        width: 100%;
-        .message {
-          flex-direction: column;
-          padding-bottom: 20px;
-          .m-item {
-            width: 100%;
-            padding-top: 10px;
-            font-size: 14px;
+      .row {
+        .item {
+          width: 100%;
+          .message {
+            flex-direction: column;
+            padding-bottom: 20px;
+            .m-item {
+              width: 100%;
+              padding-top: 10px;
+              font-size: 14px;
+            }
           }
         }
       }
+
+      .test-speed-btn-container {
+        height: 100px;
+        .btn-speed-test {
+          margin-right: 0;
+        }
+      }
       .traffic-container {
+        .traffic-info {
+          flex-direction: column;
+        }
         .speep-info {
           .extra {
             text-align: left;
