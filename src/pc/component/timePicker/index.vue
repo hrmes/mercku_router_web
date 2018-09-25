@@ -1,7 +1,7 @@
 <template>
   <div class="time-picker-panel">
     <div class="input-wrap" @click.stop="open">
-      <input type="text" placeholder="请选择时间" v-model="value" disabled>
+      <input type="text" placeholder="请选择时间" v-model="inputValue" disabled>
       <span class="icon-inner">
         <a class="icon">
           <img src="../../assets/images/rescreen-time.png" alt="">
@@ -30,7 +30,7 @@
 <script>
 export default {
   props: {
-    inputValue: {
+    value: {
       type: String
     }
   },
@@ -39,7 +39,7 @@ export default {
       opened: false,
       hs: Array.from(new Array(24)).map((__, v) => this.formatCount(v)),
       ms: Array.from(new Array(60)).map((__, v) => this.formatCount(v)),
-      value: '',
+      inputValue: this.value,
       time: {
         h: '00',
         m: '00'
@@ -47,7 +47,7 @@ export default {
     };
   },
   watch: {
-    inputValue(v) {
+    value(v) {
       this.value = v;
       this.time = {
         h: v.split(':')[0],
@@ -94,8 +94,8 @@ export default {
     select(type, v) {
       // this.scroll(e);
       this.time[type] = v;
-      this.value = `${this.time.h}:${this.time.m} `;
-      this.$emit('input', this.value);
+      this.inputValue = `${this.time.h}:${this.time.m}`;
+      this.$emit('input', this.inputValue);
     }
   }
 };

@@ -31,7 +31,7 @@
             </div>
           </div>
           <div class="btn-warp">
-            <button class="btn" @click='()=>modalShow=!modalShow'>{{$t('trans0035')}}</button>
+            <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
           </div>
         </div>
       </div>
@@ -71,11 +71,9 @@
 </template>
 <script>
 import Switch from '../../../../component/switch/index.vue';
-// import mSelect from '../../../../component/select/index.vue';
 import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
-// import { getStringByte, passwordRule } from '../../../../../util/util';
 
 export default {
   components: {
@@ -91,9 +89,10 @@ export default {
       timeLimitList: [],
       mac: '',
       form: {
+        enabled: true,
         mac: '',
         time_begin: '00:00',
-        time_end: '00:00',
+        time_end: '23:59',
         schedule: []
       },
       schedules: [
@@ -140,6 +139,9 @@ export default {
     this.getList();
   },
   methods: {
+    modalOpen(type) {
+      this.modalShow = true;
+    },
     formatSchedules(arr) {
       const newArr = [];
       arr.forEach(s => {
@@ -152,9 +154,21 @@ export default {
       return newArr.join(' / ');
     },
     getList() {
-      this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
-        this.timeLimitList = res.data.result;
-      });
+      this.$http
+        .getTimeLimit({ mac: this.form.mac })
+        .then(res => {
+          this.timeLimitList = res.data.result;
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
     },
     changehandle(v, row) {
       const params = {
@@ -167,6 +181,7 @@ export default {
           ...params
         })
         .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
           this.getList();
         })
         .catch(err => {
@@ -234,6 +249,7 @@ export default {
       display: flex;
       margin-top: 50px;
       justify-content: center;
+      // margin-bottom: 30px;
       .btn {
         width: 120px;
         height: 42px;
@@ -303,6 +319,7 @@ export default {
         margin-top: 50px;
         display: flex;
         justify-content: center;
+        margin-bottom: 50px;
       }
       margin-top: 30px;
       .column-date-stop {
@@ -359,6 +376,42 @@ export default {
 @media screen and (max-width: 768px) {
   .device-time-container {
     padding: 20px 16px;
+    .modal {
+      .modal-content {
+        width: 300px;
+        height: 420px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        padding: 20px;
+        .item {
+          display: flex;
+          align-items: center;
+          margin-top: 20px;
+          &:first-child {
+            margin: 0;
+          }
+          &:last-child {
+            align-items: flex-start;
+          }
+          label {
+            width: 70px;
+            font-size: 14px;
+            color: #333333;
+            overflow: hidden;
+          }
+          .date-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 180px;
+            .check-inner {
+              width: 80px;
+              margin-bottom: 12px;
+            }
+          }
+        }
+      }
+    }
     .content {
       .w-header {
         font-size: 14px;

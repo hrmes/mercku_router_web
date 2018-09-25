@@ -188,7 +188,10 @@ export default {
   },
   methods: {
     isTimeLimit(row) {
-      return row.time_limit && row.time_limit.length > 0;
+      if (row.time_limit && row.time_limit.length > 0) {
+        return row.time_limit.some(v => v.enabled);
+      }
+      return false;
     },
     isBlacklsitLimit(row) {
       return (
@@ -198,27 +201,27 @@ export default {
       );
     },
     isSpeedLimit(row) {
-      return row.speed_limit && row.speed_limit.up;
+      return row.speed_limit && row.speed_limit.enabled;
     },
     limitClick(type, row) {
       this.$router.push({ path: `/limit/${type}/${row.mac}` });
       this.$store.state.limits[type] = row;
     },
     expandTable(row) {
-      if (!this.isMobile) {
-        return false;
+      if (this.isMobile) {
+        this.devices.forEach(v => {
+          if (v.mac === row.mac) {
+            v.expand = !v.expand;
+          }
+        });
       }
-      this.devices.forEach(v => {
-        if (v.mac === row.mac) {
-          v.expand = !v.expand;
-        }
-      });
     },
     windowWidth() {
       if (window.innerWidth) return window.innerWidth;
       if (document.documentElement && document.documentElement.clientWidth) {
         return document.documentElement.clientWidth;
       }
+      return 0;
     },
     getIsMobile(that) {
       const w = that.windowWidth();
@@ -294,6 +297,7 @@ export default {
                 ...params
               })
               .then(() => {
+                // this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
               .catch(err => {
@@ -312,11 +316,10 @@ export default {
       });
     },
     nameModalOpen(row) {
-      if (this.isMobile && !row.expand) {
-        return false;
+      if (!(this.isMobile && !row.expand)) {
+        this.modalShow = true;
+        this.row = row;
       }
-      this.modalShow = true;
-      this.row = row;
     },
     transformDate(date) {
       date *= 1000;

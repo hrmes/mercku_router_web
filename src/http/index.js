@@ -162,6 +162,10 @@ const methods = {
     url,
     action: 'mesh.device.speed_limit.add'
   },
+  speedLimitUpdate: {
+    url,
+    action: 'mesh.device.speed_limit.update'
+  },
   addTimeLimit: {
     url,
     action: 'mesh.device.time_limit.add'
@@ -231,6 +235,9 @@ const http = {
   },
   addSpeedLimit(params) {
     return request(methods.addSpeedLimit, params);
+  },
+  speedLimitUpdate(params) {
+    return request(methods.speedLimitUpdate, params);
   },
   addToblackList(params) {
     return request(methods.addToblackList, params);
