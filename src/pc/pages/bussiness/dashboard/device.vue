@@ -144,10 +144,10 @@ export default {
     MEditSelect,
     layout,
     MProgress,
+
     'm-time-picker': TimePicker,
     'm-date-picker': DatePicker
   },
-  // .match(/^\s+$/)
   data() {
     return {
       formatMac,
@@ -156,6 +156,7 @@ export default {
       modalShow: false,
       row: {},
       devices: [],
+      timer: null,
       form: {
         name: ''
       },
@@ -190,6 +191,10 @@ export default {
       }
     };
     this.getDeviceList();
+  },
+  destroyed() {
+    clearTimeout(this.timer);
+    this.timer = null;
   },
   methods: {
     isTimeLimit(row) {
@@ -236,16 +241,32 @@ export default {
       this.$http
         .meshDeviceGet()
         .then(res => {
+          this.timer = setTimeout(() => {
+            this.getDeviceList();
+          }, 15 * 1000);
           if (res.data.result && res.data.result.length > 0) {
-            this.devices = res.data.result
+            const result = res.data.result
               .sort(
                 (a, b) =>
                   a.online_info.online_duration - b.online_info.online_duration
               )
               .map(v => ({ ...v, expand: false }));
+            if (this.isMobile && this.devices.length > 0) {
+              this.devices.forEach(n => {
+                result.forEach(m => {
+                  if (n.mac === m.mac) {
+                    m.expand = n.expand;
+                  }
+                });
+              });
+            }
+            this.devices = result;
           }
         })
         .catch(err => {
+          this.timer = setTimeout(() => {
+            this.getDeviceList();
+          }, 15 * 1000);
           if (err.upgrading) {
             return;
           }
@@ -722,7 +743,7 @@ export default {
               }
               span {
                 &.extand-name {
-                  font-size: 24px;
+                  font-size: 18px;
                 }
                 max-width: 100%;
               }
@@ -788,7 +809,7 @@ export default {
               flex-direction: row;
               .speed-wrap {
                 // flex: 1;
-                padding-right: 30px;
+                padding-right: 20px;
                 display: flex;
                 justify-content: center;
                 position: relative;
@@ -812,7 +833,7 @@ export default {
                 }
                 &:last-child {
                   margin: 0;
-                  margin-left: 30px;
+                  margin-left: 20px;
                 }
               }
             }
