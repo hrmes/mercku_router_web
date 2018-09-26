@@ -393,7 +393,7 @@ export default {
                 backgroundColor: '#fff',
                 lineHeight: 12,
                 formatter(category) {
-                  return `${category.name}\n{underline|}`;
+                  return `${category.name}`;
                 },
                 rich: {
                   underline: {
