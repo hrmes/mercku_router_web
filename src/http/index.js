@@ -197,6 +197,10 @@ const methods = {
   parentControlLimitDel: {
     url,
     action: 'mesh.device.parent_control.delete'
+  },
+  getLocalDevice: {
+    url,
+    action: 'request.get'
   }
 };
 const request = (config, params) => {
@@ -209,6 +213,9 @@ const request = (config, params) => {
   return axios({ url: config.url, method: 'post', data });
 };
 const http = {
+  getLocalDevice(params) {
+    return request(methods.getLocalDevice, params);
+  },
   parentControlLimitDel(params) {
     return request(methods.parentControlLimitDel, params);
   },

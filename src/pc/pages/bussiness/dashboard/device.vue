@@ -21,7 +21,7 @@
           </ul>
         </div>
         <div class="table-body small-device-body">
-          <ul v-for="(row,i) in devices" :key='i'>
+          <ul v-for="(row,i) in filterDevices" :key='i'>
             <li class="column-name" @click.stop="expandTable(row)">
               <div class="column-icon">
                 <div class="icon-inner">
@@ -38,7 +38,7 @@
                 </div>
                 <div class="des-inner" v-if='isMobile?(row.expand):true'>
                   <span> {{bandMap[`${row.online_info.band}`]}}</span>
-                  <span> {{transformDate(row.online_info.online_duration)}}</span>
+                  <span v-if="row.online_info.band!=='wired'"> {{transformDate(row.online_info.online_duration)}}</span>
                 </div>
               </div>
               <div class="mobile-icon">
@@ -99,7 +99,7 @@
               </div>
             </li>
             <li class="column-black-list" v-if='isMobile?(row.expand):true'>
-              <span class="black-btn" @click="()=>addToBlackList(row.mac)">
+              <span class="black-btn" @click="()=>addToBlackList(row)">
                 {{$t('trans0016')}}
               </span>
             </li>
@@ -156,6 +156,7 @@ export default {
       modalShow: false,
       row: {},
       devices: [],
+      localDeviceIP: '',
       timer: null,
       form: {
         name: ''
@@ -179,6 +180,20 @@ export default {
       }
     };
   },
+  computed: {
+    filterDevices() {
+      const arr = this.devices;
+      if (this.localDeviceIP) {
+        return arr.map(v => {
+          if (v.ip === this.localDeviceIP) {
+            return { ...v, local: true };
+          }
+          return { ...v, local: false };
+        });
+      }
+      return arr;
+    }
+  },
   mounted() {
     const that = this;
     this.getIsMobile(that);
@@ -191,6 +206,7 @@ export default {
       }
     };
     this.getDeviceList();
+    // this.getLocalDevice();
   },
   destroyed() {
     clearTimeout(this.timer);
@@ -237,6 +253,23 @@ export default {
         that.isMobile = false;
       }
     },
+    getLocalDevice() {
+      this.$http
+        .getLocalDevice()
+        .then(res => {
+          this.localDeviceIP = res.data.result.ip;
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
     getDeviceList() {
       this.$http
         .meshDeviceGet()
@@ -246,11 +279,18 @@ export default {
           }, 15 * 1000);
           if (res.data.result && res.data.result.length > 0) {
             const result = res.data.result
-              .sort(
-                (a, b) =>
-                  a.online_info.online_duration - b.online_info.online_duration
-              )
-              .map(v => ({ ...v, expand: false }));
+              .map(v => ({ ...v, expand: false }))
+              .sort((a, b) => {
+                if (a.online_info.band === 'wired') {
+                  return 1;
+                }
+                if (
+                  a.online_info.online_duration < b.online_info.online_duration
+                ) {
+                  return -1;
+                }
+                return 0;
+              });
             if (this.isMobile && this.devices.length > 0) {
               this.devices.forEach(n => {
                 result.forEach(m => {
@@ -303,9 +343,13 @@ export default {
           });
       }
     },
-    addToBlackList(mac) {
+    addToBlackList(row) {
+      if (row.local) {
+        this.$toast(this.$t('trans0047'));
+        return false;
+      }
       const params = {
-        macs: [mac]
+        macs: [row.mac]
       };
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -336,6 +380,7 @@ export default {
           }
         }
       });
+      return true;
     },
     nameModalOpen(row) {
       if (!(this.isMobile && !row.expand)) {
