@@ -55,15 +55,13 @@ export default {
       rules: {
         up: [
           {
-            rule: value =>
-              value ? /^[1-9]\d*(\.\d+)?$/.test(value) : value !== 0,
+            rule: value => /^[1-9]\d*$/.test(value),
             message: this.$t('trans0031')
           }
         ],
         down: [
           {
-            rule: value =>
-              value ? /^[1-9]\d*(\.\d+)?$/.test(value) : value !== 0,
+            rule: value => /^[1-9]\d*$/.test(value),
             message: this.$t('trans0031')
           }
         ]
