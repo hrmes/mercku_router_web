@@ -133,7 +133,7 @@ export default {
         newName: [
           {
             rule: value => !/^\s+$/.test(value),
-            message: this.$t('名称不能为纯空格')
+            message: this.$t('trans0237')
           },
           {
             rule: value => {
