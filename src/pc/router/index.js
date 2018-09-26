@@ -10,7 +10,6 @@ import timezone from '../pages/bussiness/setting/timezone.vue';
 import blacklist from '../pages/bussiness/setting/blacklist.vue';
 import wifi from '../pages/bussiness/setting/wifi.vue';
 import safe from '../pages/bussiness/setting/safe.vue';
-import reboot from '../pages/bussiness/setting/reboot.vue';
 import wlan from '../pages/bussiness/wlan/index.vue';
 import unconnect from '../pages/error/unconnect/index.vue';
 import online from '../pages/bussiness/upgrade/online.vue';
@@ -21,7 +20,8 @@ import speedLimit from '../pages/bussiness/dashboard/limit/speed.vue';
 import blacklistLimit from '../pages/bussiness/dashboard/limit/blacklist.vue';
 
 Vue.use(Router);
-const routes = [{
+const routes = [
+  {
     path: '/',
     redirect: '/login'
   },
@@ -35,7 +35,8 @@ const routes = [{
     name: 'dashboard',
     component: dashboard,
     redirect: '/dashboard/mesh/topo',
-    children: [{
+    children: [
+      {
         path: '/dashboard/device',
         name: 'device',
         component: device
@@ -86,11 +87,6 @@ const routes = [{
     path: '/setting/safe',
     name: 'safe',
     component: safe
-  },
-  {
-    path: '/setting/reboot',
-    name: 'reboot',
-    component: reboot
   },
   {
     path: '/setting/timezone',
