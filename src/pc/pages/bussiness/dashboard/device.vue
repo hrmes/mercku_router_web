@@ -135,6 +135,7 @@ import MInput from '../../../component/input/input.vue';
 import MForm from '../../../component/form/index.vue';
 import MFormItem from '../../../component/formItem/index.vue';
 import { formatMac, getStringByte } from '../../../../util/util';
+import { BlacklistMode } from '../../../../util/constant';
 
 export default {
   components: {
@@ -150,6 +151,7 @@ export default {
   },
   data() {
     return {
+      BlacklistMode,
       formatMac,
       isMobile: false,
       reboot: false,
@@ -220,7 +222,10 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return row.parent_control && row.parent_control.mode === 'blacklist';
+      return (
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
+      );
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -349,7 +354,7 @@ export default {
         return false;
       }
       const params = {
-        macs: [row.mac]
+        devices: [{ mac: row.mac, name: row.name }]
       };
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -367,10 +372,10 @@ export default {
                 this.$loading.close();
               })
               .catch(err => {
-                this.$loading.close();
                 if (err.upgrading) {
                   return;
                 }
+                this.$loading.close();
                 if (err && err.error) {
                   this.$toast(this.$t(err.error.code));
                 } else {

@@ -33,3 +33,8 @@ export const UploadStatus = {
   fail: 'fail',
   uploading: 'uploading'
 };
+export const BlacklistMode = {
+  free: 'free',
+  blacklist: 'blacklist',
+  whitelist: 'whitelist'
+};

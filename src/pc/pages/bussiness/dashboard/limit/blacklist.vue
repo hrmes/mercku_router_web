@@ -58,6 +58,7 @@ import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
 import { hostRexp, ipRexp } from '../../../../../util/util';
+import { BlacklistMode } from '../../../../../util/constant';
 
 export default {
   components: {
@@ -71,6 +72,7 @@ export default {
   },
   data() {
     return {
+      BlacklistMode,
       modalStatus: 'add',
       selectedRow: {},
       disabled: true,
@@ -81,7 +83,7 @@ export default {
       form: {
         mac: '',
         hosts: [],
-        mode: 'blacklist'
+        mode: BlacklistMode.blacklist
       },
       rules: {
         host: [
@@ -126,7 +128,7 @@ export default {
         .then(res => {
           if (res.data.result) {
             this.parentControlLimitList = res.data.result.blacklist || [];
-            this.mode = res.data.result.mode === 'blacklist';
+            this.mode = res.data.result.mode === BlacklistMode.blacklist;
           }
         })
         .catch(err => {
@@ -145,7 +147,7 @@ export default {
       this.$http
         .parentControlLimitUpdate({
           mac: this.form.mac,
-          mode: v ? 'blacklist' : 'free'
+          mode: v ? BlacklistMode.blacklist : BlacklistMode.free
         })
         .then(() => {
           // this.getList();
@@ -153,10 +155,10 @@ export default {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
-          this.$loading.close();
           if (err.upgrading) {
             return;
           }
+          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -170,7 +172,7 @@ export default {
         .parentControlLimitDel({
           mac: this.form.mac,
           hosts: [row],
-          mode: 'blacklist'
+          mode: BlacklistMode.blacklist
         })
         .then(() => {
           this.parentControlLimitList = this.parentControlLimitList.filter(
@@ -181,11 +183,10 @@ export default {
           // this.getList();
         })
         .catch(err => {
-          console.log(err);
-          this.$loading.close();
           if (err.upgrading) {
             return;
           }
+          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -208,10 +209,10 @@ export default {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
-          this.$loading.close();
           if (err.upgrading) {
             return;
           }
+          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
