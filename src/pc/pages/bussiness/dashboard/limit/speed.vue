@@ -118,7 +118,7 @@ export default {
       if (this.form.up || this.form.down) {
         if (this.$refs.form.validate()) {
           this.$http
-            .addSpeedLimit({
+            .speedLimitUpdate({
               mac: this.mac,
               SpeedLimit: {
                 ...this.form,
