@@ -23,7 +23,7 @@ export default {
         .then(() => {
           this.$http.checkLogin().then(res => {
             if (res.data.result.status) {
-              this.$router.push({ path: '/home' });
+              this.$router.push({ path: '/dashboard' });
             } else {
               this.$router.push({ path: '/login' });
             }

@@ -183,6 +183,7 @@ function genNodes(gateway, green, red) {
     }
     const n = {
       name: node.name,
+      sn: node.sn,
       ...pos[currentIndex],
       itemStyle: {
         color

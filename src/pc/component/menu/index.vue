@@ -24,10 +24,6 @@
         <span class="menu-text">{{$t('trans0021')}}</span>
       </li>
     </ul>
-    <!-- <div class="qr-container">
-      <img src="../../assets/images/qr.png" alt="">
-      <div>{{$t('trans0314')}}</div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -48,9 +44,16 @@ export default {
   methods: {
     jump(menu) {
       if (!menu.url && menu.children) {
+        this.list.forEach(l => {
+          if (!l.url && l.children && menu !== l) {
+            l.expand = false;
+          }
+        });
         menu.expand = !menu.expand;
       } else {
-        this.$router.push({ path: menu.url });
+        this.$router.push({
+          path: menu.url
+        });
         this.current = menu;
         this.showMenu = false;
         document.body.style.overflow = 'auto';

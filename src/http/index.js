@@ -28,9 +28,17 @@ const methods = {
     url,
     action: 'mesh.wan.status.get' // 获取WAN口状态
   },
-  routerTimezoneGet: {
+  meshInfoTimezoneGet: {
     url,
-    action: 'router.timezone.get'
+    action: 'mesh.info.timezone.get'
+  },
+  meshConfigTimezoneUpdate: {
+    url,
+    action: 'mesh.config.timezone.update'
+  },
+  meshNodeScan: {
+    url,
+    action: 'mesh.node.scan'
   },
   // new
   meshWanSpeedTest: {
@@ -41,9 +49,25 @@ const methods = {
     url,
     action: 'router.meta.get' // 获取路由器基础信息
   },
+  meshNodeDelete: {
+    url,
+    action: 'mesh.node.delete'
+  },
+  meshNodeUpdate: {
+    url,
+    action: 'mesh.node.update'
+  },
+  meshNodeReset: {
+    url,
+    action: 'mesh.node.reset'
+  },
   meshNodeReboot: {
     url,
     action: 'mesh.node.reboot' // 路由器重启
+  },
+  meshNodeAdd: {
+    url,
+    action: 'mesh.node.add'
   },
   meshMetaGet: {
     url,
@@ -70,6 +94,14 @@ const methods = {
     url,
     action: 'mesh.info.wan.net.get' // 获取组网WAN口上网信息
   },
+  meshBlacklistDelete: {
+    url,
+    action: 'mesh.blacklist.delete'
+  },
+  meshBlacklistGet: {
+    url,
+    action: 'mesh.blacklist.get'
+  },
   meshWanStatsGet: {
     url,
     action: 'mesh.info.wan.stats.get' // 获取组网WAN口统计状态
@@ -81,6 +113,10 @@ const methods = {
   meshWanUpdate: {
     url,
     action: 'mesh.config.wan.net.update' // 组网WAN口配置更新
+  },
+  nodeIsInMesh: {
+    url,
+    action: 'mesh.node.is_in_mesh'
   },
   meshLanUpdate: {
     url,
@@ -109,21 +145,109 @@ const methods = {
   routerModeGet: {
     url,
     action: 'router.mode.get'
+  },
+  meshDeviceGet: {
+    url,
+    action: 'mesh.device.get'
+  },
+  meshDeviceUpdate: {
+    url,
+    action: 'mesh.device.update'
+  },
+  addToblackList: {
+    url,
+    action: 'mesh.blacklist.add'
+  },
+  addSpeedLimit: {
+    url,
+    action: 'mesh.device.speed_limit.add'
+  },
+  speedLimitUpdate: {
+    url,
+    action: 'mesh.device.speed_limit.update'
+  },
+  addTimeLimit: {
+    url,
+    action: 'mesh.device.time_limit.add'
+  },
+  getTimeLimit: {
+    url,
+    action: 'mesh.device.time_limit.get'
+  },
+  timeLimitUpdate: {
+    url,
+    action: 'mesh.device.time_limit.update'
+  },
+  timeLimitDel: {
+    url,
+    action: 'mesh.device.time_limit.delete'
+  },
+  parentControlLimitGet: {
+    url,
+    action: 'mesh.device.parent_control.get'
+  },
+  parentControlLimitUpdate: {
+    url,
+    action: 'mesh.device.parent_control.update'
+  },
+  parentControlLimitAdd: {
+    url,
+    action: 'mesh.device.parent_control.add'
+  },
+  parentControlLimitDel: {
+    url,
+    action: 'mesh.device.parent_control.delete'
   }
 };
-
 const request = (config, params) => {
-  const data = { method: config.action };
+  const data = {
+    method: config.action
+  };
   if (params) {
     data.params = params;
   }
-  return axios({
-    url: config.url,
-    method: 'post',
-    data
-  });
+  return axios({ url: config.url, method: 'post', data });
 };
 const http = {
+  parentControlLimitDel(params) {
+    return request(methods.parentControlLimitDel, params);
+  },
+  parentControlLimitAdd(params) {
+    return request(methods.parentControlLimitAdd, params);
+  },
+  parentControlLimitUpdate(params) {
+    return request(methods.parentControlLimitUpdate, params);
+  },
+  parentControlLimitGet(params) {
+    return request(methods.parentControlLimitGet, params);
+  },
+  timeLimitUpdate(params) {
+    return request(methods.timeLimitUpdate, params);
+  },
+  timeLimitDel(params) {
+    return request(methods.timeLimitDel, params);
+  },
+  getTimeLimit(params) {
+    return request(methods.getTimeLimit, params);
+  },
+  addTimeLimit(params) {
+    return request(methods.addTimeLimit, params);
+  },
+  addSpeedLimit(params) {
+    return request(methods.addSpeedLimit, params);
+  },
+  speedLimitUpdate(params) {
+    return request(methods.speedLimitUpdate, params);
+  },
+  addToblackList(params) {
+    return request(methods.addToblackList, params);
+  },
+  meshDeviceUpdate(params) {
+    return request(methods.meshDeviceUpdate, params);
+  },
+  meshDeviceGet() {
+    return request(methods.meshDeviceGet);
+  },
   loginout() {
     return request(methods.routerLogout);
   },
@@ -164,8 +288,17 @@ const http = {
   getWanNetInfo() {
     return request(methods.meshWanNetGet);
   },
+  scanMeshNode() {
+    return request(methods.meshNodeScan);
+  },
   getWanNetStats() {
     return request(methods.meshWanStatsGet);
+  },
+  getBlacklist() {
+    return request(methods.meshBlacklistGet);
+  },
+  removeBlacklist(macs) {
+    return request(methods.meshBlacklistDelete, { macs });
   },
   meshWifiUpdate(params) {
     return request(methods.meshWifiUpdate, params);
@@ -173,15 +306,33 @@ const http = {
   meshWanUpdate(params) {
     return request(methods.meshWanUpdate, params);
   },
+  deleteMeshNode(node) {
+    return request(methods.meshNodeDelete, node);
+  },
+  resetMeshNode(nodeIds) {
+    return request(methods.meshNodeReset, nodeIds);
+  },
   /* v0.8 end */
-  reboot() {
-    return request(methods.meshNodeReboot);
+  reboot(nodeIds) {
+    return request(methods.meshNodeReboot, nodeIds);
   },
   getMeshMeta() {
     return request(methods.meshMetaGet);
   },
-  speedTesting(force) {
+  testSpeed(force) {
     return request(methods.meshWanSpeedTest, { force });
+  },
+  addMeshNode(node) {
+    return request(methods.meshNodeAdd, node);
+  },
+  updateMeshNode(nodeId, data) {
+    return request(methods.meshNodeUpdate, {
+      node_id: nodeId,
+      data
+    });
+  },
+  isInMesh(node) {
+    return request(methods.nodeIsInMesh, node);
   },
   getRouter() {
     return request(methods.routerMetaGet);
@@ -225,7 +376,10 @@ const http = {
     return request(methods.meshWanStatusGet);
   },
   getTimezone() {
-    return request(methods.routerTimezoneGet);
+    return request(methods.meshInfoTimezoneGet);
+  },
+  setTimezone(timezone) {
+    return request(methods.meshConfigTimezoneUpdate, timezone);
   },
   post2native(action, type, data) {
     const message = {

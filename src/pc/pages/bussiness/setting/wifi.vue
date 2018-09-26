@@ -2,7 +2,7 @@
   <layout>
     <div class="setting-wifi-container">
       <div v-if="reboot">
-        <m-proress :label="$t('trans0315')"></m-proress>
+        <m-progress :label="$t('trans0315')"></m-progress>
       </div>
       <div class="content">
         <div class='w-header'>
@@ -56,7 +56,7 @@ export default {
     'm-form-item': FormItem,
     'm-form': Form,
     'm-input': Input,
-    'm-proress': Progress,
+    'm-progress': Progress,
     'm-checkbox': Checkbox,
     'm-popover': Popover,
     'm-select': mSelect,
@@ -196,7 +196,7 @@ export default {
                     this.reboot = true;
                     this.$reconnect({
                       onsuccess: () => {
-                        this.$router.push({ path: '/home' });
+                        this.$router.push({ path: '/dashboard' });
                       },
                       ontimeout: () => {
                         this.$router.push({ path: '/unconnect' });

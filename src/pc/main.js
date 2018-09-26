@@ -1,7 +1,9 @@
 import Vue from 'vue';
+import moment from 'moment';
 import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
+
 import {
   http,
   configResponseInterceptors,
@@ -11,7 +13,11 @@ import loading from './component/loading/index';
 import toast from './component/toast/index';
 import dialog from './component/dialog/index';
 import v from '../../version.json';
+import { MTable } from './component/table/index';
+import { formatSpeed, formatBandWidth } from '../util/util';
+import store from './store';
 
+Vue.use(MTable);
 const launch = () => {
   const reconnect = options => {
     const opt = {
@@ -119,11 +125,16 @@ const launch = () => {
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
+  Vue.prototype.moment = moment;
+  Vue.prototype.formatBandWidth = formatBandWidth;
+  Vue.prototype.formatSpeed = formatSpeed;
+
 
   new Vue({
     el: '#web',
     i18n,
     router,
+    store,
     render: h => h(Desktop)
   });
 };

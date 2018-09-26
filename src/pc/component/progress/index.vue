@@ -48,7 +48,6 @@ export default {
         this.countdown -= 1;
         this.percent += average;
         this.styles.width = `${this.percent}%`;
-        console.log('percent is:', this.percent);
         if (!this.countdown) clearTimeout(this.timer);
       }, 1000);
     },
