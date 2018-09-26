@@ -149,6 +149,7 @@ export default {
           display: inline-block;
           text-align: left;
           margin-left: 0.05rem;
+          white-space: pre;
         }
       }
     }
