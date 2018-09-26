@@ -103,14 +103,14 @@ export default {
         if (m.children) {
           let expand = false;
           const children = m.children.map(mm => {
-            if (this.$route.path.includes(mm.url)) {
+            if (this.$route.name.includes(mm.name)) {
               expand = true;
             }
             return { ...mm, children };
           });
           return { ...m, expand };
         }
-        const expand = this.$route.path.includes(m.url);
+        const expand = this.$route.name.includes(m.name);
         return { ...m, expand };
       });
       return list;
