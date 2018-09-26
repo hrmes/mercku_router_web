@@ -1,8 +1,8 @@
 <template>
-  <div class="select-container" @click.stop="open()">
+  <div class="select-container">
     <label for="">{{label}}</label>
-    <div class="select">
-      <input ref="input" class="select-text" :title="selected" v-model="selected" @input="input" :placeholder="placeholder" />
+    <div class="select" @click.stop="open()">
+      <input @blur="blur" @focus="focus" ref="input" class="select-text" :title="selected" v-model="selected" @input="input" :placeholder="placeholder" />
       <div class="icon-container">
         <span class="icon" :class="{'open':opened,'close':!opened}"></span>
       </div>
@@ -67,6 +67,14 @@ export default {
     },
     close() {
       this.opened = false;
+    },
+    blur() {
+      this.close();
+      this.onBlur && this.onBlur();
+      this.$parent.$emit('blur');
+    },
+    focus() {
+      this.$parent.$emit('focus');
     }
   },
   beforeDestroy() {
@@ -85,6 +93,7 @@ export default {
       width: 100%;
       height: 36px;
       padding: 2px 10px;
+      padding-right: 50px;
       .icon-container {
         height: 100%;
         width: 50px;
