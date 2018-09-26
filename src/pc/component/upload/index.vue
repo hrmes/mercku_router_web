@@ -2,20 +2,19 @@
   <div class="upload-wrapper">
     <button class="btn btn-success fileinput-button" :disabled="uploadLoading" @click="click">
       <label> <img src="../../assets/images/ic_upgrade.png" alt="">{{label}}</label>
-      <input type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" hidden="hidden" />
+        <input type="file" @change="handleChange" ref='upload' :multiple="multiple" :accept="accept" hidden="hidden" />
     </button>
-    <div class='file' v-for="file in files" :key="file.lastModified">
-      <img src="../../assets/images/ic_file.png" alt="" width="18" />
-      <div class="des-cnt">
-        <span> {{file.name}} &nbsp;&nbsp;{{(file.size/1024/1024).toFixed(2)}}MB</span>
-        <img v-if="uploadLoading" src="../../assets/images/ic_delete.png" alt="" width="10" @click="cancel(file)" />
-        <div class="line" v-if="!uplodaSuccess">
-          <span :class="{'loading':uploadLoading,'fail':uploadFail}" :style="{'width':width}"></span>
-          <span v-if="uploadFail">{{err || $t('trans0341')}}</span>
+        <div class='file' v-for="file in files" :key="file.lastModified">
+          <img src="../../assets/images/ic_file.png" alt="" width="18" />
+          <div class="des-cnt">
+            <span> {{file.name}} <br/>{{(file.size/1024/1024).toFixed(2)}}MB</span>
+              <img v-if="uploadLoading" src="../../assets/images/ic_delete.png" alt="" width="10" @click="cancel(file)" />
+              <div class="line" v-if="!uplodaSuccess">
+                <span :class="{'loading':uploadLoading,'fail':uploadFail}" :style="{'width':width}"></span>
+                <span v-if="uploadFail">{{err || $t('trans0341')}}</span>
+              </div>
+          </div>
         </div>
-      </div>
-
-    </div>
   </div>
 </template>
 <script>

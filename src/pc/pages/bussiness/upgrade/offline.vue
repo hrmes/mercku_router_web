@@ -50,33 +50,33 @@
                       <img class="img-bee" v-else-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
                       <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
                     </div>
-                    <div class="info-container">
-                      <p class="node-name">{{node.name}}</p>
-                      <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
-                      <p class="node-version">
-                        <span>{{$t('trans0209')}}{{node.version.current}}</span>
-                      </p>
+                      <div class="info-container">
+                        <p class="node-name">{{node.name}}</p>
+                        <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
+                        <p class="node-version">
+                          <span>{{$t('trans0209')}}{{node.version.current}}</span>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div class="btn-info">
+                  <button @click="upgrade()" class="btn re-btn">{{$t('trans0225')}}</button>
+                </div>
               </div>
-              <div class="btn-info">
-                <button @click="upgrade()" class="btn re-btn">{{$t('trans0225')}}</button>
+              <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
+                <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
+                  <p>{{$t('trans0337')}}</p>
+                  <p>{{$t('trans0335')}}</p>
               </div>
-            </div>
-            <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
-              <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
-              <p>{{$t('trans0337')}}</p>
-              <p>{{$t('trans0335')}}</p>
             </div>
           </div>
-        </div>
-        <div class="mobile-wrapper">
-          <img src="../../../assets/images/ic_hint.png" alt="">
-          <p>{{$t('trans0343')}} </p>
+          <div class="mobile-wrapper">
+            <img src="../../../assets/images/ic_hint.png" alt="">
+            <p>{{$t('trans0343')}} </p>
+          </div>
         </div>
       </div>
-    </div>
   </layout>
 
 </template>
@@ -152,13 +152,7 @@ export default {
   },
   methods: {
     check(node) {
-      this.localNodes.forEach(n => {
-        if (n !== node) {
-          n.checked = false;
-        } else {
-          n.checked = true;
-        }
-      });
+      node.checked = !node.checked;
     },
     onChange() {
       const uploader = this.$refs.uploader;
@@ -193,7 +187,7 @@ export default {
           this.cancelToken = token;
           const { loaded, total, lengthComputable } = progressEvent;
           if (lengthComputable) {
-            uploader.percentage = Math.floor(loaded / total * 100);
+            uploader.percentage = Math.floor((loaded / total) * 100);
             uploader.status =
               loaded >= total ? UploadStatus.success : UploadStatus.uploading;
           }

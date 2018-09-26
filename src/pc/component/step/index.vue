@@ -24,11 +24,7 @@ export default {
   },
   computed: {
     width() {
-      return (
-        ((this.option.current + 1) / this.option.steps.length).toFixed(2) *
-          100 +
-        '%'
-      );
+      return `${((this.option.current + 1) * 100) / this.option.steps.length}%`;
     }
   }
 };
