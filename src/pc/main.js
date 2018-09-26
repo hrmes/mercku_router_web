@@ -15,6 +15,7 @@ import dialog from './component/dialog/index';
 import v from '../../version.json';
 import { MTable } from './component/table/index';
 import { formatSpeed, formatBandWidth } from '../util/util';
+import store from './store';
 
 Vue.use(MTable);
 const launch = () => {
@@ -128,30 +129,7 @@ const launch = () => {
   Vue.prototype.formatBandWidth = formatBandWidth;
   Vue.prototype.formatSpeed = formatSpeed;
 
-  class Store {
-    constructor(Vue, options) {
-      const bus = new Vue({
-        data: {
-          state: options.state
-        }
-      });
-      this.install(Vue, bus);
-    }
-    install(Vue, bus) {
-      Vue.mixin({
-        beforeCreate() {
-          if (this.$options.store) {
-            Vue.prototype.$store = bus;
-          }
-        }
-      });
-    }
-  }
-  const store = new Store(Vue, {
-    state: {
-      limits: {}
-    }
-  });
+
   new Vue({
     el: '#web',
     i18n,

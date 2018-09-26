@@ -188,37 +188,36 @@ export default {
   },
   methods: {
     isTimeLimit(row) {
-      return row.time_limit && row.time_limit.length > 0;
+      if (row.time_limit && row.time_limit.length > 0) {
+        return row.time_limit.some(v => v.enabled);
+      }
+      return false;
     },
     isBlacklsitLimit(row) {
-      return (
-        row.parent_control &&
-        row.parent_control.blacklist &&
-        row.parent_control.blacklist.length > 0
-      );
+      return row.parent_control && row.parent_control.mode === 'blacklist';
     },
     isSpeedLimit(row) {
-      return row.speed_limit && row.speed_limit.up;
+      return row.speed_limit && row.speed_limit.enabled;
     },
     limitClick(type, row) {
       this.$router.push({ path: `/limit/${type}/${row.mac}` });
       this.$store.state.limits[type] = row;
     },
     expandTable(row) {
-      if (!this.isMobile) {
-        return false;
+      if (this.isMobile) {
+        this.devices.forEach(v => {
+          if (v.mac === row.mac) {
+            v.expand = !v.expand;
+          }
+        });
       }
-      this.devices.forEach(v => {
-        if (v.mac === row.mac) {
-          v.expand = !v.expand;
-        }
-      });
     },
     windowWidth() {
       if (window.innerWidth) return window.innerWidth;
       if (document.documentElement && document.documentElement.clientWidth) {
         return document.documentElement.clientWidth;
       }
+      return 0;
     },
     getIsMobile(that) {
       const w = that.windowWidth();
@@ -294,6 +293,7 @@ export default {
                 ...params
               })
               .then(() => {
+                // this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
               .catch(err => {
@@ -312,11 +312,10 @@ export default {
       });
     },
     nameModalOpen(row) {
-      if (this.isMobile && !row.expand) {
-        return false;
+      if (!(this.isMobile && !row.expand)) {
+        this.modalShow = true;
+        this.row = row;
       }
-      this.modalShow = true;
-      this.row = row;
     },
     transformDate(date) {
       date *= 1000;
@@ -355,7 +354,7 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 99999;
+    z-index: 1001;
     .opcity {
       width: 100%;
       height: 100%;
@@ -706,6 +705,7 @@ export default {
             background: white;
             padding: 0 20px;
             margin-top: 10px;
+            border-radius: 3px;
           }
         }
         .small-device-body {

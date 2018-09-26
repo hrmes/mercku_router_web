@@ -12,10 +12,10 @@
               <m-switch v-model="form.enabled" :onChange="changehandle" />
             </div>
             <m-form ref="form" :model="form" :rules='rules'>
-              <m-form-item class="item" prop='ssid'>
+              <m-form-item class="item" prop='up'>
                 <m-input v-model="form.up" :label="`${$t('trans0304')}(KB/s)`" type='text' :placeholder="`${$t('trans0321')}`" :disabled='disabled'></m-input>
               </m-form-item>
-              <m-form-item class="item" prop='password'>
+              <m-form-item class="item" prop='down'>
                 <m-input v-model="form.down" :label=" `${$t('trans0305')}(KB/s)`" type='text' :placeholder="`${$t('trans0321')}`" :disabled='disabled'></m-input>
               </m-form-item>
             </m-form>
@@ -34,7 +34,6 @@ import Input from '../../../../component/input/input.vue';
 import Form from '../../../../component/form/index.vue';
 import FormItem from '../../../../component/formItem/index.vue';
 import layout from '../../../../layout.vue';
-// import { getStringByte } from '../../../../../util/util';
 
 export default {
   components: {
@@ -56,14 +55,16 @@ export default {
       rules: {
         up: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
+            rule: value =>
+              value ? /^[1-9]\d*(\.\d+)?$/.test(value) : value !== 0,
+            message: this.$t('trans0031')
           }
         ],
         down: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0169')
+            rule: value =>
+              value ? /^[1-9]\d*(\.\d+)?$/.test(value) : value !== 0,
+            message: this.$t('trans0031')
           }
         ]
       }
@@ -88,33 +89,61 @@ export default {
       return v * (8 * 1024);
     },
     changehandle(v) {
+      this.$loading.open();
       this.form.enabled = v;
-      this.disabled = !v;
+      this.$http
+        .speedLimitUpdate({
+          mac: this.mac,
+          SpeedLimit: {
+            enabled: v
+          }
+        })
+        .then(() => {
+          this.$loading.close();
+          this.disabled = !v;
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(err => {
+          this.$loading.close();
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
     },
     submit() {
-      if (this.$refs.form.validate()) {
-        this.$http
-          .addSpeedLimit({
-            mac: this.mac,
-            SpeedLimit: {
-              ...this.form,
-              up: this.form.up ? this.KB_to_b(Number(this.form.up)) : 0,
-              down: this.form.down ? this.KB_to_b(Number(this.form.down)) : 0
-            }
-          })
-          .then(res => {
-            console.log(res);
-          })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
-          });
+      this.$loading.open();
+      if (this.form.up || this.form.down) {
+        if (this.$refs.form.validate()) {
+          this.$http
+            .addSpeedLimit({
+              mac: this.mac,
+              SpeedLimit: {
+                ...this.form,
+                up: this.form.up ? this.KB_to_b(Number(this.form.up)) : 0,
+                down: this.form.down ? this.KB_to_b(Number(this.form.down)) : 0
+              }
+            })
+            .then(() => {
+              this.$loading.close();
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+            })
+            .catch(err => {
+              this.$loading.close();
+              if (err.upgrading) {
+                return;
+              }
+              if (err && err.error) {
+                this.$toast(this.$t(err.error.code));
+              } else {
+                this.$router.push({ path: '/unconnect' });
+              }
+            });
+        }
       }
     }
   }

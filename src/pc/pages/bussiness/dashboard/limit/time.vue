@@ -20,18 +20,18 @@
                 <span class="mobile-start">{{row.time_end}}</span>
               </div>
               <div class="column-date-start">{{row.time_end}}</div>
-              <div class="column-repeat">{{formatSchedules(row.schedule)}}</div>
+              <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
               <div class="column-handle">
                 <div class="check-wrap">
                   <m-switch :onChange="(v)=>changehandle(v,row)" v-model="row.enabled" />
                 </div>
-                <a>{{$t('编辑')}}</a>
-                <a>{{$t('删除')}}</a>
+                <a @click="modalOpen('edit',row)">{{$t('编辑')}}</a>
+                <a @click="delRow(row)">{{$t('删除')}}</a>
               </div>
             </div>
           </div>
           <div class="btn-warp">
-            <button class="btn" @click='()=>modalShow=!modalShow'>{{$t('trans0035')}}</button>
+            <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
           <div class="modal-form">
             <div class="item">
               <label for="">{{$t('trans0075')}}</label>
-              <m-switch :onChange="changehandle" />
+              <m-switch :onChange="changehandle" v-model="form.enabled" />
             </div>
             <div class="item">
               <label for="">{{$t('trans0084')}}</label>
@@ -62,7 +62,8 @@
           </div>
           <div class="btn-info">
             <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-            <button class="btn" @click="submit">{{$t('trans0035')}}</button>
+            <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
+            <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
@@ -71,11 +72,9 @@
 </template>
 <script>
 import Switch from '../../../../component/switch/index.vue';
-// import mSelect from '../../../../component/select/index.vue';
 import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
-// import { getStringByte, passwordRule } from '../../../../../util/util';
 
 export default {
   components: {
@@ -86,14 +85,17 @@ export default {
   },
   data() {
     return {
+      modalStatus: 'add',
+      selectedRow: {},
       disabled: true,
       modalShow: false,
       timeLimitList: [],
       mac: '',
       form: {
+        enabled: true,
         mac: '',
         time_begin: '00:00',
-        time_end: '00:00',
+        time_end: '23:59',
         schedule: []
       },
       schedules: [
@@ -140,7 +142,15 @@ export default {
     this.getList();
   },
   methods: {
-    formatSchedules(arr) {
+    formatSchedulText(arr) {
+      const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+      const everyDay = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      if (JSON.stringify(arr) === JSON.stringify(weekdays)) {
+        return this.$t('trans0080');
+      }
+      if (JSON.stringify(arr) === JSON.stringify(everyDay)) {
+        return this.$t('trans0079');
+      }
       const newArr = [];
       arr.forEach(s => {
         this.schedules.forEach(v => {
@@ -151,12 +161,71 @@ export default {
       });
       return newArr.join(' / ');
     },
-    getList() {
-      this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
-        this.timeLimitList = res.data.result;
+    clearForm() {
+      this.schedules.forEach(v => {
+        v.checked = false;
+      });
+      this.form = {
+        ...this.form,
+        enabled: true,
+        time_begin: '00:00',
+        time_end: '23:59',
+        schedule: []
+      };
+    },
+    modalOpen(type, row) {
+      if (type === 'add') {
+        if (this.timeLimitList.length === 5) {
+          this.$toast(this.$t('trans0060'));
+          return;
+        }
+      }
+      this.modalStatus = type;
+      this.selectedRow = row;
+      this.clearForm();
+      if (type === 'edit') {
+        this.formInitSchedules(row.schedule);
+        this.form = {
+          ...this.form,
+          enabled: row.enabled,
+          time_begin: row.time_begin,
+          time_end: row.time_end,
+          schedule: row.schedule
+        };
+      }
+      this.modalShow = true;
+    },
+    formInitSchedules(arr) {
+      arr.forEach(s => {
+        this.schedules.forEach(v => {
+          if (s === v.value) {
+            v.checked = true;
+          }
+        });
       });
     },
+    getList() {
+      // this.$loading.open();
+      this.$http
+        .getTimeLimit({ mac: this.form.mac })
+        .then(res => {
+          // this.$loading.close();
+          this.timeLimitList = res.data.result;
+        })
+        .catch(err => {
+          // this.$loading.close();
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
     changehandle(v, row) {
+      this.$loading.open();
       const params = {
         mac: this.form.mac,
         id: row.id,
@@ -167,9 +236,36 @@ export default {
           ...params
         })
         .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
           this.getList();
         })
         .catch(err => {
+          this.$loading.close();
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
+    delRow(row) {
+      this.$loading.open();
+      this.$http
+        .timeLimitDel({
+          mac: this.form.mac,
+          ids: [row.id]
+        })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.getList();
+        })
+        .catch(err => {
+          this.$loading.close();
           if (err.upgrading) {
             return;
           }
@@ -181,19 +277,58 @@ export default {
         });
     },
     submit() {
+      this.$loading.open();
+      const arr = [];
       this.schedules.forEach(item => {
         if (item.checked) {
-          this.form.schedule.push(item.value);
+          arr.push(item.value);
         }
       });
+      this.form.schedule = arr;
       this.$http
         .addTimeLimit({
           ...this.form
         })
-        .then(res => {
-          console.log(res);
+        .then(() => {
+          this.$loading.close();
+          this.getList();
+          this.modalShow = false;
+          this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
+          this.$loading.close();
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
+    updateSubmit() {
+      this.$loading.open();
+      const arr = [];
+      this.schedules.forEach(item => {
+        if (item.checked) {
+          arr.push(item.value);
+        }
+      });
+      this.form.schedule = arr;
+      this.$http
+        .timeLimitUpdate({
+          ...this.form,
+          id: this.selectedRow.id
+        })
+        .then(() => {
+          this.$loading.close();
+          this.getList();
+          this.modalShow = false;
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(err => {
+          this.$loading.close();
           if (err.upgrading) {
             return;
           }
@@ -215,7 +350,7 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
-    z-index: 99909;
+    z-index: 1001;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -234,6 +369,7 @@ export default {
       display: flex;
       margin-top: 50px;
       justify-content: center;
+      // margin-bottom: 30px;
       .btn {
         width: 120px;
         height: 42px;
@@ -303,6 +439,7 @@ export default {
         margin-top: 50px;
         display: flex;
         justify-content: center;
+        margin-bottom: 50px;
       }
       margin-top: 30px;
       .column-date-stop {
@@ -359,6 +496,42 @@ export default {
 @media screen and (max-width: 768px) {
   .device-time-container {
     padding: 20px 16px;
+    .modal {
+      .modal-content {
+        width: 300px;
+        height: 420px;
+        border-radius: 5px;
+        background-color: #ffffff;
+        padding: 20px;
+        .item {
+          display: flex;
+          align-items: center;
+          margin-top: 20px;
+          &:first-child {
+            margin: 0;
+          }
+          &:last-child {
+            align-items: flex-start;
+          }
+          label {
+            width: 70px;
+            font-size: 14px;
+            color: #333333;
+            overflow: hidden;
+          }
+          .date-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 180px;
+            .check-inner {
+              width: 80px;
+              margin-bottom: 12px;
+            }
+          }
+        }
+      }
+    }
     .content {
       .w-header {
         font-size: 14px;
