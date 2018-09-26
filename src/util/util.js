@@ -21,20 +21,18 @@ export default {
         needWidth = width;
       }
       rem = needWidth / 3.75;
-      rem = rem > 100 ?
-        100 :
-        rem;
+      rem = rem > 100 ? 100 : rem;
       // const rem = width / 3.75;
       rootStyle = `html{font-size:${rem}px !important;width:${needWidth}px !important;height:${height}px !important}`;
-      rootItem = document.getElementById('rootsize') || document.createElement('style');
+      rootItem =
+        document.getElementById('rootsize') || document.createElement('style');
       if (!document.getElementById('rootsize')) {
-        document
-          .getElementsByTagName('head')[0]
-          .appendChild(rootItem);
+        document.getElementsByTagName('head')[0].appendChild(rootItem);
         rootItem.id = 'rootsize';
       }
       if (rootItem.styleSheet) {
-        rootItem.styleSheet.disabled || (rootItem.styleSheet.cssText = rootStyle);
+        rootItem.styleSheet.disabled ||
+          (rootItem.styleSheet.cssText = rootStyle);
       } else {
         try {
           rootItem.innerHTML = rootStyle;
@@ -49,20 +47,28 @@ export default {
     // win.addEventListener(   'resize',   () => {     clearTimeout(tid);     tid =
     // setTimeout(refreshRem, 300);   },   false );
 
-    win.addEventListener('pageshow', e => {
-      if (e.persisted) {
-        // 浏览器后退的时候重新计算
-        clearTimeout(tid);
-        tid = setTimeout(refreshRem, 300);
-      }
-    }, false);
+    win.addEventListener(
+      'pageshow',
+      e => {
+        if (e.persisted) {
+          // 浏览器后退的时候重新计算
+          clearTimeout(tid);
+          tid = setTimeout(refreshRem, 300);
+        }
+      },
+      false
+    );
 
     if (doc.readyState === 'complete') {
       doc.body.style.fontSize = '16px';
     } else {
-      doc.addEventListener('DOMContentLoaded', () => {
-        doc.body.style.fontSize = '16px';
-      }, false);
+      doc.addEventListener(
+        'DOMContentLoaded',
+        () => {
+          doc.body.style.fontSize = '16px';
+        },
+        false
+      );
     }
   }
 };
@@ -88,10 +94,12 @@ export const hostRexp = host => {
     return true;
   }
   return false;
-}
+};
 
 function ip2int(ip) {
-  return (ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0);
+  return (
+    ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0
+  );
 }
 
 export const isMulticast = ip => {
@@ -154,29 +162,23 @@ export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
   }
-  const v1 = version1
-    .split('.')
-    .reduce((sum, next) => {
-      sum <<= 8;
-      sum += parseInt(next, 10);
-      return sum;
-    }, 0);
-  const v2 = version2
-    .split('.')
-    .reduce((sum, next) => {
-      sum <<= 8;
-      sum += parseInt(next, 10);
-      return sum;
-    }, 0);
+  const v1 = version1.split('.').reduce((sum, next) => {
+    sum <<= 8;
+    sum += parseInt(next, 10);
+    return sum;
+  }, 0);
+  const v2 = version2.split('.').reduce((sum, next) => {
+    sum <<= 8;
+    sum += parseInt(next, 10);
+    return sum;
+  }, 0);
 
   return v2 > v1;
 };
 
 export const getFileExtendName = file => {
   if (file) {
-    const r = file
-      .name
-      .split('.');
+    const r = file.name.split('.');
     if (r.length) {
       return r[r.length - 1];
     }
@@ -229,14 +231,12 @@ export const formatNetworkData = value => {
 export const formatMac = mac => {
   mac = mac.toUpperCase();
   if (mac.length === 12) {
-    return mac
-      .match(/.{2}/g)
-      .join(':');
+    return mac.match(/.{2}/g).join(':');
   }
   return mac;
 };
 
-export const formatSpeed = (value) => {
+export const formatSpeed = value => {
   value /= 8;
   const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
   let index = -1;
@@ -252,15 +252,8 @@ export const formatSpeed = (value) => {
   }
   return { value: '-', unit: 'KB' };
 };
-export const formatBandWidth = (value) => {
-  const units = [
-    'B',
-    'K',
-    'M',
-    'G',
-    'T',
-    'P'
-  ];
+export const formatBandWidth = value => {
+  const units = ['B', 'K', 'M', 'G', 'T', 'P'];
   let index = 0;
   if (!isNaN(value)) {
     do {
