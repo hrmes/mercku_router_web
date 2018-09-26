@@ -26,7 +26,7 @@
               <div class="column-icon">
                 <div class="icon-inner">
                   <i class="band" v-if="row.online_info.band==='wired'"><img src="../../../assets/images/ic_device_cable@2x.png" alt=""></i>
-                  <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
+                    <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
                 </div>
               </div>
               <div class="name-wrap">
@@ -82,19 +82,19 @@
                   <span :class="{'time-active':!isMobile&&isTimeLimit(row)}"> {{$t('trans0075')}}</span>
                   <img v-if='!isMobile&&isTimeLimit(row)' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
                   <span class="status">
-                    {{isTimeLimit(row)?$t('已限制'):$t('不限制')}}
+                    {{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}
                     <img src="../../../assets/images/ic_inter.png" alt="">
                   </span>
                 </div>
                 <div class="item device-item" @click="()=>limitClick('speed',row)">
                   <span :class="{'speed-active':!isMobile&&isSpeedLimit(row)}"> {{$t('trans0014')}}</span>
                   <img v-show='!isMobile&&isSpeedLimit(row)' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
-                  <span class="status">{{isSpeedLimit(row)?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
+                  <span class="status">{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
                 </div>
                 <div class="item device-item" @click="()=>limitClick('blacklist',row)">
                   <span :class="{'black-active':!isMobile&&isBlacklsitLimit(row)}"> {{$t('trans0076')}}</span>
                   <img v-show='!isMobile&&isBlacklsitLimit(row)' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
-                  <span class="status">{{isBlacklsitLimit(row)?$t('已限制'):$t('不限制')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
+                  <span class="status">{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
                 </div>
               </div>
             </li>
@@ -113,7 +113,7 @@
         <div class="select-wrapper">
           <m-form ref="form" class='form' :model="form" :rules='rules'>
             <m-form-item class="item" prop='name'>
-              <m-input class='small' :label="$t('设备名称')" type='text' :placeholder="`${$t('trans0321')}`" v-model="form.name"></m-input>
+              <m-input class='small' :label="$t('trans0005')" type='text' :placeholder="`${$t('trans0321')}`" v-model="form.name"></m-input>
             </m-form-item>
           </m-form>
         </div>
@@ -134,7 +134,7 @@ import MProgress from '../../../component/progress/index.vue';
 import MInput from '../../../component/input/input.vue';
 import MForm from '../../../component/form/index.vue';
 import MFormItem from '../../../component/formItem/index.vue';
-import { formatMac } from '../../../../util/util';
+import { formatMac, getStringByte } from '../../../../util/util';
 
 export default {
   components: {
@@ -147,6 +147,7 @@ export default {
     'm-time-picker': TimePicker,
     'm-date-picker': DatePicker
   },
+  // .match(/^\s+$/)
   data() {
     return {
       formatMac,
@@ -168,6 +169,10 @@ export default {
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => getStringByte(value) <= 20 && !value.match(/^\s+$/),
+            message: this.$t('暂无翻译')
           }
         ]
       }

@@ -25,8 +25,8 @@
                 <div class="check-wrap">
                   <m-switch :onChange="(v)=>changehandle(v,row)" v-model="row.enabled" />
                 </div>
-                <a @click="modalOpen('edit',row)">{{$t('编辑')}}</a>
-                <a @click="delRow(row)">{{$t('删除')}}</a>
+                <a @click="modalOpen('edit',row)">{{$t('trans0034')}}</a>
+                <a @click="delRow(row)">{{$t('trans0033')}}</a>
               </div>
             </div>
           </div>
