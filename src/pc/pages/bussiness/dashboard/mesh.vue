@@ -132,7 +132,7 @@ export default {
       rules: {
         newName: [
           {
-            rule: value => !/^\s+$/.test(value),
+            rule: value => !/^\s*$/.test(value),
             message: this.$t('trans0237')
           },
           {
