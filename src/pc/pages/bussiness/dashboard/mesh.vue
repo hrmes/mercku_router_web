@@ -99,7 +99,7 @@ import Progress from '../../../component/progress/index.vue';
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import editableSelect from '../../../component/editableSelect/index.vue';
-import { formatMac } from '../../../../util/util';
+import { formatMac, getStringByte } from '../../../../util/util';
 import genData from './topo';
 
 const Color = {
@@ -136,7 +136,13 @@ export default {
             message: this.$t('名称不能为纯空格')
           },
           {
-            rule: value => /^\w{1,20}$/.test(value),
+            rule: value => {
+              const length = getStringByte(value);
+              if (length < 1 || length > 20) {
+                return false;
+              }
+              return true;
+            },
             message: this.$t('trans0261')
           }
         ]
