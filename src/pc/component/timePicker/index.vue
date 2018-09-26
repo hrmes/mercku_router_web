@@ -176,6 +176,7 @@ export default {
       padding-left: 5px;
       margin-left: 5px;
       height: 30px;
+      background: white;
     }
     .icon-inner {
       display: inline-block;
