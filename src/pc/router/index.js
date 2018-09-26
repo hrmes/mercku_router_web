@@ -55,22 +55,22 @@ const routes = [
   },
   {
     path: '/mesh/add',
-    name: 'meshadd',
+    name: 'mesh-add',
     component: meshAdd
   },
   {
     path: '/limit/speed/:mac',
-    name: 'speed-limit',
+    name: 'device-speed-limit',
     component: speedLimit
   },
   {
     path: '/limit/time/:mac',
-    name: 'time-limit',
+    name: 'device-time-limit',
     component: timeLimit
   },
   {
     path: '/limit/blacklist/:mac',
-    name: 'blacklist-limit',
+    name: 'device-blacklist-limit',
     component: blacklistLimit
   },
   {
