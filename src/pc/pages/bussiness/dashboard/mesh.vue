@@ -30,70 +30,76 @@
                 <div class="icon">
                   <img :src="router.image" alt="">
                 </div>
-                <div class="wrap">
-                  <div class="text">{{router.name}}</div>
-                  <div class="edit" @click="onClickRouterName(router)">
-                    <img src="../../../assets/images/ic_edit.png" alt="">
+                  <div class="wrap">
+                    <div class="text">{{router.name}}</div>
+                    <div class="edit" @click="onClickRouterName(router)">
+                      <img src="../../../assets/images/ic_edit.png" alt="">
+                  </div>
+                    </div>
+                    <div @click="router.expand = !router.expand" class="expand" :class="{'expand':router.expand,'collapse':!router.expand}">
+                      <img src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
+                </div>
+                    </div>
+                    <div class="type">
+                      <span class="label">{{$t('trans0068')}}</span>
+                      <span class="value">{{router.is_gw ? $t('trans0165'): $t('trans0186')}}</span>
+                    </div>
+                    <div class="sn">
+                      <span class="label">{{$t('trans0251')}}</span>
+                      <span class="value">{{router.sn}}</span>
+                    </div>
+                    <div class="version">
+                      <span class="label">{{$t('trans0300')}}</span>
+                      <span class="value"> {{router.version.current}}</span>
+                    </div>
+                    <div class="ip">
+                      <span class="label">{{$t('trans0151')}}</span>
+                      <span class="value">{{router.ip}}</span>
+                    </div>
+                    <div class="mac">
+                      <span class="label">{{$t('trans0201')}}</span>
+                      <span class="value">{{formatMac(router.mac.lan)}}</span>
+                    </div>
+                    <div class="operate">
+                      <span class="reboot" @click="rebootNode(router)">{{$t('trans0122')}}</span>
+                      <span v-if="router.is_gw" class="reset" @click="resetNode(router)">{{$t('trans0205')}}</span>
+                      <span v-if="!router.is_gw" class="delete" @click="deleteNode(router)">{{$t('trans0033')}}</span>
+                    </div>
                   </div>
                 </div>
-                <div @click="router.expand = !router.expand" class="expand" :class="{'expand':router.expand,'collapse':!router.expand}">
-                  <img src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
-                </div>
               </div>
-              <div class="type">
-                <span class="label">{{$t('trans0068')}}</span>
-                <span class="value">{{router.is_gw ? $t('trans0165'): $t('trans0186')}}</span>
-              </div>
-              <div class="sn">
-                <span class="label">{{$t('trans0251')}}</span>
-                <span class="value">{{router.sn}}</span>
-              </div>
-              <div class="version">
-                <span class="label">{{$t('trans0300')}}</span>
-                <span class="value"> {{router.version.current}}</span>
-              </div>
-              <div class="ip">
-                <span class="label">{{$t('trans0151')}}</span>
-                <span class="value">{{router.ip}}</span>
-              </div>
-              <div class="mac">
-                <span class="label">{{$t('trans0201')}}</span>
-                <span class="value">{{formatMac(router.mac.lan)}}</span>
-              </div>
-              <div class="operate">
-                <span class="reboot" @click="rebootNode(router)">{{$t('trans0122')}}</span>
-                <span v-if="router.is_gw" class="reset" @click="resetNode(router)">{{$t('trans0205')}}</span>
-                <span v-if="!router.is_gw" class="delete" @click="deleteNode(router)">{{$t('trans0033')}}</span>
+            </div>
+          </div>
+          <div v-if="reboot">
+            <m-progress :label="$t('trans0322')"></m-progress>
+          </div>
+          <div v-if="reset">
+            <m-progress :label="$t('trans0322')"></m-progress>
+          </div>
+          <div class="edit-name-modal" v-if="showModal">
+            <div class="opcity"></div>
+            <div class="content">
+              <m-form :model="form" :rules="rules">
+                <m-form-item prop="newName">
+                  <editable-select class="small" :options="options" :label="$t('trans0005')" v-model="form.newName"></editable-select>
+                </m-form-item>
+              </m-form>
+              <div class="btn-inner">
+                <button @click="closeUpdateModal" class="btn btn-default">{{$t('trans0025')}}</button>
+                <button @click="updateMehsNode(routerSelected,form.newName)" class="btn">{{$t('trans0024')}}</button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0322')"></m-progress>
-    </div>
-    <div v-if="reset">
-      <m-progress :label="$t('trans0322')"></m-progress>
-    </div>
-    <div class="edit-name-modal" v-if="showModal">
-      <div class="opcity"></div>
-      <div class="content">
-        <editable-select class="small" :options="options" :label="$t('trans0005')" v-model="newName"></editable-select>
-        <div class="btn-inner">
-          <button @click="closeUpdateModal" class="btn btn-default">{{$t('trans0025')}}</button>
-          <button @click="updateMehsNode(routerSelected,newName)" class="btn">{{$t('trans0024')}}</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 <script>
 import echarts from 'echarts';
 import layout from '../../../layout.vue';
 import Progress from '../../../component/progress/index.vue';
+import Form from '../../../component/form/index.vue';
+import FormItem from '../../../component/formItem/index.vue';
 import editableSelect from '../../../component/editableSelect/index.vue';
-import { formatMac } from '../../../../util/util';
+import { formatMac, getStringByte } from '../../../../util/util';
 import genData from './topo';
 
 const Color = {
@@ -104,7 +110,9 @@ export default {
   components: {
     'm-progress': Progress,
     layout,
-    editableSelect
+    editableSelect,
+    'm-form-item': FormItem,
+    'm-form': Form
   },
   data() {
     return {
@@ -113,13 +121,32 @@ export default {
       meshNode: [],
       meshNodeTimer: null,
       chart: null,
-      // showTable: false,
       routers: [],
       reboot: false,
       reset: false,
       routerSelected: null,
       showModal: false,
-      newName: '',
+      form: {
+        newName: ''
+      },
+      rules: {
+        newName: [
+          {
+            rule: value => !/^\s+$/.test(value),
+            message: this.$t('名称不能为纯空格')
+          },
+          {
+            rule: value => {
+              const length = getStringByte(value);
+              if (length < 1 || length > 20) {
+                return false;
+              }
+              return true;
+            },
+            message: this.$t('trans0261')
+          }
+        ]
+      },
       options: [
         this.$t('trans0349'),
         this.$t('trans0350'),
@@ -159,12 +186,12 @@ export default {
   },
   methods: {
     closeUpdateModal() {
-      this.newName = '';
+      this.form.newName = '';
       this.showModal = false;
     },
     onClickRouterName(router) {
       this.routerSelected = router;
-      this.newName = router.name;
+      this.form.newName = router.name;
       this.showModal = true;
     },
     updateMehsNode(router, name) {
@@ -316,8 +343,9 @@ export default {
       this.routers.forEach(r => {
         if (selected.includes(r.sn)) {
           this.$set(r, 'expand', true);
+        } else {
+          this.$set(r, 'expand', false);
         }
-        this.$set(r, 'expand', false);
       });
 
       const option = {
