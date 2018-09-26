@@ -92,9 +92,7 @@ export default {
       this.$http
         .speedLimitUpdate({
           mac: this.mac,
-          SpeedLimit: {
-            enabled: v
-          }
+          enabled: v
         })
         .then(() => {
           this.$loading.close();
@@ -120,11 +118,9 @@ export default {
           this.$http
             .speedLimitUpdate({
               mac: this.mac,
-              SpeedLimit: {
-                ...this.form,
-                up: this.form.up ? this.KB_to_b(Number(this.form.up)) : 0,
-                down: this.form.down ? this.KB_to_b(Number(this.form.down)) : 0
-              }
+              ...this.form,
+              up: this.form.up ? this.KB_to_b(Number(this.form.up)) : 0,
+              down: this.form.down ? this.KB_to_b(Number(this.form.down)) : 0
             })
             .then(() => {
               this.$loading.close();
