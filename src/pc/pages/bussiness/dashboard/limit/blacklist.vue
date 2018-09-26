@@ -124,9 +124,8 @@ export default {
       this.$http
         .parentControlLimitGet({ mac: this.form.mac })
         .then(res => {
-          console.log(res.data.result);
           if (res.data.result) {
-            this.parentControlLimitList = res.data.result.blacklist;
+            this.parentControlLimitList = res.data.result.blacklist || [];
             this.mode = res.data.result.mode === 'blacklist';
           }
         })
@@ -174,11 +173,15 @@ export default {
           mode: 'blacklist'
         })
         .then(() => {
+          this.parentControlLimitList = this.parentControlLimitList.filter(
+            v => v !== row
+          );
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.getList();
+          // this.getList();
         })
         .catch(err => {
+          console.log(err);
           this.$loading.close();
           if (err.upgrading) {
             return;
@@ -198,9 +201,10 @@ export default {
           hosts: [this.host]
         })
         .then(() => {
+          this.parentControlLimitList.push(this.host);
           this.$loading.close();
           this.modalShow = false;
-          this.getList();
+          // this.getList();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {

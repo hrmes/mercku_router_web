@@ -41,7 +41,7 @@
           <div class="modal-form">
             <div class="item">
               <label for="">{{$t('trans0075')}}</label>
-              <m-switch :onChange="changehandle" v-model="form.enabled" />
+              <m-switch v-model="form.enabled" />
             </div>
             <div class="item">
               <label for="">{{$t('trans0084')}}</label>
@@ -145,10 +145,10 @@ export default {
     formatSchedulText(arr) {
       const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
       const everyDay = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      if (JSON.stringify(arr) === JSON.stringify(weekdays)) {
+      if (arr.join('') === weekdays.join('')) {
         return this.$t('trans0080');
       }
-      if (JSON.stringify(arr) === JSON.stringify(everyDay)) {
+      if (arr.join('') === everyDay.join('')) {
         return this.$t('trans0079');
       }
       const newArr = [];
@@ -260,9 +260,10 @@ export default {
           ids: [row.id]
         })
         .then(() => {
+          this.timeLimitList = this.timeLimitList.filter(v => v.id !== row.id);
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.getList();
+          // this.getList();
         })
         .catch(err => {
           this.$loading.close();
@@ -292,6 +293,7 @@ export default {
         .then(() => {
           this.$loading.close();
           this.getList();
+          // this.timeLimitList.push(this.form);
           this.modalShow = false;
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
@@ -323,11 +325,19 @@ export default {
         })
         .then(() => {
           this.$loading.close();
-          this.getList();
+          // this.getList();
+          this.timeLimitList = this.timeLimitList.map(v => {
+            if (v.id === this.selectedRow.id) {
+              return { ...v, ...this.form };
+            }
+            return v;
+          });
+
           this.modalShow = false;
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
+          console.log(err);
           this.$loading.close();
           if (err.upgrading) {
             return;
