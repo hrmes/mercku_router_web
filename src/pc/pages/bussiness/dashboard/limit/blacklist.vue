@@ -12,7 +12,7 @@
         <div class='table'>
           <div class="table-head">
             <div class="column-address">{{$t('trans0076')}}
-              <span>{{$t('加入黑名单的网址会被自动拦截')}}</span>
+              <span>{{$t('trans0101')}}</span>
             </div>
             <div class="column-handle">{{$t('trans0370')}}</div>
           </div>
@@ -21,12 +21,12 @@
               <div class="column-address">{{row}}</div>
               <div class="column-handle">
                 <!-- <a @click="modalOpen('edit',row)">{{$t('编辑')}}</a> -->
-                <a @click="delRow(row)">{{$t('删除')}}</a>
+                <a @click="delRow(row)">{{$t('trans0033')}}</a>
               </div>
             </div>
           </div>
           <div class="btn-warp">
-            <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
+            <button class="btn" @click="modalOpen('add')" :disabled='!mode'>{{$t('trans0035')}}</button>
           </div>
         </div>
       </div>
@@ -34,8 +34,8 @@
         <div class="opcity"></div>
         <div class="modal-content">
           <div class="modal-form">
-            <m-form ref="form" class='form' :model="form" :rules='rules'>
-              <m-form-item class="item" prop='password'>
+            <m-form ref="form" class='form' :model="{host}" :rules='rules'>
+              <m-form-item class="item" prop='host'>
                 <m-input class='small' :label="$t('trans0076')" type='text' :placeholder="`${$t('trans0321')}`" v-model="host"></m-input>
               </m-form-item>
             </m-form>
@@ -58,6 +58,7 @@ import Switch from '../../../../component/switch/index.vue';
 import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
+import { hostRexp, ipRexp } from '../../../../../util/util';
 
 export default {
   components: {
@@ -87,7 +88,11 @@ export default {
         host: [
           {
             rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0169')
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => hostRexp(value) || ipRexp(value),
+            message: this.$t('trans00227')
           }
         ]
       }
@@ -106,6 +111,8 @@ export default {
       this.host = '';
     },
     modalOpen(type, row) {
+      this.host = '';
+      this.form.hosts = [];
       this.modalStatus = type;
       this.selectedRow = row;
       if (type === 'edit') {
