@@ -57,10 +57,11 @@ export default {
       this.$emit('input', this.selected);
     },
     select(option) {
+      console.log('option', option);
       this.selected = option;
+      this.$emit('input', this.selected);
       this.opened = false;
       this.$refs.input.focus();
-      this.$emit('input', this.selected);
     },
     open() {
       this.opened = true;
@@ -69,7 +70,6 @@ export default {
       this.opened = false;
     },
     blur() {
-      this.close();
       this.onBlur && this.onBlur();
       this.$parent.$emit('blur');
     },
