@@ -25,7 +25,7 @@
             </div>
           </div>
           <div class="btn-warp">
-            <button class="btn" @click="modalOpen('add')" :disabled='!mode'>{{$t('trans0035')}}</button>
+            <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
           </div>
         </div>
       </div>
@@ -149,7 +149,7 @@ export default {
           mode: v ? 'blacklist' : 'free'
         })
         .then(() => {
-          this.getList();
+          // this.getList();
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
