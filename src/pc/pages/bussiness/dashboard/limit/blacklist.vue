@@ -374,6 +374,12 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .device-blacklist-container {
+    .modal {
+      .modal-content {
+        width: 295px;
+        height: 229px;
+      }
+    }
     padding: 20px 16px;
     .content {
       .w-header {
