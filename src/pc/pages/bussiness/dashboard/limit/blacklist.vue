@@ -20,7 +20,6 @@
             <div class="table-row" v-for="(row,index) in parentControlLimitList" :key='index'>
               <div class="column-address">{{row}}</div>
               <div class="column-handle">
-                <!-- <a @click="modalOpen('edit',row)">{{$t('编辑')}}</a> -->
                 <a @click="delRow(row)">{{$t('trans0033')}}</a>
               </div>
             </div>
