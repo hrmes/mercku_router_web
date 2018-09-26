@@ -1,8 +1,8 @@
 import Vue from 'vue';
 
 class Store {
-  constructor(Vue, options) {
-    const bus = new Vue({
+  constructor(_Vue, options) {
+    const bus = new _Vue({
       data: {
         state: options.state
       }
