@@ -58,6 +58,7 @@ import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
 import { hostRexp, ipRexp } from '../../../../../util/util';
+import { BlacklistMode } from '../../../../../util/constant';
 
 export default {
   components: {
@@ -71,6 +72,7 @@ export default {
   },
   data() {
     return {
+      BlacklistMode,
       modalStatus: 'add',
       selectedRow: {},
       disabled: true,
@@ -81,7 +83,7 @@ export default {
       form: {
         mac: '',
         hosts: [],
-        mode: 'blacklist'
+        mode: BlacklistMode.blacklist
       },
       rules: {
         host: [
@@ -124,10 +126,9 @@ export default {
       this.$http
         .parentControlLimitGet({ mac: this.form.mac })
         .then(res => {
-          console.log(res.data.result);
           if (res.data.result) {
-            this.parentControlLimitList = res.data.result.blacklist;
-            this.mode = res.data.result.mode === 'blacklist';
+            this.parentControlLimitList = res.data.result.blacklist || [];
+            this.mode = res.data.result.mode === BlacklistMode.blacklist;
           }
         })
         .catch(err => {
@@ -146,7 +147,7 @@ export default {
       this.$http
         .parentControlLimitUpdate({
           mac: this.form.mac,
-          mode: v ? 'blacklist' : 'free'
+          mode: v ? BlacklistMode.blacklist : BlacklistMode.free
         })
         .then(() => {
           // this.getList();
@@ -154,10 +155,10 @@ export default {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
-          this.$loading.close();
           if (err.upgrading) {
             return;
           }
+          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -171,18 +172,21 @@ export default {
         .parentControlLimitDel({
           mac: this.form.mac,
           hosts: [row],
-          mode: 'blacklist'
+          mode: BlacklistMode.blacklist
         })
         .then(() => {
+          this.parentControlLimitList = this.parentControlLimitList.filter(
+            v => v !== row
+          );
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.getList();
+          // this.getList();
         })
         .catch(err => {
-          this.$loading.close();
           if (err.upgrading) {
             return;
           }
+          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -198,16 +202,17 @@ export default {
           hosts: [this.host]
         })
         .then(() => {
+          this.parentControlLimitList.push(this.host);
           this.$loading.close();
           this.modalShow = false;
-          this.getList();
+          // this.getList();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
-          this.$loading.close();
           if (err.upgrading) {
             return;
           }
+          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {

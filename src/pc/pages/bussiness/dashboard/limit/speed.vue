@@ -102,10 +102,10 @@ export default {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
-          this.$loading.close();
           if (err.upgrading) {
             return;
           }
+          this.$loading.close();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
@@ -131,10 +131,10 @@ export default {
               this.$toast(this.$t('trans0040'), 3000, 'success');
             })
             .catch(err => {
-              this.$loading.close();
               if (err.upgrading) {
                 return;
               }
+              this.$loading.close();
               if (err && err.error) {
                 this.$toast(this.$t(err.error.code));
               } else {

@@ -21,7 +21,7 @@
           </ul>
         </div>
         <div class="table-body small-device-body">
-          <ul v-for="(row,i) in devices" :key='i'>
+          <ul v-for="(row,i) in filterDevices" :key='i'>
             <li class="column-name" @click.stop="expandTable(row)">
               <div class="column-icon">
                 <div class="icon-inner">
@@ -32,13 +32,14 @@
               <div class="name-wrap">
                 <div class="name-inner">
                   <a>
+                    <img v-if='row.local' src="../../../assets/images/ic_user.png" alt="" style="margin-right:5px">
                     <span :title='row.name' :class="{'extand-name':row.expand}"> {{row.name}}</span>
                     <img @click.stop='()=>nameModalOpen(row)' v-if='isMobile?(row.expand):true' src="../../../assets/images/ic_edit.png" alt="">
                   </a>
                 </div>
                 <div class="des-inner" v-if='isMobile?(row.expand):true'>
                   <span> {{bandMap[`${row.online_info.band}`]}}</span>
-                  <span> {{transformDate(row.online_info.online_duration)}}</span>
+                  <span v-if="row.online_info.band!=='wired'"> {{transformDate(row.online_info.online_duration)}}</span>
                 </div>
               </div>
               <div class="mobile-icon">
@@ -99,7 +100,7 @@
               </div>
             </li>
             <li class="column-black-list" v-if='isMobile?(row.expand):true'>
-              <span class="black-btn" @click="()=>addToBlackList(row.mac)">
+              <span class="black-btn" @click="()=>addToBlackList(row)">
                 {{$t('trans0016')}}
               </span>
             </li>
@@ -135,6 +136,7 @@ import MInput from '../../../component/input/input.vue';
 import MForm from '../../../component/form/index.vue';
 import MFormItem from '../../../component/formItem/index.vue';
 import { formatMac, getStringByte } from '../../../../util/util';
+import { BlacklistMode } from '../../../../util/constant';
 
 export default {
   components: {
@@ -150,12 +152,14 @@ export default {
   },
   data() {
     return {
+      BlacklistMode,
       formatMac,
       isMobile: false,
       reboot: false,
       modalShow: false,
       row: {},
       devices: [],
+      localDeviceIP: '',
       timer: null,
       form: {
         name: ''
@@ -179,6 +183,20 @@ export default {
       }
     };
   },
+  computed: {
+    filterDevices() {
+      const arr = this.devices;
+      if (this.localDeviceIP) {
+        return arr.map(v => {
+          if (v.ip === this.localDeviceIP) {
+            return { ...v, local: true };
+          }
+          return { ...v, local: false };
+        });
+      }
+      return arr;
+    }
+  },
   mounted() {
     const that = this;
     this.getIsMobile(that);
@@ -191,6 +209,7 @@ export default {
       }
     };
     this.getDeviceList();
+    // this.getLocalDevice();
   },
   destroyed() {
     clearTimeout(this.timer);
@@ -204,7 +223,10 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return row.parent_control && row.parent_control.mode === 'blacklist';
+      return (
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
+      );
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -237,6 +259,23 @@ export default {
         that.isMobile = false;
       }
     },
+    getLocalDevice() {
+      this.$http
+        .getLocalDevice()
+        .then(res => {
+          this.localDeviceIP = res.data.result.ip;
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
     getDeviceList() {
       this.$http
         .meshDeviceGet()
@@ -246,11 +285,18 @@ export default {
           }, 15 * 1000);
           if (res.data.result && res.data.result.length > 0) {
             const result = res.data.result
-              .sort(
-                (a, b) =>
-                  a.online_info.online_duration - b.online_info.online_duration
-              )
-              .map(v => ({ ...v, expand: false }));
+              .map(v => ({ ...v, expand: false }))
+              .sort((a, b) => {
+                if (a.online_info.band === 'wired') {
+                  return 1;
+                }
+                if (
+                  a.online_info.online_duration < b.online_info.online_duration
+                ) {
+                  return -1;
+                }
+                return 0;
+              });
             if (this.isMobile && this.devices.length > 0) {
               this.devices.forEach(n => {
                 result.forEach(m => {
@@ -303,9 +349,13 @@ export default {
           });
       }
     },
-    addToBlackList(mac) {
+    addToBlackList(row) {
+      if (row.local) {
+        this.$toast(this.$t('trans0047'));
+        return false;
+      }
       const params = {
-        macs: [mac]
+        devices: [{ mac: row.mac, name: row.name }]
       };
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -323,10 +373,10 @@ export default {
                 this.$loading.close();
               })
               .catch(err => {
-                this.$loading.close();
                 if (err.upgrading) {
                   return;
                 }
+                this.$loading.close();
                 if (err && err.error) {
                   this.$toast(this.$t(err.error.code));
                 } else {
@@ -336,6 +386,7 @@ export default {
           }
         }
       });
+      return true;
     },
     nameModalOpen(row) {
       if (!(this.isMobile && !row.expand)) {

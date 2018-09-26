@@ -3,28 +3,28 @@
     <div class="logo-container">
       <img src="../../assets/images/MERCKU_LOGO_web_top.png" alt="">
     </div>
-    <div class="small-device">
-      <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
-      <span class="menu-icon menu" @click="show()"></span>
+      <div class="small-device">
+        <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
+        <span class="menu-icon menu" @click="show()"></span>
+      </div>
+      <ul class="menu" :class="{'show':showMenu}">
+        <li class="menu-item" :key="menu.key" @click="jump(menu)" v-for="menu in list" :class="{'selected':$route.name.includes(menu.name)}">
+          <span class="menu-icon" :class="[menu.icon]"></span>
+          <span class="menu-text">{{$t(menu.text)}}</span>
+          <span v-if="menu.children" class="menu-trigle" :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
+          <ul v-if="menu.children" class="menu-children" :class="{'show':menu.expand}">
+            <li class="menu-child" :key="child.key" @click.stop="jump(child)" v-for="child in menu.children" :class="{'selected':$route.name.includes(child.name)}">
+              <span class="menu-icon"></span>
+              <span class="menu-text">{{$t(child.text)}}</span>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item exit" @click="exit()">
+          <span class="menu-icon exit"></span>
+          <span class="menu-text">{{$t('trans0021')}}</span>
+        </li>
+      </ul>
     </div>
-    <ul class="menu" :class="{'show':showMenu}">
-      <li class="menu-item" :key="menu.key" @click="jump(menu)" v-for="menu in list" :class="{'selected':$route.path.includes(menu.url)}">
-        <span class="menu-icon" :class="[menu.icon]"></span>
-        <span class="menu-text">{{$t(menu.text)}}</span>
-        <span v-if="menu.children" class="menu-trigle" :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
-        <ul v-if="menu.children" class="menu-children" :class="{'show':menu.expand}">
-          <li class="menu-child" :key="child.key" @click.stop="jump(child)" v-for="child in menu.children" :class="{'selected':$route.path.includes(child.url)}">
-            <span class="menu-icon"></span>
-            <span class="menu-text">{{$t(child.text)}}</span>
-          </li>
-        </ul>
-      </li>
-      <li class="menu-item exit" @click="exit()">
-        <span class="menu-icon exit"></span>
-        <span class="menu-text">{{$t('trans0021')}}</span>
-      </li>
-    </ul>
-  </div>
 </template>
 <script>
 export default {
@@ -103,14 +103,14 @@ export default {
         if (m.children) {
           let expand = false;
           const children = m.children.map(mm => {
-            if (this.$route.path.includes(mm.url)) {
+            if (this.$route.name.includes(mm.name)) {
               expand = true;
             }
             return { ...mm, children };
           });
           return { ...m, expand };
         }
-        const expand = this.$route.path.includes(m.url);
+        const expand = this.$route.name.includes(m.name);
         return { ...m, expand };
       });
       return list;
