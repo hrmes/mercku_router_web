@@ -167,12 +167,12 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
+            rule: value => !value.match(/^\s+$/),
+            message: this.$t('trans0260')
           },
           {
-            rule: value => getStringByte(value) <= 20 && !value.match(/^\s+$/),
-            message: this.$t('暂无翻译')
+            rule: value => getStringByte(value) <= 20,
+            message: this.$t('trans0261')
           }
         ]
       }
