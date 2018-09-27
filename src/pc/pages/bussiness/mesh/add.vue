@@ -486,8 +486,9 @@ export default {
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            margin-top: 20px;
             margin: 0 auto;
+            margin-top: 20px;
+
             &:first-child {
               margin-top: 0;
             }
