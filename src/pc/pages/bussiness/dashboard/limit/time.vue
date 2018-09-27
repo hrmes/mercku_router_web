@@ -60,11 +60,11 @@
               </div>
             </div>
           </div>
-          <div class="message"><span v-show='!isChoose'>{{$t('trans0388')}}</span></div>
+          <div class="message"><span v-show='msgShow'>{{$t('trans0388')}}</span></div>
           <div class="btn-info">
             <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-            <button v-if="modalStatus==='add'" class="btn" @click="submit" :disabled='!isChoose'>{{$t('trans0035')}}</button>
-            <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit" :disabled='!isChoose'>{{$t('trans0081')}}</button>
+            <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
+            <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
@@ -87,7 +87,8 @@ export default {
   data() {
     return {
       modalStatus: 'add',
-      isChoose: true,
+      isChoose: false,
+      msgShow: false,
       selectedRow: {},
       disabled: true,
       modalShow: false,
@@ -147,7 +148,9 @@ export default {
     schedules: {
       handler: function temp() {
         this.isChoose = this.schedules.some(n => n.checked);
-        console.log(this.isChoose);
+        if (this.isChoose) {
+          this.msgShow = false;
+        }
       },
       deep: true
     }
@@ -204,6 +207,7 @@ export default {
           schedule: row.schedule
         };
       }
+      this.isChoose = true;
       this.modalShow = true;
     },
     formInitSchedules(arr) {
@@ -289,6 +293,10 @@ export default {
         });
     },
     submit() {
+      if (!this.isChoose) {
+        this.msgShow = true;
+        return false;
+      }
       this.$loading.open();
       const arr = [];
       this.schedules.forEach(item => {
@@ -319,8 +327,13 @@ export default {
             this.$router.push({ path: '/unconnect' });
           }
         });
+      return true;
     },
     updateSubmit() {
+      if (!this.isChoose) {
+        this.msgShow = true;
+        return false;
+      }
       this.$loading.open();
       const arr = [];
       this.schedules.forEach(item => {
@@ -358,6 +371,7 @@ export default {
             this.$router.push({ path: '/unconnect' });
           }
         });
+      return true;
     }
   }
 };
