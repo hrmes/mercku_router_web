@@ -93,7 +93,7 @@ export default {
           },
           {
             rule: value => hostRexp(value) || ipRexp(value),
-            message: this.$t('trans00227')
+            message: this.$t('trans0227')
           }
         ]
       }
