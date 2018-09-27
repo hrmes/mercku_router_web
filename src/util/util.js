@@ -1,5 +1,5 @@
 export default {
-  adapt: () => {
+  adapt : () => {
     const doc = document;
     const win = window;
     const docEl = doc.documentElement;
@@ -21,18 +21,20 @@ export default {
         needWidth = width;
       }
       rem = needWidth / 3.75;
-      rem = rem > 100 ? 100 : rem;
+      rem = rem > 100
+        ? 100
+        : rem;
       // const rem = width / 3.75;
       rootStyle = `html{font-size:${rem}px !important;width:${needWidth}px !important;height:${height}px !important}`;
-      rootItem =
-        document.getElementById('rootsize') || document.createElement('style');
+      rootItem = document.getElementById('rootsize') || document.createElement('style');
       if (!document.getElementById('rootsize')) {
-        document.getElementsByTagName('head')[0].appendChild(rootItem);
+        document
+          .getElementsByTagName('head')[0]
+          .appendChild(rootItem);
         rootItem.id = 'rootsize';
       }
       if (rootItem.styleSheet) {
-        rootItem.styleSheet.disabled ||
-          (rootItem.styleSheet.cssText = rootStyle);
+        rootItem.styleSheet.disabled || (rootItem.styleSheet.cssText = rootStyle);
       } else {
         try {
           rootItem.innerHTML = rootStyle;
@@ -47,28 +49,20 @@ export default {
     // win.addEventListener(   'resize',   () => {     clearTimeout(tid);     tid =
     // setTimeout(refreshRem, 300);   },   false );
 
-    win.addEventListener(
-      'pageshow',
-      e => {
-        if (e.persisted) {
-          // 浏览器后退的时候重新计算
-          clearTimeout(tid);
-          tid = setTimeout(refreshRem, 300);
-        }
-      },
-      false
-    );
+    win.addEventListener('pageshow', e => {
+      if (e.persisted) {
+        // 浏览器后退的时候重新计算
+        clearTimeout(tid);
+        tid = setTimeout(refreshRem, 300);
+      }
+    }, false);
 
     if (doc.readyState === 'complete') {
       doc.body.style.fontSize = '16px';
     } else {
-      doc.addEventListener(
-        'DOMContentLoaded',
-        () => {
-          doc.body.style.fontSize = '16px';
-        },
-        false
-      );
+      doc.addEventListener('DOMContentLoaded', () => {
+        doc.body.style.fontSize = '16px';
+      }, false);
     }
   }
 };
@@ -82,7 +76,7 @@ export const isIphone = () => {
 
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
-export const hostReg = /^[0-9a-zA-Z][\w-]*\.(?:[\w-]+\.)*[\w-]*[0-9a-zA-Z]$/;
+export const hostReg = /^[a-zA-Z0-9][\w-\.]+[a-zA-Z0-9]$/;
 export const ipRexp = ip => {
   if (ip && ipReg.test(ip)) {
     return true;
@@ -97,9 +91,7 @@ export const hostRexp = host => {
 };
 
 function ip2int(ip) {
-  return (
-    ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0
-  );
+  return (ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0);
 }
 
 export const isMulticast = ip => {
@@ -162,23 +154,29 @@ export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
   }
-  const v1 = version1.split('.').reduce((sum, next) => {
-    sum <<= 8;
-    sum += parseInt(next, 10);
-    return sum;
-  }, 0);
-  const v2 = version2.split('.').reduce((sum, next) => {
-    sum <<= 8;
-    sum += parseInt(next, 10);
-    return sum;
-  }, 0);
+  const v1 = version1
+    .split('.')
+    .reduce((sum, next) => {
+      sum <<= 8;
+      sum += parseInt(next, 10);
+      return sum;
+    }, 0);
+  const v2 = version2
+    .split('.')
+    .reduce((sum, next) => {
+      sum <<= 8;
+      sum += parseInt(next, 10);
+      return sum;
+    }, 0);
 
   return v2 > v1;
 };
 
 export const getFileExtendName = file => {
   if (file) {
-    const r = file.name.split('.');
+    const r = file
+      .name
+      .split('.');
     if (r.length) {
       return r[r.length - 1];
     }
@@ -225,13 +223,15 @@ export const formatNetworkData = value => {
       unit: units[index]
     };
   }
-  return { value: '-', unit: units[0] };
+  return {value: '-', unit: units[0]};
 };
 
 export const formatMac = mac => {
   mac = mac.toUpperCase();
   if (mac.length === 12) {
-    return mac.match(/.{2}/g).join(':');
+    return mac
+      .match(/.{2}/g)
+      .join(':');
   }
   return mac;
 };
@@ -250,10 +250,17 @@ export const formatSpeed = value => {
       unit: units[index]
     };
   }
-  return { value: '-', unit: 'KB' };
+  return {value: '-', unit: 'KB'};
 };
 export const formatBandWidth = value => {
-  const units = ['B', 'K', 'M', 'G', 'T', 'P'];
+  const units = [
+    'B',
+    'K',
+    'M',
+    'G',
+    'T',
+    'P'
+  ];
   let index = 0;
   if (!isNaN(value)) {
     do {
@@ -265,5 +272,5 @@ export const formatBandWidth = value => {
       unit: units[index]
     };
   }
-  return { value: '-', unit: 'B' };
+  return {value: '-', unit: 'B'};
 };
