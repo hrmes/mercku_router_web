@@ -124,6 +124,8 @@ export default {
       width: 350px;
       margin: 0 auto;
       margin-top: 30px;
+      word-break: break-all;
+      word-wrap: break-word;
       p {
         margin-bottom: 10px;
       }

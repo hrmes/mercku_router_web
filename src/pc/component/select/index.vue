@@ -89,6 +89,8 @@ export default {
       text-overflow: ellipsis;
       height: 100%;
       width: 100%;
+      word-wrap: break-word;
+      word-break: break-all;
     }
   }
   label {
