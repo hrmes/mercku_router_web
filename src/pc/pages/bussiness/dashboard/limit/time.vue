@@ -60,10 +60,11 @@
               </div>
             </div>
           </div>
+          <div class="message"><span v-show='!isChoose'>{{$t('trans0388')}}</span></div>
           <div class="btn-info">
             <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-            <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
-            <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
+            <button v-if="modalStatus==='add'" class="btn" @click="submit" :disabled='!isChoose'>{{$t('trans0035')}}</button>
+            <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit" :disabled='!isChoose'>{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
@@ -86,6 +87,7 @@ export default {
   data() {
     return {
       modalStatus: 'add',
+      isChoose: true,
       selectedRow: {},
       disabled: true,
       modalShow: false,
@@ -140,6 +142,15 @@ export default {
   mounted() {
     this.form.mac = this.$route.params.mac;
     this.getList();
+  },
+  watch: {
+    schedules: {
+      handler: function temp() {
+        this.isChoose = this.schedules.some(n => n.checked);
+        console.log(this.isChoose);
+      },
+      deep: true
+    }
   },
   methods: {
     formatSchedulText(arr) {
@@ -363,6 +374,13 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    .message {
+      padding-left: 70px;
+      font-size: 12px;
+      color: #ff0001;
+      display: inline-block;
+      height: 14px;
+    }
     .opcity {
       position: fixed;
       width: 100%;
@@ -376,7 +394,7 @@ export default {
     }
     .btn-info {
       display: flex;
-      margin-top: 50px;
+      margin-top: 20px;
       justify-content: center;
       // margin-bottom: 30px;
       .btn {
@@ -389,7 +407,7 @@ export default {
     }
     .modal-content {
       width: 496px;
-      height: 402px;
+      height: 452px;
       border-radius: 5px;
       background-color: #ffffff;
       padding: 30px;
@@ -415,7 +433,7 @@ export default {
           align-items: center;
           width: 320px;
           .check-inner {
-            width: 80px;
+            width: 140px;
             margin-bottom: 12px;
           }
         }
@@ -507,11 +525,15 @@ export default {
     padding: 20px 16px;
     .modal {
       .modal-content {
+        overflow-y: auto;
         width: 300px;
-        height: 420px;
+        height: 480px;
         border-radius: 5px;
         background-color: #ffffff;
-        padding: 20px;
+        padding: 10px 20px;
+        .btn-info {
+          margin-top: 10px;
+        }
         .item {
           display: flex;
           align-items: center;
@@ -534,7 +556,7 @@ export default {
             align-items: center;
             width: 180px;
             .check-inner {
-              width: 80px;
+              width: 140px;
               margin-bottom: 12px;
             }
           }
