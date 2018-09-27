@@ -518,8 +518,8 @@ export default {
           cursor: pointer;
           &.selected {
             color: #999;
+            text-decoration: underline;
             &:hover {
-              text-decoration: none;
               cursor: default;
               color: #999;
             }
