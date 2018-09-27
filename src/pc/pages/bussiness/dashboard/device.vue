@@ -186,15 +186,35 @@ export default {
   computed: {
     filterDevices() {
       const arr = this.devices;
-      if (this.localDeviceIP) {
-        return arr.map(v => {
+      return arr
+        .map(v => {
           if (v.ip === this.localDeviceIP) {
             return { ...v, local: true };
           }
           return { ...v, local: false };
+        })
+        .sort((a, b) => {
+          const wired = 'wired';
+          if (a.online_info.band === wired || b.online_info.band === wired) {
+            if (a.online_info.band === wired) {
+              return 1;
+            }
+            if (b.online_info.band === wired) {
+              return -1;
+            }
+            return 0;
+          }
+          if (a.local || b.local) {
+            if (a.local) {
+              return -1;
+            }
+            if (b.local) {
+              return 1;
+            }
+            return 0;
+          }
+          return a.online_info.online_duration - b.online_info.online_duration;
         });
-      }
-      return arr;
     }
   },
   mounted() {
@@ -284,19 +304,8 @@ export default {
             this.getDeviceList();
           }, 15 * 1000);
           if (res.data.result && res.data.result.length > 0) {
-            const result = res.data.result
-              .map(v => ({ ...v, expand: false }))
-              .sort((a, b) => {
-                if (a.online_info.band === 'wired') {
-                  return 1;
-                }
-                if (
-                  a.online_info.online_duration < b.online_info.online_duration
-                ) {
-                  return -1;
-                }
-                return 0;
-              });
+            const result = res.data.result.map(v => ({ ...v, expand: false }));
+
             if (this.isMobile && this.devices.length > 0) {
               this.devices.forEach(n => {
                 result.forEach(m => {
@@ -316,6 +325,7 @@ export default {
           if (err.upgrading) {
             return;
           }
+
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
