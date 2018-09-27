@@ -74,7 +74,7 @@
             <m-progress :label="$t('trans0322')"></m-progress>
           </div>
           <div v-if="reset">
-            <m-progress :label="$t('trans0322')"></m-progress>
+            <m-progress :label="$t('trans0116')"></m-progress>
           </div>
           <div class="edit-name-modal" v-if="showModal">
             <div class="opcity"></div>
@@ -393,7 +393,8 @@ export default {
                 backgroundColor: '#fff',
                 lineHeight: 12,
                 formatter(category) {
-                  return `${category.name}`;
+                  // 处理手动加上的sn,label不显示sn
+                  return `${category.name.replace(/:.*/, '')}`;
                 },
                 rich: {
                   underline: {
