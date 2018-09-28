@@ -228,7 +228,7 @@ export default {
         that.isMobile = false;
       }
     };
-    //this.getDeviceList();
+    this.getDeviceList();
     this.getLocalDevice();
   },
   destroyed() {
