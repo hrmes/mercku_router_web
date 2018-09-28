@@ -228,8 +228,8 @@ export default {
         that.isMobile = false;
       }
     };
-    this.getDeviceList();
-    // this.getLocalDevice();
+    //this.getDeviceList();
+    this.getLocalDevice();
   },
   destroyed() {
     clearTimeout(this.timer);
