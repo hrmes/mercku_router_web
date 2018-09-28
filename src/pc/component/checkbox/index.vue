@@ -1,7 +1,7 @@
 <template>
   <transition name="checkbox">
     <div class="checkbox-container">
-      <label @click="check()">
+      <label @click.stop="check()">
         <div class="box" :class="{'checked':checked,'circle-shape':!rect}"></div>
         <div class="text" v-if="text">{{text}}</div>
       </label>
