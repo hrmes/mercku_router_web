@@ -379,7 +379,7 @@ export default {
                 ...params
               })
               .then(() => {
-                // this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
               .catch(err => {
