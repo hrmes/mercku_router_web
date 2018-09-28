@@ -216,6 +216,7 @@ export default {
               this.added = false;
               this.$loading.close();
               this.forwardStep2(true);
+              clearInterval(this.checkTimer);
             }
             if (timeout % 3 === 0) {
               this.$http.isInMesh({ node }).then(res => {
