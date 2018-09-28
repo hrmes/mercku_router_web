@@ -55,14 +55,16 @@ export default {
       rules: {
         up: [
           {
-            rule: value => /^[1-9]\d*$/.test(value),
-            message: this.$t('trans0031')
+            rule: value =>
+              /^[1-9]\d*$/.test(value) && Number(value) < 1000 * 1024,
+            message: this.$t('trans0060')
           }
         ],
         down: [
           {
-            rule: value => /^[1-9]\d*$/.test(value),
-            message: this.$t('trans0031')
+            rule: value =>
+              /^[1-9]\d*$/.test(value) && Number(value) < 1000 * 1024,
+            message: this.$t('trans0060')
           }
         ]
       }
@@ -142,6 +144,8 @@ export default {
               }
             });
         }
+      } else {
+        this.$toast(this.$t('trans0065'));
       }
     }
   }
