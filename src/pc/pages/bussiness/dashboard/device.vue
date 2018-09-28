@@ -344,7 +344,13 @@ export default {
         this.$http
           .meshDeviceUpdate({ ...params })
           .then(() => {
-            this.getDeviceList();
+            // this.getDeviceList();
+            this.filterDevices = this.filterDevices.map(v => {
+              if (v.mac === this.row.mac) {
+                return { ...v, name: this.from.name };
+              }
+              return v;
+            });
             this.modalShow = false;
           })
           .catch(err => {
@@ -379,6 +385,9 @@ export default {
                 ...params
               })
               .then(() => {
+                this.filterDevices = this.filterDevices.filter(
+                  v => v.mac !== row.mac
+                );
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })

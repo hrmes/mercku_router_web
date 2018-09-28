@@ -473,6 +473,8 @@ export default {
             font-size: 14px;
             color: #999999;
             font-weight: bold;
+            width: 130px;
+            text-align: right;
           }
           span {
             color: #333333;
