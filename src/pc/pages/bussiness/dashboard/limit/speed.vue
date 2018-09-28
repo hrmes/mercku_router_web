@@ -74,6 +74,7 @@ export default {
     this.mac = this.$route.params.mac;
     if (this.$store.state.limits.speed) {
       const speed = this.$store.state.limits.speed.speed_limit;
+      this.disabled = !speed.enabled;
       this.form = {
         ...speed,
         up: this.b_to_KB(speed.up),
