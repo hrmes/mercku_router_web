@@ -229,7 +229,7 @@ export default {
       }
     };
     this.getDeviceList();
-    this.getLocalDevice();
+    // this.getLocalDevice();
   },
   destroyed() {
     clearTimeout(this.timer);
