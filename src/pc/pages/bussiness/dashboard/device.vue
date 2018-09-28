@@ -67,7 +67,7 @@
             <li class="column-band" v-if='isMobile?(row.expand):true'>
               <span>{{$t('trans0015')}}</span>
               <span> {{formatBandWidth(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
-              <span> {{formatBandWidth(row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
+              <span> {{formatBandWidth (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
             </li>
             <li class="column-ip device-item" v-if='isMobile?(row.expand):true'>
               <span>{{$t('trans0151')}}</span>
