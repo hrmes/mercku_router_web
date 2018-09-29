@@ -215,7 +215,7 @@ export default {
             if (timeout < 0) {
               this.added = false;
               this.$loading.close();
-              this.forwardStep2(true);
+              this.forwardStep2(false);
               clearInterval(this.checkTimer);
             }
             if (timeout % 3 === 0) {

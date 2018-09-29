@@ -322,6 +322,9 @@ export default {
     },
     initChart() {
       this.chart = echarts.init(document.getElementById('topo'));
+      this.chart.on('click', () => {
+        this.$router.push('/dashboard/mesh/table');
+      });
       window.addEventListener('resize', () => {
         this.chart && this.chart.resize();
       });
@@ -517,11 +520,11 @@ export default {
         .tab {
           cursor: pointer;
           &.selected {
-            color: #999;
+            color: #4237dd;
             text-decoration: underline;
             &:hover {
               cursor: default;
-              color: #999;
+              color: #4237dd;
             }
           }
           &:hover {
