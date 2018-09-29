@@ -172,7 +172,7 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !value.match(/^\s+$/),
+            rule: value => !value.match(/^\s*$/),
             message: this.$t('trans0260')
           },
           {
