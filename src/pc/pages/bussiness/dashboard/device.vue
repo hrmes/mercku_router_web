@@ -345,7 +345,7 @@ export default {
           .meshDeviceUpdate({ ...params })
           .then(() => {
             // this.getDeviceList();
-            this.filterDevices = this.filterDevices.map(v => {
+            this.devices = this.devices.map(v => {
               if (v.mac === this.row.mac) {
                 return { ...v, name: this.from.name };
               }
@@ -385,9 +385,7 @@ export default {
                 ...params
               })
               .then(() => {
-                this.filterDevices = this.filterDevices.filter(
-                  v => v.mac !== row.mac
-                );
+                this.devices = this.devices.filter(v => v.mac !== row.mac);
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })

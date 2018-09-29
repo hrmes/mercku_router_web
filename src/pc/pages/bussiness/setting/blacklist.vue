@@ -70,6 +70,7 @@ export default {
         .removeBlacklist(macs)
         .then(() => {
           this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
           this.blacklist = this.blacklist
             .filter(d => d.mac !== device.mac)
             .sort();

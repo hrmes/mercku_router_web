@@ -124,6 +124,7 @@ export default {
 <style lang="scss" scoped>
 .menu-container {
   background: #fff;
+  flex-shrink: 0;
   .small-device {
     display: none;
     float: right;
