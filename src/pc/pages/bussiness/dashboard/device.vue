@@ -172,7 +172,7 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !value.match(/^\s+$/),
+            rule: value => !value.match(/^\s*$/),
             message: this.$t('trans0260')
           },
           {
@@ -229,7 +229,7 @@ export default {
       }
     };
     this.getDeviceList();
-    this.getLocalDevice();
+    // this.getLocalDevice();
   },
   destroyed() {
     clearTimeout(this.timer);
