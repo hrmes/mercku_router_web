@@ -101,6 +101,11 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
+    const parentControl = this.$store.state.limits.blacklist;
+    if (parentControl && parentControl.mode) {
+      this.form.mode = parentControl.mode;
+      this.mode = parentControl.mode === BlacklistMode.blacklist;
+    }
     this.getList();
   },
   methods: {
