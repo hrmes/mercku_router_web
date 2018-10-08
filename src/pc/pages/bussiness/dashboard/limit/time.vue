@@ -77,6 +77,10 @@ import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
 
+const formatTime = t => {
+  const s = new Date(`2018-01-01 ${t}:00`).getTime();
+  return s;
+};
 export default {
   components: {
     'm-switch': Switch,
@@ -153,6 +157,19 @@ export default {
         }
       },
       deep: true
+    }
+  },
+  computed: {
+    sortList() {
+      return this.timeLimitList.sort((a, b) => {
+        if (a.time_begin || b.time_begin) {
+          return formatTime(a.time_begin) - formatTime(b.time_begin);
+        }
+        if (a.time_end || b.time_end) {
+          return formatTime(a.time_end) - formatTime(b.time_end);
+        }
+        return 0;
+      });
     }
   },
   methods: {

@@ -345,9 +345,10 @@ export default {
           .meshDeviceUpdate({ ...params })
           .then(() => {
             // this.getDeviceList();
+            this.$toast(this.$t('trans0040'), 3000, 'success');
             this.devices = this.devices.map(v => {
               if (v.mac === this.row.mac) {
-                return { ...v, name: this.from.name };
+                return { ...v, name: this.form.name };
               }
               return v;
             });
