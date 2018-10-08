@@ -126,8 +126,8 @@ export default {
     },
     submit() {
       if (this.form.up || this.form.down) {
-        this.$loading.open();
         if (this.$refs.form.validate()) {
+          this.$loading.open();
           this.$http
             .speedLimitUpdate({
               mac: this.mac,
