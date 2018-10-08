@@ -20,7 +20,7 @@
               </m-form-item>
             </m-form>
             <div class="btn-info">
-              <button class="btn" :disabled='disabled' @click='submit()'>{{$t('trans0081')}}</button>
+              <button class="btn" :disabled='disabled' @click='submit'>{{$t('trans0081')}}</button>
             </div>
           </div>
         </div>
@@ -44,6 +44,9 @@ export default {
     layout
   },
   data() {
+    function speedTest(v) {
+      return /^[1-9]\d*$/.test(v) && Number(v) < 1000 * 1024;
+    }
     return {
       disabled: true,
       mac: '',
@@ -55,15 +58,13 @@ export default {
       rules: {
         up: [
           {
-            rule: value =>
-              /^[1-9]\d*$/.test(value) && Number(value) < 1000 * 1024,
+            rule: value => (value ? speedTest(value) : true),
             message: this.$t('trans0060')
           }
         ],
         down: [
           {
-            rule: value =>
-              /^[1-9]\d*$/.test(value) && Number(value) < 1000 * 1024,
+            rule: value => (value ? speedTest(value) : true),
             message: this.$t('trans0060')
           }
         ]
@@ -72,8 +73,12 @@ export default {
   },
   mounted() {
     this.mac = this.$route.params.mac;
-    if (this.$store.state.limits.speed) {
+    if (
+      this.$store.state.limits.speed &&
+      this.$store.state.limits.speed.speed_limit
+    ) {
       const speed = this.$store.state.limits.speed.speed_limit;
+      console.log(speed);
       this.disabled = !speed.enabled;
       this.form = {
         ...speed,
@@ -84,6 +89,9 @@ export default {
   },
   methods: {
     b_to_KB(v) {
+      if (v === 0) {
+        return '';
+      }
       return v / (8 * 1024);
     },
     KB_to_b(v) {
@@ -117,8 +125,8 @@ export default {
         });
     },
     submit() {
-      this.$loading.open();
       if (this.form.up || this.form.down) {
+        this.$loading.open();
         if (this.$refs.form.validate()) {
           this.$http
             .speedLimitUpdate({

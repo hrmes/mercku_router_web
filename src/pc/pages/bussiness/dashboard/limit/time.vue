@@ -13,7 +13,7 @@
             <div class="column-handle">{{$t('trans0370')}}</div>
           </div>
           <div class="table-body">
-            <div class="table-row" v-for="(row,index) in timeLimitList" :key='index'>
+            <div class="table-row" v-for="(row,index) in sortList" :key='index'>
               <div class="column-date-stop">
                 <span>{{row.time_begin}}</span>
                 <span class="mobile-start">&nbsp;-&nbsp;</span>
@@ -163,10 +163,12 @@ export default {
     sortList() {
       return this.timeLimitList.sort((a, b) => {
         if (a.time_begin || b.time_begin) {
+          if (a.time_begin === b.time_begin) {
+            if (b.time_end || a.time_end) {
+              return formatTime(a.time_end) - formatTime(b.time_end);
+            }
+          }
           return formatTime(a.time_begin) - formatTime(b.time_begin);
-        }
-        if (a.time_end || b.time_end) {
-          return formatTime(a.time_end) - formatTime(b.time_end);
         }
         return 0;
       });

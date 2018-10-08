@@ -101,12 +101,15 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const parentControl = this.$store.state.limits.blacklist;
-    if (parentControl && parentControl.mode) {
+    const blacklist = this.$store.state.limits.blacklist;
+    if (blacklist && blacklist.parent_control) {
+      const parentControl = blacklist.parent_control;
       this.form.mode = parentControl.mode;
       this.mode = parentControl.mode === BlacklistMode.blacklist;
+      this.parentControlLimitList = parentControl.blacklist;
+    } else {
+      this.getList();
     }
-    this.getList();
   },
   methods: {
     clearForm() {
