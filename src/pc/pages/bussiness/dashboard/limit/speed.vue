@@ -78,7 +78,6 @@ export default {
       this.$store.state.limits.speed.speed_limit
     ) {
       const speed = this.$store.state.limits.speed.speed_limit;
-      console.log(speed);
       this.disabled = !speed.enabled;
       this.form = {
         ...speed,
@@ -128,17 +127,21 @@ export default {
       if (this.form.up || this.form.down) {
         if (this.$refs.form.validate()) {
           this.$loading.open();
+          const params = {
+            ...this.form,
+            up: this.form.up ? this.KB_to_b(Number(this.form.up)) : 0,
+            down: this.form.down ? this.KB_to_b(Number(this.form.down)) : 0
+          };
           this.$http
             .speedLimitUpdate({
               mac: this.mac,
-              speed_limit: {
-                ...this.form,
-                up: this.form.up ? this.KB_to_b(Number(this.form.up)) : 0,
-                down: this.form.down ? this.KB_to_b(Number(this.form.down)) : 0
-              }
+              speed_limit: { ...params }
             })
             .then(() => {
               this.$loading.close();
+              this.$store.state.limits.speed = {
+                speed_limit: { ...params }
+              };
               this.$toast(this.$t('trans0040'), 3000, 'success');
             })
             .catch(err => {
