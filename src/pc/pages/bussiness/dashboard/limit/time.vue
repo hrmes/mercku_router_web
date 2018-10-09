@@ -275,6 +275,7 @@ export default {
           this.getList();
         })
         .catch(err => {
+          this.getList();
           if (err.upgrading) {
             return;
           }
