@@ -39,20 +39,20 @@ export default {
       document.body.style.overflow = 'auto';
     },
     close() {
+      this.restoryOverflow();
       this.$el.addEventListener('transitionend', () => {
-        this.restoryOverflow();
         this.$el.parentNode.removeChild(this.$el);
       });
     },
     ok() {
       this.visible = false;
-      this.callback.ok && this.callback.ok();
       this.close();
+      this.callback.ok && this.callback.ok();
     },
     cancel() {
       this.visible = false;
-      this.callback.cancel && this.callback.cancel();
       this.close();
+      this.callback.cancel && this.callback.cancel();
     }
   }
 };

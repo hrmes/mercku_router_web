@@ -22,6 +22,10 @@ import blacklistLimit from '../pages/bussiness/dashboard/limit/blacklist.vue';
 Vue.use(Router);
 const routes = [
   {
+    path: '*',
+    redirect: '/dashboard'
+  },
+  {
     path: '/',
     redirect: '/login'
   },
