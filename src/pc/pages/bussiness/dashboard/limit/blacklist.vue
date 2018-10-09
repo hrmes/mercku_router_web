@@ -106,7 +106,7 @@ export default {
       const parentControl = blacklist.parent_control;
       this.form.mode = parentControl.mode;
       this.mode = parentControl.mode === BlacklistMode.blacklist;
-      this.parentControlLimitList = parentControl.blacklist;
+      this.parentControlLimitList = parentControl.blacklist || [];
     } else {
       this.getList();
     }
