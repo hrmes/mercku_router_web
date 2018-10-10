@@ -194,6 +194,15 @@ export default {
           return { ...v, local: false };
         })
         .sort((a, b) => {
+          if (a.local || b.local) {
+            if (a.local) {
+              return -1;
+            }
+            if (b.local) {
+              return 1;
+            }
+            return 0;
+          }
           const wired = 'wired';
           if (a.online_info.band === wired || b.online_info.band === wired) {
             if (a.online_info.band === wired) {
@@ -204,15 +213,7 @@ export default {
             }
             return 0;
           }
-          if (a.local || b.local) {
-            if (a.local) {
-              return -1;
-            }
-            if (b.local) {
-              return 1;
-            }
-            return 0;
-          }
+
           return a.online_info.online_duration - b.online_info.online_duration;
         });
     }
