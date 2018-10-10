@@ -28,6 +28,7 @@ fi
 # 切换到指定分支
 echo -e "\033[32mcheckout $doc_branch...\033[0m"
 git checkout $doc_branch
+git pull
 # 进入翻译文件目录
 echo -e "\033[32mcd mercku/trans/app_code...\033[0m"
 cd mercku/trans/app_code

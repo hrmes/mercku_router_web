@@ -5,7 +5,7 @@
         <div v-if="title" class="dialog-title">{{title}}</div>
         <div class="dialog-message">{{message}}</div>
         <div class="dialog-buttons">
-          <button @click="test()" class="btn btn-default">{{cancelText}}</button>
+          <button @click="cancel()" class="btn btn-default">{{cancelText}}</button>
           <button @click="ok()" class="btn">{{okText}}</button>
         </div>
       </div>
@@ -29,9 +29,6 @@ export default {
     this.setOverflow();
   },
   methods: {
-    test() {
-      debugger;
-    },
     setOverflow() {
       document.body.style.overflow = 'hidden';
     },

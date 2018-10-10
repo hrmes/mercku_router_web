@@ -59,13 +59,13 @@ export default {
         up: [
           {
             rule: value => (value ? speedTest(value) : true),
-            message: this.$t('trans0060')
+            message: this.$t('trans0031')
           }
         ],
         down: [
           {
             rule: value => (value ? speedTest(value) : true),
-            message: this.$t('trans0060')
+            message: this.$t('trans0031')
           }
         ]
       }

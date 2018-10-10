@@ -30,67 +30,67 @@
                 <div class="icon">
                   <img :src="router.image" alt="">
                 </div>
-                  <div class="wrap">
-                    <div class="text">{{router.name}}</div>
-                    <div class="edit" @click="onClickRouterName(router)">
-                      <img src="../../../assets/images/ic_edit.png" alt="">
+                <div class="wrap">
+                  <div class="text">{{router.name}}</div>
+                  <div class="edit" @click="onClickRouterName(router)">
+                    <img src="../../../assets/images/ic_edit.png" alt="">
                   </div>
-                    </div>
-                    <div @click="router.expand = !router.expand" class="expand" :class="{'expand':router.expand,'collapse':!router.expand}">
-                      <img src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
                 </div>
-                    </div>
-                    <div class="type">
-                      <span class="label">{{$t('trans0068')}}</span>
-                      <span class="value">{{router.is_gw ? $t('trans0165'): $t('trans0186')}}</span>
-                    </div>
-                    <div class="sn">
-                      <span class="label">{{$t('trans0251')}}</span>
-                      <span class="value">{{router.sn}}</span>
-                    </div>
-                    <div class="version">
-                      <span class="label">{{$t('trans0300')}}</span>
-                      <span class="value"> {{router.version.current}}</span>
-                    </div>
-                    <div class="ip">
-                      <span class="label">{{$t('trans0151')}}</span>
-                      <span class="value">{{router.ip}}</span>
-                    </div>
-                    <div class="mac">
-                      <span class="label">{{$t('trans0201')}}</span>
-                      <span class="value">{{formatMac(router.mac.lan)}}</span>
-                    </div>
-                    <div class="operate">
-                      <span class="reboot" @click="rebootNode(router)">{{$t('trans0122')}}</span>
-                      <span v-if="router.is_gw" class="reset" @click="resetNode(router)">{{$t('trans0205')}}</span>
-                      <span v-if="!router.is_gw" class="delete" @click="deleteNode(router)">{{$t('trans0033')}}</span>
-                    </div>
-                  </div>
+                <div @click="router.expand = !router.expand" class="expand" :class="{'expand':router.expand,'collapse':!router.expand}">
+                  <img src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
                 </div>
               </div>
-            </div>
-          </div>
-          <div v-if="reboot">
-            <m-progress :label="$t('trans0322')"></m-progress>
-          </div>
-          <div v-if="reset">
-            <m-progress :label="$t('trans0116')"></m-progress>
-          </div>
-          <div class="edit-name-modal" v-if="showModal">
-            <div class="opcity"></div>
-            <div class="content">
-              <m-form :model="form" :rules="rules">
-                <m-form-item prop="newName">
-                  <editable-select class="small" :options="options" :label="$t('trans0005')" v-model="form.newName"></editable-select>
-                </m-form-item>
-              </m-form>
-              <div class="btn-inner">
-                <button @click="closeUpdateModal" class="btn btn-default">{{$t('trans0025')}}</button>
-                <button @click="updateMehsNode(routerSelected,form.newName)" class="btn">{{$t('trans0024')}}</button>
+              <div class="type">
+                <span class="label">{{$t('trans0068')}}</span>
+                <span class="value">{{router.is_gw ? $t('trans0165'): $t('trans0186')}}</span>
+              </div>
+              <div class="sn">
+                <span class="label">{{$t('trans0251')}}</span>
+                <span class="value">{{router.sn}}</span>
+              </div>
+              <div class="version">
+                <span class="label">{{$t('trans0300')}}</span>
+                <span class="value"> {{router.version.current}}</span>
+              </div>
+              <div class="ip">
+                <span class="label">{{$t('trans0151')}}</span>
+                <span class="value">{{router.ip}}</span>
+              </div>
+              <div class="mac">
+                <span class="label">{{$t('trans0201')}}</span>
+                <span class="value">{{formatMac(router.mac.lan)}}</span>
+              </div>
+              <div class="operate">
+                <span class="reboot" @click="rebootNode(router)">{{$t('trans0122')}}</span>
+                <span v-if="router.is_gw" class="reset" @click="resetNode(router)">{{$t('trans0205')}}</span>
+                <span v-if="!router.is_gw" class="delete" @click="deleteNode(router)">{{$t('trans0033')}}</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div v-if="reboot">
+      <m-progress :label="$t('trans0322')"></m-progress>
+    </div>
+    <div v-if="reset">
+      <m-progress :label="$t('trans0116')"></m-progress>
+    </div>
+    <div class="edit-name-modal" v-if="showModal">
+      <div class="opcity"></div>
+      <div class="content">
+        <m-form :model="form" :rules="rules">
+          <m-form-item prop="newName">
+            <editable-select class="small" :options="options" :label="$t('trans0005')" v-model="form.newName"></editable-select>
+          </m-form-item>
+        </m-form>
+        <div class="btn-inner">
+          <button @click="closeUpdateModal" class="btn btn-default">{{$t('trans0025')}}</button>
+          <button @click="updateMehsNode(routerSelected,form.newName)" class="btn">{{$t('trans0024')}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import echarts from 'echarts';
@@ -512,24 +512,22 @@ export default {
   .mesh-info {
     .title {
       font-size: 16px;
-      color: #333333;
+      color: #4237dd;
       padding: 15px 0;
       border-bottom: 1px solid #f1f1f1;
+
       .tabs {
         display: inline-block;
         .tab {
           cursor: pointer;
+          text-decoration: underline;
           &.selected {
-            color: #4237dd;
-            text-decoration: underline;
+            color: #333;
+            text-decoration: none;
             &:hover {
               cursor: default;
-              color: #4237dd;
+              color: #333;
             }
-          }
-          &:hover {
-            text-decoration: underline;
-            color: #333;
           }
         }
       }
