@@ -193,21 +193,24 @@ export default {
       this.routerSelected = router;
       this.form.newName = router.name;
       this.showModal = true;
+      this.clearIntervalTask();
     },
     updateMehsNode(router, name) {
       this.$loading.open();
       this.$http
         .updateMeshNode(router.sn, { name })
         .then(() => {
-          this.$loading.close();
           router.name = name;
+          this.$loading.close();
           this.showModal = false;
+          this.createIntervalTask();
         })
         .catch(err => {
           if (err.upgrading) {
             return;
           }
           this.$loading.close();
+          this.createIntervalTask();
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {
