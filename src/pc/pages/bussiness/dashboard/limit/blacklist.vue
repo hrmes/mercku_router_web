@@ -137,6 +137,7 @@ export default {
           if (res.data.result) {
             this.parentControlLimitList = res.data.result.blacklist || [];
             this.mode = res.data.result.mode === BlacklistMode.blacklist;
+            this.form.mode = res.data.result.mode;
           }
         })
         .catch(err => {
@@ -152,13 +153,14 @@ export default {
     },
     changehandle(v) {
       this.$loading.open();
+      const changeMode = v ? BlacklistMode.blacklist : BlacklistMode.free;
       this.$http
         .parentControlLimitUpdate({
           mac: this.form.mac,
-          mode: v ? BlacklistMode.blacklist : BlacklistMode.free
+          mode: changeMode
         })
         .then(() => {
-          // this.getList();
+          this.getList();
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })

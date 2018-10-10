@@ -85,6 +85,7 @@ export default {
         down: this.b_to_KB(speed.down)
       };
     }
+    this.getSpeed();
   },
   methods: {
     b_to_KB(v) {
@@ -108,7 +109,7 @@ export default {
         })
         .then(() => {
           this.$loading.close();
-          this.disabled = !v;
+          this.getSpeed();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
@@ -116,6 +117,29 @@ export default {
             return;
           }
           this.$loading.close();
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+    },
+    getSpeed() {
+      this.$http
+        .getSpeedLimit({ mac: this.mac })
+        .then(res => {
+          const speed = res.data.result;
+          this.disabled = !speed.enabled;
+          this.form = {
+            ...speed,
+            up: this.b_to_KB(speed.up),
+            down: this.b_to_KB(speed.down)
+          };
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
+          }
           if (err && err.error) {
             this.$toast(this.$t(err.error.code));
           } else {

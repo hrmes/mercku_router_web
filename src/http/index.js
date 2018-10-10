@@ -162,6 +162,10 @@ const methods = {
     url,
     action: 'mesh.device.speed_limit.add'
   },
+  getSpeedLimit: {
+    url,
+    action: 'mesh.device.speed_limit.get'
+  },
   speedLimitUpdate: {
     url,
     action: 'mesh.device.speed_limit.update'
@@ -213,6 +217,9 @@ const request = (config, params) => {
   return axios({ url: config.url, method: 'post', data });
 };
 const http = {
+  getSpeedLimit(params) {
+    return request(methods.getSpeedLimit, params);
+  },
   getLocalDevice(params) {
     return request(methods.getLocalDevice, params);
   },
