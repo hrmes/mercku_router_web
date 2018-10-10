@@ -160,11 +160,12 @@ export default {
           mode: changeMode
         })
         .then(() => {
-          this.getList();
+          this.form.mode = changeMode;
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(err => {
+          this.mode = !v;
           if (err.upgrading) {
             return;
           }
