@@ -26,7 +26,7 @@
               <div class="column-icon">
                 <div class="icon-inner">
                   <i class="band" v-if="row.online_info.band==='wired'"><img src="../../../assets/images/ic_device_cable@2x.png" alt=""></i>
-                    <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
+                  <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
                 </div>
               </div>
               <div class="name-wrap">
@@ -229,7 +229,7 @@ export default {
       }
     };
     this.getDeviceList();
-    // this.getLocalDevice();
+    this.getLocalDevice();
   },
   destroyed() {
     clearTimeout(this.timer);
