@@ -120,6 +120,10 @@ export default {
       this.host = '';
     },
     modalOpen(type, row) {
+      if (this.parentControlLimitList.length === 14) {
+        this.$toast(this.$t('trans0060'));
+        return;
+      }
       this.host = '';
       this.form.hosts = [];
       this.modalStatus = type;
@@ -336,6 +340,7 @@ export default {
     .table {
       .btn-warp {
         margin-top: 50px;
+        margin-bottom: 50px;
         display: flex;
         justify-content: center;
       }
