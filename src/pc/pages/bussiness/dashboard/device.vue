@@ -627,7 +627,7 @@ export default {
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
+            white-space: pre;
             max-width: 130px;
           }
           img {

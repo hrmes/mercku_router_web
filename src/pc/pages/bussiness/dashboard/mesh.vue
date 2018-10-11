@@ -630,6 +630,7 @@ export default {
                 color: #333;
                 font-size: 14px;
                 margin-right: 10px;
+                white-space: pre;
                 // width: 80px;
               }
               .edit {
