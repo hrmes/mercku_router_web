@@ -13,10 +13,10 @@
             </div>
             <m-form ref="form" :model="form" :rules='rules'>
               <m-form-item class="item" prop='up'>
-                <m-input v-model="form.up" :label="`${$t('trans0304')}(KB/s)`" type='text' :placeholder="`${$t('trans0321')}`" :disabled='disabled'></m-input>
+                <m-input v-model="form.up" :label="`${$t('trans0304')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`" :disabled='disabled'></m-input>
               </m-form-item>
               <m-form-item class="item" prop='down'>
-                <m-input v-model="form.down" :label=" `${$t('trans0305')}(KB/s)`" type='text' :placeholder="`${$t('trans0321')}`" :disabled='disabled'></m-input>
+                <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`" :disabled='disabled'></m-input>
               </m-form-item>
             </m-form>
             <div class="btn-info">
