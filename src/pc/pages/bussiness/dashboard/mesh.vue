@@ -268,7 +268,7 @@ export default {
                   });
                 } else {
                   this.$toast(this.$t('trans0040'), 3000, 'success');
-                  this.routers = this.routers.filter(r => r.sn === router.sn);
+                  this.routers = this.routers.filter(r => r.sn !== router.sn);
                 }
               })
               .catch(err => {
