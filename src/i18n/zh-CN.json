@@ -379,7 +379,7 @@
   "trans0378": "2、节点指示灯呈红色闪烁时点击“下一步”",
   "trans0379": "设备信息",
   "trans0380": "版本太低啦，为避免可能出现部分功能无法正常使用的情况，请先升级APP后再试",
-  "trans0381": "请选择要添加的Mesh节点",
+  "trans0381": "请选择Mesh节点",
   "trans0382": "设置后，该设备将无法访问新增的站点。\n如：google.com, *.google.com",
   "trans0383": "版本太低啦，请先升级路由器固件后再试。",
   "trans0384": "列表",
@@ -388,5 +388,6 @@
   "trans0387": "M2 Bee Wi-Fi Mesh Node",
   "trans0388": "请选择重复时间",
   "trans0389": "路由器网页",
-  "trans0390": "固件太低啦，请访问网页升级：http://mywifi.mercku.tech"
+  "trans0390": "固件太低啦，请访问网页升级：http://mywifi.mercku.tech",
+  "trans0391": "请输入1-128000的整数"
 }

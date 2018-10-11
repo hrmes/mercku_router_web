@@ -379,7 +379,7 @@
   "trans0378": "2. Click \"next\" after the node's indicator light blinks red",
   "trans0379": "Device information",
   "trans0380": "Please upgrade the App to the latest version to get a full control of your mesh network",
-  "trans0381": "Please select the node you want to add",
+  "trans0381": "Please select mesh node",
   "trans0382": "The host and its subdomains cannot be accessed after configured, eg. google.com, *.google.com",
   "trans0383": "Please upgrade the router firmware to its latest version",
   "trans0384": "List",
@@ -388,5 +388,6 @@
   "trans0387": "M2 Bee Wi-Fi Mesh Node",
   "trans0388": "Please select the repeat times",
   "trans0389": "Router webpage",
-  "trans0390": "Please upgrade the router firmware to its latest version, access http://mywifi.mercku.tech"
+  "trans0390": "Please upgrade the router firmware to its latest version, access http://mywifi.mercku.tech",
+  "trans0391": "Please input an integer from 1-128000"
 }
