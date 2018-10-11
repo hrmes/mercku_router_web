@@ -26,7 +26,7 @@
               <div class="column-icon">
                 <div class="icon-inner">
                   <i class="band" v-if="row.online_info.band==='wired'"><img src="../../../assets/images/ic_device_cable@2x.png" alt=""></i>
-                    <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
+                  <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
                 </div>
               </div>
               <div class="name-wrap">
@@ -194,6 +194,15 @@ export default {
           return { ...v, local: false };
         })
         .sort((a, b) => {
+          if (a.local || b.local) {
+            if (a.local) {
+              return -1;
+            }
+            if (b.local) {
+              return 1;
+            }
+            return 0;
+          }
           const wired = 'wired';
           if (a.online_info.band === wired || b.online_info.band === wired) {
             if (a.online_info.band === wired) {
@@ -204,15 +213,7 @@ export default {
             }
             return 0;
           }
-          if (a.local || b.local) {
-            if (a.local) {
-              return -1;
-            }
-            if (b.local) {
-              return 1;
-            }
-            return 0;
-          }
+
           return a.online_info.online_duration - b.online_info.online_duration;
         });
     }
@@ -229,7 +230,7 @@ export default {
       }
     };
     this.getDeviceList();
-    // this.getLocalDevice();
+    this.getLocalDevice();
   },
   destroyed() {
     clearTimeout(this.timer);
