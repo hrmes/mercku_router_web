@@ -370,7 +370,7 @@
   "trans0369": "Activate",
   "trans0370": "Actions",
   "trans0371": "Change timezone",
-  "trans0372": "Please refer to https://www.mercku.tech/support/faqs/devices for more information",
+  "trans0372": "Please refer to  ",
   "trans0373": "Current timezone",
   "trans0374": "Connect time",
   "trans0375": "Connection type",
@@ -389,5 +389,6 @@
   "trans0388": "Please select the repeat times",
   "trans0389": "Router webpage",
   "trans0390": "Please upgrade the router firmware to its latest version, access http://mywifi.mercku.tech",
-  "trans0391": "Please input an integer from 1-128000"
+  "trans0391": "Please input an integer from 1-128000",
+  "trans0392": "for more information"
 }

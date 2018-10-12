@@ -15,91 +15,91 @@
               </div>
               <img class="img" :src="router.image" alt="">
             </div>
-            </div>
-            <button class="btn btn-next" @click="forwardStep0()">{{$t('trans0055')}}</button>
           </div>
-          <div class="info-container" v-show="!welcomePage">
-            <div class="step">
-              <m-step :option="stepsOption"></m-step>
+          <button class="btn btn-next" @click="forwardStep0()">{{$t('trans0055')}}</button>
+        </div>
+        <div class="info-container" v-show="!welcomePage">
+          <div class="step">
+            <m-step :option="stepsOption"></m-step>
+          </div>
+          <div class="step-content">
+            <div class="step-item step-item0" v-show="stepsOption.current===0">
+              <p>{{$t('trans0257')}}</p>
+              <p>{{$t('trans0377')}}</p>
+              <p>{{$t('trans0378')}}</p>
+              <img :src="selectedCategory.tipImage" alt="">
+              <div class="button-container">
+                <button @click="forwardWelcome()" class="btn btn-default ">{{$t('trans0057')}}</button>
+                <button @click="forwardStep1()" class="btn">{{$t('trans0055')}}</button>
+              </div>
             </div>
-            <div class="step-content">
-              <div class="step-item step-item0" v-show="stepsOption.current===0">
-                <p>{{$t('trans0257')}}</p>
-                <p>{{$t('trans0377')}}</p>
-                <p>{{$t('trans0378')}}</p>
-                <img :src="selectedCategory.tipImage" alt="">
+            <div class="step-item step-item1" v-show="stepsOption.current===1">
+              <div class="scaning" v-show="scaning">
+                <img src="../../../assets/images/loading.gif" alt="">
+                <p>{{$t('trans0334')}}</p>
+              </div>
+              <div class="scan-result" v-show="!scaning && nodes.length">
+                <div class="router" v-for="(node,index) in nodes" :key="index" @click="selectNode(node)">
+                  <div class="check-container">
+                    <div class="checkbox" :class="{'checked':node.selected}"></div>
+                    <div class="info">
+                      <p>{{getNodeName(node)}}</p>
+                      <p>{{$t('trans0252')}}{{node.sn}}</p>
+                    </div>
+                  </div>
+                  <img class="img" :src="getNodeImg(node)" alt="">
+                </div>
                 <div class="button-container">
-                  <button @click="forwardWelcome()" class="btn btn-default ">{{$t('trans0057')}}</button>
-                  <button @click="forwardStep1()" class="btn">{{$t('trans0055')}}</button>
+                  <button @click="forwardStep0()" class="btn btn-default ">{{$t('trans0057')}}</button>
+                  <button @click="addMeshNode()" class="btn">{{$t('trans0055')}}</button>
                 </div>
               </div>
-              <div class="step-item step-item1" v-show="stepsOption.current===1">
-                <div class="scaning" v-show="scaning">
-                  <img src="../../../assets/images/loading.gif" alt="">
-                  <p>{{$t('trans0334')}}</p>
-                </div>
-                <div class="scan-result" v-show="!scaning && nodes.length">
-                  <div class="router" v-for="(node,index) in nodes" :key="index" @click="selectNode(node)">
-                    <div class="check-container">
-                      <div class="checkbox" :class="{'checked':node.selected}"></div>
-                      <div class="info">
-                        <p>{{getNodeName(node)}}</p>
-                        <p>{{$t('trans0252')}}{{node.sn}}</p>
-                      </div>
-                    </div>
-                    <img class="img" :src="getNodeImg(node)" alt="">
-                </div>
-                    <div class="button-container">
-                      <button @click="forwardStep0()" class="btn btn-default ">{{$t('trans0057')}}</button>
-                      <button @click="addMeshNode()" class="btn">{{$t('trans0055')}}</button>
-                    </div>
-                  </div>
-                  <div class="scan-empty" v-show="!scaning && !nodes.length">
-                    <p>{{$t('trans0181')}}</p>
-                    <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
-                    <div class="button-container">
-                      <button @click="forwardStep0()" class="btn">{{$t('trans0057')}}</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="step-item step-item2" v-show="stepsOption.current===2">
-                  <div class="success" v-if="added">
-                    <p>{{$t('trans0192')}}</p>
-                    <div class="button-container">
-                      <button @click="backMesh" class="btn">{{$t('trans0233')}}</button>
-                    </div>
-                  </div>
-                  <div class="fail" v-if="!added">
-                    <p>{{$t('trans0248')}}</p>
-                    <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
-                    <div class="button-container">
-                      <button @click="backMesh" class="btn">{{$t('trans0233')}}</button>
-                    </div>
-                  </div>
-
+              <div class="scan-empty" v-show="!scaning && !nodes.length">
+                <p>{{$t('trans0181')}}</p>
+                <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
+                <div class="button-container">
+                  <button @click="forwardStep0()" class="btn">{{$t('trans0057')}}</button>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="loading" v-if="scaning"></div>
-        <div class="help-dialog" v-if="showHelpDialog">
-
-          <div class="help-dialog-content">
-            <div class="close" @click="closeHelpDialog()">
-              <img src="../../../assets/images/ic_delete.png" alt="">
-        </div>
-              <p>{{$t('trans0072')}}</p>
-              <div>
-                <p>1.{{$t('trans0234')}}</p>
-                <p>2.{{$t('trans0215')}}</p>
-                <p>3.{{$t('trans0313')}}</p>
-                <p>4.{{$t('trans0175')}}</p>
-                <p>5.{{$t('trans0330')}}</p>
-                <p>6.{{$t('trans0372')}}</p>
+            <div class="step-item step-item2" v-show="stepsOption.current===2">
+              <div class="success" v-if="added">
+                <p>{{$t('trans0192')}}</p>
+                <div class="button-container">
+                  <button @click="backMesh" class="btn">{{$t('trans0233')}}</button>
+                </div>
               </div>
+              <div class="fail" v-if="!added">
+                <p>{{$t('trans0248')}}</p>
+                <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
+                <div class="button-container">
+                  <button @click="backMesh" class="btn">{{$t('trans0233')}}</button>
+                </div>
+              </div>
+
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="loading" v-if="scaning"></div>
+    <div class="help-dialog" v-if="showHelpDialog">
+
+      <div class="help-dialog-content">
+        <div class="close" @click="closeHelpDialog()">
+          <img src="../../../assets/images/ic_delete.png" alt="">
+        </div>
+        <p>{{$t('trans0072')}}</p>
+        <div>
+          <p>1.{{$t('trans0234')}}</p>
+          <p>2.{{$t('trans0215')}}</p>
+          <p>3.{{$t('trans0313')}}</p>
+          <p>4.{{$t('trans0175')}}</p>
+          <p>5.{{$t('trans0330')}}</p>
+          <p>6.{{$t('trans0372')}} <a href="https://www.mercku.tech/support/faqs/devices" target="_blank">https://www.mercku.tech/support/faqs/devices</a> {{$t('trans0392')}}</p>
+        </div>
+      </div>
+    </div>
   </layout>
 </template>
 <script>
