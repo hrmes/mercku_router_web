@@ -45,7 +45,7 @@ export default {
   },
   data() {
     function speedTest(v) {
-      return /^[1-9]\d*$/.test(v) && Number(v) < 1000 * 1024;
+      return /^[1-9]\d*$/.test(v);
     }
     return {
       disabled: true,
