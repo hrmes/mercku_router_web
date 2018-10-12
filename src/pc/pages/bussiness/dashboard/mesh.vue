@@ -10,7 +10,7 @@
         <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
       <div class="content">
-        <div id="topo" v-show="!showTable"></div>
+        <div id="topo" style="width:100%;height:550px;" v-show="!showTable"></div>
         <div class="table" v-show="showTable">
           <div class="table-header">
             <div class="name">
@@ -329,6 +329,7 @@ export default {
         this.$router.push('/dashboard/mesh/table');
       });
       window.addEventListener('resize', () => {
+        console.log('resize...');
         this.chart && this.chart.resize();
       });
     },
@@ -385,8 +386,6 @@ export default {
         series: [
           {
             type: 'graph',
-            top: 100,
-            bottom: 60,
             edgeSymbol: ['circle', 'circle'],
             edgeSymbolSize: 3,
             cursor: 'pointer',
@@ -550,12 +549,6 @@ export default {
     margin-bottom: 20px;
     .content {
       padding-top: 15px;
-
-      #topo {
-        width: 100%;
-        height: 100%;
-        min-height: 500px;
-      }
       .table {
         .table-header {
           display: flex;
@@ -844,94 +837,17 @@ export default {
 }
 @media screen and (width: 320px) {
   .mesh-container {
-    .edit-name-modal {
-      .opcity {
-      }
-
-      .content {
-        .select-container {
-        }
-        .btn-inner {
-          .btn {
-            &:last-child {
-            }
-          }
-        }
-      }
-    }
     .mesh-info {
       .title {
         .tabs {
           .tab {
             font-size: 14px;
-            &.selected {
-              &:hover {
-              }
-            }
-            &:hover {
-            }
           }
         }
       }
       .btn-add {
         font-size: 12px;
         width: 80px;
-      }
-
-      .content {
-        #topo {
-        }
-        .table {
-          .table-header {
-          }
-          .name {
-          }
-          .sn {
-          }
-          .type {
-          }
-          .version {
-          }
-          .ip {
-          }
-          .mac {
-          }
-          .operate {
-          }
-          .table-content {
-            .router {
-              > div {
-              }
-              .name {
-                .icon {
-                  img {
-                  }
-                }
-                .text {
-                }
-                .edit {
-                  img {
-                  }
-                }
-              }
-              .operate {
-                span {
-                  &:hover {
-                  }
-                  &:active {
-                  }
-                  &:first-child {
-                  }
-                }
-                .reboot {
-                }
-                .reset,
-                .delete {
-                }
-              }
-            }
-          }
-        }
       }
     }
   }
