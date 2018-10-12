@@ -566,19 +566,19 @@ export default {
           flex: 1;
         }
         .sn {
-          width: 140px;
+          width: 200px;
         }
         .type {
-          width: 120px;
+          width: 150px;
         }
         .version {
-          width: 100px;
+          width: 150px;
         }
         .ip {
-          width: 140px;
+          width: 200px;
         }
         .mac {
-          width: 140px;
+          width: 200px;
         }
         .operate {
           width: 200px;
