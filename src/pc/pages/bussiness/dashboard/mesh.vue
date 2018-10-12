@@ -700,7 +700,7 @@ export default {
       }
       .btn-add {
         font-size: 12px;
-        width: 80px;
+        width: 100px;
       }
 
       .content {
