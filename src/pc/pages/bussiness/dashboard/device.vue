@@ -33,7 +33,7 @@
                 <div class="name-inner">
                   <a>
                     <img v-if='row.local' src="../../../assets/images/ic_user.png" alt="" style="margin-right:5px;margin-left:0;">
-                    <span :title='row.name' :class="{'extand-name':row.expand}"> {{row.name}}</span>
+                    <span :title='row.name' :class="{'extand-name':row.expand}">{{row.name}}</span>
                     <img @click.stop='()=>nameModalOpen(row)' v-if='isMobile?(row.expand):true' src="../../../assets/images/ic_edit.png" alt="">
                   </a>
                 </div>

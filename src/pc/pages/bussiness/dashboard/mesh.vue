@@ -558,7 +558,7 @@ export default {
           background: #f1f1f1;
         }
         .name {
-          flex: 1;
+          width: 300px;
         }
         .sn {
           width: 200px;
