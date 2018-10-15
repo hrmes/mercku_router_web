@@ -329,7 +329,6 @@ export default {
         this.$router.push('/dashboard/mesh/table');
       });
       window.addEventListener('resize', () => {
-        console.log('resize...');
         this.chart && this.chart.resize();
       });
     },
