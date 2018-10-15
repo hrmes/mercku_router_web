@@ -24,7 +24,8 @@
     "moment": "^2.22.2",
     "vue": "^2.5.2",
     "vue-i18n": "^7.6.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "semver": "^5.6.0"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.16",
@@ -80,7 +81,6 @@
     "pre-commit": "^1.2.2",
     "rimraf": "^2.6.0",
     "sass-loader": "^6.0.7",
-    "semver": "^5.3.0",
     "shelljs": "^0.7.6",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.8.0",

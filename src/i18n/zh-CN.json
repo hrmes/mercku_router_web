@@ -370,7 +370,7 @@
   "trans0369": "开启",
   "trans0370": "操作",
   "trans0371": "更改时区",
-  "trans0372": "更多详情请访问：https://www.mercku.tech/support/faqs/devices",
+  "trans0372": "更多详情请访问：",
   "trans0373": "当前时区",
   "trans0374": "接入时间",
   "trans0375": "连接类型",
@@ -389,5 +389,6 @@
   "trans0388": "请选择重复时间",
   "trans0389": "路由器网页",
   "trans0390": "固件太低啦，请访问网页升级：http://mywifi.mercku.tech",
-  "trans0391": "请输入1-128000的整数"
+  "trans0391": "请输入1-128000的整数",
+  "trans0392": " "
 }

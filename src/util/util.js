@@ -1,3 +1,5 @@
+import semver from 'semver';
+
 export default {
   adapt: () => {
     const doc = document;
@@ -162,18 +164,7 @@ export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
   }
-  const v1 = version1.split('.').reduce((sum, next) => {
-    sum <<= 8;
-    sum += parseInt(next, 10);
-    return sum;
-  }, 0);
-  const v2 = version2.split('.').reduce((sum, next) => {
-    sum <<= 8;
-    sum += parseInt(next, 10);
-    return sum;
-  }, 0);
-
-  return v2 > v1;
+  return semver.gt(version2, version1);
 };
 
 export const getFileExtendName = file => {
