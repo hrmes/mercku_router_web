@@ -1,7 +1,7 @@
 <template>
   <div class="time-picker-panel">
     <div class="input-wrap" @click="open">
-      <input type="text" placeholder="请选择时间" v-model="inputValue" disabled>
+      <input type="text" placeholder="请选择时间" v-model="inputValue" readonly>
       <span class="icon-inner">
         <a class="icon">
           <img src="../../assets/images/rescreen-time.png" alt="">
