@@ -379,6 +379,7 @@ export default {
             height: 18px;
             border-radius: 2px;
             border: 1px solid #999;
+            background: #fff;
             border-radius: 50%;
             &.checked {
               background: url(../../../assets/images/ic_selected.png) no-repeat
@@ -522,6 +523,7 @@ export default {
                 height: 18px;
                 border-radius: 2px;
                 border: 1px solid #999;
+                background: #fff;
                 border-radius: 50%;
                 &.checked {
                   background: url(../../../assets/images/ic_selected.png)
