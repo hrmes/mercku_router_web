@@ -33,7 +33,7 @@
                 <div class="name-inner">
                   <a>
                     <img v-if='row.local' src="../../../assets/images/ic_user.png" alt="" style="margin-right:5px;margin-left:0;">
-                    <span :title='row.name' :class="{'extand-name':row.expand}"> {{row.name}}</span>
+                    <span :title='row.name' :class="{'extand-name':row.expand}">{{row.name}}</span>
                     <img @click.stop='()=>nameModalOpen(row)' v-if='isMobile?(row.expand):true' src="../../../assets/images/ic_edit.png" alt="">
                   </a>
                 </div>
@@ -556,7 +556,7 @@ export default {
         .mobile-icon {
           display: none;
         }
-        width: 210px;
+        width: 240px;
       }
       .column-ip {
         span:first-child {
@@ -571,7 +571,7 @@ export default {
         width: 150px;
       }
       .column-real-time {
-        width: 200px;
+        width: 160px;
       }
       .column-band {
         width: 100px;
