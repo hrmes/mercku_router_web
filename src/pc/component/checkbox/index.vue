@@ -60,6 +60,7 @@ export default {
     height: 18px;
     border-radius: 2px;
     border: 1px solid #999;
+    background: #fff;
     &.circle-shape {
       border-radius: 50%;
     }

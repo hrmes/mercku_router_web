@@ -463,7 +463,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
-  display: flex;
+  // display: flex;
   .edit-name-modal {
     position: fixed;
     width: 100%;
