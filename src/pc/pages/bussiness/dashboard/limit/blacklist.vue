@@ -57,7 +57,7 @@ import Switch from '../../../../component/switch/index.vue';
 import MTimePicker from '../../../../component/timePicker/index.vue';
 import MCheckbox from '../../../../component/checkbox/index.vue';
 import layout from '../../../../layout.vue';
-import { hostRexp, ipRexp } from '../../../../../util/util';
+import { hostRexp, ipRexp, getStringByte } from '../../../../../util/util';
 import { BlacklistMode } from '../../../../../util/constant';
 
 export default {
@@ -94,6 +94,10 @@ export default {
           {
             rule: value => hostRexp(value) || ipRexp(value),
             message: this.$t('trans0227')
+          },
+          {
+            rule: value => getStringByte(value) <= 30,
+            message: this.$t('trans0226')
           }
         ]
       }

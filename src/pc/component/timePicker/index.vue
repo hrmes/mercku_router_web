@@ -1,6 +1,6 @@
 <template>
   <div class="time-picker-panel">
-    <div class="input-wrap" @click.stop="open">
+    <div class="input-wrap" @click="open">
       <input type="text" placeholder="请选择时间" v-model="inputValue" disabled>
       <span class="icon-inner">
         <a class="icon">
@@ -57,9 +57,17 @@ export default {
   },
   mounted() {
     if (window.addEventListener) {
-      document.body.addEventListener('click', this.close);
+      document.body.addEventListener('click', e => {
+        if (!this.$el.contains(e.target)) {
+          this.close();
+        }
+      });
     } else if (window.attachEvent) {
-      document.body.attachEvent('click', this.close);
+      document.body.attachEvent('click', e => {
+        if (!this.$el.contains(e.target)) {
+          this.close();
+        }
+      });
     }
   },
   beforeDestroy() {
