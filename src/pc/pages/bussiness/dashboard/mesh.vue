@@ -398,7 +398,11 @@ export default {
                 lineHeight: 12,
                 formatter(category) {
                   // 处理手动加上的sn,label不显示sn
-                  return `${category.name.replace(/:.*/, '')}`;
+                  const name = category.name.replace(/:.*/, '');
+                  if (category.data.angle > 0) {
+                    return `${name.match(/.{1,7}/g).join('\n')}`;
+                  }
+                  return name;
                 },
                 rich: {
                   underline: {
