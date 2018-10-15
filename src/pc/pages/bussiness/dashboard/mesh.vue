@@ -514,7 +514,7 @@ export default {
   .mesh-info {
     .title {
       font-size: 16px;
-      color: #4237dd;
+      color: #999;
       padding: 15px 0;
       border-bottom: 1px solid #f1f1f1;
 
@@ -522,7 +522,10 @@ export default {
         display: inline-block;
         .tab {
           cursor: pointer;
-          text-decoration: underline;
+          &:hover {
+            text-decoration: underline;
+            color: #333;
+          }
           &.selected {
             color: #333;
             text-decoration: none;
