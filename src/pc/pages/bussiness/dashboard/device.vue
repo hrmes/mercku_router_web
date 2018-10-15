@@ -791,6 +791,9 @@ export default {
       .table-inner {
         background: transparent;
         margin: 0;
+        .column-icon {
+          width: 40px;
+        }
         .table-head {
           display: none;
         }
@@ -816,7 +819,11 @@ export default {
                 &.extand-name {
                   font-size: 18px;
                 }
-                max-width: 100%;
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: pre;
+                max-width: 150px;
               }
               img {
               }
