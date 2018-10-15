@@ -265,6 +265,15 @@ export default {
             animation: speed-test-line linear 0.5s infinite;
           }
         }
+        &.unconnected {
+          height: 30px;
+
+          background-position-y: 14px;
+          .icon-unconnected-container {
+            height: 30px;
+            width: 30px;
+          }
+        }
       }
       .device-container,
       .wifi-container,
