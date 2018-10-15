@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     b_to_KB(v) {
-      if (v === 0) {
+      if (!v) {
         return '';
       }
       return v / (8 * 1024);
