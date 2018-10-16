@@ -79,7 +79,7 @@
     <div class="edit-name-modal" v-if="showModal">
       <div class="opcity"></div>
       <div class="content">
-        <m-form :model="form" :rules="rules">
+        <m-form :model="form" :rules="rules" ref="form">
           <m-form-item prop="newName">
             <editable-select class="small" :options="options" :label="$t('trans0005')" v-model="form.newName"></editable-select>
           </m-form-item>
@@ -196,27 +196,29 @@ export default {
       this.clearIntervalTask();
     },
     updateMehsNode(router, name) {
-      this.$loading.open();
-      this.$http
-        .updateMeshNode(router.sn, { name })
-        .then(() => {
-          router.name = name;
-          this.$loading.close();
-          this.showModal = false;
-          this.createIntervalTask();
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          this.$loading.close();
-          this.createIntervalTask();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+      if (this.$refs.form.validate()) {
+        this.$loading.open();
+        this.$http
+          .updateMeshNode(router.sn, { name })
+          .then(() => {
+            router.name = name;
+            this.$loading.close();
+            this.showModal = false;
+            this.createIntervalTask();
+          })
+          .catch(err => {
+            if (err.upgrading) {
+              return;
+            }
+            this.$loading.close();
+            this.createIntervalTask();
+            if (err && err.error) {
+              this.$toast(this.$t(err.error.code));
+            } else {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
+      }
     },
     deleteNode(router) {
       this.$dialog.confirm({
