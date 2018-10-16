@@ -66,8 +66,8 @@
             </li>
             <li class="column-band" v-if='isMobile?(row.expand):true'>
               <span>{{$t('trans0015')}}</span>
-              <span> {{formatBandWidth(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
-              <span> {{formatBandWidth (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
+              <span> {{formatSpeed(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
+              <span> {{formatSpeed (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
             </li>
             <li class="column-ip device-item" v-if='isMobile?(row.expand):true'>
               <span>{{$t('trans0151')}}</span>
@@ -173,7 +173,7 @@ export default {
         name: [
           {
             rule: value => !value.match(/^\s*$/),
-            message: this.$t('trans0260')
+            message: this.$t('trans0237')
           },
           {
             rule: value => getStringByte(value) <= 20,
@@ -419,9 +419,9 @@ export default {
       const now = new Date().getTime();
       if (date < 0) {
         return '-';
-      } else if (date <= 5) {
+      } else if (date <= 5 * 1000) {
         return this.$t('trans0010');
-      } else if (date <= 60000 && date > 5) {
+      } else if (date <= 60000 && date > 5 * 1000) {
         return `${this.$t('trans0011').replace(
           '%d',
           parseInt(date / 1000, 10)

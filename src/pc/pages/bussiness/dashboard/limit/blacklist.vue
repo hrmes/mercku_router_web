@@ -17,7 +17,7 @@
             <div class="column-handle">{{$t('trans0370')}}</div>
           </div>
           <div class="table-body">
-            <div class="table-row" v-for="(row,index) in parentControlLimitList" :key='index'>
+            <div class="table-row" v-for="(row,index) in sortList" :key='index'>
               <div class="column-address">{{row}}</div>
               <div class="column-handle">
                 <a @click="delRow(row)">{{$t('trans0033')}}</a>
@@ -103,6 +103,11 @@ export default {
       }
     };
   },
+  computed: {
+    sortList() {
+      return this.parentControlLimitList.sort();
+    }
+  },
   mounted() {
     this.form.mac = this.$route.params.mac;
     const blacklist = this.$store.state.limits.blacklist;
@@ -186,32 +191,41 @@ export default {
         });
     },
     delRow(row) {
-      this.$loading.open();
-      this.$http
-        .parentControlLimitDel({
-          mac: this.form.mac,
-          hosts: [row],
-          mode: BlacklistMode.blacklist
-        })
-        .then(() => {
-          this.parentControlLimitList = this.parentControlLimitList.filter(
-            v => v !== row
-          );
-          this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-          // this.getList();
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0376'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            this.$http
+              .parentControlLimitDel({
+                mac: this.form.mac,
+                hosts: [row],
+                mode: BlacklistMode.blacklist
+              })
+              .then(() => {
+                this.parentControlLimitList = this.parentControlLimitList.filter(
+                  v => v !== row
+                );
+                this.$loading.close();
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                // this.getList();
+              })
+              .catch(err => {
+                if (err.upgrading) {
+                  return;
+                }
+                this.$loading.close();
+                if (err && err.error) {
+                  this.$toast(this.$t(err.error.code));
+                } else {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
           }
-          this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+        }
+      });
     },
     submit() {
       if (this.$refs.form.validate()) {

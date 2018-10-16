@@ -92,6 +92,7 @@ export const ipRexp = ip => {
   return false;
 };
 export const hostRexp = host => {
+  console.log(hostReg.test(host));
   if (host && hostReg.test(host)) {
     return true;
   }
