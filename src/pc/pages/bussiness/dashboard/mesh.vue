@@ -525,6 +525,7 @@ export default {
         display: inline-block;
         .tab {
           cursor: pointer;
+          font-weight: bold;
           &:hover {
             text-decoration: underline;
             color: #333;
