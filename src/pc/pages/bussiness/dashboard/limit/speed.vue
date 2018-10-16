@@ -152,10 +152,14 @@ export default {
         if (this.$refs.form.validate()) {
           this.$loading.open();
           const params = {
-            ...this.form,
-            up: this.form.up ? this.KB_to_b(Number(this.form.up)) : 0,
-            down: this.form.down ? this.KB_to_b(Number(this.form.down)) : 0
+            enabled: this.form.enabled
           };
+          if (this.form.up) {
+            params.up = this.KB_to_b(Number(this.form.up));
+          }
+          if (this.form.down) {
+            params.down = this.KB_to_b(Number(this.form.down));
+          }
           this.$http
             .speedLimitUpdate({
               mac: this.mac,
