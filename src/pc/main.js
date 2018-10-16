@@ -12,7 +12,7 @@ import {
 import loading from './component/loading/index';
 import toast from './component/toast/index';
 import dialog from './component/dialog/index';
-import v from '../../version.json';
+// import v from '../../version.json';
 import { MTable } from './component/table/index';
 import { formatSpeed, formatBandWidth } from '../util/util';
 import store from './store';
@@ -140,4 +140,4 @@ const launch = () => {
 };
 document.addEventListener('DOMContentLoaded', launch);
 
-console.log(`%cWeb version is : RC${v.version}`, 'color:red');
+// console.log(`%cWeb version is : RC${v.version}`, 'color:red');
