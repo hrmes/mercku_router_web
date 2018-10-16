@@ -13,9 +13,7 @@
     "build": "node build/build.js",
     "version": "node build/version.js"
   },
-  "pre-commit": [
-    "version"
-  ],
+  "pre-commit": [],
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
