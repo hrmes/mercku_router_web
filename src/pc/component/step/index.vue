@@ -62,13 +62,13 @@ export default {
       &:first-child {
         justify-content: flex-start;
         .step-text {
-          text-align: left;
+          text-align: center;
         }
       }
       &:last-child {
         justify-content: flex-end;
         .step-text {
-          text-align: right;
+          text-align: center;
         }
       }
       .step-content {
@@ -93,9 +93,8 @@ export default {
         font-size: 16px;
         color: #333;
         position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
+        transform: translateX(-70px);
+        width: 200px;
         margin-top: 8px;
       }
       &.fail {
@@ -126,6 +125,12 @@ export default {
 @media screen and(max-width: 768px) {
   .step-container {
     height: 40px;
+    padding: 0 20px;
+    .line {
+      width: auto;
+      left: 20px;
+      right: 20px;
+    }
     .steps {
       .step {
         .step-number {
@@ -135,6 +140,8 @@ export default {
         }
         .step-text {
           font-size: 12px;
+          width: 80px;
+          transform: translateX(-20px);
         }
       }
     }
