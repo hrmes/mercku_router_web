@@ -185,6 +185,7 @@ export default {
   },
   computed: {
     filterDevices() {
+      console.log('filter');
       const arr = this.devices;
       return arr
         .map(v => {
@@ -206,7 +207,7 @@ export default {
           const wired = 'wired';
           if (a.online_info.band === wired || b.online_info.band === wired) {
             if (a.online_info.band === wired && b.online_info.band === wired) {
-              return a.name - b.name;
+              return a.name > b.name;
             }
             if (a.online_info.band === wired) {
               return 1;

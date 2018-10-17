@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     listOrdered() {
-      return this.blacklist.sort((a, b) => a.name - b.name);
+      return this.blacklist.sort((a, b) => a.name > b.name);
     }
   },
   methods: {
