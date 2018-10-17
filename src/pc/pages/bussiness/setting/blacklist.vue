@@ -12,7 +12,7 @@
             <div class="operate">{{$t('trans0370')}}</div>
           </div>
           <div class="table-content">
-            <div class="device" v-for="device in blacklist" :key="device.mac">
+            <div class="device" v-for="device in listOrdered" :key="device.mac">
               <div class="name">{{device.name}}</div>
               <div class="mac">{{formatMac(device.mac)}}</div>
               <div class="operate">
@@ -41,6 +41,11 @@ export default {
   },
   mounted() {
     this.getBlacklist();
+  },
+  computed: {
+    listOrdered() {
+      return this.blacklist.sort((a, b) => a.name - b.name);
+    }
   },
   methods: {
     getBlacklist() {
@@ -71,9 +76,7 @@ export default {
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.blacklist = this.blacklist
-            .filter(d => d.mac !== device.mac)
-            .sort();
+          this.blacklist = this.blacklist.filter(d => d.mac !== device.mac);
         })
         .catch(err => {
           if (err.upgrading) {

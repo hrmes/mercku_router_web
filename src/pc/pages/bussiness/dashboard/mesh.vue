@@ -402,7 +402,7 @@ export default {
                   // 处理手动加上的sn,label不显示sn
                   const name = category.name.replace(/:.*/, '');
                   if (category.data.angle > 0) {
-                    return `${name.match(/.{1,8}/g).join('\n')}`;
+                    return `${name.match(/.{1,10}/g).join('\n')}`;
                   }
                   return name;
                 },

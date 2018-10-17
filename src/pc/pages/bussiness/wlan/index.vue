@@ -125,25 +125,6 @@ export default {
       }
     };
   },
-  mounted() {
-    this.$http
-      .isinitial()
-      .then(res => {
-        if (!res.data.result.status) {
-          this.$router.push({ path: '/login' });
-        }
-      })
-      .catch(err => {
-        if (err.upgrading) {
-          return;
-        }
-        if (err && err.error) {
-          this.$toast(this.$t(err.error.code));
-        } else {
-          this.$router.push({ path: '/unconnect' });
-        }
-      });
-  },
   methods: {
     clearAdminPwd(v) {
       if (!v) {
@@ -305,7 +286,7 @@ export default {
     }
     .step-content {
       width: 80%;
-      margin: 50px auto;
+      margin: 80px auto;
       .step-item {
         display: block;
         width: 100%;
