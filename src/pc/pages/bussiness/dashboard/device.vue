@@ -66,8 +66,8 @@
             </li>
             <li class="column-band" v-if='isMobile?(row.expand):true'>
               <span>{{$t('trans0015')}}</span>
-              <span> {{formatSpeed(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
-              <span> {{formatSpeed (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
+              <span> {{formatBandWidth(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
+              <span> {{formatBandWidth (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}B</span>
             </li>
             <li class="column-ip device-item" v-if='isMobile?(row.expand):true'>
               <span>{{$t('trans0151')}}</span>
@@ -205,6 +205,9 @@ export default {
           }
           const wired = 'wired';
           if (a.online_info.band === wired || b.online_info.band === wired) {
+            if (a.online_info.band === wired && b.online_info.band === wired) {
+              return a.name - b.name;
+            }
             if (a.online_info.band === wired) {
               return 1;
             }
@@ -306,7 +309,6 @@ export default {
           }, 15 * 1000);
           if (res.data.result && res.data.result.length > 0) {
             const result = res.data.result.map(v => ({ ...v, expand: false }));
-
             if (this.isMobile && this.devices.length > 0) {
               this.devices.forEach(n => {
                 result.forEach(m => {
