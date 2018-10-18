@@ -40,7 +40,7 @@
             </m-form>
           </div>
           <div class="btn-info">
-            <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
+            <button class="btn btn-default" @click="closeModal">{{$t('trans0025')}}</button>
             <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
             <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
           </div>
@@ -121,6 +121,9 @@ export default {
     }
   },
   methods: {
+    closeModal() {
+      this.modalShow = false;
+    },
     clearForm() {
       this.form = {
         ...this.form,
@@ -191,41 +194,41 @@ export default {
         });
     },
     delRow(row) {
-      this.$dialog.confirm({
-        okText: this.$t('trans0024'),
-        cancelText: this.$t('trans0025'),
-        message: this.$t('trans0376'),
-        callback: {
-          ok: () => {
-            this.$loading.open();
-            this.$http
-              .parentControlLimitDel({
-                mac: this.form.mac,
-                hosts: [row],
-                mode: BlacklistMode.blacklist
-              })
-              .then(() => {
-                this.parentControlLimitList = this.parentControlLimitList.filter(
-                  v => v !== row
-                );
-                this.$loading.close();
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                // this.getList();
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                this.$loading.close();
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
-              });
+      // this.$dialog.confirm({
+      //   okText: this.$t('trans0024'),
+      //   cancelText: this.$t('trans0025'),
+      //   message: this.$t('trans0376'),
+      //   callback: {
+      //     ok: () => {
+      this.$loading.open();
+      this.$http
+        .parentControlLimitDel({
+          mac: this.form.mac,
+          hosts: [row],
+          mode: BlacklistMode.blacklist
+        })
+        .then(() => {
+          this.parentControlLimitList = this.parentControlLimitList.filter(
+            v => v !== row
+          );
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          // this.getList();
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
           }
-        }
-      });
+          this.$loading.close();
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+      //     }
+      //   }
+      // });
     },
     submit() {
       if (this.$refs.form.validate()) {

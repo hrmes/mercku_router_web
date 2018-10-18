@@ -62,7 +62,7 @@
           </div>
           <div class="message"><span v-show='msgShow'>{{$t('trans0388')}}</span></div>
           <div class="btn-info">
-            <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
+            <button class="btn btn-default" @click="closeModal">{{$t('trans0025')}}</button>
             <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
             <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
           </div>
@@ -175,6 +175,10 @@ export default {
     }
   },
   methods: {
+    closeModal() {
+      this.modalShow = false;
+      this.msgShow = false;
+    },
     formatSchedulText(arr) {
       const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
       const everyDay = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -288,40 +292,38 @@ export default {
         });
     },
     delRow(row) {
-      this.$dialog.confirm({
-        okText: this.$t('trans0024'),
-        cancelText: this.$t('trans0025'),
-        message: this.$t('trans0376'),
-        callback: {
-          ok: () => {
-            this.$loading.open();
-            this.$http
-              .timeLimitDel({
-                mac: this.form.mac,
-                ids: [row.id]
-              })
-              .then(() => {
-                this.timeLimitList = this.timeLimitList.filter(
-                  v => v.id !== row.id
-                );
-                this.$loading.close();
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                // this.getList();
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                this.$loading.close();
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
-              });
+      // this.$dialog.confirm({
+      //   okText: this.$t('trans0024'),
+      //   cancelText: this.$t('trans0025'),
+      //   message: this.$t('trans0376'),
+      //   callback: {
+      //     ok: () => {
+      this.$loading.open();
+      this.$http
+        .timeLimitDel({
+          mac: this.form.mac,
+          ids: [row.id]
+        })
+        .then(() => {
+          this.timeLimitList = this.timeLimitList.filter(v => v.id !== row.id);
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          // this.getList();
+        })
+        .catch(err => {
+          if (err.upgrading) {
+            return;
           }
-        }
-      });
+          this.$loading.close();
+          if (err && err.error) {
+            this.$toast(this.$t(err.error.code));
+          } else {
+            this.$router.push({ path: '/unconnect' });
+          }
+        });
+      //     }
+      //   }
+      // });
     },
     submit() {
       if (!this.isChoose) {
