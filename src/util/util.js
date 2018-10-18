@@ -244,17 +244,17 @@ export const formatSpeed = value => {
   return { value: '-', unit: 'KB' };
 };
 export const formatBandWidth = value => {
-  const units = ['B', 'K', 'M', 'G', 'T', 'P'];
+  const units = ['bps', 'K', 'M', 'G', 'T', 'P'];
   let index = 0;
   if (!isNaN(value)) {
-    do {
+    while (value > 1024 && index < units.length - 1) {
       value /= 1024;
       index += 1;
-    } while (value > 1024 && index < units.length - 1);
+    }
     return {
       value: value.toFixed(1),
       unit: units[index]
     };
   }
-  return { value: '-', unit: 'B' };
+  return { value: '-', unit: 'b' };
 };
