@@ -230,7 +230,6 @@ export default {
           schedule: row.schedule
         };
       }
-      this.isChoose = true;
       this.modalShow = true;
     },
     formInitSchedules(arr) {
@@ -326,85 +325,83 @@ export default {
       // });
     },
     submit() {
-      if (!this.isChoose) {
-        this.msgShow = true;
-        return false;
-      }
-      this.$loading.open();
-      const arr = [];
-      this.schedules.forEach(item => {
-        if (item.checked) {
-          arr.push(item.value);
-        }
-      });
-      this.form.schedule = arr;
-      this.$http
-        .addTimeLimit({
-          ...this.form
-        })
-        .then(() => {
-          this.$loading.close();
-          this.getList();
-          // this.timeLimitList.push(this.form);
-          this.modalShow = false;
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
+      if (this.isChoose) {
+        this.$loading.open();
+        const arr = [];
+        this.schedules.forEach(item => {
+          if (item.checked) {
+            arr.push(item.value);
           }
         });
-      return true;
+        this.form.schedule = arr;
+        this.$http
+          .addTimeLimit({
+            ...this.form
+          })
+          .then(() => {
+            this.$loading.close();
+            this.getList();
+            // this.timeLimitList.push(this.form);
+            this.modalShow = false;
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+          })
+          .catch(err => {
+            if (err.upgrading) {
+              return;
+            }
+            this.$loading.close();
+            if (err && err.error) {
+              this.$toast(this.$t(err.error.code));
+            } else {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
+      } else {
+        this.msgShow = true;
+      }
     },
     updateSubmit() {
-      if (!this.isChoose) {
-        this.msgShow = true;
-        return false;
-      }
-      this.$loading.open();
-      const arr = [];
-      this.schedules.forEach(item => {
-        if (item.checked) {
-          arr.push(item.value);
-        }
-      });
-      this.form.schedule = arr;
-      this.$http
-        .timeLimitUpdate({
-          ...this.form,
-          id: this.selectedRow.id
-        })
-        .then(() => {
-          this.$loading.close();
-          // this.getList();
-          this.timeLimitList = this.timeLimitList.map(v => {
-            if (v.id === this.selectedRow.id) {
-              return { ...v, ...this.form };
-            }
-            return v;
-          });
-
-          this.modalShow = false;
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
+      if (this.isChoose) {
+        this.$loading.open();
+        const arr = [];
+        this.schedules.forEach(item => {
+          if (item.checked) {
+            arr.push(item.value);
           }
         });
-      return true;
+        this.form.schedule = arr;
+        this.$http
+          .timeLimitUpdate({
+            ...this.form,
+            id: this.selectedRow.id
+          })
+          .then(() => {
+            this.$loading.close();
+            // this.getList();
+            this.timeLimitList = this.timeLimitList.map(v => {
+              if (v.id === this.selectedRow.id) {
+                return { ...v, ...this.form };
+              }
+              return v;
+            });
+
+            this.modalShow = false;
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+          })
+          .catch(err => {
+            if (err.upgrading) {
+              return;
+            }
+            this.$loading.close();
+            if (err && err.error) {
+              this.$toast(this.$t(err.error.code));
+            } else {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
+      } else {
+        this.msgShow = true;
+      }
     }
   }
 };
