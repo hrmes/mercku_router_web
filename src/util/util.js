@@ -205,7 +205,7 @@ export const getStringByte = str => {
 // 格式化网络数据流量单位，value的初始单位应为B
 export const formatNetworkData = value => {
   const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
-  let index = 0;
+  let index = -1;
   if (!isNaN(value)) {
     do {
       value /= 1024;
@@ -242,19 +242,4 @@ export const formatSpeed = value => {
     };
   }
   return { value: '-', unit: 'KB' };
-};
-export const formatBandWidth = value => {
-  const units = ['', 'K', 'M', 'G', 'T', 'P'];
-  let index = 0;
-  if (!isNaN(value)) {
-    do {
-      value /= 1024;
-      index += 1;
-    } while (value > 1024 && index < units.length - 1);
-    return {
-      value: value.toFixed(1),
-      unit: units[index]
-    };
-  }
-  return { value: '-', unit: '' };
 };
