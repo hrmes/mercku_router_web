@@ -47,6 +47,9 @@ export default {
     function speedTest(v) {
       return /^[1-9]\d*$/.test(v);
     }
+    function Len(v) {
+      return /^[1-9]\d{0,5}$/.test(v);
+    }
     return {
       disabled: true,
       mac: '',
@@ -60,12 +63,20 @@ export default {
           {
             rule: value => (value ? speedTest(value) : true),
             message: this.$t('trans0031')
+          },
+          {
+            rule: value => (value ? Len(value) : true),
+            message: this.$t('trans0060')
           }
         ],
         down: [
           {
             rule: value => (value ? speedTest(value) : true),
             message: this.$t('trans0031')
+          },
+          {
+            rule: value => (value ? Len(value) : true),
+            message: this.$t('trans0060')
           }
         ]
       }
