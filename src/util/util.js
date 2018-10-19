@@ -84,7 +84,7 @@ export const isIphone = () => {
 
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
-export const hostReg = /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+([\w-][a-zA-z0-9])*)*$/;
+export const hostReg = /^\.*[a-zA-Z0-9]+([\w-][a-zA-Z0-9])*(\.[a-zA-Z0-9]+((\w|-)*[a-zA-Z0-9]+))*\.*$/;
 export const ipRexp = ip => {
   if (ip && ipReg.test(ip)) {
     return true;
@@ -244,7 +244,7 @@ export const formatSpeed = value => {
   return { value: '-', unit: 'KB' };
 };
 export const formatBandWidth = value => {
-  const units = ['B', 'K', 'M', 'G', 'T', 'P'];
+  const units = ['', 'K', 'M', 'G', 'T', 'P'];
   let index = 0;
   if (!isNaN(value)) {
     do {
@@ -256,5 +256,5 @@ export const formatBandWidth = value => {
       unit: units[index]
     };
   }
-  return { value: '-', unit: 'B' };
+  return { value: '-', unit: '' };
 };
