@@ -325,7 +325,7 @@ export default {
       }
       return {
         value: '-',
-        unit: 'K'
+        unit: 'M'
       };
     },
     closeSpeedModal() {
