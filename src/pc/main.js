@@ -12,12 +12,9 @@ import {
 import loading from './component/loading/index';
 import toast from './component/toast/index';
 import dialog from './component/dialog/index';
-// import v from '../../version.json';
-import { MTable } from './component/table/index';
 import { formatSpeed, formatNetworkData } from '../util/util';
 import store from './store';
 
-Vue.use(MTable);
 const launch = () => {
   const reconnect = options => {
     const opt = {
