@@ -132,7 +132,7 @@ export default {
       this.host = '';
     },
     modalOpen(type, row) {
-      if (this.parentControlLimitList.length === 14) {
+      if (this.parentControlLimitList.length === 15) {
         this.$toast(this.$t('trans0060'));
         return;
       }
