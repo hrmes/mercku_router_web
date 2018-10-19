@@ -185,7 +185,6 @@ export default {
   },
   computed: {
     filterDevices() {
-      console.log('filter');
       const arr = this.devices;
       return arr
         .map(v => {
