@@ -34,10 +34,10 @@
                   <a>
                     <img v-if='row.local' src="../../../assets/images/ic_user.png" alt="" style="margin-right:5px;margin-left:0;">
                     <span :title='row.name' :class="{'extand-name':row.expand}">{{row.name}}</span>
-                    <img @click.stop='()=>nameModalOpen(row)' v-if='isMobile?(row.expand):true' src="../../../assets/images/ic_edit.png" alt="">
+                    <img @click.stop='()=>nameModalOpen(row)' v-if='isMobileRow(row.expand)' src="../../../assets/images/ic_edit.png" alt="">
                   </a>
                 </div>
-                <div class="des-inner" v-if='isMobile?(row.expand):true'>
+                <div class="des-inner" v-if='isMobileRow(row.expand)'>
                   <span> {{bandMap[`${row.online_info.band}`]}}</span>
                   <span v-if="row.online_info.band!=='wired'"> {{transformDate(row.online_info.online_duration)}}</span>
                 </div>
@@ -46,7 +46,7 @@
                 <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}" src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
               </div>
             </li>
-            <li class="column-real-time" v-if='isMobile?(row.expand):true'>
+            <li class="column-real-time" v-if='isMobileRow(row.expand)'>
               <div class="speed-inner">
                 <div class="speed-wrap">
                   <img class='icon' src="../../../assets/images/ic_device_upload.png" alt="">
@@ -64,20 +64,20 @@
                 </div>
               </div>
             </li>
-            <li class="column-band" v-if='isMobile?(row.expand):true'>
+            <li class="column-band" v-if='isMobileRow(row.expand)'>
               <span>{{$t('trans0015')}}</span>
               <span> {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
               <span> {{formatNetworkData (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
             </li>
-            <li class="column-ip device-item" v-if='isMobile?(row.expand):true'>
+            <li class="column-ip device-item" v-if='isMobileRow(row.expand)'>
               <span>{{$t('trans0151')}}</span>
               <span> {{row.ip}}</span>
             </li>
-            <li class="column-mac device-item" v-if='isMobile?(row.expand):true'>
+            <li class="column-mac device-item" v-if='isMobileRow(row.expand)'>
               <span>{{$t('trans0188')}}</span>
               <span>{{formatMac(row.mac)}}</span>
             </li>
-            <li class="column-limit" v-if='isMobile?(row.expand):true'>
+            <li class="column-limit" v-if='isMobileRow(row.expand)'>
               <div class="limit-inner">
                 <div class="item device-item" @click="()=>limitClick('time',row)">
                   <span :class="{'time-active':!isMobile&&isTimeLimit(row)}"> {{$t('trans0075')}}</span>
@@ -99,7 +99,7 @@
                 </div>
               </div>
             </li>
-            <li class="column-black-list" v-if='isMobile?(row.expand):true'>
+            <li class="column-black-list" v-if='isMobileRow(row.expand)'>
               <span class="black-btn" @click="()=>addToBlackList(row)">
                 {{$t('trans0016')}}
               </span>
@@ -185,9 +185,7 @@ export default {
   },
   computed: {
     filterDevices() {
-      console.log('filter');
-      const arr = this.devices;
-      return arr
+      const arr = this.devices
         .map(v => {
           if (v.ip === this.localDeviceIP) {
             return { ...v, local: true };
@@ -220,6 +218,7 @@ export default {
 
           return a.online_info.online_duration - b.online_info.online_duration;
         });
+      return arr;
     }
   },
   mounted() {
@@ -241,6 +240,9 @@ export default {
     this.timer = null;
   },
   methods: {
+    isMobileRow(expand) {
+      return this.isMobile ? expand : true;
+    },
     isTimeLimit(row) {
       if (row.time_limit && row.time_limit.length > 0) {
         return row.time_limit.some(v => v.enabled);
