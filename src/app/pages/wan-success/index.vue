@@ -9,23 +9,23 @@
     <div class="net-info-container">
       <div class="net-info">
         <div>
-          <label for="">{{$t('trans0317')}}：</label>
+          <label for="">{{$t('trans0317')}}</label>
           <span>{{this.$t(access)}}</span>
         </div>
         <div>
-          <label for="">{{$t('trans0151')}}：</label>
+          <label for="">{{$t('trans0151')}}</label>
           <span>{{netinfo.ip}}</span>
         </div>
         <div>
-          <label for="">{{$t('trans0152')}}：</label>
+          <label for="">{{$t('trans0152')}}</label>
           <span>{{netinfo.mask}}</span>
         </div>
         <div>
-          <label for="">{{$t('trans0153')}}：</label>
+          <label for="">{{$t('trans0153')}}</label>
           <span>{{netinfo.gateway}}</span>
         </div>
         <div>
-          <label for="">{{$t('trans0236')}}：</label>
+          <label for="">{{$t('trans0236')}}</label>
           <span>{{netinfo.dns.join('/')}}</span>
         </div>
       </div>

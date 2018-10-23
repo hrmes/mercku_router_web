@@ -3,32 +3,12 @@
     <nav-bar :option="option" />
     <div class="message">{{$t('trans0143')}} </div>
     <div class="list">
-      <div class="item" @click="checkType('pppoe')">
+      <div class="item" v-for="t in types" :key="t.value" @click="checkType(t.value)">
         <div class="text">
-          <label class="title">{{$t('trans0144')}}</label>
-          <label class="des">{{$t('trans0145')}}</label>
+          <label class="title">{{$t(t.title)}}</label>
+          <label class="des">{{$t(t.des)}}</label>
         </div>
-        <div class="icon" v-if="type==='pppoe'">
-          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
-        </div>
-      </div>
-      <div class="item" @click="checkType('dhcp')">
-        <div class="text">
-          <label class="title">{{$t('trans0146')}}</label>
-          <label class="des">{{$t('trans0147')}}</label>
-        </div>
-        <div class="icon" v-if="type==='dhcp'">
-          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
-        </div>
-      </div>
-      <div class="item" @click="checkType('static')">
-        <div class="text">
-          <label class="title">{{$t('trans0148')}}</label>
-          <label class="des">{{$t('trans0149')}}</label>
-        </div>
-        <div class="icon" v-if="type==='static'">
-          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
-        </div>
+        <div class="icon" v-if="type===t.value"></div>
       </div>
     </div>
   </div>
@@ -39,6 +19,23 @@ export default {
     const config = this.routerConfig.getWan();
     return {
       type: config.type,
+      types: [
+        {
+          title: 'trans0144',
+          des: 'trans0145',
+          value: 'pppoe'
+        },
+        {
+          title: 'trans0146',
+          des: 'trans0147',
+          value: 'dhcp'
+        },
+        {
+          title: 'trans0148',
+          des: 'trans0149',
+          value: 'static'
+        }
+      ],
       option: {
         center: {
           text: this.$t('trans0142')
@@ -88,8 +85,7 @@ export default {
     display: flex;
     align-items: center;
     &:active {
-      background: rgb(0, 0, 0);
-      opacity: 0.9;
+      opacity: 0.7;
     }
     .text {
       flex: 1;
@@ -108,9 +104,10 @@ export default {
     }
     .icon {
       text-align: right;
-      i {
-        color: #d5b884;
-      }
+      width: 0.16rem;
+      height: 0.16rem;
+      background: url(../.././assets/images/ic_select@1.5x.png) no-repeat;
+      background-size: 100%;
     }
   }
 }
