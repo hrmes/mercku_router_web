@@ -7,7 +7,7 @@
             <img src="../../../assets/images/ic_device.png" alt="">
           </div>
           <div class="text-container">
-            {{$t('trans0311')}}&nbsp;({{deviceCount}})
+            {{$t('trans0235')}}&nbsp;({{deviceCount}})
           </div>
         </div>
         <div class="line"></div>

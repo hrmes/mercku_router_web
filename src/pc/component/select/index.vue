@@ -106,7 +106,7 @@ export default {
     z-index: 999;
     left: 0;
     top: 48px;
-    background: #f1f1f1;
+    background: #fff;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     max-height: 200px;

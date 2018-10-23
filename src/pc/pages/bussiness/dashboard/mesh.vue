@@ -397,7 +397,6 @@ export default {
                 position: 'bottom',
                 color: '#333',
                 backgroundColor: '#fff',
-                lineHeight: 12,
                 formatter(category) {
                   // 处理手动加上的sn,label不显示sn
                   const name = category.name.replace(/:.*/, '');
@@ -545,8 +544,8 @@ export default {
     }
     .btn-add {
       width: 100px;
-      height: 28px;
-      line-height: 28px;
+      height: 27px;
+      line-height: 27px;
       float: right;
     }
     width: 100%;

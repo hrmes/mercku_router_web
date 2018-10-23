@@ -41,12 +41,12 @@ module.exports = {
     cssSourceMap: true,
     proxyTable: {
       '/app': {
-        target: 'http://mywifi.mercku.tech',
+        target: 'http://192.168.127.254',
         changeOrigin: true,
         secure: true
       },
       '/firmware_upload': {
-        target: 'http://mywifi.mercku.tech',
+        target: 'http://192.168.127.254',
         changeOrigin: true,
         secure: true
       }

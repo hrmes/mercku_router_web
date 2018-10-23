@@ -47,10 +47,10 @@ export default {
   }
 }
 .toast-container {
-  color: #fff;
+  color: rgba(0, 0, 0, 0.65);
   position: fixed;
   top: 0;
-  padding: 10px 50px;
+  padding: 10px 16px;
   border-radius: 5px;
   z-index: 1001;
   left: 50%;
@@ -58,10 +58,12 @@ export default {
   white-space: nowrap;
   text-align: center;
   &.error {
-    background: #f73035;
+    background: #fff1f0;
+    border: 1px solid #ffa39e;
   }
   &.success {
-    background: #19d191;
+    background: #f6ffed;
+    border: 1px solid #b7eb8f;
   }
   &.toast-enter-active {
     transition: all 0.3s ease-in;
