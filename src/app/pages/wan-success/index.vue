@@ -128,16 +128,24 @@ export default {
     }
   }
   .net-info-container {
-    display: flex;
     align-items: center;
     margin-top: 0.4rem;
     font-size: 16px;
     .net-info {
-      display: inline-block;
-      margin: 0 auto;
+      margin: 0 0.35rem;
+
       > div {
         text-align: left;
-        margin-top: 0.1rem;
+        padding: 0.1rem 0;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid rgb(189, 189, 189);
+        label {
+          font-weight: bold;
+        }
+        &:last-child {
+          border: 0;
+        }
       }
     }
   }

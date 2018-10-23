@@ -12,7 +12,7 @@
         <m-input type="password" v-model="pwd" :placeholder="$t('trans0172')" />
       </div>
       <div class="check-container">
-        <mCheckbox v-model="checked" :text="$t('trans0166')" />
+        <mCheckbox :rect="false" v-model="checked" :text="$t('trans0166')" />
       </div>
       <div v-if="!checked" class="adminpwd-container">
         <m-input type="password" v-model="adminPwd" :placeholder="$t('trans0067')" />
@@ -130,10 +130,11 @@ export default {
     text-align: center;
   }
   .h1 {
-    background: #000;
+    background: rgb(250, 250, 250);
     color: rgb(124, 124, 124);
     padding: 0.16rem 0 0.16rem 0.2rem;
-    font-size: 0.16rem;
+    font-size: 0.12rem;
+    border: 1px solid rgb(241, 241, 241);
   }
 
   .wlan-settings {

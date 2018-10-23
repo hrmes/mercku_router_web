@@ -76,7 +76,7 @@ export default {
   .text {
     display: inline;
     font-size: 13px;
-    color: rgb(182, 182, 182);
+    color: rgb(51, 51, 51);
     margin-left: 5px;
   }
 }

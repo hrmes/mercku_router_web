@@ -19,26 +19,6 @@
 <script>
 const noop = () => {};
 export default {
-  /*
-    option:{
-      left:{
-        icon:bool,  when icon is true ,the text is icon name class
-        text:string,
-        click:function
-      },
-      center:{
-        icon:bool,
-        text:string,
-        click:function
-      },
-      right:{
-        icon:bool,
-        text:string,
-        click:function
-      }
-    }
-
-  */
   props: {
     option: {
       type: Object,
@@ -83,7 +63,7 @@ export default {
   left: 0;
   right: 0;
   position: absolute;
-  background: rgb(16, 16, 16);
+  background: #fff;
   top: 0;
   box-sizing: border-box;
   z-index: 1000;
@@ -122,7 +102,7 @@ export default {
       text-overflow: ellipsis;
       white-space: nowrap;
       font-size: 0.16rem;
-      color: #d5b884;
+      color: rgb(51, 51, 51);
       height: 0.44rem;
       position: absolute;
       left: 0.5rem;
@@ -137,7 +117,7 @@ export default {
       display: inline-block;
       right: 0;
       font-size: 0.14rem;
-      color: #d5b884;
+      color: rgb(51, 51, 51);
       text-align: right;
       height: 0.44rem;
       line-height: 0.44rem;

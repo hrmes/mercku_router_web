@@ -3,7 +3,7 @@
     <nav-bar :option="option" />
     <div class="status-info">
       <img src="../../assets/images/img_default_empty@3x.png" alt="">
-      <div class="message">{{$route.params.state==='unlinked'?$t('trans0161'):$t('trans0180')}}</div>
+      <div class="message">{{message}}</div>
     </div>
     <div class="net-info-container">
       <div class="net-info">
@@ -33,7 +33,7 @@
     <div class="button-info">
       <button class="btn btn-default" @click="forward2set()">{{$t('trans0019')}}</button>
       <div class="space"></div>
-      <button class="btn btn-default" @click="$router.replace('/check-network')">{{$t('trans0162')}}</button>
+      <button class="btn btn-default retry" @click="$router.replace('/check-network')">{{$t('trans0162')}}</button>
     </div>
   </div>
 </template>
@@ -41,6 +41,13 @@
 import { WanType } from '../../../util/constant';
 
 export default {
+  computed: {
+    message() {
+      return this.$route.params.state === 'unlinked'
+        ? this.$t('trans0161')
+        : this.$t('trans0180');
+    }
+  },
   data() {
     return {
       option: {
@@ -154,6 +161,15 @@ export default {
   overflow: hidden;
   padding-left: 0.15rem;
   position: relative;
+  .retry {
+    background: #fff;
+    color: rgb(214, 0, 28);
+    border: 1px solid rgb(214, 0, 28);
+    border-radius: 25px;
+    &:active {
+      opacity: 0.9;
+    }
+  }
   .status-info {
     font-size: 0.2rem;
     text-align: center;
@@ -163,26 +179,34 @@ export default {
       width: 100%;
       text-align: center;
       font-size: 0.14rem;
-      color: rgb(182, 182, 182);
+      color: rgb(51, 51, 51);
     }
 
     img {
       width: 1.4rem;
       height: 1.4rem;
-      margin-top: 0.3rem;
+      margin-top: 0.2rem;
     }
   }
   .net-info-container {
-    display: flex;
     align-items: center;
     margin-top: 0.4rem;
     font-size: 16px;
     .net-info {
-      display: inline-block;
-      margin: 0 auto;
+      margin: 0 0.35rem;
+
       > div {
         text-align: left;
-        margin-top: 0.1rem;
+        padding: 0.1rem 0;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid rgb(189, 189, 189);
+        label {
+          font-weight: bold;
+        }
+        &:last-child {
+          border: 0;
+        }
       }
     }
   }

@@ -98,7 +98,7 @@ export default {
       bottom: 0;
       width: 100%;
       height: 1px;
-      background-color: #d5b884;
+      background-color: rgb(124, 124, 124);
       transform: scaleY(0.5);
     }
   }
@@ -110,7 +110,7 @@ export default {
     border: none;
     font-size: 14px;
     background: transparent;
-    color: #d2d2d2;
+    color: #333;
     -webkit-appearance: none;
     box-sizing: border-box;
 

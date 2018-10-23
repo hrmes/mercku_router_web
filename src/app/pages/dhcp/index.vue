@@ -62,8 +62,8 @@ export default {
     height: 0.5rem;
     line-height: 0.5rem;
     display: flex;
-    color: rgb(182, 182, 182);
-    background: rgb(14, 14, 14);
+    color: rgb(51, 51, 51);
+    background: #fff;
     font-size: 14px;
     padding: 0 0.15rem;
     justify-content: space-between;
@@ -87,7 +87,7 @@ export default {
     line-height: 1.8;
     font-size: 0.12rem;
     text-align: left;
-    color: rgb(124, 124, 124);
+    color: rgb(153, 153, 153);
     padding: 0.1rem 0.15rem;
   }
 
