@@ -58,7 +58,7 @@ export default {
     float: left;
     width: 16px;
     height: 16px;
-    border: 1px solid #d5b884;
+    border: 1px solid rgb(51, 51, 51);
     border-radius: 2px;
     &.circle-shape {
       border-radius: 50%;
@@ -70,7 +70,6 @@ export default {
       border-radius: none;
       height: 18px;
       width: 18px;
-      //background-color: rgb(213, 184, 132);
     }
   }
   .text {
