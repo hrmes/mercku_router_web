@@ -251,7 +251,7 @@ export default {
                 this.$loading.close();
 
                 if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
+                  this.$toast(this.$t('trans0296'));
                 } else {
                   this.$router.push({ path: '/unconnect' });
                 }

@@ -57,7 +57,6 @@ export default {
       this.$emit('input', this.selected);
     },
     select(option) {
-      console.log('option', option);
       this.selected = option;
       this.$emit('input', this.selected);
       this.opened = false;
