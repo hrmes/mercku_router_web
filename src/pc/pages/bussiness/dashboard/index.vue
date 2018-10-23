@@ -7,7 +7,7 @@
             <img src="../../../assets/images/ic_device.png" alt="">
           </div>
           <div class="text-container">
-            {{$t('trans0311')}}({{deviceCount}})
+            {{$t('trans0311')}}&nbsp;({{deviceCount}})
           </div>
         </div>
         <div class="line"></div>
@@ -255,7 +255,8 @@ export default {
         }
       }
       .text-container {
-        font-size: 14px;
+        font-size: 12px;
+        font-weight: bold;
       }
       .line {
         height: 30px;
@@ -283,7 +284,8 @@ export default {
       .device-container {
         .text-container {
           font-size: 12px;
-          line-height: 1.8;
+          margin-top: 20px;
+          font-weight: bold;
         }
       }
     }
