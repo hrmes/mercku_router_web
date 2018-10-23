@@ -21,33 +21,34 @@
             <div v-if="isConnected">
               <img src="../../../assets/images/img_internet_normal.png" alt="">
               <p>{{$t('trans0318')}}</p>
-              <div class="seccess-info">
-                <div>
-                  <label for="">{{$t('trans0317')}}：</label>
-                  <span>
-                    {{networkArr[localNetInfo.type]}}
-                  </span>
-                </div>
-                <div>
-                  <label for="">{{$t('trans0151')}}：</label>
-                  <span> {{localNetInfo.netinfo.ip}}</span>
-                </div>
-                <div>
-                  <label for="">{{$t('trans0152')}}：</label>
-                  <span> {{localNetInfo.netinfo.mask }} </span>
-                </div>
-                <div>
-                  <label for="">{{$t('trans0153')}}：</label>
-                  <span>
-                    {{localNetInfo.netinfo.gateway}}
-                  </span>
-                </div>
-                <div>
-                  <label for="">{{$t('trans0236')}}：</label>
-                  <span>
-                    {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
-                  </span>
-                </div>
+
+            </div>
+            <div class="seccess-info">
+              <div>
+                <label for="">{{$t('trans0317')}}：</label>
+                <span>
+                  {{networkArr[localNetInfo.type]}}
+                </span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0151')}}：</label>
+                <span> {{localNetInfo.netinfo.ip}}</span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0152')}}：</label>
+                <span> {{localNetInfo.netinfo.mask }} </span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0153')}}：</label>
+                <span>
+                  {{localNetInfo.netinfo.gateway}}
+                </span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0236')}}：</label>
+                <span>
+                  {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                </span>
               </div>
             </div>
           </div>
@@ -464,9 +465,12 @@ export default {
         }
         .seccess-info {
           text-align: left;
-          margin: 30px;
+          display: flex;
+          width: 100%;
+          flex-direction: column;
           div {
             margin-top: 10px;
+            display: flex;
           }
           label {
             display: inline-block;
@@ -475,10 +479,12 @@ export default {
             font-weight: bold;
             width: 130px;
             text-align: right;
+            flex: 1;
           }
           span {
             color: #333333;
             font-size: 14px;
+            flex: 1;
           }
         }
       }
