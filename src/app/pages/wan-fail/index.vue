@@ -165,7 +165,7 @@ export default {
     background: #fff;
     color: rgb(214, 0, 28);
     border: 1px solid rgb(214, 0, 28);
-    border-radius: 25px;
+    border-radius: 0.25rem;
     &:active {
       opacity: 0.7;
     }
@@ -191,7 +191,7 @@ export default {
   .net-info-container {
     align-items: center;
     margin-top: 0.4rem;
-    font-size: 16px;
+    font-size: 0.16rem;
     .net-info {
       margin: 0 0.35rem;
 

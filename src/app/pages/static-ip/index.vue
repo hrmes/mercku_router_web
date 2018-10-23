@@ -165,7 +165,7 @@ export default {
     color: rgb(51, 51, 51);
     background: #fff;
     border: 1px solid rgb(241, 241, 241);
-    font-size: 14px;
+    font-size: 0.14rem;
     padding: 0.2rem 0.15rem;
     justify-content: space-between;
     .icon-enter {
@@ -190,7 +190,7 @@ export default {
     border-bottom: 1px solid rgb(241, 241, 241);
   }
   .message {
-    font-size: 12px;
+    font-size: 0.12rem;
     text-align: left;
     color: rgb(51, 51, 51);
     padding: 0.2rem 0.15rem;

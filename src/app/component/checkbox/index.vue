@@ -48,16 +48,15 @@ export default {
 .checkbox-container {
   text-align: left;
   border-radius: 3px;
-  height: 18px;
+  height: 0.18rem;
   display: block;
-
   label {
     cursor: pointer;
   }
   .box {
     float: left;
-    width: 16px;
-    height: 16px;
+    width: 0.16rem;
+    height: 0.16rem;
     border: 1px solid rgb(51, 51, 51);
     border-radius: 2px;
     &.circle-shape {
@@ -68,15 +67,15 @@ export default {
       border: none;
       background-size: 100%;
       border-radius: none;
-      height: 18px;
-      width: 18px;
+      height: 0.18rem;
+      width: 0.18rem;
     }
   }
   .text {
     display: inline;
-    font-size: 13px;
+    font-size: 0.13rem;
     color: rgb(51, 51, 51);
-    margin-left: 5px;
+    margin-left: 0.05rem;
   }
 }
 </style>

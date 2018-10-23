@@ -43,7 +43,7 @@ export default {
   color: rgb(182, 182, 182);
   position: fixed;
   top: 0;
-  padding: 10px;
+  padding: 0.1rem;
   border-radius: 5px;
   z-index: 1001;
   left: 50%;

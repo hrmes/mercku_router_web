@@ -68,7 +68,7 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .wan-hand-container {
   .message {
-    font-size: 12px;
+    font-size: 0.12rem;
     text-align: left;
     color: rgb(108, 108, 108);
     background: rgb(250, 250, 250);

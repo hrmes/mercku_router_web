@@ -84,10 +84,10 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 @keyframes progress {
   0% {
-    width: 10px;
+    width: 5%;
   }
   100% {
-    width: 200px;
+    width: 100%;
   }
 }
 .wan-check-container {
@@ -102,7 +102,7 @@ export default {
     left: 50%;
     width: 100%;
     .progress-bar {
-      width: 200px;
+      width: 2rem;
       margin: 0 auto;
       margin-bottom: 0.3rem;
       background: rgb(230, 230, 230);

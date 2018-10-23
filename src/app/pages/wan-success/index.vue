@@ -130,7 +130,7 @@ export default {
   .net-info-container {
     align-items: center;
     margin-top: 0.4rem;
-    font-size: 16px;
+    font-size: 0.16rem;
     .net-info {
       margin: 0 0.35rem;
 

@@ -64,7 +64,7 @@ export default {
     display: flex;
     color: rgb(51, 51, 51);
     background: #fff;
-    font-size: 14px;
+    font-size: 0.14rem;
     padding: 0 0.15rem;
     justify-content: space-between;
     .icon-enter {

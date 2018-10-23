@@ -87,7 +87,7 @@ export default {
   }
   .inputarea {
     position: relative;
-    margin-right: 30px;
+    margin-right: 0.3rem;
     &.no-margin {
       margin-right: 0;
     }
