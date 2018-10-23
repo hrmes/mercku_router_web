@@ -73,6 +73,7 @@ export default {
     border-radius: 10px;
     transform: translate(-50%, -50%);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
     .dialog-buttons {
       white-space: nowrap;
       font-size: 0;
@@ -109,7 +110,8 @@ export default {
     }
     .dialog-message {
       color: rgb(51, 51, 51);
-      padding: 30px 0;
+      padding: 0.3rem 0.1rem;
+      line-height: 1.34;
     }
   }
   &.dialog-enter-active {

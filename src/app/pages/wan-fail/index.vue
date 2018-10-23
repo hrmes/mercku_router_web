@@ -167,7 +167,7 @@ export default {
     border: 1px solid rgb(214, 0, 28);
     border-radius: 25px;
     &:active {
-      opacity: 0.9;
+      opacity: 0.7;
     }
   }
   .status-info {

@@ -132,10 +132,10 @@ export default {
         transform: translateY(-50%);
       }
       :active {
-        color: #ffdea1;
+        color: #000;
       }
       :hover {
-        color: #ffdda1;
+        color: #000;
       }
     }
   }
