@@ -281,7 +281,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .form {
       margin: 0 3%;
