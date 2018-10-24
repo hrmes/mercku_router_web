@@ -368,6 +368,11 @@ export default {
         },
         legend: [
           {
+            itemWidth: 6,
+            itemHeight: 6,
+            textStyle: {
+              padding: [0, 0, 0, 15]
+            },
             data: [
               {
                 name: `${this.$t('trans0193')}`,
