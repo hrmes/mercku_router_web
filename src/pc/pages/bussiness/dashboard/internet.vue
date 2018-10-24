@@ -861,13 +861,19 @@ export default {
             width: 120px;
             height: 42px;
             border-radius: 4px;
-            border: solid 1px #b6b6b6;
-            color: #333333;
+            border: solid 1px rgb(214, 0, 28);
+            color: rgb(214, 0, 28);
             background: white;
             outline: none;
             box-sizing: border-box;
             &:active {
-              opacity: 0.6;
+              color: rgb(182, 0, 28);
+              border-color: rgb(182, 0, 28);
+            }
+
+            &:hover {
+              color: rgb(182, 0, 28);
+              border-color: rgb(182, 0, 28);
             }
           }
           .re-btn {
