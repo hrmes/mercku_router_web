@@ -45,7 +45,7 @@ export default {
         m: this.value.split(':')[1]
       },
       distance: 0,
-      animationTime: 200,
+      animationTime: 100,
       animationEl: null
     };
   },
@@ -108,7 +108,8 @@ export default {
         return;
       }
       let scroll =
-        this.animationEl.scrollTop + this.distance / this.animationTime;
+        this.animationEl.scrollTop +
+        Math.ceil(this.distance / this.animationTime);
       scroll = scroll > this.distance ? this.distance : scroll;
       console.log('scroll', scroll);
       this.animationEl.scrollTo(0, scroll);
