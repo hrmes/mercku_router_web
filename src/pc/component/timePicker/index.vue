@@ -84,6 +84,13 @@ export default {
     formatCount(v) {
       return v < 10 ? `0${v}` : `${v}`;
     },
+    scrollTo(el, x, y) {
+      if (el.scrollTo) {
+        el.scrollTo(x, y);
+      } else {
+        el.scrollTop = y;
+      }
+    },
     open() {
       this.opened = true;
       this.$nextTick(() => {
@@ -100,7 +107,7 @@ export default {
       const pTop = pEl.getBoundingClientRect().top;
       const scrollTop = pEl.scrollTop;
       const move = cTop - pTop + scrollTop;
-      el.scrollTo(0, move);
+      this.scrollTo(el, 0, move);
     },
     animateScroll() {
       if (this.animationEl.scrollTop >= this.distance) {
@@ -110,7 +117,7 @@ export default {
         this.animationEl.scrollTop +
         Math.ceil(this.distance / this.animationTime);
       scroll = scroll > this.distance ? this.distance : scroll;
-      this.animationEl.scrollTo(0, scroll);
+      this.scrollTo(this.animationEl, 0, scroll);
       requestAnimationFrame(this.animateScroll);
     },
     close() {
