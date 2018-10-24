@@ -119,20 +119,19 @@ export default {
       }
       this.opened = false;
     },
-    selectScroll(e) {
-      const pEl = this.$refs.combo;
+    selectScroll(e, p) {
+      const pEl = this.$refs[p];
       const sEl = e.currentTarget;
       const pTop = pEl.getBoundingClientRect().top;
       const sTop = sEl.getBoundingClientRect().top;
       const move = sTop - pTop;
-      const scrollTop = e.path[2].scrollTop;
-      console.log(e.path);
+      const scrollTop = pEl.scrollTop;
       this.distance = move + scrollTop;
-      this.animationEl = e.path[2];
+      this.animationEl = pEl;
       this.animateScroll();
     },
     select(type, v, e) {
-      this.selectScroll(e);
+      this.selectScroll(e, type);
       this.time[type] = v;
       this.inputValue = `${this.time.h}:${this.time.m}`;
       this.$emit('input', this.inputValue);
