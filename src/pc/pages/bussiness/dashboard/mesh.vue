@@ -20,7 +20,7 @@
             <div class="type">{{$t('trans0068')}}</div>
             <div class="sn">{{$t('trans0251')}}</div>
             <div class="version">{{$t('trans0300')}}</div>
-            <div class="ip">{{$t('trans0151')}}</div>
+            <div class="ip">{{$t('trans0151')}}<span>&nbsp;/&nbsp;{{$t('trans0201')}}</span></div>
             <div class="mac">{{$t('trans0201')}}</div>
             <div class="operate">{{$t('trans0370')}}</div>
           </div>
@@ -55,6 +55,7 @@
               <div class="ip">
                 <span class="label">{{$t('trans0151')}}</span>
                 <span class="value">{{router.ip}}</span>
+                <span class="value">{{formatMac(router.mac.lan)}}</span>
               </div>
               <div class="mac">
                 <span class="label">{{$t('trans0201')}}</span>
@@ -565,32 +566,39 @@ export default {
       .table {
         .table-header {
           display: flex;
-          padding: 15px 30px;
+          padding: 15px 20px;
           background: #f1f1f1;
         }
         .name {
-          width: 300px;
+          min-width: 230px;
+          width: 25%;
+          padding-left: 50px;
         }
         .sn {
-          width: 200px;
+          min-width: 150px;
+          width: 15%;
         }
         .type {
-          width: 150px;
+          min-width: 150px;
+          width: 15%;
         }
         .version {
-          width: 150px;
+          min-width: 150px;
+          width: 15%;
         }
         .ip {
-          width: 200px;
+          min-width: 150px;
+          width: 15%;
         }
         .mac {
-          width: 200px;
+          display: none;
         }
         .operate {
-          width: 200px;
+          min-width: 150px;
+          width: 15%;
         }
         .table-content {
-          padding: 0 30px;
+          padding: 0 20px;
           .router {
             display: flex;
             padding: 30px 0;
@@ -601,9 +609,18 @@ export default {
               display: flex;
               align-items: center;
             }
+            .ip {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+            }
+            .mac {
+              display: none;
+            }
             .name {
               display: flex;
               align-items: center;
+              padding-left: 0;
               .expand {
                 display: none;
                 img {
@@ -637,7 +654,6 @@ export default {
                 font-size: 14px;
                 margin-right: 10px;
                 white-space: pre;
-                // width: 80px;
               }
               .edit {
                 cursor: pointer;
@@ -651,7 +667,7 @@ export default {
             }
             .operate {
               span {
-                margin-left: 10px;
+                margin-left: 20px;
                 cursor: pointer;
                 &:hover {
                   text-decoration: underline;
@@ -738,17 +754,15 @@ export default {
               display: inline-block;
             }
           }
-          .sn {
-          }
-          .type {
-          }
-          .version {
-          }
           .ip {
-          }
-          .mac {
-          }
-          .operate {
+            .label {
+              span {
+                display: none;
+              }
+            }
+            .value:last-child {
+              display: none !important;
+            }
           }
           .table-content {
             padding: 0;
@@ -787,6 +801,12 @@ export default {
                   display: inline-block;
                   text-align: right;
                 }
+              }
+              .ip {
+                flex-direction: row;
+              }
+              .mac {
+                display: flex;
               }
               .name {
                 .wrap {

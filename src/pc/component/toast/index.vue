@@ -97,8 +97,5 @@ export default {
   &.toast-enter {
     transform: translate(-50%, -100%);
   }
-  // &.toast-leave {
-  //   transform: translate(-50%, -100%);
-  // }
 }
 </style>

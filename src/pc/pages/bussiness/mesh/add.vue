@@ -91,12 +91,12 @@
         </div>
         <p>{{$t('trans0072')}}</p>
         <div>
-          <p>1.{{$t('trans0234')}}</p>
-          <p>2.{{$t('trans0215')}}</p>
-          <p>3.{{$t('trans0313')}}</p>
-          <p>4.{{$t('trans0175')}}</p>
-          <p>5.{{$t('trans0330')}}</p>
-          <p>6.{{$t('trans0372')}} <a href="https://www.mercku.tech/support/faqs/devices" target="_blank">https://www.mercku.tech/support/faqs/devices</a> {{$t('trans0392')}}</p>
+          <p>1. {{$t('trans0234')}}</p>
+          <p>2. {{$t('trans0215')}}</p>
+          <p>3. {{$t('trans0313')}}</p>
+          <p>4. {{$t('trans0175')}}</p>
+          <p>5. {{$t('trans0330')}}</p>
+          <p>6. {{$t('trans0372')}} <a href="https://www.mercku.tech/support/faqs/devices" target="_blank">https://www.mercku.tech/support/faqs/devices</a> {{$t('trans0392')}}</p>
         </div>
       </div>
     </div>
