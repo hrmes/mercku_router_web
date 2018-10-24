@@ -48,36 +48,34 @@ export default {
 .checkbox-container {
   text-align: left;
   border-radius: 3px;
-  height: 18px;
+  height: 0.18rem;
   display: block;
-
   label {
     cursor: pointer;
   }
   .box {
     float: left;
-    width: 16px;
-    height: 16px;
-    border: 1px solid #d5b884;
+    width: 0.16rem;
+    height: 0.16rem;
+    border: 1px solid rgb(51, 51, 51);
     border-radius: 2px;
     &.circle-shape {
       border-radius: 50%;
     }
     &.checked {
-      background: url(../../assets/images/in_chioce@3x.png) no-repeat center;
+      background: url(../../assets/images/ic_chioce.png) no-repeat center;
       border: none;
       background-size: 100%;
       border-radius: none;
-      height: 18px;
-      width: 18px;
-      //background-color: rgb(213, 184, 132);
+      height: 0.18rem;
+      width: 0.18rem;
     }
   }
   .text {
     display: inline;
-    font-size: 13px;
-    color: rgb(182, 182, 182);
-    margin-left: 5px;
+    font-size: 0.13rem;
+    color: rgb(51, 51, 51);
+    margin-left: 0.05rem;
   }
 }
 </style>

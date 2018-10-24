@@ -5,7 +5,7 @@
       <span>{{$t('trans0317')}}</span>
       <span>
         {{this.$t(type)}}
-        <img class="icon-enter" src="../../assets/images/ic_inter@3x.png" />
+        <img class="icon-enter" src="../../assets/images/ic_enter.png" />
       </span>
     </div>
     <div class="message">{{$t('trans0147')}}</div>
@@ -62,9 +62,9 @@ export default {
     height: 0.5rem;
     line-height: 0.5rem;
     display: flex;
-    color: rgb(182, 182, 182);
-    background: rgb(14, 14, 14);
-    font-size: 14px;
+    color: rgb(51, 51, 51);
+    background: #fff;
+    font-size: 0.14rem;
     padding: 0 0.15rem;
     justify-content: space-between;
     .icon-enter {
@@ -87,7 +87,7 @@ export default {
     line-height: 1.8;
     font-size: 0.12rem;
     text-align: left;
-    color: rgb(124, 124, 124);
+    color: rgb(153, 153, 153);
     padding: 0.1rem 0.15rem;
   }
 

@@ -727,7 +727,7 @@ export default {
       .test-info {
         position: relative;
         .animation-container1 {
-          background: rgba(65, 55, 221, 1);
+          background: #d6001c;
           width: 110px;
           height: 110px;
           position: absolute;
@@ -737,9 +737,10 @@ export default {
           margin-top: -55px;
           border-radius: 50%;
           animation: speed-testing 1s linear infinite;
+          z-index: 10;
         }
         .animation-container2 {
-          background: rgba(65, 55, 221, 0.6);
+          background: rgba(214, 0, 28, 0.37);
           width: 220px;
           height: 220px;
           position: absolute;
@@ -749,9 +750,10 @@ export default {
           margin-top: -110px;
           border-radius: 50%;
           animation: speed-testing 1s linear infinite;
+          z-index: 9;
         }
         .animation-container3 {
-          background: rgba(65, 55, 221, 0.2);
+          background: rgba(214, 0, 28, 0.2);
           width: 330px;
           height: 330px;
           position: absolute;
@@ -761,6 +763,7 @@ export default {
           margin-top: -165px;
           border-radius: 50%;
           animation: speed-testing 1s linear infinite;
+          z-index: 8;
         }
         //background: url('../../../assets/images/img_test_03.png') no-repeat;
         background-size: 100%;
@@ -861,13 +864,19 @@ export default {
             width: 120px;
             height: 42px;
             border-radius: 4px;
-            border: solid 1px #b6b6b6;
-            color: #333333;
+            border: solid 1px rgb(214, 0, 28);
+            color: rgb(214, 0, 28);
             background: white;
             outline: none;
             box-sizing: border-box;
             &:active {
-              opacity: 0.6;
+              color: rgb(182, 0, 28);
+              border-color: rgb(182, 0, 28);
+            }
+
+            &:hover {
+              color: rgb(182, 0, 28);
+              border-color: rgb(182, 0, 28);
             }
           }
           .re-btn {

@@ -3,29 +3,29 @@
   <div class="wan-success-page">
     <nav-bar :option="option" />
     <div class="banner-container">
-      <img src="../../assets/images/ic_succeed.png" alt="">
+      <img src="../../assets/images/ic_success.png" alt="">
       <p>{{$t('trans0157')}}</p>
     </div>
     <div class="net-info-container">
       <div class="net-info">
         <div>
-          <label for="">{{$t('trans0317')}}：</label>
+          <label for="">{{$t('trans0317')}}</label>
           <span>{{this.$t(access)}}</span>
         </div>
         <div>
-          <label for="">{{$t('trans0151')}}：</label>
+          <label for="">{{$t('trans0151')}}</label>
           <span>{{netinfo.ip}}</span>
         </div>
         <div>
-          <label for="">{{$t('trans0152')}}：</label>
+          <label for="">{{$t('trans0152')}}</label>
           <span>{{netinfo.mask}}</span>
         </div>
         <div>
-          <label for="">{{$t('trans0153')}}：</label>
+          <label for="">{{$t('trans0153')}}</label>
           <span>{{netinfo.gateway}}</span>
         </div>
         <div>
-          <label for="">{{$t('trans0236')}}：</label>
+          <label for="">{{$t('trans0236')}}</label>
           <span>{{netinfo.dns.join('/')}}</span>
         </div>
       </div>
@@ -128,16 +128,24 @@ export default {
     }
   }
   .net-info-container {
-    display: flex;
     align-items: center;
     margin-top: 0.4rem;
-    font-size: 16px;
+    font-size: 0.16rem;
     .net-info {
-      display: inline-block;
-      margin: 0 auto;
+      margin: 0 0.35rem;
+
       > div {
         text-align: left;
-        margin-top: 0.1rem;
+        padding: 0.1rem 0;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid rgb(189, 189, 189);
+        label {
+          font-weight: bold;
+        }
+        &:last-child {
+          border: 0;
+        }
       }
     }
   }

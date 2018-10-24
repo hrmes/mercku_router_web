@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// axios.defaults.headers['content-type'] = 'application/json';
+axios.defaults.timeout = 20000;
 
 const url = '/app';
 const methods = {

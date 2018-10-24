@@ -40,20 +40,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .toast-container {
-  color: rgb(182, 182, 182);
+  color: #fff;
   position: fixed;
   top: 0;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 0.1rem;
+  border-radius: 0.2rem;
   z-index: 1001;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
   max-width: 80%;
   line-height: 1.34;
-
+  padding: 0.15rem 0.3rem;
   &.error {
-    background: rgb(52, 52, 52);
+    background: rgb(0, 0, 0);
   }
   &.success {
     background: #19d191;
