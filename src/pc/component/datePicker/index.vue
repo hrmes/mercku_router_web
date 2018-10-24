@@ -1,20 +1,20 @@
 <template>
-    <div class="date-picker-panel" @click.stop="open">
-        <div class="input-wrap">
-            <input type="text" placeholder="请选择日期" disabled>
-            <span class="icon-inner">
-                <a class="icon">V</a>
-            </span>
-        </div>
-        <div class="combobox" ref="combo" v-show="opened">
-            <ul>
-                <li v-for="(v,i) in date" :key='i' @click.stop="()=>select(v)" :class="{'active':v.checked}">
-                    <span>{{v.label}}</span>
-                    <i v-if="v.checked">√</i>
-                </li>
-            </ul>
-        </div>
+  <div class="date-picker-panel" @click.stop="open">
+    <div class="input-wrap">
+      <input type="text" placeholder="请选择日期" disabled>
+      <span class="icon-inner">
+        <a class="icon">V</a>
+      </span>
     </div>
+    <div class="combobox" ref="combo" v-show="opened">
+      <ul>
+        <li v-for="(v,i) in date" :key='i' @click.stop="()=>select(v)" :class="{'active':v.checked}">
+          <span>{{v.label}}</span>
+          <i v-if="v.checked">√</i>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -147,7 +147,7 @@ export default {
         margin-right: 20px;
       }
       &.active {
-        color: #4237dd;
+        color: #d6001c;
       }
     }
   }

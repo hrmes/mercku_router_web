@@ -876,8 +876,8 @@ export default {
             width: 120px;
             height: 42px;
             border-radius: 4px;
-            background-color: #4237dd;
-            border: solid 1px #4237dd;
+            background-color: #d6001c;
+            border: solid 1px #d6001c;
             color: #ffffff;
             margin-left: 40px;
             &:active {

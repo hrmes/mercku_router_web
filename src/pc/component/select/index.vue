@@ -120,11 +120,11 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: #4237dd;
+        background: #d6001c;
         color: #fff;
       }
       &:hover {
-        background: #4237dd;
+        background: #d6001c;
         color: #fff;
       }
     }
