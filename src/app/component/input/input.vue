@@ -1,6 +1,6 @@
 <template>
   <div class="input-container" :class="{'disabled':disabled}">
-    <div class="inputarea" :class="{'no-margin':!isPwdInput}">
+    <div class="inputarea" :class="{'no-margin':!isPwdInput,'has-content':!!inputValue}">
       <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
     </div>
     <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
@@ -90,6 +90,11 @@ export default {
     margin-right: 0.3rem;
     &.no-margin {
       margin-right: 0;
+    }
+    &.has-content {
+      &::after {
+        background: rgb(51, 51, 51);
+      }
     }
     &::after {
       content: ' ';
