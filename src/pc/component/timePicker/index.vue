@@ -8,13 +8,13 @@
         </a>
       </span>
     </div>
-    <div class="combobox" ref="combo" v-show="opened">
-      <div class="select-inner">
+    <div class="combobox" ref="combo" v-if="opened">
+      <div class="select-inner" ref='h'>
         <ul style="height:928px">
           <li v-for="(v,i) in hs" :key='i' @click.stop="(e)=>select('h',v,e)" :class="{'selected':time.h===v}">{{v}}</li>
         </ul>
       </div>
-      <div class="select-inner">
+      <div class="select-inner" ref='m'>
         <ul style="height:2080px">
           <li v-for="(v,i) in ms" :key='i' @click.stop="(e)=>select('m',v,e)" :class="{'selected':time.m===v}">{{v}}</li>
         </ul>
@@ -83,6 +83,22 @@ export default {
     },
     open() {
       this.opened = true;
+      this.$nextTick(() => {
+        const hEl = this.$refs.h;
+        const mEl = this.$refs.m;
+        this.initScroll(hEl);
+        this.initScroll(mEl);
+      });
+    },
+    initScroll(el) {
+      const pEl = el;
+      const sEl = el.querySelector('.selected');
+      const cTop = sEl.getBoundingClientRect().top;
+      const pTop = pEl.getBoundingClientRect().top;
+      // const vh = sEl.getBoundingClientRect().height;
+      const scrollTop = pEl.scrollTop;
+      const move = cTop - pTop + scrollTop;
+      el.scrollTo(0, move);
     },
     close() {
       if (!this.opened) {
@@ -92,15 +108,15 @@ export default {
     },
     scroll(e) {
       const pEl = this.$refs.combo;
-      const cEl = e.currentTarget;
+      const sEl = e.currentTarget;
       const pTop = pEl.getBoundingClientRect().top;
-      const cTop = cEl.getBoundingClientRect().top;
-      const move = cTop - pTop;
+      const sTop = sEl.getBoundingClientRect().top;
+      const move = sTop - pTop;
       const scrollTop = e.path[2].scrollTop;
       e.path[2].scrollTo(0, move + scrollTop);
     },
-    select(type, v) {
-      // this.scroll(e);
+    select(type, v, e) {
+      this.scroll(e);
       this.time[type] = v;
       this.inputValue = `${this.time.h}:${this.time.m}`;
       this.$emit('input', this.inputValue);
@@ -159,8 +175,9 @@ export default {
         // transition: background 0.3s;
         cursor: pointer;
         &:hover {
-          background: #d6001c;
+          background: grey;
           color: white;
+          // opacity: 0.8;
         }
         &.selected {
           background: #d6001c;
