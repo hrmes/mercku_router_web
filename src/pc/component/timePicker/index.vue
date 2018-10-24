@@ -45,18 +45,8 @@ export default {
         m: this.value.split(':')[1]
       },
       distance: 0,
-      animationTime: 500,
-      animationEl: null,
-      requestAnimFrame: (function() {
-        return (
-          window.requestAnimationFrame ||
-          window.webkitRequestAnimationFrame ||
-          window.mozRequestAnimationFrame ||
-          function(callback) {
-            window.setTimeout(callback, 1000 / 60);
-          }
-        );
-      })()
+      animationTime: 200,
+      animationEl: null
     };
   },
   watch: {
@@ -113,16 +103,16 @@ export default {
       el.scrollTo(0, move);
     },
     animateScroll() {
-      console.log('animate');
-      const top = this.animationEl.getBoundingClientRect().top;
-      const scroll =
-        this.animationEl.scrollTop + this.distance / this.animationTime;
-      if (this.animationEl.scrollTop <= 0) {
+      console.log(this.animationEl.scrollTop, this.distance);
+      if (this.animationEl.scrollTop >= this.distance) {
         return;
       }
-      //scroll > this.animationEl.scrollTop ? this.scrollTop : scroll;
+      let scroll =
+        this.animationEl.scrollTop + this.distance / this.animationTime;
+      scroll = scroll > this.distance ? this.distance : scroll;
+      console.log('scroll', scroll);
       this.animationEl.scrollTo(0, scroll);
-      this.requestAnimationFrame(this.animateScroll);
+      requestAnimationFrame(this.animateScroll);
     },
     close() {
       if (!this.opened) {
