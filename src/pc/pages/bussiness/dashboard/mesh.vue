@@ -840,7 +840,7 @@ export default {
                 }
                 .reboot {
                   width: 255px;
-                  background: #4237dd;
+                  background: #d6001c;
                   color: #fff;
                   text-align: center;
                   border-radius: 4px;

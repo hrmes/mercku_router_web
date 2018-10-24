@@ -159,11 +159,11 @@ export default {
         // transition: background 0.3s;
         cursor: pointer;
         &:hover {
-          background: #4237dd;
+          background: #d6001c;
           color: white;
         }
         &.selected {
-          background: #4237dd;
+          background: #d6001c;
           color: white;
         }
       }

@@ -43,7 +43,15 @@ ul {
   user-select: none;
   position: relative;
   color: #fff;
-  background: #4237dd;
+  background: rgb(214, 0, 28);
+
+  &:active {
+    background: rgb(182, 0, 24);
+  }
+
+  &:hover {
+    background: rgb(182, 0, 24);
+  }
 
   &.btn-default {
     background: #fff;
@@ -55,23 +63,24 @@ ul {
       border-color: #c6e2ff;
       background-color: #ecf5ff;
     }
+
+    &:hover {
+      color: #409eff;
+      border-color: #c6e2ff;
+      background-color: #ecf5ff;
+    }
+
   }
-  &[disabled] {
-    cursor: not-allowed;
-    background: #999;
-  }
-  &:active {
-    background: #6156ff;
-  }
+
 
   &[disabled] {
     cursor: not-allowed;
-    background: #999;
+    background: #cccccc;
   }
 
   &.disabled {
     cursor: not-allowed;
-    background: #999;
+    background: #cccccc;
   }
 }
 
