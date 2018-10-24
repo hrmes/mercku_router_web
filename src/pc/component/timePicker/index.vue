@@ -99,7 +99,6 @@ export default {
       const sEl = el.querySelector('.selected');
       const cTop = sEl.getBoundingClientRect().top;
       const pTop = pEl.getBoundingClientRect().top;
-      // const vh = sEl.getBoundingClientRect().height;
       const scrollTop = pEl.scrollTop;
       this.distance = cTop - pTop + scrollTop;
       el.scrollTo(0, move);
@@ -119,7 +118,7 @@ export default {
       }
       this.opened = false;
     },
-    scroll(e) {
+    selectScroll(e) {
       const pEl = this.$refs.combo;
       const sEl = e.currentTarget;
       const pTop = pEl.getBoundingClientRect().top;
@@ -129,7 +128,7 @@ export default {
       e.path[2].scrollTo(0, move + scrollTop);
     },
     select(type, v, e) {
-      this.scroll(e);
+      this.selectScroll(e);
       this.time[type] = v;
       this.inputValue = `${this.time.h}:${this.time.m}`;
       this.$emit('input', this.inputValue);
