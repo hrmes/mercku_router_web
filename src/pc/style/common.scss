@@ -55,23 +55,19 @@ ul {
 
   &.btn-default {
     background: #fff;
-    color: #606266;
-    border: 1px solid #dcdfe6;
+    color: rgb(214, 0, 28);
+    border: 1px solid rgb(214, 0, 28);
 
     &:active {
-      color: #409eff;
-      border-color: #c6e2ff;
-      background-color: #ecf5ff;
+      color: rgb(182, 0, 28);
+      border-color: rgb(182, 0, 28);
     }
 
     &:hover {
-      color: #409eff;
-      border-color: #c6e2ff;
-      background-color: #ecf5ff;
+      color: rgb(182, 0, 28);
+      border-color: rgb(182, 0, 28);
     }
-
   }
-
 
   &[disabled] {
     cursor: not-allowed;
