@@ -46,7 +46,17 @@ export default {
       },
       distance: 0,
       animationTime: 500,
-      animationEl: null
+      animationEl: null,
+      requestAnimFrame: (function() {
+        return (
+          window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          function(callback) {
+            window.setTimeout(callback, 1000 / 60);
+          }
+        );
+      })()
     };
   },
   watch: {
@@ -94,23 +104,25 @@ export default {
       });
     },
     initScroll(el) {
-      this.animationEl = el;
       const pEl = el;
       const sEl = el.querySelector('.selected');
       const cTop = sEl.getBoundingClientRect().top;
       const pTop = pEl.getBoundingClientRect().top;
       const scrollTop = pEl.scrollTop;
-      this.distance = cTop - pTop + scrollTop;
+      const move = cTop - pTop + scrollTop;
       el.scrollTo(0, move);
-      animateScroll();
     },
     animateScroll() {
-      this.animationEl.scrollTo(
-        0,
-        this.animationEl.getBoundingClientRect().top +
-          this.distance / this.animationTime
-      );
-      requestAnimationFrame(animateScroll);
+      console.log('animate');
+      const top = this.animationEl.getBoundingClientRect().top;
+      const scroll =
+        this.animationEl.scrollTop + this.distance / this.animationTime;
+      if (this.animationEl.scrollTop <= 0) {
+        return;
+      }
+      //scroll > this.animationEl.scrollTop ? this.scrollTop : scroll;
+      this.animationEl.scrollTo(0, scroll);
+      this.requestAnimationFrame(this.animateScroll);
     },
     close() {
       if (!this.opened) {
@@ -125,7 +137,9 @@ export default {
       const sTop = sEl.getBoundingClientRect().top;
       const move = sTop - pTop;
       const scrollTop = e.path[2].scrollTop;
-      e.path[2].scrollTo(0, move + scrollTop);
+      this.distance = move + scrollTop;
+      this.animationEl = e.path[2];
+      this.animateScroll();
     },
     select(type, v, e) {
       this.selectScroll(e);
