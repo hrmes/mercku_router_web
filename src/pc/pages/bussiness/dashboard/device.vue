@@ -14,8 +14,8 @@
             </li>
             <li class="column-real-time">{{$t('trans0367')}}</li>
             <li class="column-band">{{$t('trans0015')}}</li>
-            <li class="column-ip">{{$t('trans0151')}}</li>
-            <li class="column-mac">{{$t('trans0188')}}</li>
+            <li class="column-ip">{{$t('trans0151')}} / {{$t('trans0188')}}</li>
+            <!-- <li class="column-mac">{{$t('trans0188')}}</li> -->
             <li class="column-limit">{{$t('trans0368')}}</li>
             <li class="column-black-list">{{$t('trans0020')}}</li>
           </ul>
@@ -71,7 +71,7 @@
             </li>
             <li class="column-ip device-item" v-if='isMobileRow(row.expand)'>
               <span>{{$t('trans0151')}}</span>
-              <span> {{row.ip}}</span>
+              <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
             </li>
             <li class="column-mac device-item" v-if='isMobileRow(row.expand)'>
               <span>{{$t('trans0188')}}</span>
@@ -129,7 +129,6 @@
 <script>
 import layout from '../../../layout.vue';
 import TimePicker from '../../../component/timePicker/index.vue';
-import DatePicker from '../../../component/datePicker/index.vue';
 import MEditSelect from '../../../component/editableSelect/index.vue';
 import MProgress from '../../../component/progress/index.vue';
 import MInput from '../../../component/input/input.vue';
@@ -146,9 +145,7 @@ export default {
     MEditSelect,
     layout,
     MProgress,
-
-    'm-time-picker': TimePicker,
-    'm-date-picker': DatePicker
+    'm-time-picker': TimePicker
   },
   data() {
     return {
@@ -564,12 +561,17 @@ export default {
         width: 240px;
       }
       .column-ip {
+        .pc-mac {
+          display: block;
+        }
         span:first-child {
           display: none;
         }
         width: 150px;
       }
       .column-mac {
+        display: none;
+
         span:first-child {
           display: none;
         }
@@ -616,14 +618,14 @@ export default {
       }
       .name-inner {
         display: flex;
-        align-items: center;
+        // align-items: end;
         justify-content: flex-start;
         a {
           flex: 1;
           text-align: left;
           display: flex;
           cursor: pointer;
-          align-items: center;
+          align-items: baseline;
 
           // &:hover {
           //   text-decoration: underline;
@@ -828,7 +830,7 @@ export default {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: pre;
-                max-width: 150px;
+                max-width: 130px;
               }
               img {
               }
@@ -940,12 +942,16 @@ export default {
             }
           }
           .column-ip {
+            .pc-mac {
+              display: none;
+            }
             border-top: 1px solid #f1f1f1;
             span:first-child {
               display: block;
             }
           }
           .column-mac {
+            display: block;
             span:first-child {
               display: block;
             }

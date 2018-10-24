@@ -91,12 +91,12 @@
         </div>
         <p>{{$t('trans0072')}}</p>
         <div>
-          <p>1.{{$t('trans0234')}}</p>
-          <p>2.{{$t('trans0215')}}</p>
-          <p>3.{{$t('trans0313')}}</p>
-          <p>4.{{$t('trans0175')}}</p>
-          <p>5.{{$t('trans0330')}}</p>
-          <p>6.{{$t('trans0372')}} <a href="https://www.mercku.tech/support/faqs/devices" target="_blank">https://www.mercku.tech/support/faqs/devices</a> {{$t('trans0392')}}</p>
+          <p>1. {{$t('trans0234')}}</p>
+          <p>2. {{$t('trans0215')}}</p>
+          <p>3. {{$t('trans0313')}}</p>
+          <p>4. {{$t('trans0175')}}</p>
+          <p>5. {{$t('trans0330')}}</p>
+          <p>6. {{$t('trans0372')}} <a href="https://www.mercku.tech/support/faqs/devices" target="_blank">https://www.mercku.tech/support/faqs/devices</a> {{$t('trans0392')}}</p>
         </div>
       </div>
     </div>
@@ -340,7 +340,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
       margin-bottom: 60px;
     }
     .type-container {
@@ -462,7 +462,7 @@ export default {
           margin-top: 140px;
         }
         .scaning {
-          margin-top: 50px;
+          margin-top: 150px;
           text-align: center;
           img {
             display: block;
@@ -471,14 +471,14 @@ export default {
         }
         .scan-empty {
           text-align: center;
-          margin-top: 50px;
+          margin-top: 100px;
           p {
             font-size: 14px;
             text-align: center;
           }
         }
         .scan-result {
-          margin-top: 80px;
+          margin-top: 100px;
           .router {
             display: flex;
             background: #f1f1f1;

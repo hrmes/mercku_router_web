@@ -189,7 +189,7 @@ export default {
             margin-bottom: 0;
           }
           &.current-lang {
-            color: #4237dd;
+            color: #d6001c;
           }
         }
       }

@@ -407,6 +407,25 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@media screen and (min-width: 768px) {
+  .device-time-container {
+    .content {
+      .table {
+        .column-date-stop,
+        .column-date-start,
+        .column-repeat,
+        .column-handle {
+          display: flex;
+          align-items: center;
+          .check-wrap {
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
 .device-time-container {
   .modal {
     position: fixed;
@@ -503,7 +522,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .table {
       .btn-warp {

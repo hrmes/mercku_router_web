@@ -47,21 +47,44 @@ export default {
   }
 }
 .toast-container {
-  color: #fff;
+  color: rgba(0, 0, 0, 0.65);
   position: fixed;
   top: 0;
-  padding: 10px 50px;
-  border-radius: 5px;
+  padding: 10px 16px;
+  border-radius: 4px;
   z-index: 1001;
   left: 50%;
   transform: translate(-50%, 50%);
   white-space: nowrap;
   text-align: center;
+  display: flex;
+  align-items: center;
   &.error {
-    background: #f73035;
+    background: #fff1f0;
+    border: 0.5px solid #ffa39e;
+    &::before {
+      content: '';
+      margin-right: 8px;
+      display: block;
+      width: 14px;
+      height: 14px;
+      background: url(../../assets/images/ic_default_error.png) center no-repeat;
+      background-size: 100%;
+    }
   }
   &.success {
-    background: #19d191;
+    background: #f6ffed;
+    border: 0.5px solid #b7eb8f;
+    &::before {
+      content: '';
+      margin-right: 8px;
+      display: block;
+      width: 14px;
+      height: 14px;
+      background: url(../../assets/images/ic_default_success.png) center
+        no-repeat;
+      background-size: 100%;
+    }
   }
   &.toast-enter-active {
     transition: all 0.3s ease-in;
@@ -74,8 +97,5 @@ export default {
   &.toast-enter {
     transform: translate(-50%, -100%);
   }
-  // &.toast-leave {
-  //   transform: translate(-50%, -100%);
-  // }
 }
 </style>
