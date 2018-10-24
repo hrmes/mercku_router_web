@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="unconnected" v-if="!connMercku">
-      <img src="../../assets/images/img_loading_fail@3x.png" alt="">
+      <img src="../../assets/images/ic_test_internet_fail.png" alt="">
       <div>{{$t('trans0039')}}</div>
       <button class="btn btn-default retry-button" @click="retry">{{$t('trans0162')}}</button>
     </div>
@@ -57,7 +57,7 @@ export default {
             const timer = setTimeout(() => {
               clearTimeout(timer);
               this.connMercku = false;
-            }, 3000);
+            }, 30000000);
           }
         });
     }

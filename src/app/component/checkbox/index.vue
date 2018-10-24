@@ -63,7 +63,7 @@ export default {
       border-radius: 50%;
     }
     &.checked {
-      background: url(../../assets/images/in_chioce@3x.png) no-repeat center;
+      background: url(../../assets/images/ic_chioce.png) no-repeat center;
       border: none;
       background-size: 100%;
       border-radius: none;

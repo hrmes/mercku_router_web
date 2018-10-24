@@ -2,7 +2,7 @@
   <div class="wan-check-container">
     <nav-bar :option="option" />
     <div class="status-info">
-      <img src="../../assets/images/ic_succeed.png" alt="">
+      <img src="../../assets/images/ic_success.png" alt="">
       <label class="state">{{$t('trans0170')}}</label>
       <label class="code" v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
     </div>

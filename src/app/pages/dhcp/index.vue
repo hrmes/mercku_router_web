@@ -5,7 +5,7 @@
       <span>{{$t('trans0317')}}</span>
       <span>
         {{this.$t(type)}}
-        <img class="icon-enter" src="../../assets/images/ic_inter@3x.png" />
+        <img class="icon-enter" src="../../assets/images/ic_enter.png" />
       </span>
     </div>
     <div class="message">{{$t('trans0147')}}</div>

@@ -106,7 +106,7 @@ export default {
       text-align: right;
       width: 0.16rem;
       height: 0.16rem;
-      background: url(../.././assets/images/ic_select@1.5x.png) no-repeat;
+      background: url(../.././assets/images/ic_select.png) no-repeat;
       background-size: 100%;
     }
   }

@@ -3,7 +3,7 @@
   <div class="wan-success-page">
     <nav-bar :option="option" />
     <div class="banner-container">
-      <img src="../../assets/images/ic_succeed.png" alt="">
+      <img src="../../assets/images/ic_success.png" alt="">
       <p>{{$t('trans0157')}}</p>
     </div>
     <div class="net-info-container">

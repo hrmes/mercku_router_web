@@ -2,7 +2,7 @@
   <div class="wan-check-container">
     <nav-bar :option="option" />
     <div class="status-info">
-      <img src="../../assets/images/img_default_empty@3x.png" alt="">
+      <img src="../../assets/images/ic_test_internet_fail.png" alt="">
       <div class="message">{{message}}</div>
     </div>
     <div class="net-info-container">
@@ -167,7 +167,8 @@ export default {
     border: 1px solid rgb(214, 0, 28);
     border-radius: 0.25rem;
     &:active {
-      opacity: 0.7;
+      border-color: rgb(182, 0, 24);
+      color: rgb(182, 0, 24);
     }
   }
   .status-info {
