@@ -43,7 +43,10 @@ export default {
       time: {
         h: this.value.split(':')[0],
         m: this.value.split(':')[1]
-      }
+      },
+      distance: 0,
+      animationTime: 500,
+      animationEl: null
     };
   },
   watch: {
@@ -91,14 +94,24 @@ export default {
       });
     },
     initScroll(el) {
+      this.animationEl = el;
       const pEl = el;
       const sEl = el.querySelector('.selected');
       const cTop = sEl.getBoundingClientRect().top;
       const pTop = pEl.getBoundingClientRect().top;
       // const vh = sEl.getBoundingClientRect().height;
       const scrollTop = pEl.scrollTop;
-      const move = cTop - pTop + scrollTop;
+      this.distance = cTop - pTop + scrollTop;
       el.scrollTo(0, move);
+      animateScroll();
+    },
+    animateScroll() {
+      this.animationEl.scrollTo(
+        0,
+        this.animationEl.getBoundingClientRect().top +
+          this.distance / this.animationTime
+      );
+      requestAnimationFrame(animateScroll);
     },
     close() {
       if (!this.opened) {

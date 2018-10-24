@@ -129,7 +129,6 @@
 <script>
 import layout from '../../../layout.vue';
 import TimePicker from '../../../component/timePicker/index.vue';
-import DatePicker from '../../../component/datePicker/index.vue';
 import MEditSelect from '../../../component/editableSelect/index.vue';
 import MProgress from '../../../component/progress/index.vue';
 import MInput from '../../../component/input/input.vue';
@@ -146,9 +145,7 @@ export default {
     MEditSelect,
     layout,
     MProgress,
-
-    'm-time-picker': TimePicker,
-    'm-date-picker': DatePicker
+    'm-time-picker': TimePicker
   },
   data() {
     return {
