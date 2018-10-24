@@ -70,7 +70,7 @@ export default {
     background: #fff;
     top: 50%;
     left: 50%;
-    border-radius: 10px;
+    border-radius: 0.1rem;
     transform: translate(-50%, -50%);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
@@ -79,11 +79,11 @@ export default {
       font-size: 0;
       border-radius: 10px;
       button {
-        width: 80px;
-        height: 60px;
+        width: 0.8rem;
+        height: 0.6rem;
         display: inline-block;
-        margin-left: 30px;
-        font-size: 16px;
+        margin-left: 0.3rem;
+        font-size: 0.16rem;
         border-radius: 0;
         border: none;
         background: #fff;
@@ -103,7 +103,7 @@ export default {
       }
     }
     .dialog-title {
-      font-size: 18px;
+      font-size: 0.18rem;
       line-height: 1;
       color: #303133;
       text-align: left;
@@ -131,7 +131,7 @@ export default {
 @media screen and (min-width: 769px) {
   .dialog-container {
     .dialog-content {
-      width: 420px;
+      width: 4.2rem;
       .dialog-message {
         text-align: left;
       }

@@ -108,19 +108,19 @@ export default {
     }
   }
   .input {
-    height: 34px;
+    height: 0.34rem;
     width: 100%;
     border-radius: 4px;
     outline: 0;
     border: none;
-    font-size: 14px;
+    font-size: 0.14rem;
     background: transparent;
     color: #333;
     -webkit-appearance: none;
     box-sizing: border-box;
 
     &.has-icon {
-      padding-right: 30px;
+      padding-right: 0.3rem;
     }
   }
   .icon-container {
@@ -128,15 +128,15 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 34px;
-    padding-left: 10px;
-    width: 20px;
+    height: 0.34rem;
+    padding-left: 0.1rem;
+    width: 0.2rem;
     cursor: pointer;
 
     .icon {
-      width: 20px;
-      height: 20px;
-      margin-top: 7px;
+      width: 0.2rem;
+      height: 0.2rem;
+      margin-top: 0.07rem;
       display: inline-block;
       &.hide {
         background: url(../../assets/images/ic_visible.png) no-repeat center;
