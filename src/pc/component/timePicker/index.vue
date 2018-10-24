@@ -103,7 +103,6 @@ export default {
       el.scrollTo(0, move);
     },
     animateScroll() {
-      console.log(this.animationEl.scrollTop, this.distance);
       if (this.animationEl.scrollTop >= this.distance) {
         return;
       }
@@ -111,7 +110,6 @@ export default {
         this.animationEl.scrollTop +
         Math.ceil(this.distance / this.animationTime);
       scroll = scroll > this.distance ? this.distance : scroll;
-      console.log('scroll', scroll);
       this.animationEl.scrollTo(0, scroll);
       requestAnimationFrame(this.animateScroll);
     },
@@ -128,6 +126,7 @@ export default {
       const sTop = sEl.getBoundingClientRect().top;
       const move = sTop - pTop;
       const scrollTop = e.path[2].scrollTop;
+      console.log(e.path);
       this.distance = move + scrollTop;
       this.animationEl = e.path[2];
       this.animateScroll();
