@@ -194,18 +194,11 @@ export default {
         });
     },
     delRow(row) {
-      // this.$dialog.confirm({
-      //   okText: this.$t('trans0024'),
-      //   cancelText: this.$t('trans0025'),
-      //   message: this.$t('trans0376'),
-      //   callback: {
-      //     ok: () => {
       this.$loading.open();
       this.$http
         .parentControlLimitDel({
           mac: this.form.mac,
-          hosts: [row],
-          mode: BlacklistMode.blacklist
+          hosts: [row]
         })
         .then(() => {
           this.parentControlLimitList = this.parentControlLimitList.filter(
@@ -213,7 +206,6 @@ export default {
           );
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          // this.getList();
         })
         .catch(err => {
           if (err.upgrading) {
@@ -226,23 +218,19 @@ export default {
             this.$router.push({ path: '/unconnect' });
           }
         });
-      //     }
-      //   }
-      // });
     },
     submit() {
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http
           .parentControlLimitAdd({
-            ...this.form,
+            mac: this.form.mac,
             hosts: [this.host]
           })
           .then(() => {
             this.parentControlLimitList.push(this.host);
             this.$loading.close();
             this.modalShow = false;
-            // this.getList();
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
           .catch(err => {
@@ -350,7 +338,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .handle {
       display: flex;

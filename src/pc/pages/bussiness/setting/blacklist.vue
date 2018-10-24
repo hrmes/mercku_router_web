@@ -111,7 +111,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .table {
       .name,
@@ -124,12 +124,12 @@ export default {
       .table-header {
         display: flex;
         background: #f1f1f1;
-        padding: 30px 15px;
+        padding: 15px 30px;
       }
       .table-content {
         .device {
           display: flex;
-          padding: 30px 15px;
+          padding: 30px;
           border-bottom: 1px solid #f1f1f1;
           .name,
           .mac,

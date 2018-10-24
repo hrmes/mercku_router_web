@@ -251,7 +251,7 @@ export default {
                 this.$loading.close();
 
                 if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
+                  this.$toast(this.$t('trans0296'));
                 } else {
                   this.$router.push({ path: '/unconnect' });
                 }
@@ -281,7 +281,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .form {
       margin: 0 3%;

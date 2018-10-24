@@ -12,12 +12,9 @@ import {
 import loading from './component/loading/index';
 import toast from './component/toast/index';
 import dialog from './component/dialog/index';
-// import v from '../../version.json';
-import { MTable } from './component/table/index';
 import { formatSpeed, formatNetworkData } from '../util/util';
 import store from './store';
 
-Vue.use(MTable);
 const launch = () => {
   const reconnect = options => {
     const opt = {
@@ -35,18 +32,15 @@ const launch = () => {
       count -= 1;
       const percent = ((total - count) / total).toFixed(2);
       opt.onprogress(percent);
-      console.log('reconnet progress...percent:', percent);
       if (count === 0) {
         clearInterval(timer);
         opt.ontimeout();
-        console.log('reconnect timeout');
       } else if (count !== total && count % 5 === 0) {
         http
           .getRouter()
           .then(() => {
             clearInterval(timer);
             opt.onsuccess();
-            console.log('reconnect success');
           })
           .catch(() => {
             // nothing to do
@@ -129,7 +123,6 @@ const launch = () => {
   Vue.prototype.formatNetworkData = formatNetworkData;
   Vue.prototype.formatSpeed = formatSpeed;
 
-
   new Vue({
     el: '#web',
     i18n,
@@ -139,5 +132,3 @@ const launch = () => {
   });
 };
 document.addEventListener('DOMContentLoaded', launch);
-
-// console.log(`%cWeb version is : RC${v.version}`, 'color:red');

@@ -64,15 +64,14 @@ export default {
   z-index: 1001;
   background: rgba(0, 0, 0, 0.3);
   opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .dialog-content {
     text-align: center;
-    position: absolute;
     background: #fff;
-    top: 50%;
-    left: 50%;
     padding: 10px;
     border-radius: 5px;
-    transform: translate(-50%, -50%);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     .dialog-buttons {
       white-space: nowrap;

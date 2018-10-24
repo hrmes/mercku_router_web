@@ -8,13 +8,13 @@
         </a>
       </span>
     </div>
-    <div class="combobox" ref="combo" v-show="opened">
-      <div class="select-inner">
+    <div class="combobox" ref="combo" v-if="opened">
+      <div class="select-inner" ref='h'>
         <ul style="height:928px">
           <li v-for="(v,i) in hs" :key='i' @click.stop="(e)=>select('h',v,e)" :class="{'selected':time.h===v}">{{v}}</li>
         </ul>
       </div>
-      <div class="select-inner">
+      <div class="select-inner" ref='m'>
         <ul style="height:2080px">
           <li v-for="(v,i) in ms" :key='i' @click.stop="(e)=>select('m',v,e)" :class="{'selected':time.m===v}">{{v}}</li>
         </ul>
@@ -43,7 +43,10 @@ export default {
       time: {
         h: this.value.split(':')[0],
         m: this.value.split(':')[1]
-      }
+      },
+      distance: 0,
+      animationTime: 100,
+      animationEl: null
     };
   },
   watch: {
@@ -81,8 +84,41 @@ export default {
     formatCount(v) {
       return v < 10 ? `0${v}` : `${v}`;
     },
+    scrollTo(el, x, y) {
+      if (el.scrollTo) {
+        el.scrollTo(x, y);
+      } else {
+        el.scrollTop = y;
+      }
+    },
     open() {
       this.opened = true;
+      this.$nextTick(() => {
+        const hEl = this.$refs.h;
+        const mEl = this.$refs.m;
+        this.initScroll(hEl);
+        this.initScroll(mEl);
+      });
+    },
+    initScroll(el) {
+      const pEl = el;
+      const sEl = el.querySelector('.selected');
+      const cTop = sEl.getBoundingClientRect().top;
+      const pTop = pEl.getBoundingClientRect().top;
+      const scrollTop = pEl.scrollTop;
+      const move = cTop - pTop + scrollTop;
+      this.scrollTo(el, 0, move);
+    },
+    animateScroll() {
+      if (this.animationEl.scrollTop >= this.distance) {
+        return;
+      }
+      let scroll =
+        this.animationEl.scrollTop +
+        Math.ceil(this.distance / this.animationTime);
+      scroll = scroll > this.distance ? this.distance : scroll;
+      this.scrollTo(this.animationEl, 0, scroll);
+      requestAnimationFrame(this.animateScroll);
     },
     close() {
       if (!this.opened) {
@@ -90,17 +126,19 @@ export default {
       }
       this.opened = false;
     },
-    scroll(e) {
-      const pEl = this.$refs.combo;
-      const cEl = e.currentTarget;
+    selectScroll(e, p) {
+      const pEl = this.$refs[p];
+      const sEl = e.currentTarget;
       const pTop = pEl.getBoundingClientRect().top;
-      const cTop = cEl.getBoundingClientRect().top;
-      const move = cTop - pTop;
-      const scrollTop = e.path[2].scrollTop;
-      e.path[2].scrollTo(0, move + scrollTop);
+      const sTop = sEl.getBoundingClientRect().top;
+      const move = sTop - pTop;
+      const scrollTop = pEl.scrollTop;
+      this.distance = move + scrollTop;
+      this.animationEl = pEl;
+      this.animateScroll();
     },
-    select(type, v) {
-      // this.scroll(e);
+    select(type, v, e) {
+      this.selectScroll(e, type);
       this.time[type] = v;
       this.inputValue = `${this.time.h}:${this.time.m}`;
       this.$emit('input', this.inputValue);
@@ -159,11 +197,12 @@ export default {
         // transition: background 0.3s;
         cursor: pointer;
         &:hover {
-          background: #4237dd;
+          background: grey;
           color: white;
+          // opacity: 0.8;
         }
         &.selected {
-          background: #4237dd;
+          background: #d6001c;
           color: white;
         }
       }

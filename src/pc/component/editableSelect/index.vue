@@ -57,7 +57,6 @@ export default {
       this.$emit('input', this.selected);
     },
     select(option) {
-      console.log('option', option);
       this.selected = option;
       this.$emit('input', this.selected);
       this.opened = false;
@@ -161,11 +160,11 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: #4237dd;
+        background: #d6001c;
         color: #fff;
       }
       &:hover {
-        background: #4237dd;
+        background: #d6001c;
         color: #fff;
       }
     }

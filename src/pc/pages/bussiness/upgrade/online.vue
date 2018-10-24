@@ -19,32 +19,32 @@
                   <img class="img-bee" v-else-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
                   <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
                 </div>
-                  <div class="info-container">
-                    <p class="node-name">{{node.name}}</p>
-                    <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
-                    <p class="node-version">
-                      <span>{{$t('trans0209')}}{{node.version.current}}</span>
-                    </p>
-                  </div>
+                <div class="info-container">
+                  <p class="node-name">{{node.name}}</p>
+                  <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
+                  <p class="node-version">
+                    <span>{{$t('trans0209')}}{{node.version.current}}</span>
+                  </p>
                 </div>
               </div>
             </div>
-            <div class="btn-info">
-              <button class="btn re-btn" @click="submit()">{{$t('trans0225')}}</button>
-            </div>
           </div>
-          <div class="msg-wrapper" v-else>
-            <div v-if="!hasUpgradablityNodes && requestResult.complete &&  !requestResult.error">
-              <img src="../../../assets/images/img_new_version.png" alt="" width="220">
-              <p>{{$t('trans0259')}}</p>
-            </div>
-            <div v-if="requestResult.error">
-              <img src="../../../assets/images/img_error.png" alt="" width="220">
-              <p>{{requestResult.message}}</p>
-            </div>
+          <div class="btn-info">
+            <button class="btn re-btn" @click="submit()">{{$t('trans0225')}}</button>
+          </div>
+        </div>
+        <div class="msg-wrapper" v-else>
+          <div v-if="!hasUpgradablityNodes && requestResult.complete &&  !requestResult.error">
+            <img src="../../../assets/images/img_new_version.png" alt="" width="220">
+            <p>{{$t('trans0259')}}</p>
+          </div>
+          <div v-if="requestResult.error">
+            <img src="../../../assets/images/img_error.png" alt="" width="220">
+            <p>{{requestResult.message}}</p>
           </div>
         </div>
       </div>
+    </div>
   </layout>
 
 </template>
@@ -145,7 +145,7 @@ export default {
                 }
                 this.$loading.close();
                 if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
+                  this.$toast(this.$t('trans0296'));
                 } else {
                   this.$router.push({ path: '/unconnect' });
                 }
@@ -176,7 +176,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .nodes-wrapper {
       text-align: center;
