@@ -20,7 +20,7 @@
             <div class="type">{{$t('trans0068')}}</div>
             <div class="sn">{{$t('trans0251')}}</div>
             <div class="version">{{$t('trans0300')}}</div>
-            <div class="ip">{{$t('trans0151')}}<span>/{{$t('trans0201')}}</span></div>
+            <div class="ip">{{$t('trans0151')}}<span>&nbsp;/&nbsp;{{$t('trans0201')}}</span></div>
             <div class="mac">{{$t('trans0201')}}</div>
             <div class="operate">{{$t('trans0370')}}</div>
           </div>
