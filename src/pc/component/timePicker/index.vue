@@ -45,7 +45,7 @@ export default {
         m: this.value.split(':')[1]
       },
       distance: 0,
-      animationTime: 100,
+      animationTime: 200,
       animationEl: null
     };
   },
@@ -113,7 +113,7 @@ export default {
       if (this.animationEl.scrollTop >= this.distance) {
         return;
       }
-      let scroll = this.animationEl.scrollTop + Math.ceil(10);
+      let scroll = this.animationEl.scrollTop + 5;
       scroll = scroll > this.distance ? this.distance : scroll;
       this.scrollTo(this.animationEl, 0, scroll);
       requestAnimationFrame(this.animateScroll);
