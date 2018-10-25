@@ -282,7 +282,7 @@ export default {
             border-top-left-radius: 15px;
             border-bottom-left-radius: 15px;
             border-top-right-radius: 5px;
-            background-image: linear-gradient(290deg, #4237dd, #7037dd);
+            background-image: linear-gradient(290deg, #ff4343, #dd3792);
             position: absolute;
             right: 0;
             top: 0;
