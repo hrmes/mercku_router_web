@@ -194,7 +194,7 @@ export default {
     margin-top: 0.4rem;
     font-size: 0.16rem;
     .net-info {
-      margin: 0 0.35rem;
+      margin: 0 0.15rem;
 
       > div {
         text-align: left;
