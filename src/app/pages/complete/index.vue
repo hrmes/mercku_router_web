@@ -111,7 +111,7 @@ export default {
         height: 3px;
         border-radius: 1.5px;
         background: rgb(214, 0, 28);
-        animation: progress 40s linear;
+        animation: progress 60s linear;
       }
     }
   }
@@ -122,7 +122,7 @@ export default {
     .net-info {
       text-align: left;
       flex: 1;
-      margin: 0 0.35rem;
+      margin: 0 0.15rem;
 
       div {
         color: rgb(182, 182, 182);
@@ -141,7 +141,9 @@ export default {
         }
 
         .value {
-          white-space: pre;
+          word-break: break-all;
+          word-wrap: break-word;
+          margin-left: 0.3rem;
         }
       }
     }
