@@ -31,10 +31,10 @@
               </div>
               <div class="name-wrap">
                 <div class="name-inner">
-                  <a>
+                  <a style="cursor:text">
                     <img v-if='row.local' src="../../../assets/images/ic_user.png" alt="" style="margin-right:5px;margin-left:0;">
                     <span :title='row.name' :class="{'extand-name':row.expand}">{{row.name}}</span>
-                    <img @click.stop='()=>nameModalOpen(row)' v-if='isMobileRow(row.expand)' src="../../../assets/images/ic_edit.png" alt="">
+                    <img style="cursor:pointer" @click.stop='()=>nameModalOpen(row)' v-if='isMobileRow(row.expand)' src="../../../assets/images/ic_edit.png" alt="">
                   </a>
                 </div>
                 <div class="des-inner" v-if='isMobileRow(row.expand)'>
