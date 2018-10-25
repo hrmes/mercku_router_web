@@ -52,9 +52,10 @@ export default {
   display: block;
   label {
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
   .box {
-    float: left;
     width: 0.16rem;
     height: 0.16rem;
     border: 1px solid rgb(51, 51, 51);
@@ -72,8 +73,7 @@ export default {
     }
   }
   .text {
-    display: inline;
-    font-size: 0.13rem;
+    font-size: 0.12rem;
     color: rgb(51, 51, 51);
     margin-left: 0.05rem;
   }
