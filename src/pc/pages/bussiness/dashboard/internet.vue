@@ -882,6 +882,7 @@ export default {
           .re-btn {
             width: 120px;
             height: 42px;
+            margin: 0;
             margin-left: 40px;
           }
         }
