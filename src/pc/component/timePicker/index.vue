@@ -113,9 +113,7 @@ export default {
       if (this.animationEl.scrollTop >= this.distance) {
         return;
       }
-      let scroll =
-        this.animationEl.scrollTop +
-        Math.ceil(this.distance / this.animationTime);
+      let scroll = this.animationEl.scrollTop + Math.ceil(10);
       scroll = scroll > this.distance ? this.distance : scroll;
       this.scrollTo(this.animationEl, 0, scroll);
       requestAnimationFrame(this.animateScroll);
