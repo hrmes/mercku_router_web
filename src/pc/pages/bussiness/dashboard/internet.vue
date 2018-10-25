@@ -150,7 +150,7 @@
           </div>
           <div class="btn-info">
             <button class="cmp-btn" @click="startSpeedTest(true)">{{$t('trans0279')}}</button>
-            <button class="re-btn" @click="closeSpeedModal">{{$t('trans0018')}}</button>
+            <button class="btn re-btn" @click="closeSpeedModal">{{$t('trans0018')}}</button>
           </div>
         </div>
       </div>
@@ -880,18 +880,9 @@ export default {
             }
           }
           .re-btn {
-            cursor: pointer;
-            outline: none;
             width: 120px;
             height: 42px;
-            border-radius: 4px;
-            background-color: #d6001c;
-            border: solid 1px #d6001c;
-            color: #ffffff;
             margin-left: 40px;
-            &:active {
-              opacity: 0.6;
-            }
           }
         }
       }
