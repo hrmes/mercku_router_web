@@ -46,7 +46,6 @@ export default {
     }
 
     refreshRem();
-    win.addEventListener('resize', refreshRem);
     win.addEventListener(
       'pageshow',
       e => {
