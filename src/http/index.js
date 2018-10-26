@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.timeout = 20000;
+axios.defaults.timeout = 60000;
 
 const url = '/app';
 const methods = {
