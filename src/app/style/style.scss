@@ -5,11 +5,10 @@ body {
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
-  background: rgb(14, 14, 14);
+  background: #fff;
   width: 100%;
   height: 100%;
   position: relative;
-  // max-width: 750px;
   margin: 0 auto;
   font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei',
     'Hiragino Sans GB', 'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
@@ -43,46 +42,26 @@ body {
 }
 
 .btn {
-  border-radius: 50px;
+  border-radius: 0.25rem;
   line-height: 1;
-  background: transparent;
-  color: rgb(213, 184, 132);
-  border: 1px solid rgb(213, 184, 132);
+  background: rgb(214, 0, 28);
+  color: #fff;
+  border: none;
   width: 2rem;
   height: 0.5rem;
-  padding: 0 15px;
-  font-size: 14px;
+  padding: 0 0.15rem;
+  font-size: 0.14rem;
   position: relative;
   display: inline-block;
   box-sizing: border-box;
   text-align: center;
   -webkit-appearance: none;
   outline: 0;
-  &::before {
-    content: ' ';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    border: inherit;
-    border-color: #000;
-    background-color: #000;
-    border-radius: inherit;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
   &:active {
-    color: rgb(255, 230, 186);
-    border: 1px solid rgb(255, 230, 186);
-    &::before {
-      opacity: 0.3;
-    }
+    background: rgb(182, 0, 24);
   }
   &[disabled] {
-    color: rgb(85, 75, 58);
-    border: 1px solid rgb(85, 75, 58);
+    background: rgb(204, 204, 204);
   }
 }
 
@@ -94,16 +73,6 @@ body {
   display: inline-block;
   width: 0.2rem;
   height: 0.16rem;
-}
-
-.i.i-open {
-  background: url(../assets/images/ic_visible.png);
-  background-size: 100%;
-}
-
-.i.i-close {
-  background: url(../assets/images/ic_invisible.png);
-  background-size: 100%;
 }
 
 .button-info {

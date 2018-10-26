@@ -1,7 +1,9 @@
 import Vue from 'vue';
+import moment from 'moment';
 import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
+
 import {
   http,
   configResponseInterceptors,
@@ -10,7 +12,8 @@ import {
 import loading from './component/loading/index';
 import toast from './component/toast/index';
 import dialog from './component/dialog/index';
-import v from '../../version.json';
+import { formatSpeed, formatNetworkData } from '../util/util';
+import store from './store';
 
 const launch = () => {
   const reconnect = options => {
@@ -29,18 +32,15 @@ const launch = () => {
       count -= 1;
       const percent = ((total - count) / total).toFixed(2);
       opt.onprogress(percent);
-      console.log('reconnet progress...percent:', percent);
       if (count === 0) {
         clearInterval(timer);
         opt.ontimeout();
-        console.log('reconnect timeout');
       } else if (count !== total && count % 5 === 0) {
         http
           .getRouter()
           .then(() => {
             clearInterval(timer);
             opt.onsuccess();
-            console.log('reconnect success');
           })
           .catch(() => {
             // nothing to do
@@ -119,14 +119,16 @@ const launch = () => {
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
+  Vue.prototype.moment = moment;
+  Vue.prototype.formatNetworkData = formatNetworkData;
+  Vue.prototype.formatSpeed = formatSpeed;
 
   new Vue({
     el: '#web',
     i18n,
     router,
+    store,
     render: h => h(Desktop)
   });
 };
 document.addEventListener('DOMContentLoaded', launch);
-
-console.log(`%cWeb version is : RC${v.version}`, 'color:red');

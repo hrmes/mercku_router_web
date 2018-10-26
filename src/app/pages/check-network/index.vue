@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="unconnected" v-if="!connMercku">
-      <img src="../../assets/images/img_loading_fail@3x.png" alt="">
+      <img src="../../assets/images/ic_test_internet_fail.png" alt="">
       <div>{{$t('trans0039')}}</div>
       <button class="btn btn-default retry-button" @click="retry">{{$t('trans0162')}}</button>
     </div>
@@ -71,43 +71,50 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 @keyframes speed-tester {
   0% {
-    background: url(../../assets/images/animation/img_test_animation_01.png);
+    background: url(../../assets/images/animation/img_test_animation_01.png)
+      no-repeat center;
     background-size: 100%;
   }
   33% {
-    background: url(../../assets/images/animation/img_test_animation_02.png);
+    background: url(../../assets/images/animation/img_test_animation_02.png)
+      no-repeat center;
     background-size: 100%;
   }
   66% {
-    background: url(../../assets/images/animation/img_test_animation_03.png);
+    background: url(../../assets/images/animation/img_test_animation_03.png)
+      no-repeat center;
     background-size: 100%;
   }
   100% {
-    background: url(../../assets/images/animation/img_test_animation_04.png);
+    background: url(../../assets/images/animation/img_test_animation_04.png)
+      no-repeat center;
     background-size: 100%;
   }
 }
 .check-network-page {
   padding: 0 0.15rem;
   .test-container {
+    margin-top: 0.65rem;
+    padding: 0.35rem;
     .tester {
-      width: 3.45rem;
-      height: 3.45rem;
-      background: url(../../assets/images/animation/img_test_animation_01.png);
+      width: 100%;
+      height: 3rem;
+      background: url(../../assets/images/animation/img_test_animation_01.png)
+        no-repeat center;
       background-size: 100%;
       animation: speed-tester 1s linear infinite;
       margin: 0 auto;
-      /*alternate*/
     }
   }
   .info {
-    margin-top: 0.65rem;
+    margin-top: 0.5rem;
     .p1,
     .p2 {
       text-align: center;
       color: rgb(142, 142, 147);
       margin: 0;
       font-size: 0.16rem;
+      line-height: 1.5;
     }
   }
   .unconnected {

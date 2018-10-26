@@ -1,6 +1,6 @@
 <template>
   <div class="input-container" :class="{'disabled':disabled}">
-    <div class="inputarea" :class="{'no-margin':!isPwdInput}">
+    <div class="inputarea" :class="{'no-margin':!isPwdInput,'has-content':!!inputValue}">
       <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
     </div>
     <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
@@ -87,9 +87,14 @@ export default {
   }
   .inputarea {
     position: relative;
-    margin-right: 38px;
+    margin-right: 0.3rem;
     &.no-margin {
       margin-right: 0;
+    }
+    &.has-content {
+      &::after {
+        background: rgb(51, 51, 51);
+      }
     }
     &::after {
       content: ' ';
@@ -98,24 +103,24 @@ export default {
       bottom: 0;
       width: 100%;
       height: 1px;
-      background-color: #d5b884;
+      background-color: rgb(124, 124, 124);
       transform: scaleY(0.5);
     }
   }
   .input {
-    height: 34px;
+    height: 0.34rem;
     width: 100%;
     border-radius: 4px;
     outline: 0;
     border: none;
-    font-size: 14px;
+    font-size: 0.14rem;
     background: transparent;
-    color: #d2d2d2;
+    color: #333;
     -webkit-appearance: none;
     box-sizing: border-box;
 
     &.has-icon {
-      padding-right: 30px;
+      padding-right: 0.3rem;
     }
   }
   .icon-container {
@@ -123,15 +128,15 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 34px;
-    padding: 0 8px;
-    width: 20px;
+    height: 0.34rem;
+    padding-left: 0.1rem;
+    width: 0.2rem;
     cursor: pointer;
 
     .icon {
-      width: 20px;
-      height: 20px;
-      margin-top: 7px;
+      width: 0.2rem;
+      height: 0.2rem;
+      margin-top: 0.07rem;
       display: inline-block;
       &.hide {
         background: url(../../assets/images/ic_visible.png) no-repeat center;

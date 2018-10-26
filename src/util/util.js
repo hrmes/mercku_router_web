@@ -1,3 +1,5 @@
+import semver from 'semver';
+
 export default {
   adapt: () => {
     const doc = document;
@@ -23,7 +25,7 @@ export default {
       rem = needWidth / 3.75;
       rem = rem > 100 ? 100 : rem;
       // const rem = width / 3.75;
-      rootStyle = `html{font-size:${rem}px !important;width:${needWidth}px !important;height:${height}px !important}`;
+      rootStyle = `html{font-size:${rem}px !important;height:${height}px !important}`;
       rootItem =
         document.getElementById('rootsize') || document.createElement('style');
       if (!document.getElementById('rootsize')) {
@@ -44,9 +46,6 @@ export default {
     }
 
     refreshRem();
-    // win.addEventListener(   'resize',   () => {     clearTimeout(tid);     tid =
-    // setTimeout(refreshRem, 300);   },   false );
-
     win.addEventListener(
       'pageshow',
       e => {
@@ -80,9 +79,17 @@ export const isIphone = () => {
   return isiOS;
 };
 
+export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
+export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
+export const hostReg = /^\.*[a-zA-Z0-9]+([\w-][a-zA-Z0-9])*(\.[a-zA-Z0-9]+((\w|-)*[a-zA-Z0-9]+))*\.*$/;
 export const ipRexp = ip => {
-  const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
-  if (ip && pattern.test(ip)) {
+  if (ip && ipReg.test(ip)) {
+    return true;
+  }
+  return false;
+};
+export const hostRexp = host => {
+  if (host && hostReg.test(host)) {
     return true;
   }
   return false;
@@ -102,6 +109,7 @@ export const isMulticast = ip => {
   }
   return false;
 };
+
 export const isLoopback = ip => {
   const i = ip2int(ip);
   // 环回地址
@@ -116,7 +124,6 @@ export const isValidMask = ip => {
     .toString(2)
     .padStart(32, '0');
   const result = i.split('10');
-  console.log(result);
   if (result.length !== 2) {
     return false;
   }
@@ -154,18 +161,7 @@ export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
   }
-  const v1 = version1.split('.').reduce((sum, next) => {
-    sum <<= 8;
-    sum += parseInt(next, 10);
-    return sum;
-  }, 0);
-  const v2 = version2.split('.').reduce((sum, next) => {
-    sum <<= 8;
-    sum += parseInt(next, 10);
-    return sum;
-  }, 0);
-
-  return v2 > v1;
+  return semver.gt(version2, version1);
 };
 
 export const getFileExtendName = file => {
@@ -203,4 +199,44 @@ export const getStringByte = str => {
   return total;
 };
 
-export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
+// 格式化网络数据流量单位，value的初始单位应为B
+export const formatNetworkData = value => {
+  const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
+  let index = -1;
+  if (!isNaN(value)) {
+    do {
+      value /= 1024;
+      index += 1;
+    } while (value > 1024 && index < units.length - 1);
+    return {
+      value: value.toFixed(1),
+      unit: units[index]
+    };
+  }
+  return { value: '-', unit: units[0] };
+};
+
+export const formatMac = mac => {
+  mac = mac.toUpperCase();
+  if (mac.length === 12) {
+    return mac.match(/.{2}/g).join(':');
+  }
+  return mac;
+};
+
+export const formatSpeed = value => {
+  value /= 8;
+  const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
+  let index = -1;
+  if (!isNaN(value)) {
+    do {
+      value /= 1024;
+      index += 1;
+    } while (value > 1024 && index < units.length - 1);
+    return {
+      value: value.toFixed(1),
+      unit: units[index]
+    };
+  }
+  return { value: '-', unit: 'KB' };
+};

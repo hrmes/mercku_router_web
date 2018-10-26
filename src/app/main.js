@@ -13,7 +13,6 @@ import {
 } from '../http';
 import util from '../util/util';
 import nav from './component/nav/nav-bar.vue';
-import v from '../../version.json';
 
 Vue.component('nav-bar', nav);
 
@@ -85,5 +84,3 @@ const launch = () => {
   });
 };
 document.addEventListener('DOMContentLoaded', launch);
-// 通过pre-commit每次自动新增
-console.log(`%cWeb version is : RC${v.version}`, 'color:red');

@@ -12,7 +12,7 @@
         <m-input type="password" v-model="pwd" :placeholder="$t('trans0172')" />
       </div>
       <div class="check-container">
-        <mCheckbox v-model="checked" :text="$t('trans0166')" />
+        <mCheckbox :rect="false" v-model="checked" :text="$t('trans0166')" />
       </div>
       <div v-if="!checked" class="adminpwd-container">
         <m-input type="password" v-model="adminPwd" :placeholder="$t('trans0067')" />
@@ -42,12 +42,6 @@ export default {
       ssid: config.wifi.ssid,
       pwd: config.wifi.password,
       adminPwd: config.admin.password,
-      showPwd: false,
-      showAdminPwd: false,
-      InputTypes: {
-        password: 'password',
-        text: 'text'
-      },
       option: {
         left: {
           icon: true,
@@ -98,7 +92,6 @@ export default {
         return;
       }
       const length = getStringByte(this.ssid);
-      console.log(this.ssid, length);
       if (length > 20 || length < 1) {
         this.$toast(this.$t('trans0261'));
         return;
@@ -137,10 +130,11 @@ export default {
     text-align: center;
   }
   .h1 {
-    background: #000;
+    background: rgb(250, 250, 250);
     color: rgb(124, 124, 124);
     padding: 0.16rem 0 0.16rem 0.2rem;
-    font-size: 0.16rem;
+    font-size: 0.12rem;
+    border: 1px solid rgb(241, 241, 241);
   }
 
   .wlan-settings {
@@ -148,61 +142,9 @@ export default {
     .ssid-container,
     .pwd-container,
     .adminpwd-container,
-    .check-container,
-    .timezone-container {
-      .right-container {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 1.7rem;
-        height: 0.3rem;
-      }
-      .timezone-info {
-        position: absolute;
-        right: 0.2rem;
-      }
-      .icon-right {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-      }
+    .check-container {
       margin-top: 0.35rem;
       position: relative;
-      .ssid-input,
-      .pwd-input,
-      .adminpwd-input {
-        width: 100%;
-        padding-right: 0.2rem;
-        box-sizing: border-box;
-      }
-      .ssid-preview,
-      .pwd-preview,
-      .adminpwd-preview {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 1;
-        width: 0.2rem;
-        text-align: center;
-      }
-
-      .timezone-left {
-        display: inline-block;
-        line-height: 0.3rem;
-        font-size: 0.14rem;
-      }
-
-      .timezone-name,
-      .timezone-value {
-        text-align: right;
-        width: 1.5rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: 0.12rem;
-      }
     }
   }
 }

@@ -5,9 +5,10 @@
       <span>{{$t('trans0317')}}</span>
       <span>
         {{this.$t(type)}}
-        <img class="icon-enter" src="../../assets/images/ic_inter@3x.png" />
+        <img class="icon-enter" src="../../assets/images/ic_enter.png" />
       </span>
     </div>
+    <div class="split"></div>
     <div class="message">{{$t('trans0154')}}</div>
     <div class="form">
       <m-input class="account" v-model="form.account" :placeholder="$t('trans0155')" />
@@ -80,13 +81,12 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .pppoe-container {
   .new-type-info {
-    height: 0.5rem;
-    line-height: 0.5rem;
     display: flex;
-    color: rgb(182, 182, 182);
-    background: rgb(14, 14, 14);
-    font-size: 14px;
-    padding: 0 0.15rem;
+    color: rgb(51, 51, 51);
+    background: #fff;
+    border: 1px solid rgb(241, 241, 241);
+    font-size: 0.14rem;
+    padding: 0.2rem 0.15rem;
     justify-content: space-between;
     .icon-enter {
       width: 0.074rem;
@@ -104,13 +104,16 @@ export default {
       }
     }
   }
+  .split {
+    height: 0.2rem;
+    background: rgb(250, 250, 250);
+    border-bottom: 1px solid rgb(241, 241, 241);
+  }
   .message {
-    line-height: 1.8;
     font-size: 0.12rem;
     text-align: left;
-    color: rgb(124, 124, 124);
-    padding: 0.1rem 0.15rem;
-    margin-top: 0.2rem;
+    color: rgb(51, 51, 51);
+    padding: 0.2rem 0.15rem;
   }
 
   .form {

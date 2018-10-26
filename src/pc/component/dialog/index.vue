@@ -36,20 +36,20 @@ export default {
       document.body.style.overflow = 'auto';
     },
     close() {
+      this.restoryOverflow();
       this.$el.addEventListener('transitionend', () => {
-        this.restoryOverflow();
         this.$el.parentNode.removeChild(this.$el);
       });
     },
     ok() {
       this.visible = false;
-      this.callback.ok && this.callback.ok();
       this.close();
+      this.callback.ok && this.callback.ok();
     },
     cancel() {
       this.visible = false;
-      this.callback.cancel && this.callback.cancel();
       this.close();
+      this.callback.cancel && this.callback.cancel();
     }
   }
 };
@@ -64,20 +64,20 @@ export default {
   z-index: 1001;
   background: rgba(0, 0, 0, 0.3);
   opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .dialog-content {
     text-align: center;
-    position: absolute;
     background: #fff;
-    top: 50%;
-    left: 50%;
-    padding: 10px;
+    padding: 30px;
     border-radius: 5px;
-    transform: translate(-50%, -50%);
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     .dialog-buttons {
       white-space: nowrap;
+      margin-top: 20px;
       button {
-        width: 80px;
+        width: 120px;
         height: 42px;
         display: inline-block;
         margin: 0 20px 0 30px;
@@ -95,7 +95,6 @@ export default {
     }
     .dialog-message {
       color: #333;
-      padding: 20px;
     }
   }
   &.dialog-enter-active {

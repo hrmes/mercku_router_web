@@ -44,9 +44,7 @@
               <div class="nodes-info">
                 <div v-for="node in localNodes" :key="node.sn" class="node">
                   <div class="message" @click="check(node)">
-                    <div class="check-container">
-                      <div class="checkbox" :class="{'checked':node.checked}"></div>
-                    </div>
+                    <m-checkbox :rect="false" v-model="node.checked" />
                     <div class="img-container">
                       <img class="img-m2" v-if="packageInfo.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
                       <img class="img-bee" v-else-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
@@ -63,7 +61,7 @@
                 </div>
               </div>
               <div class="btn-info">
-                <button @click="upgrade()" class="btn re-btn">{{$t('trans0211')}}</button>
+                <button @click="upgrade()" class="btn re-btn">{{$t('trans0225')}}</button>
               </div>
             </div>
             <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
@@ -154,13 +152,7 @@ export default {
   },
   methods: {
     check(node) {
-      this.localNodes.forEach(n => {
-        if (n !== node) {
-          n.checked = false;
-        } else {
-          n.checked = true;
-        }
-      });
+      node.checked = !node.checked;
     },
     onChange() {
       const uploader = this.$refs.uploader;
@@ -195,7 +187,7 @@ export default {
           this.cancelToken = token;
           const { loaded, total, lengthComputable } = progressEvent;
           if (lengthComputable) {
-            uploader.percentage = Math.floor(loaded / total * 100);
+            uploader.percentage = Math.floor((loaded / total) * 100);
             uploader.status =
               loaded >= total ? UploadStatus.success : UploadStatus.uploading;
           }
@@ -207,9 +199,6 @@ export default {
           nodes.forEach(node => {
             this.$set(node, 'checked', false);
           });
-          if (nodes.length) {
-            nodes[0].checked = true;
-          }
           this.localNodes = nodes;
           this.packageInfo = res.data.result.fw_info;
         })
@@ -228,15 +217,17 @@ export default {
         });
     },
     upgrade() {
+      const nodeIds = this.localNodes.filter(n => n.checked).map(n => n.sn);
+      if (!nodeIds.length) {
+        this.$toast(this.$t('trans0381'));
+        return;
+      }
       this.$dialog.confirm({
         okText: this.$t('trans0225'),
         cancelText: this.$t('trans0025'),
         message: this.$t('trans0213'),
         callback: {
           ok: () => {
-            const nodeIds = this.localNodes
-              .filter(n => n.checked)
-              .map(n => n.sn);
             this.$loading.open();
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds, local: true })
@@ -245,7 +236,7 @@ export default {
                 this.upgraded = true;
                 this.$upgrade({
                   onsuccess: () => {
-                    this.$router.push({ path: '/home' });
+                    this.$router.push({ path: '/dashboard' });
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
@@ -260,7 +251,7 @@ export default {
                 this.$loading.close();
 
                 if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
+                  this.$toast(this.$t('trans0296'));
                 } else {
                   this.$router.push({ path: '/unconnect' });
                 }
@@ -290,7 +281,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .form {
       margin: 0 3%;
@@ -376,10 +367,10 @@ export default {
           cursor: pointer;
           .message {
             display: flex;
-            align-items: start;
+            align-items: center;
             padding: 0 20px;
             height: 100%;
-            .check-container,
+            align-items: center;
             .img-container,
             .info-container {
               display: flex;
@@ -387,33 +378,16 @@ export default {
               align-content: center;
               height: 100%;
             }
-            .check-container {
-              margin-right: 20px;
-              .checkbox {
-                width: 18px;
-                height: 18px;
-                border-radius: 2px;
-                border: 1px solid #999;
-                border-radius: 50%;
-                &.checked {
-                  background: url(../../../assets/images/ic_selected.png)
-                    no-repeat center;
-                  border: none;
-                  background-size: 90%;
-                  background-color: #00d061;
-                }
-              }
-            }
             .img-container {
               margin-right: 10px;
               .img-m2 {
-                width: 50px;
+                width: 100px;
               }
               .img-bee {
-                width: 50px;
+                width: 100px;
               }
               .img-other {
-                width: 50px;
+                width: 100px;
               }
             }
 

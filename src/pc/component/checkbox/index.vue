@@ -1,7 +1,7 @@
 <template>
   <transition name="checkbox">
     <div class="checkbox-container">
-      <label @click="check()">
+      <label @click.stop="check()">
         <div class="box" :class="{'checked':checked,'circle-shape':!rect}"></div>
         <div class="text" v-if="text">{{text}}</div>
       </label>
@@ -59,7 +59,8 @@ export default {
     width: 18px;
     height: 18px;
     border-radius: 2px;
-    border: 1px solid #e1e1e1;
+    border: 1px solid #999;
+    background: #fff;
     &.circle-shape {
       border-radius: 50%;
     }

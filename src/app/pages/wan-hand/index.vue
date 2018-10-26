@@ -3,32 +3,12 @@
     <nav-bar :option="option" />
     <div class="message">{{$t('trans0143')}} </div>
     <div class="list">
-      <div class="item" @click="checkType('pppoe')">
+      <div class="item" v-for="t in types" :key="t.value" @click="checkType(t.value)">
         <div class="text">
-          <label class="title">{{$t('trans0144')}}</label>
-          <label class="des">{{$t('trans0145')}}</label>
+          <label class="title">{{$t(t.title)}}</label>
+          <label class="des">{{$t(t.des)}}</label>
         </div>
-        <div class="icon" v-if="type==='pppoe'">
-          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
-        </div>
-      </div>
-      <div class="item" @click="checkType('dhcp')">
-        <div class="text">
-          <label class="title">{{$t('trans0146')}}</label>
-          <label class="des">{{$t('trans0147')}}</label>
-        </div>
-        <div class="icon" v-if="type==='dhcp'">
-          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
-        </div>
-      </div>
-      <div class="item" @click="checkType('static')">
-        <div class="text">
-          <label class="title">{{$t('trans0148')}}</label>
-          <label class="des">{{$t('trans0149')}}</label>
-        </div>
-        <div class="icon" v-if="type==='static'">
-          <img src="../.././assets/images/ic_select@1.5x.png" alt="" style="width:16px">
-        </div>
+        <div class="icon" v-if="type===t.value"></div>
       </div>
     </div>
   </div>
@@ -39,6 +19,23 @@ export default {
     const config = this.routerConfig.getWan();
     return {
       type: config.type,
+      types: [
+        {
+          title: 'trans0144',
+          des: 'trans0145',
+          value: 'pppoe'
+        },
+        {
+          title: 'trans0146',
+          des: 'trans0147',
+          value: 'dhcp'
+        },
+        {
+          title: 'trans0148',
+          des: 'trans0149',
+          value: 'static'
+        }
+      ],
       option: {
         center: {
           text: this.$t('trans0142')
@@ -71,50 +68,46 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 .wan-hand-container {
   .message {
-    line-height: 1.8;
     font-size: 0.12rem;
     text-align: left;
-    color: rgb(124, 124, 124);
-    background: rgb(0, 0, 0);
-    padding: 0.1rem 0.15rem;
+    color: rgb(108, 108, 108);
+    background: rgb(250, 250, 250);
+    border: 1px solid rgb(241, 241, 241);
+    padding: 0.16rem 0.15rem;
   }
   .list {
     margin-top: 0.2rem;
+    padding: 0 0.15rem;
   }
   .item {
-    height: 0.8rem;
+    margin-top: 0.28rem;
     width: 100%;
-    display: table;
+    display: flex;
+    align-items: center;
     &:active {
-      background: rgb(0, 0, 0);
-      opacity: 0.9;
+      opacity: 0.7;
     }
     .text {
-      display: table-cell;
-      overflow: hidden;
-      vertical-align: middle;
-      padding-left: 0.15rem;
+      flex: 1;
       label {
         display: block;
       }
       :first-child {
         font-size: 0.14rem;
-        color: rgb(182, 182, 182);
+        color: rgb(51, 51, 51);
       }
       :last-child {
         font-size: 0.12rem;
-        color: rgb(124, 124, 124);
+        color: rgb(153, 153, 153);
         padding-top: 0.05rem;
       }
     }
     .icon {
-      display: table-cell;
-      vertical-align: middle;
       text-align: right;
-      padding-right: 0.15rem;
-      i {
-        color: #d5b884;
-      }
+      width: 0.16rem;
+      height: 0.16rem;
+      background: url(../.././assets/images/ic_select.png) no-repeat;
+      background-size: 100%;
     }
   }
 }

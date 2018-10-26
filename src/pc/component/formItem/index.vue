@@ -54,16 +54,18 @@ export default {
     }
   },
   mounted() {
-    this.bindVidator();
-    this.$on('blur', () => {
-      this.validate();
-    });
-    this.$on('focus', () => {
-      this.result = null;
-    });
-    this.$on('change', () => {
-      this.result = null;
-    });
+    if (this.$parent.rules) {
+      this.bindVidator();
+      this.$on('blur', () => {
+        this.validate();
+      });
+      this.$on('focus', () => {
+        this.result = null;
+      });
+      this.$on('change', () => {
+        this.result = null;
+      });
+    }
   }
 };
 </script>

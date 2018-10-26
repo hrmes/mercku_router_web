@@ -4,7 +4,7 @@
     <div class="bg"></div>
     <nav-bar :option="option" />
     <div class="bg-container">
-      <img class="logo" src="../../assets/images/img_login_logo.png" alt="">
+      <img class="logo" src="../../assets/images/logo.png" alt="">
     </div>
     <div class="pwd-container">
       <m-input type="password" v-model="password" :placeholder="$t('trans0067')" />
@@ -70,7 +70,7 @@ export default {
 
 <style lang="scss" type="text/scss" scoped>
 .bg {
-  background: #070707;
+  background: #fff;
   position: fixed;
   left: 0;
   right: 0;
@@ -81,9 +81,6 @@ export default {
 }
 .login-page {
   padding: 0rem 0.2rem;
-  background: url(../../assets/images/img_bg_login.jpg);
-  background-size: 100%;
-  background-repeat: no-repeat;
   .header-container {
     background: transparent;
   }
@@ -92,8 +89,7 @@ export default {
     background-size: 100% 100%;
     position: relative;
     .logo {
-      width: 2.2rem;
-      height: 0.35rem;
+      height: 0.3rem;
       position: absolute;
       left: 50%;
       bottom: 0;

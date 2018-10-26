@@ -2,7 +2,7 @@
   <layout>
     <div class="setting-network-container">
       <div v-if="reboot">
-        <m-proress :label="$t('trans0322')"></m-proress>
+        <m-progress :label="$t('trans0322')"></m-progress>
       </div>
       <div class="content">
         <div class="network-info">
@@ -21,33 +21,34 @@
             <div v-if="isConnected">
               <img src="../../../assets/images/img_internet_normal.png" alt="">
               <p>{{$t('trans0318')}}</p>
-              <div class="seccess-info">
-                <div>
-                  <label for="">{{$t('trans0317')}}：</label>
-                  <span>
-                    {{networkArr[localNetInfo.type]}}
-                  </span>
-                </div>
-                <div>
-                  <label for="">{{$t('trans0151')}}：</label>
-                  <span> {{localNetInfo.netinfo.ip}}</span>
-                </div>
-                <div>
-                  <label for="">{{$t('trans0152')}}：</label>
-                  <span> {{localNetInfo.netinfo.mask }} </span>
-                </div>
-                <div>
-                  <label for="">{{$t('trans0153')}}：</label>
-                  <span>
-                    {{localNetInfo.netinfo.gateway}}
-                  </span>
-                </div>
-                <div>
-                  <label for="">{{$t('trans0236')}}：</label>
-                  <span>
-                    {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
-                  </span>
-                </div>
+
+            </div>
+            <div class="seccess-info">
+              <div>
+                <label for="">{{$t('trans0317')}}：</label>
+                <span>
+                  {{networkArr[localNetInfo.type]}}
+                </span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0151')}}：</label>
+                <span> {{localNetInfo.netinfo.ip}}</span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0152')}}：</label>
+                <span> {{localNetInfo.netinfo.mask }} </span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0153')}}：</label>
+                <span>
+                  {{localNetInfo.netinfo.gateway}}
+                </span>
+              </div>
+              <div>
+                <label for="">{{$t('trans0236')}}：</label>
+                <span>
+                  {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                </span>
               </div>
             </div>
           </div>
@@ -109,7 +110,8 @@ import {
   ipRule,
   isMulticast,
   isLoopback,
-  isValidMask
+  isValidMask,
+  ipReg
 } from '../../../../util/util';
 import * as CONSTANTS from '../../../../util/constant';
 
@@ -119,14 +121,10 @@ export default {
     'm-form-item': FormItem,
     'm-form': Form,
     'm-select': mSelect,
-    'm-proress': Progress,
+    'm-progress': Progress,
     layout
   },
   data() {
-    const pattern = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
-    function expRules(v) {
-      return v === undefined || v === '' || v === null ? true : pattern.test(v);
-    }
     return {
       CONSTANTS: { ...CONSTANTS },
       netNote: {
@@ -176,7 +174,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => pattern.test(value),
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           }
         ],
@@ -186,7 +184,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => pattern.test(value),
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           },
           {
@@ -200,7 +198,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => pattern.test(value),
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           }
         ],
@@ -210,13 +208,13 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => pattern.test(value),
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           }
         ],
         dns2: [
           {
-            rule: expRules,
+            rule: value => (value ? ipReg.test(value) : value !== 0),
             message: this.$t('trans0231')
           }
         ]
@@ -372,7 +370,7 @@ export default {
                 this.reboot = true;
                 this.$reconnect({
                   onsuccess: () => {
-                    this.$router.push({ path: '/home' });
+                    this.$router.push({ path: '/dashboard' });
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
@@ -441,7 +439,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .network-info {
       border-radius: 8px;
@@ -467,18 +465,26 @@ export default {
         }
         .seccess-info {
           text-align: left;
-          margin: 30px;
+          display: flex;
+          width: 100%;
+          flex-direction: column;
           div {
             margin-top: 10px;
+            display: flex;
           }
           label {
             display: inline-block;
             font-size: 14px;
             color: #999999;
+            font-weight: bold;
+            width: 130px;
+            text-align: right;
+            flex: 1;
           }
           span {
             color: #333333;
             font-size: 14px;
+            flex: 1;
           }
         }
       }
@@ -496,9 +502,6 @@ export default {
         align-items: center;
         .form {
           padding: 20px 0;
-          .item {
-            // margin-bottom: 20px;
-          }
           .note {
             font-size: 12px;
             color: #999999;

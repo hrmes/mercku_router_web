@@ -2,25 +2,22 @@
   <div class="wan-check-container">
     <nav-bar :option="option" />
     <div class="status-info">
-      <img src="../../assets/images/ic_succeed.png" alt="">
+      <img src="../../assets/images/ic_success.png" alt="">
       <label class="state">{{$t('trans0170')}}</label>
       <label class="code" v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
     </div>
     <div class="net-info-container" v-if="config.wifi.ssid">
       <div class="net-info">
         <div>
-          <span class="icon"></span>
-          <span class="title">{{$t('trans0168')}}</span>:
+          <span class="title">{{$t('trans0168')}}</span>
           <span class="value">{{config.wifi.ssid}}</span>
         </div>
         <div>
-          <span class="icon"></span>
-          <span class="title">{{$t('trans0172')}}</span>:
+          <span class="title">{{$t('trans0172')}}</span>
           <span class="value">{{config.wifi.password}}</span>
         </div>
         <div>
-          <span class="icon"></span>
-          <span class="title">{{$t('trans0067')}}</span>:
+          <span class="title">{{$t('trans0067')}}</span>
           <span class="value">{{config.admin.password}}</span>
         </div>
       </div>
@@ -48,7 +45,7 @@ export default {
       },
       config: this.routerConfig.getConfig(),
       timer: null,
-      deadline: 40
+      deadline: 60
     };
   },
   computed: {
@@ -87,10 +84,10 @@ export default {
 <style lang="scss" type="text/scss" scoped>
 @keyframes progress {
   0% {
-    width: 10px;
+    width: 5%;
   }
   100% {
-    width: 200px;
+    width: 100%;
   }
 }
 .wan-check-container {
@@ -105,15 +102,16 @@ export default {
     left: 50%;
     width: 100%;
     .progress-bar {
-      width: 200px;
+      width: 2rem;
       margin: 0 auto;
       margin-bottom: 0.3rem;
-      background: rgb(72, 72, 72);
+      background: rgb(230, 230, 230);
+      border-radius: 1.5px;
       .progress-bar-inner {
         height: 3px;
         border-radius: 1.5px;
-        background: rgb(213, 184, 132);
-        animation: progress 40s linear;
+        background: rgb(214, 0, 28);
+        animation: progress 60s linear;
       }
     }
   }
@@ -123,33 +121,29 @@ export default {
     margin-top: 0.5rem;
     .net-info {
       text-align: left;
-      display: inline-block;
-      margin: 0 auto;
+      flex: 1;
+      margin: 0 0.15rem;
 
       div {
         color: rgb(182, 182, 182);
-        margin-bottom: 0.1rem;
         font-size: 0.16rem;
-
-        .icon {
-          display: inline-block;
-          width: 0.05rem;
-          height: 0.05rem;
-          border-radius: 50%;
-          margin-bottom: 0.02rem;
-          margin-right: 0.08rem;
+        border-bottom: 1px solid rgb(189, 189, 189);
+        padding: 0.1rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &:last-child {
+          border: 0;
         }
-
         .title {
-          display: inline-block;
-          text-align: right;
+          color: rgb(108, 108, 108);
+          font-weight: bold;
         }
 
         .value {
-          display: inline-block;
-          text-align: left;
-          margin-left: 0.05rem;
-          white-space: pre;
+          word-break: break-all;
+          word-wrap: break-word;
+          margin-left: 0.3rem;
         }
       }
     }
@@ -169,13 +163,13 @@ export default {
 
     .state {
       font-size: 0.18rem;
-      color: rgb(182, 182, 182);
+      color: rgb(51, 51, 51);
       margin-top: 0.2rem;
     }
 
     .code {
       font-size: 0.14rem;
-      color: rgb(182, 182, 182);
+      color: rgb(51, 51, 51);
       margin-top: 0.1rem;
     }
   }

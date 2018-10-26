@@ -21,7 +21,6 @@
 import Form from '../../../component/form/index.vue';
 import FormItem from '../../../component/formItem/index.vue';
 import Input from '../../../component/input/input.vue';
-import Progress from '../../../component/progress/index.vue';
 import layout from '../../../layout.vue';
 import { passwordRule } from '../../../../util/util';
 
@@ -30,7 +29,6 @@ export default {
     'm-input': Input,
     'm-form-item': FormItem,
     'm-form': Form,
-    'm-proress': Progress,
     layout
   },
   data() {
@@ -92,7 +90,7 @@ export default {
       font-size: 16px;
       color: #333333;
       line-height: 60px;
-      font-weight: 400;
+      font-weight: bold;
     }
     .form {
       display: flex;

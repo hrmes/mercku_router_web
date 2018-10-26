@@ -87,7 +87,7 @@ export default {
         .login(this.password)
         .then(() => {
           this.$loading.close();
-          this.$router.push({ path: '/home' });
+          this.$router.push({ path: '/dashboard' });
         })
         .catch(err => {
           if (err.upgrading) {
@@ -233,8 +233,8 @@ export default {
           padding-top: 5px;
           .down-button {
             text-decoration: none;
-            color: #4237dd;
-            border: 1px solid #4237dd;
+            color: rgb(214, 0, 28);
+            border: 1px solid rgb(214, 0, 28);
             padding: 10px;
             border-radius: 2px;
             font-size: 14px;
