@@ -70,11 +70,12 @@ export default {
   .dialog-content {
     text-align: center;
     background: #fff;
-    padding: 10px;
+    padding: 30px;
     border-radius: 5px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     .dialog-buttons {
       white-space: nowrap;
+      margin-top: 20px;
       button {
         width: 120px;
         height: 42px;
@@ -94,7 +95,6 @@ export default {
     }
     .dialog-message {
       color: #333;
-      padding: 20px;
     }
   }
   &.dialog-enter-active {
