@@ -558,7 +558,7 @@ export default {
         .mobile-icon {
           display: none;
         }
-        width: 240px;
+        width: 250px;
       }
       .column-ip {
         .pc-mac {
@@ -578,7 +578,7 @@ export default {
         width: 150px;
       }
       .column-real-time {
-        width: 160px;
+        width: 150px;
       }
       .column-band {
         width: 100px;
@@ -590,7 +590,7 @@ export default {
         width: 120px;
       }
       .column-black-list {
-        width: 150px;
+        width: 120px;
       }
 
       .table-head {

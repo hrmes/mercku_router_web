@@ -474,7 +474,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
-  // display: flex;
+  flex: 1;
+  display: flex;
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -522,6 +523,7 @@ export default {
     }
   }
   .mesh-info {
+    flex: 1;
     .title {
       font-size: 16px;
       color: #999;
@@ -560,7 +562,7 @@ export default {
     box-sizing: border-box;
     padding: 0 20px;
     flex-direction: column;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
     .content {
       padding-top: 15px;
       .table {
@@ -568,40 +570,39 @@ export default {
           display: flex;
           padding: 15px 20px;
           background: #f1f1f1;
+          display: flex;
+          justify-content: space-between;
         }
         .name {
-          min-width: 230px;
-          width: 25%;
+          width: 250px;
           padding-left: 50px;
         }
         .sn {
-          min-width: 150px;
-          width: 15%;
+          width: 150px;
         }
         .type {
-          min-width: 150px;
-          width: 15%;
+          width: 150px;
         }
         .version {
-          min-width: 150px;
-          width: 15%;
+          width: 120px;
         }
         .ip {
-          min-width: 150px;
-          width: 15%;
+          width: 150px;
         }
         .mac {
           display: none;
         }
         .operate {
-          min-width: 150px;
-          width: 15%;
+          width: 120px;
         }
         .table-content {
           padding: 0 20px;
+
           .router {
             display: flex;
             padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
             span.label {
               display: none;
             }
