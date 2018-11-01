@@ -10,7 +10,8 @@
         <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
       <div class="content">
-        <div id="topo" style="width:100%;height:550px;" v-show="!showTable"></div>
+        <div id="topo" style="width:100%;flex:1;min-height
+        550px;" v-show="!showTable"></div>
         <div class="table" v-show="showTable">
           <div class="table-header">
             <div class="name">
@@ -524,6 +525,7 @@ export default {
   }
   .mesh-info {
     flex: 1;
+    display: flex;
     .title {
       font-size: 16px;
       color: #999;
@@ -565,7 +567,10 @@ export default {
     // margin-bottom: 20px;
     .content {
       padding-top: 15px;
+      flex: 1;
+      display: flex;
       .table {
+        width: 100%;
         .table-header {
           display: flex;
           padding: 15px 20px;
@@ -603,6 +608,10 @@ export default {
             padding: 30px 0;
             display: flex;
             justify-content: space-between;
+            border-bottom: 1px solid #f1f1f1;
+            &:last-child {
+              border: 0;
+            }
             span.label {
               display: none;
             }
