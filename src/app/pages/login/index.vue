@@ -79,6 +79,10 @@ export default {
   bottom: 0;
   z-index: -1;
 }
+// ios9 position bug 通过home切换到其它页面在通过home切换回来会出现按钮消失的情况
+// .button-info {
+//   position: fixed;
+// }
 .login-page {
   padding: 0rem 0.2rem;
   .header-container {
