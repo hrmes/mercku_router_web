@@ -96,9 +96,13 @@
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <span class="bandwidth">{{bandwidth.value}} </span>
-              <span style="margin-top:5px;">{{bandwidth.unit}}</span>
-              <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
+              <div>
+                <span class="bandwidth">{{bandwidth.value}} </span>
+                <span style="margin-top:5px;">{{bandwidth.unit}}</span>
+              </div>
+              <div>
+                <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
+              </div>
             </div>
           </div>
         </div>
@@ -122,7 +126,7 @@
               <div>
                 <p>
                   <span class="speed">{{speedDown.value}}</span>
-                  <span class='unit'> {{speedDown.unit}}/s</span>
+                  <span class='unit'> {{speedDown.unit}}</span>
                 </p>
                 <p class="note">{{$t('trans0007')}}</p>
               </div>
@@ -132,19 +136,9 @@
               <div>
                 <p>
                   <span class="speed">{{speedUp.value}}</span>
-                  <span class='unit'> {{speedUp.unit}}/s</span>
+                  <span class='unit'> {{speedUp.unit}}</span>
                 </p>
                 <p class="note">{{$t('trans0006')}}</p>
-              </div>
-            </div>
-            <div class="extra">
-              <i class="p-count-icon"></i>
-              <div>
-                <p>
-                  <span class="speed">{{newBandwidth.value}}</span>
-                  <span class='unit'> {{newBandwidth.unit}}</span>
-                </p>
-                <p class="note">{{$t('trans0029')}}</p>
               </div>
             </div>
           </div>
@@ -198,9 +192,6 @@ export default {
     },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
-    },
-    newBandwidth() {
-      return this.formatBandWidth(this.localSpeedInfo.speed.down);
     },
     isSpeedDone() {
       return this.speedStatus === CONSTANTS.SpeedTestStatus.done;
@@ -284,42 +275,15 @@ export default {
       return this.formatSpeed(this.localTraffic.traffic.dl * 8);
     },
     speedDown() {
-      return {
-        value: this.localSpeedInfo.speed.down,
-        unit: 'bp'
-      };
-      // return this.formatSpeed(this.localSpeedInfo.speed.down);
+      return this.formatBandWidth(this.localSpeedInfo.speed.down);
     },
     speedUp() {
-      return {
-        value: this.localSpeedInfo.speed.up,
-        unit: 'bp'
-      };
-      // return this.formatSpeed(this.localSpeedInfo.speed.up);
+      return this.formatBandWidth(this.localSpeedInfo.speed.up);
     }
   },
   methods: {
-    formatSpeed(value) {
-      value /= 8;
-      const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
-      let index = -1;
-      if (!isNaN(value)) {
-        do {
-          value /= 1024;
-          index += 1;
-        } while (value > 1024 && index < units.length - 1);
-        return {
-          value: value.toFixed(1),
-          unit: units[index]
-        };
-      }
-      return {
-        value: '-',
-        unit: 'KB'
-      };
-    },
     formatBandWidth(value) {
-      const units = ['bps', 'K', 'M', 'G', 'T', 'P'];
+      const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
       let index = 0;
       if (!isNaN(value)) {
         while (value > 1024 && index < units.length - 1) {
@@ -784,8 +748,8 @@ export default {
         font-weight: 200;
       }
       .speed-completed {
-        width: 600px;
-        height: 280px;
+        width: 500px;
+        height: 250px;
         background: white;
         border-radius: 5px;
         display: flex;
@@ -1038,13 +1002,7 @@ export default {
           .speed-result-info {
             justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
             padding-top: 20px;
-            .extra {
-              min-width: 100%;
-
-              padding-bottom: 30px;
-            }
           }
           width: 80%;
           margin: 0 auto;
@@ -1077,8 +1035,20 @@ export default {
 
       .test-speed-btn-container {
         height: 100px;
+        padding: 0;
+        justify-content: flex-start;
+        &::before {
+          display: none;
+        }
         .btn-speed-test {
-          margin-right: 0;
+          margin-left: 0;
+        }
+        > div {
+          flex: 1;
+          text-align: left;
+          .bandwidth {
+            padding-left: 25px;
+          }
         }
       }
       .traffic-container {
