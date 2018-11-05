@@ -684,7 +684,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 30px;
+    width: 200px;
     position: relative;
     &:before {
       content: '';
@@ -693,7 +693,7 @@ export default {
       height: 70px;
       border-left: 1px solid #f1f1f1;
       position: absolute;
-      left: 0;
+      left: -40px;
     }
     .btn {
       width: 100px;

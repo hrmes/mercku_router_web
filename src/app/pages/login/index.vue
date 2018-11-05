@@ -1,6 +1,7 @@
 <template>
 
   <div class="login-page">
+    <div class="bg"></div>
     <nav-bar :option="option" />
     <div class="bg-container">
       <img class="logo" src="../../assets/images/logo.png" alt="">
@@ -8,7 +9,7 @@
     <div class="pwd-container">
       <m-input type="password" v-model="password" :placeholder="$t('trans0067')" />
     </div>
-    <div class="button-container">
+    <div class="button-info">
       <button class="btn btn-default" @click="login(password)" :disabled="!password">{{$t('trans0001')}}</button>
     </div>
   </div>
@@ -68,30 +69,36 @@ export default {
 </script>
 
 <style lang="scss" type="text/scss" scoped>
+.bg {
+  background: #fff;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  bottom: 0;
+  z-index: -1;
+}
 .login-page {
   padding: 0rem 0.2rem;
-  display: flex;
-  flex-direction: column;
   .header-container {
     background: transparent;
   }
   .bg-container {
-    flex: 1;
+    height: 3rem;
+    background-size: 100% 100%;
     position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
     .logo {
       height: 0.3rem;
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
     }
   }
   .pwd-container {
-    margin: 0.7rem 0 0.5rem 0;
-  }
-  .button-container {
-    padding: 0.5rem 0;
-    display: flex;
-    justify-content: center;
+    margin-top: 0.33rem;
+    position: relative;
   }
 }
 </style>

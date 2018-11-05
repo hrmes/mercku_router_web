@@ -165,14 +165,12 @@ export default {
       font-size: 0.18rem;
       color: rgb(51, 51, 51);
       margin-top: 0.2rem;
-      font-weight: bold;
     }
 
     .code {
       font-size: 0.14rem;
       color: rgb(51, 51, 51);
       margin-top: 0.1rem;
-      font-weight: bold;
     }
   }
 }

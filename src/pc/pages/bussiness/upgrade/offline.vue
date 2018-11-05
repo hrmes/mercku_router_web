@@ -343,7 +343,7 @@ export default {
         text-align: left;
       }
       border-top: 1px solid #f1f1f1;
-      margin-top: 30px;
+      margin-top: 50px;
       text-align: center;
       height: 100%;
       display: flex;

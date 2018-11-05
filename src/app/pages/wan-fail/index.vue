@@ -181,7 +181,6 @@ export default {
       text-align: center;
       font-size: 0.14rem;
       color: rgb(51, 51, 51);
-      font-weight: bold;
     }
 
     img {
@@ -203,7 +202,6 @@ export default {
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid rgb(189, 189, 189);
-        color: rgb(108, 108, 108);
         label {
           font-weight: bold;
         }
