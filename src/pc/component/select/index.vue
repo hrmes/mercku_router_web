@@ -8,7 +8,7 @@
       </div>
       <transition name="select">
         <ul class="select-popup" v-show="this.opened">
-          <li :key="option.value" @click.stop="select(option)" v-for="option in options" :title="option.text">{{option.text}}</li>
+          <li :class="{'selected':selected === option}" :key="option.value" @click.stop="select(option)" v-for="option in options" :title="option.text">{{option.text}}</li>
         </ul>
       </transition>
     </div>
@@ -119,11 +119,16 @@ export default {
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
+
       &:active {
-        background: #d6001c;
+        background: gray;
         color: #fff;
       }
       &:hover {
+        background: gray;
+        color: #fff;
+      }
+      &.selected {
         background: #d6001c;
         color: #fff;
       }

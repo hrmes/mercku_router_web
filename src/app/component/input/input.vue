@@ -87,7 +87,7 @@ export default {
   }
   .inputarea {
     position: relative;
-    margin-right: 0.3rem;
+    padding-right: 0.3rem;
     &.no-margin {
       margin-right: 0;
     }
@@ -118,10 +118,6 @@ export default {
     color: #333;
     -webkit-appearance: none;
     box-sizing: border-box;
-
-    &.has-icon {
-      padding-right: 0.3rem;
-    }
   }
   .icon-container {
     position: absolute;
