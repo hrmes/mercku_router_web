@@ -284,10 +284,18 @@ export default {
       return this.formatSpeed(this.localTraffic.traffic.dl * 8);
     },
     speedDown() {
-      return this.formatSpeed(this.localSpeedInfo.speed.down);
+      return {
+        value: this.localSpeedInfo.speed.down,
+        unit: 'bp'
+      };
+      // return this.formatSpeed(this.localSpeedInfo.speed.down);
     },
     speedUp() {
-      return this.formatSpeed(this.localSpeedInfo.speed.up);
+      return {
+        value: this.localSpeedInfo.speed.up,
+        unit: 'bp'
+      };
+      // return this.formatSpeed(this.localSpeedInfo.speed.up);
     }
   },
   methods: {
