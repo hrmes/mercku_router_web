@@ -10,7 +10,8 @@
         <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
       <div class="content">
-        <div id="topo" style="width:100%;height:550px;" v-show="!showTable"></div>
+        <div id="topo" style="width:100%;flex:1;min-height
+        550px;" v-show="!showTable"></div>
         <div class="table" v-show="showTable">
           <div class="table-header">
             <div class="name">
@@ -474,7 +475,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
-  // display: flex;
+  flex: 1;
+  display: flex;
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -522,6 +524,8 @@ export default {
     }
   }
   .mesh-info {
+    flex: 1;
+    display: flex;
     .title {
       font-size: 16px;
       color: #999;
@@ -560,48 +564,54 @@ export default {
     box-sizing: border-box;
     padding: 0 20px;
     flex-direction: column;
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
     .content {
       padding-top: 15px;
+      flex: 1;
+      display: flex;
       .table {
+        width: 100%;
         .table-header {
           display: flex;
           padding: 15px 20px;
           background: #f1f1f1;
+          display: flex;
+          justify-content: space-between;
         }
         .name {
-          min-width: 230px;
-          width: 25%;
+          width: 250px;
           padding-left: 50px;
         }
         .sn {
-          min-width: 150px;
-          width: 15%;
+          width: 150px;
         }
         .type {
-          min-width: 150px;
-          width: 15%;
+          width: 150px;
         }
         .version {
-          min-width: 150px;
-          width: 15%;
+          width: 120px;
         }
         .ip {
-          min-width: 150px;
-          width: 15%;
+          width: 150px;
         }
         .mac {
           display: none;
         }
         .operate {
-          min-width: 150px;
-          width: 15%;
+          width: 120px;
         }
         .table-content {
           padding: 0 20px;
+
           .router {
             display: flex;
             padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #f1f1f1;
+            &:last-child {
+              border: 0;
+            }
             span.label {
               display: none;
             }
