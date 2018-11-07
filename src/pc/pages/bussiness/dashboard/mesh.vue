@@ -10,8 +10,7 @@
         <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
       <div class="content">
-        <div id="topo" style="width:100%;flex:1;min-height
-        550px;" v-show="!showTable"></div>
+        <div id="topo" style="width:100%;height:550px;margin-bottom: 20px;" v-show="!showTable"></div>
         <div class="table" v-show="showTable">
           <div class="table-header">
             <div class="name">
@@ -408,7 +407,7 @@ export default {
                   // 处理手动加上的sn,label不显示sn
                   const name = category.name.replace(/:.*/, '');
                   if (category.data.angle > 0) {
-                    return `${name.match(/.{1,10}/g).join('\n')}`;
+                    return `${name.match(/.{1,13}/g).join('\n')}`;
                   }
                   return name;
                 },
@@ -475,8 +474,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
-  flex: 1;
-  display: flex;
+  // flex: 1;
+  // display: flex;
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -524,8 +523,8 @@ export default {
     }
   }
   .mesh-info {
-    flex: 1;
-    display: flex;
+    // flex: 1;
+    // display: flex;
     .title {
       font-size: 16px;
       color: #999;
