@@ -103,10 +103,10 @@ export default {
       if (!v) {
         return '';
       }
-      return v / (8 * 1024);
+      return v / (8 * 1000);
     },
     KB_to_b(v) {
-      return v * (8 * 1024);
+      return v * (8 * 1000);
     },
     changehandle(v) {
       this.$loading.open();

@@ -269,10 +269,10 @@ export default {
       return this.formatSpeed(this.localTraffic.speed.peak.down);
     },
     trafficUl() {
-      return this.formatSpeed(this.localTraffic.traffic.ul * 8);
+      return this.formatNetworkData(this.localTraffic.traffic.ul);
     },
     trafficDl() {
-      return this.formatSpeed(this.localTraffic.traffic.dl * 8);
+      return this.formatNetworkData(this.localTraffic.traffic.dl);
     },
     speedDown() {
       return this.formatBandWidth(this.localSpeedInfo.speed.down);
@@ -286,8 +286,8 @@ export default {
       const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
       let index = 0;
       if (!isNaN(value)) {
-        while (value > 1024 && index < units.length - 1) {
-          value /= 1024;
+        while (value > 1000 && index < units.length - 1) {
+          value /= 1000;
           index += 1;
         }
         return {

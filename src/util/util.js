@@ -205,9 +205,9 @@ export const formatNetworkData = value => {
   let index = -1;
   if (!isNaN(value)) {
     do {
-      value /= 1024;
+      value /= 1000;
       index += 1;
-    } while (value > 1024 && index < units.length - 1);
+    } while (value > 1000 && index < units.length - 1);
     return {
       value: value.toFixed(1),
       unit: units[index]
@@ -230,13 +230,13 @@ export const formatSpeed = value => {
   let index = -1;
   if (!isNaN(value)) {
     do {
-      value /= 1024;
+      value /= 1000;
       index += 1;
-    } while (value > 1024 && index < units.length - 1);
+    } while (value > 1000 && index < units.length - 1);
     return {
       value: value.toFixed(1),
       unit: units[index]
     };
   }
-  return { value: '-', unit: 'KB' };
+  return { value: '-', unit: units[0] };
 };
