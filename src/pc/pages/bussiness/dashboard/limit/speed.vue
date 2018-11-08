@@ -7,20 +7,20 @@
         </div>
         <div class='form'>
           <div class='input-info'>
-            <div class="check-info">
-              <label for=""> {{$t('trans0369')}} </label>
-              <m-switch v-model="form.enabled" :onChange="changehandle" />
-            </div>
             <m-form ref="form" :model="form" :rules='rules'>
               <m-form-item class="item" prop='up'>
-                <m-input v-model="form.up" :label="`${$t('trans0304')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`" :disabled='disabled'></m-input>
+                <m-input v-model="form.up" :label="`${$t('trans0304')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
               </m-form-item>
               <m-form-item class="item" prop='down'>
-                <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`" :disabled='disabled'></m-input>
+                <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
               </m-form-item>
             </m-form>
+            <div class="check-info">
+              <label for=""> {{$t('trans0369')}} </label>
+              <m-switch v-model="form.enabled" />
+            </div>
             <div class="btn-info">
-              <button class="btn" :disabled='disabled' @click='submit'>{{$t('trans0081')}}</button>
+              <button class="btn" @click='submit'>{{$t('trans0081')}}</button>
             </div>
           </div>
         </div>
@@ -51,7 +51,6 @@ export default {
       return /^[1-9]\d{0,5}$/.test(v);
     }
     return {
-      disabled: true,
       mac: '',
       form: {
         up: '',
@@ -89,7 +88,6 @@ export default {
       this.$store.state.limits.speed.speed_limit
     ) {
       const speed = this.$store.state.limits.speed.speed_limit;
-      this.disabled = !speed.enabled;
       this.form = {
         ...speed,
         up: this.b_to_KB(speed.up),
@@ -108,39 +106,11 @@ export default {
     KB_to_b(v) {
       return v * (8 * 1000);
     },
-    changehandle(v) {
-      this.$loading.open();
-      this.form.enabled = v;
-      this.$http
-        .speedLimitUpdate({
-          mac: this.mac,
-          speed_limit: {
-            enabled: v
-          }
-        })
-        .then(() => {
-          this.$loading.close();
-          this.getSpeed();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
-    },
     getSpeed() {
       this.$http
         .getSpeedLimit({ mac: this.mac })
         .then(res => {
           const speed = res.data.result;
-          this.disabled = !speed.enabled;
           this.form = {
             ...speed,
             up: this.b_to_KB(speed.up),
@@ -174,12 +144,12 @@ export default {
           this.$http
             .speedLimitUpdate({
               mac: this.mac,
-              speed_limit: { ...params }
+              speed_limit: params
             })
             .then(() => {
               this.$loading.close();
               this.$store.state.limits.speed = {
-                speed_limit: { ...params }
+                speed_limit: params
               };
               this.$toast(this.$t('trans0040'), 3000, 'success');
             })
