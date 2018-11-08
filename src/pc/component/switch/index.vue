@@ -19,8 +19,7 @@ export default {
       default: false
     },
     value: {
-      type: Boolean,
-      default: true
+      type: Boolean
     }
   },
   watch: {

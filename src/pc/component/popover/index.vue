@@ -41,8 +41,7 @@ export default {
   name: 'Popover',
   props: {
     value: {
-      type: Boolean,
-      default: false
+      type: Boolean
     },
     title: {
       type: String,

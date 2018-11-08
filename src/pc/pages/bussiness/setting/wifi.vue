@@ -21,13 +21,27 @@
             <!-- <div class="item" style="margin-bottom:30px;">
               <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
             </div> -->
+            <div class="check-info smart-connect">
+              <div class="switch-container">
+                <label for=""> {{$t('trans0110')}} </label>
+                <div class="tool">
+                  <m-popover v-model='smartTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+                  <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
+                </div>
+                <m-switch v-model="form.smart_connect" />
+              </div>
+              <div class="ssid" v-if="!form.smart_connect">
+                <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
+                <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{form.ssid}}_5G</span></div>
+              </div>
+            </div>
             <div class="check-info">
               <label for=""> {{$t('trans0110')}} </label>
               <div class="tool">
-                <m-popover v-model='popShow' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-                <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="popIsShow">
+                <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+                <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
               </div>
-              <m-switch v-model="form.hidden" :onChange="changehandle" />
+              <m-switch v-model="form.hidden" />
             </div>
             <div class="btn-info">
               <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
@@ -65,7 +79,8 @@ export default {
   data() {
     return {
       band: '2.4G5G',
-      popShow: false,
+      hideTipVisible: false,
+      smartTipVisible: false,
       reboot: false,
       meshData: {},
       options: [
@@ -98,6 +113,7 @@ export default {
         ssid: '',
         password: '',
         hidden: false,
+        smart_connect: true,
         bands: {
           '2.4G': { enabled: true },
           '5G': { enabled: true }
@@ -133,9 +149,6 @@ export default {
     }
   },
   methods: {
-    popIsShow() {
-      this.popShow = !this.popShow;
-    },
     bandsToStr(bands) {
       return Object.keys(bands)
         .map(v => bands[v].enabled)
@@ -161,6 +174,7 @@ export default {
             this.form.bands = this.meshData.bands;
             this.splitBands(this.meshData.bands);
             this.form.hidden = this.meshData.hidden;
+            this.form.smart_connect = this.meshData.smart_connect;
           }
         })
         .catch(err => {
@@ -174,9 +188,6 @@ export default {
             this.$router.push({ path: '/unconnect' });
           }
         });
-    },
-    changehandle(v) {
-      this.form.hidden = v;
     },
     submit() {
       if (this.$refs.form.validate()) {
@@ -252,14 +263,34 @@ export default {
       display: flex;
       justify-content: center;
       padding: 30px 0;
-
-      .btn-info {
-        margin-top: 30px;
-      }
       .check-info {
         display: flex;
         align-items: center;
         position: relative;
+        margin-bottom: 30px;
+        &.smart-connect {
+          flex-direction: column;
+          align-items: flex-start;
+          .ssid {
+            width: 100%;
+            margin-top: 20px;
+            background-color: #fafafa;
+            padding: 0 20px;
+            div {
+              padding: 10px 0;
+              .ssid-label {
+                width: 50px;
+                display: inline-block;
+              }
+              &:first-child {
+                border-bottom: 1px solid #f1f1f1;
+              }
+            }
+          }
+        }
+        .switch-container {
+          display: flex;
+        }
         label {
           margin-right: 2px;
           font-size: 14px;
