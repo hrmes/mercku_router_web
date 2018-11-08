@@ -282,24 +282,6 @@ export default {
     }
   },
   methods: {
-    formatBandWidth(value) {
-      const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
-      let index = 0;
-      if (!isNaN(value)) {
-        while (value > 1000 && index < units.length - 1) {
-          value /= 1000;
-          index += 1;
-        }
-        return {
-          value: value.toFixed(1),
-          unit: units[index]
-        };
-      }
-      return {
-        value: '-',
-        unit: 'M'
-      };
-    },
     closeSpeedModal() {
       this.createIntervalTask();
       this.speedModelOpen = false;

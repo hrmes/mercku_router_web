@@ -217,7 +217,6 @@ export const formatNetworkData = value => {
 };
 
 export const formatMac = mac => {
-  mac = mac.toUpperCase();
   if (mac.length === 12) {
     return mac.match(/.{2}/g).join(':');
   }
@@ -239,4 +238,23 @@ export const formatSpeed = value => {
     };
   }
   return { value: '-', unit: units[0] };
+};
+
+export const formatBandWidth = value => {
+  const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
+  let index = 0;
+  if (!isNaN(value)) {
+    while (value > 1000 && index < units.length - 1) {
+      value /= 1000;
+      index += 1;
+    }
+    return {
+      value: value.toFixed(1),
+      unit: units[index]
+    };
+  }
+  return {
+    value: '-',
+    unit: 'M'
+  };
 };

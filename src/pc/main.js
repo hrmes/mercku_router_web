@@ -12,7 +12,7 @@ import {
 import loading from './component/loading/index';
 import toast from './component/toast/index';
 import dialog from './component/dialog/index';
-import { formatSpeed, formatNetworkData } from '../util/util';
+import { formatSpeed, formatNetworkData, formatBandWidth } from '../util/util';
 import store from './store';
 
 const launch = () => {
@@ -122,6 +122,7 @@ const launch = () => {
   Vue.prototype.moment = moment;
   Vue.prototype.formatNetworkData = formatNetworkData;
   Vue.prototype.formatSpeed = formatSpeed;
+  Vue.prototype.formatBandWidth = formatBandWidth;
 
   new Vue({
     el: '#web',
