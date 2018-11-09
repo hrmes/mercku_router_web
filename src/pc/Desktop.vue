@@ -28,23 +28,19 @@ export default {
         {
           icon: 'wifi',
           text: 'trans0173',
-          key: 1,
           children: [
             {
-              key: 12,
               text: 'trans0365',
               name: 'mesh',
               url: '/dashboard/mesh/topo'
             },
             {
-              key: 11,
               text: 'trans0235',
               name: 'device',
               url: '/dashboard/device'
             },
 
             {
-              key: 13,
               text: 'trans0366',
               name: 'internet',
               url: '/dashboard/internet'
@@ -54,34 +50,28 @@ export default {
         {
           icon: 'setting',
           text: 'trans0019',
-          key: 2,
           children: [
             {
-              key: 21,
               text: 'trans0103',
               name: 'wifi',
               url: '/setting/wifi'
             },
             {
-              key: 22,
               text: 'trans0142',
               name: 'network',
               url: '/setting/network'
             },
             {
-              key: 23,
               text: 'trans0297',
               name: 'safe',
               url: '/setting/safe'
             },
             {
-              key: 24,
               text: 'trans0020',
               name: 'blacklist',
               url: '/setting/blacklist'
             },
             {
-              key: 25,
               text: 'trans0272',
               name: 'timezone',
               url: '/setting/timezone'
@@ -89,19 +79,62 @@ export default {
           ]
         },
         {
-          key: 3,
+          icon: 'advance',
+          text: 'trans0416',
+          children: [
+            {
+              url: '/upgrade/online',
+              name: 'online',
+              text: 'trans0422'
+            },
+            {
+              url: '/upgrade/online',
+              name: 'online',
+              text: 'trans0417'
+            },
+            {
+              url: '/upgrade/online',
+              name: 'online',
+              text: 'trans0188'
+            },
+            {
+              url: '/upgrade/online',
+              name: 'online',
+              text: 'trans0418'
+            },
+            {
+              url: '/upgrade/online',
+              name: 'online',
+              text: 'trans0402'
+            },
+            {
+              url: '/upgrade/online',
+              name: 'online',
+              text: 'trans0419'
+            },
+            {
+              url: '/upgrade/online',
+              name: 'online',
+              text: 'trans0420'
+            },
+            {
+              url: '/upgrade/online',
+              name: 'online',
+              text: 'trans0421'
+            }
+          ]
+        },
+        {
           icon: 'upgrade',
           text: 'trans0197',
           children: [
             {
               url: '/upgrade/online',
-              key: 31,
               name: 'online',
               text: 'trans0202'
             },
             {
               url: '/upgrade/offline',
-              key: 32,
               name: 'offline',
               text: 'trans0204'
             }

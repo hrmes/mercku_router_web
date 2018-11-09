@@ -99,10 +99,12 @@ export default {
       });
     },
     getList() {
-      const list = this.menus.map(m => {
+      const list = this.menus.map((m, index) => {
+        m.key = index;
         if (m.children) {
           let expand = false;
-          const children = m.children.map(mm => {
+          const children = m.children.map((mm, ii) => {
+            mm.index = ii;
             if (this.$route.name.includes(mm.name)) {
               expand = true;
             }
