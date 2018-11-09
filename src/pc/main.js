@@ -7,7 +7,7 @@ import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import registerComponents from './register-components';
-import { http, configResponseInterceptors } from '../http';
+import Http from '../http';
 
 import { formatSpeed, formatNetworkData, formatBandWidth } from '../util/util';
 import store from './store';
@@ -45,7 +45,6 @@ const launch = () => {
       }
     }, 1000);
   };
-
   const upgradeService = () => {
     let serviceStarted = false;
     return options => {
@@ -82,25 +81,41 @@ const launch = () => {
   };
 
   const upgrade = upgradeService();
-  configResponseInterceptors(
-    res => res,
-    error => {
-      const { response } = error;
-      if (!response) {
-        return Promise.reject(error);
+
+  const http = new Http({
+    resInterceptor: {
+      error: error => {
+        const { response } = error;
+        if (!response) {
+          return Promise.reject(error);
+        }
+        if (
+          response.status === 401 &&
+          !window.location.href.includes('login')
+        ) {
+          window.location.href = '/';
+        } else if (
+          response.status === 400 &&
+          response.data.error.code === 600007
+        ) {
+          upgrade();
+          return Promise.reject({ upgrading: true });
+        }
+        return Promise.reject(error.response.data);
       }
-      if (response.status === 401 && !window.location.href.includes('login')) {
-        window.location.href = '/';
-      } else if (
-        response.status === 400 &&
-        response.data.error.code === 600007
-      ) {
-        upgrade();
-        return Promise.reject({ upgrading: true });
+    },
+    exHandler: err => {
+      if (err.upgrading) {
+        return;
       }
-      return Promise.reject(error.response.data);
+      if (err && err.error) {
+        toast(translate(err.error));
+      } else {
+        this.$router.push({ path: '/unconnect' });
+      }
+      throw err;
     }
-  );
+  });
 
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;

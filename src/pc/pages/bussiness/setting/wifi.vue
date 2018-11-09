@@ -155,16 +155,8 @@ export default {
             this.form.smart_connect = this.meshData.smart_connect;
           }
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     submit() {

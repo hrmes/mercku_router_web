@@ -13,6 +13,21 @@
         </div>
       </m-form>
     </div>
+    <div class="content">
+      <div class='w-header'>
+        {{$t('trans0424')}}
+      </div>
+      <div class="switch-container">
+        <div class="item">
+          <label for="">{{$t('trans0424')}}</label>
+          <m-switch v-model="wan.dos"></m-switch>
+        </div>
+        <div class="item">
+          <label for="">{{$t('trans0434')}}</label>
+          <m-switch v-model="wan.ping"></m-switch>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -21,6 +36,10 @@ import { passwordRule } from '../../../../util/util';
 export default {
   data() {
     return {
+      wan: {
+        dos: false,
+        ping: false
+      },
       form: {
         password: ''
       },
@@ -33,6 +52,9 @@ export default {
         ]
       }
     };
+  },
+  mounted() {
+    this.getFirewall();
   },
   methods: {
     submit() {
@@ -56,6 +78,17 @@ export default {
             }
           });
       }
+    },
+    getFirewall() {
+      console.log(this.$http.getFirewall());
+      this.$http
+        .getFirewall()
+        .then(res => {
+          this.wan = res.data.result.wan;
+        })
+        .catch(() => {
+          console.log('...');
+        });
     }
   }
 };
@@ -66,12 +99,17 @@ export default {
   flex: auto;
   padding: 0 2%;
   display: flex;
+  flex-direction: column;
   .content {
     border-radius: 8px;
     padding: 0 20px;
     background: white;
     position: relative;
     flex: 1;
+    margin-bottom: 30px;
+    &:last-child {
+      margin-bottom: 0;
+    }
     .w-header {
       height: 60px;
       border-bottom: 1px solid #f1f1f1;
@@ -106,6 +144,19 @@ export default {
         }
       }
     }
+    .switch-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .item {
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        label {
+          width: 200px;
+        }
+      }
+    }
   }
 }
 @media screen and (max-width: 768px) {
@@ -117,10 +168,8 @@ export default {
         height: 44px;
         line-height: 44px;
       }
-      min-height: 450px;
       .form {
         width: 100%;
-        // padding: 0 20px;
         .form-item {
           width: 100%;
         }
