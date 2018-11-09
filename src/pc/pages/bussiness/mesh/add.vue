@@ -1,5 +1,5 @@
 <template>
-  <layout>
+  <div>
     <div class="mesh-container">
       <div class="content">
         <div class='w-header'>
@@ -100,13 +100,9 @@
         </div>
       </div>
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-// import Input from '../../../component/input/input.vue';
-import layout from '../../../layout.vue';
-import mCheckbox from '../../../component/checkbox/index.vue';
-import mStep from '../../../component/step/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 
 const Routes = [
@@ -124,11 +120,6 @@ const Routes = [
   }
 ];
 export default {
-  components: {
-    layout,
-    mCheckbox,
-    mStep
-  },
   data() {
     return {
       RouterSnModel,

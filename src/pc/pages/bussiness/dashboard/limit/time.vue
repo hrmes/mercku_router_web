@@ -1,93 +1,80 @@
 <template>
-  <layout>
-    <div class="device-time-container">
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0075')}}
-        </div>
-        <div class='table'>
-          <div class="table-head">
-            <div class="column-date-stop">{{$t('trans0084')}}</div>
-            <div class="column-date-start">{{$t('trans0085')}}</div>
-            <div class="column-repeat">{{$t('trans0082')}}</div>
-            <div class="column-handle">{{$t('trans0370')}}</div>
-          </div>
-          <div class="table-body">
-            <div class="table-row" v-for="(row,index) in sortList" :key='index'>
-              <div class="column-date-stop">
-                <span>{{row.time_begin}}</span>
-                <span class="mobile-start">&nbsp;-&nbsp;</span>
-                <span class="mobile-start">{{row.time_end}}</span>
-              </div>
-              <div class="column-date-start">{{row.time_end}}</div>
-              <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
-              <div class="column-handle">
-                <div class="check-wrap">
-                  <m-switch :onChange="(v)=>changehandle(v,row)" v-model="row.enabled" />
-                </div>
-                <a @click="modalOpen('edit',row)">{{$t('trans0034')}}</a>
-                <a @click="delRow(row)">{{$t('trans0033')}}</a>
-              </div>
-            </div>
-          </div>
-          <div class="btn-warp">
-            <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
-          </div>
-        </div>
+  <div class="device-time-container">
+    <div class="content">
+      <div class='w-header'>
+        {{$t('trans0075')}}
       </div>
-      <div class="modal" v-if='modalShow'>
-        <div class="opcity"></div>
-        <div class="modal-content">
-          <div class="modal-form">
-            <div class="item">
-              <label for="">{{$t('trans0075')}}</label>
-              <m-switch v-model="form.enabled" />
+      <div class='table'>
+        <div class="table-head">
+          <div class="column-date-stop">{{$t('trans0084')}}</div>
+          <div class="column-date-start">{{$t('trans0085')}}</div>
+          <div class="column-repeat">{{$t('trans0082')}}</div>
+          <div class="column-handle">{{$t('trans0370')}}</div>
+        </div>
+        <div class="table-body">
+          <div class="table-row" v-for="(row,index) in sortList" :key='index'>
+            <div class="column-date-stop">
+              <span>{{row.time_begin}}</span>
+              <span class="mobile-start">&nbsp;-&nbsp;</span>
+              <span class="mobile-start">{{row.time_end}}</span>
             </div>
-            <div class="item">
-              <label for="">{{$t('trans0084')}}</label>
-              <m-time-picker v-model="form.time_begin" />
-            </div>
-            <div class="item">
-              <label for="">{{$t('trans0085')}}</label>
-              <m-time-picker v-model="form.time_end" />
-            </div>
-            <div class="item">
-              <label for="">{{$t('trans0082')}}</label>
-              <div class="date-wrap">
-                <div class='check-inner' v-for="(item,i) in schedules" :key='i'>
-                  <m-checkbox v-model='item.checked' :text='item.label'></m-checkbox>
-                </div>
+            <div class="column-date-start">{{row.time_end}}</div>
+            <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
+            <div class="column-handle">
+              <div class="check-wrap">
+                <m-switch :onChange="(v)=>changehandle(v,row)" v-model="row.enabled" />
               </div>
+              <a @click="modalOpen('edit',row)">{{$t('trans0034')}}</a>
+              <a @click="delRow(row)">{{$t('trans0033')}}</a>
             </div>
           </div>
-          <div class="message"><span v-show='msgShow'>{{$t('trans0388')}}</span></div>
-          <div class="btn-info">
-            <button class="btn btn-default" @click="closeModal">{{$t('trans0025')}}</button>
-            <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
-            <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
-          </div>
+        </div>
+        <div class="btn-warp">
+          <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
-  </layout>
+    <div class="modal" v-if='modalShow'>
+      <div class="opcity"></div>
+      <div class="modal-content">
+        <div class="modal-form">
+          <div class="item">
+            <label for="">{{$t('trans0075')}}</label>
+            <m-switch v-model="form.enabled" />
+          </div>
+          <div class="item">
+            <label for="">{{$t('trans0084')}}</label>
+            <m-time-picker v-model="form.time_begin" />
+          </div>
+          <div class="item">
+            <label for="">{{$t('trans0085')}}</label>
+            <m-time-picker v-model="form.time_end" />
+          </div>
+          <div class="item">
+            <label for="">{{$t('trans0082')}}</label>
+            <div class="date-wrap">
+              <div class='check-inner' v-for="(item,i) in schedules" :key='i'>
+                <m-checkbox v-model='item.checked' :text='item.label'></m-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="message"><span v-show='msgShow'>{{$t('trans0388')}}</span></div>
+        <div class="btn-info">
+          <button class="btn btn-default" @click="closeModal">{{$t('trans0025')}}</button>
+          <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
+          <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-import Switch from '../../../../component/switch/index.vue';
-import MTimePicker from '../../../../component/timePicker/index.vue';
-import MCheckbox from '../../../../component/checkbox/index.vue';
-import layout from '../../../../layout.vue';
-
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
   return s;
 };
 export default {
-  components: {
-    'm-switch': Switch,
-    MTimePicker,
-    MCheckbox,
-    layout
-  },
   data() {
     return {
       modalStatus: 'add',

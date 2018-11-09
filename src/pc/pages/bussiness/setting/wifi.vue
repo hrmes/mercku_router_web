@@ -1,81 +1,59 @@
 <template>
-  <layout>
-    <div class="setting-wifi-container">
-      <div v-if="reboot">
-        <m-progress :label="$t('trans0315')"></m-progress>
+  <div class="setting-wifi-container">
+    <div v-if="reboot">
+      <m-progress :label="$t('trans0315')"></m-progress>
+    </div>
+    <div class="content">
+      <div class='w-header'>
+        {{$t('trans0167')}}
       </div>
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0167')}}
-        </div>
-        <div class='form'>
-          <div class='input-info'>
-            <m-form ref="form" :model="form" :rules='rules'>
-              <m-form-item class="item" prop='ssid'>
-                <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-              </m-form-item>
-              <m-form-item class="item" prop='password'>
-                <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-              </m-form-item>
-            </m-form>
-            <!-- <div class="item" style="margin-bottom:30px;">
+      <div class='form'>
+        <div class='input-info'>
+          <m-form ref="form" :model="form" :rules='rules'>
+            <m-form-item class="item" prop='ssid'>
+              <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+            </m-form-item>
+            <m-form-item class="item" prop='password'>
+              <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+            </m-form-item>
+          </m-form>
+          <!-- <div class="item" style="margin-bottom:30px;">
               <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
             </div> -->
-            <div class="check-info smart-connect">
-              <div class="switch-container">
-                <label for=""> {{$t('trans0397')}} </label>
-                <div class="tool">
-                  <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
-                  <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
-                </div>
-                <m-switch v-model="form.smart_connect" />
-              </div>
-              <div class="ssid" v-if="!form.smart_connect">
-                <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
-                <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{form.ssid}}_5G</span></div>
-              </div>
-            </div>
-            <div class="check-info">
-              <label for=""> {{$t('trans0110')}} </label>
+          <div class="check-info smart-connect">
+            <div class="switch-container">
+              <label for=""> {{$t('trans0397')}} </label>
               <div class="tool">
-                <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-                <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+                <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
+                <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
               </div>
-              <m-switch v-model="form.hidden" />
+              <m-switch v-model="form.smart_connect" />
             </div>
-            <div class="btn-info">
-              <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
+            <div class="ssid" v-if="!form.smart_connect">
+              <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
+              <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{form.ssid}}_5G</span></div>
             </div>
+          </div>
+          <div class="check-info">
+            <label for=""> {{$t('trans0110')}} </label>
+            <div class="tool">
+              <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+              <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+            </div>
+            <m-switch v-model="form.hidden" />
+          </div>
+          <div class="btn-info">
+            <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-import Switch from '../../../component/switch/index.vue';
-import mSelect from '../../../component/select/index.vue';
-import Popover from '../../../component/popover/index.vue';
-import Input from '../../../component/input/input.vue';
-import Form from '../../../component/form/index.vue';
-import FormItem from '../../../component/formItem/index.vue';
-import Progress from '../../../component/progress/index.vue';
-import Checkbox from '../../../component/checkbox/index.vue';
-import layout from '../../../layout.vue';
 import { getStringByte, passwordRule } from '../../../../util/util';
 
 export default {
-  components: {
-    'm-switch': Switch,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-input': Input,
-    'm-progress': Progress,
-    'm-checkbox': Checkbox,
-    'm-popover': Popover,
-    'm-select': mSelect,
-    layout
-  },
   data() {
     return {
       band: '2.4G5G',

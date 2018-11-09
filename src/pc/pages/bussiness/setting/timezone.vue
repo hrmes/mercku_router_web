@@ -1,39 +1,26 @@
 <template>
-  <layout>
-    <div class="timezone-container">
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0273')}}
-        </div>
-        <div class="current-timezone">
-          <p>{{$t('trans0373')}}</p>
-          <p>{{timezoneText}}</p>
-        </div>
-        <m-form ref="form" class='form' :model="form">
-          <m-form-item class="item" prop='password'>
-            <m-select :label="$t('trans0273')" v-model="form.timezone" :options="timezones"></m-select>
-          </m-form-item>
-          <div class="btn-info">
-            <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
-          </div>
-        </m-form>
+  <div class="timezone-container">
+    <div class="content">
+      <div class='w-header'>
+        {{$t('trans0273')}}
       </div>
+      <div class="current-timezone">
+        <p>{{$t('trans0373')}}</p>
+        <p>{{timezoneText}}</p>
+      </div>
+      <m-form ref="form" class='form' :model="form">
+        <m-form-item class="item" prop='password'>
+          <m-select :label="$t('trans0273')" v-model="form.timezone" :options="timezones"></m-select>
+        </m-form-item>
+        <div class="btn-info">
+          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+        </div>
+      </m-form>
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-import Form from '../../../component/form/index.vue';
-import FormItem from '../../../component/formItem/index.vue';
-import mSelect from '../../../component/select/index.vue';
-import layout from '../../../layout.vue';
-
 export default {
-  components: {
-    'm-select': mSelect,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    layout
-  },
   data() {
     return {
       timezones: [],

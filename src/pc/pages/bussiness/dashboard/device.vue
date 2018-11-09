@@ -127,26 +127,10 @@
   </div>
 </template>
 <script>
-import layout from '../../../layout.vue';
-import TimePicker from '../../../component/timePicker/index.vue';
-import MEditSelect from '../../../component/editableSelect/index.vue';
-import MProgress from '../../../component/progress/index.vue';
-import MInput from '../../../component/input/input.vue';
-import MForm from '../../../component/form/index.vue';
-import MFormItem from '../../../component/formItem/index.vue';
 import { formatMac, getStringByte } from '../../../../util/util';
 import { BlacklistMode } from '../../../../util/constant';
 
 export default {
-  components: {
-    MInput,
-    MForm,
-    MFormItem,
-    MEditSelect,
-    layout,
-    MProgress,
-    'm-time-picker': TimePicker
-  },
   data() {
     return {
       BlacklistMode,

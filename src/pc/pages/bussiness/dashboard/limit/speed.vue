@@ -1,48 +1,33 @@
 <template>
-  <layout>
-    <div class="device-speed-container">
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0014')}}
-        </div>
-        <div class='form'>
-          <div class='input-info'>
-            <m-form ref="form" :model="form" :rules='rules'>
-              <m-form-item class="item" prop='up'>
-                <m-input v-model="form.up" :label="`${$t('trans0304')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
-              </m-form-item>
-              <m-form-item class="item" prop='down'>
-                <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
-              </m-form-item>
-            </m-form>
-            <div class="check-info">
-              <label for=""> {{$t('trans0369')}} </label>
-              <m-switch v-model="form.enabled" />
-            </div>
-            <div class="btn-info">
-              <button class="btn" @click='submit'>{{$t('trans0081')}}</button>
-            </div>
+  <div class="device-speed-container">
+    <div class="content">
+      <div class='w-header'>
+        {{$t('trans0014')}}
+      </div>
+      <div class='form'>
+        <div class='input-info'>
+          <m-form ref="form" :model="form" :rules='rules'>
+            <m-form-item class="item" prop='up'>
+              <m-input v-model="form.up" :label="`${$t('trans0304')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
+            </m-form-item>
+            <m-form-item class="item" prop='down'>
+              <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
+            </m-form-item>
+          </m-form>
+          <div class="check-info">
+            <label for=""> {{$t('trans0369')}} </label>
+            <m-switch v-model="form.enabled" />
+          </div>
+          <div class="btn-info">
+            <button class="btn" @click='submit'>{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-import Switch from '../../../../component/switch/index.vue';
-import Input from '../../../../component/input/input.vue';
-import Form from '../../../../component/form/index.vue';
-import FormItem from '../../../../component/formItem/index.vue';
-import layout from '../../../../layout.vue';
-
 export default {
-  components: {
-    'm-switch': Switch,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-input': Input,
-    layout
-  },
   data() {
     function speedTest(v) {
       return /^[1-9]\d*$/.test(v);

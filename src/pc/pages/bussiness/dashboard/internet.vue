@@ -152,13 +152,9 @@
   </div>
 </template>
 <script>
-import layout from '../../../layout.vue';
 import * as CONSTANTS from '../../../../util/constant';
 
 export default {
-  components: {
-    layout
-  },
   data() {
     return {
       CONSTANTS,
