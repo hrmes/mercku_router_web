@@ -27,18 +27,7 @@
   </div>
 </template>
 <script>
-import Switch from 'components/switch/index.vue';
-import Input from 'components/input/input.vue';
-import Form from 'components/form/index.vue';
-import FormItem from 'components/formItem/index.vue';
-
 export default {
-  components: {
-    'm-switch': Switch,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-input': Input
-  },
   data() {
     function speedTest(v) {
       return /^[1-9]\d*$/.test(v);

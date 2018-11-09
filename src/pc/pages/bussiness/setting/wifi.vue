@@ -51,27 +51,9 @@
   </div>
 </template>
 <script>
-import Switch from 'components/switch/index.vue';
-import mSelect from 'components/select/index.vue';
-import Popover from 'components/popover/index.vue';
-import Input from 'components/input/input.vue';
-import Form from 'components/form/index.vue';
-import FormItem from 'components/formItem/index.vue';
-import Progress from 'components/progress/index.vue';
-import Checkbox from 'components/checkbox/index.vue';
 import { getStringByte, passwordRule } from '../../../../util/util';
 
 export default {
-  components: {
-    'm-switch': Switch,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-input': Input,
-    'm-progress': Progress,
-    'm-checkbox': Checkbox,
-    'm-popover': Popover,
-    'm-select': mSelect
-  },
   data() {
     return {
       band: '2.4G5G',

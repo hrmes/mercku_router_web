@@ -1,28 +1,20 @@
 <template>
   <div class="container">
-    <mercku-menu class="menu" :menus="menus" v-if="!menu_hidden"></mercku-menu>
+    <m-menu class="menu" :menus="menus" v-if="!menu_hidden"></m-menu>
     <div class="app-container router-view">
       <div class="flex-wrap" :class="{'has-menu':!menu_hidden}">
-        <mercku-header :hasExit="!menu_hidden" class="header" :class="{'has-menu':menu_hidden}"></mercku-header>
+        <m-header :hasExit="!menu_hidden" class="header" :class="{'has-menu':menu_hidden}"></m-header>
         <router-view></router-view>
-        <policy :locale="$i18n.locale" :class="{'fix-bottom':menu_hidden}" class="policy" />
+        <m-policy :locale="$i18n.locale" :class="{'fix-bottom':menu_hidden}" class="policy" />
       </div>
     </div>
   </div>
 
 </template>
 <script>
-import MerckuMenu from 'components/menu/index.vue';
-import MerckuHeader from 'components/header/header.vue';
-import policy from 'components/policy/index.vue';
 import './style/common.scss';
 
 export default {
-  components: {
-    'mercku-menu': MerckuMenu,
-    'mercku-header': MerckuHeader,
-    policy
-  },
   computed: {
     menu_hidden() {
       return (

@@ -48,24 +48,10 @@
   </div>
 </template>
 <script>
-import MForm from 'components/form/index.vue';
-import MFormItem from 'components/formItem/index.vue';
-import MInput from 'components/input/input.vue';
-import Switch from 'components/switch/index.vue';
-import MTimePicker from 'components/timePicker/index.vue';
-import MCheckbox from 'components/checkbox/index.vue';
 import { hostRexp, ipRexp, getStringByte } from '../../../../../util/util';
 import { BlacklistMode } from '../../../../../util/constant';
 
 export default {
-  components: {
-    'm-switch': Switch,
-    MTimePicker,
-    MCheckbox,
-    MForm,
-    MFormItem,
-    MInput
-  },
   data() {
     return {
       BlacklistMode,

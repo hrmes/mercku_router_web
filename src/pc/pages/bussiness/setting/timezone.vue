@@ -20,16 +20,7 @@
   </div>
 </template>
 <script>
-import Form from 'components/form/index.vue';
-import FormItem from 'components/formItem/index.vue';
-import mSelect from 'components/select/index.vue';
-
 export default {
-  components: {
-    'm-select': mSelect,
-    'm-form-item': FormItem,
-    'm-form': Form
-  },
   data() {
     return {
       timezones: [],

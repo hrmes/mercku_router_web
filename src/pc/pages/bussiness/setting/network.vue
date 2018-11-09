@@ -88,7 +88,7 @@
               </m-form-item>
             </m-form>
             <div class="DNS-form">
-              <radio-group v-model="autodns" :options="[{value:true,text:'自动DNS'},{value:false,text:'手动配置DNS'}]"></radio-group>
+              <m-radio-group v-model="autodns" :options="[{value:true,text:'自动DNS'},{value:false,text:'手动配置DNS'}]"></m-radio-group>
             </div>
             <div class="btn-info">
               <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
@@ -101,13 +101,6 @@
   </div>
 </template>
 <script>
-import RadioGroup from 'components/radioGroup/index.vue';
-import mSelect from 'components/select/index.vue';
-import Form from 'components/form/index.vue';
-import FormItem from 'components/formItem/index.vue';
-import Input from 'components/input/input.vue';
-import Progress from 'components/progress/index.vue';
-
 import {
   ipRule,
   isMulticast,
@@ -118,14 +111,6 @@ import {
 import * as CONSTANTS from '../../../../util/constant';
 
 export default {
-  components: {
-    'm-input': Input,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-select': mSelect,
-    'm-progress': Progress,
-    RadioGroup
-  },
   data() {
     return {
       CONSTANTS: { ...CONSTANTS },

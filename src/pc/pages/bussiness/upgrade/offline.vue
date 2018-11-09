@@ -79,16 +79,10 @@
 
 </template>
 <script>
-import Upload from 'components/upload/index.vue';
-import mCheckbox from 'components/checkbox/index.vue';
 import { RouterSnModel, UploadStatus } from '../../../../util/constant';
 import { getFileExtendName } from '../../../../util/util';
 
 export default {
-  components: {
-    'm-upload': Upload,
-    mCheckbox
-  },
   data() {
     return {
       files: [],

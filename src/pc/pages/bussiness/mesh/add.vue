@@ -103,8 +103,6 @@
   </div>
 </template>
 <script>
-import mCheckbox from 'components/checkbox/index.vue';
-import mStep from 'components/step/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 
 const Routes = [
@@ -122,10 +120,6 @@ const Routes = [
   }
 ];
 export default {
-  components: {
-    mCheckbox,
-    mStep
-  },
   data() {
     return {
       RouterSnModel,

@@ -82,7 +82,7 @@
       <div class="content">
         <m-form :model="form" :rules="rules" ref="form">
           <m-form-item prop="newName">
-            <editable-select class="small" :options="options" :label="$t('trans0005')" v-model="form.newName"></editable-select>
+            <m-editable-select class="small" :options="options" :label="$t('trans0005')" v-model="form.newName"></m-editable-select>
           </m-form-item>
         </m-form>
         <div class="btn-inner">
@@ -95,10 +95,6 @@
 </template>
 <script>
 import echarts from 'echarts';
-import Progress from 'components/progress/index.vue';
-import Form from 'components/form/index.vue';
-import FormItem from 'components/formItem/index.vue';
-import editableSelect from 'components/editableSelect/index.vue';
 import { formatMac, getStringByte } from '../../../../util/util';
 import genData from './topo';
 
@@ -107,12 +103,6 @@ const Color = {
   bad: '#ff6f00'
 };
 export default {
-  components: {
-    'm-progress': Progress,
-    editableSelect,
-    'm-form-item': FormItem,
-    'm-form': Form
-  },
   data() {
     return {
       formatMac,

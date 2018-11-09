@@ -47,16 +47,10 @@
 
 </template>
 <script>
-import Progress from 'components/progress/index.vue';
-import mCheckbox from 'components/checkbox/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 import { compareVersion } from '../../../../util/util';
 
 export default {
-  components: {
-    'm-progress': Progress,
-    mCheckbox
-  },
   data() {
     return {
       nodes: [],

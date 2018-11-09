@@ -57,21 +57,9 @@
   </div>
 </template>
 <script>
-import mStep from '../../../component/step/index.vue';
-import mInput from '../../../component/input/input.vue';
-import mCheckbox from '../../../component/checkbox/index.vue';
-import mForm from '../../../component/form/index.vue';
-import mFormItem from '../../../component/formItem/index.vue';
 import { getStringByte, passwordRule } from '../../../../util/util';
 
 export default {
-  components: {
-    mStep,
-    mInput,
-    mCheckbox,
-    mForm,
-    mFormItem
-  },
   data() {
     return {
       stepOption: {

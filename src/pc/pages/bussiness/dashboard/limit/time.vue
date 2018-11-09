@@ -70,20 +70,11 @@
   </div>
 </template>
 <script>
-import Switch from 'components/switch/index.vue';
-import MTimePicker from 'components/timePicker/index.vue';
-import MCheckbox from 'components/checkbox/index.vue';
-
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
   return s;
 };
 export default {
-  components: {
-    'm-switch': Switch,
-    MTimePicker,
-    MCheckbox
-  },
   data() {
     return {
       modalStatus: 'add',

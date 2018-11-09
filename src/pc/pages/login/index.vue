@@ -47,12 +47,7 @@
 
 </template>
 <script>
-import mInput from '../../component/input/input.vue';
-
 export default {
-  components: {
-    mInput
-  },
   data() {
     return {
       initial: false,

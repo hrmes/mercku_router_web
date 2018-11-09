@@ -1,17 +1,19 @@
 import Vue from 'vue';
 import moment from 'moment';
+import loading from 'components/loading/index';
+import toast from 'components/toast/index';
+import dialog from 'components/dialog/index';
 import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
+import registerComponents from './register-components';
 
 import {
   http,
   configResponseInterceptors,
   configRequestInterceptors
 } from '../http';
-import loading from './component/loading/index';
-import toast from './component/toast/index';
-import dialog from './component/dialog/index';
+
 import { formatSpeed, formatNetworkData, formatBandWidth } from '../util/util';
 import store from './store';
 
@@ -112,10 +114,10 @@ const launch = () => {
     }
   );
 
-  Vue.prototype.$http = http;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
+  Vue.prototype.$http = http;
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
@@ -123,7 +125,7 @@ const launch = () => {
   Vue.prototype.formatNetworkData = formatNetworkData;
   Vue.prototype.formatSpeed = formatSpeed;
   Vue.prototype.formatBandWidth = formatBandWidth;
-
+  registerComponents(Vue);
   new Vue({
     el: '#web',
     i18n,

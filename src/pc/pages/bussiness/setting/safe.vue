@@ -16,17 +16,9 @@
   </div>
 </template>
 <script>
-import Form from 'components/form/index.vue';
-import FormItem from 'components/formItem/index.vue';
-import Input from 'components/input/input.vue';
 import { passwordRule } from '../../../../util/util';
 
 export default {
-  components: {
-    'm-input': Input,
-    'm-form-item': FormItem,
-    'm-form': Form
-  },
   data() {
     return {
       form: {
