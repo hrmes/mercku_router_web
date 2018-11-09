@@ -1,62 +1,59 @@
 <template>
-  <layout>
-    <div class="device-blacklist-container">
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0076')}}
-        </div>
-        <div class="handle">
-          <label for="">{{$t('trans0369')}}</label>
-          <m-switch :onChange="changehandle" v-model="mode" />
-        </div>
-        <div class='table'>
-          <div class="table-head">
-            <div class="column-address">{{$t('trans0076')}}
-              <span>{{$t('trans0101')}}</span>
-            </div>
-            <div class="column-handle">{{$t('trans0370')}}</div>
-          </div>
-          <div class="table-body">
-            <div class="table-row" v-for="(row,index) in sortList" :key='index'>
-              <div class="column-address">{{row}}</div>
-              <div class="column-handle">
-                <a @click="delRow(row)">{{$t('trans0033')}}</a>
-              </div>
-            </div>
-          </div>
-          <div class="btn-warp">
-            <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
-          </div>
-        </div>
+  <div class="device-blacklist-container">
+    <div class="content">
+      <div class='w-header'>
+        {{$t('trans0076')}}
       </div>
-      <div class="modal" v-if='modalShow'>
-        <div class="opcity"></div>
-        <div class="modal-content">
-          <div class="modal-form">
-            <m-form ref="form" class='form' :model="{host}" :rules='rules'>
-              <m-form-item class="item" prop='host'>
-                <m-input class='small' :label="$t('trans0076')" type='text' :placeholder="`${$t('trans0321')}`" v-model="host"></m-input>
-              </m-form-item>
-            </m-form>
+      <div class="handle">
+        <label for="">{{$t('trans0369')}}</label>
+        <m-switch :onChange="changehandle" v-model="mode" />
+      </div>
+      <div class='table'>
+        <div class="table-head">
+          <div class="column-address">{{$t('trans0076')}}
+            <span>{{$t('trans0101')}}</span>
           </div>
-          <div class="btn-info">
-            <button class="btn btn-default" @click="closeModal">{{$t('trans0025')}}</button>
-            <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
-            <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
+          <div class="column-handle">{{$t('trans0370')}}</div>
+        </div>
+        <div class="table-body">
+          <div class="table-row" v-for="(row,index) in sortList" :key='index'>
+            <div class="column-address">{{row}}</div>
+            <div class="column-handle">
+              <a @click="delRow(row)">{{$t('trans0033')}}</a>
+            </div>
           </div>
+        </div>
+        <div class="btn-warp">
+          <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
-  </layout>
+    <div class="modal" v-if='modalShow'>
+      <div class="opcity"></div>
+      <div class="modal-content">
+        <div class="modal-form">
+          <m-form ref="form" class='form' :model="{host}" :rules='rules'>
+            <m-form-item class="item" prop='host'>
+              <m-input class='small' :label="$t('trans0076')" type='text' :placeholder="`${$t('trans0321')}`" v-model="host"></m-input>
+            </m-form-item>
+          </m-form>
+        </div>
+        <div class="btn-info">
+          <button class="btn btn-default" @click="closeModal">{{$t('trans0025')}}</button>
+          <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
+          <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-import MForm from '../../../../component/form/index.vue';
-import MFormItem from '../../../../component/formItem/index.vue';
-import MInput from '../../../../component/input/input.vue';
-import Switch from '../../../../component/switch/index.vue';
-import MTimePicker from '../../../../component/timePicker/index.vue';
-import MCheckbox from '../../../../component/checkbox/index.vue';
-import layout from '../../../../layout.vue';
+import MForm from 'components/form/index.vue';
+import MFormItem from 'components/formItem/index.vue';
+import MInput from 'components/input/input.vue';
+import Switch from 'components/switch/index.vue';
+import MTimePicker from 'components/timePicker/index.vue';
+import MCheckbox from 'components/checkbox/index.vue';
 import { hostRexp, ipRexp, getStringByte } from '../../../../../util/util';
 import { BlacklistMode } from '../../../../../util/constant';
 
@@ -65,7 +62,6 @@ export default {
     'm-switch': Switch,
     MTimePicker,
     MCheckbox,
-    layout,
     MForm,
     MFormItem,
     MInput

@@ -1,17 +1,27 @@
 <template>
   <div class="container">
     <mercku-menu class="menu" :menus="menus" v-if="!menu_hidden"></mercku-menu>
-    <router-view class="router-view"></router-view>
+    <div class="app-container router-view">
+      <div class="flex-wrap" :class="{'has-menu':!menu_hidden}">
+        <mercku-header :hasExit="!menu_hidden" class="header" :class="{'has-menu':menu_hidden}"></mercku-header>
+        <router-view></router-view>
+        <policy :locale="$i18n.locale" :class="{'fix-bottom':menu_hidden}" class="policy" />
+      </div>
+    </div>
   </div>
 
 </template>
 <script>
-import MerckuMenu from './component/menu/index.vue';
+import MerckuMenu from 'components/menu/index.vue';
+import MerckuHeader from 'components/header/header.vue';
+import policy from 'components/policy/index.vue';
 import './style/common.scss';
 
 export default {
   components: {
-    'mercku-menu': MerckuMenu
+    'mercku-menu': MerckuMenu,
+    'mercku-header': MerckuHeader,
+    policy
   },
   computed: {
     menu_hidden() {
@@ -146,6 +156,11 @@ export default {
 };
 </script>
 <style lang="scss">
+.flex-wrap {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
 .container {
   min-height: 100vh;
   position: relative;
@@ -180,6 +195,11 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .flex-wrap {
+    &.has-menu {
+      min-height: calc(100vh - 65px);
+    }
+  }
   .container {
     flex-direction: column;
     .app-container {

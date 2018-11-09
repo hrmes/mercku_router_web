@@ -1,51 +1,44 @@
 <template>
-  <layout>
-    <div class="dashboard-container">
-      <div class="net-info">
-        <div class="device-container">
-          <div class="icon-container">
-            <img src="../../../assets/images/ic_device.png" alt="">
-          </div>
-          <div class="text-container">
-            {{$t('trans0235')}}&nbsp;({{deviceCount}})
-          </div>
+  <div class="dashboard-container">
+    <div class="net-info">
+      <div class="device-container">
+        <div class="icon-container">
+          <img src="../../../assets/images/ic_device.png" alt="">
         </div>
-        <div class="line"></div>
-        <div class="wifi-container">
-          <div class="icon-container">
-            <img src="../../../assets/images/ic_router.png" alt="">
-          </div>
-          <div class="text-container">
-            {{ssid||'-'}}
-          </div>
-        </div>
-        <div class="line" :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-          <div class="icon-unconnected-container" v-if="isLinked || isUnlinked">
-            <img src="../../../assets/images/ic_unconnected.png" alt="">
-          </div>
-        </div>
-        <div class="internet-container">
-          <div class="icon-container">
-            <img src="../../../assets/images/ic_internet.png" alt="">
-          </div>
-          <div class="text-container">
-            Internet
-          </div>
+        <div class="text-container">
+          {{$t('trans0235')}}&nbsp;({{deviceCount}})
         </div>
       </div>
-      <router-view class="router-view"></router-view>
+      <div class="line"></div>
+      <div class="wifi-container">
+        <div class="icon-container">
+          <img src="../../../assets/images/ic_router.png" alt="">
+        </div>
+        <div class="text-container">
+          {{ssid||'-'}}
+        </div>
+      </div>
+      <div class="line" :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
+        <div class="icon-unconnected-container" v-if="isLinked || isUnlinked">
+          <img src="../../../assets/images/ic_unconnected.png" alt="">
+        </div>
+      </div>
+      <div class="internet-container">
+        <div class="icon-container">
+          <img src="../../../assets/images/ic_internet.png" alt="">
+        </div>
+        <div class="text-container">
+          Internet
+        </div>
+      </div>
     </div>
-
-  </layout>
+    <router-view class="router-view"></router-view>
+  </div>
 </template>
 <script>
-import layout from '../../../layout.vue';
 import * as CONSTANTS from '../../../../util/constant';
 
 export default {
-  components: {
-    layout
-  },
   data() {
     return {
       CONSTANTS,

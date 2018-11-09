@@ -1,63 +1,59 @@
 <template>
-  <layout>
-    <div class="upgrade-online-container">
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0202')}}
-        </div>
-        <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
-          <div class="nodes-info">
-            <div v-for="node in nodes" :key="node.sn" class="node">
-              <div class="badge-info">
-                <img src="../../../assets/images/ic_new_version.png" alt="">
-                <span>{{$t('trans0210')}}{{node.version.latest}}</span>
+  <div class="upgrade-online-container">
+    <div class="content">
+      <div class='w-header'>
+        {{$t('trans0202')}}
+      </div>
+      <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
+        <div class="nodes-info">
+          <div v-for="node in nodes" :key="node.sn" class="node">
+            <div class="badge-info">
+              <img src="../../../assets/images/ic_new_version.png" alt="">
+              <span>{{$t('trans0210')}}{{node.version.latest}}</span>
+            </div>
+            <div class="message" @click="check(node)">
+              <m-checkbox :rect="false" v-model="node.checked" />
+              <div class="img-container">
+                <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
+                <img class="img-bee" v-else-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
+                <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
               </div>
-              <div class="message" @click="check(node)">
-                <m-checkbox :rect="false" v-model="node.checked" />
-                <div class="img-container">
-                  <img class="img-m2" v-if="node.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
-                  <img class="img-bee" v-else-if="node.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
-                  <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
-                </div>
-                <div class="info-container">
-                  <p class="node-name">{{node.name}}</p>
-                  <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
-                  <p class="node-version">
-                    <span>{{$t('trans0209')}}{{node.version.current}}</span>
-                  </p>
-                </div>
+              <div class="info-container">
+                <p class="node-name">{{node.name}}</p>
+                <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
+                <p class="node-version">
+                  <span>{{$t('trans0209')}}{{node.version.current}}</span>
+                </p>
               </div>
             </div>
           </div>
-          <div class="btn-info">
-            <button class="btn re-btn" @click="submit()">{{$t('trans0225')}}</button>
-          </div>
         </div>
-        <div class="msg-wrapper" v-else>
-          <div v-if="!hasUpgradablityNodes && requestResult.complete &&  !requestResult.error">
-            <img src="../../../assets/images/img_new_version.png" alt="" width="220">
-            <p>{{$t('trans0259')}}</p>
-          </div>
-          <div v-if="requestResult.error">
-            <img src="../../../assets/images/img_error.png" alt="" width="220">
-            <p>{{requestResult.message}}</p>
-          </div>
+        <div class="btn-info">
+          <button class="btn re-btn" @click="submit()">{{$t('trans0225')}}</button>
+        </div>
+      </div>
+      <div class="msg-wrapper" v-else>
+        <div v-if="!hasUpgradablityNodes && requestResult.complete &&  !requestResult.error">
+          <img src="../../../assets/images/img_new_version.png" alt="" width="220">
+          <p>{{$t('trans0259')}}</p>
+        </div>
+        <div v-if="requestResult.error">
+          <img src="../../../assets/images/img_error.png" alt="" width="220">
+          <p>{{requestResult.message}}</p>
         </div>
       </div>
     </div>
-  </layout>
+  </div>
 
 </template>
 <script>
-import layout from '../../../layout.vue';
-import Progress from '../../../component/progress/index.vue';
-import mCheckbox from '../../../component/checkbox/index.vue';
+import Progress from 'components/progress/index.vue';
+import mCheckbox from 'components/checkbox/index.vue';
 import { RouterSnModel } from '../../../../util/constant';
 import { compareVersion } from '../../../../util/util';
 
 export default {
   components: {
-    layout,
     'm-progress': Progress,
     mCheckbox
   },

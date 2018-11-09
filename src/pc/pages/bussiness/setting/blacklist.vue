@@ -1,38 +1,32 @@
 <template>
-  <layout>
-    <div class="blacklist-container">
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0288')}}
+  <div class="blacklist-container">
+    <div class="content">
+      <div class='w-header'>
+        {{$t('trans0288')}}
+      </div>
+      <div class="table">
+        <div class="table-header">
+          <div class="name">{{$t('trans0005')}}</div>
+          <div class="mac">{{$t('trans0188')}}</div>
+          <div class="operate">{{$t('trans0370')}}</div>
         </div>
-        <div class="table">
-          <div class="table-header">
-            <div class="name">{{$t('trans0005')}}</div>
-            <div class="mac">{{$t('trans0188')}}</div>
-            <div class="operate">{{$t('trans0370')}}</div>
-          </div>
-          <div class="table-content">
-            <div class="device" v-for="device in listOrdered" :key="device.mac">
-              <div class="name">{{device.name}}</div>
-              <div class="mac">{{formatMac(device.mac)}}</div>
-              <div class="operate">
-                <span class="delete" @click="removeBlacklist(device)">{{$t('trans0033')}}</span>
-              </div>
+        <div class="table-content">
+          <div class="device" v-for="device in listOrdered" :key="device.mac">
+            <div class="name">{{device.name}}</div>
+            <div class="mac">{{formatMac(device.mac)}}</div>
+            <div class="operate">
+              <span class="delete" @click="removeBlacklist(device)">{{$t('trans0033')}}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-import layout from '../../../layout.vue';
 import { formatMac } from '../../../../util/util';
 
 export default {
-  components: {
-    layout
-  },
   data() {
     return {
       blacklist: [],

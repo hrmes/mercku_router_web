@@ -127,13 +127,12 @@
   </div>
 </template>
 <script>
-import layout from '../../../layout.vue';
-import TimePicker from '../../../component/timePicker/index.vue';
-import MEditSelect from '../../../component/editableSelect/index.vue';
-import MProgress from '../../../component/progress/index.vue';
-import MInput from '../../../component/input/input.vue';
-import MForm from '../../../component/form/index.vue';
-import MFormItem from '../../../component/formItem/index.vue';
+import TimePicker from 'components/timePicker/index.vue';
+import MEditSelect from 'components/editableSelect/index.vue';
+import MProgress from 'components/progress/index.vue';
+import MInput from 'components/input/input.vue';
+import MForm from 'components/form/index.vue';
+import MFormItem from 'components/formItem/index.vue';
 import { formatMac, getStringByte } from '../../../../util/util';
 import { BlacklistMode } from '../../../../util/constant';
 
@@ -143,7 +142,6 @@ export default {
     MForm,
     MFormItem,
     MEditSelect,
-    layout,
     MProgress,
     'm-time-picker': TimePicker
   },

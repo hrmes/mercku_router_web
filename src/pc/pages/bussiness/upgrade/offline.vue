@@ -1,95 +1,91 @@
 <template>
-  <layout>
-    <div class="upgrade-offline-container">
-      <div class="content">
-        <div class="pc-wrapper">
-          <div class='w-header'>{{$t('trans0204')}}</div>
-          <div class="form">
-            <div class="description">
-              <h4>
-                <img src="../../../assets/images/ic_question.png" alt="">
-                <span> {{$t('trans0331')}}</span>
-              </h4>
-              <p>1.
-                <span>{{$t('trans0332')}}</span>
-                <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
-                <span>,&nbsp;{{$t('trans0346')}}</span>
+  <div class="upgrade-offline-container">
+    <div class="content">
+      <div class="pc-wrapper">
+        <div class='w-header'>{{$t('trans0204')}}</div>
+        <div class="form">
+          <div class="description">
+            <h4>
+              <img src="../../../assets/images/ic_question.png" alt="">
+              <span> {{$t('trans0331')}}</span>
+            </h4>
+            <p>1.
+              <span>{{$t('trans0332')}}</span>
+              <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
+              <span>,&nbsp;{{$t('trans0346')}}</span>
+            </p>
+            <p>2.
+              <span>{{$t('trans0339')}}</span>
+            </p>
+            <p>3.
+              <span>{{$t('trans0348')}}</span>
+            </p>
+          </div>
+          <div class="upload">
+            <m-upload ref="uploader" :onChange="onChange" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
+            <div class="package-info" v-if="uploadStatus === UploadStatus.success">
+              <p class="info-item">
+                <span>{{$t('trans0208')}}:</span>
+                <span>{{productName}}</span>
               </p>
-              <p>2.
-                <span>{{$t('trans0339')}}</span>
+              <p class="info-item">
+                <span>{{$t('trans0342')}}:</span>
+                <span>{{packageInfo.version}}</span>
               </p>
-              <p>3.
-                <span>{{$t('trans0348')}}</span>
+              <p class="info-item">
+                <span>{{$t('trans0187')}}:</span>
+                <span>{{modelName }}</span>
               </p>
             </div>
-            <div class="upload">
-              <m-upload ref="uploader" :onChange="onChange" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
-              <div class="package-info" v-if="uploadStatus === UploadStatus.success">
-                <p class="info-item">
-                  <span>{{$t('trans0208')}}:</span>
-                  <span>{{productName}}</span>
-                </p>
-                <p class="info-item">
-                  <span>{{$t('trans0342')}}:</span>
-                  <span>{{packageInfo.version}}</span>
-                </p>
-                <p class="info-item">
-                  <span>{{$t('trans0187')}}:</span>
-                  <span>{{modelName }}</span>
-                </p>
-              </div>
-            </div>
-            <div class="nodes-wrapper" v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
-              <p class="title">{{$t('trans0333')}}</p>
-              <div class="nodes-info">
-                <div v-for="node in localNodes" :key="node.sn" class="node">
-                  <div class="message" @click="check(node)">
-                    <m-checkbox :rect="false" v-model="node.checked" />
-                    <div class="img-container">
-                      <img class="img-m2" v-if="packageInfo.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
-                      <img class="img-bee" v-else-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
-                      <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
-                    </div>
-                    <div class="info-container">
-                      <p class="node-name">{{node.name}}</p>
-                      <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
-                      <p class="node-version">
-                        <span>{{$t('trans0209')}}{{node.version.current}}</span>
-                      </p>
-                    </div>
+          </div>
+          <div class="nodes-wrapper" v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
+            <p class="title">{{$t('trans0333')}}</p>
+            <div class="nodes-info">
+              <div v-for="node in localNodes" :key="node.sn" class="node">
+                <div class="message" @click="check(node)">
+                  <m-checkbox :rect="false" v-model="node.checked" />
+                  <div class="img-container">
+                    <img class="img-m2" v-if="packageInfo.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
+                    <img class="img-bee" v-else-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
+                    <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
+                  </div>
+                  <div class="info-container">
+                    <p class="node-name">{{node.name}}</p>
+                    <p class="node-sn">{{$t('trans0252')}}{{node.sn}}</p>
+                    <p class="node-version">
+                      <span>{{$t('trans0209')}}{{node.version.current}}</span>
+                    </p>
                   </div>
                 </div>
               </div>
-              <div class="btn-info">
-                <button @click="upgrade()" class="btn re-btn">{{$t('trans0225')}}</button>
-              </div>
             </div>
-            <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
-              <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
-              <p>{{$t('trans0337')}}</p>
-              <p>{{$t('trans0335')}}</p>
+            <div class="btn-info">
+              <button @click="upgrade()" class="btn re-btn">{{$t('trans0225')}}</button>
             </div>
           </div>
-        </div>
-        <div class="mobile-wrapper">
-          <img src="../../../assets/images/ic_hint.png" alt="">
-          <p>{{$t('trans0343')}} </p>
+          <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
+            <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
+            <p>{{$t('trans0337')}}</p>
+            <p>{{$t('trans0335')}}</p>
+          </div>
         </div>
       </div>
+      <div class="mobile-wrapper">
+        <img src="../../../assets/images/ic_hint.png" alt="">
+        <p>{{$t('trans0343')}} </p>
+      </div>
     </div>
-  </layout>
+  </div>
 
 </template>
 <script>
-import layout from '../../../layout.vue';
-import Upload from '../../../component/upload/index.vue';
-import mCheckbox from '../../../component/checkbox/index.vue';
+import Upload from 'components/upload/index.vue';
+import mCheckbox from 'components/checkbox/index.vue';
 import { RouterSnModel, UploadStatus } from '../../../../util/constant';
 import { getFileExtendName } from '../../../../util/util';
 
 export default {
   components: {
-    layout,
     'm-upload': Upload,
     mCheckbox
   },

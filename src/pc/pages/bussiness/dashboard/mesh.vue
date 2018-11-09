@@ -95,11 +95,10 @@
 </template>
 <script>
 import echarts from 'echarts';
-import layout from '../../../layout.vue';
-import Progress from '../../../component/progress/index.vue';
-import Form from '../../../component/form/index.vue';
-import FormItem from '../../../component/formItem/index.vue';
-import editableSelect from '../../../component/editableSelect/index.vue';
+import Progress from 'components/progress/index.vue';
+import Form from 'components/form/index.vue';
+import FormItem from 'components/formItem/index.vue';
+import editableSelect from 'components/editableSelect/index.vue';
 import { formatMac, getStringByte } from '../../../../util/util';
 import genData from './topo';
 
@@ -110,7 +109,6 @@ const Color = {
 export default {
   components: {
     'm-progress': Progress,
-    layout,
     editableSelect,
     'm-form-item': FormItem,
     'm-form': Form
