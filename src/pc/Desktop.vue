@@ -83,8 +83,8 @@ export default {
           text: 'trans0416',
           children: [
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/port',
+              name: 'port-forwarding',
               text: 'trans0422'
             },
             {
