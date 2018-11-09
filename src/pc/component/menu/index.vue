@@ -298,6 +298,7 @@ export default {
       height: 100%;
       border: none;
       position: fixed;
+      overflow: auto;
       z-index: 1000;
     }
     .small-device {
