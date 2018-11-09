@@ -7,12 +7,7 @@ import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import registerComponents from './register-components';
-
-import {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-} from '../http';
+import { http, configResponseInterceptors } from '../http';
 
 import { formatSpeed, formatNetworkData, formatBandWidth } from '../util/util';
 import store from './store';
@@ -87,13 +82,6 @@ const launch = () => {
   };
 
   const upgrade = upgradeService();
-  configRequestInterceptors(
-    config => {
-      const conf = config;
-      return conf;
-    },
-    error => Promise.reject(error)
-  );
   configResponseInterceptors(
     res => res,
     error => {
@@ -126,6 +114,7 @@ const launch = () => {
   Vue.prototype.formatSpeed = formatSpeed;
   Vue.prototype.formatBandWidth = formatBandWidth;
   registerComponents(Vue);
+
   new Vue({
     el: '#web',
     i18n,

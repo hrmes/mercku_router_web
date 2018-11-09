@@ -14,12 +14,12 @@ export default {
   },
   data() {
     return {
-      selected: this.options.filter(o => o.value === this.value)[0] || {}
+      selected: this.options.filter(o => o.value === this.value)[0]
     };
   },
   watch: {
     value(val) {
-      this.selected = this.options.filter(o => o.value === val)[0] || {};
+      this.selected = this.options.filter(o => o.value === val)[0];
     }
   },
   methods: {
