@@ -86,12 +86,12 @@ export default {
           children: [
             {
               url: '/advance/port',
-              name: 'port-forwarding',
+              name: 'advance-port-forwarding',
               text: 'trans0422'
             },
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/dhcp',
+              name: 'advance-dhcp',
               text: 'trans0417'
             },
             {
