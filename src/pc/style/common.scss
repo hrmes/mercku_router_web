@@ -125,6 +125,20 @@ ul {
       color: rgb(182, 0, 28);
       border-color: rgb(182, 0, 28);
     }
+
+    &[disabled] {
+      cursor: not-allowed;
+      background: #999999;
+      border: none;
+      color: white
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      background: #999999;
+      border: none;
+      color: white
+    }
   }
 
   &[disabled] {
