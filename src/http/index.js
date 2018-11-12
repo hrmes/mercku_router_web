@@ -334,7 +334,7 @@ class Http {
     return this.request(methods.meshAdminUpdate, params);
   }
   /* v0.9 start */
-  static firmwareUpload(params, callback) {
+  firmwareUpload(params, callback) {
     const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
@@ -453,7 +453,7 @@ class Http {
   setTimezone(timezone) {
     return this.request(methods.meshConfigTimezoneUpdate, timezone);
   }
-  static post2native(action, type, data) {
+  post2native(action, type, data) {
     const message = {
       action,
       type,

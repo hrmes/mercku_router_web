@@ -111,10 +111,6 @@ export default {
       flex-direction: column;
       align-items: center;
       align-items: center;
-      .item {
-        // margin-bottom: 20px;
-      }
-
       .btn-info {
         display: block;
         text-align: center !important;
@@ -134,10 +130,13 @@ export default {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 30px 0;
       .item {
-        margin-top: 30px;
         display: flex;
         align-items: center;
+        &:last-child {
+          margin-top: 30px;
+        }
         label {
           width: 200px;
         }
