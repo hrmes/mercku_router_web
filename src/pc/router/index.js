@@ -18,10 +18,11 @@ import meshAdd from '../pages/bussiness/mesh/add.vue';
 import timeLimit from '../pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from '../pages/bussiness/dashboard/limit/speed.vue';
 import blacklistLimit from '../pages/bussiness/dashboard/limit/blacklist.vue';
+import portforwarding from '../pages/bussiness/advance/port/index.vue';
+import dhcp from '../pages/bussiness/advance/dhcp/index.vue';
 
 Vue.use(Router);
-const routes = [
-  {
+const routes = [{
     path: '*',
     redirect: '/dashboard'
   },
@@ -39,8 +40,7 @@ const routes = [
     name: 'dashboard',
     component: dashboard,
     redirect: '/dashboard/mesh/topo',
-    children: [
-      {
+    children: [{
         path: '/dashboard/device',
         name: 'device',
         component: device
@@ -121,7 +121,19 @@ const routes = [
     path: '/upgrade/offline',
     name: 'offline',
     component: offline
-  }
+  },
+  {
+    path: '/advance/port',
+    name: 'advance-port-forwarding',
+    component: portforwarding
+  },
+  {
+    path: '/advance/dhcp',
+    name: 'advance-dhcp',
+    component: dhcp
+  },
+
+
 ];
 export default new Router({
   routes

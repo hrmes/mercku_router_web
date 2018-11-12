@@ -85,13 +85,13 @@ export default {
           text: 'trans0416',
           children: [
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/port',
+              name: 'advance-port-forwarding',
               text: 'trans0422'
             },
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/dhcp',
+              name: 'advance-dhcp',
               text: 'trans0417'
             },
             {

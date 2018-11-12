@@ -30,6 +30,64 @@ ul {
   padding: 0;
 }
 
+[ant-click-animating],
+[ant-click-animating-without-extra-node] {
+  position: relative;
+}
+
+[ant-click-animating-without-extra-node]:active:after,
+.ant-click-animating-node:active {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  bottom: -1px;
+  right: -1px;
+  border-radius: inherit;
+  border: 0 solid #d6001c;
+  opacity: 0.2;
+  -webkit-animation: fadeEffect 2s cubic-bezier(0.08, 0.82, 0.17, 1),
+    waveEffect 0.4s cubic-bezier(0.08, 0.82, 0.17, 1);
+  animation: fadeEffect 2s cubic-bezier(0.08, 0.82, 0.17, 1),
+    waveEffect 0.4s cubic-bezier(0.08, 0.82, 0.17, 1);
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  display: block;
+  pointer-events: none;
+}
+
+@-webkit-keyframes waveEffect {
+  100% {
+    top: -6px;
+    left: -6px;
+    bottom: -6px;
+    right: -6px;
+    border-width: 6px;
+  }
+}
+
+@keyframes waveEffect {
+  100% {
+    top: -6px;
+    left: -6px;
+    bottom: -6px;
+    right: -6px;
+    border-width: 6px;
+  }
+}
+
+@-webkit-keyframes fadeEffect {
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeEffect {
+  100% {
+    opacity: 0;
+  }
+}
+
 .btn {
   outline: none;
   border: 1px solid transparent;
@@ -67,16 +125,30 @@ ul {
       color: rgb(182, 0, 28);
       border-color: rgb(182, 0, 28);
     }
+
+    &[disabled] {
+      cursor: not-allowed;
+      background: #999999;
+      border: none;
+      color: white
+    }
+
+    &.disabled {
+      cursor: not-allowed;
+      background: #999999;
+      border: none;
+      color: white
+    }
   }
 
   &[disabled] {
     cursor: not-allowed;
-    background: #cccccc;
+    background: #999999;
   }
 
   &.disabled {
     cursor: not-allowed;
-    background: #cccccc;
+    background: #999999;
   }
 }
 
