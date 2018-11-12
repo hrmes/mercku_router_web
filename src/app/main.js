@@ -6,38 +6,33 @@ import { changeLanguage, i18n } from '../i18n';
 import App from './App.vue';
 import router from './router';
 import schema from './schema';
-import {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-} from '../http';
+import Http from '../http';
 import util from '../util/util';
 import nav from './component/nav/nav-bar.vue';
 
+const http = new Http();
 Vue.component('nav-bar', nav);
 
 Vue.prototype.$toast = toast;
 
 const launch = () => {
   FastClick.attach(document.body);
-  configRequestInterceptors(config => config, error => Promise.reject(error));
-  configResponseInterceptors(
-    res => res,
-    error => {
-      if (error.response) {
-        switch (error.response.status) {
-          case 401:
-            if (!window.location.href.includes('/login')) {
-              window.location.hash = '#/pre-login';
-            }
-            break;
-          default:
-            break;
-        }
+
+  http.setExHandler(error => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          if (!window.location.href.includes('/login')) {
+            window.location.hash = '#/pre-login';
+          }
+          break;
+        default:
+          break;
       }
-      return Promise.reject(error.response.data);
     }
-  );
+    return Promise.reject(error.response.data);
+  });
+
   Vue.prototype.$http = http;
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.routerConfig = schema;

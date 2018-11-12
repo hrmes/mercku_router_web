@@ -92,26 +92,14 @@ export default {
       return v * (8 * 1000);
     },
     getSpeed() {
-      this.$http
-        .getSpeedLimit({ mac: this.mac })
-        .then(res => {
-          const speed = res.data.result;
-          this.form = {
-            ...speed,
-            up: this.b_to_KB(speed.up),
-            down: this.b_to_KB(speed.down)
-          };
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+      this.$http.getSpeedLimit({ mac: this.mac }).then(res => {
+        const speed = res.data.result;
+        this.form = {
+          ...speed,
+          up: this.b_to_KB(speed.up),
+          down: this.b_to_KB(speed.down)
+        };
+      });
     },
     submit() {
       if (this.form.up || this.form.down) {
@@ -138,16 +126,8 @@ export default {
               };
               this.$toast(this.$t('trans0040'), 3000, 'success');
             })
-            .catch(err => {
-              if (err.upgrading) {
-                return;
-              }
+            .catch(() => {
               this.$loading.close();
-              if (err && err.error) {
-                this.$toast(this.$t(err.error.code));
-              } else {
-                this.$router.push({ path: '/unconnect' });
-              }
             });
         }
       } else {

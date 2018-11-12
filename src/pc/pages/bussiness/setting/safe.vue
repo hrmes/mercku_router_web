@@ -66,29 +66,15 @@ export default {
             this.$loading.close();
             this.$router.push({ path: '/login' });
           })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
+          .catch(() => {
             this.$loading.close();
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
           });
       }
     },
     getFirewall() {
-      console.log(this.$http.getFirewall());
-      this.$http
-        .getFirewall()
-        .then(res => {
-          this.wan = res.data.result.wan;
-        })
-        .catch(() => {
-          console.log('...');
-        });
+      this.$http.getFirewall().then(res => {
+        this.wan = res.data.result.wan;
+      });
     }
   }
 };

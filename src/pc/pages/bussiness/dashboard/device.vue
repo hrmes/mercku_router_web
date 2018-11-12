@@ -268,21 +268,9 @@ export default {
       }
     },
     getLocalDevice() {
-      this.$http
-        .getLocalDevice()
-        .then(res => {
-          this.localDeviceIP = res.data.result.ip;
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+      this.$http.getLocalDevice().then(res => {
+        this.localDeviceIP = res.data.result.ip;
+      });
     },
     getDeviceList() {
       this.$http
@@ -305,19 +293,10 @@ export default {
             this.devices = result;
           }
         })
-        .catch(err => {
+        .catch(() => {
           this.timer = setTimeout(() => {
             this.getDeviceList();
           }, 15 * 1000);
-          if (err.upgrading) {
-            return;
-          }
-
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     updateDeviceName() {
@@ -328,29 +307,16 @@ export default {
             mac: this.row.mac
           }
         };
-        this.$http
-          .meshDeviceUpdate({ ...params })
-          .then(() => {
-            // this.getDeviceList();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.devices = this.devices.map(v => {
-              if (v.mac === this.row.mac) {
-                return { ...v, name: this.form.name };
-              }
-              return v;
-            });
-            this.modalShow = false;
-          })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
+        this.$http.meshDeviceUpdate({ ...params }).then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.devices = this.devices.map(v => {
+            if (v.mac === this.row.mac) {
+              return { ...v, name: this.form.name };
             }
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
+            return v;
           });
+          this.modalShow = false;
+        });
       }
     },
     addToBlackList(row) {
@@ -377,16 +343,8 @@ export default {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
+              .catch(() => {
                 this.$loading.close();
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
               });
           }
         }

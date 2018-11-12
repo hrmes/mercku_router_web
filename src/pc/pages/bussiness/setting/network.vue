@@ -383,29 +383,17 @@ export default {
         message: this.$t('trans0037'),
         callback: {
           ok: () => {
-            this.$http
-              .meshWanUpdate(params)
-              .then(() => {
-                this.reboot = true;
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
+            this.$http.meshWanUpdate(params).then(() => {
+              this.reboot = true;
+              this.$reconnect({
+                onsuccess: () => {
+                  this.$router.push({ path: '/dashboard' });
+                },
+                ontimeout: () => {
                   this.$router.push({ path: '/unconnect' });
                 }
               });
+            });
           }
         }
       });

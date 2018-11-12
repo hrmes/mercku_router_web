@@ -218,7 +218,14 @@ const methods = {
 
 const noop = () => {};
 class Http {
-  constructor(options) {
+  constructor() {
+    this.exHandler = error => {
+      throw error;
+    };
+  }
+
+  setInterceptors(options) {
+    console.log(this); // avoid lint
     const defaultOpt = {
       reqInterceptor: {
         success: noop,
@@ -227,8 +234,7 @@ class Http {
       resInterceptor: {
         success: noop,
         error: noop
-      },
-      exHandler: noop
+      }
     };
     const opt = {
       reqInterceptor: {
@@ -238,8 +244,7 @@ class Http {
       resInterceptor: {
         ...defaultOpt.resInterceptor,
         ...options.resInterceptor
-      },
-      exHandler: options.exHandler || defaultOpt.exHandler
+      }
     };
 
     axios.interceptors.response.use(
@@ -250,18 +255,20 @@ class Http {
       opt.reqInterceptor.success,
       opt.reqInterceptor.error
     );
-    this.request = (config, params) => {
-      const data = {
-        method: config.action
-      };
-      if (params) {
-        data.params = params;
-      }
-      console.log('=====', opt.exHandler);
-      return axios({ url: config.url, method: 'post', data }).catch(
-        opt.exHandler
-      );
+  }
+  setExHandler(fn) {
+    this.exHandler = fn;
+  }
+  request(config, params) {
+    const data = {
+      method: config.action
     };
+    if (params) {
+      data.params = params;
+    }
+    return axios({ url: config.url, method: 'post', data }).catch(
+      this.exHandler
+    );
   }
   getFirewall() {
     return this.request(methods.meshInfoFirewallGet);

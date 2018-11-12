@@ -222,17 +222,9 @@ export default {
             timeout -= 1;
           }, 1000);
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
           this.forwardStep2(false);
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     forwardWelcome() {
@@ -255,16 +247,8 @@ export default {
             .map(n => ({ ...n, selected: false }));
           this.scaning = false;
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.scaning = false;
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     forwardStep2(result) {

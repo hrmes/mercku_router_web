@@ -13,6 +13,8 @@ import { formatSpeed, formatNetworkData, formatBandWidth } from '../util/util';
 import store from './store';
 
 const launch = () => {
+  const http = new Http();
+
   const reconnect = options => {
     const opt = {
       ...{
@@ -79,42 +81,29 @@ const launch = () => {
       }
     };
   };
-
   const upgrade = upgradeService();
-
-  const http = new Http({
-    resInterceptor: {
-      error: error => {
-        const { response } = error;
-        if (!response) {
-          return Promise.reject(error);
-        }
-        if (
-          response.status === 401 &&
-          !window.location.href.includes('login')
-        ) {
+  http.setExHandler(err => {
+    const { response } = err;
+    if (response) {
+      const { status, data } = response;
+      if (status === 401) {
+        if (!window.location.href.includes('login')) {
           window.location.href = '/';
-        } else if (
-          response.status === 400 &&
-          response.data.error.code === 600007
-        ) {
-          upgrade();
-          return Promise.reject({ upgrading: true });
         }
-        return Promise.reject(error.response.data);
-      }
-    },
-    exHandler: err => {
-      if (err.upgrading) {
+      } else if (status === 400 && data.error.code === 600007) {
+        upgrade();
         return;
-      }
-      if (err && err.error) {
-        toast(translate(err.error));
       } else {
-        this.$router.push({ path: '/unconnect' });
+        const { error } = data;
+        if (error && error.code) {
+          toast(translate(error.code));
+        } else {
+          router.push({ path: '/unconnect' });
+        }
       }
-      throw err;
+      throw data;
     }
+    throw err;
   });
 
   Vue.prototype.$loading = loading;

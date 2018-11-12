@@ -310,18 +310,10 @@ export default {
             this.testSpeedNumber = this.testTimeout;
           }
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           clearInterval(this.speedTestTimer);
           this.testSpeedNumber = this.testTimeout;
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     startSpeedTest(force) {
@@ -360,15 +352,7 @@ export default {
             }, 10000);
           }
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
+        .catch(() => {
           if (this.pageActive) {
             this.wanNetStatsTimer = setTimeout(() => {
               this.getWanNetStats();
@@ -384,12 +368,10 @@ export default {
           clearTimeout(this.wanInfoTimer);
           this.netInfo = res.data.result;
         })
-        .catch(err => {
-          if (err.response && err.response.status === 400) {
-            this.wanInfoTimer = setTimeout(() => {
-              this.getWanNetInfo();
-            }, 1000 * 3);
-          }
+        .catch(() => {
+          this.wanInfoTimer = setTimeout(() => {
+            this.getWanNetInfo();
+          }, 1000 * 3);
         });
     }
   },

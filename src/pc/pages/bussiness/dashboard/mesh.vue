@@ -195,17 +195,9 @@ export default {
             this.showModal = false;
             this.createIntervalTask();
           })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
+          .catch(() => {
             this.$loading.close();
             this.createIntervalTask();
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
           });
       }
     },
@@ -221,16 +213,6 @@ export default {
               .then(() => {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.routers = this.routers.filter(r => r.sn !== router.sn);
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
               });
           }
         }
@@ -243,35 +225,23 @@ export default {
         message: this.$t('trans0121'),
         callback: {
           ok: () => {
-            this.$http
-              .reboot({ node_ids: [router.sn] })
-              .then(() => {
-                if (router.is_gw) {
-                  this.reboot = true;
-                  this.$reconnect({
-                    onsuccess: () => {
-                      this.reboot = false;
-                      this.$router.push({ path: '/login' });
-                    },
-                    ontimeout: () => {
-                      this.$router.push({ path: '/unconnect' });
-                    }
-                  });
-                } else {
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
-                  this.routers = this.routers.filter(r => r.sn !== router.sn);
-                }
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
-              });
+            this.$http.reboot({ node_ids: [router.sn] }).then(() => {
+              if (router.is_gw) {
+                this.reboot = true;
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.reboot = false;
+                    this.$router.push({ path: '/login' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
+              } else {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
+              }
+            });
           }
         }
       });
@@ -283,30 +253,18 @@ export default {
         message: this.$t('trans0206'),
         callback: {
           ok: () => {
-            this.$http
-              .resetMeshNode({ node_ids: [router.sn] })
-              .then(() => {
-                this.reset = true;
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.reset = false;
-                    window.location.href = '/';
-                  },
-                  ontimeout: () => {
-                    window.location.href = '/';
-                  }
-                });
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
+            this.$http.resetMeshNode({ node_ids: [router.sn] }).then(() => {
+              this.reset = true;
+              this.$reconnect({
+                onsuccess: () => {
+                  this.reset = false;
+                  window.location.href = '/';
+                },
+                ontimeout: () => {
+                  window.location.href = '/';
                 }
               });
+            });
           }
         }
       });
