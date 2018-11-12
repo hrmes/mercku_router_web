@@ -192,18 +192,9 @@ export default {
           this.localNodes = nodes;
           this.packageInfo = res.data.result.fw_info;
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           uploader.status = UploadStatus.fail;
           this.uploadStatus = UploadStatus.fail;
-
-          if (err && err.error) {
-            uploader.err = this.$t(err.error.code);
-          } else if (!err.message) {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     upgrade() {
@@ -234,17 +225,8 @@ export default {
                   timeout: 100
                 });
               })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
+              .catch(() => {
                 this.$loading.close();
-
-                if (err && err.error) {
-                  this.$toast(this.$t('trans0296'));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
               });
           }
         }

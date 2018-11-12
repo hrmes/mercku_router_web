@@ -7,12 +7,14 @@ import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import registerComponents from './register-components';
-import { http, configResponseInterceptors } from '../http';
+import Http from '../http';
 
 import { formatSpeed, formatNetworkData, formatBandWidth } from '../util/util';
 import store from './store';
 
 const launch = () => {
+  const http = new Http();
+
   const reconnect = options => {
     const opt = {
       ...{
@@ -45,7 +47,6 @@ const launch = () => {
       }
     }, 1000);
   };
-
   const upgradeService = () => {
     let serviceStarted = false;
     return options => {
@@ -80,27 +81,30 @@ const launch = () => {
       }
     };
   };
-
   const upgrade = upgradeService();
-  configResponseInterceptors(
-    res => res,
-    error => {
-      const { response } = error;
-      if (!response) {
-        return Promise.reject(error);
-      }
-      if (response.status === 401 && !window.location.href.includes('login')) {
-        window.location.href = '/';
-      } else if (
-        response.status === 400 &&
-        response.data.error.code === 600007
-      ) {
+  http.setExHandler(err => {
+    const { response } = err;
+    if (response) {
+      const { status, data } = response;
+      if (status === 401) {
+        if (!window.location.href.includes('login')) {
+          window.location.href = '/';
+        }
+      } else if (status === 400 && data.error.code === 600007) {
         upgrade();
-        return Promise.reject({ upgrading: true });
+        return;
+      } else {
+        const { error } = data;
+        if (error && error.code) {
+          toast(translate(error.code));
+        } else {
+          router.push({ path: '/unconnect' });
+        }
       }
-      return Promise.reject(error.response.data);
+      throw data;
     }
-  );
+    throw err;
+  });
 
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;

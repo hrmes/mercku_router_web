@@ -1,6 +1,6 @@
 <template>
   <div class="radio-group-container">
-    <div class="option" @click="check(option)" :class="{'selected':selected===option}" v-for="option in options" :key="option.value">
+    <div class="option" @click="check(option)" :class="{'selected':selected===option.value}" v-for="option in options" :key="option.value">
       <div class="radio"></div>
       <div class="text">{{option.text}}</div>
     </div>
@@ -14,18 +14,18 @@ export default {
   },
   data() {
     return {
-      selected: this.options.filter(o => o.value === this.value)[0]
+      selected: this.value
     };
   },
   watch: {
     value(val) {
-      this.selected = this.options.filter(o => o.value === val)[0];
+      this.selected = val;
     }
   },
   methods: {
     check(option) {
-      this.selected = option;
-      this.$emit('input', this.selected.value);
+      this.selected = option.value;
+      this.$emit('input', this.selected);
     }
   }
 };

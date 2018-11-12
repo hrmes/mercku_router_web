@@ -229,24 +229,9 @@ export default {
       });
     },
     getList() {
-      // this.$loading.open();
-      this.$http
-        .getTimeLimit({ mac: this.form.mac })
-        .then(res => {
-          // this.$loading.close();
-          this.timeLimitList = res.data.result;
-        })
-        .catch(err => {
-          // this.$loading.close();
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+      this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
+        this.timeLimitList = res.data.result;
+      });
     },
     changehandle(v, row) {
       this.$loading.open();
@@ -264,26 +249,12 @@ export default {
           this.$toast(this.$t('trans0040'), 3000, 'success');
           this.getList();
         })
-        .catch(err => {
+        .catch(() => {
           this.getList();
-          if (err.upgrading) {
-            return;
-          }
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     delRow(row) {
-      // this.$dialog.confirm({
-      //   okText: this.$t('trans0024'),
-      //   cancelText: this.$t('trans0025'),
-      //   message: this.$t('trans0376'),
-      //   callback: {
-      //     ok: () => {
       this.$loading.open();
       this.$http
         .timeLimitDel({
@@ -294,22 +265,10 @@ export default {
           this.timeLimitList = this.timeLimitList.filter(v => v.id !== row.id);
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          // this.getList();
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
-      //     }
-      //   }
-      // });
     },
     submit() {
       if (this.isChoose) {
@@ -328,20 +287,11 @@ export default {
           .then(() => {
             this.$loading.close();
             this.getList();
-            // this.timeLimitList.push(this.form);
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
+          .catch(() => {
             this.$loading.close();
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
           });
       } else {
         this.msgShow = true;
@@ -375,16 +325,8 @@ export default {
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
+          .catch(() => {
             this.$loading.close();
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
           });
       } else {
         this.msgShow = true;

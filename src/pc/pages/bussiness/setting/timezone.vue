@@ -72,16 +72,8 @@ export default {
           this.$toast(this.$t('trans0040'), 3000, 'success');
           this.getTimezoneText();
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     }
   }

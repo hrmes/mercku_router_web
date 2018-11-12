@@ -89,18 +89,9 @@ export default {
             compareVersion(node.version.current, node.version.latest)
           );
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
           this.requestResult.complete = true;
-          if (err && err.error) {
-            this.requestResult.error = true;
-            this.requestResult.message = this.$t('trans0345');
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     submit() {
@@ -129,16 +120,8 @@ export default {
                   }
                 });
               })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
+              .catch(() => {
                 this.$loading.close();
-                if (err && err.error) {
-                  this.$toast(this.$t('trans0296'));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
               });
           }
         }

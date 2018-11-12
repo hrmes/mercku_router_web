@@ -129,25 +129,13 @@ export default {
       this.modalShow = true;
     },
     getList() {
-      this.$http
-        .parentControlLimitGet({ mac: this.form.mac })
-        .then(res => {
-          if (res.data.result) {
-            this.parentControlLimitList = res.data.result.blacklist || [];
-            this.mode = res.data.result.mode === BlacklistMode.blacklist;
-            this.form.mode = res.data.result.mode;
-          }
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+      this.$http.parentControlLimitGet({ mac: this.form.mac }).then(res => {
+        if (res.data.result) {
+          this.parentControlLimitList = res.data.result.blacklist || [];
+          this.mode = res.data.result.mode === BlacklistMode.blacklist;
+          this.form.mode = res.data.result.mode;
+        }
+      });
     },
     changehandle(v) {
       this.$loading.open();
@@ -162,17 +150,9 @@ export default {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
-        .catch(err => {
+        .catch(() => {
           this.mode = !v;
-          if (err.upgrading) {
-            return;
-          }
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     delRow(row) {
@@ -189,16 +169,8 @@ export default {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     submit() {
@@ -215,16 +187,8 @@ export default {
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
+          .catch(() => {
             this.$loading.close();
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
           });
       }
     }

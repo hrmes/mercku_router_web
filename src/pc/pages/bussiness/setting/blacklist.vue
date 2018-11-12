@@ -50,16 +50,8 @@ export default {
           this.$loading.close();
           this.blacklist = res.data.result;
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     removeBlacklist(device) {
@@ -72,16 +64,8 @@ export default {
           this.$toast(this.$t('trans0040'), 3000, 'success');
           this.blacklist = this.blacklist.filter(d => d.mac !== device.mac);
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     }
   }
