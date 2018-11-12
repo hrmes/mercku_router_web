@@ -2,11 +2,11 @@
   <div class="advance-port-container">
     <div class="content">
       <div class='w-header'>
-        {{$t('端口转发')}}
+        {{$t('trans0422')}}
       </div>
       <div class="empty" v-if="!hasPort">
         <img src="../../../../assets/images/img_no_network_access.png" alt="">
-        <p>暂无端口转发</p>
+        <p>{{$t('trans0278')}}</p>
         <div class="btn-warp">
           <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
@@ -14,20 +14,20 @@
       <div class='table' v-else>
         <div class="handle-wrap">
           <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
-          <button class="btn btn-default" @click="modalOpen('add')" :disabled="!hasChecked">{{$t('批量删除')}}</button>
+          <button class="btn btn-default" @click="modalOpen('add')" :disabled="!hasChecked">{{$t('trans0453')}}</button>
         </div>
         <div class="table-head">
           <div class="column-check">
             <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
           </div>
-          <div class="column-name">{{$t('名称')}}</div>
-          <div class="column-local-ip">{{$t('本地IP')}}</div>
-          <div class="column-local-port">{{$t('本地端口')}}</div>
-          <div class="column-outside-ip">{{$t('外部IP')}}</div>
-          <div class="column-outside-port">{{$t('外部端口')}}</div>
-          <div class="column-protocol">{{$t('协议')}}</div>
-          <div class="column-status">{{$t('状态')}}</div>
-          <div class="column-handle">{{$t('操作')}}</div>
+          <div class="column-name">{{$t('trans0108')}}</div>
+          <div class="column-local-ip">{{$t('trans0427')}}</div>
+          <div class="column-local-port">{{$t('trans0428')}}</div>
+          <div class="column-outside-ip">{{$t('trans0425')}}</div>
+          <div class="column-outside-port">{{$t('trans0426')}}</div>
+          <div class="column-protocol">{{$t('trans0408')}}</div>
+          <div class="column-status">{{$t('trans0190')}}</div>
+          <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
           <div class="table-row" v-for="(item,index ) in list" :key='index'>
@@ -44,8 +44,8 @@
               <m-switch v-model="item.status"></m-switch>
             </div>
             <div class="column-handle">
-              <a> 编辑</a>
-              <a>删除</a>
+              <a> {{$t('trans0034')}}</a>
+              <a> {{$t('trans0033')}}</a>
             </div>
           </div>
         </div>
@@ -178,6 +178,16 @@ export default {
       }
       .column-handle {
         width: 150px;
+        a {
+          cursor: pointer;
+          &:last-child {
+            color: #ff0001;
+            padding-left: 30px;
+          }
+          &:hover {
+            opacity: 0.8;
+          }
+        }
       }
       .table-head {
         height: 50px;

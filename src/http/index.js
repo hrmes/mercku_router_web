@@ -207,12 +207,18 @@ const methods = {
   meshConfigFirewallUpdate: {
     url,
     action: 'mesh.config.firewall.update'
-  }
+  },
+  meshPoetfwGet: createMethods(url)('mesh.portfw.get'),
+  meshPortfwUpdate: createMethods(url)('mesh.portfw.update'),
+  meshPortfwAdd: createMethods(url)('mesh.portfw.add'),
+  meshPortfwDelete: createMethods(url)('mesh.portfw.delete'),
+
 };
 
 const noop = () => {};
 class Http {
   constructor() {
+    this.axios = axios;
     this.exHandler = error => {
       throw error;
     };
@@ -260,9 +266,21 @@ class Http {
     if (params) {
       data.params = params;
     }
-    return axios({ url: config.url, method: 'post', data }).catch(
+    return this.axios({ url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
+  }
+  meshPoetfwGet() {
+    return this.request(methods.meshPoetfwGet);
+  }
+  meshPortfwUpdate(params) {
+    return this.request(methods.meshPortfwUpdate, params);
+  }
+  meshPortfwAdd(params) {
+    return this.request(methods.meshPortfwAdd, params);
+  }
+  meshPortfwDelete(params) {
+    return this.request(methods.meshPortfwDelete, params);
   }
   getFirewall() {
     return this.request(methods.meshInfoFirewallGet);
@@ -328,10 +346,10 @@ class Http {
     return this.request(methods.meshAdminUpdate, params);
   }
   /* v0.9 start */
-  static firmwareUpload(params, callback) {
-    const { CancelToken } = axios;
+  firmwareUpload(params, callback) {
+    const { CancelToken } = this.axios;
     const source = CancelToken.source();
-    return axios({
+    return this.axios({
       url: methods.firmwareUpload.url,
       method: 'post',
       data: params,
@@ -447,13 +465,13 @@ class Http {
   setTimezone(timezone) {
     return this.request(methods.meshConfigTimezoneUpdate, timezone);
   }
-  static post2native(action, type, data) {
-    const message = {
+  post2native(action, type, data) {
+    this.post2nativeMessage = {
       action,
       type,
       data
     };
-    const messageString = JSON.stringify(message);
+    const messageString = JSON.stringify(this.post2nativeMessage);
     try {
       window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
     } catch (err) {
