@@ -1,17 +1,11 @@
 import axios from 'axios';
 
 axios.defaults.timeout = 60000;
-
+const createMethods = url => action => ({ url, action });
 const url = '/app';
 const methods = {
-  routerIsLogin: {
-    url,
-    action: 'router.is_login'
-  },
-  routerLogin: {
-    url,
-    action: 'router.login'
-  },
+  routerIsLogin: createMethods(url)('router.is_login'),
+  routerLogin: createMethods(url)('router.login'),
   routerLogout: {
     url,
     action: 'router.logout'
