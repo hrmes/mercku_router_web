@@ -82,6 +82,7 @@ export const isIphone = () => {
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const hostReg = /^\.*[a-zA-Z0-9]+([\w-][a-zA-Z0-9])*(\.[a-zA-Z0-9]+((\w|-)*[a-zA-Z0-9]+)*)*\.*$/;
+export const portReg = /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-5])$/;
 export const ipRexp = ip => {
   if (ip && ipReg.test(ip)) {
     return true;

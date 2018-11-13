@@ -85,8 +85,8 @@ export default {
           text: 'trans0416',
           children: [
             {
-              url: '/advance/port',
-              name: 'advance-port-forwarding',
+              url: '/advance/portforwarding',
+              name: 'advance-portforwarding',
               text: 'trans0422'
             },
             {

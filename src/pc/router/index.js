@@ -19,6 +19,8 @@ import timeLimit from '../pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from '../pages/bussiness/dashboard/limit/speed.vue';
 import blacklistLimit from '../pages/bussiness/dashboard/limit/blacklist.vue';
 import portforwarding from '../pages/bussiness/advance/port/index.vue';
+import portfwFrom from '../pages/bussiness/advance/port/form.vue';
+
 import dhcp from '../pages/bussiness/advance/dhcp/index.vue';
 
 Vue.use(Router);
@@ -123,9 +125,14 @@ const routes = [{
     component: offline
   },
   {
-    path: '/advance/port',
-    name: 'advance-port-forwarding',
+    path: '/advance/portforwarding',
+    name: 'advance-portforwarding',
     component: portforwarding
+  },
+  {
+    path: '/advance/portforwarding/form/:id?',
+    name: 'advance-portforwarding-form',
+    component: portfwFrom
   },
   {
     path: '/advance/dhcp',

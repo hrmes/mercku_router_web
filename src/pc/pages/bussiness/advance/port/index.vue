@@ -4,17 +4,17 @@
       <div class='w-header'>
         {{$t('trans0422')}}
       </div>
-      <div class="empty" v-if="!hasPort">
+      <div class="empty" v-if="(typeof empty =='boolean') && !empty">
         <img src="../../../../assets/images/img_no_network_access.png" alt="">
         <p>{{$t('trans0278')}}</p>
         <div class="btn-warp">
-          <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
+          <button class="btn" @click="()=>this.$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
         </div>
       </div>
       <div class='table' v-else>
         <div class="handle-wrap">
-          <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
-          <button class="btn btn-default" @click="modalOpen('add')" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+          <button class="btn" @click="()=>this.$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
+          <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
         </div>
         <div class="table-head">
           <div class="column-check">
@@ -30,22 +30,22 @@
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
-          <div class="table-row" v-for="(item,index ) in list" :key='index'>
+          <div class="table-row" v-for="(item,index ) in portfws" :key='index'>
             <div class="column-check">
               <m-checkbox v-model='item.checked'></m-checkbox>
             </div>
             <div class="column-name">{{item.name}}</div>
-            <div class="column-local-ip">{{item.localIP}}</div>
-            <div class="column-local-port">{{item.localPort}}</div>
-            <div class="column-outside-ip">{{item.outsideIP}}</div>
-            <div class="column-outside-port">{{item.outsidePort}}</div>
+            <div class="column-local-ip">{{item.local.ip}}</div>
+            <div class="column-local-port">{{item.local.port.from}}-{{item.local.port.to}}</div>
+            <div class="column-outside-ip">{{item.remote.ip}}</div>
+            <div class="column-outside-port">{{item.remote.port.from}}-{{item.remote.port.to}}</div>
             <div class="column-protocol">{{item.protocol}}</div>
             <div class="column-status">
-              <m-switch v-model="item.status"></m-switch>
+              <m-switch v-model="item.enabled"></m-switch>
             </div>
             <div class="column-handle">
               <a> {{$t('trans0034')}}</a>
-              <a> {{$t('trans0033')}}</a>
+              <a @click="del([item.id])"> {{$t('trans0033')}}</a>
             </div>
           </div>
         </div>
@@ -56,32 +56,21 @@
 <script>
 export default {
   data() {
-    const arr = Array.from(new Array(5)).map((_, i) => ({
-      checked: false,
-      name: `我是端口名称${i}`,
-      localIP: `123.123.123.${i}`,
-      localPort: `我是端口名称${i}`,
-      outsideIP: `1233-${i}`,
-      outsidePort: `123.123.123.${i}`,
-      protocol: i % 2 === 0 ? 'TCP' : 'UDP',
-      status: i % 2 === 0
-    }));
     return {
+      empty: true,
       checkAll: false,
       reverseCheck: false,
-      list: arr
+      portfws: [],
+      checkedArr: []
     };
   },
   computed: {
-    hasPort() {
-      return true;
-    },
     hasChecked() {
-      return this.list.some(i => i.checked);
+      return this.portfws.some(i => i.checked);
     }
   },
   watch: {
-    list: {
+    portfws: {
       handler: function temp(v) {
         if (v.map(item => item.checked).some(n => !n)) {
           this.checkAll = false;
@@ -92,14 +81,57 @@ export default {
       deep: true
     }
   },
-  mounted() {},
+  mounted() {
+    this.getList();
+  },
   methods: {
+    getList() {
+      this.$http.meshPoetfwGet().then(res => {
+        this.portfws = res.data.result.map(v => ({ ...v, checked: false }));
+        if (this.portfws.length > 0) {
+          this.empty = true;
+        } else {
+          this.empty = false;
+        }
+      });
+    },
     change(v) {
-      this.list.forEach(item => {
+      this.portfws.forEach(item => {
         if (v) {
           item.checked = true;
         } else {
           item.checked = false;
+        }
+      });
+    },
+    mulDel() {
+      const portfwIds = [];
+      this.portfws.forEach(v => {
+        if (v.checked) {
+          portfwIds.push(v.id);
+        }
+      });
+      this.del(portfwIds);
+    },
+    del(portfwIds) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0376'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            this.$http
+              .meshPortfwDelete({ portfw_ids: portfwIds })
+              .then(() => {
+                // this.portfws
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$loading.close();
+              })
+              .catch(() => {
+                this.$loading.close();
+              });
+          }
         }
       });
     }
