@@ -139,11 +139,12 @@ export default {
   flex-direction: column;
   flex: auto;
   padding: 0 2%;
-  margin-top: 50px;
+  margin-top: 45px;
   .net-info {
     display: flex;
     padding: 0 10%;
     height: 100px;
+    align-items: center;
     .icon-container {
       img {
         width: 50px;
@@ -164,37 +165,30 @@ export default {
     }
     .line {
       flex: 1;
-      height: 50px;
-      background: url(../../../assets/images/ic_test_line_normal.png) repeat-x;
-      background-position-y: 24px;
-      background-size: auto 2px;
+      height: 0;
+      border-top: 2px solid #d6001c;
       text-align: center;
       position: relative;
       &.unconnected {
-        background: url(../../../assets/images/ic_test_line_normal.png) repeat-x;
-        background-position-y: 24px;
-        background-size: auto 2px;
+        border-top: 2px dashed #999;
       }
       &.testing {
-        background: none;
+        border: 0;
         &::after {
           content: '';
-          width: 10%;
           display: block;
-          height: 2px;
+          border-top: 2px solid #d6001c;
+          animation: speed-test-line linear 1s infinite;
+          width: 10%;
           position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background: url('../../../assets/images/ic_test_line_testing.png')
-            repeat-x;
-          background-size: auto 2px;
-          animation: speed-test-line linear 0.8s infinite;
+          top: -1px;
         }
       }
       .icon-unconnected-container {
         position: absolute;
         left: 50%;
-        transform: translateX(-50%);
+        top: 50%;
+        transform: translate(-50%, -50%);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -221,7 +215,7 @@ export default {
     }
   }
   .router-view {
-    margin-top: 50px;
+    margin-top: 75px;
   }
 }
 @media screen and (min-width: 769px) and (max-width: 1440px) {
@@ -252,20 +246,21 @@ export default {
         font-weight: bold;
       }
       .line {
-        height: 30px;
-        background-position-y: 14px;
+        height: 2px;
         &.testing {
           &::after {
             animation: speed-test-line linear 0.5s infinite;
+            top: 0;
           }
         }
         &.unconnected {
-          height: 30px;
-
-          background-position-y: 14px;
           .icon-unconnected-container {
-            height: 30px;
-            width: 30px;
+            height: 20px;
+            width: 20px;
+            img {
+              width: 16px;
+              height: 16px;
+            }
           }
         }
       }

@@ -13,21 +13,6 @@
         </div>
       </m-form>
     </div>
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0424')}}
-      </div>
-      <div class="switch-container">
-        <div class="item">
-          <label for="">{{$t('trans0424')}}</label>
-          <m-switch v-model="wan.dos" :onChange="updateFirewall"></m-switch>
-        </div>
-        <div class="item">
-          <label for="">{{$t('trans0434')}}</label>
-          <m-switch v-model="wan.ping" :onChange="updateFirewall"></m-switch>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -36,10 +21,6 @@ import { passwordRule } from '../../../../util/util';
 export default {
   data() {
     return {
-      wan: {
-        dos: false,
-        ping: true
-      },
       form: {
         password: ''
       },
@@ -52,9 +33,6 @@ export default {
         ]
       }
     };
-  },
-  mounted() {
-    this.getFirewall();
   },
   methods: {
     submit() {
@@ -70,23 +48,6 @@ export default {
             this.$loading.close();
           });
       }
-    },
-    getFirewall() {
-      this.$http.getFirewall().then(res => {
-        this.wan = res.data.result.wan;
-      });
-    },
-    updateFirewall() {
-      this.$loading.open();
-      this.$http
-        .updateFirewall(this.wan)
-        .then(() => {
-          this.$loading.close();
-          this.$toast(this.$t('trans0040'));
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
     }
   }
 };
@@ -135,22 +96,6 @@ export default {
           margin-right: 10px;
           font-size: 16px;
           color: #333333;
-        }
-      }
-    }
-    .switch-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 30px 0;
-      .item {
-        display: flex;
-        align-items: center;
-        &:last-child {
-          margin-top: 30px;
-        }
-        label {
-          width: 200px;
         }
       }
     }

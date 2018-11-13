@@ -123,6 +123,11 @@ export default {
               url: '/upgrade/online',
               name: 'online',
               text: 'trans0421'
+            },
+            {
+              url: '/advance/firewall',
+              name: 'advance-firewall',
+              text: 'trans0424'
             }
           ]
         },

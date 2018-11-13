@@ -107,8 +107,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header-container {
-  padding: 20px 50px;
-  height: 65px;
+  padding: 30px 50px;
   .logo-container {
     display: none;
     img {
