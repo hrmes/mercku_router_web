@@ -115,8 +115,8 @@ export default {
               text: 'trans0419'
             },
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/dmz',
+              name: 'advance-dmz',
               text: 'trans0420'
             },
             {

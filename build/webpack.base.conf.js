@@ -39,7 +39,8 @@ module.exports = {
       vue$: 'vue/dist/vue.esm.js',
       echarts$: path.resolve(__dirname, '../static/echarts.min.js'),
       '@': resolve('src'),
-      components: path.resolve(__dirname, '../src/pc/component')
+      components: path.resolve(__dirname, '../src/pc/component'),
+      pages: path.resolve(__dirname, '../src/pc/pages')
     }
   },
   module: {
