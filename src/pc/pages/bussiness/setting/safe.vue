@@ -20,11 +20,11 @@
       <div class="switch-container">
         <div class="item">
           <label for="">{{$t('trans0424')}}</label>
-          <m-switch v-model="wan.dos"></m-switch>
+          <m-switch v-model="wan.dos" :onChange="updateFirewall"></m-switch>
         </div>
         <div class="item">
           <label for="">{{$t('trans0434')}}</label>
-          <m-switch v-model="wan.ping"></m-switch>
+          <m-switch v-model="wan.ping" :onChange="updateFirewall"></m-switch>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@ export default {
     return {
       wan: {
         dos: false,
-        ping: false
+        ping: true
       },
       form: {
         password: ''
@@ -75,6 +75,18 @@ export default {
       this.$http.getFirewall().then(res => {
         this.wan = res.data.result.wan;
       });
+    },
+    updateFirewall() {
+      this.$loading.open();
+      this.$http
+        .updateFirewall(this.wan)
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'));
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     }
   }
 };
