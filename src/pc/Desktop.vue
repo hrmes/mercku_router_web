@@ -95,6 +95,11 @@ export default {
               text: 'trans0417'
             },
             {
+              url: '/advance/rsvdip',
+              name: 'advance-rsvdip',
+              text: 'trans0444'
+            },
+            {
               url: '/upgrade/online',
               name: 'online',
               text: 'trans0188'

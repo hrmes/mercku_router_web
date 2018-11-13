@@ -249,6 +249,7 @@ export default {
     }
 
     .form {
+      padding-bottom: 50px;
       .btn-info {
         margin-top: 30px;
       }
