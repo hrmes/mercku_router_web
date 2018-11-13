@@ -58,6 +58,8 @@ export default {
 
   label {
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
   .box {
     float: left;

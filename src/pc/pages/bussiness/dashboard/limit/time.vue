@@ -1,9 +1,9 @@
 <template>
-  <div class="device-time-container">
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0075')}}
-      </div>
+  <div class="page">
+    <div class='page-header'>
+      {{$t('trans0075')}}
+    </div>
+    <div class="page-content">
       <div class='table'>
         <div class="table-head">
           <div class="column-date-stop">{{$t('trans0084')}}</div>
@@ -336,6 +336,139 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .message {
+    padding-left: 70px;
+    font-size: 12px;
+    color: #ff0001;
+    display: inline-block;
+    height: 14px;
+  }
+  .opcity {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  .btn-info {
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+    // margin-bottom: 30px;
+    .btn {
+      width: 120px;
+      height: 42px;
+      &:last-child {
+        margin-left: 30px;
+      }
+    }
+  }
+  .modal-content {
+    width: 496px;
+    height: 452px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding: 30px;
+    .item {
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+      &:first-child {
+        margin: 0;
+      }
+      &:last-child {
+        align-items: flex-start;
+      }
+      label {
+        width: 70px;
+        font-size: 14px;
+        color: #333333;
+        overflow: hidden;
+      }
+      .date-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        width: 320px;
+        .check-inner {
+          width: 140px;
+          margin-bottom: 12px;
+        }
+      }
+    }
+  }
+}
+.table {
+  flex: 1;
+  .btn-warp {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+  }
+  .column-date-stop {
+    width: 180px;
+    .mobile-start {
+      display: none;
+    }
+  }
+  .column-date-start {
+    width: 180px;
+  }
+  .column-repeat {
+    flex: 1;
+  }
+  .column-handle {
+    width: 250px;
+  }
+  .table-head {
+    height: 50px;
+    background-color: #f1f1f1;
+    display: flex;
+    padding: 0 30px;
+    div {
+      display: flex;
+      height: 50px;
+      align-items: center;
+    }
+  }
+  .table-body {
+    .table-row {
+      display: flex;
+      padding: 30px 30px;
+      border-bottom: 1px solid #f1f1f1;
+      .column-handle {
+        display: flex;
+        align-items: center;
+        a {
+          margin-left: 50px;
+          cursor: pointer;
+          font-size: 14px;
+          &:hover {
+            text-decoration: underline;
+          }
+          &:last-child {
+            color: #ff0001;
+          }
+        }
+      }
+    }
+  }
+}
 @media screen and (min-width: 768px) {
   .device-time-container {
     .content {
@@ -355,58 +488,63 @@ export default {
     }
   }
 }
-.device-time-container {
-  .modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1001;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .message {
-      padding-left: 70px;
-      font-size: 12px;
-      color: #ff0001;
-      display: inline-block;
-      height: 14px;
-    }
-    .opcity {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background: rgba(0, 0, 0, 0.5);
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-    .btn-info {
-      display: flex;
-      margin-top: 20px;
-      justify-content: center;
-      // margin-bottom: 30px;
-      .btn {
-        width: 120px;
-        height: 42px;
-        &:last-child {
-          margin-left: 30px;
-        }
+@media screen and (max-width: 768px) {
+  .table {
+    margin: 0;
+    .table-body {
+      .table-row {
+        flex-direction: column;
+        padding: 20px 0;
+        position: relative;
       }
     }
+    .column-date-stop {
+      display: flex;
+      width: 100%;
+      .mobile-start {
+        display: block;
+      }
+    }
+    .column-date-start {
+      width: auto;
+      display: none;
+    }
+    .column-repeat {
+      width: 100%;
+      margin-top: 5px;
+    }
+    .column-handle {
+      width: 100%;
+      justify-content: flex-end;
+      margin-top: 20px;
+      a {
+        margin-left: 30px !important;
+      }
+      .check-wrap {
+        position: absolute;
+        right: 0;
+        top: 20px;
+      }
+    }
+    .table-head {
+      display: none;
+    }
+  }
+  .modal {
     .modal-content {
-      width: 496px;
-      height: 452px;
+      overflow-y: auto;
+      width: 300px;
+      height: 480px;
       border-radius: 5px;
       background-color: #ffffff;
-      padding: 30px;
+      padding: 10px 20px;
+      .btn-info {
+        margin-top: 10px;
+      }
       .item {
         display: flex;
         align-items: center;
-        margin-top: 30px;
+        margin-top: 20px;
         &:first-child {
           margin: 0;
         }
@@ -423,184 +561,11 @@ export default {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          width: 320px;
+          width: 180px;
           .check-inner {
             width: 140px;
             margin-bottom: 12px;
           }
-        }
-      }
-    }
-  }
-  flex: auto;
-  padding: 0 2%;
-  display: flex;
-  .ssid-hidden {
-    margin-bottom: 30px;
-  }
-  position: relative;
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
-    position: relative;
-    flex: 1;
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
-      color: #333333;
-      line-height: 60px;
-      font-weight: bold;
-    }
-    .table {
-      .btn-warp {
-        margin-top: 50px;
-        display: flex;
-        justify-content: center;
-        margin-bottom: 50px;
-      }
-      margin-top: 30px;
-      .column-date-stop {
-        width: 180px;
-        .mobile-start {
-          display: none;
-        }
-      }
-      .column-date-start {
-        width: 180px;
-      }
-      .column-repeat {
-        flex: 1;
-      }
-      .column-handle {
-        width: 250px;
-      }
-      .table-head {
-        height: 50px;
-        background-color: #f1f1f1;
-        display: flex;
-        padding: 0 30px;
-        div {
-          display: flex;
-          height: 50px;
-          align-items: center;
-        }
-      }
-      .table-body {
-        .table-row {
-          display: flex;
-          padding: 30px 30px;
-          border-bottom: 1px solid #f1f1f1;
-          .column-handle {
-            display: flex;
-            align-items: center;
-            a {
-              margin-left: 50px;
-              cursor: pointer;
-              font-size: 14px;
-              &:hover {
-                text-decoration: underline;
-              }
-              &:last-child {
-                color: #ff0001;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-@media screen and (max-width: 768px) {
-  .device-time-container {
-    padding: 20px 16px;
-    .modal {
-      .modal-content {
-        overflow-y: auto;
-        width: 300px;
-        height: 480px;
-        border-radius: 5px;
-        background-color: #ffffff;
-        padding: 10px 20px;
-        .btn-info {
-          margin-top: 10px;
-        }
-        .item {
-          display: flex;
-          align-items: center;
-          margin-top: 20px;
-          &:first-child {
-            margin: 0;
-          }
-          &:last-child {
-            align-items: flex-start;
-          }
-          label {
-            width: 70px;
-            font-size: 14px;
-            color: #333333;
-            overflow: hidden;
-          }
-          .date-wrap {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            width: 180px;
-            .check-inner {
-              width: 140px;
-              margin-bottom: 12px;
-            }
-          }
-        }
-      }
-    }
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      min-height: 450px;
-      .table {
-        margin: 0;
-        .table-body {
-          .table-row {
-            flex-direction: column;
-            padding: 20px 0;
-            position: relative;
-          }
-        }
-        .column-date-stop {
-          display: flex;
-          width: 100%;
-          .mobile-start {
-            display: block;
-          }
-        }
-        .column-date-start {
-          width: auto;
-          display: none;
-        }
-        .column-repeat {
-          width: 100%;
-          margin-top: 5px;
-        }
-        .column-handle {
-          width: 100%;
-          justify-content: flex-end;
-          margin-top: 20px;
-          a {
-            margin-left: 30px !important;
-          }
-          .check-wrap {
-            position: absolute;
-            right: 0;
-            top: 20px;
-          }
-        }
-        .table-head {
-          display: none;
         }
       }
     }

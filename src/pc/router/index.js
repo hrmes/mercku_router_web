@@ -23,6 +23,7 @@ import portfwFrom from 'pages/bussiness/advance/port/form.vue';
 import dhcp from 'pages/bussiness/advance/dhcp/index.vue';
 import dmz from 'pages/bussiness/advance/dmz.vue';
 import firewall from 'pages/bussiness/advance/firewall.vue';
+import ddns from 'pages/bussiness/advance/ddns.vue';
 
 Vue.use(Router);
 const routes = [
@@ -151,6 +152,11 @@ const routes = [
     path: '/advance/firewall',
     name: 'advance-firewall',
     component: firewall
+  },
+  {
+    path: '/advance/ddns',
+    name: 'advance-ddns',
+    component: ddns
   }
 ];
 export default new Router({

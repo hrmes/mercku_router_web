@@ -10,79 +10,41 @@ const methods = {
   routerLogin: createMethod('router.login'),
   routerLogout: createMethod('router.logout'),
   routerIsInitial: createMethod('router.is_initial'),
-
   meshConfigUpdate: createMethod('mesh.config.update'),
-
   meshWanStatusGet: createMethod('mesh.wan.status.get'),
-
   meshInfoTimezoneGet: createMethod('mesh.info.timezone.get'),
-
   meshConfigTimezoneUpdate: createMethod('mesh.config.timezone.update'),
-
   meshNodeScan: createMethod('mesh.node.scan'),
-
   meshWanSpeedTest: createMethod('mesh.wan.speed.test'),
-
   routerMetaGet: createMethod('router.meta.get'),
-
   meshNodeDelete: createMethod('mesh.node.delete'),
-
   meshNodeUpdate: createMethod('mesh.node.update'),
-
   meshNodeReset: createMethod('mesh.node.reset'),
-
   meshNodeReboot: createMethod('mesh.node.reboot'),
-
   meshNodeAdd: createMethod('mesh.node.add'),
-
   meshMetaGet: createMethod('mesh.meta.get'),
-
   deviceCountGet: createMethod('mesh.device.count.get'),
-
   meshNodeGet: createMethod('mesh.node.get'),
-
-  // v0.8这里改动比较大
   routerNetGet: createMethod('router.net.get'),
-
   meshWanGet: createMethod('mesh.wan.get'),
-
   meshWanNetGet: createMethod('mesh.info.wan.net.get'),
-
   meshBlacklistDelete: createMethod('mesh.blacklist.delete'),
-
   meshBlacklistGet: createMethod('mesh.blacklist.get'),
-
   meshWanStatsGet: createMethod('mesh.info.wan.stats.get'),
-
   meshWifiUpdate: createMethod('mesh.config.wifi.update'),
-
   meshWanUpdate: createMethod('mesh.config.wan.net.update'),
-
   nodeIsInMesh: createMethod('mesh.node.is_in_mesh'),
-
   meshLanUpdate: createMethod('mesh.config.lan.net.update'),
-
   meshAdminUpdate: createMethod('mesh.config.admin.update'),
-
   routerAdminGet: createMethod('router.config.admin.get'),
-
-  // v0.9
   firmwareUpload: createMethod('/firmware_upload'),
-
   firmwareList: createMethod('mesh.node.upgradability.get'),
-
   meshNodeUpgrade: createMethod('mesh.node.upgrade'),
-
   routerModeGet: createMethod('router.mode.get'),
-
   meshDeviceGet: createMethod('mesh.device.get'),
-
   meshDeviceUpdate: createMethod('mesh.device.update'),
-
   addToblackList: createMethod('mesh.blacklist.add'),
-
   addSpeedLimit: createMethod('mesh.device.speed_limit.add'),
-
   getSpeedLimit: createMethod('mesh.device.speed_limit.get'),
   speedLimitUpdate: createMethod('mesh.device.speed_limit.update'),
   addTimeLimit: createMethod('mesh.device.time_limit.add'),
@@ -99,7 +61,11 @@ const methods = {
   meshPoetfwGet: createMethod('mesh.portfw.get'),
   meshPortfwUpdate: createMethod('mesh.portfw.update'),
   meshPortfwAdd: createMethod('mesh.portfw.add'),
-  meshPortfwDelete: createMethod('mesh.portfw.delete')
+  meshPortfwDelete: createMethod('mesh.portfw.delete'),
+  meshDMZGet: createMethod('mesh.dmz.get'),
+  meshDMZUpdate: createMethod('mesh.dmz.update'),
+  meshDDNSGet: createMethod('mesh.ddns.get'),
+  meshDDNSUpate: createMethod('mesh.ddns.update')
 };
 
 const noop = () => {};
@@ -156,6 +122,12 @@ class Http {
     return this.axios({ url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
+  }
+  getDMZ() {
+    return this.request(methods.meshDMZGet);
+  }
+  updateDMZ(params) {
+    return this.request(methods.meshDMZUpdate, params);
   }
   meshPoetfwGet() {
     return this.request(methods.meshPoetfwGet);

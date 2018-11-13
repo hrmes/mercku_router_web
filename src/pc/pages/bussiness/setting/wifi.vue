@@ -1,50 +1,48 @@
 <template>
-  <div class="setting-wifi-container">
+  <div class="page">
     <div v-if="reboot">
       <m-progress :label="$t('trans0315')"></m-progress>
     </div>
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0167')}}
-      </div>
+    <div class='page-header'>
+      {{$t('trans0167')}}
+    </div>
+    <div class="page-content">
       <div class='form'>
-        <div class='input-info'>
-          <m-form ref="form" :model="form" :rules='rules'>
-            <m-form-item class="item" prop='ssid'>
-              <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-            </m-form-item>
-            <m-form-item class="item" prop='password'>
-              <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-            </m-form-item>
-          </m-form>
-          <!-- <div class="item" style="margin-bottom:30px;">
+        <m-form ref="form" :model="form" :rules='rules'>
+          <m-form-item class="item" prop='ssid'>
+            <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+          </m-form-item>
+          <m-form-item class="item" prop='password'>
+            <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+          </m-form-item>
+        </m-form>
+        <!-- <div class="item" style="margin-bottom:30px;">
               <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
             </div> -->
-          <div class="check-info smart-connect">
-            <div class="switch-container">
-              <label for=""> {{$t('trans0397')}} </label>
-              <div class="tool">
-                <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
-                <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
-              </div>
-              <m-switch v-model="form.smart_connect" />
-            </div>
-            <div class="ssid" v-if="!form.smart_connect">
-              <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
-              <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{form.ssid}}_5G</span></div>
-            </div>
-          </div>
-          <div class="check-info">
-            <label for=""> {{$t('trans0110')}} </label>
+        <div class="check-info smart-connect">
+          <div class="switch-container">
+            <label for=""> {{$t('trans0397')}} </label>
             <div class="tool">
-              <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-              <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+              <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
+              <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
             </div>
-            <m-switch v-model="form.hidden" />
+            <m-switch v-model="form.smart_connect" />
           </div>
-          <div class="btn-info">
-            <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
+          <div class="ssid" v-if="!form.smart_connect">
+            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
+            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{form.ssid}}_5G</span></div>
           </div>
+        </div>
+        <div class="check-info">
+          <label for=""> {{$t('trans0110')}} </label>
+          <div class="tool">
+            <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+            <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+          </div>
+          <m-switch v-model="form.hidden" />
+        </div>
+        <div class="form-item">
+          <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
         </div>
       </div>
     </div>
@@ -197,111 +195,64 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.setting-wifi-container {
-  flex: auto;
-  padding: 0 2%;
+.form {
   display: flex;
-  .ssid-hidden {
-    margin-bottom: 30px;
-  }
-  position: relative;
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
+  flex-direction: column;
+  justify-content: center;
+  .check-info {
+    display: flex;
+    align-items: center;
     position: relative;
-    flex: 1;
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
-      color: #333333;
-      line-height: 60px;
-      font-weight: bold;
+    margin-bottom: 30px;
+    &.smart-connect {
+      flex-direction: column;
+      align-items: flex-start;
+      .ssid {
+        width: 100%;
+        margin-top: 20px;
+        background-color: #fafafa;
+        padding: 0 20px;
+        div {
+          padding: 10px 0;
+          .ssid-label {
+            width: 50px;
+            display: inline-block;
+          }
+          &:first-child {
+            border-bottom: 1px solid #f1f1f1;
+          }
+        }
+      }
     }
-    .form {
+    .switch-container {
       display: flex;
-      justify-content: center;
-      padding: 30px 0;
-      .check-info {
-        display: flex;
-        align-items: center;
+    }
+    label {
+      margin-right: 2px;
+      font-size: 14px;
+      color: #333333;
+    }
+    .tool {
+      position: relative;
+      width: 30px;
+      img {
         position: relative;
-        margin-bottom: 30px;
-        &.smart-connect {
-          flex-direction: column;
-          align-items: flex-start;
-          .ssid {
-            width: 100%;
-            margin-top: 20px;
-            background-color: #fafafa;
-            padding: 0 20px;
-            div {
-              padding: 10px 0;
-              .ssid-label {
-                width: 50px;
-                display: inline-block;
-              }
-              &:first-child {
-                border-bottom: 1px solid #f1f1f1;
-              }
-            }
-          }
-        }
-        .switch-container {
-          display: flex;
-        }
-        label {
-          margin-right: 2px;
-          font-size: 14px;
-          color: #333333;
-        }
-        .tool {
-          position: relative;
-          width: 30px;
-          img {
-            position: relative;
-            top: -8px;
-            cursor: pointer;
-          }
-        }
+        top: -8px;
+        cursor: pointer;
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  .setting-wifi-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      min-height: 450px;
-      .form {
-        width: 100%;
-
-        .input-info {
-          width: 100%;
-        }
-        .title {
-          margin-top: 20px;
-          margin-bottom: 10px;
-        }
-        .check-info {
-          display: flex;
-          align-items: center;
-          margin-top: 20px;
-          label {
-            margin-right: 2px;
-            font-size: 16px;
-            color: #333333;
-          }
-        }
-        .btn-info {
-          margin-top: 30px;
-        }
+  .form {
+    .check-info {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      label {
+        margin-right: 2px;
+        font-size: 16px;
+        color: #333333;
       }
     }
   }

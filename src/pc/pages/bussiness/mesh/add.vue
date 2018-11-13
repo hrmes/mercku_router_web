@@ -1,83 +1,81 @@
 <template>
-  <div>
-    <div class="mesh-container">
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0194')}}
+  <div class="page">
+    <div class='page-header'>
+      {{$t('trans0194')}}
+    </div>
+    <div class="page-content">
+      <div class="type-container" v-show="welcomePage">
+        <div class="tip">{{$t('trans0364')}}</div>
+        <div class="router-category-container">
+          <div class="router" v-for="(router,index) in routers" :key="index" @click="selectRouter(router)">
+            <div class="check-container">
+              <div class="checkbox" :class="{'checked':selectedCategory === router}"></div>
+              <span class="text">{{router.name}}</span>
+            </div>
+            <img class="img" :src="router.image" alt="">
+          </div>
         </div>
-        <div class="type-container" v-show="welcomePage">
-          <div class="tip">{{$t('trans0364')}}</div>
-          <div class="router-category-container">
-            <div class="router" v-for="(router,index) in routers" :key="index" @click="selectRouter(router)">
-              <div class="check-container">
-                <div class="checkbox" :class="{'checked':selectedCategory === router}"></div>
-                <span class="text">{{router.name}}</span>
-              </div>
-              <img class="img" :src="router.image" alt="">
+        <button class="btn btn-next" @click="forwardStep0()">{{$t('trans0055')}}</button>
+      </div>
+      <div class="info-container" v-show="!welcomePage">
+        <div class="step">
+          <m-step :option="stepsOption"></m-step>
+        </div>
+        <div class="step-content">
+          <div class="step-item step-item0" v-show="stepsOption.current===0">
+            <p>{{$t('trans0257')}}</p>
+            <p>{{$t('trans0377')}}</p>
+            <p>{{$t('trans0378')}}</p>
+            <img :src="selectedCategory.tipImage" alt="">
+            <div class="button-container">
+              <button @click="forwardWelcome()" class="btn btn-default ">{{$t('trans0057')}}</button>
+              <button @click="forwardStep1()" class="btn">{{$t('trans0055')}}</button>
             </div>
           </div>
-          <button class="btn btn-next" @click="forwardStep0()">{{$t('trans0055')}}</button>
-        </div>
-        <div class="info-container" v-show="!welcomePage">
-          <div class="step">
-            <m-step :option="stepsOption"></m-step>
-          </div>
-          <div class="step-content">
-            <div class="step-item step-item0" v-show="stepsOption.current===0">
-              <p>{{$t('trans0257')}}</p>
-              <p>{{$t('trans0377')}}</p>
-              <p>{{$t('trans0378')}}</p>
-              <img :src="selectedCategory.tipImage" alt="">
-              <div class="button-container">
-                <button @click="forwardWelcome()" class="btn btn-default ">{{$t('trans0057')}}</button>
-                <button @click="forwardStep1()" class="btn">{{$t('trans0055')}}</button>
-              </div>
+          <div class="step-item step-item1" v-show="stepsOption.current===1">
+            <div class="scaning" v-show="scaning">
+              <img src="../../../assets/images/loading.gif" alt="">
+              <p>{{$t('trans0334')}}</p>
             </div>
-            <div class="step-item step-item1" v-show="stepsOption.current===1">
-              <div class="scaning" v-show="scaning">
-                <img src="../../../assets/images/loading.gif" alt="">
-                <p>{{$t('trans0334')}}</p>
-              </div>
-              <div class="scan-result" v-show="!scaning && nodes.length">
-                <div class="router" v-for="(node,index) in nodes" :key="index" @click="selectNode(node)">
-                  <div class="check-container">
-                    <div class="checkbox" :class="{'checked':node.selected}"></div>
-                    <div class="info">
-                      <p>{{getNodeName(node)}}</p>
-                      <p>{{$t('trans0252')}}{{node.sn}}</p>
-                    </div>
+            <div class="scan-result" v-show="!scaning && nodes.length">
+              <div class="router" v-for="(node,index) in nodes" :key="index" @click="selectNode(node)">
+                <div class="check-container">
+                  <div class="checkbox" :class="{'checked':node.selected}"></div>
+                  <div class="info">
+                    <p>{{getNodeName(node)}}</p>
+                    <p>{{$t('trans0252')}}{{node.sn}}</p>
                   </div>
-                  <img class="img" :src="getNodeImg(node)" alt="">
                 </div>
-                <div class="button-container">
-                  <button @click="forwardStep0()" class="btn btn-default ">{{$t('trans0057')}}</button>
-                  <button @click="addMeshNode()" class="btn">{{$t('trans0055')}}</button>
-                </div>
+                <img class="img" :src="getNodeImg(node)" alt="">
               </div>
-              <div class="scan-empty" v-show="!scaning && !nodes.length">
-                <p>{{$t('trans0181')}}</p>
-                <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
-                <div class="button-container">
-                  <button @click="forwardStep0()" class="btn">{{$t('trans0057')}}</button>
-                </div>
+              <div class="button-container">
+                <button @click="forwardStep0()" class="btn btn-default ">{{$t('trans0057')}}</button>
+                <button @click="addMeshNode()" class="btn">{{$t('trans0055')}}</button>
               </div>
             </div>
-            <div class="step-item step-item2" v-show="stepsOption.current===2">
-              <div class="success" v-if="added">
-                <p>{{$t('trans0192')}}</p>
-                <div class="button-container">
-                  <button @click="backMesh" class="btn">{{$t('trans0233')}}</button>
-                </div>
+            <div class="scan-empty" v-show="!scaning && !nodes.length">
+              <p>{{$t('trans0181')}}</p>
+              <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
+              <div class="button-container">
+                <button @click="forwardStep0()" class="btn">{{$t('trans0057')}}</button>
               </div>
-              <div class="fail" v-if="!added">
-                <p>{{$t('trans0248')}}</p>
-                <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
-                <div class="button-container">
-                  <button @click="backMesh" class="btn">{{$t('trans0233')}}</button>
-                </div>
+            </div>
+          </div>
+          <div class="step-item step-item2" v-show="stepsOption.current===2">
+            <div class="success" v-if="added">
+              <p>{{$t('trans0192')}}</p>
+              <div class="button-container">
+                <button @click="backMesh" class="btn">{{$t('trans0233')}}</button>
               </div>
+            </div>
+            <div class="fail" v-if="!added">
+              <p>{{$t('trans0248')}}</p>
+              <span class="btn-help" @click="openHelpDialog">{{$t('trans0128')}}</span>
+              <div class="button-container">
+                <button @click="backMesh" class="btn">{{$t('trans0233')}}</button>
+              </div>
+            </div>
 
-            </div>
           </div>
         </div>
       </div>
@@ -297,51 +295,174 @@ export default {
     }
   }
 }
-.mesh-container {
-  position: relative;
-  flex: auto;
-  padding: 0 2%;
+.type-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  .tip {
+    margin-bottom: 30px;
+  }
+  .router {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 340px;
+    height: 140px;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    margin-bottom: 30px;
+    cursor: pointer;
 
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
-    position: relative;
-    flex: 1;
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
-      color: #333333;
-      line-height: 60px;
-      font-weight: bold;
-      margin-bottom: 60px;
-    }
-    .type-container {
+    .check-container {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-content: center;
       align-items: center;
-      .tip {
-        margin-bottom: 30px;
+      align-content: center;
+      .text {
+        margin-left: 20px;
+        display: inline-block;
+        font-weight: bold;
+        font-size: 14px;
+        width: 120px;
       }
+      .checkbox {
+        width: 18px;
+        height: 18px;
+        border-radius: 2px;
+        border: 1px solid #999;
+        background: #fff;
+        border-radius: 50%;
+        &.checked {
+          background: url(../../../assets/images/ic_selected.png) no-repeat
+            center;
+          border: none;
+          background-size: 90%;
+          background-color: #00d061;
+        }
+      }
+    }
+    img {
+      width: 140px;
+      height: 140px;
+    }
+    .name {
+      width: 120px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+  }
+  .btn-next {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+}
+.info-container {
+  width: 564px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .step {
+    width: 100%;
+  }
+  .btn-help {
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .step-content {
+    width: 100%;
+  }
+  .step-item {
+    .button-container {
+      margin: 36px 0;
+      display: flex;
+      justify-content: center;
+      button {
+        display: inline-block;
+        // flex: 1;
+        margin-right: 20px;
+        width: 160px;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+  .step-item0 {
+    margin-top: 50px;
+    p {
+      margin: 0;
+      text-align: center;
+      margin-bottom: 10px;
+      &:first-child {
+        margin-bottom: 20px;
+        font-size: 16px;
+      }
+    }
+    img {
+      width: 280px;
+      height: 280px;
+      display: block;
+      margin: 0 auto;
+    }
+  }
+  .step-item1 {
+    .button-container {
+      margin-top: 140px;
+    }
+    .scaning {
+      margin-top: 150px;
+      text-align: center;
+      img {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+    .scan-empty {
+      text-align: center;
+      margin-top: 100px;
+      p {
+        font-size: 14px;
+        text-align: center;
+      }
+    }
+    .scan-result {
+      margin-top: 100px;
       .router {
         display: flex;
-        justify-content: center;
-        align-items: center;
+        background: #f1f1f1;
         width: 340px;
         height: 140px;
         border-radius: 5px;
-        background-color: #f1f1f1;
-        margin-bottom: 30px;
+        justify-content: center;
+        align-items: center;
         cursor: pointer;
+        margin: 0 auto;
+        margin-top: 20px;
 
+        &:first-child {
+          margin-top: 0;
+        }
         .check-container {
+          // flex: 1;
           display: flex;
           align-items: center;
           align-content: center;
+          // margin-left: 20px;
+          .info {
+            margin-left: 20px;
+            p {
+              margin: 0;
+              white-space: nowrap;
+              &:first-child {
+                margin-bottom: 10px;
+                font-weight: bold;
+              }
+            }
+          }
           .text {
             margin-left: 20px;
             display: inline-block;
@@ -365,174 +486,28 @@ export default {
             }
           }
         }
+
         img {
-          width: 140px;
-          height: 140px;
+          width: 100px;
+          height: 100px;
         }
-        .name {
-          width: 120px;
-          font-weight: bold;
-          font-size: 14px;
-        }
-      }
-      .btn-next {
-        margin-top: 30px;
-        margin-bottom: 30px;
       }
     }
-    .info-container {
-      width: 564px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      .step {
-        width: 100%;
-      }
-      .btn-help {
-        font-size: 12px;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-      .step-content {
-        width: 100%;
-      }
-      .step-item {
-        .button-container {
-          margin: 36px 0;
-          display: flex;
-          justify-content: center;
-          button {
-            display: inline-block;
-            // flex: 1;
-            margin-right: 20px;
-            width: 160px;
-            &:last-child {
-              margin-right: 0;
-            }
-          }
-        }
-      }
-      .step-item0 {
-        margin-top: 50px;
-        p {
-          margin: 0;
-          text-align: center;
-          margin-bottom: 10px;
-          &:first-child {
-            margin-bottom: 20px;
-            font-size: 16px;
-          }
-        }
-        img {
-          width: 280px;
-          height: 280px;
-          display: block;
-          margin: 0 auto;
-        }
-      }
-      .step-item1 {
-        .button-container {
-          margin-top: 140px;
-        }
-        .scaning {
-          margin-top: 150px;
-          text-align: center;
-          img {
-            display: block;
-            margin: 0 auto;
-          }
-        }
-        .scan-empty {
-          text-align: center;
-          margin-top: 100px;
-          p {
-            font-size: 14px;
-            text-align: center;
-          }
-        }
-        .scan-result {
-          margin-top: 100px;
-          .router {
-            display: flex;
-            background: #f1f1f1;
-            width: 340px;
-            height: 140px;
-            border-radius: 5px;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            margin: 0 auto;
-            margin-top: 20px;
-
-            &:first-child {
-              margin-top: 0;
-            }
-            .check-container {
-              // flex: 1;
-              display: flex;
-              align-items: center;
-              align-content: center;
-              // margin-left: 20px;
-              .info {
-                margin-left: 20px;
-                p {
-                  margin: 0;
-                  white-space: nowrap;
-                  &:first-child {
-                    margin-bottom: 10px;
-                    font-weight: bold;
-                  }
-                }
-              }
-              .text {
-                margin-left: 20px;
-                display: inline-block;
-                font-weight: bold;
-                font-size: 14px;
-                width: 120px;
-              }
-              .checkbox {
-                width: 18px;
-                height: 18px;
-                border-radius: 2px;
-                border: 1px solid #999;
-                background: #fff;
-                border-radius: 50%;
-                &.checked {
-                  background: url(../../../assets/images/ic_selected.png)
-                    no-repeat center;
-                  border: none;
-                  background-size: 90%;
-                  background-color: #00d061;
-                }
-              }
-            }
-
-            img {
-              width: 100px;
-              height: 100px;
-            }
-          }
-        }
-      }
-      .step-item2 {
-        p {
-          font-size: 16px;
-          text-align: center;
-          margin-top: 50px;
-        }
-        .button-container {
-          margin-top: 160px;
-        }
-        .fail {
-          text-align: center;
-        }
-        .success {
-          text-align: center;
-        }
-      }
+  }
+  .step-item2 {
+    p {
+      font-size: 16px;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .button-container {
+      margin-top: 160px;
+    }
+    .fail {
+      text-align: center;
+    }
+    .success {
+      text-align: center;
     }
   }
 }
@@ -551,87 +526,71 @@ export default {
     }
   }
 
-  .mesh-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
+  .type-container {
+    .router {
+      width: 300px;
+      img {
+        width: 120px;
+        height: 120px;
       }
-      min-height: 450px;
-      .type-container {
+    }
+    .btn-next {
+      width: 300px;
+    }
+  }
+  .info-container {
+    width: 100%;
+    .step-item {
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        button {
+          width: 100%;
+          margin: 0;
+          &:last-child {
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+    .step-item1 {
+      .scan-result {
         .router {
           width: 300px;
-          img {
-            width: 120px;
-            height: 120px;
-          }
-        }
-        .btn-next {
-          width: 300px;
-        }
-      }
-      .info-container {
-        width: 100%;
-        .step-item {
-          .button-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            button {
-              width: 100%;
-              margin: 0;
-              &:last-child {
-                margin-top: 20px;
-              }
-            }
-          }
-        }
-        .step-item1 {
-          .scan-result {
-            .router {
-              width: 300px;
-            }
-          }
         }
       }
     }
   }
 }
 @media screen and (width: 320px) {
-  .mesh-container {
-    .content {
-      min-height: 450px;
-      .type-container {
+  .type-container {
+    .router {
+      width: 250px;
+      img {
+        width: 70px;
+        height: 70px;
+      }
+    }
+    .btn-next {
+      width: 250px;
+    }
+  }
+  .info-container {
+    .step-item0 {
+      img {
+        width: 250px;
+        height: 250px;
+      }
+    }
+    .step-item1 {
+      .scan-result {
         .router {
-          width: 250px;
+          width: 100%;
           img {
             width: 70px;
             height: 70px;
-          }
-        }
-        .btn-next {
-          width: 250px;
-        }
-      }
-      .info-container {
-        .step-item0 {
-          img {
-            width: 250px;
-            height: 250px;
-          }
-        }
-        .step-item1 {
-          .scan-result {
-            .router {
-              width: 100%;
-              img {
-                width: 70px;
-                height: 70px;
-              }
-            }
           }
         }
       }

@@ -130,14 +130,14 @@ ul {
       cursor: not-allowed;
       background: #999999;
       border: none;
-      color: white
+      color: white;
     }
 
     &.disabled {
       cursor: not-allowed;
       background: #999999;
       border: none;
-      color: white
+      color: white;
     }
   }
 
@@ -203,100 +203,48 @@ input::-webkit-input-placeholder {
   display: none;
 }
 
-.m-table-block {
-  background-color: #fff;
-}
-
-.m-table {
-  width: 100%;
-  border-spacing: 0px;
-  border-collapse: collapse;
-  table-layout: fixed;
-
-  .m-table-title {
-    line-height: 30px;
-    padding: 5px 10px;
+/**=============================S页面级公共样式=======================================**/
+.page {
+  position: relative;
+  flex: auto;
+  margin: 0 2%;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 8px;
+  padding: 0 20px;
+  .page-header {
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 16px;
+    color: #333333;
+    font-weight: bold;
+    padding: 20px;
+  }
+  .page-content {
+    border-radius: 8px;
+    padding: 30px 20px;
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
   }
 }
-
-.m-table-title::after,
-.m-table-title::before {
-  content: '';
-  display: table;
-  clear: both;
-}
-
-.m-table-slot {
-  display: none;
-}
-
-.m-table-header {
-  overflow: hidden;
-}
-
-.m-table.m-table-head {
-  user-select: none;
-  min-height: 50px;
-  background: #f1f1f1;
-}
-
-.m-table.m-table-head th {
-  height: 50px;
-  background: #f1f1f1;
-  color: #333333;
-  font-weight: normal;
-  font-size: 14px;
-  padding: 0 12px;
-}
-
-.m-table-body {
-  margin-top: -1px;
-  overflow: auto;
-}
-
-.m-table-void {
-  height: 100px;
-  text-align: center;
-  line-height: 100px;
-  color: #7c849a;
-}
-
-.m-table-row {
-  border-bottom: 1px solid #f1f1f1;
-
-  .m-table-column {
-    padding: 15px 12px;
+@media screen and (max-width: 768px) {
+  .page {
+    margin: 30px 16px;
+    padding: 0;
+    .page-header {
+      font-size: 16px;
+      font-weight: bold;
+      padding: 16px 20px;
+    }
+  }
+  .form {
+    width: 100%;
+    .form-item {
+      width: 100%;
+    }
   }
 }
-
-.m-table .m-table-column {
-  box-sizing: border-box;
-  overflow: hidden;
-
-  vertical-align: middle;
-  font-weight: normal;
-  font-size: 14px;
-  padding: 15px 12px;
-}
-
-.m-table .m-table-column.is-center {
-  text-align: center;
-}
-
-.m-table .m-table-column.is-left {
-  text-align: left;
-}
-
-.m-table .m-table-column.is-right {
-  text-align: right;
-}
-
-.m-table .m-table-column .cell {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.m-table.m-table__border .m-table-column {
-  border: none;
-}
+/**=============================E页面级公共样式=======================================**/

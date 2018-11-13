@@ -1,9 +1,9 @@
 <template>
-  <div class="blacklist-container">
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0288')}}
-      </div>
+  <div class="page">
+    <div class='page-header'>
+      {{$t('trans0288')}}
+    </div>
+    <div class="page-content">
       <div class="table">
         <div class="table-header">
           <div class="name">{{$t('trans0005')}}</div>
@@ -72,56 +72,36 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.blacklist-container {
-  position: relative;
-  flex: auto;
-  padding: 0 2%;
-  display: flex;
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
-    position: relative;
-    flex: 1;
-    .w-header {
-      height: 60px;
+.table {
+  flex: 1;
+  .name,
+  .mac {
+    width: 40%;
+  }
+  .operate {
+    width: 20%;
+  }
+  .table-header {
+    display: flex;
+    background: #f1f1f1;
+    padding: 15px 30px;
+  }
+  .table-content {
+    .device {
+      display: flex;
+      padding: 30px;
       border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
-      color: #333333;
-      line-height: 60px;
-      font-weight: bold;
-    }
-    .table {
       .name,
-      .mac {
-        width: 40%;
-      }
+      .mac,
       .operate {
-        width: 20%;
-      }
-      .table-header {
-        display: flex;
-        background: #f1f1f1;
-        padding: 15px 30px;
-      }
-      .table-content {
-        .device {
-          display: flex;
-          padding: 30px;
-          border-bottom: 1px solid #f1f1f1;
-          .name,
-          .mac,
-          .operate {
-            .delete {
-              color: red;
-              cursor: pointer;
-              &:hover {
-                text-decoration: underline;
-              }
-              &:active {
-                text-decoration: underline;
-              }
-            }
+        .delete {
+          color: red;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+          &:active {
+            text-decoration: underline;
           }
         }
       }
@@ -129,36 +109,25 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .blacklist-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      min-height: 450px;
-      .table {
-        .operate,
-        .mac {
-          margin-top: 10px;
-        }
+  .table {
+    .operate,
+    .mac {
+      margin-top: 10px;
+    }
+    .operate {
+      text-align: right;
+    }
+    .table-header {
+      display: none;
+    }
+    .table-content {
+      .device {
+        flex-direction: column;
+        padding: 20px 0;
+        .name,
+        .mac,
         .operate {
-          text-align: right;
-        }
-        .table-header {
-          display: none;
-        }
-        .table-content {
-          .device {
-            flex-direction: column;
-            padding: 20px 0;
-            .name,
-            .mac,
-            .operate {
-              width: 100%;
-            }
-          }
+          width: 100%;
         }
       }
     }

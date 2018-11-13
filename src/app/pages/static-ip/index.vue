@@ -36,7 +36,7 @@
 <script>
 import mInput from '../../component/input/input.vue';
 import {
-  ipRexp,
+  isIP,
   ipRule,
   isMulticast,
   isLoopback,
@@ -74,7 +74,7 @@ export default {
   mounted() {},
   methods: {
     onBlur(item, v) {
-      if (!ipRexp(v) || isMulticast(v) || isLoopback(v)) {
+      if (!isIP(v) || isMulticast(v) || isLoopback(v)) {
         this.blurItems.push(item);
       } else if (this.blurItems.includes(item)) {
         this.blurItems = this.blurItems.filter(i => i !== item);

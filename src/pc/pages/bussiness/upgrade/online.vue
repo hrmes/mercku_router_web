@@ -1,9 +1,9 @@
 <template>
-  <div class="upgrade-online-container">
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0202')}}
-      </div>
+  <div class="page">
+    <div class='page-header'>
+      {{$t('trans0202')}}
+    </div>
+    <div class="page-content">
       <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
         <div class="nodes-info">
           <div v-for="node in nodes" :key="node.sn" class="node">
@@ -28,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div class="btn-info">
+        <div class="form-item">
           <button class="btn re-btn" @click="submit()">{{$t('trans0225')}}</button>
         </div>
       </div>
@@ -131,261 +131,200 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.upgrade-online-container {
-  position: relative;
-  flex: auto;
-  padding: 0 2%;
+.nodes-wrapper {
+  text-align: center;
   display: flex;
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
-    flex: 1;
-
-    position: relative;
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
-      color: #333333;
-      line-height: 60px;
-      font-weight: bold;
-    }
-    .nodes-wrapper {
-      text-align: center;
-      display: flex;
-      justify-content: space-between;
-      flex-direction: column;
-      .nodes-info {
+  justify-content: space-between;
+  flex-direction: column;
+  flex: 1;
+  .nodes-info {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    flex-wrap: wrap;
+    .node {
+      width: 340px;
+      height: 132px;
+      background: #f1f1f1;
+      border-radius: 5px;
+      margin-right: 20px;
+      margin-bottom: 30px;
+      position: relative;
+      .message {
         display: flex;
-        width: 100%;
-
-        overflow: hidden;
-        flex-wrap: wrap;
-        // justify-content: space-between;
-        .node {
-          width: 340px;
-          height: 132px;
-          background: #f1f1f1;
-          border-radius: 5px;
-          margin-right: 20px;
-          margin-top: 20px;
-          position: relative;
-          .message {
-            display: flex;
-            align-items: start;
-            padding: 0 20px;
-            height: 100%;
-            align-items: center;
-            cursor: pointer;
-            .img-container,
-            .info-container {
-              display: flex;
-              align-items: center;
-              align-content: center;
-              height: 100%;
-            }
-            .img-container {
-              margin-right: 10px;
-              img {
-                width: 100px;
-                height: 100px;
-              }
-            }
-
-            .info-container {
-              flex-direction: column;
-              align-items: start;
-              align-content: start;
-              justify-content: center;
-
-              .node-name {
-                padding: 0;
-                margin: 0;
-                text-align: left;
-                font-size: 12px;
-                padding-top: 5px;
-                padding-top: 0px;
-                font-size: 14px;
-                font-weight: bold;
-              }
-              .node-sn {
-                padding: 0;
-                margin: 0;
-                text-align: left;
-                font-size: 12px;
-                padding-top: 5px;
-                white-space: nowrap;
-              }
-              .node-version {
-                padding: 0;
-                margin: 0;
-                text-align: left;
-                font-size: 12px;
-                font-size: 10px;
-                margin-top: 10px;
-
-                position: relative;
-                span {
-                  display: inline-block;
-                  margin-left: 5px;
-                }
-                &:before {
-                  content: '';
-                  display: inline-block;
-                  width: 3px;
-                  height: 3px;
-                  border-radius: 50%;
-                  background: #000;
-                  position: absolute;
-                  top: 50%;
-                  transform: translateY(-50%);
-                }
-              }
-            }
+        align-items: start;
+        padding: 0 20px;
+        height: 100%;
+        align-items: center;
+        cursor: pointer;
+        .img-container,
+        .info-container {
+          display: flex;
+          align-items: center;
+          align-content: center;
+          height: 100%;
+        }
+        .img-container {
+          margin-right: 10px;
+          img {
+            width: 100px;
+            height: 100px;
           }
-          .badge-info {
-            width: auto;
-            padding: 0 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 30px;
-            // border-radius: 100px;
-            border-top-left-radius: 15px;
-            border-bottom-left-radius: 15px;
-            border-top-right-radius: 5px;
-            background-image: linear-gradient(290deg, #ff4343, #dd3792);
-            position: absolute;
-            right: 0;
-            top: 0;
-            img {
-              width: 18px;
-              margin-right: 5px;
-            }
+        }
+
+        .info-container {
+          flex-direction: column;
+          align-items: start;
+          align-content: start;
+          justify-content: center;
+
+          .node-name {
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            font-size: 12px;
+            padding-top: 5px;
+            padding-top: 0px;
+            font-size: 14px;
+            font-weight: bold;
+          }
+          .node-sn {
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            font-size: 12px;
+            padding-top: 5px;
+            white-space: nowrap;
+          }
+          .node-version {
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            font-size: 12px;
+            font-size: 10px;
+            margin-top: 10px;
+
+            position: relative;
             span {
-              font-size: 12px;
-              color: rgba(255, 255, 255, 0.95);
-              font-weight: 100;
+              display: inline-block;
+              margin-left: 5px;
+            }
+            &:before {
+              content: '';
+              display: inline-block;
+              width: 3px;
+              height: 3px;
+              border-radius: 50%;
+              background: #000;
+              position: absolute;
+              top: 50%;
+              transform: translateY(-50%);
             }
           }
         }
       }
-      .btn-info {
-        margin: 30px 0;
-      }
-    }
-    .msg-wrapper {
-      width: 100%;
-      text-align: center;
-      margin-top: 30px;
-      img {
-        width: 200px;
-      }
-      p {
-        color: #333333;
-        font-size: 16px;
+      .badge-info {
+        width: auto;
+        padding: 0 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        // border-radius: 100px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        border-top-right-radius: 5px;
+        background-image: linear-gradient(290deg, #ff4343, #dd3792);
+        position: absolute;
+        right: 0;
+        top: 0;
+        img {
+          width: 18px;
+          margin-right: 5px;
+        }
+        span {
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.95);
+          font-weight: 100;
+        }
       }
     }
   }
+  .btn-info {
+    margin: 30px 0;
+  }
+}
+.msg-wrapper {
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+  img {
+    width: 200px;
+  }
+  p {
+    color: #333333;
+    font-size: 16px;
+  }
 }
 @media screen and (max-width: 768px) {
-  .upgrade-online-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      min-height: 510px;
-      background: white;
-      .nodes-wrapper {
-        .nodes-info {
-          .node {
-            width: 303px;
+  .nodes-wrapper {
+    .nodes-info {
+      .node {
+        width: 303px;
 
-            margin-left: auto;
-            margin-right: auto;
-          }
-        }
-        .btn-info {
-          margin: 20px 0;
-        }
+        margin-left: auto;
+        margin-right: auto;
       }
+    }
+    .btn-info {
+      margin: 20px 0;
     }
   }
 }
 @media screen and (min-width: 769px) and (max-width: 999px) {
-  .upgrade-online-container {
-    .content {
-      .nodes-wrapper {
-        .nodes-info {
-          .node {
-            width: 340px;
-            margin-left: auto;
-            margin-right: auto;
-          }
-        }
+  .nodes-wrapper {
+    .nodes-info {
+      .node {
+        width: 340px;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
   }
 }
 @media screen and (min-width: 700px) and (max-width: 768px) {
-  .upgrade-online-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
+  .nodes-wrapper {
+    .nodes-info {
+      .node {
+        width: 303px;
+        min-width: 303px;
+        margin-left: 0;
       }
-      background: white;
-      .nodes-wrapper {
-        .nodes-info {
-          .node {
-            width: 303px;
-            min-width: 303px;
-            margin-left: 0;
-          }
-        }
-        .btn-info {
-          margin: 20px 0;
-        }
-      }
+    }
+    .btn-info {
+      margin: 20px 0;
     }
   }
 }
 @media screen and (width: 320px) {
-  .upgrade-online-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      background: white;
-      .nodes-wrapper {
-        .nodes-info {
-          .node {
-            width: 253px;
-            min-width: 253px;
-            margin-right: 0;
-            .message {
-              .img-container {
-                img {
-                  width: 70px;
-                  height: 70px;
-                }
-              }
+  .nodes-wrapper {
+    .nodes-info {
+      .node {
+        width: 253px;
+        min-width: 253px;
+        margin-right: 0;
+        .message {
+          .img-container {
+            img {
+              width: 70px;
+              height: 70px;
             }
           }
         }
-        .btn-info {
-          margin: 20px 0;
-        }
       }
+    }
+    .btn-info {
+      margin: 20px 0;
     }
   }
 }

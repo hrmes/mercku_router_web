@@ -389,6 +389,7 @@ export default {
 <style lang="scss" scoped>
 .device-container {
   padding-bottom: 50px;
+  border-radius: 8px;
   .edit-name-modal {
     position: fixed;
     width: 100%;

@@ -1,9 +1,9 @@
 <template>
-  <div class="device-speed-container">
-    <div class="content">
-      <div class='w-header'>
-        {{$t('trans0014')}}
-      </div>
+  <div class="page">
+    <div class='page-header'>
+      {{$t('trans0014')}}
+    </div>
+    <div class="page-content">
       <div class='form'>
         <div class='input-info'>
           <m-form ref="form" :model="form" :rules='rules'>
@@ -18,7 +18,7 @@
             <label for=""> {{$t('trans0369')}} </label>
             <m-switch v-model="form.enabled" />
           </div>
-          <div class="btn-info">
+          <div class="form-item">
             <button class="btn" @click='submit'>{{$t('trans0081')}}</button>
           </div>
         </div>
@@ -138,92 +138,43 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.device-speed-container {
-  flex: auto;
-  padding: 0 2%;
+.form {
   display: flex;
-  .ssid-hidden {
-    margin-bottom: 30px;
-  }
-  position: relative;
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
+  justify-content: center;
+  .check-info {
+    display: flex;
+    align-items: center;
     position: relative;
-    flex: 1;
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
+    margin-bottom: 30px;
+    label {
+      margin-right: 30px;
+      font-size: 14px;
       color: #333333;
-      line-height: 60px;
-      font-weight: bold;
     }
-    .form {
-      display: flex;
-      justify-content: center;
-      padding: 30px 0;
-
-      .btn-info {
-        margin-top: 30px;
-      }
-      .check-info {
-        display: flex;
-        align-items: center;
+    .tool {
+      position: relative;
+      width: 30px;
+      img {
         position: relative;
-        margin-bottom: 30px;
-        label {
-          margin-right: 30px;
-          font-size: 14px;
-          color: #333333;
-        }
-        .tool {
-          position: relative;
-          width: 30px;
-          img {
-            position: relative;
-            top: -8px;
-            cursor: pointer;
-          }
-        }
+        top: -8px;
+        cursor: pointer;
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  .device-speed-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      min-height: 450px;
-      .form {
-        width: 100%;
-
-        .input-info {
-          width: 100%;
-        }
-        .title {
-          margin-top: 20px;
-          margin-bottom: 10px;
-        }
-        .check-info {
-          display: flex;
-          align-items: center;
-          margin-top: 20px;
-          label {
-            margin-right: 2px;
-            font-size: 16px;
-            color: #333333;
-          }
-        }
-        .btn-info {
-          margin-top: 30px;
-        }
+  .form {
+    .input-info {
+      width: 100%;
+    }
+    .check-info {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      label {
+        margin-right: 2px;
+        font-size: 16px;
+        color: #333333;
       }
     }
   }

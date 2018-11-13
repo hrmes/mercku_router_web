@@ -100,8 +100,8 @@ export default {
               text: 'trans0188'
             },
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/ddns',
+              name: 'advance-ddns',
               text: 'trans0418'
             },
             {
