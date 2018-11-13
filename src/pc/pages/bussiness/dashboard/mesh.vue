@@ -543,7 +543,7 @@ export default {
           display: none;
         }
         .operate {
-          width: 120px;
+          width: 150px;
         }
         .table-content {
           padding: 0 20px;

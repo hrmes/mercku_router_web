@@ -23,10 +23,8 @@ export default {
     }
   },
   methods: {
-    bindVidator() {
-      this.validators = this.$parent.rules[this.prop] || [];
-    },
     validate() {
+      this.validators = this.$parent.rules[this.prop] || [];
       const value = this.$parent.model[this.prop];
       let result = true;
       // 检验
@@ -54,18 +52,15 @@ export default {
     }
   },
   mounted() {
-    if (this.$parent.rules) {
-      this.bindVidator();
-      this.$on('blur', () => {
-        this.validate();
-      });
-      this.$on('focus', () => {
-        this.result = null;
-      });
-      this.$on('change', () => {
-        this.result = null;
-      });
-    }
+    this.$on('blur', () => {
+      this.validate();
+    });
+    this.$on('focus', () => {
+      this.result = null;
+    });
+    this.$on('change', () => {
+      this.result = null;
+    });
   }
 };
 </script>

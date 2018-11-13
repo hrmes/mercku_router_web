@@ -91,7 +91,7 @@ export default {
         ssid: '',
         password: '',
         hidden: false,
-        smart_connect: true,
+        smart_connect: false,
         bands: {
           '2.4G': { enabled: true },
           '5G': { enabled: true }
