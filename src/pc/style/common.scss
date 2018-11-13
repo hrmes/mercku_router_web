@@ -219,11 +219,13 @@ input::-webkit-input-placeholder {
     color: #333333;
     font-weight: bold;
     padding: 20px;
+    height: 60px;
+    display: flex;
+    align-items: center;
   }
   .page-content {
     border-radius: 8px;
     padding: 30px 20px;
-    position: relative;
     flex: 1;
     display: flex;
     justify-content: center;

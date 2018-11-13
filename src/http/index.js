@@ -129,8 +129,8 @@ class Http {
   updateDMZ(params) {
     return this.request(methods.meshDMZUpdate, params);
   }
-  meshPoetfwGet() {
-    return this.request(methods.meshPoetfwGet);
+  meshPortfwGet() {
+    return this.request(methods.meshPortfwGet);
   }
   meshPortfwUpdate(params) {
     return this.request(methods.meshPortfwUpdate, params);

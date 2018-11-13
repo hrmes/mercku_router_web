@@ -1,7 +1,7 @@
 <template>
-  <div class="advance-dhcp-form-container">
-    <div class="content">
-      <div class='w-header'>{{$t('trans0417')}}</div>
+  <div class="page">
+    <div class='page-header'>{{$t('trans0417')}}</div>
+    <div class="page-content">
       <div class="form">
         <m-form ref="form" :model="form" :rules='rules'>
           <m-form-item class="item" prop='name' ref="name">
@@ -221,105 +221,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.advance-dhcp-form-container {
-  flex: auto;
-  padding: 0 2%;
-  display: flex;
-  position: relative;
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
-    position: relative;
-    flex: 1;
-
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
-      color: #333333;
-      line-height: 60px;
-      font-weight: bold;
-    }
-
-    .form {
-      padding-bottom: 50px;
-      .btn-info {
-        margin-top: 30px;
-      }
-      width: 400px;
-      margin: 0 auto;
-      margin-top: 30px;
-
-      .item {
-        width: 350px;
-        margin-top: 30px;
-        .ext-input {
-        }
-      }
-      .radio-wrap {
-        display: flex;
-        span {
-          padding-right: 20px;
-        }
-      }
-      .radio-group {
-        min-width: 300px;
-      }
-    }
-  }
-}
-@media screen and (max-width: 768px) {
-  .advance-dhcp-form-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      min-height: 450px;
-      .form {
-        padding-bottom: 50px;
-        .btn-info {
-          margin-top: 30px;
-        }
-        width: 100%;
-        margin: 0 auto;
-        .item {
-          width: 100%;
-          margin-top: 30px;
-          .port-wrap {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            .ext-input {
-              width: 100px;
-            }
-            i {
-              width: 30px;
-              height: 1px;
-              background: #999999;
-            }
-          }
-        }
-        .radio-wrap {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          span {
-            margin-top: 20px;
-            margin-bottom: 10px;
-          }
-        }
-        .radio-group {
-          width: 100%;
-          min-width: 100%;
-          flex-direction: column;
-        }
-      }
-    }
-  }
-}
 </style>
 
