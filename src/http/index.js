@@ -96,7 +96,7 @@ const methods = {
   getLocalDevice: createMethod('request.get'),
   meshInfoFirewallGet: createMethod('mesh.info.firewall.get'),
   meshConfigFirewallUpdate: createMethod('mesh.config.firewall.update'),
-  meshPoetfwGet: createMethod('mesh.portfw.get'),
+  meshPortfwGet: createMethod('mesh.portfw.get'),
   meshPortfwUpdate: createMethod('mesh.portfw.update'),
   meshPortfwAdd: createMethod('mesh.portfw.add'),
   meshPortfwDelete: createMethod('mesh.portfw.delete')
@@ -157,8 +157,8 @@ class Http {
       this.exHandler
     );
   }
-  meshPoetfwGet() {
-    return this.request(methods.meshPoetfwGet);
+  meshPortfwGet() {
+    return this.request(methods.meshPortfwGet);
   }
   meshPortfwUpdate(params) {
     return this.request(methods.meshPortfwUpdate, params);

@@ -2,7 +2,7 @@
   <div class="advance-port-form-container">
     <div class="content">
       <div class='w-header'>
-        {{$t('trans0035')}}{{$t('trans0422')}}
+        {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0422')}}
       </div>
       <div class="form">
         <m-form ref="form" :model="form" :rules='rules'>
@@ -154,6 +154,9 @@ export default {
     };
   },
   computed: {
+    formType() {
+      return this.$route.params.id ? 'update' : 'add';
+    },
     formParams() {
       return {
         id: this.form.id,
@@ -183,14 +186,34 @@ export default {
   },
   watch: {},
   mounted() {
-    console.log(this.$route.params.id);
+    // 更新判断
+    if (this.$route.params.id) {
+      const { portfw } = this.$store.state;
+      if (portfw.id) {
+        this.form = {
+          id: portfw.id,
+          name: portfw.name,
+          enabled: portfw.enabled,
+          localIp: portfw.local.ip,
+          localPortFrom: portfw.local.port.from,
+          localPortTo: portfw.local.port.to,
+          remoteIp: portfw.remote.ip,
+          remotePortFrom: portfw.remote.port.from,
+          remotePortTo: portfw.remote.port.to,
+          protocol: portfw.protocol
+        };
+      } else {
+        this.$router.push('/advance/portforwarding');
+      }
+    }
   },
   methods: {
     submit() {
+      const fetchMethod =
+        this.formType === 'update' ? 'meshPortfwUpdate' : 'meshPortfwAdd';
       if (this.$refs.form.validate()) {
         this.$loading.open();
-        this.$http
-          .meshPortfwAdd(this.formParams)
+        this.$http[fetchMethod](this.formParams)
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
@@ -224,20 +247,7 @@ export default {
       line-height: 60px;
       font-weight: bold;
     }
-    .empty {
-      padding-top: 30px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      p {
-        margin: 0;
-        margin-bottom: 60px;
-      }
-      img {
-        width: 200px;
-      }
-    }
+
     .form {
       .btn-info {
         margin-top: 30px;
@@ -287,12 +297,46 @@ export default {
         line-height: 44px;
       }
       min-height: 450px;
-      .handle {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
-        label {
-          padding: 0 30px 0 0px;
+      .form {
+        padding-bottom: 50px;
+        .btn-info {
+          margin-top: 30px;
+        }
+        width: 100%;
+        margin: 0 auto;
+        .ext-item {
+          margin-bottom: 0;
+        }
+        .item {
+          width: 100%;
+          margin-top: 30px;
+          .port-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .ext-input {
+              width: 100px;
+            }
+            i {
+              width: 30px;
+              height: 1px;
+              background: #999999;
+            }
+          }
+        }
+        .radio-wrap {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          span {
+            margin-top: 20px;
+            margin-bottom: 10px;
+          }
+        }
+        .radio-group {
+          width: 100%;
+          min-width: 100%;
+          flex-direction: column;
         }
       }
     }

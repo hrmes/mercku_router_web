@@ -1,21 +1,36 @@
 <template>
-  <div class="advance-port-container">
+  <div class="advance-portfw-container">
     <div class="content">
-      <div class='w-header'>
-        {{$t('trans0422')}}
+      <div class='w-header' :class="{'m-head':mobileShowHead}">
+        <span class="title"> {{$t('trans0422')}}</span>
+        <div class="m-handle">
+          <div class="m-check-box">
+            <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+            <span>{{$t('trans0032')}}</span>
+          </div>
+          <div class="m-head-btn-wrap">
+            <button class="btn m-btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+            <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
+          </div>
+        </div>
       </div>
-      <div class="empty" v-if="(typeof empty =='boolean') && !empty">
-        <img src="../../../../assets/images/img_no_network_access.png" alt="">
+      <div class="empty" v-if="(typeof empty =='boolean') && empty">
+        <img src="../../../../assets/images/img_default_empty.png" alt="">
         <p>{{$t('trans0278')}}</p>
         <div class="btn-warp">
-          <button class="btn" @click="()=>this.$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
+          <button class="btn" @click="()=>$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
         </div>
       </div>
-      <div class='table' v-else>
-        <div class="handle-wrap">
-          <button class="btn" @click="()=>this.$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
-          <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+      <div class='table' v-if="(typeof empty =='boolean') && !empty">
+        <div class="handle-info" :class="{'openInfo':mobileShowHead}">
+          <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}} <i> <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i> </div>
+          <div class="btn-wrap" :class="{open:mobileSelect}">
+            <button class="btn" @click="()=>$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
+            <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
+            <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+          </div>
         </div>
+
         <div class="table-head">
           <div class="column-check">
             <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
@@ -31,20 +46,20 @@
         </div>
         <div class="table-body">
           <div class="table-row" v-for="(item,index ) in portfws" :key='index'>
-            <div class="column-check">
+            <div class="column-check" :class="{'checkOpen':mobileShowHead}">
               <m-checkbox v-model='item.checked'></m-checkbox>
             </div>
-            <div class="column-name">{{item.name}}</div>
-            <div class="column-local-ip">{{item.local.ip}}</div>
-            <div class="column-local-port">{{item.local.port.from}}-{{item.local.port.to}}</div>
-            <div class="column-outside-ip">{{item.remote.ip}}</div>
-            <div class="column-outside-port">{{item.remote.port.from}}-{{item.remote.port.to}}</div>
-            <div class="column-protocol">{{item.protocol}}</div>
+            <div class="column-name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
+            <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{item.local.ip}}</div>
+            <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</div>
+            <div class="column-outside-ip"><span class="m-title">{{$t('trans0425')}}：</span>{{item.remote.ip}}</div>
+            <div class="column-outside-port"><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</div>
+            <div class="column-protocol"><span class="m-title">{{$t('trans0408')}}：</span>{{item.protocol}}</div>
             <div class="column-status">
-              <m-switch v-model="item.enabled"></m-switch>
+              <m-switch v-model="item.enabled" :onChange="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
-              <a> {{$t('trans0034')}}</a>
+              <a @click="editHandle(item)"> {{$t('trans0034')}}</a>
               <a @click="del([item.id])"> {{$t('trans0033')}}</a>
             </div>
           </div>
@@ -57,7 +72,9 @@
 export default {
   data() {
     return {
-      empty: true,
+      mobileSelect: false,
+      mobileShowHead: false,
+      empty: null,
       checkAll: false,
       reverseCheck: false,
       portfws: [],
@@ -86,14 +103,31 @@ export default {
   },
   methods: {
     getList() {
-      this.$http.meshPoetfwGet().then(res => {
+      this.$http.meshPortfwGet().then(res => {
         this.portfws = res.data.result.map(v => ({ ...v, checked: false }));
         if (this.portfws.length > 0) {
-          this.empty = true;
-        } else {
           this.empty = false;
+        } else {
+          this.empty = true;
         }
       });
+    },
+    editHandle(item) {
+      this.$store.state = { portfw: item };
+      this.$router.push(`/advance/portforwarding/form/${item.id}`);
+    },
+    update(v, item) {
+      this.$loading.open();
+      this.$http
+        .meshPortfwUpdate({ ...item, enabled: v })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.$loading.close();
+          this.getList();
+        });
     },
     change(v) {
       this.portfws.forEach(item => {
@@ -103,6 +137,14 @@ export default {
           item.checked = false;
         }
       });
+    },
+    filterList(ids) {
+      ids.forEach(v => {
+        this.portfws = this.portfws.filter(item => item.id !== v);
+      });
+      if (this.portfws.length === 0) {
+        this.empty = true;
+      }
     },
     mulDel() {
       const portfwIds = [];
@@ -124,7 +166,8 @@ export default {
             this.$http
               .meshPortfwDelete({ portfw_ids: portfwIds })
               .then(() => {
-                // this.portfws
+                this.filterList(portfwIds);
+                // this.getList
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
@@ -139,7 +182,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.advance-port-container {
+.advance-portfw-container {
   flex: auto;
   padding: 0 2%;
   display: flex;
@@ -157,6 +200,9 @@ export default {
       color: #333333;
       line-height: 60px;
       font-weight: bold;
+      .m-handle {
+        display: none;
+      }
     }
     .empty {
       padding-top: 30px;
@@ -173,14 +219,22 @@ export default {
       }
     }
     .table {
-      .handle-wrap {
-        margin: 30px 0;
-        .btn {
-          width: 70px;
-          height: 27px;
-          padding: 0;
-          &:last-child {
-            margin-left: 20px;
+      .handle-info {
+        .select {
+          display: none;
+        }
+        .btn-wrap {
+          margin: 30px 0;
+          .m-btn {
+            display: none;
+          }
+          .btn {
+            width: 70px;
+            height: 27px;
+            padding: 0;
+            &:last-child {
+              margin-left: 20px;
+            }
           }
         }
       }
@@ -239,62 +293,197 @@ export default {
           padding: 30px 30px;
           border-bottom: 1px solid #f1f1f1;
           justify-content: space-between;
+          .m-title {
+            display: none;
+          }
         }
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  .advance-port-container {
-    .modal {
-      .modal-content {
-        width: 295px;
-        height: 229px;
-      }
-    }
+  .advance-portfw-container {
     padding: 20px 16px;
     .content {
+      position: relative;
       .w-header {
         font-size: 14px;
         height: 44px;
         line-height: 44px;
+        &.m-head {
+          .title {
+            display: none;
+          }
+          .m-handle {
+            width: 100%;
+            height: 100%;
+            display: block;
+            display: flex;
+            font-size: 14px;
+            color: #333333;
+            font-weight: 200;
+            align-items: center;
+            justify-content: space-between;
+            line-height: 1;
+            .m-check-box {
+              display: flex;
+              align-items: center;
+              span {
+                margin-left: 10px;
+              }
+            }
+            .m-head-btn-wrap {
+              display: flex;
+              align-items: center;
+              .m-btn-default {
+                border: none;
+                background: none;
+                color: #d6001c;
+                width: auto;
+                padding: 0;
+                height: auto;
+                &[disabled] {
+                  color: #333333;
+                  opacity: 0.7;
+                }
+              }
+              span {
+                margin-left: 20px;
+                cursor: pointer;
+                &:nth-child(1) {
+                  color: #d6001c;
+                }
+                &:hover {
+                  opacity: 0.8;
+                }
+              }
+            }
+          }
+        }
       }
       min-height: 450px;
-      .handle {
-        display: flex;
-        align-items: center;
-        margin-top: 20px;
-        label {
-          padding: 0 30px 0 0px;
+      .empty {
+        .btn-warp {
+          width: 100%;
+          .bth {
+            width: 80%;
+          }
         }
       }
       .table {
-        margin-top: 20px;
-        .table-body {
-          .table-row {
-            flex-direction: row;
-            padding: 20px 0;
-            position: relative;
-          }
-        }
-        .column-address {
-          width: 200px;
-          overflow: height;
-        }
-        .column-handle {
-          width: 100%;
-          justify-content: flex-end;
-          // margin-top: 20px;
-          a {
-            margin-right: 0 !important;
-            &:first-child {
-              margin-right: 20px !important;
+        .handle-info {
+          z-index: 1;
+          display: block;
+          position: absolute;
+          top: 7px;
+          margin: 0;
+          right: 20px;
+          .select {
+            display: block;
+            width: 80px;
+            height: 30px;
+            border-radius: 4px;
+            background-color: #d6001c;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 12px;
+            &:active {
+              background: rgb(182, 0, 24);
+            }
+            &:hover {
+              background: rgb(182, 0, 24);
+            }
+            i {
+              img {
+                transition: all 0.3s;
+                width: 12px;
+                &.open {
+                  transform: rotate(180deg);
+                }
+              }
             }
           }
-          .check-wrap {
-            position: absolute;
-            right: 0;
-            top: 20px;
+          .btn-wrap {
+            display: none;
+            .btn-default {
+              display: none;
+            }
+            .m-btn {
+              display: block;
+            }
+            &.open {
+              width: 140px;
+              height: 104px;
+              border-radius: 2px;
+              box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+              border: solid 1px #f1f1f1;
+              background-color: #ffffff;
+              position: absolute;
+              top: 1px;
+              right: 0;
+              display: block;
+              .btn {
+                width: 140px;
+                height: 42px;
+                margin: 0;
+                background: white;
+                color: #333333;
+                text-align: left;
+                padding-left: 20px;
+                &:active {
+                  background-color: #d6001c;
+                }
+              }
+            }
+          }
+        }
+        .openInfo {
+          display: none;
+        }
+        .table-body {
+          .table-row {
+            .m-title {
+              display: inline-block;
+            }
+            flex-direction: row;
+            flex-wrap: wrap;
+            padding: 20px 0;
+            position: relative;
+            .column-local-ip,
+            .column-local-port,
+            .column-outside-ip,
+            .column-outside-port {
+              width: 100%;
+              margin-bottom: 8px;
+            }
+            .column-protocol,
+            .column-handle {
+              width: 100%;
+            }
+            .column-handle {
+              text-align: right;
+              margin-top: 10px;
+            }
+            .column-name {
+              width: calc(100% - 30px);
+              margin-bottom: 18px;
+            }
+            .column-check {
+              display: none;
+              &.checkOpen {
+                display: block;
+                width: 30px;
+              }
+            }
+            .column-status {
+              position: absolute;
+              text-align: right;
+              right: 0;
+              top: 20px;
+            }
           }
         }
         .table-head {
