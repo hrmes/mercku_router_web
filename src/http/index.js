@@ -58,7 +58,7 @@ const methods = {
   getLocalDevice: createMethod('request.get'),
   meshInfoFirewallGet: createMethod('mesh.info.firewall.get'),
   meshConfigFirewallUpdate: createMethod('mesh.config.firewall.update'),
-  meshPoetfwGet: createMethod('mesh.portfw.get'),
+  meshPortfwGet: createMethod('mesh.portfw.get'),
   meshPortfwUpdate: createMethod('mesh.portfw.update'),
   meshPortfwAdd: createMethod('mesh.portfw.add'),
   meshPortfwDelete: createMethod('mesh.portfw.delete'),
