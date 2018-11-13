@@ -1,218 +1,105 @@
 import axios from 'axios';
 
 axios.defaults.timeout = 60000;
-const createMethods = url => action => ({ url, action });
-const url = '/app';
-const methods = {
-  routerIsLogin: createMethods(url)('router.is_login'),
-  routerLogin: createMethods(url)('router.login'),
-  routerLogout: {
-    url,
-    action: 'router.logout'
-  },
-  routerIsInitial: {
-    url,
-    action: 'router.is_initial'
-  },
-  meshConfigUpdate: {
-    url,
-    action: 'mesh.config.update' // (已拆分)
-  },
-  meshWanStatusGet: {
-    url,
-    action: 'mesh.wan.status.get' // 获取WAN口状态
-  },
-  meshInfoTimezoneGet: {
-    url,
-    action: 'mesh.info.timezone.get'
-  },
-  meshConfigTimezoneUpdate: {
-    url,
-    action: 'mesh.config.timezone.update'
-  },
-  meshNodeScan: {
-    url,
-    action: 'mesh.node.scan'
-  },
-  // new
-  meshWanSpeedTest: {
-    url,
-    action: 'mesh.wan.speed.test' // WAN口速度测试
-  },
-  routerMetaGet: {
-    url,
-    action: 'router.meta.get' // 获取路由器基础信息
-  },
-  meshNodeDelete: {
-    url,
-    action: 'mesh.node.delete'
-  },
-  meshNodeUpdate: {
-    url,
-    action: 'mesh.node.update'
-  },
-  meshNodeReset: {
-    url,
-    action: 'mesh.node.reset'
-  },
-  meshNodeReboot: {
-    url,
-    action: 'mesh.node.reboot' // 路由器重启
-  },
-  meshNodeAdd: {
-    url,
-    action: 'mesh.node.add'
-  },
-  meshMetaGet: {
-    url,
-    action: 'mesh.meta.get' // 获取组网信息
-  },
-  deviceCountGet: {
-    url,
-    action: 'mesh.device.count.get' // 获取连接设备数量
-  },
-  meshNodeGet: {
-    url,
-    action: 'mesh.node.get' // 获取当前组网状态
-  },
-  // v0.8这里改动比较大
-  routerNetGet: {
-    url,
-    action: 'router.net.get' // 已修改 => mesh.info.wan.net.get
-  },
-  meshWanGet: {
-    url,
-    action: 'mesh.wan.get' // 已修改为 => mesh.info.wan.stats.get
-  },
-  meshWanNetGet: {
-    url,
-    action: 'mesh.info.wan.net.get' // 获取组网WAN口上网信息
-  },
-  meshBlacklistDelete: {
-    url,
-    action: 'mesh.blacklist.delete'
-  },
-  meshBlacklistGet: {
-    url,
-    action: 'mesh.blacklist.get'
-  },
-  meshWanStatsGet: {
-    url,
-    action: 'mesh.info.wan.stats.get' // 获取组网WAN口统计状态
-  },
-  meshWifiUpdate: {
-    url,
-    action: 'mesh.config.wifi.update' // 组网wifi配置更新
-  },
-  meshWanUpdate: {
-    url,
-    action: 'mesh.config.wan.net.update' // 组网WAN口配置更新
-  },
-  nodeIsInMesh: {
-    url,
-    action: 'mesh.node.is_in_mesh'
-  },
-  meshLanUpdate: {
-    url,
-    action: 'mesh.config.lan.net.update' // 组网Lan口配置更新
-  },
-  meshAdminUpdate: {
-    url,
-    action: 'mesh.config.admin.update'
-  },
-  routerAdminGet: {
-    url,
-    action: 'router.config.admin.get'
-  },
-  // v0.9
-  firmwareUpload: {
-    url: '/firmware_upload' // 上传固件
-  },
-  firmwareList: {
-    url,
-    action: 'mesh.node.upgradability.get' // 检测在线升级列表
-  },
-  meshNodeUpgrade: {
-    url,
-    action: 'mesh.node.upgrade' // 升级
-  },
-  routerModeGet: {
-    url,
-    action: 'router.mode.get'
-  },
-  meshDeviceGet: {
-    url,
-    action: 'mesh.device.get'
-  },
-  meshDeviceUpdate: {
-    url,
-    action: 'mesh.device.update'
-  },
-  addToblackList: {
-    url,
-    action: 'mesh.blacklist.add'
-  },
-  addSpeedLimit: {
-    url,
-    action: 'mesh.device.speed_limit.add'
-  },
-  getSpeedLimit: {
-    url,
-    action: 'mesh.device.speed_limit.get'
-  },
-  speedLimitUpdate: {
-    url,
-    action: 'mesh.device.speed_limit.update'
-  },
-  addTimeLimit: {
-    url,
-    action: 'mesh.device.time_limit.add'
-  },
-  getTimeLimit: {
-    url,
-    action: 'mesh.device.time_limit.get'
-  },
-  timeLimitUpdate: {
-    url,
-    action: 'mesh.device.time_limit.update'
-  },
-  timeLimitDel: {
-    url,
-    action: 'mesh.device.time_limit.delete'
-  },
-  parentControlLimitGet: {
-    url,
-    action: 'mesh.device.parent_control.get'
-  },
-  parentControlLimitUpdate: {
-    url,
-    action: 'mesh.device.parent_control.update'
-  },
-  parentControlLimitAdd: {
-    url,
-    action: 'mesh.device.parent_control.add'
-  },
-  parentControlLimitDel: {
-    url,
-    action: 'mesh.device.parent_control.delete'
-  },
-  getLocalDevice: {
-    url,
-    action: 'request.get'
-  },
-  meshInfoFirewallGet: {
-    url,
-    action: 'mesh.info.firewall.get'
-  },
-  meshConfigFirewallUpdate: {
-    url,
-    action: 'mesh.config.firewall.update'
-  },
-  meshPoetfwGet: createMethods(url)('mesh.portfw.get'),
-  meshPortfwUpdate: createMethods(url)('mesh.portfw.update'),
-  meshPortfwAdd: createMethods(url)('mesh.portfw.add'),
-  meshPortfwDelete: createMethods(url)('mesh.portfw.delete'),
 
+const defaultUrl = '/app';
+const createMethod = (action, url = defaultUrl) => ({ url, action });
+
+const methods = {
+  routerIsLogin: createMethod('router.is_login'),
+  routerLogin: createMethod('router.login'),
+  routerLogout: createMethod('router.logout'),
+  routerIsInitial: createMethod('router.is_initial'),
+
+  meshConfigUpdate: createMethod('mesh.config.update'),
+
+  meshWanStatusGet: createMethod('mesh.wan.status.get'),
+
+  meshInfoTimezoneGet: createMethod('mesh.info.timezone.get'),
+
+  meshConfigTimezoneUpdate: createMethod('mesh.config.timezone.update'),
+
+  meshNodeScan: createMethod('mesh.node.scan'),
+
+  meshWanSpeedTest: createMethod('mesh.wan.speed.test'),
+
+  routerMetaGet: createMethod('router.meta.get'),
+
+  meshNodeDelete: createMethod('mesh.node.delete'),
+
+  meshNodeUpdate: createMethod('mesh.node.update'),
+
+  meshNodeReset: createMethod('mesh.node.reset'),
+
+  meshNodeReboot: createMethod('mesh.node.reboot'),
+
+  meshNodeAdd: createMethod('mesh.node.add'),
+
+  meshMetaGet: createMethod('mesh.meta.get'),
+
+  deviceCountGet: createMethod('mesh.device.count.get'),
+
+  meshNodeGet: createMethod('mesh.node.get'),
+
+  // v0.8这里改动比较大
+  routerNetGet: createMethod('router.net.get'),
+
+  meshWanGet: createMethod('mesh.wan.get'),
+
+  meshWanNetGet: createMethod('mesh.info.wan.net.get'),
+
+  meshBlacklistDelete: createMethod('mesh.blacklist.delete'),
+
+  meshBlacklistGet: createMethod('mesh.blacklist.get'),
+
+  meshWanStatsGet: createMethod('mesh.info.wan.stats.get'),
+
+  meshWifiUpdate: createMethod('mesh.config.wifi.update'),
+
+  meshWanUpdate: createMethod('mesh.config.wan.net.update'),
+
+  nodeIsInMesh: createMethod('mesh.node.is_in_mesh'),
+
+  meshLanUpdate: createMethod('mesh.config.lan.net.update'),
+
+  meshAdminUpdate: createMethod('mesh.config.admin.update'),
+
+  routerAdminGet: createMethod('router.config.admin.get'),
+
+  // v0.9
+  firmwareUpload: createMethod('/firmware_upload'),
+
+  firmwareList: createMethod('mesh.node.upgradability.get'),
+
+  meshNodeUpgrade: createMethod('mesh.node.upgrade'),
+
+  routerModeGet: createMethod('router.mode.get'),
+
+  meshDeviceGet: createMethod('mesh.device.get'),
+
+  meshDeviceUpdate: createMethod('mesh.device.update'),
+
+  addToblackList: createMethod('mesh.blacklist.add'),
+
+  addSpeedLimit: createMethod('mesh.device.speed_limit.add'),
+
+  getSpeedLimit: createMethod('mesh.device.speed_limit.get'),
+  speedLimitUpdate: createMethod('mesh.device.speed_limit.update'),
+  addTimeLimit: createMethod('mesh.device.time_limit.add'),
+  getTimeLimit: createMethod('mesh.device.time_limit.get'),
+  timeLimitUpdate: createMethod('mesh.device.time_limit.update'),
+  timeLimitDel: createMethod('mesh.device.time_limit.delete'),
+  parentControlLimitGet: createMethod('mesh.device.parent_control.get'),
+  parentControlLimitUpdate: createMethod('mesh.device.parent_control.update'),
+  parentControlLimitAdd: createMethod('mesh.device.parent_control.add'),
+  parentControlLimitDel: createMethod('mesh.device.parent_control.delete'),
+  getLocalDevice: createMethod('request.get'),
+  meshInfoFirewallGet: createMethod('mesh.info.firewall.get'),
+  meshConfigFirewallUpdate: createMethod('mesh.config.firewall.update'),
+  meshPoetfwGet: createMethod('mesh.portfw.get'),
+  meshPortfwUpdate: createMethod('mesh.portfw.update'),
+  meshPortfwAdd: createMethod('mesh.portfw.add'),
+  meshPortfwDelete: createMethod('mesh.portfw.delete')
 };
 
 const noop = () => {};
