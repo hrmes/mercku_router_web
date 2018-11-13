@@ -21,7 +21,8 @@ class Store {
 }
 const store = new Store(Vue, {
   state: {
-    limits: {}
+    limits: {},
+    portfw: {}
   }
 });
 
