@@ -17,7 +17,7 @@
             <li class="column-ip">{{$t('trans0151')}} / {{$t('trans0188')}}</li>
             <!-- <li class="column-mac">{{$t('trans0188')}}</li> -->
             <li class="column-limit">{{$t('trans0368')}}</li>
-            <li class="column-black-list">{{$t('trans0020')}}</li>
+            <li class="column-black-list">{{$t('trans0370')}}</li>
           </ul>
         </div>
         <div class="table-body small-device-body">
@@ -80,22 +80,28 @@
             <li class="column-limit" v-if='isMobileRow(row.expand)'>
               <div class="limit-inner">
                 <div class="item device-item" @click="()=>limitClick('time',row)">
-                  <span :class="{'time-active':!isMobile&&isTimeLimit(row)}"> {{$t('trans0075')}}</span>
-                  <img v-if='!isMobile&&isTimeLimit(row)' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
+                  <span class="limit-icon time-limit" v-show="!isMobile" :class="{'active':isTimeLimit(row)}"></span>
+                  <span v-show="isMobile">{{$t('trans0075')}}</span>
                   <span class="status">
-                    {{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}
+                    <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
                     <img src="../../../assets/images/ic_inter.png" alt="">
                   </span>
                 </div>
                 <div class="item device-item" @click="()=>limitClick('speed',row)">
-                  <span :class="{'speed-active':!isMobile&&isSpeedLimit(row)}"> {{$t('trans0014')}}</span>
-                  <img v-show='!isMobile&&isSpeedLimit(row)' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
-                  <span class="status">{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
+                  <span class="limit-icon speed-limit" v-show="!isMobile" :class="{'active':isSpeedLimit(row)}"></span>
+                  <span v-show="isMobile">{{$t('trans0014')}}</span>
+                  <span class="status">
+                    <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
+                    <img src="../../../assets/images/ic_inter.png" alt="">
+                  </span>
                 </div>
                 <div class="item device-item" @click="()=>limitClick('blacklist',row)">
-                  <span :class="{'black-active':!isMobile&&isBlacklsitLimit(row)}"> {{$t('trans0076')}}</span>
-                  <img v-show='!isMobile&&isBlacklsitLimit(row)' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
-                  <span class="status">{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
+                  <span class="limit-icon url-limit" v-show="!isMobile" :class="{'active':isBlacklsitLimit(row)}"></span>
+                  <span v-show="isMobile">{{$t('trans0076')}}</span>
+                  <span class="status">
+                    <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
+                    <img src="../../../assets/images/ic_inter.png" alt="">
+                  </span>
                 </div>
               </div>
             </li>
@@ -604,6 +610,8 @@ export default {
         }
       }
       .limit-inner {
+        display: flex;
+        align-items: center;
         .item {
           text-align: left;
           display: flex;
@@ -630,31 +638,46 @@ export default {
             display: none;
           }
         }
-        .item:nth-child(1) {
-          .time-active {
-            color: #20a0ff;
-            &:hover {
-              color: #20a0ff;
+        .item {
+          margin-left: 10px;
+          &:first-child {
+            margin-left: 0;
+          }
+          .limit-icon {
+            display: block;
+            width: 23px;
+            height: 23px;
+            &.time-limit {
+              background: url(../../../assets/images/ic_limit_time_close.png)
+                no-repeat center;
+              background-size: 100%;
+              &.active {
+                background: url(../../../assets/images/ic_limit_time.png)
+                  no-repeat center;
+                background-size: 100%;
+              }
+            }
+            &.speed-limit {
+              background: url(../../../assets/images/ic_limit_speed_close.png)
+                no-repeat center;
+              background-size: 100%;
+              &.active {
+                background: url(../../../assets/images/ic_limit_speed.png)
+                  no-repeat center;
+                background-size: 100%;
+              }
+            }
+            &.url-limit {
+              background: url(../../../assets/images/ic_limit_website_close.png)
+                no-repeat center;
+              background-size: 100%;
+              &.active {
+                background: url(../../../assets/images/ic_limit_website.png)
+                  no-repeat center;
+                background-size: 100%;
+              }
             }
           }
-        }
-        .item:nth-child(2) {
-          .speed-active {
-            color: #00c057;
-            &:hover {
-              color: #00c057;
-            }
-          }
-          margin-top: 10px;
-        }
-        .item:nth-child(3) {
-          .black-active {
-            color: #e3ab29;
-            &:hover {
-              color: #e3ab29;
-            }
-          }
-          margin-top: 10px;
         }
       }
       .black-btn {
@@ -912,7 +935,9 @@ export default {
           }
           .limit-inner {
             width: 100%;
+            flex-direction: column;
             .item {
+              margin-left: 0;
               span {
                 color: #333333;
                 &:hover {

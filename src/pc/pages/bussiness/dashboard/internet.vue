@@ -749,15 +749,6 @@ export default {
               background-size: 100% 100%;
               margin-right: 5px;
             }
-            .p-count-icon {
-              width: 30px;
-              height: 30px;
-              display: inline-block;
-              background: url('../../../assets/images/ic_broadband.png')
-                no-repeat;
-              background-size: 100% 100%;
-              margin-right: 5px;
-            }
             .title {
               font-size: 16px;
               color: #333333;

@@ -18,6 +18,9 @@
               <span class="delete" @click="removeBlacklist(device)">{{$t('trans0033')}}</span>
             </div>
           </div>
+          <div class="empty" v-if="!blacklist.length">
+            <img src="../../../assets/images/img_default_empty.png" alt="">
+          </div>
         </div>
       </div>
     </div>
@@ -104,6 +107,16 @@ export default {
             text-decoration: underline;
           }
         }
+      }
+    }
+    .empty {
+      padding: 30px;
+      display: flex;
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 220px;
       }
     }
   }
