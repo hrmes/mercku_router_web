@@ -47,8 +47,8 @@
               <m-checkbox v-model='item.checked'></m-checkbox>
             </div>
             <div class="column-name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
-            <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{item.local.ip}}</div>
-            <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</div>
+            <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{item.mac}}</div>
+            <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.ip}}</div>
             <div class="column-handle">
               <a @click="editHandle(item)"> {{$t('trans0034')}}</a>
               <a @click="del([item.id])"> {{$t('trans0033')}}</a>
@@ -155,10 +155,10 @@ export default {
           ok: () => {
             this.$loading.open();
             this.$http
-              .meshRsvdipDelete({ portfw_ids: rsvdipIds })
+              .meshRsvdipDelete({ rsvdip_ids: rsvdipIds })
               .then(() => {
                 this.filterList(rsvdipIds);
-                // this.getList
+                // this.getList();
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })

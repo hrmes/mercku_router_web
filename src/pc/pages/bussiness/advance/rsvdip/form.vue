@@ -20,7 +20,7 @@
                     </div>
                     <div class="des">
                       <p>{{item.name}}</p>
-                      <p>MAC：{{item.mac}}</p>
+                      <p>MAC：{{formatMac(item.mac)}}</p>
                       <p>IP：{{item.ip}}</p>
                     </div>
                   </div>
@@ -36,7 +36,7 @@
             <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
           </m-form-item>
           <m-form-item class="item" prop='mac' ref="mac">
-            <m-input :label="$t('trans0188')" type="text" :placeholder="$t('trans0321')" v-model="form.mac" />
+            <m-input :label="$t('trans0188')" type="text" @input="format" :placeholder="$t('trans0321')" v-model="form.mac" />
           </m-form-item>
           <m-form-item class="item" prop='ip' ref="ip">
             <m-input :label="$t('trans0151')" type="text" :placeholder="$t('trans0321')" v-model="form.ip" />
@@ -50,14 +50,21 @@
   </div>
 </template>
 <script>
-import { ipReg, getStringByte, portReg } from '../../../../../util/util';
+import {
+  ipReg,
+  getStringByte,
+  isMac,
+  formatMac
+} from '../../../../../util/util';
 
 export default {
   data() {
     return {
+      formatMac,
       modalShow: false,
       devices: [],
       form: {
+        id: '',
         name: '',
         mac: '',
         ip: ''
@@ -73,13 +80,23 @@ export default {
             message: this.$t('trans0261')
           }
         ],
-        localIp: [
+        ip: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
           },
           {
             rule: value => ipReg.test(value),
+            message: this.$t('trans0231')
+          }
+        ],
+        mac: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isMac(value),
             message: this.$t('trans0231')
           }
         ]
@@ -89,51 +106,19 @@ export default {
   computed: {
     formType() {
       return this.$route.params.id ? 'update' : 'add';
-    },
-    formParams() {
-      return {
-        id: this.form.id,
-        name: this.form.name,
-        enabled: this.form.enabled,
-        protocol: this.form.protocol,
-        local: {
-          ip: this.form.localIp,
-          port: {
-            from: this.form.localPortFrom
-              ? Number(this.form.localPortFrom)
-              : '',
-            to: this.form.localPortTo ? Number(this.form.localPortTo) : ''
-          }
-        },
-        remote: {
-          ip: this.form.remoteIp,
-          port: {
-            from: this.form.remotePortFrom
-              ? Number(this.form.remotePortFrom)
-              : '',
-            to: this.form.remotePortTo ? Number(this.form.remotePortTo) : ''
-          }
-        }
-      };
     }
   },
   mounted() {
     this.getDevices();
     // 更新判断
     if (this.$route.params.id) {
-      const { portfw } = this.$store.state;
-      if (portfw.id) {
+      const { rsvdip } = this.$store.state;
+      if (rsvdip.id) {
         this.form = {
-          id: portfw.id,
-          name: portfw.name,
-          enabled: portfw.enabled,
-          localIp: portfw.local.ip,
-          localPortFrom: portfw.local.port.from,
-          localPortTo: portfw.local.port.to,
-          remoteIp: portfw.remote.ip,
-          remotePortFrom: portfw.remote.port.from,
-          remotePortTo: portfw.remote.port.to,
-          protocol: portfw.protocol
+          id: rsvdip.id,
+          ip: rsvdip.ip,
+          name: rsvdip.name,
+          mac: this.formatMac(rsvdip.mac)
         };
       } else {
         this.$router.push('/advance/rsvdip');
@@ -141,12 +126,19 @@ export default {
     }
   },
   methods: {
+    format() {
+      const mac = this.form.mac.replace(/:/g, '');
+      if (mac.length >= 2) {
+        this.form.mac = mac.match(/.{1,2}/g).join(':');
+      }
+    },
     chooseDevice() {
       this.devices.forEach(v => {
         if (v.checked) {
           this.form = {
+            ...this.form,
             name: v.name,
-            mac: v.mac,
+            mac: this.formatMac(v.mac),
             ip: v.ip
           };
         }
@@ -172,7 +164,10 @@ export default {
         this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
       if (this.$refs.form.validate()) {
         this.$loading.open();
-        this.$http[fetchMethod](this.formParams)
+        this.$http[fetchMethod]({
+          ...this.form,
+          mac: this.form.mac.split(':').join('')
+        })
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');

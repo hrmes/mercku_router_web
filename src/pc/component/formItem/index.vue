@@ -78,7 +78,7 @@ export default {
     top: 100%;
   }
   &.form-item-error {
-    input {
+    .input-wrapper {
       border-color: red !important;
       transition: border 0.3 linear;
     }

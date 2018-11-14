@@ -11,10 +11,10 @@
             <label for="">{{$t('trans0151')}}</label>
             <div>
               <m-form-item class="ext-item" prop='remotePortFrom' ref="remotePortFrom">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0441')" v-model="form.remotePortFrom" />
+                <m-input class="ext-input" extra="192.168.127." type="text" :placeholder="$t('trans0441')" v-model="form.remotePortFrom" />
               </m-form-item>
               <m-form-item class="ext-item" prop='remotePortTo' ref="remotePortTo">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0442')" v-model="form.remotePortTo" />
+                <m-input class="ext-input" extra="192.168.127." type="text" :placeholder="$t('trans0442')" v-model="form.remotePortTo" />
               </m-form-item>
             </div>
           </div>
