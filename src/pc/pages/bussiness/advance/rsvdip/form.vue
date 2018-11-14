@@ -7,43 +7,40 @@
 
       <div class="form">
         <m-form ref="form" :model="form" :rules='rules'>
-          <div class="radio-wrap">
-            <span> {{$t('trans0408')}}</span>
-            <m-radio-group class="radio-group" v-model="form.protocol" :options="protocolOptions"></m-radio-group>
+          <div class="device" @click.stop="()=>modalShow=!modalShow">
+            <span>{{$t('trans0235')}}</span>
+            <i> <img :class="{open:modalShow}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i>
+            <div class="modal" v-if="modalShow" @click.stop="">
+              <div class="opcity"></div>
+              <div class="modal-content">
+                <div class="list">
+                  <div class="device-item" v-for="(item,index) in devices" :key="index">
+                    <div class="check">
+                      <m-checkbox v-model="item.checked" :onChange="(v)=>change(v,item)"></m-checkbox>
+                    </div>
+                    <div class="des">
+                      <p>{{item.name}}</p>
+                      <p>MAC：{{item.mac}}</p>
+                      <p>IP：{{item.ip}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="btn-wrap">
+                  <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
+                  <button class="btn" @click="chooseDevice">{{$t('trans0024')}}</button>
+                </div>
+              </div>
+            </div>
           </div>
           <m-form-item class="item" prop='name' ref="name">
             <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
           </m-form-item>
-          <m-form-item class="item" prop='remoteIp' ref="remoteIp">
-            <m-input :label="`${$t('trans0425')}${$t('trans0411')}`" type="text" :placeholder="$t('trans0321')" v-model="form.remoteIp" />
+          <m-form-item class="item" prop='mac' ref="mac">
+            <m-input :label="$t('trans0188')" type="text" :placeholder="$t('trans0321')" v-model="form.mac" />
           </m-form-item>
-          <div class="item">
-            <label for="">{{$t('trans0426')}}</label>
-            <div class="port-wrap">
-              <m-form-item class="ext-item" prop='remotePortFrom' ref="remotePortFrom">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortFrom" />
-              </m-form-item>
-              <i></i>
-              <m-form-item class="ext-item" prop='remotePortTo' ref="remotePortTo">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortTo" />
-              </m-form-item>
-            </div>
-          </div>
-          <m-form-item class="item" prop='localIp' ref="localIp">
-            <m-input :label="$t('trans0427')" type="text" :placeholder="$t('trans0321')" v-model="form.localIp" />
+          <m-form-item class="item" prop='ip' ref="ip">
+            <m-input :label="$t('trans0151')" type="text" :placeholder="$t('trans0321')" v-model="form.ip" />
           </m-form-item>
-          <div class="item">
-            <label for="">{{$t('trans0428')}}</label>
-            <div class="port-wrap">
-              <m-form-item class="ext-item" prop='localPortFrom' ref="localPortFrom">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortFrom" />
-              </m-form-item>
-              <i></i>
-              <m-form-item class="ext-item" prop='localPortTo' ref="localPortTo">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortTo" />
-              </m-form-item>
-            </div>
-          </div>
         </m-form>
         <div class="btn-info">
           <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
@@ -58,31 +55,12 @@ import { ipReg, getStringByte, portReg } from '../../../../../util/util';
 export default {
   data() {
     return {
-      protocolOptions: [
-        {
-          value: 'TCPUDP',
-          text: 'TCP&UDP'
-        },
-        {
-          value: 'TCP',
-          text: 'TCP'
-        },
-        {
-          value: 'UDP',
-          text: 'UDP'
-        }
-      ],
+      modalShow: false,
+      devices: [],
       form: {
-        id: '',
         name: '',
-        enabled: false,
-        localIp: '',
-        localPortFrom: '',
-        localPortTo: '',
-        remoteIp: '',
-        remotePortFrom: '',
-        remotePortTo: '',
-        protocol: 'TCPUDP' // TCPUDP, TCP, UDP
+        mac: '',
+        ip: ''
       },
       rules: {
         name: [
@@ -95,32 +73,6 @@ export default {
             message: this.$t('trans0261')
           }
         ],
-        remoteIp: [
-          {
-            rule: value => (value ? ipReg.test(value) : value !== 0),
-            message: this.$t('trans0231')
-          }
-        ],
-        remotePortFrom: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0231')
-          }
-        ],
-        remotePortTo: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0231')
-          }
-        ],
         localIp: [
           {
             rule: value => !/^\s*$/g.test(value),
@@ -128,26 +80,6 @@ export default {
           },
           {
             rule: value => ipReg.test(value),
-            message: this.$t('trans0231')
-          }
-        ],
-        localPortFrom: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0231')
-          }
-        ],
-        localPortTo: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
             message: this.$t('trans0231')
           }
         ]
@@ -185,8 +117,8 @@ export default {
       };
     }
   },
-  watch: {},
   mounted() {
+    this.getDevices();
     // 更新判断
     if (this.$route.params.id) {
       const { portfw } = this.$store.state;
@@ -209,6 +141,32 @@ export default {
     }
   },
   methods: {
+    chooseDevice() {
+      this.devices.forEach(v => {
+        if (v.checked) {
+          this.form = {
+            name: v.name,
+            mac: v.mac,
+            ip: v.ip
+          };
+        }
+      });
+      this.modalShow = false;
+    },
+    change(v, item) {
+      if (v) {
+        this.devices.forEach(n => {
+          if (n.mac !== item.mac) {
+            n.checked = false;
+          }
+        });
+      }
+    },
+    getDevices() {
+      this.$http.meshDeviceGet().then(res => {
+        this.devices = res.data.result.map(v => ({ ...v, checked: false }));
+      });
+    },
     submit() {
       const fetchMethod =
         this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
@@ -237,34 +195,87 @@ export default {
   width: 400px;
   margin: 0 auto;
   margin-top: 30px;
-  .ext-item {
-    margin-bottom: 0;
-  }
   .item {
     width: 350px;
     margin-top: 30px;
-    .port-wrap {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .ext-input {
-        width: 140px;
-      }
-      i {
-        width: 30px;
-        height: 1px;
-        background: #999999;
-      }
-    }
   }
-  .radio-wrap {
+  .device {
+    width: 120px;
+    height: 36px;
+    border-radius: 4px;
+    background-color: #d6001c;
+    color: white;
     display: flex;
-    span {
-      padding-right: 20px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    position: relative;
+    cursor: pointer;
+    &:active {
+      background: rgb(182, 0, 24);
     }
-  }
-  .radio-group {
-    min-width: 300px;
+    &:hover {
+      background: rgb(182, 0, 24);
+    }
+    i {
+      img {
+        width: 12px;
+        transition: all 0.3s;
+        &.open {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    .modal {
+      position: absolute;
+      top: 37px;
+      z-index: 1;
+      left: 0;
+      width: 300px;
+      height: 458px;
+      border-radius: 2px;
+      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+      border: solid 1px #e7e7e7;
+      background-color: #ffffff;
+      .list {
+        width: 300px;
+        height: 358px;
+        overflow-y: auto;
+      }
+      .device-item {
+        display: flex;
+        padding: 30px;
+        min-height: 55px;
+        .check {
+          width: 46px;
+        }
+        .des {
+          flex: 1;
+          border-bottom: 1px solid #f1f1f1;
+          padding-bottom: 10px;
+          p {
+            color: #333333;
+            line-height: 1;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 10px;
+          }
+        }
+      }
+      .btn-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .btn-default {
+          display: none;
+        }
+        .btn {
+          width: 120px;
+          height: 42px;
+        }
+        height: 100px;
+      }
+    }
   }
 }
 @media screen and (max-width: 768px) {
@@ -281,33 +292,43 @@ export default {
     .item {
       width: 100%;
       margin-top: 30px;
-      .port-wrap {
+    }
+    .device {
+      .modal {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        background: transparent;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        .ext-input {
-          width: auto;
+        .opcity {
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          z-index: -1;
+          background: rgba(0, 0, 0, 0.6);
         }
-        i {
-          width: 30px;
-          height: 1px;
-          background: #999999;
-          margin: 0 10px;
+        .modal-content {
+          background: white;
+          width: 85%;
+          .list {
+            width: 100%;
+            background: white;
+            box-sizing: border-box;
+          }
+          .btn-wrap {
+            .btn-default {
+              display: inline-block;
+            }
+          }
         }
       }
-    }
-    .radio-wrap {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      span {
-        margin-bottom: 10px;
+      i {
+        display: none;
       }
-    }
-    .radio-group {
-      width: 100%;
-      min-width: 100%;
-      flex-direction: column;
     }
   }
 }
