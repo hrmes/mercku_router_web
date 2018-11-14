@@ -1,26 +1,49 @@
 <template>
   <div class="page">
-    <div class='page-header'>{{$t('trans0417')}}</div>
+    <div class='page-header'>
+      {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0444')}}
+    </div>
     <div class="page-content">
+
       <div class="form">
         <m-form ref="form" :model="form" :rules='rules'>
+          <div class="radio-wrap">
+            <span> {{$t('trans0408')}}</span>
+            <m-radio-group class="radio-group" v-model="form.protocol" :options="protocolOptions"></m-radio-group>
+          </div>
           <m-form-item class="item" prop='name' ref="name">
-            <m-input :label="$t('trans0439')" type="text" :placeholder="$t('trans0440')" v-model="form.name" />
+            <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
+          </m-form-item>
+          <m-form-item class="item" prop='remoteIp' ref="remoteIp">
+            <m-input :label="`${$t('trans0425')}${$t('trans0411')}`" type="text" :placeholder="$t('trans0321')" v-model="form.remoteIp" />
           </m-form-item>
           <div class="item">
-            <label for="">{{$t('trans0151')}}</label>
-            <div>
+            <label for="">{{$t('trans0426')}}</label>
+            <div class="port-wrap">
               <m-form-item class="ext-item" prop='remotePortFrom' ref="remotePortFrom">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0441')" v-model="form.remotePortFrom" />
+                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortFrom" />
               </m-form-item>
+              <i></i>
               <m-form-item class="ext-item" prop='remotePortTo' ref="remotePortTo">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0442')" v-model="form.remotePortTo" />
+                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortTo" />
               </m-form-item>
             </div>
           </div>
           <m-form-item class="item" prop='localIp' ref="localIp">
-            <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
+            <m-input :label="$t('trans0427')" type="text" :placeholder="$t('trans0321')" v-model="form.localIp" />
           </m-form-item>
+          <div class="item">
+            <label for="">{{$t('trans0428')}}</label>
+            <div class="port-wrap">
+              <m-form-item class="ext-item" prop='localPortFrom' ref="localPortFrom">
+                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortFrom" />
+              </m-form-item>
+              <i></i>
+              <m-form-item class="ext-item" prop='localPortTo' ref="localPortTo">
+                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortTo" />
+              </m-form-item>
+            </div>
+          </div>
         </m-form>
         <div class="btn-info">
           <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
@@ -35,46 +58,31 @@ import { ipReg, getStringByte, portReg } from '../../../../../util/util';
 export default {
   data() {
     return {
-      leases: [
+      protocolOptions: [
         {
-          value: 1 * 60 * 60,
-          text: this.$t('trans0445')
+          value: 'TCPUDP',
+          text: 'TCP&UDP'
         },
         {
-          value: 1 * 60 * 60 * 4,
-          text: this.$t('trans0446')
+          value: 'TCP',
+          text: 'TCP'
         },
         {
-          value: 1 * 60 * 60 * 8,
-          text: this.$t('trans0447')
-        },
-        {
-          value: 1 * 60 * 60 * 12,
-          text: this.$t('trans0448')
-        },
-        {
-          value: 1 * 60 * 60 * 24,
-          text: this.$t('trans0449')
-        },
-        {
-          value: 1 * 60 * 60 * 24 * 7,
-          text: this.$t('trans0450')
-        },
-        {
-          value: 1 * 60 * 60 * 24 * 7 * 30,
-          text: this.$t('trans0451')
-        },
-        {
-          value: 1 * 60 * 60 * 24 * 7 * 365,
-          text: this.$t('trans0452')
+          value: 'UDP',
+          text: 'UDP'
         }
       ],
       form: {
-        ip_start: '192.168.1.100',
-        ip_end: '192.168.1.200',
-        lease: 1 * 60 * 60,
-        domain: 'mercku',
-        netinfo: {}
+        id: '',
+        name: '',
+        enabled: false,
+        localIp: '',
+        localPortFrom: '',
+        localPortTo: '',
+        remoteIp: '',
+        remotePortFrom: '',
+        remotePortTo: '',
+        protocol: 'TCPUDP' // TCPUDP, TCP, UDP
       },
       rules: {
         name: [
@@ -196,21 +204,21 @@ export default {
           protocol: portfw.protocol
         };
       } else {
-        this.$router.push('/advance/portforwarding');
+        this.$router.push('/advance/rsvdip');
       }
     }
   },
   methods: {
     submit() {
       const fetchMethod =
-        this.formType === 'update' ? 'meshPortfwUpdate' : 'meshPortfwAdd';
+        this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http[fetchMethod](this.formParams)
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.$router.push('/advance/portforwarding');
+            this.$router.push('/advance/rsvdip');
           })
           .catch(() => {
             this.$loading.close();
@@ -221,17 +229,86 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.ext-item {
-  position: relative;
-  .ext-input {
-    input {
-      padding-left: 100px;
+.form {
+  padding-bottom: 50px;
+  .btn-info {
+    margin-top: 30px;
+  }
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 30px;
+  .ext-item {
+    margin-bottom: 0;
+  }
+  .item {
+    width: 350px;
+    margin-top: 30px;
+    .port-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .ext-input {
+        width: 140px;
+      }
+      i {
+        width: 30px;
+        height: 1px;
+        background: #999999;
+      }
     }
   }
-  .ip {
-    width: 120px;
-    position: absolute;
-    top: 20px;
+  .radio-wrap {
+    display: flex;
+    span {
+      padding-right: 20px;
+    }
+  }
+  .radio-group {
+    min-width: 300px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .form {
+    padding-bottom: 50px;
+    .btn-info {
+      margin-top: 30px;
+    }
+    width: 100%;
+    margin: 0 auto;
+    .ext-item {
+      margin-bottom: 0;
+    }
+    .item {
+      width: 100%;
+      margin-top: 30px;
+      .port-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .ext-input {
+          width: auto;
+        }
+        i {
+          width: 30px;
+          height: 1px;
+          background: #999999;
+          margin: 0 10px;
+        }
+      }
+    }
+    .radio-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      span {
+        margin-bottom: 10px;
+      }
+    }
+    .radio-group {
+      width: 100%;
+      min-width: 100%;
+      flex-direction: column;
+    }
   }
 }
 </style>

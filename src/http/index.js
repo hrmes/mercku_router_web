@@ -65,7 +65,11 @@ const methods = {
   meshDMZGet: createMethod('mesh.dmz.get'),
   meshDMZUpdate: createMethod('mesh.dmz.update'),
   meshDDNSGet: createMethod('mesh.ddns.get'),
-  meshDDNSUpate: createMethod('mesh.ddns.update')
+  meshDDNSUpate: createMethod('mesh.ddns.update'),
+  meshRsvdipGet: createMethod('mesh.rsvdip.get'),
+  meshRsvdipUpdate: createMethod('mesh.rsvdip.update'),
+  meshRsvdipAdd: createMethod('mesh.rsvdip.add'),
+  meshRsvdipDelete: createMethod('mesh.rsvdip.delete'),
 };
 
 const noop = () => {};
@@ -140,6 +144,18 @@ class Http {
   }
   meshPortfwDelete(params) {
     return this.request(methods.meshPortfwDelete, params);
+  }
+  meshRsvdipGet() {
+    return this.request(methods.meshRsvdipGet);
+  }
+  meshRsvdipUpdate(params) {
+    return this.request(methods.meshRsvdipUpdate, params);
+  }
+  meshRsvdipAdd(params) {
+    return this.request(methods.meshRsvdipAdd, params);
+  }
+  meshRsvdipDelete(params) {
+    return this.request(methods.meshRsvdipDelete, params);
   }
   getFirewall() {
     return this.request(methods.meshInfoFirewallGet);

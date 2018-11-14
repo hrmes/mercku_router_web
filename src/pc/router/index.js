@@ -19,15 +19,17 @@ import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
 import blacklistLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
 import portforwarding from 'pages/bussiness/advance/port/index.vue';
-import portfwFrom from 'pages/bussiness/advance/port/form.vue';
+import portfwForm from 'pages/bussiness/advance/port/form.vue';
+import rsvdip from 'pages/bussiness/advance/rsvdip/index.vue';
+import rsvdipForm from 'pages/bussiness/advance/rsvdip/form.vue';
+
 import dhcp from 'pages/bussiness/advance/dhcp/index.vue';
 import dmz from 'pages/bussiness/advance/dmz.vue';
 import firewall from 'pages/bussiness/advance/firewall.vue';
 import ddns from 'pages/bussiness/advance/ddns.vue';
 
 Vue.use(Router);
-const routes = [
-  {
+const routes = [{
     path: '*',
     redirect: '/dashboard'
   },
@@ -45,8 +47,7 @@ const routes = [
     name: 'dashboard',
     component: dashboard,
     redirect: '/dashboard/mesh/topo',
-    children: [
-      {
+    children: [{
         path: '/dashboard/device',
         name: 'device',
         component: device
@@ -136,7 +137,17 @@ const routes = [
   {
     path: '/advance/portforwarding/form/:id?',
     name: 'advance-portforwarding-form',
-    component: portfwFrom
+    component: portfwForm
+  },
+  {
+    path: '/advance/rsvdip',
+    name: 'advance-rsvdip',
+    component: rsvdip
+  },
+  {
+    path: '/advance/rsvdip/form/:id?',
+    name: 'advance-rsvdip-form',
+    component: rsvdipForm
   },
   {
     path: '/advance/dhcp',
