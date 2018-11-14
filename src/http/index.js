@@ -127,6 +127,12 @@ class Http {
       this.exHandler
     );
   }
+  getDDNS() {
+    return this.request(methods.meshDDNSGet);
+  }
+  updateDDNS(params) {
+    return this.request(methods.meshDDNSUpdate, params);
+  }
   getDMZ() {
     return this.request(methods.meshDMZGet);
   }

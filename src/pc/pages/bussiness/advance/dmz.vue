@@ -26,7 +26,7 @@ export default {
     return {
       dmz: {
         ip: '',
-        enabled: true
+        enabled: false
       },
       rules: {
         ip: [
@@ -43,9 +43,16 @@ export default {
   },
   methods: {
     getDMZ() {
-      this.$http.getDMZ().then(res => {
-        this.dmz = res.data.result;
-      });
+      this.$loading.open();
+      this.$http
+        .getDMZ()
+        .then(res => {
+          this.$loading.close();
+          this.dmz = res.data.result;
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     submit() {
       if (this.$refs.form.validate()) {
