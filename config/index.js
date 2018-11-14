@@ -39,12 +39,12 @@ module.exports = {
     cssSourceMap: true,
     proxyTable: {
       '/app': {
-        target: 'http://192.168.127.254',
+        target: 'http://mywifi.mercku.tech',
         changeOrigin: true,
         secure: true
       },
       '/firmware_upload': {
-        target: 'http://192.168.127.254',
+        target: 'http://mywifi.mercku.tech',
         changeOrigin: true,
         secure: true
       }
@@ -73,9 +73,7 @@ module.exports = {
     // already gzip all static assets for you. Before setting to `true`, make sure
     // to: npm install --save-dev compression-webpack-plugin
     productionGzip: false,
-    productionGzipExtensions: [
-      'js', 'css'
-    ],
+    productionGzipExtensions: ['js', 'css'],
 
     // Run the build command with an extra argument to View the bundle analyzer
     // report after build finishes: `npm run build --report` Set to `true` or

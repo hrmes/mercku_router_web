@@ -40,7 +40,8 @@ module.exports = {
       echarts$: path.resolve(__dirname, '../static/echarts.min.js'),
       '@': resolve('src'),
       components: path.resolve(__dirname, '../src/pc/component'),
-      pages: path.resolve(__dirname, '../src/pc/pages')
+      pages: path.resolve(__dirname, '../src/pc/pages'),
+      util: path.resolve(__dirname, '../src/util')
     }
   },
   module: {

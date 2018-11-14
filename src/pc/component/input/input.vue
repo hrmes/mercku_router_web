@@ -1,6 +1,6 @@
 <template>
   <div class="input-container" :class="{'disabled':disabled}">
-    <label for="">
+    <label for="" v-if="label">
       <span>{{label}}</span>
     </label>
     <div class="inputarea">

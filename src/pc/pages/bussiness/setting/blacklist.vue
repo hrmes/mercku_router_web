@@ -61,7 +61,7 @@ export default {
       this.$loading.open();
       const macs = [device.mac];
       this.$http
-        .removeBlacklist(macs)
+        .removeBlacklist({ macs })
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
