@@ -36,8 +36,8 @@ export default {
         domain: '',
         username: '',
         password: '',
-        service: '',
-        enabled: true
+        service: 'dyndns',
+        enabled: false
       },
       services: [
         {
@@ -50,29 +50,48 @@ export default {
         }
       ],
       rules: {
-        ip: [
+        domain: [
           {
-            // rule: value => isIP(value),
-            // message: this.$t('trans0231')
+            rule: value => value,
+            message: this.$t('trans0232')
+          }
+        ],
+        username: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          }
+        ],
+        password: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
           }
         ]
       }
     };
   },
   mounted() {
-    this.getDMZ();
+    this.getDDNS();
   },
   methods: {
-    getDMZ() {
-      this.$http.getDMZ().then(res => {
-        this.dmz = res.data.result;
-      });
+    getDDNS() {
+      this.$loading.open();
+      this.$http
+        .getDDNS()
+        .then(res => {
+          this.$loading.close();
+          this.ddns = res.data.result;
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     submit() {
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http
-          .updateDMZ(this.dmz)
+          .updateDDNS(this.ddns)
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
@@ -91,6 +110,21 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  .form-item {
+    &:first-child {
+      label {
+        margin-right: 30px;
+      }
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+    }
+    &:nth-last-child(2) {
+      display: flex;
+      justify-content: flex-start;
+      width: 100%;
+    }
+  }
   .btn-wrapper {
     display: block;
     text-align: center !important;

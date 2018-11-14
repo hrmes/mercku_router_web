@@ -34,7 +34,10 @@ export default {
 .radio-group-container {
   display: flex;
   .option {
-    flex: 1;
+    &:first-child {
+      margin: 0;
+    }
+    margin-left: 30px;
     display: flex;
     align-items: center;
     cursor: pointer;
