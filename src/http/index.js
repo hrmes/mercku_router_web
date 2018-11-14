@@ -67,7 +67,11 @@ const methods = {
   meshDDNSGet: createMethod('mesh.ddns.get'),
   meshDDNSUpdate: createMethod('mesh.ddns.update'),
   meshInfoWanMacGet: createMethod('mesh.info.wan.mac.get'),
-  meshConfigWanMacUpdate: createMethod('mesh.config.wan.mac.update')
+  meshConfigWanMacUpdate: createMethod('mesh.config.wan.mac.update'),
+  meshRsvdipGet: createMethod('mesh.rsvdip.get'),
+  meshRsvdipUpdate: createMethod('mesh.rsvdip.update'),
+  meshRsvdipAdd: createMethod('mesh.rsvdip.add'),
+  meshRsvdipDelete: createMethod('mesh.rsvdip.delete')
 };
 
 class Http {
@@ -119,6 +123,18 @@ class Http {
   }
   meshPortfwDelete(params) {
     return this.request(methods.meshPortfwDelete, params);
+  }
+  meshRsvdipGet() {
+    return this.request(methods.meshRsvdipGet);
+  }
+  meshRsvdipUpdate(params) {
+    return this.request(methods.meshRsvdipUpdate, params);
+  }
+  meshRsvdipAdd(params) {
+    return this.request(methods.meshRsvdipAdd, params);
+  }
+  meshRsvdipDelete(params) {
+    return this.request(methods.meshRsvdipDelete, params);
   }
   getFirewall() {
     return this.request(methods.meshInfoFirewallGet);

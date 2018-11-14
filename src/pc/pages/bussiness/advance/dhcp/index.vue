@@ -221,5 +221,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.ext-item {
+  position: relative;
+  .ext-input {
+    input {
+      padding-left: 100px;
+    }
+  }
+  .ip {
+    width: 120px;
+    position: absolute;
+    top: 20px;
+  }
+}
 </style>
 
