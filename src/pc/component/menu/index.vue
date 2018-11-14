@@ -191,15 +191,13 @@ export default {
           background: url(../../assets/images/ic_logout.png) no-repeat center;
           background-size: 100%;
         }
-        &.upgrade {
-          background: url(../../assets/images/ic_firmware_upgrade.png) no-repeat
+        &.advance {
+          background: url(../../assets/images/ic_advanced_setup.png) no-repeat
             center;
           background-size: 100%;
         }
-      }
-      &.selected {
-        .menu-icon.wifi {
-          background: url(../../assets/images/ic_home_selected.png) no-repeat
+        &.upgrade {
+          background: url(../../assets/images/ic_firmware_upgrade.png) no-repeat
             center;
           background-size: 100%;
         }

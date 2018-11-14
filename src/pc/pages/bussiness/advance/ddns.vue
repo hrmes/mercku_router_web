@@ -1,15 +1,25 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{$t('trans0067')}}
+      {{$t('trans0418')}}
     </div>
     <div class="page-content">
-      <m-form ref="form" class='form' :model="dmz" :rules='rules'>
-        <m-form-item class="item" prop='ip'>
-          <m-input :label="$t('trans0457')" :placeholder="`${$t('trans0321')}`" v-model="dmz.ip"></m-input>
+      <m-form ref="form" class='form' :model="ddns" :rules='rules'>
+        <div class="form-item">
+          <label for="">{{$t('trans0435')}}</label>
+          <m-radio-group v-model="ddns.service" :options="services"></m-radio-group>
+        </div>
+        <m-form-item class="item" prop='domain'>
+          <m-input :label="$t('trans0436')" :placeholder="`${$t('trans0321')}`" v-model="ddns.domain"></m-input>
         </m-form-item>
-        <div class="checkbox-wrapper">
-          <m-checkbox v-model="dmz.enabled" :text="$t('trans0369')"></m-checkbox>
+        <m-form-item class="item" prop='username'>
+          <m-input :label="$t('trans0410')" :placeholder="`${$t('trans0321')}`" v-model="ddns.username"></m-input>
+        </m-form-item>
+        <m-form-item class="item" prop='password'>
+          <m-input :label="$t('trans0003')" :placeholder="`${$t('trans0321')}`" v-model="ddns.password"></m-input>
+        </m-form-item>
+        <div class="form-item">
+          <m-checkbox v-model="ddns.enabled" :text="$t('trans0369')"></m-checkbox>
         </div>
         <div class="form-item">
           <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
@@ -19,20 +29,31 @@
   </div>
 </template>
 <script>
-import { isIP } from '../../../../util/util';
-
 export default {
   data() {
     return {
-      dmz: {
-        ip: '',
+      ddns: {
+        domain: '',
+        username: '',
+        password: '',
+        service: '',
         enabled: true
       },
+      services: [
+        {
+          text: this.$t('trans0437'),
+          value: 'dyndns'
+        },
+        {
+          text: this.$t('trans0438'),
+          value: 'oray'
+        }
+      ],
       rules: {
         ip: [
           {
-            rule: value => isIP(value),
-            message: this.$t('trans0231')
+            // rule: value => isIP(value),
+            // message: this.$t('trans0231')
           }
         ]
       }
