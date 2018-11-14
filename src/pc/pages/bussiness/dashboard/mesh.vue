@@ -188,7 +188,10 @@ export default {
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http
-          .updateMeshNode(router.sn, { name })
+          .updateMeshNode({
+            node_id: router.sn,
+            data: { name }
+          })
           .then(() => {
             router.name = name;
             this.$loading.close();

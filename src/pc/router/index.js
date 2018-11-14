@@ -24,6 +24,7 @@ import dhcp from 'pages/bussiness/advance/dhcp/index.vue';
 import dmz from 'pages/bussiness/advance/dmz.vue';
 import firewall from 'pages/bussiness/advance/firewall.vue';
 import ddns from 'pages/bussiness/advance/ddns.vue';
+import mac from 'pages/bussiness/advance/mac.vue';
 
 Vue.use(Router);
 const routes = [
@@ -157,6 +158,11 @@ const routes = [
     path: '/advance/ddns',
     name: 'advance-ddns',
     component: ddns
+  },
+  {
+    path: '/advance/mac',
+    name: 'advance-mac',
+    component: mac
   }
 ];
 export default new Router({

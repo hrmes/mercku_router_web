@@ -100,8 +100,8 @@ export default {
               text: 'trans0444'
             },
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/mac',
+              name: 'advance-mac',
               text: 'trans0188'
             },
             {

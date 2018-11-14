@@ -102,6 +102,19 @@ function ip2int(ip) {
     ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0
   );
 }
+function mac2int(mac) {
+  let result = '';
+  mac
+    .replace(/:/g, '')
+    .split('')
+    .reduce((total, next) => {
+      result += parseInt(next, 16)
+        .toString(2)
+        .padStart(4, '0');
+      return result;
+    });
+  return parseInt(result, 2);
+}
 
 export const isMulticast = ip => {
   const i = ip2int(ip);
@@ -112,7 +125,19 @@ export const isMulticast = ip => {
   return false;
 };
 
-export const isMac = mac => /^([a-z0-9]{2}:){5}[a-z0-9]{2}$/i.test(mac);
+export const isMac = mac => {
+  if (!/^([a-z0-9]{2}:){5}[a-z0-9]{2}$/i.test(mac)) {
+    return false;
+  }
+  // 检查组播
+  const r = mac2int(mac);
+  const min = mac2int('01:00:5e:00:00:00');
+  const max = mac2int('01:00:5e:7f:ff:ff');
+  if (r >= min && r <= max) {
+    return false;
+  }
+  return true;
+};
 
 export const isLoopback = ip => {
   const i = ip2int(ip);

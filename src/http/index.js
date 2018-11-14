@@ -65,49 +65,16 @@ const methods = {
   meshDMZGet: createMethod('mesh.dmz.get'),
   meshDMZUpdate: createMethod('mesh.dmz.update'),
   meshDDNSGet: createMethod('mesh.ddns.get'),
-  meshDDNSUpate: createMethod('mesh.ddns.update')
+  meshDDNSUpdate: createMethod('mesh.ddns.update'),
+  meshInfoWanMacGet: createMethod('mesh.info.wan.mac.get'),
+  meshConfigWanMacUpdate: createMethod('mesh.config.wan.mac.update')
 };
 
-const noop = () => {};
 class Http {
   constructor() {
-    this.axios = axios;
     this.exHandler = error => {
       throw error;
     };
-  }
-
-  setInterceptors(options) {
-    console.log(this); // avoid lint
-    const defaultOpt = {
-      reqInterceptor: {
-        success: noop,
-        error: noop
-      },
-      resInterceptor: {
-        success: noop,
-        error: noop
-      }
-    };
-    const opt = {
-      reqInterceptor: {
-        ...defaultOpt.reqInterceptor,
-        ...options.reqInterceptor
-      },
-      resInterceptor: {
-        ...defaultOpt.resInterceptor,
-        ...options.resInterceptor
-      }
-    };
-
-    axios.interceptors.response.use(
-      opt.resInterceptor.success,
-      opt.resInterceptor.error
-    );
-    axios.interceptors.request.use(
-      opt.reqInterceptor.success,
-      opt.reqInterceptor.error
-    );
   }
   setExHandler(fn) {
     this.exHandler = fn;
@@ -119,9 +86,15 @@ class Http {
     if (params) {
       data.params = params;
     }
-    return this.axios({ url: config.url, method: 'post', data }).catch(
+    return axios({ url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
+  }
+  getWanMac() {
+    return this.request(methods.meshInfoWanMacGet);
+  }
+  updateWanMac(params) {
+    return this.request(methods.meshConfigWanMacUpdate, params);
   }
   getDDNS() {
     return this.request(methods.meshDDNSGet);
@@ -211,10 +184,10 @@ class Http {
     return this.request(methods.meshAdminUpdate, params);
   }
   /* v0.9 start */
-  firmwareUpload(params, callback) {
-    const { CancelToken } = this.axios;
+  uploadFirmware(params, callback) {
+    const { CancelToken } = axios;
     const source = CancelToken.source();
-    return this.axios({
+    return axios({
       url: methods.firmwareUpload.url,
       method: 'post',
       data: params,
@@ -247,8 +220,8 @@ class Http {
   getBlacklist() {
     return this.request(methods.meshBlacklistGet);
   }
-  removeBlacklist(macs) {
-    return this.request(methods.meshBlacklistDelete, { macs });
+  removeBlacklist(params) {
+    return this.request(methods.meshBlacklistDelete, params);
   }
   meshWifiUpdate(params) {
     return this.request(methods.meshWifiUpdate, params);
@@ -268,20 +241,17 @@ class Http {
   getMeshMeta() {
     return this.request(methods.meshMetaGet);
   }
-  testSpeed(force) {
-    return this.request(methods.meshWanSpeedTest, { force });
+  testSpeed(params) {
+    return this.request(methods.meshWanSpeedTest, params);
   }
-  addMeshNode(node) {
-    return this.request(methods.meshNodeAdd, node);
+  addMeshNode(params) {
+    return this.request(methods.meshNodeAdd, params);
   }
-  updateMeshNode(nodeId, data) {
-    return this.request(methods.meshNodeUpdate, {
-      node_id: nodeId,
-      data
-    });
+  updateMeshNode(params) {
+    return this.request(methods.meshNodeUpdate, params);
   }
-  isInMesh(node) {
-    return this.request(methods.nodeIsInMesh, node);
+  isInMesh(params) {
+    return this.request(methods.nodeIsInMesh, params);
   }
   getRouter() {
     return this.request(methods.routerMetaGet);
@@ -327,20 +297,19 @@ class Http {
   getTimezone() {
     return this.request(methods.meshInfoTimezoneGet);
   }
-  setTimezone(timezone) {
-    return this.request(methods.meshConfigTimezoneUpdate, timezone);
+  setTimezone(params) {
+    return this.request(methods.meshConfigTimezoneUpdate, params);
   }
   post2native(action, type, data) {
-    this.post2nativeMessage = {
+    const message = JSON.stringify({
       action,
       type,
       data
-    };
-    const messageString = JSON.stringify(this.post2nativeMessage);
+    });
     try {
-      window.webkit.messageHandlers.callbackHandler.postMessage(messageString);
+      window.webkit.messageHandlers.callbackHandler.postMessage(message);
     } catch (err) {
-      window.android && window.android.call(messageString);
+      window.android && window.android.call(message);
     }
   }
 }

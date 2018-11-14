@@ -173,7 +173,7 @@ export default {
       this.uploadStatus = UploadStatus.uploading;
       uploader.status = UploadStatus.uploading;
       return this.$http
-        .firmwareUpload(formData, (progressEvent, token) => {
+        .uploadFirmware(formData, (progressEvent, token) => {
           this.cancelToken = token;
           const { loaded, total, lengthComputable } = progressEvent;
           if (lengthComputable) {

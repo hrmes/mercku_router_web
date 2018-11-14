@@ -301,7 +301,7 @@ export default {
         force = false;
       }
       this.$http
-        .testSpeed(force)
+        .testSpeed({ force })
         .then(res => {
           this.speedStatus = res.data.result.status;
           this.speedInfo = res.data.result;
