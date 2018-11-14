@@ -112,6 +112,8 @@ export const isMulticast = ip => {
   return false;
 };
 
+export const isMac = mac => /^([a-z0-9]{2}:){5}[a-z0-9]{2}$/i.test(mac);
+
 export const isLoopback = ip => {
   const i = ip2int(ip);
   // 环回地址
