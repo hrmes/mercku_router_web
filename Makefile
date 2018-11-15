@@ -8,7 +8,7 @@ CUR_NPM_VER_MINOR := $(shell echo $(CUR_NPM_VER) | cut -f2 -d.)
 CUR_NPM_VER_PATCH := $(shell echo $(CUR_NPM_VER) | cut -f3 -d.)
 IS_NPM_OK := $(shell [ $(CUR_NPM_VER_MAJOR) -gt $(MIN_NPM_VER_MAJOR) -o \( $(CUR_NPM_VER_MAJOR) -eq $(MIN_NPM_VER_MAJOR) -a \( $(CUR_NPM_VER_MINOR) -gt $(MIN_NPM_VER_MINOR) -o \( $(CUR_NPM_VER_MINOR) -eq $(MIN_NPM_VER_MINOR) -a $(CUR_NPM_VER_PATCH) -ge $(MIN_NPM_VER_PATCH) \)  \) \) ] && echo true)
 
-CUSTOMER_ID = 0000
+CUSTOMER_TAG = 0000
 
 all: install
 
@@ -27,10 +27,10 @@ dev_depend: package.json check_npm_version
 	npm i
 
 dev:
-	@CUSTOMER_ID=$(CUSTOMER_ID) npm run dev
+	@CUSTOMER_TAG=$(CUSTOMER_TAG) npm run dev
 
 build: prd_depend
-	@CUSTOMER_ID=$(CUSTOMER_ID) npm run build
+	@CUSTOMER_TAG=$(CUSTOMER_TAG) npm run build
 
 tar: dev build
 	tar cf web-dev.tar -C dist .

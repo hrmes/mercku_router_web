@@ -131,7 +131,7 @@ const launch = () => {
 };
 document.addEventListener('DOMContentLoaded', launch);
 
-// if (process.env.CUSTOM_ID === '0000') {
+// if (process.env.CUSTOMER_TAG === '0000') {
 //   console.log('0000');
 // } else {
 //   console.log('1111');
