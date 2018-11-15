@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import loading from 'components/loading/index';
+import upgradeComponent from 'components/upgrade/index';
 import toast from 'components/toast/index';
 import dialog from 'components/dialog/index';
 import mProgress from 'components/progress/index.vue';
@@ -8,7 +9,6 @@ import router from './router';
 import Desktop from './Desktop.vue';
 import registerComponents from './register-components';
 import Http from '../http';
-
 import { formatSpeed, formatNetworkData, formatBandWidth } from '../util/util';
 import store from './store';
 
@@ -58,42 +58,33 @@ const launch = () => {
     }, 1000);
   };
 
-  const upgradeService = () => {
-    let serviceStarted = false;
-    return options => {
-      if (!serviceStarted) {
-        serviceStarted = true;
-        loading.open({
-          title: translate('trans0212'),
-          template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
-        });
-        const opt = {
-          ...{
-            onsuccess: () => {},
-            ontimeout: () => {},
-            onprogress: () => {},
-            timeout: 600
-          },
-          ...options
-        };
-        reconnect({
-          onsuccess: () => {
-            serviceStarted = false;
-            loading.close();
-            opt.onsuccess();
-          },
-          ontimeout: () => {
-            serviceStarted = false;
-            loading.close();
-            opt.ontimeout();
-          },
-          timeout: opt.timeout,
-          showLoading: false
-        });
-      }
+  const upgrade = options => {
+    upgradeComponent.open({
+      title: translate('trans0212'),
+      tip: translate('trans0213')
+    });
+    const opt = {
+      ...{
+        onsuccess: () => {},
+        ontimeout: () => {},
+        onprogress: () => {},
+        timeout: 600
+      },
+      ...options
     };
+    reconnect({
+      onsuccess: () => {
+        upgradeComponent.close();
+        opt.onsuccess();
+      },
+      ontimeout: () => {
+        upgradeComponent.close();
+        opt.ontimeout();
+      },
+      timeout: opt.timeout,
+      showLoading: false
+    });
   };
-  const upgrade = upgradeService();
 
   http.setExHandler(err => {
     const { response } = err;
@@ -105,7 +96,7 @@ const launch = () => {
         }
       } else if (status === 400 && data.error.code === 600007) {
         upgrade();
-        return;
+        throw err;
       } else {
         const { error } = data;
         if (error && error.code) {
