@@ -2,6 +2,7 @@ import Vue from 'vue';
 import loading from 'components/loading/index';
 import toast from 'components/toast/index';
 import dialog from 'components/dialog/index';
+import mProgress from 'components/progress/index.vue';
 import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
@@ -13,6 +14,7 @@ import store from './store';
 
 const launch = () => {
   const http = new Http();
+  registerComponents(Vue);
 
   const reconnect = options => {
     const opt = {
@@ -20,10 +22,20 @@ const launch = () => {
         onsuccess: () => {},
         ontimeout: () => {},
         onprogress: () => {},
-        timeout: 60
+        timeout: 60,
+        showLoading: true
       },
       ...options
     };
+    let loadingInstance;
+    if (opt.showLoading) {
+      loadingInstance = new (Vue.extend(mProgress))({
+        propsData: {
+          label: translate('trans0315')
+        }
+      }).$mount();
+      document.body.appendChild(loadingInstance.$el);
+    }
     let count = opt.timeout; // 60s重试时间
     const total = opt.timeout;
     const timer = setInterval(() => {
@@ -34,25 +46,23 @@ const launch = () => {
         clearInterval(timer);
         opt.ontimeout();
       } else if (count !== total && count % 5 === 0) {
-        http
-          .getRouter()
-          .then(() => {
-            clearInterval(timer);
-            opt.onsuccess();
-          })
-          .catch(() => {
-            // nothing to do
-          });
+        http.getRouter().then(() => {
+          clearInterval(timer);
+          opt.onsuccess();
+          loadingInstance &&
+            loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+        });
       }
     }, 1000);
   };
+
   const upgradeService = () => {
     let serviceStarted = false;
     return options => {
       if (!serviceStarted) {
         serviceStarted = true;
         loading.open({
-          title: `${translate('trans0212')}`,
+          title: translate('trans0212'),
           template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
         });
         const opt = {
@@ -75,7 +85,8 @@ const launch = () => {
             loading.close();
             opt.ontimeout();
           },
-          timeout: opt.timeout
+          timeout: opt.timeout,
+          showLoading: false
         });
       }
     };
@@ -116,8 +127,6 @@ const launch = () => {
   Vue.prototype.formatNetworkData = formatNetworkData;
   Vue.prototype.formatSpeed = formatSpeed;
   Vue.prototype.formatBandWidth = formatBandWidth;
-
-  registerComponents(Vue);
 
   new Vue({
     el: '#web',

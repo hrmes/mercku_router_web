@@ -242,6 +242,7 @@ export default {
   }
 }
 .form {
+  flex: 1;
   .package-info {
     background: #f1f1f1;
     border-radius: 3px;

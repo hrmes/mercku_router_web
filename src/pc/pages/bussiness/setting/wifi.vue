@@ -1,8 +1,5 @@
 <template>
   <div class="page">
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0315')"></m-progress>
-    </div>
     <div class='page-header'>
       {{$t('trans0167')}}
     </div>
@@ -57,7 +54,6 @@ export default {
       band: '2.4G5G',
       hideTipVisible: false,
       smartTipVisible: false,
-      reboot: false,
       meshData: {},
       options: [
         {
@@ -170,18 +166,15 @@ export default {
                   ...this.form,
                   bands: this.combineBands[this.band]
                 })
-                .then(res => {
-                  if (res.status === 200) {
-                    this.reboot = true;
-                    this.$reconnect({
-                      onsuccess: () => {
-                        this.$router.push({ path: '/dashboard' });
-                      },
-                      ontimeout: () => {
-                        this.$router.push({ path: '/unconnect' });
-                      }
-                    });
-                  }
+                .then(() => {
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/dashboard' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
                 });
             }
           }
