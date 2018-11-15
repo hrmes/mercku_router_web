@@ -71,7 +71,8 @@ const methods = {
   meshRsvdipGet: createMethod('mesh.rsvdip.get'),
   meshRsvdipUpdate: createMethod('mesh.rsvdip.update'),
   meshRsvdipAdd: createMethod('mesh.rsvdip.add'),
-  meshRsvdipDelete: createMethod('mesh.rsvdip.delete')
+  meshRsvdipDelete: createMethod('mesh.rsvdip.delete'),
+  meshDiagnosisExecute: createMethod('mesh.diagnosis.execute')
 };
 
 class Http {
@@ -93,6 +94,9 @@ class Http {
     return axios({ url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
+  }
+  diagnosis(params) {
+    return this.request(methods.meshDiagnosisExecute, params);
   }
   getWanMac() {
     return this.request(methods.meshInfoWanMacGet);

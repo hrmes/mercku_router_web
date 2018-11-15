@@ -1,5 +1,10 @@
 <template>
-  <div class="switch switch-animation" :class="{'checked':value,'disabled':disabledValue}" @click='change()'></div>
+  <div class="switch-container">
+    <label for="" v-if="label">
+      {{label}}
+    </label>
+    <div class="switch switch-animation" :class="{'checked':value,'disabled':disabledValue}" @click='change()'></div>
+  </div>
 </template>
 <script>
 export default {
@@ -20,6 +25,9 @@ export default {
     },
     value: {
       type: Boolean
+    },
+    label: {
+      type: String
     }
   },
   watch: {
@@ -41,55 +49,63 @@ export default {
 </script>
 </script>
 <style lang="scss" type="text/scss" scoped>
-.switch {
-  cursor: pointer;
-  width: 46px;
-  height: 22px;
-  position: relative;
-  background-color: #858585;
-  box-shadow: #a1a0a0 0 0 0 0 inset;
-  border-radius: 22px;
-  background-clip: content-box;
-  display: inline-block;
-  -webkit-appearance: none;
-  user-select: none;
-  outline: none;
-}
-.switch:before {
-  content: '';
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  border-radius: 16px;
-  background-color: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-}
+.switch-container {
+  display: flex;
+  align-items: center;
+  label {
+    margin-right: 20px;
+  }
+  .switch {
+    cursor: pointer;
+    width: 46px;
+    height: 22px;
+    position: relative;
+    background-color: #858585;
+    box-shadow: #a1a0a0 0 0 0 0 inset;
+    border-radius: 22px;
+    background-clip: content-box;
+    display: inline-block;
+    -webkit-appearance: none;
+    user-select: none;
+    outline: none;
+  }
+  .switch:before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    border-radius: 16px;
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
 
-.switch.checked {
-  border-color: #00d061;
-  box-shadow: #00d061 0 0 0 16px inset;
-  background-color: #00d061;
-}
+  .switch.checked {
+    border-color: #00d061;
+    box-shadow: #00d061 0 0 0 16px inset;
+    background-color: #00d061;
+  }
 
-.switch.checked:before {
-  left: 26px;
-}
-.switch.switch-animation {
-  transition: border cubic-bezier(0, 0, 0, 1) 0.4s,
-    box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
-}
-.switch.switch-animation:before {
-  transition: left 0.3s;
-}
+  .switch.checked:before {
+    left: 26px;
+  }
+  .switch.switch-animation {
+    transition: border cubic-bezier(0, 0, 0, 1) 0.4s,
+      box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
+  }
+  .switch.switch-animation:before {
+    transition: left 0.3s;
+  }
 
-.switch.switch-animation.checked {
-  box-shadow: #00d061 0 0 0 16px inset;
-  background-color: #00d061;
-  transition: border ease 0.4s, box-shadow ease 0.4s, background-color ease 1.2s;
-}
-.switch.switch-animation.checked:before {
-  transition: left 0.3s;
+  .switch.switch-animation.checked {
+    box-shadow: #00d061 0 0 0 16px inset;
+    background-color: #00d061;
+    transition: border ease 0.4s, box-shadow ease 0.4s,
+      background-color ease 1.2s;
+  }
+  .switch.switch-animation.checked:before {
+    transition: left 0.3s;
+  }
 }
 </style>

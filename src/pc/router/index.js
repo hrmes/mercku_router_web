@@ -28,9 +28,12 @@ import dmz from 'pages/bussiness/advance/dmz.vue';
 import firewall from 'pages/bussiness/advance/firewall.vue';
 import ddns from 'pages/bussiness/advance/ddns.vue';
 import mac from 'pages/bussiness/advance/mac.vue';
+import log from 'pages/bussiness/advance/log.vue';
+import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 
 Vue.use(Router);
-const routes = [{
+const routes = [
+  {
     path: '*',
     redirect: '/dashboard'
   },
@@ -48,7 +51,8 @@ const routes = [{
     name: 'dashboard',
     component: dashboard,
     redirect: '/dashboard/mesh/topo',
-    children: [{
+    children: [
+      {
         path: '/dashboard/device',
         name: 'device',
         component: device
@@ -174,6 +178,16 @@ const routes = [{
     path: '/advance/mac',
     name: 'advance-mac',
     component: mac
+  },
+  {
+    path: '/advance/log',
+    name: 'advance-log',
+    component: log
+  },
+  {
+    path: '/advance/diagnosis',
+    name: 'advance-diagnosis',
+    component: diagnosis
   }
 ];
 export default new Router({

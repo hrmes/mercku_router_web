@@ -11,7 +11,7 @@
             </h4>
             <p>1.
               <span>{{$t('trans0332')}}</span>
-              <a href="http://www.mercku.tech" target="_blank">www.mercku.tech</a>
+              <a href="https://www.mercku.tech" target="_blank">https://www.mercku.tech</a>
               <span>,&nbsp;{{$t('trans0346')}}</span>
             </p>
             <p>2.

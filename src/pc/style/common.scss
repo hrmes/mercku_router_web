@@ -231,6 +231,11 @@ input::-webkit-input-placeholder {
     justify-content: center;
     align-items: flex-start;
   }
+  .form {
+    .form-item {
+      margin-bottom: 30px;
+    }
+  }
 }
 @media screen and (max-width: 768px) {
   .page {

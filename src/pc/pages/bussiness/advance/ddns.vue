@@ -125,21 +125,6 @@ export default {
       width: 100%;
     }
   }
-  .btn-wrapper {
-    display: block;
-    text-align: center !important;
-  }
-  .checkbox-wrapper {
-    margin-bottom: 30px;
-    width: 350px;
-  }
-}
-@media screen and (max-width: 768px) {
-  .form {
-    .checkbox-wrapper {
-      width: 100%;
-    }
-  }
 }
 </style>
 
