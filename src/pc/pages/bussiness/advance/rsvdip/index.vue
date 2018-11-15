@@ -1,5 +1,8 @@
 <template>
   <div class="page">
+    <div v-if="reboot">
+      <m-progress :label="$t('trans0315')"></m-progress>
+    </div>
     <div class='page-header' :class="{'m-head':mobileShowHead}">
       <span class="title"> {{$t('trans0444')}}</span>
       <div class="m-handle">
@@ -63,6 +66,7 @@
 export default {
   data() {
     return {
+      reboot: false,
       mobileSelect: false,
       mobileShowHead: false,
       empty: null,
@@ -150,7 +154,7 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0376'),
+        message: this.$t('trans0473'),
         callback: {
           ok: () => {
             this.$loading.open();
@@ -161,6 +165,15 @@ export default {
                 // this.getList();
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
+                this.reboot = true;
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/advance/rsvdip' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
               })
               .catch(() => {
                 this.$loading.close();
