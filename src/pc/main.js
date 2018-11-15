@@ -131,8 +131,8 @@ const launch = () => {
 };
 document.addEventListener('DOMContentLoaded', launch);
 
-// if (process.env.CUSTOMER_TAG === '0000') {
-//   console.log('0000');
-// } else {
-//   console.log('1111');
-// }
+if (process.env.CUSTOMER_TAG === '0000') {
+  console.log('MERCKU!');
+} else {
+  console.log('CIK!');
+}
