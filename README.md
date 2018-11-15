@@ -4,29 +4,15 @@
 
 ## Build Setup
 
-```bash
-# install dependencies
-npm install
+### for development
 
-# serve with hot reload at localhost:8080
-npm run dev
+make dev CUSTOMER_TAG=xxxx
 
-# build for production with minification
-npm run build
+### for production
 
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
-
-# production
-make
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+make CUSTOMER_TAG=xxxx
 
 
+## 关于CUSTOMER_TAG
+
+CUSTOMER_TAG为make的可选参数，默认为0000，表示构建mercku版本。关于更多的CUSTOMER_TAG信息：https://github.com/hrmes/docs/issues/660
