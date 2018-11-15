@@ -1,9 +1,6 @@
 <template>
 
   <div>
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0322')"></m-progress>
-    </div>
     <div class="page">
       <div class="network-info">
         <div class="page-header">
@@ -161,7 +158,6 @@ export default {
       ],
       netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       netType: CONSTANTS.WanType.dhcp,
-      reboot: false,
       netInfo: {},
       staticForm: {
         ip: '',
@@ -434,7 +430,6 @@ export default {
         callback: {
           ok: () => {
             this.$http.meshWanUpdate(params).then(() => {
-              this.reboot = true;
               this.$reconnect({
                 onsuccess: () => {
                   this.$router.push({ path: '/dashboard' });

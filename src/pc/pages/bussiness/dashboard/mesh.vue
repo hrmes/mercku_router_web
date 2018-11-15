@@ -71,12 +71,6 @@
         </div>
       </div>
     </div>
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0322')"></m-progress>
-    </div>
-    <div v-if="reset">
-      <m-progress :label="$t('trans0116')"></m-progress>
-    </div>
     <div class="edit-name-modal" v-if="showModal">
       <div class="opcity"></div>
       <div class="content">
@@ -111,8 +105,6 @@ export default {
       meshNodeTimer: null,
       chart: null,
       routers: [],
-      reboot: false,
-      reset: false,
       routerSelected: null,
       showModal: false,
       form: {
@@ -230,10 +222,8 @@ export default {
           ok: () => {
             this.$http.reboot({ node_ids: [router.sn] }).then(() => {
               if (router.is_gw) {
-                this.reboot = true;
                 this.$reconnect({
                   onsuccess: () => {
-                    this.reboot = false;
                     this.$router.push({ path: '/login' });
                   },
                   ontimeout: () => {
@@ -257,7 +247,6 @@ export default {
         callback: {
           ok: () => {
             this.$http.resetMeshNode({ node_ids: [router.sn] }).then(() => {
-              this.reset = true;
               this.$reconnect({
                 onsuccess: () => {
                   this.reset = false;

@@ -45,6 +45,8 @@ const launch = () => {
       if (count === 0) {
         clearInterval(timer);
         opt.ontimeout();
+        loadingInstance &&
+          loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
       } else if (count !== total && count % 5 === 0) {
         http.getRouter().then(() => {
           clearInterval(timer);

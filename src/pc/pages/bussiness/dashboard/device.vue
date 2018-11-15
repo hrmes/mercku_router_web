@@ -1,8 +1,5 @@
 <template>
   <div class="device-container">
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0322')"></m-progress>
-    </div>
     <div class="device-wrapper">
       <div class="title">{{$t('trans0235')}}</div>
       <div class="table-inner">
@@ -142,7 +139,6 @@ export default {
       BlacklistMode,
       formatMac,
       isMobile: false,
-      reboot: false,
       modalShow: false,
       row: {},
       devices: [],
