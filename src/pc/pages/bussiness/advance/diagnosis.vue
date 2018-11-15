@@ -58,7 +58,7 @@ export default {
             host: this.host
           }
         })
-        .then(res => {
+        .then(() => {
           this.$loading.close();
           this.output = res.data.result.output;
         })

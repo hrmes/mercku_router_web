@@ -4,21 +4,21 @@
     <div class="page-content">
       <div class="form">
         <m-form ref="form" :model="form" :rules='rules'>
-          <m-form-item class="item" prop='name' ref="name">
-            <m-input :label="$t('trans0439')" type="text" :placeholder="$t('trans0440')" v-model="form.name" />
+          <m-form-item class="item" prop='ip'>
+            <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="$t('trans0440')" v-model="form.ip" />
           </m-form-item>
           <div class="item">
             <label for="">{{$t('trans0151')}}</label>
             <div>
-              <m-form-item class="ext-item" prop='remotePortFrom' ref="remotePortFrom">
-                <m-input class="ext-input" extra="192.168.127." type="text" :placeholder="$t('trans0441')" v-model="form.remotePortFrom" />
+              <m-form-item class="ext-item" prop='ip_start'>
+                <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" />
               </m-form-item>
-              <m-form-item class="ext-item" prop='remotePortTo' ref="remotePortTo">
-                <m-input class="ext-input" extra="192.168.127." type="text" :placeholder="$t('trans0442')" v-model="form.remotePortTo" />
+              <m-form-item class="ext-item" prop='ip_end'>
+                <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
               </m-form-item>
             </div>
           </div>
-          <m-form-item class="item" prop='localIp' ref="localIp">
+          <m-form-item class="item" prop='lease'>
             <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
           </m-form-item>
         </m-form>
@@ -30,11 +30,20 @@
   </div>
 </template>
 <script>
-import { ipReg, getStringByte, portReg } from '../../../../../util/util';
+import {
+  ipReg,
+  getStringByte,
+  privateIpReg,
+  getIpBefore,
+  getIpAfter
+} from '../../../../../util/util';
 
 export default {
   data() {
     return {
+      privateIpReg,
+      getIpBefore,
+      getIpAfter,
       leases: [
         {
           value: 1 * 60 * 60,
@@ -69,13 +78,14 @@ export default {
           text: this.$t('trans0452')
         }
       ],
+      lanInfo: {},
       form: {
-        ip_start: '192.168.1.100',
-        ip_end: '192.168.1.200',
-        lease: 1 * 60 * 60,
-        domain: 'mercku',
-        netinfo: {}
+        ip: '',
+        ip_start: '',
+        ip_end: '',
+        lease: 1 * 60 * 60
       },
+      ipBefore: '',
       rules: {
         name: [
           {
@@ -87,60 +97,36 @@ export default {
             message: this.$t('trans0261')
           }
         ],
-        remoteIp: [
-          {
-            rule: value => (value ? ipReg.test(value) : value !== 0),
-            message: this.$t('trans0231')
-          }
-        ],
-        remotePortFrom: [
+        ip: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
           },
           {
-            rule: value => portReg.test(value),
+            rule: value => ipReg.test(value) && privateIpReg(value),
             message: this.$t('trans0231')
           }
         ],
-        remotePortTo: [
+        ip_start: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
           },
           {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0231')
+            rule: value =>
+              /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
+            message: this.$t('trans0395')
           }
         ],
-        localIp: [
+        ip_end: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipReg.test(value),
-            message: this.$t('trans0231')
-          }
-        ],
-        localPortFrom: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0231')
-          }
-        ],
-        localPortTo: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0231')
+            rule: value =>
+              /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
+            message: this.$t('trans0395')
           }
         ]
       }
@@ -152,26 +138,14 @@ export default {
     },
     formParams() {
       return {
-        id: this.form.id,
-        name: this.form.name,
-        enabled: this.form.enabled,
-        protocol: this.form.protocol,
-        local: {
-          ip: this.form.localIp,
-          port: {
-            from: this.form.localPortFrom
-              ? Number(this.form.localPortFrom)
-              : '',
-            to: this.form.localPortTo ? Number(this.form.localPortTo) : ''
-          }
-        },
-        remote: {
-          ip: this.form.remoteIp,
-          port: {
-            from: this.form.remotePortFrom
-              ? Number(this.form.remotePortFrom)
-              : '',
-            to: this.form.remotePortTo ? Number(this.form.remotePortTo) : ''
+        type: 'dhcp_server',
+        dhcp_server: {
+          ip_start: `${this.ipBefore}${this.form.ip_start}`,
+          ip_end: `${this.ipBefore}${this.form.ip_end}`,
+          lease: this.form.lease,
+          domain: 'mercku',
+          netinfo: {
+            ip: this.form.ip
           }
         }
       };
@@ -179,38 +153,35 @@ export default {
   },
   watch: {},
   mounted() {
-    // 更新判断
-    if (this.$route.params.id) {
-      const { portfw } = this.$store.state;
-      if (portfw.id) {
-        this.form = {
-          id: portfw.id,
-          name: portfw.name,
-          enabled: portfw.enabled,
-          localIp: portfw.local.ip,
-          localPortFrom: portfw.local.port.from,
-          localPortTo: portfw.local.port.to,
-          remoteIp: portfw.remote.ip,
-          remotePortFrom: portfw.remote.port.from,
-          remotePortTo: portfw.remote.port.to,
-          protocol: portfw.protocol
-        };
-      } else {
-        this.$router.push('/advance/portforwarding');
-      }
-    }
+    this.getLanInfo();
   },
   methods: {
+    blur() {
+      const v = this.form.ip;
+      if (ipReg.test(v) && this.privateIpReg(v)) {
+        this.ipBefore = this.getIpBefore(v);
+      }
+    },
+    getLanInfo() {
+      this.$http.meshInfolanNetGet().then(res => {
+        this.lanInfo = res.data.result;
+        this.ipBefore = this.getIpBefore(this.lanInfo.dhcp_server.netinfo.ip);
+        this.form = {
+          ip: this.lanInfo.dhcp_server.netinfo.ip,
+          ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
+          ip_end: this.getIpAfter(this.lanInfo.dhcp_server.ip_end),
+          lease: 1 * 60 * 60
+        };
+      });
+    },
     submit() {
-      const fetchMethod =
-        this.formType === 'update' ? 'meshPortfwUpdate' : 'meshPortfwAdd';
       if (this.$refs.form.validate()) {
         this.$loading.open();
-        this.$http[fetchMethod](this.formParams)
+        this.$http
+          .meshLanUpdate(this.formParams)
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.$router.push('/advance/portforwarding');
           })
           .catch(() => {
             this.$loading.close();

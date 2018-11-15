@@ -5,7 +5,7 @@
     </label>
     <div class="inputarea">
       <div class="input-wrapper">
-        <div class="extra" v-if="extra">{{extra}}</div>
+        <div class="extra" v-if="addOnBefore">{{addOnBefore}}</div>
         <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" :type="inputType" :class="{'has-icon':isPwdInput}" />
       </div>
       <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
@@ -38,7 +38,7 @@ export default {
     onBlur: {
       type: Function
     },
-    extra: {
+    addOnBefore: {
       type: String,
       default: ''
     }
