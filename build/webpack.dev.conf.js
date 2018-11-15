@@ -54,7 +54,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': require('../config/dev.env')
+      'process.env': {
+        NODE_ENV: '"development"',
+        CUSTOM_ID: `"${process.env.CUSTOM_ID}"`
+      }
     }),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor']
