@@ -15,8 +15,9 @@
           <button class="btn btn-primary" @click="start">{{$t('trans0467')}}</button>
         </div>
       </div>
+      <pre class="log-container">{{output}}</pre>
     </div>
-    <div class="log-container"></div>
+
   </div>
 </template>
 <script>
@@ -38,8 +39,14 @@ export default {
         }
       ],
       job_type: 'ping',
-      host: ''
+      host: '',
+      output: ''
     };
+  },
+  watch: {
+    job_type() {
+      this.host = '';
+    }
   },
   methods: {
     start() {
@@ -47,10 +54,13 @@ export default {
       this.$http
         .diagnosis({
           job_type: this.job_type,
-          job_params: this.host
+          job_params: {
+            host: this.host
+          }
         })
         .then(res => {
           this.$loading.close();
+          this.output = res.data.result.output;
         })
         .catch(() => {
           this.$loading.close();
@@ -60,4 +70,17 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.page-content {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  .log-container {
+    margin-top: 30px;
+    width: 100%;
+    flex: 1;
+    border: solid 1px #bdbdbd;
+    border-radius: 4px;
+    overflow: auto;
+  }
+}
 </style>
