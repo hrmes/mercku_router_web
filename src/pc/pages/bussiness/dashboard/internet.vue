@@ -184,7 +184,7 @@ export default {
   },
   computed: {
     isConnected() {
-      return this.$parent.$parent.isConnected;
+      return this.$parent.isConnected;
     },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
