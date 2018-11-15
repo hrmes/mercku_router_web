@@ -81,6 +81,7 @@ export default {
     border: solid 1px #bdbdbd;
     border-radius: 4px;
     overflow: auto;
+    padding: 10px;
   }
 }
 </style>

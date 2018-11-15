@@ -72,6 +72,7 @@ export default {
     border: solid 1px #bdbdbd;
     flex: 1;
     overflow: auto;
+    padding: 10px;
   }
 }
 </style>

@@ -265,7 +265,6 @@ export default {
 }
 @media screen and (min-width: 1600px) {
   .menu-container {
-    display: inline-block;
     width: 300px;
     left: 0;
     top: 0;
@@ -276,7 +275,6 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .menu-container {
-    display: inline-block;
     height: 65px;
     width: 100%;
     border-bottom: 1px solid #e1e1e1;
@@ -299,11 +297,6 @@ export default {
       }
     }
     .menu {
-      // display: none;
-      //position: fixed;
-      // top: 65px;
-      // bottom: 0;
-      // width: 100%;
       display: none;
       &.show {
         display: block;
