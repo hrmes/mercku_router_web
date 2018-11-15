@@ -14,9 +14,8 @@
               <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
             </m-form-item>
           </m-form>
-          <div class="check-info">
-            <label for=""> {{$t('trans0369')}} </label>
-            <m-switch v-model="form.enabled" />
+          <div class="form-item">
+            <m-checkbox :text="$t('trans0369')" v-model="form.enabled"></m-checkbox>
           </div>
           <div class="form-item">
             <button class="btn" @click='submit'>{{$t('trans0081')}}</button>
