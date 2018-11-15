@@ -73,7 +73,9 @@ const methods = {
   meshRsvdipAdd: createMethod('mesh.rsvdip.add'),
   meshRsvdipDelete: createMethod('mesh.rsvdip.delete'),
   meshInfolanNetGet: createMethod('mesh.info.lan.net.get'),
-  meshDiagnosisExecute: createMethod('mesh.diagnosis.execute')
+  meshDiagnosisExecute: createMethod('mesh.diagnosis.execute'),
+  meshSyslogGet: createMethod('mesh.syslog.get'),
+  meshSyslogEnabledUpdate: createMethod('mesh.syslog.enabled.update')
 };
 
 class Http {
@@ -99,6 +101,12 @@ class Http {
   }
   meshInfolanNetGet() {
     return this.request(methods.meshInfolanNetGet);
+  }
+  getSyslog() {
+    return this.request(methods.meshSyslogGet);
+  }
+  updateSyslogEnabled(params) {
+    return this.request(methods.meshSyslogEnabledUpdate, params);
   }
   diagnosis(params) {
     return this.request(methods.meshDiagnosisExecute, params);
@@ -213,7 +221,7 @@ class Http {
     const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
-      url: methods.firmwareUpload.url,
+      url: methods.firmwareUpload.action,
       method: 'post',
       data: params,
       cancelToken: source.token,

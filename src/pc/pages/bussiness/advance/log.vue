@@ -6,9 +6,11 @@
     <div class="page-content">
       <div class="form">
         <div class="form-item">
-          <m-switch :label="$t('trans0462')" v-model="enabled"></m-switch>
+          <m-switch :label="$t('trans0462')" v-model="log.enabled" :onChange="updateEnabled"></m-switch>
         </div>
-        <div class="log-container"></div>
+        <pre class="log-container">
+          {{log.output}}
+        </pre>
       </div>
     </div>
   </div>
@@ -17,8 +19,41 @@
 export default {
   data() {
     return {
-      enabled: false
+      log: {
+        enabled: false,
+        output: ''
+      }
     };
+  },
+  mounted() {
+    this.getSyslog();
+  },
+  methods: {
+    updateEnabled() {
+      this.$loading.open();
+      this.$http
+        .updateSyslogEnabled({
+          enabled: this.log.enabled
+        })
+        .then(() => {
+          this.$loading.close();
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
+    },
+    getSyslog() {
+      this.$loading.open();
+      this.$http
+        .getSyslog()
+        .then(res => {
+          this.$loading.close();
+          this.log = res.data.result;
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
+    }
   }
 };
 </script>
@@ -36,6 +71,7 @@ export default {
     border-radius: 4px;
     border: solid 1px #bdbdbd;
     flex: 1;
+    overflow: auto;
   }
 }
 </style>
