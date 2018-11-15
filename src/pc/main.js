@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import moment from 'moment';
 import loading from 'components/loading/index';
 import toast from 'components/toast/index';
 import dialog from 'components/dialog/index';
@@ -82,6 +81,7 @@ const launch = () => {
     };
   };
   const upgrade = upgradeService();
+
   http.setExHandler(err => {
     const { response } = err;
     if (response) {
@@ -113,10 +113,10 @@ const launch = () => {
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
-  Vue.prototype.moment = moment;
   Vue.prototype.formatNetworkData = formatNetworkData;
   Vue.prototype.formatSpeed = formatSpeed;
   Vue.prototype.formatBandWidth = formatBandWidth;
+
   registerComponents(Vue);
 
   new Vue({

@@ -133,8 +133,8 @@
   </div>
 </template>
 <script>
-import { formatMac, getStringByte } from '../../../../util/util';
-import { BlacklistMode } from '../../../../util/constant';
+import { formatMac, getStringByte, formatDate } from 'util/util';
+import { BlacklistMode } from 'util/constant';
 
 export default {
   data() {
@@ -365,29 +365,30 @@ export default {
       }
     },
     transformDate(date) {
-      date *= 1000;
-      const now = new Date().getTime();
       if (date < 0) {
         return '-';
-      } else if (date <= 5 * 1000) {
-        return this.$t('trans0010');
-      } else if (date <= 60000 && date > 5 * 1000) {
-        return `${this.$t('trans0011').replace(
-          '%d',
-          parseInt(date / 1000, 10)
-        )}`;
-      } else if (date <= 3600000 && date > 60000) {
-        return `${this.$t('trans0012').replace(
-          '%d',
-          parseInt(date / 60000, 10)
-        )}`;
-      } else if (date <= 3600000 * 24 && date > 3600000) {
+      }
+      const split = [3600 * 24, 3600, 60, 5];
+      if (date > split[0]) {
+        const now = new Date().getTime();
+        return formatDate(now - date * 1000);
+      } else if (date <= split[0] && date > split[1]) {
         return `${this.$t('trans0013').replace(
           '%d',
-          parseInt(date / 3600000, 10)
+          parseInt(date / split[1], 10)
+        )}`;
+      } else if (date <= split[1] && date > split[2]) {
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
+      } else if (date <= split[2] && date > split[3]) {
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(date / split[3], 10)
         )}`;
       }
-      return this.moment(now - date).format('YYYY-MM-DD HH:mm:ss');
+      return `${this.$t('trans0010')}`;
     }
   }
 };
