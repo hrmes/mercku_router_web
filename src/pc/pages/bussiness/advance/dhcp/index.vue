@@ -5,20 +5,20 @@
       <div class="form">
         <m-form ref="form" :model="form" :rules='rules'>
           <m-form-item class="item" prop='ip'>
-            <m-input :label="$t('trans0439')" type="text" :onBlur="getBefore" :placeholder="$t('trans0440')" v-model="form.ip" />
+            <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="$t('trans0440')" v-model="form.ip" />
           </m-form-item>
           <div class="item">
             <label for="">{{$t('trans0151')}}</label>
             <div>
-              <m-form-item class="ext-item" prop='remotePortFrom' ref="remotePortFrom">
-                <m-input class="ext-input" addOnBefore="192.168.127." type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" />
+              <m-form-item class="ext-item" prop='ip_start'>
+                <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" />
               </m-form-item>
-              <m-form-item class="ext-item" prop='remotePortTo' ref="remotePortTo">
-                <m-input class="ext-input" addOnBefore="192.168.127." type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
+              <m-form-item class="ext-item" prop='ip_end'>
+                <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
               </m-form-item>
             </div>
           </div>
-          <m-form-item class="item" prop='localIp' ref="localIp">
+          <m-form-item class="item" prop='lease'>
             <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
           </m-form-item>
         </m-form>
@@ -30,11 +30,20 @@
   </div>
 </template>
 <script>
-import { ipReg, getStringByte } from '../../../../../util/util';
+import {
+  ipReg,
+  getStringByte,
+  privateIpReg,
+  getIpBefore,
+  getIpAfter
+} from '../../../../../util/util';
 
 export default {
   data() {
     return {
+      privateIpReg,
+      getIpBefore,
+      getIpAfter,
       leases: [
         {
           value: 1 * 60 * 60,
@@ -94,8 +103,30 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipReg.test(value),
+            rule: value => ipReg.test(value) && privateIpReg(value),
             message: this.$t('trans0231')
+          }
+        ],
+        ip_start: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value =>
+              /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
+            message: this.$t('trans0395')
+          }
+        ],
+        ip_end: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value =>
+              /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
+            message: this.$t('trans0395')
           }
         ]
       }
@@ -111,7 +142,7 @@ export default {
         dhcp_server: {
           ip_start: `${this.ipBefore}${this.form.ip_start}`,
           ip_end: `${this.ipBefore}${this.form.ip_end}`,
-          lease: this.from.lease,
+          lease: this.form.lease,
           domain: 'mercku',
           netinfo: {
             ip: this.form.ip
@@ -125,20 +156,20 @@ export default {
     this.getLanInfo();
   },
   methods: {
-    getBefore() {
-      console.log('123');
+    blur() {
+      const v = this.form.ip;
+      if (ipReg.test(v) && this.privateIpReg(v)) {
+        this.ipBefore = this.getIpBefore(v);
+      }
     },
-    // splitIp(type, ip) {
-    //   if ((type = 'after')) {
-    //   }
-    // },
     getLanInfo() {
       this.$http.meshInfolanNetGet().then(res => {
         this.lanInfo = res.data.result;
+        this.ipBefore = this.getIpBefore(this.lanInfo.dhcp_server.netinfo.ip);
         this.form = {
           ip: this.lanInfo.dhcp_server.netinfo.ip,
-          ip_start: '',
-          ip_end: '',
+          ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
+          ip_end: this.getIpAfter(this.lanInfo.dhcp_server.ip_end),
           lease: 1 * 60 * 60
         };
       });

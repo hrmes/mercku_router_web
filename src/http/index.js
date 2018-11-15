@@ -72,7 +72,8 @@ const methods = {
   meshRsvdipUpdate: createMethod('mesh.rsvdip.update'),
   meshRsvdipAdd: createMethod('mesh.rsvdip.add'),
   meshRsvdipDelete: createMethod('mesh.rsvdip.delete'),
-  meshInfolanNetGet: createMethod('mesh.info.lan.net.get')
+  meshInfolanNetGet: createMethod('mesh.info.lan.net.get'),
+  meshDiagnosisExecute: createMethod('mesh.diagnosis.execute')
 };
 
 class Http {
@@ -98,6 +99,9 @@ class Http {
   }
   meshInfolanNetGet() {
     return this.request(methods.meshInfolanNetGet);
+  }
+  diagnosis(params) {
+    return this.request(methods.meshDiagnosisExecute, params);
   }
   getWanMac() {
     return this.request(methods.meshInfoWanMacGet);

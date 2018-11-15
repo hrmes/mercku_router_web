@@ -115,8 +115,8 @@ export default {
               text: 'trans0402'
             },
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/diagnosis',
+              name: 'advance-diagnosis',
               text: 'trans0419'
             },
             {
@@ -125,8 +125,8 @@ export default {
               text: 'trans0420'
             },
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/log',
+              name: 'advance-log',
               text: 'trans0421'
             },
             {
