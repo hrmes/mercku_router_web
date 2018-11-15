@@ -1,7 +1,6 @@
 <template>
   <header class="header-container">
     <div class="logo-container">
-      <img src="../../assets/images/MERCKU_LOGO_web_top.png" alt="">
     </div>
     <div class="right-container">
       <div class="lang-selector">
@@ -110,12 +109,14 @@ export default {
   padding: 30px 50px;
   .logo-container {
     display: none;
+    width: 210px;
+    height: 32px;
+    background: url(../../assets/images/MERCKU_LOGO_web_top.png) center
+      no-repeat;
+    background-size: 100%;
     img {
       width: 180px;
     }
-  }
-  .logo {
-    float: left;
   }
   .right-container {
     float: right;
