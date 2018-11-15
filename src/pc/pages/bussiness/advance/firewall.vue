@@ -39,10 +39,12 @@ export default {
     updateFirewall() {
       this.$loading.open();
       this.$http
-        .updateFirewall(this.wan)
+        .updateFirewall({
+          wan: this.wan
+        })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'));
+          this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(() => {
           this.$loading.close();
