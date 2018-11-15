@@ -29,7 +29,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: process.NODE_ENV === 'testing' ? '"testing"' : '"production"',
-        CUSTOM_ID: `"${process.env.CUSTOM_ID}"`
+        CUSTOMER_ID: `"${process.env.CUSTOMER_ID}"`
       }
     }),
     new UglifyJsPlugin({

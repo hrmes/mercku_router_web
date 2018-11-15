@@ -56,7 +56,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"development"',
-        CUSTOM_ID: `"${process.env.CUSTOM_ID}"`
+        CUSTOMER_ID: `"${process.env.CUSTOMER_ID}"`
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({
