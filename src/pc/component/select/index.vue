@@ -1,7 +1,7 @@
 <template>
-  <div class="select-container" @click.stop="open()">
+  <div class="select-container">
     <label for="">{{label}}</label>
-    <div class="select">
+    <div class="select" @click.stop="open()">
       <div class="select-text" :title="selected.text">{{selected.text}}</div>
       <div class="icon-container">
         <span class="icon" :class="{'open':opened,'close':!opened}"></span>

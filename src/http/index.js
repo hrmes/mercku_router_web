@@ -71,7 +71,8 @@ const methods = {
   meshRsvdipGet: createMethod('mesh.rsvdip.get'),
   meshRsvdipUpdate: createMethod('mesh.rsvdip.update'),
   meshRsvdipAdd: createMethod('mesh.rsvdip.add'),
-  meshRsvdipDelete: createMethod('mesh.rsvdip.delete')
+  meshRsvdipDelete: createMethod('mesh.rsvdip.delete'),
+  meshInfolanNetGet: createMethod('mesh.info.lan.net.get')
 };
 
 class Http {
@@ -90,9 +91,13 @@ class Http {
     if (params) {
       data.params = params;
     }
-    return axios({ url: config.url, method: 'post', data }).catch(
-      this.exHandler
-    );
+    return axios({ url: config.url, method: 'post', data }).catch(this.exHandler);
+  }
+  meshLanUpdate() {
+    return this.request(methods.meshLanUpdate);
+  }
+  meshInfolanNetGet() {
+    return this.request(methods.meshInfolanNetGet);
   }
   getWanMac() {
     return this.request(methods.meshInfoWanMacGet);
@@ -317,15 +322,17 @@ class Http {
     return this.request(methods.meshConfigTimezoneUpdate, params);
   }
   post2native(action, type, data) {
-    const message = JSON.stringify({
-      action,
-      type,
-      data
-    });
+    const message = JSON.stringify({ action, type, data });
     try {
-      window.webkit.messageHandlers.callbackHandler.postMessage(message);
+      window
+        .webkit
+        .messageHandlers
+        .callbackHandler
+        .postMessage(message);
     } catch (err) {
-      window.android && window.android.call(message);
+      window.android && window
+        .android
+        .call(message);
     }
   }
 }
