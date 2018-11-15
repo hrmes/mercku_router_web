@@ -170,7 +170,7 @@ export default {
           ip: this.lanInfo.dhcp_server.netinfo.ip,
           ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
           ip_end: this.getIpAfter(this.lanInfo.dhcp_server.ip_end),
-          lease: 1 * 60 * 60
+          lease: this.lanInfo.dhcp_server.lease
         };
       });
     },

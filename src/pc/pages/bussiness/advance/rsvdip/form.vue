@@ -1,5 +1,8 @@
 <template>
   <div class="page">
+    <div v-if="reboot">
+      <m-progress :label="$t('trans0315')"></m-progress>
+    </div>
     <div class='page-header'>
       {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0444')}}
     </div>
@@ -60,6 +63,7 @@ import {
 export default {
   data() {
     return {
+      reboot: false,
       formatMac,
       modalShow: false,
       devices: [],
@@ -163,19 +167,38 @@ export default {
       const fetchMethod =
         this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
       if (this.$refs.form.validate()) {
-        this.$loading.open();
-        this.$http[fetchMethod]({
-          ...this.form,
-          mac: this.form.mac.split(':').join('')
-        })
-          .then(() => {
-            this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.$router.push('/advance/rsvdip');
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0473'),
+          callback: {
+            ok: () => {
+              this.$loading.open();
+              this.$http[fetchMethod]({
+                ...this.form,
+                mac: this.form.mac.split(':').join('')
+              })
+                .then(() => {
+                  this.$loading.close();
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.reboot = true;
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/advance/rsvdip' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+
+                  // this.$router.push('/advance/rsvdip');
+                })
+                .catch(() => {
+                  this.$loading.close();
+                });
+            }
+          }
+        });
       }
     }
   }
