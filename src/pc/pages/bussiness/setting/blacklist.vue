@@ -20,6 +20,7 @@
           </div>
           <div class="empty" v-if="!blacklist.length">
             <img src="../../../assets/images/img_default_empty.png" alt="">
+            {{$t('trans0278')}}
           </div>
         </div>
       </div>
@@ -113,6 +114,7 @@ export default {
       padding: 30px;
       display: flex;
       flex: 1;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       img {

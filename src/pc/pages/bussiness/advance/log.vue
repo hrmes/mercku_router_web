@@ -73,6 +73,7 @@ export default {
     flex: 1;
     overflow: auto;
     padding: 10px;
+    font-family: inherit;
   }
 }
 </style>
