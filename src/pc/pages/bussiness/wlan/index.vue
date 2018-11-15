@@ -157,7 +157,8 @@ export default {
               ontimeout: () => {
                 clearInterval(timer);
                 this.$router.push({ path: '/unconnect' });
-              }
+              },
+              showLoading: false
             });
           });
       }
