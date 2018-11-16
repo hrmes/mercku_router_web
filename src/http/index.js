@@ -123,8 +123,8 @@ class Http {
   updateVPNConfig(params) {
     return this.request(methods.meshVpnConfigUpdate, params);
   }
-  meshLanUpdate() {
-    return this.request(methods.meshLanUpdate);
+  meshLanUpdate(params) {
+    return this.request(methods.meshLanUpdate, params);
   }
   meshInfolanNetGet() {
     return this.request(methods.meshInfolanNetGet);

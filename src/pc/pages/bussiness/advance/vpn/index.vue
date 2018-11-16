@@ -44,10 +44,10 @@ export default {
       if (!duration) {
         return '00:00:00';
       }
-      var total = Math.floor(duration / 1000);
-      var hour = Math.floor(total / 3600);
-      var min = Math.floor((total % 3600) / 60);
-      var sec = (total % 3600) % 60;
+      const total = Math.floor(duration / 1000);
+      const hour = Math.floor(total / 3600);
+      const min = Math.floor((total % 3600) / 60);
+      const sec = (total % 3600) % 60;
 
       return (hour > 0 ? [hour, min, sec] : [min, sec])
         .map(x => `0${x}`.slice(-2))
