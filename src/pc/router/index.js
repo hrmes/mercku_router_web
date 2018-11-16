@@ -22,7 +22,6 @@ import portforwarding from 'pages/bussiness/advance/port/index.vue';
 import portfwForm from 'pages/bussiness/advance/port/form.vue';
 import rsvdip from 'pages/bussiness/advance/rsvdip/index.vue';
 import rsvdipForm from 'pages/bussiness/advance/rsvdip/form.vue';
-
 import dhcp from 'pages/bussiness/advance/dhcp/index.vue';
 import dmz from 'pages/bussiness/advance/dmz.vue';
 import firewall from 'pages/bussiness/advance/firewall.vue';
@@ -30,6 +29,8 @@ import ddns from 'pages/bussiness/advance/ddns.vue';
 import mac from 'pages/bussiness/advance/mac.vue';
 import log from 'pages/bussiness/advance/log.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
+import vpn from 'pages/bussiness/advance/vpn/index.vue';
+import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 
 Vue.use(Router);
 const routes = [
@@ -188,6 +189,16 @@ const routes = [
     path: '/advance/diagnosis',
     name: 'advance-diagnosis',
     component: diagnosis
+  },
+  {
+    path: '/advance/vpn',
+    name: 'advance-vpn',
+    component: vpn
+  },
+  {
+    path: '/advance/vpn/form/:id?',
+    name: 'advance-vpn-form',
+    component: vpnForm
   }
 ];
 export default new Router({

@@ -110,8 +110,8 @@ export default {
               text: 'trans0418'
             },
             {
-              url: '/upgrade/online',
-              name: 'online',
+              url: '/advance/vpn',
+              name: 'advance-vpn',
               text: 'trans0402'
             },
             {

@@ -38,3 +38,8 @@ export const BlacklistMode = {
   blacklist: 'blacklist',
   whitelist: 'whitelist'
 };
+
+export const VPNStatus = {
+  connect: 'connect',
+  disconnect: 'disconnect'
+};
