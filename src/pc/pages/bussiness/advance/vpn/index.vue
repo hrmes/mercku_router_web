@@ -11,7 +11,7 @@
             <div class="vpn-right">
               <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div>
               <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="start(vpn)"></m-switch>
-              <div class="vpn-edit">{{$t('trans0034')}}</div>
+              <div class="vpn-edit" @click="edit(vpn)">{{$t('trans0034')}}</div>
               <div class="vpn-del" @click="del(vpn)">{{$t('trans0033')}}</div>
             </div>
           </div>
@@ -35,9 +35,9 @@ export default {
     return {
       vpns: [
         {
-          id: '<id>',
+          id: '1',
           name: '<name>',
-          protocol: 'L2TP|PPTP', // L2TP or PPTP
+          protocol: 'L2TP', // L2TP or PPTP
           server: '<server ip or host>',
           username: '<username>',
           password: '<password>',
@@ -68,6 +68,10 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
+    },
+    edit(vpn) {
+      this.$store.state.vpn = vpn;
+      this.$router.push(`/advance/vpn/form/${vpn.id}`);
     },
     add() {
       if (this.vpns.length >= 5) {

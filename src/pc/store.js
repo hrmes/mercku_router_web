@@ -23,7 +23,8 @@ const store = new Store(Vue, {
   state: {
     limits: {},
     portfw: {},
-    rsvdip: {}
+    rsvdip: {},
+    vpn: {}
   }
 });
 
