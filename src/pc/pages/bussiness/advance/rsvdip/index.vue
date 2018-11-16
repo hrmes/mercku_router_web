@@ -1,8 +1,5 @@
 <template>
   <div class="page">
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0315')"></m-progress>
-    </div>
     <div class='page-header' :class="{'m-head':mobileShowHead}">
       <span class="title"> {{$t('trans0444')}}</span>
       <div class="m-handle">
@@ -26,7 +23,7 @@
         </div>
       </div>
       <div class='table' v-if="(typeof empty =='boolean') && !empty">
-        <div class="handle-info" :class="{'openInfo':mobileShowHead}">
+        <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
           <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}} <i> <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i> </div>
           <div class="btn-wrap" :class="{open:mobileSelect}">
             <button class="btn" @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
@@ -66,7 +63,6 @@
 export default {
   data() {
     return {
-      reboot: false,
       mobileSelect: false,
       mobileShowHead: false,
       empty: null,
@@ -165,7 +161,6 @@ export default {
                 // this.getList();
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
-                this.reboot = true;
                 this.$reconnect({
                   onsuccess: () => {
                     this.$router.push({ path: '/advance/rsvdip' });

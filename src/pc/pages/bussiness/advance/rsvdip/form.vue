@@ -1,8 +1,5 @@
 <template>
   <div class="page">
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0315')"></m-progress>
-    </div>
     <div class='page-header'>
       {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0444')}}
     </div>
@@ -13,7 +10,7 @@
           <div class="device" @click.stop="()=>modalShow=!modalShow">
             <span>{{$t('trans0235')}}</span>
             <i> <img :class="{open:modalShow}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i>
-            <div class="modal" v-if="modalShow" @click.stop="">
+            <div class="modal" v-if="modalShow" @click.stop="" v-clickoutside="()=>modalShow=false">
               <div class="opcity"></div>
               <div class="modal-content">
                 <div class="list">
@@ -63,7 +60,6 @@ import {
 export default {
   data() {
     return {
-      reboot: false,
       formatMac,
       modalShow: false,
       devices: [],
@@ -181,7 +177,6 @@ export default {
                 .then(() => {
                   this.$loading.close();
                   this.$toast(this.$t('trans0040'), 3000, 'success');
-                  this.reboot = true;
                   this.$reconnect({
                     onsuccess: () => {
                       this.$router.push({ path: '/advance/rsvdip' });

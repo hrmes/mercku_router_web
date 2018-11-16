@@ -29,7 +29,7 @@ const launch = () => {
     };
     let loadingInstance;
     if (opt.showLoading) {
-      loadingInstance = new (Vue.extend(mProgress))({
+      loadingInstance = new(Vue.extend(mProgress))({
         propsData: {
           label: translate('trans0315')
         }
@@ -121,6 +121,25 @@ const launch = () => {
   Vue.prototype.formatSpeed = formatSpeed;
   Vue.prototype.formatBandWidth = formatBandWidth;
 
+  Vue.directive('clickoutside', {
+    bind(el, binding) {
+      function documentHandler(e) {
+        if (el.contains(e.target)) {
+          return false;
+        }
+        if (binding.expression) {
+          binding.value(e);
+        }
+        return false;
+      }
+      el.__vueClickOutside__ = documentHandler;
+      document.addEventListener('click', documentHandler);
+    },
+    unbind(el) {
+      document.removeEventListener('click', el.__vueClickOutside__);
+      delete el.__vueClickOutside__;
+    }
+  });
   new Vue({
     el: '#web',
     i18n,
@@ -129,6 +148,7 @@ const launch = () => {
     render: h => h(Desktop)
   });
 };
+
 document.addEventListener('DOMContentLoaded', launch);
 
 if (process.env.CUSTOMER_TAG === '0000') {

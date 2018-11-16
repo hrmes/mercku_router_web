@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class='table' v-if="(typeof empty =='boolean') && !empty">
-        <div class="handle-info" :class="{'openInfo':mobileShowHead}">
+        <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
           <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}} <i> <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i> </div>
           <div class="btn-wrap" :class="{open:mobileSelect}">
             <button class="btn" @click="()=>$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
