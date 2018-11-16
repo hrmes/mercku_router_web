@@ -143,7 +143,7 @@ export default {
           ip_start: `${this.ipBefore}${this.form.ip_start}`,
           ip_end: `${this.ipBefore}${this.form.ip_end}`,
           lease: this.form.lease,
-          domain: 'mercku',
+          // domain: 'mercku',
           netinfo: {
             ip: this.form.ip
           }
@@ -165,9 +165,9 @@ export default {
     getLanInfo() {
       this.$http.meshInfolanNetGet().then(res => {
         this.lanInfo = res.data.result;
-        this.ipBefore = this.getIpBefore(this.lanInfo.dhcp_server.netinfo.ip);
+        this.ipBefore = this.getIpBefore(this.lanInfo.netinfo.ip);
         this.form = {
-          ip: this.lanInfo.dhcp_server.netinfo.ip,
+          ip: this.lanInfo.netinfo.ip,
           ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
           ip_end: this.getIpAfter(this.lanInfo.dhcp_server.ip_end),
           lease: this.lanInfo.dhcp_server.lease
