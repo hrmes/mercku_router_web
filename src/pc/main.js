@@ -47,12 +47,14 @@ const launch = () => {
         opt.ontimeout();
         loadingInstance &&
           loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+        loadingInstance = null;
       } else if (count !== total && count % 5 === 0) {
         http.getRouter().then(() => {
           clearInterval(timer);
           opt.onsuccess();
           loadingInstance &&
             loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+          loadingInstance = null;
         });
       }
     }, 1000);
