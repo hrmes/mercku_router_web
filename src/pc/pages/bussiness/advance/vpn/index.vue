@@ -98,7 +98,11 @@ export default {
       this.$loading.open();
       Promise.all([this.$http.getVPNInfo(), this.$http.getVPNlist()])
         .then(result => {
-          this.vpns = result.data.result;
+          const info = result[0].data.result;
+          const vpns = result[1].data.result;
+          // this.vpns = vpns.map(v =>{
+          //   if(v.id === )
+          // })
           this.$loading.close();
         })
         .catch(() => {
