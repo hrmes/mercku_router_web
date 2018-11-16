@@ -177,16 +177,7 @@ export default {
                 .then(() => {
                   this.$loading.close();
                   this.$toast(this.$t('trans0040'), 3000, 'success');
-                  this.$reconnect({
-                    onsuccess: () => {
-                      this.$router.push({ path: '/advance/rsvdip' });
-                    },
-                    ontimeout: () => {
-                      this.$router.push({ path: '/unconnect' });
-                    }
-                  });
-
-                  // this.$router.push('/advance/rsvdip');
+                  this.$router.push({ path: '/advance/rsvdip' });
                 })
                 .catch(() => {
                   this.$loading.close();

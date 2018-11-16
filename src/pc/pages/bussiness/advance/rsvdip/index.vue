@@ -46,7 +46,7 @@
             <div class="column-check" :class="{'checkOpen':mobileShowHead}">
               <m-checkbox v-model='item.checked'></m-checkbox>
             </div>
-            <div class="column-name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
+            <div class="column-name" :title="item.name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
             <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{item.mac}}</div>
             <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.ip}}</div>
             <div class="column-handle">
@@ -226,6 +226,9 @@ export default {
   }
   .column-name {
     width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .column-local-ip {
     width: 120px;
