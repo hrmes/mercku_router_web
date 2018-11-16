@@ -11,7 +11,7 @@
             <div class="vpn-right">
               <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div>
               <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="()=>start(vpn)"></m-switch>
-              <div class="vpn-edit" :class="{'disabled':vpn.enabled}">{{$t('trans0034')}}</div>
+              <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0034')}}</div>
               <div class="vpn-del" @click="del(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0033')}}</div>
             </div>
           </div>
@@ -62,8 +62,8 @@ export default {
           vpn_id: vpn.id,
           status: vpn.enabled ? VPNAction.connect : VPNAction.disconnect
         })
-        .then(res => {
-          this.$loading.close();
+        .then(() => {
+          this.this.$loading.close();
         })
         .catch(() => {
           this.$loading.close();
@@ -110,11 +110,13 @@ export default {
           this.vpns = vpns.map(v => {
             this.$set(v, 'enabled', false);
             if (
-              (info.status = VPNStatus.connected && v.id === info.deleteVPN)
+              info.status === VPNStatus.connected &&
+              v.id === info.deleteVPN
             ) {
               v.enabled = true;
               v.duration = info.connected_time;
             }
+            return v;
           });
           this.$loading.close();
         })
@@ -193,9 +195,16 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .list {
+    flex: 1;
     .vpn-list {
+      width: 100%;
       .vpn {
         width: 100%;
+        flex-direction: column;
+        padding: 10px;
+        .vpn-name {
+          margin-bottom: 10px;
+        }
       }
     }
   }

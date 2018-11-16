@@ -39,10 +39,10 @@ export default {
     }
   },
   methods: {
-    change() {
+    change(...args) {
       this.checked = !this.checked;
       this.$emit('input', this.checked);
-      this.onChange(...arguments, this.checked);
+      this.onChange(args, this.checked);
     }
   }
 };
