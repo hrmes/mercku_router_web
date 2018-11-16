@@ -6,13 +6,12 @@
 
 ### for development
 
-make dev CUSTOMER_TAG=xxxx
+make dev CUSTOMER_ID=xxxx
 
 ### for production
 
-make CUSTOMER_TAG=xxxx
+make CUSTOMER_ID=xxxx
 
+## 关于 CUSTOMER_ID
 
-## 关于CUSTOMER_TAG
-
-CUSTOMER_TAG为make的可选参数，默认为0000，表示构建mercku版本。关于更多的CUSTOMER_TAG信息：https://github.com/hrmes/docs/issues/660
+CUSTOMER_ID 为 make 的可选参数，默认为 0000，表示构建 mercku 版本。关于更多的 CUSTOMER_ID 信息：https://github.com/hrmes/docs/issues/660

@@ -29,8 +29,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: process.NODE_ENV === 'testing' ? '"testing"' : '"production"',
-        CUSTOMER_TAG: process.env.CUSTOMER_TAG
-          ? `"${process.env.CUSTOMER_TAG}"`
+        CUSTOMER_ID: process.env.CUSTOMER_ID
+          ? `"${process.env.CUSTOMER_ID}"`
           : '0000'
       }
     }),
