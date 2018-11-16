@@ -105,9 +105,6 @@ class Http {
       this.exHandler
     );
   }
-  all() {
-    return axios.all;
-  }
   getVPNlist() {
     return this.request(methods.meshVpnGet);
   }
