@@ -40,6 +40,12 @@ export const BlacklistMode = {
 };
 
 export const VPNStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnected: 'disconnected'
+};
+
+export const VPNAction = {
   connect: 'connect',
   disconnect: 'disconnect'
 };
