@@ -9,7 +9,7 @@
           <div class="vpn" v-for="vpn in vpns" :key="vpn.id">
             <div class="vpn-name">{{vpn.name}}</div>
             <div class="vpn-right">
-              <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div>
+              <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
               <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="()=>start(vpn)"></m-switch>
               <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0034')}}</div>
               <div class="vpn-del" @click="del(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0033')}}</div>
@@ -33,28 +33,26 @@ import { VPNAction, VPNStatus } from 'util/constant';
 export default {
   data() {
     return {
-      vpns: [
-        {
-          id: '1',
-          name: '<name>',
-          protocol: 'L2TP', // L2TP or PPTP
-          server: '<server ip or host>',
-          username: '<username>',
-          password: '<password>',
-          enabled: false,
-          // protocol=pptp时提供
-          pptp: {
-            mppe: true,
-            mppc: true
-          }
-        }
-      ]
+      vpns: null
     };
   },
   mounted() {
     this.getVPNList();
   },
   methods: {
+    formatDuration(duration) {
+      if (!duration) {
+        return '00:00:00';
+      }
+      var total = Math.floor(duration / 1000);
+      var hour = Math.floor(total / 3600);
+      var min = Math.floor((total % 3600) / 60);
+      var sec = (total % 3600) % 60;
+
+      return (hour > 0 ? [hour, min, sec] : [min, sec])
+        .map(x => `0${x}`.slice(-2))
+        .join(':');
+    },
     start(vpn, v) {
       this.$loading.open();
       this.$http
@@ -114,7 +112,7 @@ export default {
               v.id === info.deleteVPN
             ) {
               v.enabled = true;
-              v.duration = info.connected_time;
+              // v.duration = info.connected_time;
             }
             return v;
           });
@@ -144,7 +142,7 @@ export default {
   }
   .vpn-list {
     .vpn {
-      width: 550px;
+      width: 350px;
       display: flex;
       border-radius: 4px;
       border: solid 1px #dedede;
