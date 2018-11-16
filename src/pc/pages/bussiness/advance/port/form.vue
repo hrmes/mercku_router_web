@@ -21,11 +21,11 @@
             <label for="">{{$t('trans0426')}}</label>
             <div class="port-wrap">
               <m-form-item class="ext-item" prop='remotePortFrom' ref="remotePortFrom">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortFrom" />
+                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortFrom" :onBlur="onRFChange" />
               </m-form-item>
               <i></i>
               <m-form-item class="ext-item" prop='remotePortTo' ref="remotePortTo">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortTo" />
+                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortTo" :onBlur="onRTChange" />
               </m-form-item>
             </div>
           </div>
@@ -36,11 +36,11 @@
             <label for="">{{$t('trans0428')}}</label>
             <div class="port-wrap">
               <m-form-item class="ext-item" prop='localPortFrom' ref="localPortFrom">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortFrom" :onBlur="localFormChange" />
+                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortFrom" :onBlur="onLFChange" />
               </m-form-item>
               <i></i>
               <m-form-item class="ext-item" prop='localPortTo' ref="localPortTo">
-                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortTo" :onBlur="localToChange" />
+                <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortTo" />
               </m-form-item>
             </div>
           </div>
@@ -108,17 +108,8 @@ export default {
           },
           {
             rule: value => portReg.test(value),
-            message: this.$t('trans0231')
+            message: this.$t('trans0478')
           }
-          // {
-          //   rule: value => {
-          //     if (this.form.remotePortTo && value) {
-          //       return Number(this.form.remotePortTo) > Number(value);
-          //     }
-          //     return true;
-          //   },
-          //   message: this.$t('trans0471')
-          // }
         ],
         remotePortTo: [
           {
@@ -127,17 +118,17 @@ export default {
           },
           {
             rule: value => portReg.test(value),
-            message: this.$t('trans0231')
+            message: this.$t('trans0478')
+          },
+          {
+            rule: value => {
+              if (this.form.remotePortFrom) {
+                return Number(this.form.remotePortFrom) <= Number(value);
+              }
+              return true;
+            },
+            message: this.$t('trans0471')
           }
-          // {
-          //   rule: value => {
-          //     if (this.form.remotePortFrom && value) {
-          //       return Number(this.form.remotePortFrom) < Number(value);
-          //     }
-          //     return true;
-          //   },
-          //   message: this.$t('trans0471')
-          // }
         ],
         localIp: [
           {
@@ -156,17 +147,8 @@ export default {
           },
           {
             rule: value => portReg.test(value),
-            message: this.$t('trans0231')
+            message: this.$t('trans0478')
           }
-          // {
-          //   rule: value => {
-          //     if (this.form.localPortTo && value) {
-          //       return Number(this.form.localPortTo) < Number(value);
-          //     }
-          //     return true;
-          //   },
-          //   message: this.$t('trans0471')
-          // }
         ],
         localPortTo: [
           {
@@ -175,21 +157,31 @@ export default {
           },
           {
             rule: value => portReg.test(value),
-            message: this.$t('trans0231')
+            message: this.$t('trans0478')
+          },
+          {
+            rule: value => {
+              if (this.form.localPortFrom) {
+                return Number(this.form.localPortFrom) <= Number(value);
+              }
+              return true;
+            },
+            message: this.$t('trans0471')
+          },
+          {
+            rule: value => {
+              const rf = this.form.remotePortFrom;
+              const rt = this.form.remotePortTo;
+              const lf = this.form.localPortFrom;
+              if (rf && rt && lf) {
+                const range = Number(rt) - Number(rf);
+                const range1 = Number(value) - Number(lf);
+                return range === range1;
+              }
+              return true;
+            },
+            message: this.$t('trans0429')
           }
-          // {
-          //   rule: () => this.portRangeReg(),
-          //   message: this.$t('trans0429')
-          // },
-          // {
-          //   rule: value => {
-          //     if (this.form.localPortFrom && value) {
-          //       return Number(this.form.localPortFrom) > Number(value);
-          //     }
-          //     return true;
-          //   },
-          //   message: this.$t('trans0471')
-          // }
         ]
       }
     };
@@ -225,7 +217,6 @@ export default {
       };
     }
   },
-  watch: {},
   mounted() {
     // 更新判断
     if (this.$route.params.id) {
@@ -249,52 +240,45 @@ export default {
     }
   },
   methods: {
-    portRangeReg() {
-      const hasValues = [
-        'localPortFrom',
-        'localPortTo',
-        'remotePortFrom',
-        'remotePortTo'
-      ]
-        .map(v => !!this.form[v])
-        .some(n => !n);
-      if (hasValues) {
-        return true;
-      }
-      if (
-        !hasValues &&
-        Number(this.form.localPortTo) - Number(this.form.localPortFrom) ===
-          Number(this.form.remotePortTo) - Number(this.form.remotePortFrom)
-      ) {
-        return true;
-      }
-      return false;
-    },
-    localFormChange() {
-      const rule = () => () => {
-        if (this.form.localPortTo) {
-          console.log(this.form.localPortTo > Number(this.form.localPortFrom));
-          return (
-            Number(this.form.localPortTo) > Number(this.form.localPortFrom)
-          );
+    validateLT() {
+      this.$refs.localPortTo.extraValidate(() => {
+        const lf = this.form.localPortFrom;
+        const lt = this.form.localPortTo;
+        if (lf && lt) {
+          return Number(lt) >= Number(lf);
         }
         return true;
-      };
-      this.$refs.localPortFrom.extraValidate(rule(), this.$t('trans0471'));
-      this.$refs.localPortTo.extraValidate(rule(), this.$t('trans0471'));
-    },
-    localToChange() {
-      const rule = () => () => {
-        if (this.form.localPortFrom) {
-          console.log(this.form.localPortTo > Number(this.form.localPortFrom));
-          return (
-            Number(this.form.localPortTo) > Number(this.form.localPortFrom)
-          );
+      }, this.$t('trans0471'));
+
+      this.$refs.localPortTo.extraValidate(() => {
+        const rf = this.form.remotePortFrom;
+        const rt = this.form.remotePortTo;
+        const lf = this.form.localPortFrom;
+        const lt = this.form.localPortTo;
+        if (rf && rt && lf && lt) {
+          const range = Number(rt) - Number(rf);
+          const range1 = Number(lt) - Number(lf);
+          return range === range1;
         }
         return true;
-      };
-      this.$refs.localPortFrom.extraValidate(rule(), this.$t('trans0471'));
-      this.$refs.localPortTo.extraValidate(rule(), this.$t('trans0471'));
+      }, this.$t('trans0429'));
+    },
+    onRFChange() {
+      this.$refs.remotePortTo.extraValidate(() => {
+        const rf = this.form.remotePortFrom;
+        const rt = this.form.remotePortTo;
+        if (rf && rt) {
+          return Number(rt) >= Number(rf);
+        }
+        return true;
+      }, this.$t('trans0471'));
+      this.validateLT();
+    },
+    onRTChange() {
+      this.validateLT();
+    },
+    onLFChange() {
+      this.validateLT();
     },
     submit() {
       const fetchMethod =

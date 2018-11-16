@@ -32,22 +32,22 @@ export default {
         for (let j = 0; j < this.validators.length; j += 1) {
           const validator = this.validators[j];
           if (!validator.rule(value)) {
-            this.result = false;
             result = false;
             this.message = validator.message;
             break;
           }
         }
       }
+      this.result = result;
       return result;
     },
     extraValidate(validator, msg, ...arg) {
       let result = true;
       if (!validator(...arg)) {
-        this.result = false;
         result = false;
         this.message = msg;
       }
+      this.result = result;
       return result;
     }
   },
