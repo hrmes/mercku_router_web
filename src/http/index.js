@@ -75,7 +75,14 @@ const methods = {
   meshInfolanNetGet: createMethod('mesh.info.lan.net.get'),
   meshDiagnosisExecute: createMethod('mesh.diagnosis.execute'),
   meshSyslogGet: createMethod('mesh.syslog.get'),
-  meshSyslogEnabledUpdate: createMethod('mesh.syslog.enabled.update')
+  meshSyslogEnabledUpdate: createMethod('mesh.syslog.enabled.update'),
+  meshVpnGet: createMethod('mesh.vpn.get'),
+  meshVpnAdd: createMethod('mesh.vpn.add'),
+  meshVpnUpdate: createMethod('mesh.vpn.update'),
+  meshVpnDelete: createMethod('mesh.vpn.delete'),
+  meshVpnInfoGet: createMethod('mesh.vpn.info.get'),
+  meshVpnConfigGet: createMethod('mesh.vpn.config.get'),
+  meshVpnConfigUpdate: createMethod('mesh.vpn.config.update')
 };
 
 class Http {
@@ -94,7 +101,27 @@ class Http {
     if (params) {
       data.params = params;
     }
-    return axios({ url: config.url, method: 'post', data }).catch(this.exHandler);
+    return axios({ url: config.url, method: 'post', data }).catch(
+      this.exHandler
+    );
+  }
+  getVPNlist() {
+    return this.request(methods.meshVpnGet);
+  }
+  addVPN(params) {
+    return this.request(methods.meshVpnAdd, params);
+  }
+  updateVPN(params) {
+    return this.request(methods.meshVpnUpdate, params);
+  }
+  deleteVPN(params) {
+    return this.request(methods.meshVpnDelete, params);
+  }
+  getVPNInfo() {
+    return this.request(methods.meshVpnInfoGet);
+  }
+  updateVPNConfig(params) {
+    return this.request(methods.meshVpnConfigUpdate, params);
   }
   meshLanUpdate() {
     return this.request(methods.meshLanUpdate);
@@ -336,15 +363,9 @@ class Http {
   post2native(action, type, data) {
     const message = JSON.stringify({ action, type, data });
     try {
-      window
-        .webkit
-        .messageHandlers
-        .callbackHandler
-        .postMessage(message);
+      window.webkit.messageHandlers.callbackHandler.postMessage(message);
     } catch (err) {
-      window.android && window
-        .android
-        .call(message);
+      window.android && window.android.call(message);
     }
   }
 }

@@ -151,7 +151,7 @@ const launch = () => {
 
 document.addEventListener('DOMContentLoaded', launch);
 
-if (process.env.CUSTOMER_TAG === '0000') {
+if (process.env.CUSTOMER_ID === '0000') {
   console.log('MERCKU!');
 } else {
   console.log('CIK!');
