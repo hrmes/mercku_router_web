@@ -31,7 +31,7 @@ const webpackConfig = merge(baseWebpackConfig, {
         NODE_ENV: process.NODE_ENV === 'testing' ? '"testing"' : '"production"',
         CUSTOMER_ID: process.env.CUSTOMER_ID
           ? `"${process.env.CUSTOMER_ID}"`
-          : '0000'
+          : '"0000"'
       }
     }),
     new UglifyJsPlugin({

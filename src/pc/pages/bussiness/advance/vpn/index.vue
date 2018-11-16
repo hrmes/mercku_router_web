@@ -10,7 +10,7 @@
             <div class="vpn-name">{{vpn.name}}</div>
             <div class="vpn-right">
               <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div>
-              <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="start(vpn)"></m-switch>
+              <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="()=>start(vpn)"></m-switch>
               <div class="vpn-edit" :class="{'disabled':vpn.enabled}">{{$t('trans0034')}}</div>
               <div class="vpn-del" @click="del(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0033')}}</div>
             </div>
@@ -55,7 +55,7 @@ export default {
     this.getVPNList();
   },
   methods: {
-    start(vpn) {
+    start(vpn, v) {
       this.$loading.open();
       this.$http
         .updateVPNConfig({
@@ -67,6 +67,7 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
+          vpn.enabled = v;
         });
     },
     add() {
