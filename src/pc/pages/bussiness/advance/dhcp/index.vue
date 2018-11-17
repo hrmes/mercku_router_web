@@ -163,16 +163,23 @@ export default {
       }
     },
     getLanInfo() {
-      this.$http.meshInfolanNetGet().then(res => {
-        this.lanInfo = res.data.result;
-        this.ipBefore = this.getIpBefore(this.lanInfo.netinfo.ip);
-        this.form = {
-          ip: this.lanInfo.netinfo.ip,
-          ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
-          ip_end: this.getIpAfter(this.lanInfo.dhcp_server.ip_end),
-          lease: this.lanInfo.dhcp_server.lease
-        };
-      });
+      this.$loading.open();
+      this.$http
+        .meshInfolanNetGet()
+        .then(res => {
+          this.$loading.close();
+          this.lanInfo = res.data.result;
+          this.ipBefore = this.getIpBefore(this.lanInfo.netinfo.ip);
+          this.form = {
+            ip: this.lanInfo.netinfo.ip,
+            ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
+            ip_end: this.getIpAfter(this.lanInfo.dhcp_server.ip_end),
+            lease: this.lanInfo.dhcp_server.lease
+          };
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     submit() {
       if (this.$refs.form.validate()) {
