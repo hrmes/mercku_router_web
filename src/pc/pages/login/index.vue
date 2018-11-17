@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="loadding" v-if="loading">
-          <img src="../../assets/images/loading.gif" alt="">
+          <m-spinner color="#333" />
         </div>
       </div>
       <div class="small-device-download">
@@ -98,10 +98,8 @@ export default {
     height: 100%;
 
     .loadding {
-      img {
-        width: 32px;
-        height: 32px;
-      }
+      display: flex;
+      justify-content: center;
     }
     .small-device-download {
       display: none;

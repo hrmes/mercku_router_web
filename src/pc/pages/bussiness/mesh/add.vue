@@ -34,7 +34,7 @@
           </div>
           <div class="step-item step-item1" v-show="stepsOption.current===1">
             <div class="scaning" v-show="scaning">
-              <img src="../../../assets/images/loading.gif" alt="">
+              <m-spinner color="#333"></m-spinner>
               <p>{{$t('trans0334')}}</p>
             </div>
             <div class="scan-result" v-show="!scaning && nodes.length">
@@ -416,6 +416,9 @@ export default {
     .scaning {
       margin-top: 150px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       img {
         display: block;
         margin: 0 auto;
