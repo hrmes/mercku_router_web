@@ -119,7 +119,7 @@ export default {
     align-items: center;
     .extra {
       padding: 0 10px;
-      padding-right:0;
+      padding-right: 0;
     }
     input {
       flex: 1;
@@ -130,8 +130,8 @@ export default {
       border: none;
       box-sizing: border-box;
       -webkit-appearance: none;
-      &.margin{
-        padding-left:0px;
+      &.margin {
+        padding-left: 0px;
       }
       &:disabled {
         background: #e1e1e1;
