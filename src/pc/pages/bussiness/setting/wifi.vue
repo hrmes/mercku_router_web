@@ -21,7 +21,7 @@
             <label for=""> {{$t('trans0397')}} </label>
             <div class="tool">
               <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
-              <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
+              <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
             </div>
             <m-switch v-model="form.smart_connect" />
           </div>
@@ -34,7 +34,7 @@
           <label for=""> {{$t('trans0110')}} </label>
           <div class="tool">
             <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-            <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+            <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
           </div>
           <m-switch v-model="form.hidden" />
         </div>
