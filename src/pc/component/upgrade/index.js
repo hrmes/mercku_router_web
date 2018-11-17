@@ -2,7 +2,7 @@ import Vue from 'vue';
 import upgradeComponent from './upgrade.vue';
 
 const defaultOptions = {
-  template: '',
+  tip: '',
   title: ''
 };
 const Upgrade = {

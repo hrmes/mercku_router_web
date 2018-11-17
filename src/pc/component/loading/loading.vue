@@ -1,34 +1,32 @@
 <template>
   <transition name="loading">
     <div class="loading-container" v-if="visible">
-      <div class="inner-container">
-        <div class="inner">
-          <div class="mercku_loading">
-            <div class="left">
-              <div class="out-wrapper">
-                <div class="outer-m"></div>
-                <div class="outer-mock-m"></div>
-              </div>
-              <div class="inner-wrapper">
-                <div class="inner-m"></div>
-                <div class="inner-mock-m"></div>
-              </div>
+      <div class="inner">
+        <div class="mercku_loading">
+          <div class="left">
+            <div class="out-wrapper">
+              <div class="outer-m"></div>
+              <div class="outer-mock-m"></div>
             </div>
-            <div class="right">
-              <div class="out-wrapper">
-                <div class="outer-m"></div>
-                <div class="outer-mock-m"></div>
-              </div>
-              <div class="inner-wrapper">
-                <div class="inner-m"></div>
-                <div class="inner-mock-m"></div>
-              </div>
+            <div class="inner-wrapper">
+              <div class="inner-m"></div>
+              <div class="inner-mock-m"></div>
             </div>
-
           </div>
-          <div v-if="title" class="title">{{title}}</div>
-          <div v-html="template"></div>
+          <div class="right">
+            <div class="out-wrapper">
+              <div class="outer-m"></div>
+              <div class="outer-mock-m"></div>
+            </div>
+            <div class="inner-wrapper">
+              <div class="inner-m"></div>
+              <div class="inner-mock-m"></div>
+            </div>
+          </div>
+
         </div>
+        <div v-if="title" class="title">{{title}}</div>
+        <div v-html="template"></div>
       </div>
     </div>
   </transition>
@@ -207,16 +205,6 @@ export default {
       margin-top: 10px;
       color: #fff;
     }
-  }
-}
-@media screen and (min-width: 769px) and (max-width: 1599px) {
-  .loading-container {
-    padding-left: 250px;
-  }
-}
-@media screen and (min-width: 1600px) {
-  .loading-container {
-    padding-left: 300px;
   }
 }
 </style>

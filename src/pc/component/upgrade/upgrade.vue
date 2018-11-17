@@ -26,7 +26,7 @@
 
         </div>
         <div v-if="title" class="title">{{title}}</div>
-        <div class="tip">{{tip}}</div>
+        <div v-html="tip"></div>
       </div>
     </div>
   </transition>
