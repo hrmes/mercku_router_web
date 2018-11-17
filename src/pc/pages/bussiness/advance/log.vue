@@ -53,7 +53,7 @@ export default {
         .getSyslogEnabled()
         .then(res => {
           this.$loading.close();
-          this.enabled = res.data.result;
+          this.enabled = res.data.result.enabled;
           if (this.enabled) {
             this.getSyslog();
           }
