@@ -42,7 +42,7 @@ export default {
     change(...args) {
       this.checked = !this.checked;
       this.$emit('input', this.checked);
-      this.onChange(args, this.checked);
+      this.onChange(this.checked, args);
     }
   }
 };

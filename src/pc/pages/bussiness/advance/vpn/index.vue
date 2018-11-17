@@ -53,7 +53,7 @@ export default {
         .map(x => `0${x}`.slice(-2))
         .join(':');
     },
-    start(vpn, v) {
+    start(v, vpn) {
       this.$loading.open();
       this.$http
         .updateVPNConfig({
