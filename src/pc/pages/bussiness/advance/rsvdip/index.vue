@@ -94,14 +94,21 @@ export default {
   },
   methods: {
     getList() {
-      this.$http.meshRsvdipGet().then(res => {
-        this.rsvdips = res.data.result.map(v => ({ ...v, checked: false }));
-        if (this.rsvdips.length > 0) {
-          this.empty = false;
-        } else {
-          this.empty = true;
-        }
-      });
+      this.$loading.open();
+      this.$http
+        .meshRsvdipGet()
+        .then(res => {
+          this.$loading.close();
+          this.rsvdips = res.data.result.map(v => ({ ...v, checked: false }));
+          if (this.rsvdips.length > 0) {
+            this.empty = false;
+          } else {
+            this.empty = true;
+          }
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     editHandle(item) {
       this.$store.state = { rsvdip: item };
