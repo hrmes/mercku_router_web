@@ -27,6 +27,9 @@ export default {
       output: ''
     };
   },
+  mounted() {
+    this.getSyslogEnabled();
+  },
   methods: {
     updateEnabled() {
       this.$loading.open();
