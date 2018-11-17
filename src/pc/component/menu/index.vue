@@ -11,7 +11,7 @@
       <li class="menu-item" :key="menu.key" @click="jump(menu)" v-for="menu in list" :class="{'selected':$route.name.includes(menu.name)}">
         <span class="menu-icon" :class="[menu.icon]"></span>
         <span class="menu-text">{{$t(menu.text)}}</span>
-        <span v-if="menu.children" class="menu-trigle" :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
+        <span v-if="menu.children" class="icon icon-down menu-trigle" :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
         <ul v-if="menu.children" class="menu-children" :class="{'show':menu.expand}">
           <li class="menu-child" :key="child.key" @click.stop="jump(child)" v-for="child in menu.children" :class="{'selected':$route.name.includes(child.name)}">
             <span class="menu-icon"></span>
@@ -206,8 +206,8 @@ export default {
         display: inline-block;
         width: 12px;
         height: 6px;
-        background: url(../../assets/images/ic_side_bar_pull_down.png) no-repeat
-          center;
+        // background: url(../../assets/images/ic_side_bar_pull_down.png) no-repeat
+        //   center;
         background-size: 100%;
         position: absolute;
         right: 20px;
