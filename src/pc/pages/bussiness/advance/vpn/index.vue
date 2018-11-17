@@ -110,6 +110,7 @@ export default {
                   vpn_id: vpn.id
                 })
                 .then(() => {
+                  this.vpns = this.vpns.filter(v => v !== vpn);
                   this.$toast('trans0040', 3000, 'success');
                 });
             }
