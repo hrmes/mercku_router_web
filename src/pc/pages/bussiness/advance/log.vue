@@ -7,6 +7,10 @@
       <div class="form">
         <div class="form-item">
           <m-switch :label="$t('trans0462')" v-model="log.enabled" :onChange="updateEnabled"></m-switch>
+
+        </div>
+        <div class="form-item" v-if="log.enabled">
+          <button class="btn btn-primary">刷新</button>
         </div>
         <pre class="log-container">
           {{log.output}}
@@ -67,6 +71,10 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  .btn {
+    width: 100px;
+    height: 27px;
+  }
   .log-container {
     border-radius: 4px;
     border: solid 1px #bdbdbd;
@@ -74,6 +82,7 @@ export default {
     overflow: auto;
     padding: 10px;
     font-family: inherit;
+    margin: 0;
   }
 }
 </style>
