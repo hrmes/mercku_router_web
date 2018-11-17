@@ -95,6 +95,14 @@ export default {
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
           this.$loading.close();
+          this.$reconnect({
+            onsuccess: () => {
+              this.$router.push({ path: '/advance/mac' });
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
         })
         .catch(() => {
           this.$loading.close();
