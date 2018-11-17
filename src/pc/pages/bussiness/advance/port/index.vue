@@ -104,14 +104,22 @@ export default {
   },
   methods: {
     getList() {
-      this.$http.meshPortfwGet().then(res => {
-        this.portfws = res.data.result.map(v => ({ ...v, checked: false }));
-        if (this.portfws.length > 0) {
-          this.empty = false;
-        } else {
-          this.empty = true;
-        }
-      });
+      this.$loading.open();
+      this.$http
+        .meshPortfwGet()
+        .then(res => {
+          this.$loading.close();
+          this.portfws = res.data.result.map(v => ({ ...v, checked: false }));
+
+          if (this.portfws.length > 0) {
+            this.empty = false;
+          } else {
+            this.empty = true;
+          }
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     editHandle(item) {
       this.$store.state = { portfw: item };

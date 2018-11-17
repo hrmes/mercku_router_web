@@ -87,8 +87,6 @@ export const IPAReg = /^10\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0
 export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 
-export const privateIpReg = ip =>
-  IPAReg.test(ip) || IPBReg.test(ip) || IPCReg.test(ip);
 export const getIpBefore = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
   return pattern.exec(ip)[0];
@@ -199,7 +197,17 @@ export const ipRule = (ip, mask) => {
   }
   return true;
 };
-
+export const privateIpReg = ip => {
+  const masks = {
+    A: '255.0.0.0',
+    B: '255.255.0.0',
+    C: '255.255.255.0'
+  };
+  const AIPMask = IPAReg.test(ip) && ipRule(ip, masks.A);
+  const BIPMask = IPBReg.test(ip) && ipRule(ip, masks.B);
+  const CIPMask = IPCReg.test(ip) && ipRule(ip, masks.C);
+  return AIPMask || BIPMask || CIPMask;
+};
 export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
