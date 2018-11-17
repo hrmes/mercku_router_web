@@ -83,6 +83,7 @@ export default {
     overflow: auto;
     font-family: inherit;
     padding: 10px;
+    margin: 0;
   }
 }
 </style>
