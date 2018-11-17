@@ -73,7 +73,7 @@ export default {
       this.$router.push(`/advance/vpn/form/${vpn.id}`);
     },
     add() {
-      if (this.vpns.length >= 5) {
+      if (this.vpns && this.vpns.length >= 5) {
         this.$toast('trans0060');
         return;
       }
