@@ -42,7 +42,9 @@ export const BlacklistMode = {
 export const VPNStatus = {
   connected: 'connected',
   connecting: 'connecting',
-  disconnected: 'disconnected'
+  disconnecting: 'disconnecting',
+  disconnected: 'disconnected',
+  stable: 'stable'
 };
 
 export const VPNAction = {

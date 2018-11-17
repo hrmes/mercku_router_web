@@ -74,7 +74,7 @@ const methods = {
   meshRsvdipDelete: createMethod('mesh.rsvdip.delete'),
   meshInfolanNetGet: createMethod('mesh.info.lan.net.get'),
   meshDiagnosisExecute: createMethod('mesh.diagnosis.execute'),
-  meshSyslogGet: createMethod('mesh.syslog.get'),
+  meshSyslogEnabledGet: createMethod('mesh.syslog.enabled.get'),
   meshSyslogEnabledUpdate: createMethod('mesh.syslog.enabled.update'),
   meshVpnGet: createMethod('mesh.vpn.get'),
   meshVpnAdd: createMethod('mesh.vpn.add'),
@@ -105,6 +105,9 @@ class Http {
       this.exHandler
     );
   }
+  getSysLog() {
+    return axios.get('/log.log');
+  }
   getVPNlist() {
     return this.request(methods.meshVpnGet);
   }
@@ -129,8 +132,8 @@ class Http {
   meshInfolanNetGet() {
     return this.request(methods.meshInfolanNetGet);
   }
-  getSyslog() {
-    return this.request(methods.meshSyslogGet);
+  getSyslogEnabled() {
+    return this.request(methods.meshSyslogEnabledGet);
   }
   updateSyslogEnabled(params) {
     return this.request(methods.meshSyslogEnabledUpdate, params);

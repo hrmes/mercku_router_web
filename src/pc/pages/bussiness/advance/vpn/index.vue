@@ -7,11 +7,14 @@
       <div class="list" v-if="!isEmpty">
         <div class="vpn-list">
           <div class="vpn" v-for="vpn in vpns" :key="vpn.id">
-            <div class="vpn-name">{{vpn.name}}</div>
-            <m-spinner v-if="isConnectting" color="#00d061"></m-spinner>
+            <div class="vpn-left">
+              <div class="vpn-name">{{vpn.name}}</div>
+              <m-spinner class="spinner" color="#00d061" v-if="vpn.status === VPNStatus.connecting"></m-spinner>
+            </div>
+
             <div class="vpn-right">
               <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
-              <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="()=>start(vpn)"></m-switch>
+              <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="(v)=>start(v,vpn)"></m-switch>
               <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0034')}}</div>
               <div class="vpn-del" @click="del(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0033')}}</div>
             </div>
@@ -35,7 +38,8 @@ export default {
   data() {
     return {
       vpns: null,
-      status: ''
+      VPNStatus,
+      timer: null
     };
   },
   mounted() {
@@ -56,18 +60,30 @@ export default {
         .join(':');
     },
     start(v, vpn) {
-      this.$loading.open();
+      const action = vpn.enabled ? VPNAction.connect : VPNAction.disconnect;
+      const status =
+        action === VPNAction.connect
+          ? VPNStatus.connecting
+          : VPNStatus.disconnecting;
+      vpn.status = status;
       this.$http
         .updateVPNConfig({
           vpn_id: vpn.id,
-          status: vpn.enabled ? VPNAction.connect : VPNAction.disconnect
+          action
         })
         .then(() => {
-          this.this.$loading.close();
+          this.timer = setInterval(() => {
+            this.$http.getVPNInfo().then(res => {
+              vpn.status = res.data.result.status;
+              if (vpn.status === VPNStatus.connected) {
+                clearTimeout(this.timer);
+              }
+            }, 3000);
+          });
         })
         .catch(() => {
-          this.$loading.close();
-          vpn.enabled = v;
+          vpn.enabled = !v;
+          vpn.status = VPNStatus.stable;
         });
     },
     edit(vpn) {
@@ -109,6 +125,7 @@ export default {
           const vpns = result[1].data.result;
           this.vpns = vpns.map(v => {
             this.$set(v, 'enabled', false);
+            this.$set(v, 'status', VPNStatus.disconnected);
             if (
               info.status === VPNStatus.connected &&
               v.id === info.deleteVPN
@@ -123,18 +140,15 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
-    },
-    getVPNInfo() {
-      this.$http.getVPNInfo().then(res => {});
     }
   },
   computed: {
     isEmpty() {
-      return this.vpns === null || !this.vpns.length;
-    },
-    isConnectting() {
-      return this.status === VPNStatus.connecting;
+      return this.vpns !== null && !this.vpns.length;
     }
+  },
+  beforeDestroy() {
+    this.timer && clearInterval(this.timer);
   }
 };
 </script>
@@ -150,13 +164,23 @@ export default {
   }
   .vpn-list {
     .vpn {
-      width: 350px;
+      width: 500px;
+      height: 56px;
       display: flex;
       border-radius: 4px;
       border: solid 1px #dedede;
       background-color: #fafafa;
-      padding: 23px 20px;
+      padding: 0px 20px;
       margin-bottom: 20px;
+      align-items: center;
+      .vpn-left {
+        display: flex;
+        align-items: center;
+        .spinner {
+          margin-left: 10px;
+        }
+      }
+
       .vpn-right {
         flex: 1;
         display: flex;
@@ -208,8 +232,15 @@ export default {
         width: 100%;
         flex-direction: column;
         padding: 10px;
-        .vpn-name {
+        align-items: flex-start;
+        height: auto;
+        .vpn-left {
+          align-items: center;
           margin-bottom: 10px;
+          height: 50px;
+        }
+        .vpn-right {
+          width: 100%;
         }
       }
     }

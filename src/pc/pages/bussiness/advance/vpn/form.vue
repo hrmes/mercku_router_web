@@ -47,11 +47,11 @@ export default {
     return {
       protocols: [
         {
-          value: 'PPTP',
+          value: 'pptp',
           text: this.$t('trans0414')
         },
         {
-          value: 'L2TP',
+          value: 'l2tp',
           text: this.$t('trans0415')
         }
       ],
@@ -100,7 +100,6 @@ export default {
   mounted() {
     if (this.$route.params.id) {
       const { vpn } = this.$store.state;
-      console.log(vpn);
       if (vpn.id) {
         this.form = {
           id: vpn.id,

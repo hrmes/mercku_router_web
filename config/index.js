@@ -47,6 +47,11 @@ module.exports = {
         target: 'http://mywifi.mercku.tech',
         changeOrigin: true,
         secure: true
+      },
+      '/fw.ma': {
+        target: 'http://mywifi.mercku.tech',
+        changeOrigin: true,
+        secure: true
       }
     }
   },

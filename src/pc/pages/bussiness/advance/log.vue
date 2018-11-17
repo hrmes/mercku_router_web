@@ -6,14 +6,14 @@
     <div class="page-content">
       <div class="form">
         <div class="form-item">
-          <m-switch :label="$t('trans0462')" v-model="log.enabled" :onChange="updateEnabled"></m-switch>
+          <m-switch :label="$t('trans0462')" v-model="enabled" :onChange="updateEnabled"></m-switch>
 
         </div>
-        <div class="form-item" v-if="log.enabled">
+        <div class="form-item" v-if="enabled">
           <button class="btn btn-primary" @click="getSyslog">刷新</button>
         </div>
         <pre class="log-container">
-          {{log.output}}
+          {{output}}
         </pre>
       </div>
     </div>
@@ -23,21 +23,16 @@
 export default {
   data() {
     return {
-      log: {
-        enabled: false,
-        output: ''
-      }
+      enabled: false,
+      output: ''
     };
-  },
-  mounted() {
-    this.getSyslog();
   },
   methods: {
     updateEnabled() {
       this.$loading.open();
       this.$http
         .updateSyslogEnabled({
-          enabled: this.log.enabled
+          enabled: this.enabled
         })
         .then(() => {
           this.$loading.close();
@@ -47,12 +42,20 @@ export default {
         });
     },
     getSyslog() {
+      this.$http.getSysLog().then(res => {
+        this.output = res.data;
+      });
+    },
+    getSyslogEnabled() {
       this.$loading.open();
       this.$http
-        .getSyslog()
+        .getSyslogEnabled()
         .then(res => {
           this.$loading.close();
-          this.log = res.data.result;
+          this.enabled = res.data.result;
+          if (this.enabled) {
+            this.getSyslog();
+          }
         })
         .catch(() => {
           this.$loading.close();
