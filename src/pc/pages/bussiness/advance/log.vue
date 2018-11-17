@@ -10,7 +10,7 @@
 
         </div>
         <div class="form-item" v-if="log.enabled">
-          <button class="btn btn-primary">刷新</button>
+          <button class="btn btn-primary" @click="getSyslog">刷新</button>
         </div>
         <pre class="log-container">
           {{log.output}}
