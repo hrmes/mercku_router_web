@@ -69,7 +69,7 @@ export default {
       this.$http
         .updateVPNConfig({
           vpn_id: vpn.id,
-          action
+          status: action
         })
         .then(() => {
           this.timer = setInterval(() => {
