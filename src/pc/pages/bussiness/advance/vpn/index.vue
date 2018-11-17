@@ -8,6 +8,7 @@
         <div class="vpn-list">
           <div class="vpn" v-for="vpn in vpns" :key="vpn.id">
             <div class="vpn-name">{{vpn.name}}</div>
+            <m-spinner v-if="isConnectting" color="#00d061"></m-spinner>
             <div class="vpn-right">
               <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
               <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="()=>start(vpn)"></m-switch>
@@ -33,7 +34,8 @@ import { VPNAction, VPNStatus } from 'util/constant';
 export default {
   data() {
     return {
-      vpns: null
+      vpns: null,
+      status: ''
     };
   },
   mounted() {
@@ -121,11 +123,17 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
+    },
+    getVPNInfo() {
+      this.$http.getVPNInfo().then(res => {});
     }
   },
   computed: {
     isEmpty() {
       return this.vpns === null || !this.vpns.length;
+    },
+    isConnectting() {
+      return this.status === VPNStatus.connecting;
     }
   }
 };
