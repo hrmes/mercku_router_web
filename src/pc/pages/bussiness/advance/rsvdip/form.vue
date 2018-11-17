@@ -163,28 +163,19 @@ export default {
       const fetchMethod =
         this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
       if (this.$refs.form.validate()) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          message: this.$t('trans0473'),
-          callback: {
-            ok: () => {
-              this.$loading.open();
-              this.$http[fetchMethod]({
-                ...this.form,
-                mac: this.form.mac.split(':').join('')
-              })
-                .then(() => {
-                  this.$loading.close();
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
-                  this.$router.push({ path: '/advance/rsvdip' });
-                })
-                .catch(() => {
-                  this.$loading.close();
-                });
-            }
-          }
-        });
+        this.$loading.open();
+        this.$http[fetchMethod]({
+          ...this.form,
+          mac: this.form.mac.split(':').join('')
+        })
+          .then(() => {
+            this.$loading.close();
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$router.push({ path: '/advance/rsvdip' });
+          })
+          .catch(() => {
+            this.$loading.close();
+          });
       }
     }
   }

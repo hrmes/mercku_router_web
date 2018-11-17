@@ -150,7 +150,7 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0473'),
+        message: this.$t('trans0376'),
         callback: {
           ok: () => {
             this.$loading.open();
@@ -161,14 +161,6 @@ export default {
                 // this.getList();
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/advance/rsvdip' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
               })
               .catch(() => {
                 this.$loading.close();
