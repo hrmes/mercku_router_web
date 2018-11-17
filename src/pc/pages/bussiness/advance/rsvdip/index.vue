@@ -47,7 +47,7 @@
               <m-checkbox v-model='item.checked'></m-checkbox>
             </div>
             <div class="column-name" :title="item.name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
-            <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{item.mac}}</div>
+            <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{formatMac(item.mac)}}</div>
             <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.ip}}</div>
             <div class="column-handle">
               <a @click="editHandle(item)"> {{$t('trans0034')}}</a>
@@ -60,9 +60,12 @@
   </div>
 </template>
 <script>
+import { formatMac } from '../../../../../util/util';
+
 export default {
   data() {
     return {
+      formatMac,
       mobileSelect: false,
       mobileShowHead: false,
       empty: null,
