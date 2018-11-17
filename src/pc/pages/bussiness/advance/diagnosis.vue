@@ -43,11 +43,11 @@ export default {
       output: ''
     };
   },
-  watch: {
-    job_type() {
-      this.host = '';
-    }
-  },
+  // watch: {
+  //   job_type() {
+  //     this.host = '';
+  //   }
+  // },
   methods: {
     start() {
       this.$loading.open();
