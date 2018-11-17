@@ -48,7 +48,7 @@ module.exports = {
         changeOrigin: true,
         secure: true
       },
-      '/fw.ma': {
+      '/log.log': {
         target: 'http://mywifi.mercku.tech',
         changeOrigin: true,
         secure: true

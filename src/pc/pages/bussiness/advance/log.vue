@@ -12,9 +12,7 @@
         <div class="form-item" v-if="enabled">
           <button class="btn btn-primary" @click="getSyslog">刷新</button>
         </div>
-        <pre class="log-container">
-          {{output}}
-        </pre>
+        <pre class="log-container">{{output}}</pre>
       </div>
     </div>
   </div>
