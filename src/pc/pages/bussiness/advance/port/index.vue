@@ -120,7 +120,7 @@ export default {
     update(v, item) {
       this.$loading.open();
       this.$http
-        .meshPortfwUpdate({ ...item, enabled: v })
+        .meshPortfwUpdate({ ...item, enabled: item.enabled })
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
