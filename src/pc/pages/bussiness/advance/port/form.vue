@@ -75,7 +75,7 @@ export default {
       form: {
         id: '',
         name: '',
-        enabled: false,
+        enabled: true,
         localIp: '',
         localPortFrom: '',
         localPortTo: '',
