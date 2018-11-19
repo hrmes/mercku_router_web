@@ -15,7 +15,7 @@
 
             <div class="vpn-right">
               <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
-              <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="(v)=>start(v,vpn)"></m-switch>
+              <m-switch :disabled="connecting" v-model="vpn.enabled" class="vpn-switch" :onChange="(v)=>start(v,vpn)"></m-switch>
               <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':connecting}">{{$t('trans0034')}}</div>
               <div class="vpn-del" @click="del(vpn)" :class="{'disabled':connecting}">{{$t('trans0033')}}</div>
             </div>
@@ -273,7 +273,7 @@ export default {
           cursor: pointer;
           &.disabled {
             color: #999;
-            cursor: default;
+            cursor: not-allowed;
           }
         }
         .vpn-del {
@@ -282,7 +282,7 @@ export default {
           cursor: pointer;
           &.disabled {
             color: #999;
-            cursor: default;
+            cursor: not-allowed;
           }
         }
       }

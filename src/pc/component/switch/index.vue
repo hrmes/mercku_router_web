@@ -3,7 +3,7 @@
     <label for="" v-if="label">
       {{label}}
     </label>
-    <div class="switch switch-animation" :class="{'checked':value,'disabled':disabledValue}" @click='change()'></div>
+    <div class="switch switch-animation" :class="{'checked':value,'disabled':disabledValue}" @click='!disabled && change()'></div>
   </div>
 </template>
 <script>
@@ -47,7 +47,6 @@ export default {
   }
 };
 </script>
-</script>
 <style lang="scss" type="text/scss" scoped>
 .switch-container {
   display: flex;
@@ -68,6 +67,10 @@ export default {
     -webkit-appearance: none;
     user-select: none;
     outline: none;
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
   }
   .switch:before {
     content: '';
