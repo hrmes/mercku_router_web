@@ -10,9 +10,11 @@
 
         </div>
         <div class="form-item" v-if="enabled">
-          <button class="btn btn-primary" @click="getSyslog">刷新</button>
+          <button class="btn btn-primary" @click="getSyslog">{{'trans0481'}}</button>
         </div>
-        <pre class="log-container">{{output}}</pre>
+        <div class="log-container">
+          <pre>{{output}}</pre>
+        </div>
       </div>
     </div>
   </div>
@@ -78,6 +80,7 @@ export default {
   .btn {
     width: 100px;
     height: 27px;
+    margin-left: 0;
   }
   .log-container {
     border-radius: 4px;
@@ -85,8 +88,12 @@ export default {
     flex: 1;
     overflow: auto;
     padding: 10px;
-    font-family: inherit;
-    margin: 0;
+    position: relative;
+    pre {
+      margin: 0;
+      font-family: inherit;
+      position: absolute;
+    }
   }
 }
 </style>

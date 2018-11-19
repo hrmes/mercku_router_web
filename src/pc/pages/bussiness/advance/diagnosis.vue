@@ -15,7 +15,9 @@
           <button class="btn btn-primary" @click="start">{{$t('trans0467')}}</button>
         </div>
       </div>
-      <pre class="log-container">{{output}}</pre>
+      <div class="log-container">
+        <pre>{{output}}</pre>
+      </div>
     </div>
 
   </div>
@@ -81,9 +83,13 @@ export default {
     border: solid 1px #bdbdbd;
     border-radius: 4px;
     overflow: auto;
-    font-family: inherit;
+    position: relative;
     padding: 10px;
-    margin: 0;
+    pre {
+      margin: 0;
+      font-family: inherit;
+      position: absolute;
+    }
   }
 }
 </style>
