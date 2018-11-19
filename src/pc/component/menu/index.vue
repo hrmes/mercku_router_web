@@ -150,7 +150,6 @@ export default {
     text-align: center;
     img {
       width: 180px;
-      height: 27px;
     }
   }
   .menu {

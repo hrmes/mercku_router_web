@@ -60,7 +60,7 @@ export default {
     return {
       protocolOptions: [
         {
-          value: 'TCPUDP',
+          value: 'TCP&UDP',
           text: 'TCP&UDP'
         },
         {
@@ -82,7 +82,7 @@ export default {
         remoteIp: '',
         remotePortFrom: '',
         remotePortTo: '',
-        protocol: 'TCPUDP' // TCPUDP, TCP, UDP
+        protocol: 'TCP&UDP' // TCPUDP, TCP, UDP
       },
       rules: {
         name: [
