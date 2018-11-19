@@ -395,7 +395,7 @@ export default {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
           if (this.isDhcp) {
-            if (this.netInfo.dhcp.dns) {
+            if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
               this.autodns.dhcp = false;
               this.dhcpForm.dns1 = this.netInfo.dhcp.dns[0];
               this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
