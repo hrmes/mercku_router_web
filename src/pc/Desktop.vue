@@ -13,7 +13,7 @@
 </template>
 <script>
 import './style/common.scss';
-import { CUSTOMER_ID } from '../util/constant';
+import { CUSTOMER_ID, Access } from '../util/constant';
 
 export default {
   computed: {
@@ -25,141 +25,162 @@ export default {
       );
     }
   },
-  data() {
-    const wifi = {
-      icon: 'wifi',
-      text: 'trans0173',
-      children: [
-        {
-          text: 'trans0365',
-          name: 'mesh',
-          url: '/dashboard/mesh/topo'
-        },
-        {
-          text: 'trans0235',
-          name: 'device',
-          url: '/dashboard/device'
-        },
-
-        {
-          text: 'trans0366',
-          name: 'internet',
-          url: '/dashboard/internet'
-        }
-      ]
-    };
-    const setting = {
-      icon: 'setting',
-      text: 'trans0019',
-      children: [
-        {
-          text: 'trans0103',
-          name: 'wifi',
-          url: '/setting/wifi'
-        },
-        {
-          text: 'trans0142',
-          name: 'network',
-          url: '/setting/network'
-        },
-        {
-          url: '/advance/dhcp',
-          name: 'advance-dhcp',
-          text: 'trans0417'
-        },
-        {
-          text: 'trans0297',
-          name: 'safe',
-          url: '/setting/safe'
-        },
-        {
-          text: 'trans0020',
-          name: 'blacklist',
-          url: '/setting/blacklist'
-        },
-        {
-          text: 'trans0272',
-          name: 'timezone',
-          url: '/setting/timezone'
-        }
-      ]
-    };
-    const advance = {
-      icon: 'advance',
-      text: 'trans0416',
-      children: [
-        {
-          url: '/advance/portforwarding',
-          name: 'advance-portforwarding',
-          text: 'trans0422'
-        },
-
-        {
-          url: '/advance/rsvdip',
-          name: 'advance-rsvdip',
-          text: 'trans0444'
-        },
-        {
-          url: '/advance/mac',
-          name: 'advance-mac',
-          text: 'trans0188'
-        },
-        {
-          url: '/advance/ddns',
-          name: 'advance-ddns',
-          text: 'trans0418'
-        },
-        {
-          url: '/advance/vpn',
-          name: 'advance-vpn',
-          text: 'trans0402'
-        },
-        {
-          url: '/advance/diagnosis',
-          name: 'advance-diagnosis',
-          text: 'trans0419'
-        },
-        {
-          url: '/advance/dmz',
-          name: 'advance-dmz',
-          text: 'trans0420'
-        },
-        {
-          url: '/advance/log',
-          name: 'advance-log',
-          text: 'trans0421'
-        },
-        {
-          url: '/advance/firewall',
-          name: 'advance-firewall',
-          text: 'trans0424'
-        }
-      ]
-    };
-    const upgrade = {
-      icon: 'upgrade',
-      text: 'trans0197',
-      children: [
-        {
-          url: '/upgrade/online',
-          name: 'online',
-          text: 'trans0202'
-        },
-        {
-          url: '/upgrade/offline',
-          name: 'offline',
-          text: 'trans0204'
-        }
-      ]
-    };
-    let menus = [];
-    if (process.env.CUSTOMER_ID === CUSTOMER_ID.cik) {
-      menus = [wifi, setting, upgrade];
-    } else if (process.env.CUSTOMER_ID === CUSTOMER_ID.mercku) {
-      menus = [wifi, setting, advance, upgrade];
+  watch: {
+    access() {
+      this.menus = this.getMenus();
     }
+  },
+  methods: {
+    getMenus() {
+      const wifi = {
+        icon: 'wifi',
+        text: 'trans0173',
+        children: [
+          {
+            text: 'trans0365',
+            name: 'mesh',
+            url: '/dashboard/mesh/topo'
+          },
+          {
+            text: 'trans0235',
+            name: 'device',
+            url: '/dashboard/device'
+          },
+
+          {
+            text: 'trans0366',
+            name: 'internet',
+            url: '/dashboard/internet'
+          }
+        ]
+      };
+      const setting = {
+        icon: 'setting',
+        text: 'trans0019',
+        children: [
+          {
+            text: 'trans0103',
+            name: 'wifi',
+            url: '/setting/wifi'
+          },
+          {
+            text: 'trans0142',
+            name: 'network',
+            url: '/setting/network'
+          },
+          {
+            url: '/advance/dhcp',
+            name: 'advance-dhcp',
+            text: 'trans0417'
+          },
+          {
+            text: 'trans0297',
+            name: 'safe',
+            url: '/setting/safe'
+          },
+          {
+            text: 'trans0020',
+            name: 'blacklist',
+            url: '/setting/blacklist'
+          },
+          {
+            text: 'trans0272',
+            name: 'timezone',
+            url: '/setting/timezone'
+          }
+        ]
+      };
+      const advance = {
+        icon: 'advance',
+        text: 'trans0416',
+        children: [
+          {
+            url: '/advance/portforwarding',
+            name: 'advance-portforwarding',
+            text: 'trans0422'
+          },
+
+          {
+            url: '/advance/rsvdip',
+            name: 'advance-rsvdip',
+            text: 'trans0444'
+          },
+          {
+            url: '/advance/mac',
+            name: 'advance-mac',
+            text: 'trans0188'
+          },
+          {
+            url: '/advance/ddns',
+            name: 'advance-ddns',
+            text: 'trans0418'
+          },
+          {
+            url: '/advance/vpn',
+            name: 'advance-vpn',
+            text: 'trans0402'
+          },
+          {
+            url: '/advance/diagnosis',
+            name: 'advance-diagnosis',
+            text: 'trans0419'
+          },
+          {
+            url: '/advance/dmz',
+            name: 'advance-dmz',
+            text: 'trans0420'
+          },
+          {
+            url: '/advance/log',
+            name: 'advance-log',
+            text: 'trans0421'
+          },
+          {
+            url: '/advance/firewall',
+            name: 'advance-firewall',
+            text: 'trans0424'
+          }
+        ]
+      };
+      const upgrade = {
+        icon: 'upgrade',
+        text: 'trans0197',
+        children: [
+          {
+            url: '/upgrade/online',
+            name: 'online',
+            text: 'trans0202'
+          },
+          {
+            url: '/upgrade/offline',
+            name: 'offline',
+            text: 'trans0204'
+          }
+        ]
+      };
+      let menus = [];
+      const access = this.$store.state.access;
+      switch (process.env.CUSTOMER_ID) {
+        case CUSTOMER_ID.cik:
+          if (access === Access.super) {
+            menus = [wifi, setting, advance, upgrade];
+          } else {
+            menus = [wifi, setting, upgrade];
+          }
+          break;
+        case CUSTOMER_ID.mercku:
+          menus = [wifi, setting, advance, upgrade];
+          break;
+        default:
+          break;
+      }
+      return menus;
+    }
+  },
+  data() {
     return {
-      menus
+      access: this.$store.state.access,
+      menus: this.getMenus()
     };
   }
 };

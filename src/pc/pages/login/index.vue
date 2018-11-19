@@ -76,8 +76,11 @@ export default {
       this.$loading.open();
       this.$http
         .login(this.password)
-        .then(() => {
+        .then(res => {
           this.$loading.close();
+          const access = res.data.result.access;
+          this.$store.state.access = access;
+          sessionStorage.setItem('access', access);
           this.$router.push({ path: '/dashboard' });
         })
         .catch(err => {

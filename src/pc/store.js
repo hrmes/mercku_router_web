@@ -21,6 +21,7 @@ class Store {
 }
 const store = new Store(Vue, {
   state: {
+    access: sessionStorage.getItem('access'),
     limits: {},
     portfw: {},
     rsvdip: {},

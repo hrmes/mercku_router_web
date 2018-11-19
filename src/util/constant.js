@@ -2,6 +2,10 @@ export const CUSTOMER_ID = {
   mercku: '0000',
   cik: '0001'
 };
+export const Access = {
+  super: 'super',
+  admin: 'admin'
+};
 export const WanType = {
   pppoe: 'pppoe',
   static: 'static',

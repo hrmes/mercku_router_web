@@ -73,7 +73,6 @@ export default {
         })
         .then(() => {
           let timeout = 60;
-
           this.timer = setInterval(() => {
             if (timeout < 0) {
               clearTimeout(this.timer);
@@ -82,7 +81,7 @@ export default {
             } else if (timeout % 3 === 0) {
               this.$http.getVPNInfo().then(res => {
                 vpn.status = res.data.result.status;
-                if (vpn.status === VPNStatus.connected) {
+                if (vpn.status !== VPNStatus.connecting) {
                   clearTimeout(this.timer);
                 }
               });
