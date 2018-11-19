@@ -106,7 +106,7 @@ class Http {
     );
   }
   getSysLog() {
-    return axios.get('/log.log');
+    return axios.get(`/log.log?t=${Date.now()}`);
   }
   getVPNlist() {
     return this.request(methods.meshVpnGet);

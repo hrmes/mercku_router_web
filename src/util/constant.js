@@ -55,7 +55,7 @@ export const VPNStatus = {
   connecting: 'connecting',
   disconnecting: 'disconnecting',
   disconnected: 'disconnected',
-  stable: 'stable'
+  ready: 'ready'
 };
 
 export const VPNAction = {

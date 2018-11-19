@@ -199,8 +199,8 @@ export const ipRule = (ip, mask) => {
 };
 export const privateIpReg = ip => {
   const masks = {
-    A: '255.0.0.0',
-    B: '255.255.0.0',
+    A: '255.255.255.0',
+    B: '255.255.255.0',
     C: '255.255.255.0'
   };
   const AIPMask = IPAReg.test(ip) && ipRule(ip, masks.A);

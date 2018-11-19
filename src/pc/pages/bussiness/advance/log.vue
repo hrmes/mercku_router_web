@@ -45,8 +45,10 @@ export default {
         });
     },
     getSyslog() {
-      this.$http.getSysLog().then(res => {
-        this.output = res.data;
+      this.$http.getSyslogEnabled().then(() => {
+        this.$http.getSysLog().then(res => {
+          this.output = res.data;
+        });
       });
     },
     getSyslogEnabled() {

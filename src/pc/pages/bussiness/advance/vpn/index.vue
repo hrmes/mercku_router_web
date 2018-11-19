@@ -9,23 +9,24 @@
           <div class="vpn" v-for="vpn in vpns" :key="vpn.id">
             <div class="vpn-left">
               <div class="vpn-name">{{vpn.name}}</div>
-              <m-spinner class="spinner" color="#00d061" v-if="vpn.status === VPNStatus.connecting"></m-spinner>
+              <m-spinner class="spinner" :color="getColor(vpn)" v-if="isConnectingOrDisconnecting(vpn)"></m-spinner>
+              <span class="spinner-text" :style="{'color':getColor(vpn)}" v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
             </div>
 
             <div class="vpn-right">
               <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
               <m-switch v-model="vpn.enabled" class="vpn-switch" :onChange="(v)=>start(v,vpn)"></m-switch>
-              <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0034')}}</div>
-              <div class="vpn-del" @click="del(vpn)" :class="{'disabled':vpn.enabled}">{{$t('trans0033')}}</div>
+              <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':connecting}">{{$t('trans0034')}}</div>
+              <div class="vpn-del" @click="del(vpn)" :class="{'disabled':connecting}">{{$t('trans0033')}}</div>
             </div>
           </div>
         </div>
-        <button class="btn btn-primary" @click="add">{{$t('trans0035')}}</button>
+        <button class="btn btn-primary" @click="add" :disabled="connecting">{{$t('trans0035')}}</button>
       </div>
       <div class="empty" v-if="isEmpty">
         <img src="../../../../assets/images/img_default_empty.png" alt="">
         <p class="empty-text">{{$t('trans0278')}}</p>
-        <button class="btn btn-primary" @click="add">{{$t('trans0035')}}</button>
+        <button class="btn btn-primary" @click="add" :disabled="connecting">{{$t('trans0035')}}</button>
       </div>
     </div>
   </div>
@@ -39,13 +40,28 @@ export default {
     return {
       vpns: null,
       VPNStatus,
-      timer: null
+      timer: null,
+      connecting: false
     };
   },
   mounted() {
     this.getVPNList();
   },
   methods: {
+    isConnectingOrDisconnecting(vpn) {
+      return (
+        vpn.status === VPNStatus.connecting ||
+        vpn.status === VPNStatus.disconnecting
+      );
+    },
+    getSpinnerText(vpn) {
+      return vpn.status === VPNStatus.connecting
+        ? this.$t('trans0407')
+        : this.$t('trans0484');
+    },
+    getColor(vpn) {
+      return vpn.status === VPNStatus.connecting ? '#00d061' : '#ff0001';
+    },
     formatDuration(duration) {
       if (!duration) {
         return '00:00:00';
@@ -60,42 +76,90 @@ export default {
         .join(':');
     },
     start(v, vpn) {
-      const action = vpn.enabled ? VPNAction.connect : VPNAction.disconnect;
-      const status =
-        action === VPNAction.connect
-          ? VPNStatus.connecting
-          : VPNStatus.disconnecting;
-      vpn.status = status;
-      this.$http
-        .updateVPNConfig({
-          vpn_id: vpn.id,
-          status: action
-        })
-        .then(() => {
-          let timeout = 60;
-          this.timer = setInterval(() => {
-            if (timeout < 0) {
-              clearTimeout(this.timer);
-              this.$toast(this.$t('trans0406'));
-              vpn.enabled = !v;
-            } else if (timeout % 3 === 0) {
-              this.$http.getVPNInfo().then(res => {
-                vpn.status = res.data.result.status;
-                if (vpn.status !== VPNStatus.connecting) {
-                  clearTimeout(this.timer);
-                }
-              });
-            }
-            timeout -= 1;
-          }, 1000);
-        })
-        .catch(() => {
-          vpn.enabled = !v;
-          vpn.status = VPNStatus.stable;
-        });
+      if (v) {
+        // 打开
+        vpn.status = VPNStatus.connecting;
+        this.connecting = true;
+        this.$http
+          .updateVPNConfig({
+            vpn_id: vpn.id,
+            status: VPNAction.connect
+          })
+          .then(() => {
+            let timeout = 60;
+            this.timer = setInterval(() => {
+              if (timeout < 0) {
+                clearTimeout(this.timer);
+                this.connecting = false;
+                this.$toast(this.$t('trans0406'));
+                vpn.enabled = false;
+              } else if (timeout % 3 === 0) {
+                this.$http.getVPNInfo().then(res => {
+                  vpn.status = res.data.result.status;
+                  if (vpn.status !== VPNStatus.connecting) {
+                    clearTimeout(this.timer);
+                    this.connecting = false;
+                    if (vpn.status === VPNStatus.connected) {
+                      this.$toast(this.$t('trans0040'), 3000, 'success');
+                      vpn.enabled = true;
+                    } else {
+                      this.$toast(this.$t('trans0406'));
+                      vpn.enabled = false;
+                    }
+                  }
+                });
+              }
+              timeout -= 1;
+            }, 1000);
+          })
+          .catch(() => {
+            vpn.enabled = false;
+            vpn.status = VPNStatus.ready;
+          });
+      } else {
+        // 关闭
+        vpn.status = VPNStatus.disconnecting;
+        this.connecting = true;
+        this.$http
+          .updateVPNConfig({
+            vpn_id: vpn.id,
+            status: VPNAction.disconnect
+          })
+          .then(() => {
+            let timeout = 60;
+            this.timer = setInterval(() => {
+              if (timeout < 0) {
+                clearTimeout(this.timer);
+                this.connecting = false;
+                this.$toast(this.$t('trans0406'));
+                vpn.enabled = true;
+              } else if (timeout % 3 === 0) {
+                this.$http.getVPNInfo().then(res => {
+                  vpn.status = res.data.result.status;
+                  if (vpn.status !== VPNStatus.connecting) {
+                    clearTimeout(this.timer);
+                    this.connecting = false;
+                    if (vpn.status === VPNStatus.disconnected) {
+                      this.$toast(this.$t('trans0040'), 3000, 'success');
+                      vpn.enabled = false;
+                    } else {
+                      this.$toast(this.$t('trans0077'));
+                      vpn.enabled = true;
+                    }
+                  }
+                });
+              }
+              timeout -= 1;
+            }, 1000);
+          })
+          .catch(() => {
+            vpn.enabled = true;
+            vpn.status = VPNStatus.connected;
+          });
+      }
     },
     edit(vpn) {
-      if (!vpn.enabled) {
+      if (!this.connecting) {
         this.$store.state.vpn = vpn;
         this.$router.push(`/advance/vpn/form/${vpn.id}`);
       }
@@ -108,7 +172,7 @@ export default {
       this.$router.push({ path: '/advance/vpn/form' });
     },
     del(vpn) {
-      if (!vpn.enabled) {
+      if (!this.connecting) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
@@ -139,7 +203,7 @@ export default {
             this.$set(v, 'status', VPNStatus.disconnected);
             if (
               info.status === VPNStatus.connected &&
-              v.id === info.deleteVPN
+              v.id === info.default_vpn
             ) {
               v.enabled = true;
               // v.duration = info.connected_time;
@@ -188,6 +252,9 @@ export default {
         display: flex;
         align-items: center;
         .spinner {
+          margin-left: 10px;
+        }
+        .spinner-text {
           margin-left: 10px;
         }
       }
