@@ -33,20 +33,22 @@
         </div>
 
         <div class="table-head">
-          <div class="column-check">
-            <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+          <div class="column-name">
+            <div class="column-check">
+              <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+            </div>{{$t('trans0108')}}
           </div>
-          <div class="column-name">{{$t('trans0108')}}</div>
           <div class="column-local-ip">{{$t('trans0188')}}</div>
           <div class="column-local-port">{{$t('trans0151')}}</div>
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
           <div class="table-row" v-for="(item,index ) in rsvdips" :key='index'>
-            <div class="column-check" :class="{'checkOpen':mobileShowHead}">
-              <m-checkbox v-model='item.checked'></m-checkbox>
+            <div class="column-name" :title="item.name">
+              <div class="column-check" :class="{'checkOpen':mobileShowHead}">
+                <m-checkbox v-model='item.checked'></m-checkbox>
+              </div> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}
             </div>
-            <div class="column-name" :title="item.name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
             <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{formatMac(item.mac)}}</div>
             <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.ip}}</div>
             <div class="column-handle">
@@ -227,7 +229,8 @@ export default {
     width: 50px;
   }
   .column-name {
-    width: 120px;
+    display: flex;
+    width: 180px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
