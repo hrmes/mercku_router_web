@@ -79,15 +79,25 @@
 
 </template>
 <script>
-import { RouterSnModel, UploadStatus } from '../../../../util/constant';
+import {
+  RouterSnModel,
+  UploadStatus,
+  CUSTOMER
+} from '../../../../util/constant';
 import { getFileExtendName } from '../../../../util/util';
 
 export default {
   data() {
+    let accept;
+    if (process.env.CUSTOMER_ID === CUSTOMER.mercku.id) {
+      accept = CUSTOMER.mercku.ext;
+    } else if (process.env.CUSTOMER_ID === CUSTOMER.cik.id) {
+      accept = CUSTOMER.cik.ext;
+    }
     return {
       files: [],
       RouterSnModel,
-      accept: '.ma',
+      accept,
       localNodes: [],
       UploadStatus,
       uploadStatus: UploadStatus.ready,

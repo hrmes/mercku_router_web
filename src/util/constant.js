@@ -1,6 +1,12 @@
-export const CUSTOMER_ID = {
-  mercku: '0000',
-  cik: '0001'
+export const CUSTOMER = {
+  mercku: {
+    id: '0000',
+    ext: '.ma'
+  },
+  cik: {
+    id: '0001',
+    ext: '.ca'
+  }
 };
 export const Access = {
   super: 'super',
