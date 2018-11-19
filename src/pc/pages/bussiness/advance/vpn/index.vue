@@ -87,8 +87,10 @@ export default {
         });
     },
     edit(vpn) {
-      this.$store.state.vpn = vpn;
-      this.$router.push(`/advance/vpn/form/${vpn.id}`);
+      if (!vpn.enabled) {
+        this.$store.state.vpn = vpn;
+        this.$router.push(`/advance/vpn/form/${vpn.id}`);
+      }
     },
     add() {
       if (this.vpns && this.vpns.length >= 5) {
