@@ -78,8 +78,8 @@ export default {
               if (vpn.status === VPNStatus.connected) {
                 clearTimeout(this.timer);
               }
-            }, 3000);
-          });
+            });
+          }, 3000);
         })
         .catch(() => {
           vpn.enabled = !v;
