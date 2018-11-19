@@ -4,12 +4,12 @@ import upgradeComponent from 'components/upgrade/index';
 import toast from 'components/toast/index';
 import dialog from 'components/dialog/index';
 import mProgress from 'components/progress/index.vue';
+import { formatSpeed, formatNetworkData, formatBandWidth } from 'util/util';
 import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
 import registerComponents from './register-components';
 import Http from '../http';
-import { formatSpeed, formatNetworkData, formatBandWidth } from '../util/util';
 import store from './store';
 
 const launch = () => {
@@ -152,9 +152,3 @@ const launch = () => {
 };
 
 document.addEventListener('DOMContentLoaded', launch);
-
-if (process.env.CUSTOMER_ID === '0000') {
-  console.log('MERCKU!');
-} else {
-  console.log('CIK!');
-}

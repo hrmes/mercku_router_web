@@ -72,14 +72,23 @@ export default {
           status: action
         })
         .then(() => {
+          let timeout = 10;
+
           this.timer = setInterval(() => {
-            this.$http.getVPNInfo().then(res => {
-              vpn.status = res.data.result.status;
-              if (vpn.status === VPNStatus.connected) {
-                clearTimeout(this.timer);
-              }
-            });
-          }, 3000);
+            if (timeout < 0) {
+              clearTimeout(this.timer);
+              this.$toast(this.$t('trans0406'));
+              vpn.enabled = !v;
+            } else if (timeout % 3 === 0) {
+              this.$http.getVPNInfo().then(res => {
+                vpn.status = res.data.result.status;
+                if (vpn.status === VPNStatus.connected) {
+                  clearTimeout(this.timer);
+                }
+              });
+            }
+            timeout -= 1;
+          }, 1000);
         })
         .catch(() => {
           vpn.enabled = !v;

@@ -13,6 +13,7 @@
 </template>
 <script>
 import './style/common.scss';
+import { CUSTOMER_ID } from '../util/constant';
 
 export default {
   computed: {
@@ -152,9 +153,9 @@ export default {
       ]
     };
     let menus = [];
-    if (process.env.CUSTOMER_ID === '0000') {
+    if (process.env.CUSTOMER_ID === CUSTOMER_ID.cik) {
       menus = [wifi, setting, upgrade];
-    } else {
+    } else if (process.env.CUSTOMER_ID === CUSTOMER_ID.mercku) {
       menus = [wifi, setting, advance, upgrade];
     }
     return {

@@ -1,3 +1,7 @@
+export const CUSTOMER_ID = {
+  mercku: '0000',
+  cik: '0001'
+};
 export const WanType = {
   pppoe: 'pppoe',
   static: 'static',
@@ -38,7 +42,10 @@ export const BlacklistMode = {
   blacklist: 'blacklist',
   whitelist: 'whitelist'
 };
-
+export const VPNType = {
+  pptp: 'pptp',
+  l2tp: 'l2tp'
+};
 export const VPNStatus = {
   connected: 'connected',
   connecting: 'connecting',

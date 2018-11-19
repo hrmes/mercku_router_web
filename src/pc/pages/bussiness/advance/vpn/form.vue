@@ -40,18 +40,19 @@
   </div>
 </template>
 <script>
-import { getStringByte } from '../../../../../util/util';
+import { getStringByte } from 'util/util';
+import { VPNType } from 'util/constant';
 
 export default {
   data() {
     return {
       protocols: [
         {
-          value: 'pptp',
+          value: VPNType.pptp,
           text: this.$t('trans0414')
         },
         {
-          value: 'l2tp',
+          value: VPNType.l2tp,
           text: this.$t('trans0415')
         }
       ],
@@ -62,7 +63,7 @@ export default {
       form: {
         id: '',
         name: '',
-        protocol: 'PPTP', // L2TP or PPTP
+        protocol: VPNType.pptp, // L2TP or PPTP
         server: '',
         username: '',
         password: ''
@@ -109,7 +110,7 @@ export default {
           username: vpn.username,
           password: vpn.password
         };
-        if (vpn.protocol === 'PPTP') {
+        if (vpn.protocol === VPNType.pptp) {
           this.pptp = {
             mppe: vpn.pptp.mppe,
             mppc: vpn.pptp.mppc
@@ -128,7 +129,7 @@ export default {
       let params = {
         ...this.form
       };
-      if (this.form.protocol === 'PPTP') {
+      if (this.form.protocol === VPNType.pptp) {
         params = {
           ...params,
           ...this.pptp
