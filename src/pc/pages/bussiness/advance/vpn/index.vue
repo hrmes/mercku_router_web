@@ -136,7 +136,7 @@ export default {
               } else if (timeout % 3 === 0) {
                 this.$http.getVPNInfo().then(res => {
                   vpn.status = res.data.result.status;
-                  if (vpn.status !== VPNStatus.connecting) {
+                  if (vpn.status !== VPNStatus.disconnecting) {
                     clearTimeout(this.timer);
                     this.connecting = false;
                     if (vpn.status === VPNStatus.disconnected) {
