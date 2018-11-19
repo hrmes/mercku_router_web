@@ -72,7 +72,7 @@ export default {
           status: action
         })
         .then(() => {
-          let timeout = 10;
+          let timeout = 60;
 
           this.timer = setInterval(() => {
             if (timeout < 0) {
