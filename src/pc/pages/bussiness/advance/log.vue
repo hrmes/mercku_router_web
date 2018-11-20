@@ -10,7 +10,7 @@
 
         </div>
         <div class="form-item" v-if="enabled">
-          <button class="btn btn-primary" @click="getSyslog">{{'trans0481'}}</button>
+          <button class="btn btn-primary" @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
         <div class="log-container">
           <pre>{{output}}</pre>
@@ -39,6 +39,11 @@ export default {
         })
         .then(() => {
           this.$loading.close();
+          if (!this.enabled) {
+            this.output = '';
+          } else {
+            this.getSyslog();
+          }
         })
         .catch(() => {
           this.$loading.close();
