@@ -2,7 +2,7 @@
   <div>
     <div class="page">
       <div class="page-header">
-        TR069
+        {{$t('trans0499')}}
       </div>
       <div class="page-content">
         <m-form ref="remote" class="form" :model="remote" :rules="remoateRules">
@@ -45,7 +45,7 @@
     </div>
     <div class="page">
       <div class="page-header">
-        Telnet
+        {{$t('trans0497')}}
       </div>
       <div class="page-content">
         <m-switch :label="$t('trans0496')" v-model="telnet" :onChange="updateTelnet"></m-switch>
