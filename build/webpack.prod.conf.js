@@ -9,6 +9,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const env = require('../env');
+
+const CUSTOMER_ID = `"${process.env.CUSTOMER_ID}"`;
+if (!CUSTOMER_ID) {
+  CUSTOMER_ID = `${env.default.id}`;
+  console.log(`cannot get CUSTOMER_ID in env,use default "${CUSTOMER_ID}"`);
+  CUSTOMER_ID = `"${CUSTOMER_ID}"`;
+}
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -29,9 +37,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: process.NODE_ENV === 'testing' ? '"testing"' : '"production"',
-        CUSTOMER_ID: process.env.CUSTOMER_ID
-          ? `"${process.env.CUSTOMER_ID}"`
-          : '"0000"'
+        CUSTOMER_ID
       }
     }),
     new UglifyJsPlugin({

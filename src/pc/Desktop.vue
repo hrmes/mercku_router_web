@@ -13,7 +13,8 @@
 </template>
 <script>
 import './style/common.scss';
-import { CUSTOMER, Access } from '../util/constant';
+import { Access } from '../util/constant';
+import env from '../../env';
 
 export default {
   computed: {
@@ -161,14 +162,14 @@ export default {
       let menus = [];
       const access = this.$store.state.access;
       switch (process.env.CUSTOMER_ID) {
-        case CUSTOMER.cik.id:
+        case env.cik.id:
           if (access === Access.super) {
             menus = [wifi, setting, advance, upgrade];
           } else {
             menus = [wifi, setting, upgrade];
           }
           break;
-        case CUSTOMER.mercku.id:
+        case env.mercku.id:
           menus = [wifi, setting, advance, upgrade];
           break;
         default:

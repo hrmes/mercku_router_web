@@ -1,13 +1,3 @@
-export const CUSTOMER = {
-  mercku: {
-    id: '0000',
-    ext: '.ma'
-  },
-  cik: {
-    id: '0001',
-    ext: '.ca'
-  }
-};
 export const Access = {
   super: 'super',
   admin: 'admin'
