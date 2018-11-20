@@ -98,4 +98,13 @@ export default {
     }
   }
 }
+@media screen and(max-width:768px) {
+  .page-content {
+    .form {
+      pre {
+        position: relative;
+      }
+    }
+  }
+}
 </style>

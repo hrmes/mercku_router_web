@@ -74,7 +74,7 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   .log-container {
     margin-top: 30px;
@@ -89,6 +89,15 @@ export default {
       margin: 0;
       font-family: inherit;
       position: absolute;
+    }
+  }
+}
+@media screen and(max-width:768px) {
+  .page-content {
+    .log-container {
+      pre {
+        position: relative;
+      }
     }
   }
 }
