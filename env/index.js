@@ -1,4 +1,4 @@
-export default (env = {
+module.exports = {
   default: {
     id: '0000',
     ext: '*.*'
@@ -11,4 +11,4 @@ export default (env = {
     id: '0002',
     ext: '.ca'
   }
-});
+};
