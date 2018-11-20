@@ -27,6 +27,9 @@ export default {
     }
   },
   watch: {
+    '$store.state.access': function watcher() {
+      this.access = this.$store.state.access;
+    },
     access() {
       this.menus = this.getMenus();
     }
