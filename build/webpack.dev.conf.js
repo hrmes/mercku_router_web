@@ -16,10 +16,9 @@ const PORT = process.env.PORT && Number(process.env.PORT);
 const CUSTOMER_ID = `"${process.env.CUSTOMER_ID}"`;
 if (!CUSTOMER_ID) {
   CUSTOMER_ID = `${env.default.id}`;
-  console.log(`cannot get CUSTOMER_ID in env,use default "${CUSTOMER_ID}"`);
-  CUSTOMER_ID = `"${CUSTOMER_ID}"`;
+  console.log(`cannot get CUSTOMER_ID in env,use default ${CUSTOMER_ID}`);
 } else {
-  console.log(`get CUSTOMER_ID in env,"${CUSTOMER_ID}"`);
+  console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
 }
 
 const devWebpackConfig = merge(baseWebpackConfig, {
