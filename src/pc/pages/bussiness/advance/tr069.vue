@@ -5,37 +5,37 @@
         TR069
       </div>
       <div class="page-content">
-        <m-form class="form">
+        <m-form class="form" :model="remote" :rules="remoateRules">
           <div class="title">{{$t('trans0491')}}</div>
-          <m-form-item>
-            <m-input :label="$t('trans0410')" v-model="tr069.remote.username"></m-input>
+          <m-form-item prop="username">
+            <m-input :label="$t('trans0410')" v-model="remote.username"></m-input>
+          </m-form-item>
+          <m-form-item prop="password">
+            <m-input :label="$t('trans0003')" v-model="remote.password"></m-input>
+          </m-form-item>
+          <m-form-item prop="interval">
+            <m-input :label="$t('trans0490')" v-model="remote.interval"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="$t('trans0003')" v-model="tr069.remote.password"></m-input>
-          </m-form-item>
-          <m-form-item>
-            <m-input :label="$t('trans0490')" v-model="tr069.remote.interval"></m-input>
-          </m-form-item>
-          <m-form-item>
-            <m-input :label="`${$t('trans0498')}${$t('trans0411')}`" v-model="tr069.remote.url"></m-input>
+            <m-input :label="`${$t('trans0498')}${$t('trans0411')}`" v-model="remote.url"></m-input>
           </m-form-item>
         </m-form>
-        <m-form class="form">
+        <m-form class="form" :model="local" :rules="localRules">
           <div class="title">{{$t('trans0493')}}</div>
-          <m-form-item>
-            <m-input :label="$t('trans0494')" v-model="tr069.local.path"></m-input>
+          <m-form-item prop="port">
+            <m-input :label="$t('trans0494')" v-model="local.path"></m-input>
+          </m-form-item>
+          <m-form-item prop="path">
+            <m-input :label="$t('trans0495')" v-model="remote.port"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="$t('trans0495')" v-model="tr069.remote.port"></m-input>
+            <m-input :label="`${$t('trans0410')}${$t('trans0411')}`" v-model="remote.username"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="`${$t('trans0410')}${$t('trans0411')}`" v-model="tr069.remote.username"></m-input>
-          </m-form-item>
-          <m-form-item>
-            <m-input :label="`${$t('trans0003')}${$t('trans0411')}`" v-model="tr069.remote.password"></m-input>
+            <m-input :label="`${$t('trans0003')}${$t('trans0411')}`" v-model="remote.password"></m-input>
           </m-form-item>
           <div class="form-item">
-            <m-checkbox :text="$t('trans0492')" v-model="tr069.enabled"></m-checkbox>
+            <m-checkbox :text="$t('trans0492')" v-model="enabled"></m-checkbox>
           </div>
           <div class="form-item">
             <button class="btn btn-primary" @click="updateTr069">{{$t('trans0081')}}</button>
@@ -57,23 +57,67 @@
 export default {
   data() {
     return {
-      tr069: {
-        enabled: true,
-        remote: {
-          username: '',
-          password: '',
-          interval: '',
-          url: ''
-        },
-        local: {
-          port: '',
-          path: '',
-          username: '',
-          password: ''
-        }
+      enabled: true,
+      remote: {
+        username: '',
+        password: '',
+        interval: '',
+        url: ''
+      },
+      local: {
+        port: '',
+        path: '',
+        username: '',
+        password: ''
       },
       telnet: false,
-      rules: {}
+      remoateRules: {
+        username: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          }
+        ],
+        password: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          }
+        ],
+        interval: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => {
+              const v = parseInt(value, 10);
+              if (isNaN(v)) {
+                return false;
+              }
+              if (v <= 0 || v > 999999999) {
+                return false;
+              }
+              return true;
+            },
+            message: this.$t('trans0500')
+          }
+        ]
+      },
+      localRules: {
+        port: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          }
+        ],
+        path: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          }
+        ]
+      }
     };
   },
   mounted() {
@@ -88,7 +132,9 @@ export default {
     updateTr069() {
       this.$http
         .updateTr069({
-          ...this.tr069
+          remote: this.remote,
+          local: this.local,
+          enabled: this.enabled
         })
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
