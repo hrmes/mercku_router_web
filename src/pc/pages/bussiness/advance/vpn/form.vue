@@ -21,7 +21,7 @@
           <m-form-item class="item" prop='password'>
             <m-input :label="`${$t('trans0003')}${$t('trans0411')}`" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.password"></m-input>
           </m-form-item>
-          <div class="opz-info" v-if="form.protocol==='PPTP'">
+          <div class="opz-info" v-if="form.protocol===VPNType.pptp">
             <div class="opz">
               <label for="">{{$t('trans0412')}}</label>
               <m-switch v-model="pptp.mppe"></m-switch>
@@ -46,6 +46,7 @@ import { VPNType } from 'util/constant';
 export default {
   data() {
     return {
+      VPNType,
       protocols: [
         {
           value: VPNType.pptp,
@@ -132,7 +133,7 @@ export default {
       if (this.form.protocol === VPNType.pptp) {
         params = {
           ...params,
-          ...this.pptp
+          pptp: this.pptp
         };
       }
       return params;
