@@ -5,7 +5,7 @@
         TR069
       </div>
       <div class="page-content">
-        <m-form class="form" :model="remote" :rules="remoateRules">
+        <m-form ref="remote" class="form" :model="remote" :rules="remoateRules">
           <div class="title">{{$t('trans0491')}}</div>
           <m-form-item prop="username">
             <m-input :label="$t('trans0410')" v-model="remote.username"></m-input>
@@ -20,7 +20,7 @@
             <m-input :label="`${$t('trans0498')}${$t('trans0411')}`" v-model="remote.url"></m-input>
           </m-form-item>
         </m-form>
-        <m-form class="form" :model="local" :rules="localRules">
+        <m-form ref="local" class="form" :model="local" :rules="localRules">
           <div class="title">{{$t('trans0493')}}</div>
           <m-form-item prop="port">
             <m-input :label="$t('trans0494')" v-model="local.path"></m-input>
@@ -130,18 +130,20 @@ export default {
   },
   methods: {
     updateTr069() {
-      this.$http
-        .updateTr069({
-          remote: this.remote,
-          local: this.local,
-          enabled: this.enabled
-        })
-        .then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .catch(() => {
-          this.$toast(this.$t('trans0077'));
-        });
+      if (this.$refs.remote.validate() && this.$refs.local.validate()) {
+        this.$http
+          .updateTr069({
+            remote: this.remote,
+            local: this.local,
+            enabled: this.enabled
+          })
+          .then(() => {
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+          })
+          .catch(() => {
+            this.$toast(this.$t('trans0077'));
+          });
+      }
     },
     updateTelnet(v) {
       this.$http
