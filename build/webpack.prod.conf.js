@@ -16,6 +16,8 @@ if (!CUSTOMER_ID) {
   CUSTOMER_ID = `${env.default.id}`;
   console.log(`cannot get CUSTOMER_ID in env,use default "${CUSTOMER_ID}"`);
   CUSTOMER_ID = `"${CUSTOMER_ID}"`;
+} else {
+  console.log(`get CUSTOMER_ID in env,"${CUSTOMER_ID}"`);
 }
 
 const webpackConfig = merge(baseWebpackConfig, {
