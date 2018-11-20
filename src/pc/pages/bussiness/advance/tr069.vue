@@ -17,7 +17,7 @@
             <m-input :label="$t('trans0490')" v-model="tr069.remote.interval"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="$t('trans0498')" v-model="tr069.remote.url"></m-input>
+            <m-input :label="`${$t('trans0498')}${$t('trans0411')}`" v-model="tr069.remote.url"></m-input>
           </m-form-item>
         </m-form>
         <m-form class="form">
@@ -29,16 +29,16 @@
             <m-input :label="$t('trans0495')" v-model="tr069.remote.port"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="$t('trans0410')" v-model="tr069.remote.username"></m-input>
+            <m-input :label="`${$t('trans0410')}${$t('trans0411')}`" v-model="tr069.remote.username"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="$t('trans0003')" v-model="tr069.remote.password"></m-input>
+            <m-input :label="`${$t('trans0003')}${$t('trans0411')}`" v-model="tr069.remote.password"></m-input>
           </m-form-item>
           <div class="form-item">
-            <m-checkbox :text="$t('trans0492')"></m-checkbox>
+            <m-checkbox :text="$t('trans0492')" v-model="tr069.enabled"></m-checkbox>
           </div>
           <div class="form-item">
-            <button class="btn btn-primary">{{$t('trans0081')}}</button>
+            <button class="btn btn-primary" @click="updateTr069">{{$t('trans0081')}}</button>
           </div>
         </m-form>
       </div>
@@ -72,7 +72,8 @@ export default {
           password: ''
         }
       },
-      telnet: false
+      telnet: false,
+      rules: {}
     };
   },
   mounted() {
@@ -85,12 +86,29 @@ export default {
   },
   methods: {
     updateTr069() {
-      this.$http.updateTr069();
+      this.$http
+        .updateTr069({
+          ...this.tr069
+        })
+        .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.$toast(this.$t('trans0077'));
+        });
     },
     updateTelnet(v) {
-      this.$http.setTelnetEnabled({
-        enabled: v
-      });
+      this.$http
+        .setTelnetEnabled({
+          enabled: v
+        })
+        .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.$toast(this.$t('trans0077'));
+          this.telnet = !v;
+        });
     }
   }
 };
@@ -112,6 +130,13 @@ export default {
       color: #333;
       margin-bottom: 30px;
       font-weight: bold;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .page {
+    &:last-child {
+      margin-bottom: 30px;
     }
   }
 }

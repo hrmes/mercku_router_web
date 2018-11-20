@@ -168,7 +168,7 @@ export default {
             advance.children.push({
               url: '/advance/tr069',
               name: 'advance-tr069',
-              text: 'trans0204'
+              text: 'trans0499'
             });
             menus = [wifi, setting, advance, upgrade];
           } else {
