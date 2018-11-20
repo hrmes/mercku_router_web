@@ -80,7 +80,7 @@ export default {
         .login(this.password)
         .then(res => {
           this.$loading.close();
-          const access = res.data.result.access;
+          const access = res.data.result.role;
           this.$store.state.access = access;
           sessionStorage.setItem('access', access);
           this.$router.push({ path: '/dashboard' });

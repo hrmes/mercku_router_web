@@ -208,11 +208,6 @@ export default {
       width: 200px;
       position: relative;
     }
-    .device-container {
-      .text-container {
-        font-size: 14px;
-      }
-    }
   }
   .router-view {
     margin-top: 75px;
@@ -268,13 +263,6 @@ export default {
       .wifi-container,
       .internet-container {
         width: 60px;
-      }
-      .device-container {
-        .text-container {
-          font-size: 12px;
-          margin-top: 20px;
-          font-weight: bold;
-        }
       }
     }
   }

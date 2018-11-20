@@ -31,6 +31,7 @@ import log from 'pages/bussiness/advance/log.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
+import tr069 from 'pages/bussiness/advance/tr069.vue';
 
 Vue.use(Router);
 const routes = [
@@ -199,6 +200,11 @@ const routes = [
     path: '/advance/vpn/form/:id?',
     name: 'advance-vpn-form',
     component: vpnForm
+  },
+  {
+    path: '/advance/tr069',
+    name: 'advance-tr069',
+    component: tr069
   }
 ];
 export default new Router({

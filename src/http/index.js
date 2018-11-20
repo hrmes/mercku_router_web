@@ -82,7 +82,11 @@ const methods = {
   meshVpnDelete: createMethod('mesh.vpn.delete'),
   meshVpnInfoGet: createMethod('mesh.vpn.info.get'),
   meshVpnConfigGet: createMethod('mesh.vpn.config.get'),
-  meshVpnConfigUpdate: createMethod('mesh.vpn.config.update')
+  meshVpnConfigUpdate: createMethod('mesh.vpn.config.update'),
+  routerTelnetEnabledUpdate: createMethod('router.telnet.enabled.update'),
+  routerTelnetEnabledGet: createMethod('router.telnet.enabled.get'),
+  routerTr069Get: createMethod('router.tr069.get'),
+  routerTr069Update: createMethod('router.tr069.update')
 };
 
 class Http {
@@ -104,6 +108,18 @@ class Http {
     return axios({ url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
+  }
+  getTelnetEnabled() {
+    return this.request(methods.routerTelnetEnabledGet);
+  }
+  setTelnetEnabled(params) {
+    return this.request(methods.routerTelnetEnabledUpdate, params);
+  }
+  getTr069() {
+    return this.request(methods.routerTr069Get);
+  }
+  updateTr069(params) {
+    return this.request(methods.routerTr069Update, params);
   }
   getSysLog() {
     return axios.get(`/log.log?t=${Date.now()}`);

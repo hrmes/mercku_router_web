@@ -143,6 +143,7 @@ export default {
           }
         ]
       };
+
       const upgrade = {
         icon: 'upgrade',
         text: 'trans0197',
@@ -164,6 +165,11 @@ export default {
       switch (process.env.CUSTOMER_ID) {
         case env.cik.id:
           if (access === Access.super) {
+            advance.children.push({
+              url: '/advance/tr069',
+              name: 'advance-tr069',
+              text: 'trans0204'
+            });
             menus = [wifi, setting, advance, upgrade];
           } else {
             menus = [wifi, setting, upgrade];
