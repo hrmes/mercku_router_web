@@ -8,14 +8,20 @@
         <div class="vpn-list">
           <div class="vpn" v-for="vpn in vpns" :key="vpn.id">
             <div class="vpn-left">
-              <div class="vpn-name">{{vpn.name}}</div>
-              <m-spinner class="spinner" :color="getColor(vpn)" v-if="isConnectingOrDisconnecting(vpn)"></m-spinner>
-              <span class="spinner-text" :style="{'color':getColor(vpn)}" v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
+              <div class="vpn-name">
+                <span>{{vpn.name}}</span>
+                <div class="spinner-container">
+                  <m-spinner size="30" class="spinner" :color="getColor(vpn)" v-if="isConnectingOrDisconnecting(vpn)"></m-spinner>
+                  <span class="spinner-text" :style="{'color':getColor(vpn)}" v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
+                </div>
+              </div>
+
+              <m-switch :disabled="connecting" v-model="vpn.enabled" class="vpn-switch" :onChange="(v)=>start(v,vpn)"></m-switch>
             </div>
 
             <div class="vpn-right">
               <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
-              <m-switch :disabled="connecting" v-model="vpn.enabled" class="vpn-switch" :onChange="(v)=>start(v,vpn)"></m-switch>
+
               <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':connecting}">{{$t('trans0034')}}</div>
               <div class="vpn-del" @click="del(vpn)" :class="{'disabled':connecting}">{{$t('trans0033')}}</div>
             </div>
@@ -251,16 +257,23 @@ export default {
       .vpn-left {
         display: flex;
         align-items: center;
-        .spinner {
-          margin-left: 10px;
+        flex: 1;
+        justify-content: space-between;
+        .vpn-name {
+          display: flex;
+          align-items: center;
         }
-        .spinner-text {
-          margin-left: 10px;
+        .spinner-container {
+          display: flex;
+          align-items: center;
+          margin-left: 20px;
+          .spinner-text {
+            margin-left: 10px;
+          }
         }
       }
 
       .vpn-right {
-        flex: 1;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -313,12 +326,16 @@ export default {
         align-items: flex-start;
         height: auto;
         .vpn-left {
+          width: 100%;
           align-items: center;
           margin-bottom: 10px;
-          height: 50px;
+          justify-content: space-between;
+          height: 36px;
         }
         .vpn-right {
           width: 100%;
+          .vpn-switch {
+          }
         }
       }
     }
