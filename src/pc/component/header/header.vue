@@ -106,20 +106,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header-container {
-  padding: 30px 50px;
+  height: 92px;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 50px;
+  display: flex;
   .logo-container {
     display: none;
-    width: 210px;
+    width: 209px;
     height: 32px;
-    background: url(../../assets/images/MERCKU_LOGO_web_top.png) center
-      no-repeat;
-    background-size: 100%;
-    img {
-      width: 180px;
-    }
   }
   .right-container {
-    float: right;
     .small-device {
       display: none;
     }
@@ -191,26 +188,31 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .header-container {
-    padding: 20px;
+    height: 65px;
+    position: relative;
+    display: none;
     .logo-container {
       display: block;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      img {
-        width: 180px;
-      }
+      width: 131px;
+      height: 20px;
     }
     .right-container {
       .lang-selector {
         display: none;
       }
       .small-device {
-        display: inline-block;
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
         .menu-icon {
           display: inline-block;
-          width: 21px;
-          height: 21px;
+          width: 20px;
+          height: 20px;
           &.language {
             &.zh-CN {
               background: url(../../assets/images/ic_language_exchange_02.png)

@@ -1,0 +1,32 @@
+.header-container {
+  .logo-container {
+    background: url(../assets/images/mercku_logo.png) center no-repeat;
+    background-size: 100%;
+  }
+}
+
+.menu-container {
+  .logo-container {
+    .logo {
+      background: url(../assets/images/mercku_logo.png) center no-repeat;
+      background-size: 100%;
+    }
+  }
+}
+
+/************************* 登陆页面*********************/
+.login-container {
+  .center-form {
+    .download {
+      display: block;
+    }
+  }
+}
+@media screen and(max-width: 768px) {
+  .login-container {
+    .small-device-download {
+      display: block !important;
+    }
+  }
+}
+/**************************end登陆页面******************/

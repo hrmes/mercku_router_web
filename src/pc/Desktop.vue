@@ -3,7 +3,7 @@
     <m-menu class="menu" :menus="menus" v-if="!menu_hidden"></m-menu>
     <div class="app-container router-view">
       <div class="flex-wrap" :class="{'has-menu':!menu_hidden}">
-        <m-header :hasExit="!menu_hidden" class="header" :class="{'has-menu':menu_hidden}"></m-header>
+        <m-header :hasExit="!menu_hidden" class="header" :class="{'no-menu':menu_hidden}"></m-header>
         <router-view></router-view>
         <m-policy :locale="$i18n.locale" :class="{'fix-bottom':menu_hidden}" class="policy" />
       </div>
@@ -202,9 +202,10 @@ export default {
   .header {
     width: 100%;
     flex: 0 0 auto;
-    &.has-menu {
+    &.no-menu {
       background: #fff;
-      display: block;
+      display: flex;
+      justify-content: space-between;
       .logo-container {
         display: inline-block;
       }

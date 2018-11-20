@@ -1,11 +1,13 @@
 <template>
   <div class="menu-container" :class="{'small-device-expand':showMenu}">
-    <div class="logo-container">
-      <img src="../../assets/images/MERCKU_LOGO_web_top.png" alt="">
-    </div>
-    <div class="small-device">
-      <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
-      <span class="menu-icon menu" @click="show()"></span>
+    <div class="menu-top">
+      <div class="logo-container">
+        <div class="logo"></div>
+      </div>
+      <div class="small-device">
+        <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
+        <span class="menu-icon menu" @click="show()"></span>
+      </div>
     </div>
     <ul class="menu" :class="{'show':showMenu}">
       <li class="menu-item" :key="menu.key" @click="jump(menu)" v-for="menu in list" :class="{'selected':$route.name.includes(menu.name)}">
@@ -115,10 +117,15 @@ export default {
 .menu-container {
   background: #fff;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  .menu-top {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
   .small-device {
     display: none;
-    float: right;
-    padding: 20px;
 
     .menu-icon {
       display: inline-block;
@@ -147,9 +154,12 @@ export default {
   }
   .logo-container {
     padding: 60px 0;
-    text-align: center;
-    img {
-      width: 180px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    .logo {
+      width: 209px;
+      height: 32px;
     }
   }
   .menu {
@@ -277,22 +287,33 @@ export default {
     height: 65px;
     width: 100%;
     border-bottom: 1px solid #e1e1e1;
+    justify-content: space-between;
+    .menu-top {
+      height: 64px;
+    }
     &.small-device-expand {
       height: 100%;
       border: none;
       position: fixed;
       overflow: auto;
       z-index: 1000;
+      flex-direction: column;
+      justify-content: flex-start;
     }
     .small-device {
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
     }
     .logo-container {
-      padding: 20px;
-      display: inline-block;
-      img {
-        width: 140px;
-        height: 21px;
+      padding: 0;
+      padding-left: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      .logo {
+        width: 131px;
+        height: 20px;
       }
     }
     .menu {
