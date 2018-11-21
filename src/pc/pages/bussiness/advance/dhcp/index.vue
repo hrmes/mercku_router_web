@@ -2,29 +2,27 @@
   <div class="page">
     <div class='page-header'>{{$t('trans0417')}}</div>
     <div class="page-content">
-      <div class="form">
-        <m-form ref="form" :model="form" :rules='rules'>
-          <m-form-item class="item" prop='ip'>
-            <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="$t('trans0440')" v-model="form.ip" />
-          </m-form-item>
-          <div class="item">
-            <label for="" class="ext-label">{{$t('trans0483')}}</label>
-            <div>
-              <m-form-item class="ext-item" prop='ip_start'>
-                <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" />
-              </m-form-item>
-              <m-form-item class="ext-item" prop='ip_end'>
-                <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
-              </m-form-item>
-            </div>
+      <m-form class="form" ref="form" :model="form" :rules='rules'>
+        <m-form-item class="item" prop='ip'>
+          <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="$t('trans0440')" v-model="form.ip" />
+        </m-form-item>
+        <div class="item">
+          <label for="">{{$t('trans0483')}}</label>
+          <div>
+            <m-form-item class="ext-item" prop='ip_start'>
+              <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" />
+            </m-form-item>
+            <m-form-item class="ext-item" prop='ip_end'>
+              <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
+            </m-form-item>
           </div>
-          <m-form-item class="item" prop='lease'>
-            <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
-          </m-form-item>
-        </m-form>
-        <div class="btn-info form-button">
-          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
         </div>
+        <m-form-item class="item" prop='lease'>
+          <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
+        </m-form-item>
+      </m-form>
+      <div class="btn-info form-button">
+        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -207,12 +205,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.btn-info {
-  margin-top: 60px;
-}
-.ext-label {
-  display: inline-block;
-  margin-bottom: 5px;
+.page-content {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 .ext-item {
   position: relative;

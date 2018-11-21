@@ -299,18 +299,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 .form {
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
   .btn-info {
     margin-top: 60px;
   }
-  width: 400px;
+  // width: 400px;
   margin: 0 auto;
   // margin-top: 30px;
   .ext-item {
     margin-bottom: 0;
   }
   .item {
-    width: 350px;
+    // width: 350px;
     margin-top: 30px;
     .port-wrap {
       display: flex;
@@ -333,13 +333,14 @@ export default {
     }
   }
   .radio-group {
-    min-width: 300px;
+    // min-width: 300px;
   }
 }
 @media screen and (max-width: 768px) {
   .form {
-    padding-bottom: 50px;
+    // padding-bottom: 50px;/
     .btn-info {
+      // width: 100%;
       margin-top: 60px;
     }
     width: 100%;
