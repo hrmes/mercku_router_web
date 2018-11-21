@@ -290,6 +290,7 @@ export default {
     justify-content: space-between;
     .menu-top {
       height: 64px;
+      flex-shrink: 0;
     }
     &.small-device-expand {
       height: 100%;
