@@ -83,11 +83,12 @@ export default {
   height: 100%;
   .form-item {
     display: flex;
+    height: 30px;
   }
   .btn {
-    width: 100px;
+    width: auto;
     height: 27px;
-    margin-left: 0;
+    margin-left: 30px;
   }
   .log-container {
     border-radius: 4px;

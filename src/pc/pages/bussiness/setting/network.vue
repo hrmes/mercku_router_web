@@ -64,7 +64,7 @@
             </div>
             <m-form v-show="isDhcp" ref="dhcpForm" :model="dhcpForm" :rules="dhcpRules">
               <m-form-item class="item">
-                <m-radio-group class="radio-group" v-model="autodns.dhcp" :options="dnsOptions"></m-radio-group>
+                <m-radio-group class="radio-group" direction="vertical" v-model="autodns.dhcp" :options="dnsOptions"></m-radio-group>
               </m-form-item>
               <div v-show="!autodns.dhcp">
                 <m-form-item class="item" prop='dns1' ref="dns">
@@ -83,7 +83,7 @@
                 <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.password" />
               </m-form-item>
               <m-form-item class="item">
-                <m-radio-group class="radio-group" v-model="autodns.pppoe" :options="dnsOptions"></m-radio-group>
+                <m-radio-group class="radio-group" direction="vertical" v-model="autodns.pppoe" :options="dnsOptions"></m-radio-group>
               </m-form-item>
               <div v-show="!autodns.pppoe">
                 <m-form-item class="item" prop='dns1' ref="dns">
@@ -515,6 +515,7 @@ export default {
     color: #333333;
     text-align: center;
     padding: 20px 0;
+    padding-bottom: 48px;
     img {
       width: 200px;
     }
@@ -549,7 +550,6 @@ export default {
   }
 }
 .network-setting {
-  margin-top: 30px;
   .setting-info {
     width: 100%;
     display: flex;
@@ -558,12 +558,12 @@ export default {
     .form {
       padding: 20px 0;
       .net-type {
-        margin-bottom: 10px;
+        margin-bottom: 30px;
       }
       .note {
         font-size: 12px;
         color: #999999;
-        padding: 4px 0;
+        padding-top: 10px;
       }
       .title {
         display: inline-block;

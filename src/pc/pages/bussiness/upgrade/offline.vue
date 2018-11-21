@@ -59,7 +59,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-item">
+            <div class="btn-info">
               <button @click="upgrade()" class="btn re-btn">{{$t('trans0225')}}</button>
             </div>
           </div>
@@ -306,6 +306,9 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  .btn-info {
+    margin-top: 120px;
+  }
   .nodes-info {
     display: flex;
     width: 100%;

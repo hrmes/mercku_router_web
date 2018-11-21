@@ -4,41 +4,38 @@
       {{$t('trans0167')}}
     </div>
     <div class="page-content">
-      <div class='form'>
-        <m-form ref="form" :model="form" :rules='rules'>
-          <m-form-item class="item" prop='ssid'>
-            <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-          </m-form-item>
-          <m-form-item class="item" prop='password'>
-            <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-          </m-form-item>
-          <div class="form-item check-info smart-connect">
-            <div class="switch-container">
-              <label for=""> {{$t('trans0397')}} </label>
-              <div class="tool">
-                <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
-                <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
-              </div>
-              <m-switch v-model="form.smart_connect" />
-            </div>
-            <div class="ssid" v-if="!form.smart_connect">
-              <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
-              <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{ssid_5g}}</span></div>
-            </div>
-          </div>
-          <div class="form-item check-info">
-            <label for=""> {{$t('trans0110')}} </label>
+      <m-form class="form" ref="form" :model="form" :rules='rules'>
+        <m-form-item class="item" prop='ssid'>
+          <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+        </m-form-item>
+        <m-form-item class="item" prop='password'>
+          <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+        </m-form-item>
+        <div class="form-item check-info smart-connect">
+          <div class="switch-container">
+            <label for=""> {{$t('trans0397')}} </label>
             <div class="tool">
-              <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-              <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+              <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
+              <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
             </div>
-            <m-switch v-model="form.hidden" />
+            <m-switch v-model="form.smart_connect" />
           </div>
-          <div class="form-button">
-            <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
+          <div class="ssid" v-if="!form.smart_connect">
+            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
+            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{ssid_5g}}</span></div>
           </div>
-        </m-form>
-
+        </div>
+        <div class="form-item check-info">
+          <label for=""> {{$t('trans0110')}} </label>
+          <div class="tool">
+            <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+            <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+          </div>
+          <m-switch v-model="form.hidden" />
+        </div>
+      </m-form>
+      <div class="form-button">
+        <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -189,6 +186,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.page-content {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
 .form {
   display: flex;
   flex-direction: column;

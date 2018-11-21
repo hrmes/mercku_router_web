@@ -21,7 +21,7 @@
             </m-form-item>
           </m-form>
         </div>
-        <div class="form-item">
+        <div class="form-button">
           <button class="btn primary" @click="updateMac">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -146,6 +146,7 @@ export default {
   }
   .mac {
     padding-left: 24px;
+    margin: 10px 0;
   }
   .input {
     margin-top: 10px;

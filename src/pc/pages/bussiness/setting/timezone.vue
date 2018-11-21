@@ -12,10 +12,11 @@
         <m-form-item class="item" prop='password'>
           <m-select :label="$t('trans0273')" v-model="form.timezone" :options="timezones"></m-select>
         </m-form-item>
+        <div class="form-button">
+          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+        </div>
       </m-form>
-      <div class="form-button">
-        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
-      </div>
+
     </div>
   </div>
 </template>
@@ -100,7 +101,7 @@ export default {
   .form {
     display: flex;
     justify-content: center;
-    padding: 30px 0;
+    margin-top: 30px;
     flex-direction: column;
     align-items: center;
     align-items: center;

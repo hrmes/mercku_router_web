@@ -74,7 +74,7 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   .log-container {
     margin-top: 30px;

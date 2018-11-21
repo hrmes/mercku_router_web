@@ -1,5 +1,5 @@
 <template>
-  <div class="radio-group-container">
+  <div class="radio-group-container" :class="`${direction}`">
     <div class="option" @click="check(option)" :class="{'selected':selected===option.value}" v-for="option in options" :key="option.value">
       <div class="radio"></div>
       <div class="text">{{option.text}}</div>
@@ -10,6 +10,10 @@
 export default {
   props: {
     value: {},
+    direction: {
+      type: String,
+      default: 'horizontal'
+    },
     options: Array
   },
   data() {
@@ -33,11 +37,24 @@ export default {
 <style lang="scss">
 .radio-group-container {
   display: flex;
-  .option {
-    &:first-child {
-      margin: 0;
+  &.vertical {
+    flex-direction: column;
+    .option {
+      margin-top: 20px;
+      &:first-child {
+        margin-top: 0;
+      }
     }
-    margin-left: 30px;
+  }
+  &.horizontal {
+    .option {
+      margin-left: 30px;
+      &:first-child {
+        margin: 0;
+      }
+    }
+  }
+  .option {
     display: flex;
     align-items: center;
     cursor: pointer;
