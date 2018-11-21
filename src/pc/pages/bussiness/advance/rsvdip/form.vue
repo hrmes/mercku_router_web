@@ -5,46 +5,44 @@
     </div>
     <div class="page-content">
 
-      <div class="form">
-        <m-form ref="form" :model="form" :rules='rules'>
-          <div class="device" @click.stop="()=>modalShow=!modalShow">
-            <span>{{$t('trans0235')}}</span>
-            <i> <img :class="{open:modalShow}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i>
-            <div class="modal" v-if="modalShow" @click.stop="" v-clickoutside="()=>modalShow=false">
-              <div class="opcity"></div>
-              <div class="modal-content">
-                <div class="list">
-                  <div class="device-item" v-for="(item,index) in devices" :key="index">
-                    <div class="check">
-                      <m-checkbox v-model="item.checked" :onChange="(v)=>change(v,item)"></m-checkbox>
-                    </div>
-                    <div class="des">
-                      <p>{{item.name}}</p>
-                      <p>MAC：{{formatMac(item.mac)}}</p>
-                      <p>IP：{{item.ip}}</p>
-                    </div>
+      <m-form ref="form" class="form" :model="form" :rules='rules'>
+        <div class="device" @click.stop="()=>modalShow=!modalShow">
+          <span>{{$t('trans0235')}}</span>
+          <i> <img :class="{open:modalShow}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i>
+          <div class="modal" v-if="modalShow" @click.stop="" v-clickoutside="()=>modalShow=false">
+            <div class="opcity"></div>
+            <div class="modal-content">
+              <div class="list">
+                <div class="device-item" v-for="(item,index) in devices" :key="index">
+                  <div class="check">
+                    <m-checkbox v-model="item.checked" :onChange="(v)=>change(v,item)"></m-checkbox>
+                  </div>
+                  <div class="des">
+                    <p>{{item.name}}</p>
+                    <p>MAC：{{formatMac(item.mac)}}</p>
+                    <p>IP：{{item.ip}}</p>
                   </div>
                 </div>
-                <div class="btn-wrap">
-                  <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-                  <button class="btn" @click="chooseDevice">{{$t('trans0024')}}</button>
-                </div>
+              </div>
+              <div class="btn-wrap">
+                <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
+                <button class="btn" @click="chooseDevice">{{$t('trans0024')}}</button>
               </div>
             </div>
           </div>
-          <m-form-item class="item" prop='name' ref="name">
-            <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
-          </m-form-item>
-          <m-form-item class="item" prop='mac' ref="mac">
-            <m-input :label="$t('trans0188')" type="text" @input="format" :placeholder="$t('trans0321')" v-model="form.mac" />
-          </m-form-item>
-          <m-form-item class="item" prop='ip' ref="ip">
-            <m-input :label="$t('trans0151')" type="text" :placeholder="$t('trans0321')" v-model="form.ip" />
-          </m-form-item>
-        </m-form>
-        <div class="btn-info">
-          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
         </div>
+        <m-form-item class="item" prop='name' ref="name">
+          <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
+        </m-form-item>
+        <m-form-item class="item" prop='mac' ref="mac">
+          <m-input :label="$t('trans0188')" type="text" @input="format" :placeholder="$t('trans0321')" v-model="form.mac" />
+        </m-form-item>
+        <m-form-item class="item" prop='ip' ref="ip">
+          <m-input :label="$t('trans0151')" type="text" :placeholder="$t('trans0321')" v-model="form.ip" />
+        </m-form-item>
+      </m-form>
+      <div class="btn-info form-button">
+        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -183,15 +181,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .form {
-  padding-bottom: 50px;
   .btn-info {
     margin-top: 60px;
   }
-  width: 400px;
+  // width: 400px;
   margin: 0 auto;
   // margin-top: 30px;
   .item {
-    width: 350px;
+    // width: 350px;
     margin-top: 30px;
   }
   .device {
@@ -275,9 +272,9 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .form {
-    padding-bottom: 50px;
+    // padding-bottom: 50px;
     .btn-info {
-      margin-top: 30px;
+      // margin-top: 30px;
     }
     width: 100%;
     margin: 0 auto;

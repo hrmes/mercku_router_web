@@ -209,6 +209,7 @@ input::-webkit-input-placeholder {
   background: #fff;
   border-radius: 8px;
   padding: 0 20px;
+
   .page-header {
     border-bottom: 1px solid #f1f1f1;
     font-size: 16px;
@@ -219,6 +220,7 @@ input::-webkit-input-placeholder {
     display: flex;
     align-items: center;
   }
+
   .page-content {
     border-radius: 8px;
     padding: 30px 20px;
@@ -228,33 +230,42 @@ input::-webkit-input-placeholder {
     justify-content: flex-start;
     align-items: center;
   }
+
   .form {
     .form-item {
       margin-bottom: 30px;
+      width: 100%;
     }
   }
+
   .form-button {
     margin-top: 30px;
   }
 }
+
 @media screen and (max-width: 768px) {
   .page {
     margin: 30px 16px;
     padding: 0;
+
     .page-header {
       font-size: 16px;
       font-weight: bold;
       padding: 16px 20px;
     }
   }
+
   .form {
     width: 100%;
+
     .form-item {
       width: 100%;
     }
   }
+
   .form-button {
     width: 100%;
   }
 }
+
 /**=============================E页面级公共样式=======================================**/
