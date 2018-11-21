@@ -22,7 +22,7 @@ export default {
     };
   },
   mounted() {
-    this.startTimer();
+    // this.startTimer();
   },
   methods: {
     startTimer() {
@@ -48,12 +48,13 @@ export default {
 }
 .toast-container {
   color: rgba(0, 0, 0, 0.65);
-  position: fixed;
+  // position: fixed;
   top: 0;
   padding: 10px 16px;
   border-radius: 4px;
   z-index: 1001;
   left: 50%;
+  position: fixed;
   transform: translate(-50%, 50%);
   white-space: nowrap;
   text-align: center;

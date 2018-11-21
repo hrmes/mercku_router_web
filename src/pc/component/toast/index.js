@@ -16,7 +16,15 @@ const toast = (
     }
   }).$mount();
   instance.visible = true;
-  document.querySelector(parentEl).appendChild(instance.$el);
+
+  const pEl = document.querySelector(parentEl);
+  pEl.appendChild(instance.$el);
+
+  const rect = pEl.getBoundingClientRect();
+
+  const left = rect.left + rect.width / 2;
+
+  instance.$el.style.left = `${left}px`;
 };
 
 export default toast;
