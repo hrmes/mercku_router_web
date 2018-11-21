@@ -11,10 +11,11 @@
         <div class="checkbox-wrapper">
           <m-checkbox v-model="dmz.enabled" :text="$t('trans0369')"></m-checkbox>
         </div>
-        <div class="form-item">
-          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
-        </div>
+
       </m-form>
+      <div class="form-button">
+        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+      </div>
     </div>
   </div>
 </template>

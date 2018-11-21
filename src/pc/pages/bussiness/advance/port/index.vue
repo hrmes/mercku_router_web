@@ -211,7 +211,7 @@ export default {
   }
 }
 .table {
-  flex: 1;
+  width: 100%;
   .handle-info {
     .select {
       display: none;
