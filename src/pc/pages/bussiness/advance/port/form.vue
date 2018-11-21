@@ -286,7 +286,7 @@ export default {
         this.$http[fetchMethod](this.formParams)
           .then(() => {
             this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$toast(this.$t('trans0476'), 3000, 'success');
             this.$router.push('/advance/portforwarding');
           })
           .catch(() => {
