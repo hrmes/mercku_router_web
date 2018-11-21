@@ -26,21 +26,22 @@
           <m-spinner color="#333" />
         </div>
       </div>
-    </div>
-    <div class="small-device-download">
-      <div class="logo-container">
-        <img class="app-logo" src="../../assets/images/ic_mercku.png" alt="">
-      </div>
-      <div class="down-text">
-        <div>{{$t('trans0314')}}</div>
-        <div>
-          {{$t('trans0292')}}</div>
-      </div>
+      <div class="small-device-download">
+        <div class="logo-container">
+          <img class="app-logo" src="../../assets/images/ic_mercku.png" alt="">
+        </div>
+        <div class="down-text">
+          <div>{{$t('trans0314')}}</div>
+          <div>
+            {{$t('trans0292')}}</div>
+        </div>
 
-      <div class="down-button-container">
-        <a class="down-button" href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
+        <div class="down-button-container">
+          <a class="down-button" href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
+        </div>
       </div>
     </div>
+
     <div class="bottom-image">
       <img class="big-device-image" src="../../assets/images/img_main_picture.jpg" alt="">
       <img class="small-device-image" src="../../assets/images/img_bg_mobile.png" alt="">
@@ -125,9 +126,6 @@ export default {
     flex: 1;
     .form-item {
       margin-bottom: 30px;
-      &:last-child {
-        margin: 0;
-      }
     }
     .download {
       padding: 0 50px;
@@ -174,15 +172,14 @@ export default {
       }
     }
     .small-device-download {
-      width: 80%;
-      margin: 0 auto;
+      width: 100%;
       background: #f1f1f1;
       text-align: left;
       padding: 20px 10px;
       height: 88px;
       border-radius: 4px;
 
-      margin-top: 45px;
+      margin-top: 15px;
       .logo-container {
         float: left;
         img {
@@ -235,11 +232,14 @@ export default {
       display: none;
     }
     .bottom-image {
+      width: 80%;
+      margin-top: 30px;
       .big-device-image {
         display: none;
       }
       .small-device-image {
         display: block;
+        width: 100%;
       }
     }
   }

@@ -136,10 +136,12 @@ export default {
       if (this.$refs.remote.validate() && this.$refs.local.validate()) {
         this.$http
           .updateTr069({
-            remote: this.remote,
+            remote: {
+              ...this.remote,
+              interval: Number(this.port.interval)
+            },
             local: {
               ...this.local,
-              interval: Number(this.port.interval),
               port: Number(this.local.port)
             },
             enabled: this.enabled
