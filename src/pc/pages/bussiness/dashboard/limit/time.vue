@@ -413,7 +413,7 @@ export default {
   }
 }
 .table {
-  flex: 1;
+  width: 100%;
   .btn-warp {
     margin-top: 50px;
     display: flex;

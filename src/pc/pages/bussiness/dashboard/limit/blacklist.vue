@@ -271,12 +271,12 @@ export default {
 .handle {
   display: flex;
   align-items: center;
+  align-self: flex-start;
   label {
     padding: 0 30px 0 10px;
   }
 }
 .table {
-  flex: 1;
   width: 100%;
   .btn-warp {
     margin-top: 50px;
