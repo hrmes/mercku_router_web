@@ -77,7 +77,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .table {
-  flex: 1;
+  width: 100%;
   .name,
   .mac {
     width: 40%;
