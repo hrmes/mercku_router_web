@@ -12,10 +12,10 @@
         <m-form-item class="item" prop='password'>
           <m-select :label="$t('trans0273')" v-model="form.timezone" :options="timezones"></m-select>
         </m-form-item>
-        <div class="form-item">
-          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
-        </div>
       </m-form>
+      <div class="form-button">
+        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+      </div>
     </div>
   </div>
 </template>
