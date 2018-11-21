@@ -298,19 +298,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.btn-info {
+  margin-top: 60px;
+}
 .form {
-  // padding-bottom: 50px;
-  .btn-info {
-    margin-top: 60px;
-  }
-  // width: 400px;
-  margin: 0 auto;
-  // margin-top: 30px;
   .ext-item {
     margin-bottom: 0;
   }
   .item {
-    // width: 350px;
     margin-top: 30px;
     .port-wrap {
       display: flex;
@@ -337,12 +332,12 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .form-button {
+    // width: 100%;
+    margin-top: 60px;
+  }
   .form {
     // padding-bottom: 50px;/
-    .btn-info {
-      // width: 100%;
-      margin-top: 60px;
-    }
     width: 100%;
     margin: 0 auto;
     .ext-item {
