@@ -45,7 +45,7 @@
             </div>
           </div>
         </m-form>
-        <div class="btn-info">
+        <div class="btn-info form-button">
           <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -307,7 +307,7 @@ export default {
   }
   width: 400px;
   margin: 0 auto;
-  margin-top: 30px;
+  // margin-top: 30px;
   .ext-item {
     margin-bottom: 0;
   }
