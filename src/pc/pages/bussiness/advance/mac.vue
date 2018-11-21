@@ -21,11 +21,10 @@
             </m-form-item>
           </m-form>
         </div>
-        <div class="form-button">
-          <button class="btn primary" @click="updateMac">{{$t('trans0081')}}</button>
-        </div>
       </div>
-
+      <div class="form-button">
+        <button class="btn primary" @click="updateMac">{{$t('trans0081')}}</button>
+      </div>
     </div>
   </div>
 </template>
@@ -112,7 +111,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.page-content {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
 .form {
+  width: 350px;
   .radio {
     display: flex;
     align-items: center;
@@ -150,12 +155,6 @@ export default {
   }
   .input {
     margin-top: 10px;
-  }
-  .form-item {
-    margin-bottom: 30px;
-    &:last-child {
-      margin-bottom: 0;
-    }
   }
 }
 </style>
