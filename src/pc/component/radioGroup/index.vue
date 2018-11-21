@@ -88,4 +88,20 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .radio-group-container {
+    display: flex;
+    flex-direction: column;
+    &.horizontal {
+      .option {
+        margin-top: 20px;
+        margin-left: 0;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
 </style>
