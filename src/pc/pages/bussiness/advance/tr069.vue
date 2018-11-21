@@ -137,7 +137,10 @@ export default {
         this.$http
           .updateTr069({
             remote: this.remote,
-            local: this.local,
+            local: {
+              ...this.local,
+              post: Number(this.local.port)
+            },
             enabled: this.enabled
           })
           .then(() => {

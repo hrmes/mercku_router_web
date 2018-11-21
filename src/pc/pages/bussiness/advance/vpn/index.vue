@@ -316,7 +316,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .list {
-    flex: 1;
+    width: 100%;
     .vpn-list {
       width: 100%;
       .vpn {

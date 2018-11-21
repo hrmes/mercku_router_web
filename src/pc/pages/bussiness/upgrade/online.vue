@@ -131,12 +131,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.page-content {
+  align-items: flex-start;
+}
 .nodes-wrapper {
   text-align: center;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  flex: 1;
+  width: 100%;
   .nodes-info {
     display: flex;
     width: 100%;
