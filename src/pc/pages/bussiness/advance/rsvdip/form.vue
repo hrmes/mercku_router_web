@@ -42,7 +42,7 @@
             <m-input :label="$t('trans0151')" type="text" :placeholder="$t('trans0321')" v-model="form.ip" />
           </m-form-item>
         </m-form>
-        <div class="btn-info form-button">
+        <div class="btn-info">
           <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -185,7 +185,7 @@ export default {
 .form {
   padding-bottom: 50px;
   .btn-info {
-    margin-top: 30px;
+    margin-top: 60px;
   }
   width: 400px;
   margin: 0 auto;
