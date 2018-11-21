@@ -48,7 +48,7 @@ export default {
 }
 .toast-container {
   color: rgba(0, 0, 0, 0.65);
-  position: absolute;
+  position: fixed;
   top: 0;
   padding: 10px 16px;
   border-radius: 4px;

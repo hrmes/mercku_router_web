@@ -138,7 +138,7 @@ export default {
           .updateTr069({
             remote: {
               ...this.remote,
-              interval: Number(this.port.interval)
+              interval: Number(this.remote.interval)
             },
             local: {
               ...this.local,
