@@ -127,5 +127,16 @@ export default {
     }
   }
 }
+@media screen and (max-width: 768px) {
+  .form-item {
+    &:first-child {
+      display: flex;
+      flex-direction: column;
+      label {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
 </style>
 
