@@ -28,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div class="form-item">
+        <div class="btn-info">
           <button class="btn re-btn" @click="submit()">{{$t('trans0225')}}</button>
         </div>
       </div>
@@ -251,7 +251,7 @@ export default {
     }
   }
   .btn-info {
-    margin: 30px 0;
+    margin-top: 120px;
   }
 }
 .msg-wrapper {

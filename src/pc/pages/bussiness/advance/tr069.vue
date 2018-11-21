@@ -37,7 +37,7 @@
           <div class="form-item">
             <m-checkbox :text="$t('trans0492')" v-model="enabled"></m-checkbox>
           </div>
-          <div class="form-item">
+          <div class="form-button">
             <button class="btn btn-primary" @click="updateTr069">{{$t('trans0081')}}</button>
           </div>
         </m-form>
