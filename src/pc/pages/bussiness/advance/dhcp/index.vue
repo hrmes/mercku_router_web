@@ -20,6 +20,7 @@
         <m-form-item class="item" prop='lease'>
           <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
         </m-form-item>
+        <p v-if="note">{{$t('trans0476')}}</p>
       </m-form>
       <div class="btn-info form-button">
         <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
@@ -39,6 +40,7 @@ import {
 export default {
   data() {
     return {
+      note: false,
       privateIpReg,
       getIpBefore,
       getIpAfter,
@@ -149,7 +151,14 @@ export default {
       };
     }
   },
-  watch: {},
+  watch: {
+    'form.ip_start': function temp() {
+      this.note = true;
+    },
+    'form.end': function temp() {
+      this.note = true;
+    }
+  },
   mounted() {
     this.getLanInfo();
   },
@@ -181,24 +190,33 @@ export default {
     },
     submit() {
       if (this.$refs.form.validate()) {
-        this.$loading.open();
-        this.$http
-          .meshLanUpdate(this.formParams)
-          .then(() => {
-            this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.$reconnect({
-              onsuccess: () => {
-                this.$router.push({ path: '/dashboard' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/unconnect' });
-              }
-            });
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0473'),
+          callback: {
+            ok: () => {
+              this.$loading.open();
+              this.$http
+                .meshLanUpdate(this.formParams)
+                .then(() => {
+                  this.$loading.close();
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/dashboard' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                })
+                .catch(() => {
+                  this.$loading.close();
+                });
+            }
+          }
+        });
       }
     }
   }
