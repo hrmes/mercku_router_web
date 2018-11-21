@@ -139,6 +139,7 @@ export default {
             remote: this.remote,
             local: {
               ...this.local,
+              interval: Number(this.port.interval),
               port: Number(this.local.port)
             },
             enabled: this.enabled
