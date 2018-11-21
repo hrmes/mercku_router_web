@@ -95,6 +95,7 @@ export default {
 @media screen and(max-width:768px) {
   .page-content {
     .log-container {
+      min-height: 300px;
       pre {
         position: relative;
       }
