@@ -20,7 +20,7 @@
         <m-form-item class="item" prop='lease'>
           <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
         </m-form-item>
-        <p v-if="note">{{$t('trans0476')}}</p>
+        <!-- <p v-if="note">{{$t('trans0476')}}</p> -->
       </m-form>
       <div class="btn-info form-button">
         <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
@@ -40,7 +40,6 @@ import {
 export default {
   data() {
     return {
-      note: false,
       privateIpReg,
       getIpBefore,
       getIpAfter,
@@ -149,14 +148,6 @@ export default {
           }
         }
       };
-    }
-  },
-  watch: {
-    'form.ip_start': function temp() {
-      this.note = true;
-    },
-    'form.end': function temp() {
-      this.note = true;
     }
   },
   mounted() {
