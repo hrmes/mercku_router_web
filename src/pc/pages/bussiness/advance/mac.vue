@@ -117,6 +117,7 @@ export default {
   align-items: center;
 }
 .form {
+  width: 350px;
   .radio {
     display: flex;
     align-items: center;
@@ -154,6 +155,11 @@ export default {
   }
   .input {
     margin-top: 10px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .form {
+    width: 100%;
   }
 }
 </style>
