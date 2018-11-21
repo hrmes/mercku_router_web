@@ -8,18 +8,15 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const portfinder = require('portfinder');
-const env = require('../env');
+const getCustomerConfig = require('../customer-config');
 
 const HOST = process.env.HOST;
 const PORT = process.env.PORT && Number(process.env.PORT);
 
-const CUSTOMER_ID = `"${process.env.CUSTOMER_ID}"`;
-if (!CUSTOMER_ID) {
-  CUSTOMER_ID = `${env.default.id}`;
-  console.log(`cannot get CUSTOMER_ID in env,use default ${CUSTOMER_ID}`);
-} else {
-  console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
-}
+const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
+console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
+const CUSTOMER_CONFIG = getCustomerConfig(CUSTOMER_ID);
+console.log(`get CUSTOMER_CONFIG for ${CUSTOMER_ID}:`, CUSTOMER_CONFIG);
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -65,7 +62,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"development"',
-        CUSTOMER_ID
+        CUSTOMER_CONFIG
       }
     }),
     new webpack.optimize.CommonsChunkPlugin({

@@ -14,7 +14,6 @@
 <script>
 import './style/common.scss';
 import { Access } from '../util/constant';
-import env from '../../env';
 
 export default {
   computed: {
@@ -165,24 +164,19 @@ export default {
       };
       let menus = [];
       const access = this.$store.state.access;
-      switch (process.env.CUSTOMER_ID) {
-        case env.cik.id:
-          if (access === Access.super) {
-            advance.children.push({
-              url: '/advance/tr069',
-              name: 'advance-tr069',
-              text: 'trans0499'
-            });
-            menus = [wifi, setting, advance, upgrade];
-          } else {
-            menus = [wifi, setting, upgrade];
-          }
-          break;
-        case env.mercku.id:
+      if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+        if (access === Access.super) {
+          advance.children.push({
+            url: '/advance/tr069',
+            name: 'advance-tr069',
+            text: 'trans0499'
+          });
           menus = [wifi, setting, advance, upgrade];
-          break;
-        default:
-          break;
+        } else {
+          menus = [wifi, setting, upgrade];
+        }
+      } else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+        menus = [wifi, setting, advance, upgrade];
       }
       return menus;
     }

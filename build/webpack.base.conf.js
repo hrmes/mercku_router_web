@@ -41,7 +41,8 @@ module.exports = {
       '@': resolve('src'),
       components: path.resolve(__dirname, '../src/pc/component'),
       pages: path.resolve(__dirname, '../src/pc/pages'),
-      util: path.resolve(__dirname, '../src/util')
+      util: path.resolve(__dirname, '../src/util'),
+      style: path.resolve(__dirname, '../src/pc/style')
     }
   },
   module: {

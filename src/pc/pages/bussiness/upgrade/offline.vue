@@ -81,20 +81,13 @@
 <script>
 import { RouterSnModel, UploadStatus } from '../../../../util/constant';
 import { getFileExtendName } from '../../../../util/util';
-import env from '../../../../../env';
 
 export default {
   data() {
-    let accept;
-    if (process.env.CUSTOMER_ID === env.mercku.id) {
-      accept = env.mercku.ext;
-    } else if (process.env.CUSTOMER_ID === env.cik.id) {
-      accept = env.cik.ext;
-    }
     return {
       files: [],
       RouterSnModel,
-      accept,
+      accept: process.env.CUSTOMER_CONFIG.ACCEPT,
       localNodes: [],
       UploadStatus,
       uploadStatus: UploadStatus.ready,

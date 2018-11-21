@@ -11,13 +11,14 @@ import Desktop from './Desktop.vue';
 import registerComponents from './register-components';
 import Http from '../http';
 import store from './store';
-import env from '../../env';
 
 // 样式表
-if (process.env.CUSTOMER_ID === env.mercku.id) {
-  require('./style/mercku.scss');
-} else if (process.env.CUSTOMER_ID === env.cik.id) {
-  require('./style/cik.scss');
+if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+  require('style/cik.scss');
+} else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+  require('style/mercku.scss');
+} else {
+  // TODO
 }
 
 const launch = () => {
