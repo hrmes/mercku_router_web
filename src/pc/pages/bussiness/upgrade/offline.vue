@@ -238,11 +238,11 @@ export default {
 <style lang="scss" scoped>
 .pc-wrapper {
   .page-content {
-    justify-content: flex-start;
+    align-items: flex-start;
   }
 }
 .form {
-  flex: 1;
+  width: 100%;
   .package-info {
     background: #f1f1f1;
     border-radius: 3px;
