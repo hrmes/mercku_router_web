@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import Toast from './index.vue';
 
-const toast = (text = '', duration = 3000, type = 'error') => {
+const toast = (
+  text = '',
+  duration = 3000,
+  type = 'error',
+  parentEl = '.router-view'
+) => {
   const Construtor = Vue.extend(Toast);
   const instance = new Construtor({
     data: {
@@ -11,7 +16,7 @@ const toast = (text = '', duration = 3000, type = 'error') => {
     }
   }).$mount();
   instance.visible = true;
-  document.body.appendChild(instance.$el);
+  document.querySelector(parentEl).appendChild(instance.$el);
 };
 
 export default toast;
