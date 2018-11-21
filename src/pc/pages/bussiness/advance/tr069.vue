@@ -139,7 +139,7 @@ export default {
             remote: this.remote,
             local: {
               ...this.local,
-              post: Number(this.local.port)
+              port: Number(this.local.port)
             },
             enabled: this.enabled
           })
