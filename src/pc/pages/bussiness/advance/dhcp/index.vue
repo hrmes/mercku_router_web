@@ -22,7 +22,7 @@
             <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
           </m-form-item>
         </m-form>
-        <div class="btn-info">
+        <div class="btn-info form-button">
           <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </div>
