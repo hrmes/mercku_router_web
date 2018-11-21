@@ -214,7 +214,7 @@ input::-webkit-input-placeholder {
     font-size: 16px;
     color: #333333;
     font-weight: bold;
-    padding: 20px;
+    padding: 20px 0;
     height: 60px;
     display: flex;
     align-items: center;
@@ -230,6 +230,9 @@ input::-webkit-input-placeholder {
   .form {
     .form-item {
       margin-bottom: 30px;
+    }
+    .form-button {
+      margin-top: 60px;
     }
   }
 }

@@ -12,35 +12,33 @@
           <m-form-item class="item" prop='password'>
             <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
           </m-form-item>
-        </m-form>
-        <!-- <div class="item" style="margin-bottom:30px;">
-              <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
-            </div> -->
-        <div class="check-info smart-connect">
-          <div class="switch-container">
-            <label for=""> {{$t('trans0397')}} </label>
-            <div class="tool">
-              <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
-              <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
+          <div class="form-item check-info smart-connect">
+            <div class="switch-container">
+              <label for=""> {{$t('trans0397')}} </label>
+              <div class="tool">
+                <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
+                <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
+              </div>
+              <m-switch v-model="form.smart_connect" />
             </div>
-            <m-switch v-model="form.smart_connect" />
+            <div class="ssid" v-if="!form.smart_connect">
+              <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
+              <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{ssid_5g}}</span></div>
+            </div>
           </div>
-          <div class="ssid" v-if="!form.smart_connect">
-            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
-            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{ssid_5g}}</span></div>
+          <div class="form-item check-info">
+            <label for=""> {{$t('trans0110')}} </label>
+            <div class="tool">
+              <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+              <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+            </div>
+            <m-switch v-model="form.hidden" />
           </div>
-        </div>
-        <div class="check-info">
-          <label for=""> {{$t('trans0110')}} </label>
-          <div class="tool">
-            <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-            <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+          <div class="form-button">
+            <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
           </div>
-          <m-switch v-model="form.hidden" />
-        </div>
-        <div class="form-item">
-          <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
-        </div>
+        </m-form>
+
       </div>
     </div>
   </div>

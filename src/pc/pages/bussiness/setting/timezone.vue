@@ -87,7 +87,6 @@ export default {
   align-items: center;
   .current-timezone {
     width: 350px;
-    margin: 0 auto;
     word-break: break-all;
     word-wrap: break-word;
     p {

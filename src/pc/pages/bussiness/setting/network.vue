@@ -111,7 +111,7 @@
                 <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns2" />
               </m-form-item>
             </m-form>
-            <div class="btn-info">
+            <div class="form-button">
               <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
             </div>
           </div>

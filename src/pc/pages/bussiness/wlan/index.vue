@@ -193,7 +193,7 @@ export default {
       text-align: center;
       &.step-item1 {
         .button-container {
-          margin-top: 0;
+          margin-top: 60px;
         }
       }
       &.step-item3 {
@@ -225,7 +225,7 @@ export default {
       img {
         display: block;
         margin: 0 auto;
-        width: 100%;
+        width: 220px;
       }
       .form-item {
         text-align: left;
@@ -235,7 +235,7 @@ export default {
       }
 
       .button-container {
-        margin-top: 36px;
+        margin-top: 60px;
         display: flex;
         button {
           display: inline-block;

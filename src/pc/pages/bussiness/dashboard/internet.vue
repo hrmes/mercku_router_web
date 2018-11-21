@@ -708,15 +708,14 @@ export default {
         font-weight: 200;
       }
       .speed-completed {
-        width: 500px;
-        height: 250px;
+        width: 441px;
+        height: 263px;
         background: white;
         border-radius: 5px;
         display: flex;
         flex-direction: column;
         .speed-result-info {
           flex: 1;
-
           width: 100%;
           display: flex;
           justify-content: center;
@@ -759,7 +758,6 @@ export default {
             .speed {
               font-size: 22px;
               font-weight: bold;
-              // padding: 0 5px;
               color: #000;
             }
             .unit {
@@ -787,19 +785,19 @@ export default {
             width: 120px;
             height: 42px;
             border-radius: 4px;
-            border: solid 1px rgb(214, 0, 28);
-            color: rgb(214, 0, 28);
+            border: solid 1px #b6b6b6;
+            color: #333;
             background: white;
             outline: none;
             box-sizing: border-box;
             &:active {
-              color: rgb(182, 0, 28);
-              border-color: rgb(182, 0, 28);
+              color: #000;
+              border-color: #333;
             }
 
             &:hover {
-              color: rgb(182, 0, 28);
-              border-color: rgb(182, 0, 28);
+              color: #000;
+              border-color: #333;
             }
           }
           .re-btn {

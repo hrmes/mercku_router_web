@@ -119,7 +119,7 @@ export default {
         text-align: left;
       }
       .dialog-buttons {
-        text-align: right;
+        text-align: center;
       }
     }
   }
