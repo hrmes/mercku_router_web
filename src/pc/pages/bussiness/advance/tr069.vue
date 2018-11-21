@@ -126,7 +126,9 @@ export default {
       this.telnet = res.data.result.enabled;
     });
     this.$http.getTr069().then(res => {
-      this.tr069 = res.data.result;
+      this.remote = res.data.result.remote;
+      this.local = res.data.result.local;
+      this.enabled = res.data.result.enabled;
     });
   },
   methods: {
