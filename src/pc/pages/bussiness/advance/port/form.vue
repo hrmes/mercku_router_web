@@ -304,6 +304,7 @@ export default {
 .form {
   .ext-item {
     margin-bottom: 0;
+    width: auto;
   }
   .item {
     margin-top: 30px;
