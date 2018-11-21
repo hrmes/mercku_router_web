@@ -117,7 +117,6 @@ export default {
   align-items: center;
 }
 .form {
-  width: 350px;
   .radio {
     display: flex;
     align-items: center;
