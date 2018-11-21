@@ -7,10 +7,7 @@
       <div class="form">
         <div class="form-item">
           <m-switch :label="$t('trans0462')" v-model="enabled" :onChange="updateEnabled"></m-switch>
-
-        </div>
-        <div class="form-item" v-if="enabled">
-          <button class="btn btn-primary" @click="getSyslog">{{$t('trans0481')}}</button>
+          <button v-if="enabled" class="btn btn-primary" @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
         <div class="log-container">
           <pre>{{output}}</pre>
@@ -84,6 +81,9 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  .form-item {
+    display: flex;
+  }
   .btn {
     width: 100px;
     height: 27px;

@@ -8,7 +8,7 @@
             <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="$t('trans0440')" v-model="form.ip" />
           </m-form-item>
           <div class="item">
-            <label for="">{{$t('trans0483')}}</label>
+            <label for="" class="ext-label">{{$t('trans0483')}}</label>
             <div>
               <m-form-item class="ext-item" prop='ip_start'>
                 <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" />
@@ -207,6 +207,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.btn-info {
+  margin-top: 60px;
+}
+.ext-label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
 .ext-item {
   position: relative;
   .ext-input {
