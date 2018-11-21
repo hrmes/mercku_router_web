@@ -11,13 +11,24 @@
         <m-form-item class="item" prop='password'>
           <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
+        <div class="form-item check-info">
+          <label for=""> {{$t('trans0110')}} <div class="tool">
+              <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+              <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+            </div>
+          </label>
+
+          <m-switch v-model="form.hidden" />
+        </div>
         <div class="form-item check-info smart-connect">
           <div class="switch-container">
-            <label for=""> {{$t('trans0397')}} </label>
-            <div class="tool">
-              <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
-              <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
-            </div>
+            <label for=""> {{$t('trans0397')}}
+              <div class="tool">
+                <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
+                <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
+              </div>
+            </label>
+
             <m-switch v-model="form.smart_connect" />
           </div>
           <div class="ssid" v-if="!form.smart_connect">
@@ -25,14 +36,7 @@
             <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{ssid_5g}}</span></div>
           </div>
         </div>
-        <div class="form-item check-info">
-          <label for=""> {{$t('trans0110')}} </label>
-          <div class="tool">
-            <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-            <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
-          </div>
-          <m-switch v-model="form.hidden" />
-        </div>
+
       </m-form>
       <div class="form-button">
         <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
@@ -200,6 +204,10 @@ export default {
     align-items: center;
     position: relative;
     margin-bottom: 30px;
+    label {
+      display: flex;
+      width: 100px;
+    }
     &.smart-connect {
       flex-direction: column;
       align-items: flex-start;
@@ -230,10 +238,10 @@ export default {
     }
     .tool {
       position: relative;
-      width: 30px;
+      margin-left: 5px;
       img {
         position: relative;
-        top: -8px;
+        top: -7px;
         cursor: pointer;
       }
     }
