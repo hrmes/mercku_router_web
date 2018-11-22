@@ -67,14 +67,6 @@ export default {
         {
           value: 1 * 60 * 60 * 24 * 7,
           text: this.$t('trans0450')
-        },
-        {
-          value: 1 * 60 * 60 * 24 * 7 * 30,
-          text: this.$t('trans0451')
-        },
-        {
-          value: 1 * 60 * 60 * 24 * 7 * 365,
-          text: this.$t('trans0452')
         }
       ],
       lanInfo: {},
@@ -130,7 +122,7 @@ export default {
           {
             rule: value => {
               if (this.form.ip_start) {
-                return Number(this.form.ip_start) <= Number(value);
+                return Number(this.form.ip_start) < Number(value);
               }
               return true;
             },
@@ -168,7 +160,7 @@ export default {
         const start = this.form.ip_start;
         const end = this.form.ip_end;
         if (start && end) {
-          return Number(end) >= Number(start);
+          return Number(end) > Number(start);
         }
         return true;
       }, this.$t('trans0472'));
