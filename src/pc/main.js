@@ -1,31 +1,50 @@
 import Vue from 'vue';
-import moment from 'moment';
+import loading from 'components/loading/index';
+import upgradeComponent from 'components/upgrade/index';
+import toast from 'components/toast/index';
+import dialog from 'components/dialog/index';
+import mProgress from 'components/progress/index.vue';
+import { formatSpeed, formatNetworkData, formatBandWidth } from 'util/util';
 import { changeLanguage, i18n, translate } from '../i18n';
 import router from './router';
 import Desktop from './Desktop.vue';
-
-import {
-  http,
-  configResponseInterceptors,
-  configRequestInterceptors
-} from '../http';
-import loading from './component/loading/index';
-import toast from './component/toast/index';
-import dialog from './component/dialog/index';
-import { formatSpeed, formatNetworkData } from '../util/util';
+import registerComponents from './register-components';
+import Http from '../http';
 import store from './store';
 
+// 样式表
+if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+  require('style/cik.scss');
+} else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+  require('style/mercku.scss');
+} else {
+  // TODO
+}
+
 const launch = () => {
+  const http = new Http();
+  registerComponents(Vue);
+
   const reconnect = options => {
     const opt = {
       ...{
         onsuccess: () => {},
         ontimeout: () => {},
         onprogress: () => {},
-        timeout: 60
+        timeout: 60,
+        showLoading: true
       },
       ...options
     };
+    let loadingInstance;
+    if (opt.showLoading) {
+      loadingInstance = new (Vue.extend(mProgress))({
+        propsData: {
+          label: translate('trans0315')
+        }
+      }).$mount();
+      document.body.appendChild(loadingInstance.$el);
+    }
     let count = opt.timeout; // 60s重试时间
     const total = opt.timeout;
     const timer = setInterval(() => {
@@ -35,94 +54,103 @@ const launch = () => {
       if (count === 0) {
         clearInterval(timer);
         opt.ontimeout();
+        loadingInstance &&
+          loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+        loadingInstance = null;
       } else if (count !== total && count % 5 === 0) {
-        http
-          .getRouter()
-          .then(() => {
-            clearInterval(timer);
-            opt.onsuccess();
-          })
-          .catch(() => {
-            // nothing to do
-          });
+        http.getRouter().then(() => {
+          clearInterval(timer);
+          opt.onsuccess();
+          loadingInstance &&
+            loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+          loadingInstance = null;
+        });
       }
     }, 1000);
   };
 
-  const upgradeService = () => {
-    let serviceStarted = false;
-    return options => {
-      if (!serviceStarted) {
-        serviceStarted = true;
-        loading.open({
-          title: `${translate('trans0212')}`,
-          template: `<div class="upgrade-tip">${translate('trans0213')}</span>`
-        });
-        const opt = {
-          ...{
-            onsuccess: () => {},
-            ontimeout: () => {},
-            onprogress: () => {},
-            timeout: 600
-          },
-          ...options
-        };
-        reconnect({
-          onsuccess: () => {
-            serviceStarted = false;
-            loading.close();
-            opt.onsuccess();
-          },
-          ontimeout: () => {
-            serviceStarted = false;
-            loading.close();
-            opt.ontimeout();
-          },
-          timeout: opt.timeout
-        });
-      }
+  const upgrade = options => {
+    upgradeComponent.open({
+      title: translate('trans0212'),
+      tip: translate('trans0213')
+    });
+    const opt = {
+      ...{
+        onsuccess: () => {},
+        ontimeout: () => {},
+        onprogress: () => {},
+        timeout: 600
+      },
+      ...options
     };
+    reconnect({
+      onsuccess: () => {
+        upgradeComponent.close();
+        opt.onsuccess();
+      },
+      ontimeout: () => {
+        upgradeComponent.close();
+        opt.ontimeout();
+      },
+      timeout: opt.timeout,
+      showLoading: false
+    });
   };
 
-  const upgrade = upgradeService();
-  configRequestInterceptors(
-    config => {
-      const conf = config;
-      return conf;
-    },
-    error => Promise.reject(error)
-  );
-  configResponseInterceptors(
-    res => res,
-    error => {
-      const { response } = error;
-      if (!response) {
-        return Promise.reject(error);
-      }
-      if (response.status === 401 && !window.location.href.includes('login')) {
-        window.location.href = '/';
-      } else if (
-        response.status === 400 &&
-        response.data.error.code === 600007
-      ) {
+  http.setExHandler(err => {
+    const { response } = err;
+    if (response) {
+      const { status, data } = response;
+      if (status === 401) {
+        if (!window.location.href.includes('login')) {
+          window.location.href = '/';
+        }
+      } else if (status === 400 && data.error.code === 600007) {
         upgrade();
-        return Promise.reject({ upgrading: true });
+        throw err;
+      } else {
+        const { error } = data;
+        if (error && error.code) {
+          toast(translate(error.code));
+        } else {
+          router.push({ path: '/unconnect' });
+        }
       }
-      return Promise.reject(error.response.data);
+      throw data;
     }
-  );
+    throw err;
+  });
 
-  Vue.prototype.$http = http;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
+  Vue.prototype.$http = http;
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
-  Vue.prototype.moment = moment;
   Vue.prototype.formatNetworkData = formatNetworkData;
   Vue.prototype.formatSpeed = formatSpeed;
+  Vue.prototype.formatBandWidth = formatBandWidth;
 
+  Vue.directive('clickoutside', {
+    bind(el, binding) {
+      function documentHandler(e) {
+        if (el.contains(e.target)) {
+          return false;
+        }
+        if (binding.expression) {
+          binding.value(e);
+        }
+        return false;
+      }
+      el.__vueClickOutside__ = documentHandler;
+      document.addEventListener('click', documentHandler);
+    },
+    unbind(el) {
+      document.removeEventListener('click', el.__vueClickOutside__);
+      delete el.__vueClickOutside__;
+    }
+  });
   new Vue({
     el: '#web',
     i18n,
@@ -131,4 +159,5 @@ const launch = () => {
     render: h => h(Desktop)
   });
 };
+
 document.addEventListener('DOMContentLoaded', launch);

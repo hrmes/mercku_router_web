@@ -1,8 +1,5 @@
 <template>
   <div class="device-container">
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0322')"></m-progress>
-    </div>
     <div class="device-wrapper">
       <div class="title">{{$t('trans0235')}}</div>
       <div class="table-inner">
@@ -17,7 +14,7 @@
             <li class="column-ip">{{$t('trans0151')}} / {{$t('trans0188')}}</li>
             <!-- <li class="column-mac">{{$t('trans0188')}}</li> -->
             <li class="column-limit">{{$t('trans0368')}}</li>
-            <li class="column-black-list">{{$t('trans0020')}}</li>
+            <li class="column-black-list">{{$t('trans0370')}}</li>
           </ul>
         </div>
         <div class="table-body small-device-body">
@@ -80,22 +77,28 @@
             <li class="column-limit" v-if='isMobileRow(row.expand)'>
               <div class="limit-inner">
                 <div class="item device-item" @click="()=>limitClick('time',row)">
-                  <span :class="{'time-active':!isMobile&&isTimeLimit(row)}"> {{$t('trans0075')}}</span>
-                  <img v-if='!isMobile&&isTimeLimit(row)' class='icon' src="../../../assets/images/ic_limit_time.png" alt="">
+                  <span class="limit-icon time-limit" v-show="!isMobile" :class="{'active':isTimeLimit(row)}"></span>
+                  <span v-show="isMobile">{{$t('trans0075')}}</span>
                   <span class="status">
-                    {{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}
+                    <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
                     <img src="../../../assets/images/ic_inter.png" alt="">
                   </span>
                 </div>
                 <div class="item device-item" @click="()=>limitClick('speed',row)">
-                  <span :class="{'speed-active':!isMobile&&isSpeedLimit(row)}"> {{$t('trans0014')}}</span>
-                  <img v-show='!isMobile&&isSpeedLimit(row)' class='icon' src="../../../assets/images/ic_limit_speed.png" alt="">
-                  <span class="status">{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
+                  <span class="limit-icon speed-limit" v-show="!isMobile" :class="{'active':isSpeedLimit(row)}"></span>
+                  <span v-show="isMobile">{{$t('trans0014')}}</span>
+                  <span class="status">
+                    <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
+                    <img src="../../../assets/images/ic_inter.png" alt="">
+                  </span>
                 </div>
                 <div class="item device-item" @click="()=>limitClick('blacklist',row)">
-                  <span :class="{'black-active':!isMobile&&isBlacklsitLimit(row)}"> {{$t('trans0076')}}</span>
-                  <img v-show='!isMobile&&isBlacklsitLimit(row)' class='icon' src="../../../assets/images/ic_blacklist_limit.png" alt="">
-                  <span class="status">{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}} <img src="../../../assets/images/ic_inter.png" alt=""></span>
+                  <span class="limit-icon url-limit" v-show="!isMobile" :class="{'active':isBlacklsitLimit(row)}"></span>
+                  <span v-show="isMobile">{{$t('trans0076')}}</span>
+                  <span class="status">
+                    <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
+                    <img src="../../../assets/images/ic_inter.png" alt="">
+                  </span>
                 </div>
               </div>
             </li>
@@ -127,32 +130,15 @@
   </div>
 </template>
 <script>
-import layout from '../../../layout.vue';
-import TimePicker from '../../../component/timePicker/index.vue';
-import MEditSelect from '../../../component/editableSelect/index.vue';
-import MProgress from '../../../component/progress/index.vue';
-import MInput from '../../../component/input/input.vue';
-import MForm from '../../../component/form/index.vue';
-import MFormItem from '../../../component/formItem/index.vue';
-import { formatMac, getStringByte } from '../../../../util/util';
-import { BlacklistMode } from '../../../../util/constant';
+import { formatMac, getStringByte, formatDate } from 'util/util';
+import { BlacklistMode } from 'util/constant';
 
 export default {
-  components: {
-    MInput,
-    MForm,
-    MFormItem,
-    MEditSelect,
-    layout,
-    MProgress,
-    'm-time-picker': TimePicker
-  },
   data() {
     return {
       BlacklistMode,
       formatMac,
       isMobile: false,
-      reboot: false,
       modalShow: false,
       row: {},
       devices: [],
@@ -284,21 +270,9 @@ export default {
       }
     },
     getLocalDevice() {
-      this.$http
-        .getLocalDevice()
-        .then(res => {
-          this.localDeviceIP = res.data.result.ip;
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+      this.$http.getLocalDevice().then(res => {
+        this.localDeviceIP = res.data.result.ip;
+      });
     },
     getDeviceList() {
       this.$http
@@ -321,19 +295,10 @@ export default {
             this.devices = result;
           }
         })
-        .catch(err => {
+        .catch(() => {
           this.timer = setTimeout(() => {
             this.getDeviceList();
           }, 15 * 1000);
-          if (err.upgrading) {
-            return;
-          }
-
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     updateDeviceName() {
@@ -344,29 +309,16 @@ export default {
             mac: this.row.mac
           }
         };
-        this.$http
-          .meshDeviceUpdate({ ...params })
-          .then(() => {
-            // this.getDeviceList();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.devices = this.devices.map(v => {
-              if (v.mac === this.row.mac) {
-                return { ...v, name: this.form.name };
-              }
-              return v;
-            });
-            this.modalShow = false;
-          })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
+        this.$http.meshDeviceUpdate({ ...params }).then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.devices = this.devices.map(v => {
+            if (v.mac === this.row.mac) {
+              return { ...v, name: this.form.name };
             }
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
+            return v;
           });
+          this.modalShow = false;
+        });
       }
     },
     addToBlackList(row) {
@@ -393,16 +345,8 @@ export default {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
+              .catch(() => {
                 this.$loading.close();
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
               });
           }
         }
@@ -417,29 +361,30 @@ export default {
       }
     },
     transformDate(date) {
-      date *= 1000;
-      const now = new Date().getTime();
       if (date < 0) {
         return '-';
-      } else if (date <= 5 * 1000) {
-        return this.$t('trans0010');
-      } else if (date <= 60000 && date > 5 * 1000) {
-        return `${this.$t('trans0011').replace(
-          '%d',
-          parseInt(date / 1000, 10)
-        )}`;
-      } else if (date <= 3600000 && date > 60000) {
-        return `${this.$t('trans0012').replace(
-          '%d',
-          parseInt(date / 60000, 10)
-        )}`;
-      } else if (date <= 3600000 * 24 && date > 3600000) {
+      }
+      const split = [3600 * 24, 3600, 60, 5];
+      if (date > split[0]) {
+        const now = new Date().getTime();
+        return formatDate(now - date * 1000);
+      } else if (date <= split[0] && date > split[1]) {
         return `${this.$t('trans0013').replace(
           '%d',
-          parseInt(date / 3600000, 10)
+          parseInt(date / split[1], 10)
+        )}`;
+      } else if (date <= split[1] && date > split[2]) {
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
+      } else if (date <= split[2] && date > split[3]) {
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(date / split[3], 10)
         )}`;
       }
-      return this.moment(now - date).format('YYYY-MM-DD HH:mm:ss');
+      return `${this.$t('trans0010')}`;
     }
   }
 };
@@ -447,6 +392,7 @@ export default {
 <style lang="scss" scoped>
 .device-container {
   padding-bottom: 50px;
+  border-radius: 8px;
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -661,6 +607,8 @@ export default {
         }
       }
       .limit-inner {
+        display: flex;
+        align-items: center;
         .item {
           text-align: left;
           display: flex;
@@ -687,31 +635,46 @@ export default {
             display: none;
           }
         }
-        .item:nth-child(1) {
-          .time-active {
-            color: #20a0ff;
-            &:hover {
-              color: #20a0ff;
+        .item {
+          margin-left: 10px;
+          &:first-child {
+            margin-left: 0;
+          }
+          .limit-icon {
+            display: block;
+            width: 23px;
+            height: 23px;
+            &.time-limit {
+              background: url(../../../assets/images/ic_limit_time_close.png)
+                no-repeat center;
+              background-size: 100%;
+              &.active {
+                background: url(../../../assets/images/ic_limit_time.png)
+                  no-repeat center;
+                background-size: 100%;
+              }
+            }
+            &.speed-limit {
+              background: url(../../../assets/images/ic_limit_speed_close.png)
+                no-repeat center;
+              background-size: 100%;
+              &.active {
+                background: url(../../../assets/images/ic_limit_speed.png)
+                  no-repeat center;
+                background-size: 100%;
+              }
+            }
+            &.url-limit {
+              background: url(../../../assets/images/ic_limit_website_close.png)
+                no-repeat center;
+              background-size: 100%;
+              &.active {
+                background: url(../../../assets/images/ic_limit_website.png)
+                  no-repeat center;
+                background-size: 100%;
+              }
             }
           }
-        }
-        .item:nth-child(2) {
-          .speed-active {
-            color: #00c057;
-            &:hover {
-              color: #00c057;
-            }
-          }
-          margin-top: 10px;
-        }
-        .item:nth-child(3) {
-          .black-active {
-            color: #e3ab29;
-            &:hover {
-              color: #e3ab29;
-            }
-          }
-          margin-top: 10px;
         }
       }
       .black-btn {
@@ -969,7 +932,9 @@ export default {
           }
           .limit-inner {
             width: 100%;
+            flex-direction: column;
             .item {
+              margin-left: 0;
               span {
                 color: #333333;
                 &:hover {

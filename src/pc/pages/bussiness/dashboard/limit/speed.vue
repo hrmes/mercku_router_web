@@ -1,48 +1,32 @@
 <template>
-  <layout>
-    <div class="device-speed-container">
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0014')}}
-        </div>
-        <div class='form'>
-          <div class='input-info'>
-            <div class="check-info">
-              <label for=""> {{$t('trans0369')}} </label>
-              <m-switch v-model="form.enabled" :onChange="changehandle" />
-            </div>
-            <m-form ref="form" :model="form" :rules='rules'>
-              <m-form-item class="item" prop='up'>
-                <m-input v-model="form.up" :label="`${$t('trans0304')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`" :disabled='disabled'></m-input>
-              </m-form-item>
-              <m-form-item class="item" prop='down'>
-                <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`" :disabled='disabled'></m-input>
-              </m-form-item>
-            </m-form>
-            <div class="btn-info">
-              <button class="btn" :disabled='disabled' @click='submit'>{{$t('trans0081')}}</button>
-            </div>
+  <div class="page">
+    <div class='page-header'>
+      {{$t('trans0014')}}
+    </div>
+    <div class="page-content">
+      <div class='form'>
+        <div class='input-info'>
+          <m-form ref="form" :model="form" :rules='rules'>
+            <m-form-item class="item" prop='up'>
+              <m-input v-model="form.up" :label="`${$t('trans0304')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
+            </m-form-item>
+            <m-form-item class="item" prop='down'>
+              <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
+            </m-form-item>
+          </m-form>
+          <div class="form-item">
+            <m-checkbox :text="$t('trans0369')" v-model="form.enabled"></m-checkbox>
+          </div>
+          <div class="form-item">
+            <button class="btn" @click='submit'>{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-import Switch from '../../../../component/switch/index.vue';
-import Input from '../../../../component/input/input.vue';
-import Form from '../../../../component/form/index.vue';
-import FormItem from '../../../../component/formItem/index.vue';
-import layout from '../../../../layout.vue';
-
 export default {
-  components: {
-    'm-switch': Switch,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-input': Input,
-    layout
-  },
   data() {
     function speedTest(v) {
       return /^[1-9]\d*$/.test(v);
@@ -51,7 +35,6 @@ export default {
       return /^[1-9]\d{0,5}$/.test(v);
     }
     return {
-      disabled: true,
       mac: '',
       form: {
         up: '',
@@ -89,7 +72,6 @@ export default {
       this.$store.state.limits.speed.speed_limit
     ) {
       const speed = this.$store.state.limits.speed.speed_limit;
-      this.disabled = !speed.enabled;
       this.form = {
         ...speed,
         up: this.b_to_KB(speed.up),
@@ -103,60 +85,20 @@ export default {
       if (!v) {
         return '';
       }
-      return v / (8 * 1024);
+      return v / (8 * 1000);
     },
     KB_to_b(v) {
-      return v * (8 * 1024);
-    },
-    changehandle(v) {
-      this.$loading.open();
-      this.form.enabled = v;
-      this.$http
-        .speedLimitUpdate({
-          mac: this.mac,
-          speed_limit: {
-            enabled: v
-          }
-        })
-        .then(() => {
-          this.$loading.close();
-          this.getSpeed();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+      return v * (8 * 1000);
     },
     getSpeed() {
-      this.$http
-        .getSpeedLimit({ mac: this.mac })
-        .then(res => {
-          const speed = res.data.result;
-          this.disabled = !speed.enabled;
-          this.form = {
-            ...speed,
-            up: this.b_to_KB(speed.up),
-            down: this.b_to_KB(speed.down)
-          };
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
-        });
+      this.$http.getSpeedLimit({ mac: this.mac }).then(res => {
+        const speed = res.data.result;
+        this.form = {
+          ...speed,
+          up: this.b_to_KB(speed.up),
+          down: this.b_to_KB(speed.down)
+        };
+      });
     },
     submit() {
       if (this.form.up || this.form.down) {
@@ -174,25 +116,17 @@ export default {
           this.$http
             .speedLimitUpdate({
               mac: this.mac,
-              speed_limit: { ...params }
+              speed_limit: params
             })
             .then(() => {
               this.$loading.close();
               this.$store.state.limits.speed = {
-                speed_limit: { ...params }
+                speed_limit: params
               };
               this.$toast(this.$t('trans0040'), 3000, 'success');
             })
-            .catch(err => {
-              if (err.upgrading) {
-                return;
-              }
+            .catch(() => {
               this.$loading.close();
-              if (err && err.error) {
-                this.$toast(this.$t(err.error.code));
-              } else {
-                this.$router.push({ path: '/unconnect' });
-              }
             });
         }
       } else {
@@ -203,92 +137,43 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.device-speed-container {
-  flex: auto;
-  padding: 0 2%;
+.form {
   display: flex;
-  .ssid-hidden {
-    margin-bottom: 30px;
-  }
-  position: relative;
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
+  justify-content: center;
+  .check-info {
+    display: flex;
+    align-items: center;
     position: relative;
-    flex: 1;
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
+    margin-bottom: 30px;
+    label {
+      margin-right: 30px;
+      font-size: 14px;
       color: #333333;
-      line-height: 60px;
-      font-weight: bold;
     }
-    .form {
-      display: flex;
-      justify-content: center;
-      padding: 30px 0;
-
-      .btn-info {
-        margin-top: 30px;
-      }
-      .check-info {
-        display: flex;
-        align-items: center;
+    .tool {
+      position: relative;
+      width: 30px;
+      img {
         position: relative;
-        margin-bottom: 30px;
-        label {
-          margin-right: 30px;
-          font-size: 14px;
-          color: #333333;
-        }
-        .tool {
-          position: relative;
-          width: 30px;
-          img {
-            position: relative;
-            top: -8px;
-            cursor: pointer;
-          }
-        }
+        top: -8px;
+        cursor: pointer;
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  .device-speed-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      min-height: 450px;
-      .form {
-        width: 100%;
-
-        .input-info {
-          width: 100%;
-        }
-        .title {
-          margin-top: 20px;
-          margin-bottom: 10px;
-        }
-        .check-info {
-          display: flex;
-          align-items: center;
-          margin-top: 20px;
-          label {
-            margin-right: 2px;
-            font-size: 16px;
-            color: #333333;
-          }
-        }
-        .btn-info {
-          margin-top: 30px;
-        }
+  .form {
+    .input-info {
+      width: 100%;
+    }
+    .check-info {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      label {
+        margin-right: 2px;
+        font-size: 16px;
+        color: #333333;
       }
     }
   }

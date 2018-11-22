@@ -1,3 +1,7 @@
+export const Access = {
+  super: 'super',
+  admin: 'admin'
+};
 export const WanType = {
   pppoe: 'pppoe',
   static: 'static',
@@ -37,4 +41,20 @@ export const BlacklistMode = {
   free: 'free',
   blacklist: 'blacklist',
   whitelist: 'whitelist'
+};
+export const VPNType = {
+  pptp: 'pptp',
+  l2tp: 'l2tp'
+};
+export const VPNStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  disconnecting: 'disconnecting',
+  disconnected: 'disconnected',
+  ready: 'ready'
+};
+
+export const VPNAction = {
+  connect: 'connect',
+  disconnect: 'disconnect'
 };

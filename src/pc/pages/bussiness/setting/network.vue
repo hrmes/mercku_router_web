@@ -1,111 +1,126 @@
 <template>
-  <layout>
-    <div class="setting-network-container">
-      <div v-if="reboot">
-        <m-progress :label="$t('trans0322')"></m-progress>
-      </div>
-      <div class="content">
-        <div class="network-info">
-          <div class="w-header">
-            {{$t('trans0316')}}
-          </div>
-          <div class="status">
-            <div v-if="isTesting">
-              <img src="../../../assets/images/img_test_internet.png" alt="">
-              <p>{{$t('trans0298')}}...</p>
-            </div>
-            <div v-if="isUnlinked||isLinked">
-              <img src="../../../assets/images/img_no_network_access.png" alt="">
-              <p>{{$t('trans0319')}}</p>
-            </div>
-            <div v-if="isConnected">
-              <img src="../../../assets/images/img_internet_normal.png" alt="">
-              <p>{{$t('trans0318')}}</p>
 
+  <div>
+    <div class="page">
+      <div class="network-info">
+        <div class="page-header">
+          {{$t('trans0316')}}
+        </div>
+        <div class="page-content status">
+          <div v-if="isTesting">
+            <img src="../../../assets/images/img_test_internet.png" alt="">
+            <p>{{$t('trans0298')}}...</p>
+          </div>
+          <div v-if="isUnlinked||isLinked">
+            <img src="../../../assets/images/img_no_network_access.png" alt="">
+            <p>{{$t('trans0319')}}</p>
+          </div>
+          <div v-if="isConnected">
+            <img src="../../../assets/images/img_internet_normal.png" alt="">
+            <p>{{$t('trans0318')}}</p>
+
+          </div>
+          <div class="seccess-info">
+            <div>
+              <label for="">{{$t('trans0317')}}：</label>
+              <span>
+                {{networkArr[localNetInfo.type]}}
+              </span>
             </div>
-            <div class="seccess-info">
-              <div>
-                <label for="">{{$t('trans0317')}}：</label>
-                <span>
-                  {{networkArr[localNetInfo.type]}}
-                </span>
-              </div>
-              <div>
-                <label for="">{{$t('trans0151')}}：</label>
-                <span> {{localNetInfo.netinfo.ip}}</span>
-              </div>
-              <div>
-                <label for="">{{$t('trans0152')}}：</label>
-                <span> {{localNetInfo.netinfo.mask }} </span>
-              </div>
-              <div>
-                <label for="">{{$t('trans0153')}}：</label>
-                <span>
-                  {{localNetInfo.netinfo.gateway}}
-                </span>
-              </div>
-              <div>
-                <label for="">{{$t('trans0236')}}：</label>
-                <span>
-                  {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
-                </span>
-              </div>
+            <div>
+              <label for="">{{$t('trans0151')}}：</label>
+              <span> {{localNetInfo.netinfo.ip}}</span>
+            </div>
+            <div>
+              <label for="">{{$t('trans0152')}}：</label>
+              <span> {{localNetInfo.netinfo.mask }} </span>
+            </div>
+            <div>
+              <label for="">{{$t('trans0153')}}：</label>
+              <span>
+                {{localNetInfo.netinfo.gateway}}
+              </span>
+            </div>
+            <div>
+              <label for="">{{$t('trans0236')}}：</label>
+              <span>
+                {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+              </span>
             </div>
           </div>
         </div>
-        <div class="network-setting" v-if="!isTesting">
-          <div class="w-header">
-            {{$t('trans0142')}}
-          </div>
-          <div class="setting-info">
-            <div class='form'>
-              <div class="item">
-                <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
-                <div class="note">{{netNote[netType]}}</div>
-              </div>
-              <m-form v-show="isPppoe" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
-                <m-form-item class="item" prop='account'>
-                  <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.account"></m-input>
-                </m-form-item>
-                <m-form-item class="item" prop='password'>
-                  <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.password" />
-                </m-form-item>
-              </m-form>
-              <m-form v-show="isStatic" ref="staticForm" :model="staticForm" :rules='staticRules'>
-                <m-form-item class="item" prop='ip' ref="ip">
-                  <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" :onBlur="ipChange" />
-                </m-form-item>
-                <m-form-item class="item" prop='mask' ref="mast">
-                  <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" :onBlur="maskChange" />
-                </m-form-item>
-                <m-form-item class="item" prop='gateway' ref="gateway">
-                  <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" :onBlur="getwayChange" />
-                </m-form-item>
+      </div>
+    </div>
+    <div class="page">
+      <div class="network-setting" v-if="!isTesting">
+        <div class="page-header">
+          {{$t('trans0142')}}
+        </div>
+        <div class="page-content setting-info">
+          <div class='form'>
+            <div class="item net-type">
+              <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
+              <div class="note">{{netNote[netType]}}</div>
+            </div>
+            <m-form v-show="isDhcp" ref="dhcpForm" :model="dhcpForm" :rules="dhcpRules">
+              <m-form-item class="item">
+                <m-radio-group class="radio-group" direction="vertical" v-model="autodns.dhcp" :options="dnsOptions"></m-radio-group>
+              </m-form-item>
+              <div v-show="!autodns.dhcp">
                 <m-form-item class="item" prop='dns1' ref="dns">
-                  <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns1" />
+                  <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="dhcpForm.dns1" />
                 </m-form-item>
                 <m-form-item class="item" prop='dns2' ref="backupdns">
-                  <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns2" />
+                  <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="dhcpForm.dns2" />
                 </m-form-item>
-              </m-form>
-              <div class="btn-info">
-                <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
               </div>
+            </m-form>
+            <m-form v-show="isPppoe" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
+              <m-form-item class="item" prop='account'>
+                <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.account"></m-input>
+              </m-form-item>
+              <m-form-item class="item" prop='password'>
+                <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.password" />
+              </m-form-item>
+              <m-form-item class="item">
+                <m-radio-group class="radio-group" direction="vertical" v-model="autodns.pppoe" :options="dnsOptions"></m-radio-group>
+              </m-form-item>
+              <div v-show="!autodns.pppoe">
+                <m-form-item class="item" prop='dns1' ref="dns">
+                  <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="pppoeForm.dns1" />
+                </m-form-item>
+                <m-form-item class="item" prop='dns2' ref="backupdns">
+                  <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="pppoeForm.dns2" />
+                </m-form-item>
+              </div>
+            </m-form>
+            <m-form v-show="isStatic" ref="staticForm" :model="staticForm" :rules='staticRules'>
+              <m-form-item class="item" prop='ip' ref="ip">
+                <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" :onBlur="ipChange" />
+              </m-form-item>
+              <m-form-item class="item" prop='mask' ref="mast">
+                <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" :onBlur="maskChange" />
+              </m-form-item>
+              <m-form-item class="item" prop='gateway' ref="gateway">
+                <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" />
+              </m-form-item>
+              <m-form-item class="item" prop='dns1' ref="dns">
+                <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns1" />
+              </m-form-item>
+              <m-form-item class="item" prop='dns2' ref="backupdns">
+                <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns2" />
+              </m-form-item>
+            </m-form>
+            <div class="form-button" style="margin-top:60px;">
+              <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
             </div>
           </div>
         </div>
       </div>
-
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-import mSelect from '../../../component/select/index.vue';
-import Form from '../../../component/form/index.vue';
-import FormItem from '../../../component/formItem/index.vue';
-import Input from '../../../component/input/input.vue';
-import Progress from '../../../component/progress/index.vue';
-import layout from '../../../layout.vue';
 import {
   ipRule,
   isMulticast,
@@ -115,18 +130,13 @@ import {
 } from '../../../../util/util';
 import * as CONSTANTS from '../../../../util/constant';
 
+const checkDNS = value =>
+  ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
+
 export default {
-  components: {
-    'm-input': Input,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-select': mSelect,
-    'm-progress': Progress,
-    layout
-  },
   data() {
     return {
-      CONSTANTS: { ...CONSTANTS },
+      CONSTANTS,
       netNote: {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),
@@ -138,9 +148,16 @@ export default {
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144')
       },
+      autodns: {
+        pppoe: true,
+        dhcp: true
+      },
+      dnsOptions: [
+        { value: true, text: this.$t('trans0399') },
+        { value: false, text: this.$t('trans0400') }
+      ],
       netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       netType: CONSTANTS.WanType.dhcp,
-      reboot: false,
       netInfo: {},
       staticForm: {
         ip: '',
@@ -151,7 +168,13 @@ export default {
       },
       pppoeForm: {
         account: '',
-        password: ''
+        password: '',
+        dns1: '',
+        dns2: ''
+      },
+      dhcpForm: {
+        dns1: '',
+        dns2: ''
       },
       pppoeRules: {
         account: [
@@ -208,17 +231,18 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipReg.test(value),
+            rule: value => checkDNS(value),
             message: this.$t('trans0231')
           }
         ],
         dns2: [
           {
-            rule: value => (value ? ipReg.test(value) : value !== 0),
+            rule: value => (value ? checkDNS(value) : true),
             message: this.$t('trans0231')
           }
         ]
       },
+      dhcpRules: {},
       options: [
         {
           value: 'dhcp',
@@ -234,6 +258,60 @@ export default {
         }
       ]
     };
+  },
+  watch: {
+    'autodns.pppoe': function pppoeWatcher(val) {
+      if (!val) {
+        this.pppoeRules = {
+          ...this.pppoeRules,
+          dns1: [
+            {
+              rule: value => !/^\s*$/g.test(value),
+              message: this.$t('trans0232')
+            },
+            {
+              rule: value => checkDNS(value),
+              message: this.$t('trans0231')
+            }
+          ],
+          dns2: [
+            {
+              rule: value => (value ? checkDNS(value) : true),
+              message: this.$t('trans0231')
+            }
+          ]
+        };
+      } else {
+        delete this.pppoeRules.dns1;
+        delete this.pppoeRules.dns2;
+      }
+    },
+    'autodns.dhcp': function dhcpWatcher(val) {
+      if (!val) {
+        this.dhcpRules = {
+          ...this.dhcpRules,
+          dns1: [
+            {
+              rule: value => !/^\s*$/g.test(value),
+              message: this.$t('trans0232')
+            },
+            {
+              rule: value => checkDNS(value),
+              message: this.$t('trans0231')
+            }
+          ],
+          dns2: [
+            {
+              rule: value => (value ? checkDNS(value) : true),
+              message: this.$t('trans0231')
+            }
+          ]
+        };
+      } else {
+        delete this.dhcpRules.dns1;
+        delete this.dhcpRules.dns2;
+      }
+    }
   },
   mounted() {
     this.getWanStatus();
@@ -278,30 +356,6 @@ export default {
     }
   },
   methods: {
-    DNSChange() {
-      this.$refs.dns.extraValidate(
-        (...arg) => !isMulticast(...arg),
-        this.$t('trans0231'),
-        this.staticForm.dns1
-      );
-      this.$refs.dns.extraValidate(
-        (...arg) => !isLoopback(arg),
-        this.$t('trans0231'),
-        this.staticForm.dns1
-      );
-    },
-    backupDNSChange() {
-      this.$refs.backupdns.extraValidate(
-        (...arg) => !isMulticast(...arg),
-        this.$t('trans0231'),
-        this.staticForm.dns2
-      );
-      this.$refs.backupdns.extraValidate(
-        (...arg) => !isLoopback(arg),
-        this.$t('trans0231'),
-        this.staticForm.dns2
-      );
-    },
     ipChange() {
       this.$refs.ip.extraValidate(
         ipRule,
@@ -310,7 +364,6 @@ export default {
         this.staticForm.mask
       );
     },
-    getwayChange() {},
     maskChange() {
       this.$refs.ip.extraValidate(
         ipRule,
@@ -341,9 +394,21 @@ export default {
         if (res.data.result) {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
+          if (this.isDhcp) {
+            if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
+              this.autodns.dhcp = false;
+              this.dhcpForm.dns1 = this.netInfo.dhcp.dns[0];
+              this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
+            }
+          }
           if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
             this.pppoeForm.password = this.netInfo.pppoe.password;
+            if (this.netInfo.pppoe.dns) {
+              this.autodns.pppoe = false;
+              this.pppoeForm.dns1 = this.netInfo.pppoe.dns[0];
+              this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
+            }
           }
           if (this.isStatic) {
             this.staticForm = {
@@ -357,209 +422,164 @@ export default {
         }
       });
     },
-    save(form) {
+    save(params) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
         message: this.$t('trans0037'),
         callback: {
           ok: () => {
-            this.$http
-              .meshWanUpdate({ ...form })
-              .then(() => {
-                this.reboot = true;
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
+            this.$http.meshWanUpdate(params).then(() => {
+              this.$reconnect({
+                onsuccess: () => {
+                  this.$router.push({ path: '/dashboard' });
+                },
+                ontimeout: () => {
                   this.$router.push({ path: '/unconnect' });
                 }
               });
+            });
           }
         }
       });
     },
     submit() {
-      let form = { type: this.netType };
-      if (this.netType === CONSTANTS.WanType.dhcp) {
-        this.save(form);
-        return;
-      }
-      if (
-        this.netType === CONSTANTS.WanType.pppoe &&
-        this.$refs.pppoeForm.validate()
-      ) {
-        form = { ...form, pppoe: { ...this.pppoeForm } };
-        this.save(form);
-        return;
-      }
-      if (
-        this.netType === CONSTANTS.WanType.static &&
-        this.$refs.staticForm.validate()
-      ) {
-        const params = {
-          ip: this.staticForm.ip,
-          mask: this.staticForm.mask,
-          gateway: this.staticForm.gateway,
-          dns: [this.staticForm.dns1]
-        };
-        if (this.staticForm.dns2) {
-          params.dns.push(this.staticForm.dns2);
-        }
-        form = { ...form, static: { netinfo: { ...params } } };
-        this.save(form);
+      const form = { type: this.netType };
+      switch (this.netType) {
+        case CONSTANTS.WanType.dhcp:
+          if (!this.$refs.dhcpForm.validate()) {
+            return;
+          }
+          if (!this.autodns.dhcp) {
+            form.dhcp = {
+              dns: [this.dhcpForm.dns1]
+            };
+            if (this.dhcpForm.dns2) {
+              form.dhcp.dns.push(this.dhcpForm.dns2);
+            }
+          }
+          this.save(form);
+          break;
+        case CONSTANTS.WanType.pppoe:
+          if (!this.$refs.pppoeForm.validate()) {
+            return;
+          }
+          form.pppoe = {
+            account: this.pppoeForm.account,
+            password: this.pppoeForm.password
+          };
+          if (!this.autodns.pppoe) {
+            form.pppoe.dns = [this.pppoeForm.dns1];
+            if (this.pppoeForm.dns2) {
+              form.pppoe.dns.push(this.pppoeForm.dns2);
+            }
+          }
+          this.save(form);
+          break;
+        case CONSTANTS.WanType.static:
+          if (!this.$refs.staticForm.validate()) {
+            return;
+          }
+          form.static = {
+            netinfo: {
+              ip: this.staticForm.ip,
+              mask: this.staticForm.mask,
+              gateway: this.staticForm.gateway,
+              dns: [this.staticForm.dns1]
+            }
+          };
+          if (this.staticForm.dns2) {
+            form.static.netinfo.dns.push(this.staticForm.dns2);
+          }
+          this.save(form);
+          break;
+        default:
+          break;
       }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.setting-network-container {
-  position: relative;
-  padding: 0 2%;
-  flex: auto;
-  display: flex;
-  .content {
-    flex: 1;
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
-      color: #333333;
-      line-height: 60px;
-      font-weight: bold;
+.page:last-child {
+  margin-top: 30px;
+}
+.network-info {
+  .status {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    color: #333333;
+    text-align: center;
+    padding: 20px 0;
+    padding-bottom: 48px;
+    img {
+      width: 200px;
     }
-    .network-info {
-      border-radius: 8px;
-      padding: 0 20px;
-      background: white;
-      min-height: 400px;
-      .status {
-        width: 100%;
+    p {
+      margin: 0;
+      padding: 0;
+    }
+    .seccess-info {
+      text-align: left;
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      div {
+        margin-top: 10px;
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        font-size: 16px;
-        color: #333333;
-        text-align: center;
-        padding: 20px 0;
-        img {
-          width: 200px;
-        }
-        p {
-          margin: 0;
-          padding: 0;
-        }
-        .seccess-info {
-          text-align: left;
-          display: flex;
-          width: 100%;
-          flex-direction: column;
-          div {
-            margin-top: 10px;
-            display: flex;
-          }
-          label {
-            display: inline-block;
-            font-size: 14px;
-            color: #999999;
-            font-weight: bold;
-            width: 130px;
-            text-align: right;
-            flex: 1;
-          }
-          span {
-            color: #333333;
-            font-size: 14px;
-            flex: 1;
-          }
-        }
       }
-    }
-    .network-setting {
-      margin-top: 20px;
-      min-height: 400px;
-      border-radius: 8px;
-      padding: 0 20px;
-      background: white;
-      .setting-info {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .form {
-          padding: 20px 0;
-          .note {
-            font-size: 12px;
-            color: #999999;
-            padding: 5px 0;
-          }
-          .title {
-            display: inline-block;
-            font-size: 14px;
-            color: #333333;
-            line-height: 1;
-            margin-top: 30px;
-            height: 30px;
-          }
-          .btn-info {
-            margin-top: 30px;
-          }
-        }
+      label {
+        display: inline-block;
+        font-size: 14px;
+        color: #999999;
+        font-weight: bold;
+        width: 130px;
+        text-align: right;
+        flex: 1;
+      }
+      span {
+        color: #333333;
+        font-size: 14px;
+        flex: 1;
       }
     }
   }
 }
-@media screen and (max-width: 768px) {
-  .setting-network-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
+.network-setting {
+  .setting-info {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .form {
+      padding: 20px 0;
+      .net-type {
+        margin-bottom: 30px;
+      }
+      .note {
+        font-size: 12px;
+        color: #999999;
+        padding-top: 10px;
+      }
+      .title {
+        display: inline-block;
         font-size: 14px;
-        height: 44px;
-        line-height: 44px;
+        color: #333333;
+        line-height: 1;
+        margin-top: 30px;
+        height: 30px;
       }
-      .network-info {
-        min-height: 300px !important;
-        img {
-          width: 185px;
-        }
+      .btn-info {
+        margin-top: 30px;
       }
-      min-height: 510px;
-      .form {
-        width: 100%;
-
-        .title {
-          margin-top: 20px !important;
-          margin-bottom: 10px;
-          height: auto !important;
-        }
-        .check-info {
-          display: flex;
-          align-items: center;
-          margin-top: 20px;
-          label {
-            margin-right: 10px;
-            font-size: 16px;
-            color: #333333;
-          }
-        }
-        .btn-info {
-          margin-top: 30px;
-        }
+    }
+    .DNS-form {
+      .radio-group {
+        margin-bottom: 30px;
       }
     }
   }

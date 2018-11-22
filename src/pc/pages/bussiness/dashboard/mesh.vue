@@ -10,7 +10,11 @@
         <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
       <div class="content">
+<<<<<<< HEAD
         <div id="topo" style="width:100%;height:550px;" v-show="!showTable"></div>
+=======
+        <div id="topo" style="width:100%;height:550px;margin-bottom: 20px;" v-show="!showTable"></div>
+>>>>>>> v1.3.0
         <div class="table" v-show="showTable">
           <div class="table-header">
             <div class="name">
@@ -71,18 +75,12 @@
         </div>
       </div>
     </div>
-    <div v-if="reboot">
-      <m-progress :label="$t('trans0322')"></m-progress>
-    </div>
-    <div v-if="reset">
-      <m-progress :label="$t('trans0116')"></m-progress>
-    </div>
     <div class="edit-name-modal" v-if="showModal">
       <div class="opcity"></div>
       <div class="content">
         <m-form :model="form" :rules="rules" ref="form">
           <m-form-item prop="newName">
-            <editable-select class="small" :options="options" :label="$t('trans0005')" v-model="form.newName"></editable-select>
+            <m-editable-select class="small" :options="options" :label="$t('trans0005')" v-model="form.newName"></m-editable-select>
           </m-form-item>
         </m-form>
         <div class="btn-inner">
@@ -95,11 +93,6 @@
 </template>
 <script>
 import echarts from 'echarts';
-import layout from '../../../layout.vue';
-import Progress from '../../../component/progress/index.vue';
-import Form from '../../../component/form/index.vue';
-import FormItem from '../../../component/formItem/index.vue';
-import editableSelect from '../../../component/editableSelect/index.vue';
 import { formatMac, getStringByte } from '../../../../util/util';
 import genData from './topo';
 
@@ -108,13 +101,6 @@ const Color = {
   bad: '#ff6f00'
 };
 export default {
-  components: {
-    'm-progress': Progress,
-    layout,
-    editableSelect,
-    'm-form-item': FormItem,
-    'm-form': Form
-  },
   data() {
     return {
       formatMac,
@@ -123,8 +109,6 @@ export default {
       meshNodeTimer: null,
       chart: null,
       routers: [],
-      reboot: false,
-      reset: false,
       routerSelected: null,
       showModal: false,
       form: {
@@ -200,24 +184,19 @@ export default {
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http
-          .updateMeshNode(router.sn, { name })
+          .updateMeshNode({
+            node_id: router.sn,
+            data: { name }
+          })
           .then(() => {
             router.name = name;
             this.$loading.close();
             this.showModal = false;
             this.createIntervalTask();
           })
-          .catch(err => {
-            if (err.upgrading) {
-              return;
-            }
+          .catch(() => {
             this.$loading.close();
             this.createIntervalTask();
-            if (err && err.error) {
-              this.$toast(this.$t(err.error.code));
-            } else {
-              this.$router.push({ path: '/unconnect' });
-            }
           });
       }
     },
@@ -233,16 +212,6 @@ export default {
               .then(() => {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.routers = this.routers.filter(r => r.sn !== router.sn);
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
               });
           }
         }
@@ -255,35 +224,21 @@ export default {
         message: this.$t('trans0121'),
         callback: {
           ok: () => {
-            this.$http
-              .reboot({ node_ids: [router.sn] })
-              .then(() => {
-                if (router.is_gw) {
-                  this.reboot = true;
-                  this.$reconnect({
-                    onsuccess: () => {
-                      this.reboot = false;
-                      this.$router.push({ path: '/login' });
-                    },
-                    ontimeout: () => {
-                      this.$router.push({ path: '/unconnect' });
-                    }
-                  });
-                } else {
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
-                  this.routers = this.routers.filter(r => r.sn !== router.sn);
-                }
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
-                }
-              });
+            this.$http.reboot({ node_ids: [router.sn] }).then(() => {
+              if (router.is_gw) {
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/login' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
+              } else {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
+              }
+            });
           }
         }
       });
@@ -295,30 +250,17 @@ export default {
         message: this.$t('trans0206'),
         callback: {
           ok: () => {
-            this.$http
-              .resetMeshNode({ node_ids: [router.sn] })
-              .then(() => {
-                this.reset = true;
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.reset = false;
-                    window.location.href = '/';
-                  },
-                  ontimeout: () => {
-                    window.location.href = '/';
-                  }
-                });
-              })
-              .catch(err => {
-                if (err.upgrading) {
-                  return;
-                }
-                if (err && err.error) {
-                  this.$toast(this.$t(err.error.code));
-                } else {
-                  this.$router.push({ path: '/unconnect' });
+            this.$http.resetMeshNode({ node_ids: [router.sn] }).then(() => {
+              this.$reconnect({
+                onsuccess: () => {
+                  this.reset = false;
+                  window.location.href = '/';
+                },
+                ontimeout: () => {
+                  window.location.href = '/';
                 }
               });
+            });
           }
         }
       });
@@ -474,6 +416,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
+<<<<<<< HEAD
+=======
+  // flex: 1;
+  // display: flex;
+>>>>>>> v1.3.0
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -521,6 +468,11 @@ export default {
     }
   }
   .mesh-info {
+<<<<<<< HEAD
+=======
+    // flex: 1;
+    // display: flex;
+>>>>>>> v1.3.0
     .title {
       font-size: 16px;
       color: #999;

@@ -23,6 +23,10 @@ export default {
     rect: {
       type: Boolean,
       default: true
+    },
+    onChange: {
+      type: Function,
+      default: () => {}
     }
   },
   data() {
@@ -33,6 +37,7 @@ export default {
   methods: {
     check() {
       this.checked = !this.checked;
+      this.onChange(this.checked);
       this.$emit('input', this.checked);
       this.$emit('change', this.checked);
     }
@@ -53,6 +58,8 @@ export default {
 
   label {
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
   .box {
     float: left;

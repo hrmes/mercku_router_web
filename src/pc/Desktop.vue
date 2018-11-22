@@ -1,18 +1,21 @@
 <template>
   <div class="container">
-    <mercku-menu class="menu" :menus="menus" v-if="!menu_hidden"></mercku-menu>
-    <router-view class="router-view"></router-view>
+    <m-menu class="menu" :menus="menus" v-if="!menu_hidden"></m-menu>
+    <div class="app-container router-view">
+      <div class="flex-wrap" :class="{'has-menu':!menu_hidden}">
+        <m-header :hasExit="!menu_hidden" class="header" :class="{'no-menu':menu_hidden}"></m-header>
+        <router-view></router-view>
+        <m-policy :locale="$i18n.locale" :class="{'fix-bottom':menu_hidden}" class="policy" />
+      </div>
+    </div>
   </div>
 
 </template>
 <script>
-import MerckuMenu from './component/menu/index.vue';
 import './style/common.scss';
+import { Access } from '../util/constant';
 
 export default {
-  components: {
-    'mercku-menu': MerckuMenu
-  },
   computed: {
     menu_hidden() {
       return (
@@ -22,97 +25,176 @@ export default {
       );
     }
   },
+  watch: {
+    '$store.state.access': function watcher() {
+      this.access = this.$store.state.access;
+    },
+    access() {
+      this.menus = this.getMenus();
+    }
+  },
+  methods: {
+    getMenus() {
+      const wifi = {
+        icon: 'wifi',
+        text: 'trans0173',
+        children: [
+          {
+            text: 'trans0365',
+            name: 'mesh',
+            url: '/dashboard/mesh/topo'
+          },
+          {
+            text: 'trans0235',
+            name: 'device',
+            url: '/dashboard/device'
+          },
+
+          {
+            text: 'trans0366',
+            name: 'internet',
+            url: '/dashboard/internet'
+          }
+        ]
+      };
+      const setting = {
+        icon: 'setting',
+        text: 'trans0019',
+        children: [
+          {
+            text: 'trans0103',
+            name: 'wifi',
+            url: '/setting/wifi'
+          },
+          {
+            text: 'trans0142',
+            name: 'network',
+            url: '/setting/network'
+          },
+          {
+            url: '/advance/dhcp',
+            name: 'advance-dhcp',
+            text: 'trans0417'
+          },
+          {
+            text: 'trans0297',
+            name: 'safe',
+            url: '/setting/safe'
+          },
+          {
+            text: 'trans0020',
+            name: 'blacklist',
+            url: '/setting/blacklist'
+          },
+          {
+            text: 'trans0272',
+            name: 'timezone',
+            url: '/setting/timezone'
+          }
+        ]
+      };
+      const advance = {
+        icon: 'advance',
+        text: 'trans0416',
+        children: [
+          {
+            url: '/advance/portforwarding',
+            name: 'advance-portforwarding',
+            text: 'trans0422'
+          },
+
+          {
+            url: '/advance/rsvdip',
+            name: 'advance-rsvdip',
+            text: 'trans0444'
+          },
+          {
+            url: '/advance/mac',
+            name: 'advance-mac',
+            text: 'trans0188'
+          },
+          {
+            url: '/advance/ddns',
+            name: 'advance-ddns',
+            text: 'trans0418'
+          },
+          {
+            url: '/advance/vpn',
+            name: 'advance-vpn',
+            text: 'trans0402'
+          },
+          {
+            url: '/advance/diagnosis',
+            name: 'advance-diagnosis',
+            text: 'trans0419'
+          },
+          {
+            url: '/advance/dmz',
+            name: 'advance-dmz',
+            text: 'trans0420'
+          },
+          {
+            url: '/advance/log',
+            name: 'advance-log',
+            text: 'trans0421'
+          },
+          {
+            url: '/advance/firewall',
+            name: 'advance-firewall',
+            text: 'trans0424'
+          }
+        ]
+      };
+
+      const upgrade = {
+        icon: 'upgrade',
+        text: 'trans0197',
+        children: [
+          {
+            url: '/upgrade/online',
+            name: 'online',
+            text: 'trans0202'
+          },
+          {
+            url: '/upgrade/offline',
+            name: 'offline',
+            text: 'trans0204'
+          }
+        ]
+      };
+      let menus = [];
+      const access = this.$store.state.access;
+      if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+        if (access === Access.super) {
+          advance.children.push({
+            url: '/advance/tr069',
+            name: 'advance-tr069',
+            text: 'trans0499'
+          });
+          menus = [wifi, setting, advance, upgrade];
+        } else {
+          menus = [wifi, setting, upgrade];
+        }
+      } else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+        menus = [wifi, setting, advance, upgrade];
+      }
+      return menus;
+    }
+  },
   data() {
     return {
-      menus: [
-        {
-          icon: 'wifi',
-          text: 'trans0173',
-          key: 1,
-          children: [
-            {
-              key: 12,
-              text: 'trans0365',
-              name: 'mesh',
-              url: '/dashboard/mesh/topo'
-            },
-            {
-              key: 11,
-              text: 'trans0235',
-              name: 'device',
-              url: '/dashboard/device'
-            },
-
-            {
-              key: 13,
-              text: 'trans0366',
-              name: 'internet',
-              url: '/dashboard/internet'
-            }
-          ]
-        },
-        {
-          icon: 'setting',
-          text: 'trans0019',
-          key: 2,
-          children: [
-            {
-              key: 21,
-              text: 'trans0103',
-              name: 'wifi',
-              url: '/setting/wifi'
-            },
-            {
-              key: 22,
-              text: 'trans0142',
-              name: 'network',
-              url: '/setting/network'
-            },
-            {
-              key: 23,
-              text: 'trans0297',
-              name: 'safe',
-              url: '/setting/safe'
-            },
-            {
-              key: 24,
-              text: 'trans0020',
-              name: 'blacklist',
-              url: '/setting/blacklist'
-            },
-            {
-              key: 25,
-              text: 'trans0272',
-              name: 'timezone',
-              url: '/setting/timezone'
-            }
-          ]
-        },
-        {
-          key: 3,
-          icon: 'upgrade',
-          text: 'trans0197',
-          children: [
-            {
-              url: '/upgrade/online',
-              key: 31,
-              name: 'online',
-              text: 'trans0202'
-            },
-            {
-              url: '/upgrade/offline',
-              key: 32,
-              name: 'offline',
-              text: 'trans0204'
-            }
-          ]
-        }
-      ]
+      access: this.$store.state.access,
+      menus: this.getMenus()
     };
   }
 };
 </script>
 <style lang="scss">
+.flex-wrap {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
 .container {
   min-height: 100vh;
   position: relative;
@@ -123,9 +205,10 @@ export default {
   .header {
     width: 100%;
     flex: 0 0 auto;
-    &.has-menu {
+    &.no-menu {
       background: #fff;
-      display: block;
+      display: flex;
+      justify-content: space-between;
       .logo-container {
         display: inline-block;
       }
@@ -147,6 +230,11 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .flex-wrap {
+    &.has-menu {
+      min-height: calc(100vh - 65px);
+    }
+  }
   .container {
     flex-direction: column;
     .app-container {
