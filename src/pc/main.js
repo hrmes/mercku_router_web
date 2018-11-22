@@ -69,6 +69,7 @@ const launch = () => {
     }, 1000);
   };
 
+  let upgrading = false;
   const upgrade = options => {
     upgradeComponent.open({
       title: translate('trans0212'),
@@ -85,10 +86,12 @@ const launch = () => {
     };
     reconnect({
       onsuccess: () => {
+        upgrading = false;
         upgradeComponent.close();
         opt.onsuccess();
       },
       ontimeout: () => {
+        upgrading = false;
         upgradeComponent.close();
         opt.ontimeout();
       },
@@ -106,7 +109,7 @@ const launch = () => {
           window.location.href = '/';
         }
       } else if (status === 400 && data.error.code === 600007) {
-        upgrade();
+        !upgrading && upgrade();
         throw err;
       } else {
         const { error } = data;
