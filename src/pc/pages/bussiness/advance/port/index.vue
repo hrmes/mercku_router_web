@@ -53,7 +53,7 @@
             <div class="column-name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
             <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{item.local.ip}}</div>
             <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</div>
-            <div class="column-outside-ip"><span class="m-title">{{$t('trans0425')}}：</span>{{item.remote.ip}}</div>
+            <div class="column-outside-ip"><span class="m-title">{{$t('trans0425')}}：</span>{{ item.remote.ip==='0.0.0.0'?$t('trans0017'):item.remote.ip}}</div>
             <div class="column-outside-port"><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</div>
             <div class="column-protocol"><span class="m-title">{{$t('trans0408')}}：</span>{{item.protocol}}</div>
             <div class="column-status">
