@@ -70,12 +70,13 @@ export default {
   .dialog-content {
     text-align: center;
     background: #fff;
-    padding: 30px;
+    padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     .dialog-buttons {
       white-space: nowrap;
-      margin-top: 20px;
+      // margin-top: 20px;
+      padding: 20px;
       button {
         width: 120px;
         height: 42px;
@@ -84,6 +85,20 @@ export default {
         &:first-child {
           margin-left: 0;
           margin-right: 0;
+          color: #333;
+          background: white;
+          outline: none;
+          box-sizing: border-box;
+          border: solid 1px #b6b6b6;
+          &:active {
+            color: #000;
+            border-color: #333;
+          }
+
+          &:hover {
+            color: #000;
+            border-color: #333;
+          }
         }
       }
     }
@@ -95,6 +110,7 @@ export default {
     }
     .dialog-message {
       color: #333;
+      padding: 20px;
     }
   }
   &.dialog-enter-active {
@@ -116,7 +132,7 @@ export default {
     .dialog-content {
       width: 420px;
       .dialog-message {
-        text-align: left;
+        text-align: center;
       }
       .dialog-buttons {
         text-align: center;
@@ -134,7 +150,7 @@ export default {
           width: 100%;
           display: block;
           margin: 0;
-          margin-top: 10px;
+          margin-top: 20px;
           &:first-child {
             margin-top: 0;
           }
