@@ -97,8 +97,7 @@
             </div>
             <div class="test-speed-btn-container">
               <div>
-                <span class="bandwidth">{{bandwidth.value}} </span>
-                <span style="margin-top:5px;">{{bandwidth.unit}}</span>
+                <span class="bandwidth">{{bandwidth.value}}<span style="font-weight:normal;font-size:14px;">{{bandwidth.unit}}</span> </span>
               </div>
               <div>
                 <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
@@ -545,7 +544,6 @@ export default {
       .bandwidth {
         font-size: 24px;
         font-weight: bold;
-        margin-right: 5px;
       }
     }
     .real-time-network {
@@ -614,7 +612,7 @@ export default {
   .test-speed-btn-container {
     text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 0 30px;
     position: relative;
@@ -630,7 +628,7 @@ export default {
     .btn {
       width: 100px;
       height: 38px;
-      margin-left: 20px;
+      margin-left: 30px;
     }
   }
   .speed-model-info {

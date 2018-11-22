@@ -99,6 +99,7 @@ export default {
                 this.connecting = false;
                 this.$toast(this.$t('trans0406'));
                 vpn.enabled = false;
+                vpn.status = VPNStatus.ready;
               } else if (timeout % 3 === 0) {
                 this.$http.getVPNInfo().then(res => {
                   vpn.status = res.data.result.status;
@@ -111,6 +112,7 @@ export default {
                     } else {
                       this.$toast(this.$t('trans0406'));
                       vpn.enabled = false;
+                      vpn.status = VPNStatus.ready;
                     }
                   }
                 });
@@ -139,6 +141,7 @@ export default {
                 this.connecting = false;
                 this.$toast(this.$t('trans0406'));
                 vpn.enabled = true;
+                vpn.status = VPNStatus.connected;
               } else if (timeout % 3 === 0) {
                 this.$http.getVPNInfo().then(res => {
                   vpn.status = res.data.result.status;
@@ -151,6 +154,7 @@ export default {
                     } else {
                       this.$toast(this.$t('trans0077'));
                       vpn.enabled = true;
+                      vpn.status = VPNStatus.connected;
                     }
                   }
                 });
