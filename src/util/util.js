@@ -72,13 +72,6 @@ export default {
   }
 };
 
-export const isIphone = () => {
-  const u = navigator.userAgent;
-  // const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
-  const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-  return isiOS;
-};
-
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const hostReg = /^\.*[a-zA-Z0-9]+([\w-][a-zA-Z0-9])*(\.[a-zA-Z0-9]+((\w|-)*[a-zA-Z0-9]+)*)*\.*$/;
