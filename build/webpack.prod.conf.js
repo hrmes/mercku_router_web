@@ -15,6 +15,8 @@ const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
 console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
 const CUSTOMER_CONFIG = getCustomerConfig(CUSTOMER_ID);
 console.log(`get CUSTOMER_CONFIG for ${CUSTOMER_ID}:`, CUSTOMER_CONFIG);
+const title = CUSTOMER_CONFIG.TITLE.replace(/\"/g, '');
+const favicon = CUSTOMER_CONFIG.FAVICO.replace(/\"/g, '');
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -79,9 +81,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename:
         process.env.NODE_ENV === 'testing' ? 'app.html' : config.build.app,
-      template: 'app.html',
+      template: 'app.ejs',
       inject: true,
-      favicon: 'favicon.ico',
+      title,
+      favicon,
       chunks: ['manifest', 'vendor', 'app'],
       minify: {
         removeComments: true,
@@ -96,9 +99,10 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       filename:
         process.env.NODE_ENV === 'testing' ? 'index.html' : config.build.index,
-      template: 'index.html',
+      template: 'index.ejs',
       inject: true,
-      favicon: 'favicon.ico',
+      title,
+      favicon,
       chunks: ['manifest', 'vendor', 'pc'],
       minify: {
         removeComments: true,
