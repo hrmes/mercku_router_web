@@ -191,7 +191,7 @@ export default {
             ok: () => {
               this.$http
                 .deleteVPN({
-                  vpn_id: vpn.id
+                  vpn_ids: [vpn.id]
                 })
                 .then(() => {
                   this.vpns = this.vpns.filter(v => v !== vpn);
