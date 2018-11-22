@@ -19,14 +19,14 @@
         <img src="../../../../assets/images/img_default_empty.png" alt="">
         <p>{{$t('trans0278')}}</p>
         <div class="btn-warp">
-          <button class="btn" @click="()=>$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
+          <button class="btn" @click="add">{{$t('trans0035')}}</button>
         </div>
       </div>
       <div class='table' v-if="(typeof empty =='boolean') && !empty">
         <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
           <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}} <i> <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i> </div>
           <div class="btn-wrap" :class="{open:mobileSelect}">
-            <button class="btn" @click="()=>$router.push('/advance/portforwarding/form')">{{$t('trans0035')}}</button>
+            <button class="btn" @click="add">{{$t('trans0035')}}</button>
             <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
             <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
@@ -103,6 +103,13 @@ export default {
     this.getList();
   },
   methods: {
+    add() {
+      if (this.portfws.length <= 20) {
+        this.$router.push('/advance/portforwarding/form');
+      } else {
+        this.$toast(this.$t('trans0060'));
+      }
+    },
     getList() {
       this.$loading.open();
       this.$http

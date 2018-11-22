@@ -9,10 +9,10 @@
         <div class="item">
           <label for="">{{$t('trans0483')}}</label>
           <div>
-            <m-form-item class="ext-item" prop='ip_start'>
-              <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" />
+            <m-form-item class="ext-item" prop='ip_start' ref='ip_start'>
+              <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" :onBlur='ipStartChange' />
             </m-form-item>
-            <m-form-item class="ext-item" prop='ip_end'>
+            <m-form-item class="ext-item" prop='ip_end' ref='ip_end'>
               <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
             </m-form-item>
           </div>
@@ -126,6 +126,15 @@ export default {
             rule: value =>
               /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
             message: this.$t('trans0395')
+          },
+          {
+            rule: value => {
+              if (this.form.ip_start) {
+                return Number(this.form.ip_start) <= Number(value);
+              }
+              return true;
+            },
+            message: this.$t('trans0472')
           }
         ]
       }
@@ -154,6 +163,16 @@ export default {
     this.getLanInfo();
   },
   methods: {
+    ipStartChange() {
+      this.$refs.ip_end.extraValidate(() => {
+        const start = this.form.ip_start;
+        const end = this.form.ip_end;
+        if (start && end) {
+          return Number(end) >= Number(start);
+        }
+        return true;
+      }, this.$t('trans0472'));
+    },
     blur() {
       const v = this.form.ip;
       if (ipReg.test(v) && this.privateIpReg(v)) {
