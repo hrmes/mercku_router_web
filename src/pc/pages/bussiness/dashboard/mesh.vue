@@ -10,11 +10,7 @@
         <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
       <div class="content">
-<<<<<<< HEAD
-        <div id="topo" style="width:100%;height:550px;" v-show="!showTable"></div>
-=======
         <div id="topo" style="width:100%;height:550px;margin-bottom: 20px;" v-show="!showTable"></div>
->>>>>>> v1.3.0
         <div class="table" v-show="showTable">
           <div class="table-header">
             <div class="name">
@@ -416,11 +412,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
-<<<<<<< HEAD
-=======
   // flex: 1;
   // display: flex;
->>>>>>> v1.3.0
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -468,11 +461,8 @@ export default {
     }
   }
   .mesh-info {
-<<<<<<< HEAD
-=======
     // flex: 1;
     // display: flex;
->>>>>>> v1.3.0
     .title {
       font-size: 16px;
       color: #999;
