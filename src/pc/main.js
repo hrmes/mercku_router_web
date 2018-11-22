@@ -71,6 +71,7 @@ const launch = () => {
 
   let upgrading = false;
   const upgrade = options => {
+    upgrading = true;
     upgradeComponent.open({
       title: translate('trans0212'),
       tip: translate('trans0213')
