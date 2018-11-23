@@ -120,7 +120,7 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: center;
-    // justify-content: center;
+    justify-content: center;
     position: relative;
     width: 100%;
     flex: 1;
