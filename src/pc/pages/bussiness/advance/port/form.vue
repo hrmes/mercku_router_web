@@ -298,38 +298,40 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.btn-info {
-  margin-top: 60px;
-}
-.form {
-  .ext-item {
-    margin-bottom: 0;
-    width: auto;
+.page-content {
+  .btn-info {
+    margin-top: 60px;
   }
-  .item {
-    margin-top: 30px;
-    .port-wrap {
+  .form {
+    .ext-item {
+      margin-bottom: 0;
+      width: auto;
+    }
+    .item {
+      margin-top: 30px;
+      .port-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .ext-input {
+          width: 140px;
+        }
+        i {
+          width: 30px;
+          height: 1px;
+          background: #999999;
+        }
+      }
+    }
+    .radio-wrap {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .ext-input {
-        width: 140px;
-      }
-      i {
-        width: 30px;
-        height: 1px;
-        background: #999999;
+      span {
+        padding-right: 20px;
       }
     }
-  }
-  .radio-wrap {
-    display: flex;
-    span {
-      padding-right: 20px;
+    .radio-group {
+      // min-width: 300px;
     }
-  }
-  .radio-group {
-    // min-width: 300px;
   }
 }
 @media screen and (max-width: 768px) {
