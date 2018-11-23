@@ -61,6 +61,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       poll: config.dev.poll
     }
   },
+  optimization: {
+    noEmitOnErrors: true
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -70,8 +73,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }),
 
     new webpack.HotModuleReplacementPlugin(),
-    // new webpack.NamedModulesPlugin(), // HMR shows correct file names in console on update.
-    // new webpack.NoEmitOnErrorsPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       title,
