@@ -36,7 +36,7 @@
             <m-input :label="`${$t('trans0003')}${$t('trans0411')}`" v-model="local.password"></m-input>
           </m-form-item>
           <div class="form-item">
-            <m-checkbox :text="$t('trans0492')" v-model="enabled"></m-checkbox>
+            <m-checkbox :text="$t('trans0462')" v-model="enabled"></m-checkbox>
           </div>
           <div class="form-button">
             <button class="btn btn-primary" @click="updateTr069">{{$t('trans0081')}}</button>

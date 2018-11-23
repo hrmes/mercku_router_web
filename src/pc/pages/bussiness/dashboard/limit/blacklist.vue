@@ -5,7 +5,7 @@
     </div>
     <div class="page-content">
       <div class="handle">
-        <label for="">{{$t('trans0369')}}</label>
+        <label for="">{{$t('trans0462')}}</label>
         <m-switch :onChange="changehandle" v-model="mode" />
       </div>
       <div class='table'>
