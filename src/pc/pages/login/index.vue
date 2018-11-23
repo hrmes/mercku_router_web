@@ -120,7 +120,7 @@ export default {
     display: flex;
     flex-direction: column;
     text-align: center;
-    justify-content: center;
+    // justify-content: center;
     position: relative;
     width: 100%;
     flex: 1;
@@ -220,7 +220,7 @@ export default {
       width: 80%;
       flex: 1;
       margin: 0 auto;
-      min-height: initial;
+      justify-content: center;
       .welcome-text {
         font-size: 24px;
         margin-top: 25px;
