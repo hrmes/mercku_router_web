@@ -609,7 +609,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 10px 0 30px;
     position: relative;
     &:before {
       content: '';
@@ -623,7 +623,6 @@ export default {
     .btn {
       width: 100px;
       height: 38px;
-      margin-left: 30px;
     }
   }
   .speed-model-info {
