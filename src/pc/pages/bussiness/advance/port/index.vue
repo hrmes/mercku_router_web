@@ -242,7 +242,10 @@ export default {
     width: 50px;
   }
   .column-name {
-    width: 120px;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .column-local-ip {
     width: 120px;
