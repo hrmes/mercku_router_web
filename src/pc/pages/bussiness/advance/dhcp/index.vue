@@ -4,7 +4,7 @@
     <div class="page-content">
       <m-form class="form" ref="form" :model="form" :rules='rules'>
         <m-form-item class="item" prop='ip'>
-          <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="$t('trans0440')" v-model="form.ip" />
+          <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="`${$t('trans0440')} ${curIp}`" v-model="form.ip" />
         </m-form-item>
         <div class="item">
           <label for="">{{$t('trans0483')}}</label>
@@ -43,6 +43,7 @@ export default {
       privateIpReg,
       getIpBefore,
       getIpAfter,
+      curIp: '',
       leases: [
         {
           value: 1 * 60 * 60,
@@ -179,6 +180,7 @@ export default {
           this.$loading.close();
           this.lanInfo = res.data.result;
           this.ipBefore = this.getIpBefore(this.lanInfo.netinfo.ip);
+          this.curIp = this.lanInfo.netinfo.ip;
           this.form = {
             ip: this.lanInfo.netinfo.ip,
             ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
