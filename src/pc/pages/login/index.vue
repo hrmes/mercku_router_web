@@ -246,23 +246,22 @@ export default {
 }
 @media screen and (width: 320px) {
   .login-container {
-    .bg {
-      .small-device-download {
-        .down-text {
-          width: 80px;
-          margin-top: 5px;
-          > div:last-child {
-            display: none;
-          }
-        }
-        .down-button-container {
-          padding-top: 5px;
+    .small-device-download {
+      .down-text {
+        width: 80px;
+        margin-top: 5px;
+        > div:last-child {
+          display: none;
         }
       }
+      .down-button-container {
+        padding-top: 5px;
+      }
     }
-
-    .download {
-      display: none;
+    .center-form {
+      .download {
+        display: none;
+      }
     }
   }
 }
