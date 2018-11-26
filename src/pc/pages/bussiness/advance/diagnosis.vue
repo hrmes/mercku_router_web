@@ -9,7 +9,7 @@
           <m-select v-model="job_type" :label="$t('trans0068')" :options="jobs"></m-select>
         </div>
         <div class="form-item">
-          <m-input v-model="host" :label="$t('trans0463')" :placeholder="$t('trans0321')"></m-input>
+          <m-input v-model="host" :label="label" :placeholder="$t('trans0321')"></m-input>
         </div>
         <div class="form-item">
           <button class="btn btn-primary" @click="start">{{$t('trans0467')}}</button>
@@ -42,14 +42,19 @@ export default {
       ],
       job_type: 'ping',
       host: '',
-      output: ''
+      output: '',
+      label: this.$t('trans0463')
     };
   },
-  // watch: {
-  //   job_type() {
-  //     this.host = '';
-  //   }
-  // },
+  watch: {
+    job_type(v) {
+      if (v === this.jobs[0].value || v === this.jobs[1].value) {
+        this.label = this.$t('trans0463');
+      } else {
+        this.label = this.$t('trans0436');
+      }
+    }
+  },
   methods: {
     start() {
       this.$loading.open();
