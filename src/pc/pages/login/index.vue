@@ -226,11 +226,11 @@ export default {
         margin-top: 25px;
         margin-bottom: 35px;
       }
+      .download {
+        display: none;
+      }
     }
 
-    .download {
-      display: none;
-    }
     .bottom-image {
       width: 80%;
       margin-top: 30px;
