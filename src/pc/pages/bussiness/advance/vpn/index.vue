@@ -176,7 +176,7 @@ export default {
     },
     add() {
       if (this.vpns && this.vpns.length >= 5) {
-        this.$toast('trans0060');
+        this.$toast(this.$t('trans0060'));
         return;
       }
       this.$router.push({ path: '/advance/vpn/form' });

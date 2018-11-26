@@ -499,5 +499,12 @@
   "trans0498": "URL",
   "trans0499": "TR069",
   "trans0500": "Integer between 1 and 999999999",
-  "trans0501": "Select"
+  "trans0501": "Select",
+  "trans0502": "File name",
+  "trans0503": "TFTP",
+  "trans0504": "Empty config",
+  "trans0505": "The router is disconnected from the Interner and cannot communicate with the server",
+  "trans0506": "Server error, please try again later",
+  "trans0507": "Failed to delete the VPN in use",
+  "trans0508": "VPN connection failed, account or password error"
 }
