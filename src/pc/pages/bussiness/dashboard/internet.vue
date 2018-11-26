@@ -96,12 +96,7 @@
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <div>
-                <span class="bandwidth">{{bandwidth.value}}<span style="font-weight:normal;font-size:14px;">{{bandwidth.unit}}</span> </span>
-              </div>
-              <div>
-                <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
-              </div>
+              <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
             </div>
           </div>
         </div>
@@ -986,16 +981,6 @@ export default {
         justify-content: flex-start;
         &::before {
           display: none;
-        }
-        .btn-speed-test {
-          margin-left: 0;
-        }
-        > div {
-          flex: 1;
-          text-align: left;
-          .bandwidth {
-            padding-left: 25px;
-          }
         }
       }
       .traffic-container {
