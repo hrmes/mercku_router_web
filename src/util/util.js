@@ -131,7 +131,7 @@ export const isMulticast = ip => {
 };
 
 export const isMac = mac => {
-  if (!/^([a-z0-9]{2}:){5}[a-z0-9]{2}$/i.test(mac)) {
+  if (!/^([a-f0-9]{2}:){5}[a-f0-9]{2}$/i.test(mac)) {
     return false;
   }
   // 检查组播
