@@ -19,7 +19,7 @@
           <m-input :label="$t('trans0003')" type="password" :placeholder="`${$t('trans0321')}`" v-model="ddns.password"></m-input>
         </m-form-item>
         <div class="form-item">
-          <m-checkbox v-model="ddns.enabled" :text="$t('trans0369')"></m-checkbox>
+          <m-checkbox v-model="ddns.enabled" :text="$t('trans0462')"></m-checkbox>
         </div>
 
       </m-form>
