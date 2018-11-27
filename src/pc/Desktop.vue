@@ -113,7 +113,7 @@ export default {
           {
             url: '/advance/mac',
             name: 'advance-mac',
-            text: 'trans0188',
+            text: 'trans0474',
             super: false
           },
           {

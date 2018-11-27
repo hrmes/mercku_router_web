@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-header">
-      {{$t('trans0188')}}
+      {{$t('trans0458')}}
     </div>
     <div class="page-content">
       <div class="form">
@@ -144,6 +144,8 @@ export default {
         display: block;
         position: absolute;
         left: 5px;
+        top:50%;
+        transform: translateY(-50%);
         width: 6px;
         height: 6px;
         background: #d6001c;
