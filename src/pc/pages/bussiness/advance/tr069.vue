@@ -2,6 +2,32 @@
   <div>
     <div class="page">
       <div class="page-header">
+        {{$t('trans0497')}}
+      </div>
+      <div class="page-content">
+        <m-switch :label="$t('trans0496')" v-model="telnet" :onChange="updateTelnet"></m-switch>
+      </div>
+    </div>
+    <div class="page">
+      <div class="page-header">
+        {{$t('trans0503')}}
+      </div>
+      <div class="page-content">
+        <m-form :model="tftp" :rules="tftpRules" ref="tftp">
+          <m-form-item>
+            <m-input :label="$t('trans0409')" v-model="tftp.server"></m-input>
+          </m-form-item>
+          <m-form-item>
+            <m-input :label="$t('trans0502')" v-model="tftp.filename"></m-input>
+          </m-form-item>
+        </m-form>
+        <div class="form-button">
+          <button class="btn btn-primary" @click="updateTFTP">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="page">
+      <div class="page-header">
         {{$t('trans0499')}}
       </div>
       <div class="page-content">
@@ -44,20 +70,18 @@
         </m-form>
       </div>
     </div>
-    <div class="page">
-      <div class="page-header">
-        {{$t('trans0497')}}
-      </div>
-      <div class="page-content">
-        <m-switch :label="$t('trans0496')" v-model="telnet" :onChange="updateTelnet"></m-switch>
-      </div>
-    </div>
+
   </div>
 </template>
 <script>
 export default {
   data() {
     return {
+      tftp: {
+        server: '',
+        filename: ''
+      },
+      tftpRules: {},
       enabled: true,
       remote: {
         username: '',
@@ -130,6 +154,9 @@ export default {
       this.local = res.data.result.local;
       this.enabled = res.data.result.enabled;
     });
+    this.$http.getTFTP().then(res => {
+      this.tftp = res.data.result;
+    });
   },
   methods: {
     updateTr069() {
@@ -166,6 +193,18 @@ export default {
           this.$toast(this.$t('trans0077'));
           this.telnet = !v;
         });
+    },
+    updateTFTP() {
+      if (this.$refs.tftp.validate()) {
+        this.$http
+        .updateTFTP(this.tftp)
+        .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.$toast(this.$t('trans0077'));
+        });
+      }
     }
   }
 };

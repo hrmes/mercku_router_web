@@ -86,7 +86,9 @@ const methods = {
   routerTelnetEnabledUpdate: createMethod('router.telnet.enabled.update'),
   routerTelnetEnabledGet: createMethod('router.telnet.enabled.get'),
   routerTr069Get: createMethod('router.tr069.get'),
-  routerTr069Update: createMethod('router.tr069.update')
+  routerTr069Update: createMethod('router.tr069.update'),
+  routerTFTPGet: createMethod('router.tftp.get'),
+  routerTFTPUpdate: createMethod('router.tftp.update')
 };
 
 class Http {
@@ -108,6 +110,12 @@ class Http {
     return axios({ url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
+  }
+  getTFTP() {
+    return this.request(methods.routerTFTPGet);
+  }
+  updateTFTP(params) {
+    return this.request(methods.routerTFTPUpdate, params);
   }
   getTelnetEnabled() {
     return this.request(methods.routerTelnetEnabledGet);
