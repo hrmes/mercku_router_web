@@ -122,11 +122,11 @@ export default {
 
       &:active {
         background: #E7E7E7;
-        color: #fff;
+        color: #333;
       }
       &:hover {
         background: #E7E7E7;
-        color: #fff;
+        color: #333;
       }
       &.selected {
         color: #d6001c;

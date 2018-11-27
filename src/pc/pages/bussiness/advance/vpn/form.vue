@@ -57,8 +57,8 @@ export default {
         }
       ],
       pptp: {
-        mppe: true,
-        mppc: true
+        mppe: false,
+        mppc: false
       },
       form: {
         id: '',
@@ -72,7 +72,7 @@ export default {
         name: [
           {
             rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
+            message: this.$t('trans0237')
           },
           {
             rule: value => getStringByte(value) <= 20,
