@@ -69,8 +69,8 @@
               <m-switch v-model="item.enabled" :onChange="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
-              <a @click="editHandle(item)"> {{$t('trans0034')}}</a>
-              <a @click="del([item.id])"> {{$t('trans0033')}}</a>
+              <a @click="editHandle(item)">{{$t('trans0034')}}</a>
+              <a @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
           </div>
         </div>

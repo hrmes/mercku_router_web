@@ -38,7 +38,7 @@ export default {
         username: '',
         password: '',
         service: 'dyndns',
-        enabled: false
+        enabled: true
       },
       services: [
         {

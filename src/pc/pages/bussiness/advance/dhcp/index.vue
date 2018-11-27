@@ -11,6 +11,7 @@
           <div>
             <m-form-item class="ext-item" prop='ip_start' ref='ip_start'>
               <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" :onBlur='ipStartChange' />
+              
             </m-form-item>
             <m-form-item class="ext-item" prop='ip_end' ref='ip_end'>
               <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
@@ -20,8 +21,9 @@
         <m-form-item class="item" prop='lease'>
           <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
         </m-form-item>
-        <!-- <p v-if="note">{{$t('trans0476')}}</p> -->
+        <label class="tip" v-if="lanipChanged">{{$t('trans0476')}}</label>
       </m-form>
+                
       <div class="btn-info form-button">
         <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
       </div>
@@ -40,6 +42,7 @@ import {
 export default {
   data() {
     return {
+      lanipChanged: false,
       privateIpReg,
       getIpBefore,
       getIpAfter,
@@ -171,6 +174,9 @@ export default {
       if (ipReg.test(v) && this.privateIpReg(v)) {
         this.ipBefore = this.getIpBefore(v);
       }
+      if (v !== this.curIp) {
+        this.lanipChanged = true;
+      }
     },
     getLanInfo() {
       this.$loading.open();
@@ -231,6 +237,13 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  .form{
+    .tip{
+      color:red;
+      width: 350px;
+      display: block;
+    }
+  }
 }
 .ext-item {
   position: relative;

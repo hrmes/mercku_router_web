@@ -22,8 +22,8 @@
             <div class="vpn-right">
               <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
 
-              <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':connecting}">{{$t('trans0034')}}</div>
-              <div class="vpn-del" @click="del(vpn)" :class="{'disabled':connecting}">{{$t('trans0033')}}</div>
+              <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0034')}}</div>
+              <div class="vpn-del" @click="del(vpn)" :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0033')}}</div>
             </div>
           </div>
         </div>
