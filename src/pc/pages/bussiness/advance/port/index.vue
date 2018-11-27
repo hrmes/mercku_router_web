@@ -1,9 +1,6 @@
 <template>
   <div class="page">
-    <div
-      class='page-header'
-      :class="{'m-head':mobileShowHead}"
-    >
+    <div class='page-header' :class="{'m-head':mobileShowHead}">
       <span class="title"> {{$t('trans0422')}}</span>
       <div class="m-handle">
         <div class="m-check-box">
@@ -24,66 +21,29 @@
       </div>
     </div>
     <div class="page-content">
-
-      <div
-        class="empty"
-        v-if="(typeof empty =='boolean') && empty"
-      >
-        <img
-          src="../../../../assets/images/img_default_empty.png"
-          alt=""
-        >
+      <div class="empty" v-if="(typeof empty =='boolean') && empty">
+        <img src="../../../../assets/images/img_default_empty.png" alt="">
         <p>{{$t('trans0278')}}</p>
         <div class="btn-warp">
-          <button
-            class="btn"
-            @click="add"
-          >{{$t('trans0035')}}</button>
+          <button class="btn" @click="add">{{$t('trans0035')}}</button>
         </div>
       </div>
-      <div
-        class='table'
-        v-if="(typeof empty =='boolean') && !empty"
-      >
-        <div
-          class="handle-info"
-          :class="{'openInfo':mobileShowHead}"
-          v-clickoutside="()=>mobileSelect=false"
-        >
-          <div
-            class="select"
-            @click="()=>mobileSelect=!mobileSelect"
-          >{{$t('trans0370')}} <i> <img
-                :class="{open:mobileSelect}"
-                src="../../../../assets/images/ic_arrow_pack_up.png"
-                alt=""
-              ></i> </div>
-          <div
-            class="btn-wrap"
-            :class="{open:mobileSelect}"
-          >
-            <button
-              class="btn"
-              @click="add"
-            >{{$t('trans0035')}}</button>
-            <button
-              class="btn m-btn"
-              @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}"
-            >{{$t('trans0453')}}</button>
-            <button
-              class="btn btn-default"
-              @click="mulDel"
-              :disabled="!hasChecked"
-            >{{$t('trans0453')}}</button>
+      <div class='table' v-if="(typeof empty =='boolean') && !empty">
+        <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
+          <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}}
+            <i> 
+              <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i> 
+            </div>
+          <div class="btn-wrap" :class="{open:mobileSelect}">
+            <button class="btn" @click="add">{{$t('trans0035')}}</button>
+            <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
+            <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
         </div>
 
         <div class="table-head">
           <div class="column-check">
-            <m-checkbox
-              v-model="checkAll"
-              :onChange="change"
-            ></m-checkbox>
+            <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
           </div>
           <div class="column-name">{{$t('trans0108')}}</div>
           <div class="column-local-ip">{{$t('trans0427')}}</div>
@@ -95,15 +55,8 @@
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
-          <div
-            class="table-row"
-            v-for="(item,index ) in portfws"
-            :key='index'
-          >
-            <div
-              class="column-check"
-              :class="{'checkOpen':mobileShowHead}"
-            >
+          <div class="table-row" v-for="(item,index ) in portfws" :key='index'>
+            <div class="column-check" :class="{'checkOpen':mobileShowHead}">
               <m-checkbox v-model='item.checked'></m-checkbox>
             </div>
             <div class="column-name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
@@ -113,10 +66,7 @@
             <div class="column-outside-port"><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</div>
             <div class="column-protocol"><span class="m-title">{{$t('trans0408')}}：</span>{{item.protocol}}</div>
             <div class="column-status">
-              <m-switch
-                v-model="item.enabled"
-                :onChange="(v)=>update(v,item)"
-              ></m-switch>
+              <m-switch v-model="item.enabled" :onChange="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
               <a @click="editHandle(item)"> {{$t('trans0034')}}</a>
@@ -288,7 +238,7 @@ export default {
         display: none;
       }
       .btn {
-        width: 70px;
+        width: 80px;
         height: 27px;
         padding: 0;
         &:last-child {
@@ -325,7 +275,7 @@ export default {
     width: 100px;
   }
   .column-handle {
-    width: 150px;
+    width: 120px;
     a {
       cursor: pointer;
       &:last-child {

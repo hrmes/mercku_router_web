@@ -224,20 +224,22 @@ export default {
       z-index: 1;
       left: 0;
       width: 300px;
-      height: 458px;
+      //height: 458px;
       border-radius: 2px;
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
       border: solid 1px #e7e7e7;
       background-color: #ffffff;
       .list {
         width: 300px;
-        height: 358px;
+        max-height: 450px;
         overflow-y: auto;
       }
       .device-item {
         display: flex;
         padding: 30px;
+        padding-bottom: 0;
         min-height: 55px;
+        cursor: default;
         .check {
           width: 46px;
         }

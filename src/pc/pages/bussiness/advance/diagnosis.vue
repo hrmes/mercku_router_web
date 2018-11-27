@@ -15,7 +15,7 @@
           <button class="btn btn-primary" @click="start">{{$t('trans0467')}}</button>
         </div>
       </div>
-      <div class="log-container">
+      <div class="log-container" v-show="output">
         <pre>{{output}}</pre>
       </div>
     </div>
@@ -93,7 +93,7 @@ export default {
     pre {
       margin: 0;
       font-family: inherit;
-      position: absolute;
+      max-height: 600px;
     }
   }
 }

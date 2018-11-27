@@ -121,16 +121,15 @@ export default {
       text-overflow: ellipsis;
 
       &:active {
-        background: gray;
+        background: #E7E7E7;
         color: #fff;
       }
       &:hover {
-        background: gray;
+        background: #E7E7E7;
         color: #fff;
       }
       &.selected {
-        background: #d6001c;
-        color: #fff;
+        color: #d6001c;
       }
     }
   }

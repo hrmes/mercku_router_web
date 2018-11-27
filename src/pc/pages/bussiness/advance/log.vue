@@ -100,7 +100,8 @@ export default {
     pre {
       margin: 0;
       font-family: inherit;
-      position: absolute;
+      max-height: 600px;
+      //position: absolute;
     }
   }
 }
