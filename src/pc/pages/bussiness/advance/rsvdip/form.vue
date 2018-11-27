@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0444')}}
+      {{$t('trans0444')}}
     </div>
     <div class="page-content">
 
@@ -19,8 +19,8 @@
                   </div>
                   <div class="des">
                     <p>{{item.name}}</p>
-                    <p>MAC：{{formatMac(item.mac)}}</p>
-                    <p>IP：{{item.ip}}</p>
+                    <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
+                    <p>{{$t('trans0151')}}：{{item.ip}}</p>
                   </div>
                 </div>
               </div>
@@ -272,10 +272,6 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .form {
-    // padding-bottom: 50px;
-    .btn-info {
-      // margin-top: 30px;
-    }
     width: 100%;
     margin: 0 auto;
     .ext-item {
@@ -317,9 +313,6 @@ export default {
             }
           }
         }
-      }
-      i {
-        display: none;
       }
     }
   }

@@ -248,7 +248,7 @@ export default {
         span {
           font-size: 12px;
           color: rgba(255, 255, 255, 0.95);
-          font-weight: 100;
+          font-weight: normal;
         }
       }
     }

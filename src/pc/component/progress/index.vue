@@ -92,7 +92,6 @@ export default {
     margin-top: 20px;
     font-size: 18px;
     color: #ffffff !important;
-    font-weight: 100;
   }
 }
 .progress {

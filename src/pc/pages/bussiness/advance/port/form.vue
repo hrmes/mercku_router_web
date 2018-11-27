@@ -1,10 +1,9 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0422')}}
+      {{$t('trans0422')}}
     </div>
     <div class="page-content">
-
       <m-form ref="form" class="form" :model="form" :rules='rules'>
         <div class="radio-wrap">
           <span> {{$t('trans0408')}}</span>

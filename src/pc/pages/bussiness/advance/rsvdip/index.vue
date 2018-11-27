@@ -49,11 +49,11 @@
                 <m-checkbox v-model='item.checked'></m-checkbox>
               </div> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}
             </div>
-            <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{formatMac(item.mac)}}</div>
-            <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.ip}}</div>
+            <div class="column-local-ip"><span class="m-title">{{$t('trans0188')}}：</span>{{formatMac(item.mac)}}</div>
+            <div class="column-local-port"><span class="m-title">{{$t('trans0151')}}：</span>{{item.ip}}</div>
             <div class="column-handle">
-              <a @click="editHandle(item)"> {{$t('trans0034')}}</a>
-              <a @click="del([item.id])"> {{$t('trans0033')}}</a>
+              <a @click="editHandle(item)">{{$t('trans0034')}}</a>
+              <a @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
           </div>
         </div>
@@ -147,6 +147,7 @@ export default {
       });
       if (this.rsvdips.length === 0) {
         this.empty = true;
+        this.mobileShowHead = false;
       }
     },
     mulDel() {
@@ -303,7 +304,7 @@ export default {
         display: flex;
         font-size: 14px;
         color: #333333;
-        font-weight: 200;
+        font-weight: normal;
         align-items: center;
         justify-content: space-between;
         line-height: 1;

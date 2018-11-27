@@ -374,7 +374,7 @@ export default {
         display: flex;
         font-size: 14px;
         color: #333333;
-        font-weight: 200;
+        font-weight: normal;
         align-items: center;
         justify-content: space-between;
         line-height: 1;
@@ -535,6 +535,8 @@ export default {
           text-align: right;
           right: 0;
           top: 20px;
+          display: flex;
+          justify-content: flex-end;
         }
       }
     }

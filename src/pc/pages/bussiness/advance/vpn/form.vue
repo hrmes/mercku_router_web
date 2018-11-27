@@ -1,10 +1,9 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0402')}}
+      {{$t('trans0402')}}
     </div>
     <div class="page-content">
-
       <m-form class="form" ref="form" :model="form" :rules='rules'>
         <m-form-item class="item" prop='name'>
           <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
