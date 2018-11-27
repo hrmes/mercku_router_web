@@ -5,7 +5,9 @@
         {{$t('trans0497')}}
       </div>
       <div class="page-content">
-        <m-switch :label="$t('trans0496')" v-model="telnet" :onChange="updateTelnet"></m-switch>
+        <div class="form">
+          <m-switch :label="$t('trans0462')" v-model="telnet" :onChange="updateTelnet"></m-switch>
+        </div>
       </div>
     </div>
     <div class="page">
@@ -13,7 +15,7 @@
         {{$t('trans0503')}}
       </div>
       <div class="page-content">
-        <m-form :model="tftp" :rules="tftpRules" ref="tftp">
+        <m-form class="form" :model="tftp" :rules="tftpRules" ref="tftp">
           <m-form-item>
             <m-input :label="$t('trans0409')" v-model="tftp.server"></m-input>
           </m-form-item>
