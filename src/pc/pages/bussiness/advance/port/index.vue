@@ -160,7 +160,7 @@ export default {
       ids.forEach(v => {
         this.portfws = this.portfws.filter(item => item.id !== v);
       });
-      if (this.rsvdips.length === 0) {
+      if (this.portfws.length === 0) {
         this.empty = true;
         this.mobileShowHead = false;
       }
