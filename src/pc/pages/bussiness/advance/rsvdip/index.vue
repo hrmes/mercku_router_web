@@ -27,9 +27,9 @@
           <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}} <i> <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i> </div>
           <div class="btn-wrap" :class="{open:mobileSelect}">
             <button class="btn" @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
+            <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button>
             <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
             <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
-            <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button>
 
           </div>
         </div>
@@ -244,7 +244,7 @@ export default {
         padding: 0;
         margin-right: 20px;
         &:last-child {
-          margin-left: 20px;
+          // margin-left: 20px;
         }
       }
     }
