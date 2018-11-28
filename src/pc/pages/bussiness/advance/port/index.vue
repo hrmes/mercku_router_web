@@ -506,6 +506,7 @@ export default {
         .column-handle {
           text-align: right;
           margin-top: 10px;
+          justify-content: flex-end;
         }
         .column-name {
           width: calc(100% - 30px);
