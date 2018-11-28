@@ -40,7 +40,8 @@ const launch = () => {
     if (opt.showLoading) {
       loadingInstance = new (Vue.extend(mProgress))({
         propsData: {
-          label: translate('trans0315')
+          label: translate('trans0315'),
+          during: opt.timeout
         }
       }).$mount();
       document.body.appendChild(loadingInstance.$el);

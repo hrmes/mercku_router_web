@@ -485,8 +485,8 @@
   "trans0484": "Disconnecting",
   "trans0485": "There is static DHCP lease that does not belong to the new IP range",
   "trans0486": "The IP does not belong to the LAN IP range.",
-  "trans0487": " ",
-  "trans0488": " ",
+  "trans0487": "The IP does not belong to the LAN IP range.",
+  "trans0488": "Effective",
   "trans0489": "The port has been taken",
   "trans0490": "Report Interval (s)",
   "trans0491": "TR069 Server",
@@ -506,5 +506,6 @@
   "trans0505": "The router is disconnected from the Interner and cannot communicate with the server",
   "trans0506": "Server error, please try again later",
   "trans0507": "Failed to delete the VPN in use",
-  "trans0508": "VPN connection failed, account or password error"
+  "trans0509": "VPN connection failed, account or password error",
+  "trans0510": "Failed to edit the VPN in use"
 }

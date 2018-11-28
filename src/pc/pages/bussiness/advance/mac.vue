@@ -88,7 +88,7 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0229'),
+        message: this.$t('trans0473'),
         callback: {
           ok: () => {
             this.$loading.open();
@@ -104,6 +104,7 @@ export default {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
                 this.$reconnect({
+                  timeout: 20,
                   onsuccess: () => {
                     this.$router.push({ path: '/advance/mac' });
                   },

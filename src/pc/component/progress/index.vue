@@ -64,7 +64,6 @@ export default {
   }
 };
 </script>
-</script>
 <style lang="scss" type="text/scss" scoped>
 .reboot-model-contanier {
   width: 100%;
@@ -114,7 +113,6 @@ export default {
     color: #fff;
     text-align: center;
     background-color: #00d061;
-    -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     transition: width 1s ease;
   }
 }
