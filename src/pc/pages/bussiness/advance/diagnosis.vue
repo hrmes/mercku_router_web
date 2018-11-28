@@ -4,12 +4,12 @@
       {{$t('trans0419')}}
     </div>
     <div class="page-content">
-      <m-form :model="form" ref="form" :rules="rules">
+      <m-form class="form" :model="form" ref="form" :rules="rules">
         <m-form-item>
           <m-select v-model="job_type" :label="$t('trans0068')" :options="jobs"></m-select>
         </m-form-item>
         <m-form-item prop="host">
-         <m-input v-model="form.host" :label="label" :placeholder="$t('trans0321')"></m-input>
+          <m-input v-model="form.host" :label="label" :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item>
           <button class="btn btn-primary" @click="start">{{$t('trans0467')}}</button>
@@ -41,10 +41,12 @@ export default {
         }
       ],
       rules: {
-        host: [{
-          rule: value => value,
-          message: this.$t('trans0232')
-        }]
+        host: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          }
+        ]
       },
       job_type: 'ping',
       form: {
@@ -68,19 +70,19 @@ export default {
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http
-        .diagnosis({
-          job_type: this.job_type,
-          job_params: {
-            host: this.form.host
-          }
-        })
-        .then(res => {
-          this.$loading.close();
-          this.output = res.data.result.output;
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+          .diagnosis({
+            job_type: this.job_type,
+            job_params: {
+              host: this.form.host
+            }
+          })
+          .then(res => {
+            this.$loading.close();
+            this.output = res.data.result.output;
+          })
+          .catch(() => {
+            this.$loading.close();
+          });
       }
     }
   }
