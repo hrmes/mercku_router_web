@@ -249,7 +249,7 @@ export default {
     }
   }
   .column-check {
-    width: 50px;
+    width: 40px;
   }
   .column-name {
     display: flex;

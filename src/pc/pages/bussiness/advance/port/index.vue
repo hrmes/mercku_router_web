@@ -269,7 +269,7 @@ export default {
     }
   }
   .column-local-ip {
-    width: 180px;
+    width: 200px;
     // flex-direction: column;
     p {
       padding: 0;
@@ -291,7 +291,7 @@ export default {
         margin-bottom: 8px;
       }
     }
-    width: 180px;
+    width: 200px;
   }
   .column-outside-port {
     width: 100px;
@@ -506,6 +506,7 @@ export default {
         .column-handle {
           text-align: right;
           margin-top: 10px;
+          justify-content: flex-end;
         }
         .column-name {
           width: calc(100% - 30px);
