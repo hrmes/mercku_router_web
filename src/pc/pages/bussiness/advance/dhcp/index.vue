@@ -243,6 +243,12 @@ export default {
       width: 350px;
       display: block;
     }
+    .item{
+      label{
+        margin-bottom: 5px;
+        display: block;
+      }
+    }
   }
 }
 .ext-item {
