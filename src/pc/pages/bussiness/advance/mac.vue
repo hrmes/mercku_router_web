@@ -15,7 +15,7 @@
           <div @click="setSelected(false)" class="radio" :class="{'selected':!isDefault}">
             {{$t('trans0460')}}
           </div>
-          <m-form ref="form"  :model="mac" :rules="rules" v-show="!isDefault">
+          <m-form ref="form" :model="mac" :rules="rules" v-show="!isDefault">
             <m-form-item prop="current" ref="current">
               <m-input class="input" @input="format" v-model="mac.current" :placeholder="$t('trans0321')"></m-input>
             </m-form-item>
@@ -82,32 +82,42 @@ export default {
         });
     },
     updateMac() {
-      if (this.$refs.form.validate()) {
-        this.$loading.open();
-        let mac;
-        if (this.isDefault) {
-          mac = this.removeColonOfMac(this.mac.default);
-        } else {
-          mac = this.removeColonOfMac(this.mac.current);
-        }
-        this.$http
-          .updateWanMac({ mac })
-          .then(() => {
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.$loading.close();
-            this.$reconnect({
-              onsuccess: () => {
-                this.$router.push({ path: '/advance/mac' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/unconnect' });
-              }
-            });
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
+      if (!this.isDefault && !this.$refs.form.validate()) {
+        return;
       }
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0229'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            let mac;
+            if (this.isDefault) {
+              mac = this.removeColonOfMac(this.mac.default);
+            } else {
+              mac = this.removeColonOfMac(this.mac.current);
+            }
+            this.$http
+              .updateWanMac({ mac })
+              .then(() => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$loading.close();
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/advance/mac' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
+              })
+              .catch(() => {
+                this.$loading.close();
+              });
+          }
+        }
+      });
     }
   }
 };

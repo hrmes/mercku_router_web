@@ -11,7 +11,7 @@
           <div>
             <m-form-item class="ext-item" prop='ip_start' ref='ip_start'>
               <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" :onBlur='ipStartChange' />
-              
+
             </m-form-item>
             <m-form-item class="ext-item" prop='ip_end' ref='ip_end'>
               <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
@@ -23,7 +23,7 @@
         </m-form-item>
         <label class="tip" v-if="lanipChanged">{{$t('trans0476')}}</label>
       </m-form>
-                
+
       <div class="btn-info form-button">
         <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
       </div>
@@ -243,6 +243,12 @@ export default {
       width: 350px;
       display: block;
     }
+    .item{
+      label{
+        margin-bottom: 5px;
+        display: block;
+      }
+    }
   }
 }
 .ext-item {
@@ -256,6 +262,15 @@ export default {
     width: 120px;
     position: absolute;
     top: 20px;
+  }
+}
+@media screen and (max-width: 768px){
+  .page-content{
+    .form{
+      .tip{
+        width:100%;
+      }
+    }
   }
 }
 </style>

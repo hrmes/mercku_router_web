@@ -169,7 +169,7 @@ export default {
       }
     },
     edit(vpn) {
-      if (!this.connecting) {
+      if (!this.connecting && !vpn.enabled) {
         this.$store.state.vpn = vpn;
         this.$router.push(`/advance/vpn/form/${vpn.id}`);
       }
@@ -182,7 +182,7 @@ export default {
       this.$router.push({ path: '/advance/vpn/form' });
     },
     del(vpn) {
-      if (!this.connecting) {
+      if (!this.connecting && !vpn.enabled) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
