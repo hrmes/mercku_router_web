@@ -609,7 +609,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px 0 30px;
+    padding: 0 50px 0 70px;
     position: relative;
     &:before {
       content: '';
