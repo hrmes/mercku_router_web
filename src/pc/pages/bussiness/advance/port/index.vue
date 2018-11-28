@@ -522,7 +522,7 @@ export default {
           position: absolute;
           text-align: right;
           right: 0;
-          // top: 20px;
+          top: 0;
           display: flex;
           justify-content: flex-end;
         }
