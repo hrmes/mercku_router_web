@@ -29,6 +29,8 @@
             <button class="btn" @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
             <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
             <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+            <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button>
+
           </div>
         </div>
 
@@ -98,6 +100,24 @@ export default {
     this.getList();
   },
   methods: {
+    updateEnabled() {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0229'),
+        callback: {
+          ok: () => {
+            this.$http.meshNetworkReboot().then(() => {
+              this.$reconnect({
+                ontimeout: () => {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
+            });
+          }
+        }
+      });
+    },
     getList() {
       this.$loading.open();
       this.$http
@@ -213,6 +233,7 @@ export default {
     }
     .btn-wrap {
       margin-bottom: 30px;
+      display: flex;
       .m-btn {
         display: none;
       }
@@ -220,6 +241,7 @@ export default {
         width: 70px;
         height: 27px;
         padding: 0;
+        margin-right: 20px;
         &:last-child {
           margin-left: 20px;
         }

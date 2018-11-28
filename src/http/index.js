@@ -88,7 +88,8 @@ const methods = {
   routerTr069Get: createMethod('router.tr069.get'),
   routerTr069Update: createMethod('router.tr069.update'),
   routerTFTPGet: createMethod('router.tftp.get'),
-  routerTFTPUpdate: createMethod('router.tftp.update')
+  routerTFTPUpdate: createMethod('router.tftp.update'),
+  meshNetworkReboot: createMethod('mesh.network.reboot')
 };
 
 class Http {
@@ -324,6 +325,9 @@ class Http {
   }
   reboot(nodeIds) {
     return this.request(methods.meshNodeReboot, nodeIds);
+  }
+  meshNetworkReboot() {
+    return this.request(methods.meshNetworkReboot);
   }
   getMeshMeta() {
     return this.request(methods.meshMetaGet);
