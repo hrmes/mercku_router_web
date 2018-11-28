@@ -270,6 +270,7 @@ export default {
   }
   .column-local-ip {
     width: 180px;
+    // flex-direction: column;
     p {
       padding: 0;
       margin: 0;
@@ -282,6 +283,7 @@ export default {
     width: 100px;
   }
   .column-outside-ip {
+    // flex-direction: column;
     p {
       padding: 0;
       margin: 0;
@@ -326,6 +328,15 @@ export default {
     }
   }
   .table-body {
+    div {
+      display: flex;
+      align-items: center;
+    }
+    .column-outside-ip,
+    .column-local-ip {
+      flex-direction: column;
+      align-items: flex-start;
+    }
     .table-row {
       display: flex;
       padding: 30px 30px;
