@@ -237,13 +237,13 @@ export default {
     white-space: nowrap;
   }
   .column-local-ip {
-    width: 120px;
+    width: 130px;
   }
   .column-local-port {
-    width: 100px;
+    width: 140px;
   }
   .column-outside-ip {
-    width: 120px;
+    width: 130px;
   }
   .column-outside-port {
     width: 100px;
@@ -432,7 +432,8 @@ export default {
         }
         flex-direction: row;
         flex-wrap: wrap;
-        padding: 20px 0;
+        padding: 0;
+        padding-bottom: 20px;
         position: relative;
         .column-local-ip,
         .column-local-port,

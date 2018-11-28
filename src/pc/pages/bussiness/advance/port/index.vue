@@ -35,28 +35,40 @@
         </div>
 
         <div class="table-head">
-          <div class="column-check">
-            <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+
+          <div class="column-name">
+            <div class="column-check">
+              <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+            </div>
+            {{$t('trans0108')}}
           </div>
-          <div class="column-name">{{$t('trans0108')}}</div>
-          <div class="column-local-ip">{{$t('trans0427')}}</div>
-          <div class="column-local-port">{{$t('trans0428')}}</div>
-          <div class="column-outside-ip">{{$t('trans0425')}}</div>
-          <div class="column-outside-port">{{$t('trans0426')}}</div>
+          <div class="column-local-ip">{{$t('trans0427')}} / {{$t('trans0428')}}</div>
+          <!-- <div class="column-local-port">{{$t('trans0428')}}</div> -->
+          <div class="column-outside-ip">{{$t('trans0425')}} / {{$t('trans0426')}}</div>
+          <!-- <div class="column-outside-port">{{$t('trans0426')}}</div> -->
           <div class="column-protocol">{{$t('trans0408')}}</div>
           <div class="column-status">{{$t('trans0190')}}</div>
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
           <div class="table-row" v-for="(item,index ) in portfws" :key='index'>
-            <div class="column-check" :class="{'checkOpen':mobileShowHead}">
-              <m-checkbox v-model='item.checked'></m-checkbox>
+            <div class="column-name">
+              <div class="column-check" :class="{'checkOpen':mobileShowHead}">
+                <m-checkbox v-model='item.checked'></m-checkbox>
+              </div>
+              <span class="m-title">{{$t('trans0108')}}：</span>
+              <span class="name">{{item.name}}</span>
             </div>
-            <div class="column-name"> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}</div>
-            <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{item.local.ip}}</div>
-            <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</div>
-            <div class="column-outside-ip"><span class="m-title">{{$t('trans0425')}}：</span>{{ item.remote.ip==='0.0.0.0'?$t('trans0017'):item.remote.ip}}</div>
-            <div class="column-outside-port"><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</div>
+            <div class="column-local-ip">
+              <p><span class="m-title">{{$t('trans0427')}}：</span>{{item.local.ip}}</p>
+              <p><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</p>
+            </div>
+            <!-- <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</div> -->
+            <div class="column-outside-ip">
+              <p> <span class="m-title">{{$t('trans0425')}}：</span>{{ item.remote.ip==='0.0.0.0'?$t('trans0017'):item.remote.ip}}</p>
+              <p><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</p>
+            </div>
+            <!-- <div class="column-outside-port"><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</div> -->
             <div class="column-protocol"><span class="m-title">{{$t('trans0408')}}：</span>{{item.protocol}}</div>
             <div class="column-status">
               <m-switch v-model="item.enabled" :onChange="(v)=>update(v,item)"></m-switch>
@@ -242,22 +254,42 @@ export default {
     }
   }
   .column-check {
-    width: 50px;
+    width: 40px;
   }
   .column-name {
-    width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: flex;
+    width: 220px;
+
+    .name {
+      display: inline-block;
+      width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
   .column-local-ip {
-    width: 120px;
+    width: 180px;
+    p {
+      padding: 0;
+      margin: 0;
+      &:first-child {
+        margin-bottom: 8px;
+      }
+    }
   }
   .column-local-port {
     width: 100px;
   }
   .column-outside-ip {
-    width: 120px;
+    p {
+      padding: 0;
+      margin: 0;
+      &:first-child {
+        margin-bottom: 8px;
+      }
+    }
+    width: 180px;
   }
   .column-outside-port {
     width: 100px;
@@ -446,7 +478,8 @@ export default {
         }
         flex-direction: row;
         flex-wrap: wrap;
-        padding: 20px 0;
+        padding: 0;
+        padding-bottom: 20px;
         position: relative;
         .column-local-ip,
         .column-local-port,
@@ -478,7 +511,7 @@ export default {
           position: absolute;
           text-align: right;
           right: 0;
-          top: 20px;
+          // top: 20px;
           display: flex;
           justify-content: flex-end;
         }
