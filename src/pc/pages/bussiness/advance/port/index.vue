@@ -4,18 +4,11 @@
       <span class="title"> {{$t('trans0422')}}</span>
       <div class="m-handle">
         <div class="m-check-box">
-          <m-checkbox
-            v-model="checkAll"
-            :onChange="change"
-          ></m-checkbox>
+          <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
-          <button
-            class="btn m-btn-default"
-            @click="mulDel"
-            :disabled="!hasChecked"
-          >{{$t('trans0453')}}</button>
+          <button class="btn m-btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
           <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
         </div>
       </div>
@@ -31,9 +24,9 @@
       <div class='table' v-if="(typeof empty =='boolean') && !empty">
         <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
           <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}}
-            <i> 
-              <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i> 
-            </div>
+            <i>
+              <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i>
+          </div>
           <div class="btn-wrap" :class="{open:mobileSelect}">
             <button class="btn" @click="add">{{$t('trans0035')}}</button>
             <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
@@ -167,8 +160,9 @@ export default {
       ids.forEach(v => {
         this.portfws = this.portfws.filter(item => item.id !== v);
       });
-      if (this.portfws.length === 0) {
+      if (this.rsvdips.length === 0) {
         this.empty = true;
+        this.mobileShowHead = false;
       }
     },
     mulDel() {

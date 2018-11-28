@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { VPNAction, VPNStatus } from "util/constant";
+import { VPNAction, VPNStatus } from 'util/constant';
 
 export default {
   data() {
@@ -62,15 +62,15 @@ export default {
     },
     getSpinnerText(vpn) {
       return vpn.status === VPNStatus.connecting
-        ? this.$t("trans0407")
-        : this.$t("trans0484");
+        ? this.$t('trans0407')
+        : this.$t('trans0484');
     },
     getColor(vpn) {
-      return vpn.status === VPNStatus.connecting ? "#00d061" : "#ff0001";
+      return vpn.status === VPNStatus.connecting ? '#00d061' : '#ff0001';
     },
     formatDuration(duration) {
       if (!duration) {
-        return "00:00:00";
+        return '00:00:00';
       }
       const total = Math.floor(duration / 1000);
       const hour = Math.floor(total / 3600);
@@ -79,7 +79,7 @@ export default {
 
       return (hour > 0 ? [hour, min, sec] : [min, sec])
         .map(x => `0${x}`.slice(-2))
-        .join(":");
+        .join(':');
     },
     start(v, vpn) {
       if (v) {
@@ -97,7 +97,7 @@ export default {
               if (timeout < 0) {
                 clearTimeout(this.timer);
                 this.connecting = false;
-                this.$toast(this.$t("trans0406"));
+                this.$toast(this.$t('trans0406'));
                 vpn.enabled = false;
                 vpn.status = VPNStatus.ready;
               } else if (timeout % 3 === 0) {
@@ -107,10 +107,10 @@ export default {
                     clearTimeout(this.timer);
                     this.connecting = false;
                     if (vpn.status === VPNStatus.connected) {
-                      this.$toast(this.$t("trans0040"), 3000, "success");
+                      this.$toast(this.$t('trans0040'), 3000, 'success');
                       vpn.enabled = true;
                     } else {
-                      this.$toast(this.$t("trans0406"));
+                      this.$toast(this.$t('trans0406'));
                       vpn.enabled = false;
                       vpn.status = VPNStatus.ready;
                     }
@@ -139,7 +139,7 @@ export default {
               if (timeout < 0) {
                 clearTimeout(this.timer);
                 this.connecting = false;
-                this.$toast(this.$t("trans0406"));
+                this.$toast(this.$t('trans0406'));
                 vpn.enabled = true;
                 vpn.status = VPNStatus.connected;
               } else if (timeout % 3 === 0) {
@@ -149,10 +149,10 @@ export default {
                     clearTimeout(this.timer);
                     this.connecting = false;
                     if (vpn.status === VPNStatus.disconnected) {
-                      this.$toast(this.$t("trans0040"), 3000, "success");
+                      this.$toast(this.$t('trans0040'), 3000, 'success');
                       vpn.enabled = false;
                     } else {
-                      this.$toast(this.$t("trans0077"));
+                      this.$toast(this.$t('trans0077'));
                       vpn.enabled = true;
                       vpn.status = VPNStatus.connected;
                     }
@@ -176,17 +176,17 @@ export default {
     },
     add() {
       if (this.vpns && this.vpns.length >= 5) {
-        this.$toast(this.$t("trans0060"));
+        this.$toast(this.$t('trans0060'));
         return;
       }
-      this.$router.push({ path: "/advance/vpn/form" });
+      this.$router.push({ path: '/advance/vpn/form' });
     },
     del(vpn) {
       if (!this.connecting) {
         this.$dialog.confirm({
-          okText: this.$t("trans0024"),
-          cancelText: this.$t("trans0025"),
-          message: this.$t("trans0376"),
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0376'),
           callback: {
             ok: () => {
               this.$http
@@ -195,7 +195,7 @@ export default {
                 })
                 .then(() => {
                   this.vpns = this.vpns.filter(v => v !== vpn);
-                  this.$toast(this.$t("trans0040"), 3000, "success");
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
                 });
             }
           }
@@ -209,8 +209,8 @@ export default {
           const info = result[0].data.result;
           const vpns = result[1].data.result;
           this.vpns = vpns.map(v => {
-            this.$set(v, "enabled", false);
-            this.$set(v, "status", VPNStatus.disconnected);
+            this.$set(v, 'enabled', false);
+            this.$set(v, 'status', VPNStatus.disconnected);
             if (
               info.status === VPNStatus.connected &&
               v.id === info.default_vpn
