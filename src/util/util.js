@@ -299,7 +299,7 @@ export const formatBandWidth = value => {
   }
   return {
     value: '-',
-    unit: 'M'
+    unit: 'bps'
   };
 };
 
