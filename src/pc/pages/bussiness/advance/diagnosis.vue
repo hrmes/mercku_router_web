@@ -19,7 +19,6 @@
         <pre>{{output}}</pre>
       </div>
     </div>
-
   </div>
 </template>
 <script>

@@ -33,7 +33,6 @@
 <script>
 import {
   ipReg,
-  getStringByte,
   privateIpReg,
   getIpBefore,
   getIpAfter
@@ -82,16 +81,6 @@ export default {
       },
       ipBefore: '',
       rules: {
-        name: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => getStringByte(value) <= 20,
-            message: this.$t('trans0261')
-          }
-        ],
         ip: [
           {
             rule: value => !/^\s*$/g.test(value),
