@@ -92,33 +92,13 @@ export default {
             status: VPNAction.connect
           })
           .then(() => {
-            let timeout = 60;
-            this.timer = setInterval(() => {
-              if (timeout < 0) {
-                clearTimeout(this.timer);
-                this.connecting = false;
-                this.$toast(this.$t('trans0406'));
-                vpn.enabled = false;
-                vpn.status = VPNStatus.ready;
-              } else if (timeout % 3 === 0) {
-                this.$http.getVPNInfo().then(res => {
-                  vpn.status = res.data.result.status;
-                  if (vpn.status !== VPNStatus.connecting) {
-                    clearTimeout(this.timer);
-                    this.connecting = false;
-                    if (vpn.status === VPNStatus.connected) {
-                      this.$toast(this.$t('trans0040'), 3000, 'success');
-                      vpn.enabled = true;
-                    } else {
-                      this.$toast(this.$t('trans0406'));
-                      vpn.enabled = false;
-                      vpn.status = VPNStatus.ready;
-                    }
-                  }
-                });
-              }
-              timeout -= 1;
-            }, 1000);
+            this.createIntervalTask(
+              vpn,
+              false,
+              VPNStatus.ready,
+              VPNStatus.connecting,
+              VPNStatus.connected
+            );
           })
           .catch(() => {
             vpn.enabled = false;
@@ -134,39 +114,49 @@ export default {
             status: VPNAction.disconnect
           })
           .then(() => {
-            let timeout = 60;
-            this.timer = setInterval(() => {
-              if (timeout < 0) {
-                clearTimeout(this.timer);
-                this.connecting = false;
-                this.$toast(this.$t('trans0406'));
-                vpn.enabled = true;
-                vpn.status = VPNStatus.connected;
-              } else if (timeout % 3 === 0) {
-                this.$http.getVPNInfo().then(res => {
-                  vpn.status = res.data.result.status;
-                  if (vpn.status !== VPNStatus.disconnecting) {
-                    clearTimeout(this.timer);
-                    this.connecting = false;
-                    if (vpn.status === VPNStatus.disconnected) {
-                      this.$toast(this.$t('trans0040'), 3000, 'success');
-                      vpn.enabled = false;
-                    } else {
-                      this.$toast(this.$t('trans0077'));
-                      vpn.enabled = true;
-                      vpn.status = VPNStatus.connected;
-                    }
-                  }
-                });
-              }
-              timeout -= 1;
-            }, 1000);
+            this.createIntervalTask(
+              vpn,
+              true,
+              VPNStatus.connected,
+              VPNStatus.disconnecting,
+              VPNStatus.disconnected
+            );
           })
           .catch(() => {
             vpn.enabled = true;
             vpn.status = VPNStatus.connected;
           });
       }
+    },
+    createIntervalTask(vpn, pEnabled, pStatus, checkStatus, eStatus) {
+      let timeout = 60;
+      this.connecting = true;
+      this.timer = setInterval(() => {
+        if (timeout < 0) {
+          clearTimeout(this.timer);
+          this.connecting = false;
+          this.$toast(this.$t('trans0406'));
+          vpn.enabled = pEnabled;
+          vpn.status = pStatus;
+        } else if (timeout % 5 === 0) {
+          this.$http.getVPNInfo().then(res => {
+            vpn.status = res.data.result.status;
+            if (vpn.status !== checkStatus) {
+              clearTimeout(this.timer);
+              this.connecting = false;
+              if (vpn.status === eStatus) {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                vpn.enabled = !pEnabled;
+              } else {
+                this.$toast(this.$t('trans0077'));
+                vpn.enabled = pEnabled;
+                vpn.status = pStatus;
+              }
+            }
+          });
+        }
+        timeout -= 1;
+      }, 1000);
     },
     edit(vpn) {
       if (!this.connecting && !vpn.enabled) {
@@ -211,13 +201,34 @@ export default {
           this.vpns = vpns.map(v => {
             this.$set(v, 'enabled', false);
             this.$set(v, 'status', VPNStatus.disconnected);
-            if (
-              info.status === VPNStatus.connected &&
-              v.id === info.default_vpn
-            ) {
-              v.enabled = true;
-              // v.duration = info.connected_time;
+
+            if (v.id === info.default_vpn) {
+              v.status = info.status;
+              if (info.status === VPNStatus.connected) {
+                v.enabled = true;
+              }
+              if (info.status === VPNStatus.connecting) {
+                this.createIntervalTask(
+                  v,
+                  false,
+                  VPNStatus.ready,
+                  VPNStatus.connecting,
+                  VPNStatus.connected
+                );
+              }
+
+              if (info.status === VPNStatus.disconnecting) {
+                v.enabled = true;
+                this.createIntervalTask(
+                  v,
+                  true,
+                  VPNStatus.connected,
+                  VPNStatus.disconnecting,
+                  VPNStatus.disconnected
+                );
+              }
             }
+
             return v;
           });
           this.$loading.close();

@@ -99,9 +99,8 @@ export default {
     position: relative;
     pre {
       margin: 0;
-      font-family: inherit;
       max-height: 600px;
-      //position: absolute;
+      font-family: monospace;
     }
   }
 }

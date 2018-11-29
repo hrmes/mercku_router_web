@@ -105,7 +105,7 @@ export default {
         this.form = {
           id: vpn.id,
           name: vpn.name,
-          protocol: vpn.protocol,
+          protocol: vpn.protocol.toLowerCase(),
           server: vpn.server,
           username: vpn.username,
           password: vpn.password

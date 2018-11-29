@@ -103,8 +103,8 @@ export default {
     padding: 10px;
     pre {
       margin: 0;
-      font-family: inherit;
       max-height: 600px;
+      font-family: monospace;
     }
   }
 }
