@@ -177,7 +177,7 @@ export default {
           advance.children.push({
             url: '/advance/tr069',
             name: 'advance-tr069',
-            text: 'trans0499'
+            text: 'trans0286'
           });
         } else {
           advance.children = advance.children.filter(a => !a.super);

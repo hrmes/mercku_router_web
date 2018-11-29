@@ -6,7 +6,7 @@
     <div class="page-content">
       <m-form class="form" :model="form" ref="form" :rules="rules">
         <m-form-item>
-          <m-select v-model="job_type" :label="$t('trans0068')" :options="jobs"></m-select>
+          <m-select v-model="job_type" :label="$t('trans0070')" :options="jobs"></m-select>
         </m-form-item>
         <m-form-item prop="host">
           <m-input v-model="form.host" :label="label" :placeholder="$t('trans0321')"></m-input>
