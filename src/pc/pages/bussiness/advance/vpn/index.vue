@@ -146,8 +146,11 @@ export default {
               this.connecting = false;
               if (vpn.status === eStatus) {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
-                if (pEnabled) {
-                  this.vpns.forEach(vv => (vv.enabled = false));
+                if (!pEnabled) {
+                  // 当前操作的拨通vpn,成功后需要把之前的连接好的断开
+                  this.vpns.forEach(vv => {
+                    vv.enabled = false;
+                  });
                 }
                 vpn.enabled = !pEnabled;
               } else {
