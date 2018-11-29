@@ -12,7 +12,11 @@
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
-          <div class="table-row" v-for="(row,index) in sortList" :key='index'>
+          <div
+            class="table-row"
+            v-for="(row,index) in sortList"
+            :key='index'
+          >
             <div class="column-date-stop">
               <span>{{row.time_begin}}</span>
               <span class="mobile-start">&nbsp;-&nbsp;</span>
@@ -22,7 +26,10 @@
             <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
             <div class="column-handle">
               <div class="check-wrap">
-                <m-switch :onChange="(v)=>changehandle(v,row)" v-model="row.enabled" />
+                <m-switch
+                  :onChange="(v)=>changehandle(v,row)"
+                  v-model="row.enabled"
+                />
               </div>
               <a @click="modalOpen('edit',row)">{{$t('trans0034')}}</a>
               <a @click="delRow(row)">{{$t('trans0033')}}</a>
@@ -30,11 +37,17 @@
           </div>
         </div>
         <div class="btn-warp">
-          <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
+          <button
+            class="btn"
+            @click="modalOpen('add')"
+          >{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
-    <div class="modal" v-if='modalShow'>
+    <div
+      class="modal"
+      v-if='modalShow'
+    >
       <div class="opcity"></div>
       <div class="modal-content">
         <div class="modal-form">
@@ -53,17 +66,35 @@
           <div class="item">
             <label for="">{{$t('trans0082')}}</label>
             <div class="date-wrap">
-              <div class='check-inner' v-for="(item,i) in schedules" :key='i'>
-                <m-checkbox v-model='item.checked' :text='item.label'></m-checkbox>
+              <div
+                class='check-inner'
+                v-for="(item,i) in schedules"
+                :key='i'
+              >
+                <m-checkbox
+                  v-model='item.checked'
+                  :text='item.label'
+                ></m-checkbox>
               </div>
             </div>
           </div>
         </div>
         <div class="message"><span v-show='msgShow'>{{$t('trans0388')}}</span></div>
         <div class="btn-info">
-          <button class="btn btn-default" @click="closeModal">{{$t('trans0025')}}</button>
-          <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
-          <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
+          <button
+            class="btn btn-default"
+            @click="closeModal"
+          >{{$t('trans0025')}}</button>
+          <button
+            v-if="modalStatus==='add'"
+            class="btn"
+            @click="submit"
+          >{{$t('trans0035')}}</button>
+          <button
+            v-if="modalStatus==='edit'"
+            class="btn"
+            @click="updateSubmit"
+          >{{$t('trans0081')}}</button>
         </div>
       </div>
     </div>
@@ -247,11 +278,15 @@ export default {
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.getList();
+          // this.getList();
         })
         .catch(() => {
-          this.getList();
+          // this.getList();
           this.$loading.close();
+          this.timeLimitList = this.timeLimitList.map(item => ({
+            ...item,
+            enabled: !row.enabled
+          }));
         });
     },
     delRow(row) {

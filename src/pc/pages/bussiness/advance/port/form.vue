@@ -4,47 +4,125 @@
       {{$t('trans0422')}}
     </div>
     <div class="page-content">
-      <m-form ref="form" class="form" :model="form" :rules='rules'>
+      <m-form
+        ref="form"
+        class="form"
+        :model="form"
+        :rules='rules'
+      >
         <div class="radio-wrap">
           <span> {{$t('trans0408')}}</span>
-          <m-radio-group class="radio-group" v-model="form.protocol" :options="protocolOptions"></m-radio-group>
+          <m-radio-group
+            class="radio-group"
+            v-model="form.protocol"
+            :options="protocolOptions"
+          ></m-radio-group>
         </div>
-        <m-form-item class="item" prop='name' ref="name">
-          <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
+        <m-form-item
+          class="item"
+          prop='name'
+          ref="name"
+        >
+          <m-input
+            :label="$t('trans0108')"
+            type="text"
+            :placeholder="$t('trans0321')"
+            v-model="form.name"
+          />
         </m-form-item>
-        <m-form-item class="item" prop='remoteIp' ref="remoteIp">
-          <m-input :label="`${$t('trans0425')}${$t('trans0411')}`" type="text" :placeholder="$t('trans0321')" v-model="form.remoteIp" />
+        <m-form-item
+          class="item"
+          prop='remoteIp'
+          ref="remoteIp"
+        >
+          <m-input
+            :label="`${$t('trans0425')} ${$t('trans0411')}`"
+            type="text"
+            :placeholder="$t('trans0321')"
+            v-model="form.remoteIp"
+          />
         </m-form-item>
         <div class="item">
           <label for="">{{$t('trans0426')}}</label>
           <div class="port-wrap">
-            <m-form-item class="ext-item" prop='remotePortFrom' ref="remotePortFrom">
-              <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortFrom" :onBlur="onRFChange" />
+            <m-form-item
+              class="ext-item"
+              prop='remotePortFrom'
+              ref="remotePortFrom"
+            >
+              <m-input
+                class="ext-input"
+                type="text"
+                :placeholder="$t('trans0321')"
+                v-model="form.remotePortFrom"
+                :onBlur="onRFChange"
+              />
             </m-form-item>
             <i></i>
-            <m-form-item class="ext-item" prop='remotePortTo' ref="remotePortTo">
-              <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.remotePortTo" :onBlur="onRTChange" />
+            <m-form-item
+              class="ext-item"
+              prop='remotePortTo'
+              ref="remotePortTo"
+            >
+              <m-input
+                class="ext-input"
+                type="text"
+                :placeholder="$t('trans0321')"
+                v-model="form.remotePortTo"
+                :onBlur="onRTChange"
+              />
             </m-form-item>
           </div>
         </div>
-        <m-form-item class="item" prop='localIp' ref="localIp">
-          <m-input :label="$t('trans0427')" type="text" :placeholder="$t('trans0321')" v-model="form.localIp" />
+        <m-form-item
+          class="item"
+          prop='localIp'
+          ref="localIp"
+        >
+          <m-input
+            :label="$t('trans0427')"
+            type="text"
+            :placeholder="$t('trans0321')"
+            v-model="form.localIp"
+          />
         </m-form-item>
         <div class="item">
           <label for="">{{$t('trans0428')}}</label>
           <div class="port-wrap">
-            <m-form-item class="ext-item" prop='localPortFrom' ref="localPortFrom">
-              <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortFrom" :onBlur="onLFChange" />
+            <m-form-item
+              class="ext-item"
+              prop='localPortFrom'
+              ref="localPortFrom"
+            >
+              <m-input
+                class="ext-input"
+                type="text"
+                :placeholder="$t('trans0321')"
+                v-model="form.localPortFrom"
+                :onBlur="onLFChange"
+              />
             </m-form-item>
             <i></i>
-            <m-form-item class="ext-item" prop='localPortTo' ref="localPortTo">
-              <m-input class="ext-input" type="text" :placeholder="$t('trans0321')" v-model="form.localPortTo" />
+            <m-form-item
+              class="ext-item"
+              prop='localPortTo'
+              ref="localPortTo"
+            >
+              <m-input
+                class="ext-input"
+                type="text"
+                :placeholder="$t('trans0321')"
+                v-model="form.localPortTo"
+              />
             </m-form-item>
           </div>
         </div>
       </m-form>
       <div class="btn-info form-button">
-        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+        <button
+          class="btn"
+          @click="submit()"
+        >{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
