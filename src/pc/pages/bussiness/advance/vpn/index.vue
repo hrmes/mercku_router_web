@@ -146,6 +146,9 @@ export default {
               this.connecting = false;
               if (vpn.status === eStatus) {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
+                if (pEnabled) {
+                  this.vpns.forEach(vv => (vv.enabled = false));
+                }
                 vpn.enabled = !pEnabled;
               } else {
                 this.$toast(this.$t('trans0077'));
