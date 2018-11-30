@@ -10,7 +10,7 @@
           <button v-if="enabled" class="btn btn-primary" @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
         <div class="log-container">
-          <pre :style="{'margin-bottom':marginBottom}">{{increase}}</pre>
+          <pre :class="{'not-empty':increase}">{{increase}}</pre>
           <pre>{{output}}</pre>
         </div>
       </div>
@@ -25,14 +25,6 @@ export default {
       output: '',
       increase: ''
     };
-  },
-  computed: {
-    marginBottom() {
-      if (this.increase) {
-        return '30px';
-      }
-      return 0;
-    }
   },
   mounted() {
     this.getSyslogEnabled();
@@ -146,6 +138,9 @@ export default {
       &:first-child{
         color: #333;
         font-weight: bold;
+        &.not-empty{
+          margin-bottom: 30px;
+        }
       }
     }
   }
