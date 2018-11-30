@@ -133,13 +133,13 @@ export default {
     max-height: 600px;
     pre {
       margin: 0;
-      font-family: consolas,monospace;
+      font-family: 'Courier New', Courier,monospace;
       color: #6E6E6E;
       &:first-child{
         color: #333;
         font-weight: bold;
         &.not-empty{
-          margin-bottom: 30px;
+         // margin-bottom: 30px;
         }
       }
     }
