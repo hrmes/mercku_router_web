@@ -138,20 +138,26 @@ export default {
           this.$toast(this.$t('trans0406'));
           vpn.enabled = pEnabled;
           vpn.status = pStatus;
+          if (!pEnabled) {
+            // 当前操作的拨通vpn,失败之前的VPN也被断开了
+            this.vpns.forEach(vv => {
+              vv.enabled = false;
+            });
+          }
         } else if (timeout % 5 === 0) {
           this.$http.getVPNInfo().then(res => {
             vpn.status = res.data.result.status;
             if (vpn.status !== checkStatus) {
               clearTimeout(this.timer);
               this.connecting = false;
+              if (!pEnabled) {
+                // 当前操作的拨通vpn,失败之前的VPN也被断开了
+                this.vpns.forEach(vv => {
+                  vv.enabled = false;
+                });
+              }
               if (vpn.status === eStatus) {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
-                if (!pEnabled) {
-                  // 当前操作的拨通vpn,成功后需要把之前的连接好的断开
-                  this.vpns.forEach(vv => {
-                    vv.enabled = false;
-                  });
-                }
                 vpn.enabled = !pEnabled;
               } else {
                 this.$toast(this.$t('trans0077'));
