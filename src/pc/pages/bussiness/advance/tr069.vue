@@ -1,33 +1,6 @@
 <template>
   <div>
-    <div class="page">
-      <div class="page-header">
-        {{$t('trans0497')}}
-      </div>
-      <div class="page-content">
-        <div class="form">
-          <m-switch :label="$t('trans0462')" v-model="telnet" :onChange="updateTelnet"></m-switch>
-        </div>
-      </div>
-    </div>
-    <div class="page">
-      <div class="page-header">
-        {{$t('trans0503')}}
-      </div>
-      <div class="page-content">
-        <m-form class="form" :model="tftp" :rules="tftpRules" ref="tftp">
-          <m-form-item>
-            <m-input :label="$t('trans0409')" v-model="tftp.server"></m-input>
-          </m-form-item>
-          <m-form-item>
-            <m-input :label="$t('trans0502')" v-model="tftp.filename"></m-input>
-          </m-form-item>
-        </m-form>
-        <div class="form-button">
-          <button class="btn btn-primary" @click="updateTFTP">{{$t('trans0081')}}</button>
-        </div>
-      </div>
-    </div>
+
     <div class="page">
       <div class="page-header">
         {{$t('trans0499')}}
@@ -72,7 +45,34 @@
         </m-form>
       </div>
     </div>
-
+    <div class="page">
+      <div class="page-header">
+        {{$t('trans0503')}}
+      </div>
+      <div class="page-content">
+        <m-form class="form" :model="tftp" :rules="tftpRules" ref="tftp">
+          <m-form-item>
+            <m-input :label="$t('trans0409')" v-model="tftp.server"></m-input>
+          </m-form-item>
+          <m-form-item>
+            <m-input :label="$t('trans0502')" v-model="tftp.filename"></m-input>
+          </m-form-item>
+        </m-form>
+        <div class="form-button">
+          <button class="btn btn-primary" @click="updateTFTP">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="page">
+      <div class="page-header">
+        {{$t('trans0497')}}
+      </div>
+      <div class="page-content">
+        <div class="form">
+          <m-switch :label="$t('trans0462')" v-model="telnet" :onChange="updateTelnet"></m-switch>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -199,13 +199,13 @@ export default {
     updateTFTP() {
       if (this.$refs.tftp.validate()) {
         this.$http
-        .updateTFTP(this.tftp)
-        .then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .catch(() => {
-          this.$toast(this.$t('trans0077'));
-        });
+          .updateTFTP(this.tftp)
+          .then(() => {
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+          })
+          .catch(() => {
+            this.$toast(this.$t('trans0077'));
+          });
       }
     }
   }
