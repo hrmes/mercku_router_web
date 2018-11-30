@@ -104,7 +104,7 @@ export default {
     pre {
       margin: 0;
       max-height: 600px;
-      font-family: monospace;
+      font-family: consolas,monospace;
     }
   }
 }

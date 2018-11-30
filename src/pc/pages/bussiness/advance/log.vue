@@ -10,6 +10,7 @@
           <button v-if="enabled" class="btn btn-primary" @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
         <div class="log-container">
+          <pre :style="{'margin-bottom':marginBottom}">{{increase}}</pre>
           <pre>{{output}}</pre>
         </div>
       </div>
@@ -21,8 +22,17 @@ export default {
   data() {
     return {
       enabled: false,
-      output: ''
+      output: '',
+      increase: ''
     };
+  },
+  computed: {
+    marginBottom() {
+      if (this.increase) {
+        return '30px';
+      }
+      return 0;
+    }
   },
   mounted() {
     this.getSyslogEnabled();
@@ -49,9 +59,40 @@ export default {
     getSyslog() {
       this.$http.getSyslogEnabled().then(() => {
         this.$http.getSysLog().then(res => {
-          this.output = res.data;
+          const pre = this.increase + this.output;
+          const now = res.data;
+          this.getIncremental(pre, now);
         });
       });
+    },
+    getIncremental(pre, now) {
+      const preArray = pre.split('\n').filter(p => p !== '');
+      const nowArray = now
+        .split('\n')
+        .reverse()
+        .filter(n => n !== '');
+      now = nowArray.join('\n');
+      if (!pre) {
+        this.output = '';
+        this.increase = nowArray.join('\n');
+        return;
+      }
+      // 全包含
+      if (now.includes(pre)) {
+        this.increase = now.replace(pre, '');
+        this.output = pre;
+      } else {
+        // 部分包含,首先找到包含的起始位置
+        const index = preArray.indexOf(nowArray[nowArray.length - 1]);
+        if (index === -1) {
+          this.output = pre;
+          this.increase = now;
+        } else {
+          this.output = pre;
+          nowArray.length -= index;
+          this.increase = nowArray.join('\n');
+        }
+      }
     },
     getSyslogEnabled() {
       this.$loading.open();
@@ -97,10 +138,15 @@ export default {
     overflow: auto;
     padding: 10px;
     position: relative;
+    max-height: 600px;
     pre {
       margin: 0;
-      max-height: 600px;
-      font-family: monospace;
+      font-family: consolas,monospace;
+      color: #6E6E6E;
+      &:first-child{
+        color: #333;
+        font-weight: bold;
+      }
     }
   }
 }
