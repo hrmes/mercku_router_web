@@ -117,7 +117,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => !/^\d*$/g.test(value),
+            rule: value => /^\d*$/g.test(value),
             message: this.$t('trans0500')
           },
           {
