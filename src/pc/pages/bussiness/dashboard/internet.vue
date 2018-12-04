@@ -46,16 +46,6 @@
             </div>
             <div class="speep-info real-wrap">
               <div class="extra">
-                <i class="f-up-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{peekUp.value}}</span>
-                    <span class='unit'> {{peekUp.unit}}/s</span>
-                  </p>
-                  <p class="note">{{$t('trans0306')}}</p>
-                </div>
-              </div>
-              <div class="extra">
                 <i class="f-down-icon"></i>
                 <div>
                   <p>
@@ -65,6 +55,17 @@
                   <p class="note">{{$t('trans0307')}}</p>
                 </div>
               </div>
+              <div class="extra">
+                <i class="f-up-icon"></i>
+                <div>
+                  <p>
+                    <span class="speed">{{peekUp.value}}</span>
+                    <span class='unit'> {{peekUp.unit}}/s</span>
+                  </p>
+                  <p class="note">{{$t('trans0306')}}</p>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
