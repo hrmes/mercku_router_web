@@ -89,7 +89,9 @@ const methods = {
   routerTr069Update: createMethod('router.tr069.update'),
   routerTFTPGet: createMethod('router.tftp.get'),
   routerTFTPUpdate: createMethod('router.tftp.update'),
-  meshNetworkReboot: createMethod('mesh.network.reboot')
+  meshNetworkReboot: createMethod('mesh.network.reboot'),
+  routerWWAGet: createMethod('router.wwa.get'),
+  routerWWAUpdate: createMethod('router.wwa.update')
 };
 
 class Http {
@@ -111,6 +113,12 @@ class Http {
     return axios({ url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
+  }
+  getWWA() {
+    return this.request(methods.routerWWAGet);
+  }
+  updateWWA(params) {
+    return this.request(methods.routerWWAUpdate, params);
   }
   getTFTP() {
     return this.request(methods.routerTFTPGet);

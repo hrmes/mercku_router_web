@@ -73,9 +73,29 @@
         </div>
       </div>
     </div>
+    <div class="page">
+      <div class="page-header">
+        Web Wan Access
+      </div>
+      <div class="page-content">
+        <m-form class="form" ref="wwa" :model="wwa" :rules="wwaRules">
+          <m-form-item prop="port">
+            <m-input :label="$t('trans0495')" v-model="wwa.port" :placeholder="$t('trans0321')"></m-input>
+          </m-form-item>
+          <div class="form-item">
+            <m-checkbox :text="$t('trans0462')" v-model="wwa.enabled"></m-checkbox>
+          </div>
+        </m-form>
+        <div class="form-button">
+          <button class="btn btn-primary" @click="updateWWA">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
+import { portReg } from 'util/util';
+
 export default {
   data() {
     return {
@@ -140,12 +160,32 @@ export default {
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => portReg.test(value),
+            message: this.$t('trans0478')
           }
         ],
         path: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
+          }
+        ]
+      },
+      wwa: {
+        port: '',
+        enabled: false
+      },
+      wwaRules: {
+        port: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => portReg.test(value),
+            message: this.$t('trans0478')
           }
         ]
       }
@@ -162,6 +202,9 @@ export default {
     });
     this.$http.getTFTP().then(res => {
       this.tftp = res.data.result;
+    });
+    this.$http.getWWA().then(res => {
+      this.wwa = res.data.result;
     });
   },
   methods: {
@@ -204,6 +247,21 @@ export default {
       if (this.$refs.tftp.validate()) {
         this.$http
           .updateTFTP(this.tftp)
+          .then(() => {
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+          })
+          .catch(() => {
+            this.$toast(this.$t('trans0077'));
+          });
+      }
+    },
+    updateWWA() {
+      if (this.$refs.wwa.validate()) {
+        this.$http
+          .updateWWA({
+            ...this.wwa,
+            port: Number(this.wwa.port)
+          })
           .then(() => {
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
