@@ -195,8 +195,7 @@ export default {
         .catch(err => {
           uploader.status = UploadStatus.fail;
           this.uploadStatus = UploadStatus.fail;
-          debugger;
-          if (err && err.response) {
+          if (err.response && err.response.data && err.response.data.error) {
             uploader.err = this.$t(err.response.data.error.code);
           }
         });
