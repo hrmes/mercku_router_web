@@ -8,7 +8,7 @@
       <div class="page-content">
         <m-form ref="remote" class="form" :model="remote" :rules="remoateRules">
           <div class="title">{{$t('trans0491')}}</div>
-          <m-form-item>
+          <m-form-item prop="url">
             <m-input :label="`${$t('trans0498')}`" v-model="remote.url" :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
           <m-form-item prop="username">
@@ -51,10 +51,10 @@
       </div>
       <div class="page-content">
         <m-form class="form" :model="tftp" :rules="tftpRules" ref="tftp">
-          <m-form-item>
+          <m-form-item prop="server">
             <m-input :label="$t('trans0409')" v-model="tftp.server" :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
-          <m-form-item>
+          <m-form-item prop="filename">
             <m-input :label="$t('trans0502')" v-model="tftp.filename" :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
         </m-form>
@@ -103,7 +103,20 @@ export default {
         server: '',
         filename: ''
       },
-      tftpRules: {},
+      tftpRules: {
+        server: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          }
+        ],
+        filename: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          }
+        ]
+      },
       enabled: true,
       remote: {
         username: '',
@@ -119,21 +132,27 @@ export default {
       },
       telnet: false,
       remoateRules: {
+        url: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          }
+        ],
         username: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => value,
             message: this.$t('trans0232')
           }
         ],
         password: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => value,
             message: this.$t('trans0232')
           }
         ],
         interval: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => value,
             message: this.$t('trans0232')
           },
           {
@@ -158,7 +177,7 @@ export default {
       localRules: {
         port: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => value,
             message: this.$t('trans0232')
           },
           {
@@ -168,7 +187,7 @@ export default {
         ],
         path: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => value,
             message: this.$t('trans0232')
           }
         ]
@@ -180,7 +199,7 @@ export default {
       wwaRules: {
         port: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => value,
             message: this.$t('trans0232')
           },
           {

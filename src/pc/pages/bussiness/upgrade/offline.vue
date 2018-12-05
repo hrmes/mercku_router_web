@@ -192,9 +192,13 @@ export default {
           this.localNodes = nodes;
           this.packageInfo = res.data.result.fw_info;
         })
-        .catch(() => {
+        .catch(err => {
           uploader.status = UploadStatus.fail;
           this.uploadStatus = UploadStatus.fail;
+          debugger;
+          if (err && err.response) {
+            uploader.err = this.$t(err.response.data.error.code);
+          }
         });
     },
     upgrade() {
