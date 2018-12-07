@@ -343,7 +343,7 @@
   "trans0342": "Version code",
   "trans0343": "Offline upgrade is only supported on PC",
   "trans0344": "Application downloaded. Proceed to install?",
-  "trans0345": "Unknown error, please check if the router is working properly.",
+  "trans0345": "Unknown error, please check if the network is properly.",
   "trans0346": "Download the latest firmware",
   "trans0347": "You have rejected granting location permission to Mercku. Please authorize in Settings",
   "trans0348": "Confirm the firmware can be used in the listed routers, then click \"Upgrade\"",
@@ -508,5 +508,6 @@
   "trans0507": "Failed to delete the VPN in use",
   "trans0509": "VPN connection failed, account or password error",
   "trans0510": "Failed to edit the VPN in use",
-  "trans0511": "Web WAN Acess"
+  "trans0511": "Web WAN Acess",
+  "trans0512": "Please upgrade the router firmware to its latest version"
 }
