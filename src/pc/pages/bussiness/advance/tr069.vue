@@ -1,26 +1,40 @@
 <template>
   <div>
-
     <div class="page">
-      <div class="page-header">
-        {{$t('trans0499')}}
-      </div>
+      <div class="page-header">{{$t('trans0499')}}</div>
       <div class="page-content">
         <m-form ref="remote" class="form" :model="remote" :rules="remoateRules">
           <div class="title">{{$t('trans0491')}}</div>
           <m-form-item prop="url">
-            <m-input :label="`${$t('trans0498')}`" v-model="remote.url" :placeholder="$t('trans0321')"></m-input>
+            <m-input
+              :label="`${$t('trans0498')}`"
+              v-model="remote.url"
+              :placeholder="$t('trans0321')"
+            ></m-input>
           </m-form-item>
           <m-form-item prop="username">
-            <m-input :label="$t('trans0410')" v-model="remote.username" :placeholder="$t('trans0321')"></m-input>
+            <m-input
+              :label="$t('trans0410')"
+              v-model="remote.username"
+              :placeholder="$t('trans0321')"
+            ></m-input>
           </m-form-item>
           <m-form-item prop="password">
-            <m-input :label="$t('trans0003')" v-model="remote.password" :placeholder="$t('trans0321')"></m-input>
+            <m-input
+              :label="$t('trans0003')"
+              type="password"
+              :visiblePwdIcon="true"
+              v-model="remote.password"
+              :placeholder="$t('trans0321')"
+            ></m-input>
           </m-form-item>
           <m-form-item prop="interval">
-            <m-input :label="$t('trans0490')" v-model="remote.interval" :placeholder="$t('trans0321')"></m-input>
+            <m-input
+              :label="$t('trans0490')"
+              v-model="remote.interval"
+              :placeholder="$t('trans0321')"
+            ></m-input>
           </m-form-item>
-
         </m-form>
         <m-form ref="local" class="form" :model="local" :rules="localRules">
           <div class="title">{{$t('trans0493')}}</div>
@@ -31,10 +45,20 @@
             <m-input :label="$t('trans0495')" v-model="local.port" :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="`${$t('trans0410')}${$t('trans0411')}`" v-model="local.username" :placeholder="$t('trans0321')"></m-input>
+            <m-input
+              :label="`${$t('trans0410')}${$t('trans0411')}`"
+              v-model="local.username"
+              :placeholder="$t('trans0321')"
+            ></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="`${$t('trans0003')}${$t('trans0411')}`" v-model="local.password" :placeholder="$t('trans0321')"></m-input>
+            <m-input
+              :label="`${$t('trans0003')}${$t('trans0411')}`"
+              type="password"
+              :visiblePwdIcon="true"
+              v-model="local.password"
+              :placeholder="$t('trans0321')"
+            ></m-input>
           </m-form-item>
           <div class="form-item">
             <m-checkbox :text="$t('trans0462')" v-model="enabled"></m-checkbox>
@@ -46,16 +70,18 @@
       </div>
     </div>
     <div class="page">
-      <div class="page-header">
-        {{$t('trans0503')}}
-      </div>
+      <div class="page-header">{{$t('trans0503')}}</div>
       <div class="page-content">
         <m-form class="form" :model="tftp" :rules="tftpRules" ref="tftp">
           <m-form-item prop="server">
             <m-input :label="$t('trans0409')" v-model="tftp.server" :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
           <m-form-item prop="filename">
-            <m-input :label="$t('trans0502')" v-model="tftp.filename" :placeholder="$t('trans0321')"></m-input>
+            <m-input
+              :label="$t('trans0502')"
+              v-model="tftp.filename"
+              :placeholder="$t('trans0321')"
+            ></m-input>
           </m-form-item>
         </m-form>
         <div class="form-button">
@@ -64,9 +90,7 @@
       </div>
     </div>
     <div class="page">
-      <div class="page-header">
-        {{$t('trans0497')}}
-      </div>
+      <div class="page-header">{{$t('trans0497')}}</div>
       <div class="page-content">
         <div class="form">
           <m-switch :label="$t('trans0462')" v-model="telnet" :onChange="updateTelnet"></m-switch>
@@ -74,9 +98,7 @@
       </div>
     </div>
     <div class="page">
-      <div class="page-header">
-        {{$t('trans0511')}}
-      </div>
+      <div class="page-header">{{$t('trans0511')}}</div>
       <div class="page-content">
         <m-form class="form" ref="wwa" :model="wwa" :rules="wwaRules">
           <m-form-item prop="port">
@@ -217,6 +239,9 @@ export default {
     this.$http.getTr069().then(res => {
       this.remote = res.data.result.remote;
       this.local = res.data.result.local;
+      if (this.local.password === '') {
+        this.local.password = '      ';
+      }
       this.enabled = res.data.result.enabled;
     });
     this.$http.getTFTP().then(res => {
@@ -237,7 +262,8 @@ export default {
             },
             local: {
               ...this.local,
-              port: Number(this.local.port)
+              port: Number(this.local.port),
+              password: this.local.password.replace(/\s+/, '')
             },
             enabled: this.enabled
           })

@@ -1,18 +1,27 @@
 <template>
   <div class="input-container" :class="{'disabled':disabled}">
-    <label for="" v-if="label">
+    <label for v-if="label">
       <span>{{label}}</span>
     </label>
     <div class="inputarea">
       <div class="input-wrapper">
         <div class="extra" v-if="addOnBefore">{{addOnBefore}}</div>
-        <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" :type="inputType" :class="{'has-icon':isPwdInput,margin:addOnBefore}" />
+        <input
+          autocomplete="new-password"
+          @focus="focus"
+          @blur="blur"
+          :disabled="disabled"
+          v-model="inputValue"
+          :placeholder="placeholder"
+          @input="onInput"
+          :type="inputType"
+          :class="{'has-icon':isPwdInput,margin:addOnBefore}"
+        >
       </div>
-      <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
+      <div class="icon-container" v-if="isPwdInput&&!visiblePwdIcon" @click="changePwdStatus()">
         <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -22,6 +31,10 @@ export default {
     type: {
       type: String,
       default: 'text'
+    },
+    visiblePwdIcon: {
+      type: Boolean,
+      default: false
     },
     value: {},
     placeholder: {
