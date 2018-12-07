@@ -239,9 +239,6 @@ export default {
     this.$http.getTr069().then(res => {
       this.remote = res.data.result.remote;
       this.local = res.data.result.local;
-      if (this.local.password === '') {
-        this.local.password = '      ';
-      }
       this.enabled = res.data.result.enabled;
     });
     this.$http.getTFTP().then(res => {
@@ -262,8 +259,7 @@ export default {
             },
             local: {
               ...this.local,
-              port: Number(this.local.port),
-              password: this.local.password.replace(/\s+/, '')
+              port: Number(this.local.port)
             },
             enabled: this.enabled
           })
