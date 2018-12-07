@@ -50,7 +50,7 @@
               class="btn"
               @click="()=>$router.push('/advance/rsvdip/form')"
             >{{$t('trans0035')}}</button>
-            <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button>
+            <!-- <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button> -->
             <button
               class="btn m-btn"
               @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}"
