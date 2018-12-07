@@ -75,7 +75,7 @@
     </div>
     <div class="page">
       <div class="page-header">
-        Web Wan Access
+        {{$t('trans0511')}}
       </div>
       <div class="page-content">
         <m-form class="form" ref="wwa" :model="wwa" :rules="wwaRules">
