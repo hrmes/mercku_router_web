@@ -353,7 +353,7 @@ export default {
           width: 120px;
         }
         i {
-          width: 30px;
+          width: 50px;
           height: 1px;
           background: #999999;
         }
