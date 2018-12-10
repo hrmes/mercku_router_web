@@ -142,7 +142,7 @@ export default {
         cursor: not-allowed;
       }
       &.has-icon {
-        padding-right: 30px;
+        padding-right: 50px;
       }
       font-size: 14px;
       padding: 10px;
