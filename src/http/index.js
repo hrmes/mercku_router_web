@@ -103,14 +103,14 @@ class Http {
   setExHandler(fn) {
     this.exHandler = fn;
   }
-  request(config, params) {
+  request(config, params, axiosCfg = {}) {
     const data = {
       method: config.action
     };
     if (params) {
       data.params = params;
     }
-    return axios({ url: config.url, method: 'post', data }).catch(
+    return axios({ ...axiosCfg, url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
   }
@@ -172,7 +172,9 @@ class Http {
     return this.request(methods.meshSyslogEnabledUpdate, params);
   }
   diagnosis(params) {
-    return this.request(methods.meshDiagnosisExecute, params);
+    return this.request(methods.meshDiagnosisExecute, params, {
+      timeout: 90000
+    });
   }
   getWanMac() {
     return this.request(methods.meshInfoWanMacGet);
