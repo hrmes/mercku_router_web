@@ -6,7 +6,17 @@
     <div class="inputarea">
       <div class="input-wrapper">
         <div class="extra" v-if="addonBefore">{{addonBefore}}</div>
-        <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" :type="inputType" :class="{'has-icon':isPwdInput,margin:addonBefore}">
+        <input
+          autocomplete="new-password"
+          @focus="focus"
+          @blur="blur"
+          :disabled="disabled"
+          v-model="inputValue"
+          :placeholder="placeholder"
+          @input="onInput"
+          :type="inputType"
+          :class="{'has-icon':isPwdInput,margin:addonBefore}"
+        >
       </div>
       <div class="icon-container" v-if="isPwdInput&&!hidePwdIcon" @click="changePwdStatus()">
         <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
@@ -125,7 +135,6 @@ export default {
       padding-right: 0;
     }
     input {
-      flex: 1;
       height: 46px;
       width: 100%;
       outline: 0;
@@ -142,7 +151,7 @@ export default {
         cursor: not-allowed;
       }
       &.has-icon {
-        padding-right: 30px;
+        padding-right: 50px;
       }
       font-size: 14px;
       padding: 10px;
