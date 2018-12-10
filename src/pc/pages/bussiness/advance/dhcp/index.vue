@@ -10,11 +10,11 @@
           <label for="">{{$t('trans0483')}}</label>
           <div>
             <m-form-item class="ext-item" prop='ip_start' ref='ip_start'>
-              <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" :onBlur='ipStartChange' />
+              <m-input class="ext-input" :addonBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" :onBlur='ipStartChange' />
 
             </m-form-item>
             <m-form-item class="ext-item" prop='ip_end' ref='ip_end'>
-              <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
+              <m-input class="ext-input" :addonBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
             </m-form-item>
           </div>
         </div>
@@ -227,14 +227,14 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  .form{
-    .tip{
-      color:red;
+  .form {
+    .tip {
+      color: red;
       width: 350px;
       display: block;
     }
-    .item{
-      label{
+    .item {
+      label {
         margin-bottom: 5px;
         display: block;
       }
@@ -254,11 +254,11 @@ export default {
     top: 20px;
   }
 }
-@media screen and (max-width: 768px){
-  .page-content{
-    .form{
-      .tip{
-        width:100%;
+@media screen and (max-width: 768px) {
+  .page-content {
+    .form {
+      .tip {
+        width: 100%;
       }
     }
   }
