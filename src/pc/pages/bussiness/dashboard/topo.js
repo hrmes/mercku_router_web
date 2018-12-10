@@ -182,7 +182,8 @@ function genNodes(gateway, green, red) {
       labelPosition = Positions.top;
     }
     const n = {
-      name: [node.name, node.sn].join(':'), // 避免节点同名echarts报错不能绘图
+      name: `${node.sn}${node.name}`, // 避免节点同名echarts报错不能绘图
+      originName: node.name, // 用于节点的label显示
       sn: node.sn,
       ...pos[currentIndex],
       itemStyle: {
@@ -220,8 +221,8 @@ function genNodes(gateway, green, red) {
 function genLines(gateway, green, red) {
   function genLine(source, target, color) {
     return {
-      source: [source.name, source.sn].join(':'),
-      target: [target.name, target.sn].join(':'),
+      source: `${source.sn}${source.name}`,
+      target: `${target.sn}${target.name}`,
       lineStyle: {
         color
       }
