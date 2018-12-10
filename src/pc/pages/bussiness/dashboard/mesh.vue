@@ -404,8 +404,8 @@ export default {
                 color: '#333',
                 backgroundColor: '#fff',
                 formatter(category) {
-                  // 处理手动加上的sn,label不显示sn
-                  const name = category.name.replace(/:.*/, '');
+                  // originName是节点的原始名称
+                  const name = category.data.originName;
                   if (category.data.angle > 0) {
                     return `${name.match(/.{1,13}/g).join('\n')}`;
                   }
