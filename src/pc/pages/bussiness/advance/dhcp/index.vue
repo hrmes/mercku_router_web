@@ -4,13 +4,14 @@
     <div class="page-content">
       <m-form class="form" ref="form" :model="form" :rules='rules'>
         <m-form-item class="item" prop='ip'>
-          <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="$t('trans0440')" v-model="form.ip" />
+          <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="`${$t('trans0440')} ${curIp}`" v-model="form.ip" />
         </m-form-item>
         <div class="item">
           <label for="">{{$t('trans0483')}}</label>
           <div>
             <m-form-item class="ext-item" prop='ip_start' ref='ip_start'>
               <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" :onBlur='ipStartChange' />
+
             </m-form-item>
             <m-form-item class="ext-item" prop='ip_end' ref='ip_end'>
               <m-input class="ext-input" :addOnBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
@@ -20,8 +21,9 @@
         <m-form-item class="item" prop='lease'>
           <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
         </m-form-item>
-        <!-- <p v-if="note">{{$t('trans0476')}}</p> -->
+        <label class="tip" v-if="lanipChanged">{{$t('trans0476')}}</label>
       </m-form>
+
       <div class="btn-info form-button">
         <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
       </div>
@@ -31,7 +33,6 @@
 <script>
 import {
   ipReg,
-  getStringByte,
   privateIpReg,
   getIpBefore,
   getIpAfter
@@ -40,9 +41,11 @@ import {
 export default {
   data() {
     return {
+      lanipChanged: false,
       privateIpReg,
       getIpBefore,
       getIpAfter,
+      curIp: '',
       leases: [
         {
           value: 1 * 60 * 60,
@@ -78,16 +81,6 @@ export default {
       },
       ipBefore: '',
       rules: {
-        name: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => getStringByte(value) <= 20,
-            message: this.$t('trans0261')
-          }
-        ],
         ip: [
           {
             rule: value => !/^\s*$/g.test(value),
@@ -170,6 +163,9 @@ export default {
       if (ipReg.test(v) && this.privateIpReg(v)) {
         this.ipBefore = this.getIpBefore(v);
       }
+      if (v !== this.curIp) {
+        this.lanipChanged = true;
+      }
     },
     getLanInfo() {
       this.$loading.open();
@@ -179,6 +175,7 @@ export default {
           this.$loading.close();
           this.lanInfo = res.data.result;
           this.ipBefore = this.getIpBefore(this.lanInfo.netinfo.ip);
+          this.curIp = this.lanInfo.netinfo.ip;
           this.form = {
             ip: this.lanInfo.netinfo.ip,
             ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
@@ -205,6 +202,7 @@ export default {
                   this.$loading.close();
                   this.$toast(this.$t('trans0040'), 3000, 'success');
                   this.$reconnect({
+                    timeout: 20,
                     onsuccess: () => {
                       this.$router.push({ path: '/dashboard' });
                     },
@@ -229,6 +227,19 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  .form{
+    .tip{
+      color:red;
+      width: 350px;
+      display: block;
+    }
+    .item{
+      label{
+        margin-bottom: 5px;
+        display: block;
+      }
+    }
+  }
 }
 .ext-item {
   position: relative;
@@ -241,6 +252,15 @@ export default {
     width: 120px;
     position: absolute;
     top: 20px;
+  }
+}
+@media screen and (max-width: 768px){
+  .page-content{
+    .form{
+      .tip{
+        width:100%;
+      }
+    }
   }
 }
 </style>

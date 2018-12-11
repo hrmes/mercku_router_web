@@ -59,8 +59,7 @@ export default {
     width: 46px;
     height: 22px;
     position: relative;
-    background-color: #858585;
-    box-shadow: #a1a0a0 0 0 0 0 inset;
+    background-color: #b6b6b6;
     border-radius: 22px;
     background-clip: content-box;
     display: inline-block;
@@ -81,12 +80,10 @@ export default {
     left: 3px;
     border-radius: 16px;
     background-color: #fff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 
   .switch.checked {
     border-color: #00d061;
-    box-shadow: #00d061 0 0 0 16px inset;
     background-color: #00d061;
   }
 
@@ -95,14 +92,12 @@ export default {
   }
   .switch.switch-animation {
     transition: border cubic-bezier(0, 0, 0, 1) 0.4s,
-      box-shadow cubic-bezier(0, 0, 0, 1) 0.4s;
   }
   .switch.switch-animation:before {
     transition: left 0.3s;
   }
 
   .switch.switch-animation.checked {
-    box-shadow: #00d061 0 0 0 16px inset;
     background-color: #00d061;
     transition: border ease 0.4s, box-shadow ease 0.4s,
       background-color ease 1.2s;

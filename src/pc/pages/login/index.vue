@@ -220,17 +220,17 @@ export default {
       width: 80%;
       flex: 1;
       margin: 0 auto;
-      min-height: initial;
+      justify-content: center;
       .welcome-text {
         font-size: 24px;
         margin-top: 25px;
         margin-bottom: 35px;
       }
+      .download {
+        display: none;
+      }
     }
 
-    .download {
-      display: none;
-    }
     .bottom-image {
       width: 80%;
       margin-top: 30px;
@@ -246,23 +246,22 @@ export default {
 }
 @media screen and (width: 320px) {
   .login-container {
-    .bg {
-      .small-device-download {
-        .down-text {
-          width: 80px;
-          margin-top: 5px;
-          > div:last-child {
-            display: none;
-          }
-        }
-        .down-button-container {
-          padding-top: 5px;
+    .small-device-download {
+      .down-text {
+        width: 80px;
+        margin-top: 5px;
+        > div:last-child {
+          display: none;
         }
       }
+      .down-button-container {
+        padding-top: 5px;
+      }
     }
-
-    .download {
-      display: none;
+    .center-form {
+      .download {
+        display: none;
+      }
     }
   }
 }

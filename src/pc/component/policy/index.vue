@@ -39,8 +39,12 @@ export default {
       document.body.style.overflow = 'auto';
     },
     showPolicy() {
-      this.setOverflow();
-      this.show = true;
+      if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+        window.open('https://www.ciktel.com/');
+      } else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+        this.setOverflow();
+        this.show = true;
+      }
     },
     close() {
       this.restoryOverflow();

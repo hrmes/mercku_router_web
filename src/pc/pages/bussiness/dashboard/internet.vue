@@ -46,16 +46,6 @@
             </div>
             <div class="speep-info real-wrap">
               <div class="extra">
-                <i class="f-up-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{peekUp.value}}</span>
-                    <span class='unit'> {{peekUp.unit}}/s</span>
-                  </p>
-                  <p class="note">{{$t('trans0306')}}</p>
-                </div>
-              </div>
-              <div class="extra">
                 <i class="f-down-icon"></i>
                 <div>
                   <p>
@@ -65,6 +55,17 @@
                   <p class="note">{{$t('trans0307')}}</p>
                 </div>
               </div>
+              <div class="extra">
+                <i class="f-up-icon"></i>
+                <div>
+                  <p>
+                    <span class="speed">{{peekUp.value}}</span>
+                    <span class='unit'> {{peekUp.unit}}/s</span>
+                  </p>
+                  <p class="note">{{$t('trans0306')}}</p>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -96,12 +97,7 @@
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <div>
-                <span class="bandwidth">{{bandwidth.value}}<span style="font-weight:normal;font-size:14px;">{{bandwidth.unit}}</span> </span>
-              </div>
-              <div>
-                <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
-              </div>
+              <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
             </div>
           </div>
         </div>
@@ -614,7 +610,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 50px 0 70px;
     position: relative;
     &:before {
       content: '';
@@ -628,7 +624,6 @@ export default {
     .btn {
       width: 100px;
       height: 38px;
-      margin-left: 30px;
     }
   }
   .speed-model-info {
@@ -986,16 +981,6 @@ export default {
         justify-content: flex-start;
         &::before {
           display: none;
-        }
-        .btn-speed-test {
-          margin-left: 0;
-        }
-        > div {
-          flex: 1;
-          text-align: left;
-          .bandwidth {
-            padding-left: 25px;
-          }
         }
       }
       .traffic-container {

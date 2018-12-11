@@ -27,12 +27,5 @@ module.exports = {
     'no-bitwise': 0,
     'no-restricted-properties': 0,
     'class-methods-use-this': 0
-  },
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: './build/webpack.base.conf.js'
-      }
-    }
   }
 };

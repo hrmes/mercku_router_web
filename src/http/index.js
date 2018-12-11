@@ -86,7 +86,12 @@ const methods = {
   routerTelnetEnabledUpdate: createMethod('router.telnet.enabled.update'),
   routerTelnetEnabledGet: createMethod('router.telnet.enabled.get'),
   routerTr069Get: createMethod('router.tr069.get'),
-  routerTr069Update: createMethod('router.tr069.update')
+  routerTr069Update: createMethod('router.tr069.update'),
+  routerTFTPGet: createMethod('router.tftp.get'),
+  routerTFTPUpdate: createMethod('router.tftp.update'),
+  meshNetworkReboot: createMethod('mesh.network.reboot'),
+  routerWWAGet: createMethod('router.wwa.get'),
+  routerWWAUpdate: createMethod('router.wwa.update')
 };
 
 class Http {
@@ -108,6 +113,18 @@ class Http {
     return axios({ url: config.url, method: 'post', data }).catch(
       this.exHandler
     );
+  }
+  getWWA() {
+    return this.request(methods.routerWWAGet);
+  }
+  updateWWA(params) {
+    return this.request(methods.routerWWAUpdate, params);
+  }
+  getTFTP() {
+    return this.request(methods.routerTFTPGet);
+  }
+  updateTFTP(params) {
+    return this.request(methods.routerTFTPUpdate, params);
   }
   getTelnetEnabled() {
     return this.request(methods.routerTelnetEnabledGet);
@@ -316,6 +333,9 @@ class Http {
   }
   reboot(nodeIds) {
     return this.request(methods.meshNodeReboot, nodeIds);
+  }
+  meshNetworkReboot() {
+    return this.request(methods.meshNetworkReboot);
   }
   getMeshMeta() {
     return this.request(methods.meshMetaGet);

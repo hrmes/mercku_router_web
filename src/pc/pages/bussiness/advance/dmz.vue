@@ -9,7 +9,7 @@
           <m-input :label="$t('trans0457')" :placeholder="`${$t('trans0321')}`" v-model="dmz.ip"></m-input>
         </m-form-item>
         <div class="checkbox-wrapper">
-          <m-checkbox v-model="dmz.enabled" :text="$t('trans0369')"></m-checkbox>
+          <m-checkbox v-model="dmz.enabled" :text="$t('trans0462')"></m-checkbox>
         </div>
 
       </m-form>

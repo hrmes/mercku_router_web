@@ -1,10 +1,9 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0422')}}
+      {{$t('trans0422')}}
     </div>
     <div class="page-content">
-
       <m-form ref="form" class="form" :model="form" :rules='rules'>
         <div class="radio-wrap">
           <span> {{$t('trans0408')}}</span>
@@ -14,7 +13,7 @@
           <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
         </m-form-item>
         <m-form-item class="item" prop='remoteIp' ref="remoteIp">
-          <m-input :label="`${$t('trans0425')}${$t('trans0411')}`" type="text" :placeholder="$t('trans0321')" v-model="form.remoteIp" />
+          <m-input :label="`${$t('trans0425')} ${$t('trans0411')}`" type="text" :placeholder="$t('trans0492')" v-model="form.remoteIp" />
         </m-form-item>
         <div class="item">
           <label for="">{{$t('trans0426')}}</label>
@@ -298,38 +297,41 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.btn-info {
-  margin-top: 60px;
-}
-.form {
-  .ext-item {
-    margin-bottom: 0;
-    width: auto;
+.page-content {
+  .btn-info {
+    margin-top: 60px;
   }
-  .item {
-    margin-top: 30px;
-    .port-wrap {
+  .form {
+    .ext-item {
+      margin-bottom: 0;
+      width: auto;
+    }
+    .item {
+      margin-top: 30px;
+      .port-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+        .ext-input {
+          width: 140px;
+        }
+        i {
+          width: 30px;
+          height: 1px;
+          background: #999999;
+        }
+      }
+    }
+    .radio-wrap {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      .ext-input {
-        width: 140px;
-      }
-      i {
-        width: 30px;
-        height: 1px;
-        background: #999999;
+      span {
+        padding-right: 20px;
       }
     }
-  }
-  .radio-wrap {
-    display: flex;
-    span {
-      padding-right: 20px;
+    .radio-group {
+      // min-width: 300px;
     }
-  }
-  .radio-group {
-    // min-width: 300px;
   }
 }
 @media screen and (max-width: 768px) {
@@ -352,7 +354,7 @@ export default {
         justify-content: space-between;
         align-items: center;
         .ext-input {
-          width: auto;
+          width: auto !important;
         }
         i {
           width: 30px;

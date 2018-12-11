@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-header">
-      {{$t('trans0188')}}
+      {{$t('trans0458')}}
     </div>
     <div class="page-content">
       <div class="form">
@@ -15,9 +15,9 @@
           <div @click="setSelected(false)" class="radio" :class="{'selected':!isDefault}">
             {{$t('trans0460')}}
           </div>
-          <m-form ref="form" :model="mac" :rules="rules">
+          <m-form ref="form" :model="mac" :rules="rules" v-show="!isDefault">
             <m-form-item prop="current" ref="current">
-              <m-input class="input" @input="format" v-show="!isDefault" v-model="mac.current" :placeholder="$t('trans0321')"></m-input>
+              <m-input class="input" @input="format" v-model="mac.current" :placeholder="$t('trans0321')"></m-input>
             </m-form-item>
           </m-form>
         </div>
@@ -82,30 +82,43 @@ export default {
         });
     },
     updateMac() {
-      this.$loading.open();
-      let mac;
-      if (this.isDefault) {
-        mac = this.removeColonOfMac(this.mac.default);
-      } else {
-        mac = this.removeColonOfMac(this.mac.current);
+      if (!this.isDefault && !this.$refs.form.validate()) {
+        return;
       }
-      this.$http
-        .updateWanMac({ mac })
-        .then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.$loading.close();
-          this.$reconnect({
-            onsuccess: () => {
-              this.$router.push({ path: '/advance/mac' });
-            },
-            ontimeout: () => {
-              this.$router.push({ path: '/unconnect' });
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0473'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            let mac;
+            if (this.isDefault) {
+              mac = this.removeColonOfMac(this.mac.default);
+            } else {
+              mac = this.removeColonOfMac(this.mac.current);
             }
-          });
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+            this.$http
+              .updateWanMac({ mac })
+              .then(() => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$loading.close();
+                this.$reconnect({
+                  timeout: 20,
+                  onsuccess: () => {
+                    this.$router.push({ path: '/advance/mac' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
+              })
+              .catch(() => {
+                this.$loading.close();
+              });
+          }
+        }
+      });
     }
   }
 };
@@ -142,6 +155,8 @@ export default {
         display: block;
         position: absolute;
         left: 5px;
+        top:50%;
+        transform: translateY(-50%);
         width: 6px;
         height: 6px;
         background: #d6001c;
@@ -152,6 +167,7 @@ export default {
   .mac {
     padding-left: 24px;
     margin: 10px 0;
+    height: 20px;
   }
   .input {
     margin-top: 10px;

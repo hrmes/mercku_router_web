@@ -1,17 +1,34 @@
 # mercku_router_web
 
-> mercku router setting
+## Project setup
+```
+yarn install
+```
 
-## Build Setup
+### Compiles and hot-reloads for development
+```
+yarn run serve
+```
 
-### for development
+### Compiles and minifies for production
+```
+yarn run build
+```
 
-make dev CUSTOMER_ID=xxxx
+### Run your tests
+```
+yarn run test
+```
 
-### for production
+### Lints and fixes files
+```
+yarn run lint
+```
 
-make CUSTOMER_ID=xxxx
+### Run your unit tests
+```
+yarn run test:unit
+```
 
-## 关于 CUSTOMER_ID
-
-关于更多的 CUSTOMER_ID 信息：https://github.com/hrmes/docs/issues/660
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

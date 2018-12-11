@@ -1,34 +1,65 @@
 <template>
   <div class="page">
-    <div class='page-header' :class="{'m-head':mobileShowHead}">
-      <span class="title"> {{$t('trans0444')}}</span>
+    <div class="page-header" :class="{'m-head':mobileShowHead}">
+      <span class="title">{{$t('trans0444')}}</span>
       <div class="m-handle">
         <div class="m-check-box">
           <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
-          <button class="btn m-btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+          <button
+            class="btn m-btn-default"
+            @click="mulDel"
+            :disabled="!hasChecked"
+          >{{$t('trans0453')}}</button>
           <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
         </div>
       </div>
     </div>
     <div class="page-content">
-
-      <div class="empty" v-if="(typeof empty =='boolean') && empty">
-        <img src="../../../../assets/images/img_default_empty.png" alt="">
+      <p class="reboot-info" :class="{'extra':empty!==null && !empty}">
+        {{$t('trans0496')}}
+        <span @click="updateEnabled">{{$t('trans0488')}}</span>
+      </p>
+      <div class="empty" v-if="empty!==null && empty">
+        <img src="../../../../assets/images/img_default_empty.png" alt>
         <p>{{$t('trans0278')}}</p>
         <div class="btn-warp">
           <button class="btn" @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
         </div>
       </div>
-      <div class='table' v-if="(typeof empty =='boolean') && !empty">
-        <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
-          <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}} <i> <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i> </div>
+      <div class="table" v-if="empty!==null && !empty">
+        <div
+          class="handle-info"
+          :class="{'openInfo':mobileShowHead}"
+          v-clickoutside="()=>mobileSelect=false"
+        >
+          <div class="select" @click="()=>mobileSelect=!mobileSelect">
+            {{$t('trans0370')}}
+            <i>
+              <img
+                :class="{open:mobileSelect}"
+                src="../../../../assets/images/ic_arrow_pack_up.png"
+                alt
+              >
+            </i>
+          </div>
           <div class="btn-wrap" :class="{open:mobileSelect}">
-            <button class="btn" @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
-            <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
-            <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+            <button
+              class="btn"
+              @click="()=>$router.push('/advance/rsvdip/form')"
+            >{{$t('trans0035')}}</button>
+            <!-- <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button> -->
+            <button
+              class="btn m-btn"
+              @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}"
+            >{{$t('trans0453')}}</button>
+            <button
+              class="btn btn-default"
+              @click="mulDel"
+              :disabled="!hasChecked"
+            >{{$t('trans0453')}}</button>
           </div>
         </div>
 
@@ -36,24 +67,33 @@
           <div class="column-name">
             <div class="column-check">
               <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
-            </div>{{$t('trans0108')}}
+            </div>
+            {{$t('trans0108')}}
           </div>
           <div class="column-local-ip">{{$t('trans0188')}}</div>
           <div class="column-local-port">{{$t('trans0151')}}</div>
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
-          <div class="table-row" v-for="(item,index ) in rsvdips" :key='index'>
+          <div class="table-row" v-for="(item,index ) in rsvdips" :key="index">
             <div class="column-name" :title="item.name">
               <div class="column-check" :class="{'checkOpen':mobileShowHead}">
-                <m-checkbox v-model='item.checked'></m-checkbox>
-              </div> <span class="m-title">{{$t('trans0108')}}：</span>{{item.name}}
+                <m-checkbox v-model="item.checked"></m-checkbox>
+              </div>
+              <span class="m-title">{{$t('trans0108')}}：</span>
+              {{item.name}}
             </div>
-            <div class="column-local-ip"><span class="m-title">{{$t('trans0427')}}：</span>{{formatMac(item.mac)}}</div>
-            <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.ip}}</div>
+            <div class="column-local-ip">
+              <span class="m-title">{{$t('trans0188')}}：</span>
+              {{formatMac(item.mac)}}
+            </div>
+            <div class="column-local-port">
+              <span class="m-title">{{$t('trans0151')}}：</span>
+              {{item.ip}}
+            </div>
             <div class="column-handle">
-              <a @click="editHandle(item)"> {{$t('trans0034')}}</a>
-              <a @click="del([item.id])"> {{$t('trans0033')}}</a>
+              <a @click="editHandle(item)">{{$t('trans0034')}}</a>
+              <a @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
           </div>
         </div>
@@ -98,6 +138,25 @@ export default {
     this.getList();
   },
   methods: {
+    updateEnabled() {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0473'),
+        callback: {
+          ok: () => {
+            this.$http.meshNetworkReboot().then(() => {
+              this.$reconnect({
+                timeout: 20,
+                ontimeout: () => {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
+            });
+          }
+        }
+      });
+    },
     getList() {
       this.$loading.open();
       this.$http
@@ -147,6 +206,7 @@ export default {
       });
       if (this.rsvdips.length === 0) {
         this.empty = true;
+        this.mobileShowHead = false;
       }
     },
     mulDel() {
@@ -212,6 +272,7 @@ export default {
     }
     .btn-wrap {
       margin-bottom: 30px;
+      display: flex;
       .m-btn {
         display: none;
       }
@@ -219,14 +280,15 @@ export default {
         width: 70px;
         height: 27px;
         padding: 0;
+        margin-right: 20px;
         &:last-child {
-          margin-left: 20px;
+          // margin-left: 20px;
         }
       }
     }
   }
   .column-check {
-    width: 50px;
+    width: 40px;
   }
   .column-name {
     display: flex;
@@ -236,13 +298,13 @@ export default {
     white-space: nowrap;
   }
   .column-local-ip {
-    width: 120px;
+    width: 130px;
   }
   .column-local-port {
-    width: 100px;
+    width: 140px;
   }
   .column-outside-ip {
-    width: 120px;
+    width: 130px;
   }
   .column-outside-port {
     width: 100px;
@@ -290,7 +352,34 @@ export default {
     }
   }
 }
+.reboot-info {
+  font-size: 14px;
+  width: 374px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 20px;
+  &.extra {
+    width: 100%;
+    text-align: left;
+  }
+  span {
+    cursor: pointer;
+    color: #d6001c;
+    text-decoration: underline;
+    display: inline-block;
+    line-height: 1.86;
+  }
+}
 @media screen and (max-width: 768px) {
+  .reboot-info {
+    font-size: 14px;
+    width: auto;
+    &.extra {
+      background-color: #f1f1f1;
+      padding: 10px;
+    }
+  }
   .page-header {
     &.m-head {
       .title {
@@ -303,7 +392,7 @@ export default {
         display: flex;
         font-size: 14px;
         color: #333333;
-        font-weight: 200;
+        font-weight: normal;
         align-items: center;
         justify-content: space-between;
         line-height: 1;
@@ -397,7 +486,6 @@ export default {
         }
         &.open {
           width: 140px;
-          height: 104px;
           border-radius: 2px;
           box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
           border: solid 1px #f1f1f1;
@@ -431,7 +519,8 @@ export default {
         }
         flex-direction: row;
         flex-wrap: wrap;
-        padding: 20px 0;
+        padding: 0;
+        padding-bottom: 20px;
         position: relative;
         .column-local-ip,
         .column-local-port,

@@ -92,6 +92,7 @@ export default {
     word-wrap: break-word;
     p {
       margin: 0;
+      height: 20px;
       margin-bottom: 10px;
       &:last-child {
         margin: 0;

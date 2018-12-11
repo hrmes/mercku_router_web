@@ -72,11 +72,6 @@ export default {
             url: '/setting/network'
           },
           {
-            url: '/advance/dhcp',
-            name: 'advance-dhcp',
-            text: 'trans0417'
-          },
-          {
             text: 'trans0297',
             name: 'safe',
             url: '/setting/safe'
@@ -100,28 +95,38 @@ export default {
           {
             url: '/advance/portforwarding',
             name: 'advance-portforwarding',
-            text: 'trans0422'
+            text: 'trans0422',
+            super: true
           },
-
+          {
+            url: '/advance/dhcp',
+            name: 'advance-dhcp',
+            text: 'trans0417',
+            super: false
+          },
           {
             url: '/advance/rsvdip',
             name: 'advance-rsvdip',
-            text: 'trans0444'
+            text: 'trans0444',
+            super: true
           },
           {
             url: '/advance/mac',
             name: 'advance-mac',
-            text: 'trans0188'
+            text: 'trans0474',
+            super: false
           },
           {
             url: '/advance/ddns',
             name: 'advance-ddns',
-            text: 'trans0418'
+            text: 'trans0418',
+            super: true
           },
           {
             url: '/advance/vpn',
             name: 'advance-vpn',
-            text: 'trans0402'
+            text: 'trans0402',
+            super: true
           },
           {
             url: '/advance/diagnosis',
@@ -131,17 +136,20 @@ export default {
           {
             url: '/advance/dmz',
             name: 'advance-dmz',
-            text: 'trans0420'
+            text: 'trans0420',
+            super: true
           },
           {
             url: '/advance/log',
             name: 'advance-log',
-            text: 'trans0421'
+            text: 'trans0421',
+            super: true
           },
           {
             url: '/advance/firewall',
             name: 'advance-firewall',
-            text: 'trans0424'
+            text: 'trans0424',
+            super: true
           }
         ]
       };
@@ -169,12 +177,12 @@ export default {
           advance.children.push({
             url: '/advance/tr069',
             name: 'advance-tr069',
-            text: 'trans0499'
+            text: 'trans0286'
           });
-          menus = [wifi, setting, advance, upgrade];
         } else {
-          menus = [wifi, setting, upgrade];
+          advance.children = advance.children.filter(a => !a.super);
         }
+        menus = [wifi, setting, advance, upgrade];
       } else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
         menus = [wifi, setting, advance, upgrade];
       }

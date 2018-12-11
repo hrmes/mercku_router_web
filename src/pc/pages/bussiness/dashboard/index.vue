@@ -28,7 +28,7 @@
           <img src="../../../assets/images/ic_internet.png" alt="">
         </div>
         <div class="text-container">
-          Internet
+          {{$t('trans0366')}}
         </div>
       </div>
     </div>

@@ -4,22 +4,21 @@
       {{$t('trans0419')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <div class="form-item">
-          <m-select v-model="job_type" :label="$t('trans0068')" :options="jobs"></m-select>
-        </div>
-        <div class="form-item">
-          <m-input v-model="host" :label="$t('trans0463')" :placeholder="$t('trans0321')"></m-input>
-        </div>
-        <div class="form-item">
+      <m-form class="form" :model="form" ref="form" :rules="rules">
+        <m-form-item>
+          <m-select v-model="job_type" :label="$t('trans0070')" :options="jobs"></m-select>
+        </m-form-item>
+        <m-form-item prop="host">
+          <m-input v-model="form.host" :label="label" :placeholder="$t('trans0321')"></m-input>
+        </m-form-item>
+        <m-form-item>
           <button class="btn btn-primary" @click="start">{{$t('trans0467')}}</button>
-        </div>
-      </div>
-      <div class="log-container">
+        </m-form-item>
+      </m-form>
+      <div class="log-container" v-show="output">
         <pre>{{output}}</pre>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -40,33 +39,50 @@ export default {
           text: 'nslookup'
         }
       ],
+      rules: {
+        host: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          }
+        ]
+      },
       job_type: 'ping',
-      host: '',
-      output: ''
+      form: {
+        host: ''
+      },
+      output: '',
+      label: this.$t('trans0463')
     };
   },
-  // watch: {
-  //   job_type() {
-  //     this.host = '';
-  //   }
-  // },
+  watch: {
+    job_type(v) {
+      if (v === this.jobs[0].value || v === this.jobs[1].value) {
+        this.label = this.$t('trans0463');
+      } else {
+        this.label = this.$t('trans0436');
+      }
+    }
+  },
   methods: {
     start() {
-      this.$loading.open();
-      this.$http
-        .diagnosis({
-          job_type: this.job_type,
-          job_params: {
-            host: this.host
-          }
-        })
-        .then(res => {
-          this.$loading.close();
-          this.output = res.data.result.output;
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+      if (this.$refs.form.validate()) {
+        this.$loading.open();
+        this.$http
+          .diagnosis({
+            job_type: this.job_type,
+            job_params: {
+              host: this.form.host
+            }
+          })
+          .then(res => {
+            this.$loading.close();
+            this.output = res.data.result.output;
+          })
+          .catch(() => {
+            this.$loading.close();
+          });
+      }
     }
   }
 };
@@ -87,8 +103,8 @@ export default {
     padding: 10px;
     pre {
       margin: 0;
-      font-family: inherit;
-      position: absolute;
+      max-height: 600px;
+      font-family: 'Courier New', Courier,monospace;
     }
   }
 }

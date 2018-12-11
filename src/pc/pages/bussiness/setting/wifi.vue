@@ -206,7 +206,7 @@ export default {
     margin-bottom: 30px;
     label {
       display: flex;
-      width: 100px;
+      width: 120px;
     }
     &.smart-connect {
       flex-direction: column;

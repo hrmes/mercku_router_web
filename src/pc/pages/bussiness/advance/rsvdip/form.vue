@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{formType==='update'?$t('trans0034'):$t('trans0035')}}{{$t('trans0444')}}
+      {{$t('trans0444')}}
     </div>
     <div class="page-content">
 
@@ -19,8 +19,8 @@
                   </div>
                   <div class="des">
                     <p>{{item.name}}</p>
-                    <p>MAC：{{formatMac(item.mac)}}</p>
-                    <p>IP：{{item.ip}}</p>
+                    <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
+                    <p>{{$t('trans0151')}}：{{item.ip}}</p>
                   </div>
                 </div>
               </div>
@@ -74,7 +74,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value) <= 16,
             message: this.$t('trans0261')
           }
         ],
@@ -224,20 +224,22 @@ export default {
       z-index: 1;
       left: 0;
       width: 300px;
-      height: 458px;
+      //height: 458px;
       border-radius: 2px;
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
       border: solid 1px #e7e7e7;
       background-color: #ffffff;
       .list {
         width: 300px;
-        height: 358px;
+        max-height: 450px;
         overflow-y: auto;
       }
       .device-item {
         display: flex;
         padding: 30px;
+        padding-bottom: 0;
         min-height: 55px;
+        cursor: default;
         .check {
           width: 46px;
         }
@@ -272,10 +274,6 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .form {
-    // padding-bottom: 50px;
-    .btn-info {
-      // margin-top: 30px;
-    }
     width: 100%;
     margin: 0 auto;
     .ext-item {
@@ -317,9 +315,6 @@ export default {
             }
           }
         }
-      }
-      i {
-        display: none;
       }
     }
   }
