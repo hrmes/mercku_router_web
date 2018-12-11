@@ -60,16 +60,16 @@ export default {
   },
   mounted() {
     this.loading = true;
-    // 尝试自动登录，如果自动登录成功，则展示设置按钮，否则展示登录按钮。
-    this.$http
-      .login('')
-      .then(() => {
-        this.initial = true;
-        this.loading = false;
-      })
-      .catch(() => {
-        this.loading = false;
-      });
+    this.$http.isinitial().then(res => {
+      if (res.data.result.status) {
+        this.$http.login('').then(() => {
+          this.initial = true;
+          this.loading = false;
+        });
+      }
+      this.isinitial = false;
+      this.loading = false;
+    });
   },
   methods: {
     towlan() {
