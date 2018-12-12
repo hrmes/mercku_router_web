@@ -155,8 +155,8 @@ export default {
         display: block;
         position: absolute;
         left: 5px;
-        top:50%;
-        transform: translateY(-50%);
+        top: 5px;
+        //transform: translateY(-50%);
         width: 6px;
         height: 6px;
         background: #d6001c;

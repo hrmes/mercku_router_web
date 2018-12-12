@@ -68,19 +68,6 @@ export default {
     getColor(vpn) {
       return vpn.status === VPNStatus.connecting ? '#00d061' : '#ff0001';
     },
-    formatDuration(duration) {
-      if (!duration) {
-        return '00:00:00';
-      }
-      const total = Math.floor(duration / 1000);
-      const hour = Math.floor(total / 3600);
-      const min = Math.floor((total % 3600) / 60);
-      const sec = (total % 3600) % 60;
-
-      return (hour > 0 ? [hour, min, sec] : [min, sec])
-        .map(x => `0${x}`.slice(-2))
-        .join(':');
-    },
     start(v, vpn) {
       if (v) {
         // 打开
