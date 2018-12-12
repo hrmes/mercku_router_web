@@ -149,6 +149,8 @@ export default {
     }
   }
   .bottom-image {
+    width: 100%;
+    flex-shrink: 0;
     .big-device-image {
       width: 40%;
       margin: 0 auto;

@@ -582,10 +582,12 @@ export default {
             text-overflow: ellipsis;
             white-space: pre;
             max-width: 130px;
+            flex-shrink: 0;
           }
           img {
             width: 14px;
             margin-left: 5px;
+            flex-shrink: 0;
           }
         }
       }
