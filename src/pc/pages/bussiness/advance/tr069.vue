@@ -220,7 +220,7 @@ export default {
           url: this.remote.url
         };
         const local = {
-          username: this.remote.username,
+          username: this.local.username,
           port: Number(this.local.port),
           path: this.local.path
         };
