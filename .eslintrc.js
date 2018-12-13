@@ -6,8 +6,10 @@ module.exports = {
   env: {
     browser: true
   },
-  extends: 'airbnb-base',
-
+  extends: [
+    'plugin:vue/essential',
+    '@vue/airbnb',
+  ],
   // required to lint *.vue files
   plugins: ['vue'],
   rules: {
