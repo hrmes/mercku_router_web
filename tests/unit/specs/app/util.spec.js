@@ -1,4 +1,4 @@
-import { ipRexp } from '../../../../src/app/util/util';
+import { ipRexp } from '@/app/util/util';
 
 describe('util.js', () => {
   it('is ip', () => {
