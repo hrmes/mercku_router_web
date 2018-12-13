@@ -107,6 +107,7 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
+  flex: 1;
 }
 .form {
   width: 100%;
@@ -133,13 +134,13 @@ export default {
     max-height: 600px;
     pre {
       margin: 0;
-      font-family: 'Courier New', Courier,monospace;
-      color: #6E6E6E;
-      &:first-child{
+      font-family: 'Courier New', Courier, monospace;
+      color: #6e6e6e;
+      &:first-child {
         color: #333;
         font-weight: bold;
-        &.not-empty{
-         // margin-bottom: 30px;
+        &.not-empty {
+          // margin-bottom: 30px;
         }
       }
     }

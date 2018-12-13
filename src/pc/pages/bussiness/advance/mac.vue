@@ -137,6 +137,8 @@ export default {
     padding-left: 24px;
     position: relative;
     cursor: pointer;
+    line-height: 1;
+    height: 18px;
     &:before {
       content: '';
       position: absolute;
@@ -155,8 +157,8 @@ export default {
         display: block;
         position: absolute;
         left: 5px;
-        top: 5px;
-        //transform: translateY(-50%);
+        top: 50%;
+        transform: translateY(-50%);
         width: 6px;
         height: 6px;
         background: #d6001c;
