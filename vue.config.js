@@ -21,22 +21,6 @@ const favicon = CUSTOMER_CONFIG
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
-
-function assetsPath(_path) {
-  return path
-    .posix
-    .join('/', _path)
-}
-
-module.exports = function getAssetPath(options, filePath, placeAtRootIfRelative) {
-  return options.assetsDir ?
-    path.posix.join(options.assetsDir, filePath) :
-    filePath
-}
-module.exports = function resolveLocal(...args) {
-  return path.join(__dirname, '../../', ...args)
-}
-
 module.exports = {
   baseUrl: '/',
   outputDir: 'dist',
