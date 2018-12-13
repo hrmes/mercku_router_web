@@ -144,7 +144,7 @@ export default {
         });
     },
     editHandle(item) {
-      this.$store.state = { portfw: item };
+      this.$store.state = { ...this.$store.state, portfw: item };
       this.$router.push(`/advance/portforwarding/form/${item.id}`);
     },
     update(v, item) {
