@@ -23,10 +23,8 @@ export default {
     }
   },
   methods: {
-    bindVidator() {
-      this.validators = this.$parent.rules[this.prop] || [];
-    },
     validate() {
+      this.validators = this.$parent.rules[this.prop] || [];
       const value = this.$parent.model[this.prop];
       let result = true;
       // 检验
@@ -34,38 +32,35 @@ export default {
         for (let j = 0; j < this.validators.length; j += 1) {
           const validator = this.validators[j];
           if (!validator.rule(value)) {
-            this.result = false;
             result = false;
             this.message = validator.message;
             break;
           }
         }
       }
+      this.result = result;
       return result;
     },
     extraValidate(validator, msg, ...arg) {
       let result = true;
       if (!validator(...arg)) {
-        this.result = false;
         result = false;
         this.message = msg;
       }
+      this.result = result;
       return result;
     }
   },
   mounted() {
-    if (this.$parent.rules) {
-      this.bindVidator();
-      this.$on('blur', () => {
-        this.validate();
-      });
-      this.$on('focus', () => {
-        this.result = null;
-      });
-      this.$on('change', () => {
-        this.result = null;
-      });
-    }
+    this.$on('blur', () => {
+      this.validate();
+    });
+    this.$on('focus', () => {
+      this.result = null;
+    });
+    this.$on('change', () => {
+      this.result = null;
+    });
   }
 };
 </script>
@@ -83,7 +78,7 @@ export default {
     top: 100%;
   }
   &.form-item-error {
-    input {
+    .input-wrapper {
       border-color: red !important;
       transition: border 0.3 linear;
     }

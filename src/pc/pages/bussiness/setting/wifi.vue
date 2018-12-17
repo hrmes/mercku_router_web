@@ -1,72 +1,58 @@
 <template>
-  <layout>
-    <div class="setting-wifi-container">
-      <div v-if="reboot">
-        <m-progress :label="$t('trans0315')"></m-progress>
-      </div>
-      <div class="content">
-        <div class='w-header'>
-          {{$t('trans0167')}}
+  <div class="page">
+    <div class='page-header'>
+      {{$t('trans0167')}}
+    </div>
+    <div class="page-content">
+      <m-form class="form" ref="form" :model="form" :rules='rules'>
+        <m-form-item class="item" prop='ssid'>
+          <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
+        </m-form-item>
+        <m-form-item class="item" prop='password'>
+          <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
+        </m-form-item>
+        <div class="form-item check-info">
+          <label for=""> {{$t('trans0110')}} <div class="tool">
+              <m-popover v-model='hideTipVisible' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
+              <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="hideTipVisible=!hideTipVisible">
+            </div>
+          </label>
+
+          <m-switch v-model="form.hidden" />
         </div>
-        <div class='form'>
-          <div class='input-info'>
-            <m-form ref="form" :model="form" :rules='rules'>
-              <m-form-item class="item" prop='ssid'>
-                <m-input v-model="form.ssid" :label="$t('trans0168')" type='text' :placeholder="`${$t('trans0321')}`"></m-input>
-              </m-form-item>
-              <m-form-item class="item" prop='password'>
-                <m-input v-model="form.password" :label="$t('trans0172')" type='password' :placeholder="`${$t('trans0321')}`"></m-input>
-              </m-form-item>
-            </m-form>
-            <!-- <div class="item" style="margin-bottom:30px;">
-              <m-select :label="$t('trans0111')" v-model="band" :options="options"></m-select>
-            </div> -->
-            <div class="check-info">
-              <label for=""> {{$t('trans0110')}} </label>
+        <div class="form-item check-info smart-connect">
+          <div class="switch-container">
+            <label for=""> {{$t('trans0397')}}
               <div class="tool">
-                <m-popover v-model='popShow' :title="this.$t('trans0110')" :content="this.$t('trans0325')" />
-                <img width="14" src="../../../assets/images/ic_wifi_setting_question.png" alt="" @click="popIsShow">
+                <m-popover v-model='smartTipVisible' :title="this.$t('trans0397')" :content="this.$t('trans0398')" />
+                <img width="14" src="../../../assets/images/ic_question.png" alt="" @click="smartTipVisible=!smartTipVisible">
               </div>
-              <m-switch v-model="form.hidden" :onChange="changehandle" />
-            </div>
-            <div class="btn-info">
-              <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
-            </div>
+            </label>
+
+            <m-switch v-model="form.smart_connect" />
+          </div>
+          <div class="ssid" v-if="!form.smart_connect">
+            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span class="ssid-name">{{form.ssid}}</span></div>
+            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span class="ssid-name">{{ssid_5g}}</span></div>
           </div>
         </div>
+
+      </m-form>
+      <div class="form-button">
+        <button class="btn" @click='submit()'>{{$t('trans0081')}}</button>
       </div>
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-import Switch from '../../../component/switch/index.vue';
-import mSelect from '../../../component/select/index.vue';
-import Popover from '../../../component/popover/index.vue';
-import Input from '../../../component/input/input.vue';
-import Form from '../../../component/form/index.vue';
-import FormItem from '../../../component/formItem/index.vue';
-import Progress from '../../../component/progress/index.vue';
-import Checkbox from '../../../component/checkbox/index.vue';
-import layout from '../../../layout.vue';
 import { getStringByte, passwordRule } from '../../../../util/util';
 
 export default {
-  components: {
-    'm-switch': Switch,
-    'm-form-item': FormItem,
-    'm-form': Form,
-    'm-input': Input,
-    'm-progress': Progress,
-    'm-checkbox': Checkbox,
-    'm-popover': Popover,
-    'm-select': mSelect,
-    layout
-  },
   data() {
     return {
       band: '2.4G5G',
-      popShow: false,
-      reboot: false,
+      hideTipVisible: false,
+      smartTipVisible: false,
       meshData: {},
       options: [
         {
@@ -98,6 +84,7 @@ export default {
         ssid: '',
         password: '',
         hidden: false,
+        smart_connect: false,
         bands: {
           '2.4G': { enabled: true },
           '5G': { enabled: true }
@@ -124,6 +111,9 @@ export default {
     };
   },
   computed: {
+    ssid_5g() {
+      return `${this.form.ssid}-5G`;
+    },
     combineBands() {
       const hash = {};
       this.options.forEach(v => {
@@ -133,9 +123,6 @@ export default {
     }
   },
   methods: {
-    popIsShow() {
-      this.popShow = !this.popShow;
-    },
     bandsToStr(bands) {
       return Object.keys(bands)
         .map(v => bands[v].enabled)
@@ -161,22 +148,12 @@ export default {
             this.form.bands = this.meshData.bands;
             this.splitBands(this.meshData.bands);
             this.form.hidden = this.meshData.hidden;
+            this.form.smart_connect = this.meshData.smart_connect;
           }
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.$loading.close();
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
-    },
-    changehandle(v) {
-      this.form.hidden = v;
     },
     submit() {
       if (this.$refs.form.validate()) {
@@ -191,28 +168,15 @@ export default {
                   ...this.form,
                   bands: this.combineBands[this.band]
                 })
-                .then(res => {
-                  if (res.status === 200) {
-                    this.reboot = true;
-                    this.$reconnect({
-                      onsuccess: () => {
-                        this.$router.push({ path: '/dashboard' });
-                      },
-                      ontimeout: () => {
-                        this.$router.push({ path: '/unconnect' });
-                      }
-                    });
-                  }
-                })
-                .catch(err => {
-                  if (err.upgrading) {
-                    return;
-                  }
-                  if (err && err.error) {
-                    this.$toast(this.$t(err.error.code));
-                  } else {
-                    this.$router.push({ path: '/unconnect' });
-                  }
+                .then(() => {
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/dashboard' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
                 });
             }
           }
@@ -226,91 +190,73 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.setting-wifi-container {
-  flex: auto;
-  padding: 0 2%;
+.page-content {
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.form {
   display: flex;
-  .ssid-hidden {
-    margin-bottom: 30px;
-  }
-  position: relative;
-  .content {
-    border-radius: 8px;
-    padding: 0 20px;
-    background: white;
+  flex-direction: column;
+  justify-content: center;
+  .check-info {
+    display: flex;
+    align-items: center;
     position: relative;
-    flex: 1;
-    .w-header {
-      height: 60px;
-      border-bottom: 1px solid #f1f1f1;
-      font-size: 16px;
-      color: #333333;
-      line-height: 60px;
-      font-weight: bold;
-    }
-    .form {
+    margin-bottom: 30px;
+    label {
       display: flex;
-      justify-content: center;
-      padding: 30px 0;
-
-      .btn-info {
-        margin-top: 30px;
-      }
-      .check-info {
-        display: flex;
-        align-items: center;
-        position: relative;
-        label {
-          margin-right: 2px;
-          font-size: 14px;
-          color: #333333;
-        }
-        .tool {
-          position: relative;
-          width: 30px;
-          img {
-            position: relative;
-            top: -8px;
-            cursor: pointer;
+      width: 120px;
+    }
+    &.smart-connect {
+      flex-direction: column;
+      align-items: flex-start;
+      .ssid {
+        width: 100%;
+        margin-top: 20px;
+        background-color: #fafafa;
+        padding: 0 20px;
+        div {
+          padding: 10px 0;
+          .ssid-label {
+            width: 50px;
+            display: inline-block;
+          }
+          &:first-child {
+            border-bottom: 1px solid #f1f1f1;
           }
         }
+      }
+    }
+    .switch-container {
+      display: flex;
+    }
+    label {
+      margin-right: 2px;
+      font-size: 14px;
+      color: #333333;
+    }
+    .tool {
+      position: relative;
+      margin-left: 5px;
+      img {
+        position: relative;
+        top: -7px;
+        cursor: pointer;
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  .setting-wifi-container {
-    padding: 20px 16px;
-    .content {
-      .w-header {
-        font-size: 14px;
-        height: 44px;
-        line-height: 44px;
-      }
-      min-height: 450px;
-      .form {
-        width: 100%;
-
-        .input-info {
-          width: 100%;
-        }
-        .title {
-          margin-top: 20px;
-          margin-bottom: 10px;
-        }
-        .check-info {
-          display: flex;
-          align-items: center;
-          margin-top: 20px;
-          label {
-            margin-right: 2px;
-            font-size: 16px;
-            color: #333333;
-          }
-        }
-        .btn-info {
-          margin-top: 30px;
-        }
+  .form {
+    .check-info {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      label {
+        margin-right: 2px;
+        font-size: 16px;
+        color: #333333;
       }
     }
   }

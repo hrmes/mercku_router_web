@@ -195,13 +195,15 @@ export default {
         // transition: background 0.3s;
         cursor: pointer;
         &:hover {
-          background: grey;
-          color: white;
-          // opacity: 0.8;
+          background: #e7e7e7;
+          color: #333;
+        }       
+        &:active {
+          background: #e7e7e7;
+          color: #333;
         }
         &.selected {
-          background: #d6001c;
-          color: white;
+          color: #d6001c;
         }
       }
     }

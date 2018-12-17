@@ -177,6 +177,11 @@ export default {
   right: 0;
   z-index: 1001;
   background: rgba(0, 0, 0, 0.8);
+  .inner-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
   &.loading-enter {
     opacity: 0;
   }

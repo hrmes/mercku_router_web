@@ -1,11 +1,21 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
-import zhCN from './zh-CN.json';
-import enUS from './en-US.json';
+
 import extra from './extra.json';
 import codeMap from './code-map.json';
 
 Vue.use(VueI18n);
+
+let zhCN;
+let enUS;
+
+if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+  zhCN = require('./zh-CN.json');
+  enUS = require('./en-US.json');
+} else if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+  zhCN = require('./cik-zh-CN.json');
+  enUS = require('./cik-en-US.json');
+}
 
 Object.keys(codeMap).forEach(code => {
   zhCN[code] = zhCN[codeMap[code]];

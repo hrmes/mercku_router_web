@@ -72,17 +72,23 @@ export default {
   }
 };
 
-export const isIphone = () => {
-  const u = navigator.userAgent;
-  // const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1;
-  const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
-  return isiOS;
-};
-
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const hostReg = /^\.*[a-zA-Z0-9]+([\w-][a-zA-Z0-9])*(\.[a-zA-Z0-9]+((\w|-)*[a-zA-Z0-9]+)*)*\.*$/;
-export const ipRexp = ip => {
+export const portReg = /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-5])$/;
+export const IPAReg = /^10\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
+export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
+export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
+
+export const getIpBefore = ip => {
+  const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
+  return pattern.exec(ip)[0];
+};
+export const getIpAfter = ip => {
+  const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
+  return ip.replace(pattern, '');
+};
+export const isIP = ip => {
   if (ip && ipReg.test(ip)) {
     return true;
   }
@@ -101,6 +107,20 @@ function ip2int(ip) {
   );
 }
 
+function mac2int(mac) {
+  let result = '';
+  mac
+    .replace(/:/g, '')
+    .split('')
+    .reduce((total, next) => {
+      result += parseInt(next, 16)
+        .toString(2)
+        .padStart(4, '0');
+      return result;
+    });
+  return parseInt(result, 2);
+}
+
 export const isMulticast = ip => {
   const i = ip2int(ip);
   // 组播地址
@@ -108,6 +128,20 @@ export const isMulticast = ip => {
     return true;
   }
   return false;
+};
+
+export const isMac = mac => {
+  if (!/^([a-f0-9]{2}:){5}[a-f0-9]{2}$/i.test(mac)) {
+    return false;
+  }
+  // 检查组播
+  const r = mac2int(mac);
+  const min = mac2int('01:00:5e:00:00:00');
+  const max = mac2int('01:00:5e:7f:ff:ff');
+  if (r >= min && r <= max) {
+    return false;
+  }
+  return true;
 };
 
 export const isLoopback = ip => {
@@ -138,7 +172,7 @@ export const ipRule = (ip, mask) => {
   if (!mask || !ip) {
     return true;
   }
-  if (!ipRexp(ip) || !ipRexp(mask)) {
+  if (!isIP(ip) || !isIP(mask)) {
     return false;
   }
 
@@ -156,7 +190,17 @@ export const ipRule = (ip, mask) => {
   }
   return true;
 };
-
+export const privateIpReg = ip => {
+  const masks = {
+    A: '255.255.255.0',
+    B: '255.255.255.0',
+    C: '255.255.255.0'
+  };
+  const AIPMask = IPAReg.test(ip) && ipRule(ip, masks.A);
+  const BIPMask = IPBReg.test(ip) && ipRule(ip, masks.B);
+  const CIPMask = IPCReg.test(ip) && ipRule(ip, masks.C);
+  return AIPMask || BIPMask || CIPMask;
+};
 export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
@@ -205,9 +249,9 @@ export const formatNetworkData = value => {
   let index = -1;
   if (!isNaN(value)) {
     do {
-      value /= 1024;
+      value /= 1000;
       index += 1;
-    } while (value > 1024 && index < units.length - 1);
+    } while (value > 1000 && index < units.length - 1);
     return {
       value: value.toFixed(1),
       unit: units[index]
@@ -217,7 +261,6 @@ export const formatNetworkData = value => {
 };
 
 export const formatMac = mac => {
-  mac = mac.toUpperCase();
   if (mac.length === 12) {
     return mac.match(/.{2}/g).join(':');
   }
@@ -230,13 +273,62 @@ export const formatSpeed = value => {
   let index = -1;
   if (!isNaN(value)) {
     do {
-      value /= 1024;
+      value /= 1000;
       index += 1;
-    } while (value > 1024 && index < units.length - 1);
+    } while (value > 1000 && index < units.length - 1);
     return {
       value: value.toFixed(1),
       unit: units[index]
     };
   }
-  return { value: '-', unit: 'KB' };
+  return { value: '-', unit: units[0] };
+};
+
+export const formatBandWidth = value => {
+  const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
+  let index = 0;
+  if (!isNaN(value)) {
+    while (value > 1000 && index < units.length - 1) {
+      value /= 1000;
+      index += 1;
+    }
+    return {
+      value: value.toFixed(1),
+      unit: units[index]
+    };
+  }
+  return {
+    value: '-',
+    unit: 'bps'
+  };
+};
+
+export const formatDate = (date, fmt = 'yyyy-MM-dd HH:mm:ss') => {
+  date = new Date(date);
+  const o = {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds(),
+    'q+': Math.floor((date.getMonth() + 3) / 3),
+    S: date.getMilliseconds()
+  };
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(
+      RegExp.$1,
+      `${date.getFullYear()}`.substr(4 - RegExp.$1.length)
+    );
+  }
+
+  Object.keys(o).forEach(k => {
+    if (new RegExp(`(${k})`).test(fmt)) {
+      fmt = fmt.replace(
+        RegExp.$1,
+        RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length)
+      );
+    }
+  });
+
+  return fmt;
 };

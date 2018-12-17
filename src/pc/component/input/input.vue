@@ -1,15 +1,17 @@
 <template>
   <div class="input-container" :class="{'disabled':disabled}">
-    <label for="">
+    <label for v-if="label">
       <span>{{label}}</span>
     </label>
     <div class="inputarea">
-      <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
-      <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
+      <div class="input-wrapper">
+        <div class="extra" v-if="addonBefore">{{addonBefore}}</div>
+        <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" :type="inputType" :class="{'has-icon':isPwdInput,margin:addonBefore}">
+      </div>
+      <div class="icon-container" v-if="isPwdInput&&!hidePwdIcon" @click="changePwdStatus()">
         <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -19,6 +21,10 @@ export default {
     type: {
       type: String,
       default: 'text'
+    },
+    hidePwdIcon: {
+      type: Boolean,
+      default: false
     },
     value: {},
     placeholder: {
@@ -34,6 +40,10 @@ export default {
     },
     onBlur: {
       type: Function
+    },
+    addonBefore: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -103,23 +113,40 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
   }
-  .input {
+  .input-wrapper {
     height: 48px;
     width: 100%;
     border-radius: 4px;
-    outline: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    .extra {
+      padding: 0 10px;
+      padding-right: 0;
+    }
+    input {
+      height: 46px;
+      width: 100%;
+      outline: 0;
+      border-radius: 4px;
+      border: none;
+      box-sizing: border-box;
+      -webkit-appearance: none;
+      &.margin {
+        padding-left: 0px;
+      }
+      &:disabled {
+        background: #e1e1e1;
+        opacity: 0.8;
+        cursor: not-allowed;
+      }
+      &.has-icon {
+        padding-right: 50px;
+      }
+      font-size: 14px;
+      padding: 10px;
+    }
     border: 1px solid #e1e1e1;
-    font-size: 14px;
-    padding: 10px;
-    -webkit-appearance: none;
-    &.has-icon {
-      padding-right: 30px;
-    }
-    &:disabled {
-      background: #e1e1e1;
-      opacity: 0.8;
-      cursor: not-allowed;
-    }
   }
   .icon-container {
     position: absolute;
@@ -129,11 +156,13 @@ export default {
     height: 48px;
     width: 50px;
     cursor: pointer;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .icon {
       width: 20px;
       height: 20px;
-      margin-top: 14px;
+      // margin-top: 14px;
       display: inline-block;
       &.hide {
         background: url(../../assets/images/ic_visible.png) no-repeat center;
@@ -162,7 +191,13 @@ export default {
     display: block;
     width: 100%;
     margin: 0 auto;
-    .input {
+    .input-wrapper {
+      height: 44px;
+      input {
+        height: 42px;
+      }
+    }
+    .icon-container {
       height: 44px;
     }
   }

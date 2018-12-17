@@ -1,23 +1,37 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import login from '../pages/login/index.vue';
-import dashboard from '../pages/bussiness/dashboard/index.vue';
-import device from '../pages/bussiness/dashboard/device.vue';
-import mesh from '../pages/bussiness/dashboard/mesh.vue';
-import internet from '../pages/bussiness/dashboard/internet.vue';
-import network from '../pages/bussiness/setting/network.vue';
-import timezone from '../pages/bussiness/setting/timezone.vue';
-import blacklist from '../pages/bussiness/setting/blacklist.vue';
-import wifi from '../pages/bussiness/setting/wifi.vue';
-import safe from '../pages/bussiness/setting/safe.vue';
-import wlan from '../pages/bussiness/wlan/index.vue';
-import unconnect from '../pages/error/unconnect/index.vue';
-import online from '../pages/bussiness/upgrade/online.vue';
-import offline from '../pages/bussiness/upgrade/offline.vue';
-import meshAdd from '../pages/bussiness/mesh/add.vue';
-import timeLimit from '../pages/bussiness/dashboard/limit/time.vue';
-import speedLimit from '../pages/bussiness/dashboard/limit/speed.vue';
-import blacklistLimit from '../pages/bussiness/dashboard/limit/blacklist.vue';
+import login from 'pages/login/index.vue';
+import dashboard from 'pages/bussiness/dashboard/index.vue';
+import device from 'pages/bussiness/dashboard/device.vue';
+import mesh from 'pages/bussiness/dashboard/mesh.vue';
+import internet from 'pages/bussiness/dashboard/internet.vue';
+import network from 'pages/bussiness/setting/network.vue';
+import timezone from 'pages/bussiness/setting/timezone.vue';
+import blacklist from 'pages/bussiness/setting/blacklist.vue';
+import wifi from 'pages/bussiness/setting/wifi.vue';
+import safe from 'pages/bussiness/setting/safe.vue';
+import wlan from 'pages/bussiness/wlan/index.vue';
+import unconnect from 'pages/error/unconnect/index.vue';
+import online from 'pages/bussiness/upgrade/online.vue';
+import offline from 'pages/bussiness/upgrade/offline.vue';
+import meshAdd from 'pages/bussiness/mesh/add.vue';
+import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
+import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
+import blacklistLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
+import portforwarding from 'pages/bussiness/advance/port/index.vue';
+import portfwForm from 'pages/bussiness/advance/port/form.vue';
+import rsvdip from 'pages/bussiness/advance/rsvdip/index.vue';
+import rsvdipForm from 'pages/bussiness/advance/rsvdip/form.vue';
+import dhcp from 'pages/bussiness/advance/dhcp/index.vue';
+import dmz from 'pages/bussiness/advance/dmz.vue';
+import firewall from 'pages/bussiness/advance/firewall.vue';
+import ddns from 'pages/bussiness/advance/ddns.vue';
+import mac from 'pages/bussiness/advance/mac.vue';
+import log from 'pages/bussiness/advance/log.vue';
+import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
+import vpn from 'pages/bussiness/advance/vpn/index.vue';
+import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
+import tr069 from 'pages/bussiness/advance/tr069.vue';
 
 Vue.use(Router);
 const routes = [
@@ -121,6 +135,76 @@ const routes = [
     path: '/upgrade/offline',
     name: 'offline',
     component: offline
+  },
+  {
+    path: '/advance/portforwarding',
+    name: 'advance-portforwarding',
+    component: portforwarding
+  },
+  {
+    path: '/advance/portforwarding/form/:id?',
+    name: 'advance-portforwarding-form',
+    component: portfwForm
+  },
+  {
+    path: '/advance/rsvdip',
+    name: 'advance-rsvdip',
+    component: rsvdip
+  },
+  {
+    path: '/advance/rsvdip/form/:id?',
+    name: 'advance-rsvdip-form',
+    component: rsvdipForm
+  },
+  {
+    path: '/advance/dhcp',
+    name: 'advance-dhcp',
+    component: dhcp
+  },
+  {
+    path: '/advance/dmz',
+    name: 'advance-dmz',
+    component: dmz
+  },
+  {
+    path: '/advance/firewall',
+    name: 'advance-firewall',
+    component: firewall
+  },
+  {
+    path: '/advance/ddns',
+    name: 'advance-ddns',
+    component: ddns
+  },
+  {
+    path: '/advance/mac',
+    name: 'advance-mac',
+    component: mac
+  },
+  {
+    path: '/advance/log',
+    name: 'advance-log',
+    component: log
+  },
+  {
+    path: '/advance/diagnosis',
+    name: 'advance-diagnosis',
+    component: diagnosis
+  },
+  {
+    path: '/advance/vpn',
+    name: 'advance-vpn',
+    component: vpn
+  },
+  {
+    path: '/advance/vpn/form/:id?',
+    name: 'advance-vpn-form',
+    component: vpnForm
+  },
+  {
+    path: '/advance/tr069',
+    name: 'advance-tr069',
+    component: tr069
   }
 ];
 export default new Router({

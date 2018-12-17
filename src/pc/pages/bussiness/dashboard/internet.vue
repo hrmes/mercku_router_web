@@ -46,16 +46,6 @@
             </div>
             <div class="speep-info real-wrap">
               <div class="extra">
-                <i class="f-up-icon"></i>
-                <div>
-                  <p>
-                    <span class="speed">{{peekUp.value}}</span>
-                    <span class='unit'> {{peekUp.unit}}/s</span>
-                  </p>
-                  <p class="note">{{$t('trans0306')}}</p>
-                </div>
-              </div>
-              <div class="extra">
                 <i class="f-down-icon"></i>
                 <div>
                   <p>
@@ -65,6 +55,17 @@
                   <p class="note">{{$t('trans0307')}}</p>
                 </div>
               </div>
+              <div class="extra">
+                <i class="f-up-icon"></i>
+                <div>
+                  <p>
+                    <span class="speed">{{peekUp.value}}</span>
+                    <span class='unit'> {{peekUp.unit}}/s</span>
+                  </p>
+                  <p class="note">{{$t('trans0306')}}</p>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -96,8 +97,6 @@
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <span class="bandwidth">{{bandwidth.value}} </span>
-              <span style="margin-top:5px;">{{bandwidth.unit}}</span>
               <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
             </div>
           </div>
@@ -122,7 +121,7 @@
               <div>
                 <p>
                   <span class="speed">{{speedDown.value}}</span>
-                  <span class='unit'> {{speedDown.unit}}/s</span>
+                  <span class='unit'> {{speedDown.unit}}</span>
                 </p>
                 <p class="note">{{$t('trans0007')}}</p>
               </div>
@@ -132,19 +131,9 @@
               <div>
                 <p>
                   <span class="speed">{{speedUp.value}}</span>
-                  <span class='unit'> {{speedUp.unit}}/s</span>
+                  <span class='unit'> {{speedUp.unit}}</span>
                 </p>
                 <p class="note">{{$t('trans0006')}}</p>
-              </div>
-            </div>
-            <div class="extra">
-              <i class="p-count-icon"></i>
-              <div>
-                <p>
-                  <span class="speed">{{newBandwidth.value}}</span>
-                  <span class='unit'> {{newBandwidth.unit}}</span>
-                </p>
-                <p class="note">{{$t('trans0029')}}</p>
               </div>
             </div>
           </div>
@@ -158,13 +147,9 @@
   </div>
 </template>
 <script>
-import layout from '../../../layout.vue';
 import * as CONSTANTS from '../../../../util/constant';
 
 export default {
-  components: {
-    layout
-  },
   data() {
     return {
       CONSTANTS,
@@ -194,13 +179,10 @@ export default {
   },
   computed: {
     isConnected() {
-      return this.$parent.$parent.isConnected;
+      return this.$parent.isConnected;
     },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
-    },
-    newBandwidth() {
-      return this.formatBandWidth(this.localSpeedInfo.speed.down);
     },
     isSpeedDone() {
       return this.speedStatus === CONSTANTS.SpeedTestStatus.done;
@@ -278,56 +260,19 @@ export default {
       return this.formatSpeed(this.localTraffic.speed.peak.down);
     },
     trafficUl() {
-      return this.formatSpeed(this.localTraffic.traffic.ul * 8);
+      return this.formatNetworkData(this.localTraffic.traffic.ul);
     },
     trafficDl() {
-      return this.formatSpeed(this.localTraffic.traffic.dl * 8);
+      return this.formatNetworkData(this.localTraffic.traffic.dl);
     },
     speedDown() {
-      return this.formatSpeed(this.localSpeedInfo.speed.down);
+      return this.formatBandWidth(this.localSpeedInfo.speed.down);
     },
     speedUp() {
-      return this.formatSpeed(this.localSpeedInfo.speed.up);
+      return this.formatBandWidth(this.localSpeedInfo.speed.up);
     }
   },
   methods: {
-    formatSpeed(value) {
-      value /= 8;
-      const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
-      let index = -1;
-      if (!isNaN(value)) {
-        do {
-          value /= 1024;
-          index += 1;
-        } while (value > 1024 && index < units.length - 1);
-        return {
-          value: value.toFixed(1),
-          unit: units[index]
-        };
-      }
-      return {
-        value: '-',
-        unit: 'KB'
-      };
-    },
-    formatBandWidth(value) {
-      const units = ['bps', 'K', 'M', 'G', 'T', 'P'];
-      let index = 0;
-      if (!isNaN(value)) {
-        while (value > 1024 && index < units.length - 1) {
-          value /= 1024;
-          index += 1;
-        }
-        return {
-          value: value.toFixed(1),
-          unit: units[index]
-        };
-      }
-      return {
-        value: '-',
-        unit: 'M'
-      };
-    },
     closeSpeedModal() {
       this.createIntervalTask();
       this.speedModelOpen = false;
@@ -351,7 +296,7 @@ export default {
         force = false;
       }
       this.$http
-        .testSpeed(force)
+        .testSpeed({ force })
         .then(res => {
           this.speedStatus = res.data.result.status;
           this.speedInfo = res.data.result;
@@ -360,18 +305,10 @@ export default {
             this.testSpeedNumber = this.testTimeout;
           }
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
+        .catch(() => {
           this.speedStatus = CONSTANTS.SpeedTestStatus.done;
           clearInterval(this.speedTestTimer);
           this.testSpeedNumber = this.testTimeout;
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
         });
     },
     startSpeedTest(force) {
@@ -410,15 +347,7 @@ export default {
             }, 10000);
           }
         })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
-          } else {
-            this.$router.push({ path: '/unconnect' });
-          }
+        .catch(() => {
           if (this.pageActive) {
             this.wanNetStatsTimer = setTimeout(() => {
               this.getWanNetStats();
@@ -434,12 +363,10 @@ export default {
           clearTimeout(this.wanInfoTimer);
           this.netInfo = res.data.result;
         })
-        .catch(err => {
-          if (err.response && err.response.status === 400) {
-            this.wanInfoTimer = setTimeout(() => {
-              this.getWanNetInfo();
-            }, 1000 * 3);
-          }
+        .catch(() => {
+          this.wanInfoTimer = setTimeout(() => {
+            this.getWanNetInfo();
+          }, 1000 * 3);
         });
     }
   },
@@ -613,7 +540,6 @@ export default {
       .bandwidth {
         font-size: 24px;
         font-weight: bold;
-        margin-right: 5px;
       }
     }
     .real-time-network {
@@ -682,9 +608,9 @@ export default {
   .test-speed-btn-container {
     text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 50px 0 70px;
     position: relative;
     &:before {
       content: '';
@@ -698,7 +624,6 @@ export default {
     .btn {
       width: 100px;
       height: 38px;
-      margin-left: 20px;
     }
   }
   .speed-model-info {
@@ -776,15 +701,14 @@ export default {
         font-weight: 200;
       }
       .speed-completed {
-        width: 600px;
-        height: 280px;
+        width: 441px;
+        height: 263px;
         background: white;
         border-radius: 5px;
         display: flex;
         flex-direction: column;
         .speed-result-info {
           flex: 1;
-
           width: 100%;
           display: flex;
           justify-content: center;
@@ -817,15 +741,6 @@ export default {
               background-size: 100% 100%;
               margin-right: 5px;
             }
-            .p-count-icon {
-              width: 30px;
-              height: 30px;
-              display: inline-block;
-              background: url('../../../assets/images/ic_broadband.png')
-                no-repeat;
-              background-size: 100% 100%;
-              margin-right: 5px;
-            }
             .title {
               font-size: 16px;
               color: #333333;
@@ -836,7 +751,6 @@ export default {
             .speed {
               font-size: 22px;
               font-weight: bold;
-              // padding: 0 5px;
               color: #000;
             }
             .unit {
@@ -864,19 +778,19 @@ export default {
             width: 120px;
             height: 42px;
             border-radius: 4px;
-            border: solid 1px rgb(214, 0, 28);
-            color: rgb(214, 0, 28);
+            border: solid 1px #b6b6b6;
+            color: #333;
             background: white;
             outline: none;
             box-sizing: border-box;
             &:active {
-              color: rgb(182, 0, 28);
-              border-color: rgb(182, 0, 28);
+              color: #000;
+              border-color: #333;
             }
 
             &:hover {
-              color: rgb(182, 0, 28);
-              border-color: rgb(182, 0, 28);
+              color: #000;
+              border-color: #333;
             }
           }
           .re-btn {
@@ -1030,13 +944,7 @@ export default {
           .speed-result-info {
             justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
             padding-top: 20px;
-            .extra {
-              min-width: 100%;
-
-              padding-bottom: 30px;
-            }
           }
           width: 80%;
           margin: 0 auto;
@@ -1069,8 +977,10 @@ export default {
 
       .test-speed-btn-container {
         height: 100px;
-        .btn-speed-test {
-          margin-right: 0;
+        padding: 0;
+        justify-content: flex-start;
+        &::before {
+          display: none;
         }
       }
       .traffic-container {

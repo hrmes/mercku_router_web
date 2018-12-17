@@ -1,44 +1,25 @@
 <template>
-  <layout>
-    <div class="disappear-container">
-      <div class="inner">
-        <img src="../../../assets/images/img_no_network_access.png" alt="">
-        <div class="text">{{$t('trans0132')}}</div>
-        <button @click="tohome" class="btn">{{$t('trans0063')}}</button>
-      </div>
+  <div class="disappear-container">
+    <div class="inner">
+      <img src="../../../assets/images/img_no_network_access.png" alt="">
+      <div class="text">{{$t('trans0132')}}</div>
+      <button @click="tohome" class="btn">{{$t('trans0063')}}</button>
     </div>
-  </layout>
+  </div>
 </template>
 <script>
-import layout from '../../../layout.vue';
-
 export default {
-  components: {
-    layout
-  },
   methods: {
     tohome() {
-      this.$http
-        .getRouter()
-        .then(() => {
-          this.$http.checkLogin().then(res => {
-            if (res.data.result.status) {
-              this.$router.push({ path: '/dashboard' });
-            } else {
-              this.$router.push({ path: '/login' });
-            }
-          });
-        })
-        .catch(err => {
-          if (err.upgrading) {
-            return;
-          }
-          if (err && err.error) {
-            this.$toast(this.$t(err.error.code));
+      this.$http.getRouter().then(() => {
+        this.$http.checkLogin().then(res => {
+          if (res.data.result.status) {
+            this.$router.push({ path: '/dashboard' });
           } else {
-            this.$toast(this.$t('trans0039'));
+            this.$router.push({ path: '/login' });
           }
         });
+      });
     }
   }
 };
