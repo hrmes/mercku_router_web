@@ -110,7 +110,10 @@ const launch = () => {
         if (!window.location.href.includes('login')) {
           window.location.href = '/';
         }
-      } else if (status === 400 && data.error.code === 600007) {
+      } else if (
+        status === 400 &&
+        (data.error.code === 600007 || data.error.code === 600402)
+      ) {
         !upgrading && upgrade();
         throw err;
       } else {
