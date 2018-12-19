@@ -11,7 +11,6 @@
           <div>
             <m-form-item class="ext-item" prop='ip_start' ref='ip_start'>
               <m-input class="ext-input" :addonBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" :onBlur='ipStartChange' />
-
             </m-form-item>
             <m-form-item class="ext-item" prop='ip_end' ref='ip_end'>
               <m-input class="ext-input" :addonBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
@@ -227,6 +226,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+<<<<<<< HEAD
   .form {
     .tip {
       color: red;
@@ -235,6 +235,16 @@ export default {
     }
     .item {
       label {
+=======
+  .form{
+    .tip{
+      color:red;
+      width: 350px;
+      display: block;
+    }
+    .item{
+      label{
+>>>>>>> cli3
         margin-bottom: 5px;
         display: block;
       }
@@ -254,11 +264,19 @@ export default {
     top: 20px;
   }
 }
+<<<<<<< HEAD
 @media screen and (max-width: 768px) {
   .page-content {
     .form {
       .tip {
         width: 100%;
+=======
+@media screen and (max-width: 768px){
+  .page-content{
+    .form{
+      .tip{
+        width:100%;
+>>>>>>> cli3
       }
     }
   }

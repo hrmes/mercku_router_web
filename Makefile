@@ -34,6 +34,9 @@ dev:
 
 build: prd_depend
 	@CUSTOMER_ID=$(CUSTOMER_ID) npm run build
+	
+test:
+	@CUSTOMER_ID=$(CUSTOMER_ID) npm run test:unit	
 
 tar: dev build
 	tar cf web-dev.tar -C dist .

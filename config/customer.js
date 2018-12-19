@@ -1,4 +1,4 @@
-module.exports = function getCustomerConfig(customer_id) {
+module.exports = function customerConfig(customer_id) {
   let config = {};
   if (customer_id === '0001') {
     config = {
@@ -7,7 +7,7 @@ module.exports = function getCustomerConfig(customer_id) {
       IS_CIK: false,
       IS_MERCKU: true,
       ACCEPT: '".ma"',
-      FAVICO: '"customer-config/fav_mercku.ico"'
+      FAVICO: '"public/fav_mercku.ico"'
     };
   } else if (customer_id === '0002') {
     config = {
@@ -16,7 +16,7 @@ module.exports = function getCustomerConfig(customer_id) {
       IS_CIK: true,
       IS_MERCKU: false,
       ACCEPT: '".ca"',
-      FAVICO: '"customer-config/fav_cik.ico"'
+      FAVICO: '"public/fav_cik.ico"'
     };
   } else if (customer_id === '0000') {
     config = {
@@ -25,7 +25,7 @@ module.exports = function getCustomerConfig(customer_id) {
       IS_CIK: false,
       IS_MERCKU: false,
       ACCEPT: '"*.*"',
-      FAVICO: '"customer-config/fav_mercku.ico"'
+      FAVICO: '"public/fav_mercku.ico"'
     };
   }
   return config;

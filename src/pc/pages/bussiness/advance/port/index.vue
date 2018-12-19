@@ -68,7 +68,6 @@
               <p><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</p>
             </div>
             <!-- <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</div> -->
-
             <!-- <div class="column-outside-port"><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</div> -->
             <div class="column-protocol"><span class="m-title">{{$t('trans0408')}}：</span>{{item.protocol}}</div>
             <div class="column-status">

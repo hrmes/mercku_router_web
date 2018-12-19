@@ -38,7 +38,7 @@ const launch = () => {
     };
     let loadingInstance;
     if (opt.showLoading) {
-      loadingInstance = new (Vue.extend(mProgress))({
+      loadingInstance = new(Vue.extend(mProgress))({
         propsData: {
           label: translate('trans0315'),
           during: opt.timeout
