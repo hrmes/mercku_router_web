@@ -4,7 +4,7 @@
       <div class="row">
         <div class="item">
           <div class="title">{{$t('trans0301')}}</div>
-          <div class='message'>
+          <div class="message">
             <div class="m-item">
               <label class="m-title">{{$t('trans0317')}}：</label>
               {{ networkArr[localNetInfo.type]}}
@@ -33,15 +33,15 @@
             <div class="real-time-info">
               <div class="down">
                 <label class="r-title">{{$t('trans0305')}}：</label>
-                <i class='r-dwon-icon'></i>
+                <i class="r-dwon-icon"></i>
                 <span class="speed">{{realtimeSpeedDown.value}}</span>
-                <span class="unit"> {{realtimeSpeedDown.unit}}/s</span>
+                <span class="unit">{{realtimeSpeedDown.unit}}/s</span>
               </div>
-              <div class='up'>
+              <div class="up">
                 <label class="r-title">{{$t('trans0304')}}：</label>
-                <i class='r-up-icon'></i>
+                <i class="r-up-icon"></i>
                 <span class="speed">{{realtimeSpeedUp.value}}</span>
-                <span class="unit"> {{realtimeSpeedUp.unit}}/s</span>
+                <span class="unit">{{realtimeSpeedUp.unit}}/s</span>
               </div>
             </div>
             <div class="speep-info real-wrap">
@@ -50,7 +50,7 @@
                 <div>
                   <p>
                     <span class="speed">{{peekDown.value}}</span>
-                    <span class='unit'> {{peekDown.unit}}/s</span>
+                    <span class="unit">{{peekDown.unit}}/s</span>
                   </p>
                   <p class="note">{{$t('trans0307')}}</p>
                 </div>
@@ -60,12 +60,11 @@
                 <div>
                   <p>
                     <span class="speed">{{peekUp.value}}</span>
-                    <span class='unit'> {{peekUp.unit}}/s</span>
+                    <span class="unit">{{peekUp.unit}}/s</span>
                   </p>
                   <p class="note">{{$t('trans0306')}}</p>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -80,7 +79,7 @@
                 <div>
                   <p>
                     <span class="speed">{{trafficDl.value}}</span>
-                    <span class='unit'> {{trafficDl.unit}}</span>
+                    <span class="unit">{{trafficDl.unit}}</span>
                   </p>
                   <p class="note">{{$t('trans0309')}}</p>
                 </div>
@@ -90,22 +89,38 @@
                 <div>
                   <p>
                     <span class="speed">{{trafficUl.value}}</span>
-                    <span class='unit'> {{trafficUl.unit}}</span>
+                    <span class="unit">{{trafficUl.unit}}</span>
                   </p>
                   <p class="note">{{$t('trans0310')}}</p>
                 </div>
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
+              <button
+                class="btn check-btn btn-speed-test"
+                @click="startSpeedTest()"
+                :class="{'disabled':!isConnected}"
+                :disabled="!isConnected"
+              >{{$t('trans0008')}}</button>
             </div>
           </div>
         </div>
+        <div class="item router-time-wrap">
+          <div class="title">{{$t('trans0475')}}</div>
+          <div class="message">
+            <div class="time-title">{{$t('trans0537')}}：</div>
+            <div>
+              <p class="time-top">{{uptimeArr[0]}}</p>
+              <p class="time-bottom">{{uptimeArr[1]}}</p>
+            </div>
+          </div>
+          <img class="router-time-img" src="../../../assets/images/img_router_time.png" alt>
+        </div>
       </div>
     </div>
-    <div class='speed-model-info' v-if='speedModelOpen'>
+    <div class="speed-model-info" v-if="speedModelOpen">
       <div class="shadow"></div>
-      <div class='speed-content'>
+      <div class="speed-content">
         <div v-if="isSpeedTesting">
           <div class="test-info">
             <div class="animation-container1"></div>
@@ -121,7 +136,7 @@
               <div>
                 <p>
                   <span class="speed">{{speedDown.value}}</span>
-                  <span class='unit'> {{speedDown.unit}}</span>
+                  <span class="unit">{{speedDown.unit}}</span>
                 </p>
                 <p class="note">{{$t('trans0007')}}</p>
               </div>
@@ -131,7 +146,7 @@
               <div>
                 <p>
                   <span class="speed">{{speedUp.value}}</span>
-                  <span class='unit'> {{speedUp.unit}}</span>
+                  <span class="unit">{{speedUp.unit}}</span>
                 </p>
                 <p class="note">{{$t('trans0006')}}</p>
               </div>
@@ -152,6 +167,8 @@ import * as CONSTANTS from '../../../../util/constant';
 export default {
   data() {
     return {
+      routerMeta: {},
+      uptime: 0,
       CONSTANTS,
       networkArr: {
         '-': '-',
@@ -170,14 +187,60 @@ export default {
       traffic: {},
       wanNetStatsTimer: null,
       speedTestTimer: null,
-      wanInfoTimer: null
+      wanInfoTimer: null,
+      uptimeTimer: null
     };
   },
   mounted() {
     this.getWanNetInfo();
     this.createIntervalTask();
+    this.getRouteMeta();
   },
   computed: {
+    uptimeArr() {
+      const arr = [60, 60, 24, 30, 12];
+      const unit = [
+        this.$t('trans0533'),
+        this.$t('trans0532'),
+        this.$t('trans0531')
+      ];
+      const temp = ['00', '00', '00'];
+      let index = 0;
+      let a = this.uptime;
+      let b = 0;
+      const topArr = [];
+      const bmArr = [];
+      while (index <= arr.length && a > 0) {
+        if (index === arr.length) {
+          b = a;
+        } else {
+          b = a % arr[index];
+        }
+        a = parseInt(a / arr[index], 10);
+        if (index <= 2) {
+          if (b < 10) {
+            b = `0${b}`;
+          }
+          topArr.push(b);
+        } else {
+          bmArr.push(b);
+        }
+        index += 1;
+      }
+      // console.log(topArr, bmArr);
+      const bmStr = bmArr.map((v, k) => `${v} ${unit[k]}`).join('，');
+      const topStr = temp
+        .map((n, j) => {
+          if (topArr[j]) {
+            return topArr[j];
+          }
+          return n;
+        })
+        .reverse()
+        .join(' : ');
+      // console.log(topStr, bmStr);
+      return [topStr, bmStr];
+    },
     isConnected() {
       return this.$parent.isConnected;
     },
@@ -273,6 +336,15 @@ export default {
     }
   },
   methods: {
+    getRouteMeta() {
+      this.$http.getRouter().then(res => {
+        this.routerMeta = res.data.result;
+        this.uptime = this.routerMeta.uptime || 0;
+        this.uptimeTimer = setInterval(() => {
+          this.uptime += 1;
+        }, 1000);
+      });
+    },
     closeSpeedModal() {
       this.createIntervalTask();
       this.speedModelOpen = false;
@@ -289,7 +361,9 @@ export default {
     },
     clearIntervalTask() {
       clearTimeout(this.wanNetStatsTimer);
+      clearInterval(this.uptimeTimer);
       this.wanNetStatsTimer = null;
+      this.uptimeTimer = null;
     },
     speedTest(force) {
       if (force === undefined) {
@@ -401,7 +475,37 @@ export default {
     align-items: center;
     .row {
       width: 100%;
+      .router-time-wrap {
+        position: relative;
+        .message {
+          margin-top: 30px;
+          .time-title {
+            color: #999999;
+            font-size: 18px;
+          }
+          p {
+            margin: 0;
+            padding: 0;
+            color: #333333;
+            line-height: 1;
+            padding-left: 15px;
+          }
+          .time-top {
+            font-size: 30px;
+          }
+          .time-bottom {
+            font-size: 20px;
+            padding-top: 10px;
+          }
+        }
+      }
       .item {
+        .router-time-img {
+          width: 116px;
+          position: absolute;
+          right: 0;
+          bottom: 0;
+        }
         width: 49%;
         overflow: hidden;
         background: white;
@@ -848,6 +952,11 @@ export default {
   }
 }
 @media screen and (min-width: 769px) and (max-width: 1100px) {
+  .router-time-wrap {
+    .message {
+      flex-direction: row !important;
+    }
+  }
   .row-1 {
     min-width: 100px;
     justify-content: center;
@@ -1015,6 +1124,31 @@ export default {
         }
       }
       .row {
+        .router-time-wrap {
+          position: relative;
+          .message {
+            margin-top: 10px;
+            .time-title {
+              color: #999999;
+              font-size: 16px;
+            }
+            p {
+              margin: 0;
+              padding: 0;
+              color: #333333;
+              line-height: 1;
+              padding-left: 0px;
+              padding-top: 10px;
+            }
+            .time-top {
+              font-size: 22px;
+            }
+            .time-bottom {
+              font-size: 18px;
+              // padding-top: 10px;
+            }
+          }
+        }
         .item {
           padding: 0 10px;
           .title {
