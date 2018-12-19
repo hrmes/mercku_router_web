@@ -8,11 +8,7 @@
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
-          <button
-            class="btn m-btn-default"
-            @click="mulDel"
-            :disabled="!hasChecked"
-          >{{$t('trans0453')}}</button>
+          <button class="btn m-btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
           <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
         </div>
       </div>
@@ -30,36 +26,18 @@
         </div>
       </div>
       <div class="table" v-if="empty!==null && !empty">
-        <div
-          class="handle-info"
-          :class="{'openInfo':mobileShowHead}"
-          v-clickoutside="()=>mobileSelect=false"
-        >
+        <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
           <div class="select" @click="()=>mobileSelect=!mobileSelect">
             {{$t('trans0370')}}
             <i>
-              <img
-                :class="{open:mobileSelect}"
-                src="../../../../assets/images/ic_arrow_pack_up.png"
-                alt
-              >
+              <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt>
             </i>
           </div>
           <div class="btn-wrap" :class="{open:mobileSelect}">
-            <button
-              class="btn"
-              @click="()=>$router.push('/advance/rsvdip/form')"
-            >{{$t('trans0035')}}</button>
+            <button class="btn" @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
             <!-- <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button> -->
-            <button
-              class="btn m-btn"
-              @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}"
-            >{{$t('trans0453')}}</button>
-            <button
-              class="btn btn-default"
-              @click="mulDel"
-              :disabled="!hasChecked"
-            >{{$t('trans0453')}}</button>
+            <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
+            <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
         </div>
 
@@ -175,7 +153,7 @@ export default {
         });
     },
     editHandle(item) {
-      this.$store.state = { rsvdip: item };
+      this.$store.state = { ...this.$store.state, rsvdip: item };
       this.$router.push(`/advance/rsvdip/form/${item.id}`);
     },
     update(v, item) {

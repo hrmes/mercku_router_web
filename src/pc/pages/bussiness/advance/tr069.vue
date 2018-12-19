@@ -134,12 +134,6 @@ export default {
             message: this.$t('trans0232')
           }
         ],
-        password: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
-        ],
         interval: [
           {
             rule: value => value,
@@ -219,62 +213,84 @@ export default {
   methods: {
     updateTr069() {
       if (this.$refs.remote.validate() && this.$refs.local.validate()) {
+        this.$loading.open();
+        const remote = {
+          username: this.remote.username,
+          interval: Number(this.remote.interval),
+          url: this.remote.url
+        };
+        const local = {
+          username: this.local.username,
+          port: Number(this.local.port),
+          path: this.local.path
+        };
+        if (this.remote.password) {
+          remote.password = this.remote.password;
+        }
+        if (this.local.password) {
+          local.password = this.local.password;
+        }
         this.$http
           .updateTr069({
-            remote: {
-              ...this.remote,
-              interval: Number(this.remote.interval)
-            },
-            local: {
-              ...this.local,
-              port: Number(this.local.port)
-            },
+            remote,
+            local,
             enabled: this.enabled
           })
           .then(() => {
+            this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
           .catch(() => {
+            this.$loading.close();
             this.$toast(this.$t('trans0077'));
           });
       }
     },
     updateTelnet(v) {
+      this.$loading.open();
       this.$http
         .setTelnetEnabled({
           enabled: v
         })
         .then(() => {
+          this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(() => {
+          this.$loading.close();
           this.$toast(this.$t('trans0077'));
           this.telnet = !v;
         });
     },
     updateTFTP() {
       if (this.$refs.tftp.validate()) {
+        this.$loading.open();
         this.$http
           .updateTFTP(this.tftp)
           .then(() => {
+            this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
           .catch(() => {
+            this.$loading.close();
             this.$toast(this.$t('trans0077'));
           });
       }
     },
     updateWWA() {
       if (this.$refs.wwa.validate()) {
+        this.$loading.open();
         this.$http
           .updateWWA({
             ...this.wwa,
             port: Number(this.wwa.port)
           })
           .then(() => {
+            this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
           .catch(() => {
+            this.$loading.close();
             this.$toast(this.$t('trans0077'));
           });
       }

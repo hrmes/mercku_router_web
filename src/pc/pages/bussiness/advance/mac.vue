@@ -137,12 +137,14 @@ export default {
     padding-left: 24px;
     position: relative;
     cursor: pointer;
+    line-height: 1;
+    height: 14px;
     &:before {
       content: '';
       position: absolute;
       left: 0;
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       border-radius: 9px;
       border: 1px solid #b6b6b6;
     }
@@ -154,8 +156,8 @@ export default {
         content: '';
         display: block;
         position: absolute;
-        left: 5px;
-        top:50%;
+        left: 4px;
+        top: 50%;
         transform: translateY(-50%);
         width: 6px;
         height: 6px;

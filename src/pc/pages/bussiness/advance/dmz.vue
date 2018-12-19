@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{$t('trans0067')}}
+      {{$t('trans0420')}}
     </div>
     <div class="page-content">
       <m-form ref="form" class='form' :model="dmz" :rules='rules'>

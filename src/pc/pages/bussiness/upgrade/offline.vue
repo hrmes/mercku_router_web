@@ -305,7 +305,6 @@ export default {
   border-top: 1px solid #f1f1f1;
   margin-top: 30px;
   text-align: center;
-  height: 100%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
