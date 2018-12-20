@@ -5,7 +5,7 @@
 <script>
 export default {
   mounted() {
-    const redirect = this.$route.params.redirect;
+    const { redirect } = this.$route.params;
     // 没有redirect的页面，表明是接口401，授权已经失效了
     if (!redirect) {
       // 尝试用空密码登录

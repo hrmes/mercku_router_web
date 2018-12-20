@@ -4,34 +4,60 @@
       <m-step :option="stepOption"></m-step>
     </div>
     <div class="step-content">
-      <div class="step-item step-item1" v-show="stepOption.current===0">
-        <m-form ref="form1" :model="form1" :rules="form1Rules">
-          <m-form-item class="form-item" prop="ssid">
-            <m-input :label="$t('trans0168')" :placeholder="$t('trans0321')" v-model="form1.ssid" />
+      <div class="step-item step-item1"
+           v-show="stepOption.current===0">
+        <m-form ref="form1"
+                :model="form1"
+                :rules="form1Rules">
+          <m-form-item class="form-item"
+                       prop="ssid">
+            <m-input :label="$t('trans0168')"
+                     :placeholder="$t('trans0321')"
+                     v-model="form1.ssid" />
           </m-form-item>
-          <m-form-item class="form-item" prop="password">
-            <m-input :label="$t('trans0172')" type="password" :placeholder="$t('trans0321')" v-model="form1.password" />
+          <m-form-item class="form-item"
+                       prop="password">
+            <m-input :label="$t('trans0172')"
+                     type="password"
+                     :placeholder="$t('trans0321')"
+                     v-model="form1.password" />
           </m-form-item>
           <div class="button-container">
-            <button @click="step1()" class="btn">{{$t('trans0055')}}</button>
+            <button @click="step1()"
+                    class="btn">{{$t('trans0055')}}</button>
           </div>
         </m-form>
 
       </div>
-      <div class="step-item step-item2" v-show="stepOption.current===1">
-        <m-form ref="form2" :model="form2" :rules="form2Rules">
-          <m-form-item class="form-item" prop="admin_password">
-            <m-input :label="$t('trans0067')" type="password" :disabled="checked" :placeholder="$t('trans0321')" v-model="form2.admin_password" />
+      <div class="step-item step-item2"
+           v-show="stepOption.current===1">
+        <m-form ref="form2"
+                :model="form2"
+                :rules="form2Rules">
+          <m-form-item class="form-item"
+                       prop="admin_password">
+            <m-input :label="$t('trans0067')"
+                     type="password"
+                     :disabled="checked"
+                     :placeholder="$t('trans0321')"
+                     v-model="form2.admin_password" />
           </m-form-item>
-          <m-checkbox class="checkbox" v-model="checked" @change="clearAdminPwd()" :text="$t('trans0293')"></m-checkbox>
+          <m-checkbox class="checkbox"
+                      v-model="checked"
+                      @change="clearAdminPwd()"
+                      :text="$t('trans0293')"></m-checkbox>
           <div class="button-container">
-            <button @click="step0()" class="btn btn-default ">{{$t('trans0057')}}</button>
-            <button @click="step2()" class="btn">{{$t('trans0081')}}</button>
+            <button @click="step0()"
+                    class="btn btn-default ">{{$t('trans0057')}}</button>
+            <button @click="step2()"
+                    class="btn">{{$t('trans0081')}}</button>
           </div>
         </m-form>
       </div>
-      <div class="step-item step-item3" v-show="stepOption.current===2">
-        <img src="../../../assets/images/img_setting.png" alt="">
+      <div class="step-item step-item3"
+           v-show="stepOption.current===2">
+        <img src="../../../assets/images/img_setting.png"
+             alt="">
         <div>{{$t('trans0294')}}{{countdown}}s</div>
         <div style="margin-top:5px;">{{$t('trans0171')}}</div>
         <div class="wifi-info">

@@ -6,19 +6,31 @@
     <div class="page-content">
       <div class='form'>
         <div class='input-info'>
-          <m-form ref="form" :model="form" :rules='rules'>
-            <m-form-item class="item" prop='up'>
-              <m-input v-model="form.up" :label="`${$t('trans0304')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
+          <m-form ref="form"
+                  :model="form"
+                  :rules='rules'>
+            <m-form-item class="item"
+                         prop='up'>
+              <m-input v-model="form.up"
+                       :label="`${$t('trans0304')} (KB/s)`"
+                       type='text'
+                       :placeholder="`${$t('trans0391')}`"></m-input>
             </m-form-item>
-            <m-form-item class="item" prop='down'>
-              <m-input v-model="form.down" :label=" `${$t('trans0305')} (KB/s)`" type='text' :placeholder="`${$t('trans0391')}`"></m-input>
+            <m-form-item class="item"
+                         prop='down'>
+              <m-input v-model="form.down"
+                       :label=" `${$t('trans0305')} (KB/s)`"
+                       type='text'
+                       :placeholder="`${$t('trans0391')}`"></m-input>
             </m-form-item>
           </m-form>
           <div class="form-item">
-            <m-checkbox :text="$t('trans0462')" v-model="form.enabled"></m-checkbox>
+            <m-checkbox :text="$t('trans0462')"
+                        v-model="form.enabled"></m-checkbox>
           </div>
           <div class="form-item">
-            <button class="btn" @click='submit'>{{$t('trans0081')}}</button>
+            <button class="btn"
+                    @click='submit'>{{$t('trans0081')}}</button>
           </div>
         </div>
       </div>
@@ -68,8 +80,8 @@ export default {
   mounted() {
     this.mac = this.$route.params.mac;
     if (
-      this.$store.state.limits.speed &&
-      this.$store.state.limits.speed.speed_limit
+      this.$store.state.limits.speed
+      && this.$store.state.limits.speed.speed_limit
     ) {
       const speed = this.$store.state.limits.speed.speed_limit;
       this.form = {
@@ -179,4 +191,3 @@ export default {
   }
 }
 </style>
-

@@ -3,23 +3,23 @@
     <div class="mesh-info">
       <div class="title">
         <div class="tabs">
-          <span
-            class="tab"
-            :class="{'selected':!showTable}"
-            @click="$router.push('/dashboard/mesh/topo')"
-          >{{$t('trans0312')}}</span>
+          <span class="tab"
+                :class="{'selected':!showTable}"
+                @click="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</span>
           <span>/</span>
-          <span
-            class="tab"
-            :class="{'selected':showTable}"
-            @click="$router.push('/dashboard/mesh/table')"
-          >{{$t('trans0384')}}</span>
+          <span class="tab"
+                :class="{'selected':showTable}"
+                @click="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</span>
         </div>
-        <div class="btn btn-add" @click="addMeshNode">{{$t('trans0194')}}</div>
+        <div class="btn btn-add"
+             @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
       <div class="content">
-        <div id="topo" style="width:100%;height:550px;margin-bottom: 20px;" v-show="!showTable"></div>
-        <div class="table" v-show="showTable">
+        <div id="topo"
+             style="width:100%;height:550px;margin-bottom: 20px;"
+             v-show="!showTable"></div>
+        <div class="table"
+             v-show="showTable">
           <div class="table-header">
             <div class="name">{{$t('trans0005')}}</div>
             <div class="type">{{$t('trans0068')}}</div>
@@ -33,33 +33,34 @@
             <div class="operate">{{$t('trans0370')}}</div>
           </div>
           <div class="table-content">
-            <div
-              class="router"
-              :class="{'expand':router.expand}"
-              v-for="router in routers"
-              :key="router.sn"
-            >
+            <div class="router"
+                 :class="{'expand':router.expand}"
+                 v-for="router in routers"
+                 :key="router.sn">
               <div class="name">
                 <div class="icon">
-                  <img :src="router.image" alt>
+                  <img :src="router.image"
+                       alt>
                 </div>
                 <div class="wrap">
                   <div class="text">{{router.name}}</div>
-                  <div class="edit" @click="onClickRouterName(router)">
-                    <img src="../../../assets/images/ic_edit.png" alt>
+                  <div class="edit"
+                       @click="onClickRouterName(router)">
+                    <img src="../../../assets/images/ic_edit.png"
+                         alt>
                   </div>
                 </div>
-                <div
-                  @click="router.expand = !router.expand"
-                  class="expand"
-                  :class="{'expand':router.expand,'collapse':!router.expand}"
-                >
-                  <img src="../../../assets/images/ic_side_bar_pick_up.png" alt>
+                <div @click="router.expand = !router.expand"
+                     class="expand"
+                     :class="{'expand':router.expand,'collapse':!router.expand}">
+                  <img src="../../../assets/images/ic_side_bar_pick_up.png"
+                       alt>
                 </div>
               </div>
               <div class="type">
                 <span class="label">{{$t('trans0068')}}</span>
-                <span class="value">{{router.is_gw ? $t('trans0165'): $t('trans0186')}}</span>
+                <span class="value">{{router.is_gw ? $t('trans0165'):
+                  $t('trans0186')}}</span>
               </div>
               <div class="sn">
                 <span class="label">{{$t('trans0251')}}</span>
@@ -79,53 +80,50 @@
                 <span class="value">{{formatMac(router.mac.lan)}}</span>
               </div>
               <div class="operate">
-                <span class="reboot" @click="rebootNode(router)">{{$t('trans0122')}}</span>
-                <span
-                  v-if="router.is_gw"
-                  class="reset"
-                  @click="resetNode(router)"
-                >{{$t('trans0205')}}</span>
-                <span
-                  v-if="!router.is_gw"
-                  class="delete"
-                  @click="deleteNode(router)"
-                >{{$t('trans0033')}}</span>
+                <span class="reboot"
+                      @click="rebootNode(router)">{{$t('trans0122')}}</span>
+                <span v-if="router.is_gw"
+                      class="reset"
+                      @click="resetNode(router)">{{$t('trans0205')}}</span>
+                <span v-if="!router.is_gw"
+                      class="delete"
+                      @click="deleteNode(router)">{{$t('trans0033')}}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="edit-name-modal" v-if="showModal">
+    <div class="edit-name-modal"
+         v-if="showModal">
       <div class="opcity"></div>
       <div class="content">
-        <m-form :model="form" :rules="rules" ref="form">
+        <m-form :model="form"
+                :rules="rules"
+                ref="form">
           <m-form-item prop="newName">
-            <m-editable-select
-              class="small"
-              :options="options"
-              :label="$t('trans0005')"
-              v-model="form.newName"
-            ></m-editable-select>
+            <m-editable-select class="small"
+                               :options="options"
+                               :label="$t('trans0005')"
+                               v-model="form.newName"></m-editable-select>
           </m-form-item>
         </m-form>
         <div class="btn-inner">
-          <button @click="closeUpdateModal" class="btn btn-default">{{$t('trans0025')}}</button>
-          <button
-            @click="updateMehsNode(routerSelected,form.newName)"
-            class="btn"
-          >{{$t('trans0024')}}</button>
+          <button @click="closeUpdateModal"
+                  class="btn btn-default">{{$t('trans0025')}}</button>
+          <button @click="updateMehsNode(routerSelected,form.newName)"
+                  class="btn">{{$t('trans0024')}}</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { formatMac, getStringByte } from '../../../../util/util';
+import genData from './topo';
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 require('echarts/lib/component/legend');
-import { formatMac, getStringByte } from '../../../../util/util';
-import genData from './topo';
 
 const Color = {
   good: '#00d061',

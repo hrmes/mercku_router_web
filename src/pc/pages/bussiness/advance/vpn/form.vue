@@ -4,23 +4,46 @@
       {{$t('trans0402')}}
     </div>
     <div class="page-content">
-      <m-form class="form" ref="form" :model="form" :rules='rules'>
-        <m-form-item class="item" prop='name'>
-          <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
+      <m-form class="form"
+              ref="form"
+              :model="form"
+              :rules='rules'>
+        <m-form-item class="item"
+                     prop='name'>
+          <m-input :label="$t('trans0108')"
+                   type="text"
+                   :placeholder="$t('trans0321')"
+                   v-model="form.name" />
         </m-form-item>
-        <m-form-item class="item" prop='protocol'>
-          <m-select :label="$t('trans0408')" v-model="form.protocol" :options="protocols"></m-select>
+        <m-form-item class="item"
+                     prop='protocol'>
+          <m-select :label="$t('trans0408')"
+                    v-model="form.protocol"
+                    :options="protocols"></m-select>
         </m-form-item>
-        <m-form-item class="item" prop='server'>
-          <m-input :label="$t('trans0409')" type="text" :placeholder="$t('trans0321')" v-model="form.server" />
+        <m-form-item class="item"
+                     prop='server'>
+          <m-input :label="$t('trans0409')"
+                   type="text"
+                   :placeholder="$t('trans0321')"
+                   v-model="form.server" />
         </m-form-item>
-        <m-form-item class="item" prop='username'>
-          <m-input :label="$t('trans0410')" type="text" :placeholder="$t('trans0321')" v-model="form.username" />
+        <m-form-item class="item"
+                     prop='username'>
+          <m-input :label="$t('trans0410')"
+                   type="text"
+                   :placeholder="$t('trans0321')"
+                   v-model="form.username" />
         </m-form-item>
-        <m-form-item class="item" prop='password'>
-          <m-input :label="`${$t('trans0003')}${$t('trans0411')}`" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.password"></m-input>
+        <m-form-item class="item"
+                     prop='password'>
+          <m-input :label="`${$t('trans0003')}${$t('trans0411')}`"
+                   type='password'
+                   :placeholder="`${$t('trans0321')}`"
+                   v-model="form.password"></m-input>
         </m-form-item>
-        <div class="opz-info" v-if="form.protocol===VPNType.pptp">
+        <div class="opz-info"
+             v-if="form.protocol===VPNType.pptp">
           <div class="opz">
             <label for="">{{$t('trans0412')}}</label>
             <m-switch v-model="pptp.mppe"></m-switch>
@@ -32,7 +55,8 @@
         </div>
       </m-form>
       <div class="btn-info form-button">
-        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+        <button class="btn"
+                @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
 

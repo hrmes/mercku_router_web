@@ -7,11 +7,13 @@
       <div class="switch-container">
         <div class="item">
           <label for="">{{$t('trans0424')}}</label>
-          <m-switch v-model="wan.dos" :onChange="updateFirewall"></m-switch>
+          <m-switch v-model="wan.dos"
+                    :onChange="updateFirewall"></m-switch>
         </div>
         <div class="item">
           <label for="">{{$t('trans0434')}}</label>
-          <m-switch v-model="wan.ping" :onChange="updateFirewall"></m-switch>
+          <m-switch v-model="wan.ping"
+                    :onChange="updateFirewall"></m-switch>
         </div>
       </div>
     </div>
@@ -70,4 +72,3 @@ export default {
   }
 }
 </style>
-

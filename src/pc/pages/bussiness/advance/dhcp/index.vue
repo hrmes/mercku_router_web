@@ -2,29 +2,55 @@
   <div class="page">
     <div class='page-header'>{{$t('trans0417')}}</div>
     <div class="page-content">
-      <m-form class="form" ref="form" :model="form" :rules='rules'>
-        <m-form-item class="item" prop='ip'>
-          <m-input :label="$t('trans0439')" type="text" :onBlur="blur" :placeholder="`${$t('trans0440')} ${curIp}`" v-model="form.ip" />
+      <m-form class="form"
+              ref="form"
+              :model="form"
+              :rules='rules'>
+        <m-form-item class="item"
+                     prop='ip'>
+          <m-input :label="$t('trans0439')"
+                   type="text"
+                   :onBlur="blur"
+                   :placeholder="`${$t('trans0440')} ${curIp}`"
+                   v-model="form.ip" />
         </m-form-item>
         <div class="item">
           <label for="">{{$t('trans0483')}}</label>
           <div>
-            <m-form-item class="ext-item" prop='ip_start' ref='ip_start'>
-              <m-input class="ext-input" :addonBefore="ipBefore" type="text" :placeholder="$t('trans0441')" v-model="form.ip_start" :onBlur='ipStartChange' />
+            <m-form-item class="ext-item"
+                         prop='ip_start'
+                         ref='ip_start'>
+              <m-input class="ext-input"
+                       :addonBefore="ipBefore"
+                       type="text"
+                       :placeholder="$t('trans0441')"
+                       v-model="form.ip_start"
+                       :onBlur='ipStartChange' />
             </m-form-item>
-            <m-form-item class="ext-item" prop='ip_end' ref='ip_end'>
-              <m-input class="ext-input" :addonBefore="ipBefore" type="text" :placeholder="$t('trans0442')" v-model="form.ip_end" />
+            <m-form-item class="ext-item"
+                         prop='ip_end'
+                         ref='ip_end'>
+              <m-input class="ext-input"
+                       :addonBefore="ipBefore"
+                       type="text"
+                       :placeholder="$t('trans0442')"
+                       v-model="form.ip_end" />
             </m-form-item>
           </div>
         </div>
-        <m-form-item class="item" prop='lease'>
-          <m-select :label="$t('trans0443')" v-model="form.lease" :options="leases"></m-select>
+        <m-form-item class="item"
+                     prop='lease'>
+          <m-select :label="$t('trans0443')"
+                    v-model="form.lease"
+                    :options="leases"></m-select>
         </m-form-item>
-        <label class="tip" v-if="lanipChanged">{{$t('trans0476')}}</label>
+        <label class="tip"
+               v-if="lanipChanged">{{$t('trans0476')}}</label>
       </m-form>
 
       <div class="btn-info form-button">
-        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+        <button class="btn"
+                @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -96,8 +122,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value =>
-              /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
+            rule: value => /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
             message: this.$t('trans0395')
           }
         ],
@@ -107,8 +132,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value =>
-              /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
+            rule: value => /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
             message: this.$t('trans0395')
           },
           {
@@ -263,4 +287,3 @@ export default {
   }
 }
 </style>
-

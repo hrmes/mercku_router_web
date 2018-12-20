@@ -26,15 +26,13 @@ export default {
       rem = rem > 100 ? 100 : rem;
       // const rem = width / 3.75;
       rootStyle = `html{font-size:${rem}px !important;height:${height}px !important}`;
-      rootItem =
-        document.getElementById('rootsize') || document.createElement('style');
+      rootItem = document.getElementById('rootsize') || document.createElement('style');
       if (!document.getElementById('rootsize')) {
         document.getElementsByTagName('head')[0].appendChild(rootItem);
         rootItem.id = 'rootsize';
       }
       if (rootItem.styleSheet) {
-        rootItem.styleSheet.disabled ||
-          (rootItem.styleSheet.cssText = rootStyle);
+        rootItem.styleSheet.disabled || (rootItem.styleSheet.cssText = rootStyle);
       } else {
         try {
           rootItem.innerHTML = rootStyle;
@@ -102,9 +100,7 @@ export const hostRexp = host => {
 };
 
 function ip2int(ip) {
-  return (
-    ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0
-  );
+  return ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0;
 }
 
 function mac2int(mac) {
@@ -247,7 +243,7 @@ export const getStringByte = str => {
 export const formatNetworkData = value => {
   const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
   let index = -1;
-  if (!isNaN(value)) {
+  if (!Number.isNaN(value)) {
     do {
       value /= 1000;
       index += 1;
@@ -271,7 +267,7 @@ export const formatSpeed = value => {
   value /= 8;
   const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
   let index = -1;
-  if (!isNaN(value)) {
+  if (!Number.isNaN(value)) {
     do {
       value /= 1000;
       index += 1;
@@ -287,7 +283,7 @@ export const formatSpeed = value => {
 export const formatBandWidth = value => {
   const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
   let index = 0;
-  if (!isNaN(value)) {
+  if (!Number.isNaN(value)) {
     while (value > 1000 && index < units.length - 1) {
       value /= 1000;
       index += 1;
@@ -315,10 +311,7 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd HH:mm:ss') => {
     S: date.getMilliseconds()
   };
   if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(
-      RegExp.$1,
-      `${date.getFullYear()}`.substr(4 - RegExp.$1.length)
-    );
+    fmt = fmt.replace(RegExp.$1, `${date.getFullYear()}`.substr(4 - RegExp.$1.length));
   }
 
   Object.keys(o).forEach(k => {

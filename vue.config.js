@@ -1,13 +1,13 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const customerConfig = require('./config/customer');
-const CompressionPlugin = require('compression-webpack-plugin'); //Gzip
+const CompressionPlugin = require('compression-webpack-plugin'); // Gzip
 const webpack = require('webpack');
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin; //Webpack包文件分析器
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // Webpack包文件分析器
+const customerConfig = require('./config/customer');
 
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
+
 const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
 console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
 const CUSTOMER_CONFIG = customerConfig(CUSTOMER_ID);
@@ -21,7 +21,7 @@ function resolve(dir) {
 module.exports = {
   baseUrl: '/',
   outputDir: 'dist',
-  lintOnSave: true,
+  lintOnSave: process.env.NODE_ENV !== 'production' ? 'error' : false,
   productionSourceMap: process.env.NODE_ENV !== 'production',
   pages: {
     app: {
@@ -85,7 +85,7 @@ module.exports = {
         }
       }),
       new CompressionPlugin({
-        //文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-webpack-plugin)
+        // 文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-webpack-plugin)
         filename: '[path].gz[query]',
         algorithm: 'gzip',
         test: productionGzipExtensions,

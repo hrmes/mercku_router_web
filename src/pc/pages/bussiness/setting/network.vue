@@ -8,15 +8,18 @@
         </div>
         <div class="page-content status">
           <div v-if="isTesting">
-            <img src="../../../assets/images/img_test_internet.png" alt="">
+            <img src="../../../assets/images/img_test_internet.png"
+                 alt="">
             <p>{{$t('trans0298')}}...</p>
           </div>
           <div v-if="isUnlinked||isLinked">
-            <img src="../../../assets/images/img_no_network_access.png" alt="">
+            <img src="../../../assets/images/img_no_network_access.png"
+                 alt="">
             <p>{{$t('trans0319')}}</p>
           </div>
           <div v-if="isConnected">
-            <img src="../../../assets/images/img_internet_normal.png" alt="">
+            <img src="../../../assets/images/img_internet_normal.png"
+                 alt="">
             <p>{{$t('trans0318')}}</p>
 
           </div>
@@ -44,7 +47,8 @@
             <div>
               <label for="">{{$t('trans0236')}}：</label>
               <span>
-                {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+                {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
+                :'-'}}
               </span>
             </div>
           </div>
@@ -52,67 +56,142 @@
       </div>
     </div>
     <div class="page">
-      <div class="network-setting" v-if="!isTesting">
+      <div class="network-setting"
+           v-if="!isTesting">
         <div class="page-header">
           {{$t('trans0142')}}
         </div>
         <div class="page-content setting-info">
           <div class='form'>
             <div class="item net-type">
-              <m-select :label="$t('trans0317')" v-model="netType" :options="options"></m-select>
+              <m-select :label="$t('trans0317')"
+                        v-model="netType"
+                        :options="options"></m-select>
               <div class="note">{{netNote[netType]}}</div>
             </div>
-            <m-form v-show="isDhcp" ref="dhcpForm" :model="dhcpForm" :rules="dhcpRules">
+            <m-form v-show="isDhcp"
+                    ref="dhcpForm"
+                    :model="dhcpForm"
+                    :rules="dhcpRules">
               <m-form-item class="item">
-                <m-radio-group class="radio-group" direction="vertical" v-model="autodns.dhcp" :options="dnsOptions"></m-radio-group>
+                <m-radio-group class="radio-group"
+                               direction="vertical"
+                               v-model="autodns.dhcp"
+                               :options="dnsOptions"></m-radio-group>
               </m-form-item>
               <div v-show="!autodns.dhcp">
-                <m-form-item class="item" prop='dns1' ref="dns">
-                  <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="dhcpForm.dns1" />
+                <m-form-item class="item"
+                             prop='dns1'
+                             ref="dns">
+                  <m-input :label="$t('trans0236')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="dhcpForm.dns1" />
                 </m-form-item>
-                <m-form-item class="item" prop='dns2' ref="backupdns">
-                  <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="dhcpForm.dns2" />
+                <m-form-item class="item"
+                             prop='dns2'
+                             ref="backupdns">
+                  <m-input :label="$t('trans0320')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="dhcpForm.dns2" />
                 </m-form-item>
               </div>
             </m-form>
-            <m-form v-show="isPppoe" ref="pppoeForm" :model="pppoeForm" :rules='pppoeRules'>
-              <m-form-item class="item" prop='account'>
-                <m-input :label="$t('trans0155')" type="text" :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.account"></m-input>
+            <m-form v-show="isPppoe"
+                    ref="pppoeForm"
+                    :model="pppoeForm"
+                    :rules='pppoeRules'>
+              <m-form-item class="item"
+                           prop='account'>
+                <m-input :label="$t('trans0155')"
+                         type="text"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="pppoeForm.account"></m-input>
               </m-form-item>
-              <m-form-item class="item" prop='password'>
-                <m-input :label="$t('trans0156')" type='password' :placeholder="`${$t('trans0321')}`" v-model="pppoeForm.password" />
+              <m-form-item class="item"
+                           prop='password'>
+                <m-input :label="$t('trans0156')"
+                         type='password'
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="pppoeForm.password" />
               </m-form-item>
               <m-form-item class="item">
-                <m-radio-group class="radio-group" direction="vertical" v-model="autodns.pppoe" :options="dnsOptions"></m-radio-group>
+                <m-radio-group class="radio-group"
+                               direction="vertical"
+                               v-model="autodns.pppoe"
+                               :options="dnsOptions"></m-radio-group>
               </m-form-item>
               <div v-show="!autodns.pppoe">
-                <m-form-item class="item" prop='dns1' ref="dns">
-                  <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="pppoeForm.dns1" />
+                <m-form-item class="item"
+                             prop='dns1'
+                             ref="dns">
+                  <m-input :label="$t('trans0236')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="pppoeForm.dns1" />
                 </m-form-item>
-                <m-form-item class="item" prop='dns2' ref="backupdns">
-                  <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="pppoeForm.dns2" />
+                <m-form-item class="item"
+                             prop='dns2'
+                             ref="backupdns">
+                  <m-input :label="$t('trans0320')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="pppoeForm.dns2" />
                 </m-form-item>
               </div>
             </m-form>
-            <m-form v-show="isStatic" ref="staticForm" :model="staticForm" :rules='staticRules'>
-              <m-form-item class="item" prop='ip' ref="ip">
-                <m-input :label="$t('trans0151')" type="text" placeholder="0.0.0.0" v-model="staticForm.ip" :onBlur="ipChange" />
+            <m-form v-show="isStatic"
+                    ref="staticForm"
+                    :model="staticForm"
+                    :rules='staticRules'>
+              <m-form-item class="item"
+                           prop='ip'
+                           ref="ip">
+                <m-input :label="$t('trans0151')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.ip"
+                         :onBlur="ipChange" />
               </m-form-item>
-              <m-form-item class="item" prop='mask' ref="mast">
-                <m-input :label="$t('trans0152')" type="text" placeholder="0.0.0.0" v-model="staticForm.mask" :onBlur="maskChange" />
+              <m-form-item class="item"
+                           prop='mask'
+                           ref="mast">
+                <m-input :label="$t('trans0152')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.mask"
+                         :onBlur="maskChange" />
               </m-form-item>
-              <m-form-item class="item" prop='gateway' ref="gateway">
-                <m-input :label="$t('trans0153')" type="text" placeholder="0.0.0.0" v-model="staticForm.gateway" />
+              <m-form-item class="item"
+                           prop='gateway'
+                           ref="gateway">
+                <m-input :label="$t('trans0153')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.gateway" />
               </m-form-item>
-              <m-form-item class="item" prop='dns1' ref="dns">
-                <m-input :label="$t('trans0236')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns1" />
+              <m-form-item class="item"
+                           prop='dns1'
+                           ref="dns">
+                <m-input :label="$t('trans0236')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.dns1" />
               </m-form-item>
-              <m-form-item class="item" prop='dns2' ref="backupdns">
-                <m-input :label="$t('trans0320')" type="text" placeholder="0.0.0.0" v-model="staticForm.dns2" />
+              <m-form-item class="item"
+                           prop='dns2'
+                           ref="backupdns">
+                <m-input :label="$t('trans0320')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.dns2" />
               </m-form-item>
             </m-form>
-            <div class="form-button" style="margin-top:60px;">
-              <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+            <div class="form-button"
+                 style="margin-top:60px;">
+              <button class="btn"
+                      @click="submit()">{{$t('trans0081')}}</button>
             </div>
           </div>
         </div>
@@ -130,8 +209,7 @@ import {
 } from '../../../../util/util';
 import * as CONSTANTS from '../../../../util/constant';
 
-const checkDNS = value =>
-  ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
+const checkDNS = value => ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 
 export default {
   data() {
@@ -585,4 +663,3 @@ export default {
   }
 }
 </style>
-

@@ -1,14 +1,22 @@
 <template>
   <div class="select-container">
     <label for="">{{label}}</label>
-    <div class="select" @click.stop="open()">
-      <div class="select-text" :title="selected.text">{{selected.text}}</div>
+    <div class="select"
+         @click.stop="open()">
+      <div class="select-text"
+           :title="selected.text">{{selected.text}}</div>
       <div class="icon-container">
-        <span class="icon" :class="{'open':opened,'close':!opened}"></span>
+        <span class="icon"
+              :class="{'open':opened,'close':!opened}"></span>
       </div>
       <transition name="select">
-        <ul class="select-popup" v-show="this.opened">
-          <li :class="{'selected':selected === option}" :key="option.value" @click.stop="select(option)" v-for="option in options" :title="option.text">{{option.text}}</li>
+        <ul class="select-popup"
+            v-show="this.opened">
+          <li :class="{'selected':selected === option}"
+              :key="option.value"
+              @click.stop="select(option)"
+              v-for="option in options"
+              :title="option.text">{{option.text}}</li>
         </ul>
       </transition>
     </div>
@@ -121,11 +129,11 @@ export default {
       text-overflow: ellipsis;
 
       &:active {
-        background: #E7E7E7;
+        background: #e7e7e7;
         color: #333;
       }
       &:hover {
-        background: #E7E7E7;
+        background: #e7e7e7;
         color: #333;
       }
       &.selected {

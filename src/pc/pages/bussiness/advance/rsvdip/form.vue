@@ -5,17 +5,29 @@
     </div>
     <div class="page-content">
 
-      <m-form ref="form" class="form" :model="form" :rules='rules'>
-        <div class="device" @click.stop="()=>modalShow=!modalShow">
+      <m-form ref="form"
+              class="form"
+              :model="form"
+              :rules='rules'>
+        <div class="device"
+             @click.stop="()=>modalShow=!modalShow">
           <span>{{$t('trans0235')}}</span>
-          <i> <img :class="{open:modalShow}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i>
-          <div class="modal" v-if="modalShow" @click.stop="" v-clickoutside="()=>modalShow=false">
+          <i> <img :class="{open:modalShow}"
+                 src="../../../../assets/images/ic_arrow_pack_up.png"
+                 alt=""></i>
+          <div class="modal"
+               v-if="modalShow"
+               @click.stop=""
+               v-clickoutside="()=>modalShow=false">
             <div class="opcity"></div>
             <div class="modal-content">
               <div class="list">
-                <div class="device-item" v-for="(item,index) in devices" :key="index">
+                <div class="device-item"
+                     v-for="(item,index) in devices"
+                     :key="index">
                   <div class="check">
-                    <m-checkbox v-model="item.checked" :onChange="(v)=>change(v,item)"></m-checkbox>
+                    <m-checkbox v-model="item.checked"
+                                :onChange="(v)=>change(v,item)"></m-checkbox>
                   </div>
                   <div class="des">
                     <p>{{item.name}}</p>
@@ -25,24 +37,43 @@
                 </div>
               </div>
               <div class="btn-wrap">
-                <button class="btn btn-default" @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-                <button class="btn" @click="chooseDevice">{{$t('trans0024')}}</button>
+                <button class="btn btn-default"
+                        @click="()=>modalShow=false">{{$t('trans0025')}}</button>
+                <button class="btn"
+                        @click="chooseDevice">{{$t('trans0024')}}</button>
               </div>
             </div>
           </div>
         </div>
-        <m-form-item class="item" prop='name' ref="name">
-          <m-input :label="$t('trans0108')" type="text" :placeholder="$t('trans0321')" v-model="form.name" />
+        <m-form-item class="item"
+                     prop='name'
+                     ref="name">
+          <m-input :label="$t('trans0108')"
+                   type="text"
+                   :placeholder="$t('trans0321')"
+                   v-model="form.name" />
         </m-form-item>
-        <m-form-item class="item" prop='mac' ref="mac">
-          <m-input :label="$t('trans0188')" type="text" @input="format" :placeholder="$t('trans0321')" v-model="form.mac" />
+        <m-form-item class="item"
+                     prop='mac'
+                     ref="mac">
+          <m-input :label="$t('trans0188')"
+                   type="text"
+                   @input="format"
+                   :placeholder="$t('trans0321')"
+                   v-model="form.mac" />
         </m-form-item>
-        <m-form-item class="item" prop='ip' ref="ip">
-          <m-input :label="$t('trans0151')" type="text" :placeholder="$t('trans0321')" v-model="form.ip" />
+        <m-form-item class="item"
+                     prop='ip'
+                     ref="ip">
+          <m-input :label="$t('trans0151')"
+                   type="text"
+                   :placeholder="$t('trans0321')"
+                   v-model="form.ip" />
         </m-form-item>
       </m-form>
       <div class="btn-info form-button">
-        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+        <button class="btn"
+                @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -158,8 +189,7 @@ export default {
       });
     },
     submit() {
-      const fetchMethod =
-        this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
+      const fetchMethod =        this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http[fetchMethod]({
@@ -320,4 +350,3 @@ export default {
   }
 }
 </style>
-

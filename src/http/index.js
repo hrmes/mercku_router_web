@@ -100,9 +100,11 @@ class Http {
       throw error;
     };
   }
+
   setExHandler(fn) {
     this.exHandler = fn;
   }
+
   request(config, params, axiosCfg = {}) {
     const data = {
       method: config.action
@@ -110,177 +112,236 @@ class Http {
     if (params) {
       data.params = params;
     }
-    return axios({ ...axiosCfg, url: config.url, method: 'post', data }).catch(
-      this.exHandler
-    );
+    return axios({
+      ...axiosCfg,
+      url: config.url,
+      method: 'post',
+      data
+    }).catch(this.exHandler);
   }
+
   getWWA() {
     return this.request(methods.routerWWAGet);
   }
+
   updateWWA(params) {
     return this.request(methods.routerWWAUpdate, params);
   }
+
   getTFTP() {
     return this.request(methods.routerTFTPGet);
   }
+
   updateTFTP(params) {
     return this.request(methods.routerTFTPUpdate, params);
   }
+
   getTelnetEnabled() {
     return this.request(methods.routerTelnetEnabledGet);
   }
+
   setTelnetEnabled(params) {
     return this.request(methods.routerTelnetEnabledUpdate, params);
   }
+
   getTr069() {
     return this.request(methods.routerTr069Get);
   }
+
   updateTr069(params) {
     return this.request(methods.routerTr069Update, params);
   }
+
   getSysLog() {
     return axios.get(`/log.log?t=${Date.now()}`);
   }
+
   getVPNlist() {
     return this.request(methods.meshVpnGet);
   }
+
   addVPN(params) {
     return this.request(methods.meshVpnAdd, params);
   }
+
   updateVPN(params) {
     return this.request(methods.meshVpnUpdate, params);
   }
+
   deleteVPN(params) {
     return this.request(methods.meshVpnDelete, params);
   }
+
   getVPNInfo() {
     return this.request(methods.meshVpnInfoGet);
   }
+
   updateVPNConfig(params) {
     return this.request(methods.meshVpnConfigUpdate, params);
   }
+
   meshLanUpdate(params) {
     return this.request(methods.meshLanUpdate, params);
   }
+
   meshInfolanNetGet() {
     return this.request(methods.meshInfolanNetGet);
   }
+
   getSyslogEnabled() {
     return this.request(methods.meshSyslogEnabledGet);
   }
+
   updateSyslogEnabled(params) {
     return this.request(methods.meshSyslogEnabledUpdate, params);
   }
+
   diagnosis(params) {
     return this.request(methods.meshDiagnosisExecute, params, {
       timeout: 90000
     });
   }
+
   getWanMac() {
     return this.request(methods.meshInfoWanMacGet);
   }
+
   updateWanMac(params) {
     return this.request(methods.meshConfigWanMacUpdate, params);
   }
+
   getDDNS() {
     return this.request(methods.meshDDNSGet);
   }
+
   updateDDNS(params) {
     return this.request(methods.meshDDNSUpdate, params);
   }
+
   getDMZ() {
     return this.request(methods.meshDMZGet);
   }
+
   updateDMZ(params) {
     return this.request(methods.meshDMZUpdate, params);
   }
+
   meshPortfwGet() {
     return this.request(methods.meshPortfwGet);
   }
+
   meshPortfwUpdate(params) {
     return this.request(methods.meshPortfwUpdate, params);
   }
+
   meshPortfwAdd(params) {
     return this.request(methods.meshPortfwAdd, params);
   }
+
   meshPortfwDelete(params) {
     return this.request(methods.meshPortfwDelete, params);
   }
+
   meshRsvdipGet() {
     return this.request(methods.meshRsvdipGet);
   }
+
   meshRsvdipUpdate(params) {
     return this.request(methods.meshRsvdipUpdate, params);
   }
+
   meshRsvdipAdd(params) {
     return this.request(methods.meshRsvdipAdd, params);
   }
+
   meshRsvdipDelete(params) {
     return this.request(methods.meshRsvdipDelete, params);
   }
+
   getFirewall() {
     return this.request(methods.meshInfoFirewallGet);
   }
+
   updateFirewall(params) {
     return this.request(methods.meshConfigFirewallUpdate, params);
   }
+
   getSpeedLimit(params) {
     return this.request(methods.getSpeedLimit, params);
   }
+
   getLocalDevice(params) {
     return this.request(methods.getLocalDevice, params);
   }
+
   parentControlLimitDel(params) {
     return this.request(methods.parentControlLimitDel, params);
   }
+
   parentControlLimitAdd(params) {
     return this.request(methods.parentControlLimitAdd, params);
   }
+
   parentControlLimitUpdate(params) {
     return this.request(methods.parentControlLimitUpdate, params);
   }
+
   parentControlLimitGet(params) {
     return this.request(methods.parentControlLimitGet, params);
   }
+
   timeLimitUpdate(params) {
     return this.request(methods.timeLimitUpdate, params);
   }
+
   timeLimitDel(params) {
     return this.request(methods.timeLimitDel, params);
   }
+
   getTimeLimit(params) {
     return this.request(methods.getTimeLimit, params);
   }
+
   addTimeLimit(params) {
     return this.request(methods.addTimeLimit, params);
   }
+
   addSpeedLimit(params) {
     return this.request(methods.addSpeedLimit, params);
   }
+
   speedLimitUpdate(params) {
     return this.request(methods.speedLimitUpdate, params);
   }
+
   addToblackList(params) {
     return this.request(methods.addToblackList, params);
   }
+
   meshDeviceUpdate(params) {
     return this.request(methods.meshDeviceUpdate, params);
   }
+
   meshDeviceGet() {
     return this.request(methods.meshDeviceGet);
   }
+
   loginout() {
     return this.request(methods.routerLogout);
   }
+
   getRouterMode() {
     return this.request(methods.routerModeGet);
   }
+
   getAdmin() {
     return this.request(methods.routerAdminGet);
   }
+
   updateAdmin(params) {
     return this.request(methods.meshAdminUpdate, params);
   }
+
   /* v0.9 start */
   uploadFirmware(params, callback) {
     const { CancelToken } = axios;
@@ -298,86 +359,113 @@ class Http {
       }
     });
   }
+
   firmwareList() {
     return this.request(methods.firmwareList);
   }
+
   upgradeMeshNode(params) {
     return this.request(methods.meshNodeUpgrade, params);
   }
+
   /* v0.9 end */
   /* v0.8 start */
   getWanNetInfo() {
     return this.request(methods.meshWanNetGet);
   }
+
   scanMeshNode() {
     return this.request(methods.meshNodeScan);
   }
+
   getWanNetStats() {
     return this.request(methods.meshWanStatsGet);
   }
+
   getBlacklist() {
     return this.request(methods.meshBlacklistGet);
   }
+
   removeBlacklist(params) {
     return this.request(methods.meshBlacklistDelete, params);
   }
+
   meshWifiUpdate(params) {
     return this.request(methods.meshWifiUpdate, params);
   }
+
   meshWanUpdate(params) {
     return this.request(methods.meshWanUpdate, params);
   }
+
   deleteMeshNode(node) {
     return this.request(methods.meshNodeDelete, node);
   }
+
   resetMeshNode(nodeIds) {
     return this.request(methods.meshNodeReset, nodeIds);
   }
+
   reboot(nodeIds) {
     return this.request(methods.meshNodeReboot, nodeIds);
   }
+
   meshNetworkReboot() {
     return this.request(methods.meshNetworkReboot);
   }
+
   getMeshMeta() {
     return this.request(methods.meshMetaGet);
   }
+
   testSpeed(params) {
     return this.request(methods.meshWanSpeedTest, params);
   }
+
   addMeshNode(params) {
     return this.request(methods.meshNodeAdd, params);
   }
+
   updateMeshNode(params) {
     return this.request(methods.meshNodeUpdate, params);
   }
+
   isInMesh(params) {
     return this.request(methods.nodeIsInMesh, params);
   }
+
   getRouter() {
     return this.request(methods.routerMetaGet);
   }
+
   getNet(params) {
     return this.request(methods.routerNetGet, params);
   }
+
   getDeviceCount() {
     return this.request(methods.deviceCountGet);
   }
+
   getTraffic() {
     return this.request(methods.meshWanGet);
   }
+
   getMeshNode() {
     return this.request(methods.meshNodeGet);
   }
+
   checkLogin() {
     return this.request(methods.routerIsLogin);
   }
+
   login(password) {
     return this.request(methods.routerLogin, { password });
   }
+
   isinitial() {
     return this.request(methods.routerIsInitial);
   }
+
   updateMeshConfig(config) {
     // check params
     const conf = {};
@@ -392,15 +480,19 @@ class Http {
     }
     return this.request(methods.meshConfigUpdate, { config: conf });
   }
+
   getWanStatus() {
     return this.request(methods.meshWanStatusGet);
   }
+
   getTimezone() {
     return this.request(methods.meshInfoTimezoneGet);
   }
+
   setTimezone(params) {
     return this.request(methods.meshConfigTimezoneUpdate, params);
   }
+
   post2native(action, type, data) {
     const message = JSON.stringify({ action, type, data });
     try {

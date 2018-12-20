@@ -1,36 +1,56 @@
 <template>
   <div class="page">
-    <div class='page-header' :class="{'m-head':mobileShowHead}">
+    <div class='page-header'
+         :class="{'m-head':mobileShowHead}">
       <span class="title"> {{$t('trans0422')}}</span>
       <div class="m-handle">
         <div class="m-check-box">
-          <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+          <m-checkbox v-model="checkAll"
+                      :onChange="change"></m-checkbox>
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
-          <button class="btn m-btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+          <button class="btn m-btn-default"
+                  @click="mulDel"
+                  :disabled="!hasChecked">{{$t('trans0453')}}</button>
           <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
         </div>
       </div>
     </div>
     <div class="page-content">
-      <div class="empty" v-if="(empty !== null) && empty">
-        <img src="../../../../assets/images/img_default_empty.png" alt="">
+      <div class="empty"
+           v-if="(empty !== null) && empty">
+        <img src="../../../../assets/images/img_default_empty.png"
+             alt="">
         <p>{{$t('trans0278')}}</p>
         <div class="btn-warp">
-          <button class="btn" @click="add">{{$t('trans0035')}}</button>
+          <button class="btn"
+                  @click="add">{{$t('trans0035')}}</button>
         </div>
       </div>
-      <div class='table' v-if="(empty !== null) && !empty">
-        <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
-          <div class="select" @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}}
+      <div class='table'
+           v-if="(empty !== null) && !empty">
+        <div class="handle-info"
+             :class="{'openInfo':mobileShowHead}"
+             v-clickoutside="()=>mobileSelect=false">
+          <div class="select"
+               @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}}
             <i>
-              <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt=""></i>
+              <img :class="{open:mobileSelect}"
+                   src="../../../../assets/images/ic_arrow_pack_up.png"
+                   alt=""></i>
           </div>
-          <div class="btn-wrap" :class="{open:mobileSelect}">
-            <button class="btn" @click="add">{{$t('trans0035')}}</button>
-            <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
-            <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+          <div class="btn-wrap"
+               :class="{open:mobileSelect}">
+            <button class="btn"
+                    @click="add">{{$t('trans0035')}}</button>
+            <button class="btn m-btn"
+                    @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
+              {{$t('trans0453')}}
+            </button>
+            <button class="btn btn-default"
+                    @click="mulDel"
+                    :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
         </div>
 
@@ -38,12 +58,15 @@
 
           <div class="column-name">
             <div class="column-check">
-              <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+              <m-checkbox v-model="checkAll"
+                          :onChange="change"></m-checkbox>
             </div>
             {{$t('trans0108')}}
           </div>
-          <div class="column-outside-ip">{{$t('trans0425')}} / {{$t('trans0426')}}</div>
-          <div class="column-local-ip">{{$t('trans0427')}} / {{$t('trans0428')}}</div>
+          <div class="column-outside-ip">{{$t('trans0425')}} /
+            {{$t('trans0426')}}</div>
+          <div class="column-local-ip">{{$t('trans0427')}} /
+            {{$t('trans0428')}}</div>
           <!-- <div class="column-local-port">{{$t('trans0428')}}</div> -->
           <!-- <div class="column-outside-port">{{$t('trans0426')}}</div> -->
           <div class="column-protocol">{{$t('trans0408')}}</div>
@@ -51,27 +74,39 @@
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
-          <div class="table-row" v-for="(item,index ) in portfws" :key='index'>
+          <div class="table-row"
+               v-for="(item,index ) in portfws"
+               :key='index'>
             <div class="column-name">
-              <div class="column-check" :class="{'checkOpen':mobileShowHead}">
+              <div class="column-check"
+                   :class="{'checkOpen':mobileShowHead}">
                 <m-checkbox v-model='item.checked'></m-checkbox>
               </div>
               <span class="m-title">{{$t('trans0108')}}：</span>
               <span class="name">{{item.name}}</span>
             </div>
             <div class="column-outside-ip">
-              <p> <span class="m-title">{{$t('trans0425')}}：</span>{{ item.remote.ip==='0.0.0.0'?$t('trans0109'):item.remote.ip}}</p>
-              <p><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</p>
+              <p> <span class="m-title">{{$t('trans0425')}}：</span>{{
+                item.remote.ip==='0.0.0.0'?$t('trans0109'):item.remote.ip}}</p>
+              <p>
+                <span class="m-title">{{$t('trans0426')}}：</span>
+                {{item.remote.port.from}}-{{item.remote.port.to}}
+              </p>
             </div>
             <div class="column-local-ip">
               <p><span class="m-title">{{$t('trans0427')}}：</span>{{item.local.ip}}</p>
-              <p><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</p>
+              <p>
+                <span class="m-title">{{$t('trans0428')}}：</span>
+                {{item.local.port.from}}-{{item.local.port.to}}
+              </p>
             </div>
-            <!-- <div class="column-local-port"><span class="m-title">{{$t('trans0428')}}：</span>{{item.local.port.from}}-{{item.local.port.to}}</div> -->
-            <!-- <div class="column-outside-port"><span class="m-title">{{$t('trans0426')}}：</span>{{item.remote.port.from}}-{{item.remote.port.to}}</div> -->
-            <div class="column-protocol"><span class="m-title">{{$t('trans0408')}}：</span>{{item.protocol}}</div>
+            <div class="column-protocol">
+              <span class="m-title">{{$t('trans0408')}}：</span>
+              {{item.protocol}}
+            </div>
             <div class="column-status">
-              <m-switch v-model="item.enabled" :onChange="(v)=>update(v,item)"></m-switch>
+              <m-switch v-model="item.enabled"
+                        :onChange="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
               <a @click="editHandle(item)">{{$t('trans0034')}}</a>
@@ -535,4 +570,3 @@ export default {
   }
 }
 </style>
-

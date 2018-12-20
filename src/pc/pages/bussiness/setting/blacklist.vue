@@ -11,15 +11,20 @@
           <div class="operate">{{$t('trans0370')}}</div>
         </div>
         <div class="table-content">
-          <div class="device" v-for="device in listOrdered" :key="device.mac">
+          <div class="device"
+               v-for="device in listOrdered"
+               :key="device.mac">
             <div class="name">{{device.name}}</div>
             <div class="mac">{{formatMac(device.mac)}}</div>
             <div class="operate">
-              <span class="delete" @click="removeBlacklist(device)">{{$t('trans0033')}}</span>
+              <span class="delete"
+                    @click="removeBlacklist(device)">{{$t('trans0033')}}</span>
             </div>
           </div>
-          <div class="empty" v-if="!blacklist.length">
-            <img src="../../../assets/images/img_default_empty.png" alt="">
+          <div class="empty"
+               v-if="!blacklist.length">
+            <img src="../../../assets/images/img_default_empty.png"
+                 alt="">
             {{$t('trans0278')}}
           </div>
         </div>
@@ -149,4 +154,3 @@ export default {
   }
 }
 </style>
-

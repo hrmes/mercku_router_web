@@ -4,17 +4,25 @@
       {{$t('trans0420')}}
     </div>
     <div class="page-content">
-      <m-form ref="form" class='form' :model="dmz" :rules='rules'>
-        <m-form-item class="item" prop='ip'>
-          <m-input :label="$t('trans0457')" :placeholder="`${$t('trans0321')}`" v-model="dmz.ip"></m-input>
+      <m-form ref="form"
+              class='form'
+              :model="dmz"
+              :rules='rules'>
+        <m-form-item class="item"
+                     prop='ip'>
+          <m-input :label="$t('trans0457')"
+                   :placeholder="`${$t('trans0321')}`"
+                   v-model="dmz.ip"></m-input>
         </m-form-item>
         <div class="checkbox-wrapper">
-          <m-checkbox v-model="dmz.enabled" :text="$t('trans0462')"></m-checkbox>
+          <m-checkbox v-model="dmz.enabled"
+                      :text="$t('trans0462')"></m-checkbox>
         </div>
 
       </m-form>
       <div class="form-button">
-        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+        <button class="btn"
+                @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -95,4 +103,3 @@ export default {
   }
 }
 </style>
-

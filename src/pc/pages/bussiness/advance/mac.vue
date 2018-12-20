@@ -6,24 +6,36 @@
     <div class="page-content">
       <div class="form">
         <div class="form-item">
-          <div @click="setSelected(true)" class="radio" :class="{'selected':isDefault}">
+          <div @click="setSelected(true)"
+               class="radio"
+               :class="{'selected':isDefault}">
             {{$t('trans0459')}}
           </div>
           <p class="mac">{{mac.default}}</p>
         </div>
         <div class="form-item">
-          <div @click="setSelected(false)" class="radio" :class="{'selected':!isDefault}">
+          <div @click="setSelected(false)"
+               class="radio"
+               :class="{'selected':!isDefault}">
             {{$t('trans0460')}}
           </div>
-          <m-form ref="form" :model="mac" :rules="rules" v-show="!isDefault">
-            <m-form-item prop="current" ref="current">
-              <m-input class="input" @input="format" v-model="mac.current" :placeholder="$t('trans0321')"></m-input>
+          <m-form ref="form"
+                  :model="mac"
+                  :rules="rules"
+                  v-show="!isDefault">
+            <m-form-item prop="current"
+                         ref="current">
+              <m-input class="input"
+                       @input="format"
+                       v-model="mac.current"
+                       :placeholder="$t('trans0321')"></m-input>
             </m-form-item>
           </m-form>
         </div>
       </div>
       <div class="form-button">
-        <button class="btn primary" @click="updateMac">{{$t('trans0081')}}</button>
+        <button class="btn primary"
+                @click="updateMac">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>

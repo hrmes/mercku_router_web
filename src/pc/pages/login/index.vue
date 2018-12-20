@@ -1,8 +1,10 @@
 <template>
-  <div class="login-container" @keyup.enter="login">
+  <div class="login-container"
+       @keyup.enter="login">
     <div class="center-form">
       <div class="download">
-        <img src="../../assets/images/qr.png" alt="">
+        <img src="../../assets/images/qr.png"
+             alt="">
         <div class="text">
           <div>{{$t('trans0314')}}</div>
           <div>
@@ -12,23 +14,33 @@
       <div class="form">
         <span class="welcome-text">{{$t('trans0136')}}</span>
         <div v-if="!loading">
-          <button v-if="initial" class="btn" @click="towlan">{{$t('trans0222')}}</button>
-          <div class="login-form" v-if="!initial">
+          <button v-if="initial"
+                  class="btn"
+                  @click="towlan">{{$t('trans0222')}}</button>
+          <div class="login-form"
+               v-if="!initial">
             <div class="form-item">
-              <m-input :label="$t('trans0067')" :placeholder="$t('trans0321')" type="password" v-model="password" />
+              <m-input :label="$t('trans0067')"
+                       :placeholder="$t('trans0321')"
+                       type="password"
+                       v-model="password" />
             </div>
             <div class="form-item">
-              <button class="btn" @click.stop="login()">{{this.$t('trans0001')}}</button>
+              <button class="btn"
+                      @click.stop="login()">{{this.$t('trans0001')}}</button>
             </div>
           </div>
         </div>
-        <div class="loadding" v-if="loading">
+        <div class="loadding"
+             v-if="loading">
           <m-spinner color="#333" />
         </div>
       </div>
       <div class="small-device-download">
         <div class="logo-container">
-          <img class="app-logo" src="../../assets/images/ic_mercku.png" alt="">
+          <img class="app-logo"
+               src="../../assets/images/ic_mercku.png"
+               alt="">
         </div>
         <div class="down-text">
           <div>{{$t('trans0314')}}</div>
@@ -37,14 +49,19 @@
         </div>
 
         <div class="down-button-container">
-          <a class="down-button" href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
+          <a class="down-button"
+             href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
         </div>
       </div>
     </div>
 
     <div class="bottom-image">
-      <img class="big-device-image" src="../../assets/images/img_main_picture.jpg" alt="">
-      <img class="small-device-image" src="../../assets/images/img_bg_mobile.png" alt="">
+      <img class="big-device-image"
+           src="../../assets/images/img_main_picture.jpg"
+           alt="">
+      <img class="small-device-image"
+           src="../../assets/images/img_bg_mobile.png"
+           alt="">
     </div>
   </div>
 
@@ -268,4 +285,3 @@ export default {
   }
 }
 </style>
-

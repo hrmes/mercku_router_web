@@ -4,12 +4,20 @@
       {{$t('trans0067')}}
     </div>
     <div class="page-content">
-      <m-form ref="form" class='form' :model="form" :rules='rules'>
-        <m-form-item class="item" prop='password'>
-          <m-input :label="$t('trans0113')" type='password' :placeholder="`${$t('trans0321')}`" v-model="form.password"></m-input>
+      <m-form ref="form"
+              class='form'
+              :model="form"
+              :rules='rules'>
+        <m-form-item class="item"
+                     prop='password'>
+          <m-input :label="$t('trans0113')"
+                   type='password'
+                   :placeholder="`${$t('trans0321')}`"
+                   v-model="form.password"></m-input>
         </m-form-item>
         <div class="form-button">
-          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+          <button class="btn"
+                  @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </m-form>
     </div>
@@ -60,4 +68,3 @@ export default {
   align-items: center;
 }
 </style>
-

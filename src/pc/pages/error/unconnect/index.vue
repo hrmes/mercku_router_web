@@ -1,9 +1,11 @@
 <template>
   <div class="disappear-container">
     <div class="inner">
-      <img src="../../../assets/images/img_no_network_access.png" alt="">
+      <img src="../../../assets/images/img_no_network_access.png"
+           alt="">
       <div class="text">{{$t('trans0132')}}</div>
-      <button @click="tohome" class="btn">{{$t('trans0063')}}</button>
+      <button @click="tohome"
+              class="btn">{{$t('trans0063')}}</button>
     </div>
   </div>
 </template>

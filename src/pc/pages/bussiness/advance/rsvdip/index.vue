@@ -1,50 +1,72 @@
 <template>
   <div class="page">
-    <div class="page-header" :class="{'m-head':mobileShowHead}">
+    <div class="page-header"
+         :class="{'m-head':mobileShowHead}">
       <span class="title">{{$t('trans0444')}}</span>
       <div class="m-handle">
         <div class="m-check-box">
-          <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+          <m-checkbox v-model="checkAll"
+                      :onChange="change"></m-checkbox>
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
-          <button class="btn m-btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+          <button class="btn m-btn-default"
+                  @click="mulDel"
+                  :disabled="!hasChecked">{{$t('trans0453')}}</button>
           <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
         </div>
       </div>
     </div>
     <div class="page-content">
-      <p class="reboot-info" :class="{'extra':empty!==null && !empty}">
+      <p class="reboot-info"
+         :class="{'extra':empty!==null && !empty}">
         {{$t('trans0496')}}
         <span @click="updateEnabled">{{$t('trans0488')}}</span>
       </p>
-      <div class="empty" v-if="empty!==null && empty">
-        <img src="../../../../assets/images/img_default_empty.png" alt>
+      <div class="empty"
+           v-if="empty!==null && empty">
+        <img src="../../../../assets/images/img_default_empty.png"
+             alt>
         <p>{{$t('trans0278')}}</p>
         <div class="btn-warp">
-          <button class="btn" @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
+          <button class="btn"
+                  @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
         </div>
       </div>
-      <div class="table" v-if="empty!==null && !empty">
-        <div class="handle-info" :class="{'openInfo':mobileShowHead}" v-clickoutside="()=>mobileSelect=false">
-          <div class="select" @click="()=>mobileSelect=!mobileSelect">
+      <div class="table"
+           v-if="empty!==null && !empty">
+        <div class="handle-info"
+             :class="{'openInfo':mobileShowHead}"
+             v-clickoutside="()=>mobileSelect=false">
+          <div class="select"
+               @click="()=>mobileSelect=!mobileSelect">
             {{$t('trans0370')}}
             <i>
-              <img :class="{open:mobileSelect}" src="../../../../assets/images/ic_arrow_pack_up.png" alt>
+              <img :class="{open:mobileSelect}"
+                   src="../../../../assets/images/ic_arrow_pack_up.png"
+                   alt>
             </i>
           </div>
-          <div class="btn-wrap" :class="{open:mobileSelect}">
-            <button class="btn" @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
+          <div class="btn-wrap"
+               :class="{open:mobileSelect}">
+            <button class="btn"
+                    @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
             <!-- <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button> -->
-            <button class="btn m-btn" @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">{{$t('trans0453')}}</button>
-            <button class="btn btn-default" @click="mulDel" :disabled="!hasChecked">{{$t('trans0453')}}</button>
+            <button class="btn m-btn"
+                    @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
+              {{$t('trans0453')}}
+            </button>
+            <button class="btn btn-default"
+                    @click="mulDel"
+                    :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
         </div>
 
         <div class="table-head">
           <div class="column-name">
             <div class="column-check">
-              <m-checkbox v-model="checkAll" :onChange="change"></m-checkbox>
+              <m-checkbox v-model="checkAll"
+                          :onChange="change"></m-checkbox>
             </div>
             {{$t('trans0108')}}
           </div>
@@ -53,9 +75,13 @@
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
-          <div class="table-row" v-for="(item,index ) in rsvdips" :key="index">
-            <div class="column-name" :title="item.name">
-              <div class="column-check" :class="{'checkOpen':mobileShowHead}">
+          <div class="table-row"
+               v-for="(item,index ) in rsvdips"
+               :key="index">
+            <div class="column-name"
+                 :title="item.name">
+              <div class="column-check"
+                   :class="{'checkOpen':mobileShowHead}">
                 <m-checkbox v-model="item.checked"></m-checkbox>
               </div>
               <span class="m-title">{{$t('trans0108')}}：</span>
@@ -540,4 +566,3 @@ export default {
   }
 }
 </style>
-

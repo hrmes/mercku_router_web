@@ -9,6 +9,7 @@ class Store {
     });
     this.install(Vue, bus);
   }
+
   install(Vue, bus) {
     Vue.mixin({
       beforeCreate() {

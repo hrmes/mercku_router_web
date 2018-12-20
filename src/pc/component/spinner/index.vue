@@ -34,8 +34,7 @@ export default {
           height: `${this.size}`
         }
       },
-      gsArray.map(g =>
-        createElement(
+      gsArray.map(g => createElement(
           'g',
           {
             attrs: {
@@ -55,8 +54,7 @@ export default {
               }
             })
           ]
-        )
-      )
+        ))
     );
   }
 };

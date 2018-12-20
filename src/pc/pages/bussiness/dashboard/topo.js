@@ -103,9 +103,9 @@ function findGateway(source) {
 function findGreenNode(root, source, green) {
   root.neighbors.forEach(n => {
     if (
-      !green.includes(n.entity) &&
-      isGood(n.origin.rssi) &&
-      root !== n.entity
+      !green.includes(n.entity)
+      && isGood(n.origin.rssi)
+      && root !== n.entity
     ) {
       green.push(n.entity);
       findGreenNode(n.entity, source, green);
@@ -166,7 +166,7 @@ function genNodes(gateway, green, red) {
         symbol += color === Color.good ? picBeeGood : picBeeBad;
       }
     }
-    const angle = pos[currentIndex].angle;
+    const { angle } = pos[currentIndex];
     const Positions = {
       top: 'top',
       bottom: 'bottom',

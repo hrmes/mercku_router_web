@@ -6,8 +6,12 @@
     <div class="page-content">
       <div class="form">
         <div class="form-item">
-          <m-switch :label="$t('trans0462')" v-model="enabled" :onChange="updateEnabled"></m-switch>
-          <button v-if="enabled" class="btn btn-primary" @click="getSyslog">{{$t('trans0481')}}</button>
+          <m-switch :label="$t('trans0462')"
+                    v-model="enabled"
+                    :onChange="updateEnabled"></m-switch>
+          <button v-if="enabled"
+                  class="btn btn-primary"
+                  @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
         <div class="log-container">
           <pre :class="{'not-empty':increase}">{{increase}}</pre>

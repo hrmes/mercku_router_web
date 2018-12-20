@@ -28,7 +28,7 @@ const Loading = {
     if (this.instance) {
       this.instance.visible = false;
       this.instance.restoryOverflow();
-      let instance = this.instance;
+      let { instance } = this;
       this.instance = null;
       instance.$el.addEventListener('transitionend', () => {
         if (instance) {

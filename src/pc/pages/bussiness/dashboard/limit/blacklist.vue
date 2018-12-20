@@ -6,7 +6,8 @@
     <div class="page-content">
       <div class="handle">
         <label for="">{{$t('trans0462')}}</label>
-        <m-switch :onChange="changehandle" v-model="mode" />
+        <m-switch :onChange="changehandle"
+                  v-model="mode" />
       </div>
       <div class='table'>
         <div class="table-head">
@@ -16,7 +17,9 @@
           <div class="column-handle">{{$t('trans0370')}}</div>
         </div>
         <div class="table-body">
-          <div class="table-row" v-for="(row,index) in sortList" :key='index'>
+          <div class="table-row"
+               v-for="(row,index) in sortList"
+               :key='index'>
             <div class="column-address">{{row}}</div>
             <div class="column-handle">
               <a @click="delRow(row)">{{$t('trans0033')}}</a>
@@ -24,24 +27,39 @@
           </div>
         </div>
         <div class="btn-warp">
-          <button class="btn" @click="modalOpen('add')">{{$t('trans0035')}}</button>
+          <button class="btn"
+                  @click="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
-    <div class="modal" v-if='modalShow'>
+    <div class="modal"
+         v-if='modalShow'>
       <div class="opcity"></div>
       <div class="modal-content">
         <div class="modal-form">
-          <m-form ref="form" class='form' :model="{host}" :rules='rules'>
-            <m-form-item class="item" prop='host'>
-              <m-input class='small' :label="$t('trans0076')" type='text' :placeholder="`${$t('trans0321')}`" v-model="host"></m-input>
+          <m-form ref="form"
+                  class='form'
+                  :model="{host}"
+                  :rules='rules'>
+            <m-form-item class="item"
+                         prop='host'>
+              <m-input class='small'
+                       :label="$t('trans0076')"
+                       type='text'
+                       :placeholder="`${$t('trans0321')}`"
+                       v-model="host"></m-input>
             </m-form-item>
           </m-form>
         </div>
         <div class="btn-info">
-          <button class="btn btn-default" @click="closeModal">{{$t('trans0025')}}</button>
-          <button v-if="modalStatus==='add'" class="btn" @click="submit">{{$t('trans0035')}}</button>
-          <button v-if="modalStatus==='edit'" class="btn" @click="updateSubmit">{{$t('trans0081')}}</button>
+          <button class="btn btn-default"
+                  @click="closeModal">{{$t('trans0025')}}</button>
+          <button v-if="modalStatus==='add'"
+                  class="btn"
+                  @click="submit">{{$t('trans0035')}}</button>
+          <button v-if="modalStatus==='edit'"
+                  class="btn"
+                  @click="updateSubmit">{{$t('trans0081')}}</button>
         </div>
       </div>
     </div>
@@ -87,12 +105,13 @@ export default {
   },
   computed: {
     sortList() {
-      return this.parentControlLimitList.sort();
+      const list = this.parentControlLimitList;
+      return list.sort();
     }
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const blacklist = this.$store.state.limits.blacklist;
+    const { blacklist } = this.$store.state.limits;
     if (blacklist && blacklist.parent_control) {
       const parentControl = blacklist.parent_control;
       this.form.mode = parentControl.mode;
@@ -381,4 +400,3 @@ export default {
   }
 }
 </style>
-

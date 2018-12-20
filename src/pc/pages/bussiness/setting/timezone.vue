@@ -8,12 +8,18 @@
         <p>{{$t('trans0373')}}</p>
         <p>{{timezoneText}}</p>
       </div>
-      <m-form ref="form" class='form' :model="form">
-        <m-form-item class="item" prop='password'>
-          <m-select :label="$t('trans0273')" v-model="form.timezone" :options="timezones"></m-select>
+      <m-form ref="form"
+              class='form'
+              :model="form">
+        <m-form-item class="item"
+                     prop='password'>
+          <m-select :label="$t('trans0273')"
+                    v-model="form.timezone"
+                    :options="timezones"></m-select>
         </m-form-item>
         <div class="form-button">
-          <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+          <button class="btn"
+                  @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </m-form>
 
@@ -117,4 +123,3 @@ export default {
   }
 }
 </style>
-

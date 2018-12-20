@@ -4,27 +4,42 @@
       {{$t('trans0418')}}
     </div>
     <div class="page-content">
-      <m-form ref="form" class='form' :model="ddns" :rules='rules'>
+      <m-form ref="form"
+              class='form'
+              :model="ddns"
+              :rules='rules'>
         <div class="form-item">
           <label for="">{{$t('trans0435')}}</label>
-          <m-radio-group v-model="ddns.service" :options="services"></m-radio-group>
+          <m-radio-group v-model="ddns.service"
+                         :options="services"></m-radio-group>
         </div>
-        <m-form-item class="item" prop='domain'>
-          <m-input :label="$t('trans0436')" :placeholder="`${$t('trans0321')}`" v-model="ddns.domain"></m-input>
+        <m-form-item class="item"
+                     prop='domain'>
+          <m-input :label="$t('trans0436')"
+                   :placeholder="`${$t('trans0321')}`"
+                   v-model="ddns.domain"></m-input>
         </m-form-item>
-        <m-form-item class="item" prop='username'>
-          <m-input :label="$t('trans0410')" :placeholder="`${$t('trans0321')}`" v-model="ddns.username"></m-input>
+        <m-form-item class="item"
+                     prop='username'>
+          <m-input :label="$t('trans0410')"
+                   :placeholder="`${$t('trans0321')}`"
+                   v-model="ddns.username"></m-input>
         </m-form-item>
-        <m-form-item class="item" prop='password'>
-          <m-input :label="$t('trans0003')" type="password" :placeholder="`${$t('trans0321')}`" v-model="ddns.password"></m-input>
+        <m-form-item class="item"
+                     prop='password'>
+          <m-input :label="$t('trans0003')"
+                   type="password"
+                   :placeholder="`${$t('trans0321')}`"
+                   v-model="ddns.password"></m-input>
         </m-form-item>
         <div class="form-item">
-          <m-checkbox v-model="ddns.enabled" :text="$t('trans0462')"></m-checkbox>
+          <m-checkbox v-model="ddns.enabled"
+                      :text="$t('trans0462')"></m-checkbox>
         </div>
-
       </m-form>
       <div class="form-button">
-        <button class="btn" @click="submit()">{{$t('trans0081')}}</button>
+        <button class="btn"
+                @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -139,4 +154,3 @@ export default {
   }
 }
 </style>
-

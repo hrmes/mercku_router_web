@@ -4,18 +4,27 @@
       {{$t('trans0419')}}
     </div>
     <div class="page-content">
-      <m-form class="form" :model="form" ref="form" :rules="rules">
+      <m-form class="form"
+              :model="form"
+              ref="form"
+              :rules="rules">
         <m-form-item>
-          <m-select v-model="job_type" :label="$t('trans0070')" :options="jobs"></m-select>
+          <m-select v-model="job_type"
+                    :label="$t('trans0070')"
+                    :options="jobs"></m-select>
         </m-form-item>
         <m-form-item prop="host">
-          <m-input v-model="form.host" :label="label" :placeholder="$t('trans0321')"></m-input>
+          <m-input v-model="form.host"
+                   :label="label"
+                   :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item>
-          <button class="btn btn-primary" @click="start">{{$t('trans0467')}}</button>
+          <button class="btn btn-primary"
+                  @click="start">{{$t('trans0467')}}</button>
         </m-form-item>
       </m-form>
-      <div class="log-container" v-show="output">
+      <div class="log-container"
+           v-show="output">
         <pre>{{output}}</pre>
       </div>
     </div>

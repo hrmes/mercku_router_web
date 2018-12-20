@@ -18,42 +18,68 @@
           </ul>
         </div>
         <div class="table-body small-device-body">
-          <ul v-for="(row,i) in filterDevices" :key='i'>
-            <li class="column-name" @click.stop="expandTable(row)">
+          <ul v-for="(row,i) in filterDevices"
+              :key='i'>
+            <li class="column-name"
+                @click.stop="expandTable(row)">
               <div class="column-icon">
                 <div class="icon-inner">
-                  <i class="band" v-if="row.online_info.band==='wired'"><img src="../../../assets/images/ic_device_cable@2x.png" alt=""></i>
-                  <i class="band" v-else><img src="../../../assets/images/ic_equipment.png" alt=""></i>
+                  <i class="band"
+                     v-if="row.online_info.band==='wired'">
+                    <img src="../../../assets/images/ic_device_cable@2x.png"
+                         alt=""></i>
+                  <i class="band"
+                     v-else><img src="../../../assets/images/ic_equipment.png"
+                         alt=""></i>
                 </div>
               </div>
               <div class="name-wrap">
                 <div class="name-inner">
                   <a style="cursor:text">
-                    <img v-if='row.local' src="../../../assets/images/ic_user.png" alt="" style="margin-right:5px;margin-left:0;">
-                    <span :title='row.name' :class="{'extand-name':row.expand}">{{row.name}}</span>
-                    <img style="cursor:pointer" @click.stop='()=>nameModalOpen(row)' v-if='isMobileRow(row.expand)' src="../../../assets/images/ic_edit.png" alt="">
+                    <img v-if='row.local'
+                         src="../../../assets/images/ic_user.png"
+                         alt=""
+                         style="margin-right:5px;margin-left:0;">
+                    <span :title='row.name'
+                          :class="{'extand-name':row.expand}">{{row.name}}</span>
+                    <img style="cursor:pointer"
+                         @click.stop='()=>nameModalOpen(row)'
+                         v-if='isMobileRow(row.expand)'
+                         src="../../../assets/images/ic_edit.png"
+                         alt="">
                   </a>
                 </div>
-                <div class="des-inner" v-if='isMobileRow(row.expand)'>
+                <div class="des-inner"
+                     v-if='isMobileRow(row.expand)'>
                   <span> {{bandMap[`${row.online_info.band}`]}}</span>
-                  <span v-if="row.online_info.band!=='wired'"> {{transformDate(row.online_info.online_duration)}}</span>
+                  <span v-if="row.online_info.band!=='wired'">
+                    {{transformDate(row.online_info.online_duration)}}</span>
                 </div>
               </div>
               <div class="mobile-icon">
-                <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}" src="../../../assets/images/ic_side_bar_pick_up.png" alt="">
+                <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
+                     src="../../../assets/images/ic_side_bar_pick_up.png"
+                     alt="">
               </div>
             </li>
-            <li class="column-real-time" v-if='isMobileRow(row.expand)'>
+            <li class="column-real-time"
+                v-if='isMobileRow(row.expand)'>
               <div class="speed-inner">
                 <div class="speed-wrap">
-                  <img class='icon' src="../../../assets/images/ic_device_upload.png" alt="">
+                  <img class='icon'
+                       src="../../../assets/images/ic_device_upload.png"
+                       alt="">
                   <label class="text-inner">
-                    <span> {{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
-                    <span> {{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
+                    <span>
+                      {{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
+                    <span>
+                      {{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
                   </label>
                 </div>
                 <div class="speed-wrap">
-                  <img class='icon' src="../../../assets/images/ic_device_download.png" alt="">
+                  <img class='icon'
+                       src="../../../assets/images/ic_device_download.png"
+                       alt="">
                   <label class="text-inner">
                     <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
                     <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}/s</span>
@@ -61,49 +87,70 @@
                 </div>
               </div>
             </li>
-            <li class="column-band" v-if='isMobileRow(row.expand)'>
+            <li class="column-band"
+                v-if='isMobileRow(row.expand)'>
               <span>{{$t('trans0015')}}</span>
-              <span> {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
-              <span> {{formatNetworkData (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
+              <span>
+                {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
+              </span>
+              <span> {{formatNetworkData
+                (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
             </li>
-            <li class="column-ip device-item" v-if='isMobileRow(row.expand)'>
+            <li class="column-ip device-item"
+                v-if='isMobileRow(row.expand)'>
               <span>{{$t('trans0151')}}</span>
               <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
             </li>
-            <li class="column-mac device-item" v-if='isMobileRow(row.expand)'>
+            <li class="column-mac device-item"
+                v-if='isMobileRow(row.expand)'>
               <span>{{$t('trans0188')}}</span>
               <span>{{formatMac(row.mac)}}</span>
             </li>
-            <li class="column-limit" v-if='isMobileRow(row.expand)'>
+            <li class="column-limit"
+                v-if='isMobileRow(row.expand)'>
               <div class="limit-inner">
-                <div class="item device-item" @click="()=>limitClick('time',row)">
-                  <span class="limit-icon time-limit" v-show="!isMobile" :class="{'active':isTimeLimit(row)}"></span>
+                <div class="item device-item"
+                     @click="()=>limitClick('time',row)">
+                  <span class="limit-icon time-limit"
+                        v-show="!isMobile"
+                        :class="{'active':isTimeLimit(row)}"></span>
                   <span v-show="isMobile">{{$t('trans0075')}}</span>
                   <span class="status">
                     <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                    <img src="../../../assets/images/ic_inter.png" alt="">
+                    <img src="../../../assets/images/ic_inter.png"
+                         alt="">
                   </span>
                 </div>
-                <div class="item device-item" @click="()=>limitClick('speed',row)">
-                  <span class="limit-icon speed-limit" v-show="!isMobile" :class="{'active':isSpeedLimit(row)}"></span>
+                <div class="item device-item"
+                     @click="()=>limitClick('speed',row)">
+                  <span class="limit-icon speed-limit"
+                        v-show="!isMobile"
+                        :class="{'active':isSpeedLimit(row)}"></span>
                   <span v-show="isMobile">{{$t('trans0014')}}</span>
                   <span class="status">
                     <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                    <img src="../../../assets/images/ic_inter.png" alt="">
+                    <img src="../../../assets/images/ic_inter.png"
+                         alt="">
                   </span>
                 </div>
-                <div class="item device-item" @click="()=>limitClick('blacklist',row)">
-                  <span class="limit-icon url-limit" v-show="!isMobile" :class="{'active':isBlacklsitLimit(row)}"></span>
+                <div class="item device-item"
+                     @click="()=>limitClick('blacklist',row)">
+                  <span class="limit-icon url-limit"
+                        v-show="!isMobile"
+                        :class="{'active':isBlacklsitLimit(row)}"></span>
                   <span v-show="isMobile">{{$t('trans0076')}}</span>
                   <span class="status">
                     <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                    <img src="../../../assets/images/ic_inter.png" alt="">
+                    <img src="../../../assets/images/ic_inter.png"
+                         alt="">
                   </span>
                 </div>
               </div>
             </li>
-            <li class="column-black-list" v-if='isMobileRow(row.expand)'>
-              <span class="black-btn" @click="()=>addToBlackList(row)">
+            <li class="column-black-list"
+                v-if='isMobileRow(row.expand)'>
+              <span class="black-btn"
+                    @click="()=>addToBlackList(row)">
                 {{$t('trans0016')}}
               </span>
             </li>
@@ -111,27 +158,38 @@
         </div>
       </div>
     </div>
-    <div class="edit-name-modal" v-if="modalShow">
+    <div class="edit-name-modal"
+         v-if="modalShow">
       <div class="opcity"></div>
       <div class="content">
         <div class="select-wrapper">
-          <m-form ref="form" class='form' :model="form" :rules='rules'>
-            <m-form-item class="item" prop='name'>
-              <m-input class='small' :label="$t('trans0005')" type='text' :placeholder="`${$t('trans0321')}`" v-model="form.name"></m-input>
+          <m-form ref="form"
+                  class='form'
+                  :model="form"
+                  :rules='rules'>
+            <m-form-item class="item"
+                         prop='name'>
+              <m-input class='small'
+                       :label="$t('trans0005')"
+                       type='text'
+                       :placeholder="`${$t('trans0321')}`"
+                       v-model="form.name"></m-input>
             </m-form-item>
           </m-form>
         </div>
         <div class="btn-inner">
-          <button @click="()=>modalShow=false" class="btn btn-default">{{$t('trans0025')}}</button>
-          <button @click="updateDeviceName" class="btn">{{$t('trans0024')}}</button>
+          <button @click="()=>modalShow=false"
+                  class="btn btn-default">{{$t('trans0025')}}</button>
+          <button @click="updateDeviceName"
+                  class="btn">{{$t('trans0024')}}</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { formatMac, getStringByte, formatDate } from 'util/util';
 import { BlacklistMode } from 'util/constant';
+import { formatMac, getStringByte, formatDate } from 'util/util';
 
 export default {
   data() {
@@ -233,10 +291,7 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return (
-        row.parent_control &&
-        row.parent_control.mode === BlacklistMode.blacklist
-      );
+      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -368,21 +423,15 @@ export default {
       if (date > split[0]) {
         const now = new Date().getTime();
         return formatDate(now - date * 1000);
-      } else if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace(
-          '%d',
-          parseInt(date / split[1], 10)
-        )}`;
-      } else if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace(
-          '%d',
-          parseInt(date / split[2], 10)
-        )}`;
-      } else if (date <= split[2] && date > split[3]) {
-        return `${this.$t('trans0011').replace(
-          '%d',
-          parseInt(date / split[3], 10)
-        )}`;
+      }
+      if (date <= split[0] && date > split[1]) {
+        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+      }
+      if (date <= split[1] && date > split[2]) {
+        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+      }
+      if (date <= split[2] && date > split[3]) {
+        return `${this.$t('trans0011').replace('%d', parseInt(date / split[3], 10))}`;
       }
       return `${this.$t('trans0010')}`;
     }
@@ -647,32 +696,26 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/ic_limit_time_close.png)
-                no-repeat center;
+              background: url(../../../assets/images/ic_limit_time_close.png) no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_time.png)
-                  no-repeat center;
+                background: url(../../../assets/images/ic_limit_time.png) no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/ic_limit_speed_close.png)
-                no-repeat center;
+              background: url(../../../assets/images/ic_limit_speed_close.png) no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_speed.png)
-                  no-repeat center;
+                background: url(../../../assets/images/ic_limit_speed.png) no-repeat center;
                 background-size: 100%;
               }
             }
             &.url-limit {
-              background: url(../../../assets/images/ic_limit_website_close.png)
-                no-repeat center;
+              background: url(../../../assets/images/ic_limit_website_close.png) no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_website.png)
-                  no-repeat center;
+                background: url(../../../assets/images/ic_limit_website.png) no-repeat center;
                 background-size: 100%;
               }
             }
@@ -695,8 +738,7 @@ export default {
         width: 295px;
         height: 229px;
         border-radius: 5px;
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04),
-          0 2px 4px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
         background-color: #ffffff;
         border: solid 1px #f1f1f1;
         padding: 30px 20px;

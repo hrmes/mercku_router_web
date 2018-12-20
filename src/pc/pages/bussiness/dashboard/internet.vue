@@ -19,7 +19,8 @@
             </div>
             <div class="m-item">
               <label class="m-title">{{$t('trans0236')}}：</label>
-              {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/') :'-'}}
+              {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
+              :'-'}}
             </div>
             <div class="m-item">
               <label class="m-title">{{$t('trans0153')}}：</label>
@@ -97,13 +98,17 @@
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <button class="btn check-btn btn-speed-test" @click='startSpeedTest()' :class="{'disabled':!isConnected}" :disabled="!isConnected">{{$t('trans0008')}}</button>
+              <button class="btn check-btn btn-speed-test"
+                      @click='startSpeedTest()'
+                      :class="{'disabled':!isConnected}"
+                      :disabled="!isConnected">{{$t('trans0008')}}</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class='speed-model-info' v-if='speedModelOpen'>
+    <div class='speed-model-info'
+         v-if='speedModelOpen'>
       <div class="shadow"></div>
       <div class='speed-content'>
         <div v-if="isSpeedTesting">
@@ -114,7 +119,8 @@
           </div>
           <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
         </div>
-        <div v-if="isSpeedDone || isSpeedFailed" class="speed-completed">
+        <div v-if="isSpeedDone || isSpeedFailed"
+             class="speed-completed">
           <div class="speed-result-info">
             <div class="extra">
               <i class="p-dwon-icon"></i>
@@ -138,8 +144,10 @@
             </div>
           </div>
           <div class="btn-info">
-            <button class="cmp-btn" @click="startSpeedTest(true)">{{$t('trans0279')}}</button>
-            <button class="btn re-btn" @click="closeSpeedModal">{{$t('trans0018')}}</button>
+            <button class="cmp-btn"
+                    @click="startSpeedTest(true)">{{$t('trans0279')}}</button>
+            <button class="btn re-btn"
+                    @click="closeSpeedModal">{{$t('trans0018')}}</button>
           </div>
         </div>
       </div>
@@ -326,8 +334,8 @@ export default {
           return;
         }
         if (
-          this.testSpeedNumber % 5 === 0 &&
-          this.testSpeedNumber !== this.testTimeout
+          this.testSpeedNumber % 5 === 0
+          && this.testSpeedNumber !== this.testTimeout
         ) {
           this.speedTest();
         }

@@ -6,12 +6,14 @@
         <div class="form">
           <div class="description">
             <h4>
-              <img src="../../../assets/images/ic_question.png" alt="">
+              <img src="../../../assets/images/ic_question.png"
+                   alt="">
               <span> {{$t('trans0331')}}</span>
             </h4>
             <p>1.
               <span>{{$t('trans0332')}}</span>
-              <a :href="$t('trans0482')" target="_blank">{{$t('trans0482')}}</a>
+              <a :href="$t('trans0482')"
+                 target="_blank">{{$t('trans0482')}}</a>
               <span>,&nbsp;{{$t('trans0346')}}</span>
             </p>
             <p>2.
@@ -22,8 +24,15 @@
             </p>
           </div>
           <div class="upload">
-            <m-upload ref="uploader" :onChange="onChange" :onCancel="onCancel" :beforeUpload="beforeUpload" :request="upload" :label="$t('trans0339')" :accept="accept" />
-            <div class="package-info" v-if="uploadStatus === UploadStatus.success">
+            <m-upload ref="uploader"
+                      :onChange="onChange"
+                      :onCancel="onCancel"
+                      :beforeUpload="beforeUpload"
+                      :request="upload"
+                      :label="$t('trans0339')"
+                      :accept="accept" />
+            <div class="package-info"
+                 v-if="uploadStatus === UploadStatus.success">
               <p class="info-item">
                 <span>{{$t('trans0208')}}:</span>
                 <span>{{productName}}</span>
@@ -38,16 +47,30 @@
               </p>
             </div>
           </div>
-          <div class="nodes-wrapper" v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
+          <div class="nodes-wrapper"
+               v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
             <p class="title">{{$t('trans0333')}}</p>
             <div class="nodes-info">
-              <div v-for="node in localNodes" :key="node.sn" class="node">
-                <div class="message" @click="check(node)">
-                  <m-checkbox :rect="false" v-model="node.checked" />
+              <div v-for="node in localNodes"
+                   :key="node.sn"
+                   class="node">
+                <div class="message"
+                     @click="check(node)">
+                  <m-checkbox :rect="false"
+                              v-model="node.checked" />
                   <div class="img-container">
-                    <img class="img-m2" v-if="packageInfo.model.id===RouterSnModel.M2" src="../../../assets/images/img_m2.png" alt="">
-                    <img class="img-bee" v-else-if="packageInfo.model.id===RouterSnModel.Bee" src="../../../assets/images/img_bee.png" alt="">
-                    <img class="img-other" v-else src="../../../assets/images/ic_general_router.png" alt="">
+                    <img class="img-m2"
+                         v-if="packageInfo.model.id===RouterSnModel.M2"
+                         src="../../../assets/images/img_m2.png"
+                         alt="">
+                    <img class="img-bee"
+                         v-else-if="packageInfo.model.id===RouterSnModel.Bee"
+                         src="../../../assets/images/img_bee.png"
+                         alt="">
+                    <img class="img-other"
+                         v-else
+                         src="../../../assets/images/ic_general_router.png"
+                         alt="">
                   </div>
                   <div class="info-container">
                     <p class="node-name">{{node.name}}</p>
@@ -60,11 +83,14 @@
               </div>
             </div>
             <div class="btn-info">
-              <button @click="upgrade()" class="btn re-btn">{{$t('trans0225')}}</button>
+              <button @click="upgrade()"
+                      class="btn re-btn">{{$t('trans0225')}}</button>
             </div>
           </div>
-          <div class="description-wrapper" v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
-            <p> <img src="../../../assets/images/ic_hint.png" alt=""> {{$t('trans0336')}}</p>
+          <div class="description-wrapper"
+               v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
+            <p> <img src="../../../assets/images/ic_hint.png"
+                   alt=""> {{$t('trans0336')}}</p>
             <p>{{$t('trans0337')}}</p>
             <p>{{$t('trans0335')}}</p>
           </div>
@@ -72,7 +98,8 @@
       </div>
     </div>
     <div class="mobile-wrapper">
-      <img src="../../../assets/images/ic_hint.png" alt="">
+      <img src="../../../assets/images/ic_hint.png"
+           alt="">
       <p>{{$t('trans0343')}} </p>
     </div>
   </div>
@@ -145,12 +172,12 @@ export default {
       node.checked = !node.checked;
     },
     onChange() {
-      const uploader = this.$refs.uploader;
+      const { uploader } = this.$refs;
       this.uploadStatus = uploader.status;
     },
     beforeUpload(files) {
       const file = files[0];
-      const uploader = this.$refs.uploader;
+      const { uploader } = this.$refs;
       const entendName = getFileExtendName(file);
       const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
@@ -169,7 +196,7 @@ export default {
     upload(files) {
       const formData = new FormData();
       formData.append('file', files[0]);
-      const uploader = this.$refs.uploader;
+      const { uploader } = this.$refs;
       this.uploadStatus = UploadStatus.uploading;
       uploader.status = UploadStatus.uploading;
       return this.$http
@@ -178,8 +205,11 @@ export default {
           const { loaded, total, lengthComputable } = progressEvent;
           if (lengthComputable) {
             uploader.percentage = Math.floor((loaded / total) * 100);
-            uploader.status =
-              loaded >= total ? UploadStatus.success : UploadStatus.uploading;
+            if (loaded >= total) {
+              uploader.status = UploadStatus.success;
+            } else {
+              uploader.status = UploadStatus.uploading;
+            }
           }
         })
         .then(res => {
@@ -443,4 +473,3 @@ export default {
   }
 }
 </style>
-

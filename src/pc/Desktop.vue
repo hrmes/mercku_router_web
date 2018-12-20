@@ -1,11 +1,18 @@
 <template>
   <div class="container">
-    <m-menu class="menu" :menus="menus" v-if="!menu_hidden"></m-menu>
+    <m-menu class="menu"
+            :menus="menus"
+            v-if="!menu_hidden"></m-menu>
     <div class="app-container router-view">
-      <div class="flex-wrap" :class="{'has-menu':!menu_hidden}">
-        <m-header :hasExit="!menu_hidden" class="header" :class="{'no-menu':menu_hidden}"></m-header>
+      <div class="flex-wrap"
+           :class="{'has-menu':!menu_hidden}">
+        <m-header :hasExit="!menu_hidden"
+                  class="header"
+                  :class="{'no-menu':menu_hidden}"></m-header>
         <router-view></router-view>
-        <m-policy :locale="$i18n.locale" :class="{'fix-bottom':menu_hidden}" class="policy" />
+        <m-policy :locale="$i18n.locale"
+                  :class="{'fix-bottom':menu_hidden}"
+                  class="policy" />
       </div>
     </div>
   </div>
@@ -19,9 +26,9 @@ export default {
   computed: {
     menu_hidden() {
       return (
-        this.$route.path.includes('login') ||
-        this.$route.path.includes('wlan') ||
-        this.$route.path.includes('unconnect')
+        this.$route.path.includes('login')
+        || this.$route.path.includes('wlan')
+        || this.$route.path.includes('unconnect')
       );
     }
   },
@@ -171,7 +178,7 @@ export default {
         ]
       };
       let menus = [];
-      const access = this.$store.state.access;
+      const { access } = this.$store.state;
       if (process.env.CUSTOMER_CONFIG.IS_CIK) {
         if (access === Access.super) {
           advance.children.push({

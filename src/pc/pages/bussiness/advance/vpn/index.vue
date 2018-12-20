@@ -4,35 +4,56 @@
       {{$t('trans0402')}}
     </div>
     <div class="page-content">
-      <div class="list" v-if="!isEmpty">
+      <div class="list"
+           v-if="!isEmpty">
         <div class="vpn-list">
-          <div class="vpn" v-for="vpn in vpns" :key="vpn.id">
+          <div class="vpn"
+               v-for="vpn in vpns"
+               :key="vpn.id">
             <div class="vpn-left">
               <div class="vpn-name">
                 <span>{{vpn.name}}</span>
                 <div class="spinner-container">
-                  <m-spinner :size="30" class="spinner" :color="getColor(vpn)" v-if="isConnectingOrDisconnecting(vpn)"></m-spinner>
-                  <span class="spinner-text" :style="{'color':getColor(vpn)}" v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
+                  <m-spinner :size="30"
+                             class="spinner"
+                             :color="getColor(vpn)"
+                             v-if="isConnectingOrDisconnecting(vpn)"></m-spinner>
+                  <span class="spinner-text"
+                        :style="{'color':getColor(vpn)}"
+                        v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
                 </div>
               </div>
 
-              <m-switch :disabled="connecting" v-model="vpn.enabled" class="vpn-switch" :onChange="(v)=>start(v,vpn)"></m-switch>
+              <m-switch :disabled="connecting"
+                        v-model="vpn.enabled"
+                        class="vpn-switch"
+                        :onChange="(v)=>start(v,vpn)"></m-switch>
             </div>
 
             <div class="vpn-right">
               <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
 
-              <div class="vpn-edit" @click="edit(vpn)" :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0034')}}</div>
-              <div class="vpn-del" @click="del(vpn)" :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0033')}}</div>
+              <div class="vpn-edit"
+                   @click="edit(vpn)"
+                   :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0034')}}</div>
+              <div class="vpn-del"
+                   @click="del(vpn)"
+                   :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0033')}}</div>
             </div>
           </div>
         </div>
-        <button class="btn btn-primary" @click="add" :disabled="connecting">{{$t('trans0035')}}</button>
+        <button class="btn btn-primary"
+                @click="add"
+                :disabled="connecting">{{$t('trans0035')}}</button>
       </div>
-      <div class="empty" v-if="isEmpty">
-        <img src="../../../../assets/images/img_default_empty.png" alt="">
+      <div class="empty"
+           v-if="isEmpty">
+        <img src="../../../../assets/images/img_default_empty.png"
+             alt="">
         <p class="empty-text">{{$t('trans0278')}}</p>
-        <button class="btn btn-primary" @click="add" :disabled="connecting">{{$t('trans0035')}}</button>
+        <button class="btn btn-primary"
+                @click="add"
+                :disabled="connecting">{{$t('trans0035')}}</button>
       </div>
     </div>
   </div>
@@ -56,8 +77,8 @@ export default {
   methods: {
     isConnectingOrDisconnecting(vpn) {
       return (
-        vpn.status === VPNStatus.connecting ||
-        vpn.status === VPNStatus.disconnecting
+        vpn.status === VPNStatus.connecting
+        || vpn.status === VPNStatus.disconnecting
       );
     },
     getSpinnerText(vpn) {
