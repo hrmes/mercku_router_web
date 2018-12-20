@@ -111,7 +111,13 @@
             <div class="time-title">{{$t('trans0537')}}：</div>
             <div>
               <p class="time-top">{{uptimeArr[0]}}</p>
-              <p class="time-bottom">{{uptimeArr[1]}}</p>
+              <p class="time-bottom" v-if="uptimeArr[1]&&uptimeArr[1].length>0">
+                <span v-for="(bm,index) in uptimeArr[1]" :key="index">
+                  <span class="uptime-num">{{bm.num}}</span>
+                  <span class="uptime-unit">{{bm.unit}}</span>
+                  <span v-if="index!==uptimeArr[1].length-1">，</span>
+                </span>
+              </p>
             </div>
           </div>
           <img class="router-time-img" src="../../../assets/images/img_router_time.png" alt>
@@ -228,7 +234,10 @@ export default {
         index += 1;
       }
       // console.log(topArr, bmArr);
-      const bmStr = bmArr.map((v, k) => `${v} ${unit[k]}`).join('，');
+      const bmStr = bmArr.map((v, k) => ({
+        num: v,
+        unit: unit[k]
+      }));
       const topStr = temp
         .map((n, j) => {
           if (topArr[j]) {
@@ -496,6 +505,10 @@ export default {
           .time-bottom {
             font-size: 20px;
             padding-top: 10px;
+            .uptime-unit {
+              color: #999999;
+              font-size: 16px;
+            }
           }
         }
       }
@@ -1146,6 +1159,10 @@ export default {
             .time-bottom {
               font-size: 18px;
               // padding-top: 10px;
+              .uptime-unit {
+                color: #999999;
+                font-size: 14px;
+              }
             }
           }
         }
