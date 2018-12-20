@@ -226,7 +226,6 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-<<<<<<< HEAD
   .form {
     .tip {
       color: red;
@@ -235,16 +234,6 @@ export default {
     }
     .item {
       label {
-=======
-  .form{
-    .tip{
-      color:red;
-      width: 350px;
-      display: block;
-    }
-    .item{
-      label{
->>>>>>> cli3
         margin-bottom: 5px;
         display: block;
       }
@@ -264,19 +253,11 @@ export default {
     top: 20px;
   }
 }
-<<<<<<< HEAD
 @media screen and (max-width: 768px) {
   .page-content {
     .form {
       .tip {
         width: 100%;
-=======
-@media screen and (max-width: 768px){
-  .page-content{
-    .form{
-      .tip{
-        width:100%;
->>>>>>> cli3
       }
     }
   }

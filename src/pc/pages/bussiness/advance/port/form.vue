@@ -312,15 +312,11 @@ export default {
         align-items: center;
         margin-top: 5px;
         .ext-input {
-          <<<<<<<headwidth: 120px;
+          width: 120px;
         }
         i {
           width: 50px;
-          =======width: 140px;
-        }
-        i {
-          width: 30px;
-          >>>>>>>cli3height: 1px;
+          height: 1px;
           background: #999999;
         }
       }
