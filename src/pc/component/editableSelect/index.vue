@@ -1,14 +1,27 @@
 <template>
   <div class="select-container">
     <label for="">{{label}}</label>
-    <div class="select" @click.stop="open()">
-      <input @blur="blur" @focus="focus" ref="input" class="select-text" :title="selected" v-model="selected" @input="input" :placeholder="placeholder" />
+    <div class="select"
+         @click.stop="open()">
+      <input @blur="blur"
+             @focus="focus"
+             ref="input"
+             class="select-text"
+             :title="selected"
+             v-model="selected"
+             @input="input"
+             :placeholder="placeholder" />
       <div class="icon-container">
-        <span class="icon" :class="{'open':opened,'close':!opened}"></span>
+        <span class="icon"
+              :class="{'open':opened,'close':!opened}"></span>
       </div>
       <transition name="select">
-        <ul class="select-popup" v-show="this.opened">
-          <li :key="option" @click.stop="select(option)" v-for="option in options" :title="option">{{option}}</li>
+        <ul class="select-popup"
+            v-show="this.opened">
+          <li :key="option"
+              @click.stop="select(option)"
+              v-for="option in options"
+              :title="option">{{option}}</li>
         </ul>
       </transition>
     </div>

@@ -1,12 +1,16 @@
 <template>
   <transition name="dialog">
-    <div class="dialog-container" v-show="visible">
+    <div class="dialog-container"
+         v-show="visible">
       <div class="dialog-content">
-        <div v-if="title" class="dialog-title">{{title}}</div>
+        <div v-if="title"
+             class="dialog-title">{{title}}</div>
         <div class="dialog-message">{{message}}</div>
         <div class="dialog-buttons">
-          <button @click="cancel()" class="btn btn-default">{{cancelText}}</button>
-          <button @click="ok()" class="btn">{{okText}}</button>
+          <button @click="cancel()"
+                  class="btn btn-default">{{cancelText}}</button>
+          <button @click="ok()"
+                  class="btn">{{okText}}</button>
         </div>
       </div>
     </div>

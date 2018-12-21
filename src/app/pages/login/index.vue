@@ -3,13 +3,19 @@
   <div class="login-page">
     <nav-bar :option="option" />
     <div class="bg-container">
-      <img class="logo" src="../../assets/images/logo.png" alt="">
+      <img class="logo"
+           src="../../assets/images/logo.png"
+           alt="">
     </div>
     <div class="pwd-container">
-      <m-input type="password" v-model="password" :placeholder="$t('trans0067')" />
+      <m-input type="password"
+               v-model="password"
+               :placeholder="$t('trans0067')" />
     </div>
     <div class="button-container">
-      <button class="btn btn-default" @click="login(password)" :disabled="!password">{{$t('trans0001')}}</button>
+      <button class="btn btn-default"
+              @click="login(password)"
+              :disabled="!password">{{$t('trans0001')}}</button>
     </div>
   </div>
 </template>

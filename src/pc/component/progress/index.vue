@@ -3,7 +3,8 @@
     <div class='shadow'></div>
     <div class='progress-wrapper'>
       <div class="progress">
-        <div class="progress-bar" :style='styles'>
+        <div class="progress-bar"
+             :style='styles'>
         </div>
       </div>
     </div>

@@ -15,7 +15,8 @@ import preLogin from '../pages/pre-login/index.vue';
 
 Vue.use(Router);
 
-const routes = [{
+const routes = [
+  {
     path: '/pre-login/:redirect?',
     name: '/pre-login',
     component: preLogin,

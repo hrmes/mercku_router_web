@@ -1,16 +1,19 @@
 <template>
   <div class="dhcp-container">
     <nav-bar :option="option" />
-    <div class="new-type-info" @click="$router.replace('/wan-hand')">
+    <div class="new-type-info"
+         @click="$router.replace('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
         {{this.$t(type)}}
-        <img class="icon-enter" src="../../assets/images/ic_enter.png" />
+        <img class="icon-enter"
+             src="../../assets/images/ic_enter.png" />
       </span>
     </div>
     <div class="message">{{$t('trans0147')}}</div>
     <div class="button-info">
-      <button class="btn btn-default" @click="submit()">{{$t('trans0081')}}</button>
+      <button class="btn btn-default"
+              @click="submit()">{{$t('trans0081')}}</button>
     </div>
   </div>
 </template>

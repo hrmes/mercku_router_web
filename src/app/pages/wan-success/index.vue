@@ -3,7 +3,8 @@
   <div class="wan-success-page">
     <nav-bar :option="option" />
     <div class="banner-container">
-      <img src="../../assets/images/ic_success.png" alt="">
+      <img src="../../assets/images/ic_success.png"
+           alt="">
       <p>{{$t('trans0157')}}</p>
     </div>
     <div class="net-info-container">
@@ -31,7 +32,8 @@
       </div>
     </div>
     <div class="button-info">
-      <button class="btn btn-default" @click="next">{{$t('trans0081')}}</button>
+      <button class="btn btn-default"
+              @click="next">{{$t('trans0081')}}</button>
     </div>
   </div>
 

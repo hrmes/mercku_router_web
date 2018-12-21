@@ -11,10 +11,13 @@
         <p class="p2">{{$t('trans0141')}}</p>
       </div>
     </div>
-    <div class="unconnected" v-if="!connMercku">
-      <img src="../../assets/images/ic_test_internet_fail.png" alt="">
+    <div class="unconnected"
+         v-if="!connMercku">
+      <img src="../../assets/images/ic_test_internet_fail.png"
+           alt="">
       <div>{{$t('trans0039')}}</div>
-      <button class="btn btn-default retry-button" @click="retry">{{$t('trans0162')}}</button>
+      <button class="btn btn-default retry-button"
+              @click="retry">{{$t('trans0162')}}</button>
     </div>
   </div>
 </template>

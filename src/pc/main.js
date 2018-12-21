@@ -38,7 +38,7 @@ const launch = () => {
     };
     let loadingInstance;
     if (opt.showLoading) {
-      loadingInstance = new(Vue.extend(mProgress))({
+      loadingInstance = new (Vue.extend(mProgress))({
         propsData: {
           label: translate('trans0315'),
           during: opt.timeout
@@ -55,15 +55,13 @@ const launch = () => {
       if (count === 0) {
         clearInterval(timer);
         opt.ontimeout();
-        loadingInstance &&
-          loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+        loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
         loadingInstance = null;
       } else if (count !== total && count % 5 === 0) {
         http.getRouter().then(() => {
           clearInterval(timer);
           opt.onsuccess();
-          loadingInstance &&
-            loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+          loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
           loadingInstance = null;
         });
       }
@@ -110,10 +108,7 @@ const launch = () => {
         if (!window.location.href.includes('login')) {
           window.location.href = '/';
         }
-      } else if (
-        status === 400 &&
-        (data.error.code === 600007 || data.error.code === 600402)
-      ) {
+      } else if (status === 400 && (data.error.code === 600007 || data.error.code === 600402)) {
         !upgrading && upgrade();
         throw err;
       } else {

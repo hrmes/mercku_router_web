@@ -1,22 +1,31 @@
 <template>
   <div class="pppoe-container">
     <nav-bar :option="option" />
-    <div class="new-type-info" @click="$router.replace('/wan-hand')">
+    <div class="new-type-info"
+         @click="$router.replace('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
         {{this.$t(type)}}
-        <img class="icon-enter" src="../../assets/images/ic_enter.png" />
+        <img class="icon-enter"
+             src="../../assets/images/ic_enter.png" />
       </span>
     </div>
     <div class="split"></div>
     <div class="message">{{$t('trans0154')}}</div>
     <div class="form">
-      <m-input class="account" v-model="form.account" :placeholder="$t('trans0155')" />
+      <m-input class="account"
+               v-model="form.account"
+               :placeholder="$t('trans0155')" />
       <div class="password-info">
-        <m-input type="password" class="account" v-model="form.password" :placeholder="$t('trans0156')" />
+        <m-input type="password"
+                 class="account"
+                 v-model="form.password"
+                 :placeholder="$t('trans0156')" />
       </div>
       <div class="button-info">
-        <button class="btn btn-default" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</button>
+        <button class="btn btn-default"
+                @click="submit()"
+                :disabled="disabled">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>

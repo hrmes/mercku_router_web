@@ -4,20 +4,30 @@
     </div>
     <div class="right-container">
       <div class="lang-selector">
-        <div class="current" @click.stop="showLangPopup()">
+        <div class="current"
+             @click.stop="showLangPopup()">
           <span class="current-text">{{language.text}}</span>
-          <span class="drop-trangle" :class="{'down':!showPopup,'up':showPopup}"></span>
+          <span class="drop-trangle"
+                :class="{'down':!showPopup,'up':showPopup}"></span>
         </div>
         <transition name="popup">
-          <ul class="popup" v-show="showPopup">
-            <li :key="lang.value" :class="{'current-lang':lang===language}" v-for="lang in Languages" @click="selectLang(lang)">{{lang.text}}</li>
+          <ul class="popup"
+              v-show="showPopup">
+            <li :key="lang.value"
+                :class="{'current-lang':lang===language}"
+                v-for="lang in Languages"
+                @click="selectLang(lang)">{{lang.text}}</li>
           </ul>
         </transition>
       </div>
       <div class="small-device">
-        <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
+        <span @click="changeLang()"
+              class="menu-icon language"
+              :class="[$i18n.locale]"></span>
       </div>
-      <div v-show="hasExit" class="exit" @click="exit()">
+      <div v-show="hasExit"
+           class="exit"
+           @click="exit()">
         {{$t('trans0021')}}
       </div>
     </div>

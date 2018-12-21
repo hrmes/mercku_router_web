@@ -2,11 +2,14 @@
   <div class="wan-check-container">
     <nav-bar :option="option" />
     <div class="status-info">
-      <img src="../../assets/images/ic_success.png" alt="">
+      <img src="../../assets/images/ic_success.png"
+           alt="">
       <label class="state">{{$t('trans0170')}}</label>
-      <label class="code" v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
+      <label class="code"
+             v-if="config.wifi.ssid">{{$t('trans0171')}}</label>
     </div>
-    <div class="net-info-container" v-if="config.wifi.ssid">
+    <div class="net-info-container"
+         v-if="config.wifi.ssid">
       <div class="net-info">
         <div>
           <span class="title">{{$t('trans0168')}}</span>
@@ -22,15 +25,19 @@
         </div>
       </div>
     </div>
-    <div class="note" v-if="showProgress">
+    <div class="note"
+         v-if="showProgress">
 
       <div class="progress-bar">
         <div class="progress-bar-inner"></div>
       </div>
       <span>{{$t('trans0322')}}{{deadline}}s</span>
     </div>
-    <div class="button-info" v-if="!showProgress">
-      <button class="btn btn-default" @click="config.wifi.ssid?jump2Sys():closeWeb()">{{ config.wifi.ssid? $t('trans0134'): $t('trans0233')}}</button>
+    <div class="button-info"
+         v-if="!showProgress">
+      <button class="btn btn-default"
+              @click="config.wifi.ssid?jump2Sys():closeWeb()">{{
+        config.wifi.ssid? $t('trans0134'): $t('trans0233')}}</button>
     </div>
   </div>
 </template>
@@ -64,8 +71,8 @@ export default {
   },
   mounted() {
     if (
-      (this.config.wifi && this.config.wifi.ssid) ||
-      (this.config.wan && this.config.wan.type)
+      (this.config.wifi && this.config.wifi.ssid)
+      || (this.config.wan && this.config.wan.type)
     ) {
       this.timer = setInterval(() => {
         if (this.deadline <= 0) {

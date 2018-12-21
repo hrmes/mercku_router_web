@@ -45,7 +45,7 @@ export default {
   },
   watch: {
     value(val) {
-      this.selected = this.options.filter(o => o.value === val)[0];
+      [this.selected] = this.options.filter(o => o.value === val);
     }
   },
   mounted() {

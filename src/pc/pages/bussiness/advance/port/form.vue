@@ -320,7 +320,7 @@ export default {
       this.validateLT();
     },
     submit() {
-      const fetchMethod =        this.formType === 'update' ? 'meshPortfwUpdate' : 'meshPortfwAdd';
+      const fetchMethod = this.formType === 'update' ? 'meshPortfwUpdate' : 'meshPortfwAdd';
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http[fetchMethod](this.formParams)

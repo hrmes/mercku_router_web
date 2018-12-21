@@ -10,8 +10,8 @@ class Store {
     this.install(Vue, bus);
   }
 
-  install(Vue, bus) {
-    Vue.mixin({
+  install(_Vue, bus) {
+    _Vue.mixin({
       beforeCreate() {
         if (this.$options.store) {
           Vue.prototype.$store = bus;

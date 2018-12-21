@@ -1,9 +1,12 @@
 <template>
   <div class="switch-container">
-    <label for="" v-if="label">
+    <label for=""
+           v-if="label">
       {{label}}
     </label>
-    <div class="switch switch-animation" :class="{'checked':value,'disabled':disabledValue}" @click='!disabled && change()'></div>
+    <div class="switch switch-animation"
+         :class="{'checked':value,'disabled':disabledValue}"
+         @click='!disabled && change()'></div>
   </div>
 </template>
 <script>
@@ -91,7 +94,7 @@ export default {
     left: 26px;
   }
   .switch.switch-animation {
-    transition: border cubic-bezier(0, 0, 0, 1) 0.4s,
+    transition: border cubic-bezier(0, 0, 0, 1) 0.4s;
   }
   .switch.switch-animation:before {
     transition: left 0.3s;

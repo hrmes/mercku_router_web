@@ -1,6 +1,7 @@
 <template>
   <transition name="upgrade">
-    <div class="upgrade-container" v-if="visible">
+    <div class="upgrade-container"
+         v-if="visible">
       <div class="inner">
         <div class="mercku_upgrade">
           <div class="left">
@@ -25,7 +26,8 @@
           </div>
 
         </div>
-        <div v-if="title" class="title">{{title}}</div>
+        <div v-if="title"
+             class="title">{{title}}</div>
         <div v-html="tip"></div>
       </div>
     </div>

@@ -6,20 +6,30 @@
     </div>
     <div class="wlan-settings">
       <div class="ssid-container">
-        <m-input v-model="ssid" :placeholder="$t('trans0168')" />
+        <m-input v-model="ssid"
+                 :placeholder="$t('trans0168')" />
       </div>
       <div class="pwd-container">
-        <m-input type="password" v-model="pwd" :placeholder="$t('trans0172')" />
+        <m-input type="password"
+                 v-model="pwd"
+                 :placeholder="$t('trans0172')" />
       </div>
       <div class="check-container">
-        <mCheckbox :rect="false" v-model="checked" :text="$t('trans0166')" />
+        <mCheckbox :rect="false"
+                   v-model="checked"
+                   :text="$t('trans0166')" />
       </div>
-      <div v-if="!checked" class="adminpwd-container">
-        <m-input type="password" v-model="adminPwd" :placeholder="$t('trans0067')" />
+      <div v-if="!checked"
+           class="adminpwd-container">
+        <m-input type="password"
+                 v-model="adminPwd"
+                 :placeholder="$t('trans0067')" />
       </div>
     </div>
     <div class="button-info">
-      <button class="btn btn-default" @click="complete" :disabled="disabled">{{$t('trans0018')}}</button>
+      <button class="btn btn-default"
+              @click="complete"
+              :disabled="disabled">{{$t('trans0018')}}</button>
     </div>
   </div>
 </template>

@@ -2,8 +2,10 @@
   <transition name="checkbox">
     <div class="checkbox-container">
       <label @click="check()">
-        <div class="box" :class="{'checked':checked,'circle-shape':!rect}"></div>
-        <div class="text" v-if="text">{{text}}</div>
+        <div class="box"
+             :class="{'checked':checked,'circle-shape':!rect}"></div>
+        <div class="text"
+             v-if="text">{{text}}</div>
       </label>
     </div>
 

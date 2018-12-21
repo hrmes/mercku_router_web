@@ -1,7 +1,9 @@
 <template>
-  <div class="form-item" :class="{'form-item-success':success,'form-item-error':error}">
+  <div class="form-item"
+       :class="{'form-item-success':success,'form-item-error':error}">
     <slot></slot>
-    <span class="error-message" v-show="error">{{message}}</span>
+    <span class="error-message"
+          v-show="error">{{message}}</span>
   </div>
 </template>
 <script>

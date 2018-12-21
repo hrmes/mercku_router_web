@@ -189,7 +189,7 @@ export default {
       });
     },
     submit() {
-      const fetchMethod =        this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
+      const fetchMethod = this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http[fetchMethod]({

@@ -1,27 +1,46 @@
 <template>
-  <div class="menu-container" :class="{'small-device-expand':showMenu}">
+  <div class="menu-container"
+       :class="{'small-device-expand':showMenu}">
     <div class="menu-top">
       <div class="logo-container">
         <div class="logo"></div>
       </div>
       <div class="small-device">
-        <span @click="changeLang()" class="menu-icon language" :class="[$i18n.locale]"></span>
-        <span class="menu-icon menu" @click="show()"></span>
+        <span @click="changeLang()"
+              class="menu-icon language"
+              :class="[$i18n.locale]"></span>
+        <span class="menu-icon menu"
+              @click="show()"></span>
       </div>
     </div>
-    <ul class="menu" :class="{'show':showMenu}">
-      <li class="menu-item" :key="menu.key" @click="jump(menu)" v-for="menu in list" :class="{'selected':$route.name.includes(menu.name)}">
-        <span class="menu-icon" :class="[menu.icon]"></span>
+    <ul class="menu"
+        :class="{'show':showMenu}">
+      <li class="menu-item"
+          :key="menu.key"
+          @click="jump(menu)"
+          v-for="menu in list"
+          :class="{'selected':$route.name.includes(menu.name)}">
+        <span class="menu-icon"
+              :class="[menu.icon]"></span>
         <span class="menu-text">{{$t(menu.text)}}</span>
-        <span v-if="menu.children" class="menu-trigle" :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
-        <ul v-if="menu.children" class="menu-children" :class="{'show':menu.expand}">
-          <li class="menu-child" :key="child.key" @click.stop="jump(child)" v-for="child in menu.children" :class="{'selected':$route.name.includes(child.name)}">
+        <span v-if="menu.children"
+              class="menu-trigle"
+              :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
+        <ul v-if="menu.children"
+            class="menu-children"
+            :class="{'show':menu.expand}">
+          <li class="menu-child"
+              :key="child.key"
+              @click.stop="jump(child)"
+              v-for="child in menu.children"
+              :class="{'selected':$route.name.includes(child.name)}">
             <span class="menu-icon"></span>
             <span class="menu-text">{{$t(child.text)}}</span>
           </li>
         </ul>
       </li>
-      <li class="menu-item exit" @click="exit()">
+      <li class="menu-item exit"
+          @click="exit()">
         <span class="menu-icon exit"></span>
         <span class="menu-text">{{$t('trans0021')}}</span>
       </li>

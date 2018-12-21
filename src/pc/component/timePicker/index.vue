@@ -1,29 +1,39 @@
 <template>
   <div class="time-picker-panel">
-    <div class="input-wrap" @click="open">
-      <input type="text" placeholder="请选择时间" v-model="inputValue" readonly>
+    <div class="input-wrap"
+         @click="open">
+      <input type="text"
+             placeholder="请选择时间"
+             v-model="inputValue"
+             readonly>
       <span class="icon-inner">
         <a class="icon">
-          <img src="../../assets/images/rescreen-time.png" alt="">
+          <img src="../../assets/images/rescreen-time.png"
+               alt="">
         </a>
       </span>
     </div>
-    <div class="combobox" ref="combo" v-if="opened">
-      <div class="select-inner" ref='h'>
+    <div class="combobox"
+         ref="combo"
+         v-if="opened">
+      <div class="select-inner"
+           ref='h'>
         <ul style="height:928px">
-          <li v-for="(v,i) in hs" :key='i' @click.stop="(e)=>select('h',v,e)" :class="{'selected':time.h===v}">{{v}}</li>
+          <li v-for="(v,i) in hs"
+              :key='i'
+              @click.stop="(e)=>select('h',v,e)"
+              :class="{'selected':time.h===v}">{{v}}</li>
         </ul>
       </div>
-      <div class="select-inner" ref='m'>
+      <div class="select-inner"
+           ref='m'>
         <ul style="height:2080px">
-          <li v-for="(v,i) in ms" :key='i' @click.stop="(e)=>select('m',v,e)" :class="{'selected':time.m===v}">{{v}}</li>
+          <li v-for="(v,i) in ms"
+              :key='i'
+              @click.stop="(e)=>select('m',v,e)"
+              :class="{'selected':time.m===v}">{{v}}</li>
         </ul>
       </div>
-      <!-- <div class="select-inner">
-                <ul style="height:2080px">
-                    <li v-for="(v,i) in ms" :key='i' @click.stop="(e)=>select('s',v,e)" :class="{'selected':time.s===v}">{{v}}</li>
-                </ul>
-            </div> -->
     </div>
   </div>
 </template>
@@ -105,7 +115,7 @@ export default {
       const sEl = el.querySelector('.selected');
       const cTop = sEl.getBoundingClientRect().top;
       const pTop = pEl.getBoundingClientRect().top;
-      const scrollTop = pEl.scrollTop;
+      const { scrollTop } = pEl;
       const move = cTop - pTop + scrollTop;
       this.scrollTo(el, 0, move);
     },
@@ -130,7 +140,7 @@ export default {
       const pTop = pEl.getBoundingClientRect().top;
       const sTop = sEl.getBoundingClientRect().top;
       const move = sTop - pTop;
-      const scrollTop = pEl.scrollTop;
+      const { scrollTop } = pEl;
       this.distance = move + scrollTop;
       this.animationEl = pEl;
       this.animateScroll();
@@ -197,7 +207,7 @@ export default {
         &:hover {
           background: #e7e7e7;
           color: #333;
-        }       
+        }
         &:active {
           background: #e7e7e7;
           color: #333;
@@ -241,5 +251,3 @@ export default {
   }
 }
 </style>
-
-

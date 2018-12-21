@@ -1,11 +1,13 @@
 <template>
   <div class="static-ip-container">
     <nav-bar :option="option" />
-    <div class="new-type-info" @click="$router.replace('/wan-hand')">
+    <div class="new-type-info"
+         @click="$router.replace('/wan-hand')">
       <span>{{$t('trans0317')}}</span>
       <span>
         {{this.$t(type)}}
-        <img class="icon-enter" src="../../assets/images/ic_enter.png" />
+        <img class="icon-enter"
+             src="../../assets/images/ic_enter.png" />
       </span>
     </div>
     <div class="split"></div>
@@ -14,22 +16,32 @@
       <label class="title">{{$t('trans0151')}}
         <span v-if="blurItems.includes('ip')">{{$t('trans0231')}}</span>
       </label>
-      <m-input v-model="form.ip" placeholder="0.0.0.0" @blur="onBlur('ip',form.ip)" />
+      <m-input v-model="form.ip"
+               placeholder="0.0.0.0"
+               @blur="onBlur('ip',form.ip)" />
       <label class="title">{{$t('trans0152')}}
         <span v-if="blurItems.includes('mask')">{{$t('trans0231')}}</span>
       </label>
-      <m-input v-model="form.mask" placeholder="0.0.0.0" @blur="onBlur('mask',form.mask)" />
+      <m-input v-model="form.mask"
+               placeholder="0.0.0.0"
+               @blur="onBlur('mask',form.mask)" />
       <label class="title">{{$t('trans0153')}}
         <span v-if="blurItems.includes('gateway')">{{$t('trans0231')}}</span>
       </label>
-      <m-input v-model="form.gateway" placeholder="0.0.0.0" @blur="onBlur('gateway',form.gateway)" />
+      <m-input v-model="form.gateway"
+               placeholder="0.0.0.0"
+               @blur="onBlur('gateway',form.gateway)" />
       <label class="title">{{$t('trans0236')}}
         <span v-if="blurItems.includes('dns')">{{$t('trans0231')}}</span>
       </label>
-      <m-input v-model="form.dns" placeholder="0.0.0.0" @blur="onBlur('dns',form.dns)" />
+      <m-input v-model="form.dns"
+               placeholder="0.0.0.0"
+               @blur="onBlur('dns',form.dns)" />
     </div>
     <div class="button-info">
-      <button class="btn btn-default" @click="submit()" :disabled="disabled">{{$t('trans0081')}}</button>
+      <button class="btn btn-default"
+              @click="submit()"
+              :disabled="disabled">{{$t('trans0081')}}</button>
     </div>
   </div>
 </template>

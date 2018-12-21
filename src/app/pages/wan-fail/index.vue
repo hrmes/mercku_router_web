@@ -2,7 +2,8 @@
   <div class="wan-check-container">
     <nav-bar :option="option" />
     <div class="status-info">
-      <img src="../../assets/images/ic_test_internet_fail.png" alt="">
+      <img src="../../assets/images/ic_test_internet_fail.png"
+           alt="">
       <div class="message">{{message}}</div>
     </div>
     <div class="net-info-container">
@@ -31,9 +32,11 @@
     </div>
 
     <div class="button-info">
-      <button class="btn btn-default" @click="forward2set()">{{$t('trans0019')}}</button>
+      <button class="btn btn-default"
+              @click="forward2set()">{{$t('trans0019')}}</button>
       <div class="space"></div>
-      <button class="btn btn-default retry" @click="$router.replace('/check-network')">{{$t('trans0162')}}</button>
+      <button class="btn btn-default retry"
+              @click="$router.replace('/check-network')">{{$t('trans0162')}}</button>
     </div>
   </div>
 </template>

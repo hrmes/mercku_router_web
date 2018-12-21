@@ -3,12 +3,16 @@
     <nav-bar :option="option" />
     <div class="message">{{$t('trans0143')}} </div>
     <div class="list">
-      <div class="item" v-for="t in types" :key="t.value" @click="checkType(t.value)">
+      <div class="item"
+           v-for="t in types"
+           :key="t.value"
+           @click="checkType(t.value)">
         <div class="text">
           <label class="title">{{$t(t.title)}}</label>
           <label class="des">{{$t(t.des)}}</label>
         </div>
-        <div class="icon" v-if="type===t.value"></div>
+        <div class="icon"
+             v-if="type===t.value"></div>
       </div>
     </div>
   </div>

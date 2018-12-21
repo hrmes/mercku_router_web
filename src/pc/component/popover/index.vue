@@ -1,5 +1,7 @@
 <template>
-  <div class="pop-info" v-if="hidden" v-clickoutside="handleClose">
+  <div class="pop-info"
+       v-if="hidden"
+       v-clickoutside="handleClose">
     <div class="pop">
       <div class="title">{{title}}</div>
       <div class="content"> {{content}} </div>

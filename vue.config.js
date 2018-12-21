@@ -92,7 +92,7 @@ module.exports = {
         threshold: 10240,
         minRatio: 0.8
       }),
-      //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
+      //  Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
       new BundleAnalyzerPlugin()
     ];
     if (process.env.NODE_ENV === 'production') {

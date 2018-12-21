@@ -121,6 +121,7 @@
 <script>
 import { formatMac, getStringByte } from '../../../../util/util';
 import genData from './topo';
+
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 require('echarts/lib/component/legend');

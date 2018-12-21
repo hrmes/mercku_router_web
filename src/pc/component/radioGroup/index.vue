@@ -1,6 +1,11 @@
 <template>
-  <div class="radio-group-container" :class="`${direction}`">
-    <div class="option" @click="check(option)" :class="{'selected':selected===option.value}" v-for="option in options" :key="option.value">
+  <div class="radio-group-container"
+       :class="`${direction}`">
+    <div class="option"
+         @click="check(option)"
+         :class="{'selected':selected===option.value}"
+         v-for="option in options"
+         :key="option.value">
       <div class="radio"></div>
       <div class="text">{{option.text}}</div>
     </div>

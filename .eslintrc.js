@@ -6,10 +6,7 @@ module.exports = {
   env: {
     browser: true
   },
-  extends: [
-    'plugin:vue/essential',
-    '@vue/airbnb',
-  ],
+  extends: ['plugin:vue/base', '@vue/airbnb'],
   // required to lint *.vue files
   plugins: ['vue'],
   rules: {
@@ -29,5 +26,12 @@ module.exports = {
     'no-bitwise': 0,
     'no-restricted-properties': 0,
     'class-methods-use-this': 0
+  },
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: require.resolve('@vue/cli-service/webpack.config.js')
+      }
+    }
   }
 };

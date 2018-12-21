@@ -475,7 +475,7 @@ export default {
           if (this.isDhcp) {
             if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
               this.autodns.dhcp = false;
-              this.dhcpForm.dns1 = this.netInfo.dhcp.dns[0];
+              [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
               this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
             }
           }
@@ -484,7 +484,7 @@ export default {
             this.pppoeForm.password = this.netInfo.pppoe.password;
             if (this.netInfo.pppoe.dns) {
               this.autodns.pppoe = false;
-              this.pppoeForm.dns1 = this.netInfo.pppoe.dns[0];
+              [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
               this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
             }
           }

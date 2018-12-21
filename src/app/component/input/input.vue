@@ -1,10 +1,24 @@
 <template>
-  <div class="input-container" :class="{'disabled':disabled}">
-    <div class="inputarea" :class="{'no-margin':!isPwdInput,'has-content':!!inputValue}">
-      <input autocomplete="new-password" @focus="focus" @blur="blur" :disabled="disabled" v-model="inputValue" :placeholder="placeholder" @input="onInput" class="input" :type="inputType" :class="{'has-icon':isPwdInput}" />
+  <div class="input-container"
+       :class="{'disabled':disabled}">
+    <div class="inputarea"
+         :class="{'no-margin':!isPwdInput,'has-content':!!inputValue}">
+      <input autocomplete="new-password"
+             @focus="focus"
+             @blur="blur"
+             :disabled="disabled"
+             v-model="inputValue"
+             :placeholder="placeholder"
+             @input="onInput"
+             class="input"
+             :type="inputType"
+             :class="{'has-icon':isPwdInput}" />
     </div>
-    <div class="icon-container" v-if="isPwdInput" @click="changePwdStatus()">
-      <span class="icon" :class="{'show':!showPwd,'hide':showPwd}"></span>
+    <div class="icon-container"
+         v-if="isPwdInput"
+         @click="changePwdStatus()">
+      <span class="icon"
+            :class="{'show':!showPwd,'hide':showPwd}"></span>
     </div>
   </div>
 </template>

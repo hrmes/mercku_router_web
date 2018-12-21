@@ -1,6 +1,8 @@
 <template>
   <transition name="toast">
-    <div class="toast-container" :class="type" v-show="visible">
+    <div class="toast-container"
+         :class="type"
+         v-show="visible">
       <span>{{text}}</span>
     </div>
   </transition>

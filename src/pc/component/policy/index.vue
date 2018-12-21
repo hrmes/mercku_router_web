@@ -1,16 +1,20 @@
 <template>
   <div class="policy-container">
     <span class="copy">{{$t('trans0276')}}</span>
-    <span class="policy-text" @click="showPolicy()">{{$t('trans0139')}}</span>
-    <div class="policy-dialog" v-show="show">
+    <span class="policy-text"
+          @click="showPolicy()">{{$t('trans0139')}}</span>
+    <div class="policy-dialog"
+         v-show="show">
       <div class="dialog-body">
         <div class="dialog-title">{{$t('trans0139')}}</div>
         <div class="dialog-content">
-          <div style="height:100%;padding:20px 0;font-size:0;" v-html="policy"></div>
+          <div style="height:100%;padding:20px 0;font-size:0;"
+               v-html="policy"></div>
         </div>
         <div class="button-container">
 
-          <button class="btn" @click="close()">{{$t('trans0024')}}</button>
+          <button class="btn"
+                  @click="close()">{{$t('trans0024')}}</button>
         </div>
       </div>
     </div>

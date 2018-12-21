@@ -1,6 +1,7 @@
 <template>
   <transition name="loading">
-    <div class="loading-container" v-if="visible">
+    <div class="loading-container"
+         v-if="visible">
       <div class="inner">
         <div class="mercku_loading">
           <div class="left">
@@ -25,7 +26,8 @@
           </div>
 
         </div>
-        <div v-if="title" class="title">{{title}}</div>
+        <div v-if="title"
+             class="title">{{title}}</div>
         <div v-html="template"></div>
       </div>
     </div>
