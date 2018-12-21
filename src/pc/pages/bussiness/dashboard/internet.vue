@@ -556,6 +556,7 @@ export default {
           font-size: 14px;
           font-weight: normal;
           color: #333333;
+          margin-left: 5px;
         }
         .note {
           font-size: 14px;

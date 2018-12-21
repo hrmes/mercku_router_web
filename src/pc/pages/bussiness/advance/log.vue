@@ -139,13 +139,9 @@ export default {
     pre {
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
-      color: #6e6e6e;
+      color: #ccc;
       &:first-child {
-        color: #333;
-        font-weight: bold;
-        &.not-empty {
-          // margin-bottom: 30px;
-        }
+        color: #000;
       }
     }
   }

@@ -209,7 +209,9 @@ import {
 } from '../../../../util/util';
 import * as CONSTANTS from '../../../../util/constant';
 
-const checkDNS = value => ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
+function checkDNS(value) {
+  return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
+}
 
 export default {
   data() {

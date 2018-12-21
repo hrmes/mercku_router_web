@@ -6,7 +6,7 @@
           <span class="tab"
                 :class="{'selected':!showTable}"
                 @click="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</span>
-          <span>/</span>
+          <span style="margin:0 2px;">/</span>
           <span class="tab"
                 :class="{'selected':showTable}"
                 @click="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</span>
