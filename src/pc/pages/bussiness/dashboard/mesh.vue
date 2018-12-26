@@ -16,7 +16,7 @@
       </div>
       <div class="content">
         <div id="topo"
-             style="width:100%;height:550px;margin-bottom: 20px;"
+             style="width:100%;height:500px;margin-bottom: 20px;"
              v-show="!showTable"></div>
         <div class="table"
              v-show="showTable">
@@ -125,6 +125,7 @@ import genData from './topo';
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 require('echarts/lib/component/legend');
+require('echarts/lib/component/title');
 
 const Color = {
   good: '#00d061',
@@ -357,8 +358,8 @@ export default {
               }
             ],
             orient: 'vertical',
-            left: 20,
-            top: 35,
+            top: 10,
+            left: 10,
             selectedMode: false
           }
         ],
@@ -368,6 +369,7 @@ export default {
             edgeSymbol: ['circle', 'circle'],
             edgeSymbolSize: 3,
             cursor: 'pointer',
+            layout: 'circular',
             hoverAnimation: false,
             label: {
               normal: {
@@ -378,10 +380,25 @@ export default {
                 formatter(category) {
                   // originName是节点的原始名称
                   const name = category.data.originName;
-                  if (category.data.angle > 0) {
-                    return `${name.match(/.{1,13}/g).join('\n')}`;
+                  if (name.length <= 10) {
+                    return name;
                   }
-                  return name;
+                  const splitor = ' ';
+                  if (name.includes(splitor)) {
+                    const sp = name.split(splitor);
+                    let index = 1;
+                    let start = sp[0];
+                    while (
+                      (start + sp[index]).length < 10
+                      && index < sp.length
+                    ) {
+                      start += ` ${sp[index]}`;
+                      index += 1;
+                    }
+                    const end = sp.slice(index).join(splitor);
+                    return `${start}\n${end}`;
+                  }
+                  return name.match(/.{1,10}/g).join('\n');
                 },
                 rich: {
                   underline: {
@@ -406,7 +423,6 @@ export default {
           }
         ]
       };
-
       this.chart.setOption(option);
     },
     createIntervalTask() {

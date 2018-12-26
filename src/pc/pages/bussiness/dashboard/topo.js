@@ -102,11 +102,7 @@ function findGateway(source) {
 // 找绿色的节点
 function findGreenNode(root, source, green) {
   root.neighbors.forEach(n => {
-    if (
-      !green.includes(n.entity)
-      && isGood(n.origin.rssi)
-      && root !== n.entity
-    ) {
+    if (!green.includes(n.entity) && isGood(n.origin.rssi) && root !== n.entity) {
       green.push(n.entity);
       findGreenNode(n.entity, source, green);
     }
@@ -127,35 +123,8 @@ function findRedNode(gateway, green, source) {
 
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red) {
-  function getPositions() {
-    const count = 1 + green.length + red.length;
-    const radius = 10;
-    const pos = [];
-    if (count === 1) {
-      pos.push({ x: 0, y: 0, angle: 180 });
-      return pos;
-    }
-    if (count === 2) {
-      pos.push({ x: 0, y: 0, angle: 0 });
-      pos.push({ x: 0, y: 2, angle: 180 });
-      return pos;
-    }
-
-    const angle = (2 * Math.PI) / count;
-    for (let i = 0; i < count; i += 1) {
-      pos.push({
-        x: radius * Math.sin(angle * i),
-        y: -radius * Math.cos(angle * i),
-        angle: (360 / count) * i
-      });
-    }
-    return pos;
-  }
-  const pos = getPositions();
-  let currentIndex = 0;
   function genNode(node, color, symbolSize = 50) {
     let symbol = 'image://';
-    let labelPosition;
     if (node.is_gw) {
       symbol += picGateway;
     } else {
@@ -166,52 +135,38 @@ function genNodes(gateway, green, red) {
         symbol += color === Color.good ? picBeeGood : picBeeBad;
       }
     }
-    const { angle } = pos[currentIndex];
-    const Positions = {
-      top: 'top',
-      bottom: 'bottom',
-      left: 'left',
-      right: 'right'
-    };
-
-    if (angle >= 0 && angle <= 90) {
-      labelPosition = Positions.top;
-    } else if (angle > 90 && angle < 270) {
-      labelPosition = Positions.bottom;
-    } else if (angle >= 270 && angle <= 360) {
-      labelPosition = Positions.top;
-    }
     const n = {
       name: `${node.sn}${node.name}`, // 避免节点同名echarts报错不能绘图
       originName: node.name, // 用于节点的label显示
       sn: node.sn,
-      ...pos[currentIndex],
       itemStyle: {
         color
-      },
-      label: {
-        normal: {
-          position: labelPosition
-        }
       },
       symbol,
       symbolSize
     };
-    currentIndex += 1;
     return n;
   }
   const nodes = [];
+
+  const nodeCount = 1 + green.length + red.length;
+  const symbolSize = [70, 50];
+  if (nodeCount >= 8) {
+    symbolSize[0] = 50;
+    symbolSize[1] = 30;
+  }
+
   // m2
-  nodes.push(genNode(gateway, Color.good, 70));
+  nodes.push(genNode(gateway, Color.good, symbolSize[0]));
 
   // 绿点
   green.forEach(g => {
-    nodes.push(genNode(g, Color.good));
+    nodes.push(genNode(g, Color.good, symbolSize[1]));
   });
 
   // 红点
   red.forEach(r => {
-    nodes.push(genNode(r, Color.bad));
+    nodes.push(genNode(r, Color.bad, symbolSize[1]));
   });
 
   return nodes;
