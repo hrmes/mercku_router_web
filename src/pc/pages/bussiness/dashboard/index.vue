@@ -1,7 +1,8 @@
 <template>
   <div class="dashboard-container">
     <div class="net-info">
-      <div class="device-container">
+      <div class="device-container"
+           @click="forward2page('/dashboard/device')">
         <div class="icon-container">
           <img src="../../../assets/images/ic_device.png"
                alt="">
@@ -11,7 +12,8 @@
         </div>
       </div>
       <div class="line"></div>
-      <div class="wifi-container">
+      <div class="wifi-container"
+           @click="forward2page('/dashboard/mesh')">
         <div class="icon-container">
           <img src="../../../assets/images/ic_router.png"
                alt="">
@@ -28,7 +30,8 @@
                alt="">
         </div>
       </div>
-      <div class="internet-container">
+      <div class="internet-container"
+           @click="forward2page('/dashboard/internet')">
         <div class="icon-container">
           <img src="../../../assets/images/ic_internet.png"
                alt="">
@@ -75,6 +78,9 @@ export default {
     this.createIntercvalTask();
   },
   methods: {
+    forward2page(url) {
+      this.$router.push({ path: url });
+    },
     createIntercvalTask() {
       this.getDeviceCount();
     },
@@ -213,6 +219,7 @@ export default {
     .internet-container {
       width: 200px;
       position: relative;
+      cursor: pointer;
     }
   }
   .router-view {
