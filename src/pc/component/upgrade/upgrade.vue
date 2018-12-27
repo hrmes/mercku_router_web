@@ -43,20 +43,6 @@ export default {
       title: '',
       tip: ''
     };
-  },
-  mounted() {
-    this.setOverflow();
-  },
-  methods: {
-    setOverflow() {
-      document.body.style.overflow = 'hidden';
-    },
-    restoryOverflow() {
-      document.body.style.overflow = 'auto';
-    }
-  },
-  beforeDestroy() {
-    this.restoryOverflow();
   }
 };
 </script>

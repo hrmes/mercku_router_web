@@ -364,13 +364,6 @@ export default {
     closeSpeedModal() {
       this.createIntervalTask();
       this.speedModelOpen = false;
-      this.restoryOverflow();
-    },
-    setOverflow() {
-      document.body.style.overflow = 'hidden';
-    },
-    restoryOverflow() {
-      document.body.style.overflow = 'auto';
     },
     createIntervalTask() {
       this.getWanNetStats();
@@ -406,7 +399,6 @@ export default {
       this.speedModelOpen = true;
       this.speedStatus = CONSTANTS.SpeedTestStatus.testing;
       this.clearIntervalTask();
-      this.setOverflow();
       this.speedTest(force);
       this.speedTestTimer = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
@@ -463,7 +455,6 @@ export default {
   beforeDestroy() {
     this.pageActive = false;
     this.clearIntervalTask();
-    this.restoryOverflow();
   }
 };
 </script>

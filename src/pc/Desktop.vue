@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <div class="container"
+       id="wrapper">
     <m-menu class="menu"
             :menus="menus"
             v-if="!menu_hidden"></m-menu>
@@ -19,10 +20,31 @@
 
 </template>
 <script>
+import BScroll from 'better-scroll';
 import './style/common.scss';
 import { Access } from '../util/constant';
 
 export default {
+  mounted() {
+    this.$nextTick(() => {
+      this.scroll = new BScroll('body', {
+        freeScroll: true,
+        // scrollX: false,
+        // scrollY: true,
+        disableMouse: false,
+        click: true,
+        bounce: false,
+        mouseWheel: {
+          speed: 20,
+          invert: false,
+          easeTime: 300
+        },
+        scrollbar: {
+          fade: true
+        }
+      });
+    });
+  },
   computed: {
     menu_hidden() {
       return (
@@ -199,7 +221,8 @@ export default {
   data() {
     return {
       access: this.$store.state.access,
-      menus: this.getMenus()
+      menus: this.getMenus(),
+      scroll: null
     };
   }
 };

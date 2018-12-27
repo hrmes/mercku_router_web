@@ -14,14 +14,19 @@
                   @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
         <div class="log-container">
-          <pre :class="{'not-empty':increase}">{{increase}}</pre>
-          <pre>{{output}}</pre>
+          <div class="scroll-wrapper">
+            <pre :class="{'not-empty':increase}">{{increase}}</pre>
+            <pre>{{output}}</pre>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import BScroll from 'better-scroll';
+
 export default {
   data() {
     return {
@@ -32,6 +37,22 @@ export default {
   },
   mounted() {
     this.getSyslogEnabled();
+    this.$nextTick(() => {
+      this.scroll = new BScroll('.log-container', {
+        freeScroll: true,
+        disableMouse: false,
+        click: true,
+        stopPropagation: true,
+        mouseWheel: {
+          speed: 20,
+          invert: false,
+          easeTime: 300
+        },
+        scrollbar: {
+          fade: true
+        }
+      });
+    });
   },
   methods: {
     updateEnabled() {
@@ -132,7 +153,7 @@ export default {
     border-radius: 4px;
     border: solid 1px #bdbdbd;
     flex: 1;
-    overflow: auto;
+    overflow: hidden;
     padding: 10px;
     position: relative;
     max-height: 600px;

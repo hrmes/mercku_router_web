@@ -77,7 +77,6 @@ export default {
         });
         this.current = menu;
         this.showMenu = false;
-        document.body.style.overflow = 'auto';
       }
     },
     changeLang() {
@@ -87,11 +86,6 @@ export default {
     },
     show() {
       this.showMenu = !this.showMenu;
-      if (this.showMenu) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
-      }
     },
     exit() {
       this.$dialog.confirm({

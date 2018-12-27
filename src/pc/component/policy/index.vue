@@ -36,22 +36,14 @@ export default {
   },
   mounted() {},
   methods: {
-    setOverflow() {
-      document.body.style.overflow = 'hidden';
-    },
-    restoryOverflow() {
-      document.body.style.overflow = 'auto';
-    },
     showPolicy() {
       if (process.env.CUSTOMER_CONFIG.IS_CIK) {
         window.open('https://www.ciktel.com/');
       } else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
-        this.setOverflow();
         this.show = true;
       }
     },
     close() {
-      this.restoryOverflow();
       this.show = false;
     }
   },

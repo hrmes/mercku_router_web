@@ -29,18 +29,8 @@ export default {
       cancelText: 'cancel'
     };
   },
-  mounted() {
-    this.setOverflow();
-  },
   methods: {
-    setOverflow() {
-      document.body.style.overflow = 'hidden';
-    },
-    restoryOverflow() {
-      document.body.style.overflow = 'auto';
-    },
     close() {
-      this.restoryOverflow();
       this.$el.addEventListener('transitionend', () => {
         this.$el.parentNode.removeChild(this.$el);
       });

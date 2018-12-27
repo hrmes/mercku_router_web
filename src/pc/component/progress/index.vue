@@ -39,7 +39,6 @@ export default {
     };
   },
   mounted() {
-    this.setOverflow();
     this.createTiemr();
   },
   methods: {
@@ -51,16 +50,9 @@ export default {
         this.styles.width = `${this.percent}%`;
         if (!this.countdown) clearTimeout(this.timer);
       }, 1000);
-    },
-    setOverflow() {
-      document.body.style.overflow = 'hidden';
-    },
-    restoryOverflow() {
-      document.body.style.overflow = 'auto';
     }
   },
   beforeDestroy() {
-    this.restoryOverflow();
     clearTimeout(this.timer);
   }
 };
