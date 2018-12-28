@@ -1,50 +1,30 @@
 <template>
-  <div class="container"
-       id="wrapper">
-    <m-menu class="menu"
-            :menus="menus"
-            v-if="!menu_hidden"></m-menu>
-    <div class="app-container router-view">
-      <div class="flex-wrap"
-           :class="{'has-menu':!menu_hidden}">
-        <m-header :hasExit="!menu_hidden"
-                  class="header"
-                  :class="{'no-menu':menu_hidden}"></m-header>
-        <router-view></router-view>
-        <m-policy :locale="$i18n.locale"
-                  :class="{'fix-bottom':menu_hidden}"
-                  class="policy" />
+  <m-scrollbar class="srcollbar-wrap">
+    <div class="container">
+      <m-menu class="menu"
+              :menus="menus"
+              v-if="!menu_hidden"></m-menu>
+      <div class="app-container router-view">
+        <div class="flex-wrap"
+             :class="{'has-menu':!menu_hidden}">
+          <m-header :hasExit="!menu_hidden"
+                    class="header"
+                    :class="{'no-menu':menu_hidden}"></m-header>
+          <router-view></router-view>
+          <m-policy :locale="$i18n.locale"
+                    :class="{'fix-bottom':menu_hidden}"
+                    class="policy" />
+        </div>
       </div>
     </div>
-  </div>
+  </m-scrollbar>
 
 </template>
 <script>
-import BScroll from 'better-scroll';
 import './style/common.scss';
-import { Access } from '../util/constant';
+import { Access } from 'util/constant';
 
 export default {
-  mounted() {
-    this.$nextTick(() => {
-      this.scroll = new BScroll('body', {
-        freeScroll: true,
-        // scrollX: false,
-        // scrollY: true,
-        disableMouse: false,
-        click: true,
-        bounce: false,
-        mouseWheel: {
-          speed: 20,
-          invert: false,
-          easeTime: 300
-        },
-        scrollbar: {
-          fade: true
-        }
-      });
-    });
-  },
   computed: {
     menu_hidden() {
       return (
@@ -228,6 +208,9 @@ export default {
 };
 </script>
 <style lang="scss">
+.srcollbar-wrap {
+  height: 100%;
+}
 .flex-wrap {
   display: flex;
   min-height: 100vh;

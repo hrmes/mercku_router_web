@@ -122,8 +122,7 @@
             </div>
           </div>
           <img class="router-time-img"
-               src="../../../assets/images/img_router_time.png"
-               alt>
+               src="../../../assets/images/img_router_time.png">
         </div>
       </div>
     </div>
@@ -700,6 +699,7 @@ export default {
             .r-dwon-icon {
               width: 10px;
               height: 14.5px;
+              margin-right: 5px;
               display: inline-block;
               background: url('../../../assets/images/ic_ic_download.png')
                 no-repeat;
@@ -712,6 +712,7 @@ export default {
             .r-up-icon {
               width: 10px;
               height: 14.5px;
+              margin-right: 5px;
               display: inline-block;
               background: url('../../../assets/images/ic_upload.png') no-repeat;
               background-size: 100% 100%;

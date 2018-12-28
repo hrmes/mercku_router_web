@@ -58,3 +58,18 @@ export const VPNAction = {
   connect: 'connect',
   disconnect: 'disconnect'
 };
+
+export const defaultScrollbarOpt = {
+  freeScroll: true,
+  disableMouse: false,
+  click: true,
+  stopPropagation: true,
+  mouseWheel: {
+    speed: 20,
+    invert: false,
+    easeTime: 300
+  },
+  scrollbar: {
+    fade: true
+  }
+};

@@ -16,12 +16,13 @@
                  src="../../../../assets/images/ic_arrow_pack_up.png"
                  alt=""></i>
           <div class="modal"
-               v-if="modalShow"
+               v-show="modalShow"
                @click.stop=""
                v-clickoutside="()=>modalShow=false">
             <div class="opcity"></div>
             <div class="modal-content">
-              <div class="list">
+              <m-scrollbar class="list"
+                           :data="devices">
                 <div class="device-item"
                      v-for="(item,index) in devices"
                      :key="index">
@@ -35,7 +36,7 @@
                     <p>{{$t('trans0151')}}：{{item.ip}}</p>
                   </div>
                 </div>
-              </div>
+              </m-scrollbar>
               <div class="btn-wrap">
                 <button class="btn btn-default"
                         @click="()=>modalShow=false">{{$t('trans0025')}}</button>
@@ -79,12 +80,7 @@
   </div>
 </template>
 <script>
-import {
-  ipReg,
-  getStringByte,
-  isMac,
-  formatMac
-} from '../../../../../util/util';
+import { ipReg, getStringByte, isMac, formatMac } from 'util/util';
 
 export default {
   data() {
@@ -189,7 +185,10 @@ export default {
       });
     },
     submit() {
-      const fetchMethod = this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
+      let fetchMethod = 'meshRsvdipAdd';
+      if (this.formType === 'update') {
+        fetchMethod = 'meshRsvdipUpdate';
+      }
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http[fetchMethod]({
@@ -254,15 +253,13 @@ export default {
       z-index: 1;
       left: 0;
       width: 300px;
-      //height: 458px;
       border-radius: 2px;
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
       border: solid 1px #e7e7e7;
       background-color: #ffffff;
       .list {
         width: 300px;
-        max-height: 450px;
-        overflow-y: auto;
+        max-height: 400px;
       }
       .device-item {
         display: flex;
