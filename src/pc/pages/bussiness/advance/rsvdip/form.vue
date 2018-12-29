@@ -21,7 +21,7 @@
                v-clickoutside="()=>modalShow=false">
             <div class="opcity"></div>
             <div class="modal-content">
-              <m-scrollbar class="list"
+              <div class="list"
                            :data="devices">
                 <div class="device-item"
                      v-for="(item,index) in devices"
@@ -36,7 +36,7 @@
                     <p>{{$t('trans0151')}}：{{item.ip}}</p>
                   </div>
                 </div>
-              </m-scrollbar>
+              </div>
               <div class="btn-wrap">
                 <button class="btn btn-default"
                         @click="()=>modalShow=false">{{$t('trans0025')}}</button>
@@ -80,7 +80,9 @@
   </div>
 </template>
 <script>
-import { ipReg, getStringByte, isMac, formatMac } from 'util/util';
+import {
+ ipReg, getStringByte, isMac, formatMac
+} from 'util/util';
 
 export default {
   data() {
@@ -259,6 +261,7 @@ export default {
       background-color: #ffffff;
       .list {
         width: 300px;
+        overflow: auto;
         max-height: 400px;
       }
       .device-item {

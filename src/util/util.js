@@ -243,6 +243,7 @@ export const getStringByte = str => {
 export const formatNetworkData = value => {
   const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
   let index = -1;
+  value = Number(value);
   if (!Number.isNaN(value)) {
     do {
       value /= 1000;
@@ -267,6 +268,7 @@ export const formatSpeed = value => {
   value /= 8;
   const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
   let index = -1;
+  value = Number(value);
   if (!Number.isNaN(value)) {
     do {
       value /= 1000;
@@ -283,6 +285,7 @@ export const formatSpeed = value => {
 export const formatBandWidth = value => {
   const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
   let index = 0;
+  value = Number(value);
   if (!Number.isNaN(value)) {
     while (value > 1000 && index < units.length - 1) {
       value /= 1000;

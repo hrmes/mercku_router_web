@@ -15,26 +15,30 @@ export default {
     option: {
       type: Object,
       default: () => ({
-        freeScroll: {
-          type: Boolean,
-          default: true
+        probeType: {
+          default: 1,
+          type: Number
         },
+        eventPassthrough: 'horizontal',
+        scrollY: true,
+        scrollX: false,
         disableMouse: {
           type: Boolean,
           default: true
+        },
+        preventDefault: {
+          type: Boolean,
+          default: false
+        },
+        disableTouch: {
+          type: Boolean,
+          default: false
         },
         stopPropagation: {
           type: Boolean,
           default: true
         },
-        mouseWheel: {
-          type: Object,
-          default: () => ({
-            speed: 20,
-            invert: false,
-            easeTime: 300
-          })
-        },
+        mouseWheel: true,
         scrollbar: {
           type: Object,
           default: () => ({ fade: true })
@@ -56,8 +60,9 @@ export default {
       if (!this.$refs.wrapper) {
         return;
       }
-      this.$refs.wrapper.style.overflow = 'hidden';
+      this.$refs.wrapper.style['overflow-y'] = 'hidden';
       this.scroll = new BScroll(this.$refs.wrapper, this.option);
+      console.log(this.scroll);
     },
     refresh() {
       this.scroll && this.scroll.refresh();
@@ -68,10 +73,9 @@ export default {
   },
   watch: {
     data() {
-      this.$nextTick(() => {});
-      setTimeout(() => {
+      this.$nextTick(() => {
         this.refresh();
-      }, 2000);
+      });
     }
   }
 };
