@@ -60,9 +60,14 @@ export default {
       if (!this.$refs.wrapper) {
         return;
       }
-      this.$refs.wrapper.style['overflow-y'] = 'hidden';
+      if (this.scrollY) {
+        this.$refs.wrapper.style['overflow-y'] = 'hidden';
+      }
+      if (this.scrollX) {
+        this.$refs.wrapper.style['overflow-x'] = 'hidden';
+      }
+
       this.scroll = new BScroll(this.$refs.wrapper, this.option);
-      console.log(this.scroll);
     },
     refresh() {
       this.scroll && this.scroll.refresh();
