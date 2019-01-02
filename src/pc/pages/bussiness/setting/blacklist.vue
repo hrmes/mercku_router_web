@@ -4,6 +4,11 @@
       {{$t('trans0288')}}
     </div>
     <div class="page-content">
+      <div class="tools">
+        <m-checkbox></m-checkbox>
+        <button class="btn btn-default btn-small">{{$t('trans0453')}}</button>
+        <button class="btn btn-default btn-small">{{$t('trans0016')}}</button>
+      </div>
       <div class="table">
         <div class="table-header">
           <div class="name">{{$t('trans0005')}}</div>
@@ -81,6 +86,16 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.tools {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  .btn {
+    margin-left: 30px;
+  }
+}
 .table {
   width: 100%;
   .name,

@@ -94,7 +94,7 @@ ul {
 
 .btn {
   outline: none;
-  border: 1px solid transparent;
+  border: none;
   cursor: pointer;
   text-align: center;
   white-space: nowrap;
@@ -114,7 +114,12 @@ ul {
   &:hover {
     background: rgb(182, 0, 24);
   }
-
+  &.btn-small {
+    width: auto;
+    height: auto;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
   &.btn-default {
     background: #fff;
     color: rgb(214, 0, 28);

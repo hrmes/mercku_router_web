@@ -11,7 +11,7 @@
                 :class="{'selected':showTable}"
                 @click="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</span>
         </div>
-        <div class="btn btn-add"
+        <div class="btn btn-add btn-primary btn-small"
              @click="addMeshNode">{{$t('trans0194')}}</div>
       </div>
       <div class="content">
@@ -540,9 +540,6 @@ export default {
       }
     }
     .btn-add {
-      width: 100px;
-      height: 27px;
-      line-height: 27px;
       float: right;
     }
     width: 100%;
