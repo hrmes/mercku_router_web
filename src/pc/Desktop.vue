@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <m-scrollbar class="srcollbar-wrap">
     <div class="container">
       <m-menu class="menu"
@@ -16,22 +15,6 @@
                     :class="{'fix-bottom':menu_hidden}"
                     class="policy" />
         </div>
-=======
-  <div class="container">
-    <m-menu class="menu"
-            :menus="menus"
-            v-if="!menu_hidden"></m-menu>
-    <div class="app-container router-view">
-      <div class="flex-wrap"
-           :class="{'has-menu':!menu_hidden}">
-        <m-header :hasExit="!menu_hidden"
-                  class="header"
-                  :class="{'no-menu':menu_hidden}"></m-header>
-        <router-view></router-view>
-        <m-policy :locale="$i18n.locale"
-                  :class="{'fix-bottom':menu_hidden}"
-                  class="policy" />
->>>>>>> develop
       </div>
     </div>
   </m-scrollbar>
