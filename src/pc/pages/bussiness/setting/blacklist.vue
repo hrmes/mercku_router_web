@@ -43,6 +43,7 @@ import { formatMac } from '../../../../util/util';
 export default {
   data() {
     return {
+      devices: [],
       blacklist: [],
       formatMac
     };
@@ -56,6 +57,11 @@ export default {
     }
   },
   methods: {
+    getDeviceList() {
+      this.$http.getDeviceList().then(res => {
+        this.devices = res.data.result;
+      });
+    },
     getBlacklist() {
       this.$loading.open();
       this.$http
