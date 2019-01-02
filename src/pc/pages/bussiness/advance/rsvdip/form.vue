@@ -22,7 +22,7 @@
             <div class="opcity"></div>
             <div class="modal-content">
               <div class="list"
-                           :data="devices">
+                   :data="devices">
                 <div class="device-item"
                      v-for="(item,index) in devices"
                      :key="index">
@@ -80,9 +80,7 @@
   </div>
 </template>
 <script>
-import {
- ipReg, getStringByte, isMac, formatMac
-} from 'util/util';
+import { ipReg, getStringByte, isMac, formatMac } from 'util/util';
 
 export default {
   data() {
@@ -182,7 +180,7 @@ export default {
       }
     },
     getDevices() {
-      this.$http.meshDeviceGet().then(res => {
+      this.$http.getDeviceList().then(res => {
         this.devices = res.data.result.map(v => ({ ...v, checked: false }));
       });
     },

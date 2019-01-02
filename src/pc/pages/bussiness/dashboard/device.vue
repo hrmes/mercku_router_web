@@ -291,7 +291,10 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
+      return (
+        row.parent_control
+        && row.parent_control.mode === BlacklistMode.blacklist
+      );
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -331,7 +334,7 @@ export default {
     },
     getDeviceList() {
       this.$http
-        .meshDeviceGet()
+        .getDeviceList()
         .then(res => {
           this.timer = setTimeout(() => {
             this.getDeviceList();
@@ -425,13 +428,22 @@ export default {
         return formatDate(now - date * 1000);
       }
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(date / split[1], 10)
+        )}`;
       }
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
       }
       if (date <= split[2] && date > split[3]) {
-        return `${this.$t('trans0011').replace('%d', parseInt(date / split[3], 10))}`;
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(date / split[3], 10)
+        )}`;
       }
       return `${this.$t('trans0010')}`;
     }
@@ -696,26 +708,32 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/ic_limit_time_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_time_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_time.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_time.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/ic_limit_speed_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_speed_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_speed.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_speed.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
             &.url-limit {
-              background: url(../../../assets/images/ic_limit_website_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_website_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_website.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_website.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
@@ -738,7 +756,8 @@ export default {
         width: 295px;
         height: 229px;
         border-radius: 5px;
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04),
+          0 2px 4px 0 rgba(0, 0, 0, 0.12);
         background-color: #ffffff;
         border: solid 1px #f1f1f1;
         padding: 30px 20px;

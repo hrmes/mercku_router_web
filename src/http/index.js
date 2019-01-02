@@ -322,8 +322,8 @@ class Http {
     return this.request(methods.meshDeviceUpdate, params);
   }
 
-  meshDeviceGet() {
-    return this.request(methods.meshDeviceGet);
+  getDeviceList(params) {
+    return this.request(methods.meshDeviceGet, params);
   }
 
   loginout() {
