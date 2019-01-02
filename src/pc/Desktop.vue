@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <m-scrollbar class="srcollbar-wrap">
     <div class="container">
       <m-menu class="menu"
@@ -15,6 +16,22 @@
                     :class="{'fix-bottom':menu_hidden}"
                     class="policy" />
         </div>
+=======
+  <div class="container">
+    <m-menu class="menu"
+            :menus="menus"
+            v-if="!menu_hidden"></m-menu>
+    <div class="app-container router-view">
+      <div class="flex-wrap"
+           :class="{'has-menu':!menu_hidden}">
+        <m-header :hasExit="!menu_hidden"
+                  class="header"
+                  :class="{'no-menu':menu_hidden}"></m-header>
+        <router-view></router-view>
+        <m-policy :locale="$i18n.locale"
+                  :class="{'fix-bottom':menu_hidden}"
+                  class="policy" />
+>>>>>>> develop
       </div>
     </div>
   </m-scrollbar>
@@ -58,7 +75,6 @@ export default {
             name: 'device',
             url: '/dashboard/device'
           },
-
           {
             text: 'trans0366',
             name: 'internet',
@@ -94,41 +110,18 @@ export default {
             text: 'trans0272',
             name: 'timezone',
             url: '/setting/timezone'
-          }
-        ]
-      };
-      const advance = {
-        icon: 'advance',
-        text: 'trans0416',
-        children: [
+          },
           {
             url: '/advance/portforwarding',
             name: 'advance-portforwarding',
             text: 'trans0422',
             super: true
           },
-          {
-            url: '/advance/dhcp',
-            name: 'advance-dhcp',
-            text: 'trans0417',
-            super: false
-          },
+
           {
             url: '/advance/rsvdip',
             name: 'advance-rsvdip',
             text: 'trans0444',
-            super: true
-          },
-          {
-            url: '/advance/mac',
-            name: 'advance-mac',
-            text: 'trans0474',
-            super: false
-          },
-          {
-            url: '/advance/ddns',
-            name: 'advance-ddns',
-            text: 'trans0418',
             super: true
           },
           {
@@ -138,15 +131,40 @@ export default {
             super: true
           },
           {
-            url: '/advance/diagnosis',
-            name: 'advance-diagnosis',
-            text: 'trans0419'
-          },
-          {
             url: '/advance/dmz',
             name: 'advance-dmz',
             text: 'trans0420',
             super: true
+          },
+          {
+            url: '/advance/ddns',
+            name: 'advance-ddns',
+            text: 'trans0418',
+            super: true
+          }
+        ]
+      };
+      const advance = {
+        icon: 'advance',
+        text: 'trans0416',
+        children: [
+          {
+            url: '/advance/dhcp',
+            name: 'advance-dhcp',
+            text: 'trans0417',
+            super: false
+          },
+
+          {
+            url: '/advance/mac',
+            name: 'advance-mac',
+            text: 'trans0474',
+            super: false
+          },
+          {
+            url: '/advance/diagnosis',
+            name: 'advance-diagnosis',
+            text: 'trans0419'
           },
           {
             url: '/advance/log',
