@@ -6,7 +6,7 @@
         <div v-for="tab in tabs"
              class="tab"
              :class="{'tab-active':tab.id===id}"
-             @click="()=>$router.push(`/dashboard/device/${tab.id}`)"
+             @click="tabChange(tab.id)"
              :key="tab.id">{{tab.text}}</div>
       </div>
       <div class="table-inner">
@@ -249,6 +249,38 @@ export default {
     id() {
       return this.$route.params.id;
     },
+    devicesParams() {
+      let params = {
+        filters: []
+      };
+      if (this.id === '1') {
+        params = {
+          filters: [{ type: 'primary', status: ['online'] }]
+        };
+      }
+      if (this.id === '2') {
+        params = {
+          filters: [
+            {
+              type: 'guest',
+              status: ['online']
+            }
+          ]
+        };
+      }
+      if (this.id === '3') {
+        params = {
+          filters: [
+            {
+              type: 'guest',
+              status: ['offline']
+            },
+            { type: 'primary', status: ['offline'] }
+          ]
+        };
+      }
+      return params;
+    },
     filterDevices() {
       const arr = this.devices
         .map(v => {
@@ -297,7 +329,7 @@ export default {
         that.isMobile = false;
       }
     };
-    this.getDeviceList();
+    this.getDeviceList(this.devicesParams);
     this.getLocalDevice();
   },
   destroyed() {
@@ -305,6 +337,10 @@ export default {
     this.timer = null;
   },
   methods: {
+    tabChange(id) {
+      this.$router.push(`/dashboard/device/${id}`);
+      this.getDeviceList(this.devicesParams);
+    },
     isMobileRow(expand) {
       return this.isMobile ? expand : true;
     },
@@ -356,12 +392,12 @@ export default {
         this.localDeviceIP = res.data.result.ip;
       });
     },
-    getDeviceList() {
+    getDeviceList(params) {
       this.$http
-        .getDeviceList()
+        .getDeviceList(params)
         .then(res => {
           this.timer = setTimeout(() => {
-            this.getDeviceList();
+            this.getDeviceList(params);
           }, 15 * 1000);
           if (res.data.result && res.data.result.length > 0) {
             const result = res.data.result.map(v => ({ ...v, expand: false }));
@@ -379,7 +415,7 @@ export default {
         })
         .catch(() => {
           this.timer = setTimeout(() => {
-            this.getDeviceList();
+            this.getDeviceList(params);
           }, 15 * 1000);
         });
     },
