@@ -358,7 +358,7 @@ export default {
     },
     getDeviceList() {
       this.$http
-        .meshDeviceGet()
+        .getDeviceList()
         .then(res => {
           this.timer = setTimeout(() => {
             this.getDeviceList();
