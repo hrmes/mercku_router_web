@@ -56,7 +56,7 @@ export default {
           {
             text: 'trans0235',
             name: 'device',
-            url: '/dashboard/device'
+            url: '/dashboard/device/1'
           },
           {
             text: 'trans0366',

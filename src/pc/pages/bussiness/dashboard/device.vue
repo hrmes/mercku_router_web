@@ -9,10 +9,24 @@
              @click="tabChange(tab.id)"
              :key="tab.id">{{tab.text}}</div>
       </div>
+      <div class="offline-handle-wrapper"
+           v-if="id==='3'">
+        <button class="btn btn-default"> 批量删除</button>
+        <div class="off-more-message">
+          <img src="../../../assets/images/ic_default_error.png"
+               alt="">
+          离线设备过多，请清理
+        </div>
+      </div>
       <div class="table-inner">
         <div class="table-head">
           <ul>
             <li class="column-name">
+              <div class="column-check-box"
+                   v-if="id==='3'">
+                <m-checkbox v-model="checkAll"
+                            :onChange="offCheckChange"></m-checkbox>
+              </div>
               <div class="column-icon"></div>
               {{$t('trans0005')}}
             </li>
@@ -25,10 +39,14 @@
           </ul>
         </div>
         <div class="table-body small-device-body">
-          <ul v-for="(row,i) in filterDevices"
+          <ul v-for="(row,i) in devicesMap[id]"
               :key='i'>
             <li class="column-name"
                 @click.stop="expandTable(row)">
+              <div class="column-check-box"
+                   v-if="id==='3'">
+                <m-checkbox v-model="row.checked"></m-checkbox>
+              </div>
               <div class="column-icon">
                 <div class="icon-inner">
                   <i class="band"
@@ -160,6 +178,10 @@
                     @click="()=>addToBlackList(row)">
                 {{$t('trans0016')}}
               </span>
+              <span class="del-btn"
+                    @click="()=>addToBlackList(row)">
+                {{$t('删除')}}
+              </span>
             </li>
           </ul>
         </div>
@@ -217,10 +239,11 @@ export default {
       ],
       BlacklistMode,
       formatMac,
+      checkAll: false,
       isMobile: false,
       modalShow: false,
       row: {},
-      devices: [],
+      devicesMap: {},
       localDeviceIP: '',
       timer: null,
       form: {
@@ -280,9 +303,28 @@ export default {
         };
       }
       return params;
-    },
-    filterDevices() {
-      const arr = this.devices
+    }
+  },
+  async mounted() {
+    const that = this;
+    this.getIsMobile(that);
+    window.onresize = function temp() {
+      const w = that.windowWidth();
+      if (w <= 768) {
+        that.isMobile = true;
+      } else {
+        that.isMobile = false;
+      }
+    };
+    this.getDeviceList(this.devicesParams);
+  },
+  destroyed() {
+    clearTimeout(this.timer);
+    this.timer = null;
+  },
+  methods: {
+    filterDevices(arr) {
+      const newArr = arr
         .map(v => {
           if (v.ip === this.localDeviceIP) {
             return { ...v, local: true };
@@ -315,33 +357,24 @@ export default {
 
           return a.online_info.online_duration - b.online_info.online_duration;
         });
-      return arr;
-    }
-  },
-  mounted() {
-    const that = this;
-    this.getIsMobile(that);
-    window.onresize = function temp() {
-      const w = that.windowWidth();
-      if (w <= 768) {
-        that.isMobile = true;
-      } else {
-        that.isMobile = false;
-      }
-    };
-    this.getDeviceList(this.devicesParams);
-    this.getLocalDevice();
-  },
-  destroyed() {
-    clearTimeout(this.timer);
-    this.timer = null;
-  },
-  methods: {
+      return newArr;
+    },
+    offCheckChange(v) {
+      this.devicesMap[this.id].forEach(item => {
+        if (v) {
+          item.checked = true;
+        } else {
+          item.checked = false;
+        }
+      });
+    },
     tabChange(id) {
-      clearTimeout(this.timer);
-      this.timer = null;
-      this.$router.push(`/dashboard/device/${id}`);
-      this.getDeviceList(this.devicesParams);
+      if (id !== this.id) {
+        clearTimeout(this.timer);
+        this.timer = null;
+        this.$router.push(`/dashboard/device/${id}`);
+        this.getDeviceList(this.devicesParams);
+      }
     },
     isMobileRow(expand) {
       return this.isMobile ? expand : true;
@@ -354,8 +387,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control
-        && row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {
@@ -367,7 +400,7 @@ export default {
     },
     expandTable(row) {
       if (this.isMobile) {
-        this.devices.forEach(v => {
+        this.devicesMap[this.id].forEach(v => {
           if (v.mac === row.mac) {
             v.expand = !v.expand;
           }
@@ -389,12 +422,12 @@ export default {
         that.isMobile = false;
       }
     },
-    getLocalDevice() {
-      this.$http.getLocalDevice().then(res => {
-        this.localDeviceIP = res.data.result.ip;
-      });
-    },
-    getDeviceList(params) {
+    async getDeviceList(params) {
+      const res = await this.$http.getLocalDevice();
+      this.localDeviceIP = res.data.result.ip;
+      if (!this.devicesMap[this.id]) {
+        this.devicesMap[this.id] = [];
+      }
       this.$http
         .getDeviceList(params)
         .then(res => {
@@ -402,9 +435,13 @@ export default {
             this.getDeviceList(params);
           }, 15 * 1000);
           if (res.data.result && res.data.result.length > 0) {
-            const result = res.data.result.map(v => ({ ...v, expand: false }));
-            if (this.isMobile && this.devices.length > 0) {
-              this.devices.forEach(n => {
+            const result = res.data.result.map(v => ({
+              ...v,
+              expand: false,
+              checked: false
+            }));
+            if (this.isMobile && this.devicesMap[this.id].length > 0) {
+              this.devicesMap[this.id].forEach(n => {
                 result.forEach(m => {
                   if (n.mac === m.mac) {
                     m.expand = n.expand;
@@ -412,7 +449,10 @@ export default {
                 });
               });
             }
-            this.devices = result;
+            this.devicesMap = {
+              ...this.devicesMap,
+              [this.id]: this.filterDevices(result)
+            };
           }
         })
         .catch(() => {
@@ -431,7 +471,7 @@ export default {
         };
         this.$http.meshDeviceUpdate({ ...params }).then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.devices = this.devices.map(v => {
+          this.devicesMap[this.id] = this.devicesMap[this.id].map(v => {
             if (v.mac === this.row.mac) {
               return { ...v, name: this.form.name };
             }
@@ -461,7 +501,9 @@ export default {
                 ...params
               })
               .then(() => {
-                this.devices = this.devices.filter(v => v.mac !== row.mac);
+                this.devicesMap[this.id] = this.devicesMap[this.id].filter(
+                  v => v.mac !== row.mac
+                );
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
@@ -509,6 +551,18 @@ export default {
       }
       return `${this.$t('trans0010')}`;
     }
+  },
+  watch: {
+    devicesMap: {
+      handler: function temp(v) {
+        if (v[this.id].map(item => item.checked).some(n => !n)) {
+          this.checkAll = false;
+        } else {
+          this.checkAll = true;
+        }
+      },
+      deep: true
+    }
   }
 };
 </script>
@@ -516,6 +570,36 @@ export default {
 .device-container {
   padding-bottom: 50px;
   border-radius: 8px;
+  .offline-handle-wrapper {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    padding-left: 30px;
+    .btn {
+      height: 27px;
+      font-size: 12px;
+      width: 70px !important;
+      padding: 0 !important;
+      min-width: auto !important;
+    }
+    .off-more-message {
+      min-width: 161px;
+      height: 30px;
+      border-radius: 4px;
+      background-color: #fffbe6;
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.65);
+      line-height: 30px;
+      margin-left: 20px;
+      display: flex;
+      align-items: center;
+      border: 1px solid #ffe58f;
+      img {
+        width: 14px;
+        margin: 0 5px 0 10px;
+      }
+    }
+  }
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -615,7 +699,7 @@ export default {
       border-bottom: 1px solid #f1f1f1;
     }
     .table-inner {
-      margin-top: 30px;
+      margin-top: 20px;
       ul,
       li {
         text-decoration: none;
@@ -645,6 +729,13 @@ export default {
         justify-content: space-between;
         align-items: center;
       }
+      .column-check-box {
+        width: 50px;
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
       .column-icon {
         width: 50px;
         display: flex;
@@ -654,7 +745,7 @@ export default {
         .mobile-icon {
           display: none;
         }
-        width: 250px;
+        width: 290px;
       }
       .column-ip {
         .pc-mac {
@@ -686,7 +777,7 @@ export default {
         width: 120px;
       }
       .column-black-list {
-        width: 120px;
+        width: 180px;
       }
 
       .table-head {
@@ -829,8 +920,13 @@ export default {
           }
         }
       }
+      .del-btn {
+        color: #f50520;
+        cursor: pointer;
+      }
       .black-btn {
         cursor: pointer;
+        margin-right: 30px;
         &:hover {
           text-decoration: underline;
         }
