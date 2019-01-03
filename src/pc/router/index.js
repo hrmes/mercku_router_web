@@ -32,6 +32,7 @@ import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
+import guest from 'pages/bussiness/setting/guest.vue';
 
 Vue.use(Router);
 const routes = [{
@@ -103,6 +104,11 @@ const routes = [{
     path: '/setting/safe',
     name: 'safe',
     component: safe
+  },
+  {
+    path: '/setting/guest',
+    name: 'guest',
+    component: guest
   },
   {
     path: '/setting/timezone',
