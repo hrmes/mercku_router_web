@@ -338,6 +338,8 @@ export default {
   },
   methods: {
     tabChange(id) {
+      clearTimeout(this.timer);
+      this.timer = null;
       this.$router.push(`/dashboard/device/${id}`);
       this.getDeviceList(this.devicesParams);
     },
