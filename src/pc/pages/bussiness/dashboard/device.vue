@@ -1,7 +1,14 @@
 <template>
   <div class="device-container">
     <div class="device-wrapper">
-      <div class="title">{{$t('trans0235')}}</div>
+      <!-- <div class="title">{{$t('trans0235')}}</div> -->
+      <div class="tabs">
+        <div v-for="tab in tabs"
+             class="tab"
+             :class="{'tab-active':tab.id===id}"
+             @click="tabChange(tab.id)"
+             :key="tab.id">{{tab.text}}</div>
+      </div>
       <div class="table-inner">
         <div class="table-head">
           <ul>
@@ -194,6 +201,20 @@ import { formatMac, getStringByte, formatDate } from 'util/util';
 export default {
   data() {
     return {
+      tabs: [
+        {
+          id: '1',
+          text: this.$t('trans0514')
+        },
+        {
+          id: '2',
+          text: this.$t('trans0515')
+        },
+        {
+          id: '3',
+          text: this.$t('trans0516')
+        }
+      ],
       BlacklistMode,
       formatMac,
       isMobile: false,
@@ -225,6 +246,41 @@ export default {
     };
   },
   computed: {
+    id() {
+      return this.$route.params.id;
+    },
+    devicesParams() {
+      let params = {
+        filters: []
+      };
+      if (this.id === '1') {
+        params = {
+          filters: [{ type: 'primary', status: ['online'] }]
+        };
+      }
+      if (this.id === '2') {
+        params = {
+          filters: [
+            {
+              type: 'guest',
+              status: ['online']
+            }
+          ]
+        };
+      }
+      if (this.id === '3') {
+        params = {
+          filters: [
+            {
+              type: 'guest',
+              status: ['offline']
+            },
+            { type: 'primary', status: ['offline'] }
+          ]
+        };
+      }
+      return params;
+    },
     filterDevices() {
       const arr = this.devices
         .map(v => {
@@ -273,7 +329,7 @@ export default {
         that.isMobile = false;
       }
     };
-    this.getDeviceList();
+    this.getDeviceList(this.devicesParams);
     this.getLocalDevice();
   },
   destroyed() {
@@ -281,6 +337,10 @@ export default {
     this.timer = null;
   },
   methods: {
+    tabChange(id) {
+      this.$router.push(`/dashboard/device/${id}`);
+      this.getDeviceList(this.devicesParams);
+    },
     isMobileRow(expand) {
       return this.isMobile ? expand : true;
     },
@@ -332,12 +392,12 @@ export default {
         this.localDeviceIP = res.data.result.ip;
       });
     },
-    getDeviceList() {
+    getDeviceList(params) {
       this.$http
-        .getDeviceList()
+        .getDeviceList(params)
         .then(res => {
           this.timer = setTimeout(() => {
-            this.getDeviceList();
+            this.getDeviceList(params);
           }, 15 * 1000);
           if (res.data.result && res.data.result.length > 0) {
             const result = res.data.result.map(v => ({ ...v, expand: false }));
@@ -355,7 +415,7 @@ export default {
         })
         .catch(() => {
           this.timer = setTimeout(() => {
-            this.getDeviceList();
+            this.getDeviceList(params);
           }, 15 * 1000);
         });
     },
@@ -517,6 +577,33 @@ export default {
   background: white;
   padding: 0 20px;
   .device-wrapper {
+    .tabs {
+      height: 60px;
+      display: flex;
+      border-bottom: 1px solid #f1f1f1;
+      .tab {
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        height: 60px;
+        width: 200px;
+        line-height: 60px;
+        padding-left: 10px;
+        font-weight: bold;
+        &.tab-active {
+          color: #d6001c;
+          border-bottom: 3px solid #d6001c;
+          &:hover {
+            background: transparent;
+            color: #d6001c;
+          }
+        }
+        &:hover {
+          background: #f1f1f1;
+          color: #999999;
+        }
+      }
+    }
     flex: 1;
     .title {
       font-size: 16px;

@@ -3,7 +3,10 @@ import axios from 'axios';
 axios.defaults.timeout = 60000;
 
 const defaultUrl = '/app';
-const createMethod = (action, url = defaultUrl) => ({ url, action });
+const createMethod = (action, url = defaultUrl) => ({
+  url,
+  action
+});
 
 const methods = {
   routerIsLogin: createMethod('router.is_login'),
@@ -344,7 +347,9 @@ class Http {
 
   /* v0.9 start */
   uploadFirmware(params, callback) {
-    const { CancelToken } = axios;
+    const {
+      CancelToken
+    } = axios;
     const source = CancelToken.source();
     return axios({
       url: methods.firmwareUpload.action,
@@ -459,7 +464,9 @@ class Http {
   }
 
   login(password) {
-    return this.request(methods.routerLogin, { password });
+    return this.request(methods.routerLogin, {
+      password
+    });
   }
 
   isinitial() {
@@ -478,7 +485,9 @@ class Http {
     if (config.admin && config.admin.password) {
       conf.admin = config.admin;
     }
-    return this.request(methods.meshConfigUpdate, { config: conf });
+    return this.request(methods.meshConfigUpdate, {
+      config: conf
+    });
   }
 
   getWanStatus() {
@@ -494,7 +503,11 @@ class Http {
   }
 
   post2native(action, type, data) {
-    const message = JSON.stringify({ action, type, data });
+    const message = JSON.stringify({
+      action,
+      type,
+      data
+    });
     try {
       window.webkit.messageHandlers.callbackHandler.postMessage(message);
     } catch (err) {
