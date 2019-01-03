@@ -144,6 +144,9 @@ export default {
     .form-item {
       margin-bottom: 30px;
     }
+    .btn {
+      width: 350px;
+    }
     .download {
       padding: 0 50px;
       width: 200px;
@@ -244,6 +247,9 @@ export default {
         font-size: 24px;
         margin-top: 25px;
         margin-bottom: 35px;
+      }
+      .btn {
+        width: 100%;
       }
       .download {
         display: none;

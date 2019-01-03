@@ -151,7 +151,7 @@ export default {
   flex-direction: column;
   flex: auto;
   padding: 0 2%;
-  margin-top: 45px;
+  margin-top: 30px;
   .net-info {
     display: flex;
     padding: 0 10%;
@@ -163,6 +163,7 @@ export default {
         height: 50px;
         display: block;
         margin: 0 auto;
+        border-radius: 50%;
       }
     }
     .text-container {
@@ -223,7 +224,7 @@ export default {
     }
   }
   .router-view {
-    margin-top: 75px;
+    margin-top: 50px;
   }
 }
 @media screen and (min-width: 769px) and (max-width: 1440px) {

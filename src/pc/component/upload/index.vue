@@ -211,7 +211,7 @@ export default {
     position: relative;
     display: inline-block;
     width: auto;
-    height: 36px;
+    height: 27px;
     cursor: pointer;
     &[disabled] {
       background: #999;

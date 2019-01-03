@@ -518,7 +518,7 @@ export default {
         }
         width: 49%;
         overflow: hidden;
-        background: white;
+        background: #f1f1f1;
         margin-bottom: 20px;
         border-radius: 8px;
         box-sizing: border-box;

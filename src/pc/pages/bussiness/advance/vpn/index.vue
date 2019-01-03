@@ -371,8 +371,6 @@ export default {
         }
         .vpn-right {
           width: 100%;
-          .vpn-switch {
-          }
         }
       }
     }

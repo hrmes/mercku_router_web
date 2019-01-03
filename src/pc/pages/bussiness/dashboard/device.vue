@@ -137,6 +137,7 @@
                 <div class="item device-item"
                      @click="()=>limitClick('time',row)">
                   <span class="limit-icon time-limit"
+                        :title="$t('trans0075')"
                         v-show="!isMobile"
                         :class="{'active':isTimeLimit(row)}"></span>
                   <span v-show="isMobile">{{$t('trans0075')}}</span>
@@ -149,6 +150,7 @@
                 <div class="item device-item"
                      @click="()=>limitClick('speed',row)">
                   <span class="limit-icon speed-limit"
+                        :title="$t('trans0014')"
                         v-show="!isMobile"
                         :class="{'active':isSpeedLimit(row)}"></span>
                   <span v-show="isMobile">{{$t('trans0014')}}</span>
@@ -162,6 +164,7 @@
                      @click="()=>limitClick('blacklist',row)">
                   <span class="limit-icon url-limit"
                         v-show="!isMobile"
+                        :title="$t('trans0076')"
                         :class="{'active':isBlacklsitLimit(row)}"></span>
                   <span v-show="isMobile">{{$t('trans0076')}}</span>
                   <span class="status">

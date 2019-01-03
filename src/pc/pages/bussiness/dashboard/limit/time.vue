@@ -4,7 +4,12 @@
       {{$t('trans0075')}}
     </div>
     <div class="page-content">
-      <div class='table'>
+      <div class='table'
+           v-if="!isEmpty">
+        <div class="tools">
+          <button class="btn btn-default btn-small"
+                  @click="modalOpen('add')">{{$t('trans0035')}}</button>
+        </div>
         <div class="table-head">
           <div class="column-date-stop">{{$t('trans0084')}}</div>
           <div class="column-date-start">{{$t('trans0085')}}</div>
@@ -32,10 +37,14 @@
             </div>
           </div>
         </div>
-        <div class="btn-warp">
-          <button class="btn"
-                  @click="modalOpen('add')">{{$t('trans0035')}}</button>
-        </div>
+      </div>
+      <div class="empty"
+           v-if="isEmpty">
+        <img src="../../../../assets/images/img_default_empty.png"
+             alt="">
+        <p class="empty-text">{{$t('trans0278')}}</p>
+        <button class="btn"
+                @click="modalOpen('add')">{{$t('trans0035')}}</button>
       </div>
     </div>
     <div class="modal"
@@ -160,6 +169,9 @@ export default {
     }
   },
   computed: {
+    isEmpty() {
+      return !this.sortList.length;
+    },
     sortList() {
       return this.timeLimitList.sort((a, b) => {
         if (a.time_begin || b.time_begin) {
@@ -431,11 +443,8 @@ export default {
 }
 .table {
   width: 100%;
-  .btn-warp {
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 50px;
+  .tools {
+    margin-bottom: 20px;
   }
   .column-date-stop {
     width: 180px;
@@ -486,6 +495,7 @@ export default {
     }
   }
 }
+
 @media screen and (min-width: 768px) {
   .device-time-container {
     .content {

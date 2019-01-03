@@ -93,6 +93,8 @@ export default {
     padding-right: 50px;
     .select-text {
       line-height: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
       height: 100%;
       width: 100%;
       word-wrap: break-word;
