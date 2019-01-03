@@ -590,7 +590,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     font-size: 16px;
     color: #333333;
     text-align: center;
@@ -608,7 +608,7 @@ export default {
       display: flex;
       width: 100%;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
       div {
         margin-top: 10px;
         display: flex;

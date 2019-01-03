@@ -10,6 +10,10 @@
                   v-model="mode" />
       </div>
       <div class='table'>
+        <div class="tools">
+          <button class="btn btn-default btn-small"
+                  @click="modalOpen('add')">{{$t('trans0035')}}</button>
+        </div>
         <div class="table-head">
           <div class="column-address">{{$t('trans0076')}}
             <span>{{$t('trans0101')}}</span>
@@ -25,12 +29,15 @@
               <a @click="delRow(row)">{{$t('trans0033')}}</a>
             </div>
           </div>
-        </div>
-        <div class="btn-warp">
-          <button class="btn"
-                  @click="modalOpen('add')">{{$t('trans0035')}}</button>
+          <div class="empty"
+               v-if="isEmpty">
+            <img src="../../../../assets/images/img_default_empty.png"
+                 alt="">
+            <p class="empty-text">{{$t('trans0278')}}</p>
+          </div>
         </div>
       </div>
+
     </div>
     <div class="modal"
          v-if='modalShow'>
@@ -107,6 +114,9 @@ export default {
     sortList() {
       const list = this.parentControlLimitList;
       return list.sort();
+    },
+    isEmpty() {
+      return !this.sortList.length;
     }
   },
   mounted() {
@@ -297,11 +307,9 @@ export default {
 }
 .table {
   width: 100%;
-  .btn-warp {
-    margin-top: 50px;
-    margin-bottom: 50px;
-    display: flex;
-    justify-content: center;
+
+  .tools {
+    margin-bottom: 20px;
   }
   margin-top: 30px;
   .column-handle {

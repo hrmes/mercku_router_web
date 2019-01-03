@@ -116,7 +116,7 @@ ul {
   }
   &.btn-small {
     // width: auto;
-    // height: auto;
+    height: 27px;
     padding: 5px 10px;
     font-size: 12px;
   }
@@ -247,7 +247,19 @@ input::-webkit-input-placeholder {
     margin-top: 20px;
   }
 }
-
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid #f1f1f1;
+  img {
+    width: 50px;
+  }
+  .empty-text {
+    //margin-bottom: 50px;
+  }
+}
 @media screen and (max-width: 768px) {
   .page {
     margin: 30px 16px;

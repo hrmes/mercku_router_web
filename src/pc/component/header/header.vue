@@ -116,7 +116,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header-container {
-  height: 92px;
+  height: 72px;
   align-items: center;
   justify-content: flex-end;
   padding: 0 50px;
