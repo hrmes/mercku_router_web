@@ -15,11 +15,11 @@
                    :placeholder="`${$t('trans0321')}`"
                    v-model="form.password"></m-input>
         </m-form-item>
-        <div class="form-button">
-          <button class="btn"
-                  @click="submit()">{{$t('trans0081')}}</button>
-        </div>
       </m-form>
+      <div class="form-button">
+        <button class="btn"
+                @click="submit()">{{$t('trans0081')}}</button>
+      </div>
     </div>
   </div>
 </template>

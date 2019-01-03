@@ -281,13 +281,7 @@ export default {
         display: none;
       }
       .btn {
-        width: 70px;
-        height: 27px;
-        padding: 0;
         margin-right: 20px;
-        &:last-child {
-          // margin-left: 20px;
-        }
       }
     }
   }

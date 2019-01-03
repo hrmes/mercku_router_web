@@ -11,8 +11,8 @@
                 :class="{'selected':showTable}"
                 @click="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</span>
         </div>
-        <div class="btn btn-add btn-primary btn-small"
-             @click="addMeshNode">{{$t('trans0194')}}</div>
+        <button class="btn btn-add btn-primary btn-small"
+                @click="addMeshNode">{{$t('trans0194')}}</button>
       </div>
       <div class="content">
         <div id="topo"

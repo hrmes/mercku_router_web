@@ -98,7 +98,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .select-container {
   &.small {
     .select {
@@ -138,8 +138,6 @@ export default {
     position: relative;
     padding-right: 50px;
     .select-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
       height: 100%;
       width: 100%;
       border: none;
