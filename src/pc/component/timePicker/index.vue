@@ -157,7 +157,7 @@ export default {
 <style lang='scss' scoped>
 .time-picker-panel {
   width: 168px;
-  height: 38px;
+  height: 36px;
   border: 1px solid #f1f1f1;
   position: relative;
   .combobox {
@@ -200,8 +200,8 @@ export default {
         list-style: none;
         text-align: left;
         padding-left: 10px;
-        height: 32px;
-        line-height: 32px;
+        height: 36px;
+        line-height: 36px;
         // transition: background 0.3s;
         cursor: pointer;
         &:hover {

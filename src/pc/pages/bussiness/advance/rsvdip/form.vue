@@ -80,7 +80,9 @@
   </div>
 </template>
 <script>
-import { ipReg, getStringByte, isMac, formatMac } from 'util/util';
+import {
+ ipReg, getStringByte, isMac, formatMac 
+} from 'util/util';
 
 export default {
   data() {
@@ -213,11 +215,7 @@ export default {
   .btn-info {
     margin-top: 60px;
   }
-  // width: 400px;
-  margin: 0 auto;
-  // margin-top: 30px;
   .item {
-    // width: 350px;
     margin-top: 30px;
   }
   .device {

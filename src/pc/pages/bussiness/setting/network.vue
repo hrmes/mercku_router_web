@@ -590,7 +590,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     font-size: 16px;
     color: #333333;
     text-align: center;
@@ -608,6 +608,7 @@ export default {
       display: flex;
       width: 100%;
       flex-direction: column;
+      align-items: flex-start;
       div {
         margin-top: 10px;
         display: flex;
@@ -634,7 +635,7 @@ export default {
     width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     .form {
       padding: 20px 0;
       .net-type {
