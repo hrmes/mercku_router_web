@@ -536,7 +536,7 @@ export default {
           color: #333333;
           font-weight: bold;
           padding: 15px 0;
-          border-bottom: 1px solid #f1f1f1;
+          border-bottom: 1px solid #dbdbdb;
         }
         .speed {
           font-size: 26px;
@@ -575,8 +575,7 @@ export default {
           align-items: center;
           min-height: 148px;
           i {
-            margin-right: 5px;
-            margin-bottom: 5px;
+            margin-right: 10px;
           }
           div {
             display: inline-block;
