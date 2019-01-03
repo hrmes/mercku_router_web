@@ -1,7 +1,14 @@
 <template>
   <div class="device-container">
     <div class="device-wrapper">
-      <div class="title">{{$t('trans0235')}}</div>
+      <!-- <div class="title">{{$t('trans0235')}}</div> -->
+      <div class="tabs">
+        <div v-for="tab in tabs"
+             class="tab"
+             :class="{'tab-active':tab.id===id}"
+             @click="()=>$router.push(`/dashboard/device/${tab.id}`)"
+             :key="tab.id">{{tab.text}}</div>
+      </div>
       <div class="table-inner">
         <div class="table-head">
           <ul>
@@ -194,6 +201,20 @@ import { formatMac, getStringByte, formatDate } from 'util/util';
 export default {
   data() {
     return {
+      tabs: [
+        {
+          id: '1',
+          text: this.$t('trans0514')
+        },
+        {
+          id: '2',
+          text: this.$t('trans0515')
+        },
+        {
+          id: '3',
+          text: this.$t('trans0516')
+        }
+      ],
       BlacklistMode,
       formatMac,
       isMobile: false,
@@ -225,6 +246,9 @@ export default {
     };
   },
   computed: {
+    id() {
+      return this.$route.params.id;
+    },
     filterDevices() {
       const arr = this.devices
         .map(v => {
@@ -291,7 +315,10 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
+      return (
+        row.parent_control
+        && row.parent_control.mode === BlacklistMode.blacklist
+      );
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -425,13 +452,22 @@ export default {
         return formatDate(now - date * 1000);
       }
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(date / split[1], 10)
+        )}`;
       }
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
       }
       if (date <= split[2] && date > split[3]) {
-        return `${this.$t('trans0011').replace('%d', parseInt(date / split[3], 10))}`;
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(date / split[3], 10)
+        )}`;
       }
       return `${this.$t('trans0010')}`;
     }
@@ -505,6 +541,33 @@ export default {
   background: white;
   padding: 0 20px;
   .device-wrapper {
+    .tabs {
+      height: 60px;
+      display: flex;
+      border-bottom: 1px solid #f1f1f1;
+      .tab {
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+        height: 60px;
+        width: 200px;
+        line-height: 60px;
+        padding-left: 10px;
+        font-weight: bold;
+        &.tab-active {
+          color: #d6001c;
+          border-bottom: 3px solid #d6001c;
+          &:hover {
+            background: transparent;
+            color: #d6001c;
+          }
+        }
+        &:hover {
+          background: #f1f1f1;
+          color: #999999;
+        }
+      }
+    }
     flex: 1;
     .title {
       font-size: 16px;
@@ -696,26 +759,32 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/ic_limit_time_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_time_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_time.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_time.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/ic_limit_speed_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_speed_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_speed.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_speed.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
             &.url-limit {
-              background: url(../../../assets/images/ic_limit_website_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_website_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_website.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_website.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
@@ -738,7 +807,8 @@ export default {
         width: 295px;
         height: 229px;
         border-radius: 5px;
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04),
+          0 2px 4px 0 rgba(0, 0, 0, 0.12);
         background-color: #ffffff;
         border: solid 1px #f1f1f1;
         padding: 30px 20px;

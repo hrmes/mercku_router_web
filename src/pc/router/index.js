@@ -34,8 +34,7 @@ import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
 
 Vue.use(Router);
-const routes = [
-  {
+const routes = [{
     path: '*',
     redirect: '/dashboard'
   },
@@ -53,9 +52,8 @@ const routes = [
     name: 'dashboard',
     component: dashboard,
     redirect: '/dashboard/mesh/topo',
-    children: [
-      {
-        path: '/dashboard/device',
+    children: [{
+        path: '/dashboard/device/:id?',
         name: 'device',
         component: device
       },
