@@ -224,7 +224,7 @@ export default {
     }
   }
   .router-view {
-    margin-top: 50px;
+    margin-top: 70px;
   }
 }
 @media screen and (min-width: 769px) and (max-width: 1440px) {

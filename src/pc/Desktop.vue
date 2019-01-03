@@ -185,8 +185,8 @@ export default {
       if (process.env.CUSTOMER_CONFIG.IS_CIK) {
         if (access === Access.super) {
           advance.children.push({
-            url: '/advance/tr069',
-            name: 'advance-tr069',
+            url: '/advance/remote/tr069',
+            name: 'advance-remote',
             text: 'trans0286'
           });
         } else {
