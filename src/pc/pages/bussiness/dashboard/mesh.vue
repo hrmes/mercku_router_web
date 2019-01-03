@@ -2,15 +2,12 @@
   <div class="mesh-container">
     <div class="mesh-info">
       <div class="title">
-        <div class="tabs">
-          <span class="tab"
-                :class="{'selected':!showTable}"
-                @click="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</span>
-          <span style="margin:0 2px;">/</span>
-          <span class="tab"
-                :class="{'selected':showTable}"
-                @click="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</span>
-        </div>
+        <m-tabs>
+          <m-tab :class="{'selected':!showTable}"
+                 @click.native="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</m-tab>
+          <m-tab :class="{'selected':showTable}"
+                 @click.native="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</m-tab>
+        </m-tabs>
         <button class="btn btn-add btn-primary btn-small"
                 @click="addMeshNode">{{$t('trans0194')}}</button>
       </div>
@@ -389,8 +386,8 @@ export default {
                     let index = 1;
                     let start = sp[0];
                     while (
-                      (start + sp[index]).length < 10
-                      && index < sp.length
+                      (start + sp[index]).length < 10 &&
+                      index < sp.length
                     ) {
                       start += ` ${sp[index]}`;
                       index += 1;
@@ -511,33 +508,11 @@ export default {
     }
   }
   .mesh-info {
-    // flex: 1;
-    // display: flex;
     .title {
       font-size: 16px;
       color: #999;
       padding: 15px 0;
       border-bottom: 1px solid #f1f1f1;
-
-      .tabs {
-        display: inline-block;
-        .tab {
-          cursor: pointer;
-          font-weight: bold;
-          &:hover {
-            text-decoration: underline;
-            color: #333;
-          }
-          &.selected {
-            color: #333;
-            text-decoration: none;
-            &:hover {
-              cursor: default;
-              color: #333;
-            }
-          }
-        }
-      }
     }
     .btn-add {
       float: right;

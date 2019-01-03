@@ -16,6 +16,8 @@ import mEditableSelect from 'components/editableSelect/index.vue';
 import mTimePicker from 'components/timePicker/index.vue';
 import mSpinner from 'components/spinner/index.vue';
 import mScrollbar from 'components/scrollbar/index.vue';
+import mTabs from 'components/tabs/tabs.vue';
+import mTab from 'components/tabs/tab.vue';
 
 const registerComponents = _Vue => {
   _Vue.component('m-menu', MMenu);
@@ -36,6 +38,8 @@ const registerComponents = _Vue => {
   _Vue.component('m-time-picker', mTimePicker);
   _Vue.component('m-spinner', mSpinner);
   _Vue.component('m-scrollbar', mScrollbar);
+  _Vue.component('m-tabs', mTabs);
+  _Vue.component('m-tab', mTab);
 };
 
 export default registerComponents;
