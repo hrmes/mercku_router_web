@@ -128,7 +128,7 @@ export default {
     font-size: 14px;
   }
   .input-wrapper {
-    height: 48px;
+    height: 36px;
     width: 100%;
     border-radius: 4px;
     box-sizing: border-box;
@@ -139,7 +139,7 @@ export default {
       padding-right: 0;
     }
     input {
-      height: 46px;
+      height: 34px;
       width: 100%;
       outline: 0;
       border-radius: 4px;
@@ -167,7 +167,7 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 48px;
+    height: 36px;
     width: 50px;
     cursor: pointer;
     display: flex;
@@ -205,15 +205,6 @@ export default {
     display: block;
     width: 100%;
     margin: 0 auto;
-    .input-wrapper {
-      height: 44px;
-      input {
-        height: 42px;
-      }
-    }
-    .icon-container {
-      height: 44px;
-    }
   }
 }
 </style>

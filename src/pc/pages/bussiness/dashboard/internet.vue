@@ -97,7 +97,7 @@
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <button class="btn check-btn btn-speed-test"
+              <button class="btn btn-primary"
                       @click="startSpeedTest()"
                       :class="{'disabled':!isConnected}"
                       :disabled="!isConnected">{{$t('trans0008')}}</button>
@@ -737,10 +737,6 @@ export default {
       border-left: 1px solid #f1f1f1;
       position: absolute;
       left: 0;
-    }
-    .btn {
-      width: 100px;
-      height: 38px;
     }
   }
   .speed-model-info {

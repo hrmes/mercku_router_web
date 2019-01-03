@@ -82,19 +82,17 @@ export default {
 .select-container {
   width: 350px;
   .select {
-    height: 48px;
+    height: 36px;
     width: 100%;
     border-radius: 4px;
     outline: 0;
     border: 1px solid #e1e1e1;
     font-size: 14px;
     padding: 10px;
-    line-height: 26px;
     position: relative;
     padding-right: 50px;
     .select-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
+      line-height: 1;
       height: 100%;
       width: 100%;
       word-wrap: break-word;
@@ -113,7 +111,7 @@ export default {
     position: absolute;
     z-index: 999;
     left: 0;
-    top: 48px;
+    top: 36px;
     background: #fff;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -123,6 +121,7 @@ export default {
     li {
       list-style: none;
       padding: 10px;
+      line-height: 1;
       cursor: pointer;
       width: 100%;
       overflow: hidden;
@@ -146,13 +145,15 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 48px;
+    height: 36px;
     width: 50px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .icon {
       width: 12px;
       height: 6px;
-      margin-top: 21px;
       display: inline-block;
       background: url(../../assets/images/ic_input_box_pull_down.png) no-repeat
         center;

@@ -277,6 +277,7 @@ export default {
   align-items: center;
   .btn {
     margin-top: 30px;
+    align-self: flex-start;
   }
   .vpn-list {
     .vpn {
@@ -342,6 +343,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   img {
     width: 220px;
   }
