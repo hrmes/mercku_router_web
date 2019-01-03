@@ -25,6 +25,7 @@ export default {};
     }
     &.selected {
       border-bottom: 3px solid #d6001c;
+      color: #d6001c;
     }
     &:first-child {
       margin-left: 0;

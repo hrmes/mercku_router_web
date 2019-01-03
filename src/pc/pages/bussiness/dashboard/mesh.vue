@@ -386,8 +386,8 @@ export default {
                     let index = 1;
                     let start = sp[0];
                     while (
-                      (start + sp[index]).length < 10 &&
-                      index < sp.length
+                      (start + sp[index]).length < 10
+                      && index < sp.length
                     ) {
                       start += ` ${sp[index]}`;
                       index += 1;
@@ -508,12 +508,12 @@ export default {
     }
   }
   .mesh-info {
-    .title {
-      font-size: 16px;
-      color: #999;
-      padding: 15px 0;
-      border-bottom: 1px solid #f1f1f1;
-    }
+    // .title {
+    //   font-size: 16px;
+    //   color: #999;
+    //   padding: 15px 0;
+    //   border-bottom: 1px solid #f1f1f1;
+    // }
     .btn-add {
       float: right;
     }
