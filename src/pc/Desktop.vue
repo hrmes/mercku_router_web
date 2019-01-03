@@ -28,9 +28,9 @@ export default {
   computed: {
     menu_hidden() {
       return (
-        this.$route.path.includes('login')
-        || this.$route.path.includes('wlan')
-        || this.$route.path.includes('unconnect')
+        this.$route.path.includes('login') ||
+        this.$route.path.includes('wlan') ||
+        this.$route.path.includes('unconnect')
       );
     }
   },
@@ -123,6 +123,12 @@ export default {
             url: '/advance/ddns',
             name: 'advance-ddns',
             text: 'trans0418',
+            super: true
+          },
+          {
+            url: '/setting/guest',
+            name: 'guest',
+            text: 'trans0538',
             super: true
           }
         ]

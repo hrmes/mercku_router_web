@@ -577,7 +577,7 @@ export default {
     display: flex;
     align-items: center;
     padding-top: 20px;
-    padding-left: 30px;
+    padding-left: 20px;
     .btn {
       height: 27px;
       font-size: 12px;
@@ -677,7 +677,7 @@ export default {
         height: 60px;
         width: 200px;
         line-height: 60px;
-        padding-left: 10px;
+        padding-left: 20px;
         font-weight: bold;
         &.tab-active {
           color: #d6001c;

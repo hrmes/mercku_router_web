@@ -31,6 +31,7 @@ import log from 'pages/bussiness/advance/log.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
+import guest from 'pages/bussiness/setting/guest.vue';
 import remote from 'pages/bussiness/advance/remote.vue';
 
 Vue.use(Router);
@@ -103,6 +104,11 @@ const routes = [{
     path: '/setting/safe',
     name: 'safe',
     component: safe
+  },
+  {
+    path: '/setting/guest',
+    name: 'guest',
+    component: guest
   },
   {
     path: '/setting/timezone',
