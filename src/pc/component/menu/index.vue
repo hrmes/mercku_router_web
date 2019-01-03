@@ -20,12 +20,15 @@
           @click="jump(menu)"
           v-for="menu in list"
           :class="{'selected':$route.name.includes(menu.name)}">
-        <span class="menu-icon"
-              :class="[menu.icon]"></span>
-        <span class="menu-text">{{$t(menu.text)}}</span>
-        <span v-if="menu.children"
-              class="menu-trigle"
-              :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
+        <div class="wrap">
+          <span class="menu-icon"
+                :class="[menu.icon]"></span>
+          <span class="menu-text">{{$t(menu.text)}}</span>
+          <span v-if="menu.children"
+                class="menu-trigle"
+                :class="{'menu-expand':!menu.expand,'menu-collapse':menu.expand}"></span>
+        </div>
+
         <ul v-if="menu.children"
             class="menu-children"
             :class="{'show':menu.expand}">
@@ -132,6 +135,7 @@ export default {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  border-right: 1px solid #f1f1f1;
   .menu-top {
     display: flex;
     justify-content: space-between;
@@ -180,6 +184,7 @@ export default {
     .menu-item,
     .menu-child {
       font-size: 16px;
+      line-height: 18px;
       color: #333;
       list-style: none;
       cursor: pointer;
@@ -189,6 +194,15 @@ export default {
     }
     .menu-item {
       position: relative;
+      .wrap {
+        display: flex;
+        align-items: center;
+        height: 46px;
+        position: relative;
+        .menu-text {
+          padding: 0;
+        }
+      }
       &.exit {
         display: none;
       }
@@ -198,7 +212,6 @@ export default {
         display: inline-block;
         margin-left: 30px;
         position: relative;
-        top: 3px;
         &.wifi {
           background: url(../../assets/images/ic_home_normal.png) no-repeat
             center;
@@ -233,21 +246,18 @@ export default {
         background-size: 100%;
         position: absolute;
         right: 20px;
-        top: 50%;
-        margin-top: -3px;
         transition: transform 0.3s linear;
         &.menu-expand {
           transform: rotate(-180deg);
         }
         &.menu-collapse {
           transform: rotate(0);
-          top: 25px;
         }
       }
     }
 
     .menu-text {
-      padding: 15px 0;
+      padding: 10px 0;
       margin-left: 15px;
       display: inline-block;
     }
@@ -277,17 +287,9 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1599px) {
+@media screen and (min-width: 769px) {
   .menu-container {
-    width: 250px;
-    z-index: 1000;
-    position: relative;
-    min-height: 650px;
-  }
-}
-@media screen and (min-width: 1600px) {
-  .menu-container {
-    width: 300px;
+    width: 280px;
     left: 0;
     top: 0;
     z-index: 1000;
