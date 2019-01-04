@@ -4,76 +4,90 @@
       {{$t('trans0538')}}
     </div>
     <div class="page-content">
-
       <m-form class="form"
               ref="form"
               :model="form"
               :rules='rules'>
         <div class="switch-wrap">
           <label for=""> {{$t('trans0538')}} </label>
-          <m-switch v-model="form.smart_connect" />
+          <m-switch v-model="form.enabled" />
         </div>
-        <div class="">
-
-        </div>
-        <m-form-item class="item"
-                     prop='ssid'>
-          <m-input v-model="form.ssid"
-                   :label="$t('trans0168')"
-                   type='text'
-                   :placeholder="`${$t('trans0321')}`"></m-input>
-        </m-form-item>
-        <m-form-item class="item"
-                     prop='password'>
-          <m-input v-model="form.password"
-                   :label="$t('trans0172')"
-                   type='password'
-                   :placeholder="`${$t('trans0321')}`"></m-input>
-        </m-form-item>
-        <div class="form-item check-info">
-          <label for=""> {{$t('trans0110')}} <div class="tool">
-              <m-popover v-model='hideTipVisible'
-                         :title="this.$t('trans0110')"
-                         :content="this.$t('trans0325')" />
-              <img width="14"
-                   src="../../../assets/images/ic_question.png"
-                   alt=""
-                   @click="hideTipVisible=!hideTipVisible">
-            </div>
-          </label>
-
-          <m-switch v-model="form.hidden" />
-        </div>
-        <div class="form-item check-info smart-connect">
-          <div class="switch-container">
-            <label for=""> {{$t('trans0397')}}
-              <div class="tool">
-                <m-popover v-model='smartTipVisible'
-                           :title="this.$t('trans0397')"
-                           :content="this.$t('trans0398')" />
-                <img width="14"
-                     src="../../../assets/images/ic_question.png"
-                     alt=""
-                     @click="smartTipVisible=!smartTipVisible">
-              </div>
-            </label>
-
+        <div v-if="form.enabled&&!setupAndStart">
+          <div class="check-box-wrap">
+            <m-radio-group v-model="form.duration"
+                           :options='checkOps'></m-radio-group>
+          </div>
+          <m-form-item class="item"
+                       prop='ssid'>
+            <m-input v-model="form.ssid"
+                     :label="$t('trans0168')"
+                     type='text'
+                     :placeholder="`${$t('trans0321')}`"></m-input>
+          </m-form-item>
+          <m-form-item class="item">
+            <m-select :label="$t('trans0522')"
+                      v-model="form.encrypt"
+                      :options="options"></m-select>
+          </m-form-item>
+          <m-form-item class="item"
+                       prop='password'
+                       v-if="form.encrypt!=='open'">
+            <m-input v-model="form.password"
+                     :label="$t('trans0172')"
+                     type='password'
+                     :placeholder="`${$t('trans0321')}`"></m-input>
+          </m-form-item>
+          <div class="switch-wrap">
+            <label for=""> {{$t('trans0397')}} </label>
             <m-switch v-model="form.smart_connect" />
           </div>
-          <div class="ssid"
-               v-if="!form.smart_connect">
-            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span
-                    class="ssid-name">{{form.ssid}}</span></div>
-            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span
-                    class="ssid-name">{{ssid_5g}}</span></div>
+          <div v-if="!form.smart_connect">
+            <m-form-item class="item">
+              <m-input v-model="form.ssid"
+                       :label="$t('trans0560')"
+                       type='text'
+                       :disabled="true"
+                       :placeholder="`${$t('trans0321')}`"></m-input>
+            </m-form-item>
+            <m-form-item class="item">
+              <m-input v-model="ssid_5g"
+                       :label="$t('trans0561')"
+                       type='text'
+                       :disabled="true"
+                       :placeholder="`${$t('trans0321')}`"></m-input>
+            </m-form-item>
+          </div>
+          <div class="form-button">
+            <button class="btn"
+                    @click='submit()'>{{$t('trans0081')}}</button>
           </div>
         </div>
-
+        <div v-if="form.enabled&&setupAndStart">
+          <div class="setting-ssid-info">
+            <div class="title">
+              {{$t('trans0168')}}
+            </div>
+            <div>
+              <p><span>2.4G：</span>{{form.ssid}}</p>
+              <p><span>5G：</span>{{ssid_5g}}</p>
+            </div>
+          </div>
+          <div class="remaining-time">
+            <div class="title">{{$t('trans0524')}}</div>
+            <div class="time">
+              {{formatTime(guest.remaining_duration)}}
+            </div>
+          </div>
+          <div class="online-device">
+            <div class="title">{{$t('trans0514')}}： <span>{{devicesCount}}</span>
+            </div>
+          </div>
+          <div class="form-button">
+            <button class="btn"
+                    @click='()=>setupAndStart=false'>{{$t('trans0019')}}</button>
+          </div>
+        </div>
       </m-form>
-      <div class="form-button">
-        <button class="btn"
-                @click='submit()'>{{$t('trans0081')}}</button>
-      </div>
     </div>
   </div>
 </template>
@@ -83,45 +97,54 @@ import { getStringByte, passwordRule } from '../../../../util/util';
 export default {
   data() {
     return {
-      band: '2.4G5G',
-      hideTipVisible: false,
-      smartTipVisible: false,
-      meshData: {},
-      options: [
+      devicesCount: 0,
+      guest: {},
+      setupAndStart: false,
+      timer: null,
+      checkOps: [
         {
-          value: '2.4G5G',
-          text: this.$t('trans0327'),
-          bands: {
-            '2.4G': { enabled: true },
-            '5G': { enabled: true }
-          }
+          text: this.$t('trans0530'),
+          value: -1
         },
         {
-          value: '2.4G',
-          text: this.$t('trans0328'),
-          bands: {
-            '2.4G': { enabled: true },
-            '5G': { enabled: false }
-          }
+          text: this.$t('trans0529'),
+          value: 24 * 60 * 60
         },
         {
-          value: '5G',
-          text: this.$t('trans0329'),
-          bands: {
-            '2.4G': { enabled: false },
-            '5G': { enabled: true }
-          }
+          text: this.$t('trans0528'),
+          value: 8 * 60 * 60
+        },
+        {
+          text: this.$t('trans0527'),
+          value: 3 * 60 * 60
         }
       ],
-      form: {
-        ssid: '',
-        password: '',
-        hidden: false,
-        smart_connect: false,
-        bands: {
-          '2.4G': { enabled: true },
-          '5G': { enabled: true }
+      options: [
+        {
+          value: 'open',
+          text: this.$t('trans0554')
+        },
+        {
+          value: 'wpawpa2',
+          text: this.$t('trans0557')
+        },
+        {
+          value: 'wpa2',
+          text: this.$t('trans0556')
+        },
+        {
+          value: 'wpa',
+          text: this.$t('trans0555')
         }
+      ],
+
+      form: {
+        id: '',
+        enabled: false,
+        duration: -1,
+        ssid: 'Mercku Guest',
+        encrypt: 'open',
+        smart_connect: true
       },
       rules: {
         ssid: [
@@ -147,78 +170,127 @@ export default {
     ssid_5g() {
       return `${this.form.ssid}-5G`;
     },
-    combineBands() {
-      const hash = {};
-      this.options.forEach(v => {
-        hash[v.value] = v.bands;
-      });
-      return hash;
+    foramtParams() {
+      let params = {};
+      if (this.form.enabled) {
+        params = {
+          enabled: this.form.enabled,
+          duration: this.form.duration,
+          smart_connect: this.form.smart_connect,
+          bands: {
+            '2.4G': {
+              ssid: this.form.ssid,
+              password: this.form.password,
+              encrypt: this.form.encrypt
+            },
+            '5G': {
+              ssid: this.ssid_5g,
+              password: this.form.password,
+              encrypt: this.form.encrypt
+            }
+          }
+        };
+      } else {
+        params = {
+          enabled: this.form.enabled
+        };
+      }
+      return params;
     }
   },
   methods: {
-    bandsToStr(bands) {
-      return Object.keys(bands)
-        .map(v => bands[v].enabled)
-        .join('');
-    },
-    splitBands(bands) {
-      this.options.forEach(v => {
-        if (this.bandsToStr(bands) === this.bandsToStr(v.bands)) {
-          this.band = v.value;
+    formatTime(time) {
+      const arr = [60, 60, 24];
+      const temp = ['00', '00', '00'];
+      let index = 0;
+      let a = time;
+      let b = 0;
+      const topArr = [];
+      while (index <= arr.length && a > 0) {
+        if (index === arr.length) {
+          b = a;
+        } else {
+          b = a % arr[index];
         }
+        a = parseInt(a / arr[index], 10);
+        if (b < 10) {
+          b = `0${b}`;
+        }
+        topArr.push(b);
+        index += 1;
+      }
+      const topStr = temp
+        .map((n, j) => {
+          if (topArr[j]) {
+            return topArr[j];
+          }
+          return n;
+        })
+        .reverse()
+        .join(' : ');
+      return topStr;
+    },
+    getDevicesCount() {
+      const params = {
+        type: 'guest',
+        guest_ids: [this.guest.id],
+        status: ['online']
+      };
+      this.$http.getDeviceCount(params).then(res => {
+        this.devicesCount = res.data.result.count;
       });
     },
-    getMeshMeta() {
-      this.$loading.open();
-      this.$http
-        .getMeshMeta()
-        .then(res => {
-          this.$loading.close();
-          if (res.data.result) {
-            this.meshData = res.data.result;
-            this.form.ssid = this.meshData.ssid;
-            this.form.password = this.meshData.password;
-            this.form.bands = this.meshData.bands;
-            this.splitBands(this.meshData.bands);
-            this.form.hidden = this.meshData.hidden;
-            this.form.smart_connect = this.meshData.smart_connect;
-          }
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+    getGuest() {
+      this.$http.meshGuestGet().then(res => {
+        [this.guest] = res.data.result;
+
+        this.form = {
+          id: this.guest.id,
+          enabled: this.guest.enabled,
+          duration: this.guest.duration,
+          ssid: this.guest.bands['2.4G'].ssid,
+          encrypt: this.guest.bands['2.4G'].encrypt,
+          smart_connect: this.guest.smart_connect
+        };
+        if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
+          this.setupAndStart = true;
+        }
+        this.timer = setInterval(() => {
+          this.guest.remaining_duration -= 1;
+        }, 1000);
+      });
     },
     submit() {
       if (this.$refs.form.validate()) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
-          message: this.$t('trans0229'),
+          message: this.$t('trans0523'),
           callback: {
             ok: () => {
-              this.$http
-                .meshWifiUpdate({
-                  ...this.form,
-                  bands: this.combineBands[this.band]
-                })
-                .then(() => {
-                  this.$reconnect({
-                    onsuccess: () => {
-                      this.$router.push({ path: '/dashboard' });
-                    },
-                    ontimeout: () => {
-                      this.$router.push({ path: '/unconnect' });
-                    }
-                  });
+              this.$http.meshGuestUpdate(this.foramtParams).then(() => {
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/dashboard' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
                 });
+              });
             }
           }
         });
       }
     }
   },
+  destroyed() {
+    clearInterval(this.timer);
+    this.timer = null;
+  },
   mounted() {
-    this.getMeshMeta();
+    this.getGuest();
+    this.getDevicesCount();
   }
 };
 </script>
@@ -229,6 +301,42 @@ export default {
   justify-content: flex-start;
 }
 .form {
+  .online-device {
+    margin-bottom: 50px;
+    span {
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+  .remaining-time {
+    margin-bottom: 30px;
+    .time {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+  .setting-ssid-info {
+    display: flex;
+    margin-bottom: 30px;
+    p {
+      margin: 0;
+      padding: 0;
+      margin-bottom: 10px;
+      font-family: Helvetica;
+      span {
+        display: inline-block;
+        width: 60px;
+        text-align: right;
+      }
+    }
+  }
+  .check-box-wrap {
+    display: flex;
+    margin-bottom: 30px;
+    .item {
+      margin-right: 30px;
+    }
+  }
   .switch-wrap {
     margin-bottom: 30px;
     display: flex;
@@ -239,64 +347,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  .check-info {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-bottom: 30px;
-    label {
-      display: flex;
-      width: 120px;
-    }
-    &.smart-connect {
-      flex-direction: column;
-      align-items: flex-start;
-      .ssid {
-        width: 100%;
-        margin-top: 20px;
-        background-color: #fafafa;
-        padding: 0 20px;
-        div {
-          padding: 10px 0;
-          .ssid-label {
-            width: 50px;
-            display: inline-block;
-          }
-          &:first-child {
-            border-bottom: 1px solid #f1f1f1;
-          }
-        }
-      }
-    }
-
-    label {
-      margin-right: 2px;
-      font-size: 14px;
-      color: #333333;
-    }
-    .tool {
-      position: relative;
-      margin-left: 5px;
-      img {
-        position: relative;
-        top: -7px;
-        cursor: pointer;
-      }
-    }
-  }
 }
 @media screen and (max-width: 768px) {
   .form {
-    .check-info {
-      display: flex;
-      align-items: center;
-      margin-top: 20px;
-      label {
-        margin-right: 2px;
-        font-size: 16px;
-        color: #333333;
-      }
-    }
   }
 }
 </style>
