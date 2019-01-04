@@ -11,11 +11,11 @@
       </m-tabs>
       <div class="offline-handle-wrapper"
            v-if="id==='3'">
-        <button class="btn btn-default"> 批量删除</button>
+        <button class="btn btn-default"> {{$t('trans0453')}}</button>
         <div class="off-more-message">
           <img src="../../../assets/images/ic_default_error.png"
                alt="">
-          离线设备过多，请清理
+          {{$t('trans0517')}}
         </div>
       </div>
       <div class="table-inner">
@@ -183,7 +183,7 @@
               </span>
               <span class="del-btn"
                     @click="()=>addToBlackList(row)">
-                {{$t('删除')}}
+                {{$t('trans0033')}}
               </span>
             </li>
           </ul>
