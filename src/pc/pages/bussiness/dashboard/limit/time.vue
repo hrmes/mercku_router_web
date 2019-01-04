@@ -4,10 +4,9 @@
       {{$t('trans0075')}}
     </div>
     <div class="page-content">
-      <div class='table'
-           v-if="!isEmpty">
+      <div class='table'>
         <div class="tools">
-          <button class="btn btn-default btn-small"
+          <button class="btn btn-primary btn-small"
                   @click="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
         <div class="table-head">
@@ -40,11 +39,7 @@
       </div>
       <div class="empty"
            v-if="isEmpty">
-        <img src="../../../../assets/images/img_default_empty.png"
-             alt="">
         <p class="empty-text">{{$t('trans0278')}}</p>
-        <button class="btn"
-                @click="modalOpen('add')">{{$t('trans0035')}}</button>
       </div>
     </div>
     <div class="modal"
@@ -447,16 +442,16 @@ export default {
     margin-bottom: 20px;
   }
   .column-date-stop {
-    width: 180px;
+    width: 150px;
     .mobile-start {
       display: none;
     }
   }
   .column-date-start {
-    width: 180px;
+    width: 150px;
   }
   .column-repeat {
-    flex: 1;
+    width: 150px;
   }
   .column-handle {
     width: 250px;
@@ -475,7 +470,7 @@ export default {
   .table-body {
     .table-row {
       display: flex;
-      padding: 30px 30px;
+      padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
       .column-handle {
         display: flex;

@@ -46,7 +46,7 @@
                 @click="add"
                 :disabled="connecting">{{$t('trans0035')}}</button>
       </div>
-      <div class="empty"
+      <div class="vpn-empty"
            v-if="isEmpty">
         <img src="../../../../assets/images/img_default_empty.png"
              alt="">
@@ -339,7 +339,7 @@ export default {
   }
 }
 
-.empty {
+.vpn-empty {
   display: flex;
   flex-direction: column;
   align-items: center;

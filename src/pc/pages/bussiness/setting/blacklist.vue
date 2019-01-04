@@ -5,7 +5,7 @@
     </div>
     <div class="page-content">
       <div class="tools">
-        <button class="btn btn-default btn-small"
+        <button class="btn btn-primary btn-small"
                 @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0016')}}
           <div class="modal"
                v-show="deviceModalVisible"
@@ -68,8 +68,6 @@
           </div>
           <div class="empty"
                v-if="!blacklist.length">
-            <img src="../../../assets/images/img_default_empty.png"
-                 alt="">
             {{$t('trans0278')}}
           </div>
         </div>
@@ -274,7 +272,7 @@ export default {
   .table-content {
     .device {
       display: flex;
-      padding: 30px;
+      padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
       .name,
       .mac,
@@ -289,17 +287,6 @@ export default {
             text-decoration: underline;
           }
         }
-      }
-    }
-    .empty {
-      padding: 30px;
-      display: flex;
-      flex: 1;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      img {
-        width: 220px;
       }
     }
   }

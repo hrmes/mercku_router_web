@@ -359,7 +359,7 @@ export default {
       .message {
         display: flex;
         align-items: center;
-        padding: 0 20px;
+        padding: 0 10px;
         height: 100%;
         align-items: center;
         .img-container,
@@ -387,6 +387,7 @@ export default {
           align-items: start;
           align-content: start;
           justify-content: center;
+          flex: 1;
           .node-name {
             padding: 0;
             margin: 0;

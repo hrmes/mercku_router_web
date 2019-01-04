@@ -28,9 +28,9 @@ export default {
   computed: {
     menu_hidden() {
       return (
-        this.$route.path.includes('login') ||
-        this.$route.path.includes('wlan') ||
-        this.$route.path.includes('unconnect')
+        this.$route.path.includes('login')
+        || this.$route.path.includes('wlan')
+        || this.$route.path.includes('unconnect')
       );
     }
   },
@@ -76,8 +76,8 @@ export default {
           },
           {
             text: 'trans0142',
-            name: 'network',
-            url: '/setting/network'
+            name: 'wan',
+            url: '/setting/wan'
           },
           {
             text: 'trans0297',
@@ -93,43 +93,6 @@ export default {
             text: 'trans0272',
             name: 'timezone',
             url: '/setting/timezone'
-          },
-          {
-            url: '/advance/portforwarding',
-            name: 'advance-portforwarding',
-            text: 'trans0422',
-            super: true
-          },
-
-          {
-            url: '/advance/rsvdip',
-            name: 'advance-rsvdip',
-            text: 'trans0444',
-            super: true
-          },
-          {
-            url: '/advance/vpn',
-            name: 'advance-vpn',
-            text: 'trans0402',
-            super: true
-          },
-          {
-            url: '/advance/dmz',
-            name: 'advance-dmz',
-            text: 'trans0420',
-            super: true
-          },
-          {
-            url: '/advance/ddns',
-            name: 'advance-ddns',
-            text: 'trans0418',
-            super: true
-          },
-          {
-            url: '/setting/guest',
-            name: 'guest',
-            text: 'trans0538',
-            super: true
           }
         ]
       };
@@ -138,12 +101,23 @@ export default {
         text: 'trans0416',
         children: [
           {
+            url: '/advance/portforwarding',
+            name: 'advance-portforwarding',
+            text: 'trans0422',
+            super: false
+          },
+          {
             url: '/advance/dhcp',
             name: 'advance-dhcp',
             text: 'trans0417',
             super: false
           },
-
+          {
+            url: '/advance/rsvdip',
+            name: 'advance-rsvdip',
+            text: 'trans0444',
+            super: false
+          },
           {
             url: '/advance/mac',
             name: 'advance-mac',
@@ -151,9 +125,28 @@ export default {
             super: false
           },
           {
+            url: '/advance/ddns',
+            name: 'advance-ddns',
+            text: 'trans0418',
+            super: false
+          },
+          {
+            url: '/advance/vpn',
+            name: 'advance-vpn',
+            text: 'trans0402',
+            super: false
+          },
+          {
             url: '/advance/diagnosis',
             name: 'advance-diagnosis',
-            text: 'trans0419'
+            text: 'trans0419',
+            super: false
+          },
+          {
+            url: '/advance/dmz',
+            name: 'advance-dmz',
+            text: 'trans0420',
+            super: false
           },
           {
             url: '/advance/log',
@@ -165,6 +158,12 @@ export default {
             url: '/advance/firewall',
             name: 'advance-firewall',
             text: 'trans0424',
+            super: true
+          },
+          {
+            url: '/setting/guest',
+            name: 'guest',
+            text: 'trans0538',
             super: true
           }
         ]
