@@ -510,6 +510,10 @@ export default {
   .mesh-info {
     .title {
       position: relative;
+      .tab {
+        font-size: 16px;
+        font-weight: bold;
+      }
     }
     .btn-add {
       position: absolute;

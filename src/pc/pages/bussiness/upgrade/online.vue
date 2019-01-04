@@ -66,7 +66,6 @@
       </div>
     </div>
   </div>
-
 </template>
 <script>
 import { RouterSnModel } from '../../../../util/constant';
@@ -188,7 +187,6 @@ export default {
         display: flex;
         align-items: start;
         padding: 0 10px;
-        padding-top: 30px;
         height: 100%;
         align-items: center;
         cursor: pointer;
