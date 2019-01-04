@@ -94,7 +94,11 @@ const methods = {
   routerTFTPUpdate: createMethod('router.tftp.update'),
   meshNetworkReboot: createMethod('mesh.network.reboot'),
   routerWWAGet: createMethod('router.wwa.get'),
-  routerWWAUpdate: createMethod('router.wwa.update')
+  routerWWAUpdate: createMethod('router.wwa.update'),
+  meshGuestGet: createMethod('mesh.guestwifi.get'),
+  meshGuestUpdate: createMethod('mesh.guestwifi.update'),
+  meshGuestAdd: createMethod('mesh.guestwifi.add'),
+  meshGuestDel: createMethod('mesh.guestwifi.delete'),
 };
 
 class Http {
@@ -121,6 +125,22 @@ class Http {
       method: 'post',
       data
     }).catch(this.exHandler);
+  }
+
+  meshGuestGet() {
+    return this.request(methods.meshGuestGet);
+  }
+
+  meshGuestUpdate(params) {
+    return this.request(methods.meshGuestUpdate, params);
+  }
+
+  meshGuestAdd(params) {
+    return this.request(methods.meshGuestAdd, params);
+  }
+
+  meshGuestDel(params) {
+    return this.request(methods.meshGuestDel, params);
   }
 
   getWWA() {
@@ -447,8 +467,8 @@ class Http {
     return this.request(methods.routerNetGet, params);
   }
 
-  getDeviceCount() {
-    return this.request(methods.deviceCountGet);
+  getDeviceCount(params) {
+    return this.request(methods.deviceCountGet, params);
   }
 
   getTraffic() {
