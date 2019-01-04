@@ -11,7 +11,7 @@
       </div>
       <div class='table'>
         <div class="tools">
-          <button class="btn btn-default btn-small"
+          <button class="btn btn-primary btn-small"
                   @click="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
         <div class="table-head">
@@ -31,8 +31,6 @@
           </div>
           <div class="empty"
                v-if="isEmpty">
-            <img src="../../../../assets/images/img_default_empty.png"
-                 alt="">
             <p class="empty-text">{{$t('trans0278')}}</p>
           </div>
         </div>
@@ -337,7 +335,7 @@ export default {
   .table-body {
     .table-row {
       display: flex;
-      padding: 30px 30px;
+      padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
       justify-content: space-between;
       .column-handle {
