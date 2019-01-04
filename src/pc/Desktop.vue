@@ -93,6 +93,11 @@ export default {
             text: 'trans0272',
             name: 'timezone',
             url: '/setting/timezone'
+          },
+          {
+            url: '/setting/guest',
+            name: 'guest',
+            text: 'trans0538'
           }
         ]
       };
@@ -158,12 +163,6 @@ export default {
             url: '/advance/firewall',
             name: 'advance-firewall',
             text: 'trans0424',
-            super: true
-          },
-          {
-            url: '/setting/guest',
-            name: 'guest',
-            text: 'trans0538',
             super: true
           }
         ]
