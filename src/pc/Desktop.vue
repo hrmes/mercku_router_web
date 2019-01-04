@@ -139,7 +139,8 @@ export default {
           {
             url: '/advance/diagnosis',
             name: 'advance-diagnosis',
-            text: 'trans0419'
+            text: 'trans0419',
+            super: false
           },
           {
             url: '/advance/dmz',
