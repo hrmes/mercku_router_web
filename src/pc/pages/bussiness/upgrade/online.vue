@@ -39,6 +39,7 @@
                 <p class="node-version">
                   <span>{{$t('trans0209')}}{{node.version.current}}</span>
                 </p>
+                <p class="changelog">{{$t('trans0525')}}</p>
               </div>
             </div>
           </div>
@@ -106,7 +107,11 @@ export default {
           data.forEach(node => {
             this.$set(node, 'checked', false);
           });
-          const filter = node => compareVersion(node.version.current, node.version.latest);
+
+          const filter = node => {
+            const { current, latest } = node.version;
+            return compareVersion(current, latest);
+          };
           this.nodes = data.filter(filter);
         })
         .catch(() => {
@@ -182,7 +187,8 @@ export default {
       .message {
         display: flex;
         align-items: start;
-        padding: 0 20px;
+        padding: 0 10px;
+        padding-top: 30px;
         height: 100%;
         align-items: center;
         cursor: pointer;
@@ -206,6 +212,7 @@ export default {
           align-items: start;
           align-content: start;
           justify-content: center;
+          flex: 1;
 
           .node-name {
             padding: 0;
@@ -249,6 +256,14 @@ export default {
               top: 50%;
               transform: translateY(-50%);
             }
+          }
+          .changelog {
+            font-size: 12px;
+            text-decoration: underline;
+            color: #333;
+            margin: 0;
+            align-self: flex-end;
+            color: #333;
           }
         }
       }
