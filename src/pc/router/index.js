@@ -5,7 +5,7 @@ import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
-import network from 'pages/bussiness/setting/network.vue';
+import wan from 'pages/bussiness/setting/wan.vue';
 import timezone from 'pages/bussiness/setting/timezone.vue';
 import blacklist from 'pages/bussiness/setting/blacklist.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
@@ -91,9 +91,9 @@ const routes = [{
     component: blacklistLimit
   },
   {
-    path: '/setting/network',
-    name: 'network',
-    component: network
+    path: '/setting/wan',
+    name: 'wan',
+    component: wan
   },
   {
     path: '/setting/wifi',

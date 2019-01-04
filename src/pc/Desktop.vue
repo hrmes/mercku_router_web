@@ -28,9 +28,9 @@ export default {
   computed: {
     menu_hidden() {
       return (
-        this.$route.path.includes('login') ||
-        this.$route.path.includes('wlan') ||
-        this.$route.path.includes('unconnect')
+        this.$route.path.includes('login')
+        || this.$route.path.includes('wlan')
+        || this.$route.path.includes('unconnect')
       );
     }
   },
@@ -76,8 +76,8 @@ export default {
           },
           {
             text: 'trans0142',
-            name: 'network',
-            url: '/setting/network'
+            name: 'wan',
+            url: '/setting/wan'
           },
           {
             text: 'trans0297',
