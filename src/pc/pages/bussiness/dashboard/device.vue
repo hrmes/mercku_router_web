@@ -1,14 +1,14 @@
 <template>
   <div class="device-container">
     <div class="device-wrapper">
-      <!-- <div class="title">{{$t('trans0235')}}</div> -->
-      <div class="tabs">
-        <div v-for="tab in tabs"
-             class="tab"
-             :class="{'tab-active':tab.id===id}"
-             @click="tabChange(tab.id)"
-             :key="tab.id">{{tab.text}}</div>
-      </div>
+      <m-tabs>
+        <m-tab :key="tab.id"
+               @click.native="tabChange(tab.id)"
+               v-for="tab in tabs"
+               :class="{'selected':tab.id===id}">
+          {{tab.text}}
+        </m-tab>
+      </m-tabs>
       <div class="offline-handle-wrapper"
            v-if="id==='3'">
         <button class="btn btn-default"> 批量删除</button>
@@ -390,8 +390,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control &&
-        row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control
+        && row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {
@@ -667,30 +667,9 @@ export default {
   padding: 0 20px;
   .device-wrapper {
     .tabs {
-      height: 60px;
-      display: flex;
-      border-bottom: 1px solid #f1f1f1;
       .tab {
-        cursor: pointer;
-        font-size: 16px;
-        color: #333;
-        height: 60px;
-        width: 200px;
-        line-height: 60px;
-        padding-left: 20px;
         font-weight: bold;
-        &.tab-active {
-          color: #d6001c;
-          border-bottom: 3px solid #d6001c;
-          &:hover {
-            background: transparent;
-            color: #d6001c;
-          }
-        }
-        &:hover {
-          background: #f1f1f1;
-          color: #999999;
-        }
+        font-size: 16px;
       }
     }
     flex: 1;

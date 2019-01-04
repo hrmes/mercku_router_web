@@ -14,9 +14,8 @@ export default {};
   border-bottom: 1px solid #f1f1f1;
   .tab {
     font-size: 18px;
-    margin-left: 50px;
     padding: 10px 10px;
-    padding-right: 50px;
+    min-width: 150px;
     cursor: pointer;
     &:hover,
     &:active {

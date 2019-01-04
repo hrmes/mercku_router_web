@@ -508,14 +508,14 @@ export default {
     }
   }
   .mesh-info {
-    // .title {
-    //   font-size: 16px;
-    //   color: #999;
-    //   padding: 15px 0;
-    //   border-bottom: 1px solid #f1f1f1;
-    // }
+    .title {
+      position: relative;
+    }
     .btn-add {
-      float: right;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
     }
     width: 100%;
     background: white;
