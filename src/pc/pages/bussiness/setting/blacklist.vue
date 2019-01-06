@@ -109,6 +109,18 @@ export default {
         device.checked = checked;
       });
     },
+    blacklist: {
+      handler(nv) {
+        if (nv.length) {
+          if (nv.every(v => v.checked)) {
+            this.checkAllBlacklist = true;
+          } else {
+            this.checkAllBlacklist = false;
+          }
+        }
+      },
+      deep: true
+    },
     deviceModalVisible() {
       this.getDeviceList();
     }

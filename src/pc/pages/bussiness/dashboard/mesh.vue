@@ -13,7 +13,6 @@
       </div>
       <div class="content">
         <div id="topo"
-             style="width:100%;height:500px;margin-bottom: 20px;"
              v-show="!showTable"></div>
         <div class="table"
              v-show="showTable">
@@ -33,7 +32,8 @@
             <div class="router"
                  :class="{'expand':router.expand}"
                  v-for="router in routers"
-                 :key="router.sn">
+                 :key="router.sn"
+                 @click="router.expand = !router.expand">
               <div class="name">
                 <div class="icon">
                   <img :src="router.image"
@@ -42,13 +42,12 @@
                 <div class="wrap">
                   <div class="text">{{router.name}}</div>
                   <div class="edit"
-                       @click="onClickRouterName(router)">
+                       @click.stop="onClickRouterName(router)">
                     <img src="../../../assets/images/ic_edit.png"
                          alt>
                   </div>
                 </div>
-                <div @click="router.expand = !router.expand"
-                     class="expand"
+                <div class="expand"
                      :class="{'expand':router.expand,'collapse':!router.expand}">
                   <img src="../../../assets/images/ic_side_bar_pick_up.png"
                        alt>
@@ -235,12 +234,10 @@ export default {
         message: this.$t('trans0218'),
         callback: {
           ok: () => {
-            this.$http
-              .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
-              .then(() => {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                this.routers = this.routers.filter(r => r.sn !== router.sn);
-              });
+            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              this.routers = this.routers.filter(r => r.sn !== router.sn);
+            });
           }
         }
       });
@@ -385,10 +382,7 @@ export default {
                     const sp = name.split(splitor);
                     let index = 1;
                     let start = sp[0];
-                    while (
-                      (start + sp[index]).length < 10
-                      && index < sp.length
-                    ) {
+                    while ((start + sp[index]).length < 10 && index < sp.length) {
                       start += ` ${sp[index]}`;
                       index += 1;
                     }
@@ -410,10 +404,7 @@ export default {
             },
             data: data.nodes,
             links: data.lines,
-            categories: [
-              { name: `${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0196')}` }
-            ],
+            categories: [{ name: `${this.$t('trans0193')}` }, { name: `${this.$t('trans0196')}` }],
             lineStyle: {
               width: 2
             }
@@ -459,8 +450,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
-  // flex: 1;
-  // display: flex;
+  flex: 1;
+  display: flex;
   .edit-name-modal {
     position: fixed;
     width: 100%;
@@ -508,6 +499,7 @@ export default {
     }
   }
   .mesh-info {
+    display: flex;
     .title {
       position: relative;
       .tab {
@@ -532,6 +524,12 @@ export default {
       padding-top: 15px;
       flex: 1;
       display: flex;
+      #topo {
+        width: 100%;
+        min-height: 500px;
+
+        flex: 1;
+      }
       .table {
         width: 100%;
         .table-header {
@@ -568,7 +566,7 @@ export default {
 
           .router {
             display: flex;
-            padding: 30px 0;
+            padding: 15px 0;
             display: flex;
             justify-content: space-between;
             border-bottom: 1px solid #f1f1f1;
@@ -685,7 +683,6 @@ export default {
       }
     }
     .mesh-info {
-      background: #f1f1f1;
       padding: 0;
       .title {
         .tabs {
@@ -710,6 +707,7 @@ export default {
         #topo {
           background: #fff;
           border-radius: 5px;
+          margin-bottom: 20px;
         }
         .table {
           .table-header {
@@ -739,8 +737,6 @@ export default {
           }
           .table-content {
             padding: 0;
-            background: #f1f1f1;
-
             .router {
               display: flex;
               flex-direction: column;
@@ -759,7 +755,7 @@ export default {
               }
               > div {
                 width: auto;
-                padding: 20px 0;
+                padding: 15px 0;
                 border-bottom: 1px solid #f1f1f1;
                 &:last-child {
                   border-bottom: 0;
@@ -817,8 +813,8 @@ export default {
                   color: #fff;
                   text-align: center;
                   border-radius: 4px;
-                  height: 58px;
-                  line-height: 58px;
+                  height: 46px;
+                  line-height: 46px;
                 }
                 .reset,
                 .delete {
@@ -828,8 +824,8 @@ export default {
                   color: #ff0500;
                   text-align: center;
                   border-radius: 4px;
-                  height: 58px;
-                  line-height: 58px;
+                  height: 46px;
+                  line-height: 46px;
                   margin-left: 0;
                   margin-top: 20px;
                 }

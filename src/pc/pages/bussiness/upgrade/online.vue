@@ -68,8 +68,8 @@
   </div>
 </template>
 <script>
-import { RouterSnModel } from '../../../../util/constant';
-import { compareVersion } from '../../../../util/util';
+import { RouterSnModel } from 'util/constant';
+import { compareVersion } from 'util/util';
 
 export default {
   data() {

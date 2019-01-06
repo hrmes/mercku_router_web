@@ -83,7 +83,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from '../../../../util/util';
+import { getStringByte, passwordRule } from 'util/util';
 
 export default {
   data() {

@@ -187,14 +187,10 @@
   </div>
 </template>
 <script>
+import * as CONSTANTS from 'util/constant';
 import {
-  ipRule,
-  isMulticast,
-  isLoopback,
-  isValidMask,
-  ipReg
-} from '../../../../util/util';
-import * as CONSTANTS from '../../../../util/constant';
+ ipRule, isMulticast, isLoopback, isValidMask, ipReg
+} from 'util/util';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -605,7 +601,7 @@ export default {
   text-align: center;
   padding-bottom: 30px;
   img {
-    width: 140px;
+    width: 180px;
   }
   p {
     margin: 0;
@@ -616,7 +612,6 @@ export default {
     text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: center;
     border-left: 1px solid #f1f1f1;
     div {
       margin-top: 10px;
@@ -628,12 +623,30 @@ export default {
       color: #999999;
       width: 130px;
       text-align: right;
-      flex: 1;
+      width: 120px;
     }
     span {
       color: #333333;
       font-size: 14px;
       flex: 1;
+    }
+  }
+}
+@media screen and(max-width:768px) {
+  .wan-info {
+    flex-direction: column;
+    img {
+    }
+    p {
+    }
+    .seccess-info {
+      border: 0;
+      div {
+      }
+      label {
+      }
+      span {
+      }
     }
   }
 }

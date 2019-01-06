@@ -23,18 +23,8 @@
         {{$t('trans0496')}}
         <span @click="updateEnabled">{{$t('trans0488')}}</span>
       </p>
-      <div class="empty"
-           v-if="empty!==null && empty">
-        <img src="../../../../assets/images/img_default_empty.png"
-             alt>
-        <p>{{$t('trans0278')}}</p>
-        <div class="btn-warp">
-          <button class="btn"
-                  @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
-        </div>
-      </div>
-      <div class="table"
-           v-if="empty!==null && !empty">
+
+      <div class="table">
         <div class="handle-info"
              :class="{'openInfo':mobileShowHead}"
              v-clickoutside="()=>mobileSelect=false">
@@ -102,6 +92,10 @@
           </div>
         </div>
       </div>
+      <div class="empty"
+           v-if="empty!==null && empty">
+        <p>{{$t('trans0278')}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -128,11 +122,13 @@ export default {
   },
   watch: {
     rsvdips: {
-      handler: function temp(v) {
-        if (v.map(item => item.checked).some(n => !n)) {
-          this.checkAll = false;
-        } else {
-          this.checkAll = true;
+      handler: function temp(nv) {
+        if (nv.length) {
+          if (nv.every(v => v.checked)) {
+            this.checkAll = true;
+          } else {
+            this.checkAll = false;
+          }
         }
       },
       deep: true
@@ -254,20 +250,6 @@ export default {
     display: none;
   }
 }
-.empty {
-  padding-top: 30px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  p {
-    margin: 0;
-    margin-bottom: 60px;
-  }
-  img {
-    width: 200px;
-  }
-}
 .table {
   width: 100%;
   .handle-info {
@@ -352,8 +334,6 @@ export default {
 }
 .reboot-info {
   font-size: 14px;
-  width: 374px;
-  text-align: center;
   margin: 0;
   padding: 0;
   margin-bottom: 20px;

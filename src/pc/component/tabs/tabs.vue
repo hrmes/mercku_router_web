@@ -16,6 +16,7 @@ export default {};
     font-size: 18px;
     padding: 10px 10px;
     min-width: 150px;
+    font-weight: bold;
     cursor: pointer;
     &:hover,
     &:active {
@@ -28,6 +29,16 @@ export default {};
     }
     &:first-child {
       margin-left: 0;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .tabs {
+    padding: 0;
+    .tab {
+      // width: auto;
+      font-size: 14px;
+      min-width: auto;
     }
   }
 }

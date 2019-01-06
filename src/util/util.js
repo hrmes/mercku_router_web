@@ -302,7 +302,7 @@ export const formatBandWidth = value => {
   };
 };
 
-export const formatDate = (date, fmt = 'yyyy-MM-dd HH:mm:ss') => {
+export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
   date = new Date(date);
   const o = {
     'M+': date.getMonth() + 1,
