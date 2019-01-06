@@ -14,7 +14,7 @@
       <div class="content">
         <div id="topo"
              v-show="!showTable"></div>
-        <div class="table"
+        <div class="mesh-table"
              v-show="showTable">
           <div class="table-header">
             <div class="name">{{$t('trans0005')}}</div>
@@ -90,11 +90,11 @@
         </div>
       </div>
     </div>
-    <div class="edit-name-modal"
-         v-if="showModal">
-      <div class="opcity"></div>
-      <div class="content">
+    <m-modal :visible.sync="showModal"
+             class="edit-name-modal">
+      <m-modal-body class="content">
         <m-form :model="form"
+                class="form"
                 :rules="rules"
                 ref="form">
           <m-form-item prop="newName">
@@ -110,8 +110,9 @@
           <button @click="updateMehsNode(routerSelected,form.newName)"
                   class="btn">{{$t('trans0024')}}</button>
         </div>
-      </div>
-    </div>
+      </m-modal-body>
+    </m-modal>
+
   </div>
 </template>
 <script>
@@ -452,52 +453,7 @@ export default {
 .mesh-container {
   flex: 1;
   display: flex;
-  .edit-name-modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    .opcity {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      background: rgba(0, 0, 0, 0.5);
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .content {
-      width: 330px;
-      height: 218px;
-      border-radius: 5px;
-      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-      background-color: #ffffff;
-      border: solid 1px #f1f1f1;
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      .select-container {
-        width: 100%;
-      }
-      .btn-inner {
-        display: flex;
-        justify-content: center;
-        .btn {
-          width: 120px;
-          height: 42px;
-          &:last-child {
-            margin-left: 30px;
-          }
-        }
-      }
-    }
-  }
+
   .mesh-info {
     display: flex;
     .title {
@@ -530,7 +486,7 @@ export default {
 
         flex: 1;
       }
-      .table {
+      .mesh-table {
         width: 100%;
         .table-header {
           display: flex;
@@ -664,24 +620,32 @@ export default {
     }
   }
 }
-@media screen and (max-width: 768px) {
-  .mesh-container {
-    .edit-name-modal {
-      .opcity {
-      }
-
-      .content {
-        width: 80%;
-        .select-container {
-        }
-        .btn-inner {
-          .btn {
-            &:last-child {
-            }
-          }
+.edit-name-modal {
+  .content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    .form {
+      flex: 1;
+    }
+    .select-container {
+      width: 100%;
+    }
+    .btn-inner {
+      display: flex;
+      justify-content: center;
+      .btn {
+        width: 120px;
+        height: 42px;
+        &:last-child {
+          margin-left: 30px;
         }
       }
     }
+  }
+}
+@media screen and (max-width: 768px) {
+  .mesh-container {
     .mesh-info {
       padding: 0;
       .title {
@@ -709,7 +673,7 @@ export default {
           border-radius: 5px;
           margin-bottom: 20px;
         }
-        .table {
+        .mesh-table {
           .table-header {
             display: none;
           }

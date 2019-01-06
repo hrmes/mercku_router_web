@@ -190,9 +190,9 @@
         </div>
       </div>
     </div>
-    <div class="edit-name-modal"
-         v-if="modalShow">
-      <div class="opcity"></div>
+
+    <m-modal :visible.sync="modalShow"
+             class="edit-name-modal">
       <div class="content">
         <div class="select-wrapper">
           <m-form ref="form"
@@ -216,7 +216,7 @@
                   class="btn">{{$t('trans0024')}}</button>
         </div>
       </div>
-    </div>
+    </m-modal>
   </div>
 </template>
 <script>
@@ -589,65 +589,7 @@ export default {
       }
     }
   }
-  .edit-name-modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1001;
-    .opcity {
-      width: 100%;
-      height: 100%;
-      position: fixed;
-      background: rgba(0, 0, 0, 0.5);
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .content {
-      width: 330px;
-      height: 218px;
-      border-radius: 5px;
-      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-      background-color: #ffffff;
-      border: solid 1px #f1f1f1;
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      .title {
-        color: #333333;
-      }
-      .select-wrapper {
-        input {
-          width: 290px;
-          height: 36px;
-          border-radius: 4px;
-          background-color: #ffffff;
-          border: solid 1px #e6e6e6;
-          outline: none;
-          line-height: 36px;
-          padding-left: 10px;
-          margin-top: 10px;
-        }
-      }
-      .btn-inner {
-        display: flex;
-        justify-content: center;
-        .btn {
-          width: 120px;
-          height: 42px;
-          &:last-child {
-            margin-left: 30px;
-          }
-        }
-      }
-    }
-  }
+
   flex: auto;
   background: white;
   padding: 0 20px;
@@ -890,70 +832,44 @@ export default {
     }
   }
 }
+.edit-name-modal {
+  .content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    .title {
+      color: #333333;
+    }
+    .select-wrapper {
+      input {
+        width: 290px;
+        height: 36px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        border: solid 1px #e6e6e6;
+        outline: none;
+        line-height: 36px;
+        padding-left: 10px;
+        margin-top: 10px;
+      }
+    }
+    .btn-inner {
+      display: flex;
+      justify-content: center;
+      .btn {
+        width: 120px;
+        height: 42px;
+        &:last-child {
+          margin-left: 30px;
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 768px) {
   .device-container {
-    .edit-name-modal {
-      .content {
-        width: 295px;
-        height: 229px;
-        border-radius: 5px;
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-        background-color: #ffffff;
-        border: solid 1px #f1f1f1;
-        padding: 30px 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        .title {
-          color: #333333;
-        }
-        .select-wrapper {
-          input {
-            width: 255px;
-            height: 36px;
-            border-radius: 4px;
-            background-color: #ffffff;
-            border: solid 1px #e6e6e6;
-            outline: none;
-            line-height: 36px;
-            padding-left: 10px;
-            margin-top: 10px;
-          }
-        }
-        .btn-inner {
-          display: flex;
-          justify-content: center;
-          .btn {
-            width: 120px;
-            height: 42px;
-            &:last-child {
-              margin-left: 30px;
-            }
-          }
-        }
-      }
-    }
     background: transparent;
     padding: 0;
-    .edit-name-modal {
-      .opcity {
-      }
-
-      .content {
-        .title {
-        }
-        .select-wrapper {
-          input {
-          }
-        }
-        .btn-inner {
-          .btn {
-            &:last-child {
-            }
-          }
-        }
-      }
-    }
 
     .device-wrapper {
       .title {

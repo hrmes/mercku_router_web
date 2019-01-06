@@ -18,7 +18,8 @@
       </div>
     </div>
     <div class="page-content">
-      <div class='table'>
+      <div class='table'
+           :class="{'empty-table':(empty !== null) && empty}">
         <div class="handle-info"
              :class="{'openInfo':mobileShowHead}"
              v-clickoutside="()=>mobileSelect=false">
@@ -33,7 +34,7 @@
                :class="{open:mobileSelect}">
             <button class="btn"
                     @click="add">{{$t('trans0035')}}</button>
-            <button class="btn m-btn"
+            <button class="btn  m-btn"
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
             </button>
@@ -55,8 +56,6 @@
             {{$t('trans0426')}}</div>
           <div class="column-local-ip">{{$t('trans0427')}} /
             {{$t('trans0428')}}</div>
-          <!-- <div class="column-local-port">{{$t('trans0428')}}</div> -->
-          <!-- <div class="column-outside-port">{{$t('trans0426')}}</div> -->
           <div class="column-protocol">{{$t('trans0408')}}</div>
           <div class="column-status">{{$t('trans0190')}}</div>
           <div class="column-handle">{{$t('trans0370')}}</div>
@@ -100,12 +99,18 @@
               <a @click="editHandle(item)">{{$t('trans0034')}}</a>
               <a @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
+
+          </div>
+          <div class="empty"
+               v-if="(empty !== null) && empty">
+            <img src="../../../../assets/images/img_default_empty.png"
+                 alt="">
+            <p>{{$t('trans0278')}}</p>
+            <button class="btn"
+                    @click="add">{{$t('trans0035')}}</button>
           </div>
         </div>
-        <div class="empty"
-             v-if="(empty !== null) && empty">
-          <p>{{$t('trans0278')}}</p>
-        </div>
+
       </div>
     </div>
   </div>
@@ -259,9 +264,6 @@ export default {
         display: none;
       }
       .btn {
-        width: 80px;
-        height: 27px;
-        padding: 0;
         &:last-child {
           margin-left: 20px;
         }
@@ -425,6 +427,11 @@ export default {
     }
   }
   .table {
+    &.empty-table {
+      .handle-info {
+        display: none;
+      }
+    }
     .handle-info {
       z-index: 1;
       display: block;

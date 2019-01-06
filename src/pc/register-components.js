@@ -18,8 +18,13 @@ import mSpinner from 'components/spinner/index.vue';
 import mScrollbar from 'components/scrollbar/index.vue';
 import mTabs from 'components/tabs/tabs.vue';
 import mTab from 'components/tabs/tab.vue';
+import mModal from 'components/modal/index.vue';
+import mModalHeader from 'components/modal/header.vue';
+import mModalBody from 'components/modal/body.vue';
+import clickoutside from 'components/clickoutside/index.vue';
 
 const registerComponents = _Vue => {
+  _Vue.directive('clickoutside', clickoutside);
   _Vue.component('m-menu', MMenu);
   _Vue.component('m-header', MHeader);
   _Vue.component('m-policy', mPolicy);
@@ -40,6 +45,9 @@ const registerComponents = _Vue => {
   _Vue.component('m-scrollbar', mScrollbar);
   _Vue.component('m-tabs', mTabs);
   _Vue.component('m-tab', mTab);
+  _Vue.component('m-modal', mModal);
+  _Vue.component('m-modal-header', mModalHeader);
+  _Vue.component('m-modal-body', mModalBody);
 };
 
 export default registerComponents;

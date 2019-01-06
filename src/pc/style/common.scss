@@ -256,10 +256,10 @@ input::-webkit-input-placeholder {
   border-bottom: 1px solid #f1f1f1;
   height: 50px;
   img {
-    width: 50px;
+    display: none;
   }
-  .empty-text {
-    //margin-bottom: 50px;
+  .btn {
+    display: none;
   }
 }
 @media screen and (max-width: 768px) {
@@ -284,6 +284,23 @@ input::-webkit-input-placeholder {
 
   .form-button {
     width: 100%;
+  }
+
+  .table {
+    display: flex;
+    flex-direction: column-reverse;
+    .empty {
+      height: auto;
+      flex-direction: column;
+      border: none;
+      img {
+        width: 180px;
+        display: block;
+      }
+      .btn {
+        display: block;
+      }
+    }
   }
 }
 

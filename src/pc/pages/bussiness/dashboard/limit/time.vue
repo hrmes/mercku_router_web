@@ -6,8 +6,8 @@
     <div class="page-content">
       <div class='table'>
         <div class="tools">
-          <button class="btn btn-primary btn-small"
-                  @click="modalOpen('add')">{{$t('trans0035')}}</button>
+          <button class="btn btn-primary"
+                  @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
         <div class="table-head">
           <div class="column-date-stop">{{$t('trans0084')}}</div>
@@ -31,20 +31,23 @@
                 <m-switch :onChange="(v)=>changehandle(v,row)"
                           v-model="row.enabled" />
               </div>
-              <a @click="modalOpen('edit',row)">{{$t('trans0034')}}</a>
+              <a @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
               <a @click="delRow(row)">{{$t('trans0033')}}</a>
             </div>
           </div>
+          <div class="empty"
+               v-if="isEmpty">
+            <img src="../../../../assets/images/img_default_empty.png"
+                 alt="">
+            <p class="empty-text">{{$t('trans0278')}}</p>
+          </div>
         </div>
       </div>
-      <div class="empty"
-           v-if="isEmpty">
-        <p class="empty-text">{{$t('trans0278')}}</p>
-      </div>
+
     </div>
-    <div class="modal"
-         v-if='modalShow'>
-      <div class="opcity"></div>
+
+    <m-modal class="modal"
+             :visible.sync="modalShow">
       <div class="modal-content">
         <div class="modal-form">
           <div class="item">
@@ -83,7 +86,7 @@
                   @click="updateSubmit">{{$t('trans0081')}}</button>
         </div>
       </div>
-    </div>
+    </m-modal>
   </div>
 </template>
 <script>
@@ -361,12 +364,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .modal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1001;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -377,22 +374,10 @@ export default {
     display: inline-block;
     height: 14px;
   }
-  .opcity {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.5);
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
   .btn-info {
     display: flex;
     margin-top: 20px;
     justify-content: center;
-    // margin-bottom: 30px;
     .btn {
       width: 120px;
       height: 42px;

@@ -1,45 +1,46 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{$t('trans0288')}}
+      <span class="title"> {{$t('trans0288')}}</span>
     </div>
     <div class="page-content">
-      <div class="tools">
-        <button class="btn btn-primary btn-small"
-                @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0016')}}
-          <div class="modal"
-               v-show="deviceModalVisible"
-               @click.stop=""
-               v-clickoutside="()=>deviceModalVisible=false">
-            <div class="opcity"></div>
-            <div class="modal-content">
-              <div class="list"
-                   :data="devices">
-                <div class="device-item"
-                     v-for="(item,index) in devices"
-                     :key="index">
-                  <div class="check">
-                    <m-checkbox v-model="item.checked"></m-checkbox>
-                  </div>
-                  <div class="des">
-                    <p>{{item.name}}</p>
-                    <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
+
+      <div class="table">
+        <div class="tools">
+          <button class="btn btn-primary"
+                  @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0016')}}
+            <div class="modal"
+                 v-show="deviceModalVisible"
+                 @click.stop=""
+                 v-clickoutside="()=>deviceModalVisible=false">
+              <div class="opcity"></div>
+              <div class="modal-content">
+                <div class="list"
+                     :data="devices">
+                  <div class="device-item"
+                       v-for="(item,index) in devices"
+                       :key="index">
+                    <div class="check">
+                      <m-checkbox v-model="item.checked"></m-checkbox>
+                    </div>
+                    <div class="des">
+                      <p>{{item.name}}</p>
+                      <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="btn-wrap">
-                <button class="btn"
-                        @click="addBlacklist()">{{$t('trans0024')}}</button>
+                <div class="btn-wrap">
+                  <button class="btn"
+                          @click="addBlacklist()">{{$t('trans0024')}}</button>
+                </div>
               </div>
             </div>
-          </div>
-        </button>
-        <button class="btn btn-default btn-small"
-                @click="removeBlacklist()"
-                :disabled="!someBlacklistChecked">{{$t('trans0453')}}
-        </button>
-      </div>
-      <div class="table">
+          </button>
+          <button class="btn btn-default"
+                  @click="removeBlacklist()"
+                  :disabled="!someBlacklistChecked">{{$t('trans0453')}}
+          </button>
+        </div>
         <div class="table-header">
           <div class="name">
             <div class="checkbox">
@@ -68,7 +69,9 @@
           </div>
           <div class="empty"
                v-if="!blacklist.length">
-            {{$t('trans0278')}}
+            <img src="../../../assets/images/img_default_empty.png"
+                 alt="">
+            <p>{{$t('trans0278')}}</p>
           </div>
         </div>
       </div>
@@ -127,7 +130,6 @@ export default {
   },
   methods: {
     addBlacklist() {
-      this.$loading.open();
       this.deviceModalVisible = false;
       const devices = this.devices
         .filter(d => d.checked)
@@ -135,23 +137,26 @@ export default {
           name: d.name,
           mac: d.mac
         }));
-      this.$http
-        .addToblackList({
-          devices
-        })
-        .then(() => {
-          this.blacklist = this.blacklist.concat(
-            devices.map(d => ({
-              ...d,
-              checked: false
-            }))
-          );
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+      if (devices.length) {
+        this.$loading.open();
+        this.$http
+          .addToblackList({
+            devices
+          })
+          .then(() => {
+            this.blacklist = this.blacklist.concat(
+              devices.map(d => ({
+                ...d,
+                checked: false
+              }))
+            );
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$loading.close();
+          })
+          .catch(() => {
+            this.$loading.close();
+          });
+      }
     },
     getDeviceList() {
       this.$http.getDeviceList().then(res => {
@@ -257,6 +262,7 @@ export default {
     .btn {
       width: 120px;
       height: 42px;
+      margin: 0 auto;
     }
     height: 100px;
   }
@@ -305,6 +311,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .table {
+    flex-direction: column;
     .operate,
     .mac {
       margin-top: 10px;
@@ -319,10 +326,8 @@ export default {
       .device {
         flex-direction: column;
         padding: 20px 0;
-        .name,
-        .mac,
-        .operate {
-          width: 100%;
+        .mac {
+          margin-left: 38px;
         }
       }
     }

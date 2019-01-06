@@ -39,7 +39,8 @@
                 <p class="node-version">
                   <span>{{$t('trans0209')}}{{node.version.current}}</span>
                 </p>
-                <p class="changelog">{{$t('trans0525')}}</p>
+                <p class="changelog"
+                   @click.stop="showChangelog(node)">{{$t('trans0525')}}</p>
               </div>
             </div>
           </div>
@@ -65,9 +66,23 @@
         </div>
       </div>
     </div>
+    <m-modal :visible.sync="showChangelogModal">
+      <m-modal-header>
+        {{$t('trans0525')}}
+      </m-modal-header>
+      <m-modal-body class="modal-body">
+        <div class="changelog"
+             v-html="beautifyChangelog"></div>
+        <div class="btn-wrap">
+          <button class="btn"
+                  @click="close()">{{$t('trans0024')}}</button>
+        </div>
+      </m-modal-body>
+    </m-modal>
   </div>
 </template>
 <script>
+import marked from 'marked';
 import { RouterSnModel } from 'util/constant';
 import { compareVersion } from 'util/util';
 
@@ -80,7 +95,9 @@ export default {
         complete: false,
         error: null,
         message: ''
-      }
+      },
+      showChangelogModal: false,
+      changelog: ''
     };
   },
   mounted() {
@@ -89,11 +106,23 @@ export default {
   computed: {
     hasUpgradablityNodes() {
       return this.nodes.length > 0;
+    },
+    beautifyChangelog() {
+      return marked(this.changelog, {
+        sanitize: true
+      });
     }
   },
   methods: {
+    close() {
+      this.showChangelogModal = false;
+    },
     check(node) {
       node.checked = !node.checked;
+    },
+    showChangelog(node) {
+      this.showChangelogModal = true;
+      this.changelog = node.changelog;
     },
     firmwareList() {
       this.$loading.open();
@@ -308,6 +337,23 @@ export default {
     font-size: 16px;
   }
 }
+.modal-body {
+  width: 600px;
+  height: 350px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  .changelog {
+    flex: 1;
+    pre {
+      font-family: inherit;
+    }
+  }
+  .btn-wrap {
+    padding: 20px 0;
+    text-align: center;
+  }
+}
 @media screen and (max-width: 768px) {
   .nodes-wrapper {
     .nodes-info {
@@ -321,6 +367,9 @@ export default {
     .btn-info {
       margin: 20px 0;
     }
+  }
+  .modal-body {
+    width: 320px;
   }
 }
 @media screen and (min-width: 769px) and (max-width: 999px) {
@@ -368,6 +417,9 @@ export default {
     .btn-info {
       margin: 20px 0;
     }
+  }
+  .modal-body {
+    width: 280px;
   }
 }
 </style>

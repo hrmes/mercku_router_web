@@ -24,7 +24,8 @@
         <span @click="updateEnabled">{{$t('trans0488')}}</span>
       </p>
 
-      <div class="table">
+      <div class="table"
+           :class="{'empty-table':empty!==null && empty}">
         <div class="handle-info"
              :class="{'openInfo':mobileShowHead}"
              v-clickoutside="()=>mobileSelect=false">
@@ -90,12 +91,17 @@
               <a @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
           </div>
+          <div class="empty"
+               v-if="empty!==null && empty">
+            <img src="../../../../assets/images/img_default_empty.png"
+                 alt="">
+            <p>{{$t('trans0278')}}</p>
+            <button class="btn"
+                    @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
+          </div>
         </div>
       </div>
-      <div class="empty"
-           v-if="empty!==null && empty">
-        <p>{{$t('trans0278')}}</p>
-      </div>
+
     </div>
   </div>
 </template>
@@ -419,6 +425,11 @@ export default {
     }
   }
   .table {
+    &.empty-table {
+      .handle-info {
+        display: none;
+      }
+    }
     .handle-info {
       z-index: 1;
       display: block;
