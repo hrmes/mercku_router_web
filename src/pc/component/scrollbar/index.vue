@@ -71,6 +71,7 @@ export default {
       this.scroll = new BScroll(this.$refs.wrapper, this.option);
     },
     refresh() {
+      // console.log('refresh');
       this.scroll && this.scroll.refresh();
     }
   },

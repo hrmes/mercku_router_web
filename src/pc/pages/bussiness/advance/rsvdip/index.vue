@@ -42,7 +42,6 @@
                :class="{open:mobileSelect}">
             <button class="btn"
                     @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
-            <!-- <button class="btn" @click="updateEnabled">{{$t('trans0488')}}</button> -->
             <button class="btn m-btn"
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
@@ -329,7 +328,7 @@ export default {
   .table-body {
     .table-row {
       display: flex;
-      padding: 30px 30px;
+      padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
       justify-content: space-between;
       .m-title {

@@ -122,7 +122,7 @@ export default {
     },
     showChangelog(node) {
       this.showChangelogModal = true;
-      this.changelog = node.changelog;
+      this.changelog = node.changelog || '';
     },
     firmwareList() {
       this.$loading.open();
