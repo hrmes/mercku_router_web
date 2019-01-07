@@ -13,7 +13,7 @@
           <m-switch v-model="form.enabled"
                     :onChange="guestEnabledChange" />
         </div>
-        <div v-if="form.enabled&&!setupAndStart">
+        <div v-if="showContent&&!setupAndStart">
           <div class="check-box-wrap">
             <m-radio-group v-model="form.duration"
                            :options='checkOps'></m-radio-group>
@@ -59,7 +59,7 @@
                     @click='()=>setupAndStart=true'>{{$t('trans0025')}}</button>
           </div>
         </div>
-        <div v-if="form.enabled&&setupAndStart">
+        <div v-if="showContent&&setupAndStart">
           <div class="setting-ssid-info">
             <div class="title">
               {{$t('trans0168')}}
@@ -201,31 +201,32 @@ export default {
   },
   methods: {
     guestEnabledChange(enabled) {
-      // 状态已存在并且时长大于0
-      // if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
-      //   this.$dialog.confirm({
-      //     okText: this.$t('trans0024'),
-      //     cancelText: this.$t('trans0025'),
-      //     message: this.$t('trans0559'),
-      //     callback: {
-      //       ok: () => {
-      //         this.$http.meshGuestUpdate({ enabled }).then(() => {
-      //           this.showContent = enabled;
-      //           this.$reconnect({
-      //             onsuccess: () => {
-      //               this.$router.push({ path: '/dashboard' });
-      //             },
-      //             ontimeout: () => {
-      //               this.$router.push({ path: '/unconnect' });
-      //             }
-      //           });
-      //         });
-      //       }
-      //     }
-      //   });
-      // } else {
-      //   this.showContent = enabled;
-      // }
+      if (!enabled) {
+        if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
+          this.$dialog.confirm({
+            okText: this.$t('trans0024'),
+            cancelText: this.$t('trans0025'),
+            message: this.$t('trans0559'),
+            callback: {
+              ok: () => {
+                this.$http.meshGuestUpdate({ enabled }).then(() => {
+                  this.showContent = enabled;
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/setting/guest' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                });
+              }
+            }
+          });
+        }
+      } else {
+        this.showContent = enabled;
+      }
     },
     formatTime(time) {
       const arr = [60, 60, 24];
@@ -282,10 +283,15 @@ export default {
         };
         if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
           this.setupAndStart = true;
+          this.timer = setInterval(() => {
+            this.guest.remaining_duration -= 1;
+            if (this.guest.remaining_duration === 0) {
+              clearInterval(this.timer);
+              this.timer = null;
+              this.getGuest();
+            }
+          }, 1000);
         }
-        this.timer = setInterval(() => {
-          this.guest.remaining_duration -= 1;
-        }, 1000);
       });
     },
     submit() {
@@ -299,7 +305,7 @@ export default {
               this.$http.meshGuestUpdate(this.foramtParams).then(() => {
                 this.$reconnect({
                   onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
+                    this.$router.push({ path: '/setting/guest' });
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
