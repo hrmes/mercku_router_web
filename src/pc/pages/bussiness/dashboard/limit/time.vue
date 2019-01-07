@@ -387,7 +387,7 @@ export default {
     }
   }
   .modal-content {
-    width: 496px;
+    // width: 496px;
     height: 452px;
     border-radius: 5px;
     background-color: #ffffff;
@@ -540,7 +540,7 @@ export default {
   .modal {
     .modal-content {
       overflow-y: auto;
-      width: 300px;
+      // width: 300px;
       height: 480px;
       border-radius: 5px;
       background-color: #ffffff;
