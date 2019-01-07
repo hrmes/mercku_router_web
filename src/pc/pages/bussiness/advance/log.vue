@@ -13,9 +13,10 @@
                   class="btn btn-primary"
                   @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
-        <m-scrollbar class="log-container">
-          <pre :class="{'not-empty':increase}">{{increase}}</pre>
+        <m-scrollbar class="log-container"
+                     ref="scrollbar">
           <pre>{{output}}</pre>
+          <pre :class="{'not-empty':increase}">{{increase}}</pre>
         </m-scrollbar>
       </div>
     </div>
@@ -55,7 +56,7 @@ export default {
     getSyslog() {
       this.$http.getSyslogEnabled().then(() => {
         this.$http.getSysLog().then(res => {
-          const pre = this.increase + this.output;
+          const pre = this.output + this.increase;
           const now = res.data;
           this.getIncremental(pre, now);
         });
@@ -63,10 +64,7 @@ export default {
     },
     getIncremental(pre, now) {
       const preArray = pre.split('\n').filter(p => p !== '');
-      const nowArray = now
-        .split('\n')
-        .reverse()
-        .filter(n => n !== '');
+      const nowArray = now.split('\n').filter(n => n !== '');
       now = nowArray.join('\n');
       if (!pre) {
         this.output = '';
@@ -89,6 +87,7 @@ export default {
           this.increase = nowArray.join('\n');
         }
       }
+      this.$refs.scrollbar.refresh();
     },
     getSyslogEnabled() {
       this.$loading.open();
@@ -138,9 +137,9 @@ export default {
     pre {
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
-      color: #ccc;
+      color: #000;
       &:first-child {
-        color: #000;
+        color: #ccc;
       }
     }
   }
