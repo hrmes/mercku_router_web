@@ -49,7 +49,8 @@
             <div><span class="ssid-label">{{$t('trans0256')}}：</span><span
                     class="ssid-name">{{ssid_5g}}</span></div>
           </div>
-          <div class="form-button">
+          <div class="form-button"
+               :class="{'cancel':guest.remaining_duration>0||this.guest.duration !== -1}">
             <button class="btn"
                     @click='submit()'>{{$t('trans0081')}}</button>
             <button class="btn"
@@ -97,6 +98,7 @@ export default {
       guest: {},
       setupAndStart: false,
       timer: null,
+      showContent: false,
       checkOps: [
         {
           text: this.$t('trans0530'),
@@ -199,27 +201,31 @@ export default {
   },
   methods: {
     guestEnabledChange(enabled) {
-      if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          message: this.$t('trans0559'),
-          callback: {
-            ok: () => {
-              this.$http.meshGuestUpdate({ enabled }).then(() => {
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
-              });
-            }
-          }
-        });
-      }
+      // 状态已存在并且时长大于0
+      // if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
+      //   this.$dialog.confirm({
+      //     okText: this.$t('trans0024'),
+      //     cancelText: this.$t('trans0025'),
+      //     message: this.$t('trans0559'),
+      //     callback: {
+      //       ok: () => {
+      //         this.$http.meshGuestUpdate({ enabled }).then(() => {
+      //           this.showContent = enabled;
+      //           this.$reconnect({
+      //             onsuccess: () => {
+      //               this.$router.push({ path: '/dashboard' });
+      //             },
+      //             ontimeout: () => {
+      //               this.$router.push({ path: '/unconnect' });
+      //             }
+      //           });
+      //         });
+      //       }
+      //     }
+      //   });
+      // } else {
+      //   this.showContent = enabled;
+      // }
     },
     formatTime(time) {
       const arr = [60, 60, 24];
@@ -389,6 +395,14 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .form {
+    .form-button {
+      &.cancel {
+        display: flex;
+        .btn {
+          width: 50%;
+        }
+      }
+    }
   }
 }
 </style>
