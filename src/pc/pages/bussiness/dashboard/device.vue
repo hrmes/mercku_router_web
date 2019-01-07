@@ -10,10 +10,21 @@
         </m-tab>
       </m-tabs>
       <div class="offline-handle-wrapper"
-           v-if="id==='3'">
-        <button class="btn btn-default"> {{$t('trans0453')}}</button>
-        <div class="off-more-message">
-          <img src="../../../assets/images/ic_default_error.png"
+           v-if="isOfflineDevices">
+        <div class="check-info">
+          <div class="m-check-all-box">
+            <m-checkbox v-model="checkAll"
+                        :text="$t('trans0032')"
+                        :onChange="offCheckChange"></m-checkbox>
+          </div>
+          <div><button class="btn btn-default"
+                    :disabled="offlineCheckedMacs.length===0"
+                    @click="delOfflineDevices(offlineCheckedMacs)">
+              {{$t('trans0453')}}</button></div>
+        </div>
+        <div class="off-more-message"
+             v-if="devicesMap[id]&&devicesMap[id].length>60">
+          <img src="../../../assets/images/ic_hint.png"
                alt="">
           {{$t('trans0517')}}
         </div>
@@ -23,18 +34,30 @@
           <ul>
             <li class="column-name">
               <div class="column-check-box"
-                   v-if="id==='3'">
+                   v-if="isOfflineDevices">
                 <m-checkbox v-model="checkAll"
                             :onChange="offCheckChange"></m-checkbox>
               </div>
-              <div class="column-icon"></div>
+              <div v-if="!isOfflineDevices"
+                   class="column-icon"></div>
               {{$t('trans0005')}}
             </li>
-            <li class="column-real-time">{{$t('trans0367')}}</li>
-            <li class="column-band">{{$t('trans0015')}}</li>
-            <li class="column-ip">{{$t('trans0151')}} / {{$t('trans0188')}}</li>
+            <li class="column-real-time"
+                v-if="!isOfflineDevices">{{$t('trans0367')}}</li>
+            <li class="column-band"
+                v-if="!isOfflineDevices">{{$t('trans0015')}}</li>
+            <li class="column-ip"
+                v-if="!isOfflineDevices">{{$t('trans0151')}} /
+              {{$t('trans0188')}}</li>
+            <li class="column-ip"
+                v-if="isOfflineDevices">
+              {{$t('trans0374')}}</li>
+            <li class="column-ip"
+                v-if="isOfflineDevices">
+              {{$t('trans0188')}}</li>
             <!-- <li class="column-mac">{{$t('trans0188')}}</li> -->
-            <li class="column-limit">{{$t('trans0368')}}</li>
+            <li class="column-limit"
+                v-if="!isOfflineDevices">{{$t('trans0368')}}</li>
             <li class="column-black-list">{{$t('trans0370')}}</li>
           </ul>
         </div>
@@ -44,10 +67,11 @@
             <li class="column-name"
                 @click.stop="expandTable(row)">
               <div class="column-check-box"
-                   v-if="id==='3'">
+                   v-if="isOfflineDevices">
                 <m-checkbox v-model="row.checked"></m-checkbox>
               </div>
-              <div class="column-icon">
+              <div class="column-icon"
+                   v-if="!isOfflineDevices">
                 <div class="icon-inner">
                   <i class="band"
                      v-if="row.online_info.band==='wired'">
@@ -61,7 +85,7 @@
               <div class="name-wrap">
                 <div class="name-inner">
                   <a style="cursor:text">
-                    <img v-if='row.local'
+                    <img v-if='row.local &&!isOfflineDevices'
                          src="../../../assets/images/ic_user.png"
                          alt=""
                          style="margin-right:5px;margin-left:0;">
@@ -69,13 +93,13 @@
                           :class="{'extand-name':row.expand}">{{row.name}}</span>
                     <img style="cursor:pointer"
                          @click.stop='()=>nameModalOpen(row)'
-                         v-if='isMobileRow(row.expand)'
+                         v-if='isMobileRow(row.expand)&&!isOfflineDevices'
                          src="../../../assets/images/ic_edit.png"
                          alt="">
                   </a>
                 </div>
                 <div class="des-inner"
-                     v-if='isMobileRow(row.expand)'>
+                     v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                   <span> {{bandMap[`${row.online_info.band}`]}}</span>
                   <span v-if="row.online_info.band!=='wired'">
                     {{transformDate(row.online_info.online_duration)}}</span>
@@ -88,7 +112,7 @@
               </div>
             </li>
             <li class="column-real-time"
-                v-if='isMobileRow(row.expand)'>
+                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
               <div class="speed-inner">
                 <div class="speed-wrap">
                   <img class='icon'
@@ -113,7 +137,7 @@
               </div>
             </li>
             <li class="column-band"
-                v-if='isMobileRow(row.expand)'>
+                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
               <span>{{$t('trans0015')}}</span>
               <span>
                 {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
@@ -122,17 +146,27 @@
                 (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
             </li>
             <li class="column-ip device-item"
-                v-if='isMobileRow(row.expand)'>
+                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
               <span>{{$t('trans0151')}}</span>
               <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
             </li>
+            <li class="column-ip device-item"
+                v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+              <span>{{$t('trans0374')}}</span>
+              <span> {{row.connected_time}} </span>
+            </li>
+            <li class="column-ip device-item"
+                v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+              <span>{{$t('trans0188')}}</span>
+              <span>{{formatMac(row.mac)}}</span>
+            </li>
             <li class="column-mac device-item"
-                v-if='isMobileRow(row.expand)'>
+                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
               <span>{{$t('trans0188')}}</span>
               <span>{{formatMac(row.mac)}}</span>
             </li>
             <li class="column-limit"
-                v-if='isMobileRow(row.expand)'>
+                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
               <div class="limit-inner">
                 <div class="item device-item"
                      @click="()=>limitClick('time',row)">
@@ -176,13 +210,15 @@
               </div>
             </li>
             <li class="column-black-list"
+                :class="{'off-btn-handle-info':isOfflineDevices}"
                 v-if='isMobileRow(row.expand)'>
               <span class="black-btn"
                     @click="()=>addToBlackList(row)">
                 {{$t('trans0016')}}
               </span>
               <span class="del-btn"
-                    @click="()=>addToBlackList(row)">
+                    v-if="isOfflineDevices"
+                    @click="()=>delOfflineDevices([row.mac])">
                 {{$t('trans0033')}}
               </span>
             </li>
@@ -272,8 +308,21 @@ export default {
     };
   },
   computed: {
+    offlineCheckedMacs() {
+      const macs = [];
+      if (this.devicesMap[this.id] && this.devicesMap[this.id].length > 0) {
+        this.devicesMap[this.id].forEach(v => {
+          if (v.checked) macs.push(v.mac);
+        });
+        return macs;
+      }
+      return macs;
+    },
     id() {
       return this.$route.params.id;
+    },
+    isOfflineDevices() {
+      return this.id === '3';
     },
     devicesParams() {
       let params = {
@@ -326,6 +375,12 @@ export default {
     this.timer = null;
   },
   methods: {
+    delOfflineDevices(macs) {
+      this.$http.meshDevicesOfflineDel({ macs }).then(() => {
+        this.$toast(this.$t('trans0040'), 3000, 'success');
+        this.getDeviceList(this.devicesParams);
+      });
+    },
     filterDevices(arr) {
       const newArr = arr
         .map(v => {
@@ -389,7 +444,10 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
+      return (
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
+      );
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -501,7 +559,9 @@ export default {
                 ...params
               })
               .then(() => {
-                this.devicesMap[this.id] = this.devicesMap[this.id].filter(v => v.mac !== row.mac);
+                this.devicesMap[this.id] = this.devicesMap[this.id].filter(
+                  v => v.mac !== row.mac
+                );
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
@@ -530,13 +590,22 @@ export default {
         return formatDate(now - date * 1000);
       }
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(date / split[1], 10)
+        )}`;
       }
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
       }
       if (date <= split[2] && date > split[3]) {
-        return `${this.$t('trans0011').replace('%d', parseInt(date / split[3], 10))}`;
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(date / split[3], 10)
+        )}`;
       }
       return `${this.$t('trans0010')}`;
     }
@@ -564,6 +633,11 @@ export default {
     align-items: center;
     padding-top: 20px;
     padding-left: 20px;
+    .check-info {
+      .m-check-all-box {
+        display: none;
+      }
+    }
     .btn {
       height: 27px;
       font-size: 12px;
@@ -575,10 +649,11 @@ export default {
       min-width: 161px;
       height: 30px;
       border-radius: 4px;
+      padding-right: 10px;
       background-color: #fffbe6;
       font-size: 12px;
       color: rgba(0, 0, 0, 0.65);
-      line-height: 30px;
+      // line-height: 30px;
       margin-left: 20px;
       display: flex;
       align-items: center;
@@ -792,26 +867,32 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/ic_limit_time_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_time_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_time.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_time.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/ic_limit_speed_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_speed_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_speed.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_speed.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
             &.url-limit {
-              background: url(../../../assets/images/ic_limit_website_close.png) no-repeat center;
+              background: url(../../../assets/images/ic_limit_website_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_website.png) no-repeat center;
+                background: url(../../../assets/images/ic_limit_website.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
@@ -870,7 +951,35 @@ export default {
   .device-container {
     background: transparent;
     padding: 0;
-
+    .offline-handle-wrapper {
+      flex-direction: column-reverse;
+      padding-top: 10px;
+      padding-left: 0;
+      .check-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // height: 60px;
+        padding-top: 30px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f1f1f1;
+        width: 100%;
+        .m-check-all-box {
+          display: block;
+        }
+      }
+      .btn {
+        position: relative;
+        right: 0;
+      }
+      .off-more-message {
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+        img {
+        }
+      }
+    }
     .device-wrapper {
       .title {
         border: none;
@@ -880,6 +989,11 @@ export default {
       .table-inner {
         background: transparent;
         margin: 0;
+        .column-check-box {
+          width: auto;
+          margin-left: 0;
+          margin-right: 10px;
+        }
         .column-icon {
           width: 40px;
         }
@@ -892,7 +1006,7 @@ export default {
             padding: 0;
             overflow: inherit;
             background: white;
-            padding: 0 20px;
+            // padding: 0 20px;
             margin-top: 10px;
             border-radius: 3px;
           }
@@ -1106,18 +1220,40 @@ export default {
             padding-bottom: 50px;
             display: flex;
             justify-content: center;
+
             .black-btn {
               display: block;
+              margin-right: 0;
               width: 255px;
-              height: 58px;
+              height: 40px;
               border-radius: 4px;
               border: solid 1px #ff0500;
               color: #ff0500;
               text-align: center;
-              line-height: 58px;
+              line-height: 40px;
               cursor: pointer;
               &:hover {
                 text-decoration: none;
+              }
+            }
+            &.off-btn-handle-info {
+              .black-btn {
+                width: 100px;
+                margin-right: 30px;
+              }
+              .del-btn {
+                display: block;
+                width: 100px;
+                height: 40px;
+                border-radius: 4px;
+                border: solid 1px #ff0500;
+                color: #ff0500;
+                text-align: center;
+                line-height: 40px;
+                cursor: pointer;
+                &:hover {
+                  text-decoration: none;
+                }
               }
             }
           }

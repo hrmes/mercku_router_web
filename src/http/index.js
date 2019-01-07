@@ -99,6 +99,7 @@ const methods = {
   meshGuestUpdate: createMethod('mesh.guestwifi.update'),
   meshGuestAdd: createMethod('mesh.guestwifi.add'),
   meshGuestDel: createMethod('mesh.guestwifi.delete'),
+  meshDevicesOfflineDel: createMethod('mesh.device.offline.delete')
 };
 
 class Http {
@@ -125,6 +126,10 @@ class Http {
       method: 'post',
       data
     }).catch(this.exHandler);
+  }
+
+  meshDevicesOfflineDel(params) {
+    return this.request(methods.meshDevicesOfflineDel, params);
   }
 
   meshGuestGet() {
