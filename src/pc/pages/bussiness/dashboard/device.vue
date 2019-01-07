@@ -445,8 +445,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control &&
-        row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control
+        && row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {

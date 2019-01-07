@@ -97,7 +97,12 @@ export default {
       clearTimeout(this.deviceCountTimer);
       this.deviceCountTimer = null;
       this.$http
-        .getDeviceCount()
+        .getDeviceCount({
+          filters: [
+            { type: 'primary', status: ['online'] },
+            { type: 'guest', status: ['online'] }
+          ]
+        })
         .then(res => {
           this.deviceCount = res.data.result.count;
           if (this.pageActive) {
