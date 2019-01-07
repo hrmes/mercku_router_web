@@ -11,29 +11,19 @@ const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
 console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
 const CUSTOMER_CONFIG = customerConfig(CUSTOMER_ID);
 console.log(`get CUSTOMER_CONFIG for ${CUSTOMER_ID}:`, CUSTOMER_CONFIG);
-const title = CUSTOMER_CONFIG
-  .TITLE
-  .replace(/\"/g, '');
-const favicon = CUSTOMER_CONFIG
-  .FAVICO
-  .replace(/\"/g, '');
+const title = CUSTOMER_CONFIG.TITLE.replace(/\"/g, '');
+const favicon = CUSTOMER_CONFIG.FAVICO.replace(/\"/g, '');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
 function assetsPath(_path) {
-  return path
-    .posix
-    .join('/', _path);
+  return path.posix.join('/', _path);
 }
 
 module.exports = function getAssetPath(options, filePath, placeAtRootIfRelative) {
-  return options.assetsDir
-    ? path
-      .posix
-      .join(options.assetsDir, filePath)
-    : filePath;
+  return options.assetsDir ? path.posix.join(options.assetsDir, filePath) : filePath;
 };
 module.exports = function resolveLocal(...args) {
   return path.join(__dirname, '../../', ...args);
@@ -42,6 +32,7 @@ module.exports = function resolveLocal(...args) {
 module.exports = {
   baseUrl: '/',
   outputDir: 'dist',
+  assetsDir: 'static',
   lintOnSave: true,
   productionSourceMap: process.env.NODE_ENV !== 'production',
   pages: {
@@ -85,14 +76,14 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-    config
-      .plugins
-      .push(new webpack.DefinePlugin({
+    config.plugins.push(
+      new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: '"development"',
           CUSTOMER_CONFIG
         }
-      }));
+      })
+    );
     const plugins = [
       new UglifyJsPlugin({
         uglifyOptions: {
@@ -118,29 +109,23 @@ module.exports = {
       new BundleAnalyzerPlugin()
     ];
     if (process.env.NODE_ENV === 'production') {
-      config
-        .plugins
-        .concat(plugins);
+      config.plugins.concat(plugins);
     }
   },
   chainWebpack: config => {
-    config
-      .resolve
-      .alias
+    config.resolve.alias
       .set('vue$', 'vue/dist/vue.esm.js')
       .set('components', resolve('src/pc/component'))
       .set('pages', resolve('src/pc/pages'))
       .set('util', resolve('src/util'))
       .set('style', resolve('src/pc/style'));
-    config
-      .module
+    config.module
       .rule('html')
       .test(/\.html$/)
       .use('html-loader')
       .loader('html-loader')
       .end();
-    config
-      .module
+    config.module
       .rule('images')
       .use('url-loader')
       .loader('url-loader')
