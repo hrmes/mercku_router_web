@@ -10,7 +10,8 @@
               :rules='rules'>
         <div class="switch-wrap">
           <label for=""> {{$t('trans0538')}} </label>
-          <m-switch v-model="form.enabled" />
+          <m-switch v-model="form.enabled"
+                    :onChange="guestEnabledChange" />
         </div>
         <div v-if="form.enabled&&!setupAndStart">
           <div class="check-box-wrap">
@@ -41,25 +42,20 @@
             <label for=""> {{$t('trans0397')}} </label>
             <m-switch v-model="form.smart_connect" />
           </div>
-          <div v-if="!form.smart_connect">
-            <m-form-item class="item">
-              <m-input v-model="form.ssid"
-                       :label="$t('trans0560')"
-                       type='text'
-                       :disabled="true"
-                       :placeholder="`${$t('trans0321')}`"></m-input>
-            </m-form-item>
-            <m-form-item class="item">
-              <m-input v-model="ssid_5g"
-                       :label="$t('trans0561')"
-                       type='text'
-                       :disabled="true"
-                       :placeholder="`${$t('trans0321')}`"></m-input>
-            </m-form-item>
+          <div v-if="!form.smart_connect"
+               class="ssid">
+            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span
+                    class="ssid-name">{{form.ssid}}</span></div>
+            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span
+                    class="ssid-name">{{ssid_5g}}</span></div>
           </div>
           <div class="form-button">
             <button class="btn"
                     @click='submit()'>{{$t('trans0081')}}</button>
+            <button class="btn"
+                    style="margin-left:50px"
+                    v-if="guest.remaining_duration>0||this.guest.duration !== -1"
+                    @click='()=>setupAndStart=true'>{{$t('trans0025')}}</button>
           </div>
         </div>
         <div v-if="form.enabled&&setupAndStart">
@@ -170,6 +166,9 @@ export default {
     ssid_5g() {
       return `${this.form.ssid}-5G`;
     },
+    hasStatus() {
+      return this.setupAndStart;
+    },
     foramtParams() {
       let params = {};
       if (this.form.enabled) {
@@ -199,6 +198,29 @@ export default {
     }
   },
   methods: {
+    guestEnabledChange(enabled) {
+      if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0559'),
+          callback: {
+            ok: () => {
+              this.$http.meshGuestUpdate({ enabled }).then(() => {
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/dashboard' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
+              });
+            }
+          }
+        });
+      }
+    },
     formatTime(time) {
       const arr = [60, 60, 24];
       const temp = ['00', '00', '00'];
@@ -301,6 +323,23 @@ export default {
   justify-content: flex-start;
 }
 .form {
+  .ssid {
+    margin-bottom: 50px;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #fafafa;
+    padding: 0 20px;
+    div {
+      padding: 10px 0;
+      .ssid-label {
+        width: 50px;
+        display: inline-block;
+      }
+      &:first-child {
+        border-bottom: 1px solid #f1f1f1;
+      }
+    }
+  }
   .online-device {
     margin-bottom: 50px;
     span {
