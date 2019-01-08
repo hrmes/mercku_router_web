@@ -40,7 +40,7 @@
                   <span>{{$t('trans0209')}}{{node.version.current}}</span>
                 </p>
                 <p class="changelog"
-                   @click.stop="showChangelog(node)">{{$t('trans0525')}}</p>
+                   @click.stop="showChangelog(node)">{{$t('trans0546')}}</p>
               </div>
             </div>
           </div>
