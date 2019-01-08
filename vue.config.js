@@ -10,24 +10,13 @@ const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
 console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
 const CUSTOMER_CONFIG = customerConfig(CUSTOMER_ID);
-console.log(`get CUSTOMER_CONFIG for ${CUSTOMER_ID}:`, CUSTOMER_CONFIG);
+console.log(`get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`, JSON.stringify(CUSTOMER_CONFIG, null, 2));
 const title = CUSTOMER_CONFIG.TITLE.replace(/\"/g, '');
 const favicon = CUSTOMER_CONFIG.FAVICO.replace(/\"/g, '');
 
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
-
-function assetsPath(_path) {
-  return path.posix.join('/', _path);
-}
-
-module.exports = function getAssetPath(options, filePath, placeAtRootIfRelative) {
-  return options.assetsDir ? path.posix.join(options.assetsDir, filePath) : filePath;
-};
-module.exports = function resolveLocal(...args) {
-  return path.join(__dirname, '../../', ...args);
-};
 
 module.exports = {
   baseUrl: '/',
@@ -36,21 +25,13 @@ module.exports = {
   lintOnSave: true,
   productionSourceMap: process.env.NODE_ENV !== 'production',
   pages: {
-    app: {
-      entry: 'src/app/main.js',
-      template: 'public/app.ejs',
-      filename: 'app.html',
-      title,
-      favicon,
-      chunks: ['chunk-vendors', 'chunk-common', 'app']
-    },
-    pc: {
-      entry: 'src/pc/main.js',
+    index: {
+      entry: 'src/main.js',
       template: 'public/index.ejs',
       favicon,
       filename: 'index.html',
       title,
-      chunks: ['chunk-vendors', 'chunk-common', 'pc']
+      chunks: ['vendor', 'common', 'index']
     }
   },
   devServer: {
@@ -115,10 +96,10 @@ module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set('vue$', 'vue/dist/vue.esm.js')
-      .set('components', resolve('src/pc/component'))
-      .set('pages', resolve('src/pc/pages'))
+      .set('components', resolve('src/component'))
+      .set('pages', resolve('src/pages'))
       .set('util', resolve('src/util'))
-      .set('style', resolve('src/pc/style'));
+      .set('style', resolve('src/style'));
     config.module
       .rule('html')
       .test(/\.html$/)
