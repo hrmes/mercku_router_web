@@ -13,7 +13,7 @@
           <m-switch v-model="form.enabled"
                     :onChange="guestEnabledChange" />
         </div>
-        <div v-if="showContent&&!setupAndStart">
+        <div v-if="form.enabled&&!setupAndStart">
           <div class="check-box-wrap">
             <m-radio-group v-model="form.duration"
                            :options='checkOps'></m-radio-group>
@@ -59,7 +59,7 @@
                     @click='()=>setupAndStart=true'>{{$t('trans0025')}}</button>
           </div>
         </div>
-        <div v-if="showContent&&setupAndStart">
+        <div v-if="form.enabled&&setupAndStart">
           <div class="setting-ssid-info">
             <div class="title">
               {{$t('trans0168')}}
@@ -194,6 +194,7 @@ export default {
         };
       } else {
         params = {
+          guest_ids: ['1'],
           enabled: this.form.enabled
         };
       }
