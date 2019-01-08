@@ -243,20 +243,21 @@ export default {
     };
   },
   computed: {
-    // ...(() => {
-    //   const Tabs = {
-    //     isTR069: 'tr069',
-    //     isTFTP: 'tftp',
-    //     isTelnet: 'telnet',
-    //     isWWA: 'wwa'
-    //   };
-    //   const result = {};
-    //   const { category } = this.$route.params;
-    //   Object.keys(Tabs).forEach(key => {
-    //     result[key] = () => category === Tabs[key];
-    //   });
-    //   return result;
-    // })()
+    ...(() => {
+      const Tabs = {
+        isTR069: 'tr069',
+        isTFTP: 'tftp',
+        isTelnet: 'telnet',
+        isWWA: 'wwa'
+      };
+      const result = {};
+      Object.keys(Tabs).forEach(key => {
+        result[key] = function temp() {
+          return this.$route.params.category === Tabs[key];
+        };
+      });
+      return result;
+    })()
   },
   mounted() {
     this.$http.getTelnetEnabled().then(res => {
