@@ -13,7 +13,7 @@
           <m-switch v-model="form.enabled"
                     :onChange="guestEnabledChange" />
         </div>
-        <div v-if="showSettingPage">
+        <div v-if="form.enabled&&showSettingPage">
           <div class="check-box-wrap">
             <m-radio-group v-model="form.duration"
                            :options='checkOps'></m-radio-group>
@@ -50,13 +50,13 @@
                     class="ssid-name">{{ssid_5g}}</span></div>
           </div>
           <div class="form-button"
-               :class="{'cancel':guest.remaining_duration>0||this.guest.duration !== -1}">
+               :class="{'cancel':setupAndStart}">
             <button class="btn"
                     @click='submit()'>{{$t('trans0081')}}</button>
             <button class="btn"
                     style="margin-left:50px"
-                    v-if="guest.remaining_duration>0||this.guest.duration !== -1"
-                    @click='()=>setupAndStart=true'>{{$t('trans0025')}}</button>
+                    v-if="setupAndStart&&showCancelBtn"
+                    @click='cancel'>{{$t('trans0025')}}</button>
           </div>
         </div>
         <div v-if="showStatusPage">
@@ -81,7 +81,7 @@
           </div>
           <div class="form-button">
             <button class="btn"
-                    @click='()=>setupAndStart=false'>{{$t('trans0019')}}</button>
+                    @click='toSetting'>{{$t('trans0019')}}</button>
           </div>
         </div>
       </m-form>
@@ -96,11 +96,11 @@ export default {
     return {
       showSettingPage: false,
       showStatusPage: false,
+      showCancelBtn: false,
+      setupAndStart: false,
       devicesCount: 0,
       guest: {},
-      setupAndStart: false,
       timer: null,
-      showContent: false,
       checkOps: [
         {
           text: this.$t('trans0530'),
@@ -204,8 +204,21 @@ export default {
     }
   },
   methods: {
+    cancel() {
+      this.showStatusPage = true;
+      this.showSettingPage = false;
+      this.showCancelBtn = false;
+    },
+    toSetting() {
+      this.showCancelBtn = true;
+      this.showStatusPage = false;
+      this.showSettingPage = true;
+    },
     guestEnabledChange(enabled) {
-      if (!enabled && this.setupAndStart) {
+      if (
+        (!enabled && this.setupAndStart && !this.showSettingPage) ||
+        (this.showSettingPage && this.showCancelBtn)
+      ) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
@@ -213,7 +226,8 @@ export default {
           callback: {
             ok: () => {
               this.$http.meshGuestUpdate({ ...this.foramtParams }).then(() => {
-                this.showStatusPage = false;
+                this.clear();
+                this.getGuest();
                 this.$reconnect({
                   onsuccess: () => {
                     this.$router.push({ path: '/setting/guest' });
@@ -223,6 +237,9 @@ export default {
                   }
                 });
               });
+            },
+            cancel: () => {
+              this.form.enabled = !enabled;
             }
           }
         });
@@ -278,6 +295,7 @@ export default {
           duration: this.guest.duration,
           ssid: this.guest.bands['2.4G'].ssid,
           encrypt: this.guest.bands['2.4G'].encrypt,
+          password: this.guest.bands['2.4G'].password,
           smart_connect: this.guest.smart_connect
         };
         if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
@@ -285,17 +303,19 @@ export default {
           this.timer = setInterval(() => {
             this.guest.remaining_duration -= 1;
             if (this.guest.remaining_duration === 0) {
-              clearInterval(this.timer);
-              this.timer = null;
+              this.clear();
               this.getGuest();
             }
           }, 1000);
         }
-        if (this.setupAndStart && this.form.enabled) {
-          this.showStatusPage = true;
-        }
-        if (!this.setupAndStart && this.form.enabled) {
+        if (!this.guest.enabled) {
           this.showSettingPage = true;
+          this.showStatusPage = false;
+          this.showCancelBtn = false;
+        }
+        if (this.setupAndStart && this.guest.enabled) {
+          this.showStatusPage = true;
+          this.showSettingPage = false;
         }
       });
     },
@@ -312,6 +332,8 @@ export default {
           callback: {
             ok: () => {
               this.$http.meshGuestUpdate(this.foramtParams).then(() => {
+                this.clear();
+                this.getGuest();
                 this.$reconnect({
                   onsuccess: () => {
                     this.$router.push({ path: '/setting/guest' });
