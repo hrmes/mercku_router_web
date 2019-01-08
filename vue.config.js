@@ -35,7 +35,7 @@ module.exports = {
       favicon,
       filename: 'index.html',
       title,
-      chunks: ['vendor', 'common', 'index']
+      chunks: ['chunk-vendors', 'chunk-common', 'index']
     }
   },
   devServer: {

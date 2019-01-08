@@ -175,6 +175,7 @@ export default {
       let params = {};
       if (this.form.enabled) {
         params = {
+          id: this.form.id,
           enabled: this.form.enabled,
           duration: this.form.duration,
           smart_connect: this.form.smart_connect,
@@ -262,7 +263,7 @@ export default {
     getDevicesCount() {
       const params = {
         type: 'guest',
-        guest_ids: [this.guest.id],
+        guest_ids: ['1'],
         status: ['online']
       };
       this.$http.getDeviceCount(params).then(res => {
