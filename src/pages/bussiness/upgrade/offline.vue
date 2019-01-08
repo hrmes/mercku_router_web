@@ -114,7 +114,7 @@ export default {
     return {
       files: [],
       RouterSnModel,
-      accept: process.env.CUSTOMER_CONFIG.ACCEPT,
+      accept: process.env.CUSTOMER_CONFIG.accept,
       localNodes: [],
       UploadStatus,
       uploadStatus: UploadStatus.ready,

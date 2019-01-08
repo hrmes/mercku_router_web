@@ -13,9 +13,9 @@ import Http from './http';
 import store from './store';
 
 // 样式表
-if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+if (process.env.CUSTOMER_CONFIG.isCik) {
   require('style/cik.scss');
-} else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+} else if (process.env.CUSTOMER_CONFIG.isMercku) {
   require('style/mercku.scss');
 } else {
   // TODO
