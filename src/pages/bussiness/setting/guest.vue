@@ -278,9 +278,13 @@ export default {
     },
     getDevicesCount() {
       const params = {
-        type: 'guest',
-        guest_ids: ['1'],
-        status: ['online']
+        filters: [
+          {
+            type: 'guest',
+            guest_ids: ['1'],
+            status: ['online']
+          }
+        ]
       };
       this.$http.getDeviceCount(params).then(res => {
         this.devicesCount = res.data.result.count;
