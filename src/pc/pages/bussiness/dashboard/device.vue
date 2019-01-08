@@ -223,6 +223,8 @@
               </span>
             </li>
           </ul>
+          <div class='table-empty'
+               v-if="devicesMap[id]&&devicesMap[id].length===0">{{$t('trans0278')}}</div>
         </div>
       </div>
     </div>
@@ -338,6 +340,7 @@ export default {
           filters: [
             {
               type: 'guest',
+              guest_ids: ['1'],
               status: ['online']
             }
           ]
@@ -348,6 +351,7 @@ export default {
           filters: [
             {
               type: 'guest',
+              guest_ids: ['1'],
               status: ['offline']
             },
             { type: 'primary', status: ['offline'] }
