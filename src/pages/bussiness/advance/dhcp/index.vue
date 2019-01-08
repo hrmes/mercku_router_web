@@ -60,6 +60,16 @@ import {
  ipReg, privateIpReg, getIpBefore, getIpAfter 
 } from 'util/util';
 
+const isVailidRange = input => {
+  const value = Number(input);
+  if (!Number.isInteger(value)) {
+    return false;
+  }
+  if (value < 1 && value >= 255) {
+    return false;
+  }
+  return true;
+};
 export default {
   data() {
     return {
@@ -119,7 +129,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
+            rule: value => isVailidRange(value),
             message: this.$t('trans0395')
           }
         ],
@@ -129,7 +139,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => /^(25[0-4]|2[0-4]\d|1\d\d|[1-9]\d|[1-9])$/.test(value),
+            rule: value => isVailidRange(value),
             message: this.$t('trans0395')
           },
           {

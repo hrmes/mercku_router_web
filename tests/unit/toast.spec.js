@@ -1,4 +1,5 @@
-import toast from '../../../../src/pc/component/toast/index';
+import { expect } from 'chai';
+import toast from '../../src/component/toast/index';
 
 describe('toast', () => {
   it('toast is open', () => {

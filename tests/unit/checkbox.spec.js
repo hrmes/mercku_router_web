@@ -1,14 +1,14 @@
 import { mount } from '@vue/test-utils';
-import checkbox from '../../../../src/pc/component/checkbox/index.vue';
+import { expect } from 'chai';
+import checkbox from '../../src/component/checkbox/index.vue';
 
 describe('checkbox.vue', () => {
   let wrapper;
-
-  let vm;
+  let vnode;
 
   afterEach(() => {
-    vm.$destroy && vm.$destroy();
-    vm.$el && vm.$el.parentNode && vm.$el.parentNode.removeChild(vm.$el);
+    vnode.$destroy && vnode.$destroy();
+    vnode.$el && vnode.$el.parentNode && vnode.$el.parentNode.removeChild(vnode.$el);
   });
 
   it('checked status is right', () => {
@@ -18,11 +18,9 @@ describe('checkbox.vue', () => {
         text: 'checkbox'
       }
     });
-    vm = wrapper.vm;
+    vnode = wrapper.vm;
 
-    expect(
-      Array.from(vm.$el.querySelector('.box').classList).indexOf('checked')
-    ).to.not.eql(-1);
+    expect(Array.from(vnode.$el.querySelector('.box').classList).indexOf('checked')).to.not.eql(-1);
   });
 
   it('text is right', () => {
@@ -32,8 +30,8 @@ describe('checkbox.vue', () => {
         text: 'checkbox'
       }
     });
-    vm = wrapper.vm;
-    expect(vm.$el.querySelector('.text').textContent).eql('checkbox');
+    vnode = wrapper.vm;
+    expect(vnode.$el.querySelector('.text').textContent).eql('checkbox');
   });
 
   it('initial data is right', () => {
@@ -43,8 +41,8 @@ describe('checkbox.vue', () => {
         text: 'checkbox'
       }
     });
-    vm = wrapper.vm;
-    expect(vm.checked).to.be.true;
+    vnode = wrapper.vm;
+    expect(vnode.checked).to.be.true;
   });
 
   it('check methods is right', done => {
@@ -54,13 +52,11 @@ describe('checkbox.vue', () => {
         text: 'checkbox'
       }
     });
-    vm = wrapper.vm;
-    vm.check();
-    expect(vm.checked).to.be.false;
-    vm.$nextTick(() => {
-      expect(
-        Array.from(vm.$el.querySelector('.box').classList).indexOf('checked')
-      ).to.eql(-1);
+    vnode = wrapper.vm;
+    vnode.check();
+    expect(vnode.checked).to.be.false;
+    vnode.$nextTick(() => {
+      expect(Array.from(vnode.$el.querySelector('.box').classList).indexOf('checked')).to.eql(-1);
       done();
     });
   });
@@ -72,16 +68,14 @@ describe('checkbox.vue', () => {
         text: 'checkbox'
       }
     });
-    vm = wrapper.vm;
+    vnode = wrapper.vm;
     wrapper.setProps({
       value: true
     });
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.checked).to.be.true;
+    wrapper.vnode.$nextTick(() => {
+      expect(wrapper.vnode.checked).to.be.true;
       expect(
-        Array.from(wrapper.vm.$el.querySelector('.box').classList).indexOf(
-          'checked'
-        )
+        Array.from(wrapper.vnode.$el.querySelector('.box').classList).indexOf('checked')
       ).to.not.eql(-1);
       done();
     });

@@ -1,16 +1,17 @@
 import { mount } from '@vue/test-utils';
-import Progress from '../../../../src/pc/component/progress/index.vue';
+import { expect } from 'chai';
+import Progress from '../../src/component/progress/index.vue';
 
 describe('progress component', () => {
   let wrapper;
-  let vm;
+  let vnode;
   afterEach(() => {
-    vm.$destroy && vm.$destroy();
-    vm.$el && vm.$el.parentNode && vm.$el.parentNode.removeChild(vm.$el);
+    vnode.$destroy && vnode.$destroy();
+    vnode.$el && vnode.$el.parentNode && vnode.$el.parentNode.removeChild(vnode.$el);
   });
   it('progress default data', done => {
     wrapper = mount(Progress);
-    vm = wrapper.vm;
+    vnode = wrapper.vm;
     wrapper.setData({
       during: 60,
       percent: 0,
@@ -19,23 +20,23 @@ describe('progress component', () => {
         width: 0
       }
     });
-    vm.$nextTick(() => {
-      expect(vm.$el.querySelector('.progress-bar').offsetWidth).to.eql(0);
+    vnode.$nextTick(() => {
+      expect(vnode.$el.querySelector('.progress-bar').offsetWidth).to.eql(0);
       done();
     });
   });
   it('progress methods', done => {
     wrapper = mount(Progress);
-    vm = wrapper.vm;
+    vnode = wrapper.vm;
     wrapper.setData({
       during: 0,
       percent: 0,
       timer: null
     });
-    vm.createTiemr();
-    vm.$nextTick(() => {
+    vnode.createTiemr();
+    vnode.$nextTick(() => {
       setTimeout(() => {
-        expect(Math.round(vm.percent) === 1).to.be.true;
+        expect(Math.round(vnode.percent) === 1).to.be.true;
       }, 1000);
       done();
     });

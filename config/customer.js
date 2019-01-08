@@ -1,5 +1,5 @@
 module.exports = function customerConfig(customer_id) {
-  let config = {};
+  let config;
   if (customer_id === '0001') {
     config = {
       TITLE: '"Mercku"',

@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
-import select from '../../../../src/pc/component/select/index.vue';
+import { expect } from 'chai';
+import select from '../../src/component/select/index.vue';
 
 describe('select', () => {
   let wrapper;
@@ -37,9 +38,7 @@ describe('select', () => {
 
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.value).to.eql(2);
-      expect(wrapper.vm.$el.querySelector('label').textContent).to.eql(
-        'select'
-      );
+      expect(wrapper.vm.$el.querySelector('label').textContent).to.eql('select');
       const lis = wrapper.vm.$el.querySelectorAll('.select-popup li');
       expect(lis.length).to.eql(2);
       expect(lis[0].textContent).to.eql('1');
