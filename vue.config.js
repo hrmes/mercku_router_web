@@ -11,8 +11,12 @@ const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
 console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
 const CUSTOMER_CONFIG = customerConfig(CUSTOMER_ID);
 console.log(`get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`, JSON.stringify(CUSTOMER_CONFIG, null, 2));
-const title = CUSTOMER_CONFIG.TITLE.replace(/\"/g, '');
-const favicon = CUSTOMER_CONFIG.FAVICO.replace(/\"/g, '');
+let title;
+let favicon;
+if (CUSTOMER_CONFIG) {
+  title = CUSTOMER_CONFIG.TITLE.replace(/\"/g, '');
+  favicon = CUSTOMER_CONFIG.FAVICO.replace(/\"/g, '');
+}
 
 function resolve(dir) {
   return path.join(__dirname, dir);

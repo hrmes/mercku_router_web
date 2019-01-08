@@ -1,4 +1,5 @@
-import dialog from '../../../../src/pc/component/dialog/index';
+import { expect } from 'chai';
+import dialog from '../../src/component/dialog/index';
 
 describe('dialog', () => {
   it('check info dialog props and ok method', done => {
@@ -16,21 +17,13 @@ describe('dialog', () => {
     setTimeout(() => {
       const wrapper = document.body.querySelector('.dialog-container');
       expect(wrapper).to.be.exist;
-      expect(wrapper.querySelector('.dialog-title').textContent).to.eql(
-        'title'
-      );
-      expect(wrapper.querySelector('.dialog-message').textContent).to.eql(
-        'info'
-      );
-      expect(
-        wrapper.querySelector('.dialog-buttons').children[0].textContent
-      ).to.eql('cancel');
-      expect(
-        wrapper.querySelector('.dialog-buttons').children[1].textContent
-      ).to.eql('ok');
+      expect(wrapper.querySelector('.dialog-title').textContent).to.eql('title');
+      expect(wrapper.querySelector('.dialog-message').textContent).to.eql('info');
+      expect(wrapper.querySelector('.dialog-buttons').children[0].textContent).to.eql('cancel');
+      expect(wrapper.querySelector('.dialog-buttons').children[1].textContent).to.eql('ok');
 
       const vm = wrapper.__vue__.$parent;
-      const overflow = document.body.style.overflow;
+      const { overflow } = document.body.style;
       expect(document.body.style.overflow).to.eql('hidden');
       vm.ok();
 
@@ -57,7 +50,7 @@ describe('dialog', () => {
     setTimeout(() => {
       const wrapper = document.body.querySelector('.dialog-container');
       const vm = wrapper.__vue__.$parent;
-      const overflow = document.body.style.overflow;
+      const { overflow } = document.body.style;
       vm.cancel();
       setTimeout(() => {
         expect(vm.visible).to.be.false;

@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils';
-import input from '../../../../src/pc/component/input/input.vue';
+import { expect } from 'chai';
+import input from '../../src/component/input/input.vue';
 
 describe('input', () => {
   let wrapper;
