@@ -25,7 +25,8 @@ module.exports = {
     'no-underscore-dangle': 0,
     'no-bitwise': 0,
     'no-restricted-properties': 0,
-    'class-methods-use-this': 0
+    'class-methods-use-this': 0,
+    'no-trailing-spaces': 0
   },
   settings: {
     'import/resolver': {
