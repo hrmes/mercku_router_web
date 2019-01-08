@@ -4,7 +4,6 @@ import checkbox from '../../src/component/checkbox/index.vue';
 
 describe('checkbox.vue', () => {
   let wrapper;
-
   let vnode;
 
   afterEach(() => {

@@ -7,7 +7,7 @@ import mProgress from 'components/progress/index.vue';
 import { formatSpeed, formatNetworkData, formatBandWidth } from 'util/util';
 import { changeLanguage, i18n, translate } from './i18n';
 import router from './router';
-import Desktop from './Desktop.vue';
+import App from './App.vue';
 import registerComponents from './register-components';
 import Http from './http';
 import store from './store';
@@ -140,7 +140,7 @@ const launch = () => {
     i18n,
     router,
     store,
-    render: h => h(Desktop)
+    render: h => h(App)
   });
 };
 
