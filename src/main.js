@@ -12,7 +12,6 @@ import registerComponents from './register-components';
 import Http from './http';
 import store from './store';
 
-// console.log(process.env.CUSTOMER_CONFIG);
 // 样式表
 if (process.env.CUSTOMER_CONFIG.isCik) {
   require('style/cik.scss');

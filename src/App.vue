@@ -27,10 +27,11 @@ import { Access } from 'util/constant';
 export default {
   computed: {
     menu_hidden() {
+      const { path } = this.$route;
       return (
-        this.$route.path.includes('login')
-        || this.$route.path.includes('wlan')
-        || this.$route.path.includes('unconnect')
+        path.includes('login')
+        || path.includes('wlan')
+        || path.includes('unconnect')
       );
     }
   },

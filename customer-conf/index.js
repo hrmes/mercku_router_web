@@ -5,11 +5,11 @@
 const Customers = {
   '0001': {
     name: 'Mercku',
-    conf: require('./mercku.json')
+    conf: require('./mercku/conf.json')
   },
   '0002': {
     name: 'Cik',
-    conf: require('./cik.json')
+    conf: require('./cik/conf.json')
   }
 };
 

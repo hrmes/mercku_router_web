@@ -3,7 +3,7 @@
     <div class="input-wrap"
          @click="open">
       <input type="text"
-             placeholder="请选择时间"
+             :placeholder="$('trans0100')"
              v-model="inputValue"
              readonly>
       <span class="icon-inner">

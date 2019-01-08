@@ -27,7 +27,7 @@ module.exports = {
   pages: {
     index: {
       entry: 'src/main.js',
-      template: 'public/index.ejs',
+      template: 'index.ejs',
       favicon,
       filename: 'index.html',
       title,
