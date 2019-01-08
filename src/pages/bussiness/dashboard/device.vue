@@ -224,7 +224,10 @@
             </li>
           </ul>
           <div class='table-empty'
-               v-if="devicesMap[id]&&devicesMap[id].length===0">{{$t('trans0278')}}</div>
+               v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
+            <img src="../../../assets/images/img_default_empty.png"
+                 alt="">
+            <span>{{$t('trans0278')}}</span></div>
         </div>
       </div>
     </div>
@@ -632,6 +635,18 @@ export default {
 .device-container {
   padding-bottom: 50px;
   border-radius: 8px;
+  .table-empty {
+    padding-top: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 180px;
+      display: none;
+    }
+  }
   .offline-handle-wrapper {
     display: flex;
     align-items: center;
@@ -953,6 +968,11 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .device-container {
+    .table-empty {
+      img {
+        display: block;
+      }
+    }
     background: transparent;
     padding: 0;
     .offline-handle-wrapper {
