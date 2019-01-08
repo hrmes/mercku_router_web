@@ -37,9 +37,9 @@ export default {
   mounted() {},
   methods: {
     showPolicy() {
-      if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+      if (process.env.CUSTOMER_CONFIG.isCik) {
         window.open('https://www.ciktel.com/');
-      } else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+      } else if (process.env.CUSTOMER_CONFIG.isMercku) {
         this.show = true;
       }
     },

@@ -186,7 +186,7 @@ export default {
       };
       let menus = [];
       const { access } = this.$store.state;
-      if (process.env.CUSTOMER_CONFIG.IS_CIK) {
+      if (process.env.CUSTOMER_CONFIG.isCik) {
         if (access === Access.super) {
           advance.children.push({
             url: '/advance/remote/tr069',
@@ -197,7 +197,7 @@ export default {
           advance.children = advance.children.filter(a => !a.super);
         }
         menus = [wifi, setting, advance, upgrade];
-      } else if (process.env.CUSTOMER_CONFIG.IS_MERCKU) {
+      } else if (process.env.CUSTOMER_CONFIG.isMercku) {
         menus = [wifi, setting, advance, upgrade];
       }
       return menus;
