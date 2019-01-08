@@ -269,15 +269,15 @@ export default {
     return {
       tabs: [
         {
-          id: '1',
+          id: 'my-wifi',
           text: this.$t('trans0514')
         },
         {
-          id: '2',
+          id: 'guest',
           text: this.$t('trans0515')
         },
         {
-          id: '3',
+          id: 'offline',
           text: this.$t('trans0516')
         }
       ],
@@ -327,18 +327,18 @@ export default {
       return this.$route.params.id;
     },
     isOfflineDevices() {
-      return this.id === '3';
+      return this.id === 'offline';
     },
     devicesParams() {
       let params = {
         filters: []
       };
-      if (this.id === '1') {
+      if (this.id === 'my-wifi') {
         params = {
           filters: [{ type: 'primary', status: ['online'] }]
         };
       }
-      if (this.id === '2') {
+      if (this.id === 'guest') {
         params = {
           filters: [
             {
@@ -348,7 +348,7 @@ export default {
           ]
         };
       }
-      if (this.id === '3') {
+      if (this.id === 'offline') {
         params = {
           filters: [
             {
@@ -491,6 +491,7 @@ export default {
       if (!this.devicesMap[this.id]) {
         this.devicesMap[this.id] = [];
       }
+      const curId = this.id;
       this.$http
         .getDeviceList(params)
         .then(res => {
@@ -514,7 +515,7 @@ export default {
             }
             this.devicesMap = {
               ...this.devicesMap,
-              [this.id]: this.filterDevices(result)
+              [curId]: this.filterDevices(result)
             };
           }
         })
