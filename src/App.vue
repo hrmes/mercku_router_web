@@ -57,7 +57,7 @@ export default {
           {
             text: 'trans0235',
             name: 'device',
-            url: '/dashboard/device/my-wifi'
+            url: '/dashboard/device/primary'
           },
           {
             text: 'trans0366',

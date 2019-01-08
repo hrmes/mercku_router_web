@@ -269,7 +269,7 @@ export default {
     return {
       tabs: [
         {
-          id: 'my-wifi',
+          id: 'primary',
           text: this.$t('trans0514')
         },
         {
@@ -333,7 +333,7 @@ export default {
       let params = {
         filters: []
       };
-      if (this.id === 'my-wifi') {
+      if (this.id === 'primary') {
         params = {
           filters: [{ type: 'primary', status: ['online'] }]
         };
@@ -619,10 +619,12 @@ export default {
   watch: {
     devicesMap: {
       handler: function temp(v) {
-        if (v[this.id].map(item => item.checked).some(n => !n)) {
-          this.checkAll = false;
-        } else {
-          this.checkAll = true;
+        if (v[this.id].length > 0) {
+          if (v[this.id].map(item => item.checked).some(n => !n)) {
+            this.checkAll = false;
+          } else {
+            this.checkAll = true;
+          }
         }
       },
       deep: true
