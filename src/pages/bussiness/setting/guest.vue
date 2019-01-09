@@ -256,6 +256,10 @@ export default {
       }
     },
     formatTime(time) {
+      console.log(time);
+      if (time === -1) {
+        return this.$t('trans0017');
+      }
       const arr = [60, 60, 24];
       const temp = ['00', '00', '00'];
       let index = 0;
@@ -313,13 +317,15 @@ export default {
         };
         if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
           this.setupAndStart = true;
-          this.timer = setInterval(() => {
-            this.guest.remaining_duration -= 1;
-            if (this.guest.remaining_duration === 0) {
-              this.clear();
-              this.getGuest();
-            }
-          }, 1000);
+          if (this.guest.remaining_duration > 0) {
+            this.timer = setInterval(() => {
+              this.guest.remaining_duration -= 1;
+              if (this.guest.remaining_duration === 0) {
+                this.clear();
+                this.getGuest();
+              }
+            }, 1000);
+          }
         }
         if (!this.guest.enabled) {
           this.showSettingPage = true;
