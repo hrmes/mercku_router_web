@@ -594,13 +594,13 @@ export default {
     },
     transformOfflineDate(date) {
       const now = new Date().getTime();
-      const differ = now - date * 1000;
+      const differ = now - date;
       const split = [3600 * 24, 3600, 60, 5];
       if (date === 0) {
         return `${this.$t('trans0010')}`;
       }
       if (differ > split[0]) {
-        return formatDate(date * 1000);
+        return formatDate(date);
       }
       if (differ <= split[0] && differ > split[1]) {
         return `${this.$t('trans0013').replace(
