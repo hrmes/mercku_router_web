@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="net-info">
       <div class="device-container"
-           @click="forward2page('/dashboard/device')">
+           @click="forward2page('/dashboard/device/primary')">
         <div class="icon-container">
           <img src="../../../assets/images/ic_device.png"
                alt="">
