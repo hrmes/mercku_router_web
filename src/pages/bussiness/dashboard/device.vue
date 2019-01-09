@@ -595,7 +595,7 @@ export default {
     transformOfflineDate(date) {
       const now = new Date().getTime();
       const differ = now - date;
-      const split = [3600 * 24, 3600, 60, 5];
+      const split = [3600 * 24 * 1000, 3600 * 1000, 60 * 1000, 5 * 1000];
       if (date === 0) {
         return `${this.$t('trans0010')}`;
       }
