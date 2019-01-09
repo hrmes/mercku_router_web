@@ -64,7 +64,10 @@
             <div class="title">
               {{$t('trans0168')}}
             </div>
-            <div>
+            <div v-if="guest.smart_connect">
+              <p class='name'>{{form.ssid}}</p>
+            </div>
+            <div v-else>
               <p><span>2.4G：</span>{{form.ssid}}</p>
               <p><span>5G：</span>{{ssid_5g}}</p>
             </div>
@@ -415,6 +418,10 @@ export default {
   }
   .setting-ssid-info {
     display: flex;
+    .name {
+      padding-left: 20px;
+      // font-weight: bold
+    }
     margin-bottom: 30px;
     p {
       margin: 0;
