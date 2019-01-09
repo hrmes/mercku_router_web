@@ -288,7 +288,6 @@ export default {
         filters: [
           {
             type: 'guest',
-            guest_ids: ['1'],
             status: ['online']
           }
         ]
