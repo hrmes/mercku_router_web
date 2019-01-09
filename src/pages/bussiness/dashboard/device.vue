@@ -83,7 +83,8 @@
                 </div>
               </div>
               <div class="name-wrap">
-                <div class="name-inner">
+                <div class="name-inner"
+                     :class="{'off-name':isOfflineDevices}">
                   <a style="cursor:text">
                     <img v-if='row.local &&!isOfflineDevices'
                          src="../../../assets/images/ic_user.png"
@@ -153,7 +154,7 @@
             <li class="column-ip device-item"
                 v-if='isMobileRow(row.expand)&&isOfflineDevices'>
               <span>{{$t('trans0374')}}</span>
-              <span> {{row.connected_time}} </span>
+              <span> {{transformOfflineDate(row.connected_time)}} </span>
             </li>
             <li class="column-ip device-item"
                 v-if='isMobileRow(row.expand)&&isOfflineDevices'>
@@ -439,9 +440,9 @@ export default {
       });
     },
     tabChange(id) {
+      clearTimeout(this.timer);
+      this.timer = null;
       if (id !== this.id) {
-        clearTimeout(this.timer);
-        this.timer = null;
         this.$router.push(`/dashboard/device/${id}`);
         this.getDeviceList(this.devicesParams);
       }
@@ -499,36 +500,30 @@ export default {
       try {
         const curId = this.id;
         const devicesInfo = await this.$http.getDeviceList(params);
+        /** TODO 多次点击导致请求挂起，跳转页面后当请求回来进入then钩子，此时会创建timer，导致无法清除 */
         if (curId === this.id) {
           this.timer = setTimeout(() => {
             this.getDeviceList(params);
           }, 15 * 1000);
           const res = devicesInfo.data.result;
-          if (res.length > 0) {
-            const result = res.map(v => ({
-              ...v,
-              expand: false,
-              checked: false
-            }));
-            if (this.isMobile && this.devicesMap[this.id].length > 0) {
-              this.devicesMap[this.id].forEach(n => {
-                result.forEach(m => {
-                  if (n.mac === m.mac) {
-                    m.expand = n.expand;
-                  }
-                });
+          const result = res.map(v => ({
+            ...v,
+            expand: false,
+            checked: false
+          }));
+          if (this.isMobile && this.devicesMap[this.id].length > 0) {
+            this.devicesMap[this.id].forEach(n => {
+              result.forEach(m => {
+                if (n.mac === m.mac) {
+                  m.expand = n.expand;
+                }
               });
-            }
-            this.devicesMap = {
-              ...this.devicesMap,
-              [curId]: this.filterDevices(result)
-            };
-          } else {
-            this.devicesMap = {
-              ...this.devicesMap,
-              [curId]: []
-            };
+            });
           }
+          this.devicesMap = {
+            ...this.devicesMap,
+            [curId]: this.filterDevices(result)
+          };
         }
       } catch (err) {
         this.timer = setTimeout(() => {
@@ -596,6 +591,36 @@ export default {
         this.row = row;
         this.form.name = row.name;
       }
+    },
+    transformOfflineDate(date) {
+      const now = new Date().getTime();
+      const differ = now - date * 1000;
+      const split = [3600 * 24, 3600, 60, 5];
+      if (date === 0) {
+        return `${this.$t('trans0010')}`;
+      }
+      if (differ > split[0]) {
+        return formatDate(date * 1000);
+      }
+      if (differ <= split[0] && differ > split[1]) {
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(differ / split[1], 10)
+        )}`;
+      }
+      if (differ <= split[1] && differ > split[2]) {
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(differ / split[2], 10)
+        )}`;
+      }
+      if (differ <= split[2] && differ > split[3]) {
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(differ / split[3], 10)
+        )}`;
+      }
+      return '-';
     },
     transformDate(date) {
       if (date < 0) {
@@ -817,6 +842,7 @@ export default {
         display: flex;
         // align-items: end;
         justify-content: flex-start;
+
         a {
           flex: 1;
           text-align: left;
@@ -839,6 +865,13 @@ export default {
             width: 14px;
             margin-left: 5px;
             flex-shrink: 0;
+          }
+        }
+        &.off-name {
+          a {
+            span {
+              max-width: 200px;
+            }
           }
         }
       }
@@ -1065,6 +1098,13 @@ export default {
                 max-width: 130px;
               }
               img {
+              }
+            }
+            &.off-name {
+              a {
+                span {
+                  max-width: 200px;
+                }
               }
             }
           }

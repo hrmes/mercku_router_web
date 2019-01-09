@@ -79,7 +79,7 @@
             </div>
           </div>
           <div class="online-device">
-            <div class="title">{{$t('trans0514')}}： <span>{{devicesCount}}</span>
+            <div class="title">{{$t('trans0235')}}： <span>{{devicesCount}}</span>
             </div>
           </div>
           <div class="form-button">
