@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 axios.defaults.timeout = 60000;
-
 const defaultUrl = '/app';
 const createMethod = (action, url = defaultUrl) => ({
   url,
@@ -117,6 +116,7 @@ class Http {
     const data = {
       method: config.action
     };
+
     if (params) {
       data.params = params;
     }

@@ -374,6 +374,8 @@ export default {
         that.isMobile = false;
       }
     };
+    const selfInfo = await this.$http.getLocalDevice();
+    this.localDeviceIP = selfInfo.data.result.ip;
     this.getDeviceList(this.devicesParams);
   },
   destroyed() {
@@ -494,8 +496,6 @@ export default {
       }
     },
     async getDeviceList(params) {
-      const selfInfo = await this.$http.getLocalDevice();
-      this.localDeviceIP = selfInfo.data.result.ip;
       if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
       try {
         const curId = this.id;
