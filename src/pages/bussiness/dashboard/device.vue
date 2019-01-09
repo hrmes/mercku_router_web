@@ -381,10 +381,17 @@ export default {
   },
   methods: {
     delOfflineDevices(macs) {
-      this.$http.meshDevicesOfflineDel({ macs }).then(() => {
-        this.$toast(this.$t('trans0040'), 3000, 'success');
-        this.getDeviceList(this.devicesParams);
-      });
+      this.$loading.open();
+      this.$http
+        .meshDevicesOfflineDel({ macs })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.getDeviceList(this.devicesParams);
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     filterDevices(arr) {
       const newArr = arr
@@ -488,18 +495,17 @@ export default {
     async getDeviceList(params) {
       const selfInfo = await this.$http.getLocalDevice();
       this.localDeviceIP = selfInfo.data.result.ip;
-      if (!this.devicesMap[this.id]) {
-        this.devicesMap[this.id] = [];
-      }
-      const curId = this.id;
-      this.$http
-        .getDeviceList(params)
-        .then(res => {
+      if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
+      try {
+        const curId = this.id;
+        const devicesInfo = await this.$http.getDeviceList(params);
+        if (curId === this.id) {
           this.timer = setTimeout(() => {
             this.getDeviceList(params);
           }, 15 * 1000);
-          if (res.data.result && res.data.result.length > 0) {
-            const result = res.data.result.map(v => ({
+          const res = devicesInfo.data.result;
+          if (res.length > 0) {
+            const result = res.map(v => ({
               ...v,
               expand: false,
               checked: false
@@ -517,13 +523,18 @@ export default {
               ...this.devicesMap,
               [curId]: this.filterDevices(result)
             };
+          } else {
+            this.devicesMap = {
+              ...this.devicesMap,
+              [curId]: []
+            };
           }
-        })
-        .catch(() => {
-          this.timer = setTimeout(() => {
-            this.getDeviceList(params);
-          }, 15 * 1000);
-        });
+        }
+      } catch (err) {
+        this.timer = setTimeout(() => {
+          this.getDeviceList(params);
+        }, 15 * 1000);
+      }
     },
     updateDeviceName() {
       if (this.$refs.form.validate()) {

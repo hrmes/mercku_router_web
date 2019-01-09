@@ -107,11 +107,11 @@ export default {
           value: -1
         },
         {
-          text: this.$t('trans0529'),
+          text: this.$t('trans0449'),
           value: 24 * 60 * 60
         },
         {
-          text: this.$t('trans0528'),
+          text: this.$t('trans0447'),
           value: 8 * 60 * 60
         },
         {
@@ -216,8 +216,8 @@ export default {
     },
     guestEnabledChange(enabled) {
       if (
-        (!enabled && this.setupAndStart && !this.showSettingPage) ||
-        (this.showSettingPage && this.showCancelBtn)
+        (!enabled && this.setupAndStart && !this.showSettingPage)
+        || (this.showSettingPage && this.showCancelBtn)
       ) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
@@ -225,18 +225,25 @@ export default {
           message: this.$t('trans0559'),
           callback: {
             ok: () => {
-              this.$http.meshGuestUpdate({ ...this.foramtParams }).then(() => {
-                this.clear();
-                this.getGuest();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/setting/guest' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
+              this.$loading.open();
+              this.$http
+                .meshGuestUpdate({ ...this.foramtParams })
+                .then(() => {
+                  this.$loading.close();
+                  this.clear();
+                  this.getGuest();
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/setting/guest' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                })
+                .catch(() => {
+                  this.$loading.close();
                 });
-              });
             },
             cancel: () => {
               this.form.enabled = !enabled;
@@ -335,18 +342,25 @@ export default {
           message: this.$t('trans0523'),
           callback: {
             ok: () => {
-              this.$http.meshGuestUpdate(this.foramtParams).then(() => {
-                this.clear();
-                this.getGuest();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/setting/guest' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
+              this.$loading.open();
+              this.$http
+                .meshGuestUpdate(this.foramtParams)
+                .then(() => {
+                  this.$loading.close();
+                  this.clear();
+                  this.getGuest();
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/setting/guest' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                })
+                .catch(() => {
+                  this.$loading.close();
                 });
-              });
             }
           }
         });
