@@ -139,7 +139,10 @@ export default {
       padding-right: 0;
     }
     input {
+      font-size: 14px;
+      padding: 0 10px;
       height: 34px;
+      line-height: 34px;
       width: 100%;
       outline: 0;
       border-radius: 4px;
@@ -157,8 +160,6 @@ export default {
       &.has-icon {
         padding-right: 50px;
       }
-      font-size: 14px;
-      padding: 10px;
     }
     border: 1px solid #e1e1e1;
   }

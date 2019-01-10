@@ -3,8 +3,10 @@
     <label for="">{{label}}</label>
     <div class="select"
          @click.stop="open()">
-      <div class="select-text"
-           :title="selected.text">{{selected.text}}</div>
+      <input class="select-text"
+             :value="selected.text"
+             readonly
+             :title="selected.text">
       <div class="icon-container">
         <span class="icon"
               :class="{'open':opened,'close':!opened}"></span>
@@ -88,17 +90,21 @@ export default {
     outline: 0;
     border: 1px solid #e1e1e1;
     font-size: 14px;
-    padding: 10px;
+    padding: 0 10px;
     position: relative;
     padding-right: 50px;
     .select-text {
-      line-height: 1;
+      font-size: 14px;
       overflow: hidden;
       text-overflow: ellipsis;
       height: 100%;
       width: 100%;
+      line-height: 34px;
       word-wrap: break-word;
       word-break: break-all;
+      outline: none;
+      border: none;
+      padding: 0;
     }
   }
   label {

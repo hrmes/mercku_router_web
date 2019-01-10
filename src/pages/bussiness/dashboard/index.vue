@@ -213,7 +213,7 @@ export default {
         align-items: center;
         width: 50px;
         height: 50px;
-        background: #f1f1f1;
+        background: #fff;
         img {
           width: 20px;
           height: 20px;
