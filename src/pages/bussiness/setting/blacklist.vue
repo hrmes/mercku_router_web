@@ -159,12 +159,22 @@ export default {
       }
     },
     getDeviceList() {
-      this.$http.getDeviceList().then(res => {
-        this.devices = res.data.result.map(d => ({
-          ...d,
-          checked: false
-        }));
-      });
+      this.$http
+        .getDeviceList({
+          filters: [
+            { type: 'primary', status: ['online'] },
+            {
+              type: 'guest',
+              status: ['online']
+            }
+          ]
+        })
+        .then(res => {
+          this.devices = res.data.result.map(d => ({
+            ...d,
+            checked: false
+          }));
+        });
     },
     getBlacklist() {
       this.$loading.open();
