@@ -81,7 +81,7 @@
                  v-show="!scaning && !nodes.length">
               <p>{{$t('trans0181')}}</p>
               <span class="btn-help"
-                    @click="openHelpDialog">{{$t('trans0128')}}</span>
+                    @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
               <div class="button-container">
                 <button @click="forwardStep0()"
                         class="btn">{{$t('trans0057')}}</button>
@@ -102,7 +102,7 @@
                  v-if="!added">
               <p>{{$t('trans0248')}}</p>
               <span class="btn-help"
-                    @click="openHelpDialog">{{$t('trans0128')}}</span>
+                    @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
               <div class="button-container">
                 <button @click="backMesh"
                         class="btn">{{$t('trans0233')}}</button>
@@ -115,27 +115,28 @@
     </div>
     <div class="loading"
          v-if="scaning"></div>
-    <div class="help-dialog"
-         v-if="showHelpDialog">
-
-      <div class="help-dialog-content">
-        <div class="close"
-             @click="closeHelpDialog()">
-          <img src="../../../assets/images/ic_delete.png"
-               alt="">
-        </div>
-        <p>{{$t('trans0072')}}</p>
-        <div>
-          <p>1. {{$t('trans0234')}}</p>
-          <p>2. {{$t('trans0215')}}</p>
-          <p>3. {{$t('trans0313')}}</p>
-          <p>4. {{$t('trans0175')}}</p>
-          <p>5. {{$t('trans0330')}}</p>
-          <p>6. {{$t('trans0372')}} <a :href="$t('trans0477')"
-               target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}</p>
+    <m-modal class="modal"
+             :visible.sync="showHelpDialog">
+      <div class="modal-content">
+        <div class="help-dialog-content">
+          <div class="close"
+               @click="closeHelpDialog()">
+            <img src="../../../assets/images/ic_delete.png"
+                 alt="">
+          </div>
+          <p>{{$t('trans0072')}}</p>
+          <div>
+            <p>1. {{$t('trans0234')}}</p>
+            <p>2. {{$t('trans0215')}}</p>
+            <p>3. {{$t('trans0313')}}</p>
+            <p>4. {{$t('trans0175')}}</p>
+            <p>5. {{$t('trans0330')}}</p>
+            <p>6. {{$t('trans0372')}} <a :href="$t('trans0477')"
+                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </m-modal>
   </div>
 </template>
 <script>
@@ -307,32 +308,19 @@ export default {
   opacity: 0;
   z-index: 1000;
 }
-.help-dialog {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1001;
-  padding-left: 300px;
-  background: rgba(0, 0, 0, 0.3);
-  .help-dialog-content {
-    width: 500px;
-    background: #fff;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    padding: 20px 30px;
-    border-radius: 5px;
-  }
-  .close {
-    float: right;
-    cursor: pointer;
-    img {
-      width: 15px;
-      height: 15px;
-    }
+.help-dialog-content {
+  // width: 500px;
+  background: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 20px 30px;
+  border-radius: 5px;
+}
+.close {
+  float: right;
+  cursor: pointer;
+  img {
+    width: 15px;
+    height: 15px;
   }
 }
 .type-container {
@@ -561,11 +549,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .help-dialog {
-    padding: 0;
-    .help-dialog-content {
-      width: 80%;
-      padding: 15px;
+  .help-dialog-content {
+    a {
+      word-wrap: break-word;
     }
   }
 
