@@ -16,7 +16,7 @@
                v-model="inputValue"
                :placeholder="placeholder"
                @input="onInput"
-               :type="inputType"
+               :type="'inputType'"
                :class="{'has-icon':isPwdInput,margin:addonBefore}">
       </div>
       <div class="icon-container"

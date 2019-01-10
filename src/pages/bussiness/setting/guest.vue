@@ -64,7 +64,10 @@
             <div class="title">
               {{$t('trans0168')}}
             </div>
-            <div>
+            <div v-if="guest.smart_connect">
+              <p class='name'>{{form.ssid}}</p>
+            </div>
+            <div v-else>
               <p><span>2.4G：</span>{{form.ssid}}</p>
               <p><span>5G：</span>{{ssid_5g}}</p>
             </div>
@@ -76,7 +79,7 @@
             </div>
           </div>
           <div class="online-device">
-            <div class="title">{{$t('trans0514')}}： <span>{{devicesCount}}</span>
+            <div class="title">{{$t('trans0235')}}： <span>{{devicesCount}}</span>
             </div>
           </div>
           <div class="form-button">
@@ -107,11 +110,11 @@ export default {
           value: -1
         },
         {
-          text: this.$t('trans0529'),
+          text: this.$t('trans0449'),
           value: 24 * 60 * 60
         },
         {
-          text: this.$t('trans0528'),
+          text: this.$t('trans0447'),
           value: 8 * 60 * 60
         },
         {
@@ -216,8 +219,8 @@ export default {
     },
     guestEnabledChange(enabled) {
       if (
-        (!enabled && this.setupAndStart && !this.showSettingPage) ||
-        (this.showSettingPage && this.showCancelBtn)
+        (!enabled && this.setupAndStart && !this.showSettingPage)
+        || (this.showSettingPage && this.showCancelBtn)
       ) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
@@ -225,18 +228,25 @@ export default {
           message: this.$t('trans0559'),
           callback: {
             ok: () => {
-              this.$http.meshGuestUpdate({ ...this.foramtParams }).then(() => {
-                this.clear();
-                this.getGuest();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/setting/guest' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
+              this.$loading.open();
+              this.$http
+                .meshGuestUpdate({ ...this.foramtParams })
+                .then(() => {
+                  this.$loading.close();
+                  this.clear();
+                  this.getGuest();
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/setting/guest' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                })
+                .catch(() => {
+                  this.$loading.close();
                 });
-              });
             },
             cancel: () => {
               this.form.enabled = !enabled;
@@ -246,6 +256,10 @@ export default {
       }
     },
     formatTime(time) {
+      console.log(time);
+      if (time === -1) {
+        return this.$t('trans0017');
+      }
       const arr = [60, 60, 24];
       const temp = ['00', '00', '00'];
       let index = 0;
@@ -281,7 +295,6 @@ export default {
         filters: [
           {
             type: 'guest',
-            guest_ids: ['1'],
             status: ['online']
           }
         ]
@@ -304,13 +317,15 @@ export default {
         };
         if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
           this.setupAndStart = true;
-          this.timer = setInterval(() => {
-            this.guest.remaining_duration -= 1;
-            if (this.guest.remaining_duration === 0) {
-              this.clear();
-              this.getGuest();
-            }
-          }, 1000);
+          if (this.guest.remaining_duration > 0) {
+            this.timer = setInterval(() => {
+              this.guest.remaining_duration -= 1;
+              if (this.guest.remaining_duration === 0) {
+                this.clear();
+                this.getGuest();
+              }
+            }, 1000);
+          }
         }
         if (!this.guest.enabled) {
           this.showSettingPage = true;
@@ -335,18 +350,25 @@ export default {
           message: this.$t('trans0523'),
           callback: {
             ok: () => {
-              this.$http.meshGuestUpdate(this.foramtParams).then(() => {
-                this.clear();
-                this.getGuest();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/setting/guest' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
+              this.$loading.open();
+              this.$http
+                .meshGuestUpdate(this.foramtParams)
+                .then(() => {
+                  this.$loading.close();
+                  this.clear();
+                  this.getGuest();
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/setting/guest' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                })
+                .catch(() => {
+                  this.$loading.close();
                 });
-              });
             }
           }
         });
@@ -402,6 +424,10 @@ export default {
   }
   .setting-ssid-info {
     display: flex;
+    .name {
+      padding-left: 20px;
+      // font-weight: bold
+    }
     margin-bottom: 30px;
     p {
       margin: 0;

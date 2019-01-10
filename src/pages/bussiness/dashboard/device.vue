@@ -83,7 +83,8 @@
                 </div>
               </div>
               <div class="name-wrap">
-                <div class="name-inner">
+                <div class="name-inner"
+                     :class="{'off-name':isOfflineDevices}">
                   <a style="cursor:text">
                     <img v-if='row.local &&!isOfflineDevices'
                          src="../../../assets/images/ic_user.png"
@@ -153,7 +154,7 @@
             <li class="column-ip device-item"
                 v-if='isMobileRow(row.expand)&&isOfflineDevices'>
               <span>{{$t('trans0374')}}</span>
-              <span> {{row.connected_time}} </span>
+              <span> {{transformOfflineDate(row.connected_time)}} </span>
             </li>
             <li class="column-ip device-item"
                 v-if='isMobileRow(row.expand)&&isOfflineDevices'>
@@ -269,7 +270,7 @@ export default {
     return {
       tabs: [
         {
-          id: 'my-wifi',
+          id: 'primary',
           text: this.$t('trans0514')
         },
         {
@@ -333,7 +334,7 @@ export default {
       let params = {
         filters: []
       };
-      if (this.id === 'my-wifi') {
+      if (this.id === 'primary') {
         params = {
           filters: [{ type: 'primary', status: ['online'] }]
         };
@@ -373,6 +374,8 @@ export default {
         that.isMobile = false;
       }
     };
+    const selfInfo = await this.$http.getLocalDevice();
+    this.localDeviceIP = selfInfo.data.result.ip;
     this.getDeviceList(this.devicesParams);
   },
   destroyed() {
@@ -381,10 +384,17 @@ export default {
   },
   methods: {
     delOfflineDevices(macs) {
-      this.$http.meshDevicesOfflineDel({ macs }).then(() => {
-        this.$toast(this.$t('trans0040'), 3000, 'success');
-        this.getDeviceList(this.devicesParams);
-      });
+      this.$loading.open();
+      this.$http
+        .meshDevicesOfflineDel({ macs })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.getDeviceList(this.devicesParams);
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     filterDevices(arr) {
       const newArr = arr
@@ -432,9 +442,9 @@ export default {
       });
     },
     tabChange(id) {
+      clearTimeout(this.timer);
+      this.timer = null;
       if (id !== this.id) {
-        clearTimeout(this.timer);
-        this.timer = null;
         this.$router.push(`/dashboard/device/${id}`);
         this.getDeviceList(this.devicesParams);
       }
@@ -486,44 +496,40 @@ export default {
       }
     },
     async getDeviceList(params) {
-      const selfInfo = await this.$http.getLocalDevice();
-      this.localDeviceIP = selfInfo.data.result.ip;
-      if (!this.devicesMap[this.id]) {
-        this.devicesMap[this.id] = [];
-      }
-      const curId = this.id;
-      this.$http
-        .getDeviceList(params)
-        .then(res => {
+      if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
+      try {
+        const curId = this.id;
+        const devicesInfo = await this.$http.getDeviceList(params);
+        /** TODO 多次点击导致请求挂起，跳转页面后当请求回来进入then钩子，此时会创建timer，导致无法清除 */
+        if (curId === this.id) {
           this.timer = setTimeout(() => {
             this.getDeviceList(params);
           }, 15 * 1000);
-          if (res.data.result && res.data.result.length > 0) {
-            const result = res.data.result.map(v => ({
-              ...v,
-              expand: false,
-              checked: false
-            }));
-            if (this.isMobile && this.devicesMap[this.id].length > 0) {
-              this.devicesMap[this.id].forEach(n => {
-                result.forEach(m => {
-                  if (n.mac === m.mac) {
-                    m.expand = n.expand;
-                  }
-                });
+          const res = devicesInfo.data.result;
+          const result = res.map(v => ({
+            ...v,
+            expand: false,
+            checked: false
+          }));
+          if (this.isMobile && this.devicesMap[this.id].length > 0) {
+            this.devicesMap[this.id].forEach(n => {
+              result.forEach(m => {
+                if (n.mac === m.mac) {
+                  m.expand = n.expand;
+                }
               });
-            }
-            this.devicesMap = {
-              ...this.devicesMap,
-              [curId]: this.filterDevices(result)
-            };
+            });
           }
-        })
-        .catch(() => {
-          this.timer = setTimeout(() => {
-            this.getDeviceList(params);
-          }, 15 * 1000);
-        });
+          this.devicesMap = {
+            ...this.devicesMap,
+            [curId]: this.filterDevices(result)
+          };
+        }
+      } catch (err) {
+        this.timer = setTimeout(() => {
+          this.getDeviceList(params);
+        }, 15 * 1000);
+      }
     },
     updateDeviceName() {
       if (this.$refs.form.validate()) {
@@ -586,6 +592,36 @@ export default {
         this.form.name = row.name;
       }
     },
+    transformOfflineDate(date) {
+      const now = new Date().getTime();
+      const differ = now - date;
+      const split = [3600 * 24 * 1000, 3600 * 1000, 60 * 1000, 5 * 1000];
+      if (date === 0) {
+        return `${this.$t('trans0010')}`;
+      }
+      if (differ > split[0]) {
+        return formatDate(date);
+      }
+      if (differ <= split[0] && differ > split[1]) {
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(differ / split[1], 10)
+        )}`;
+      }
+      if (differ <= split[1] && differ > split[2]) {
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(differ / split[2], 10)
+        )}`;
+      }
+      if (differ <= split[2] && differ > split[3]) {
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(differ / split[3], 10)
+        )}`;
+      }
+      return '-';
+    },
     transformDate(date) {
       if (date < 0) {
         return '-';
@@ -619,10 +655,12 @@ export default {
   watch: {
     devicesMap: {
       handler: function temp(v) {
-        if (v[this.id].map(item => item.checked).some(n => !n)) {
-          this.checkAll = false;
-        } else {
-          this.checkAll = true;
+        if (v[this.id].length > 0) {
+          if (v[this.id].map(item => item.checked).some(n => !n)) {
+            this.checkAll = false;
+          } else {
+            this.checkAll = true;
+          }
         }
       },
       deep: true
@@ -804,6 +842,7 @@ export default {
         display: flex;
         // align-items: end;
         justify-content: flex-start;
+
         a {
           flex: 1;
           text-align: left;
@@ -826,6 +865,13 @@ export default {
             width: 14px;
             margin-left: 5px;
             flex-shrink: 0;
+          }
+        }
+        &.off-name {
+          a {
+            span {
+              max-width: 200px;
+            }
           }
         }
       }
@@ -1052,6 +1098,13 @@ export default {
                 max-width: 130px;
               }
               img {
+              }
+            }
+            &.off-name {
+              a {
+                span {
+                  max-width: 200px;
+                }
               }
             }
           }
