@@ -105,6 +105,7 @@ export default {
       outline: none;
       border: none;
       padding: 0;
+      cursor: pointer;
     }
   }
   label {

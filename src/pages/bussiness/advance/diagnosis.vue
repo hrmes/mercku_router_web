@@ -115,6 +115,8 @@ export default {
       margin: 0;
       max-height: 600px;
       font-family: 'Courier New', Courier, monospace;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
   }
 }

@@ -150,14 +150,18 @@ export default {
         message: this.$t('trans0473'),
         callback: {
           ok: () => {
-            this.$http.meshNetworkReboot().then(() => {
-              this.$reconnect({
-                timeout: 20,
-                ontimeout: () => {
-                  this.$router.push({ path: '/unconnect' });
-                }
+            this.$http
+              .meshNetworkReboot({
+                recovery_time: 20
+              })
+              .then(() => {
+                this.$reconnect({
+                  timeout: 20,
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
               });
-            });
           }
         }
       });

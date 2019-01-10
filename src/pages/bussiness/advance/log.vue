@@ -15,8 +15,9 @@
         </div>
         <m-scrollbar class="log-container"
                      ref="scrollbar">
-          <pre>{{output}}</pre>
-          <pre :class="{'not-empty':increase}">{{increase}}</pre>
+          <pre>{{previous}}</pre>
+          <pre class="increase"
+               :class="{'not-empty':increase}">{{increase}}</pre>
         </m-scrollbar>
       </div>
     </div>
@@ -27,9 +28,17 @@ export default {
   data() {
     return {
       enabled: false,
-      output: '',
-      increase: ''
+      previousArray: [],
+      increaseArray: []
     };
+  },
+  computed: {
+    previous() {
+      return this.previousArray.join('\n');
+    },
+    increase() {
+      return this.increaseArray.join('\n');
+    }
   },
   mounted() {
     this.getSyslogEnabled();
@@ -56,38 +65,42 @@ export default {
     getSyslog() {
       this.$http.getSyslogEnabled().then(() => {
         this.$http.getSysLog().then(res => {
-          const pre = this.output + this.increase;
-          const now = res.data;
-          this.getIncremental(pre, now);
+          const preArray = [...this.previousArray, ...this.increaseArray];
+          const nowStr = res.data;
+          this.getIncremental(preArray, nowStr);
         });
       });
     },
-    getIncremental(pre, now) {
-      const preArray = pre.split('\n').filter(p => p !== '');
-      const nowArray = now.split('\n').filter(n => n !== '');
-      now = nowArray.join('\n');
-      if (!pre) {
-        this.output = '';
-        this.increase = nowArray.join('\n');
-        return;
-      }
-      // 全包含
-      if (now.includes(pre)) {
-        this.increase = now.replace(pre, '');
-        this.output = pre;
+    includes() {},
+    getIncremental(preArray, nowStr) {
+      const nowArray = nowStr.split('\n').filter(n => n !== '');
+      if (!preArray.length) {
+        this.previousArray = [];
+        this.increaseArray = nowArray;
       } else {
-        // 部分包含,首先找到包含的起始位置
-        const index = preArray.indexOf(nowArray[nowArray.length - 1]);
-        if (index === -1) {
-          this.output = pre;
-          this.increase = now;
+        const preStart = preArray[0];
+        const preEnd = preArray[preArray.length - 1];
+        // 全包含
+        if (nowArray.includes(preStart) && nowArray.includes(preEnd)) {
+          this.previousArray = preArray;
+          const index = nowArray.indexOf(preEnd);
+          this.increaseArray = nowArray.slice(index + 1);
         } else {
-          this.output = pre;
-          nowArray.length -= index;
-          this.increase = nowArray.join('\n');
+          // 部分包含,首先找到包含的起始位置
+          const index = nowArray.indexOf(preEnd);
+          if (index === -1) {
+            this.previousArray = preArray;
+            this.increaseArray = nowArray;
+          } else {
+            this.previousArray = preArray;
+            this.increaseArray = nowArray.slice(index + 1);
+          }
         }
       }
-      this.$refs.scrollbar.refresh();
+      this.$nextTick(() => {
+        this.$refs.scrollbar.refresh();
+        this.$refs.scrollbar.scrollToElement('.increase');
+      });
     },
     getSyslogEnabled() {
       this.$loading.open();
@@ -138,6 +151,8 @@ export default {
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
       color: #000;
+      white-space: pre-wrap;
+      word-wrap: break-word;
       &:first-child {
         color: #ccc;
       }

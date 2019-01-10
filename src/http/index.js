@@ -440,8 +440,8 @@ class Http {
     return this.request(methods.meshNodeReboot, nodeIds);
   }
 
-  meshNetworkReboot() {
-    return this.request(methods.meshNetworkReboot);
+  meshNetworkReboot(params) {
+    return this.request(methods.meshNetworkReboot,params);
   }
 
   getMeshMeta() {

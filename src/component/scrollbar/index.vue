@@ -71,8 +71,16 @@ export default {
       this.scroll = new BScroll(this.$refs.wrapper, this.option);
     },
     refresh() {
-      // console.log('refresh');
       this.scroll && this.scroll.refresh();
+    },
+    scrollBy(x, y) {
+      this.scroll && this.scroll.scrollBy(x, y);
+    },
+    scrollTo(x, y) {
+      this.scroll && this.scroll.scrollTo(x, y);
+    },
+    scrollToElement(el) {
+      this.scroll && this.scroll.scrollToElement(el);
     }
   },
   beforeDestroy() {
