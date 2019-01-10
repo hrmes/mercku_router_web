@@ -330,7 +330,29 @@ export default {
     },
     isOfflineDevices() {
       return this.id === 'offline';
-    },
+    }
+  },
+  async mounted() {
+    const that = this;
+    this.getIsMobile(that);
+    window.onresize = function temp() {
+      const w = that.windowWidth();
+      if (w <= 768) {
+        that.isMobile = true;
+      } else {
+        that.isMobile = false;
+      }
+    };
+    const selfInfo = await this.$http.getLocalDevice();
+    this.localDeviceIP = selfInfo.data.result.ip;
+    this.getDeviceList();
+  },
+  beforeDestroy() {
+    this.pageActive = false;
+    clearTimeout(this.timer);
+    this.timer = null;
+  },
+  methods: {
     devicesParams() {
       let params = {
         filters: []
@@ -362,29 +384,7 @@ export default {
         };
       }
       return params;
-    }
-  },
-  async mounted() {
-    const that = this;
-    this.getIsMobile(that);
-    window.onresize = function temp() {
-      const w = that.windowWidth();
-      if (w <= 768) {
-        that.isMobile = true;
-      } else {
-        that.isMobile = false;
-      }
-    };
-    const selfInfo = await this.$http.getLocalDevice();
-    this.localDeviceIP = selfInfo.data.result.ip;
-    this.getDeviceList(this.devicesParams);
-  },
-  beforeDestroy() {
-    this.pageActive = false;
-    clearTimeout(this.timer);
-    this.timer = null;
-  },
-  methods: {
+    },
     delOfflineDevices(macs) {
       this.$loading.open();
       this.$http
@@ -392,7 +392,7 @@ export default {
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.getDeviceList(this.devicesParams);
+          this.getDeviceList();
         })
         .catch(() => {
           this.$loading.close();
@@ -448,7 +448,7 @@ export default {
       this.timer = null;
       if (id !== this.id) {
         this.$router.push(`/dashboard/device/${id}`);
-        this.getDeviceList(this.devicesParams);
+        this.getDeviceList();
       }
     },
     isMobileRow(expand) {
@@ -497,7 +497,8 @@ export default {
         that.isMobile = false;
       }
     },
-    async getDeviceList(params) {
+    async getDeviceList() {
+      const params = this.devicesParams();
       if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
       try {
         const curId = this.id;
@@ -505,7 +506,7 @@ export default {
         if (curId === this.id) {
           if (this.pageActive) {
             this.timer = setTimeout(() => {
-              this.getDeviceList(params);
+              this.getDeviceList();
             }, 15 * 1000);
           }
           const res = devicesInfo.data.result;
@@ -530,7 +531,7 @@ export default {
         }
       } catch (err) {
         this.timer = setTimeout(() => {
-          this.getDeviceList(params);
+          this.getDeviceList();
         }, 15 * 1000);
       }
     },
