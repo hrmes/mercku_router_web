@@ -78,7 +78,7 @@ export default {
             url: '/setting/network'
           },
           {
-            text: 'trans0297',
+            text: 'trans0561',
             name: 'safe',
             url: '/setting/safe'
           },
@@ -102,6 +102,12 @@ export default {
             url: '/advance/portforwarding',
             name: 'advance-portforwarding',
             text: 'trans0422',
+            super: false
+          },
+          {
+            url: '/advance/dmz',
+            name: 'advance-dmz',
+            text: 'trans0420',
             super: false
           },
           {
@@ -140,12 +146,7 @@ export default {
             text: 'trans0419',
             super: false
           },
-          {
-            url: '/advance/dmz',
-            name: 'advance-dmz',
-            text: 'trans0420',
-            super: false
-          },
+
           {
             url: '/advance/log',
             name: 'advance-log',
