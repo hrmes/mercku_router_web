@@ -355,7 +355,7 @@ export default {
   methods: {
     devicesParams() {
       let params = {
-        filters: []
+        filters: [{ type: 'primary', status: ['online'] }]
       };
       if (this.id === 'primary') {
         params = {
