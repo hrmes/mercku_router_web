@@ -3,7 +3,7 @@
     <div class="input-wrap"
          @click="open">
       <input type="text"
-             :placeholder="$('trans0100')"
+             :placeholder="$t('trans0100')"
              v-model="inputValue"
              readonly>
       <span class="icon-inner">
