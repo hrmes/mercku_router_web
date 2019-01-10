@@ -138,14 +138,14 @@ ul {
     &[disabled] {
       cursor: not-allowed;
       background: #999999;
-      border: none;
+      border-color: #999;
       color: white;
     }
 
     &.disabled {
       cursor: not-allowed;
       background: #999999;
-      border: none;
+      border-color: #999;
       color: white;
     }
   }
@@ -271,6 +271,9 @@ input::-webkit-input-placeholder {
       font-size: 16px;
       font-weight: bold;
       padding: 16px 20px;
+    }
+    .page-content {
+      padding: 20px;
     }
   }
 

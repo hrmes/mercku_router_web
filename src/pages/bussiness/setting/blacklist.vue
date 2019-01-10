@@ -7,39 +7,45 @@
 
       <div class="table">
         <div class="tools">
-          <button class="btn btn-primary"
-                  @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0016')}}
-            <div class="modal"
-                 v-show="deviceModalVisible"
-                 @click.stop=""
-                 v-clickoutside="()=>deviceModalVisible=false">
-              <div class="opcity"></div>
-              <div class="modal-content">
-                <div class="list"
-                     :data="devices">
-                  <div class="device-item"
-                       v-for="(item,index) in devices"
-                       :key="index">
-                    <div class="check">
-                      <m-checkbox v-model="item.checked"></m-checkbox>
-                    </div>
-                    <div class="des">
-                      <p>{{item.name}}</p>
-                      <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
+          <div class="checkbox">
+            <m-checkbox v-model="checkAllBlacklist"
+                        :text="$t('trans0032')"></m-checkbox>
+          </div>
+          <div class="btns">
+            <button class="btn btn-primary"
+                    @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0035')}}
+              <div class="modal"
+                   v-show="deviceModalVisible"
+                   @click.stop=""
+                   v-clickoutside="()=>deviceModalVisible=false">
+                <div class="opcity"></div>
+                <div class="modal-content">
+                  <div class="list"
+                       :data="devices">
+                    <div class="device-item"
+                         v-for="(item,index) in devices"
+                         :key="index">
+                      <div class="check">
+                        <m-checkbox v-model="item.checked"></m-checkbox>
+                      </div>
+                      <div class="des">
+                        <p>{{item.name}}</p>
+                        <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="btn-wrap">
-                  <button class="btn"
-                          @click="addBlacklist()">{{$t('trans0024')}}</button>
+                  <div class="btn-wrap">
+                    <button class="btn"
+                            @click="addBlacklist()">{{$t('trans0016')}}</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          </button>
-          <button class="btn btn-default"
-                  @click="removeBlacklist()"
-                  :disabled="!someBlacklistChecked">{{$t('trans0453')}}
-          </button>
+            </button>
+            <button class="btn btn-default"
+                    @click="removeBlacklist()"
+                    :disabled="!someBlacklistChecked">{{$t('trans0453')}}
+            </button>
+          </div>
         </div>
         <div class="table-header">
           <div class="name">
@@ -270,7 +276,6 @@ export default {
       display: none;
     }
     .btn {
-      width: 120px;
       height: 42px;
       margin: 0 auto;
     }
@@ -279,6 +284,11 @@ export default {
 }
 .table {
   width: 100%;
+  .tools {
+    .checkbox {
+      display: none;
+    }
+  }
   .name,
   .mac {
     width: 50%;
@@ -328,6 +338,28 @@ export default {
     }
     .operate {
       text-align: right;
+    }
+    .tools {
+      border-bottom: 1px solid #f1f1f1;
+      padding: 10px 0;
+      padding-top: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      .checkbox {
+        display: block;
+      }
+      .btns {
+        display: flex;
+      }
+      button {
+        height: 27px;
+        width: auto;
+        margin: 0;
+        &:last-child {
+          margin-left: 20px;
+        }
+      }
     }
     .table-header {
       display: none;
