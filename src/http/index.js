@@ -372,9 +372,7 @@ class Http {
 
   /* v0.9 start */
   uploadFirmware(params, callback) {
-    const {
-      CancelToken
-    } = axios;
+    const { CancelToken } = axios;
     const source = CancelToken.source();
     return axios({
       url: methods.firmwareUpload.action,
@@ -441,7 +439,7 @@ class Http {
   }
 
   meshNetworkReboot(params) {
-    return this.request(methods.meshNetworkReboot,params);
+    return this.request(methods.meshNetworkReboot, params);
   }
 
   getMeshMeta() {

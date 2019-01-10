@@ -14,7 +14,8 @@
                   @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
         <m-scrollbar class="log-container"
-                     ref="scrollbar">
+                     ref="scrollbar"
+                     v-show="enabled">
           <pre>{{previous}}</pre>
           <pre class="increase"
                :class="{'not-empty':increase}">{{increase}}</pre>
@@ -53,7 +54,8 @@ export default {
         .then(() => {
           this.$loading.close();
           if (!this.enabled) {
-            this.output = '';
+            this.previousArray = [];
+            this.increaseArray = [];
           } else {
             this.getSyslog();
           }
@@ -71,7 +73,6 @@ export default {
         });
       });
     },
-    includes() {},
     getIncremental(preArray, nowStr) {
       const nowArray = nowStr.split('\n').filter(n => n !== '');
       if (!preArray.length) {
