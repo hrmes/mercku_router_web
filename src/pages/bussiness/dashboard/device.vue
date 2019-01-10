@@ -310,7 +310,8 @@ export default {
             message: this.$t('trans0261')
           }
         ]
-      }
+      },
+      pageActive: true
     };
   },
   computed: {
@@ -378,7 +379,8 @@ export default {
     this.localDeviceIP = selfInfo.data.result.ip;
     this.getDeviceList(this.devicesParams);
   },
-  destroyed() {
+  beforeDestroy() {
+    this.pageActive = false;
     clearTimeout(this.timer);
     this.timer = null;
   },
@@ -500,11 +502,12 @@ export default {
       try {
         const curId = this.id;
         const devicesInfo = await this.$http.getDeviceList(params);
-        /** TODO 多次点击导致请求挂起，跳转页面后当请求回来进入then钩子，此时会创建timer，导致无法清除 */
         if (curId === this.id) {
-          this.timer = setTimeout(() => {
-            this.getDeviceList(params);
-          }, 15 * 1000);
+          if (this.pageActive) {
+            this.timer = setTimeout(() => {
+              this.getDeviceList(params);
+            }, 15 * 1000);
+          }
           const res = devicesInfo.data.result;
           const result = res.map(v => ({
             ...v,
