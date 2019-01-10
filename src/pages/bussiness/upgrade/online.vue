@@ -343,6 +343,7 @@ export default {
   overflow: auto;
   display: flex;
   flex-direction: column;
+  padding: 0 30px !important;
   .changelog {
     flex: 1;
     pre {

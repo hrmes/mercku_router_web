@@ -518,11 +518,11 @@
   "trans0521": "Validation time",
   "trans0522": "Security",
   "trans0523": "If saves the configuration, Wi-Fi will disconnect for seconds, are you sure to save? ",
-  "trans0524": " ",
-  "trans0525": "changelog",
+  "trans0524": "Remaining time",
+  "trans0525": "Changelog",
   "trans0526": "View All",
   "trans0527": "3 hours",
-  "trans0530": "Functioning till cancelled",
+  "trans0530": "No Expiration",
   "trans0531": "Year (s)",
   "trans0532": "Month (s)",
   "trans0533": "Day (s)",
@@ -552,5 +552,5 @@
   "trans0557": "WPA/WPA2-PSK",
   "trans0558": "Time out, please login again",
   "trans0559": "After turning off the Guest Wi-Fi, all devices connected to Guest Wi-Fi will disconnect, are you sure to turn off? ",
-  "trans0561": "Admin Password"
+  "trans0560": "Getting time.."
 }
