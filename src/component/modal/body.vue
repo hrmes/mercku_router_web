@@ -5,7 +5,7 @@
 </template>
 <style lang="scss" scoped>
 .modal-body {
-  padding: 30px 30px;
+  // padding: 30px 30px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 }

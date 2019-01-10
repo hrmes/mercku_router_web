@@ -391,7 +391,7 @@ export default {
     height: 452px;
     border-radius: 5px;
     background-color: #ffffff;
-    padding: 30px;
+    // padding: 30px;
     .item {
       display: flex;
       align-items: center;
@@ -539,12 +539,9 @@ export default {
   }
   .modal {
     .modal-content {
-      overflow-y: auto;
-      // width: 300px;
       height: 480px;
       border-radius: 5px;
       background-color: #ffffff;
-      padding: 10px 20px;
       .btn-info {
         margin-top: 10px;
       }

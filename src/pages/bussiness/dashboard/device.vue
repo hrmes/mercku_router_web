@@ -983,7 +983,6 @@ export default {
 }
 .edit-name-modal {
   .content {
-    padding: 30px;
     display: flex;
     flex-direction: column;
     .title {

@@ -7,6 +7,6 @@
 .modal-header {
   font-size: 18px;
   font-weight: bold;
-  padding: 15px 30px 15px 30px;
+  padding-bottom: 20px;
 }
 </style>

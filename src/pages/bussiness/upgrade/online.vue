@@ -71,8 +71,10 @@
         {{$t('trans0525')}}
       </m-modal-header>
       <m-modal-body class="modal-body">
-        <div class="changelog"
-             v-html="beautifyChangelog"></div>
+        <m-scrollbar class="scroll-container">
+          <div class="changelog"
+               v-html="changelog"></div>
+        </m-scrollbar>
         <div class="btn-wrap">
           <button class="btn"
                   @click="close()">{{$t('trans0024')}}</button>
@@ -106,11 +108,6 @@ export default {
   computed: {
     hasUpgradablityNodes() {
       return this.nodes.length > 0;
-    },
-    beautifyChangelog() {
-      return marked(this.changelog, {
-        sanitize: true
-      });
     }
   },
   methods: {
@@ -122,7 +119,13 @@ export default {
     },
     showChangelog(node) {
       this.showChangelogModal = true;
-      this.changelog = node.changelog || '';
+      if (node.changelog) {
+        this.changelog = marked(node.changelog, {
+          sanitize: true
+        });
+      } else {
+        this.changelog = '';
+      }
     },
     firmwareList() {
       this.$loading.open();
@@ -219,6 +222,7 @@ export default {
         height: 100%;
         align-items: center;
         cursor: pointer;
+        position: relative;
         .img-container,
         .info-container {
           display: flex;
@@ -240,6 +244,7 @@ export default {
           align-content: start;
           justify-content: center;
           flex: 1;
+          padding-top: 30px;
 
           .node-name {
             padding: 0;
@@ -265,24 +270,24 @@ export default {
             text-align: left;
             font-size: 12px;
             font-size: 10px;
-            margin-top: 10px;
+            padding-top: 5px;
 
             position: relative;
             span {
               display: inline-block;
-              margin-left: 5px;
+              // margin-left: 5px;
             }
-            &:before {
-              content: '';
-              display: inline-block;
-              width: 3px;
-              height: 3px;
-              border-radius: 50%;
-              background: #000;
-              position: absolute;
-              top: 50%;
-              transform: translateY(-50%);
-            }
+            // &:before {
+            //   content: '';
+            //   display: inline-block;
+            //   width: 3px;
+            //   height: 3px;
+            //   border-radius: 50%;
+            //   background: #000;
+            //   // position: absolute;
+            //   top: 50%;
+            //   transform: translateY(-50%);
+            // }
           }
           .changelog {
             font-size: 12px;
@@ -343,16 +348,26 @@ export default {
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 0 30px !important;
+  // padding: 0 30px !important;
+  position: relative;
+  .scroll-container {
+    height: 280px;
+    // padding: 10px 0;
+  }
   .changelog {
-    flex: 1;
     pre {
       font-family: inherit;
     }
   }
   .btn-wrap {
-    padding: 20px 0;
+    // padding: 20px 0;
     text-align: center;
+    position: absolute;
+    bottom: 0;
+    background: #fff;
+    width: 100%;
+    left: 0;
+    padding: 10px 0;
   }
 }
 @media screen and (max-width: 768px) {
@@ -370,7 +385,7 @@ export default {
     }
   }
   .modal-body {
-    width: 320px;
+    width: auto;
   }
 }
 @media screen and (min-width: 769px) and (max-width: 999px) {
@@ -420,7 +435,7 @@ export default {
     }
   }
   .modal-body {
-    width: 280px;
+    width: auto;
   }
 }
 </style>

@@ -412,24 +412,24 @@ export default {
             text-align: left;
             font-size: 12px;
             font-size: 10px;
-            margin-top: 10px;
+            padding-top: 5px;
 
             position: relative;
             span {
               display: inline-block;
-              margin-left: 5px;
+              // margin-left: 5px;
             }
-            &:before {
-              content: '';
-              display: inline-block;
-              width: 3px;
-              height: 3px;
-              border-radius: 50%;
-              background: #000;
-              position: absolute;
-              top: 50%;
-              transform: translateY(-50%);
-            }
+            // &:before {
+            //   content: '';
+            //   display: inline-block;
+            //   width: 3px;
+            //   height: 3px;
+            //   border-radius: 50%;
+            //   background: #000;
+            //   position: absolute;
+            //   top: 50%;
+            //   transform: translateY(-50%);
+            // }
           }
         }
       }
