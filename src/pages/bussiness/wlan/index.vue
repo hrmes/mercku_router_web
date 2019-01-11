@@ -165,20 +165,22 @@ export default {
         // 提交表单
         this.$http
           .updateMeshConfig({
-            wifi: {
-              bands: {
-                '2.4G': {
-                  ssid: this.form1.ssid,
-                  password: this.form1.password
-                },
-                '5G': {
-                  ssid: this.form1.ssid,
-                  password: this.form1.password
+            config: {
+              wifi: {
+                bands: {
+                  '2.4G': {
+                    ssid: this.form1.ssid,
+                    password: this.form1.password
+                  },
+                  '5G': {
+                    ssid: this.form1.ssid,
+                    password: this.form1.password
+                  }
                 }
+              },
+              admin: {
+                password: this.form2.admin_password
               }
-            },
-            admin: {
-              password: this.form2.admin_password
             }
           })
           .then(() => {
