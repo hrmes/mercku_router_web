@@ -78,12 +78,17 @@ export default {
       if (this.$refs.form.validate()) {
         this.$loading.open();
         this.$http
-          .diagnosis({
-            job_type: this.job_type,
-            job_params: {
-              host: this.form.host
+          .diagnosis(
+            {
+              job_type: this.job_type,
+              job_params: {
+                host: this.form.host
+              }
+            },
+            {
+              timeout: 90000
             }
-          })
+          )
           .then(res => {
             this.$loading.close();
             this.output = res.data.result.output;

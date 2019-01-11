@@ -79,10 +79,14 @@ export default {
     this.loading = true;
     this.$http.isinitial().then(res => {
       if (res.data.result.status) {
-        this.$http.login('').then(() => {
-          this.initial = true;
-          this.loading = false;
-        });
+        this.$http
+          .login({
+            password: ''
+          })
+          .then(() => {
+            this.initial = true;
+            this.loading = false;
+          });
       }
       this.isinitial = false;
       this.loading = false;
@@ -95,7 +99,9 @@ export default {
     login() {
       this.$loading.open();
       this.$http
-        .login(this.password)
+        .login({
+          password: this.password
+        })
         .then(res => {
           this.$loading.close();
           const access = res.data.result.role;

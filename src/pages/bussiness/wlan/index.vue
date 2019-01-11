@@ -166,8 +166,16 @@ export default {
         this.$http
           .updateMeshConfig({
             wifi: {
-              ssid: this.form1.ssid,
-              password: this.form1.password
+              bands: {
+                '2.4G': {
+                  ssid: this.form1.ssid,
+                  password: this.form1.password
+                },
+                '5G': {
+                  ssid: this.form1.ssid,
+                  password: this.form1.password
+                }
+              }
             },
             admin: {
               password: this.form2.admin_password
