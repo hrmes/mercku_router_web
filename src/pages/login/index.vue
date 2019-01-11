@@ -1,6 +1,5 @@
 <template>
-  <div class="login-container"
-       @keyup.enter="login">
+  <div class="login-container">
     <div class="center-form">
       <div class="download">
         <img src="../../assets/images/qr.png"
@@ -27,6 +26,7 @@
             </div>
             <div class="form-item">
               <button class="btn"
+                      v-defaultbutton
                       @click.stop="login()">{{this.$t('trans0001')}}</button>
             </div>
           </div>

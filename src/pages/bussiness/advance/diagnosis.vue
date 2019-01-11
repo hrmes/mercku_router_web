@@ -20,6 +20,7 @@
         </m-form-item>
         <m-form-item>
           <button class="btn btn-primary"
+                  v-defaultbutton
                   @click="start">{{$t('trans0467')}}</button>
         </m-form-item>
       </m-form>

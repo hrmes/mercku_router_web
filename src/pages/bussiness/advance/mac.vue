@@ -35,6 +35,7 @@
       </div>
       <div class="form-button">
         <button class="btn primary"
+                v-defaultbutton
                 @click="updateMac">{{$t('trans0081')}}</button>
       </div>
     </div>

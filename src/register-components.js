@@ -22,9 +22,11 @@ import mModal from 'components/modal/index.vue';
 import mModalHeader from 'components/modal/header.vue';
 import mModalBody from 'components/modal/body.vue';
 import clickoutside from 'components/clickoutside/index.vue';
+import defaultButton from 'components/default-button/index.vue';
 
 const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);
+  _Vue.directive('defaultbutton', defaultButton);
   _Vue.component('m-menu', MMenu);
   _Vue.component('m-header', MHeader);
   _Vue.component('m-policy', mPolicy);

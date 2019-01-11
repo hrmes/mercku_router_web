@@ -180,6 +180,7 @@
         <div class="form-button"
              style="margin-top:60px;">
           <button class="btn"
+                  v-defaultbutton
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -189,7 +190,7 @@
 <script>
 import * as CONSTANTS from 'util/constant';
 import {
- ipRule, isMulticast, isLoopback, isValidMask, ipReg
+ ipRule, isMulticast, isLoopback, isValidMask, ipReg 
 } from 'util/util';
 
 function checkDNS(value) {

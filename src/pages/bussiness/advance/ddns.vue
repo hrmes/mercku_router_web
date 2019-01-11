@@ -39,6 +39,7 @@
       </m-form>
       <div class="form-button">
         <button class="btn"
+                v-defaultbutton
                 @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
