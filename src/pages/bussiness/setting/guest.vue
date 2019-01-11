@@ -191,7 +191,7 @@ export default {
               encrypt: this.form.encrypt
             },
             '5G': {
-              ssid: this.ssid_5g,
+              ssid: this.form.smart_connect ? this.form.ssid : this.ssid_5g,
               password: this.form.password,
               encrypt: this.form.encrypt
             }
@@ -219,8 +219,8 @@ export default {
     },
     guestEnabledChange(enabled) {
       if (
-        (!enabled && this.setupAndStart && !this.showSettingPage)
-        || (this.showSettingPage && this.showCancelBtn)
+        (!enabled && this.setupAndStart && !this.showSettingPage) ||
+        (this.showSettingPage && this.showCancelBtn)
       ) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),

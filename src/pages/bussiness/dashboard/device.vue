@@ -353,6 +353,9 @@ export default {
     this.timer = null;
   },
   methods: {
+    test(v) {
+      console.log(this.bandMap[v]);
+    },
     devicesParams() {
       let params = {
         filters: [{ type: 'primary', status: ['online'] }]
