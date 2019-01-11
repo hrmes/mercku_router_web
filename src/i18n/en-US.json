@@ -552,5 +552,6 @@
   "trans0557": "WPA/WPA2-PSK",
   "trans0558": "Time out, please login again",
   "trans0559": "After turning off the Guest Wi-Fi, all devices connected to Guest Wi-Fi will disconnect, are you sure to turn off? ",
-  "trans0560": "Getting time.."
+  "trans0560": "Getting time..",
+  "trans0561": "Admin password"
 }

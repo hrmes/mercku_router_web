@@ -106,7 +106,10 @@ export default {
   },
   computed: {
     ssid_5g() {
-      return `${this.form.ssid}-5G`;
+      if (this.form.smart_connect) {
+        return `${this.form.ssid}-5G`;
+      }
+      return this.form.ssid;
     }
   },
   methods: {
