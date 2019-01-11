@@ -78,42 +78,11 @@ export default {
       band: '2.4G5G',
       hideTipVisible: false,
       smartTipVisible: false,
-      meshData: {},
-      options: [
-        {
-          value: '2.4G5G',
-          text: this.$t('trans0327'),
-          bands: {
-            '2.4G': { enabled: true },
-            '5G': { enabled: true }
-          }
-        },
-        {
-          value: '2.4G',
-          text: this.$t('trans0328'),
-          bands: {
-            '2.4G': { enabled: true },
-            '5G': { enabled: false }
-          }
-        },
-        {
-          value: '5G',
-          text: this.$t('trans0329'),
-          bands: {
-            '2.4G': { enabled: false },
-            '5G': { enabled: true }
-          }
-        }
-      ],
       form: {
         ssid: '',
         password: '',
         hidden: false,
-        smart_connect: false,
-        bands: {
-          '2.4G': { enabled: true },
-          '5G': { enabled: true }
-        }
+        smart_connect: false
       },
       rules: {
         ssid: [
@@ -138,28 +107,9 @@ export default {
   computed: {
     ssid_5g() {
       return `${this.form.ssid}-5G`;
-    },
-    combineBands() {
-      const hash = {};
-      this.options.forEach(v => {
-        hash[v.value] = v.bands;
-      });
-      return hash;
     }
   },
   methods: {
-    bandsToStr(bands) {
-      return Object.keys(bands)
-        .map(v => bands[v].enabled)
-        .join('');
-    },
-    splitBands(bands) {
-      this.options.forEach(v => {
-        if (this.bandsToStr(bands) === this.bandsToStr(v.bands)) {
-          this.band = v.value;
-        }
-      });
-    },
     getMeshMeta() {
       this.$loading.open();
       this.$http
@@ -167,13 +117,11 @@ export default {
         .then(res => {
           this.$loading.close();
           if (res.data.result) {
-            this.meshData = res.data.result;
-            this.form.ssid = this.meshData.ssid;
-            this.form.password = this.meshData.password;
-            this.form.bands = this.meshData.bands;
-            this.splitBands(this.meshData.bands);
-            this.form.hidden = this.meshData.hidden;
-            this.form.smart_connect = this.meshData.smart_connect;
+            const wifi = res.data.result;
+            this.form.ssid = wifi.bands['2.4G'].ssid;
+            this.form.password = wifi.bands['2.4G'].password;
+            this.form.hidden = wifi.bands['2.4G'].hidden;
+            this.form.smart_connect = wifi.smart_connect;
           }
         })
         .catch(() => {
@@ -188,21 +136,31 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
-              this.$http
-                .meshWifiUpdate({
-                  ...this.form,
-                  bands: this.combineBands[this.band]
-                })
-                .then(() => {
-                  this.$reconnect({
-                    onsuccess: () => {
-                      this.$router.push({ path: '/dashboard' });
-                    },
-                    ontimeout: () => {
-                      this.$router.push({ path: '/unconnect' });
-                    }
-                  });
+              const wifi = {
+                smart_connect: this.form.smart_connect,
+                bands: {
+                  '2.4G': {
+                    hidden: this.form.hidden,
+                    ssid: this.form.ssid,
+                    password: this.form.password
+                  },
+                  '5G': {
+                    hidden: this.form.hidden,
+                    ssid: this.ssid_5g,
+                    password: this.form.password
+                  }
+                }
+              };
+              this.$http.meshWifiUpdate(wifi).then(() => {
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/dashboard' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
                 });
+              });
             }
           }
         });
