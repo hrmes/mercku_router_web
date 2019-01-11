@@ -56,9 +56,6 @@
     </div>
 
     <div class="bottom-image">
-      <img class="big-device-image"
-           src="../../assets/images/img_main_picture.jpg"
-           alt="">
       <img class="small-device-image"
            src="../../assets/images/img_bg_mobile.png"
            alt="">
@@ -146,7 +143,8 @@ export default {
     justify-content: center;
     position: relative;
     width: 100%;
-    flex: 1;
+    // flex: 1;
+
     .form-item {
       margin-bottom: 30px;
     }
@@ -154,7 +152,6 @@ export default {
       width: 350px;
     }
     .download {
-      padding: 0 50px;
       width: 200px;
       align-self: flex-end;
       height: 150px;
@@ -176,12 +173,9 @@ export default {
   }
   .bottom-image {
     width: 100%;
-    flex-shrink: 0;
-    .big-device-image {
-      width: 40%;
-      margin: 0 auto;
-      display: block;
-    }
+    flex: 1;
+    background: url(../../assets/images/img_main_picture.jpg) no-repeat center;
+    background-size: contain;
     .small-device-image {
       display: none;
     }
@@ -203,13 +197,13 @@ export default {
       width: 100%;
       background: #f1f1f1;
       text-align: left;
-      padding: 20px 10px;
-      height: 88px;
+      padding: 10px;
       border-radius: 4px;
-
-      margin-top: 15px;
+      align-items: center;
+      justify-content: space-between;
       .logo-container {
         float: left;
+        height: 48px;
         img {
           width: 48px;
           height: 48px;
@@ -218,21 +212,11 @@ export default {
 
       .down-text {
         text-align: left;
-        float: left;
         font-size: 10px;
         color: #333;
-        margin-left: 12px;
-        padding: 4px 0;
-        > div:first-child {
-          padding-top: 5px;
-        }
-        > div:last-child {
-          padding-bottom: 8px;
-        }
       }
       .down-button-container {
         float: right;
-        padding-top: 5px;
         .down-button {
           text-decoration: none;
           color: rgb(214, 0, 28);
@@ -248,11 +232,12 @@ export default {
       width: 80%;
       flex: 1;
       margin: 0 auto;
+      padding-top: 30px;
+      padding-bottom: 0;
       justify-content: center;
       .welcome-text {
-        font-size: 24px;
-        margin-top: 25px;
-        margin-bottom: 35px;
+        font-size: 18px;
+        margin-bottom: 30px;
       }
       .btn {
         width: 100%;
@@ -265,9 +250,7 @@ export default {
     .bottom-image {
       width: 80%;
       margin-top: 30px;
-      .big-device-image {
-        display: none;
-      }
+      background: none;
       .small-device-image {
         display: block;
         width: 100%;
