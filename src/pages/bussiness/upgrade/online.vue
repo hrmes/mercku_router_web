@@ -296,6 +296,7 @@ export default {
             margin: 0;
             align-self: flex-end;
             color: #333;
+            padding-top: 5px;
           }
         }
       }
