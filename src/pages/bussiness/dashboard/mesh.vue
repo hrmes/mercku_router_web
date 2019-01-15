@@ -386,8 +386,8 @@ export default {
                     let index = 1;
                     let start = sp[0];
                     while (
-                      (start + sp[index]).length < 10 &&
-                      index < sp.length
+                      (start + sp[index]).length < 10
+                      && index < sp.length
                     ) {
                       start += ` ${sp[index]}`;
                       index += 1;

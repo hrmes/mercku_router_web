@@ -739,6 +739,10 @@ export default {
       font-weight: 600;
       padding: 15px 0;
       border-bottom: 1px solid #f1f1f1;
+      .tab {
+        font-size: 16px;
+        font-weight: bold;
+      }
     }
     .table-inner {
       margin-top: 20px;
