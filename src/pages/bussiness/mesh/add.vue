@@ -399,7 +399,7 @@ export default {
     font-size: 12px;
     text-decoration: underline;
     cursor: pointer;
-  }c
+  }
   .step-content {
     width: 100%;
   }
