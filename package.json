@@ -11,8 +11,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
-    "better-scroll": "git+https://github.com/cdoneshot/better-scroll.git#master",
-    "echarts": "git+https://github.com/cdoneshot/incubator-echarts.git#master",
+    "better-scroll": "git+https://github.com/hrmes/better-scroll.git#mercku-v1.0.0",
+    "echarts": "git+https://github.com/hrmes/incubator-echarts.git#mercku-v1.0.0",
     "fastclick": "^1.0.6",
     "marked": "^0.6.0",
     "semver": "^5.6.0",
