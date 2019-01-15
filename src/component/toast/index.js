@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Toast from './index.vue';
 
-const toast = (text = '', duration = 3000, type = 'error', parentEl = '.router-view') => {
+const toast = (text = '', duration = 3000, type = 'error', parentEl = '.scroll-wrap') => {
   const Construtor = Vue.extend(Toast);
   const instance = new Construtor({
     data: {
