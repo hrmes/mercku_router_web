@@ -1,77 +1,5 @@
 import semver from 'semver';
 
-export default {
-  adapt: () => {
-    const doc = document;
-    const win = window;
-    const docEl = doc.documentElement;
-    let tid;
-    let rootItem;
-    let rootStyle;
-
-    function refreshRem() {
-      const width = docEl.clientWidth || 0;
-      const height = docEl.clientHeight || 0;
-      const ratio = 375 / 667;
-      const needHeight = width / ratio;
-
-      let needWidth;
-      let rem;
-      if (needHeight > height) {
-        needWidth = height * ratio;
-      } else {
-        needWidth = width;
-      }
-      rem = needWidth / 3.75;
-      rem = rem > 100 ? 100 : rem;
-      // const rem = width / 3.75;
-      rootStyle = `html{font-size:${rem}px !important;height:${height}px !important}`;
-      rootItem =
-        document.getElementById('rootsize') || document.createElement('style');
-      if (!document.getElementById('rootsize')) {
-        document.getElementsByTagName('head')[0].appendChild(rootItem);
-        rootItem.id = 'rootsize';
-      }
-      if (rootItem.styleSheet) {
-        rootItem.styleSheet.disabled ||
-          (rootItem.styleSheet.cssText = rootStyle);
-      } else {
-        try {
-          rootItem.innerHTML = rootStyle;
-        } catch (f) {
-          rootItem.innerText = rootStyle;
-        }
-      }
-      docEl.style.fontSize = `${rem}px`;
-    }
-
-    refreshRem();
-    win.addEventListener(
-      'pageshow',
-      e => {
-        if (e.persisted) {
-          // 浏览器后退的时候重新计算
-          clearTimeout(tid);
-          tid = setTimeout(refreshRem, 300);
-        }
-      },
-      false
-    );
-
-    if (doc.readyState === 'complete') {
-      doc.body.style.fontSize = '16px';
-    } else {
-      doc.addEventListener(
-        'DOMContentLoaded',
-        () => {
-          doc.body.style.fontSize = '16px';
-        },
-        false
-      );
-    }
-  }
-};
-
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const hostReg = /^\.*[a-zA-Z0-9]+([\w-][a-zA-Z0-9])*(\.[a-zA-Z0-9]+((\w|-)*[a-zA-Z0-9]+)*)*\.*$/;
@@ -102,23 +30,7 @@ export const hostRexp = host => {
 };
 
 function ip2int(ip) {
-  return (
-    ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0
-  );
-}
-
-function mac2int(mac) {
-  let result = '';
-  mac
-    .replace(/:/g, '')
-    .split('')
-    .reduce((total, next) => {
-      result += parseInt(next, 16)
-        .toString(2)
-        .padStart(4, '0');
-      return result;
-    });
-  return parseInt(result, 2);
+  return ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0;
 }
 
 export const isMulticast = ip => {
@@ -130,18 +42,17 @@ export const isMulticast = ip => {
   return false;
 };
 
+function isMulticastMac(mac) {
+  const number = mac.split(':')[0];
+  const result = Number.parseInt(number, 16) & 0x01;
+  return result === 0x01;
+}
 export const isMac = mac => {
   if (!/^([a-f0-9]{2}:){5}[a-f0-9]{2}$/i.test(mac)) {
     return false;
   }
   // 检查组播
-  const r = mac2int(mac);
-  const min = mac2int('01:00:5e:00:00:00');
-  const max = mac2int('01:00:5e:7f:ff:ff');
-  if (r >= min && r <= max) {
-    return false;
-  }
-  return true;
+  return !isMulticastMac(mac);
 };
 
 export const isLoopback = ip => {
@@ -247,7 +158,8 @@ export const getStringByte = str => {
 export const formatNetworkData = value => {
   const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
   let index = -1;
-  if (!isNaN(value)) {
+  value = Number(value);
+  if (!Number.isNaN(value)) {
     do {
       value /= 1000;
       index += 1;
@@ -271,7 +183,8 @@ export const formatSpeed = value => {
   value /= 8;
   const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
   let index = -1;
-  if (!isNaN(value)) {
+  value = Number(value);
+  if (!Number.isNaN(value)) {
     do {
       value /= 1000;
       index += 1;
@@ -287,7 +200,8 @@ export const formatSpeed = value => {
 export const formatBandWidth = value => {
   const units = ['bps', 'Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
   let index = 0;
-  if (!isNaN(value)) {
+  value = Number(value);
+  if (!Number.isNaN(value)) {
     while (value > 1000 && index < units.length - 1) {
       value /= 1000;
       index += 1;
@@ -303,7 +217,7 @@ export const formatBandWidth = value => {
   };
 };
 
-export const formatDate = (date, fmt = 'yyyy-MM-dd HH:mm:ss') => {
+export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
   date = new Date(date);
   const o = {
     'M+': date.getMonth() + 1,
@@ -315,10 +229,7 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd HH:mm:ss') => {
     S: date.getMilliseconds()
   };
   if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(
-      RegExp.$1,
-      `${date.getFullYear()}`.substr(4 - RegExp.$1.length)
-    );
+    fmt = fmt.replace(RegExp.$1, `${date.getFullYear()}`.substr(4 - RegExp.$1.length));
   }
 
   Object.keys(o).forEach(k => {

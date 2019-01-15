@@ -1,0 +1,90 @@
+<template>
+  <transition name="checkbox">
+    <div class="checkbox-container">
+      <label @click.stop="check()">
+        <div class="box"
+             :class="{'checked':checked,'circle-shape':!rect}"></div>
+        <div class="text"
+             v-if="text">{{text}}</div>
+      </label>
+    </div>
+
+  </transition>
+
+</template>
+<script>
+export default {
+  props: {
+    value: {
+      type: Boolean,
+      default: false
+    },
+    text: {
+      type: String
+    },
+    rect: {
+      type: Boolean,
+      default: true
+    },
+    onChange: {
+      type: Function,
+      default: () => {}
+    }
+  },
+  data() {
+    return {
+      checked: this.value
+    };
+  },
+  methods: {
+    check() {
+      this.checked = !this.checked;
+      this.onChange(this.checked);
+      this.$emit('input', this.checked);
+      this.$emit('change', this.checked);
+    }
+  },
+  watch: {
+    value(v) {
+      this.checked = v;
+    }
+  }
+};
+</script>
+<style lang="scss">
+.checkbox-container {
+  text-align: left;
+
+  height: 18px;
+  display: block;
+
+  label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  .box {
+    float: left;
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    border: 1px solid #999;
+    background: #fff;
+    &.circle-shape {
+      border-radius: 50%;
+    }
+    &.checked {
+      background: url(../../assets/images/ic_selected.png) no-repeat center;
+      border: none;
+      background-size: 90%;
+      background-color: #00d061;
+    }
+  }
+  .text {
+    display: inline;
+    font-size: 12px;
+    color: #333;
+    margin-left: 5px;
+  }
+}
+</style>

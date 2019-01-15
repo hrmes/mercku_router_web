@@ -1,0 +1,91 @@
+<template>
+  <transition name="modal">
+    <div class="modal-dialog"
+         v-show="open">
+      <div class="mask"></div>
+      <div class="modal-content"
+           v-clickoutside="close">
+        <slot></slot>
+      </div>
+    </div>
+  </transition>
+</template>
+<script>
+export default {
+  props: {
+    visible: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return { open: false };
+  },
+  watch: {
+    visible(nv) {
+      this.open = nv;
+    }
+  },
+  methods: {
+    close() {
+      this.open = false;
+      this.$emit('update:visible', false);
+    }
+  },
+  mounted() {
+    document.body.appendChild(this.$el);
+  },
+  beforeDestroy() {
+    this.$el.parentNode.removeChild(this.$el);
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.modal-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.modal-enter-active {
+    transition: all 0.3s ease-in;
+  }
+  &.modal-leave-active {
+    transition: all 0.3s ease-out;
+    opacity: 0;
+  }
+  &.modal-enter {
+    opacity: 0;
+  }
+  &.modal-leave {
+    opacity: 0;
+  }
+  .mask {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .modal-content {
+    // width: 600px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  }
+}
+@media screen and (max-width: 768px) {
+  .modal-dialog {
+    .modal-content {
+      width: 80%;
+    }
+  }
+}
+</style>
