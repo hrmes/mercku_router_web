@@ -5,7 +5,7 @@ export default function upgradeHelper(indexHtml) {
   if (meta) {
     oldHash = meta.getAttribute('content');
   }
-  const result = /<meta name="x-web-version-hash" content="(\w*)">/g.exec(indexHtml);
+  const result = /<meta name="*x-web-version-hash"* content="*(\w*)"*>/g.exec(indexHtml);
   if (result !== null) {
     [, newHash] = result;
   }
