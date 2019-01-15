@@ -56,7 +56,8 @@ export default {
   text-align: left;
 
   height: 18px;
-  display: block;
+  display: inline-block;
+  overflow: hidden;
 
   label {
     cursor: pointer;
