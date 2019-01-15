@@ -5,6 +5,7 @@ import toast from 'components/toast/index';
 import dialog from 'components/dialog/index';
 import mProgress from 'components/progress/index.vue';
 import { formatSpeed, formatNetworkData, formatBandWidth } from 'util/util';
+import upgradeHelper from 'util/upgrade';
 import { changeLanguage, i18n, translate } from './i18n';
 import router from './router';
 import App from './App.vue';
@@ -31,6 +32,7 @@ const launch = () => {
         onsuccess: () => {},
         ontimeout: () => {},
         onprogress: () => {},
+        onfinally: () => {},
         timeout: 60,
         showLoading: true
       },
@@ -55,12 +57,14 @@ const launch = () => {
       if (count === 0) {
         clearInterval(timer);
         opt.ontimeout();
+        opt.onfinally();
         loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
         loadingInstance = null;
       } else if (count !== total && count % 5 === 0) {
         http.getRouter().then(() => {
           clearInterval(timer);
           opt.onsuccess();
+          opt.onfinally();
           loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
           loadingInstance = null;
         });
@@ -80,6 +84,11 @@ const launch = () => {
         onsuccess: () => {},
         ontimeout: () => {},
         onprogress: () => {},
+        onfinally: () => {
+          http.getHomePage().then(res => {
+            upgradeHelper(res.data);
+          });
+        },
         timeout: 600
       },
       ...options
@@ -95,6 +104,7 @@ const launch = () => {
         upgradeComponent.close();
         opt.ontimeout();
       },
+      onfinally: opt.onfinally,
       timeout: opt.timeout,
       showLoading: false
     });
@@ -144,4 +154,4 @@ const launch = () => {
   });
 };
 
-document.addEventListener('DOMContentLoaded', launch);
+launch();

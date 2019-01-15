@@ -133,6 +133,10 @@ Object.keys(methods).forEach(methodName => {
   };
 });
 
+// 获取主页
+Http.prototype.getHomePage = function getHomePage() {
+  return axios.get(`/index.html=${Date.now()}`);
+};
 // 系统日志
 Http.prototype.getSysLog = function getSysLog() {
   return axios.get(`/log.log?t=${Date.now()}`);

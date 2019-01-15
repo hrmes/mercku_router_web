@@ -2,6 +2,7 @@ const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin'); // Gzip
 const webpack = require('webpack');
+const UUID = require('uuid');
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // Webpack包文件分析器
 const getCustomerConf = require('./customer-conf');
@@ -31,7 +32,10 @@ module.exports = {
       favicon,
       filename: 'index.html',
       title,
-      chunks: ['chunk-vendors', 'chunk-common', 'index']
+      chunks: ['chunk-vendors', 'chunk-common', 'index'],
+      meta: {
+        'x-web-version-hash': UUID.v1().replace(/-/g, '')
+      }
     }
   },
   devServer: {
@@ -53,26 +57,34 @@ module.exports = {
         target: 'http://mywifi.mercku.tech',
         changeOrigin: true,
         secure: true
+      },
+      '/index.html': {
+        target: 'http://mywifi.mercku.tech',
+        changeOrigin: true,
+        secure: true
+      },
+      '/index.js': {
+        target: 'http://mywifi.mercku.tech',
+        changeOrigin: true,
+        secure: true
       }
     }
   },
   configureWebpack: config => {
-    config
-      .plugins
-      .push(new webpack.DefinePlugin({
+    config.plugins.push(
+      new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: 'development',
           CUSTOMER_CONFIG: (() => {
             const result = {};
-            Object
-              .keys(CUSTOMER_CONFIG)
-              .forEach(key => {
-                result[key] = JSON.stringify(CUSTOMER_CONFIG[key]);
-              });
+            Object.keys(CUSTOMER_CONFIG).forEach(key => {
+              result[key] = JSON.stringify(CUSTOMER_CONFIG[key]);
+            });
             return result;
           })()
         }
-      }));
+      })
+    );
     const plugins = [
       new UglifyJsPlugin({
         uglifyOptions: {
@@ -98,29 +110,23 @@ module.exports = {
       new BundleAnalyzerPlugin()
     ];
     if (process.env.NODE_ENV === 'production') {
-      config
-        .plugins
-        .concat(plugins);
+      config.plugins.concat(plugins);
     }
   },
   chainWebpack: config => {
-    config
-      .resolve
-      .alias
+    config.resolve.alias
       .set('vue$', 'vue/dist/vue.esm.js')
       .set('components', resolve('src/component'))
       .set('pages', resolve('src/pages'))
       .set('util', resolve('src/util'))
       .set('style', resolve('src/style'));
-    config
-      .module
+    config.module
       .rule('html')
       .test(/\.html$/)
       .use('html-loader')
       .loader('html-loader')
       .end();
-    config
-      .module
+    config.module
       .rule('images')
       .use('url-loader')
       .loader('url-loader')
