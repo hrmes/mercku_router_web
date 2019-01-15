@@ -57,9 +57,7 @@
   </div>
 </template>
 <script>
-import {
- ipReg, privateIpReg, getIpBefore, getIpAfter 
-} from 'util/util';
+import { ipReg, privateIpReg, getIpBefore, getIpAfter } from 'util/util';
 
 const isVailidRange = input => {
   const value = Number(input);
@@ -233,7 +231,7 @@ export default {
                   this.$loading.close();
                   this.$toast(this.$t('trans0040'), 3000, 'success');
                   this.$reconnect({
-                    timeout: 20,
+                    timeout: 40,
                     onsuccess: () => {
                       this.$router.push({ path: '/dashboard' });
                     },
