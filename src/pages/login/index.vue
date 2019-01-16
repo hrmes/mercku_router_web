@@ -182,6 +182,7 @@ export default {
   .bottom-image {
     width: 100%;
     flex: 1;
+    min-height: 250px;
     background: url(../../assets/images/img_main_picture.jpg) no-repeat center;
     background-size: contain;
     .small-device-image {
@@ -258,6 +259,7 @@ export default {
     .bottom-image {
       width: 80%;
       margin-top: 30px;
+      min-height: auto;
       background: none;
       .small-device-image {
         display: block;

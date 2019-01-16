@@ -136,9 +136,10 @@ export default {
     }
     input {
       font-size: 14px;
-      padding: 0 10px;
+      padding: 10px;
       height: 34px;
-      line-height: 34px;
+      line-height: 1;
+      // line-height: 34px;
       width: 100%;
       outline: 0;
       border-radius: 4px;
