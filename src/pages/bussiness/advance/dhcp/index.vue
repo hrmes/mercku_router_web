@@ -166,9 +166,7 @@ export default {
           ip_end: `${this.ipBefore}${this.form.ip_end}`,
           lease: this.form.lease,
           // domain: 'mercku',
-          netinfo: {
-            ip: this.form.ip
-          }
+          netinfo: { ip: this.form.ip }
         }
       };
     }
@@ -221,7 +219,7 @@ export default {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
-          message: this.$t('trans0473'),
+          message: this.$t('trans0229'),
           callback: {
             ok: () => {
               this.$loading.open();

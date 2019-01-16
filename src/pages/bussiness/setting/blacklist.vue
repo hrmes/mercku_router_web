@@ -20,7 +20,8 @@
                    v-clickoutside="()=>deviceModalVisible=false">
                 <div class="opcity"></div>
                 <div class="modal-content">
-                  <div class="list"
+                  <div v-if="devices"
+                       class="list"
                        :data="devices">
                     <div class="device-item"
                          v-for="(item,index) in devices"
@@ -33,6 +34,10 @@
                         <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
                       </div>
                     </div>
+                  </div>
+                  <div class="empty"
+                       v-if="!devices.length">
+                    <p style="color:#000">{{$t('trans0278')}}</p>
                   </div>
                   <div class="btn-wrap">
                     <button class="btn"
@@ -146,9 +151,7 @@ export default {
       if (devices.length) {
         this.$loading.open();
         this.$http
-          .addToblackList({
-            devices
-          })
+          .addToblackList({ devices })
           .then(() => {
             this.blacklist = this.blacklist.concat(
               devices.map(d => ({
@@ -165,8 +168,8 @@ export default {
       }
     },
     getDeviceList() {
-      this.$http
-        .getDeviceList({
+      Promise.all([
+        this.$http.getDeviceList({
           filters: [
             { type: 'primary', status: ['online'] },
             {
@@ -174,13 +177,16 @@ export default {
               status: ['online']
             }
           ]
-        })
-        .then(res => {
-          this.devices = res.data.result.map(d => ({
+        }),
+        this.$http.getLocalDevice()
+      ]).then(([res1, res2]) => {
+        this.devices = res1.data.result
+          .map(d => ({
             ...d,
             checked: false
-          }));
-        });
+          }))
+          .filter(d => d.ip !== res2.data.result.ip);
+      });
     },
     getBlacklist() {
       this.$loading.open();
@@ -279,7 +285,7 @@ export default {
       height: 42px;
       margin: 0 auto;
     }
-    height: 100px;
+    padding: 20px 0;
   }
 }
 .table {
@@ -330,6 +336,13 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .modal {
+    left: 50%;
+    transform: translateX(-50%);
+    .btn {
+      margin: 0 auto !important;
+    }
+  }
   .table {
     flex-direction: column;
     .operate,
