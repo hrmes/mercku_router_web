@@ -9,11 +9,22 @@
               :model="form"
               :rules='rules'>
         <div class="switch-wrap">
-          <label for=""> {{$t('trans0538')}} </label>
+          <label for=""> {{$t('trans0538')}}
+          </label>
+          <div class="tool">
+            <m-popover v-model='hideTipVisible'
+                       :title="$t('trans0538')"
+                       :content="$t('trans0540')" />
+            <img width="14"
+                 src="../../../assets/images/ic_question.png"
+                 alt=""
+                 @click="hideTipVisible=!hideTipVisible">
+          </div>
           <m-switch v-model="form.enabled"
                     :onChange="guestEnabledChange" />
         </div>
         <div v-if="form.enabled&&showSettingPage">
+          <label for=""> {{$t('trans0521')}} </label>
           <div class="check-box-wrap">
             <m-radio-group v-model="form.duration"
                            :options='checkOps'></m-radio-group>
@@ -97,6 +108,7 @@ import { getStringByte, passwordRule } from 'util/util';
 export default {
   data() {
     return {
+      hideTipVisible: false,
       showSettingPage: false,
       showStatusPage: false,
       showCancelBtn: false,
@@ -256,7 +268,6 @@ export default {
       }
     },
     formatTime(time) {
-      console.log(time);
       if (time === -1) {
         return this.$t('trans0017');
       }
@@ -444,6 +455,7 @@ export default {
   .check-box-wrap {
     display: flex;
     margin-bottom: 30px;
+    margin-top: 5px;
     .item {
       margin-right: 30px;
     }
@@ -451,6 +463,18 @@ export default {
   .switch-wrap {
     margin-bottom: 30px;
     display: flex;
+    align-items: center;
+
+    .tool {
+      position: relative;
+      margin-left: 5px;
+      left: -20px;
+      img {
+        position: relative;
+        top: -7px;
+        cursor: pointer;
+      }
+    }
     label {
       padding-right: 20px;
     }
