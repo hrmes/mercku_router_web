@@ -69,13 +69,11 @@ describe('checkbox.vue', () => {
       }
     });
     vnode = wrapper.vm;
-    wrapper.setProps({
-      value: true
-    });
-    wrapper.vnode.$nextTick(() => {
-      expect(wrapper.vnode.checked).to.be.true;
+    wrapper.setProps({ value: true });
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.checked).to.be.true;
       expect(
-        Array.from(wrapper.vnode.$el.querySelector('.box').classList).indexOf('checked')
+        Array.from(wrapper.vm.$el.querySelector('.box').classList).indexOf('checked')
       ).to.not.eql(-1);
       done();
     });

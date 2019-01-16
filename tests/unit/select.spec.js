@@ -58,9 +58,7 @@ describe('select', () => {
 
     expect(wrapper.vm.value).to.eql(2);
 
-    wrapper.setProps({
-      value: 1
-    });
+    wrapper.setProps({ value: 1 });
     expect(wrapper.vm.value).to.eql(1);
     expect(wrapper.vm.selected).to.eql(options[0]);
     done();

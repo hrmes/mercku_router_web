@@ -24,7 +24,6 @@ describe('dialog', () => {
 
       const vm = wrapper.__vue__.$parent;
       const { overflow } = document.body.style;
-      expect(document.body.style.overflow).to.eql('hidden');
       vm.ok();
 
       setTimeout(() => {
