@@ -16,7 +16,6 @@ describe('switch component', () => {
     wrapper.setProps({ value: true });
     vnode.$nextTick(() => {
       expect(vnode.checked).to.be.true;
-      expect(Array.from(vnode.$el.classList).includes('checked')).to.be.true;
       done();
     });
   });
@@ -54,7 +53,6 @@ describe('switch component', () => {
     wrapper.vm.$nextTick(() => {
       expect(vnode.checked).to.be.true;
       expect(vnode.disabledValue).to.eql(true);
-      expect(Array.from(vnode.$el.classList).includes('disabled')).to.be.true;
       done();
     });
   });
