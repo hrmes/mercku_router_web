@@ -111,9 +111,7 @@ class Http {
   }
 
   request(config, params, axiosCfg = {}) {
-    const data = {
-      method: config.action
-    };
+    const data = { method: config.action };
 
     if (params) {
       data.params = params;
@@ -151,9 +149,7 @@ Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
     method: 'post',
     data: params,
     cancelToken: source.token,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    },
+    headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: progressEvent => {
       callback(progressEvent, source);
     }

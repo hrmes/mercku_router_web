@@ -41,9 +41,7 @@ export default {
       default: false
     },
     value: {},
-    placeholder: {
-      type: String
-    },
+    placeholder: { type: String },
     disabled: {
       type: Boolean,
       default: false
@@ -52,9 +50,7 @@ export default {
       type: String,
       default: ''
     },
-    onBlur: {
-      type: Function
-    },
+    onBlur: { type: Function },
     addonBefore: {
       type: String,
       default: ''

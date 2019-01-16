@@ -40,18 +40,10 @@ import { UploadStatus } from 'util/constant';
 
 export default {
   props: {
-    onSuccess: {
-      type: Function
-    },
-    onError: {
-      type: Function
-    },
-    onChange: {
-      Function
-    },
-    onCancel: {
-      type: Function
-    },
+    onSuccess: { type: Function },
+    onError: { type: Function },
+    onChange: { Function },
+    onCancel: { type: Function },
     label: {
       type: String,
       default: ''
@@ -64,12 +56,8 @@ export default {
       type: String,
       default: ''
     },
-    request: {
-      type: Function
-    },
-    beforeUpload: {
-      type: Function
-    }
+    request: { type: Function },
+    beforeUpload: { type: Function }
   },
   data() {
     return {

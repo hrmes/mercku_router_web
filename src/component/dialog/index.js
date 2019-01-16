@@ -19,9 +19,7 @@ const dialog = {
       options
     );
     const Construtor = Vue.extend(Dialog);
-    this.instance = new Construtor({
-      data: opt
-    }).$mount();
+    this.instance = new Construtor({ data: opt }).$mount();
     this.instance.visible = true;
     document.body.appendChild(this.instance.$el);
   },
@@ -37,9 +35,7 @@ const dialog = {
       options
     );
     const Construtor = Vue.extend(Dialog);
-    this.instance = new Construtor({
-      data: opt
-    }).$mount();
+    this.instance = new Construtor({ data: opt }).$mount();
     this.instance.visible = true;
     document.body.appendChild(this.instance.$el);
   }

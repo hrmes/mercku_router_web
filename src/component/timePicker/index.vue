@@ -39,11 +39,7 @@
 </template>
 <script>
 export default {
-  props: {
-    value: {
-      type: String
-    }
-  },
+  props: { value: { type: String } },
   data() {
     return {
       opened: false,

@@ -26,12 +26,8 @@ export default {
       type: Boolean,
       default: false
     },
-    value: {
-      type: Boolean
-    },
-    label: {
-      type: String
-    }
+    value: { type: Boolean },
+    label: { type: String }
   },
   watch: {
     value(v) {

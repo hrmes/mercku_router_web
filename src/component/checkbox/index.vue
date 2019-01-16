@@ -19,9 +19,7 @@ export default {
       type: Boolean,
       default: false
     },
-    text: {
-      type: String
-    },
+    text: { type: String },
     rect: {
       type: Boolean,
       default: true
@@ -32,9 +30,7 @@ export default {
     }
   },
   data() {
-    return {
-      checked: this.value
-    };
+    return { checked: this.value };
   },
   methods: {
     check() {

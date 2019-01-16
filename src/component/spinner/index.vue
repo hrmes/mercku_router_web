@@ -36,11 +36,7 @@ export default {
       },
       gsArray.map(g => createElement(
           'g',
-          {
-            attrs: {
-              transform: `rotate(${g.x} ${g.y} ${g.z})`
-            }
-          },
+          { attrs: { transform: `rotate(${g.x} ${g.y} ${g.z})` } },
           [
             createElement('rect', {
               attrs: {
