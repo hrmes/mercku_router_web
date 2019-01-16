@@ -18,9 +18,7 @@
 export default {
   name: 'Popover',
   props: {
-    value: {
-      type: Boolean
-    },
+    value: { type: Boolean },
     title: {
       type: String,
       default: ''
@@ -35,9 +33,7 @@ export default {
     }
   },
   data() {
-    return {
-      hidden: this.value
-    };
+    return { hidden: this.value };
   },
   watch: {
     value(v) {
