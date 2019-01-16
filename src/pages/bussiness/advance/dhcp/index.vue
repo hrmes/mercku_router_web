@@ -166,9 +166,7 @@ export default {
           ip_end: `${this.ipBefore}${this.form.ip_end}`,
           lease: this.form.lease,
           // domain: 'mercku',
-          netinfo: {
-            ip: this.form.ip
-          }
+          netinfo: { ip: this.form.ip }
         }
       };
     }
