@@ -329,6 +329,7 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
+  margin: 0 auto;
   .tip {
     margin-bottom: 30px;
   }
@@ -387,7 +388,7 @@ export default {
 }
 .info-container {
   width: 564px;
-  // margin: 0 auto;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
