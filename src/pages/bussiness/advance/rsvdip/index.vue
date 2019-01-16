@@ -147,21 +147,17 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0473'),
+        message: this.$t('trans0229'),
         callback: {
           ok: () => {
-            this.$http
-              .meshNetworkReboot({
-                recovery_time: 20
-              })
-              .then(() => {
-                this.$reconnect({
-                  timeout: 20,
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
+            this.$http.meshNetworkReboot({ recovery_time: 40 }).then(() => {
+              this.$reconnect({
+                timeout: 40,
+                ontimeout: () => {
+                  this.$router.push({ path: '/unconnect' });
+                }
               });
+            });
           }
         }
       });
