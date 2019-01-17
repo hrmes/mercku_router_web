@@ -2,11 +2,7 @@ import Vue from 'vue';
 
 class Store {
   constructor(_Vue, options) {
-    const bus = new _Vue({
-      data: {
-        state: options.state
-      }
-    });
+    const bus = new _Vue({ data: { state: options.state } });
     this.install(Vue, bus);
   }
 

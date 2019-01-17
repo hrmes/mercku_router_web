@@ -25,11 +25,7 @@
 </template>
 <script>
 export default {
-  props: {
-    option: {
-      type: Object
-    }
-  },
+  props: { option: { type: Object } },
   computed: {
     width() {
       return `${((this.option.current + 1) * 100) / this.option.steps.length}%`;

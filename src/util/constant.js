@@ -69,7 +69,5 @@ export const defaultScrollbarOpt = {
     invert: false,
     easeTime: 300
   },
-  scrollbar: {
-    fade: true
-  }
+  scrollbar: { fade: true }
 };

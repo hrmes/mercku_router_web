@@ -26,7 +26,16 @@ module.exports = {
     'no-bitwise': 0,
     'no-restricted-properties': 0,
     'class-methods-use-this': 0,
-    'no-trailing-spaces': 0
+    'no-trailing-spaces': 0,
+    'object-curly-newline': [
+      'error',
+      {
+        ObjectExpression: { multiline: true },
+        ObjectPattern: { multiline: true },
+        ImportDeclaration: { multiline: true },
+        ExportDeclaration: { multiline: true }
+      }
+    ]
   },
   settings: {
     'import/resolver': {

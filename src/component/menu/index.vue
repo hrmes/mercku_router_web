@@ -75,9 +75,7 @@ export default {
         });
         menu.expand = !menu.expand;
       } else {
-        this.$router.push({
-          path: menu.url
-        });
+        this.$router.push({ path: menu.url });
         this.current = menu;
         this.showMenu = false;
       }

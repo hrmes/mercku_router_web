@@ -20,6 +20,10 @@ body {
 body {
   overflow: hidden;
 }
+// fix safari placeholder not vertical align
+input::-webkit-input-placeholder {
+  line-height: normal !important;
+}
 input::-webkit-credentials-auto-fill-button {
   display: none !important;
   visibility: hidden;

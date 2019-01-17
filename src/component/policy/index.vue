@@ -30,9 +30,7 @@ export default {
     }
   },
   data() {
-    return {
-      show: false
-    };
+    return { show: false };
   },
   mounted() {},
   methods: {

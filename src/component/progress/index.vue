@@ -32,9 +32,7 @@ export default {
     return {
       percent: 0,
       timer: null,
-      styles: {
-        width: 0
-      },
+      styles: { width: 0 },
       countdown: this.during
     };
   },

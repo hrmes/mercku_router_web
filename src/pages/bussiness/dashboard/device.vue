@@ -291,9 +291,7 @@ export default {
       devicesMap: {},
       localDeviceIP: '',
       timer: null,
-      form: {
-        name: ''
-      },
+      form: { name: '' },
       bandMap: {
         wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
@@ -353,17 +351,10 @@ export default {
     this.timer = null;
   },
   methods: {
-    test(v) {
-      console.log(this.bandMap[v]);
-    },
     devicesParams() {
-      let params = {
-        filters: [{ type: 'primary', status: ['online'] }]
-      };
+      let params = { filters: [{ type: 'primary', status: ['online'] }] };
       if (this.id === 'primary') {
-        params = {
-          filters: [{ type: 'primary', status: ['online'] }]
-        };
+        params = { filters: [{ type: 'primary', status: ['online'] }] };
       }
       if (this.id === 'guest') {
         params = {
@@ -563,9 +554,7 @@ export default {
         this.$toast(this.$t('trans0047'));
         return false;
       }
-      const params = {
-        devices: [{ mac: row.mac, name: row.name }]
-      };
+      const params = { devices: [{ mac: row.mac, name: row.name }] };
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
@@ -574,9 +563,7 @@ export default {
           ok: () => {
             this.$loading.open();
             this.$http
-              .addToblackList({
-                ...params
-              })
+              .addToblackList({ ...params })
               .then(() => {
                 this.devicesMap[this.id] = this.devicesMap[this.id].filter(
                   v => v.mac !== row.mac
@@ -733,16 +720,16 @@ export default {
   padding: 0 20px;
   .device-wrapper {
     flex: 1;
+    .tab {
+      font-size: 16px;
+      font-weight: bold;
+    }
     .title {
       font-size: 16px;
       color: #333333;
       font-weight: 600;
       padding: 15px 0;
       border-bottom: 1px solid #f1f1f1;
-      .tab {
-        font-size: 16px;
-        font-weight: bold;
-      }
     }
     .table-inner {
       margin-top: 20px;
@@ -914,7 +901,7 @@ export default {
             text-align: left;
             cursor: pointer;
             color: #999999;
-            font-size: 12px;
+            font-size: 14px;
             &:hover {
               color: #333333;
               text-decoration: underline;
@@ -1311,12 +1298,14 @@ export default {
               display: block;
               margin-right: 0;
               width: 255px;
-              height: 40px;
+              height: 46px;
               border-radius: 4px;
               border: solid 1px #ff0500;
               color: #ff0500;
               text-align: center;
-              line-height: 40px;
+              line-height: 1;
+              padding: 16px 0;
+              font-size: 14px;
               cursor: pointer;
               &:hover {
                 text-decoration: none;

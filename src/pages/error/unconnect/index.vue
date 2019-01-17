@@ -10,16 +10,21 @@
   </div>
 </template>
 <script>
+import upgradeHelper from 'util/upgrade.js';
+
 export default {
   methods: {
     tohome() {
-      this.$http.getRouter().then(() => {
-        this.$http.checkLogin().then(res => {
-          if (res.data.result.status) {
-            this.$router.push({ path: '/dashboard' });
-          } else {
-            this.$router.push({ path: '/login' });
-          }
+      this.$http.getHomePage().then(result => {
+        upgradeHelper(result.data);
+        this.$http.getRouter().then(() => {
+          this.$http.checkLogin().then(res => {
+            if (res.data.result.status) {
+              this.$router.push({ path: '/dashboard' });
+            } else {
+              this.$router.push({ path: '/login' });
+            }
+          });
         });
       });
     }

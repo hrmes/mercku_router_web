@@ -11,17 +11,12 @@ describe('input', () => {
   it('default', done => {
     wrapper = mount(input);
     wrapper.vm.$nextTick(() => {
-      expect(document.body.querySelector('.input-container')).to.be.exist;
       expect(wrapper.vm.inputType).to.eql('text');
       done();
     });
   });
   it('value', done => {
-    wrapper = mount(input, {
-      propsData: {
-        value: 1
-      }
-    });
+    wrapper = mount(input, { propsData: { value: 1 } });
     expect(wrapper.vm.inputValue).to.eql(1);
     wrapper.setProps({ value: 2 });
     expect(wrapper.vm.inputValue).to.eql(2);

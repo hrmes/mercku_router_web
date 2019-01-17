@@ -16,6 +16,7 @@
           <button v-if="initial"
                   class="btn"
                   @click="towlan">{{$t('trans0222')}}</button>
+
           <div class="login-form"
                v-if="!initial">
             <div class="form-item">
@@ -115,6 +116,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@media screen and(min-width: 769px) {
+  .login-container {
+    .form {
+      height: 262px;
+    }
+  }
+}
 .login-container {
   width: 100%;
   flex: auto;
@@ -174,6 +182,7 @@ export default {
   .bottom-image {
     width: 100%;
     flex: 1;
+    min-height: 250px;
     background: url(../../assets/images/img_main_picture.jpg) no-repeat center;
     background-size: contain;
     .small-device-image {
@@ -250,6 +259,7 @@ export default {
     .bottom-image {
       width: 80%;
       margin-top: 30px;
+      min-height: auto;
       background: none;
       .small-device-image {
         display: block;

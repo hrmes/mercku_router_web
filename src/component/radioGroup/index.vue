@@ -22,9 +22,7 @@ export default {
     options: Array
   },
   data() {
-    return {
-      selected: this.value
-    };
+    return { selected: this.value };
   },
   watch: {
     value(val) {

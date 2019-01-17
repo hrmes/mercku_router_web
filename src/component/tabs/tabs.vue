@@ -18,8 +18,7 @@ export default {};
     min-width: 150px;
     font-weight: bold;
     cursor: pointer;
-    &:hover,
-    &:active {
+    &:hover {
       background: #f1f1f1;
       color: #999999;
     }

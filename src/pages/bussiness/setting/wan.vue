@@ -189,9 +189,7 @@
 </template>
 <script>
 import * as CONSTANTS from 'util/constant';
-import {
- ipRule, isMulticast, isLoopback, isValidMask, ipReg 
-} from 'util/util';
+import { ipRule, isMulticast, isLoopback, isValidMask, ipReg } from 'util/util';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -490,7 +488,7 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0037'),
+        message: this.$t('trans0229'),
         callback: {
           ok: () => {
             this.$http.meshWanUpdate(params).then(() => {
@@ -500,7 +498,8 @@ export default {
                 },
                 ontimeout: () => {
                   this.$router.push({ path: '/unconnect' });
-                }
+                },
+                timeout: 40
               });
             });
           }
@@ -515,9 +514,7 @@ export default {
             return;
           }
           if (!this.autodns.dhcp) {
-            form.dhcp = {
-              dns: [this.dhcpForm.dns1]
-            };
+            form.dhcp = { dns: [this.dhcpForm.dns1] };
             if (this.dhcpForm.dns2) {
               form.dhcp.dns.push(this.dhcpForm.dns2);
             }

@@ -15,34 +15,16 @@ export default {
     option: {
       type: Object,
       default: () => ({
-        probeType: {
-          default: 1,
-          type: Number
-        },
+        probeType: 1,
         eventPassthrough: 'horizontal',
         scrollY: true,
         scrollX: false,
-        disableMouse: {
-          type: Boolean,
-          default: true
-        },
-        preventDefault: {
-          type: Boolean,
-          default: false
-        },
-        disableTouch: {
-          type: Boolean,
-          default: false
-        },
-        stopPropagation: {
-          type: Boolean,
-          default: true
-        },
+        disableMouse: true,
+        preventDefault: true,
+        disableTouch: false,
+        stopPropagation: false,
         mouseWheel: true,
-        scrollbar: {
-          type: Object,
-          default: () => ({ fade: true })
-        }
+        scrollbar: { fade: true }
       })
     },
     data: {

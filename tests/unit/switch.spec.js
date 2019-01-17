@@ -13,12 +13,9 @@ describe('switch component', () => {
   it('check default props', done => {
     wrapper = mount(Switch);
     vnode = wrapper.vm;
-    wrapper.setProps({
-      value: true
-    });
+    wrapper.setProps({ value: true });
     vnode.$nextTick(() => {
       expect(vnode.checked).to.be.true;
-      expect(Array.from(vnode.$el.classList).includes('checked')).to.be.true;
       done();
     });
   });
@@ -26,22 +23,18 @@ describe('switch component', () => {
     wrapper = mount(
       {
         template: '<m-switch ref="sw" v-model="check" />',
-        components: {
-          'm-switch': Switch
-        }
+        components: { 'm-switch': Switch }
       },
       {
         data() {
-          return {
-            check: false
-          };
+          return { check: false };
         }
       }
     );
-    wrapper.vnode.$refs.sw.change();
+    wrapper.vm.$refs.sw.change();
     expect(vnode.checked).to.be.true;
     vnode.$nextTick(() => {
-      expect(wrapper.vnode.$refs.sw.checked).to.be.true;
+      expect(wrapper.vm.$refs.sw.checked).to.be.true;
       done();
     });
   });
@@ -57,10 +50,9 @@ describe('switch component', () => {
       value: true,
       disabled: true
     });
-    wrapper.vnode.$nextTick(() => {
+    wrapper.vm.$nextTick(() => {
       expect(vnode.checked).to.be.true;
       expect(vnode.disabledValue).to.eql(true);
-      expect(Array.from(vnode.$el.classList).includes('disabled')).to.be.true;
       done();
     });
   });

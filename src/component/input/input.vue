@@ -7,8 +7,14 @@
     </label>
     <div class="inputarea">
       <div class="input-wrapper">
-        <div class="extra"
-             v-if="addonBefore">{{addonBefore}}</div>
+        <input :style="{width:computedWidth}"
+               v-if="addonBefore"
+               class="extra"
+               type="text"
+               readonly
+               :value="addonBefore" />
+        <!-- <div class="extra"
+             v-if="addonBefore">{{addonBefore}}</div> -->
         <input autocomplete="new-password"
                @focus="focus"
                @blur="blur"
@@ -41,9 +47,7 @@ export default {
       default: false
     },
     value: {},
-    placeholder: {
-      type: String
-    },
+    placeholder: { type: String },
     disabled: {
       type: Boolean,
       default: false
@@ -52,9 +56,7 @@ export default {
       type: String,
       default: ''
     },
-    onBlur: {
-      type: Function
-    },
+    onBlur: { type: Function },
     addonBefore: {
       type: String,
       default: ''
@@ -90,6 +92,20 @@ export default {
     }
   },
   computed: {
+    computedWidth() {
+      if (!this.addonBefore) {
+        return 0;
+      }
+      const div = document.createElement('div');
+      div.innerText = this.addonBefore;
+      div.style.fontSize = '14px';
+      div.style.paddingLeft = '10px'; // same padding with input
+      div.style.display = 'inline-block';
+      document.body.appendChild(div);
+      const width = `${div.clientWidth}px`;
+      document.body.removeChild(div);
+      return width;
+    },
     inputType() {
       if (this.type === 'password') {
         if (this.showPwd) {
@@ -135,14 +151,15 @@ export default {
     display: flex;
     align-items: center;
     .extra {
-      padding: 0 10px;
+      padding: 10px 10px;
       padding-right: 0;
     }
     input {
       font-size: 14px;
-      padding: 0 10px;
+      padding: 10px;
       height: 34px;
-      line-height: 34px;
+      line-height: 1;
+      // line-height: 34px;
       width: 100%;
       outline: 0;
       border-radius: 4px;

@@ -1,9 +1,11 @@
 <template>
   <div class="pop-info"
+       :class="{'bottom-pop-info':position==='bottom'}"
        v-if="hidden"
        v-clickoutside="handleClose">
     <div class="pop">
-      <div class="title">{{title}}</div>
+      <div class="title"
+           v-if="title">{{title}}</div>
       <div class="content"> {{content}} </div>
     </div>
     <div class="pos">
@@ -16,9 +18,7 @@
 export default {
   name: 'Popover',
   props: {
-    value: {
-      type: Boolean
-    },
+    value: { type: Boolean },
     title: {
       type: String,
       default: ''
@@ -33,9 +33,7 @@ export default {
     }
   },
   data() {
-    return {
-      hidden: this.value
-    };
+    return { hidden: this.value };
   },
   watch: {
     value(v) {
@@ -44,6 +42,7 @@ export default {
   },
   methods: {
     handleClose() {
+      console.log('handleClose ');
       this.hidden = false;
       this.$emit('input', this.hidden);
     }
@@ -107,6 +106,46 @@ export default {
         border-width: 8px 8px 0;
         border-style: solid;
         border-color: #ffffff transparent transparent;
+      }
+    }
+  }
+  &.bottom-pop-info {
+    position: absolute;
+    top: 20px;
+    left: -130px;
+    .pos {
+      position: relative;
+      height: 14px;
+      i {
+        position: relative;
+        bottom: 0;
+        top: -108px;
+        &::before {
+          content: '';
+          position: absolute;
+          left: 128px;
+          bottom: -8px;
+          display: block;
+          width: 0;
+          height: 0;
+          overflow: hidden;
+          border-width: 0 10px 10px;
+          border-style: solid;
+          border-color: transparent transparent #f1f1f1;
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          left: 130px;
+          bottom: -8px;
+          display: block;
+          width: 0;
+          height: 0;
+          overflow: hidden;
+          border-width: 0 8px 8px;
+          border-style: solid;
+          border-color: transparent transparent #ffffff;
+        }
       }
     }
   }
