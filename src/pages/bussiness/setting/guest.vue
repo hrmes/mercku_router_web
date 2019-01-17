@@ -269,7 +269,7 @@ export default {
     },
     formatTime(time) {
       if (time === -1) {
-        return this.$t('trans0017');
+        return this.$t('trans0530');
       }
       const arr = [60, 60, 24];
       const temp = ['00', '00', '00'];
