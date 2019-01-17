@@ -5,7 +5,7 @@
     </div>
     <div class="page-content">
       <div class="list"
-           v-if="!isEmpty">
+           v-if="hasVpns&&!isEmpty">
         <div class="vpn-list">
           <div class="vpn"
                v-for="vpn in vpns"
@@ -47,7 +47,7 @@
                 :disabled="connecting">{{$t('trans0035')}}</button>
       </div>
       <div class="vpn-empty"
-           v-if="isEmpty">
+           v-if="hasVpns&&isEmpty">
         <img src="../../../../assets/images/img_default_empty.png"
              alt="">
         <p class="empty-text">{{$t('trans0278')}}</p>
@@ -199,14 +199,10 @@ export default {
           message: this.$t('trans0376'),
           callback: {
             ok: () => {
-              this.$http
-                .deleteVPN({
-                  vpn_ids: [vpn.id]
-                })
-                .then(() => {
-                  this.vpns = this.vpns.filter(v => v !== vpn);
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
-                });
+              this.$http.deleteVPN({ vpn_ids: [vpn.id] }).then(() => {
+                this.vpns = this.vpns.filter(v => v !== vpn);
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+              });
             }
           }
         });
@@ -259,6 +255,9 @@ export default {
     }
   },
   computed: {
+    hasVpns() {
+      return this.vpns !== null;
+    },
     isEmpty() {
       return this.vpns !== null && !this.vpns.length;
     }
