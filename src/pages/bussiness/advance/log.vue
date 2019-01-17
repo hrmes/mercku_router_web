@@ -15,7 +15,8 @@
         </div>
         <m-scrollbar class="log-container"
                      ref="scrollbar"
-                     v-show="enabled">
+                     v-show="enabled"
+                     :option="scrollbarOption">
           <pre>{{previous}}</pre>
           <pre class="increase"
                :class="{'not-empty':increase}">{{increase}}</pre>
@@ -30,7 +31,19 @@ export default {
     return {
       enabled: false,
       previousArray: [],
-      increaseArray: []
+      increaseArray: [],
+      scrollbarOption: {
+        probeType: 1,
+        eventPassthrough: 'horizontal',
+        scrollY: true,
+        scrollX: false,
+        disableMouse: true,
+        preventDefault: true,
+        disableTouch: false,
+        stopPropagation: true,
+        mouseWheel: true,
+        scrollbar: { fade: true }
+      }
     };
   },
   computed: {
@@ -48,9 +61,7 @@ export default {
     updateEnabled() {
       this.$loading.open();
       this.$http
-        .updateSyslogEnabled({
-          enabled: this.enabled
-        })
+        .updateSyslogEnabled({ enabled: this.enabled })
         .then(() => {
           this.$loading.close();
           if (!this.enabled) {

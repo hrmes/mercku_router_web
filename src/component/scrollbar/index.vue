@@ -22,7 +22,7 @@ export default {
         disableMouse: true,
         preventDefault: true,
         disableTouch: false,
-        stopPropagation: true,
+        stopPropagation: false,
         mouseWheel: true,
         scrollbar: { fade: true }
       })
