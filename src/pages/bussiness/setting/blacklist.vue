@@ -282,7 +282,7 @@ export default {
       display: none;
     }
     .btn {
-      height: 42px;
+      height: 36px;
       margin: 0 auto;
     }
     padding: 20px 0;
@@ -340,6 +340,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     .btn {
+      height: 27px !important;
       margin: 0 auto !important;
     }
   }

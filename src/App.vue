@@ -29,9 +29,9 @@ export default {
     menu_hidden() {
       const { path } = this.$route;
       return (
-        path.includes('login')
-        || path.includes('wlan')
-        || path.includes('unconnect')
+        path.includes('login') ||
+        path.includes('wlan') ||
+        path.includes('unconnect')
       );
     }
   },
