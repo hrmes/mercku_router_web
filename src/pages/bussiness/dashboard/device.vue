@@ -901,7 +901,7 @@ export default {
             text-align: left;
             cursor: pointer;
             color: #999999;
-            font-size: 12px;
+            font-size: 14px;
             &:hover {
               color: #333333;
               text-decoration: underline;
