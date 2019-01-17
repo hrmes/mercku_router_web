@@ -139,9 +139,7 @@ export default {
       routers: [],
       routerSelected: null,
       showModal: false,
-      form: {
-        newName: ''
-      },
+      form: { newName: '' },
       rules: {
         newName: [
           {
@@ -332,18 +330,14 @@ export default {
 
         title: {
           subtext: this.$t('trans0302'),
-          subtextStyle: {
-            color: '#333'
-          },
+          subtextStyle: { color: '#333' },
           left: 20
         },
         legend: [
           {
             itemWidth: 6,
             itemHeight: 6,
-            textStyle: {
-              padding: [0, 0, 0, 15]
-            },
+            textStyle: { padding: [0, 0, 0, 15] },
             data: [
               {
                 name: `${this.$t('trans0193')}`,
@@ -414,9 +408,7 @@ export default {
               { name: `${this.$t('trans0193')}` },
               { name: `${this.$t('trans0196')}` }
             ],
-            lineStyle: {
-              width: 2
-            }
+            lineStyle: { width: 2 }
           }
         ]
       };
@@ -785,7 +777,9 @@ export default {
                   text-align: center;
                   border-radius: 4px;
                   height: 46px;
-                  line-height: 46px;
+                  font-size: 14px;
+                  padding: 16px 0;
+                  line-height: 1;
                 }
                 .reset,
                 .delete {
@@ -796,9 +790,11 @@ export default {
                   text-align: center;
                   border-radius: 4px;
                   height: 46px;
-                  line-height: 46px;
+                  font-size: 14px;
+                  padding: 16px 0;
                   margin-left: 0;
                   margin-top: 20px;
+                  line-height: 1;
                 }
               }
             }
