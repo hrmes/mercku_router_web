@@ -64,7 +64,7 @@
                :class="{'cancel':setupAndStart}">
             <button class="btn"
                     @click='submit()'>{{$t('trans0081')}}</button>
-            <button class="btn"
+            <button class="btn btn-default btn-cancel"
                     style="margin-left:50px"
                     v-if="setupAndStart&&showCancelBtn"
                     @click='cancel'>{{$t('trans0025')}}</button>
@@ -402,6 +402,13 @@ export default {
   justify-content: flex-start;
 }
 .form {
+  .btn-cancel {
+    width: 68px;
+    min-width: auto;
+    margin-left: 10px !important;
+    border: 1px solid #bdbdbd;
+    color: #333333;
+  }
   .ssid {
     margin-bottom: 50px;
     width: 100%;
