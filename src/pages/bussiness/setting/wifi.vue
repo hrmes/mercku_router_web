@@ -243,7 +243,7 @@ export default {
       margin-top: 20px;
       label {
         margin-right: 2px;
-        font-size: 16px;
+        font-size: 14px;
         color: #333333;
       }
     }

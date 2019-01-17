@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     handleClose() {
+      console.log('handleClose ');
       this.hidden = false;
       this.$emit('input', this.hidden);
     }
