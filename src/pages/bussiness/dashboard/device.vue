@@ -62,173 +62,180 @@
           </ul>
         </div>
         <div class="table-body small-device-body">
-          <ul v-for="(row,i) in devicesMap[id]"
-              :key='i'>
-            <li class="column-name"
-                @click.stop="expandTable(row)">
-              <div class="column-check-box"
-                   v-if="isOfflineDevices">
-                <m-checkbox v-model="row.checked"></m-checkbox>
-              </div>
-              <div class="column-icon"
-                   v-if="!isOfflineDevices">
-                <div class="icon-inner">
-                  <i class="band"
-                     v-if="row.online_info.band==='wired'">
-                    <img src="../../../assets/images/ic_device_cable@2x.png"
-                         alt=""></i>
-                  <i class="band"
-                     v-else><img src="../../../assets/images/ic_equipment.png"
-                         alt=""></i>
+          <div class="loading-container"
+               v-if="showLoading">
+            <m-spinner></m-spinner>
+          </div>
+          <div v-show="!showLoading">
+            <ul v-for="(row,i) in devicesMap[id]"
+                :key='i'>
+              <li class="column-name"
+                  @click.stop="expandTable(row)">
+                <div class="column-check-box"
+                     v-if="isOfflineDevices">
+                  <m-checkbox v-model="row.checked"></m-checkbox>
                 </div>
-              </div>
-              <div class="name-wrap">
-                <div class="name-inner"
-                     :class="{'off-name':isOfflineDevices}">
-                  <a style="cursor:text">
-                    <img v-if='row.local &&!isOfflineDevices'
-                         src="../../../assets/images/ic_user.png"
-                         alt=""
-                         style="margin-right:5px;margin-left:0;">
-                    <span :title='row.name'
-                          :class="{'extand-name':row.expand}">{{row.name}}</span>
-                    <img style="cursor:pointer"
-                         @click.stop='()=>nameModalOpen(row)'
-                         v-if='isMobileRow(row.expand)&&!isOfflineDevices'
-                         src="../../../assets/images/ic_edit.png"
-                         alt="">
-                  </a>
+                <div class="column-icon"
+                     v-if="!isOfflineDevices">
+                  <div class="icon-inner">
+                    <i class="band"
+                       v-if="row.online_info.band==='wired'">
+                      <img src="../../../assets/images/ic_device_cable@2x.png"
+                           alt=""></i>
+                    <i class="band"
+                       v-else><img src="../../../assets/images/ic_equipment.png"
+                           alt=""></i>
+                  </div>
                 </div>
-                <div class="des-inner"
-                     v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                  <span> {{bandMap[`${row.online_info.band}`]}}</span>
-                  <span v-if="row.online_info.band!=='wired'">
-                    {{transformDate(row.online_info.online_duration)}}</span>
+                <div class="name-wrap">
+                  <div class="name-inner"
+                       :class="{'off-name':isOfflineDevices}">
+                    <a style="cursor:text">
+                      <img v-if='row.local &&!isOfflineDevices'
+                           src="../../../assets/images/ic_user.png"
+                           alt=""
+                           style="margin-right:5px;margin-left:0;">
+                      <span :title='row.name'
+                            :class="{'extand-name':row.expand}">{{row.name}}</span>
+                      <img style="cursor:pointer"
+                           @click.stop='()=>nameModalOpen(row)'
+                           v-if='isMobileRow(row.expand)&&!isOfflineDevices'
+                           src="../../../assets/images/ic_edit.png"
+                           alt="">
+                    </a>
+                  </div>
+                  <div class="des-inner"
+                       v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                    <span> {{bandMap[`${row.online_info.band}`]}}</span>
+                    <span v-if="row.online_info.band!=='wired'">
+                      {{transformDate(row.online_info.online_duration)}}</span>
+                  </div>
                 </div>
-              </div>
-              <div class="mobile-icon">
-                <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                     src="../../../assets/images/ic_side_bar_pick_up.png"
-                     alt="">
-              </div>
-            </li>
-            <li class="column-real-time"
-                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-              <div class="speed-inner">
-                <div class="speed-wrap">
-                  <img class='icon'
-                       src="../../../assets/images/ic_device_upload.png"
+                <div class="mobile-icon">
+                  <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
+                       src="../../../assets/images/ic_side_bar_pick_up.png"
                        alt="">
-                  <label class="text-inner">
-                    <span>
-                      {{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
-                    <span>
-                      {{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
-                  </label>
                 </div>
-                <div class="speed-wrap">
-                  <img class='icon'
-                       src="../../../assets/images/ic_device_download.png"
-                       alt="">
-                  <label class="text-inner">
-                    <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
-                    <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}/s</span>
-                  </label>
-                </div>
-              </div>
-            </li>
-            <li class="column-band"
-                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-              <span>{{$t('trans0015')}}</span>
-              <span>
-                {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
-              </span>
-              <span> {{formatNetworkData
-                (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
-            </li>
-            <li class="column-ip device-item"
-                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-              <span>{{$t('trans0151')}}</span>
-              <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
-            </li>
-            <li class="column-ip device-item"
-                v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-              <span>{{$t('trans0374')}}</span>
-              <span> {{transformOfflineDate(row.connected_time)}} </span>
-            </li>
-            <li class="column-ip device-item"
-                v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-              <span>{{$t('trans0188')}}</span>
-              <span>{{formatMac(row.mac)}}</span>
-            </li>
-            <li class="column-mac device-item"
-                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-              <span>{{$t('trans0188')}}</span>
-              <span>{{formatMac(row.mac)}}</span>
-            </li>
-            <li class="column-limit"
-                v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-              <div class="limit-inner">
-                <div class="item device-item"
-                     @click="()=>limitClick('time',row)">
-                  <span class="limit-icon time-limit"
-                        :title="$t('trans0075')"
-                        v-show="!isMobile"
-                        :class="{'active':isTimeLimit(row)}"></span>
-                  <span v-show="isMobile">{{$t('trans0075')}}</span>
-                  <span class="status">
-                    <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                    <img src="../../../assets/images/ic_inter.png"
+              </li>
+              <li class="column-real-time"
+                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <div class="speed-inner">
+                  <div class="speed-wrap">
+                    <img class='icon'
+                         src="../../../assets/images/ic_device_upload.png"
                          alt="">
-                  </span>
-                </div>
-                <div class="item device-item"
-                     @click="()=>limitClick('speed',row)">
-                  <span class="limit-icon speed-limit"
-                        :title="$t('trans0014')"
-                        v-show="!isMobile"
-                        :class="{'active':isSpeedLimit(row)}"></span>
-                  <span v-show="isMobile">{{$t('trans0014')}}</span>
-                  <span class="status">
-                    <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                    <img src="../../../assets/images/ic_inter.png"
+                    <label class="text-inner">
+                      <span>
+                        {{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
+                      <span>
+                        {{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
+                    </label>
+                  </div>
+                  <div class="speed-wrap">
+                    <img class='icon'
+                         src="../../../assets/images/ic_device_download.png"
                          alt="">
-                  </span>
+                    <label class="text-inner">
+                      <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}/s</span>
+                    </label>
+                  </div>
                 </div>
-                <div class="item device-item"
-                     @click="()=>limitClick('blacklist',row)">
-                  <span class="limit-icon url-limit"
-                        v-show="!isMobile"
-                        :title="$t('trans0076')"
-                        :class="{'active':isBlacklsitLimit(row)}"></span>
-                  <span v-show="isMobile">{{$t('trans0076')}}</span>
-                  <span class="status">
-                    <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                    <img src="../../../assets/images/ic_inter.png"
-                         alt="">
-                  </span>
+              </li>
+              <li class="column-band"
+                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <span>{{$t('trans0015')}}</span>
+                <span>
+                  {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
+                </span>
+                <span> {{formatNetworkData
+                  (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
+              </li>
+              <li class="column-ip device-item"
+                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <span>{{$t('trans0151')}}</span>
+                <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
+              </li>
+              <li class="column-ip device-item"
+                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+                <span>{{$t('trans0374')}}</span>
+                <span> {{transformOfflineDate(row.connected_time)}} </span>
+              </li>
+              <li class="column-ip device-item"
+                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+                <span>{{$t('trans0188')}}</span>
+                <span>{{formatMac(row.mac)}}</span>
+              </li>
+              <li class="column-mac device-item"
+                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <span>{{$t('trans0188')}}</span>
+                <span>{{formatMac(row.mac)}}</span>
+              </li>
+              <li class="column-limit"
+                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <div class="limit-inner">
+                  <div class="item device-item"
+                       @click="()=>limitClick('time',row)">
+                    <span class="limit-icon time-limit"
+                          :title="$t('trans0075')"
+                          v-show="!isMobile"
+                          :class="{'active':isTimeLimit(row)}"></span>
+                    <span v-show="isMobile">{{$t('trans0075')}}</span>
+                    <span class="status">
+                      <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
+                      <img src="../../../assets/images/ic_inter.png"
+                           alt="">
+                    </span>
+                  </div>
+                  <div class="item device-item"
+                       @click="()=>limitClick('speed',row)">
+                    <span class="limit-icon speed-limit"
+                          :title="$t('trans0014')"
+                          v-show="!isMobile"
+                          :class="{'active':isSpeedLimit(row)}"></span>
+                    <span v-show="isMobile">{{$t('trans0014')}}</span>
+                    <span class="status">
+                      <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
+                      <img src="../../../assets/images/ic_inter.png"
+                           alt="">
+                    </span>
+                  </div>
+                  <div class="item device-item"
+                       @click="()=>limitClick('blacklist',row)">
+                    <span class="limit-icon url-limit"
+                          v-show="!isMobile"
+                          :title="$t('trans0076')"
+                          :class="{'active':isBlacklsitLimit(row)}"></span>
+                    <span v-show="isMobile">{{$t('trans0076')}}</span>
+                    <span class="status">
+                      <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
+                      <img src="../../../assets/images/ic_inter.png"
+                           alt="">
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </li>
-            <li class="column-black-list"
-                :class="{'off-btn-handle-info':isOfflineDevices}"
-                v-if='isMobileRow(row.expand)'>
-              <span class="black-btn"
-                    @click="()=>addToBlackList(row)">
-                {{$t('trans0016')}}
-              </span>
-              <span class="del-btn"
-                    v-if="isOfflineDevices"
-                    @click="()=>delOfflineDevices([row.mac])">
-                {{$t('trans0033')}}
-              </span>
-            </li>
-          </ul>
-          <div class='table-empty'
-               v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
-            <img src="../../../assets/images/img_default_empty.png"
-                 alt="">
-            <span>{{$t('trans0278')}}</span></div>
+              </li>
+              <li class="column-black-list"
+                  :class="{'off-btn-handle-info':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand)'>
+                <span class="black-btn"
+                      @click="()=>addToBlackList(row)">
+                  {{$t('trans0016')}}
+                </span>
+                <span class="del-btn"
+                      v-if="isOfflineDevices"
+                      @click="()=>delOfflineDevices([row.mac])">
+                  {{$t('trans0033')}}
+                </span>
+              </li>
+            </ul>
+            <div class='table-empty'
+                 v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
+              <img src="../../../assets/images/img_default_empty.png"
+                   alt="">
+              <span>{{$t('trans0278')}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -268,6 +275,7 @@ import { formatMac, getStringByte, formatDate } from 'util/util';
 export default {
   data() {
     return {
+      showLoading: false,
       tabs: [
         {
           id: 'primary',
@@ -343,7 +351,7 @@ export default {
     };
     const selfInfo = await this.$http.getLocalDevice();
     this.localDeviceIP = selfInfo.data.result.ip;
-    this.getDeviceList();
+    this.getDeviceList(true);
   },
   beforeDestroy() {
     this.pageActive = false;
@@ -442,7 +450,7 @@ export default {
       this.timer = null;
       if (id !== this.id) {
         this.$router.push(`/dashboard/device/${id}`);
-        this.getDeviceList();
+        this.getDeviceList(true);
       }
     },
     isMobileRow(expand) {
@@ -491,12 +499,16 @@ export default {
         that.isMobile = false;
       }
     },
-    async getDeviceList() {
+    async getDeviceList(showLoading) {
+      if (showLoading) {
+        this.showLoading = showLoading;
+      }
       const params = this.devicesParams();
       if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
       try {
         const curId = this.id;
         const devicesInfo = await this.$http.getDeviceList(params);
+        this.showLoading = false;
         if (curId === this.id) {
           if (this.pageActive) {
             this.timer = setTimeout(() => {
@@ -527,6 +539,7 @@ export default {
         this.timer = setTimeout(() => {
           this.getDeviceList();
         }, 15 * 1000);
+        this.showLoading = false;
       }
     },
     updateDeviceName() {
@@ -751,6 +764,11 @@ export default {
       }
       .table-body {
         margin-bottom: 50px;
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          padding: 30px 0;
+        }
         ul {
           border-bottom: 1px solid #f1f1f1;
           padding: 15px 10px;
