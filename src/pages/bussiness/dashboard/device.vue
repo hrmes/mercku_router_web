@@ -1304,7 +1304,7 @@ export default {
               color: #ff0500;
               text-align: center;
               line-height: 1;
-              padding: 16px 0;
+              padding: 15px 0;
               font-size: 14px;
               cursor: pointer;
               &:hover {
@@ -1313,18 +1313,19 @@ export default {
             }
             &.off-btn-handle-info {
               .black-btn {
-                width: 100px;
+                width: 120px;
                 margin-right: 30px;
               }
               .del-btn {
                 display: block;
-                width: 100px;
-                height: 40px;
+                width: 120px;
+                height: 46px;
                 border-radius: 4px;
                 border: solid 1px #ff0500;
                 color: #ff0500;
                 text-align: center;
-                line-height: 40px;
+                padding: 15px 0;
+                line-height: 1;
                 cursor: pointer;
                 &:hover {
                   text-decoration: none;

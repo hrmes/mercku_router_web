@@ -5,20 +5,22 @@
     </div>
     <div class="page-content">
       <div class="wan-info">
-        <div v-if="isTesting">
-          <img src="../../../assets/images/img_test_internet.png"
-               alt="">
-          <p>{{$t('trans0298')}}</p>
-        </div>
-        <div v-if="isUnlinked||isLinked">
-          <img src="../../../assets/images/img_no_network_access.png"
-               alt="">
-          <p>{{$t('trans0319')}}</p>
-        </div>
-        <div v-if="isConnected">
-          <img src="../../../assets/images/img_internet_normal.png"
-               alt="">
-          <p>{{$t('trans0318')}}</p>
+        <div class="result-container">
+          <div v-if="isTesting">
+            <img src="../../../assets/images/img_test_internet.png"
+                 alt="">
+            <p>{{$t('trans0298')}}</p>
+          </div>
+          <div v-if="isUnlinked||isLinked">
+            <img src="../../../assets/images/img_no_network_access.png"
+                 alt="">
+            <p>{{$t('trans0319')}}</p>
+          </div>
+          <div v-if="isConnected">
+            <img src="../../../assets/images/img_internet_normal.png"
+                 alt="">
+            <p>{{$t('trans0318')}}</p>
+          </div>
         </div>
         <div class="seccess-info">
           <div>
@@ -606,7 +608,11 @@ export default {
     padding: 0;
     font-size: 14px;
   }
+  .result-container {
+    padding-right: 30px;
+  }
   .seccess-info {
+    padding-left: 30px;
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -637,8 +643,12 @@ export default {
     }
     p {
     }
+    .result-container {
+      padding-right: 0;
+    }
     .seccess-info {
       border: 0;
+      padding-left: 0;
       div {
       }
       label {

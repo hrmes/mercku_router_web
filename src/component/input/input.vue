@@ -223,6 +223,41 @@ export default {
     display: block;
     width: 100%;
     margin: 0 auto;
+    &.small {
+      .input {
+      }
+    }
+
+    &.disabled {
+      .icon-container {
+      }
+    }
+    .inputarea {
+    }
+    label {
+    }
+    .input-wrapper {
+      height: 48px;
+      .extra {
+      }
+      input {
+        &.margin {
+        }
+        &:disabled {
+        }
+        &.has-icon {
+        }
+      }
+    }
+    .icon-container {
+      height: 48px;
+      .icon {
+        &.hide {
+        }
+        &.show {
+        }
+      }
+    }
   }
 }
 </style>

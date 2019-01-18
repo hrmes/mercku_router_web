@@ -58,6 +58,7 @@ export default {
   watch: {
     value(v) {
       this.value = v;
+      this.inputValue = this.value;
       this.time = {
         h: v.split(':')[0],
         m: v.split(':')[1]

@@ -120,9 +120,7 @@ export default {
     showChangelog(node) {
       this.showChangelogModal = true;
       if (node.changelog) {
-        this.changelog = marked(node.changelog, {
-          sanitize: true
-        });
+        this.changelog = marked(node.changelog, { sanitize: true });
       } else {
         this.changelog = '';
       }
@@ -164,21 +162,15 @@ export default {
           ok: () => {
             this.$loading.open();
             this.$http
-              .upgradeMeshNode({
-                node_ids: nodeIds
-              })
+              .upgradeMeshNode({ node_ids: nodeIds })
               .then(() => {
                 this.$loading.close();
                 this.$upgrade({
                   onsuccess: () => {
-                    this.$router.push({
-                      path: '/dashboard'
-                    });
+                    this.$router.push({ path: '/dashboard' });
                   },
                   ontimeout: () => {
-                    this.$router.push({
-                      path: '/unconnect'
-                    });
+                    this.$router.push({ path: '/unconnect' });
                   }
                 });
               })
@@ -349,11 +341,9 @@ export default {
   overflow: auto;
   display: flex;
   flex-direction: column;
-  // padding: 0 30px !important;
   position: relative;
   .scroll-container {
     height: 280px;
-    // padding: 10px 0;
   }
   .changelog {
     pre {

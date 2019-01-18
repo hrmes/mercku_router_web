@@ -23,7 +23,8 @@
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
         <div class="form-item check-info">
-          <label for=""> {{$t('trans0110')}} <div class="tool">
+          <label for=""> {{$t('trans0110')}}
+            <div class="tool">
               <m-popover v-model='hideTipVisible'
                          :title="this.$t('trans0110')"
                          :content="this.$t('trans0325')" />

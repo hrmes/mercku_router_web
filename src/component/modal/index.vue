@@ -51,6 +51,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
   &.modal-enter-active {
     transition: all 0.3s ease-in;
   }

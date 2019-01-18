@@ -239,7 +239,7 @@ export default {
 }
 .modal {
   position: absolute;
-  top: 36px;
+  top: 40px;
   z-index: 1;
   left: 0;
   width: 300px;
@@ -338,6 +338,7 @@ export default {
 @media screen and (max-width: 768px) {
   .modal {
     left: 50%;
+    top: 30px;
     transform: translateX(-50%);
     .btn {
       height: 27px !important;

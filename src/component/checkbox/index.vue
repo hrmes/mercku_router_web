@@ -79,9 +79,10 @@ export default {
   }
   .text {
     display: inline;
-    font-size: 12px;
+    font-size: 14px;
+    line-height: 1;
     color: #333;
-    margin-left: 5px;
+    margin-left: 10px;
   }
 }
 </style>

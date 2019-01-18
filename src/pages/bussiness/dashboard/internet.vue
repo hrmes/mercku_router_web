@@ -1095,7 +1095,8 @@ export default {
       .test-speed-btn-container {
         height: 100px;
         padding: 0;
-        justify-content: flex-start;
+        width: 120px;
+        margin: 0 auto;
         &::before {
           display: none;
         }
