@@ -233,9 +233,10 @@ export default {
         this.$toast(this.$t('trans0381'));
         return;
       }
-      this.$loading.open({
-        template: `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`
-      });
+      const template = `<div class="add-mesh-tip">${this.$t(
+        'trans0195'
+      )}</div>`;
+      this.$loading.open({ template });
       // 超时90秒，间隔3秒
       this.$http
         .addMeshNode({ node })
