@@ -30,13 +30,18 @@ export default {
     close() {
       this.open = false;
       this.$emit('update:visible', false);
+    },
+    preventMove(e) {
+      e.preventDefault();
     }
   },
   mounted() {
     document.body.appendChild(this.$el);
+    this.$el.addEventListener('touchmove', this.preventMove);
   },
   beforeDestroy() {
     this.$el.parentNode.removeChild(this.$el);
+    this.$el.removeEventListener('touchmove', this.preventMove);
   }
 };
 </script>
@@ -44,6 +49,7 @@ export default {
 <style lang="scss" scoped>
 .modal-dialog {
   position: fixed;
+  z-index: 1000;
   top: 0;
   left: 0;
   right: 0;
@@ -51,7 +57,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+
   &.modal-enter-active {
     transition: all 0.3s ease-in;
   }

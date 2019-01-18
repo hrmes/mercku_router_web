@@ -104,6 +104,7 @@ export default {
   },
   mounted() {
     this.getBlacklist();
+    this.getDeviceList();
   },
   computed: {
     listOrdered() {
@@ -134,9 +135,6 @@ export default {
         }
       },
       deep: true
-    },
-    deviceModalVisible() {
-      this.getDeviceList();
     }
   },
   methods: {
@@ -148,6 +146,7 @@ export default {
           name: d.name,
           mac: d.mac
         }));
+      const macs = devices.map(d => d.mac);
       if (devices.length) {
         this.$loading.open();
         this.$http
@@ -159,6 +158,7 @@ export default {
                 checked: false
               }))
             );
+            this.devices = this.devices.filter(d => !macs.includes(d.mac));
             this.$toast(this.$t('trans0040'), 3000, 'success');
             this.$loading.close();
           })
