@@ -18,7 +18,8 @@ export default {};
     min-width: 150px;
     font-weight: bold;
     cursor: pointer;
-    &:hover {
+    &:hover,
+    :active {
       background: #f1f1f1;
       color: #999999;
     }
@@ -38,6 +39,9 @@ export default {};
       // width: auto;
       font-size: 14px;
       min-width: auto;
+      &:hover {
+        background: none;
+      }
     }
   }
 }

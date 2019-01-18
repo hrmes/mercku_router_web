@@ -12,7 +12,7 @@
       </div>
       <div class="form">
         <span class="welcome-text">{{$t('trans0136')}}</span>
-        <div v-if="!loading">
+        <div v-if="loading === false">
           <button v-if="initial"
                   class="btn"
                   @click="towlan">{{$t('trans0222')}}</button>
@@ -34,13 +34,14 @@
         </div>
         <div class="loadding"
              v-if="loading">
-          <m-spinner color="#333" />
+          <m-spinner size="36"
+                     color="#333" />
         </div>
       </div>
       <div class="small-device-download">
         <div class="logo-container">
           <img class="app-logo"
-               src="../../assets/images/ic_mercku.png"
+               src="../../assets/images/ic_launcher.jpg"
                alt="">
         </div>
         <div class="down-text">
@@ -69,7 +70,7 @@ export default {
   data() {
     return {
       initial: false,
-      loading: false,
+      loading: null,
       password: ''
     };
   },
@@ -77,14 +78,10 @@ export default {
     this.loading = true;
     this.$http.isinitial().then(res => {
       if (res.data.result.status) {
-        this.$http
-          .login({
-            password: ''
-          })
-          .then(() => {
-            this.initial = true;
-            this.loading = false;
-          });
+        this.$http.login({ password: '' }).then(() => {
+          this.initial = true;
+          this.loading = false;
+        });
       }
       this.isinitial = false;
       this.loading = false;
@@ -97,9 +94,7 @@ export default {
     login() {
       this.$loading.open();
       this.$http
-        .login({
-          password: this.password
-        })
+        .login({ password: this.password })
         .then(res => {
           this.$loading.close();
           const access = res.data.result.role;
@@ -213,9 +208,11 @@ export default {
       .logo-container {
         float: left;
         height: 48px;
+
         img {
           width: 48px;
           height: 48px;
+          border-radius: 5px;
         }
       }
 
@@ -230,9 +227,10 @@ export default {
           text-decoration: none;
           color: rgb(214, 0, 28);
           border: 1px solid rgb(214, 0, 28);
-          padding: 10px;
+          padding: 12px 10px;
           border-radius: 2px;
           font-size: 14px;
+          line-height: 1;
           display: block;
         }
       }

@@ -1,7 +1,8 @@
 <template>
   <div class="pop-info"
        :class="{'bottom-pop-info':position==='bottom'}"
-       v-if="hidden"
+       v-if="show"
+       :style="{'top':top}"
        v-clickoutside="handleClose">
     <div class="pop">
       <div class="title"
@@ -33,18 +34,17 @@ export default {
     }
   },
   data() {
-    return { hidden: this.value };
+    return { show: this.value };
   },
   watch: {
     value(v) {
-      this.hidden = v;
+      this.show = v;
     }
   },
   methods: {
     handleClose() {
-      console.log('handleClose ');
-      this.hidden = false;
-      this.$emit('input', this.hidden);
+      this.show = false;
+      this.$emit('input', this.show);
     }
   }
 };
@@ -56,7 +56,7 @@ export default {
   left: -24px;
   .pop {
     padding: 0 10px;
-    width: 210px;
+    width: 230px;
     min-height: 100px;
     background-color: #ffffff;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);

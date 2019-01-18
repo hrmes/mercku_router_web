@@ -264,16 +264,12 @@ export default {
         enabled: row.enabled
       };
       this.$http
-        .timeLimitUpdate({
-          ...params
-        })
+        .timeLimitUpdate({ ...params })
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-          // this.getList();
         })
         .catch(() => {
-          // this.getList();
           this.$loading.close();
           this.timeLimitList = this.timeLimitList.map(item => ({
             ...item,
@@ -308,9 +304,7 @@ export default {
         });
         this.form.schedule = arr;
         this.$http
-          .addTimeLimit({
-            ...this.form
-          })
+          .addTimeLimit({ ...this.form })
           .then(() => {
             this.$loading.close();
             this.getList();
@@ -414,7 +408,7 @@ export default {
         align-items: center;
         width: 320px;
         .check-inner {
-          width: 140px;
+          width: 160px;
           margin-bottom: 12px;
         }
       }

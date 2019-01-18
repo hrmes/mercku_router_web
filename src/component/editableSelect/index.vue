@@ -211,6 +211,9 @@ export default {
     display: block;
     width: 100%;
     margin: 0 auto;
+    .select {
+      height: 48px;
+    }
   }
 }
 </style>

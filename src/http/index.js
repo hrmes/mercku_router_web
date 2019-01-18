@@ -21,7 +21,7 @@ const methods = {
   getRouter: createMethod('router.meta.get'),
   deleteMeshNode: createMethod('mesh.node.delete'),
   updateMeshNode: createMethod('mesh.node.update'),
-  meshNodeReset: createMethod('mesh.node.reset'),
+  resetMeshNode: createMethod('mesh.node.reset'),
   reboot: createMethod('mesh.node.reboot'),
   addMeshNode: createMethod('mesh.node.add'),
   getMeshMeta: createMethod('mesh.meta.get'),

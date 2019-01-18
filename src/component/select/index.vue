@@ -182,6 +182,18 @@ export default {
     display: block;
     width: 100%;
     margin: 0 auto;
+    .select {
+      height: 48px;
+    }
+    .icon-container {
+      height: 48px;
+    }
+    .select-popup {
+      top: 48px;
+      li {
+        padding: 17px 10px;
+      }
+    }
   }
 }
 </style>

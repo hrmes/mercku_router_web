@@ -61,6 +61,7 @@
                     class="ssid-name">{{ssid_5g}}</span></div>
           </div>
           <div class="form-button"
+               style="margin-top:50px"
                :class="{'cancel':setupAndStart}">
             <button class="btn"
                     @click='submit()'>{{$t('trans0081')}}</button>
@@ -231,8 +232,8 @@ export default {
     },
     guestEnabledChange(enabled) {
       if (
-        (!enabled && this.setupAndStart && !this.showSettingPage) ||
-        (this.showSettingPage && this.showCancelBtn)
+        (!enabled && this.setupAndStart && !this.showSettingPage)
+        || (this.showSettingPage && this.showCancelBtn)
       ) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
@@ -246,10 +247,10 @@ export default {
                 .then(() => {
                   this.$loading.close();
                   this.clear();
-                  this.getGuest();
                   this.$reconnect({
                     onsuccess: () => {
                       this.$router.push({ path: '/setting/guest' });
+                      this.getGuest();
                     },
                     ontimeout: () => {
                       this.$router.push({ path: '/unconnect' });
@@ -367,9 +368,9 @@ export default {
                 .then(() => {
                   this.$loading.close();
                   this.clear();
-                  this.getGuest();
                   this.$reconnect({
                     onsuccess: () => {
+                      this.getGuest();
                       this.$router.push({ path: '/setting/guest' });
                     },
                     ontimeout: () => {
@@ -403,7 +404,6 @@ export default {
 }
 .form {
   .btn-cancel {
-    width: 68px;
     min-width: auto;
     margin-left: 10px !important;
     border: 1px solid #bdbdbd;

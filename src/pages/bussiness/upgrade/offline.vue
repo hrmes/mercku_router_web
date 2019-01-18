@@ -460,6 +460,9 @@ export default {
     img {
       width: 30px;
     }
+    p {
+      width: 140px;
+    }
   }
 }
 @media screen and (min-width: 769px) and (max-width: 999px) {

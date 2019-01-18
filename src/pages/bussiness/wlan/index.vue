@@ -42,10 +42,12 @@
                      :placeholder="$t('trans0321')"
                      v-model="form2.admin_password" />
           </m-form-item>
-          <m-checkbox class="checkbox"
-                      v-model="checked"
-                      @change="clearAdminPwd()"
-                      :text="$t('trans0293')"></m-checkbox>
+          <m-form-item>
+            <m-checkbox class="checkbox"
+                        v-model="checked"
+                        @change="clearAdminPwd()"
+                        :text="$t('trans0293')"></m-checkbox>
+          </m-form-item>
           <div class="button-container">
             <button @click="step0()"
                     class="btn btn-default ">{{$t('trans0057')}}</button>
@@ -121,9 +123,7 @@ export default {
           }
         ]
       },
-      form2: {
-        admin_password: ''
-      },
+      form2: { admin_password: '' },
       form2Rules: {
         admin_password: [
           {
@@ -178,9 +178,7 @@ export default {
                   }
                 }
               },
-              admin: {
-                password: this.form2.admin_password
-              }
+              admin: { password: this.form2.admin_password }
             }
           })
           .then(() => {

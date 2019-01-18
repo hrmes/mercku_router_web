@@ -80,9 +80,7 @@
   </div>
 </template>
 <script>
-import {
- ipReg, getStringByte, isMac, formatMac 
-} from 'util/util';
+import { ipReg, getStringByte, isMac, formatMac } from 'util/util';
 
 export default {
   data() {
@@ -278,7 +276,6 @@ export default {
         }
         .des {
           flex: 1;
-          border-bottom: 1px solid #f1f1f1;
           padding-bottom: 10px;
           p {
             color: #333333;
@@ -298,7 +295,6 @@ export default {
         }
         .btn {
           width: 120px;
-          height: 42px;
         }
         height: 100px;
       }

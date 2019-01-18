@@ -104,6 +104,7 @@ export default {
   },
   mounted() {
     this.getBlacklist();
+    this.getDeviceList();
   },
   computed: {
     listOrdered() {
@@ -134,9 +135,6 @@ export default {
         }
       },
       deep: true
-    },
-    deviceModalVisible() {
-      this.getDeviceList();
     }
   },
   methods: {
@@ -148,6 +146,7 @@ export default {
           name: d.name,
           mac: d.mac
         }));
+      const macs = devices.map(d => d.mac);
       if (devices.length) {
         this.$loading.open();
         this.$http
@@ -159,6 +158,7 @@ export default {
                 checked: false
               }))
             );
+            this.devices = this.devices.filter(d => !macs.includes(d.mac));
             this.$toast(this.$t('trans0040'), 3000, 'success');
             this.$loading.close();
           })
@@ -239,7 +239,7 @@ export default {
 }
 .modal {
   position: absolute;
-  top: 36px;
+  top: 40px;
   z-index: 1;
   left: 0;
   width: 300px;
@@ -338,6 +338,7 @@ export default {
 @media screen and (max-width: 768px) {
   .modal {
     left: 50%;
+    top: 30px;
     transform: translateX(-50%);
     .btn {
       height: 27px !important;
