@@ -388,17 +388,26 @@ export default {
       return params;
     },
     delOfflineDevices(macs) {
-      this.$loading.open();
-      this.$http
-        .meshDevicesOfflineDel({ macs })
-        .then(() => {
-          this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
-          this.getDeviceList();
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0553'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            this.$http
+              .meshDevicesOfflineDel({ macs })
+              .then(() => {
+                this.$loading.close();
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.getDeviceList();
+              })
+              .catch(() => {
+                this.$loading.close();
+              });
+          }
+        }
+      });
     },
     fillterOfflineDevices(arr) {
       return arr.sort((a, b) => b.connected_time - a.connected_time);
@@ -467,8 +476,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control
-        && row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {
@@ -610,7 +619,7 @@ export default {
       const differ = now - date;
       const split = [3600 * 24 * 1000, 3600 * 1000, 60 * 1000, 5 * 1000];
       if (date === 0) {
-        return `${this.$t('trans0010')}`;
+        return `${this.$t('trans0560')}`;
       }
       if (differ > split[0]) {
         return formatDate(date);
