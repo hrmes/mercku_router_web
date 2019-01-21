@@ -55,7 +55,8 @@
         <div class="table-header">
           <div class="name">
             <div class="checkbox">
-              <m-checkbox v-model="checkAllBlacklist"></m-checkbox>
+              <m-checkbox v-model="checkAllBlacklist"
+                          :onChange="changeCheckboxAll"></m-checkbox>
             </div>
             <div>{{$t('trans0005')}}</div>
           </div>
@@ -115,15 +116,6 @@ export default {
     }
   },
   watch: {
-    checkAllBlacklist(v) {
-      let checked = false;
-      if (v) {
-        checked = true;
-      }
-      this.blacklist.forEach(device => {
-        device.checked = checked;
-      });
-    },
     blacklist: {
       handler(nv) {
         if (nv.length) {
@@ -138,6 +130,15 @@ export default {
     }
   },
   methods: {
+    changeCheckboxAll(v) {
+      let checked = false;
+      if (v) {
+        checked = true;
+      }
+      this.blacklist.forEach(device => {
+        device.checked = checked;
+      });
+    },
     addBlacklist() {
       this.deviceModalVisible = false;
       const devices = this.devices
