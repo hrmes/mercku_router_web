@@ -400,6 +400,9 @@ export default {
           this.$loading.close();
         });
     },
+    fillterOfflineDevices(arr) {
+      return arr.sort((a, b) => b.connected_time - a.connected_time);
+    },
     filterDevices(arr) {
       const newArr = arr
         .map(v => {
@@ -532,7 +535,10 @@ export default {
           }
           this.devicesMap = {
             ...this.devicesMap,
-            [curId]: this.filterDevices(result)
+            [curId]:
+              curId === 'offline'
+                ? this.fillterOfflineDevices(result)
+                : this.filterDevices(result)
           };
         }
       } catch (err) {
