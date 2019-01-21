@@ -263,9 +263,6 @@ export default {
       }
       .form-item {
         text-align: left;
-        .checkbox {
-          margin-top: 10px;
-        }
       }
 
       .button-container {

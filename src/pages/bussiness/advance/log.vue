@@ -95,11 +95,11 @@ export default {
         // 全包含
         if (nowArray.includes(preStart) && nowArray.includes(preEnd)) {
           this.previousArray = preArray;
-          const index = nowArray.indexOf(preEnd);
+          const index = nowArray.lastIndexOf(preEnd);
           this.increaseArray = nowArray.slice(index + 1);
         } else {
           // 部分包含,首先找到包含的起始位置
-          const index = nowArray.indexOf(preEnd);
+          const index = nowArray.lastIndexOf(preEnd);
           if (index === -1) {
             this.previousArray = preArray;
             this.increaseArray = nowArray;
