@@ -13,12 +13,12 @@
       <div class="form">
         <span class="welcome-text">{{$t('trans0136')}}</span>
         <div v-if="loading === false">
-          <button v-if="initial"
+          <button v-if="initial === true"
                   class="btn"
                   @click="towlan">{{$t('trans0222')}}</button>
 
           <div class="login-form"
-               v-if="!initial">
+               v-if="initial === false">
             <div class="form-item">
               <m-input :label="$t('trans0067')"
                        :placeholder="$t('trans0321')"
@@ -33,8 +33,8 @@
           </div>
         </div>
         <div class="loadding"
-             v-if="loading">
-          <m-spinner size="36"
+             v-if="loading === true">
+          <m-spinner :size="36"
                      color="#333" />
         </div>
       </div>
@@ -69,7 +69,7 @@
 export default {
   data() {
     return {
-      initial: false,
+      initial: null,
       loading: null,
       password: ''
     };
@@ -83,7 +83,7 @@ export default {
           this.loading = false;
         });
       }
-      this.isinitial = false;
+      this.initial = false;
       this.loading = false;
     });
   },
