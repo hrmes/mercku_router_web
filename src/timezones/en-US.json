@@ -1,12 +1,12 @@
 [
   {
-    "name": "Eniwetok,Kwajalein",
+    "name": "Eniwetok, Kwajalein",
     "timezone": 12,
     "position": 1,
     "timename": "GMT-12:00"
   },
   {
-    "name": "MidwayIsland,Samoa",
+    "name": "MidwayIsland, Samoa",
     "timezone": 11,
     "position": 1,
     "timename": "GMT-11:00"
@@ -24,7 +24,7 @@
     "timename": "GMT-09:00"
   },
   {
-    "name": "PacificTime(US&Canada);Tijuana",
+    "name": "PacificTime(US&Canada); Tijuana",
     "timezone": 8,
     "position": 1,
     "timename": "GMT-08:00"
@@ -48,7 +48,7 @@
     "timename": "GMT-06:00"
   },
   {
-    "name": "MexicoCity,Tegucigalpa",
+    "name": "MexicoCity, Tegucigalpa",
     "timezone": 6,
     "position": 2,
     "timename": "GMT-06:00"
@@ -60,7 +60,7 @@
     "timename": "GMT-06:00"
   },
   {
-    "name": "Bogota,Lima,Quito",
+    "name": "Bogota, Lima, Quito",
     "timezone": 5,
     "position": 1,
     "timename": "GMT-05:00"
@@ -84,7 +84,7 @@
     "timename": "GMT-04:00"
   },
   {
-    "name": "Caracas,LaPaz",
+    "name": "Caracas, LaPaz",
     "timezone": 4,
     "position": 2,
     "timename": "GMT-04:00"
@@ -108,7 +108,7 @@
     "timename": "GMT-03:00"
   },
   {
-    "name": "BuenosAires,Georgetown",
+    "name": "BuenosAires, Georgetown",
     "timezone": 3,
     "position": 3,
     "timename": "GMT-03:00"
@@ -120,43 +120,43 @@
     "timename": "GMT-02:00"
   },
   {
-    "name": "Azores,CapeVerdeIs.",
+    "name": "Azores, CapeVerdeIs.",
     "timezone": 1,
     "position": 1,
     "timename": "GMT-01:00"
   },
   {
-    "name": "Casablanca,Monrovia",
+    "name": "Casablanca, Monrovia",
     "timezone": 0,
     "position": 1,
     "timename": "GMT+00:00"
   },
   {
-    "name": "GreenwichMeanTime:Dublin,Edinburgh,Lisbon,London",
+    "name": "GreenwichMeanTime:Dublin, Edinburgh, Lisbon, London",
     "timezone": 0,
     "position": 2,
     "timename": "GMT+00:00"
   },
   {
-    "name": "Amsterdam,Berlin,Bern,Rome,Stockholm,Vienna",
+    "name": "Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna",
     "timezone": -1,
     "position": 1,
     "timename": "GMT+01:00"
   },
   {
-    "name": "Belgrade,Bratislava,Budapest,Ljubljana,Prague",
+    "name": "Belgrade, Bratislava, Budapest, Ljubljana, Prague",
     "timezone": -1,
     "position": 2,
     "timename": "GMT+01:00"
   },
   {
-    "name": "Barcelona,Madrid",
+    "name": "Barcelona, Madrid",
     "timezone": -1,
     "position": 3,
     "timename": "GMT+01:00"
   },
   {
-    "name": "Brussels,Copenhagen,Madrid,Paris,Vilnius",
+    "name": "Brussels, Copenhagen, Madrid, Paris, Vilnius",
     "timezone": -1,
     "position": 4,
     "timename": "GMT+01:00"
@@ -174,7 +174,7 @@
     "timename": "GMT+01:00"
   },
   {
-    "name": "Athens,Istanbul,Minsk",
+    "name": "Athens, Istanbul, Minsk",
     "timezone": -2,
     "position": 1,
     "timename": "GMT+02:00"
@@ -192,7 +192,7 @@
     "timename": "GMT+02:00"
   },
   {
-    "name": "Harare,Pretoria",
+    "name": "Harare, Pretoria",
     "timezone": -2,
     "position": 4,
     "timename": "GMT+02:00"
@@ -210,13 +210,13 @@
     "timename": "GMT+02:00"
   },
   {
-    "name": "Baghdad,Kuwait,Riyadh",
+    "name": "Baghdad, Kuwait, Riyadh",
     "timezone": -3,
     "position": 1,
     "timename": "GMT+03:00"
   },
   {
-    "name": "Moscow,St.Petersburg,Volgograd",
+    "name": "Moscow, St.Petersburg, Volgograd",
     "timezone": -3,
     "position": 2,
     "timename": "GMT+03:00"
@@ -234,13 +234,13 @@
     "timename": "GMT+03:30"
   },
   {
-    "name": "Abu Dhabi,Muscat",
+    "name": "Abu Dhabi, Muscat",
     "timezone": -4,
     "position": 1,
     "timename": "GMT+04:00"
   },
   {
-    "name": "Baku,Tbilisi",
+    "name": "Baku, Tbilisi",
     "timezone": -4,
     "position": 2,
     "timename": "GMT+04:00"
@@ -258,19 +258,19 @@
     "timename": "GMT+05:00"
   },
   {
-    "name": "Islamabad,Karachi,Tashkent",
+    "name": "Islamabad, Karachi, Tashkent",
     "timezone": -5,
     "position": 2,
     "timename": "GMT+05:00"
   },
   {
-    "name": "Bombay,Calcutta,Madras,NewDelhi",
+    "name": "Bombay, Calcutta, Madras, NewDelhi",
     "timezone": -5,
     "position": 3,
     "timename": "GMT+05:30"
   },
   {
-    "name": "Astana,Almaty,Dhaka",
+    "name": "Astana, Almaty, Dhaka",
     "timezone": -6,
     "position": 1,
     "timename": "GMT+06:00"
@@ -282,13 +282,13 @@
     "timename": "GMT+06:00"
   },
   {
-    "name": "Bangkok,Hanoi,Jakarta",
+    "name": "Bangkok, Hanoi, Jakarta",
     "timezone": -7,
     "position": 1,
     "timename": "GMT+07:00"
   },
   {
-    "name": "Beijing,Chongqing,HongKong,Urumqi",
+    "name": "Beijing, Chongqing, HongKong, Urumqi",
     "timezone": -8,
     "position": 1,
     "timename": "GMT+08:00"
@@ -312,7 +312,7 @@
     "timename": "GMT+08:00"
   },
   {
-    "name": "Osaka,Sapporo,Tokyo",
+    "name": "Osaka, Sapporo, Tokyo",
     "timezone": -9,
     "position": 1,
     "timename": "GMT+09:00"
@@ -348,13 +348,13 @@
     "timename": "GMT+10:00"
   },
   {
-    "name": "Canberra,Melbourne,Sydney",
+    "name": "Canberra, Melbourne, Sydney",
     "timezone": -10,
     "position": 2,
     "timename": "GMT+10:00"
   },
   {
-    "name": "Guam,PortMoresby",
+    "name": "Guam, PortMoresby",
     "timezone": -10,
     "position": 3,
     "timename": "GMT+10:00"
@@ -372,19 +372,19 @@
     "timename": "GMT+10:00"
   },
   {
-    "name": "Magadan,SolomonIs.,NewCaledonia",
+    "name": "Magadan, SolomonIs., NewCaledonia",
     "timezone": -11,
     "position": 1,
     "timename": "GMT+11:00"
   },
   {
-    "name": "Auckland,Wllington",
+    "name": "Auckland, Wllington",
     "timezone": -12,
     "position": 1,
     "timename": "GMT+12:00"
   },
   {
-    "name": "Fiji,Kamchatka,MarshallIs.",
+    "name": "Fiji, Kamchatka, MarshallIs.",
     "timezone": -12,
     "position": 2,
     "timename": "GMT+12:00"
