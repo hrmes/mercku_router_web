@@ -721,7 +721,7 @@ export default {
       font-size: 12px;
       width: 70px !important;
       padding: 0 !important;
-      min-width: auto !important;
+      min-width: initial !important;
     }
     .off-more-message {
       min-width: 161px;
