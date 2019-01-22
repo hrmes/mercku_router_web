@@ -476,8 +476,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control &&
-        row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control
+        && row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {
@@ -1058,8 +1058,6 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        // height: 60px;
-        padding-top: 30px;
         padding-bottom: 10px;
         border-bottom: 1px solid #f1f1f1;
         width: 100%;
@@ -1105,8 +1103,6 @@ export default {
             padding: 0;
             overflow: inherit;
             background: white;
-            // padding: 0 20px;
-            margin-top: 10px;
             border-radius: 3px;
           }
         }
