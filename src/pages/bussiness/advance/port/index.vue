@@ -505,6 +505,12 @@ export default {
     }
     .table-body {
       .table-row {
+        &:first-child {
+          padding-top: 0;
+          .column-status {
+            top: 0;
+          }
+        }
         .m-title {
           display: inline-block;
         }
@@ -512,6 +518,7 @@ export default {
         flex-wrap: wrap;
         padding: 0;
         padding-bottom: 20px;
+        padding-top: 20px;
         position: relative;
         .column-local-ip,
         .column-local-port,
@@ -544,7 +551,7 @@ export default {
           position: absolute;
           text-align: right;
           right: 0;
-          top: 0;
+          top: 20px;
           display: flex;
           justify-content: flex-end;
         }

@@ -232,13 +232,13 @@ export default {
     },
     guestEnabledChange(enabled) {
       if (
-        (!enabled && this.setupAndStart && !this.showSettingPage)
-        || (this.showSettingPage && this.showCancelBtn)
+        (!enabled && this.setupAndStart && !this.showSettingPage) ||
+        (this.showSettingPage && this.showCancelBtn)
       ) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
-          message: this.$t('trans0559'),
+          message: this.$t('trans0229'),
           callback: {
             ok: () => {
               this.$loading.open();
@@ -254,7 +254,8 @@ export default {
                     },
                     ontimeout: () => {
                       this.$router.push({ path: '/unconnect' });
-                    }
+                    },
+                    timeout: 40
                   });
                 })
                 .catch(() => {
@@ -359,7 +360,7 @@ export default {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
-          message: this.$t('trans0523'),
+          message: this.$t('trans0229'),
           callback: {
             ok: () => {
               this.$loading.open();
@@ -375,7 +376,8 @@ export default {
                     },
                     ontimeout: () => {
                       this.$router.push({ path: '/unconnect' });
-                    }
+                    },
+                    timeout: 40
                   });
                 })
                 .catch(() => {
@@ -404,7 +406,7 @@ export default {
 }
 .form {
   .btn-cancel {
-    min-width: auto;
+    min-width: initial;
     margin-left: 10px !important;
     border: 1px solid #bdbdbd;
     color: #333333;
