@@ -38,7 +38,7 @@ export default {};
     .tab {
       // width: auto;
       font-size: 14px;
-      min-width: auto;
+      min-width: initial;
       &:hover {
         background: none;
       }
