@@ -365,22 +365,12 @@ export default {
         params = { filters: [{ type: 'primary', status: ['online'] }] };
       }
       if (this.id === 'guest') {
-        params = {
-          filters: [
-            {
-              type: 'guest',
-              status: ['online']
-            }
-          ]
-        };
+        params = { filters: [{ type: 'guest', status: ['online'] }] };
       }
       if (this.id === 'offline') {
         params = {
           filters: [
-            {
-              type: 'guest',
-              status: ['offline']
-            },
+            { type: 'guest', status: ['offline'] },
             { type: 'primary', status: ['offline'] }
           ]
         };
@@ -1073,6 +1063,7 @@ export default {
         width: 100%;
         justify-content: center;
         margin-left: 0;
+        margin-bottom: 10px;
         img {
         }
       }
