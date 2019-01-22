@@ -476,8 +476,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control &&
-        row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control
+        && row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {
@@ -551,6 +551,8 @@ export default {
           };
         }
       } catch (err) {
+        clearTimeout(this.timer);
+        this.timer = null;
         this.timer = setTimeout(() => {
           this.getDeviceList();
         }, 15 * 1000);
