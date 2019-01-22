@@ -365,22 +365,12 @@ export default {
         params = { filters: [{ type: 'primary', status: ['online'] }] };
       }
       if (this.id === 'guest') {
-        params = {
-          filters: [
-            {
-              type: 'guest',
-              status: ['online']
-            }
-          ]
-        };
+        params = { filters: [{ type: 'guest', status: ['online'] }] };
       }
       if (this.id === 'offline') {
         params = {
           filters: [
-            {
-              type: 'guest',
-              status: ['offline']
-            },
+            { type: 'guest', status: ['offline'] },
             { type: 'primary', status: ['offline'] }
           ]
         };
@@ -476,8 +466,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control &&
-        row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control
+        && row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {
@@ -551,6 +541,8 @@ export default {
           };
         }
       } catch (err) {
+        clearTimeout(this.timer);
+        this.timer = null;
         this.timer = setTimeout(() => {
           this.getDeviceList();
         }, 15 * 1000);
@@ -721,7 +713,7 @@ export default {
       font-size: 12px;
       width: 70px !important;
       padding: 0 !important;
-      min-width: auto !important;
+      min-width: initial !important;
     }
     .off-more-message {
       min-width: 161px;
@@ -1058,8 +1050,6 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        // height: 60px;
-        padding-top: 30px;
         padding-bottom: 10px;
         border-bottom: 1px solid #f1f1f1;
         width: 100%;
@@ -1075,6 +1065,7 @@ export default {
         width: 100%;
         justify-content: center;
         margin-left: 0;
+        margin-bottom: 10px;
         img {
         }
       }
@@ -1105,8 +1096,6 @@ export default {
             padding: 0;
             overflow: inherit;
             background: white;
-            // padding: 0 20px;
-            margin-top: 10px;
             border-radius: 3px;
           }
         }

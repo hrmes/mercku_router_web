@@ -8,7 +8,7 @@
         <div class="form-item">
           <div @click="setSelected(true)"
                class="radio"
-               :class="{'selected':isDefault}">
+               :class="{'selected':isBoolDefault}">
             {{$t('trans0459')}}
           </div>
           <p class="mac">{{mac.default}}</p>
@@ -16,13 +16,13 @@
         <div class="form-item">
           <div @click="setSelected(false)"
                class="radio"
-               :class="{'selected':!isDefault}">
+               :class="{'selected':!isBoolDefault}">
             {{$t('trans0460')}}
           </div>
           <m-form ref="form"
                   :model="mac"
                   :rules="rules"
-                  v-show="!isDefault">
+                  v-show="!isBoolDefault">
             <m-form-item prop="current"
                          ref="current">
               <m-input class="input"
@@ -45,13 +45,18 @@
 import { formatMac, isMac } from 'util/util';
 
 export default {
+  computed: {
+    isBoolDefault() {
+      return this.isDefault === true;
+    }
+  },
   data() {
     return {
       mac: {
         default: '',
         current: ''
       },
-      isDefault: true,
+      isDefault: null,
       rules: {
         current: [
           {

@@ -406,7 +406,7 @@ export default {
 }
 .form {
   .btn-cancel {
-    min-width: auto;
+    min-width: initial;
     margin-left: 10px !important;
     border: 1px solid #bdbdbd;
     color: #333333;

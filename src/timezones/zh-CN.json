@@ -1,6 +1,6 @@
 [
   {
-    "name": "埃尼威托克岛,夸贾林环礁",
+    "name": "埃尼威托克岛，夸贾林环礁",
     "timezone": 12,
     "position": 1,
     "timename": "GMT-12:00"
@@ -24,7 +24,7 @@
     "timename": "GMT-09:00"
   },
   {
-    "name": "太平洋时间(美国和加拿大);提华纳",
+    "name": "太平洋时间(美国和加拿大)；提华纳",
     "timezone": 8,
     "position": 1,
     "timename": "GMT-08:00"
