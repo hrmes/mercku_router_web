@@ -82,9 +82,10 @@ export default {
           this.initial = true;
           this.loading = false;
         });
+      } else {
+        this.initial = false;
+        this.loading = false;
       }
-      this.initial = false;
-      this.loading = false;
     });
   },
   methods: {
