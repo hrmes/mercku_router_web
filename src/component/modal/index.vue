@@ -24,24 +24,28 @@ export default {
   watch: {
     visible(nv) {
       this.open = nv;
+      if (this.open) {
+        this.position = document.body.style.position;
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+      }
     }
   },
   methods: {
     close() {
       this.open = false;
+      document.body.style.position = this.position;
       this.$emit('update:visible', false);
     },
     preventMove(e) {
-      e.preventDefault();
+      // e.preventDefault();
     }
   },
   mounted() {
     document.body.appendChild(this.$el);
-    this.$el.addEventListener('touchmove', this.preventMove);
   },
   beforeDestroy() {
     this.$el.parentNode.removeChild(this.$el);
-    this.$el.removeEventListener('touchmove', this.preventMove);
   }
 };
 </script>

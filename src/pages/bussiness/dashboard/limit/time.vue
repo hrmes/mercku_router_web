@@ -561,7 +561,7 @@ export default {
           align-items: center;
           width: 180px;
           .check-inner {
-            width: 140px;
+            width: 160px;
             margin-bottom: 12px;
           }
         }
