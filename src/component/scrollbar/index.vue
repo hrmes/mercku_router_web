@@ -24,6 +24,7 @@ export default {
         disableTouch: false,
         stopPropagation: false,
         mouseWheel: true,
+        bounce: false,
         scrollbar: { fade: true }
       })
     },

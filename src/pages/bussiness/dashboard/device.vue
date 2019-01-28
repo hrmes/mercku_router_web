@@ -1236,7 +1236,7 @@ export default {
             .pc-mac {
               display: none;
             }
-            border-top: 1px solid #f1f1f1;
+
             span:first-child {
               display: block;
             }
