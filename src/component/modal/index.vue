@@ -36,9 +36,6 @@ export default {
       this.open = false;
       document.body.style.position = this.position;
       this.$emit('update:visible', false);
-    },
-    preventMove(e) {
-      // e.preventDefault();
     }
   },
   mounted() {

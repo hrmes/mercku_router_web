@@ -505,6 +505,7 @@ export default {
             .uptime-unit {
               color: #999999;
               font-size: 16px;
+              margin-left: 5px;
             }
           }
         }
