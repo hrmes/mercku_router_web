@@ -9,7 +9,8 @@
         <div class="tools">
           <div class="checkbox">
             <m-checkbox v-model="checkAllBlacklist"
-                        :text="$t('trans0032')"></m-checkbox>
+                        :text="$t('trans0032')"
+                        :onChange="changeCheckboxAll"></m-checkbox>
           </div>
           <div class="btns">
             <button class="btn btn-primary"
