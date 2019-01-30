@@ -13,8 +13,8 @@
                         :onChange="changeCheckboxAll"></m-checkbox>
           </div>
           <div class="btns">
-            <button class="btn btn-primary"
-                    @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0035')}}
+            <div class="btn btn-primary"
+                 @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0035')}}
               <div class="modal"
                    v-show="deviceModalVisible"
                    @click.stop=""
@@ -22,8 +22,7 @@
                 <div class="opcity"></div>
                 <div class="modal-content">
                   <div v-if="devices"
-                       class="list"
-                       :data="devices">
+                       class="list">
                     <div class="device-item"
                          v-for="(item,index) in devices"
                          :key="index">
@@ -46,7 +45,7 @@
                   </div>
                 </div>
               </div>
-            </button>
+            </div>
             <button class="btn btn-default"
                     @click="removeBlacklist()"
                     :disabled="!someBlacklistChecked">{{$t('trans0453')}}
@@ -232,10 +231,18 @@ export default {
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 20px;
+  .btns {
+    display: flex;
+  }
   .btn {
     margin-left: 30px;
     &:first-child {
       margin-left: 0;
+      text-align: center;
+      width: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
 }
@@ -369,7 +376,7 @@ export default {
       .btns {
         display: flex;
       }
-      button {
+      .btn {
         height: 27px;
         width: auto;
         margin: 0;
