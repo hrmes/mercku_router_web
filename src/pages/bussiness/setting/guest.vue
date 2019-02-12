@@ -232,8 +232,8 @@ export default {
     },
     guestEnabledChange(enabled) {
       if (
-        (!enabled && this.setupAndStart && !this.showSettingPage) ||
-        (this.showSettingPage && this.showCancelBtn)
+        (!enabled && this.setupAndStart && !this.showSettingPage)
+        || (this.showSettingPage && this.showCancelBtn)
       ) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
@@ -255,7 +255,7 @@ export default {
                     ontimeout: () => {
                       this.$router.push({ path: '/unconnect' });
                     },
-                    timeout: 40
+                    timeout: 60
                   });
                 })
                 .catch(() => {
@@ -377,7 +377,7 @@ export default {
                     ontimeout: () => {
                       this.$router.push({ path: '/unconnect' });
                     },
-                    timeout: 40
+                    timeout: 60
                   });
                 })
                 .catch(() => {

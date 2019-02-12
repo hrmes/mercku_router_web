@@ -152,7 +152,7 @@ export default {
           ok: () => {
             this.$http.meshNetworkReboot({ recovery_time: 40 }).then(() => {
               this.$reconnect({
-                timeout: 40,
+                timeout: 60,
                 ontimeout: () => {
                   this.$router.push({ path: '/unconnect' });
                 }

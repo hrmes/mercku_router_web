@@ -164,7 +164,7 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 40
+                  timeout: 60
                 });
               });
             }

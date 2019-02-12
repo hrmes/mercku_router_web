@@ -122,7 +122,7 @@ export default {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
                 this.$reconnect({
-                  timeout: 40,
+                  timeout: 60,
                   onsuccess: () => {
                     this.$router.push({ path: '/advance/mac' });
                   },
