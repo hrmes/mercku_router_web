@@ -6,8 +6,7 @@ module.exports = {
   env: {
     browser: true
   },
-  extends: 'airbnb-base',
-
+  extends: ['plugin:vue/base', '@vue/airbnb'],
   // required to lint *.vue files
   plugins: ['vue'],
   rules: {
@@ -26,12 +25,22 @@ module.exports = {
     'no-underscore-dangle': 0,
     'no-bitwise': 0,
     'no-restricted-properties': 0,
-    'class-methods-use-this': 0
+    'class-methods-use-this': 0,
+    'no-trailing-spaces': 0,
+    'object-curly-newline': [
+      'error',
+      {
+        ObjectExpression: { multiline: true },
+        ObjectPattern: { multiline: true },
+        ImportDeclaration: { multiline: true },
+        ExportDeclaration: { multiline: true }
+      }
+    ]
   },
   settings: {
     'import/resolver': {
       webpack: {
-        config: './build/webpack.base.conf.js'
+        config: require.resolve('@vue/cli-service/webpack.config.js')
       }
     }
   }

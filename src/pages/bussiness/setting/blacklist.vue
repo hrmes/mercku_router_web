@@ -1,0 +1,402 @@
+<template>
+  <div class="page">
+    <div class='page-header'>
+      <span class="title"> {{$t('trans0288')}}</span>
+    </div>
+    <div class="page-content">
+
+      <div class="table">
+        <div class="tools">
+          <div class="checkbox">
+            <m-checkbox v-model="checkAllBlacklist"
+                        :text="$t('trans0032')"
+                        :onChange="changeCheckboxAll"></m-checkbox>
+          </div>
+          <div class="btns">
+            <div class="btn btn-primary"
+                 @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0035')}}
+              <div class="modal"
+                   v-show="deviceModalVisible"
+                   @click.stop=""
+                   v-clickoutside="()=>deviceModalVisible=false">
+                <div class="opcity"></div>
+                <div class="modal-content">
+                  <div v-if="devices"
+                       class="list">
+                    <div class="device-item"
+                         v-for="(item,index) in devices"
+                         :key="index">
+                      <div class="check">
+                        <m-checkbox v-model="item.checked"></m-checkbox>
+                      </div>
+                      <div class="des">
+                        <p>{{item.name}}</p>
+                        <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="empty"
+                       v-if="!devices.length">
+                    <p style="color:#000">{{$t('trans0278')}}</p>
+                  </div>
+                  <div class="btn-wrap">
+                    <button class="btn"
+                            @click="addBlacklist()">{{$t('trans0016')}}</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-default"
+                    @click="removeBlacklist()"
+                    :disabled="!someBlacklistChecked">{{$t('trans0453')}}
+            </button>
+          </div>
+        </div>
+        <div class="table-header">
+          <div class="name">
+            <div class="checkbox">
+              <m-checkbox v-model="checkAllBlacklist"
+                          :onChange="changeCheckboxAll"></m-checkbox>
+            </div>
+            <div>{{$t('trans0005')}}</div>
+          </div>
+          <div class="mac">{{$t('trans0188')}}</div>
+          <!-- <div class="operate">{{$t('trans0370')}}</div> -->
+        </div>
+        <div class="table-content">
+          <div class="device"
+               v-for="device in listOrdered"
+               :key="device.mac">
+            <div class="name">
+              <div class="checkbox">
+                <m-checkbox v-model="device.checked"></m-checkbox>
+              </div>
+              <div>{{device.name}}</div>
+            </div>
+            <div class="mac">{{formatMac(device.mac)}}</div>
+            <!-- <div class="operate">
+              <span class="delete"
+                    @click="removeSingleBlacklist(device)">{{$t('trans0033')}}</span>
+            </div> -->
+          </div>
+          <div class="empty"
+               v-if="!blacklist.length">
+            <img src="../../../assets/images/img_default_empty.png"
+                 alt="">
+            <p>{{$t('trans0278')}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import { formatMac } from 'util/util';
+
+export default {
+  data() {
+    return {
+      devices: [],
+      blacklist: [],
+      formatMac,
+      checkAllBlacklist: false,
+      deviceModalVisible: false
+    };
+  },
+  mounted() {
+    this.getBlacklist();
+    this.getDeviceList();
+  },
+  computed: {
+    listOrdered() {
+      return this.blacklist.sort((a, b) => a.name > b.name);
+    },
+    someBlacklistChecked() {
+      return this.blacklist.some(b => b.checked);
+    }
+  },
+  watch: {
+    blacklist: {
+      handler(nv) {
+        if (nv.length) {
+          if (nv.every(v => v.checked)) {
+            this.checkAllBlacklist = true;
+          } else {
+            this.checkAllBlacklist = false;
+          }
+        }
+      },
+      deep: true
+    }
+  },
+  methods: {
+    changeCheckboxAll(v) {
+      let checked = false;
+      if (v) {
+        checked = true;
+      }
+      this.blacklist.forEach(device => {
+        device.checked = checked;
+      });
+    },
+    addBlacklist() {
+      this.deviceModalVisible = false;
+      const devices = this.devices
+        .filter(d => d.checked)
+        .map(d => ({
+          name: d.name,
+          mac: d.mac
+        }));
+      const macs = devices.map(d => d.mac);
+      if (devices.length) {
+        this.$loading.open();
+        this.$http
+          .addToblackList({ devices })
+          .then(() => {
+            this.blacklist = this.blacklist.concat(
+              devices.map(d => ({
+                ...d,
+                checked: false
+              }))
+            );
+            this.devices = this.devices.filter(d => !macs.includes(d.mac));
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$loading.close();
+          })
+          .catch(() => {
+            this.$loading.close();
+          });
+      }
+    },
+    getDeviceList() {
+      Promise.all([
+        this.$http.getDeviceList({
+          filters: [
+            { type: 'primary', status: ['online'] },
+            {
+              type: 'guest',
+              status: ['online']
+            }
+          ]
+        }),
+        this.$http.getLocalDevice()
+      ]).then(([res1, res2]) => {
+        this.devices = res1.data.result
+          .map(d => ({
+            ...d,
+            checked: false
+          }))
+          .filter(d => d.ip !== res2.data.result.ip);
+      });
+    },
+    getBlacklist() {
+      this.$loading.open();
+      this.$http
+        .getBlacklist()
+        .then(res => {
+          this.$loading.close();
+          this.blacklist = res.data.result.map(b => ({
+            ...b,
+            checked: false
+          }));
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
+    },
+    removeBlacklist() {
+      const macs = this.blacklist.filter(b => b.checked).map(b => b.mac);
+      this.$loading.open();
+      this.$http
+        .removeBlacklist({ macs })
+        .then(() => {
+          macs.forEach(mac => {
+            this.blacklist = this.blacklist.filter(d => d.mac !== mac);
+          });
+          this.checkAllBlacklist = false;
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.tools {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  .btns {
+    display: flex;
+  }
+  .btn {
+    margin-left: 30px;
+    &:first-child {
+      margin-left: 0;
+      text-align: center;
+      width: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.modal {
+  position: absolute;
+  top: 40px;
+  z-index: 1;
+  left: 0;
+  width: 300px;
+  border-radius: 2px;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  border: solid 1px #e7e7e7;
+  background-color: #ffffff;
+  .list {
+    overflow: auto;
+    max-height: 400px;
+  }
+  .device-item {
+    display: flex;
+    padding: 20px;
+    align-items: center;
+    cursor: default;
+    .des {
+      flex: 1;
+      justify-content: flex-start;
+      margin-left: 20px;
+      p {
+        color: #333333;
+        line-height: 1;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+        &:first-child {
+          font-size: 14px;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+  .btn-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .btn-default {
+      display: none;
+    }
+    .btn {
+      height: 36px;
+      margin: 0 auto;
+    }
+    padding: 20px 0;
+  }
+}
+.table {
+  width: 100%;
+  .tools {
+    .checkbox {
+      display: none;
+    }
+  }
+  .name,
+  .mac {
+    width: 50%;
+  }
+  .name {
+    display: flex;
+    .checkbox {
+      margin-right: 20px;
+    }
+  }
+  // .operate {
+  //   width: 20%;
+  // }
+  .table-header {
+    display: flex;
+    background: #f1f1f1;
+    padding: 15px 30px;
+  }
+  .table-content {
+    .device {
+      display: flex;
+      padding: 15px 30px;
+      border-bottom: 1px solid #f1f1f1;
+      .name,
+      .mac,
+      .operate {
+        .delete {
+          color: red;
+          cursor: pointer;
+          &:hover {
+            text-decoration: underline;
+          }
+          &:active {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .modal {
+    left: 50%;
+    top: 30px;
+    transform: translateX(-50%);
+    .btn {
+      height: 27px !important;
+      margin: 0 auto !important;
+    }
+  }
+  .table {
+    flex-direction: column;
+    .operate,
+    .mac {
+      margin-top: 10px;
+    }
+    .operate {
+      text-align: right;
+    }
+    .tools {
+      border-bottom: 1px solid #f1f1f1;
+      padding: 10px 0;
+      padding-top: 0;
+      margin: 0;
+      display: flex;
+      justify-content: space-between;
+      .checkbox {
+        display: block;
+      }
+      .btns {
+        display: flex;
+      }
+      .btn {
+        height: 27px;
+        width: auto;
+        margin: 0;
+        &:last-child {
+          margin-left: 20px;
+        }
+      }
+    }
+    .table-header {
+      display: none;
+    }
+    .table-content {
+      .device {
+        flex-direction: column;
+        padding: 20px 0;
+        .mac {
+          margin-left: 38px;
+        }
+      }
+    }
+  }
+}
+</style>

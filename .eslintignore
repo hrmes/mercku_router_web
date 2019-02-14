@@ -1,7 +1,4 @@
-/build/
-/config/
-/dist/
-/*.js
-/test/unit/coverage/
-/src/pc/component/table
-/src/pc/store.js
+/test
+/dist
+/node_modules
+vue.config.js
