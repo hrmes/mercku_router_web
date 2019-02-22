@@ -177,7 +177,7 @@ export default {
         });
     },
     editHandle(item) {
-      this.$store.state = { ...this.$store.state, portfw: item };
+      this.$store.modules = { ...this.$store.modules, portfw: item };
       this.$router.push(`/advance/portforwarding/form/${item.id}`);
     },
     update(v, item) {

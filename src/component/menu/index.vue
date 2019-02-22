@@ -36,7 +36,7 @@
               :key="child.key"
               @click.stop="jump(child)"
               v-for="child in menu.children"
-              :class="{'selected':$route.name.includes(child.name)}">
+              :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
             <span class="menu-icon"></span>
             <span class="menu-text">{{$t(child.text)}}</span>
           </li>
@@ -74,7 +74,7 @@ export default {
           }
         });
         menu.expand = !menu.expand;
-      } else {
+      } else if (!menu.disabled) {
         this.$router.push({ path: menu.url });
         this.current = menu;
         this.showMenu = false;
@@ -188,6 +188,10 @@ export default {
       cursor: pointer;
       &.selected {
         color: #d6001c;
+      }
+      &.disabled {
+        color: #ccc;
+        cursor: not-allowed;
       }
     }
     .menu-item {

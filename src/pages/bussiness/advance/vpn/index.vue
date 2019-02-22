@@ -77,8 +77,8 @@ export default {
   methods: {
     isConnectingOrDisconnecting(vpn) {
       return (
-        vpn.status === VPNStatus.connecting
-        || vpn.status === VPNStatus.disconnecting
+        vpn.status === VPNStatus.connecting ||
+        vpn.status === VPNStatus.disconnecting
       );
     },
     getSpinnerText(vpn) {
@@ -180,7 +180,7 @@ export default {
     },
     edit(vpn) {
       if (!this.connecting && !vpn.enabled) {
-        this.$store.state.vpn = vpn;
+        this.$store.modules.vpn = vpn;
         this.$router.push(`/advance/vpn/form/${vpn.id}`);
       }
     },

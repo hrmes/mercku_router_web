@@ -55,10 +55,12 @@
           </div>
           <div class="ssid"
                v-if="!form.smart_connect">
-            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span
-                    class="ssid-name">{{form.ssid}}</span></div>
-            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span
-                    class="ssid-name">{{ssid_5g}}</span></div>
+            <div><span class="ssid-label">{{$t('trans0255')}}：</span>
+              <span class="ssid-name">{{form.ssid}}</span>
+            </div>
+            <div><span class="ssid-label">{{$t('trans0256')}}：</span>
+              <span class="ssid-name">{{ssid_5g}}</span>
+            </div>
           </div>
         </div>
 

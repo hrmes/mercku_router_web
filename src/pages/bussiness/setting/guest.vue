@@ -55,10 +55,14 @@
           </div>
           <div v-if="!form.smart_connect"
                class="ssid">
-            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span
-                    class="ssid-name">{{form.ssid}}</span></div>
-            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span
-                    class="ssid-name">{{ssid_5g}}</span></div>
+            <div>
+              <span class="ssid-label">{{$t('trans0255')}}：</span>
+              <span class="ssid-name">{{form.ssid}}</span>
+            </div>
+            <div>
+              <span class="ssid-label">{{$t('trans0256')}}：</span>
+              <span class="ssid-name">{{ssid_5g}}</span>
+            </div>
           </div>
           <div class="form-button"
                style="margin-top:50px"
@@ -232,8 +236,8 @@ export default {
     },
     guestEnabledChange(enabled) {
       if (
-        (!enabled && this.setupAndStart && !this.showSettingPage)
-        || (this.showSettingPage && this.showCancelBtn)
+        (!enabled && this.setupAndStart && !this.showSettingPage) ||
+        (this.showSettingPage && this.showCancelBtn)
       ) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),

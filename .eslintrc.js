@@ -27,15 +27,8 @@ module.exports = {
     'no-restricted-properties': 0,
     'class-methods-use-this': 0,
     'no-trailing-spaces': 0,
-    'object-curly-newline': [
-      'error',
-      {
-        ObjectExpression: { multiline: true },
-        ObjectPattern: { multiline: true },
-        ImportDeclaration: { multiline: true },
-        ExportDeclaration: { multiline: true }
-      }
-    ]
+    'object-curly-newline': ['error', { consistent: true }],
+    'operator-linebreak': [2, 'after', { overrides: { '?': 'before', ':': 'before' } }]
   },
   settings: {
     'import/resolver': {

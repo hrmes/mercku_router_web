@@ -407,8 +407,8 @@ export default {
           return;
         }
         if (
-          this.testSpeedNumber % 5 === 0
-          && this.testSpeedNumber !== this.testTimeout
+          this.testSpeedNumber % 5 === 0 &&
+          this.testSpeedNumber !== this.testTimeout
         ) {
           this.speedTest();
         }

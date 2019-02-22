@@ -180,7 +180,7 @@ export default {
         });
     },
     editHandle(item) {
-      this.$store.state = { ...this.$store.state, rsvdip: item };
+      this.$store.modules = { ...this.$store.modules, rsvdip: item };
       this.$router.push(`/advance/rsvdip/form/${item.id}`);
     },
     update(v, item) {

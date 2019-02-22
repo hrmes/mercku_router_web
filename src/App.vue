@@ -3,212 +3,57 @@
     <div class="container">
       <m-menu class="menu"
               :menus="menus"
-              v-if="!menu_hidden"></m-menu>
+              v-if="!menuVisible"></m-menu>
       <div class="app-container router-view">
         <div class="flex-wrap"
-             :class="{'has-menu':!menu_hidden}">
-          <m-header :hasExit="!menu_hidden"
+             :class="{'has-menu':!menuVisible}">
+          <m-header :hasExit="!menuVisible"
                     class="header"
-                    :class="{'no-menu':menu_hidden}"></m-header>
+                    :class="{'no-menu':menuVisible}"></m-header>
           <router-view></router-view>
           <m-policy :locale="$i18n.locale"
-                    :class="{'fix-bottom':menu_hidden}"
+                    :class="{'fix-bottom':menuVisible}"
                     class="policy" />
         </div>
       </div>
     </div>
   </m-scrollbar>
-
 </template>
 <script>
 import './style/common.scss';
-import { Access } from 'util/constant';
+import getMenu from './menu';
 
 export default {
   computed: {
-    menu_hidden() {
+    menuVisible() {
       const { path } = this.$route;
       return (
-        path.includes('login')
-        || path.includes('wlan')
-        || path.includes('unconnect')
+        path.includes('login') ||
+        path.includes('wlan') ||
+        path.includes('unconnect')
       );
     }
   },
   watch: {
-    '$store.state.access': function watcher() {
-      this.access = this.$store.state.access;
+    '$store.role': function watcher() {
+      this.role = this.$store.role;
     },
-    access() {
-      this.menus = this.getMenus();
+    '$store.mode': function watcher() {
+      this.menus = getMenu(this.role, this.$store.mode);
+    },
+    role() {
+      this.menus = getMenu(this.role, this.$store.mode);
     }
   },
-  methods: {
-    getMenus() {
-      const wifi = {
-        icon: 'wifi',
-        text: 'trans0173',
-        children: [
-          {
-            text: 'trans0365',
-            name: 'mesh',
-            url: '/dashboard/mesh/topo'
-          },
-          {
-            text: 'trans0235',
-            name: 'device',
-            url: '/dashboard/device/primary'
-          },
-          {
-            text: 'trans0366',
-            name: 'internet',
-            url: '/dashboard/internet'
-          }
-        ]
-      };
-      const setting = {
-        icon: 'setting',
-        text: 'trans0019',
-        children: [
-          {
-            text: 'trans0103',
-            name: 'wifi',
-            url: '/setting/wifi'
-          },
-          {
-            text: 'trans0142',
-            name: 'wan',
-            url: '/setting/wan'
-          },
-          {
-            text: 'trans0561',
-            name: 'safe',
-            url: '/setting/safe'
-          },
-          {
-            text: 'trans0020',
-            name: 'blacklist',
-            url: '/setting/blacklist'
-          },
-          {
-            text: 'trans0272',
-            name: 'timezone',
-            url: '/setting/timezone'
-          },
-          {
-            url: '/setting/guest',
-            name: 'guest',
-            text: 'trans0538'
-          }
-        ]
-      };
-      const advance = {
-        icon: 'advance',
-        text: 'trans0416',
-        children: [
-          {
-            url: '/advance/portforwarding',
-            name: 'advance-portforwarding',
-            text: 'trans0422',
-            super: false
-          },
-          {
-            url: '/advance/dmz',
-            name: 'advance-dmz',
-            text: 'trans0420',
-            super: false
-          },
-          {
-            url: '/advance/dhcp',
-            name: 'advance-dhcp',
-            text: 'trans0417',
-            super: false
-          },
-          {
-            url: '/advance/rsvdip',
-            name: 'advance-rsvdip',
-            text: 'trans0444',
-            super: false
-          },
-          {
-            url: '/advance/mac',
-            name: 'advance-mac',
-            text: 'trans0474',
-            super: false
-          },
-          {
-            url: '/advance/ddns',
-            name: 'advance-ddns',
-            text: 'trans0418',
-            super: false
-          },
-          {
-            url: '/advance/vpn',
-            name: 'advance-vpn',
-            text: 'trans0402',
-            super: false
-          },
-          {
-            url: '/advance/diagnosis',
-            name: 'advance-diagnosis',
-            text: 'trans0419',
-            super: false
-          },
-
-          {
-            url: '/advance/log',
-            name: 'advance-log',
-            text: 'trans0421',
-            super: true
-          },
-          {
-            url: '/advance/firewall',
-            name: 'advance-firewall',
-            text: 'trans0424',
-            super: true
-          }
-        ]
-      };
-
-      const upgrade = {
-        icon: 'upgrade',
-        text: 'trans0197',
-        children: [
-          {
-            url: '/upgrade/online',
-            name: 'online',
-            text: 'trans0202'
-          },
-          {
-            url: '/upgrade/offline',
-            name: 'offline',
-            text: 'trans0204'
-          }
-        ]
-      };
-      let menus = [];
-      const { access } = this.$store.state;
-      if (process.env.CUSTOMER_CONFIG.isCik) {
-        if (access === Access.super) {
-          advance.children.push({
-            url: '/advance/remote/tr069',
-            name: 'advance-remote',
-            text: 'trans0286'
-          });
-        } else {
-          advance.children = advance.children.filter(a => !a.super);
-        }
-        menus = [wifi, setting, advance, upgrade];
-      } else if (process.env.CUSTOMER_CONFIG.isMercku) {
-        menus = [wifi, setting, advance, upgrade];
-      }
-      return menus;
-    }
+  mounted() {
+    this.$http.getMeshMode().then(res => {
+      this.$store.mode = res.data.result;
+    });
   },
   data() {
     return {
-      access: this.$store.state.access,
-      menus: this.getMenus()
+      role: this.$store.role,
+      menus: getMenu(this.role, this.$store.mode)
     };
   }
 };
