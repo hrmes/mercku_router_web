@@ -50,6 +50,7 @@ const launch = () => {
     }
     let count = opt.timeout; // 60s重试时间
     const total = opt.timeout;
+    let responsed = true;
     const timer = setInterval(() => {
       count -= 1;
       const percent = ((total - count) / total).toFixed(2);
@@ -61,13 +62,22 @@ const launch = () => {
         loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
         loadingInstance = null;
       } else if (count !== total && count % 5 === 0) {
-        http.getRouter().then(() => {
-          clearInterval(timer);
-          opt.onsuccess();
-          opt.onfinally();
-          loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
-          loadingInstance = null;
-        });
+        if (responsed) {
+          responsed = false;
+          http
+            .getRouter()
+            .then(() => {
+              responsed = true;
+              clearInterval(timer);
+              opt.onsuccess();
+              opt.onfinally();
+              loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+              loadingInstance = null;
+            })
+            .catch(() => {
+              responsed = true;
+            });
+        }
       }
     }, 1000);
   };
@@ -126,7 +136,7 @@ const launch = () => {
         if (error && error.code) {
           toast(translate(error.code));
         } else {
-          router.push({ path: '/unconnect' });
+          // router.push({ path: '/unconnect' });
         }
       }
       throw data;
