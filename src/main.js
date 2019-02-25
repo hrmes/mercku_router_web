@@ -136,7 +136,7 @@ const launch = () => {
         if (error && error.code) {
           toast(translate(error.code));
         } else {
-          // router.push({ path: '/unconnect' });
+          router.push({ path: '/unconnect' });
         }
       }
       throw data;
