@@ -159,6 +159,7 @@ export default {
     padding: 10px;
     position: relative;
     max-height: 600px;
+    overflow-x: hidden;
     pre {
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
