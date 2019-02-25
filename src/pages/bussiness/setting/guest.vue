@@ -55,10 +55,12 @@
           </div>
           <div v-if="!form.smart_connect"
                class="ssid">
-            <div><span class="ssid-label">{{$t('trans0255')}}：</span><span
-                    class="ssid-name">{{form.ssid}}</span></div>
-            <div><span class="ssid-label">{{$t('trans0256')}}：</span><span
-                    class="ssid-name">{{ssid_5g}}</span></div>
+            <div><span class="ssid-label">{{$t('trans0255')}}：</span>
+              <span class="ssid-name">{{form.ssid}}</span>
+            </div>
+            <div><span class="ssid-label">{{$t('trans0256')}}：</span>
+              <span class="ssid-name">{{ssid_5g}}</span>
+            </div>
           </div>
           <div class="form-button"
                style="margin-top:50px"
@@ -153,7 +155,6 @@ export default {
           text: this.$t('trans0555')
         }
       ],
-
       form: {
         id: '',
         enabled: false,
@@ -189,8 +190,9 @@ export default {
     hasStatus() {
       return this.setupAndStart;
     },
-    foramtParams() {
+    formParams() {
       let params = {};
+      // 新建guest wifi
       if (this.form.enabled) {
         params = {
           id: this.form.id,
@@ -211,6 +213,7 @@ export default {
           }
         };
       } else {
+        // 关闭guest wifi
         params = {
           id: '1',
           enabled: this.form.enabled
@@ -231,42 +234,30 @@ export default {
       this.showSettingPage = true;
     },
     guestEnabledChange(enabled) {
-      if (
-        (!enabled && this.setupAndStart && !this.showSettingPage)
-        || (this.showSettingPage && this.showCancelBtn)
-      ) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          message: this.$t('trans0229'),
-          callback: {
-            ok: () => {
-              this.$loading.open();
-              this.$http
-                .meshGuestUpdate({ ...this.foramtParams })
-                .then(() => {
-                  this.$loading.close();
-                  this.clear();
-                  this.$reconnect({
-                    onsuccess: () => {
-                      this.$router.push({ path: '/setting/guest' });
-                      this.getGuest();
-                    },
-                    ontimeout: () => {
-                      this.$router.push({ path: '/unconnect' });
-                    },
-                    timeout: 60
-                  });
-                })
-                .catch(() => {
-                  this.$loading.close();
-                });
-            },
-            cancel: () => {
-              this.form.enabled = !enabled;
+      if (enabled) {
+        // 由关闭状态切换到启用状态
+        this.showSettingPage = true;
+      } else if (!enabled) {
+        // 由启用状态切换到关闭状态
+        if (this.setupAndStart) {
+          // 编辑当前正在运行的访客wifi
+          this.$dialog.confirm({
+            okText: this.$t('trans0024'),
+            cancelText: this.$t('trans0025'),
+            message: this.$t('trans0229'),
+            callback: {
+              ok: () => {
+                this.updateGuestWIFIStatus(false);
+              },
+              cancel: () => {
+                this.form.enabled = !enabled;
+              }
             }
-          }
-        });
+          });
+        } else {
+          // 新建一个访客wifi
+          this.showSettingPage = false;
+        }
       }
     },
     formatTime(time) {
@@ -304,56 +295,91 @@ export default {
       return topStr;
     },
     getDevicesCount() {
-      const params = {
-        filters: [
-          {
-            type: 'guest',
-            status: ['online']
-          }
-        ]
-      };
-      this.$http.getDeviceCount(params).then(res => {
-        this.devicesCount = res.data.result.count;
-      });
+      this.$http
+        .getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] })
+        .then(res => {
+          this.devicesCount = res.data.result.count;
+        });
     },
-    getGuest() {
+    getGuestWIFI() {
       this.$http.meshGuestGet().then(res => {
         [this.guest] = res.data.result;
+        const band24g = this.guest.bands['2.4G'];
         this.form = {
           id: this.guest.id,
           enabled: this.guest.enabled,
           duration: this.guest.duration,
-          ssid: this.guest.bands['2.4G'].ssid,
-          encrypt: this.guest.bands['2.4G'].encrypt,
-          password: this.guest.bands['2.4G'].password,
+          ssid: band24g.ssid,
+          encrypt: band24g.encrypt,
+          password: band24g.password,
           smart_connect: this.guest.smart_connect
         };
-        if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
-          this.setupAndStart = true;
-          if (this.guest.remaining_duration > 0) {
-            this.timer = setInterval(() => {
-              this.guest.remaining_duration -= 1;
-              if (this.guest.remaining_duration === 0) {
-                this.clear();
-                this.getGuest();
-              }
-            }, 1000);
-          }
-        }
-        if (!this.guest.enabled) {
-          this.showSettingPage = true;
-          this.showStatusPage = false;
-          this.showCancelBtn = false;
-        }
-        if (this.setupAndStart && this.guest.enabled) {
-          this.showStatusPage = true;
-          this.showSettingPage = false;
-        }
+        this.setGuestWIFIStatus(this.guest.enabled);
       });
     },
-    clear() {
+    setGuestWIFIStatus(enabled) {
+      // 清理定时器
+      this.clearIntervalTask();
+      if (enabled) {
+        this.getDevicesCount();
+        if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
+          this.setupAndStart = true;
+          this.showStatusPage = true;
+          this.showSettingPage = false;
+          this.createIntervalTask();
+        }
+      } else {
+        this.setupAndStart = false;
+        this.showStatusPage = false;
+        this.showCancelBtn = false;
+      }
+    },
+    createIntervalTask() {
+      if (this.guest.remaining_duration > 0) {
+        this.clearIntervalTask();
+        this.guest.remaining_duration -= 1; // 倒计时应该少1s
+        this.timer = setInterval(() => {
+          this.guest.remaining_duration -= 1;
+          if (this.guest.remaining_duration === 0) {
+            this.clearIntervalTask();
+            this.setupAndStart = false;
+            this.showSettingPage = false;
+            this.showStatusPage = false;
+            this.showCancelBtn = false;
+            this.form.enabled = false;
+          }
+        }, 1000);
+      }
+    },
+    clearIntervalTask() {
       clearInterval(this.timer);
       this.timer = null;
+    },
+    updateGuestWIFIStatus(enabled) {
+      this.$loading.open();
+      this.$http
+        .meshGuestUpdate(this.formParams)
+        .then(() => {
+          this.$loading.close();
+          this.$reconnect({
+            onsuccess: () => {
+              if (enabled) {
+                this.guest = {
+                  ...this.formParams,
+                  remaining_duration: this.formParams.duration
+                };
+              }
+              this.setGuestWIFIStatus(enabled);
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            },
+            timeout: 60
+          });
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     submit() {
       if (this.$refs.form.validate()) {
@@ -363,38 +389,18 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
-              this.$loading.open();
-              this.$http
-                .meshGuestUpdate(this.foramtParams)
-                .then(() => {
-                  this.$loading.close();
-                  this.clear();
-                  this.$reconnect({
-                    onsuccess: () => {
-                      this.getGuest();
-                      this.$router.push({ path: '/setting/guest' });
-                    },
-                    ontimeout: () => {
-                      this.$router.push({ path: '/unconnect' });
-                    },
-                    timeout: 60
-                  });
-                })
-                .catch(() => {
-                  this.$loading.close();
-                });
+              this.updateGuestWIFIStatus(true);
             }
           }
         });
       }
     }
   },
-  destroyed() {
-    this.clear();
+  beforeDestroy() {
+    this.clearIntervalTask();
   },
   mounted() {
-    this.getGuest();
-    this.getDevicesCount();
+    this.getGuestWIFI();
   }
 };
 </script>
