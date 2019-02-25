@@ -320,7 +320,8 @@ export default {
       });
     },
     setGuestWIFIStatus(enabled) {
-      // 访客wifi在启用状态
+      // 清理定时器
+      this.clearIntervalTask();
       if (enabled) {
         this.getDevicesCount();
         if (this.guest.remaining_duration > 0 || this.guest.duration === -1) {
@@ -333,7 +334,6 @@ export default {
         this.setupAndStart = false;
         this.showStatusPage = false;
         this.showCancelBtn = false;
-        this.clearIntervalTask();
       }
     },
     createIntervalTask() {
