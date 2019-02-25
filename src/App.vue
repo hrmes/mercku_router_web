@@ -32,29 +32,15 @@ export default {
         path.includes('wlan') ||
         path.includes('unconnect')
       );
-    }
-  },
-  watch: {
-    '$store.role': function watcher() {
-      this.role = this.$store.role;
     },
-    '$store.mode': function watcher() {
-      this.menus = getMenu(this.role, this.$store.mode);
-    },
-    role() {
-      this.menus = getMenu(this.role, this.$store.mode);
+    menus() {
+      return getMenu(this.$store.role, this.$store.mode);
     }
   },
   mounted() {
     this.$http.getMeshMode().then(res => {
       this.$store.mode = res.data.result;
     });
-  },
-  data() {
-    return {
-      role: this.$store.role,
-      menus: getMenu(this.role, this.$store.mode)
-    };
   }
 };
 </script>

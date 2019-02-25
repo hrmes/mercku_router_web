@@ -65,6 +65,11 @@ export default {
       list: []
     };
   },
+  watch: {
+    menus() {
+      this.list = this.getList();
+    }
+  },
   methods: {
     jump(menu) {
       if (!menu.url && menu.children) {
