@@ -27,11 +27,12 @@
             <div class="tool">
               <m-popover v-model='hideTipVisible'
                          :title="this.$t('trans0110')"
-                         :content="this.$t('trans0325')" />
-              <img width="14"
-                   src="../../../assets/images/ic_question.png"
-                   alt=""
-                   @click="hideTipVisible=!hideTipVisible">
+                         :content="this.$t('trans0325')">
+                <img width="14"
+                     src="../../../assets/images/ic_question.png"
+                     alt="">
+              </m-popover>
+
             </div>
           </label>
 

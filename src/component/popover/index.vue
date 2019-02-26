@@ -1,16 +1,24 @@
 <template>
-  <div class="pop-info"
-       :class="{'bottom-pop-info':position==='bottom'}"
-       v-if="show"
-       :style="{'top':top}"
-       v-clickoutside="handleClose">
-    <div class="pop">
-      <div class="title"
-           v-if="title">{{title}}</div>
-      <div class="content"> {{content}} </div>
+
+  <div class="popover-container">
+    <div class="trigger"
+         @click.stop="clickTriggler()">
+      <slot></slot>
     </div>
-    <div class="pos">
-      <i></i>
+
+    <div class="pop-info"
+         :class="{'bottom-pop-info':position==='bottom'}"
+         v-show="show"
+         :style="{'top':10}"
+         v-clickoutside="handleClose">
+      <div class="pop">
+        <div class="title"
+             v-if="title">{{title}}</div>
+        <div class="content"> {{content}} </div>
+      </div>
+      <div class="triangle">
+        <i></i>
+      </div>
     </div>
   </div>
 </template>
@@ -34,17 +42,14 @@ export default {
     }
   },
   data() {
-    return { show: this.value };
-  },
-  watch: {
-    value(v) {
-      this.show = v;
-    }
+    return { show: false };
   },
   methods: {
+    clickTriggler() {
+      this.show = !this.show;
+    },
     handleClose() {
       this.show = false;
-      this.$emit('input', this.show);
     }
   }
 };
@@ -74,7 +79,7 @@ export default {
       padding: 5px 0;
     }
   }
-  .pos {
+  .triangle {
     position: relative;
     height: 14px;
     i {
@@ -113,7 +118,7 @@ export default {
     position: absolute;
     top: 20px;
     left: -130px;
-    .pos {
+    .triangle {
       position: relative;
       height: 14px;
       i {

@@ -22,9 +22,22 @@
             </div>
           </div>
           <div class="switch-wrap">
+
+            <label for=""> {{$t('trans0562')}}
+              <div class="tool">
+                <m-popover v-model='hideTipVisible'
+                           :title="this.$t('trans0110')"
+                           :content="this.$t('trans0325')">
+                  <img width="14"
+                       src="../../../assets/images/ic_question.png"
+                       alt="">
+                </m-popover>
+
+              </div>
+            </label>
+
             <m-switch v-model="mesh24g"
-                      :onChange="(val)=>updateMeshBand(val)"
-                      :label="$t('trans0562')"></m-switch>
+                      :onChange="(val)=>updateMeshBand(val)"></m-switch>
           </div>
           <div class="topo-wrap"
                id="topo-wrap">
@@ -237,10 +250,7 @@ export default {
       });
     },
     isRouterOffline(router) {
-      if (router.status === RouterStatus.offline) {
-        return true;
-      }
-      return false;
+      return router.status === RouterStatus.offline;
     },
     closeUpdateModal() {
       this.form.newName = '';
