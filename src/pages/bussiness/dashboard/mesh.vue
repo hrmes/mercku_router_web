@@ -12,8 +12,12 @@
                 @click="addMeshNode">{{$t('trans0194')}}</button>
       </div>
       <div class="content">
-        <div id="topo"
-             v-show="!showTable"></div>
+        <div class="topo-container">
+          <div class="legend"></div>
+          <div class="switch-wrap"></div>
+          <div id="topo"
+               v-show="!showTable"></div>
+        </div>
         <div class="mesh-table"
              v-show="showTable">
           <div class="table-header">
@@ -77,6 +81,7 @@
               </div>
               <div class="operate">
                 <span class="reboot"
+                      v-if="!isRouterOffline(router)"
                       @click="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw"
                       class="reset"
@@ -117,6 +122,7 @@
 </template>
 <script>
 import { formatMac, getStringByte } from 'util/util';
+import { RouterStatus } from 'util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -131,6 +137,7 @@ const Color = {
 export default {
   data() {
     return {
+      RouterStatus,
       formatMac,
       pageActive: true,
       meshNode: [],
@@ -196,6 +203,12 @@ export default {
     }
   },
   methods: {
+    isRouterOffline(router) {
+      if (router.status === RouterStatus.offline) {
+        return true;
+      }
+      return false;
+    },
     closeUpdateModal() {
       this.form.newName = '';
       this.showModal = false;
@@ -327,11 +340,14 @@ export default {
 
       const option = {
         color: [Color.good, Color.bad],
-
         title: {
-          subtext: this.$t('trans0302'),
-          subtextStyle: { color: '#333' },
-          left: 20
+          text: this.$t('trans0302'),
+          textStyle: {
+            color: '#333',
+            fontSize: 14,
+            fontWeight: 'normal'
+          },
+          left: 10
         },
         legend: [
           {
@@ -349,7 +365,7 @@ export default {
               }
             ],
             orient: 'vertical',
-            top: 10,
+            top: 30,
             left: 10,
             selectedMode: false
           }
@@ -390,15 +406,6 @@ export default {
                     return `${start}\n${end}`;
                   }
                   return name.match(/.{1,10}/g).join('\n');
-                },
-                rich: {
-                  underline: {
-                    borderColor: '#777',
-                    width: '100%',
-                    borderWidth: 0.5,
-                    height: 0,
-                    lineHeight: 4
-                  }
                 }
               }
             },
@@ -480,12 +487,16 @@ export default {
       padding-top: 15px;
       flex: 1;
       display: flex;
-      #topo {
-        width: 100%;
-        min-height: 500px;
-
+      .topo-container {
         flex: 1;
+        display: flex;
+        #topo {
+          width: 100%;
+          min-height: 500px;
+          flex: 1;
+        }
       }
+
       .mesh-table {
         width: 100%;
         .table-header {
@@ -666,7 +677,6 @@ export default {
       }
 
       .content {
-        padding-top: 0;
         #topo {
           background: #fff;
           border-radius: 5px;

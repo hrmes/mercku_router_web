@@ -2,6 +2,10 @@ export const Role = {
   super: 'super',
   admin: 'admin'
 };
+export const RouterStatus = {
+  online: 'online',
+  offline: 'offline'
+};
 export const RouterMode = {
   router: 'router',
   bridge: 'bridge'

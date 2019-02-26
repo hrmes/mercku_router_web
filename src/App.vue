@@ -39,7 +39,7 @@ export default {
   },
   mounted() {
     this.$http.getMeshMode().then(res => {
-      this.$store.mode = res.data.result;
+      this.$store.mode = res.data.result.mode;
     });
   }
 };

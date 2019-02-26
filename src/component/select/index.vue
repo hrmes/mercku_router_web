@@ -51,14 +51,23 @@ export default {
     }
   },
   mounted() {
-    if (window.addEventListener) {
-      document.body.addEventListener('click', this.close);
-    } else if (window.attachEvent) {
-      document.body.attachEvent('click', this.close);
-    }
+    this.attachEvent();
   },
   methods: {
-    addEvent() {},
+    attachEvent() {
+      if (window.addEventListener) {
+        document.body.addEventListener('click', this.close);
+      } else if (window.attachEvent) {
+        document.body.attachEvent('click', this.close);
+      }
+    },
+    detachEvent() {
+      if (window.addEventListener) {
+        document.body.removeEventListener('click', this.close);
+      } else if (window.attachEvent) {
+        document.body.detachEvent('click', this.close);
+      }
+    },
     select(option) {
       this.selected = option;
       this.opened = false;
@@ -72,11 +81,7 @@ export default {
     }
   },
   beforeDestroy() {
-    if (window.addEventListener) {
-      document.body.removeEventListener('click', this.close);
-    } else if (window.attachEvent) {
-      document.body.detachEvent('click', this.close);
-    }
+    this.detachEvent();
   }
 };
 </script>

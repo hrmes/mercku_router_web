@@ -7,11 +7,13 @@
  *
  */
 import * as CONSTANTS from 'util/constant';
-import picGateway from '../../../assets/images/ic_m2_green_80x80px@2x.png';
-import picM2Good from '../../../assets/images/ic_m2_green_60x60px@2x.png';
-import picM2Bad from '../../../assets/images/ic_m2_orange_60x60px@2x.png';
-import picBeeGood from '../../../assets/images/ic_bee_green_60x60px@2x.png';
-import picBeeBad from '../../../assets/images/ic_bee_orange_60x60px@2x.png';
+import picGateway from '../../../assets/images/ic_m2_gw_green.png';
+import picM2Good from '../../../assets/images/ic_m2_green.png';
+import picM2Bad from '../../../assets/images/ic_m2_orange.png';
+import pciM2Offline from '../../../assets/images/ic_m2_offline.png';
+import picBeeGood from '../../../assets/images/ic_bee_green.png';
+import picBeeBad from '../../../assets/images/ic_bee_orange.png';
+import picBeeOffline from '../../../assets/images/ic_bee_offline.png';
 
 const Color = {
   good: '#00d061',
@@ -21,10 +23,6 @@ const Color = {
 
 // 大于-50均认为优秀
 const isGood = rssi => rssi > -60;
-
-const Status = {
-  offline: 'offline'
-};
 
 // 补充关系，a-b,b-a
 function addConnection(source) {
@@ -132,12 +130,12 @@ function genNodes(gateway, green, red, offline) {
     [CONSTANTS.RouterSnModel.M2]: {
       [Color.good]: picM2Good,
       [Color.bad]: picM2Bad,
-      [Color.offline]: picM2Bad
+      [Color.offline]: pciM2Offline
     },
     [CONSTANTS.RouterSnModel.Bee]: {
       [Color.good]: picBeeGood,
       [Color.bad]: picBeeBad,
-      [Color.offline]: picBeeBad
+      [Color.offline]: picBeeOffline
     }
   };
 
@@ -187,7 +185,7 @@ function genNodes(gateway, green, red, offline) {
   });
 
   offline.forEach(o => {
-    nodes.push(genNode(o, Color.bad, symbolSize[1]));
+    nodes.push(genNode(o, Color.offline, symbolSize[1]));
   });
 
   return nodes;
@@ -259,7 +257,7 @@ function genLines(gateway, green, red) {
 // 找出离线节点
 function findOfflineNode(array, offline) {
   array = array.filter(a => {
-    if (a.status === Status.offline) {
+    if (a.status === CONSTANTS.RouterStatus.offline) {
       offline.push(a);
       return false;
     }

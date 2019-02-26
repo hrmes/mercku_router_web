@@ -195,7 +195,7 @@ export default {
         color: #d6001c;
       }
       &.disabled {
-        color: #ccc;
+        color: #999;
         cursor: not-allowed;
       }
     }
