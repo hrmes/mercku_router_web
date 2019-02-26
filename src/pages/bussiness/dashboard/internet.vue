@@ -369,9 +369,7 @@ export default {
     },
     clearIntervalTask() {
       clearTimeout(this.wanNetStatsTimer);
-      clearInterval(this.uptimeTimer);
       this.wanNetStatsTimer = null;
-      this.uptimeTimer = null;
     },
     speedTest(force) {
       if (force === undefined) {
@@ -454,6 +452,8 @@ export default {
   beforeDestroy() {
     this.pageActive = false;
     this.clearIntervalTask();
+    clearInterval(this.uptimeTimer);
+    this.uptimeTimer = null;
   }
 };
 </script>
