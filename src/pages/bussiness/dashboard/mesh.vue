@@ -12,11 +12,25 @@
                 @click="addMeshNode">{{$t('trans0194')}}</button>
       </div>
       <div class="content">
-        <div class="topo-container">
-          <div class="legend"></div>
-          <div class="switch-wrap"></div>
-          <div id="topo"
-               v-show="!showTable"></div>
+        <div class="topo-container"
+             v-show="!showTable">
+          <div class="legend-wrap">
+            <p class="legend-title">{{$t('trans0302')}}</p>
+            <div class="legend">
+              <div class="legend-item">{{$t('trans0193')}}</div>
+              <div class="legend-item">{{$t('trans0196')}}</div>
+            </div>
+          </div>
+          <div class="switch-wrap">
+            <m-switch v-model="mesh24g"
+                      :onChange="(val)=>updateMeshBand(val)"
+                      :label="$t('trans0562')"></m-switch>
+          </div>
+          <div class="topo-wrap"
+               id="topo-wrap">
+            <div id="topo"></div>
+          </div>
+
         </div>
         <div class="mesh-table"
              v-show="showTable">
@@ -127,13 +141,7 @@ import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
-require('echarts/lib/component/legend');
-require('echarts/lib/component/title');
 
-const Color = {
-  good: '#00d061',
-  bad: '#ff6f00'
-};
 export default {
   data() {
     return {
@@ -147,6 +155,7 @@ export default {
       routerSelected: null,
       showModal: false,
       form: { newName: '' },
+      mesh24g: false,
       rules: {
         newName: [
           {
@@ -186,6 +195,7 @@ export default {
   },
   mounted() {
     this.initChart();
+    this.getMeshBand();
     this.createIntervalTask();
   },
   computed: {
@@ -203,6 +213,29 @@ export default {
     }
   },
   methods: {
+    updateMeshBand(val) {
+      this.$loading.open();
+      this.$http
+        .updateMeshBand({
+          bands: {
+            '5G': true,
+            '2.4G': val
+          }
+        })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.mesh24g = !val;
+          this.$loading.close();
+        });
+    },
+    getMeshBand() {
+      this.$http.getMeshBand().then(res => {
+        this.mesh24g = res.data.result['2.4G'];
+      });
+    },
     isRouterOffline(router) {
       if (router.status === RouterStatus.offline) {
         return true;
@@ -308,7 +341,8 @@ export default {
       this.$router.push('/mesh/add');
     },
     initChart() {
-      this.chart = echarts.init(document.getElementById('topo'));
+      const topoEl = document.getElementById('topo');
+      this.chart = echarts.init(topoEl);
       this.chart.on('click', () => {
         this.$router.push('/dashboard/mesh/table');
       });
@@ -339,37 +373,6 @@ export default {
       });
 
       const option = {
-        color: [Color.good, Color.bad],
-        title: {
-          text: this.$t('trans0302'),
-          textStyle: {
-            color: '#333',
-            fontSize: 14,
-            fontWeight: 'normal'
-          },
-          left: 10
-        },
-        legend: [
-          {
-            itemWidth: 6,
-            itemHeight: 6,
-            textStyle: { padding: [0, 0, 0, 15] },
-            data: [
-              {
-                name: `${this.$t('trans0193')}`,
-                icon: 'circle'
-              },
-              {
-                name: `${this.$t('trans0196')}`,
-                icon: 'circle'
-              }
-            ],
-            orient: 'vertical',
-            top: 30,
-            left: 10,
-            selectedMode: false
-          }
-        ],
         series: [
           {
             type: 'graph',
@@ -482,18 +485,59 @@ export default {
     box-sizing: border-box;
     padding: 0 20px;
     flex-direction: column;
-    margin-bottom: 20px;
     .content {
-      padding-top: 15px;
+      padding-top: 35px;
       flex: 1;
       display: flex;
       .topo-container {
         flex: 1;
         display: flex;
-        #topo {
-          width: 100%;
-          min-height: 500px;
+        .legend-wrap {
+          width: 100px;
+          order: 1;
+          padding-left: 50px;
+          .legend-title {
+            font-size: 12px;
+            color: #333;
+            margin: 0;
+          }
+          .legend {
+            .legend-item {
+              font-size: 12px;
+              display: flex;
+              align-items: center;
+              margin-top: 10px;
+              &::before {
+                content: '';
+                margin-right: 15px;
+                display: block;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: #00d061; //ff6f00
+              }
+              &:nth-child(2) {
+                &::before {
+                  background: #ff6f00;
+                }
+              }
+            }
+          }
+        }
+        .switch-wrap {
+          order: 3;
+        }
+        .topo-wrap {
+          order: 2;
           flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          // width: 100%;
+          #topo {
+            min-width: 500px;
+            height: 500px;
+          }
         }
       }
 
@@ -662,12 +706,6 @@ export default {
         .tabs {
           .tab {
             font-size: 14px;
-            &.selected {
-              &:hover {
-              }
-            }
-            &:hover {
-            }
           }
         }
       }
@@ -677,10 +715,38 @@ export default {
       }
 
       .content {
-        #topo {
-          background: #fff;
-          border-radius: 5px;
-          margin-bottom: 20px;
+        padding-top: 25px;
+        .topo-container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          .legend-wrap {
+            order: 2;
+            padding-left: 0;
+            width: 100%;
+            .legend {
+              display: flex;
+              .legend-item {
+                margin-left: 20px;
+                &:first-child {
+                  margin-left: 0;
+                }
+              }
+            }
+          }
+          .switch-wrap {
+            order: 1;
+            margin-bottom: 30px;
+          }
+          .topo-wrap {
+            order: 3;
+            padding-top: 0;
+            #topo {
+              width: 100%;
+              min-width: initial;
+              background: #fff;
+            }
+          }
         }
         .mesh-table {
           .table-header {

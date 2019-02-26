@@ -98,7 +98,9 @@ const methods = {
   meshGuestDel: createMethod('mesh.guestwifi.delete'),
   meshDevicesOfflineDel: createMethod('mesh.device.offline.delete'),
   getMeshMode: createMethod('mesh.mode.get'),
-  updateMeshMode: createMethod('mesh.mode.update')
+  updateMeshMode: createMethod('mesh.mode.update'),
+  getMeshBand: createMethod('mesh.band.get'),
+  updateMeshBand: createMethod('mesh.band.update')
 };
 
 class Http {
