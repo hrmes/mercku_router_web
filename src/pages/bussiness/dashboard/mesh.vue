@@ -22,7 +22,6 @@
             </div>
           </div>
           <div class="switch-wrap">
-
             <label for=""> {{$t('trans0562')}}
               <div class="tool">
                 <m-popover :title="this.$t('trans0562')"
