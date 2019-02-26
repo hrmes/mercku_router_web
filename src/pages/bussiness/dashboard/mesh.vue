@@ -25,14 +25,12 @@
 
             <label for=""> {{$t('trans0562')}}
               <div class="tool">
-                <m-popover v-model='hideTipVisible'
-                           :title="this.$t('trans0110')"
-                           :content="this.$t('trans0325')">
+                <m-popover :title="this.$t('trans0562')"
+                           :content="this.$t('trans0558')">
                   <img width="14"
                        src="../../../assets/images/ic_question.png"
                        alt="">
                 </m-popover>
-
               </div>
             </label>
 
@@ -503,9 +501,7 @@ export default {
         flex: 1;
         display: flex;
         .legend-wrap {
-          width: 100px;
-          order: 1;
-          padding-left: 50px;
+          order: 3;
           .legend-title {
             font-size: 12px;
             color: #333;
@@ -535,7 +531,20 @@ export default {
           }
         }
         .switch-wrap {
-          order: 3;
+          order: 1;
+          display: flex;
+          align-items: flex-start;
+          padding-left: 20px;
+          label {
+            display: flex;
+            margin-right: 15px;
+            img {
+              position: relative;
+              top: -7px;
+              margin-left: 5px;
+              cursor: pointer;
+            }
+          }
         }
         .topo-wrap {
           order: 2;
@@ -732,7 +741,7 @@ export default {
           flex-direction: column;
           .legend-wrap {
             order: 2;
-            padding-left: 0;
+
             width: 100%;
             .legend {
               display: flex;
@@ -746,6 +755,7 @@ export default {
           }
           .switch-wrap {
             order: 1;
+            padding-left: 0;
             margin-bottom: 30px;
           }
           .topo-wrap {

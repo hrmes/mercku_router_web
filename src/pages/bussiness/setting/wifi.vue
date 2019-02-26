@@ -25,8 +25,7 @@
         <div class="form-item check-info">
           <label for=""> {{$t('trans0110')}}
             <div class="tool">
-              <m-popover v-model='hideTipVisible'
-                         :title="this.$t('trans0110')"
+              <m-popover :title="this.$t('trans0110')"
                          :content="this.$t('trans0325')">
                 <img width="14"
                      src="../../../assets/images/ic_question.png"
@@ -42,13 +41,13 @@
           <div class="switch-container">
             <label for=""> {{$t('trans0397')}}
               <div class="tool">
-                <m-popover v-model='smartTipVisible'
-                           :title="this.$t('trans0397')"
-                           :content="this.$t('trans0398')" />
-                <img width="14"
-                     src="../../../assets/images/ic_question.png"
-                     alt=""
-                     @click="smartTipVisible=!smartTipVisible">
+                <m-popover :title="this.$t('trans0397')"
+                           :content="this.$t('trans0398')">
+                  <img width="14"
+                       src="../../../assets/images/ic_question.png"
+                       alt="">
+                </m-popover>
+
               </div>
             </label>
 
@@ -81,8 +80,6 @@ export default {
   data() {
     return {
       band: '2.4G5G',
-      hideTipVisible: false,
-      smartTipVisible: false,
       form: {
         ssid: '',
         password: '',

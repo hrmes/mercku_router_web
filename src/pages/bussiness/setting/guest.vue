@@ -12,13 +12,12 @@
           <label for=""> {{$t('trans0538')}}
           </label>
           <div class="tool">
-            <m-popover v-model='hideTipVisible'
-                       :title="$t('trans0538')"
-                       :content="$t('trans0540')" />
-            <img width="14"
-                 src="../../../assets/images/ic_question.png"
-                 alt=""
-                 @click="hideTipVisible=!hideTipVisible">
+            <m-popover :title="$t('trans0538')"
+                       :content="$t('trans0540')">
+              <img width="14"
+                   src="../../../assets/images/ic_question.png"
+                   alt=""></m-popover>
+
           </div>
           <m-switch v-model="form.enabled"
                     :onChange="guestEnabledChange" />
@@ -113,7 +112,6 @@ import { getStringByte, passwordRule } from 'util/util';
 export default {
   data() {
     return {
-      hideTipVisible: false,
       showSettingPage: false,
       showStatusPage: false,
       showCancelBtn: false,
