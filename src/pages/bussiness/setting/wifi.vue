@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{$t('trans0167')}}
+      {{$t('trans0103')}}
     </div>
     <div class="page-content">
       <m-form class="form"

@@ -71,6 +71,7 @@ export default {
                 this.$reconnect({
                   timeout: 60,
                   onsuccess: () => {
+                    this.$store.mode = this.mode;
                     this.$router.push({ path: '/advance/mode' });
                   },
                   ontimeout: () => {
