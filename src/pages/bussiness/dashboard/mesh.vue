@@ -500,6 +500,7 @@ export default {
         display: flex;
         .legend-wrap {
           order: 3;
+          width: 100px;
           .legend-title {
             font-size: 12px;
             color: #333;
@@ -533,6 +534,7 @@ export default {
           display: flex;
           align-items: flex-start;
           padding-left: 20px;
+          width: 200px;
           label {
             display: flex;
             margin-right: 15px;

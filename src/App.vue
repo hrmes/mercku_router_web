@@ -1,5 +1,6 @@
 <template>
-  <m-scrollbar class="srcollbar-wrap">
+  <m-scrollbar ref="wrap"
+               class="srcollbar-wrap">
     <div class="container">
       <m-menu class="menu"
               :menus="menus"
@@ -31,7 +32,7 @@ export default {
         path.includes('login') ||
         path.includes('wlan') ||
         path.includes('unconnect');
-      if (!visible && !this.$store.mode) {
+      if (!visible) {
         this.$http.getMeshMode().then(res => {
           this.$store.mode = res.data.result.mode;
         });
