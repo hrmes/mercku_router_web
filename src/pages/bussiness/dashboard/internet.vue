@@ -688,12 +688,12 @@ export default {
           color: #333333;
           font-size: 14px;
           .r-title {
-            font-size: 17px;
+            font-size: 18px;
             display: inline-block;
             color: #999999;
             font-weight: 200;
             border: none;
-            width: 85px;
+            width: 90px;
           }
           .down {
             .r-dwon-icon {

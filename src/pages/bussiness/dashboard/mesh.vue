@@ -32,7 +32,6 @@
                 </m-popover>
               </div>
             </label>
-
             <m-switch v-model="mesh24g"
                       :onChange="(val)=>updateMeshBand(val)"></m-switch>
           </div>

@@ -27,20 +27,20 @@ export default {
   computed: {
     menuVisible() {
       const { path } = this.$route;
-      return (
+      const visible =
         path.includes('login') ||
         path.includes('wlan') ||
-        path.includes('unconnect')
-      );
+        path.includes('unconnect');
+      if (!visible && !this.$store.mode) {
+        this.$http.getMeshMode().then(res => {
+          this.$store.mode = res.data.result.mode;
+        });
+      }
+      return visible;
     },
     menus() {
       return getMenu(this.$store.role, this.$store.mode);
     }
-  },
-  mounted() {
-    this.$http.getMeshMode().then(res => {
-      this.$store.mode = res.data.result.mode;
-    });
   }
 };
 </script>

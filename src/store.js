@@ -19,7 +19,7 @@ class Store {
   }
 }
 const store = new Store(Vue, {
-  mode: 'router',
+  mode: null,
   role: sessionStorage.getItem('role'),
   modules: {
     limits: {},

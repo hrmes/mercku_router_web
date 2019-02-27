@@ -33,6 +33,7 @@ import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
 import remote from 'pages/bussiness/advance/remote.vue';
+import mode from 'pages/bussiness/advance/mode.vue';
 
 Vue.use(Router);
 const routes = [
@@ -178,6 +179,10 @@ const routes = [
     path: '/advance/remote/:category',
     name: 'advance-remote',
     component: remote
+  }, {
+    path: '/advance/mode',
+    name: 'advance-mode',
+    component: mode
   }
 ];
 export default new Router({ routes });

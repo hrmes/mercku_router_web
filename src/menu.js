@@ -122,6 +122,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         mode: ['router']
       },
       {
+        url: '/advance/mode',
+        name: 'advance-mode',
+        text: 'trans0539',
+        super: false,
+        mode: ['router', 'bridge']
+      },
+      {
         url: '/advance/diagnosis',
         name: 'advance-diagnosis',
         text: 'trans0419',
