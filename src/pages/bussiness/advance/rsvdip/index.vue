@@ -40,13 +40,13 @@
           </div>
           <div class="btn-wrap"
                :class="{open:mobileSelect}">
-            <button class="btn"
+            <button class="btn btn-small"
                     @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
             <button class="btn m-btn"
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
             </button>
-            <button class="btn btn-default"
+            <button class="btn btn-default btn-small"
                     @click="mulDel"
                     :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>

@@ -70,19 +70,20 @@ export default {
     },
     isUnlinked() {
       return this.netStatus === CONSTANTS.WanNetStatus.unlinked;
+    },
+    isRouter() {
+      return CONSTANTS.RouterMode.router === this.$store.mode;
     }
   },
   mounted() {
     this.getWanStatus();
     this.getSsid();
-    if (CONSTANTS.RouterStatus.router === this.$store.mode) {
-      this.createIntercvalTask();
-    }
+    this.createIntercvalTask();
   },
   watch: {
     '$store.mode': function watcher() {
-      if (CONSTANTS.RouterStatus.bridge === this.$store.mode) {
-        this.clearIntervalTask();
+      if (this.isRouter) {
+        this.createIntercvalTask();
       }
     }
   },
@@ -91,7 +92,9 @@ export default {
       this.$router.push({ path: url });
     },
     createIntercvalTask() {
-      this.getDeviceCount();
+      if (this.isRouter) {
+        this.getDeviceCount();
+      }
     },
     clearIntervalTask() {
       clearTimeout(this.deviceCountTimer);
@@ -122,7 +125,7 @@ export default {
         })
         .catch(() => {
           if (this.pageActive) {
-            this.timer2 = setTimeout(() => {
+            this.deviceCountTimer = setTimeout(() => {
               this.getDeviceCount();
             }, 10000);
           }

@@ -64,7 +64,8 @@ const isVailidRange = input => {
   if (!Number.isInteger(value)) {
     return false;
   }
-  if (value < 1 && value >= 255) {
+
+  if (value < 1 || value >= 255) {
     return false;
   }
   return true;

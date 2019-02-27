@@ -1,4 +1,4 @@
-@import './iconfont/iconfont.css';
+@import "./iconfont/iconfont.css";
 
 * {
   box-sizing: border-box;
@@ -10,8 +10,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB',
-    'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
+  font-family: Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
   font-size: 14px;
@@ -45,7 +44,7 @@ ul {
 
 [ant-click-animating-without-extra-node]:active:after,
 .ant-click-animating-node:active {
-  content: '';
+  content: "";
   position: absolute;
   top: -1px;
   left: -1px;
@@ -54,10 +53,8 @@ ul {
   border-radius: inherit;
   border: 0 solid #d6001c;
   opacity: 0.2;
-  -webkit-animation: fadeEffect 2s cubic-bezier(0.08, 0.82, 0.17, 1),
-    waveEffect 0.4s cubic-bezier(0.08, 0.82, 0.17, 1);
-  animation: fadeEffect 2s cubic-bezier(0.08, 0.82, 0.17, 1),
-    waveEffect 0.4s cubic-bezier(0.08, 0.82, 0.17, 1);
+  -webkit-animation: fadeEffect 2s cubic-bezier(0.08, 0.82, 0.17, 1), waveEffect 0.4s cubic-bezier(0.08, 0.82, 0.17, 1);
+  animation: fadeEffect 2s cubic-bezier(0.08, 0.82, 0.17, 1), waveEffect 0.4s cubic-bezier(0.08, 0.82, 0.17, 1);
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
   display: block;
@@ -98,7 +95,7 @@ ul {
 
 .btn {
   outline: none;
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
   text-align: center;
   white-space: nowrap;
@@ -119,7 +116,8 @@ ul {
     background: rgb(182, 0, 24);
   }
   &.btn-small {
-    // width: auto;
+    width: auto;
+    min-width: 70px;
     height: 27px;
     padding: 5px 10px;
     font-size: 12px;

@@ -28,7 +28,8 @@
             </div>
           </div>
         </div>
-        <div class="item real-time-network">
+        <div class="item real-time-network"
+             v-if="isRouter">
           <div class="title">{{$t('trans0303')}}</div>
           <div class="content">
             <div class="real-time-info">
@@ -69,9 +70,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="item traffic-container">
+        <div class="item traffic-container"
+             v-if="isRouter">
           <div class="title">{{$t('trans0308')}}</div>
           <div class="traffic-info">
             <div class="traffic">
@@ -209,6 +209,9 @@ export default {
     this.getRouteMeta();
   },
   computed: {
+    isRouter() {
+      return CONSTANTS.RouterMode.router === this.$store.mode;
+    },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
       const unit = [
@@ -350,6 +353,13 @@ export default {
       return this.formatBandWidth(this.localSpeedInfo.speed.up);
     }
   },
+  watch: {
+    '$store.mode': function watcher() {
+      if (this.isRouter) {
+        this.createIntervalTask();
+      }
+    }
+  },
   methods: {
     getRouteMeta() {
       this.$http.getRouter().then(res => {
@@ -365,7 +375,9 @@ export default {
       this.speedModelOpen = false;
     },
     createIntervalTask() {
-      this.getWanNetStats();
+      if (this.isRouter) {
+        this.getWanNetStats();
+      }
     },
     clearIntervalTask() {
       clearTimeout(this.wanNetStatsTimer);
@@ -526,10 +538,10 @@ export default {
         padding: 0 20px;
         min-height: 200px;
 
-        &:nth-child(1) {
+        &:nth-child(2n + 1) {
           float: left;
         }
-        &:nth-child(2) {
+        &:nth-child(2n) {
           float: right;
         }
         .title {
@@ -559,7 +571,7 @@ export default {
           flex-wrap: wrap;
           padding-bottom: 15px;
           .m-item {
-            width: 50%;
+            width: 49%;
             font-size: 14px;
             color: #333333;
             padding-top: 20px;
@@ -964,39 +976,6 @@ export default {
   .router-time-wrap {
     .message {
       flex-direction: row !important;
-    }
-  }
-  .row-1 {
-    min-width: 100px;
-    justify-content: center;
-    flex-flow: column-reverse;
-    font-size: 12px;
-    position: relative;
-    img {
-      width: 30px !important;
-    }
-    .name {
-      position: absolute;
-      top: 100%;
-    }
-  }
-  .row-3 {
-    min-width: 80px;
-    flex-flow: column;
-    font-size: 12px;
-    position: relative;
-    img {
-      width: 40px !important;
-    }
-    .speed {
-      position: absolute;
-      top: 100%;
-      span {
-        font-weight: 200 !important;
-        label {
-          font-weight: 200 !important;
-        }
-      }
     }
   }
   .internet-container {
