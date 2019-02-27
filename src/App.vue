@@ -40,6 +40,7 @@ export default {
       return visible;
     },
     menus() {
+      console.log('change');
       return getMenu(this.$store.role, this.$store.mode);
     }
   }

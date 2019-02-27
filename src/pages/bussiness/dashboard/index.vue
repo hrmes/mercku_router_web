@@ -75,7 +75,16 @@ export default {
   mounted() {
     this.getWanStatus();
     this.getSsid();
-    this.createIntercvalTask();
+    if (CONSTANTS.RouterStatus.router === this.$store.mode) {
+      this.createIntercvalTask();
+    }
+  },
+  watch: {
+    '$store.mode': function watcher() {
+      if (CONSTANTS.RouterStatus.bridge === this.$store.mode) {
+        this.clearIntervalTask();
+      }
+    }
   },
   methods: {
     forward2page(url) {

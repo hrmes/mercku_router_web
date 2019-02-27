@@ -138,18 +138,18 @@ const launch = () => {
           }
           // 工作模式不支持当前操作
           if (error.code === 200202 || error.code === 200203) {
-            dialog.info({
-              okText: translate('trans0024'),
-              message: translate('trans0583'),
-              callback: {
-                ok: () => {
-                  http.getMeshMode().then(res => {
-                    router.push({ path: '/dashboard' });
-                    store.mode = res.data.result.mode;
-                  });
-                }
-              }
-            });
+            // dialog.info({
+            //   okText: translate('trans0024'),
+            //   message: translate('trans0583'),
+            //   callback: {
+            //     ok: () => {
+            //       http.getMeshMode().then(res => {
+            //         router.push({ path: '/dashboard' });
+            //         store.mode = res.data.result.mode;
+            //       });
+            //     }
+            //   }
+            // });
 
             throw err;
           }
