@@ -38,25 +38,33 @@
 <script>
 export default {
   props: {
+    // 类型
     type: {
       type: String,
       default: 'text'
     },
+    // 隐藏密码图标
     hidePwdIcon: {
       type: Boolean,
       default: false
     },
+    // 绑定值
     value: {},
+    // 输入框占位文本
     placeholder: { type: String },
+    // 禁用
     disabled: {
       type: Boolean,
       default: false
     },
+    // 标签文本
     label: {
       type: String,
       default: ''
     },
+    // 在 input 失去焦点触发
     onBlur: { type: Function },
+    // 输入框前置内容
     addonBefore: {
       type: String,
       default: ''
@@ -76,18 +84,22 @@ export default {
   },
   methods: {
     changePwdStatus() {
+    // 设置密码状态
       if (!this.disabled) {
         this.showPwd = !this.showPwd;
       }
     },
     onInput() {
+    // 选中 input 中的文字
       this.$emit('input', this.inputValue);
     },
     blur() {
+    // 使 input 失去焦点
       this.onBlur && this.onBlur();
       this.$parent.$emit('blur');
     },
     focus() {
+    // 使 input 获取焦点
       this.$parent.$emit('focus');
     }
   },

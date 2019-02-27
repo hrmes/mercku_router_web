@@ -46,6 +46,7 @@ const Languages = [
 ];
 export default {
   props: {
+    // header 状态
     hasExit: {
       type: Boolean,
       default: true

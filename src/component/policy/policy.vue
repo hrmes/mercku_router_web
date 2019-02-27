@@ -24,6 +24,7 @@
 <script>
 export default {
   props: {
+    // 区域切换
     locale: {
       type: String,
       default: 'zh-CN'

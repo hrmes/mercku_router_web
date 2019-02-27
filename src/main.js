@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import loading from 'components/loading/index';
 import upgradeComponent from 'components/upgrade/index';
-import toast from 'components/toast/index';
+import toast from 'components/toast/toast';
 import dialog from 'components/dialog/index';
-import mProgress from 'components/progress/index.vue';
+import mProgress from 'components/progress/progress.vue';
 import { formatSpeed, formatNetworkData, formatBandWidth } from 'util/util';
 import upgradeHelper from 'util/upgrade';
 import { changeLanguage, i18n, translate } from './i18n';

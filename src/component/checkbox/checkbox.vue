@@ -15,15 +15,18 @@
 <script>
 export default {
   props: {
+    // 绑定值
     value: {
       type: Boolean,
       default: false
     },
+    // 文本值
     text: { type: String },
     rect: {
       type: Boolean,
       default: true
     },
+    // 当绑定值变化时触发的事件
     onChange: {
       type: Function,
       default: () => {}

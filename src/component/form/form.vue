@@ -5,6 +5,8 @@
 </template>
 <script>
 export default {
+  // 表单数据对象
+  // 表单验证规则
   props: ['model', 'rules'],
   methods: {
     validate() {

@@ -40,23 +40,32 @@ import { UploadStatus } from 'util/constant';
 
 export default {
   props: {
+    // 文件上传成功的钩子
     onSuccess: { type: Function },
+    // 文件上传失败的钩子
     onError: { type: Function },
+    // 改变上传
     onChange: { Function },
+    // 文件列表移出文件的钩子
     onCancel: { type: Function },
+    // 文本标签
     label: {
       type: String,
       default: ''
     },
+    // 是否支持多选文件
     multiple: {
       type: Boolean,
       default: false
     },
+    // 接受上传的文件类型
     accept: {
       type: String,
       default: ''
     },
+    // 覆盖默认的上传行为，可以自定义上传的实现
     request: { type: Function },
+    // 上传文件之前的钩子
     beforeUpload: { type: Function }
   },
   data() {

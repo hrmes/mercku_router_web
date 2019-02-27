@@ -14,11 +14,14 @@
 <script>
 export default {
   props: {
+    // 绑定值
     value: {},
+    // 单选框的方向
     direction: {
       type: String,
       default: 'horizontal'
     },
+    // 文本标签
     options: Array
   },
   data() {

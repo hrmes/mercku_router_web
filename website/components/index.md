@@ -5,20 +5,27 @@
 <!-- @vuese:index:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|onSuccess|-|`Function`|`false`|-|
-|onError|-|`Function`|`false`|-|
-|onChange|-|—|`false`|-|
-|onCancel|-|`Function`|`false`|-|
-|label|-|`String`|`false`|''|
-|multiple|-|`Boolean`|`false`|false|
-|accept|-|`String`|`false`|''|
-|request|-|`Function`|`false`|-|
-|beforeUpload|-|`Function`|`false`|-|
+|visible|-|`Boolean`|`false`|false|
 
 <!-- @vuese:index:props:end -->
 
 
--|
+## Events
+
+<!-- @vuese:index:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|update:visible|-|-|
+
+<!-- @vuese:index:events:end -->
+
+
+## Slots
+
+<!-- @vuese:index:slots:start -->
+|Name|Description|Default Slot Content|
+|---|---|---|
+|default|-|-|
 
 <!-- @vuese:index:slots:end -->
 

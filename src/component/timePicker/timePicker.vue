@@ -39,7 +39,10 @@
 </template>
 <script>
 export default {
-  props: { value: { type: String } },
+  props: { 
+    // 绑定值
+    value: { type: String } 
+    },
   data() {
     return {
       opened: false,

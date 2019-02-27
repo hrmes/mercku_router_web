@@ -53,6 +53,7 @@
 <script>
 export default {
   props: {
+    // 切换国际化
     menus: {
       type: Array,
       default: () => []

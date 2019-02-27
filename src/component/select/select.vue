@@ -29,11 +29,14 @@
 <script>
 export default {
   props: {
+    // 输入框匹配项
     options: {
       type: Array,
       default: () => []
     },
+    // 绑定值
     value: {},
+    // 文本标签
     label: {
       type: String,
       default: ''

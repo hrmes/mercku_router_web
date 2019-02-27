@@ -18,15 +18,19 @@ export default {
     };
   },
   props: {
+    // 改变 switch 状态 
     onChange: {
       type: Function,
       default: () => {}
     },
+    // 是否禁用
     disabled: {
       type: Boolean,
       default: false
     },
+    // 绑定值
     value: { type: Boolean },
+    // 标签文本
     label: { type: String }
   },
   watch: {
