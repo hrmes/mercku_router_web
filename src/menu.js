@@ -16,7 +16,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0235',
         name: 'device',
         url: '/dashboard/device/primary',
-        mode: ['router', 'bridge']
+        mode: ['router']
       },
       {
         text: 'trans0366',

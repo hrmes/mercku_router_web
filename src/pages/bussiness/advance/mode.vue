@@ -9,7 +9,9 @@
           <m-radio-group v-model="mode"
                          :options="modes"
                          direction="vertical"></m-radio-group>
+          <p class="note">{{$t('trans0543')}}</p>
         </m-form-item>
+
       </div>
       <div class="form-button">
         <button class="btn primary"
@@ -61,21 +63,15 @@ export default {
         callback: {
           ok: () => {
             this.$loading.open();
-            let mac;
-            if (this.isDefault) {
-              mac = this.removeColonOfMac(this.mac.default);
-            } else {
-              mac = this.removeColonOfMac(this.mac.current);
-            }
             this.$http
-              .updateWanMac({ mac })
+              .updateMeshMode({ mode: this.mode })
               .then(() => {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
                 this.$reconnect({
                   timeout: 60,
                   onsuccess: () => {
-                    this.$router.push({ path: '/advance/mac' });
+                    this.$router.push({ path: '/advance/mode' });
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
@@ -100,6 +96,13 @@ export default {
 }
 .form {
   width: 350px;
+  .note {
+    color: #999;
+    font-size: 12px;
+    margin: 0;
+    margin-top: 5px;
+    padding-left: 26px;
+  }
   .radio {
     display: flex;
     align-items: center;
