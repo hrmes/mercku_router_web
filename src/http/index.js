@@ -137,7 +137,7 @@ Object.keys(methods).forEach(methodName => {
 
 // 获取主页
 Http.prototype.getHomePage = function getHomePage() {
-  return axios.get(`/index.html=${Date.now()}`);
+  return axios.get(`/index.html?t=${Date.now()}`);
 };
 // 系统日志
 Http.prototype.getSysLog = function getSysLog() {

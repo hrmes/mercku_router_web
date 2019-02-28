@@ -82,6 +82,7 @@ export default {
   },
   watch: {
     '$store.mode': function watcher() {
+      console.log(`watch task...mode is:${this.$store.mode}`);
       this.clearIntervalTask();
       if (this.isRouter) {
         this.createIntercvalTask();
@@ -93,6 +94,7 @@ export default {
       this.$router.push({ path: url });
     },
     createIntercvalTask() {
+      console.log(`createInterval task...mode is:${this.$store.mode}`);
       if (this.isRouter) {
         this.getDeviceCount();
       }

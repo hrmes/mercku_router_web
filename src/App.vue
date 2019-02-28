@@ -32,11 +32,6 @@ export default {
         path.includes('login') ||
         path.includes('wlan') ||
         path.includes('unconnect');
-      if (!visible) {
-        this.$http.getMeshMode().then(res => {
-          this.$store.mode = res.data.result.mode;
-        });
-      }
       return visible;
     },
     menus() {
