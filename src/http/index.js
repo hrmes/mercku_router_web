@@ -74,7 +74,7 @@ const methods = {
   meshRsvdipAdd: createMethod('mesh.rsvdip.add'),
   meshRsvdipDelete: createMethod('mesh.rsvdip.delete'),
   meshInfolanNetGet: createMethod('mesh.info.lan.net.get'),
-  diagnosis: createMethod('mesh.diagnosis.execute'),
+  diagnosis: createMethod('mesh.tools.execute'),
   getSyslogEnabled: createMethod('mesh.syslog.enabled.get'),
   updateSyslogEnabled: createMethod('mesh.syslog.enabled.update'),
   getVPNlist: createMethod('mesh.vpn.get'),
