@@ -242,7 +242,6 @@ export default {
         }
         index += 1;
       }
-      // console.log(topArr, bmArr);
       const bmStr = bmArr.map((v, k) => ({
         num: v,
         unit: unit[k]
@@ -256,7 +255,6 @@ export default {
         })
         .reverse()
         .join(' : ');
-      // console.log(topStr, bmStr);
       return [topStr, bmStr];
     },
     isConnected() {
@@ -355,6 +353,7 @@ export default {
   },
   watch: {
     '$store.mode': function watcher() {
+      this.clearIntervalTask();
       if (this.isRouter) {
         this.createIntervalTask();
       }

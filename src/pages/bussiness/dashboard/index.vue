@@ -82,6 +82,7 @@ export default {
   },
   watch: {
     '$store.mode': function watcher() {
+      this.clearIntervalTask();
       if (this.isRouter) {
         this.createIntercvalTask();
       }

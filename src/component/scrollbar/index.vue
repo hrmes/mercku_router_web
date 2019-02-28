@@ -56,7 +56,6 @@ export default {
       this.scroll = new BScroll(this.$refs.wrapper, this.opt);
     },
     refresh() {
-      console.log('refresh');
       this.scroll && this.scroll.refresh();
     },
     scrollBy(x, y) {
