@@ -508,7 +508,8 @@ export default {
             padding-left: 15px;
           }
           .time-top {
-            font-size: 30px;
+            font-size: 26px;
+            font-weight: bold;
           }
           .time-bottom {
             font-size: 20px;
@@ -576,6 +577,7 @@ export default {
             padding-top: 20px;
             .m-title {
               color: #999999;
+              font-size: 14px;
             }
           }
         }
@@ -1129,7 +1131,7 @@ export default {
               padding-top: 10px;
             }
             .time-top {
-              font-size: 22px;
+              font-size: 20px;
             }
             .time-bottom {
               font-size: 18px;
@@ -1156,9 +1158,6 @@ export default {
         font-size: 20px !important;
       }
       .unit {
-        font-size: 12px !important;
-      }
-      .note {
         font-size: 12px !important;
       }
       .real-time-network {

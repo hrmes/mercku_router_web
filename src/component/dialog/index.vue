@@ -94,6 +94,7 @@ export default {
     .dialog-message {
       color: #333;
       padding: 20px;
+      text-align: left;
     }
   }
   &.dialog-enter-active {
@@ -114,9 +115,6 @@ export default {
   .dialog-container {
     .dialog-content {
       width: 420px;
-      .dialog-message {
-        text-align: center;
-      }
       .dialog-buttons {
         text-align: center;
       }
