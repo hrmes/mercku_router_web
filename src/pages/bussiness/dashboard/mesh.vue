@@ -505,12 +505,14 @@ export default {
             font-size: 12px;
             color: #333;
             margin: 0;
+            text-align: right;
           }
           .legend {
             .legend-item {
               font-size: 12px;
               display: flex;
               align-items: center;
+              justify-content: flex-end;
               margin-top: 10px;
               &::before {
                 content: '';
@@ -741,10 +743,13 @@ export default {
           flex-direction: column;
           .legend-wrap {
             order: 2;
-
+            .legend-title {
+              text-align: left;
+            }
             width: 100%;
             .legend {
               display: flex;
+
               .legend-item {
                 margin-left: 20px;
                 &:first-child {
