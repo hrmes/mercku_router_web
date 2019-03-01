@@ -5,7 +5,7 @@
 <!-- @vuese:index:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|visible|-|`Boolean`|`false`|false|
+|visible|是否显示|`Boolean`|`false`|false|
 
 <!-- @vuese:index:props:end -->
 

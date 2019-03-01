@@ -17,14 +17,17 @@ export default {
     };
   },
   computed: {
+    // 验证不通过
     error() {
       return this.result !== null && this.result === false;
     },
+    // 验证通过
     success() {
       return this.result === true;
     }
   },
   methods: {
+    // 验证器
     validate() {
       this.validators = this.$parent.rules[this.prop] || [];
       const value = this.$parent.model[this.prop];
@@ -43,6 +46,7 @@ export default {
       this.result = result;
       return result;
     },
+    // 扩展验证
     extraValidate(validator, msg, ...arg) {
       let result = true;
       if (!validator(...arg)) {
@@ -54,9 +58,11 @@ export default {
     }
   },
   mounted() {
+    // 失焦时验证
     this.$on('blur', () => {
       this.validate();
     });
+    // 获取焦点不验证
     this.$on('focus', () => {
       this.result = null;
     });

@@ -25,8 +25,12 @@
 </template>
 <script>
 export default {
-  props: { option: { type: Object } },
+  props: { 
+    // 当前 step 的位置
+    option: { type: Object } 
+    },
   computed: {
+    // 每个 step 之间的间距
     width() {
       return `${((this.option.current + 1) * 100) / this.option.steps.length}%`;
     }

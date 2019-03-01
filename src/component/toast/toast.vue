@@ -27,12 +27,14 @@ export default {
     this.startTimer();
   },
   methods: {
+    // 显示 toast
     startTimer() {
       this.timer = setTimeout(() => {
         this.visible = false;
         this.$el.addEventListener('transitionend', this.close);
       }, this.duration);
     },
+    // 关闭 toast
     close() {
       this.timer = null;
       this.$el.parentNode.removeChild(this.$el);

@@ -3,6 +3,7 @@ import MHeader from 'components/header/header.vue';
 import mPolicy from 'components/policy/policy.vue';
 import mInput from 'components/input/input.vue';
 import mStep from 'components/step/step.vue';
+import mDialog from 'components/dialog/dialog.vue';
 import mCheckbox from 'components/checkbox/checkbox.vue';
 import mForm from 'components/form/form.vue';
 import mFormItem from 'components/formItem/formItem.vue';
@@ -35,6 +36,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-checkbox', mCheckbox);
   _Vue.component('m-form', mForm);
   _Vue.component('m-form-item', mFormItem);
+  _Vue.component('m-dialog', mDialog);
   _Vue.component('m-upload', mUpload);
   _Vue.component('m-progress', mProgress);
   _Vue.component('m-select', mSelect);

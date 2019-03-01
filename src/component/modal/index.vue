@@ -13,6 +13,7 @@
 <script>
 export default {
   props: {
+    // 是否显示
     visible: {
       type: Boolean,
       default: false
@@ -32,6 +33,7 @@ export default {
     }
   },
   methods: {
+    // 关闭
     close() {
       this.open = false;
       document.body.style.position = this.position;

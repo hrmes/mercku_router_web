@@ -15,14 +15,17 @@
 <script>
 export default {
   props: {
+    // 进度条类型
     label: {
       type: String,
       default: ''
     },
+    // 进度条宽度
     during: {
       type: Number,
       default: 60
     },
+    // 进度条文字内容
     description: {
       type: String,
       default: ''
@@ -40,6 +43,7 @@ export default {
     this.createTiemr();
   },
   methods: {
+     // 进度条加载时间 
     createTiemr() {
       const average = 100 / this.during;
       this.timer = setInterval(() => {

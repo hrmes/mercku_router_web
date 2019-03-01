@@ -81,14 +81,17 @@ export default {
         this.showMenu = false;
       }
     },
+    // 切换语言
     changeLang() {
       const zh = 'zh-CN';
       const en = 'en-US';
       this.changeLanguage(this.$i18n.locale === en ? zh : en);
     },
+    // 显示 sidebar 
     show() {
       this.showMenu = !this.showMenu;
     },
+    // 关闭 sidebar
     exit() {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -103,6 +106,7 @@ export default {
         }
       });
     },
+     // 获取侧边栏列表
     getList() {
       const list = this.menus.map((m, index) => {
         m.key = index;

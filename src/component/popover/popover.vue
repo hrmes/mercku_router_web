@@ -19,15 +19,19 @@
 export default {
   name: 'Popover',
   props: {
+    // 绑定值
     value: { type: Boolean },
+    // 标题
     title: {
       type: String,
       default: ''
     },
+    // 显示的内容
     content: {
       type: String,
       default: ''
     },
+    // 出现位置
     position: {
       type: String,
       default: 'top'
@@ -42,6 +46,7 @@ export default {
     }
   },
   methods: {
+    // 关闭弹框
     handleClose() {
       this.show = false;
       this.$emit('input', this.show);

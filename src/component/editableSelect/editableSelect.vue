@@ -32,15 +32,19 @@
 <script>
 export default {
   props: {
+    // 匹配项
     options: {
       type: Array,
       default: () => []
     },
+    // 绑定值
     value: '',
+    // 文本标记
     label: {
       type: String,
       default: ''
     },
+    // 输入框占位文本
     placeholder: {
       type: String,
       default: ''
@@ -75,20 +79,25 @@ export default {
       this.opened = false;
       this.$refs.input.focus();
     },
+    // 打开选择器
     open() {
       this.opened = true;
     },
+    // 关闭选择器
     close() {
       this.opened = false;
     },
+    // 当 input 失去焦点时触发
     blur() {
       this.onBlur && this.onBlur();
       this.$parent.$emit('blur');
     },
+    // 当 input 获取焦点时触发
     focus() {
       this.$parent.$emit('focus');
     }
   },
+  //  在销毁前触发
   beforeDestroy() {
     if (window.addEventListener) {
       document.body.removeEventListener('click', this.close);

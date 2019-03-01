@@ -15,16 +15,17 @@
 <script>
 export default {
   props: {
-    // 绑定值
+    // 是否绑定
     value: {
       type: Boolean,
       default: false
     },
     // 文本值
     text: { type: String },
+    // 勾选框的形状
     rect: {
       type: Boolean,
-      default: true
+      default: false
     },
     // 当绑定值变化时触发的事件
     onChange: {

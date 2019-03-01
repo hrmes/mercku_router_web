@@ -37,7 +37,7 @@
 <script>
 export default {
   data() {
-    return {
+    return { 
       visible: false,
       template: '',
       title: ''

@@ -1,14 +1,17 @@
 <script>
 export default {
   props: {
+    // 自定义加载图标基本单元的数量
     count: {
       type: Number,
       default: 20
     },
+    // 加载图标的颜色
     color: {
       type: String,
       default: '#333'
     },
+    // 加载图标的大小
     size: {
       type: Number,
       default: 40

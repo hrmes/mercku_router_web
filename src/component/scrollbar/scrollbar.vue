@@ -12,6 +12,7 @@ import BScroll from 'better-scroll';
 
 export default {
   props: {
+    // 设置滚动条的基本属性
     option: {
       type: Object,
       default: () => ({
@@ -39,6 +40,7 @@ export default {
     });
   },
   methods: {
+    // 初始化滚动条
     initScroll() {
       if (!this.$refs.wrapper) {
         return;
@@ -53,6 +55,7 @@ export default {
 
       this.scroll = new BScroll(this.$refs.wrapper, this.option);
     },
+    // 刷新滚动条
     refresh() {
       this.scroll && this.scroll.refresh();
     },

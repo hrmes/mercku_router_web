@@ -2,7 +2,7 @@ import Vue from 'vue';
 import loading from 'components/loading/index';
 import upgradeComponent from 'components/upgrade/index';
 import toast from 'components/toast/toast';
-import dialog from 'components/dialog/index';
+import dialog from 'components/dialog/dialog';
 import mProgress from 'components/progress/progress.vue';
 import { formatSpeed, formatNetworkData, formatBandWidth } from 'util/util';
 import upgradeHelper from 'util/upgrade';

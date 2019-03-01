@@ -30,16 +30,19 @@ export default {
     };
   },
   methods: {
+    // dialog 关闭的回调
     close() {
       this.$el.addEventListener('transitionend', () => {
         this.$el.parentNode.removeChild(this.$el);
       });
     },
+     // dialog 打开的回调
     ok() {
       this.visible = false;
       this.close();
       this.callback.ok && this.callback.ok();
     },
+    // dialog 撤销的回调
     cancel() {
       this.visible = false;
       this.close();
