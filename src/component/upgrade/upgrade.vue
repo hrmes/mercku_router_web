@@ -3,7 +3,7 @@
     <div class="upgrade-container"
          v-if="visible">
       <div class="inner">
-        <div class="mercku_upgrade">
+        <!-- <div class="mercku_upgrade">
           <div class="left">
             <div class="out-wrapper">
               <div class="outer-m"></div>
@@ -25,7 +25,9 @@
             </div>
           </div>
 
-        </div>
+        </div> -->
+        <img src="../../assets/images/loading.gif"
+             alt="">
         <div v-if="title"
              class="title">{{title}}</div>
         <div v-html="tip"></div>
@@ -166,6 +168,13 @@ export default {
   right: 0;
   z-index: 1001;
   background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 120px;
+    height: 120px;
+  }
   &.upgrade-enter {
     opacity: 0;
   }
@@ -186,7 +195,7 @@ export default {
     transform: translate(-50%, -50%);
     .title {
       font-size: 24px;
-      margin-top: 10px;
+      // margin-top: 10px;
       color: #fff;
     }
   }

@@ -99,12 +99,12 @@ export default {
         .then(res => {
           const { role } = res.data.result;
           this.$store.role = role;
-          sessionStorage.setItem('role', role);
+          localStorage.setItem('role', role);
           this.$http.getMeshMode().then(res1 => {
             this.$loading.close();
             const { mode } = res1.data.result;
             this.$store.mode = mode;
-            sessionStorage.setItem('mode', mode);
+            localStorage.setItem('mode', mode);
             this.$router.push({ path: '/dashboard' });
           });
         })
