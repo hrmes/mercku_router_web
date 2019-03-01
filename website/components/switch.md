@@ -18,7 +18,7 @@
 <!-- @vuese:switch:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|input|-|-|
+|input|当输入绑定值触发的事件|输入后的绑定值|
 
 <!-- @vuese:switch:events:end -->
 

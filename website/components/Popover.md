@@ -18,8 +18,18 @@
 <!-- @vuese:Popover:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|input|-|-|
+|input|当输入绑定值触发的事件|输入后的绑定值|
 
 <!-- @vuese:Popover:events:end -->
+
+
+## Methods
+
+<!-- @vuese:Popover:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|handleClose|关闭弹框|-|
+
+<!-- @vuese:Popover:methods:end -->
 
 

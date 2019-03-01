@@ -1,5 +1,6 @@
 <template>
   <div class="tab">
+    <!-- from tabs -->
     <slot></slot>
   </div>
 </template>

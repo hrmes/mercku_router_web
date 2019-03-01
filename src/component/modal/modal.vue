@@ -1,5 +1,6 @@
 <template>
   <div class="modal-body">
+<!-- from body -->
     <slot></slot>
   </div>
 </template>

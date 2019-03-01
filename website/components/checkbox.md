@@ -18,9 +18,19 @@
 <!-- @vuese:checkbox:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|input|-|-|
-|change|-|-|
+|input|当输入绑定值触发的事件|输入后的绑定值|
+|change|当绑定值变化时触发的事件|更新后的值|
 
 <!-- @vuese:checkbox:events:end -->
+
+
+## Methods
+
+<!-- @vuese:checkbox:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|check|勾选|-|
+
+<!-- @vuese:checkbox:methods:end -->
 
 

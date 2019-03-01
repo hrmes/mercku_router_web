@@ -46,9 +46,12 @@ export default {
     }
   },
   methods: {
+    // @vuese
     // 关闭弹框
     handleClose() {
       this.show = false;
+    // 当输入绑定值触发的事件
+    // @arg 输入后的绑定值
       this.$emit('input', this.show);
     }
   }

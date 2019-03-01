@@ -25,3 +25,18 @@
 <!-- @vuese:editableSelect:events:end -->
 
 
+## Methods
+
+<!-- @vuese:editableSelect:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|input|当输入绑定值触发的事件|-|
+|select|勾选|当前勾选值|
+|open|打开选择器|-|
+|close|关闭选择器|-|
+|blur|当 input 失去焦点时触发|-|
+|focus|当 input 获取焦点时触发|-|
+
+<!-- @vuese:editableSelect:methods:end -->
+
+

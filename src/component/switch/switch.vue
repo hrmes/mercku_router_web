@@ -44,6 +44,8 @@ export default {
   methods: {
     change(...args) {
       this.checked = !this.checked;
+   // 当输入绑定值触发的事件
+    // @arg 输入后的绑定值
       this.$emit('input', this.checked);
       this.onChange(this.checked, args);
     }

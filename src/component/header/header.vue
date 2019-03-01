@@ -46,7 +46,7 @@ const Languages = [
 ];
 export default {
   props: {
-    // header 状态
+    // header 的显示状态
     hasExit: {
       type: Boolean,
       default: true
@@ -73,24 +73,37 @@ export default {
     }
   },
   methods: {
+    // @vuese
+    // 关闭弹出框
     close() {
       this.showPopup = false;
     },
+    // @vuese
+    // 获取勾选语言
     getDefaultLanguage() {
       return Languages.filter(l => l.value === this.$i18n.locale)[0];
     },
+    // @vuese
+    // 显示弹出框
     showLangPopup() {
       this.showPopup = !this.showPopup;
     },
+    // @vuese
+    // 勾选语言
+    // @arg 当前绑定值
     selectLang(lang) {
       this.changeLanguage(lang.value);
       this.showPopup = false;
     },
+    // @vuese
+    // 切换语言
     changeLang() {
       const zh = 'zh-CN';
       const en = 'en-US';
       this.changeLanguage(this.$i18n.locale === en ? zh : en);
     },
+    // @vuese
+    // 关闭语言选择
     exit() {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -106,6 +119,8 @@ export default {
       });
     }
   },
+  // @vuese
+  // 在撤销前关闭
   beforeDestroy() {
     if (window.addEventListener) {
       document.body.removeEventListener('click', this.close);

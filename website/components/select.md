@@ -17,8 +17,20 @@
 <!-- @vuese:select:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|input|-|-|
+|input|当输入绑定值触发的事件|选择后的绑定值|
 
 <!-- @vuese:select:events:end -->
+
+
+## Methods
+
+<!-- @vuese:select:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|select|勾选|当前选择项|
+|open|打开选择器|-|
+|close|关闭选择器|-|
+
+<!-- @vuese:select:methods:end -->
 
 

@@ -67,6 +67,8 @@ export default {
     };
   },
   methods: {
+      // @vuese
+      // 在不同的 menu 进行切换
     jump(menu) {
       if (!menu.url && menu.children) {
         this.list.forEach(l => {
@@ -81,16 +83,19 @@ export default {
         this.showMenu = false;
       }
     },
+    // @vuese
     // 切换语言
     changeLang() {
       const zh = 'zh-CN';
       const en = 'en-US';
       this.changeLanguage(this.$i18n.locale === en ? zh : en);
     },
+    // @vuese
     // 显示 sidebar 
     show() {
       this.showMenu = !this.showMenu;
     },
+    // @vuese
     // 关闭 sidebar
     exit() {
       this.$dialog.confirm({
@@ -106,6 +111,7 @@ export default {
         }
       });
     },
+    // @vuese
      // 获取侧边栏列表
     getList() {
       const list = this.menus.map((m, index) => {

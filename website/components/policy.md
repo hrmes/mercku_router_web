@@ -10,3 +10,14 @@
 <!-- @vuese:policy:props:end -->
 
 
+## Methods
+
+<!-- @vuese:policy:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|showPolicy|显示版权|-|
+|close|关闭版|-|
+
+<!-- @vuese:policy:methods:end -->
+
+

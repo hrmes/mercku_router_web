@@ -37,10 +37,16 @@ export default {
     return { checked: this.value };
   },
   methods: {
+    // @vuese
+    // 勾选
     check() {
       this.checked = !this.checked;
       this.onChange(this.checked);
+    // 当输入绑定值触发的事件
+    // @arg 输入后的绑定值
       this.$emit('input', this.checked);
+    // 当绑定值变化时触发的事件
+    // @arg 更新后的值
       this.$emit('change', this.checked);
     }
   },

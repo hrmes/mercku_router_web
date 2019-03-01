@@ -1,5 +1,6 @@
 <template>
   <div class="modal-header">
+    <!-- from header -->
     <slot></slot>
   </div>
 </template>

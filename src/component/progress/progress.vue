@@ -43,7 +43,8 @@ export default {
     this.createTiemr();
   },
   methods: {
-     // 进度条加载时间 
+    //@vuese
+    // 进度条加载时间 
     createTiemr() {
       const average = 100 / this.during;
       this.timer = setInterval(() => {

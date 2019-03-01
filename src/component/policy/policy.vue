@@ -35,6 +35,8 @@ export default {
   },
   mounted() {},
   methods: {
+  //@vuese
+ // 显示版权
     showPolicy() {
       if (process.env.CUSTOMER_CONFIG.isCik) {
         window.open('https://www.ciktel.com/');
@@ -42,6 +44,8 @@ export default {
         this.show = true;
       }
     },
+   // @vuese
+  // 关闭版
     close() {
       this.show = false;
     }

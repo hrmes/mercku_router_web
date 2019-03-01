@@ -5,7 +5,7 @@
 <!-- @vuese:tabs:slots:start -->
 |Name|Description|Default Slot Content|
 |---|---|---|
-|default|-|-|
+|default|from tab|-|
 
 <!-- @vuese:tabs:slots:end -->
 

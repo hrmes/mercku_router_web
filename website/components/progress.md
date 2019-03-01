@@ -12,3 +12,13 @@
 <!-- @vuese:progress:props:end -->
 
 
+## Methods
+
+<!-- @vuese:progress:methods:start -->
+|Method|Description|Parameters|
+|---|---|---|
+|createTiemr|进度条加载时间|-|
+
+<!-- @vuese:progress:methods:end -->
+
+

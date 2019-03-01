@@ -70,28 +70,37 @@ export default {
   },
   methods: {
     addEvent() {},
+    // @vuese
+    // 当输入绑定值触发的事件
     input() {
       this.$emit('input', this.selected);
     },
+    // @vuese
+    // 勾选
+    // @arg 当前勾选值
     select(option) {
       this.selected = option;
       this.$emit('input', this.selected);
       this.opened = false;
       this.$refs.input.focus();
     },
+    // @vuese
     // 打开选择器
     open() {
       this.opened = true;
     },
+    // @vuese
     // 关闭选择器
     close() {
       this.opened = false;
     },
+    // @vuese
     // 当 input 失去焦点时触发
     blur() {
       this.onBlur && this.onBlur();
       this.$parent.$emit('blur');
     },
+    // @vuese
     // 当 input 获取焦点时触发
     focus() {
       this.$parent.$emit('focus');

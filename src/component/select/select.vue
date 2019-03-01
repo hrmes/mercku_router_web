@@ -62,14 +62,23 @@ export default {
   },
   methods: {
     addEvent() {},
+    // @vuese
+    // 勾选 
+    // @arg 当前选择项
     select(option) {
       this.selected = option;
       this.opened = false;
+    // 当输入绑定值触发的事件
+    // @arg 选择后的绑定值
       this.$emit('input', this.selected.value);
     },
+     // @vuese
+    // 打开选择器
     open() {
       this.opened = !this.opened;
     },
+    // @vuese
+    // 关闭选择器
     close() {
       this.opened = false;
     }

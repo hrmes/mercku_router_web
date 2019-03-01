@@ -27,6 +27,7 @@ export default {
     }
   },
   methods: {
+    // @vuese
     // 验证器
     validate() {
       this.validators = this.$parent.rules[this.prop] || [];
@@ -46,6 +47,7 @@ export default {
       this.result = result;
       return result;
     },
+    // @vuese
     // 扩展验证
     extraValidate(validator, msg, ...arg) {
       let result = true;
@@ -58,6 +60,7 @@ export default {
     }
   },
   mounted() {
+    // @vuese
     // 失焦时验证
     this.$on('blur', () => {
       this.validate();

@@ -34,8 +34,11 @@ export default {
   },
   methods: {
     check(option) {
-      this.selected = option.value;
-      this.$emit('input', this.selected);
+     // @vuese
+    // 勾选
+    // @arg 当前绑定值
+    this.selected = option.value;
+    this.$emit('input', this.selected);
     }
   }
 };
