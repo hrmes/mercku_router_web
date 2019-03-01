@@ -128,12 +128,30 @@ const launch = () => {
         if (!window.location.href.includes('login')) {
           window.location.href = '/';
         }
-      } else if (status === 400 && (data.error.code === 600007 || data.error.code === 600402)) {
-        !upgrading && upgrade();
-        throw err;
       } else {
         const { error } = data;
-        if (error && error.code) {
+        if (error) {
+          // 升级中
+          if (error.code === 600402) {
+            !upgrading && upgrade();
+            throw err;
+          }
+          // 工作模式不支持当前操作
+          if (error.code === 200202 || error.code === 200203) {
+            dialog.info({
+              okText: translate('trans0024'),
+              message: translate('trans0583'),
+              callback: {
+                ok: () => {
+                  http.getMeshMode().then(res => {
+                    router.push({ path: '/dashboard' });
+                    store.mode = res.data.result.mode;
+                  });
+                }
+              }
+            });
+            throw err;
+          }
           toast(translate(error.code));
         } else {
           router.push({ path: '/unconnect' });

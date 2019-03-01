@@ -19,6 +19,7 @@
         <ul class="select-popup"
             v-show="this.opened">
           <li :key="option"
+              :class="{'selected':selected === option}"
               @click.stop="select(option)"
               v-for="option in options"
               :title="option">{{option}}</li>
@@ -30,6 +31,8 @@
 </template>
 
 <script>
+import scrollTo from '../utils/scroll-to';
+
 export default {
   props: {
     options: {
@@ -66,6 +69,22 @@ export default {
   },
   methods: {
     addEvent() {},
+    scrollToSelect() {
+      this.$nextTick(() => {
+        const popupEl = this.$el.querySelector('.select-popup');
+        const selectEl = popupEl.querySelector('li.selected');
+        if (selectEl) {
+          const popupHeight = popupEl.clientHeight;
+          const elHeight = selectEl.clientHeight;
+          // 滚动到正中间的位置
+          scrollTo(
+            popupEl,
+            0,
+            selectEl.offsetTop - popupHeight / 2 + elHeight / 2
+          );
+        }
+      });
+    },
     input() {
       this.$emit('input', this.selected);
     },
@@ -77,6 +96,7 @@ export default {
     },
     open() {
       this.opened = true;
+      this.scrollToSelect();
     },
     close() {
       this.opened = false;
@@ -171,12 +191,15 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: #d6001c;
-        color: #fff;
+        background: #e7e7e7;
+        color: #333;
       }
       &:hover {
-        background: #d6001c;
-        color: #fff;
+        background: #e7e7e7;
+        color: #333;
+      }
+      &.selected {
+        color: #d6001c;
       }
     }
   }

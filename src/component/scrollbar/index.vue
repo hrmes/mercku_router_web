@@ -10,23 +10,24 @@
 <script>
 import BScroll from 'better-scroll';
 
+const defaultOpt = {
+  probeType: 1,
+  eventPassthrough: 'horizontal',
+  scrollY: true,
+  scrollX: false,
+  disableMouse: true,
+  preventDefault: true,
+  disableTouch: false,
+  stopPropagation: false,
+  mouseWheel: true,
+  bounce: false,
+  scrollbar: { fade: true }
+};
 export default {
   props: {
     option: {
       type: Object,
-      default: () => ({
-        probeType: 1,
-        eventPassthrough: 'horizontal',
-        scrollY: true,
-        scrollX: false,
-        disableMouse: true,
-        preventDefault: true,
-        disableTouch: false,
-        stopPropagation: false,
-        mouseWheel: true,
-        bounce: false,
-        scrollbar: { fade: true }
-      })
+      default: () => defaultOpt
     },
     data: {
       type: Array,
@@ -34,6 +35,7 @@ export default {
     }
   },
   mounted() {
+    this.opt = Object.assign({}, defaultOpt, this.option);
     this.$nextTick(() => {
       this.initScroll();
     });
@@ -44,14 +46,14 @@ export default {
         return;
       }
 
-      if (this.option.scrollY) {
+      if (this.opt.scrollY) {
         this.$refs.wrapper.style.overflowY = 'hidden';
       }
-      if (this.option.scrollX) {
+      if (this.opt.scrollX) {
         this.$refs.wrapper.style.overflowX = 'hidden';
       }
 
-      this.scroll = new BScroll(this.$refs.wrapper, this.option);
+      this.scroll = new BScroll(this.$refs.wrapper, this.opt);
     },
     refresh() {
       this.scroll && this.scroll.refresh();

@@ -1,108 +1,61 @@
 <template>
   <div class="page">
     <div class="page-header">
-      {{$t('trans0474')}}
+      {{$t('trans0539')}}
     </div>
     <div class="page-content">
       <div class="form">
-        <div class="form-item">
-          <div @click="setSelected(true)"
-               class="radio"
-               :class="{'selected':isBoolDefault}">
-            {{$t('trans0459')}}
-          </div>
-          <p class="mac">{{mac.default}}</p>
-        </div>
-        <div class="form-item">
-          <div @click="setSelected(false)"
-               class="radio"
-               :class="{'selected':!isBoolDefault}">
-            {{$t('trans0460')}}
-          </div>
-          <m-form ref="form"
-                  :model="mac"
-                  :rules="rules"
-                  v-show="!isBoolDefault">
-            <m-form-item prop="current"
-                         ref="current">
-              <m-input class="input"
-                       @input="format"
-                       v-model="mac.current"
-                       :placeholder="$t('trans0321')"></m-input>
-            </m-form-item>
-          </m-form>
-        </div>
+        <m-form-item>
+          <m-radio-group v-model="mode"
+                         :options="modes"
+                         direction="vertical"></m-radio-group>
+          <p class="note">{{$t('trans0543')}}</p>
+        </m-form-item>
+
       </div>
       <div class="form-button">
         <button class="btn primary"
                 v-defaultbutton
-                @click="updateMac">{{$t('trans0081')}}</button>
-      </div>
+                @click="updateMode">{{$t('trans0081')}}</button>
+      </div>`
     </div>
   </div>
 </template>
 <script>
-import { formatMac, isMac } from 'util/util';
-
 export default {
-  computed: {
-    isBoolDefault() {
-      return this.isDefault === true;
-    }
-  },
+  computed: {},
   data() {
     return {
-      mac: {
-        default: '',
-        current: ''
-      },
-      isDefault: null,
-      rules: {
-        current: [
-          {
-            rule: value => isMac(value),
-            message: this.$t('trans0231')
-          }
-        ]
-      }
+      mode: 'router',
+      modes: [
+        {
+          text: this.$t('trans0541'),
+          value: 'router'
+        },
+        {
+          text: this.$t('trans0542'),
+          value: 'bridge'
+        }
+      ]
     };
   },
   mounted() {
-    this.getMac();
+    this.getMode();
   },
   methods: {
-    removeColonOfMac(mac) {
-      return mac.replace(/:/g, '');
-    },
-    format() {
-      const mac = this.removeColonOfMac(this.mac.current);
-      if (mac.length >= 2) {
-        this.mac.current = mac.match(/.{1,2}/g).join(':');
-      }
-    },
-    setSelected(val) {
-      this.isDefault = val;
-    },
-    getMac() {
+    getMode() {
       this.$loading.open();
       this.$http
-        .getWanMac()
+        .getMeshMode()
         .then(res => {
-          this.mac = {
-            default: formatMac(res.data.result.default),
-            current: formatMac(res.data.result.current)
-          };
-          this.isDefault = !this.mac.current;
+          this.mode = res.data.result.mode;
           this.$loading.close();
         })
         .catch(() => {
           this.$loading.close();
         });
     },
-    updateMac() {
-      if (!this.isDefault && !this.$refs.form.validate()) {
-        return;
-      }
+    updateMode() {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
@@ -110,21 +63,16 @@ export default {
         callback: {
           ok: () => {
             this.$loading.open();
-            let mac;
-            if (this.isDefault) {
-              mac = this.removeColonOfMac(this.mac.default);
-            } else {
-              mac = this.removeColonOfMac(this.mac.current);
-            }
             this.$http
-              .updateWanMac({ mac })
+              .updateMeshMode({ mode: this.mode })
               .then(() => {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
                 this.$reconnect({
                   timeout: 60,
                   onsuccess: () => {
-                    this.$router.push({ path: '/advance/mac' });
+                    this.$store.mode = this.mode;
+                    this.$router.push({ path: '/login' });
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
@@ -149,6 +97,13 @@ export default {
 }
 .form {
   width: 350px;
+  .note {
+    color: #999;
+    font-size: 12px;
+    margin: 0;
+    margin-top: 5px;
+    padding-left: 26px;
+  }
   .radio {
     display: flex;
     align-items: center;

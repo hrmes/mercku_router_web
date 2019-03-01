@@ -80,10 +80,10 @@ export default {
   mounted() {
     this.mac = this.$route.params.mac;
     if (
-      this.$store.state.limits.speed
-      && this.$store.state.limits.speed.speed_limit
+      this.$store.modules.limits.speed &&
+      this.$store.modules.limits.speed.speed_limit
     ) {
-      const speed = this.$store.state.limits.speed.speed_limit;
+      const speed = this.$store.modules.limits.speed.speed_limit;
       this.form = {
         ...speed,
         up: this.b_to_KB(speed.up),
@@ -132,7 +132,7 @@ export default {
             })
             .then(() => {
               this.$loading.close();
-              this.$store.state.limits.speed = {
+              this.$store.modules.limits.speed = {
                 speed_limit: params
               };
               this.$toast(this.$t('trans0040'), 3000, 'success');

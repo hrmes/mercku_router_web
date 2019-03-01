@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      {{$t('trans0273')}}
+      {{$t('trans0272')}}
     </div>
     <div class="page-content">
       <div class="current-timezone">

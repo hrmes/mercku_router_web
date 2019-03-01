@@ -28,7 +28,8 @@
             </div>
           </div>
         </div>
-        <div class="item real-time-network">
+        <div class="item real-time-network"
+             v-if="isRouter">
           <div class="title">{{$t('trans0303')}}</div>
           <div class="content">
             <div class="real-time-info">
@@ -69,9 +70,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="item traffic-container">
+        <div class="item traffic-container"
+             v-if="isRouter">
           <div class="title">{{$t('trans0308')}}</div>
           <div class="traffic-info">
             <div class="traffic">
@@ -209,6 +209,9 @@ export default {
     this.getRouteMeta();
   },
   computed: {
+    isRouter() {
+      return CONSTANTS.RouterMode.router === this.$store.mode;
+    },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
       const unit = [
@@ -239,7 +242,6 @@ export default {
         }
         index += 1;
       }
-      // console.log(topArr, bmArr);
       const bmStr = bmArr.map((v, k) => ({
         num: v,
         unit: unit[k]
@@ -253,7 +255,6 @@ export default {
         })
         .reverse()
         .join(' : ');
-      // console.log(topStr, bmStr);
       return [topStr, bmStr];
     },
     isConnected() {
@@ -350,6 +351,14 @@ export default {
       return this.formatBandWidth(this.localSpeedInfo.speed.up);
     }
   },
+  watch: {
+    '$store.mode': function watcher() {
+      this.clearIntervalTask();
+      if (this.isRouter) {
+        this.createIntervalTask();
+      }
+    }
+  },
   methods: {
     getRouteMeta() {
       this.$http.getRouter().then(res => {
@@ -365,7 +374,9 @@ export default {
       this.speedModelOpen = false;
     },
     createIntervalTask() {
-      this.getWanNetStats();
+      if (this.isRouter) {
+        this.getWanNetStats();
+      }
     },
     clearIntervalTask() {
       clearTimeout(this.wanNetStatsTimer);
@@ -405,8 +416,8 @@ export default {
           return;
         }
         if (
-          this.testSpeedNumber % 5 === 0
-          && this.testSpeedNumber !== this.testTimeout
+          this.testSpeedNumber % 5 === 0 &&
+          this.testSpeedNumber !== this.testTimeout
         ) {
           this.speedTest();
         }
@@ -497,7 +508,8 @@ export default {
             padding-left: 15px;
           }
           .time-top {
-            font-size: 30px;
+            font-size: 26px;
+            font-weight: bold;
           }
           .time-bottom {
             font-size: 20px;
@@ -526,10 +538,10 @@ export default {
         padding: 0 20px;
         min-height: 200px;
 
-        &:nth-child(1) {
+        &:nth-child(2n + 1) {
           float: left;
         }
-        &:nth-child(2) {
+        &:nth-child(2n) {
           float: right;
         }
         .title {
@@ -559,12 +571,13 @@ export default {
           flex-wrap: wrap;
           padding-bottom: 15px;
           .m-item {
-            width: 50%;
+            width: 49%;
             font-size: 14px;
             color: #333333;
             padding-top: 20px;
             .m-title {
               color: #999999;
+              font-size: 14px;
             }
           }
         }
@@ -688,12 +701,12 @@ export default {
           color: #333333;
           font-size: 14px;
           .r-title {
-            font-size: 17px;
+            font-size: 18px;
             display: inline-block;
             color: #999999;
             font-weight: 200;
             border: none;
-            width: 85px;
+            width: 90px;
           }
           .down {
             .r-dwon-icon {
@@ -950,7 +963,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1366px) {
+@media screen and (min-width: 769px) and (max-width: 1200px) {
   .internet-container {
     .info-container {
       flex-direction: column;
@@ -964,39 +977,6 @@ export default {
   .router-time-wrap {
     .message {
       flex-direction: row !important;
-    }
-  }
-  .row-1 {
-    min-width: 100px;
-    justify-content: center;
-    flex-flow: column-reverse;
-    font-size: 12px;
-    position: relative;
-    img {
-      width: 30px !important;
-    }
-    .name {
-      position: absolute;
-      top: 100%;
-    }
-  }
-  .row-3 {
-    min-width: 80px;
-    flex-flow: column;
-    font-size: 12px;
-    position: relative;
-    img {
-      width: 40px !important;
-    }
-    .speed {
-      position: absolute;
-      top: 100%;
-      span {
-        font-weight: 200 !important;
-        label {
-          font-weight: 200 !important;
-        }
-      }
     }
   }
   .internet-container {
@@ -1151,7 +1131,7 @@ export default {
               padding-top: 10px;
             }
             .time-top {
-              font-size: 22px;
+              font-size: 20px;
             }
             .time-bottom {
               font-size: 18px;
@@ -1178,9 +1158,6 @@ export default {
         font-size: 20px !important;
       }
       .unit {
-        font-size: 12px !important;
-      }
-      .note {
         font-size: 12px !important;
       }
       .real-time-network {

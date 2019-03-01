@@ -10,7 +10,7 @@
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
-          <button class="btn m-btn-default"
+          <button class="btn m-btn-default "
                   @click="mulDel"
                   :disabled="!hasChecked">{{$t('trans0453')}}</button>
           <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
@@ -32,13 +32,13 @@
           </div>
           <div class="btn-wrap"
                :class="{open:mobileSelect}">
-            <button class="btn"
+            <button class="btn btn-small"
                     @click="add">{{$t('trans0035')}}</button>
-            <button class="btn  m-btn"
+            <button class="btn m-btn btn-small"
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
             </button>
-            <button class="btn btn-default"
+            <button class="btn btn-default btn-small"
                     @click="mulDel"
                     :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
@@ -177,7 +177,7 @@ export default {
         });
     },
     editHandle(item) {
-      this.$store.state = { ...this.$store.state, portfw: item };
+      this.$store.modules = { ...this.$store.modules, portfw: item };
       this.$router.push(`/advance/portforwarding/form/${item.id}`);
     },
     update(v, item) {

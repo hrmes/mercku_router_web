@@ -1,5 +1,5 @@
-MIN_NPM_VER_MAJOR=5
-MIN_NPM_VER_MINOR=8
+MIN_NPM_VER_MAJOR=6
+MIN_NPM_VER_MINOR=1
 MIN_NPM_VER_PATCH=0
 
 CUR_NPM_VER := $(shell npm -v)
@@ -24,7 +24,7 @@ ifneq ($(IS_NPM_OK),true)
 endif
 
 prd_depend: package.json package-lock.json check_npm_version
-	npm ci
+	npm i
 
 dev_depend: package.json check_npm_version
 	npm i

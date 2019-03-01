@@ -1,8 +1,10 @@
 import Vue from 'vue';
 
 class Store {
-  constructor(_Vue, options) {
-    const bus = new _Vue({ data: { state: options.state } });
+  constructor(_Vue, state) {
+    const bus = new _Vue({
+      data: state
+    });
     this.install(Vue, bus);
   }
 
@@ -17,8 +19,9 @@ class Store {
   }
 }
 const store = new Store(Vue, {
-  state: {
-    access: sessionStorage.getItem('access'),
+  mode: sessionStorage.getItem('mode'),
+  role: sessionStorage.getItem('role'),
+  modules: {
     limits: {},
     portfw: {},
     rsvdip: {},

@@ -97,11 +97,16 @@ export default {
       this.$http
         .login({ password: this.password })
         .then(res => {
-          this.$loading.close();
-          const access = res.data.result.role;
-          this.$store.state.access = access;
-          sessionStorage.setItem('access', access);
-          this.$router.push({ path: '/dashboard' });
+          const { role } = res.data.result;
+          this.$store.role = role;
+          sessionStorage.setItem('role', role);
+          this.$http.getMeshMode().then(res1 => {
+            this.$loading.close();
+            const { mode } = res1.data.result;
+            this.$store.mode = mode;
+            sessionStorage.setItem('mode', mode);
+            this.$router.push({ path: '/dashboard' });
+          });
         })
         .catch(err => {
           this.$loading.close();

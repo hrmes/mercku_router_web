@@ -12,8 +12,35 @@
                 @click="addMeshNode">{{$t('trans0194')}}</button>
       </div>
       <div class="content">
-        <div id="topo"
-             v-show="!showTable"></div>
+        <div class="topo-container"
+             v-show="!showTable">
+          <div class="legend-wrap">
+            <p class="legend-title">{{$t('trans0302')}}</p>
+            <div class="legend">
+              <div class="legend-item">{{$t('trans0193')}}</div>
+              <div class="legend-item">{{$t('trans0196')}}</div>
+            </div>
+          </div>
+          <div class="switch-wrap">
+            <label for=""> {{$t('trans0562')}}
+              <div class="tool">
+                <m-popover :title="this.$t('trans0562')"
+                           :content="this.$t('trans0558')">
+                  <img width="14"
+                       src="../../../assets/images/ic_question.png"
+                       alt="">
+                </m-popover>
+              </div>
+            </label>
+            <m-switch v-model="mesh24g"
+                      :onChange="(val)=>updateMeshBand(val)"></m-switch>
+          </div>
+          <div class="topo-wrap"
+               id="topo-wrap">
+            <div id="topo"></div>
+          </div>
+
+        </div>
         <div class="mesh-table"
              v-show="showTable">
           <div class="table-header">
@@ -77,6 +104,7 @@
               </div>
               <div class="operate">
                 <span class="reboot"
+                      v-if="!isRouterOffline(router)"
                       @click="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw"
                       class="reset"
@@ -117,20 +145,16 @@
 </template>
 <script>
 import { formatMac, getStringByte } from 'util/util';
+import { RouterStatus } from 'util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
-require('echarts/lib/component/legend');
-require('echarts/lib/component/title');
 
-const Color = {
-  good: '#00d061',
-  bad: '#ff6f00'
-};
 export default {
   data() {
     return {
+      RouterStatus,
       formatMac,
       pageActive: true,
       meshNode: [],
@@ -140,6 +164,7 @@ export default {
       routerSelected: null,
       showModal: false,
       form: { newName: '' },
+      mesh24g: false,
       rules: {
         newName: [
           {
@@ -179,6 +204,7 @@ export default {
   },
   mounted() {
     this.initChart();
+    this.getMeshBand();
     this.createIntervalTask();
   },
   computed: {
@@ -196,6 +222,32 @@ export default {
     }
   },
   methods: {
+    updateMeshBand(val) {
+      this.$loading.open();
+      this.$http
+        .updateMeshBand({
+          bands: {
+            '5G': true,
+            '2.4G': val
+          }
+        })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.mesh24g = !val;
+          this.$loading.close();
+        });
+    },
+    getMeshBand() {
+      this.$http.getMeshBand().then(res => {
+        this.mesh24g = res.data.result['2.4G'];
+      });
+    },
+    isRouterOffline(router) {
+      return router.status === RouterStatus.offline;
+    },
     closeUpdateModal() {
       this.form.newName = '';
       this.showModal = false;
@@ -295,7 +347,8 @@ export default {
       this.$router.push('/mesh/add');
     },
     initChart() {
-      this.chart = echarts.init(document.getElementById('topo'));
+      const topoEl = document.getElementById('topo');
+      this.chart = echarts.init(topoEl);
       this.chart.on('click', () => {
         this.$router.push('/dashboard/mesh/table');
       });
@@ -326,34 +379,6 @@ export default {
       });
 
       const option = {
-        color: [Color.good, Color.bad],
-
-        title: {
-          subtext: this.$t('trans0302'),
-          subtextStyle: { color: '#333' },
-          left: 20
-        },
-        legend: [
-          {
-            itemWidth: 6,
-            itemHeight: 6,
-            textStyle: { padding: [0, 0, 0, 15] },
-            data: [
-              {
-                name: `${this.$t('trans0193')}`,
-                icon: 'circle'
-              },
-              {
-                name: `${this.$t('trans0196')}`,
-                icon: 'circle'
-              }
-            ],
-            orient: 'vertical',
-            top: 10,
-            left: 10,
-            selectedMode: false
-          }
-        ],
         series: [
           {
             type: 'graph',
@@ -380,8 +405,8 @@ export default {
                     let index = 1;
                     let start = sp[0];
                     while (
-                      (start + sp[index]).length < 10
-                      && index < sp.length
+                      (start + sp[index]).length < 10 &&
+                      index < sp.length
                     ) {
                       start += ` ${sp[index]}`;
                       index += 1;
@@ -390,15 +415,6 @@ export default {
                     return `${start}\n${end}`;
                   }
                   return name.match(/.{1,10}/g).join('\n');
-                },
-                rich: {
-                  underline: {
-                    borderColor: '#777',
-                    width: '100%',
-                    borderWidth: 0.5,
-                    height: 0,
-                    lineHeight: 4
-                  }
                 }
               }
             },
@@ -475,17 +491,77 @@ export default {
     box-sizing: border-box;
     padding: 0 20px;
     flex-direction: column;
-    margin-bottom: 20px;
     .content {
-      padding-top: 15px;
+      padding-top: 35px;
       flex: 1;
       display: flex;
-      #topo {
-        width: 100%;
-        min-height: 500px;
-
+      .topo-container {
         flex: 1;
+        display: flex;
+        .legend-wrap {
+          order: 3;
+          width: 100px;
+          .legend-title {
+            font-size: 12px;
+            color: #333;
+            margin: 0;
+            text-align: right;
+          }
+          .legend {
+            .legend-item {
+              font-size: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: flex-end;
+              margin-top: 10px;
+              &::before {
+                content: '';
+                margin-right: 15px;
+                display: block;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: #00d061; //ff6f00
+              }
+              &:nth-child(2) {
+                &::before {
+                  background: #ff6f00;
+                }
+              }
+            }
+          }
+        }
+        .switch-wrap {
+          order: 1;
+          display: flex;
+          align-items: flex-start;
+          padding-left: 20px;
+          width: 200px;
+          label {
+            display: flex;
+            margin-right: 15px;
+            img {
+              position: relative;
+              top: -7px;
+              margin-left: 5px;
+              cursor: pointer;
+            }
+          }
+        }
+        .topo-wrap {
+          order: 2;
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          // width: 100%;
+          #topo {
+            min-width: 500px;
+            height: 500px;
+          }
+        }
       }
+
       .mesh-table {
         width: 100%;
         .table-header {
@@ -651,12 +727,6 @@ export default {
         .tabs {
           .tab {
             font-size: 14px;
-            &.selected {
-              &:hover {
-              }
-            }
-            &:hover {
-            }
           }
         }
       }
@@ -666,11 +736,42 @@ export default {
       }
 
       .content {
-        padding-top: 0;
-        #topo {
-          background: #fff;
-          border-radius: 5px;
-          margin-bottom: 20px;
+        padding-top: 25px;
+        .topo-container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          .legend-wrap {
+            order: 2;
+            .legend-title {
+              text-align: left;
+            }
+            width: 100%;
+            .legend {
+              display: flex;
+
+              .legend-item {
+                margin-left: 20px;
+                &:first-child {
+                  margin-left: 0;
+                }
+              }
+            }
+          }
+          .switch-wrap {
+            order: 1;
+            padding-left: 0;
+            margin-bottom: 30px;
+          }
+          .topo-wrap {
+            order: 3;
+            padding-top: 0;
+            #topo {
+              width: 100%;
+              min-width: initial;
+              background: #fff;
+            }
+          }
         }
         .mesh-table {
           .table-header {

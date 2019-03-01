@@ -7,15 +7,18 @@
  *
  */
 import * as CONSTANTS from 'util/constant';
-import picGateway from '../../../assets/images/ic_m2_green_80x80px@2x.png';
-import picM2Good from '../../../assets/images/ic_m2_green_60x60px@2x.png';
-import picM2Bad from '../../../assets/images/ic_m2_orange_60x60px@2x.png';
-import picBeeGood from '../../../assets/images/ic_bee_green_60x60px@2x.png';
-import picBeeBad from '../../../assets/images/ic_bee_orange_60x60px@2x.png';
+import picGateway from '../../../assets/images/ic_m2_gw_green.png';
+import picM2Good from '../../../assets/images/ic_m2_green.png';
+import picM2Bad from '../../../assets/images/ic_m2_orange.png';
+import pciM2Offline from '../../../assets/images/ic_m2_offline.png';
+import picBeeGood from '../../../assets/images/ic_bee_green.png';
+import picBeeBad from '../../../assets/images/ic_bee_orange.png';
+import picBeeOffline from '../../../assets/images/ic_bee_offline.png';
 
 const Color = {
   good: '#00d061',
-  bad: '#ff6f00'
+  bad: '#ff6f00',
+  offline: '#000'
 };
 
 // 大于-50均认为优秀
@@ -122,17 +125,29 @@ function findRedNode(gateway, green, source) {
 }
 
 // 生成绘图需要的节点数据
-function genNodes(gateway, green, red) {
+function genNodes(gateway, green, red, offline) {
+  const picModelColorMap = {
+    [CONSTANTS.RouterSnModel.M2]: {
+      [Color.good]: picM2Good,
+      [Color.bad]: picM2Bad,
+      [Color.offline]: pciM2Offline
+    },
+    [CONSTANTS.RouterSnModel.Bee]: {
+      [Color.good]: picBeeGood,
+      [Color.bad]: picBeeBad,
+      [Color.offline]: picBeeOffline
+    }
+  };
+
   function genNode(node, color, symbolSize = 50) {
     let symbol = 'image://';
     if (node.is_gw) {
-      symbol += picGateway;
+      symbol = `${symbol}${picGateway}`;
     } else {
       const id = (node.model && node.model.id) || node.sn.slice(0, 2);
-      if (id === CONSTANTS.RouterSnModel.M2) {
-        symbol += color === Color.good ? picM2Good : picM2Bad;
-      } else if (id === CONSTANTS.RouterSnModel.Bee) {
-        symbol += color === Color.good ? picBeeGood : picBeeBad;
+      const modelConfig = picModelColorMap[id];
+      if (modelConfig) {
+        symbol = `${symbol}${modelConfig[color]}`;
       }
     }
     const n = {
@@ -149,7 +164,7 @@ function genNodes(gateway, green, red) {
   }
   const nodes = [];
 
-  const nodeCount = 1 + green.length + red.length;
+  const nodeCount = 1 + green.length + red.length + offline.length;
   const symbolSize = [70, 50];
   if (nodeCount >= 8) {
     symbolSize[0] = 50;
@@ -167,6 +182,10 @@ function genNodes(gateway, green, red) {
   // 红点
   red.forEach(r => {
     nodes.push(genNode(r, Color.bad, symbolSize[1]));
+  });
+
+  offline.forEach(o => {
+    nodes.push(genNode(o, Color.offline, symbolSize[1]));
   });
 
   return nodes;
@@ -235,8 +254,23 @@ function genLines(gateway, green, red) {
   return lines;
 }
 
+// 找出离线节点
+function findOfflineNode(array, offline) {
+  array = array.filter(a => {
+    if (a.status === CONSTANTS.RouterStatus.offline) {
+      offline.push(a);
+      return false;
+    }
+    return true;
+  });
+  return array;
+}
+
 // 生成所有绘图数据
 function genData(array) {
+  const offline = [];
+  array = findOfflineNode(array, offline);
+
   array = addConnection(array);
   const gateway = findGateway(array);
 
@@ -247,7 +281,7 @@ function genData(array) {
 
   const red = findRedNode(gateway, green, RouterDistincted);
 
-  const nodes = genNodes(gateway, green, red);
+  const nodes = genNodes(gateway, green, red, offline);
 
   const lines = genLines(gateway, green, red);
 

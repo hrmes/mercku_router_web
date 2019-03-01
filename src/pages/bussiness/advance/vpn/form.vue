@@ -124,7 +124,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      const { vpn } = this.$store.state;
+      const { vpn } = this.$store.modules;
       if (vpn.id) {
         this.form = {
           id: vpn.id,

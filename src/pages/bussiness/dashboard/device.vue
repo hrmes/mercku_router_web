@@ -466,8 +466,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control
-        && row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {
@@ -475,7 +475,7 @@ export default {
     },
     limitClick(type, row) {
       this.$router.push({ path: `/limit/${type}/${row.mac}` });
-      this.$store.state.limits[type] = row;
+      this.$store.modules.limits[type] = row;
     },
     expandTable(row) {
       if (this.isMobile) {

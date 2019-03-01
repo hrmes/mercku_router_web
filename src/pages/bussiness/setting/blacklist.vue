@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class='page-header'>
-      <span class="title"> {{$t('trans0288')}}</span>
+      <span class="title"> {{$t('trans0020')}}</span>
     </div>
     <div class="page-content">
 
@@ -13,7 +13,7 @@
                         :onChange="changeCheckboxAll"></m-checkbox>
           </div>
           <div class="btns">
-            <div class="btn btn-primary"
+            <div class="btn btn-primary btn-small"
                  @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0035')}}
               <div class="modal"
                    v-show="deviceModalVisible"
@@ -46,7 +46,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-default"
+            <button class="btn btn-default btn-small"
                     @click="removeBlacklist()"
                     :disabled="!someBlacklistChecked">{{$t('trans0453')}}
             </button>
@@ -239,7 +239,6 @@ export default {
     &:first-child {
       margin-left: 0;
       text-align: center;
-      width: 120px;
       display: flex;
       align-items: center;
       justify-content: center;

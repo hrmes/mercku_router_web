@@ -7,7 +7,8 @@
              class="dialog-title">{{title}}</div>
         <div class="dialog-message">{{message}}</div>
         <div class="dialog-buttons">
-          <button @click="cancel()"
+          <button v-if="Types.info!==type"
+                  @click="cancel()"
                   class="btn btn-default">{{cancelText}}</button>
           <button @click="ok()"
                   class="btn">{{okText}}</button>
@@ -18,9 +19,15 @@
 </template>
 
 <script>
+const Types = {
+  info: 'info',
+  confirm: 'confirm'
+};
+
 export default {
   data() {
     return {
+      Types,
       visible: false,
       message: '',
       title: '',
@@ -76,24 +83,6 @@ export default {
         height: 42px;
         display: inline-block;
         margin: 0 20px 0 30px;
-        &:first-child {
-          margin-left: 0;
-          margin-right: 0;
-          color: #333;
-          background: white;
-          outline: none;
-          box-sizing: border-box;
-          border: solid 1px #b6b6b6;
-          &:active {
-            color: #000;
-            border-color: #333;
-          }
-
-          &:hover {
-            color: #000;
-            border-color: #333;
-          }
-        }
       }
     }
     .dialog-title {
@@ -105,6 +94,7 @@ export default {
     .dialog-message {
       color: #333;
       padding: 20px;
+      text-align: left;
     }
   }
   &.dialog-enter-active {
@@ -125,9 +115,6 @@ export default {
   .dialog-container {
     .dialog-content {
       width: 420px;
-      .dialog-message {
-        text-align: center;
-      }
       .dialog-buttons {
         text-align: center;
       }

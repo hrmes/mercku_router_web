@@ -5,23 +5,6 @@
     </div>
     <div class="page-content">
       <div class="wan-info">
-        <div class="result-container">
-          <div v-if="isTesting">
-            <img src="../../../assets/images/img_test_internet.png"
-                 alt="">
-            <p>{{$t('trans0298')}}</p>
-          </div>
-          <div v-if="isUnlinked||isLinked">
-            <img src="../../../assets/images/img_no_network_access.png"
-                 alt="">
-            <p>{{$t('trans0319')}}</p>
-          </div>
-          <div v-if="isConnected">
-            <img src="../../../assets/images/img_internet_normal.png"
-                 alt="">
-            <p>{{$t('trans0318')}}</p>
-          </div>
-        </div>
         <div class="seccess-info">
           <div>
             <label for="">{{$t('trans0317')}}：</label>
@@ -592,8 +575,9 @@ export default {
   }
 }
 .wan-info {
-  width: 100%;
   display: flex;
+  width: 350px;
+  flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   font-size: 16px;
@@ -601,22 +585,19 @@ export default {
   text-align: center;
   padding-bottom: 30px;
   img {
-    width: 180px;
+    width: 150px;
   }
   p {
     margin: 0;
     padding: 0;
     font-size: 14px;
-  }
-  .result-container {
-    padding-right: 30px;
+    text-align: left;
   }
   .seccess-info {
-    padding-left: 30px;
+    width: 100%;
     text-align: left;
     display: flex;
     flex-direction: column;
-    border-left: 1px solid #f1f1f1;
     div {
       margin-top: 10px;
       display: flex;
@@ -624,9 +605,8 @@ export default {
     label {
       display: inline-block;
       font-size: 14px;
-      color: #999999;
-      width: 130px;
-      text-align: right;
+      color: #999;
+      text-align: left;
       width: 120px;
     }
     span {
@@ -639,22 +619,10 @@ export default {
 @media screen and(max-width:768px) {
   .wan-info {
     flex-direction: column;
-    img {
-    }
-    p {
-    }
-    .result-container {
-      padding-right: 0;
-    }
+    width: 100%;
     .seccess-info {
       border: 0;
       padding-left: 0;
-      div {
-      }
-      label {
-      }
-      span {
-      }
     }
   }
 }
