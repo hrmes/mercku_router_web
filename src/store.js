@@ -19,8 +19,8 @@ class Store {
   }
 }
 const store = new Store(Vue, {
-  mode: sessionStorage.getItem('mode'),
-  role: sessionStorage.getItem('role'),
+  mode: localStorage.getItem('mode'),
+  role: localStorage.getItem('role'),
   modules: {
     limits: {},
     portfw: {},
