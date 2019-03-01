@@ -963,7 +963,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1366px) {
+@media screen and (min-width: 769px) and (max-width: 1200px) {
   .internet-container {
     .info-container {
       flex-direction: column;

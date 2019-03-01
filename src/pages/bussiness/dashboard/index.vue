@@ -2,13 +2,13 @@
   <div class="dashboard-container">
     <div class="net-info">
       <div class="device-container"
-           @click="forward2page('/dashboard/device/primary')">
+           @click="isRouter && forward2page('/dashboard/device/primary')">
         <div class="icon-container">
           <img src="../../../assets/images/ic_device.png"
                alt="">
         </div>
         <div class="text-container">
-          {{$t('trans0235')}}&nbsp;({{deviceCount}})
+          {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
         </div>
       </div>
       <div class="line"></div>
