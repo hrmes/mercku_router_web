@@ -19,6 +19,7 @@
             <div class="legend">
               <div class="legend-item">{{$t('trans0193')}}</div>
               <div class="legend-item">{{$t('trans0196')}}</div>
+              <div class="legend-item">{{$t('trans0214')}}</div>
             </div>
           </div>
           <div class="switch-wrap">
@@ -526,6 +527,11 @@ export default {
               &:nth-child(2) {
                 &::before {
                   background: #ff6f00;
+                }
+              }
+              &:nth-child(3) {
+                &::before {
+                  background: rgb(158, 158, 158);
                 }
               }
             }
