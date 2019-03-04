@@ -143,10 +143,7 @@ const launch = () => {
               message: translate('trans0583'),
               callback: {
                 ok: () => {
-                  http.getMeshMode().then(res => {
-                    router.push({ path: '/dashboard' });
-                    store.mode = res.data.result.mode;
-                  });
+                  router.push({ path: '/login' });
                 }
               }
             });

@@ -69,7 +69,7 @@ export default {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
                 this.$reconnect({
-                  timeout: 60,
+                  timeout: 120,
                   onsuccess: () => {
                     this.$store.mode = this.mode;
                     this.$router.push({ path: '/login' });
