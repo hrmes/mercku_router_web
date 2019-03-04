@@ -171,8 +171,8 @@ export default {
   justify-content: center;
   align-items: center;
   img {
-    width: 120px;
-    height: 120px;
+    width: 68px;
+    height: 46px;
   }
   .inner-container {
     width: 100%;
