@@ -13,6 +13,7 @@
                     :label="$t('trans0070')"
                     :options="jobs"></m-select>
         </m-form-item>
+        
         <m-form-item prop="host">
           <m-input v-model="form.host"
                    :label="label"

@@ -55,6 +55,7 @@
       <div class='form'
            v-if="!isTesting">
         <div class="item net-type">
+          <!-- 上网方式 -->
           <m-select :label="$t('trans0317')"
                     v-model="netType"
                     :options="options"></m-select>

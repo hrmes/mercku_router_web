@@ -6,6 +6,7 @@ import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
+import wantzz from 'pages/bussiness/setting/wantzz.vue';
 import timezone from 'pages/bussiness/setting/timezone.vue';
 import blacklist from 'pages/bussiness/setting/blacklist.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
@@ -87,6 +88,10 @@ const routes = [
     name: 'wan',
     component: wan
   }, {
+    path: '/setting/wantzz',
+    name: 'wantzz',
+    component: wantzz
+  },{
     path: '/setting/wifi',
     name: 'wifi',
     component: wifi
@@ -106,11 +111,13 @@ const routes = [
     path: '/setting/blacklist',
     name: 'blacklist',
     component: blacklist
-  }, {
+  }, 
+  {
     path: '/wlan',
     name: 'wlan',
     component: wlan
-  }, {
+  },
+  {
     path: '/unconnect',
     name: 'unconnect',
     component: unconnect
