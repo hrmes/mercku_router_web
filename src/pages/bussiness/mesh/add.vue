@@ -49,7 +49,7 @@
                v-show="stepsOption.current===1">
             <div class="scaning"
                  v-show="scaning">
-              <m-spinner color="#333"></m-spinner>
+              <m-loading></m-loading>
               <p>{{$t('trans0334')}}</p>
             </div>
             <div class="scan-result"

@@ -64,7 +64,7 @@
         <div class="table-body small-device-body">
           <div class="loading-container"
                v-if="showLoading">
-            <m-spinner></m-spinner>
+            <m-loading></m-loading>
           </div>
           <div v-show="!showLoading">
             <ul v-for="(row,i) in devicesMap[id]"

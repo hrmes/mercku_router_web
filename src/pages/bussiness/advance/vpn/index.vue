@@ -14,10 +14,10 @@
               <div class="vpn-name">
                 <span>{{vpn.name}}</span>
                 <div class="spinner-container">
-                  <m-spinner :size="30"
+                  <m-loading :size="30"
                              class="spinner"
                              :color="getColor(vpn)"
-                             v-if="isConnectingOrDisconnecting(vpn)"></m-spinner>
+                             v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
                   <span class="spinner-text"
                         :style="{'color':getColor(vpn)}"
                         v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>

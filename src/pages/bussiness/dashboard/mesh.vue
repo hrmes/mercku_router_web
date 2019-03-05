@@ -501,7 +501,7 @@ export default {
         display: flex;
         .legend-wrap {
           order: 3;
-          width: 100px;
+          width: 200px;
           .legend-title {
             font-size: 12px;
             color: #333;
@@ -739,6 +739,7 @@ export default {
       .btn-add {
         font-size: 12px;
         width: 100px;
+        height: 30px;
       }
 
       .content {
@@ -768,6 +769,7 @@ export default {
             order: 1;
             padding-left: 0;
             margin-bottom: 30px;
+            width: 100%;
           }
           .topo-wrap {
             order: 3;

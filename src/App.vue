@@ -1,6 +1,7 @@
 <template>
   <m-scrollbar ref="wrap"
-               class="srcollbar-wrap">
+               class="srcollbar-wrap"
+               :option="scrollbarOpt">
     <div class="container">
       <m-menu class="menu"
               :menus="menus"
@@ -37,6 +38,13 @@ export default {
     menus() {
       return getMenu(this.$store.role, this.$store.mode);
     }
+  },
+  data() {
+    return {
+      scrollbarOpt: {
+        scrollbar: false
+      }
+    };
   }
 };
 </script>

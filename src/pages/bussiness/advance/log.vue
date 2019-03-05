@@ -32,18 +32,7 @@ export default {
       enabled: false,
       previousArray: [],
       increaseArray: [],
-      scrollbarOption: {
-        probeType: 1,
-        eventPassthrough: 'horizontal',
-        scrollY: true,
-        scrollX: false,
-        disableMouse: true,
-        preventDefault: true,
-        disableTouch: false,
-        stopPropagation: true,
-        mouseWheel: true,
-        scrollbar: { fade: true }
-      }
+      scrollbarOption: {}
     };
   },
   computed: {
