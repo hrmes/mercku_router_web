@@ -132,9 +132,8 @@
       <div class="speed-content">
         <div v-if="isSpeedTesting">
           <div class="test-info">
-            <div class="animation-container1"></div>
-            <div class="animation-container2"></div>
-            <div class="animation-container3"></div>
+            <img src="../../../assets/images/speed_test.gif"
+                 alt="">
           </div>
           <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
         </div>
@@ -704,7 +703,6 @@ export default {
             font-size: 18px;
             display: inline-block;
             color: #999999;
-            font-weight: 200;
             border: none;
             width: 90px;
           }
@@ -740,7 +738,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 50px 0 70px;
     position: relative;
     &:before {
       content: '';
@@ -777,54 +774,13 @@ export default {
       text-align: center;
       .test-info {
         position: relative;
-        .animation-container1 {
-          background: #d6001c;
-          width: 110px;
-          height: 110px;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          margin-left: -55px;
-          margin-top: -55px;
-          border-radius: 50%;
-          animation: speed-testing 1s linear infinite;
-          z-index: 10;
+        img {
+          width: 100px;
         }
-        .animation-container2 {
-          background: rgba(214, 0, 28, 0.37);
-          width: 220px;
-          height: 220px;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          margin-left: -110px;
-          margin-top: -110px;
-          border-radius: 50%;
-          animation: speed-testing 1s linear infinite;
-          z-index: 9;
-        }
-        .animation-container3 {
-          background: rgba(214, 0, 28, 0.2);
-          width: 330px;
-          height: 330px;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          margin-left: -165px;
-          margin-top: -165px;
-          border-radius: 50%;
-          animation: speed-testing 1s linear infinite;
-          z-index: 8;
-        }
-        //background: url('../../../assets/images/img_test_03.png') no-repeat;
-        background-size: 100%;
-        width: 330px;
-        height: 330px;
       }
       p {
         color: #ffffff;
-        font-size: 16px;
-        font-weight: 200;
+        font-size: 14px;
       }
       .speed-completed {
         width: 441px;
@@ -1074,12 +1030,14 @@ export default {
       }
 
       .test-speed-btn-container {
-        height: 100px;
-        padding: 0;
+        padding: 40px 0 20px 0;
         width: 120px;
         margin: 0 auto;
         &::before {
           display: none;
+        }
+        .btn {
+          height: 36px;
         }
       }
       .traffic-container {
@@ -1118,6 +1076,8 @@ export default {
           position: relative;
           .message {
             margin-top: 10px;
+            flex-direction: row;
+            align-items: center;
             .time-title {
               color: #999999;
               font-size: 16px;
@@ -1128,7 +1088,6 @@ export default {
               color: #333333;
               line-height: 1;
               padding-left: 0px;
-              padding-top: 10px;
             }
             .time-top {
               font-size: 20px;
@@ -1145,6 +1104,12 @@ export default {
         }
         .item {
           padding: 0 10px;
+          .router-time-img {
+            width: 62px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+          }
           .title {
             height: 44px;
             line-height: 44px;

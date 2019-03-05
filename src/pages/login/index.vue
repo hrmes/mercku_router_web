@@ -34,8 +34,7 @@
         </div>
         <div class="loadding"
              v-if="loading === true">
-          <m-spinner :size="36"
-                     color="#333" />
+          <m-loading :size="36"></m-loading>
         </div>
       </div>
       <div class="small-device-download">
