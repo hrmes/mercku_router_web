@@ -70,6 +70,7 @@
                 <div class="wrap">
                   <div class="text">{{router.name}}</div>
                   <div class="edit"
+                       v-if="!isRouterOffline(router)"
                        @click.stop="onClickRouterName(router)">
                     <img src="../../../assets/images/ic_edit.png"
                          alt>
