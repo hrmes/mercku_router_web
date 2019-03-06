@@ -259,7 +259,7 @@ export default {
       display: none;
     }
     .btn-wrap {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       .m-btn {
         display: none;
       }

@@ -262,7 +262,7 @@ export default {
       display: none;
     }
     .btn-wrap {
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       display: flex;
       .m-btn {
         display: none;
