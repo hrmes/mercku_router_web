@@ -71,8 +71,11 @@ export default {
                 this.$reconnect({
                   timeout: 120,
                   onsuccess: () => {
-                    this.$store.mode = this.mode;
-                    this.$router.push({ path: '/login' });
+                    // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+                    if (this.$store.mode !== this.mode) {
+                      this.$store.mode = this.mode;
+                      this.$router.push({ path: '/login' });
+                    }
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
