@@ -75,17 +75,23 @@ export default {
   },
   mounted() {
     this.loading = true;
-    this.$http.isinitial().then(res => {
-      if (res.data.result.status) {
-        this.$http.login({ password: '' }).then(() => {
-          this.initial = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.initial = true;
+            this.loading = false;
+          });
+        } else {
+          this.initial = false;
           this.loading = false;
-        });
-      } else {
+        }
+      })
+      .catch(() => {
         this.initial = false;
         this.loading = false;
-      }
-    });
+      });
   },
   methods: {
     towlan() {
