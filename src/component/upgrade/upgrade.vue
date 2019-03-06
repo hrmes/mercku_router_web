@@ -172,8 +172,7 @@ export default {
   justify-content: center;
   align-items: center;
   img {
-    width: 120px;
-    height: 120px;
+    width: 100px;
   }
   &.upgrade-enter {
     opacity: 0;
