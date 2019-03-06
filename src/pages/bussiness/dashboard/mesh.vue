@@ -516,9 +516,9 @@ export default {
               align-items: center;
               justify-content: flex-end;
               margin-top: 10px;
-              &::before {
+              &::after {
                 content: '';
-                margin-right: 15px;
+                margin-left: 15px;
                 display: block;
                 width: 6px;
                 height: 6px;
@@ -526,12 +526,12 @@ export default {
                 background: #00d061; //ff6f00
               }
               &:nth-child(2) {
-                &::before {
+                &::after {
                   background: #ff6f00;
                 }
               }
               &:nth-child(3) {
-                &::before {
+                &::after {
                   background: rgb(158, 158, 158);
                 }
               }
