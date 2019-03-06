@@ -194,6 +194,7 @@
 import * as CONSTANTS from 'util/constant';
 import { ipRule, isMulticast, isLoopback, isValidMask, ipReg } from 'util/util';
 
+// 检查 DNS 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
@@ -202,28 +203,36 @@ export default {
   data() {
     return {
       CONSTANTS,
+      // 上网方式下的描述
       netNote: {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),
         pppoe: this.$t('trans0154')
       },
+      // 上网方式类型
       networkArr: {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144')
       },
+      // 自动获取 dns
       autodns: {
         pppoe: true,
         dhcp: true
       },
+      // dns 配置方式选择
       dnsOptions: [
         { value: true, text: this.$t('trans0399') },
         { value: false, text: this.$t('trans0400') }
       ],
+      // 网络状态设置
       netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      // 上网类型
       netType: CONSTANTS.WanType.dhcp,
+      // 网络信息
       netInfo: {},
+      // 静态网络表单
       staticForm: {
         ip: '',
         mask: '',
@@ -231,16 +240,19 @@ export default {
         dns1: '',
         dns2: ''
       },
+      // 宽带拨号表单
       pppoeForm: {
         account: '',
         password: '',
         dns1: '',
         dns2: ''
       },
+      // 动态 ip 表单
       dhcpForm: {
         dns1: '',
         dns2: ''
       },
+      // 宽带拨号表单验证规则
       pppoeRules: {
         account: [
           {
@@ -255,6 +267,7 @@ export default {
           }
         ]
       },
+      // 静态ip验证规则
       staticRules: {
         ip: [
           {
@@ -307,7 +320,9 @@ export default {
           }
         ]
       },
+      // 动态 ip 验证规则
       dhcpRules: {},
+      // 上网类型选择器
       options: [
         {
           value: 'dhcp',
@@ -324,6 +339,7 @@ export default {
       ]
     };
   },
+  // 观察 pppoe，dhcp 对应表单的值
   watch: {
     'autodns.pppoe': function pppoeWatcher(val) {
       if (!val) {
@@ -421,6 +437,7 @@ export default {
     }
   },
   methods: {
+    // 验证 ip
     ipChange() {
       this.$refs.ip.extraValidate(
         ipRule,
@@ -429,6 +446,7 @@ export default {
         this.staticForm.mask
       );
     },
+    // 验证 mask
     maskChange() {
       this.$refs.ip.extraValidate(
         ipRule,
@@ -443,6 +461,7 @@ export default {
         this.staticForm.mask
       );
     },
+    // 获取网络状态
     getWanStatus() {
       this.netStatus = CONSTANTS.WanNetStatus.testing;
       this.$http
@@ -454,6 +473,7 @@ export default {
           this.netStatus = CONSTANTS.WanNetStatus.unlinked;
         });
     },
+    // 
     getWanNetInfo() {
       this.$http.getWanNetInfo().then(res => {
         if (res.data.result) {
@@ -487,6 +507,7 @@ export default {
         }
       });
     },
+    // 请求数据
     save(params) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -509,6 +530,7 @@ export default {
         }
       });
     },
+    // 提交表单
     submit() {
       const form = { type: this.netType };
       switch (this.netType) {
