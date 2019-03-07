@@ -759,7 +759,13 @@ export default {
               display: flex;
 
               .legend-item {
-                margin-left: 20px;
+                flex-direction: row-reverse;
+                margin-left: 0;
+                margin-right: 20px;
+                &::after {
+                  margin-right: 5px;
+                  margin-left: 0;
+                }
                 &:first-child {
                   margin-left: 0;
                 }
