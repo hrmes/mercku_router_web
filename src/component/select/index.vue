@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import scrollTo from '../utils/scroll-to';
+
 export default {
   props: {
     options: {
@@ -51,14 +53,37 @@ export default {
     }
   },
   mounted() {
-    if (window.addEventListener) {
-      document.body.addEventListener('click', this.close);
-    } else if (window.attachEvent) {
-      document.body.attachEvent('click', this.close);
-    }
+    this.attachEvent();
   },
   methods: {
-    addEvent() {},
+    scrollToSelect() {
+      this.$nextTick(() => {
+        const popupEl = this.$el.querySelector('.select-popup');
+        const selectEl = popupEl.querySelector('li.selected');
+        const popupHeight = popupEl.clientHeight;
+        const elHeight = selectEl.clientHeight;
+        // 滚动到正中间的位置
+        scrollTo(
+          popupEl,
+          0,
+          selectEl.offsetTop - popupHeight / 2 + elHeight / 2
+        );
+      });
+    },
+    attachEvent() {
+      if (window.addEventListener) {
+        document.body.addEventListener('click', this.close);
+      } else if (window.attachEvent) {
+        document.body.attachEvent('click', this.close);
+      }
+    },
+    detachEvent() {
+      if (window.addEventListener) {
+        document.body.removeEventListener('click', this.close);
+      } else if (window.attachEvent) {
+        document.body.detachEvent('click', this.close);
+      }
+    },
     select(option) {
       this.selected = option;
       this.opened = false;
@@ -66,17 +91,16 @@ export default {
     },
     open() {
       this.opened = !this.opened;
+      if (this.opened) {
+        this.scrollToSelect();
+      }
     },
     close() {
       this.opened = false;
     }
   },
   beforeDestroy() {
-    if (window.addEventListener) {
-      document.body.removeEventListener('click', this.close);
-    } else if (window.attachEvent) {
-      document.body.detachEvent('click', this.close);
-    }
+    this.detachEvent();
   }
 };
 </script>

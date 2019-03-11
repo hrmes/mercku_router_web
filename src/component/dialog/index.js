@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Dialog from './index.vue';
 
+// 预留给深拷贝
 const mergeOptions = (opt1, opt2) => ({
   ...opt1,
   ...opt2
@@ -13,11 +14,11 @@ const dialog = {
         title: '',
         message: 'info',
         callback: {},
-        okText: 'ok',
-        cancelText: 'cancel'
+        okText: 'ok'
       },
       options
     );
+    opt.type = 'info';
     const Construtor = Vue.extend(Dialog);
     this.instance = new Construtor({ data: opt }).$mount();
     this.instance.visible = true;
@@ -34,6 +35,7 @@ const dialog = {
       },
       options
     );
+    opt.type = 'confirm';
     const Construtor = Vue.extend(Dialog);
     this.instance = new Construtor({ data: opt }).$mount();
     this.instance.visible = true;

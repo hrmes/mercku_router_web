@@ -34,8 +34,7 @@
         </div>
         <div class="loadding"
              v-if="loading === true">
-          <m-spinner :size="36"
-                     color="#333" />
+          <m-loading :size="36"></m-loading>
         </div>
       </div>
       <div class="small-device-download">
@@ -76,17 +75,23 @@ export default {
   },
   mounted() {
     this.loading = true;
-    this.$http.isinitial().then(res => {
-      if (res.data.result.status) {
-        this.$http.login({ password: '' }).then(() => {
-          this.initial = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.initial = true;
+            this.loading = false;
+          });
+        } else {
+          this.initial = false;
           this.loading = false;
-        });
-      } else {
+        }
+      })
+      .catch(() => {
         this.initial = false;
         this.loading = false;
-      }
-    });
+      });
   },
   methods: {
     towlan() {
@@ -97,11 +102,16 @@ export default {
       this.$http
         .login({ password: this.password })
         .then(res => {
-          this.$loading.close();
-          const access = res.data.result.role;
-          this.$store.state.access = access;
-          sessionStorage.setItem('access', access);
-          this.$router.push({ path: '/dashboard' });
+          const { role } = res.data.result;
+          this.$store.role = role;
+          localStorage.setItem('role', role);
+          this.$http.getMeshMode().then(res1 => {
+            this.$loading.close();
+            const { mode } = res1.data.result;
+            this.$store.mode = mode;
+            localStorage.setItem('mode', mode);
+            this.$router.push({ path: '/dashboard' });
+          });
         })
         .catch(err => {
           this.$loading.close();

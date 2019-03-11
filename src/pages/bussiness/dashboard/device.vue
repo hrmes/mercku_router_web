@@ -64,7 +64,7 @@
         <div class="table-body small-device-body">
           <div class="loading-container"
                v-if="showLoading">
-            <m-spinner></m-spinner>
+            <m-loading></m-loading>
           </div>
           <div v-show="!showLoading">
             <ul v-for="(row,i) in devicesMap[id]"
@@ -157,11 +157,13 @@
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
               <li class="column-ip device-item"
+                  :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0374')}}</span>
                 <span> {{transformOfflineDate(row.connected_time)}} </span>
               </li>
               <li class="column-ip device-item"
+                  :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0188')}}</span>
                 <span>{{formatMac(row.mac)}}</span>
@@ -466,8 +468,8 @@ export default {
     },
     isBlacklsitLimit(row) {
       return (
-        row.parent_control
-        && row.parent_control.mode === BlacklistMode.blacklist
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
       );
     },
     isSpeedLimit(row) {
@@ -475,7 +477,7 @@ export default {
     },
     limitClick(type, row) {
       this.$router.push({ path: `/limit/${type}/${row.mac}` });
-      this.$store.state.limits[type] = row;
+      this.$store.modules.limits[type] = row;
     },
     expandTable(row) {
       if (this.isMobile) {
@@ -822,6 +824,15 @@ export default {
         }
         width: 150px;
       }
+      .device-item {
+        &.offline {
+          span {
+            &:last-child {
+              color: #999;
+            }
+          }
+        }
+      }
       .column-real-time {
         width: 150px;
       }
@@ -891,6 +902,7 @@ export default {
           }
         }
         &.off-name {
+          color: #999;
           a {
             span {
               max-width: 200px;
@@ -1120,6 +1132,7 @@ export default {
               }
             }
             &.off-name {
+              color: #333;
               a {
                 span {
                   max-width: 200px;
@@ -1254,6 +1267,13 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            &.offline {
+              span {
+                &:last-child {
+                  color: #333;
+                }
+              }
+            }
           }
           .column-limit {
             width: 100%;

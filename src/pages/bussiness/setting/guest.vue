@@ -12,13 +12,12 @@
           <label for=""> {{$t('trans0538')}}
           </label>
           <div class="tool">
-            <m-popover v-model='hideTipVisible'
-                       :title="$t('trans0538')"
-                       :content="$t('trans0540')" />
-            <img width="14"
-                 src="../../../assets/images/ic_question.png"
-                 alt=""
-                 @click="hideTipVisible=!hideTipVisible">
+            <m-popover :title="$t('trans0538')"
+                       :content="$t('trans0540')">
+              <img width="14"
+                   src="../../../assets/images/ic_question.png"
+                   alt=""></m-popover>
+
           </div>
           <m-switch v-model="form.enabled"
                     :onChange="guestEnabledChange" />
@@ -55,10 +54,12 @@
           </div>
           <div v-if="!form.smart_connect"
                class="ssid">
-            <div><span class="ssid-label">{{$t('trans0255')}}：</span>
+            <div>
+              <span class="ssid-label">{{$t('trans0255')}}：</span>
               <span class="ssid-name">{{form.ssid}}</span>
             </div>
-            <div><span class="ssid-label">{{$t('trans0256')}}：</span>
+            <div>
+              <span class="ssid-label">{{$t('trans0256')}}：</span>
               <span class="ssid-name">{{ssid_5g}}</span>
             </div>
           </div>
@@ -111,7 +112,6 @@ import { getStringByte, passwordRule } from 'util/util';
 export default {
   data() {
     return {
-      hideTipVisible: false,
       showSettingPage: false,
       showStatusPage: false,
       showCancelBtn: false,

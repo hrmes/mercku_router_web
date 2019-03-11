@@ -14,10 +14,10 @@
               <div class="vpn-name">
                 <span>{{vpn.name}}</span>
                 <div class="spinner-container">
-                  <m-spinner :size="30"
+                  <m-loading :size="30"
                              class="spinner"
                              :color="getColor(vpn)"
-                             v-if="isConnectingOrDisconnecting(vpn)"></m-spinner>
+                             v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
                   <span class="spinner-text"
                         :style="{'color':getColor(vpn)}"
                         v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
@@ -77,8 +77,8 @@ export default {
   methods: {
     isConnectingOrDisconnecting(vpn) {
       return (
-        vpn.status === VPNStatus.connecting
-        || vpn.status === VPNStatus.disconnecting
+        vpn.status === VPNStatus.connecting ||
+        vpn.status === VPNStatus.disconnecting
       );
     },
     getSpinnerText(vpn) {
@@ -180,7 +180,7 @@ export default {
     },
     edit(vpn) {
       if (!this.connecting && !vpn.enabled) {
-        this.$store.state.vpn = vpn;
+        this.$store.modules.vpn = vpn;
         this.$router.push(`/advance/vpn/form/${vpn.id}`);
       }
     },

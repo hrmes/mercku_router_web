@@ -2,7 +2,7 @@
   <transition name="loading">
     <div class="loading-container"
          v-if="visible">
-      <div class="inner">
+      <!-- <div class="inner">
         <div class="mercku_loading">
           <div class="left">
             <div class="out-wrapper">
@@ -29,7 +29,9 @@
         <div v-if="title"
              class="title">{{title}}</div>
         <div v-html="template"></div>
-      </div>
+      </div> -->
+      <img src="../../assets/images/loading.gif"
+           alt="">
     </div>
   </transition>
 
@@ -165,6 +167,12 @@ export default {
   right: 0;
   z-index: 1001;
   background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 100px;
+  }
   .inner-container {
     width: 100%;
     height: 100%;

@@ -2,13 +2,13 @@
   <div class="dashboard-container">
     <div class="net-info">
       <div class="device-container"
-           @click="forward2page('/dashboard/device/primary')">
+           @click="isRouter && forward2page('/dashboard/device/primary')">
         <div class="icon-container">
           <img src="../../../assets/images/ic_device.png"
                alt="">
         </div>
         <div class="text-container">
-          {{$t('trans0235')}}&nbsp;({{deviceCount}})
+          {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
         </div>
       </div>
       <div class="line"></div>
@@ -70,6 +70,9 @@ export default {
     },
     isUnlinked() {
       return this.netStatus === CONSTANTS.WanNetStatus.unlinked;
+    },
+    isRouter() {
+      return CONSTANTS.RouterMode.router === this.$store.mode;
     }
   },
   mounted() {
@@ -77,12 +80,24 @@ export default {
     this.getSsid();
     this.createIntercvalTask();
   },
+  watch: {
+    '$store.mode': function watcher() {
+      console.log(`watch task...mode is:${this.$store.mode}`);
+      this.clearIntervalTask();
+      if (this.isRouter) {
+        this.createIntercvalTask();
+      }
+    }
+  },
   methods: {
     forward2page(url) {
       this.$router.push({ path: url });
     },
     createIntercvalTask() {
-      this.getDeviceCount();
+      console.log(`createInterval task...mode is:${this.$store.mode}`);
+      if (this.isRouter) {
+        this.getDeviceCount();
+      }
     },
     clearIntervalTask() {
       clearTimeout(this.deviceCountTimer);
@@ -113,7 +128,7 @@ export default {
         })
         .catch(() => {
           if (this.pageActive) {
-            this.timer2 = setTimeout(() => {
+            this.deviceCountTimer = setTimeout(() => {
               this.getDeviceCount();
             }, 10000);
           }

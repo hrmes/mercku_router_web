@@ -14,7 +14,7 @@ export default {};
   border-bottom: 1px solid #f1f1f1;
   .tab {
     font-size: 18px;
-    padding: 10px 10px;
+    padding: 10px;
     min-width: 150px;
     font-weight: bold;
     cursor: pointer;
