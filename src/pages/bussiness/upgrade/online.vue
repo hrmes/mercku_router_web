@@ -72,7 +72,7 @@
       </m-modal-header>
       <m-modal-body class="modal-body">
         <m-scrollbar class="scroll-container">
-          <div class="changelog markdown"
+          <div class="changelog markdown-body"
                v-html="changelog"></div>
         </m-scrollbar>
         <div class="btn-wrap">
@@ -184,19 +184,6 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.markdown {
-  p {
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-  ul,
-  ol {
-    padding-left: 40px;
-  }
-}
-</style>
 
 <style lang="scss" scoped>
 .page-content {
