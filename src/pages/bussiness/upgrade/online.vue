@@ -72,7 +72,7 @@
       </m-modal-header>
       <m-modal-body class="modal-body">
         <m-scrollbar class="scroll-container">
-          <div class="changelog"
+          <div class="changelog markdown"
                v-html="changelog"></div>
         </m-scrollbar>
         <div class="btn-wrap">
@@ -184,6 +184,20 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.markdown {
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+  ul,
+  ol {
+    padding-left: 40px;
+  }
+}
+</style>
+
 <style lang="scss" scoped>
 .page-content {
   align-items: flex-start;
@@ -346,6 +360,9 @@ export default {
     height: 280px;
   }
   .changelog {
+    p:first-child {
+      margin-top: 0;
+    }
     pre {
       font-family: inherit;
     }
