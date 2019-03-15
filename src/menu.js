@@ -1,7 +1,9 @@
-import { Role, RouterMode } from 'util/constant';
+import { Role, RouterMode, Customers } from 'util/constant';
 
 export default function getMenu(role, mode = RouterMode.router) {
-  console.log(`Init menus...role is:${role}...mode is:${mode}`);
+  console.log(
+    `Init menus...customer is:${process.env.CUSTOMER_CONFIG.id}...role is:${role}...mode is:${mode}`
+  );
   const wifi = {
     icon: 'wifi',
     text: 'trans0173',
@@ -10,19 +12,25 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0365',
         name: 'mesh',
         url: '/dashboard/mesh/topo',
-        mode: ['router', 'bridge']
+        super: false,
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         text: 'trans0235',
         name: 'device',
         url: '/dashboard/device/primary',
-        mode: ['router']
+        super: false,
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         text: 'trans0366',
         name: 'internet',
         url: '/dashboard/internet',
-        mode: ['router', 'bridge']
+        super: false,
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: [Customers.mercku, Customers.cik]
       }
     ]
   };
@@ -34,37 +42,49 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0103',
         name: 'wifi',
         url: '/setting/wifi',
-        mode: ['router', 'bridge']
+        super: false,
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
-        mode: ['router']
+        super: false,
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        mode: ['router', 'bridge']
+        super: false,
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         text: 'trans0020',
         name: 'blacklist',
         url: '/setting/blacklist',
-        mode: ['router']
+        super: false,
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         text: 'trans0272',
         name: 'timezone',
         url: '/setting/timezone',
-        mode: ['router']
+        super: false,
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/setting/guest',
         name: 'guest',
         text: 'trans0538',
-        mode: ['router']
+        super: false,
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       }
     ]
   };
@@ -77,77 +97,96 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'advance-portforwarding',
         text: 'trans0422',
         super: false,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/dmz',
         name: 'advance-dmz',
         text: 'trans0420',
         super: false,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/dhcp',
         name: 'advance-dhcp',
         text: 'trans0417',
         super: false,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/rsvdip',
         name: 'advance-rsvdip',
         text: 'trans0444',
         super: false,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/mac',
         name: 'advance-mac',
         text: 'trans0474',
         super: false,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/ddns',
         name: 'advance-ddns',
         text: 'trans0418',
         super: false,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/vpn',
         name: 'advance-vpn',
         text: 'trans0402',
         super: false,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
         super: false,
-        mode: ['router', 'bridge']
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: [Customers.mercku]
       },
       {
         url: '/advance/diagnosis',
         name: 'advance-diagnosis',
         text: 'trans0419',
         super: false,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/log',
         name: 'advance-log',
         text: 'trans0421',
         super: true,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
         super: true,
-        mode: ['router']
+        mode: [RouterMode.router],
+        customers: [Customers.mercku, Customers.cik]
+      },
+      {
+        url: '/advance/remote/tr069',
+        name: 'advance-remote',
+        text: 'trans0286',
+        mode: [RouterMode.router],
+        super: true,
+        customers: [Customers.cik]
       }
     ]
   };
@@ -160,25 +199,29 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/upgrade/online',
         name: 'online',
         text: 'trans0202',
-        mode: ['router', 'bridge']
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: [Customers.mercku, Customers.cik]
       },
       {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
-        mode: ['router', 'bridge']
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: [Customers.mercku, Customers.cik]
       }
     ]
   };
-  const tr069 = {
-    url: '/advance/remote/tr069',
-    name: 'advance-remote',
-    text: 'trans0286',
-    mode: ['router'],
-    super: true
-  };
 
   [wifi, setting, advance, upgrade].forEach(item => {
+    // 根据id选择对应的菜单项
+    item.children = item.children.filter(c => c.customers.includes(process.env.CUSTOMER_CONFIG.id));
+
+    // 如果是cik的普通用户，选择对应的菜单项
+    if (process.env.CUSTOMER_CONFIG.isCik && role !== Role.super) {
+      item.children = item.children.filter(a => !a.super);
+    }
+
+    // 根据模式选择对应的菜单项
     item.children.forEach(c => {
       c.disabled = false;
       if (!c.mode.includes(mode)) {
@@ -187,16 +230,5 @@ export default function getMenu(role, mode = RouterMode.router) {
     });
   });
 
-  let menus = [];
-  if (process.env.CUSTOMER_CONFIG.isCik) {
-    if (role === Role.super) {
-      advance.children.push(tr069);
-    } else {
-      advance.children = advance.children.filter(a => !a.super);
-    }
-    menus = [wifi, setting, advance, upgrade];
-  } else if (process.env.CUSTOMER_CONFIG.isMercku) {
-    menus = [wifi, setting, advance, upgrade];
-  }
-  return menus;
+  return [wifi, setting, advance, upgrade];
 }
