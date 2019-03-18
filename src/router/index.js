@@ -80,8 +80,8 @@ const routes = [
     name: 'device-time-limit',
     component: timeLimit
   }, {
-    path: '/limit/blacklist/:mac',
-    name: 'device-blacklist-limit',
+    path: '/limit/url/:mac',
+    name: 'device-url-limit',
     component: blacklistLimit
   }, {
     path: '/setting/wan',
