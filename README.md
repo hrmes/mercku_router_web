@@ -2,7 +2,7 @@
 
 > mercku router setting
 
-## Build Setup
+## Build step
 
 ### for development
 
