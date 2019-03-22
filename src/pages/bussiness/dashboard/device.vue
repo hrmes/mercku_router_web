@@ -203,7 +203,7 @@
                     </span>
                   </div>
                   <div class="item device-item"
-                       @click="()=>limitClick('blacklist',row)">
+                       @click="()=>limitClick('url',row)">
                     <span class="limit-icon url-limit"
                           v-show="!isMobile"
                           :title="$t('trans0076')"
