@@ -1,3 +1,7 @@
+export const Customers = {
+  cik: '0002',
+  mercku: '0001'
+};
 export const Role = {
   super: 'super',
   admin: 'admin'
