@@ -14,15 +14,14 @@ export default {};
   border-bottom: 1px solid #f1f1f1;
   .tab {
     font-size: 18px;
-    padding: 10px;
-    min-width: 150px;
+    padding: 20px 25px;
     font-weight: bold;
     cursor: pointer;
-    &:hover,
-    :active {
-      background: #f1f1f1;
-      color: #999999;
-    }
+    // &:hover,
+    // :active {
+    //   background: #f1f1f1;
+    //   color: #999999;
+    // }
     &.selected {
       border-bottom: 3px solid #d6001c;
       color: #d6001c;

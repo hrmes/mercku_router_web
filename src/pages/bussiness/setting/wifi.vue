@@ -196,6 +196,7 @@ export default {
     label {
       display: flex;
       width: 120px;
+      font-weight: bold;
     }
     &.smart-connect {
       flex-direction: column;

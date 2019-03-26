@@ -4,10 +4,6 @@
       {{$t('trans0272')}}
     </div>
     <div class="page-content">
-      <div class="current-timezone">
-        <p>{{$t('trans0373')}}</p>
-        <p>{{timezoneText}}</p>
-      </div>
       <m-form ref="form"
               class='form'
               :model="form">
@@ -92,23 +88,9 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  .current-timezone {
-    width: 350px;
-    word-break: break-all;
-    word-wrap: break-word;
-    p {
-      margin: 0;
-      height: 20px;
-      margin-bottom: 10px;
-      &:last-child {
-        margin: 0;
-      }
-    }
-  }
   .form {
     display: flex;
     justify-content: center;
-    margin-top: 30px;
     flex-direction: column;
     align-items: center;
     align-items: center;

@@ -168,6 +168,7 @@ export default {
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
+    font-weight: bold;
   }
 
   cursor: pointer;
@@ -185,7 +186,8 @@ export default {
     overflow: auto;
     li {
       list-style: none;
-      padding: 10px;
+      padding: 17px 10px;
+      line-height: 1;
       cursor: pointer;
       width: 100%;
       overflow: hidden;

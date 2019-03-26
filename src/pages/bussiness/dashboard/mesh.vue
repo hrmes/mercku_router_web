@@ -128,8 +128,7 @@
                 :rules="rules"
                 ref="form">
           <m-form-item prop="newName">
-            <m-editable-select class="small"
-                               :options="options"
+            <m-editable-select :options="options"
                                :label="$t('trans0005')"
                                v-model="form.newName"></m-editable-select>
           </m-form-item>

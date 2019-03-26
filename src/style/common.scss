@@ -103,65 +103,64 @@ ul {
   padding: 0 15px;
   font-size: 14px;
   border-radius: 4px;
-  height: 36px;
+  width: 340px;
+  height: 48px;
   user-select: none;
   position: relative;
   color: #fff;
-  background: rgb(214, 0, 28);
-
+  background: #d6001c;
   &:active {
-    background: rgb(182, 0, 24);
+    background: #ab0016;
   }
-
   &:hover {
-    background: rgb(182, 0, 24);
+    background: #de3349;
+  }
+  &[disabled],
+  &.disabled {
+    cursor: not-allowed;
+    background: #b3b3b3;
+    border-color: #b3b3b3;
+    color: white;
+  }
+  &.btn-middle {
+    width: auto;
+    min-width: 120px;
+    height: 38px;
+    line-height: 1;
+    padding: 12px 10px;
+    font-size: 14px;
+    border-radius: 4px;
   }
   &.btn-small {
     width: auto;
-    min-width: 70px;
-    height: 27px;
+    min-width: 80px;
+    height: 28px;
     line-height: 1;
     padding: 5px 10px;
     font-size: 12px;
+    border-radius: 4px;
   }
   &.btn-default {
     background: #fff;
-    color: rgb(214, 0, 28);
-    border: 1px solid rgb(214, 0, 28);
+    color: #d6001c;
+    border: 1px solid #d6001c;
 
     &:active {
-      color: rgb(182, 0, 28);
-      border-color: rgb(182, 0, 28);
+      color: #ab0016;
+      border-color: #ab0016;
     }
 
     &:hover {
-      color: rgb(182, 0, 28);
-      border-color: rgb(182, 0, 28);
+      color: #de3349;
+      border-color: #de3349;
     }
 
-    &[disabled] {
+    &[disabled],
+    .disabled {
+      color: #b2b2b2;
+      border-color: #b2b2b2;
       cursor: not-allowed;
-      background: #999999;
-      border-color: #999;
-      color: white;
     }
-
-    &.disabled {
-      cursor: not-allowed;
-      background: #999999;
-      border-color: #999;
-      color: white;
-    }
-  }
-
-  &[disabled] {
-    cursor: not-allowed;
-    background: #999999;
-  }
-
-  &.disabled {
-    cursor: not-allowed;
-    background: #999999;
   }
 }
 

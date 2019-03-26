@@ -141,10 +141,12 @@ export default {
     display: block;
     text-align: left;
     margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
     font-size: 14px;
   }
   .input-wrapper {
-    height: 36px;
+    height: 48px;
     width: 100%;
     border-radius: 4px;
     box-sizing: border-box;
@@ -157,7 +159,7 @@ export default {
     input {
       font-size: 14px;
       padding: 10px;
-      height: 34px;
+      height: 46px;
       line-height: 1;
       // line-height: 34px;
       width: 100%;
@@ -166,6 +168,7 @@ export default {
       border: none;
       box-sizing: border-box;
       -webkit-appearance: none;
+
       &.margin {
         padding-left: 0px;
       }
@@ -185,7 +188,7 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 36px;
+    height: 48px;
     width: 50px;
     cursor: pointer;
     display: flex;
