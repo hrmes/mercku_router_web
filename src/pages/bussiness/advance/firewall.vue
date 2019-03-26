@@ -68,6 +68,7 @@ export default {
     }
     label {
       width: 200px;
+      font-weight: bold;
     }
   }
 }

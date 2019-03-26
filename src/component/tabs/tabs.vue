@@ -14,18 +14,18 @@ export default {};
   border-bottom: 1px solid #f1f1f1;
   .tab {
     font-size: 18px;
-    padding: 20px 25px;
+    padding: 20px 0;
     font-weight: bold;
     cursor: pointer;
-    // &:hover,
-    // :active {
-    //   background: #f1f1f1;
-    //   color: #999999;
-    // }
+    &:hover,
+    :active {
+      color: #999;
+    }
     &.selected {
       border-bottom: 3px solid #d6001c;
       color: #d6001c;
     }
+    margin-left: 50px;
     &:first-child {
       margin-left: 0;
     }
@@ -35,7 +35,6 @@ export default {};
   .tabs {
     padding: 0;
     .tab {
-      // width: auto;
       font-size: 14px;
       min-width: initial;
       &:hover {

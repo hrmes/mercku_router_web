@@ -3,18 +3,15 @@
                class="srcollbar-wrap"
                :option="scrollbarOpt">
     <div class="container">
-      <m-menu class="menu"
-              :menus="menus"
-              v-if="!menuVisible"></m-menu>
       <div class="app-container router-view">
         <div class="flex-wrap"
-             :class="{'has-menu':!menuVisible}">
-          <m-header :hasExit="!menuVisible"
-                    class="header"
-                    :class="{'no-menu':menuVisible}"></m-header>
+             :class="{'has-menu':!navVisible}">
+          <m-header :navVisible="!navVisible"
+                    :navs="menus"
+                    class="header"></m-header>
           <router-view></router-view>
           <m-policy :locale="$i18n.locale"
-                    :class="{'fix-bottom':menuVisible}"
+                    :class="{'fix-bottom':navVisible}"
                     class="policy" />
         </div>
       </div>
@@ -27,7 +24,7 @@ import getMenu from './menu';
 
 export default {
   computed: {
-    menuVisible() {
+    navVisible() {
       const { path } = this.$route;
       const visible =
         path.includes('login') ||
@@ -104,9 +101,6 @@ export default {
         padding-left: 0;
         height: calc(100% - 65px);
       }
-    }
-    .header {
-      display: none;
     }
     .policy {
       font-size: 12px;

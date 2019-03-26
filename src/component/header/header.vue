@@ -1,11 +1,39 @@
 <template>
-  <header class="header-container">
-    <div class="logo-container">
+  <header class="header-container"
+          :class="{'nav-hide':!navVisible}">
+    <div class="logo-wrap">
     </div>
-    <div class="right-container">
-      <div class="lang-selector">
-        <div class="current"
-             @click.stop="showLangPopup()">
+
+    <div class="nav-wrap">
+      <ul class="nav"
+          v-if="navVisible">
+        <li class="nav-item"
+            :key="menu.key"
+            @mouseenter="showChildMenu(menu)"
+            @mouseleave="closeChildMenu(menu)"
+            v-for="menu in list"
+            :class="{'selected':menu.selected}">
+          <div class="nav-item__text">{{$t(menu.text)}}</div>
+          <ul v-if="menu.children"
+              class="nav-item-child"
+              :class="{'show':menu.showChild}">
+            <li class="nav-child__text"
+                :key="child.key"
+                @click.stop="jump(child,menu)"
+                v-for="child in menu.children"
+                :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
+              {{$t(child.text)}}
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="right-wrap">
+      <div class="lang-selector"
+           @mouseenter="showLangPopup()"
+           @mouseleave="closeLangPopup()">
+        <div class="current">
           <span class="current-text">{{language.text}}</span>
           <span class="drop-trangle"
                 :class="{'down':!showPopup,'up':showPopup}"></span>
@@ -14,7 +42,6 @@
           <ul class="popup"
               v-show="showPopup">
             <li :key="lang.value"
-                :class="{'current-lang':lang===language}"
                 v-for="lang in Languages"
                 @click="selectLang(lang)">{{lang.text}}</li>
           </ul>
@@ -25,7 +52,7 @@
               class="menu-icon language"
               :class="[$i18n.locale]"></span>
       </div>
-      <div v-show="hasExit"
+      <div v-show="navVisible"
            class="exit"
            @click="exit()">
         {{$t('trans0021')}}
@@ -46,32 +73,88 @@ const Languages = [
 ];
 export default {
   props: {
-    hasExit: {
+    navVisible: {
       type: Boolean,
       default: true
+    },
+    navs: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
       showPopup: false,
-      Languages
+      Languages,
+      current: null,
+      list: []
     };
   },
   mounted() {
     this.$i18n.locale = this.language.value;
-    // this.changeLanguage();
     if (window.addEventListener) {
       document.body.addEventListener('click', this.close);
     } else if (window.attachEvent) {
       document.body.attachEvent('click', this.close);
     }
+    this.list = this.getList();
   },
   computed: {
     language() {
       return this.getDefaultLanguage();
     }
   },
+  watch: {
+    menus() {
+      this.list = this.getList();
+    }
+  },
   methods: {
+    showChildMenu(menu) {
+      if (menu.showChildTimer) {
+        clearTimeout(menu.showChildTimer);
+        menu.showChildTimer = null;
+      }
+      menu.showChild = true;
+    },
+    closeChildMenu(menu) {
+      menu.showChildTimer = setTimeout(() => {
+        menu.showChild = false;
+      }, 100);
+    },
+    jump(menu, parent) {
+      if (!menu.disabled) {
+        this.list.forEach(l => {
+          if (l !== parent) {
+            l.selected = false;
+          } else {
+            l.selected = true;
+          }
+        });
+        this.$router.push({ path: menu.url });
+        this.current = menu;
+        parent.showChild = false;
+      }
+    },
+    getList() {
+      const list = this.navs.map((m, index) => {
+        m.key = index;
+        if (m.children) {
+          let selected = false;
+          const children = m.children.map((mm, ii) => {
+            mm.index = ii;
+            if (this.$route.name.includes(mm.name)) {
+              selected = true;
+            }
+            return { ...mm, children };
+          });
+          return { ...m, selected, showChild: false };
+        }
+        const selected = this.$route.name.includes(m.name);
+        return { ...m, selected, showChild: false };
+      });
+      return list;
+    },
     close() {
       this.showPopup = false;
     },
@@ -79,7 +162,16 @@ export default {
       return Languages.filter(l => l.value === this.$i18n.locale)[0];
     },
     showLangPopup() {
-      this.showPopup = !this.showPopup;
+      if (this.langTimer) {
+        clearTimeout(this.langTimer);
+        this.langTimer = null;
+      }
+      this.showPopup = true;
+    },
+    closeLangPopup() {
+      this.langTimer = setTimeout(() => {
+        this.showPopup = false;
+      }, 100);
     },
     selectLang(lang) {
       this.changeLanguage(lang.value);
@@ -116,24 +208,128 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header-container {
-  height: 72px;
+  height: 65px;
   align-items: center;
-  justify-content: flex-end;
-  padding: 0 50px;
+  justify-content: center;
   display: flex;
-  .logo-container {
-    display: none;
+  background: #333;
+  color: #fff;
+  padding: 0 2%;
+  position: relative;
+  &.nav-hide {
+    background: #fff;
+    color: #333;
+    .right-wrap {
+      .lang-selector {
+        .drop-trangle {
+          &:after {
+            border-top: 5px solid #333;
+          }
+        }
+        .popup {
+          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+          background-color: #fff;
+          margin-top: 0;
+
+          li {
+            list-style: none;
+            line-height: 38px;
+            padding: 0 30px;
+            &:hover {
+              background: rgba(0, 0, 0, 0.2);
+              color: #fff;
+            }
+            &:last-child {
+              margin-bottom: 0;
+            }
+            &.current-lang {
+              color: #d6001c;
+            }
+          }
+        }
+      }
+    }
+  }
+  .logo-wrap {
     width: 209px;
     height: 32px;
   }
-  .right-container {
+  .nav-wrap {
+    flex: 1;
+    height: 100%;
+    .nav {
+      display: flex;
+      height: 100%;
+
+      .nav-item {
+        height: 100%;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        margin-right: 80px;
+        cursor: pointer;
+        position: relative;
+        &.selected {
+          .nav-item__text {
+            color: #999;
+          }
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+        .nav-item__text {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          color: #fff;
+        }
+        .nav-item-child {
+          display: none;
+          width: 260px;
+          position: absolute;
+          z-index: 999;
+          top: 100%;
+          margin-top: 10px;
+          box-shadow: -10px 9px 21px 0 rgba(128, 152, 213, 0.08);
+          background-color: #333333;
+          padding: 25px 0;
+          .nav-child__text {
+            color: #999;
+            list-style: none;
+            padding: 0 30px;
+            line-height: 38px;
+            &:hover {
+              color: #fff;
+              background: rgba(255, 255, 255, 0.2);
+            }
+            &.disabled {
+              color: #999;
+            }
+          }
+          &.show {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  .right-wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 200px;
     .small-device {
       display: none;
     }
     .lang-selector {
-      display: inline-block;
+      height: 100%;
       cursor: pointer;
       position: relative;
+      .current {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
       .current-text {
         display: inline-block;
         width: 70px;
@@ -143,11 +339,17 @@ export default {
       .drop-trangle {
         display: inline-block;
         width: 10px;
-        height: 6px;
+        height: 5px;
         position: relative;
-        top: -3px;
-        background: url(../../assets/images/ic_pull_down.png) no-repeat center;
-        background-size: 100%;
+        &:after {
+          content: '';
+          display: block;
+          width: 0;
+          height: 0;
+          border-top: 5px solid #fff;
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+        }
         transition: transform 0.3s linear;
         &.up {
           transform: rotate(180deg);
@@ -158,14 +360,14 @@ export default {
       }
       .popup {
         position: absolute;
-        width: 150px;
-        background: #fff;
-        right: 0;
+        width: 200px;
         margin-top: 10px;
-        padding: 0 10px;
+        background: #fff;
         border-radius: 2px;
         z-index: 999;
-        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: -10px 9px 21px 0 rgba(128, 152, 213, 0.08);
+        background-color: #333333;
+        padding: 25px 0;
         opacity: 1;
         &.popup-enter-active {
           transition: opacity 0.2s ease-in;
@@ -179,7 +381,12 @@ export default {
         }
         li {
           list-style: none;
-          line-height: 49px;
+          line-height: 38px;
+          padding: 0 30px;
+          &:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+          }
           &:last-child {
             margin-bottom: 0;
           }
@@ -200,8 +407,7 @@ export default {
   .header-container {
     height: 65px;
     position: relative;
-    display: none;
-    .logo-container {
+    .logo-wrap {
       display: block;
       position: absolute;
       left: 50%;
@@ -209,7 +415,7 @@ export default {
       width: 131px;
       height: 20px;
     }
-    .right-container {
+    .right-wrap {
       .lang-selector {
         display: none;
       }

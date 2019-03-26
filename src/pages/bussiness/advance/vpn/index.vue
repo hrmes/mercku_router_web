@@ -42,9 +42,11 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-primary"
-                @click="add"
-                :disabled="connecting">{{$t('trans0035')}}</button>
+        <div class="form-button">
+          <button class="btn btn-primary"
+                  @click="add"
+                  :disabled="connecting">{{$t('trans0035')}}</button>
+        </div>
       </div>
       <div class="vpn-empty"
            v-if="hasVpns&&isEmpty">

@@ -40,7 +40,7 @@
                     <p style="color:#000">{{$t('trans0278')}}</p>
                   </div>
                   <div class="btn-wrap">
-                    <button class="btn"
+                    <button class="btn btn-middle"
                             @click="addBlacklist()">{{$t('trans0016')}}</button>
                   </div>
                 </div>

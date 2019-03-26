@@ -57,7 +57,8 @@ export default {
     padding: 0 10px;
     width: 200px;
     height: 100px;
-    background-color: #ffffff;
+    background-color: #f1f1f1;
+    border-radius: 8px;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     font-size: 12px;
     color: #333333;
@@ -95,7 +96,7 @@ export default {
       overflow: hidden;
       border-width: 8px 8px 0;
       border-style: solid;
-      border-color: #ffffff transparent transparent;
+      border-color: #f1f1f1 transparent transparent;
     }
   }
 }

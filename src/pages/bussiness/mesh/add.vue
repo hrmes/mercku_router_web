@@ -310,11 +310,7 @@ export default {
   z-index: 1000;
 }
 .help-dialog-content {
-  // width: 500px;
-  background: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  padding: 20px 30px;
-  border-radius: 5px;
+  width: 500px;
 }
 .close {
   float: right;

@@ -6,7 +6,7 @@
     <div class="page-content">
       <div class='table'>
         <div class="tools">
-          <button class="btn btn-primary"
+          <button class="btn btn-small"
                   @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
         <div class="table-head">

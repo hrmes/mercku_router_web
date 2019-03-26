@@ -1,19 +1,9 @@
 .header-container {
-  .logo-container {
+  .logo-wrap {
     background: url(../assets/images/cik_logo.png) center no-repeat;
     background-size: 100%;
   }
 }
-
-.menu-container {
-  .logo-container {
-    .logo {
-      background: url(../assets/images/cik_logo.png) center no-repeat;
-      background-size: 100%;
-    }
-  }
-}
-
 /************************* 登陆页面*********************/
 .login-container {
   .center-form {

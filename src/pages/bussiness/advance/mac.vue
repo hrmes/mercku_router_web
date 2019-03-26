@@ -168,7 +168,7 @@ export default {
     }
     &.selected {
       &:before {
-        border-color: #d6001c;
+        border-color: #333;
       }
       &::after {
         content: '';
@@ -179,7 +179,7 @@ export default {
         transform: translateY(-50%);
         width: 6px;
         height: 6px;
-        background: #d6001c;
+        background: #333;
         border-radius: 50%;
       }
     }
