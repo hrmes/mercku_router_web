@@ -356,6 +356,7 @@ export default {
         cursor: pointer;
         position: relative;
         &.selected {
+          border-bottom: 3px solid #d6001c;
           .nav-item-content {
             .nav-item__text {
               color: #999;
@@ -584,6 +585,7 @@ export default {
             }
           }
           &.selected {
+            border: none;
             .nav-item-child {
               display: block;
             }

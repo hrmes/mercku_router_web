@@ -28,6 +28,7 @@
         <div class="line"
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
           <div class="icon-unconnected-container"
+               @click.stop="showTips()"
                v-if="isLinked || isUnlinked">
             <img src="../../../assets/images/icon/ic_unconnected.png"
                  alt="">
@@ -47,10 +48,21 @@
       </div>
     </div>
     <router-view class="router-view"></router-view>
+    <m-modal :visible.sync="tipsModalVisible">
+      <m-modal-body>
+        <div class="tip-modal">
+          <div class="tip-modal__text"
+               v-html="tips"></div>
+          <button class="btn btn-middle"
+                  @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
+        </div>
+      </m-modal-body>
+    </m-modal>
   </div>
 </template>
 <script>
 import * as CONSTANTS from 'util/constant';
+import marked from 'marked';
 
 export default {
   data() {
@@ -60,24 +72,27 @@ export default {
       pageActive: true,
       ssid: '',
       deviceCount: 0,
-      deviceCountTimer: null
+      deviceCountTimer: null,
+      tipsModalVisible: false
     };
   },
   computed: {
-    isTesting() {
-      return this.netStatus === CONSTANTS.WanNetStatus.testing;
-    },
-    isConnected() {
-      return this.netStatus === CONSTANTS.WanNetStatus.connected;
-    },
-    isLinked() {
-      return this.netStatus === CONSTANTS.WanNetStatus.linked;
-    },
-    isUnlinked() {
-      return this.netStatus === CONSTANTS.WanNetStatus.unlinked;
-    },
+    ...(() => {
+      const result = {};
+      Object.keys(CONSTANTS.WanNetStatus).forEach(key => {
+        const value = CONSTANTS.WanNetStatus[key];
+        const prop = value.slice(0, 1).toUpperCase() + value.slice(1);
+        result[`is${prop}`] = function temp() {
+          return this.netStatus === value;
+        };
+      });
+      return result;
+    })(),
     isRouter() {
       return CONSTANTS.RouterMode.router === this.$store.mode;
+    },
+    tips() {
+      return marked(this.$t('trans0574'), { sanitize: true });
     }
   },
   mounted() {
@@ -95,6 +110,9 @@ export default {
     }
   },
   methods: {
+    showTips() {
+      this.tipsModalVisible = true;
+    },
     forward2page(url) {
       this.$router.push({ path: url });
     },
@@ -170,13 +188,20 @@ export default {
     width: 100%;
   }
 }
-
+.tip-modal {
+  width: 500px;
+  text-align: center;
+  .tip-modal__text {
+    text-align: left;
+  }
+  @media screen and (max-width: 769px) {
+    width: 80%;
+  }
+}
 .dashboard {
   display: flex;
   flex-direction: column;
   flex: auto;
-  // padding: 0 2%;
-  // margin-top: 30px;
   .net-info {
     background: url(../../../assets/images/dashboard_banner_bg.jpg) no-repeat
       center;
@@ -255,7 +280,8 @@ export default {
           align-items: center;
           width: 50px;
           height: 50px;
-          background: #fff;
+          background: #050505;
+          cursor: pointer;
           img {
             width: 20px;
             height: 20px;
