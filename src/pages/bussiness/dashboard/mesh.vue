@@ -234,7 +234,15 @@ export default {
         })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$reconnect({
+            onsuccess: () => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            },
+            timeout: 60
+          });
         })
         .catch(() => {
           this.mesh24g = !val;
@@ -493,7 +501,7 @@ export default {
     padding: 0 20px;
     flex-direction: column;
     .content {
-      padding-top: 35px;
+      padding-top: 20px;
       flex: 1;
       display: flex;
       .topo-container {

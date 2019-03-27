@@ -119,11 +119,11 @@ export default {
             this.$http
               .updateWanMac({ mac })
               .then(() => {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
                 this.$reconnect({
                   timeout: 60,
                   onsuccess: () => {
+                    this.$toast(this.$t('trans0040'), 3000, 'success');
                     this.$router.push({ path: '/advance/mac' });
                   },
                   ontimeout: () => {

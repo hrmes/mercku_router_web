@@ -486,6 +486,7 @@ export default {
 
 .internet-container {
   flex: auto;
+  margin-top: 20px;
   .info-container {
     position: relative;
     width: 100%;

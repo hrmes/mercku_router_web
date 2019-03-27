@@ -227,10 +227,10 @@ export default {
                 .meshLanUpdate(this.formParams)
                 .then(() => {
                   this.$loading.close();
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
                   this.$reconnect({
                     timeout: 60,
                     onsuccess: () => {
+                      this.$toast(this.$t('trans0040'), 3000, 'success');
                       this.$router.push({ path: '/dashboard' });
                     },
                     ontimeout: () => {
