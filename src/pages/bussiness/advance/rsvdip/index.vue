@@ -34,7 +34,7 @@
             {{$t('trans0370')}}
             <i>
               <img :class="{open:mobileSelect}"
-                   src="../../../../assets/images/ic_arrow_pack_up.png"
+                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
                    alt>
             </i>
           </div>

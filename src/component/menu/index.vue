@@ -153,12 +153,12 @@ export default {
       height: 21px;
       &.language {
         &.zh-CN {
-          background: url(../../assets/images/ic_language_exchange_02.png)
+          background: url(../../assets/images/icon/ic_language_exchange_02.png)
             no-repeat center;
           background-size: 100%;
         }
         &.en-US {
-          background: url(../../assets/images/ic_language_exchange_01.png)
+          background: url(../../assets/images/icon/ic_language_exchange_01.png)
             no-repeat center;
           background-size: 100%;
         }
@@ -166,7 +166,7 @@ export default {
       &.menu {
         width: 24px;
         margin-left: 40px;
-        background: url(../../assets/images/ic_top_bar_pull_down.png) no-repeat
+        background: url(../../assets/images/icon/ic_top_bar_pull_down.png) no-repeat
           center;
         background-size: 100%;
       }
@@ -220,26 +220,26 @@ export default {
         margin-left: 30px;
         position: relative;
         &.wifi {
-          background: url(../../assets/images/ic_home_normal.png) no-repeat
+          background: url(../../assets/images/icon/ic_home_normal.png) no-repeat
             center;
           background-size: 100%;
         }
         &.setting {
-          background: url(../../assets/images/ic_setting_router.png) no-repeat
+          background: url(../../assets/images/icon/ic_setting_router.png) no-repeat
             center;
           background-size: 100%;
         }
         &.exit {
-          background: url(../../assets/images/ic_logout.png) no-repeat center;
+          background: url(../../assets/images/icon/ic_logout.png) no-repeat center;
           background-size: 100%;
         }
         &.advance {
-          background: url(../../assets/images/ic_advanced_setup.png) no-repeat
+          background: url(../../assets/images/icon/ic_advanced_setup.png) no-repeat
             center;
           background-size: 100%;
         }
         &.upgrade {
-          background: url(../../assets/images/ic_firmware_upgrade.png) no-repeat
+          background: url(../../assets/images/icon/ic_firmware_upgrade.png) no-repeat
             center;
           background-size: 100%;
         }
@@ -248,7 +248,7 @@ export default {
         display: inline-block;
         width: 12px;
         height: 6px;
-        background: url(../../assets/images/ic_side_bar_pull_down.png) no-repeat
+        background: url(../../assets/images/icon/ic_side_bar_pull_down.png) no-repeat
           center;
         background-size: 100%;
         position: absolute;

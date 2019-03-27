@@ -612,7 +612,7 @@ export default {
             width: 36px;
             height: 36px;
             display: inline-block;
-            background: url('../../../assets/images/ic_fast_upload.png')
+            background: url('../../../assets/images/icon/ic_fast_upload.png')
               no-repeat;
             background-size: 100% 100%;
           }
@@ -620,7 +620,7 @@ export default {
             width: 36px;
             height: 36px;
             display: inline-block;
-            background: url('../../../assets/images/ic_fast_download.png')
+            background: url('../../../assets/images/icon/ic_fast_download.png')
               no-repeat;
             background-size: 100% 100%;
           }
@@ -656,7 +656,7 @@ export default {
               width: 20px;
               height: 29px;
               display: inline-block;
-              background: url('../../../assets/images/ic_ic_download.png')
+              background: url('../../../assets/images/icon/ic_download.png')
                 no-repeat;
               background-size: 100% 100%;
               margin-bottom: 5px;
@@ -665,7 +665,8 @@ export default {
               width: 20px;
               height: 29px;
               display: inline-block;
-              background: url('../../../assets/images/ic_upload.png') no-repeat;
+              background: url('../../../assets/images/icon/ic_upload.png')
+                no-repeat;
               background-size: 100% 100%;
               margin-bottom: 5px;
             }
@@ -721,7 +722,7 @@ export default {
               height: 14.5px;
               margin-right: 5px;
               display: inline-block;
-              background: url('../../../assets/images/ic_ic_download.png')
+              background: url('../../../assets/images/icon/ic_download.png')
                 no-repeat;
               background-size: 100% 100%;
             }
@@ -734,7 +735,8 @@ export default {
               height: 14.5px;
               margin-right: 5px;
               display: inline-block;
-              background: url('../../../assets/images/ic_upload.png') no-repeat;
+              background: url('../../../assets/images/icon/ic_upload.png')
+                no-repeat;
               background-size: 100% 100%;
             }
           }
@@ -849,7 +851,7 @@ export default {
                 width: 20px;
                 height: 29px;
                 display: inline-block;
-                background: url('../../../assets/images/ic_ic_download.png')
+                background: url('../../../assets/images/icon/ic_download.png')
                   no-repeat;
                 background-size: 100% 100%;
                 margin-right: 5px;
@@ -858,7 +860,7 @@ export default {
                 width: 20px;
                 height: 29px;
                 display: inline-block;
-                background: url('../../../assets/images/ic_upload.png')
+                background: url('../../../assets/images/icon/ic_upload.png')
                   no-repeat;
                 background-size: 100% 100%;
                 margin-right: 5px;

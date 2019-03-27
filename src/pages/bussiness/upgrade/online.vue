@@ -11,7 +11,7 @@
                :key="node.sn"
                class="node">
             <div class="badge-info">
-              <img src="../../../assets/images/ic_new_version.png"
+              <img src="../../../assets/images/icon/ic_new_version.png"
                    alt="">
               <span>{{$t('trans0210')}}{{node.version.latest}}</span>
             </div>
@@ -30,7 +30,7 @@
                      alt="">
                 <img class="img-other"
                      v-else
-                     src="../../../assets/images/ic_general_router.png"
+                     src="../../../assets/images/icon/ic_general_router.png"
                      alt="">
               </div>
               <div class="info-container">

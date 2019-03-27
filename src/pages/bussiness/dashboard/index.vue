@@ -6,7 +6,7 @@
              :class="{'selected':$route.path.includes('device')}">
           <div class="icon-container"
                @click="isRouter && forward2page('/dashboard/device/primary')">
-            <img src="../../../assets/images/ic_device.png"
+            <img src="../../../assets/images/icon/ic_device.png"
                  alt="">
           </div>
           <div class="text-container">
@@ -18,7 +18,7 @@
              :class="{'selected':$route.path.includes('mesh')}">
           <div class="icon-container"
                @click="forward2page('/dashboard/mesh')">
-            <img src="../../../assets/images/ic_router.png"
+            <img src="../../../assets/images/icon/ic_router.png"
                  alt="">
           </div>
           <div class="text-container">
@@ -29,7 +29,7 @@
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
           <div class="icon-unconnected-container"
                v-if="isLinked || isUnlinked">
-            <img src="../../../assets/images/ic_unconnected.png"
+            <img src="../../../assets/images/icon/ic_unconnected.png"
                  alt="">
           </div>
         </div>
@@ -37,7 +37,7 @@
              :class="{'selected':$route.path.includes('internet')}">
           <div class="icon-container"
                @click="forward2page('/dashboard/internet')">
-            <img src="../../../assets/images/ic_internet.png"
+            <img src="../../../assets/images/icon/ic_internet.png"
                  alt="">
           </div>
           <div class="text-container">

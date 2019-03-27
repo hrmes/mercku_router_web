@@ -441,12 +441,12 @@ export default {
           height: 20px;
           &.language {
             &.zh-CN {
-              background: url(../../assets/images/ic_language_exchange_02.png)
+              background: url(../../assets/images/icon/ic_language_exchange_02.png)
                 no-repeat center;
               background-size: 100%;
             }
             &.en-US {
-              background: url(../../assets/images/ic_language_exchange_01.png)
+              background: url(../../assets/images/icon/ic_language_exchange_01.png)
                 no-repeat center;
               background-size: 100%;
             }
@@ -454,7 +454,7 @@ export default {
           &.menu {
             width: 24px;
             margin-left: 40px;
-            background: url(../../assets/images/ic_top_bar_pull_down.png)
+            background: url(../../assets/images/icon/ic_top_bar_pull_down.png)
               no-repeat center;
             background-size: 100%;
           }

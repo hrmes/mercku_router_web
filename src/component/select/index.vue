@@ -190,7 +190,7 @@ export default {
       width: 12px;
       height: 6px;
       display: inline-block;
-      background: url(../../assets/images/ic_input_box_pull_down.png) no-repeat
+      background: url(../../assets/images/icon/ic_input_box_pull_down.png) no-repeat
         center;
       background-size: 100%;
       transition: transform 0.2s linear;

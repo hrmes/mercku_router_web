@@ -15,7 +15,7 @@
             <m-popover :title="$t('trans0538')"
                        :content="$t('trans0540')">
               <img width="14"
-                   src="../../../assets/images/ic_question.png"
+                   src="../../../assets/images/icon/ic_question.png"
                    alt=""></m-popover>
 
           </div>

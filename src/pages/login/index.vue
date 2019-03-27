@@ -40,7 +40,7 @@
       <div class="small-device-download">
         <div class="logo-container">
           <img class="app-logo"
-               src="../../assets/images/ic_launcher.jpg"
+               src="../../assets/images/icon/ic_launcher.jpg"
                alt="">
         </div>
         <div class="down-text">

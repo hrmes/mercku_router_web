@@ -28,7 +28,7 @@
                 <m-popover :title="this.$t('trans0562')"
                            :content="this.$t('trans0558')">
                   <img width="14"
-                       src="../../../assets/images/ic_question.png"
+                       src="../../../assets/images/icon/ic_question.png"
                        alt="">
                 </m-popover>
               </div>
@@ -72,13 +72,13 @@
                   <div class="edit"
                        v-if="!isRouterOffline(router)"
                        @click.stop="onClickRouterName(router)">
-                    <img src="../../../assets/images/ic_edit.png"
+                    <img src="../../../assets/images/icon/ic_edit.png"
                          alt>
                   </div>
                 </div>
                 <div class="expand"
                      :class="{'expand':router.expand,'collapse':!router.expand}">
-                  <img src="../../../assets/images/ic_side_bar_pick_up.png"
+                  <img src="../../../assets/images/icon/ic_side_bar_pick_up.png"
                        alt>
                 </div>
               </div>

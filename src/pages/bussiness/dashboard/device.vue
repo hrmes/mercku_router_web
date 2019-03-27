@@ -24,7 +24,7 @@
         </div>
         <div class="off-more-message"
              v-if="devicesMap[id]&&devicesMap[id].length>60">
-          <img src="../../../assets/images/ic_hint.png"
+          <img src="../../../assets/images/icon/ic_hint.png"
                alt="">
           {{$t('trans0517')}}
         </div>
@@ -80,10 +80,10 @@
                   <div class="icon-inner">
                     <i class="band"
                        v-if="row.online_info.band==='wired'">
-                      <img src="../../../assets/images/ic_device_cable@2x.png"
+                      <img src="../../../assets/images/icon/ic_device_cable@2x.png"
                            alt=""></i>
                     <i class="band"
-                       v-else><img src="../../../assets/images/ic_equipment.png"
+                       v-else><img src="../../../assets/images/icon/ic_equipment.png"
                            alt=""></i>
                   </div>
                 </div>
@@ -92,7 +92,7 @@
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
                       <img v-if='row.local &&!isOfflineDevices'
-                           src="../../../assets/images/ic_user.png"
+                           src="../../../assets/images/icon/ic_user.png"
                            alt=""
                            style="margin-right:5px;margin-left:0;">
                       <span :title='row.name'
@@ -100,7 +100,7 @@
                       <img style="cursor:pointer"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
-                           src="../../../assets/images/ic_edit.png"
+                           src="../../../assets/images/icon/ic_edit.png"
                            alt="">
                     </a>
                   </div>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="mobile-icon">
                   <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                       src="../../../assets/images/ic_side_bar_pick_up.png"
+                       src="../../../assets/images/icon/ic_side_bar_pick_up.png"
                        alt="">
                 </div>
               </li>
@@ -122,7 +122,7 @@
                 <div class="speed-inner">
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="../../../assets/images/ic_device_upload.png"
+                         src="../../../assets/images/icon/ic_device_upload.png"
                          alt="">
                     <label class="text-inner">
                       <span>
@@ -133,7 +133,7 @@
                   </div>
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="../../../assets/images/ic_device_download.png"
+                         src="../../../assets/images/icon/ic_device_download.png"
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
@@ -185,7 +185,7 @@
                     <span v-show="isMobile">{{$t('trans0075')}}</span>
                     <span class="status">
                       <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/ic_inter.png"
+                      <img src="../../../assets/images/icon/ic_inter.png"
                            alt="">
                     </span>
                   </div>
@@ -198,7 +198,7 @@
                     <span v-show="isMobile">{{$t('trans0014')}}</span>
                     <span class="status">
                       <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/ic_inter.png"
+                      <img src="../../../assets/images/icon/ic_inter.png"
                            alt="">
                     </span>
                   </div>
@@ -211,7 +211,7 @@
                     <span v-show="isMobile">{{$t('trans0076')}}</span>
                     <span class="status">
                       <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/ic_inter.png"
+                      <img src="../../../assets/images/icon/ic_inter.png"
                            alt="">
                     </span>
                   </div>
@@ -966,31 +966,31 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/ic_limit_time_close.png)
+              background: url(../../../assets/images/icon/ic_limit_time_close.png)
                 no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_time.png)
+                background: url(../../../assets/images/icon/ic_limit_time.png)
                   no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/ic_limit_speed_close.png)
+              background: url(../../../assets/images/icon/ic_limit_speed_close.png)
                 no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_speed.png)
+                background: url(../../../assets/images/icon/ic_limit_speed.png)
                   no-repeat center;
                 background-size: 100%;
               }
             }
             &.url-limit {
-              background: url(../../../assets/images/ic_limit_website_close.png)
+              background: url(../../../assets/images/icon/ic_limit_website_close.png)
                 no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_website.png)
+                background: url(../../../assets/images/icon/ic_limit_website.png)
                   no-repeat center;
                 background-size: 100%;
               }

@@ -28,7 +28,7 @@
               <m-popover :title="this.$t('trans0110')"
                          :content="this.$t('trans0325')">
                 <img width="14"
-                     src="../../../assets/images/ic_question.png"
+                     src="../../../assets/images/icon/ic_question.png"
                      alt="">
               </m-popover>
 
@@ -44,7 +44,7 @@
                 <m-popover :title="this.$t('trans0397')"
                            :content="this.$t('trans0398')">
                   <img width="14"
-                       src="../../../assets/images/ic_question.png"
+                       src="../../../assets/images/icon/ic_question.png"
                        alt="">
                 </m-popover>
 

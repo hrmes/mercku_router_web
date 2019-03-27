@@ -7,13 +7,13 @@
  *
  */
 import * as CONSTANTS from 'util/constant';
-import picGateway from '../../../assets/images/ic_m2_gw_green.png';
-import picM2Good from '../../../assets/images/ic_m2_green.png';
-import picM2Bad from '../../../assets/images/ic_m2_orange.png';
-import pciM2Offline from '../../../assets/images/ic_m2_offline.png';
-import picBeeGood from '../../../assets/images/ic_bee_green.png';
-import picBeeBad from '../../../assets/images/ic_bee_orange.png';
-import picBeeOffline from '../../../assets/images/ic_bee_offline.png';
+import picGateway from '../../../assets/images/icon/ic_m2_gw_green.png';
+import picM2Good from '../../../assets/images/icon/ic_m2_green.png';
+import picM2Bad from '../../../assets/images/icon/ic_m2_orange.png';
+import pciM2Offline from '../../../assets/images/icon/ic_m2_offline.png';
+import picBeeGood from '../../../assets/images/icon/ic_bee_green.png';
+import picBeeBad from '../../../assets/images/icon/ic_bee_orange.png';
+import picBeeOffline from '../../../assets/images/icon/ic_bee_offline.png';
 
 const Color = {
   good: '#00d061',
