@@ -104,7 +104,8 @@
         <span @click="changeLang()"
               class="menu-icon language"
               :class="[$i18n.locale]"></span>
-        <span @click="trigerMobileNav()"
+        <span v-if="navVisible"
+              @click="trigerMobileNav()"
               class="menu-icon menu"></span>
       </div>
       <div v-show="navVisible"
@@ -263,6 +264,7 @@ export default {
         callback: {
           ok: () => {
             this.$http.loginout().then(() => {
+              this.mobileNavVisible = false;
               this.$router.replace({ path: '/login' });
             });
           }
