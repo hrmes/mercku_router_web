@@ -89,19 +89,8 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .flex-wrap {
-    &.has-menu {
-      min-height: calc(100vh - 65px);
-    }
-  }
   .container {
     flex-direction: column;
-    .app-container {
-      &.has-menu {
-        padding-left: 0;
-        height: calc(100% - 65px);
-      }
-    }
     .policy {
       font-size: 12px;
       &.fix-bottom {

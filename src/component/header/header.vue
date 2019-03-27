@@ -5,7 +5,7 @@
       <div class="logo-wrap__logo"></div>
     </div>
 
-    <div class="nav-wrap">
+    <div class="nav-wrap nav-wrap--laptop">
       <ul class="nav"
           v-if="navVisible">
         <li class="nav-item"
@@ -34,7 +34,43 @@
         </li>
         <li class="nav-item nav-item__exit"
             @click="exit()">
+          <div class="nav-item-content">
+            <span class="nav-item__icon exit"></span>
+            <div class="nav-item__text">{{$t('trans0021')}}</div>
+          </div>
 
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-wrap nav-wrap--mobile"
+         v-show="mobileNavVisible">
+      <ul class="nav">
+        <li class="nav-item"
+            :key="menu.key"
+            @click="showMobileMenu(menu)"
+            v-for="menu in list"
+            :class="{'selected':menu.selected}">
+          <div class="nav-item-content">
+            <span class="nav-item__icon"
+                  :class="[menu.icon]"></span>
+            <div class="nav-item__text">{{$t(menu.text)}}</div>
+          </div>
+
+          <ul v-if="menu.children"
+              class="nav-item-child"
+              :class="{'show':menu.showChild}">
+            <li class="nav-child__text"
+                :key="child.key"
+                @click.stop="jumpMobile(child,menu)"
+                v-for="child in menu.children"
+                :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
+              {{$t(child.text)}}
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item nav-item__exit"
+            @click="exit()">
           <div class="nav-item-content">
             <span class="nav-item__icon exit"></span>
             <div class="nav-item__text">{{$t('trans0021')}}</div>
@@ -49,6 +85,8 @@
            @mouseenter="showLangPopup()"
            @mouseleave="closeLangPopup()">
         <div class="current">
+          <img src="../../assets/images/icon/ic_i18n.png"
+               alt="">
           <span class="current-text">{{language.text}}</span>
           <span class="drop-trangle"
                 :class="{'down':!showPopup,'up':showPopup}"></span>
@@ -66,7 +104,8 @@
         <span @click="changeLang()"
               class="menu-icon language"
               :class="[$i18n.locale]"></span>
-        <span class="menu-icon menu"></span>
+        <span @click="trigerMobileNav()"
+              class="menu-icon menu"></span>
       </div>
       <div v-show="navVisible"
            class="exit"
@@ -104,7 +143,8 @@ export default {
       showPopup: false,
       Languages,
       current: null,
-      list: []
+      list: [],
+      mobileNavVisible: false
     };
   },
   mounted() {
@@ -127,6 +167,20 @@ export default {
     }
   },
   methods: {
+    showMobileMenu(menu) {
+      this.list.forEach(l => {
+        l.selected = false;
+      });
+      menu.selected = true;
+    },
+    jumpMobile(child, parent) {
+      this.$router.push({ path: child.url });
+      this.current = child;
+      this.mobileNavVisible = !this.mobileNavVisible;
+    },
+    trigerMobileNav() {
+      this.mobileNavVisible = !this.mobileNavVisible;
+    },
     showChildMenu(menu) {
       if (menu.showChildTimer) {
         clearTimeout(menu.showChildTimer);
@@ -236,40 +290,40 @@ export default {
     padding: 0 50px;
   }
   position: relative;
-  &.nav-hide {
-    background: #fff;
-    color: #333;
-    .right-wrap {
-      .lang-selector {
-        .drop-trangle {
-          &:after {
-            border-top: 5px solid #333;
-          }
-        }
-        .popup {
-          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-          background-color: #fff;
-          margin-top: 0;
+  // &.nav-hide {
+  //   background: #fff;
+  //   color: #333;
+  //   .right-wrap {
+  //     .lang-selector {
+  //       .drop-trangle {
+  //         &:after {
+  //           border-top: 5px solid #333;
+  //         }
+  //       }
+  //       .popup {
+  //         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  //         background-color: #fff;
+  //         margin-top: 0;
 
-          li {
-            list-style: none;
-            line-height: 38px;
-            padding: 0 30px;
-            &:hover {
-              background: rgba(0, 0, 0, 0.2);
-              color: #fff;
-            }
-            &:last-child {
-              margin-bottom: 0;
-            }
-            &.current-lang {
-              color: #d6001c;
-            }
-          }
-        }
-      }
-    }
-  }
+  //         li {
+  //           list-style: none;
+  //           line-height: 38px;
+  //           padding: 0 30px;
+  //           &:hover {
+  //             background: rgba(0, 0, 0, 0.2);
+  //             color: #fff;
+  //           }
+  //           &:last-child {
+  //             margin-bottom: 0;
+  //           }
+  //           &.current-lang {
+  //             color: #d6001c;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
   .logo-wrap {
     padding-right: 60px;
     .logo-wrap__logo {
@@ -280,6 +334,12 @@ export default {
   .nav-wrap {
     flex: 1;
     height: 100%;
+    &.nav-wrap--laptop {
+      display: block;
+    }
+    &.nav-wrap--mobile {
+      display: none;
+    }
     .nav {
       display: flex;
       height: 100%;
@@ -296,8 +356,10 @@ export default {
         cursor: pointer;
         position: relative;
         &.selected {
-          .nav-item__text {
-            color: #999;
+          .nav-item-content {
+            .nav-item__text {
+              color: #999;
+            }
           }
         }
         &.nav-item__exit {
@@ -354,7 +416,7 @@ export default {
           position: absolute;
           z-index: 999;
           top: 100%;
-          margin-top: 10px;
+          margin-top: 6px;
           box-shadow: -10px 9px 21px 0 rgba(128, 152, 213, 0.08);
           background-color: #333333;
           padding: 25px 0;
@@ -382,7 +444,7 @@ export default {
     height: 100%;
     display: flex;
     align-items: center;
-    width: 200px;
+    width: 250px;
     .small-device {
       display: none;
     }
@@ -394,6 +456,10 @@ export default {
         height: 100%;
         display: flex;
         align-items: center;
+        img {
+          width: 16px;
+          height: 16px;
+        }
       }
       .current-text {
         display: inline-block;
@@ -426,7 +492,7 @@ export default {
       .popup {
         position: absolute;
         width: 200px;
-        margin-top: 10px;
+        margin-top: 6px;
         background: #fff;
         border-radius: 2px;
         z-index: 999;
@@ -486,6 +552,12 @@ export default {
       height: calc(100% - 65px);
       background: #fff;
       color: #333;
+      &.nav-wrap--laptop {
+        display: none;
+      }
+      &.nav-wrap--mobile {
+        display: block;
+      }
       .nav {
         padding: 0 20px;
         flex-direction: column;
@@ -511,7 +583,11 @@ export default {
               font-size: 16px;
             }
           }
-
+          &.selected {
+            .nav-item-child {
+              display: block;
+            }
+          }
           .nav-item-child {
             position: static;
             background: #fff;

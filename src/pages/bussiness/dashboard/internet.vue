@@ -505,6 +505,8 @@ export default {
             color: #333;
             font-weight: bold;
             font-size: 14px;
+            display: flex;
+            align-items: flex-end;
           }
           p {
             margin: 0;

@@ -887,6 +887,7 @@ export default {
                 display: flex;
                 flex-direction: column;
                 span {
+                  text-decoration: none;
                   &:hover {
                   }
                   &:active {
