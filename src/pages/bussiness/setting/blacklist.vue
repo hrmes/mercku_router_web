@@ -349,7 +349,6 @@ export default {
     top: 30px;
     transform: translateX(-50%);
     .btn {
-      height: 27px !important;
       margin: 0 auto !important;
     }
   }
@@ -376,7 +375,6 @@ export default {
         display: flex;
       }
       .btn {
-        height: 27px;
         width: auto;
         margin: 0;
         &:last-child {

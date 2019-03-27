@@ -2,12 +2,12 @@
 
   <div class="popover-container"
        v-clickoutside="handleClose">
-    <div @click="clickTriggler()">
+    <div class="popover-container__trigger"
+         @click="clickTriggler()">
       <slot></slot>
     </div>
     <div class="popover"
-         v-show="show"
-         :style="{'top':10}">
+         v-show="show">
       <div class="title"
            v-if="title">{{title}}</div>
       <div class="content">{{content}}</div>
@@ -34,6 +34,7 @@ export default {
       default: 'top'
     }
   },
+
   data() {
     return { show: false };
   },
@@ -52,25 +53,26 @@ export default {
   position: relative;
   .popover {
     position: absolute;
-    top: -120px;
+    top: -140px;
     left: -24px;
     padding: 0 10px;
     width: 200px;
-    height: 100px;
+    height: 120px;
     background-color: #f1f1f1;
     border-radius: 8px;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     font-size: 12px;
     color: #333333;
-    // overflow: hidden;
+    padding: 10px;
     .title {
-      height: 30px;
-      line-height: 30px;
+      line-height: 1;
       box-sizing: border-box;
       border-bottom: 1px solid #f1f1f1;
+      font-weight: normal;
     }
     .content {
-      padding: 10px 0;
+      padding-top: 10px;
+      font-weight: normal;
     }
     &::before {
       content: '';

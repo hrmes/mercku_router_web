@@ -169,11 +169,13 @@ export default {
   methods: {
     showMobileMenu(menu) {
       this.list.forEach(l => {
-        l.selected = false;
+        if (l !== menu) {
+          l.selected = false;
+        }
       });
-      menu.selected = true;
+      menu.selected = !menu.selected;
     },
-    jumpMobile(child, parent) {
+    jumpMobile(child) {
       this.$router.push({ path: child.url });
       this.current = child;
       this.mobileNavVisible = !this.mobileNavVisible;
@@ -334,6 +336,7 @@ export default {
   .nav-wrap {
     flex: 1;
     height: 100%;
+
     &.nav-wrap--laptop {
       display: block;
     }
@@ -356,7 +359,7 @@ export default {
         cursor: pointer;
         position: relative;
         &.selected {
-          border-bottom: 3px solid #d6001c;
+          border-bottom: 2px solid #d6001c;
           .nav-item-content {
             .nav-item__text {
               color: #999;
@@ -432,6 +435,9 @@ export default {
             }
             &.disabled {
               color: #999;
+            }
+            &.selected {
+              color: #d6001c;
             }
           }
           &.show {
@@ -558,10 +564,12 @@ export default {
       }
       &.nav-wrap--mobile {
         display: block;
+        overflow: auto;
       }
       .nav {
         padding: 0 20px;
         flex-direction: column;
+        height: auto;
         .nav-item {
           width: 100%;
           margin: 0;

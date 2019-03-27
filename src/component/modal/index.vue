@@ -81,7 +81,6 @@ export default {
   }
 
   .modal-content {
-    // width: 600px;
     background: #fff;
     padding: 30px;
     border-radius: 5px;
@@ -93,6 +92,7 @@ export default {
   .modal-dialog {
     .modal-content {
       width: 80%;
+      padding: 20px;
     }
   }
 }

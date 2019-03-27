@@ -1350,6 +1350,7 @@ export default {
               padding: 15px 0;
               font-size: 14px;
               cursor: pointer;
+              text-decoration: none;
               &:hover {
                 text-decoration: none;
               }

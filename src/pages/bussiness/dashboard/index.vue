@@ -9,7 +9,8 @@
             <img src="../../../assets/images/icon/ic_device.png"
                  alt="">
           </div>
-          <div class="text-container">
+          <div class="text-container"
+               @click="isRouter && forward2page('/dashboard/device/primary')">
             {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
           </div>
         </div>
@@ -21,7 +22,8 @@
             <img src="../../../assets/images/icon/ic_router.png"
                  alt="">
           </div>
-          <div class="text-container">
+          <div class="text-container"
+               @click="forward2page('/dashboard/mesh')">
             {{ssid||'-'}}
           </div>
         </div>
@@ -32,6 +34,10 @@
                v-if="isLinked || isUnlinked">
             <img src="../../../assets/images/icon/ic_unconnected.png"
                  alt="">
+
+            <img class="icon__question"
+                 src="../../../assets/images/icon/ic_wifi_question.png"
+                 alt="">
           </div>
         </div>
         <div class="internet-container"
@@ -41,7 +47,8 @@
             <img src="../../../assets/images/icon/ic_internet.png"
                  alt="">
           </div>
-          <div class="text-container">
+          <div class="text-container"
+               @click="forward2page('/dashboard/internet')">
             {{$t('trans0366')}}
           </div>
         </div>
@@ -51,10 +58,15 @@
     <m-modal :visible.sync="tipsModalVisible">
       <m-modal-body>
         <div class="tip-modal">
-          <div class="tip-modal__text"
+          <div class="tip-modal__text markdown-body"
                v-html="tips"></div>
-          <button class="btn btn-middle"
-                  @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
+          <div class="form-button">
+            <button class="btn btn-middle"
+                    @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
+            <!-- <button class="btn btn-middle btn-default"
+                    @click="tipsModalVisible=false">{{$t('trans0025')}}</button> -->
+
+          </div>
         </div>
       </m-modal-body>
     </m-modal>
@@ -191,11 +203,17 @@ export default {
 .tip-modal {
   width: 500px;
   text-align: center;
+  .form-button {
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+  }
   .tip-modal__text {
     text-align: left;
+    width: 100%;
   }
   @media screen and (max-width: 769px) {
-    width: 80%;
+    width: auto;
   }
 }
 .dashboard {
@@ -214,7 +232,7 @@ export default {
     }
     .net-info__inner {
       display: flex;
-      padding: 0 10%;
+      padding: 0 15%;
       width: 100%;
       height: 100%;
       align-items: center;
@@ -235,7 +253,7 @@ export default {
           border-radius: 50%;
           background: #fff;
           &:hover {
-            background: #999;
+            opacity: 0.8;
           }
         }
       }
@@ -246,6 +264,11 @@ export default {
         text-align: center;
         white-space: nowrap;
         color: #fff;
+        &:hover {
+          color: #999;
+          cursor: pointer;
+          text-decoration: underline;
+        }
       }
       .line {
         flex: 1;
@@ -282,9 +305,16 @@ export default {
           height: 50px;
           background: #050505;
           cursor: pointer;
+          .icon__question {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 15px;
+            height: 15px;
+          }
           img {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
           }
         }
       }
@@ -375,8 +405,14 @@ export default {
               height: 20px;
               width: 20px;
               img {
-                width: 16px;
-                height: 16px;
+                width: 10px;
+                height: 10px;
+              }
+              .icon__question {
+                width: 10px;
+                height: 10px;
+                top: -5px;
+                right: -5px;
               }
             }
           }

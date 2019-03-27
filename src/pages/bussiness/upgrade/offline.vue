@@ -69,7 +69,7 @@
                          alt="">
                     <img class="img-other"
                          v-else
-                         src="../../../assets/images/icon/ic_general_router.png"
+                         src="../../../assets/images/icon/ic_default_router.png"
                          alt="">
                   </div>
                   <div class="info-container">

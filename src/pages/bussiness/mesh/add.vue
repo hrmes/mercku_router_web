@@ -205,7 +205,7 @@ export default {
       if (id === this.RouterSnModel.Bee) {
         return require('../../../assets/images/img_bee.png');
       }
-      return require('../../../assets/images/icon/ic_general_router.png');
+      return require('../../../assets/images/icon/ic_default_router.png');
     },
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
@@ -507,8 +507,8 @@ export default {
             background: #fff;
             border-radius: 50%;
             &.checked {
-              background: url(../../../assets/images/icon/ic_selected.png) no-repeat
-                center;
+              background: url(../../../assets/images/icon/ic_selected.png)
+                no-repeat center;
               border: none;
               background-size: 90%;
               background-color: #00d061;
