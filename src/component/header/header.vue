@@ -2,6 +2,7 @@
   <header class="header-container"
           :class="{'nav-hide':!navVisible}">
     <div class="logo-wrap">
+      <div class="logo-wrap__logo"></div>
     </div>
 
     <div class="nav-wrap">
@@ -214,7 +215,10 @@ export default {
   display: flex;
   background: #333;
   color: #fff;
-  padding: 0 2%;
+  padding: 0 10%;
+  @media screen and (max-width: 1440px) {
+    padding: 0 50px;
+  }
   position: relative;
   &.nav-hide {
     background: #fff;
@@ -251,8 +255,11 @@ export default {
     }
   }
   .logo-wrap {
-    width: 209px;
-    height: 32px;
+    padding-right: 60px;
+    .logo-wrap__logo {
+      width: 74px;
+      height: 25px;
+    }
   }
   .nav-wrap {
     flex: 1;
@@ -267,6 +274,9 @@ export default {
         display: flex;
         align-items: center;
         margin-right: 80px;
+        @media screen and (max-width: 1440px) {
+          margin-right: 50px;
+        }
         cursor: pointer;
         position: relative;
         &.selected {

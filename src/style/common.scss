@@ -213,7 +213,10 @@ input::-webkit-input-placeholder {
 .page {
   position: relative;
   flex: auto;
-  margin: 0 14.5%;
+  margin: 0 10%;
+  @media screen and (max-width: 1440px) {
+    margin: 0 50px;
+  }
   display: flex;
   flex-direction: column;
   background: #fff;

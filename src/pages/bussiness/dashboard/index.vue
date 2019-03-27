@@ -1,49 +1,47 @@
 <template>
-  <div class="page">
-    <div class="page-content">
-      <div class="net-info">
-        <div class="device-container"
+  <div class="dashboard">
+    <div class="net-info">
+      <div class="device-container">
+        <div class="icon-container"
              @click="isRouter && forward2page('/dashboard/device/primary')">
-          <div class="icon-container">
-            <img src="../../../assets/images/ic_device.png"
-                 alt="">
-          </div>
-          <div class="text-container">
-            {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
-          </div>
+          <img src="../../../assets/images/ic_device.png"
+               alt="">
         </div>
-        <div class="line"></div>
-        <div class="wifi-container"
-             @click="forward2page('/dashboard/mesh')">
-          <div class="icon-container">
-            <img src="../../../assets/images/ic_router.png"
-                 alt="">
-          </div>
-          <div class="text-container">
-            {{ssid||'-'}}
-          </div>
-        </div>
-        <div class="line"
-             :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-          <div class="icon-unconnected-container"
-               v-if="isLinked || isUnlinked">
-            <img src="../../../assets/images/ic_unconnected.png"
-                 alt="">
-          </div>
-        </div>
-        <div class="internet-container"
-             @click="forward2page('/dashboard/internet')">
-          <div class="icon-container">
-            <img src="../../../assets/images/ic_internet.png"
-                 alt="">
-          </div>
-          <div class="text-container">
-            {{$t('trans0366')}}
-          </div>
+        <div class="text-container">
+          {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
         </div>
       </div>
-      <router-view class="router-view"></router-view>
+      <div class="line"></div>
+      <div class="wifi-container">
+        <div class="icon-container"
+             @click="forward2page('/dashboard/mesh')">
+          <img src="../../../assets/images/ic_router.png"
+               alt="">
+        </div>
+        <div class="text-container">
+          {{ssid||'-'}}
+        </div>
+      </div>
+      <div class="line"
+           :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
+        <div class="icon-unconnected-container"
+             v-if="isLinked || isUnlinked">
+          <img src="../../../assets/images/ic_unconnected.png"
+               alt="">
+        </div>
+      </div>
+      <div class="internet-container">
+        <div class="icon-container"
+             @click="forward2page('/dashboard/internet')">
+          <img src="../../../assets/images/ic_internet.png"
+               alt="">
+        </div>
+        <div class="text-container">
+          {{$t('trans0366')}}
+        </div>
+      </div>
     </div>
+    <router-view class="router-view"></router-view>
   </div>
 </template>
 <script>
@@ -168,20 +166,32 @@ export default {
   }
 }
 
-.page-content {
-  // display: flex;
-  // flex-direction: column;
-  // flex: auto;
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
   // padding: 0 2%;
   // margin-top: 30px;
   .net-info {
     display: flex;
     padding: 0 10%;
-    height: 100px;
     width: 100%;
     align-items: center;
-    background: #fff;
+    background: url(../../../assets/images/dashboard_banner_bg.jpg) no-repeat
+      center;
+    background-size: 100%;
+    position: relative;
+    @media screen and (max-width: 1440px) {
+      padding: 0 50px;
+    }
+    &::before {
+      content: '';
+      display: block;
+      padding-top: 14.5%;
+    }
+
     .icon-container {
+      cursor: pointer;
       img {
         width: 50px;
         height: 50px;
@@ -191,14 +201,12 @@ export default {
       }
     }
     .text-container {
-      margin-top: 20px;
-      font-size: 16px;
+      margin-top: 10px;
+      font-size: 14px;
       font-weight: bold;
       text-align: center;
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
       white-space: nowrap;
+      color: #fff;
     }
     .line {
       flex: 1;
@@ -244,16 +252,40 @@ export default {
     .internet-container {
       width: 200px;
       position: relative;
-      cursor: pointer;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .internet-container {
+      position: relative;
+      &::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 0;
+        border: 12px solid #fff;
+        border-top: none;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+      }
     }
   }
   .router-view {
     width: 100%;
-    margin-top: 70px;
+    margin-top: 35px;
+    padding: 0 10%;
+    @media screen and (max-width: 1440px) {
+      padding: 0 50px;
+    }
   }
 }
 @media screen and (min-width: 769px) and (max-width: 1440px) {
-  .page-content {
+  .dashboard {
     .net-info {
       .device-container,
       .wifi-container,
@@ -264,7 +296,7 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .page-content {
+  .dashboard {
     padding: 0 20px;
     .net-info {
       padding: 0;

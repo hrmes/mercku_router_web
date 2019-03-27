@@ -1,7 +1,9 @@
 .header-container {
   .logo-wrap {
-    background: url(../assets/images/cik_logo.png) center no-repeat;
-    background-size: 100%;
+    .logo-wrap__logo {
+      background: url(../assets/images/cik_logo.png) center no-repeat;
+      background-size: 100%;
+    }
   }
 }
 /************************* 登陆页面*********************/
