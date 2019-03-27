@@ -686,6 +686,7 @@ export default {
               span {
                 margin-left: 20px;
                 cursor: pointer;
+                text-decoration: underline;
                 &:hover {
                   text-decoration: underline;
                 }

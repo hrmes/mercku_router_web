@@ -303,6 +303,7 @@ export default {
   .column-handle {
     width: 150px;
     a {
+      text-decoration: underline;
       cursor: pointer;
       &:last-child {
         color: #ff0001;

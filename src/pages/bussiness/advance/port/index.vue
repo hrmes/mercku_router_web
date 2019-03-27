@@ -323,6 +323,7 @@ export default {
     width: 120px;
     a {
       cursor: pointer;
+      text-decoration: underline;
       &:last-child {
         color: #ff0001;
         padding-left: 30px;

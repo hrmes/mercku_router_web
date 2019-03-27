@@ -335,6 +335,7 @@ export default {
         a {
           margin-right: 50px;
           cursor: pointer;
+          text-decoration: underline;
           font-size: 14px;
           &:hover {
             text-decoration: underline;

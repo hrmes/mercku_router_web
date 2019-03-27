@@ -14,7 +14,12 @@
             @mouseleave="closeChildMenu(menu)"
             v-for="menu in list"
             :class="{'selected':menu.selected}">
-          <div class="nav-item__text">{{$t(menu.text)}}</div>
+          <div class="nav-item-content">
+            <span class="nav-item__icon"
+                  :class="[menu.icon]"></span>
+            <div class="nav-item__text">{{$t(menu.text)}}</div>
+          </div>
+
           <ul v-if="menu.children"
               class="nav-item-child"
               :class="{'show':menu.showChild}">
@@ -26,6 +31,15 @@
               {{$t(child.text)}}
             </li>
           </ul>
+        </li>
+        <li class="nav-item nav-item__exit"
+            @click="exit()">
+
+          <div class="nav-item-content">
+            <span class="nav-item__icon exit"></span>
+            <div class="nav-item__text">{{$t('trans0021')}}</div>
+          </div>
+
         </li>
       </ul>
     </div>
@@ -52,6 +66,7 @@
         <span @click="changeLang()"
               class="menu-icon language"
               :class="[$i18n.locale]"></span>
+        <span class="menu-icon menu"></span>
       </div>
       <div v-show="navVisible"
            class="exit"
@@ -59,6 +74,7 @@
         {{$t('trans0021')}}
       </div>
     </div>
+
   </header>
 </template>
 <script>
@@ -284,14 +300,53 @@ export default {
             color: #999;
           }
         }
+        &.nav-item__exit {
+          display: none;
+        }
         &:last-child {
           margin-right: 0;
         }
-        .nav-item__text {
-          height: 100%;
+        .nav-item-content {
           display: flex;
-          align-items: center;
-          color: #fff;
+          .nav-item__icon {
+            width: 18px;
+            height: 18px;
+            display: none;
+            margin-right: 10px;
+            position: relative;
+
+            &.wifi {
+              background: url(../../assets/images/icon/ic_home_normal.png)
+                no-repeat center;
+              background-size: 100%;
+            }
+            &.setting {
+              background: url(../../assets/images/icon/ic_setting_router.png)
+                no-repeat center;
+              background-size: 100%;
+            }
+            &.exit {
+              background: url(../../assets/images/icon/ic_logout.png) no-repeat
+                center;
+              background-size: 100%;
+            }
+            &.advance {
+              background: url(../../assets/images/icon/ic_advanced_setup.png)
+                no-repeat center;
+              background-size: 100%;
+            }
+            &.upgrade {
+              background: url(../../assets/images/icon/ic_firmware_upgrade.png)
+                no-repeat center;
+              background-size: 100%;
+            }
+          }
+          .nav-item__text {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            color: #fff;
+          }
         }
         .nav-item-child {
           display: none;
@@ -420,13 +475,63 @@ export default {
     .logo-wrap {
       display: block;
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 131px;
-      height: 20px;
+      left: 20px;
+    }
+    .nav-wrap {
+      position: fixed;
+      top: 65px;
+      left: 0;
+      z-index: 1000;
+      width: 100%;
+      height: calc(100% - 65px);
+      background: #fff;
+      color: #333;
+      .nav {
+        padding: 0 20px;
+        flex-direction: column;
+        .nav-item {
+          width: 100%;
+          margin: 0;
+          height: auto;
+          flex-direction: column;
+          align-items: flex-start;
+
+          &.nav-item__exit {
+            display: block;
+          }
+          .nav-item-content {
+            align-items: center;
+            .nav-item__icon {
+              display: block;
+            }
+            .nav-item__text {
+              color: #333;
+              line-height: 1;
+              padding: 16px 0;
+              font-size: 16px;
+            }
+          }
+
+          .nav-item-child {
+            position: static;
+            background: #fff;
+            box-shadow: none;
+            margin-top: 0;
+            padding: 0;
+            .nav-child__text {
+              padding: 0;
+              padding-left: 30px;
+              color: #333;
+            }
+          }
+        }
+      }
     }
     .right-wrap {
       .lang-selector {
+        display: none;
+      }
+      .exit {
         display: none;
       }
       .small-device {
@@ -441,13 +546,13 @@ export default {
           height: 20px;
           &.language {
             &.zh-CN {
-              background: url(../../assets/images/icon/ic_language_exchange_02.png)
-                no-repeat center;
+              background: url(../../assets/images/icon/ic_lang_cn.png) no-repeat
+                center;
               background-size: 100%;
             }
             &.en-US {
-              background: url(../../assets/images/icon/ic_language_exchange_01.png)
-                no-repeat center;
+              background: url(../../assets/images/icon/ic_lang_en.png) no-repeat
+                center;
               background-size: 100%;
             }
           }

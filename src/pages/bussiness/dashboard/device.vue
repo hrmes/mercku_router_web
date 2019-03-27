@@ -1005,6 +1005,7 @@ export default {
       .black-btn {
         cursor: pointer;
         margin-right: 30px;
+        text-decoration: underline;
         &:hover {
           text-decoration: underline;
         }
