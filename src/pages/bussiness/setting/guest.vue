@@ -12,7 +12,9 @@
           <label for=""> {{$t('trans0538')}}
           </label>
           <div class="tool">
-            <m-popover :title="$t('trans0538')"
+            <m-popover position="bottom"
+                       style="top:-7px"
+                       :title="$t('trans0538')"
                        :content="$t('trans0540')">
               <img width="14"
                    src="../../../assets/images/icon/ic_question.png"
@@ -486,7 +488,6 @@ export default {
       left: -20px;
       img {
         position: relative;
-        top: -7px;
         cursor: pointer;
       }
     }

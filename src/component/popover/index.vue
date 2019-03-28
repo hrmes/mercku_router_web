@@ -2,11 +2,14 @@
 
   <div class="popover-container"
        v-clickoutside="handleClose">
-    <div class="popover-container__trigger"
+    <div ref="trigger"
+         class="popover-container__trigger"
          @click="clickTriggler()">
       <slot></slot>
     </div>
-    <div class="popover"
+    <div ref="popover"
+         class="popover"
+         :class="position"
          v-show="show">
       <div class="title"
            v-if="title">{{title}}</div>
@@ -17,6 +20,12 @@
 </template>
 
 <script>
+const Positions = {
+  left: 'left',
+  right: 'right',
+  top: 'top',
+  bottom: 'bottom'
+};
 export default {
   name: 'Popover',
   props: {
@@ -31,16 +40,36 @@ export default {
     },
     position: {
       type: String,
-      default: 'top'
+      default: Positions.top
     }
   },
-
   data() {
     return { show: false };
   },
   methods: {
+    initPopoverPosition() {
+      const elPopover = this.$refs.popover;
+
+      switch (this.position) {
+        case Positions.top:
+          elPopover.style.top = `-${elPopover.clientHeight + 10}px`;
+          elPopover.style.left = '-20px';
+          break;
+        case Positions.bottom:
+          elPopover.style.bottom = `-${elPopover.clientHeight + 10}px`;
+          elPopover.style.left = '-20px';
+          break;
+        default:
+          break;
+      }
+    },
     clickTriggler() {
       this.show = !this.show;
+      if (this.show) {
+        this.$nextTick(() => {
+          this.initPopoverPosition();
+        });
+      }
     },
     handleClose() {
       this.show = false;
@@ -53,17 +82,68 @@ export default {
   position: relative;
   .popover {
     position: absolute;
-    top: -140px;
-    left: -24px;
     padding: 0 10px;
+    z-index: 999;
     width: 200px;
-    height: 120px;
     background-color: #f1f1f1;
     border-radius: 8px;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     font-size: 12px;
     color: #333333;
     padding: 10px;
+    &::before {
+      content: '';
+      position: absolute;
+
+      display: block;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+    &::after {
+      content: '';
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+    &.top {
+      &::before {
+        left: 18px;
+        bottom: -10px;
+        border: 10px solid #f1f1f1;
+        border-bottom: none;
+        border-left-color: transparent;
+        border-right-color: transparent;
+      }
+      &:after {
+        left: 20px;
+        bottom: -8px;
+        border: 8px solid #f1f1f1;
+        border-bottom: none;
+        border-left-color: transparent;
+        border-right-color: transparent;
+      }
+    }
+    &.bottom {
+      &::before {
+        left: 18px;
+        top: -10px;
+        border: 10px solid #f1f1f1;
+        border-top: none;
+        border-left-color: transparent;
+        border-right-color: transparent;
+      }
+      &:after {
+        left: 20px;
+        top: -8px;
+        border: 8px solid #f1f1f1;
+        border-top: none;
+        border-left-color: transparent;
+        border-right-color: transparent;
+      }
+    }
     .title {
       line-height: 1;
       box-sizing: border-box;
@@ -73,32 +153,6 @@ export default {
     .content {
       padding-top: 10px;
       font-weight: normal;
-    }
-    &::before {
-      content: '';
-      position: absolute;
-      left: 21px;
-      bottom: -10px;
-      display: block;
-      width: 0;
-      height: 0;
-      overflow: hidden;
-      border-width: 10px 10px 0;
-      border-style: solid;
-      border-color: #f1f1f1 transparent transparent;
-    }
-    &::after {
-      content: '';
-      position: absolute;
-      left: 23px;
-      bottom: -8px;
-      display: block;
-      width: 0;
-      height: 0;
-      overflow: hidden;
-      border-width: 8px 8px 0;
-      border-style: solid;
-      border-color: #f1f1f1 transparent transparent;
     }
   }
 }

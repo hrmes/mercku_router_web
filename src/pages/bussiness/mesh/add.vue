@@ -142,7 +142,7 @@
 <script>
 import { RouterSnModel } from 'util/constant';
 
-const Routes = [
+const Routers = [
   {
     name: 'M2 Bee Wi-Fi Mesh Node',
     image: require('../../../assets/images/img_bee.png'),
@@ -160,7 +160,7 @@ export default {
   data() {
     return {
       RouterSnModel,
-      routers: Routes,
+      routers: Routers,
       welcomePage: true,
       stepsOption: {
         current: 0,
@@ -183,7 +183,7 @@ export default {
       nodes: [],
       added: false,
       addTimeout: 90,
-      selectedCategory: Routes[0],
+      selectedCategory: Routers[0],
       showHelpDialog: false
     };
   },

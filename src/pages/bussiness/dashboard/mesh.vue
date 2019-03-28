@@ -25,7 +25,9 @@
           <div class="switch-wrap">
             <label for=""> {{$t('trans0562')}}
               <div class="tool">
-                <m-popover :title="this.$t('trans0562')"
+                <m-popover position="bottom"
+                           style="top:-7px"
+                           :title="this.$t('trans0562')"
                            :content="this.$t('trans0558')">
                   <img width="14"
                        src="../../../assets/images/icon/ic_question.png"
@@ -556,7 +558,6 @@ export default {
             margin-right: 15px;
             img {
               position: relative;
-              top: -7px;
               margin-left: 5px;
               cursor: pointer;
             }
