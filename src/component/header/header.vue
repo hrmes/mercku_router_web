@@ -163,6 +163,9 @@ export default {
     }
   },
   watch: {
+    $route() {
+      this.list = this.getList();
+    },
     menus() {
       this.list = this.getList();
     }
@@ -360,11 +363,27 @@ export default {
         }
         cursor: pointer;
         position: relative;
-        &.selected {
-          border-bottom: 2px solid #d6001c;
+        &:hover {
           .nav-item-content {
             .nav-item__text {
               color: #999;
+            }
+          }
+        }
+        &.selected {
+          position: relative;
+          &::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: #d6001c;
+            width: 100%;
+            bottom: 0;
+            position: absolute;
+          }
+          .nav-item-content {
+            .nav-item__text {
+              color: #fff;
             }
           }
         }

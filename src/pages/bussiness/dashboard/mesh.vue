@@ -226,30 +226,42 @@ export default {
   },
   methods: {
     updateMeshBand(val) {
-      this.$loading.open();
-      this.$http
-        .updateMeshBand({
-          bands: {
-            '5G': true,
-            '2.4G': val
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0229'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            this.$http
+              .updateMeshBand({
+                bands: {
+                  '5G': true,
+                  '2.4G': val
+                }
+              })
+              .then(() => {
+                this.$loading.close();
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  },
+                  timeout: 60
+                });
+              })
+              .catch(() => {
+                this.mesh24g = !val;
+                this.$loading.close();
+              });
+          },
+          cancel: () => {
+            this.mesh24g = !this.mesh24g;
           }
-        })
-        .then(() => {
-          this.$loading.close();
-          this.$reconnect({
-            onsuccess: () => {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-            },
-            ontimeout: () => {
-              this.$router.push({ path: '/unconnect' });
-            },
-            timeout: 60
-          });
-        })
-        .catch(() => {
-          this.mesh24g = !val;
-          this.$loading.close();
-        });
+        }
+      });
     },
     getMeshBand() {
       this.$http.getMeshBand().then(res => {
