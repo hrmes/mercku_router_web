@@ -25,7 +25,7 @@
                     :onChange="guestEnabledChange" />
         </div>
         <div v-if="form.enabled&&showSettingPage">
-          <label for=""> {{$t('trans0521')}} </label>
+          <label style="font-weight:bold;"> {{$t('trans0521')}} </label>
           <div class="check-box-wrap">
             <m-radio-group v-model="form.duration"
                            :options='checkOps'></m-radio-group>
@@ -68,9 +68,9 @@
           <div class="form-button"
                style="margin-top:50px"
                :class="{'cancel':setupAndStart}">
-            <button class="btn"
+            <button class="btn btn-middle"
                     @click='submit()'>{{$t('trans0081')}}</button>
-            <button class="btn btn-default btn-cancel"
+            <button class="btn btn-default btn-cancel btn-middle"
                     style="margin-left:50px"
                     v-if="setupAndStart&&showCancelBtn"
                     @click='cancel'>{{$t('trans0025')}}</button>
@@ -79,7 +79,7 @@
         <div v-if="form.enabled&&showStatusPage">
           <div class="setting-ssid-info">
             <div class="title">
-              {{$t('trans0168')}}
+              {{$t('trans0168')}}：
             </div>
             <div v-if="guest.smart_connect">
               <p class='name'>{{form.ssid}}</p>
@@ -414,10 +414,7 @@ export default {
 }
 .form {
   .btn-cancel {
-    min-width: initial;
     margin-left: 10px !important;
-    border: 1px solid #bdbdbd;
-    color: #333333;
   }
   .ssid {
     margin-bottom: 50px;
@@ -443,6 +440,9 @@ export default {
       font-weight: bold;
     }
   }
+  .title {
+    font-weight: bold;
+  }
   .remaining-time {
     margin-bottom: 30px;
     .time {
@@ -452,6 +452,7 @@ export default {
   }
   .setting-ssid-info {
     display: flex;
+
     .name {
       padding-left: 20px;
       // font-weight: bold
@@ -492,6 +493,7 @@ export default {
       }
     }
     label {
+      font-weight: bold;
       padding-right: 20px;
     }
   }

@@ -5,6 +5,21 @@
     </div>
     <div class="page-content">
       <div class="type-container"
+           v-show="tipPage">
+
+        <div class="router-category-container">
+          <video autoplay
+                 loop
+                 src="../../../assets/video/add-node-tip.mp4"></video>
+          <img class="gif"
+               src="../../../assets/images/add_node_tip.gif"
+               alt="">
+          <p>{{$t('trans0175')}}</p>
+        </div>
+        <button class="btn btn-next"
+                @click="forward2WelcomePage">{{$t('trans0467')}}</button>
+      </div>
+      <div class="type-container"
            v-show="welcomePage">
         <div class="tip">{{$t('trans0364')}}</div>
         <div class="router-category-container">
@@ -26,7 +41,7 @@
                 @click="forwardStep0()">{{$t('trans0055')}}</button>
       </div>
       <div class="info-container"
-           v-show="!welcomePage">
+           v-show="!tipPage && !welcomePage">
         <div class="step">
           <m-step :option="stepsOption"></m-step>
         </div>
@@ -161,7 +176,8 @@ export default {
     return {
       RouterSnModel,
       routers: Routers,
-      welcomePage: true,
+      welcomePage: false,
+      tipPage: true,
       stepsOption: {
         current: 0,
         steps: [
@@ -188,6 +204,10 @@ export default {
     };
   },
   methods: {
+    forward2WelcomePage() {
+      this.tipPage = false;
+      this.welcomePage = true;
+    },
     openHelpDialog() {
       this.showHelpDialog = true;
     },
@@ -327,6 +347,28 @@ export default {
   align-content: center;
   align-items: center;
   margin: 0 auto;
+  width: 100%;
+  .gif {
+    display: none;
+    @media screen and (max-width: 768px) {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  video {
+    width: 500px;
+    @media screen and(max-width:768px) {
+      display: none;
+    }
+  }
+  p {
+    width: 350px;
+    margin: 0 auto;
+    @media screen and(max-width:768px) {
+      width: 100%;
+    }
+  }
   .tip {
     margin-bottom: 30px;
   }

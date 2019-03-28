@@ -15,7 +15,11 @@
         <div class="topo-container"
              v-show="!showTable">
           <div class="legend-wrap">
-            <p class="legend-title">{{$t('trans0302')}}</p>
+            <p class="legend-title">
+              <span>{{$t('trans0302')}}</span>
+              <span class="icon-circle"
+                    @click.stop="showRssiModal"></span>
+            </p>
             <div class="legend">
               <div class="legend-item">{{$t('trans0193')}}</div>
               <div class="legend-item">{{$t('trans0196')}}</div>
@@ -108,14 +112,14 @@
                 <span class="value">{{formatMac(router.mac.lan)}}</span>
               </div>
               <div class="operate">
-                <span class="reboot"
+                <span class="reboot "
                       v-if="!isRouterOffline(router)"
                       @click="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw"
                       class="reset"
                       @click="resetNode(router)">{{$t('trans0205')}}</span>
                 <span v-if="!router.is_gw"
-                      class="delete"
+                      class="delete "
                       @click="deleteNode(router)">{{$t('trans0033')}}</span>
               </div>
             </div>
@@ -144,10 +148,48 @@
         </div>
       </m-modal-body>
     </m-modal>
+    <m-modal :visible.sync="rssiModalVisible">
+      <m-modal-header>
+        {{$t('trans0128')}}
+      </m-modal-header>
+      <m-modal-body>
+        <div class="rssi-modal">
 
+          <div class="examples">
+            <div class="example error">
+              <img src="../../../assets/images/img_help_error.jpg"
+                   alt="">
+              <div class="description">
+                <span class="icon-circle">
+
+                </span>
+                <span>{{$t('trans0599')}}</span>
+              </div>
+            </div>
+            <div class="example right">
+              <img src="../../../assets/images/img_help_right.jpg"
+                   alt="">
+              <div class="description">
+                <span class="icon-circle">
+
+                </span>
+                <span>{{$t('trans0598')}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="markdown-body"
+               v-html="rssiTips"></div>
+
+          <div class="form-button">
+            <button class="btn btn-middle"
+                    @click="closeRssiModal">{{$t('trans0024')}}</button></div>
+        </div>
+      </m-modal-body>
+    </m-modal>
   </div>
 </template>
 <script>
+import marked from 'marked';
 import { formatMac, getStringByte } from 'util/util';
 import { RouterStatus } from 'util/constant';
 import genData from './topo';
@@ -158,6 +200,7 @@ require('echarts/lib/chart/graph');
 export default {
   data() {
     return {
+      rssiModalVisible: false,
       RouterStatus,
       formatMac,
       pageActive: true,
@@ -212,6 +255,9 @@ export default {
     this.createIntervalTask();
   },
   computed: {
+    rssiTips() {
+      return marked(this.$t('trans0595'), { sanitize: true });
+    },
     showTable() {
       let result;
       if (this.$route.params.category === 'topo') {
@@ -226,6 +272,12 @@ export default {
     }
   },
   methods: {
+    showRssiModal() {
+      this.rssiModalVisible = true;
+    },
+    closeRssiModal() {
+      this.rssiModalVisible = false;
+    },
     updateMeshBand(val) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -490,6 +542,97 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.rssi-modal {
+  width: 600px;
+  @media screen and (max-width: 768px) {
+    width: auto;
+    height: 350px;
+    overflow: auto;
+  }
+  .examples {
+    display: flex;
+    margin-bottom: 30px;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+    }
+
+    .example {
+      .description {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        .icon-circle {
+          width: 16px;
+          height: 16px;
+          border: 1px solid #333;
+          border-radius: 50%;
+          margin-right: 5px;
+          position: relative;
+        }
+      }
+      &.error {
+        .icon-circle {
+          &::before {
+            content: '';
+            display: block;
+            width: 7px;
+            height: 1px;
+            top: 7px;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+            background: #333;
+            z-index: 999;
+            position: absolute;
+          }
+          &::after {
+            content: '';
+            display: block;
+            width: 7px;
+            height: 1px;
+            top: 7px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-45deg);
+            background: #333;
+            z-index: 999;
+            position: absolute;
+          }
+        }
+      }
+      &.right {
+        .icon-circle {
+          border-color: #00d061;
+          &::after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 3px;
+            height: 6px;
+            border-right: 1px solid #00d061;
+            border-bottom: 1px solid #00d061;
+            border-left: 0;
+            border-top: 0;
+            transform: rotate(45deg);
+            top: 3px;
+            left: 5px;
+          }
+        }
+      }
+
+      img {
+        width: 300px;
+        @media screen and (max-width: 768px) {
+          width: 100%;
+        }
+      }
+    }
+  }
+  .form-button {
+    margin-top: 20px;
+    text-align: center;
+  }
+}
 .mesh-container {
   flex: 1;
   display: flex;
@@ -529,7 +672,40 @@ export default {
             font-size: 12px;
             color: #333;
             margin: 0;
-            text-align: right;
+
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            .icon-circle {
+              width: 12px;
+              height: 12px;
+              display: inline-block;
+              margin-left: 5px;
+              position: relative;
+              cursor: pointer;
+              &::before {
+                content: '';
+                display: block;
+                width: 10px;
+                height: 10px;
+                border: 1px solid #333;
+                border-radius: 50%;
+              }
+              &::after {
+                position: absolute;
+                content: '';
+                display: block;
+                width: 3px;
+                height: 3px;
+                border-right: 1px solid #333;
+                border-bottom: 1px solid #333;
+                border-left: 0;
+                border-top: 0;
+                transform: rotate(-45deg);
+                top: 4px;
+                left: 4px;
+              }
+            }
           }
           .legend {
             .legend-item {
@@ -765,15 +941,16 @@ export default {
       }
 
       .content {
-        padding-top: 25px;
+        padding-top: 0;
         .topo-container {
+          padding-top: 20px;
           flex: 1;
           display: flex;
           flex-direction: column;
           .legend-wrap {
             order: 2;
             .legend-title {
-              text-align: left;
+              justify-content: flex-start;
             }
             width: 100%;
             .legend {
@@ -842,13 +1019,12 @@ export default {
               flex-direction: column;
               margin-bottom: 10px;
               background: #fff;
-              padding: 0 20px;
               border-radius: 5px;
+              padding: 0;
               height: 60px;
               overflow: hidden;
               &.expand {
-                height: 550px;
-                overflow: auto;
+                height: 378px;
               }
               span.label {
                 display: inline;
@@ -884,54 +1060,25 @@ export default {
                 .expand {
                   display: block;
                 }
-                .icon {
-                  img {
-                  }
-                }
-                .text {
-                }
-
-                .edit {
-                  img {
-                  }
-                }
               }
               .operate {
                 display: flex;
-                flex-direction: column;
+                justify-content: flex-end;
                 span {
                   text-decoration: none;
-                  &:hover {
-                  }
-                  &:active {
-                  }
-                  &:first-child {
-                  }
                 }
-                .reboot {
-                  width: 255px;
+                .reboot,
+                .reset,
+                .delete {
+                  width: auto;
+                  min-width: 80px;
                   background: #d6001c;
                   color: #fff;
                   text-align: center;
                   border-radius: 4px;
-                  height: 46px;
-                  font-size: 14px;
-                  padding: 16px 0;
-                  line-height: 1;
-                }
-                .reset,
-                .delete {
-                  width: 255px;
-                  background: transparent;
-                  border: 1px solid #ff0500;
-                  color: #ff0500;
-                  text-align: center;
-                  border-radius: 4px;
-                  height: 46px;
-                  font-size: 14px;
-                  padding: 16px 0;
-                  margin-left: 0;
-                  margin-top: 20px;
+                  height: 28px;
+                  font-size: 12px;
+                  padding: 7px;
                   line-height: 1;
                 }
               }

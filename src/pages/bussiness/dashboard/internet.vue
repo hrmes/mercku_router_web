@@ -109,8 +109,7 @@
           <div class="message">
             <div class="time-title">{{$t('trans0537')}}：</div>
             <div>
-              <p class="time-top">{{uptimeArr[0]}}</p>
-              <p class="time-bottom"
+              <p class="time-top"
                  v-if="uptimeArr[1]&&uptimeArr[1].length>0">
                 <span v-for="(bm,index) in uptimeArr[1]"
                       :key="index">
@@ -119,6 +118,9 @@
                   <span v-if="index!==uptimeArr[1].length-1">，</span>
                 </span>
               </p>
+              <p class="time-bottom"
+                 :class="{'padding-top':uptimeArr[1]&&uptimeArr[1].length>0}">{{uptimeArr[0]}}</p>
+
             </div>
           </div>
           <img class="router-time-img"
@@ -246,10 +248,12 @@ export default {
         }
         index += 1;
       }
-      const bmStr = bmArr.map((v, k) => ({
-        num: v,
-        unit: unit[k]
-      }));
+      const bmStr = bmArr
+        .map((v, k) => ({
+          num: v,
+          unit: unit[k]
+        }))
+        .reverse();
       const topStr = temp
         .map((n, j) => {
           if (topArr[j]) {
@@ -514,16 +518,19 @@ export default {
             padding-left: 15px;
           }
           .time-top {
-            font-size: 26px;
-            font-weight: bold;
-          }
-          .time-bottom {
             font-size: 20px;
-            padding-top: 10px;
+            font-weight: bold;
             .uptime-unit {
               color: #999999;
               font-size: 16px;
+              font-weight: normal;
               margin-left: 5px;
+            }
+          }
+          .time-bottom {
+            font-size: 20px;
+            &.padding-top {
+              padding-top: 10px;
             }
           }
         }
@@ -581,10 +588,21 @@ export default {
             font-size: 14px;
             color: #333333;
             padding-top: 20px;
+            &:nth-child(2n) {
+              .m-title {
+                width: 50px;
+              }
+            }
+            &:nth-child(2n + 1) {
+              .m-title {
+                width: 125px;
+              }
+            }
             .m-title {
               color: #333;
               font-weight: bold;
               font-size: 14px;
+              display: inline-block;
             }
           }
         }
@@ -1044,6 +1062,7 @@ export default {
         }
       }
     }
+
     .info-container {
       flex-direction: column;
       .row {
@@ -1056,6 +1075,9 @@ export default {
               width: 100%;
               padding-top: 10px;
               font-size: 14px;
+              .m-title {
+                width: 125px !important;
+              }
             }
           }
         }
@@ -1109,7 +1131,7 @@ export default {
           .message {
             margin-top: 10px;
             flex-direction: row;
-            align-items: center;
+            align-items: flex-start;
             .time-title {
               color: #333;
               font-weight: bold;

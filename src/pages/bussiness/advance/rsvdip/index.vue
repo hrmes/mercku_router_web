@@ -46,7 +46,7 @@
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
             </button>
-            <button class="btn btn-default btn-small"
+            <button class="btn  btn-small"
                     @click="mulDel"
                     :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>

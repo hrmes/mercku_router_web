@@ -17,7 +17,7 @@
                         :text="$t('trans0032')"
                         :onChange="offCheckChange"></m-checkbox>
           </div>
-          <div><button class="btn btn-default"
+          <div><button class="btn"
                     :disabled="offlineCheckedMacs.length===0"
                     @click="delOfflineDevices(offlineCheckedMacs)">
               {{$t('trans0453')}}</button></div>
@@ -999,6 +999,7 @@ export default {
         }
       }
       .del-btn {
+        text-decoration: underline;
         color: #f50520;
         cursor: pointer;
       }
@@ -1370,10 +1371,11 @@ export default {
                 text-align: center;
                 padding: 15px 0;
                 line-height: 1;
+                text-decoration: none;
                 cursor: pointer;
-                &:hover {
-                  text-decoration: none;
-                }
+                // &:hover {
+                //   text-decoration: none;
+                // }
               }
             }
           }

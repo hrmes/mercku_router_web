@@ -85,8 +85,7 @@
            @mouseenter="showLangPopup()"
            @mouseleave="closeLangPopup()">
         <div class="current">
-          <img src="../../assets/images/icon/ic_i18n.png"
-               alt="">
+          <div class="icon-i18n"></div>
           <span class="current-text">{{language.text}}</span>
           <span class="drop-trangle"
                 :class="{'down':!showPopup,'up':showPopup}"></span>
@@ -297,40 +296,63 @@ export default {
     padding: 0 50px;
   }
   position: relative;
-  // &.nav-hide {
-  //   background: #fff;
-  //   color: #333;
-  //   .right-wrap {
-  //     .lang-selector {
-  //       .drop-trangle {
-  //         &:after {
-  //           border-top: 5px solid #333;
-  //         }
-  //       }
-  //       .popup {
-  //         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-  //         background-color: #fff;
-  //         margin-top: 0;
+  &.nav-hide {
+    background: #fff;
+    color: #333;
+    .right-wrap {
+      .lang-selector {
+        .current {
+          .icon-i18n {
+            background: url(../../assets/images/icon/ic_i18n_reverse.png) center
+              no-repeat;
+            background-size: 100%;
+          }
+        }
+        .drop-trangle {
+          &:after {
+            border-top: 5px solid #333;
+          }
+        }
+        .popup {
+          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+          background-color: #fff;
+          margin-top: 0;
 
-  //         li {
-  //           list-style: none;
-  //           line-height: 38px;
-  //           padding: 0 30px;
-  //           &:hover {
-  //             background: rgba(0, 0, 0, 0.2);
-  //             color: #fff;
-  //           }
-  //           &:last-child {
-  //             margin-bottom: 0;
-  //           }
-  //           &.current-lang {
-  //             color: #d6001c;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+          li {
+            list-style: none;
+            line-height: 38px;
+            padding: 0 30px;
+            &:hover {
+              background: rgba(0, 0, 0, 0.2);
+              color: #fff;
+            }
+            &:last-child {
+              margin-bottom: 0;
+            }
+            &.current-lang {
+              color: #d6001c;
+            }
+          }
+        }
+      }
+      .small-device {
+        .menu-icon {
+          &.language {
+            &.zh-CN {
+              background: url(../../assets/images/icon/ic_lang_cn_reverse.png)
+                no-repeat center;
+              background-size: 100%;
+            }
+            &.en-US {
+              background: url(../../assets/images/icon/ic_lang_en_reverse.png)
+                no-repeat center;
+              background-size: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
   .logo-wrap {
     padding-right: 60px;
     .logo-wrap__logo {
@@ -441,12 +463,13 @@ export default {
           position: absolute;
           z-index: 999;
           top: 100%;
+          left: 0;
           margin-top: 6px;
           box-shadow: -10px 9px 21px 0 rgba(128, 152, 213, 0.08);
           background-color: #333333;
           padding: 25px 0;
           .nav-child__text {
-            color: #999;
+            color: #fff;
             list-style: none;
             padding: 0 30px;
             line-height: 38px;
@@ -456,6 +479,8 @@ export default {
             }
             &.disabled {
               color: #999;
+              cursor: not-allowed;
+              background: #333;
             }
             &.selected {
               color: #d6001c;
@@ -484,9 +509,12 @@ export default {
         height: 100%;
         display: flex;
         align-items: center;
-        img {
+        .icon-i18n {
+          display: inline-block;
           width: 16px;
           height: 16px;
+          background: url(../../assets/images/icon/ic_i18n.png) center no-repeat;
+          background-size: 100%;
         }
       }
       .current-text {
@@ -570,6 +598,8 @@ export default {
       display: block;
       position: absolute;
       left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
     }
     .nav-wrap {
       position: fixed;
@@ -636,6 +666,12 @@ export default {
               padding: 0;
               padding-left: 30px;
               color: #333;
+              &:active {
+                color: #333;
+              }
+              &:hover {
+                color: #333;
+              }
             }
           }
         }

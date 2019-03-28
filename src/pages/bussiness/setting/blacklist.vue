@@ -46,7 +46,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-default btn-small"
+            <button class="btn btn-small"
                     @click="removeBlacklist()"
                     :disabled="!someBlacklistChecked">{{$t('trans0453')}}
             </button>
