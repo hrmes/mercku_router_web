@@ -544,6 +544,8 @@ export default {
 <style lang="scss" scoped>
 .rssi-modal {
   width: 600px;
+  max-height: 500px;
+  overflow: auto;
   @media screen and (max-width: 768px) {
     width: auto;
     height: 350px;
