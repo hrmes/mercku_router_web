@@ -614,9 +614,16 @@ export default {
             }
           }
           &.selected {
-            border: none;
+            &::after {
+              display: none;
+            }
             .nav-item-child {
               display: block;
+            }
+            .nav-item-content {
+              .nav-item__text {
+                color: #333;
+              }
             }
           }
           .nav-item-child {

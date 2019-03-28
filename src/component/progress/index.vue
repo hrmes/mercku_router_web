@@ -46,7 +46,10 @@ export default {
         this.countdown -= 1;
         this.percent += average;
         this.styles.width = `${this.percent}%`;
-        if (!this.countdown) clearTimeout(this.timer);
+        if (!this.countdown) {
+          clearTimeout(this.timer);
+          this.$destroy();
+        }
       }, 1000);
     }
   },

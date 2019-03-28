@@ -199,7 +199,7 @@ export default {
     position: relative;
     display: inline-block;
     width: auto;
-    height: 27px;
+    height: 28px;
     cursor: pointer;
     &[disabled] {
       background: #999;

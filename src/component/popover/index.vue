@@ -53,11 +53,11 @@ export default {
       switch (this.position) {
         case Positions.top:
           elPopover.style.top = `-${elPopover.clientHeight + 10}px`;
-          elPopover.style.left = '-20px';
+          elPopover.style.left = '-21spx';
           break;
         case Positions.bottom:
           elPopover.style.bottom = `-${elPopover.clientHeight + 10}px`;
-          elPopover.style.left = '-20px';
+          elPopover.style.left = '-21px';
           break;
         default:
           break;
@@ -153,6 +153,7 @@ export default {
     .content {
       padding-top: 10px;
       font-weight: normal;
+      white-space: normal;
     }
   }
 }

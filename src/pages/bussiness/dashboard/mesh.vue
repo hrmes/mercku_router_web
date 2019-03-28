@@ -24,7 +24,8 @@
           </div>
           <div class="switch-wrap">
             <label for=""> {{$t('trans0562')}}
-              <div class="tool">
+              <div class="tool"
+                   style="width:14px;">
                 <m-popover position="bottom"
                            style="top:-7px"
                            :title="this.$t('trans0562')"
@@ -564,13 +565,12 @@ export default {
           display: flex;
           align-items: flex-start;
           padding-left: 20px;
-          width: 200px;
           label {
             display: flex;
             margin-right: 15px;
+            white-space: nowrap;
             img {
               position: relative;
-              margin-left: 5px;
               cursor: pointer;
             }
           }
