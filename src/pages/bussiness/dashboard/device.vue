@@ -199,14 +199,15 @@
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)'>
                 <span class="black-btn"
-                      @click="()=>addToBlackList(row)">
-                  {{$t('trans0016')}}
-                </span>
-                <span class="del-btn"
                       v-if="!isOfflineDevices"
                       @click="()=>forward2limit(row)">
                   {{$t('trans0019')}}
                 </span>
+                <span class="black-btn"
+                      @click="()=>addToBlackList(row)">
+                  {{$t('trans0016')}}
+                </span>
+
                 <span class="del-btn"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
@@ -829,7 +830,7 @@ export default {
         width: 120px;
       }
       .column-black-list {
-        width: 180px;
+        width: 220px;
       }
 
       .table-head {

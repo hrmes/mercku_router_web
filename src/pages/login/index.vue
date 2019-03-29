@@ -57,9 +57,7 @@
     </div>
 
     <div class="bottom-image">
-      <img class="small-device-image"
-           src="../../assets/images/img_bg_mobile.png"
-           alt="">
+
     </div>
   </div>
 
@@ -186,14 +184,16 @@ export default {
     }
   }
   .bottom-image {
-    width: 100%;
+    width: 50%;
     flex: 1;
-    min-height: 250px;
-    background: url(../../assets/images/img_main_picture.jpg) no-repeat center;
-    background-size: contain;
-    .small-device-image {
-      display: none;
+    margin-top: 50px;
+    &::before {
+      content: '';
+      display: block;
+      padding-top: 42.8%;
     }
+    background: url(../../assets/images/img_main_picture.jpg) no-repeat center;
+    background-size: 100%;
   }
 }
 @media screen and(max-width: 768px) {
@@ -268,12 +268,11 @@ export default {
     .bottom-image {
       width: 80%;
       margin-top: 30px;
-      min-height: auto;
-      background: none;
-      .small-device-image {
-        display: block;
-        width: 100%;
+      &::before {
+        padding-top: 47%;
       }
+      background: url(../../assets/images/img_bg_mobile.png) no-repeat center;
+      background-size: 100%;
     }
   }
 }

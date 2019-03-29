@@ -45,6 +45,7 @@ export default {
       this.timer = setInterval(() => {
         if (!this.countdown) {
           clearTimeout(this.timer);
+          return;
         }
         this.countdown -= 1;
         this.percent += average;

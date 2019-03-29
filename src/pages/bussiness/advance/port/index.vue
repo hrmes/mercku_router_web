@@ -470,7 +470,7 @@ export default {
       }
       .btn-wrap {
         display: none;
-        .btn-default {
+        .btn:nth-child(3) {
           display: none;
         }
         .m-btn {

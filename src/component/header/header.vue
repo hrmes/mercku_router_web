@@ -502,6 +502,7 @@ export default {
   .right-wrap {
     height: 100%;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     width: 250px;
     .small-device {

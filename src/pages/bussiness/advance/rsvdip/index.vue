@@ -467,8 +467,8 @@ export default {
       }
       .btn-wrap {
         display: none;
-        .btn:nth-child(1) {
-          font-size: 14px;
+        .btn:nth-child(2) {
+          font-size: 12px;
         }
         .btn:nth-child(3) {
           display: none;
