@@ -1,43 +1,38 @@
 <template>
-  <div class="page">
-    <div class='page-header'>
-      {{$t('trans0076')}}
-    </div>
-    <div class="page-content">
-      <div class="handle">
-        <label for="">{{$t('trans0462')}}</label>
-        <m-switch :onChange="changehandle"
-                  v-model="mode" />
-      </div>
-      <div class='table'>
-        <div class="tools">
-          <button class="btn btn-small"
-                  @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
-        </div>
-        <div class="table-head">
-          <div class="column-address">{{$t('trans0076')}}
-            <span>{{$t('trans0101')}}</span>
-          </div>
-          <div class="column-handle">{{$t('trans0370')}}</div>
-        </div>
-        <div class="table-body">
-          <div class="table-row"
-               v-for="(row,index) in sortList"
-               :key='index'>
-            <div class="column-address">{{row}}</div>
-            <div class="column-handle">
-              <a @click="delRow(row)">{{$t('trans0033')}}</a>
-            </div>
-          </div>
-          <div class="empty"
-               v-if="isEmpty">
-            <img src="../../../../assets/images/img_default_empty.png"
-                 alt="">
-            <p class="empty-text">{{$t('trans0278')}}</p>
-          </div>
-        </div>
-      </div>
 
+  <div class="urllimit">
+    <div class="handle">
+      <label for="">{{$t('trans0462')}}</label>
+      <m-switch :onChange="changehandle"
+                v-model="mode" />
+    </div>
+    <div class='table'>
+      <div class="tools">
+        <button class="btn btn-small"
+                @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
+      </div>
+      <div class="table-head">
+        <div class="column-address">{{$t('trans0076')}}
+          <span>{{$t('trans0101')}}</span>
+        </div>
+        <div class="column-handle">{{$t('trans0370')}}</div>
+      </div>
+      <div class="table-body">
+        <div class="table-row"
+             v-for="(row,index) in sortList"
+             :key='index'>
+          <div class="column-address">{{row}}</div>
+          <div class="column-handle">
+            <a @click="delRow(row)">{{$t('trans0033')}}</a>
+          </div>
+        </div>
+        <div class="empty"
+             v-if="isEmpty">
+          <img src="../../../../assets/images/img_default_empty.png"
+               alt="">
+          <p class="empty-text">{{$t('trans0278')}}</p>
+        </div>
+      </div>
     </div>
 
     <m-modal class="modal"
@@ -121,9 +116,9 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const { blacklist } = this.$store.modules.limits;
-    if (blacklist && blacklist.parent_control) {
-      const parentControl = blacklist.parent_control;
+    const limit = this.$store.modules.limits[this.form.mac];
+    if (limit && limit.parent_control) {
+      const parentControl = limit.parent_control;
       this.form.mode = parentControl.mode;
       this.mode = parentControl.mode === BlacklistMode.blacklist;
       this.parentControlLimitList = parentControl.blacklist || [];
@@ -282,72 +277,72 @@ export default {
     }
   }
 }
-.page-content {
-  display: flex;
-  flex-direction: column;
-}
-.handle {
-  display: flex;
-  align-items: center;
-  align-self: flex-start;
-  label {
-    padding: 0 30px 0 10px;
-  }
-}
-.table {
+.urllimit {
   width: 100%;
-
-  .tools {
-    margin-bottom: 20px;
-  }
-  margin-top: 30px;
-  .column-handle {
-    width: 250px;
-  }
-  .column-address {
-    span {
-      padding-left: 20px;
-      font-size: 12px;
-      color: #999999;
-    }
-  }
-  .table-head {
-    height: 50px;
-    background-color: #f1f1f1;
+  .handle {
     display: flex;
-    padding: 0 30px;
-    justify-content: space-between;
-    div {
-      display: flex;
-      height: 50px;
-      align-items: center;
+    align-items: center;
+    align-self: flex-start;
+    label {
+      padding: 0 30px 0 10px;
     }
   }
-  .table-body {
-    .table-row {
+  .table {
+    width: 100%;
+
+    .tools {
+      margin-bottom: 20px;
+    }
+    margin-top: 30px;
+    .column-handle {
+      width: 250px;
+    }
+    .column-address {
+      span {
+        padding-left: 20px;
+        font-size: 12px;
+        color: #999999;
+      }
+    }
+    .table-head {
+      height: 50px;
+      background-color: #f1f1f1;
       display: flex;
-      padding: 15px 30px;
-      border-bottom: 1px solid #f1f1f1;
+      padding: 0 30px;
       justify-content: space-between;
-      .column-handle {
+      div {
         display: flex;
+        height: 50px;
         align-items: center;
-        a {
-          margin-right: 50px;
-          cursor: pointer;
-          text-decoration: underline;
-          font-size: 14px;
-          &:hover {
+      }
+    }
+    .table-body {
+      .table-row {
+        display: flex;
+        padding: 15px 30px;
+        border-bottom: 1px solid #f1f1f1;
+        justify-content: space-between;
+        .column-handle {
+          display: flex;
+          align-items: center;
+          a {
+            margin-right: 50px;
+            cursor: pointer;
             text-decoration: underline;
-          }
-          &:last-child {
-            color: #ff0001;
+            font-size: 14px;
+            &:hover {
+              text-decoration: underline;
+            }
+            &:last-child {
+              color: #ff0001;
+            }
           }
         }
       }
     }
   }
 }
+
 @media screen and (max-width: 768px) {
   .modal {
     .modal-content {
@@ -355,45 +350,51 @@ export default {
       height: 229px;
     }
   }
-  .handle {
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
-    label {
-      padding: 0 30px 0 0px;
-    }
-  }
-  .table {
-    margin-top: 20px;
-    .table-body {
-      .table-row {
-        flex-direction: row;
-        padding: 20px 0;
-        position: relative;
+  .urllimit {
+    .handle {
+      display: flex;
+      align-items: center;
+
+      label {
+        padding: 0 30px 0 0px;
       }
     }
-    .column-address {
-      width: 200px;
-      overflow: height;
-    }
-    .column-handle {
-      width: 100%;
-      justify-content: flex-end;
-      // margin-top: 20px;
-      a {
-        margin-right: 0 !important;
-        &:first-child {
-          margin-right: 20px !important;
+    .table {
+      margin-top: 20px;
+      .tools {
+        margin-top: 20px;
+        margin-bottom: 0;
+      }
+      .table-body {
+        .table-row {
+          flex-direction: row;
+          padding: 20px 0;
+          position: relative;
         }
       }
-      .check-wrap {
-        position: absolute;
-        right: 0;
-        top: 20px;
+      .column-address {
+        width: 200px;
+        overflow: height;
       }
-    }
-    .table-head {
-      display: none;
+      .column-handle {
+        width: 100%;
+        justify-content: flex-end;
+        // margin-top: 20px;
+        a {
+          margin-right: 0 !important;
+          &:first-child {
+            margin-right: 20px !important;
+          }
+        }
+        .check-wrap {
+          position: absolute;
+          right: 0;
+          top: 20px;
+        }
+      }
+      .table-head {
+        display: none;
+      }
     }
   }
 }

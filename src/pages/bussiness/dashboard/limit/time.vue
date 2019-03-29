@@ -1,51 +1,44 @@
 <template>
-  <div class="page">
-    <div class='page-header'>
-      {{$t('trans0075')}}
-    </div>
-    <div class="page-content">
-      <div class='table'>
-        <div class="tools">
-          <button class="btn btn-small"
-                  @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
-        </div>
-        <div class="table-head">
-          <div class="column-date-stop">{{$t('trans0084')}}</div>
-          <div class="column-date-start">{{$t('trans0085')}}</div>
-          <div class="column-repeat">{{$t('trans0082')}}</div>
-          <div class="column-handle">{{$t('trans0370')}}</div>
-        </div>
-        <div class="table-body">
-          <div class="table-row"
-               v-for="(row,index) in sortList"
-               :key='index'>
-            <div class="column-date-stop">
-              <span>{{row.time_begin}}</span>
-              <span class="mobile-start">&nbsp;-&nbsp;</span>
-              <span class="mobile-start">{{row.time_end}}</span>
-            </div>
-            <div class="column-date-start">{{row.time_end}}</div>
-            <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
-            <div class="column-handle">
-              <div class="check-wrap">
-                <m-switch :onChange="(v)=>changehandle(v,row)"
-                          v-model="row.enabled" />
-              </div>
-              <a @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
-              <a @click="delRow(row)">{{$t('trans0033')}}</a>
-            </div>
+  <div class="timelimit">
+    <div class='table'>
+      <div class="tools">
+        <button class="btn btn-small"
+                @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
+      </div>
+      <div class="table-head">
+        <div class="column-date-stop">{{$t('trans0084')}}</div>
+        <div class="column-date-start">{{$t('trans0085')}}</div>
+        <div class="column-repeat">{{$t('trans0082')}}</div>
+        <div class="column-handle">{{$t('trans0370')}}</div>
+      </div>
+      <div class="table-body">
+        <div class="table-row"
+             v-for="(row,index) in sortList"
+             :key='index'>
+          <div class="column-date-stop">
+            <span>{{row.time_begin}}</span>
+            <span class="mobile-start">&nbsp;-&nbsp;</span>
+            <span class="mobile-start">{{row.time_end}}</span>
           </div>
-          <div class="empty"
-               v-if="isEmpty">
-            <img src="../../../../assets/images/img_default_empty.png"
-                 alt="">
-            <p class="empty-text">{{$t('trans0278')}}</p>
+          <div class="column-date-start">{{row.time_end}}</div>
+          <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
+          <div class="column-handle">
+            <div class="check-wrap">
+              <m-switch :onChange="(v)=>changehandle(v,row)"
+                        v-model="row.enabled" />
+            </div>
+            <a @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
+            <a @click="delRow(row)">{{$t('trans0033')}}</a>
           </div>
+        </div>
+        <div class="empty"
+             v-if="isEmpty">
+          <img src="../../../../assets/images/img_default_empty.png"
+               alt="">
+          <p class="empty-text">{{$t('trans0278')}}</p>
         </div>
       </div>
-
     </div>
-
     <m-modal class="modal"
              :visible.sync="modalShow">
       <div class="modal-content">
@@ -153,7 +146,12 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    this.getList();
+    const limit = this.$store.modules.limits[this.form.mac];
+    if (limit && limit.time_limit) {
+      this.timeLimitList = limit.time_limit;
+    } else {
+      this.getList();
+    }
   },
   watch: {
     schedules: {
@@ -415,55 +413,58 @@ export default {
     }
   }
 }
-.table {
+.timelimit {
   width: 100%;
-  .tools {
-    margin-bottom: 20px;
-  }
-  .column-date-stop {
-    width: 150px;
-    .mobile-start {
-      display: none;
+  .table {
+    width: 100%;
+    .tools {
+      margin-bottom: 20px;
     }
-  }
-  .column-date-start {
-    width: 150px;
-  }
-  .column-repeat {
-    width: 150px;
-  }
-  .column-handle {
-    width: 250px;
-  }
-  .table-head {
-    height: 50px;
-    background-color: #f1f1f1;
-    display: flex;
-    padding: 0 30px;
-    div {
-      display: flex;
+    .column-date-stop {
+      width: 150px;
+      .mobile-start {
+        display: none;
+      }
+    }
+    .column-date-start {
+      width: 150px;
+    }
+    .column-repeat {
+      width: 150px;
+    }
+    .column-handle {
+      width: 250px;
+    }
+    .table-head {
       height: 50px;
-      align-items: center;
-    }
-  }
-  .table-body {
-    .table-row {
+      background-color: #f1f1f1;
       display: flex;
-      padding: 15px 30px;
-      border-bottom: 1px solid #f1f1f1;
-      .column-handle {
+      padding: 0 30px;
+      div {
         display: flex;
+        height: 50px;
         align-items: center;
-        a {
-          margin-left: 50px;
-          cursor: pointer;
-          font-size: 14px;
-          text-decoration: underline;
-          &:hover {
+      }
+    }
+    .table-body {
+      .table-row {
+        display: flex;
+        padding: 15px 30px;
+        border-bottom: 1px solid #f1f1f1;
+        .column-handle {
+          display: flex;
+          align-items: center;
+          a {
+            margin-left: 50px;
+            cursor: pointer;
+            font-size: 14px;
             text-decoration: underline;
-          }
-          &:last-child {
-            color: #ff0001;
+            &:hover {
+              text-decoration: underline;
+            }
+            &:last-child {
+              color: #ff0001;
+            }
           }
         }
       }
@@ -472,7 +473,7 @@ export default {
 }
 
 @media screen and (min-width: 768px) {
-  .device-time-container {
+  .timelimit {
     .content {
       .table {
         .column-date-stop,
@@ -491,45 +492,54 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .table {
-    margin: 0;
-    .table-body {
-      .table-row {
-        flex-direction: column;
-        padding: 20px 0;
-        position: relative;
+  .timelimit {
+    .table {
+      margin: 0;
+      .tools {
+        margin-top: 20px;
+        margin-bottom: 0;
       }
-    }
-    .column-date-stop {
-      display: flex;
-      width: 100%;
-      .mobile-start {
-        display: block;
+      .table-body {
+        .table-row {
+          flex-direction: column;
+          padding: 20px 0;
+          position: relative;
+          &:first-child {
+            padding-top: 0;
+          }
+        }
       }
-    }
-    .column-date-start {
-      width: auto;
-      display: none;
-    }
-    .column-repeat {
-      width: 100%;
-      margin-top: 5px;
-    }
-    .column-handle {
-      width: 100%;
-      justify-content: flex-end;
-      margin-top: 20px;
-      a {
-        margin-left: 30px !important;
+      .column-date-stop {
+        display: flex;
+        width: 100%;
+        .mobile-start {
+          display: block;
+        }
       }
-      .check-wrap {
-        position: absolute;
-        right: 0;
-        top: 20px;
+      .column-date-start {
+        width: auto;
+        display: none;
       }
-    }
-    .table-head {
-      display: none;
+      .column-repeat {
+        width: 100%;
+        margin-top: 5px;
+      }
+      .column-handle {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 20px;
+        a {
+          margin-left: 30px !important;
+        }
+        .check-wrap {
+          position: absolute;
+          right: 0;
+          top: 20px;
+        }
+      }
+      .table-head {
+        display: none;
+      }
     }
   }
   .modal {

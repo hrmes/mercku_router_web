@@ -38,8 +38,6 @@
                 <m-checkbox v-model="checkAll"
                             :onChange="offCheckChange"></m-checkbox>
               </div>
-              <div v-if="!isOfflineDevices"
-                   class="column-icon"></div>
               {{$t('trans0005')}}
             </li>
             <li class="column-real-time"
@@ -75,18 +73,7 @@
                      v-if="isOfflineDevices">
                   <m-checkbox v-model="row.checked"></m-checkbox>
                 </div>
-                <div class="column-icon"
-                     v-if="!isOfflineDevices">
-                  <div class="icon-inner">
-                    <i class="band"
-                       v-if="row.online_info.band==='wired'">
-                      <img src="../../../assets/images/icon/ic_device_cable@2x.png"
-                           alt=""></i>
-                    <i class="band"
-                       v-else><img src="../../../assets/images/icon/ic_equipment.png"
-                           alt=""></i>
-                  </div>
-                </div>
+
                 <div class="name-wrap">
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
@@ -176,8 +163,7 @@
               <li class="column-limit"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <div class="limit-inner">
-                  <div class="item device-item"
-                       @click="()=>limitClick('time',row)">
+                  <div class="item device-item">
                     <span class="limit-icon time-limit"
                           :title="$t('trans0075')"
                           v-show="!isMobile"
@@ -185,12 +171,9 @@
                     <span v-show="isMobile">{{$t('trans0075')}}</span>
                     <span class="status">
                       <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/icon/ic_inter.png"
-                           alt="">
                     </span>
                   </div>
-                  <div class="item device-item"
-                       @click="()=>limitClick('speed',row)">
+                  <div class="item device-item">
                     <span class="limit-icon speed-limit"
                           :title="$t('trans0014')"
                           v-show="!isMobile"
@@ -198,12 +181,9 @@
                     <span v-show="isMobile">{{$t('trans0014')}}</span>
                     <span class="status">
                       <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/icon/ic_inter.png"
-                           alt="">
                     </span>
                   </div>
-                  <div class="item device-item"
-                       @click="()=>limitClick('url',row)">
+                  <div class="item device-item">
                     <span class="limit-icon url-limit"
                           v-show="!isMobile"
                           :title="$t('trans0076')"
@@ -211,8 +191,6 @@
                     <span v-show="isMobile">{{$t('trans0076')}}</span>
                     <span class="status">
                       <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/icon/ic_inter.png"
-                           alt="">
                     </span>
                   </div>
                 </div>
@@ -223,6 +201,11 @@
                 <span class="black-btn"
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
+                </span>
+                <span class="del-btn"
+                      v-if="!isOfflineDevices"
+                      @click="()=>forward2limit(row)">
+                  {{$t('trans0019')}}
                 </span>
                 <span class="del-btn"
                       v-if="isOfflineDevices"
@@ -475,9 +458,14 @@ export default {
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
     },
-    limitClick(type, row) {
-      this.$router.push({ path: `/limit/${type}/${row.mac}` });
-      this.$store.modules.limits[type] = row;
+    forward2limit(row) {
+      this.$router.push({ path: `/limit/${row.mac}` });
+      const limits = {
+        parent_control: row.parent_control,
+        speed_limit: row.speed_limit,
+        time_limit: row.time_limit
+      };
+      this.$store.modules.limits[row.mac] = limits;
     },
     expandTable(row) {
       if (this.isMobile) {
@@ -768,7 +756,7 @@ export default {
       .table-head {
         ul {
           height: 50px;
-          padding: 0 10px;
+          padding: 0 20px;
         }
       }
       .table-body {
@@ -780,7 +768,7 @@ export default {
         }
         ul {
           border-bottom: 1px solid #f1f1f1;
-          padding: 15px 10px;
+          padding: 15px 20px;
         }
       }
       ul {
@@ -795,11 +783,6 @@ export default {
         display: flex;
         align-items: center;
         flex-shrink: 0;
-      }
-      .column-icon {
-        width: 50px;
-        display: flex;
-        align-items: center;
       }
       .column-name {
         .mobile-icon {
@@ -936,7 +919,6 @@ export default {
           align-items: center;
           span {
             text-align: left;
-            cursor: pointer;
             color: #999999;
             font-size: 14px;
             &:hover {
@@ -1098,9 +1080,6 @@ export default {
           margin-left: 0;
           margin-right: 10px;
         }
-        .column-icon {
-          width: 40px;
-        }
         .table-head {
           display: none;
         }
@@ -1176,16 +1155,6 @@ export default {
                 position: absolute;
                 top: 45px;
                 z-index: 111;
-                span {
-                }
-              }
-            }
-
-            .column-icon {
-              justify-content: flex-start;
-              img {
-                width: 26px;
-                height: 26px;
               }
             }
           }
@@ -1333,49 +1302,25 @@ export default {
           }
           .column-black-list {
             width: 100%;
-            padding-top: 60px;
-            padding-bottom: 50px;
+            padding: 15px 0;
             display: flex;
-            justify-content: center;
-
-            .black-btn {
-              display: block;
-              margin-right: 0;
-              width: 255px;
-              height: 46px;
-              border-radius: 4px;
-              border: solid 1px #ff0500;
-              color: #ff0500;
+            justify-content: flex-end;
+            .black-btn,
+            .del-btn {
+              width: auto;
+              min-width: 80px;
+              background: #d6001c;
+              color: #fff;
               text-align: center;
+              border-radius: 4px;
+              height: 28px;
+              font-size: 12px;
+              padding: 7px;
               line-height: 1;
-              padding: 15px 0;
-              font-size: 14px;
-              cursor: pointer;
               text-decoration: none;
-              &:hover {
-                text-decoration: none;
-              }
-            }
-            &.off-btn-handle-info {
-              .black-btn {
-                width: 120px;
-                margin-right: 30px;
-              }
-              .del-btn {
-                display: block;
-                width: 120px;
-                height: 46px;
-                border-radius: 4px;
-                border: solid 1px #ff0500;
-                color: #ff0500;
-                text-align: center;
-                padding: 15px 0;
-                line-height: 1;
-                text-decoration: none;
-                cursor: pointer;
-                // &:hover {
-                //   text-decoration: none;
-                // }
+              margin-right: 20px;
+              &:last-child {
+                margin-right: 0;
               }
             }
           }

@@ -46,7 +46,7 @@
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
             </button>
-            <button class="btn  btn-small"
+            <button class="btn btn-small"
                     @click="mulDel"
                     :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
@@ -467,7 +467,10 @@ export default {
       }
       .btn-wrap {
         display: none;
-        .btn-default {
+        .btn:nth-child(1) {
+          font-size: 14px;
+        }
+        .btn:nth-child(3) {
           display: none;
         }
         .m-btn {
@@ -491,6 +494,7 @@ export default {
             color: #333333;
             text-align: left;
             padding-left: 20px;
+            border: 0;
             &:active {
               background-color: #d6001c;
             }

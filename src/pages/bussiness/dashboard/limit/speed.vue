@@ -1,37 +1,32 @@
 <template>
-  <div class="page">
-    <div class='page-header'>
-      {{$t('trans0014')}}
-    </div>
-    <div class="page-content">
-      <div class='form'>
-        <div class='input-info'>
-          <m-form ref="form"
-                  :model="form"
-                  :rules='rules'>
-            <m-form-item class="item"
-                         prop='up'>
-              <m-input v-model="form.up"
-                       :label="`${$t('trans0304')} (KB/s)`"
-                       type='text'
-                       :placeholder="`${$t('trans0391')}`"></m-input>
-            </m-form-item>
-            <m-form-item class="item"
-                         prop='down'>
-              <m-input v-model="form.down"
-                       :label=" `${$t('trans0305')} (KB/s)`"
-                       type='text'
-                       :placeholder="`${$t('trans0391')}`"></m-input>
-            </m-form-item>
-          </m-form>
-          <div class="form-item">
-            <m-checkbox :text="$t('trans0462')"
-                        v-model="form.enabled"></m-checkbox>
-          </div>
-          <div class="form-item">
-            <button class="btn"
-                    @click='submit'>{{$t('trans0081')}}</button>
-          </div>
+  <div class="speedlimit">
+    <div class='form'>
+      <div class='input-info'>
+        <m-form ref="form"
+                :model="form"
+                :rules='rules'>
+          <m-form-item class="item"
+                       prop='up'>
+            <m-input v-model="form.up"
+                     :label="`${$t('trans0304')} (KB/s)`"
+                     type='text'
+                     :placeholder="`${$t('trans0391')}`"></m-input>
+          </m-form-item>
+          <m-form-item class="item"
+                       prop='down'>
+            <m-input v-model="form.down"
+                     :label=" `${$t('trans0305')} (KB/s)`"
+                     type='text'
+                     :placeholder="`${$t('trans0391')}`"></m-input>
+          </m-form-item>
+        </m-form>
+        <div class="form-item">
+          <m-checkbox :text="$t('trans0462')"
+                      v-model="form.enabled"></m-checkbox>
+        </div>
+        <div class="form-item">
+          <button class="btn"
+                  @click='submit'>{{$t('trans0081')}}</button>
         </div>
       </div>
     </div>
@@ -79,18 +74,17 @@ export default {
   },
   mounted() {
     this.mac = this.$route.params.mac;
-    if (
-      this.$store.modules.limits.speed &&
-      this.$store.modules.limits.speed.speed_limit
-    ) {
-      const speed = this.$store.modules.limits.speed.speed_limit;
+    const limit = this.$store.modules.limits[this.mac];
+    if (limit && limit.speed_limit) {
+      const speed = limit.speed_limit;
       this.form = {
         ...speed,
         up: this.b_to_KB(speed.up),
         down: this.b_to_KB(speed.down)
       };
+    } else {
+      this.getSpeed();
     }
-    this.getSpeed();
   },
   methods: {
     b_to_KB(v) {
@@ -132,9 +126,6 @@ export default {
             })
             .then(() => {
               this.$loading.close();
-              this.$store.modules.limits.speed = {
-                speed_limit: params
-              };
               this.$toast(this.$t('trans0040'), 3000, 'success');
             })
             .catch(() => {
@@ -149,43 +140,48 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.form {
-  display: flex;
-  justify-content: center;
-  .check-info {
+.speedlimit {
+  .form {
     display: flex;
-    align-items: center;
-    position: relative;
-    margin-bottom: 30px;
-    label {
-      margin-right: 30px;
-      font-size: 14px;
-      color: #333333;
-    }
-    .tool {
+    justify-content: center;
+    .check-info {
+      display: flex;
+      align-items: center;
       position: relative;
-      width: 30px;
-      img {
+      margin-bottom: 30px;
+      label {
+        margin-right: 30px;
+        font-size: 14px;
+        color: #333333;
+      }
+      .tool {
         position: relative;
-        top: -8px;
-        cursor: pointer;
+        width: 30px;
+        img {
+          position: relative;
+          top: -8px;
+          cursor: pointer;
+        }
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  .form {
-    .input-info {
-      width: 100%;
-    }
-    .check-info {
-      display: flex;
-      align-items: center;
-      margin-top: 20px;
-      label {
-        margin-right: 2px;
-        font-size: 16px;
-        color: #333333;
+  .speedlimit {
+    width: 100%;
+    .form {
+      .input-info {
+        width: 100%;
+      }
+      .check-info {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        label {
+          margin-right: 2px;
+          font-size: 16px;
+          color: #333333;
+        }
       }
     }
   }

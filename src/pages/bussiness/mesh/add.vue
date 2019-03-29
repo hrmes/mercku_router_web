@@ -37,6 +37,9 @@
                  alt="">
           </div>
         </div>
+
+        <button class="btn btn-default"
+                @click="back2WelcomePage">{{$t('trans0057')}}</button>
         <button class="btn btn-next"
                 @click="forwardStep0()">{{$t('trans0055')}}</button>
       </div>
@@ -204,6 +207,10 @@ export default {
     };
   },
   methods: {
+    back2WelcomePage() {
+      this.tipPage = true;
+      this.welcomePage = false;
+    },
     forward2WelcomePage() {
       this.tipPage = false;
       this.welcomePage = true;
