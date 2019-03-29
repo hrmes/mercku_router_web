@@ -68,7 +68,6 @@ export default {
     }
   },
   methods: {
-    addEvent() {},
     scrollToSelect() {
       this.$nextTick(() => {
         const popupEl = this.$el.querySelector('.select-popup');
@@ -95,8 +94,10 @@ export default {
       this.$refs.input.focus();
     },
     open() {
-      this.opened = true;
-      this.scrollToSelect();
+      this.opened = !this.opened;
+      if (this.opened) {
+        this.scrollToSelect();
+      }
     },
     close() {
       this.opened = false;
@@ -218,8 +219,8 @@ export default {
       height: 6px;
       margin-top: 21px;
       display: inline-block;
-      background: url(../../assets/images/icon/ic_input_box_pull_down.png) no-repeat
-        center;
+      background: url(../../assets/images/icon/ic_input_box_pull_down.png)
+        no-repeat center;
       background-size: 100%;
       transition: transform 0.2s linear;
       &.open {

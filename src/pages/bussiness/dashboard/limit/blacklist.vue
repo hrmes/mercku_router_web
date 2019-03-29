@@ -346,8 +346,7 @@ export default {
 @media screen and (max-width: 768px) {
   .modal {
     .modal-content {
-      width: 295px;
-      height: 229px;
+      width: auto;
     }
   }
   .urllimit {

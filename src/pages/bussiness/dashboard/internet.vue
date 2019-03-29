@@ -590,7 +590,7 @@ export default {
             padding-top: 20px;
             &:nth-child(2n) {
               .m-title {
-                width: 50px;
+                width: 70px;
               }
             }
             &:nth-child(2n + 1) {

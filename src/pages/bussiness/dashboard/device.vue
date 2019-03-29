@@ -1154,6 +1154,7 @@ export default {
               .des-inner {
                 position: absolute;
                 top: 45px;
+                left: 0;
                 z-index: 111;
               }
             }

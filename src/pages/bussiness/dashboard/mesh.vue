@@ -546,6 +546,7 @@ export default {
   width: 600px;
   max-height: 500px;
   overflow: auto;
+  overflow-x: hidden;
   @media screen and (max-width: 768px) {
     width: auto;
     height: 350px;

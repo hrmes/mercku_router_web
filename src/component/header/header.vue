@@ -179,9 +179,11 @@ export default {
       menu.selected = !menu.selected;
     },
     jumpMobile(child) {
-      this.$router.push({ path: child.url });
-      this.current = child;
-      this.mobileNavVisible = !this.mobileNavVisible;
+      if (!child.disabled) {
+        this.$router.push({ path: child.url });
+        this.current = child;
+        this.mobileNavVisible = !this.mobileNavVisible;
+      }
     },
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
@@ -481,6 +483,10 @@ export default {
               color: #999;
               cursor: not-allowed;
               background: #333;
+              &:active,
+              &:hover {
+                color: #999;
+              }
             }
             &.selected {
               color: #d6001c;
@@ -666,6 +672,9 @@ export default {
               padding: 0;
               padding-left: 30px;
               color: #333;
+              &.disabled {
+                background: #fff;
+              }
               &:active {
                 color: #333;
               }
