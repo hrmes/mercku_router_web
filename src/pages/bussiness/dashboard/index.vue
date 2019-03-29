@@ -5,11 +5,13 @@
         <div class="device-container"
              :class="{'selected':$route.path.includes('device')}">
           <div class="icon-container"
+               :class="{'disabled':!isRouter}"
                @click="isRouter && forward2page('/dashboard/device/primary')">
             <img src="../../../assets/images/icon/ic_device.png"
                  alt="">
           </div>
           <div class="text-container"
+               :class="{'disabled':!isRouter}"
                @click="isRouter && forward2page('/dashboard/device/primary')">
             {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
           </div>
@@ -245,6 +247,14 @@ export default {
 
       .icon-container {
         cursor: pointer;
+        &.disabled {
+          cursor: default;
+          img {
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
         img {
           width: 50px;
           height: 50px;
@@ -258,6 +268,14 @@ export default {
         }
       }
       .text-container {
+        &.disabled {
+          cursor: default;
+          &:hover {
+            color: #fff;
+            text-decoration: none;
+            cursor: default;
+          }
+        }
         margin-top: 10px;
         font-size: 14px;
         font-weight: bold;
