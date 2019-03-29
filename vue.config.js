@@ -74,7 +74,7 @@ module.exports = {
     config.plugins.push(
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: 'development',
+          NODE_ENV: process.env.NODE_ENV,
           CUSTOMER_CONFIG: (() => {
             const result = {};
             Object.keys(CUSTOMER_CONFIG).forEach(key => {
