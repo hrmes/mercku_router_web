@@ -16,8 +16,11 @@
                alt="">
           <p>{{$t('trans0175')}}</p>
         </div>
-        <button class="btn btn-next"
-                @click="forward2WelcomePage">{{$t('trans0467')}}</button>
+        <div class="button-container">
+          <button class="btn btn-large"
+                  @click="forward2WelcomePage">{{$t('trans0467')}}</button>
+        </div>
+
       </div>
       <div class="type-container"
            v-show="welcomePage">
@@ -38,10 +41,13 @@
           </div>
         </div>
 
-        <button class="btn btn-default"
-                @click="back2WelcomePage">{{$t('trans0057')}}</button>
-        <button class="btn btn-next"
-                @click="forwardStep0()">{{$t('trans0055')}}</button>
+        <div class="button-container">
+          <button class="btn btn-default"
+                  @click="back2WelcomePage">{{$t('trans0057')}}</button>
+          <button class="btn btn-next"
+                  @click="forwardStep0()">{{$t('trans0055')}}</button>
+        </div>
+
       </div>
       <div class="info-container"
            v-show="!tipPage && !welcomePage">
@@ -355,6 +361,25 @@ export default {
   align-items: center;
   margin: 0 auto;
   width: 100%;
+  .button-container {
+    margin: 36px 0;
+    display: flex;
+    justify-content: center;
+    .btn-large {
+      width: 350px;
+    }
+    button {
+      display: inline-block;
+      margin-right: 20px;
+      width: 160px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    .btn-next {
+      margin-bottom: 30px;
+    }
+  }
   .gif {
     display: none;
     @media screen and (max-width: 768px) {
@@ -427,10 +452,6 @@ export default {
       font-size: 14px;
     }
   }
-  .btn-next {
-    margin-top: 30px;
-    margin-bottom: 30px;
-  }
 }
 .info-container {
   width: 564px;
@@ -457,7 +478,6 @@ export default {
       justify-content: center;
       button {
         display: inline-block;
-        // flex: 1;
         margin-right: 20px;
         width: 160px;
         &:last-child {
@@ -608,6 +628,17 @@ export default {
       img {
         width: 120px;
         height: 120px;
+      }
+    }
+    .button-container {
+      flex-direction: column;
+      width: 100%;
+      .btn {
+        width: 100%;
+        margin-bottom: 20px;
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
     }
     .btn-next {
