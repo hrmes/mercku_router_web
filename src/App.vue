@@ -48,6 +48,7 @@ export default {
 <style lang="scss">
 .srcollbar-wrap {
   height: 100%;
+  position: static !important;
 }
 .flex-wrap {
   display: flex;
