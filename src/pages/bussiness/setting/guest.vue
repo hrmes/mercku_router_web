@@ -90,7 +90,7 @@
             </div>
           </div>
           <div class="remaining-time">
-            <div class="title">{{$t('trans0524')}}</div>
+            <div class="title">{{$t('trans0524')}}：</div>
             <div class="time">
               {{formatTime(guest.remaining_duration)}}
             </div>
@@ -444,9 +444,11 @@ export default {
     font-weight: bold;
   }
   .remaining-time {
+    display: flex;
     margin-bottom: 30px;
     .time {
-      font-size: 24px;
+      font-size: 14px;
+      padding-left: 20px;
       font-weight: bold;
     }
   }
@@ -461,7 +463,9 @@ export default {
     p {
       margin: 0;
       padding: 0;
-      margin-bottom: 10px;
+      &:nth-child(2) {
+        margin-top: 10px;
+      }
       font-family: Helvetica;
       span {
         display: inline-block;

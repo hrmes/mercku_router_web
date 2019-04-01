@@ -8,12 +8,11 @@
            v-show="tipPage">
 
         <div class="router-category-container">
-          <video autoplay
-                 loop
-                 src="../../../assets/video/add-node-tip.mp4"></video>
-          <img class="gif"
-               src="../../../assets/images/add_node_tip.gif"
-               alt="">
+          <div class="circle-animation">
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+          </div>
           <p>{{$t('trans0175')}}</p>
         </div>
         <div class="button-container">
@@ -332,6 +331,20 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@keyframes ani {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
 .loading {
   position: fixed;
   top: 0;
@@ -380,18 +393,40 @@ export default {
       margin-bottom: 30px;
     }
   }
-  .gif {
-    display: none;
-    @media screen and (max-width: 768px) {
+  .circle-animation {
+    margin-bottom: 50px;
+    position: relative;
+    background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
+    background-size: 100%;
+    &::before {
+      content: '';
       display: block;
-      width: 100%;
+      padding-top: 72%;
     }
-  }
-
-  video {
-    width: 500px;
-    @media screen and(max-width:768px) {
-      display: none;
+    .circle {
+      width: 200px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(
+        rgba(214, 0, 28, 0) 39%,
+        rgba(214, 0, 28, 0.29) 100%
+      );
+      transform: scale(1);
+      opacity: 0;
+      animation: ani 1s linear 0.8s infinite;
+      position: absolute;
+      &.circle1 {
+        left: 50px;
+        top: 40px;
+      }
+      &.circle2 {
+        left: 150px;
+        top: 30px;
+      }
+      &.circle3 {
+        left: 80px;
+        top: 100px;
+      }
     }
   }
   p {
@@ -628,6 +663,24 @@ export default {
       img {
         width: 120px;
         height: 120px;
+      }
+    }
+    .circle-animation {
+      .circle {
+        width: 150px;
+        height: 75px;
+        &.circle1 {
+          left: 70px;
+          top: 50px;
+        }
+        &.circle2 {
+          left: 170px;
+          top: 50px;
+        }
+        &.circle3 {
+          left: 100px;
+          top: 120px;
+        }
       }
     }
     .button-container {
