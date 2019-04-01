@@ -490,7 +490,7 @@ export default {
 
 .internet-container {
   flex: auto;
-  margin-top: 20px;
+  margin-top: 50px !important;
   .info-container {
     position: relative;
     width: 100%;
@@ -1025,6 +1025,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .internet-container {
+    margin-top: 20px !important;
     .speed-model-info {
       .speed-content {
         width: 100%;
@@ -1160,7 +1161,7 @@ export default {
         .item {
           padding: 0 10px;
           .router-time-img {
-            width: 62px;
+            width: 100px;
             position: absolute;
             right: 0;
             bottom: 0;

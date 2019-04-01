@@ -15,8 +15,8 @@
             v-for="menu in list"
             :class="{'selected':menu.selected}">
           <div class="nav-item-content">
-            <span class="nav-item__icon"
-                  :class="[menu.icon]"></span>
+            <!-- <span class="nav-item__icon"
+                  :class="[menu.icon]"></span> -->
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
 
@@ -35,7 +35,7 @@
         <li class="nav-item nav-item__exit"
             @click="exit()">
           <div class="nav-item-content">
-            <span class="nav-item__icon exit"></span>
+            <!-- <span class="nav-item__icon exit"></span> -->
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
 
@@ -52,8 +52,8 @@
             v-for="menu in list"
             :class="{'selected':menu.selected}">
           <div class="nav-item-content">
-            <span class="nav-item__icon"
-                  :class="[menu.icon]"></span>
+            <!-- <span class="nav-item__icon"
+                  :class="[menu.icon]"></span> -->
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
 
@@ -72,7 +72,7 @@
         <li class="nav-item nav-item__exit"
             @click="exit()">
           <div class="nav-item-content">
-            <span class="nav-item__icon exit"></span>
+            <!-- <span class="nav-item__icon exit"></span> -->
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
 
@@ -615,8 +615,8 @@ export default {
       z-index: 1000;
       width: 100%;
       height: calc(100% - 65px);
-      background: #fff;
-      color: #333;
+      background: #333;
+      color: #fff;
       &.nav-wrap--laptop {
         display: none;
       }
@@ -625,16 +625,24 @@ export default {
         overflow: auto;
       }
       .nav {
-        padding: 0 20px;
+        padding: 0 30px;
         flex-direction: column;
         height: auto;
+        border-top: 1px solid #666;
         .nav-item {
           width: 100%;
           margin: 0;
           height: auto;
           flex-direction: column;
           align-items: flex-start;
-
+          border-bottom: 1px solid #666;
+          &:hover {
+            .nav-item-content {
+              .nav-item__text {
+                color: #fff;
+              }
+            }
+          }
           &.nav-item__exit {
             display: block;
           }
@@ -644,7 +652,7 @@ export default {
               display: block;
             }
             .nav-item__text {
-              color: #333;
+              color: #fff;
               line-height: 1;
               padding: 16px 0;
               font-size: 16px;
@@ -659,22 +667,21 @@ export default {
             }
             .nav-item-content {
               .nav-item__text {
-                color: #333;
+                color: #fff;
               }
             }
           }
           .nav-item-child {
             position: static;
-            background: #fff;
+            background: #333;
             box-shadow: none;
-            margin-top: 0;
             padding: 0;
             .nav-child__text {
               padding: 0;
-              padding-left: 30px;
-              color: #333;
+              padding-left: 10px;
+              color: #fff;
               &.disabled {
-                background: #fff;
+                background: #333;
               }
               &:active {
                 color: #333;

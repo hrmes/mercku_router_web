@@ -181,7 +181,7 @@
                v-html="rssiTips"></div>
 
           <div class="form-button">
-            <button class="btn btn-middle"
+            <button class="btn"
                     @click="closeRssiModal">{{$t('trans0024')}}</button></div>
         </div>
       </m-modal-body>
@@ -632,7 +632,7 @@ export default {
     }
   }
   .form-button {
-    margin-top: 20px;
+    margin: 20px 0;
     text-align: center;
   }
 }
@@ -645,8 +645,8 @@ export default {
     .title {
       position: relative;
       .tab {
+        width: 120px;
         font-size: 16px;
-        font-weight: bold;
       }
     }
     .btn-add {
@@ -890,7 +890,7 @@ export default {
                 }
               }
               .reboot {
-                color: #0b9eff;
+                color: #333;
               }
               .reset,
               .delete {
@@ -933,6 +933,7 @@ export default {
       .title {
         .tabs {
           .tab {
+            width: auto;
             font-size: 14px;
           }
         }

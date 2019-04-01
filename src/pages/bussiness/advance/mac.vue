@@ -176,7 +176,6 @@ export default {
         position: absolute;
         left: 4px;
         top: 50%;
-        top: 0;
         transform: translateY(-50%);
         width: 6px;
         height: 6px;

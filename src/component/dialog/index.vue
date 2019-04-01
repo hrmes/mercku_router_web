@@ -94,7 +94,7 @@ export default {
     .dialog-message {
       color: #333;
       padding: 20px;
-      text-align: left;
+      text-align: center;
     }
   }
   &.dialog-enter-active {

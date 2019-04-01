@@ -368,6 +368,7 @@ export default {
   .router-view {
     width: 100%;
     padding: 0 10%;
+    margin-top: 30px;
     @media screen and (max-width: 1440px) {
       padding: 0 50px;
     }
@@ -387,6 +388,7 @@ export default {
 @media screen and (max-width: 768px) {
   .dashboard {
     .router-view {
+      margin-top: 0;
       padding: 0 20px;
     }
     .net-info {

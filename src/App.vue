@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       scrollbarOpt: {
-        scrollbar: false
+        // scrollbar: false
       }
     };
   }
