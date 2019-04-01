@@ -53,7 +53,7 @@ export default {
       switch (this.position) {
         case Positions.top:
           elPopover.style.top = `-${elPopover.clientHeight + 10}px`;
-          elPopover.style.left = '-21spx';
+          elPopover.style.left = '-21px';
           break;
         case Positions.bottom:
           elPopover.style.bottom = `-${elPopover.clientHeight + 10}px`;
