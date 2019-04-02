@@ -687,6 +687,15 @@ export default {
               margin-left: 5px;
               position: relative;
               cursor: pointer;
+              &:hover {
+                &::before {
+                  border-color: #999;
+                }
+                &::after {
+                  border-right-color: #999;
+                  border-bottom-color: #999;
+                }
+              }
               &::before {
                 content: '';
                 display: block;

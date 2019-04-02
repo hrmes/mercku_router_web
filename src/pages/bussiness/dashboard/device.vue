@@ -207,7 +207,7 @@
                   {{$t('trans0016')}}
                 </span>
 
-                <span class="del-btn btn-texts"
+                <span class="del-btn btn-text"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
                   {{$t('trans0033')}}
