@@ -32,7 +32,9 @@ export default {
       enabled: false,
       previousArray: [],
       increaseArray: [],
-      scrollbarOption: {}
+      scrollbarOption: {
+        stopPropagation: true
+      }
     };
   },
   computed: {

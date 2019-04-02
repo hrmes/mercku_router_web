@@ -38,7 +38,6 @@ export default {
     }
   },
   mounted() {
-    debugger;
     const minHeight = `${document.body.clientHeight}px`;
     this.$refs.flexWrap.style.minHeight = minHeight;
   },
