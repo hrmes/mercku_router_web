@@ -12,10 +12,12 @@
           <label for=""> {{$t('trans0538')}}
           </label>
           <div class="tool">
-            <m-popover :title="$t('trans0538')"
+            <m-popover position="bottom"
+                       style="top:-7px"
+                       :title="$t('trans0538')"
                        :content="$t('trans0540')">
               <img width="14"
-                   src="../../../assets/images/ic_question.png"
+                   src="../../../assets/images/icon/ic_question.png"
                    alt=""></m-popover>
 
           </div>
@@ -23,7 +25,7 @@
                     :onChange="guestEnabledChange" />
         </div>
         <div v-if="form.enabled&&showSettingPage">
-          <label for=""> {{$t('trans0521')}} </label>
+          <label style="font-weight:bold;"> {{$t('trans0521')}} </label>
           <div class="check-box-wrap">
             <m-radio-group v-model="form.duration"
                            :options='checkOps'></m-radio-group>
@@ -66,9 +68,9 @@
           <div class="form-button"
                style="margin-top:50px"
                :class="{'cancel':setupAndStart}">
-            <button class="btn"
+            <button class="btn btn-middle"
                     @click='submit()'>{{$t('trans0081')}}</button>
-            <button class="btn btn-default btn-cancel"
+            <button class="btn btn-default btn-cancel btn-middle"
                     style="margin-left:50px"
                     v-if="setupAndStart&&showCancelBtn"
                     @click='cancel'>{{$t('trans0025')}}</button>
@@ -77,7 +79,7 @@
         <div v-if="form.enabled&&showStatusPage">
           <div class="setting-ssid-info">
             <div class="title">
-              {{$t('trans0168')}}
+              {{$t('trans0168')}}：
             </div>
             <div v-if="guest.smart_connect">
               <p class='name'>{{form.ssid}}</p>
@@ -88,7 +90,7 @@
             </div>
           </div>
           <div class="remaining-time">
-            <div class="title">{{$t('trans0524')}}</div>
+            <div class="title">{{$t('trans0524')}}：</div>
             <div class="time">
               {{formatTime(guest.remaining_duration)}}
             </div>
@@ -412,10 +414,7 @@ export default {
 }
 .form {
   .btn-cancel {
-    min-width: initial;
     margin-left: 10px !important;
-    border: 1px solid #bdbdbd;
-    color: #333333;
   }
   .ssid {
     margin-bottom: 50px;
@@ -441,15 +440,21 @@ export default {
       font-weight: bold;
     }
   }
+  .title {
+    font-weight: bold;
+  }
   .remaining-time {
+    display: flex;
     margin-bottom: 30px;
     .time {
-      font-size: 24px;
+      font-size: 14px;
+      padding-left: 20px;
       font-weight: bold;
     }
   }
   .setting-ssid-info {
     display: flex;
+
     .name {
       padding-left: 20px;
       // font-weight: bold
@@ -458,7 +463,9 @@ export default {
     p {
       margin: 0;
       padding: 0;
-      margin-bottom: 10px;
+      &:nth-child(2) {
+        margin-top: 10px;
+      }
       font-family: Helvetica;
       span {
         display: inline-block;
@@ -486,11 +493,11 @@ export default {
       left: -20px;
       img {
         position: relative;
-        top: -7px;
         cursor: pointer;
       }
     }
     label {
+      font-weight: bold;
       padding-right: 20px;
     }
   }

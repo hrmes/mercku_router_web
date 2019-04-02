@@ -52,6 +52,7 @@ export default {
   align-items: center;
   label {
     margin-right: 20px;
+    font-weight: bold;
   }
   .switch {
     cursor: pointer;

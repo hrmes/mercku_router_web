@@ -1,7 +1,7 @@
 <template>
   <div class="policy-container">
     <span class="copy">{{$t('trans0276')}}</span>
-    <span class="policy-text"
+    <span class="policy-text btn-text"
           @click="showPolicy()">{{$t('trans0139')}}</span>
     <div class="policy-dialog"
          v-show="show">
@@ -12,14 +12,12 @@
                v-html="policy"></div>
         </div>
         <div class="button-container">
-
           <button class="btn"
                   @click="close()">{{$t('trans0024')}}</button>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 <script>
 export default {

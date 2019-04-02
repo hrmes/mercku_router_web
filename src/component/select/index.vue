@@ -13,6 +13,7 @@
       </div>
       <transition name="select">
         <ul class="select-popup"
+            :style="{height:`${height}px`}"
             v-show="this.opened">
           <li :class="{'selected':selected === option}"
               :key="option.value"
@@ -39,6 +40,10 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    height: {
+      type: Number,
+      default: 200
     }
   },
   data() {
@@ -108,7 +113,7 @@ export default {
 .select-container {
   width: 350px;
   .select {
-    height: 36px;
+    height: 48px;
     width: 100%;
     border-radius: 4px;
     outline: 0;
@@ -136,24 +141,24 @@ export default {
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
+    font-weight: bold;
+    color: #333;
   }
 
   cursor: pointer;
   .select-popup {
     width: 100%;
     position: absolute;
-    z-index: 999;
+    z-index: 888;
     left: 0;
-    top: 36px;
+    top: 52px;
     background: #fff;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    max-height: 200px;
+    border-radius: 5px;
     border: 1px solid #e1e1e1;
     overflow: auto;
     li {
       list-style: none;
-      padding: 10px;
+      padding: 17px 10px;
       line-height: 1;
       cursor: pointer;
       width: 100%;
@@ -178,7 +183,7 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 36px;
+    height: 46px;
     width: 50px;
     cursor: pointer;
     display: flex;
@@ -188,8 +193,8 @@ export default {
       width: 12px;
       height: 6px;
       display: inline-block;
-      background: url(../../assets/images/ic_input_box_pull_down.png) no-repeat
-        center;
+      background: url(../../assets/images/icon/ic_input_box_pull_down.png)
+        no-repeat center;
       background-size: 100%;
       transition: transform 0.2s linear;
       &.open {
@@ -213,7 +218,7 @@ export default {
       height: 48px;
     }
     .select-popup {
-      top: 48px;
+      top: 52px;
       li {
         padding: 17px 10px;
       }

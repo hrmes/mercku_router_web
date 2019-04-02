@@ -76,12 +76,12 @@ export default {
     position: absolute;
     z-index: -1;
     width: 100%;
+    left: 0;
     height: 100%;
     background: rgba(0, 0, 0, 0.3);
   }
 
   .modal-content {
-    // width: 600px;
     background: #fff;
     padding: 30px;
     border-radius: 5px;
@@ -93,6 +93,7 @@ export default {
   .modal-dialog {
     .modal-content {
       width: 80%;
+      padding: 20px;
     }
   }
 }

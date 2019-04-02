@@ -6,7 +6,7 @@
         <div class="form">
           <div class="description">
             <h4>
-              <img src="../../../assets/images/ic_question.png"
+              <img src="../../../assets/images/icon/ic_question.png"
                    alt="">
               <span> {{$t('trans0331')}}</span>
             </h4>
@@ -69,7 +69,7 @@
                          alt="">
                     <img class="img-other"
                          v-else
-                         src="../../../assets/images/ic_general_router.png"
+                         src="../../../assets/images/icon/ic_default_router.png"
                          alt="">
                   </div>
                   <div class="info-container">
@@ -89,7 +89,7 @@
           </div>
           <div class="description-wrapper"
                v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
-            <p> <img src="../../../assets/images/ic_hint.png"
+            <p> <img src="../../../assets/images/icon/ic_hint.png"
                    alt=""> {{$t('trans0336')}}</p>
             <p>{{$t('trans0337')}}</p>
             <p>{{$t('trans0335')}}</p>
@@ -98,7 +98,7 @@
       </div>
     </div>
     <div class="mobile-wrapper">
-      <img src="../../../assets/images/ic_hint.png"
+      <img src="../../../assets/images/icon/ic_hint.png"
            alt="">
       <p>{{$t('trans0343')}} </p>
     </div>

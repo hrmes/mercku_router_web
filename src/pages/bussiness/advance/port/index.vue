@@ -27,7 +27,7 @@
                @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}}
             <i>
               <img :class="{open:mobileSelect}"
-                   src="../../../../assets/images/ic_arrow_pack_up.png"
+                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
                    alt=""></i>
           </div>
           <div class="btn-wrap"
@@ -38,7 +38,7 @@
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
             </button>
-            <button class="btn btn-default btn-small"
+            <button class="btn  btn-small"
                     @click="mulDel"
                     :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
@@ -323,6 +323,7 @@ export default {
     width: 120px;
     a {
       cursor: pointer;
+      text-decoration: underline;
       &:last-child {
         color: #ff0001;
         padding-left: 30px;
@@ -359,6 +360,12 @@ export default {
       padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
       justify-content: space-between;
+      &:nth-child(2n) {
+        background: #f7f7f7;
+        @media screen and(max-width:768px) {
+          background: #fff;
+        }
+      }
       .m-title {
         display: none;
       }
@@ -469,7 +476,7 @@ export default {
       }
       .btn-wrap {
         display: none;
-        .btn-default {
+        .btn:nth-child(3) {
           display: none;
         }
         .m-btn {
@@ -482,19 +489,21 @@ export default {
           border: solid 1px #f1f1f1;
           background-color: #ffffff;
           position: absolute;
-          top: 30px;
+          top: 36px;
           right: 0;
           display: block;
           .btn {
             width: 140px;
             height: 42px;
+            font-size: 14px;
+
             margin: 0;
             background: white;
             color: #333333;
             text-align: left;
             padding-left: 20px;
             &:active {
-              background-color: #d6001c;
+              color: #999;
             }
           }
         }

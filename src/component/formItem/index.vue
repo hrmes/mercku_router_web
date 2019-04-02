@@ -71,7 +71,7 @@ export default {
   margin-bottom: 30px;
   position: relative;
   .error-message {
-    color: red;
+    color: #ff0000;
     font-size: 12px;
     display: block;
     padding-top: 4px;
@@ -81,7 +81,7 @@ export default {
   }
   &.form-item-error {
     .input-wrapper {
-      border-color: red !important;
+      border-color: #ff0000 !important;
       transition: border 0.3 linear;
     }
   }

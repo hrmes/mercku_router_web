@@ -45,11 +45,11 @@
         <div class="opz-info"
              v-if="form.protocol===VPNType.pptp">
           <div class="opz">
-            <label for="">{{$t('trans0412')}}</label>
+            <label style="font-weight:bold;">{{$t('trans0412')}}</label>
             <m-switch v-model="pptp.mppe"></m-switch>
           </div>
           <div class="opz">
-            <label for="">{{$t('trans0413')}}</label>
+            <label style="font-weight:bold;">{{$t('trans0413')}}</label>
             <m-switch v-model="pptp.mppc"></m-switch>
           </div>
         </div>
@@ -115,7 +115,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) <= 32,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0261')
           }
         ]

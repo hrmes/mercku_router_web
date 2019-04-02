@@ -71,10 +71,22 @@ export default {
       border-radius: 50%;
     }
     &.checked {
-      background: url(../../assets/images/ic_selected.png) no-repeat center;
-      border: none;
-      background-size: 90%;
-      background-color: #00d061;
+      background: #333;
+      position: relative;
+      border-color: #333;
+      &::after {
+        content: '';
+        display: block;
+        border: 1px solid #fff;
+        border-left: 0;
+        border-top: 0;
+        height: 8px;
+        left: 6px;
+        position: absolute;
+        top: 3px;
+        transform: rotate(45deg);
+        width: 3px;
+      }
     }
   }
   .text {

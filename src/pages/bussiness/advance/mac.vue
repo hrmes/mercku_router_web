@@ -119,11 +119,11 @@ export default {
             this.$http
               .updateWanMac({ mac })
               .then(() => {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
                 this.$reconnect({
                   timeout: 60,
                   onsuccess: () => {
+                    this.$toast(this.$t('trans0040'), 3000, 'success');
                     this.$router.push({ path: '/advance/mac' });
                   },
                   ontimeout: () => {
@@ -168,7 +168,7 @@ export default {
     }
     &.selected {
       &:before {
-        border-color: #d6001c;
+        border-color: #333;
       }
       &::after {
         content: '';
@@ -179,7 +179,7 @@ export default {
         transform: translateY(-50%);
         width: 6px;
         height: 6px;
-        background: #d6001c;
+        background: #333;
         border-radius: 50%;
       }
     }

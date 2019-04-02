@@ -43,10 +43,13 @@ export default {
     createTiemr() {
       const average = 100 / this.during;
       this.timer = setInterval(() => {
+        if (!this.countdown) {
+          clearTimeout(this.timer);
+          return;
+        }
         this.countdown -= 1;
         this.percent += average;
         this.styles.width = `${this.percent}%`;
-        if (!this.countdown) clearTimeout(this.timer);
       }, 1000);
     }
   },

@@ -34,7 +34,7 @@
             {{$t('trans0370')}}
             <i>
               <img :class="{open:mobileSelect}"
-                   src="../../../../assets/images/ic_arrow_pack_up.png"
+                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
                    alt>
             </i>
           </div>
@@ -46,7 +46,7 @@
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
             </button>
-            <button class="btn btn-default btn-small"
+            <button class="btn btn-small"
                     @click="mulDel"
                     :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
@@ -303,6 +303,7 @@ export default {
   .column-handle {
     width: 150px;
     a {
+      text-decoration: underline;
       cursor: pointer;
       &:last-child {
         color: #ff0001;
@@ -331,6 +332,12 @@ export default {
       padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
       justify-content: space-between;
+      &:nth-child(2n) {
+        background: #f7f7f7;
+        @media screen and(max-width:768px) {
+          background: #fff;
+        }
+      }
       .m-title {
         display: none;
       }
@@ -466,7 +473,10 @@ export default {
       }
       .btn-wrap {
         display: none;
-        .btn-default {
+        .btn:nth-child(2) {
+          font-size: 12px;
+        }
+        .btn:nth-child(3) {
           display: none;
         }
         .m-btn {
@@ -490,6 +500,7 @@ export default {
             color: #333333;
             text-align: left;
             padding-left: 20px;
+            border: 0;
             &:active {
               background-color: #d6001c;
             }
@@ -507,8 +518,10 @@ export default {
         }
         flex-direction: row;
         flex-wrap: wrap;
-        padding: 0;
-        padding-bottom: 20px;
+        padding: 20px 0;
+        &:first-child {
+          padding-top: 0;
+        }
         position: relative;
         .column-local-ip,
         .column-local-port,
