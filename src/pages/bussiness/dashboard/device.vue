@@ -17,14 +17,14 @@
                         :text="$t('trans0032')"
                         :onChange="offCheckChange"></m-checkbox>
           </div>
-          <div><button class="btn btn-default"
-                    :disabled="offlineCheckedMacs.length===0"
+          <div><button class="btn"
+                    :disabled="offlineCheckedMacs.length"
                     @click="delOfflineDevices(offlineCheckedMacs)">
               {{$t('trans0453')}}</button></div>
         </div>
         <div class="off-more-message"
              v-if="devicesMap[id]&&devicesMap[id].length>60">
-          <img src="../../../assets/images/ic_hint.png"
+          <img src="../../../assets/images/icon/ic_hint.png"
                alt="">
           {{$t('trans0517')}}
         </div>
@@ -38,8 +38,6 @@
                 <m-checkbox v-model="checkAll"
                             :onChange="offCheckChange"></m-checkbox>
               </div>
-              <div v-if="!isOfflineDevices"
-                   class="column-icon"></div>
               {{$t('trans0005')}}
             </li>
             <li class="column-real-time"
@@ -55,9 +53,8 @@
             <li class="column-ip"
                 v-if="isOfflineDevices">
               {{$t('trans0188')}}</li>
-            <!-- <li class="column-mac">{{$t('trans0188')}}</li> -->
             <li class="column-limit"
-                v-if="!isOfflineDevices">{{$t('trans0368')}}</li>
+                v-if="!isOfflineDevices">{{$t('trans0115')}}</li>
             <li class="column-black-list">{{$t('trans0370')}}</li>
           </ul>
         </div>
@@ -75,24 +72,13 @@
                      v-if="isOfflineDevices">
                   <m-checkbox v-model="row.checked"></m-checkbox>
                 </div>
-                <div class="column-icon"
-                     v-if="!isOfflineDevices">
-                  <div class="icon-inner">
-                    <i class="band"
-                       v-if="row.online_info.band==='wired'">
-                      <img src="../../../assets/images/ic_device_cable@2x.png"
-                           alt=""></i>
-                    <i class="band"
-                       v-else><img src="../../../assets/images/ic_equipment.png"
-                           alt=""></i>
-                  </div>
-                </div>
+
                 <div class="name-wrap">
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
                       <img v-if='row.local &&!isOfflineDevices'
-                           src="../../../assets/images/ic_user.png"
+                           src="../../../assets/images/icon/ic_user.png"
                            alt=""
                            style="margin-right:5px;margin-left:0;">
                       <span :title='row.name'
@@ -100,7 +86,7 @@
                       <img style="cursor:pointer"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
-                           src="../../../assets/images/ic_edit.png"
+                           src="../../../assets/images/icon/ic_edit.png"
                            alt="">
                     </a>
                   </div>
@@ -113,7 +99,7 @@
                 </div>
                 <div class="mobile-icon">
                   <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                       src="../../../assets/images/ic_side_bar_pick_up.png"
+                       src="../../../assets/images/icon/ic_side_bar_pick_up.png"
                        alt="">
                 </div>
               </li>
@@ -122,7 +108,7 @@
                 <div class="speed-inner">
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="../../../assets/images/ic_device_upload.png"
+                         src="../../../assets/images/icon/ic_device_upload.png"
                          alt="">
                     <label class="text-inner">
                       <span>
@@ -133,7 +119,7 @@
                   </div>
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="../../../assets/images/ic_device_download.png"
+                         src="../../../assets/images/icon/ic_device_download.png"
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
@@ -176,8 +162,7 @@
               <li class="column-limit"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <div class="limit-inner">
-                  <div class="item device-item"
-                       @click="()=>limitClick('time',row)">
+                  <div class="item device-item">
                     <span class="limit-icon time-limit"
                           :title="$t('trans0075')"
                           v-show="!isMobile"
@@ -185,12 +170,9 @@
                     <span v-show="isMobile">{{$t('trans0075')}}</span>
                     <span class="status">
                       <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/ic_inter.png"
-                           alt="">
                     </span>
                   </div>
-                  <div class="item device-item"
-                       @click="()=>limitClick('speed',row)">
+                  <div class="item device-item">
                     <span class="limit-icon speed-limit"
                           :title="$t('trans0014')"
                           v-show="!isMobile"
@@ -198,12 +180,9 @@
                     <span v-show="isMobile">{{$t('trans0014')}}</span>
                     <span class="status">
                       <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/ic_inter.png"
-                           alt="">
                     </span>
                   </div>
-                  <div class="item device-item"
-                       @click="()=>limitClick('url',row)">
+                  <div class="item device-item">
                     <span class="limit-icon url-limit"
                           v-show="!isMobile"
                           :title="$t('trans0076')"
@@ -211,8 +190,6 @@
                     <span v-show="isMobile">{{$t('trans0076')}}</span>
                     <span class="status">
                       <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                      <img src="../../../assets/images/ic_inter.png"
-                           alt="">
                     </span>
                   </div>
                 </div>
@@ -220,11 +197,17 @@
               <li class="column-black-list"
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)'>
-                <span class="black-btn"
+                <span class="black-btn btn-text"
+                      v-if="!isOfflineDevices"
+                      @click="()=>forward2limit(row)">
+                  {{$t('trans0019')}}
+                </span>
+                <span class="black-btn btn-text"
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
                 </span>
-                <span class="del-btn"
+
+                <span class="del-btn btn-text"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
                   {{$t('trans0033')}}
@@ -475,9 +458,14 @@ export default {
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
     },
-    limitClick(type, row) {
-      this.$router.push({ path: `/limit/${type}/${row.mac}` });
-      this.$store.modules.limits[type] = row;
+    forward2limit(row) {
+      this.$router.push({ path: `/limit/${row.mac}` });
+      const limits = {
+        parent_control: row.parent_control,
+        speed_limit: row.speed_limit,
+        time_limit: row.time_limit
+      };
+      this.$store.modules.limits[row.mac] = limits;
     },
     expandTable(row) {
       if (this.isMobile) {
@@ -768,7 +756,7 @@ export default {
       .table-head {
         ul {
           height: 50px;
-          padding: 0 10px;
+          padding: 0 20px;
         }
       }
       .table-body {
@@ -780,7 +768,10 @@ export default {
         }
         ul {
           border-bottom: 1px solid #f1f1f1;
-          padding: 15px 10px;
+          padding: 15px 20px;
+          &:nth-child(2n) {
+            background: #f7f7f7;
+          }
         }
       }
       ul {
@@ -795,11 +786,6 @@ export default {
         display: flex;
         align-items: center;
         flex-shrink: 0;
-      }
-      .column-icon {
-        width: 50px;
-        display: flex;
-        align-items: center;
       }
       .column-name {
         .mobile-icon {
@@ -846,7 +832,7 @@ export default {
         width: 120px;
       }
       .column-black-list {
-        width: 180px;
+        width: 220px;
       }
 
       .table-head {
@@ -870,6 +856,11 @@ export default {
         margin-top: 10px;
         span {
           margin-right: 10px;
+          &:first-child {
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid #333;
+          }
         }
       }
       .name-inner {
@@ -936,7 +927,6 @@ export default {
           align-items: center;
           span {
             text-align: left;
-            cursor: pointer;
             color: #999999;
             font-size: 14px;
             &:hover {
@@ -966,31 +956,31 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/ic_limit_time_close.png)
+              background: url(../../../assets/images/icon/ic_limit_time_close.png)
                 no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_time.png)
+                background: url(../../../assets/images/icon/ic_limit_time.png)
                   no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/ic_limit_speed_close.png)
+              background: url(../../../assets/images/icon/ic_limit_speed_close.png)
                 no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_speed.png)
+                background: url(../../../assets/images/icon/ic_limit_speed.png)
                   no-repeat center;
                 background-size: 100%;
               }
             }
             &.url-limit {
-              background: url(../../../assets/images/ic_limit_website_close.png)
+              background: url(../../../assets/images/icon/ic_limit_website_close.png)
                 no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/ic_limit_website.png)
+                background: url(../../../assets/images/icon/ic_limit_website.png)
                   no-repeat center;
                 background-size: 100%;
               }
@@ -999,12 +989,14 @@ export default {
         }
       }
       .del-btn {
+        text-decoration: underline;
         color: #f50520;
         cursor: pointer;
       }
       .black-btn {
         cursor: pointer;
         margin-right: 30px;
+        text-decoration: underline;
         &:hover {
           text-decoration: underline;
         }
@@ -1096,9 +1088,6 @@ export default {
           margin-left: 0;
           margin-right: 10px;
         }
-        .column-icon {
-          width: 40px;
-        }
         .table-head {
           display: none;
         }
@@ -1109,6 +1098,9 @@ export default {
             overflow: inherit;
             background: white;
             border-radius: 3px;
+            &:nth-child(2n) {
+              background: #fff;
+            }
           }
         }
         .small-device-body {
@@ -1173,17 +1165,8 @@ export default {
               .des-inner {
                 position: absolute;
                 top: 45px;
+                left: 0;
                 z-index: 111;
-                span {
-                }
-              }
-            }
-
-            .column-icon {
-              justify-content: flex-start;
-              img {
-                width: 26px;
-                height: 26px;
               }
             }
           }
@@ -1331,47 +1314,25 @@ export default {
           }
           .column-black-list {
             width: 100%;
-            padding-top: 60px;
-            padding-bottom: 50px;
+            padding: 15px 0;
             display: flex;
-            justify-content: center;
-
-            .black-btn {
-              display: block;
-              margin-right: 0;
-              width: 255px;
-              height: 46px;
-              border-radius: 4px;
-              border: solid 1px #ff0500;
-              color: #ff0500;
+            justify-content: flex-end;
+            .black-btn,
+            .del-btn {
+              width: auto;
+              min-width: 80px;
+              background: #d6001c;
+              color: #fff;
               text-align: center;
+              border-radius: 4px;
+              height: 28px;
+              font-size: 12px;
+              padding: 7px;
               line-height: 1;
-              padding: 15px 0;
-              font-size: 14px;
-              cursor: pointer;
-              &:hover {
-                text-decoration: none;
-              }
-            }
-            &.off-btn-handle-info {
-              .black-btn {
-                width: 120px;
-                margin-right: 30px;
-              }
-              .del-btn {
-                display: block;
-                width: 120px;
-                height: 46px;
-                border-radius: 4px;
-                border: solid 1px #ff0500;
-                color: #ff0500;
-                text-align: center;
-                padding: 15px 0;
-                line-height: 1;
-                cursor: pointer;
-                &:hover {
-                  text-decoration: none;
-                }
+              text-decoration: none;
+              margin-right: 20px;
+              &:last-child {
+                margin-right: 0;
               }
             }
           }

@@ -40,13 +40,13 @@
                     <p style="color:#000">{{$t('trans0278')}}</p>
                   </div>
                   <div class="btn-wrap">
-                    <button class="btn"
+                    <button class="btn btn-middle"
                             @click="addBlacklist()">{{$t('trans0016')}}</button>
                   </div>
                 </div>
               </div>
             </div>
-            <button class="btn btn-default btn-small"
+            <button class="btn btn-small"
                     @click="removeBlacklist()"
                     :disabled="!someBlacklistChecked">{{$t('trans0453')}}
             </button>
@@ -293,7 +293,7 @@ export default {
       height: 36px;
       margin: 0 auto;
     }
-    padding: 20px 0;
+    padding: 60px 0 30px 0;
   }
 }
 .table {
@@ -326,6 +326,12 @@ export default {
       display: flex;
       padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
+      &:nth-child(2n) {
+        background: #f7f7f7;
+        @media screen and(max-width:768px) {
+          background: #fff;
+        }
+      }
       .name,
       .mac,
       .operate {
@@ -346,10 +352,9 @@ export default {
 @media screen and (max-width: 768px) {
   .modal {
     left: 50%;
-    top: 30px;
+    top: 34px;
     transform: translateX(-50%);
     .btn {
-      height: 27px !important;
       margin: 0 auto !important;
     }
   }
@@ -376,7 +381,6 @@ export default {
         display: flex;
       }
       .btn {
-        height: 27px;
         width: auto;
         margin: 0;
         &:last-child {

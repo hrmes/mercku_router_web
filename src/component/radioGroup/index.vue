@@ -63,7 +63,7 @@ export default {
     cursor: pointer;
     &.selected {
       .radio {
-        border-color: #d6001c;
+        border-color: #333;
         position: relative;
         &::after {
           content: '';
@@ -74,7 +74,7 @@ export default {
           transform: translate(-50%, -50%);
           width: 6px;
           height: 6px;
-          background: #d6001c;
+          background: #333;
           border-radius: 50%;
         }
       }

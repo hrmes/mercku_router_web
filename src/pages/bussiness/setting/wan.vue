@@ -605,9 +605,10 @@ export default {
     label {
       display: inline-block;
       font-size: 14px;
-      color: #999;
+      color: #333;
+      font-weight: bold;
       text-align: left;
-      width: 120px;
+      width: 150px;
     }
     span {
       color: #333333;

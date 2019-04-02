@@ -15,9 +15,10 @@ import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
+import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
-import blacklistLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
+import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
 import portforwarding from 'pages/bussiness/advance/port/index.vue';
 import portfwForm from 'pages/bussiness/advance/port/form.vue';
 import rsvdip from 'pages/bussiness/advance/rsvdip/index.vue';
@@ -36,7 +37,7 @@ import remote from 'pages/bussiness/advance/remote.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 
 Vue.use(Router);
-const routes = [
+export default new Router({ routes: [
   {
     path: '*',
     redirect: '/dashboard'
@@ -72,17 +73,25 @@ const routes = [
     name: 'mesh-add',
     component: meshAdd
   }, {
-    path: '/limit/speed/:mac',
-    name: 'device-speed-limit',
-    component: speedLimit
-  }, {
-    path: '/limit/time/:mac',
-    name: 'device-time-limit',
-    component: timeLimit
-  }, {
-    path: '/limit/url/:mac',
-    name: 'device-url-limit',
-    component: blacklistLimit
+    path: '/limit/:mac',
+    name: 'device-limit',
+    component: limit,
+    redirect: '/limit/:mac/time',
+    children: [
+      {
+        path: '/limit/:mac/speed',
+        name: 'device-limit-speed',
+        component: speedLimit
+      }, {
+        path: '/limit/:mac/time',
+        name: 'device-limit-time',
+        component: timeLimit
+      }, {
+        path: '/limit/:mac/url',
+        name: 'device-limit-url',
+        component: urlLimit
+      }
+    ]
   }, {
     path: '/setting/wan',
     name: 'wan',
@@ -184,5 +193,4 @@ const routes = [
     name: 'advance-mode',
     component: mode
   }
-];
-export default new Router({ routes });
+] });

@@ -97,7 +97,7 @@
               </div>
             </div>
             <div class="test-speed-btn-container">
-              <button class="btn btn-primary"
+              <button class="btn btn-middle"
                       @click="startSpeedTest()"
                       :class="{'disabled':!isConnected}"
                       :disabled="!isConnected">{{$t('trans0008')}}</button>
@@ -109,8 +109,7 @@
           <div class="message">
             <div class="time-title">{{$t('trans0537')}}：</div>
             <div>
-              <p class="time-top">{{uptimeArr[0]}}</p>
-              <p class="time-bottom"
+              <p class="time-top"
                  v-if="uptimeArr[1]&&uptimeArr[1].length>0">
                 <span v-for="(bm,index) in uptimeArr[1]"
                       :key="index">
@@ -119,6 +118,9 @@
                   <span v-if="index!==uptimeArr[1].length-1">，</span>
                 </span>
               </p>
+              <p class="time-bottom"
+                 :class="{'padding-top':uptimeArr[1]&&uptimeArr[1].length>0}">{{uptimeArr[0]}}</p>
+
             </div>
           </div>
           <img class="router-time-img"
@@ -126,6 +128,7 @@
         </div>
       </div>
     </div>
+
     <div class='speed-model-info'
          v-if='speedModelOpen'>
       <div class="shadow"></div>
@@ -140,33 +143,37 @@
         <div v-if="isSpeedDone || isSpeedFailed"
              class="speed-completed">
           <div class="speed-result-info">
-            <div class="extra">
-              <i class="p-dwon-icon"></i>
-              <div>
-                <p>
-                  <span class="speed">{{speedDown.value}}</span>
-                  <span class="unit">{{speedDown.unit}}</span>
-                </p>
-                <p class="note">{{$t('trans0007')}}</p>
+            <div class="title">{{$t('trans0027')}}</div>
+            <div class="content">
+              <div class="extra">
+                <i class="p-dwon-icon"></i>
+                <div>
+                  <p>
+                    <span class="speed">{{speedDown.value}}</span>
+                    <span class="unit">{{speedDown.unit}}</span>
+                  </p>
+                  <p class="note">{{$t('trans0007')}}</p>
+                </div>
+              </div>
+              <div class="extra">
+                <i class="p-up-icon"></i>
+                <div>
+                  <p>
+                    <span class="speed">{{speedUp.value}}</span>
+                    <span class="unit">{{speedUp.unit}}</span>
+                  </p>
+                  <p class="note">{{$t('trans0006')}}</p>
+                </div>
               </div>
             </div>
-            <div class="extra">
-              <i class="p-up-icon"></i>
-              <div>
-                <p>
-                  <span class="speed">{{speedUp.value}}</span>
-                  <span class="unit">{{speedUp.unit}}</span>
-                </p>
-                <p class="note">{{$t('trans0006')}}</p>
-              </div>
+            <div class="btn-wrap">
+              <button class="btn btn-default btn-middle"
+                      @click="startSpeedTest(true)">{{$t('trans0279')}}</button>
+              <button class="btn btn-middle"
+                      @click="closeSpeedModal">{{$t('trans0018')}}</button>
             </div>
           </div>
-          <div class="btn-info">
-            <button class="cmp-btn"
-                    @click="startSpeedTest(true)">{{$t('trans0279')}}</button>
-            <button class="btn re-btn"
-                    @click="closeSpeedModal">{{$t('trans0018')}}</button>
-          </div>
+
         </div>
       </div>
     </div>
@@ -241,10 +248,12 @@ export default {
         }
         index += 1;
       }
-      const bmStr = bmArr.map((v, k) => ({
-        num: v,
-        unit: unit[k]
-      }));
+      const bmStr = bmArr
+        .map((v, k) => ({
+          num: v,
+          unit: unit[k]
+        }))
+        .reverse();
       const topStr = temp
         .map((n, j) => {
           if (topArr[j]) {
@@ -481,6 +490,7 @@ export default {
 
 .internet-container {
   flex: auto;
+  margin-top: 50px !important;
   .info-container {
     position: relative;
     width: 100%;
@@ -496,8 +506,9 @@ export default {
         .message {
           margin-top: 30px;
           .time-title {
-            color: #999999;
-            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
           }
           p {
             margin: 0;
@@ -507,16 +518,19 @@ export default {
             padding-left: 15px;
           }
           .time-top {
-            font-size: 26px;
-            font-weight: bold;
-          }
-          .time-bottom {
             font-size: 20px;
-            padding-top: 10px;
+            font-weight: bold;
             .uptime-unit {
               color: #999999;
               font-size: 16px;
+              font-weight: normal;
               margin-left: 5px;
+            }
+          }
+          .time-bottom {
+            font-size: 20px;
+            &.padding-top {
+              padding-top: 10px;
             }
           }
         }
@@ -574,9 +588,21 @@ export default {
             font-size: 14px;
             color: #333333;
             padding-top: 20px;
+            &:nth-child(2n) {
+              .m-title {
+                width: 70px;
+              }
+            }
+            &:nth-child(2n + 1) {
+              .m-title {
+                width: 125px;
+              }
+            }
             .m-title {
-              color: #999999;
+              color: #333;
+              font-weight: bold;
               font-size: 14px;
+              display: inline-block;
             }
           }
         }
@@ -604,7 +630,7 @@ export default {
             width: 36px;
             height: 36px;
             display: inline-block;
-            background: url('../../../assets/images/ic_fast_upload.png')
+            background: url('../../../assets/images/icon/ic_fast_upload.png')
               no-repeat;
             background-size: 100% 100%;
           }
@@ -612,7 +638,7 @@ export default {
             width: 36px;
             height: 36px;
             display: inline-block;
-            background: url('../../../assets/images/ic_fast_download.png')
+            background: url('../../../assets/images/icon/ic_fast_download.png')
               no-repeat;
             background-size: 100% 100%;
           }
@@ -648,7 +674,7 @@ export default {
               width: 20px;
               height: 29px;
               display: inline-block;
-              background: url('../../../assets/images/ic_ic_download.png')
+              background: url('../../../assets/images/icon/ic_download.png')
                 no-repeat;
               background-size: 100% 100%;
               margin-bottom: 5px;
@@ -657,7 +683,8 @@ export default {
               width: 20px;
               height: 29px;
               display: inline-block;
-              background: url('../../../assets/images/ic_upload.png') no-repeat;
+              background: url('../../../assets/images/icon/ic_upload.png')
+                no-repeat;
               background-size: 100% 100%;
               margin-bottom: 5px;
             }
@@ -692,7 +719,7 @@ export default {
             border-right: 1px solid #f1f1f1;
             right: 0;
           }
-          width: 260px;
+          width: 220px;
           display: flex;
           overflow: hidden;
           flex-direction: column;
@@ -700,11 +727,12 @@ export default {
           color: #333333;
           font-size: 14px;
           .r-title {
-            font-size: 18px;
+            font-size: 14px;
             display: inline-block;
-            color: #999999;
+            color: #333;
+            font-weight: bold;
             border: none;
-            width: 90px;
+            width: 80px;
           }
           .down {
             .r-dwon-icon {
@@ -712,7 +740,7 @@ export default {
               height: 14.5px;
               margin-right: 5px;
               display: inline-block;
-              background: url('../../../assets/images/ic_ic_download.png')
+              background: url('../../../assets/images/icon/ic_download.png')
                 no-repeat;
               background-size: 100% 100%;
             }
@@ -725,7 +753,8 @@ export default {
               height: 14.5px;
               margin-right: 5px;
               display: inline-block;
-              background: url('../../../assets/images/ic_upload.png') no-repeat;
+              background: url('../../../assets/images/icon/ic_upload.png')
+                no-repeat;
               background-size: 100% 100%;
             }
           }
@@ -790,96 +819,107 @@ export default {
         display: flex;
         flex-direction: column;
         .speed-result-info {
-          flex: 1;
           width: 100%;
           display: flex;
           justify-content: center;
-          align-items: center;
-          flex-direction: row;
-          .extra {
-            flex: 1;
-            p {
-              margin: 0;
-              padding: 0;
+          flex-direction: column;
+          .title {
+            padding: 30px 0 40px 0;
+            width: 100%;
+            line-height: 1;
+            color: #333;
+            position: relative;
+            &:before {
+              content: '';
+              display: block;
+              width: 60px;
+              height: 1px;
+              background: #f1f1f1;
+              position: absolute;
+              left: 50%;
+              top: 36px;
+              transform: translateX(-200%);
             }
-            text-align: left;
+            &:after {
+              content: '';
+              height: 1px;
+              background: #f1f1f1;
+              display: block;
+              width: 60px;
+              height: 1px;
+              position: absolute;
+              left: 50%;
+              top: 36px;
+              transform: translateX(100%);
+            }
+          }
+          .content {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            .p-dwon-icon {
-              width: 20px;
-              height: 29px;
-              display: inline-block;
-              background: url('../../../assets/images/ic_ic_download.png')
-                no-repeat;
-              background-size: 100% 100%;
-              margin-right: 5px;
-            }
-            .p-up-icon {
-              width: 20px;
-              height: 29px;
-              display: inline-block;
-              background: url('../../../assets/images/ic_upload.png') no-repeat;
-              background-size: 100% 100%;
-              margin-right: 5px;
-            }
-            .title {
-              font-size: 16px;
-              color: #333333;
-              font-weight: 600;
-              padding: 15px 0;
-              border-bottom: 1px solid #f1f1f1;
-            }
-            .speed {
-              font-size: 22px;
-              font-weight: bold;
-              color: #000;
-            }
-            .unit {
-              padding-left: 5px;
-              font-size: 12px;
-              font-weight: normal;
-              letter-spacing: -0.2px;
-              color: #333333;
-            }
-            .note {
-              font-size: 12px;
-              letter-spacing: -0.1px;
-              color: #999999;
+            .extra {
+              flex: 1;
+              p {
+                margin: 0;
+                padding: 0;
+              }
+              text-align: left;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              .p-dwon-icon {
+                width: 20px;
+                height: 29px;
+                display: inline-block;
+                background: url('../../../assets/images/icon/ic_download.png')
+                  no-repeat;
+                background-size: 100% 100%;
+                margin-right: 5px;
+              }
+              .p-up-icon {
+                width: 20px;
+                height: 29px;
+                display: inline-block;
+                background: url('../../../assets/images/icon/ic_upload.png')
+                  no-repeat;
+                background-size: 100% 100%;
+                margin-right: 5px;
+              }
+              .title {
+                font-size: 16px;
+                color: #333333;
+                font-weight: 600;
+                padding: 15px 0;
+                border-bottom: 1px solid #f1f1f1;
+              }
+              .speed {
+                font-size: 22px;
+                font-weight: bold;
+                color: #000;
+              }
+              .unit {
+                padding-left: 5px;
+                font-size: 12px;
+                font-weight: normal;
+                letter-spacing: -0.2px;
+                color: #333333;
+              }
+              .note {
+                font-size: 12px;
+                letter-spacing: -0.1px;
+                color: #999999;
+              }
             }
           }
         }
-        .btn-info {
-          height: 100px;
+        .btn-wrap {
+          margin-top: 56px;
           width: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
-          .cmp-btn {
-            cursor: pointer;
-            width: 120px;
-            height: 42px;
-            border-radius: 4px;
-            border: solid 1px #b6b6b6;
-            color: #333;
-            background: white;
-            outline: none;
-            box-sizing: border-box;
-            &:active {
-              color: #000;
-              border-color: #333;
+          .btn {
+            &:last-child {
+              margin-left: 50px;
             }
-
-            &:hover {
-              color: #000;
-              border-color: #333;
-            }
-          }
-          .re-btn {
-            width: 120px;
-            height: 42px;
-            margin: 0;
-            margin-left: 40px;
           }
         }
       }
@@ -985,6 +1025,7 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .internet-container {
+    margin-top: 20px !important;
     .speed-model-info {
       .speed-content {
         width: 100%;
@@ -994,24 +1035,35 @@ export default {
           margin: 0 auto;
         }
         .speed-completed {
-          padding: 10px;
+          height: auto;
           .speed-result-info {
             justify-content: center;
             align-items: center;
-            padding-top: 20px;
+            .content {
+              flex-direction: column;
+              .extra {
+                margin-top: 30px;
+                &:first-child {
+                  margin-top: 0;
+                }
+              }
+            }
           }
           width: 80%;
           margin: 0 auto;
-          height: auto !important;
         }
       }
     }
-    .btn-info {
+    .btn-wrap {
       width: 100%;
+      margin-bottom: 50px;
       .btn {
-        height: 44px;
+        &:last-child {
+          margin-left: 30px !important;
+        }
       }
     }
+
     .info-container {
       flex-direction: column;
       .row {
@@ -1024,6 +1076,9 @@ export default {
               width: 100%;
               padding-top: 10px;
               font-size: 14px;
+              .m-title {
+                width: 125px !important;
+              }
             }
           }
         }
@@ -1036,13 +1091,12 @@ export default {
         &::before {
           display: none;
         }
-        .btn {
-          height: 36px;
-        }
       }
       .traffic-container {
         .traffic-info {
           flex-direction: column;
+          .traffic {
+          }
         }
         .speep-info {
           .extra {
@@ -1075,12 +1129,13 @@ export default {
         .router-time-wrap {
           position: relative;
           .message {
-            margin-top: 10px;
+            margin-top: 20px;
             flex-direction: row;
-            align-items: center;
+            align-items: flex-start;
             .time-title {
-              color: #999999;
-              font-size: 16px;
+              color: #333;
+              font-weight: bold;
+              font-size: 14px;
             }
             p {
               margin: 0;
@@ -1103,9 +1158,9 @@ export default {
           }
         }
         .item {
-          padding: 0 10px;
+          padding: 0 16px;
           .router-time-img {
-            width: 62px;
+            width: 100px;
             position: absolute;
             right: 0;
             bottom: 0;

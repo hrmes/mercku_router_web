@@ -106,7 +106,7 @@ export default {
 .page-content {
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-start !important;
   flex: 1;
   .log-container {
     margin-top: 30px;

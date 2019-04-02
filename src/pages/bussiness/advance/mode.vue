@@ -66,11 +66,11 @@ export default {
             this.$http
               .updateMeshMode({ mode: this.mode })
               .then(() => {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
                 this.$reconnect({
                   timeout: 120,
                   onsuccess: () => {
+                    this.$toast(this.$t('trans0040'), 3000, 'success');
                     // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
                     if (this.$store.mode !== this.mode) {
                       this.$store.mode = this.mode;

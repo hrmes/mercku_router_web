@@ -68,7 +68,6 @@ export default {
     }
   },
   methods: {
-    addEvent() {},
     scrollToSelect() {
       this.$nextTick(() => {
         const popupEl = this.$el.querySelector('.select-popup');
@@ -95,8 +94,10 @@ export default {
       this.$refs.input.focus();
     },
     open() {
-      this.opened = true;
-      this.scrollToSelect();
+      this.opened = !this.opened;
+      if (this.opened) {
+        this.scrollToSelect();
+      }
     },
     close() {
       this.opened = false;
@@ -168,6 +169,7 @@ export default {
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
+    font-weight: bold;
   }
 
   cursor: pointer;
@@ -176,16 +178,17 @@ export default {
     position: absolute;
     z-index: 999;
     left: 0;
-    top: 48px;
+    top: 52px;
     background: #fff;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-radius: 5px;
+    // border-bottom-right-radius: 5px;
     max-height: 200px;
     border: 1px solid #e1e1e1;
     overflow: auto;
     li {
       list-style: none;
-      padding: 10px;
+      padding: 17px 10px;
+      line-height: 1;
       cursor: pointer;
       width: 100%;
       overflow: hidden;
@@ -216,8 +219,8 @@ export default {
       height: 6px;
       margin-top: 21px;
       display: inline-block;
-      background: url(../../assets/images/ic_input_box_pull_down.png) no-repeat
-        center;
+      background: url(../../assets/images/icon/ic_input_box_pull_down.png)
+        no-repeat center;
       background-size: 100%;
       transition: transform 0.2s linear;
       &.open {
@@ -236,6 +239,9 @@ export default {
     margin: 0 auto;
     .select {
       height: 48px;
+    }
+    .select-popup {
+      top: 52px;
     }
   }
 }

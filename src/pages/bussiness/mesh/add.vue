@@ -5,6 +5,23 @@
     </div>
     <div class="page-content">
       <div class="type-container"
+           v-show="tipPage">
+
+        <div class="router-category-container">
+          <div class="circle-animation">
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+          </div>
+          <p>{{$t('trans0175')}}</p>
+        </div>
+        <div class="button-container">
+          <button class="btn btn-large"
+                  @click="forward2WelcomePage">{{$t('trans0467')}}</button>
+        </div>
+
+      </div>
+      <div class="type-container"
            v-show="welcomePage">
         <div class="tip">{{$t('trans0364')}}</div>
         <div class="router-category-container">
@@ -22,11 +39,17 @@
                  alt="">
           </div>
         </div>
-        <button class="btn btn-next"
-                @click="forwardStep0()">{{$t('trans0055')}}</button>
+
+        <div class="button-container">
+          <button class="btn btn-default"
+                  @click="back2WelcomePage">{{$t('trans0057')}}</button>
+          <button class="btn btn-next"
+                  @click="forwardStep0()">{{$t('trans0055')}}</button>
+        </div>
+
       </div>
       <div class="info-container"
-           v-show="!welcomePage">
+           v-show="!tipPage && !welcomePage">
         <div class="step">
           <m-step :option="stepsOption"></m-step>
         </div>
@@ -121,7 +144,7 @@
         <div class="help-dialog-content">
           <div class="close"
                @click="closeHelpDialog()">
-            <img src="../../../assets/images/ic_delete.png"
+            <img src="../../../assets/images/icon/ic_delete.png"
                  alt="">
           </div>
           <p>{{$t('trans0072')}}</p>
@@ -142,7 +165,7 @@
 <script>
 import { RouterSnModel } from 'util/constant';
 
-const Routes = [
+const Routers = [
   {
     name: 'M2 Bee Wi-Fi Mesh Node',
     image: require('../../../assets/images/img_bee.png'),
@@ -160,8 +183,9 @@ export default {
   data() {
     return {
       RouterSnModel,
-      routers: Routes,
-      welcomePage: true,
+      routers: Routers,
+      welcomePage: false,
+      tipPage: true,
       stepsOption: {
         current: 0,
         steps: [
@@ -183,11 +207,19 @@ export default {
       nodes: [],
       added: false,
       addTimeout: 90,
-      selectedCategory: Routes[0],
+      selectedCategory: Routers[0],
       showHelpDialog: false
     };
   },
   methods: {
+    back2WelcomePage() {
+      this.tipPage = true;
+      this.welcomePage = false;
+    },
+    forward2WelcomePage() {
+      this.tipPage = false;
+      this.welcomePage = true;
+    },
     openHelpDialog() {
       this.showHelpDialog = true;
     },
@@ -205,7 +237,7 @@ export default {
       if (id === this.RouterSnModel.Bee) {
         return require('../../../assets/images/img_bee.png');
       }
-      return require('../../../assets/images/ic_general_router.png');
+      return require('../../../assets/images/icon/ic_default_router.png');
     },
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
@@ -299,6 +331,20 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@keyframes ani {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
 .loading {
   position: fixed;
   top: 0;
@@ -310,11 +356,7 @@ export default {
   z-index: 1000;
 }
 .help-dialog-content {
-  // width: 500px;
-  background: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  padding: 20px 30px;
-  border-radius: 5px;
+  width: 500px;
 }
 .close {
   float: right;
@@ -331,6 +373,69 @@ export default {
   align-content: center;
   align-items: center;
   margin: 0 auto;
+  width: 100%;
+  .button-container {
+    margin: 36px 0;
+    display: flex;
+    justify-content: center;
+    .btn-large {
+      width: 350px;
+    }
+    button {
+      display: inline-block;
+      margin-right: 20px;
+      width: 160px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    .btn-next {
+      margin-bottom: 30px;
+    }
+  }
+  .circle-animation {
+    margin-bottom: 50px;
+    position: relative;
+    background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
+    background-size: 100%;
+    &::before {
+      content: '';
+      display: block;
+      padding-top: 72%;
+    }
+    .circle {
+      width: 200px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(
+        rgba(214, 0, 28, 0) 39%,
+        rgba(214, 0, 28, 0.29) 100%
+      );
+      transform: scale(1);
+      opacity: 0;
+      animation: ani 1s linear 0.8s infinite;
+      position: absolute;
+      &.circle1 {
+        left: 50px;
+        top: 40px;
+      }
+      &.circle2 {
+        left: 150px;
+        top: 30px;
+      }
+      &.circle3 {
+        left: 80px;
+        top: 100px;
+      }
+    }
+  }
+  p {
+    width: 350px;
+    margin: 0 auto;
+    @media screen and(max-width:768px) {
+      width: 100%;
+    }
+  }
   .tip {
     margin-bottom: 30px;
   }
@@ -364,7 +469,7 @@ export default {
         background: #fff;
         border-radius: 50%;
         &.checked {
-          background: url(../../../assets/images/ic_selected.png) no-repeat
+          background: url(../../../assets/images/icon/ic_selected.png) no-repeat
             center;
           border: none;
           background-size: 90%;
@@ -381,10 +486,6 @@ export default {
       font-weight: bold;
       font-size: 14px;
     }
-  }
-  .btn-next {
-    margin-top: 30px;
-    margin-bottom: 30px;
   }
 }
 .info-container {
@@ -412,7 +513,6 @@ export default {
       justify-content: center;
       button {
         display: inline-block;
-        // flex: 1;
         margin-right: 20px;
         width: 160px;
         &:last-child {
@@ -511,8 +611,8 @@ export default {
             background: #fff;
             border-radius: 50%;
             &.checked {
-              background: url(../../../assets/images/ic_selected.png) no-repeat
-                center;
+              background: url(../../../assets/images/icon/ic_selected.png)
+                no-repeat center;
               border: none;
               background-size: 90%;
               background-color: #00d061;
@@ -563,6 +663,35 @@ export default {
       img {
         width: 120px;
         height: 120px;
+      }
+    }
+    .circle-animation {
+      .circle {
+        width: 150px;
+        height: 75px;
+        &.circle1 {
+          left: 70px;
+          top: 50px;
+        }
+        &.circle2 {
+          left: 170px;
+          top: 50px;
+        }
+        &.circle3 {
+          left: 100px;
+          top: 120px;
+        }
+      }
+    }
+    .button-container {
+      flex-direction: column;
+      width: 100%;
+      .btn {
+        width: 100%;
+        margin-bottom: 20px;
+        &:last-child {
+          margin-bottom: 0;
+        }
       }
     }
     .btn-next {

@@ -29,7 +29,7 @@
                    v-model="form.remoteIp" />
         </m-form-item>
         <div class="item">
-          <label for>{{$t('trans0426')}}</label>
+          <label style="font-weight:bold;">{{$t('trans0426')}}</label>
           <div class="port-wrap">
             <m-form-item class="ext-item"
                          prop="remotePortFrom"
@@ -61,7 +61,7 @@
                    v-model="form.localIp" />
         </m-form-item>
         <div class="item">
-          <label for>{{$t('trans0428')}}</label>
+          <label style="font-weight:bold;">{{$t('trans0428')}}</label>
           <div class="port-wrap">
             <m-form-item class="ext-item"
                          prop="localPortFrom"

@@ -10,7 +10,7 @@
                     v-model="enabled"
                     :onChange="updateEnabled"></m-switch>
           <button v-if="enabled"
-                  class="btn btn-primary"
+                  class="btn btn-small"
                   @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
         <m-scrollbar class="log-container"
@@ -32,7 +32,9 @@ export default {
       enabled: false,
       previousArray: [],
       increaseArray: [],
-      scrollbarOption: {}
+      scrollbarOption: {
+        stopPropagation: true
+      }
     };
   },
   computed: {
@@ -137,8 +139,6 @@ export default {
     height: 30px;
   }
   .btn {
-    width: auto;
-    height: 27px;
     margin-left: 30px;
   }
   .log-container {

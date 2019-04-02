@@ -25,10 +25,11 @@
         <div class="form-item check-info">
           <label for=""> {{$t('trans0110')}}
             <div class="tool">
-              <m-popover :title="this.$t('trans0110')"
+              <m-popover style="top:-7px"
+                         :title="this.$t('trans0110')"
                          :content="this.$t('trans0325')">
                 <img width="14"
-                     src="../../../assets/images/ic_question.png"
+                     src="../../../assets/images/icon/ic_question.png"
                      alt="">
               </m-popover>
 
@@ -41,10 +42,11 @@
           <div class="switch-container">
             <label for=""> {{$t('trans0397')}}
               <div class="tool">
-                <m-popover :title="this.$t('trans0397')"
+                <m-popover style="top:-7px"
+                           :title="this.$t('trans0397')"
                            :content="this.$t('trans0398')">
                   <img width="14"
-                       src="../../../assets/images/ic_question.png"
+                       src="../../../assets/images/icon/ic_question.png"
                        alt="">
                 </m-popover>
 
@@ -196,6 +198,7 @@ export default {
     label {
       display: flex;
       width: 120px;
+      font-weight: bold;
     }
     &.smart-connect {
       flex-direction: column;
@@ -230,7 +233,6 @@ export default {
       margin-left: 5px;
       img {
         position: relative;
-        top: -7px;
         cursor: pointer;
       }
     }
