@@ -36,6 +36,10 @@ export default {
       return getMenu(this.$store.role, this.$store.mode);
     }
   },
+  mounted() {
+    const minHeight = `${document.body.clientHeight}px`;
+    this.$refs.flexWrap.style.minHeight = minHeight;
+  },
   data() {
     return {
       scrollbarOpt: {
