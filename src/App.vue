@@ -4,7 +4,8 @@
                :option="scrollbarOpt">
     <div class="container">
       <div class="app-container router-view">
-        <div class="flex-wrap"
+        <div ref="flexWrap"
+             class="flex-wrap"
              :class="{'has-menu':!navVisible}">
           <m-header :navVisible="!navVisible"
                     :navs="menus"
@@ -37,6 +38,7 @@ export default {
     }
   },
   mounted() {
+    debugger;
     const minHeight = `${document.body.clientHeight}px`;
     this.$refs.flexWrap.style.minHeight = minHeight;
   },
@@ -56,11 +58,9 @@ export default {
 }
 .flex-wrap {
   display: flex;
-  min-height: 100vh;
   flex-direction: column;
 }
 .container {
-  min-height: 100vh;
   position: relative;
   display: flex;
   &.no-menu {
