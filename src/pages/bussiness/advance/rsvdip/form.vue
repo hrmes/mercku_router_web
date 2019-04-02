@@ -38,9 +38,9 @@
                 </div>
               </div>
               <div class="btn-wrap">
-                <button class="btn btn-default"
+                <button class="btn btn-middle btn-default"
                         @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-                <button class="btn"
+                <button class="btn btn-middle"
                         @click="chooseDevice">{{$t('trans0024')}}</button>
               </div>
             </div>
@@ -255,13 +255,13 @@ export default {
       top: 37px;
       z-index: 1;
       left: 0;
-      width: 300px;
+      width: 350px;
       border-radius: 2px;
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
       border: solid 1px #e7e7e7;
       background-color: #ffffff;
       .list {
-        width: 300px;
+        width: 350px;
         overflow: auto;
         max-height: 400px;
       }

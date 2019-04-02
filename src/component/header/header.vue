@@ -301,6 +301,7 @@ export default {
   &.nav-hide {
     background: #fff;
     color: #333;
+    padding: 0 50px;
     .right-wrap {
       .lang-selector {
         .current {
@@ -407,7 +408,7 @@ export default {
           }
           .nav-item-content {
             .nav-item__text {
-              color: #fff;
+              // color: #fff;
             }
           }
         }
@@ -489,7 +490,7 @@ export default {
               }
             }
             &.selected {
-              color: #d6001c;
+              color: #ffb7b7;
             }
           }
           &.show {

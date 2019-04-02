@@ -1,4 +1,14 @@
 .header-container {
+  &.nav-hide {
+    .logo-wrap {
+      .logo-wrap__logo {
+        width: 210px;
+        height: 32px;
+        background: url(../assets/images/cik_logo_text.png) center no-repeat;
+        background-size: 100%;
+      }
+    }
+  }
   .logo-wrap {
     .logo-wrap__logo {
       background: url(../assets/images/cik_logo.png) center no-repeat;

@@ -112,14 +112,14 @@
                 <span class="value">{{formatMac(router.mac.lan)}}</span>
               </div>
               <div class="operate">
-                <span class="reboot "
+                <span class="reboot btn-text"
                       v-if="!isRouterOffline(router)"
                       @click="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw"
-                      class="reset"
+                      class="reset btn-text"
                       @click="resetNode(router)">{{$t('trans0205')}}</span>
                 <span v-if="!router.is_gw"
-                      class="delete "
+                      class="delete btn-text"
                       @click="deleteNode(router)">{{$t('trans0033')}}</span>
               </div>
             </div>
@@ -543,8 +543,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .rssi-modal {
-  width: 600px;
+  width: 660px;
   max-height: 500px;
+  padding: 0 30px;
   overflow: auto;
   overflow-x: hidden;
   @media screen and (max-width: 768px) {
@@ -800,14 +801,15 @@ export default {
           width: 150px;
         }
         .table-content {
-          padding: 0 20px;
-
           .router {
             display: flex;
-            padding: 15px 0;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             border-bottom: 1px solid #f1f1f1;
+            &:nth-child(2n) {
+              background: #f7f7f7;
+            }
             &:last-child {
               border: 0;
             }
@@ -1027,6 +1029,9 @@ export default {
               padding: 0;
               height: 60px;
               overflow: hidden;
+              &:nth-child(2n) {
+                background: #fff;
+              }
               &.expand {
                 height: 378px;
               }

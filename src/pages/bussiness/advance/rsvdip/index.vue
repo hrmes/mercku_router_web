@@ -332,6 +332,12 @@ export default {
       padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
       justify-content: space-between;
+      &:nth-child(2n) {
+        background: #f7f7f7;
+        @media screen and(max-width:768px) {
+          background: #fff;
+        }
+      }
       .m-title {
         display: none;
       }
@@ -512,8 +518,10 @@ export default {
         }
         flex-direction: row;
         flex-wrap: wrap;
-        padding: 0;
-        padding-bottom: 20px;
+        padding: 20px 0;
+        &:first-child {
+          padding-top: 0;
+        }
         position: relative;
         .column-local-ip,
         .column-local-port,

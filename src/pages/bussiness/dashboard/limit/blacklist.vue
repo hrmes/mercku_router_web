@@ -10,6 +10,7 @@
       <div class="tools">
         <button class="btn btn-small"
                 @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
+
       </div>
       <div class="table-head">
         <div class="column-address">{{$t('trans0076')}}
@@ -23,7 +24,8 @@
              :key='index'>
           <div class="column-address">{{row}}</div>
           <div class="column-handle">
-            <a @click="delRow(row)">{{$t('trans0033')}}</a>
+            <a class="btn-text"
+               @click="delRow(row)">{{$t('trans0033')}}</a>
           </div>
         </div>
         <div class="empty"
@@ -279,10 +281,13 @@ export default {
 }
 .urllimit {
   width: 100%;
+  position: relative;
   .handle {
     display: flex;
     align-items: center;
-    align-self: flex-start;
+    position: absolute;
+    top: 3px;
+    right: 0;
     label {
       padding: 0 30px 0 10px;
     }
@@ -292,8 +297,10 @@ export default {
 
     .tools {
       margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    margin-top: 30px;
     .column-handle {
       width: 250px;
     }
@@ -322,6 +329,12 @@ export default {
         padding: 15px 30px;
         border-bottom: 1px solid #f1f1f1;
         justify-content: space-between;
+        &:nth-child(2n) {
+          background: #f7f7f7;
+          @media screen and(max-width:768px) {
+            background: #fff;
+          }
+        }
         .column-handle {
           display: flex;
           align-items: center;
@@ -353,13 +366,14 @@ export default {
     .handle {
       display: flex;
       align-items: center;
-
+      right: initial;
+      left: 0;
       label {
         padding: 0 30px 0 0px;
       }
     }
     .table {
-      margin-top: 20px;
+      margin-top: 30px;
       .tools {
         margin-top: 20px;
         margin-bottom: 0;

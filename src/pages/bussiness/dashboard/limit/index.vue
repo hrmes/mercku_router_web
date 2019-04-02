@@ -29,10 +29,9 @@
 export default {
   methods: {
     isCategory(category) {
-      return this.tab === category;
+      return this.$route.fullPath.includes(category);
     },
     forward2page(category) {
-      this.tab = category;
       this.dropdownVisible = false;
       this.$router.push(`/limit/${this.$route.params.mac}/${category}`);
     },
@@ -42,7 +41,6 @@ export default {
   },
   data() {
     return {
-      tab: 'time',
       dropdownVisible: false
     };
   }
@@ -62,7 +60,7 @@ export default {
         padding: 0;
         .tab {
           font-size: 16px;
-          padding: 12px 0;
+          padding: 15px 0;
           font-weight: normal;
           display: flex;
           align-items: center;
@@ -91,7 +89,7 @@ export default {
           border-right: 1px solid #fff;
           transform: rotate(45deg);
           position: relative;
-          top: -3px;
+          top: -2px;
           transition: all 0.3s linear;
         }
         &.show {
@@ -105,7 +103,7 @@ export default {
         &.show {
           display: block;
         }
-        background: #333;
+        background: rgb(88, 73, 73);
         position: absolute;
         top: 100%;
         left: 0;
@@ -115,6 +113,7 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
+          background: #333;
           .tab {
             padding: 18px 0;
             color: #fff;
@@ -124,6 +123,9 @@ export default {
             &.selected {
               border-bottom: 1px solid #666;
               color: #d6001c;
+              &::before {
+                display: none;
+              }
             }
           }
         }

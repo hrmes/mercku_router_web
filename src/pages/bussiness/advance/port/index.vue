@@ -360,6 +360,12 @@ export default {
       padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
       justify-content: space-between;
+      &:nth-child(2n) {
+        background: #f7f7f7;
+        @media screen and(max-width:768px) {
+          background: #fff;
+        }
+      }
       .m-title {
         display: none;
       }

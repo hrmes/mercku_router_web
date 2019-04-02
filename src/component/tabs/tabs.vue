@@ -17,12 +17,24 @@ export default {};
     padding: 20px 0;
     font-weight: bold;
     cursor: pointer;
+    position: relative;
     &:hover,
     :active {
       color: #999;
     }
     &.selected {
-      border-bottom: 3px solid #d6001c;
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: #d6001c;
+        border-radius: 3px;
+      }
+
       color: #d6001c;
     }
     margin-left: 50px;

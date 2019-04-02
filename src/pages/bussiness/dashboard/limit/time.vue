@@ -27,8 +27,10 @@
               <m-switch :onChange="(v)=>changehandle(v,row)"
                         v-model="row.enabled" />
             </div>
-            <a @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
-            <a @click="delRow(row)">{{$t('trans0033')}}</a>
+            <a class="btn-text"
+               @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
+            <a class="btn-text"
+               @click="delRow(row)">{{$t('trans0033')}}</a>
           </div>
         </div>
         <div class="empty"
@@ -430,7 +432,8 @@ export default {
       width: 150px;
     }
     .column-repeat {
-      width: 150px;
+      min-width: 150px;
+      flex: 1;
     }
     .column-handle {
       width: 250px;
@@ -451,6 +454,12 @@ export default {
         display: flex;
         padding: 15px 30px;
         border-bottom: 1px solid #f1f1f1;
+        &:nth-child(2n) {
+          background: #f7f7f7;
+          @media screen and(max-width:768px) {
+            background: #fff;
+          }
+        }
         .column-handle {
           display: flex;
           align-items: center;

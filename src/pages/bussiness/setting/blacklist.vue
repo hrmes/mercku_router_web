@@ -293,7 +293,7 @@ export default {
       height: 36px;
       margin: 0 auto;
     }
-    padding: 20px 0;
+    padding: 60px 0 30px 0;
   }
 }
 .table {
@@ -326,6 +326,12 @@ export default {
       display: flex;
       padding: 15px 30px;
       border-bottom: 1px solid #f1f1f1;
+      &:nth-child(2n) {
+        background: #f7f7f7;
+        @media screen and(max-width:768px) {
+          background: #fff;
+        }
+      }
       .name,
       .mac,
       .operate {

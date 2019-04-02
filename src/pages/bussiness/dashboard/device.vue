@@ -18,7 +18,7 @@
                         :onChange="offCheckChange"></m-checkbox>
           </div>
           <div><button class="btn"
-                    :disabled="offlineCheckedMacs.length===0"
+                    :disabled="offlineCheckedMacs.length"
                     @click="delOfflineDevices(offlineCheckedMacs)">
               {{$t('trans0453')}}</button></div>
         </div>
@@ -53,9 +53,8 @@
             <li class="column-ip"
                 v-if="isOfflineDevices">
               {{$t('trans0188')}}</li>
-            <!-- <li class="column-mac">{{$t('trans0188')}}</li> -->
             <li class="column-limit"
-                v-if="!isOfflineDevices">{{$t('trans0368')}}</li>
+                v-if="!isOfflineDevices">{{$t('trans0115')}}</li>
             <li class="column-black-list">{{$t('trans0370')}}</li>
           </ul>
         </div>
@@ -198,17 +197,17 @@
               <li class="column-black-list"
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)'>
-                <span class="black-btn"
+                <span class="black-btn btn-text"
                       v-if="!isOfflineDevices"
                       @click="()=>forward2limit(row)">
                   {{$t('trans0019')}}
                 </span>
-                <span class="black-btn"
+                <span class="black-btn btn-text"
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
                 </span>
 
-                <span class="del-btn"
+                <span class="del-btn btn-texts"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
                   {{$t('trans0033')}}
@@ -770,6 +769,9 @@ export default {
         ul {
           border-bottom: 1px solid #f1f1f1;
           padding: 15px 20px;
+          &:nth-child(2n) {
+            background: #f7f7f7;
+          }
         }
       }
       ul {
@@ -1091,6 +1093,9 @@ export default {
             overflow: inherit;
             background: white;
             border-radius: 3px;
+            &:nth-child(2n) {
+              background: #fff;
+            }
           }
         }
         .small-device-body {
