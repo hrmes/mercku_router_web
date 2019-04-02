@@ -37,14 +37,21 @@ export default {
       return getMenu(this.$store.role, this.$store.mode);
     }
   },
+  methods: {
+    setHeight() {
+      const minHeight = `${document.body.clientHeight}px`;
+      this.$refs.flexWrap.style.minHeight = minHeight;
+    }
+  },
   mounted() {
-    const minHeight = `${document.body.clientHeight}px`;
-    this.$refs.flexWrap.style.minHeight = minHeight;
+    this.setHeight();
+    window.onresize = this.setHeight;
   },
   data() {
     return {
       scrollbarOpt: {
         // scrollbar: false
+        // stopPropagation: true
       }
     };
   }
