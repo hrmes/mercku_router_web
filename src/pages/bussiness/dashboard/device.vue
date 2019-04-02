@@ -856,6 +856,11 @@ export default {
         margin-top: 10px;
         span {
           margin-right: 10px;
+          &:first-child {
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid #333;
+          }
         }
       }
       .name-inner {

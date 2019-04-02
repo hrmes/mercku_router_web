@@ -178,10 +178,10 @@ export default {
     position: absolute;
     z-index: 999;
     left: 0;
-    top: 48px;
+    top: 52px;
     background: #fff;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-radius: 5px;
+    // border-bottom-right-radius: 5px;
     max-height: 200px;
     border: 1px solid #e1e1e1;
     overflow: auto;
@@ -239,6 +239,9 @@ export default {
     margin: 0 auto;
     .select {
       height: 48px;
+    }
+    .select-popup {
+      top: 52px;
     }
   }
 }

@@ -1091,13 +1091,12 @@ export default {
         &::before {
           display: none;
         }
-        .btn {
-          height: 36px;
-        }
       }
       .traffic-container {
         .traffic-info {
           flex-direction: column;
+          .traffic {
+          }
         }
         .speep-info {
           .extra {
@@ -1130,7 +1129,7 @@ export default {
         .router-time-wrap {
           position: relative;
           .message {
-            margin-top: 10px;
+            margin-top: 20px;
             flex-direction: row;
             align-items: flex-start;
             .time-title {
@@ -1159,7 +1158,7 @@ export default {
           }
         }
         .item {
-          padding: 0 10px;
+          padding: 0 16px;
           .router-time-img {
             width: 100px;
             position: absolute;

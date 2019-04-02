@@ -181,7 +181,7 @@
                v-html="rssiTips"></div>
 
           <div class="form-button">
-            <button class="btn"
+            <button class="btn btn-middle"
                     @click="closeRssiModal">{{$t('trans0024')}}</button></div>
         </div>
       </m-modal-body>
@@ -548,6 +548,11 @@ export default {
   padding: 0 30px;
   overflow: auto;
   overflow-x: hidden;
+  .markdown-body {
+    @media screen and (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
   @media screen and (max-width: 768px) {
     width: auto;
     height: 350px;
@@ -951,8 +956,6 @@ export default {
       }
       .btn-add {
         font-size: 12px;
-        width: 100px;
-        height: 30px;
       }
 
       .content {

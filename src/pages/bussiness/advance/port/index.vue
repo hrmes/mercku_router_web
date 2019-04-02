@@ -489,19 +489,21 @@ export default {
           border: solid 1px #f1f1f1;
           background-color: #ffffff;
           position: absolute;
-          top: 30px;
+          top: 36px;
           right: 0;
           display: block;
           .btn {
             width: 140px;
             height: 42px;
+            font-size: 14px;
+
             margin: 0;
             background: white;
             color: #333333;
             text-align: left;
             padding-left: 20px;
             &:active {
-              background-color: #d6001c;
+              color: #999;
             }
           }
         }

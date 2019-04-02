@@ -1,12 +1,24 @@
 .header-container {
   &.nav-hide {
     .logo-wrap {
+      @media screen and (max-width: 768px) {
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding-right: 0;
+      }
       .logo-wrap__logo {
         width: 210px;
         height: 32px;
+        @media screen and (max-width: 768px) {
+          width: 150px;
+          height: 23px;
+        }
         background: url(../assets/images/mercku_logo_text.png) center no-repeat;
         background-size: 100%;
       }
+    }
+    .right-wrap {
+      width: auto;
     }
   }
   .logo-wrap {

@@ -649,6 +649,23 @@ export default {
           }
           .nav-item-content {
             align-items: center;
+            position: relative;
+            width: 100%;
+            &::after {
+              position: absolute;
+              content: '';
+              display: block;
+              width: 5px;
+              height: 5px;
+              border-right: 1px solid #fff;
+              border-bottom: 1px solid #fff;
+              border-left: 0;
+              border-top: 0;
+              transform: translateY(-50%) rotate(45deg);
+              top: 50%;
+              right: 0;
+              transition: all 0.3s linear;
+            }
             .nav-item__icon {
               display: block;
             }
@@ -667,6 +684,9 @@ export default {
               display: block;
             }
             .nav-item-content {
+              &::after {
+                transform: translateY(-50%) rotate(225deg);
+              }
               .nav-item__text {
                 color: #fff;
               }
@@ -688,7 +708,8 @@ export default {
                 color: #333;
               }
               &:hover {
-                color: #333;
+                color: #999;
+                background: #333;
               }
             }
           }

@@ -32,7 +32,7 @@ export default {};
         width: 100%;
         height: 3px;
         background: #d6001c;
-        border-radius: 3px;
+        border-radius: 5px;
       }
 
       color: #d6001c;

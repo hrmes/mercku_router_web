@@ -252,7 +252,7 @@ export default {
     }
     .modal {
       position: absolute;
-      top: 37px;
+      top: 42px;
       z-index: 1;
       left: 0;
       width: 350px;
