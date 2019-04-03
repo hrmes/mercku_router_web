@@ -1,5 +1,5 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin'); // Gzip
 const webpack = require('webpack');
 const UUID = require('uuid');
@@ -86,31 +86,31 @@ module.exports = {
       })
     );
     const plugins = [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          conpress: {
-            warnings: false,
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true, // Must be set to true if using source-maps in production
+        terserOptions: {
+          compress: {
             drop_console: true,
             drop_debugger: true
-          },
-          sourceMap: false,
-          parallel: true
+          }
         }
-      }),
-      new CompressionPlugin({
-        // 文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-web
-        // pack-plugin)
-        filename: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: productionGzipExtensions,
-        threshold: 10240,
-        minRatio: 0.8
-      }),
-      //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
-      new BundleAnalyzerPlugin()
+      })
+      // new CompressionPlugin({
+      //   // 文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-web
+      //   // pack-plugin)
+      //   filename: '[path].gz[query]',
+      //   algorithm: 'gzip',
+      //   test: productionGzipExtensions,
+      //   threshold: 10240,
+      //   minRatio: 0.8
+      // }),
+      // //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
+      // new BundleAnalyzerPlugin()
     ];
     if (process.env.NODE_ENV === 'production') {
-      config.plugins.concat(plugins);
+      config.plugins = [...config.plugins, ...plugins];
     }
   },
   chainWebpack: config => {

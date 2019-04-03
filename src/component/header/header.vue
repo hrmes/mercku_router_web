@@ -1,6 +1,6 @@
 <template>
   <header class="header-container"
-          :class="{'nav-hide':!navVisible}">
+          :class="{'nav-hide':!navVisible,'open':mobileNavVisible}">
     <div class="logo-wrap">
       <div class="logo-wrap__logo"></div>
     </div>
@@ -602,6 +602,13 @@ export default {
   .header-container {
     height: 65px;
     position: relative;
+    &.open {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
     .logo-wrap {
       display: block;
       position: absolute;
@@ -646,6 +653,13 @@ export default {
           }
           &.nav-item__exit {
             display: block;
+          }
+          &.nav-item__exit {
+            .nav-item-content {
+              &::after {
+                display: none;
+              }
+            }
           }
           .nav-item-content {
             align-items: center;
