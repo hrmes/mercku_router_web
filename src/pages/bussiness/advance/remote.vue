@@ -381,10 +381,7 @@ export default {
   .page-content {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    > div {
-      width: 100%;
-    }
+    align-items: center;
     .form {
       .title {
         font-size: 14px;

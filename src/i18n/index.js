@@ -9,7 +9,7 @@ Vue.use(VueI18n);
 let zhCN;
 let enUS;
 
-if (process.env.CUSTOMER_CONFIG.isMercku) {
+if (process.env.CUSTOMER_CONFIG.isMercku || process.env.CUSTOMER_CONFIG.isInternal) {
   zhCN = require('./zh-CN.json');
   enUS = require('./en-US.json');
 } else if (process.env.CUSTOMER_CONFIG.isCik) {

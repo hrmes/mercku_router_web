@@ -3,6 +3,10 @@
   so the name is canse senitive
 */
 const Customers = {
+  '0000': {
+    name: 'Internal',
+    conf: require('./internal/conf.json')
+  },
   '0001': {
     name: 'Mercku',
     conf: require('./mercku/conf.json')
