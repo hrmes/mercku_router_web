@@ -1,19 +1,27 @@
 <template>
   <div class="page">
-    <div class="tabs-container">
-      <m-tabs class="tabs">
-        <m-tab :class="{'selected':isTR069}"
-               @click.native="forward2page('/advance/remote/tr069')">{{$t('trans0499')}}
-        </m-tab>
-        <m-tab :class="{'selected':isTFTP}"
-               @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
-        </m-tab>
-        <m-tab :class="{'selected':isTelnet}"
-               @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0497')}}</m-tab>
-        <m-tab :class="{'selected':isWWA}"
-               @click.native="forward2page('/advance/remote/wwa')">{{$t('trans0511')}}</m-tab>
-      </m-tabs>
+    <div class="page-header"
+         @click="showDropdown">
+      <div class="page-header__text">{{$t('trans0286')}}</div>
+      <div class="page-header-trigger"
+           :class="{'show':dropdownVisible}"></div>
+      <div class="tabs-container"
+           :class="{'show':dropdownVisible}">
+        <m-tabs class="tabs">
+          <m-tab :class="{'selected':isTR069}"
+                 @click.native="forward2page('/advance/remote/tr069')">{{$t('trans0499')}}
+          </m-tab>
+          <m-tab :class="{'selected':isTFTP}"
+                 @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
+          </m-tab>
+          <m-tab :class="{'selected':isTelnet}"
+                 @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0497')}}</m-tab>
+          <m-tab :class="{'selected':isWWA}"
+                 @click.native="forward2page('/advance/remote/wwa')">{{$t('trans0511')}}</m-tab>
+        </m-tabs>
+      </div>
     </div>
+
     <div class="page-content">
       <div v-if="isTR069">
         <m-form ref="remote"
@@ -137,6 +145,7 @@ import { portReg } from 'util/util';
 export default {
   data() {
     return {
+      dropdownVisible: false,
       tftp: {
         server: '',
         filename: ''
@@ -276,6 +285,9 @@ export default {
     });
   },
   methods: {
+    showDropdown() {
+      this.dropdownVisible = !this.dropdownVisible;
+    },
     forward2page(url) {
       this.$router.push({ path: url });
     },
@@ -368,16 +380,27 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page {
-  .tabs-container {
-    height: 60px;
+  .page-header {
     display: flex;
-    align-items: center;
-    width: 100%;
-    padding-top: 15px;
-    .tabs {
-      width: 100%;
+    justify-content: space-between;
+    .page-header-trigger {
+      display: none;
+    }
+    .tabs-container {
+      .tabs {
+        border: 0;
+        padding: 0;
+        .tab {
+          font-size: 16px;
+          padding: 15px 0;
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+        }
+      }
     }
   }
+
   .page-content {
     display: flex;
     flex-direction: column;
@@ -395,8 +418,69 @@ export default {
 
 @media screen and (max-width: 768px) {
   .page {
-    &:last-child {
-      margin-bottom: 30px;
+    .page-header {
+      position: relative;
+      background: #333;
+      color: #fff;
+      align-items: center;
+      border-top: 1px solid #666;
+      .page-header-trigger {
+        display: block;
+        &::before {
+          content: '';
+          display: block;
+          width: 8px;
+          height: 8px;
+          border-bottom: 1px solid #fff;
+          border-right: 1px solid #fff;
+          transform: rotate(45deg);
+          position: relative;
+          top: -2px;
+          transition: all 0.3s linear;
+        }
+        &.show {
+          &::before {
+            transform: rotate(225deg);
+          }
+        }
+      }
+      .tabs-container {
+        display: none;
+        &.show {
+          display: block;
+        }
+        background: rgb(88, 73, 73);
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        z-index: 999;
+        .tabs {
+          display: flex;
+          flex-direction: column;
+          padding: 0 30px;
+          background: #333;
+          .tab {
+            padding: 18px 0;
+            color: #fff;
+            font-size: 14px;
+            margin: 0;
+            border-bottom: 1px solid #666;
+            &.selected {
+              border-bottom: 1px solid #666;
+              color: #d6001c;
+              &::before {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
+    .page-content {
+      > div {
+        width: 100%;
+      }
     }
   }
 }
