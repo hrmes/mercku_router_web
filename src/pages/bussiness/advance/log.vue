@@ -13,14 +13,12 @@
                   class="btn btn-small"
                   @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
-        <m-scrollbar class="log-container"
-                     ref="scrollbar"
-                     v-show="enabled"
-                     :option="scrollbarOption">
+        <div class="log-container"
+             v-show="enabled">
           <pre>{{previous}}</pre>
           <pre class="increase"
                :class="{'not-empty':increase}">{{increase}}</pre>
-        </m-scrollbar>
+        </div>
       </div>
     </div>
   </div>
@@ -49,6 +47,14 @@ export default {
     this.getSyslogEnabled();
   },
   methods: {
+    scrollTo(el, x = 0, y = 0) {
+      if (el.scrollTo) {
+        el.scrollTo(x, y);
+      } else {
+        el.scrollLeft = x;
+        el.scrollTop = y;
+      }
+    },
     updateEnabled() {
       this.$loading.open();
       this.$http
@@ -101,8 +107,10 @@ export default {
         }
       }
       this.$nextTick(() => {
-        this.$refs.scrollbar.refresh();
-        this.$refs.scrollbar.scrollToElement('.increase');
+        const el = this.$el.querySelector('.increase');
+        const wrap = this.$el.querySelector('.log-container');
+        const offset = el.offsetTop;
+        this.scrollTo(wrap, 0, offset);
       });
     },
     getSyslogEnabled() {

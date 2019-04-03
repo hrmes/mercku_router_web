@@ -1,7 +1,5 @@
 <template>
-  <m-scrollbar ref="wrap"
-               class="srcollbar-wrap"
-               :option="scrollbarOpt">
+  <div class="srcollbar-wrap">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"
@@ -17,7 +15,7 @@
         </div>
       </div>
     </div>
-  </m-scrollbar>
+  </div>
 </template>
 <script>
 import './style/common.scss';
@@ -46,21 +44,13 @@ export default {
   mounted() {
     this.setHeight();
     window.onresize = this.setHeight;
-  },
-  data() {
-    return {
-      scrollbarOpt: {
-        // scrollbar: false
-        // stopPropagation: true
-      }
-    };
   }
 };
 </script>
 <style lang="scss">
 .srcollbar-wrap {
   height: 100%;
-  position: static !important;
+  overflow: auto;
 }
 .flex-wrap {
   display: flex;
