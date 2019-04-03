@@ -1,6 +1,5 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin'); // Gzip
 const webpack = require('webpack');
 const UUID = require('uuid');
