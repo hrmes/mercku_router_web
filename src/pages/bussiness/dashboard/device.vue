@@ -1328,7 +1328,7 @@ export default {
               border-radius: 4px;
               height: 28px;
               font-size: 12px;
-              padding: 7px;
+              padding: 8px;
               line-height: 1;
               text-decoration: none;
               margin-right: 20px;
