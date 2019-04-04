@@ -1,6 +1,6 @@
 {
   "id": "0000",
   "title": "Mercku",
-  "accept": ".ma",
+  "accept": "*.*",
   "favicon": "customer-conf/mercku/favicon.ico"
 }
