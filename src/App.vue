@@ -59,6 +59,7 @@ export default {
 .container {
   position: relative;
   display: flex;
+  height: 100%;
   &.no-menu {
     height: 100%;
   }
