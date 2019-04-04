@@ -230,7 +230,7 @@ export default {
     &::before {
       content: '';
       display: block;
-      padding-top: 14.5%;
+      padding-top: 14%;
     }
     .net-info__inner {
       display: flex;
@@ -398,7 +398,7 @@ export default {
       &::before {
         content: '';
         display: block;
-        padding-top: 42.6%;
+        padding-top: 42%;
       }
       .net-info__inner {
         padding: 0 30px;

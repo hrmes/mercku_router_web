@@ -190,7 +190,7 @@ export default {
     &::before {
       content: '';
       display: block;
-      padding-top: 42.8%;
+      padding-top: 42%;
     }
     background: url(../../assets/images/img_main_picture.jpg) no-repeat center;
     background-size: 100%;
