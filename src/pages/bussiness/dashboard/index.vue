@@ -407,6 +407,9 @@ export default {
           img {
             width: 40px;
             height: 40px;
+            &:hover {
+              opacity: 1;
+            }
           }
         }
         .text-container {
