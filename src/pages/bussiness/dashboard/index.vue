@@ -403,6 +403,7 @@ export default {
       .net-info__inner {
         padding: 0 30px;
         .icon-container {
+          margin-top: -20px;
           img {
             width: 40px;
             height: 40px;
@@ -411,9 +412,15 @@ export default {
         .text-container {
           font-size: 12px;
           font-weight: bold;
+          transform: translate(-50%);
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          margin-top: 20px;
         }
         .line {
           height: 2px;
+          transform: translateY(-10px);
           &.testing {
             &::after {
               animation: speed-test-line ease 0.5s infinite;

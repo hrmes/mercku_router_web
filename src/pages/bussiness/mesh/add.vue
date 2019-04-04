@@ -394,10 +394,12 @@ export default {
     }
   }
   .circle-animation {
-    margin-bottom: 50px;
     position: relative;
     background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
     background-size: 100%;
+    width: 350px;
+    margin: 0 auto;
+    margin-bottom: 50px;
     &::before {
       content: '';
       display: block;

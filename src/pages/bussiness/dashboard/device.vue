@@ -84,6 +84,7 @@
                       <span :title='row.name'
                             :class="{'extand-name':row.expand}">{{row.name}}</span>
                       <img style="cursor:pointer"
+                           class="btn-text"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
                            src="../../../assets/images/icon/ic_edit.png"
