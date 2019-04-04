@@ -18,7 +18,7 @@
                         :onChange="offCheckChange"></m-checkbox>
           </div>
           <div><button class="btn"
-                    :disabled="offlineCheckedMacs.length"
+                    :disabled="!offlineCheckedMacs.length"
                     @click="delOfflineDevices(offlineCheckedMacs)">
               {{$t('trans0453')}}</button></div>
         </div>
