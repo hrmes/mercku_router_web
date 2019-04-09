@@ -7,7 +7,7 @@
               :model="form"
               :rules="rules">
         <div class="radio-wrap">
-          <span>{{$t('trans0408')}}</span>
+          <span style="font-weight:bold;">{{$t('trans0408')}}</span>
           <m-radio-group class="radio-group"
                          v-model="form.protocol"
                          :options="protocolOptions"></m-radio-group>
@@ -23,7 +23,7 @@
         <m-form-item class="item"
                      prop="remoteIp"
                      ref="remoteIp">
-          <m-input :label="`${$t('trans0425')} ${$t('trans0411')}`"
+          <m-input :label="`${$t('trans0425')}${$t('trans0411')}`"
                    type="text"
                    :placeholder="$t('trans0492')"
                    v-model="form.remoteIp" />

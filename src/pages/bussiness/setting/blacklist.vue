@@ -310,7 +310,7 @@ export default {
   .name {
     display: flex;
     .checkbox {
-      margin-right: 20px;
+      margin-right: 22px;
     }
   }
   // .operate {
