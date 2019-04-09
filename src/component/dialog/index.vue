@@ -71,30 +71,35 @@ export default {
   .dialog-content {
     text-align: center;
     background: #fff;
-    padding: 10px;
+    padding: 20px 20px 30px 20px;
     border-radius: 5px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     .dialog-buttons {
-      white-space: nowrap;
-      // margin-top: 20px;
-      padding: 20px;
+      display: flex;
+      justify-content: center;
       button {
         width: 120px;
-        height: 42px;
-        display: inline-block;
-        margin: 0 20px 0 30px;
+        height: 38px;
+        margin-left: 30px;
+        &:first-child {
+          margin-left: 0;
+        }
       }
     }
     .dialog-title {
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1;
-      color: #303133;
-      text-align: left;
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 10px;
     }
     .dialog-message {
       color: #333;
-      padding: 20px;
+      margin-bottom: 45px;
       text-align: center;
+      font-size: 14px;
+      color: #333;
     }
   }
   &.dialog-enter-active {
@@ -115,9 +120,6 @@ export default {
   .dialog-container {
     .dialog-content {
       width: 420px;
-      .dialog-buttons {
-        text-align: center;
-      }
     }
   }
 }
@@ -126,7 +128,7 @@ export default {
     .dialog-content {
       width: 80%;
       .dialog-buttons {
-        white-space: nowrap;
+        flex-direction: column;
         button {
           width: 100%;
           display: block;
