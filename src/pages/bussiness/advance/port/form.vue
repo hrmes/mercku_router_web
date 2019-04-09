@@ -7,7 +7,7 @@
               :model="form"
               :rules="rules">
         <div class="radio-wrap">
-          <span>{{$t('trans0408')}}</span>
+          <span style="font-weight:bold;">{{$t('trans0408')}}</span>
           <m-radio-group class="radio-group"
                          v-model="form.protocol"
                          :options="protocolOptions"></m-radio-group>
