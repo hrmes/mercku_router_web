@@ -322,7 +322,6 @@ export default {
           })
           .catch(() => {
             this.$loading.close();
-            this.$toast(this.$t('trans0077'));
           });
       }
     },
@@ -338,7 +337,6 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0077'));
           this.telnet = !v;
         });
     },
@@ -353,7 +351,6 @@ export default {
           })
           .catch(() => {
             this.$loading.close();
-            this.$toast(this.$t('trans0077'));
           });
       }
     },
@@ -371,7 +368,6 @@ export default {
           })
           .catch(() => {
             this.$loading.close();
-            this.$toast(this.$t('trans0077'));
           });
       }
     }
