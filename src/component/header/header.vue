@@ -451,7 +451,6 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 250px;
     .small-device {
       display: none;
     }

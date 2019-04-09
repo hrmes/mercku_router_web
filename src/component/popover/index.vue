@@ -1,10 +1,12 @@
 <template>
 
   <div class="popover-container"
-       v-clickoutside="handleClose">
+       v-clickoutside="handleClose"
+       @click="clickTriggler()"
+       @mouseenter="enter"
+       @mouseleave="handleClose">
     <div ref="trigger"
-         class="popover-container__trigger"
-         @click="clickTriggler()">
+         class="popover-container__trigger">
       <slot></slot>
     </div>
     <div ref="popover"
@@ -62,6 +64,12 @@ export default {
         default:
           break;
       }
+    },
+    enter() {
+      this.show = true;
+      this.$nextTick(() => {
+        this.initPopoverPosition();
+      });
     },
     clickTriggler() {
       this.show = !this.show;
