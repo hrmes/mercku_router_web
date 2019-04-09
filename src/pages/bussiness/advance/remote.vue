@@ -337,10 +337,6 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
-<<<<<<< HEAD
-=======
-
->>>>>>> fix
           this.telnet = !v;
         });
     },
