@@ -85,6 +85,7 @@
                             :class="{'extand-name':row.expand}">{{row.name}}</span>
                       <img style="cursor:pointer"
                            class="btn-text"
+                           :title="$t('trans0034')"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
                            src="../../../assets/images/icon/ic_edit.png"
@@ -782,8 +783,7 @@ export default {
         align-items: center;
       }
       .column-check-box {
-        width: 50px;
-        margin-left: 10px;
+        width: 40px;
         display: flex;
         align-items: center;
         flex-shrink: 0;

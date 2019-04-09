@@ -85,7 +85,7 @@
            @mouseenter="showLangPopup()"
            @mouseleave="closeLangPopup()">
         <div class="current">
-          <div class="icon-i18n"></div>
+
           <span class="current-text">{{language.text}}</span>
           <span class="drop-trangle"
                 :class="{'down':!showPopup,'up':showPopup}"></span>
@@ -304,13 +304,6 @@ export default {
     padding: 0 50px;
     .right-wrap {
       .lang-selector {
-        .current {
-          .icon-i18n {
-            background: url(../../assets/images/icon/ic_i18n_reverse.png) center
-              no-repeat;
-            background-size: 100%;
-          }
-        }
         .drop-trangle {
           &:after {
             border-top: 5px solid #333;
@@ -490,7 +483,7 @@ export default {
               }
             }
             &.selected {
-              color: #ffb7b7;
+              color: #d6001c;
             }
           }
           &.show {
@@ -517,12 +510,13 @@ export default {
         height: 100%;
         display: flex;
         align-items: center;
-        .icon-i18n {
-          display: inline-block;
-          width: 16px;
-          height: 16px;
-          background: url(../../assets/images/icon/ic_i18n.png) center no-repeat;
-          background-size: 100%;
+        &:hover {
+          color: #999;
+          .drop-trangle {
+            &::after {
+              border-top-color: #999;
+            }
+          }
         }
       }
       .current-text {
@@ -595,6 +589,9 @@ export default {
       display: inline-block;
       cursor: pointer;
       margin-left: 50px;
+      &:hover {
+        color: #999;
+      }
     }
   }
 }

@@ -80,6 +80,7 @@
                        v-if="!isRouterOffline(router)"
                        @click.stop="onClickRouterName(router)">
                     <img class="btn-text"
+                         :title="$t('trans0034')"
                          src="../../../assets/images/icon/ic_edit.png"
                          alt>
                   </div>

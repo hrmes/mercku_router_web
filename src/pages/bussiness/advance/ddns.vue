@@ -9,7 +9,7 @@
               :model="ddns"
               :rules='rules'>
         <div class="form-item">
-          <label for="">{{$t('trans0435')}}</label>
+          <label style="font-weight:bold;">{{$t('trans0435')}}</label>
           <m-radio-group v-model="ddns.service"
                          :options="services"></m-radio-group>
         </div>

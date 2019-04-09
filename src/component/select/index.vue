@@ -13,7 +13,7 @@
       </div>
       <transition name="select">
         <ul class="select-popup"
-            :style="{height:`${height}px`}"
+            :style="{'height':dropdownHeight}"
             v-show="this.opened">
           <li :class="{'selected':selected === option}"
               :key="option.value"
@@ -42,8 +42,15 @@ export default {
       default: ''
     },
     height: {
-      type: Number,
-      default: 200
+      type: Number
+    }
+  },
+  computed: {
+    dropdownHeight() {
+      if (this.height) {
+        return `${this.height}px`;
+      }
+      return 'auto';
     }
   },
   data() {
