@@ -432,7 +432,7 @@ export default {
           }
         }
         .nav-item-child {
-          // display: none;
+          display: none;
           width: 260px;
           position: absolute;
           z-index: 999;
@@ -684,9 +684,6 @@ export default {
             &::after {
               display: none;
             }
-            .nav-item-child {
-              // display: block;
-            }
             .nav-item-content {
               &::after {
                 transform: translateY(-50%) rotate(225deg);
@@ -698,6 +695,7 @@ export default {
           }
           .nav-item-child {
             position: static;
+            display: block;
             background: #333;
             box-shadow: none;
             padding: 0;
