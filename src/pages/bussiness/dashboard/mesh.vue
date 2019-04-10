@@ -182,11 +182,13 @@
           <div class="markdown-body"
                v-html="rssiTips"></div>
 
-          <div class="form-button">
-            <button class="btn btn-middle"
-                    @click="closeRssiModal">{{$t('trans0024')}}</button></div>
         </div>
       </m-modal-body>
+      <m-modal-footer>
+        <div class="form-button">
+          <button class="btn btn-dialog-confirm"
+                  @click="closeRssiModal">{{$t('trans0024')}}</button></div>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>

@@ -75,11 +75,14 @@
           <div class="changelog markdown-body"
                v-html="changelog"></div>
         </div>
+
+      </m-modal-body>
+      <m-modal-footer>
         <div class="btn-wrap">
-          <button class="btn"
+          <button class="btn btn-dialog-confirm"
                   @click="close()">{{$t('trans0024')}}</button>
         </div>
-      </m-modal-body>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>
@@ -343,10 +346,6 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
-  .scroll-container {
-    height: 280px;
-    overflow: auto;
-  }
   .changelog {
     p:first-child {
       margin-top: 0;

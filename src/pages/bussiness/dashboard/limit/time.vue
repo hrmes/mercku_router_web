@@ -381,11 +381,8 @@ export default {
     }
   }
   .modal-content {
-    // width: 496px;
-    height: 452px;
     border-radius: 5px;
     background-color: #ffffff;
-    // padding: 30px;
     .item {
       display: flex;
       align-items: center;

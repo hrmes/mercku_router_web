@@ -62,15 +62,13 @@
         <div class="tip-modal">
           <div class="tip-modal__text markdown-body"
                v-html="tips"></div>
-          <div class="form-button">
-            <button class="btn btn-middle"
-                    @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
-            <!-- <button class="btn btn-middle btn-default"
-                    @click="tipsModalVisible=false">{{$t('trans0025')}}</button> -->
-
-          </div>
         </div>
       </m-modal-body>
+      <m-modal-footer>
+        <div class="form-button">
+          <button class="btn btn-dialog-confirm"
+                  @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button> </div>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>
