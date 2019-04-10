@@ -52,17 +52,25 @@
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
 
-          <ul v-if="menu.children"
-              class="nav-item-child"
-              :class="{'show':menu.showChild}">
-            <li class="nav-child__text"
-                :key="child.key"
-                @click.stop="jumpMobile(child,menu)"
-                v-for="child in menu.children"
-                :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
-              {{$t(child.text)}}
-            </li>
-          </ul>
+          <transition name="nav-item-child__animation"
+                      v-on:before-enter="beforeEnter"
+                      v-on:enter="enter"
+                      v-on:leave="leave">
+            <ul v-if="menu.children"
+                class="nav-item-child"
+                v-show="menu.selected">
+              <!-- v-show="menu.showChild" -->
+              <!-- :class="{'show':menu.showChild}" -->
+              <li class="nav-child__text"
+                  :key="child.key"
+                  @click.stop="jumpMobile(child,menu)"
+                  v-for="child in menu.children"
+                  :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
+                {{$t(child.text)}}
+              </li>
+            </ul>
+          </transition>
+
         </li>
         <li class="nav-item nav-item__exit"
             @click="exit()">
@@ -111,6 +119,8 @@
   </header>
 </template>
 <script>
+import Velocity from 'velocity-animate';
+
 const Languages = [
   {
     text: '简体中文',
@@ -164,6 +174,21 @@ export default {
     }
   },
   methods: {
+    beforeEnter(el) {
+      el.style.height = 0;
+    },
+    enter(el, done) {
+      // debugger;
+      const height = el.childElementCount * 38;
+      setTimeout(() => {
+        Velocity(el, { height: `${height}px` }, { complete: done });
+      });
+    },
+    leave(el, done) {
+      setTimeout(() => {
+        Velocity(el, { height: 0 }, { complete: done });
+      });
+    },
     showMobileMenu(menu) {
       this.list.forEach(l => {
         if (l !== menu) {
@@ -407,7 +432,7 @@ export default {
           }
         }
         .nav-item-child {
-          display: none;
+          // display: none;
           width: 260px;
           position: absolute;
           z-index: 999;
@@ -660,7 +685,7 @@ export default {
               display: none;
             }
             .nav-item-child {
-              display: block;
+              // display: block;
             }
             .nav-item-content {
               &::after {
@@ -676,6 +701,12 @@ export default {
             background: #333;
             box-shadow: none;
             padding: 0;
+            &.nav-item-child__animation-leave-active {
+              overflow: hidden;
+            }
+            &.nav-item-child__animation-enter-active {
+              overflow: hidden;
+            }
             .nav-child__text {
               padding: 0;
               padding-left: 10px;

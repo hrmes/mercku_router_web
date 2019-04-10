@@ -50,7 +50,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-modal', mModal);
   _Vue.component('m-modal-header', mModalHeader);
   _Vue.component('m-modal-body', mModalBody);
-  _Vue.component('m-modal-footer',mModalFooter);
+  _Vue.component('m-modal-footer', mModalFooter);
   _Vue.component('m-loading', mLoading);
 };
 
