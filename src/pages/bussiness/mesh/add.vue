@@ -421,7 +421,7 @@ export default {
       );
       transform: scale(1);
       opacity: 0;
-      animation: ani 1s linear 0.8s infinite;
+      animation: ani 1.4s linear 0.8s infinite;
       position: absolute;
       &.circle1 {
         left: 50px;
@@ -497,7 +497,6 @@ export default {
   }
 }
 .info-container {
-  width: 564px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
