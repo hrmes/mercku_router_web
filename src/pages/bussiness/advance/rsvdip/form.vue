@@ -21,14 +21,15 @@
                v-clickoutside="()=>modalShow=false">
             <div class="opcity"></div>
             <div class="modal-content">
-              <div class="list"
-                   :data="devices">
+              <div class="modal__header">{{$t('trans0235')}}</div>
+              <div class="list">
                 <div class="device-item"
+                     @click="checkDevice(item)"
                      v-for="(item,index) in devices"
                      :key="index">
                   <div class="check">
-                    <m-checkbox v-model="item.checked"
-                                :onChange="(v)=>change(v,item)"></m-checkbox>
+                    <m-checkbox :readonly="true"
+                                v-model="item.checked"></m-checkbox>
                   </div>
                   <div class="des">
                     <p>{{item.name}}</p>
@@ -40,7 +41,7 @@
               <div class="btn-wrap">
                 <button class="btn btn-middle btn-default"
                         @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-                <button class="btn btn-middle"
+                <button class="btn btn-dialog-confirm"
                         @click="chooseDevice">{{$t('trans0024')}}</button>
               </div>
             </div>
@@ -170,14 +171,13 @@ export default {
       });
       this.modalShow = false;
     },
-    change(v, item) {
-      if (v) {
-        this.devices.forEach(n => {
-          if (n.mac !== item.mac) {
-            n.checked = false;
-          }
-        });
-      }
+    checkDevice(device) {
+      this.devices.forEach(d => {
+        if (d !== device) {
+          d.checked = false;
+        }
+      });
+      device.checked = !device.checked;
     },
     getDevices() {
       this.$http
@@ -255,48 +255,71 @@ export default {
       top: 42px;
       z-index: 1;
       left: 0;
-      width: 350px;
-      border-radius: 2px;
-      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+      width: 480px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 0 7px 0 rgba(0, 0, 0, 0.25);
       border: solid 1px #e7e7e7;
       background-color: #ffffff;
-      .list {
-        width: 350px;
-        overflow: auto;
-        max-height: 400px;
-      }
-      .device-item {
-        display: flex;
-        padding: 30px;
-        padding-bottom: 0;
-        min-height: 55px;
-        cursor: default;
-        .check {
-          width: 46px;
+      .modal-content {
+        .modal__header {
+          color: #333;
+          text-align: left;
+          font-weight: bold;
+          border-bottom: 1px solid #e7e7e7;
+
+          font-size: 14px;
+          padding: 20px 0 12px 0;
+          margin: 0 30px;
         }
-        .des {
-          flex: 1;
-          padding-bottom: 10px;
-          p {
-            color: #333333;
-            line-height: 1;
-            padding: 0;
-            margin: 0;
-            margin-bottom: 10px;
+        .list {
+          overflow: auto;
+          max-height: 400px;
+        }
+        .device-item {
+          display: flex;
+          align-items: flex-start;
+          padding: 20px 30px 0 30px;
+          &:hover {
+            background: #f1f1f1;
+            cursor: pointer;
+          }
+          .des {
+            flex: 1;
+            justify-content: flex-start;
+            margin-left: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e7e7e7;
+            p {
+              color: #333333;
+              line-height: 1;
+              padding: 0;
+              margin: 0;
+              margin-bottom: 10px;
+              text-align: left;
+              &:first-child {
+                font-size: 14px;
+                font-weight: bold;
+              }
+              &:last-child {
+                margin-bottom: 0;
+              }
+            }
           }
         }
-      }
-      .btn-wrap {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .btn-default {
-          display: none;
+        .btn-wrap {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .btn-default {
+            display: none;
+          }
+          .btn {
+            height: 36px;
+            margin: 0 auto;
+          }
+          padding-top: 50px;
+          padding-bottom: 30px;
         }
-        .btn {
-          width: 120px;
-        }
-        height: 100px;
       }
     }
   }
@@ -315,32 +338,23 @@ export default {
     .device {
       .modal {
         position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        background: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        .opcity {
-          position: fixed;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          z-index: -1;
-          background: rgba(0, 0, 0, 0.6);
-        }
+        width: auto;
+        top: 50%;
+        left: 20px;
+        right: 20px;
+        transform: translateY(-50%);
         .modal-content {
-          background: white;
-          width: 85%;
           .list {
             width: 100%;
+            max-height: 250px;
             background: white;
             box-sizing: border-box;
           }
           .btn-wrap {
-            .btn-default {
+            .btn {
               display: inline-block;
+              width: 120px;
+              min-width: initial;
             }
           }
         }

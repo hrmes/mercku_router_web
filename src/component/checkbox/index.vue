@@ -1,7 +1,7 @@
 <template>
   <transition name="checkbox">
     <div class="checkbox-container">
-      <label @click.stop="check()">
+      <label @click="check()">
         <div class="box"
              :class="{'checked':checked,'circle-shape':!rect}"></div>
         <div class="text"
@@ -24,6 +24,10 @@ export default {
       type: Boolean,
       default: true
     },
+    readonly: {
+      type: Boolean,
+      default: false
+    },
     onChange: {
       type: Function,
       default: () => {}
@@ -34,10 +38,12 @@ export default {
   },
   methods: {
     check() {
-      this.checked = !this.checked;
-      this.onChange(this.checked);
-      this.$emit('input', this.checked);
-      this.$emit('change', this.checked);
+      if (!this.readonly) {
+        this.checked = !this.checked;
+        this.onChange(this.checked);
+        this.$emit('input', this.checked);
+        this.$emit('change', this.checked);
+      }
     }
   },
   watch: {
@@ -50,7 +56,6 @@ export default {
 <style lang="scss">
 .checkbox-container {
   text-align: left;
-
   height: 18px;
   display: inline-block;
   overflow: hidden;
