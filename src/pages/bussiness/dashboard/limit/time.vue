@@ -29,7 +29,7 @@
             </div>
             <a class="btn-text"
                @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
-            <a class="btn-text"
+            <a class="btn-text text-primary"
                @click="delRow(row)">{{$t('trans0033')}}</a>
           </div>
         </div>
@@ -462,14 +462,8 @@ export default {
           align-items: center;
           a {
             margin-left: 50px;
-            cursor: pointer;
-            font-size: 14px;
-            text-decoration: underline;
-            &:hover {
-              text-decoration: underline;
-            }
             &:last-child {
-              color: #ff0001;
+              margin-left: 30px;
             }
           }
         }

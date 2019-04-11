@@ -5,10 +5,11 @@
         <m-tab :key="tab.id"
                @click.native="tabChange(tab.id)"
                v-for="tab in tabs"
-               :class="{'selected':tab.id===id}">
+               :class="{'selected':isCurrentTab(tab)}">
           {{tab.text}}
         </m-tab>
       </m-tabs>
+
       <div class="offline-handle-wrapper"
            v-if="isOfflineDevices">
         <div class="check-info">
@@ -84,7 +85,7 @@
                       <span :title='row.name'
                             :class="{'extand-name':row.expand}">{{row.name}}</span>
                       <img style="cursor:pointer"
-                           class="btn-text"
+                           class="btn-text icon-btn"
                            :title="$t('trans0034')"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
@@ -209,7 +210,7 @@
                   {{$t('trans0016')}}
                 </span>
 
-                <span class="del-btn btn-text"
+                <span class="del-btn btn-text text-primary"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
                   {{$t('trans0033')}}
@@ -346,6 +347,9 @@ export default {
     this.timer = null;
   },
   methods: {
+    isCurrentTab(tab) {
+      return tab.id === this.id;
+    },
     devicesParams() {
       let params = { filters: [{ type: 'primary', status: ['online'] }] };
       if (this.id === 'primary') {
@@ -989,18 +993,8 @@ export default {
           }
         }
       }
-      .del-btn {
-        text-decoration: underline;
-        color: #f50520;
-        cursor: pointer;
-      }
       .black-btn {
-        cursor: pointer;
         margin-right: 30px;
-        text-decoration: underline;
-        &:hover {
-          text-decoration: underline;
-        }
       }
     }
   }
@@ -1213,7 +1207,6 @@ export default {
           }
           .column-band {
             width: 100%;
-            // padding-left: 20px;
             padding-bottom: 30px;
             span {
               line-height: 30px;

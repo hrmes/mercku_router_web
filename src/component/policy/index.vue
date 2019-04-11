@@ -66,8 +66,6 @@ export default {
   padding: 15px;
   font-size: 12px;
   .policy-text {
-    text-decoration: underline;
-    cursor: pointer;
     margin-left: 5px;
   }
 }

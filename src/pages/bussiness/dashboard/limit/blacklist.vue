@@ -24,7 +24,7 @@
              :key='index'>
           <div class="column-address">{{row}}</div>
           <div class="column-handle">
-            <a class="btn-text"
+            <a class="btn-text text-primary"
                @click="delRow(row)">{{$t('trans0033')}}</a>
           </div>
         </div>
@@ -336,18 +336,6 @@ export default {
         .column-handle {
           display: flex;
           align-items: center;
-          a {
-            margin-right: 50px;
-            cursor: pointer;
-            text-decoration: underline;
-            font-size: 14px;
-            &:hover {
-              text-decoration: underline;
-            }
-            &:last-child {
-              color: #ff0001;
-            }
-          }
         }
       }
     }

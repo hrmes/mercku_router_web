@@ -79,7 +79,7 @@
                   <div class="edit"
                        v-if="!isRouterOffline(router)"
                        @click.stop="onClickRouterName(router)">
-                    <img class="btn-text"
+                    <img class="btn-text icon-btn"
                          :title="$t('trans0034')"
                          src="../../../assets/images/icon/ic_edit.png"
                          alt>
@@ -118,10 +118,10 @@
                       v-if="!isRouterOffline(router)"
                       @click="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw"
-                      class="reset btn-text"
+                      class="reset btn-text text-primary"
                       @click="resetNode(router)">{{$t('trans0205')}}</span>
                 <span v-if="!router.is_gw"
-                      class="delete btn-text"
+                      class="delete btn-text text-primary"
                       @click="deleteNode(router)">{{$t('trans0033')}}</span>
               </div>
             </div>
@@ -896,24 +896,9 @@ export default {
             .operate {
               span {
                 margin-left: 20px;
-                cursor: pointer;
-                text-decoration: underline;
-                &:hover {
-                  text-decoration: underline;
-                }
-                &:active {
-                  text-decoration: underline;
-                }
                 &:first-child {
                   margin-left: 0;
                 }
-              }
-              .reboot {
-                color: #333;
-              }
-              .reset,
-              .delete {
-                color: #ff4949;
               }
             }
           }
@@ -1102,7 +1087,7 @@ export default {
                   border-radius: 4px;
                   height: 28px;
                   font-size: 12px;
-                  padding: 7px;
+                  padding: 8px;
                   line-height: 1;
                 }
               }

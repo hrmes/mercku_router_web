@@ -5,29 +5,29 @@
         <div class="device-container"
              :class="{'selected':$route.path.includes('device')}">
           <div class="icon-container"
-               :class="{'disabled':!isRouter}"
-               @click="isRouter && forward2page('/dashboard/device/primary')">
-            <img src="../../../assets/images/icon/ic_device.png"
+               :class="{'disabled':!isRouter}">
+            <img @click="isRouter && forward2page('/dashboard/device/primary')"
+                 src="../../../assets/images/icon/ic_device.png"
                  alt="">
+            <div class="text-container"
+                 :class="{'disabled':!isRouter}">
+              {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
+            </div>
           </div>
-          <div class="text-container"
-               :class="{'disabled':!isRouter}"
-               @click="isRouter && forward2page('/dashboard/device/primary')">
-            {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
-          </div>
+
         </div>
         <div class="line"></div>
         <div class="wifi-container"
              :class="{'selected':$route.path.includes('mesh')}">
-          <div class="icon-container"
-               @click="forward2page('/dashboard/mesh')">
-            <img src="../../../assets/images/icon/ic_router.png"
+          <div class="icon-container">
+            <img @click="forward2page('/dashboard/mesh')"
+                 src="../../../assets/images/icon/ic_router.png"
                  alt="">
+            <div class="text-container">
+              {{ssid||'-'}}
+            </div>
           </div>
-          <div class="text-container"
-               @click="forward2page('/dashboard/mesh')">
-            {{ssid||'-'}}
-          </div>
+
         </div>
         <div class="line"
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
@@ -44,15 +44,15 @@
         </div>
         <div class="internet-container"
              :class="{'selected':$route.path.includes('internet')}">
-          <div class="icon-container"
-               @click="forward2page('/dashboard/internet')">
-            <img src="../../../assets/images/icon/ic_internet.png"
+          <div class="icon-container">
+            <img @click="forward2page('/dashboard/internet')"
+                 src="../../../assets/images/icon/ic_internet.png"
                  alt="">
+            <div class="text-container">
+              {{$t('trans0366')}}
+            </div>
           </div>
-          <div class="text-container"
-               @click="forward2page('/dashboard/internet')">
-            {{$t('trans0366')}}
-          </div>
+
         </div>
       </div>
     </div>
@@ -244,12 +244,17 @@ export default {
       }
 
       .icon-container {
-        cursor: pointer;
         &.disabled {
-          cursor: default;
           img {
+            cursor: default;
+            background: #e1e1e1;
             &:hover {
-              opacity: 1;
+              background: #e1e1e1;
+              & + .text-container {
+                color: #e1e1e1;
+                cursor: default;
+                text-decoration: none;
+              }
             }
           }
         }
@@ -260,19 +265,25 @@ export default {
           margin: 0 auto;
           border-radius: 50%;
           background: #fff;
+          cursor: pointer;
           &:hover {
-            opacity: 0.8;
+            background: #e1e1e1;
+            & + .text-container {
+              color: #999;
+              cursor: pointer;
+              text-decoration: underline;
+            }
           }
         }
       }
+      // img ~ .text-container {
+      //   color: #fff;
+      //   text-decoration: none;
+      //   cursor: default;
+      // }
       .text-container {
         &.disabled {
-          cursor: default;
-          &:hover {
-            color: #fff;
-            text-decoration: none;
-            cursor: default;
-          }
+          color: #e1e1e1;
         }
         margin-top: 10px;
         font-size: 14px;
@@ -280,11 +291,6 @@ export default {
         text-align: center;
         white-space: nowrap;
         color: #fff;
-        &:hover {
-          color: #999;
-          cursor: pointer;
-          text-decoration: underline;
-        }
       }
       .line {
         flex: 1;
