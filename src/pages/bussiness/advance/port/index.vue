@@ -96,8 +96,10 @@
                         :onChange="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
-              <a @click="editHandle(item)">{{$t('trans0034')}}</a>
-              <a @click="del([item.id])">{{$t('trans0033')}}</a>
+              <a class="btn-text"
+                 @click="editHandle(item)">{{$t('trans0034')}}</a>
+              <a class="btn-text text-primary"
+                 @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
 
           </div>
@@ -322,14 +324,8 @@ export default {
   .column-handle {
     width: 120px;
     a {
-      cursor: pointer;
-      text-decoration: underline;
       &:last-child {
-        color: #ff0001;
         padding-left: 30px;
-      }
-      &:hover {
-        opacity: 0.8;
       }
     }
   }
