@@ -234,7 +234,6 @@ export default {
               .meshPortfwDelete({ portfw_ids: portfwIds })
               .then(() => {
                 this.filterList(portfwIds);
-                // this.getList
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
@@ -289,7 +288,6 @@ export default {
   }
   .column-local-ip {
     width: 200px;
-    // flex-direction: column;
     p {
       padding: 0;
       margin: 0;
@@ -302,7 +300,6 @@ export default {
     width: 100px;
   }
   .column-outside-ip {
-    // flex-direction: column;
     p {
       padding: 0;
       margin: 0;
@@ -492,7 +489,6 @@ export default {
             width: 140px;
             height: 42px;
             font-size: 14px;
-
             margin: 0;
             background: white;
             color: #333333;
