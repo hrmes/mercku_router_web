@@ -932,10 +932,12 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .mesh-container {
+    padding: 0 !important;
     .mesh-info {
       padding: 0;
       .title {
         .tabs {
+          padding: 0 20px;
           .tab {
             width: auto;
             font-size: 14px;
@@ -944,6 +946,7 @@ export default {
       }
       .btn-add {
         font-size: 12px;
+        right: 20px;
       }
 
       .content {
@@ -1020,6 +1023,7 @@ export default {
           }
           .table-content {
             padding: 0;
+            background: #f1f1f1;
             .router {
               display: flex;
               flex-direction: column;
@@ -1029,8 +1033,10 @@ export default {
               padding: 0;
               height: 60px;
               overflow: hidden;
+              background: #f1f1f1;
+              padding: 0 20px;
               &:nth-child(2n) {
-                background: #fff;
+                background: #f1f1f1;
               }
               &.expand {
                 height: 378px;
