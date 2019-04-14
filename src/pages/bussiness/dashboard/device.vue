@@ -66,7 +66,8 @@
           </div>
           <div v-show="!showLoading">
             <ul v-for="(row,i) in devicesMap[id]"
-                :key='i'>
+                :key='i'
+                :class="{'expand':row.expand}">
               <li class="column-name"
                   @click.stop="expandTable(row)">
                 <div class="column-check-box"
@@ -82,8 +83,7 @@
                            src="../../../assets/images/icon/ic_user.png"
                            alt=""
                            style="margin-right:5px;margin-left:0;">
-                      <span :title='row.name'
-                            :class="{'extand-name':row.expand}">{{row.name}}</span>
+                      <span :title='row.name'>{{row.name}}</span>
                       <img style="cursor:pointer"
                            class="btn-text icon-btn"
                            :title="$t('trans0034')"
@@ -200,7 +200,7 @@
               <li class="column-black-list"
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)'>
-                <span class="black-btn btn-text"
+                <span class="black-btn btn-text setting"
                       v-if="!isOfflineDevices"
                       @click="()=>forward2limit(row)">
                   {{$t('trans0019')}}
@@ -456,10 +456,7 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return (
-        row.parent_control &&
-        row.parent_control.mode === BlacklistMode.blacklist
-      );
+      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -531,9 +528,7 @@ export default {
           this.devicesMap = {
             ...this.devicesMap,
             [curId]:
-              curId === 'offline'
-                ? this.fillterOfflineDevices(result)
-                : this.filterDevices(result)
+              curId === 'offline' ? this.fillterOfflineDevices(result) : this.filterDevices(result)
           };
         }
       } catch (err) {
@@ -581,9 +576,7 @@ export default {
             this.$http
               .addToblackList({ ...params })
               .then(() => {
-                this.devicesMap[this.id] = this.devicesMap[this.id].filter(
-                  v => v.mac !== row.mac
-                );
+                this.devicesMap[this.id] = this.devicesMap[this.id].filter(v => v.mac !== row.mac);
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
@@ -613,22 +606,13 @@ export default {
         return formatDate(date);
       }
       if (differ <= split[0] && differ > split[1]) {
-        return `${this.$t('trans0013').replace(
-          '%d',
-          parseInt(differ / split[1], 10)
-        )}`;
+        return `${this.$t('trans0013').replace('%d', parseInt(differ / split[1], 10))}`;
       }
       if (differ <= split[1] && differ > split[2]) {
-        return `${this.$t('trans0012').replace(
-          '%d',
-          parseInt(differ / split[2], 10)
-        )}`;
+        return `${this.$t('trans0012').replace('%d', parseInt(differ / split[2], 10))}`;
       }
       if (differ <= split[2] && differ > split[3]) {
-        return `${this.$t('trans0011').replace(
-          '%d',
-          parseInt(differ / split[3], 10)
-        )}`;
+        return `${this.$t('trans0011').replace('%d', parseInt(differ / split[3], 10))}`;
       }
       return '-';
     },
@@ -642,22 +626,13 @@ export default {
         return formatDate(now - date * 1000);
       }
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace(
-          '%d',
-          parseInt(date / split[1], 10)
-        )}`;
+        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
       }
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace(
-          '%d',
-          parseInt(date / split[2], 10)
-        )}`;
+        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
       }
       if (date <= split[2] && date > split[3]) {
-        return `${this.$t('trans0011').replace(
-          '%d',
-          parseInt(date / split[3], 10)
-        )}`;
+        return `${this.$t('trans0011').replace('%d', parseInt(date / split[3], 10))}`;
       }
       return `${this.$t('trans0010')}`;
     }
@@ -961,32 +936,27 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/icon/ic_limit_time_close.png)
-                no-repeat center;
+              background: url(../../../assets/images/icon/ic_limit_time_close.png) no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/icon/ic_limit_time.png)
-                  no-repeat center;
+                background: url(../../../assets/images/icon/ic_limit_time.png) no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/icon/ic_limit_speed_close.png)
-                no-repeat center;
+              background: url(../../../assets/images/icon/ic_limit_speed_close.png) no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/icon/ic_limit_speed.png)
-                  no-repeat center;
+                background: url(../../../assets/images/icon/ic_limit_speed.png) no-repeat center;
                 background-size: 100%;
               }
             }
             &.url-limit {
-              background: url(../../../assets/images/icon/ic_limit_website_close.png)
-                no-repeat center;
+              background: url(../../../assets/images/icon/ic_limit_website_close.png) no-repeat
+                center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/icon/ic_limit_website.png)
-                  no-repeat center;
+                background: url(../../../assets/images/icon/ic_limit_website.png) no-repeat center;
                 background-size: 100%;
               }
             }
@@ -1040,7 +1010,13 @@ export default {
       }
     }
     background: transparent;
-    padding: 0;
+    padding: 0 !important;
+    .tabs {
+      padding: 0 20px;
+      .tab {
+        font-size: 14px;
+      }
+    }
     .offline-handle-wrapper {
       flex-direction: column-reverse;
       padding-top: 10px;
@@ -1093,8 +1069,22 @@ export default {
             overflow: inherit;
             background: white;
             border-radius: 3px;
+            margin: 0 20px;
+            width: auto;
+            border: none;
             &:nth-child(2n) {
               background: #fff;
+            }
+            &.expand {
+              margin: 0;
+              // padding: 0 20px;
+              li {
+                padding: 0 20px;
+              }
+            }
+            li {
+              border-bottom: 1px solid #e0e0e0;
+              background: #f1f1f1;
             }
           }
         }
@@ -1106,9 +1096,6 @@ export default {
                 text-decoration: none;
               }
               span {
-                &.extand-name {
-                  font-size: 18px;
-                }
                 display: inline-block;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -1136,7 +1123,6 @@ export default {
               img {
                 width: 14px;
                 height: 7px;
-                opacity: 0.7;
                 transition: all 0.3s;
                 &.i-collapse {
                   transform: rotate(180deg);
@@ -1240,7 +1226,7 @@ export default {
           .device-item {
             height: 60px;
             width: 100%;
-            border-bottom: 1px solid #f1f1f1;
+            border-bottom: 1px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1310,23 +1296,28 @@ export default {
             width: 100%;
             padding: 15px 0;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
+            padding-top: 30px !important;
+            padding-bottom: 30px !important;
             .black-btn,
             .del-btn {
               width: auto;
-              min-width: 80px;
+              min-width: 120px;
               background: #d6001c;
               color: #fff;
               text-align: center;
               border-radius: 4px;
-              height: 28px;
+              height: 38px;
               font-size: 12px;
-              padding: 8px;
+              padding: 13px;
               line-height: 1;
               text-decoration: none;
               margin-right: 20px;
               &:last-child {
                 margin-right: 0;
+              }
+              &.setting {
+                display: none;
               }
             }
           }

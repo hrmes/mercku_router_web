@@ -365,12 +365,10 @@ export default {
         message: this.$t('trans0218'),
         callback: {
           ok: () => {
-            this.$http
-              .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
-              .then(() => {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                this.routers = this.routers.filter(r => r.sn !== router.sn);
-              });
+            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              this.routers = this.routers.filter(r => r.sn !== router.sn);
+            });
           }
         }
       });
@@ -484,10 +482,7 @@ export default {
                     const sp = name.split(splitor);
                     let index = 1;
                     let start = sp[0];
-                    while (
-                      (start + sp[index]).length < 10 &&
-                      index < sp.length
-                    ) {
+                    while ((start + sp[index]).length < 10 && index < sp.length) {
                       start += ` ${sp[index]}`;
                       index += 1;
                     }
@@ -500,10 +495,7 @@ export default {
             },
             data: data.nodes,
             links: data.lines,
-            categories: [
-              { name: `${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0196')}` }
-            ],
+            categories: [{ name: `${this.$t('trans0193')}` }, { name: `${this.$t('trans0196')}` }],
             lineStyle: { width: 2 }
           }
         ]
@@ -852,9 +844,8 @@ export default {
               .expand {
                 display: none;
                 img {
-                  width: 17px;
+                  width: 14px;
                   height: 7px;
-                  opacity: 0.7;
                 }
                 transition: all 0.3s;
                 &.expand {
@@ -952,7 +943,7 @@ export default {
       .content {
         padding-top: 0;
         .topo-container {
-          padding-top: 20px;
+          padding: 20px 20px 0 20px;
           flex: 1;
           display: flex;
           flex-direction: column;
@@ -1003,7 +994,7 @@ export default {
           .name {
             flex: none;
             height: 60px !important;
-            padding: 15px 0 !important;
+
             .icon {
               width: 30px;
             }
@@ -1023,23 +1014,39 @@ export default {
           }
           .table-content {
             padding: 0;
-            background: #f1f1f1;
+            background: #fff;
             .router {
               display: flex;
               flex-direction: column;
-              margin-bottom: 10px;
+              // margin-bottom: 10px;
               background: #fff;
               border-radius: 5px;
               padding: 0;
               height: 60px;
               overflow: hidden;
-              background: #f1f1f1;
-              padding: 0 20px;
+              // background: #f1f1f1;
+              margin: 0 20px;
+              position: relative;
               &:nth-child(2n) {
-                background: #f1f1f1;
+                background: #fff;
               }
               &.expand {
-                height: 378px;
+                height: 408px;
+                margin: 0;
+                background: #f1f1f1;
+                padding: 0 20px;
+                .name {
+                  background: #fff;
+                  position: absolute;
+                  width: 100%;
+                  top: 0;
+                  left: 0;
+                  padding: 0 20px;
+                }
+                > div:not(:first-child) {
+                  background: #f1f1f1;
+                  border-bottom: 1px solid #e0e0e0;
+                }
               }
               span.label {
                 display: inline;
@@ -1078,7 +1085,9 @@ export default {
               }
               .operate {
                 display: flex;
-                justify-content: flex-end;
+                justify-content: center;
+                padding: 30px 20px;
+                border-bottom: 0 !important;
                 span {
                   text-decoration: none;
                 }
@@ -1086,14 +1095,14 @@ export default {
                 .reset,
                 .delete {
                   width: auto;
-                  min-width: 80px;
+                  min-width: 140px;
                   background: #d6001c;
                   color: #fff;
                   text-align: center;
                   border-radius: 4px;
-                  height: 28px;
+                  height: 38px;
                   font-size: 12px;
-                  padding: 8px;
+                  padding: 13px;
                   line-height: 1;
                 }
               }

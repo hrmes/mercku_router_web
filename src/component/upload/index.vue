@@ -1,6 +1,6 @@
 <template>
   <div class="upload-wrapper">
-    <button class="btn btn-success fileinput-button"
+    <button class="btn fileinput-button"
             :disabled="uploadLoading"
             @click="click">
       <label> <img src="../../assets/images/icon/ic_upgrade.png"
@@ -15,22 +15,40 @@
     <div class='file'
          v-for="file in files"
          :key="file.lastModified">
-      <img src="../../assets/images/icon/ic_file.png"
-           alt=""
-           width="18" />
+      <div class="icon-wrap">
+        <img src="../../assets/images/icon/ic_folder.png" />
+      </div>
       <div class="des-cnt">
-        <span> {{file.name}} <br />{{(file.size/1000/1000).toFixed(2)}}MB</span>
-        <img v-if="uploadLoading"
-             src="../../assets/images/icon/ic_delete.png"
-             alt=""
-             width="10"
-             @click="cancel(file)" />
+        <div class="description">
+          <span>
+            <span class="filename">{{file.name}}
+              <span class="filesize">{{getSize(file)}}</span>
+            </span>
+            <span v-if="!uplodaSuccess"
+                  class="percent">{{width}}</span>
+          </span>
+          <div class="packageinfo"
+               v-if="uplodaSuccess">
+            <span class="product">{{packageInfo.product}}</span>
+            <span class="version">{{packageInfo.version}}</span>
+            <span class="model">{{packageInfo.model}}</span>
+          </div>
+        </div>
+
         <div class="line"
              v-if="!uplodaSuccess">
           <span :class="{'loading':uploadLoading,'fail':uploadFail}"
                 :style="{'width':width}"></span>
-          <span v-if="uploadFail">{{err || $t('trans0341')}}</span>
         </div>
+        <span class="error-message"
+              v-if="uploadFail">{{err || $t('trans0341')}}</span>
+      </div>
+      <div class="delete-wrap">
+        <img v-if="uploadLoading ||uploadFail"
+             src="../../assets/images/icon/ic_trash.png"
+             alt=""
+             width="24"
+             @click="cancel(file)" />
       </div>
     </div>
   </div>
@@ -64,7 +82,8 @@ export default {
       files: [],
       percentage: 0,
       status: UploadStatus.ready,
-      err: ''
+      err: '',
+      packageInfo: {}
     };
   },
   computed: {
@@ -77,12 +96,17 @@ export default {
     uploadFail() {
       return this.status === UploadStatus.fail;
     },
+    percent() {
+      return Math.min(this.percentage, 100);
+    },
     width() {
-      const percent = Math.min(this.percentage, 100);
-      return `${percent}%`;
+      return `${this.percent}%`;
     }
   },
   methods: {
+    getSize(file) {
+      return `${(file.size / 1000 / 1000).toFixed(2)}MB`;
+    },
     click() {
       this.files = [];
       this.err = '';
@@ -125,27 +149,52 @@ export default {
 </script>
 <style lang="scss" scoped>
 .upload-wrapper {
-  display: flex;
-
   .file {
-    margin-left: 20px;
+    width: 500px;
+    margin-top: 20px;
     display: flex;
     align-items: center;
-    width: 300px;
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
     color: #999999;
-    padding: 0 5px;
-    &:hover {
-      background: #f9f9f9;
-      border-radius: 4px;
-      color: #409eff;
+    border-radius: 5px;
+    background: #f1f1f1;
+    padding: 20px;
+    .icon-wrap {
+      background: #fff;
+      padding: 10px;
+      border-radius: 50%;
+      img {
+        width: 20px;
+        height: 20px;
+        display: block;
+      }
     }
     .des-cnt {
-      width: 260px;
       position: relative;
-      margin-left: 10px;
-      cursor: pointer;
+      margin-left: 20px;
+      flex: 1;
+      .description {
+        color: #333;
+        display: flex;
+        // align-items: center;
+        flex-direction: column;
+      }
+      .filename {
+        max-width: 320px;
+        white-space: nowrap;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .filesize {
+        margin-left: 5px;
+      }
+      .percent {
+        font-size: 12px;
+        color: #999;
+        align-self: flex-end;
+      }
       .del-btn {
         display: inline-block;
         width: 13px;
@@ -165,41 +214,44 @@ export default {
         }
       }
       .line {
-        position: absolute;
         width: 100%;
-        bottom: -5px;
-        height: 2px;
-        border: 1px solid #f1f1f1;
+        display: flex;
+        flex-direction: column;
+        height: 3px;
+        background: #e3e3e3;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 1.5px;
         .loading {
           display: inline-block;
-          height: 2px;
+          height: 3px;
           transition: width 1s ease;
-          border: 1px solid #67dd37;
-          position: absolute;
-          bottom: -1px;
+          background: #333;
         }
         .fail {
           display: inline-block;
-          height: 2px;
-
-          border: 1px solid red;
-          position: absolute;
-          bottom: -1px;
+          height: 3px;
+          background: #ff0000;
         }
-        span {
-          display: inline-block;
-          color: red;
-          font-size: 12px;
-          margin-top: 5px;
-        }
+      }
+      .error-message {
+        font-size: 12px;
+        color: #ff0000;
+      }
+    }
+    .delete-wrap {
+      margin-left: 20px;
+      img {
+        cursor: pointer;
       }
     }
   }
   .fileinput-button {
     position: relative;
-    display: inline-block;
+    // display: inline-block;
     width: auto;
-    height: 28px;
+    height: 38px;
+    min-width: 140px;
     cursor: pointer;
     &[disabled] {
       background: #999;

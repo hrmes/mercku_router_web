@@ -221,6 +221,11 @@ export default {
           });
           this.localNodes = nodes;
           this.packageInfo = res.data.result.fw_info;
+          uploader.packageInfo = {
+            product: this.productName,
+            version: this.packageInfo.version,
+            model: this.modelName
+          };
         })
         .catch(err => {
           uploader.status = UploadStatus.fail;
@@ -293,14 +298,20 @@ export default {
     margin: 0;
     font-size: 14px;
     color: #333333;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    a {
+      color: #d6001c;
+    }
+    &:last-child {
+      margin-bottom: 20px;
+    }
   }
   h4 {
     display: flex;
     align-items: center;
     font-weight: normal;
     margin: 0;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     img {
       width: 20px;
       margin-right: 10px;
