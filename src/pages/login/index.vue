@@ -1,17 +1,10 @@
 <template>
   <div class="login-container">
     <div class="center-form">
-      <div class="download">
-        <img src="../../assets/images/qr.png"
-             alt="">
-        <div class="text">
-          <div>{{$t('trans0314')}}</div>
-          <div>
-            {{$t('trans0292')}}</div>
-        </div>
-      </div>
       <div class="form">
-        <span class="welcome-text">{{$t('trans0136')}}</span>
+
+        <div class="logo">
+        </div>
         <div v-if="loading === false">
           <button v-if="initial === true"
                   class="btn"
@@ -55,9 +48,21 @@
         </div>
       </div>
     </div>
-
-    <div class="bottom-image">
-
+    <div class="download">
+      <div class="stores">
+        <div class="store">
+          <img src="../../assets/images/icon/ic_android.png"
+               alt="">
+          <span>Google Play</span>
+        </div>
+        <div class="store">
+          <img src="../../assets/images/icon/ic_apple.png"
+               alt="">
+          <span>App Store</span>
+        </div>
+      </div>
+      <img src="../../assets/images/qr.png"
+           alt="">
     </div>
   </div>
 
@@ -155,45 +160,77 @@ export default {
     justify-content: center;
     position: relative;
     width: 100%;
+    transform: translateY(-50%);
     // flex: 1;
+    .logo {
+      width: 340px;
+      margin: 0 auto;
+      &::before {
+        content: '';
+        display: block;
+        padding-top: 15%;
+      }
+      margin-bottom: 60px;
+    }
 
     .form-item {
       margin-bottom: 30px;
     }
     .btn {
-      width: 350px;
+      width: 340px;
     }
-    .download {
-      width: 200px;
-      align-self: flex-end;
-      height: 150px;
-      img {
-        width: 80px;
-        height: 80px;
-      }
-      .text {
-        font-size: 14px;
-        text-align: center;
-      }
-    }
+
     .welcome-text {
-      font-size: 36px;
+      font-size: 26px;
       color: #4c4c4c;
       display: block;
       margin-bottom: 50px;
     }
   }
-  .bottom-image {
-    width: 50%;
-    flex: 1;
-    margin-top: 50px;
-    &::before {
-      content: '';
-      display: block;
-      padding-top: 42%;
+  .download {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    display: flex;
+    .stores {
+      display: flex;
+      flex-direction: column;
+      margin-right: 20px;
+      .store {
+        border: 1px solid #dbdbdb;
+        padding: 6px 10px;
+        border-radius: 4px;
+        align-items: center;
+        display: flex;
+        margin-bottom: 14px;
+        &:last-child {
+          margin: 0;
+        }
+        img {
+          width: 14px;
+          height: 18px;
+        }
+        span {
+          margin-left: 10px;
+          &::before {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 10px;
+            margin-right: 10px;
+            border-left: 1px solid #d8d8d8;
+          }
+        }
+      }
     }
-    background: url(../../assets/images/img_main_picture.jpg) no-repeat center;
-    background-size: 100%;
+    img {
+      width: 86px;
+      height: 86px;
+    }
+    .text {
+      font-size: 14px;
+      text-align: center;
+    }
   }
 }
 @media screen and(max-width: 768px) {
@@ -246,13 +283,20 @@ export default {
         }
       }
     }
+    .download {
+      display: none;
+    }
     .center-form {
       width: 80%;
       flex: 1;
       margin: 0 auto;
-      padding-top: 30px;
       padding-bottom: 0;
       justify-content: center;
+      transform: translateY(0);
+      .logo {
+        width: 100%;
+        margin-bottom: 30px;
+      }
       .welcome-text {
         font-size: 18px;
         margin-bottom: 30px;
@@ -260,19 +304,6 @@ export default {
       .btn {
         width: 100%;
       }
-      .download {
-        display: none;
-      }
-    }
-
-    .bottom-image {
-      width: 80%;
-      margin-top: 30px;
-      &::before {
-        padding-top: 47%;
-      }
-      background: url(../../assets/images/img_bg_mobile.png) no-repeat center;
-      background-size: 100%;
     }
   }
 }

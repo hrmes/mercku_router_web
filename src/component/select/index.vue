@@ -118,7 +118,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .select-container {
-  width: 350px;
+  width: 340px;
   .select {
     height: 48px;
     width: 100%;

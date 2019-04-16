@@ -385,7 +385,7 @@ export default {
     display: flex;
     justify-content: center;
     .btn-large {
-      width: 350px;
+      width: 340px;
     }
     button {
       display: inline-block;
@@ -403,7 +403,7 @@ export default {
     position: relative;
     background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
     background-size: 100%;
-    width: 350px;
+    width: 340px;
     margin: 0 auto;
     margin-bottom: 50px;
     &::before {
@@ -438,7 +438,7 @@ export default {
     }
   }
   p {
-    width: 350px;
+    width: 340px;
     margin: 0 auto;
     @media screen and(max-width:768px) {
       width: 100%;

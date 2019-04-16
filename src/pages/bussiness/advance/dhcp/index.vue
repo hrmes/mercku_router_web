@@ -257,7 +257,7 @@ export default {
   .form {
     .tip {
       color: red;
-      width: 350px;
+      width: 340px;
       display: block;
     }
     .item {

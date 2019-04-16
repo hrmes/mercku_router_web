@@ -1,7 +1,7 @@
 <template>
   <transition name="checkbox">
     <div class="checkbox-container">
-      <label @click="check()">
+      <label @click="check">
         <div class="box"
              :class="{'checked':checked,'circle-shape':!rect}"></div>
         <div class="text"
@@ -31,18 +31,25 @@ export default {
     onChange: {
       type: Function,
       default: () => {}
+    },
+    stopPropagation: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return { checked: this.value };
   },
   methods: {
-    check() {
+    check(e) {
       if (!this.readonly) {
         this.checked = !this.checked;
         this.onChange(this.checked);
         this.$emit('input', this.checked);
         this.$emit('change', this.checked);
+        if (this.stopPropagation) {
+          e.stopPropagation();
+        }
       }
     }
   },
@@ -69,7 +76,7 @@ export default {
     float: left;
     width: 18px;
     height: 18px;
-    border-radius: 2px;
+    border-radius: 4px;
     border: 1px solid #999;
     background: #fff;
     &.circle-shape {

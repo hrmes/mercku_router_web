@@ -3,8 +3,7 @@
     <button class="btn fileinput-button"
             :disabled="uploadLoading"
             @click="click">
-      <label> <img src="../../assets/images/icon/ic_upgrade.png"
-             alt="">{{label}}</label>
+      <label>{{label}}</label>
       <input type="file"
              @change="handleChange"
              ref='upload'
@@ -31,7 +30,6 @@
                v-if="uplodaSuccess">
             <span class="product">{{packageInfo.product}}</span>
             <span class="version">{{packageInfo.version}}</span>
-            <span class="model">{{packageInfo.model}}</span>
           </div>
         </div>
 
@@ -75,15 +73,15 @@ export default {
       default: ''
     },
     request: { type: Function },
-    beforeUpload: { type: Function }
+    beforeUpload: { type: Function },
+    packageInfo: {}
   },
   data() {
     return {
       files: [],
       percentage: 0,
       status: UploadStatus.ready,
-      err: '',
-      packageInfo: {}
+      err: ''
     };
   },
   computed: {
@@ -179,6 +177,35 @@ export default {
         display: flex;
         // align-items: center;
         flex-direction: column;
+        > span {
+          display: flex;
+          justify-content: space-between;
+        }
+        .packageinfo {
+          display: flex;
+          .product,
+          .version {
+            display: flex;
+            align-items: center;
+            &::before {
+              content: '';
+              display: inline-block;
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              margin-right: 5px;
+              background: #00d061;
+            }
+          }
+          .product {
+            margin-right: 10px;
+          }
+          .version {
+            &::before {
+              background: #ff6f00;
+            }
+          }
+        }
       }
       .filename {
         max-width: 320px;
@@ -193,7 +220,8 @@ export default {
       .percent {
         font-size: 12px;
         color: #999;
-        align-self: flex-end;
+        display: flex;
+        align-items: flex-end;
       }
       .del-btn {
         display: inline-block;
@@ -250,8 +278,8 @@ export default {
     position: relative;
     // display: inline-block;
     width: auto;
-    height: 38px;
-    min-width: 140px;
+    height: 28px;
+    min-width: 80px;
     cursor: pointer;
     &[disabled] {
       background: #999;
@@ -272,7 +300,7 @@ export default {
         width: 14px;
         margin-right: 5px;
       }
-      font-size: 14px;
+      font-size: 12px;
       font-weight: normal;
     }
   }

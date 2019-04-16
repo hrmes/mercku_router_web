@@ -93,7 +93,7 @@ export default {
   }
   .checkbox-wrapper {
     margin-bottom: 30px;
-    width: 350px;
+    width: 340px;
   }
 }
 @media screen and (max-width: 768px) {

@@ -146,7 +146,7 @@ export default {
       }
     }
   }
-  width: 350px;
+  width: 340px;
   .select {
     height: 48px;
     width: 100%;

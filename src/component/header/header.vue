@@ -1,7 +1,8 @@
 <template>
   <header class="header-container"
           :class="{'nav-hide':!navVisible,'open':mobileNavVisible}">
-    <div class="logo-wrap">
+    <div class="logo-wrap"
+         v-if="logoVisible">
       <div class="logo-wrap__logo"></div>
     </div>
 
@@ -140,6 +141,10 @@ export default {
     navs: {
       type: Array,
       default: () => []
+    },
+    logoVisible: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -308,8 +313,12 @@ export default {
     .right-wrap {
       .lang-selector {
         .drop-trangle {
-          &:after {
-            border-top: 5px solid #333;
+          &.up {
+          }
+          &.down {
+            &::after {
+              border-top-color: #333;
+            }
           }
         }
         .popup {
@@ -544,7 +553,7 @@ export default {
 
       .popup {
         position: absolute;
-        width: 130px;
+        width: 120px;
         margin-top: 6px;
         background: #fff;
         border-radius: 2px;

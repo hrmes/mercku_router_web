@@ -224,7 +224,7 @@ export default {
     text-align: center;
     .step-item {
       display: inline-block;
-      width: 350px;
+      width: 340px;
       text-align: center;
       &.step-item1 {
         .button-container {

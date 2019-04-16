@@ -70,12 +70,14 @@
                 :class="{'expand':row.expand}">
               <li class="column-name"
                   @click.stop="expandTable(row)">
-                <div class="column-check-box"
-                     v-if="isOfflineDevices">
-                  <m-checkbox v-model="row.checked"></m-checkbox>
-                </div>
 
-                <div class="name-wrap">
+                <div class="name-wrap"
+                     :class="{'wired':isWired(row),'offline':isOfflineDevices}">
+                  <div class="column-check-box"
+                       v-if="isOfflineDevices">
+                    <m-checkbox :stopPropagation="true"
+                                v-model="row.checked"></m-checkbox>
+                  </div>
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
@@ -92,22 +94,30 @@
                            src="../../../assets/images/icon/ic_edit.png"
                            alt="">
                     </a>
+                    <div class="mobile-icon">
+                      <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
+                           src="../../../assets/images/icon/ic_side_bar_pick_up.png"
+                           alt="">
+                    </div>
                   </div>
                   <div class="des-inner"
                        v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                    <span> {{bandMap[`${row.online_info.band}`]}}</span>
-                    <span v-if="row.online_info.band!=='wired'">
-                      {{transformDate(row.online_info.online_duration)}}</span>
+                    <span class="row">
+                      <span class="label">{{$t('trans0375')}}</span>
+                      <span class="value">{{bandMap[`${row.online_info.band}`]}}</span>
+                    </span>
+                    <span class="row"
+                          v-if="!isWired(row)">
+                      <span class="label">{{$t('trans0374')}}</span>
+                      <span class="value">{{transformDate(row.online_info.online_duration)}}</span>
+                    </span>
                   </div>
                 </div>
-                <div class="mobile-icon">
-                  <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                       src="../../../assets/images/icon/ic_side_bar_pick_up.png"
-                       alt="">
-                </div>
+
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <span class="label">{{$t('trans0367')}}</span>
                 <div class="speed-inner">
                   <div class="speed-wrap">
                     <img class='icon'
@@ -133,12 +143,15 @@
               </li>
               <li class="column-band"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span>{{$t('trans0015')}}</span>
-                <span>
-                  {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
+                <span class="label">{{$t('trans0015')}}</span>
+                <span class="value">
+                  <span>
+                    {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
+                  </span>
+                  <span> {{formatNetworkData
+                    (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
                 </span>
-                <span> {{formatNetworkData
-                  (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
+
               </li>
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -329,14 +342,14 @@ export default {
   async mounted() {
     const that = this;
     this.getIsMobile(that);
-    window.onresize = function temp() {
+    window.addEventListener('resize', () => {
       const w = that.windowWidth();
       if (w <= 768) {
         that.isMobile = true;
       } else {
         that.isMobile = false;
       }
-    };
+    });
     const selfInfo = await this.$http.getLocalDevice();
     this.localDeviceIP = selfInfo.data.result.ip;
     this.getDeviceList(true);
@@ -347,6 +360,9 @@ export default {
     this.timer = null;
   },
   methods: {
+    isWired(row) {
+      return row.online_info.band === 'wired';
+    },
     isCurrentTab(tab) {
       return tab.id === this.id;
     },
@@ -456,7 +472,10 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
+      return (
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
+      );
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -528,7 +547,9 @@ export default {
           this.devicesMap = {
             ...this.devicesMap,
             [curId]:
-              curId === 'offline' ? this.fillterOfflineDevices(result) : this.filterDevices(result)
+              curId === 'offline'
+                ? this.fillterOfflineDevices(result)
+                : this.filterDevices(result)
           };
         }
       } catch (err) {
@@ -576,7 +597,9 @@ export default {
             this.$http
               .addToblackList({ ...params })
               .then(() => {
-                this.devicesMap[this.id] = this.devicesMap[this.id].filter(v => v.mac !== row.mac);
+                this.devicesMap[this.id] = this.devicesMap[this.id].filter(
+                  v => v.mac !== row.mac
+                );
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
@@ -606,13 +629,22 @@ export default {
         return formatDate(date);
       }
       if (differ <= split[0] && differ > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(differ / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(differ / split[1], 10)
+        )}`;
       }
       if (differ <= split[1] && differ > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(differ / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(differ / split[2], 10)
+        )}`;
       }
       if (differ <= split[2] && differ > split[3]) {
-        return `${this.$t('trans0011').replace('%d', parseInt(differ / split[3], 10))}`;
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(differ / split[3], 10)
+        )}`;
       }
       return '-';
     },
@@ -626,13 +658,22 @@ export default {
         return formatDate(now - date * 1000);
       }
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(date / split[1], 10)
+        )}`;
       }
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
       }
       if (date <= split[2] && date > split[3]) {
-        return `${this.$t('trans0011').replace('%d', parseInt(date / split[3], 10))}`;
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(date / split[3], 10)
+        )}`;
       }
       return `${this.$t('trans0010')}`;
     }
@@ -672,15 +713,15 @@ export default {
   .offline-handle-wrapper {
     display: flex;
     align-items: center;
-    padding-top: 20px;
-    padding-left: 20px;
+    padding: 20px;
+    padding-bottom: 0;
     .check-info {
       .m-check-all-box {
         display: none;
       }
     }
     .btn {
-      height: 27px;
+      height: 28px;
       font-size: 12px;
       width: 70px !important;
       padding: 0 !important;
@@ -694,7 +735,6 @@ export default {
       background-color: #fffbe6;
       font-size: 12px;
       color: rgba(0, 0, 0, 0.65);
-      // line-height: 30px;
       margin-left: 20px;
       display: flex;
       align-items: center;
@@ -728,7 +768,7 @@ export default {
       li {
         text-decoration: none;
         list-style: none;
-        // flex: auto;
+
         display: flex;
         color: #333333;
         font-size: 14px;
@@ -768,6 +808,11 @@ export default {
         flex-shrink: 0;
       }
       .column-name {
+        .name-wrap {
+          &.offline {
+            display: flex;
+          }
+        }
         .mobile-icon {
           display: none;
         }
@@ -801,10 +846,13 @@ export default {
       }
       .column-real-time {
         width: 150px;
+        .label {
+          display: none;
+        }
       }
       .column-band {
         width: 100px;
-        span:first-child {
+        .label {
           display: none;
         }
       }
@@ -834,8 +882,13 @@ export default {
       }
       .des-inner {
         margin-top: 10px;
-        span {
+        .row {
           margin-right: 10px;
+          .label {
+            display: none;
+          }
+        }
+        span {
           &:first-child {
             padding: 2px 6px;
             border-radius: 3px;
@@ -845,7 +898,6 @@ export default {
       }
       .name-inner {
         display: flex;
-        // align-items: end;
         justify-content: flex-start;
 
         a {
@@ -854,16 +906,12 @@ export default {
           display: flex;
           cursor: pointer;
           align-items: baseline;
-
-          // &:hover {
-          //   text-decoration: underline;
-          // }
           span {
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: pre;
-            max-width: 130px;
+            max-width: 200px;
             flex-shrink: 0;
           }
           img {
@@ -936,27 +984,32 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/icon/ic_limit_time_close.png) no-repeat center;
+              background: url(../../../assets/images/icon/ic_limit_time_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/icon/ic_limit_time.png) no-repeat center;
+                background: url(../../../assets/images/icon/ic_limit_time.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/icon/ic_limit_speed_close.png) no-repeat center;
+              background: url(../../../assets/images/icon/ic_limit_speed_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/icon/ic_limit_speed.png) no-repeat center;
+                background: url(../../../assets/images/icon/ic_limit_speed.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
             &.url-limit {
-              background: url(../../../assets/images/icon/ic_limit_website_close.png) no-repeat
-                center;
+              background: url(../../../assets/images/icon/ic_limit_website_close.png)
+                no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/icon/ic_limit_website.png) no-repeat center;
+                background: url(../../../assets/images/icon/ic_limit_website.png)
+                  no-repeat center;
                 background-size: 100%;
               }
             }
@@ -1019,17 +1072,20 @@ export default {
     }
     .offline-handle-wrapper {
       flex-direction: column-reverse;
-      padding-top: 10px;
-      padding-left: 0;
+      padding: 10px 20px;
+      border-bottom: 1px solid #f1f1f1;
+      // padding-left: 0;
       .check-info {
+        // padding: 0 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #f1f1f1;
+        // padding-bottom: 10px;
+
         width: 100%;
         .m-check-all-box {
           display: block;
+          height: 18px;
         }
       }
       .btn {
@@ -1054,6 +1110,7 @@ export default {
       .table-inner {
         background: transparent;
         margin: 0;
+
         .column-check-box {
           width: auto;
           margin-left: 0;
@@ -1077,9 +1134,38 @@ export default {
             }
             &.expand {
               margin: 0;
-              // padding: 0 20px;
-              li {
+              padding: 0 20px;
+              background: #f1f1f1;
+              position: relative;
+              .name-wrap {
+                height: 180px;
+                &.wired {
+                  height: 120px;
+                }
+                &.offline {
+                  height: 60px;
+                  .column-check-box {
+                    position: absolute;
+                    z-index: 100;
+                    left: 20px;
+                  }
+                }
+              }
+              .column-name {
+                border: 0;
+                position: static;
+              }
+              .name-inner {
+                background: #fff;
                 padding: 0 20px;
+                &.off-name {
+                  // padding: 0;
+
+                  left: 0 !important;
+                  a {
+                    margin-left: 28px;
+                  }
+                }
               }
             }
             li {
@@ -1115,6 +1201,7 @@ export default {
             }
           }
           .column-name {
+            // border: 0;
             .mobile-icon {
               display: block;
               display: flex;
@@ -1135,77 +1222,104 @@ export default {
             width: 100%;
             background: white;
             border-radius: 3px;
-            height: 60px;
             position: relative;
             overflow: inherit;
             .name-wrap {
               flex: 1;
               display: flex;
-              align-items: center;
-              justify-content: flex-start;
-              .des-inner {
+              flex-direction: column;
+              align-items: flex-start;
+              justify-content: center;
+              height: 60px;
+              .name-inner {
+                // height: 120px;
+                display: flex;
+
                 position: absolute;
-                top: 45px;
+                align-items: center;
+
+                top: 0;
                 left: 0;
-                z-index: 111;
+                right: 0;
+                height: 60px;
+                &.off-name {
+                  // padding-left: 28px;
+                  left: 28px;
+                  // right: 20px;
+                  // width: auto;
+                }
+              }
+              .des-inner {
+                width: 100%;
+                background: #f1f1f1;
+                height: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                margin-top: 60px;
+                .row {
+                  border-bottom: 1px solid #e1e1e1;
+                  align-items: center;
+                  display: flex;
+                  width: 100%;
+                  justify-content: space-between;
+                  height: 60px;
+                  padding: 0;
+                  .label {
+                    padding: 0;
+                    display: block;
+                  }
+                }
+                span {
+                  border: 0;
+                  margin: 0;
+                }
               }
             }
           }
           .column-real-time {
-            margin-top: 50px;
-            margin-bottom: 20px;
             width: 100%;
-            // padding-left: 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .label {
+              display: block;
+            }
             .speed-inner {
-              width: 100%;
               display: flex;
               flex-direction: row;
               .speed-wrap {
-                // flex: 1;
-                padding-right: 20px;
                 display: flex;
                 justify-content: center;
                 position: relative;
-                .text-inner {
-                  padding-left: 5px;
-                  span:first-child {
-                    font-size: 20px;
-                  }
-                  span:last-child {
-                    font-size: 16px;
-                  }
+                .icon {
+                  margin: 0;
                 }
-                &:first-child ::after {
-                  content: '';
-                  position: absolute;
-                  height: 10px;
-                  width: 1px;
-                  background: #999999;
-                  right: 0;
-                  top: 10px;
+                .text-inner {
+                  padding-left: 2px;
                 }
                 &:last-child {
                   margin: 0;
-                  margin-left: 20px;
+                  margin-left: 10px;
                 }
               }
             }
           }
           .column-band {
             width: 100%;
-            padding-bottom: 30px;
-            span {
-              line-height: 30px;
-            }
-            span:first-child {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .label {
               display: block;
-              font-size: 14px;
-              letter-spacing: -0.6px;
-              padding-right: 10px;
             }
-            span:nth-child(2) {
-              font-size: 20px;
-              padding-right: 5px;
+            .value {
+              span {
+                display: inline-block;
+              }
             }
           }
           .column-ip {
@@ -1240,6 +1354,7 @@ export default {
           }
           .column-limit {
             width: 100%;
+            border: 0;
           }
           .limit-inner {
             width: 100%;
@@ -1299,6 +1414,7 @@ export default {
             justify-content: center;
             padding-top: 30px !important;
             padding-bottom: 30px !important;
+            border: 0;
             .black-btn,
             .del-btn {
               width: auto;
@@ -1316,9 +1432,9 @@ export default {
               &:last-child {
                 margin-right: 0;
               }
-              &.setting {
-                display: none;
-              }
+              // &.setting {
+              //   display: none;
+              // }
             }
           }
           .li-expand {

@@ -1,14 +1,4 @@
 .header-container {
-  &.nav-hide {
-    .logo-wrap {
-      .logo-wrap__logo {
-        width: 210px;
-        height: 32px;
-        background: url(../assets/images/cik_logo_text.png) center no-repeat;
-        background-size: 100%;
-      }
-    }
-  }
   .logo-wrap {
     .logo-wrap__logo {
       background: url(../assets/images/cik_logo.png) center no-repeat;
@@ -18,10 +8,13 @@
 }
 /************************* 登陆页面*********************/
 .login-container {
+  .download {
+    display: none;
+  }
   .center-form {
-    flex: 1;
-    .download {
-      display: none;
+    .logo {
+      background: url(../assets/images/cik_logo_text.png) no-repeat center;
+      background-size: 100%;
     }
   }
 }

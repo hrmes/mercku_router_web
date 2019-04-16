@@ -47,7 +47,7 @@ ul {
   padding: 0 15px;
   font-size: 14px;
   border-radius: 4px;
-  width: 350px;
+  width: 340px;
   height: 48px;
   user-select: none;
   position: relative;
@@ -219,6 +219,7 @@ input::-webkit-input-placeholder {
     color: #333333;
     font-weight: bold;
     height: 50px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
   }

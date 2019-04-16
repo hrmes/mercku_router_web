@@ -365,10 +365,12 @@ export default {
         message: this.$t('trans0218'),
         callback: {
           ok: () => {
-            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-              this.routers = this.routers.filter(r => r.sn !== router.sn);
-            });
+            this.$http
+              .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
+              .then(() => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
+              });
           }
         }
       });
@@ -482,7 +484,10 @@ export default {
                     const sp = name.split(splitor);
                     let index = 1;
                     let start = sp[0];
-                    while ((start + sp[index]).length < 10 && index < sp.length) {
+                    while (
+                      (start + sp[index]).length < 10 &&
+                      index < sp.length
+                    ) {
                       start += ` ${sp[index]}`;
                       index += 1;
                     }
@@ -495,7 +500,10 @@ export default {
             },
             data: data.nodes,
             links: data.lines,
-            categories: [{ name: `${this.$t('trans0193')}` }, { name: `${this.$t('trans0196')}` }],
+            categories: [
+              { name: `${this.$t('trans0193')}` },
+              { name: `${this.$t('trans0196')}` }
+            ],
             lineStyle: { width: 2 }
           }
         ]
@@ -551,7 +559,7 @@ export default {
   }
   @media screen and (max-width: 768px) {
     width: auto;
-    height: 350px;
+    height: 340px;
     overflow: auto;
   }
   .examples {
