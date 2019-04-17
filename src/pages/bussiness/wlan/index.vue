@@ -300,7 +300,6 @@ export default {
       width: 100%;
     }
     .step-content {
-      width: 80%;
       margin: 80px auto 0 auto;
       .step-item {
         display: block;

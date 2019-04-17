@@ -28,7 +28,7 @@ export default {
   props: { option: { type: Object } },
   computed: {
     width() {
-      return `${((this.option.current + 1) * 100) / this.option.steps.length}%`;
+      return `${(this.option.current * 100) / (this.option.steps.length - 1)}%`;
     }
   }
 };
@@ -132,7 +132,6 @@ export default {
 }
 @media screen and(max-width: 768px) {
   .step-container {
-    padding: 0 20px;
     .line {
       width: auto;
       left: 20px;

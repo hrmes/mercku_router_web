@@ -544,7 +544,6 @@ export default {
   }
   .modal {
     .modal-content {
-      height: 480px;
       border-radius: 5px;
       background-color: #ffffff;
       .btn-info {

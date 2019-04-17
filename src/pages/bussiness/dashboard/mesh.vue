@@ -695,6 +695,8 @@ export default {
               margin-left: 5px;
               position: relative;
               cursor: pointer;
+
+              color: #fff;
               &:hover {
                 &::before {
                   border-color: #999;
@@ -709,21 +711,25 @@ export default {
                 display: block;
                 width: 10px;
                 height: 10px;
+                // border-radius: 50%;
+                background: #333;
                 border: 1px solid #333;
                 border-radius: 50%;
               }
               &::after {
                 position: absolute;
-                content: '';
+                content: 'i';
+                color: #fff;
                 display: block;
                 width: 3px;
                 height: 3px;
-                border-right: 1px solid #333;
-                border-bottom: 1px solid #333;
-                border-left: 0;
-                border-top: 0;
-                transform: rotate(-45deg);
-                top: 4px;
+                font-size: 8px;
+                // border-right: 1px solid #333;
+                // border-bottom: 1px solid #333;
+                // border-left: 0;
+                // border-top: 0;
+                // transform: rotate(-45deg);
+                top: -2px;
                 left: 4px;
               }
             }

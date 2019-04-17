@@ -93,11 +93,11 @@ export default {
     padding: 0 10px;
     z-index: 999;
     width: 200px;
-    background-color: #f1f1f1;
+    background-color: #333;
     border-radius: 8px;
     // box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     font-size: 12px;
-    color: #333333;
+    color: #fff;
     padding: 10px;
     &::before {
       content: '';
@@ -120,7 +120,7 @@ export default {
       &::before {
         left: 18px;
         bottom: -10px;
-        border: 10px solid #f1f1f1;
+        border: 10px solid #333;
         border-bottom: none;
         border-left-color: transparent;
         border-right-color: transparent;
@@ -128,7 +128,7 @@ export default {
       &:after {
         left: 20px;
         bottom: -8px;
-        border: 8px solid #f1f1f1;
+        border: 8px solid #333;
         border-bottom: none;
         border-left-color: transparent;
         border-right-color: transparent;
@@ -138,7 +138,7 @@ export default {
       &::before {
         left: 18px;
         top: -10px;
-        border: 10px solid #f1f1f1;
+        border: 10px solid #333;
         border-top: none;
         border-left-color: transparent;
         border-right-color: transparent;
@@ -146,7 +146,7 @@ export default {
       &:after {
         left: 20px;
         top: -8px;
-        border: 8px solid #f1f1f1;
+        border: 8px solid #333;
         border-top: none;
         border-left-color: transparent;
         border-right-color: transparent;
@@ -155,8 +155,8 @@ export default {
     .title {
       line-height: 1;
       box-sizing: border-box;
-      border-bottom: 1px solid #f1f1f1;
-      font-weight: normal;
+      font-size: 14px;
+      font-weight: bold;
     }
     .content {
       padding-top: 10px;

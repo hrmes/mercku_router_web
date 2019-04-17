@@ -251,6 +251,7 @@ export default {
       text-align: left;
       padding: 10px;
       border-radius: 4px;
+      margin-top: 30px;
       align-items: center;
       justify-content: space-between;
       .logo-container {
@@ -294,7 +295,7 @@ export default {
       justify-content: center;
       transform: translateY(0);
       .logo {
-        width: 100%;
+        width: 220px;
         margin-bottom: 30px;
       }
       .welcome-text {

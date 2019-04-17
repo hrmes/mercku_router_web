@@ -263,15 +263,15 @@ export default {
   left: 0;
   width: 480px;
   border-radius: 4px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 0 7px 0 rgba(0, 0, 0, 0.25);
-  border: solid 1px #e7e7e7;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  border: solid 1px #f1f1f1;
   background-color: #ffffff;
   .modal-content {
     .modal__header {
       color: #333;
       text-align: left;
       font-weight: bold;
-      border-bottom: 1px solid #e7e7e7;
+      border-bottom: 1px solid #f1f1f1;
 
       font-size: 14px;
       padding: 20px 0 12px 0;
@@ -294,7 +294,7 @@ export default {
         justify-content: flex-start;
         margin-left: 20px;
         padding-bottom: 20px;
-        border-bottom: 1px solid #e7e7e7;
+        border-bottom: 1px solid #f1f1f1;
         p {
           color: #333333;
           line-height: 1;
@@ -317,7 +317,6 @@ export default {
         display: none;
       }
       .btn {
-        height: 36px;
         margin: 0 auto;
       }
       padding-top: 50px;

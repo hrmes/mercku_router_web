@@ -177,6 +177,7 @@ export default {
   height: 36px;
   border: 1px solid #f1f1f1;
   position: relative;
+  border-radius: 4px;
   .combobox {
     position: absolute;
     background: white;
@@ -244,11 +245,11 @@ export default {
         line-height: 36px;
         cursor: pointer;
         &:hover {
-          background: #e7e7e7;
+          background: #f1f1f1;
           color: #333;
         }
         &:active {
-          background: #e7e7e7;
+          background: #f1f1f1;
           color: #333;
         }
         &.selected {

@@ -452,9 +452,10 @@ export default {
     justify-content: center;
     align-items: center;
     width: 340px;
-    height: 140px;
+    height: 120px;
     border-radius: 5px;
-    background-color: #f1f1f1;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
     margin-bottom: 30px;
     cursor: pointer;
 
@@ -467,7 +468,7 @@ export default {
         display: inline-block;
         font-weight: bold;
         font-size: 14px;
-        width: 120px;
+        width: 150px;
       }
       .checkbox {
         width: 18px;
@@ -486,8 +487,8 @@ export default {
       }
     }
     img {
-      width: 140px;
-      height: 140px;
+      width: 80px;
+      height: 80px;
     }
     .name {
       width: 120px;
@@ -503,7 +504,7 @@ export default {
   justify-content: center;
   align-items: center;
   .step {
-    width: 100%;
+    width: 340px;
   }
   .btn-help {
     font-size: 12px;
@@ -541,7 +542,6 @@ export default {
     }
     img {
       width: 280px;
-      height: 280px;
       display: block;
       margin: 0 auto;
     }
@@ -665,11 +665,14 @@ export default {
   }
 
   .type-container {
+    .tip {
+      width: 100%;
+    }
     .router {
-      width: 300px;
+      // width: 300px;
       img {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
       }
     }
     .circle-animation {
@@ -691,11 +694,12 @@ export default {
       }
     }
     .button-container {
-      flex-direction: column;
+      flex-direction: column-reverse;
       width: 100%;
+      margin-top: 14px;
       .btn {
         width: 100%;
-        margin-bottom: 20px;
+        margin-top: 20px;
         &:last-child {
           margin-bottom: 0;
         }
@@ -710,16 +714,26 @@ export default {
     .step-item {
       .button-container {
         display: flex;
-        flex-direction: column;
+        margin-top: 50px;
+        flex-direction: column-reverse;
         justify-content: center;
         align-items: center;
         button {
           width: 100%;
           margin: 0;
           &:last-child {
-            margin-top: 20px;
+            margin-bottom: 20px;
           }
         }
+      }
+    }
+    .step-item0 {
+      margin-top: 30px;
+      p {
+        text-align: left;
+      }
+      img {
+        width: 100%;
       }
     }
     .step-item1 {
@@ -733,8 +747,11 @@ export default {
 }
 @media screen and (width: 320px) {
   .type-container {
+    .router-category-container {
+      width: 100%;
+    }
     .router {
-      width: 250px;
+      width: 100%;
       img {
         width: 70px;
         height: 70px;
@@ -745,11 +762,8 @@ export default {
     }
   }
   .info-container {
-    .step-item0 {
-      img {
-        width: 250px;
-        height: 250px;
-      }
+    .step {
+      width: 100%;
     }
     .step-item1 {
       .scan-result {

@@ -332,6 +332,9 @@ export default {
 .modal-body {
   width: 600px;
   height: 350px;
+  @media screen and (max-width: 768px) {
+    height: 250px;
+  }
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -359,7 +362,7 @@ export default {
   .nodes-wrapper {
     .nodes-info {
       .node {
-        width: 303px;
+        // width: 303px;
 
         margin-left: auto;
         margin-right: auto;
@@ -402,8 +405,7 @@ export default {
   .nodes-wrapper {
     .nodes-info {
       .node {
-        width: 253px;
-        min-width: 253px;
+        height: 140px;
         margin-right: 0;
         .message {
           .img-container {
