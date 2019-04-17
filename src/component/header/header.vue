@@ -380,7 +380,7 @@ export default {
         color: #999;
       }
       img {
-        width: 20px;
+        width: 12px;
         margin-right: 5px;
       }
     }
