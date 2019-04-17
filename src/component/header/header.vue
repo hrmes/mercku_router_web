@@ -325,6 +325,8 @@ export default {
           box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
           background-color: #fff;
           margin-top: 0;
+          right: 0;
+          top: 50px;
           // top: 100 px;
           li {
             list-style: none;
@@ -553,7 +555,7 @@ export default {
 
       .popup {
         position: absolute;
-        width: 120px;
+        width: 150px;
         margin-top: 6px;
         background: #fff;
         border-radius: 2px;

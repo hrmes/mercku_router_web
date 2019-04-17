@@ -17,7 +17,7 @@
           <div class="legend-wrap">
             <p class="legend-title">
               <span>{{$t('trans0302')}}</span>
-              <span class="icon-circle"
+              <span class="icon-quality"
                     @click.stop="showRssiModal"></span>
             </p>
             <div class="legend">
@@ -688,49 +688,18 @@ export default {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            .icon-circle {
+            .icon-quality {
               width: 12px;
               height: 12px;
-              display: inline-block;
               margin-left: 5px;
-              position: relative;
               cursor: pointer;
-
-              color: #fff;
+              background: url(../../../assets/images/icon/ic_connection_quality.png)
+                no-repeat center;
+              background-size: 100%;
               &:hover {
-                &::before {
-                  border-color: #999;
-                }
-                &::after {
-                  border-right-color: #999;
-                  border-bottom-color: #999;
-                }
-              }
-              &::before {
-                content: '';
-                display: block;
-                width: 10px;
-                height: 10px;
-                // border-radius: 50%;
-                background: #333;
-                border: 1px solid #333;
-                border-radius: 50%;
-              }
-              &::after {
-                position: absolute;
-                content: 'i';
-                color: #fff;
-                display: block;
-                width: 3px;
-                height: 3px;
-                font-size: 8px;
-                // border-right: 1px solid #333;
-                // border-bottom: 1px solid #333;
-                // border-left: 0;
-                // border-top: 0;
-                // transform: rotate(-45deg);
-                top: -2px;
-                left: 4px;
+                background: url(../../../assets/images/icon/ic_connection_quality_hover.png)
+                  no-repeat center;
+                background-size: 100%;
               }
             }
           }

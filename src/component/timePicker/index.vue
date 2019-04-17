@@ -181,7 +181,7 @@ export default {
   .combobox {
     position: absolute;
     background: white;
-    left: 0;
+    left: -1px;
     display: flex;
     flex-direction: column;
     width: 168px;

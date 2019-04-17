@@ -473,16 +473,26 @@ export default {
       .checkbox {
         width: 18px;
         height: 18px;
-        border-radius: 2px;
+        border-radius: 4px;
         border: 1px solid #999;
         background: #fff;
-        border-radius: 50%;
         &.checked {
-          background: url(../../../assets/images/icon/ic_selected.png) no-repeat
-            center;
-          border: none;
-          background-size: 90%;
-          background-color: #00d061;
+          background: #333;
+          position: relative;
+          border-color: #333;
+          &::after {
+            content: '';
+            display: block;
+            border: 1px solid #fff;
+            border-left: 0;
+            border-top: 0;
+            height: 8px;
+            left: 6px;
+            position: absolute;
+            top: 3px;
+            transform: rotate(45deg);
+            width: 3px;
+          }
         }
       }
     }
@@ -573,7 +583,7 @@ export default {
       margin-top: 100px;
       .router {
         display: flex;
-        background: #f1f1f1;
+        background: #fff;
         width: 340px;
         height: 140px;
         border-radius: 5px;
@@ -582,6 +592,7 @@ export default {
         cursor: pointer;
         margin: 0 auto;
         margin-top: 20px;
+        border: 1px solid #f1f1f1;
 
         &:first-child {
           margin-top: 0;
@@ -613,23 +624,35 @@ export default {
           .checkbox {
             width: 18px;
             height: 18px;
-            border-radius: 2px;
+            border-radius: 4px;
             border: 1px solid #999;
             background: #fff;
-            border-radius: 50%;
             &.checked {
-              background: url(../../../assets/images/icon/ic_selected.png)
-                no-repeat center;
-              border: none;
-              background-size: 90%;
-              background-color: #00d061;
+              &.checked {
+                background: #333;
+                position: relative;
+                border-color: #333;
+                &::after {
+                  content: '';
+                  display: block;
+                  border: 1px solid #fff;
+                  border-left: 0;
+                  border-top: 0;
+                  height: 8px;
+                  left: 6px;
+                  position: absolute;
+                  top: 3px;
+                  transform: rotate(45deg);
+                  width: 3px;
+                }
+              }
             }
           }
         }
 
         img {
-          width: 100px;
-          height: 100px;
+          width: 80px;
+          height: 80px;
         }
       }
     }
@@ -669,7 +692,6 @@ export default {
       width: 100%;
     }
     .router {
-      // width: 300px;
       img {
         width: 80px;
         height: 80px;
@@ -734,13 +756,6 @@ export default {
       }
       img {
         width: 100%;
-      }
-    }
-    .step-item1 {
-      .scan-result {
-        .router {
-          width: 300px;
-        }
       }
     }
   }

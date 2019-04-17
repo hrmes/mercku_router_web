@@ -157,7 +157,8 @@ export default {
     width: 100%;
     position: absolute;
     z-index: 888;
-    left: 0;
+    width: 340px;
+    left: -1px;
     top: 52px;
     background: #fff;
     border-radius: 5px;

@@ -293,8 +293,11 @@ input::-webkit-input-placeholder {
       height: auto;
       flex-direction: column;
       border: none;
+      p {
+        margin: 0;
+      }
       img {
-        width: 180px;
+        width: 150px;
         display: block;
       }
       .btn {

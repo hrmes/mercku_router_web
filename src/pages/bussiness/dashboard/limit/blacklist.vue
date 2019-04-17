@@ -1,12 +1,14 @@
 <template>
 
   <div class="urllimit">
-    <div class="handle">
+    <div class="handle"
+         v-if="sortList.length">
       <label for="">{{$t('trans0462')}}</label>
       <m-switch :onChange="changehandle"
                 v-model="mode" />
     </div>
-    <div class='table'>
+    <div class='table'
+         :class="{'table--empty':!sortList.length}">
       <div class="tools">
         <button class="btn btn-small"
                 @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
@@ -349,22 +351,51 @@ export default {
     }
   }
   .urllimit {
+    .tools {
+      .btn {
+        min-width: 120px;
+        height: 38px;
+      }
+    }
     .handle {
       display: flex;
       align-items: center;
       right: initial;
       left: 0;
+      top: 11px;
       label {
         padding: 0 30px 0 0px;
       }
     }
     .table {
-      margin-top: 30px;
+      &.table--empty {
+        .tools {
+          position: static;
+          justify-content: center;
+          border: 0;
+          margin: 0;
+          margin-top: 10px;
+          .btn {
+            min-width: 120px;
+            height: 38px;
+          }
+        }
+      }
       .tools {
-        margin-top: 20px;
-        margin-bottom: 0;
+        position: absolute;
+        right: 0;
+        margin: 0;
+        top: 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        .btn {
+          margin: 0;
+        }
       }
       .table-body {
+        border-top: 1px solid #f1f1f1;
+        margin-top: 68px;
         .table-row {
           flex-direction: row;
           padding: 20px 0;

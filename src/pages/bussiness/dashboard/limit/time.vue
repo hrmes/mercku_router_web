@@ -1,6 +1,7 @@
 <template>
   <div class="timelimit">
-    <div class='table'>
+    <div class='table'
+         :class="{'table--empty':!sortList.length}">
       <div class="tools">
         <button class="btn btn-small"
                 @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
@@ -495,11 +496,35 @@ export default {
   .timelimit {
     .table {
       margin: 0;
+      position: relative;
+      &.table--empty {
+        .tools {
+          position: static;
+          justify-content: center;
+          border: 0;
+          margin: 0;
+          margin-top: 10px;
+          .btn {
+            min-width: 120px;
+            height: 38px;
+          }
+        }
+      }
       .tools {
-        margin-top: 20px;
-        margin-bottom: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding-bottom: 20px;
+        width: 100%;
+        border-bottom: 1px solid #f1f1f1;
+        display: flex;
+        justify-content: flex-end;
+        .btn {
+          margin: 0;
+        }
       }
       .table-body {
+        margin-top: 68px;
         .table-row {
           flex-direction: column;
           padding: 20px 0;
