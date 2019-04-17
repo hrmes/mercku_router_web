@@ -146,7 +146,8 @@
                 <span class="label">{{$t('trans0015')}}</span>
                 <span class="value">
                   <span>
-                    {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
+                    {{formatNetworkData
+                    (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
                   </span>
                   <span> {{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
