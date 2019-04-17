@@ -108,6 +108,11 @@ ul {
   }
 }
 .btn-text {
+  &.disabled {
+    &:hover {
+      opacity: 1;
+    }
+  }
   &:hover {
     opacity: 0.8;
   }

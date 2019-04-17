@@ -18,7 +18,7 @@
                         :onChange="offCheckChange"></m-checkbox>
           </div>
           <div><button class="btn"
-                    :disabled="offlineCheckedMacs.length"
+                    :disabled="!offlineCheckedMacs.length"
                     @click="delOfflineDevices(offlineCheckedMacs)">
               {{$t('trans0453')}}</button></div>
         </div>
@@ -84,6 +84,8 @@
                       <span :title='row.name'
                             :class="{'extand-name':row.expand}">{{row.name}}</span>
                       <img style="cursor:pointer"
+                           class="btn-text"
+                           :title="$t('trans0034')"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
                            src="../../../assets/images/icon/ic_edit.png"
@@ -781,8 +783,7 @@ export default {
         align-items: center;
       }
       .column-check-box {
-        width: 50px;
-        margin-left: 10px;
+        width: 40px;
         display: flex;
         align-items: center;
         flex-shrink: 0;
@@ -1327,7 +1328,7 @@ export default {
               border-radius: 4px;
               height: 28px;
               font-size: 12px;
-              padding: 7px;
+              padding: 8px;
               line-height: 1;
               text-decoration: none;
               margin-right: 20px;

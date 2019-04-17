@@ -10,13 +10,11 @@
           v-if="navVisible">
         <li class="nav-item"
             :key="menu.key"
-            @mouseenter="showChildMenu(menu)"
-            @mouseleave="closeChildMenu(menu)"
+            @mouseenter="setChildMenuVisible(menu,true)"
+            @mouseleave="setChildMenuVisible(menu,false)"
             v-for="menu in list"
-            :class="{'selected':menu.selected}">
+            :class="{'selected':menu.selected,'open':menu.showChild}">
           <div class="nav-item-content">
-            <!-- <span class="nav-item__icon"
-                  :class="[menu.icon]"></span> -->
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
 
@@ -35,7 +33,6 @@
         <li class="nav-item nav-item__exit"
             @click="exit()">
           <div class="nav-item-content">
-            <!-- <span class="nav-item__icon exit"></span> -->
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
 
@@ -52,8 +49,6 @@
             v-for="menu in list"
             :class="{'selected':menu.selected}">
           <div class="nav-item-content">
-            <!-- <span class="nav-item__icon"
-                  :class="[menu.icon]"></span> -->
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
 
@@ -72,7 +67,6 @@
         <li class="nav-item nav-item__exit"
             @click="exit()">
           <div class="nav-item-content">
-            <!-- <span class="nav-item__icon exit"></span> -->
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
 
@@ -82,10 +76,10 @@
 
     <div class="right-wrap">
       <div class="lang-selector"
-           @mouseenter="showLangPopup()"
-           @mouseleave="closeLangPopup()">
+           :class="{'open':showPopup}"
+           @mouseenter="setLangPopupVisible(true)"
+           @mouseleave="setLangPopupVisible(false)">
         <div class="current">
-          <div class="icon-i18n"></div>
           <span class="current-text">{{language.text}}</span>
           <span class="drop-trangle"
                 :class="{'down':!showPopup,'up':showPopup}"></span>
@@ -188,17 +182,8 @@ export default {
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
     },
-    showChildMenu(menu) {
-      if (menu.showChildTimer) {
-        clearTimeout(menu.showChildTimer);
-        menu.showChildTimer = null;
-      }
-      menu.showChild = true;
-    },
-    closeChildMenu(menu) {
-      menu.showChildTimer = setTimeout(() => {
-        menu.showChild = false;
-      }, 100);
+    setChildMenuVisible(menu, visible) {
+      menu.showChild = visible;
     },
     jump(menu, parent) {
       if (!menu.disabled) {
@@ -239,18 +224,11 @@ export default {
     getDefaultLanguage() {
       return Languages.filter(l => l.value === this.$i18n.locale)[0];
     },
-    showLangPopup() {
-      if (this.langTimer) {
-        clearTimeout(this.langTimer);
-        this.langTimer = null;
-      }
-      this.showPopup = true;
+
+    setLangPopupVisible(visible) {
+      this.showPopup = visible;
     },
-    closeLangPopup() {
-      this.langTimer = setTimeout(() => {
-        this.showPopup = false;
-      }, 100);
-    },
+
     selectLang(lang) {
       this.changeLanguage(lang.value);
       this.showPopup = false;
@@ -304,13 +282,6 @@ export default {
     padding: 0 50px;
     .right-wrap {
       .lang-selector {
-        .current {
-          .icon-i18n {
-            background: url(../../assets/images/icon/ic_i18n_reverse.png) center
-              no-repeat;
-            background-size: 100%;
-          }
-        }
         .drop-trangle {
           &:after {
             border-top: 5px solid #333;
@@ -383,6 +354,19 @@ export default {
         display: flex;
         align-items: center;
         margin-right: 80px;
+        &.open {
+          &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: -6px;
+            height: 6px;
+            width: 260px;
+            left: 0;
+            background: transparent;
+            z-index: 999;
+          }
+        }
         @media screen and (max-width: 1440px) {
           margin-right: 50px;
         }
@@ -406,11 +390,6 @@ export default {
             bottom: 0;
             position: absolute;
           }
-          .nav-item-content {
-            .nav-item__text {
-              // color: #fff;
-            }
-          }
         }
         &.nav-item__exit {
           display: none;
@@ -420,39 +399,6 @@ export default {
         }
         .nav-item-content {
           display: flex;
-          .nav-item__icon {
-            width: 18px;
-            height: 18px;
-            display: none;
-            margin-right: 10px;
-            position: relative;
-
-            &.wifi {
-              background: url(../../assets/images/icon/ic_home_normal.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-            &.setting {
-              background: url(../../assets/images/icon/ic_setting_router.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-            &.exit {
-              background: url(../../assets/images/icon/ic_logout.png) no-repeat
-                center;
-              background-size: 100%;
-            }
-            &.advance {
-              background: url(../../assets/images/icon/ic_advanced_setup.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-            &.upgrade {
-              background: url(../../assets/images/icon/ic_firmware_upgrade.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-          }
           .nav-item__text {
             height: 100%;
             display: flex;
@@ -490,7 +436,7 @@ export default {
               }
             }
             &.selected {
-              color: #ffb7b7;
+              color: #d6001c;
             }
           }
           &.show {
@@ -513,46 +459,65 @@ export default {
       height: 100%;
       cursor: pointer;
       position: relative;
+      &:hover {
+        .current {
+          .current-text {
+            color: #999;
+          }
+          .drop-trangle {
+            &::after {
+              border-top-color: #999;
+            }
+          }
+        }
+      }
+      &.open {
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          bottom: -6px;
+          height: 6px;
+          width: 130px;
+          left: 0;
+          background: transparent;
+          z-index: 999;
+        }
+      }
       .current {
         height: 100%;
         display: flex;
         align-items: center;
-        .icon-i18n {
+        .current-text {
           display: inline-block;
-          width: 16px;
-          height: 16px;
-          background: url(../../assets/images/icon/ic_i18n.png) center no-repeat;
-          background-size: 100%;
+          width: 70px;
+          text-align: center;
+          height: 21px;
+        }
+        .drop-trangle {
+          display: inline-block;
+          width: 10px;
+          height: 5px;
+          position: relative;
+          &:after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 5px solid #fff;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+          }
+          transition: transform 0.3s linear;
+          &.up {
+            transform: rotate(180deg);
+          }
+          &.down {
+            transform: rotate(0);
+          }
         }
       }
-      .current-text {
-        display: inline-block;
-        width: 70px;
-        text-align: center;
-        height: 21px;
-      }
-      .drop-trangle {
-        display: inline-block;
-        width: 10px;
-        height: 5px;
-        position: relative;
-        &:after {
-          content: '';
-          display: block;
-          width: 0;
-          height: 0;
-          border-top: 5px solid #fff;
-          border-left: 5px solid transparent;
-          border-right: 5px solid transparent;
-        }
-        transition: transform 0.3s linear;
-        &.up {
-          transform: rotate(180deg);
-        }
-        &.down {
-          transform: rotate(0);
-        }
-      }
+
       .popup {
         position: absolute;
         width: 130px;
@@ -595,6 +560,9 @@ export default {
       display: inline-block;
       cursor: pointer;
       margin-left: 50px;
+      &:hover {
+        color: #999;
+      }
     }
   }
 }
@@ -607,6 +575,7 @@ export default {
       top: 0;
       left: 0;
       z-index: 1000;
+      width: 100%;
     }
 
     .logo-wrap {
@@ -679,9 +648,6 @@ export default {
               top: 50%;
               right: 0;
               transition: all 0.3s linear;
-            }
-            .nav-item__icon {
-              display: block;
             }
             .nav-item__text {
               color: #fff;

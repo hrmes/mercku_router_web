@@ -79,7 +79,9 @@
                   <div class="edit"
                        v-if="!isRouterOffline(router)"
                        @click.stop="onClickRouterName(router)">
-                    <img src="../../../assets/images/icon/ic_edit.png"
+                    <img class="btn-text"
+                         :title="$t('trans0034')"
+                         src="../../../assets/images/icon/ic_edit.png"
                          alt>
                   </div>
                 </div>
@@ -651,7 +653,6 @@ export default {
     .title {
       position: relative;
       .tab {
-        width: 120px;
         font-size: 16px;
       }
     }

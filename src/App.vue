@@ -37,8 +37,13 @@ export default {
   },
   methods: {
     setHeight() {
+      // fix safari
       const minHeight = `${document.body.clientHeight}px`;
       this.$refs.flexWrap.style.minHeight = minHeight;
+
+      // const elContainer = this.$refs.container;
+      // // debugger;
+      // elContainer.style.height = `${elContainer.clientHeight}px`;
     }
   },
   mounted() {
@@ -59,21 +64,6 @@ export default {
 .container {
   position: relative;
   display: flex;
-  &.no-menu {
-    height: 100%;
-  }
-  .header {
-    width: 100%;
-    flex: 0 0 auto;
-    &.no-menu {
-      background: #fff;
-      display: flex;
-      justify-content: space-between;
-      .logo-container {
-        display: inline-block;
-      }
-    }
-  }
   .app-container {
     display: flex;
     flex: 1;

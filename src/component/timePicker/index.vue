@@ -18,7 +18,7 @@
          v-if="opened">
       <div class="select-inner"
            ref='h'>
-        <ul style="height:928px">
+        <ul>
           <li v-for="(v,i) in hs"
               :key='i'
               @click.stop="(e)=>select('h',v,e)"
@@ -27,7 +27,7 @@
       </div>
       <div class="select-inner"
            ref='m'>
-        <ul style="height:2080px">
+        <ul>
           <li v-for="(v,i) in ms"
               :key='i'
               @click.stop="(e)=>select('m',v,e)"
@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     formatCount(v) {
-      return v < 10 ? `0${v}` : `${v}`;
+      return `0${v}`.slice(-2);
     },
     scrollTo(el, x, y) {
       if (el.scrollTo) {
@@ -99,31 +99,36 @@ export default {
       }
     },
     open() {
-      this.opened = true;
-      this.$nextTick(() => {
-        const hEl = this.$refs.h;
-        const mEl = this.$refs.m;
-        this.initScroll(hEl);
-        this.initScroll(mEl);
-      });
+      this.opened = !this.opened;
+
+      if (this.opened) {
+        this.$nextTick(() => {
+          const hEl = this.$refs.h;
+          const mEl = this.$refs.m;
+          this.initScroll(hEl);
+          this.initScroll(mEl);
+        });
+      }
+      // this.opened = true;
     },
     initScroll(el) {
       const pEl = el;
       const sEl = el.querySelector('.selected');
-      const cTop = sEl.getBoundingClientRect().top;
-      const pTop = pEl.getBoundingClientRect().top;
+      const cTop = sEl.offsetTop;
+      const pTop = pEl.offsetTop;
       const { scrollTop } = pEl;
       const move = cTop - pTop + scrollTop;
       this.scrollTo(el, 0, move);
     },
     animateScroll() {
       if (this.animationEl.scrollTop >= this.distance) {
+        cancelAnimationFrame(this.animationId);
         return;
       }
       let scroll = this.animationEl.scrollTop + 5;
       scroll = scroll > this.distance ? this.distance : scroll;
       this.scrollTo(this.animationEl, 0, scroll);
-      requestAnimationFrame(this.animateScroll);
+      this.animationId = requestAnimationFrame(this.animateScroll);
     },
     close() {
       if (!this.opened) {
@@ -134,11 +139,9 @@ export default {
     selectScroll(e, p) {
       const pEl = this.$refs[p];
       const sEl = e.currentTarget;
-      const pTop = pEl.getBoundingClientRect().top;
-      const sTop = sEl.getBoundingClientRect().top;
-      const move = sTop - pTop;
-      const { scrollTop } = pEl;
-      this.distance = move + scrollTop;
+      const sTop = sEl.offsetTop;
+
+      this.distance = sTop;
       this.animationEl = pEl;
       this.animateScroll();
     },
@@ -189,6 +192,7 @@ export default {
       }
       ul {
         position: relative;
+        padding-bottom: 156px;
       }
       li {
         margin: 0;
