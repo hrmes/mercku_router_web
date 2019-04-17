@@ -1,9 +1,16 @@
 <template>
   <header class="header-container"
           :class="{'nav-hide':!navVisible,'open':mobileNavVisible}">
-    <div class="logo-wrap"
-         v-if="logoVisible">
-      <div class="logo-wrap__logo"></div>
+    <div class="logo-wrap">
+      <div v-if="logoVisible"
+           class="logo-wrap__logo"></div>
+      <a class="offical"
+         target="_blank"
+         href="https://www.mercku.com">
+        <img src="../../assets/images/icon/ic_web_home.png"
+             alt="">
+        <span>mercku.com</span>
+      </a>
     </div>
 
     <div class="nav-wrap nav-wrap--laptop">
@@ -60,8 +67,6 @@
             <ul v-if="menu.children"
                 class="nav-item-child"
                 v-show="menu.selected">
-              <!-- v-show="menu.showChild" -->
-              <!-- :class="{'show':menu.showChild}" -->
               <li class="nav-child__text"
                   :key="child.key"
                   @click.stop="jumpMobile(child,menu)"
@@ -327,14 +332,13 @@ export default {
           margin-top: 0;
           right: 0;
           top: 50px;
-          // top: 100 px;
           li {
             list-style: none;
             line-height: 38px;
             padding: 0 30px;
             &:hover {
-              background: rgba(0, 0, 0, 0.2);
-              color: #fff;
+              background: #fff;
+              color: #d6001c;
             }
             &:last-child {
               margin-bottom: 0;
@@ -365,6 +369,21 @@ export default {
   }
   .logo-wrap {
     padding-right: 60px;
+    .offical {
+      color: #333;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      &:hover {
+        text-decoration: underline;
+        color: #999;
+      }
+      img {
+        width: 20px;
+        margin-right: 5px;
+      }
+    }
     .logo-wrap__logo {
       width: 74px;
       height: 25px;
