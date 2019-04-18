@@ -3,7 +3,8 @@
     <div class='page-header'>
       {{$t('trans0202')}}
 
-      <div class="btn-info">
+      <div class="btn-info"
+           v-if="nodes.length">
         <button class="btn btn-small"
                 @click="submit()">{{$t('trans0225')}}</button>
       </div>
@@ -16,8 +17,6 @@
                :key="node.sn"
                class="node">
             <div class="badge-info">
-              <!-- <img src="../../../assets/images/icon/ic_new_version.png"
-                   alt=""> -->
               <span>{{node.version.latest}}</span>
             </div>
             <div class="message"
