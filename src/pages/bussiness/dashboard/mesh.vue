@@ -548,8 +548,8 @@ export default {
 <style lang="scss" scoped>
 .rssi-modal {
   width: 660px;
-  max-height: 500px;
-  padding: 0 30px;
+  max-height: 400px;
+  padding: 0 10px;
   overflow: auto;
   overflow-x: hidden;
   .markdown-body {

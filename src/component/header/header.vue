@@ -4,7 +4,8 @@
     <div class="logo-wrap">
       <div v-if="logoVisible"
            class="logo-wrap__logo"></div>
-      <a class="offical"
+      <a v-if="!logoVisible"
+         class="offical"
          target="_blank"
          href="https://www.mercku.com">
         <img src="../../assets/images/icon/ic_web_home.png"

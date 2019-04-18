@@ -357,7 +357,7 @@ export default {
   z-index: 1000;
 }
 .help-dialog-content {
-  width: 500px;
+  width: 600px;
   p {
     &:first-child {
       margin-top: 0;

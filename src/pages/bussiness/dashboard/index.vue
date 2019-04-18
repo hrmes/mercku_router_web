@@ -193,7 +193,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @keyframes speed-test-line {
-  form {
+  from {
     width: 0%;
   }
   to {
@@ -276,11 +276,6 @@ export default {
           }
         }
       }
-      // img ~ .text-container {
-      //   color: #fff;
-      //   text-decoration: none;
-      //   cursor: default;
-      // }
       .text-container {
         &.disabled {
           color: #e1e1e1;
@@ -294,8 +289,8 @@ export default {
       }
       .line {
         flex: 1;
-        height: 0;
-        border-top: 2px solid #fff;
+        height: 2px;
+        background: #fff;
         text-align: center;
         position: relative;
         transform: translateY(-15px);
@@ -303,15 +298,27 @@ export default {
           border-top: 2px dashed #999;
         }
         &.testing {
-          border: 0;
+          position: relative;
+          background: none;
           &::after {
             content: '';
             display: block;
-            border-top: 2px dashed #fff;
-            animation: speed-test-line linear 2s infinite;
-            width: 10%;
             position: absolute;
-            top: -1px;
+            top: 0;
+            left: 0;
+            background: linear-gradient(
+              to right,
+              #fff 0%,
+              #fff 50%,
+              transparent 50%
+            );
+            background-size: 10px 2px;
+            background-repeat: repeat-x;
+            height: 2px;
+            width: 300px;
+
+            animation: speed-test-line linear 1s infinite;
+            width: 100%;
           }
         }
         .icon-unconnected-container {
@@ -430,7 +437,7 @@ export default {
           transform: translateY(-10px);
           &.testing {
             &::after {
-              animation: speed-test-line ease 0.5s infinite;
+              animation: speed-test-line linear 0.5s infinite;
               top: 0;
             }
           }
