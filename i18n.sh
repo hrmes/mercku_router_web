@@ -2,8 +2,8 @@
 doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
-sourceENFile="mercku_en_web.json"
-sourceZHFile="mercku_zh_web.json"
+sourceENFile="mercku_en_US_web.json"
+sourceZHFile="mercku_zh_CN_web.json"
 sourceErrorFile="error_to_trans.json"
 targetENFile="en-US.json"
 targetZHFile="zh-CN.json"
