@@ -16,25 +16,34 @@
     <div class="combobox"
          ref="combo"
          v-if="opened">
-      <div class="select-inner"
-           ref='h'>
-        <ul>
-          <li v-for="(v,i) in hs"
-              :key='i'
-              @click.stop="(e)=>select('h',v,e)"
-              :class="{'selected':time.h===v}">{{v}}</li>
-        </ul>
+      <div class="select-wrap">
+        <div class="select-inner"
+             ref='h'>
+          <ul>
+            <li v-for="(v,i) in hs"
+                :key='i'
+                @click.stop="(e)=>select('h',v,e)"
+                :class="{'selected':time.h===v}">{{v}}</li>
+          </ul>
+
+        </div>
+        <div class="select-inner"
+             ref='m'>
+          <ul>
+            <li v-for="(v,i) in ms"
+                :key='i'
+                @click.stop="(e)=>select('m',v,e)"
+                :class="{'selected':time.m===v}">{{v}}</li>
+          </ul>
+        </div>
       </div>
-      <div class="select-inner"
-           ref='m'>
-        <ul>
-          <li v-for="(v,i) in ms"
-              :key='i'
-              @click.stop="(e)=>select('m',v,e)"
-              :class="{'selected':time.m===v}">{{v}}</li>
-        </ul>
+
+      <div class="button-wrap">
+        <button @click="close">{{$t('trans0025')}}</button>
+        <button @click="ok">{{$t('trans0024')}}</button>
       </div>
     </div>
+
   </div>
 </template>
 <script>
@@ -52,7 +61,8 @@ export default {
       },
       distance: 0,
       animationTime: 200,
-      animationEl: null
+      animationEl: null,
+      oldValue: ''
     };
   },
   watch: {
@@ -98,10 +108,13 @@ export default {
         el.scrollTop = y;
       }
     },
+    ok() {
+      this.opened = false;
+    },
     open() {
-      this.opened = !this.opened;
-
-      if (this.opened) {
+      if (!this.opened) {
+        this.opened = true;
+        this.oldValue = this.inputValue;
         this.$nextTick(() => {
           const hEl = this.$refs.h;
           const mEl = this.$refs.m;
@@ -109,7 +122,6 @@ export default {
           this.initScroll(mEl);
         });
       }
-      // this.opened = true;
     },
     initScroll(el) {
       const pEl = el;
@@ -134,6 +146,11 @@ export default {
       if (!this.opened) {
         return;
       }
+      this.inputValue = this.oldValue;
+      this.time = {
+        h: this.inputValue.split(':')[0],
+        m: this.inputValue.split(':')[1]
+      };
       this.opened = false;
     },
     selectScroll(e, p) {
@@ -160,17 +177,42 @@ export default {
   height: 36px;
   border: 1px solid #f1f1f1;
   position: relative;
+  border-radius: 4px;
   .combobox {
     position: absolute;
     background: white;
-    left: 0;
+    left: -1px;
     display: flex;
+    flex-direction: column;
     width: 168px;
     z-index: 9999;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background-clip: padding-box;
     overflow: hidden;
     transition: transform 0.3s;
+    .select-wrap {
+      display: flex;
+    }
+    .button-wrap {
+      border-top: 1px solid #f1f1f1;
+      button {
+        height: 38px;
+        width: 50%;
+        border: none;
+        background: #fff;
+        cursor: pointer;
+        outline: none;
+        &:hover {
+          opacity: 0.8;
+        }
+        &:first-child {
+          color: #999;
+        }
+        &:last-child {
+          color: #d6001c;
+        }
+      }
+    }
     .select-inner {
       flex: 1;
       height: 192px;
@@ -179,11 +221,9 @@ export default {
       &::-webkit-scrollbar {
         width: 4px;
       }
-
       &::-webkit-scrollbar-track {
         background-color: transparent;
       }
-
       &::-webkit-scrollbar-thumb {
         background: #e6e6e6;
       }
@@ -203,14 +243,13 @@ export default {
         padding-left: 10px;
         height: 36px;
         line-height: 36px;
-        // transition: background 0.3s;
         cursor: pointer;
         &:hover {
-          background: #e7e7e7;
+          background: #f1f1f1;
           color: #333;
         }
         &:active {
-          background: #e7e7e7;
+          background: #f1f1f1;
           color: #333;
         }
         &.selected {

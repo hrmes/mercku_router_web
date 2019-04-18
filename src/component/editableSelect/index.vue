@@ -146,7 +146,7 @@ export default {
       }
     }
   }
-  width: 350px;
+  width: 340px;
   .select {
     height: 48px;
     width: 100%;
@@ -194,11 +194,11 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: #e7e7e7;
+        background: #f1f1f1;
         color: #333;
       }
       &:hover {
-        background: #e7e7e7;
+        background: #f1f1f1;
         color: #333;
       }
       &.selected {

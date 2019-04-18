@@ -6,6 +6,7 @@
              class="flex-wrap"
              :class="{'has-menu':!navVisible}">
           <m-header :navVisible="!navVisible"
+                    :logoVisible="!isLoginPage"
                     :navs="menus"
                     class="header"></m-header>
           <router-view></router-view>
@@ -23,6 +24,9 @@ import getMenu from './menu';
 
 export default {
   computed: {
+    isLoginPage() {
+      return this.$route.path.includes('login');
+    },
     navVisible() {
       const { path } = this.$route;
       const visible =
@@ -40,15 +44,13 @@ export default {
       // fix safari
       const minHeight = `${document.body.clientHeight}px`;
       this.$refs.flexWrap.style.minHeight = minHeight;
-
-      // const elContainer = this.$refs.container;
-      // // debugger;
-      // elContainer.style.height = `${elContainer.clientHeight}px`;
     }
   },
   mounted() {
     this.setHeight();
-    window.onresize = this.setHeight;
+    window.addEventListener('resize', () => {
+      this.setHeight();
+    });
   }
 };
 </script>

@@ -86,8 +86,10 @@
               {{item.ip}}
             </div>
             <div class="column-handle">
-              <a @click="editHandle(item)">{{$t('trans0034')}}</a>
-              <a @click="del([item.id])">{{$t('trans0033')}}</a>
+              <a class="btn-text"
+                 @click="editHandle(item)">{{$t('trans0034')}}</a>
+              <a class="btn-text text-primary"
+                 @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
           </div>
           <div class="empty"
@@ -303,14 +305,8 @@ export default {
   .column-handle {
     width: 150px;
     a {
-      text-decoration: underline;
-      cursor: pointer;
       &:last-child {
-        color: #ff0001;
         padding-left: 30px;
-      }
-      &:hover {
-        opacity: 0.8;
       }
     }
   }

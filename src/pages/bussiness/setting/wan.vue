@@ -576,7 +576,7 @@ export default {
 }
 .wan-info {
   display: flex;
-  width: 350px;
+  width: 340px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;

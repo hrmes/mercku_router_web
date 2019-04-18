@@ -2,7 +2,16 @@
   <header class="header-container"
           :class="{'nav-hide':!navVisible,'open':mobileNavVisible}">
     <div class="logo-wrap">
-      <div class="logo-wrap__logo"></div>
+      <div v-if="logoVisible"
+           class="logo-wrap__logo"></div>
+      <a v-if="!logoVisible"
+         class="offical"
+         target="_blank"
+         href="https://www.mercku.com">
+        <img src="../../assets/images/icon/ic_web_home.png"
+             alt="">
+        <span>mercku.com</span>
+      </a>
     </div>
 
     <div class="nav-wrap nav-wrap--laptop">
@@ -52,17 +61,23 @@
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
 
-          <ul v-if="menu.children"
-              class="nav-item-child"
-              :class="{'show':menu.showChild}">
-            <li class="nav-child__text"
-                :key="child.key"
-                @click.stop="jumpMobile(child,menu)"
-                v-for="child in menu.children"
-                :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
-              {{$t(child.text)}}
-            </li>
-          </ul>
+          <transition name="nav-item-child__animation"
+                      v-on:before-enter="beforeEnter"
+                      v-on:enter="enter"
+                      v-on:leave="leave">
+            <ul v-if="menu.children"
+                class="nav-item-child"
+                v-show="menu.selected">
+              <li class="nav-child__text"
+                  :key="child.key"
+                  @click.stop="jumpMobile(child,menu)"
+                  v-for="child in menu.children"
+                  :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
+                {{$t(child.text)}}
+              </li>
+            </ul>
+          </transition>
+
         </li>
         <li class="nav-item nav-item__exit"
             @click="exit()">
@@ -111,6 +126,8 @@
   </header>
 </template>
 <script>
+import Velocity from 'velocity-animate';
+
 const Languages = [
   {
     text: '简体中文',
@@ -130,6 +147,10 @@ export default {
     navs: {
       type: Array,
       default: () => []
+    },
+    logoVisible: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -164,6 +185,21 @@ export default {
     }
   },
   methods: {
+    beforeEnter(el) {
+      el.style.height = 0;
+    },
+    enter(el, done) {
+      // debugger;
+      const height = el.childElementCount * 38;
+      setTimeout(() => {
+        Velocity(el, { height: `${height}px` }, { complete: done });
+      });
+    },
+    leave(el, done) {
+      setTimeout(() => {
+        Velocity(el, { height: 0 }, { complete: done });
+      });
+    },
     showMobileMenu(menu) {
       this.list.forEach(l => {
         if (l !== menu) {
@@ -283,22 +319,27 @@ export default {
     .right-wrap {
       .lang-selector {
         .drop-trangle {
-          &:after {
-            border-top: 5px solid #333;
+          &.up {
+          }
+          &.down {
+            &::after {
+              border-top-color: #333;
+            }
           }
         }
         .popup {
           box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
           background-color: #fff;
           margin-top: 0;
-
+          right: 0;
+          top: 50px;
           li {
             list-style: none;
             line-height: 38px;
             padding: 0 30px;
             &:hover {
-              background: rgba(0, 0, 0, 0.2);
-              color: #fff;
+              background: #fff;
+              color: #d6001c;
             }
             &:last-child {
               margin-bottom: 0;
@@ -329,6 +370,21 @@ export default {
   }
   .logo-wrap {
     padding-right: 60px;
+    .offical {
+      color: #333;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      &:hover {
+        text-decoration: underline;
+        color: #999;
+      }
+      img {
+        width: 12px;
+        margin-right: 5px;
+      }
+    }
     .logo-wrap__logo {
       width: 74px;
       height: 25px;
@@ -451,7 +507,6 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 250px;
     .small-device {
       display: none;
     }
@@ -520,7 +575,7 @@ export default {
 
       .popup {
         position: absolute;
-        width: 130px;
+        width: 150px;
         margin-top: 6px;
         background: #fff;
         border-radius: 2px;
@@ -660,9 +715,6 @@ export default {
             &::after {
               display: none;
             }
-            .nav-item-child {
-              display: block;
-            }
             .nav-item-content {
               &::after {
                 transform: translateY(-50%) rotate(225deg);
@@ -674,9 +726,16 @@ export default {
           }
           .nav-item-child {
             position: static;
+            display: block;
             background: #333;
             box-shadow: none;
             padding: 0;
+            &.nav-item-child__animation-leave-active {
+              overflow: hidden;
+            }
+            &.nav-item-child__animation-enter-active {
+              overflow: hidden;
+            }
             .nav-child__text {
               padding: 0;
               padding-left: 10px;

@@ -5,10 +5,11 @@
         <m-tab :key="tab.id"
                @click.native="tabChange(tab.id)"
                v-for="tab in tabs"
-               :class="{'selected':tab.id===id}">
+               :class="{'selected':isCurrentTab(tab)}">
           {{tab.text}}
         </m-tab>
       </m-tabs>
+
       <div class="offline-handle-wrapper"
            v-if="isOfflineDevices">
         <div class="check-info">
@@ -65,15 +66,18 @@
           </div>
           <div v-show="!showLoading">
             <ul v-for="(row,i) in devicesMap[id]"
-                :key='i'>
+                :key='i'
+                :class="{'expand':row.expand}">
               <li class="column-name"
                   @click.stop="expandTable(row)">
-                <div class="column-check-box"
-                     v-if="isOfflineDevices">
-                  <m-checkbox v-model="row.checked"></m-checkbox>
-                </div>
 
-                <div class="name-wrap">
+                <div class="name-wrap"
+                     :class="{'wired':isWired(row),'offline':isOfflineDevices}">
+                  <div class="column-check-box"
+                       v-if="isOfflineDevices">
+                    <m-checkbox :stopPropagation="true"
+                                v-model="row.checked"></m-checkbox>
+                  </div>
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
@@ -81,32 +85,39 @@
                            src="../../../assets/images/icon/ic_user.png"
                            alt=""
                            style="margin-right:5px;margin-left:0;">
-                      <span :title='row.name'
-                            :class="{'extand-name':row.expand}">{{row.name}}</span>
+                      <span :title='row.name'>{{row.name}}</span>
                       <img style="cursor:pointer"
-                           class="btn-text"
+                           class="btn-text icon-btn"
                            :title="$t('trans0034')"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
                            src="../../../assets/images/icon/ic_edit.png"
                            alt="">
                     </a>
+                    <div class="mobile-icon">
+                      <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
+                           src="../../../assets/images/icon/ic_side_bar_pick_up.png"
+                           alt="">
+                    </div>
                   </div>
                   <div class="des-inner"
                        v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                    <span> {{bandMap[`${row.online_info.band}`]}}</span>
-                    <span v-if="row.online_info.band!=='wired'">
-                      {{transformDate(row.online_info.online_duration)}}</span>
+                    <span class="row">
+                      <span class="label">{{$t('trans0375')}}</span>
+                      <span class="value">{{bandMap[`${row.online_info.band}`]}}</span>
+                    </span>
+                    <span class="row"
+                          v-if="!isWired(row)">
+                      <span class="label">{{$t('trans0374')}}</span>
+                      <span class="value">{{transformDate(row.online_info.online_duration)}}</span>
+                    </span>
                   </div>
                 </div>
-                <div class="mobile-icon">
-                  <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                       src="../../../assets/images/icon/ic_side_bar_pick_up.png"
-                       alt="">
-                </div>
+
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <span class="label">{{$t('trans0367')}}</span>
                 <div class="speed-inner">
                   <div class="speed-wrap">
                     <img class='icon'
@@ -132,12 +143,16 @@
               </li>
               <li class="column-band"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span>{{$t('trans0015')}}</span>
-                <span>
-                  {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
+                <span class="label">{{$t('trans0015')}}</span>
+                <span class="value">
+                  <span>
+                    {{formatNetworkData
+                    (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
+                  </span>
+                  <span> {{formatNetworkData
+                    (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
                 </span>
-                <span> {{formatNetworkData
-                  (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
+
               </li>
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -199,7 +214,7 @@
               <li class="column-black-list"
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)'>
-                <span class="black-btn btn-text"
+                <span class="black-btn btn-text setting"
                       v-if="!isOfflineDevices"
                       @click="()=>forward2limit(row)">
                   {{$t('trans0019')}}
@@ -209,7 +224,7 @@
                   {{$t('trans0016')}}
                 </span>
 
-                <span class="del-btn btn-text"
+                <span class="del-btn btn-text text-primary"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
                   {{$t('trans0033')}}
@@ -328,14 +343,14 @@ export default {
   async mounted() {
     const that = this;
     this.getIsMobile(that);
-    window.onresize = function temp() {
+    window.addEventListener('resize', () => {
       const w = that.windowWidth();
       if (w <= 768) {
         that.isMobile = true;
       } else {
         that.isMobile = false;
       }
-    };
+    });
     const selfInfo = await this.$http.getLocalDevice();
     this.localDeviceIP = selfInfo.data.result.ip;
     this.getDeviceList(true);
@@ -346,6 +361,12 @@ export default {
     this.timer = null;
   },
   methods: {
+    isWired(row) {
+      return row.online_info.band === 'wired';
+    },
+    isCurrentTab(tab) {
+      return tab.id === this.id;
+    },
     devicesParams() {
       let params = { filters: [{ type: 'primary', status: ['online'] }] };
       if (this.id === 'primary') {
@@ -693,15 +714,15 @@ export default {
   .offline-handle-wrapper {
     display: flex;
     align-items: center;
-    padding-top: 20px;
-    padding-left: 20px;
+    padding: 20px;
+    padding-bottom: 0;
     .check-info {
       .m-check-all-box {
         display: none;
       }
     }
     .btn {
-      height: 27px;
+      height: 28px;
       font-size: 12px;
       width: 70px !important;
       padding: 0 !important;
@@ -715,7 +736,6 @@ export default {
       background-color: #fffbe6;
       font-size: 12px;
       color: rgba(0, 0, 0, 0.65);
-      // line-height: 30px;
       margin-left: 20px;
       display: flex;
       align-items: center;
@@ -749,7 +769,7 @@ export default {
       li {
         text-decoration: none;
         list-style: none;
-        // flex: auto;
+
         display: flex;
         color: #333333;
         font-size: 14px;
@@ -789,6 +809,11 @@ export default {
         flex-shrink: 0;
       }
       .column-name {
+        .name-wrap {
+          &.offline {
+            display: flex;
+          }
+        }
         .mobile-icon {
           display: none;
         }
@@ -822,10 +847,13 @@ export default {
       }
       .column-real-time {
         width: 150px;
+        .label {
+          display: none;
+        }
       }
       .column-band {
         width: 100px;
-        span:first-child {
+        .label {
           display: none;
         }
       }
@@ -855,8 +883,13 @@ export default {
       }
       .des-inner {
         margin-top: 10px;
-        span {
+        .row {
           margin-right: 10px;
+          .label {
+            display: none;
+          }
+        }
+        span {
           &:first-child {
             padding: 2px 6px;
             border-radius: 3px;
@@ -866,7 +899,6 @@ export default {
       }
       .name-inner {
         display: flex;
-        // align-items: end;
         justify-content: flex-start;
 
         a {
@@ -875,16 +907,12 @@ export default {
           display: flex;
           cursor: pointer;
           align-items: baseline;
-
-          // &:hover {
-          //   text-decoration: underline;
-          // }
           span {
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: pre;
-            max-width: 130px;
+            max-width: 200px;
             flex-shrink: 0;
           }
           img {
@@ -989,18 +1017,8 @@ export default {
           }
         }
       }
-      .del-btn {
-        text-decoration: underline;
-        color: #f50520;
-        cursor: pointer;
-      }
       .black-btn {
-        cursor: pointer;
         margin-right: 30px;
-        text-decoration: underline;
-        &:hover {
-          text-decoration: underline;
-        }
       }
     }
   }
@@ -1046,20 +1064,29 @@ export default {
       }
     }
     background: transparent;
-    padding: 0;
+    padding: 0 !important;
+    .tabs {
+      padding: 0 20px;
+      .tab {
+        font-size: 14px;
+      }
+    }
     .offline-handle-wrapper {
       flex-direction: column-reverse;
-      padding-top: 10px;
-      padding-left: 0;
+      padding: 10px 20px;
+      border-bottom: 1px solid #f1f1f1;
+      // padding-left: 0;
       .check-info {
+        // padding: 0 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #f1f1f1;
+        // padding-bottom: 10px;
+
         width: 100%;
         .m-check-all-box {
           display: block;
+          height: 18px;
         }
       }
       .btn {
@@ -1084,6 +1111,7 @@ export default {
       .table-inner {
         background: transparent;
         margin: 0;
+
         .column-check-box {
           width: auto;
           margin-left: 0;
@@ -1099,8 +1127,51 @@ export default {
             overflow: inherit;
             background: white;
             border-radius: 3px;
+            margin: 0 20px;
+            width: auto;
+            border: none;
             &:nth-child(2n) {
               background: #fff;
+            }
+            &.expand {
+              margin: 0;
+              padding: 0 20px;
+              background: #f1f1f1;
+              position: relative;
+              .name-wrap {
+                height: 180px;
+                &.wired {
+                  height: 120px;
+                }
+                &.offline {
+                  height: 60px;
+                  .column-check-box {
+                    position: absolute;
+                    z-index: 100;
+                    left: 20px;
+                  }
+                }
+              }
+              .column-name {
+                border: 0;
+                position: static;
+              }
+              .name-inner {
+                background: #fff;
+                padding: 0 20px;
+                &.off-name {
+                  // padding: 0;
+
+                  left: 0 !important;
+                  a {
+                    margin-left: 28px;
+                  }
+                }
+              }
+            }
+            li {
+              border-bottom: 1px solid #e0e0e0;
+              background: #f1f1f1;
             }
           }
         }
@@ -1112,9 +1183,6 @@ export default {
                 text-decoration: none;
               }
               span {
-                &.extand-name {
-                  font-size: 18px;
-                }
                 display: inline-block;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -1134,6 +1202,7 @@ export default {
             }
           }
           .column-name {
+            // border: 0;
             .mobile-icon {
               display: block;
               display: flex;
@@ -1142,7 +1211,6 @@ export default {
               img {
                 width: 14px;
                 height: 7px;
-                opacity: 0.7;
                 transition: all 0.3s;
                 &.i-collapse {
                   transform: rotate(180deg);
@@ -1155,78 +1223,104 @@ export default {
             width: 100%;
             background: white;
             border-radius: 3px;
-            height: 60px;
             position: relative;
             overflow: inherit;
             .name-wrap {
               flex: 1;
               display: flex;
-              align-items: center;
-              justify-content: flex-start;
-              .des-inner {
+              flex-direction: column;
+              align-items: flex-start;
+              justify-content: center;
+              height: 60px;
+              .name-inner {
+                // height: 120px;
+                display: flex;
+
                 position: absolute;
-                top: 45px;
+                align-items: center;
+
+                top: 0;
                 left: 0;
-                z-index: 111;
+                right: 0;
+                height: 60px;
+                &.off-name {
+                  // padding-left: 28px;
+                  left: 28px;
+                  // right: 20px;
+                  // width: auto;
+                }
+              }
+              .des-inner {
+                width: 100%;
+                background: #f1f1f1;
+                height: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                margin-top: 60px;
+                .row {
+                  border-bottom: 1px solid #e1e1e1;
+                  align-items: center;
+                  display: flex;
+                  width: 100%;
+                  justify-content: space-between;
+                  height: 60px;
+                  padding: 0;
+                  .label {
+                    padding: 0;
+                    display: block;
+                  }
+                }
+                span {
+                  border: 0;
+                  margin: 0;
+                }
               }
             }
           }
           .column-real-time {
-            margin-top: 50px;
-            margin-bottom: 20px;
             width: 100%;
-            // padding-left: 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .label {
+              display: block;
+            }
             .speed-inner {
-              width: 100%;
               display: flex;
               flex-direction: row;
               .speed-wrap {
-                // flex: 1;
-                padding-right: 20px;
                 display: flex;
                 justify-content: center;
                 position: relative;
-                .text-inner {
-                  padding-left: 5px;
-                  span:first-child {
-                    font-size: 20px;
-                  }
-                  span:last-child {
-                    font-size: 16px;
-                  }
+                .icon {
+                  margin: 0;
                 }
-                &:first-child ::after {
-                  content: '';
-                  position: absolute;
-                  height: 10px;
-                  width: 1px;
-                  background: #999999;
-                  right: 0;
-                  top: 10px;
+                .text-inner {
+                  padding-left: 2px;
                 }
                 &:last-child {
                   margin: 0;
-                  margin-left: 20px;
+                  margin-left: 10px;
                 }
               }
             }
           }
           .column-band {
             width: 100%;
-            // padding-left: 20px;
-            padding-bottom: 30px;
-            span {
-              line-height: 30px;
-            }
-            span:first-child {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .label {
               display: block;
-              font-size: 14px;
-              letter-spacing: -0.6px;
-              padding-right: 10px;
             }
-            span:nth-child(2) {
-              font-size: 20px;
-              padding-right: 5px;
+            .value {
+              span {
+                display: inline-block;
+              }
             }
           }
           .column-ip {
@@ -1247,7 +1341,7 @@ export default {
           .device-item {
             height: 60px;
             width: 100%;
-            border-bottom: 1px solid #f1f1f1;
+            border-bottom: 1px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1261,6 +1355,7 @@ export default {
           }
           .column-limit {
             width: 100%;
+            border: 0;
           }
           .limit-inner {
             width: 100%;
@@ -1317,24 +1412,30 @@ export default {
             width: 100%;
             padding: 15px 0;
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
+            padding-top: 30px !important;
+            padding-bottom: 30px !important;
+            border: 0;
             .black-btn,
             .del-btn {
               width: auto;
-              min-width: 80px;
+              min-width: 120px;
               background: #d6001c;
               color: #fff;
               text-align: center;
               border-radius: 4px;
-              height: 28px;
+              height: 38px;
               font-size: 12px;
-              padding: 8px;
+              padding: 13px;
               line-height: 1;
               text-decoration: none;
               margin-right: 20px;
               &:last-child {
                 margin-right: 0;
               }
+              // &.setting {
+              //   display: none;
+              // }
             }
           }
           .li-expand {

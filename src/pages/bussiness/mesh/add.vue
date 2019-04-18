@@ -140,14 +140,11 @@
          v-if="scaning"></div>
     <m-modal class="modal"
              :visible.sync="showHelpDialog">
+      <m-modal-header>
+        <div>{{$t('trans0072')}}</div>
+      </m-modal-header>
       <div class="modal-content">
         <div class="help-dialog-content">
-          <div class="close"
-               @click="closeHelpDialog()">
-            <img src="../../../assets/images/icon/ic_delete.png"
-                 alt="">
-          </div>
-          <p>{{$t('trans0072')}}</p>
           <div>
             <p>1. {{$t('trans0234')}}</p>
             <p>2. {{$t('trans0215')}}</p>
@@ -159,6 +156,10 @@
           </div>
         </div>
       </div>
+      <m-modal-footer>
+        <button @click="closeHelpDialog"
+                class="btn btn-dialog-confirm">{{$t('trans0024')}}</button>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>
@@ -356,7 +357,12 @@ export default {
   z-index: 1000;
 }
 .help-dialog-content {
-  width: 500px;
+  width: 600px;
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
 }
 .close {
   float: right;
@@ -379,7 +385,7 @@ export default {
     display: flex;
     justify-content: center;
     .btn-large {
-      width: 350px;
+      width: 340px;
     }
     button {
       display: inline-block;
@@ -397,7 +403,7 @@ export default {
     position: relative;
     background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
     background-size: 100%;
-    width: 350px;
+    width: 340px;
     margin: 0 auto;
     margin-bottom: 50px;
     &::before {
@@ -415,7 +421,7 @@ export default {
       );
       transform: scale(1);
       opacity: 0;
-      animation: ani 1s linear 0.8s infinite;
+      animation: ani 1.4s linear 0.8s infinite;
       position: absolute;
       &.circle1 {
         left: 50px;
@@ -432,7 +438,7 @@ export default {
     }
   }
   p {
-    width: 350px;
+    width: 340px;
     margin: 0 auto;
     @media screen and(max-width:768px) {
       width: 100%;
@@ -446,9 +452,10 @@ export default {
     justify-content: center;
     align-items: center;
     width: 340px;
-    height: 140px;
+    height: 120px;
     border-radius: 5px;
-    background-color: #f1f1f1;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
     margin-bottom: 30px;
     cursor: pointer;
 
@@ -461,27 +468,37 @@ export default {
         display: inline-block;
         font-weight: bold;
         font-size: 14px;
-        width: 120px;
+        width: 150px;
       }
       .checkbox {
         width: 18px;
         height: 18px;
-        border-radius: 2px;
+        border-radius: 4px;
         border: 1px solid #999;
         background: #fff;
-        border-radius: 50%;
         &.checked {
-          background: url(../../../assets/images/icon/ic_selected.png) no-repeat
-            center;
-          border: none;
-          background-size: 90%;
-          background-color: #00d061;
+          background: #333;
+          position: relative;
+          border-color: #333;
+          &::after {
+            content: '';
+            display: block;
+            border: 1px solid #fff;
+            border-left: 0;
+            border-top: 0;
+            height: 8px;
+            left: 6px;
+            position: absolute;
+            top: 3px;
+            transform: rotate(45deg);
+            width: 3px;
+          }
         }
       }
     }
     img {
-      width: 140px;
-      height: 140px;
+      width: 80px;
+      height: 80px;
     }
     .name {
       width: 120px;
@@ -491,14 +508,13 @@ export default {
   }
 }
 .info-container {
-  width: 564px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   .step {
-    width: 100%;
+    width: 340px;
   }
   .btn-help {
     font-size: 12px;
@@ -536,7 +552,6 @@ export default {
     }
     img {
       width: 280px;
-      height: 280px;
       display: block;
       margin: 0 auto;
     }
@@ -568,7 +583,7 @@ export default {
       margin-top: 100px;
       .router {
         display: flex;
-        background: #f1f1f1;
+        background: #fff;
         width: 340px;
         height: 140px;
         border-radius: 5px;
@@ -577,6 +592,7 @@ export default {
         cursor: pointer;
         margin: 0 auto;
         margin-top: 20px;
+        border: 1px solid #f1f1f1;
 
         &:first-child {
           margin-top: 0;
@@ -608,23 +624,35 @@ export default {
           .checkbox {
             width: 18px;
             height: 18px;
-            border-radius: 2px;
+            border-radius: 4px;
             border: 1px solid #999;
             background: #fff;
-            border-radius: 50%;
             &.checked {
-              background: url(../../../assets/images/icon/ic_selected.png)
-                no-repeat center;
-              border: none;
-              background-size: 90%;
-              background-color: #00d061;
+              &.checked {
+                background: #333;
+                position: relative;
+                border-color: #333;
+                &::after {
+                  content: '';
+                  display: block;
+                  border: 1px solid #fff;
+                  border-left: 0;
+                  border-top: 0;
+                  height: 8px;
+                  left: 6px;
+                  position: absolute;
+                  top: 3px;
+                  transform: rotate(45deg);
+                  width: 3px;
+                }
+              }
             }
           }
         }
 
         img {
-          width: 100px;
-          height: 100px;
+          width: 80px;
+          height: 80px;
         }
       }
     }
@@ -660,11 +688,13 @@ export default {
   }
 
   .type-container {
+    .tip {
+      width: 100%;
+    }
     .router {
-      width: 300px;
       img {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
       }
     }
     .circle-animation {
@@ -686,11 +716,12 @@ export default {
       }
     }
     .button-container {
-      flex-direction: column;
+      flex-direction: column-reverse;
       width: 100%;
+      margin-top: 14px;
       .btn {
         width: 100%;
-        margin-bottom: 20px;
+        margin-top: 20px;
         &:last-child {
           margin-bottom: 0;
         }
@@ -705,31 +736,37 @@ export default {
     .step-item {
       .button-container {
         display: flex;
-        flex-direction: column;
+        margin-top: 50px;
+        flex-direction: column-reverse;
         justify-content: center;
         align-items: center;
         button {
           width: 100%;
           margin: 0;
           &:last-child {
-            margin-top: 20px;
+            margin-bottom: 20px;
           }
         }
       }
     }
-    .step-item1 {
-      .scan-result {
-        .router {
-          width: 300px;
-        }
+    .step-item0 {
+      margin-top: 30px;
+      p {
+        text-align: left;
+      }
+      img {
+        width: 100%;
       }
     }
   }
 }
 @media screen and (width: 320px) {
   .type-container {
+    .router-category-container {
+      width: 100%;
+    }
     .router {
-      width: 250px;
+      width: 100%;
       img {
         width: 70px;
         height: 70px;
@@ -740,11 +777,8 @@ export default {
     }
   }
   .info-container {
-    .step-item0 {
-      img {
-        width: 250px;
-        height: 250px;
-      }
+    .step {
+      width: 100%;
     }
     .step-item1 {
       .scan-result {

@@ -518,17 +518,17 @@ export default {
             padding-left: 15px;
           }
           .time-top {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             .uptime-unit {
-              color: #999999;
-              font-size: 16px;
-              font-weight: normal;
               margin-left: 5px;
+              font-size: 14px;
+              font-weight: normal;
             }
           }
           .time-bottom {
-            font-size: 20px;
+            font-size: 24px;
+            font-weight: bold;
             &.padding-top {
               padding-top: 10px;
             }
@@ -565,7 +565,7 @@ export default {
           border-bottom: 1px solid #dbdbdb;
         }
         .speed {
-          font-size: 26px;
+          font-size: 24px;
           font-weight: bold;
         }
         .unit {
@@ -1148,16 +1148,17 @@ export default {
               font-size: 20px;
             }
             .time-bottom {
-              font-size: 18px;
-              // padding-top: 10px;
-              .uptime-unit {
-                color: #999999;
-                font-size: 14px;
-              }
+              font-size: 20px;
             }
           }
         }
         .item {
+          .speed {
+            font-size: 20px;
+          }
+          .unit {
+            font-size: 12px;
+          }
           padding: 0 16px;
           .router-time-img {
             width: 100px;
@@ -1174,12 +1175,6 @@ export default {
         }
       }
 
-      .speed {
-        font-size: 20px !important;
-      }
-      .unit {
-        font-size: 12px !important;
-      }
       .real-time-network {
         .content {
           flex-direction: column;

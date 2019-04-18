@@ -2,6 +2,11 @@
   <div class="page">
     <div class='page-header'>
       {{$t('trans0202')}}
+
+      <div class="btn-info">
+        <button class="btn btn-small"
+                @click="submit()">{{$t('trans0225')}}</button>
+      </div>
     </div>
     <div class="page-content">
       <div class="nodes-wrapper"
@@ -11,14 +16,13 @@
                :key="node.sn"
                class="node">
             <div class="badge-info">
-              <img src="../../../assets/images/icon/ic_new_version.png"
-                   alt="">
-              <span>{{$t('trans0210')}}{{node.version.latest}}</span>
+              <!-- <img src="../../../assets/images/icon/ic_new_version.png"
+                   alt=""> -->
+              <span>{{node.version.latest}}</span>
             </div>
             <div class="message"
                  @click="check(node)">
-              <m-checkbox :rect="false"
-                          v-model="node.checked" />
+              <m-checkbox v-model="node.checked" />
               <div class="img-container">
                 <img class="img-m2"
                      v-if="node.model.id===RouterSnModel.M2"
@@ -45,10 +49,7 @@
             </div>
           </div>
         </div>
-        <div class="btn-info">
-          <button class="btn re-btn"
-                  @click="submit()">{{$t('trans0225')}}</button>
-        </div>
+
       </div>
       <div class="msg-wrapper"
            v-else>
@@ -75,11 +76,14 @@
           <div class="changelog markdown-body"
                v-html="changelog"></div>
         </div>
+
+      </m-modal-body>
+      <m-modal-footer>
         <div class="btn-wrap">
-          <button class="btn"
+          <button class="btn btn-dialog-confirm"
                   @click="close()">{{$t('trans0024')}}</button>
         </div>
-      </m-modal-body>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>
@@ -143,9 +147,13 @@ export default {
           };
           this.nodes = data.filter(filter);
         })
-        .catch(() => {
+        .catch(err => {
           this.$loading.close();
           this.requestResult.complete = true;
+          if (err && err.error) {
+            this.requestResult.error = true;
+            this.requestResult.message = this.$t('trans0345');
+          }
         });
     },
     submit() {
@@ -189,6 +197,9 @@ export default {
 .page-content {
   align-items: flex-start;
 }
+.page-header {
+  justify-content: space-between;
+}
 .nodes-wrapper {
   text-align: center;
   display: flex;
@@ -202,8 +213,8 @@ export default {
     flex-wrap: wrap;
     .node {
       width: 340px;
-      height: 132px;
-      background: #f1f1f1;
+      height: 120px;
+      border: 1px solid #dbdbdb;
       border-radius: 5px;
       margin-right: 20px;
       margin-bottom: 30px;
@@ -212,6 +223,7 @@ export default {
         display: flex;
         align-items: start;
         padding: 0 10px;
+        padding-left: 20px;
         height: 100%;
         align-items: center;
         cursor: pointer;
@@ -225,9 +237,10 @@ export default {
         }
         .img-container {
           margin-right: 10px;
+          margin-left: 20px;
           img {
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
           }
         }
 
@@ -237,16 +250,16 @@ export default {
           align-content: start;
           justify-content: center;
           flex: 1;
-          padding-top: 30px;
+          padding-top: 20px;
+          padding-bottom: 10px;
 
           .node-name {
             padding: 0;
             margin: 0;
             text-align: left;
-            font-size: 12px;
-            padding-top: 5px;
+
             padding-top: 0px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
           }
           .node-sn {
@@ -254,33 +267,20 @@ export default {
             margin: 0;
             text-align: left;
             font-size: 12px;
-            padding-top: 5px;
+            padding-top: 10px;
             white-space: nowrap;
           }
           .node-version {
             padding: 0;
             margin: 0;
             text-align: left;
-            font-size: 12px;
             font-size: 10px;
-            padding-top: 5px;
+            padding-top: 2px;
 
             position: relative;
             span {
               display: inline-block;
-              // margin-left: 5px;
             }
-            // &:before {
-            //   content: '';
-            //   display: inline-block;
-            //   width: 3px;
-            //   height: 3px;
-            //   border-radius: 50%;
-            //   background: #000;
-            //   // position: absolute;
-            //   top: 50%;
-            //   transform: translateY(-50%);
-            // }
           }
           .changelog {
             font-size: 12px;
@@ -289,7 +289,7 @@ export default {
             margin: 0;
             align-self: flex-end;
             color: #333;
-            padding-top: 5px;
+            padding-top: 10px;
           }
         }
       }
@@ -299,15 +299,12 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 30px;
-        // border-radius: 100px;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-        border-top-right-radius: 5px;
-        background-image: linear-gradient(290deg, #ff4343, #dd3792);
+        background: #d6001c;
+        border-radius: 10px;
         position: absolute;
-        right: 0;
-        top: 0;
+        right: 10px;
+        top: 10px;
+        z-index: 1;
         img {
           width: 18px;
           margin-right: 5px;
@@ -338,15 +335,14 @@ export default {
 }
 .modal-body {
   width: 600px;
-  height: 350px;
+  max-height: 400px;
+  @media screen and (max-width: 768px) {
+    height: 250px;
+  }
   overflow: auto;
   display: flex;
   flex-direction: column;
   position: relative;
-  .scroll-container {
-    height: 280px;
-    overflow: auto;
-  }
   .changelog {
     p:first-child {
       margin-top: 0;
@@ -370,7 +366,7 @@ export default {
   .nodes-wrapper {
     .nodes-info {
       .node {
-        width: 303px;
+        // width: 303px;
 
         margin-left: auto;
         margin-right: auto;
@@ -413,8 +409,7 @@ export default {
   .nodes-wrapper {
     .nodes-info {
       .node {
-        width: 253px;
-        min-width: 253px;
+        height: 140px;
         margin-right: 0;
         .message {
           .img-container {

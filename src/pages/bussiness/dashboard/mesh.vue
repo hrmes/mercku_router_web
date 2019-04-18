@@ -17,7 +17,7 @@
           <div class="legend-wrap">
             <p class="legend-title">
               <span>{{$t('trans0302')}}</span>
-              <span class="icon-circle"
+              <span class="icon-quality"
                     @click.stop="showRssiModal"></span>
             </p>
             <div class="legend">
@@ -79,7 +79,7 @@
                   <div class="edit"
                        v-if="!isRouterOffline(router)"
                        @click.stop="onClickRouterName(router)">
-                    <img class="btn-text"
+                    <img class="btn-text icon-btn"
                          :title="$t('trans0034')"
                          src="../../../assets/images/icon/ic_edit.png"
                          alt>
@@ -118,10 +118,10 @@
                       v-if="!isRouterOffline(router)"
                       @click="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw"
-                      class="reset btn-text"
+                      class="reset btn-text text-primary"
                       @click="resetNode(router)">{{$t('trans0205')}}</span>
                 <span v-if="!router.is_gw"
-                      class="delete btn-text"
+                      class="delete btn-text text-primary"
                       @click="deleteNode(router)">{{$t('trans0033')}}</span>
               </div>
             </div>
@@ -182,11 +182,13 @@
           <div class="markdown-body"
                v-html="rssiTips"></div>
 
-          <div class="form-button">
-            <button class="btn btn-middle"
-                    @click="closeRssiModal">{{$t('trans0024')}}</button></div>
         </div>
       </m-modal-body>
+      <m-modal-footer>
+        <div class="form-button">
+          <button class="btn btn-dialog-confirm"
+                  @click="closeRssiModal">{{$t('trans0024')}}</button></div>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>
@@ -546,8 +548,8 @@ export default {
 <style lang="scss" scoped>
 .rssi-modal {
   width: 660px;
-  max-height: 500px;
-  padding: 0 30px;
+  max-height: 400px;
+  padding: 0 10px;
   overflow: auto;
   overflow-x: hidden;
   .markdown-body {
@@ -557,7 +559,7 @@ export default {
   }
   @media screen and (max-width: 768px) {
     width: auto;
-    height: 350px;
+    height: 340px;
     overflow: auto;
   }
   .examples {
@@ -686,43 +688,18 @@ export default {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            .icon-circle {
+            .icon-quality {
               width: 12px;
               height: 12px;
-              display: inline-block;
               margin-left: 5px;
-              position: relative;
               cursor: pointer;
+              background: url(../../../assets/images/icon/ic_connection_quality.png)
+                no-repeat center;
+              background-size: 100%;
               &:hover {
-                &::before {
-                  border-color: #999;
-                }
-                &::after {
-                  border-right-color: #999;
-                  border-bottom-color: #999;
-                }
-              }
-              &::before {
-                content: '';
-                display: block;
-                width: 10px;
-                height: 10px;
-                border: 1px solid #333;
-                border-radius: 50%;
-              }
-              &::after {
-                position: absolute;
-                content: '';
-                display: block;
-                width: 3px;
-                height: 3px;
-                border-right: 1px solid #333;
-                border-bottom: 1px solid #333;
-                border-left: 0;
-                border-top: 0;
-                transform: rotate(-45deg);
-                top: 4px;
-                left: 4px;
+                background: url(../../../assets/images/icon/ic_connection_quality_hover.png)
+                  no-repeat center;
+                background-size: 100%;
               }
             }
           }
@@ -850,9 +827,8 @@ export default {
               .expand {
                 display: none;
                 img {
-                  width: 17px;
+                  width: 14px;
                   height: 7px;
-                  opacity: 0.7;
                 }
                 transition: all 0.3s;
                 &.expand {
@@ -894,24 +870,9 @@ export default {
             .operate {
               span {
                 margin-left: 20px;
-                cursor: pointer;
-                text-decoration: underline;
-                &:hover {
-                  text-decoration: underline;
-                }
-                &:active {
-                  text-decoration: underline;
-                }
                 &:first-child {
                   margin-left: 0;
                 }
-              }
-              .reboot {
-                color: #333;
-              }
-              .reset,
-              .delete {
-                color: #ff4949;
               }
             }
           }
@@ -945,10 +906,12 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .mesh-container {
+    padding: 0 !important;
     .mesh-info {
       padding: 0;
       .title {
         .tabs {
+          padding: 0 20px;
           .tab {
             width: auto;
             font-size: 14px;
@@ -957,12 +920,13 @@ export default {
       }
       .btn-add {
         font-size: 12px;
+        right: 20px;
       }
 
       .content {
         padding-top: 0;
         .topo-container {
-          padding-top: 20px;
+          padding: 20px 20px 0 20px;
           flex: 1;
           display: flex;
           flex-direction: column;
@@ -1013,7 +977,7 @@ export default {
           .name {
             flex: none;
             height: 60px !important;
-            padding: 15px 0 !important;
+
             .icon {
               width: 30px;
             }
@@ -1033,20 +997,39 @@ export default {
           }
           .table-content {
             padding: 0;
+            background: #fff;
             .router {
               display: flex;
               flex-direction: column;
-              margin-bottom: 10px;
+              // margin-bottom: 10px;
               background: #fff;
               border-radius: 5px;
               padding: 0;
               height: 60px;
               overflow: hidden;
+              // background: #f1f1f1;
+              margin: 0 20px;
+              position: relative;
               &:nth-child(2n) {
                 background: #fff;
               }
               &.expand {
-                height: 378px;
+                height: 408px;
+                margin: 0;
+                background: #f1f1f1;
+                padding: 0 20px;
+                .name {
+                  background: #fff;
+                  position: absolute;
+                  width: 100%;
+                  top: 0;
+                  left: 0;
+                  padding: 0 20px;
+                }
+                > div:not(:first-child) {
+                  background: #f1f1f1;
+                  border-bottom: 1px solid #e0e0e0;
+                }
               }
               span.label {
                 display: inline;
@@ -1085,7 +1068,9 @@ export default {
               }
               .operate {
                 display: flex;
-                justify-content: flex-end;
+                justify-content: center;
+                padding: 30px 20px;
+                border-bottom: 0 !important;
                 span {
                   text-decoration: none;
                 }
@@ -1093,14 +1078,14 @@ export default {
                 .reset,
                 .delete {
                   width: auto;
-                  min-width: 80px;
+                  min-width: 140px;
                   background: #d6001c;
                   color: #fff;
                   text-align: center;
                   border-radius: 4px;
-                  height: 28px;
+                  height: 38px;
                   font-size: 12px;
-                  padding: 7px;
+                  padding: 13px;
                   line-height: 1;
                 }
               }

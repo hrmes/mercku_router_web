@@ -14,7 +14,7 @@
               <div class="vpn-name">
                 <span>{{vpn.name}}</span>
                 <div class="spinner-container">
-                  <m-loading :size="30"
+                  <m-loading :size="24"
                              class="spinner"
                              :color="getColor(vpn)"
                              v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
@@ -36,7 +36,7 @@
               <div class="vpn-edit btn-text"
                    @click="edit(vpn)"
                    :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0034')}}</div>
-              <div class="vpn-del btn-text"
+              <div class="vpn-del btn-text text-primary"
                    @click="del(vpn)"
                    :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0033')}}</div>
             </div>
@@ -319,8 +319,6 @@ export default {
         }
         .vpn-edit {
           margin-left: 30px;
-          color: #333333;
-          cursor: pointer;
           &.disabled {
             color: #999;
             cursor: not-allowed;
@@ -328,8 +326,6 @@ export default {
         }
         .vpn-del {
           margin-left: 30px;
-          color: #ff0001;
-          cursor: pointer;
           &.disabled {
             color: #999;
             cursor: not-allowed;

@@ -28,18 +28,17 @@ export default {
   props: { option: { type: Object } },
   computed: {
     width() {
-      return `${((this.option.current + 1) * 100) / this.option.steps.length}%`;
+      return `${(this.option.current * 100) / (this.option.steps.length - 1)}%`;
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .step-container {
-  height: 60px;
-
+  height: 36px;
   position: relative;
   .line {
-    height: 3px;
+    height: 2px;
     background: #bdbdbd;
     position: absolute;
     width: 100%;
@@ -47,8 +46,8 @@ export default {
     transform: translateY(-50%);
     z-index: 0;
     .steped {
-      background: #00d061;
-      height: 3px;
+      background: #d6001c;
+      height: 2px;
     }
   }
   .steps {
@@ -76,17 +75,21 @@ export default {
         }
       }
       .step-content {
-        display: inline-block;
-        border-radius: 50%;
+        width: 56px;
+        height: 64px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        position: relative;
       }
       .step-number {
         border-radius: 50%;
         border: 1px solid #bdbdbd;
         text-align: center;
-        width: 60px;
-        height: 60px;
-        line-height: 60px;
-        font-style: italic;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
         font-weight: bold;
         font-size: 24px;
         color: #bdbdbd;
@@ -94,33 +97,34 @@ export default {
       }
       .step-text {
         text-align: center;
-        font-size: 16px;
+        font-size: 12px;
         color: #333;
         position: absolute;
-        transform: translateX(-70px);
-        width: 200px;
-        margin-top: 8px;
+        left: 50%;
+        top: 46px;
+        width: 180px;
+        transform: translateX(-50%);
       }
       &.fail {
         .step-number {
-          background: red;
-          border-color: red;
+          background: #ffe6e9;
+          border-color: #ffe6e9;
           color: #fff;
           position: relative;
           &::before {
             content: '×';
             display: block;
-            color: #fff;
+            color: #d6001c;
             font-style: normal;
-            font-size: 34px;
+            font-size: 24px;
           }
         }
       }
       &.success {
         .step-number {
-          background: #00d061;
-          border-color: #00d061;
-          color: #fff;
+          background: #ffe6e9;
+          border-color: #ffe6e9;
+          color: #d6001c;
         }
       }
     }
@@ -128,8 +132,6 @@ export default {
 }
 @media screen and(max-width: 768px) {
   .step-container {
-    height: 40px;
-    padding: 0 20px;
     .line {
       width: auto;
       left: 20px;
@@ -137,15 +139,9 @@ export default {
     }
     .steps {
       .step {
-        .step-number {
-          width: 40px;
-          height: 40px;
-          line-height: 40px;
-        }
         .step-text {
           font-size: 12px;
           width: 80px;
-          transform: translateX(-20px);
         }
       }
     }

@@ -5,29 +5,29 @@
         <div class="device-container"
              :class="{'selected':$route.path.includes('device')}">
           <div class="icon-container"
-               :class="{'disabled':!isRouter}"
-               @click="isRouter && forward2page('/dashboard/device/primary')">
-            <img src="../../../assets/images/icon/ic_device.png"
+               :class="{'disabled':!isRouter}">
+            <img @click="isRouter && forward2page('/dashboard/device/primary')"
+                 src="../../../assets/images/icon/ic_device.png"
                  alt="">
+            <div class="text-container"
+                 :class="{'disabled':!isRouter}">
+              {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
+            </div>
           </div>
-          <div class="text-container"
-               :class="{'disabled':!isRouter}"
-               @click="isRouter && forward2page('/dashboard/device/primary')">
-            {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
-          </div>
+
         </div>
         <div class="line"></div>
         <div class="wifi-container"
              :class="{'selected':$route.path.includes('mesh')}">
-          <div class="icon-container"
-               @click="forward2page('/dashboard/mesh')">
-            <img src="../../../assets/images/icon/ic_router.png"
+          <div class="icon-container">
+            <img @click="forward2page('/dashboard/mesh')"
+                 src="../../../assets/images/icon/ic_router.png"
                  alt="">
+            <div class="text-container">
+              {{ssid||'-'}}
+            </div>
           </div>
-          <div class="text-container"
-               @click="forward2page('/dashboard/mesh')">
-            {{ssid||'-'}}
-          </div>
+
         </div>
         <div class="line"
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
@@ -44,15 +44,15 @@
         </div>
         <div class="internet-container"
              :class="{'selected':$route.path.includes('internet')}">
-          <div class="icon-container"
-               @click="forward2page('/dashboard/internet')">
-            <img src="../../../assets/images/icon/ic_internet.png"
+          <div class="icon-container">
+            <img @click="forward2page('/dashboard/internet')"
+                 src="../../../assets/images/icon/ic_internet.png"
                  alt="">
+            <div class="text-container">
+              {{$t('trans0366')}}
+            </div>
           </div>
-          <div class="text-container"
-               @click="forward2page('/dashboard/internet')">
-            {{$t('trans0366')}}
-          </div>
+
         </div>
       </div>
     </div>
@@ -62,15 +62,13 @@
         <div class="tip-modal">
           <div class="tip-modal__text markdown-body"
                v-html="tips"></div>
-          <div class="form-button">
-            <button class="btn btn-middle"
-                    @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
-            <!-- <button class="btn btn-middle btn-default"
-                    @click="tipsModalVisible=false">{{$t('trans0025')}}</button> -->
-
-          </div>
         </div>
       </m-modal-body>
+      <m-modal-footer>
+        <div class="form-button">
+          <button class="btn btn-dialog-confirm"
+                  @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button> </div>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>
@@ -195,7 +193,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @keyframes speed-test-line {
-  form {
+  from {
     width: 0%;
   }
   to {
@@ -246,12 +244,17 @@ export default {
       }
 
       .icon-container {
-        cursor: pointer;
         &.disabled {
-          cursor: default;
           img {
+            cursor: default;
+            background: #e1e1e1;
             &:hover {
-              opacity: 1;
+              background: #e1e1e1;
+              & + .text-container {
+                color: #e1e1e1;
+                cursor: default;
+                text-decoration: none;
+              }
             }
           }
         }
@@ -262,19 +265,20 @@ export default {
           margin: 0 auto;
           border-radius: 50%;
           background: #fff;
+          cursor: pointer;
           &:hover {
-            opacity: 0.8;
+            background: #e1e1e1;
+            & + .text-container {
+              color: #999;
+              cursor: pointer;
+              text-decoration: underline;
+            }
           }
         }
       }
       .text-container {
         &.disabled {
-          cursor: default;
-          &:hover {
-            color: #fff;
-            text-decoration: none;
-            cursor: default;
-          }
+          color: #e1e1e1;
         }
         margin-top: 10px;
         font-size: 14px;
@@ -282,16 +286,11 @@ export default {
         text-align: center;
         white-space: nowrap;
         color: #fff;
-        &:hover {
-          color: #999;
-          cursor: pointer;
-          text-decoration: underline;
-        }
       }
       .line {
         flex: 1;
-        height: 0;
-        border-top: 2px solid #fff;
+        height: 2px;
+        background: #fff;
         text-align: center;
         position: relative;
         transform: translateY(-15px);
@@ -299,15 +298,27 @@ export default {
           border-top: 2px dashed #999;
         }
         &.testing {
-          border: 0;
+          position: relative;
+          background: none;
           &::after {
             content: '';
             display: block;
-            border-top: 2px dashed #fff;
-            animation: speed-test-line linear 2s infinite;
-            width: 10%;
             position: absolute;
-            top: -1px;
+            top: 0;
+            left: 0;
+            background: linear-gradient(
+              to right,
+              #fff 0%,
+              #fff 50%,
+              transparent 50%
+            );
+            background-size: 10px 2px;
+            background-repeat: repeat-x;
+            height: 2px;
+            width: 300px;
+
+            animation: speed-test-line linear 1s infinite;
+            width: 100%;
           }
         }
         .icon-unconnected-container {
@@ -426,7 +437,7 @@ export default {
           transform: translateY(-10px);
           &.testing {
             &::after {
-              animation: speed-test-line ease 0.5s infinite;
+              animation: speed-test-line linear 0.5s infinite;
               top: 0;
             }
           }

@@ -96,8 +96,10 @@
                         :onChange="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
-              <a @click="editHandle(item)">{{$t('trans0034')}}</a>
-              <a @click="del([item.id])">{{$t('trans0033')}}</a>
+              <a class="btn-text"
+                 @click="editHandle(item)">{{$t('trans0034')}}</a>
+              <a class="btn-text text-primary"
+                 @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
 
           </div>
@@ -232,7 +234,6 @@ export default {
               .meshPortfwDelete({ portfw_ids: portfwIds })
               .then(() => {
                 this.filterList(portfwIds);
-                // this.getList
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
@@ -287,7 +288,6 @@ export default {
   }
   .column-local-ip {
     width: 200px;
-    // flex-direction: column;
     p {
       padding: 0;
       margin: 0;
@@ -300,7 +300,6 @@ export default {
     width: 100px;
   }
   .column-outside-ip {
-    // flex-direction: column;
     p {
       padding: 0;
       margin: 0;
@@ -322,14 +321,8 @@ export default {
   .column-handle {
     width: 120px;
     a {
-      cursor: pointer;
-      text-decoration: underline;
       &:last-child {
-        color: #ff0001;
         padding-left: 30px;
-      }
-      &:hover {
-        opacity: 0.8;
       }
     }
   }
@@ -496,7 +489,6 @@ export default {
             width: 140px;
             height: 42px;
             font-size: 14px;
-
             margin: 0;
             background: white;
             color: #333333;

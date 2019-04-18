@@ -5,7 +5,7 @@
 </template>
 <style lang="scss" scoped>
 .modal-header {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   padding-bottom: 20px;
 }

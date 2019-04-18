@@ -21,13 +21,16 @@
                    v-clickoutside="()=>deviceModalVisible=false">
                 <div class="opcity"></div>
                 <div class="modal-content">
+                  <div class="modal__header">{{$t('trans0235')}}</div>
                   <div v-if="devices"
                        class="list">
                     <div class="device-item"
+                         @click="checkDevice(item)"
                          v-for="(item,index) in devices"
                          :key="index">
                       <div class="check">
-                        <m-checkbox v-model="item.checked"></m-checkbox>
+                        <m-checkbox :readonly="true"
+                                    v-model="item.checked"></m-checkbox>
                       </div>
                       <div class="des">
                         <p>{{item.name}}</p>
@@ -40,7 +43,7 @@
                     <p style="color:#000">{{$t('trans0278')}}</p>
                   </div>
                   <div class="btn-wrap">
-                    <button class="btn btn-middle"
+                    <button class="btn btn-dialog-confirm"
                             @click="addBlacklist()">{{$t('trans0016')}}</button>
                   </div>
                 </div>
@@ -130,6 +133,14 @@ export default {
     }
   },
   methods: {
+    checkDevice(device) {
+      this.devices.forEach(d => {
+        if (d !== device) {
+          d.checked = false;
+        }
+      });
+      device.checked = !device.checked;
+    },
     changeCheckboxAll(v) {
       let checked = false;
       if (v) {
@@ -247,53 +258,70 @@ export default {
 }
 .modal {
   position: absolute;
-  top: 40px;
+  top: 34px;
   z-index: 1;
   left: 0;
-  width: 300px;
-  border-radius: 2px;
+  width: 480px;
+  border-radius: 4px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px #e7e7e7;
+  border: solid 1px #f1f1f1;
   background-color: #ffffff;
-  .list {
-    overflow: auto;
-    max-height: 400px;
-  }
-  .device-item {
-    display: flex;
-    padding: 20px;
-    align-items: center;
-    cursor: default;
-    .des {
-      flex: 1;
-      justify-content: flex-start;
-      margin-left: 20px;
-      p {
-        color: #333333;
-        line-height: 1;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-        &:first-child {
-          font-size: 14px;
-          font-weight: bold;
-          margin-bottom: 5px;
+  .modal-content {
+    .modal__header {
+      color: #333;
+      text-align: left;
+      font-weight: bold;
+      border-bottom: 1px solid #f1f1f1;
+
+      font-size: 14px;
+      padding: 20px 0 12px 0;
+      margin: 0 30px;
+    }
+    .list {
+      overflow: auto;
+      max-height: 400px;
+    }
+    .device-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 20px 30px 0 30px;
+      &:hover {
+        background: #f1f1f1;
+        cursor: pointer;
+      }
+      .des {
+        flex: 1;
+        justify-content: flex-start;
+        margin-left: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f1f1f1;
+        p {
+          color: #333333;
+          line-height: 1;
+          padding: 0;
+          margin: 0;
+          text-align: left;
+          &:first-child {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
         }
       }
     }
-  }
-  .btn-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .btn-default {
-      display: none;
+    .btn-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .btn-default {
+        display: none;
+      }
+      .btn {
+        margin: 0 auto;
+      }
+      padding-top: 50px;
+      padding-bottom: 30px;
     }
-    .btn {
-      height: 36px;
-      margin: 0 auto;
-    }
-    padding: 60px 0 30px 0;
   }
 }
 .table {
@@ -351,9 +379,23 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .modal {
-    left: 50%;
-    top: 34px;
-    transform: translateX(-50%);
+    position: fixed;
+    width: auto;
+    top: 50%;
+    left: 20px;
+    right: 20px;
+    transform: translateY(-50%);
+    .modal-content {
+      .list {
+        max-height: 250px;
+      }
+      .device-item {
+        &:hover {
+          background: none;
+        }
+      }
+    }
+
     .btn {
       margin: 0 auto !important;
     }

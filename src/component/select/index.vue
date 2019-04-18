@@ -118,7 +118,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .select-container {
-  width: 350px;
+  width: 340px;
   .select {
     height: 48px;
     width: 100%;
@@ -157,7 +157,8 @@ export default {
     width: 100%;
     position: absolute;
     z-index: 888;
-    left: 0;
+    width: 340px;
+    left: -1px;
     top: 52px;
     background: #fff;
     border-radius: 5px;
@@ -173,11 +174,11 @@ export default {
       text-overflow: ellipsis;
 
       &:active {
-        background: #e7e7e7;
+        background: #f1f1f1;
         color: #333;
       }
       &:hover {
-        background: #e7e7e7;
+        background: #f1f1f1;
         color: #333;
       }
       &.selected {
