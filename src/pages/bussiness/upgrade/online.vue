@@ -147,9 +147,13 @@ export default {
           };
           this.nodes = data.filter(filter);
         })
-        .catch(() => {
+        .catch(err => {
           this.$loading.close();
           this.requestResult.complete = true;
+          if (err && err.error) {
+            this.requestResult.error = true;
+            this.requestResult.message = this.$t('trans0345');
+          }
         });
     },
     submit() {
