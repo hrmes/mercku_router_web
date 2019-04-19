@@ -30,7 +30,7 @@
                   <div class="check">
                     <m-checkbox :readonly="true"
                                 v-model="item.checked"></m-checkbox>
-                  </div>s
+                  </div>
                   <div class="des">
                     <p>{{item.name}}</p>
                     <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
