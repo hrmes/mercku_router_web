@@ -595,7 +595,7 @@ export default {
             }
             &:nth-child(2n + 1) {
               .m-title {
-                width: 125px;
+                width: 140px;
               }
             }
             .m-title {

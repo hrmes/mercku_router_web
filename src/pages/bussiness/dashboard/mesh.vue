@@ -650,6 +650,9 @@ export default {
   flex: 1;
   display: flex;
 
+  .tabs {
+    padding: 0;
+  }
   .mesh-info {
     display: flex;
     .title {
@@ -736,7 +739,7 @@ export default {
           order: 1;
           display: flex;
           align-items: flex-start;
-          padding-left: 20px;
+
           label {
             display: flex;
             margin-right: 15px;

@@ -174,10 +174,11 @@ export default {
 
   cursor: pointer;
   .select-popup {
-    width: 100%;
+    // width: 100%;
     position: absolute;
     z-index: 999;
-    left: 0;
+    left: -1px;
+    right: -1px;
     top: 52px;
     background: #fff;
     border-radius: 5px;

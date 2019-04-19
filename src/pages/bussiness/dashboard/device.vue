@@ -699,6 +699,9 @@ export default {
 .device-container {
   padding-bottom: 50px;
   border-radius: 8px;
+  .tabs {
+    padding: 0;
+  }
   .table-empty {
     padding-top: 30px;
     text-align: center;
@@ -714,8 +717,9 @@ export default {
   .offline-handle-wrapper {
     display: flex;
     align-items: center;
-    padding: 20px;
-    padding-bottom: 0;
+    padding-top: 20px;
+    // padding-bottom: 0;
+
     .check-info {
       .m-check-all-box {
         display: none;
@@ -883,10 +887,11 @@ export default {
       }
       .des-inner {
         margin-top: 10px;
-        display: inline-block;
-        line-height: 1;
+
         .row {
           margin-right: 10px;
+          display: inline-block;
+          line-height: 1;
           .label {
             display: none;
           }

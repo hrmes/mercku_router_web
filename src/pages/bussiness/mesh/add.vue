@@ -760,6 +760,14 @@ export default {
     }
   }
 }
+@media screen and (max-width: 414px) {
+  .router-category-container {
+    width: 100%;
+    .router {
+      width: 100%;
+    }
+  }
+}
 @media screen and (width: 320px) {
   .type-container {
     .router-category-container {

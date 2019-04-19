@@ -447,7 +447,7 @@ export default {
       width: 30px;
     }
     p {
-      width: 140px;
+      width: 70%;
     }
   }
 }

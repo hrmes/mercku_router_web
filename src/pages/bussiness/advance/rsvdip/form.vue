@@ -30,7 +30,7 @@
                   <div class="check">
                     <m-checkbox :readonly="true"
                                 v-model="item.checked"></m-checkbox>
-                  </div>
+                  </div>s
                   <div class="des">
                     <p>{{item.name}}</p>
                     <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
@@ -38,6 +38,10 @@
                   </div>
                 </div>
               </div>
+              <!-- <div class="empty"
+                   v-if="!devices.length">
+                <p style="color:#000;margin-top:50px;">{{$t('trans0278')}}</p>
+              </div> -->
               <div class="btn-wrap">
                 <button class="btn btn-middle btn-default"
                         @click="()=>modalShow=false">{{$t('trans0025')}}</button>

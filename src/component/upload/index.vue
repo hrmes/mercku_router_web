@@ -216,6 +216,7 @@ export default {
       }
       .filesize {
         margin-left: 5px;
+        color: #999;
       }
       .percent {
         font-size: 12px;

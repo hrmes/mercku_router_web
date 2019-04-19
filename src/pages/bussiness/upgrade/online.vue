@@ -218,6 +218,9 @@ export default {
       margin-right: 20px;
       margin-bottom: 30px;
       position: relative;
+      @media screen and (max-width: 414px) {
+        width: 100%;
+      }
       .message {
         display: flex;
         align-items: start;

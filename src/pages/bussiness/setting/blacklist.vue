@@ -40,7 +40,7 @@
                   </div>
                   <div class="empty"
                        v-if="!devices.length">
-                    <p style="color:#000">{{$t('trans0278')}}</p>
+                    <p style="color:#000;margin-top:50px;">{{$t('trans0278')}}</p>
                   </div>
                   <div class="btn-wrap">
                     <button class="btn btn-dialog-confirm"
@@ -411,7 +411,7 @@ export default {
     }
     .tools {
       border-bottom: 1px solid #f1f1f1;
-      padding: 10px 0;
+      padding: 10px 0px;
       padding-top: 0;
       margin: 0;
       display: flex;

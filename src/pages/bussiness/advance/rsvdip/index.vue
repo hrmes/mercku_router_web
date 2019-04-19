@@ -345,6 +345,7 @@ export default {
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
+  width: 100%;
   &.extra {
     width: 100%;
     text-align: left;
