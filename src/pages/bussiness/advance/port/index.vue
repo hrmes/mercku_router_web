@@ -108,7 +108,7 @@
             <img src="../../../../assets/images/img_default_empty.png"
                  alt="">
             <p>{{$t('trans0278')}}</p>
-            <button class="btn"
+            <button class="btn btn-middle"
                     @click="add">{{$t('trans0035')}}</button>
           </div>
         </div>

@@ -444,6 +444,7 @@ export default {
             background: #d6001c;
             width: 100%;
             bottom: 0;
+            left: 0;
             position: absolute;
           }
         }

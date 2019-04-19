@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="form-button">
-          <button class="btn btn-primary"
+          <button class="btn"
                   @click="add"
                   :disabled="connecting">{{$t('trans0035')}}</button>
         </div>
@@ -53,7 +53,7 @@
         <img src="../../../../assets/images/img_default_empty.png"
              alt="">
         <p class="empty-text">{{$t('trans0278')}}</p>
-        <button class="btn btn-primary"
+        <button class="btn btn-middle"
                 @click="add"
                 :disabled="connecting">{{$t('trans0035')}}</button>
       </div>
@@ -344,13 +344,18 @@ export default {
   img {
     width: 220px;
   }
-  .empty-text {
-    margin-bottom: 50px;
+  .btn-middle {
+    width: 340px;
+    height: 48px;
+    margin-top: 50px;
   }
 }
 @media screen and (max-width: 768px) {
   .list {
     width: 100%;
+    .btn {
+      margin-top: 0;
+    }
     .vpn-list {
       width: 100%;
       .vpn {
@@ -370,6 +375,13 @@ export default {
           width: 100%;
         }
       }
+    }
+  }
+  .vpn-empty {
+    .btn {
+      width: auto;
+      height: 38px;
+      margin-top: 10px;
     }
   }
 }

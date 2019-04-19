@@ -18,12 +18,13 @@
                    :label="label"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item>
-          <button class="btn btn-primary"
-                  v-defaultbutton
-                  @click="start">{{$t('trans0467')}}</button>
-        </m-form-item>
+
       </m-form>
+      <div class="form-button">
+        <button class="btn btn-primary"
+                v-defaultbutton
+                @click="start">{{$t('trans0467')}}</button>
+      </div>
       <div class="log-container"
            v-show="output">
         <pre>{{output}}</pre>

@@ -459,7 +459,7 @@ export default {
     display: flex;
 
     .name {
-      padding-left: 20px;
+      // padding-left: 20px;
       // font-weight: bold
     }
     margin-bottom: 30px;

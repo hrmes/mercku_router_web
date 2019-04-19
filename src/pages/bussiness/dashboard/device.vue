@@ -883,6 +883,8 @@ export default {
       }
       .des-inner {
         margin-top: 10px;
+        display: inline-block;
+        line-height: 1;
         .row {
           margin-right: 10px;
           .label {
