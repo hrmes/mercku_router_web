@@ -647,7 +647,7 @@ export default {
   }
 }
 .mesh-container {
-  flex: 1;
+  flex: auto;
   display: flex;
 
   .tabs {
@@ -675,11 +675,12 @@ export default {
     flex-direction: column;
     .content {
       padding-top: 20px;
-      flex: 1;
+      flex: auto;
       display: flex;
       .topo-container {
         flex: 1;
         display: flex;
+        // height: 500px;
         .legend-wrap {
           order: 3;
           width: 200px;
@@ -757,6 +758,7 @@ export default {
           align-items: center;
           justify-content: center;
           // width: 100%;
+          // height: 500px;
           #topo {
             min-width: 500px;
             height: 500px;
