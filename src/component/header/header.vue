@@ -136,6 +136,10 @@ const Languages = [
   {
     text: 'English',
     value: 'en-US'
+  },
+  {
+    text: 'Deutsch',
+    value: 'de-DE'
   }
 ];
 export default {

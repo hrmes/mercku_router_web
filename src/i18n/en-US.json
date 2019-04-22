@@ -591,10 +591,10 @@
   "trans0597": " ",
   "trans0598": "Excellent",
   "trans0599": "Poor",
-  "trans0600": " ",
+  "trans0600": "Success",
   "trans0601": "Go to Internet settings",
-  "trans0602": " ",
-  "trans0603": " ",
+  "trans0602": "Failed",
+  "trans0603": "Finished upgrading, please ensure firmware version correct",
   "trans0604": " ",
   "trans0605": " ",
   "trans0606": " "
