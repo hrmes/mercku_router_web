@@ -556,6 +556,7 @@ export default {
     font-size: 12px;
     color: #999999;
     padding-top: 10px;
+    width: 340px;
   }
   .title {
     display: inline-block;

@@ -38,9 +38,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="empty"
+                  <div class="empty-device"
                        v-if="!devices.length">
-                    <p style="color:#000;margin-top:50px;">{{$t('trans0278')}}</p>
+                    <p>{{$t('trans0278')}}</p>
                   </div>
                   <div class="btn-wrap">
                     <button class="btn btn-dialog-confirm"
@@ -344,6 +344,15 @@ export default {
   // .operate {
   //   width: 20%;
   // }
+  .empty-device {
+    p {
+      padding: 50px 0;
+      color: #333;
+      margin: 0;
+      text-align: center;
+      border-bottom: 1px solid #f1f1f1;
+    }
+  }
   .table-header {
     display: flex;
     background: #f1f1f1;

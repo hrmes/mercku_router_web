@@ -38,6 +38,10 @@
                   </div>
                 </div>
               </div>
+              <div class="empty-device"
+                   v-if="!devices.length">
+                <p>{{$t('trans0278')}}</p>
+              </div>
               <!-- <div class="empty"
                    v-if="!devices.length">
                 <p style="color:#000;margin-top:50px;">{{$t('trans0278')}}</p>
@@ -226,6 +230,15 @@ export default {
   }
   .item {
     margin-top: 30px;
+  }
+  .empty-device {
+    p {
+      padding: 50px 0;
+      color: #333;
+      border-bottom: 1px solid #f1f1f1;
+      margin: 0;
+      text-align: center;
+    }
   }
   .device {
     width: 120px;
