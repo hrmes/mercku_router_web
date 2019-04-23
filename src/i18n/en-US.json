@@ -596,8 +596,8 @@
   "trans0602": "Failed",
   "trans0603": "Finished upgrading, please ensure firmware version correct",
   "trans0604": "Technical Feedback",
-  "trans0605": "Email Address (the reply will be sent to this address)",
-  "trans0606": "Send router log",
+  "trans0605": "Email Address ",
+  "trans0606": "The reply will be sent to this address",
   "trans0607": "Send basic router information (Includes: System log, Mesh ID, SN, Version)",
   "trans0608": "Please choose the issue type you want to report",
   "trans0609": "Network stability",
@@ -605,5 +605,7 @@
   "trans0611": "Speed",
   "trans0612": "Other",
   "trans0613": "A detailed description helps us to resolve your potential problems more quickly",
-  "trans0614": "Send"
+  "trans0614": "Send",
+  "trans0615": "There is a problem with the network. Please switch to mobile network or try again later!",
+  "trans0616": "Retry"
 }
