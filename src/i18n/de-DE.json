@@ -596,8 +596,8 @@
   "trans0602": "Fehlgeschlagen",
   "trans0603": "Aktualisierung beendet, bitte Firmware auf Korrektheit überprüfen",
   "trans0604": "Technisches Feedback",
-  "trans0605": "Email Adresse (Ihr Eintrag wird an diese Addresse geschickt)",
-  "trans0606": "Router Protokoll senden",
+  "trans0605": "Email Adresse ",
+  "trans0606": "Ihr Eintrag wird an diese Addresse geschickt",
   "trans0607": "Routerinformationen senden ( Router Protokoll, Mesh-Netzwerk ID, SN, Version)",
   "trans0608": "Bitte Problem beschreiben, zB. Kontrollleuchten Farbe, Netzwerkstatus, IoT Geräte, Verlauf",
   "trans0609": "Netzwerkstabilität",
@@ -605,5 +605,7 @@
   "trans0611": "Geschwindigkeit",
   "trans0612": "Andere",
   "trans0613": "Eine detaillierte Beschreiben hilft uns Ihre möglichen Probleme schneller zu beheben",
-  "trans0614": "Senden"
+  "trans0614": "Senden",
+  "trans0615": "Es gibt ein Problem mit dem Netzwerk. Bitte wechseln Sie ins Mobilfunknetz oder versuchen Sie es später erneut!",
+  "trans0616": "Erneut verscheun"
 }
