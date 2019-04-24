@@ -1,6 +1,6 @@
 <template>
   <header class="header-container"
-          :class="{'nav-hide':!navVisible,'open':mobileNavVisible}">
+          :class="{'nav-hide':!navVisible,'open':(mobileNavVisible),'i18n-open':mobileI18nVisible}">
     <div class="logo-wrap">
       <div v-if="logoVisible"
            class="logo-wrap__logo"></div>
@@ -109,9 +109,16 @@
         </transition>
       </div>
       <div class="small-device">
-        <span @click="changeLang()"
+        <span @click="setMobleLangVisible()"
               class="menu-icon language"
               :class="[$i18n.locale]"></span>
+        <ul class="i18n-mobile"
+            v-show="mobileI18nVisible">
+          <li :key="lang.value"
+              v-for="lang in Languages"
+              :class="{'selected':$i18n.locale === lang.value}"
+              @click="selectMobileLang(lang)">{{lang.text}}</li>
+        </ul>
         <span v-if="navVisible"
               @click="trigerMobileNav()"
               class="menu-icon menu"></span>
@@ -148,6 +155,7 @@ export default {
       type: Boolean,
       default: true
     },
+
     navs: {
       type: Array,
       default: () => []
@@ -159,6 +167,7 @@ export default {
   },
   data() {
     return {
+      mobileI18nVisible: false,
       showPopup: false,
       Languages,
       current: null,
@@ -221,6 +230,7 @@ export default {
     },
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
+      this.mobileI18nVisible = false;
     },
     setChildMenuVisible(menu, visible) {
       menu.showChild = visible;
@@ -268,10 +278,22 @@ export default {
     setLangPopupVisible(visible) {
       this.showPopup = visible;
     },
-
+    setMobleLangVisible() {
+      this.mobileI18nVisible = !this.mobileI18nVisible;
+      this.mobileNavVisible = false;
+      // if (this.mobileI18nVisible) {
+      //   this.$el.parentNode.style.paddingTop = '65px';
+      // } else {
+      //   this.$el.parentNode.style.paddingTop = '0';
+      // }
+    },
     selectLang(lang) {
       this.changeLanguage(lang.value);
       this.showPopup = false;
+    },
+    selectMobileLang(lang) {
+      this.changeLanguage(lang.value);
+      this.mobileI18nVisible = false;
     },
     changeLang() {
       const zh = 'zh-CN';
@@ -315,6 +337,9 @@ export default {
   @media screen and (max-width: 1440px) {
     padding: 0 50px;
   }
+  @media screen and (max-width: 768px) {
+    padding: 0 20px !important;
+  }
   position: relative;
   &.nav-hide {
     background: #fff;
@@ -355,18 +380,19 @@ export default {
         }
       }
       .small-device {
+        .i18n-mobile {
+          background: #fff;
+          color: #333;
+          border-color: #f1f1f1;
+          li {
+            border-color: #f1f1f1;
+          }
+        }
         .menu-icon {
           &.language {
-            &.zh-CN {
-              background: url(../../assets/images/icon/ic_lang_cn_reverse.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-            &.en-US {
-              background: url(../../assets/images/icon/ic_lang_en_reverse.png)
-                no-repeat center;
-              background-size: 100%;
-            }
+            background: url(../../assets/images/icon/ic_languages_black.png)
+              no-repeat center;
+            background-size: 100%;
           }
         }
       }
@@ -380,6 +406,7 @@ export default {
       display: flex;
       align-items: center;
       font-size: 14px;
+      line-height: 1;
       &:hover {
         text-decoration: underline;
         color: #999;
@@ -630,7 +657,8 @@ export default {
   .header-container {
     height: 65px;
     position: relative;
-    &.open {
+    &.open,
+    &.i18n-open {
       position: fixed;
       top: 0;
       left: 0;
@@ -771,23 +799,37 @@ export default {
         display: block;
         position: absolute;
         right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
+        .i18n-mobile {
+          position: fixed;
+          top: 65px;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: #333;
+          color: #fff;
+          padding: 0 30px;
+          z-index: 1000;
+          border-top: 1px solid #666;
+          li {
+            padding: 16px 0;
+            list-style: none;
+            border-top: 1px solid #666;
+            &.selected {
+              color: #d6001c;
+            }
+            &:first-child {
+              border: 0;
+            }
+          }
+        }
         .menu-icon {
           display: inline-block;
           width: 20px;
           height: 20px;
           &.language {
-            &.zh-CN {
-              background: url(../../assets/images/icon/ic_lang_cn.png) no-repeat
-                center;
-              background-size: 100%;
-            }
-            &.en-US {
-              background: url(../../assets/images/icon/ic_lang_en.png) no-repeat
-                center;
-              background-size: 100%;
-            }
+            background: url(../../assets/images/icon/ic_languages_white.png)
+              no-repeat center;
+            background-size: 100%;
           }
           &.menu {
             width: 24px;

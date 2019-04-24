@@ -288,7 +288,8 @@ export default {
       display: none;
     }
     .center-form {
-      width: 80%;
+      // width: 80%;
+      padding: 0 20px;
       flex: 1;
       margin: 0 auto;
       padding-bottom: 0;
