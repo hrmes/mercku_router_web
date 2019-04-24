@@ -1,4 +1,3 @@
-import MMenu from 'components/menu/index.vue';
 import MHeader from 'components/header/header.vue';
 import mPolicy from 'components/policy/index.vue';
 import mInput from 'components/input/input.vue';
@@ -28,7 +27,6 @@ import mLoading from 'components/loading/loading-new.vue';
 const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);
   _Vue.directive('defaultbutton', defaultButton);
-  _Vue.component('m-menu', MMenu);
   _Vue.component('m-header', MHeader);
   _Vue.component('m-policy', mPolicy);
   _Vue.component('m-input', mInput);
