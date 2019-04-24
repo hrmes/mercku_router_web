@@ -19,6 +19,6 @@ eg:
 ./i18n.sh master
 
 ## 关于 CUSTOMER_ID
-
+##
 关于更多的 CUSTOMER_ID 信息：https://github.com/hrmes/docs/issues/660
 ##
