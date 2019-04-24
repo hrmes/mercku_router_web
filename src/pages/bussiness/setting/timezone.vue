@@ -37,11 +37,7 @@ export default {
   created() {
     this.getTimezone();
     let array = [];
-    if (this.$i18n.locale === 'zh-CN') {
-      array = require('../../../timezones/zh-CN.json');
-    } else {
-      array = require('../../../timezones/en-US.json');
-    }
+    array = require(`../../../timezones/${this.$i18n.locale}.json`);
     this.timezones = array.map(t => ({
       text: `(${t.timename})${t.name}`,
       value: `${t.timezone}:${t.position}`
