@@ -21,7 +21,7 @@
             </div>
             <div class="message"
                  @click="check(node)">
-              <m-checkbox v-model="node.checked" />
+              <m-checkbox :readonly="true" v-model="node.checked" />
               <div class="img-container">
                 <img class="img-m2"
                      v-if="node.model.id===RouterSnModel.M2"
