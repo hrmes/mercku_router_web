@@ -34,7 +34,7 @@
   "trans0033": "Delete",
   "trans0034": "Edit",
   "trans0035": "Add",
-  "trans0036": "Are you sure you want to block this device? To unblock, you can go to \"Settings-> Blacklist\".",
+  "trans0036": "Are you sure you want to block this device? To unblock, you can go to \"Settings -> Blacklist\".",
   "trans0037": " ",
   "trans0038": "Connection timeout",
   "trans0039": "Please connect to MERCKU Wi-Fi and try again",
@@ -508,7 +508,7 @@
   "trans0509": "VPN connection failed. Incorrect username or password",
   "trans0510": "Failed to edit. Unable to edit a VPN in use.",
   "trans0511": "Web WAN Access",
-  "trans0512": "Version outdated. Please first upgrade the router's firmware and try again.",
+  "trans0512": "The firmware version is outdated. Please upgrade the firmware and try again.",
   "trans0513": "Failed to get firmware.",
   "trans0514": "My Wi-Fi",
   "trans0515": "Guest",
@@ -597,7 +597,7 @@
   "trans0603": "Finished upgrading, please ensure firmware version correct",
   "trans0604": "Technical Feedback",
   "trans0605": "Email Address ",
-  "trans0606": "The reply will be sent to this address",
+  "trans0606": "Please provide a email address for us to quickly contact you on",
   "trans0607": "Send basic router information (Includes: System log, Mesh ID, SN, Version)",
   "trans0608": "Please choose the issue type you want to report",
   "trans0609": "Network stability",
@@ -606,6 +606,8 @@
   "trans0612": "Other",
   "trans0613": "A detailed description helps us to resolve your potential problems more quickly",
   "trans0614": "Send",
-  "trans0615": "There is a problem with the network. Please switch to mobile network or try again later!",
-  "trans0616": "Retry"
+  "trans0615": "Network error. Please switch to mobile network or try again later!",
+  "trans0616": "Retry",
+  "trans0617": "E-mail format error",
+  "trans0618": " "
 }

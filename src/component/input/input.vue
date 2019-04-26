@@ -6,7 +6,8 @@
       <span>{{label}}</span>
     </label>
     <div class="inputarea">
-      <div class="input-wrapper">
+      <div class="input-wrapper"
+           :class="{'has-prefix':addonBefore}">
         <input :style="{width:computedWidth}"
                v-if="addonBefore"
                class="extra"
@@ -96,6 +97,7 @@ export default {
       if (!this.addonBefore) {
         return 0;
       }
+
       const div = document.createElement('div');
       div.innerText = this.addonBefore;
       div.style.fontSize = '14px';
@@ -156,12 +158,16 @@ export default {
       padding: 10px 10px;
       padding-right: 0;
     }
+    &.has-prefix {
+      input {
+        width: auto;
+      }
+    }
     input {
       font-size: 14px;
       padding: 10px;
       height: 46px;
       line-height: 1;
-      // line-height: 34px;
       width: 100%;
       outline: 0;
       border-radius: 4px;

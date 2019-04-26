@@ -10,6 +10,10 @@
         </m-tabs>
         <button class="btn btn-add btn-small"
                 @click="addMeshNode">{{$t('trans0194')}}</button>
+
+        <button @click="addMeshNode"
+                class="mobile-add"></button>
+
       </div>
       <div class="content">
         <div class="topo-container"
@@ -30,7 +34,7 @@
             <label for=""> {{$t('trans0562')}}
               <div class="tool"
                    style="width:14px;">
-                <m-popover position="bottom"
+                <m-popover position="bottom center"
                            style="top:-7px"
                            :title="this.$t('trans0562')"
                            :content="this.$t('trans0558')">
@@ -57,7 +61,7 @@
             <div class="sn">{{$t('trans0251')}}</div>
             <div class="version">{{$t('trans0300')}}</div>
             <div class="ip">
-              {{$t('trans0151')}}
+              <span>{{$t('trans0151')}}</span>
               <span>&nbsp;/&nbsp;{{$t('trans0201')}}</span>
             </div>
             <div class="mac">{{$t('trans0201')}}</div>
@@ -660,6 +664,9 @@ export default {
       .tab {
         font-size: 16px;
       }
+      .mobile-add {
+        display: none;
+      }
     }
     .btn-add {
       position: absolute;
@@ -786,16 +793,16 @@ export default {
           width: 150px;
         }
         .version {
-          width: 120px;
+          width: 100px;
         }
         .ip {
-          width: 150px;
+          width: 160px;
         }
         .mac {
           display: none;
         }
         .operate {
-          width: 150px;
+          width: 230px;
         }
         .table-content {
           .router {
@@ -915,6 +922,44 @@ export default {
     .mesh-info {
       padding: 0;
       .title {
+        .mobile-add {
+          display: block;
+          position: absolute;
+          right: 20px;
+          top: 50%;
+          -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+          width: 30px;
+          height: 30px;
+          background: #d6001c;
+          border: 0;
+          outline: 0;
+          border-radius: 50%;
+          &::before {
+            content: '';
+            display: block;
+            width: 2px;
+            height: 14px;
+            background: #fff;
+            position: absolute;
+            top: 8px;
+            left: 14px;
+            border-radius: 2px;
+          }
+          &::after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 2px;
+            height: 14px;
+            top: 8px;
+            left: 14px;
+            background: #fff;
+            transform: rotate(90deg);
+            border-radius: 2px;
+          }
+        }
+
         .tabs {
           padding: 0 20px;
           .tab {
@@ -924,8 +969,7 @@ export default {
         }
       }
       .btn-add {
-        font-size: 12px;
-        right: 20px;
+        display: none;
       }
 
       .content {
@@ -1023,6 +1067,7 @@ export default {
                 margin: 0;
                 background: #f1f1f1;
                 padding: 0 20px;
+                padding-top: 60px;
                 .name {
                   background: #fff;
                   position: absolute;
@@ -1055,6 +1100,7 @@ export default {
                   width: 50%;
                   display: inline-block;
                   text-align: right;
+                  white-space: nowrap;
                 }
               }
               .ip {

@@ -577,6 +577,7 @@ export default {
       .item {
         display: flex;
         align-items: center;
+
         margin-top: 20px;
         &:first-child {
           margin: 0;
@@ -586,9 +587,13 @@ export default {
         }
         label {
           width: 70px;
+          @media screen and (max-width: 320px) {
+            width: auto;
+          }
           font-size: 14px;
           color: #333333;
           overflow: hidden;
+          margin-right: 12px;
         }
         .date-wrap {
           display: flex;

@@ -31,15 +31,19 @@
         </div>
       </div>
       <div class="small-device-download">
-        <div class="logo-container">
-          <img class="app-logo"
-               src="../../assets/images/icon/ic_launcher.jpg"
-               alt="">
-        </div>
-        <div class="down-text">
-          <div>{{$t('trans0314')}}</div>
-          <div>
-            {{$t('trans0292')}}</div>
+
+        <div class="left-wrap">
+          <div class="logo-container">
+            <img class="app-logo"
+                 src="../../assets/images/icon/ic_launcher.jpg"
+                 alt="">
+          </div>
+          <div class="down-text">
+            <div>{{$t('trans0314')}}</div>
+            <div>
+              {{$t('trans0292')}}</div>
+          </div>
+
         </div>
 
         <div class="down-button-container">
@@ -254,24 +258,29 @@ export default {
       margin-top: 30px;
       align-items: center;
       justify-content: space-between;
-      .logo-container {
-        float: left;
-        height: 48px;
-
-        img {
-          width: 48px;
+      .left-wrap {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        .logo-container {
           height: 48px;
-          border-radius: 5px;
+          img {
+            width: 48px;
+            height: 48px;
+            border-radius: 5px;
+          }
+        }
+
+        .down-text {
+          margin-left: 12px;
+          margin-right: 12px;
+          text-align: left;
+          font-size: 10px;
+          color: #333;
         }
       }
 
-      .down-text {
-        text-align: left;
-        font-size: 10px;
-        color: #333;
-      }
       .down-button-container {
-        float: right;
         .down-button {
           text-decoration: none;
           color: rgb(214, 0, 28);
@@ -315,6 +324,7 @@ export default {
       .down-text {
         width: 80px;
         margin-top: 5px;
+
         > div:last-child {
           display: none;
         }

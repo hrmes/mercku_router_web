@@ -74,6 +74,9 @@ ul {
     padding: 12px 10px;
     font-size: 14px;
     border-radius: 4px;
+    @media screen and (max-width: 320px) {
+      min-width: 100px;
+    }
   }
   &.btn-dialog-confirm {
     width: auto;
@@ -83,6 +86,10 @@ ul {
     padding: 12px 10px;
     font-size: 14px;
     border-radius: 4px;
+    @media screen and (max-width: 320px) {
+      width: 200px;
+      min-width: initial;
+    }
   }
   &.btn-small {
     width: auto;

@@ -11,7 +11,7 @@
         <div class="switch-wrap">
           <label class="title"> {{$t('trans0538')}}
             <div class="tool">
-              <m-popover position="bottom"
+              <m-popover position="bottom left"
                          style="top:-7px"
                          :title="$t('trans0538')"
                          :content="$t('trans0540')">

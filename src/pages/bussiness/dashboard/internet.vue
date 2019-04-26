@@ -1060,6 +1060,9 @@ export default {
       .btn {
         &:last-child {
           margin-left: 30px !important;
+          @media screen and (max-width: 320px) {
+            margin-left: 20px !important;
+          }
         }
       }
     }

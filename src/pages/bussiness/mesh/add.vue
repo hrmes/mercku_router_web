@@ -404,6 +404,7 @@ export default {
     background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
     background-size: 100%;
     width: 340px;
+
     margin: 0 auto;
     margin-bottom: 50px;
     &::before {
@@ -698,20 +699,21 @@ export default {
       }
     }
     .circle-animation {
+      width: 280px;
       .circle {
-        width: 150px;
-        height: 75px;
+        width: 100px;
+        height: 50px;
         &.circle1 {
           left: 70px;
-          top: 50px;
+          top: 60px;
         }
         &.circle2 {
-          left: 170px;
+          left: 155px;
           top: 50px;
         }
         &.circle3 {
           left: 100px;
-          top: 120px;
+          top: 110px;
         }
       }
     }

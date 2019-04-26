@@ -814,7 +814,7 @@ export default {
         .mobile-icon {
           display: none;
         }
-        width: 290px;
+        width: 260px;
       }
       .column-ip {
         .pc-mac {
@@ -849,7 +849,7 @@ export default {
         }
       }
       .column-band {
-        width: 100px;
+        width: 170px;
         .label {
           display: none;
         }
@@ -858,7 +858,7 @@ export default {
         width: 120px;
       }
       .column-black-list {
-        width: 220px;
+        width: 230px;
       }
 
       .table-head {
@@ -1019,6 +1019,9 @@ export default {
       }
       .black-btn {
         margin-right: 30px;
+        &:last-child {
+          margin-right: 0;
+        }
       }
     }
   }

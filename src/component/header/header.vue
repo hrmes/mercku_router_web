@@ -799,6 +799,7 @@ export default {
         display: block;
         position: absolute;
         right: 20px;
+        top: 20px;
         .i18n-mobile {
           position: fixed;
           top: 65px;

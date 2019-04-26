@@ -173,7 +173,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .time-picker-panel {
-  width: 168px;
+  width: 160px;
   height: 36px;
   border: 1px solid #f1f1f1;
   position: relative;
@@ -184,7 +184,7 @@ export default {
     left: -1px;
     display: flex;
     flex-direction: column;
-    width: 168px;
+    width: 160px;
     z-index: 9999;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background-clip: padding-box;
@@ -261,7 +261,7 @@ export default {
   .input-wrap {
     display: flex;
     align-items: center;
-    width: 168px;
+    width: 160px;
     height: 38px;
     cursor: pointer;
     input {
