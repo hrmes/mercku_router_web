@@ -8,7 +8,7 @@
           <m-tab :class="{'selected':showTable}"
                  @click.native="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</m-tab>
         </m-tabs>
-        <button class="btn btn-add btn-primary btn-small"
+        <button class="btn btn-add btn-small"
                 @click="addMeshNode">{{$t('trans0194')}}</button>
       </div>
       <div class="content">
@@ -1113,7 +1113,6 @@ export default {
       }
       .btn-add {
         font-size: 12px;
-        width: 80px;
       }
     }
   }

@@ -18,7 +18,7 @@
                         :text="$t('trans0032')"
                         :onChange="offCheckChange"></m-checkbox>
           </div>
-          <div><button class="btn"
+          <div><button class="btn btn-small"
                     :disabled="!offlineCheckedMacs.length"
                     @click="delOfflineDevices(offlineCheckedMacs)">
               {{$t('trans0453')}}</button></div>
@@ -724,13 +724,6 @@ export default {
       .m-check-all-box {
         display: none;
       }
-    }
-    .btn {
-      height: 28px;
-      font-size: 12px;
-      width: 70px !important;
-      padding: 0 !important;
-      min-width: initial !important;
     }
     .off-more-message {
       min-width: 161px;

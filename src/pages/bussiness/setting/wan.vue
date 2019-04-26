@@ -549,6 +549,9 @@ export default {
 <style lang="scss" scoped>
 .form {
   padding: 20px 0;
+  @media screen and (min-width: 769px) {
+    width: 340px;
+  }
   .net-type {
     margin-bottom: 30px;
   }
@@ -556,7 +559,6 @@ export default {
     font-size: 12px;
     color: #999999;
     padding-top: 10px;
-    width: 340px;
   }
   .title {
     display: inline-block;
