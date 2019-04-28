@@ -469,7 +469,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mesh-container {
-  flex: 1;
+  flex: auto;
   display: flex;
 
   .mesh-info {
@@ -495,7 +495,7 @@ export default {
     flex-direction: column;
     .content {
       padding-top: 35px;
-      flex: 1;
+      flex: auto;
       display: flex;
       .topo-container {
         flex: 1;
