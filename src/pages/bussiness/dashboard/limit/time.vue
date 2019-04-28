@@ -588,7 +588,9 @@ export default {
         label {
           width: 70px;
           @media screen and (max-width: 320px) {
-            width: auto;
+            flex-shrink: 0;
+            width: 60px;
+            margin-right: 5px;
           }
           font-size: 14px;
           color: #333333;

@@ -394,10 +394,11 @@ export default {
         }
       }
       .table-body {
-        border-top: 1px solid #f1f1f1;
         margin-top: 68px;
         .table-row {
           flex-direction: row;
+          border-top: 1px solid #f1f1f1;
+          border-bottom: 0;
           padding: 20px 0;
           position: relative;
         }
