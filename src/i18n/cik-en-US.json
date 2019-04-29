@@ -431,7 +431,7 @@
   "trans0430": "Remote IP and Local IP should be different",
   "trans0431": "TCP",
   "trans0432": "UDP",
-  "trans0433": "TCP & UDP",
+  "trans0433": "TCP&UDP",
   "trans0434": "WAN ping",
   "trans0435": "Service provider",
   "trans0436": "Domain name",

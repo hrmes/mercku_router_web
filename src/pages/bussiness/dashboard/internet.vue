@@ -931,8 +931,11 @@ export default {
     .info-container {
       .real-time-network {
         .content {
+          // flex-direction: column;
           .speep-info {
             justify-content: flex-start;
+            width: 100%;
+            flex: auto;
             div {
               text-align: left;
             }
