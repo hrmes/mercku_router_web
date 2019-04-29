@@ -316,9 +316,6 @@ export default {
       .btn-default {
         display: none;
       }
-      .btn {
-        margin: 0 auto;
-      }
       padding-top: 50px;
       padding-bottom: 30px;
     }

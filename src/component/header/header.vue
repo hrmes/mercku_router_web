@@ -272,7 +272,11 @@ export default {
       this.showPopup = false;
     },
     getDefaultLanguage() {
-      return Languages.filter(l => l.value === this.$i18n.locale)[0];
+      const language = Languages.filter(l => l.value === this.$i18n.locale)[0];
+      if (!language) {
+        return language[1];
+      }
+      return language;
     },
 
     setLangPopupVisible(visible) {

@@ -897,9 +897,6 @@ export default {
   .content {
     display: flex;
     flex-direction: column;
-    .form {
-      flex: 1;
-    }
     .select-container {
       width: 100%;
     }
