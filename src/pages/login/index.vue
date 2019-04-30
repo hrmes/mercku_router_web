@@ -55,17 +55,20 @@
     <div class="download">
       <div class="stores">
         <div class="store">
-          <img src="../../assets/images/icon/ic_android.png"
-               alt="">
+          <div>
+            <img src="../../assets/images/icon/ic_android.png"
+                 alt="">
+          </div>
           <span>Google Play</span>
         </div>
         <div class="store">
-          <img src="../../assets/images/icon/ic_apple.png"
-               alt="">
+          <div><img src="../../assets/images/icon/ic_apple.png"
+                 alt=""></div>
           <span>App Store</span>
         </div>
       </div>
-      <img src="../../assets/images/qr.png"
+      <img class="qr"
+           src="../../assets/images/qr.png"
            alt="">
     </div>
   </div>
@@ -210,9 +213,12 @@ export default {
         &:last-child {
           margin: 0;
         }
+        > div {
+          line-height: 1;
+        }
         img {
           width: 14px;
-          height: 18px;
+          // height: 18px;
         }
         span {
           margin-left: 10px;
@@ -227,7 +233,7 @@ export default {
         }
       }
     }
-    img {
+    .qr {
       width: 86px;
       height: 86px;
     }
