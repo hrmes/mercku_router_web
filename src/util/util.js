@@ -165,7 +165,7 @@ export const formatNetworkData = value => {
       index += 1;
     } while (value > 1000 && index < units.length - 1);
     return {
-      value: value.toFixed(1),
+      value,
       unit: units[index]
     };
   }
@@ -190,7 +190,7 @@ export const formatSpeed = value => {
       index += 1;
     } while (value > 1000 && index < units.length - 1);
     return {
-      value: value.toFixed(1),
+      value,
       unit: units[index]
     };
   }
@@ -207,7 +207,7 @@ export const formatBandWidth = value => {
       index += 1;
     }
     return {
-      value: value.toFixed(1),
+      value,
       unit: units[index]
     };
   }
@@ -243,3 +243,12 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
 
   return fmt;
 };
+
+export const toLocaleNumber = (
+  number,
+  locale = 'en-US',
+  minimumFractionDigits = 1,
+  maximumFractionDigits = 1
+) => Intl.NumberFormat.call(null, locale, { minimumFractionDigits, maximumFractionDigits }).format(
+    number
+  );
