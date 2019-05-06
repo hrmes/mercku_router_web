@@ -53,6 +53,7 @@
 </template>
 <script>
 import { UploadStatus } from 'util/constant';
+import { toLocaleNumber } from 'util/util';
 
 export default {
   props: {
@@ -103,7 +104,12 @@ export default {
   },
   methods: {
     getSize(file) {
-      return `${(file.size / 1000 / 1000).toFixed(2)}MB`;
+      return `${toLocaleNumber(
+        file.size / 1000 / 1000,
+        this.$i18n.locale,
+        2,
+        2
+      )}MB`;
     },
     click() {
       this.files = [];
