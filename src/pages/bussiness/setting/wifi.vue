@@ -15,7 +15,15 @@
                    type='text'
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
-        <m-form-item class="item"
+
+        <m-form-item class="item">
+          <m-select :label="$t('trans0522')"
+                    v-model="form.encrypt"
+                    :options="options"></m-select>
+        </m-form-item>
+
+        <m-form-item v-if="!isOpen"
+                     class="item"
                      prop='password'>
           <m-input v-model="form.password"
                    :label="$t('trans0172')"
@@ -84,8 +92,27 @@ export default {
         ssid: '',
         password: '',
         hidden: false,
-        smart_connect: false
+        smart_connect: false,
+        encrypt: 'wpawpa2'
       },
+      options: [
+        {
+          value: 'open',
+          text: this.$t('trans0554')
+        },
+        {
+          value: 'wpawpa2',
+          text: this.$t('trans0557')
+        },
+        {
+          value: 'wpa2',
+          text: this.$t('trans0556')
+        },
+        {
+          value: 'wpa',
+          text: this.$t('trans0555')
+        }
+      ],
       rules: {
         ssid: [
           {
@@ -112,6 +139,9 @@ export default {
         return `${this.form.ssid}-5G`;
       }
       return this.form.ssid;
+    },
+    isOpen() {
+      return this.form.encrypt === 'open';
     }
   },
   methods: {
@@ -124,6 +154,7 @@ export default {
           if (res.data.result) {
             const wifi = res.data.result;
             this.form.ssid = wifi.bands['2.4G'].ssid;
+            this.form.encrypt = wifi.bands['2.4G'].encrypt;
             this.form.password = wifi.bands['2.4G'].password;
             this.form.hidden = wifi.bands['2.4G'].hidden;
             this.form.smart_connect = wifi.smart_connect;
@@ -147,12 +178,14 @@ export default {
                   '2.4G': {
                     hidden: this.form.hidden,
                     ssid: this.form.ssid,
-                    password: this.form.password
+                    password: this.form.password,
+                    encrypt: this.form.encrypt
                   },
                   '5G': {
                     hidden: this.form.hidden,
                     ssid: this.ssid_5g,
-                    password: this.form.password
+                    password: this.form.password,
+                    encrypt: this.form.encrypt
                   }
                 }
               };

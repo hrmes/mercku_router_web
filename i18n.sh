@@ -2,11 +2,13 @@
 doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
-sourceENFile="mercku_en_web.json"
-sourceZHFile="mercku_zh_web.json"
+sourceENFile="mercku_en_US_web.json"
+sourceZHFile="mercku_zh_CN_web.json"
+sourceDEFile="mercku_de_DE_web.json"
 sourceErrorFile="error_to_trans.json"
 targetENFile="en-US.json"
 targetZHFile="zh-CN.json"
+targetDEFile="de-DE.json"
 targetErrorFile="code-map.json"
 
 # 检查是否指定分支
@@ -38,6 +40,7 @@ cd mercku/trans/app_code
 echo -e "\033[32mcopy files...\033[0m"
 cp -f $sourceENFile $project_dir/src/i18n/$targetENFile
 cp -f $sourceZHFile $project_dir/src/i18n/$targetZHFile
+cp -f $sourceDEFile $project_dir/src/i18n/$targetDEFile
 cp -f $sourceErrorFile $project_dir/src/i18n/$targetErrorFile
 echo -e "\033[32mcomplete...\033[0m"
 
@@ -49,5 +52,6 @@ cd CIK_code
 echo -e "\033[32mcopy files...\033[0m"
 cp -f $sourceENFile $project_dir/src/i18n/cik-$targetENFile
 cp -f $sourceZHFile $project_dir/src/i18n/cik-$targetZHFile
+cp -f $sourceDEFile $project_dir/src/i18n/cik-$targetDEFile
 cp -f $sourceErrorFile $project_dir/src/i18n/$targetErrorFile
 echo -e "\033[32mcomplete...\033[0m"
