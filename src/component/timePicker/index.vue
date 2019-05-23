@@ -16,25 +16,34 @@
     <div class="combobox"
          ref="combo"
          v-if="opened">
-      <div class="select-inner"
-           ref='h'>
-        <ul style="height:928px">
-          <li v-for="(v,i) in hs"
-              :key='i'
-              @click.stop="(e)=>select('h',v,e)"
-              :class="{'selected':time.h===v}">{{v}}</li>
-        </ul>
+      <div class="select-wrap">
+        <div class="select-inner"
+             ref='h'>
+          <ul>
+            <li v-for="(v,i) in hs"
+                :key='i'
+                @click.stop="(e)=>select('h',v,e)"
+                :class="{'selected':time.h===v}">{{v}}</li>
+          </ul>
+
+        </div>
+        <div class="select-inner"
+             ref='m'>
+          <ul>
+            <li v-for="(v,i) in ms"
+                :key='i'
+                @click.stop="(e)=>select('m',v,e)"
+                :class="{'selected':time.m===v}">{{v}}</li>
+          </ul>
+        </div>
       </div>
-      <div class="select-inner"
-           ref='m'>
-        <ul style="height:2080px">
-          <li v-for="(v,i) in ms"
-              :key='i'
-              @click.stop="(e)=>select('m',v,e)"
-              :class="{'selected':time.m===v}">{{v}}</li>
-        </ul>
+
+      <div class="button-wrap">
+        <button @click="close">{{$t('trans0025')}}</button>
+        <button @click="ok">{{$t('trans0024')}}</button>
       </div>
     </div>
+
   </div>
 </template>
 <script>
@@ -52,7 +61,8 @@ export default {
       },
       distance: 0,
       animationTime: 200,
-      animationEl: null
+      animationEl: null,
+      oldValue: ''
     };
   },
   watch: {
@@ -89,7 +99,7 @@ export default {
   },
   methods: {
     formatCount(v) {
-      return v < 10 ? `0${v}` : `${v}`;
+      return `0${v}`.slice(-2);
     },
     scrollTo(el, x, y) {
       if (el.scrollTo) {
@@ -98,47 +108,57 @@ export default {
         el.scrollTop = y;
       }
     },
+    ok() {
+      this.opened = false;
+    },
     open() {
-      this.opened = true;
-      this.$nextTick(() => {
-        const hEl = this.$refs.h;
-        const mEl = this.$refs.m;
-        this.initScroll(hEl);
-        this.initScroll(mEl);
-      });
+      if (!this.opened) {
+        this.opened = true;
+        this.oldValue = this.inputValue;
+        this.$nextTick(() => {
+          const hEl = this.$refs.h;
+          const mEl = this.$refs.m;
+          this.initScroll(hEl);
+          this.initScroll(mEl);
+        });
+      }
     },
     initScroll(el) {
       const pEl = el;
       const sEl = el.querySelector('.selected');
-      const cTop = sEl.getBoundingClientRect().top;
-      const pTop = pEl.getBoundingClientRect().top;
+      const cTop = sEl.offsetTop;
+      const pTop = pEl.offsetTop;
       const { scrollTop } = pEl;
       const move = cTop - pTop + scrollTop;
       this.scrollTo(el, 0, move);
     },
     animateScroll() {
       if (this.animationEl.scrollTop >= this.distance) {
+        cancelAnimationFrame(this.animationId);
         return;
       }
       let scroll = this.animationEl.scrollTop + 5;
       scroll = scroll > this.distance ? this.distance : scroll;
       this.scrollTo(this.animationEl, 0, scroll);
-      requestAnimationFrame(this.animateScroll);
+      this.animationId = requestAnimationFrame(this.animateScroll);
     },
     close() {
       if (!this.opened) {
         return;
       }
+      this.inputValue = this.oldValue;
+      this.time = {
+        h: this.inputValue.split(':')[0],
+        m: this.inputValue.split(':')[1]
+      };
       this.opened = false;
     },
     selectScroll(e, p) {
       const pEl = this.$refs[p];
       const sEl = e.currentTarget;
-      const pTop = pEl.getBoundingClientRect().top;
-      const sTop = sEl.getBoundingClientRect().top;
-      const move = sTop - pTop;
-      const { scrollTop } = pEl;
-      this.distance = move + scrollTop;
+      const sTop = sEl.offsetTop;
+
+      this.distance = sTop;
       this.animationEl = pEl;
       this.animateScroll();
     },
@@ -153,21 +173,46 @@ export default {
 </script>
 <style lang='scss' scoped>
 .time-picker-panel {
-  width: 168px;
+  width: 160px;
   height: 36px;
   border: 1px solid #f1f1f1;
   position: relative;
+  border-radius: 4px;
   .combobox {
     position: absolute;
     background: white;
-    left: 0;
+    left: -1px;
     display: flex;
-    width: 168px;
+    flex-direction: column;
+    width: 160px;
     z-index: 9999;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     background-clip: padding-box;
     overflow: hidden;
     transition: transform 0.3s;
+    .select-wrap {
+      display: flex;
+    }
+    .button-wrap {
+      border-top: 1px solid #f1f1f1;
+      button {
+        height: 38px;
+        width: 50%;
+        border: none;
+        background: #fff;
+        cursor: pointer;
+        outline: none;
+        &:hover {
+          opacity: 0.8;
+        }
+        &:first-child {
+          color: #999;
+        }
+        &:last-child {
+          color: #d6001c;
+        }
+      }
+    }
     .select-inner {
       flex: 1;
       height: 192px;
@@ -176,11 +221,9 @@ export default {
       &::-webkit-scrollbar {
         width: 4px;
       }
-
       &::-webkit-scrollbar-track {
         background-color: transparent;
       }
-
       &::-webkit-scrollbar-thumb {
         background: #e6e6e6;
       }
@@ -189,6 +232,7 @@ export default {
       }
       ul {
         position: relative;
+        padding-bottom: 156px;
       }
       li {
         margin: 0;
@@ -199,14 +243,13 @@ export default {
         padding-left: 10px;
         height: 36px;
         line-height: 36px;
-        // transition: background 0.3s;
         cursor: pointer;
         &:hover {
-          background: #e7e7e7;
+          background: #f1f1f1;
           color: #333;
         }
         &:active {
-          background: #e7e7e7;
+          background: #f1f1f1;
           color: #333;
         }
         &.selected {
@@ -218,7 +261,7 @@ export default {
   .input-wrap {
     display: flex;
     align-items: center;
-    width: 168px;
+    width: 160px;
     height: 38px;
     cursor: pointer;
     input {

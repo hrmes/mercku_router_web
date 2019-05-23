@@ -1,8 +1,17 @@
 <template>
   <header class="header-container"
-          :class="{'nav-hide':!navVisible,'open':mobileNavVisible}">
+          :class="{'nav-hide':!navVisible,'open':(mobileNavVisible),'i18n-open':mobileI18nVisible}">
     <div class="logo-wrap">
-      <div class="logo-wrap__logo"></div>
+      <div v-if="logoVisible"
+           class="logo-wrap__logo"></div>
+      <a v-if="!logoVisible"
+         class="offical"
+         target="_blank"
+         href="https://www.mercku.com">
+        <img src="../../assets/images/icon/ic_web_home.png"
+             alt="">
+        <span>mercku.com</span>
+      </a>
     </div>
 
     <div class="nav-wrap nav-wrap--laptop">
@@ -10,13 +19,11 @@
           v-if="navVisible">
         <li class="nav-item"
             :key="menu.key"
-            @mouseenter="showChildMenu(menu)"
-            @mouseleave="closeChildMenu(menu)"
+            @mouseenter="setChildMenuVisible(menu,true)"
+            @mouseleave="setChildMenuVisible(menu,false)"
             v-for="menu in list"
-            :class="{'selected':menu.selected}">
+            :class="{'selected':menu.selected,'open':menu.showChild}">
           <div class="nav-item-content">
-            <!-- <span class="nav-item__icon"
-                  :class="[menu.icon]"></span> -->
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
 
@@ -35,7 +42,6 @@
         <li class="nav-item nav-item__exit"
             @click="exit()">
           <div class="nav-item-content">
-            <!-- <span class="nav-item__icon exit"></span> -->
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
 
@@ -52,27 +58,30 @@
             v-for="menu in list"
             :class="{'selected':menu.selected}">
           <div class="nav-item-content">
-            <!-- <span class="nav-item__icon"
-                  :class="[menu.icon]"></span> -->
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
 
-          <ul v-if="menu.children"
-              class="nav-item-child"
-              :class="{'show':menu.showChild}">
-            <li class="nav-child__text"
-                :key="child.key"
-                @click.stop="jumpMobile(child,menu)"
-                v-for="child in menu.children"
-                :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
-              {{$t(child.text)}}
-            </li>
-          </ul>
+          <transition name="nav-item-child__animation"
+                      v-on:before-enter="beforeEnter"
+                      v-on:enter="enter"
+                      v-on:leave="leave">
+            <ul v-if="menu.children"
+                class="nav-item-child"
+                v-show="menu.selected">
+              <li class="nav-child__text"
+                  :key="child.key"
+                  @click.stop="jumpMobile(child,menu)"
+                  v-for="child in menu.children"
+                  :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
+                {{$t(child.text)}}
+              </li>
+            </ul>
+          </transition>
+
         </li>
         <li class="nav-item nav-item__exit"
             @click="exit()">
           <div class="nav-item-content">
-            <!-- <span class="nav-item__icon exit"></span> -->
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
 
@@ -82,10 +91,10 @@
 
     <div class="right-wrap">
       <div class="lang-selector"
-           @mouseenter="showLangPopup()"
-           @mouseleave="closeLangPopup()">
+           :class="{'open':showPopup}"
+           @mouseenter="setLangPopupVisible(true)"
+           @mouseleave="setLangPopupVisible(false)">
         <div class="current">
-          <div class="icon-i18n"></div>
           <span class="current-text">{{language.text}}</span>
           <span class="drop-trangle"
                 :class="{'down':!showPopup,'up':showPopup}"></span>
@@ -100,9 +109,16 @@
         </transition>
       </div>
       <div class="small-device">
-        <span @click="changeLang()"
+        <span @click="setMobleLangVisible()"
               class="menu-icon language"
               :class="[$i18n.locale]"></span>
+        <ul class="i18n-mobile"
+            v-show="mobileI18nVisible">
+          <li :key="lang.value"
+              v-for="lang in Languages"
+              :class="{'selected':$i18n.locale === lang.value}"
+              @click="selectMobileLang(lang)">{{lang.text}}</li>
+        </ul>
         <span v-if="navVisible"
               @click="trigerMobileNav()"
               class="menu-icon menu"></span>
@@ -117,6 +133,8 @@
   </header>
 </template>
 <script>
+import Velocity from 'velocity-animate';
+
 const Languages = [
   {
     text: '简体中文',
@@ -125,6 +143,10 @@ const Languages = [
   {
     text: 'English',
     value: 'en-US'
+  },
+  {
+    text: 'Deutsch',
+    value: 'de-DE'
   }
 ];
 export default {
@@ -133,13 +155,19 @@ export default {
       type: Boolean,
       default: true
     },
+
     navs: {
       type: Array,
       default: () => []
+    },
+    logoVisible: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
+      mobileI18nVisible: false,
       showPopup: false,
       Languages,
       current: null,
@@ -170,6 +198,21 @@ export default {
     }
   },
   methods: {
+    beforeEnter(el) {
+      el.style.height = 0;
+    },
+    enter(el, done) {
+      // debugger;
+      const height = el.childElementCount * 38;
+      setTimeout(() => {
+        Velocity(el, { height: `${height}px` }, { complete: done });
+      });
+    },
+    leave(el, done) {
+      setTimeout(() => {
+        Velocity(el, { height: 0 }, { complete: done });
+      });
+    },
     showMobileMenu(menu) {
       this.list.forEach(l => {
         if (l !== menu) {
@@ -187,18 +230,10 @@ export default {
     },
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
+      this.mobileI18nVisible = false;
     },
-    showChildMenu(menu) {
-      if (menu.showChildTimer) {
-        clearTimeout(menu.showChildTimer);
-        menu.showChildTimer = null;
-      }
-      menu.showChild = true;
-    },
-    closeChildMenu(menu) {
-      menu.showChildTimer = setTimeout(() => {
-        menu.showChild = false;
-      }, 100);
+    setChildMenuVisible(menu, visible) {
+      menu.showChild = visible;
     },
     jump(menu, parent) {
       if (!menu.disabled) {
@@ -237,23 +272,32 @@ export default {
       this.showPopup = false;
     },
     getDefaultLanguage() {
-      return Languages.filter(l => l.value === this.$i18n.locale)[0];
-    },
-    showLangPopup() {
-      if (this.langTimer) {
-        clearTimeout(this.langTimer);
-        this.langTimer = null;
+      const language = Languages.filter(l => l.value === this.$i18n.locale)[0];
+      if (!language) {
+        return language[1];
       }
-      this.showPopup = true;
+      return language;
     },
-    closeLangPopup() {
-      this.langTimer = setTimeout(() => {
-        this.showPopup = false;
-      }, 100);
+
+    setLangPopupVisible(visible) {
+      this.showPopup = visible;
+    },
+    setMobleLangVisible() {
+      this.mobileI18nVisible = !this.mobileI18nVisible;
+      this.mobileNavVisible = false;
+      // if (this.mobileI18nVisible) {
+      //   this.$el.parentNode.style.paddingTop = '65px';
+      // } else {
+      //   this.$el.parentNode.style.paddingTop = '0';
+      // }
     },
     selectLang(lang) {
       this.changeLanguage(lang.value);
       this.showPopup = false;
+    },
+    selectMobileLang(lang) {
+      this.changeLanguage(lang.value);
+      this.mobileI18nVisible = false;
     },
     changeLang() {
       const zh = 'zh-CN';
@@ -297,6 +341,9 @@ export default {
   @media screen and (max-width: 1440px) {
     padding: 0 50px;
   }
+  @media screen and (max-width: 768px) {
+    padding: 0 20px !important;
+  }
   position: relative;
   &.nav-hide {
     background: #fff;
@@ -304,30 +351,28 @@ export default {
     padding: 0 50px;
     .right-wrap {
       .lang-selector {
-        .current {
-          .icon-i18n {
-            background: url(../../assets/images/icon/ic_i18n_reverse.png) center
-              no-repeat;
-            background-size: 100%;
-          }
-        }
         .drop-trangle {
-          &:after {
-            border-top: 5px solid #333;
+          &.up {
+          }
+          &.down {
+            &::after {
+              border-top-color: #333;
+            }
           }
         }
         .popup {
           box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
           background-color: #fff;
           margin-top: 0;
-
+          right: 0;
+          top: 50px;
           li {
             list-style: none;
             line-height: 38px;
             padding: 0 30px;
             &:hover {
-              background: rgba(0, 0, 0, 0.2);
-              color: #fff;
+              background: #fff;
+              color: #d6001c;
             }
             &:last-child {
               margin-bottom: 0;
@@ -339,18 +384,19 @@ export default {
         }
       }
       .small-device {
+        .i18n-mobile {
+          background: #fff;
+          color: #333;
+          border-color: #f1f1f1;
+          li {
+            border-color: #f1f1f1;
+          }
+        }
         .menu-icon {
           &.language {
-            &.zh-CN {
-              background: url(../../assets/images/icon/ic_lang_cn_reverse.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-            &.en-US {
-              background: url(../../assets/images/icon/ic_lang_en_reverse.png)
-                no-repeat center;
-              background-size: 100%;
-            }
+            background: url(../../assets/images/icon/ic_languages_black.png)
+              no-repeat center;
+            background-size: 100%;
           }
         }
       }
@@ -358,6 +404,22 @@ export default {
   }
   .logo-wrap {
     padding-right: 60px;
+    .offical {
+      color: #333;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      line-height: 1;
+      &:hover {
+        text-decoration: underline;
+        color: #999;
+      }
+      img {
+        width: 12px;
+        margin-right: 5px;
+      }
+    }
     .logo-wrap__logo {
       width: 74px;
       height: 25px;
@@ -383,6 +445,19 @@ export default {
         display: flex;
         align-items: center;
         margin-right: 80px;
+        &.open {
+          &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            bottom: -6px;
+            height: 6px;
+            width: 260px;
+            left: 0;
+            background: transparent;
+            z-index: 999;
+          }
+        }
         @media screen and (max-width: 1440px) {
           margin-right: 50px;
         }
@@ -404,12 +479,8 @@ export default {
             background: #d6001c;
             width: 100%;
             bottom: 0;
+            left: 0;
             position: absolute;
-          }
-          .nav-item-content {
-            .nav-item__text {
-              // color: #fff;
-            }
           }
         }
         &.nav-item__exit {
@@ -420,39 +491,6 @@ export default {
         }
         .nav-item-content {
           display: flex;
-          .nav-item__icon {
-            width: 18px;
-            height: 18px;
-            display: none;
-            margin-right: 10px;
-            position: relative;
-
-            &.wifi {
-              background: url(../../assets/images/icon/ic_home_normal.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-            &.setting {
-              background: url(../../assets/images/icon/ic_setting_router.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-            &.exit {
-              background: url(../../assets/images/icon/ic_logout.png) no-repeat
-                center;
-              background-size: 100%;
-            }
-            &.advance {
-              background: url(../../assets/images/icon/ic_advanced_setup.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-            &.upgrade {
-              background: url(../../assets/images/icon/ic_firmware_upgrade.png)
-                no-repeat center;
-              background-size: 100%;
-            }
-          }
           .nav-item__text {
             height: 100%;
             display: flex;
@@ -490,7 +528,7 @@ export default {
               }
             }
             &.selected {
-              color: #ffb7b7;
+              color: #d6001c;
             }
           }
           &.show {
@@ -505,7 +543,6 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 250px;
     .small-device {
       display: none;
     }
@@ -513,49 +550,68 @@ export default {
       height: 100%;
       cursor: pointer;
       position: relative;
+      &:hover {
+        .current {
+          .current-text {
+            color: #999;
+          }
+          .drop-trangle {
+            &::after {
+              border-top-color: #999;
+            }
+          }
+        }
+      }
+      &.open {
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          bottom: -6px;
+          height: 6px;
+          width: 130px;
+          left: 0;
+          background: transparent;
+          z-index: 999;
+        }
+      }
       .current {
         height: 100%;
         display: flex;
         align-items: center;
-        .icon-i18n {
+        .current-text {
           display: inline-block;
-          width: 16px;
-          height: 16px;
-          background: url(../../assets/images/icon/ic_i18n.png) center no-repeat;
-          background-size: 100%;
+          width: 70px;
+          text-align: center;
+          height: 21px;
+        }
+        .drop-trangle {
+          display: inline-block;
+          width: 10px;
+          height: 5px;
+          position: relative;
+          &:after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 5px solid #fff;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+          }
+          transition: transform 0.3s linear;
+          &.up {
+            transform: rotate(180deg);
+          }
+          &.down {
+            transform: rotate(0);
+          }
         }
       }
-      .current-text {
-        display: inline-block;
-        width: 70px;
-        text-align: center;
-        height: 21px;
-      }
-      .drop-trangle {
-        display: inline-block;
-        width: 10px;
-        height: 5px;
-        position: relative;
-        &:after {
-          content: '';
-          display: block;
-          width: 0;
-          height: 0;
-          border-top: 5px solid #fff;
-          border-left: 5px solid transparent;
-          border-right: 5px solid transparent;
-        }
-        transition: transform 0.3s linear;
-        &.up {
-          transform: rotate(180deg);
-        }
-        &.down {
-          transform: rotate(0);
-        }
-      }
+
       .popup {
         position: absolute;
-        width: 130px;
+        width: 150px;
         margin-top: 6px;
         background: #fff;
         border-radius: 2px;
@@ -595,6 +651,9 @@ export default {
       display: inline-block;
       cursor: pointer;
       margin-left: 50px;
+      &:hover {
+        color: #999;
+      }
     }
   }
 }
@@ -602,11 +661,13 @@ export default {
   .header-container {
     height: 65px;
     position: relative;
-    &.open {
+    &.open,
+    &.i18n-open {
       position: fixed;
       top: 0;
       left: 0;
       z-index: 1000;
+      width: 100%;
     }
 
     .logo-wrap {
@@ -680,9 +741,6 @@ export default {
               right: 0;
               transition: all 0.3s linear;
             }
-            .nav-item__icon {
-              display: block;
-            }
             .nav-item__text {
               color: #fff;
               line-height: 1;
@@ -693,9 +751,6 @@ export default {
           &.selected {
             &::after {
               display: none;
-            }
-            .nav-item-child {
-              display: block;
             }
             .nav-item-content {
               &::after {
@@ -708,9 +763,16 @@ export default {
           }
           .nav-item-child {
             position: static;
+            display: block;
             background: #333;
             box-shadow: none;
             padding: 0;
+            &.nav-item-child__animation-leave-active {
+              overflow: hidden;
+            }
+            &.nav-item-child__animation-enter-active {
+              overflow: hidden;
+            }
             .nav-child__text {
               padding: 0;
               padding-left: 10px;
@@ -741,23 +803,38 @@ export default {
         display: block;
         position: absolute;
         right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
+        top: 20px;
+        .i18n-mobile {
+          position: fixed;
+          top: 65px;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: #333;
+          color: #fff;
+          padding: 0 30px;
+          z-index: 1000;
+          border-top: 1px solid #666;
+          li {
+            padding: 16px 0;
+            list-style: none;
+            border-top: 1px solid #666;
+            &.selected {
+              color: #d6001c;
+            }
+            &:first-child {
+              border: 0;
+            }
+          }
+        }
         .menu-icon {
           display: inline-block;
           width: 20px;
           height: 20px;
           &.language {
-            &.zh-CN {
-              background: url(../../assets/images/icon/ic_lang_cn.png) no-repeat
-                center;
-              background-size: 100%;
-            }
-            &.en-US {
-              background: url(../../assets/images/icon/ic_lang_en.png) no-repeat
-                center;
-              background-size: 100%;
-            }
+            background: url(../../assets/images/icon/ic_languages_white.png)
+              no-repeat center;
+            background-size: 100%;
           }
           &.menu {
             width: 24px;

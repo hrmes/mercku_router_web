@@ -14,7 +14,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/dashboard/mesh/topo',
         super: false,
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         text: 'trans0235',
@@ -22,7 +22,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/dashboard/device/primary',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         text: 'trans0366',
@@ -30,7 +30,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/dashboard/internet',
         super: false,
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       }
     ]
   };
@@ -44,7 +44,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/wifi',
         super: false,
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         text: 'trans0142',
@@ -52,7 +52,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/wan',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         text: 'trans0561',
@@ -60,7 +60,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/safe',
         super: false,
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         text: 'trans0020',
@@ -68,7 +68,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/blacklist',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         text: 'trans0272',
@@ -76,7 +76,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/timezone',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/setting/guest',
@@ -84,7 +84,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0538',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       }
     ]
   };
@@ -98,7 +98,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0422',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/dmz',
@@ -106,7 +106,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0420',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/dhcp',
@@ -114,7 +114,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0417',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/rsvdip',
@@ -122,7 +122,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0444',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/mac',
@@ -130,7 +130,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0474',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/ddns',
@@ -138,7 +138,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0418',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/vpn',
@@ -146,7 +146,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0402',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/mode',
@@ -162,7 +162,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0419',
         super: false,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/log',
@@ -170,7 +170,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0421',
         super: true,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/firewall',
@@ -178,7 +178,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0424',
         super: true,
         mode: [RouterMode.router],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/advance/remote/tr069',
@@ -186,7 +186,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0286',
         mode: [RouterMode.router],
         super: true,
-        customers: [Customers.cik]
+        customers: [Customers.cik, Customers.internal]
       }
     ]
   };
@@ -200,14 +200,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'online',
         text: 'trans0202',
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       },
       {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku, Customers.cik]
+        customers: [Customers.mercku, Customers.cik, Customers.internal]
       }
     ]
   };

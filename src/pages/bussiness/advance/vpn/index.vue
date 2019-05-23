@@ -14,7 +14,7 @@
               <div class="vpn-name">
                 <span>{{vpn.name}}</span>
                 <div class="spinner-container">
-                  <m-loading :size="30"
+                  <m-loading :size="24"
                              class="spinner"
                              :color="getColor(vpn)"
                              v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
@@ -36,14 +36,14 @@
               <div class="vpn-edit btn-text"
                    @click="edit(vpn)"
                    :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0034')}}</div>
-              <div class="vpn-del btn-text"
+              <div class="vpn-del btn-text text-primary"
                    @click="del(vpn)"
                    :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0033')}}</div>
             </div>
           </div>
         </div>
         <div class="form-button">
-          <button class="btn btn-primary"
+          <button class="btn"
                   @click="add"
                   :disabled="connecting">{{$t('trans0035')}}</button>
         </div>
@@ -53,7 +53,7 @@
         <img src="../../../../assets/images/img_default_empty.png"
              alt="">
         <p class="empty-text">{{$t('trans0278')}}</p>
-        <button class="btn btn-primary"
+        <button class="btn btn-middle"
                 @click="add"
                 :disabled="connecting">{{$t('trans0035')}}</button>
       </div>
@@ -319,8 +319,6 @@ export default {
         }
         .vpn-edit {
           margin-left: 30px;
-          color: #333333;
-          cursor: pointer;
           &.disabled {
             color: #999;
             cursor: not-allowed;
@@ -328,8 +326,6 @@ export default {
         }
         .vpn-del {
           margin-left: 30px;
-          color: #ff0001;
-          cursor: pointer;
           &.disabled {
             color: #999;
             cursor: not-allowed;
@@ -348,13 +344,18 @@ export default {
   img {
     width: 220px;
   }
-  .empty-text {
-    margin-bottom: 50px;
+  .btn-middle {
+    width: 340px;
+    height: 48px;
+    margin-top: 50px;
   }
 }
 @media screen and (max-width: 768px) {
   .list {
     width: 100%;
+    .btn {
+      margin-top: 0;
+    }
     .vpn-list {
       width: 100%;
       .vpn {
@@ -374,6 +375,13 @@ export default {
           width: 100%;
         }
       }
+    }
+  }
+  .vpn-empty {
+    .btn {
+      width: auto;
+      height: 38px;
+      margin-top: 10px;
     }
   }
 }

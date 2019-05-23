@@ -47,7 +47,7 @@ ul {
   padding: 0 15px;
   font-size: 14px;
   border-radius: 4px;
-  width: 350px;
+  width: 340px;
   height: 48px;
   user-select: none;
   position: relative;
@@ -74,6 +74,22 @@ ul {
     padding: 12px 10px;
     font-size: 14px;
     border-radius: 4px;
+    @media screen and (max-width: 320px) {
+      min-width: 100px;
+    }
+  }
+  &.btn-dialog-confirm {
+    width: auto;
+    min-width: 240px;
+    height: 38px;
+    line-height: 1;
+    padding: 12px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    @media screen and (max-width: 320px) {
+      width: 200px;
+      min-width: initial;
+    }
   }
   &.btn-small {
     width: auto;
@@ -90,13 +106,13 @@ ul {
     border: 1px solid #d6001c;
 
     &:active {
-      color: #ab0016;
-      border-color: #ab0016;
+      color: #e6586a;
+      border-color: #e6586a;
     }
 
     &:hover {
-      color: #de3349;
-      border-color: #de3349;
+      color: #e6586a;
+      border-color: #e6586a;
     }
 
     &[disabled],
@@ -108,8 +124,37 @@ ul {
   }
 }
 .btn-text {
+  color: #333;
+  text-decoration: underline;
+  cursor: pointer;
   &:hover {
-    opacity: 0.8;
+    color: #999;
+  }
+  &.text-primary {
+    color: #d6001c;
+    &:hover {
+      color: #e6586a;
+    }
+    &.disabled {
+      &:hover {
+        color: #d6001c;
+      }
+    }
+  }
+  &.icon-btn {
+    &:hover {
+      opacity: 0.8;
+    }
+    &.disabled {
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  &.disabled {
+    &:hover {
+      color: #333;
+    }
   }
 }
 
@@ -181,13 +226,14 @@ input::-webkit-input-placeholder {
     color: #333333;
     font-weight: bold;
     height: 50px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
   }
 
   .page-content {
     border-radius: 8px;
-    padding: 30px 0;
+    padding: 30px 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -254,12 +300,16 @@ input::-webkit-input-placeholder {
       height: auto;
       flex-direction: column;
       border: none;
+      p {
+        margin: 0;
+      }
       img {
-        width: 180px;
+        width: 150px;
         display: block;
       }
       .btn {
         display: block;
+        margin-top: 10px;
       }
     }
   }

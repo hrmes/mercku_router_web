@@ -549,6 +549,9 @@ export default {
 <style lang="scss" scoped>
 .form {
   padding: 20px 0;
+  @media screen and (min-width: 769px) {
+    width: 340px;
+  }
   .net-type {
     margin-bottom: 30px;
   }
@@ -576,7 +579,7 @@ export default {
 }
 .wan-info {
   display: flex;
-  width: 350px;
+  width: 340px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;

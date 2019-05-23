@@ -1,17 +1,5 @@
 <template>
-  <svg id="load"
-       x="0px"
-       y="0px"
-       :style="{width:width}"
-       viewBox="0 0 100 100"
-       :width="size"
-       :height="size">
-    <circle id="loading-inner"
-            cx="50"
-            cy="50"
-            r="45"
-            :stroke="color" />
-  </svg>
+  <canvas id="canvas"></canvas>
 </template>
 <script>
 export default {
@@ -25,29 +13,85 @@ export default {
       default: 36
     }
   },
-  computed: {
-    width() {
-      return `${this.size}px`;
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const radio = this.getPixelRatio(ctx);
+
+      canvas.style.width = `${this.size}px`;
+      canvas.style.height = `${this.size}px`;
+
+      canvas.width = this.size * radio;
+      canvas.height = this.size * radio;
+
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+
+      const pi2 = Math.PI * 2;
+      let start = null;
+      const duration = 2;
+      const speed = pi2 / (duration / 2); // 2s跑一圈
+
+      ctx.strokeStyle = '#d6001c';
+      ctx.lineWidth = 3 * radio;
+      ctx.lineCap = 'round';
+      ctx.fillStyle = 'transparent';
+
+      const radius = (this.size * radio) / 2 - ctx.lineWidth;
+
+      function animate(timestamp) {
+        window.requestAnimationFrame(animate);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (start === null) {
+          start = timestamp;
+        }
+
+        const diff = (timestamp - start) / 1000;
+
+        if (diff > duration) {
+          start = timestamp;
+          return;
+        }
+
+        let endAngle = diff * speed;
+        endAngle = endAngle > pi2 ? pi2 : endAngle;
+        let startAngle = 0;
+
+        if (endAngle === pi2) {
+          startAngle = speed * (diff - duration / 2);
+        }
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.stroke();
+        ctx.fill();
+      }
+
+      animate(0);
+    },
+    getPixelRatio(context) {
+      const backingStore =
+        context.backingStorePixelRatio ||
+        context.webkitBackingStorePixelRatio ||
+        context.mozBackingStorePixelRatio ||
+        context.msBackingStorePixelRatio ||
+        context.oBackingStorePixelRatio ||
+        context.backingStorePixelRatio ||
+        1;
+
+      return (window.devicePixelRatio || 1) / backingStore;
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-#load {
-  width: 150px;
+canvas {
   animation: loading 3s linear infinite;
-  #loading-inner {
-    stroke: {
-      dashoffset: 0;
-      dasharray: 300;
-      width: 8;
-      miterlimit: 10;
-      linecap: round;
-    }
-    animation: loading-circle 2s linear infinite;
-    // stroke: #d6001c;
-    fill: transparent;
-  }
 }
 
 @keyframes loading {
@@ -56,14 +100,6 @@ export default {
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-@keyframes loading-circle {
-  0% {
-    stroke-dashoffset: 0;
-  }
-  100% {
-    stroke-dashoffset: -600;
   }
 }
 </style>

@@ -8,18 +8,22 @@ Vue.use(VueI18n);
 
 let zhCN;
 let enUS;
+let deDE;
 
-if (process.env.CUSTOMER_CONFIG.isMercku) {
+if (process.env.CUSTOMER_CONFIG.isMercku || process.env.CUSTOMER_CONFIG.isInternal) {
   zhCN = require('./zh-CN.json');
   enUS = require('./en-US.json');
+  deDE = require('./de-DE.json');
 } else if (process.env.CUSTOMER_CONFIG.isCik) {
   zhCN = require('./cik-zh-CN.json');
   enUS = require('./cik-en-US.json');
+  deDE = require('./cik-en-US.json'); // cik没有德语，回退到英文
 }
 
 Object.keys(codeMap).forEach(code => {
   zhCN[code] = zhCN[codeMap[code]];
   enUS[code] = enUS[codeMap[code]];
+  deDE[code] = deDE[codeMap[code]];
 });
 Object.keys(extra).forEach(ex => {
   zhCN[ex] = zhCN[extra[ex]];
@@ -30,15 +34,14 @@ export const i18n = new VueI18n({
   locale: localStorage.getItem('lang'),
   messages: {
     'zh-CN': zhCN,
-    'en-US': enUS
+    'en-US': enUS,
+    'de-DE': deDE
   }
 });
 export function changeLanguage(lang) {
   if (!Object.keys(i18n.messages).includes(lang)) {
     console.log('language not exist!');
   } else {
-    // change language
-    // i18n.locale = lang;
     localStorage.setItem('lang', lang);
     window.location.reload();
   }

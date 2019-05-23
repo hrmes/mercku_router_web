@@ -86,8 +86,10 @@
               {{item.ip}}
             </div>
             <div class="column-handle">
-              <a @click="editHandle(item)">{{$t('trans0034')}}</a>
-              <a @click="del([item.id])">{{$t('trans0033')}}</a>
+              <a class="btn-text"
+                 @click="editHandle(item)">{{$t('trans0034')}}</a>
+              <a class="btn-text text-primary"
+                 @click="del([item.id])">{{$t('trans0033')}}</a>
             </div>
           </div>
           <div class="empty"
@@ -95,7 +97,7 @@
             <img src="../../../../assets/images/img_default_empty.png"
                  alt="">
             <p>{{$t('trans0278')}}</p>
-            <button class="btn"
+            <button class="btn btn-middle"
                     @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
           </div>
         </div>
@@ -303,14 +305,8 @@ export default {
   .column-handle {
     width: 150px;
     a {
-      text-decoration: underline;
-      cursor: pointer;
       &:last-child {
-        color: #ff0001;
         padding-left: 30px;
-      }
-      &:hover {
-        opacity: 0.8;
       }
     }
   }
@@ -349,6 +345,7 @@ export default {
   margin: 0;
   padding: 0;
   margin-bottom: 20px;
+  width: 100%;
   &.extra {
     width: 100%;
     text-align: left;

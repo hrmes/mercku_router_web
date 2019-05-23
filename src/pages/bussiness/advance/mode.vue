@@ -99,7 +99,7 @@ export default {
   align-items: center;
 }
 .form {
-  width: 350px;
+  width: 340px;
   .note {
     color: #999;
     font-size: 12px;

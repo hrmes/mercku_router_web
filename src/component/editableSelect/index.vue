@@ -146,7 +146,7 @@ export default {
       }
     }
   }
-  width: 350px;
+  width: 340px;
   .select {
     height: 48px;
     width: 100%;
@@ -174,10 +174,11 @@ export default {
 
   cursor: pointer;
   .select-popup {
-    width: 100%;
+    // width: 100%;
     position: absolute;
     z-index: 999;
-    left: 0;
+    left: -1px;
+    right: -1px;
     top: 52px;
     background: #fff;
     border-radius: 5px;
@@ -194,11 +195,11 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: #e7e7e7;
+        background: #f1f1f1;
         color: #333;
       }
       &:hover {
-        background: #e7e7e7;
+        background: #f1f1f1;
         color: #333;
       }
       &.selected {

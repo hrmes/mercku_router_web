@@ -1,6 +1,7 @@
 <template>
   <div class="timelimit">
-    <div class='table'>
+    <div class='table'
+         :class="{'table--empty':!sortList.length}">
       <div class="tools">
         <button class="btn btn-small"
                 @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
@@ -29,7 +30,7 @@
             </div>
             <a class="btn-text"
                @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
-            <a class="btn-text"
+            <a class="btn-text text-primary"
                @click="delRow(row)">{{$t('trans0033')}}</a>
           </div>
         </div>
@@ -381,11 +382,8 @@ export default {
     }
   }
   .modal-content {
-    // width: 496px;
-    height: 452px;
     border-radius: 5px;
     background-color: #ffffff;
-    // padding: 30px;
     .item {
       display: flex;
       align-items: center;
@@ -465,14 +463,8 @@ export default {
           align-items: center;
           a {
             margin-left: 50px;
-            cursor: pointer;
-            font-size: 14px;
-            text-decoration: underline;
-            &:hover {
-              text-decoration: underline;
-            }
             &:last-child {
-              color: #ff0001;
+              margin-left: 30px;
             }
           }
         }
@@ -504,11 +496,35 @@ export default {
   .timelimit {
     .table {
       margin: 0;
+      position: relative;
+      &.table--empty {
+        .tools {
+          position: static;
+          justify-content: center;
+          border: 0;
+          margin: 0;
+          margin-top: 10px;
+          .btn {
+            min-width: 120px;
+            height: 38px;
+          }
+        }
+      }
       .tools {
-        margin-top: 20px;
-        margin-bottom: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding-bottom: 20px;
+        width: 100%;
+        border-bottom: 1px solid #f1f1f1;
+        display: flex;
+        justify-content: flex-end;
+        .btn {
+          margin: 0;
+        }
       }
       .table-body {
+        margin-top: 68px;
         .table-row {
           flex-direction: column;
           padding: 20px 0;
@@ -553,7 +569,6 @@ export default {
   }
   .modal {
     .modal-content {
-      height: 480px;
       border-radius: 5px;
       background-color: #ffffff;
       .btn-info {
@@ -562,6 +577,7 @@ export default {
       .item {
         display: flex;
         align-items: center;
+
         margin-top: 20px;
         &:first-child {
           margin: 0;
@@ -571,9 +587,15 @@ export default {
         }
         label {
           width: 70px;
+          @media screen and (max-width: 320px) {
+            flex-shrink: 0;
+            width: 60px;
+            margin-right: 5px;
+          }
           font-size: 14px;
           color: #333333;
           overflow: hidden;
+          margin-right: 12px;
         }
         .date-wrap {
           display: flex;

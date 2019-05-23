@@ -58,10 +58,11 @@
       </div>
       <div class="step-item step-item3"
            v-show="stepOption.current===2">
-        <img src="../../../assets/images/img_setting.png"
-             alt="">
-        <div>{{$t('trans0294')}}{{countdown}}s</div>
-        <div style="margin-top:5px;">{{$t('trans0171')}}</div>
+        <m-loading :size="36"></m-loading>
+        <p class="cutdown">{{countdown}}s</p>
+        <!-- <div class="tip">{{$t('trans0294')}}</div> -->
+        <div class="tip"
+             style="margin-top:5px;">{{$t('trans0171')}}</div>
         <div class="wifi-info">
           <div class="wifi-info-inner">
             <div>
@@ -214,7 +215,7 @@ export default {
   background: #fff;
   .step {
     text-align: center;
-    width: 800px;
+    width: 400px;
     margin: 0 auto;
     margin-top: 50px;
   }
@@ -223,7 +224,7 @@ export default {
     text-align: center;
     .step-item {
       display: inline-block;
-      width: 350px;
+      width: 340px;
       text-align: center;
       &.step-item1 {
         .button-container {
@@ -231,6 +232,14 @@ export default {
         }
       }
       &.step-item3 {
+        .cutdown {
+          color: #d6001c;
+          font-size: 24px;
+          margin: 10px 0;
+        }
+        .tip {
+          font-size: 12px;
+        }
         .wifi-info {
           margin-top: 30px;
           display: flex;
@@ -245,7 +254,8 @@ export default {
               }
             }
             .title {
-              color: #999;
+              color: #333;
+              font-weight: bold;
               font-size: 14px;
             }
             .value {
@@ -290,7 +300,6 @@ export default {
       width: 100%;
     }
     .step-content {
-      width: 80%;
       margin: 80px auto 0 auto;
       .step-item {
         display: block;

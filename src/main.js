@@ -4,7 +4,7 @@ import upgradeComponent from 'components/upgrade/index';
 import toast from 'components/toast/index';
 import dialog from 'components/dialog/index';
 import mProgress from 'components/progress/index.vue';
-import { formatSpeed, formatNetworkData, formatBandWidth } from 'util/util';
+import { formatSpeed, formatNetworkData, formatBandWidth, toLocaleNumber } from 'util/util';
 import upgradeHelper from 'util/upgrade';
 import { changeLanguage, i18n, translate } from './i18n';
 import router from './router';
@@ -16,7 +16,7 @@ import store from './store';
 // 样式表
 if (process.env.CUSTOMER_CONFIG.isCik) {
   require('style/cik.scss');
-} else if (process.env.CUSTOMER_CONFIG.isMercku) {
+} else if (process.env.CUSTOMER_CONFIG.isMercku || process.env.CUSTOMER_CONFIG.isInternal) {
   require('style/mercku.scss');
 } else {
   // TODO
@@ -172,9 +172,28 @@ const launch = () => {
   Vue.prototype.changeLanguage = changeLanguage;
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
-  Vue.prototype.formatNetworkData = formatNetworkData;
-  Vue.prototype.formatSpeed = formatSpeed;
-  Vue.prototype.formatBandWidth = formatBandWidth;
+
+  Vue.prototype.formatNetworkData = value => {
+    const result = formatNetworkData(value);
+    return {
+      value: toLocaleNumber(result.value, i18n.locale),
+      unit: result.unit
+    };
+  };
+  Vue.prototype.formatSpeed = value => {
+    const result = formatSpeed(value);
+    return {
+      value: toLocaleNumber(result.value, i18n.locale),
+      unit: result.unit
+    };
+  };
+  Vue.prototype.formatBandWidth = value => {
+    const result = formatBandWidth(value);
+    return {
+      value: toLocaleNumber(result.value, i18n.locale),
+      unit: result.unit
+    };
+  };
 
   new Vue({
     el: '#web',

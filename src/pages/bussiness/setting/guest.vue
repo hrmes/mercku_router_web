@@ -9,26 +9,27 @@
               :model="form"
               :rules='rules'>
         <div class="switch-wrap">
-          <label for=""> {{$t('trans0538')}}
-          </label>
-          <div class="tool">
-            <m-popover position="bottom"
-                       style="top:-7px"
-                       :title="$t('trans0538')"
-                       :content="$t('trans0540')">
-              <img width="14"
-                   src="../../../assets/images/icon/ic_question.png"
-                   alt=""></m-popover>
+          <label class="title"> {{$t('trans0538')}}
+            <div class="tool">
+              <m-popover position="bottom left"
+                         style="top:-7px"
+                         :title="$t('trans0538')"
+                         :content="$t('trans0540')">
+                <img width="14"
+                     src="../../../assets/images/icon/ic_question.png"
+                     alt=""></m-popover>
 
-          </div>
+            </div>
+          </label>
+
           <m-switch v-model="form.enabled"
                     :onChange="guestEnabledChange" />
         </div>
         <div v-if="form.enabled&&showSettingPage">
           <label style="font-weight:bold;"> {{$t('trans0521')}} </label>
           <div class="check-box-wrap">
-            <m-radio-group v-model="form.duration"
-                           :options='checkOps'></m-radio-group>
+            <m-select v-model="form.duration"
+                      :options='checkOps'></m-select>
           </div>
           <m-form-item class="item"
                        prop='ssid'>
@@ -51,7 +52,7 @@
                      :placeholder="`${$t('trans0321')}`"></m-input>
           </m-form-item>
           <div class="switch-wrap">
-            <label for=""> {{$t('trans0397')}} </label>
+            <label> {{$t('trans0397')}} </label>
             <m-switch v-model="form.smart_connect" />
           </div>
           <div v-if="!form.smart_connect"
@@ -96,8 +97,9 @@
             </div>
           </div>
           <div class="online-device">
-            <div class="title">{{$t('trans0235')}}： <span>{{devicesCount}}</span>
+            <div class="title">{{$t('trans0235')}}：
             </div>
+            <span>{{devicesCount}}</span>
           </div>
           <div class="form-button">
             <button class="btn"
@@ -435,6 +437,7 @@ export default {
   }
   .online-device {
     margin-bottom: 50px;
+    display: flex;
     span {
       font-size: 16px;
       font-weight: bold;
@@ -442,13 +445,13 @@ export default {
   }
   .title {
     font-weight: bold;
+    width: 130px;
   }
   .remaining-time {
     display: flex;
     margin-bottom: 30px;
     .time {
       font-size: 14px;
-      padding-left: 20px;
       font-weight: bold;
     }
   }
@@ -456,7 +459,7 @@ export default {
     display: flex;
 
     .name {
-      padding-left: 20px;
+      // padding-left: 20px;
       // font-weight: bold
     }
     margin-bottom: 30px;
@@ -470,7 +473,7 @@ export default {
       span {
         display: inline-block;
         width: 60px;
-        text-align: right;
+        text-align: left;
       }
     }
   }
@@ -486,11 +489,12 @@ export default {
     margin-bottom: 30px;
     display: flex;
     align-items: center;
+    width: 340px;
 
     .tool {
       position: relative;
-      margin-left: 5px;
-      left: -20px;
+
+      display: inline-block;
       img {
         position: relative;
         cursor: pointer;

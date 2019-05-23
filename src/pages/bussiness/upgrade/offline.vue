@@ -5,11 +5,6 @@
       <div class="page-content">
         <div class="form">
           <div class="description">
-            <h4>
-              <img src="../../../assets/images/icon/ic_question.png"
-                   alt="">
-              <span> {{$t('trans0331')}}</span>
-            </h4>
             <p>1.
               <span>{{$t('trans0332')}}</span>
               <a :href="$t('trans0482')"
@@ -29,42 +24,32 @@
                       :onCancel="onCancel"
                       :beforeUpload="beforeUpload"
                       :request="upload"
-                      :label="$t('trans0339')"
+                      :packageInfo="packageInfo"
+                      :label="$t('trans0042')"
                       :accept="accept" />
-            <div class="package-info"
-                 v-if="uploadStatus === UploadStatus.success">
-              <p class="info-item">
-                <span>{{$t('trans0208')}}:</span>
-                <span>{{productName}}</span>
-              </p>
-              <p class="info-item">
-                <span>{{$t('trans0342')}}:</span>
-                <span>{{packageInfo.version}}</span>
-              </p>
-              <p class="info-item">
-                <span>{{$t('trans0187')}}:</span>
-                <span>{{modelName }}</span>
-              </p>
-            </div>
           </div>
           <div class="nodes-wrapper"
                v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
-            <p class="title">{{$t('trans0333')}}</p>
+            <div class="title">{{$t('trans0333')}}
+              <div class="btn-info">
+                <button @click="upgrade()"
+                        class="btn btn-small re-btn">{{$t('trans0225')}}</button>
+              </div>
+            </div>
             <div class="nodes-info">
               <div v-for="node in localNodes"
                    :key="node.sn"
                    class="node">
                 <div class="message"
                      @click="check(node)">
-                  <m-checkbox :rect="false"
-                              v-model="node.checked" />
+                  <m-checkbox :readonly="true" v-model="node.checked" />
                   <div class="img-container">
                     <img class="img-m2"
-                         v-if="packageInfo.model.id===RouterSnModel.M2"
+                         v-if="fwInfo.model.id===RouterSnModel.M2"
                          src="../../../assets/images/img_m2.png"
                          alt="">
                     <img class="img-bee"
-                         v-else-if="packageInfo.model.id===RouterSnModel.Bee"
+                         v-else-if="fwInfo.model.id===RouterSnModel.Bee"
                          src="../../../assets/images/img_bee.png"
                          alt="">
                     <img class="img-other"
@@ -82,10 +67,7 @@
                 </div>
               </div>
             </div>
-            <div class="btn-info">
-              <button @click="upgrade()"
-                      class="btn re-btn">{{$t('trans0225')}}</button>
-            </div>
+
           </div>
           <div class="description-wrapper"
                v-if="uploadStatus === UploadStatus.success && !hasUpgradablityNodes">
@@ -119,7 +101,8 @@ export default {
       UploadStatus,
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
-      packageInfo: null,
+      packageInfo: {},
+      fwInfo: {},
       upgraded: false,
       Products: {
         M2: {
@@ -157,12 +140,12 @@ export default {
       return this.localNodes.length > 0;
     },
     productName() {
-      return this.packageInfo.model.id === RouterSnModel.M2
+      return this.fwInfo.model.id === RouterSnModel.M2
         ? this.Products.M2.name
         : this.Products.Bee.name;
     },
     modelName() {
-      return this.packageInfo.model.id === RouterSnModel.M2
+      return this.fwInfo.model.id === RouterSnModel.M2
         ? this.Products.M2.shortName
         : this.Products.Bee.shortName;
     }
@@ -213,14 +196,19 @@ export default {
           }
         })
         .then(res => {
-          uploader.status = UploadStatus.success;
-          this.uploadStatus = UploadStatus.success;
           const { nodes } = res.data.result;
           nodes.forEach(node => {
             this.$set(node, 'checked', false);
           });
           this.localNodes = nodes;
-          this.packageInfo = res.data.result.fw_info;
+          this.fwInfo = res.data.result.fw_info;
+          this.packageInfo = {
+            product: this.productName,
+            version: this.fwInfo.version,
+            model: this.modelName
+          };
+          uploader.status = UploadStatus.success;
+          this.uploadStatus = UploadStatus.success;
         })
         .catch(err => {
           uploader.status = UploadStatus.fail;
@@ -293,14 +281,20 @@ export default {
     margin: 0;
     font-size: 14px;
     color: #333333;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    a {
+      color: #d6001c;
+    }
+    &:last-child {
+      margin-bottom: 20px;
+    }
   }
   h4 {
     display: flex;
     align-items: center;
     font-weight: normal;
     margin: 0;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     img {
       width: 20px;
       margin-right: 10px;
@@ -330,7 +324,10 @@ export default {
 }
 .nodes-wrapper {
   .title {
-    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px 0 30px 0;
   }
   border-top: 1px solid #f1f1f1;
   margin-top: 30px;
@@ -338,29 +335,28 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  .btn-info {
-    margin-top: 120px;
-  }
   .nodes-info {
     display: flex;
     width: 100%;
-
     overflow: hidden;
     flex-wrap: wrap;
     .node {
       width: 340px;
-      height: 132px;
-      background: #f1f1f1;
+      height: 120px;
+      border: 1px solid #dbdbdb;
       border-radius: 5px;
       margin-right: 20px;
       margin-bottom: 30px;
       position: relative;
-      cursor: pointer;
       .message {
         display: flex;
-        align-items: center;
+        align-items: start;
         padding: 0 10px;
+        padding-left: 20px;
         height: 100%;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
         align-items: center;
         .img-container,
         .info-container {
@@ -371,14 +367,15 @@ export default {
         }
         .img-container {
           margin-right: 10px;
+          margin-left: 20px;
           .img-m2 {
-            width: 100px;
+            width: 60px;
           }
           .img-bee {
-            width: 100px;
+            width: 60px;
           }
           .img-other {
-            width: 100px;
+            width: 60px;
           }
         }
 
@@ -388,14 +385,15 @@ export default {
           align-content: start;
           justify-content: center;
           flex: 1;
+          padding-top: 20px;
+          padding-bottom: 20px;
           .node-name {
             padding: 0;
             margin: 0;
             text-align: left;
-            font-size: 12px;
-            padding-top: 5px;
+
             padding-top: 0px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
           }
           .node-sn {
@@ -410,26 +408,14 @@ export default {
             padding: 0;
             margin: 0;
             text-align: left;
-            font-size: 12px;
+
             font-size: 10px;
-            padding-top: 5px;
+            padding-top: 2px;
 
             position: relative;
             span {
               display: inline-block;
-              // margin-left: 5px;
             }
-            // &:before {
-            //   content: '';
-            //   display: inline-block;
-            //   width: 3px;
-            //   height: 3px;
-            //   border-radius: 50%;
-            //   background: #000;
-            //   position: absolute;
-            //   top: 50%;
-            //   transform: translateY(-50%);
-            // }
           }
         }
       }
@@ -461,7 +447,7 @@ export default {
       width: 30px;
     }
     p {
-      width: 140px;
+      width: 70%;
     }
   }
 }
