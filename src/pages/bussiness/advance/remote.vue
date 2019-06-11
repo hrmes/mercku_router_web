@@ -376,6 +376,12 @@ export default {
     padding-top: 15px;
     .tabs {
       width: 100%;
+      padding: 0 20px;
+      .tab {
+        font-size: 12px;
+        padding: 10px 0;
+        padding-right: 15px;
+      }
     }
   }
   .page-content {
