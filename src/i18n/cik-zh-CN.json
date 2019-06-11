@@ -466,6 +466,7 @@
   "trans0465": "traceroute",
   "trans0466": "nslookup",
   "trans0467": "开始",
+  "trans0468": "mailto:support.cik@ciktel.com",
   "trans0469": "不能为本机IP",
   "trans0470": "请至少选择一项",
   "trans0471": "结束值必须大于等于开始值",
@@ -608,6 +609,5 @@
   "trans0614": "发送",
   "trans0615": "网络出问题了，请切换到移动网络或稍后再试！",
   "trans0616": "重新发送",
-  "trans0617": "邮箱格式错误",
-  "trans0618": " "
+  "trans0617": "邮箱格式错误"
 }

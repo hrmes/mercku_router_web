@@ -466,6 +466,7 @@
   "trans0465": "traceroute",
   "trans0466": "nslookup",
   "trans0467": "Start",
+  "trans0468": "mailto:support.cik@ciktel.com",
   "trans0469": "Cannot be local IP",
   "trans0470": "Please select at least one",
   "trans0471": "End value must be same or greater than start value",
@@ -608,6 +609,5 @@
   "trans0614": "Send",
   "trans0615": "Network error. Please switch to mobile network or try again later!",
   "trans0616": "Retry",
-  "trans0617": "E-mail format error",
-  "trans0618": " "
+  "trans0617": "E-mail format error"
 }

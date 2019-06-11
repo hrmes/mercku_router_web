@@ -21,6 +21,7 @@ import mTab from 'components/tabs/tab.vue';
 import mModal from 'components/modal/index.vue';
 import mModalHeader from 'components/modal/header.vue';
 import mModalBody from 'components/modal/body.vue';
+import mModalFooter from 'components/modal/footer.vue';
 import clickoutside from 'components/clickoutside/index.vue';
 import defaultButton from 'components/default-button/index.vue';
 import mLoading from 'components/loading/loading-new.vue';
@@ -51,6 +52,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-modal', mModal);
   _Vue.component('m-modal-header', mModalHeader);
   _Vue.component('m-modal-body', mModalBody);
+  _Vue.component('m-modal-footer', mModalFooter);
   _Vue.component('m-loading', mLoading);
 };
 

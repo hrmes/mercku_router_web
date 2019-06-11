@@ -95,8 +95,10 @@ export default {
       this.$refs.input.focus();
     },
     open() {
-      this.opened = true;
-      this.scrollToSelect();
+      this.opened = !this.opened;
+      if (this.opened) {
+        this.scrollToSelect();
+      }
     },
     close() {
       this.opened = false;
