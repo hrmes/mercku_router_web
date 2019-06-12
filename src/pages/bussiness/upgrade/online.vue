@@ -71,15 +71,15 @@
         {{$t('trans0525')}}
       </m-modal-header>
       <m-modal-body class="modal-body">
-        <m-scrollbar class="scroll-container">
+        <div class="scroll-container">
           <div class="changelog markdown-body"
                v-html="changelog"></div>
-        </m-scrollbar>
-        <div class="btn-wrap">
-          <button class="btn"
-                  @click="close()">{{$t('trans0024')}}</button>
         </div>
       </m-modal-body>
+      <m-modal-footer>
+        <button class="btn"
+                @click="close()">{{$t('trans0024')}}</button>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>
@@ -338,14 +338,14 @@ export default {
 }
 .modal-body {
   width: 600px;
-  height: 350px;
+  max-height: 400px;
+  @media screen and (max-width: 768px) {
+    height: 250px;
+  }
   overflow: auto;
   display: flex;
   flex-direction: column;
   position: relative;
-  .scroll-container {
-    height: 280px;
-  }
   .changelog {
     p:first-child {
       margin-top: 0;

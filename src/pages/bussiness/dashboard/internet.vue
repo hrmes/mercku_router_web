@@ -109,8 +109,7 @@
           <div class="message">
             <div class="time-title">{{$t('trans0537')}}：</div>
             <div>
-              <p class="time-top">{{uptimeArr[0]}}</p>
-              <p class="time-bottom"
+              <p class="time-top"
                  v-if="uptimeArr[1]&&uptimeArr[1].length>0">
                 <span v-for="(bm,index) in uptimeArr[1]"
                       :key="index">
@@ -119,6 +118,9 @@
                   <span v-if="index!==uptimeArr[1].length-1">，</span>
                 </span>
               </p>
+              <p class="time-bottom"
+                 :class="{'padding-top':uptimeArr[1]&&uptimeArr[1].length>0}">{{uptimeArr[0]}}</p>
+
             </div>
           </div>
           <img class="router-time-img"
@@ -496,8 +498,9 @@ export default {
         .message {
           margin-top: 30px;
           .time-title {
-            color: #999999;
-            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
           }
           p {
             margin: 0;
@@ -507,16 +510,19 @@ export default {
             padding-left: 15px;
           }
           .time-top {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: bold;
+            .uptime-unit {
+              margin-left: 5px;
+              font-size: 14px;
+              font-weight: normal;
+            }
           }
           .time-bottom {
-            font-size: 20px;
-            padding-top: 10px;
-            .uptime-unit {
-              color: #999999;
-              font-size: 16px;
-              margin-left: 5px;
+            font-size: 24px;
+            font-weight: bold;
+            &.padding-top {
+              padding-top: 10px;
             }
           }
         }
@@ -1075,12 +1081,13 @@ export default {
         .router-time-wrap {
           position: relative;
           .message {
-            margin-top: 10px;
+            margin-top: 20px;
             flex-direction: row;
-            align-items: center;
+            align-items: flex-start;
             .time-title {
-              color: #999999;
-              font-size: 16px;
+              color: #333;
+              font-weight: bold;
+              font-size: 14px;
             }
             p {
               margin: 0;
@@ -1093,12 +1100,7 @@ export default {
               font-size: 20px;
             }
             .time-bottom {
-              font-size: 18px;
-              // padding-top: 10px;
-              .uptime-unit {
-                color: #999999;
-                font-size: 14px;
-              }
+              font-size: 20px;
             }
           }
         }

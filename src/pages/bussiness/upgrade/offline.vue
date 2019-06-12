@@ -12,7 +12,7 @@
             </h4>
             <p>1.
               <span>{{$t('trans0332')}}</span>
-              <a :href="$t('trans0482')"
+              <a :href="$t('trans0468')"
                  target="_blank">{{$t('trans0482')}}</a>
               <span>,&nbsp;{{$t('trans0346')}}</span>
             </p>

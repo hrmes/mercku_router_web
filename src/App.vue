@@ -1,7 +1,6 @@
 <template>
-  <m-scrollbar ref="wrap"
-               class="srcollbar-wrap"
-               :option="scrollbarOpt">
+  <div ref="wrap"
+       class="srcollbar-wrap">
     <div class="container">
       <m-menu class="menu"
               :menus="menus"
@@ -19,7 +18,7 @@
         </div>
       </div>
     </div>
-  </m-scrollbar>
+  </div>
 </template>
 <script>
 import './style/common.scss';
@@ -38,19 +37,13 @@ export default {
     menus() {
       return getMenu(this.$store.role, this.$store.mode);
     }
-  },
-  data() {
-    return {
-      scrollbarOpt: {
-        scrollbar: false
-      }
-    };
   }
 };
 </script>
 <style lang="scss">
 .srcollbar-wrap {
   height: 100%;
+  overflow: auto;
 }
 .flex-wrap {
   display: flex;
@@ -78,7 +71,7 @@ export default {
   }
   .app-container {
     display: flex;
-    flex: 1;
+    flex: auto;
     flex-direction: column;
     position: relative;
   }

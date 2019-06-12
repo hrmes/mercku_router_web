@@ -10,17 +10,15 @@
                     v-model="enabled"
                     :onChange="updateEnabled"></m-switch>
           <button v-if="enabled"
-                  class="btn btn-primary"
+                  class="btn btn-small"
                   @click="getSyslog">{{$t('trans0481')}}</button>
         </div>
-        <m-scrollbar class="log-container"
-                     ref="scrollbar"
-                     v-show="enabled"
-                     :option="scrollbarOption">
+        <div class="log-container"
+             v-show="enabled">
           <pre>{{previous}}</pre>
           <pre class="increase"
                :class="{'not-empty':increase}">{{increase}}</pre>
-        </m-scrollbar>
+        </div>
       </div>
     </div>
   </div>
@@ -32,7 +30,9 @@ export default {
       enabled: false,
       previousArray: [],
       increaseArray: [],
-      scrollbarOption: {}
+      scrollbarOption: {
+        stopPropagation: true
+      }
     };
   },
   computed: {
@@ -47,6 +47,14 @@ export default {
     this.getSyslogEnabled();
   },
   methods: {
+    scrollTo(el, x = 0, y = 0) {
+      if (el.scrollTo) {
+        el.scrollTo(x, y);
+      } else {
+        el.scrollLeft = x;
+        el.scrollTop = y;
+      }
+    },
     updateEnabled() {
       this.$loading.open();
       this.$http
@@ -99,8 +107,10 @@ export default {
         }
       }
       this.$nextTick(() => {
-        this.$refs.scrollbar.refresh();
-        this.$refs.scrollbar.scrollToElement('.increase');
+        const el = this.$el.querySelector('.increase');
+        const wrap = this.$el.querySelector('.log-container');
+        const offset = el.offsetTop;
+        this.scrollTo(wrap, 0, offset);
       });
     },
     getSyslogEnabled() {
@@ -137,8 +147,6 @@ export default {
     height: 30px;
   }
   .btn {
-    width: auto;
-    height: 27px;
     margin-left: 30px;
   }
   .log-container {
@@ -148,7 +156,7 @@ export default {
     padding: 10px;
     position: relative;
     max-height: 600px;
-    overflow-x: hidden;
+    overflow-y: auto;
     pre {
       margin: 0;
       font-family: 'Courier New', Courier, monospace;

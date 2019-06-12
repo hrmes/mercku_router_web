@@ -107,13 +107,13 @@
               <div class="operate">
                 <span class="reboot"
                       v-if="!isRouterOffline(router)"
-                      @click="rebootNode(router)">{{$t('trans0122')}}</span>
+                      @click.stop="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw"
                       class="reset"
-                      @click="resetNode(router)">{{$t('trans0205')}}</span>
+                      @click.stop="resetNode(router)">{{$t('trans0205')}}</span>
                 <span v-if="!router.is_gw"
                       class="delete"
-                      @click="deleteNode(router)">{{$t('trans0033')}}</span>
+                      @click.stop="deleteNode(router)">{{$t('trans0033')}}</span>
               </div>
             </div>
           </div>
@@ -707,9 +707,6 @@ export default {
   .content {
     display: flex;
     flex-direction: column;
-    .form {
-      flex: 1;
-    }
     .select-container {
       width: 100%;
     }
