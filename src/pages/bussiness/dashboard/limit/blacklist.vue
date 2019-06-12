@@ -248,11 +248,8 @@ export default {
     }
   }
   .modal-content {
-    width: 330px;
-    height: 218px;
     border-radius: 5px;
     background-color: #ffffff;
-    padding: 30px;
     .item {
       display: flex;
       align-items: center;
@@ -350,8 +347,8 @@ export default {
 @media screen and (max-width: 768px) {
   .modal {
     .modal-content {
-      width: 295px;
-      height: 229px;
+      width: auto;
+      height: auto;
     }
   }
   .handle {
