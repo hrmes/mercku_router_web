@@ -36,7 +36,7 @@ export default {
   methods: {
     showPolicy() {
       if (process.env.CUSTOMER_CONFIG.isCik) {
-        window.open('https://www.ciktel.com/TermOfService');
+        window.open('https://www.ciktel.com/TermsOfService');
       } else if (process.env.CUSTOMER_CONFIG.isMercku) {
         this.show = true;
       }
