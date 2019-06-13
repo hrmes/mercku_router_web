@@ -109,6 +109,7 @@ export default {
       }
     },
     ok() {
+      this.$emit('input', this.inputValue);
       this.opened = false;
     },
     open() {
@@ -165,7 +166,6 @@ export default {
       this.selectScroll(e, type);
       this.time[type] = v;
       this.inputValue = `${this.time.h}:${this.time.m}`;
-      this.$emit('input', this.inputValue);
     }
   }
 };
