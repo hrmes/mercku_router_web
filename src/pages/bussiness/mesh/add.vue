@@ -117,14 +117,11 @@
          v-if="scaning"></div>
     <m-modal class="modal"
              :visible.sync="showHelpDialog">
+      <m-modal-header>
+        <div>{{$t('trans0072')}}</div>
+      </m-modal-header>
       <div class="modal-content">
         <div class="help-dialog-content">
-          <div class="close"
-               @click="closeHelpDialog()">
-            <img src="../../../assets/images/ic_delete.png"
-                 alt="">
-          </div>
-          <p>{{$t('trans0072')}}</p>
           <div>
             <p>1. {{$t('trans0234')}}</p>
             <p>2. {{$t('trans0215')}}</p>
@@ -136,6 +133,10 @@
           </div>
         </div>
       </div>
+      <m-modal-footer>
+        <button @click="closeHelpDialog"
+                class="btn btn-dialog-confirm">{{$t('trans0024')}}</button>
+      </m-modal-footer>
     </m-modal>
   </div>
 </template>
@@ -310,11 +311,13 @@ export default {
   z-index: 1000;
 }
 .help-dialog-content {
-  // width: 500px;
-  background: #fff;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  padding: 20px 30px;
-  border-radius: 5px;
+  max-height: 350px;
+  overflow: auto;
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
 }
 .close {
   float: right;

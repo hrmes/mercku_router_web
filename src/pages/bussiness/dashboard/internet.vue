@@ -1084,7 +1084,7 @@ export default {
             flex-direction: row;
             align-items: flex-start;
             .time-title {
-              color: #333;
+              color: #999;
               font-size: 14px;
             }
             p {
