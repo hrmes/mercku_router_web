@@ -707,7 +707,7 @@ export default {
           .r-title {
             font-size: 14px;
             display: inline-block;
-            color: #999;
+            color: #999999;
             border: none;
             width: 90px;
           }
@@ -924,7 +924,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1200px) {
+@media screen and (min-width: 769px) and (max-width: 1366px) {
   .internet-container {
     .info-container {
       flex-direction: column;
@@ -1084,7 +1084,7 @@ export default {
             flex-direction: row;
             align-items: flex-start;
             .time-title {
-              color: #999;
+              color: #333;
               font-size: 14px;
             }
             p {
