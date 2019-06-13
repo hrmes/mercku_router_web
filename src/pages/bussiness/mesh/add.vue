@@ -311,8 +311,7 @@ export default {
   z-index: 1000;
 }
 .help-dialog-content {
-  max-height: 350px;
-  overflow: auto;
+  width: 600px;
   p {
     &:first-child {
       margin-top: 0;
@@ -555,6 +554,9 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .help-dialog-content {
+    width: 100%;
+    max-height: 350px;
+    overflow: auto;
     a {
       word-wrap: break-word;
     }
