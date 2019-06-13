@@ -498,8 +498,7 @@ export default {
         .message {
           margin-top: 30px;
           .time-title {
-            color: #333;
-            font-weight: bold;
+            color: #999;
             font-size: 14px;
           }
           p {
@@ -706,9 +705,9 @@ export default {
           color: #333333;
           font-size: 14px;
           .r-title {
-            font-size: 18px;
+            font-size: 14px;
             display: inline-block;
-            color: #999999;
+            color: #999;
             border: none;
             width: 90px;
           }
@@ -1085,8 +1084,7 @@ export default {
             flex-direction: row;
             align-items: flex-start;
             .time-title {
-              color: #333;
-              font-weight: bold;
+              color: #999;
               font-size: 14px;
             }
             p {
