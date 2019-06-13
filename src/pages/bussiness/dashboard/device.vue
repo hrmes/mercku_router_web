@@ -124,10 +124,8 @@
                          src="../../../assets/images/icon/ic_device_upload.png"
                          alt="">
                     <label class="text-inner">
-                      <span>
-                        {{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
-                      <span>
-                        {{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
                     </label>
                   </div>
                   <div class="speed-wrap">
@@ -145,11 +143,9 @@
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span class="label">{{$t('trans0015')}}</span>
                 <span class="value">
-                  <span>
-                    {{formatNetworkData
-                    (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
-                  </span>
-                  <span> {{formatNetworkData
+                  <span>{{formatNetworkData
+                    (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
+                  <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
                 </span>
 
@@ -853,6 +849,11 @@ export default {
         .label {
           display: none;
         }
+        .value {
+          span:last-child {
+            margin-left: 2px;
+          }
+        }
       }
       .column-limit {
         width: 120px;
@@ -944,6 +945,9 @@ export default {
           }
           .text-inner {
             font-size: 14px;
+            span:last-child {
+              margin-left: 2px;
+            }
           }
         }
       }
