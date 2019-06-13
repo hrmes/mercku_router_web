@@ -13,7 +13,8 @@
           </label>
           <div class="tool">
             <m-popover :title="$t('trans0538')"
-                       :content="$t('trans0540')">
+                       :content="$t('trans0540')"
+                       position="bottom">
               <img width="14"
                    src="../../../assets/images/ic_question.png"
                    alt=""></m-popover>

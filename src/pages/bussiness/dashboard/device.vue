@@ -125,10 +125,8 @@
                          src="../../../assets/images/ic_device_upload.png"
                          alt="">
                     <label class="text-inner">
-                      <span>
-                        {{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
-                      <span>
-                        {{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
                     </label>
                   </div>
                   <div class="speed-wrap">
@@ -145,11 +143,14 @@
               <li class="column-band"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span>{{$t('trans0015')}}</span>
-                <span>
-                  {{formatNetworkData(row.online_info.traffic.ul+row.online_info.traffic.dl).value}}
-                </span>
-                <span> {{formatNetworkData
-                  (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
+                <label class="text-inner">
+                  <span>{{formatNetworkData
+                    (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
+                  <span>{{formatNetworkData(
+                    row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}
+                  </span>
+                </label>
+
               </li>
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -841,6 +842,14 @@ export default {
         span:first-child {
           display: none;
         }
+        .text-inner {
+          span:first-child {
+            display: inline-block;
+          }
+        }
+        span:last-child {
+          margin-left: 5px;
+        }
       }
       .column-limit {
         width: 120px;
@@ -924,6 +933,11 @@ export default {
           }
           .text-inner {
             font-size: 14px;
+            span {
+              &:last-child {
+                margin-left: 5px;
+              }
+            }
           }
         }
       }
@@ -1233,16 +1247,22 @@ export default {
             padding-bottom: 30px;
             span {
               line-height: 30px;
+              // height: auto;
             }
             span:first-child {
               display: block;
               font-size: 14px;
-              letter-spacing: -0.6px;
               padding-right: 10px;
             }
-            span:nth-child(2) {
-              font-size: 20px;
-              padding-right: 5px;
+            .text-inner {
+              span:first-child {
+                font-size: 20px;
+                display: inline;
+                padding-right: 0;
+              }
+              span:last-child {
+                font-size: 16px;
+              }
             }
           }
           .column-ip {

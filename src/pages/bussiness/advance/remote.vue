@@ -381,6 +381,9 @@ export default {
         font-size: 12px;
         padding: 10px 0;
         padding-right: 15px;
+        &:hover {
+          background: none;
+        }
       }
     }
   }

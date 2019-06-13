@@ -6,6 +6,7 @@
       <slot></slot>
     </div>
     <div class="popover"
+         :class="position"
          v-show="show"
          :style="{'top':10}">
       <div class="title"
@@ -61,6 +62,19 @@ export default {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     font-size: 12px;
     color: #333333;
+    &.bottom {
+      top: 20px;
+      &::before {
+        top: -10px;
+        bottom: initial;
+        transform: rotate(180deg);
+      }
+      &::after {
+        top: -8px;
+        bottom: initial;
+        transform: rotate(180deg);
+      }
+    }
     // overflow: hidden;
     .title {
       height: 30px;
