@@ -249,6 +249,13 @@ export const toLocaleNumber = (
   locale = 'en-US',
   minimumFractionDigits = 1,
   maximumFractionDigits = 1
-) => Intl.NumberFormat.call(null, locale, { minimumFractionDigits, maximumFractionDigits }).format(
-    number
-  );
+) => {
+  // 有时候传入是不是数字，是占位符字符串
+  if (typeof number === 'number') {
+    return Intl.NumberFormat.call(null, locale, {
+      minimumFractionDigits,
+      maximumFractionDigits
+    }).format(number);
+  }
+  return number;
+};
