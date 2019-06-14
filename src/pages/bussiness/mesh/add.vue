@@ -683,6 +683,9 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .help-dialog-content {
+    width: 100%;
+    max-height: 350px;
+    overflow: auto;
     a {
       word-wrap: break-word;
     }
