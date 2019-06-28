@@ -11,8 +11,7 @@ export default function upgradeHelper(indexHtml) {
   }
   if (!oldHash || newHash !== oldHash) {
     console.log('the x-web-version-hash is not same, i think router has upgrade ');
-    document.clear();
-    document.write(indexHtml);
+    window.location.reload(true);
   } else {
     console.log('the x-web-version-hash is same, i think router not upgrade');
   }
