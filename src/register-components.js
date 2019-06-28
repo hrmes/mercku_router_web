@@ -46,7 +46,6 @@ const registerComponents = _Vue => {
   _Vue.component('m-editable-select', mEditableSelect);
   _Vue.component('m-time-picker', mTimePicker);
   _Vue.component('m-spinner', mSpinner);
-  _Vue.component('m-scrollbar', mScrollbar);
   _Vue.component('m-tabs', mTabs);
   _Vue.component('m-tab', mTab);
   _Vue.component('m-modal', mModal);
