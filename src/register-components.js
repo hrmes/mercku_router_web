@@ -15,7 +15,6 @@ import mPopover from 'components/popover/index.vue';
 import mEditableSelect from 'components/editableSelect/index.vue';
 import mTimePicker from 'components/timePicker/index.vue';
 import mSpinner from 'components/spinner/index.vue';
-import mScrollbar from 'components/scrollbar/index.vue';
 import mTabs from 'components/tabs/tabs.vue';
 import mTab from 'components/tabs/tab.vue';
 import mModal from 'components/modal/index.vue';
