@@ -9,6 +9,8 @@ export default function upgradeHelper(indexHtml) {
   if (result !== null) {
     [, newHash] = result;
   }
+  console.log(`old hash is: ${oldHash}`);
+  console.log(`new hash is: ${newHash}`);
   if (!oldHash || newHash !== oldHash) {
     console.log('the x-web-version-hash is not same, i think router has upgrade ');
     document.clear();
