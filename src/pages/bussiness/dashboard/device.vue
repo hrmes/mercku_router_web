@@ -667,10 +667,7 @@ export default {
         )}`;
       }
       if (date <= split[2] && date > split[3]) {
-        return `${this.$t('trans0011').replace(
-          '%d',
-          parseInt(date / split[3], 10)
-        )}`;
+        return `${this.$t('trans0011').replace('%d', parseInt(date, 10))}`;
       }
       return `${this.$t('trans0010')}`;
     }
