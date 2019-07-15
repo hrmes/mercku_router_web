@@ -192,7 +192,7 @@ function genNodes(gateway, green, red, offline) {
 }
 
 // 生成绘图需要的线条信息
-function genLines(gateway, green, red) {
+function genLines(gateway, green, red, fullLine) {
   function genLine(source, target, color) {
     return {
       source: `${source.sn}${source.name}`,
@@ -247,6 +247,8 @@ function genLines(gateway, green, red) {
         } else if (!green.includes(n.entity)) {
           // 双绿点过滤红线
           lines.push(genLine(r, n.entity, Color.bad));
+        } else {
+          // todo
         }
       }
     });
@@ -267,7 +269,7 @@ function findOfflineNode(array, offline) {
 }
 
 // 生成所有绘图数据
-function genData(array) {
+function genData(array, fullLine = false) {
   const offline = [];
   array = findOfflineNode(array, offline);
 
@@ -283,7 +285,7 @@ function genData(array) {
 
   const nodes = genNodes(gateway, green, red, offline);
 
-  const lines = genLines(gateway, green, red);
+  const lines = genLines(gateway, green, red, fullLine);
 
   return {
     nodes,
