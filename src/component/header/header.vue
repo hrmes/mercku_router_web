@@ -3,6 +3,7 @@
           :class="{'nav-hide':!navVisible,'open':(mobileNavVisible),'i18n-open':mobileI18nVisible}">
     <div class="logo-wrap">
       <div v-if="logoVisible"
+           @click="forward2dashboard"
            class="logo-wrap__logo"></div>
       <a v-if="!logoVisible"
          class="offical"
@@ -198,6 +199,11 @@ export default {
     }
   },
   methods: {
+    forward2dashboard() {
+      if (this.navVisible) {
+        this.$router.push({ path: '/dashboard' });
+      }
+    },
     beforeEnter(el) {
       el.style.height = 0;
     },
@@ -423,6 +429,7 @@ export default {
     .logo-wrap__logo {
       width: 74px;
       height: 25px;
+      cursor: pointer;
     }
   }
   .nav-wrap {
