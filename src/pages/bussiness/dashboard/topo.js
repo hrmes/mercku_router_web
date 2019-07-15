@@ -223,6 +223,8 @@ function genLines(gateway, green, red, fullLine) {
         lines.push(genLine(gateway, n.entity, Color.good));
       } else if (red.includes(n.entity)) {
         lines.push(genLine(gateway, n.entity, Color.bad));
+      } else if (fullLine) {
+        lines.push(genLine(gateway, n.entity, Color.bad));
       }
     }
   });
@@ -245,10 +247,9 @@ function genLines(gateway, green, red, fullLine) {
         if (isGood(n.origin.rssi)) {
           lines.push(genLine(r, n.entity, Color.good));
         } else if (!green.includes(n.entity)) {
-          // 双绿点过滤红线
           lines.push(genLine(r, n.entity, Color.bad));
-        } else {
-          // todo
+        } else if (fullLine) {
+          lines.push(genLine(r, n.entity, Color.bad));
         }
       }
     });
@@ -270,13 +271,15 @@ function findOfflineNode(array, offline) {
 
 // 生成所有绘图数据
 function genData(array, fullLine = false) {
+  let routers = JSON.parse(JSON.stringify(array));
+
   const offline = [];
-  array = findOfflineNode(array, offline);
+  routers = findOfflineNode(routers, offline);
 
-  array = addConnection(array);
-  const gateway = findGateway(array);
+  routers = addConnection(routers);
+  const gateway = findGateway(routers);
 
-  const RouterDistincted = distinct(array, gateway);
+  const RouterDistincted = distinct(routers, gateway);
 
   const green = [];
   findGreenNode(gateway, RouterDistincted, green);
