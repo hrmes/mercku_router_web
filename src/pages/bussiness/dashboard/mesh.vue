@@ -41,8 +41,7 @@
                              :title="this.$t('trans0562')"
                              :content="this.$t('trans0558')">
                     <img width="14"
-                         src="../../../assets/images/icon/ic_question.png"
-                         alt="">
+                         src="../../../assets/images/icon/ic_question.png">
                   </m-popover>
                 </div>
               </label>
@@ -52,8 +51,19 @@
             <div class="switch-item">
               <label>
                 {{$t('trans0667')}}
+                <div class="tool"
+                     style="width:14px;">
+                  <m-popover position="bottom center"
+                             style="top:-7px"
+                             :title="this.$t('trans0667')"
+                             :content="this.$t('trans0668')">
+                    <img width="14"
+                         src="../../../assets/images/icon/ic_question.png">
+                  </m-popover>
+                </div>
               </label>
-              <m-switch v-model="fullline"></m-switch>
+              <m-switch v-model="fullline"
+                        :onChange="val => onFulllineChange(val)"></m-switch>
             </div>
 
           </div>
@@ -216,13 +226,6 @@ const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 
 export default {
-  watch: {
-    fullline(nval, oval) {
-      if (nval !== oval) {
-        this.drawTopo(this.routers);
-      }
-    }
-  },
   data() {
     return {
       fullline: false,
@@ -279,6 +282,15 @@ export default {
     this.initChart();
     this.getMeshBand();
     this.createIntervalTask();
+
+    let fullline;
+    fullline = localStorage.getItem('fullline');
+    if (fullline !== null && fullline === 'true') {
+      fullline = true;
+    } else {
+      fullline = false;
+    }
+    this.fullline = fullline;
   },
   computed: {
     rssiTips() {
@@ -298,6 +310,10 @@ export default {
     }
   },
   methods: {
+    onFulllineChange(val) {
+      localStorage.setItem('fullline', val);
+      this.drawTopo(this.routers);
+    },
     showRssiModal() {
       this.rssiModalVisible = true;
     },
@@ -387,10 +403,12 @@ export default {
         message: this.$t('trans0218'),
         callback: {
           ok: () => {
-            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-              this.routers = this.routers.filter(r => r.sn !== router.sn);
-            });
+            this.$http
+              .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
+              .then(() => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
+              });
           }
         }
       });
@@ -487,6 +505,12 @@ export default {
             cursor: 'pointer',
             layout: 'circular',
             hoverAnimation: false,
+            edgeLabel: {
+              show: false,
+              formatter(series) {
+                return series.data.rssi;
+              }
+            },
             label: {
               normal: {
                 show: true,
@@ -504,7 +528,10 @@ export default {
                     const sp = name.split(splitor);
                     let index = 1;
                     let start = sp[0];
-                    while ((start + sp[index]).length < 10 && index < sp.length) {
+                    while (
+                      (start + sp[index]).length < 10 &&
+                      index < sp.length
+                    ) {
                       start += ` ${sp[index]}`;
                       index += 1;
                     }
@@ -517,7 +544,10 @@ export default {
             },
             data: data.nodes,
             links: data.lines,
-            categories: [{ name: `${this.$t('trans0193')}` }, { name: `${this.$t('trans0196')}` }],
+            categories: [
+              { name: `${this.$t('trans0193')}` },
+              { name: `${this.$t('trans0196')}` }
+            ],
             lineStyle: { width: 2 }
           }
         ]
@@ -714,8 +744,8 @@ export default {
               height: 12px;
               margin-left: 5px;
               cursor: pointer;
-              background: url(../../../assets/images/icon/ic_connection_quality.png) no-repeat
-                center;
+              background: url(../../../assets/images/icon/ic_connection_quality.png)
+                no-repeat center;
               background-size: 100%;
               &:hover {
                 background: url(../../../assets/images/icon/ic_connection_quality_hover.png)
@@ -762,7 +792,7 @@ export default {
           .switch-item {
             display: flex;
             & + .switch-item {
-              margin-top: 10px;
+              margin-top: 20px;
             }
             label {
               display: flex;
