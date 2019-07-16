@@ -658,5 +658,7 @@
   "trans0663": "COMING SOON",
   "trans0664": "Unsupported device",
   "trans0665": "Too frequent failed login, please try later",
-  "trans0666": "You have denied Mercku to use your photo. Please authorize in Settings"
+  "trans0666": "You have denied Mercku to use your photo. Please authorize in Settings",
+  "trans0667": "Complete Graph",
+  "trans0668": "All available connections will be illustrated in complete graph mode. Since Mercku nodes are able to pick up the best connections automatically, unused connections will be omitted in concise graph mode, which describes the mesh link status more clearly."
 }
