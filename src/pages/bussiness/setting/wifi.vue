@@ -33,7 +33,9 @@
         <div class="form-item check-info">
           <label for=""> {{$t('trans0110')}}
             <div class="tool">
-              <m-popover :title="this.$t('trans0110')"
+              <m-popover position="bottom left"
+                         style="top:-7px"
+                         :title="this.$t('trans0110')"
                          :content="this.$t('trans0325')">
                 <img width="14"
                      src="../../../assets/images/ic_question.png"
@@ -49,7 +51,9 @@
           <div class="switch-container">
             <label for=""> {{$t('trans0397')}}
               <div class="tool">
-                <m-popover :title="this.$t('trans0397')"
+                <m-popover position="bottom left"
+                           style="top:-7px"
+                           :title="this.$t('trans0397')"
                            :content="this.$t('trans0398')">
                   <img width="14"
                        src="../../../assets/images/ic_question.png"

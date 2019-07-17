@@ -1,14 +1,20 @@
 <template>
 
   <div class="popover-container"
-       v-clickoutside="handleClose">
-    <div @click="clickTriggler()">
+       v-clickoutside="handleClose"
+       @click="clickTriggler()"
+       @mouseenter="enter"
+       @mouseleave="handleClose">
+    <div ref="trigger"
+         class="popover-container__trigger">
       <slot></slot>
     </div>
-    <div class="popover"
+    <div ref="popover"
+         class="popover"
          :class="position"
-         v-show="show"
-         :style="{'top':10}">
+         v-show="show">
+      <div ref="triangle"
+           class="triangle"></div>
       <div class="title"
            v-if="title">{{title}}</div>
       <div class="content">{{content}}</div>
@@ -18,6 +24,14 @@
 </template>
 
 <script>
+const Positions = {
+  left: 'left',
+  center: 'center',
+  right: 'right',
+  top: 'top',
+  middle: 'middle',
+  bottom: 'bottom'
+};
 export default {
   name: 'Popover',
   props: {
@@ -32,15 +46,40 @@ export default {
     },
     position: {
       type: String,
-      default: 'top'
+      default: Positions.top
     }
   },
   data() {
     return { show: false };
   },
   methods: {
+    initPopoverPosition() {
+      const elPopover = this.$refs.popover;
+      if (this.position.includes(Positions.top)) {
+        elPopover.style.top = `-${elPopover.clientHeight + 10}px`;
+      }
+      if (this.position.includes(Positions.bottom)) {
+        elPopover.style.bottom = `-${elPopover.clientHeight + 10}px`;
+      }
+      if (this.position.includes(Positions.center)) {
+        elPopover.style.bottom = `-${elPopover.clientHeight + 10}px`;
+        elPopover.style.transform = 'translateX(-50%)';
+        elPopover.firstChild.style.left = '50%';
+      }
+    },
+    enter() {
+      this.show = true;
+      this.$nextTick(() => {
+        this.initPopoverPosition();
+      });
+    },
     clickTriggler() {
       this.show = !this.show;
+      if (this.show) {
+        this.$nextTick(() => {
+          this.initPopoverPosition();
+        });
+      }
     },
     handleClose() {
       this.show = false;
@@ -53,63 +92,121 @@ export default {
   position: relative;
   .popover {
     position: absolute;
-    top: -120px;
-    left: -24px;
     padding: 0 10px;
+    z-index: 999;
     width: 200px;
-    height: 100px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+    background-color: #333;
+    border-radius: 8px;
+    // box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     font-size: 12px;
-    color: #333333;
+    color: #fff;
+    padding: 10px;
     &.bottom {
-      top: 20px;
-      &::before {
-        top: -10px;
-        bottom: initial;
-        transform: rotate(180deg);
-      }
-      &::after {
+      // top:-
+      .triangle {
         top: -8px;
         bottom: initial;
-        transform: rotate(180deg);
+        transform: rotate(-180deg);
       }
     }
-    // overflow: hidden;
+    &.left {
+      left: -16px;
+      .triangle {
+        left: 16px;
+      }
+    }
+    &.top {
+      .triangle {
+        bottom: -8px;
+        top: initial;
+      }
+    }
+    &.center {
+      .triangle {
+        bottom: -8px;
+        left: 50%;
+      }
+    }
+    .triangle {
+      width: 16px;
+      height: 8px;
+      position: absolute;
+      left: 0;
+      &::before {
+        content: '';
+        // position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        border: 8px solid #333;
+        border-bottom: none;
+        border-left-color: transparent;
+        border-right-color: transparent;
+      }
+    }
+    // &::before {
+    //   content: '';
+    //   position: absolute;
+    //   display: block;
+    //   width: 0;
+    //   height: 0;
+    //   overflow: hidden;
+    // }
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   display: block;
+    //   width: 0;
+    //   height: 0;
+    //   overflow: hidden;
+    // }
+    // &.top {
+    //   &::before {
+    //     left: 18px;
+    //     bottom: -10px;
+    //     border: 10px solid #333;
+    //     border-bottom: none;
+    //     border-left-color: transparent;
+    //     border-right-color: transparent;
+    //   }
+    //   &:after {
+    //     left: 20px;
+    //     bottom: -8px;
+    //     border: 8px solid #333;
+    //     border-bottom: none;
+    //     border-left-color: transparent;
+    //     border-right-color: transparent;
+    //   }
+    // }
+    // &.bottom {
+    //   &::before {
+    //     left: 18px;
+    //     top: -10px;
+    //     border: 10px solid #333;
+    //     border-top: none;
+    //     border-left-color: transparent;
+    //     border-right-color: transparent;
+    //   }
+    //   &:after {
+    //     left: 20px;
+    //     top: -8px;
+    //     border: 8px solid #333;
+    //     border-top: none;
+    //     border-left-color: transparent;
+    //     border-right-color: transparent;
+    //   }
+    // }
     .title {
-      height: 30px;
-      line-height: 30px;
+      line-height: 1;
       box-sizing: border-box;
-      border-bottom: 1px solid #f1f1f1;
+      font-size: 14px;
+      font-weight: bold;
     }
     .content {
-      padding: 10px 0;
-    }
-    &::before {
-      content: '';
-      position: absolute;
-      left: 21px;
-      bottom: -10px;
-      display: block;
-      width: 0;
-      height: 0;
-      overflow: hidden;
-      border-width: 10px 10px 0;
-      border-style: solid;
-      border-color: #f1f1f1 transparent transparent;
-    }
-    &::after {
-      content: '';
-      position: absolute;
-      left: 23px;
-      bottom: -8px;
-      display: block;
-      width: 0;
-      height: 0;
-      overflow: hidden;
-      border-width: 8px 8px 0;
-      border-style: solid;
-      border-color: #ffffff transparent transparent;
+      padding-top: 10px;
+      font-weight: normal;
+      white-space: normal;
     }
   }
 }

@@ -14,7 +14,7 @@
           <div class="tool">
             <m-popover :title="$t('trans0538')"
                        :content="$t('trans0540')"
-                       position="bottom">
+                       position="bottom left">
               <img width="14"
                    src="../../../assets/images/ic_question.png"
                    alt=""></m-popover>

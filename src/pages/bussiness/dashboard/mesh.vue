@@ -23,18 +23,40 @@
             </div>
           </div>
           <div class="switch-wrap">
-            <label for=""> {{$t('trans0562')}}
-              <div class="tool">
-                <m-popover :title="this.$t('trans0562')"
-                           :content="this.$t('trans0558')">
-                  <img width="14"
-                       src="../../../assets/images/ic_question.png"
-                       alt="">
-                </m-popover>
-              </div>
-            </label>
-            <m-switch v-model="mesh24g"
-                      :onChange="(val)=>updateMeshBand(val)"></m-switch>
+            <div class="switch-item">
+              <label for=""> {{$t('trans0562')}}
+                <div class="tool">
+                  <m-popover position="bottom center"
+                             style="top:-7px"
+                             :title="this.$t('trans0562')"
+                             :content="this.$t('trans0558')">
+                    <img width="14"
+                         src="../../../assets/images/ic_question.png"
+                         alt="">
+                  </m-popover>
+                </div>
+              </label>
+              <m-switch v-model="mesh24g"
+                        :onChange="(val)=>updateMeshBand(val)"></m-switch>
+            </div>
+
+            <div class="switch-item">
+              <label for=""> {{$t('trans0667')}}
+                <div class="tool">
+                  <m-popover position="bottom center"
+                             style="top:-7px"
+                             :title="this.$t('trans0667')"
+                             :content="this.$t('trans0668')">
+                    <img width="14"
+                         src="../../../assets/images/ic_question.png"
+                         alt="">
+                  </m-popover>
+                </div>
+              </label>
+              <m-switch v-model="fullline"
+                        :onChange="(val)=>onFulllineChange(val)"></m-switch>
+            </div>
+
           </div>
           <div class="topo-wrap"
                id="topo-wrap">
@@ -156,6 +178,7 @@ require('echarts/lib/chart/graph');
 export default {
   data() {
     return {
+      fullline: false,
       RouterStatus,
       formatMac,
       pageActive: true,
@@ -208,6 +231,15 @@ export default {
     this.initChart();
     this.getMeshBand();
     this.createIntervalTask();
+
+    let fullline;
+    fullline = localStorage.getItem('fullline');
+    if (fullline !== null && fullline === 'true') {
+      fullline = true;
+    } else {
+      fullline = false;
+    }
+    this.fullline = fullline;
   },
   computed: {
     showTable() {
@@ -224,6 +256,10 @@ export default {
     }
   },
   methods: {
+    onFulllineChange(val) {
+      localStorage.setItem('fullline', val);
+      this.drawTopo(this.routers);
+    },
     updateMeshBand(val) {
       this.$loading.open();
       this.$http
@@ -364,7 +400,7 @@ export default {
       const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       this.routers = routers;
 
-      const data = genData(routers);
+      const data = genData(routers, this.fullline);
       data.nodes.forEach(n => {
         this.routers.forEach(r => {
           if (n.sn === r.sn) {
@@ -542,16 +578,23 @@ export default {
           order: 1;
           display: flex;
           align-items: flex-start;
+          flex-direction: column;
           padding-left: 20px;
           width: 200px;
-          label {
+          .switch-item {
             display: flex;
-            margin-right: 15px;
-            img {
-              position: relative;
-              top: -7px;
-              margin-left: 5px;
-              cursor: pointer;
+            & + .switch-item {
+              margin-top: 20px;
+            }
+            label {
+              display: flex;
+              margin-right: 15px;
+              img {
+                position: relative;
+                top: -7px;
+                margin-left: 5px;
+                cursor: pointer;
+              }
             }
           }
         }

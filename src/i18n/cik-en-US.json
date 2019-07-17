@@ -203,12 +203,12 @@
   "trans0202": "Online Upgrade",
   "trans0203": "Remove",
   "trans0204": "Offline Upgrade",
-  "trans0205": "Factory reset",
+  "trans0205": "Factory Reset",
   "trans0206": "Resetting will cause all devices to be disconnected and the mesh network to be terminated. ",
   "trans0207": "New version found",
   "trans0208": "Product name",
-  "trans0209": "Current version:",
-  "trans0210": "Latest version:",
+  "trans0209": "Current Version:",
+  "trans0210": "Latest Version:",
   "trans0211": "OK",
   "trans0212": "Notice",
   "trans0213": "The Wi-Fi will cut off while upgrading and the indicator light will flash red. Please do not disconnect the power supply or reset the router during this process.",
@@ -380,7 +380,7 @@
   "trans0379": "Device information",
   "trans0380": "The App version is outdated. To avoid the possibility of functions not working properly, please upgrade the App and try again.",
   "trans0381": "Please select node",
-  "trans0382": "Reminder: The host and its subdomains cannot be accessed after configuration, e.g. google.com, *.google.com",
+  "trans0382": "Reminder: The host and its subdomains cannot be accessed after configuration, e.g. google.com, docs.google.com",
   "trans0383": "The firmware version is outdated. Please upgrade the firmware and try again.",
   "trans0384": "List",
   "trans0385": "Upgrading...",
@@ -658,5 +658,7 @@
   "trans0663": "COMING SOON",
   "trans0664": "Unsupported device",
   "trans0665": "Too frequent failed login, please try later",
-  "trans0666": "You have denied Mercku to use your photo. Please authorize in Settings"
+  "trans0666": "You have denied Mercku to use your photo. Please authorize in Settings",
+  "trans0667": "Complete Graph",
+  "trans0668": "All available connections will be illustrated in complete graph mode. Since Mercku nodes are able to pick up the best connections automatically, unused connections will be omitted in concise graph mode, which describes the mesh link status more clearly."
 }
