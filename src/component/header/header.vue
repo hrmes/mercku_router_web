@@ -147,6 +147,10 @@ const Languages = [
   {
     text: 'Deutsch',
     value: 'de-DE'
+  },
+  {
+    text: 'Dutch',
+    value: 'nl-NL'
   }
 ];
 export default {
