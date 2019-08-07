@@ -192,11 +192,12 @@ function genNodes(gateway, green, red, offline) {
 }
 
 // 生成绘图需要的线条信息
-function genLines(gateway, green, red) {
-  function genLine(source, target, color) {
+function genLines(gateway, green, red, fullLine) {
+  function genLine(source, target, color, value = 0) {
     return {
       source: `${source.sn}${source.name}`,
       target: `${target.sn}${target.name}`,
+      rssi: value,
       lineStyle: {
         color
       }
@@ -220,9 +221,11 @@ function genLines(gateway, green, red) {
   gateway.neighbors.forEach(n => {
     if (!exist(n.entity, gateway)) {
       if (isGood(n.origin.rssi)) {
-        lines.push(genLine(gateway, n.entity, Color.good));
+        lines.push(genLine(gateway, n.entity, Color.good, n.origin.rssi));
       } else if (red.includes(n.entity)) {
-        lines.push(genLine(gateway, n.entity, Color.bad));
+        lines.push(genLine(gateway, n.entity, Color.bad, n.origin.rssi));
+      } else if (fullLine) {
+        lines.push(genLine(gateway, n.entity, Color.bad, n.origin.rssi));
       }
     }
   });
@@ -231,9 +234,9 @@ function genLines(gateway, green, red) {
     r.neighbors.forEach(n => {
       if (!exist(n.entity, r)) {
         if (isGood(n.origin.rssi)) {
-          lines.push(genLine(r, n.entity, Color.good));
+          lines.push(genLine(r, n.entity, Color.good, n.origin.rssi));
         } else {
-          lines.push(genLine(r, n.entity, Color.bad));
+          lines.push(genLine(r, n.entity, Color.bad, n.origin.rssi));
         }
       }
     });
@@ -243,10 +246,11 @@ function genLines(gateway, green, red) {
     r.neighbors.forEach(n => {
       if (!exist(n.entity, r)) {
         if (isGood(n.origin.rssi)) {
-          lines.push(genLine(r, n.entity, Color.good));
+          lines.push(genLine(r, n.entity, Color.good, n.origin.rssi));
         } else if (!green.includes(n.entity)) {
-          // 双绿点过滤红线
-          lines.push(genLine(r, n.entity, Color.bad));
+          lines.push(genLine(r, n.entity, Color.bad, n.origin.rssi));
+        } else if (fullLine) {
+          lines.push(genLine(r, n.entity, Color.bad, n.origin.rssi));
         }
       }
     });
@@ -267,14 +271,16 @@ function findOfflineNode(array, offline) {
 }
 
 // 生成所有绘图数据
-function genData(array) {
+function genData(array, fullLine = false) {
+  let routers = JSON.parse(JSON.stringify(array));
+
   const offline = [];
-  array = findOfflineNode(array, offline);
+  routers = findOfflineNode(routers, offline);
 
-  array = addConnection(array);
-  const gateway = findGateway(array);
+  routers = addConnection(routers);
+  const gateway = findGateway(routers);
 
-  const RouterDistincted = distinct(array, gateway);
+  const RouterDistincted = distinct(routers, gateway);
 
   const green = [];
   findGreenNode(gateway, RouterDistincted, green);
@@ -283,7 +289,7 @@ function genData(array) {
 
   const nodes = genNodes(gateway, green, red, offline);
 
-  const lines = genLines(gateway, green, red);
+  const lines = genLines(gateway, green, red, fullLine);
 
   return {
     nodes,

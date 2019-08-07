@@ -134,11 +134,6 @@ export default {
   },
   methods: {
     checkDevice(device) {
-      this.devices.forEach(d => {
-        if (d !== device) {
-          d.checked = false;
-        }
-      });
       device.checked = !device.checked;
     },
     changeCheckboxAll(v) {

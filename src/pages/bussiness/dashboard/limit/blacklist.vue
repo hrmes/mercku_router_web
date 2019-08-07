@@ -1,8 +1,7 @@
 <template>
 
   <div class="urllimit">
-    <div class="handle"
-         v-if="sortList.length">
+    <div class="handle">
       <label for="">{{$t('trans0462')}}</label>
       <m-switch :onChange="changehandle"
                 v-model="mode" />
