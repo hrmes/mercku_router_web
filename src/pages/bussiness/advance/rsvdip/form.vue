@@ -29,6 +29,7 @@
                      :key="index">
                   <div class="check">
                     <m-checkbox :readonly="true"
+                                :rect="false"
                                 v-model="item.checked"></m-checkbox>
                   </div>
                   <div class="des">
