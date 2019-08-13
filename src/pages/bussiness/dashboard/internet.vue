@@ -70,6 +70,9 @@
             </div>
           </div>
         </div>
+
+      </div>
+      <div class="row">
         <div class="item traffic-container"
              v-if="isRouter">
           <div class="title">{{$t('trans0308')}}</div>
@@ -588,15 +591,8 @@ export default {
             font-size: 14px;
             color: #333333;
             padding-top: 20px;
-            &:nth-child(2n) {
-              .m-title {
-                width: 70px;
-              }
-            }
-            &:nth-child(2n + 1) {
-              .m-title {
-                width: 150px;
-              }
+            .m-title {
+              width: 100px;
             }
             .m-title {
               color: #333;
