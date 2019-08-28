@@ -70,10 +70,12 @@
                   @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button> </div>
       </m-modal-footer>
     </m-modal>
+    <!-- trans0383 -->
   </div>
 </template>
 <script>
 import * as CONSTANTS from 'util/constant';
+import { compareVersion } from 'util/util';
 import marked from 'marked';
 
 export default {
@@ -121,7 +123,43 @@ export default {
       }
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      console.log('from:', from.path);
+      console.log('to:', to.path);
+      const fromPath = from.path;
+      console.log('from path is:', fromPath);
+      if (fromPath.includes('login')) {
+        vm.checkFrimwareLatest();
+      }
+    });
+  },
   methods: {
+    checkFrimwareLatest() {
+      this.$http
+        .firmwareList()
+        .then(res => {
+          let nodes = res.data.result;
+          const filter = node => {
+            const { current, latest } = node.version;
+            return compareVersion(current, latest);
+          };
+          nodes = nodes.filter(filter);
+          if (nodes.length) {
+            this.$dialog.confirm({
+              okText: this.$t('trans0225'),
+              cancelText: this.$t('trans0025'),
+              message: this.$t('trans0383'),
+              callback: {
+                ok: () => {
+                  this.$router.push({ path: '/upgrade/online' });
+                }
+              }
+            });
+          }
+        })
+        .catch(() => {});
+    },
     showTips() {
       this.tipsModalVisible = true;
     },
