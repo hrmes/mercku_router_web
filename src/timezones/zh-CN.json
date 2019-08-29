@@ -1,392 +1,392 @@
 [
     {
-        "offset": 12,
         "timezoneDetail": "GMT-12:00",
         "coutryName": "埃尼威托克岛,夸贾林环礁",
+        "offset": 12,
         "position": 1
     },
     {
-        "offset": 11,
         "timezoneDetail": "GMT-11:00",
         "coutryName": "中途岛、萨摩亚群岛",
+        "offset": 11,
         "position": 1
     },
     {
-        "offset": 10,
         "timezoneDetail": "GMT-10:00",
         "coutryName": "夏威夷",
+        "offset": 10,
         "position": 1
     },
     {
-        "offset": 9,
         "timezoneDetail": "GMT-09:00",
         "coutryName": "阿拉斯加",
+        "offset": 9,
         "position": 1
     },
     {
-        "offset": 8,
         "timezoneDetail": "GMT-08:00",
         "coutryName": "太平洋时间(美国和加拿大);提华纳",
+        "offset": 8,
         "position": 1
     },
     {
-        "offset": 7,
         "timezoneDetail": "GMT-07:00",
         "coutryName": "亚利桑那",
+        "offset": 7,
         "position": 1
     },
     {
-        "offset": 7,
         "timezoneDetail": "GMT-07:00",
         "coutryName": "山地时间(美国和加拿大)",
+        "offset": 7,
         "position": 2
     },
     {
-        "offset": 6,
         "timezoneDetail": "GMT-06:00",
         "coutryName": "中部时间(美国和加拿大)",
+        "offset": 6,
         "position": 1
     },
     {
-        "offset": 6,
         "timezoneDetail": "GMT-06:00",
         "coutryName": "墨西哥城，特古西加尔巴",
+        "offset": 6,
         "position": 2
     },
     {
-        "offset": 6,
         "timezoneDetail": "GMT-06:00",
         "coutryName": "萨斯喀彻温省",
+        "offset": 6,
         "position": 3
     },
     {
-        "offset": 5,
         "timezoneDetail": "GMT-05:00",
         "coutryName": "波哥大、利马、基多",
+        "offset": 5,
         "position": 1
     },
     {
-        "offset": 5,
         "timezoneDetail": "GMT-05:00",
         "coutryName": "东部时间(美国和加拿大)",
+        "offset": 5,
         "position": 2
     },
     {
-        "offset": 5,
         "timezoneDetail": "GMT-05:00",
         "coutryName": "印第安那州(东部)",
+        "offset": 5,
         "position": 3
     },
     {
-        "offset": 4,
         "timezoneDetail": "GMT-04:00",
         "coutryName": "大西洋时间(加拿大)",
+        "offset": 4,
         "position": 1
     },
     {
-        "offset": 4,
         "timezoneDetail": "GMT-04:00",
         "coutryName": "加拉加斯、拉巴斯",
+        "offset": 4,
         "position": 2
     },
     {
-        "offset": 4,
         "timezoneDetail": "GMT-04:00",
         "coutryName": "圣地亚哥",
+        "offset": 4,
         "position": 3
     },
     {
-        "offset": 3,
         "timezoneDetail": "GMT-03:30",
         "coutryName": "纽芬兰",
+        "offset": 3,
         "position": 1
     },
     {
-        "offset": 3,
         "timezoneDetail": "GMT-03:00",
         "coutryName": "巴西利亚",
+        "offset": 3,
         "position": 2
     },
     {
-        "offset": 3,
         "timezoneDetail": "GMT-03:00",
         "coutryName": "布宜诺斯艾利斯、乔治敦",
+        "offset": 3,
         "position": 3
     },
     {
-        "offset": 2,
         "timezoneDetail": "GMT-02:00",
         "coutryName": "中大西洋",
+        "offset": 2,
         "position": 1
     },
     {
-        "offset": 1,
         "timezoneDetail": "GMT-01:00",
         "coutryName": "亚速尔群岛、 佛得角",
+        "offset": 1,
         "position": 1
     },
     {
-        "offset": 0,
         "timezoneDetail": "GMT+00:00",
         "coutryName": "卡萨布兰卡 (蒙罗维亚)",
+        "offset": 0,
         "position": 1
     },
     {
-        "offset": 0,
         "timezoneDetail": "GMT+00:00",
         "coutryName": "格林威治标准时间：都柏林、爱丁堡、里斯本、伦敦",
+        "offset": 0,
         "position": 2
     },
     {
-        "offset": -1,
         "timezoneDetail": "GMT+01:00",
         "coutryName": "阿姆斯特丹、柏林、伯尔尼、罗马、斯德哥尔摩、维也纳",
+        "offset": -1,
         "position": 1
     },
     {
-        "offset": -1,
         "timezoneDetail": "GMT+01:00",
         "coutryName": "贝尔格莱德、布拉蒂斯拉瓦、布达佩斯、卢布尔雅那、布拉格",
+        "offset": -1,
         "position": 2
     },
     {
-        "offset": -1,
         "timezoneDetail": "GMT+01:00",
         "coutryName": "巴塞罗那、马德里",
+        "offset": -1,
         "position": 3
     },
     {
-        "offset": -1,
         "timezoneDetail": "GMT+01:00",
         "coutryName": "布鲁塞尔、哥本哈根、马德里、巴黎、维尔纽斯",
+        "offset": -1,
         "position": 4
     },
     {
-        "offset": -1,
         "timezoneDetail": "GMT+01:00",
         "coutryName": "巴黎",
+        "offset": -1,
         "position": 5
     },
     {
-        "offset": -1,
         "timezoneDetail": "GMT+01:00",
         "coutryName": "萨拉热窝、斯科普里、索菲亚、华沙、萨格勒布",
+        "offset": -1,
         "position": 6
     },
     {
-        "offset": -2,
         "timezoneDetail": "GMT+02:00",
         "coutryName": "雅典、伊斯坦布尔、明斯克",
+        "offset": -2,
         "position": 1
     },
     {
-        "offset": -2,
         "timezoneDetail": "GMT+02:00",
         "coutryName": "布加勒斯特",
+        "offset": -2,
         "position": 2
     },
     {
-        "offset": -2,
         "timezoneDetail": "GMT+02:00",
         "coutryName": "开罗",
+        "offset": -2,
         "position": 3
     },
     {
-        "offset": -2,
         "timezoneDetail": "GMT+02:00",
         "coutryName": "哈拉雷、比勒陀利亚",
+        "offset": -2,
         "position": 4
     },
     {
-        "offset": -2,
         "timezoneDetail": "GMT+02:00",
         "coutryName": "赫尔辛基、基辅、里加、索非亚、塔林、维尔纽斯",
+        "offset": -2,
         "position": 5
     },
     {
-        "offset": -2,
         "timezoneDetail": "GMT+02:00",
         "coutryName": "耶路撒冷",
+        "offset": -2,
         "position": 6
     },
     {
-        "offset": -3,
         "timezoneDetail": "GMT+03:00",
         "coutryName": "巴格达、科威特、利雅得",
+        "offset": -3,
         "position": 1
     },
     {
-        "offset": -3,
         "timezoneDetail": "GMT+03:00",
         "coutryName": "莫斯科、圣彼得堡、伏尔加格勒",
+        "offset": -3,
         "position": 2
     },
     {
-        "offset": -3,
         "timezoneDetail": "GMT+03:00",
         "coutryName": "内罗毕",
+        "offset": -3,
         "position": 3
     },
     {
-        "offset": -3,
         "timezoneDetail": "GMT+03:30",
         "coutryName": "德黑兰",
+        "offset": -3,
         "position": 4
     },
     {
-        "offset": -4,
         "timezoneDetail": "GMT+04:00",
         "coutryName": "阿布扎比、马斯喀特",
+        "offset": -4,
         "position": 1
     },
     {
-        "offset": -4,
         "timezoneDetail": "GMT+04:00",
         "coutryName": "巴库、第比利斯",
+        "offset": -4,
         "position": 2
     },
     {
-        "offset": -4,
         "timezoneDetail": "GMT+04:30",
         "coutryName": "喀布尔",
+        "offset": -4,
         "position": 3
     },
     {
-        "offset": -5,
         "timezoneDetail": "GMT+05:00",
         "coutryName": "叶卡捷琳堡",
+        "offset": -5,
         "position": 1
     },
     {
-        "offset": -5,
         "timezoneDetail": "GMT+05:00",
         "coutryName": "伊斯兰堡、卡拉奇、塔什干",
+        "offset": -5,
         "position": 2
     },
     {
-        "offset": -5,
         "timezoneDetail": "GMT+05:30",
         "coutryName": "孟买、加尔各答、马德拉斯、新德里",
+        "offset": -5,
         "position": 3
     },
     {
-        "offset": -6,
         "timezoneDetail": "GMT+06:00",
         "coutryName": "阿斯塔纳、阿拉木图、达卡",
+        "offset": -6,
         "position": 1
     },
     {
-        "offset": -6,
         "timezoneDetail": "GMT+06:00",
         "coutryName": "科伦坡",
+        "offset": -6,
         "position": 2
     },
     {
-        "offset": -7,
         "timezoneDetail": "GMT+07:00",
         "coutryName": "曼谷、河内、雅加达",
+        "offset": -7,
         "position": 1
     },
     {
-        "offset": -8,
         "timezoneDetail": "GMT+08:00",
         "coutryName": "北京、重庆、香港、乌鲁木齐",
+        "offset": -8,
         "position": 1
     },
     {
-        "offset": -8,
         "timezoneDetail": "GMT+08:00",
         "coutryName": "珀斯",
+        "offset": -8,
         "position": 2
     },
     {
-        "offset": -8,
         "timezoneDetail": "GMT+08:00",
         "coutryName": "新加坡",
+        "offset": -8,
         "position": 3
     },
     {
-        "offset": -8,
         "timezoneDetail": "GMT+08:00",
         "coutryName": "台北",
+        "offset": -8,
         "position": 4
     },
     {
-        "offset": -9,
         "timezoneDetail": "GMT+09:00",
         "coutryName": "大阪、札幌、东京",
+        "offset": -9,
         "position": 1
     },
     {
-        "offset": -9,
         "timezoneDetail": "GMT+09:00",
         "coutryName": "首尔",
+        "offset": -9,
         "position": 2
     },
     {
-        "offset": -9,
         "timezoneDetail": "GMT+09:00",
         "coutryName": "雅库茨克",
+        "offset": -9,
         "position": 3
     },
     {
-        "offset": -9,
         "timezoneDetail": "GMT+09:30",
         "coutryName": "阿德莱德",
+        "offset": -9,
         "position": 4
     },
     {
-        "offset": -9,
         "timezoneDetail": "GMT+09:30",
         "coutryName": "达尔文",
+        "offset": -9,
         "position": 5
     },
     {
-        "offset": -10,
         "timezoneDetail": "GMT+10:00",
         "coutryName": "布里斯班",
+        "offset": -10,
         "position": 1
     },
     {
-        "offset": -10,
         "timezoneDetail": "GMT+10:00",
         "coutryName": "堪培拉、墨尔本、悉尼",
+        "offset": -10,
         "position": 2
     },
     {
-        "offset": -10,
         "timezoneDetail": "GMT+10:00",
         "coutryName": "关岛、莫尔兹比港",
+        "offset": -10,
         "position": 3
     },
     {
-        "offset": -10,
         "timezoneDetail": "GMT+10:00",
         "coutryName": "霍巴特",
+        "offset": -10,
         "position": 4
     },
     {
-        "offset": -10,
         "timezoneDetail": "GMT+10:00",
         "coutryName": "符拉迪沃斯托克",
+        "offset": -10,
         "position": 5
     },
     {
-        "offset": -11,
         "timezoneDetail": "GMT+11:00",
         "coutryName": "马加丹、所罗门群岛、新喀里多尼亚",
+        "offset": -11,
         "position": 1
     },
     {
-        "offset": -12,
         "timezoneDetail": "GMT+12:00",
         "coutryName": "奥克兰、威灵顿",
+        "offset": -12,
         "position": 1
     },
     {
-        "offset": -12,
         "timezoneDetail": "GMT+12:00",
         "coutryName": "斐济、堪察加半岛、马绍尔群岛。",
+        "offset": -12,
         "position": 2
     }
 ]
