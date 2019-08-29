@@ -1,392 +1,392 @@
 [
-  {
-    "name": "Eniwetok, Kwajalein",
-    "timezone": 12,
-    "position": 1,
-    "timename": "GMT-12:00"
-  },
-  {
-    "name": "Eniwetok, Kwajalein",
-    "timezone": 11,
-    "position": 1,
-    "timename": "GMT-11:00"
-  },
-  {
-    "name": "Hawaii, Cookinseln, Französisch-Polynesien",
-    "timezone": 10,
-    "position": 1,
-    "timename": "GMT-10:00"
-  },
-  {
-    "name": "AKT Alaska Time Zone, Alaska",
-    "timezone": 9,
-    "position": 1,
-    "timename": "GMT-09:00"
-  },
-  {
-    "name": "Pacific Time (USA & Kanada); Tijuana",
-    "timezone": 8,
-    "position": 1,
-    "timename": "GMT-08:00"
-  },
-  {
-    "name": "Arizona",
-    "timezone": 7,
-    "position": 1,
-    "timename": "GMT-07:00"
-  },
-  {
-    "name": "Mountain Time (USA & Kanada)",
-    "timezone": 7,
-    "position": 2,
-    "timename": "GMT-07:00"
-  },
-  {
-    "name": "Central Time (USA & Kanada)",
-    "timezone": 6,
-    "position": 1,
-    "timename": "GMT-06:00"
-  },
-  {
-    "name": "Mexiko Stadt, Tegucigalpa",
-    "timezone": 6,
-    "position": 2,
-    "timename": "GMT-06:00"
-  },
-  {
-    "name": "Saskatchewan",
-    "timezone": 6,
-    "position": 3,
-    "timename": "GMT-06:00"
-  },
-  {
-    "name": "Bogota, Lima, Quito",
-    "timezone": 5,
-    "position": 1,
-    "timename": "GMT-05:00"
-  },
-  {
-    "name": "ET Eastern Time (USA & Kanada)",
-    "timezone": 5,
-    "position": 2,
-    "timename": "GMT-05:00"
-  },
-  {
-    "name": "Indiana (East)",
-    "timezone": 5,
-    "position": 3,
-    "timename": "GMT-05:00"
-  },
-  {
-    "name": "Atlantic Time (Kanada)",
-    "timezone": 4,
-    "position": 1,
-    "timename": "GMT-04:00"
-  },
-  {
-    "name": "Caracas, La Paz",
-    "timezone": 4,
-    "position": 2,
-    "timename": "GMT-04:00"
-  },
-  {
-    "name": "Santiago",
-    "timezone": 4,
-    "position": 3,
-    "timename": "GMT-04:00"
-  },
-  {
-    "name": "Neufundland",
-    "timezone": 3,
-    "position": 1,
-    "timename": "GMT-03:30"
-  },
-  {
-    "name": "Brasilien",
-    "timezone": 3,
-    "position": 2,
-    "timename": "GMT-03:00"
-  },
-  {
-    "name": "Buenos Aires, Georgetown",
-    "timezone": 3,
-    "position": 3,
-    "timename": "GMT-03:00"
-  },
-  {
-    "name": "Mittel-Atlantik",
-    "timezone": 2,
-    "position": 1,
-    "timename": "GMT-02:00"
-  },
-  {
-    "name": "Azores, Cape Verde Is.",
-    "timezone": 1,
-    "position": 1,
-    "timename": "GMT-01:00"
-  },
-  {
-    "name": "Kasablanka, Monrovia",
-    "timezone": 0,
-    "position": 1,
-    "timename": "GMT+00:00"
-  },
-  {
-    "name": "Greenwich Mean Time: Dublin, Edinburgh, Lissabon, London",
-    "timezone": 0,
-    "position": 2,
-    "timename": "GMT+00:00"
-  },
-  {
-    "name": "Amsterdam, Berlin, Bern, Rom, Stockholm, Wien",
-    "timezone": -1,
-    "position": 1,
-    "timename": "GMT+01:00"
-  },
-  {
-    "name": "Belgrad, Bratislav, Budapest, Ljubljana, Prag",
-    "timezone": -1,
-    "position": 2,
-    "timename": "GMT+01:00"
-  },
-  {
-    "name": "Barzelona, Madrid",
-    "timezone": -1,
-    "position": 3,
-    "timename": "GMT+01:00"
-  },
-  {
-    "name": "Brüssel, Kopenhagen, Madrid, Paris, Vilnius",
-    "timezone": -1,
-    "position": 4,
-    "timename": "GMT+01:00"
-  },
-  {
-    "name": "Paris",
-    "timezone": -1,
-    "position": 5,
-    "timename": "GMT+01:00"
-  },
-  {
-    "name": "Sarajevo, Skopje, Sofia, Warschau, Zagreb",
-    "timezone": -1,
-    "position": 6,
-    "timename": "GMT+01:00"
-  },
-  {
-    "name": "Athen, Istanbul, Minsk",
-    "timezone": -2,
-    "position": 1,
-    "timename": "GMT+02:00"
-  },
-  {
-    "name": "Bukarest",
-    "timezone": -2,
-    "position": 2,
-    "timename": "GMT+02:00"
-  },
-  {
-    "name": "Kairo",
-    "timezone": -2,
-    "position": 3,
-    "timename": "GMT+02:00"
-  },
-  {
-    "name": "Harare, Pretoria",
-    "timezone": -2,
-    "position": 4,
-    "timename": "GMT+02:00"
-  },
-  {
-    "name": "Helsinki, Riga, Tallinn",
-    "timezone": -2,
-    "position": 5,
-    "timename": "GMT+02:00"
-  },
-  {
-    "name": "Jerusalem",
-    "timezone": -2,
-    "position": 6,
-    "timename": "GMT+02:00"
-  },
-  {
-    "name": "Baghdad, Kuwait, Riyadh",
-    "timezone": -3,
-    "position": 1,
-    "timename": "GMT+03:00"
-  },
-  {
-    "name": "Moskau, St. Petersburg, Volgograd",
-    "timezone": -3,
-    "position": 2,
-    "timename": "GMT+03:00"
-  },
-  {
-    "name": "Mairobi",
-    "timezone": -3,
-    "position": 3,
-    "timename": "GMT+03:00"
-  },
-  {
-    "name": "Teheran",
-    "timezone": -3,
-    "position": 4,
-    "timename": "GMT+03:30"
-  },
-  {
-    "name": "Abu Dhabi, Muskat",
-    "timezone": -4,
-    "position": 1,
-    "timename": "GMT+04:00"
-  },
-  {
-    "name": "Baku, Tbilisi",
-    "timezone": -4,
-    "position": 2,
-    "timename": "GMT+04:00"
-  },
-  {
-    "name": "Kabul",
-    "timezone": -4,
-    "position": 3,
-    "timename": "GMT+04:30"
-  },
-  {
-    "name": "Ekaterinburg",
-    "timezone": -5,
-    "position": 1,
-    "timename": "GMT+05:00"
-  },
-  {
-    "name": "Islamabad, Karachi, Tashkent",
-    "timezone": -5,
-    "position": 2,
-    "timename": "GMT+05:00"
-  },
-  {
-    "name": "Mumbai, Calcutta, Madras, New Delhi",
-    "timezone": -5,
-    "position": 3,
-    "timename": "GMT+05:30"
-  },
-  {
-    "name": "Astana, Almaty, Dhaka",
-    "timezone": -6,
-    "position": 1,
-    "timename": "GMT+06:00"
-  },
-  {
-    "name": "Colombo",
-    "timezone": -6,
-    "position": 2,
-    "timename": "GMT+06:00"
-  },
-  {
-    "name": "Bangkok, Hanoi, Jakarta",
-    "timezone": -7,
-    "position": 1,
-    "timename": "GMT+07:00"
-  },
-  {
-    "name": "Peking, Chongqing, Hong Kong, Urumqi",
-    "timezone": -8,
-    "position": 1,
-    "timename": "GMT+08:00"
-  },
-  {
-    "name": "Perth",
-    "timezone": -8,
-    "position": 2,
-    "timename": "GMT+08:00"
-  },
-  {
-    "name": "Singapur",
-    "timezone": -8,
-    "position": 3,
-    "timename": "GMT+08:00"
-  },
-  {
-    "name": "Taipei",
-    "timezone": -8,
-    "position": 4,
-    "timename": "GMT+08:00"
-  },
-  {
-    "name": "Osaka, Sapporo, Tokyo",
-    "timezone": -9,
-    "position": 1,
-    "timename": "GMT+09:00"
-  },
-  {
-    "name": "Seoul",
-    "timezone": -9,
-    "position": 2,
-    "timename": "GMT+09:00"
-  },
-  {
-    "name": "Yakutsk",
-    "timezone": -9,
-    "position": 3,
-    "timename": "GMT+09:00"
-  },
-  {
-    "name": "Adelaide",
-    "timezone": -9,
-    "position": 4,
-    "timename": "GMT+09:30"
-  },
-  {
-    "name": "Darwin",
-    "timezone": -9,
-    "position": 5,
-    "timename": "GMT+09:30"
-  },
-  {
-    "name": "Brisbane",
-    "timezone": -10,
-    "position": 1,
-    "timename": "GMT+10:00"
-  },
-  {
-    "name": "Canberra, Melbourne, Sydney",
-    "timezone": -10,
-    "position": 2,
-    "timename": "GMT+10:00"
-  },
-  {
-    "name": "Guam, Port Moresby",
-    "timezone": -10,
-    "position": 3,
-    "timename": "GMT+10:00"
-  },
-  {
-    "name": "Hobart",
-    "timezone": -10,
-    "position": 4,
-    "timename": "GMT+10:00"
-  },
-  {
-    "name": "Vladivostok",
-    "timezone": -10,
-    "position": 5,
-    "timename": "GMT+10:00"
-  },
-  {
-    "name": "Magadan, Solomon Is., New Caledonia",
-    "timezone": -11,
-    "position": 1,
-    "timename": "GMT+11:00"
-  },
-  {
-    "name": "Auckland, Wllington",
-    "timezone": -12,
-    "position": 1,
-    "timename": "GMT+12:00"
-  },
-  {
-    "name": "Fiji, Kamchatka, Marshall Is.",
-    "timezone": -12,
-    "position": 2,
-    "timename": "GMT+12:00"
-  }
+    {
+        "offset": 12,
+        "timezoneDetail": "GMT-12:00",
+        "coutryName": "Eniwetok, Kwajalein",
+        "position": 1
+    },
+    {
+        "offset": 11,
+        "timezoneDetail": "GMT-11:00",
+        "coutryName": "Midway Atoll, Niue, Amerikanisch-Samoa",
+        "position": 1
+    },
+    {
+        "offset": 10,
+        "timezoneDetail": "GMT-10:00",
+        "coutryName": "Hawaii, Cookinseln, Französisch-Polynesien",
+        "position": 1
+    },
+    {
+        "offset": 9,
+        "timezoneDetail": "GMT-09:00",
+        "coutryName": "AKT Alaska Time Zone, Alaska",
+        "position": 1
+    },
+    {
+        "offset": 8,
+        "timezoneDetail": "GMT-08:00",
+        "coutryName": "Pacific Time (USA & Kanada); Tijuana",
+        "position": 1
+    },
+    {
+        "offset": 7,
+        "timezoneDetail": "GMT-07:00",
+        "coutryName": "Arizona",
+        "position": 1
+    },
+    {
+        "offset": 7,
+        "timezoneDetail": "GMT-07:00",
+        "coutryName": "Mountain Time (USA & Kanada)",
+        "position": 2
+    },
+    {
+        "offset": 6,
+        "timezoneDetail": "GMT-06:00",
+        "coutryName": "Central Time (USA & Kanada)",
+        "position": 1
+    },
+    {
+        "offset": 6,
+        "timezoneDetail": "GMT-06:00",
+        "coutryName": "Mexiko Stadt, Tegucigalpa",
+        "position": 2
+    },
+    {
+        "offset": 6,
+        "timezoneDetail": "GMT-06:00",
+        "coutryName": "Saskatchewan",
+        "position": 3
+    },
+    {
+        "offset": 5,
+        "timezoneDetail": "GMT-05:00",
+        "coutryName": "Bogota, Lima, Quito",
+        "position": 1
+    },
+    {
+        "offset": 5,
+        "timezoneDetail": "GMT-05:00",
+        "coutryName": "ET Eastern Time (USA & Kanada)",
+        "position": 2
+    },
+    {
+        "offset": 5,
+        "timezoneDetail": "GMT-05:00",
+        "coutryName": "Indiana (East)",
+        "position": 3
+    },
+    {
+        "offset": 4,
+        "timezoneDetail": "GMT-04:00",
+        "coutryName": "Atlantic Time (Kanada)",
+        "position": 1
+    },
+    {
+        "offset": 4,
+        "timezoneDetail": "GMT-04:00",
+        "coutryName": "Caracas, La Paz",
+        "position": 2
+    },
+    {
+        "offset": 4,
+        "timezoneDetail": "GMT-04:00",
+        "coutryName": "Santiago",
+        "position": 3
+    },
+    {
+        "offset": 3,
+        "timezoneDetail": "GMT-03:30",
+        "coutryName": "Neufundland",
+        "position": 1
+    },
+    {
+        "offset": 3,
+        "timezoneDetail": "GMT-03:00",
+        "coutryName": "Brasilien",
+        "position": 2
+    },
+    {
+        "offset": 3,
+        "timezoneDetail": "GMT-03:00",
+        "coutryName": "Buenos Aires, Georgetown",
+        "position": 3
+    },
+    {
+        "offset": 2,
+        "timezoneDetail": "GMT-02:00",
+        "coutryName": "Mittel-Atlantik",
+        "position": 1
+    },
+    {
+        "offset": 1,
+        "timezoneDetail": "GMT-01:00",
+        "coutryName": "Azores, Cape Verde Is.",
+        "position": 1
+    },
+    {
+        "offset": 0,
+        "timezoneDetail": "GMT+00:00",
+        "coutryName": "Kasablanka, Monrovia",
+        "position": 1
+    },
+    {
+        "offset": 0,
+        "timezoneDetail": "GMT+00:00",
+        "coutryName": "Greenwich Mean Time: Dublin, Edinburgh, Lissabon, London",
+        "position": 2
+    },
+    {
+        "offset": -1,
+        "timezoneDetail": "GMT+01:00",
+        "coutryName": "Amsterdam, Berlin, Bern, Rom, Stockholm, Wien",
+        "position": 1
+    },
+    {
+        "offset": -1,
+        "timezoneDetail": "GMT+01:00",
+        "coutryName": "Belgrad, Bratislav, Budapest, Ljubljana, Prag",
+        "position": 2
+    },
+    {
+        "offset": -1,
+        "timezoneDetail": "GMT+01:00",
+        "coutryName": "Barzelona, Madrid",
+        "position": 3
+    },
+    {
+        "offset": -1,
+        "timezoneDetail": "GMT+01:00",
+        "coutryName": "Brüssel, Kopenhagen, Madrid, Paris, Vilnius",
+        "position": 4
+    },
+    {
+        "offset": -1,
+        "timezoneDetail": "GMT+01:00",
+        "coutryName": "Paris",
+        "position": 5
+    },
+    {
+        "offset": -1,
+        "timezoneDetail": "GMT+01:00",
+        "coutryName": "Sarajevo, Skopje, Sofia, Warschau, Zagreb",
+        "position": 6
+    },
+    {
+        "offset": -2,
+        "timezoneDetail": "GMT+02:00",
+        "coutryName": "Athen, Istanbul, Minsk",
+        "position": 1
+    },
+    {
+        "offset": -2,
+        "timezoneDetail": "GMT+02:00",
+        "coutryName": "Bukarest",
+        "position": 2
+    },
+    {
+        "offset": -2,
+        "timezoneDetail": "GMT+02:00",
+        "coutryName": "Kairo",
+        "position": 3
+    },
+    {
+        "offset": -2,
+        "timezoneDetail": "GMT+02:00",
+        "coutryName": "Harare, Pretoria",
+        "position": 4
+    },
+    {
+        "offset": -2,
+        "timezoneDetail": "GMT+02:00",
+        "coutryName": "Helsinki, Riga, Tallinn",
+        "position": 5
+    },
+    {
+        "offset": -2,
+        "timezoneDetail": "GMT+02:00",
+        "coutryName": "Jerusalem",
+        "position": 6
+    },
+    {
+        "offset": -3,
+        "timezoneDetail": "GMT+03:00",
+        "coutryName": "Baghdad, Kuwait, Riyadh",
+        "position": 1
+    },
+    {
+        "offset": -3,
+        "timezoneDetail": "GMT+03:00",
+        "coutryName": "Moskau, St. Petersburg, Volgograd",
+        "position": 2
+    },
+    {
+        "offset": -3,
+        "timezoneDetail": "GMT+03:00",
+        "coutryName": "Mairobi",
+        "position": 3
+    },
+    {
+        "offset": -3,
+        "timezoneDetail": "GMT+03:30",
+        "coutryName": "Teheran",
+        "position": 4
+    },
+    {
+        "offset": -4,
+        "timezoneDetail": "GMT+04:00",
+        "coutryName": "Abu Dhabi, Muskat",
+        "position": 1
+    },
+    {
+        "offset": -4,
+        "timezoneDetail": "GMT+04:00",
+        "coutryName": "Baku, Tbilisi",
+        "position": 2
+    },
+    {
+        "offset": -4,
+        "timezoneDetail": "GMT+04:30",
+        "coutryName": "Kabul",
+        "position": 3
+    },
+    {
+        "offset": -5,
+        "timezoneDetail": "GMT+05:00",
+        "coutryName": "Ekaterinburg",
+        "position": 1
+    },
+    {
+        "offset": -5,
+        "timezoneDetail": "GMT+05:00",
+        "coutryName": "Islamabad, Karachi, Tashkent",
+        "position": 2
+    },
+    {
+        "offset": -5,
+        "timezoneDetail": "GMT+05:30",
+        "coutryName": "Mumbai, Calcutta, Madras, New Delhi",
+        "position": 3
+    },
+    {
+        "offset": -6,
+        "timezoneDetail": "GMT+06:00",
+        "coutryName": "Astana, Almaty, Dhaka",
+        "position": 1
+    },
+    {
+        "offset": -6,
+        "timezoneDetail": "GMT+06:00",
+        "coutryName": "Colombo",
+        "position": 2
+    },
+    {
+        "offset": -7,
+        "timezoneDetail": "GMT+07:00",
+        "coutryName": "Bangkok, Hanoi, Jakarta",
+        "position": 1
+    },
+    {
+        "offset": -8,
+        "timezoneDetail": "GMT+08:00",
+        "coutryName": "Peking, Chongqing, Hong Kong, Urumqi",
+        "position": 1
+    },
+    {
+        "offset": -8,
+        "timezoneDetail": "GMT+08:00",
+        "coutryName": "Perth",
+        "position": 2
+    },
+    {
+        "offset": -8,
+        "timezoneDetail": "GMT+08:00",
+        "coutryName": "Singapur",
+        "position": 3
+    },
+    {
+        "offset": -8,
+        "timezoneDetail": "GMT+08:00",
+        "coutryName": "Taipei",
+        "position": 4
+    },
+    {
+        "offset": -9,
+        "timezoneDetail": "GMT+09:00",
+        "coutryName": "Osaka, Sapporo, Tokyo",
+        "position": 1
+    },
+    {
+        "offset": -9,
+        "timezoneDetail": "GMT+09:00",
+        "coutryName": "Seoul",
+        "position": 2
+    },
+    {
+        "offset": -9,
+        "timezoneDetail": "GMT+09:00",
+        "coutryName": "Yakutsk",
+        "position": 3
+    },
+    {
+        "offset": -9,
+        "timezoneDetail": "GMT+09:30",
+        "coutryName": "Adelaide",
+        "position": 4
+    },
+    {
+        "offset": -9,
+        "timezoneDetail": "GMT+09:30",
+        "coutryName": "Darwin",
+        "position": 5
+    },
+    {
+        "offset": -10,
+        "timezoneDetail": "GMT+10:00",
+        "coutryName": "Brisbane",
+        "position": 1
+    },
+    {
+        "offset": -10,
+        "timezoneDetail": "GMT+10:00",
+        "coutryName": "Canberra, Melbourne, Sydney",
+        "position": 2
+    },
+    {
+        "offset": -10,
+        "timezoneDetail": "GMT+10:00",
+        "coutryName": "Guam, Port Moresby",
+        "position": 3
+    },
+    {
+        "offset": -10,
+        "timezoneDetail": "GMT+10:00",
+        "coutryName": "Hobart",
+        "position": 4
+    },
+    {
+        "offset": -10,
+        "timezoneDetail": "GMT+10:00",
+        "coutryName": "Vladivostok",
+        "position": 5
+    },
+    {
+        "offset": -11,
+        "timezoneDetail": "GMT+11:00",
+        "coutryName": "Magadan, Solomon Is., New Caledonia",
+        "position": 1
+    },
+    {
+        "offset": -12,
+        "timezoneDetail": "GMT+12:00",
+        "coutryName": "Auckland, Wllington",
+        "position": 1
+    },
+    {
+        "offset": -12,
+        "timezoneDetail": "GMT+12:00",
+        "coutryName": "Fiji, Kamchatka, Marshall Is.",
+        "position": 2
+    }
 ]
