@@ -144,11 +144,15 @@ export default {
           const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
 
           let nodes = resArr[0].data.result;
+
+          let hasGW = false;
+
           this.requestResult.complete = true;
           nodes = nodes.map(node => {
             let isGW = false;
             if (node.sn === gw.sn) {
               isGW = true;
+              hasGW = true;
             }
             return {
               ...node,
@@ -162,6 +166,23 @@ export default {
             return compareVersion(current, latest);
           };
           this.nodes = nodes.filter(filter);
+
+          if (hasGW && this.nodes.length > 1) {
+            this.$dialog.confirm({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              message: this.$t('trans0669'),
+              callback: {
+                ok: () => {
+                  this.nodes.forEach(node => {
+                    if (!node.isGW) {
+                      node.checked = true;
+                    }
+                  });
+                }
+              }
+            });
+          }
         })
         .catch(err => {
           this.$loading.close();
