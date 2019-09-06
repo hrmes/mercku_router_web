@@ -49,7 +49,7 @@ echo -e "\033[32mcomplete...\033[0m"
 
 # 进入CIK翻译文件目录
 cd ..
-echo -e "\033[32mcd mercku/trans/CIK_code...\033[0m"
+echo -e "\033[32mcd mercku/trans/cik_code...\033[0m"
 cd CIK_code
 # 拷贝CIK文件
 echo -e "\033[32mcopy CIK files...\033[0m"
