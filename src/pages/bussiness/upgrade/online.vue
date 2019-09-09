@@ -143,16 +143,20 @@ export default {
           this.$loading.close();
           const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
 
-          let nodes = resArr[0].data.result;
-
-          let hasGW = false;
+          const nodes = resArr[0].data.result;
 
           this.requestResult.complete = true;
-          nodes = nodes.map(node => {
+
+          const filter = node => {
+            const { current, latest } = node.version;
+            return compareVersion(current, latest);
+          };
+          let containGW = false;
+          this.nodes = nodes.filter(filter).map(node => {
             let isGW = false;
             if (node.sn === gw.sn) {
               isGW = true;
-              hasGW = true;
+              containGW = true;
             }
             return {
               ...node,
@@ -161,13 +165,7 @@ export default {
             };
           });
 
-          const filter = node => {
-            const { current, latest } = node.version;
-            return compareVersion(current, latest);
-          };
-          this.nodes = nodes.filter(filter);
-
-          if (hasGW && this.nodes.length > 1) {
+          if (containGW && this.nodes.length > 1) {
             this.$dialog.confirm({
               okText: this.$t('trans0024'),
               cancelText: this.$t('trans0025'),
@@ -250,7 +248,7 @@ export default {
     flex-wrap: wrap;
     .node {
       width: 340px;
-      height: 120px;
+      height: 136px;
       border: 1px solid #dbdbdb;
       border-radius: 5px;
       margin-right: 20px;
@@ -290,7 +288,7 @@ export default {
           align-content: start;
           justify-content: center;
           flex: 1;
-          padding-top: 28px;
+          padding-top: 38px;
           padding-bottom: 10px;
 
           .node-name {
@@ -317,7 +315,7 @@ export default {
             text-align: left;
             font-size: 10px;
             line-height: 1;
-            padding-top: 2px;
+
             padding-top: 5px;
             position: relative;
             span {

@@ -360,7 +360,7 @@ export default {
     flex-wrap: wrap;
     .node {
       width: 340px;
-      height: 120px;
+      height: 136px;
       border: 1px solid #dbdbdb;
       border-radius: 5px;
       margin-right: 20px;
@@ -401,15 +401,15 @@ export default {
           flex-direction: column;
           align-items: start;
           align-content: start;
-          justify-content: center;
+          justify-content: flex-start;
           flex: 1;
-          padding-top: 20px;
+          padding-top: 38px;
           padding-bottom: 20px;
           .node-name {
             padding: 0;
             margin: 0;
             text-align: left;
-
+            line-height: 1;
             padding-top: 0px;
             font-size: 16px;
             font-weight: bold;
@@ -419,17 +419,17 @@ export default {
             margin: 0;
             text-align: left;
             font-size: 12px;
-            padding-top: 5px;
+            padding-top: 10px;
+            line-height: 1;
             white-space: nowrap;
           }
           .node-version {
             padding: 0;
             margin: 0;
             text-align: left;
-
+            line-height: 1;
             font-size: 10px;
-            padding-top: 2px;
-
+            padding-top: 5px;
             position: relative;
             span {
               display: inline-block;

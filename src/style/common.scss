@@ -53,6 +53,8 @@ ul {
   position: relative;
   color: #fff;
   background: #d6001c;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
   &:active {
     background: #ab0016;
   }

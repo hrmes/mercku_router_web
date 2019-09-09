@@ -1,6 +1,6 @@
 <template>
   <transition name="dialog">
-    <div class="dialog-container"
+    <div class="dialog-container mask-layer"
          v-show="visible">
       <div class="dialog-content">
         <div v-if="title"

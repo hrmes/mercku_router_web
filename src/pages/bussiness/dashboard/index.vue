@@ -137,7 +137,9 @@ export default {
   methods: {
     checkFrimwareLatest() {
       this.$http
-        .firmwareList()
+        .firmwareList(undefined, {
+          hideToast: true
+        })
         .then(res => {
           let nodes = res.data.result;
           const filter = node => {

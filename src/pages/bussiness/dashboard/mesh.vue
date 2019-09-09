@@ -33,7 +33,7 @@
           <div class="switch-wrap">
             <div class="switch-item">
               <label>
-                {{$t('trans0562')}}
+                <span>{{$t('trans0562')}}</span>
                 <div class="tool"
                      style="width:14px;">
                   <m-popover position="bottom center"
@@ -50,7 +50,7 @@
             </div>
             <div class="switch-item">
               <label>
-                {{$t('trans0667')}}
+                <span>{{$t('trans0667')}}</span>
                 <div class="tool"
                      style="width:14px;">
                   <m-popover position="bottom center"
@@ -788,6 +788,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          width: 200px;
 
           .switch-item {
             display: flex;
@@ -1051,6 +1052,15 @@ export default {
             padding-left: 0;
             margin-bottom: 30px;
             width: 100%;
+            .switch-item {
+              label {
+                span {
+                  // max-width: 200px;
+                  // overflow: hidden;
+                  // text-overflow: ellipsis;
+                }
+              }
+            }
           }
           .topo-wrap {
             order: 3;

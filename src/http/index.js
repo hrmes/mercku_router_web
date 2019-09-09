@@ -120,12 +120,15 @@ class Http {
     if (params) {
       data.params = params;
     }
-    return axios({
+    const options = {
       ...axiosCfg,
       url: config.url,
       method: 'post',
       data
-    }).catch(this.exHandler);
+    };
+    return axios(options).catch(err => {
+      this.exHandler(err, options);
+    });
   }
 }
 

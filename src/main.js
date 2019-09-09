@@ -115,7 +115,7 @@ const launch = () => {
   };
 
   let modeNotMatchDialogVisble = false;
-  http.setExHandler(err => {
+  http.setExHandler((err, options) => {
     const { response } = err;
     if (response) {
       const { status, data } = response;
@@ -149,7 +149,7 @@ const launch = () => {
 
             throw err;
           }
-          toast(translate(error.code));
+          !options.hideToast && toast(translate(error.code));
         } else {
           router.push({ path: '/unconnect' });
         }
