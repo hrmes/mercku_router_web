@@ -792,13 +792,15 @@ export default {
 
           .switch-item {
             display: flex;
+            width: 100%;
             & + .switch-item {
               margin-top: 20px;
             }
             label {
               display: flex;
               margin-right: 15px;
-              white-space: nowrap;
+              // max-width: 200px;
+              flex: 1;
               img {
                 position: relative;
                 cursor: pointer;
@@ -1053,7 +1055,10 @@ export default {
             margin-bottom: 30px;
             width: 100%;
             .switch-item {
+              width: auto;
               label {
+                flex: auto;
+                max-width: 200px;
                 span {
                   // max-width: 200px;
                   // overflow: hidden;

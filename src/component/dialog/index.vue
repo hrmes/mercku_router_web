@@ -78,7 +78,7 @@ export default {
       display: flex;
       justify-content: center;
       button {
-        width: 120px;
+        width: auto;
         height: 38px;
         margin-left: 30px;
         &:first-child {
