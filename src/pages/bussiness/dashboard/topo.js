@@ -21,8 +21,8 @@ const Color = {
   offline: '#000'
 };
 
-// 大于-50均认为优秀
-const isGood = rssi => rssi > -60;
+// 大于-70均认为优秀
+const isGood = rssi => rssi >= -65;
 
 // 补充关系，a-b,b-a
 function addConnection(source) {

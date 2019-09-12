@@ -660,5 +660,6 @@
   "trans0665": "Passwort 5 mal falsch eingegeben, bitte warten Sie eine Minute",
   "trans0666": "Zugriff für Mercku auf Ihre Photos verweigert. Sie können dies in den Einstellungen autorisieren.",
   "trans0667": "Komplette Topologie",
-  "trans0668": "Im kompletten Topologie Modus werden alle verfügbaren Verbindungen dargestellt. Da Mercku-Knoten in der Lage sind, automatisch die besten Verbindungen zu ermitteln, werden nicht verwendete Verbindungen im übersichtlichen Topologie Modus ausgelassen um eine einfachere Ansicht zu ermöglichen."
+  "trans0668": "Im kompletten Topologie Modus werden alle verfügbaren Verbindungen dargestellt. Da Mercku-Knoten in der Lage sind, automatisch die besten Verbindungen zu ermitteln, werden nicht verwendete Verbindungen im übersichtlichen Topologie Modus ausgelassen um eine einfachere Ansicht zu ermöglichen.",
+  "trans0669": "Da das WLAN während des Firmware Upgrades des Routers (Queen) getrennt wird, upgraden Sie die Mesh-Knoten (Bee) bitte zuerst. Ansonsten kann es zum Fehler beim Herunterladen für den Mesh-Knoten kommen."
 }

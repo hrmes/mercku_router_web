@@ -7,25 +7,25 @@
     },
     {
         "timezoneDetail": "GMT-11:00",
-        "coutryName": "Midway Atoll, Niue, Amerikanisch-Samoa",
+        "coutryName": "Midway-eiland, Samoa",
         "offset": 11,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-10:00",
-        "coutryName": "Hawaii, Cookinseln, Französisch-Polynesien",
+        "coutryName": "Hawaii",
         "offset": 10,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-09:00",
-        "coutryName": "AKT Alaska Time Zone, Alaska",
+        "coutryName": "Alaska",
         "offset": 9,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-08:00",
-        "coutryName": "Pacific Time (USA & Kanada); Tijuana",
+        "coutryName": "Pacific Time (VS en Canada); Tijuana",
         "offset": 8,
         "position": 1
     },
@@ -37,19 +37,19 @@
     },
     {
         "timezoneDetail": "GMT-07:00",
-        "coutryName": "Mountain Time (USA & Kanada)",
+        "coutryName": "Mountain Time (VS en Canada)",
         "offset": 7,
         "position": 2
     },
     {
         "timezoneDetail": "GMT-06:00",
-        "coutryName": "Central Time (USA & Kanada)",
+        "coutryName": "Central Time (VS en Canada)",
         "offset": 6,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-06:00",
-        "coutryName": "Mexiko Stadt, Tegucigalpa",
+        "coutryName": "Mexico-stad, Tegucigalpa",
         "offset": 6,
         "position": 2
     },
@@ -67,19 +67,19 @@
     },
     {
         "timezoneDetail": "GMT-05:00",
-        "coutryName": "ET Eastern Time (USA & Kanada)",
+        "coutryName": "Eastern Time (VS en Canada)",
         "offset": 5,
         "position": 2
     },
     {
         "timezoneDetail": "GMT-05:00",
-        "coutryName": "Indiana (East)",
+        "coutryName": "Indiana (oost)",
         "offset": 5,
         "position": 3
     },
     {
         "timezoneDetail": "GMT-04:00",
-        "coutryName": "Atlantic Time (Kanada)",
+        "coutryName": "Atlantic Time (Canada)",
         "offset": 4,
         "position": 1
     },
@@ -97,13 +97,13 @@
     },
     {
         "timezoneDetail": "GMT-03:30",
-        "coutryName": "Neufundland",
+        "coutryName": "Newfoundland",
         "offset": 3,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-03:00",
-        "coutryName": "Brasilien",
+        "coutryName": "Brasilia",
         "offset": 3,
         "position": 2
     },
@@ -115,79 +115,79 @@
     },
     {
         "timezoneDetail": "GMT-02:00",
-        "coutryName": "Mittel-Atlantik",
+        "coutryName": "Mid-Atlantische oceaan",
         "offset": 2,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-01:00",
-        "coutryName": "Azores, Cape Verde Is.",
+        "coutryName": "Azoren, Kaapverdië",
         "offset": 1,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+00:00",
-        "coutryName": "Kasablanka, Monrovia",
+        "coutryName": "Casablanca, Monrovia",
         "offset": 0,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+00:00",
-        "coutryName": "Greenwich Mean Time: Dublin, Edinburgh, Lissabon, London",
+        "coutryName": "Greenwich Mean Time: Dublin, Edinburgh, Lissabon, Londen",
         "offset": 0,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "Amsterdam, Berlin, Bern, Rom, Stockholm, Wien",
+        "coutryName": "Amsterdam, Berlijn, Bern, Rome, Stockholm, Wenen",
         "offset": -1,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "Belgrad, Bratislav, Budapest, Ljubljana, Prag",
+        "coutryName": "Belgrado, Bratislava, Boedapest, Ljubljana, Praag",
         "offset": -1,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "Barzelona, Madrid",
+        "coutryName": "Barcelona, Madrid",
         "offset": -1,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "Brüssel, Kopenhagen, Madrid, Paris, Vilnius",
+        "coutryName": "Brussel, Kopenhagen, Madrid, Parijs, Vilnius",
         "offset": -1,
         "position": 4
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "Paris",
+        "coutryName": "Parijs",
         "offset": -1,
         "position": 5
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "Sarajevo, Skopje, Sofia, Warschau, Zagreb",
+        "coutryName": "Sarajevo, Skopje, Sofija, Warschau, Zagreb",
         "offset": -1,
         "position": 6
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "Athen, Istanbul, Minsk",
+        "coutryName": "Athene, Istanbul, Minsk",
         "offset": -2,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "Bukarest",
+        "coutryName": "Boekarest",
         "offset": -2,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "Kairo",
+        "coutryName": "Caïro",
         "offset": -2,
         "position": 3
     },
@@ -205,19 +205,19 @@
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "Jerusalem",
+        "coutryName": "Jeruzalem",
         "offset": -2,
         "position": 6
     },
     {
         "timezoneDetail": "GMT+03:00",
-        "coutryName": "Baghdad, Kuwait, Riyadh",
+        "coutryName": "Bagdad, Koeweit, Riyad",
         "offset": -3,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+03:00",
-        "coutryName": "Moskau, St. Petersburg, Volgograd",
+        "coutryName": "Moskou, St. Petersburg, Volgograd",
         "offset": -3,
         "position": 2
     },
@@ -235,37 +235,37 @@
     },
     {
         "timezoneDetail": "GMT+04:00",
-        "coutryName": "Abu Dhabi, Muskat",
+        "coutryName": "Abu Dhabi, Masqat",
         "offset": -4,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+04:00",
-        "coutryName": "Baku, Tbilisi",
+        "coutryName": "Bakoe, Tbilisi",
         "offset": -4,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+04:30",
-        "coutryName": "Kabul",
+        "coutryName": "Kaboel",
         "offset": -4,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+05:00",
-        "coutryName": "Ekaterinburg",
+        "coutryName": "Jekaterinenburg",
         "offset": -5,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+05:00",
-        "coutryName": "Islamabad, Karachi, Tashkent",
+        "coutryName": "Islamabad, Karachi, Tasjkent",
         "offset": -5,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+05:30",
-        "coutryName": "Mumbai, Calcutta, Madras, New Delhi",
+        "coutryName": "Bombai, Calcutta, Madras, New Delhi",
         "offset": -5,
         "position": 3
     },
@@ -289,7 +289,7 @@
     },
     {
         "timezoneDetail": "GMT+08:00",
-        "coutryName": "Peking, Chongqing, Hong Kong, Urumqi",
+        "coutryName": "Beijing, Chongqing, Hong Kong, Urumqi",
         "offset": -8,
         "position": 1
     },
@@ -301,7 +301,7 @@
     },
     {
         "timezoneDetail": "GMT+08:00",
-        "coutryName": "Singapur",
+        "coutryName": "Singapore",
         "offset": -8,
         "position": 3
     },
@@ -313,7 +313,7 @@
     },
     {
         "timezoneDetail": "GMT+09:00",
-        "coutryName": "Osaka, Sapporo, Tokyo",
+        "coutryName": "Osaka, Sapporo, Tokio",
         "offset": -9,
         "position": 1
     },
@@ -325,7 +325,7 @@
     },
     {
         "timezoneDetail": "GMT+09:00",
-        "coutryName": "Yakutsk",
+        "coutryName": "Jakoetsk",
         "offset": -9,
         "position": 3
     },
@@ -373,7 +373,7 @@
     },
     {
         "timezoneDetail": "GMT+11:00",
-        "coutryName": "Magadan, Solomon Is., New Caledonia",
+        "coutryName": "Magadan, Salomonseilanden, Nieuw-Caledonië",
         "offset": -11,
         "position": 1
     },
@@ -385,7 +385,7 @@
     },
     {
         "timezoneDetail": "GMT+12:00",
-        "coutryName": "Fiji, Kamchatka, Marshall Is.",
+        "coutryName": "Fiji, Kamchatka, Marshalleilanden",
         "offset": -12,
         "position": 2
     }

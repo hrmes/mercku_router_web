@@ -487,7 +487,6 @@ export default {
     opacity: 0.6;
   }
 }
-
 .internet-container {
   flex: auto;
   margin-top: 50px !important;
@@ -550,7 +549,6 @@ export default {
         box-sizing: border-box;
         padding: 0 20px;
         min-height: 200px;
-
         &:nth-child(2n + 1) {
           float: left;
         }
@@ -595,7 +593,7 @@ export default {
             }
             &:nth-child(2n + 1) {
               .m-title {
-                width: 140px;
+                width: 150px;
               }
             }
             .m-title {
@@ -606,7 +604,6 @@ export default {
             }
           }
         }
-
         .speep-info {
           display: flex;
           flex-wrap: wrap;
@@ -645,7 +642,6 @@ export default {
         }
       }
     }
-
     .traffic-container {
       .traffic-info {
         padding: 15px 0;
@@ -704,7 +700,6 @@ export default {
         flex-wrap: wrap;
         padding: 15px 0;
         flex: auto;
-
         .real-wrap {
           min-height: 60px !important;
           flex: 1;
@@ -747,7 +742,6 @@ export default {
           }
           .up {
             padding-top: 15px;
-
             .r-up-icon {
               width: 10px;
               height: 14.5px;
@@ -798,7 +792,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-
     .speed-content {
       text-align: center;
       .test-info {
@@ -985,17 +978,25 @@ export default {
       }
     }
     .info-container {
-      .item {
-        .message {
-          flex-direction: column;
-          padding-bottom: 20px;
-          .m-item {
-            width: 100%;
-            padding-top: 10px;
-            font-size: 14px;
+      .row {
+        .item {
+          .message {
+            flex-direction: column;
+            padding-bottom: 20px;
+            .m-item {
+              width: 100%;
+              padding-top: 10px;
+              font-size: 14px;
+              &:nth-child(2n) {
+                .m-title {
+                  width: 150px;
+                }
+              }
+            }
           }
         }
       }
+
       .real-time-network {
         .content {
           .speep-info {
@@ -1069,7 +1070,6 @@ export default {
         }
       }
     }
-
     .info-container {
       flex-direction: column;
       .row {
@@ -1089,7 +1089,6 @@ export default {
           }
         }
       }
-
       .test-speed-btn-container {
         padding: 40px 0 20px 0;
         width: 120px;
@@ -1180,7 +1179,6 @@ export default {
           }
         }
       }
-
       .real-time-network {
         .content {
           flex-direction: column;
@@ -1194,7 +1192,6 @@ export default {
           &::after {
             border: none !important;
           }
-
           .r-title {
             font-size: 14px !important;
           }

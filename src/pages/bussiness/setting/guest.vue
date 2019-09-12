@@ -490,7 +490,9 @@ export default {
     display: flex;
     align-items: center;
     width: 340px;
-
+    .title {
+      width: auto;
+    }
     .tool {
       position: relative;
 

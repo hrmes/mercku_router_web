@@ -40,9 +40,16 @@
               <div v-for="node in localNodes"
                    :key="node.sn"
                    class="node">
+                <div class="badges">
+                  <div v-if="node.isGW"
+                       class="badge-info gateway">
+                    <span>{{$t('trans0165')}}</span>
+                  </div>
+                </div>
                 <div class="message"
                      @click="check(node)">
-                  <m-checkbox :readonly="true" v-model="node.checked" />
+                  <m-checkbox :readonly="true"
+                              v-model="node.checked" />
                   <div class="img-container">
                     <img class="img-m2"
                          v-if="fwInfo.model.id===RouterSnModel.M2"
@@ -196,19 +203,30 @@ export default {
           }
         })
         .then(res => {
-          const { nodes } = res.data.result;
-          nodes.forEach(node => {
-            this.$set(node, 'checked', false);
+          this.$http.getMeshNode().then(res1 => {
+            const gw = res1.data.result.filter(node => node.is_gw)[0];
+            let { nodes } = res.data.result;
+            nodes = nodes.map(node => {
+              let isGW = false;
+              if (node.sn === gw.sn) {
+                isGW = true;
+              }
+              return {
+                ...node,
+                isGW,
+                checked: false
+              };
+            });
+            this.localNodes = nodes;
+            this.fwInfo = res.data.result.fw_info;
+            this.packageInfo = {
+              product: this.productName,
+              version: this.fwInfo.version,
+              model: this.modelName
+            };
+            uploader.status = UploadStatus.success;
+            this.uploadStatus = UploadStatus.success;
           });
-          this.localNodes = nodes;
-          this.fwInfo = res.data.result.fw_info;
-          this.packageInfo = {
-            product: this.productName,
-            version: this.fwInfo.version,
-            model: this.modelName
-          };
-          uploader.status = UploadStatus.success;
-          this.uploadStatus = UploadStatus.success;
         })
         .catch(err => {
           uploader.status = UploadStatus.fail;
@@ -243,7 +261,7 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 100
+                  timeout: 300
                 });
               })
               .catch(() => {
@@ -342,7 +360,7 @@ export default {
     flex-wrap: wrap;
     .node {
       width: 340px;
-      height: 120px;
+      height: 136px;
       border: 1px solid #dbdbdb;
       border-radius: 5px;
       margin-right: 20px;
@@ -383,15 +401,15 @@ export default {
           flex-direction: column;
           align-items: start;
           align-content: start;
-          justify-content: center;
+          justify-content: flex-start;
           flex: 1;
-          padding-top: 20px;
+          padding-top: 38px;
           padding-bottom: 20px;
           .node-name {
             padding: 0;
             margin: 0;
             text-align: left;
-
+            line-height: 1;
             padding-top: 0px;
             font-size: 16px;
             font-weight: bold;
@@ -401,21 +419,52 @@ export default {
             margin: 0;
             text-align: left;
             font-size: 12px;
-            padding-top: 5px;
+            padding-top: 10px;
+            line-height: 1;
             white-space: nowrap;
           }
           .node-version {
             padding: 0;
             margin: 0;
             text-align: left;
-
+            line-height: 1;
             font-size: 10px;
-            padding-top: 2px;
-
+            padding-top: 5px;
             position: relative;
             span {
               display: inline-block;
             }
+          }
+        }
+      }
+      .badges {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 1;
+        display: flex;
+        .badge-info {
+          width: auto;
+          padding: 0 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #d6001c;
+          border-radius: 10px;
+          &.gateway {
+            background: #00d061;
+          }
+          + .badge-info {
+            margin-left: 5px;
+          }
+          img {
+            width: 18px;
+            margin-right: 5px;
+          }
+          span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: normal;
           }
         }
       }

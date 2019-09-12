@@ -148,6 +148,10 @@ const Languages = [
   {
     text: 'Deutsch',
     value: 'de-DE'
+  },
+  {
+    text: 'Dutch',
+    value: 'nl-NL'
   }
 ];
 export default {
@@ -280,7 +284,7 @@ export default {
     getDefaultLanguage() {
       const language = Languages.filter(l => l.value === this.$i18n.locale)[0];
       if (!language) {
-        return language[1];
+        return Languages[1];
       }
       return language;
     },

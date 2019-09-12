@@ -1,6 +1,6 @@
 <template>
   <transition name="dialog">
-    <div class="dialog-container"
+    <div class="dialog-container mask-layer"
          v-show="visible">
       <div class="dialog-content">
         <div v-if="title"
@@ -38,8 +38,9 @@ export default {
   },
   methods: {
     close() {
+      const { parentNode } = this.$el;
       this.$el.addEventListener('transitionend', () => {
-        this.$el.parentNode.removeChild(this.$el);
+        parentNode.removeChild(this.$el);
       });
     },
     ok() {
@@ -78,7 +79,7 @@ export default {
       display: flex;
       justify-content: center;
       button {
-        width: 120px;
+        width: auto;
         height: 38px;
         margin-left: 30px;
         &:first-child {
