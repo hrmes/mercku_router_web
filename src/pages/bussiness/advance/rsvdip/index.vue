@@ -75,7 +75,7 @@
                 <m-checkbox v-model="item.checked"></m-checkbox>
               </div>
               <span class="m-title">{{$t('trans0108')}}：</span>
-              {{item.name}}
+              <span class="name">{{item.name}}</span>
             </div>
             <div class="column-local-ip">
               <span class="m-title">{{$t('trans0188')}}：</span>
@@ -276,13 +276,18 @@ export default {
   }
   .column-check {
     width: 40px;
+    flex-shrink: 0;
   }
   .column-name {
     display: flex;
     width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+
+    .name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 140px;
+    }
   }
   .column-local-ip {
     width: 130px;

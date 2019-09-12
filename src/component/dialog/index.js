@@ -9,37 +9,43 @@ const mergeOptions = (opt1, opt2) => ({
 
 const dialog = {
   info(options) {
-    const opt = mergeOptions(
-      {
-        title: '',
-        message: 'info',
-        callback: {},
-        okText: 'ok'
-      },
-      options
-    );
-    opt.type = 'info';
-    const Construtor = Vue.extend(Dialog);
-    this.instance = new Construtor({ data: opt }).$mount();
-    this.instance.visible = true;
-    document.body.appendChild(this.instance.$el);
+    const mask = document.querySelector('.mask-layer');
+    if (!mask) {
+      const opt = mergeOptions(
+        {
+          title: '',
+          message: 'info',
+          callback: {},
+          okText: 'ok'
+        },
+        options
+      );
+      opt.type = 'info';
+      const Construtor = Vue.extend(Dialog);
+      this.instance = new Construtor({ data: opt }).$mount();
+      this.instance.visible = true;
+      document.body.appendChild(this.instance.$el);
+    }
   },
   confirm(options) {
-    const opt = mergeOptions(
-      {
-        title: '',
-        message: 'confirm',
-        callback: {},
-        okText: 'ok',
-        cancelText: 'cancel'
-      },
-      options
-    );
-    opt.type = 'confirm';
-    const Construtor = Vue.extend(Dialog);
-    this.instance = new Construtor({ data: opt }).$mount();
-    this.instance.visible = true;
-    document.body.appendChild(this.instance.$el);
+    const mask = document.querySelector('.mask-layer');
+    if (!mask) {
+      const opt = mergeOptions(
+        {
+          title: '',
+          message: 'confirm',
+          callback: {},
+          okText: 'ok',
+          cancelText: 'cancel'
+        },
+        options
+      );
+      opt.type = 'confirm';
+      const Construtor = Vue.extend(Dialog);
+      this.instance = new Construtor({ data: opt }).$mount();
+      this.instance.visible = true;
+      document.body.appendChild(this.instance.$el);
+    }
   }
 };
 

@@ -78,6 +78,7 @@ export default {
     line-height: 1;
     position: absolute;
     top: 100%;
+    left: 0;
   }
   &.form-item-error {
     .input-wrapper {

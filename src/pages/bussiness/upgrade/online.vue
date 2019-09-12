@@ -16,12 +16,19 @@
           <div v-for="node in nodes"
                :key="node.sn"
                class="node">
-            <div class="badge-info">
-              <span>{{node.version.latest}}</span>
+            <div class="badges">
+              <div v-if="node.isGW"
+                   class="badge-info gateway">
+                <span>{{$t('trans0165')}}</span>
+              </div>
+              <div class="badge-info">
+                <span>{{node.version.latest}}</span>
+              </div>
             </div>
             <div class="message"
                  @click="check(node)">
-              <m-checkbox :readonly="true" v-model="node.checked" />
+              <m-checkbox :readonly="true"
+                          v-model="node.checked" />
               <div class="img-container">
                 <img class="img-m2"
                      v-if="node.model.id===RouterSnModel.M2"
@@ -130,21 +137,50 @@ export default {
     },
     firmwareList() {
       this.$loading.open();
-      this.$http
-        .firmwareList()
-        .then(res => {
+
+      Promise.all([this.$http.firmwareList(), this.$http.getMeshNode()])
+        .then(resArr => {
           this.$loading.close();
-          const data = res.data.result;
+          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
+
+          const nodes = resArr[0].data.result;
+
           this.requestResult.complete = true;
-          data.forEach(node => {
-            this.$set(node, 'checked', false);
-          });
 
           const filter = node => {
             const { current, latest } = node.version;
             return compareVersion(current, latest);
           };
-          this.nodes = data.filter(filter);
+          let containGW = false;
+          this.nodes = nodes.filter(filter).map(node => {
+            let isGW = false;
+            if (node.sn === gw.sn) {
+              isGW = true;
+              containGW = true;
+            }
+            return {
+              ...node,
+              isGW,
+              checked: false
+            };
+          });
+
+          if (containGW && this.nodes.length > 1) {
+            this.$dialog.confirm({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              message: this.$t('trans0669'),
+              callback: {
+                ok: () => {
+                  this.nodes.forEach(node => {
+                    if (!node.isGW) {
+                      node.checked = true;
+                    }
+                  });
+                }
+              }
+            });
+          }
         })
         .catch(err => {
           this.$loading.close();
@@ -212,7 +248,7 @@ export default {
     flex-wrap: wrap;
     .node {
       width: 340px;
-      height: 120px;
+      height: 136px;
       border: 1px solid #dbdbdb;
       border-radius: 5px;
       margin-right: 20px;
@@ -252,14 +288,14 @@ export default {
           align-content: start;
           justify-content: center;
           flex: 1;
-          padding-top: 20px;
+          padding-top: 38px;
           padding-bottom: 10px;
 
           .node-name {
             padding: 0;
             margin: 0;
             text-align: left;
-
+            line-height: 1;
             padding-top: 0px;
             font-size: 16px;
             font-weight: bold;
@@ -269,6 +305,7 @@ export default {
             margin: 0;
             text-align: left;
             font-size: 12px;
+            line-height: 1;
             padding-top: 10px;
             white-space: nowrap;
           }
@@ -277,8 +314,9 @@ export default {
             margin: 0;
             text-align: left;
             font-size: 10px;
-            padding-top: 2px;
+            line-height: 1;
 
+            padding-top: 5px;
             position: relative;
             span {
               display: inline-block;
@@ -295,26 +333,35 @@ export default {
           }
         }
       }
-      .badge-info {
-        width: auto;
-        padding: 0 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #d6001c;
-        border-radius: 10px;
+      .badges {
         position: absolute;
         right: 10px;
         top: 10px;
         z-index: 1;
-        img {
-          width: 18px;
-          margin-right: 5px;
-        }
-        span {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.95);
-          font-weight: normal;
+        display: flex;
+        .badge-info {
+          width: auto;
+          padding: 0 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #d6001c;
+          border-radius: 10px;
+          &.gateway {
+            background: #00d061;
+          }
+          + .badge-info {
+            margin-left: 5px;
+          }
+          img {
+            width: 18px;
+            margin-right: 5px;
+          }
+          span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: normal;
+          }
         }
       }
     }
