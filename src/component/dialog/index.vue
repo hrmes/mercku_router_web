@@ -38,8 +38,9 @@ export default {
   },
   methods: {
     close() {
+      const { parentNode } = this.$el;
       this.$el.addEventListener('transitionend', () => {
-        this.$el.parentNode.removeChild(this.$el);
+        parentNode.removeChild(this.$el);
       });
     },
     ok() {

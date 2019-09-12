@@ -3,10 +3,8 @@ export default {
   bind(el, bind) {
     const keyCode = bind.value || 13;
     function documentHandler(e) {
-      const mask = document.querySelector('.mask-layer');
-
       if (e.keyCode === keyCode) {
-        !mask && el.click();
+        el.click();
       }
     }
     el.__vueClickDocument__ = documentHandler;
