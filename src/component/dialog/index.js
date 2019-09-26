@@ -13,6 +13,7 @@ const hasDialog = () => {
     return false;
   }
   const cls = Array.from(mask.classList);
+  // 如果弹出框整在处于离开动画的状态，也认为没有弹窗
   if (cls.includes('dialog-leave-active')) {
     return false;
   }
