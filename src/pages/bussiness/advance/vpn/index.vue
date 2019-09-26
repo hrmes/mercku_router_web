@@ -18,9 +18,9 @@
                              class="spinner"
                              :color="getColor(vpn)"
                              v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
-                  <span class="spinner-text"
+                  <!-- <span class="spinner-text"
                         :style="{'color':getColor(vpn)}"
-                        v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
+                        v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span> -->
                 </div>
               </div>
 
@@ -282,7 +282,7 @@ export default {
   }
   .vpn-list {
     .vpn {
-      width: 500px;
+      width: 550px;
       height: 56px;
       display: flex;
       border-radius: 4px;
