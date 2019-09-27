@@ -123,8 +123,12 @@ export default {
       }
     };
   },
-  beforeRouteLeave(_, __, next) {
-    if (this.uploadStatus === UploadStatus.success && !this.upgraded) {
+  beforeRouteLeave(to, from, next) {
+    if (
+      this.uploadStatus === UploadStatus.success &&
+      !this.upgraded &&
+      !to.path.includes('/login')
+    ) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
