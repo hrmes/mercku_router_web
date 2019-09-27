@@ -37,7 +37,7 @@ export default {
       const duration = 2;
       const speed = pi2 / (duration / 2); // 2s跑一圈
 
-      ctx.strokeStyle = '#d6001c';
+      ctx.strokeStyle = this.color;
       ctx.lineWidth = 3 * radio;
       ctx.lineCap = 'round';
       ctx.fillStyle = 'transparent';

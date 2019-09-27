@@ -13,18 +13,18 @@
             <div class="vpn-left">
               <div class="vpn-name">
                 <span>{{vpn.name}}</span>
-                <div class="spinner-container">
-                  <m-loading :size="24"
-                             class="spinner"
-                             :color="getColor(vpn)"
-                             v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
-                  <span class="spinner-text"
+                <!-- <div class="spinner-container">
+                   <span class="spinner-text"
                         :style="{'color':getColor(vpn)}"
                         v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
-                </div>
+                </div> -->
               </div>
-
-              <m-switch :disabled="connecting"
+              <m-loading :size="24"
+                         class="spinner"
+                         :color="getColor(vpn)"
+                         v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
+              <m-switch v-show="!isConnectingOrDisconnecting(vpn)"
+                        :disabled="connecting"
                         v-model="vpn.enabled"
                         class="vpn-switch"
                         :onChange="(v)=>start(v,vpn)"></m-switch>
@@ -282,7 +282,7 @@ export default {
   }
   .vpn-list {
     .vpn {
-      width: 500px;
+      width: 550px;
       height: 56px;
       display: flex;
       border-radius: 4px;
@@ -363,7 +363,7 @@ export default {
         flex-direction: column;
         padding: 10px;
         align-items: flex-start;
-        height: auto;
+        height: 80px;
         .vpn-left {
           width: 100%;
           align-items: center;

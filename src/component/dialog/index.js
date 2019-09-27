@@ -7,10 +7,22 @@ const mergeOptions = (opt1, opt2) => ({
   ...opt2
 });
 
+const hasDialog = () => {
+  const mask = document.querySelector('.mask-layer');
+  if (!mask) {
+    return false;
+  }
+  const cls = Array.from(mask.classList);
+  // 如果弹出框整在处于离开动画的状态，也认为没有弹窗
+  if (cls.includes('dialog-leave-active')) {
+    return false;
+  }
+  return true;
+  // dialog-leave-active
+};
 const dialog = {
   info(options) {
-    const mask = document.querySelector('.mask-layer');
-    if (!mask) {
+    if (!hasDialog()) {
       const opt = mergeOptions(
         {
           title: '',
@@ -28,8 +40,7 @@ const dialog = {
     }
   },
   confirm(options) {
-    const mask = document.querySelector('.mask-layer');
-    if (!mask) {
+    if (!hasDialog()) {
       const opt = mergeOptions(
         {
           title: '',
