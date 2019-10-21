@@ -256,7 +256,7 @@
   "trans0255": "2.4G",
   "trans0256": "5G",
   "trans0257": "Check the indicator light",
-  "trans0258": "1. After powering on, click the \"Reset\" button on the node.\n2. Once the node's indicator light begins to flash red, then click \"Next\".",
+  "trans0258": "1. Power on the node and wait 10 seconds, click \"Next\" after the node's indicator light is solid red.\n2. Click the \"Reset\" button on the node. Once the node's indicator light begins to flash red, click \"Next\".",
   "trans0259": "You're using the latest version",
   "trans0260": "Power on the node and wait 10 seconds, click \"Next\" after the node's indicator light is solid red.",
   "trans0261": "The name is too long",
@@ -375,8 +375,8 @@
   "trans0374": "Connect time",
   "trans0375": "Connection type",
   "trans0376": "Are you sure you want to delete? ",
-  "trans0377": "1. After powering on the node, click the \"Reset\" button.",
-  "trans0378": "2. Once the node's indicator light begins to flash red, click \"Next\".",
+  "trans0377": "1. Power on the node and wait 10 seconds, click \"Next\" after the node's indicator light is solid red.",
+  "trans0378": "2. Click the \"Reset\" button on the node. Once the node's indicator light begins to flash red, click \"Next\".",
   "trans0379": "Device information",
   "trans0380": "The App version is outdated. To avoid the possibility of functions not working properly, please upgrade the App and try again.",
   "trans0381": "Please select node",
@@ -660,5 +660,9 @@
   "trans0665": "Too frequent failed login, please try later",
   "trans0666": "You have denied Mercku to use your photo. Please authorize in Settings",
   "trans0667": "Complete Graph",
-  "trans0668": "All available connections will be illustrated in complete graph mode. Since Mercku nodes are able to pick up the best connections automatically, unused connections will be omitted when disabling complete graph, which describes the mesh link status more clearly."
+  "trans0668": "All available connections will be illustrated in complete graph mode. Since Mercku nodes are able to pick up the best connections automatically, unused connections will be omitted when disabling complete graph, which describes the mesh link status more clearly.",
+  "trans0669": "It is highly recommended to upgrade the mesh points first. The Internet will be disconnected if upgrading the gateway at the same time, which may lead the mesh points to fail in firmware downloading.\n",
+  "trans0670": "Mercku router information unavailable, please connect to the current Mercku Wi-Fi and try again.",
+  "trans0671": "Unknown error: %d",
+  "trans0672": "Wi-Fi information can only be accessed after enabling location services."
 }

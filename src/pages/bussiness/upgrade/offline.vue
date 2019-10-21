@@ -54,17 +54,23 @@
               <div v-for="node in localNodes"
                    :key="node.sn"
                    class="node">
+                <div class="badges">
+                  <div v-if="node.isGW"
+                       class="badge-info gateway">
+                    <span>{{$t('trans0165')}}</span>
+                  </div>
+                </div>
                 <div class="message"
                      @click="check(node)">
-                  <m-checkbox :rect="false"
+                  <m-checkbox :readonly="true"
                               v-model="node.checked" />
                   <div class="img-container">
                     <img class="img-m2"
-                         v-if="packageInfo.model.id===RouterSnModel.M2"
+                         v-if="fwInfo.model.id===RouterSnModel.M2"
                          src="../../../assets/images/img_m2.png"
                          alt="">
                     <img class="img-bee"
-                         v-else-if="packageInfo.model.id===RouterSnModel.Bee"
+                         v-else-if="fwInfo.model.id===RouterSnModel.Bee"
                          src="../../../assets/images/img_bee.png"
                          alt="">
                     <img class="img-other"
@@ -117,6 +123,7 @@ export default {
       accept: process.env.CUSTOMER_CONFIG.accept,
       localNodes: [],
       UploadStatus,
+      fwInfo: {},
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
       packageInfo: null,
@@ -133,8 +140,12 @@ export default {
       }
     };
   },
-  beforeRouteLeave(_, __, next) {
-    if (this.uploadStatus === UploadStatus.success && !this.upgraded) {
+  beforeRouteLeave(to, from, next) {
+    if (
+      this.uploadStatus === UploadStatus.success &&
+      !this.upgraded &&
+      !to.path.includes('/login')
+    ) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
@@ -157,12 +168,12 @@ export default {
       return this.localNodes.length > 0;
     },
     productName() {
-      return this.packageInfo.model.id === RouterSnModel.M2
+      return this.fwInfo.model.id === RouterSnModel.M2
         ? this.Products.M2.name
         : this.Products.Bee.name;
     },
     modelName() {
-      return this.packageInfo.model.id === RouterSnModel.M2
+      return this.fwInfo.model.id === RouterSnModel.M2
         ? this.Products.M2.shortName
         : this.Products.Bee.shortName;
     }
@@ -213,14 +224,30 @@ export default {
           }
         })
         .then(res => {
-          uploader.status = UploadStatus.success;
-          this.uploadStatus = UploadStatus.success;
-          const { nodes } = res.data.result;
-          nodes.forEach(node => {
-            this.$set(node, 'checked', false);
+          this.$http.getMeshNode().then(res1 => {
+            const gw = res1.data.result.filter(node => node.is_gw)[0];
+            let { nodes } = res.data.result;
+            nodes = nodes.map(node => {
+              let isGW = false;
+              if (node.sn === gw.sn) {
+                isGW = true;
+              }
+              return {
+                ...node,
+                isGW,
+                checked: false
+              };
+            });
+            this.localNodes = nodes;
+            this.fwInfo = res.data.result.fw_info;
+            this.packageInfo = {
+              product: this.productName,
+              version: this.fwInfo.version,
+              model: this.modelName
+            };
+            uploader.status = UploadStatus.success;
+            this.uploadStatus = UploadStatus.success;
           });
-          this.localNodes = nodes;
-          this.packageInfo = res.data.result.fw_info;
         })
         .catch(err => {
           uploader.status = UploadStatus.fail;
@@ -255,7 +282,7 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 100
+                  timeout: 300
                 });
               })
               .catch(() => {
@@ -349,7 +376,7 @@ export default {
     flex-wrap: wrap;
     .node {
       width: 340px;
-      height: 132px;
+      height: 136px;
       background: #f1f1f1;
       border-radius: 5px;
       margin-right: 20px;
@@ -430,6 +457,37 @@ export default {
             //   top: 50%;
             //   transform: translateY(-50%);
             // }
+          }
+        }
+      }
+      .badges {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        z-index: 1;
+        display: flex;
+        .badge-info {
+          width: auto;
+          padding: 0 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #d6001c;
+          border-radius: 10px;
+          &.gateway {
+            background: #00d061;
+          }
+          + .badge-info {
+            margin-left: 5px;
+          }
+          img {
+            width: 18px;
+            margin-right: 5px;
+          }
+          span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: normal;
           }
         }
       }

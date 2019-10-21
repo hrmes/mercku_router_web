@@ -1,391 +1,391 @@
 [
     {
         "timezoneDetail": "GMT-12:00",
-        "coutryName": "埃尼威托克岛,夸贾林环礁",
+        "coutryName": "Eniwetok, Kwajalein",
         "offset": 12,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-11:00",
-        "coutryName": "中途岛、萨摩亚群岛",
+        "coutryName": "Midway Atoll, Niue, Amerikanisch-Samoa",
         "offset": 11,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-10:00",
-        "coutryName": "夏威夷",
+        "coutryName": "Hawaii, Cookinseln, Französisch-Polynesien",
         "offset": 10,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-09:00",
-        "coutryName": "阿拉斯加",
+        "coutryName": "AKT Alaska Time Zone, Alaska",
         "offset": 9,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-08:00",
-        "coutryName": "太平洋时间(美国和加拿大);提华纳",
+        "coutryName": "Pacific Time (USA & Kanada); Tijuana",
         "offset": 8,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-07:00",
-        "coutryName": "亚利桑那",
+        "coutryName": "Arizona",
         "offset": 7,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-07:00",
-        "coutryName": "山地时间(美国和加拿大)",
+        "coutryName": "Mountain Time (USA & Kanada)",
         "offset": 7,
         "position": 2
     },
     {
         "timezoneDetail": "GMT-06:00",
-        "coutryName": "中部时间(美国和加拿大)",
+        "coutryName": "Central Time (USA & Kanada)",
         "offset": 6,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-06:00",
-        "coutryName": "墨西哥城，特古西加尔巴",
+        "coutryName": "Mexiko Stadt, Tegucigalpa",
         "offset": 6,
         "position": 2
     },
     {
         "timezoneDetail": "GMT-06:00",
-        "coutryName": "萨斯喀彻温省",
+        "coutryName": "Saskatchewan",
         "offset": 6,
         "position": 3
     },
     {
         "timezoneDetail": "GMT-05:00",
-        "coutryName": "波哥大、利马、基多",
+        "coutryName": "Bogota, Lima, Quito",
         "offset": 5,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-05:00",
-        "coutryName": "东部时间(美国和加拿大)",
+        "coutryName": "ET Eastern Time (USA & Kanada)",
         "offset": 5,
         "position": 2
     },
     {
         "timezoneDetail": "GMT-05:00",
-        "coutryName": "印第安那州(东部)",
+        "coutryName": "Indiana (East)",
         "offset": 5,
         "position": 3
     },
     {
         "timezoneDetail": "GMT-04:00",
-        "coutryName": "大西洋时间(加拿大)",
+        "coutryName": "Atlantic Time (Kanada)",
         "offset": 4,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-04:00",
-        "coutryName": "加拉加斯、拉巴斯",
+        "coutryName": "Caracas, La Paz",
         "offset": 4,
         "position": 2
     },
     {
         "timezoneDetail": "GMT-04:00",
-        "coutryName": "圣地亚哥",
+        "coutryName": "Santiago",
         "offset": 4,
         "position": 3
     },
     {
         "timezoneDetail": "GMT-03:30",
-        "coutryName": "纽芬兰",
+        "coutryName": "Neufundland",
         "offset": 3,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-03:00",
-        "coutryName": "巴西利亚",
+        "coutryName": "Brasilien",
         "offset": 3,
         "position": 2
     },
     {
         "timezoneDetail": "GMT-03:00",
-        "coutryName": "布宜诺斯艾利斯、乔治敦",
+        "coutryName": "Buenos Aires, Georgetown",
         "offset": 3,
         "position": 3
     },
     {
         "timezoneDetail": "GMT-02:00",
-        "coutryName": "中大西洋",
+        "coutryName": "Mittel-Atlantik",
         "offset": 2,
         "position": 1
     },
     {
         "timezoneDetail": "GMT-01:00",
-        "coutryName": "亚速尔群岛、 佛得角",
+        "coutryName": "Azores, Cape Verde Is.",
         "offset": 1,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+00:00",
-        "coutryName": "卡萨布兰卡 (蒙罗维亚)",
+        "coutryName": "Kasablanka, Monrovia",
         "offset": 0,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+00:00",
-        "coutryName": "格林威治标准时间：都柏林、爱丁堡、里斯本、伦敦",
+        "coutryName": "Greenwich Mean Time: Dublin, Edinburgh, Lissabon, London",
         "offset": 0,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "阿姆斯特丹、柏林、伯尔尼、罗马、斯德哥尔摩、维也纳",
+        "coutryName": "Amsterdam, Berlin, Bern, Rom, Stockholm, Wien",
         "offset": -1,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "贝尔格莱德、布拉蒂斯拉瓦、布达佩斯、卢布尔雅那、布拉格",
+        "coutryName": "Belgrad, Bratislav, Budapest, Ljubljana, Prag",
         "offset": -1,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "巴塞罗那、马德里",
+        "coutryName": "Barzelona, Madrid",
         "offset": -1,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "布鲁塞尔、哥本哈根、马德里、巴黎、维尔纽斯",
+        "coutryName": "Brüssel, Kopenhagen, Madrid, Paris, Vilnius",
         "offset": -1,
         "position": 4
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "巴黎",
+        "coutryName": "Paris",
         "offset": -1,
         "position": 5
     },
     {
         "timezoneDetail": "GMT+01:00",
-        "coutryName": "萨拉热窝、斯科普里、索菲亚、华沙、萨格勒布",
+        "coutryName": "Sarajevo, Skopje, Sofia, Warschau, Zagreb",
         "offset": -1,
         "position": 6
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "雅典、伊斯坦布尔、明斯克",
+        "coutryName": "Athen, Istanbul, Minsk",
         "offset": -2,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "布加勒斯特",
+        "coutryName": "Bukarest",
         "offset": -2,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "开罗",
+        "coutryName": "Kairo",
         "offset": -2,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "哈拉雷、比勒陀利亚",
+        "coutryName": "Harare, Pretoria",
         "offset": -2,
         "position": 4
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "赫尔辛基、基辅、里加、索非亚、塔林、维尔纽斯",
+        "coutryName": "Helsinki, Riga, Tallinn",
         "offset": -2,
         "position": 5
     },
     {
         "timezoneDetail": "GMT+02:00",
-        "coutryName": "耶路撒冷",
+        "coutryName": "Jerusalem",
         "offset": -2,
         "position": 6
     },
     {
         "timezoneDetail": "GMT+03:00",
-        "coutryName": "巴格达、科威特、利雅得",
+        "coutryName": "Baghdad, Kuwait, Riyadh",
         "offset": -3,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+03:00",
-        "coutryName": "莫斯科、圣彼得堡、伏尔加格勒",
+        "coutryName": "Moskau, St. Petersburg, Volgograd",
         "offset": -3,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+03:00",
-        "coutryName": "内罗毕",
+        "coutryName": "Mairobi",
         "offset": -3,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+03:30",
-        "coutryName": "德黑兰",
+        "coutryName": "Teheran",
         "offset": -3,
         "position": 4
     },
     {
         "timezoneDetail": "GMT+04:00",
-        "coutryName": "阿布扎比、马斯喀特",
+        "coutryName": "Abu Dhabi, Muskat",
         "offset": -4,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+04:00",
-        "coutryName": "巴库、第比利斯",
+        "coutryName": "Baku, Tbilisi",
         "offset": -4,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+04:30",
-        "coutryName": "喀布尔",
+        "coutryName": "Kabul",
         "offset": -4,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+05:00",
-        "coutryName": "叶卡捷琳堡",
+        "coutryName": "Ekaterinburg",
         "offset": -5,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+05:00",
-        "coutryName": "伊斯兰堡、卡拉奇、塔什干",
+        "coutryName": "Islamabad, Karachi, Tashkent",
         "offset": -5,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+05:30",
-        "coutryName": "孟买、加尔各答、马德拉斯、新德里",
+        "coutryName": "Mumbai, Calcutta, Madras, New Delhi",
         "offset": -5,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+06:00",
-        "coutryName": "阿斯塔纳、阿拉木图、达卡",
+        "coutryName": "Astana, Almaty, Dhaka",
         "offset": -6,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+06:00",
-        "coutryName": "科伦坡",
+        "coutryName": "Colombo",
         "offset": -6,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+07:00",
-        "coutryName": "曼谷、河内、雅加达",
+        "coutryName": "Bangkok, Hanoi, Jakarta",
         "offset": -7,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+08:00",
-        "coutryName": "北京、重庆、香港、乌鲁木齐",
+        "coutryName": "Peking, Chongqing, Hong Kong, Urumqi",
         "offset": -8,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+08:00",
-        "coutryName": "珀斯",
+        "coutryName": "Perth",
         "offset": -8,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+08:00",
-        "coutryName": "新加坡",
+        "coutryName": "Singapur",
         "offset": -8,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+08:00",
-        "coutryName": "台北",
+        "coutryName": "Taipei",
         "offset": -8,
         "position": 4
     },
     {
         "timezoneDetail": "GMT+09:00",
-        "coutryName": "大阪、札幌、东京",
+        "coutryName": "Osaka, Sapporo, Tokyo",
         "offset": -9,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+09:00",
-        "coutryName": "首尔",
+        "coutryName": "Seoul",
         "offset": -9,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+09:00",
-        "coutryName": "雅库茨克",
+        "coutryName": "Yakutsk",
         "offset": -9,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+09:30",
-        "coutryName": "阿德莱德",
+        "coutryName": "Adelaide",
         "offset": -9,
         "position": 4
     },
     {
         "timezoneDetail": "GMT+09:30",
-        "coutryName": "达尔文",
+        "coutryName": "Darwin",
         "offset": -9,
         "position": 5
     },
     {
         "timezoneDetail": "GMT+10:00",
-        "coutryName": "布里斯班",
+        "coutryName": "Brisbane",
         "offset": -10,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+10:00",
-        "coutryName": "堪培拉、墨尔本、悉尼",
+        "coutryName": "Canberra, Melbourne, Sydney",
         "offset": -10,
         "position": 2
     },
     {
         "timezoneDetail": "GMT+10:00",
-        "coutryName": "关岛、莫尔兹比港",
+        "coutryName": "Guam, Port Moresby",
         "offset": -10,
         "position": 3
     },
     {
         "timezoneDetail": "GMT+10:00",
-        "coutryName": "霍巴特",
+        "coutryName": "Hobart",
         "offset": -10,
         "position": 4
     },
     {
         "timezoneDetail": "GMT+10:00",
-        "coutryName": "符拉迪沃斯托克",
+        "coutryName": "Vladivostok",
         "offset": -10,
         "position": 5
     },
     {
         "timezoneDetail": "GMT+11:00",
-        "coutryName": "马加丹、所罗门群岛、新喀里多尼亚",
+        "coutryName": "Magadan, Solomon Is., New Caledonia",
         "offset": -11,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+12:00",
-        "coutryName": "奥克兰、威灵顿",
+        "coutryName": "Auckland, Wllington",
         "offset": -12,
         "position": 1
     },
     {
         "timezoneDetail": "GMT+12:00",
-        "coutryName": "斐济、堪察加半岛、马绍尔群岛。",
+        "coutryName": "Fiji, Kamchatka, Marshall Is.",
         "offset": -12,
         "position": 2
     }

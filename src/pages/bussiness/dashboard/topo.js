@@ -22,7 +22,7 @@ const Color = {
 };
 
 // 大于-50均认为优秀
-const isGood = rssi => rssi > -60;
+const isGood = rssi => rssi > -65;
 
 // 补充关系，a-b,b-a
 function addConnection(source) {

@@ -108,7 +108,7 @@ export default {
 .select-container {
   width: 350px;
   .select {
-    height: 36px;
+    height: 42px;
     width: 100%;
     border-radius: 4px;
     outline: 0;
@@ -123,7 +123,7 @@ export default {
       text-overflow: ellipsis;
       height: 100%;
       width: 100%;
-      line-height: 34px;
+      line-height: 40px;
       word-wrap: break-word;
       word-break: break-all;
       outline: none;
@@ -144,7 +144,7 @@ export default {
     position: absolute;
     z-index: 999;
     left: 0;
-    top: 36px;
+    top: 42px;
     background: #fff;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -178,7 +178,7 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 36px;
+    height: 42px;
     width: 50px;
     cursor: pointer;
     display: flex;

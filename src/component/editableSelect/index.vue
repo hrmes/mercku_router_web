@@ -125,7 +125,7 @@ export default {
   &.small {
     .select {
       width: 100%;
-      height: 36px;
+      height: 42px;
       padding: 2px 10px;
       padding-right: 50px;
       .icon-container {
@@ -140,9 +140,9 @@ export default {
         }
       }
       .select-popup {
-        top: 36px;
+        top: 42px;
         li {
-          padding: 6px 10px;
+          padding: 8px 10px;
         }
       }
     }

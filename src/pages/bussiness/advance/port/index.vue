@@ -70,7 +70,8 @@
                 <m-checkbox v-model='item.checked'></m-checkbox>
               </div>
               <span class="m-title">{{$t('trans0108')}}：</span>
-              <span class="name">{{item.name}}</span>
+              <span class="name"
+                    :title="item.name">{{item.name}}</span>
             </div>
             <div class="column-outside-ip">
               <p> <span class="m-title">{{$t('trans0425')}}：</span>{{

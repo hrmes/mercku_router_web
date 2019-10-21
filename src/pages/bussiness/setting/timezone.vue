@@ -46,8 +46,8 @@ export default {
       array = require('../../../timezones/en-US.json');
     }
     this.timezones = array.map(t => ({
-      text: `(${t.timename})${t.name}`,
-      value: `${t.timezone}:${t.position}`
+      text: `(${t.timezoneDetail})${t.coutryName}`,
+      value: `${t.offset}:${t.position}`
     }));
   },
   methods: {

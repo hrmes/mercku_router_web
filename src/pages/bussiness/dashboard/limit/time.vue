@@ -513,6 +513,7 @@ export default {
     .column-repeat {
       width: 100%;
       margin-top: 5px;
+      padding-right: 50px;
     }
     .column-handle {
       width: 100%;

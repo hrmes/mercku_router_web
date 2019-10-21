@@ -947,14 +947,21 @@ export default {
       }
     }
     .info-container {
-      .item {
-        .message {
-          flex-direction: column;
-          padding-bottom: 20px;
-          .m-item {
-            width: 100%;
-            padding-top: 10px;
-            font-size: 14px;
+      .row {
+        .item {
+          .message {
+            flex-direction: column;
+            padding-bottom: 20px;
+            .m-item {
+              width: 100%;
+              padding-top: 10px;
+              font-size: 14px;
+              &:nth-child(2n) {
+                .m-title {
+                  width: 150px;
+                }
+              }
+            }
           }
         }
       }

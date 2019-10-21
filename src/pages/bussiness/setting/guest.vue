@@ -9,17 +9,18 @@
               :model="form"
               :rules='rules'>
         <div class="switch-wrap">
-          <label for=""> {{$t('trans0538')}}
-          </label>
-          <div class="tool">
-            <m-popover :title="$t('trans0538')"
-                       :content="$t('trans0540')"
-                       position="bottom left">
-              <img width="14"
-                   src="../../../assets/images/ic_question.png"
-                   alt=""></m-popover>
+          <label class="title"> {{$t('trans0538')}}
+            <div class="tool">
+              <m-popover position="bottom left"
+                         style="top:-7px"
+                         :title="$t('trans0538')"
+                         :content="$t('trans0540')">
+                <img width="14"
+                     src="../../../assets/images/ic_question.png"
+                     alt=""></m-popover>
 
-          </div>
+            </div>
+          </label>
           <m-switch v-model="form.enabled"
                     :onChange="guestEnabledChange" />
         </div>
@@ -480,14 +481,15 @@ export default {
     margin-bottom: 30px;
     display: flex;
     align-items: center;
-
+    width: 340px;
+    .title {
+      width: auto;
+    }
     .tool {
       position: relative;
-      margin-left: 5px;
-      left: -20px;
+      display: inline-block;
       img {
         position: relative;
-        top: -7px;
         cursor: pointer;
       }
     }

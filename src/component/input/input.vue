@@ -126,7 +126,7 @@ export default {
 .input-container {
   &.small {
     .input {
-      height: 36px;
+      height: 42px;
     }
   }
   position: relative;
@@ -145,7 +145,7 @@ export default {
     font-size: 14px;
   }
   .input-wrapper {
-    height: 36px;
+    height: 42px;
     width: 100%;
     border-radius: 4px;
     box-sizing: border-box;
@@ -163,9 +163,9 @@ export default {
     input {
       font-size: 14px;
       padding: 10px;
-      height: 34px;
+      height: 40px;
       line-height: 1;
-      // line-height: 34px;
+      // line-height: 40px;
       width: 100%;
       outline: 0;
       border-radius: 4px;
@@ -191,7 +191,7 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 36px;
+    height: 42px;
     width: 50px;
     cursor: pointer;
     display: flex;

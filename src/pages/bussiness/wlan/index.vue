@@ -148,6 +148,7 @@ export default {
       if (this.$refs.form1.validate()) {
         this.stepOption.current = 1;
         this.stepOption.steps[1].success = true;
+        this.checked = true;
       }
     },
     step2() {

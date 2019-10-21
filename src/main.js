@@ -13,14 +13,8 @@ import registerComponents from './register-components';
 import Http from './http';
 import store from './store';
 
-// 样式表
-if (process.env.CUSTOMER_CONFIG.isCik) {
-  require('style/cik.scss');
-} else if (process.env.CUSTOMER_CONFIG.isMercku) {
-  require('style/mercku.scss');
-} else {
-  // TODO
-}
+// 不同客户特别的样式表
+require(`./style/${process.env.CUSTOMER_CONFIG.style}`);
 
 const launch = () => {
   const http = new Http();
@@ -121,7 +115,7 @@ const launch = () => {
   };
 
   let modeNotMatchDialogVisble = false;
-  http.setExHandler(err => {
+  http.setExHandler((err, options) => {
     const { response } = err;
     if (response) {
       const { status, data } = response;
@@ -155,7 +149,7 @@ const launch = () => {
 
             throw err;
           }
-          toast(translate(error.code));
+          !options.hideToast && toast(translate(error.code));
         } else {
           router.push({ path: '/unconnect' });
         }

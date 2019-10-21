@@ -10,14 +10,18 @@
           <div v-for="node in nodes"
                :key="node.sn"
                class="node">
-            <div class="badge-info">
-              <img src="../../../assets/images/ic_new_version.png"
-                   alt="">
-              <span>{{$t('trans0210')}}{{node.version.latest}}</span>
+            <div class="badges">
+              <div v-if="node.isGW"
+                   class="badge-info gateway">
+                <span>{{$t('trans0165')}}</span>
+              </div>
+              <div class="badge-info">
+                <span>{{node.version.latest}}</span>
+              </div>
             </div>
             <div class="message"
                  @click="check(node)">
-              <m-checkbox :rect="false"
+              <m-checkbox :readonly="true"
                           v-model="node.checked" />
               <div class="img-container">
                 <img class="img-m2"
@@ -127,21 +131,48 @@ export default {
     },
     firmwareList() {
       this.$loading.open();
-      this.$http
-        .firmwareList()
-        .then(res => {
+      Promise.all([this.$http.firmwareList(), this.$http.getMeshNode()])
+        .then(resArr => {
           this.$loading.close();
-          const data = res.data.result;
+          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
+          const nodes = resArr[0].data.result;
+
           this.requestResult.complete = true;
-          data.forEach(node => {
-            this.$set(node, 'checked', false);
-          });
 
           const filter = node => {
             const { current, latest } = node.version;
             return compareVersion(current, latest);
           };
-          this.nodes = data.filter(filter);
+          let containGW = false;
+          this.nodes = nodes.filter(filter).map(node => {
+            let isGW = false;
+            if (node.sn === gw.sn) {
+              isGW = true;
+              containGW = true;
+            }
+            return {
+              ...node,
+              isGW,
+              checked: false
+            };
+          });
+
+          if (containGW && this.nodes.length > 1) {
+            this.$dialog.confirm({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              message: this.$t('trans0669'),
+              callback: {
+                ok: () => {
+                  this.nodes.forEach(node => {
+                    if (!node.isGW) {
+                      node.checked = true;
+                    }
+                  });
+                }
+              }
+            });
+          }
         })
         .catch(() => {
           this.$loading.close();
@@ -189,6 +220,9 @@ export default {
 .page-content {
   align-items: flex-start;
 }
+.page-header {
+  justify-content: space-between;
+}
 .nodes-wrapper {
   text-align: center;
   display: flex;
@@ -202,16 +236,20 @@ export default {
     flex-wrap: wrap;
     .node {
       width: 340px;
-      height: 132px;
-      background: #f1f1f1;
+      height: 136px;
       border-radius: 5px;
+      background: #f1f1f1;
       margin-right: 20px;
       margin-bottom: 30px;
       position: relative;
+      @media screen and (max-width: 414px) {
+        width: 100%;
+      }
       .message {
         display: flex;
         align-items: start;
         padding: 0 10px;
+        padding-left: 20px;
         height: 100%;
         align-items: center;
         cursor: pointer;
@@ -225,28 +263,27 @@ export default {
         }
         .img-container {
           margin-right: 10px;
+          margin-left: 20px;
           img {
-            width: 100px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
           }
         }
-
         .info-container {
           flex-direction: column;
           align-items: start;
           align-content: start;
           justify-content: center;
           flex: 1;
-          padding-top: 30px;
-
+          padding-top: 38px;
+          padding-bottom: 10px;
           .node-name {
             padding: 0;
             margin: 0;
             text-align: left;
-            font-size: 12px;
-            padding-top: 5px;
+            line-height: 1;
             padding-top: 0px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
           }
           .node-sn {
@@ -254,33 +291,21 @@ export default {
             margin: 0;
             text-align: left;
             font-size: 12px;
-            padding-top: 5px;
+            line-height: 1;
+            padding-top: 10px;
             white-space: nowrap;
           }
           .node-version {
             padding: 0;
             margin: 0;
             text-align: left;
-            font-size: 12px;
             font-size: 10px;
+            line-height: 1;
             padding-top: 5px;
-
             position: relative;
             span {
               display: inline-block;
-              // margin-left: 5px;
             }
-            // &:before {
-            //   content: '';
-            //   display: inline-block;
-            //   width: 3px;
-            //   height: 3px;
-            //   border-radius: 50%;
-            //   background: #000;
-            //   // position: absolute;
-            //   top: 50%;
-            //   transform: translateY(-50%);
-            // }
           }
           .changelog {
             font-size: 12px;
@@ -289,33 +314,39 @@ export default {
             margin: 0;
             align-self: flex-end;
             color: #333;
-            padding-top: 5px;
+            padding-top: 10px;
           }
         }
       }
-      .badge-info {
-        width: auto;
-        padding: 0 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 30px;
-        // border-radius: 100px;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-        border-top-right-radius: 5px;
-        background-image: linear-gradient(290deg, #ff4343, #dd3792);
+      .badges {
         position: absolute;
-        right: 0;
-        top: 0;
-        img {
-          width: 18px;
-          margin-right: 5px;
-        }
-        span {
-          font-size: 12px;
-          color: rgba(255, 255, 255, 0.95);
-          font-weight: normal;
+        right: 10px;
+        top: 10px;
+        z-index: 1;
+        display: flex;
+        .badge-info {
+          width: auto;
+          padding: 0 10px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: #d6001c;
+          border-radius: 10px;
+          &.gateway {
+            background: #00d061;
+          }
+          + .badge-info {
+            margin-left: 5px;
+          }
+          img {
+            width: 18px;
+            margin-right: 5px;
+          }
+          span {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: normal;
+          }
         }
       }
     }
@@ -369,8 +400,7 @@ export default {
   .nodes-wrapper {
     .nodes-info {
       .node {
-        width: 303px;
-
+        // width: 303px;
         margin-left: auto;
         margin-right: auto;
       }
@@ -412,8 +442,7 @@ export default {
   .nodes-wrapper {
     .nodes-info {
       .node {
-        width: 253px;
-        min-width: 253px;
+        height: 140px;
         margin-right: 0;
         .message {
           .img-container {

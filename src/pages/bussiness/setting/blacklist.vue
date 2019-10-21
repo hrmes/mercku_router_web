@@ -345,9 +345,8 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .modal {
-    left: 50%;
+    left: -130px;
     top: 30px;
-    transform: translateX(-50%);
     .btn {
       height: 27px !important;
       margin: 0 auto !important;
