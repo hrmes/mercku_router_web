@@ -24,7 +24,7 @@ ifneq ($(IS_NPM_OK),true)
 endif
 
 prd_depend: package.json package-lock.json check_npm_version
-	npm i
+	npm ci
 
 dev_depend: package.json check_npm_version
 	npm i

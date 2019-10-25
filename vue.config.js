@@ -1,11 +1,11 @@
-const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin'); // Gzip
-const webpack = require('webpack');
-const UUID = require('uuid');
+const path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin"); // Gzip
+const webpack = require("webpack");
+const UUID = require("uuid");
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // Webpack包文件分析器
-const getCustomerConf = require('./customer-conf');
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin; // Webpack包文件分析器
+const getCustomerConf = require("./customer-conf");
 
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
@@ -20,51 +20,51 @@ function resolve(dir) {
 }
 
 module.exports = {
-  baseUrl: '/',
-  outputDir: 'dist',
-  assetsDir: 'static',
+  baseUrl: "/",
+  outputDir: "dist",
+  assetsDir: "static",
   lintOnSave: true,
-  productionSourceMap: process.env.NODE_ENV !== 'production',
+  productionSourceMap: process.env.NODE_ENV !== "production",
   pages: {
     index: {
-      entry: 'src/main.js',
-      template: 'index.ejs',
+      entry: "src/main.js",
+      template: "index.ejs",
       favicon,
-      filename: 'index.html',
+      filename: "index.html",
       title,
-      chunks: ['chunk-vendors', 'chunk-common', 'index'],
+      chunks: ["chunk-vendors", "chunk-common", "index"],
       meta: {
-        'x-web-version-hash': UUID.v1().replace(/-/g, '')
+        "x-web-version-hash": UUID.v1().replace(/-/g, "")
       }
     }
   },
   devServer: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 8080,
     open: false,
     proxy: {
-      '/app': {
-        target: 'http://mywifi.mercku.tech',
+      "/app": {
+        target: "http://mywifi.mercku.tech",
         changeOrigin: true,
         secure: true
       },
-      '/firmware_upload': {
-        target: 'http://mywifi.mercku.tech',
+      "/firmware_upload": {
+        target: "http://mywifi.mercku.tech",
         changeOrigin: true,
         secure: true
       },
-      '/log.log': {
-        target: 'http://mywifi.mercku.tech',
+      "/log.log": {
+        target: "http://mywifi.mercku.tech",
         changeOrigin: true,
         secure: true
       },
-      '/index.html': {
-        target: 'http://mywifi.mercku.tech',
+      "/index.html": {
+        target: "http://mywifi.mercku.tech",
         changeOrigin: true,
         secure: true
       },
-      '/index.js': {
-        target: 'http://mywifi.mercku.tech',
+      "/index.js": {
+        target: "http://mywifi.mercku.tech",
         changeOrigin: true,
         secure: true
       }
@@ -73,8 +73,8 @@ module.exports = {
   configureWebpack: config => {
     config.plugins.push(
       new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: 'development',
+        "process.env": {
+          NODE_ENV: process.env.NODE_ENV,
           CUSTOMER_CONFIG: (() => {
             const result = {};
             Object.keys(CUSTOMER_CONFIG).forEach(key => {
@@ -86,50 +86,50 @@ module.exports = {
       })
     );
     const plugins = [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          conpress: {
-            warnings: false,
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true, // Must be set to true if using source-maps in production
+        terserOptions: {
+          compress: {
             drop_console: true,
             drop_debugger: true
-          },
-          sourceMap: false,
-          parallel: true
+          }
         }
-      }),
-      new CompressionPlugin({
-        // 文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-web
-        // pack-plugin)
-        filename: '[path].gz[query]',
-        algorithm: 'gzip',
-        test: productionGzipExtensions,
-        threshold: 10240,
-        minRatio: 0.8
-      }),
-      //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
-      new BundleAnalyzerPlugin()
+      })
+      // new CompressionPlugin({
+      //   // 文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-web
+      //   // pack-plugin)
+      //   filename: '[path].gz[query]',
+      //   algorithm: 'gzip',
+      //   test: productionGzipExtensions,
+      //   threshold: 10240,
+      //   minRatio: 0.8
+      // }),
+      // //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
+      // new BundleAnalyzerPlugin()
     ];
-    if (process.env.NODE_ENV === 'production') {
-      config.plugins.concat(plugins);
+    if (process.env.NODE_ENV === "production") {
+      config.plugins = [...config.plugins, ...plugins];
     }
   },
   chainWebpack: config => {
     config.resolve.alias
-      .set('vue$', 'vue/dist/vue.esm.js')
-      .set('components', resolve('src/component'))
-      .set('pages', resolve('src/pages'))
-      .set('util', resolve('src/util'))
-      .set('style', resolve('src/style'));
+      .set("vue$", "vue/dist/vue.esm.js")
+      .set("components", resolve("src/component"))
+      .set("pages", resolve("src/pages"))
+      .set("util", resolve("src/util"))
+      .set("style", resolve("src/style"));
     config.module
-      .rule('html')
+      .rule("html")
       .test(/\.html$/)
-      .use('html-loader')
-      .loader('html-loader')
+      .use("html-loader")
+      .loader("html-loader")
       .end();
     config.module
-      .rule('images')
-      .use('url-loader')
-      .loader('url-loader')
+      .rule("images")
+      .use("url-loader")
+      .loader("url-loader")
       .tap(options => {
         options.limit = 50000;
         return options;
