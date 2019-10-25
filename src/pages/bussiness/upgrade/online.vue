@@ -247,7 +247,7 @@ export default {
       }
       .message {
         display: flex;
-        align-items: start;
+        align-items: flex-start;
         padding: 0 10px;
         padding-left: 20px;
         height: 100%;
