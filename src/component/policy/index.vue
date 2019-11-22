@@ -39,6 +39,8 @@ export default {
     showPolicy() {
       if (process.env.CUSTOMER_CONFIG.isCik) {
         window.open('https://www.ciktel.com/');
+      } else if (process.env.CUSTOMER_CONFIG.isStartca) {
+        window.open('https://www.start.ca/privacy');
       } else if (
         process.env.CUSTOMER_CONFIG.isMercku ||
         process.env.CUSTOMER_CONFIG.isInternal
