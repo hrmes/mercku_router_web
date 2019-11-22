@@ -3,6 +3,6 @@
   "title": "START.CA",
   "accept": ".sa",
   "favicon": "customer-conf/startca/favicon.png",
-  "langPrefix": "",
+  "langPrefix": "startca",
   "style": "startca.scss"
 }

@@ -6,17 +6,21 @@ import codeMap from './code-map.json';
 
 Vue.use(VueI18n);
 
-const Locales = {
-  'zh-CN': {},
-  'en-US': {},
-  'de-DE': {},
-  'nl-NL': {}
-};
+const Locales = {};
 
-Object.keys(Locales).forEach(locale => {
-  const { langPrefix } = process.env.CUSTOMER_CONFIG;
-  const prefix = langPrefix ? `${langPrefix}-` : '';
-  Locales[locale] = require(`./${prefix}${locale}.json`);
+const files = require.context(
+  `./${process.env.CUSTOMER_CONFIG.langPrefix}`,
+  false,
+  /.*\.json/
+);
+
+files.keys().forEach(key => {
+  const matched = key.match(/([A-Za-z0-9-_]+)\./i);
+  if (matched && matched.length > 1) {
+    const locale = matched[1];
+    const source = files(key);
+    Locales[locale] = source;
+  }
 });
 
 Object.keys(codeMap).forEach(code => {

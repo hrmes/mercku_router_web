@@ -3,6 +3,6 @@
   "title": "Mercku",
   "accept": "*.*",
   "favicon": "customer-conf/mercku/favicon.ico",
-  "langPrefix": "",
+  "langPrefix": "mercku",
   "style": "mercku.scss"
 }
