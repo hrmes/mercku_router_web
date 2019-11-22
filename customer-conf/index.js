@@ -14,6 +14,10 @@ const Customers = {
   '0002': {
     name: 'Cik',
     conf: require('./cik/conf.json')
+  },
+  '0003': {
+    name: 'Startca',
+    conf: require('./startca/conf.json')
   }
 };
 

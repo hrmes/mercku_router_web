@@ -1,0 +1,8 @@
+{
+  "id": "0003",
+  "title": "START.CA",
+  "accept": ".sa",
+  "favicon": "customer-conf/startca/favicon.png",
+  "langPrefix": "",
+  "style": "startca.scss"
+}
