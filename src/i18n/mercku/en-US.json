@@ -661,5 +661,8 @@
   "trans0666": "You have denied Mercku to use your photo. Please authorize in Settings",
   "trans0667": "Complete Graph",
   "trans0668": "All available connections will be illustrated in complete graph mode. Since Mercku nodes are able to pick up the best connections automatically, unused connections will be omitted when disabling complete graph, which describes the mesh link status more clearly.",
-  "trans0669": "It is highly recommended to upgrade the mesh points first. The Internet will be disconnected if upgrading the gateway at the same time, which may lead the mesh points to fail in firmware downloading.\n"
+  "trans0669": "It is highly recommended to upgrade the mesh points first. The Internet will be disconnected if upgrading the gateway at the same time, which may lead the mesh points to fail in firmware downloading.\n",
+  "trans0670": "Mercku router information unavailable, please connect to the current Mercku Wi-Fi and try again.",
+  "trans0671": "Unknown error: %d",
+  "trans0672": "Wi-Fi information can only be accessed after enabling location services."
 }

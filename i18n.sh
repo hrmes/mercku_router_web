@@ -43,7 +43,7 @@ cd mercku/trans/app_code
 # 拷贝MERCKU文件
 echo -e "\033[32mcopy MERCKU files...\033[0m"
 for((i=0;i<${#source[*]};i++)) do
-  cp -f ${source[i]} $project_dir/src/mercku/i18n/${target[i]}
+  cp -f ${source[i]} $project_dir/src/i18n/mercku/${target[i]}
 done
 echo -e "\033[32mcomplete...\033[0m"
 
