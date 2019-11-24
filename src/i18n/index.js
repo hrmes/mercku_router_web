@@ -9,7 +9,7 @@ Vue.use(VueI18n);
 const Locales = {};
 
 const files = require.context(
-  `./${process.env.CUSTOMER_CONFIG.langPrefix}`,
+  `./${process.env.CUSTOMER_CONFIG.i18nFolder}`,
   false,
   /.*\.json/
 );

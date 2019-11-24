@@ -3,6 +3,8 @@
   "title": "START.CA",
   "accept": ".sa",
   "favicon": "customer-conf/startca/favicon.png",
-  "langPrefix": "startca",
-  "style": "startca.scss"
+  "i18nFolder": "startca",
+  "style": "startca.scss",
+  "policy": "https://www.start.ca/privacy",
+  "allow2LevelAdmin": true
 }

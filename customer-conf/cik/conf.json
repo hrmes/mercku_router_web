@@ -3,6 +3,8 @@
   "title": "CIK TELECOM",
   "accept": ".ca",
   "favicon": "customer-conf/cik/favicon.ico",
-  "langPrefix": "cik",
-  "style": "cik.scss"
+  "i18nFolder": "cik",
+  "style": "cik.scss",
+  "policy": "https://www.ciktel.com/",
+  "allow2LevelAdmin": true
 }

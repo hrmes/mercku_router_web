@@ -224,11 +224,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     item.children = item.children.filter(c => c.customers.includes(process.env.CUSTOMER_CONFIG.id));
 
     // 如果是cik的普通用户，选择对应的菜单项
-    if (
-      (process.env.CUSTOMER_CONFIG.isCik ||
-        process.env.CUSTOMER_CONFIG.isStartca) &&
-      role !== Role.super
-    ) {
+    if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && role !== Role.super) {
       item.children = item.children.filter(a => !a.super);
     }
 

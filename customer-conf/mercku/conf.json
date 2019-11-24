@@ -3,6 +3,8 @@
   "title": "Mercku",
   "accept": ".ma",
   "favicon": "customer-conf/mercku/favicon.ico",
-  "langPrefix": "mercku",
-  "style": "mercku.scss"
+  "i18nFolder": "mercku",
+  "style": "mercku.scss",
+  "policy": "",
+  "allow2LevelAdmin": false
 }

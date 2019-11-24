@@ -1,23 +1,27 @@
 <template>
   <div class="policy-container">
-    <span class="copy">{{$t('trans0276')}}</span>
-    <span class="policy-text btn-text"
-          @click.stop="showPolicy()">{{$t('trans0139')}}</span>
+    <span class="copy">{{ $t('trans0276') }}</span>
+    <span class="policy-text btn-text" @click.stop="showPolicy()">{{
+      $t('trans0139')
+    }}</span>
 
     <m-modal :visible.sync="show">
       <m-modal-header>
-        <div class="dialog-title">{{$t('trans0139')}}</div>
+        <div class="dialog-title">{{ $t('trans0139') }}</div>
       </m-modal-header>
       <m-modal-body>
         <div class="dialog-content">
-          <div style="height:100%;padding:20px 0;font-size:0;"
-               v-html="policy"></div>
+          <div
+            style="height:100%;padding:20px 0;font-size:0;"
+            v-html="policy"
+          ></div>
         </div>
       </m-modal-body>
       <m-modal-footer>
         <div class="button-container">
-          <button class="btn btn-dialog-confirm"
-                  @click="close()">{{$t('trans0024')}}</button>
+          <button class="btn btn-dialog-confirm" @click="close()">
+            {{ $t('trans0024') }}
+          </button>
         </div>
       </m-modal-footer>
     </m-modal>
@@ -37,14 +41,9 @@ export default {
   mounted() {},
   methods: {
     showPolicy() {
-      if (process.env.CUSTOMER_CONFIG.isCik) {
-        window.open('https://www.ciktel.com/');
-      } else if (process.env.CUSTOMER_CONFIG.isStartca) {
-        window.open('https://www.start.ca/privacy');
-      } else if (
-        process.env.CUSTOMER_CONFIG.isMercku ||
-        process.env.CUSTOMER_CONFIG.isInternal
-      ) {
+      if (process.env.CUSTOMER_CONFIG.policy) {
+        window.open(process.env.CUSTOMER_CONFIG.policy);
+      } else {
         this.show = true;
       }
     },
