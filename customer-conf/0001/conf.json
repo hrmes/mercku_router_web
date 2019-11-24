@@ -1,8 +1,8 @@
 {
-  "id": "0000",
+  "id": "0001",
   "title": "Mercku",
-  "accept": "*.*",
-  "favicon": "customer-conf/mercku/favicon.ico",
+  "accept": ".ma",
+  "favicon": "customer-conf/0001/favicon.ico",
   "i18nFolder": "mercku",
   "style": "mercku.scss",
   "policy": "",

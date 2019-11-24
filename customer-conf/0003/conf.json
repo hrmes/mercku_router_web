@@ -2,7 +2,7 @@
   "id": "0003",
   "title": "START.CA",
   "accept": ".sa",
-  "favicon": "customer-conf/startca/favicon.png",
+  "favicon": "customer-conf/0003/favicon.png",
   "i18nFolder": "startca",
   "style": "startca.scss",
   "policy": "https://www.start.ca/privacy",

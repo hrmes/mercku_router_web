@@ -1,17 +1,14 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin'); // Gzip
 const webpack = require('webpack');
 const UUID = require('uuid');
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // Webpack包文件分析器
-const getCustomerConf = require('./customer-conf');
-
-const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
-console.log(`get CUSTOMER_ID in env：${CUSTOMER_ID}`);
-const CUSTOMER_CONFIG = getCustomerConf(CUSTOMER_ID);
-console.log(`get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`, JSON.stringify(CUSTOMER_CONFIG, null, 2));
+let CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
+console.log(
+  `get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`,
+  JSON.stringify(CUSTOMER_CONFIG, null, 2)
+);
 const title = CUSTOMER_CONFIG.title;
 const favicon = CUSTOMER_CONFIG.favicon;
 
