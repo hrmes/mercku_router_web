@@ -1,8 +1,8 @@
 {
   "id": "0000",
-  "title": "Mercku",
+  "title": "Demo",
   "accept": "*.*",
   "favicon": "customer-conf/mercku/favicon.ico",
-  "langPrefix": "",
-  "style": "mercku.scss"
+  "langPrefix": "demo",
+  "style": "demo.scss"
 }

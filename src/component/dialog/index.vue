@@ -39,9 +39,17 @@ export default {
   methods: {
     close() {
       const { parentNode } = this.$el;
+      let transitionendTriggered = false;
       this.$el.addEventListener('transitionend', () => {
         parentNode.removeChild(this.$el);
+        transitionendTriggered = true;
       });
+      // to fix transitionend not trigger
+      this.timer = setTimeout(() => {
+        if (!transitionendTriggered) {
+          parentNode.removeChild(this.$el);
+        }
+      }, 500);
     },
     ok() {
       this.visible = false;
@@ -53,6 +61,9 @@ export default {
       this.close();
       this.callback.cancel && this.callback.cancel();
     }
+  },
+  destroyed() {
+    this.timer = null;
   }
 };
 </script>
