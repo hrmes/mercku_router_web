@@ -71,6 +71,17 @@ done
 echo -e "\033[32mcomplete...\033[0m"
 
 
+# 进入DEMO翻译文件目录
+cd ..
+echo -e "\033[32mcd mercku/trans/demo_code...\033[0m"
+cd demo_code
+# 拷贝demo文件
+echo -e "\033[32mcopy demo files...\033[0m"
+for((i=0;i<${#source[*]};i++)) do
+  cp -f ${source[i]} $project_dir/src/i18n/demo/${target[i]}
+done
+echo -e "\033[32mcomplete...\033[0m"
+
 # 拷贝错误码文件
 echo -e "\033[32mcopy error files...\033[0m"
 cp -f $sourceerror $project_dir/src/i18n/$targeterror

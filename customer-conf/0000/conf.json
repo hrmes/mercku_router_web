@@ -1,10 +1,10 @@
 {
   "id": "0000",
-  "title": "Mercku",
+  "title": "Demo",
   "accept": "*.*",
-  "favicon": "customer-conf/0000/favicon.ico",
-  "i18nFolder": "mercku",
-  "style": "mercku.scss",
+  "favicon": "customer-conf/mercku/favicon.ico",
+  "langPrefix": "demo",
+  "style": "demo.scss",
   "policy": "",
   "allow2LevelAdmin": false
 }
