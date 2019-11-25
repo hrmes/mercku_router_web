@@ -466,7 +466,7 @@
   "trans0465": "Traceroute",
   "trans0466": "nslookup",
   "trans0467": "Start",
-  "trans0468": "mailto:support.cik@ciktel.com",
+  "trans0468": "https://www.mercku.com",
   "trans0469": "Darf keine lokale IP sein",
   "trans0470": "Bitte mindestens eine auswählen",
   "trans0471": "Der Endwert muss größer oder gleich dem Startwert sein",
@@ -661,5 +661,8 @@
   "trans0666": "Zugriff für Mercku auf Ihre Photos verweigert. Sie können dies in den Einstellungen autorisieren.",
   "trans0667": "Komplette Topologie",
   "trans0668": "Im kompletten Topologie Modus werden alle verfügbaren Verbindungen dargestellt. Da Mercku-Knoten in der Lage sind, automatisch die besten Verbindungen zu ermitteln, werden nicht verwendete Verbindungen im übersichtlichen Topologie Modus ausgelassen um eine einfachere Ansicht zu ermöglichen.",
-  "trans0669": "Da das WLAN während des Firmware Upgrades des Routers (Queen) getrennt wird, upgraden Sie die Mesh-Knoten (Bee) bitte zuerst. Ansonsten kann es zum Fehler beim Herunterladen für den Mesh-Knoten kommen."
+  "trans0669": "Da das WLAN während des Firmware Upgrades des Routers (Queen) getrennt wird, upgraden Sie die Mesh-Knoten (Bee) bitte zuerst. Ansonsten kann es zum Fehler beim Herunterladen für den Mesh-Knoten kommen.",
+  "trans0670": "Mercku Router Information ist nicht verfügbar. Bitte verbinden Sie mit dem Mercku Wi-Fi und versuchen es erneut.",
+  "trans0671": "Unbekannter Fehler: %d",
+  "trans0672": "Auf WLAN-Informationen kann nur zugegriffen werden, wenn Standortdienste aktiviert sind."
 }

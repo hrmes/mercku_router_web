@@ -1,9 +1,12 @@
 .header-container {
   .logo-wrap {
     .logo-wrap__logo {
-      background: url(../assets/images/customer/cik/cik_logo.png) center
+      background: url(../assets/images/customer/startca/startca_logo.png) center
         no-repeat;
       background-size: 100%;
+    }
+    .offical {
+      display: none !important;
     }
   }
 }
@@ -14,10 +17,13 @@
   }
   .center-form {
     .logo {
-      background: url(../assets/images/customer/cik/cik_logo_text.png) no-repeat
-        center;
+      background: url(../assets/images/customer/startca/startca_logo_text.png)
+        no-repeat center;
       background-size: 100%;
     }
+  }
+  .download {
+    display: none !important;
   }
 }
 @media screen and(max-width: 768px) {

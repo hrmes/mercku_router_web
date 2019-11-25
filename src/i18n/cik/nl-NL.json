@@ -466,7 +466,7 @@
   "trans0465": "traceroute",
   "trans0466": "nslookup",
   "trans0467": "Begin",
-  "trans0468": "https://www.mercku.com",
+  "trans0468": "mailto:support.cik@ciktel.com",
   "trans0469": "Kan geen lokaal IP zijn",
   "trans0470": "Selecteer er ten minste één",
   "trans0471": "Eindwaarde moet hetzelfde of groter zijn dan de startwaarde",
@@ -661,5 +661,7 @@
   "trans0666": "U hebt Mercku geweigerd uw foto te gebruiken. Verleen deze autorisatie in Instellingen",
   "trans0667": "Volledige grafiek",
   "trans0668": "Alle beschikbare verbindingen worden geïllustreerd in de volledige grafiekmodus. Omdat Mercku-nodes automatisch de beste verbindingen gebruiken, worden ongebruikte verbindingen weggelaten bij het uitschakelen van de volledige grafiek, die de statussen van de verbindingen binnen het vermaasd netwerk duidelijker beschrijven.",
-  "trans0669": "De Wi-Fi wordt uitgeschakeld tijdens het upgraden van de gateway. Het wordt aanbevolen om eerst de mesh-punten te upgraden."
+  "trans0669": "De Wi-Fi wordt uitgeschakeld tijdens het upgraden van de gateway. Het wordt aanbevolen om eerst de mesh-punten te upgraden.",
+  "trans0670": " ",
+  "trans0671": "Onbekende fout: %d"
 }

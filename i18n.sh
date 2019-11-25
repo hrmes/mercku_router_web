@@ -43,18 +43,42 @@ cd mercku/trans/app_code
 # 拷贝MERCKU文件
 echo -e "\033[32mcopy MERCKU files...\033[0m"
 for((i=0;i<${#source[*]};i++)) do
-  cp -f ${source[i]} $project_dir/src/i18n/${target[i]}
+  cp -f ${source[i]} $project_dir/src/i18n/mercku/${target[i]}
 done
 echo -e "\033[32mcomplete...\033[0m"
 
 # 进入CIK翻译文件目录
 cd ..
 echo -e "\033[32mcd mercku/trans/cik_code...\033[0m"
-cd CIK_code
+cd cik_code
 # 拷贝CIK文件
 echo -e "\033[32mcopy CIK files...\033[0m"
 for((i=0;i<${#source[*]};i++)) do
-  cp -f ${source[i]} $project_dir/src/i18n/cik-${target[i]}
+  cp -f ${source[i]} $project_dir/src/i18n/cik/${target[i]}
+done
+echo -e "\033[32mcomplete...\033[0m"
+
+
+# 进入start.ca翻译文件目录
+cd ..
+echo -e "\033[32mcd mercku/trans/startca_code...\033[0m"
+cd startca_code
+# 拷贝CIK文件
+echo -e "\033[32mcopy startca files...\033[0m"
+for((i=0;i<${#source[*]};i++)) do
+  cp -f ${source[i]} $project_dir/src/i18n/startca/${target[i]}
+done
+echo -e "\033[32mcomplete...\033[0m"
+
+
+# 进入DEMO翻译文件目录
+cd ..
+echo -e "\033[32mcd mercku/trans/demo_code...\033[0m"
+cd demo_code
+# 拷贝demo文件
+echo -e "\033[32mcopy demo files...\033[0m"
+for((i=0;i<${#source[*]};i++)) do
+  cp -f ${source[i]} $project_dir/src/i18n/demo/${target[i]}
 done
 echo -e "\033[32mcomplete...\033[0m"
 
