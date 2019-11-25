@@ -4,5 +4,7 @@
   "accept": "*.*",
   "favicon": "customer-conf/mercku/favicon.ico",
   "langPrefix": "demo",
-  "style": "demo.scss"
+  "style": "demo.scss",
+  "policy": "",
+  "allow2LevelAdmin": false
 }

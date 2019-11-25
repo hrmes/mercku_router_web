@@ -1,0 +1,10 @@
+{
+  "id": "0001",
+  "title": "Mercku",
+  "accept": ".ma",
+  "favicon": "customer-conf/0001/favicon.ico",
+  "i18nFolder": "mercku",
+  "style": "mercku.scss",
+  "policy": "",
+  "allow2LevelAdmin": false
+}

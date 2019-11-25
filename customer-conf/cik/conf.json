@@ -1,8 +1,0 @@
-{
-  "id": "0002",
-  "title": "CIK TELECOM",
-  "accept": ".ca",
-  "favicon": "customer-conf/cik/favicon.ico",
-  "langPrefix": "cik",
-  "style": "cik.scss"
-}

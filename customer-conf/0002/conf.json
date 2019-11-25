@@ -1,0 +1,10 @@
+{
+  "id": "0002",
+  "title": "CIK TELECOM",
+  "accept": ".ca",
+  "favicon": "customer-conf/0002/favicon.ico",
+  "i18nFolder": "cik",
+  "style": "cik.scss",
+  "policy": "https://www.ciktel.com/",
+  "allow2LevelAdmin": true
+}
