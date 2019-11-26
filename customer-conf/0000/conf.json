@@ -2,8 +2,8 @@
   "id": "0000",
   "title": "Demo",
   "accept": "*.*",
-  "favicon": "customer-conf/mercku/favicon.ico",
-  "langPrefix": "demo",
+  "favicon": "customer-conf/0000/favicon.ico",
+  "i18nFolder": "demo",
   "style": "demo.scss",
   "policy": "",
   "allow2LevelAdmin": false
