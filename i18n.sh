@@ -6,7 +6,7 @@ docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
 
 folder=(app_code cik_code startca_code demo_code inverto_code)
-customer(mercku cik startca demo inverto)
+customer=(mercku cik startca demo inverto)
 source=(en_US_web.json zh_CN_web.json de_DE_web.json nl_NL_web.json)
 target=(en-US.json zh-CN.json de-DE.json nl-NL.json)
 sourceerror=error_to_trans_web.json
@@ -42,7 +42,7 @@ git pull origin $doc_branch
 # 拷贝不同客户翻译文件
 echo -e "\033[32mcopy customer i18n files...\033[0m"
 for((i=0;i<${#folder[*]};i++)) do
-  echo -e "\033[32mcopy i18n files for customer:" + customer[i] +  "...\033[0m"
+  echo -e "\033[32mcopy i18n files for customer:" customer[i] "...\033[0m"
   cd mercku/trans/${folder[i]}
   for((i=0;i<${#source[*]};i++)) do
     cp -f ${source[i]} $project_dir/src/i18n/${customer[i]}/${target[i]}
@@ -53,14 +53,11 @@ echo -e "\033[32mcomplete...\033[0m"
 
 # 拷贝错误码文件，错误码文件是共用的，拷贝mercku的错误码文件即可
 echo -e "\033[32mcopy error files...\033[0m"
-cd trans/app_code
-cp -f $sourceerror $project_dir/src/i18n/$targeterror
+cp -f app_code/$sourceerror $project_dir/src/i18n/$targeterror
 echo -e "\033[32mcomplete...\033[0m"
 
 
 # 拷贝时区文件
 echo -e "\033[32mcopy timezone files...\033[0m"
-cd ..
-cd timezone
-cp -r ./* $project_dir/src/timezones
+cp -r timezone/* $project_dir/src/timezones
 echo -e "\033[32mcomplete...\033[0m"
