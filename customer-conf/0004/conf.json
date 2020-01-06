@@ -3,7 +3,7 @@
   "title": "Inverto.tv",
   "accept": ".tv",
   "favicon": "customer-conf/0004/favicon.png",
-  "i18nFolder": "startca",
+  "i18nFolder": "inverto",
   "style": "inverto.scss",
   "policy": "https://www.inverto.tv/privacy-policy",
   "allow2LevelAdmin": true,

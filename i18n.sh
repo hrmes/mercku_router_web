@@ -43,11 +43,15 @@ cd ..
 if [ ! -d "docs" ];then
     beautify_echo "clone repo..." info
     git clone $docs_remote_url
+    cd docs
 else
     beautify_echo "fetch repo..." info
     cd docs
     git fetch origin
 fi
+
+cd docs/mercku/trans # mkdocs change the folder
+
 # 切换到指定分支
 beautify_echo "checkout brach to $doc_branch..." info
 git checkout $doc_branch
@@ -58,9 +62,10 @@ git pull origin $doc_branch
 beautify_echo "copy customer i18n files..." info
 for((i=0;i<${#folder[*]};i++)) do
   beautify_echo "copy i18n files for customer: ${customer[i]}..." info
-  cd mercku/trans/${folder[i]}
-  for((i=0;i<${#source[*]};i++)) do
-    cp -f ${source[i]} $project_dir/src/i18n/${customer[i]}/${target[i]}
+  cd ${folder[i]}
+  echo $(pwd)
+  for((j=0;j<${#source[*]};j++)) do
+    cp -f ${source[j]} $project_dir/src/i18n/${customer[i]}/${target[j]}
   done
   beautify_echo "complete copy i18n files for customer: ${customer[i]}..." success
   cd ..
