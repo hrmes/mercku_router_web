@@ -160,7 +160,7 @@ const Languages = [
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
 if (!supportLanguage) {
-  // 早起没有在custom config中定义language，兼容处理
+  // 早期没有在customer config中定义language，兼容处理
   Languages.forEach(l => {
     l.show = true;
   });
