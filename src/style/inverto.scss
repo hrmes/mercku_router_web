@@ -16,7 +16,15 @@
     display: none;
   }
   .center-form {
+    .form {
+      height: 340px !important;
+    }
     .logo {
+      &::before {
+        padding-top: 100% !important;
+      }
+      width: 138px !important;
+      margin-bottom: 50px !important;
       background: url(../assets/images/customer/inverto/inverto_logo_text.png)
         no-repeat center;
       background-size: 100%;
@@ -28,6 +36,18 @@
 }
 @media screen and(max-width: 768px) {
   .login-container {
+    .center-form {
+      .form {
+        height: 304px !important;
+      }
+      .logo {
+        width: 100px !important;
+        margin-bottom: 50px !important;
+        background: url(../assets/images/customer/inverto/inverto_logo_text.png)
+          no-repeat center;
+        background-size: 100%;
+      }
+    }
     .small-device-download {
       display: none;
     }
