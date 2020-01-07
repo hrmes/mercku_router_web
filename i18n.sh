@@ -37,8 +37,9 @@ if [ ${#source[*]} != ${#target[*]} ];then
 fi
 
 # 检查是否指定分支
-if [ "$doc_branch" == "" ];then
-  beautify_echo "miss branch..." error
+if [[ $doc_branch == "" ]]
+then
+  beautify_echo "repo branch required..." error
   exit -1
 fi
 # 进入上层目录
