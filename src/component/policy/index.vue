@@ -2,9 +2,9 @@
   <div class="policy-container">
     <span class="copy">{{ copyright }}</span>
     <span class="policy-text btn-text"
-          @click.stop="showPolicy()">{{
-      $t('trans0139')
-    }}</span>
+          @click.stop="showPolicy()">
+      {{$t('trans0139')}}
+    </span>
 
     <m-modal :visible.sync="show">
       <m-modal-header>
