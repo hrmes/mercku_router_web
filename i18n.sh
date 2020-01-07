@@ -13,18 +13,22 @@ sourceerror=error_to_trans_web.json
 targeterror=code-map.json
 
 # $1 is message for echo
-# $2 is echo type, support error|success
+# $2 is echo type, support error|success|info
 beautify_echo(){
-  if [ $2 == error ]
-  then
-    echo -e "\033[31merror: $1\033[0m"
-  elif [ $2 == success ]
-  then
-    echo -e "\033[32msuccess: $1\033[0m"
-  elif [ $2 == info ]
-  then
-    echo -e "\033[37minfo: $1\033[0m"
-  fi
+  case $2 in
+    error)
+      echo -e "\033[31merror: $1\033[0m"
+      ;;
+    success)
+      echo -e "\033[32msuccess: $1\033[0m"
+      ;;
+    info)
+      echo -e "\033[37minfo: $1\033[0m"
+      ;;
+    *)
+      echo $1
+      ;;
+    esac
 }
 
 if [ ${#source[*]} != ${#target[*]} ];then
@@ -62,13 +66,12 @@ git pull origin $doc_branch
 beautify_echo "copy customer i18n files..." info
 for((i=0;i<${#folder[*]};i++)) do
   beautify_echo "copy i18n files for customer: ${customer[i]}..." info
-  cd ${folder[i]}
-  echo $(pwd)
+  pushd ${folder[i]} > /dev/null
   for((j=0;j<${#source[*]};j++)) do
     cp -f ${source[j]} $project_dir/src/i18n/${customer[i]}/${target[j]}
   done
   beautify_echo "complete copy i18n files for customer: ${customer[i]}..." success
-  cd ..
+  popd > /dev/null
 done
 beautify_echo "complete copy all customers i18n files..." success
 
