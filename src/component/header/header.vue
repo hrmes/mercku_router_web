@@ -139,21 +139,40 @@ import Velocity from 'velocity-animate';
 const Languages = [
   {
     text: '简体中文',
-    value: 'zh-CN'
+    value: 'zh-CN',
+    show: false
   },
   {
     text: 'English',
-    value: 'en-US'
+    value: 'en-US',
+    show: false
   },
   {
     text: 'Deutsch',
-    value: 'de-DE'
+    value: 'de-DE',
+    show: false
   },
   {
     text: 'Dutch',
-    value: 'nl-NL'
+    value: 'nl-NL',
+    show: false
   }
 ];
+const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
+if (!supportLanguage) {
+  // 早期没有在customer config中定义language，兼容处理
+  Languages.forEach(l => {
+    l.show = true;
+  });
+} else {
+  supportLanguage.forEach(sl => {
+    const language = Languages.filter(l => l.value === sl)[0];
+    if (language) {
+      language.show = true;
+    }
+  });
+}
+
 export default {
   props: {
     navVisible: {
@@ -174,7 +193,7 @@ export default {
     return {
       mobileI18nVisible: false,
       showPopup: false,
-      Languages,
+      Languages: Languages.filter(l => l.show),
       current: null,
       list: [],
       mobileNavVisible: false
@@ -282,9 +301,11 @@ export default {
       this.showPopup = false;
     },
     getDefaultLanguage() {
-      const language = Languages.filter(l => l.value === this.$i18n.locale)[0];
+      const language = this.Languages.filter(
+        l => l.value === this.$i18n.locale
+      )[0];
       if (!language) {
-        return Languages[1];
+        return this.Languages[0];
       }
       return language;
     },

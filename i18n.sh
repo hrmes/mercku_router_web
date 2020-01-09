@@ -5,92 +5,84 @@ doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
 
+folder=(app_code cik_code startca_code demo_code inverto_code)
+customer=(mercku cik startca demo inverto)
 source=(en_US_web.json zh_CN_web.json de_DE_web.json nl_NL_web.json)
 target=(en-US.json zh-CN.json de-DE.json nl-NL.json)
 sourceerror=error_to_trans_web.json
 targeterror=code-map.json
 
+# $1 is message for echo
+# $2 is echo type, support error|success|info
+beautify_echo(){
+  case $2 in
+    error)
+      echo -e "\033[31merror: $1\033[0m"
+      ;;
+    success)
+      echo -e "\033[32msuccess: $1\033[0m"
+      ;;
+    info)
+      echo -e "\033[37minfo: $1\033[0m"
+      ;;
+    *)
+      echo $1
+      ;;
+    esac
+}
+
 if [ ${#source[*]} != ${#target[*]} ];then
-  echo -e "\033[31marray length not match...\033[0m"
+  beautify_echo "array length not match..." error
   exit -1
 fi
 
 # 检查是否指定分支
-if [ "$doc_branch" == "" ];then
-  echo -e "\033[31mmiss branch...\033[0m"
+if [[ $doc_branch == "" ]]
+then
+  beautify_echo "repo branch required..." error
   exit -1
 fi
 # 进入上层目录
 cd ..
 # 检查docs目录是否存在
 if [ ! -d "docs" ];then
-    echo -e "\033[32mclone...\033[0m"
+    beautify_echo "clone repo..." info
     git clone $docs_remote_url
+    cd docs
 else
-    echo -e "\033[32mfetch...\033[0m"
+    beautify_echo "fetch repo..." info
     cd docs
     git fetch origin
 fi
+
+cd docs/mercku/trans # mkdocs change the folder
+
 # 切换到指定分支
-echo -e "\033[32mcheckout $doc_branch...\033[0m"
+beautify_echo "checkout brach to $doc_branch..." info
 git checkout $doc_branch
 git checkout .
 git pull origin $doc_branch
 
-# 进入MERCKU翻译文件目录
-echo -e "\033[32mcd mercku/trans/app_code...\033[0m"
-cd mercku/trans/app_code
-# 拷贝MERCKU文件
-echo -e "\033[32mcopy MERCKU files...\033[0m"
-for((i=0;i<${#source[*]};i++)) do
-  cp -f ${source[i]} $project_dir/src/i18n/mercku/${target[i]}
+# 拷贝不同客户翻译文件
+beautify_echo "copy customer i18n files..." info
+for((i=0;i<${#folder[*]};i++)) do
+  beautify_echo "copy i18n files for customer: ${customer[i]}..." info
+  pushd ${folder[i]} > /dev/null
+  for((j=0;j<${#source[*]};j++)) do
+    cp -f ${source[j]} $project_dir/src/i18n/${customer[i]}/${target[j]}
+  done
+  beautify_echo "complete copy i18n files for customer: ${customer[i]}..." success
+  popd > /dev/null
 done
-echo -e "\033[32mcomplete...\033[0m"
+beautify_echo "complete copy all customers i18n files..." success
 
-# 进入CIK翻译文件目录
-cd ..
-echo -e "\033[32mcd mercku/trans/cik_code...\033[0m"
-cd cik_code
-# 拷贝CIK文件
-echo -e "\033[32mcopy CIK files...\033[0m"
-for((i=0;i<${#source[*]};i++)) do
-  cp -f ${source[i]} $project_dir/src/i18n/cik/${target[i]}
-done
-echo -e "\033[32mcomplete...\033[0m"
-
-
-# 进入start.ca翻译文件目录
-cd ..
-echo -e "\033[32mcd mercku/trans/startca_code...\033[0m"
-cd startca_code
-# 拷贝CIK文件
-echo -e "\033[32mcopy startca files...\033[0m"
-for((i=0;i<${#source[*]};i++)) do
-  cp -f ${source[i]} $project_dir/src/i18n/startca/${target[i]}
-done
-echo -e "\033[32mcomplete...\033[0m"
-
-
-# 进入DEMO翻译文件目录
-cd ..
-echo -e "\033[32mcd mercku/trans/demo_code...\033[0m"
-cd demo_code
-# 拷贝demo文件
-echo -e "\033[32mcopy demo files...\033[0m"
-for((i=0;i<${#source[*]};i++)) do
-  cp -f ${source[i]} $project_dir/src/i18n/demo/${target[i]}
-done
-echo -e "\033[32mcomplete...\033[0m"
-
-# 拷贝错误码文件
-echo -e "\033[32mcopy error files...\033[0m"
-cp -f $sourceerror $project_dir/src/i18n/$targeterror
-echo -e "\033[32mcomplete...\033[0m"
+# 拷贝错误码文件，错误码文件是共用的，拷贝mercku的错误码文件即可
+beautify_echo "complete copy error files..." info
+cp -f app_code/$sourceerror $project_dir/src/i18n/$targeterror
+beautify_echo "complete copy error files..." success
 
 
 # 拷贝时区文件
-echo -e "\033[32mcopy timezone files...\033[0m"
-cd ..
-cd timezone
-cp -r ./* $project_dir/src/timezones
-echo -e "\033[32mcomplete...\033[0m"
+beautify_echo "copy timezones files..." info
+cp -r timezone/* $project_dir/src/timezones
+beautify_echo "complete copy timezones files..." success

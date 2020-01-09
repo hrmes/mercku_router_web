@@ -9,7 +9,8 @@ export default function getMenu(role, mode = RouterMode.router) {
     Customers.mercku,
     Customers.cik,
     Customers.internal,
-    Customers.startca
+    Customers.startca,
+    Customers.inverto
   ];
   const wifi = {
     icon: 'wifi',
@@ -193,7 +194,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0286',
         mode: [RouterMode.router],
         super: true,
-        customers: [Customers.cik, Customers.internal, Customers.startca]
+        customers: [
+          Customers.cik,
+          Customers.internal,
+          Customers.startca,
+          Customers.inverto
+        ]
       }
     ]
   };
@@ -221,9 +227,10 @@ export default function getMenu(role, mode = RouterMode.router) {
 
   [wifi, setting, advance, upgrade].forEach(item => {
     // 根据id选择对应的菜单项
-    item.children = item.children.filter(c => c.customers.includes(process.env.CUSTOMER_CONFIG.id));
+    const filter = c => c.customers.includes(process.env.CUSTOMER_CONFIG.id);
+    item.children = item.children.filter(filter);
 
-    // 如果是cik的普通用户，选择对应的菜单项
+    // 如果支持多级管理员，根据角色过滤选择对应的菜单项
     if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && role !== Role.super) {
       item.children = item.children.filter(a => !a.super);
     }

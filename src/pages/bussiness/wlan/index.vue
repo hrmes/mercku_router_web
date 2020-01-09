@@ -149,7 +149,9 @@ export default {
       if (this.$refs.form1.validate()) {
         this.stepOption.current = 1;
         this.stepOption.steps[1].success = true;
-        this.checked = true; // 默认勾选管理员密码与wifi密码一致
+        // 默认勾选管理员密码与wifi密码一致
+        this.checked = true;
+        this.form2.admin_password = this.form1.password;
       }
     },
     step2() {
