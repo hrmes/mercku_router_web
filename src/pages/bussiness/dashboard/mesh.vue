@@ -36,7 +36,7 @@
                 <span>{{$t('trans0562')}}</span>
                 <div class="tool"
                      style="width:14px;">
-                  <m-popover position="bottom center"
+                  <m-popover position="bottom left"
                              style="top:-7px"
                              :title="this.$t('trans0562')"
                              :content="this.$t('trans0558')">
@@ -53,7 +53,7 @@
                 <span>{{$t('trans0667')}}</span>
                 <div class="tool"
                      style="width:14px;">
-                  <m-popover position="bottom center"
+                  <m-popover position="bottom left"
                              style="top:-7px"
                              :title="this.$t('trans0667')"
                              :content="this.$t('trans0668')">
@@ -589,6 +589,14 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+#topo {
+  canvas {
+    // hack for safari, fix canvas overlay div
+    position: static !important;
+  }
+}
+</style>
 <style lang="scss" scoped>
 .rssi-modal {
   width: 660px;
