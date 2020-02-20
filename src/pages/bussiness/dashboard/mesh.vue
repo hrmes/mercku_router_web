@@ -592,6 +592,7 @@ export default {
 <style lang="scss">
 #topo {
   canvas {
+    // hack for safari, fix canvas overlay div
     position: static !important;
   }
 }
