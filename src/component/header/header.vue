@@ -138,13 +138,13 @@ import Velocity from 'velocity-animate';
 
 const Languages = [
   {
-    text: '简体中文',
-    value: 'zh-CN',
+    text: 'English',
+    value: 'en-US',
     show: false
   },
   {
-    text: 'English',
-    value: 'en-US',
+    text: '简体中文',
+    value: 'zh-CN',
     show: false
   },
   {
