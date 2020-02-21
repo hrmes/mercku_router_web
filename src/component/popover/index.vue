@@ -2,9 +2,8 @@
 
   <div class="popover-container"
        v-clickoutside="handleClose"
-       @click="clickTriggler()"
-       @mouseenter="enter"
-       @mouseleave="handleClose">
+       ref="container"
+       @click="clickTriggler()">
     <div ref="trigger"
          class="popover-container__trigger">
       <slot></slot>
@@ -50,7 +49,15 @@ export default {
     }
   },
   data() {
-    return { show: false };
+    return { show: false, hasListener: false };
+  },
+  mounted() {
+    this.attachEvent();
+  },
+  beforeDestroy() {
+    if (this.hasListener) {
+      this.deattachEvent();
+    }
   },
   methods: {
     initPopoverPosition() {
@@ -67,6 +74,17 @@ export default {
         elPopover.style.transform = 'translateX(-50%)';
         elPopover.firstChild.style.left = '50%';
       }
+    },
+    attachEvent() {
+      if (document.body.clientWidth > 768) {
+        this.$refs.container.addEventListener('mouseenter', this.enter);
+        this.$refs.container.addEventListener('mouseleave', this.handleClose);
+        this.hasListener = true;
+      }
+    },
+    deattachEvent() {
+      this.$refs.container.removeEventListener('mouseenter', this.enter);
+      this.$refs.container.removeEventListener('mouseleave', this.handleClose);
     },
     enter() {
       this.show = true;
