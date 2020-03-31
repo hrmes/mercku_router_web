@@ -99,7 +99,8 @@
                        alt>
                 </div>
                 <div class="wrap">
-                  <div class="text">{{router.name}}</div>
+                  <div class="text"
+                       :title="router.name">{{router.name}}</div>
                   <div class="edit"
                        v-if="!isRouterOffline(router)"
                        @click.stop="onClickRouterName(router)">
@@ -926,6 +927,10 @@ export default {
                 font-size: 14px;
                 margin-right: 10px;
                 white-space: pre;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: pre;
+                max-width: 150px;
               }
               .edit {
                 cursor: pointer;
