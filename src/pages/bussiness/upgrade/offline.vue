@@ -8,7 +8,8 @@
             <p>
               1.
               <span>{{ $t('trans0332') }}</span>
-              <a :href="$t('trans0468')" target="_blank">{{
+              <a :href="$t('trans0468')"
+                 target="_blank">{{
                 $t('trans0482')
               }}</a>
               <span>,&nbsp;{{ $t('trans0346') }}</span>
@@ -23,79 +24,72 @@
             </p>
           </div>
           <div class="upload">
-            <m-upload
-              ref="uploader"
-              :onChange="onChange"
-              :onCancel="onCancel"
-              :beforeUpload="beforeUpload"
-              :request="upload"
-              :packageInfo="packageInfo"
-              :label="$t('trans0042')"
-              :accept="accept"
-            />
+            <m-upload ref="uploader"
+                      :onChange="onChange"
+                      :onCancel="onCancel"
+                      :beforeUpload="beforeUpload"
+                      :request="upload"
+                      :packageInfo="packageInfo"
+                      :label="$t('trans0042')"
+                      :accept="accept" />
           </div>
-          <div
-            class="nodes-wrapper"
-            v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes"
-          >
+          <div class="nodes-wrapper"
+               v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
             <div class="title">
               {{ $t('trans0333') }}
               <div class="btn-info">
-                <button @click="upgrade()" class="btn btn-small re-btn">
+                <button @click="upgrade()"
+                        class="btn btn-small re-btn">
                   {{ $t('trans0225') }}
                 </button>
               </div>
             </div>
             <div class="nodes-info">
-              <div v-for="node in localNodes" :key="node.sn" class="node">
+              <div v-for="node in localNodes"
+                   :key="node.sn"
+                   class="node">
                 <div class="badges">
-                  <div v-if="node.isGW" class="badge-info gateway">
+                  <div v-if="node.isGW"
+                       class="badge-info gateway">
                     <span>{{ $t('trans0165') }}</span>
                   </div>
                 </div>
-                <div class="message" @click="check(node)">
-                  <m-checkbox :readonly="true" v-model="node.checked" />
+                <div class="message"
+                     @click="check(node)">
+                  <m-checkbox :readonly="true"
+                              v-model="node.checked" />
                   <div class="img-container">
-                    <img
-                      class="img-m2"
-                      v-if="fwInfo.model.id === RouterSnModel.M2"
-                      src="../../../assets/images/img_m2.png"
-                      alt=""
-                    />
-                    <img
-                      class="img-bee"
-                      v-else-if="fwInfo.model.id === RouterSnModel.Bee"
-                      src="../../../assets/images/img_bee.png"
-                      alt=""
-                    />
-                    <img
-                      class="img-other"
-                      v-else
-                      src="../../../assets/images/icon/ic_default_router.png"
-                      alt=""
-                    />
+                    <img class="img-m2"
+                         v-if="fwInfo.model.id === RouterSnModel.M2"
+                         src="../../../assets/images/img_m2.png"
+                         alt="" />
+                    <img class="img-bee"
+                         v-else-if="fwInfo.model.id === RouterSnModel.Bee"
+                         src="../../../assets/images/img_bee.png"
+                         alt="" />
+                    <img class="img-other"
+                         v-else
+                         src="../../../assets/images/icon/ic_default_router.png"
+                         alt="" />
                   </div>
                   <div class="info-container">
                     <p class="node-name">{{ node.name }}</p>
                     <p class="node-sn">{{ $t('trans0252') }}{{ node.sn }}</p>
                     <p class="node-version">
-                      <span
-                        >{{ $t('trans0209') }}{{ node.version.current }}</span
-                      >
+                      <span>{{ $t('trans0209') }}{{ node.version.current }}</span>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div
-            class="description-wrapper"
-            v-if="
+          <div class="description-wrapper"
+               v-if="
               uploadStatus === UploadStatus.success && !hasUpgradablityNodes
-            "
-          >
+            ">
             <p>
-              <img src="../../../assets/images/icon/ic_hint.png" alt="" />
+              <img src="../../../assets/images/icon/ic_hint.png"
+                   alt="" />
               {{ $t('trans0336') }}
             </p>
             <p>{{ $t('trans0337') }}</p>
@@ -105,7 +99,8 @@
       </div>
     </div>
     <div class="mobile-wrapper">
-      <img src="../../../assets/images/icon/ic_hint.png" alt="" />
+      <img src="../../../assets/images/icon/ic_hint.png"
+           alt="" />
       <p>{{ $t('trans0343') }}</p>
     </div>
   </div>
@@ -396,6 +391,9 @@ export default {
         cursor: pointer;
         position: relative;
         align-items: center;
+        .checkbox-container {
+          flex-shrink: 0;
+        }
         .img-container,
         .info-container {
           display: flex;
@@ -426,6 +424,10 @@ export default {
           padding-top: 38px;
           padding-bottom: 20px;
           .node-name {
+            // width: 100%;
+            // overflow: hidden;
+            // text-overflow: ellipsis;
+            word-break: break-all;
             padding: 0;
             margin: 0;
             text-align: left;

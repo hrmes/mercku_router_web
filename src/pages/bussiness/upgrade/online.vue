@@ -3,45 +3,47 @@
     <div class="page-header">
       {{ $t('trans0202') }}
 
-      <div class="btn-info" v-if="nodes.length">
-        <button class="btn btn-small" @click="submit()">
+      <div class="btn-info"
+           v-if="nodes.length">
+        <button class="btn btn-small"
+                @click="submit()">
           {{ $t('trans0225') }}
         </button>
       </div>
     </div>
     <div class="page-content">
-      <div class="nodes-wrapper" v-if="hasUpgradablityNodes">
+      <div class="nodes-wrapper"
+           v-if="hasUpgradablityNodes">
         <div class="nodes-info">
-          <div v-for="node in nodes" :key="node.sn" class="node">
+          <div v-for="node in nodes"
+               :key="node.sn"
+               class="node">
             <div class="badges">
-              <div v-if="node.isGW" class="badge-info gateway">
+              <div v-if="node.isGW"
+                   class="badge-info gateway">
                 <span>{{ $t('trans0165') }}</span>
               </div>
               <div class="badge-info">
                 <span>{{ node.version.latest }}</span>
               </div>
             </div>
-            <div class="message" @click="check(node)">
-              <m-checkbox :readonly="true" v-model="node.checked" />
+            <div class="message"
+                 @click="check(node)">
+              <m-checkbox :readonly="true"
+                          v-model="node.checked" />
               <div class="img-container">
-                <img
-                  class="img-m2"
-                  v-if="node.model.id === RouterSnModel.M2"
-                  src="../../../assets/images/img_m2.png"
-                  alt=""
-                />
-                <img
-                  class="img-bee"
-                  v-else-if="node.model.id === RouterSnModel.Bee"
-                  src="../../../assets/images/img_bee.png"
-                  alt=""
-                />
-                <img
-                  class="img-other"
-                  v-else
-                  src="../../../assets/images/icon/ic_default_router.png"
-                  alt=""
-                />
+                <img class="img-m2"
+                     v-if="node.model.id === RouterSnModel.M2"
+                     src="../../../assets/images/img_m2.png"
+                     alt="" />
+                <img class="img-bee"
+                     v-else-if="node.model.id === RouterSnModel.Bee"
+                     src="../../../assets/images/img_bee.png"
+                     alt="" />
+                <img class="img-other"
+                     v-else
+                     src="../../../assets/images/icon/ic_default_router.png"
+                     alt="" />
               </div>
               <div class="info-container">
                 <p class="node-name">{{ node.name }}</p>
@@ -49,7 +51,8 @@
                 <p class="node-version">
                   <span>{{ $t('trans0209') }}{{ node.version.current }}</span>
                 </p>
-                <p class="changelog" @click.stop="showChangelog(node)">
+                <p class="changelog"
+                   @click.stop="showChangelog(node)">
                   {{ $t('trans0546') }}
                 </p>
               </div>
@@ -57,23 +60,22 @@
           </div>
         </div>
       </div>
-      <div class="msg-wrapper" v-else>
-        <div
-          v-if="
+      <div class="msg-wrapper"
+           v-else>
+        <div v-if="
             !hasUpgradablityNodes &&
               requestResult.complete &&
               !requestResult.error
-          "
-        >
-          <img
-            src="../../../assets/images/img_new_version.png"
-            alt=""
-            width="220"
-          />
+          ">
+          <img src="../../../assets/images/img_new_version.png"
+               alt=""
+               width="220" />
           <p>{{ $t('trans0259') }}</p>
         </div>
         <div v-if="requestResult.error">
-          <img src="../../../assets/images/img_error.png" alt="" width="220" />
+          <img src="../../../assets/images/img_error.png"
+               alt=""
+               width="220" />
           <p>{{ requestResult.message }}</p>
         </div>
       </div>
@@ -84,12 +86,14 @@
       </m-modal-header>
       <m-modal-body class="modal-body">
         <div class="scroll-container">
-          <div class="changelog markdown-body" v-html="changelog"></div>
+          <div class="changelog markdown-body"
+               v-html="changelog"></div>
         </div>
       </m-modal-body>
       <m-modal-footer>
         <div class="btn-wrap">
-          <button class="btn btn-dialog-confirm" @click="close()">
+          <button class="btn btn-dialog-confirm"
+                  @click="close()">
             {{ $t('trans0024') }}
           </button>
         </div>
@@ -270,6 +274,9 @@ export default {
         align-items: center;
         cursor: pointer;
         position: relative;
+        .checkbox-container {
+          flex-shrink: 0;
+        }
         .img-container,
         .info-container {
           display: flex;
@@ -303,6 +310,7 @@ export default {
             padding-top: 0px;
             font-size: 16px;
             font-weight: bold;
+            word-break: break-all;
           }
           .node-sn {
             padding: 0;
