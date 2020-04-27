@@ -25,23 +25,49 @@ export default {
     }
   },
   methods: {
-    validate() {
-      this.validators = this.$parent.rules[this.prop] || [];
-      const value = this.$parent.model[this.prop];
-      let result = true;
-      // 检验
-      if (this.validators && this.validators.length) {
-        for (let j = 0; j < this.validators.length; j += 1) {
-          const validator = this.validators[j];
-          if (!validator.rule(value)) {
-            result = false;
-            this.message = validator.message;
-            break;
-          }
+    getValueByPath(obj, path) {
+      let tempObj = obj;
+      // remove start dot in path
+      path = path.replace(/^\./, '');
+      // replace .=>[]
+      path = path.replace(/\.(\w+)((?:\.)|\[|$)/g, '[$1]$2');
+      // replace start key
+      path = path.replace(/^(\w+)/, '[$1]');
+
+      // sometime path is empty when init, so match will get null
+      let keyArr = path.match(/(?:\[)(.*?)(?:\])/g) || [];
+      // remove [|]|"|' in key
+      keyArr = keyArr.map(k => k.replace(/(\[|\]|"|')/g, ''));
+      let i = 0;
+      for (let len = keyArr.length; i < len - 1; i += 1) {
+        if (!tempObj) break;
+        const key = keyArr[i];
+        if (key in tempObj) {
+          tempObj = tempObj[key];
         }
       }
-      this.result = result;
-      return result;
+      return tempObj ? tempObj[keyArr[i]] : null;
+    },
+    validate() {
+      if (this.prop) {
+        this.validators = this.$parent.rules[this.prop] || [];
+        const value = this.getValueByPath(this.$parent.model, this.prop);
+        let result = true;
+        // 检验
+        if (this.validators && this.validators.length) {
+          for (let j = 0; j < this.validators.length; j += 1) {
+            const validator = this.validators[j];
+            if (!validator.rule(value)) {
+              result = false;
+              this.message = validator.message;
+              break;
+            }
+          }
+        }
+        this.result = result;
+        return result;
+      }
+      return true;
     },
     extraValidate(validator, msg, ...arg) {
       let result = true;

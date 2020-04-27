@@ -13,7 +13,7 @@
       </div>
       <transition name="select">
         <ul class="select-popup"
-            :style="{'height':dropdownHeight}"
+            :style="{'max-height':dropdownHeight}"
             v-show="this.opened">
           <li :class="{'selected':selected === option}"
               :key="option.value"

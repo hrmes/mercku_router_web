@@ -101,9 +101,10 @@ const methods = {
   updateMeshMode: createMethod('mesh.mode.update'),
   getMeshBand: createMethod('mesh.band.get'),
   updateMeshBand: createMethod('mesh.band.update'),
-  getRegion: 'mesh.region.get',
-  getSupportRegions: 'mesh.region.supported.get',
-  setRegion: 'mesh.region.update'
+  getRegion: createMethod('mesh.region.get'),
+  getSupportChannel: createMethod('mesh.channel.supported.get'),
+  getSupportRegions: createMethod('mesh.region.supported.get'),
+  setRegion: createMethod('mesh.region.update')
 };
 
 class Http {
