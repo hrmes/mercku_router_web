@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mk-form">
     <slot></slot>
   </div>
 </template>

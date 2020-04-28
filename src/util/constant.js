@@ -59,7 +59,8 @@ export const BlacklistMode = {
 };
 export const VPNType = {
   pptp: 'pptp',
-  l2tp: 'l2tp'
+  l2tp: 'l2tp',
+  openvpn: 'openvpn'
 };
 export const VPNStatus = {
   connected: 'connected',

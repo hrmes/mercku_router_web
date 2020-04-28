@@ -43,7 +43,8 @@
                     :options="options"></m-select>
           <div class="note">{{netNote[netType]}}</div>
         </div>
-        <m-form v-show="isDhcp"
+        <m-form key="dhcp-form"
+                v-if="isDhcp"
                 ref="dhcpForm"
                 :model="dhcpForm"
                 :rules="dhcpRules">
@@ -53,7 +54,8 @@
                            v-model="autodns.dhcp"
                            :options="dnsOptions"></m-radio-group>
           </m-form-item>
-          <div v-show="!autodns.dhcp">
+          <div class="dhcp__dns"
+               v-if="!autodns.dhcp">
             <m-form-item class="item"
                          prop='dns1'
                          ref="dns">
@@ -72,7 +74,9 @@
             </m-form-item>
           </div>
         </m-form>
-        <m-form v-show="isPppoe"
+        <m-form key="pppoe-form"
+                class="pppoe-form"
+                v-else-if="isPppoe"
                 ref="pppoeForm"
                 :model="pppoeForm"
                 :rules='pppoeRules'>
@@ -96,7 +100,8 @@
                            v-model="autodns.pppoe"
                            :options="dnsOptions"></m-radio-group>
           </m-form-item>
-          <div v-show="!autodns.pppoe">
+          <div class="pppoe-form__dns"
+               v-if="!autodns.pppoe">
             <m-form-item class="item"
                          prop='dns1'
                          ref="dns">
@@ -114,8 +119,35 @@
                        v-model="pppoeForm.dns2" />
             </m-form-item>
           </div>
+          <div class="pppoe-form__vlan">
+            <m-checkbox :rect="false"
+                        text="ds"
+                        v-model="pppoeForm.vlan.enabled"></m-checkbox>
+            <m-form v-if="pppoeForm.vlan.enabled"
+                    class="pppoe-form__inner"
+                    :model="pppoeForm.vlan">
+              <m-form-item class="pppoe-form__item"
+                           prop="id"
+                           :rules="vlanIdRules">
+                <m-input :label="$t('trans0155')"
+                         type="text"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model.number="pppoeForm.vlan.id"></m-input>
+              </m-form-item>
+              <m-form-item class="pppoe-form__item">
+                <m-select :label="$t('trans0317')"
+                          v-model="pppoeForm.vlan.priority"
+                          :options="priorities"></m-select>
+              </m-form-item>
+              <m-form-item class="pppoe-form__item">
+                <m-switch label="abc"
+                          v-model="pppoeForm.vlan.tagged"></m-switch>
+              </m-form-item>
+            </m-form>
+          </div>
         </m-form>
-        <m-form v-show="isStatic"
+        <m-form key="static-form"
+                v-else-if="isStatic"
                 ref="staticForm"
                 :model="staticForm"
                 :rules='staticRules'>
@@ -162,8 +194,7 @@
                      v-model="staticForm.dns2" />
           </m-form-item>
         </m-form>
-        <div class="form-button"
-             style="margin-top:60px;">
+        <div class="form-button">
           <button class="btn"
                   v-defaultbutton
                   @click="submit()">{{$t('trans0081')}}</button>
@@ -216,6 +247,12 @@ export default {
       pppoeForm: {
         account: '',
         password: '',
+        vlan: {
+          enabled: false,
+          id: '',
+          tagged: false,
+          priority: 0
+        },
         dns1: '',
         dns2: ''
       },
@@ -223,6 +260,10 @@ export default {
         dns1: '',
         dns2: ''
       },
+      priorities: new Array(8).fill(0).map((item, index) => ({
+        text: index,
+        value: index
+      })),
       pppoeRules: {
         account: [
           {
@@ -302,6 +343,12 @@ export default {
         {
           value: 'static',
           text: this.$t('trans0148')
+        }
+      ],
+      vlanIdRules: [
+        {
+          rule: value => value > 1 && value < 4094,
+          message: 'vlan id is not valid'
         }
       ]
     };
@@ -451,6 +498,7 @@ export default {
           if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
             this.pppoeForm.password = this.netInfo.pppoe.password;
+            [this.pppoeForm.vlan] = this.netInfo.pppoe.vlan;
             if (this.netInfo.pppoe.dns) {
               this.autodns.pppoe = false;
               [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
@@ -512,7 +560,8 @@ export default {
           }
           form.pppoe = {
             account: this.pppoeForm.account,
-            password: this.pppoeForm.password
+            password: this.pppoeForm.password,
+            vlan: [this.pppoeForm.vlan]
           };
           if (!this.autodns.pppoe) {
             form.pppoe.dns = [this.pppoeForm.dns1];
@@ -619,6 +668,22 @@ export default {
       flex: 1;
     }
   }
+}
+.pppoe-form {
+  .pppoe-form__inner {
+    margin-top: 30px;
+  }
+  .pppoe-form__vlan {
+    padding-top: 20px;
+    border-top: 1px solid #e8e8e8;
+  }
+  .pppoe-form__item {
+    margin-bottom: 30px;
+  }
+}
+.form-button {
+  margin-top: 50px !important;
+  margin-bottom: 90px;
 }
 @media screen and(max-width:768px) {
   .wan-info {

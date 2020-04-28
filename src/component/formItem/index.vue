@@ -8,7 +8,15 @@
 </template>
 <script>
 export default {
-  props: ['prop'],
+  props: {
+    prop: {
+      type: String
+    },
+    rules: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       validators: [],
@@ -50,7 +58,11 @@ export default {
     },
     validate() {
       if (this.prop) {
-        this.validators = this.$parent.rules[this.prop] || [];
+        const rules = this.$parent.rules || {};
+        const prop = this.prop || '';
+        const validators = rules[prop] || [];
+        this.validators = validators.concat(this.rules);
+
         const value = this.getValueByPath(this.$parent.model, this.prop);
         let result = true;
         // 检验
