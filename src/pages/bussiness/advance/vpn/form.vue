@@ -76,7 +76,7 @@
               </div>
             </div>
             <div class="config-uploader__tip"
-                 :class="{'config-uploader__tip--error':isErrorFileExt}">
+                 :class="{'config-uploader__tip--error':(isErrorFileExt || isEmptyFile)}">
               {{$t('trans0678')}}
             </div>
           </div>
@@ -154,7 +154,8 @@ export default {
       },
       openvpnConfigFile: null,
       openvpnConfigUrl: '',
-      openvpnFileAccept: 'ovpn'
+      openvpnFileAccept: 'ovpn',
+      isEmptyFile: false
     };
   },
   mounted() {
@@ -251,21 +252,24 @@ export default {
         });
     },
     submit() {
-      if (this.$refs.form.validate() && !this.isErrorFileExt) {
+      if (this.$refs.form.validate()) {
+        if (this.form.protocol === VPNType.openvpn && !this.openvpnConfigFile) {
+          this.isEmptyFile = true;
+          return;
+        }
         const fetchMethod = this.formType === 'update' ? 'updateVPN' : 'addVPN';
         this.$loading.open();
-        if (
-          this.formParams.protocol === VPNType.openvpn &&
-          !this.openvpnConfigFile.update
-        ) {
-          this.upload()
-            .then(res => {
-              this.openvpnConfigUrl = res.data.result.url;
-              this.submitForm(fetchMethod);
-            })
-            .catch(() => {
-              this.$loading.close();
-            });
+        if (this.formParams.protocol === VPNType.openvpn) {
+          if (!this.openvpnConfigFile.update) {
+            this.upload()
+              .then(res => {
+                this.openvpnConfigUrl = res.data.result.url;
+                this.submitForm(fetchMethod);
+              })
+              .catch(() => {
+                this.$loading.close();
+              });
+          }
         } else {
           this.submitForm(fetchMethod);
         }
