@@ -105,7 +105,11 @@ function findGateway(source) {
 // 找绿色的节点
 function findGreenNode(root, source, green) {
   root.neighbors.forEach(n => {
-    if (!green.includes(n.entity) && isGood(n.origin.rssi) && root !== n.entity) {
+    if (
+      !green.includes(n.entity) &&
+      isGood(n.origin.rssi) &&
+      root !== n.entity
+    ) {
       green.push(n.entity);
       findGreenNode(n.entity, source, green);
     }

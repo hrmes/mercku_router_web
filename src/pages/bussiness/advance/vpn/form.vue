@@ -58,10 +58,10 @@
         <div v-if="form.protocol === VPNType.openvpn">
           <div class="config-uploader">
             <div class="config-uploader__inner">
-              <div class="config-uploader__label">{{'文件'}}</div>
+              <div class="config-uploader__label">{{$t('trans0673')}}</div>
               <button @click="triggerFileInput"
                       class="config-uploader__button">
-                <span>{{openvpnConfigFile?'更新配置文件':'上传配置文件'}}</span>
+                <span>{{ openvpnConfigFile ? $t('trans0675') : $t('trans0006') }}</span>
                 <input type="file"
                        @change="onFileChange"
                        ref="uploadInput"
@@ -72,12 +72,12 @@
                    class="config-uploader__status"
                    :class="{'config-uploader__status--error':isErrorFileExt}">
                 <span class="config-uploader__icon"></span>
-                <span>{{isErrorFileExt?'错误': '已上传'}}</span>
+                <span>{{isErrorFileExt ? $t('trans0689'): $t('trans0691')}}</span>
               </div>
             </div>
             <div class="config-uploader__tip"
                  :class="{'config-uploader__tip--error':isErrorFileExt}">
-              请上传 OpenVPN 提供商为您提供的连接文件，仅支持 “.ovpn” 格式文件
+              {{$t('trans0678')}}
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ export default {
         },
         {
           value: VPNType.openvpn,
-          text: 'oooooooovpn'
+          text: this.$t('trans0676')
         }
       ],
       pptp: {
@@ -204,7 +204,7 @@ export default {
         if (this.form.protocol === VPNType.pptp) {
           params.pptp = this.pptp;
         }
-      } else {
+      } else if (!this.openvpnConfigFile.update) {
         params.openvpn = {
           url: this.openvpnConfigUrl
         };
@@ -235,6 +235,7 @@ export default {
     },
     upload() {
       const formData = new FormData();
+      formData.append('type', 'openvpn');
       formData.append('file', this.openvpnConfigFile);
       return this.$http.uploadFile(formData, () => {});
     },
@@ -253,7 +254,6 @@ export default {
       if (this.$refs.form.validate() && !this.isErrorFileExt) {
         const fetchMethod = this.formType === 'update' ? 'updateVPN' : 'addVPN';
         this.$loading.open();
-
         if (
           this.formParams.protocol === VPNType.openvpn &&
           !this.openvpnConfigFile.update

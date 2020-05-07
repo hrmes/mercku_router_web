@@ -64,6 +64,11 @@ module.exports = {
         target: 'http://mywifi.mercku.tech',
         changeOrigin: true,
         secure: true
+      },
+      '/file_upload': {
+        target: 'http://mywifi.mercku.tech',
+        changeOrigin: true,
+        secure: true
       }
     }
   },

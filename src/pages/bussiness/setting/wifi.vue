@@ -18,6 +18,12 @@
               ref="form"
               :model="form"
               :rules='rules'>
+        <div class="form-header">
+          <img class="form-header__img"
+               src="@/assets/images/icon/ic_wifi@2x.png"
+               alt="">
+          <span class="form-header__title">{{$t('trans0677')}}</span>
+        </div>
         <m-form-item class="item"
                      prop='b24g.ssid'>
           <m-input v-model="form.b24g.ssid"
@@ -41,6 +47,20 @@
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
 
+        <m-form-item class="form__item">
+          <m-select :label="$t('trans0680')"
+                    :height="300"
+                    v-model="form.b24g.channel.number"
+                    :options="channels.b24g"></m-select>
+        </m-form-item>
+        <m-form-item class="form__item"
+                     v-if="form.smart_connect">
+          <m-select :label="$t('trans0681')"
+                    :height="300"
+                    v-model="form.b5g.channel.number"
+                    :options="channels.b5g"></m-select>
+        </m-form-item>
+
         <div class="form-item check-info">
           <label for=""> {{$t('trans0110')}}
             <div class="tool">
@@ -57,28 +77,7 @@
           </label>
           <m-switch v-model="form.b24g.hidden" />
         </div>
-        <m-form-item class="form__item"
-                     v-if="!form.smart_connect">
-          <m-select :label="$t('trans0522')"
-                    :height="300"
-                    v-model="form.b24g.channel.number"
-                    :options="channels.b24g"></m-select>
-        </m-form-item>
 
-        <m-form-item class="form__item"
-                     v-if="form.smart_connect">
-          <m-select :label="$t('trans0522')"
-                    :height="300"
-                    v-model="form.b24g.channel.number"
-                    :options="channels.b24g"></m-select>
-        </m-form-item>
-        <m-form-item class="form__item"
-                     v-if="form.smart_connect">
-          <m-select :label="$t('trans0522')"
-                    :height="300"
-                    v-model="form.b5g.channel.number"
-                    :options="channels.b5g"></m-select>
-        </m-form-item>
       </m-form>
 
       <m-form v-if="!form.smart_connect"
@@ -86,6 +85,12 @@
               ref="form"
               :model="form"
               :rules='rules'>
+        <div class="form-header">
+          <img class="form-header__img"
+               src="@/assets/images/icon/ic_wifi@2x.png"
+               alt="">
+          <span class="form-header__title">{{$t('trans0679')}}</span>
+        </div>
         <m-form-item class="item"
                      prop='b5g.ssid'>
           <m-input v-model="form.b5g.ssid"
@@ -109,6 +114,14 @@
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
 
+        <m-form-item class="form__item"
+                     v-if="!form.smart_connect">
+          <m-select :label="$t('trans0681')"
+                    :height="300"
+                    v-model="form.b5g.channel.number"
+                    :options="channels.b5g"></m-select>
+        </m-form-item>
+
         <div class="form-item check-info">
           <label for=""> {{$t('trans0110')}}
             <div class="tool">
@@ -125,28 +138,7 @@
           </label>
           <m-switch v-model="form.b5g.hidden" />
         </div>
-        <m-form-item class="form__item"
-                     v-if="!form.smart_connect">
-          <m-select :label="$t('trans0522')"
-                    :height="300"
-                    v-model="form.b5g.channel.number"
-                    :options="channels.b5g"></m-select>
-        </m-form-item>
 
-        <m-form-item class="form__item"
-                     v-if="form.smart_connect">
-          <m-select :label="$t('trans0522')"
-                    :height="300"
-                    v-model="form.b24g.channel.number"
-                    :options="channels.b24g"></m-select>
-        </m-form-item>
-        <m-form-item class="form__item"
-                     v-if="form.smart_connect">
-          <m-select :label="$t('trans0522')"
-                    :height="300"
-                    v-model="form.b5g.channel.number"
-                    :options="channels.b5g"></m-select>
-        </m-form-item>
       </m-form>
       <div class="form-button">
         <button class="btn"
@@ -356,7 +348,7 @@ export default {
   flex-direction: column;
   width: 340px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #ebebeb;
+
   .smart-connect__inner {
     display: flex;
   }
@@ -378,10 +370,24 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  .form-header {
+    border-bottom: 1px solid #ebebeb;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    .form-header__img {
+      width: 16px;
+      margin-right: 10px;
+    }
+    .form-header__title {
+      color: #999;
+    }
+  }
   + .form {
     padding-top: 20px;
     margin-top: 0;
-    border-top: 1px solid #ebebeb;
   }
   .check-info {
     display: flex;
