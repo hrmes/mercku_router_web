@@ -231,6 +231,7 @@ export default {
     onFileChange(ev) {
       const { files } = ev.target;
       if (files && !files.length) return;
+      this.isEmptyFile = false;
       const postFiles = Array.prototype.slice.call(files);
       [this.openvpnConfigFile] = postFiles;
     },
@@ -259,6 +260,7 @@ export default {
         }
         const fetchMethod = this.formType === 'update' ? 'updateVPN' : 'addVPN';
         this.$loading.open();
+
         if (this.formParams.protocol === VPNType.openvpn) {
           if (!this.openvpnConfigFile.update) {
             this.upload()
@@ -269,6 +271,8 @@ export default {
               .catch(() => {
                 this.$loading.close();
               });
+          } else {
+            this.submitForm(fetchMethod);
           }
         } else {
           this.submitForm(fetchMethod);
