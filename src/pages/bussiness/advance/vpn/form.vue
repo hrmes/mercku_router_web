@@ -57,8 +57,8 @@
         </div>
         <div v-if="form.protocol === VPNType.openvpn">
           <div class="config-uploader">
+            <div class="config-uploader__label">{{$t('trans0673')}}</div>
             <div class="config-uploader__inner">
-              <div class="config-uploader__label">{{$t('trans0673')}}</div>
               <button @click="triggerFileInput"
                       class="config-uploader__button">
                 <span>{{ openvpnConfigFile ? $t('trans0675') : $t('trans0006') }}</span>
@@ -302,6 +302,7 @@ export default {
   }
   .config-uploader__label {
     color: #333;
+    margin-bottom: 5px;
     font-size: 14px;
     margin-right: 12px;
     font-weight: bold;
