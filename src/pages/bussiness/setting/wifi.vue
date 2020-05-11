@@ -15,7 +15,7 @@
       </div>
 
       <m-form class="form"
-              ref="form"
+              ref="b24gForm"
               :model="form"
               :rules='rules'>
         <div class="form-header">
@@ -82,7 +82,7 @@
 
       <m-form v-if="!form.smart_connect"
               class="form"
-              ref="form"
+              ref="b5gForm"
               :model="form"
               :rules='rules'>
         <div class="form-header">
@@ -243,7 +243,13 @@ export default {
       return this.form[band].encrypt === 'open';
     },
     submit() {
-      if (this.$refs.form.validate()) {
+      let validResult1 = true;
+      let validResult2 = true;
+      validResult1 = this.$refs.b24gForm.validate();
+      if (this.form.smart_connect) {
+        validResult2 = this.$refs.b5gForm.validate();
+      }
+      if (validResult1 && validResult2) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
