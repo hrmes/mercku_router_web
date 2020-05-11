@@ -18,7 +18,8 @@
               ref="b24gForm"
               :model="form"
               :rules='rules'>
-        <div class="form-header">
+        <div class="form-header"
+             v-if="!form.smart_connect">
           <img class="form-header__img"
                src="@/assets/images/icon/ic_wifi@2x.png"
                alt="">
@@ -246,7 +247,7 @@ export default {
       let validResult1 = true;
       let validResult2 = true;
       validResult1 = this.$refs.b24gForm.validate();
-      if (this.form.smart_connect) {
+      if (!this.form.smart_connect) {
         validResult2 = this.$refs.b5gForm.validate();
       }
       if (validResult1 && validResult2) {
