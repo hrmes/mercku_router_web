@@ -72,7 +72,7 @@
                    class="config-uploader__status"
                    :class="{'config-uploader__status--error':isErrorFileExt}">
                 <span class="config-uploader__icon"></span>
-                <span>{{isErrorFileExt ? $t('trans0689'): $t('trans0691')}}</span>
+                <span>{{isErrorFileExt ? $t('trans0691'): $t('trans0689')}}</span>
               </div>
             </div>
             <div class="config-uploader__tip"
