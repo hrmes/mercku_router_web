@@ -9,6 +9,7 @@
         <div class="smart-connect__inner">
           <label class="smart-connect__label">{{$t('trans0397')}}</label>
           <m-switch class="smart-connect__switch"
+                    :onChange="changeSmartConnect"
                     v-model="form.smart_connect" />
         </div>
         <div class="smart-connect__tip">{{$t('trans0398')}}</div>
@@ -16,6 +17,7 @@
 
       <m-form class="form"
               ref="b24gForm"
+              key="b24gform"
               :model="form"
               :rules='rules'>
         <div class="form-header"
@@ -25,7 +27,8 @@
                alt="">
           <span class="form-header__title">{{$t('trans0677')}}</span>
         </div>
-        <m-form-item class="item"
+        <m-form-item key="b24gssid"
+                     class="item"
                      prop='b24g.ssid'>
           <m-input v-model="form.b24g.ssid"
                    :label="$t('trans0168')"
@@ -33,13 +36,15 @@
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
 
-        <m-form-item class="item">
+        <m-form-item key="b24gencrypt"
+                     class="item">
           <m-select :label="$t('trans0522')"
                     v-model="form.b24g.encrypt"
                     :options="options"></m-select>
         </m-form-item>
 
-        <m-form-item v-if="!isOpen('b24g')"
+        <m-form-item key="b24gpassword"
+                     v-if="!isOpen('b24g')"
                      class="item"
                      prop='b24g.password'>
           <m-input v-model="form.b24g.password"
@@ -48,13 +53,15 @@
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
 
-        <m-form-item class="form__item">
+        <m-form-item key="b24gchannelnumber"
+                     class="form__item">
           <m-select :label="$t('trans0680')"
                     :height="300"
                     v-model="form.b24g.channel.number"
                     :options="channels.b24g"></m-select>
         </m-form-item>
-        <m-form-item class="form__item"
+        <m-form-item key="b5gchannelnumber-1"
+                     class="form__item"
                      v-if="form.smart_connect">
           <m-select :label="$t('trans0681')"
                     :height="300"
@@ -84,6 +91,7 @@
       <m-form v-if="!form.smart_connect"
               class="form"
               ref="b5gForm"
+              key="b5gform"
               :model="form"
               :rules='rules'>
         <div class="form-header">
@@ -92,7 +100,8 @@
                alt="">
           <span class="form-header__title">{{$t('trans0679')}}</span>
         </div>
-        <m-form-item class="item"
+        <m-form-item key="b5gssid"
+                     class="item"
                      prop='b5g.ssid'>
           <m-input v-model="form.b5g.ssid"
                    :label="$t('trans0168')"
@@ -100,7 +109,8 @@
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
 
-        <m-form-item class="item">
+        <m-form-item key="b5gencrypt"
+                     class="item">
           <m-select :label="$t('trans0522')"
                     v-model="form.b5g.encrypt"
                     :options="options"></m-select>
@@ -108,6 +118,7 @@
 
         <m-form-item v-if="!isOpen('b5g')"
                      class="item"
+                     key="b5gpassword"
                      prop='b5g.password'>
           <m-input v-model="form.b5g.password"
                    :label="$t('trans0172')"
@@ -116,6 +127,7 @@
         </m-form-item>
 
         <m-form-item class="form__item"
+                     key="b5gchannelnumber"
                      v-if="!form.smart_connect">
           <m-select :label="$t('trans0681')"
                     :height="300"
@@ -240,6 +252,13 @@ export default {
     };
   },
   methods: {
+    changeSmartConnect() {
+      // 开关变化后，始终保持5G的参数和2.4G的一致
+      this.form.b5g.hidden = this.form.b24g.hidden;
+      this.form.b5g.ssid = this.form.b24g.ssid;
+      this.form.b5g.password = this.form.b24g.password;
+      this.form.b5g.encrypt = this.form.b24g.encrypt;
+    },
     isOpen(band) {
       return this.form[band].encrypt === 'open';
     },
@@ -257,27 +276,42 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
+              const b24g = {
+                hidden: this.form.b24g.hidden,
+                ssid: this.form.b24g.ssid,
+                password: this.form.b24g.password,
+                encrypt: this.form.b24g.encrypt,
+                channel: {
+                  number: this.form.b24g.channel.number
+                }
+              };
+              let b5g;
+              if (this.form.smart_connect) {
+                b5g = {
+                  hidden: this.form.b24g.hidden,
+                  ssid: this.form.b24g.ssid,
+                  password: this.form.b24g.password,
+                  encrypt: this.form.b24g.encrypt,
+                  channel: {
+                    number: this.form.b5g.channel.number
+                  }
+                };
+              } else {
+                b5g = {
+                  hidden: this.form.b5g.hidden,
+                  ssid: this.form.b5g.ssid,
+                  password: this.form.b5g.password,
+                  encrypt: this.form.b5g.encrypt,
+                  channel: {
+                    number: this.form.b5g.channel.number
+                  }
+                };
+              }
               const wifi = {
                 smart_connect: this.form.smart_connect,
                 bands: {
-                  [Bands.b24g]: {
-                    hidden: this.form.b24g.hidden,
-                    ssid: this.form.b24g.ssid,
-                    password: this.form.b24g.password,
-                    encrypt: this.form.b24g.encrypt,
-                    channel: {
-                      number: this.form.b24g.channel.number
-                    }
-                  },
-                  [Bands.b5g]: {
-                    hidden: this.form.b5g.hidden,
-                    ssid: this.form.b5g.ssid,
-                    password: this.form.b5g.password,
-                    encrypt: this.form.b5g.encrypt,
-                    channel: {
-                      number: this.form.b5g.channel.number
-                    }
-                  }
+                  [Bands.b24g]: b24g,
+                  [Bands.b5g]: b5g
                 }
               };
               this.$http.meshWifiUpdate(wifi).then(() => {
