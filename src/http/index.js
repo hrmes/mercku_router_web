@@ -100,7 +100,11 @@ const methods = {
   getMeshMode: createMethod('mesh.mode.get'),
   updateMeshMode: createMethod('mesh.mode.update'),
   getMeshBand: createMethod('mesh.band.get'),
-  updateMeshBand: createMethod('mesh.band.update')
+  updateMeshBand: createMethod('mesh.band.update'),
+  getRegion: createMethod('mesh.region.get'),
+  getSupportChannel: createMethod('mesh.channel.supported.get'),
+  getSupportRegions: createMethod('mesh.region.supported.get'),
+  setRegion: createMethod('mesh.region.update')
 };
 
 class Http {
@@ -153,6 +157,22 @@ Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
   const source = CancelToken.source();
   return axios({
     url: '/firmware_upload',
+    method: 'post',
+    data: params,
+    cancelToken: source.token,
+    headers: { 'Content-Type': 'multipart/form-data' },
+    onUploadProgress: progressEvent => {
+      callback(progressEvent, source);
+    }
+  });
+};
+
+// 上传文件
+Http.prototype.uploadFile = function uploadFile(params, callback) {
+  const { CancelToken } = axios;
+  const source = CancelToken.source();
+  return axios({
+    url: '/file_upload',
     method: 'post',
     data: params,
     cancelToken: source.token,

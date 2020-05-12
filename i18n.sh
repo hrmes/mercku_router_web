@@ -5,7 +5,7 @@ doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
 
-folder=(app_code cik_code startca_code demo_code inverto_code)
+folder=(m2_app_code cik_code startca_code demo_code inverto_code)
 customer=(mercku cik startca demo inverto)
 source=(en_US_web.json zh_CN_web.json de_DE_web.json nl_NL_web.json)
 target=(en-US.json zh-CN.json de-DE.json nl-NL.json)
@@ -78,7 +78,7 @@ beautify_echo "complete copy all customers i18n files..." success
 
 # 拷贝错误码文件，错误码文件是共用的，拷贝mercku的错误码文件即可
 beautify_echo "complete copy error files..." info
-cp -f app_code/$sourceerror $project_dir/src/i18n/$targeterror
+cp -f m2_app_code/$sourceerror $project_dir/src/i18n/$targeterror
 beautify_echo "complete copy error files..." success
 
 
