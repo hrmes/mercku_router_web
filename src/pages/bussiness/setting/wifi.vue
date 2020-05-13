@@ -265,9 +265,15 @@ export default {
     submit() {
       let validResult1 = true;
       let validResult2 = true;
+
       validResult1 = this.$refs.b24gForm.validate();
       if (!this.form.smart_connect) {
+        // 表单验证通过且ssid不一致
         validResult2 = this.$refs.b5gForm.validate();
+        if (this.form.b24g.ssid === this.form.b5g.ssid) {
+          this.$toast(this.$t('trans0660'), 3000, 'error');
+          return;
+        }
       }
       if (validResult1 && validResult2) {
         this.$dialog.confirm({
@@ -285,28 +291,18 @@ export default {
                   number: this.form.b24g.channel.number
                 }
               };
-              let b5g;
-              if (this.form.smart_connect) {
-                b5g = {
-                  hidden: this.form.b24g.hidden,
-                  ssid: this.form.b24g.ssid,
-                  password: this.form.b24g.password,
-                  encrypt: this.form.b24g.encrypt,
-                  channel: {
-                    number: this.form.b5g.channel.number
-                  }
-                };
-              } else {
-                b5g = {
-                  hidden: this.form.b5g.hidden,
-                  ssid: this.form.b5g.ssid,
-                  password: this.form.b5g.password,
-                  encrypt: this.form.b5g.encrypt,
-                  channel: {
-                    number: this.form.b5g.channel.number
-                  }
-                };
-              }
+              const formBand = this.form.smart_connect
+                ? this.form.b24g
+                : this.form.b5g;
+              const b5g = {
+                hidden: formBand.hidden,
+                ssid: formBand.ssid,
+                password: formBand.password,
+                encrypt: formBand.encrypt,
+                channel: {
+                  number: this.form.b5g.channel.number
+                }
+              };
               const wifi = {
                 smart_connect: this.form.smart_connect,
                 bands: {

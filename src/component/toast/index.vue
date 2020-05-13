@@ -68,10 +68,12 @@ export default {
     &::before {
       content: '';
       margin-right: 8px;
+      flex-shrink: 0;
       display: block;
       width: 14px;
       height: 14px;
-      background: url(../../assets/images/icon/ic_default_error.png) center no-repeat;
+      background: url(../../assets/images/icon/ic_default_error.png) center
+        no-repeat;
       background-size: 100%;
     }
   }
@@ -81,6 +83,7 @@ export default {
     &::before {
       content: '';
       margin-right: 8px;
+      flex-shrink: 0;
       display: block;
       width: 14px;
       height: 14px;
