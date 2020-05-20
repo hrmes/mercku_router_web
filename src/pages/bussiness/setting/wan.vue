@@ -255,7 +255,7 @@ export default {
               port: {
                 id: 0
               },
-              tagged: false
+              tagged: true
             }
           ],
           priority: 0
@@ -354,7 +354,11 @@ export default {
       ],
       vlanIdRules: [
         {
-          rule: value => value > 1 && value < 4094,
+          rule: value => /^\d+$/.test(value),
+          message: this.$t('trans0687')
+        },
+        {
+          rule: value => value >= 1 && value <= 4094,
           message: this.$t('trans0687')
         }
       ]
