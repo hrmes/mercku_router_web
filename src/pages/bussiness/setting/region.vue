@@ -69,6 +69,7 @@ export default {
           this.form.region = region;
 
           let allRegion = require(`@/assets/regions/${this.$i18n.locale}.json`);
+
           allRegion = allRegion.map(r => ({
             text: r.name,
             value: parseInt(r.code, 10)
@@ -77,11 +78,12 @@ export default {
           const regions = [];
           const supportRegions = resArr[1].data.result;
 
-          supportRegions.forEach(sr => {
+          // 显示需要排序，原本的文件中是有序的，支持列表时无序的，所以以原本的文件为基准
+          allRegion.forEach(ar => {
             // const id = `${sr.id}`; // change number to string
-            const t = allRegion.filter(ar => ar.value === sr.id)[0];
+            const t = supportRegions.filter(sr => sr.id === ar.value)[0];
             if (t) {
-              regions.push(t);
+              regions.push(ar);
             }
           });
           this.regions = regions;
