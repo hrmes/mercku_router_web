@@ -94,6 +94,7 @@
 import { getStringByte } from 'util/util';
 import { VPNType } from 'util/constant';
 
+const MAX_FILE_SIZE = 1000 * 1000;
 export default {
   data() {
     return {
@@ -221,7 +222,7 @@ export default {
         }
         const { size } = this.openvpnConfigFile;
         // 空文件或者大于1M
-        if (size <= 0 || size >= 1000 * 1000) {
+        if (size <= 0 || size > MAX_FILE_SIZE) {
           return true;
         }
       }
