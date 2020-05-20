@@ -70,13 +70,13 @@
               </button>
               <div v-if="openvpnConfigFile"
                    class="config-uploader__status"
-                   :class="{'config-uploader__status--error':isErrorFileExt}">
+                   :class="{'config-uploader__status--error':isInvalidFile}">
                 <span class="config-uploader__icon"></span>
-                <span>{{isErrorFileExt ? $t('trans0691'): $t('trans0689')}}</span>
+                <span>{{isInvalidFile ? $t('trans0691'): $t('trans0689')}}</span>
               </div>
             </div>
             <div class="config-uploader__tip"
-                 :class="{'config-uploader__tip--error':(isErrorFileExt || isEmptyFile)}">
+                 :class="{'config-uploader__tip--error':(isInvalidFile || isEmptyFile)}">
               {{$t('trans0678')}}
             </div>
           </div>
@@ -94,6 +94,7 @@
 import { getStringByte } from 'util/util';
 import { VPNType } from 'util/constant';
 
+const MAX_FILE_SIZE = 1000 * 1000;
 export default {
   data() {
     return {
@@ -213,13 +214,17 @@ export default {
 
       return params;
     },
-    isErrorFileExt() {
+    isInvalidFile() {
       if (this.openvpnConfigFile && !this.openvpnConfigFile.update) {
         const ext = this.openvpnConfigFile.name.split('.').slice(-1)[0];
-        if (ext === this.openvpnFileAccept) {
-          return false;
+        if (ext !== this.openvpnFileAccept) {
+          return true;
         }
-        return true;
+        const { size } = this.openvpnConfigFile;
+        // 空文件或者大于1M
+        if (size <= 0 || size > MAX_FILE_SIZE) {
+          return true;
+        }
       }
       return false;
     }
