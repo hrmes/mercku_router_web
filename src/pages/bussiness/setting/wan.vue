@@ -120,9 +120,21 @@
             </m-form-item>
           </div>
           <div class="pppoe-form__vlan">
-            <m-checkbox :rect="false"
-                        :text="$t('trans0683')"
-                        v-model="pppoeForm.vlan.enabled"></m-checkbox>
+            <div class="pppoe-form__label">
+              <m-checkbox :rect="false"
+                          :text="$t('trans0683')"
+                          v-model="pppoeForm.vlan.enabled"></m-checkbox>
+              <div class="tool"
+                   style="width:14px;">
+                <m-popover position="bottom left"
+                           style="top:-7px;left:2px;"
+                           :title="this.$t('trans0683')"
+                           :content="this.$t('trans0682')">
+                  <img width="14"
+                       src="../../../assets/images/icon/ic_question.png">
+                </m-popover>
+              </div>
+            </div>
             <m-form v-if="pppoeForm.vlan.enabled"
                     class="pppoe-form__inner"
                     :model="pppoeForm.vlan">
@@ -691,6 +703,9 @@ export default {
   .pppoe-form__vlan {
     padding-top: 20px;
     border-top: 1px solid #e8e8e8;
+  }
+  .pppoe-form__label {
+    display: flex;
   }
   .pppoe-form__item {
     margin-bottom: 30px;
