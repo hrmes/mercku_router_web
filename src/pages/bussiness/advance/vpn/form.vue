@@ -22,22 +22,24 @@
                     :options="protocols"></m-select>
         </m-form-item>
         <div v-if="form.protocol !== VPNType.openvpn">
-          <m-form-item class="item"
+          <m-form-item key="server"
+                       class="item"
                        prop='server'>
             <m-input :label="$t('trans0409')"
                      type="text"
                      :placeholder="$t('trans0321')"
                      v-model="form.server" />
           </m-form-item>
-          <m-form-item class="item"
+          <m-form-item key="username"
+                       class="item"
                        prop='username'>
             <m-input :label="$t('trans0410')"
                      type="text"
                      :placeholder="$t('trans0321')"
                      v-model="form.username" />
           </m-form-item>
-          <m-form-item class="item"
-                       prop='password'>
+          <m-form-item key="password"
+                       class="item">
             <m-input :label="`${$t('trans0003')}${$t('trans0411')}`"
                      type='password'
                      :placeholder="`${$t('trans0321')}`"
@@ -80,6 +82,31 @@
               {{$t('trans0678')}}
             </div>
           </div>
+          <div class="openvpn__checkbox">
+            <m-checkbox v-model="openvpnAdvance"
+                        :text="$t('trans0440')"></m-checkbox>
+          </div>
+
+          <div class="openvpn-advance"
+               v-if="openvpnAdvance">
+            <m-form-item key="ousernmae"
+                         class="item"
+                         prop='username'>
+              <m-input :label="$t('trans0410')"
+                       type="text"
+                       :placeholder="$t('trans0321')"
+                       v-model="form.username" />
+            </m-form-item>
+            <m-form-item key="opassword"
+                         class="item"
+                         prop='password'>
+              <m-input :label="$t('trans0003')"
+                       type='password'
+                       :placeholder="`${$t('trans0321')}`"
+                       v-model="form.password"></m-input>
+            </m-form-item>
+          </div>
+
         </div>
       </m-form>
       <div class="btn-info form-button">
@@ -151,8 +178,15 @@ export default {
             rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0261')
           }
+        ],
+        password: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          }
         ]
       },
+      openvpnAdvance: false,
       openvpnConfigFile: null,
       openvpnConfigUrl: '',
       openvpnFileAccept: 'ovpn',
@@ -180,6 +214,9 @@ export default {
             };
           }
         } else {
+          this.form.username = vpn.username;
+          this.form.password = vpn.password;
+          this.openvpnAdvance = !!(vpn.password || vpn.username);
           this.openvpnConfigFile = {
             update: true
           };
@@ -206,10 +243,16 @@ export default {
         if (this.form.protocol === VPNType.pptp) {
           params.pptp = this.pptp;
         }
-      } else if (!this.openvpnConfigFile.update) {
-        params.openvpn = {
-          url: this.openvpnConfigUrl
-        };
+      } else {
+        if (this.openvpnAdvance) {
+          params.username = this.form.username;
+          params.password = this.form.password;
+        }
+        if (!this.openvpnConfigFile.update) {
+          params.openvpn = {
+            url: this.openvpnConfigUrl
+          };
+        }
       }
 
       return params;
@@ -258,14 +301,13 @@ export default {
         });
     },
     submit() {
+      if (this.form.protocol === VPNType.openvpn && !this.openvpnConfigFile) {
+        this.isEmptyFile = true;
+        return;
+      }
       if (this.$refs.form.validate()) {
-        if (this.form.protocol === VPNType.openvpn && !this.openvpnConfigFile) {
-          this.isEmptyFile = true;
-          return;
-        }
         const fetchMethod = this.formType === 'update' ? 'updateVPN' : 'addVPN';
         this.$loading.open();
-
         if (this.formParams.protocol === VPNType.openvpn) {
           if (!this.openvpnConfigFile.update) {
             this.upload()
@@ -274,6 +316,7 @@ export default {
                 this.submitForm(fetchMethod);
               })
               .catch(() => {
+                this.$toast(this.$t('trans0341'));
                 this.$loading.close();
               });
           } else {
@@ -298,9 +341,18 @@ export default {
     }
   }
 }
+.openvpn-advance {
+  margin-top: 20px;
+}
+.openvpn__checkbox {
+  display: flex;
+  &:last-child {
+    margin-bottom: 30px;
+  }
+}
 .config-uploader {
   width: 340px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   .config-uploader__inner {
     display: flex;
     align-items: center;
