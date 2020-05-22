@@ -259,10 +259,11 @@ export default {
     },
     isInvalidFile() {
       if (this.openvpnConfigFile && !this.openvpnConfigFile.update) {
-        const ext = this.openvpnConfigFile.name.split('.').slice(-1)[0];
-        if (ext !== this.openvpnFileAccept) {
-          return true;
-        }
+        // Don't need validate config file extend name
+        // const ext = this.openvpnConfigFile.name.split('.').slice(-1)[0];
+        // if (ext !== this.openvpnFileAccept) {
+        //   return true;
+        // }
         const { size } = this.openvpnConfigFile;
         // 空文件或者大于1M
         if (size <= 0 || size > MAX_FILE_SIZE) {

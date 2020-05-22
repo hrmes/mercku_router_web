@@ -86,3 +86,13 @@ beautify_echo "complete copy error files..." success
 beautify_echo "copy timezones files..." info
 cp -r timezone/* $project_dir/src/timezones
 beautify_echo "complete copy timezones files..." success
+
+
+
+# 拷贝区域文件
+beautify_echo "copy region files..." info
+cp country_code/zh_CN_region_web.json $project_dir/src/assets/regions/zh-CN.json
+cp country_code/en_US_region_web.json $project_dir/src/assets/regions/en-US.json
+cp country_code/de_DE_region_web.json $project_dir/src/assets/regions/de-DE.json
+cp country_code/vi_VI_region_web.json $project_dir/src/assets/regions/vi-VI.json
+beautify_echo "complete copy timezones files..." success
