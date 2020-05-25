@@ -301,9 +301,14 @@ export default {
         });
     },
     submit() {
-      if (this.form.protocol === VPNType.openvpn && !this.openvpnConfigFile) {
-        this.isEmptyFile = true;
-        return;
+      if (this.form.protocol === VPNType.openvpn) {
+        if (!this.openvpnConfigFile) {
+          this.isEmptyFile = true;
+          return;
+        }
+        if (this.isInvalidFile) {
+          return;
+        }
       }
       if (this.$refs.form.validate()) {
         const fetchMethod = this.formType === 'update' ? 'updateVPN' : 'addVPN';
