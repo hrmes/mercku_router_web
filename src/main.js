@@ -4,7 +4,12 @@ import upgradeComponent from 'components/upgrade/index';
 import toast from 'components/toast/index';
 import dialog from 'components/dialog/index';
 import mProgress from 'components/progress/index.vue';
-import { formatSpeed, formatNetworkData, formatBandWidth, toLocaleNumber } from 'util/util';
+import {
+  formatSpeed,
+  formatNetworkData,
+  formatBandWidth,
+  toLocaleNumber
+} from 'util/util';
 import upgradeHelper from 'util/upgrade';
 import { changeLanguage, i18n, translate } from './i18n';
 import router from './router';
@@ -53,7 +58,10 @@ const launch = () => {
         clearInterval(timer);
         opt.ontimeout();
         opt.onfinally();
-        loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+
+        loadingInstance && loadingInstance.$destroy();
+        loadingInstance &&
+          loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
         loadingInstance = null;
       } else if (count !== total && count % 5 === 0) {
         if (responsed) {
@@ -65,7 +73,10 @@ const launch = () => {
               clearInterval(timer);
               opt.onsuccess();
               opt.onfinally();
-              loadingInstance && loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
+
+              loadingInstance && loadingInstance.$destroy();
+              loadingInstance &&
+                loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
               loadingInstance = null;
             })
             .catch(() => {
