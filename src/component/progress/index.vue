@@ -37,14 +37,16 @@ export default {
     };
   },
   mounted() {
-    this.createTiemr();
+    this.createTimer();
   },
   methods: {
-    createTiemr() {
+    createTimer() {
       const average = 100 / this.during;
+      document.body.classList.add('body--has-mask');
       this.timer = setInterval(() => {
         if (!this.countdown) {
           clearTimeout(this.timer);
+          document.body.classList.remove('body--has-mask');
           return;
         }
         this.countdown -= 1;
@@ -55,6 +57,7 @@ export default {
   },
   beforeDestroy() {
     clearTimeout(this.timer);
+    document.body.classList.remove('body--has-mask');
   }
 };
 </script>

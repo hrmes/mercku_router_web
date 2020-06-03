@@ -94,5 +94,5 @@ beautify_echo "copy region files..." info
 cp country_code/zh_CN_region_web.json $project_dir/src/assets/regions/zh-CN.json
 cp country_code/en_US_region_web.json $project_dir/src/assets/regions/en-US.json
 cp country_code/de_DE_region_web.json $project_dir/src/assets/regions/de-DE.json
-cp country_code/vi_VI_region_web.json $project_dir/src/assets/regions/vi-VI.json
+cp country_code/nl_NL_region_web.json $project_dir/src/assets/regions/nl-NL.json
 beautify_echo "complete copy timezones files..." success

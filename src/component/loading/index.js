@@ -22,6 +22,7 @@ const Loading = {
       }).$mount();
       this.instance.visible = true;
       document.body.appendChild(this.instance.$el);
+      document.body.classList.add('body--is-loading');
     }
   },
   close() {
@@ -33,6 +34,7 @@ const Loading = {
         if (instance) {
           instance.$el.parentNode.removeChild(instance.$el);
           instance = null;
+          document.body.classList.remove('body--is-loading');
         }
       });
       // fix ie bug
@@ -40,6 +42,7 @@ const Loading = {
         if (instance) {
           instance.$el.parentNode.removeChild(instance.$el);
           instance = null;
+          document.body.classList.remove('body--is-loading');
         }
         clearTimeout(timer);
       }, 500);
