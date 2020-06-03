@@ -2,7 +2,9 @@ import { Role, RouterMode, Customers } from 'util/constant';
 
 export default function getMenu(role, mode = RouterMode.router) {
   console.log(
-    `Init menus...customer is:${process.env.CUSTOMER_CONFIG.id}...role is:${role}...mode is:${mode}`
+    `Init menus...customer is:${
+      process.env.CUSTOMER_CONFIG.id
+    }...role is:${role}...mode is:${mode}`
   );
 
   const allCustomers = [
@@ -84,6 +86,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/timezone',
         super: false,
         mode: [RouterMode.router],
+        customers: allCustomers
+      },
+      {
+        text: 'trans0639',
+        name: 'region',
+        url: '/setting/region',
+        super: false,
+        mode: [RouterMode.router, RouterMode.bridge],
         customers: allCustomers
       },
       {
