@@ -169,14 +169,14 @@ import { RouterSnModel } from 'util/constant';
 const Routers = [
   {
     name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
-    image: require('../../../assets/images/img_bee.png'),
-    tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
+    image: require('@/assets/images/img_bee.png'),
+    tipImage: require('@/assets/images/img_add_plug_bee.jpg'),
     sn: RouterSnModel.Bee
   },
   {
     name: process.env.CUSTOMER_CONFIG.routers.M2.name,
-    image: require('../../../assets/images/img_m2.png'),
-    tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
+    image: require('@/assets/images/img_m2.png'),
+    tipImage: require('@/assets/images/img_add_plug_m2.jpg'),
     sn: RouterSnModel.M2
   }
 ];
@@ -233,12 +233,12 @@ export default {
     getNodeImg(node) {
       const id = node.sn.slice(0, 2);
       if (id === this.RouterSnModel.M2) {
-        return require('../../../assets/images/img_m2.png');
+        return require('@/assets/images/img_m2.png');
       }
       if (id === this.RouterSnModel.Bee) {
-        return require('../../../assets/images/img_bee.png');
+        return require('@/assets/images/img_bee.png');
       }
-      return require('../../../assets/images/icon/ic_default_router.png');
+      return require('@/assets/images/icon/ic_default_router.png');
     },
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
