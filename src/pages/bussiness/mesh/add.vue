@@ -171,13 +171,13 @@ const Routers = [
     name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
     image: require('../../../assets/images/img_bee.png'),
     tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
-    sn: '02'
+    sn: RouterSnModel.Bee
   },
   {
     name: process.env.CUSTOMER_CONFIG.routers.M2.name,
     image: require('../../../assets/images/img_m2.png'),
     tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
-    sn: '01'
+    sn: RouterSnModel.M2
   }
 ];
 export default {
