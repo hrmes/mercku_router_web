@@ -7,5 +7,15 @@
   "style": "inverto.scss",
   "policy": "https://www.inverto.tv/privacy-policy",
   "allow2LevelAdmin": true,
-  "languages": ["zh-CN", "en-US"]
+  "languages": ["zh-CN", "en-US"],
+  "routers": {
+    "M2": {
+      "name": "OneNet Mesh Wi-Fi Router",
+      "shortName": "OneNet"
+    },
+    "Bee": {
+      "name": "OneNet Mesh Wi-Fi Node",
+      "shortName": "OneNet"
+    }
+  }
 }

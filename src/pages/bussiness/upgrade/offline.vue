@@ -123,14 +123,8 @@ export default {
       fwInfo: {},
       upgraded: false,
       Products: {
-        M2: {
-          name: 'M2 Wi-Fi Router',
-          shortName: 'M2'
-        },
-        Bee: {
-          name: 'M2 Bee Node',
-          shortName: 'Bee'
-        }
+        M2: process.env.CUSTOMER_CONFIG.routers.M2,
+        Bee: process.env.CUSTOMER_CONFIG.routers.Bee
       }
     };
   },

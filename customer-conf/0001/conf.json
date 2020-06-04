@@ -6,5 +6,15 @@
   "i18nFolder": "mercku",
   "style": "mercku.scss",
   "policy": "",
-  "allow2LevelAdmin": false
+  "allow2LevelAdmin": false,
+  "routers": {
+    "M2": {
+      "name": "M2 Standalone Wi-Fi router",
+      "shortName": "M2"
+    },
+    "Bee": {
+      "name": "M2 Bee Wi-Fi Mesh Node",
+      "shortName": "Bee"
+    }
+  }
 }

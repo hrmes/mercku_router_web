@@ -168,13 +168,13 @@ import { RouterSnModel } from 'util/constant';
 
 const Routers = [
   {
-    name: 'M2 Bee Wi-Fi Mesh Node',
+    name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
     image: require('../../../assets/images/img_bee.png'),
     tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
     sn: '02'
   },
   {
-    name: 'M2 Standalone Wi-Fi router',
+    name: process.env.CUSTOMER_CONFIG.routers.M2.name,
     image: require('../../../assets/images/img_m2.png'),
     tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
     sn: '01'
@@ -244,10 +244,10 @@ export default {
       const id = node.sn.slice(0, 2);
       const num = node.sn.slice(-4);
       if (id === this.RouterSnModel.M2) {
-        return `M2-${num}`;
+        return `${process.env.CUSTOMER_CONFIG.routers.M2.shortName}-${num}`;
       }
       if (id === this.RouterSnModel.Bee) {
-        return `Bee-${num}`;
+        return `${process.env.CUSTOMER_CONFIG.routers.Bee.shortName}-${num}`;
       }
       return '';
     },
