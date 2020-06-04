@@ -243,13 +243,18 @@ export default {
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
       const num = node.sn.slice(-4);
-      if (id === this.RouterSnModel.M2) {
-        return `${process.env.CUSTOMER_CONFIG.routers.M2.shortName}-${num}`;
+      let name = '';
+      switch (id) {
+        case this.RouterSnModel.M2:
+          name = `${process.env.CUSTOMER_CONFIG.routers.M2.shortName}-${num}`;
+          break;
+        case this.RouterSnModel.Bee:
+          name = `${process.env.CUSTOMER_CONFIG.routers.Bee.shortName}-${num}`;
+          break;
+        default:
+          break;
       }
-      if (id === this.RouterSnModel.Bee) {
-        return `${process.env.CUSTOMER_CONFIG.routers.Bee.shortName}-${num}`;
-      }
-      return '';
+      return name;
     },
     selectRouter(router) {
       this.selectedCategory = router;
