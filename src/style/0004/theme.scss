@@ -1,0 +1,27 @@
+$primaryColor: #d6001c;
+
+// button
+$button-text-color: #fff;
+$button-background-color: $primaryColor;
+$button-border-color: transparent;
+$button-active-color: $primaryColor;
+$button-hover-color: #de3349;
+$button-disabled-background-color: #b3b3b3;
+$button-disabled-border-color: #b3b3b3;
+$button-disabled-text-color: #fff;
+
+$button-default-background-color: #fff;
+$button-default-text-color: $primaryColor;
+$button-default-border-color: $primaryColor;
+$button-default-active-text-color: #e6586a;
+$button-default-active-border-color: #e6586a;
+$button-default-hover-text-color: #e6586a;
+$button-default-hover-border-color: #e6586a;
+$button-default-disabled-text-color: #b2b2b2;
+$button-default-disabled-border-color: #b2b2b2;
+
+$button-text-text-color: #333;
+$button-text-hover-color: #999;
+$button-text-primary-text-color: $primaryColor;
+$button-text-primary-hover-color: #e6586a;
+$button-text-primary-disabled-hover-color: #d6001c;

@@ -145,5 +145,14 @@ module.exports = {
         options.limit = 50000;
         return options;
       });
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        // @/ is an alias to src/
+        // so this assumes you have a file named `src/variables.scss`
+        data: `@import "@/style/${CUSTOMER_ID}/theme.scss";`
+      }
+    }
   }
 };

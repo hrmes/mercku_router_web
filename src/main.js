@@ -19,7 +19,7 @@ import Http from './http';
 import store from './store';
 
 // 不同客户特别的样式表
-require(`./style/${process.env.CUSTOMER_CONFIG.style}`);
+require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
 
 const launch = () => {
   const http = new Http();

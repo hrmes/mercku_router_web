@@ -66,25 +66,24 @@ export default {
     -webkit-appearance: none;
     user-select: none;
     outline: none;
+    &::before {
+      content: '';
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      border-radius: 16px;
+      background-color: #fff;
+    }
+    &.checked {
+      border-color: #00d061;
+      background-color: #00d061;
+    }
     &.disabled {
       cursor: not-allowed;
       opacity: 0.7;
     }
-  }
-  .switch:before {
-    content: '';
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    border-radius: 16px;
-    background-color: #fff;
-  }
-
-  .switch.checked {
-    border-color: #00d061;
-    background-color: #00d061;
   }
 
   .switch.checked:before {

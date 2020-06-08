@@ -19,7 +19,6 @@
           <button class="btn btn-large"
                   @click="forward2WelcomePage">{{$t('trans0467')}}</button>
         </div>
-
       </div>
       <div class="type-container"
            v-show="welcomePage">
