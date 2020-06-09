@@ -378,8 +378,7 @@ export default {
       .message {
         display: flex;
         align-items: flex-start;
-        padding: 0 10px;
-        padding-left: 20px;
+        padding: 0 20px;
         height: 100%;
         align-items: center;
         cursor: pointer;
@@ -396,16 +395,15 @@ export default {
           height: 100%;
         }
         .img-container {
-          margin-right: 10px;
-          margin-left: 20px;
+          margin: 0 5px;
           .img-m2 {
-            width: 60px;
+            width: 80px;
           }
           .img-bee {
-            width: 60px;
+            width: 80px;
           }
           .img-other {
-            width: 60px;
+            width: 80px;
           }
         }
 
@@ -427,7 +425,7 @@ export default {
             text-align: left;
             line-height: 1;
             padding-top: 0px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
           }
           .node-sn {
@@ -445,7 +443,7 @@ export default {
             text-align: left;
             line-height: 1;
             font-size: 10px;
-            padding-top: 5px;
+            padding-top: 10px;
             position: relative;
             span {
               display: inline-block;
@@ -455,7 +453,7 @@ export default {
       }
       .badges {
         position: absolute;
-        right: 10px;
+        right: 20px;
         top: 10px;
         z-index: 1;
         display: flex;

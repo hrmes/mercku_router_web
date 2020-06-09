@@ -1,5 +1,5 @@
 <template>
-  <header class="header-container"
+  <header class="header-container customized"
           :class="{'nav-hide':!navVisible,'open':(mobileNavVisible),'i18n-open':mobileI18nVisible}">
     <div class="logo-wrap">
       <div v-if="logoVisible"
