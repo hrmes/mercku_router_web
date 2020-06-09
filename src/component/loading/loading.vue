@@ -2,9 +2,9 @@
   <transition name="loading">
     <div class="loading-container"
          v-if="visible">
-      <!-- <img src="../../assets/images/loading.gif"
-           alt=""> -->
-      <LoadingNew :size="60" />
+      <img src="../../assets/images/loading-3.gif"
+           alt="">
+      <!-- <LoadingNew :size="60" /> -->
     </div>
   </transition>
 
