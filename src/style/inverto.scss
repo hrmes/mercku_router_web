@@ -1,56 +1,64 @@
-.header-container {
-  .logo-wrap {
-    .logo-wrap__logo {
-      background: url(../assets/images/customer/inverto/inverto_logo.png) center
-        no-repeat;
-      background-size: 100%;
-    }
-    .offical {
-      display: none !important;
-    }
-  }
-}
-/************************* 登陆页面*********************/
-.login-container {
-  .download {
-    display: none;
-  }
-  .center-form {
-    .form {
-      height: 340px !important;
-    }
-    .logo {
-      &::before {
-        padding-top: 100% !important;
+.customized {
+  &.header-container {
+    .logo-wrap {
+      .logo-wrap__logo {
+        background: url(../assets/images/customer/inverto/inverto_logo.png)
+          center no-repeat;
+        background-size: 100%;
+        width: 150px;
+        height: 42px;
+        @media screen and (max-width: 767px) {
+          width: 125px;
+          height: 35px;
+        }
       }
-      width: 138px !important;
-      margin-bottom: 50px !important;
-      background: url(../assets/images/customer/inverto/inverto_logo_text.png)
-        no-repeat center;
-      background-size: 100%;
+      .offical {
+        display: none;
+      }
     }
   }
-  .download {
-    display: none !important;
-  }
-}
-@media screen and(max-width: 768px) {
-  .login-container {
+  /************************* 登陆页面*********************/
+  &.login-container {
+    .download {
+      display: none;
+    }
     .center-form {
       .form {
-        height: 304px !important;
+        height: 298px;
       }
       .logo {
-        width: 100px !important;
-        margin-bottom: 50px !important;
+        &::before {
+          padding-top: 28%;
+        }
+        // width: 138px !important;
+        margin-bottom: 50px;
         background: url(../assets/images/customer/inverto/inverto_logo_text.png)
           no-repeat center;
         background-size: 100%;
       }
     }
-    .small-device-download {
+    .download {
       display: none;
     }
   }
+  @media screen and(max-width: 768px) {
+    &.login-container {
+      .center-form {
+        .form {
+          height: 250px;
+        }
+        .logo {
+          width: 195px;
+          margin-bottom: 42px;
+          background: url(../assets/images/customer/inverto/inverto_logo_text.png)
+            no-repeat center;
+          background-size: 100%;
+        }
+      }
+      .small-device-download {
+        display: none;
+      }
+    }
+  }
+  /**************************end登陆页面******************/
 }
-/**************************end登陆页面******************/

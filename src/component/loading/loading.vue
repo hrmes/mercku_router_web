@@ -2,42 +2,20 @@
   <transition name="loading">
     <div class="loading-container"
          v-if="visible">
-      <!-- <div class="inner">
-        <div class="mercku_loading">
-          <div class="left">
-            <div class="out-wrapper">
-              <div class="outer-m"></div>
-              <div class="outer-mock-m"></div>
-            </div>
-            <div class="inner-wrapper">
-              <div class="inner-m"></div>
-              <div class="inner-mock-m"></div>
-            </div>
-          </div>
-          <div class="right">
-            <div class="out-wrapper">
-              <div class="outer-m"></div>
-              <div class="outer-mock-m"></div>
-            </div>
-            <div class="inner-wrapper">
-              <div class="inner-m"></div>
-              <div class="inner-mock-m"></div>
-            </div>
-          </div>
-
-        </div>
-        <div v-if="title"
-             class="title">{{title}}</div>
-        <div v-html="template"></div>
-      </div> -->
-      <img src="../../assets/images/loading.gif"
-           alt="">
+      <!-- <img src="../../assets/images/loading.gif"
+           alt=""> -->
+      <LoadingNew :size="60" />
     </div>
   </transition>
 
 </template>
 <script>
+import LoadingNew from './loading-new.vue';
+
 export default {
+  components: {
+    LoadingNew
+  },
   data() {
     return {
       visible: false,
@@ -48,117 +26,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.mercku_loading {
-  * {
-    box-sizing: content-box;
-  }
-  position: relative;
-  width: 100.5px;
-  height: 67px;
-  margin: 0 auto;
-  .left {
-    position: absolute;
-    left: 0;
-  }
-  .right {
-    position: absolute;
-    left: 32.5px;
-  }
-}
-
-.out-wrapper {
-  width: 67px;
-  height: 33.5px;
-  opacity: 0.5;
-}
-
-.outer-m,
-.outer-mock-m {
-  width: 51px;
-  height: 51px;
-  border-radius: 50%;
-  border-top: 8px solid rgba(216, 12, 24, 1);
-  border-left: 8px solid rgba(216, 12, 24, 1);
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  position: absolute;
-  left: 0;
-  transform: rotate(45deg);
-  animation: circle 1.5s linear infinite;
-}
-
-.outer-mock-m {
-  animation: circle-mock 1.5s linear infinite;
-}
-
-.inner-m,
-.inner-mock-m {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border-top: 8px solid rgba(216, 12, 24, 1);
-  border-left: 8px solid rgba(216, 12, 24, 1);
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-  position: absolute;
-  left: 13.5px;
-  top: 13.5px;
-  transform: rotate(45deg);
-  animation: circle 1.5s linear infinite;
-}
-
-.inner-mock-m {
-  animation: circle-mock 1.5s linear infinite;
-}
-
-@keyframes circle {
-  0% {
-    transform: rotate(45deg);
-  }
-  10% {
-    transform: rotate(45deg);
-  }
-  20% {
-    transform: rotate(45deg);
-  }
-  30% {
-    transform: rotate(45deg);
-  }
-  40% {
-    transform: rotate(45deg);
-  }
-  50% {
-    transform: rotate(45deg);
-  }
-  100% {
-    transform: rotate(405deg);
-  }
-}
-
-@keyframes circle-mock {
-  0% {
-    transform: rotate(45deg);
-  }
-  10% {
-    transform: rotate(45deg);
-  }
-  20% {
-    transform: rotate(45deg);
-  }
-  30% {
-    transform: rotate(45deg);
-  }
-  40% {
-    transform: rotate(45deg);
-  }
-  50% {
-    transform: rotate(117deg);
-  }
-  100% {
-    transform: rotate(405deg);
-  }
-}
-
 .loading-container {
   position: fixed;
   top: 0;

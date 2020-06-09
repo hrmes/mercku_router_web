@@ -170,13 +170,13 @@ const Routers = [
   {
     name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
     image: require('@/assets/images/img_bee.png'),
-    tipImage: require('@/assets/images/img_add_plug_bee.jpg'),
+    tipImage: require('@/assets/images/img_add_plug_bee.png'),
     sn: RouterSnModel.Bee
   },
   {
     name: process.env.CUSTOMER_CONFIG.routers.M2.name,
     image: require('@/assets/images/img_m2.png'),
-    tipImage: require('@/assets/images/img_add_plug_m2.jpg'),
+    tipImage: require('@/assets/images/img_add_plug_m2.png'),
     sn: RouterSnModel.M2
   }
 ];
@@ -503,8 +503,8 @@ export default {
       }
     }
     img {
-      width: 80px;
-      height: 80px;
+      width: 120px;
+      height: 120px;
     }
     .name {
       width: 120px;
@@ -657,8 +657,8 @@ export default {
         }
 
         img {
-          width: 80px;
-          height: 80px;
+          width: 120px;
+          height: 120px;
         }
       }
     }
@@ -681,12 +681,12 @@ export default {
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1599px) {
+@media screen and (min-width: 768px) and (max-width: 1599px) {
   .help-dialog {
     padding: 250px;
   }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .help-dialog-content {
     width: 100%;
     max-height: 350px;
@@ -702,8 +702,8 @@ export default {
     }
     .router {
       img {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
       }
     }
     .circle-animation {
