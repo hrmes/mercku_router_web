@@ -24,4 +24,15 @@ $button-text-text-color: #333;
 $button-text-hover-color: #999;
 $button-text-primary-text-color: $primaryColor;
 $button-text-primary-hover-color: #e6586a;
-$button-text-primary-disabled-hover-color: #d6001c;
+$button-text-primary-disabled-hover-color: #999;
+
+// checkbox
+$checkbox-border-color: #999;
+$checkbox-background-color: #fff;
+$checkbox-checked-background-color: #333;
+$checkbox-checked-color: #fff;
+
+// select and editableSelect
+$select-input-border-color: #e1e1e1;
+$select-popup-background-color: #fff;
+$select-popup-border-color: #e1e1e1;
