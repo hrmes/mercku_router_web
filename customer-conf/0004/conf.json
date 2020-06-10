@@ -17,5 +17,8 @@
       "name": "OneNet Mesh Wi-Fi Node",
       "shortName": "OneNet"
     }
+  },
+  "loading": {
+    "name": "loading-1.gif"
   }
 }

@@ -16,5 +16,8 @@
       "name": "M2 Bee Wi-Fi Mesh Node",
       "shortName": "Bee"
     }
+  },
+  "loading": {
+    "name": "loading.gif"
   }
 }
