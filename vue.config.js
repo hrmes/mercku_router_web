@@ -3,7 +3,16 @@ const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const UUID = require('uuid');
 
-const CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
+// 这里给默认值的原因是vscode里面，eslint会自动从命令行启动进行检查
+// 没有customer id报错，导致eslint不能加载webpack配置文件
+// 最终导致eslint中的webpack import resolver失效
+let CUSTOMER_ID = '';
+if (process.env.CUSTOMER_ID) {
+  CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
+} else {
+  CUSTOMER_ID = '0001';
+}
+
 let CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
 console.log(
   `get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`,
@@ -15,6 +24,8 @@ const favicon = CUSTOMER_CONFIG.favicon;
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+// const host = 'http://mywifi.mercku.tech';
+const host = 'http://onenet.inverto.tv';
 
 module.exports = {
   baseUrl: '/',
@@ -41,32 +52,32 @@ module.exports = {
     open: false,
     proxy: {
       '/app': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/firmware_upload': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/log.log': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/index.html': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/index.js': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/file_upload': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       }

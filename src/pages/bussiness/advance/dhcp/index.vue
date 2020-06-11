@@ -11,7 +11,7 @@
           <m-input :label="$t('trans0439')"
                    type="text"
                    :onBlur="blur"
-                   :placeholder="`${$t('trans0440')} ${curIp}`"
+                   :placeholder="curIp"
                    v-model="form.ip" />
         </m-form-item>
         <div class="item">

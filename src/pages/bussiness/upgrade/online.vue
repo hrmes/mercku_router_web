@@ -268,8 +268,7 @@ export default {
       .message {
         display: flex;
         align-items: flex-start;
-        padding: 0 10px;
-        padding-left: 20px;
+        padding: 0 20px;
         height: 100%;
         align-items: center;
         cursor: pointer;
@@ -285,11 +284,10 @@ export default {
           height: 100%;
         }
         .img-container {
-          margin-right: 10px;
-          margin-left: 20px;
+          margin: 0 5px;
           img {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
           }
         }
 
@@ -308,7 +306,7 @@ export default {
             text-align: left;
             line-height: 1;
             padding-top: 0px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             word-break: break-all;
           }
@@ -327,8 +325,7 @@ export default {
             text-align: left;
             font-size: 10px;
             line-height: 1;
-
-            padding-top: 5px;
+            padding-top: 10px;
             position: relative;
             span {
               display: inline-block;
