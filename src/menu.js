@@ -7,13 +7,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     }...role is:${role}...mode is:${mode}`
   );
 
-  const allCustomers = [
-    Customers.mercku,
-    Customers.cik,
-    Customers.internal,
-    Customers.startca,
-    Customers.inverto
-  ];
+  const allCustomers = Object.keys(Customers).map(key => Customers[key]);
   const wifi = {
     icon: 'wifi',
     text: 'trans0173',
@@ -172,7 +166,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0539',
         super: false,
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku]
+        customers: [Customers.mercku, Customers.inverto]
       },
       {
         url: '/advance/diagnosis',
@@ -208,7 +202,8 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.cik,
           Customers.internal,
           Customers.startca,
-          Customers.inverto
+          Customers.inverto,
+          Customers.orion
         ]
       }
     ]

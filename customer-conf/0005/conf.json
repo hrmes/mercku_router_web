@@ -1,0 +1,24 @@
+{
+  "id": "0004",
+  "title": "Orion",
+  "accept": ".laki",
+  "favicon": "customer-conf/0005/favicon.png",
+  "style": "inverto.scss",
+  "i18nFolder": "orion",
+  "policy": "https://www.inverto.tv/privacy-policy",
+  "allow2LevelAdmin": true,
+  "languages": ["zh-CN", "en-US"],
+  "routers": {
+    "M2": {
+      "name": "OneNet Mesh Wi-Fi Router",
+      "shortName": "OneNet"
+    },
+    "Bee": {
+      "name": "OneNet Mesh Wi-Fi Node",
+      "shortName": "OneNet"
+    }
+  },
+  "loading": {
+    "name": "loading-1.gif"
+  }
+}

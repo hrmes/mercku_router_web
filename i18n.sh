@@ -5,8 +5,8 @@ doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
 
-folder=(m2_app_code cik_code startca_code demo_code inverto_code)
-customer=(mercku cik startca demo inverto)
+folder=(m2_app_code cik_code startca_code demo_code inverto_code orion_code)
+customer=(mercku cik startca demo inverto orion)
 source=(en_US_web.json zh_CN_web.json de_DE_web.json nl_NL_web.json)
 target=(en-US.json zh-CN.json de-DE.json nl-NL.json)
 sourceerror=error_to_trans_web.json

@@ -3,7 +3,8 @@ export const Customers = {
   mercku: '0001',
   internal: '0000',
   startca: '0003',
-  inverto: '0004'
+  inverto: '0004',
+  orion: '0005'
 };
 export const Role = {
   super: 'super',
