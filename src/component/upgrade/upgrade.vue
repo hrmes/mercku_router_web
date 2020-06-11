@@ -3,7 +3,7 @@
     <div class="upgrade-container"
          v-if="visible">
       <div class="inner">
-        <img src="../../assets/images/loading-3.gif"
+        <img :src="url"
              alt="">
         <div v-if="title"
              class="title">{{title}}</div>
@@ -16,7 +16,10 @@
 <script>
 export default {
   data() {
+    const { name } = process.env.CUSTOMER_CONFIG.loading;
+    const url = require(`@/assets/images/loading/${name}`);
     return {
+      url,
       visible: false,
       template: '',
       title: '',
@@ -38,7 +41,7 @@ export default {
   justify-content: center;
   align-items: center;
   img {
-    width: 100px;
+    width: 120px;
   }
   &.upgrade-enter {
     opacity: 0;

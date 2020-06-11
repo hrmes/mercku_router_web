@@ -24,6 +24,8 @@ const favicon = CUSTOMER_CONFIG.favicon;
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+// const host = 'http://mywifi.mercku.tech';
+const host = 'http://onenet.inverto.tv';
 
 module.exports = {
   baseUrl: '/',
@@ -50,32 +52,32 @@ module.exports = {
     open: false,
     proxy: {
       '/app': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/firmware_upload': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/log.log': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/index.html': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/index.js': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       },
       '/file_upload': {
-        target: 'http://mywifi.mercku.tech',
+        target: host,
         changeOrigin: true,
         secure: true
       }
