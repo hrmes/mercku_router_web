@@ -1,8 +1,7 @@
 <template>
-  <div class="login-container">
+  <div class="login-container customized">
     <div class="center-form">
       <div class="form">
-
         <div class="logo">
         </div>
         <div v-if="loading === false">
@@ -167,7 +166,7 @@ export default {
     justify-content: center;
     position: relative;
     width: 100%;
-    transform: translateY(-50%);
+    transform: translateY(calc(-50% + 56px));
     // flex: 1;
     .logo {
       width: 340px;

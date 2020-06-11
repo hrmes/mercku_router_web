@@ -168,16 +168,16 @@ import { RouterSnModel } from 'util/constant';
 
 const Routers = [
   {
-    name: 'M2 Bee Wi-Fi Mesh Node',
-    image: require('../../../assets/images/img_bee.png'),
-    tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
-    sn: '02'
+    name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
+    image: require('@/assets/images/img_bee.png'),
+    tipImage: require('@/assets/images/img_add_plug_bee.png'),
+    sn: RouterSnModel.Bee
   },
   {
-    name: 'M2 Standalone Wi-Fi router',
-    image: require('../../../assets/images/img_m2.png'),
-    tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
-    sn: '01'
+    name: process.env.CUSTOMER_CONFIG.routers.M2.name,
+    image: require('@/assets/images/img_m2.png'),
+    tipImage: require('@/assets/images/img_add_plug_m2.png'),
+    sn: RouterSnModel.M2
   }
 ];
 export default {
@@ -233,23 +233,28 @@ export default {
     getNodeImg(node) {
       const id = node.sn.slice(0, 2);
       if (id === this.RouterSnModel.M2) {
-        return require('../../../assets/images/img_m2.png');
+        return require('@/assets/images/img_m2.png');
       }
       if (id === this.RouterSnModel.Bee) {
-        return require('../../../assets/images/img_bee.png');
+        return require('@/assets/images/img_bee.png');
       }
-      return require('../../../assets/images/icon/ic_default_router.png');
+      return require('@/assets/images/icon/ic_default_router.png');
     },
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
       const num = node.sn.slice(-4);
-      if (id === this.RouterSnModel.M2) {
-        return `M2-${num}`;
+      let name = '';
+      switch (id) {
+        case this.RouterSnModel.M2:
+          name = `${process.env.CUSTOMER_CONFIG.routers.M2.shortName}-${num}`;
+          break;
+        case this.RouterSnModel.Bee:
+          name = `${process.env.CUSTOMER_CONFIG.routers.Bee.shortName}-${num}`;
+          break;
+        default:
+          break;
       }
-      if (id === this.RouterSnModel.Bee) {
-        return `Bee-${num}`;
-      }
-      return '';
+      return name;
     },
     selectRouter(router) {
       this.selectedCategory = router;
@@ -498,8 +503,8 @@ export default {
       }
     }
     img {
-      width: 80px;
-      height: 80px;
+      width: 120px;
+      height: 120px;
     }
     .name {
       width: 120px;
@@ -652,8 +657,8 @@ export default {
         }
 
         img {
-          width: 80px;
-          height: 80px;
+          width: 120px;
+          height: 120px;
         }
       }
     }
@@ -676,12 +681,12 @@ export default {
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1599px) {
+@media screen and (min-width: 768px) and (max-width: 1599px) {
   .help-dialog {
     padding: 250px;
   }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .help-dialog-content {
     width: 100%;
     max-height: 350px;
@@ -697,8 +702,8 @@ export default {
     }
     .router {
       img {
-        width: 80px;
-        height: 80px;
+        width: 120px;
+        height: 120px;
       }
     }
     .circle-animation {
