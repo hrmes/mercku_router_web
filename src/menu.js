@@ -172,7 +172,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0539',
         super: false,
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku]
+        customers: [Customers.mercku, Customers.inverto]
       },
       {
         url: '/advance/diagnosis',
