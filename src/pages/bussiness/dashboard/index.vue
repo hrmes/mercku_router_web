@@ -77,6 +77,7 @@
 import * as CONSTANTS from 'util/constant';
 import { compareVersion } from 'util/util';
 import marked from 'marked';
+// import axios from 'axios';
 
 export default {
   data() {
@@ -130,15 +131,21 @@ export default {
       const fromPath = from.path;
       console.log('from path is:', fromPath);
       if (fromPath.includes('login')) {
-        vm.checkFrimwareLatest();
+        // delay 10 to check new version
+        vm.upgradeTimer = setTimeout(() => {
+          console.log('time to check new version');
+          vm.checkFrimwareLatest();
+        }, 10000);
       }
     });
   },
   methods: {
     checkFrimwareLatest() {
+      // this.upgradeCancelToken = axios.CancelToken.source();
       this.$http
         .firmwareList(undefined, {
           hideToast: true
+          // cancelToken: this.upgradeCancelToken.token
         })
         .then(res => {
           let nodes = res.data.result;
@@ -228,6 +235,12 @@ export default {
   beforeDestroy() {
     this.pageActive = false;
     this.clearIntervalTask();
+    // clean up
+    if (this.upgradeTimer) {
+      clearTimeout(this.upgradeTimer);
+      this.upgradeTimer = null;
+      // this.upgradeCancelToken.cancel('cancel');
+    }
   }
 };
 </script>
