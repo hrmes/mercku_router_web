@@ -377,8 +377,8 @@ export default {
   }
   position: relative;
   &.nav-hide {
-    background: #fff;
-    color: #333;
+    background: $header-nav-hide-background-color;
+    color: $header-nav-hide-color;
     padding: 0 50px;
     .right-wrap {
       .lang-selector {
@@ -387,13 +387,13 @@ export default {
           }
           &.down {
             &::after {
-              border-top-color: #333;
+              border-top-color: $header-nav-hide-trangle-color;
             }
           }
         }
         .popup {
-          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-          background-color: #fff;
+          box-shadow: 0 2px 8px 0 $header-nav-hide-popup-shadow-color;
+          background-color: $header-nav-hide-popup-background-color;
           margin-top: 0;
           right: 0;
           top: 50px;
@@ -402,25 +402,25 @@ export default {
             line-height: 38px;
             padding: 0 30px;
             &:hover {
-              background: #fff;
-              color: #d6001c;
+              background: $header-nav-hide-popup-item-hover-background-color;
+              color: $header-nav-hide-popup-item-hover-color;
             }
             &:last-child {
               margin-bottom: 0;
             }
             &.current-lang {
-              color: #d6001c;
+              color: $header-nav-hide-popup-item-selected-color;
             }
           }
         }
       }
       .small-device {
         .i18n-mobile {
-          background: #fff;
-          color: #333;
-          border-color: #f1f1f1;
+          background: $header-nav-hide-i18n-mobile-background-color;
+          color: $header-nav-hide-i18n-mobile-color;
+          border-color: $header-nav-hide-i18n-mobile-border-color;
           li {
-            border-color: #f1f1f1;
+            border-color: $header-nav-hide-i18n-mobile-item-border-color;
           }
         }
         .menu-icon {
@@ -436,7 +436,7 @@ export default {
   .logo-wrap {
     padding-right: 60px;
     .offical {
-      color: #333;
+      color: $header-official-color;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -444,7 +444,7 @@ export default {
       line-height: 1;
       &:hover {
         text-decoration: underline;
-        color: #999;
+        color: $header-official-hover-color;
       }
       img {
         width: 12px;
@@ -498,7 +498,7 @@ export default {
         &:hover {
           .nav-item-content {
             .nav-item__text {
-              color: #999;
+              color: $header-nav-item-hover-color;
             }
           }
         }
@@ -508,7 +508,7 @@ export default {
             content: '';
             display: block;
             height: 2px;
-            background: #d6001c;
+            background: $header-nav-item-selected-background-color;
             width: 100%;
             bottom: 0;
             left: 0;
@@ -527,7 +527,7 @@ export default {
             height: 100%;
             display: flex;
             align-items: center;
-            color: #fff;
+            color: $header-nav-item-color;
           }
         }
         .nav-item-child {
@@ -538,29 +538,29 @@ export default {
           top: 100%;
           left: 0;
           margin-top: 6px;
-          box-shadow: -10px 9px 21px 0 rgba(128, 152, 213, 0.08);
-          background-color: #333333;
+          box-shadow: -10px 9px 21px 0 $header-nav-item-child-shadow-color;
+          background-color: $header-nav-item-child-background-color;
           padding: 25px 0;
           .nav-child__text {
-            color: #fff;
+            color: $header-nav-item-child-text-color;
             list-style: none;
             padding: 0 30px;
             line-height: 38px;
             &:hover {
-              color: #fff;
-              background: rgba(255, 255, 255, 0.2);
+              color: $header-nav-item-child-text-hover-color;
+              background: $header-nav-item-child-text-background-color;
             }
             &.disabled {
-              color: #999;
+              color: $header-nav-item-child-text-disabled-color;
               cursor: not-allowed;
-              background: #333;
+              background: $header-nav-item-child-text-disabled-background-color;
               &:active,
               &:hover {
-                color: #999;
+                color: $header-nav-item-child-text-disabled-hover-color;
               }
             }
             &.selected {
-              color: #d6001c;
+              color: $header-nav-item-child-text-selected-color;
             }
           }
           &.show {
