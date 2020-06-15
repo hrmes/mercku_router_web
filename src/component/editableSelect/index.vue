@@ -194,15 +194,15 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: #f1f1f1;
-        color: #333;
+        background: $select-item-active-background-color;
+        color: $select-item-active-color;
       }
       &:hover {
-        background: #f1f1f1;
-        color: #333;
+        background: $select-item-active-background-color;
+        color: $select-item-active-color;
       }
       &.selected {
-        color: #d6001c;
+        color: $select-item-selected-color;
       }
     }
   }

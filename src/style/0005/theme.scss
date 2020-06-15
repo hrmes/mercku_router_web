@@ -32,7 +32,25 @@ $checkbox-background-color: #fff;
 $checkbox-checked-background-color: #333;
 $checkbox-checked-color: #fff;
 
+// dialog
+$dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
+$dialog-box-shadow-color: rgba(0, 0, 0, 0.1);
+$dialog-title-color: #333;
+$dialog-content-color: #333;
+
 // select and editableSelect
 $select-input-border-color: #e1e1e1;
 $select-popup-background-color: #fff;
 $select-popup-border-color: #e1e1e1;
+$select-item-active-background-color: #f1f1f1;
+$select-item-active-color: #333;
+$select-item-hover-background-color: #f1f1f1;
+$select-item-hover-color: #333;
+$select-item-selected-color: $primaryColor;
+
+// form
+$form-item-error-color: #ff0000;
+
+// header
+$header-background-color: #333;
+$header-color: #fff;

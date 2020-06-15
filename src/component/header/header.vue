@@ -366,8 +366,8 @@ export default {
   align-items: center;
   justify-content: center;
   display: flex;
-  background: #333;
-  color: #fff;
+  background: $header-background-color;
+  color: $header-color;
   padding: 0 10%;
   @media screen and (max-width: 1440px) {
     padding: 0 50px;
