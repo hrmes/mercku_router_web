@@ -2,59 +2,70 @@
   &.header-container {
     .logo-wrap {
       .logo-wrap__logo {
-        background: url(../../assets/images/customer/inverto/inverto_logo.png)
-          center no-repeat;
+        background: url(../../assets/images/customer/orion/laki_logo.png) center
+          no-repeat;
         background-size: 100%;
-        width: 125px;
+        width: 61px;
         height: 35px;
-      }
-      .offical {
-        display: none;
       }
     }
   }
   /************************* 登陆页面*********************/
   &.login-container {
-    .download {
-      display: none;
-    }
     .center-form {
       .form {
-        height: 298px;
+        height: 356px;
       }
       .logo {
         &::before {
-          padding-top: 28%;
+          padding-top: 56.6%;
         }
-        // width: 138px !important;
-        margin-bottom: 50px;
-        background: url(../../assets/images/customer/inverto/inverto_logo_text.png)
+        width: 256px;
+        background: url(../../assets/images/customer/orion/laki_logo_text.png)
           no-repeat center;
         background-size: 100%;
       }
     }
+    .app-logo {
+      background: url(../../assets/images/customer/orion/ic_launcher.jpg)
+        no-repeat center;
+      background-size: 100%;
+    }
     .download {
-      display: none;
+      .qr {
+        background: url(../../assets/images/customer/orion/qr.png) no-repeat
+          center;
+        background-size: 100%;
+      }
     }
   }
   @media screen and(max-width: 768px) {
     &.login-container {
       .center-form {
         .form {
-          height: 250px;
+          height: 293px;
         }
         .logo {
-          width: 195px;
+          width: 175px;
           margin-bottom: 42px;
-          background: url(../../assets/images/customer/inverto/inverto_logo_text.png)
+          background: url(../../assets/images/customer/orion/laki_logo_text.png)
             no-repeat center;
           background-size: 100%;
         }
       }
-      .small-device-download {
-        display: none;
-      }
     }
   }
   /**************************end登陆页面******************/
+  &.dashboard {
+    .net-info {
+      background: url(../../assets/images/dashboard_banner_bg_0005.jpg)
+        no-repeat center;
+      background-size: 100%;
+      @media screen and (max-width: 767px) {
+        background: url(../../assets/images/mobile/dashboard_banner_bg_0005.jpg)
+          no-repeat center;
+        background-size: 100%;
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard customized">
     <div class="net-info">
       <div class="net-info__inner">
         <div class="device-container"

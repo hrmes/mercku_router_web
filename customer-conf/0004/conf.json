@@ -3,8 +3,6 @@
   "title": "Inverto.tv",
   "accept": ".tv",
   "favicon": "customer-conf/0004/favicon.png",
-  "style": "inverto.scss",
-  "i18nFolder": "inverto",
   "policy": "https://www.inverto.tv/privacy-policy",
   "allow2LevelAdmin": true,
   "languages": ["zh-CN", "en-US"],

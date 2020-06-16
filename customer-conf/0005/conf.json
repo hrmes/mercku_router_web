@@ -1,24 +1,27 @@
 {
-  "id": "0004",
-  "title": "Orion",
+  "id": "0005",
+  "title": "Laki Wi-Fi",
   "accept": ".laki",
   "favicon": "customer-conf/0005/favicon.png",
-  "style": "inverto.scss",
-  "i18nFolder": "orion",
-  "policy": "https://www.inverto.tv/privacy-policy",
+  "policy": "https://laki.eu/files/uslovi-koriscenja-laki-wifi.pdf",
   "allow2LevelAdmin": true,
-  "languages": ["zh-CN", "en-US"],
+  "languages": ["zh-CN", "en-US", "sr-SR"],
   "routers": {
     "M2": {
-      "name": "OneNet Mesh Wi-Fi Router",
-      "shortName": "OneNet"
+      "name": "Laki Core",
+      "shortName": "Laki"
     },
     "Bee": {
-      "name": "OneNet Mesh Wi-Fi Node",
-      "shortName": "OneNet"
+      "name": "Laki Spot",
+      "shortName": "Laki"
     }
   },
   "loading": {
     "name": "loading-1.gif"
-  }
+  },
+  "website": {
+    "url": "https://oriontelekom.rs/",
+    "text": "oriontelekom.rs"
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
 }

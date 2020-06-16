@@ -5,13 +5,13 @@
       <div v-if="logoVisible"
            @click="forward2dashboard"
            class="logo-wrap__logo"></div>
-      <a v-if="!logoVisible"
+      <a v-if="website && !logoVisible"
          class="offical"
          target="_blank"
-         href="https://www.mercku.com">
+         :href="website.url">
         <img src="../../assets/images/icon/ic_web_home.png"
              alt="">
-        <span>mercku.com</span>
+        <span>{{website.text}}</span>
       </a>
     </div>
 
@@ -211,6 +211,9 @@ export default {
   computed: {
     language() {
       return this.getDefaultLanguage();
+    },
+    website() {
+      return process.env.CUSTOMER_CONFIG.website;
     }
   },
   watch: {

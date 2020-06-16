@@ -173,7 +173,7 @@ export default {
         color: #333;
       }
       &.selected {
-        color: #d6001c;
+        color: $select-item-selected-color;
       }
     }
   }

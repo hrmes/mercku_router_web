@@ -29,29 +29,28 @@
           <m-loading :size="36"></m-loading>
         </div>
       </div>
-      <div class="small-device-download">
-
+      <div class="small-device-download"
+           v-if="appDownloadUrl">
         <div class="left-wrap">
           <div class="logo-container">
-            <img class="app-logo"
-                 src="../../assets/images/icon/ic_launcher.jpg"
-                 alt="">
+            <div class="app-logo">
+
+            </div>
           </div>
           <div class="down-text">
             <div>{{$t('trans0314')}}</div>
             <div>
               {{$t('trans0292')}}</div>
           </div>
-
         </div>
-
         <div class="down-button-container">
           <a class="down-button"
              href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
         </div>
       </div>
     </div>
-    <div class="download">
+    <div class="download"
+         v-if="appDownloadUrl">
       <div class="stores">
         <div class="store">
           <div>
@@ -66,9 +65,7 @@
           <span>App Store</span>
         </div>
       </div>
-      <img class="qr"
-           src="../../assets/images/qr.png"
-           alt="">
+      <div class="qr"></div>
     </div>
   </div>
 
@@ -101,6 +98,11 @@ export default {
         this.initial = false;
         this.loading = false;
       });
+  },
+  computed: {
+    appDownloadUrl() {
+      return process.env.CUSTOMER_CONFIG.appDownloadUrl;
+    }
   },
   methods: {
     towlan() {
@@ -150,6 +152,7 @@ export default {
   align-items: center;
   justify-content: center;
   background: #fff;
+  // background: $primaryColor;
 
   .loadding {
     display: flex;
@@ -255,6 +258,7 @@ export default {
       }
     }
     .small-device-download {
+      display: flex;
       width: 100%;
       background: #f1f1f1;
       text-align: left;
@@ -269,7 +273,7 @@ export default {
         align-items: center;
         .logo-container {
           height: 48px;
-          img {
+          .app-logo {
             width: 48px;
             height: 48px;
             border-radius: 5px;

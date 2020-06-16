@@ -3,8 +3,6 @@
   "title": "Demo",
   "accept": "*.*",
   "favicon": "customer-conf/0000/favicon.png",
-  "i18nFolder": "demo",
-  "style": "demo.scss",
   "policy": "",
   "allow2LevelAdmin": false,
   "routers": {

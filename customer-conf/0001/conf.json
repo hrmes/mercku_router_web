@@ -3,8 +3,6 @@
   "title": "Mercku",
   "accept": ".ma",
   "favicon": "customer-conf/0001/favicon.ico",
-  "i18nFolder": "mercku",
-  "style": "mercku.scss",
   "policy": "",
   "allow2LevelAdmin": false,
   "routers": {
@@ -19,5 +17,10 @@
   },
   "loading": {
     "name": "loading.gif"
-  }
+  },
+  "website": {
+    "url": "https://www.mercku.com",
+    "text": "mercku.com"
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
 }

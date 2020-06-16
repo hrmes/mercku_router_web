@@ -3,8 +3,6 @@
   "title": "START.CA",
   "accept": ".sa",
   "favicon": "customer-conf/0003/favicon.png",
-  "i18nFolder": "startca",
-  "style": "startca.scss",
   "policy": "https://www.start.ca/privacy",
   "allow2LevelAdmin": true,
   "routers": {

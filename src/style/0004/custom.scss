@@ -8,16 +8,10 @@
         width: 125px;
         height: 35px;
       }
-      .offical {
-        display: none;
-      }
     }
   }
   /************************* 登陆页面*********************/
   &.login-container {
-    .download {
-      display: none;
-    }
     .center-form {
       .form {
         height: 298px;
@@ -33,9 +27,6 @@
         background-size: 100%;
       }
     }
-    .download {
-      display: none;
-    }
   }
   @media screen and(max-width: 768px) {
     &.login-container {
@@ -50,9 +41,6 @@
             no-repeat center;
           background-size: 100%;
         }
-      }
-      .small-device-download {
-        display: none;
       }
     }
   }
