@@ -105,6 +105,7 @@
               v-show="showPopup">
             <li :key="lang.value"
                 v-for="lang in Languages"
+                :class="{'selected':$i18n.locale === lang.value}"
                 @click="selectLang(lang)">{{lang.text}}</li>
           </ul>
         </transition>
@@ -155,6 +156,11 @@ const Languages = [
   {
     text: 'Dutch',
     value: 'nl-NL',
+    show: false
+  },
+  {
+    text: 'Serbian',
+    value: 'sr-RS',
     show: false
   }
 ];
@@ -530,7 +536,7 @@ export default {
             height: 100%;
             display: flex;
             align-items: center;
-            color: $header-nav-item-color;
+            color: $header-popup-item-color;
           }
         }
         .nav-item-child {
@@ -541,29 +547,29 @@ export default {
           top: 100%;
           left: 0;
           margin-top: 6px;
-          box-shadow: -10px 9px 21px 0 $header-nav-item-child-shadow-color;
-          background-color: $header-nav-item-child-background-color;
+          box-shadow: -10px 9px 21px 0 $header-popup-shadow-color;
+          background-color: $header-popup-background-color;
           padding: 25px 0;
           .nav-child__text {
-            color: $header-nav-item-child-text-color;
+            color: $header-popup-item-color;
             list-style: none;
             padding: 0 30px;
             line-height: 38px;
             &:hover {
-              color: $header-nav-item-child-text-hover-color;
-              background: $header-nav-item-child-text-background-color;
+              color: $header-popup-item-hover-color;
+              background: $header-popup-item-hover-background-color;
             }
             &.disabled {
-              color: $header-nav-item-child-text-disabled-color;
+              color: $header-popup-item-disabled-color;
               cursor: not-allowed;
-              background: $header-nav-item-child-text-disabled-background-color;
+              background: $header-popup-item-disabled-background-color;
               &:active,
               &:hover {
-                color: $header-nav-item-child-text-disabled-hover-color;
+                color: $header-popup-item-disabled-hover-color;
               }
             }
             &.selected {
-              color: $header-nav-item-child-text-selected-color;
+              color: $header-popup-item-selected-color;
             }
           }
           &.show {
@@ -588,11 +594,11 @@ export default {
       &:hover {
         .current {
           .current-text {
-            color: #999;
+            color: $header-nav-item-hover-color;
           }
           .drop-trangle {
             &::after {
-              border-top-color: #999;
+              border-top-color: $header-nav-item-hover-color;
             }
           }
         }
@@ -630,7 +636,7 @@ export default {
             display: block;
             width: 0;
             height: 0;
-            border-top: 5px solid #fff;
+            border-top: 5px solid $header-nav-item-color;
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
           }
@@ -648,11 +654,10 @@ export default {
         position: absolute;
         width: 150px;
         margin-top: 6px;
-        background: #fff;
         border-radius: 2px;
         z-index: 999;
-        box-shadow: -10px 9px 21px 0 rgba(128, 152, 213, 0.08);
-        background-color: #333333;
+        box-shadow: -10px 9px 21px 0 $header-popup-shadow-color;
+        background-color: $header-popup-background-color;
         padding: 25px 0;
         opacity: 1;
         &.popup-enter-active {
@@ -670,14 +675,14 @@ export default {
           line-height: 38px;
           padding: 0 30px;
           &:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
+            background: $header-popup-item-hover-background-color;
+            color: $header-popup-item-hover-color;
           }
           &:last-child {
             margin-bottom: 0;
           }
-          &.current-lang {
-            color: #d6001c;
+          &.selected {
+            color: $header-popup-item-selected-color;
           }
         }
       }
@@ -687,7 +692,7 @@ export default {
       cursor: pointer;
       margin-left: 50px;
       &:hover {
-        color: #999;
+        color: $header-nav-item-hover-color;
       }
     }
   }
@@ -719,8 +724,8 @@ export default {
       z-index: 1000;
       width: 100%;
       height: calc(100% - 65px);
-      background: #333;
-      color: #fff;
+      background: $header-background-color;
+      color: $header-color;
       &.nav-wrap--laptop {
         display: none;
       }
