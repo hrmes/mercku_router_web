@@ -737,18 +737,18 @@ export default {
         padding: 0 30px;
         flex-direction: column;
         height: auto;
-        border-top: 1px solid #666;
+        border-top: 1px solid $header-nav-item-border-color;
         .nav-item {
           width: 100%;
           margin: 0;
           height: auto;
           flex-direction: column;
           align-items: flex-start;
-          border-bottom: 1px solid #666;
+          border-bottom: 1px solid $header-nav-item-border-color;
           &:hover {
             .nav-item-content {
               .nav-item__text {
-                color: #fff;
+                color: $header-mobile-nav-item-hover-color;
               }
             }
           }
@@ -772,8 +772,8 @@ export default {
               display: block;
               width: 5px;
               height: 5px;
-              border-right: 1px solid #fff;
-              border-bottom: 1px solid #fff;
+              border-right: 1px solid $header-mobile-nav-item-color;
+              border-bottom: 1px solid $header-mobile-nav-item-color;
               border-left: 0;
               border-top: 0;
               transform: translateY(-50%) rotate(45deg);
@@ -782,7 +782,7 @@ export default {
               transition: all 0.3s linear;
             }
             .nav-item__text {
-              color: #fff;
+              color: $header-mobile-nav-item-color;
               line-height: 1;
               padding: 16px 0;
               font-size: 16px;
@@ -797,14 +797,14 @@ export default {
                 transform: translateY(-50%) rotate(225deg);
               }
               .nav-item__text {
-                color: #fff;
+                color: $header-mobile-nav-item-color;
               }
             }
           }
           .nav-item-child {
             position: static;
             display: block;
-            background: #333;
+            background: $header-popup-background-color;
             box-shadow: none;
             padding: 0;
             &.nav-item-child__animation-leave-active {
@@ -816,16 +816,16 @@ export default {
             .nav-child__text {
               padding: 0;
               padding-left: 10px;
-              color: #fff;
+              color: $header-popup-item-color;
               &.disabled {
-                background: #333;
+                background: $header-popup-item-disabled-background-color;
               }
               &:active {
-                color: #333;
+                color: $header-popup-item-active-color;
               }
               &:hover {
-                color: #999;
-                background: #333;
+                color: $header-popup-item-disabled-hover-color;
+                background: $header-popup-background-color;
               }
             }
           }
@@ -850,17 +850,17 @@ export default {
           left: 0;
           width: 100%;
           height: 100%;
-          background: #333;
-          color: #fff;
+          background: $header-popup-background-color;
+          color: $header-popup-item-color;
           padding: 0 30px;
           z-index: 1000;
-          border-top: 1px solid #666;
+          border-top: 1px solid $header-popup-border-color;
           li {
             padding: 16px 0;
             list-style: none;
-            border-top: 1px solid #666;
+            border-top: 1px solid $header-nav-item-border-color;
             &.selected {
-              color: #d6001c;
+              color: $header-nav-item-selected-background-color;
             }
             &:first-child {
               border: 0;

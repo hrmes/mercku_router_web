@@ -59,10 +59,11 @@ const launch = () => {
         opt.ontimeout();
         opt.onfinally();
 
-        loadingInstance && loadingInstance.$destroy();
-        loadingInstance &&
+        if (loadingInstance) {
+          loadingInstance.$destroy();
           loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
-        loadingInstance = null;
+          loadingInstance = null;
+        }
       } else if (count !== total && count % 5 === 0) {
         if (responsed) {
           responsed = false;
@@ -74,10 +75,11 @@ const launch = () => {
               opt.onsuccess();
               opt.onfinally();
 
-              loadingInstance && loadingInstance.$destroy();
-              loadingInstance &&
+              if (loadingInstance) {
+                loadingInstance.$destroy();
                 loadingInstance.$el.parentNode.removeChild(loadingInstance.$el);
-              loadingInstance = null;
+                loadingInstance = null;
+              }
             })
             .catch(() => {
               responsed = true;
