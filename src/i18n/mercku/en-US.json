@@ -567,7 +567,7 @@
   "trans0572": " ",
   "trans0573": " ",
   "trans0574": "#### Internet connection failed, here are some possible reasons\n- Incorrect username or password, please input the right username and password provided by your ISP.\n\n- Please make sure the Internet Settings are set to DHCP and that the DHCP server is enabled on the upper network.\n\n- Incorrect Static IP configuration, please input the fixed IP details provided by your ISP.\n\n- Ethernet cable unconnected, please make it sure it is connected properly.",
-  "trans0575": " ",
+  "trans0575": "Allow IP",
   "trans0576": " ",
   "trans0577": " ",
   "trans0578": " ",
