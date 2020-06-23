@@ -1,11 +1,10 @@
 import { Role, RouterMode, Customers } from 'util/constant';
 
 export default function getMenu(role, mode = RouterMode.router) {
-  console.log(
-    `Init menus...customer is:${
-      process.env.CUSTOMER_CONFIG.id
-    }...role is:${role}...mode is:${mode}`
-  );
+  console.log('Init menus...');
+  console.log(`customer id is: ${process.env.CUSTOMER_CONFIG.id}`);
+  console.log(`role is: ${role}`);
+  console.log(`mode is: ${mode}`);
 
   const allCustomers = Object.keys(Customers).map(key => Customers[key]);
   const wifi = {
