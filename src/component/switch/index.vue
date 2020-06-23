@@ -1,9 +1,8 @@
 <template>
-  <div class="switch-container">
-    <label v-if="label">
-      {{label}}
-    </label>
-    <div class="switch switch-animation"
+  <div class="mk-switch">
+    <label class="mk-switch__label"
+           v-if="label">{{label}}</label>
+    <div class="mk-switch__inner"
          :class="{'checked':value,'disabled':disabled}"
          @click='!disabled && change()'></div>
   </div>
@@ -41,15 +40,15 @@ export default {
   }
 };
 </script>
-<style lang="scss" type="text/scss" scoped>
-.switch-container {
+<style lang="scss">
+.mk-switch {
   display: flex;
   align-items: center;
-  label {
+  .mk-switch__label {
     margin-right: 20px;
     font-weight: bold;
   }
-  .switch {
+  .mk-switch__inner {
     cursor: pointer;
     width: 46px;
     height: 22px;
@@ -70,34 +69,21 @@ export default {
       left: 3px;
       border-radius: 16px;
       background-color: $switch-circle-color;
+      transition: left 0.3s;
     }
     &.checked {
       border-color: $switch-chencked-color;
       background-color: $switch-chencked-color;
+      transition: border ease 0.4s, box-shadow ease 0.4s,
+        background-color ease 1.2s;
+      &::before {
+        left: 26px;
+      }
     }
     &.disabled {
       cursor: not-allowed;
       opacity: 0.7;
     }
-  }
-
-  .switch.checked:before {
-    left: 26px;
-  }
-  .switch.switch-animation {
-    transition: border cubic-bezier(0, 0, 0, 1) 0.4s;
-  }
-  .switch.switch-animation:before {
-    transition: left 0.3s;
-  }
-
-  .switch.switch-animation.checked {
-    background-color: $switch-chencked-color;
-    transition: border ease 0.4s, box-shadow ease 0.4s,
-      background-color ease 1.2s;
-  }
-  .switch.switch-animation.checked:before {
-    transition: left 0.3s;
   }
 }
 </style>
