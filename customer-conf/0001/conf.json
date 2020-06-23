@@ -16,7 +16,8 @@
     }
   },
   "loading": {
-    "name": "loading.gif"
+    "name": "loading.gif",
+    "color": "#d6001c"
   },
   "website": {
     "url": "https://www.mercku.com",

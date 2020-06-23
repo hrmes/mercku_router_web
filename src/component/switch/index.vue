@@ -1,11 +1,10 @@
 <template>
   <div class="switch-container">
-    <label for=""
-           v-if="label">
+    <label v-if="label">
       {{label}}
     </label>
     <div class="switch switch-animation"
-         :class="{'checked':value,'disabled':disabledValue}"
+         :class="{'checked':value,'disabled':disabled}"
          @click='!disabled && change()'></div>
   </div>
 </template>
@@ -13,8 +12,7 @@
 export default {
   data() {
     return {
-      checked: this.value,
-      disabledValue: this.disabled
+      checked: this.value
     };
   },
   props: {
@@ -32,9 +30,6 @@ export default {
   watch: {
     value(v) {
       this.checked = v;
-    },
-    disabled(v) {
-      this.disabledValue = v;
     }
   },
   methods: {
@@ -59,7 +54,7 @@ export default {
     width: 46px;
     height: 22px;
     position: relative;
-    background-color: #b6b6b6;
+    background-color: $switch-background-color;
     border-radius: 22px;
     background-clip: content-box;
     display: inline-block;
@@ -74,11 +69,11 @@ export default {
       top: 3px;
       left: 3px;
       border-radius: 16px;
-      background-color: #fff;
+      background-color: $switch-circle-color;
     }
     &.checked {
-      border-color: #00d061;
-      background-color: #00d061;
+      border-color: $switch-chencked-color;
+      background-color: $switch-chencked-color;
     }
     &.disabled {
       cursor: not-allowed;
@@ -97,7 +92,7 @@ export default {
   }
 
   .switch.switch-animation.checked {
-    background-color: #00d061;
+    background-color: $switch-chencked-color;
     transition: border ease 0.4s, box-shadow ease 0.4s,
       background-color ease 1.2s;
   }

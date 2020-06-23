@@ -17,6 +17,7 @@
     }
   },
   "loading": {
-    "name": "loading-1.gif"
+    "name": "loading-common.gif",
+    "color": "#999999"
   }
 }

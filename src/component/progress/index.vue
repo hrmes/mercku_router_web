@@ -110,9 +110,9 @@ export default {
       max-width: 100%;
       line-height: 20px;
       overflow: hidden;
-      color: #fff;
+      color: $progress-bar-color;
       text-align: center;
-      background-color: #00d061;
+      background-color: $progress-bar-background-color;
       transition: width 1s ease;
     }
   }
@@ -120,7 +120,7 @@ export default {
     margin-top: 20px;
     font-size: 18px;
     text-align: center;
-    color: #ffffff !important;
+    color: $progress-bar-color !important;
   }
 }
 

@@ -107,49 +107,6 @@ export default {
     margin-top: 5px;
     padding-left: 26px;
   }
-  .radio {
-    display: flex;
-    align-items: center;
-    padding-left: 24px;
-    position: relative;
-    cursor: pointer;
-    line-height: 1;
-    height: 14px;
-    &:before {
-      content: '';
-      position: absolute;
-      left: 0;
-      width: 12px;
-      height: 12px;
-      border-radius: 9px;
-      border: 1px solid #b6b6b6;
-    }
-    &.selected {
-      &:before {
-        border-color: #d6001c;
-      }
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 4px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
-        background: #d6001c;
-        border-radius: 50%;
-      }
-    }
-  }
-  .mac {
-    padding-left: 24px;
-    margin: 10px 0;
-    height: 20px;
-  }
-  .input {
-    margin-top: 10px;
-  }
 }
 @media screen and (max-width: 768px) {
   .form {

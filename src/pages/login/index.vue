@@ -26,7 +26,8 @@
         </div>
         <div class="loadding"
              v-if="loading === true">
-          <m-loading :size="36"></m-loading>
+          <m-loading :color="loadingColor"
+                     :size="36"></m-loading>
         </div>
       </div>
       <div class="small-device-download"

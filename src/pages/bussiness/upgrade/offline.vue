@@ -8,7 +8,8 @@
             <p>
               1.
               <span>{{ $t('trans0332') }}</span>
-              <a :href="$t('trans0468')"
+              <a class="btn-text text-primary"
+                 :href="$t('trans0468')"
                  target="_blank">{{
                 $t('trans0482')
               }}</a>
@@ -49,10 +50,8 @@
                    :key="node.sn"
                    class="node">
                 <div class="badges">
-                  <div v-if="node.isGW"
-                       class="badge-info gateway">
-                    <span>{{ $t('trans0165') }}</span>
-                  </div>
+                  <m-tag v-if="node.isGW"
+                         class="gateway">{{ $t('trans0165') }}</m-tag>
                 </div>
                 <div class="message"
                      @click="check(node)">
@@ -309,9 +308,6 @@ export default {
     font-size: 14px;
     color: #333333;
     margin-bottom: 10px;
-    a {
-      color: #d6001c;
-    }
     &:last-child {
       margin-bottom: 20px;
     }
@@ -457,28 +453,9 @@ export default {
         top: 10px;
         z-index: 1;
         display: flex;
-        .badge-info {
-          width: auto;
-          padding: 0 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: #d6001c;
-          border-radius: 10px;
+        .mk-tag {
           &.gateway {
             background: #00d061;
-          }
-          + .badge-info {
-            margin-left: 5px;
-          }
-          img {
-            width: 18px;
-            margin-right: 5px;
-          }
-          span {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: normal;
           }
         }
       }
@@ -514,7 +491,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 999px) {
+@media screen and (min-width: 769px) and (max-width: 1000px) {
   .nodes-wrapper {
     .nodes-info {
       .node {

@@ -172,6 +172,7 @@ const launch = () => {
     throw err;
   });
 
+  Vue.prototype.loadingColor = process.env.CUSTOMER_CONFIG.loading.color;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;

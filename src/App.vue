@@ -1,6 +1,5 @@
 <template>
   <div class="srcollbar-wrap">
-    <m-progress></m-progress>
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"

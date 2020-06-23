@@ -9,7 +9,7 @@
               class="form"
               :model="form"
               :rules='rules'>
-        <div class="device"
+        <div class="device btn"
              @click.stop="()=>modalShow=!modalShow">
           <span>{{$t('trans0235')}}</span>
           <i> <img :class="{open:modalShow}"
@@ -245,7 +245,6 @@ export default {
     width: 120px;
     height: 36px;
     border-radius: 4px;
-    background-color: #d6001c;
     color: white;
     display: flex;
     align-items: center;
@@ -253,12 +252,7 @@ export default {
     padding: 0 10px;
     position: relative;
     cursor: pointer;
-    &:active {
-      background: rgb(182, 0, 24);
-    }
-    &:hover {
-      background: rgb(182, 0, 24);
-    }
+    margin-left: 0;
     i {
       img {
         width: 12px;

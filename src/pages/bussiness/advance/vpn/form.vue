@@ -414,9 +414,9 @@ export default {
       }
     }
     &.config-uploader__status--error {
-      color: #d6001c;
+      color: #ff0000;
       .config-uploader__icon {
-        background: #d6001c;
+        background: #ff0000;
         &::before {
           width: 9px;
           height: 1px;
@@ -449,7 +449,7 @@ export default {
     font-size: 12px;
     color: #999;
     &.config-uploader__tip--error {
-      color: #d6001c;
+      color: #ff0000;
     }
   }
 }

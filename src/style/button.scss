@@ -87,6 +87,22 @@
   color: $button-text-text-color;
   text-decoration: underline;
   cursor: pointer;
+  &.btn-text-strange {
+    @media screen and (max-width: 768px) {
+      width: auto;
+      min-width: 120px;
+      background: $button-text-stange-background-color;
+      color: $button-text-stange-text-color !important;
+      text-align: center;
+      border-radius: 4px;
+      height: 38px;
+      font-size: 12px;
+      padding: 13px;
+      line-height: 1;
+      text-decoration: none;
+      margin-right: 20px;
+    }
+  }
   &:hover {
     color: $button-text-hover-color;
   }
@@ -117,13 +133,13 @@
     }
   }
 }
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
   .btn {
     min-width: 120px;
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .btn {
     display: block;
     width: 100%;

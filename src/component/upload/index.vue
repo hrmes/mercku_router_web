@@ -160,12 +160,12 @@ export default {
     align-items: center;
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
-    color: #999999;
+    color: $upload-file-text-color;
     border-radius: 5px;
-    background: #f1f1f1;
+    background: $upload-background-color;
     padding: 20px;
     .icon-wrap {
-      background: #fff;
+      background: $upload-icon-background-color;
       padding: 10px;
       border-radius: 50%;
       img {
@@ -179,7 +179,7 @@ export default {
       margin-left: 20px;
       flex: 1;
       .description {
-        color: #333;
+        color: $upload-file-description-color;
         display: flex;
         // align-items: center;
         flex-direction: column;
@@ -200,7 +200,7 @@ export default {
               height: 5px;
               border-radius: 50%;
               margin-right: 5px;
-              background: #00d061;
+              background: $upload-file-info-product-dot-color;
             }
           }
           .product {
@@ -208,7 +208,7 @@ export default {
           }
           .version {
             &::before {
-              background: #ff6f00;
+              background: $upload-file-info-version-dot-color;
             }
           }
         }
@@ -222,11 +222,11 @@ export default {
       }
       .filesize {
         margin-left: 5px;
-        color: #999;
+        color: $upload-file-text-color;
       }
       .percent {
         font-size: 12px;
-        color: #999;
+        color: $upload-file-text-color;
         display: flex;
         align-items: flex-end;
       }
@@ -253,7 +253,7 @@ export default {
         display: flex;
         flex-direction: column;
         height: 3px;
-        background: #e3e3e3;
+        background: $upload-progress-color;
         margin-top: 10px;
         margin-bottom: 10px;
         border-radius: 1.5px;
@@ -261,17 +261,17 @@ export default {
           display: inline-block;
           height: 3px;
           transition: width 1s ease;
-          background: #333;
+          background: $upload-progress-completed-color;
         }
         .fail {
           display: inline-block;
           height: 3px;
-          background: #ff0000;
+          background: $upload-error-text-color;
         }
       }
       .error-message {
         font-size: 12px;
-        color: #ff0000;
+        color: $upload-error-text-color;
       }
     }
     .delete-wrap {
@@ -289,7 +289,7 @@ export default {
     min-width: 80px;
     cursor: pointer;
     &[disabled] {
-      background: #999;
+      background: $upload-button-disabled-color;
       cursor: not-allowed;
       label {
         cursor: not-allowed;

@@ -198,7 +198,7 @@ export default {
         color: $select-item-active-color;
       }
       &:hover {
-        background: $select-item-active-background-color;
+        background: $select-item-hover-background-color;
         color: $select-item-active-color;
       }
       &.selected {

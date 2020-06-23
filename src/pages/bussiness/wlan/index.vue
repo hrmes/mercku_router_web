@@ -58,7 +58,8 @@
       </div>
       <div class="step-item step-item3"
            v-show="stepOption.current===2">
-        <m-loading :size="36"></m-loading>
+        <m-loading :color="loadingColor"
+                   :size="36"></m-loading>
         <p class="cutdown">{{countdown}}s</p>
         <!-- <div class="tip">{{$t('trans0294')}}</div> -->
         <div class="tip"
@@ -236,7 +237,7 @@ export default {
       }
       &.step-item3 {
         .cutdown {
-          color: #d6001c;
+          color: $primaryColor;
           font-size: 24px;
           margin: 10px 0;
         }

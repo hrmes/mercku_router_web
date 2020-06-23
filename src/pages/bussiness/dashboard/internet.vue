@@ -919,7 +919,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 1367px) and (max-width: 1680px) {
+@media screen and (min-width: 1369px) and (max-width: 1680px) {
   .internet-container {
     .info-container {
       .real-time-network {
@@ -955,7 +955,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1200px) {
+@media screen and (min-width: 768px) and (max-width: 1200px) {
   .internet-container {
     .info-container {
       flex-direction: column;
@@ -965,7 +965,7 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1100px) {
+@media screen and (min-width: 768px) and (max-width: 1100px) {
   .router-time-wrap {
     .message {
       flex-direction: row !important;

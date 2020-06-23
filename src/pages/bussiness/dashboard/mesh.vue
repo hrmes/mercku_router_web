@@ -12,7 +12,7 @@
                 @click="addMeshNode">{{$t('trans0194')}}</button>
 
         <button @click="addMeshNode"
-                class="mobile-add"></button>
+                class="btn mobile-add"></button>
 
       </div>
       <div class="content">
@@ -139,14 +139,14 @@
                 <span class="value">{{formatMac(router.mac.lan)}}</span>
               </div>
               <div class="operate">
-                <span class="reboot btn-text"
+                <span class="btn-text btn-text-strange"
                       v-if="!isRouterOffline(router)"
                       @click="rebootNode(router)">{{$t('trans0122')}}</span>
                 <span v-if="router.is_gw"
-                      class="reset btn-text text-primary"
+                      class="btn-text text-primary btn-text-strange"
                       @click="resetNode(router)">{{$t('trans0205')}}</span>
                 <span v-if="!router.is_gw"
-                      class="delete btn-text text-primary"
+                      class="btn-text text-primary btn-text-strange"
                       @click="deleteNode(router)">{{$t('trans0033')}}</span>
               </div>
             </div>
@@ -991,7 +991,6 @@ export default {
           transform: translateY(-50%);
           width: 30px;
           height: 30px;
-          background: #d6001c;
           border: 0;
           outline: 0;
           border-radius: 50%;
@@ -1194,23 +1193,6 @@ export default {
                 justify-content: center;
                 padding: 30px 20px;
                 border-bottom: 0 !important;
-                span {
-                  text-decoration: none;
-                }
-                .reboot,
-                .reset,
-                .delete {
-                  width: auto;
-                  min-width: 140px;
-                  background: #d6001c;
-                  color: #fff;
-                  text-align: center;
-                  border-radius: 4px;
-                  height: 38px;
-                  font-size: 12px;
-                  padding: 13px;
-                  line-height: 1;
-                }
               }
             }
           }

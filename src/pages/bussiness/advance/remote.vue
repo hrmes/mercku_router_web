@@ -126,6 +126,11 @@
                      v-model="wwa.port"
                      :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
+          <m-form-item prop="allowed_ip">
+            <m-input :label="`${$t('trans0575')}${$t('trans0411')}`"
+                     v-model="wwa.allowed_ip"
+                     :placeholder="$t('trans0492')"></m-input>
+          </m-form-item>
           <div class="form-item">
             <m-checkbox :text="$t('trans0462')"
                         v-model="wwa.enabled"></m-checkbox>
@@ -140,7 +145,7 @@
   </div>
 </template>
 <script>
-import { portReg } from 'util/util';
+import { portReg, isIP } from 'util/util';
 
 export default {
   data() {
@@ -235,7 +240,8 @@ export default {
       },
       wwa: {
         port: '',
-        enabled: false
+        enabled: false,
+        allowed_ip: ''
       },
       wwaRules: {
         port: [
@@ -246,6 +252,12 @@ export default {
           {
             rule: value => portReg.test(value),
             message: this.$t('trans0478')
+          }
+        ],
+        allowed_ip: [
+          {
+            rule: value => !value || (value && isIP(value)),
+            message: this.$t('trans0238')
           }
         ]
       }
@@ -281,7 +293,12 @@ export default {
       this.tftp = res.data.result;
     });
     this.$http.getWWA().then(res => {
-      this.wwa = res.data.result;
+      const { result } = res.data;
+      this.wwa = {
+        enabled: result.enabled,
+        port: result.port,
+        allowed_ip: result.allowed_ip[0]
+      };
     });
   },
   methods: {
@@ -360,7 +377,8 @@ export default {
         this.$http
           .updateWWA({
             ...this.wwa,
-            port: Number(this.wwa.port)
+            port: Number(this.wwa.port),
+            allowed_ip: [this.wwa.allowed_ip]
           })
           .then(() => {
             this.$loading.close();
@@ -387,11 +405,11 @@ export default {
         border: 0;
         padding: 0;
         .tab {
-          font-size: 16px;
           padding: 15px 0;
           display: flex;
           align-items: center;
           font-size: 14px;
+          font-weight: normal;
         }
       }
     }
@@ -416,10 +434,10 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: #333;
+      background: $header-background-color;
       color: #fff;
       align-items: center;
-      border-top: 1px solid #666;
+      border-top: 1px solid $header-nav-item-border-color;
       .page-header-trigger {
         display: block;
         &::before {
@@ -445,7 +463,6 @@ export default {
         &.show {
           display: block;
         }
-        background: rgb(88, 73, 73);
         position: absolute;
         top: 100%;
         left: 0;
@@ -455,16 +472,16 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: #333;
+          background: $header-background-color;
           .tab {
             padding: 18px 0;
             color: #fff;
             font-size: 14px;
             margin: 0;
-            border-bottom: 1px solid #666;
+            border-bottom: 1px solid $header-nav-item-border-color;
             &.selected {
-              border-bottom: 1px solid #666;
-              color: #d6001c;
+              border-bottom: 1px solid $header-nav-item-border-color;
+              color: $primaryColor;
               &::before {
                 display: none;
               }

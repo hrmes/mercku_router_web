@@ -39,14 +39,14 @@ export default {
   position: relative;
   .line {
     height: 2px;
-    background: #bdbdbd;
+    background: $step-line-color;
     position: absolute;
     width: 100%;
     top: 50%;
     transform: translateY(-50%);
     z-index: 0;
     .steped {
-      background: #d6001c;
+      background: $step-item-steped-background-color;
       height: 2px;
     }
   }
@@ -77,7 +77,7 @@ export default {
       .step-content {
         width: 56px;
         height: 64px;
-        background: #fff;
+        background: $step-item-background-color;
         display: flex;
         justify-content: center;
         text-align: center;
@@ -85,20 +85,20 @@ export default {
       }
       .step-number {
         border-radius: 50%;
-        border: 1px solid #bdbdbd;
+        border: 1px solid $step-item-border-color;
         text-align: center;
         width: 36px;
         height: 36px;
         line-height: 36px;
         font-weight: bold;
         font-size: 24px;
-        color: #bdbdbd;
-        background: #fff;
+        color: $step-item-color;
+        background: $step-background-color;
       }
       .step-text {
         text-align: center;
         font-size: 12px;
-        color: #333;
+        color: $step-item-text-color;
         position: absolute;
         left: 50%;
         top: 46px;
@@ -107,14 +107,14 @@ export default {
       }
       &.fail {
         .step-number {
-          background: #ffe6e9;
-          border-color: #ffe6e9;
-          color: #fff;
+          background: $step-item-failed-background-color;
+          border-color: $step-item-failed-border-color;
+          color: $step-item-failed-color;
           position: relative;
           &::before {
             content: '×';
             display: block;
-            color: #d6001c;
+            color: $step-item-failed-icon-color;
             font-style: normal;
             font-size: 24px;
           }
@@ -122,9 +122,9 @@ export default {
       }
       &.success {
         .step-number {
-          background: #ffe6e9;
-          border-color: #ffe6e9;
-          color: #d6001c;
+          background: $step-item-success-background-color;
+          border-color: $step-item-success-border-color;
+          color: $step-item-success-color;
         }
       }
     }
