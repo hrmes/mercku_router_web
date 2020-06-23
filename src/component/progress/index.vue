@@ -22,7 +22,7 @@ export default {
     },
     during: {
       type: Number,
-      default: 5
+      default: 60
     },
     description: {
       type: String,

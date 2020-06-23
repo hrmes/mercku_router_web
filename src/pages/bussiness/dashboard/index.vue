@@ -285,7 +285,7 @@ export default {
       position: absolute;
       top: 0;
       left: 0;
-      @media screen and (max-width: 1339px) {
+      @media screen and (max-width: 1440px) {
         padding: 0 50px;
       }
 
