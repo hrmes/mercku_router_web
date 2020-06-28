@@ -46,31 +46,39 @@ export default {
   },
   data() {
     return {
-      selected: this.options.filter(o => o.value === this.value)[0] || {},
+      selected: this.getOptionByValue(this.value),
       opened: false
     };
   },
   watch: {
     value(val) {
-      [this.selected] = this.options.filter(o => o.value === val);
+      this.selected = this.getOptionByValue(val);
     }
   },
   mounted() {
     this.attachEvent();
   },
   methods: {
+    getOptionByValue(val) {
+      const option = this.options.filter(o => o.value === val)[0] || {
+        text: val
+      };
+      return option;
+    },
     scrollToSelect() {
       this.$nextTick(() => {
         const popupEl = this.$el.querySelector('.select-popup');
         const selectEl = popupEl.querySelector('li.selected');
-        const popupHeight = popupEl.clientHeight;
-        const elHeight = selectEl.clientHeight;
-        // 滚动到正中间的位置
-        scrollTo(
-          popupEl,
-          0,
-          selectEl.offsetTop - popupHeight / 2 + elHeight / 2
-        );
+        if (selectEl) {
+          const popupHeight = popupEl.clientHeight;
+          const elHeight = selectEl.clientHeight;
+          // 滚动到正中间的位置
+          scrollTo(
+            popupEl,
+            0,
+            selectEl.offsetTop - popupHeight / 2 + elHeight / 2
+          );
+        }
       });
     },
     attachEvent() {
