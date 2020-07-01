@@ -1,6 +1,6 @@
 # mercku_router_web
 
-> mercku router setting
+mercku router setting pages
 
 ## Build step
 
@@ -27,7 +27,7 @@ eg:
 
 ## How to add a customer
 
-1. add a folder which should be named by customer id under customer-conf
-2. change default conf for customer
-3. add a key for customer in src/util/constant.js
-4. change menu config in src/menu.js
+1.  add a folder which should be named by customer id under customer-conf
+2.  change default conf for customer
+3.  add a key for customer in src/util/constant.js
+4.  change menu config in src/menu.js

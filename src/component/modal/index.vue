@@ -79,15 +79,14 @@ export default {
     left: 0;
     top: 0;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3);
+    background: $modal-mask-background-color;
   }
 
   .modal-content {
-    background: #fff;
+    background: $modal-content-background;
     padding: 20px;
     border-radius: 5px;
-    -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px 0 $modal-shadow-color;
   }
 }
 @media screen and (max-width: 768px) {

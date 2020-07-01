@@ -75,7 +75,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 1001;
-  background: rgba(0, 0, 0, 0.3);
+  background: $dialog-shadow-background-color;
   opacity: 1;
   display: flex;
   justify-content: center;
@@ -85,7 +85,7 @@ export default {
     background: #fff;
     padding: 20px 20px 30px 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 12px 0 $dialog-box-shadow-color;
     .dialog-buttons {
       display: flex;
       justify-content: center;
@@ -101,17 +101,16 @@ export default {
     .dialog-title {
       font-size: 16px;
       line-height: 1;
-      color: #333;
+      color: $dialog-title-color;
       font-weight: bold;
       text-align: center;
       margin-bottom: 10px;
     }
     .dialog-message {
-      color: #333;
+      color: $dialog-content-color;
       margin-bottom: 45px;
       text-align: center;
       font-size: 14px;
-      color: #333;
     }
   }
   &.dialog-enter-active {

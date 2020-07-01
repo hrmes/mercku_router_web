@@ -24,8 +24,8 @@ const favicon = CUSTOMER_CONFIG.favicon;
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
-// const host = 'http://mywifi.mercku.tech';
-const host = 'http://onenet.inverto.tv';
+const host = 'http://mywifi.mercku.tech';
+// const host = 'http://onenet.inverto.tv';
 
 module.exports = {
   baseUrl: '/',
@@ -147,5 +147,13 @@ module.exports = {
         options.limit = 50000;
         return options;
       });
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        // @/ is an alias to src/
+        data: `@import "@/style/${CUSTOMER_ID}/theme.scss";`
+      }
+    }
   }
 };

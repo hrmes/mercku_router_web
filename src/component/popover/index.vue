@@ -114,15 +114,14 @@ export default {
     padding: 0 10px;
     z-index: 999;
     width: 200px;
-    background-color: #333;
+    background-color: $popover-background-color;
     border-radius: 8px;
     // box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     font-size: 12px;
-    color: #fff;
+    color: $popover-color;
     padding: 10px;
 
     &.bottom {
-      // top:-
       .triangle {
         top: -8px;
         bottom: initial;
@@ -159,7 +158,7 @@ export default {
         width: 0;
         height: 0;
         overflow: hidden;
-        border: 8px solid #333;
+        border: 8px solid $popover-background-color;
         border-bottom: none;
         border-left-color: transparent;
         border-right-color: transparent;

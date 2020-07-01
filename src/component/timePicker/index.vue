@@ -13,7 +13,7 @@
         </a>
       </span>
     </div>
-    <div class="combobox"
+    <div class="combox"
          ref="combo"
          v-if="opened">
       <div class="select-wrap">
@@ -175,18 +175,18 @@ export default {
 .time-picker-panel {
   width: 160px;
   height: 36px;
-  border: 1px solid #f1f1f1;
+  border: 1px solid $time-picker-pannel-border-color;
   position: relative;
   border-radius: 4px;
-  .combobox {
+  .combox {
     position: absolute;
-    background: white;
+    background: $time-picker-combox-background-color;
     left: -1px;
     display: flex;
     flex-direction: column;
     width: 160px;
     z-index: 9999;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px $time-picker-combox-shadow-color;
     background-clip: padding-box;
     overflow: hidden;
     transition: transform 0.3s;
@@ -194,22 +194,22 @@ export default {
       display: flex;
     }
     .button-wrap {
-      border-top: 1px solid #f1f1f1;
+      border-top: 1px solid $time-picker-buttons-border-color;
       button {
         height: 38px;
         width: 50%;
         border: none;
-        background: #fff;
+        background: $time-picker-button-background-color;
         cursor: pointer;
         outline: none;
         &:hover {
           opacity: 0.8;
         }
         &:first-child {
-          color: #999;
+          color: $time-picker-button-cancel-color;
         }
         &:last-child {
-          color: #d6001c;
+          color: $time-picker-button-confirm-color;
         }
       }
     }
@@ -217,7 +217,7 @@ export default {
       flex: 1;
       height: 192px;
       overflow-y: scroll;
-      border-right: 1px solid #f1f1f1;
+      border-right: 1px solid $time-picker-popup-border-color;
       &::-webkit-scrollbar {
         width: 4px;
       }
@@ -225,7 +225,7 @@ export default {
         background-color: transparent;
       }
       &::-webkit-scrollbar-thumb {
-        background: #e6e6e6;
+        background: $time-picker-popup-scrollbar-color;
       }
       &:last-child {
         border-right: none;
@@ -245,15 +245,15 @@ export default {
         line-height: 36px;
         cursor: pointer;
         &:hover {
-          background: #f1f1f1;
-          color: #333;
+          background: $time-picker-popup-item-hover-background-color;
+          color: $time-picker-popup-item-hover-color;
         }
         &:active {
-          background: #f1f1f1;
-          color: #333;
+          background: $time-picker-popup-item-active-background-color;
+          color: $time-picker-popup-item-active-color;
         }
         &.selected {
-          color: #d6001c;
+          color: $time-picker-popup-item-selected-color;
         }
       }
     }
@@ -273,7 +273,7 @@ export default {
       padding-left: 5px;
       margin-left: 5px;
       height: 30px;
-      background: white;
+      background: $time-picker-input-background-color;
     }
     .icon-inner {
       display: inline-block;

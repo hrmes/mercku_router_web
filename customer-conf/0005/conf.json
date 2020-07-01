@@ -1,0 +1,28 @@
+{
+  "id": "0005",
+  "title": "Laki Wi-Fi",
+  "accept": ".laki",
+  "favicon": "customer-conf/0005/favicon.png",
+  "policy": "https://laki.eu/files/uslovi-koriscenja-laki-wifi.pdf",
+  "allow2LevelAdmin": true,
+  "languages": ["zh-CN", "en-US", "sr-RS"],
+  "routers": {
+    "M2": {
+      "name": "Laki Core",
+      "shortName": "Laki"
+    },
+    "Bee": {
+      "name": "Laki Spot",
+      "shortName": "Laki"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#999999"
+  },
+  "website": {
+    "url": "https://oriontelekom.rs/",
+    "text": "oriontelekom.rs"
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
+}

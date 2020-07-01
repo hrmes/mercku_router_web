@@ -3,6 +3,7 @@ import intl from 'intl';
 import 'intl/locale-data/jsonp/en-US';
 import 'intl/locale-data/jsonp/de-DE';
 import 'intl/locale-data/jsonp/nl-NL';
+import 'intl/locale-data/jsonp/sr';
 
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
@@ -34,7 +35,9 @@ export const hostRexp = host => {
 };
 
 function ip2int(ip) {
-  return ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0;
+  return (
+    ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0
+  );
 }
 
 export const isMulticast = ip => {
@@ -135,15 +138,15 @@ export const getFileExtendName = file => {
 
 export const getStringByte = str => {
   let total = 0;
-  let charCode;
-  const len = str.length;
   /**
-   * 高位编码单元（higher code point）使用一对（低位编码（lower valued））
-   * 代理伪字符（”surrogate” pseudo-characters）来表示，从而构成一个真正的字符。
-   * 所以这里有个BUG，在计算高位字符会计算成6个
+   * js默认使用utf-16进行编码，同时codePointAt也会返回的utf-16的码点值
+   * 但是存储是路由器，使用的是utf-8的编码方式，所以需要计算为utf-8的字节数
+   * 转换的具体方式，通过取每个字符的codePointAt(0)得到该字符的unicode码点(code point)
+   * 然后按照utf-8的转换方式去计算utf-8的字节数
    * */
-  for (let i = 0; i < len; i += 1) {
-    charCode = str.charCodeAt(i);
+  /*  eslint-disable  */
+  for (const ch of str) {
+    const charCode = ch.codePointAt(0);
     if (charCode <= 0x007f) {
       total += 1;
     } else if (charCode <= 0x07ff) {
@@ -233,7 +236,10 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
     S: date.getMilliseconds()
   };
   if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, `${date.getFullYear()}`.substr(4 - RegExp.$1.length));
+    fmt = fmt.replace(
+      RegExp.$1,
+      `${date.getFullYear()}`.substr(4 - RegExp.$1.length)
+    );
   }
 
   Object.keys(o).forEach(k => {

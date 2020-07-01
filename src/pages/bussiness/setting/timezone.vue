@@ -11,8 +11,7 @@
                      prop='password'>
           <m-select :label="$t('trans0273')"
                     v-model="form.timezone"
-                    :options="timezones"
-                    :height="300"></m-select>
+                    :options="timezones"></m-select>
         </m-form-item>
       </m-form>
       <div class="form-button">

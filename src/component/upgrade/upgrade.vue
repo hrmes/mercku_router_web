@@ -36,7 +36,7 @@ export default {
   left: 0;
   right: 0;
   z-index: 1001;
-  background: rgba(0, 0, 0, 0.8);
+  background: $upgrade-background-color;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +56,7 @@ export default {
 
   .inner {
     text-align: center;
-    color: #fff;
+    color: $upgrade-text-color;
     position: absolute;
     left: 50%;
     top: 50%;
@@ -64,11 +64,11 @@ export default {
     .title {
       font-size: 24px;
       // margin-top: 10px;
-      color: #fff;
+      color: $upgrade-text-color;
     }
   }
   .tip {
-    color: #fff;
+    color: $upgrade-text-color;
     display: block;
     margin-top: 10px;
   }

@@ -49,7 +49,7 @@ export default {
   }
 }
 .toast-container {
-  color: rgba(0, 0, 0, 0.65);
+  color: $toast-color;
   // position: fixed;
   top: 0;
   padding: 10px 16px;
@@ -63,8 +63,8 @@ export default {
   display: flex;
   align-items: center;
   &.error {
-    background: #fff1f0;
-    border: 0.5px solid #ffa39e;
+    background: $toast-error-background-color;
+    border: 0.5px solid $toast-error-border-color;
     &::before {
       content: '';
       margin-right: 8px;
@@ -78,8 +78,8 @@ export default {
     }
   }
   &.success {
-    background: #f6ffed;
-    border: 0.5px solid #b7eb8f;
+    background: $toast-success-background-color;
+    border: 0.5px solid $toast-success-border-color;
     &::before {
       content: '';
       margin-right: 8px;

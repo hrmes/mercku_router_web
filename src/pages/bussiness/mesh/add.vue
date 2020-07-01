@@ -19,7 +19,6 @@
           <button class="btn btn-large"
                   @click="forward2WelcomePage">{{$t('trans0467')}}</button>
         </div>
-
       </div>
       <div class="type-container"
            v-show="welcomePage">
@@ -72,7 +71,7 @@
                v-show="stepsOption.current===1">
             <div class="scaning"
                  v-show="scaning">
-              <m-loading></m-loading>
+              <m-loading :color="loadingColor"></m-loading>
               <p>{{$t('trans0334')}}</p>
             </div>
             <div class="scan-result"
@@ -681,12 +680,12 @@ export default {
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 1599px) {
+@media screen and (min-width: 769px) and (max-width: 1600px) {
   .help-dialog {
     padding: 250px;
   }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .help-dialog-content {
     width: 100%;
     max-height: 350px;
