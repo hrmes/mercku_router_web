@@ -38,7 +38,7 @@ export default {
     let array = [];
     array = require(`../../../timezones/${this.$i18n.locale}.json`);
     this.timezones = array.map(t => ({
-      text: `(${t.timezoneDetail})${t.coutryName}`,
+      text: `(${t.timezoneDetail}) ${t.coutryName}`,
       value: `${t.offset}:${t.position}`
     }));
   },
