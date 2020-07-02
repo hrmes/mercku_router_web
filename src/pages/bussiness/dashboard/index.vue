@@ -34,9 +34,6 @@
           <div class="icon-unconnected-container"
                @click.stop="showTips()"
                v-if="isLinked || isUnlinked">
-            <img src="../../../assets/images/icon/ic_unconnected.png"
-                 alt="">
-
             <img class="icon__question"
                  src="../../../assets/images/icon/ic_wifi_question.png"
                  alt="">
@@ -377,20 +374,40 @@ export default {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          width: 50px;
-          height: 50px;
+          width: 40px;
+          height: 40px;
           background: #050505;
           cursor: pointer;
           .icon__question {
             position: absolute;
             right: 0;
             top: 0;
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
           }
-          img {
-            width: 18px;
-            height: 18px;
+          &::before {
+            content: '';
+            display: block;
+            height: 2px;
+            border-radius: 2px;
+            width: 16px;
+            background: #fff;
+            transform: translate(-50%, -50%) rotate(45deg);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+          }
+          &::after {
+            content: '';
+            display: block;
+            height: 2px;
+            border-radius: 2px;
+            width: 16px;
+            background: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
           }
         }
       }
