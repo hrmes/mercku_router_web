@@ -1,5 +1,6 @@
 {
   "id": "0005",
+  "host": "http://mywifi.laki.tech",
   "title": "Laki Wi-Fi",
   "accept": ".laki",
   "favicon": "customer-conf/0005/favicon.png",
