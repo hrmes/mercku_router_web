@@ -66,6 +66,16 @@
           no-repeat center;
         background-size: 100%;
       }
+      .net-info__inner {
+        .line.unconnected {
+          .icon-unconnected-container {
+            background: rgb(6, 8, 57);
+            @media screen and (max-width: 768px) {
+              background: rgb(10, 13, 80);
+            }
+          }
+        }
+      }
     }
   }
 }

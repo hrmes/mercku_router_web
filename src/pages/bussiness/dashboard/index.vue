@@ -219,7 +219,7 @@ export default {
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
-            if (this.needCheckUpgradable) {
+            if (this.pageActive && this.needCheckUpgradable) {
               this.checkFrimwareLatest();
             }
           })
@@ -341,7 +341,8 @@ export default {
         position: relative;
         transform: translateY(-15px);
         &.unconnected {
-          border-top: 2px dashed #999;
+          border-top: 2px dashed #fff;
+          background: none;
         }
         &.testing {
           position: relative;
