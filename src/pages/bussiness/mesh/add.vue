@@ -394,7 +394,8 @@ export default {
     button {
       display: inline-block;
       margin-right: 20px;
-      width: 160px;
+      min-width: 160px;
+      width: auto;
       &:last-child {
         margin-right: 0;
       }
