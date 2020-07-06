@@ -97,7 +97,9 @@
       border-radius: 4px;
       height: 38px;
       font-size: 12px;
-      padding: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       line-height: 1;
       text-decoration: none;
       margin-right: 20px;

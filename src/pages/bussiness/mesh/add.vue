@@ -147,7 +147,7 @@
           <div>
             <p>1. {{$t('trans0234')}}</p>
             <p>2. {{$t('trans0215')}}</p>
-            <p>3. {{$t('trans0313')}}</p>
+            <p>3. {{$t('trans0158')}}</p>
             <p>4. {{$t('trans0175')}}</p>
             <p>5. {{$t('trans0330')}}</p>
             <p>6. {{$t('trans0372')}} <a :href="$t('trans0477')"
@@ -674,6 +674,12 @@ export default {
     }
     .fail {
       text-align: center;
+      .button-container {
+        .btn {
+          min-width: 160px;
+          width: auto;
+        }
+      }
     }
     .success {
       text-align: center;
