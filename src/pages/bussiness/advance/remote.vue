@@ -16,8 +16,6 @@
           </m-tab>
           <m-tab :class="{'selected':isTelnet}"
                  @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0497')}}</m-tab>
-          <m-tab :class="{'selected':isWWA}"
-                 @click.native="forward2page('/advance/remote/wwa')">{{$t('trans0511')}}</m-tab>
         </m-tabs>
       </div>
     </div>
@@ -116,36 +114,11 @@
                     :onChange="updateTelnet"></m-switch>
         </div>
       </div>
-      <div v-if="isWWA">
-        <m-form class="form"
-                ref="wwa"
-                :model="wwa"
-                :rules="wwaRules">
-          <m-form-item prop="port">
-            <m-input :label="$t('trans0495')"
-                     v-model="wwa.port"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <m-form-item prop="allowed_ip">
-            <m-input :label="`${$t('trans0575')}${$t('trans0411')}`"
-                     v-model="wwa.allowed_ip"
-                     :placeholder="$t('trans0492')"></m-input>
-          </m-form-item>
-          <div class="form-item">
-            <m-checkbox :text="$t('trans0462')"
-                        v-model="wwa.enabled"></m-checkbox>
-          </div>
-        </m-form>
-        <div class="form-button">
-          <button class="btn btn-primary"
-                  @click="updateWWA">{{$t('trans0081')}}</button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script>
-import { portReg, isIP } from 'util/util';
+import { portReg } from 'util/util';
 
 export default {
   data() {
@@ -237,29 +210,6 @@ export default {
             message: this.$t('trans0232')
           }
         ]
-      },
-      wwa: {
-        port: '',
-        enabled: false,
-        allowed_ip: ''
-      },
-      wwaRules: {
-        port: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0478')
-          }
-        ],
-        allowed_ip: [
-          {
-            rule: value => !value || (value && isIP(value)),
-            message: this.$t('trans0238')
-          }
-        ]
       }
     };
   },
@@ -268,8 +218,7 @@ export default {
       const Tabs = {
         isTR069: 'tr069',
         isTFTP: 'tftp',
-        isTelnet: 'telnet',
-        isWWA: 'wwa'
+        isTelnet: 'telnet'
       };
       const result = {};
       Object.keys(Tabs).forEach(key => {
@@ -291,14 +240,6 @@ export default {
     });
     this.$http.getTFTP().then(res => {
       this.tftp = res.data.result;
-    });
-    this.$http.getWWA().then(res => {
-      const { result } = res.data;
-      this.wwa = {
-        enabled: result.enabled,
-        port: result.port,
-        allowed_ip: result.allowed_ip[0]
-      };
     });
   },
   methods: {
@@ -362,24 +303,6 @@ export default {
         this.$loading.open();
         this.$http
           .updateTFTP(this.tftp)
-          .then(() => {
-            this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
-      }
-    },
-    updateWWA() {
-      if (this.$refs.wwa.validate()) {
-        this.$loading.open();
-        this.$http
-          .updateWWA({
-            ...this.wwa,
-            port: Number(this.wwa.port),
-            allowed_ip: [this.wwa.allowed_ip]
-          })
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');

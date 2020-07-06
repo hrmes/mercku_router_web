@@ -192,6 +192,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: allCustomers
       },
       {
+        url: '/advance/wwa',
+        name: 'advance.wwa',
+        text: 'trans0511',
+        mode: [RouterMode.router],
+        super: false,
+        customers: allCustomers
+      },
+      {
         url: '/advance/remote/tr069',
         name: 'advance-remote',
         text: 'trans0286',
