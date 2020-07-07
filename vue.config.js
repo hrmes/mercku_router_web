@@ -104,7 +104,7 @@ module.exports = {
         sourceMap: true, // Must be set to true if using source-maps in production
         terserOptions: {
           compress: {
-            drop_console: true, // drop console
+            drop_console: false, // drop console
             drop_debugger: true
             // add some test comments
           }
