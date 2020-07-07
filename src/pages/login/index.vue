@@ -46,7 +46,7 @@
         </div>
         <div class="down-button-container">
           <a class="down-button"
-             href="http://onelink.to/mn4tgv">{{$t('trans0262')}}</a>
+             :href="appDownloadUrl">{{$t('trans0262')}}</a>
         </div>
       </div>
     </div>
