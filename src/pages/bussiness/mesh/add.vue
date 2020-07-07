@@ -671,15 +671,13 @@ export default {
     }
     .button-container {
       margin-top: 160px;
+      .btn {
+        min-width: 160px;
+        width: auto;
+      }
     }
     .fail {
       text-align: center;
-      .button-container {
-        .btn {
-          min-width: 160px;
-          width: auto;
-        }
-      }
     }
     .success {
       text-align: center;
