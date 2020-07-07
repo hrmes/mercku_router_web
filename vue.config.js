@@ -106,6 +106,7 @@ module.exports = {
           compress: {
             drop_console: true, // drop console
             drop_debugger: true
+            // add some test comments
           }
         }
       })
