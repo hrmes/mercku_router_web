@@ -130,7 +130,7 @@ export default {
 @media screen and (min-width: 769px) {
   .dialog-container {
     .dialog-content {
-      width: 420px;
+      width: 430px;
     }
   }
 }
