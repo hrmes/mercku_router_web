@@ -1,19 +1,12 @@
 import { Role, RouterMode, Customers } from 'util/constant';
 
 export default function getMenu(role, mode = RouterMode.router) {
-  console.log(
-    `Init menus...customer is:${
-      process.env.CUSTOMER_CONFIG.id
-    }...role is:${role}...mode is:${mode}`
-  );
+  console.log('Init menus...');
+  console.log(`customer id is: ${process.env.CUSTOMER_CONFIG.id}`);
+  console.log(`role is: ${role}`);
+  console.log(`mode is: ${mode}`);
 
-  const allCustomers = [
-    Customers.mercku,
-    Customers.cik,
-    Customers.internal,
-    Customers.startca,
-    Customers.inverto
-  ];
+  const allCustomers = Object.keys(Customers).map(key => Customers[key]);
   const wifi = {
     icon: 'wifi',
     text: 'trans0173',
@@ -172,7 +165,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0539',
         super: false,
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku, Customers.inverto]
+        customers: [Customers.mercku, Customers.inverto, Customers.orion]
       },
       {
         url: '/advance/diagnosis',
@@ -199,6 +192,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: allCustomers
       },
       {
+        url: '/advance/wwa',
+        name: 'advance.wwa',
+        text: 'trans0511',
+        mode: [RouterMode.router],
+        super: false,
+        customers: allCustomers
+      },
+      {
         url: '/advance/remote/tr069',
         name: 'advance-remote',
         text: 'trans0286',
@@ -208,7 +209,8 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.cik,
           Customers.internal,
           Customers.startca,
-          Customers.inverto
+          Customers.inverto,
+          Customers.orion
         ]
       }
     ]

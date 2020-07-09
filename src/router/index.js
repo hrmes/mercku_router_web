@@ -36,6 +36,7 @@ import guest from 'pages/bussiness/setting/guest.vue';
 import remote from 'pages/bussiness/advance/remote.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import region from 'pages/bussiness/setting/region.vue';
+import wwa from 'pages/bussiness/advance/wwa.vue';
 
 Vue.use(Router);
 export default new Router({
@@ -233,6 +234,11 @@ export default new Router({
       path: '/advance/mode',
       name: 'advance-mode',
       component: mode
+    },
+    {
+      path: '/advance/wwa',
+      name: 'advance.wwa',
+      component: wwa
     }
   ]
 });

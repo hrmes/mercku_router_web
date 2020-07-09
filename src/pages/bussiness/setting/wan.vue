@@ -496,13 +496,16 @@ export default {
       );
     },
     getWanStatus() {
+      this.$loading.open();
       this.netStatus = CONSTANTS.WanNetStatus.testing;
       this.$http
         .getWanStatus()
         .then(res => {
+          this.$loading.close();
           this.netStatus = res.data.result.status;
         })
         .catch(() => {
+          this.$loading.close();
           this.netStatus = CONSTANTS.WanNetStatus.unlinked;
         });
     },

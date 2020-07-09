@@ -10,7 +10,7 @@
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
-          <button class="btn m-btn-default "
+          <button class="btn btn-text text-primary m-btn-default "
                   @click="mulDel"
                   :disabled="!hasChecked">{{$t('trans0453')}}</button>
           <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
@@ -23,13 +23,13 @@
         <div class="handle-info"
              :class="{'openInfo':mobileShowHead}"
              v-clickoutside="()=>mobileSelect=false">
-          <div class="select"
-               @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}}
+          <button class="select btn"
+                  @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}}
             <i>
               <img :class="{open:mobileSelect}"
                    src="../../../../assets/images/icon/ic_arrow_pack_up.png"
                    alt=""></i>
-          </div>
+          </button>
           <div class="btn-wrap"
                :class="{open:mobileSelect}">
             <button class="btn btn-small"
@@ -38,7 +38,7 @@
                     @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
               {{$t('trans0453')}}
             </button>
-            <button class="btn  btn-small"
+            <button class="btn btn-small"
                     @click="mulDel"
                     :disabled="!hasChecked">{{$t('trans0453')}}</button>
           </div>
@@ -394,26 +394,19 @@ export default {
           display: flex;
           align-items: center;
           .m-btn-default {
+            text-decoration: none;
             border: none;
             background: none;
-            color: #d6001c;
             width: auto;
             padding: 0;
-            height: auto;
             &[disabled] {
-              color: #333333;
-              opacity: 0.7;
+              color: #999;
+              border: none;
             }
           }
           span {
             margin-left: 20px;
             cursor: pointer;
-            &:nth-child(1) {
-              color: #d6001c;
-            }
-            &:hover {
-              opacity: 0.8;
-            }
           }
         }
       }
@@ -445,19 +438,12 @@ export default {
         width: 80px;
         height: 30px;
         border-radius: 4px;
-        background-color: #d6001c;
         color: white;
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0 10px;
         font-size: 12px;
-        &:active {
-          background: rgb(182, 0, 24);
-        }
-        &:hover {
-          background: rgb(182, 0, 24);
-        }
         i {
           img {
             transition: all 0.3s;

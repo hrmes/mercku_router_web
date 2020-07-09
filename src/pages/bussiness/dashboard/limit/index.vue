@@ -59,7 +59,6 @@ export default {
         border: 0;
         padding: 0;
         .tab {
-          font-size: 16px;
           padding: 15px 0;
           font-weight: normal;
           display: flex;
@@ -74,10 +73,10 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: #333;
+      background: $header-background-color;
       color: #fff;
       align-items: center;
-      border-top: 1px solid #666;
+      border-top: 1px solid $header-nav-item-border-color;
       .page-header-trigger {
         display: block;
         &::before {
@@ -103,7 +102,6 @@ export default {
         &.show {
           display: block;
         }
-        background: rgb(88, 73, 73);
         position: absolute;
         top: 100%;
         left: 0;
@@ -113,16 +111,17 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: #333;
+          background: $header-background-color;
           .tab {
             padding: 18px 0;
             color: #fff;
             font-size: 14px;
+            // font-weight: bold;
             margin: 0;
-            border-bottom: 1px solid #666;
+            border-bottom: 1px solid $header-nav-item-border-color;
             &.selected {
-              border-bottom: 1px solid #666;
-              color: #d6001c;
+              border-bottom: 1px solid $header-nav-item-border-color;
+              color: $primaryColor;
               &::before {
                 display: none;
               }

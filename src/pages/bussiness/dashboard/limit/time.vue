@@ -395,7 +395,7 @@ export default {
         align-items: flex-start;
       }
       label {
-        width: 70px;
+        width: 100px;
         font-size: 14px;
         color: #333333;
         overflow: hidden;
@@ -473,7 +473,7 @@ export default {
   }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
   .timelimit {
     .content {
       .table {
@@ -587,7 +587,7 @@ export default {
           align-items: flex-start;
         }
         label {
-          width: 70px;
+          width: 100px;
           @media screen and (max-width: 320px) {
             flex-shrink: 0;
             width: 60px;

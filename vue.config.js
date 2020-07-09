@@ -24,8 +24,7 @@ const favicon = CUSTOMER_CONFIG.favicon;
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
-// const host = 'http://mywifi.mercku.tech';
-const host = 'http://onenet.inverto.tv';
+const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';
 
 module.exports = {
   baseUrl: '/',
@@ -105,7 +104,7 @@ module.exports = {
         sourceMap: true, // Must be set to true if using source-maps in production
         terserOptions: {
           compress: {
-            drop_console: true,
+            drop_console: true, // drop console
             drop_debugger: true
           }
         }
@@ -147,5 +146,13 @@ module.exports = {
         options.limit = 50000;
         return options;
       });
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        // @/ is an alias to src/
+        data: `@import "@/style/${CUSTOMER_ID}/theme.scss";`
+      }
+    }
   }
 };

@@ -46,31 +46,39 @@ export default {
   },
   data() {
     return {
-      selected: this.options.filter(o => o.value === this.value)[0] || {},
+      selected: this.getOptionByValue(this.value),
       opened: false
     };
   },
   watch: {
     value(val) {
-      [this.selected] = this.options.filter(o => o.value === val);
+      this.selected = this.getOptionByValue(val);
     }
   },
   mounted() {
     this.attachEvent();
   },
   methods: {
+    getOptionByValue(val) {
+      const option = this.options.filter(o => o.value === val)[0] || {
+        text: val
+      };
+      return option;
+    },
     scrollToSelect() {
       this.$nextTick(() => {
         const popupEl = this.$el.querySelector('.select-popup');
         const selectEl = popupEl.querySelector('li.selected');
-        const popupHeight = popupEl.clientHeight;
-        const elHeight = selectEl.clientHeight;
-        // 滚动到正中间的位置
-        scrollTo(
-          popupEl,
-          0,
-          selectEl.offsetTop - popupHeight / 2 + elHeight / 2
-        );
+        if (selectEl) {
+          const popupHeight = popupEl.clientHeight;
+          const elHeight = selectEl.clientHeight;
+          // 滚动到正中间的位置
+          scrollTo(
+            popupEl,
+            0,
+            selectEl.offsetTop - popupHeight / 2 + elHeight / 2
+          );
+        }
       });
     },
     attachEvent() {
@@ -115,7 +123,7 @@ export default {
     width: 100%;
     border-radius: 4px;
     outline: 0;
-    border: 1px solid #e1e1e1;
+    border: 1px solid $select-input-border-color;
     font-size: 14px;
     padding: 0 10px;
     position: relative;
@@ -140,7 +148,7 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: #333;
+    color: $select-label-color;
   }
 
   cursor: pointer;
@@ -151,9 +159,9 @@ export default {
     right: -1px;
     top: 52px;
     max-height: 300px;
-    background: #fff;
+    background: $select-popup-background-color;
     border-radius: 5px;
-    border: 1px solid #e1e1e1;
+    border: 1px solid $select-popup-border-color;
     overflow: auto;
     li {
       list-style: none;
@@ -165,15 +173,15 @@ export default {
       text-overflow: ellipsis;
 
       &:active {
-        background: #f1f1f1;
-        color: #333;
+        background: $select-item-active-background-color;
+        color: $select-item-active-color;
       }
       &:hover {
-        background: #f1f1f1;
-        color: #333;
+        background: $select-item-hover-background-color;
+        color: $select-item-hover-color;
       }
       &.selected {
-        color: #d6001c;
+        color: $select-item-selected-color;
       }
     }
   }

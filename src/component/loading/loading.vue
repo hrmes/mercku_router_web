@@ -19,7 +19,7 @@ export default {
   data() {
     const { name } = process.env.CUSTOMER_CONFIG.loading;
     const url = require(`@/assets/images/loading/${name}`);
-    console.log('');
+
     return {
       url,
       visible: false,

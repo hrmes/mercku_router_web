@@ -1,6 +1,4 @@
-@import "./iconfont/iconfont.css";
-@import "./github-markdown.css";
-
+@import './button.scss';
 * {
   box-sizing: border-box;
 }
@@ -11,7 +9,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+  font-family: Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB',
+    'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
   font-size: 14px;
@@ -38,128 +37,6 @@ ul {
   padding: 0;
 }
 
-.btn {
-  outline: none;
-  border: 1px solid transparent;
-  cursor: pointer;
-  text-align: center;
-  white-space: nowrap;
-  padding: 0 15px;
-  font-size: 14px;
-  border-radius: 4px;
-  width: 340px;
-  height: 48px;
-  user-select: none;
-  position: relative;
-  color: #fff;
-  background: #d6001c;
-  // overflow: hidden;
-  // text-overflow: ellipsis;
-  &:active {
-    background: #ab0016;
-  }
-  &:hover {
-    background: #de3349;
-  }
-  &[disabled],
-  &.disabled {
-    cursor: not-allowed;
-    background: #b3b3b3;
-    border-color: #b3b3b3;
-    color: white;
-  }
-  &.btn-middle {
-    width: auto;
-    min-width: 120px;
-    height: 38px;
-    line-height: 1;
-    padding: 12px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    @media screen and (max-width: 320px) {
-      min-width: 100px;
-    }
-  }
-  &.btn-dialog-confirm {
-    width: auto;
-    min-width: 240px;
-    height: 38px;
-    line-height: 1;
-    padding: 12px 10px;
-    font-size: 14px;
-    border-radius: 4px;
-    @media screen and (max-width: 320px) {
-      width: 200px;
-      min-width: initial;
-    }
-  }
-  &.btn-small {
-    width: auto;
-    min-width: 80px;
-    height: 28px;
-    line-height: 1;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 4px;
-  }
-  &.btn-default {
-    background: #fff;
-    color: #d6001c;
-    border: 1px solid #d6001c;
-
-    &:active {
-      color: #e6586a;
-      border-color: #e6586a;
-    }
-
-    &:hover {
-      color: #e6586a;
-      border-color: #e6586a;
-    }
-
-    &[disabled],
-    .disabled {
-      color: #b2b2b2;
-      border-color: #b2b2b2;
-      cursor: not-allowed;
-    }
-  }
-}
-.btn-text {
-  color: #333;
-  text-decoration: underline;
-  cursor: pointer;
-  &:hover {
-    color: #999;
-  }
-  &.text-primary {
-    color: #d6001c;
-    &:hover {
-      color: #e6586a;
-    }
-    &.disabled {
-      &:hover {
-        color: #d6001c;
-      }
-    }
-  }
-  &.icon-btn {
-    &:hover {
-      opacity: 0.8;
-    }
-    &.disabled {
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-  &.disabled {
-    &:hover {
-      color: #333;
-    }
-  }
-}
-
 .add-mesh-tip {
   color: #fff;
   display: block;
@@ -170,39 +47,9 @@ input::-webkit-input-placeholder {
   color: #bdbdbd;
 }
 
-@media screen and (min-width: 769px) {
-  .btn {
-    min-width: 120px;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .btn {
-    display: block;
-    width: 100%;
-    height: 48px;
-    margin: 0 auto;
-  }
-}
-
 * {
   -webkit-overflow-scrolling: touch;
 }
-// ::-webkit-scrollbar {
-//   width: 7px;
-//   height: 7px;
-// }
-
-// ::-webkit-scrollbar-track {
-//   background-color: #fff;
-//   border-radius: 5px;
-// }
-
-// ::-webkit-scrollbar-thumb {
-//   border-radius: 5px;
-//   background-color: rgba(0, 0, 0, 0.5);
-//   border: 1px solid rgba(255, 255, 255, 0.9);
-// }
 
 ::-ms-clear,
 ::-ms-reveal {

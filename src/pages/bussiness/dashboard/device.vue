@@ -62,7 +62,7 @@
         <div class="table-body small-device-body">
           <div class="loading-container"
                v-if="showLoading">
-            <m-loading></m-loading>
+            <m-loading :color="loadingColor"></m-loading>
           </div>
           <div v-show="!showLoading">
             <ul v-for="(row,i) in devicesMap[id]"
@@ -210,17 +210,17 @@
               <li class="column-black-list"
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)'>
-                <span class="black-btn btn-text setting"
+                <span class="btn-text btn-text-strange setting"
                       v-if="!isOfflineDevices"
                       @click="()=>forward2limit(row)">
                   {{$t('trans0019')}}
                 </span>
-                <span class="black-btn btn-text"
+                <span class="btn-text btn-text-strange"
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
                 </span>
 
-                <span class="del-btn btn-text text-primary"
+                <span class="btn-text text-primary btn-text-strange"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
                   {{$t('trans0033')}}
@@ -857,6 +857,12 @@ export default {
       }
       .column-black-list {
         width: 230px;
+        .btn-text {
+          margin-right: 30px;
+          &:last-child {
+            margin-right: 0;
+          }
+        }
       }
 
       .table-head {
@@ -1016,12 +1022,6 @@ export default {
               }
             }
           }
-        }
-      }
-      .black-btn {
-        margin-right: 30px;
-        &:last-child {
-          margin-right: 0;
         }
       }
     }
@@ -1420,27 +1420,6 @@ export default {
             padding-top: 30px !important;
             padding-bottom: 30px !important;
             border: 0;
-            .black-btn,
-            .del-btn {
-              width: auto;
-              min-width: 120px;
-              background: #d6001c;
-              color: #fff;
-              text-align: center;
-              border-radius: 4px;
-              height: 38px;
-              font-size: 12px;
-              padding: 13px;
-              line-height: 1;
-              text-decoration: none;
-              margin-right: 20px;
-              &:last-child {
-                margin-right: 0;
-              }
-              // &.setting {
-              //   display: none;
-              // }
-            }
           }
           .li-expand {
             display: block;

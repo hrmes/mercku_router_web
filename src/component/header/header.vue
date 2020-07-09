@@ -5,13 +5,13 @@
       <div v-if="logoVisible"
            @click="forward2dashboard"
            class="logo-wrap__logo"></div>
-      <a v-if="!logoVisible"
+      <a v-if="website && !logoVisible"
          class="offical"
          target="_blank"
-         href="https://www.mercku.com">
+         :href="website.url">
         <img src="../../assets/images/icon/ic_web_home.png"
              alt="">
-        <span>mercku.com</span>
+        <span>{{website.text}}</span>
       </a>
     </div>
 
@@ -105,6 +105,7 @@
               v-show="showPopup">
             <li :key="lang.value"
                 v-for="lang in Languages"
+                :class="{'selected':$i18n.locale === lang.value}"
                 @click="selectLang(lang)">{{lang.text}}</li>
           </ul>
         </transition>
@@ -155,6 +156,11 @@ const Languages = [
   {
     text: 'Dutch',
     value: 'nl-NL',
+    show: false
+  },
+  {
+    text: 'Serbian',
+    value: 'sr-RS',
     show: false
   }
 ];
@@ -211,6 +217,9 @@ export default {
   computed: {
     language() {
       return this.getDefaultLanguage();
+    },
+    website() {
+      return process.env.CUSTOMER_CONFIG.website;
     }
   },
   watch: {
@@ -366,8 +375,8 @@ export default {
   align-items: center;
   justify-content: center;
   display: flex;
-  background: #333;
-  color: #fff;
+  background: $header-background-color;
+  color: $header-color;
   padding: 0 10%;
   @media screen and (max-width: 1440px) {
     padding: 0 50px;
@@ -377,8 +386,8 @@ export default {
   }
   position: relative;
   &.nav-hide {
-    background: #fff;
-    color: #333;
+    background: $header-nav-hide-background-color;
+    color: $header-nav-hide-color;
     padding: 0 50px;
     .right-wrap {
       .lang-selector {
@@ -387,13 +396,13 @@ export default {
           }
           &.down {
             &::after {
-              border-top-color: #333;
+              border-top-color: $header-nav-hide-trangle-color;
             }
           }
         }
         .popup {
-          box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-          background-color: #fff;
+          box-shadow: 0 2px 8px 0 $header-nav-hide-popup-shadow-color;
+          background-color: $header-nav-hide-popup-background-color;
           margin-top: 0;
           right: 0;
           top: 50px;
@@ -402,25 +411,25 @@ export default {
             line-height: 38px;
             padding: 0 30px;
             &:hover {
-              background: #fff;
-              color: #d6001c;
+              background: $header-nav-hide-popup-item-hover-background-color;
+              color: $header-nav-hide-popup-item-hover-color;
             }
             &:last-child {
               margin-bottom: 0;
             }
             &.current-lang {
-              color: #d6001c;
+              color: $header-nav-hide-popup-item-selected-color;
             }
           }
         }
       }
       .small-device {
         .i18n-mobile {
-          background: #fff;
-          color: #333;
-          border-color: #f1f1f1;
+          background: $header-nav-hide-i18n-mobile-background-color;
+          color: $header-nav-hide-i18n-mobile-color;
+          border-color: $header-nav-hide-i18n-mobile-border-color;
           li {
-            border-color: #f1f1f1;
+            border-color: $header-nav-hide-i18n-mobile-item-border-color;
           }
         }
         .menu-icon {
@@ -436,7 +445,7 @@ export default {
   .logo-wrap {
     padding-right: 60px;
     .offical {
-      color: #333;
+      color: $header-official-color;
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -444,7 +453,7 @@ export default {
       line-height: 1;
       &:hover {
         text-decoration: underline;
-        color: #999;
+        color: $header-official-hover-color;
       }
       img {
         width: 12px;
@@ -498,7 +507,7 @@ export default {
         &:hover {
           .nav-item-content {
             .nav-item__text {
-              color: #999;
+              color: $header-nav-item-hover-color;
             }
           }
         }
@@ -508,7 +517,7 @@ export default {
             content: '';
             display: block;
             height: 2px;
-            background: #d6001c;
+            background: $header-nav-item-selected-background-color;
             width: 100%;
             bottom: 0;
             left: 0;
@@ -527,7 +536,7 @@ export default {
             height: 100%;
             display: flex;
             align-items: center;
-            color: #fff;
+            color: $header-popup-item-color;
           }
         }
         .nav-item-child {
@@ -538,29 +547,29 @@ export default {
           top: 100%;
           left: 0;
           margin-top: 6px;
-          box-shadow: -10px 9px 21px 0 rgba(128, 152, 213, 0.08);
-          background-color: #333333;
+          box-shadow: -10px 9px 21px 0 $header-popup-shadow-color;
+          background-color: $header-popup-background-color;
           padding: 25px 0;
           .nav-child__text {
-            color: #fff;
+            color: $header-popup-item-color;
             list-style: none;
             padding: 0 30px;
             line-height: 38px;
             &:hover {
-              color: #fff;
-              background: rgba(255, 255, 255, 0.2);
+              color: $header-popup-item-hover-color;
+              background: $header-popup-item-hover-background-color;
             }
             &.disabled {
-              color: #999;
+              color: $header-popup-item-disabled-color;
               cursor: not-allowed;
-              background: #333;
+              background: $header-popup-item-disabled-background-color;
               &:active,
               &:hover {
-                color: #999;
+                color: $header-popup-item-disabled-hover-color;
               }
             }
             &.selected {
-              color: #d6001c;
+              color: $header-popup-item-selected-color;
             }
           }
           &.show {
@@ -585,11 +594,11 @@ export default {
       &:hover {
         .current {
           .current-text {
-            color: #999;
+            color: $header-nav-item-hover-color;
           }
           .drop-trangle {
             &::after {
-              border-top-color: #999;
+              border-top-color: $header-nav-item-hover-color;
             }
           }
         }
@@ -627,7 +636,7 @@ export default {
             display: block;
             width: 0;
             height: 0;
-            border-top: 5px solid #fff;
+            border-top: 5px solid $header-nav-item-color;
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
           }
@@ -645,11 +654,10 @@ export default {
         position: absolute;
         width: 150px;
         margin-top: 6px;
-        background: #fff;
         border-radius: 2px;
         z-index: 999;
-        box-shadow: -10px 9px 21px 0 rgba(128, 152, 213, 0.08);
-        background-color: #333333;
+        box-shadow: -10px 9px 21px 0 $header-popup-shadow-color;
+        background-color: $header-popup-background-color;
         padding: 25px 0;
         opacity: 1;
         &.popup-enter-active {
@@ -667,14 +675,14 @@ export default {
           line-height: 38px;
           padding: 0 30px;
           &:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: #fff;
+            background: $header-popup-item-hover-background-color;
+            color: $header-popup-item-hover-color;
           }
           &:last-child {
             margin-bottom: 0;
           }
-          &.current-lang {
-            color: #d6001c;
+          &.selected {
+            color: $header-popup-item-selected-color;
           }
         }
       }
@@ -684,7 +692,7 @@ export default {
       cursor: pointer;
       margin-left: 50px;
       &:hover {
-        color: #999;
+        color: $header-nav-item-hover-color;
       }
     }
   }
@@ -716,8 +724,8 @@ export default {
       z-index: 1000;
       width: 100%;
       height: calc(100% - 65px);
-      background: #333;
-      color: #fff;
+      background: $header-background-color;
+      color: $header-color;
       &.nav-wrap--laptop {
         display: none;
       }
@@ -729,18 +737,18 @@ export default {
         padding: 0 30px;
         flex-direction: column;
         height: auto;
-        border-top: 1px solid #666;
+        border-top: 1px solid $header-nav-item-border-color;
         .nav-item {
           width: 100%;
           margin: 0;
           height: auto;
           flex-direction: column;
           align-items: flex-start;
-          border-bottom: 1px solid #666;
+          border-bottom: 1px solid $header-nav-item-border-color;
           &:hover {
             .nav-item-content {
               .nav-item__text {
-                color: #fff;
+                color: $header-mobile-nav-item-hover-color;
               }
             }
           }
@@ -764,8 +772,8 @@ export default {
               display: block;
               width: 5px;
               height: 5px;
-              border-right: 1px solid #fff;
-              border-bottom: 1px solid #fff;
+              border-right: 1px solid $header-mobile-nav-item-color;
+              border-bottom: 1px solid $header-mobile-nav-item-color;
               border-left: 0;
               border-top: 0;
               transform: translateY(-50%) rotate(45deg);
@@ -774,7 +782,7 @@ export default {
               transition: all 0.3s linear;
             }
             .nav-item__text {
-              color: #fff;
+              color: $header-mobile-nav-item-color;
               line-height: 1;
               padding: 16px 0;
               font-size: 16px;
@@ -789,14 +797,14 @@ export default {
                 transform: translateY(-50%) rotate(225deg);
               }
               .nav-item__text {
-                color: #fff;
+                color: $header-mobile-nav-item-color;
               }
             }
           }
           .nav-item-child {
             position: static;
             display: block;
-            background: #333;
+            background: $header-popup-background-color;
             box-shadow: none;
             padding: 0;
             &.nav-item-child__animation-leave-active {
@@ -808,16 +816,16 @@ export default {
             .nav-child__text {
               padding: 0;
               padding-left: 10px;
-              color: #fff;
+              color: $header-popup-item-color;
               &.disabled {
-                background: #333;
+                background: $header-popup-item-disabled-background-color;
               }
               &:active {
-                color: #333;
+                color: $header-popup-item-active-color;
               }
               &:hover {
-                color: #999;
-                background: #333;
+                color: $header-popup-item-disabled-hover-color;
+                background: $header-popup-background-color;
               }
             }
           }
@@ -842,17 +850,17 @@ export default {
           left: 0;
           width: 100%;
           height: 100%;
-          background: #333;
-          color: #fff;
+          background: $header-popup-background-color;
+          color: $header-popup-item-color;
           padding: 0 30px;
           z-index: 1000;
-          border-top: 1px solid #666;
+          border-top: 1px solid $header-popup-border-color;
           li {
             padding: 16px 0;
             list-style: none;
-            border-top: 1px solid #666;
+            border-top: 1px solid $header-nav-item-border-color;
             &.selected {
-              color: #d6001c;
+              color: $header-nav-item-selected-background-color;
             }
             &:first-child {
               border: 0;

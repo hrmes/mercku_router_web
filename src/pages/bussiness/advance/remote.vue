@@ -16,8 +16,6 @@
           </m-tab>
           <m-tab :class="{'selected':isTelnet}"
                  @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0497')}}</m-tab>
-          <m-tab :class="{'selected':isWWA}"
-                 @click.native="forward2page('/advance/remote/wwa')">{{$t('trans0511')}}</m-tab>
         </m-tabs>
       </div>
     </div>
@@ -116,26 +114,6 @@
                     :onChange="updateTelnet"></m-switch>
         </div>
       </div>
-      <div v-if="isWWA">
-        <m-form class="form"
-                ref="wwa"
-                :model="wwa"
-                :rules="wwaRules">
-          <m-form-item prop="port">
-            <m-input :label="$t('trans0495')"
-                     v-model="wwa.port"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <div class="form-item">
-            <m-checkbox :text="$t('trans0462')"
-                        v-model="wwa.enabled"></m-checkbox>
-          </div>
-        </m-form>
-        <div class="form-button">
-          <button class="btn btn-primary"
-                  @click="updateWWA">{{$t('trans0081')}}</button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -232,22 +210,6 @@ export default {
             message: this.$t('trans0232')
           }
         ]
-      },
-      wwa: {
-        port: '',
-        enabled: false
-      },
-      wwaRules: {
-        port: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0478')
-          }
-        ]
       }
     };
   },
@@ -256,8 +218,7 @@ export default {
       const Tabs = {
         isTR069: 'tr069',
         isTFTP: 'tftp',
-        isTelnet: 'telnet',
-        isWWA: 'wwa'
+        isTelnet: 'telnet'
       };
       const result = {};
       Object.keys(Tabs).forEach(key => {
@@ -279,9 +240,6 @@ export default {
     });
     this.$http.getTFTP().then(res => {
       this.tftp = res.data.result;
-    });
-    this.$http.getWWA().then(res => {
-      this.wwa = res.data.result;
     });
   },
   methods: {
@@ -353,23 +311,6 @@ export default {
             this.$loading.close();
           });
       }
-    },
-    updateWWA() {
-      if (this.$refs.wwa.validate()) {
-        this.$loading.open();
-        this.$http
-          .updateWWA({
-            ...this.wwa,
-            port: Number(this.wwa.port)
-          })
-          .then(() => {
-            this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
-      }
     }
   }
 };
@@ -387,11 +328,11 @@ export default {
         border: 0;
         padding: 0;
         .tab {
-          font-size: 16px;
           padding: 15px 0;
           display: flex;
           align-items: center;
           font-size: 14px;
+          font-weight: normal;
         }
       }
     }
@@ -416,10 +357,10 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: #333;
+      background: $header-background-color;
       color: #fff;
       align-items: center;
-      border-top: 1px solid #666;
+      border-top: 1px solid $header-nav-item-border-color;
       .page-header-trigger {
         display: block;
         &::before {
@@ -445,7 +386,6 @@ export default {
         &.show {
           display: block;
         }
-        background: rgb(88, 73, 73);
         position: absolute;
         top: 100%;
         left: 0;
@@ -455,16 +395,16 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: #333;
+          background: $header-background-color;
           .tab {
             padding: 18px 0;
             color: #fff;
             font-size: 14px;
             margin: 0;
-            border-bottom: 1px solid #666;
+            border-bottom: 1px solid $header-nav-item-border-color;
             &.selected {
-              border-bottom: 1px solid #666;
-              color: #d6001c;
+              border-bottom: 1px solid $header-nav-item-border-color;
+              color: $primaryColor;
               &::before {
                 display: none;
               }

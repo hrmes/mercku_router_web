@@ -19,13 +19,9 @@
                :key="node.sn"
                class="node">
             <div class="badges">
-              <div v-if="node.isGW"
-                   class="badge-info gateway">
-                <span>{{ $t('trans0165') }}</span>
-              </div>
-              <div class="badge-info">
-                <span>{{ node.version.latest }}</span>
-              </div>
+              <m-tag class="gateway"
+                     v-if="node.isGW">{{$t('trans0165')}}</m-tag>
+              <m-tag>{{ node.version.latest }}</m-tag>
             </div>
             <div class="message"
                  @click="check(node)">
@@ -159,6 +155,7 @@ export default {
             const { current, latest } = node.version;
             return compareVersion(current, latest);
           };
+
           let containGW = false;
           this.nodes = nodes.filter(filter).map(node => {
             let isGW = false;
@@ -348,28 +345,9 @@ export default {
         top: 10px;
         z-index: 1;
         display: flex;
-        .badge-info {
-          width: auto;
-          padding: 0 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: #d6001c;
-          border-radius: 10px;
+        .mk-tag {
           &.gateway {
             background: #00d061;
-          }
-          + .badge-info {
-            margin-left: 5px;
-          }
-          img {
-            width: 18px;
-            margin-right: 5px;
-          }
-          span {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: normal;
           }
         }
       }
@@ -438,7 +416,7 @@ export default {
     width: auto;
   }
 }
-@media screen and (min-width: 769px) and (max-width: 999px) {
+@media screen and (min-width: 769px) and (max-width: 1000px) {
   .nodes-wrapper {
     .nodes-info {
       .node {

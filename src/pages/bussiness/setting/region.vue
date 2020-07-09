@@ -6,8 +6,7 @@
     <div class="page-content">
       <m-form class="form">
         <m-form-item class="form__switch">
-          <m-select :height="300"
-                    :label="$t('trans0639')"
+          <m-select :label="$t('trans0639')"
                     v-model="form.region.id"
                     :options="regions"></m-select>
         </m-form-item>

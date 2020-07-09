@@ -144,7 +144,7 @@ export default {
     text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #333;
+    color: $input-label-color;
     font-size: 14px;
   }
   .input-wrapper {
@@ -179,15 +179,15 @@ export default {
         padding-left: 0px;
       }
       &:disabled {
-        background: #e1e1e1;
-        opacity: 0.8;
+        background: $input-disabled-background-color;
+        opacity: $input-disabled-opacity;
         cursor: not-allowed;
       }
       &.has-icon {
         padding-right: 50px;
       }
     }
-    border: 1px solid #e1e1e1;
+    border: 1px solid $input-border-color;
   }
   .icon-container {
     position: absolute;
@@ -234,40 +234,11 @@ export default {
     display: block;
     width: 100%;
     margin: 0 auto;
-    &.small {
-      .input {
-      }
-    }
-
-    &.disabled {
-      .icon-container {
-      }
-    }
-    .inputarea {
-    }
-    label {
-    }
     .input-wrapper {
       height: 48px;
-      .extra {
-      }
-      input {
-        &.margin {
-        }
-        &:disabled {
-        }
-        &.has-icon {
-        }
-      }
     }
     .icon-container {
       height: 48px;
-      .icon {
-        &.hide {
-        }
-        &.show {
-        }
-      }
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="dashboard">
+  <div class="dashboard customized">
     <div class="net-info">
       <div class="net-info__inner">
         <div class="device-container"
@@ -34,9 +34,6 @@
           <div class="icon-unconnected-container"
                @click.stop="showTips()"
                v-if="isLinked || isUnlinked">
-            <img src="../../../assets/images/icon/ic_unconnected.png"
-                 alt="">
-
             <img class="icon__question"
                  src="../../../assets/images/icon/ic_wifi_question.png"
                  alt="">
@@ -131,21 +128,16 @@ export default {
       const fromPath = from.path;
       console.log('from path is:', fromPath);
       if (fromPath.includes('login')) {
-        // delay 10 to check new version
-        vm.upgradeTimer = setTimeout(() => {
-          console.log('time to check new version');
-          vm.checkFrimwareLatest();
-        }, 10000);
+        // add a flag
+        vm.needCheckUpgradable = true;
       }
     });
   },
   methods: {
     checkFrimwareLatest() {
-      // this.upgradeCancelToken = axios.CancelToken.source();
       this.$http
         .firmwareList(undefined, {
           hideToast: true
-          // cancelToken: this.upgradeCancelToken.token
         })
         .then(res => {
           let nodes = res.data.result;
@@ -224,6 +216,9 @@ export default {
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
+            if (this.pageActive && this.needCheckUpgradable) {
+              this.checkFrimwareLatest();
+            }
           })
           .catch(() => {
             clearTimeout(timer);
@@ -233,14 +228,9 @@ export default {
     }
   },
   beforeDestroy() {
+    // clean up
     this.pageActive = false;
     this.clearIntervalTask();
-    // clean up
-    if (this.upgradeTimer) {
-      clearTimeout(this.upgradeTimer);
-      this.upgradeTimer = null;
-      // this.upgradeCancelToken.cancel('cancel');
-    }
   }
 };
 </script>
@@ -265,7 +255,7 @@ export default {
     text-align: left;
     width: 100%;
   }
-  @media screen and (max-width: 769px) {
+  @media screen and (max-width: 768px) {
     width: auto;
   }
 }
@@ -348,7 +338,8 @@ export default {
         position: relative;
         transform: translateY(-15px);
         &.unconnected {
-          border-top: 2px dashed #999;
+          border-top: 2px dashed #fff;
+          background: none;
         }
         &.testing {
           position: relative;
@@ -383,20 +374,40 @@ export default {
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          width: 50px;
-          height: 50px;
+          width: 40px;
+          height: 40px;
           background: #050505;
           cursor: pointer;
           .icon__question {
             position: absolute;
             right: 0;
             top: 0;
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
           }
-          img {
-            width: 18px;
-            height: 18px;
+          &::before {
+            content: '';
+            display: block;
+            height: 2px;
+            border-radius: 2px;
+            width: 16px;
+            background: #fff;
+            transform: translate(-50%, -50%) rotate(45deg);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+          }
+          &::after {
+            content: '';
+            display: block;
+            height: 2px;
+            border-radius: 2px;
+            width: 16px;
+            background: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
           }
         }
       }

@@ -10,7 +10,7 @@
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
-          <button class="btn m-btn-default"
+          <button class="btn btn-text text-primary m-btn-default"
                   @click="mulDel"
                   :disabled="!hasChecked">{{$t('trans0453')}}</button>
           <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
@@ -21,7 +21,8 @@
       <p class="reboot-info"
          :class="{'extra':empty!==null && !empty}">
         {{$t('trans0496')}}
-        <span @click="updateEnabled">{{$t('trans0488')}}</span>
+        <span class="btn-text text-primary"
+              @click="updateEnabled">{{$t('trans0488')}}</span>
       </p>
 
       <div class="table"
@@ -29,7 +30,7 @@
         <div class="handle-info"
              :class="{'openInfo':mobileShowHead}"
              v-clickoutside="()=>mobileSelect=false">
-          <div class="select"
+          <div class="select btn"
                @click="()=>mobileSelect=!mobileSelect">
             {{$t('trans0370')}}
             <i>
@@ -355,13 +356,6 @@ export default {
     width: 100%;
     text-align: left;
   }
-  span {
-    cursor: pointer;
-    color: #d6001c;
-    text-decoration: underline;
-    display: inline-block;
-    line-height: 1.86;
-  }
 }
 @media screen and (max-width: 768px) {
   .reboot-info {
@@ -401,24 +395,16 @@ export default {
           .m-btn-default {
             border: none;
             background: none;
-            color: #d6001c;
             width: auto;
             padding: 0;
-            height: auto;
+            text-decoration: none;
             &[disabled] {
-              color: #333333;
-              opacity: 0.7;
+              color: #999;
             }
           }
           span {
             margin-left: 20px;
             cursor: pointer;
-            &:nth-child(1) {
-              color: #d6001c;
-            }
-            &:hover {
-              opacity: 0.8;
-            }
           }
         }
       }
@@ -450,19 +436,11 @@ export default {
         width: 80px;
         height: 30px;
         border-radius: 4px;
-        background-color: #d6001c;
-        color: white;
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 0 10px;
         font-size: 12px;
-        &:active {
-          background: rgb(182, 0, 24);
-        }
-        &:hover {
-          background: rgb(182, 0, 24);
-        }
         i {
           img {
             transition: all 0.3s;
@@ -491,7 +469,7 @@ export default {
           border: solid 1px #f1f1f1;
           background-color: #ffffff;
           position: absolute;
-          top: 30px;
+          top: 36px;
           right: 0;
           display: block;
           .btn {
@@ -503,9 +481,6 @@ export default {
             text-align: left;
             padding-left: 20px;
             border: 0;
-            &:active {
-              background-color: #d6001c;
-            }
           }
         }
       }

@@ -23,6 +23,7 @@ import mModalFooter from 'components/modal/footer.vue';
 import clickoutside from 'components/clickoutside/index.vue';
 import defaultButton from 'components/default-button/index.vue';
 import mLoading from 'components/loading/loading-new.vue';
+import mTag from 'components/tag/index.vue';
 
 const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);
@@ -50,6 +51,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-modal-body', mModalBody);
   _Vue.component('m-modal-footer', mModalFooter);
   _Vue.component('m-loading', mLoading);
+  _Vue.component('m-tag', mTag);
 };
 
 export default registerComponents;
