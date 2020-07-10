@@ -197,7 +197,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0511',
         mode: [RouterMode.router],
         super: false,
-        customers: allCustomers
+        customers: [
+          Customers.cik,
+          Customers.inverto,
+          Customers.startca,
+          Customers.orion
+        ]
       },
       {
         url: '/advance/remote/tr069',
