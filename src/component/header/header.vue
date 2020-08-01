@@ -443,6 +443,7 @@ export default {
     }
   }
   .logo-wrap {
+    z-index: 1001;
     padding-right: 60px;
     .offical {
       color: $header-official-color;
@@ -584,6 +585,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    z-index: 1001;
     .small-device {
       display: none;
     }
