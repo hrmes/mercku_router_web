@@ -58,6 +58,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: allCustomers
       },
       {
+        text: 'trans0620',
+        name: 'ipv6',
+        url: '/setting/ipv6',
+        super: false,
+        mode: [RouterMode.router],
+        customers: allCustomers
+      },
+      {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',

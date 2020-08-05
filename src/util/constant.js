@@ -23,6 +23,11 @@ export const WanType = {
   static: 'static',
   dhcp: 'dhcp'
 };
+export const IPv6_WanType = {
+  pppoe: 'pppoe',
+  static: 'static',
+  auto: 'auto'
+};
 export const WanNetStatus = {
   testing: 'testing',
   connected: 'connected',

@@ -13,7 +13,7 @@ if (process.env.CUSTOMER_ID) {
   CUSTOMER_ID = '0001';
 }
 
-let CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
+const CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
 console.log(
   `get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`,
   JSON.stringify(CUSTOMER_CONFIG, null, 2)
