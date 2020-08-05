@@ -22,19 +22,19 @@
             </div>
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0375')}}：</label>
-              <span>AUTO</span>
+              <span>{{networkArr[netType]}}</span>
             </div>
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0151')}}：</label>
-              <span>xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx/xx</span>
+              <span>{{netInfo.ip}}</span>
             </div>
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0153')}}：</label>
-              <span>xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx</span>
+              <span>{{netInfo.gateway}}</span>
             </div>
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0236')}}：</label>
-              <span>xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx</span>
+              <span>{{netInfo.dns}}</span>
             </div>
           </div>
         </div>
@@ -137,8 +137,7 @@
                 <m-input :label="$t('trans0151')"
                          type="text"
                          placeholder="0000:0000:0000:0000:0000:0000:0000:0000"
-                         v-model="staticForm.ip"
-                         :onBlur="ipChange" />
+                         v-model="staticForm.ip" />
               </m-form-item>
               <m-form-item class="item"
                            prop='prefixLength'
@@ -146,8 +145,7 @@
                 <m-input :label="$t('trans0694')"
                          type="text"
                          placeholder="1-128"
-                         v-model="staticForm.prefixLength"
-                         :onBlur="prefixLengthChange" />
+                         v-model="staticForm.prefixLength" />
               </m-form-item>
               <m-form-item class="item"
                            prop='gateway'
@@ -188,16 +186,17 @@
 
 <script>
 import * as CONSTANTS from 'util/constant';
-import { ipRule, isMulticast, isLoopback, isValidMask, ipReg } from 'util/util';
+import { ipv6Reg } from 'util/util';
 
 function checkDNS(value) {
-  return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
+  return ipv6Reg.test(value);
 }
 export default {
   data() {
     return {
       enabled: false,
       netType: CONSTANTS.IPv6_WanType.auto,
+      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       wanTypeOptions: [
         {
           value: 'auto',
@@ -212,6 +211,11 @@ export default {
           text: this.$t('trans0148')
         }
       ],
+      networkArr: {
+        auto: this.$t('trans0696'),
+        static: this.$t('trans0148'),
+        pppoe: this.$t('trans0144')
+      },
       dnsOptions: [
         { value: true, text: this.$t('trans0399') },
         { value: false, text: this.$t('trans0400') }
@@ -257,7 +261,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipReg.test(value),
+            rule: value => ipv6Reg.test(value),
             message: this.$t('trans0231')
           }
         ],
@@ -267,7 +271,14 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => /^\d{1,3}$/g.test(value),
+            rule: value => {
+              const rg = /^\d{1,3}$/g;
+              return (
+                rg.test(value) &&
+                parseInt(value, 10) > 0 &&
+                parseInt(value, 10) < 129
+              );
+            },
             message: this.$t('trans0231')
           }
         ],
@@ -277,7 +288,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipReg.test(value),
+            rule: value => ipv6Reg.test(value),
             message: this.$t('trans0231')
           }
         ],
@@ -297,6 +308,11 @@ export default {
             message: this.$t('trans0231')
           }
         ]
+      },
+      netInfo: {
+        ip: '',
+        gateway: '',
+        dns: ''
       }
     };
   },
@@ -312,6 +328,32 @@ export default {
     }
   },
   watch: {
+    'autodns.auto': function autoWatcher(val) {
+      if (!val) {
+        this.autoRules = {
+          ...this.autoRules,
+          dns1: [
+            {
+              rule: value => !/^\s*$/g.test(value),
+              message: this.$t('trans0232')
+            },
+            {
+              rule: value => checkDNS(value),
+              message: this.$t('trans0231')
+            }
+          ],
+          dns2: [
+            {
+              rule: value => (value ? checkDNS(value) : true),
+              message: this.$t('trans0231')
+            }
+          ]
+        };
+      } else {
+        delete this.autoRules.dns1;
+        delete this.autoRules.dns2;
+      }
+    },
     'autodns.pppoe': function pppoeWatcher(val) {
       if (!val) {
         this.pppoeRules = {
@@ -337,41 +379,173 @@ export default {
         delete this.pppoeRules.dns1;
         delete this.pppoeRules.dns2;
       }
-    },
-    'autodns.auto': function dhcpWatcher(val) {
-      if (!val) {
-        this.autoRules = {
-          ...this.autoRules,
-          dns1: [
-            {
-              rule: value => !/^\s*$/g.test(value),
-              message: this.$t('trans0232')
-            },
-            {
-              rule: value => checkDNS(value),
-              message: this.$t('trans0231')
-            }
-          ],
-          dns2: [
-            {
-              rule: value => (value ? checkDNS(value) : true),
-              message: this.$t('trans0231')
-            }
-          ]
-        };
-      } else {
-        delete this.autoRules.dns1;
-        delete this.autoRules.dns2;
-      }
     }
   },
+  mounted() {
+    this.getMeshInfoWanNetIpv6();
+  },
   methods: {
-    ipv6EnabledChange(enabled) {
-      this.enabled = enabled;
+    getMeshInfoWanNetIpv6() {
+      this.$loading.open();
+      this.$http
+        .getMeshInfoWanNetIpv6()
+        .then(res => {
+          this.$loading.close();
+          const { result } = res.data;
+          this.enabled = result.enabled;
+          this.netType = result.type;
+          const netInfo = result.netinfo;
+          this.netInfo = {
+            ip: netInfo.address[0].ip
+            // gateway: netInfo.gateway.ip || '',
+            // dns: netInfo.dns[0].ip || ''
+          };
+          if (this.isAuto) {
+            const dnsArr = result.auto.dns;
+            if (dnsArr.length) {
+              // 手动获取dns
+              this.autodns.auto = false;
+              this.autoForm.dns1 = dnsArr[0].ip;
+              if (dnsArr.length === 2) {
+                this.autoForm.dns1 = dnsArr[1].ip;
+              }
+            } else {
+              // 自动获取dns
+              this.autodns.auto = true;
+            }
+          }
+          if (this.isPppoe) {
+            //
+          }
+          if (this.isStatic) {
+            const staticInfo = result.static.netinfo;
+            this.staticForm = {
+              ip: staticInfo.address[0].ip,
+              prefixLength: staticInfo.address[0].prefix_length,
+              gateway: staticInfo.gateway.ip
+              // dns1: staticInfo.dns[0].ip,
+              // dns2: staticInfo.dns[1].ip
+            };
+          }
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
-    ipChange() {},
-    prefixLengthChange() {},
-    submit() {}
+    updateMeshConfigWanNetIpv6(params) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0229'),
+        callback: {
+          ok: () => {
+            this.$http.updateMeshConfigWanNetIpv6(params).then(res => {
+              const { result } = res.data;
+              if (!result.status) {
+                console.log('更新失败');
+              }
+              this.$reconnect({
+                onsuccess: () => {
+                  this.$router.push({ path: '/setting/ipv6' });
+                },
+                ontimeout: () => {
+                  this.$router.push({ path: '/unconnect' });
+                },
+                timeout: 60
+              });
+            });
+          }
+        }
+      });
+    },
+    ipv6EnabledChange(enabled) {
+      if (enabled) {
+        // 由关闭状态切换到启用状态
+        this.enabled = enabled;
+      } else {
+        // 由启用状态切换到关闭状态
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0229'),
+          callback: {
+            ok: () => {
+              this.updateMeshConfigWanNetIpv6({ enabled });
+            },
+            cancel: () => {
+              this.enabled = !enabled;
+            }
+          }
+        });
+      }
+    },
+    submit() {
+      const form = { type: this.netType };
+      if (this.isAuto) {
+        if (!this.$refs.autoForm.validate()) {
+          return;
+        }
+        form.auto = {
+          dns: []
+        };
+        const PREFIX_LENGTH = 64;
+        if (!this.autodns.auto) {
+          form.auto.dns.push({
+            ip: this.autoForm.dns1,
+            prefix_length: PREFIX_LENGTH
+          });
+          if (this.autoForm.dns2) {
+            form.auto.dns.push({
+              ip: this.autoForm.dns2,
+              prefix_length: PREFIX_LENGTH
+            });
+          }
+        }
+        this.updateMeshConfigWanNetIpv6({
+          enabled: true,
+          ...form
+        });
+      }
+      if (this.isPppoe) {
+        //
+      }
+      if (this.isStatic) {
+        if (!this.$refs.staticForm.validate()) {
+          return;
+        }
+        form.static = {
+          netinfo: {
+            family: 'ipv6',
+            address: [
+              {
+                ip: this.staticForm.ip,
+                prefix_length: this.staticForm.prefixLength
+              }
+            ],
+            gateway: {
+              ip: this.staticForm.gateway,
+              prefix_length: this.staticForm.prefixLength
+            },
+            dns: [
+              {
+                ip: this.staticForm.dns1,
+                prefix_length: this.staticForm.prefixLength
+              }
+            ]
+          }
+        };
+        if (this.staticForm.dns2) {
+          form.static.netinfo.dns.push({
+            ip: this.staticForm.dns2,
+            prefix_length: this.staticForm.prefixLength
+          });
+        }
+        this.updateMeshConfigWanNetIpv6({
+          enabled: true,
+          ...form
+        });
+      }
+    }
   }
 };
 </script>
