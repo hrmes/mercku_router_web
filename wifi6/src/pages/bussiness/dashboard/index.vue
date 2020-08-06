@@ -179,7 +179,8 @@ export default {
     },
     getSsid() {
       this.$http.getMeshMeta().then(res => {
-        this.ssid = res.data.result.ssid;
+        const band = res.data.result.bands[CONSTANTS.Bands.b24g];
+        this.ssid = band.ssid;
       });
     },
     getDeviceCount() {

@@ -49,8 +49,8 @@ export const SpeedTestStatus = {
   failed: 'failed'
 };
 export const Bands = {
-  '2.4G': '2.4G',
-  '5G': '5G'
+  b24g: '2.4G',
+  b5g: '5G'
 };
 export const AppMessage = {
   closewebpage: 'CLOSE_WEB_PAGE',

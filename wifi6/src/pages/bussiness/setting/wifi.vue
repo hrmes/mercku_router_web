@@ -178,13 +178,9 @@
 </template>
 <script>
 import { getStringByte, passwordRule } from 'util/util';
-import { EncryptMethod } from 'util/constant';
+import { EncryptMethod, Bands } from 'util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
 
-const Bands = {
-  b24g: '2.4G',
-  b5g: '5G'
-};
 
 export default {
   mixins: [encryptMix],
