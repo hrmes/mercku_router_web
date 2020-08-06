@@ -104,7 +104,7 @@
                              ref="dns">
                   <m-input :label="$t('trans0236')"
                            type="text"
-                           placeholder="0.0.0.0"
+                           :placeholder="$t('trans0321')"
                            v-model="pppoeForm.dns" />
                 </m-form-item>
               </template>
@@ -121,7 +121,7 @@
                            ref="ip">
                 <m-input :label="$t('trans0151')"
                          type="text"
-                         placeholder="0000:0000:0000:0000:0000:0000:0000:0000"
+                         :placeholder="IPv6_default_placeholder"
                          v-model="staticForm.ip" />
               </m-form-item>
               <m-form-item class="item"
@@ -137,7 +137,7 @@
                            ref="gateway">
                 <m-input :label="$t('trans0153')"
                          type="text"
-                         placeholder="0000:0000:0000:0000:0000:0000:0000:0000"
+                         :placeholder="IPv6_default_placeholder"
                          v-model="staticForm.gateway" />
               </m-form-item>
               <m-form-item class="item"
@@ -145,7 +145,7 @@
                            ref="dns">
                 <m-input :label="$t('trans0236')"
                          type="text"
-                         placeholder="0000:0000:0000:0000:0000:0000:0000:0000"
+                         :placeholder="IPv6_default_placeholder"
                          v-model="staticForm.dns" />
               </m-form-item>
             </m-form>
@@ -167,25 +167,24 @@ import { ipv6Reg } from 'util/util';
 
 const PREFIX_LENGTH = 64;
 
-const checkDNS = value => ipv6Reg.test(value);
-
 export default {
   data() {
     return {
-      enabled: false,
-      netType: CONSTANTS.IPv6_WanType.auto,
+      enabled: false, // 是否启用IPv6
+      IPv6_default_placeholder: CONSTANTS.IPv6_DEFAULT_PLACEHOLDER,
+      netType: CONSTANTS.WanType.auto,
       netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       wanTypeOptions: [
         {
-          value: 'auto',
+          value: CONSTANTS.WanType.auto,
           text: this.$t('trans0696')
         },
         {
-          value: 'pppoe',
+          value: CONSTANTS.WanType.pppoe,
           text: this.$t('trans0144')
         },
         {
-          value: 'static',
+          value: CONSTANTS.WanType.static,
           text: this.$t('trans0148')
         }
       ],
@@ -204,7 +203,7 @@ export default {
       },
       autoForm: { dns: '' },
       pppoeForm: {
-        isUseIPv4: false,
+        isUseIPv4: false, // 是否使用IPv4>PPPoE的账号和密码
         account: '',
         password: '',
         dns: ''
@@ -247,14 +246,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => {
-              const rg = /^\d{1,3}$/g;
-              return (
-                rg.test(value) &&
-                parseInt(value, 10) > 0 &&
-                parseInt(value, 10) < 129
-              );
-            },
+            rule: value => parseInt(value, 10) > 0 && parseInt(value, 10) < 129,
             message: this.$t('trans0231')
           }
         ],
@@ -274,28 +266,28 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => checkDNS(value),
+            rule: value => ipv6Reg.test(value),
             message: this.$t('trans0231')
           }
         ]
       },
       netInfo: {
-        type: '',
-        ip: '',
-        gateway: '',
-        dns: ''
+        type: '-',
+        ip: '-',
+        gateway: '-',
+        dns: '-'
       }
     };
   },
   computed: {
     isAuto() {
-      return this.netType === CONSTANTS.IPv6_WanType.auto;
+      return this.netType === CONSTANTS.WanType.auto;
     },
     isPppoe() {
-      return this.netType === CONSTANTS.IPv6_WanType.pppoe;
+      return this.netType === CONSTANTS.WanType.pppoe;
     },
     isStatic() {
-      return this.netType === CONSTANTS.IPv6_WanType.static;
+      return this.netType === CONSTANTS.WanType.static;
     }
   },
   watch: {
@@ -309,7 +301,7 @@ export default {
               message: this.$t('trans0232')
             },
             {
-              rule: value => checkDNS(value),
+              rule: value => ipv6Reg.test(value),
               message: this.$t('trans0231')
             }
           ]
@@ -328,7 +320,7 @@ export default {
               message: this.$t('trans0232')
             },
             {
-              rule: value => checkDNS(value),
+              rule: value => ipv6Reg.test(value),
               message: this.$t('trans0231')
             }
           ]
@@ -350,13 +342,16 @@ export default {
           this.$loading.close();
           const { result } = res.data;
           this.enabled = result.enabled;
+          if (!this.enabled) {
+            return;
+          }
           this.netType = result.type;
           const { netinfo } = result;
           this.netInfo = {
-            type: result.type,
-            ip: netinfo.address[0].ip
-            // gateway: netinfo.gateway.ip || '',
-            // dns: netinfo.dns[0].ip || ''
+            type: result.type || '-',
+            ip: netinfo.address.length ? netinfo.address[0].ip : '-',
+            gateway: netinfo.gateway.ip || '-',
+            dns: netinfo.dns.length ? netinfo.dns[0].ip : '-'
           };
           if (this.isAuto) {
             const dnsArr = result.auto.dns;
@@ -377,14 +372,22 @@ export default {
               password: pppoeInfo.password,
               dns: pppoeInfo.dns[0].ip
             };
+            if (pppoeInfo.dns.length) {
+              // 手动获取dns
+              this.autodns.pppoe = false;
+              this.pppoeForm.dns = pppoeInfo.dns[0].ip;
+            } else {
+              // 自动获取dns
+              this.autodns.pppoe = true;
+            }
           }
           if (this.isStatic) {
             const staticInfo = result.static.netinfo;
             this.staticForm = {
               ip: staticInfo.address[0].ip,
               prefixLength: staticInfo.address[0].prefix_length,
-              gateway: staticInfo.gateway.ip
-              // dns: staticInfo.dns[0].ip
+              gateway: staticInfo.gateway.ip,
+              dns: staticInfo.dns[0].ip
             };
           }
         })
@@ -401,18 +404,23 @@ export default {
           ok: () => {
             this.$http.updateMeshConfigWanNetIpv6(params).then(res => {
               const { result } = res.data;
-              if (!result.status) {
-                console.log('更新失败');
+              if (result.status) {
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/setting/ipv6' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  },
+                  timeout: 60
+                });
+              } else {
+                this.$dialog.info({
+                  okText: this.$t('trans0024'),
+                  cancelText: this.$t('trans0025'),
+                  message: this.$t('trans0077')
+                });
               }
-              this.$reconnect({
-                onsuccess: () => {
-                  this.$router.push({ path: '/setting/ipv6' });
-                },
-                ontimeout: () => {
-                  this.$router.push({ path: '/unconnect' });
-                },
-                timeout: 60
-              });
             });
           }
         }
@@ -446,23 +454,34 @@ export default {
         this.getWanNetInfo();
       } else {
         // 未选中
+        this.pppoeForm.account = '';
+        this.pppoeForm.password = '';
       }
     },
     getWanNetInfo() {
-      this.$http.getWanNetInfo().then(res => {
-        const { type } = res.data.result;
-        if (type !== CONSTANTS.IPv6_WanType.pppoe) {
+      this.$http
+        .getWanNetInfo()
+        .then(res => {
+          const { type } = res.data.result;
+          if (type !== CONSTANTS.WanType.pppoe) {
+            this.$dialog.info({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              message: this.$t('trans0695')
+            });
+          } else {
+            const { pppoe } = res.data.result;
+            this.pppoeForm.account = pppoe.account;
+            this.pppoeForm.password = pppoe.password;
+          }
+        })
+        .catch(() => {
           this.$dialog.info({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0025'),
-            message: this.$t('trans0695')
+            message: this.$t('trans0577')
           });
-        } else {
-          const { pppoe } = res.data.result;
-          this.pppoeForm.account = pppoe.account;
-          this.pppoeForm.password = pppoe.password;
-        }
-      });
+        });
     },
     submit() {
       const form = { type: this.netType };
@@ -587,6 +606,7 @@ export default {
         color: #333;
         font-weight: bold;
         text-align: left;
+        width: 150px;
       }
       span {
         color: #333333;
