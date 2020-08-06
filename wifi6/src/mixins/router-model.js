@@ -18,6 +18,9 @@ export default {
         case RouterSnModel.Bee:
           image = require('@/assets/images/img_bee.png');
           break;
+        case RouterSnModel.wifi6:
+          image = require('@/assets/images/img_wifi6.png');
+          break;
         default:
           break;
       }

@@ -184,7 +184,7 @@
 
           <div class="examples">
             <div class="example error">
-              <img src="../../../assets/images/img_help_error.jpg"
+              <img src="../../../assets/images/img_help_error.png"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -194,7 +194,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="../../../assets/images/img_help_right.jpg"
+              <img src="../../../assets/images/img_help_right.png"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -617,6 +617,7 @@ export default {
   }
   .examples {
     display: flex;
+    justify-content: space-between;
     margin-bottom: 30px;
     @media screen and (max-width: 768px) {
       flex-direction: column;

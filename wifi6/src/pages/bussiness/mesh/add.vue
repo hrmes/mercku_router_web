@@ -7,9 +7,9 @@
       <div class="tips"
            v-if="showTips">
         <div class="circle-animation">
-          <div class="circle circle1"></div>
+          <!-- <div class="circle circle1"></div>
           <div class="circle circle2"></div>
-          <div class="circle circle3"></div>
+          <div class="circle circle3"></div> -->
         </div>
         <p class="tips__text">{{$t('trans0175')}}</p>
         <div class="button-container">
@@ -25,7 +25,7 @@
         <div class="step-content">
           <div class="step-item step-item--rich"
                v-show="isStep(0)">
-            <img src="@/assets/images/img_add_plug_m2.png"
+            <img src="@/assets/images/pic_add_plug_01.png"
                  alt="">
             <p class="step-item__tip">{{$t('trans0634')}}</p>
             <div class="button-container">
@@ -37,7 +37,7 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(1)">
-            <img src="@/assets/images/img_add_plug_m2.png"
+            <img src="@/assets/images/pic_add_plug_02.png"
                  alt="">
             <p class="step-item__tip">{{$t('trans0635')}}</p>
             <div class="button-container">
@@ -49,7 +49,7 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(2)">
-            <img src="@/assets/images/img_add_plug_m2.png"
+            <img src="@/assets/images/pic_add_plug_03.png"
                  alt="">
             <p class="step-item__tip">{{$t('trans0636')}}</p>
             <div class="button-container">
@@ -89,7 +89,7 @@
               </div>
               <div v-else-if="nodes.length >1"
                    class="scan-result__much">
-                <img src="@/assets/images/img_add_plug_m2.png"
+                <img src="@/assets/images/img_wifi6.png"
                      alt="">
                 <p class="scan-result__title">{{$t('trans0637')}}</p>
                 <p class="scan-result__description">{{$t('trans0638')}}</p>
@@ -387,7 +387,7 @@ export default {
 }
 .circle-animation {
   position: relative;
-  background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
+  background: url(../../../assets/images/add_node_tip_bj.png) no-repeat center;
   background-size: 100%;
   width: 340px;
 
@@ -396,7 +396,7 @@ export default {
   &::before {
     content: '';
     display: block;
-    padding-top: 72%;
+    padding-top: 82%;
   }
   .circle {
     width: 200px;
@@ -503,12 +503,15 @@ export default {
 }
 .router {
   .router__img {
-    width: 100%;
+    width: 76px;
+    display: block;
+    margin: 0 auto;
   }
   .router__info {
   }
   .router__mac {
     margin: 0;
+    margin-top: 20px;
     text-align: center;
   }
 }
