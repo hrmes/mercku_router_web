@@ -22,7 +22,7 @@
             </div>
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0375')}}：</label>
-              <span>{{networkArr[netType]}}</span>
+              <span>{{networkArr[netInfo.type]}}</span>
             </div>
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0151')}}：</label>
@@ -59,20 +59,12 @@
               </m-form-item>
               <template v-if="!autodns.auto">
                 <m-form-item class="item"
-                             prop='dns1'
+                             prop='dns'
                              ref="dns">
                   <m-input :label="$t('trans0236')"
                            type="text"
                            :placeholder="`${$t('trans0321')}`"
-                           v-model="autoForm.dns1" />
-                </m-form-item>
-                <m-form-item class="item"
-                             prop='dns2'
-                             ref="backupdns">
-                  <m-input :label="$t('trans0320')"
-                           type="text"
-                           :placeholder="`${$t('trans0321')}`"
-                           v-model="autoForm.dns2" />
+                           v-model="autoForm.dns" />
                 </m-form-item>
               </template>
             </m-form>
@@ -83,6 +75,7 @@
                     :model="pppoeForm"
                     :rules='pppoeRules'>
               <m-checkbox v-model="pppoeForm.isUseIPv4"
+                          :onChange="useIPv4EnabledChange"
                           :text="$t('trans0625')"></m-checkbox>
               <div class="note">{{$t('trans0154')}}</div>
               <m-form-item class="item"
@@ -107,20 +100,12 @@
               </m-form-item>
               <template v-if="!autodns.pppoe">
                 <m-form-item class="item"
-                             prop='dns1'
+                             prop='dns'
                              ref="dns">
                   <m-input :label="$t('trans0236')"
                            type="text"
                            placeholder="0.0.0.0"
-                           v-model="pppoeForm.dns1" />
-                </m-form-item>
-                <m-form-item class="item"
-                             prop='dns2'
-                             ref="backupdns">
-                  <m-input :label="$t('trans0320')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="pppoeForm.dns2" />
+                           v-model="pppoeForm.dns" />
                 </m-form-item>
               </template>
             </m-form>
@@ -161,15 +146,7 @@
                 <m-input :label="$t('trans0236')"
                          type="text"
                          placeholder="0000:0000:0000:0000:0000:0000:0000:0000"
-                         v-model="staticForm.dns1" />
-              </m-form-item>
-              <m-form-item class="item"
-                           prop='dns2'
-                           ref="backupdns">
-                <m-input :label="$t('trans0320')"
-                         type="text"
-                         placeholder="0000:0000:0000:0000:0000:0000:0000:0000"
-                         v-model="staticForm.dns2" />
+                         v-model="staticForm.dns" />
               </m-form-item>
             </m-form>
             <div class="form-button">
@@ -188,9 +165,10 @@
 import * as CONSTANTS from 'util/constant';
 import { ipv6Reg } from 'util/util';
 
-function checkDNS(value) {
-  return ipv6Reg.test(value);
-}
+const PREFIX_LENGTH = 64;
+
+const checkDNS = value => ipv6Reg.test(value);
+
 export default {
   data() {
     return {
@@ -224,20 +202,18 @@ export default {
         auto: true,
         pppoe: true
       },
-      autoForm: { dns1: '', dns2: '' },
+      autoForm: { dns: '' },
       pppoeForm: {
         isUseIPv4: false,
         account: '',
         password: '',
-        dns1: '',
-        dns2: ''
+        dns: ''
       },
       staticForm: {
         ip: '',
         prefixLength: '',
         gateway: '',
-        dns1: '',
-        dns2: ''
+        dns: ''
       },
       autoRules: {},
       pppoeRules: {
@@ -292,7 +268,7 @@ export default {
             message: this.$t('trans0231')
           }
         ],
-        dns1: [
+        dns: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
@@ -301,15 +277,10 @@ export default {
             rule: value => checkDNS(value),
             message: this.$t('trans0231')
           }
-        ],
-        dns2: [
-          {
-            rule: value => (value ? checkDNS(value) : true),
-            message: this.$t('trans0231')
-          }
         ]
       },
       netInfo: {
+        type: '',
         ip: '',
         gateway: '',
         dns: ''
@@ -332,7 +303,7 @@ export default {
       if (!val) {
         this.autoRules = {
           ...this.autoRules,
-          dns1: [
+          dns: [
             {
               rule: value => !/^\s*$/g.test(value),
               message: this.$t('trans0232')
@@ -341,24 +312,17 @@ export default {
               rule: value => checkDNS(value),
               message: this.$t('trans0231')
             }
-          ],
-          dns2: [
-            {
-              rule: value => (value ? checkDNS(value) : true),
-              message: this.$t('trans0231')
-            }
           ]
         };
       } else {
-        delete this.autoRules.dns1;
-        delete this.autoRules.dns2;
+        delete this.autoRules.dns;
       }
     },
     'autodns.pppoe': function pppoeWatcher(val) {
       if (!val) {
         this.pppoeRules = {
           ...this.pppoeRules,
-          dns1: [
+          dns: [
             {
               rule: value => !/^\s*$/g.test(value),
               message: this.$t('trans0232')
@@ -367,17 +331,10 @@ export default {
               rule: value => checkDNS(value),
               message: this.$t('trans0231')
             }
-          ],
-          dns2: [
-            {
-              rule: value => (value ? checkDNS(value) : true),
-              message: this.$t('trans0231')
-            }
           ]
         };
       } else {
-        delete this.pppoeRules.dns1;
-        delete this.pppoeRules.dns2;
+        delete this.pppoeRules.dns;
       }
     }
   },
@@ -394,28 +351,32 @@ export default {
           const { result } = res.data;
           this.enabled = result.enabled;
           this.netType = result.type;
-          const netInfo = result.netinfo;
+          const { netinfo } = result;
           this.netInfo = {
-            ip: netInfo.address[0].ip
-            // gateway: netInfo.gateway.ip || '',
-            // dns: netInfo.dns[0].ip || ''
+            type: result.type,
+            ip: netinfo.address[0].ip
+            // gateway: netinfo.gateway.ip || '',
+            // dns: netinfo.dns[0].ip || ''
           };
           if (this.isAuto) {
             const dnsArr = result.auto.dns;
             if (dnsArr.length) {
               // 手动获取dns
               this.autodns.auto = false;
-              this.autoForm.dns1 = dnsArr[0].ip;
-              if (dnsArr.length === 2) {
-                this.autoForm.dns1 = dnsArr[1].ip;
-              }
+              this.autoForm.dns = dnsArr[0].ip;
             } else {
               // 自动获取dns
               this.autodns.auto = true;
             }
           }
           if (this.isPppoe) {
-            //
+            const pppoeInfo = result.static.pppoe;
+            this.pppoeForm = {
+              isUseIPv4: pppoeInfo.share_ipv4_credentials,
+              account: pppoeInfo.account,
+              password: pppoeInfo.password,
+              dns: pppoeInfo.dns[0].ip
+            };
           }
           if (this.isStatic) {
             const staticInfo = result.static.netinfo;
@@ -423,8 +384,7 @@ export default {
               ip: staticInfo.address[0].ip,
               prefixLength: staticInfo.address[0].prefix_length,
               gateway: staticInfo.gateway.ip
-              // dns1: staticInfo.dns[0].ip,
-              // dns2: staticInfo.dns[1].ip
+              // dns: staticInfo.dns[0].ip
             };
           }
         })
@@ -479,6 +439,31 @@ export default {
         });
       }
     },
+    useIPv4EnabledChange(checked) {
+      this.pppoeForm.isUseIPv4 = checked;
+      if (checked) {
+        // 选中
+        this.getWanNetInfo();
+      } else {
+        // 未选中
+      }
+    },
+    getWanNetInfo() {
+      this.$http.getWanNetInfo().then(res => {
+        const { type } = res.data.result;
+        if (type !== CONSTANTS.IPv6_WanType.pppoe) {
+          this.$dialog.info({
+            okText: this.$t('trans0024'),
+            cancelText: this.$t('trans0025'),
+            message: this.$t('trans0695')
+          });
+        } else {
+          const { pppoe } = res.data.result;
+          this.pppoeForm.account = pppoe.account;
+          this.pppoeForm.password = pppoe.password;
+        }
+      });
+    },
     submit() {
       const form = { type: this.netType };
       if (this.isAuto) {
@@ -488,26 +473,28 @@ export default {
         form.auto = {
           dns: []
         };
-        const PREFIX_LENGTH = 64;
         if (!this.autodns.auto) {
           form.auto.dns.push({
-            ip: this.autoForm.dns1,
+            ip: this.autoForm.dns,
             prefix_length: PREFIX_LENGTH
           });
-          if (this.autoForm.dns2) {
-            form.auto.dns.push({
-              ip: this.autoForm.dns2,
-              prefix_length: PREFIX_LENGTH
-            });
-          }
         }
-        this.updateMeshConfigWanNetIpv6({
-          enabled: true,
-          ...form
-        });
       }
       if (this.isPppoe) {
-        //
+        if (!this.$refs.pppoeForm.validate()) {
+          return;
+        }
+        form.pppoe = {
+          share_ipv4_credentials: this.pppoeForm.isUseIPv4,
+          account: this.pppoeForm.account,
+          password: this.pppoeForm.password,
+          dns: [
+            {
+              ip: this.pppoeForm.dns,
+              prefix_length: PREFIX_LENGTH
+            }
+          ]
+        };
       }
       if (this.isStatic) {
         if (!this.$refs.staticForm.validate()) {
@@ -534,17 +521,11 @@ export default {
             ]
           }
         };
-        if (this.staticForm.dns2) {
-          form.static.netinfo.dns.push({
-            ip: this.staticForm.dns2,
-            prefix_length: this.staticForm.prefixLength
-          });
-        }
-        this.updateMeshConfigWanNetIpv6({
-          enabled: true,
-          ...form
-        });
       }
+      this.updateMeshConfigWanNetIpv6({
+        enabled: true,
+        ...form
+      });
     }
   }
 };
