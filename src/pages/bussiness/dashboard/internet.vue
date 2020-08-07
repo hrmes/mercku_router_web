@@ -157,7 +157,32 @@
         </div>
       </div>
     </div>
-
+    <!-- IPv6外网状态 -->
+    <div class="section">
+      <div class="section__inner">
+        <div class="section__title">IPv6 WAN Status</div>
+        <div class="section__body">
+          <div class="item">
+            <label class="item__label">{{$t('trans0317')}}：</label>
+            <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">WAN IP：</label>
+            <span class="item__value">{{ipv6NetInfo.ip}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0153')}}：</label>
+            <span class="item__value">{{ipv6NetInfo.gateway}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0236')}}：</label>
+            <span class="item__value">
+              {{ipv6NetInfo.dns}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class='speed-model-info'
          v-if='speedModelOpen'>
       <div class="shadow"></div>
@@ -220,7 +245,8 @@ export default {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
+        pppoe: this.$t('trans0144'),
+        auto: this.$t('trans0696')
       },
       testTimeout: 60,
       testSpeedNumber: 60,
@@ -230,15 +256,23 @@ export default {
       pageActive: true,
       speedInfo: {},
       netInfo: {},
+      ipv6NetInfo: {
+        type: '-',
+        ip: '-',
+        gateway: '-',
+        dns: '-'
+      },
       traffic: {},
       wanNetStatsTimer: null,
       speedTestTimer: null,
       wanInfoTimer: null,
-      uptimeTimer: null
+      uptimeTimer: null,
+      meshInfoWanNetIpv6Timer: null
     };
   },
   mounted() {
     this.getWanNetInfo();
+    this.getMeshInfoWanNetIpv6();
     this.createIntervalTask();
     this.getRouteMeta();
   },
@@ -491,6 +525,28 @@ export default {
         })
         .catch(() => {
           this.wanInfoTimer = setTimeout(() => {
+            this.getWanNetInfo();
+          }, 1000 * 3);
+        });
+    },
+    getMeshInfoWanNetIpv6() {
+      this.$http
+        .getMeshInfoWanNetIpv6()
+        .then(res => {
+          this.meshInfoWanNetIpv6Timer = null;
+          clearTimeout(this.meshInfoWanNetIpv6Timer);
+          const { result } = res.data;
+          console.log(result);
+          const { netinfo } = result;
+          this.ipv6NetInfo = {
+            type: result.type || '-',
+            ip: netinfo.address.length ? netinfo.address[0].ip : '-',
+            gateway: netinfo.gateway.ip || '-',
+            dns: netinfo.dns.length ? netinfo.dns[0].ip : '-'
+          };
+        })
+        .catch(() => {
+          this.meshInfoWanNetIpv6Timer = setTimeout(() => {
             this.getWanNetInfo();
           }, 1000 * 3);
         });

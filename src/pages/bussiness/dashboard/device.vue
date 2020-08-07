@@ -48,9 +48,18 @@
             <li class="column-ip"
                 v-if="!isOfflineDevices">{{$t('trans0151')}} /
               {{$t('trans0188')}}</li>
+            <!-- 接入时间 -->
+            <!-- <li class="column-ip"
+                v-if="isOfflineDevices">
+              {{$t('trans0374')}}</li> -->
+            <!-- 在线时长、离线时间开始 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
-              {{$t('trans0374')}}</li>
+              {{$t('trans0631')}}</li>
+            <li class="column-ip"
+                v-if="isOfflineDevices">
+              {{$t('trans0630')}}</li>
+            <!-- 在线时长、离线时间结束 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
               {{$t('trans0188')}}</li>
@@ -155,12 +164,26 @@
                 <span>{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
-              <li class="column-ip device-item"
+              <!-- <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0374')}}</span>
                 <span> {{transformOfflineDate(row.connected_time)}} </span>
+              </li> -->
+              <!-- 在线时长、离线时间开始 -->
+              <li class="column-ip device-item"
+                  :class="{'offline':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+                <span>{{$t('trans0631')}}</span>
+                <span> {{row.online_info.online_duration}} </span>
               </li>
+              <li class="column-ip device-item"
+                  :class="{'offline':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+                <span>{{$t('trans0630')}}</span>
+                <span> {{transformOfflineDate(row.offline_time)}} </span>
+              </li>
+              <!-- 在线时长、离线时间结束 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
@@ -219,7 +242,6 @@
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
                 </span>
-
                 <span class="btn-text text-primary btn-text-strange"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
