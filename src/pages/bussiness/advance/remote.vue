@@ -11,6 +11,9 @@
           <m-tab :class="{'selected':isTR069}"
                  @click.native="forward2page('/advance/remote/tr069')">{{$t('trans0499')}}
           </m-tab>
+          <m-tab :class="{'selected':isRemoteShell}"
+                 @click.native="forward2page('/advance/remote/remoteShell')">{{$t('trans0626')}}
+          </m-tab>
           <m-tab :class="{'selected':isTFTP}"
                  @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
           </m-tab>
@@ -86,6 +89,20 @@
                   @click="updateTr069">{{$t('trans0081')}}</button>
         </div>
       </div>
+      <div v-if="isRemoteShell">
+        <m-form class="form"
+                :model="remoteShell"
+                ref="remoteShell">
+          <m-form-item>
+            <m-switch :label="$t('trans0497')"
+                      v-model="remoteShell.telnet"></m-switch>
+          </m-form-item>
+          <m-form-item>
+            <m-switch :label="$t('trans0628')"
+                      v-model="remoteShell.ssh"></m-switch>
+          </m-form-item>
+        </m-form>
+      </div>
       <div v-if="isTFTP">
         <m-form class="form"
                 :model="tftp"
@@ -156,6 +173,10 @@ export default {
         password: ''
       },
       telnet: false,
+      remoteShell: {
+        telnet: false,
+        ssh: false
+      },
       remoateRules: {
         url: [
           {
@@ -218,7 +239,8 @@ export default {
       const Tabs = {
         isTR069: 'tr069',
         isTFTP: 'tftp',
-        isTelnet: 'telnet'
+        isTelnet: 'telnet',
+        isRemoteShell: 'remoteShell'
       };
       const result = {};
       Object.keys(Tabs).forEach(key => {

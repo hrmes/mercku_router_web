@@ -160,14 +160,14 @@
     <!-- IPv6外网状态 -->
     <div class="section">
       <div class="section__inner">
-        <div class="section__title">IPv6 WAN Status</div>
+        <div class="section__title">{{$t('trans0700 ')}}</div>
         <div class="section__body">
           <div class="item">
             <label class="item__label">{{$t('trans0317')}}：</label>
             <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">WAN IP：</label>
+            <label class="item__label">{{$t('trans0701')}}：</label>
             <span class="item__value">{{ipv6NetInfo.ip}}</span>
           </div>
           <div class="item">

@@ -41,6 +41,9 @@
               </div>
               {{$t('trans0005')}}
             </li>
+            <!-- 连接设备 -->
+            <li class="column-real-time"
+                v-if="!isOfflineDevices">{{$t('trans0618')}}</li>
             <li class="column-real-time"
                 v-if="!isOfflineDevices">{{$t('trans0367')}}</li>
             <li class="column-band"
@@ -52,14 +55,14 @@
             <!-- <li class="column-ip"
                 v-if="isOfflineDevices">
               {{$t('trans0374')}}</li> -->
-            <!-- 在线时长、离线时间开始 -->
+            <!-- 在线时长 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
               {{$t('trans0631')}}</li>
+            <!-- 离线时间 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
               {{$t('trans0630')}}</li>
-            <!-- 在线时长、离线时间结束 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
               {{$t('trans0188')}}</li>
@@ -124,6 +127,12 @@
                 </div>
 
               </li>
+              <!-- 连接设备 -->
+              <li class="column-ip device-item"
+                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <span>{{$t('trans0618')}}</span>
+                <span> 连接设备 </span>
+              </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span class="label">{{$t('trans0367')}}</span>
@@ -164,26 +173,27 @@
                 <span>{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
+              <!-- 接入时间 -->
               <!-- <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0374')}}</span>
                 <span> {{transformOfflineDate(row.connected_time)}} </span>
               </li> -->
-              <!-- 在线时长、离线时间开始 -->
+              <!-- 在线时长 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0631')}}</span>
                 <span> {{row.online_info.online_duration}} </span>
               </li>
+              <!-- 离线时间 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0630')}}</span>
-                <span> {{transformOfflineDate(row.offline_time)}} </span>
+                <span> {{row.offline_time}} </span>
               </li>
-              <!-- 在线时长、离线时间结束 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
