@@ -7,13 +7,17 @@
  *
  */
 import * as CONSTANTS from 'util/constant';
-import picGateway from '../../../assets/images/icon/ic_m2_gw_green.png';
-import picM2Good from '../../../assets/images/icon/ic_m2_green.png';
-import picM2Bad from '../../../assets/images/icon/ic_m2_orange.png';
-import pciM2Offline from '../../../assets/images/icon/ic_m2_offline.png';
-import picBeeGood from '../../../assets/images/icon/ic_bee_green.png';
-import picBeeBad from '../../../assets/images/icon/ic_bee_orange.png';
-import picBeeOffline from '../../../assets/images/icon/ic_bee_offline.png';
+// import picGateway from '../../../assets/images/icon/ic_m2_gw_green.png';
+// import picM2Good from '../../../assets/images/icon/ic_m2_green.png';
+// import picM2Bad from '../../../assets/images/icon/ic_m2_orange.png';
+// import pciM2Offline from '../../../assets/images/icon/ic_m2_offline.png';
+// import picBeeGood from '../../../assets/images/icon/ic_bee_green.png';
+// import picBeeBad from '../../../assets/images/icon/ic_bee_orange.png';
+// import picBeeOffline from '../../../assets/images/icon/ic_bee_offline.png';
+import picGateway from '@/assets/images/icon/ic_wifi6_gw_green.png';
+import picifi6Good from '@/assets/images/icon/ic_wifi6_normal.png';
+import picWifi6Bad from '@/assets/images/icon/ic_wifi6_bad.png';
+import pciWifi6Offline from '@/assets/images/icon/ic_wifi6_offline.png';
 
 const Color = {
   good: '#00d061',
@@ -131,15 +135,20 @@ function findRedNode(gateway, green, source) {
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
-    [CONSTANTS.RouterSnModel.M2]: {
-      [Color.good]: picM2Good,
-      [Color.bad]: picM2Bad,
-      [Color.offline]: pciM2Offline
-    },
-    [CONSTANTS.RouterSnModel.Bee]: {
-      [Color.good]: picBeeGood,
-      [Color.bad]: picBeeBad,
-      [Color.offline]: picBeeOffline
+    // [CONSTANTS.RouterSnModel.M2]: {
+    //   [Color.good]: picM2Good,
+    //   [Color.bad]: picM2Bad,
+    //   [Color.offline]: pciM2Offline
+    // },
+    // [CONSTANTS.RouterSnModel.Bee]: {
+    //   [Color.good]: picBeeGood,
+    //   [Color.bad]: picBeeBad,
+    //   [Color.offline]: picBeeOffline
+    // },
+    [CONSTANTS.RouterSnModel.wifi6]: {
+      [Color.good]: picifi6Good,
+      [Color.bad]: picWifi6Bad,
+      [Color.offline]: pciWifi6Offline
     }
   };
 

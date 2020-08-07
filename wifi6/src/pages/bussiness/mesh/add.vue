@@ -503,7 +503,7 @@ export default {
 }
 .router {
   .router__img {
-    width: 76px;
+    width: 240px;
     display: block;
     margin: 0 auto;
   }
