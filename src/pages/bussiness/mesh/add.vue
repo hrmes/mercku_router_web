@@ -53,22 +53,36 @@
           <m-step :option="stepsOption"></m-step>
         </div>
         <div class="step-content">
+          <!-- 通电 -->
           <div class="step-item step-item0"
                v-show="stepsOption.current===0">
+            <p>{{$t('trans0634')}}</p>
+            <img src="../../../assets/images/img-power.png"
+                 alt="">
+            <div class="button-container">
+              <button @click="forwardWelcome()"
+                      class="btn btn-default ">{{$t('trans0057')}}</button>
+              <button @click="forwardStepIndicatorLight()"
+                      class="btn">{{$t('trans0055')}}</button>
+            </div>
+          </div>
+          <!-- 观察指示灯 -->
+          <div class="step-item step-item0"
+               v-show="stepsOption.current===1">
             <p>{{$t('trans0257')}}</p>
             <p>{{$t('trans0377')}}</p>
             <p>{{$t('trans0378')}}</p>
             <img :src="selectedCategory.tipImage"
                  alt="">
             <div class="button-container">
-              <button @click="forwardWelcome()"
+              <button @click="forwardPower()"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
               <button @click="forwardStep1()"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
           </div>
           <div class="step-item step-item1"
-               v-show="stepsOption.current===1">
+               v-show="stepsOption.current===2">
             <div class="scaning"
                  v-show="scaning">
               <m-loading :color="loadingColor"></m-loading>
@@ -93,7 +107,7 @@
                      alt="">
               </div>
               <div class="button-container">
-                <button @click="forwardStep0()"
+                <button @click="forwardStepIndicatorLight()"
                         class="btn btn-default ">{{$t('trans0057')}}</button>
                 <button @click="addMeshNode()"
                         class="btn">{{$t('trans0055')}}</button>
@@ -105,13 +119,13 @@
               <span class="btn-help"
                     @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
               <div class="button-container">
-                <button @click="forwardStep0()"
+                <button @click="forwardStepIndicatorLight()"
                         class="btn">{{$t('trans0057')}}</button>
               </div>
             </div>
           </div>
           <div class="step-item step-item2"
-               v-show="stepsOption.current===2">
+               v-show="stepsOption.current===3">
             <div class="success"
                  v-if="added">
               <p>{{$t('trans0192')}}</p>
@@ -189,6 +203,10 @@ export default {
       stepsOption: {
         current: 0,
         steps: [
+          {
+            text: '',
+            success: false
+          },
           {
             text: '',
             success: false
@@ -307,14 +325,23 @@ export default {
     forwardWelcome() {
       this.welcomePage = true;
     },
+    forwardStepIndicatorLight() {
+      this.welcomePage = false;
+      this.stepsOption.current = 1;
+      this.stepsOption.steps[1].success = true;
+    },
+    forwardPower() {
+      this.stepsOption.current = 0;
+      this.stepsOption.steps[0].success = true;
+    },
     forwardStep0() {
       this.welcomePage = false;
       this.stepsOption.current = 0;
       this.stepsOption.steps[0].success = true;
     },
     forwardStep1() {
-      this.stepsOption.current = 1;
-      this.stepsOption.steps[1].success = true;
+      this.stepsOption.current = 2;
+      this.stepsOption.steps[2].success = true;
       this.scaning = true;
       this.$http
         .scanMeshNode()
@@ -329,8 +356,8 @@ export default {
         });
     },
     forwardStep2(result) {
-      this.stepsOption.current = 2;
-      this.stepsOption.steps[2].success = result;
+      this.stepsOption.current = 3;
+      this.stepsOption.steps[3].success = result;
     }
   }
 };
