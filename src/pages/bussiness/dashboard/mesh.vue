@@ -242,7 +242,8 @@
           <div class="table__column table__column--guest"></div>
           <div class="table__column table__column--frequency"></div>
         </div>
-        <div class="table__body">
+        <div class="table__body"
+             v-if="meshList.length">
           <div class="table__row"
                v-for="(item, index) in meshList"
                :key="index">
@@ -270,6 +271,14 @@
               <span>{{bandMap[item.band]}}</span>
             </div>
           </div>
+        </div>
+        <div class="table__empty"
+             v-else>
+          <img src="../../../assets/images/img_default_empty.png"
+               alt="">
+          <span>
+            {{$t('trans0278')}}
+          </span>
         </div>
       </m-modal-body>
     </m-modal>
@@ -729,6 +738,17 @@ export default {
       height: 350px;
       overflow: auto;
       padding: 0 10px 10px 10px;
+    }
+    .table__empty {
+      height: 350px;
+      padding-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      img {
+        display: none;
+        width: 180px;
+      }
     }
     .table__header {
       height: 37px;
@@ -1436,6 +1456,11 @@ export default {
         width: 100%;
         padding-bottom: 10px;
         border-bottom: solid 1px #ccc;
+      }
+      .table__empty {
+        img {
+          display: block;
+        }
       }
       .table__column {
         &.table__column--device {

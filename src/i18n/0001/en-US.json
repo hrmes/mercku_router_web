@@ -691,5 +691,7 @@
   "trans0696": "AUTO",
   "trans0697": "Page not found, please refresh and retry. ",
   "trans0698": "Please factory reset the previously active device (press the \"Reset\" button for 5 seconds).",
-  "trans0699": "#### Internet disconnected, please confirm the ethernet cable is connected properly\n- Please connect the ethernet cable to any port\n\n- Please plug one side of the ethernet cable of the M2 Standalone and the other side to the modem's LAN port or Internet port"
+  "trans0699": "#### Internet disconnected, please confirm the ethernet cable is connected properly\n- Please connect the ethernet cable to any port\n\n- Please plug one side of the ethernet cable of the M6 and the other side to the modem's LAN port or Internet port",
+  "trans0700": "IPv6 WAN Status",
+  "trans0701": "WAN IP"
 }

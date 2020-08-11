@@ -270,3 +270,51 @@ export const toLocaleNumber = (
   }
   return number;
 };
+
+export const formatTimeZone = value => {
+  const timeZone = {
+    year: 0,
+    month: 0,
+    day: 0,
+    hour: 0,
+    minute: 0,
+    second: 0
+  };
+  function parseTimeZone(value) {
+    const YEAR = 365; // 定义一年有多少时间
+    const MOUTH = 30; // 定义一月有多少时间
+    const split = [YEAR * 3600 * 24, MOUTH * 3600 * 24, 3600 * 24, 3600, 60];
+    let remainingTime = 0;
+
+    if (value >= split[0]) {
+      const year = parseInt(value / split[0], 10);
+      remainingTime = value - year * split[0];
+      timeZone.year = year;
+      parseTimeZone(remainingTime);
+    } else if (value < split[0] && value >= split[1]) {
+      const month = parseInt(value / split[1], 10);
+      remainingTime = value - month * split[1];
+      timeZone.month = month;
+      parseTimeZone(remainingTime);
+    } else if (value < split[1] && value >= split[2]) {
+      const day = parseInt(value / split[2], 10);
+      remainingTime = value - day * split[2];
+      timeZone.day = day;
+      parseTimeZone(remainingTime);
+    } else if (value < split[2] && value >= split[3]) {
+      const hour = parseInt(value / split[3], 10);
+      remainingTime = value - hour * split[3];
+      timeZone.hour = hour;
+      parseTimeZone(remainingTime);
+    } else if (value < split[3] && value >= split[4]) {
+      const minute = parseInt(value / split[4], 10);
+      remainingTime = value - minute * split[4];
+      timeZone.minute = minute;
+      parseTimeZone(remainingTime);
+    } else if (value < split[4]) {
+      timeZone.second = value;
+    }
+  }
+  parseTimeZone(value);
+  return timeZone;
+};

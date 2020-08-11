@@ -384,8 +384,8 @@
   "trans0383": "The firmware version is outdated. Please upgrade the firmware to avoid potential malfunctions.",
   "trans0384": "List",
   "trans0385": "Upgrading...",
-  "trans0386": "Laki Core",
-  "trans0387": "Laki Spot",
+  "trans0386": "LAKI Core Wi-Fi",
+  "trans0387": "LAKI Spot Wi-Fi",
   "trans0388": "Please select the repeated times",
   "trans0389": "Router webpage",
   "trans0390": "Wi-Fi point",
@@ -691,5 +691,7 @@
   "trans0696": " ",
   "trans0697": " ",
   "trans0698": " ",
-  "trans0699": " "
+  "trans0699": " ",
+  "trans0700": " ",
+  "trans0701": " "
 }

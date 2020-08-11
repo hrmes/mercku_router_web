@@ -104,6 +104,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         super: false,
         mode: [RouterMode.router],
         customers: allCustomers
+      },
+      {
+        url: '/setting/upnp',
+        name: 'upnp',
+        text: 'trans0644',
+        super: false,
+        mode: [RouterMode.router],
+        customers: allCustomers
       }
     ]
   };

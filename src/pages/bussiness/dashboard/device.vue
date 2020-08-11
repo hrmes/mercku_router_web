@@ -185,14 +185,14 @@
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0631')}}</span>
-                <span> {{row.online_info.online_duration}} </span>
+                <span> {{transformDateZone(row.online_info.online_duration)}} </span>
               </li>
               <!-- 离线时间 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0630')}}</span>
-                <span> {{row.offline_time}} </span>
+                <span> {{parseOfflineTime(row)}} </span>
               </li>
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
@@ -300,7 +300,12 @@
 </template>
 <script>
 import { BlacklistMode } from 'util/constant';
-import { formatMac, getStringByte, formatDate } from 'util/util';
+import {
+  formatMac,
+  getStringByte,
+  formatDate,
+  formatTimeZone
+} from 'util/util';
 
 export default {
   data() {
@@ -682,26 +687,58 @@ export default {
         return '-';
       }
       const split = [3600 * 24, 3600, 60, 5];
+      // 大于1天
       if (date > split[0]) {
         const now = new Date().getTime();
         return formatDate(now - date * 1000);
       }
+      // 小于1天大于1小时
       if (date <= split[0] && date > split[1]) {
         return `${this.$t('trans0013').replace(
           '%d',
           parseInt(date / split[1], 10)
         )}`;
       }
+      // 小于1小时大于1分钟
       if (date <= split[1] && date > split[2]) {
         return `${this.$t('trans0012').replace(
           '%d',
           parseInt(date / split[2], 10)
         )}`;
       }
+      // 小于1分钟大于5秒
       if (date <= split[2] && date > split[3]) {
         return `${this.$t('trans0011').replace('%d', parseInt(date, 10))}`;
       }
       return `${this.$t('trans0010')}`;
+    },
+    transformDateZone(zone) {
+      if (!parseInt(zone, 10) || parseInt(zone, 10) < 0) {
+        return '-';
+      }
+      const timeZone = formatTimeZone(zone);
+      const year = timeZone.year
+        ? `${timeZone.year}${this.$t('trans0531')}`
+        : '';
+      const month = timeZone.month
+        ? `${timeZone.month}${this.$t('trans0532')}`
+        : '';
+      const day = timeZone.day ? `${timeZone.day}${this.$t('trans0533')}` : '';
+      const hour = timeZone.hour
+        ? `${timeZone.hour}${this.$t('trans0534')}`
+        : '';
+      const minute = timeZone.minute
+        ? `${timeZone.minute}${this.$t('trans0535')}`
+        : '';
+      const second = timeZone.second
+        ? `${timeZone.second}${this.$t('trans0536')}`
+        : '';
+      return year + month + day + hour + minute + second;
+    },
+    parseOfflineTime(row) {
+      return this.transformOfflineDate(
+        row.connected_time + row.online_info.online_duration
+      );
     }
   },
   watch: {

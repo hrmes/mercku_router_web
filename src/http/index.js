@@ -109,7 +109,9 @@ const methods = {
   updateSshEnabled: createMethod('router.ssh.enabled.update'),
   getMeshNodeStation: createMethod('mesh.node.station.get'),
   getMeshInfoWanNetIpv6: createMethod('mesh.info.wan.net.ipv6.get'),
-  updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update')
+  updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update'),
+  getUPNPEnabled: 'mesh.upnp.enabled.get',
+  setUPNPEnabled: 'mesh.upnp.enabled.update'
 };
 
 class Http {

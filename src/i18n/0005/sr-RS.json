@@ -117,7 +117,7 @@
   "trans0116": "Resetovanje u toku, molimo sačekajte...",
   "trans0117": "Potvrdite trenutnu lozinku",
   "trans0118": "Lozinka može da sadrži 6-24 cifara, slova ili posebne karaktere, ili bilo koju kombinaciju navedenog",
-  "trans0119": "Da li ste sigurni da želite da prekinete vezu rutera %s?",
+  "trans0119": "Da li ste sigurni da želite da prekinete vezu rutera \"%s\"?",
   "trans0120": "Politika privatnosti",
   "trans0121": "Sve veze će biti prekinute u trajanju od oko 1 minuta zbog ponovnog pokretanja",
   "trans0122": "Ponovno pokretanje",
@@ -691,5 +691,7 @@
   "trans0696": " ",
   "trans0697": " ",
   "trans0698": " ",
-  "trans0699": " "
+  "trans0699": " ",
+  "trans0700": " ",
+  "trans0701": " "
 }
