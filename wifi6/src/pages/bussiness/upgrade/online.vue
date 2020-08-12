@@ -51,8 +51,7 @@
         <div v-if="
             !hasUpgradablityNodes &&
               requestResult.complete &&
-              !requestResult.error
-          ">
+              !requestResult.error">
           <img src="../../../assets/images/img_new_version.png"
                alt=""
                width="220" />
@@ -85,6 +84,8 @@
         </div>
       </m-modal-footer>
     </m-modal>
+    <upgradeProcessDialog @after-close="afterCloseProgress"
+                          :visible.sync="processDialogVisible" />
   </div>
 </template>
 <script>
