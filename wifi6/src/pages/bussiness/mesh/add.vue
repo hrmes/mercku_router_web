@@ -89,7 +89,7 @@
               </div>
               <div v-else-if="nodes.length >1"
                    class="scan-result__much">
-                <img src="@/assets/images/img_wifi6.png"
+                <img src="@/assets/images/img_default_empty.png"
                      alt="">
                 <p class="scan-result__title">{{$t('trans0637')}}</p>
                 <p class="scan-result__description">{{$t('trans0638')}}</p>
@@ -488,8 +488,9 @@ export default {
           margin: 30px 0 0 0;
         }
         .scan-result__much {
+          text-align: center;
           img {
-            width: 100%;
+            width: 200px;
           }
         }
         .scan-result__description {

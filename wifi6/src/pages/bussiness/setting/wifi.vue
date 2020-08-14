@@ -289,7 +289,7 @@ export default {
       this.form.b5g.encrypt = this.form.b24g.encrypt;
     },
     isOpen(band) {
-      return this.form[band].encrypt === EncryptMethod.wpawpa2.open;
+      return this.form[band].encrypt === EncryptMethod.open;
     },
     submit() {
       let validResult1 = true;
