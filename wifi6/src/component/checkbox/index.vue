@@ -8,9 +8,7 @@
              v-if="text">{{text}}</div>
       </label>
     </div>
-
   </transition>
-
 </template>
 <script>
 export default {

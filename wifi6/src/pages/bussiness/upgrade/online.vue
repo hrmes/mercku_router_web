@@ -85,6 +85,7 @@
         </div>
       </m-modal-footer>
     </m-modal>
+    <upgrade-process-dialog :visible="processDialogVisible" />
   </div>
 </template>
 <script>
@@ -104,6 +105,7 @@ export default {
         error: null,
         message: ''
       },
+      processDialogVisible: false,
       showChangelogModal: false,
       changelog: ''
     };
@@ -154,13 +156,11 @@ export default {
     },
     firmwareList() {
       this.$loading.open();
-
       Promise.all([this.$http.firmwareList(), this.$http.getMeshNode()])
         .then(resArr => {
           this.$loading.close();
-          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
-
           const nodes = resArr[0].data.result;
+          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
 
           this.requestResult.complete = true;
 
@@ -219,15 +219,15 @@ export default {
         callback: {
           ok: () => {
             this.nodeChecked = nodeChecked;
-            this.$loading.open();
+            // this.$loading.open();
             this.$http
               .upgradeMeshNode({ node_ids: nodeChecked.map(n => n.sn) })
               .then(() => {
-                this.$loading.close();
+                // this.$loading.close();
                 this.processDialogVisible = true;
               })
               .catch(() => {
-                this.$loading.close();
+                // this.$loading.close();
               });
           }
         }

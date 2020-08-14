@@ -168,8 +168,7 @@ export default {
       this.$emit('update:visible', false);
     },
     getNodeUpgrading() {
-      console.log('getNodeUpgrading');
-      http.getMeshNode().then(res => {
+      this.$http.getMeshNode().then(res => {
         const nodes = res.data.result;
         console.log('getMeshNode');
         console.log('nodes is ', nodes);
@@ -197,7 +196,7 @@ export default {
     checkNodeStatus() {
       clearTimeout(this.timer);
       this.timer = null;
-      http
+      this.$http
         .getMeshNode(null, {
           noRedirect: true
         })
@@ -247,11 +246,11 @@ export default {
             if (timeout <= 0) {
               clearInterval(timer);
               timer = null;
-              http.getRouter(); // 超时跳转到未连接页面
+              this.$http.getRouter(); // 超时跳转到未连接页面
             }
             if (responsed) {
               responsed = false;
-              http
+              this.$http
                 .getRouter(null, {
                   noRedirect: true
                 })
