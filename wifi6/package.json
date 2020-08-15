@@ -9,7 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "echarts": "git+https://github.com/hrmes/incubator-echarts.git#mercku-v1.0.1",
     "intl": "^1.2.5",
@@ -43,6 +43,6 @@
     "url-loader": "^1.1.2",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.5.17",
-    "webpack-bundle-analyzer": "^3.8.0"
+    "webpack-bundle-analyzer": "^3.0.3"
   }
 }
