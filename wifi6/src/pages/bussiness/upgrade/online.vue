@@ -219,15 +219,15 @@ export default {
         callback: {
           ok: () => {
             this.nodeChecked = nodeChecked;
-            // this.$loading.open();
+            this.$loading.open();
             this.$http
               .upgradeMeshNode({ node_ids: nodeChecked.map(n => n.sn) })
               .then(() => {
-                // this.$loading.close();
+                this.$loading.close();
                 this.processDialogVisible = true;
               })
               .catch(() => {
-                // this.$loading.close();
+                this.$loading.close();
               });
           }
         }
