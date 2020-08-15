@@ -105,7 +105,9 @@ const methods = {
   getRegion: createMethod('mesh.region.get'),
   getSupportChannel: createMethod('mesh.channel.supported.get'),
   getSupportRegions: createMethod('mesh.region.supported.get'),
-  setRegion: createMethod('mesh.region.update')
+  setRegion: createMethod('mesh.region.update'),
+  getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
+  setUPNPEnabled: createMethod('mesh.upnp.enabled.update')
 };
 
 class Http {

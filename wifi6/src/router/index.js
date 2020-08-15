@@ -11,6 +11,7 @@ import blacklist from 'pages/bussiness/setting/blacklist.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
 import safe from 'pages/bussiness/setting/safe.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
+import upnp from 'pages/bussiness/setting/upnp.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
@@ -140,6 +141,11 @@ export default new Router({
       path: '/setting/blacklist',
       name: 'blacklist',
       component: blacklist
+    },
+    {
+      path: '/setting/upnp',
+      name: 'upnp',
+      component: upnp
     },
     {
       path: '/wlan',
