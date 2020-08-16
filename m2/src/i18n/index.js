@@ -36,8 +36,11 @@ Object.keys(extra).forEach(ex => {
 });
 
 export const i18n = new VueI18n({
-  locale: localStorage.getItem('lang'),
+  locale:
+    localStorage.getItem('lang') || process.env.CUSTOMER_CONFIG.defaultLanguage,
   messages: Locales
+  // vue-i18n default fallback is en-US, so not need define this
+  // fallbackLocale: 'en-US'
 });
 export function changeLanguage(lang) {
   if (!Object.keys(i18n.messages).includes(lang)) {
