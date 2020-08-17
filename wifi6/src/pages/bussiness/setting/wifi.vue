@@ -1,167 +1,212 @@
 <template>
   <div class="page">
-    <div class='page-header'>
-      {{$t('trans0103')}}
+    <div class="page-header">
+      {{ $t('trans0103') }}
     </div>
     <div class="page-content wifi">
-
       <div class="smart-connect">
         <div class="smart-connect__inner">
-          <label class="smart-connect__label">{{$t('trans0397')}}</label>
-          <m-switch class="smart-connect__switch"
-                    :onChange="changeSmartConnect"
-                    v-model="form.smart_connect" />
+          <label class="smart-connect__label">{{ $t('trans0397') }}</label>
+          <m-switch
+            class="smart-connect__switch"
+            :onChange="changeSmartConnect"
+            v-model="form.smart_connect"
+          />
         </div>
-        <div class="smart-connect__tip">{{$t('trans0398')}}</div>
+        <div class="smart-connect__tip">{{ $t('trans0398') }}</div>
       </div>
-      <m-form class="form"
-              ref="b24gForm"
-              key="b24gform"
-              :model="form"
-              :rules='rules'>
-        <div class="form-header"
-             v-if="!form.smart_connect">
-          <img class="form-header__img"
-               src="@/assets/images/icon/ic_wifi@2x.png"
-               alt="">
-          <span class="form-header__title">{{$t('trans0677')}}</span>
+      <m-form
+        class="form"
+        ref="b24gForm"
+        key="b24gform"
+        :model="form"
+        :rules="rules"
+      >
+        <div class="form-header" v-if="!form.smart_connect">
+          <img
+            class="form-header__img"
+            src="@/assets/images/icon/ic_wifi@2x.png"
+            alt=""
+          />
+          <span class="form-header__title">{{ $t('trans0677') }}</span>
         </div>
-        <m-form-item key="b24gssid"
-                     class="item"
-                     prop='b24g.ssid'>
-          <m-input v-model="form.b24g.ssid"
-                   :label="$t('trans0168')"
-                   type='text'
-                   :placeholder="`${$t('trans0321')}`"></m-input>
+        <m-form-item key="b24gssid" class="item" prop="b24g.ssid">
+          <m-input
+            v-model="form.b24g.ssid"
+            :label="$t('trans0168')"
+            type="text"
+            :placeholder="`${$t('trans0321')}`"
+          ></m-input>
         </m-form-item>
 
-        <m-form-item key="b24gencrypt"
-                     class="item">
-          <m-select :label="$t('trans0522')"
-                    v-model="form.b24g.encrypt"
-                    @change="(nv,ov)=>onEncryptChange('b24g',nv,ov)"
-                    :options="encryptMethods"></m-select>
+        <m-form-item key="b24gencrypt" class="item">
+          <m-select
+            :label="$t('trans0522')"
+            v-model="form.b24g.encrypt"
+            @change="(nv, ov) => onEncryptChange('b24g', nv, ov)"
+            :options="encryptMethods"
+          ></m-select>
         </m-form-item>
 
-        <m-form-item key="b24gpassword"
-                     v-if="!isOpen('b24g')"
-                     class="item"
-                     prop='b24g.password'>
-          <m-input v-model="form.b24g.password"
-                   :label="$t('trans0172')"
-                   type='password'
-                   :placeholder="`${$t('trans0321')}`"></m-input>
+        <m-form-item
+          key="b24gpassword"
+          v-if="!isOpen('b24g')"
+          class="item"
+          prop="b24g.password"
+        >
+          <m-input
+            v-model="form.b24g.password"
+            :label="$t('trans0172')"
+            type="password"
+            :placeholder="`${$t('trans0321')}`"
+          ></m-input>
         </m-form-item>
 
-        <m-form-item key="b24gchannelnumber"
-                     class="form__item">
-          <m-select :label="$t('trans0680')"
-                    v-model="form.b24g.channel.number"
-                    :options="channels.b24g"></m-select>
+        <m-form-item key="b24gchannelnumber" class="form__item">
+          <m-select
+            :label="$t('trans0680')"
+            v-model="form.b24g.channel.number"
+            :options="channels.b24g"
+          ></m-select>
         </m-form-item>
-        <m-form-item key="b24gbandwidth"
-                     class="form__item">
-          <m-select :label="$t('trans0632')"
-                    v-model="form.b24g.channel.bandwidth"
-                    :options="bandwidths.b24g"></m-select>
+        <m-form-item key="b24gbandwidth" class="form__item">
+          <m-select
+            :label="$t('trans0632')"
+            v-model="form.b24g.channel.bandwidth"
+            :options="bandwidths.b24g"
+          ></m-select>
         </m-form-item>
-        <m-form-item key="b5gchannelnumber-1"
-                     class="form__item"
-                     v-if="form.smart_connect">
-          <m-select :label="$t('trans0681')"
-                    v-model="form.b5g.channel.number"
-                    :options="channels.b5g"></m-select>
+        <m-form-item
+          key="b5gchannelnumber-1"
+          class="form__item"
+          v-if="form.smart_connect"
+        >
+          <m-select
+            :label="$t('trans0681')"
+            v-model="form.b5g.channel.number"
+            :options="channels.b5g"
+          ></m-select>
         </m-form-item>
-        <m-form-item key="b5gbandwidth-1"
-                     class="form__item"
-                     v-if="form.smart_connect">
-          <m-select :label="$t('trans0632')"
-                    v-model="form.b5g.channel.bandwidth"
-                    :options="bandwidths.b5g"></m-select>
+        <m-form-item
+          key="b5gbandwidth-1"
+          class="form__item"
+          v-if="form.smart_connect"
+        >
+          <m-select
+            :label="$t('trans0632')"
+            v-model="form.b5g.channel.bandwidth"
+            :options="bandwidths.b5g"
+          ></m-select>
         </m-form-item>
 
         <div class="form-item check-info">
-          <label for=""> {{$t('trans0110')}}
+          <label for="">
+            {{ $t('trans0110') }}
             <div class="tool">
-              <m-popover position="bottom left"
-                         style="top:-7px"
-                         :title="this.$t('trans0110')"
-                         :content="this.$t('trans0325')">
-                <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
-                     alt="">
+              <m-popover
+                position="bottom left"
+                style="top:-7px"
+                :title="this.$t('trans0110')"
+                :content="this.$t('trans0325')"
+              >
+                <img
+                  width="14"
+                  src="../../../assets/images/icon/ic_question.png"
+                  alt=""
+                />
               </m-popover>
-
             </div>
           </label>
           <m-switch v-model="form.b24g.hidden" />
         </div>
       </m-form>
 
-      <m-form v-if="!form.smart_connect"
-              class="form"
-              ref="b5gForm"
-              key="b5gform"
-              :model="form"
-              :rules='rules'>
+      <m-form
+        v-if="!form.smart_connect"
+        class="form"
+        ref="b5gForm"
+        key="b5gform"
+        :model="form"
+        :rules="rules"
+      >
         <div class="form-header">
-          <img class="form-header__img"
-               src="@/assets/images/icon/ic_wifi@2x.png"
-               alt="">
-          <span class="form-header__title">{{$t('trans0679')}}</span>
+          <img
+            class="form-header__img"
+            src="@/assets/images/icon/ic_wifi@2x.png"
+            alt=""
+          />
+          <span class="form-header__title">{{ $t('trans0679') }}</span>
         </div>
-        <m-form-item key="b5gssid"
-                     class="item"
-                     prop='b5g.ssid'>
-          <m-input v-model="form.b5g.ssid"
-                   :label="$t('trans0168')"
-                   type='text'
-                   :placeholder="`${$t('trans0321')}`"></m-input>
+        <m-form-item key="b5gssid" class="item" prop="b5g.ssid">
+          <m-input
+            v-model="form.b5g.ssid"
+            :label="$t('trans0168')"
+            type="text"
+            :placeholder="`${$t('trans0321')}`"
+          ></m-input>
         </m-form-item>
 
-        <m-form-item key="b5gencrypt"
-                     class="item">
-          <m-select :label="$t('trans0522')"
-                    v-model="form.b5g.encrypt"
-                    @change="(nv,ov)=>onEncryptChange('b5g',nv,ov)"
-                    :options="encryptMethods"></m-select>
+        <m-form-item key="b5gencrypt" class="item">
+          <m-select
+            :label="$t('trans0522')"
+            v-model="form.b5g.encrypt"
+            @change="(nv, ov) => onEncryptChange('b5g', nv, ov)"
+            :options="encryptMethods"
+          ></m-select>
         </m-form-item>
 
-        <m-form-item v-if="!isOpen('b5g')"
-                     class="item"
-                     key="b5gpassword"
-                     prop='b5g.password'>
-          <m-input v-model="form.b5g.password"
-                   :label="$t('trans0172')"
-                   type='password'
-                   :placeholder="$t('trans0321')"></m-input>
+        <m-form-item
+          v-if="!isOpen('b5g')"
+          class="item"
+          key="b5gpassword"
+          prop="b5g.password"
+        >
+          <m-input
+            v-model="form.b5g.password"
+            :label="$t('trans0172')"
+            type="password"
+            :placeholder="$t('trans0321')"
+          ></m-input>
         </m-form-item>
 
-        <m-form-item class="form__item"
-                     key="b5gchannelnumber"
-                     v-if="!form.smart_connect">
-          <m-select :label="$t('trans0681')"
-                    v-model="form.b5g.channel.number"
-                    :options="channels.b5g"></m-select>
+        <m-form-item
+          class="form__item"
+          key="b5gchannelnumber"
+          v-if="!form.smart_connect"
+        >
+          <m-select
+            :label="$t('trans0681')"
+            v-model="form.b5g.channel.number"
+            :options="channels.b5g"
+          ></m-select>
         </m-form-item>
-        <m-form-item key="b5gbandwidth"
-                     class="form__item"
-                     v-if="!form.smart_connect">
-          <m-select :label="$t('trans0632')"
-                    v-model="form.b5g.channel.bandwidth"
-                    :options="bandwidths.b5g"></m-select>
+        <m-form-item
+          key="b5gbandwidth"
+          class="form__item"
+          v-if="!form.smart_connect"
+        >
+          <m-select
+            :label="$t('trans0632')"
+            v-model="form.b5g.channel.bandwidth"
+            :options="bandwidths.b5g"
+          ></m-select>
         </m-form-item>
 
         <div class="form-item check-info">
-          <label for=""> {{$t('trans0110')}}
+          <label for="">
+            {{ $t('trans0110') }}
             <div class="tool">
-              <m-popover position="bottom left"
-                         style="top:-7px"
-                         :title="$t('trans0110')"
-                         :content="$t('trans0325')">
-                <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
-                     alt="">
+              <m-popover
+                position="bottom left"
+                style="top:-7px"
+                :title="$t('trans0110')"
+                :content="$t('trans0325')"
+              >
+                <img
+                  width="14"
+                  src="../../../assets/images/icon/ic_question.png"
+                  alt=""
+                />
               </m-popover>
             </div>
           </label>
@@ -169,9 +214,9 @@
         </div>
       </m-form>
       <div class="form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click='submit()'>{{$t('trans0081')}}</button>
+        <button class="btn" v-defaultbutton @click="submit()">
+          {{ $t('trans0081') }}
+        </button>
       </div>
     </div>
   </div>
@@ -180,7 +225,6 @@
 import { getStringByte, passwordRule } from 'util/util';
 import { EncryptMethod, Bands } from 'util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
-
 
 export default {
   mixins: [encryptMix],
