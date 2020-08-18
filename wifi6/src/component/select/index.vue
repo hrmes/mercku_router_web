@@ -6,8 +6,7 @@
       <input class="select-text"
              :value="selected.text"
              readonly
-             :title="selected.text"
-             @blur="close" />
+             :title="selected.text" />
       <div class="icon-container">
         <span class="icon"
               :class="{ open: opened, close: !opened }"></span>
@@ -17,7 +16,7 @@
             v-show="opened">
           <li :class="{ selected: selected === option }"
               :key="option.value"
-              @mousedown="select(option)"
+              @click.stop="select(option)"
               v-for="option in options"
               :title="option.text">
             {{ option.text }}
@@ -49,8 +48,7 @@ export default {
   data() {
     return {
       selected: this.getOptionByValue(this.value),
-      opened: false,
-      isSilentBlur: false
+      opened: false
     };
   },
   watch: {
