@@ -7,39 +7,30 @@
       <div class="table">
         <div class="tools">
           <div class="checkbox">
-            <m-checkbox
-              v-model="checkAllBlacklist"
-              :text="$t('trans0032')"
-              :onChange="changeCheckboxAll"
-            ></m-checkbox>
+            <m-checkbox v-model="checkAllBlacklist"
+                        :text="$t('trans0032')"
+                        :onChange="changeCheckboxAll"></m-checkbox>
           </div>
           <div class="btns">
-            <div
-              class="btn btn-primary btn-small"
-              @click.stop="deviceModalVisible = !deviceModalVisible"
-            >
+            <div class="btn btn-primary btn-small"
+                 @click.stop="deviceModalVisible = !deviceModalVisible">
               {{ $t('trans0035') }}
-              <div
-                class="modal"
-                v-show="deviceModalVisible"
-                @click.stop=""
-                v-clickoutside="() => (deviceModalVisible = false)"
-              >
+              <div class="modal"
+                   v-show="deviceModalVisible"
+                   @click.stop=""
+                   v-clickoutside="() => (deviceModalVisible = false)">
                 <div class="opcity"></div>
                 <div class="modal-content">
                   <div class="modal__header">{{ $t('trans0235') }}</div>
-                  <div v-if="devices" class="list">
-                    <div
-                      class="device-item"
-                      @click="checkDevice(item)"
-                      v-for="(item, index) in devices"
-                      :key="index"
-                    >
+                  <div v-if="devices"
+                       class="list">
+                    <div class="device-item"
+                         @click="checkDevice(item)"
+                         v-for="(item, index) in devices"
+                         :key="index">
                       <div class="check">
-                        <m-checkbox
-                          :readonly="true"
-                          v-model="item.checked"
-                        ></m-checkbox>
+                        <m-checkbox :readonly="true"
+                                    v-model="item.checked"></m-checkbox>
                       </div>
                       <div class="des">
                         <p>{{ item.name }}</p>
@@ -47,25 +38,23 @@
                       </div>
                     </div>
                   </div>
-                  <div class="empty-device" v-if="!devices.length">
+                  <div class="empty-device"
+                       v-if="!devices.length">
                     <p>{{ $t('trans0278') }}</p>
                   </div>
                   <div class="btn-wrap">
-                    <button
-                      class="btn btn-dialog-confirm"
-                      @click="addBlacklist()"
-                    >
+                    <button class="btn btn-dialog-confirm"
+                            @click="addBlacklist()"
+                            :disabled="!someDevicesChecked">
                       {{ $t('trans0016') }}
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <button
-              class="btn btn-small"
-              @click="removeBlacklist()"
-              :disabled="!someBlacklistChecked"
-            >
+            <button class="btn btn-small"
+                    @click="removeBlacklist()"
+                    :disabled="!someBlacklistChecked">
               {{ $t('trans0453') }}
             </button>
           </div>
@@ -73,10 +62,8 @@
         <div class="table-header">
           <div class="name">
             <div class="checkbox">
-              <m-checkbox
-                v-model="checkAllBlacklist"
-                :onChange="changeCheckboxAll"
-              ></m-checkbox>
+              <m-checkbox v-model="checkAllBlacklist"
+                          :onChange="changeCheckboxAll"></m-checkbox>
             </div>
             <div>{{ $t('trans0005') }}</div>
           </div>
@@ -84,7 +71,9 @@
           <!-- <div class="operate">{{$t('trans0370')}}</div> -->
         </div>
         <div class="table-content">
-          <div class="device" v-for="device in listOrdered" :key="device.mac">
+          <div class="device"
+               v-for="device in listOrdered"
+               :key="device.mac">
             <div class="name">
               <div class="checkbox">
                 <m-checkbox v-model="device.checked"></m-checkbox>
@@ -97,8 +86,10 @@
                     @click="removeSingleBlacklist(device)">{{$t('trans0033')}}</span>
             </div> -->
           </div>
-          <div class="empty" v-if="!blacklist.length">
-            <img src="../../../assets/images/img_default_empty.png" alt="" />
+          <div class="empty"
+               v-if="!blacklist.length">
+            <img src="../../../assets/images/img_default_empty.png"
+                 alt="" />
             <p>{{ $t('trans0278') }}</p>
           </div>
         </div>
@@ -129,6 +120,9 @@ export default {
     },
     someBlacklistChecked() {
       return this.blacklist.some(b => b.checked);
+    },
+    someDevicesChecked() {
+      return this.devices.some(d => d.checked);
     }
   },
   watch: {

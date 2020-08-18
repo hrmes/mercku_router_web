@@ -6,15 +6,15 @@
       <input class="select-text"
              :value="selected.text"
              readonly
-             :title="selected.text"
-             @blur="closeSelectPopup" />
+             :title="selected.text" />
       <div class="icon-container">
         <span class="icon"
               :class="{ open: opened, close: !opened }"></span>
       </div>
       <transition name="select">
         <ul class="select-popup"
-            v-show="this.opened">
+            v-show="opened"
+            @mouseover="handleSelectPopup(true)">
           <li :class="{ selected: selected === option }"
               :key="option.value"
               @click.stop="select(option)"
@@ -49,7 +49,8 @@ export default {
   data() {
     return {
       selected: this.getOptionByValue(this.value),
-      opened: false
+      opened: false,
+      isSilentBlur: false
     };
   },
   watch: {
@@ -61,9 +62,6 @@ export default {
     this.attachEvent();
   },
   methods: {
-    closeSelectPopup() {
-      // this.opened = false;
-    },
     getOptionByValue(val) {
       const option = this.options.filter(o => o.value === val)[0] || {
         text: val
@@ -101,6 +99,7 @@ export default {
       }
     },
     select(option) {
+      console.log(option);
       this.selected = option;
       this.opened = false;
       this.$emit('input', this.selected.value);
