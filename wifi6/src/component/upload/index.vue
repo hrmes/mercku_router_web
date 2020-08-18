@@ -52,8 +52,8 @@
   </div>
 </template>
 <script>
-import { UploadStatus } from 'util/constant';
-import { toLocaleNumber } from 'util/util';
+import { UploadStatus } from '@/util/constant';
+import { toLocaleNumber } from '@/util/util';
 
 export default {
   props: {

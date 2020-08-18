@@ -9,8 +9,8 @@ import {
   formatNetworkData,
   formatBandWidth,
   toLocaleNumber
-} from 'util/util';
-import upgradeHelper from 'util/upgrade';
+} from '@/util/util';
+import upgradeHelper from '@/util/upgrade';
 import { changeLanguage, i18n, translate } from './i18n';
 import router from './router';
 import App from './App.vue';

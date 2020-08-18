@@ -95,8 +95,8 @@
   </div>
 </template>
 <script>
-import { UploadStatus } from 'util/constant';
-import { getFileExtendName } from 'util/util';
+import { UploadStatus } from '@/util/constant';
+import { getFileExtendName } from '@/util/util';
 import RouterModel from '@/mixins/router-model';
 
 export default {

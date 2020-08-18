@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import upgradeHelper from 'util/upgrade.js';
+import upgradeHelper from '@/util/upgrade';
 
 export default {
   methods: {

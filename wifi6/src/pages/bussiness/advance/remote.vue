@@ -118,7 +118,7 @@
   </div>
 </template>
 <script>
-import { portReg } from 'util/util';
+import { portReg } from '@/util/util';
 
 export default {
   data() {

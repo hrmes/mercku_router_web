@@ -1,4 +1,4 @@
-import { RouterSnModel } from 'util/constant';
+import { RouterSnModel } from '@/util/constant';
 
 export default {
   methods: {

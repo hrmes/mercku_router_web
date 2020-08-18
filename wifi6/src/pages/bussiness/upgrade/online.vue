@@ -90,8 +90,8 @@
 </template>
 <script>
 import marked from 'marked';
-import { compareVersion } from 'util/util';
-import { RouterSnModel } from 'util/constant';
+import { compareVersion } from '@/util/util';
+import { RouterSnModel } from '@/util/constant';
 import RouterModel from '@/mixins/router-model';
 import upgradeProcessDialog from './components/progress.vue';
 
