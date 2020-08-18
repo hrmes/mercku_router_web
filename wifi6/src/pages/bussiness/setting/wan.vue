@@ -529,10 +529,16 @@ export default {
           if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
             this.pppoeForm.password = this.netInfo.pppoe.password;
-            if (this.netInfo.pppoe.vlan.length) {
+            if (this.netInfo.pppoe.vlan && this.netInfo.pppoe.vlan.length) {
               [this.pppoeForm.vlan] = this.netInfo.pppoe.vlan;
             }
-            if (this.netInfo.pppoe.dns) {
+            // if (this.netInfo.pppoe.dns) {
+            //   this.autodns.pppoe = false;
+            //   [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
+            //   this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
+            // }
+            console.log(this.netInfo.pppoe);
+            if (this.netInfo.pppoe.dns && this.netInfo.pppoe.dns.length) {
               this.autodns.pppoe = false;
               [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
               this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
