@@ -154,7 +154,7 @@
       <div class="modal-content">
         <div class="help-dialog-content">
           <div>
-            <p>1. {{$t('trans0234')}}</p>
+            <p>1. {{$t('trans0653')}}</p>
             <p>2. {{$t('trans0160')}}</p>
             <p>3. {{$t('trans0158')}}</p>
             <p>4. {{$t('trans0175')}}</p>

@@ -7,7 +7,7 @@
              :value="selected.text"
              readonly
              :title="selected.text"
-             @blur="closeSelectPopup" />
+             @blur="close" />
       <div class="icon-container">
         <span class="icon"
               :class="{ open: opened, close: !opened }"></span>
@@ -17,7 +17,7 @@
             v-show="opened">
           <li :class="{ selected: selected === option }"
               :key="option.value"
-              @mousedown.stop="select(option)"
+              @mousedown="select(option)"
               v-for="option in options"
               :title="option.text">
             {{ option.text }}
@@ -62,9 +62,6 @@ export default {
     this.attachEvent();
   },
   methods: {
-    closeSelectPopup() {
-      this.opened = false;
-    },
     getOptionByValue(val) {
       const option = this.options.filter(o => o.value === val)[0] || {
         text: val
