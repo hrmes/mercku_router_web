@@ -1,4 +1,4 @@
-import { Role, RouterMode, Customers } from 'util/constant';
+import { Role, RouterMode, Customers } from '@/util/constant';
 
 export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');

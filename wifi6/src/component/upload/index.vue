@@ -52,8 +52,8 @@
   </div>
 </template>
 <script>
-import { UploadStatus } from 'util/constant';
-import { toLocaleNumber } from 'util/util';
+import { UploadStatus } from '@/util/constant';
+import { toLocaleNumber } from '@/util/util';
 
 export default {
   props: {
@@ -260,7 +260,7 @@ export default {
         .loading {
           display: inline-block;
           height: 3px;
-          transition: width 1s ease;
+          transition: width 0.2s ease;
           background: $upload-progress-completed-color;
         }
         .fail {

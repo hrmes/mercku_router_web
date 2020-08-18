@@ -90,7 +90,7 @@
   </div>
 </template>
 <script>
-import { ipReg, getStringByte, isMac, formatMac } from 'util/util';
+import { ipReg, getStringByte, isMac, formatMac } from '@/util/util';
 
 export default {
   data() {

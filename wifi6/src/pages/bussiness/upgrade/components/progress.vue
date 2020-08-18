@@ -72,7 +72,7 @@ import { translate } from '@/i18n';
 import RouterModel from '@/mixins/router-model';
 import mSpinner from 'components/spinner/index.vue';
 import mLoading from 'components/loading/loading-new.vue';
-import { compareVersion } from 'util/util';
+import { compareVersion } from '@/util/util';
 
 const Statuses = {
   downloading: 'downloading',

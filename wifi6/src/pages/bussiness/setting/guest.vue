@@ -110,8 +110,8 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from 'util/util';
-import { EncryptMethod } from 'util/constant';
+import { getStringByte, passwordRule } from '@/util/util';
+import { EncryptMethod } from '@/util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
 
 export default {

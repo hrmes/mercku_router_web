@@ -6,7 +6,7 @@
  *
  *
  */
-import * as CONSTANTS from 'util/constant';
+import * as CONSTANTS from '@/util/constant';
 // import picGateway from '../../../assets/images/icon/ic_m2_gw_green.png';
 // import picM2Good from '../../../assets/images/icon/ic_m2_green.png';
 // import picM2Bad from '../../../assets/images/icon/ic_m2_orange.png';

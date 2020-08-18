@@ -177,8 +177,8 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from 'util/util';
-import { EncryptMethod, Bands } from 'util/constant';
+import { getStringByte, passwordRule } from '@/util/util';
+import { EncryptMethod, Bands } from '@/util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
 
 

@@ -131,7 +131,6 @@ module.exports = {
       .set('vue$', 'vue/dist/vue.esm.js')
       .set('components', resolve('src/component'))
       .set('pages', resolve('src/pages'))
-      .set('util', resolve('src/util'))
       .set('style', resolve('src/style'));
     config.module
       .rule('html')

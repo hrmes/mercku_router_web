@@ -71,8 +71,8 @@
   </div>
 </template>
 <script>
-import * as CONSTANTS from 'util/constant';
-import { compareVersion } from 'util/util';
+import * as CONSTANTS from '@/util/constant';
+import { compareVersion } from '@/util/util';
 import marked from 'marked';
 // import axios from 'axios';
 

@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { VPNAction, VPNStatus } from 'util/constant';
+import { VPNAction, VPNStatus } from '@/util/constant';
 
 export default {
   data() {
