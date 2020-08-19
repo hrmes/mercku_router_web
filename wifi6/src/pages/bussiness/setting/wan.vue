@@ -520,7 +520,7 @@ export default {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
           if (this.isDhcp) {
-            if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
+            if (this.netInfo?.dhcp && this.netInfo?.dhcp?.dns) {
               this.autodns.dhcp = false;
               [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
               this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
@@ -529,10 +529,10 @@ export default {
           if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
             this.pppoeForm.password = this.netInfo.pppoe.password;
-            if (this.netInfo.pppoe.vlan && this.netInfo.pppoe.vlan.length) {
+            if (this.netInfo?.pppoe?.vlan?.length) {
               [this.pppoeForm.vlan] = this.netInfo.pppoe.vlan;
             }
-            if (this.netInfo.pppoe.dns && this.netInfo.pppoe.dns.length) {
+            if (this.netInfo?.pppoe?.dns?.length) {
               this.autodns.pppoe = false;
               [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
               this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
