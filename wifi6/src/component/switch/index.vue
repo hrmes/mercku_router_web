@@ -1,10 +1,10 @@
 <template>
   <div class="mk-switch">
     <label class="mk-switch__label"
-           v-if="label">{{label}}</label>
+           v-if="label">{{ label }}</label>
     <div class="mk-switch__inner"
-         :class="{'checked':value,'disabled':disabled}"
-         @click='!disabled && change()'></div>
+         :class="{ checked: value, disabled: disabled }"
+         @click="!disabled && change()"></div>
   </div>
 </template>
 <script>

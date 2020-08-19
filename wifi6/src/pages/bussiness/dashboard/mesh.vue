@@ -48,24 +48,6 @@
               <m-switch v-model="mesh24g"
                         :onChange="(val)=>updateMeshBand(val)"></m-switch>
             </div>
-            <div class="switch-item">
-              <label>
-                <span>{{$t('trans0667')}}</span>
-                <div class="tool"
-                     style="width:14px;">
-                  <m-popover position="bottom left"
-                             style="top:-7px"
-                             :title="this.$t('trans0667')"
-                             :content="this.$t('trans0668')">
-                    <img width="14"
-                         src="../../../assets/images/icon/ic_question.png">
-                  </m-popover>
-                </div>
-              </label>
-              <m-switch v-model="fullline"
-                        :onChange="val => onFulllineChange(val)"></m-switch>
-            </div>
-
           </div>
           <div class="topo-wrap"
                id="topo-wrap">
@@ -229,7 +211,6 @@ require('echarts/lib/chart/graph');
 export default {
   data() {
     return {
-      fullline: false,
       rssiModalVisible: false,
       RouterStatus,
       formatMac,
@@ -283,15 +264,6 @@ export default {
     this.initChart();
     this.getMeshBand();
     this.createIntervalTask();
-
-    let fullline;
-    fullline = localStorage.getItem('fullline');
-    if (fullline !== null && fullline === 'true') {
-      fullline = true;
-    } else {
-      fullline = false;
-    }
-    this.fullline = fullline;
   },
   computed: {
     rssiTips() {
@@ -311,10 +283,6 @@ export default {
     }
   },
   methods: {
-    onFulllineChange(val) {
-      localStorage.setItem('fullline', val);
-      this.drawTopo(this.routers);
-    },
     showRssiModal() {
       this.rssiModalVisible = true;
     },
@@ -481,7 +449,7 @@ export default {
       const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       this.routers = routers;
 
-      const data = genData(routers, this.fullline);
+      const data = genData(routers);
       data.nodes.forEach(n => {
         this.routers.forEach(r => {
           if (n.sn === r.sn) {

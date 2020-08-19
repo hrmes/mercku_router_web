@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-header">
-      {{$t('trans0419')}}
+      {{ $t('trans0419') }}
     </div>
     <div class="page-content">
       <m-form class="form"
@@ -18,16 +18,17 @@
                    :label="label"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-
       </m-form>
       <div class="form-button">
         <button class="btn btn-primary"
                 v-defaultbutton
-                @click="start">{{$t('trans0467')}}</button>
+                @click="start">
+          {{ $t('trans0467') }}
+        </button>
       </div>
       <div class="log-container"
            v-show="output">
-        <pre>{{output}}</pre>
+        <pre>{{ output }}</pre>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@
     </div>
     <div class="combox"
          ref="combo"
-         v-if="opened">
+         v-show="opened">
       <div class="select-wrap">
         <div class="select-inner"
              ref='h'>
