@@ -227,19 +227,6 @@ import { ipRule, isMulticast, isLoopback, isValidMask, ipReg } from 'util/util';
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
-const DefaulVlan = {
-  enabled: false,
-  id: '',
-  ports: [
-    {
-      port: {
-        id: 0
-      },
-      tagged: true
-    }
-  ],
-  priority: 0
-};
 
 export default {
   data() {
@@ -277,7 +264,19 @@ export default {
       pppoeForm: {
         account: '',
         password: '',
-        vlan: DefaulVlan,
+        vlan: {
+          enabled: false,
+          id: '',
+          ports: [
+            {
+              port: {
+                id: 0
+              },
+              tagged: true
+            }
+          ],
+          priority: 0
+        },
         dns1: '',
         dns2: ''
       },
@@ -528,7 +527,7 @@ export default {
           if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
             this.pppoeForm.password = this.netInfo.pppoe.password;
-            this.pppoeForm.vlan = this.netInfo.pppoe.vlan ?? DefaulVlan;
+            this.pppoeForm.vlan = this.netInfo.pppoe.vlan?.[0] ?? this.pppoeForm.vlan;
             this.autodns.pppoe = !this.netInfo.pppoe.dns?.length;
             this.pppoeForm.dns1 = this.netInfo.pppoe.dns?.[0] ?? '';
             this.pppoeForm.dns2 = this.netInfo.pppoe.dns?.[1] ?? '';
