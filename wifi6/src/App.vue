@@ -2,23 +2,17 @@
   <div class="srcollbar-wrap">
     <div class="container">
       <div class="app-container router-view">
-        <div
-          ref="flexWrap"
-          class="flex-wrap"
-          :class="{ 'has-menu': !navVisible }"
-        >
-          <m-header
-            :navVisible="!navVisible"
-            :logoVisible="!isLoginPage"
-            :navs="menus"
-            class="header"
-          ></m-header>
+        <div ref="flexWrap"
+             class="flex-wrap"
+             :class="{ 'has-menu': !navVisible }">
+          <m-header :navVisible="!navVisible"
+                    :logoVisible="!isLoginPage"
+                    :navs="menus"
+                    class="header"></m-header>
           <router-view></router-view>
-          <m-policy
-            :locale="$i18n.locale"
-            :class="{ 'fix-bottom': navVisible }"
-            class="policy"
-          />
+          <m-policy :locale="$i18n.locale"
+                    :class="{ 'fix-bottom': navVisible }"
+                    class="policy" />
         </div>
       </div>
     </div>
@@ -48,12 +42,12 @@ export default {
   methods: {
     setHeight() {
       // fix safari
-      const ContentMinHeight = 600; // 定义内容区域最小高度
+      const contentMinHeight = 600; // 定义内容区域最小高度
       let height = 0;
-      if (document.body.clientHeight > ContentMinHeight) {
+      if (document.body.clientHeight > contentMinHeight) {
         height = document.body.clientHeight;
       } else {
-        height = ContentMinHeight;
+        height = contentMinHeight;
       }
       this.$refs.flexWrap.style.minHeight = `${height}px`;
     }
