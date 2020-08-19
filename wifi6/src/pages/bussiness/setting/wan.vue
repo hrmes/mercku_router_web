@@ -520,11 +520,9 @@ export default {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
           if (this.isDhcp) {
-            if (this.netInfo.dhcp?.dns) {
-              this.autodns.dhcp = false;
-              this.dhcpForm.dns1 = this.netInfo.dhcp.dns[0] ?? '';
-              this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] ?? '';
-            }
+            this.autodns.dhcp = !this.netInfo.dhcp.dns?.length;
+            this.dhcpForm.dns1 = this.netInfo.dhcp.dns?.[0] ?? '';
+            this.dhcpForm.dns2 = this.netInfo.dhcp.dns?.[1] ?? '';
           }
           if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
@@ -532,11 +530,9 @@ export default {
             if (this.netInfo.pppoe?.vlan) {
               [this.pppoeForm.vlan] = this.netInfo.pppoe.vlan;
             }
-            if (this.netInfo.pppoe?.dns) {
-              this.autodns.pppoe = false;
-              this.pppoeForm.dns1 = this.netInfo.pppoe.dns[0] ?? '';
-              this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] ?? '';
-            }
+            this.autodns.pppoe = !this.netInfo.pppoe.dns?.length;
+            this.pppoeForm.dns1 = this.netInfo.pppoe.dns?.[0] ?? '';
+            this.pppoeForm.dns2 = this.netInfo.pppoe.dns?.[1] ?? '';
           }
           if (this.isStatic) {
             this.staticForm = {
