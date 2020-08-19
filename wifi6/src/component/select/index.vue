@@ -1,5 +1,6 @@
 <template>
-  <div class="select-container">
+  <div class="select-container"
+       v-clickoutside="close">
     <label for="">{{ label }}</label>
     <div class="select"
          @click.stop="open()">
@@ -97,7 +98,6 @@ export default {
       }
     },
     select(option) {
-      console.log(option);
       this.selected = option;
       this.opened = false;
       this.$emit('input', this.selected.value);
