@@ -1,47 +1,50 @@
 <template>
   <div class="page">
     <div class="page-header">
-      {{$t('trans0142')}}
+      {{ $t('trans0142') }}
     </div>
     <div class="page-content">
       <div class="wan-info">
         <div class="seccess-info">
           <div>
-            <label for="">{{$t('trans0317')}}：</label>
+            <label for="">{{ $t('trans0317') }}：</label>
             <span>
-              {{networkArr[localNetInfo.type]}}
+              {{ networkArr[localNetInfo.type] }}
             </span>
           </div>
           <div>
-            <label for="">{{$t('trans0151')}}：</label>
-            <span>{{localNetInfo.netinfo.ip}}</span>
+            <label for="">{{ $t('trans0151') }}：</label>
+            <span>{{ localNetInfo.netinfo.ip }}</span>
           </div>
           <div>
-            <label for="">{{$t('trans0152')}}：</label>
-            <span> {{localNetInfo.netinfo.mask}}</span>
+            <label for="">{{ $t('trans0152') }}：</label>
+            <span> {{ localNetInfo.netinfo.mask }}</span>
           </div>
           <div>
-            <label for="">{{$t('trans0153')}}：</label>
+            <label for="">{{ $t('trans0153') }}：</label>
             <span>
-              {{localNetInfo.netinfo.gateway}}
+              {{ localNetInfo.netinfo.gateway }}
             </span>
           </div>
           <div>
-            <label for="">{{$t('trans0236')}}：</label>
+            <label for="">{{ $t('trans0236') }}：</label>
             <span>
-              {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
-              :'-'}}
+              {{
+                localNetInfo.netinfo.dns.length > 0
+                  ? localNetInfo.netinfo.dns.join('/')
+                  : '-'
+              }}
             </span>
           </div>
         </div>
       </div>
-      <div class='form'
+      <div class="form"
            v-if="!isTesting">
         <div class="item net-type">
           <m-select :label="$t('trans0317')"
                     v-model="netType"
                     :options="options"></m-select>
-          <div class="note">{{netNote[netType]}}</div>
+          <div class="note">{{ netNote[netType] }}</div>
         </div>
         <m-form key="dhcp-form"
                 v-if="isDhcp"
@@ -57,7 +60,7 @@
           <div class="dhcp__dns"
                v-if="!autodns.dhcp">
             <m-form-item class="item"
-                         prop='dns1'
+                         prop="dns1"
                          ref="dns">
               <m-input :label="$t('trans0236')"
                        type="text"
@@ -65,7 +68,7 @@
                        v-model="dhcpForm.dns1" />
             </m-form-item>
             <m-form-item class="item"
-                         prop='dns2'
+                         prop="dns2"
                          ref="backupdns">
               <m-input :label="$t('trans0320')"
                        type="text"
@@ -79,18 +82,18 @@
                 v-else-if="isPppoe"
                 ref="pppoeForm"
                 :model="pppoeForm"
-                :rules='pppoeRules'>
+                :rules="pppoeRules">
           <m-form-item class="item"
-                       prop='account'>
+                       prop="account">
             <m-input :label="$t('trans0155')"
                      type="text"
                      :placeholder="`${$t('trans0321')}`"
                      v-model="pppoeForm.account"></m-input>
           </m-form-item>
           <m-form-item class="item"
-                       prop='password'>
+                       prop="password">
             <m-input :label="$t('trans0156')"
-                     type='password'
+                     type="password"
                      :placeholder="`${$t('trans0321')}`"
                      v-model="pppoeForm.password" />
           </m-form-item>
@@ -103,7 +106,7 @@
           <div class="pppoe-form__dns"
                v-if="!autodns.pppoe">
             <m-form-item class="item"
-                         prop='dns1'
+                         prop="dns1"
                          ref="dns">
               <m-input :label="$t('trans0236')"
                        type="text"
@@ -111,7 +114,7 @@
                        v-model="pppoeForm.dns1" />
             </m-form-item>
             <m-form-item class="item"
-                         prop='dns2'
+                         prop="dns2"
                          ref="backupdns">
               <m-input :label="$t('trans0320')"
                        type="text"
@@ -131,7 +134,7 @@
                            :title="this.$t('trans0683')"
                            :content="this.$t('trans0682')">
                   <img width="14"
-                       src="../../../assets/images/icon/ic_question.png">
+                       src="../../../assets/images/icon/ic_question.png" />
                 </m-popover>
               </div>
             </div>
@@ -162,9 +165,9 @@
                 v-else-if="isStatic"
                 ref="staticForm"
                 :model="staticForm"
-                :rules='staticRules'>
+                :rules="staticRules">
           <m-form-item class="item"
-                       prop='ip'
+                       prop="ip"
                        ref="ip">
             <m-input :label="$t('trans0151')"
                      type="text"
@@ -173,7 +176,7 @@
                      :onBlur="ipChange" />
           </m-form-item>
           <m-form-item class="item"
-                       prop='mask'
+                       prop="mask"
                        ref="mast">
             <m-input :label="$t('trans0152')"
                      type="text"
@@ -182,7 +185,7 @@
                      :onBlur="maskChange" />
           </m-form-item>
           <m-form-item class="item"
-                       prop='gateway'
+                       prop="gateway"
                        ref="gateway">
             <m-input :label="$t('trans0153')"
                      type="text"
@@ -190,7 +193,7 @@
                      v-model="staticForm.gateway" />
           </m-form-item>
           <m-form-item class="item"
-                       prop='dns1'
+                       prop="dns1"
                        ref="dns">
             <m-input :label="$t('trans0236')"
                      type="text"
@@ -198,7 +201,7 @@
                      v-model="staticForm.dns1" />
           </m-form-item>
           <m-form-item class="item"
-                       prop='dns2'
+                       prop="dns2"
                        ref="backupdns">
             <m-input :label="$t('trans0320')"
                      type="text"
@@ -209,7 +212,9 @@
         <div class="form-button">
           <button class="btn"
                   v-defaultbutton
-                  @click="submit()">{{$t('trans0081')}}</button>
+                  @click="submit()">
+            {{ $t('trans0081') }}
+          </button>
         </div>
       </div>
     </div>
@@ -515,23 +520,17 @@ export default {
           this.netInfo = res.data.result;
           this.netType = this.netInfo.type;
           if (this.isDhcp) {
-            if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
-              this.autodns.dhcp = false;
-              [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
-              this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
-            }
+            this.autodns.dhcp = !this.netInfo.dhcp.dns?.length;
+            this.dhcpForm.dns1 = this.netInfo.dhcp.dns?.[0] ?? '';
+            this.dhcpForm.dns2 = this.netInfo.dhcp.dns?.[1] ?? '';
           }
           if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
             this.pppoeForm.password = this.netInfo.pppoe.password;
-            if (this.netInfo.pppoe.vlan.length) {
-              [this.pppoeForm.vlan] = this.netInfo.pppoe.vlan;
-            }
-            if (this.netInfo.pppoe.dns) {
-              this.autodns.pppoe = false;
-              [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
-              this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
-            }
+            this.pppoeForm.vlan = this.netInfo.pppoe.vlan?.[0] ?? this.pppoeForm.vlan;
+            this.autodns.pppoe = !this.netInfo.pppoe.dns?.length;
+            this.pppoeForm.dns1 = this.netInfo.pppoe.dns?.[0] ?? '';
+            this.pppoeForm.dns2 = this.netInfo.pppoe.dns?.[1] ?? '';
           }
           if (this.isStatic) {
             this.staticForm = {

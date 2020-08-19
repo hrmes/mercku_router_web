@@ -134,10 +134,6 @@ export default {
         {
           value: VPNType.l2tp,
           text: this.$t('trans0415')
-        },
-        {
-          value: VPNType.openvpn,
-          text: this.$t('trans0676')
         }
       ],
       pptp: {

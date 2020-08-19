@@ -2,7 +2,6 @@
 export default {
   bind(el, binding) {
     function documentHandler(e) {
-      // alert(e.target);
       if (el.contains(e.target)) {
         return false;
       }
