@@ -67,7 +67,6 @@
 
 </template>
 <script>
-import http from '@/http';
 import { translate } from '@/i18n';
 import RouterModel from '@/mixins/router-model';
 import mSpinner from 'components/spinner/index.vue';

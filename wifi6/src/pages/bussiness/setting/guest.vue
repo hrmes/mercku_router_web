@@ -248,7 +248,7 @@ export default {
           this.$dialog.confirm({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0025'),
-            message: this.$t('trans0229'),
+            message: this.$t('trans0559'),
             callback: {
               ok: () => {
                 this.updateGuestWIFIStatus(false);
