@@ -19,6 +19,7 @@
         <input autocomplete="new-password"
                @focus="focus"
                @blur="blur"
+               ref="input"
                :disabled="disabled"
                v-model="inputValue"
                :placeholder="placeholder"
@@ -76,6 +77,12 @@ export default {
     }
   },
   methods: {
+    getCursorPosition() {
+      return this.$refs.input.selectionEnd;
+    },
+    setCursorPosition(position) {
+      this.$refs.input.setSelectionRange(position, position);
+    },
     changePwdStatus() {
       if (!this.disabled) {
         this.showPwd = !this.showPwd;
