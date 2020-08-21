@@ -1,7 +1,7 @@
 .DS_Store
 node_modules/
 docs
-dist/
+/wifi6/dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
