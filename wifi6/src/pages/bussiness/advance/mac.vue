@@ -75,10 +75,12 @@ export default {
       return mac.replace(/:/g, '');
     },
     format() {
+      console.log(this.mac.current);
       const mac = this.removeColonOfMac(this.mac.current);
       if (mac.length >= 2) {
         this.mac.current = mac.match(/.{1,2}/g).join(':');
       }
+      console.log(this.mac.current);
     },
     setSelected(val) {
       this.isDefault = val;
