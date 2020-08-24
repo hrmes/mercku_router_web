@@ -348,14 +348,15 @@ export default {
 .help-dialog-content {
   width: 600px;
   p {
-    position: relative;
-    display: flex;
-    align-items: center;
     &:first-child {
       margin-top: 0;
     }
     &:before {
       content: '';
+      position: relative;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
       display: inline-block;
       width: 5px;
       height: 5px;
