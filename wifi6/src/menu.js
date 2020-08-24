@@ -110,14 +110,6 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.inverto,
           Customers.orion
         ]
-      },
-      {
-        url: '/setting/upnp',
-        name: 'upnp',
-        text: 'trans0644',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
       }
     ]
   };
@@ -239,6 +231,14 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.inverto,
           Customers.orion
         ]
+      },
+      {
+        url: '/setting/upnp',
+        name: 'upnp',
+        text: 'trans0644',
+        super: false,
+        mode: [RouterMode.router],
+        customers: allCustomers
       }
     ]
   };
