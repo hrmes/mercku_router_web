@@ -39,7 +39,8 @@
                      v-model="form.username" />
           </m-form-item>
           <m-form-item key="password"
-                       class="item">
+                       class="item"
+                       prop='password'>
             <m-input :label="`${$t('trans0003')}${$t('trans0411')}`"
                      type='password'
                      :placeholder="`${$t('trans0321')}`"
@@ -57,57 +58,6 @@
             </div>
           </div>
         </div>
-        <div v-if="form.protocol === VPNType.openvpn">
-          <div class="config-uploader">
-            <div class="config-uploader__label">{{$t('trans0673')}}</div>
-            <div class="config-uploader__inner">
-              <button @click="triggerFileInput"
-                      class="config-uploader__button">
-                <span>{{ openvpnConfigFile ? $t('trans0675') : $t('trans0006') }}</span>
-                <input type="file"
-                       @change="onFileChange"
-                       ref="uploadInput"
-                       :accept="`.${openvpnFileAccept}`"
-                       hidden="hidden" />
-              </button>
-              <div v-if="openvpnConfigFile"
-                   class="config-uploader__status"
-                   :class="{'config-uploader__status--error':isInvalidFile}">
-                <span class="config-uploader__icon"></span>
-                <span>{{isInvalidFile ? $t('trans0691'): $t('trans0689')}}</span>
-              </div>
-            </div>
-            <div class="config-uploader__tip"
-                 :class="{'config-uploader__tip--error':(isInvalidFile || isEmptyFile)}">
-              {{$t('trans0678')}}
-            </div>
-          </div>
-          <div class="openvpn__checkbox">
-            <m-checkbox v-model="openvpnAdvance"
-                        :text="$t('trans0440')"></m-checkbox>
-          </div>
-
-          <div class="openvpn-advance"
-               v-if="openvpnAdvance">
-            <m-form-item key="ousernmae"
-                         class="item"
-                         prop='username'>
-              <m-input :label="$t('trans0410')"
-                       type="text"
-                       :placeholder="$t('trans0321')"
-                       v-model="form.username" />
-            </m-form-item>
-            <m-form-item key="opassword"
-                         class="item"
-                         prop='password'>
-              <m-input :label="$t('trans0003')"
-                       type='password'
-                       :placeholder="`${$t('trans0321')}`"
-                       v-model="form.password"></m-input>
-            </m-form-item>
-          </div>
-
-        </div>
       </m-form>
       <div class="btn-info form-button">
         <button class="btn"
@@ -118,7 +68,7 @@
   </div>
 </template>
 <script>
-import { getStringByte } from '@/util/util';
+import { getStringByte, passwordRuleVPN } from '@/util/util';
 import { VPNType } from '@/util/constant';
 
 const MAX_FILE_SIZE = 1000 * 1000;
@@ -163,6 +113,10 @@ export default {
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => getStringByte(value) <= 64,
+            message: this.$t('trans0228')
           }
         ],
         username: [
@@ -177,8 +131,13 @@ export default {
         ],
         password: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
+            rule: value => {
+              if (!value.length) {
+                return true;
+              }
+              return passwordRuleVPN.test(value);
+            },
+            message: this.$t('trans0125')
           }
         ]
       },

@@ -156,13 +156,18 @@
       <div class="modal-content">
         <div class="help-dialog-content">
           <div>
-            <p>1. {{$t('trans0653')}}</p>
-            <p>2. {{$t('trans0160')}}</p>
-            <p>3. {{$t('trans0158')}}</p>
-            <p>4. {{$t('trans0175')}}</p>
-            <p>5. {{$t('trans0330')}}</p>
-            <p>6. {{$t('trans0372')}} <a :href="$t('trans0477')"
-                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}</p>
+            <p>{{$t('trans0653')}}</p>
+            <p>{{$t('trans0215')}}</p>
+            <p>{{$t('trans0651')}}</p>
+            <p>{{$t('trans0657')}}</p>
+            <p>{{$t('trans0216')}}</p>
+            <p>{{$t('trans0698')}}</p>
+            <p>{{$t('trans0661')}}</p>
+            <!-- <p>5. {{$t('trans0330')}}</p>
+            <p>6. {{$t('trans0372')}}
+              <a :href="$t('trans0477')"
+                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}
+            </p> -->
           </div>
         </div>
       </div>
@@ -343,8 +348,20 @@ export default {
 .help-dialog-content {
   width: 600px;
   p {
+    position: relative;
+    display: flex;
+    align-items: center;
     &:first-child {
       margin-top: 0;
+    }
+    &:before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: #333333;
+      border-radius: 50%;
+      margin-right: 10px;
     }
   }
 }

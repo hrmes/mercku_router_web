@@ -105,6 +105,9 @@ export default {
     },
     tips() {
       return marked(this.$t('trans0574'), { sanitize: true });
+    },
+    isConnected() {
+      return this.netStatus === CONSTANTS.WanNetStatus.connected;
     }
   },
   mounted() {
@@ -217,7 +220,7 @@ export default {
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
-            if (this.pageActive && this.needCheckUpgradable) {
+            if (this.isConnected && this.pageActive && this.needCheckUpgradable) {
               this.checkFrimwareLatest();
             }
           })
