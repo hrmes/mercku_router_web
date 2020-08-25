@@ -260,6 +260,7 @@ export default {
       this.$router.push({ path: '/dashboard/mesh/topo' });
     },
     addMeshNode(node) {
+      console.log(node);
       if (!node) {
         this.$toast(this.$t('trans0381'));
         return;
@@ -287,13 +288,11 @@ export default {
                   this.$http.getMeshNode().then(meshNodeRes => {
                     const meshNodes = meshNodeRes.data.result;
                     if (meshNodes.length) {
-                      // 获刚刚添加的节点的neighbors信息
-                      const { neighbors } = meshNodes.find(item => item.mac[Bands.b5g] === node.mac[Bands.b5g]);
-                      if (neighbors.length) {
-                        // 找到与主节点的rssi
-                        const { rssi } = neighbors.find(item => item.sn === meshNodes[0].sn);
-                        this.isWeakSignal = rssi < WeakSignal;
-                      }
+                      const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
+                      // 获取刚刚添加节点的neighbors信息
+                      const { neighbors } = meshNodes.find(item => item.mac[type] === node.mac[type]);
+                      const { rssi } = neighbors[0];
+                      this.isWeakSignal = rssi < WeakSignal;
                     }
                   });
                   clearInterval(this.checkTimer);
