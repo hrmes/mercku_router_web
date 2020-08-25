@@ -32,7 +32,7 @@ const launch = () => {
         ontimeout: () => {},
         onprogress: () => {},
         onfinally: () => {},
-        timeout: 90,
+        timeout: 60,
         showLoading: true
       },
       ...options
