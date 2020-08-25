@@ -189,7 +189,8 @@ const PageStatus = {
   add_success: 'add_success',
   add_fail: 'add_fail'
 };
-const WeakSignal = -65;
+const weakSignal = -65;
+
 export default {
   mixins: [RouterModel],
   data() {
@@ -292,7 +293,7 @@ export default {
                       // 获取刚刚添加节点的neighbors信息
                       const { neighbors } = meshNodes.find(item => item.mac[type] === node.mac[type]);
                       const { rssi } = neighbors[0];
-                      this.isWeakSignal = rssi < WeakSignal;
+                      this.isWeakSignal = rssi < weakSignal;
                     }
                   });
                   clearInterval(this.checkTimer);
