@@ -68,7 +68,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRuleVPN } from '@/util/util';
+import { getStringByte, isValidPassword } from '@/util/util';
 import { VPNType } from '@/util/constant';
 
 const MAX_FILE_SIZE = 1000 * 1000;
@@ -132,10 +132,10 @@ export default {
         password: [
           {
             rule: value => {
-              if (!value.length) {
+              if (!value) {
                 return true;
               }
-              return passwordRuleVPN.test(value);
+              return isValidPassword(value, 1, 64);
             },
             message: this.$t('trans0125')
           }

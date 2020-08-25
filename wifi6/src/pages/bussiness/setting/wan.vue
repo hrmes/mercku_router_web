@@ -222,7 +222,7 @@
 </template>
 <script>
 import * as CONSTANTS from '@/util/constant';
-import { getStringByte, passwordRuleVPN, ipRule, isMulticast, isLoopback, isValidMask, ipReg } from '@/util/util';
+import { getStringByte, isValidPassword, ipRule, isMulticast, isLoopback, isValidMask, ipReg } from '@/util/util';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -305,7 +305,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => passwordRuleVPN.test(value),
+            rule: value => isValidPassword(value, 1, 64),
             message: this.$t('trans0125')
           }
         ]

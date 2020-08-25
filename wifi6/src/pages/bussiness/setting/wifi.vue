@@ -179,7 +179,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from '@/util/util';
+import { getStringByte, isValidPassword } from '@/util/util';
 import { EncryptMethod, Bands } from '@/util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
 
@@ -223,7 +223,7 @@ export default {
         ],
         'b24g.password': [
           {
-            rule: value => passwordRule.test(value),
+            rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
         ],
@@ -239,7 +239,7 @@ export default {
         ],
         'b5g.password': [
           {
-            rule: value => passwordRule.test(value),
+            rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
         ]

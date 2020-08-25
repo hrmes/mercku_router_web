@@ -6,7 +6,6 @@ import 'intl/locale-data/jsonp/nl-NL';
 import 'intl/locale-data/jsonp/sr';
 
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
-export const passwordRuleVPN = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{1,64}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const hostReg = /^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*$/i;
 export const portReg = /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-5])$/;
@@ -14,6 +13,11 @@ export const IPAReg = /^10\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0
 export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 
+export const isValidPassword = (value, min = 8, max = 24) => {
+  const regStr = `^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_\`{|}~]{${min},${max}}$`;
+  const PasswordRule = new RegExp(regStr);
+  return PasswordRule.test(value);
+};
 export const getIpBefore = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
   return pattern.exec(ip)[0];
