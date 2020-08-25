@@ -123,6 +123,7 @@
              v-if="isAddSuccess">
           <div class="result-container__icon result-container__icon--success"></div>
           <p>{{$t('trans0192')}}</p>
+          <p v-if="isWeakSignal">{{$t('trsns0652')}}</p>
           <div class="button-container">
             <button @click="backMesh"
                     class="btn">{{$t('trans0233')}}</button>
@@ -180,6 +181,7 @@
 </template>
 <script>
 import RouterModel from '@/mixins/router-model';
+import { Bands } from '@/util/constant.js';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -187,6 +189,7 @@ const PageStatus = {
   add_success: 'add_success',
   add_fail: 'add_fail'
 };
+const WeakSignal = -65;
 export default {
   mixins: [RouterModel],
   data() {
@@ -200,7 +203,8 @@ export default {
       pageStatus: '',
       nodes: [],
       addTimeout: 90,
-      showHelpDialog: false
+      showHelpDialog: false,
+      isWeakSignal: false
     };
   },
   computed: {
@@ -280,6 +284,18 @@ export default {
                 if (res.data.result.status) {
                   this.$loading.close();
                   this.pageStatus = PageStatus.add_success;
+                  this.$http.getMeshNode().then(meshNodeRes => {
+                    const meshNodes = meshNodeRes.data.result;
+                    if (meshNodes.length) {
+                      // 获刚刚添加的节点的neighbors信息
+                      const { neighbors } = meshNodes.find(item => item.mac[Bands.b5g] === node.mac[Bands.b5g]);
+                      if (neighbors.length) {
+                        // 找到与主节点的rssi
+                        const { rssi } = neighbors.find(item => item.sn === meshNodes[0].sn);
+                        this.isWeakSignal = rssi < WeakSignal;
+                      }
+                    }
+                  });
                   clearInterval(this.checkTimer);
                 }
               });
