@@ -123,7 +123,7 @@
              v-if="isAddSuccess">
           <div class="result-container__icon result-container__icon--success"></div>
           <p>{{$t('trans0192')}}</p>
-          <p v-if="isWeakSignal">{{$t('trsns0652')}}</p>
+          <p v-if="isWeakSignal">{{$t('trans0652')}}</p>
           <div class="button-container">
             <button @click="backMesh"
                     class="btn">{{$t('trans0233')}}</button>
