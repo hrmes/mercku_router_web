@@ -16,6 +16,7 @@
           <button class="btn btn-large"
                   @click="updateTipsVisible(false)">{{$t('trans0467')}}</button>
         </div>
+        <p class="tips__text tips__text--add">{{tipsText}}</p>
       </div>
       <div class="steps-container"
            v-if="!showTips && !isAddSuccess && !isAddFail">
@@ -28,6 +29,7 @@
             <img src="@/assets/images/pic_add_plug_01.png"
                  alt="">
             <p class="step-item__tip">{{$t('trans0634')}}</p>
+            <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
             <div class="button-container">
               <button @click="updateTipsVisible(true)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
@@ -154,13 +156,18 @@
       <div class="modal-content">
         <div class="help-dialog-content">
           <div>
-            <p>1. {{$t('trans0653')}}</p>
-            <p>2. {{$t('trans0160')}}</p>
-            <p>3. {{$t('trans0158')}}</p>
-            <p>4. {{$t('trans0175')}}</p>
-            <p>5. {{$t('trans0330')}}</p>
-            <p>6. {{$t('trans0372')}} <a :href="$t('trans0477')"
-                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}</p>
+            <p>{{$t('trans0653')}}</p>
+            <p>{{$t('trans0215')}}</p>
+            <p>{{$t('trans0651')}}</p>
+            <p>{{$t('trans0657')}}</p>
+            <p>{{$t('trans0216')}}</p>
+            <p>{{$t('trans0698')}}</p>
+            <p>{{$t('trans0661')}}</p>
+            <!-- <p>5. {{$t('trans0330')}}</p>
+            <p>6. {{$t('trans0372')}}
+              <a :href="$t('trans0477')"
+                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}
+            </p> -->
           </div>
         </div>
       </div>
@@ -214,7 +221,10 @@ export default {
         result[key] = handler;
       });
       return result;
-    })()
+    })(),
+    tipsText() {
+      return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
+    },
     // perfer this style = =!
     // isScanning() {
     //   return this.pageStatus === PageStatus.scanning;
@@ -341,6 +351,19 @@ export default {
     &:first-child {
       margin-top: 0;
     }
+    &:before {
+      content: '';
+      position: relative;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: #333333;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
   }
 }
 .close {
@@ -383,6 +406,13 @@ export default {
     @media screen and(max-width:768px) {
       width: 100%;
     }
+  }
+
+  .tips__text--add {
+    color: #999;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
   }
 }
 .circle-animation {
@@ -450,6 +480,9 @@ export default {
       font-size: 14px;
       margin-top: 20px;
       text-align: center;
+    }
+    .step-item__tip--gray {
+      color: #999;
     }
     &.step-item--rich {
       img {
