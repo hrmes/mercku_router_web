@@ -26,6 +26,7 @@
             <m-form-item prop="current"
                          ref="current">
               <m-input class="input"
+                       ref="macInput"
                        @input="format"
                        v-model="mac.current"
                        :placeholder="$t('trans0321')"></m-input>
@@ -75,12 +76,26 @@ export default {
       return mac.replace(/:/g, '');
     },
     format() {
-      console.log(this.mac.current);
+      const cursorPosition = this.$refs.macInput.getCursorPosition();
+
+      const beforeLength = this.mac.current.length;
       const mac = this.removeColonOfMac(this.mac.current);
       if (mac.length >= 2) {
-        this.mac.current = mac.match(/.{1,2}/g).join(':');
+        const result = mac.match(/.{1,2}/g).join(':');
+
+        const afterLength = result.length;
+        let diff = afterLength - beforeLength;
+        this.$nextTick(() => {
+          this.mac.current = result;
+          this.$nextTick(() => {
+            if (diff < 0 && afterLength % 2 !== 0) {
+              diff += 1;
+            }
+            const position = cursorPosition + diff;
+            this.$refs.macInput.setCursorPosition(position);
+          });
+        });
       }
-      console.log(this.mac.current);
     },
     setSelected(val) {
       this.isDefault = val;

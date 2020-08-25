@@ -110,7 +110,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from '@/util/util';
+import { getStringByte, isValidPassword } from '@/util/util';
 import { EncryptMethod } from '@/util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
 
@@ -165,7 +165,7 @@ export default {
         ],
         password: [
           {
-            rule: value => passwordRule.test(value),
+            rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
         ]

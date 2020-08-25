@@ -87,7 +87,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from '@/util/util';
+import { getStringByte, isValidPassword } from '@/util/util';
 
 export default {
   data() {
@@ -120,7 +120,7 @@ export default {
         ],
         password: [
           {
-            rule: value => passwordRule.test(value),
+            rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
         ]
@@ -129,7 +129,7 @@ export default {
       form2Rules: {
         admin_password: [
           {
-            rule: value => passwordRule.test(value),
+            rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
         ]
