@@ -4,18 +4,17 @@
          v-if="visible">
       <img :src="url"
            alt="">
-      <!-- <LoadingNew :size="60" /> -->
+      <div v-if="title"
+           class="title">{{title}}</div>
+      <div class="template"
+           v-if="template"
+           v-html="template"></div>
     </div>
   </transition>
 
 </template>
 <script>
-import LoadingNew from './loading-new.vue';
-
 export default {
-  components: {
-    LoadingNew
-  },
   data() {
     const { name } = process.env.CUSTOMER_CONFIG.loading;
     const url = require(`@/assets/images/loading/${name}`);
@@ -39,15 +38,11 @@ export default {
   z-index: 1001;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   img {
     width: 120px;
-  }
-  .inner-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
   }
   &.loading-enter {
     opacity: 0;
@@ -59,19 +54,13 @@ export default {
     opacity: 0;
     transition: all 0.3s ease-out;
   }
-
-  .inner {
-    text-align: center;
+  .title {
+    font-size: 24px;
+    margin-top: 10px;
     color: #fff;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    .title {
-      font-size: 24px;
-      margin-top: 10px;
-      color: #fff;
-    }
+  }
+  .template {
+    color: #fff;
   }
 }
 </style>
