@@ -309,16 +309,4 @@ function genData(array, fullLine = false) {
     lines
   };
 }
-
-// function checkWeakSignal(array) {
-//   let routers = JSON.parse(JSON.stringify(array));
-//   const offline = [];
-//   routers = findOfflineNode(routers, offline);
-
-//   routers = addConnection(routers);
-//   const gateway = findGateway(routers);
-
-//   const RouterDistincted = distinct(routers, gateway);
-//   console.log(RouterDistincted);
-// }
 export default genData;
