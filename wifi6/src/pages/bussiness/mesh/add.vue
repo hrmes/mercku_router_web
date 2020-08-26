@@ -304,6 +304,10 @@ export default {
                             }
                           }
                         }
+                        // let neighbor;
+                        // const node = meshNodes.find(n => !!n.neighbors.find(nn => { if (nn.sn === sn) { neighbor = nn; return true; } return false; }));
+                        // const { rssi } = neighbors;
+                        // this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
                       }
                     }
                   });
