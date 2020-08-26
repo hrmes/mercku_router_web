@@ -189,7 +189,7 @@ const PageStatus = {
   add_success: 'add_success',
   add_fail: 'add_fail'
 };
-const weakSignal = -65;
+
 const checkWeakSignal = rssi => rssi < -65;
 export default {
   mixins: [RouterModel],
@@ -291,15 +291,20 @@ export default {
                     if (meshNodes.length) {
                       const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
                       // 获取刚添加的节点的sn
-                      const { sn } = meshNodes.find(item => item.mac[type] === node.mac[type]);
-                      meshNodes.forEach(mNode => {
-                        if (mNode.neighbors) {
-                          const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
-                          if (neighborNood) {
-                            this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
+                      const meshNode = meshNodes.find(item => item.mac[type] === node.mac[type]);
+                      if (meshNode) {
+                        const { sn } = meshNode;
+                        for (let i = 0; i < meshNodes.length; i += 1) {
+                          const mNode = meshNodes[i];
+                          if (mNode.sn !== sn && mNode.neighbors) {
+                            const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
+                            if (neighborNood) {
+                              this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
+                              break;
+                            }
                           }
                         }
-                      });
+                      }
                     }
                   });
                   clearInterval(this.checkTimer);
