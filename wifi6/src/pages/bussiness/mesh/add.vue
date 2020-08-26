@@ -292,25 +292,18 @@ export default {
                       const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
                       // 获取刚添加的节点的sn
                       const { sn } = meshNodes.find(item => item.mac[type] === node.mac[type]);
-                      for (let i = 0; i < meshNodes.length; i++) {
-                        const mNode = meshNodes[i];
-                        if (mNode.sn !== sn && mNode.neighbors) {
-                          const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
-                          if (neighborNood) {
-                            this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
-                            break;
+                      if (sn) {
+                        for (let i = 0; i < meshNodes.length; i++) {
+                          const mNode = meshNodes[i];
+                          if (mNode.sn !== sn && mNode.neighbors) {
+                            const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
+                            if (neighborNood) {
+                              this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
+                              break;
+                            }
                           }
                         }
                       }
-                      // meshNodes.forEach(mNode => {
-                      //   if (mNode.sn !== sn && mNode.neighbors) {
-                      //     const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
-                      //     if (neighborNood) {
-                      //       this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
-                      //       return false;
-                      //     }
-                      //   }
-                      // });
                     }
                   });
                   clearInterval(this.checkTimer);
