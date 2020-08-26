@@ -290,30 +290,16 @@ export default {
                     const meshNodes = meshNodeRes.data.result;
                     if (meshNodes.length) {
                       const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
-                      // 获取刚刚添加的节点
-                      const meshNodeAdded = meshNodes.find(item => item.mac[type] === node.mac[type]);
-                      // 找到网关
-                      const gateWay = meshNodes.find(item => item.is_gw === true);
-                      let pnode = null;
-                      // 找到刚刚添加的节点的邻居，比较信息
-                      if (meshNodeAdded.neighbors) {
-                        meshNodeAdded.neighbors.forEach(item => {
-                          // 比较刚添加节点与临近节点
-                          if (checkWeakSignal(item.rssi)) {
-                            this.isWeakSignal = true;
-                            return;
+                      // 获取刚添加的节点的sn
+                      const { sn } = meshNodes.find(item => item.mac[type] === node.mac[type]);
+                      meshNodes.forEach(mNode => {
+                        if (mNode.neighbors) {
+                          const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
+                          if (neighborNood) {
+                            this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
                           }
-                          do {
-                            pnode = meshNodes.find(mNode => mNode.sn === item.sn);
-                            pnode.neighbors.forEach(pItem => {
-                              // 比较刚添加节点与临近节点
-                              if (pItem.sn !== meshNodeAdded.sn && checkWeakSignal(pItem.rssi)) {
-                                this.isWeakSignal = true;
-                              }
-                            });
-                          } while (pnode.sn === gateWay.sn);
-                        });
-                      }
+                        }
+                      });
                     }
                   });
                   clearInterval(this.checkTimer);
