@@ -16,7 +16,7 @@
     </div>
 
     <div class="nav-wrap nav-wrap--laptop">
-      <ul class="nav"
+      <ul class="nav reset-ul"
           v-if="navVisible">
         <li class="nav-item"
             :key="menu.key"
@@ -29,7 +29,7 @@
           </div>
 
           <ul v-if="menu.children"
-              class="nav-item-child"
+              class="nav-item-child reset-ul"
               :class="{'show':menu.showChild}">
             <li class="nav-child__text"
                 :key="child.key"
@@ -52,7 +52,7 @@
 
     <div class="nav-wrap nav-wrap--mobile"
          v-show="mobileNavVisible">
-      <ul class="nav">
+      <ul class="nav reset-ul">
         <li class="nav-item"
             :key="menu.key"
             @click="showMobileMenu(menu)"
@@ -67,7 +67,7 @@
                       v-on:enter="enter"
                       v-on:leave="leave">
             <ul v-if="menu.children"
-                class="nav-item-child"
+                class="nav-item-child reset-ul"
                 v-show="menu.selected">
               <li class="nav-child__text"
                   :key="child.key"
@@ -101,7 +101,7 @@
                 :class="{'down':!showPopup,'up':showPopup}"></span>
         </div>
         <transition name="popup">
-          <ul class="popup"
+          <ul class="popup reset-ul"
               v-show="showPopup">
             <li :key="lang.value"
                 v-for="lang in Languages"
@@ -114,7 +114,7 @@
         <span @click="setMobleLangVisible()"
               class="menu-icon language"
               :class="[$i18n.locale]"></span>
-        <ul class="i18n-mobile"
+        <ul class="i18n-mobile reset-ul"
             v-show="mobileI18nVisible">
           <li :key="lang.value"
               v-for="lang in Languages"
@@ -370,10 +370,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-ul {
-  margin: 0;
-  padding: 0;
-}
 .header-container {
   height: 65px;
   align-items: center;

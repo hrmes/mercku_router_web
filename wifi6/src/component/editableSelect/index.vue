@@ -16,7 +16,7 @@
               :class="{'open':opened,'close':!opened}"></span>
       </div>
       <transition name="select">
-        <ul class="select-popup"
+        <ul class="select-popup reset-ul"
             v-show="this.opened">
           <li :key="option"
               :class="{'selected':selected === option}"
@@ -120,10 +120,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-ul {
-  margin: 0;
-  padding: 0;
-}
 .select-container {
   &.small {
     .select {

@@ -36,7 +36,7 @@
             <div v-if="installTimeout"
                  class="mk-upgrade-result__description">
               <div class="mk-upgrade-result__title">{{translate('trans0808')}}</div>
-              <ul class="mk-upgrade-reasons">
+              <ul class="mk-upgrade-reasons reset-ul">
                 <li class="mk-upgrade-reason">{{translate('trans0807')}}</li>
                 <li class="mk-upgrade-reason">{{translate('trans0806')}}</li>
               </ul>

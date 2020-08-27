@@ -144,7 +144,7 @@ export default {
       this.showChangelogModal = false;
     },
     check(node) {
-      this.nodes.map(item => {
+      this.nodes.forEach(item => {
         item.checked = false;
       });
       node.checked = true;
@@ -185,7 +185,9 @@ export default {
               checked: false
             };
           });
-          this.nodes[0].checked = true;
+          if (this.nodes.length > 1) {
+            this.nodes[0].checked = true;
+          }
           // 不弹出升级节点提示框
           // if (containGW && this.nodes.length > 1) {
           //   this.$dialog.confirm({
