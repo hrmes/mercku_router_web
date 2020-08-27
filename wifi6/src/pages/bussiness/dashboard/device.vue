@@ -32,7 +32,7 @@
       </div>
       <div class="table-inner">
         <div class="table-head">
-          <ul>
+          <ul class="reset-ul">
             <li class="column-name">
               <div class="column-check-box"
                    v-if="isOfflineDevices">
@@ -67,7 +67,8 @@
           <div v-show="!showLoading">
             <ul v-for="(row,i) in devicesMap[id]"
                 :key='i'
-                :class="{'expand':row.expand}">
+                :class="{'expand':row.expand}"
+                class="reset-ul">
               <li class="column-name"
                   @click.stop="expandTable(row)">
 
