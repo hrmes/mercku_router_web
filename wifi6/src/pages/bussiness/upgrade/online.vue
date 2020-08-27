@@ -185,7 +185,7 @@ export default {
               checked: false
             };
           });
-          if (this.nodes.length > 1) {
+          if (this.nodes.length > 0) {
             this.nodes[0].checked = true;
           }
           // 不弹出升级节点提示框
