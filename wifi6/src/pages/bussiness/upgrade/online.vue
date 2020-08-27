@@ -144,10 +144,14 @@ export default {
       this.showChangelogModal = false;
     },
     check(node) {
-      this.nodes.forEach(item => {
-        item.checked = false;
-      });
-      node.checked = true;
+      if (node.checked) {
+        node.checked = false;
+      } else {
+        this.nodes.forEach(item => {
+          item.checked = false;
+        });
+        node.checked = true;
+      }
     },
     showChangelog(node) {
       this.showChangelogModal = true;
