@@ -144,10 +144,14 @@ export default {
       this.showChangelogModal = false;
     },
     check(node) {
-      this.nodes.forEach(item => {
-        item.checked = false;
-      });
-      node.checked = true;
+      if (node.checked) {
+        node.checked = false;
+      } else {
+        this.nodes.forEach(item => {
+          item.checked = false;
+        });
+        node.checked = true;
+      }
     },
     showChangelog(node) {
       this.showChangelogModal = true;
@@ -185,7 +189,7 @@ export default {
               checked: false
             };
           });
-          if (this.nodes.length > 1) {
+          if (this.nodes.length > 0) {
             this.nodes[0].checked = true;
           }
           // 不弹出升级节点提示框
