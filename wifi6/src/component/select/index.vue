@@ -124,10 +124,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-ul {
-  margin: 0;
-  padding: 0;
-}
 .select-container {
   width: 340px;
   .select {
