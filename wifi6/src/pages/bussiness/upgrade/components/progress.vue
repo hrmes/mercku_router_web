@@ -280,6 +280,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  ul {
+    margin: 0;
+    padding: 0;
+  }
   &.upgrade-enter {
     opacity: 0;
   }

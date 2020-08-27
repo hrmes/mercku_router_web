@@ -370,6 +370,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+ul {
+  margin: 0;
+  padding: 0;
+}
 .header-container {
   height: 65px;
   align-items: center;

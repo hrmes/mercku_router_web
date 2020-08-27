@@ -172,6 +172,10 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
+ul {
+  margin: 0;
+  padding: 0;
+}
 .time-picker-panel {
   width: 160px;
   height: 36px;

@@ -144,7 +144,10 @@ export default {
       this.showChangelogModal = false;
     },
     check(node) {
-      node.checked = !node.checked;
+      this.nodes.map(item => {
+        item.checked = false;
+      });
+      node.checked = true;
     },
     showChangelog(node) {
       this.showChangelogModal = true;
@@ -182,20 +185,21 @@ export default {
               checked: false
             };
           });
-
-          if (containGW && this.nodes.length > 1) {
-            this.$dialog.confirm({
-              okText: this.$t('trans0024'),
-              cancelText: this.$t('trans0025'),
-              message: this.$t('trans0669'),
-              callback: {
-                ok: () => {
-                  // 选中第一个节点
-                  this.nodes.filter(n => !n.isGW)[0].checked = true;
-                }
-              }
-            });
-          }
+          this.nodes[0].checked = true;
+          // 不弹出升级节点提示框
+          // if (containGW && this.nodes.length > 1) {
+          //   this.$dialog.confirm({
+          //     okText: this.$t('trans0024'),
+          //     cancelText: this.$t('trans0025'),
+          //     message: this.$t('trans0669'),
+          //     callback: {
+          //       ok: () => {
+          //         // 选中第一个节点
+          //         this.nodes.filter(n => !n.isGW)[0].checked = true;
+          //       }
+          //     }
+          //   });
+          // }
         })
         .catch(err => {
           this.$loading.close();
@@ -236,7 +240,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 .page-content {
   align-items: flex-start;

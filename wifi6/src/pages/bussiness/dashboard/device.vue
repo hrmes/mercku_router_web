@@ -689,6 +689,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+ul {
+  margin: 0;
+  padding: 0;
+}
 .device-container {
   padding-bottom: 50px;
   border-radius: 8px;
