@@ -995,6 +995,7 @@ export default {
           .tab {
             width: auto;
             font-size: 14px;
+            min-width: 100px;
           }
         }
       }
@@ -1043,7 +1044,7 @@ export default {
                 flex: auto;
                 max-width: 200px;
                 span {
-                  // max-width: 200px;
+                  max-width: 100px;
                   // overflow: hidden;
                   // text-overflow: ellipsis;
                 }
