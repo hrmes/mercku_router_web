@@ -261,7 +261,6 @@ export default {
       this.$router.push({ path: '/dashboard/mesh/topo' });
     },
     addMeshNode(node) {
-      console.log(node);
       if (!node) {
         this.$toast(this.$t('trans0381'));
         return;
@@ -272,7 +271,9 @@ export default {
       this.$loading.open({ template });
       // 超时90秒，间隔3秒
       this.$http
-        .addMeshNode({ node })
+        .addMeshNode({ node }, {
+          hideToast: true
+        })
         .then(() => {
           let timeout = this.addTimeout;
           this.checkTimer = setInterval(() => {
@@ -316,7 +317,7 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
-          this.forward2step(2, false);
+          this.pageStatus = PageStatus.add_fail;
         });
     },
     forward2step(index, status = true) {
@@ -513,7 +514,7 @@ export default {
     }
     &.step-item--rich {
       img {
-        width: 340px;
+        width: 300px;
         display: block;
         margin: 0 auto;
       }
