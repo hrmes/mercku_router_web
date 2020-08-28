@@ -19,11 +19,11 @@
         <input autocomplete="new-password"
                @focus="focus"
                @blur="blur"
+               @input="onInput"
                ref="input"
                :disabled="disabled"
                v-model="inputValue"
                :placeholder="placeholder"
-               @input="onInput"
                :type="inputType"
                :class="{'has-icon':isPwdInput,margin:addonBefore}">
       </div>
@@ -89,8 +89,7 @@ export default {
       }
     },
     onInput() {
-      const inputValue = this.inputValue.trim();
-      this.$emit('input', inputValue);
+      this.$emit('input', this.inputValue);
     },
     blur() {
       this.onBlur && this.onBlur();
