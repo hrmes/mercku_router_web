@@ -351,7 +351,7 @@ export default {
         this.$http
           .updateMeshNode({
             node_id: router.sn,
-            data: { name }
+            data: { name: name.trim() }
           })
           .then(() => {
             router.name = name;

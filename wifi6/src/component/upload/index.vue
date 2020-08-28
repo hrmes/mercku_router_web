@@ -129,7 +129,6 @@ export default {
     },
     upload(files) {
       this.files = files;
-      console.log(this.files);
       if (this.beforeUpload && !this.beforeUpload(this.files)) {
         this.status = UploadStatus.fail;
         return false;
