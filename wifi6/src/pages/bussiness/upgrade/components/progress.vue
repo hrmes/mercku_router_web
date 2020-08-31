@@ -356,6 +356,7 @@ export default {
           color: #333;
           line-height: 16px;
           height: 16px;
+          margin-top: 10px;
         }
         .mk-upgrade-node__sn {
           font-size: 12px;
