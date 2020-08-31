@@ -253,11 +253,16 @@ export default {
                 .getRouter(null, {
                   noRedirect: true
                 })
-                .then(() => {
+                .then(res => {
                   responsed = true;
+                  const node = res.data.result;
+                  if (compareVersion(this.preVersion, node.version.current)) {
+                    this.status = Statuses.install_success;
+                  } else {
+                    this.status = Statuses.install_fail;
+                  }
                   clearInterval(timer);
                   timer = null;
-                  this.status = Statuses.install_success;
                 })
                 .catch(() => {
                   responsed = true;
