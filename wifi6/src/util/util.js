@@ -13,9 +13,11 @@ export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 
 export const isValidPassword = (value, min = 8, max = 24) => {
-  const regStr = `^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_\`{|}~]{${min},${max}}$`;
-  const passwordRule = new RegExp(regStr);
-  return passwordRule.test(value);
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]*$/;
+  return passwordRuleReg.test(value);
 };
 export const getIpBefore = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;

@@ -24,6 +24,8 @@
           <div class="mk-upgrade-node">
             <img class="mk-upgrade-node__img"
                  :src="getNodeImage(node)"
+                 <<<<<<<
+                 HEAD
                  alt="" />
             <div class="mk-upgrade-node__name">{{ node.name }}</div>
             <div class="mk-upgrade-node__sn">
@@ -32,6 +34,13 @@
             <div class="mk-upgrade-node__version">
               {{ translate('trans0342') }}：{{ node.version.current }}
             </div>
+            =======
+            alt="">
+            <div class="mk-upgrade-node__name">{{node.name}}</div>
+            <div class="mk-upgrade-node__sn">{{translate('trans0252')}}{{node.sn}}</div>
+            <div class="mk-upgrade-node__version">
+              {{translate('trans0342')}}：{{node.version.current}}</div>
+            >>>>>>> develop
           </div>
 
           <div class="mk-upgrade-result">
@@ -101,7 +110,9 @@ export default {
       node: {
         sn: '030000000000000',
         name: '',
-        version: '1.0.0'
+        version: {
+          current: '1.0.0'
+        }
       },
       preStatus: '',
       preVersion: '',
@@ -206,10 +217,18 @@ export default {
         })
         .then(res => {
           const nodes = res.data.result;
+          if (!nodes) {
+            if (this.pageActive) {
+              this.timer = setTimeout(() => {
+                this.checkNodeStatus();
+              }, 5000);
+            }
+          }
           const [node] = nodes.filter(n => n.sn === this.node.sn);
           if (!node) {
             return;
           }
+          this.node = node;
           // 状态已经变更
           if (node.status !== this.preStatus) {
             // 前一个状态是downloading，但是现在不是安装中，表示下载失败了
@@ -258,11 +277,17 @@ export default {
                 .getRouter(null, {
                   noRedirect: true
                 })
-                .then(() => {
+                .then(res => {
                   responsed = true;
+                  const node = res.data.result;
+                  this.node = node;
+                  if (compareVersion(this.preVersion, node.version.current)) {
+                    this.status = Statuses.install_success;
+                  } else {
+                    this.status = Statuses.install_fail;
+                  }
                   clearInterval(timer);
                   timer = null;
-                  this.status = Statuses.install_success;
                 })
                 .catch(() => {
                   responsed = true;
@@ -356,6 +381,7 @@ export default {
           color: #333;
           line-height: 16px;
           height: 16px;
+          margin-top: 10px;
         }
         .mk-upgrade-node__sn {
           font-size: 12px;
