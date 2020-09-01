@@ -127,6 +127,8 @@ export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
   }
+  // 升级版本，当前版本， 升级版本大于当前版本返回true
+  // console.log(semver.gt('9.9.0', '0.8.0-rc.99'));
   return semver.gt(version2, version1);
 };
 
@@ -180,7 +182,10 @@ export const formatNetworkData = value => {
       unit: units[index]
     };
   }
-  return { value: '-', unit: units[0] };
+  return {
+    value: '-',
+    unit: units[0]
+  };
 };
 
 export const formatMac = mac => {
@@ -205,7 +210,10 @@ export const formatSpeed = value => {
       unit: units[index]
     };
   }
-  return { value: '-', unit: units[0] };
+  return {
+    value: '-',
+    unit: units[0]
+  };
 };
 
 export const formatBandWidth = value => {

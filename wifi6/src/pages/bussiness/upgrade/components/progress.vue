@@ -10,35 +10,39 @@
                @click="close"
                v-if="upgradeCompleted"
                src="@/assets/images/icon/ic_close_gray@2x.png"
-               alt="">
+               alt="" />
         </div>
         <div class="mk-upgrade-content">
-
-          <div class="mk-upgrade-content__title">{{title}}</div>
+          <div class="mk-upgrade-content__title">{{ title }}</div>
           <div v-if="upgradeDescriptionVisible"
                class="mk-upgrade-content__description">
             <img src="@/assets/images/icon/ic_warning2@2x.png"
-                 alt="">
-            <span>{{translate('trans0213')}}</span>
+                 alt="" />
+            <span>{{ translate('trans0213') }}</span>
           </div>
 
           <div class="mk-upgrade-node">
             <img class="mk-upgrade-node__img"
                  :src="getNodeImage(node)"
-                 alt="">
-            <div class="mk-upgrade-node__name">{{node.name}}</div>
-            <div class="mk-upgrade-node__sn">{{translate('trans0252')}}{{node.sn}}</div>
-            <div class="mk-upgrade-node__version"
-                 v-if="upgradeCompleted">{{translate('trans0342')}}：{{node.version.current}}</div>
+                 alt="" />
+            <div class="mk-upgrade-node__name">{{ node.name }}</div>
+            <div class="mk-upgrade-node__sn">
+              {{ translate('trans0252') }}{{ node.sn }}
+            </div>
+            <div class="mk-upgrade-node__version">
+              {{ translate('trans0342') }}：{{ node.version.current }}
+            </div>
           </div>
 
           <div class="mk-upgrade-result">
             <div v-if="installTimeout"
                  class="mk-upgrade-result__description">
-              <div class="mk-upgrade-result__title">{{translate('trans0808')}}</div>
+              <div class="mk-upgrade-result__title">
+                {{ translate('trans0808') }}
+              </div>
               <ul class="mk-upgrade-reasons reset-ul">
-                <li class="mk-upgrade-reason">{{translate('trans0807')}}</li>
-                <li class="mk-upgrade-reason">{{translate('trans0806')}}</li>
+                <li class="mk-upgrade-reason">{{ translate('trans0807') }}</li>
+                <li class="mk-upgrade-reason">{{ translate('trans0806') }}</li>
               </ul>
             </div>
             <div class="mk-upgrade-result__img">
@@ -47,24 +51,25 @@
                          v-if="status === Statuses.installing"></m-spinner>
               <m-loading :size="30"
                          v-if="status === Statuses.downloading"></m-loading>
-              <img v-if="status === Statuses.download_fail || status === Statuses.install_fail"
+              <img v-if="
+                  status === Statuses.download_fail ||
+                    status === Statuses.install_fail
+                "
                    src="@/assets/images/icon/ic_default_error.png"
-                   alt="">
+                   alt="" />
               <img v-if="status === Statuses.install_success"
                    src="@/assets/images/icon/ic_default_success.png"
-                   alt="">
+                   alt="" />
               <img v-if="status === Statuses.install_timeout"
                    src="@/assets/images/icon/ic_hint.png"
-                   alt="">
+                   alt="" />
             </div>
-            <div class="mk-upgrade-result__status">{{translate(status)}}</div>
+            <div class="mk-upgrade-result__status">{{ translate(status) }}</div>
           </div>
         </div>
-
       </div>
     </div>
   </transition>
-
 </template>
 <script>
 import { translate } from '@/i18n';
