@@ -167,7 +167,7 @@ export default {
         .then(resArr => {
           this.$loading.close();
           const nodes = resArr[0].data.result;
-          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
+          // const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
 
           this.requestResult.complete = true;
 
@@ -176,19 +176,10 @@ export default {
             return compareVersion(current, latest);
           };
 
-          let containGW = false;
-          this.nodes = nodes.filter(filter).map(node => {
-            let isGW = false;
-            if (node.sn === gw.sn) {
-              isGW = true;
-              containGW = true;
-            }
-            return {
+          this.nodes = nodes.filter(filter).map(node => ({
               ...node,
-              isGW,
               checked: false
-            };
-          });
+            }));
           if (this.nodes.length > 0) {
             this.nodes[0].checked = true;
           }
