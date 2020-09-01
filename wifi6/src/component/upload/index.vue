@@ -27,7 +27,8 @@
                   class="percent">{{width}}</span>
           </span>
           <div class="packageinfo"
-               v-if="uplodaSuccess && packageInfo.product && packageInfo.version">
+               v-if="uplodaSuccess">
+            <!--  && packageInfo.product && packageInfo.version -->
             <span class="product">{{packageInfo.product}}</span>
             <span class="version">{{packageInfo.version}}</span>
           </div>
