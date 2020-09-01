@@ -858,6 +858,7 @@ export default {
               display: flex;
               flex-direction: column;
               align-items: flex-start;
+              justify-content: center;
             }
             .mac {
               display: none;
@@ -1148,6 +1149,7 @@ export default {
               }
               .ip {
                 flex-direction: row;
+                justify-content: flex-start;
               }
               .mac {
                 display: flex;
