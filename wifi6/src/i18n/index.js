@@ -7,8 +7,9 @@ import codeMap from './code-map.json';
 Vue.use(VueI18n);
 
 const Locales = {};
-const numberFormats = {};
+const NumberFormats = {};
 const defaultKey = 'decimal';
+
 const files = require.context(
   `./${process.env.CUSTOMER_CONFIG.id}`,
   false,
@@ -19,7 +20,7 @@ files.keys().forEach(key => {
   const matched = key.match(/([A-Za-z0-9-_]+)\./i);
   if (matched && matched.length > 1) {
     const locale = matched[1];
-    numberFormats[locale] = {
+    NumberFormats[locale] = {
       [defaultKey]: {
         style: 'decimal'
       }
@@ -28,7 +29,7 @@ files.keys().forEach(key => {
     Locales[locale] = source;
   }
 });
-console.log(numberFormats);
+
 Object.keys(codeMap).forEach(code => {
   Object.keys(Locales).forEach(locale => {
     Locales[locale][code] = Locales[locale][codeMap[code]];
@@ -44,7 +45,7 @@ Object.keys(extra).forEach(ex => {
 export const i18n = new VueI18n({
   locale: localStorage.getItem('lang'),
   messages: Locales,
-  numberFormats
+  numberFormats: NumberFormats
 });
 export function changeLanguage(lang) {
   if (!Object.keys(i18n.messages).includes(lang)) {
