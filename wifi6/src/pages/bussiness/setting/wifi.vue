@@ -306,6 +306,8 @@ export default {
         }
       }
       if (validResult1 && validResult2) {
+        this.form.b24g.ssid = this.form.b24g.ssid.trim();
+        this.form.b5g.ssid = this.form.b5g.ssid.trim();
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),

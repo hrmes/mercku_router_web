@@ -561,6 +561,7 @@ export default {
     },
     updateDeviceName() {
       if (this.$refs.form.validate()) {
+        this.form.name = this.form.name.trim();
         const params = {
           device: {
             name: this.form.name,

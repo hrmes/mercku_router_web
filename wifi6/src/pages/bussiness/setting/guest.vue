@@ -174,6 +174,7 @@ export default {
   },
   computed: {
     ssid_5g() {
+      this.form.ssid = this.form.ssid.trim();
       return `${this.form.ssid}-5G`;
     },
     hasStatus() {
@@ -183,6 +184,7 @@ export default {
       let params = {};
       // 新建guest wifi
       if (this.form.enabled) {
+        this.form.ssid = this.form.ssid.trim();
         params = {
           id: this.form.id,
           enabled: this.form.enabled,

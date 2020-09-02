@@ -186,6 +186,7 @@ export default {
       return this.$route.params.id ? 'update' : 'add';
     },
     formParams() {
+      this.form.name = this.form.name.trim();
       const params = {
         id: this.form.id,
         name: this.form.name,

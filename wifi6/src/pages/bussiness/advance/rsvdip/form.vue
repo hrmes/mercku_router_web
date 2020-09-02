@@ -207,6 +207,7 @@ export default {
       }
       if (this.$refs.form.validate()) {
         this.$loading.open();
+        this.form.name = this.form.name.trim();
         this.$http[fetchMethod]({
           ...this.form,
           mac: this.form.mac.split(':').join('')

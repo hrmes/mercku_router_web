@@ -92,7 +92,6 @@ export default {
       this.$emit('input', this.inputValue);
     },
     blur() {
-      this.inputValue = this.inputValue.trim();
       this.onBlur && this.onBlur();
       this.$parent.$emit('blur');
     },
