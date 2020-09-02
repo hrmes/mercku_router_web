@@ -24,23 +24,11 @@
           <div class="mk-upgrade-node">
             <img class="mk-upgrade-node__img"
                  :src="getNodeImage(node)"
-                 <<<<<<<
-                 HEAD
                  alt="" />
-            <div class="mk-upgrade-node__name">{{ node.name }}</div>
-            <div class="mk-upgrade-node__sn">
-              {{ translate('trans0252') }}{{ node.sn }}
-            </div>
-            <div class="mk-upgrade-node__version">
-              {{ translate('trans0342') }}：{{ node.version.current }}
-            </div>
-            =======
-            alt="">
             <div class="mk-upgrade-node__name">{{node.name}}</div>
             <div class="mk-upgrade-node__sn">{{translate('trans0252')}}{{node.sn}}</div>
             <div class="mk-upgrade-node__version">
               {{translate('trans0342')}}：{{node.version.current}}</div>
-            >>>>>>> develop
           </div>
 
           <div class="mk-upgrade-result">

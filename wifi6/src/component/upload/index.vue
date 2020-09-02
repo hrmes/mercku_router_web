@@ -54,8 +54,7 @@
 </template>
 <script>
 import { UploadStatus } from '@/util/constant';
-import { toLocaleNumber } from '@/util/util';
-import { i18n } from '@/i18n';
+import { toLocaleNumber } from '@/i18n';
 
 export default {
   props: {

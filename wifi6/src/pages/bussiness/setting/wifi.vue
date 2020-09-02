@@ -314,7 +314,7 @@ export default {
             ok: () => {
               const b24g = {
                 hidden: this.form.b24g.hidden,
-                ssid: this.form.b24g.ssid,
+                ssid: this.form.b24g.ssid.trim(),
                 password: this.form.b24g.password,
                 encrypt: this.form.b24g.encrypt,
                 channel: {
@@ -327,7 +327,7 @@ export default {
                 : this.form.b5g;
               const b5g = {
                 hidden: formBand.hidden,
-                ssid: formBand.ssid,
+                ssid: formBand.ssid.trim(),
                 password: formBand.password,
                 encrypt: formBand.encrypt,
                 channel: {

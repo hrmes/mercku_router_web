@@ -190,7 +190,7 @@ export default {
           smart_connect: this.form.smart_connect,
           bands: {
             '2.4G': {
-              ssid: this.form.ssid,
+              ssid: this.form.ssid.trim(),
               password: this.form.password,
               encrypt: this.form.encrypt
             },
