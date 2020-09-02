@@ -1,9 +1,10 @@
 import semver from 'semver';
-import intl from 'intl';
-import 'intl/locale-data/jsonp/en-US';
-import 'intl/locale-data/jsonp/de-DE';
-import 'intl/locale-data/jsonp/nl-NL';
-import 'intl/locale-data/jsonp/sr';
+import { i18n } from '@/i18n';
+// import intl from 'intl';
+// import 'intl/locale-data/jsonp/en-US';
+// import 'intl/locale-data/jsonp/de-DE';
+// import 'intl/locale-data/jsonp/nl-NL';
+// import 'intl/locale-data/jsonp/sr';
 
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const hostReg = /^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*$/i;
@@ -129,8 +130,6 @@ export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
   }
-  // 升级版本，当前版本， 升级版本大于当前版本返回true
-  // console.log(semver.gt('9.9.0', '0.8.0-rc.99'));
   return semver.gt(version2, version1);
 };
 
@@ -276,10 +275,16 @@ export const toLocaleNumber = (
 ) => {
   // 有时候传入是不是数字，是占位符字符串
   if (typeof number === 'number') {
-    return intl.NumberFormat.call(null, locale, {
+    // return intl.NumberFormat.call(null, locale, {
+    //   minimumFractionDigits,
+    //   maximumFractionDigits
+    // }).format(number);
+    return i18n.n(number, {
+      key: 'decimal',
+      locale,
       minimumFractionDigits,
       maximumFractionDigits
-    }).format(number);
+    });
   }
   return number;
 };

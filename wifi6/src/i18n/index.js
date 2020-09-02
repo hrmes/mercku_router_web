@@ -3,6 +3,7 @@ import VueI18n from 'vue-i18n';
 
 import extra from './extra.json';
 import codeMap from './code-map.json';
+import numberFormats from './numberFormats';
 
 Vue.use(VueI18n);
 
@@ -37,7 +38,8 @@ Object.keys(extra).forEach(ex => {
 
 export const i18n = new VueI18n({
   locale: localStorage.getItem('lang'),
-  messages: Locales
+  messages: Locales,
+  numberFormats
 });
 export function changeLanguage(lang) {
   if (!Object.keys(i18n.messages).includes(lang)) {
