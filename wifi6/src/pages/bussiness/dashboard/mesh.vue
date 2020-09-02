@@ -226,12 +226,12 @@ export default {
       rules: {
         newName: [
           {
-            rule: value => !/^\s*$/.test(value),
+            rule: value => !/^\s*$/.test(value.trim()),
             message: this.$t('trans0237')
           },
           {
             rule: value => {
-              const length = getStringByte(value);
+              const length = getStringByte(value.trim());
               if (length < 1 || length > 20) {
                 return false;
               }

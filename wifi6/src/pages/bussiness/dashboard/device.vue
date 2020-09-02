@@ -307,11 +307,11 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !value.match(/^\s*$/),
+            rule: value => !value.trim().match(/^\s*$/),
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           }
         ]

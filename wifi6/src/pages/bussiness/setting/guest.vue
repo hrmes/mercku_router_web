@@ -155,11 +155,11 @@ export default {
       rules: {
         ssid: [
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           }
         ],
