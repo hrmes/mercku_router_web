@@ -145,7 +145,7 @@ function genNodes(gateway, green, red, offline) {
     //   [Color.bad]: picBeeBad,
     //   [Color.offline]: picBeeOffline
     // },
-    [CONSTANTS.RouterSnModel.wifi6]: {
+    [CONSTANTS.RouterSnModel.M6]: {
       [Color.good]: picifi6Good,
       [Color.bad]: picWifi6Bad,
       [Color.offline]: pciWifi6Offline
