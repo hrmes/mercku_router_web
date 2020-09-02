@@ -41,7 +41,7 @@ export const RouterSnModel = {
   AC: '00',
   M2: '01',
   Bee: '02',
-  wifi6: '06'
+  M6: '06'
 };
 export const SpeedTestStatus = {
   testing: 'testing',

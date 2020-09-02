@@ -18,7 +18,7 @@ export default {
         case RouterSnModel.Bee:
           image = require('@/assets/images/img_bee.png');
           break;
-        case RouterSnModel.wifi6:
+        case RouterSnModel.M6:
           image = require('@/assets/images/img_wifi6.png');
           break;
         default:
@@ -31,7 +31,8 @@ export default {
     return {
       Products: {
         [RouterSnModel.M2]: process.env.CUSTOMER_CONFIG.routers.M2,
-        [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee
+        [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee,
+        [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6
       }
     };
   }

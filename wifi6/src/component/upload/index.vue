@@ -27,7 +27,8 @@
                   class="percent">{{width}}</span>
           </span>
           <div class="packageinfo"
-               v-if="uplodaSuccess && packageInfo.product && packageInfo.version">
+               v-if="uplodaSuccess">
+            <!--  && packageInfo.product && packageInfo.version -->
             <span class="product">{{packageInfo.product}}</span>
             <span class="version">{{packageInfo.version}}</span>
           </div>
@@ -53,7 +54,7 @@
 </template>
 <script>
 import { UploadStatus } from '@/util/constant';
-import { toLocaleNumber } from '@/util/util';
+import { toLocaleNumber } from '@/i18n';
 
 export default {
   props: {
@@ -129,6 +130,7 @@ export default {
     },
     upload(files) {
       this.files = files;
+      console.log(this.files);
       if (this.beforeUpload && !this.beforeUpload(this.files)) {
         this.status = UploadStatus.fail;
         return false;

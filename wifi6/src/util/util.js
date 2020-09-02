@@ -1,9 +1,4 @@
 import semver from 'semver';
-import intl from 'intl';
-import 'intl/locale-data/jsonp/en-US';
-import 'intl/locale-data/jsonp/de-DE';
-import 'intl/locale-data/jsonp/nl-NL';
-import 'intl/locale-data/jsonp/sr';
 
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
 export const hostReg = /^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*$/i;
@@ -13,9 +8,14 @@ export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 
 export const isValidPassword = (value, min = 8, max = 24) => {
-  const regStr = `^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_\`{|}~]{${min},${max}}$`;
-  const passwordRule = new RegExp(regStr);
-  return passwordRule.test(value);
+  if (!value || typeof str !== 'string') {
+    return false;
+  }
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]*$/;
+  return passwordRuleReg.test(value);
 };
 export const getIpBefore = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
@@ -180,7 +180,10 @@ export const formatNetworkData = value => {
       unit: units[index]
     };
   }
-  return { value: '-', unit: units[0] };
+  return {
+    value: '-',
+    unit: units[0]
+  };
 };
 
 export const formatMac = mac => {
@@ -205,7 +208,10 @@ export const formatSpeed = value => {
       unit: units[index]
     };
   }
-  return { value: '-', unit: units[0] };
+  return {
+    value: '-',
+    unit: units[0]
+  };
 };
 
 export const formatBandWidth = value => {
@@ -256,20 +262,4 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
   });
 
   return fmt;
-};
-
-export const toLocaleNumber = (
-  number,
-  locale = 'en-US',
-  minimumFractionDigits = 1,
-  maximumFractionDigits = 1
-) => {
-  // 有时候传入是不是数字，是占位符字符串
-  if (typeof number === 'number') {
-    return intl.NumberFormat.call(null, locale, {
-      minimumFractionDigits,
-      maximumFractionDigits
-    }).format(number);
-  }
-  return number;
 };

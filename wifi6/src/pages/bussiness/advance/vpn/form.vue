@@ -101,11 +101,11 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           }
         ],
@@ -186,6 +186,7 @@ export default {
       return this.$route.params.id ? 'update' : 'add';
     },
     formParams() {
+      this.form.name = this.form.name.trim();
       const params = {
         id: this.form.id,
         name: this.form.name,

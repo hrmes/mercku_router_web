@@ -5,11 +5,11 @@
          @click.stop="open()">
       <input @blur="blur"
              @focus="focus"
+             @input="input"
              ref="input"
              class="select-text"
              :title="selected"
              v-model="selected"
-             @input="input"
              :placeholder="placeholder" />
       <div class="icon-container">
         <span class="icon"
