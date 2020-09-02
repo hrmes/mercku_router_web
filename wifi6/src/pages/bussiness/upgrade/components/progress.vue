@@ -205,12 +205,11 @@ export default {
         })
         .then(res => {
           const nodes = res.data.result;
-          if (!nodes) {
-            if (this.pageActive) {
-              this.timer = setTimeout(() => {
-                this.checkNodeStatus();
-              }, 5000);
-            }
+          if (!nodes && this.pageActive) {
+            this.timer = setTimeout(() => {
+              this.checkNodeStatus();
+            }, 5000);
+            return;
           }
           const [node] = nodes.filter(n => n.sn === this.node.sn);
           if (!node) {
