@@ -269,15 +269,6 @@ export const removeLeadingAndTrailingSpaces = data => {
   if (data === null) {
     return null;
   }
-  if (data instanceof RegExp) {
-    return new RegExp(data);
-  }
-  if (data instanceof Date) {
-    return new Date(data);
-  }
-  if (typeof data == 'Function') {
-    return new (function(data) {})();
-  }
   let newData = data instanceof Array ? [] : {};
   for (let i in data) {
     if (typeof data[i] === 'object') {
@@ -292,54 +283,3 @@ export const removeLeadingAndTrailingSpaces = data => {
   }
   return newData;
 };
-console.log('----------');
-let a = [
-  { x: '  12', y: ' 23  ', z: '45   ' },
-  ' asd ',
-  1,
-  false,
-  () => {
-    console.log('123');
-  },
-  new Date(),
-  /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]*$/
-];
-console.log(removeLeadingAndTrailingSpaces(a));
-a = {
-  x: '  12',
-  y: ' 23  ',
-  z: '45   ',
-  xxx: () => {
-    console.log('123');
-  },
-  date: new Date(),
-  rg: /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]*$/,
-  obj: {
-    x: '  12',
-    y: ' 23  ',
-    z: '45   '
-  },
-  arr: [
-    { x: '  12', y: ' 23  ', z: '45   ' },
-    ' asd ',
-    1,
-    false,
-    () => {
-      console.log('123');
-    },
-    new Date(),
-    /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]*$/
-  ]
-};
-console.log(removeLeadingAndTrailingSpaces(a));
-a = null;
-console.log(removeLeadingAndTrailingSpaces(a));
-a = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]*$/;
-console.log(removeLeadingAndTrailingSpaces(a));
-a = new Date();
-console.log(removeLeadingAndTrailingSpaces(a));
-a = () => {
-  console.log('123');
-};
-console.log(removeLeadingAndTrailingSpaces(a));
-console.log('----------');
