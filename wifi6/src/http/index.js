@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { removeLeadingAndTrailingSpaces } from '@/util/util';
+import { trimFields } from '@/util/util';
 
 axios.defaults.timeout = 60000;
 const defaultUrl = '/app';
@@ -128,7 +128,7 @@ class Http {
     if (params) {
       data.params = params;
     }
-    data = removeLeadingAndTrailingSpaces(data);
+    data = trimFields(data);
     const options = {
       ...axiosCfg,
       url: config.url,
