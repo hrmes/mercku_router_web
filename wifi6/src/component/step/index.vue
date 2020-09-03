@@ -70,7 +70,7 @@ export default {
         console.log(stepItemWidth);
         const perOffset = ((width - stepItemWidth) / (this.length - 1) / width) * 100;
         stepItemArr.forEach((step, index) => {
-          step.style.left = `${perOffset * index}%`;
+          step.style.left = `${(perOffset * index).toFixed(2)}%`;
         });
         this.preLength = this.length;
       });
