@@ -265,31 +265,27 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
 };
 
 export const trimFields = data => {
-  if (!data || data === null) {
+  if (!data) {
     return data;
   }
-  if (typeof data == 'Function') {
-    return new (function(data) {})();
-  }
-  if (data instanceof RegExp) {
-    return new RegExp(data);
-  }
-  if (data instanceof Date) {
-    return new Date(data);
+  if (
+    typeof data == 'Function' ||
+    data instanceof RegExp ||
+    data instanceof Date
+  ) {
+    return data;
   }
   let newData = data instanceof Array ? [] : {};
-  for (let i in data) {
-    if (data.hasOwnProperty(i)) {
-      if (typeof data[i] === 'object') {
-        newData[i] = trimFields(data[i]);
+  Object.keys(data).forEach(i => {
+    if (typeof data[i] === 'object') {
+      newData[i] = trimFields(data[i]);
+    } else {
+      if (typeof data[i] === 'string') {
+        newData[i] = data[i].trim();
       } else {
-        if (typeof data[i] === 'string') {
-          newData[i] = data[i].trim();
-        } else {
-          newData[i] = data[i];
-        }
+        newData[i] = data[i];
       }
     }
-  }
+  });
   return newData;
 };
