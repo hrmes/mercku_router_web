@@ -226,12 +226,12 @@ export default {
       rules: {
         newName: [
           {
-            rule: value => !/^\s*$/.test(value.trim()),
+            rule: value => !/^\s*$/.test(value),
             message: this.$t('trans0237')
           },
           {
             rule: value => {
-              const length = getStringByte(value.trim());
+              const length = getStringByte(value);
               if (length < 1 || length > 20) {
                 return false;
               }
@@ -351,7 +351,7 @@ export default {
         this.$http
           .updateMeshNode({
             node_id: router.sn,
-            data: { name: name.trim() }
+            data: { name }
           })
           .then(() => {
             router.name = name;
