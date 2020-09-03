@@ -58,19 +58,22 @@ export default {
   },
   methods: {
     init() {
-      const width = this.$el.clientWidth;
-      const stepItems = this.$el.querySelectorAll('.step');
-      const stepItemArr = Array.from(stepItems);
-      const stepItemWidth = stepItemArr.reduce((sum, current) => {
-        sum += current.clientWidth;
-        return sum;
-      }, 0);
-      console.log(stepItemWidth);
-      const perOffset = ((width - stepItemWidth) / (this.length - 1) / width) * 100;
-      stepItemArr.forEach((step, index) => {
-        step.style.left = `${perOffset * index}%`;
+      // when update option, dom update in next tick
+      this.$nextTick(() => {
+        const width = this.$el.clientWidth;
+        const stepItems = this.$el.querySelectorAll('.step');
+        const stepItemArr = Array.from(stepItems);
+        const stepItemWidth = stepItemArr.reduce((sum, current) => {
+          sum += current.clientWidth;
+          return sum;
+        }, 0);
+        console.log(stepItemWidth);
+        const perOffset = ((width - stepItemWidth) / (this.length - 1) / width) * 100;
+        stepItemArr.forEach((step, index) => {
+          step.style.left = `${perOffset * index}%`;
+        });
+        this.preLength = this.length;
       });
-      this.preLength = this.length;
     }
   }
 };
