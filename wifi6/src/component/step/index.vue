@@ -34,6 +34,11 @@ export default {
       return this.option.steps.length;
     }
   },
+  data() {
+    return {
+      preLength: this.option.steps.length
+    };
+  },
   beforeDestory() {
     window.removeEventListener('resize', this.init);
   },
@@ -42,10 +47,13 @@ export default {
     window.addEventListener('resize', this.init);
   },
   watch: {
-    option(nv, ov) {
-      if (nv.steps.length !== ov.steps.length) {
-        this.init();
-      }
+    option: {
+      handler(nv) {
+        if (nv.steps.length !== this.preLength) {
+          this.init();
+        }
+      },
+      deep: true
     }
   },
   methods: {
@@ -62,6 +70,7 @@ export default {
       stepItemArr.forEach((step, index) => {
         step.style.left = `${perOffset * index}%`;
       });
+      this.preLength = this.length;
     }
   }
 };
