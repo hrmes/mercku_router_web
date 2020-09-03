@@ -40,24 +40,24 @@ export default {
     };
   },
   beforeDestory() {
-    window.removeEventListener('resize', this.init);
+    window.removeEventListener('resize', this.layout);
   },
   mounted() {
-    this.init();
-    window.addEventListener('resize', this.init);
+    this.layout();
+    window.addEventListener('resize', this.layout);
   },
   watch: {
     option: {
       handler(nv) {
         if (nv.steps.length !== this.preLength) {
-          this.init();
+          this.layout();
         }
       },
       deep: true
     }
   },
   methods: {
-    init() {
+    layout() {
       // when update option, dom update in next tick
       this.$nextTick(() => {
         const width = this.$el.clientWidth;
