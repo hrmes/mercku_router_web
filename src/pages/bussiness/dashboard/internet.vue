@@ -158,7 +158,8 @@
       </div>
     </div>
     <!-- IPv6外网状态 -->
-    <div class="section">
+    <div class="section"
+         v-if="ipv6NetInfo.enabled">
       <div class="section__inner">
         <div class="section__title">{{$t('trans0700 ')}}</div>
         <div class="section__body">
@@ -257,6 +258,7 @@ export default {
       speedInfo: {},
       netInfo: {},
       ipv6NetInfo: {
+        enabled: false,
         type: '-',
         ip: '-',
         gateway: '-',
@@ -536,18 +538,18 @@ export default {
           this.meshInfoWanNetIpv6Timer = null;
           clearTimeout(this.meshInfoWanNetIpv6Timer);
           const { result } = res.data;
-          console.log(result);
-          const { netinfo } = result;
-          this.ipv6NetInfo = {
-            type: result.type || '-',
-            ip: netinfo.address.length ? netinfo.address[0].ip : '-',
-            gateway: netinfo.gateway.ip || '-',
-            dns: netinfo.dns.length ? netinfo.dns[0].ip : '-'
-          };
+          this.ipv6NetInfo.enabled = result.enabled;
+          if (this.ipv6NetInfo.enabled) {
+            const { netinfo } = result;
+            this.ipv6NetInfo.type = result.type || '-';
+            this.ipv6NetInfo.ip = netinfo.address.length ? netinfo.address[0].ip : '-';
+            this.ipv6NetInfo.gateway = netinfo.gateway.ip || '-';
+            this.ipv6NetInfo.dns = netinfo.dns.length ? netinfo.dns[0].ip : '-';
+          }
         })
         .catch(() => {
           this.meshInfoWanNetIpv6Timer = setTimeout(() => {
-            this.getWanNetInfo();
+            this.getMeshInfoWanNetIpv6();
           }, 1000 * 3);
         });
     }
