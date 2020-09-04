@@ -8,13 +8,13 @@ export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 
 export const isValidPassword = (value, min = 8, max = 24) => {
-  if (!value || typeof str !== 'string') {
+  if (!value) {
     return false;
   }
   if (value.length < min || value.length > max) {
     return false;
   }
-  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]*$/;
+  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]+$/;
   return passwordRuleReg.test(value);
 };
 export const getIpBefore = ip => {
@@ -262,4 +262,30 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
   });
 
   return fmt;
+};
+
+export const trimFields = data => {
+  if (!data) {
+    return data;
+  }
+  if (
+    typeof data == 'Function' ||
+    data instanceof RegExp ||
+    data instanceof Date
+  ) {
+    return data;
+  }
+  let newData = data instanceof Array ? [] : {};
+  Object.keys(data).forEach(i => {
+    if (typeof data[i] === 'object') {
+      newData[i] = trimFields(data[i]);
+    } else {
+      if (typeof data[i] === 'string') {
+        newData[i] = data[i].trim();
+      } else {
+        newData[i] = data[i];
+      }
+    }
+  });
+  return newData;
 };

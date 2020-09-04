@@ -107,11 +107,11 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
+            rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 16,
+            rule: value => getStringByte(value) <= 16,
             message: this.$t('trans0261')
           }
         ],
@@ -207,7 +207,6 @@ export default {
       }
       if (this.$refs.form.validate()) {
         this.$loading.open();
-        this.form.name = this.form.name.trim();
         this.$http[fetchMethod]({
           ...this.form,
           mac: this.form.mac.split(':').join('')
