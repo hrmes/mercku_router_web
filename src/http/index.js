@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { trimFields } from '@/util/util';
 
 axios.defaults.timeout = 60000;
 const defaultUrl = '/app';
@@ -126,11 +127,12 @@ class Http {
   }
 
   request(config, params, axiosCfg = {}) {
-    const data = { method: config.action };
+    let data = { method: config.action };
 
     if (params) {
       data.params = params;
     }
+    data = trimFields(data);
     const options = {
       ...axiosCfg,
       url: config.url,
