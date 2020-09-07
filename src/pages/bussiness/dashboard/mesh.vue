@@ -293,7 +293,7 @@ import genData from './topo';
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 
-const GUEST = 'primary'; // 是否是访客
+const GUEST = 'guest'; // 是否是访客
 
 export default {
   data() {

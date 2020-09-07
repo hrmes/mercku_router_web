@@ -713,7 +713,7 @@ export default {
       return `${this.$t('trans0010')}`;
     },
     transformDuration(zone) {
-      if (!zone) {
+      if (!zone || window.isNaN(zone) || parseInt(zone, 10) < 0 || !Number.isInteger(zone)) {
         return '-';
       }
       const Duration = formatDuration(zone);
