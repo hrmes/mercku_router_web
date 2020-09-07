@@ -168,7 +168,6 @@ export default {
       this.$emit('after-close', this.success);
     },
     close() {
-      window.location.reload(true);
       this.$emit('update:visible', false);
     },
     getNodeUpgrading() {
