@@ -716,25 +716,35 @@ export default {
       if (!zone) {
         return '-';
       }
-      const timeZone = formatDuration(zone);
-      console.log(timeZone);
-      const year = timeZone.year
-        ? `${timeZone.year}${this.$t('trans0531')}`
-        : '';
-      const month = timeZone.month
-        ? `${timeZone.month}${this.$t('trans0532')}`
-        : '';
-      const day = timeZone.day ? `${timeZone.day}${this.$t('trans0533')}` : '';
-      const hour = timeZone.hour
-        ? `${timeZone.hour}${this.$t('trans0534')}`
-        : '';
-      const minute = timeZone.minute
-        ? `${timeZone.minute}${this.$t('trans0535')}`
-        : '';
-      const second = timeZone.second
-        ? `${timeZone.second}${this.$t('trans0536')}`
-        : '';
-      return year + month + day + hour + minute + second;
+      const Duration = formatDuration(zone);
+      const suffixs = [
+        {
+          key: 'year',
+          trans: 'trans0531'
+        },
+        {
+          key: 'month',
+          trans: 'trans0532'
+        },
+        {
+          key: 'day',
+          trans: 'trans0532'
+        },
+        {
+          key: 'hour',
+          trans: 'trans0534'
+        },
+        {
+          key: 'minute',
+          trans: 'trans0535'
+        },
+        {
+          key: 'second',
+          trans: 'trans0536'
+        }
+      ];
+      const durationStr = suffixs.map(v => (Duration[v.key] ? `${Duration[v.key]}${this.$t(v.trans)}` : '')).join('');
+      return durationStr;
     },
     parseOfflineTime(row) {
       return this.transformOfflineDate(
