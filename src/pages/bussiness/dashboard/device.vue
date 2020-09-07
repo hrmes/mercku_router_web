@@ -185,7 +185,7 @@
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0631')}}</span>
-                <span> {{transformDateZone(row.online_info.online_duration)}} </span>
+                <span> {{transformDuration(row.online_info.online_duration)}} </span>
               </li>
               <!-- 离线时间 -->
               <li class="column-ip device-item"
@@ -304,7 +304,7 @@ import {
   formatMac,
   getStringByte,
   formatDate,
-  formatTimeZone
+  formatDuration
 } from 'util/util';
 
 export default {
@@ -712,11 +712,12 @@ export default {
       }
       return `${this.$t('trans0010')}`;
     },
-    transformDateZone(zone) {
-      if (!parseInt(zone, 10) || parseInt(zone, 10) < 0) {
+    transformDuration(zone) {
+      if (!zone) {
         return '-';
       }
-      const timeZone = formatTimeZone(zone);
+      const timeZone = formatDuration(zone);
+      console.log(timeZone);
       const year = timeZone.year
         ? `${timeZone.year}${this.$t('trans0531')}`
         : '';

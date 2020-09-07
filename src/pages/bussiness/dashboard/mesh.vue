@@ -287,11 +287,13 @@
 <script>
 import marked from 'marked';
 import { formatMac, getStringByte } from 'util/util';
-import { RouterStatus, GUEST } from 'util/constant';
+import { RouterStatus } from 'util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
+
+const GUEST = 'primary'; // 是否是访客
 
 export default {
   data() {
@@ -367,9 +369,12 @@ export default {
     }
     this.fullline = fullline;
     // 获取当前设备信息
-    const selfInfo = await this.$http.getLocalDevice();
-    this.localDeviceIP = selfInfo.data.result.ip;
-    console.log(this.localDeviceIP);
+    try {
+      const selfInfo = await this.$http.getLocalDevice();
+      this.localDeviceIP = selfInfo.data.result.ip;
+    } catch {
+      this.localDeviceIP = '';
+    }
   },
   computed: {
     rssiTips() {

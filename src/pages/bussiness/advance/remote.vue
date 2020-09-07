@@ -11,9 +11,6 @@
           <m-tab :class="{'selected':isTR069}"
                  @click.native="forward2page('/advance/remote/tr069')">{{$t('trans0499')}}
           </m-tab>
-          <m-tab :class="{'selected':isRemoteShell}"
-                 @click.native="forward2page('/advance/remote/remoteShell')">{{$t('trans0626')}}
-          </m-tab>
           <m-tab :class="{'selected':isTFTP}"
                  @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
           </m-tab>
@@ -89,20 +86,6 @@
                   @click="updateTr069">{{$t('trans0081')}}</button>
         </div>
       </div>
-      <div v-if="isRemoteShell">
-        <m-form class="form"
-                :model="remoteShell"
-                ref="remoteShell">
-          <m-form-item>
-            <m-switch :label="$t('trans0497')"
-                      v-model="remoteShell.telnet"></m-switch>
-          </m-form-item>
-          <m-form-item>
-            <m-switch :label="$t('trans0628')"
-                      v-model="remoteShell.ssh"></m-switch>
-          </m-form-item>
-        </m-form>
-      </div>
       <div v-if="isTFTP">
         <m-form class="form"
                 :model="tftp"
@@ -125,11 +108,24 @@
         </div>
       </div>
       <div v-if="isTelnet">
-        <div class="form">
+        <!-- <div class="form">
           <m-switch :label="$t('trans0462')"
                     v-model="telnet"
                     :onChange="updateTelnet"></m-switch>
-        </div>
+        </div> -->
+        <m-form class="form"
+                :model="remoteShell"
+                ref="remoteShell">
+          <m-form-item>
+            <m-switch :label="$t('trans0497')"
+                      v-model="remoteShell.telnet"
+                      :onChange="updateTelnet"></m-switch>
+          </m-form-item>
+          <m-form-item>
+            <m-switch :label="$t('trans0628')"
+                      v-model="remoteShell.ssh"></m-switch>
+          </m-form-item>
+        </m-form>
       </div>
     </div>
   </div>
@@ -172,7 +168,6 @@ export default {
         username: '',
         password: ''
       },
-      telnet: false,
       remoteShell: {
         telnet: false,
         ssh: false
@@ -239,8 +234,7 @@ export default {
       const Tabs = {
         isTR069: 'tr069',
         isTFTP: 'tftp',
-        isTelnet: 'telnet',
-        isRemoteShell: 'remoteShell'
+        isTelnet: 'telnet'
       };
       const result = {};
       Object.keys(Tabs).forEach(key => {
@@ -253,7 +247,7 @@ export default {
   },
   mounted() {
     this.$http.getTelnetEnabled().then(res => {
-      this.telnet = res.data.result.enabled;
+      this.remoteShell.telnet = res.data.result.enabled;
     });
     this.$http.getTr069().then(res => {
       this.remote = res.data.result.remote;
@@ -317,7 +311,7 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
-          this.telnet = !v;
+          this.remoteShell.telnet = !v;
         });
     },
     updateTFTP() {

@@ -1,6 +1,5 @@
 export const IPv6DefaultPlaceholder = '0000:0000:0000:0000:0000:0000:0000:0000';
 
-export const GUEST = 'primary'; // 'guest';
 export const Customers = {
   cik: '0002',
   mercku: '0001',
