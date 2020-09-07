@@ -5,8 +5,7 @@
     </div>
     <div class="page-content">
       <div class="type-container"
-           v-show="tipPage">
-
+           v-if="tipPage">
         <div class="router-category-container">
           <div class="circle-animation">
             <div class="circle circle1"></div>
@@ -21,7 +20,7 @@
         </div>
       </div>
       <div class="type-container"
-           v-show="welcomePage">
+           v-if="welcomePage">
         <div class="tip">{{$t('trans0364')}}</div>
         <div class="router-category-container">
           <div class="router"
@@ -48,7 +47,7 @@
 
       </div>
       <div class="info-container"
-           v-show="!tipPage && !welcomePage">
+           v-if="!tipPage && !welcomePage">
         <div class="step">
           <m-step :option="stepsOption"></m-step>
         </div>
