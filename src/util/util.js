@@ -1,9 +1,4 @@
 import semver from 'semver';
-import intl from 'intl';
-import 'intl/locale-data/jsonp/en-US';
-import 'intl/locale-data/jsonp/de-DE';
-import 'intl/locale-data/jsonp/nl-NL';
-import 'intl/locale-data/jsonp/sr';
 
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
@@ -253,22 +248,6 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
   });
 
   return fmt;
-};
-
-export const toLocaleNumber = (
-  number,
-  locale = 'en-US',
-  minimumFractionDigits = 1,
-  maximumFractionDigits = 1
-) => {
-  // 有时候传入是不是数字，是占位符字符串
-  if (typeof number === 'number') {
-    return intl.NumberFormat.call(null, locale, {
-      minimumFractionDigits,
-      maximumFractionDigits
-    }).format(number);
-  }
-  return number;
 };
 
 export const formatDuration = value => {

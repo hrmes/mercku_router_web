@@ -743,7 +743,7 @@ export default {
           trans: 'trans0536'
         }
       ];
-      const durationStr = suffixs.map(v => (Duration[v.key] ? `${Duration[v.key]}${this.$t(v.trans)}` : '')).join('');
+      const durationStr = suffixs.map(item => (Duration[item.key] ? `${Duration[item.key]}${this.$t(item.trans)}` : '')).join('');
       return durationStr;
     },
     parseOfflineTime(row) {
