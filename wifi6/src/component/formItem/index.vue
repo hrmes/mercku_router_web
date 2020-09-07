@@ -70,7 +70,7 @@ export default {
           for (let j = 0; j < this.validators.length; j += 1) {
             const validator = this.validators[j];
             // 验证时去掉首尾空格
-            if (value) {
+            if (value && typeof value === 'string') {
               value = value.trim();
             }
             if (!validator.rule(value)) {
