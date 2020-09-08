@@ -163,8 +163,8 @@ export default {
   },
   methods: {
     afterLeave() {
-      const { parentNode } = this.$el;
-      parentNode.removeChild(this.$el);
+      // const { parentNode } = this.$el;
+      // parentNode.removeChild(this.$el);
       this.$emit('after-close', this.success);
     },
     close() {
