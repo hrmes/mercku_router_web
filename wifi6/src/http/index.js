@@ -1,7 +1,4 @@
 import axios from 'axios';
-import {
-  trimFields
-} from '@/util/util';
 
 axios.defaults.timeout = 60000;
 const defaultUrl = '/app';
