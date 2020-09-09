@@ -213,11 +213,11 @@ export default {
       rules: {
         'b24g.ssid': [
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           }
         ],
@@ -229,11 +229,11 @@ export default {
         ],
         'b5g.ssid': [
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           }
         ],
@@ -305,7 +305,9 @@ export default {
           return;
         }
       }
-      if (validResult1 && validResult2) {
+      if (validResult1 && validResult2) { 
+        this.form.b24g.ssid = this.form.b24g.ssid.trim();
+        this.form.b5g.ssid = this.form.b5g.ssid.trim();
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
