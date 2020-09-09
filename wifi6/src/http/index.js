@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { trimFields } from '@/util/util';
 
 axios.defaults.timeout = 60000;
 const defaultUrl = '/app';
@@ -123,12 +122,13 @@ class Http {
   }
 
   request(config, params, axiosCfg = {}) {
-    let data = { method: config.action };
+    const data = {
+      method: config.action
+    };
 
     if (params) {
       data.params = params;
     }
-    data = trimFields(data);
     const options = {
       ...axiosCfg,
       url: config.url,
@@ -158,14 +158,18 @@ Http.prototype.getSysLog = function getSysLog() {
 
 // 上传镜像
 Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
-  const { CancelToken } = axios;
+  const {
+    CancelToken
+  } = axios;
   const source = CancelToken.source();
   return axios({
     url: '/firmware_upload',
     method: 'post',
     data: params,
     cancelToken: source.token,
-    headers: { 'Content-Type': 'multipart/form-data' },
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
     onUploadProgress: progressEvent => {
       callback(progressEvent, source);
     }
@@ -174,14 +178,18 @@ Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
 
 // 上传文件
 Http.prototype.uploadFile = function uploadFile(params, callback) {
-  const { CancelToken } = axios;
+  const {
+    CancelToken
+  } = axios;
   const source = CancelToken.source();
   return axios({
     url: '/file_upload',
     method: 'post',
     data: params,
     cancelToken: source.token,
-    headers: { 'Content-Type': 'multipart/form-data' },
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    },
     onUploadProgress: progressEvent => {
       callback(progressEvent, source);
     }

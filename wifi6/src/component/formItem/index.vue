@@ -63,16 +63,12 @@ export default {
         const validators = rules[prop] || [];
         this.validators = validators.concat(this.rules);
 
-        let value = this.getValueByPath(this.$parent.model, this.prop);
+        const value = this.getValueByPath(this.$parent.model, this.prop);
         let result = true;
         // 检验
         if (this.validators && this.validators.length) {
           for (let j = 0; j < this.validators.length; j += 1) {
             const validator = this.validators[j];
-            // 验证时去掉首尾空格
-            if (value && typeof value === 'string') {
-              value = value.trim();
-            }
             if (!validator.rule(value)) {
               result = false;
               this.message = validator.message;
