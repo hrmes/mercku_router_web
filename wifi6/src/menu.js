@@ -1,4 +1,8 @@
-import { Role, RouterMode, Customers } from '@/util/constant';
+import {
+  Role,
+  RouterMode,
+  Customers
+} from '@/util/constant';
 
 export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');
@@ -10,8 +14,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const wifi = {
     icon: 'wifi',
     text: 'trans0173',
-    children: [
-      {
+    children: [{
         text: 'trans0365',
         name: 'mesh',
         url: '/dashboard/mesh/topo',
@@ -40,8 +43,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const setting = {
     icon: 'setting',
     text: 'trans0019',
-    children: [
-      {
+    children: [{
         text: 'trans0103',
         name: 'wifi',
         url: '/setting/wifi',
@@ -116,8 +118,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const advance = {
     icon: 'advance',
     text: 'trans0416',
-    children: [
-      {
+    children: [{
         url: '/advance/portforwarding',
         name: 'advance-portforwarding',
         text: 'trans0422',
@@ -246,8 +247,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const upgrade = {
     icon: 'upgrade',
     text: 'trans0197',
-    children: [
-      {
+    children: [{
         url: '/upgrade/online',
         name: 'online',
         text: 'trans0202',

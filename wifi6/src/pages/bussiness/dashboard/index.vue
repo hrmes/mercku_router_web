@@ -61,10 +61,11 @@
                v-html="tips"></div>
         </div>
       </m-modal-body>
-      <m-modal-footer>
+      <m-modal-footer v-if="isRouter">
         <div class="form-button">
           <button class="btn btn-dialog-confirm"
-                  @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button> </div>
+                  @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
+        </div>
       </m-modal-footer>
     </m-modal>
     <!-- trans0383 -->
@@ -220,7 +221,11 @@ export default {
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
-            if (this.isConnected && this.pageActive && this.needCheckUpgradable) {
+            if (
+              this.isConnected &&
+              this.pageActive &&
+              this.needCheckUpgradable
+            ) {
               this.checkFrimwareLatest();
             }
           })
