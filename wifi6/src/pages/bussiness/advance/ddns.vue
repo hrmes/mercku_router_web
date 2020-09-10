@@ -46,6 +46,8 @@
   </div>
 </template>
 <script>
+import { isValidFieldLength, isValidPassword } from '@/util/util';
+
 export default {
   data() {
     return {
@@ -54,38 +56,38 @@ export default {
         username: '',
         password: '',
         service: 'dyndns',
-        enabled: true
+        enabled: true,
       },
       services: [
         {
           text: this.$t('trans0437'),
-          value: 'dyndns'
+          value: 'dyndns',
         },
         {
           text: this.$t('trans0438'),
-          value: 'oray'
-        }
+          value: 'oray',
+        },
       ],
       rules: {
         domain: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
+            rule: (value) => isValidFieldLength(value),
+            message: this.$t('trans0228'),
+          },
         ],
         username: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
+            rule: (value) => isValidFieldLength(value),
+            message: this.$t('trans0261'),
+          },
         ],
         password: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
-        ]
-      }
+            rule: (value) => isValidPassword(value, 1, 64),
+            message: this.$t('trans0125'),
+          },
+        ],
+      },
     };
   },
   mounted() {
@@ -96,7 +98,7 @@ export default {
       this.$loading.open();
       this.$http
         .getDDNS()
-        .then(res => {
+        .then((res) => {
           this.$loading.close();
           this.ddns = res.data.result;
         })
@@ -117,8 +119,8 @@ export default {
             this.$loading.close();
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

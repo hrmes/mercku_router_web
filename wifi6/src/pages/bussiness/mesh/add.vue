@@ -160,12 +160,11 @@
             <p>{{$t('trans0653')}}</p>
             <p>{{$t('trans0215')}}</p>
             <p>{{$t('trans0651')}}</p>
+            <p>{{$t('trans0175')}}</p>
             <p>{{$t('trans0657')}}</p>
-            <p>{{$t('trans0216')}}</p>
             <p>{{$t('trans0698')}}</p>
             <p>{{$t('trans0661')}}</p>
-            <!-- <p>5. {{$t('trans0330')}}</p>
-            <p>6. {{$t('trans0372')}}
+            <!-- <p>6. {{$t('trans0372')}}
               <a :href="$t('trans0477')"
                  target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}
             </p> -->
@@ -187,10 +186,10 @@ const PageStatus = {
   scanning: 'scanning',
   scan_finished: 'scan_finished',
   add_success: 'add_success',
-  add_fail: 'add_fail'
+  add_fail: 'add_fail',
 };
 
-const checkWeakSignal = rssi => rssi < -65;
+const checkWeakSignal = (rssi) => rssi < -65;
 export default {
   mixins: [RouterModel],
   data() {
@@ -199,22 +198,22 @@ export default {
       showTips: true,
       stepsOption: {
         current: 0,
-        steps: new Array(4).fill(0).map(() => ({ text: '', success: false }))
+        steps: new Array(4).fill(0).map(() => ({ text: '', success: false })),
       },
       pageStatus: '',
       nodes: [],
       addTimeout: 90,
       showHelpDialog: false,
-      isWeakSignal: false
+      isWeakSignal: false,
     };
   },
   computed: {
     ...(() => {
       const result = {};
-      Object.keys(PageStatus).forEach(k => {
+      Object.keys(PageStatus).forEach((k) => {
         const strTransform = k
           .split('_')
-          .map(str => {
+          .map((str) => {
             const [first, ...rest] = str;
             return first.toUpperCase() + rest.join('');
           })
@@ -271,9 +270,12 @@ export default {
       this.$loading.open({ template });
       // 超时90秒，间隔3秒
       this.$http
-        .addMeshNode({ node }, {
-          hideToast: true
-        })
+        .addMeshNode(
+          { node },
+          {
+            hideToast: true,
+          }
+        )
         .then(() => {
           let timeout = this.addTimeout;
           this.checkTimer = setInterval(() => {
@@ -283,24 +285,30 @@ export default {
               clearInterval(this.checkTimer);
             }
             if (timeout % 3 === 0) {
-              this.$http.isInMesh({ node }).then(res => {
+              this.$http.isInMesh({ node }).then((res) => {
                 if (res.data.result.status) {
                   this.$loading.close();
                   this.pageStatus = PageStatus.add_success;
-                  this.$http.getMeshNode().then(meshNodeRes => {
+                  this.$http.getMeshNode().then((meshNodeRes) => {
                     const meshNodes = meshNodeRes.data.result;
                     if (meshNodes.length) {
                       const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
                       // 获取刚添加的节点的sn
-                      const meshNode = meshNodes.find(item => item.mac[type] === node.mac[type]);
+                      const meshNode = meshNodes.find(
+                        (item) => item.mac[type] === node.mac[type]
+                      );
                       if (meshNode) {
                         const { sn } = meshNode;
                         for (let i = 0; i < meshNodes.length; i += 1) {
                           const mNode = meshNodes[i];
                           if (mNode.sn !== sn && mNode.neighbors) {
-                            const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
+                            const neighborNood = mNode.neighbors.find(
+                              (nItem) => nItem.sn === sn
+                            );
                             if (neighborNood) {
-                              this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
+                              this.isWeakSignal = checkWeakSignal(
+                                neighborNood.rssi
+                              );
                               break;
                             }
                           }
@@ -341,15 +349,15 @@ export default {
 
       this.$http
         .scanMeshNode()
-        .then(res => {
-          this.nodes = res.data.result.map(n => ({ ...n, selected: false }));
+        .then((res) => {
+          this.nodes = res.data.result.map((n) => ({ ...n, selected: false }));
           this.pageStatus = PageStatus.scan_finished;
         })
         .catch(() => {
           this.pageStatus = PageStatus.scan_finished;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -17,6 +17,11 @@ export const isValidPassword = (value, min = 8, max = 24) => {
   const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]+$/;
   return passwordRuleReg.test(value);
 };
+export const isValidFieldLength = (value, min = 1, max = 64) => {
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+};
 export const getIpBefore = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
   return pattern.exec(ip)[0];
