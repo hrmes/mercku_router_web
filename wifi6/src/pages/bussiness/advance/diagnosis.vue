@@ -34,6 +34,8 @@
   </div>
 </template>
 <script>
+import { isValidFieldLength } from '@/util/util';
+
 const TaskStatus = {
   done: 'done'
 };
@@ -59,6 +61,10 @@ export default {
           {
             rule: value => value,
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => isValidFieldLength(value),
+            message: this.$t('trans0712')
           }
         ]
       },

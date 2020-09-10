@@ -167,7 +167,7 @@ export default {
         .then(resArr => {
           this.$loading.close();
           const nodes = resArr[0].data.result;
-          // const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
+          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
 
           this.requestResult.complete = true;
 
@@ -175,27 +175,38 @@ export default {
             const { current, latest } = node.version;
             return compareVersion(current, latest);
           };
-
-          this.nodes = nodes.filter(filter).map(node => ({
+          let containGW = false;
+          this.nodes = nodes.filter(filter).map(node => {
+            let isGW = false;
+            if (node.sn === gw.sn) {
+              isGW = true;
+              containGW = true;
+            }
+            return {
               ...node,
+              isGW,
               checked: false
-            }));
-          if (this.nodes.length > 0) {
-            this.nodes[0].checked = true;
+            };
+          });
+          if (containGW && this.nodes.length > 1) {
+            this.$dialog.confirm({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              message: this.$t('trans0669'),
+              callback: {
+                ok: () => {
+                  this.nodes.forEach(node => {
+                    // 选中节点
+                    if (!node.isGW) {
+                      node.checked = true;
+                    }
+                  });
+                }
+              }
+            });
           }
-          // 不弹出升级节点提示框
-          // if (containGW && this.nodes.length > 1) {
-          //   this.$dialog.confirm({
-          //     okText: this.$t('trans0024'),
-          //     cancelText: this.$t('trans0025'),
-          //     message: this.$t('trans0669'),
-          //     callback: {
-          //       ok: () => {
-          //         // 选中第一个节点
-          //         this.nodes.filter(n => !n.isGW)[0].checked = true;
-          //       }
-          //     }
-          //   });
+          // else if (this.nodes.length > 0) {
+          //   this.nodes[0].checked = true;
           // }
         })
         .catch(err => {

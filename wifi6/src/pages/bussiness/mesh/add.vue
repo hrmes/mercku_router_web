@@ -160,12 +160,11 @@
             <p>{{$t('trans0653')}}</p>
             <p>{{$t('trans0215')}}</p>
             <p>{{$t('trans0651')}}</p>
+            <p>{{$t('trans0175')}}</p>
             <p>{{$t('trans0657')}}</p>
-            <p>{{$t('trans0216')}}</p>
             <p>{{$t('trans0698')}}</p>
             <p>{{$t('trans0661')}}</p>
-            <!-- <p>5. {{$t('trans0330')}}</p>
-            <p>6. {{$t('trans0372')}}
+            <!-- <p>6. {{$t('trans0372')}}
               <a :href="$t('trans0477')"
                  target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}
             </p> -->
@@ -229,7 +228,7 @@ export default {
     })(),
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
-    },
+    }
     // perfer this style = =!
     // isScanning() {
     //   return this.pageStatus === PageStatus.scanning;
@@ -271,9 +270,12 @@ export default {
       this.$loading.open({ template });
       // 超时90秒，间隔3秒
       this.$http
-        .addMeshNode({ node }, {
-          hideToast: true
-        })
+        .addMeshNode(
+          { node },
+          {
+            hideToast: true
+          }
+        )
         .then(() => {
           let timeout = this.addTimeout;
           this.checkTimer = setInterval(() => {
@@ -292,15 +294,21 @@ export default {
                     if (meshNodes.length) {
                       const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
                       // 获取刚添加的节点的sn
-                      const meshNode = meshNodes.find(item => item.mac[type] === node.mac[type]);
+                      const meshNode = meshNodes.find(
+                        item => item.mac[type] === node.mac[type]
+                      );
                       if (meshNode) {
                         const { sn } = meshNode;
                         for (let i = 0; i < meshNodes.length; i += 1) {
                           const mNode = meshNodes[i];
                           if (mNode.sn !== sn && mNode.neighbors) {
-                            const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
+                            const neighborNood = mNode.neighbors.find(
+                              nItem => nItem.sn === sn
+                            );
                             if (neighborNood) {
-                              this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
+                              this.isWeakSignal = checkWeakSignal(
+                                neighborNood.rssi
+                              );
                               break;
                             }
                           }

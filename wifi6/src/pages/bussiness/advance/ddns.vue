@@ -46,6 +46,8 @@
   </div>
 </template>
 <script>
+import { isValidFieldLength, isValidPassword } from '@/util/util';
+
 export default {
   data() {
     return {
@@ -71,18 +73,30 @@ export default {
           {
             rule: value => value,
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => isValidFieldLength(value),
+            message: this.$t('trans0228')
           }
         ],
         username: [
           {
             rule: value => value,
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => isValidFieldLength(value),
+            message: this.$t('trans0261')
           }
         ],
         password: [
           {
             rule: value => value,
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => isValidPassword(value, 1, 64),
+            message: this.$t('trans0125')
           }
         ]
       }

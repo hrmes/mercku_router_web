@@ -194,7 +194,8 @@
       <m-modal-footer>
         <div class="form-button">
           <button class="btn btn-dialog-confirm"
-                  @click="closeRssiModal">{{$t('trans0024')}}</button></div>
+                  @click="closeRssiModal">{{$t('trans0024')}}</button>
+        </div>
       </m-modal-footer>
     </m-modal>
   </div>
