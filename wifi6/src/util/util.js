@@ -21,6 +21,7 @@ export const isValidFieldLength = (value, min = 1, max = 64) => {
   if (value.length < min || value.length > max) {
     return false;
   }
+  return true;
 };
 export const getIpBefore = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;

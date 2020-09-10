@@ -59,6 +59,10 @@ export default {
       rules: {
         host: [
           {
+            rule: value => value,
+            message: this.$t('trans0232')
+          },
+          {
             rule: value => isValidFieldLength(value),
             message: this.$t('trans0712')
           }
