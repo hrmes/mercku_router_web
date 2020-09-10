@@ -227,20 +227,20 @@ export default {
       rules: {
         newName: [
           {
-            rule: (value) => !/^\s*$/.test(value.trim()),
-            message: this.$t('trans0237'),
+            rule: value => !/^\s*$/.test(value.trim()),
+            message: this.$t('trans0237')
           },
           {
-            rule: (value) => {
+            rule: value => {
               const length = getStringByte(value.trim());
               if (length < 1 || length > 20) {
                 return false;
               }
               return true;
             },
-            message: this.$t('trans0261'),
-          },
-        ],
+            message: this.$t('trans0261')
+          }
+        ]
       },
       options: [
         this.$t('trans0349'),
@@ -257,8 +257,8 @@ export default {
         this.$t('trans0360'),
         this.$t('trans0361'),
         this.$t('trans0362'),
-        this.$t('trans0363'),
-      ],
+        this.$t('trans0363')
+      ]
     };
   },
   mounted() {
@@ -281,7 +281,7 @@ export default {
         result = true;
       }
       return result;
-    },
+    }
   },
   methods: {
     showRssiModal() {
@@ -302,8 +302,8 @@ export default {
               .updateMeshBand({
                 bands: {
                   '5G': true,
-                  '2.4G': val,
-                },
+                  '2.4G': val
+                }
               })
               .then(() => {
                 this.$loading.close();
@@ -314,7 +314,7 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 60,
+                  timeout: 60
                 });
               })
               .catch(() => {
@@ -324,12 +324,12 @@ export default {
           },
           cancel: () => {
             this.mesh24g = !this.mesh24g;
-          },
-        },
+          }
+        }
       });
     },
     getMeshBand() {
-      this.$http.getMeshBand().then((res) => {
+      this.$http.getMeshBand().then(res => {
         this.mesh24g = res.data.result['2.4G'];
       });
     },
@@ -352,7 +352,7 @@ export default {
         this.$http
           .updateMeshNode({
             node_id: router.sn,
-            data: { name: name.trim() },
+            data: { name: name.trim() }
           })
           .then(() => {
             router.name = name;
@@ -377,10 +377,10 @@ export default {
               .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
               .then(() => {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
-                this.routers = this.routers.filter((r) => r.sn !== router.sn);
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
               });
-          },
-        },
+          }
+        }
       });
     },
     rebootNode(router) {
@@ -399,15 +399,15 @@ export default {
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
-                  },
+                  }
                 });
               } else {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
-                this.routers = this.routers.filter((r) => r.sn !== router.sn);
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
               }
             });
-          },
-        },
+          }
+        }
       });
     },
     resetNode(router) {
@@ -426,11 +426,11 @@ export default {
                 },
                 ontimeout: () => {
                   window.location.href = '/';
-                },
+                }
               });
             });
-          },
-        },
+          }
+        }
       });
     },
     addMeshNode() {
@@ -449,18 +449,18 @@ export default {
     drawTopo(routers) {
       const oldRouters = this.routers;
 
-      const selected = oldRouters.filter((or) => or.expand).map((r) => r.sn);
+      const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       this.routers = routers;
 
       const data = genData(routers);
-      data.nodes.forEach((n) => {
-        this.routers.forEach((r) => {
+      data.nodes.forEach(n => {
+        this.routers.forEach(r => {
           if (n.sn === r.sn) {
             this.$set(r, 'image', n.symbol.replace('image://', ''));
           }
         });
       });
-      this.routers.forEach((r) => {
+      this.routers.forEach(r => {
         if (selected.includes(r.sn)) {
           this.$set(r, 'expand', true);
         } else {
@@ -481,7 +481,7 @@ export default {
               show: false,
               formatter(series) {
                 return series.data.rssi;
-              },
+              }
             },
             label: {
               normal: {
@@ -511,18 +511,18 @@ export default {
                     return `${start}\n${end}`;
                   }
                   return name.match(/.{1,10}/g).join('\n');
-                },
-              },
+                }
+              }
             },
             data: data.nodes,
             links: data.lines,
             categories: [
               { name: `${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0196')}` },
+              { name: `${this.$t('trans0196')}` }
             ],
-            lineStyle: { width: 2 },
-          },
-        ],
+            lineStyle: { width: 2 }
+          }
+        ]
       };
       this.chart.setOption(option);
     },
@@ -538,7 +538,7 @@ export default {
       this.meshNodeTimer = null;
       this.$http
         .getMeshNode()
-        .then((res) => {
+        .then(res => {
           this.drawTopo(res.data.result);
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
@@ -553,12 +553,12 @@ export default {
             }, 10000);
           }
         });
-    },
+    }
   },
   beforeDestroy() {
     this.pageActive = false;
     this.clearIntervalTask();
-  },
+  }
 };
 </script>
 <style lang="scss">

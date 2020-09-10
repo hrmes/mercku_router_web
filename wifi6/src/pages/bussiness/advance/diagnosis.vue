@@ -37,7 +37,7 @@
 import { isValidFieldLength } from '@/util/util';
 
 const TaskStatus = {
-  done: 'done',
+  done: 'done'
 };
 export default {
   data() {
@@ -45,31 +45,31 @@ export default {
       jobs: [
         {
           value: 'ping',
-          text: 'ping',
+          text: 'ping'
         },
         {
           value: 'traceroute',
-          text: 'traceroute',
+          text: 'traceroute'
         },
         {
           value: 'nslookup',
-          text: 'nslookup',
-        },
+          text: 'nslookup'
+        }
       ],
       rules: {
         host: [
           {
-            rule: (value) => isValidFieldLength(value),
-            message: this.$t('trans0712'),
-          },
-        ],
+            rule: value => isValidFieldLength(value),
+            message: this.$t('trans0712')
+          }
+        ]
       },
       job_type: 'ping',
       form: {
-        host: '',
+        host: ''
       },
       output: '',
-      label: this.$t('trans0463'),
+      label: this.$t('trans0463')
     };
   },
   watch: {
@@ -79,7 +79,7 @@ export default {
       } else {
         this.label = this.$t('trans0436');
       }
-    },
+    }
   },
   methods: {
     diagnosis() {
@@ -88,10 +88,10 @@ export default {
         .diagnosis({
           job_type: this.job_type,
           job_params: {
-            host: this.form.host,
-          },
+            host: this.form.host
+          }
         })
-        .then((res) => {
+        .then(res => {
           if (res.data.result.status === TaskStatus.done) {
             this.$loading.close();
             this.output = res.data.result.output;
@@ -107,8 +107,8 @@ export default {
       if (this.$refs.form.validate()) {
         this.diagnosis();
       }
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
