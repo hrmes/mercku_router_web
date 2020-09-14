@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { trimFields } from '@/util/util';
 
 axios.defaults.timeout = 60000;
 const defaultUrl = '/app';
@@ -107,12 +106,12 @@ const methods = {
   getSupportRegions: createMethod('mesh.region.supported.get'),
   setRegion: createMethod('mesh.region.update'),
   getSshEnabled: createMethod('router.ssh.enabled.get'),
-  updateSshEnabled: createMethod('router.ssh.enabled.update'),
+  setSshEnabled: createMethod('router.ssh.enabled.update'),
   getMeshNodeStation: createMethod('mesh.node.station.get'),
   getMeshInfoWanNetIpv6: createMethod('mesh.info.wan.net.ipv6.get'),
   updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update'),
-  getUPNPEnabled: 'mesh.upnp.enabled.get',
-  setUPNPEnabled: 'mesh.upnp.enabled.update'
+  getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
+  setUPNPEnabled: createMethod('mesh.upnp.enabled.update')
 };
 
 class Http {
@@ -127,12 +126,11 @@ class Http {
   }
 
   request(config, params, axiosCfg = {}) {
-    let data = { method: config.action };
+    const data = { method: config.action };
 
     if (params) {
       data.params = params;
     }
-    data = trimFields(data);
     const options = {
       ...axiosCfg,
       url: config.url,

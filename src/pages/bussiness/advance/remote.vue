@@ -123,7 +123,8 @@
           </m-form-item>
           <m-form-item>
             <m-switch :label="$t('trans0628')"
-                      v-model="remoteShell.ssh"></m-switch>
+                      v-model="remoteShell.ssh"
+                      :onChange="updateSsh"></m-switch>
           </m-form-item>
         </m-form>
       </div>
@@ -139,63 +140,63 @@ export default {
       dropdownVisible: false,
       tftp: {
         server: '',
-        filename: ''
+        filename: '',
       },
       tftpRules: {
         server: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
+            rule: (value) => value,
+            message: this.$t('trans0232'),
+          },
         ],
         filename: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
-        ]
+            rule: (value) => value,
+            message: this.$t('trans0232'),
+          },
+        ],
       },
       enabled: true,
       remote: {
         username: '',
         password: '',
         interval: '',
-        url: ''
+        url: '',
       },
       local: {
         port: '',
         path: '',
         username: '',
-        password: ''
+        password: '',
       },
       remoteShell: {
         telnet: false,
-        ssh: false
+        ssh: false,
       },
       remoateRules: {
         url: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
+            rule: (value) => value,
+            message: this.$t('trans0232'),
+          },
         ],
         username: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
+            rule: (value) => value,
+            message: this.$t('trans0232'),
+          },
         ],
         interval: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
+            rule: (value) => value,
+            message: this.$t('trans0232'),
           },
           {
-            rule: value => /^\d*$/g.test(value),
-            message: this.$t('trans0500')
+            rule: (value) => /^\d*$/g.test(value),
+            message: this.$t('trans0500'),
           },
           {
-            rule: value => {
+            rule: (value) => {
               const v = parseInt(value, 10);
               if (Number.isNaN(v)) {
                 return false;
@@ -205,28 +206,28 @@ export default {
               }
               return true;
             },
-            message: this.$t('trans0500')
-          }
-        ]
+            message: this.$t('trans0500'),
+          },
+        ],
       },
       localRules: {
         port: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
+            rule: (value) => value,
+            message: this.$t('trans0232'),
           },
           {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0478')
-          }
+            rule: (value) => portReg.test(value),
+            message: this.$t('trans0478'),
+          },
         ],
         path: [
           {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
-        ]
-      }
+            rule: (value) => value,
+            message: this.$t('trans0232'),
+          },
+        ],
+      },
     };
   },
   computed: {
@@ -234,27 +235,30 @@ export default {
       const Tabs = {
         isTR069: 'tr069',
         isTFTP: 'tftp',
-        isTelnet: 'telnet'
+        isTelnet: 'telnet',
       };
       const result = {};
-      Object.keys(Tabs).forEach(key => {
+      Object.keys(Tabs).forEach((key) => {
         result[key] = function temp() {
           return this.$route.params.category === Tabs[key];
         };
       });
       return result;
-    })()
+    })(),
   },
   mounted() {
-    this.$http.getTelnetEnabled().then(res => {
+    this.$http.getTelnetEnabled().then((res) => {
       this.remoteShell.telnet = res.data.result.enabled;
     });
-    this.$http.getTr069().then(res => {
+    this.$http.getSshEnabled().then((res) => {
+      this.remoteShell.ssh = res.data.result.enabled;
+    });
+    this.$http.getTr069().then((res) => {
       this.remote = res.data.result.remote;
       this.local = res.data.result.local;
       this.enabled = res.data.result.enabled;
     });
-    this.$http.getTFTP().then(res => {
+    this.$http.getTFTP().then((res) => {
       this.tftp = res.data.result;
     });
   },
@@ -271,12 +275,12 @@ export default {
         const remote = {
           username: this.remote.username,
           interval: Number(this.remote.interval),
-          url: this.remote.url
+          url: this.remote.url,
         };
         const local = {
           username: this.local.username,
           port: Number(this.local.port),
-          path: this.local.path
+          path: this.local.path,
         };
         if (this.remote.password) {
           remote.password = this.remote.password;
@@ -288,7 +292,7 @@ export default {
           .updateTr069({
             remote,
             local,
-            enabled: this.enabled
+            enabled: this.enabled,
           })
           .then(() => {
             this.$loading.close();
@@ -303,7 +307,7 @@ export default {
       this.$loading.open();
       this.$http
         .setTelnetEnabled({
-          enabled: v
+          enabled: v,
         })
         .then(() => {
           this.$loading.close();
@@ -312,6 +316,21 @@ export default {
         .catch(() => {
           this.$loading.close();
           this.remoteShell.telnet = !v;
+        });
+    },
+    updateSsh(v) {
+      this.$loading.open();
+      this.$http
+        .setSshEnabled({
+          enabled: v,
+        })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.$loading.close();
+          this.remoteShell.ssh = !v;
         });
     },
     updateTFTP() {
@@ -327,8 +346,8 @@ export default {
             this.$loading.close();
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
