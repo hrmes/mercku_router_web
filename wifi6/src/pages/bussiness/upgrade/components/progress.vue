@@ -258,7 +258,7 @@ export default {
             if (timeout <= 0) {
               clearInterval(timer);
               timer = null;
-              this.$http.getRouter(); // 超时跳转到未连接页面
+              this.status = Statuses.install_timeout;
             }
             if (responsed) {
               responsed = false;
