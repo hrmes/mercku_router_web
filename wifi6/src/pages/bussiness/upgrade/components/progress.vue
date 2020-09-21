@@ -38,8 +38,8 @@
                 {{ translate('trans0808') }}
               </div>
               <ul class="mk-upgrade-reasons reset-ul">
-                <li class="mk-upgrade-reason">{{ translate('trans0807') }}</li>
-                <li class="mk-upgrade-reason">{{ translate('trans0806') }}</li>
+                <li class="mk-upgrade-reason">{{ translate('trans0648') }}</li>
+                <li class="mk-upgrade-reason">{{ translate('trans0649') }}</li>
               </ul>
             </div>
             <div class="mk-upgrade-result__img">
