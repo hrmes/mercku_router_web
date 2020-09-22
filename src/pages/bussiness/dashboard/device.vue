@@ -299,13 +299,13 @@
   </div>
 </template>
 <script>
-import { BlacklistMode } from 'util/constant';
+import { BlacklistMode } from '@/util/constant';
 import {
   formatMac,
   getStringByte,
   formatDate,
   formatDuration
-} from 'util/util';
+} from '@/util/util';
 
 export default {
   data() {
@@ -713,37 +713,49 @@ export default {
       return `${this.$t('trans0010')}`;
     },
     transformDuration(zone) {
-      if (!zone || window.isNaN(zone) || parseInt(zone, 10) < 0 || !Number.isInteger(zone)) {
+      if (
+        !zone ||
+        window.isNaN(zone) ||
+        parseInt(zone, 10) < 0 ||
+        !Number.isInteger(zone)
+      ) {
         return '-';
       }
-      const Duration = formatDuration(zone);
+      const timeArr = formatDuration(zone);
       const suffixs = [
         {
           key: 'year',
-          trans: 'trans0531'
+          text: 'trans0531'
         },
         {
           key: 'month',
-          trans: 'trans0532'
+          text: 'trans0532'
         },
         {
           key: 'day',
-          trans: 'trans0532'
+          text: 'trans0532'
         },
         {
           key: 'hour',
-          trans: 'trans0534'
+          text: 'trans0534'
         },
         {
           key: 'minute',
-          trans: 'trans0535'
+          text: 'trans0535'
         },
         {
           key: 'second',
-          trans: 'trans0536'
+          text: 'trans0536'
         }
       ];
-      const durationStr = suffixs.map(item => (Duration[item.key] ? `${Duration[item.key]}${this.$t(item.trans)}` : '')).join('');
+      const durationStr = suffixs
+        .map((item, index) => {
+          if (!timeArr[index]) {
+            return '';
+          }
+          return `${timeArr[index]}${this.$t(item.text)}`;
+        })
+        .join('');
       return durationStr;
     },
     parseOfflineTime(row) {

@@ -234,7 +234,7 @@
   </div>
 </template>
 <script>
-import * as CONSTANTS from 'util/constant';
+import * as CONSTANTS from '@/util/constant';
 
 export default {
   data() {
@@ -542,7 +542,9 @@ export default {
           if (this.ipv6NetInfo.enabled) {
             const { netinfo } = result;
             this.ipv6NetInfo.type = result.type || '-';
-            this.ipv6NetInfo.ip = netinfo.address.length ? netinfo.address[0].ip : '-';
+            this.ipv6NetInfo.ip = netinfo.address.length
+              ? netinfo.address[0].ip
+              : '-';
             this.ipv6NetInfo.gateway = netinfo.gateway.ip || '-';
             this.ipv6NetInfo.dns = netinfo.dns.length ? netinfo.dns[0].ip : '-';
           }

@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import { formatMac, isMac } from 'util/util';
+import { formatMac, isMac } from '@/util/util';
 
 export default {
   computed: {

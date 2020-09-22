@@ -222,7 +222,8 @@
       <m-modal-footer>
         <div class="form-button">
           <button class="btn btn-dialog-confirm"
-                  @click="closeRssiModal">{{$t('trans0024')}}</button></div>
+                  @click="closeRssiModal">{{$t('trans0024')}}</button>
+        </div>
       </m-modal-footer>
     </m-modal>
     <!-- mesh列表弹框 -->
@@ -286,8 +287,8 @@
 </template>
 <script>
 import marked from 'marked';
-import { formatMac, getStringByte } from 'util/util';
-import { RouterStatus } from 'util/constant';
+import { formatMac, getStringByte } from '@/util/util';
+import { RouterStatus } from '@/util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');

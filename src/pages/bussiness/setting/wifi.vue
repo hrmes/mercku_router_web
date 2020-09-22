@@ -177,7 +177,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from 'util/util';
+import { getStringByte, passwordRule } from '@/util/util';
 
 const Bands = {
   b24g: '2.4G',

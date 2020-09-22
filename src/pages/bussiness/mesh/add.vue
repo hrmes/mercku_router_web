@@ -176,7 +176,7 @@
   </div>
 </template>
 <script>
-import { RouterSnModel } from 'util/constant';
+import { RouterSnModel } from '@/util/constant';
 
 const Routers = [
   {

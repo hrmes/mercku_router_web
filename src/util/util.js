@@ -251,43 +251,20 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
 };
 
 export const formatDuration = value => {
-  const YEAR = 365; // 定义一年有多少时间
-  const MONTH = 30; // 定义一月有多少时间
-  const splits = [YEAR * 3600 * 24, MONTH * 3600 * 24, 3600 * 24, 3600, 60];
-  let remainingTime = value;
-  const Duration = {
-    year: 0,
-    month: 0,
-    day: 0,
-    hour: 0,
-    minute: 0,
-    second: 0
-  };
-  while (remainingTime > 0) {
-    if (remainingTime >= splits[0]) {
-      const year = parseInt(remainingTime / splits[0], 10);
-      remainingTime = remainingTime - year * splits[0];
-      Duration.year = year;
-    } else if (remainingTime < splits[0] && remainingTime >= splits[1]) {
-      const month = parseInt(remainingTime / splits[1], 10);
-      remainingTime = remainingTime - month * splits[1];
-      Duration.month = month;
-    } else if (remainingTime < splits[1] && remainingTime >= splits[2]) {
-      const day = parseInt(remainingTime / splits[2], 10);
-      remainingTime = remainingTime - day * splits[2];
-      Duration.day = day;
-    } else if (remainingTime < splits[2] && remainingTime >= splits[3]) {
-      const hour = parseInt(remainingTime / splits[3], 10);
-      remainingTime = remainingTime - hour * splits[3];
-      Duration.hour = hour;
-    } else if (remainingTime < splits[3] && remainingTime >= splits[4]) {
-      const minute = parseInt(remainingTime / splits[4], 10);
-      remainingTime = remainingTime - minute * splits[4];
-      Duration.minute = minute;
-    } else if (remainingTime < splits[4]) {
-      Duration.second = remainingTime;
-      remainingTime = -1;
+  const YEAR = 365; // 定义一年有多少天
+  const MONTH = 30; // 定义一月有多少天
+  const HOUR = 3600; // 定义一小时有多少秒
+  const splits = [YEAR * 24 * HOUR, MONTH * 24 * HOUR, 24 * HOUR, HOUR, 60];
+  const timeArr = [];
+  splits.forEach(val => {
+    let duration = 0;
+    if (value >= val) {
+      duration = parseInt(value / val, 10);
+      value -= duration * val;
     }
-  }
-  return Duration;
+    timeArr.push(duration);
+  });
+  // 添加剩下的秒数
+  timeArr.push(value);
+  return timeArr;
 };

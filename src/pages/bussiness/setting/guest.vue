@@ -17,7 +17,8 @@
                          :content="$t('trans0540')">
                 <img width="14"
                      src="../../../assets/images/icon/ic_question.png"
-                     alt=""></m-popover>
+                     alt="">
+              </m-popover>
 
             </div>
           </label>
@@ -111,7 +112,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from 'util/util';
+import { getStringByte, passwordRule } from '@/util/util';
 
 export default {
   data() {

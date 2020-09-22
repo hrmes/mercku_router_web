@@ -162,8 +162,8 @@
 </template>
 
 <script>
-import * as CONSTANTS from 'util/constant';
-import { ipv6Reg } from 'util/util';
+import * as CONSTANTS from '@/util/constant';
+import { ipv6Reg } from '@/util/util';
 
 const PREFIX_LENGTH = 64;
 
@@ -505,7 +505,7 @@ export default {
           }
         };
       }
-      
+
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
