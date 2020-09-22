@@ -10,18 +10,18 @@
 export default {
   props: {
     prop: {
-      type: String,
+      type: String
     },
     rules: {
       type: Array,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
   data() {
     return {
       validators: [],
       result: null, // null表示没有进行校验，true通过，false未通过
-      message: '',
+      message: ''
     };
   },
   computed: {
@@ -30,7 +30,7 @@ export default {
     },
     success() {
       return this.result === true;
-    },
+    }
   },
   methods: {
     getValueByPath(obj, path) {
@@ -45,7 +45,7 @@ export default {
       // sometime path is empty when init, so match will get null
       let keyArr = path.match(/(?:\[)(.*?)(?:\])/g) || [];
       // remove [|]|"|' in key
-      keyArr = keyArr.map((k) => k.replace(/(\[|\]|"|')/g, ''));
+      keyArr = keyArr.map(k => k.replace(/(\[|\]|"|')/g, ''));
       let i = 0;
       for (let len = keyArr.length; i < len - 1; i += 1) {
         if (!tempObj) break;
@@ -89,7 +89,7 @@ export default {
       }
       this.result = result;
       return result;
-    },
+    }
   },
   mounted() {
     this.$on('blur', () => {
@@ -101,7 +101,7 @@ export default {
     this.$on('change', () => {
       this.result = null;
     });
-  },
+  }
 };
 </script>
 <style lang="scss">
