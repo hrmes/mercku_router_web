@@ -250,7 +250,7 @@ export default {
     this.$http.getTelnetEnabled().then(res => {
       this.remoteShell.telnet = res.data.result.enabled;
     });
-    this.$http.getSshEnabled().then(res => {
+    this.$http.getSSHEnabled().then(res => {
       this.remoteShell.ssh = res.data.result.enabled;
     });
     this.$http.getTr069().then(res => {
@@ -321,7 +321,7 @@ export default {
     updateSsh(v) {
       this.$loading.open();
       this.$http
-        .setSshEnabled({
+        .setSSHEnabled({
           enabled: v
         })
         .then(() => {
