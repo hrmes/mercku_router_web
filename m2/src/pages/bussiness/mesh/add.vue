@@ -18,6 +18,7 @@
           <button class="btn btn-large"
                   @click="forward2WelcomePage">{{$t('trans0467')}}</button>
         </div>
+        <p class="tips__text--add">{{tipsText}}</p>
       </div>
       <div class="type-container"
            v-if="welcomePage">
@@ -227,6 +228,11 @@ export default {
       selectedCategory: Routers[0],
       showHelpDialog: false
     };
+  },
+  computed: {
+    tipsText() {
+      return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
+    }
   },
   methods: {
     back2WelcomePage() {
@@ -478,6 +484,12 @@ export default {
   }
   .tip {
     margin-bottom: 30px;
+  }
+  .tips__text--add {
+    color: #999;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
   }
   .router {
     display: flex;
