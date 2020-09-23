@@ -141,7 +141,7 @@
                          v-model="staticForm.gateway" />
               </m-form-item>
               <m-form-item class="item"
-                           prop='dns1'
+                           prop='dns'
                            ref="dns">
                 <m-input :label="$t('trans0236')"
                          type="text"
@@ -163,7 +163,7 @@
 
 <script>
 import * as CONSTANTS from '@/util/constant';
-import { ipv6Reg } from '@/util/util';
+import is from 'is_js';
 
 const PREFIX_LENGTH = 64;
 
@@ -233,7 +233,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipv6Reg.test(value),
+            rule: value => is.ipv6(value),
             message: this.$t('trans0231')
           }
         ],
@@ -256,7 +256,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipv6Reg.test(value),
+            rule: value => is.ipv6(value),
             message: this.$t('trans0231')
           }
         ],
@@ -266,7 +266,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipv6Reg.test(value),
+            rule: value => is.ipv6(value),
             message: this.$t('trans0231')
           }
         ]
@@ -301,7 +301,7 @@ export default {
               message: this.$t('trans0232')
             },
             {
-              rule: value => ipv6Reg.test(value),
+              rule: value => is.ipv6(value),
               message: this.$t('trans0231')
             }
           ]

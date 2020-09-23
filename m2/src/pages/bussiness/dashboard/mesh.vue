@@ -127,7 +127,9 @@
               <div class="equipment">
                 <span class="label">{{$t('trans0235')}}</span>
                 <span class="value equipment__value"
-                      @click.stop="showMeshListModal(router.stations)">{{router.stations.length}}</span>
+                      @click.stop="showMeshListModal(router.stations)">
+                  {{router.stations.length}}
+                </span>
                 <img class="equipment__arrow"
                      src="../../../assets/images/icon/ic_inter.png" />
               </div>

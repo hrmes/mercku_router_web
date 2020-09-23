@@ -13,7 +13,7 @@
               :class="{'open':opened,'close':!opened}"></span>
       </div>
       <transition name="select">
-        <ul class="select-popup"
+        <ul class="select-popup reset-ul"
             v-show="this.opened">
           <li :class="{'selected':selected === option}"
               :key="option.value"

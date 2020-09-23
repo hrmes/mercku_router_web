@@ -32,7 +32,7 @@
       </div>
       <div class="table-inner">
         <div class="table-head">
-          <ul>
+          <ul class="reset-ul">
             <li class="column-name">
               <div class="column-check-box"
                    v-if="isOfflineDevices">
@@ -51,10 +51,6 @@
             <li class="column-ip"
                 v-if="!isOfflineDevices">{{$t('trans0151')}} /
               {{$t('trans0188')}}</li>
-            <!-- 接入时间 -->
-            <!-- <li class="column-ip"
-                v-if="isOfflineDevices">
-              {{$t('trans0374')}}</li> -->
             <!-- 在线时长 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
@@ -79,7 +75,8 @@
           <div v-show="!showLoading">
             <ul v-for="(row,i) in devicesMap[id]"
                 :key='i'
-                :class="{'expand':row.expand}">
+                :class="{'expand':row.expand}"
+                class="reset-ul">
               <li class="column-name"
                   @click.stop="expandTable(row)">
 
@@ -173,13 +170,6 @@
                 <span>{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
-              <!-- 接入时间 -->
-              <!-- <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span>{{$t('trans0374')}}</span>
-                <span> {{transformOfflineDate(row.connected_time)}} </span>
-              </li> -->
               <!-- 在线时长 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
@@ -755,7 +745,7 @@ export default {
           }
           return `${timeArr[index]}${this.$t(item.text)}`;
         })
-        .join('');
+        .join(' ');
       return durationStr;
     },
     parseOfflineTime(row) {
