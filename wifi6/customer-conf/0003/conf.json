@@ -1,0 +1,22 @@
+{
+  "id": "0003",
+  "title": "START.CA",
+  "accept": ".sa",
+  "favicon": "customer-conf/0003/favicon.png",
+  "policy": "https://www.start.ca/privacy",
+  "allow2LevelAdmin": true,
+  "routers": {
+    "M2": {
+      "name": "M2 Standalone Wi-Fi router",
+      "shortName": "M2"
+    },
+    "Bee": {
+      "name": "M2 Bee Wi-Fi Mesh Node",
+      "shortName": "Bee"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#999999"
+  }
+}
