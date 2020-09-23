@@ -661,7 +661,7 @@
   "trans0666": "Zugriff für Start.ca auf Ihre Photos verweigert. Sie können dies in den Einstellungen autorisieren.",
   "trans0667": "Komplette Topologie",
   "trans0668": "Im kompletten Topologie Modus werden alle verfügbaren Verbindungen dargestellt. Da M2-Knoten in der Lage sind, automatisch die besten Verbindungen zu ermitteln, werden nicht verwendete Verbindungen im übersichtlichen Topologie Modus ausgelassen um eine einfachere Ansicht zu ermöglichen.",
-  "trans0669": "Da das WLAN während des Firmware Upgrades des Routers (Queen) getrennt wird, upgraden Sie die Mesh-Knoten (Bee) bitte zuerst. Ansonsten kann es zum Fehler beim Herunterladen für den Mesh-Knoten kommen.",
+  "trans0669": "Es wird empfohlen erst ein Upgrade an den Meshknoten durchzuführen.",
   "trans0670": "M2 Router Information ist nicht verfügbar. Bitte verbinden Sie mit dem M2 Wi-Fi und versuchen es erneut.",
   "trans0671": "Unbekannter Fehler: %d",
   "trans0672": "Auf WLAN-Informationen kann nur zugegriffen werden, wenn Standortdienste aktiviert sind.",

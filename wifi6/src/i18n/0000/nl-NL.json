@@ -661,7 +661,7 @@
   "trans0666": "U hebt {Your Name} geweigerd uw foto te gebruiken. Verleen deze autorisatie in Instellingen",
   "trans0667": "Volledige grafiek",
   "trans0668": "Alle beschikbare verbindingen worden geïllustreerd in de volledige grafiekmodus. Omdat {Your Name}-nodes automatisch de beste verbindingen gebruiken, worden ongebruikte verbindingen weggelaten bij het uitschakelen van de volledige grafiek, die de statussen van de verbindingen binnen het vermaasd netwerk duidelijker beschrijven.",
-  "trans0669": "De Wi-Fi wordt uitgeschakeld tijdens het upgraden van de gateway. Het wordt aanbevolen om eerst de mesh-punten te upgraden.",
+  "trans0669": "Het wordt aanbevolen om eerst de mesh-punten te upgraden.",
   "trans0670": " ",
   "trans0671": "Onbekende fout: %d",
   "trans0672": "De Wi-Fi-informatie is alleen toegankelijk nadat locatiediensten zijn ingeschakeld.",

@@ -179,7 +179,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword } from '@/util/util';
+import { getStringByte, isValidPassword, isFieldHasComma } from '@/util/util';
 import { EncryptMethod, Bands } from '@/util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
 
@@ -213,15 +213,23 @@ export default {
       rules: {
         'b24g.ssid': [
           {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0237')
+          },
+          {
             rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
           }
         ],
         'b24g.password': [
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
           {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
@@ -229,15 +237,23 @@ export default {
         ],
         'b5g.ssid': [
           {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0237')
+          },
+          {
             rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
           }
         ],
         'b5g.password': [
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
           {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
@@ -305,7 +321,7 @@ export default {
           return;
         }
       }
-      if (validResult1 && validResult2) { 
+      if (validResult1 && validResult2) {
         this.form.b24g.ssid = this.form.b24g.ssid.trim();
         this.form.b5g.ssid = this.form.b5g.ssid.trim();
         this.$dialog.confirm({
