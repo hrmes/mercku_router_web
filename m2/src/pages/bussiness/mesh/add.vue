@@ -57,7 +57,7 @@
           <div class="step-item step-item0"
                v-show="stepsOption.current===0">
             <p>{{$t('trans0634')}}</p>
-            <img src="../../../assets/images/img-power.png"
+            <img :src="selectedCategory.powerOnImage"
                  alt="">
             <div class="button-container">
               <button @click="forwardWelcome()"
@@ -183,12 +183,14 @@ const Routers = [
   {
     name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
     image: require('@/assets/images/img_bee.png'),
+    powerOnImage: require('@/assets/images/img_power_on_bee.jpg'),
     tipImage: require('@/assets/images/img_add_plug_bee.png'),
     sn: RouterSnModel.Bee
   },
   {
     name: process.env.CUSTOMER_CONFIG.routers.M2.name,
     image: require('@/assets/images/img_m2.png'),
+    powerOnImage: require('@/assets/images/img_power_on_m2.jpg'),
     tipImage: require('@/assets/images/img_add_plug_m2.png'),
     sn: RouterSnModel.M2
   }
@@ -280,6 +282,7 @@ export default {
     },
     selectRouter(router) {
       this.selectedCategory = router;
+      console.log('selectedCategory', this.selectedCategory);
     },
     selectNode(node) {
       this.nodes.forEach(n => {
