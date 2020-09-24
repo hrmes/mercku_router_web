@@ -168,7 +168,7 @@
 import * as CONSTANTS from '@/util/constant';
 import is from 'is_js';
 
-const PREFIX_LENGTH = 64;
+const defaultPrefixLength = 64;
 
 export default {
   data() {
@@ -462,7 +462,7 @@ export default {
         if (!this.autodns) {
           form.auto.dns.push({
             ip: this.autoForm.dns,
-            prefix_length: PREFIX_LENGTH
+            prefix_length: defaultPrefixLength
           });
         }
       }
@@ -477,7 +477,7 @@ export default {
           dns: [
             {
               ip: this.pppoeForm.dns,
-              prefix_length: PREFIX_LENGTH
+              prefix_length: defaultPrefixLength
             }
           ]
         };
