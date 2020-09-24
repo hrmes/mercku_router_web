@@ -41,8 +41,7 @@
         <div class="ipv6-page__internet-wrap">
           <div class="ipv6-page__internet-title">{{$t('trans0623')}}</div>
           <div class="ipv6-page__internet-content ipv6-page__internet-content--config">
-            <m-select :class="`select-margin-bottom--${isPppoe ? 'sm' : 'lg'}`"
-                      :label="$t('trans0317')"
+            <m-select :label="$t('trans0317')"
                       v-model="netType"
                       :options="wanTypeOptions"></m-select>
             <!-- auto -->
@@ -50,7 +49,8 @@
                     v-if="isAuto"
                     ref="autoForm"
                     :model="autoForm"
-                    :rules="autoRules">
+                    :rules="autoRules"
+                    class="auto-form">
               <m-form-item class="item">
                 <m-radio-group class="radio-group"
                                direction="vertical"
@@ -73,11 +73,13 @@
                     v-else-if="isPppoe"
                     ref="pppoeForm"
                     :model="pppoeForm"
-                    :rules='pppoeRules'>
+                    :rules='pppoeRules'
+                    class="pppoe-form">
               <m-checkbox v-model="pppoeForm.isUseIPv4"
                           :onChange="useIPv4EnabledChange"
-                          :text="$t('trans0625')"></m-checkbox>
-              <div class="note">{{$t('trans0154')}}</div>
+                          :text="$t('trans0625')"
+                          class="pppoe-form__item__checkbox"></m-checkbox>
+              <div class="pppoe-form__item__note">{{$t('trans0154')}}</div>
               <m-form-item class="item"
                            prop='account'>
                 <m-input :label="$t('trans0155')"
@@ -114,8 +116,9 @@
                     v-else-if="isStatic"
                     ref="staticForm"
                     :model="staticForm"
-                    :rules='staticRules'>
-              <div class="note">{{$t('trans0150')}}</div>
+                    :rules='staticRules'
+                    class="static-form">
+              <div class="static-form__item__note">{{$t('trans0150')}}</div>
               <m-form-item class="item"
                            prop="ip"
                            ref="ip">
@@ -552,11 +555,10 @@ export default {
   }
   .ipv6-page__internet-content {
     width: 340px;
-    margin: 0 auto;
+    margin: 30px auto 50px auto;
   }
   .ipv6-page__internet-content--info {
     width: 340px;
-    margin: 30px auto 50px auto;
     .info__item {
       display: flex;
     }
@@ -593,24 +595,30 @@ export default {
     }
   }
   .ipv6-page__internet-content--config {
-    .select-margin-bottom--lg {
-      margin-bottom: 30px;
-    }
-    .select-margin-bottom--sm {
-      margin-bottom: 5px;
-    }
     .radio-group {
       margin-bottom: 30px;
-    }
-    .note {
-      font-size: 12px;
-      color: #999999;
-      padding-top: 10px;
-      padding-bottom: 5px;
     }
     .form-button {
       margin-top: 50px !important;
       margin-bottom: 90px;
+    }
+    .auto-form,
+    .static-form {
+      margin-top: 30px;
+    }
+    .pppoe-form {
+      margin-top: 30px;
+      .pppoe-form__item__note {
+        font-size: 14px;
+        color: #999999;
+      }
+    }
+    .static-form {
+      margin-top: 30px;
+      .static-form__item__note {
+        font-size: 14px;
+        color: #999999;
+      }
     }
   }
 }

@@ -15,7 +15,7 @@
                  @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
           </m-tab>
           <m-tab :class="{'selected':isTelnet}"
-                 @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0497')}}</m-tab>
+                 @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0626')}}</m-tab>
         </m-tabs>
       </div>
     </div>
@@ -108,11 +108,6 @@
         </div>
       </div>
       <div v-if="isTelnet">
-        <!-- <div class="form">
-          <m-switch :label="$t('trans0462')"
-                    v-model="telnet"
-                    :onChange="updateTelnet"></m-switch>
-        </div> -->
         <m-form class="form"
                 :model="remoteShell"
                 ref="remoteShell">
