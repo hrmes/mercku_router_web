@@ -257,6 +257,7 @@
                      alt="">
               </span>
               <span class="device__host-name"
+                    :class="hasPaddingLeft(item.ip)"
                     :title="item.name">
                 {{item.name}}
               </span>
@@ -684,6 +685,9 @@ export default {
             }, 10000);
           }
         });
+    },
+    hasPaddingLeft(ip) {
+      return this.isThisMachine(ip) ? '' : 'has-padding-left';
     }
   },
   beforeDestroy() {
@@ -742,6 +746,9 @@ export default {
     .table__row {
       display: flex;
     }
+    .table__header {
+      padding: 0 10px;
+    }
     .table__body {
       height: 350px;
       overflow: auto;
@@ -771,6 +778,7 @@ export default {
       }
     }
     .table__row {
+      border-bottom: solid 1px #f1f1f1;
       .table__column {
         font-size: 14px;
         height: 60px;
@@ -783,13 +791,17 @@ export default {
           align-items: center;
           width: 30px;
           img {
-            width: 15px;
+            width: 16px;
           }
         }
         .device__host-name {
+          width: 180px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          &.has-padding-left {
+            padding-left: 30px;
+          }
         }
       }
       .table__column--ip {
@@ -1465,6 +1477,14 @@ export default {
         width: 100%;
         padding-bottom: 10px;
         border-bottom: solid 1px #ccc;
+        .table__column--device {
+          .device__host-name {
+            width: 100%;
+            &.has-padding-left {
+              padding-left: 0;
+            }
+          }
+        }
       }
       .table__empty {
         img {

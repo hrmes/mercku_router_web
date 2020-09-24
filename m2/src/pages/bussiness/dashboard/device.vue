@@ -128,7 +128,7 @@
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span>{{$t('trans0618')}}</span>
-                <span> 连接设备 </span>
+                <span> {{row.access_node.name}} </span>
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>

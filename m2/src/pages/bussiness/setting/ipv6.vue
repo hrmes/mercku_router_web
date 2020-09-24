@@ -556,13 +556,14 @@ export default {
   }
   .ipv6-page__internet-content--info {
     width: 340px;
-    margin: 0 auto;
+    margin: 30px auto 50px auto;
     .info__item {
       display: flex;
     }
     .info__item--img {
       flex-direction: column;
       align-items: center;
+      margin-bottom: 30px;
       img {
         width: 160px;
       }
@@ -573,7 +574,6 @@ export default {
       }
     }
     .info__item--text {
-      margin-top: 10px;
       label {
         display: inline-block;
         font-size: 14px;
@@ -586,6 +586,9 @@ export default {
         color: #333333;
         font-size: 14px;
         flex: 1;
+      }
+      &:not(:last-child) {
+        margin-bottom: 10px;
       }
     }
   }
