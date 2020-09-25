@@ -622,10 +622,13 @@ export default {
                 color: '#333',
                 backgroundColor: '#fff',
                 formatter(category) {
+                  console.log(category.data);
+                  let nameFormatted = '';
+                  const { stationsCount } = category.data;
                   // originName是节点的原始名称
                   const name = category.data.originName;
                   if (name.length <= 10) {
-                    return name;
+                    nameFormatted = name;
                   }
                   const splitor = ' ';
                   if (name.includes(splitor)) {
@@ -640,9 +643,25 @@ export default {
                       index += 1;
                     }
                     const end = sp.slice(index).join(splitor);
-                    return `${start}\n${end}`;
+                    nameFormatted = `${start}\n${end}`;
                   }
-                  return name.match(/.{1,10}/g).join('\n');
+                  nameFormatted = name.match(/.{1,10}/g).join('\n');
+                  return `{a|${nameFormatted}} {b|${stationsCount}}`;
+                },
+                rich: {
+                  a: {
+                    color: '#000',
+                    backgroundColor: '#fff'
+                  },
+                  b: {
+                    width: 20,
+                    height: 16,
+                    color: '#fff',
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    borderRadius: 3,
+                    backgroundColor: '#999'
+                  }
                 }
               }
             },
@@ -819,10 +838,9 @@ export default {
         justify-content: center;
         span {
           display: inline-block;
-          width: 40px;
-          height: 18px;
+          width: 75px;
           text-align: center;
-          line-height: 18px;
+          padding: 5px 0;
           border-radius: 3px;
           border: solid 1px #333333;
         }
@@ -1499,15 +1517,15 @@ export default {
         }
         &.table__column--ip {
           height: 50px;
-          width: 60%;
+          width: 50%;
         }
         &.table__column--guest {
           height: 50px;
-          width: 20%;
+          width: 25%;
         }
         &.table__column--frequency {
           height: 50px;
-          width: 20%;
+          width: 25%;
         }
       }
     }

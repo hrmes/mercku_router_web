@@ -156,27 +156,11 @@ function genNodes(gateway, green, red, offline) {
     }
     const n = {
       name: `${node.sn}${node.name}`, // 避免节点同名echarts报错不能绘图
-      // originName: `${node.name}(${node.stations.length})`, // 用于节点的label显示
+      originName: node.name, // 用于节点的label显示
+      stationsCount: node.stations.length,
       sn: node.sn,
       itemStyle: {
         color
-      },
-      label: {
-        formatter: `{a|${node.name}}{b|${node.stations.length}}`,
-        rich: {
-          a: {
-            color: '#000',
-            backgroundColor: '#fff'
-          },
-          b: {
-            width: 20,
-            height: 16,
-            color: '#fff',
-            align: 'center',
-            borderRadius: 3,
-            backgroundColor: '#999'
-          }
-        }
       },
       symbol,
       symbolSize
