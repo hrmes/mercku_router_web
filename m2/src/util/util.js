@@ -253,8 +253,9 @@ export const formatDuration = value => {
   const YEAR = 365; // 定义一年有多少天
   const MONTH = 30; // 定义一月有多少天
   const HOUR = 3600; // 定义一小时有多少秒
-  const splits = [YEAR * 24 * HOUR, MONTH * 24 * HOUR, 24 * HOUR, HOUR, 60];
   const timeArr = [];
+
+  const splits = [YEAR * 24 * HOUR, MONTH * 24 * HOUR, 24 * HOUR, HOUR, 60];
   splits.forEach(val => {
     let duration = 0;
     if (value >= val) {
@@ -265,5 +266,6 @@ export const formatDuration = value => {
   });
   // 添加剩下的秒数
   timeArr.push(value);
+
   return timeArr;
 };
