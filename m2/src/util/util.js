@@ -266,6 +266,5 @@ export const formatDuration = value => {
   });
   // 添加剩下的秒数
   timeArr.push(value);
-
   return timeArr;
 };
