@@ -1,7 +1,9 @@
 <template>
   <div class="page">
-    <div class='page-header'>
-      {{$t('trans0194')}}
+    <div class='page-header page-header__add-mesh'>
+      <span>{{$t('trans0194')}}</span>
+      <span class="page-header__help"
+            @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
     </div>
     <div class="page-content">
       <!-- 提示 -->
@@ -181,13 +183,11 @@
       <div class="modal-content">
         <div class="help-dialog-content">
           <div>
-            <p>1. {{$t('trans0234')}}</p>
-            <p>2. {{$t('trans0160')}}</p>
-            <p>3. {{$t('trans0158')}}</p>
-            <p>4. {{$t('trans0175')}}</p>
-            <p>5. {{$t('trans0330')}}</p>
-            <p>6. {{$t('trans0372')}} <a :href="$t('trans0477')"
-                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}</p>
+            <p>{{$t('trans0234')}}</p>
+            <p>{{$t('trans0160')}}</p>
+            <p>{{$t('trans0158')}}</p>
+            <p>{{$t('trans0175')}}</p>
+            <p>{{$t('trans0330')}}</p>
           </div>
         </div>
       </div>
@@ -419,6 +419,14 @@ export default {
     opacity: 0;
   }
 }
+.page-header__add-mesh {
+  justify-content: space-between;
+}
+.page-header__help {
+  font-size: 14px;
+  color: #333333;
+  cursor: pointer;
+}
 .loading {
   position: fixed;
   top: 0;
@@ -434,6 +442,19 @@ export default {
   p {
     &:first-child {
       margin-top: 0;
+    }
+    &:before {
+      content: '';
+      position: relative;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: #333333;
+      border-radius: 50%;
+      margin-right: 10px;
     }
   }
 }

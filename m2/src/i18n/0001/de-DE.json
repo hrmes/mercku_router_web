@@ -375,8 +375,8 @@
   "trans0374": "Verbindungszeit",
   "trans0375": "Verbindungstyp",
   "trans0376": "Diese Datei wird unwiderruflich gelöscht. Möchten Sie fortfahren?",
-  "trans0377": "1. Schalten Sie den Mesh-Punkt ein und warten Sie 1 Minute bis die Anzeigelampe des Mesh-Punktes dauerhaft rot leuchtet.",
-  "trans0378": "2. Drücken Sie den \"Reset\" Knopf des Mesh-Punktes. Sobald die Kontrolleuchte rot blinkt, klicken Sie auf \"Weiter\".",
+  "trans0377": "Schalten Sie den Mesh-Punkt ein und warten Sie 1 Minute bis die Anzeigelampe des Mesh-Punktes dauerhaft rot leuchtet.",
+  "trans0378": "Drücken Sie den \"Reset\" Knopf des Mesh-Punktes. Sobald die Kontrolleuchte rot blinkt, klicken Sie auf \"Weiter\".",
   "trans0379": "Geräteinformationen",
   "trans0380": "Diese App-Version ist veraltet. Um volle Funktion zu gewährleisten, aktualisieren Sie die App und versuchen Sie es erneut.",
   "trans0381": "Mesh-Knoten auswählen",
@@ -480,7 +480,7 @@
   "trans0479": "Sekundärer DNS",
   "trans0480": "Netzwerkeinstellungen",
   "trans0481": "Aktualisieren",
-  "trans0482": "https://support.mercku.com",
+  "trans0482": "https://www.mercku.com",
   "trans0483": "DHCP-IP-Pool",
   "trans0484": "Verbindung trennen",
   "trans0485": "Die statische IP-Bindung (DHCP lease) gehört nicht zum neuen IP-Bereich",
@@ -713,5 +713,6 @@
   "trans0718": "Nach dem Löschen werden alle Informationen zu diesem Konto, die aktuell aufgetreten sind, dauerhaft gelöscht. Achtung: Dies ist eine irreversible Aktivität",
   "trans0719": "Bitte wählen Sie welche Art von router Sie einrichten möchten",
   "trans0720": "M2 Router Einrichten",
-  "trans0721": "M6 Router Einrichten"
+  "trans0721": "M6 Router Einrichten",
+  "trans0722": "Ausfahrt"
 }
