@@ -4,8 +4,9 @@
       {{$t('trans0194')}}
     </div>
     <div class="page-content">
+      <!-- 提示 -->
       <div class="type-container"
-           v-if="tipPage">
+           v-if="isTipPage">
         <div class="router-category-container">
           <div class="circle-animation">
             <div class="circle circle1"></div>
@@ -16,12 +17,13 @@
         </div>
         <div class="button-container">
           <button class="btn btn-large"
-                  @click="forward2WelcomePage">{{$t('trans0467')}}</button>
+                  @click="go2WelcomePage">{{$t('trans0467')}}</button>
         </div>
         <p class="tips__text--add">{{tipsText}}</p>
       </div>
+      <!-- 路由器选择 -->
       <div class="type-container"
-           v-if="welcomePage">
+           v-if="isWelcomePage">
         <div class="tip">{{$t('trans0364')}}</div>
         <div class="router-category-container">
           <div class="router"
@@ -41,14 +43,15 @@
 
         <div class="button-container">
           <button class="btn btn-default"
-                  @click="back2WelcomePage">{{$t('trans0057')}}</button>
+                  @click="backward2TipPage()">{{$t('trans0057')}}</button>
           <button class="btn btn-next"
-                  @click="forwardStep0()">{{$t('trans0055')}}</button>
+                  @click="forward2Step0()">{{$t('trans0055')}}</button>
         </div>
 
       </div>
+      <!-- 步骤 -->
       <div class="info-container"
-           v-if="!tipPage && !welcomePage">
+           v-if="isStepPage">
         <div class="step">
           <m-step :option="stepsOption"></m-step>
         </div>
@@ -60,36 +63,51 @@
             <img :src="selectedCategory.powerOnImage"
                  alt="">
             <div class="button-container">
-              <button @click="forwardWelcome()"
+              <button @click="go2WelcomePage()"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
-              <button @click="forwardStepIndicatorLight()"
+              <button @click="go2Step(1)"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
           </div>
           <!-- 观察指示灯 -->
           <div class="step-item step-item0"
                v-show="stepsOption.current===1">
-            <p>{{$t('trans0257')}}</p>
-            <p>{{$t('trans0377')}}</p>
-            <p>{{$t('trans0378')}}</p>
-            <img :src="selectedCategory.tipImage"
+            <p>{{$t('trans0635')}}</p>
+            <img :src="selectedCategory.lampImage"
                  alt="">
             <div class="button-container">
-              <button @click="forwardPower()"
+              <button @click="go2Step(0)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
-              <button @click="forwardStep1()"
+              <button @click="go2Step(2)"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
           </div>
+          <!-- 按Reset按键 -->
+          <div class="step-item step-item0"
+               v-show="isReset">
+            <p>{{$t('trans0295')}}</p>
+            <img :src="selectedCategory.tipImage"
+                 alt="">
+            <div class="button-container">
+              <button @click="go2Step(1)"
+                      class="btn btn-default ">{{$t('trans0057')}}</button>
+              <button @click="search()"
+                      class="btn">{{$t('trans0055')}}</button>
+            </div>
+          </div>
+          <!-- 扫描中 -->
           <div class="step-item step-item1"
-               v-show="stepsOption.current===2">
-            <div class="scaning"
-                 v-show="scaning">
+               v-show="isScaning">
+            <div class="scaning">
               <m-loading :color="loadingColor"></m-loading>
               <p>{{$t('trans0334')}}</p>
             </div>
+          </div>
+          <!-- 扫描结果 -->
+          <div class="step-item step-item1"
+               v-show="stepsOption.current===3">
             <div class="scan-result"
-                 v-show="!scaning && nodes.length">
+                 v-show="nodes.length">
               <div class="router"
                    v-for="(node,index) in nodes"
                    :key="index"
@@ -107,25 +125,30 @@
                      alt="">
               </div>
               <div class="button-container">
-                <button @click="forwardStepIndicatorLight()"
+                <button @click="go2Step(2)"
                         class="btn btn-default ">{{$t('trans0057')}}</button>
                 <button @click="addMeshNode()"
                         class="btn">{{$t('trans0055')}}</button>
               </div>
             </div>
             <div class="scan-empty"
-                 v-show="!scaning && !nodes.length">
+                 v-show="!nodes.length">
               <p>{{$t('trans0181')}}</p>
               <span class="btn-help"
                     @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
               <div class="button-container">
-                <button @click="forwardStepIndicatorLight()"
+                <button @click="go2Step(2)"
                         class="btn">{{$t('trans0057')}}</button>
               </div>
             </div>
           </div>
-          <div class="step-item step-item2"
-               v-show="stepsOption.current===3">
+        </div>
+      </div>
+      <!-- 组网结果 -->
+      <div class="info-container"
+           v-if="isResultPage">
+        <div class="step-content">
+          <div class="step-item step-item2">
             <div class="success"
                  v-if="added">
               <p>{{$t('trans0192')}}</p>
@@ -144,7 +167,6 @@
                         class="btn">{{$t('trans0233')}}</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -179,19 +201,28 @@
 <script>
 import { RouterSnModel } from '@/util/constant';
 
+const PageType = {
+  tipPage: 'tipPage',
+  welcomePage: 'welcomePage',
+  stepPage: 'stepPage',
+  resultPage: 'resultPage'
+};
+
 const Routers = [
   {
     name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
     image: require('@/assets/images/img_bee.png'),
     powerOnImage: require('@/assets/images/img_power_on_bee.jpg'),
-    tipImage: require('@/assets/images/img_add_plug_bee.png'),
+    lampImage: require('@/assets/images/pic_node_1_redlight.jpg'),
+    tipImage: require('@/assets/images/img_add_plug_bee.jpg'),
     sn: RouterSnModel.Bee
   },
   {
     name: process.env.CUSTOMER_CONFIG.routers.M2.name,
     image: require('@/assets/images/img_m2.png'),
-    powerOnImage: require('@/assets/images/img_power_on_m2.jpg'),
-    tipImage: require('@/assets/images/img_add_plug_m2.png'),
+    powerOnImage: require('@/assets/images/pic_router_m2.jpg'),
+    lampImage: require('@/assets/images/img_power_on_m2.jpg'),
+    tipImage: require('@/assets/images/img_add_plug_m2.jpg'),
     sn: RouterSnModel.M2
   }
 ];
@@ -200,8 +231,7 @@ export default {
     return {
       RouterSnModel,
       routers: Routers,
-      welcomePage: false,
-      tipPage: true,
+      pageType: PageType.tipPage,
       stepsOption: {
         current: 0,
         steps: [
@@ -234,17 +264,27 @@ export default {
   computed: {
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
+    },
+    isTipPage() {
+      return this.pageType === PageType.tipPage;
+    },
+    isWelcomePage() {
+      return this.pageType === PageType.welcomePage;
+    },
+    isStepPage() {
+      return this.pageType === PageType.stepPage;
+    },
+    isResultPage() {
+      return this.pageType === PageType.resultPage;
+    },
+    isReset() {
+      return this.stepsOption.current === 2 && !this.scaning;
+    },
+    isScaning() {
+      return this.stepsOption.current === 2 && this.scaning;
     }
   },
   methods: {
-    back2WelcomePage() {
-      this.tipPage = true;
-      this.welcomePage = false;
-    },
-    forward2WelcomePage() {
-      this.tipPage = false;
-      this.welcomePage = true;
-    },
     openHelpDialog() {
       this.showHelpDialog = true;
     },
@@ -307,17 +347,19 @@ export default {
           let timeout = this.addTimeout;
           this.checkTimer = setInterval(() => {
             if (timeout < 0) {
+              this.pageType = PageType.resultPage;
               this.added = false;
               this.$loading.close();
-              this.forwardStep2(false);
+              this.go2Step(3, false);
               clearInterval(this.checkTimer);
             }
             if (timeout % 3 === 0) {
               this.$http.isInMesh({ node }).then(res => {
                 if (res.data.result.status) {
-                  this.$loading.close();
+                  this.pageType = PageType.resultPage;
                   this.added = true;
-                  this.forwardStep2(true);
+                  this.$loading.close();
+                  this.go2Step(3);
                   clearInterval(this.checkTimer);
                 }
               });
@@ -327,29 +369,24 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
-          this.forwardStep2(false);
+          this.go2Step(3, false);
         });
     },
-    forwardWelcome() {
-      this.welcomePage = true;
+    go2WelcomePage() {
+      this.pageType = PageType.welcomePage;
     },
-    forwardStepIndicatorLight() {
-      this.welcomePage = false;
-      this.stepsOption.current = 1;
-      this.stepsOption.steps[1].success = true;
+    backward2TipPage() {
+      this.pageType = PageType.tipPage;
     },
-    forwardPower() {
-      this.stepsOption.current = 0;
-      this.stepsOption.steps[0].success = true;
+    go2Step(i, isSuccess = true) {
+      this.stepsOption.current = i;
+      this.stepsOption.steps[i].success = isSuccess;
     },
-    forwardStep0() {
-      this.welcomePage = false;
-      this.stepsOption.current = 0;
-      this.stepsOption.steps[0].success = true;
+    forward2Step0() {
+      this.pageType = PageType.stepPage;
+      this.go2Step(0);
     },
-    forwardStep1() {
-      this.stepsOption.current = 2;
-      this.stepsOption.steps[2].success = true;
+    search() {
       this.scaning = true;
       this.$http
         .scanMeshNode()
@@ -358,14 +395,11 @@ export default {
             .filter(n => n.sn.slice(0, 2) === this.selectedCategory.sn)
             .map(n => ({ ...n, selected: false }));
           this.scaning = false;
+          this.go2Step(3);
         })
         .catch(() => {
           this.scaning = false;
         });
-    },
-    forwardStep2(result) {
-      this.stepsOption.current = 3;
-      this.stepsOption.steps[3].success = result;
     }
   }
 };
