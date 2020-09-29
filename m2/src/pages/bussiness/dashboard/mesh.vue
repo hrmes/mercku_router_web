@@ -663,8 +663,8 @@ export default {
                     width: 20,
                     height: 16,
                     color: '#fff',
+                    fontSize: 10,
                     align: 'center',
-                    verticalAlign: 'middle',
                     borderRadius: 3,
                     backgroundColor: '#999'
                   }
