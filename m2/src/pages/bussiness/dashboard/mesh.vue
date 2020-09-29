@@ -242,8 +242,7 @@
           <div class="table__column table__column--host"></div>
           <div class="table__column table__column--device">{{$t('trans0005')}}</div>
           <div class="table__column table__column--ip">{{$t('trans0184')}}</div>
-          <div class="table__column table__column--guest"></div>
-          <div class="table__column table__column--frequency"></div>
+          <div class="table__column table__column--guest">{{$t('trans0375')}}</div>
         </div>
         <div class="table__body"
              v-if="meshList.length">
@@ -800,6 +799,10 @@ export default {
         &.table__column--device {
           padding-left: 30px;
           box-sizing: border-box;
+        }
+        &.table__column--guest {
+          justify-content: center;
+          width: 160px;
         }
       }
     }
