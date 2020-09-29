@@ -712,7 +712,6 @@ export default {
         return '-';
       }
       const timeArr = formatDuration(zone);
-      console.log(timeArr);
       const suffixs = [
         {
           key: 'year',
@@ -724,7 +723,7 @@ export default {
         },
         {
           key: 'day',
-          text: 'trans0532'
+          text: 'trans0533'
         },
         {
           key: 'hour',
@@ -739,14 +738,35 @@ export default {
           text: 'trans0536'
         }
       ];
-      const durationStr = suffixs
-        .map((item, index) => {
-          if (!timeArr[index]) {
-            return '';
+      // const durationStr = suffixs
+      //   .map((item, index) => {
+      //     if (!timeArr[index]) {
+      //       return '';
+      //     }
+      //     return `${timeArr[index]} ${this.$t(item.text)}`;
+      //   })
+      //   .join(' ');
+      let durationStr = '';
+      const maxIndex = suffixs.length - 1;
+      for (let i = 0; i <= maxIndex; i += 1) {
+        if (timeArr[i]) {
+          const next = i + 1;
+          if (i < maxIndex) {
+            if (timeArr[next]) {
+              durationStr =
+                i !== 4
+                  ? `${timeArr[i]} ${this.$t(suffixs[i].text)} ` +
+                    `${timeArr[next]} ${this.$t(suffixs[next].text)}`
+                  : `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
+            } else {
+              durationStr = `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
+            }
+          } else if (i === maxIndex) {
+            durationStr = `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
           }
-          return `${timeArr[index]}${this.$t(item.text)}`;
-        })
-        .join(' ');
+          break;
+        }
+      }
       return durationStr;
     },
     parseOfflineTime(row) {

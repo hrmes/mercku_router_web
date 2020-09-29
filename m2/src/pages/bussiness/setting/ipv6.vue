@@ -168,6 +168,7 @@ const defaultPrefixLength = 64;
 export default {
   data() {
     return {
+      isSetup: false, // 是否已经设置了
       enabled: false, // 是否启用IPv6
       IPv6DefaultPlaceholder: CONSTANTS.IPv6DefaultPlaceholder,
       netType: CONSTANTS.WanType.auto,
@@ -321,6 +322,7 @@ export default {
           this.$loading.close();
           const { result } = res.data;
           this.enabled = result.enabled;
+          this.isSetup = this.enabled;
           if (!this.enabled) {
             return;
           }
@@ -383,7 +385,7 @@ export default {
       if (enabled) {
         // 由关闭状态切换到启用状态
         this.enabled = enabled;
-      } else {
+      } else if (this.isSetup) {
         // 由启用状态切换到关闭状态
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
@@ -391,6 +393,7 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
+              this.isSetup = false;
               this.updateMeshConfigWanNetIpv6({ enabled });
             },
             cancel: () => {
@@ -418,6 +421,7 @@ export default {
               cancelText: this.$t('trans0025'),
               message: this.$t('trans0695')
             });
+            this.pppoeForm.isUseIPv4 = false;
           } else {
             const { pppoe } = res.data.result;
             this.pppoeForm.account = pppoe.account;
@@ -496,6 +500,7 @@ export default {
         message: this.$t('trans0229'),
         callback: {
           ok: () => {
+            this.isSetup = true;
             this.updateMeshConfigWanNetIpv6({
               enabled: true,
               ...form
