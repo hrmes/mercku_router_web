@@ -291,7 +291,7 @@
 <script>
 import marked from 'marked';
 import { formatMac, getStringByte } from '@/util/util';
-import { RouterStatus } from '@/util/constant';
+import { RouterStatus, RouterMode } from '@/util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -381,6 +381,9 @@ export default {
     }
   },
   computed: {
+    isRouter() {
+      return RouterMode.router === this.$store.mode;
+    },
     rssiTips() {
       return marked(this.$t('trans0595'), { sanitize: true });
     },
@@ -579,6 +582,7 @@ export default {
       });
     },
     drawTopo(routers) {
+      const _this = this;
       const oldRouters = this.routers;
 
       const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
@@ -646,7 +650,10 @@ export default {
                     nameFormatted = `${start}\n${end}`;
                   }
                   nameFormatted = name.match(/.{1,10}/g).join('\n');
-                  return `{a|${nameFormatted}} {b|${stationsCount}}`;
+                  if (_this.isRouter) {
+                    return `{a|${nameFormatted}} {b|${stationsCount}}`;
+                  }
+                  return `{a|${nameFormatted}}`;
                 },
                 rich: {
                   a: {

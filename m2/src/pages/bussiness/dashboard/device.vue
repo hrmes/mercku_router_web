@@ -712,6 +712,7 @@ export default {
         return '-';
       }
       const timeArr = formatDuration(zone);
+      console.log(timeArr);
       const suffixs = [
         {
           key: 'year',
