@@ -3,6 +3,7 @@
     <div class='page-header page-header__add-mesh'>
       <span>{{$t('trans0194')}}</span>
       <span class="page-header__help"
+            v-if="!isTipPage"
             @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
     </div>
     <div class="page-content">
@@ -21,7 +22,6 @@
           <button class="btn btn-large"
                   @click="go2WelcomePage">{{$t('trans0467')}}</button>
         </div>
-        <p class="tips__text--add">{{tipsText}}</p>
       </div>
       <!-- 路由器选择 -->
       <div class="type-container"
@@ -262,9 +262,6 @@ export default {
     };
   },
   computed: {
-    tipsText() {
-      return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
-    },
     isTipPage() {
       return this.pageType === PageType.tipPage;
     },
@@ -542,12 +539,6 @@ export default {
   }
   .tip {
     margin-bottom: 30px;
-  }
-  .tips__text--add {
-    color: #999;
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
   }
   .router {
     display: flex;

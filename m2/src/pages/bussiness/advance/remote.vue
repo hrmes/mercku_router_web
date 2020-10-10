@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page page__remote">
     <div class="page-header"
          @click="showDropdown">
       <div class="page-header__text">{{$t('trans0286')}}</div>
@@ -20,13 +20,14 @@
       </div>
     </div>
 
-    <div class="page-content">
-      <div v-if="isTR069">
+    <div class="page__remote__content">
+      <div class="tr069-form"
+           v-if="isTR069">
+        <div class="title">{{$t('trans0491')}}</div>
         <m-form ref="remote"
                 class="form"
                 :model="remote"
                 :rules="remoateRules">
-          <div class="title">{{$t('trans0491')}}</div>
           <m-form-item prop="url">
             <m-input :label="`${$t('trans0498')}`"
                      v-model="remote.url"
@@ -49,11 +50,11 @@
                      :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
         </m-form>
+        <div class="title">{{$t('trans0493')}}</div>
         <m-form ref="local"
                 class="form"
                 :model="local"
                 :rules="localRules">
-          <div class="title">{{$t('trans0493')}}</div>
           <m-form-item prop="path">
             <m-input :label="$t('trans0494')"
                      v-model="local.path"
@@ -86,7 +87,8 @@
                   @click="updateTr069">{{$t('trans0081')}}</button>
         </div>
       </div>
-      <div v-if="isTFTP">
+      <div class="tftp-form"
+           v-if="isTFTP">
         <m-form class="form"
                 :model="tftp"
                 :rules="tftpRules"
@@ -107,17 +109,20 @@
                   @click="updateTFTP">{{$t('trans0081')}}</button>
         </div>
       </div>
-      <div v-if="isTelnet">
+      <div class="telnet-form"
+           v-if="isTelnet">
         <m-form class="form"
                 :model="remoteShell"
                 ref="remoteShell">
           <m-form-item>
             <m-switch :label="$t('trans0497')"
+                      class="switch"
                       v-model="remoteShell.telnet"
                       :onChange="updateTelnet"></m-switch>
           </m-form-item>
           <m-form-item>
             <m-switch :label="$t('trans0628')"
+                      class="switch"
                       v-model="remoteShell.ssh"
                       :onChange="updateSsh"></m-switch>
           </m-form-item>
@@ -345,6 +350,21 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.page__remote {
+  .page__remote__content {
+    .telnet-form {
+      label {
+        font-weight: bold;
+        width: 75px;
+        font-weight: bold;
+        text-align: right;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 .page {
   .page-header {
@@ -367,17 +387,48 @@ export default {
       }
     }
   }
-
-  .page-content {
+  .page__remote__content {
+    border-radius: 8px;
+    padding: 30px 20px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    .form {
+    justify-content: center;
+    .tr069-form {
+      width: 100%;
       .title {
+        width: 100%;
         font-size: 14px;
-        color: #333;
         margin-bottom: 30px;
         font-weight: bold;
+        color: #999;
+        border-bottom: 1px solid #f1f1f1;
+        height: 50px;
+        line-height: 50px;
+      }
+      .form {
+        width: 340px;
+        margin: 0 auto;
+      }
+      .form-button {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .tftp-form {
+      width: 100%;
+      .form {
+        width: 340px;
+        margin: 0 auto;
+      }
+      .form-button {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .telnet-form {
+      width: 100%;
+      .form {
+        width: 340px;
+        margin: 0 auto;
       }
     }
   }
