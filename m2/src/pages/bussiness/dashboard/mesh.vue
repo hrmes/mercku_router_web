@@ -268,9 +268,7 @@
             <div class="table__column table__column--guest">
               <img v-if="isGuest(item.connected_network.type)"
                    src="../../../assets/images/icon/ic-guest-wifi.png"
-                   alt="">
-            </div>
-            <div class="table__column table__column--frequency">
+                   alt="" />
               <span>{{bandMap[item.band]}}</span>
             </div>
           </div>
@@ -800,10 +798,6 @@ export default {
           padding-left: 30px;
           box-sizing: border-box;
         }
-        &.table__column--guest {
-          justify-content: center;
-          width: 160px;
-        }
       }
     }
     .table__row {
@@ -839,13 +833,10 @@ export default {
         justify-content: center;
       }
       .table__column--guest {
-        justify-content: center;
         img {
           width: 38px;
+          margin-right: 20px;
         }
-      }
-      .table__column--frequency {
-        justify-content: center;
         span {
           display: inline-block;
           width: 75px;
@@ -868,10 +859,7 @@ export default {
         width: 180px;
       }
       &.table__column--guest {
-        width: 80px;
-      }
-      &.table__column--frequency {
-        width: 80px;
+        width: 160px;
       }
     }
   }
@@ -1530,12 +1518,12 @@ export default {
           width: 50%;
         }
         &.table__column--guest {
+          justify-content: flex-end;
           height: 50px;
-          width: 25%;
-        }
-        &.table__column--frequency {
-          height: 50px;
-          width: 25%;
+          width: 50%;
+          img {
+            margin-right: 10px;
+          }
         }
       }
     }
