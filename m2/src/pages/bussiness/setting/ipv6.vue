@@ -17,7 +17,7 @@
           <div class="ipv6-page__internet-content ipv6-page__internet-content--info">
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0375')}}：</label>
-              <span>{{networkArr[netInfo.type]}}</span>
+              <span class="info__item--text">{{networkArr[netInfo.type]}}</span>
             </div>
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0151')}}：</label>
@@ -79,6 +79,7 @@
                            prop='account'>
                 <m-input :label="$t('trans0155')"
                          type="text"
+                         :disabled="pppoeDisabled"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="pppoeForm.account"></m-input>
               </m-form-item>
@@ -86,6 +87,7 @@
                            prop='password'>
                 <m-input :label="$t('trans0156')"
                          type='password'
+                         :disabled="pppoeDisabled"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="pppoeForm.password" />
               </m-form-item>
@@ -101,7 +103,7 @@
                              ref="dns">
                   <m-input :label="$t('trans0236')"
                            type="text"
-                           :placeholder="$t('trans0321')"
+                           :placeholder="IPv6DefaultPlaceholder"
                            v-model="pppoeForm.dns" />
                 </m-form-item>
               </template>
@@ -204,6 +206,7 @@ export default {
         password: '',
         dns: ''
       },
+      pppoeDisabled: false,
       staticForm: {
         ip: '',
         prefixLength: '',
@@ -243,8 +246,14 @@ export default {
           },
           {
             rule: value => {
-              const val = parseInt(value, 10);
-              return val > 0 && val < 129;
+              let flag = false;
+              const val = value * 1;
+              if (is.integer(val)) {
+                if (val > 0 && val < 129) {
+                  flag = true;
+                }
+              }
+              return flag;
             },
             message: this.$t('trans0231')
           }
@@ -311,10 +320,10 @@ export default {
     }
   },
   mounted() {
-    this.getMeshInfoWanNetIpv6();
+    this.getIpv6NetInfo();
   },
   methods: {
-    getMeshInfoWanNetIpv6() {
+    getIpv6NetInfo() {
       this.$loading.open();
       this.$http
         .getMeshInfoWanNetIpv6()
@@ -328,6 +337,7 @@ export default {
           }
           this.netType = result.type;
           const { netinfo } = result;
+
           this.netInfo.type = result.type ?? '-';
           this.netInfo.ip = netinfo.address?.[0]?.ip ?? '-';
           this.netInfo.gateway = netinfo.gateway?.ip ?? '-';
@@ -340,6 +350,7 @@ export default {
           if (this.isPppoe) {
             const pppoeInfo = result.pppoe;
             this.pppoeForm.isUseIPv4 = pppoeInfo.share_ipv4_credentials;
+            this.pppoeDisabled = this.pppoeForm.isUseIPv4;
             this.pppoeForm.account = pppoeInfo.account;
             this.pppoeForm.password = pppoeInfo.password;
             this.pppoeForm.dns = pppoeInfo.dns?.[0]?.ip;
@@ -365,7 +376,7 @@ export default {
         if (result.status) {
           this.$reconnect({
             onsuccess: () => {
-              this.$router.push({ path: '/setting/ipv6' });
+              this.$router.push({ path: '/dashboard' });
             },
             ontimeout: () => {
               this.$router.push({ path: '/unconnect' });
@@ -408,6 +419,10 @@ export default {
       if (checked) {
         // 选中
         this.getWanNetInfo();
+      } else {
+        this.pppoeDisabled = false;
+        this.pppoeForm.account = '';
+        this.pppoeForm.password = '';
       }
     },
     getWanNetInfo() {
@@ -424,6 +439,7 @@ export default {
             this.pppoeForm.isUseIPv4 = false;
           } else {
             const { pppoe } = res.data.result;
+            this.pppoeDisabled = true;
             this.pppoeForm.account = pppoe.account;
             this.pppoeForm.password = pppoe.password;
           }
@@ -432,7 +448,12 @@ export default {
           this.$dialog.info({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0025'),
-            message: this.$t('trans0577')
+            message: this.$t('trans0577'),
+            callback: {
+              ok: () => {
+                this.pppoeForm.isUseIPv4 = false;
+              }
+            }
           });
         });
     },
@@ -460,13 +481,14 @@ export default {
           share_ipv4_credentials: this.pppoeForm.isUseIPv4,
           account: this.pppoeForm.account,
           password: this.pppoeForm.password,
-          dns: [
-            {
-              ip: this.pppoeForm.dns,
-              prefix_length: defaultPrefixLength
-            }
-          ]
+          dns: []
         };
+        if (!this.autodns) {
+          form.pppoe.dns.push({
+            ip: this.pppoeForm.dns,
+            prefix_length: defaultPrefixLength
+          });
+        }
       }
       if (this.isStatic) {
         if (!this.$refs.staticForm.validate()) {
@@ -548,19 +570,6 @@ export default {
     .info__item {
       display: flex;
     }
-    .info__item--img {
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 30px;
-      img {
-        width: 160px;
-      }
-      span {
-        font-weight: bold;
-        font-size: 14px;
-        color: #333;
-      }
-    }
     .info__item--text {
       label {
         display: inline-block;
@@ -568,12 +577,13 @@ export default {
         color: #333;
         font-weight: bold;
         text-align: left;
-        width: 150px;
+        width: 80px;
       }
       span {
+        display: inline-block;
         color: #333333;
         font-size: 14px;
-        flex: 1;
+        width: calc(100% - 80px);
       }
       &:not(:last-child) {
         margin-bottom: 10px;
@@ -621,12 +631,22 @@ export default {
     }
     .ipv6-page__internet-info {
       width: 100%;
-      // .info__item--img {
-      //   align-items: flex-start;
-      // }
     }
     .ipv6-page__internet-content {
       width: 100%;
+    }
+    .ipv6-page__internet-content--info {
+      .info__item {
+        flex-direction: column;
+      }
+      .info__item--text {
+        label {
+          width: 100%;
+        }
+        span {
+          width: 100%;
+        }
+      }
     }
   }
 }

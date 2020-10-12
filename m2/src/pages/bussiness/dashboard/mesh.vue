@@ -269,7 +269,7 @@
               <img v-if="isGuest(item.connected_network.type)"
                    src="../../../assets/images/icon/ic-guest-wifi.png"
                    alt="" />
-              <span>{{bandMap[item.band]}}</span>
+              <span>{{bandMap[item.connected_network.band]}}</span>
             </div>
           </div>
         </div>
