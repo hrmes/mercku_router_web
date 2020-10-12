@@ -153,6 +153,8 @@
           <div class="step-item step-item2">
             <div class="success"
                  v-if="added">
+              <img src="@/assets/images/icon/ic_success.png"
+                   alt="" />
               <p>{{$t('trans0192')}}</p>
               <div class="button-container">
                 <button @click="backMesh"
@@ -161,6 +163,8 @@
             </div>
             <div class="fail"
                  v-if="!added">
+              <img src="@/assets/images/icon/ic_fail.png"
+                   alt="" />
               <p>{{$t('trans0248')}}</p>
               <span class="btn-help"
                     @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
@@ -751,10 +755,13 @@ export default {
     }
   }
   .step-item2 {
+    img {
+      width: 60px;
+    }
     p {
       font-size: 16px;
       text-align: center;
-      margin-top: 50px;
+      margin-top: 20px;
     }
     .button-container {
       margin-top: 160px;
@@ -765,6 +772,12 @@ export default {
     }
     .fail {
       text-align: center;
+      img {
+        width: 60px;
+      }
+      .btn-help {
+        color: #d6001c;
+      }
     }
     .success {
       text-align: center;
