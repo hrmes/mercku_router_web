@@ -23,6 +23,12 @@
     <div class="page__remote__content">
       <div class="tr069-form"
            v-if="isTR069">
+        <div class="form-checkbox-wrap">
+          <div class="form-checkbox">
+            <m-checkbox :text="$t('trans0462')"
+                        v-model="enabled"></m-checkbox>
+          </div>
+        </div>
         <div class="title">{{$t('trans0491')}}</div>
         <m-form ref="remote"
                 class="form"
@@ -76,11 +82,26 @@
                      v-model="local.password"
                      :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
+        </m-form>
+        <div class="title">{{$t('trans0580')}}</div>
+        <m-form ref="stun"
+                class="form"
+                :model="stun"
+                :rules="stunRules">
+          <m-form-item prop="host">
+            <m-input :label="$t('trans0498')"
+                     v-model="stun.host"
+                     :placeholder="$t('trans0321')"></m-input>
+          </m-form-item>
+          <m-form-item prop="port">
+            <m-input :label="$t('trans0495')"
+                     v-model="stun.port"
+                     :placeholder="$t('trans0321')"></m-input>
+          </m-form-item>
           <div class="form-item">
             <m-checkbox :text="$t('trans0462')"
-                        v-model="enabled"></m-checkbox>
+                        v-model="stun.enabled"></m-checkbox>
           </div>
-
         </m-form>
         <div class="form-button">
           <button class="btn btn-primary"
@@ -156,7 +177,7 @@ export default {
           }
         ]
       },
-      enabled: true,
+      enabled: false,
       remote: {
         username: '',
         password: '',
@@ -227,6 +248,29 @@ export default {
             message: this.$t('trans0232')
           }
         ]
+      },
+      stun: {
+        enabled: false,
+        host: '',
+        port: ''
+      },
+      stunRules: {
+        host: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          }
+        ],
+        port: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => portReg.test(value),
+            message: this.$t('trans0478')
+          }
+        ]
       }
     };
   },
@@ -256,6 +300,7 @@ export default {
     this.$http.getTr069().then(res => {
       this.remote = res.data.result.remote;
       this.local = res.data.result.local;
+      this.stun = res.data.result.stun;
       this.enabled = res.data.result.enabled;
     });
     this.$http.getTFTP().then(res => {
@@ -263,6 +308,7 @@ export default {
     });
   },
   methods: {
+    enabledChange() {},
     showDropdown() {
       this.dropdownVisible = !this.dropdownVisible;
     },
@@ -270,7 +316,11 @@ export default {
       this.$router.push({ path: url });
     },
     updateTr069() {
-      if (this.$refs.remote.validate() && this.$refs.local.validate()) {
+      if (
+        this.$refs.remote.validate() &&
+        this.$refs.local.validate() &&
+        this.$refs.stun.validate()
+      ) {
         this.$loading.open();
         const remote = {
           username: this.remote.username,
@@ -282,6 +332,11 @@ export default {
           port: Number(this.local.port),
           path: this.local.path
         };
+        const stun = {
+          enabled: this.stun.enabled,
+          host: this.stun.host,
+          port: this.stun.port
+        };
         if (this.remote.password) {
           remote.password = this.remote.password;
         }
@@ -292,6 +347,7 @@ export default {
           .updateTr069({
             remote,
             local,
+            stun,
             enabled: this.enabled
           })
           .then(() => {
@@ -394,6 +450,15 @@ export default {
     justify-content: center;
     .tr069-form {
       width: 100%;
+      .form-checkbox-wrap {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+      .form-checkbox {
+        display: flex;
+        width: 340px;
+      }
       .title {
         width: 100%;
         font-size: 14px;

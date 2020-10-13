@@ -1,6 +1,6 @@
 [
     {
-        "coutryName": "埃尼威托克岛、夸贾林环礁",
+        "coutryName": "埃尼威托克岛,夸贾林环礁",
         "timezoneDetail": "GMT-12:00",
         "offset": 12,
         "position": 1
@@ -24,7 +24,7 @@
         "position": 1
     },
     {
-        "coutryName": "太平洋时间(美国和加拿大)、提华纳",
+        "coutryName": "太平洋时间(美国和加拿大);提华纳",
         "timezoneDetail": "GMT-08:00",
         "offset": 8,
         "position": 1
@@ -48,7 +48,7 @@
         "position": 1
     },
     {
-        "coutryName": "墨西哥城、特古西加尔巴",
+        "coutryName": "墨西哥城，特古西加尔巴",
         "timezoneDetail": "GMT-06:00",
         "offset": 6,
         "position": 2

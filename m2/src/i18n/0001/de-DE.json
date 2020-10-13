@@ -158,7 +158,7 @@
   "trans0157": "Der Router wurde fertig eingerichtet!",
   "trans0158": "Bitte überprüfen Sie, ob die Kontrollleuchte rot blinkt",
   "trans0159": "Grund anzeigen",
-  "trans0160": "Bitte stellen Sie sicher, dass der Router eingeschaltet ist.",
+  "trans0160": "Bitte stellen Sie sicher, dass der Router eingeschaltet ist",
   "trans0161": "Stellen Sie sicher, dass das Internet-Kabel an den WAN-Port des Mercku-Routers angeschlossen ist.",
   "trans0162": "Erneut versuchen",
   "trans0163": "Überspringen",
@@ -572,7 +572,7 @@
   "trans0577": "Fehler beim Abrufen des PPPoE-Benutzernamens und -Passworts",
   "trans0578": "Zurück zur Upgrade-Liste",
   "trans0579": "#### Mögliche Gründe, warum die Latenz betroffen ist:\n- Ein Gerät in Ihrem Netzwerk führt einen großen Download durch\n\n- Bitte überprüfen Sie, ob eine QoS-Richtlinie für Ihren Router gilt\n\n- Bitte überprüfen Sie, ob Ihre Internet-Bandbreite von Ihrem ISP für andere Benutzer freigegeben wird",
-  "trans0580": " ",
+  "trans0580": "STUN Server Einstellungen",
   "trans0581": " ",
   "trans0582": " ",
   "trans0583": "Diese Funktion ist nicht verfügbar, da der Bridge-Modus vom Router aktiviert ist.",
@@ -639,7 +639,7 @@
   "trans0644": "UPnP",
   "trans0645": "Mögliche Ursache für Zeitüberschreitung:",
   "trans0646": "Diese Ländereinstellung garantiert, dass Ihr Router nur Wi-Fi-Einstellungen verwendet, welche den lokalen Vorschriften entsprechen.",
-  "trans0647": " ",
+  "trans0647": "Ganzzahl 1 - 128",
   "trans0648": "Update erfolgreich, Wi-Fi wird nach dem Neustart neu gestartet. Sie können auf der aktuellen Seite bleiben oder jederzeit zur Hauptseite zurückkehren.",
   "trans0649": "Update erfolgreich, wenn das Netzwerk nach dem Neustart getrennt wird, überprüfen Sie bitte die Anzeigelampe des Geräts.",
   "trans0650": " ",
@@ -714,5 +714,6 @@
   "trans0719": "Bitte wählen Sie welche Art von router Sie einrichten möchten",
   "trans0720": "M2 Router Einrichten",
   "trans0721": "M6 Router Einrichten",
-  "trans0722": "Ausfahrt"
+  "trans0722": "Ausfahrt",
+  "trans0723": "Auf Wi-Fi-Informationen kann nur zugegriffen werden, nachdem eine genaue Lokalisierung aktiviert wurde."
 }
