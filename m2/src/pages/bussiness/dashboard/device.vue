@@ -90,7 +90,7 @@
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
-                      <img v-if='row.local &&!isOfflineDevices'
+                      <img v-if='row.local && !isOfflineDevices'
                            src="../../../assets/images/icon/ic_user.png"
                            alt=""
                            style="margin-right:5px;margin-left:0;">
@@ -128,7 +128,8 @@
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span>{{$t('trans0618')}}</span>
-                <span> {{row.access_node.name}} </span>
+                <span class="overflow-hidden"
+                      :title="row.access_node.name">{{row.access_node.name}}</span>
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -930,6 +931,11 @@ export default {
         width: 150px;
       }
       .device-item {
+        .overflow-hidden {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         &.offline {
           span {
             &:last-child {

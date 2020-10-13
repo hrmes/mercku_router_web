@@ -107,6 +107,7 @@ export default {
     line-height: 1;
     color: #333;
     margin-left: 10px;
+    flex: 1;
   }
 }
 </style>

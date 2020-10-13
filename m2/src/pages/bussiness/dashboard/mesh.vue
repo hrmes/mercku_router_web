@@ -250,13 +250,12 @@
                v-for="(item, index) in meshList"
                :key="index">
             <div class="table__column table__column--device">
-              <span v-if="isThisMachine(item.ip)"
-                    class="device__img">
-                <img src="../../../assets/images/icon/ic_user.png"
+              <span class="device__img">
+                <img v-if="isThisMachine(item.ip)"
+                     src="../../../assets/images/icon/ic_user.png"
                      alt="">
               </span>
               <span class="device__host-name"
-                    :class="hasPaddingLeft(item.ip)"
                     :title="item.name">
                 {{item.name}}
               </span>
@@ -266,10 +265,10 @@
               <div class="v6">{{formatMac(item.mac)}}</div>
             </div>
             <div class="table__column table__column--guest">
+              <span>{{bandMap[item.connected_network.band]}}</span>
               <img v-if="isGuest(item.connected_network.type)"
                    src="../../../assets/images/icon/ic-guest-wifi.png"
                    alt="" />
-              <span>{{bandMap[item.connected_network.band]}}</span>
             </div>
           </div>
         </div>
@@ -415,7 +414,6 @@ export default {
     },
     showMeshListModal(meshList) {
       this.meshList = meshList;
-      console.log(this.meshList);
       this.meshListModalVisible = true;
     },
     hideMeshListModal() {
@@ -708,9 +706,6 @@ export default {
             }, 10000);
           }
         });
-    },
-    hasPaddingLeft(ip) {
-      return this.isThisMachine(ip) ? '' : 'has-padding-left';
     }
   },
   beforeDestroy() {
@@ -809,7 +804,7 @@ export default {
       }
       .table__column--device {
         .device__img {
-          display: flex;
+          display: inline-flex;
           justify-content: center;
           align-items: center;
           width: 30px;
@@ -818,13 +813,10 @@ export default {
           }
         }
         .device__host-name {
-          width: 180px;
+          width: 160px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          &.has-padding-left {
-            padding-left: 30px;
-          }
         }
       }
       .table__column--ip {
@@ -835,15 +827,15 @@ export default {
       .table__column--guest {
         img {
           width: 38px;
-          margin-right: 20px;
         }
         span {
           display: inline-block;
           width: 75px;
           text-align: center;
-          padding: 5px 0;
+          padding: 3px 0;
           border-radius: 3px;
           border: solid 1px #333333;
+          margin-right: 20px;
         }
       }
     }
@@ -1496,9 +1488,6 @@ export default {
         .table__column--device {
           .device__host-name {
             width: 100%;
-            &.has-padding-left {
-              padding-left: 0;
-            }
           }
         }
       }
@@ -1521,7 +1510,7 @@ export default {
           justify-content: flex-end;
           height: 50px;
           width: 50%;
-          img {
+          span {
             margin-right: 10px;
           }
         }

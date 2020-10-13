@@ -248,14 +248,14 @@ export default {
             rule: value => {
               let flag = false;
               const val = value * 1;
-              if (is.integer(val)) {
+              if (value.indexOf('.') === -1 && is.integer(val)) {
                 if (val > 0 && val < 129) {
                   flag = true;
                 }
               }
               return flag;
             },
-            message: this.$t('trans0231')
+            message: this.$t('trans0647')
           }
         ],
         gateway: [
@@ -577,13 +577,13 @@ export default {
         color: #333;
         font-weight: bold;
         text-align: left;
-        width: 80px;
+        width: 150px;
       }
       span {
         display: inline-block;
         color: #333333;
         font-size: 14px;
-        width: calc(100% - 80px);
+        width: calc(100% - 150px);
       }
       &:not(:last-child) {
         margin-bottom: 10px;
@@ -610,6 +610,10 @@ export default {
         font-size: 14px;
         color: #999999;
         margin-bottom: 30px;
+      }
+      .pppoe-form__item__checkbox {
+        height: auto;
+        margin-bottom: 10px;
       }
     }
     .static-form {
