@@ -102,12 +102,12 @@ export default {
     }
   }
   .text {
-    display: inline;
+    display: inline-block;
     font-size: 14px;
     line-height: 1;
     color: #333;
     margin-left: 10px;
-    flex: 1;
+    width: calc(100% - 28px);
   }
 }
 </style>

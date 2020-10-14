@@ -58,7 +58,7 @@
                              ref="dns">
                   <m-input :label="$t('trans0236')"
                            type="text"
-                           :placeholder="`${$t('trans0321')}`"
+                           :placeholder="IPv6DefaultPlaceholder"
                            v-model="autoForm.dns" />
                 </m-form-item>
               </template>
@@ -536,6 +536,15 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.ipv6-page {
+  .pppoe-form__item__checkbox {
+    label {
+      align-items: stretch !important;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 .ipv6-page {
   .ipv6-page__content {
@@ -615,6 +624,7 @@ export default {
       .pppoe-form__item__checkbox {
         height: auto;
         margin-bottom: 10px;
+        width: 100%;
       }
     }
     .static-form {

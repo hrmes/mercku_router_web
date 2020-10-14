@@ -764,13 +764,14 @@ export default {
       margin-top: 20px;
     }
     .button-container {
-      margin-top: 160px;
+      margin-top: 137px;
       .btn {
         min-width: 160px;
         width: auto;
       }
     }
     .fail {
+      margin-top: 60px;
       text-align: center;
       img {
         width: 60px;
@@ -780,6 +781,7 @@ export default {
       }
     }
     .success {
+      margin-top: 60px;
       text-align: center;
     }
   }

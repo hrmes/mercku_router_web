@@ -157,10 +157,11 @@
 <script>
 import { portReg } from '@/util/util';
 
+const defalutUrl = '/advance/remote/tr069';
 export default {
   data() {
     return {
-      preUrl: '',
+      preUrl: defalutUrl,
       dropdownVisible: false,
       tftp: {
         server: '',
@@ -341,12 +342,11 @@ export default {
       this.dropdownVisible = !this.dropdownVisible;
     },
     forward2page(url) {
-      debugger;
       if (this.preUrl && this.preUrl === url) {
         return;
       }
       this.preUrl = url;
-      this.$router.push({ path: url });
+      this.$router.replace({ path: url });
     },
     updateTr069() {
       if (
