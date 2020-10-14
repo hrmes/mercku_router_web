@@ -408,8 +408,7 @@ export default {
     },
     // 是否是访客
     isGuest(type) {
-      // return type === GUEST;
-      return true;
+      return type === GUEST;
     },
     onFulllineChange(val) {
       localStorage.setItem('fullline', val);

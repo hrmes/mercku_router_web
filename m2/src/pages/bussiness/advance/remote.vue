@@ -91,12 +91,14 @@
           <m-form-item prop="host">
             <m-input :label="$t('trans0498')"
                      v-model="stun.host"
-                     :placeholder="$t('trans0321')"></m-input>
+                     :placeholder="$t('trans0321')"
+                     :disabled="stunHostDisable"></m-input>
           </m-form-item>
           <m-form-item prop="port">
             <m-input :label="$t('trans0495')"
                      v-model="stun.port"
-                     :placeholder="$t('trans0321')"></m-input>
+                     :placeholder="$t('trans0321')"
+                     :disabled="stunPortDisable"></m-input>
           </m-form-item>
           <div class="form-item">
             <m-checkbox :text="$t('trans0462')"
@@ -255,7 +257,10 @@ export default {
         host: '',
         port: ''
       },
-      stunRules: {
+      stunHostDisable: false,
+      stunPortDisable: false,
+      stunRules: {},
+      stunEnableRule: {
         host: [
           {
             rule: value => value,
@@ -272,6 +277,10 @@ export default {
             message: this.$t('trans0478')
           }
         ]
+      },
+      stunDisenableRule: {
+        host: [],
+        port: []
       }
     };
   },
@@ -291,6 +300,24 @@ export default {
       return result;
     })()
   },
+  watch: {
+    'stun.enabled': {
+      handler(val) {
+        if (val) {
+          this.stunRules = this.stunEnableRule;
+          this.stunHostDisable = false;
+          this.stunPortDisable = false;
+        } else {
+          this.stunRules = this.stunDisenableRule;
+          this.stunHostDisable = true;
+          this.stunPortDisable = true;
+          this.stun.host = '';
+          this.stun.port = '';
+        }
+      },
+      immediate: true
+    }
+  },
   mounted() {
     this.$http.getTelnetEnabled().then(res => {
       this.remoteShell.telnet = res.data.result.enabled;
@@ -302,6 +329,7 @@ export default {
       this.remote = res.data.result.remote;
       this.local = res.data.result.local;
       this.stun = res.data.result.stun;
+      this.stun.port = this.stun.port === 0 ? '' : this.stun.port;
       this.enabled = res.data.result.enabled;
     });
     this.$http.getTFTP().then(res => {
@@ -320,11 +348,12 @@ export default {
       this.preUrl = url;
       this.$router.push({ path: url });
     },
-    valideteStun() {
-      return this.stun.enabled && this.$refs.stun.validate();
-    },
     updateTr069() {
-      if (this.$refs.remote.validate() && this.$refs.local.validate()) {
+      if (
+        this.$refs.remote.validate() &&
+        this.$refs.local.validate() &&
+        this.$refs.stun.validate()
+      ) {
         this.$loading.open();
         const remote = {
           username: this.remote.username,
@@ -336,18 +365,11 @@ export default {
           port: Number(this.local.port),
           path: this.local.path
         };
-        let stun = {
-          enabled: false,
+        const stun = {
+          enabled: this.stun.enabled,
           host: this.stun.host,
           port: this.stun.port * 1
         };
-        if (this.valideteStun()) {
-          stun = {
-            enabled: this.stun.enabled,
-            host: this.stun.host,
-            port: this.stun.port * 1
-          };
-        }
 
         if (this.remote.password) {
           remote.password = this.remote.password;
