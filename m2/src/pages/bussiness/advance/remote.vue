@@ -338,8 +338,8 @@ export default {
         };
         let stun = {
           enabled: false,
-          host: '',
-          port: 0
+          host: this.stun.host,
+          port: this.stun.port * 1
         };
         if (this.valideteStun()) {
           stun = {
