@@ -247,6 +247,7 @@ export default {
           {
             rule: value => {
               let flag = false;
+              value += '';
               const val = value * 1;
               if (value.indexOf('.') === -1 && is.integer(val)) {
                 if (val > 0 && val < 129) {

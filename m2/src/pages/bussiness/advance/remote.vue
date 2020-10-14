@@ -158,6 +158,7 @@ import { portReg } from '@/util/util';
 export default {
   data() {
     return {
+      preUrl: '',
       dropdownVisible: false,
       tftp: {
         server: '',
@@ -308,19 +309,22 @@ export default {
     });
   },
   methods: {
-    enabledChange() {},
     showDropdown() {
       this.dropdownVisible = !this.dropdownVisible;
     },
     forward2page(url) {
+      debugger;
+      if (this.preUrl && this.preUrl === url) {
+        return;
+      }
+      this.preUrl = url;
       this.$router.push({ path: url });
     },
+    valideteStun() {
+      return this.stun.enabled && this.$refs.stun.validate();
+    },
     updateTr069() {
-      if (
-        this.$refs.remote.validate() &&
-        this.$refs.local.validate() &&
-        this.$refs.stun.validate()
-      ) {
+      if (this.$refs.remote.validate() && this.$refs.local.validate()) {
         this.$loading.open();
         const remote = {
           username: this.remote.username,
@@ -332,11 +336,19 @@ export default {
           port: Number(this.local.port),
           path: this.local.path
         };
-        const stun = {
-          enabled: this.stun.enabled,
-          host: this.stun.host,
-          port: this.stun.port
+        let stun = {
+          enabled: false,
+          host: '',
+          port: 0
         };
+        if (this.valideteStun()) {
+          stun = {
+            enabled: this.stun.enabled,
+            host: this.stun.host,
+            port: this.stun.port * 1
+          };
+        }
+
         if (this.remote.password) {
           remote.password = this.remote.password;
         }

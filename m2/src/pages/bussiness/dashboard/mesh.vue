@@ -250,12 +250,13 @@
                v-for="(item, index) in meshList"
                :key="index">
             <div class="table__column table__column--device">
-              <span class="device__img">
-                <img v-if="isThisMachine(item.ip)"
-                     src="../../../assets/images/icon/ic_user.png"
+              <span v-if="isThisMachine(item.ip)"
+                    class="device__img">
+                <img src="../../../assets/images/icon/ic_user.png"
                      alt="">
               </span>
               <span class="device__host-name"
+                    :class="hasPaddingLeft(item.ip)"
                     :title="item.name">
                 {{item.name}}
               </span>
@@ -265,10 +266,11 @@
               <div class="v6">{{formatMac(item.mac)}}</div>
             </div>
             <div class="table__column table__column--guest">
-              <span>{{bandMap[item.connected_network.band]}}</span>
+              <span class="laptop-show">{{bandMap[item.connected_network.band]}}</span>
               <img v-if="isGuest(item.connected_network.type)"
                    src="../../../assets/images/icon/ic-guest-wifi.png"
                    alt="" />
+              <span class="mobile-show">{{bandMap[item.connected_network.band]}}</span>
             </div>
           </div>
         </div>
@@ -397,13 +399,17 @@ export default {
     }
   },
   methods: {
+    hasPaddingLeft(ip) {
+      return this.isThisMachine(ip) ? '' : 'has-padding-left';
+    },
     // 是否是主机
     isThisMachine(ip) {
       return ip === this.localDeviceIP;
     },
     // 是否是访客
     isGuest(type) {
-      return type === GUEST;
+      // return type === GUEST;
+      return true;
     },
     onFulllineChange(val) {
       localStorage.setItem('fullline', val);
@@ -770,6 +776,7 @@ export default {
     .table__body {
       height: 350px;
       overflow: auto;
+      overflow: overlay;
       padding: 0 10px 10px 10px;
     }
     .table__empty {
@@ -817,6 +824,9 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          &.has-padding-left {
+            padding-left: 30px;
+          }
         }
       }
       .table__column--ip {
@@ -825,17 +835,22 @@ export default {
         justify-content: center;
       }
       .table__column--guest {
-        img {
-          width: 38px;
-        }
         span {
-          display: inline-block;
           width: 75px;
           text-align: center;
           padding: 3px 0;
           border-radius: 3px;
           border: solid 1px #333333;
-          margin-right: 20px;
+        }
+        img {
+          margin-left: 20px;
+          width: 38px;
+        }
+        .laptop-show {
+          display: inline-block;
+        }
+        .mobile-show {
+          display: none;
         }
       }
     }
@@ -1488,6 +1503,9 @@ export default {
         .table__column--device {
           .device__host-name {
             width: 100%;
+            &.has-padding-left {
+              padding-left: 0;
+            }
           }
         }
       }
@@ -1510,8 +1528,15 @@ export default {
           justify-content: flex-end;
           height: 50px;
           width: 50%;
-          span {
-            margin-right: 10px;
+          img {
+            margin-left: 0;
+          }
+          .laptop-show {
+            display: none;
+          }
+          .mobile-show {
+            display: inline-block;
+            margin-left: 10px;
           }
         }
       }
