@@ -530,6 +530,7 @@ export default {
             this.$http.reboot({ node_ids: [router.sn] }).then(() => {
               if (router.is_gw) {
                 this.$reconnect({
+                  timeout: 120,
                   onsuccess: () => {
                     this.$router.push({ path: '/login' });
                   },
@@ -555,6 +556,7 @@ export default {
           ok: () => {
             this.$http.resetMeshNode({ node_ids: [router.sn] }).then(() => {
               this.$reconnect({
+                timeout: 120,
                 onsuccess: () => {
                   this.reset = false;
                   window.location.href = '/';
