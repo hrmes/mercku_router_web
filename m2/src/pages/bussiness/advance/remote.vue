@@ -22,6 +22,7 @@
 
     <div class="page__remote__content">
       <div class="tr069-form"
+           key="tr069-form"
            v-if="isTR069">
         <div class="form-checkbox-wrap">
           <div class="form-checkbox">
@@ -111,6 +112,7 @@
         </div>
       </div>
       <div class="tftp-form"
+           key="tftp-form"
            v-if="isTFTP">
         <m-form class="form"
                 :model="tftp"
@@ -133,6 +135,7 @@
         </div>
       </div>
       <div class="telnet-form"
+           key="telnet-form"
            v-if="isTelnet">
         <m-form class="form"
                 :model="remoteShell"

@@ -164,6 +164,7 @@
 <script>
 import * as CONSTANTS from '@/util/constant';
 import is from 'is_js';
+import { isValidInteger } from '@/util/util';
 
 const defaultPrefixLength = 64;
 
@@ -245,17 +246,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => {
-              let flag = false;
-              value += '';
-              const val = value * 1;
-              if (value.indexOf('.') === -1 && is.integer(val)) {
-                if (val > 0 && val < 129) {
-                  flag = true;
-                }
-              }
-              return flag;
-            },
+            rule: value => isValidInteger(value, 1, 128),
             message: this.$t('trans0647')
           }
         ],

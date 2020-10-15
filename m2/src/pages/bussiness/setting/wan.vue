@@ -144,7 +144,7 @@
                 <m-input :label="$t('trans0684')"
                          type="text"
                          placeholder="1-4094"
-                         v-model.number="pppoeForm.vlan.id"></m-input>
+                         v-model="pppoeForm.vlan.id"></m-input>
               </m-form-item>
               <m-form-item class="pppoe-form__item">
                 <m-select :label="$t('trans0686')"
@@ -222,7 +222,8 @@ import {
   isMulticast,
   isLoopback,
   isValidMask,
-  ipReg
+  ipReg,
+  isValidInteger
 } from '@/util/util';
 
 function checkDNS(value) {
@@ -372,11 +373,11 @@ export default {
       ],
       vlanIdRules: [
         {
-          rule: value => /^\d+$/.test(value),
-          message: this.$t('trans0687')
+          rule: value => !/^\s*$/g.test(value),
+          message: this.$t('trans0232')
         },
         {
-          rule: value => value >= 1 && value <= 4094,
+          rule: value => isValidInteger(value, 1, 4094),
           message: this.$t('trans0687')
         }
       ]

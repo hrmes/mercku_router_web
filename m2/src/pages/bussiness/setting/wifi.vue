@@ -35,14 +35,12 @@
                    type='text'
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
-
         <m-form-item key="b24gencrypt"
                      class="item">
           <m-select :label="$t('trans0522')"
                     v-model="form.b24g.encrypt"
                     :options="options"></m-select>
         </m-form-item>
-
         <m-form-item key="b24gpassword"
                      v-if="!isOpen('b24g')"
                      class="item"
@@ -52,7 +50,6 @@
                    type='password'
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
-
         <m-form-item key="b24gchannelnumber"
                      class="form__item">
           <m-select :label="$t('trans0680')"
@@ -79,7 +76,6 @@
                     v-model="form.b5g.channel.bandwidth"
                     :options="bandwidths.b5g"></m-select>
         </m-form-item>
-
         <div class="form-item check-info">
           <label for=""> {{$t('trans0110')}}
             <div class="tool">
@@ -96,7 +92,6 @@
           </label>
           <m-switch v-model="form.b24g.hidden" />
         </div>
-
       </m-form>
 
       <m-form v-if="!form.smart_connect"
@@ -168,6 +163,7 @@
           <m-switch v-model="form.b5g.hidden" />
         </div>
       </m-form>
+
       <div class="form-button">
         <button class="btn"
                 v-defaultbutton

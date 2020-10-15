@@ -1,4 +1,5 @@
 import semver from 'semver';
+import is from 'is_js';
 
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
@@ -21,6 +22,18 @@ export const isIP = ip => {
     return true;
   }
   return false;
+};
+export const isValidInteger = (value, min, max) => {
+  const reg = /^[1-9]\d+$/;
+  let flag = false;
+  value += '';
+  if (reg.test(value)) {
+    const val = value * 1;
+    if (val >= min && val <= max) {
+      flag = true;
+    }
+  }
+  return flag;
 };
 export const hostRexp = host => {
   if (host && hostReg.test(host)) {
