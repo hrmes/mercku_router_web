@@ -61,10 +61,14 @@
             <div>
               <span class="ssid-label">{{$t('trans0255')}}：</span>
               <span class="ssid-name">{{form.ssid}}</span>
+              <span class="ssid-status"
+                    v-if="!form.enabled_24g">{{$t('trans0732')}}</span>
             </div>
             <div>
               <span class="ssid-label">{{$t('trans0256')}}：</span>
               <span class="ssid-name">{{ssid_5g}}</span>
+              <span class="ssid-status"
+                    v-if="!form.enabled_5g">{{$t('trans0732')}}</span>
             </div>
           </div>
           <div class="form-button"
@@ -87,8 +91,22 @@
               <p class='name'>{{form.ssid}}</p>
             </div>
             <div v-else>
-              <p><span>2.4G：</span>{{form.ssid}}</p>
-              <p><span>5G：</span>{{ssid_5g}}</p>
+              <p class="ssid">
+                <span>2.4G：</span>
+                {{form.ssid}}
+                <span class="ssid__status"
+                      v-if="!form.enabled_5g">
+                  {{$t('trans0732')}}
+                </span>
+              </p>
+              <p class="ssid">
+                <span>5G：</span>
+                {{ssid_5g}}
+                <span class="ssid__status"
+                      v-if="!form.enabled_24g">
+                  {{$t('trans0732')}}
+                </span>
+              </p>
             </div>
           </div>
           <div class="remaining-time">
@@ -114,6 +132,10 @@
 <script>
 import { getStringByte, passwordRule } from '@/util/util';
 
+const Bands = {
+  b24g: '2.4G',
+  b5g: '5G'
+};
 export default {
   data() {
     return {
@@ -166,7 +188,9 @@ export default {
         duration: -1,
         ssid: 'Mercku Guest',
         encrypt: 'open',
-        smart_connect: true
+        smart_connect: true,
+        enabled_24g: false,
+        enabled_5g: false
       },
       rules: {
         ssid: [
@@ -309,7 +333,9 @@ export default {
     getGuestWIFI() {
       this.$http.meshGuestGet().then(res => {
         [this.guest] = res.data.result;
-        const band24g = this.guest.bands['2.4G'];
+        const band24g = this.guest.bands[Bands.b24g];
+        const band5g = this.guest.bands[Bands.b5g];
+        console.log(band24g, band5g);
         this.form = {
           id: this.guest.id,
           enabled: this.guest.enabled,
@@ -317,7 +343,9 @@ export default {
           ssid: band24g.ssid,
           encrypt: band24g.encrypt,
           password: band24g.password,
-          smart_connect: this.guest.smart_connect
+          smart_connect: this.guest.smart_connect,
+          enabled_24g: band24g.enabled,
+          enabled_5g: band5g.enabled
         };
         this.setGuestWIFIStatus(this.guest.enabled);
       });
@@ -431,6 +459,13 @@ export default {
         width: 50px;
         display: inline-block;
       }
+      .ssid-status {
+        padding: 0 10px;
+        display: inline-block;
+        background: #666;
+        margin-left: 10px;
+        color: #fff;
+      }
       &:first-child {
         border-bottom: 1px solid #f1f1f1;
       }
@@ -475,6 +510,16 @@ export default {
         display: inline-block;
         width: 60px;
         text-align: left;
+      }
+      &.ssid {
+        .ssid__status {
+          width: auto;
+          padding: 0 10px;
+          display: inline-block;
+          background: #666;
+          margin-left: 10px;
+          color: #fff;
+        }
       }
     }
   }

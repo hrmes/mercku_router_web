@@ -43,7 +43,7 @@
             <m-switch v-model="form.b24g.hidden" />
           </div>
           <m-form-item key="b24gencrypt"
-                       class="item">
+                       class="form__item">
             <m-select :label="$t('trans0522')"
                       v-model="form.b24g.encrypt"
                       :options="options"></m-select>
@@ -69,9 +69,11 @@
                         v-model="form.b24g.channel.number"
                         :options="channels.b24g"></m-select>
             </m-form-item>
-            <m-checkbox v-model="form.b24g.channel.auto_select"
-                        :text="$t('trans0725')"></m-checkbox>
-            <div>{{ $t('trans0726') }}</div>
+            <div class="form-item">
+              <m-checkbox v-model="form.b24g.channel.auto_select"
+                          :text="$t('trans0725')"></m-checkbox>
+              <div class="form__tip">{{ $t('trans0726') }}</div>
+            </div>
             <m-form-item key="b24gbandwidth"
                          class="form__item">
               <m-select :label="$t('trans0632')"
@@ -83,8 +85,8 @@
               <m-select :label="$t('trans0728')"
                         v-model="form.b24g.power"
                         :options="signalIntensityList"></m-select>
+              <div class="form__tip">{{ $t('trans0727') }}</div>
             </m-form-item>
-            <div>{{ $t('trans0727') }}</div>
           </template>
           <!-- 5g -->
           <div class="form-header">
@@ -99,9 +101,11 @@
                         v-model="form.b5g.channel.number"
                         :options="channels.b5g"></m-select>
             </m-form-item>
-            <m-checkbox v-model="form.b5g.channel.auto_select"
-                        :text="$t('trans0725')"></m-checkbox>
-            <div>{{ $t('trans0726') }}</div>
+            <div class="form-item">
+              <m-checkbox v-model="form.b5g.channel.auto_select"
+                          :text="$t('trans0725')"></m-checkbox>
+              <div class="form__tip">{{ $t('trans0726') }}</div>
+            </div>
             <m-form-item key="b5gbandwidth"
                          class="form__item">
               <m-select :label="$t('trans0632')"
@@ -113,8 +117,8 @@
               <m-select :label="$t('trans0728')"
                         v-model="form.b5g.power"
                         :options="signalIntensityList"></m-select>
+              <div class="form__tip">{{ $t('trans0727') }}</div>
             </m-form-item>
-            <div>{{ $t('trans0727') }}</div>
           </template>
         </m-form>
       </template>
@@ -156,13 +160,13 @@
               <m-switch v-model="form.b24g.hidden" />
             </div>
             <m-form-item key="b24gencrypt"
-                         class="item">
+                         class="form__item">
               <m-select :label="$t('trans0522')"
                         v-model="form.b24g.encrypt"
                         :options="options"></m-select>
             </m-form-item>
             <m-form-item key="b24gpassword"
-                         class="item"
+                         class="form__item"
                          prop='b24g.password'>
               <m-input v-model="form.b24g.password"
                        :label="$t('trans0172')"
@@ -170,14 +174,16 @@
                        :placeholder="`${$t('trans0321')}`"></m-input>
             </m-form-item>
             <m-form-item key="b24gchannelnumber"
-                         class="form__item">
+                         class="form__item margin-bottom--small">
               <m-select :label="$t('trans0680')"
                         v-model="form.b24g.channel.number"
                         :options="channels.b24g"></m-select>
             </m-form-item>
-            <m-checkbox v-model="form.b24g.channel.auto_select"
-                        :text="$t('trans0725')"></m-checkbox>
-            <div>{{ $t('trans0726') }}</div>
+            <div class="form-item">
+              <m-checkbox v-model="form.b24g.channel.auto_select"
+                          :text="$t('trans0725')"></m-checkbox>
+              <div class="form__tip">{{ $t('trans0726') }}</div>
+            </div>
             <m-form-item key="b24gbandwidth"
                          class="form__item">
               <m-select :label="$t('trans0632')"
@@ -189,8 +195,8 @@
               <m-select :label="$t('trans0728')"
                         v-model="form.b24g.power"
                         :options="signalIntensityList"></m-select>
+              <div class="form__tip">{{ $t('trans0727') }}</div>
             </m-form-item>
-            <div>{{ $t('trans0727') }}</div>
           </template>
           <!-- 5g -->
           <div class="form-header">
@@ -223,7 +229,7 @@
               <m-switch v-model="form.b5g.hidden" />
             </div>
             <m-form-item key="b5gencrypt"
-                         class="item">
+                         class="form__item">
               <m-select :label="$t('trans0522')"
                         v-model="form.b5g.encrypt"
                         :options="options"></m-select>
@@ -242,9 +248,11 @@
                         v-model="form.b5g.channel.number"
                         :options="channels.b5g"></m-select>
             </m-form-item>
-            <m-checkbox v-model="form.b5g.channel.auto_select"
-                        :text="$t('trans0725')"></m-checkbox>
-            <div>{{ $t('trans0726') }}</div>
+            <div class="form-item">
+              <m-checkbox v-model="form.b5g.channel.auto_select"
+                          :text="$t('trans0725')"></m-checkbox>
+              <div class="form__tip">{{ $t('trans0726') }}</div>
+            </div>
             <m-form-item key="b5gbandwidth"
                          class="form__item">
               <m-select :label="$t('trans0632')"
@@ -256,8 +264,8 @@
               <m-select :label="$t('trans0728')"
                         v-model="form.b5g.power"
                         :options="signalIntensityList"></m-select>
+              <div class="form__tip">{{ $t('trans0727') }}</div>
             </m-form-item>
-            <div>{{ $t('trans0727') }}</div>
           </template>
         </m-form>
       </template>
@@ -437,7 +445,7 @@ export default {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
-          message: this.$t('trans0725'),
+          message: this.$t('trans0724'),
           callback: {
             ok: () => {
               this.checkSwitchStatus(enabled, type);
@@ -651,10 +659,6 @@ export default {
       color: #999;
     }
   }
-  + .form {
-    padding-top: 20px;
-    margin-top: 0;
-  }
   .margin-bottom--small {
     margin-bottom: 15px !important;
   }
@@ -685,6 +689,15 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  .form__tip {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #999;
+  }
+  + .form {
+    padding-top: 20px;
+    margin-top: 0;
   }
 }
 .form-button {
