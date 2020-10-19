@@ -401,7 +401,7 @@
   "trans0400": "Handmatige DNS",
   "trans0401": "DNS-instellingen",
   "trans0402": "VPN",
-  "trans0403": "Het IP-adres zijn gebruikt.",
+  "trans0403": "Het IP-adres zijn gebruikt",
   "trans0404": "Verbinding verbroken",
   "trans0405": "Verbonden",
   "trans0406": "Verbinding mislukt",
@@ -572,7 +572,7 @@
   "trans0577": "Het verkrijgen van PPPoE-gebruikersnaam en wachtwoord is mislukt",
   "trans0578": "Keer terug naar upgrade lijst",
   "trans0579": "#### Mogelijke redenen die invloed kunnen hebben op de latentie:\n- Een apparaat in uw netwerk is bezig met een grote download\n\n- Controleer of er KvS-beleid is toegepast op uw router\n\n- Bevestig of uw internetbandbreedte wordt gedeeld met andere gebruikers door uw ISP",
-  "trans0580": "STUN server-instellingen",
+  "trans0580": "TR-111 (STUN) instellingen",
   "trans0581": " ",
   "trans0582": " ",
   "trans0583": "Deze functie is niet beschikbaar omdat de bridge-modus is geactiveerd op de router.",
@@ -715,5 +715,14 @@
   "trans0720": "M2 router Instellen",
   "trans0721": "M6 router Instellen",
   "trans0722": " ",
-  "trans0723": " "
+  "trans0723": " ",
+  "trans0724": " ",
+  "trans0725": " ",
+  "trans0726": " ",
+  "trans0727": " ",
+  "trans0728": " ",
+  "trans0729": " ",
+  "trans0730": " ",
+  "trans0731": " ",
+  "trans0732": " "
 }
