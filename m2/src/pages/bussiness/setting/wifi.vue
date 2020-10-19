@@ -8,6 +8,7 @@
         <div class="smart-connect__inner">
           <label class="smart-connect__label">{{$t('trans0397')}}</label>
           <m-switch class="smart-connect__switch"
+                    :onChange="changeSmartConnect"
                     v-model="form.smart_connect" />
         </div>
         <div class="smart-connect__tip">{{$t('trans0398')}}</div>
@@ -50,7 +51,8 @@
           </m-form-item>
           <m-form-item key="b24gpassword"
                        class="item"
-                       prop='b24g.password'>
+                       prop='b24g.password'
+                       v-show="isB24gShowPwdInput">
             <m-input v-model="form.b24g.password"
                      :label="$t('trans0172')"
                      type='password'
@@ -167,7 +169,8 @@
             </m-form-item>
             <m-form-item key="b24gpassword"
                          class="form__item"
-                         prop='b24g.password'>
+                         prop="b24g.password"
+                         v-show="isB24gShowPwdInput">
               <m-input v-model="form.b24g.password"
                        :label="$t('trans0172')"
                        type='password'
@@ -236,7 +239,8 @@
             </m-form-item>
             <m-form-item class="item"
                          key="b5gpassword"
-                         prop='b5g.password'>
+                         prop="b5g.password"
+                         v-show="isB5gShowPwdInput">
               <m-input v-model="form.b5g.password"
                        :label="$t('trans0172')"
                        type='password'
@@ -294,6 +298,12 @@ const ModeType = {
   auto: 'auto',
   manual: 'manual'
 };
+const EncryptType = {
+  open: 'open',
+  wpawpa2: 'wpawpa2',
+  wpa2: 'wpa2',
+  wpa: 'wpa'
+};
 
 export default {
   data() {
@@ -305,12 +315,12 @@ export default {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: 'wpawpa2',
+          encrypt: SignalIntensity.open,
           enabled: false, // 是否使用
-          power: 'high',
+          power: SignalIntensity.high,
           channel: {
-            mode: 'auto',
-            number: 0, // 信道号
+            mode: ModeType.manual,
+            number: 11, // 信道号
             bandwidth: 20, // 频宽
             auto_select: false // 动态信道选择
           }
@@ -319,12 +329,12 @@ export default {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: 'wpawpa2',
+          encrypt: SignalIntensity.open,
           enabled: false,
-          power: 'high',
+          power: SignalIntensity.high,
           channel: {
-            mode: 'auto',
-            number: 0,
+            mode: ModeType.manual,
+            number: 40,
             bandwidth: 80,
             auto_select: false
           }
@@ -346,19 +356,19 @@ export default {
       ],
       options: [
         {
-          value: 'open',
+          value: EncryptType.open,
           text: this.$t('trans0554')
         },
         {
-          value: 'wpawpa2',
+          value: EncryptType.wpawpa2,
           text: this.$t('trans0557')
         },
         {
-          value: 'wpa2',
+          value: EncryptType.wpa2,
           text: this.$t('trans0556')
         },
         {
-          value: 'wpa',
+          value: EncryptType.wpa,
           text: this.$t('trans0555')
         }
       ],
@@ -430,12 +440,47 @@ export default {
     },
     isB5gSmartForm() {
       return this.form.smart_connect && this.form.b5g.enabled;
+    },
+    isB24gShowPwdInput() {
+      if (this.form.b24g.encrypt === EncryptType.open) {
+        this.form.b24g.password = '';
+        this.rules['b24g.password'] = [];
+      } else {
+        this.rules['b24g.password'] = [
+          {
+            rule: value => passwordRule.test(value),
+            message: this.$t('trans0169')
+          }
+        ];
+      }
+      return this.form.b24g.encrypt !== EncryptType.open;
+    },
+    isB5gShowPwdInput() {
+      if (this.form.b5g.encrypt === EncryptType.open) {
+        this.form.b5g.password = '';
+        this.rules['b24g.password'] = [];
+      } else {
+        this.rules['b5g.password'] = [
+          {
+            rule: value => passwordRule.test(value),
+            message: this.$t('trans0169')
+          }
+        ];
+      }
+      return this.form.b5g.encrypt !== EncryptType.open;
     }
   },
   mounted() {
     this.getInitData();
   },
   methods: {
+    changeSmartConnect() {
+      // 开关变化后，始终保持5G的参数和2.4G的一致
+      this.form.b5g.ssid = this.form.b24g.ssid;
+      this.form.b5g.hidden = this.form.b24g.hidden;
+      this.form.b5g.encrypt = this.form.b24g.encrypt;
+      this.form.b5g.password = this.form.b24g.password;
+    },
     changeSwitch(enabled, type) {
       if (enabled) {
         // 由关闭状态切换到启用状态
@@ -526,7 +571,7 @@ export default {
       const number = `${this.form[type].channel.number}`;
       if (number === ModeType.auto || number.indexOf('(') > -1) {
         channel.mode = ModeType.auto;
-        channel.number = ModeType.auto;
+        delete channel.number;
       } else {
         channel.mode = ModeType.manual;
         channel.number = this.form[type].channel.number;
@@ -594,7 +639,9 @@ export default {
           this.form.b5g.channel.auto_select = b5g.channel.auto_select;
           this.form.b5g.channel.mode = b5g.channel.mode;
           if (this.form.b5g.channel.mode === ModeType.auto) {
-            this.form.b5g.channel.number = `${ModeType.auto}(${b5g.channel.number})`;
+            this.form.b5g.channel.number = `${this.$t('trans0455')}(${
+              b5g.channel.number
+            })`;
           } else {
             this.form.b5g.channel.number = b5g.channel.number;
           }
