@@ -61,14 +61,10 @@
             <div>
               <span class="ssid-label">{{$t('trans0255')}}：</span>
               <span class="ssid-name">{{form.ssid}}</span>
-              <span class="ssid-status"
-                    v-if="!form.enabled_24g">{{$t('trans0732')}}</span>
             </div>
             <div>
               <span class="ssid-label">{{$t('trans0256')}}：</span>
               <span class="ssid-name">{{ssid_5g}}</span>
-              <span class="ssid-status"
-                    v-if="!form.enabled_5g">{{$t('trans0732')}}</span>
             </div>
           </div>
           <div class="form-button"
@@ -91,21 +87,13 @@
               <p class='name'>{{form.ssid}}</p>
             </div>
             <div v-else>
-              <p class="ssid">
+              <p>
                 <span>2.4G：</span>
                 {{form.ssid}}
-                <span class="ssid__status"
-                      v-if="!form.enabled_5g">
-                  {{$t('trans0732')}}
-                </span>
               </p>
-              <p class="ssid">
+              <p>
                 <span>5G：</span>
                 {{ssid_5g}}
-                <span class="ssid__status"
-                      v-if="!form.enabled_24g">
-                  {{$t('trans0732')}}
-                </span>
               </p>
             </div>
           </div>
@@ -188,9 +176,7 @@ export default {
         duration: -1,
         ssid: 'Mercku Guest',
         encrypt: 'open',
-        smart_connect: true,
-        enabled_24g: false,
-        enabled_5g: false
+        smart_connect: true
       },
       rules: {
         ssid: [
@@ -343,9 +329,7 @@ export default {
           ssid: band24g.ssid,
           encrypt: band24g.encrypt,
           password: band24g.password,
-          smart_connect: this.guest.smart_connect,
-          enabled_24g: band24g.enabled,
-          enabled_5g: band5g.enabled
+          smart_connect: this.guest.smart_connect
         };
         this.setGuestWIFIStatus(this.guest.enabled);
       });
@@ -459,13 +443,6 @@ export default {
         width: 50px;
         display: inline-block;
       }
-      .ssid-status {
-        padding: 0 10px;
-        display: inline-block;
-        background: #666;
-        margin-left: 10px;
-        color: #fff;
-      }
       &:first-child {
         border-bottom: 1px solid #f1f1f1;
       }
@@ -510,16 +487,6 @@ export default {
         display: inline-block;
         width: 60px;
         text-align: left;
-      }
-      &.ssid {
-        .ssid__status {
-          width: auto;
-          padding: 0 10px;
-          display: inline-block;
-          background: #666;
-          margin-left: 10px;
-          color: #fff;
-        }
       }
     }
   }
