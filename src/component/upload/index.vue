@@ -63,26 +63,26 @@ export default {
     onCancel: { type: Function },
     label: {
       type: String,
-      default: ''
+      default: '',
     },
     multiple: {
       type: Boolean,
-      default: false
+      default: false,
     },
     accept: {
       type: String,
-      default: ''
+      default: '',
     },
     request: { type: Function },
     beforeUpload: { type: Function },
-    packageInfo: {}
+    packageInfo: {},
   },
   data() {
     return {
       files: [],
       percentage: 0,
       status: UploadStatus.ready,
-      err: ''
+      err: '',
     };
   },
   computed: {
@@ -100,7 +100,7 @@ export default {
     },
     width() {
       return `${this.percent}%`;
-    }
+    },
   },
   methods: {
     getSize(file) {
@@ -143,12 +143,12 @@ export default {
     },
     cancel(file) {
       // 组件内部的取消逻辑
-      this.files = this.files.filter(v => v.name !== file.name);
+      this.files = this.files.filter((v) => v.name !== file.name);
       this.$refs.upload.value = null;
       this.status = UploadStatus.ready;
       this.onCancel && this.onCancel(file);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

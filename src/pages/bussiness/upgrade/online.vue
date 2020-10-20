@@ -110,10 +110,10 @@ export default {
       requestResult: {
         complete: false,
         error: null,
-        message: ''
+        message: '',
       },
       showChangelogModal: false,
-      changelog: ''
+      changelog: '',
     };
   },
   mounted() {
@@ -122,7 +122,7 @@ export default {
   computed: {
     hasUpgradablityNodes() {
       return this.nodes.length > 0;
-    }
+    },
   },
   methods: {
     close() {
@@ -143,21 +143,21 @@ export default {
       this.$loading.open();
 
       Promise.all([this.$http.firmwareList(), this.$http.getMeshNode()])
-        .then(resArr => {
+        .then((resArr) => {
           this.$loading.close();
-          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
+          const gw = resArr[1].data.result.filter((node) => node.is_gw)[0];
 
           const nodes = resArr[0].data.result;
 
           this.requestResult.complete = true;
 
-          const filter = node => {
+          const filter = (node) => {
             const { current, latest } = node.version;
             return compareVersion(current, latest);
           };
 
           let containGW = false;
-          this.nodes = nodes.filter(filter).map(node => {
+          this.nodes = nodes.filter(filter).map((node) => {
             let isGW = false;
             if (node.sn === gw.sn) {
               isGW = true;
@@ -166,7 +166,7 @@ export default {
             return {
               ...node,
               isGW,
-              checked: false
+              checked: false,
             };
           });
 
@@ -177,17 +177,17 @@ export default {
               message: this.$t('trans0669'),
               callback: {
                 ok: () => {
-                  this.nodes.forEach(node => {
+                  this.nodes.forEach((node) => {
                     if (!node.isGW) {
                       node.checked = true;
                     }
                   });
-                }
-              }
+                },
+              },
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.$loading.close();
           this.requestResult.complete = true;
           if (err && err.error) {
@@ -197,7 +197,7 @@ export default {
         });
     },
     submit() {
-      const nodeIds = this.nodes.filter(n => n.checked).map(n => n.sn);
+      const nodeIds = this.nodes.filter((n) => n.checked).map((n) => n.sn);
       if (!nodeIds.length) {
         this.$toast(this.$t('trans0381'));
         return;
@@ -219,17 +219,17 @@ export default {
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
-                  }
+                  },
                 });
               })
               .catch(() => {
                 this.$loading.close();
               });
-          }
-        }
+          },
+        },
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
