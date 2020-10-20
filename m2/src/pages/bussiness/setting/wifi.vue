@@ -458,7 +458,7 @@ export default {
     isB5gShowPwdInput() {
       if (this.form.b5g.encrypt === EncryptType.open) {
         this.form.b5g.password = '';
-        this.rules['b24g.password'] = [];
+        this.rules['b5g.password'] = [];
       } else {
         this.rules['b5g.password'] = [
           {
@@ -511,7 +511,7 @@ export default {
           this.form.b5g.enabled = enabled;
           break;
         default:
-          console.log('error');
+          this.form.b5g.enabled = false;
       }
     },
     submit() {
@@ -539,8 +539,8 @@ export default {
         message: this.$t('trans0229'),
         callback: {
           ok: () => {
-            const b24g = this.getFormData('b24g');
-            const b5g = this.getFormData('b5g');
+            const b24g = this.getFormData(Bands.b24g);
+            const b5g = this.getFormData(Bands.b5g);
             const wifi = {
               smart_connect: this.form.smart_connect,
               bands: {
@@ -563,26 +563,43 @@ export default {
         }
       });
     },
+    getBandName(type) {
+      return type === Bands.b24g ? 'b24g' : 'b5g';
+    },
     getFormData(type) {
+      let formData = null;
+      const name = this.getBandName(type);
+      if (this.form[name].enabled) {
+        if (name === 'b5g' && this.form.smart_connect) {
+          this.changeSmartConnect();
+        }
+        formData = this.form[name];
+      } else {
+        // 从缓存中读取数据
+        formData = JSON.parse(sessionStorage.getItem(name));
+      }
+
       const channel = {
-        bandwidth: this.form[type].channel.bandwidth,
-        auto_select: this.form[type].channel.auto_select
+        bandwidth: formData.channel.bandwidth,
+        auto_select: formData.channel.auto_select
       };
-      const number = `${this.form[type].channel.number}`;
+      const number = `${formData.channel.number}`;
       if (number === ModeType.auto || number.indexOf('(') > -1) {
         channel.mode = ModeType.auto;
         delete channel.number;
       } else {
         channel.mode = ModeType.manual;
-        channel.number = this.form[type].channel.number;
+        // 如果自动信道选择了165信道，传默认信道40
+        channel.number =
+          formData.channel.number === 165 ? 40 : formData.channel.number;
       }
       return {
-        hidden: this.form[type].hidden,
-        ssid: this.form[type].ssid,
-        password: this.form[type].password,
-        encrypt: this.form[type].encrypt,
-        enabled: this.form[type].enabled,
-        power: this.form[type].power,
+        hidden: formData.hidden,
+        ssid: formData.ssid,
+        password: formData.password,
+        encrypt: formData.encrypt,
+        enabled: this.form[name].enabled,
+        power: formData.power,
         channel
       };
     },
@@ -609,43 +626,8 @@ export default {
             value: ModeType.auto,
             text: this.$t('trans0455')
           });
-
-          // 2.4G
-          const b24g = wifi.bands[Bands.b24g];
-          this.form.b24g.ssid = b24g.ssid;
-          this.form.b24g.encrypt = b24g.encrypt;
-          this.form.b24g.password = b24g.password;
-          this.form.b24g.hidden = b24g.hidden;
-          this.form.b24g.enabled = b24g.enabled;
-          this.form.b24g.power = b24g.power;
-          this.form.b24g.channel.bandwidth = b24g.channel.bandwidth;
-          this.form.b24g.channel.auto_select = b24g.channel.auto_select;
-          this.form.b24g.channel.mode = b24g.channel.mode;
-          if (this.form.b24g.channel.mode === ModeType.auto) {
-            this.form.b24g.channel.number = `${ModeType.auto}(${b24g.channel.number})`;
-          } else {
-            this.form.b24g.channel.number = b24g.channel.number;
-          }
-
-          // 5G
-          const b5g = wifi.bands[Bands.b5g];
-          this.form.b5g.ssid = b5g.ssid;
-          this.form.b5g.encrypt = b5g.encrypt;
-          this.form.b5g.password = b5g.password;
-          this.form.b5g.hidden = b5g.hidden;
-          this.form.b5g.enabled = b5g.enabled;
-          this.form.b5g.power = b5g.power;
-          this.form.b5g.channel.bandwidth = b5g.channel.bandwidth;
-          this.form.b5g.channel.auto_select = b5g.channel.auto_select;
-          this.form.b5g.channel.mode = b5g.channel.mode;
-          if (this.form.b5g.channel.mode === ModeType.auto) {
-            this.form.b5g.channel.number = `${this.$t('trans0455')}(${
-              b5g.channel.number
-            })`;
-          } else {
-            this.form.b5g.channel.number = b5g.channel.number;
-          }
-
+          this.setFormData(wifi.bands, Bands.b24g);
+          this.setFormData(wifi.bands, Bands.b5g);
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
 
@@ -654,6 +636,27 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
+    },
+    setFormData(bands, type) {
+      const band = bands[type];
+      const name = this.getBandName(type);
+      sessionStorage.setItem(name, JSON.stringify(bands[type]));
+      this.form[name].ssid = band.ssid;
+      this.form[name].encrypt = band.encrypt;
+      this.form[name].password = band.password;
+      this.form[name].hidden = band.hidden;
+      this.form[name].enabled = band.enabled;
+      this.form[name].power = band.power;
+      this.form[name].channel.bandwidth = band.channel.bandwidth;
+      this.form[name].channel.auto_select = band.channel.auto_select;
+      this.form[name].channel.mode = band.channel.mode;
+      if (this.form[name].channel.mode === ModeType.auto) {
+        this.form[name].channel.number = `${this.$t('trans0455')}(${
+          band.channel.number
+        })`;
+      } else {
+        this.form[name].channel.number = band.channel.number;
+      }
     }
   }
 };
