@@ -468,6 +468,13 @@ export default {
         ];
       }
       return this.form.b5g.encrypt !== EncryptType.open;
+    },
+    isSameSsid() {
+      return (
+        this.form.b24g.enabled &&
+        this.form.b5g.enabled &&
+        this.form.b24g.ssid === this.form.b5g.ssid
+      );
     }
   },
   mounted() {
@@ -524,8 +531,7 @@ export default {
         if (!this.$refs.form.validate()) {
           return;
         }
-        // 表单验证通过且ssid不一致
-        if (this.form.b24g.ssid === this.form.b5g.ssid) {
+        if (this.isSameSsid) {
           this.$toast(this.$t('trans0660'), 3000, 'error');
           return;
         }
@@ -586,12 +592,16 @@ export default {
       const number = `${formData.channel.number}`;
       if (number === ModeType.auto || number.indexOf('(') > -1) {
         channel.mode = ModeType.auto;
-        delete channel.number;
       } else {
-        channel.mode = ModeType.manual;
-        // 如果自动信道选择了165信道，传默认信道40
-        channel.number =
-          formData.channel.number === 165 ? 40 : formData.channel.number;
+        if (formData.channel.mode === ModeType.auto) {
+          channel.mode = ModeType.auto;
+        } else {
+          channel.mode = ModeType.manual;
+          // 如果自动信道选择了165信道，传默认信道40
+          channel.number =
+            formData.channel.number === 165 ? 40 : formData.channel.number;
+        }
+        console.log(channel);
       }
       return {
         hidden: formData.hidden,
