@@ -17,7 +17,7 @@
           <div class="ipv6-page__internet-content ipv6-page__internet-content--info">
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0375')}}：</label>
-              <span>{{networkArr[netInfo.type]}}</span>
+              <span class="info__item--text">{{networkArr[netInfo.type]}}</span>
             </div>
             <div class="info__item info__item--text">
               <label for="">{{$t('trans0151')}}：</label>
@@ -36,6 +36,10 @@
         <div class="ipv6-page__internet-wrap">
           <div class="ipv6-page__internet-title">{{$t('trans0623')}}</div>
           <div class="ipv6-page__internet-content ipv6-page__internet-content--config">
+            <div class="form-warn"
+                 v-if="!isPppoe">
+              {{$t('trans0735')}}
+            </div>
             <m-select :label="$t('trans0317')"
                       v-model="netType"
                       :options="wanTypeOptions"></m-select>
@@ -58,7 +62,7 @@
                              ref="dns">
                   <m-input :label="$t('trans0236')"
                            type="text"
-                           :placeholder="`${$t('trans0321')}`"
+                           :placeholder="IPv6DefaultPlaceholder"
                            v-model="autoForm.dns" />
                 </m-form-item>
               </template>
@@ -71,14 +75,11 @@
                     :rules='pppoeRules'
                     class="pppoe-form">
               <div class="pppoe-form__item__note">{{$t('trans0154')}}</div>
-              <m-checkbox v-model="pppoeForm.isUseIPv4"
-                          :onChange="useIPv4EnabledChange"
-                          :text="$t('trans0625')"
-                          class="pppoe-form__item__checkbox"></m-checkbox>
               <m-form-item class="item"
                            prop='account'>
                 <m-input :label="$t('trans0155')"
                          type="text"
+                         :disabled="pppoeDisabled"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="pppoeForm.account"></m-input>
               </m-form-item>
@@ -86,9 +87,14 @@
                            prop='password'>
                 <m-input :label="$t('trans0156')"
                          type='password'
+                         :disabled="pppoeDisabled"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="pppoeForm.password" />
               </m-form-item>
+              <m-checkbox v-model="pppoeForm.isUseIPv4"
+                          :text="$t('trans0733')"
+                          disabled
+                          class="pppoe-form__item__checkbox"></m-checkbox>
               <m-form-item class="item">
                 <m-radio-group class="radio-group"
                                direction="vertical"
@@ -101,7 +107,7 @@
                              ref="dns">
                   <m-input :label="$t('trans0236')"
                            type="text"
-                           :placeholder="$t('trans0321')"
+                           :placeholder="IPv6DefaultPlaceholder"
                            v-model="pppoeForm.dns" />
                 </m-form-item>
               </template>
@@ -162,12 +168,14 @@
 <script>
 import * as CONSTANTS from '@/util/constant';
 import is from 'is_js';
+import { isValidInteger } from '@/util/util';
 
 const defaultPrefixLength = 64;
 
 export default {
   data() {
     return {
+      isSetup: false, // 是否已经设置了
       enabled: false, // 是否启用IPv6
       IPv6DefaultPlaceholder: CONSTANTS.IPv6DefaultPlaceholder,
       netType: CONSTANTS.WanType.auto,
@@ -198,11 +206,12 @@ export default {
       autodns: true,
       autoForm: { dns: '' },
       pppoeForm: {
-        isUseIPv4: false, // 是否使用IPv4>PPPoE的账号和密码
+        isUseIPv4: true, // 是否使用IPv4>PPPoE的账号和密码
         account: '',
         password: '',
         dns: ''
       },
+      pppoeDisabled: false,
       staticForm: {
         ip: '',
         prefixLength: '',
@@ -241,11 +250,8 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => {
-              const val = parseInt(value, 10);
-              return val > 0 && val < 129;
-            },
-            message: this.$t('trans0231')
+            rule: value => isValidInteger(value, 1, 128),
+            message: this.$t('trans0647')
           }
         ],
         gateway: [
@@ -310,10 +316,10 @@ export default {
     }
   },
   mounted() {
-    this.getMeshInfoWanNetIpv6();
+    this.getIpv6NetInfo();
   },
   methods: {
-    getMeshInfoWanNetIpv6() {
+    getIpv6NetInfo() {
       this.$loading.open();
       this.$http
         .getMeshInfoWanNetIpv6()
@@ -321,11 +327,13 @@ export default {
           this.$loading.close();
           const { result } = res.data;
           this.enabled = result.enabled;
+          this.isSetup = this.enabled;
           if (!this.enabled) {
             return;
           }
           this.netType = result.type;
           const { netinfo } = result;
+
           this.netInfo.type = result.type ?? '-';
           this.netInfo.ip = netinfo.address?.[0]?.ip ?? '-';
           this.netInfo.gateway = netinfo.gateway?.ip ?? '-';
@@ -338,6 +346,7 @@ export default {
           if (this.isPppoe) {
             const pppoeInfo = result.pppoe;
             this.pppoeForm.isUseIPv4 = pppoeInfo.share_ipv4_credentials;
+            this.pppoeDisabled = this.pppoeForm.isUseIPv4;
             this.pppoeForm.account = pppoeInfo.account;
             this.pppoeForm.password = pppoeInfo.password;
             this.pppoeForm.dns = pppoeInfo.dns?.[0]?.ip;
@@ -363,7 +372,7 @@ export default {
         if (result.status) {
           this.$reconnect({
             onsuccess: () => {
-              this.$router.push({ path: '/setting/ipv6' });
+              this.$router.push({ path: '/dashboard' });
             },
             ontimeout: () => {
               this.$router.push({ path: '/unconnect' });
@@ -383,7 +392,7 @@ export default {
       if (enabled) {
         // 由关闭状态切换到启用状态
         this.enabled = enabled;
-      } else {
+      } else if (this.isSetup) {
         // 由启用状态切换到关闭状态
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
@@ -391,6 +400,7 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
+              this.isSetup = false;
               this.updateMeshConfigWanNetIpv6({ enabled });
             },
             cancel: () => {
@@ -398,13 +408,6 @@ export default {
             }
           }
         });
-      }
-    },
-    useIPv4EnabledChange(checked) {
-      this.pppoeForm.isUseIPv4 = checked;
-      if (checked) {
-        // 选中
-        this.getWanNetInfo();
       }
     },
     getWanNetInfo() {
@@ -418,8 +421,10 @@ export default {
               cancelText: this.$t('trans0025'),
               message: this.$t('trans0695')
             });
+            this.pppoeForm.isUseIPv4 = false;
           } else {
             const { pppoe } = res.data.result;
+            this.pppoeDisabled = true;
             this.pppoeForm.account = pppoe.account;
             this.pppoeForm.password = pppoe.password;
           }
@@ -428,7 +433,12 @@ export default {
           this.$dialog.info({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0025'),
-            message: this.$t('trans0577')
+            message: this.$t('trans0577'),
+            callback: {
+              ok: () => {
+                this.pppoeForm.isUseIPv4 = false;
+              }
+            }
           });
         });
     },
@@ -456,13 +466,14 @@ export default {
           share_ipv4_credentials: this.pppoeForm.isUseIPv4,
           account: this.pppoeForm.account,
           password: this.pppoeForm.password,
-          dns: [
-            {
-              ip: this.pppoeForm.dns,
-              prefix_length: defaultPrefixLength
-            }
-          ]
+          dns: []
         };
+        if (!this.autodns) {
+          form.pppoe.dns.push({
+            ip: this.pppoeForm.dns,
+            prefix_length: defaultPrefixLength
+          });
+        }
       }
       if (this.isStatic) {
         if (!this.$refs.staticForm.validate()) {
@@ -496,6 +507,7 @@ export default {
         message: this.$t('trans0229'),
         callback: {
           ok: () => {
+            this.isSetup = true;
             this.updateMeshConfigWanNetIpv6({
               enabled: true,
               ...form
@@ -508,6 +520,15 @@ export default {
 };
 </script>
 
+<style lang="scss">
+.ipv6-page {
+  .pppoe-form__item__checkbox {
+    label {
+      align-items: stretch !important;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 .ipv6-page {
   .ipv6-page__content {
@@ -543,19 +564,6 @@ export default {
     .info__item {
       display: flex;
     }
-    .info__item--img {
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 30px;
-      img {
-        width: 160px;
-      }
-      span {
-        font-weight: bold;
-        font-size: 14px;
-        color: #333;
-      }
-    }
     .info__item--text {
       label {
         display: inline-block;
@@ -566,9 +574,10 @@ export default {
         width: 150px;
       }
       span {
+        display: inline-block;
         color: #333333;
         font-size: 14px;
-        flex: 1;
+        width: calc(100% - 150px);
       }
       &:not(:last-child) {
         margin-bottom: 10px;
@@ -576,6 +585,13 @@ export default {
     }
   }
   .ipv6-page__internet-content--config {
+    .form-warn {
+      font-size: 16px;
+      font-weight: 500;
+      text-align: justify;
+      color: #d6001c;
+      margin-bottom: 30px;
+    }
     .radio-group {
       margin-bottom: 30px;
     }
@@ -595,6 +611,11 @@ export default {
         font-size: 14px;
         color: #999999;
         margin-bottom: 30px;
+      }
+      .pppoe-form__item__checkbox {
+        height: auto;
+        margin-bottom: 10px;
+        width: 100%;
       }
     }
     .static-form {
@@ -616,12 +637,22 @@ export default {
     }
     .ipv6-page__internet-info {
       width: 100%;
-      // .info__item--img {
-      //   align-items: flex-start;
-      // }
     }
     .ipv6-page__internet-content {
       width: 100%;
+    }
+    .ipv6-page__internet-content--info {
+      .info__item {
+        flex-direction: column;
+      }
+      .info__item--text {
+        label {
+          width: 100%;
+        }
+        span {
+          width: 100%;
+        }
+      }
     }
   }
 }
