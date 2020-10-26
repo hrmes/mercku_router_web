@@ -36,10 +36,6 @@
         <div class="ipv6-page__internet-wrap">
           <div class="ipv6-page__internet-title">{{$t('trans0623')}}</div>
           <div class="ipv6-page__internet-content ipv6-page__internet-content--config">
-            <div class="form-warn"
-                 v-if="!isPppoe">
-              {{$t('trans0735')}}
-            </div>
             <m-select :label="$t('trans0317')"
                       v-model="netType"
                       :options="wanTypeOptions"></m-select>
@@ -75,6 +71,10 @@
                     :rules='pppoeRules'
                     class="pppoe-form">
               <div class="pppoe-form__item__note">{{$t('trans0154')}}</div>
+              <m-checkbox v-model="pppoeForm.isUseIPv4"
+                          :onChange="useIPv4EnabledChange"
+                          :text="$t('trans0625')"
+                          class="pppoe-form__item__checkbox"></m-checkbox>
               <m-form-item class="item"
                            prop='account'>
                 <m-input :label="$t('trans0155')"
@@ -91,10 +91,6 @@
                          :placeholder="`${$t('trans0321')}`"
                          v-model="pppoeForm.password" />
               </m-form-item>
-              <m-checkbox v-model="pppoeForm.isUseIPv4"
-                          :onChange="useIPv4EnabledChange"
-                          :text="$t('trans0733')"
-                          class="pppoe-form__item__checkbox"></m-checkbox>
               <m-form-item class="item">
                 <m-radio-group class="radio-group"
                                direction="vertical"
@@ -171,7 +167,6 @@ import is from 'is_js';
 import { isValidInteger } from '@/util/util';
 
 const defaultPrefixLength = 64;
-
 export default {
   data() {
     return {
@@ -333,7 +328,6 @@ export default {
           }
           this.netType = result.type;
           const { netinfo } = result;
-
           this.netInfo.type = result.type ?? '-';
           this.netInfo.ip = netinfo.address?.[0]?.ip ?? '-';
           this.netInfo.gateway = netinfo.gateway?.ip ?? '-';
@@ -530,7 +524,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
 .ipv6-page {
   .pppoe-form__item__checkbox {
@@ -596,13 +589,6 @@ export default {
     }
   }
   .ipv6-page__internet-content--config {
-    .form-warn {
-      font-size: 16px;
-      font-weight: 500;
-      text-align: justify;
-      color: #d6001c;
-      margin-bottom: 30px;
-    }
     .radio-group {
       margin-bottom: 30px;
     }
