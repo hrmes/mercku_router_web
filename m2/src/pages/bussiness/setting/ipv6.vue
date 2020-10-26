@@ -36,6 +36,10 @@
         <div class="ipv6-page__internet-wrap">
           <div class="ipv6-page__internet-title">{{$t('trans0623')}}</div>
           <div class="ipv6-page__internet-content ipv6-page__internet-content--config">
+            <div class="form-warn"
+                 v-if="!isPppoe">
+              {{$t('trans0735')}}
+            </div>
             <m-select :label="$t('trans0317')"
                       v-model="netType"
                       :options="wanTypeOptions"></m-select>
@@ -71,10 +75,6 @@
                     :rules='pppoeRules'
                     class="pppoe-form">
               <div class="pppoe-form__item__note">{{$t('trans0154')}}</div>
-              <m-checkbox v-model="pppoeForm.isUseIPv4"
-                          :onChange="useIPv4EnabledChange"
-                          :text="$t('trans0625')"
-                          class="pppoe-form__item__checkbox"></m-checkbox>
               <m-form-item class="item"
                            prop='account'>
                 <m-input :label="$t('trans0155')"
@@ -91,6 +91,10 @@
                          :placeholder="`${$t('trans0321')}`"
                          v-model="pppoeForm.password" />
               </m-form-item>
+              <m-checkbox v-model="pppoeForm.isUseIPv4"
+                          :text="$t('trans0733')"
+                          disabled
+                          class="pppoe-form__item__checkbox"></m-checkbox>
               <m-form-item class="item">
                 <m-radio-group class="radio-group"
                                direction="vertical"
@@ -202,7 +206,7 @@ export default {
       autodns: true,
       autoForm: { dns: '' },
       pppoeForm: {
-        isUseIPv4: false, // 是否使用IPv4>PPPoE的账号和密码
+        isUseIPv4: true, // 是否使用IPv4>PPPoE的账号和密码
         account: '',
         password: '',
         dns: ''
@@ -406,17 +410,6 @@ export default {
         });
       }
     },
-    useIPv4EnabledChange(checked) {
-      this.pppoeForm.isUseIPv4 = checked;
-      if (checked) {
-        // 选中
-        this.getWanNetInfo();
-      } else {
-        this.pppoeDisabled = false;
-        this.pppoeForm.account = '';
-        this.pppoeForm.password = '';
-      }
-    },
     getWanNetInfo() {
       this.$http
         .getWanNetInfo()
@@ -592,6 +585,13 @@ export default {
     }
   }
   .ipv6-page__internet-content--config {
+    .form-warn {
+      font-size: 16px;
+      font-weight: 500;
+      text-align: justify;
+      color: #d6001c;
+      margin-bottom: 30px;
+    }
     .radio-group {
       margin-bottom: 30px;
     }
