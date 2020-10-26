@@ -1,0 +1,28 @@
+{
+  "id": "0006",
+  "title": "real|wifi",
+  "accept": ".ma",
+  "favicon": "customer-conf/0006/favicon.ico",
+  "policy": "",
+  "allow2LevelAdmin": false,
+  "languages": ["zh-CN", "en-US", "nl-NL", "de-DE"],
+  "routers": {
+    "M2": {
+      "name": "real|wifi M2 Standalone Wi-Fi router",
+      "shortName": "M2"
+    },
+    "Bee": {
+      "name": "real|wifi M2 Bee Wi-Fi Mesh Node",
+      "shortName": "Bee"
+    }
+  },
+  "loading": {
+    "name": "loading.gif",
+    "color": "#d6001c"
+  },
+  "website": {
+    "url": "https://www.realnett.no",
+    "text": "www.realnett.no"
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
+}
