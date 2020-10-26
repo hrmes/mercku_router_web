@@ -22,6 +22,18 @@ export const isIP = ip => {
   }
   return false;
 };
+export const isValidInteger = (value, min, max) => {
+  const reg = /^[1-9]\d+$/;
+  let flag = false;
+  value += '';
+  if (reg.test(value)) {
+    const val = value * 1;
+    if (val >= min && val <= max) {
+      flag = true;
+    }
+  }
+  return flag;
+};
 export const hostRexp = host => {
   if (host && hostReg.test(host)) {
     return true;

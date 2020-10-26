@@ -42,14 +42,15 @@ export default {
   },
   methods: {
     check(e) {
-      if (!this.readonly) {
-        this.checked = !this.checked;
-        this.onChange(this.checked);
-        this.$emit('input', this.checked);
-        this.$emit('change', this.checked);
-        if (this.stopPropagation) {
-          e.stopPropagation();
-        }
+      if (this.readonly || this.disabled) {
+        return;
+      }
+      this.checked = !this.checked;
+      this.onChange(this.checked);
+      this.$emit('input', this.checked);
+      this.$emit('change', this.checked);
+      if (this.stopPropagation) {
+        e.stopPropagation();
       }
     }
   },
@@ -99,6 +100,11 @@ export default {
         transform: rotate(45deg);
         width: 3px;
       }
+    }
+    &.disabled {
+      background: #b3b3b3;
+      border: 1px solid #fff;
+      cursor: not-allowed;
     }
   }
   .text {

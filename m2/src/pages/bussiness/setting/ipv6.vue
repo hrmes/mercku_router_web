@@ -171,7 +171,6 @@ import is from 'is_js';
 import { isValidInteger } from '@/util/util';
 
 const defaultPrefixLength = 64;
-
 export default {
   data() {
     return {
@@ -333,7 +332,6 @@ export default {
           }
           this.netType = result.type;
           const { netinfo } = result;
-
           this.netInfo.type = result.type ?? '-';
           this.netInfo.ip = netinfo.address?.[0]?.ip ?? '-';
           this.netInfo.gateway = netinfo.gateway?.ip ?? '-';
@@ -519,7 +517,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
 .ipv6-page {
   .pppoe-form__item__checkbox {
