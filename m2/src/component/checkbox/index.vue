@@ -55,10 +55,7 @@ export default {
   },
   methods: {
     check(e) {
-      if (this.readonly) {
-        return;
-      }
-      if (this.disabled) {
+      if (this.readonly || this.disabled) {
         return;
       }
       this.checked = !this.checked;
