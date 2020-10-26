@@ -92,8 +92,8 @@
                          v-model="pppoeForm.password" />
               </m-form-item>
               <m-checkbox v-model="pppoeForm.isUseIPv4"
+                          :onChange="useIPv4EnabledChange"
                           :text="$t('trans0733')"
-                          disabled
                           class="pppoe-form__item__checkbox"></m-checkbox>
               <m-form-item class="item">
                 <m-radio-group class="radio-group"
@@ -206,7 +206,7 @@ export default {
       autodns: true,
       autoForm: { dns: '' },
       pppoeForm: {
-        isUseIPv4: true, // 是否使用IPv4>PPPoE的账号和密码
+        isUseIPv4: false, // 是否使用IPv4>PPPoE的账号和密码
         account: '',
         password: '',
         dns: ''
@@ -408,6 +408,17 @@ export default {
             }
           }
         });
+      }
+    },
+    useIPv4EnabledChange(checked) {
+      this.pppoeForm.isUseIPv4 = checked;
+      if (checked) {
+        // 选中
+        this.getWanNetInfo();
+      } else {
+        this.pppoeDisabled = false;
+        this.pppoeForm.account = '';
+        this.pppoeForm.password = '';
       }
     },
     getWanNetInfo() {
