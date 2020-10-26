@@ -123,8 +123,8 @@ export default {
       upgraded: false,
       Products: {
         M2: process.env.CUSTOMER_CONFIG.routers.M2,
-        Bee: process.env.CUSTOMER_CONFIG.routers.Bee,
-      },
+        Bee: process.env.CUSTOMER_CONFIG.routers.Bee
+      }
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -143,8 +143,8 @@ export default {
           },
           cancel: () => {
             next(false);
-          },
-        },
+          }
+        }
       });
     } else {
       next();
@@ -163,7 +163,7 @@ export default {
       return this.fwInfo.model.id === RouterSnModel.M2
         ? this.Products.M2.shortName
         : this.Products.Bee.shortName;
-    },
+    }
   },
   methods: {
     check(node) {
@@ -179,7 +179,7 @@ export default {
       const entendName = getFileExtendName(file);
       const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
-        uploader.err = this.$t('trans0271');
+        uploader.err = this.$t('trans0734');
         return false;
       }
       if (file.size === 0) {
@@ -210,11 +210,11 @@ export default {
             }
           }
         })
-        .then((res) => {
-          this.$http.getMeshNode().then((res1) => {
-            const gw = res1.data.result.filter((node) => node.is_gw)[0];
+        .then(res => {
+          this.$http.getMeshNode().then(res1 => {
+            const gw = res1.data.result.filter(node => node.is_gw)[0];
             let { nodes } = res.data.result;
-            nodes = nodes.map((node) => {
+            nodes = nodes.map(node => {
               let isGW = false;
               if (node.sn === gw.sn) {
                 isGW = true;
@@ -222,7 +222,7 @@ export default {
               return {
                 ...node,
                 isGW,
-                checked: false,
+                checked: false
               };
             });
             this.localNodes = nodes;
@@ -230,13 +230,13 @@ export default {
             this.packageInfo = {
               product: this.productName,
               version: this.fwInfo.version,
-              model: this.modelName,
+              model: this.modelName
             };
             uploader.status = UploadStatus.success;
             this.uploadStatus = UploadStatus.success;
           });
         })
-        .catch((err) => {
+        .catch(err => {
           uploader.status = UploadStatus.fail;
           this.uploadStatus = UploadStatus.fail;
           if (err.response && err.response.data && err.response.data.error) {
@@ -245,7 +245,7 @@ export default {
         });
     },
     upgrade() {
-      const nodeIds = this.localNodes.filter((n) => n.checked).map((n) => n.sn);
+      const nodeIds = this.localNodes.filter(n => n.checked).map(n => n.sn);
       if (!nodeIds.length) {
         this.$toast(this.$t('trans0381'));
         return;
@@ -269,17 +269,17 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 300,
+                  timeout: 300
                 });
               })
               .catch(() => {
                 this.$loading.close();
               });
-          },
-        },
+          }
+        }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
