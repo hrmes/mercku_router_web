@@ -37,6 +37,8 @@
                 v-for="child in menu.children"
                 :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
               {{$t(child.text)}}
+              <i v-if="$route.name.includes(child.name)"
+                 class="is-checked"></i>
             </li>
           </ul>
         </li>
@@ -75,6 +77,8 @@
                   v-for="child in menu.children"
                   :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
                 {{$t(child.text)}}
+                <i v-if="$route.name.includes(child.name)"
+                   class="is-checked"></i>
               </li>
             </ul>
           </transition>
@@ -106,7 +110,11 @@
             <li :key="lang.value"
                 v-for="lang in Languages"
                 :class="{'selected':$i18n.locale === lang.value}"
-                @click="selectLang(lang)">{{lang.text}}</li>
+                @click="selectLang(lang)">
+              {{lang.text}}
+              <i v-if="$i18n.locale === lang.value"
+                 class="is-checked"></i>
+            </li>
           </ul>
         </transition>
       </div>
@@ -119,7 +127,11 @@
           <li :key="lang.value"
               v-for="lang in Languages"
               :class="{'selected':$i18n.locale === lang.value}"
-              @click="selectMobileLang(lang)">{{lang.text}}</li>
+              @click="selectMobileLang(lang)">
+            {{lang.text}}
+            <i v-if="$i18n.locale === lang.value"
+               class="is-checked"></i>
+          </li>
         </ul>
         <span v-if="navVisible"
               @click="trigerMobileNav()"
@@ -378,13 +390,37 @@ export default {
   background: $header-background-color;
   color: $header-color;
   padding: 0 10%;
+  position: relative;
   @media screen and (max-width: 1440px) {
     padding: 0 50px;
   }
   @media screen and (max-width: 768px) {
     padding: 0 20px !important;
   }
-  position: relative;
+  .is-checked {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 16px;
+    height: 16px;
+    background-color: transparent;
+    border-radius: 100%;
+    &::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 25%;
+      border-style: solid;
+      border-width: 3px;
+      border-color: #fff;
+      border-radius: 1px;
+      border-top: none;
+      border-right: none;
+      background: transparent;
+      transform: rotate(-45deg);
+    }
+  }
   &.nav-hide {
     background: $header-nav-hide-background-color;
     color: $header-nav-hide-color;
@@ -392,7 +428,17 @@ export default {
     .right-wrap {
       .lang-selector {
         .drop-trangle {
-          &.up {
+          &:hover {
+            .current {
+              .current-text {
+                color: $header-nav-item-hover-color;
+              }
+              .drop-trangle {
+                &::after {
+                  border-top-color: $header-nav-item-hover-color;
+                }
+              }
+            }
           }
           &.down {
             &::after {
@@ -417,8 +463,13 @@ export default {
             &:last-child {
               margin-bottom: 0;
             }
-            &.current-lang {
+            &.selected {
               color: $header-nav-hide-popup-item-selected-color;
+              .is-checked {
+                &::after {
+                  border-color: $primaryColor;
+                }
+              }
             }
           }
         }
@@ -430,6 +481,14 @@ export default {
           border-color: $header-nav-hide-i18n-mobile-border-color;
           li {
             border-color: $header-nav-hide-i18n-mobile-item-border-color;
+            &.selected {
+              color: $header-nav-hide-popup-item-selected-color;
+              .is-checked {
+                &::after {
+                  border-color: $primaryColor;
+                }
+              }
+            }
           }
         }
         .menu-icon {
@@ -552,6 +611,9 @@ export default {
           background-color: $header-popup-background-color;
           padding: 25px 0;
           .nav-child__text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             color: $header-popup-item-color;
             list-style: none;
             padding: 0 30px;
@@ -673,6 +735,9 @@ export default {
           opacity: 0;
         }
         li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
           list-style: none;
           line-height: 38px;
           padding: 0 30px;
@@ -808,6 +873,7 @@ export default {
             display: block;
             background: $header-popup-background-color;
             box-shadow: none;
+            width: 100%;
             padding: 0;
             &.nav-item-child__animation-leave-active {
               overflow: hidden;
@@ -816,6 +882,9 @@ export default {
               overflow: hidden;
             }
             .nav-child__text {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
               padding: 0;
               padding-left: 10px;
               color: $header-popup-item-color;
@@ -858,6 +927,9 @@ export default {
           z-index: 1000;
           border-top: 1px solid $header-popup-border-color;
           li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 16px 0;
             list-style: none;
             border-top: 1px solid $header-nav-item-border-color;

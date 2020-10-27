@@ -7,7 +7,7 @@
     }
     .logo-wrap {
       .logo-wrap__logo {
-        background: url(../../assets/images/customer/mercku/mercku_logo.png)
+        background: url(../../assets/images/customer/realnett/realnett_logo.png)
           center no-repeat;
         background-size: 100%;
       }
@@ -28,7 +28,7 @@
       }
     }
     .app-logo {
-      background: url(../../assets/images/customer/mercku/ic_launcher.jpg)
+      background: url(../../assets/images/customer/realnett/ic_launcher.jpg)
         no-repeat center;
       background-size: 100%;
     }
@@ -40,5 +40,15 @@
       }
     }
   }
-  /**************************end登陆页面******************/
+  /**************************end登陆页面******************/  
 }
+/******************deshboard页面背景图片***********/
+.dashboard {
+  .net-info {
+    background: url(~@/assets/images/customer/realnett/dashboard_banner_bg.jpg) no-repeat center !important;
+    @media screen and (max-width: 768px) {
+      background: url(~@/assets/images/customer/realnett/dashboard_banner_bg_mobile.jpg) no-repeat center !important;
+    }
+  }
+}
+/******************deshboard页面背景图片***********/
