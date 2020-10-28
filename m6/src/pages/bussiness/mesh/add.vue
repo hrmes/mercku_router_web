@@ -41,7 +41,7 @@
                v-show="isStep(1)">
             <img src="@/assets/images/pic_add_plug_02.png"
                  alt="">
-            <p class="step-item__tip">{{$t('trans0635')}}</p>
+            <p class="step-item__tip">{{$t('trans0713')}}</p>
             <div class="button-container">
               <button @click="forward2step(0)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
