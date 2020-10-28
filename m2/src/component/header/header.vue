@@ -413,7 +413,7 @@ export default {
       height: 25%;
       border-style: solid;
       border-width: 3px;
-      border-color: #fff;
+      border-color: $primaryColor;
       border-radius: 1px;
       border-top: none;
       border-right: none;
@@ -467,7 +467,7 @@ export default {
               color: $header-nav-hide-popup-item-selected-color;
               .is-checked {
                 &::after {
-                  border-color: $primaryColor;
+                  border-color: $header-nav-hide-popup-item-checked-color;
                 }
               }
             }
@@ -485,7 +485,7 @@ export default {
               color: $header-nav-hide-popup-item-selected-color;
               .is-checked {
                 &::after {
-                  border-color: $primaryColor;
+                  border-color: $header-nav-hide-popup-item-checked-color;
                 }
               }
             }
@@ -633,6 +633,11 @@ export default {
             }
             &.selected {
               color: $header-popup-item-selected-color;
+              .is-checked {
+                &::after {
+                  border-color: $header-popup-item-checked-color;
+                }
+              }
             }
           }
           &.show {
@@ -750,6 +755,11 @@ export default {
           }
           &.selected {
             color: $header-popup-item-selected-color;
+            .is-checked {
+              &::after {
+                border-color: $header-popup-item-checked-color;
+              }
+            }
           }
         }
       }
@@ -935,6 +945,11 @@ export default {
             border-top: 1px solid $header-nav-item-border-color;
             &.selected {
               color: $header-nav-item-selected-background-color;
+              .is-checked {
+                &::after {
+                  border-color: $header-popup-item-checked-color;
+                }
+              }
             }
             &:first-child {
               border: 0;
