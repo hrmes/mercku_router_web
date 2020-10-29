@@ -725,6 +725,7 @@
   "trans0730": "Allgemeine Netzabdeckung",
   "trans0731": "Minimale Netzabdeckung",
   "trans0732": "Geschlossen",
-  "trans0733": " ",
-  "trans0734": " "
+  "trans0733": "Anmeldeinformationen mit IPv4 teilen",
+  "trans0734": "Nur \".real\" Dateien unterstützt",
+  "trans0735": "Hinweis: Die Interneteinstellung des aktuellen Routers ist PPPoE über IPv4. Sie müssen PPPoE konfigurieren, um eine Verbindung herzustellen, wenn Sie IPv6 verwenden möchten."
 }

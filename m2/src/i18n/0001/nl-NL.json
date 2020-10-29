@@ -626,7 +626,7 @@
   "trans0631": "Offline looptijd",
   "trans0632": "Kanaalbreedte (MHz)",
   "trans0633": "Kennisgeving",
-  "trans0634": "Schakel een node in en wacht een minuut, druk dan op volgende totdat deze volledig start",
+  "trans0634": "Schakel een node in en wacht een minuut, druk dan op volgende totdat deze volledig start.",
   "trans0635": "Druk op \"volgende\" wanneer het indicatielampje continu rood brandt.",
   "trans0636": "Druk op de Connect-knop, wacht tot het indicatielampje blauw knippert en druk op \"Volgende\".",
   "trans0637": "Batch toevoegen niet ondersteund, probeer het over twee minuten opnieuw.",
@@ -726,5 +726,6 @@
   "trans0731": " ",
   "trans0732": " ",
   "trans0733": " ",
-  "trans0734": " "
+  "trans0734": " ",
+  "trans0735": " "
 }
