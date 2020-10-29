@@ -271,7 +271,7 @@ export default {
 .ext-item {
   position: relative;
   &.ext-item--first {
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
   }
   .ext-input {
     input {
