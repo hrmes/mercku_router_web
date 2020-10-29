@@ -37,7 +37,7 @@
           <div class="ipv6-page__internet-title">{{$t('trans0623')}}</div>
           <div class="ipv6-page__internet-content ipv6-page__internet-content--config">
             <div class="form-warn"
-                 v-if="!isPppoe">
+                 v-if="isShowWarn">
               {{$t('trans0735')}}
             </div>
             <m-select :label="$t('trans0317')"
@@ -167,13 +167,14 @@
 
 <script>
 import * as CONSTANTS from '@/util/constant';
-import is from 'is_js';
-import { isValidInteger } from '@/util/util';
+import { isValidInteger, isIP } from '@/util/util';
 
 const defaultPrefixLength = 64;
+const { IPv6 } = CONSTANTS.IP;
 export default {
   data() {
     return {
+      IPv4NetType: '', // IPv4的网络状态
       isSetup: false, // 是否已经设置了
       enabled: false, // 是否启用IPv6
       IPv6DefaultPlaceholder: CONSTANTS.IPv6DefaultPlaceholder,
@@ -239,7 +240,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => is.ipv6(value),
+            rule: value => isIP(value, IPv6),
             message: this.$t('trans0231')
           }
         ],
@@ -259,7 +260,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => is.ipv6(value),
+            rule: value => isIP(value, IPv6),
             message: this.$t('trans0231')
           }
         ],
@@ -269,7 +270,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => is.ipv6(value),
+            rule: value => isIP(value, IPv6),
             message: this.$t('trans0231')
           }
         ]
@@ -291,6 +292,9 @@ export default {
     },
     isStatic() {
       return this.netType === CONSTANTS.WanType.static;
+    },
+    isShowWarn() {
+      return this.IPv4NetType === CONSTANTS.WanType.pppoe && !this.isPppoe;
     }
   },
   watch: {
@@ -304,7 +308,7 @@ export default {
               message: this.$t('trans0232')
             },
             {
-              rule: value => is.ipv6(value),
+              rule: value => isIP(value, IPv6),
               message: this.$t('trans0231')
             }
           ]
@@ -315,6 +319,7 @@ export default {
     }
   },
   mounted() {
+    this.getIPv4WanNetInfo();
     this.getIpv6NetInfo();
   },
   methods: {
@@ -439,6 +444,14 @@ export default {
             }
           });
         });
+    },
+    getIPv4WanNetInfo() {
+      this.$http.getWanNetInfo().then(res => {
+        if (res.data.result) {
+          const data = res.data.result;
+          this.IPv4NetType = data.type;
+        }
+      });
     },
     submit() {
       const form = { type: this.netType };

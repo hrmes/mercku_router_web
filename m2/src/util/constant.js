@@ -8,6 +8,10 @@ export const Customers = {
   inverto: '0004',
   orion: '0005'
 };
+export const IP = {
+  IPv4: 'ipv4',
+  IPv6: 'ipv6'
+};
 export const Role = {
   super: 'super',
   admin: 'admin'
