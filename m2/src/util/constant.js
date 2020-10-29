@@ -9,6 +9,10 @@ export const Customers = {
   orion: '0005',
   realnett: '0006'
 };
+export const IP = {
+  IPv4: 'ipv4',
+  IPv6: 'ipv6'
+};
 export const Role = {
   super: 'super',
   admin: 'admin'

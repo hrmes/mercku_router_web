@@ -1,7 +1,11 @@
 import semver from 'semver';
+import * as CONSTANTS from './constant';
+
+const { IPv6, IPv4 } = CONSTANTS.IP;
 
 export const passwordRule = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]{8,24}$/;
 export const ipReg = /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/;
+export const ipv6Reg = /^((?=.*::)(?!.*::.+::)(::)?([\dA-F]{1,4}:(:|\b)|){5}|([\dA-F]{1,4}:){6})((([\dA-F]{1,4}((?!\3)::|:\b|$))|(?!\2\3)){2}|(((2[0-4]|1\d|[1-9])?\d|25[0-5])\.?\b){4})$/i;
 export const hostReg = /^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)*$/i;
 export const portReg = /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]{1}|6553[0-5])$/;
 export const IPAReg = /^10\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
@@ -16,11 +20,19 @@ export const getIpAfter = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
   return ip.replace(pattern, '');
 };
-export const isIP = ip => {
-  if (ip && ipReg.test(ip)) {
-    return true;
+export const isIP = (ip, type = IPv4) => {
+  let flag = false;
+  if (type === IPv4) {
+    if (ip && ipReg.test(ip)) {
+      flag = true;
+    }
   }
-  return false;
+  if (type === IPv6) {
+    if (ip && ipv6Reg.test(ip)) {
+      flag = true;
+    }
+  }
+  return flag;
 };
 export const isValidInteger = (value, min, max) => {
   const reg = /^[1-9]\d*$/;
