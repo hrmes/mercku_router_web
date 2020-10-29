@@ -4,14 +4,9 @@ import upgradeComponent from 'components/upgrade/index';
 import toast from 'components/toast/index';
 import dialog from 'components/dialog/index';
 import mProgress from 'components/progress/index.vue';
-import {
-  formatSpeed,
-  formatNetworkData,
-  formatBandWidth,
-  toLocaleNumber
-} from 'util/util';
-import upgradeHelper from 'util/upgrade';
-import { changeLanguage, i18n, translate } from './i18n';
+import { formatSpeed, formatNetworkData, formatBandWidth } from '@/util/util';
+import upgradeHelper from '@/util/upgrade';
+import { changeLanguage, i18n, translate, toLocaleNumber } from './i18n';
 import router from './router';
 import App from './App.vue';
 import registerComponents from './register-components';

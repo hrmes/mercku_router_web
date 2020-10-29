@@ -17,7 +17,7 @@
         <div class="item">
           <label style="font-weight:bold;">{{$t('trans0483')}}</label>
           <div>
-            <m-form-item class="ext-item"
+            <m-form-item class="ext-item ext-item--first"
                          prop='ip_start'
                          ref='ip_start'>
               <m-input class="ext-input"
@@ -57,7 +57,7 @@
   </div>
 </template>
 <script>
-import { ipReg, privateIpReg, getIpBefore, getIpAfter } from 'util/util';
+import { ipReg, privateIpReg, getIpBefore, getIpAfter } from '@/util/util';
 
 const isVailidRange = input => {
   const value = Number(input);
@@ -270,6 +270,9 @@ export default {
 }
 .ext-item {
   position: relative;
+  &.ext-item--first {
+    margin-bottom: 15px !important;
+  }
   .ext-input {
     input {
       padding-left: 100px;

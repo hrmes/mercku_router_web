@@ -157,7 +157,33 @@
         </div>
       </div>
     </div>
-
+    <!-- IPv6外网状态 -->
+    <div class="section"
+         v-if="ipv6NetInfo.enabled">
+      <div class="section__inner">
+        <div class="section__title">{{$t('trans0700')}}</div>
+        <div class="section__body">
+          <div class="item">
+            <label class="item__label">{{$t('trans0317')}}：</label>
+            <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0701')}}：</label>
+            <span class="item__value">{{ipv6NetInfo.ip}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0153')}}：</label>
+            <span class="item__value">{{ipv6NetInfo.gateway}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0236')}}：</label>
+            <span class="item__value">
+              {{ipv6NetInfo.dns}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class='speed-model-info'
          v-if='speedModelOpen'>
       <div class="shadow"></div>
@@ -208,7 +234,7 @@
   </div>
 </template>
 <script>
-import * as CONSTANTS from 'util/constant';
+import * as CONSTANTS from '@/util/constant';
 
 export default {
   data() {
@@ -220,7 +246,8 @@ export default {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
+        pppoe: this.$t('trans0144'),
+        auto: this.$t('trans0696')
       },
       testTimeout: 60,
       testSpeedNumber: 60,
@@ -230,15 +257,24 @@ export default {
       pageActive: true,
       speedInfo: {},
       netInfo: {},
+      ipv6NetInfo: {
+        enabled: false,
+        type: '-',
+        ip: '-',
+        gateway: '-',
+        dns: '-'
+      },
       traffic: {},
       wanNetStatsTimer: null,
       speedTestTimer: null,
       wanInfoTimer: null,
-      uptimeTimer: null
+      uptimeTimer: null,
+      meshInfoWanNetIpv6Timer: null
     };
   },
   mounted() {
     this.getWanNetInfo();
+    this.getMeshInfoWanNetIpv6();
     this.createIntervalTask();
     this.getRouteMeta();
   },
@@ -492,6 +528,30 @@ export default {
         .catch(() => {
           this.wanInfoTimer = setTimeout(() => {
             this.getWanNetInfo();
+          }, 1000 * 3);
+        });
+    },
+    getMeshInfoWanNetIpv6() {
+      this.$http
+        .getMeshInfoWanNetIpv6()
+        .then(res => {
+          this.meshInfoWanNetIpv6Timer = null;
+          clearTimeout(this.meshInfoWanNetIpv6Timer);
+          const { result } = res.data;
+          this.ipv6NetInfo.enabled = result.enabled;
+          if (this.ipv6NetInfo.enabled) {
+            const { netinfo } = result;
+            this.ipv6NetInfo.type = result.type || '-';
+            this.ipv6NetInfo.ip = netinfo.address.length
+              ? netinfo.address[0].ip
+              : '-';
+            this.ipv6NetInfo.gateway = netinfo.gateway.ip || '-';
+            this.ipv6NetInfo.dns = netinfo.dns.length ? netinfo.dns[0].ip : '-';
+          }
+        })
+        .catch(() => {
+          this.meshInfoWanNetIpv6Timer = setTimeout(() => {
+            this.getMeshInfoWanNetIpv6();
           }, 1000 * 3);
         });
     }

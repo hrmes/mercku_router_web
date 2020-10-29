@@ -12,7 +12,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "echarts": "git+https://github.com/hrmes/incubator-echarts.git#mercku-v1.0.1",
-    "intl": "^1.2.5",
+    "is_js": "^0.9.0",
     "marked": "^0.6.0",
     "semver": "^5.6.0",
     "velocity-animate": "^1.5.2",
@@ -21,6 +21,8 @@
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@vue/cli-plugin-babel": "^3.1.1",
     "@vue/cli-plugin-eslint": "^3.1.5",
     "@vue/cli-plugin-unit-mocha": "^3.2.2",

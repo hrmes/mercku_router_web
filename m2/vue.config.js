@@ -13,13 +13,13 @@ if (process.env.CUSTOMER_ID) {
   CUSTOMER_ID = '0001';
 }
 
-let CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
+const CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
 console.log(
   `get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`,
   JSON.stringify(CUSTOMER_CONFIG, null, 2)
 );
-const title = CUSTOMER_CONFIG.title;
-const favicon = CUSTOMER_CONFIG.favicon;
+const { title } = CUSTOMER_CONFIG;
+const { favicon } = CUSTOMER_CONFIG;
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -27,7 +27,8 @@ function resolve(dir) {
 const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';
 
 module.exports = {
-  baseUrl: '/',
+  publicPath: '/',
+  // baseUrl: '/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: true,
@@ -130,7 +131,6 @@ module.exports = {
       .set('vue$', 'vue/dist/vue.esm.js')
       .set('components', resolve('src/component'))
       .set('pages', resolve('src/pages'))
-      .set('util', resolve('src/util'))
       .set('style', resolve('src/style'));
     config.module
       .rule('html')

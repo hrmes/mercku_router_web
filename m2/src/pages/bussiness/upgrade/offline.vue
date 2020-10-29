@@ -105,8 +105,8 @@
   </div>
 </template>
 <script>
-import { RouterSnModel, UploadStatus } from 'util/constant';
-import { getFileExtendName } from 'util/util';
+import { RouterSnModel, UploadStatus } from '@/util/constant';
+import { getFileExtendName } from '@/util/util';
 
 export default {
   data() {

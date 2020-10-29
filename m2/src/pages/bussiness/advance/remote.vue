@@ -15,7 +15,7 @@
                  @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
           </m-tab>
           <m-tab :class="{'selected':isTelnet}"
-                 @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0497')}}</m-tab>
+                 @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0626')}}</m-tab>
         </m-tabs>
       </div>
     </div>
@@ -108,17 +108,26 @@
         </div>
       </div>
       <div v-if="isTelnet">
-        <div class="form">
-          <m-switch :label="$t('trans0462')"
-                    v-model="telnet"
-                    :onChange="updateTelnet"></m-switch>
-        </div>
+        <m-form class="form"
+                :model="remoteShell"
+                ref="remoteShell">
+          <m-form-item>
+            <m-switch :label="$t('trans0497')"
+                      v-model="remoteShell.telnet"
+                      :onChange="updateTelnet"></m-switch>
+          </m-form-item>
+          <m-form-item>
+            <m-switch :label="$t('trans0628')"
+                      v-model="remoteShell.ssh"
+                      :onChange="updateSsh"></m-switch>
+          </m-form-item>
+        </m-form>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { portReg } from 'util/util';
+import { portReg } from '@/util/util';
 
 export default {
   data() {
@@ -155,7 +164,10 @@ export default {
         username: '',
         password: ''
       },
-      telnet: false,
+      remoteShell: {
+        telnet: false,
+        ssh: false
+      },
       remoateRules: {
         url: [
           {
@@ -231,7 +243,10 @@ export default {
   },
   mounted() {
     this.$http.getTelnetEnabled().then(res => {
-      this.telnet = res.data.result.enabled;
+      this.remoteShell.telnet = res.data.result.enabled;
+    });
+    this.$http.getSSHEnabled().then(res => {
+      this.remoteShell.ssh = res.data.result.enabled;
     });
     this.$http.getTr069().then(res => {
       this.remote = res.data.result.remote;
@@ -295,7 +310,22 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
-          this.telnet = !v;
+          this.remoteShell.telnet = !v;
+        });
+    },
+    updateSsh(v) {
+      this.$loading.open();
+      this.$http
+        .setSSHEnabled({
+          enabled: v
+        })
+        .then(() => {
+          this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .catch(() => {
+          this.$loading.close();
+          this.remoteShell.ssh = !v;
         });
     },
     updateTFTP() {

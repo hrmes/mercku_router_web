@@ -64,15 +64,16 @@
       <m-modal-footer>
         <div class="form-button">
           <button class="btn btn-dialog-confirm"
-                  @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button> </div>
+                  @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
+        </div>
       </m-modal-footer>
     </m-modal>
     <!-- trans0383 -->
   </div>
 </template>
 <script>
-import * as CONSTANTS from 'util/constant';
-import { compareVersion } from 'util/util';
+import * as CONSTANTS from '@/util/constant';
+import { compareVersion } from '@/util/util';
 import marked from 'marked';
 // import axios from 'axios';
 

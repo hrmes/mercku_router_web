@@ -1,8 +1,9 @@
 <template>
-  <div class="select-container">
+  <div class="select-container"
+       v-clickoutside="close">
     <label for="">{{label}}</label>
     <div class="select"
-         @click.stop="open()">
+         @click="open()">
       <input class="select-text"
              :value="selected.text"
              readonly
@@ -12,7 +13,7 @@
               :class="{'open':opened,'close':!opened}"></span>
       </div>
       <transition name="select">
-        <ul class="select-popup"
+        <ul class="select-popup reset-ul"
             v-show="this.opened">
           <li :class="{'selected':selected === option}"
               :key="option.value"
@@ -55,9 +56,6 @@ export default {
       this.selected = this.getOptionByValue(val);
     }
   },
-  mounted() {
-    this.attachEvent();
-  },
   methods: {
     getOptionByValue(val) {
       const option = this.options.filter(o => o.value === val)[0] || {
@@ -81,20 +79,6 @@ export default {
         }
       });
     },
-    attachEvent() {
-      if (window.addEventListener) {
-        document.body.addEventListener('click', this.close);
-      } else if (window.attachEvent) {
-        document.body.attachEvent('click', this.close);
-      }
-    },
-    detachEvent() {
-      if (window.addEventListener) {
-        document.body.removeEventListener('click', this.close);
-      } else if (window.attachEvent) {
-        document.body.detachEvent('click', this.close);
-      }
-    },
     select(option) {
       this.selected = option;
       this.opened = false;
@@ -109,9 +93,6 @@ export default {
     close() {
       this.opened = false;
     }
-  },
-  beforeDestroy() {
-    this.detachEvent();
   }
 };
 </script>

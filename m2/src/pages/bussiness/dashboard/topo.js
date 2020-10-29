@@ -6,7 +6,7 @@
  *
  *
  */
-import * as CONSTANTS from 'util/constant';
+import * as CONSTANTS from '@/util/constant';
 import picGateway from '../../../assets/images/icon/ic_m2_gw_green.png';
 import picM2Good from '../../../assets/images/icon/ic_m2_green.png';
 import picM2Bad from '../../../assets/images/icon/ic_m2_orange.png';
@@ -157,6 +157,7 @@ function genNodes(gateway, green, red, offline) {
     const n = {
       name: `${node.sn}${node.name}`, // 避免节点同名echarts报错不能绘图
       originName: node.name, // 用于节点的label显示
+      stationsCount: node?.stations?.length ?? 0,
       sn: node.sn,
       itemStyle: {
         color
@@ -277,7 +278,6 @@ function findOfflineNode(array, offline) {
 // 生成所有绘图数据
 function genData(array, fullLine = false) {
   let routers = JSON.parse(JSON.stringify(array));
-
   const offline = [];
   routers = findOfflineNode(routers, offline);
 

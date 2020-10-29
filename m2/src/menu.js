@@ -1,4 +1,4 @@
-import { Role, RouterMode, Customers } from 'util/constant';
+import { Role, RouterMode, Customers } from '@/util/constant';
 
 export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');
@@ -53,6 +53,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
+        super: false,
+        mode: [RouterMode.router],
+        customers: allCustomers
+      },
+      {
+        text: 'trans0620',
+        name: 'ipv6',
+        url: '/setting/ipv6',
         super: false,
         mode: [RouterMode.router],
         customers: allCustomers
@@ -217,6 +225,14 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.inverto,
           Customers.orion
         ]
+      },
+      {
+        url: '/setting/upnp',
+        name: 'upnp',
+        text: 'trans0644',
+        super: false,
+        mode: [RouterMode.router],
+        customers: allCustomers
       }
     ]
   };

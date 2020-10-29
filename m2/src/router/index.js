@@ -6,6 +6,8 @@ import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
+import ipv6 from 'pages/bussiness/setting/ipv6.vue';
+import upnp from 'pages/bussiness/setting/upnp.vue';
 import timezone from 'pages/bussiness/setting/timezone.vue';
 import blacklist from 'pages/bussiness/setting/blacklist.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
@@ -111,6 +113,11 @@ export default new Router({
       component: wan
     },
     {
+      path: '/setting/ipv6',
+      name: 'ipv6',
+      component: ipv6
+    },
+    {
       path: '/setting/wifi',
       name: 'wifi',
       component: wifi
@@ -139,6 +146,11 @@ export default new Router({
       path: '/setting/blacklist',
       name: 'blacklist',
       component: blacklist
+    },
+    {
+      path: '/setting/upnp',
+      name: 'upnp',
+      component: upnp
     },
     {
       path: '/wlan',

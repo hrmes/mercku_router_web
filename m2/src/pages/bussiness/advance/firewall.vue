@@ -67,8 +67,10 @@ export default {
       margin-top: 30px;
     }
     label {
-      width: 200px;
+      width: 75px;
       font-weight: bold;
+      text-align: right;
+      margin-right: 10px;
     }
   }
 }

@@ -15,11 +15,11 @@
     </div>
     <div class="combox"
          ref="combo"
-         v-if="opened">
+         v-show="opened">
       <div class="select-wrap">
         <div class="select-inner"
              ref='h'>
-          <ul>
+          <ul class="reset-ul">
             <li v-for="(v,i) in hs"
                 :key='i'
                 @click.stop="(e)=>select('h',v,e)"
@@ -29,7 +29,7 @@
         </div>
         <div class="select-inner"
              ref='m'>
-          <ul>
+          <ul class="reset-ul">
             <li v-for="(v,i) in ms"
                 :key='i'
                 @click.stop="(e)=>select('m',v,e)"

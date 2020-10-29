@@ -44,7 +44,10 @@
                   </div>
                   <div class="btn-wrap">
                     <button class="btn btn-dialog-confirm"
-                            @click="addBlacklist()">{{$t('trans0016')}}</button>
+                            @click="addBlacklist()"
+                            :disabled="!someDevicesChecked">
+                      {{$t('trans0016')}}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -94,7 +97,7 @@
   </div>
 </template>
 <script>
-import { formatMac } from 'util/util';
+import { formatMac } from '@/util/util';
 
 export default {
   data() {
@@ -116,6 +119,9 @@ export default {
     },
     someBlacklistChecked() {
       return this.blacklist.some(b => b.checked);
+    },
+    someDevicesChecked() {
+      return this.devices.some(d => d.checked);
     }
   },
   watch: {

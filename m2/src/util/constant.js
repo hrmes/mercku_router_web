@@ -1,3 +1,5 @@
+export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
+
 export const Customers = {
   cik: '0002',
   mercku: '0001',
@@ -21,7 +23,8 @@ export const RouterMode = {
 export const WanType = {
   pppoe: 'pppoe',
   static: 'static',
-  dhcp: 'dhcp'
+  dhcp: 'dhcp',
+  auto: 'auto'
 };
 export const WanNetStatus = {
   testing: 'testing',
