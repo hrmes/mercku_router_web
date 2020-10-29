@@ -242,8 +242,7 @@
           <div class="table__column table__column--host"></div>
           <div class="table__column table__column--device">{{$t('trans0005')}}</div>
           <div class="table__column table__column--ip">{{$t('trans0184')}}</div>
-          <div class="table__column table__column--guest"></div>
-          <div class="table__column table__column--frequency"></div>
+          <div class="table__column table__column--guest">{{$t('trans0375')}}</div>
         </div>
         <div class="table__body"
              v-if="meshList.length">
@@ -267,12 +266,11 @@
               <div class="v6">{{formatMac(item.mac)}}</div>
             </div>
             <div class="table__column table__column--guest">
+              <span class="laptop-show">{{bandMap[item.connected_network.band]}}</span>
               <img v-if="isGuest(item.connected_network.type)"
                    src="../../../assets/images/icon/ic-guest-wifi.png"
-                   alt="">
-            </div>
-            <div class="table__column table__column--frequency">
-              <span>{{bandMap[item.band]}}</span>
+                   alt="" />
+              <span class="mobile-show">{{bandMap[item.connected_network.band]}}</span>
             </div>
           </div>
         </div>
@@ -291,14 +289,13 @@
 <script>
 import marked from 'marked';
 import { formatMac, getStringByte } from '@/util/util';
-import { RouterStatus } from '@/util/constant';
+import { RouterStatus, RouterMode } from '@/util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
-
 export default {
   data() {
     return {
@@ -381,6 +378,9 @@ export default {
     }
   },
   computed: {
+    isRouter() {
+      return RouterMode.router === this.$store.mode;
+    },
     rssiTips() {
       return marked(this.$t('trans0595'), { sanitize: true });
     },
@@ -398,6 +398,9 @@ export default {
     }
   },
   methods: {
+    hasPaddingLeft(ip) {
+      return this.isThisMachine(ip) ? '' : 'has-padding-left';
+    },
     // 是否是主机
     isThisMachine(ip) {
       return ip === this.localDeviceIP;
@@ -415,7 +418,6 @@ export default {
     },
     showMeshListModal(meshList) {
       this.meshList = meshList;
-      console.log(this.meshList);
       this.meshListModalVisible = true;
     },
     hideMeshListModal() {
@@ -527,6 +529,7 @@ export default {
             this.$http.reboot({ node_ids: [router.sn] }).then(() => {
               if (router.is_gw) {
                 this.$reconnect({
+                  timeout: 120,
                   onsuccess: () => {
                     this.$router.push({ path: '/login' });
                   },
@@ -552,6 +555,7 @@ export default {
           ok: () => {
             this.$http.resetMeshNode({ node_ids: [router.sn] }).then(() => {
               this.$reconnect({
+                timeout: 120,
                 onsuccess: () => {
                   this.reset = false;
                   window.location.href = '/';
@@ -579,11 +583,10 @@ export default {
       });
     },
     drawTopo(routers) {
+      const _this = this;
       const oldRouters = this.routers;
-
       const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       this.routers = routers;
-
       const data = genData(routers, this.fullline);
       data.nodes.forEach(n => {
         this.routers.forEach(r => {
@@ -599,7 +602,6 @@ export default {
           this.$set(r, 'expand', false);
         }
       });
-
       const option = {
         series: [
           {
@@ -646,7 +648,10 @@ export default {
                     nameFormatted = `${start}\n${end}`;
                   }
                   nameFormatted = name.match(/.{1,10}/g).join('\n');
-                  return `{a|${nameFormatted}} {b|${stationsCount}}`;
+                  if (_this.isRouter) {
+                    return `{a|${nameFormatted}} {b|${stationsCount}}`;
+                  }
+                  return `{a|${nameFormatted}}`;
                 },
                 rich: {
                   a: {
@@ -657,8 +662,8 @@ export default {
                     width: 20,
                     height: 16,
                     color: '#fff',
+                    fontSize: 10,
                     align: 'center',
-                    verticalAlign: 'middle',
                     borderRadius: 3,
                     backgroundColor: '#999'
                   }
@@ -704,9 +709,6 @@ export default {
             }, 10000);
           }
         });
-    },
-    hasPaddingLeft(ip) {
-      return this.isThisMachine(ip) ? '' : 'has-padding-left';
     }
   },
   beforeDestroy() {
@@ -771,6 +773,7 @@ export default {
     .table__body {
       height: 350px;
       overflow: auto;
+      overflow: overlay;
       padding: 0 10px 10px 10px;
     }
     .table__empty {
@@ -805,7 +808,7 @@ export default {
       }
       .table__column--device {
         .device__img {
-          display: flex;
+          display: inline-flex;
           justify-content: center;
           align-items: center;
           width: 30px;
@@ -814,7 +817,7 @@ export default {
           }
         }
         .device__host-name {
-          width: 180px;
+          width: 160px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
@@ -829,20 +832,22 @@ export default {
         justify-content: center;
       }
       .table__column--guest {
-        justify-content: center;
-        img {
-          width: 38px;
-        }
-      }
-      .table__column--frequency {
-        justify-content: center;
         span {
-          display: inline-block;
           width: 75px;
           text-align: center;
-          padding: 5px 0;
+          padding: 3px 0;
           border-radius: 3px;
           border: solid 1px #333333;
+        }
+        img {
+          margin-left: 20px;
+          width: 38px;
+        }
+        .laptop-show {
+          display: inline-block;
+        }
+        .mobile-show {
+          display: none;
         }
       }
     }
@@ -858,10 +863,7 @@ export default {
         width: 180px;
       }
       &.table__column--guest {
-        width: 80px;
-      }
-      &.table__column--frequency {
-        width: 80px;
+        width: 160px;
       }
     }
   }
@@ -951,7 +953,6 @@ export default {
           }
         }
       }
-
       img {
         width: 300px;
         @media screen and (max-width: 768px) {
@@ -968,7 +969,6 @@ export default {
 .mesh-container {
   flex: auto;
   display: flex;
-
   .tabs {
     padding: 0;
   }
@@ -1010,7 +1010,6 @@ export default {
             font-size: 12px;
             color: #333;
             margin: 0;
-
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -1064,7 +1063,6 @@ export default {
           flex-direction: column;
           align-items: flex-start;
           width: 200px;
-
           .switch-item {
             display: flex;
             width: 100%;
@@ -1097,7 +1095,6 @@ export default {
           }
         }
       }
-
       .mesh-table {
         width: 100%;
         .table-header {
@@ -1278,7 +1275,6 @@ export default {
             border-radius: 2px;
           }
         }
-
         .tabs {
           padding: 0 20px;
           .tab {
@@ -1291,7 +1287,6 @@ export default {
       .btn-add {
         display: none;
       }
-
       .content {
         padding-top: 0;
         .topo-container {
@@ -1307,7 +1302,6 @@ export default {
             width: 100%;
             .legend {
               display: flex;
-
               .legend-item {
                 flex-direction: row-reverse;
                 margin-left: 0;
@@ -1354,11 +1348,9 @@ export default {
           .table-header {
             display: none;
           }
-
           .name {
             flex: none;
             height: 60px !important;
-
             .icon {
               width: 30px;
             }
@@ -1520,12 +1512,19 @@ export default {
           width: 50%;
         }
         &.table__column--guest {
+          justify-content: flex-end;
           height: 50px;
-          width: 25%;
-        }
-        &.table__column--frequency {
-          height: 50px;
-          width: 25%;
+          width: 50%;
+          img {
+            margin-left: 0;
+          }
+          .laptop-show {
+            display: none;
+          }
+          .mobile-show {
+            display: inline-block;
+            margin-left: 10px;
+          }
         }
       }
     }

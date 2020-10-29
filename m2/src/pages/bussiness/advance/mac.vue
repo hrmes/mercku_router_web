@@ -199,7 +199,6 @@ export default {
     }
   }
   .mac {
-    padding-left: 24px;
     margin: 10px 0;
     height: 20px;
   }

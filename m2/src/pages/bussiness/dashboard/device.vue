@@ -90,7 +90,7 @@
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
-                      <img v-if='row.local &&!isOfflineDevices'
+                      <img v-if='row.local && !isOfflineDevices'
                            src="../../../assets/images/icon/ic_user.png"
                            alt=""
                            style="margin-right:5px;margin-left:0;">
@@ -128,7 +128,8 @@
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span>{{$t('trans0618')}}</span>
-                <span> {{row.access_node.name}} </span>
+                <span class="overflow-hidden"
+                      :title="row.access_node.name">{{row.access_node.name}}</span>
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -723,7 +724,7 @@ export default {
         },
         {
           key: 'day',
-          text: 'trans0532'
+          text: 'trans0533'
         },
         {
           key: 'hour',
@@ -738,14 +739,27 @@ export default {
           text: 'trans0536'
         }
       ];
-      const durationStr = suffixs
-        .map((item, index) => {
-          if (!timeArr[index]) {
-            return '';
+      let durationStr = '';
+      const maxIndex = suffixs.length - 1;
+      for (let i = 0; i <= maxIndex; i += 1) {
+        if (timeArr[i]) {
+          const next = i + 1;
+          if (i < maxIndex) {
+            if (timeArr[next]) {
+              durationStr =
+                i !== 4
+                  ? `${timeArr[i]} ${this.$t(suffixs[i].text)} ` +
+                    `${timeArr[next]} ${this.$t(suffixs[next].text)}`
+                  : `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
+            } else {
+              durationStr = `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
+            }
+          } else if (i === maxIndex) {
+            durationStr = `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
           }
-          return `${timeArr[index]}${this.$t(item.text)}`;
-        })
-        .join(' ');
+          break;
+        }
+      }
       return durationStr;
     },
     parseOfflineTime(row) {
@@ -909,6 +923,11 @@ export default {
         width: 150px;
       }
       .device-item {
+        .overflow-hidden {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         &.offline {
           span {
             &:last-child {

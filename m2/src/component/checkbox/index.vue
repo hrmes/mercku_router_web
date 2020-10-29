@@ -3,7 +3,7 @@
     <div class="checkbox-container">
       <label @click="check">
         <div class="box"
-             :class="{'checked':checked,'circle-shape':!rect}"></div>
+             :class="classObject"></div>
         <div class="text"
              v-if="text">{{text}}</div>
       </label>
@@ -35,10 +35,23 @@ export default {
     stopPropagation: {
       type: Boolean,
       default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return { checked: this.value };
+  },
+  computed: {
+    classObject() {
+      return {
+        checked: this.checked,
+        'circle-shape': !this.rect,
+        disabled: this.disabled
+      };
+    }
   },
   methods: {
     check(e) {
