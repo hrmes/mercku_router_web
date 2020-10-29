@@ -1,18 +1,18 @@
 {
   "id": "0006",
   "title": "real|wifi",
-  "accept": ".ma",
+  "accept": ".real",
   "favicon": "customer-conf/0006/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
-  "languages": ["zh-CN", "en-US", "nl-NL", "de-DE"],
+  "languages": ["zh-CN", "en-US", "nl-NL", "de-DE", "no-NO"],
   "routers": {
     "M2": {
-      "name": "M2 Standalone Wi-Fi router",
+      "name": "real|wifi M2 ruter",
       "shortName": "M2"
     },
     "Bee": {
-      "name": "M2 Bee Wi-Fi Mesh Node",
+      "name": "real|wifi mesh-node",
       "shortName": "Bee"
     }
   },
