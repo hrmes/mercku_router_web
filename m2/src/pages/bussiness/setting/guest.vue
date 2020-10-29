@@ -87,8 +87,14 @@
               <p class='name'>{{form.ssid}}</p>
             </div>
             <div v-else>
-              <p><span>2.4G：</span>{{form.ssid}}</p>
-              <p><span>5G：</span>{{ssid_5g}}</p>
+              <p>
+                <span>2.4G：</span>
+                {{form.ssid}}
+              </p>
+              <p>
+                <span>5G：</span>
+                {{ssid_5g}}
+              </p>
             </div>
           </div>
           <div class="remaining-time">
@@ -114,6 +120,10 @@
 <script>
 import { getStringByte, passwordRule } from '@/util/util';
 
+const Bands = {
+  b24g: '2.4G',
+  b5g: '5G'
+};
 export default {
   data() {
     return {
@@ -309,7 +319,9 @@ export default {
     getGuestWIFI() {
       this.$http.meshGuestGet().then(res => {
         [this.guest] = res.data.result;
-        const band24g = this.guest.bands['2.4G'];
+        const band24g = this.guest.bands[Bands.b24g];
+        const band5g = this.guest.bands[Bands.b5g];
+        console.log(band24g, band5g);
         this.form = {
           id: this.guest.id,
           enabled: this.guest.enabled,
@@ -458,7 +470,6 @@ export default {
   }
   .setting-ssid-info {
     display: flex;
-
     .name {
       // padding-left: 20px;
       // font-weight: bold
@@ -496,7 +507,6 @@ export default {
     }
     .tool {
       position: relative;
-
       display: inline-block;
       img {
         position: relative;

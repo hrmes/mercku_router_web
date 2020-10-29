@@ -3,7 +3,7 @@
   "title": "real|wifi",
   "accept": ".real",
   "favicon": "customer-conf/0006/favicon.ico",
-  "policy": "",
+  "policy": "https://www.realnett.no/privacy",
   "allow2LevelAdmin": false,
   "languages": ["zh-CN", "en-US", "nl-NL", "de-DE", "no-NO"],
   "routers": {

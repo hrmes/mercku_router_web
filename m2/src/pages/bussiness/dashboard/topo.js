@@ -157,7 +157,7 @@ function genNodes(gateway, green, red, offline) {
     const n = {
       name: `${node.sn}${node.name}`, // 避免节点同名echarts报错不能绘图
       originName: node.name, // 用于节点的label显示
-      stationsCount: node.stations.length,
+      stationsCount: node?.stations?.length ?? 0,
       sn: node.sn,
       itemStyle: {
         color

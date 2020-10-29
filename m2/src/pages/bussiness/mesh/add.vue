@@ -1,11 +1,15 @@
 <template>
   <div class="page">
-    <div class='page-header'>
-      {{$t('trans0194')}}
+    <div class='page-header page-header__add-mesh'>
+      <span>{{$t('trans0194')}}</span>
+      <span class="page-header__help"
+            v-if="!isTipPage"
+            @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
     </div>
     <div class="page-content">
+      <!-- 提示 -->
       <div class="type-container"
-           v-if="tipPage">
+           v-if="isTipPage">
         <div class="router-category-container">
           <div class="circle-animation">
             <div class="circle circle1"></div>
@@ -16,12 +20,12 @@
         </div>
         <div class="button-container">
           <button class="btn btn-large"
-                  @click="forward2WelcomePage">{{$t('trans0467')}}</button>
+                  @click="go2WelcomePage">{{$t('trans0467')}}</button>
         </div>
-        <p class="tips__text--add">{{tipsText}}</p>
       </div>
+      <!-- 路由器选择 -->
       <div class="type-container"
-           v-if="welcomePage">
+           v-if="isWelcomePage">
         <div class="tip">{{$t('trans0364')}}</div>
         <div class="router-category-container">
           <div class="router"
@@ -41,14 +45,15 @@
 
         <div class="button-container">
           <button class="btn btn-default"
-                  @click="back2WelcomePage">{{$t('trans0057')}}</button>
+                  @click="backward2TipPage()">{{$t('trans0057')}}</button>
           <button class="btn btn-next"
-                  @click="forwardStep0()">{{$t('trans0055')}}</button>
+                  @click="forward2Step0()">{{$t('trans0055')}}</button>
         </div>
 
       </div>
+      <!-- 步骤 -->
       <div class="info-container"
-           v-if="!tipPage && !welcomePage">
+           v-if="isStepPage">
         <div class="step">
           <m-step :option="stepsOption"></m-step>
         </div>
@@ -60,36 +65,51 @@
             <img :src="selectedCategory.powerOnImage"
                  alt="">
             <div class="button-container">
-              <button @click="forwardWelcome()"
+              <button @click="go2WelcomePage()"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
-              <button @click="forwardStepIndicatorLight()"
+              <button @click="go2Step(1)"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
           </div>
           <!-- 观察指示灯 -->
           <div class="step-item step-item0"
                v-show="stepsOption.current===1">
-            <p>{{$t('trans0257')}}</p>
-            <p>{{$t('trans0377')}}</p>
-            <p>{{$t('trans0378')}}</p>
-            <img :src="selectedCategory.tipImage"
+            <p>{{$t('trans0635')}}</p>
+            <img :src="selectedCategory.lampImage"
                  alt="">
             <div class="button-container">
-              <button @click="forwardPower()"
+              <button @click="go2Step(0)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
-              <button @click="forwardStep1()"
+              <button @click="go2Step(2)"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
           </div>
+          <!-- 按Reset按键 -->
+          <div class="step-item step-item0"
+               v-show="isReset">
+            <p>{{$t('trans0295')}}</p>
+            <img :src="selectedCategory.tipImage"
+                 alt="">
+            <div class="button-container">
+              <button @click="go2Step(1)"
+                      class="btn btn-default ">{{$t('trans0057')}}</button>
+              <button @click="search()"
+                      class="btn">{{$t('trans0055')}}</button>
+            </div>
+          </div>
+          <!-- 扫描中 -->
           <div class="step-item step-item1"
-               v-show="stepsOption.current===2">
-            <div class="scaning"
-                 v-show="scaning">
+               v-show="isScaning">
+            <div class="scaning">
               <m-loading :color="loadingColor"></m-loading>
               <p>{{$t('trans0334')}}</p>
             </div>
+          </div>
+          <!-- 扫描结果 -->
+          <div class="step-item step-item1"
+               v-show="stepsOption.current===3">
             <div class="scan-result"
-                 v-show="!scaning && nodes.length">
+                 v-show="nodes.length">
               <div class="router"
                    v-for="(node,index) in nodes"
                    :key="index"
@@ -107,27 +127,34 @@
                      alt="">
               </div>
               <div class="button-container">
-                <button @click="forwardStepIndicatorLight()"
+                <button @click="go2Step(2)"
                         class="btn btn-default ">{{$t('trans0057')}}</button>
                 <button @click="addMeshNode()"
                         class="btn">{{$t('trans0055')}}</button>
               </div>
             </div>
             <div class="scan-empty"
-                 v-show="!scaning && !nodes.length">
+                 v-show="!nodes.length">
               <p>{{$t('trans0181')}}</p>
               <span class="btn-help"
                     @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
               <div class="button-container">
-                <button @click="forwardStepIndicatorLight()"
+                <button @click="go2Step(2)"
                         class="btn">{{$t('trans0057')}}</button>
               </div>
             </div>
           </div>
-          <div class="step-item step-item2"
-               v-show="stepsOption.current===3">
+        </div>
+      </div>
+      <!-- 组网结果 -->
+      <div class="info-container"
+           v-if="isResultPage">
+        <div class="step-content">
+          <div class="step-item step-item2">
             <div class="success"
                  v-if="added">
+              <img src="@/assets/images/icon/ic_success.png"
+                   alt="" />
               <p>{{$t('trans0192')}}</p>
               <div class="button-container">
                 <button @click="backMesh"
@@ -136,6 +163,8 @@
             </div>
             <div class="fail"
                  v-if="!added">
+              <img src="@/assets/images/icon/ic_fail.png"
+                   alt="" />
               <p>{{$t('trans0248')}}</p>
               <span class="btn-help"
                     @click.stop="openHelpDialog">{{$t('trans0128')}}</span>
@@ -144,7 +173,6 @@
                         class="btn">{{$t('trans0233')}}</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -159,13 +187,11 @@
       <div class="modal-content">
         <div class="help-dialog-content">
           <div>
-            <p>1. {{$t('trans0234')}}</p>
-            <p>2. {{$t('trans0160')}}</p>
-            <p>3. {{$t('trans0158')}}</p>
-            <p>4. {{$t('trans0175')}}</p>
-            <p>5. {{$t('trans0330')}}</p>
-            <p>6. {{$t('trans0372')}} <a :href="$t('trans0477')"
-                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}</p>
+            <p>{{$t('trans0234')}}</p>
+            <p>{{$t('trans0160')}}</p>
+            <p>{{$t('trans0158')}}</p>
+            <p>{{$t('trans0175')}}</p>
+            <p>{{$t('trans0330')}}</p>
           </div>
         </div>
       </div>
@@ -179,19 +205,27 @@
 <script>
 import { RouterSnModel } from '@/util/constant';
 
+const PageType = {
+  tipPage: 'tipPage',
+  welcomePage: 'welcomePage',
+  stepPage: 'stepPage',
+  resultPage: 'resultPage'
+};
 const Routers = [
   {
     name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
     image: require('@/assets/images/img_bee.png'),
     powerOnImage: require('@/assets/images/img_power_on_bee.jpg'),
-    tipImage: require('@/assets/images/img_add_plug_bee.png'),
+    lampImage: require('@/assets/images/pic_node_1_redlight.jpg'),
+    tipImage: require('@/assets/images/img_add_plug_bee.jpg'),
     sn: RouterSnModel.Bee
   },
   {
     name: process.env.CUSTOMER_CONFIG.routers.M2.name,
     image: require('@/assets/images/img_m2.png'),
-    powerOnImage: require('@/assets/images/img_power_on_m2.jpg'),
-    tipImage: require('@/assets/images/img_add_plug_m2.png'),
+    powerOnImage: require('@/assets/images/pic_router_m2.jpg'),
+    lampImage: require('@/assets/images/img_power_on_m2.jpg'),
+    tipImage: require('@/assets/images/img_add_plug_m2.jpg'),
     sn: RouterSnModel.M2
   }
 ];
@@ -200,8 +234,7 @@ export default {
     return {
       RouterSnModel,
       routers: Routers,
-      welcomePage: false,
-      tipPage: true,
+      pageType: PageType.tipPage,
       stepsOption: {
         current: 0,
         steps: [
@@ -232,19 +265,26 @@ export default {
     };
   },
   computed: {
-    tipsText() {
-      return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
+    isTipPage() {
+      return this.pageType === PageType.tipPage;
+    },
+    isWelcomePage() {
+      return this.pageType === PageType.welcomePage;
+    },
+    isStepPage() {
+      return this.pageType === PageType.stepPage;
+    },
+    isResultPage() {
+      return this.pageType === PageType.resultPage;
+    },
+    isReset() {
+      return this.stepsOption.current === 2 && !this.scaning;
+    },
+    isScaning() {
+      return this.stepsOption.current === 2 && this.scaning;
     }
   },
   methods: {
-    back2WelcomePage() {
-      this.tipPage = true;
-      this.welcomePage = false;
-    },
-    forward2WelcomePage() {
-      this.tipPage = false;
-      this.welcomePage = true;
-    },
     openHelpDialog() {
       this.showHelpDialog = true;
     },
@@ -307,17 +347,19 @@ export default {
           let timeout = this.addTimeout;
           this.checkTimer = setInterval(() => {
             if (timeout < 0) {
+              this.pageType = PageType.resultPage;
               this.added = false;
               this.$loading.close();
-              this.forwardStep2(false);
+              this.go2Step(3, false);
               clearInterval(this.checkTimer);
             }
             if (timeout % 3 === 0) {
               this.$http.isInMesh({ node }).then(res => {
                 if (res.data.result.status) {
-                  this.$loading.close();
+                  this.pageType = PageType.resultPage;
                   this.added = true;
-                  this.forwardStep2(true);
+                  this.$loading.close();
+                  this.go2Step(3);
                   clearInterval(this.checkTimer);
                 }
               });
@@ -327,29 +369,24 @@ export default {
         })
         .catch(() => {
           this.$loading.close();
-          this.forwardStep2(false);
+          this.go2Step(3, false);
         });
     },
-    forwardWelcome() {
-      this.welcomePage = true;
+    go2WelcomePage() {
+      this.pageType = PageType.welcomePage;
     },
-    forwardStepIndicatorLight() {
-      this.welcomePage = false;
-      this.stepsOption.current = 1;
-      this.stepsOption.steps[1].success = true;
+    backward2TipPage() {
+      this.pageType = PageType.tipPage;
     },
-    forwardPower() {
-      this.stepsOption.current = 0;
-      this.stepsOption.steps[0].success = true;
+    go2Step(i, isSuccess = true) {
+      this.stepsOption.current = i;
+      this.stepsOption.steps[i].success = isSuccess;
     },
-    forwardStep0() {
-      this.welcomePage = false;
-      this.stepsOption.current = 0;
-      this.stepsOption.steps[0].success = true;
+    forward2Step0() {
+      this.pageType = PageType.stepPage;
+      this.go2Step(0);
     },
-    forwardStep1() {
-      this.stepsOption.current = 2;
-      this.stepsOption.steps[2].success = true;
+    search() {
       this.scaning = true;
       this.$http
         .scanMeshNode()
@@ -358,14 +395,11 @@ export default {
             .filter(n => n.sn.slice(0, 2) === this.selectedCategory.sn)
             .map(n => ({ ...n, selected: false }));
           this.scaning = false;
+          this.go2Step(3);
         })
         .catch(() => {
           this.scaning = false;
         });
-    },
-    forwardStep2(result) {
-      this.stepsOption.current = 3;
-      this.stepsOption.steps[3].success = result;
     }
   }
 };
@@ -385,6 +419,14 @@ export default {
     opacity: 0;
   }
 }
+.page-header__add-mesh {
+  justify-content: space-between;
+}
+.page-header__help {
+  font-size: 14px;
+  color: #333333;
+  cursor: pointer;
+}
 .loading {
   position: fixed;
   top: 0;
@@ -400,6 +442,19 @@ export default {
   p {
     &:first-child {
       margin-top: 0;
+    }
+    &:before {
+      content: '';
+      position: relative;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      background-color: #333333;
+      border-radius: 50%;
+      margin-right: 10px;
     }
   }
 }
@@ -444,7 +499,6 @@ export default {
     background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
     background-size: 100%;
     width: 340px;
-
     margin: 0 auto;
     margin-bottom: 50px;
     &::before {
@@ -488,12 +542,6 @@ export default {
   .tip {
     margin-bottom: 30px;
   }
-  .tips__text--add {
-    color: #999;
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-  }
   .router {
     display: flex;
     justify-content: center;
@@ -505,7 +553,6 @@ export default {
     border: 1px solid #dbdbdb;
     margin-bottom: 30px;
     cursor: pointer;
-
     .check-container {
       display: flex;
       align-items: center;
@@ -640,7 +687,6 @@ export default {
         margin: 0 auto;
         margin-top: 20px;
         border: 1px solid #f1f1f1;
-
         &:first-child {
           margin-top: 0;
         }
@@ -696,7 +742,6 @@ export default {
             }
           }
         }
-
         img {
           width: 120px;
           height: 120px;
@@ -705,27 +750,37 @@ export default {
     }
   }
   .step-item2 {
+    img {
+      width: 60px;
+    }
     p {
       font-size: 16px;
       text-align: center;
-      margin-top: 50px;
+      margin-top: 20px;
     }
     .button-container {
-      margin-top: 160px;
+      margin-top: 137px;
       .btn {
         min-width: 160px;
         width: auto;
       }
     }
     .fail {
+      margin-top: 60px;
       text-align: center;
+      img {
+        width: 60px;
+      }
+      .btn-help {
+        color: #d6001c;
+      }
     }
     .success {
+      margin-top: 60px;
       text-align: center;
     }
   }
 }
-
 @media screen and (min-width: 769px) and (max-width: 1600px) {
   .help-dialog {
     padding: 250px;
@@ -740,7 +795,6 @@ export default {
       word-wrap: break-word;
     }
   }
-
   .type-container {
     .tip {
       width: 100%;

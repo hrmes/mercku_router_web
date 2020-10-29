@@ -23,7 +23,7 @@ export const isIP = ip => {
   return false;
 };
 export const isValidInteger = (value, min, max) => {
-  const reg = /^[1-9]\d+$/;
+  const reg = /^[1-9]\d*$/;
   let flag = false;
   value += '';
   if (reg.test(value)) {

@@ -4,6 +4,11 @@
          v-if="visible">
       <img :src="url"
            alt="">
+      <div v-if="title"
+           class="title">{{title}}</div>
+      <div class="template"
+           v-if="template"
+           v-html="template"></div>
       <!-- <LoadingNew :size="60" /> -->
     </div>
   </transition>
@@ -19,7 +24,6 @@ export default {
   data() {
     const { name } = process.env.CUSTOMER_CONFIG.loading;
     const url = require(`@/assets/images/loading/${name}`);
-
     return {
       url,
       visible: false,
@@ -39,6 +43,7 @@ export default {
   z-index: 1001;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   img {
@@ -59,19 +64,13 @@ export default {
     opacity: 0;
     transition: all 0.3s ease-out;
   }
-
-  .inner {
-    text-align: center;
+  .title {
+    font-size: 24px;
+    margin-top: 10px;
     color: #fff;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    .title {
-      font-size: 24px;
-      margin-top: 10px;
-      color: #fff;
-    }
+  }
+  .template {
+    color: #fff;
   }
 }
 </style>

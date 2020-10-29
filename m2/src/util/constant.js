@@ -1,4 +1,4 @@
-export const IPv6DefaultPlaceholder = '0000:0000:0000:0000:0000:0000:0000:0000';
+export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
   cik: '0002',

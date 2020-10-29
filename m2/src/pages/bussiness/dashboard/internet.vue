@@ -161,7 +161,7 @@
     <div class="section"
          v-if="ipv6NetInfo.enabled">
       <div class="section__inner">
-        <div class="section__title">{{$t('trans0700 ')}}</div>
+        <div class="section__title">{{$t('trans0700')}}</div>
         <div class="section__body">
           <div class="item">
             <label class="item__label">{{$t('trans0317')}}：</label>
@@ -607,7 +607,6 @@ export default {
       font-size: 14px;
       color: #999;
     }
-
     .item__value {
       font-size: 16px;
       color: #333;

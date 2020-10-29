@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="page page__log">
     <div class="page-header">
       {{$t('trans0421')}}
     </div>
@@ -131,6 +131,15 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.page__log {
+  .form {
+    .mk-switch__label {
+      margin-right: 10px !important;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
