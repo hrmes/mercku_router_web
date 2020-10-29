@@ -41,7 +41,7 @@
                v-show="isStep(1)">
             <img src="@/assets/images/pic_add_plug_02.png"
                  alt="">
-            <p class="step-item__tip">{{$t('trans0635')}}</p>
+            <p class="step-item__tip">{{$t('trans0713')}}</p>
             <div class="button-container">
               <button @click="forward2step(0)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
@@ -180,7 +180,7 @@
 </template>
 <script>
 import RouterModel from '@/mixins/router-model';
-import { Bands } from '@/util/constant.js';
+import { Bands } from '@/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -313,10 +313,6 @@ export default {
                             }
                           }
                         }
-                        // let neighbor;
-                        // const node = meshNodes.find(n => !!n.neighbors.find(nn => { if (nn.sn === sn) { neighbor = nn; return true; } return false; }));
-                        // const { rssi } = neighbors;
-                        // this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
                       }
                     }
                   });

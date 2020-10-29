@@ -35,11 +35,11 @@
             <div v-if="installTimeout"
                  class="mk-upgrade-result__description">
               <div class="mk-upgrade-result__title">
-                {{ translate('trans0808') }}
+                {{ translate('trans0645') }}
               </div>
               <ul class="mk-upgrade-reasons reset-ul">
-                <li class="mk-upgrade-reason">{{ translate('trans0807') }}</li>
-                <li class="mk-upgrade-reason">{{ translate('trans0806') }}</li>
+                <li class="mk-upgrade-reason">{{ translate('trans0648') }}</li>
+                <li class="mk-upgrade-reason">{{ translate('trans0649') }}</li>
               </ul>
             </div>
             <div class="mk-upgrade-result__img">
@@ -258,7 +258,7 @@ export default {
             if (timeout <= 0) {
               clearInterval(timer);
               timer = null;
-              this.$http.getRouter(); // 超时跳转到未连接页面
+              this.status = Statuses.install_timeout;
             }
             if (responsed) {
               responsed = false;

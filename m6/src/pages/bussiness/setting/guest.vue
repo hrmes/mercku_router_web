@@ -17,7 +17,8 @@
                          :content="$t('trans0540')">
                 <img width="14"
                      src="../../../assets/images/icon/ic_question.png"
-                     alt=""></m-popover>
+                     alt="">
+              </m-popover>
             </div>
           </label>
           <m-switch v-model="form.enabled"
@@ -110,7 +111,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword } from '@/util/util';
+import { getStringByte, isValidPassword, isFieldHasComma } from '@/util/util';
 import { EncryptMethod } from '@/util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
 
@@ -155,15 +156,23 @@ export default {
       rules: {
         ssid: [
           {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0237')
+          },
+          {
             rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
           }
         ],
         password: [
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
           {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
@@ -173,7 +182,7 @@ export default {
     };
   },
   computed: {
-    ssid_5g() { 
+    ssid_5g() {
       this.form.ssid = this.form.ssid.trim();
       return `${this.form.ssid}-5G`;
     },
