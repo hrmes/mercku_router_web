@@ -58,3 +58,26 @@
   }
 }
 /******************deshboard页面背景图片***********/
+/******************添加节点页面图片***********/
+.type-container {
+  .circle-animation {
+    position: relative;
+    background: url(~@/assets/images/customer/realnett/add_node_tip_bj.png) no-repeat center!important;
+    background-size: 100%!important;
+    width: 340px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+    &::before {
+      content: '';
+      display: block;
+      padding-top: 72%;
+    }
+    .circle {
+      background: radial-gradient(
+        rgba(88, 175, 255, 0) 39%,
+        rgba(88, 175, 255, 0.6) 100%
+      ) !important;
+    }
+  }
+}
+/******************添加节点页面图片***********/

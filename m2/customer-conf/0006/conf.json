@@ -1,5 +1,6 @@
 {
   "id": "0006",
+  "host": "http://wifi.realnett.no",
   "title": "real|wifi",
   "accept": ".real",
   "favicon": "customer-conf/0006/favicon.ico",
