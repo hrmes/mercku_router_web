@@ -127,8 +127,8 @@
               <div class="equipment">
                 <span class="label">{{$t('trans0235')}}</span>
                 <span class="value equipment__value"
-                      @click.stop="showMeshListModal(router.stations)">
-                  {{router.stations.length}}
+                      @click.stop="showStationListModal(router.stations)">
+                  {{(router.station && router.stations.length) || '-'}}
                 </span>
                 <img class="equipment__arrow"
                      src="../../../assets/images/icon/ic_inter.png" />
@@ -416,8 +416,11 @@ export default {
     showRssiModal() {
       this.rssiModalVisible = true;
     },
-    showMeshListModal(meshList) {
-      this.meshList = meshList;
+    showStationListModal(stations) {
+      if (!stations) {
+        return;
+      }
+      this.meshList = stations;
       this.meshListModalVisible = true;
     },
     hideMeshListModal() {
