@@ -79,7 +79,6 @@
                            prop='account'>
                 <m-input :label="$t('trans0155')"
                          type="text"
-                         :disabled="pppoeDisabled"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="pppoeForm.account"></m-input>
               </m-form-item>
@@ -87,7 +86,6 @@
                            prop='password'>
                 <m-input :label="$t('trans0156')"
                          type='password'
-                         :disabled="pppoeDisabled"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="pppoeForm.password" />
               </m-form-item>
@@ -211,7 +209,6 @@ export default {
         password: '',
         dns: ''
       },
-      pppoeDisabled: false,
       staticForm: {
         ip: '',
         prefixLength: '',
@@ -349,7 +346,6 @@ export default {
           if (this.isPppoe) {
             const pppoeInfo = result.pppoe;
             this.pppoeForm.isUseIPv4 = pppoeInfo.share_ipv4_credentials;
-            this.pppoeDisabled = this.pppoeForm.isUseIPv4;
             this.pppoeForm.account = pppoeInfo.account;
             this.pppoeForm.password = pppoeInfo.password;
             this.pppoeForm.dns = pppoeInfo.dns?.[0]?.ip;
@@ -427,7 +423,6 @@ export default {
             this.pppoeForm.isUseIPv4 = false;
           } else {
             const { pppoe } = res.data.result;
-            this.pppoeDisabled = true;
             this.pppoeForm.account = pppoe.account;
             this.pppoeForm.password = pppoe.password;
           }
@@ -448,8 +443,13 @@ export default {
     getIPv4WanNetInfo() {
       this.$http.getWanNetInfo().then(res => {
         if (res.data.result) {
-          const data = res.data.result;
-          this.IPv4NetType = data.type;
+          const { result } = res.data;
+          const pppoeData = result.pppoe;
+          this.IPv4NetType = result.type;
+          if (this.IPv4NetType === CONSTANTS.WanType.pppoe) {
+            this.pppoeForm.account = pppoeData.account;
+            this.pppoeForm.password = pppoeData.password;
+          }
         }
       });
     },
