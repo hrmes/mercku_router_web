@@ -229,7 +229,7 @@
       </m-modal-footer>
     </m-modal>
     <!-- mesh列表弹框 -->
-    <m-modal :visible.sync="meshListModalVisible"
+    <m-modal :visible.sync="stationListModalVisible"
              class="mesh-list-modal">
       <m-modal-header class="header">
         <img @click="hideMeshListModal"
@@ -245,9 +245,9 @@
           <div class="table__column table__column--guest">{{$t('trans0375')}}</div>
         </div>
         <div class="table__body"
-             v-if="meshList.length">
+             v-if="stationList.length">
           <div class="table__row"
-               v-for="(item, index) in meshList"
+               v-for="(item, index) in stationList"
                :key="index">
             <div class="table__column table__column--device">
               <span v-if="isThisMachine(item.ip)"
@@ -347,8 +347,8 @@ export default {
         this.$t('trans0362'),
         this.$t('trans0363')
       ],
-      meshListModalVisible: false,
-      meshList: [],
+      stationListModalVisible: false,
+      stationList: [],
       localDeviceIP: '',
       bandMap: {
         wired: this.$t('trans0253'),
@@ -420,11 +420,11 @@ export default {
       if (!stations) {
         return;
       }
-      this.meshList = stations;
-      this.meshListModalVisible = true;
+      this.stationList = stations;
+      this.stationListModalVisible = true;
     },
     hideMeshListModal() {
-      this.meshListModalVisible = false;
+      this.stationListModalVisible = false;
     },
     closeRssiModal() {
       this.rssiModalVisible = false;
