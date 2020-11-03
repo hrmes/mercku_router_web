@@ -183,7 +183,7 @@
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0630')}}</span>
-                <span> {{parseOfflineTime(row)}} </span>
+                <span> {{transformOfflineDate(row.offline_time)}} </span>
               </li>
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
@@ -761,11 +761,6 @@ export default {
         }
       }
       return durationStr;
-    },
-    parseOfflineTime(row) {
-      return this.transformOfflineDate(
-        row.connected_time + row.online_info.online_duration
-      );
     }
   },
   watch: {

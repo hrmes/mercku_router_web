@@ -127,8 +127,8 @@
               <div class="equipment">
                 <span class="label">{{$t('trans0235')}}</span>
                 <span class="value equipment__value"
-                      @click.stop="showMeshListModal(router.stations)">
-                  {{router.stations.length}}
+                      @click.stop="showStationListModal(router.stations)">
+                  {{(router.station && router.stations.length) || '-'}}
                 </span>
                 <img class="equipment__arrow"
                      src="../../../assets/images/icon/ic_inter.png" />
@@ -229,7 +229,7 @@
       </m-modal-footer>
     </m-modal>
     <!-- mesh列表弹框 -->
-    <m-modal :visible.sync="meshListModalVisible"
+    <m-modal :visible.sync="stationListModalVisible"
              class="mesh-list-modal">
       <m-modal-header class="header">
         <img @click="hideMeshListModal"
@@ -245,9 +245,9 @@
           <div class="table__column table__column--guest">{{$t('trans0375')}}</div>
         </div>
         <div class="table__body"
-             v-if="meshList.length">
+             v-if="stationList.length">
           <div class="table__row"
-               v-for="(item, index) in meshList"
+               v-for="(item, index) in stationList"
                :key="index">
             <div class="table__column table__column--device">
               <span v-if="isThisMachine(item.ip)"
@@ -347,8 +347,8 @@ export default {
         this.$t('trans0362'),
         this.$t('trans0363')
       ],
-      meshListModalVisible: false,
-      meshList: [],
+      stationListModalVisible: false,
+      stationList: [],
       localDeviceIP: '',
       bandMap: {
         wired: this.$t('trans0253'),
@@ -416,12 +416,15 @@ export default {
     showRssiModal() {
       this.rssiModalVisible = true;
     },
-    showMeshListModal(meshList) {
-      this.meshList = meshList;
-      this.meshListModalVisible = true;
+    showStationListModal(stations) {
+      if (!stations) {
+        return;
+      }
+      this.stationList = stations;
+      this.stationListModalVisible = true;
     },
     hideMeshListModal() {
-      this.meshListModalVisible = false;
+      this.stationListModalVisible = false;
     },
     closeRssiModal() {
       this.rssiModalVisible = false;
