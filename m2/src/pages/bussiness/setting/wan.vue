@@ -232,6 +232,7 @@ function checkDNS(value) {
 export default {
   data() {
     return {
+      IPv6NetType: '',
       CONSTANTS,
       netNote: {
         dhcp: this.$t('trans0147'),
@@ -439,6 +440,7 @@ export default {
   mounted() {
     this.getWanStatus();
     this.getWanNetInfo();
+    this.getIPv6WanNetInfo();
   },
   computed: {
     isTesting() {
@@ -500,6 +502,17 @@ export default {
         this.staticForm.gateway,
         this.staticForm.mask
       );
+    },
+    getIPv6WanNetInfo() {
+      this.$http.getMeshInfoWanNetIpv6().then(res => {
+        const { result } = res.data;
+        const pppoeData = result.pppoe;
+        this.IPv6NetType = result.type;
+        if (this.IPv6NetType === CONSTANTS.WanType.pppoe) {
+          this.pppoeForm.account = pppoeData.account;
+          this.pppoeForm.password = pppoeData.password;
+        }
+      });
     },
     getWanStatus() {
       this.$loading.open();
