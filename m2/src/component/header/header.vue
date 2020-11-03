@@ -166,7 +166,7 @@ const Languages = [
     show: false
   },
   {
-    text: 'Dutch',
+    text: 'Nederlands',
     value: 'nl-NL',
     show: false
   },

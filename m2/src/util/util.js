@@ -21,18 +21,18 @@ export const getIpAfter = ip => {
   return ip.replace(pattern, '');
 };
 export const isIP = (ip, type = IPv4) => {
-  let flag = false;
-  if (type === IPv4) {
-    if (ip && ipReg.test(ip)) {
-      flag = true;
-    }
+  let reg = null;
+  switch (type) {
+    case IPv4:
+      reg = ipReg;
+      break;
+    case IPv6:
+      reg = ipv6Reg;
+      break;
+    default:
+      reg = ipReg;
   }
-  if (type === IPv6) {
-    if (ip && ipv6Reg.test(ip)) {
-      flag = true;
-    }
-  }
-  return flag;
+  return ip && reg.test(ip);
 };
 export const isValidInteger = (value, min, max) => {
   const reg = /^[1-9]\d*$/;

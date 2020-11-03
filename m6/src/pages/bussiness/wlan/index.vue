@@ -87,7 +87,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword } from '@/util/util';
+import { getStringByte, isValidPassword, isFieldHasComma } from '@/util/util';
 
 export default {
   data() {
@@ -110,15 +110,23 @@ export default {
       form1Rules: {
         ssid: [
           {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0237')
+          },
+          {
             rule: value => getStringByte(value) <= 20,
             message: this.$t('trans0261')
           },
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
           }
         ],
         password: [
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
           {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
@@ -128,6 +136,10 @@ export default {
       form2: { admin_password: '' },
       form2Rules: {
         admin_password: [
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
           {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
