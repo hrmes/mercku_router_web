@@ -127,8 +127,9 @@
               <div class="equipment">
                 <span class="label">{{$t('trans0235')}}</span>
                 <span class="value equipment__value"
-                      @click.stop="showStationListModal(router.stations)">
-                  {{(router.station && router.stations.length) || '-'}}
+                      :class="{'is-disabled':!router.stations}"
+                      @click.stop="showStationListModal(router)">
+                  {{getRouterStationCount(router)}}
                 </span>
                 <img class="equipment__arrow"
                      src="../../../assets/images/icon/ic_inter.png" />
@@ -398,6 +399,12 @@ export default {
     }
   },
   methods: {
+    getRouterStationCount(router) {
+      if (!router.stations) {
+        return '-';
+      }
+      return router.stations.length;
+    },
     hasPaddingLeft(ip) {
       return this.isThisMachine(ip) ? '' : 'has-padding-left';
     },
@@ -416,11 +423,11 @@ export default {
     showRssiModal() {
       this.rssiModalVisible = true;
     },
-    showStationListModal(stations) {
-      if (!stations) {
+    showStationListModal(router) {
+      if (!router.stations) {
         return;
       }
-      this.stationList = stations;
+      this.stationList = router.stations;
       this.stationListModalVisible = true;
     },
     hideMeshListModal() {
@@ -1164,6 +1171,10 @@ export default {
               .equipment__value {
                 cursor: pointer;
                 text-decoration: underline;
+                &.is-disabled {
+                  text-decoration: none;
+                  cursor: default;
+                }
               }
               .equipment__arrow {
                 display: none;
