@@ -26,6 +26,7 @@
             <m-form-item prop="current"
                          ref="current">
               <m-input class="input"
+                       ref="macInput"
                        @input="format"
                        v-model="mac.current"
                        :placeholder="$t('trans0321')"></m-input>
