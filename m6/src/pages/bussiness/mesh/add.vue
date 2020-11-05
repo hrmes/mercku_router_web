@@ -26,7 +26,7 @@
         <div class="step-content">
           <div class="step-item step-item--rich"
                v-show="isStep(0)">
-            <img src="@/assets/images/pic_add_plug_01.png"
+            <img src="@/assets/images/pic_add_m6_01.png"
                  alt="">
             <p class="step-item__tip">{{$t('trans0634')}}</p>
             <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
@@ -39,7 +39,7 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(1)">
-            <img src="@/assets/images/pic_add_plug_02.png"
+            <img src="@/assets/images/pic_add_m6_02.png"
                  alt="">
             <p class="step-item__tip">{{$t('trans0713')}}</p>
             <div class="button-container">
@@ -51,7 +51,7 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(2)">
-            <img src="@/assets/images/pic_add_plug_03.png"
+            <img src="@/assets/images/pic_add_m6_03.png"
                  alt="">
             <p class="step-item__tip">{{$t('trans0636')}}</p>
             <div class="button-container">

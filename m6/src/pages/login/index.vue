@@ -87,8 +87,7 @@ export default {
       .then(res => {
         if (res.data.result.status) {
           this.$http.login({ password: '' }).then(() => {
-            this.initial = true;
-            this.loading = false;
+            this.towlan();
           });
         } else {
           this.initial = false;
