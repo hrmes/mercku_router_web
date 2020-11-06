@@ -24,7 +24,6 @@ export default {
   data() {
     const { name } = process.env.CUSTOMER_CONFIG.loading;
     const url = require(`@/assets/images/loading/${name}`);
-
     return {
       url,
       visible: false,
@@ -65,7 +64,6 @@ export default {
     opacity: 0;
     transition: all 0.3s ease-out;
   }
-
   .title {
     font-size: 24px;
     margin-top: 10px;
