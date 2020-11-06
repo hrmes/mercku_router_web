@@ -607,7 +607,6 @@ export default {
       font-size: 14px;
       color: #999;
     }
-
     .item__value {
       font-size: 16px;
       color: #333;

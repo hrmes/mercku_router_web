@@ -63,7 +63,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/ipv6',
         super: false,
         mode: [RouterMode.router],
-        customers: allCustomers
+        customers: [
+          Customers.cik,
+          Customers.mercku,
+          Customers.internal,
+          Customers.startca,
+          Customers.inverto,
+          Customers.orion
+        ]
       },
       {
         text: 'trans0561',
@@ -101,6 +108,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/guest',
         name: 'guest',
         text: 'trans0538',
+        super: false,
+        mode: [RouterMode.router],
+        customers: allCustomers
+      },
+      {
+        url: '/setting/upnp',
+        name: 'upnp',
+        text: 'trans0644',
         super: false,
         mode: [RouterMode.router],
         customers: allCustomers
@@ -173,7 +188,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0539',
         super: false,
         mode: [RouterMode.router, RouterMode.bridge],
-        customers: [Customers.mercku, Customers.inverto, Customers.orion]
+        customers: [
+          Customers.mercku,
+          Customers.inverto,
+          Customers.orion,
+          Customers.realnett
+        ]
       },
       {
         url: '/advance/diagnosis',
@@ -225,14 +245,6 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.inverto,
           Customers.orion
         ]
-      },
-      {
-        url: '/setting/upnp',
-        name: 'upnp',
-        text: 'trans0644',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
       }
     ]
   };

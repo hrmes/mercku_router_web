@@ -80,7 +80,6 @@ export default {
   height: 18px;
   display: inline-block;
   overflow: hidden;
-
   label {
     cursor: pointer;
     display: flex;
