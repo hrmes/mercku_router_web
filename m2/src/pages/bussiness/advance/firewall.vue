@@ -146,7 +146,7 @@ export default {
   width: 100%;
   .content__item {
     margin: 0 auto;
-    width: 360px;
+    width: 380px;
   }
   .content__switch {
     display: flex;
