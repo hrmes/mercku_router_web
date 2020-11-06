@@ -21,15 +21,15 @@
                       v-model="isIpPointed"
                       :text="$t('trans0575')"></m-checkbox>
           <template v-if="isIpPointed">
-            <m-form-item v-for="(value, index) in wan.ping.allowedIps"
+            <m-form-item v-for="(value, index) in wan.ping.allowed_ips"
                          :key="index"
-                         :prop="`ping.allowedIps[${index}]`"
+                         :prop="`ping.allowed_ips[${index}]`"
                          :rules='ipValidator'>
               <div class="form__item">
                 <m-input class="form__input"
                          type="text"
                          :placeholder="$t('trans0492')"
-                         v-model="wan.ping.allowedIps[index]" />
+                         v-model="wan.ping.allowed_ips[index]" />
                 <div @click="reduceIp(index)"
                      class="form__reduce-btn">
                   <span></span>
@@ -39,8 +39,7 @@
             <m-form-item>
               <button v-if="!isMaxIpNum"
                       class="form__add-btn"
-                      @click="addIp"
-                      v-defaultbutton>
+                      @click="addIp">
                 <span></span>
               </button>
             </m-form-item>
@@ -66,7 +65,7 @@ export default {
         dos: false,
         ping: {
           enabled: false,
-          allowedIps: []
+          allowed_ips: []
         }
       },
       isIpPointed: false,
@@ -84,7 +83,7 @@ export default {
   },
   computed: {
     allowedIpsLen() {
-      return this.wan.ping.allowedIps.length;
+      return this.wan.ping.allowed_ips.length;
     },
     isMaxIpNum() {
       return this.allowedIpsLen === maxIpNum;
@@ -99,36 +98,27 @@ export default {
         this.$toast(this.$t('trans0060'), 3000, 'error');
         return;
       }
-      this.wan.ping.allowedIps.push('');
+      this.wan.ping.allowed_ips.push('');
     },
     reduceIp(index) {
-      this.wan.ping.allowedIps.splice(index, 1);
+      this.wan.ping.allowed_ips.splice(index, 1);
     },
     getFirewall() {
       this.$http.getFirewall().then(res => {
         const data = res.data.result;
-        const [dos, ping] = data.wan;
-        this.wan.dos = dos;
-        this.wan.ping.enabled = ping.enabled;
-        this.wan.ping.allowedIps = ping.allowed_ips;
-        this.isIpPointed = !!this.wan.ping.allowedIps.length;
+        const { wan } = data;
+        this.wan = wan;
+        this.isIpPointed = !!this.wan.ping.allowed_ips.length;
       });
     },
     updateFirewall() {
       if (!this.$refs.ipListForm.validate()) {
         return;
       }
-      const wanData = {
-        dos: this.wan.dos,
-        ping: {
-          enabled: this.wan.ping.enabled,
-          allowed_ips: this.wan.ping.allowedIps
-        }
-      };
       this.$loading.open();
       this.$http
         .updateFirewall({
-          wan: wanData
+          wan: this.wan
         })
         .then(() => {
           this.$loading.close();
@@ -145,9 +135,6 @@ export default {
 .firewall {
   .page-content {
     padding: 0 !important;
-    .form-item {
-      margin-bottom: 15px !important;
-    }
   }
 }
 </style>
@@ -156,7 +143,7 @@ export default {
   width: 100%;
   .content__item {
     margin: 0 auto;
-    width: 360px;
+    width: 380px;
   }
   .content__switch {
     display: flex;
