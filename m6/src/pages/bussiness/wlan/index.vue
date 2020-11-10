@@ -151,6 +151,19 @@ export default {
       }
     };
   },
+  mounted() {
+    this.$http
+      .login(
+        { password: '' },
+        {
+          hideToast: true
+        }
+      )
+      .catch(() => {
+        // password is not empty, go to login page
+        this.$router.push({ path: '/login' });
+      });
+  },
   methods: {
     clearAdminPwd(v) {
       if (!v) {
