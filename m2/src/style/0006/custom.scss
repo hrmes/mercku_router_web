@@ -40,20 +40,22 @@
     }
     .download {
       .qr {
-        background: url(../../assets/images/customer/mercku/qr.png) no-repeat
+        background: url(../../assets/images/customer/realnett/qr.png) no-repeat
           center;
         background-size: 100%;
       }
     }
   }
-  /**************************end登陆页面******************/  
+  /**************************end登陆页面******************/
 }
 /******************deshboard页面背景图片***********/
 .dashboard {
   .net-info {
-    background: url(~@/assets/images/customer/realnett/dashboard_banner_bg.jpg) no-repeat center !important;
+    background: url(~@/assets/images/customer/realnett/dashboard_banner_bg.jpg)
+      no-repeat center !important;
     @media screen and (max-width: 768px) {
-      background: url(~@/assets/images/customer/realnett/dashboard_banner_bg_mobile.jpg) no-repeat center !important;
+      background: url(~@/assets/images/customer/realnett/dashboard_banner_bg_mobile.jpg)
+        no-repeat center !important;
     }
   }
 }
