@@ -292,6 +292,5 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     });
   });
-
   return [wifi, setting, advance, upgrade];
 }
