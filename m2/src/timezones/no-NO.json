@@ -6,7 +6,7 @@
         "position": 1
     },
     {
-        "coutryName": "Midway Island, Samoa",
+        "coutryName": "Midwayøyene, Samoa",
         "timezoneDetail": "GMT-11:00",
         "offset": 11,
         "position": 1
@@ -138,7 +138,7 @@
         "position": 2
     },
     {
-        "coutryName": "Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna",
+        "coutryName": "Oslo, Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna",
         "timezoneDetail": "GMT+01:00",
         "offset": -1,
         "position": 1
@@ -300,7 +300,7 @@
         "position": 2
     },
     {
-        "coutryName": "Singapore",
+        "coutryName": "Singapor",
         "timezoneDetail": "GMT+08:00",
         "offset": -8,
         "position": 3
