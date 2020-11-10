@@ -250,7 +250,6 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     ]
   };
-
   const upgrade = {
     icon: 'upgrade',
     text: 'trans0197',
