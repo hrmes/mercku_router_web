@@ -6,8 +6,8 @@
   "favicon": "customer-conf/0007/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
-  "languages": ["zh-CN", "en-US"],
-  "defaultLanguage": "en-US",
+  "languages": ["zh-CN", "en-US", "fr-FR"],
+  "defaultLanguage": "fr-FR",
   "routers": {
     "M2": {
       "name": "M2 Standalone Wi-Fi router",
