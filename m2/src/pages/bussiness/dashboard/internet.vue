@@ -274,7 +274,8 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    this.getMeshInfoWanNetIpv6();
+    // disable ipv6 in realnett
+    // this.getMeshInfoWanNetIpv6();
     this.createIntervalTask();
     this.getRouteMeta();
   },
@@ -526,9 +527,11 @@ export default {
           this.netInfo = res.data.result;
         })
         .catch(() => {
-          this.wanInfoTimer = setTimeout(() => {
-            this.getWanNetInfo();
-          }, 1000 * 3);
+          if (this.pageActive) {
+            this.wanInfoTimer = setTimeout(() => {
+              this.getWanNetInfo();
+            }, 1000 * 3);
+          }
         });
     },
     getMeshInfoWanNetIpv6() {
@@ -550,9 +553,11 @@ export default {
           }
         })
         .catch(() => {
-          this.meshInfoWanNetIpv6Timer = setTimeout(() => {
+          if (this.pageActive) {
+            this.meshInfoWanNetIpv6Timer = setTimeout(() => {
             this.getMeshInfoWanNetIpv6();
           }, 1000 * 3);
+          }
         });
     }
   },
