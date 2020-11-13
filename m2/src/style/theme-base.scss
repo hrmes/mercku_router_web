@@ -1,0 +1,203 @@
+/*
+  此文件是主题样式基础文件，客户的主题文件应该默认导入此主题，
+  每个客户均需要有一个对应的文件样式目录，目录名为客户的CUSTOMER_ID
+  目录下面应该存在2个文件
+  1. theme.scss 用来描述主题色彩搭配
+  2. custom.scss 用来描述一些自定义的布局或其他样式
+  上述两个文件必须存在，因为在入口处默认被引入，因此即使没有自定义主题的需求，也应该复制默认的样式进行覆盖
+
+*/
+$primaryColor: #d6001c !default;
+
+// button
+$button-text-color: #fff;
+$button-background-color: $primaryColor;
+$button-border-color: transparent;
+$button-active-color: $primaryColor;
+$button-hover-color: #de3349;
+$button-disabled-background-color: #b3b3b3;
+$button-disabled-border-color: #b3b3b3;
+$button-disabled-text-color: #fff;
+
+$button-default-background-color: #fff;
+$button-default-text-color: $primaryColor;
+$button-default-border-color: $primaryColor;
+$button-default-active-text-color: #e6586a;
+$button-default-active-border-color: #e6586a;
+$button-default-hover-text-color: #e6586a;
+$button-default-hover-border-color: #e6586a;
+$button-default-disabled-text-color: #b3b3b3;
+$button-default-disabled-border-color: #b3b3b3;
+
+$button-text-text-color: #333;
+$button-text-hover-color: #999;
+$button-text-primary-text-color: $primaryColor;
+$button-text-primary-hover-color: #e6586a;
+$button-text-primary-disabled-hover-color: #999;
+$button-text-stange-background-color: $primaryColor;
+$button-text-stange-text-color: #fff;
+
+// checkbox
+$checkbox-border-color: #999;
+$checkbox-background-color: #fff;
+$checkbox-checked-background-color: #333;
+$checkbox-checked-color: #fff;
+
+// dialog
+$dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
+$dialog-box-shadow-color: rgba(0, 0, 0, 0.1);
+$dialog-title-color: #333;
+$dialog-content-color: #333;
+
+// select and editableSelect
+$select-label-color: #333;
+$select-input-border-color: #e1e1e1;
+$select-popup-background-color: #fff;
+$select-popup-border-color: #e1e1e1;
+$select-item-active-background-color: #f1f1f1;
+$select-item-active-color: #333;
+$select-item-hover-background-color: #f1f1f1;
+$select-item-hover-color: #333;
+$select-item-selected-color: $primaryColor;
+
+// form
+$form-item-error-color: #ff0000;
+
+// header
+$header-background-color: #333;
+$header-color: #fff;
+$header-nav-hide-background-color: #fff;
+$header-nav-hide-color: #333;
+$header-nav-hide-trangle-color: #333;
+$header-nav-hide-popup-shadow-color: rgba(0, 0, 0, 0.2);
+$header-nav-hide-popup-background-color: #fff;
+$header-nav-hide-popup-item-hover-background-color: #fff;
+$header-nav-hide-popup-item-hover-color: $primaryColor;
+$header-nav-hide-popup-item-selected-color: $primaryColor;
+$header-nav-hide-popup-item-checked-color: $primaryColor;
+
+$header-official-color: #333;
+$header-official-hover-color: #999;
+
+$header-nav-item-color: #fff;
+$header-nav-item-hover-color: #999;
+$header-nav-item-selected-background-color: $primaryColor;
+$header-nav-item-border-color: #666;
+
+$header-popup-background-color: #333;
+$header-popup-item-disabled-color: #999;
+$header-popup-item-disabled-background-color: #333;
+$header-popup-item-disabled-hover-color: #999;
+$header-popup-shadow-color: rgba(128, 152, 213, 0.08);
+$header-popup-item-color: #fff;
+$header-popup-item-hover-color: #fff;
+$header-popup-item-active-color: #333;
+$header-popup-item-hover-background-color: rgba(255, 255, 255, 0.2);
+$header-popup-item-selected-color: $primaryColor;
+$header-popup-item-checked-color: $primaryColor;
+$header-popup-border-color: #666;
+
+$header-nav-hide-i18n-mobile-background-color: #fff;
+$header-nav-hide-i18n-mobile-color: #333;
+$header-nav-hide-i18n-mobile-border-color: #f1f1f1;
+$header-nav-hide-i18n-mobile-item-border-color: #f1f1f1;
+
+$header-mobile-nav-item-hover-color: #fff;
+$header-mobile-nav-item-color: #fff;
+
+// input
+$input-label-color: #333;
+$input-border-color: #e1e1e1;
+$input-disabled-background-color: #e1e1e1;
+$input-disabled-opacity: 0.8;
+
+// modal
+$modal-mask-background-color: rgba(0, 0, 0, 0.3);
+$modal-content-background: #fff;
+$modal-shadow-color: rgba(0, 0, 0, 0.1);
+
+// popover
+$popover-background-color: #333;
+$popover-color: #fff;
+
+// progress
+$progress-shadow-background-color: #000;
+$progress-shadow-opacity: 0.8;
+$progress-background-color: #fff;
+$progress-bar-color: #fff;
+$progress-bar-background-color: #00d061;
+
+// radio
+$radio-item-selected-color: #333;
+$radio-item-color: #b6b6b6;
+
+// step
+$step-line-color: #bdbdbd;
+$step-item-steped-background-color: $primaryColor;
+$step-item-background-color: #fff;
+$step-item-border-color: #bdbdbd;
+$step-item-color: #bdbdbd;
+$step-background-color: #fff;
+$step-item-text-color: #333;
+$step-item-failed-background-color: #ffe6e9;
+$step-item-failed-border-color: #ffe6e9;
+$step-item-failed-color: #fff;
+$step-item-failed-icon-color: $primaryColor;
+$step-item-success-background-color: #ffe6e9;
+$step-item-success-border-color: #ffe6e9;
+$step-item-success-color: $primaryColor;
+
+// switch
+$switch-background-color: #b6b6b6;
+$switch-circle-color: #fff;
+$switch-chencked-color: #00d061;
+
+// tab
+$tabs-border-color: #f1f1f1;
+$tab-hover-color: #999;
+$tab-active-color: #999;
+$tab-selected-color: $primaryColor;
+
+// timepicker
+$time-picker-pannel-border-color: #f1f1f1;
+$time-picker-combox-background-color: #fff;
+$time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
+$time-picker-buttons-border-color: #f1f1f1;
+$time-picker-button-background-color: #fff;
+$time-picker-button-cancel-color: #999;
+$time-picker-button-confirm-color: $primaryColor;
+$time-picker-popup-border-color: #f1f1f1;
+$time-picker-popup-scrollbar-color: #e6e6e6;
+$time-picker-popup-item-hover-color: #333;
+$time-picker-popup-item-hover-background-color: #f1f1f1;
+$time-picker-popup-item-active-color: #333;
+$time-picker-popup-item-active-background-color: #f1f1f1;
+$time-picker-popup-item-selected-color: $primaryColor;
+$time-picker-input-background-color: #fff;
+
+// toast
+$toast-color: rgba(0, 0, 0, 0.65);
+$toast-error-background-color: #fff1f0;
+$toast-error-border-color: #ffa39e;
+$toast-success-background-color: #f6ffed;
+$toast-success-border-color: #b7eb8f;
+
+// upgrade
+$upgrade-background-color: rgba(0, 0, 0, 0.8);
+$upgrade-text-color: #fff;
+
+// upload
+$upload-button-disabled-color: #999;
+$upload-file-text-color: #999;
+$upload-file-description-color: #333;
+$upload-background-color: #f1f1f1;
+$upload-icon-background-color: #fff;
+$upload-file-info-product-dot-color: #00d061;
+$upload-file-info-version-dot-color: #ff6f00;
+$upload-error-text-color: #ff0000;
+$upload-progress-completed-color: #333;
+$upload-progress-color: #e3e3e3;
+
+// tag
+$tag-background-color: $primaryColor;
+$tag-text-color: rgba(255, 255, 255, 0.95);
