@@ -440,7 +440,7 @@ export default {
   mounted() {
     this.getWanStatus();
     this.getWanNetInfo();
-    this.getIPv6WanNetInfo();
+    // this.getIPv6WanNetInfo();
   },
   computed: {
     isTesting() {
