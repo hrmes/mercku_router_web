@@ -57,6 +57,16 @@
       background: url(~@/assets/images/customer/realnett/dashboard_banner_bg_mobile.jpg)
         no-repeat center !important;
     }
+    .net-info__inner {
+      .line.unconnected {
+        .icon-unconnected-container {
+          background: #085182;
+          @media screen and (max-width: 768px) {
+            background: #085182;
+          }
+        }
+      }
+    }
   }
 }
 /******************deshboard页面背景图片***********/
@@ -64,8 +74,9 @@
 .type-container {
   .circle-animation {
     position: relative;
-    background: url(~@/assets/images/customer/realnett/add_node_tip_bj.png) no-repeat center!important;
-    background-size: 100%!important;
+    background: url(~@/assets/images/customer/realnett/add_node_tip_bj.png)
+      no-repeat center !important;
+    background-size: 100% !important;
     width: 340px;
     margin: 0 auto;
     margin-bottom: 50px;
