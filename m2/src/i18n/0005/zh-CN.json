@@ -617,7 +617,7 @@
   "trans0622": "IPv6上网信息",
   "trans0623": "IPv6上网配置",
   "trans0624": "添加设备",
-  "trans0625": "使用IPv4的PPPoE账号和密码",
+  "trans0625": " ",
   "trans0626": "远程诊断",
   "trans0627": "%s个设备",
   "trans0628": "SSH",
@@ -727,5 +727,6 @@
   "trans0732": "已关闭",
   "trans0733": "保存后，IPv4的PPPoE将使用该账号和密码拨号",
   "trans0734": "文件格式只支持.real，请重试",
-  "trans0735": "注意：当前路由器IPv4的上网方式为PPPoE，IPv6必须设置为PPPoE才能正常上网。"
+  "trans0735": "注意：当前路由器IPv4的上网方式为PPPoE，IPv6必须设置为PPPoE才能正常上网。",
+  "trans0736": " "
 }

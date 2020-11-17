@@ -617,7 +617,7 @@
   "trans0622": "Informations Internet IPv6",
   "trans0623": "Paramètres Internet IPv6",
   "trans0624": "Ajouter un appareil",
-  "trans0625": "Autoriser IPv4 à accéder au compte et au mot de passe de PPPoE",
+  "trans0625": " ",
   "trans0626": "Diagnostic à distance",
   "trans0627": "%s appareil",
   "trans0628": "SSH",
@@ -727,5 +727,6 @@
   "trans0732": "Fermé",
   "trans0733": "Partager les informations d'identification avec IPv4",
   "trans0734": "Supporte uniquement les fichiers \".real\"",
-  "trans0735": "Remarque: le paramètre Internet du routeur actuel est PPPoE à IPv4. Vous devez configurer PPPoE pour obtenir une connexion si vous souhaitez utiliser IPv6."
+  "trans0735": "Remarque: le paramètre Internet du routeur actuel est PPPoE à IPv4. Vous devez configurer PPPoE pour obtenir une connexion si vous souhaitez utiliser IPv6.",
+  "trans0736": "Le compte supprimera cet appareil après la dissociation."
 }
