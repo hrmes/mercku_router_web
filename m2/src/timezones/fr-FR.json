@@ -24,8 +24,8 @@
         "position": 1
     },
     {
-        "coutryName": ") Heure du Pacifique (États-Unis et Canada); Tijuana",
-        "timezoneDetail": "GMT-08: 0",
+        "coutryName": "Heure du Pacifique (États-Unis et Canada); Tijuana",
+        "timezoneDetail": "GMT-08:00",
         "offset": 8,
         "position": 1
     },
@@ -36,14 +36,14 @@
         "position": 1
     },
     {
-        "coutryName": ") Heure des Rocheuses (États-Unis et Canada)",
-        "timezoneDetail": "GMT-07: 0",
+        "coutryName": "Heure des Rocheuses (États-Unis et Canada)",
+        "timezoneDetail": "GMT-07:00",
         "offset": 7,
         "position": 2
     },
     {
-        "coutryName": ") Heure centrale (États-Unis et Canada)",
-        "timezoneDetail": "GMT-06: 0",
+        "coutryName": "Heure centrale (États-Unis et Canada)",
+        "timezoneDetail": "GMT-06:00",
         "offset": 6,
         "position": 1
     },
@@ -66,8 +66,8 @@
         "position": 1
     },
     {
-        "coutryName": ") Heure de l'Est (États-Unis et Canada)",
-        "timezoneDetail": "GMT-05: 0",
+        "coutryName": "Heure de l'Est (États-Unis et Canada)",
+        "timezoneDetail": "GMT-05:00",
         "offset": 5,
         "position": 2
     },
@@ -96,8 +96,8 @@
         "position": 3
     },
     {
-        "coutryName": ") Terre-Neuve",
-        "timezoneDetail": "GMT-03: 3",
+        "coutryName": "Terre-Neuve",
+        "timezoneDetail": "GMT-03:30",
         "offset": 3,
         "position": 1
     },
