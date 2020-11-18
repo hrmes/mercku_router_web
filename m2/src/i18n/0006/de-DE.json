@@ -226,7 +226,7 @@
   "trans0225": "Upgrade",
   "trans0226": "Der Domänenname darf nur 30 Zeichen lang sein",
   "trans0227": "Ungültige Domän",
-  "trans0228": " ",
+  "trans0228": "Domain Name ist zu lang",
   "trans0229": "Hierdurch wird das WLAN neu gestartet, und alle Geräte werden getrennt. Möchten Sie fortfahren?",
   "trans0230": "Änderungen wurden nicht gespeichtert, möchten Sie den Vorgang beenden?",
   "trans0231": "Ungültige Adresse",
@@ -589,7 +589,7 @@
   "trans0594": "Aktivieren",
   "trans0595": "’- WLAN-Signale werden durch Betonwände und -böden, Metall und Glas geschwächt. Wenn Sie z.B. im Außenbereich, Balkon oder Haus mehr WLAN-Abdeckung benötigen, sind mehr Mesh-Knoten erforderlich.\n\n- Bitte folgen Sie der nachstehenden Anleitung, um das beste WLAN-Signal zu erhalten: \nPlatzieren Sie das Gerät (e) so zentral wie möglich, in einem offenen, höheren und freien Bereich um eine bessere Abdeckung erreichen; \nHalten Sie sich fern von Mikrowellen, Computermäusen mit 2,4G Frequenz, Handys mit 2,4G oder anderen elektrischen Geräten, die das 2,4G-Band verwenden.\n\n- Stellen Sie sicher, dass das WLAN-Signal an den Orten, an denen Sie WLAN am häufigsten verwenden, wie zum Beispiel Wohnzimmer, Büro und Schlafzimmer, am stärksten ist. Wenn das Signal schwach ist, passen Sie den Abstand zwischen den Mesh-Knoten und der Haupteinheit an oder fügen Sie weitere Knoten hinzu.",
   "trans0596": "Deaktivieren Sie zunächst den VPN und versuchen Sie es erneut.",
-  "trans0597": " ",
+  "trans0597": "Melden Sie sich mit Apple an",
   "trans0598": "Ausgezeichnet",
   "trans0599": "Schwach",
   "trans0600": "Erfolg",
@@ -617,7 +617,7 @@
   "trans0622": "IPv6 Internetinformationen",
   "trans0623": "IPv6 Interneteinstellungen",
   "trans0624": "Gerät hinzufügen",
-  "trans0625": "Ermöglichen Sie IPv4 den Zugriff auf das PPPoE Konto und Passwort",
+  "trans0625": " ",
   "trans0626": "Ferndiagnose",
   "trans0627": "%s Geräte",
   "trans0628": "SSH",
@@ -725,6 +725,8 @@
   "trans0730": "Allgemeine Netzabdeckung",
   "trans0731": "Minimale Netzabdeckung",
   "trans0732": "Geschlossen",
-  "trans0733": " ",
-  "trans0734": " "
+  "trans0733": "Anmeldeinformationen mit IPv4 teilen",
+  "trans0734": "Nur \".real\" Dateien unterstützt",
+  "trans0735": "Hinweis: Die Interneteinstellung des aktuellen Routers ist PPPoE über IPv4. Sie müssen PPPoE konfigurieren, um eine Verbindung herzustellen, wenn Sie IPv6 verwenden möchten.",
+  "trans0736": "Der Account löscht dieses Gerät nach Aufheben der Bindung."
 }
