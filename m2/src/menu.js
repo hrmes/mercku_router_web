@@ -195,6 +195,7 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.orion,
           Customers.realnett,
           Customers.altima
+          Customers.internal
         ]
       },
       {
@@ -228,6 +229,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         mode: [RouterMode.router],
         super: false,
         customers: [
+          Customers.internal,
           Customers.cik,
           Customers.inverto,
           Customers.startca,
