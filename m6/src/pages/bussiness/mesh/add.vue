@@ -77,9 +77,12 @@
                        :src="getNodeImage(nodes[0])"
                        alt="">
                   <div class="router__info">
-                    <p class="router__mac">
-                      {{$t('trans0188')}}：{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}
+                    <p class="router__sn">
+                      {{$t('trans0252')}}{{nodes[0].sn}}
                     </p>
+                    <!-- <p class="router__mac">
+                      {{$t('trans0188')}}：{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}
+                    </p> -->
                   </div>
                 </div>
                 <div class="button-container">
@@ -579,7 +582,8 @@ export default {
   }
   .router__info {
   }
-  .router__mac {
+  .router__mac,
+  .router__sn {
     margin: 0;
     margin-top: 20px;
     text-align: center;
