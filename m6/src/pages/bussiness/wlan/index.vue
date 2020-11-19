@@ -1,5 +1,8 @@
 <template>
   <div class="wlan-container">
+
+    <div class="title">{{$t('trans0136')}}</div>
+    <div class="description">{{$t('trans0222')}}</div>
     <div class="step">
       <m-step :option="stepOption"></m-step>
     </div>
@@ -95,9 +98,9 @@ export default {
       stepOption: {
         current: 0,
         steps: [
-          { text: this.$t('trans0324'), success: true },
-          { text: this.$t('trans0067'), success: false },
-          { text: this.$t('trans0018'), success: false }
+          { text: '', success: true },
+          { text: '', success: false },
+          { text: '', success: false }
         ]
       },
       current: 0,
@@ -147,6 +150,19 @@ export default {
         ]
       }
     };
+  },
+  mounted() {
+    this.$http
+      .login(
+        { password: '' },
+        {
+          hideToast: true
+        }
+      )
+      .catch(() => {
+        // password is not empty, go to login page
+        this.$router.push({ path: '/login' });
+      });
   },
   methods: {
     clearAdminPwd(v) {
@@ -229,14 +245,29 @@ export default {
   width: 100%;
   flex: auto;
   background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 21px;
+    color: #333;
+  }
+  .description {
+    text-align: center;
+    margin-top: 5px;
+    font-size: 16px;
+    color: #333;
+  }
   .step {
     text-align: center;
-    width: 400px;
+    width: 340px;
     margin: 0 auto;
     margin-top: 50px;
   }
   .step-content {
-    margin: 100px 0;
+    margin: 80px 0;
     text-align: center;
     .step-item {
       display: inline-block;
@@ -314,9 +345,11 @@ export default {
     padding: 20px 16px;
     .step {
       width: 100%;
+      margin-top: 40px;
     }
     .step-content {
-      margin: 80px auto 0 auto;
+      margin: 40px auto 0 auto;
+      width: 100%;
       .step-item {
         display: block;
         width: 100%;
