@@ -700,7 +700,7 @@
   "trans0705": "Log in with phone number",
   "trans0706": "Log in with Facebook ",
   "trans0707": "Log in with Google",
-  "trans0708": "Delete account",
+  "trans0708": "Delete",
   "trans0709": "Current phone number is %s, the next log in will be using the new phone number after being changed",
   "trans0710": "Change log in phone number",
   "trans0711": "The current log in phone number",
@@ -726,7 +726,7 @@
   "trans0731": "Minimum Mesh coverage",
   "trans0732": "Closed",
   "trans0733": "Share credentials with IPv4",
-  "trans0734": "Support \".real\" files only",
+  "trans0734": " ",
   "trans0735": "Note: The Internet Setting of the current router is PPPoE through IPv4. You have to configure PPPoE to get a connection if you want to use IPv6.",
   "trans0736": " "
 }

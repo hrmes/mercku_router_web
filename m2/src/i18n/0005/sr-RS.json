@@ -700,7 +700,7 @@
   "trans0705": "Melden Sie sich mit Ihrer Telefonnummer an",
   "trans0706": "Melden Sie sich mit Facebook an",
   "trans0707": "Melden Sie sich mit Google an",
-  "trans0708": "Account löschen",
+  "trans0708": "Löschen",
   "trans0709": "Die aktuelle Telefonnummer ist %s. Bei der nächsten Anmeldung wird nach dem Ändern die neue Telefonnummer verwendet",
   "trans0710": "Ändern Sie die Anmelde-Telefonnummer",
   "trans0711": "Die aktuelle Anmelde-Telefonnummer",
@@ -726,7 +726,7 @@
   "trans0731": "Minimale Netzabdeckung",
   "trans0732": "Geschlossen",
   "trans0733": "Anmeldeinformationen mit IPv4 teilen",
-  "trans0734": "Nur \".real\" Dateien unterstützt",
+  "trans0734": " ",
   "trans0735": "Hinweis: Die Interneteinstellung des aktuellen Routers ist PPPoE über IPv4. Sie müssen PPPoE konfigurieren, um eine Verbindung herzustellen, wenn Sie IPv6 verwenden möchten.",
   "trans0736": " "
 }
