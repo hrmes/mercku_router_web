@@ -496,7 +496,7 @@ export default {
             address: [
               {
                 ip: this.staticForm.ip,
-                prefix_length: this.staticForm.prefixLength
+                prefix_length: Number(this.staticForm.prefixLength)
               }
             ],
             gateway: {
