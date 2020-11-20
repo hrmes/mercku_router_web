@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard customized">
-    <div class="net-info">
+    <div ref="wrap"
+         class="net-info">
       <div class="net-info__inner">
         <div class="device-container"
              :class="{'selected':$route.path.includes('device')}">
@@ -109,6 +110,7 @@ export default {
     }
   },
   mounted() {
+    this.fixWrapHeight();
     this.getWanStatus();
     this.getSsid();
     this.createIntercvalTask();
@@ -135,6 +137,11 @@ export default {
     });
   },
   methods: {
+    fixWrapHeight() {
+      const height = this.$refs.wrap.clientHeight;
+
+      this.$refs.wrap.style.height = `${height}px`;
+    },
     checkFrimwareLatest() {
       this.$http
         .firmwareList(undefined, {
