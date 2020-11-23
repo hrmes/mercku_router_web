@@ -174,6 +174,11 @@ const Languages = [
     text: 'Serbian',
     value: 'sr-RS',
     show: false
+  },
+  {
+    text: 'Norsk Bokmål',
+    value: 'no-NO',
+    show: false
   }
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
@@ -691,7 +696,7 @@ export default {
         align-items: center;
         .current-text {
           display: inline-block;
-          width: 70px;
+          width: 100px;
           text-align: center;
           height: 21px;
         }
@@ -721,7 +726,7 @@ export default {
 
       .popup {
         position: absolute;
-        width: 150px;
+        width: 180px;
         margin-top: 6px;
         border-radius: 2px;
         z-index: 999;

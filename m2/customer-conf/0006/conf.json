@@ -7,7 +7,8 @@
   "favicon": "customer-conf/0006/favicon.ico",
   "policy": "https://www.realnett.no/privacy",
   "allow2LevelAdmin": false,
-  "languages": ["zh-CN", "en-US", "nl-NL", "de-DE", "no-NO"],
+  "languages": ["zh-CN", "en-US", "no-NO"],
+  "defaultLanguage": "no-NO",
   "routers": {
     "M2": {
       "name": "real|wifi M2 ruter",
