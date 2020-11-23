@@ -1,7 +1,7 @@
 {
   "id": "0006",
   "__host": "http://wifi.realnett.no",
-  "host": "http://mywifi.mercku.tech",
+  "host": "http://wifi.realnett.no",
   "title": "real|wifi",
   "accept": ".real",
   "favicon": "customer-conf/0006/favicon.ico",
