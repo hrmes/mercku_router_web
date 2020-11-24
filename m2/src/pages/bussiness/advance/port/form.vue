@@ -36,7 +36,7 @@
                          ref="remotePortFrom">
               <m-input class="ext-input"
                        type="text"
-                       :placeholder="$t('trans0321')"
+                       :placeholder="$t('trans0478')"
                        v-model="form.remotePortFrom"
                        :onBlur="onRFChange" />
             </m-form-item>
@@ -46,7 +46,7 @@
                          ref="remotePortTo">
               <m-input class="ext-input"
                        type="text"
-                       :placeholder="$t('trans0321')"
+                       :placeholder="$t('trans0478')"
                        v-model="form.remotePortTo"
                        :onBlur="onRTChange" />
             </m-form-item>
@@ -68,7 +68,7 @@
                          ref="localPortFrom">
               <m-input class="ext-input"
                        type="text"
-                       :placeholder="$t('trans0321')"
+                       :placeholder="$t('trans0478')"
                        v-model="form.localPortFrom"
                        :onBlur="onLFChange" />
             </m-form-item>
@@ -78,7 +78,7 @@
                          ref="localPortTo">
               <m-input class="ext-input"
                        type="text"
-                       :placeholder="$t('trans0321')"
+                       :placeholder="$t('trans0478')"
                        v-model="form.localPortTo" />
             </m-form-item>
           </div>

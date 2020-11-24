@@ -176,7 +176,7 @@ const Languages = [
     show: false
   },
   {
-    text: 'Norsk Bokmål',
+    text: 'Norsk bokmål',
     value: 'no-NO',
     show: false
   }

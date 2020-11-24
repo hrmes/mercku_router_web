@@ -22,31 +22,32 @@
                   class="content__item form">
             <m-checkbox class="form__checkbox"
                         v-model="isIpPointed"
-                        :text="$t('trans0575')"
-                        :onChange="changeIpPointed"></m-checkbox>
-            <m-form-item v-for="(value, index) in wan.ping.ip_limit.ip_list"
-                         :key="index"
-                         :prop="`ping.ip_limit.ip_list[${index}]`"
-                         :rules='ipValidator'>
-              <div class="form__item">
-                <m-input class="form__input"
-                         type="text"
-                         :placeholder="$t('trans0492')"
-                         v-model="wan.ping.ip_limit.ip_list[index]" />
-                <div @click="reduceIp(index)"
-                     class="form__reduce-btn"
-                     v-if="firstItemDeleted(index)">
-                  <span></span>
+                        :text="$t('trans0575')"></m-checkbox>
+            <template v-if="isIpPointed">
+              <m-form-item v-for="(value, index) in wan.ping.ip_limit.ip_list"
+                           :key="index"
+                           :prop="`ping.ip_limit.ip_list[${index}]`"
+                           :rules='ipValidator'>
+                <div class="form__item">
+                  <m-input class="form__input"
+                           type="text"
+                           :placeholder="$t('trans0492')"
+                           v-model="wan.ping.ip_limit.ip_list[index]" />
+                  <div @click="reduceIp(index)"
+                       class="form__reduce-btn"
+                       v-if="index > 0">
+                    <span></span>
+                  </div>
                 </div>
-              </div>
-            </m-form-item>
-            <m-form-item>
-              <button v-if="!isMaxIpNum"
-                      class="form__add-btn"
-                      @click="addIp">
-                <span></span>
-              </button>
-            </m-form-item>
+              </m-form-item>
+              <m-form-item>
+                <button v-if="!isMaxIpNum"
+                        class="form__add-btn"
+                        @click="addIp">
+                  <span></span>
+                </button>
+              </m-form-item>
+            </template>
             <m-form-item class="submit-btn__wrapper">
               <button class="btn"
                       v-defaultbutton
@@ -106,24 +107,6 @@ export default {
     this.getFirewall();
   },
   methods: {
-    changeIpPointed(val) {
-      if (val && !this.allowedIpsLen) {
-        this.wan.ping.ip_limit.ip_list.push('');
-      }
-    },
-    firstItemDeleted(index) {
-      let flag = true;
-      if (index === 0) {
-        if (this.isIpPointed) {
-          flag = false;
-        } else {
-          flag = true;
-        }
-      } else {
-        flag = true;
-      }
-      return flag;
-    },
     addIp() {
       if (this.isMaxIpNum) {
         this.$toast(this.$t('trans0060'), 3000, 'error');
