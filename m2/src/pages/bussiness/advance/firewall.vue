@@ -7,31 +7,35 @@
       <div class="content">
         <div class="content__item content__switch">
           <label for="">{{$t('trans0424')}}</label>
-          <m-switch v-model="wan.dos"></m-switch>
+          <m-switch v-model="wan.dos"
+                    :onChange="updateWanDos"></m-switch>
         </div>
         <div class="content__line"></div>
         <div class="content__item content__switch">
           <label for="">{{$t('trans0434')}}</label>
-          <m-switch v-model="wan.ping.enabled"></m-switch>
+          <m-switch v-model="wan.ping.enabled"
+                    :onChange="updateWanPing"></m-switch>
         </div>
-        <m-form ref="ipListForm"
-                :model="wan"
-                class="content__item form">
-          <m-checkbox class="form__checkbox"
-                      v-model="isIpPointed"
-                      :text="$t('trans0575')"></m-checkbox>
-          <template v-if="isIpPointed">
-            <m-form-item v-for="(value, index) in wan.ping.allowed_ips"
+        <template v-if="wan.ping.enabled">
+          <m-form ref="ipListForm"
+                  :model="wan"
+                  class="content__item form">
+            <m-checkbox class="form__checkbox"
+                        v-model="isIpPointed"
+                        :text="$t('trans0575')"
+                        :onChange="changeIpPointed"></m-checkbox>
+            <m-form-item v-for="(value, index) in wan.ping.ip_limit.ip_list"
                          :key="index"
-                         :prop="`ping.allowed_ips[${index}]`"
+                         :prop="`ping.ip_limit.ip_list[${index}]`"
                          :rules='ipValidator'>
               <div class="form__item">
                 <m-input class="form__input"
                          type="text"
                          :placeholder="$t('trans0492')"
-                         v-model="wan.ping.allowed_ips[index]" />
+                         v-model="wan.ping.ip_limit.ip_list[index]" />
                 <div @click="reduceIp(index)"
-                     class="form__reduce-btn">
+                     class="form__reduce-btn"
+                     v-if="firstItemDeleted(index)">
                   <span></span>
                 </div>
               </div>
@@ -43,13 +47,13 @@
                 <span></span>
               </button>
             </m-form-item>
-          </template>
-          <m-form-item>
-            <button class="btn"
-                    v-defaultbutton
-                    @click="updateFirewall">{{$t('trans0081')}}</button>
-          </m-form-item>
-        </m-form>
+            <m-form-item class="submit-btn__wrapper">
+              <button class="btn"
+                      v-defaultbutton
+                      @click="submit">{{$t('trans0081')}}</button>
+            </m-form-item>
+          </m-form>
+        </template>
       </div>
     </div>
   </div>
@@ -58,6 +62,11 @@
 import { isIP } from '@/util/util';
 
 const maxIpNum = 10;
+const Mode = {
+  free: 'free',
+  blacklist: 'blacklist',
+  whitelist: 'whitelist'
+};
 export default {
   data() {
     return {
@@ -65,9 +74,13 @@ export default {
         dos: false,
         ping: {
           enabled: false,
-          allowed_ips: []
+          ip_limit: {
+            mode: Mode.free,
+            ip_list: []
+          }
         }
       },
+      pingEnabledInitialized: false,
       isIpPointed: false,
       ipValidator: [
         {
@@ -83,7 +96,7 @@ export default {
   },
   computed: {
     allowedIpsLen() {
-      return this.wan.ping.allowed_ips.length;
+      return this.wan.ping.ip_limit.ip_list.length;
     },
     isMaxIpNum() {
       return this.allowedIpsLen === maxIpNum;
@@ -93,28 +106,63 @@ export default {
     this.getFirewall();
   },
   methods: {
+    changeIpPointed(val) {
+      if (val && !this.allowedIpsLen) {
+        this.wan.ping.ip_limit.ip_list.push('');
+      }
+    },
+    firstItemDeleted(index) {
+      let flag = true;
+      if (index === 0) {
+        if (this.isIpPointed) {
+          flag = false;
+        } else {
+          flag = true;
+        }
+      } else {
+        flag = true;
+      }
+      return flag;
+    },
     addIp() {
       if (this.isMaxIpNum) {
         this.$toast(this.$t('trans0060'), 3000, 'error');
         return;
       }
-      this.wan.ping.allowed_ips.push('');
+      this.wan.ping.ip_limit.ip_list.push('');
     },
     reduceIp(index) {
-      this.wan.ping.allowed_ips.splice(index, 1);
+      this.wan.ping.ip_limit.ip_list.splice(index, 1);
     },
     getFirewall() {
+      this.$loading.open();
       this.$http.getFirewall().then(res => {
+        this.$loading.close();
         const data = res.data.result;
         const { wan } = data;
         this.wan = wan;
-        this.isIpPointed = !!this.wan.ping.allowed_ips.length;
+        this.pingEnabledInitialized = this.wan.ping.enabled;
+        this.isIpPointed = this.wan.ping.ip_limit.mode === Mode.whitelist;
       });
     },
-    updateFirewall() {
+    updateWanDos() {
+      this.updateFirewall();
+    },
+    updateWanPing(enabled) {
+      if (!enabled) {
+        if (this.pingEnabledInitialized !== this.wan.ping.enabled) {
+          this.updateFirewall();
+        }
+      }
+    },
+    submit() {
       if (!this.$refs.ipListForm.validate()) {
         return;
       }
+      this.wan.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
+      this.updateFirewall();
+    },
+    updateFirewall() {
       this.$loading.open();
       this.$http
         .updateFirewall({
@@ -223,6 +271,9 @@ export default {
           background-color: $primaryColor;
         }
       }
+    }
+    .submit-btn__wrapper {
+      margin-top: 30px;
     }
   }
   @media screen and(max-width: 768px) {
