@@ -440,7 +440,7 @@ export default {
     div {
       padding: 10px 0;
       .ssid-label {
-        width: 50px;
+        width: 70px;
         display: inline-block;
       }
       &:first-child {
