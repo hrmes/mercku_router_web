@@ -77,12 +77,14 @@
                        :src="getNodeImage(nodes[0])"
                        alt="">
                   <div class="router__info">
-                    <p class="router__sn">
+                    <p class="router__sn"
+                       v-if="nodes[0].sn">
                       {{$t('trans0252')}}{{nodes[0].sn}}
                     </p>
-                    <!-- <p class="router__mac">
+                    <p class="router__mac"
+                       v-else>
                       {{$t('trans0188')}}：{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}
-                    </p> -->
+                    </p>
                   </div>
                 </div>
                 <div class="button-container">
