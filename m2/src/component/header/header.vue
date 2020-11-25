@@ -177,7 +177,7 @@ const Languages = [
   },
   {
     text: 'Norsk bokmål',
-    value: 'no-NO',
+    value: 'nb-NO',
     show: false
   }
 ];

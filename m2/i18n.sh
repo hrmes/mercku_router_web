@@ -7,8 +7,8 @@ project_dir=$(pwd)
 
 folder=(demo_code m2_app_code cik_code startca_code inverto_code orion_code realnett_code)
 customer=(0000 0001 0002 0003 0004 0005 0006)
-source=(en_US_web.json zh_CN_web.json de_DE_web.json nl_NL_web.json sr_RS_web.json no_NO_web.json)
-target=(en-US.json zh-CN.json de-DE.json nl-NL.json sr-RS.json no-NO.json)
+source=(en_US_web.json zh_CN_web.json de_DE_web.json nl_NL_web.json sr_RS_web.json nb_NO_web.json)
+target=(en-US.json zh-CN.json de-DE.json nl-NL.json sr-RS.json nb-NO.json)
 sourceerror=error_to_trans_web.json
 targeterror=code-map.json
 
@@ -96,5 +96,5 @@ cp country_code/en_US_region_web.json $project_dir/src/assets/regions/en-US.json
 cp country_code/de_DE_region_web.json $project_dir/src/assets/regions/de-DE.json
 cp country_code/nl_NL_region_web.json $project_dir/src/assets/regions/nl-NL.json
 cp country_code/sr_RS_region_web.json $project_dir/src/assets/regions/sr-RS.json
-cp country_code/nb_No_region_web.json $project_dir/src/assets/regions/no-NO.json
+cp country_code/nb_NO_region_web.json $project_dir/src/assets/regions/nb-NO.json
 beautify_echo "complete copy timezones files..." success
