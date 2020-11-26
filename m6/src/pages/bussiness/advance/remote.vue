@@ -11,9 +11,9 @@
           <m-tab :class="{'selected':isTR069}"
                  @click.native="forward2page('/advance/remote/tr069')">{{$t('trans0499')}}
           </m-tab>
-          <m-tab :class="{'selected':isTFTP}"
+          <!-- <m-tab :class="{'selected':isTFTP}"
                  @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
-          </m-tab>
+          </m-tab> -->
           <m-tab :class="{'selected':isTelnet}"
                  @click.native="forward2page('/advance/remote/telnet')">{{$t('trans0497')}}</m-tab>
         </m-tabs>
@@ -120,6 +120,12 @@
 <script>
 import { portReg } from '@/util/util';
 
+const Tabs = {
+  isTR069: 'tr069',
+  isTFTP: 'tftp',
+  isTelnet: 'telnet'
+};
+
 export default {
   data() {
     return {
@@ -215,11 +221,6 @@ export default {
   },
   computed: {
     ...(() => {
-      const Tabs = {
-        isTR069: 'tr069',
-        isTFTP: 'tftp',
-        isTelnet: 'telnet'
-      };
       const result = {};
       Object.keys(Tabs).forEach(key => {
         result[key] = function temp() {
@@ -227,22 +228,54 @@ export default {
         };
       });
       return result;
-    })()
+    })(),
+    category() {
+      return this.$route.params.category;
+    }
+  },
+  watch: {
+    category(nv, ov) {
+      if (nv !== ov) {
+        this.getPageInit();
+      }
+    }
   },
   mounted() {
-    this.$http.getTelnetEnabled().then(res => {
-      this.telnet = res.data.result.enabled;
-    });
-    this.$http.getTr069().then(res => {
-      this.remote = res.data.result.remote;
-      this.local = res.data.result.local;
-      this.enabled = res.data.result.enabled;
-    });
-    this.$http.getTFTP().then(res => {
-      this.tftp = res.data.result;
-    });
+    this.getPageInit();
   },
   methods: {
+    getPageInit() {
+      switch (this.category) {
+        case Tabs.isTR069:
+          this.getTR069();
+          break;
+        case Tabs.isTFTP:
+          this.getTFTP();
+          break;
+        case Tabs.isTelnet:
+          this.getTelnet();
+          break;
+        default:
+          break;
+      }
+    },
+    getTelnet() {
+      this.$http.getTelnetEnabled().then(res => {
+        this.telnet = res.data.result.enabled;
+      });
+    },
+    getTR069() {
+      this.$http.getTr069().then(res => {
+        this.remote = res.data.result.remote;
+        this.local = res.data.result.local;
+        this.enabled = res.data.result.enabled;
+      });
+    },
+    getTFTP() {
+      this.$http.getTFTP().then(res => {
+        this.tftp = res.data.result;
+      });
+    },
     showDropdown() {
       this.dropdownVisible = !this.dropdownVisible;
     },
