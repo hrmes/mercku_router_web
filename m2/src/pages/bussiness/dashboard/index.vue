@@ -269,11 +269,12 @@ export default {
       center;
     background-size: 100%;
     position: relative;
-    &::before {
-      content: '';
-      display: block;
-      padding-top: 14%;
-    }
+    height: 280px;
+    // &::before {
+    //   content: '';
+    //   display: block;
+    //   padding-top: 14%;
+    // }
     .net-info__inner {
       display: flex;
       padding: 0 15%;
@@ -471,11 +472,12 @@ export default {
       background: url(../../../assets/images/mobile/dashboard_banner_bg.jpg)
         no-repeat center;
       background-size: 100%;
-      &::before {
-        content: '';
-        display: block;
-        padding-top: 42%;
-      }
+      height: 160px;
+      // &::before {
+      //   content: '';
+      //   display: block;
+      //   padding-top: 42%;
+      // }
       .net-info__inner {
         padding: 0 30px;
         .icon-container {
