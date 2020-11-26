@@ -267,7 +267,7 @@ export default {
   .net-info {
     background: url(../../../assets/images/dashboard_banner_bg.jpg) no-repeat
       center;
-    background-size: 100%;
+    background-size: cover;
     position: relative;
     height: 280px;
     .net-info__inner {
@@ -466,7 +466,7 @@ export default {
     .net-info {
       background: url(../../../assets/images/mobile/dashboard_banner_bg.jpg)
         no-repeat center;
-      background-size: 100%;
+      background-size: cover;
       height: 160px;
       .net-info__inner {
         padding: 0 30px;
