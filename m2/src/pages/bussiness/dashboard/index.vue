@@ -267,14 +267,9 @@ export default {
   .net-info {
     background: url(../../../assets/images/dashboard_banner_bg.jpg) no-repeat
       center;
-    background-size: 100%;
+    background-size: cover;
     position: relative;
     height: 280px;
-    // &::before {
-    //   content: '';
-    //   display: block;
-    //   padding-top: 14%;
-    // }
     .net-info__inner {
       display: flex;
       padding: 0 15%;
@@ -471,13 +466,8 @@ export default {
     .net-info {
       background: url(../../../assets/images/mobile/dashboard_banner_bg.jpg)
         no-repeat center;
-      background-size: 100%;
+      background-size: cover;
       height: 160px;
-      // &::before {
-      //   content: '';
-      //   display: block;
-      //   padding-top: 42%;
-      // }
       .net-info__inner {
         padding: 0 30px;
         .icon-container {
