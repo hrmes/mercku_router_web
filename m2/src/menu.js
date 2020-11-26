@@ -230,6 +230,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         super: false,
         customers: [
           Customers.internal,
+          Customers.mercku,
           Customers.cik,
           Customers.inverto,
           Customers.startca,
