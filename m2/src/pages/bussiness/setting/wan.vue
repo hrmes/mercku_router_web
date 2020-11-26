@@ -217,14 +217,7 @@
 </template>
 <script>
 import * as CONSTANTS from '@/util/constant';
-import {
-  ipRule,
-  isMulticast,
-  isLoopback,
-  isValidMask,
-  ipReg,
-  isValidInteger
-} from '@/util/util';
+import { ipRule, isMulticast, isLoopback, isValidMask, ipReg, isValidInteger } from '@/util/util';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -440,7 +433,7 @@ export default {
   mounted() {
     this.getWanStatus();
     this.getWanNetInfo();
-    this.getIPv6WanNetInfo();
+    // this.getIPv6WanNetInfo();
   },
   computed: {
     isTesting() {
@@ -610,7 +603,12 @@ export default {
             password: this.pppoeForm.password
           };
           if (this.pppoeForm.vlan.enabled) {
-            form.pppoe.vlan = [this.pppoeForm.vlan];
+            form.pppoe.vlan = [
+              {
+                ...this.pppoeForm.vlan,
+                id: Number(this.pppoeForm.vlan.id)
+              }
+            ];
           }
           if (!this.autodns.pppoe) {
             form.pppoe.dns = [this.pppoeForm.dns1];

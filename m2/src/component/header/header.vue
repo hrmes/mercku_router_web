@@ -174,6 +174,11 @@ const Languages = [
     text: 'Serbian',
     value: 'sr-RS',
     show: false
+  },
+  {
+    text: 'Norsk bokmål',
+    value: 'nb-NO',
+    show: false
   }
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
@@ -322,9 +327,7 @@ export default {
       this.showPopup = false;
     },
     getDefaultLanguage() {
-      const language = this.Languages.filter(
-        l => l.value === this.$i18n.locale
-      )[0];
+      const language = this.Languages.filter(l => l.value === this.$i18n.locale)[0];
       if (!language) {
         return this.Languages[0];
       }
@@ -691,7 +694,7 @@ export default {
         align-items: center;
         .current-text {
           display: inline-block;
-          width: 70px;
+          width: 100px;
           text-align: center;
           height: 21px;
         }
@@ -721,7 +724,7 @@ export default {
 
       .popup {
         position: absolute;
-        width: 150px;
+        width: 180px;
         margin-top: 6px;
         border-radius: 2px;
         z-index: 999;

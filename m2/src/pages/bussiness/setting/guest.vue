@@ -310,11 +310,9 @@ export default {
       return topStr;
     },
     getDevicesCount() {
-      this.$http
-        .getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] })
-        .then(res => {
-          this.devicesCount = res.data.result.count;
-        });
+      this.$http.getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] }).then(res => {
+        this.devicesCount = res.data.result.count;
+      });
     },
     getGuestWIFI() {
       this.$http.meshGuestGet().then(res => {
@@ -440,7 +438,7 @@ export default {
     div {
       padding: 10px 0;
       .ssid-label {
-        width: 50px;
+        width: 70px;
         display: inline-block;
       }
       &:first-child {

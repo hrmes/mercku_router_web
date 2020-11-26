@@ -231,7 +231,8 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.cik,
           Customers.inverto,
           Customers.startca,
-          Customers.orion
+          Customers.orion,
+          Customers.realnett
         ]
       },
       {

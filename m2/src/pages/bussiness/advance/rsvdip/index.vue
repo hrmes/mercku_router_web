@@ -433,11 +433,11 @@ export default {
       right: 20px;
       .select {
         display: block;
-        width: 80px;
+        width: 100px;
         height: 30px;
         border-radius: 4px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         padding: 0 10px;
         font-size: 12px;

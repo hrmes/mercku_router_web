@@ -355,8 +355,7 @@ export default {
           if (this.isStatic) {
             const staticInfo = result.static.netinfo;
             this.staticForm.ip = staticInfo.address?.[0]?.ip ?? '';
-            this.staticForm.prefixLength =
-              staticInfo.address?.[0]?.prefix_length ?? '';
+            this.staticForm.prefixLength = staticInfo.address?.[0]?.prefix_length ?? '';
             this.staticForm.gateway = staticInfo.gateway.ip;
             this.staticForm.dns = staticInfo.dns?.[0]?.ip ?? '';
           }
@@ -496,7 +495,7 @@ export default {
             address: [
               {
                 ip: this.staticForm.ip,
-                prefix_length: this.staticForm.prefixLength
+                prefix_length: Number(this.staticForm.prefixLength)
               }
             ],
             gateway: {
