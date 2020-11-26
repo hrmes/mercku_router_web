@@ -36,7 +36,7 @@
                          ref="remotePortFrom">
               <m-input class="ext-input"
                        type="text"
-                       :placeholder="$t('trans0321')"
+                       :placeholder="$t('trans0478')"
                        v-model="form.remotePortFrom"
                        :onBlur="onRFChange" />
             </m-form-item>
@@ -46,7 +46,7 @@
                          ref="remotePortTo">
               <m-input class="ext-input"
                        type="text"
-                       :placeholder="$t('trans0321')"
+                       :placeholder="$t('trans0478')"
                        v-model="form.remotePortTo"
                        :onBlur="onRTChange" />
             </m-form-item>
@@ -68,7 +68,7 @@
                          ref="localPortFrom">
               <m-input class="ext-input"
                        type="text"
-                       :placeholder="$t('trans0321')"
+                       :placeholder="$t('trans0478')"
                        v-model="form.localPortFrom"
                        :onBlur="onLFChange" />
             </m-form-item>
@@ -78,7 +78,7 @@
                          ref="localPortTo">
               <m-input class="ext-input"
                        type="text"
-                       :placeholder="$t('trans0321')"
+                       :placeholder="$t('trans0478')"
                        v-model="form.localPortTo" />
             </m-form-item>
           </div>
@@ -238,18 +238,14 @@ export default {
         local: {
           ip: this.form.localIp,
           port: {
-            from: this.form.localPortFrom
-              ? Number(this.form.localPortFrom)
-              : '',
+            from: this.form.localPortFrom ? Number(this.form.localPortFrom) : '',
             to: this.form.localPortTo ? Number(this.form.localPortTo) : ''
           }
         },
         remote: {
           ip: this.form.remoteIp,
           port: {
-            from: this.form.remotePortFrom
-              ? Number(this.form.remotePortFrom)
-              : '',
+            from: this.form.remotePortFrom ? Number(this.form.remotePortFrom) : '',
             to: this.form.remotePortTo ? Number(this.form.remotePortTo) : ''
           }
         }
@@ -288,7 +284,6 @@ export default {
         }
         return true;
       }, this.$t('trans0471'));
-
       this.$refs.localPortTo.extraValidate(() => {
         const rf = this.form.remotePortFrom;
         const rt = this.form.remotePortTo;
