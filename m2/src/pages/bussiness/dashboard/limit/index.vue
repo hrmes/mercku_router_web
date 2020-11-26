@@ -139,7 +139,7 @@ export default {
             }
             &.selected {
               border-bottom: 1px solid $header-nav-item-border-color;
-              color: $tab-selected-font-color;
+              color: $tab-selected-text-color;
               &::before {
                 display: none;
               }
