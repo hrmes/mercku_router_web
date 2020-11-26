@@ -10,13 +10,23 @@
            :class="{'show':dropdownVisible}">
         <m-tabs class="tabs">
           <m-tab :class="{'selected':isCategory('time')}"
-                 @click.native.stop="forward2page('time')">{{$t('trans0075')}}
+                 @click.native.stop="forward2page('time')">
+            {{$t('trans0075')}}
+            <i class="is-mobile is-checked"
+               v-show="isCategory('time')"></i>
           </m-tab>
           <m-tab :class="{'selected':isCategory('speed')}"
-                 @click.native.stop="forward2page('speed')">{{$t('trans0014')}}
+                 @click.native.stop="forward2page('speed')">
+            {{$t('trans0014')}}
+            <i class="is-mobile is-checked"
+               v-show="isCategory('speed')"></i>
           </m-tab>
           <m-tab :class="{'selected':isCategory('url')}"
-                 @click.native.stop="forward2page('url')">{{$t('trans0076')}}</m-tab>
+                 @click.native.stop="forward2page('url')">
+            {{$t('trans0076')}}
+            <i class="is-mobile is-checked"
+               v-show="isCategory('url')"></i>
+          </m-tab>
         </m-tabs>
       </div>
     </div>
@@ -64,6 +74,9 @@ export default {
           display: flex;
           align-items: center;
           font-size: 14px;
+          .is-mobile {
+            display: none;
+          }
         }
       }
     }
@@ -119,11 +132,21 @@ export default {
             // font-weight: bold;
             margin: 0;
             border-bottom: 1px solid $header-nav-item-border-color;
+            display: flex;
+            justify-content: space-between;
+            .is-mobile {
+              display: inline-block;
+            }
             &.selected {
               border-bottom: 1px solid $header-nav-item-border-color;
-              color: $primaryColor;
+              color: $tab-selected-font-color;
               &::before {
                 display: none;
+              }
+              .is-checked {
+                &::after {
+                  border-color: $header-popup-item-checked-color;
+                }
               }
             }
           }
