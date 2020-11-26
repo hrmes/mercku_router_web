@@ -603,12 +603,10 @@ export default {
             password: this.pppoeForm.password
           };
           if (this.pppoeForm.vlan.enabled) {
-            form.pppoe.vlan = [
-              {
-                ...this.pppoeForm.vlan,
-                id: Number(this.pppoeForm.vlan.id)
-              }
-            ];
+            form.pppoe.vlan = [{
+              ...this.pppoeForm.vlan,
+              id: Number(this.pppoeForm.vlan.id)
+            }];
           }
           if (!this.autodns.pppoe) {
             form.pppoe.dns = [this.pppoeForm.dns1];
