@@ -903,6 +903,11 @@ export default {
             align-items: center;
             .btn-wrap {
               padding-bottom: 20px;
+              .btn {
+                &:last-child {
+                  margin-left: 5px;
+                }
+              }
             }
             .content {
               flex-direction: column;

@@ -395,7 +395,7 @@ export default {
         align-items: flex-start;
       }
       label {
-        width: 100px;
+        width: 110px;
         font-size: 14px;
         color: #333333;
         overflow: hidden;
@@ -587,7 +587,7 @@ export default {
           align-items: flex-start;
         }
         label {
-          width: 100px;
+          width: 110px;
           @media screen and (max-width: 320px) {
             flex-shrink: 0;
             width: 60px;
