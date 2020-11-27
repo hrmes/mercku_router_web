@@ -52,11 +52,13 @@
           </div>
           <div class="item">
             <label for="">{{$t('trans0084')}}</label>
-            <m-time-picker v-model="form.time_begin" />
+            <m-time-picker class="time-picker"
+                           v-model="form.time_begin" />
           </div>
           <div class="item">
             <label for="">{{$t('trans0085')}}</label>
-            <m-time-picker v-model="form.time_end" />
+            <m-time-picker class="time-picker"
+                           v-model="form.time_end" />
           </div>
           <div class="item">
             <label for="">{{$t('trans0082')}}</label>
@@ -395,10 +397,14 @@ export default {
         align-items: flex-start;
       }
       label {
-        width: 110px;
+        width: 120px;
         font-size: 14px;
         color: #333333;
         overflow: hidden;
+        flex-shrink: 0;
+      }
+      .time-picker {
+        width: 160px;
       }
       .date-wrap {
         display: flex;
@@ -588,6 +594,7 @@ export default {
         }
         label {
           width: 110px;
+          flex-shrink: 0;
           @media screen and (max-width: 320px) {
             flex-shrink: 0;
             width: 60px;
@@ -598,11 +605,14 @@ export default {
           overflow: hidden;
           margin-right: 12px;
         }
+        .time-picker {
+          width: 140px;
+        }
         .date-wrap {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          width: 180px;
+          width: 140px;
           .check-inner {
             width: 160px;
             margin-bottom: 12px;

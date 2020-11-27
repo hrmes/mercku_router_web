@@ -173,7 +173,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .time-picker-panel {
-  width: 160px;
+  width: 100%;
   height: 36px;
   border: 1px solid $time-picker-pannel-border-color;
   position: relative;
@@ -184,7 +184,7 @@ export default {
     left: -1px;
     display: flex;
     flex-direction: column;
-    width: 160px;
+    width: 100%;
     z-index: 9999;
     box-shadow: 0 2px 8px $time-picker-combox-shadow-color;
     background-clip: padding-box;
@@ -261,7 +261,7 @@ export default {
   .input-wrap {
     display: flex;
     align-items: center;
-    width: 160px;
+    width: 100%;
     height: 38px;
     cursor: pointer;
     input {
@@ -274,6 +274,9 @@ export default {
       margin-left: 5px;
       height: 30px;
       background: $time-picker-input-background-color;
+      @media screen and (max-width: 768px) {
+        width: 110px;
+      }
     }
     .icon-inner {
       display: inline-block;
