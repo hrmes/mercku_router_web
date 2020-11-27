@@ -238,18 +238,14 @@ export default {
         local: {
           ip: this.form.localIp,
           port: {
-            from: this.form.localPortFrom
-              ? Number(this.form.localPortFrom)
-              : '',
+            from: this.form.localPortFrom ? Number(this.form.localPortFrom) : '',
             to: this.form.localPortTo ? Number(this.form.localPortTo) : ''
           }
         },
         remote: {
           ip: this.form.remoteIp,
           port: {
-            from: this.form.remotePortFrom
-              ? Number(this.form.remotePortFrom)
-              : '',
+            from: this.form.remotePortFrom ? Number(this.form.remotePortFrom) : '',
             to: this.form.remotePortTo ? Number(this.form.remotePortTo) : ''
           }
         }
@@ -288,7 +284,6 @@ export default {
         }
         return true;
       }, this.$t('trans0471'));
-
       this.$refs.localPortTo.extraValidate(() => {
         const rf = this.form.remotePortFrom;
         const rt = this.form.remotePortTo;

@@ -33,6 +33,7 @@ function addConnection(source) {
   return source.map(s => {
     if (s.neighbors) {
       s.neighbors.forEach(n => {
+        const rssi1 = n.rssi;
         // 邻居节点
         const node = source.filter(ss => ss.sn === n.sn)[0];
         // 邻居中有该节点，但是该节点不在数据源中
@@ -40,8 +41,18 @@ function addConnection(source) {
           return;
         }
         const nodeSelf = node.neighbors.filter(nr => nr.sn === s.sn)[0];
+
+        // 检查rssi，取连接中较好的一个值
+        let rssi2 = rssi1;
+        let rssi;
+        if (nodeSelf) {
+          rssi2 = nodeSelf.rssi;
+          rssi = rssi1 > rssi2 ? rssi1 : rssi2;
+          n.rssi = rssi;
+        }
+
         if (!nodeSelf) {
-          node.neighbors.push({ ...n, sn: s.sn });
+          node.neighbors.push({ ...n, rssi: n.rssi, sn: s.sn });
         }
       });
     }
@@ -49,7 +60,7 @@ function addConnection(source) {
   });
 }
 // 去重
-function distinct(source, gateway) {
+function distinct(source) {
   const result = source.map(r => {
     const neighbors = [];
     if (r.neighbors) {
@@ -60,9 +71,6 @@ function distinct(source, gateway) {
         if (!node) {
           return;
         }
-
-        const nIsHandled = n.entity !== undefined;
-
         // 邻居节点中的自己(n)
         const nr = node.neighbors.filter(nnn => {
           const sn = nnn.sn || nnn.entity.sn;
@@ -71,24 +79,9 @@ function distinct(source, gateway) {
           }
           return false;
         })[0];
-        const nrIsHandled = nr.entity !== undefined;
-        node.neighbors = node.neighbors.filter(nn => nn.sn !== gateway.sn);
 
-        // 选取最优信号
-        const rssi1 = nIsHandled ? n.origin.rssi : n.rssi;
-        const rssi2 = nrIsHandled ? nr.origin.rssi : nr.rssi;
-        const rssi = rssi1 > rssi2 ? rssi1 : rssi2;
+        node.neighbors = node.neighbors.filter(nn => nn.sn !== nr.sn);
 
-        if (!nIsHandled) {
-          n.rssi = rssi;
-        } else {
-          n.origin.rssi = rssi;
-        }
-        if (!nrIsHandled) {
-          nr.rssi = rssi;
-        } else {
-          nr.origin.rssi = rssi;
-        }
         neighbors.push({
           entity: node,
           origin: n
@@ -293,7 +286,7 @@ function genData(array, fullLine = false) {
   routers = addConnection(routers);
   const gateway = findGateway(routers);
 
-  const RouterDistincted = distinct(routers, gateway);
+  const RouterDistincted = distinct(routers);
 
   const green = [];
   findGreenNode(gateway, RouterDistincted, green);

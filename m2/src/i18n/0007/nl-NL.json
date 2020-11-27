@@ -617,7 +617,7 @@
   "trans0622": "IPv6 Internet Informatie",
   "trans0623": "IPv6 Internet Instellingen",
   "trans0624": "Voeg een apparaat toe",
-  "trans0625": " ",
+  "trans0625": "Geef IPv4 toegang tot PPPoE account en wachwoord",
   "trans0626": "Diagnose op afstand",
   "trans0627": "%s apparaten",
   "trans0628": "SSH",
@@ -700,7 +700,7 @@
   "trans0705": " ",
   "trans0706": " ",
   "trans0707": " ",
-  "trans0708": "Verwijderen",
+  "trans0708": " ",
   "trans0709": " ",
   "trans0710": " ",
   "trans0711": " ",
@@ -727,6 +727,5 @@
   "trans0732": " ",
   "trans0733": " ",
   "trans0734": " ",
-  "trans0735": " ",
-  "trans0736": " "
+  "trans0735": " "
 }

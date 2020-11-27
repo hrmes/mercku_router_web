@@ -68,7 +68,8 @@ export default {
           return sum;
         }, 0);
         console.log(stepItemWidth);
-        const perOffset = ((width - stepItemWidth) / (this.length - 1) / width) * 100;
+        const perOffset =
+          ((width - stepItemWidth) / (this.length - 1) / width) * 100;
         stepItemArr.forEach((step, index) => {
           step.style.left = `${(perOffset * index).toFixed(2)}%`;
         });
@@ -121,8 +122,8 @@ export default {
         }
       }
       .step-content {
-        width: 56px;
-        height: 64px;
+        // width: 56px;
+        // height: 64px;
         background: $step-item-background-color;
         display: flex;
         justify-content: center;
