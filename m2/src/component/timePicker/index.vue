@@ -263,8 +263,7 @@ export default {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 100%;
-    min-height: 36px;
+    height: 36px;
     cursor: pointer;
     input {
       cursor: pointer;
