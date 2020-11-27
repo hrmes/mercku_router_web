@@ -174,6 +174,7 @@ export default {
 <style lang='scss' scoped>
 .time-picker-panel {
   width: 100%;
+  min-width: 120px;
   height: 36px;
   border: 1px solid $time-picker-pannel-border-color;
   position: relative;
