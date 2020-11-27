@@ -285,11 +285,7 @@ export default {
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
-      const unit = [
-        this.$t('trans0533'),
-        this.$t('trans0532'),
-        this.$t('trans0531')
-      ];
+      const unit = [this.$t('trans0533'), this.$t('trans0532'), this.$t('trans0531')];
       const temp = ['00', '00', '00'];
       let index = 0;
       let a = this.uptime;
@@ -488,10 +484,7 @@ export default {
           this.testSpeedNumber = this.testTimeout;
           return;
         }
-        if (
-          this.testSpeedNumber % 5 === 0 &&
-          this.testSpeedNumber !== this.testTimeout
-        ) {
+        if (this.testSpeedNumber % 5 === 0 && this.testSpeedNumber !== this.testTimeout) {
           this.speedTest();
         }
         this.testSpeedNumber -= 1;
@@ -545,9 +538,7 @@ export default {
           if (this.ipv6NetInfo.enabled) {
             const { netinfo } = result;
             this.ipv6NetInfo.type = result.type || '-';
-            this.ipv6NetInfo.ip = netinfo.address.length
-              ? netinfo.address[0].ip
-              : '-';
+            this.ipv6NetInfo.ip = netinfo.address.length ? netinfo.address[0].ip : '-';
             this.ipv6NetInfo.gateway = netinfo.gateway.ip || '-';
             this.ipv6NetInfo.dns = netinfo.dns.length ? netinfo.dns[0].ip : '-';
           }
@@ -555,8 +546,8 @@ export default {
         .catch(() => {
           if (this.pageActive) {
             this.meshInfoWanNetIpv6Timer = setTimeout(() => {
-            this.getMeshInfoWanNetIpv6();
-          }, 1000 * 3);
+              this.getMeshInfoWanNetIpv6();
+            }, 1000 * 3);
           }
         });
     }

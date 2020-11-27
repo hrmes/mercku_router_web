@@ -1,11 +1,13 @@
 {
-  "id": "0001",
+  "id": "0007",
+  "host": "http://mywifi.mercku.tech",
   "title": "Mercku",
-  "accept": ".ma",
-  "favicon": "customer-conf/0001/favicon.ico",
+  "accept": ".al",
+  "favicon": "customer-conf/0007/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
-  "languages": ["zh-CN", "en-US", "nl-NL", "de-DE", "fr-FR", "es-ES"],
+  "languages": ["zh-CN", "en-US", "fr-FR"],
+  "defaultLanguage": "fr-FR",
   "routers": {
     "M2": {
       "name": "M2 Standalone Wi-Fi router",

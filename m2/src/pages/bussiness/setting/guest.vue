@@ -310,11 +310,9 @@ export default {
       return topStr;
     },
     getDevicesCount() {
-      this.$http
-        .getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] })
-        .then(res => {
-          this.devicesCount = res.data.result.count;
-        });
+      this.$http.getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] }).then(res => {
+        this.devicesCount = res.data.result.count;
+      });
     },
     getGuestWIFI() {
       this.$http.meshGuestGet().then(res => {

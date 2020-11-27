@@ -217,14 +217,7 @@
 </template>
 <script>
 import * as CONSTANTS from '@/util/constant';
-import {
-  ipRule,
-  isMulticast,
-  isLoopback,
-  isValidMask,
-  ipReg,
-  isValidInteger
-} from '@/util/util';
+import { ipRule, isMulticast, isLoopback, isValidMask, ipReg, isValidInteger } from '@/util/util';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
