@@ -184,6 +184,11 @@ const Languages = [
     text: 'Français',
     value: 'fr-FR',
     show: false
+  },
+  {
+    text: 'Español',
+    value: 'es-ES',
+    show: false
   }
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
