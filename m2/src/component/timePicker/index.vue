@@ -262,25 +262,21 @@ export default {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 38px;
+    height: 36px;
     cursor: pointer;
     input {
       cursor: pointer;
       border: none;
       text-decoration: none;
       outline: none;
-      width: 120px;
+      flex: 1;
       padding-left: 5px;
-      margin-left: 5px;
       height: 30px;
+      width: 0;
       background: $time-picker-input-background-color;
-      @media screen and (max-width: 768px) {
-        width: 110px;
-      }
     }
     .icon-inner {
       display: inline-block;
-      width: 38px;
       text-align: center;
       a {
         display: flex;
@@ -288,6 +284,7 @@ export default {
         align-items: center;
         img {
           width: 18px;
+          display: block;
         }
       }
     }
