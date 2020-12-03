@@ -59,11 +59,11 @@
           <div v-if="!form.smart_connect"
                class="ssid">
             <div>
-              <span class="ssid-label">{{$t('trans0255')}}：</span>
+              <label class="ssid-label with-colon">{{$t('trans0255')}}:</label>
               <span class="ssid-name">{{form.ssid}}</span>
             </div>
             <div>
-              <span class="ssid-label">{{$t('trans0256')}}：</span>
+              <label class="ssid-label with-colon">{{$t('trans0256')}}:</label>
               <span class="ssid-name">{{ssid_5g}}</span>
             </div>
           </div>
@@ -80,32 +80,32 @@
         </div>
         <div v-if="form.enabled&&showStatusPage">
           <div class="setting-ssid-info">
-            <div class="title">
-              {{$t('trans0168')}}：
-            </div>
+            <label class="title with-colon">
+              {{$t('trans0168')}}:
+            </label>
             <div v-if="guest.smart_connect">
               <p class='name'>{{form.ssid}}</p>
             </div>
             <div v-else>
               <p>
-                <span>2.4G：</span>
+                <label class="with-colon">2.4G:</label>
                 {{form.ssid}}
               </p>
               <p>
-                <span>5G：</span>
+                <label class="with-colon">5G:</label>
                 {{ssid_5g}}
               </p>
             </div>
           </div>
           <div class="remaining-time">
-            <div class="title">{{$t('trans0524')}}：</div>
+            <label class="title with-colon">{{$t('trans0524')}}:</label>
             <div class="time">
               {{formatTime(guest.remaining_duration)}}
             </div>
           </div>
           <div class="online-device">
-            <div class="title">{{$t('trans0235')}}：
-            </div>
+            <label class="title with-colon">{{$t('trans0235')}}:
+            </label>
             <span>{{devicesCount}}</span>
           </div>
           <div class="form-button">
@@ -480,9 +480,9 @@ export default {
         margin-top: 10px;
       }
       font-family: Helvetica;
-      span {
+      label {
         display: inline-block;
-        width: 60px;
+        width: 40px;
         text-align: left;
       }
     }

@@ -16,19 +16,19 @@
           <div class="ipv6-page__internet-title">{{$t('trans0622')}}</div>
           <div class="ipv6-page__internet-content ipv6-page__internet-content--info">
             <div class="info__item info__item--text">
-              <label for="">{{$t('trans0375')}}：</label>
-              <span class="info__item--text">{{networkArr[netInfo.type]}}</span>
+              <label class="with-colon">{{$t('trans0375')}}:</label>
+              <span>{{networkArr[netInfo.type]}}</span>
             </div>
             <div class="info__item info__item--text">
-              <label for="">{{$t('trans0151')}}：</label>
+              <label class="with-colon">{{$t('trans0151')}}:</label>
               <span>{{netInfo.ip}}</span>
             </div>
             <div class="info__item info__item--text">
-              <label for="">{{$t('trans0153')}}：</label>
+              <label class="with-colon">{{$t('trans0153')}}:</label>
               <span>{{netInfo.gateway}}</span>
             </div>
             <div class="info__item info__item--text">
-              <label for="">{{$t('trans0236')}}：</label>
+              <label class="with-colon">{{$t('trans0236')}}:</label>
               <span>{{netInfo.dns}}</span>
             </div>
           </div>
@@ -586,7 +586,7 @@ export default {
         display: inline-block;
         color: #333333;
         font-size: 14px;
-        width: calc(100% - 150px);
+        flex: auto;
       }
       &:not(:last-child) {
         margin-bottom: 10px;
@@ -649,19 +649,6 @@ export default {
     }
     .ipv6-page__internet-content {
       width: 100%;
-    }
-    .ipv6-page__internet-content--info {
-      .info__item {
-        flex-direction: column;
-      }
-      .info__item--text {
-        label {
-          width: 100%;
-        }
-        span {
-          width: 100%;
-        }
-      }
     }
   }
 }

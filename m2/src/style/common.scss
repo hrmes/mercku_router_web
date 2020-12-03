@@ -152,6 +152,9 @@ input::-webkit-input-placeholder {
     transform: rotate(-45deg);
   }
 }
+label.with-colon {
+  margin-right: 5px;
+}
 
 @media screen and (max-width: 768px) {
   .page {
