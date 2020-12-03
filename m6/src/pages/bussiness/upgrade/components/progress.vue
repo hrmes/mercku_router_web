@@ -28,7 +28,9 @@
             <div class="mk-upgrade-node__name">{{node.name}}</div>
             <div class="mk-upgrade-node__sn">{{translate('trans0252')}}{{node.sn}}</div>
             <div class="mk-upgrade-node__version">
-              {{translate('trans0342')}}：{{node.version.current}}</div>
+              <label class="with-colon">{{translate('trans0342')}}:</label>
+              <span>{{node.version.current}}</span>
+            </div>
           </div>
 
           <div class="mk-upgrade-result">
@@ -176,10 +178,7 @@ export default {
         console.log('getMeshNode');
         console.log('nodes is ', nodes);
         [this.node] = nodes.filter(n => {
-          if (
-            n.status === Statuses.downloading ||
-            n.status === Statuses.installing
-          ) {
+          if (n.status === Statuses.downloading || n.status === Statuses.installing) {
             return true;
           }
           return false;
@@ -237,8 +236,7 @@ export default {
             }
           }
           if (
-            (node.status === Statuses.downloading ||
-              node.status === Statuses.installing) &&
+            (node.status === Statuses.downloading || node.status === Statuses.installing) &&
             this.pageActive
           ) {
             this.timer = setTimeout(() => {
