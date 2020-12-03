@@ -83,7 +83,8 @@
                     </p>
                     <p class="router__mac"
                        v-else>
-                      {{$t('trans0188')}}：{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}
+                      <label class="with-colon">{{$t('trans0188')}}:</label>
+                      <span>{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}</span>
                     </p>
                   </div>
                 </div>
@@ -269,9 +270,7 @@ export default {
         this.$toast(this.$t('trans0381'));
         return;
       }
-      const template = `<div class="add-mesh-tip">${this.$t(
-        'trans0195'
-      )}</div>`;
+      const template = `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`;
       this.$loading.open({ template });
       // 超时90秒，间隔3秒
       this.$http
@@ -299,21 +298,15 @@ export default {
                     if (meshNodes.length) {
                       const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
                       // 获取刚添加的节点的sn
-                      const meshNode = meshNodes.find(
-                        item => item.mac[type] === node.mac[type]
-                      );
+                      const meshNode = meshNodes.find(item => item.mac[type] === node.mac[type]);
                       if (meshNode) {
                         const { sn } = meshNode;
                         for (let i = 0; i < meshNodes.length; i += 1) {
                           const mNode = meshNodes[i];
                           if (mNode.sn !== sn && mNode.neighbors) {
-                            const neighborNood = mNode.neighbors.find(
-                              nItem => nItem.sn === sn
-                            );
+                            const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
                             if (neighborNood) {
-                              this.isWeakSignal = checkWeakSignal(
-                                neighborNood.rssi
-                              );
+                              this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
                               break;
                             }
                           }

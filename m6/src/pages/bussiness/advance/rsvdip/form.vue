@@ -34,8 +34,14 @@
                   </div>
                   <div class="des">
                     <p>{{item.name}}</p>
-                    <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
-                    <p>{{$t('trans0151')}}：{{item.ip}}</p>
+                    <p>
+                      <label class="with-colon">{{$t('trans0188')}}:</label>
+                      <span>{{formatMac(item.mac)}}</span>
+                    </p>
+                    <p>
+                      <label class="with-colon">{{$t('trans0151')}}:</label>
+                      <span>{{item.ip}}</span>
+                    </p>
                   </div>
                 </div>
               </div>

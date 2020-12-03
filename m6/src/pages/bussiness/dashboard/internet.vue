@@ -5,26 +5,26 @@
         <div class="section__title">{{$t('trans0301')}}</div>
         <div class="section__body">
           <div class="item">
-            <label class="item__label">{{$t('trans0317')}}：</label>
+            <label class="item__label">{{$t('trans0317')}}</label>
             <span class="item__value">{{ networkArr[localNetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0151')}}：</label>
+            <label class="item__label">{{$t('trans0151')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0152')}}：</label>
+            <label class="item__label">{{$t('trans0152')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.mask }}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0236')}}：</label>
+            <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
               {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
               :'-'}}
             </span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0153')}}：</label>
+            <label class="item__label">{{$t('trans0153')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.gateway}}</span>
           </div>
         </div>
@@ -248,11 +248,7 @@ export default {
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
-      const unit = [
-        this.$t('trans0533'),
-        this.$t('trans0532'),
-        this.$t('trans0531')
-      ];
+      const unit = [this.$t('trans0533'), this.$t('trans0532'), this.$t('trans0531')];
       const temp = ['00', '00', '00'];
       let index = 0;
       let a = this.uptime;
@@ -451,10 +447,7 @@ export default {
           this.testSpeedNumber = this.testTimeout;
           return;
         }
-        if (
-          this.testSpeedNumber % 5 === 0 &&
-          this.testSpeedNumber !== this.testTimeout
-        ) {
+        if (this.testSpeedNumber % 5 === 0 && this.testSpeedNumber !== this.testTimeout) {
           this.speedTest();
         }
         this.testSpeedNumber -= 1;
