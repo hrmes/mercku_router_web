@@ -43,9 +43,13 @@
               </div>
               <div class="info-container">
                 <p class="node-name">{{ node.name }}</p>
-                <p class="node-sn">{{ $t('trans0252') }}{{ node.sn }}</p>
+                <p class="node-sn">
+                  <label class="with-colon">{{ $t('trans0252') }}:</label>
+                  <span>{{ node.sn }}</span>
+                </p>
                 <p class="node-version">
-                  <span>{{ $t('trans0209') }}{{ node.version.current }}</span>
+                  <label class="with-colon">{{ $t('trans0209') }}:</label>
+                  <span>{{ node.version.current }}</span>
                 </p>
                 <p class="changelog"
                    @click.stop="showChangelog(node)">
