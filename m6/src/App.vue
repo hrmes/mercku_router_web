@@ -4,14 +4,14 @@
       <div class="app-container router-view">
         <div ref="flexWrap"
              class="flex-wrap"
-             :class="{ 'has-menu': !navVisible }">
-          <m-header :navVisible="!navVisible"
-                    :logoVisible="!isLoginPage"
+             :class="{ 'has-menu': navVisible }">
+          <m-header :navVisible="navVisible"
+                    :logoVisible="logoVisible"
                     :navs="menus"
                     class="header"></m-header>
           <router-view></router-view>
           <m-policy :locale="$i18n.locale"
-                    :class="{ 'fix-bottom': navVisible }"
+                    :class="{ 'fix-bottom': !navVisible }"
                     class="policy" />
         </div>
       </div>
@@ -24,16 +24,13 @@ import getMenu from './menu';
 
 export default {
   computed: {
-    isLoginPage() {
-      return this.$route.path.includes('login');
+    logoVisible() {
+      return !this.$route.path.includes('login');
     },
     navVisible() {
       const { path } = this.$route;
-      const visible =
-        path.includes('login') ||
-        path.includes('wlan') ||
-        path.includes('unconnect');
-      return visible;
+      const visible = path.includes('login') || path.includes('wlan') || path.includes('unconnect');
+      return !visible;
     },
     menus() {
       return getMenu(this.$store.role, this.$store.mode);
