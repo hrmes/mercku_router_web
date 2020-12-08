@@ -446,7 +446,7 @@ export default {
     color: #999;
     width: 100%;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 .circle-animation {
@@ -551,7 +551,7 @@ export default {
         }
         .scan-result__title {
           text-align: center;
-          font-size: 16px;
+          font-size: 14px;
           margin: 30px 0 0 0;
         }
         .scan-result__much {
