@@ -66,6 +66,20 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: allCustomers
       },
       {
+        url: '/setting/super',
+        name: 'guest',
+        text: 'trans0576',
+        super: false,
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: [
+          Customers.cik,
+          Customers.internal,
+          Customers.startca,
+          Customers.inverto,
+          Customers.orion
+        ]
+      },
+      {
         text: 'trans0020',
         name: 'blacklist',
         url: '/setting/blacklist',
@@ -97,19 +111,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         mode: [RouterMode.router],
         customers: allCustomers
       },
+
       {
-        url: '/setting/super',
-        name: 'guest',
-        text: 'trans0576',
+        url: '/setting/upnp',
+        name: 'upnp',
+        text: 'trans0644',
         super: false,
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: [
-          Customers.cik,
-          Customers.internal,
-          Customers.startca,
-          Customers.inverto,
-          Customers.orion
-        ]
+        mode: [RouterMode.router],
+        customers: allCustomers
       }
     ]
   };
@@ -231,14 +240,6 @@ export default function getMenu(role, mode = RouterMode.router) {
           Customers.inverto,
           Customers.orion
         ]
-      },
-      {
-        url: '/setting/upnp',
-        name: 'upnp',
-        text: 'trans0644',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
       }
     ]
   };
