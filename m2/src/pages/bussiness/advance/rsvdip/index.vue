@@ -75,16 +75,16 @@
                    :class="{'checkOpen':mobileShowHead}">
                 <m-checkbox v-model="item.checked"></m-checkbox>
               </div>
-              <span class="m-title">{{$t('trans0108')}}：</span>
+              <label class="m-title with-colon">{{$t('trans0108')}}:</label>
               <span class="name">{{item.name}}</span>
             </div>
             <div class="column-local-ip">
-              <span class="m-title">{{$t('trans0188')}}：</span>
-              {{formatMac(item.mac)}}
+              <label class="m-title with-colon">{{$t('trans0188')}}:</label>
+              <span>{{formatMac(item.mac)}}</span>
             </div>
             <div class="column-local-port">
-              <span class="m-title">{{$t('trans0151')}}：</span>
-              {{item.ip}}
+              <label class="m-title with-colon">{{$t('trans0151')}}:</label>
+              <span>{{item.ip}}</span>
             </div>
             <div class="column-handle">
               <a class="btn-text"
@@ -433,11 +433,11 @@ export default {
       right: 20px;
       .select {
         display: block;
-        width: 80px;
+        width: 100px;
         height: 30px;
         border-radius: 4px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         padding: 0 10px;
         font-size: 12px;

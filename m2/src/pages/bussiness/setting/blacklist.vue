@@ -34,7 +34,10 @@
                       </div>
                       <div class="des">
                         <p>{{item.name}}</p>
-                        <p>{{$t('trans0188')}}：{{formatMac(item.mac)}}</p>
+                        <p>
+                          <label class="with-colon">{{$t('trans0188')}}:</label>
+                          {{formatMac(item.mac)}}
+                        </p>
                       </div>
                     </div>
                   </div>

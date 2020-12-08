@@ -5,26 +5,26 @@
         <div class="section__title">{{$t('trans0301')}}</div>
         <div class="section__body">
           <div class="item">
-            <label class="item__label">{{$t('trans0317')}}：</label>
+            <label class="item__label">{{$t('trans0317')}}</label>
             <span class="item__value">{{ networkArr[localNetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0151')}}：</label>
+            <label class="item__label">{{$t('trans0151')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0152')}}：</label>
+            <label class="item__label">{{$t('trans0152')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.mask }}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0236')}}：</label>
+            <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
               {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
               :'-'}}
             </span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0153')}}：</label>
+            <label class="item__label">{{$t('trans0153')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.gateway}}</span>
           </div>
         </div>
@@ -164,19 +164,19 @@
         <div class="section__title">{{$t('trans0700')}}</div>
         <div class="section__body">
           <div class="item">
-            <label class="item__label">{{$t('trans0317')}}：</label>
+            <label class="item__label">{{$t('trans0317')}}</label>
             <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0701')}}：</label>
+            <label class="item__label">{{$t('trans0701')}}</label>
             <span class="item__value">{{ipv6NetInfo.ip}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0153')}}：</label>
+            <label class="item__label">{{$t('trans0153')}}</label>
             <span class="item__value">{{ipv6NetInfo.gateway}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0236')}}：</label>
+            <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
               {{ipv6NetInfo.dns}}
             </span>
@@ -284,11 +284,7 @@ export default {
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
-      const unit = [
-        this.$t('trans0533'),
-        this.$t('trans0532'),
-        this.$t('trans0531')
-      ];
+      const unit = [this.$t('trans0533'), this.$t('trans0532'), this.$t('trans0531')];
       const temp = ['00', '00', '00'];
       let index = 0;
       let a = this.uptime;
@@ -487,10 +483,7 @@ export default {
           this.testSpeedNumber = this.testTimeout;
           return;
         }
-        if (
-          this.testSpeedNumber % 5 === 0 &&
-          this.testSpeedNumber !== this.testTimeout
-        ) {
+        if (this.testSpeedNumber % 5 === 0 && this.testSpeedNumber !== this.testTimeout) {
           this.speedTest();
         }
         this.testSpeedNumber -= 1;
@@ -526,9 +519,11 @@ export default {
           this.netInfo = res.data.result;
         })
         .catch(() => {
-          this.wanInfoTimer = setTimeout(() => {
-            this.getWanNetInfo();
-          }, 1000 * 3);
+          if (this.pageActive) {
+            this.wanInfoTimer = setTimeout(() => {
+              this.getWanNetInfo();
+            }, 1000 * 3);
+          }
         });
     },
     getMeshInfoWanNetIpv6() {
@@ -542,17 +537,17 @@ export default {
           if (this.ipv6NetInfo.enabled) {
             const { netinfo } = result;
             this.ipv6NetInfo.type = result.type || '-';
-            this.ipv6NetInfo.ip = netinfo.address.length
-              ? netinfo.address[0].ip
-              : '-';
+            this.ipv6NetInfo.ip = netinfo.address.length ? netinfo.address[0].ip : '-';
             this.ipv6NetInfo.gateway = netinfo.gateway.ip || '-';
             this.ipv6NetInfo.dns = netinfo.dns.length ? netinfo.dns[0].ip : '-';
           }
         })
         .catch(() => {
-          this.meshInfoWanNetIpv6Timer = setTimeout(() => {
-            this.getMeshInfoWanNetIpv6();
-          }, 1000 * 3);
+          if (this.pageActive) {
+            this.meshInfoWanNetIpv6Timer = setTimeout(() => {
+              this.getMeshInfoWanNetIpv6();
+            }, 1000 * 3);
+          }
         });
     }
   },
