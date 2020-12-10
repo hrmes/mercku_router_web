@@ -42,23 +42,20 @@ import superConfig from 'pages/bussiness/setting/super.vue';
 
 Vue.use(Router);
 
+const prefix = '/web';
+
 const { push } = Router.prototype;
 Router.prototype.push = function customPush(location) {
-  return push.call(this, location).catch(err => err);
+  const newLocation = {
+    ...location,
+    path: prefix + location.path
+  };
+  return push.call(this, newLocation).catch(err => err);
 };
 
-export default new Router({
+const routes = {
   mode: 'history',
-  base: '/web/',
   routes: [
-    {
-      path: '*',
-      redirect: '/wlan'
-    },
-    {
-      path: '/',
-      redirect: '/login'
-    },
     {
       path: '/login',
       name: 'login',
@@ -261,4 +258,28 @@ export default new Router({
       component: superConfig
     }
   ]
-});
+};
+
+const recursive = root => {
+  root.forEach(r => {
+    if (r.path !== '*') {
+      r.path = prefix + r.path;
+    }
+    if (r.children) {
+      recursive(r.children);
+    }
+  });
+};
+recursive(routes.routes);
+Array.prototype.push.apply(routes.routes, [
+  {
+    path: '*',
+    redirect: `${prefix}/wlan`
+  },
+  {
+    path: '/',
+    redirect: `${prefix}/login`
+  }
+]);
+console.log(routes);
+export default new Router(routes);
