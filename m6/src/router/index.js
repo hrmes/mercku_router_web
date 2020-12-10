@@ -44,13 +44,27 @@ Vue.use(Router);
 
 const prefix = '/web';
 
+const genNewLocation = location => {
+  let newLocation;
+  if (typeof location === 'string') {
+    newLocation = {
+      path: prefix + location
+    };
+  } else {
+    newLocation = {
+      ...location,
+      path: prefix + location.path
+    };
+  }
+  return newLocation;
+};
 const { push } = Router.prototype;
 Router.prototype.push = function customPush(location) {
-  const newLocation = {
-    ...location,
-    path: prefix + location.path
-  };
-  return push.call(this, newLocation).catch(err => err);
+  return push.call(this, genNewLocation(location)).catch(err => err);
+};
+const { replace } = Router.prototype;
+Router.prototype.replace = function customReplace(location) {
+  return replace.call(this, genNewLocation(location));
 };
 
 const routes = {
@@ -262,8 +276,11 @@ const routes = {
 
 const recursive = root => {
   root.forEach(r => {
-    if (r.path !== '*') {
+    if (r.path) {
       r.path = prefix + r.path;
+    }
+    if (r.redirect) {
+      r.redirect = prefix + r.redirect;
     }
     if (r.children) {
       recursive(r.children);
