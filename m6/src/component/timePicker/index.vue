@@ -1,17 +1,15 @@
 <template>
-  <div class="time-picker-panel">
+  <div class="time-picker-panel"
+       :class="[customClass]">
     <div class="input-wrap"
          @click="open">
       <input type="text"
              :placeholder="$t('trans0100')"
              v-model="inputValue"
              readonly>
-      <span class="icon-inner">
-        <a class="icon">
-          <img src="../../assets/images/rescreen-time.png"
-               alt="">
-        </a>
-      </span>
+      <img class="icon-inner"
+           src="../../assets/images/rescreen-time.png"
+           alt="">
     </div>
     <div class="combox"
          ref="combo"
@@ -43,12 +41,17 @@
         <button @click="ok">{{$t('trans0024')}}</button>
       </div>
     </div>
-
   </div>
 </template>
 <script>
 export default {
-  props: { value: { type: String } },
+  props: {
+    value: { type: String },
+    customClass: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       opened: false,
@@ -175,16 +178,18 @@ export default {
 .time-picker-panel {
   width: 160px;
   height: 36px;
-  border: 1px solid $time-picker-pannel-border-color;
   position: relative;
+  border: 1px solid $time-picker-pannel-border-color;
   border-radius: 4px;
+  padding: 0 5px;
   .combox {
     position: absolute;
     background: $time-picker-combox-background-color;
     left: -1px;
+    top: calc(100% + 5px);
     display: flex;
     flex-direction: column;
-    width: 160px;
+    width: 100%;
     z-index: 9999;
     box-shadow: 0 2px 8px $time-picker-combox-shadow-color;
     background-clip: padding-box;
@@ -259,34 +264,25 @@ export default {
     }
   }
   .input-wrap {
-    display: flex;
-    align-items: center;
-    width: 160px;
-    height: 38px;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
+    position: relative;
     input {
       cursor: pointer;
       border: none;
       text-decoration: none;
       outline: none;
-      width: 120px;
-      padding-left: 5px;
-      margin-left: 5px;
-      height: 30px;
+      width: 100%;
+      height: 100%;
       background: $time-picker-input-background-color;
     }
     .icon-inner {
-      display: inline-block;
-      width: 38px;
-      text-align: center;
-      a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        img {
-          width: 18px;
-        }
-      }
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 0;
+      width: 18px;
     }
   }
 }

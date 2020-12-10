@@ -340,9 +340,7 @@ export default {
                   bandwidth: this.form.b24g.channel.bandwidth
                 }
               };
-              const formBand = this.form.smart_connect
-                ? this.form.b24g
-                : this.form.b5g;
+              const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
               const b5g = {
                 hidden: formBand.hidden,
                 ssid: formBand.ssid,
