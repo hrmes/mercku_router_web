@@ -221,11 +221,7 @@ export default {
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
-            if (
-              this.isConnected &&
-              this.pageActive &&
-              this.needCheckUpgradable
-            ) {
+            if (this.isConnected && this.pageActive && this.needCheckUpgradable) {
               this.checkFrimwareLatest();
             }
           })
@@ -275,13 +271,9 @@ export default {
   .net-info {
     background: url(../../../assets/images/dashboard_banner_bg.jpg) no-repeat
       center;
-    background-size: 100%;
+    background-size: cover;
     position: relative;
-    &::before {
-      content: '';
-      display: block;
-      padding-top: 14%;
-    }
+    height: 280px;
     .net-info__inner {
       display: flex;
       padding: 0 15%;
@@ -478,12 +470,8 @@ export default {
     .net-info {
       background: url(../../../assets/images/mobile/dashboard_banner_bg.jpg)
         no-repeat center;
-      background-size: 100%;
-      &::before {
-        content: '';
-        display: block;
-        padding-top: 42%;
-      }
+      background-size: cover;
+      height: 160px;
       .net-info__inner {
         padding: 0 30px;
         .icon-container {
