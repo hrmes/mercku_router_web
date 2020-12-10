@@ -41,6 +41,12 @@ import wwa from 'pages/bussiness/advance/wwa.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
 
 Vue.use(Router);
+
+const { push } = Router.prototype;
+Router.prototype.push = function customPush(location) {
+  return push.call(this, location).catch(err => err);
+};
+
 export default new Router({
   mode: 'history',
   base: '/web/',
