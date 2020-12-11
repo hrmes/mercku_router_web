@@ -310,9 +310,7 @@ export default {
       this.showPopup = false;
     },
     getDefaultLanguage() {
-      const language = this.Languages.filter(
-        l => l.value === this.$i18n.locale
-      )[0];
+      const language = this.Languages.filter(l => l.value === this.$i18n.locale)[0];
       if (!language) {
         return this.Languages[0];
       }
