@@ -113,10 +113,8 @@ export default {
   },
   methods: {
     switchAutoUpgrade(enabled) {
-      if (!enabled) {
-        if (this.enabledInitialized !== this.auto_upgrade.enabled) {
-          this.updateMeshAutoUpgrade();
-        }
+      if (!enabled && this.enabledInitialized !== this.auto_upgrade.enabled) {
+        this.updateMeshAutoUpgrade();
       }
     },
     updateMeshAutoUpgrade() {
@@ -125,7 +123,6 @@ export default {
         .setMeshAutoUpgrade(this.auto_upgrade)
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -135,13 +132,21 @@ export default {
       this.$loading.open();
       this.$http.getMeshAutoUpgrade().then(res => {
         this.$loading.close();
-        const data = res.data.result;
-        this.auto_upgrade = data;
+        this.auto_upgrade = res.data.result;
         this.enabledInitialized = this.auto_upgrade.enabled;
       });
     },
     submit() {
-      //
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: `每${this.schedule[0]}-${this.auto_upgrade.time}将执行自动升级`,
+        callback: {
+          ok: () => {
+            this.updateMeshAutoUpgrade();
+          }
+        }
+      });
     }
   }
 };

@@ -2,7 +2,6 @@
   "id": "0001",
   "title": "Mercku",
   "accept": ".ma",
-  "host": "http://wifi.realnett.no",
   "favicon": "customer-conf/0001/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
