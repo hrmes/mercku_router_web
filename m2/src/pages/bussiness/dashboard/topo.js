@@ -229,12 +229,18 @@ function genLines(gateway, green, red, nodes, fullLine) {
 
 // 找出离线节点
 function findOfflineNode(array, offline) {
+  const offlineSN = [];
   array = array.filter(a => {
     if (a.status === CONSTANTS.RouterStatus.offline) {
       offline.push(a);
+      offlineSN.push(a.sn);
       return false;
     }
     return true;
+  });
+  // 从关系表中清除离线节点的关系
+  array.forEach(node => {
+    node.neighbors = node.neighbors.filter(n => !offlineSN.includes(n.sn));
   });
   return array;
 }

@@ -254,7 +254,6 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     ]
   };
-
   const upgrade = {
     icon: 'upgrade',
     text: 'trans0197',
@@ -294,6 +293,5 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     });
   });
-
   return [wifi, setting, advance, upgrade];
 }
