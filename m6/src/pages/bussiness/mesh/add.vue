@@ -79,7 +79,8 @@
                   <div class="router__info">
                     <p class="router__sn"
                        v-if="nodes[0].sn">
-                      {{$t('trans0252')}}{{nodes[0].sn}}
+                      <label class="with-colon">{{$t('trans0252')}}:</label>
+                      <span>{{nodes[0].sn}}</span>
                     </p>
                     <p class="router__mac"
                        v-else>

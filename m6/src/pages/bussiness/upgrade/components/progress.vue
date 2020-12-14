@@ -26,7 +26,10 @@
                  :src="getNodeImage(node)"
                  alt="" />
             <div class="mk-upgrade-node__name">{{node.name}}</div>
-            <div class="mk-upgrade-node__sn">{{translate('trans0252')}}{{node.sn}}</div>
+            <div class="mk-upgrade-node__sn">
+              <label class="with-colon">{{translate('trans0252')}}:</label>
+              <span>{{node.sn}}</span>
+            </div>
             <div class="mk-upgrade-node__version">
               <label class="with-colon">{{translate('trans0342')}}:</label>
               <span>{{node.version.current}}</span>
