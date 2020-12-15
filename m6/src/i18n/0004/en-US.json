@@ -119,7 +119,7 @@
   "trans0118": "Password may only contain 6-24 digits, letters or special characters, or any combination of these.",
   "trans0119": "Are you sure you want to unbind the router \"%s\"?",
   "trans0120": "Privacy Policy",
-  "trans0121": "All connections will be interrupted for about 1 min for rebooting",
+  "trans0121": " ",
   "trans0122": "Reboot",
   "trans0123": "About OneNet",
   "trans0124": "Update",
@@ -578,7 +578,7 @@
   "trans0583": "This function is not available because Bridge mode is activated on the router.",
   "trans0584": "#### DNS failure\n- Please go to \"Internet Settings\", and set up the right DNS",
   "trans0585": "#### Here are some possible reasons affecting network speed: \n- Please check if there is QoS policy applied to your router\n\n- Please confirm whether your Internet bandwidth is shared with other users by your ISP\n\n- Realtime speed may vary according to network situation of your location or building and time of day etc. Please try later to get a more accurate reading",
-  "trans0586": " The device is not supported WPA",
+  "trans0586": " ",
   "trans0587": "Retry",
   "trans0588": "Suitable for browsing",
   "trans0589": "Suitable for videos & gaming",
@@ -729,6 +729,6 @@
   "trans0734": " ",
   "trans0735": "Note: The Internet Setting of the current router is PPPoE through IPv4. You have to configure PPPoE to get a connection if you want to use IPv6.",
   "trans0736": "The account will delete this device after unbinding.",
-  "trans0737": "Skin",
+  "trans0737": "Mode",
   "trans0738": "Light"
 }

@@ -97,7 +97,7 @@ export const defaultScrollbarOpt = {
   },
   scrollbar: { fade: true }
 };
-const Weeks = {
+export const Weeks = {
   mon: 'Mon',
   tue: 'Tue',
   wed: 'Wed',
@@ -106,33 +106,3 @@ const Weeks = {
   sat: 'Sat',
   sun: 'Sun'
 };
-export const schedules = [
-  {
-    label: 'trans0086',
-    value: Weeks.mon
-  },
-  {
-    label: 'trans0087',
-    value: Weeks.tue
-  },
-  {
-    label: 'trans0088',
-    value: Weeks.wed
-  },
-  {
-    label: 'trans0089',
-    value: Weeks.thu
-  },
-  {
-    label: 'trans0090',
-    value: Weeks.fri
-  },
-  {
-    label: 'trans0091',
-    value: Weeks.sat
-  },
-  {
-    label: 'trans0092',
-    value: Weeks.sun
-  }
-];

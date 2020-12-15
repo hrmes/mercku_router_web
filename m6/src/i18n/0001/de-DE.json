@@ -729,10 +729,16 @@
   "trans0734": " ",
   "trans0735": "Hinweis: Die Interneteinstellung des aktuellen Routers ist PPPoE über IPv4. Sie müssen PPPoE konfigurieren, um eine Verbindung herzustellen, wenn Sie IPv6 verwenden möchten.",
   "trans0736": "Der Account löscht dieses Gerät nach Aufheben der Bindung.",
-  "trans0737": " ",
-  "trans0738": " ",
-  "trans0739": " ",
-  "trans0740": " ",
-  "trans0741": " ",
-  "trans0742": " "
+  "trans0737": "Haut",
+  "trans0738": "Licht",
+  "trans0739": "Dunkel",
+  "trans0740": "Automatisch",
+  "trans0741": "Wenn diese Option aktiviert ist, schaltet die App den Dunkelmodus ein/aus, um sich an Ihre Systemeinstellungen anzupassen",
+  "trans0742": "Timer",
+  "trans0743": "Automatisches Upgrade",
+  "trans0744": "Upgrade zu einem voreingestellten Zeitpunkt",
+  "trans0745": "Upgrade Zeitpunkt",
+  "trans0746": "Nach dem Einschalten des automatischen Upgrades überprüft der Router den Upgrade-Befehl automatisch und startet ihn, wenn die festgelegte Zeit erreicht ist (wenn der Router einen großen Datenverkehr hat (> 500 kbps), wird das automatische Upgrade nicht durchgeführt).",
+  "trans0747": "%s ~%s führt ein automatisches Upgrade durch",
+  "trans0748": "Seite nicht gefunden, bitte aktualisieren und erneut versuchen."
 }

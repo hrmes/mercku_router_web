@@ -6,7 +6,7 @@
     <div class="page-content">
       <div class="content">
         <div class="content__text">
-          {{$t('trans0746')}}
+          {{tips}}
         </div>
         <div class="content__switch">
           <label for="">{{$t('trans0744')}}</label>
@@ -44,20 +44,57 @@
 </template>
 
 <script>
-import { schedules } from '@/util/constant';
-import { replaceTransStr } from '@/util/util';
+import { Weeks } from '@/util/constant';
 
+const maxTrafficThreshold = 500;
 export default {
   data() {
     return {
       auto_upgrade: {
         enabled: false,
-        schedule: [schedules[0].value],
+        schedule: '',
         time: '00:59'
       },
       enabledInitialized: false,
-      scheduleOption: schedules
+      scheduleOption: [
+        {
+          text: this.$t('trans0086'),
+          value: Weeks.mon
+        },
+        {
+          text: this.$t('trans0087'),
+          value: Weeks.tue
+        },
+        {
+          text: this.$t('trans0088'),
+          value: Weeks.wed
+        },
+        {
+          text: this.$t('trans0089'),
+          value: Weeks.thu
+        },
+        {
+          text: this.$t('trans0090'),
+          value: Weeks.fri
+        },
+        {
+          text: this.$t('trans0091'),
+          value: Weeks.sat
+        },
+        {
+          text: this.$t('trans0092'),
+          value: Weeks.sun
+        }
+      ]
     };
+  },
+  computed: {
+    tips() {
+      return this.$t('trans0746').format(
+        '%s',
+        this.auto_upgrade.traffic_threshold || maxTrafficThreshold
+      );
+    }
   },
   mounted() {
     this.getMeshAutoUpgrade();
@@ -69,9 +106,14 @@ export default {
       }
     },
     updateMeshAutoUpgrade() {
+      const autoUpgrade = {
+        enabled: this.auto_upgrade.enabled,
+        schedule: [this.auto_upgrade.schedule],
+        time: this.auto_upgrade.time
+      };
       this.$loading.open();
       this.$http
-        .setMeshAutoUpgrade(this.auto_upgrade)
+        .setMeshAutoUpgrade(autoUpgrade)
         .then(() => {
           this.$loading.close();
         })
@@ -83,18 +125,21 @@ export default {
       this.$loading.open();
       this.$http.getMeshAutoUpgrade().then(res => {
         this.$loading.close();
-        this.auto_upgrade = res.data.result;
+        const { result } = res.data;
+        this.auto_upgrade.enabled = result.enabled;
+        [this.auto_upgrade.schedule] = result.schedule;
+        this.auto_upgrade.time = result.time;
         this.enabledInitialized = this.auto_upgrade.enabled;
       });
     },
     submit() {
       const scheduleSelected = this.scheduleOption.find(
-        item => item.value === this.auto_upgrade.schedule[0]
+        item => item.value === this.auto_upgrade.schedule
       );
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: replaceTransStr('trans0747', '%s', scheduleSelected.label, this.auto_upgrade.time),
+        message: this.$t('trans0747').format('%s', scheduleSelected.text, this.auto_upgrade.time),
         callback: {
           ok: () => {
             this.updateMeshAutoUpgrade();
@@ -125,7 +170,6 @@ export default {
     align-items: center;
     height: 80px;
     label {
-      width: 75px;
       font-weight: bold;
       margin-right: 10px;
     }

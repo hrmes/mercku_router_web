@@ -65,7 +65,7 @@
                    v-for="(item,i) in schedules"
                    :key='i'>
                 <m-checkbox v-model='item.checked'
-                            :text='$t(item.label)'></m-checkbox>
+                            :text='$t(item.text)'></m-checkbox>
               </div>
             </div>
           </div>
@@ -86,17 +86,50 @@
   </div>
 </template>
 <script>
-import { schedules } from '@/util/constant';
+import { Weeks } from '@/util/constant';
 
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
   return s;
 };
 
-const schedulesOptions = schedules.map(item => ({
-  ...item,
-  checked: true
-}));
+const schedulesOptions = [
+  {
+    text: 'trans0086',
+    value: Weeks.mon,
+    checked: true
+  },
+  {
+    text: 'trans0087',
+    value: Weeks.tue,
+    checked: true
+  },
+  {
+    text: 'trans0088',
+    value: Weeks.wed,
+    checked: true
+  },
+  {
+    text: 'trans0089',
+    value: Weeks.thu,
+    checked: true
+  },
+  {
+    text: 'trans0090',
+    value: Weeks.fri,
+    checked: true
+  },
+  {
+    text: 'trans0091',
+    value: Weeks.sat,
+    checked: true
+  },
+  {
+    text: 'trans0092',
+    value: Weeks.sun,
+    checked: true
+  }
+];
 
 export default {
   data() {
