@@ -97,3 +97,34 @@ export const defaultScrollbarOpt = {
   },
   scrollbar: { fade: true }
 };
+
+export const schedules = [
+  {
+    label: 'trans0086',
+    value: 'Mon'
+  },
+  {
+    label: 'trans0087',
+    value: 'Tue'
+  },
+  {
+    label: 'trans0088',
+    value: 'Wed'
+  },
+  {
+    label: 'trans0089',
+    value: 'Thu'
+  },
+  {
+    label: 'trans0090',
+    value: 'Fri'
+  },
+  {
+    label: 'trans0091',
+    value: 'Sat'
+  },
+  {
+    label: 'trans0092',
+    value: 'Sun'
+  }
+];

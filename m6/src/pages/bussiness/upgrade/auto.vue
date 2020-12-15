@@ -1,37 +1,34 @@
 <template>
   <div class="page auto-upgrade">
     <div class='page-header'>
-      自动升级
+      {{$t('trans0743')}}
     </div>
     <div class="page-content">
       <div class="content">
         <div class="content__text">
-          开启自动升级之后，路由器会在你设定的时间检查并启动升级命令 (当路由器有大流量在运行（>500kbps）时，将不执行自动升级)。
+          {{$t('trans0746')}}
         </div>
         <div class="content__switch">
-          <label for="">自动升级</label>
+          <label for="">{{$t('trans0744')}}</label>
           <m-switch v-model="auto_upgrade.enabled"
-                    :onChange="switchAutoUpgrade"></m-switch>
+                    @change="switchAutoUpgrade"></m-switch>
         </div>
         <template v-if="auto_upgrade.enabled">
           <div class="content__line"></div>
           <m-form ref="autoUpgradeForm"
                   :model="auto_upgrade"
-                  :rules="rules"
                   class="content__item form">
             <m-form-item key="schedule"
-                         class="item"
-                         prop="schedule">
-              <m-select label="重复"
+                         class="item">
+              <m-select :label="$t('trans0082')"
                         v-model="auto_upgrade.schedule"
                         :options="scheduleOption"></m-select>
             </m-form-item>
             <m-form-item key="time"
-                         class="item"
-                         prop="time">
+                         class="item">
               <label class="item__label"
-                     for="">升级时间</label>
-              <m-time-picker custom-class="form__time-picker"
+                     for="">{{$t('trans0745')}}</label>
+              <m-time-picker class="form__time-picker"
                              v-model="auto_upgrade.time" />
             </m-form-item>
             <m-form-item>
@@ -47,69 +44,22 @@
 </template>
 
 <script>
-const Schedule = {
-  mon: 'Mon',
-  tue: 'Tue',
-  wed: 'Wed',
-  thu: 'Thu',
-  fri: 'Fri',
-  sat: 'Sat',
-  sun: 'Sun'
-};
+import { schedules } from '@/util/constant';
+
 export default {
   data() {
     return {
       auto_upgrade: {
-        mesh_id: '',
         enabled: false,
-        schedule: [],
-        time: '23:59'
+        schedule: [schedules[0].value],
+        time: '00:59'
       },
       enabledInitialized: false,
-      rules: {
-        schedule: {
-          rule: value => value.length,
-          message: this.$t('trans0237')
-        },
-        time: {
-          rule: value => !/^\s*$/g.test(value.trim()),
-          message: this.$t('trans0237')
-        }
-      },
-      scheduleOption: [
-        {
-          value: Schedule.mon,
-          text: 'Mon'
-        },
-        {
-          value: Schedule.tue,
-          text: 'Tue'
-        },
-        {
-          value: Schedule.wed,
-          text: 'Wed'
-        },
-        {
-          value: Schedule.thu,
-          text: 'Thu'
-        },
-        {
-          value: Schedule.fri,
-          text: 'Fri'
-        },
-        {
-          value: Schedule.sat,
-          text: 'sat'
-        },
-        {
-          value: Schedule.sun,
-          text: 'Sun'
-        }
-      ]
+      scheduleOption: schedules
     };
   },
   mounted() {
-    // this.getMeshAutoUpgrade();
+    this.getMeshAutoUpgrade();
   },
   methods: {
     switchAutoUpgrade(enabled) {
@@ -140,7 +90,11 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: `每${this.schedule[0]}-${this.auto_upgrade.time}将执行自动升级`,
+        message: `${this.$t('trans0747').replace(
+          '%s',
+          this.schedule[0].label,
+          this.auto_upgrade.time
+        )}`,
         callback: {
           ok: () => {
             this.updateMeshAutoUpgrade();

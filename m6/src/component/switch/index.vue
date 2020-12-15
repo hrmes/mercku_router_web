@@ -15,10 +15,6 @@ export default {
     };
   },
   props: {
-    onChange: {
-      type: Function,
-      default: () => {}
-    },
     disabled: {
       type: Boolean,
       default: false
@@ -35,7 +31,7 @@ export default {
     change(...args) {
       this.checked = !this.checked;
       this.$emit('input', this.checked);
-      this.onChange(this.checked, args);
+      this.$emit('change', this.checked, args);
     }
   }
 };

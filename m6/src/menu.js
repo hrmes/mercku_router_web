@@ -267,7 +267,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       {
         url: '/upgrade/auto',
         name: 'auto',
-        text: '自动升级',
+        text: 'trans0743',
         mode: [RouterMode.router, RouterMode.bridge],
         customers: allCustomers
       }

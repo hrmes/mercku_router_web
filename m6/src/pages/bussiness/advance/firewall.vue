@@ -8,13 +8,13 @@
         <div class="content__item content__switch">
           <label for="">{{$t('trans0424')}}</label>
           <m-switch v-model="wan.dos"
-                    :onChange="updateWanDos"></m-switch>
+                    @change="updateWanDos"></m-switch>
         </div>
         <div class="content__line"></div>
         <div class="content__item content__switch">
           <label for="">{{$t('trans0434')}}</label>
           <m-switch v-model="wan.ping.enabled"
-                    :onChange="updateWanPing"></m-switch>
+                    @change="updateWanPing"></m-switch>
         </div>
         <template v-if="wan.ping.enabled">
           <m-form ref="ipListForm"

@@ -100,7 +100,7 @@
             </div>
             <div class="column-status">
               <m-switch v-model="item.enabled"
-                        :onChange="(v)=>update(v,item)"></m-switch>
+                        @change="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
               <a class="btn-text"

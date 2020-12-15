@@ -691,7 +691,7 @@
   "trans0696": "AUTO",
   "trans0697": "Pagina niet gevonden. Vernieuw de pagina en probeer het opnieuw.",
   "trans0698": "Herstel de fabrieksinstellingen van het voorheen actieve apparaat (druk 5 seconden op de knop \"Reset\")",
-  "trans0699": "#### Verbinding met internet verbroken. Controleer of de ethernetkabel correct is aangesloten \n- Sluit de ethernetkabel aan op een willekeurige poort \n \n- Sluit een kant van de ethernetkabel aan op de M6 en de andere kant op de LAN-poort of internetpoort van de modem",
+  "trans0699": "#### Verbinding met internet verbroken. Controleer of de ethernetkabel correct is aangesloten \n- Sluit de ethernetkabel aan op de rode poort (WAN-poort)\n \n- Sluit een kant van de ethernetkabel aan op de M6 en de andere kant op de LAN-poort of internetpoort van de modem",
   "trans0700": "IPv6 WAN Status",
   "trans0701": "WAN IP",
   "trans0702": " ",

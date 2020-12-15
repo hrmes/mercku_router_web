@@ -1,6 +1,5 @@
 <template>
-  <div class="time-picker-panel"
-       :class="[customClass]">
+  <div class="time-picker-panel">
     <div class="input-wrap"
          @click="open">
       <input type="text"
@@ -46,11 +45,7 @@
 <script>
 export default {
   props: {
-    value: { type: String },
-    customClass: {
-      type: String,
-      default: ''
-    }
+    value: { type: String }
   },
   data() {
     return {
@@ -174,7 +169,7 @@ export default {
   }
 };
 </script>
-<style lang='scss' scoped>
+<style lang='scss'>
 .time-picker-panel {
   width: 160px;
   height: 36px;

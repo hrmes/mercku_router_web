@@ -25,7 +25,7 @@
           <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
           <div class="column-handle">
             <div class="check-wrap">
-              <m-switch :onChange="(v)=>changehandle(v,row)"
+              <m-switch @change="(v)=>changehandle(v,row)"
                         v-model="row.enabled" />
             </div>
             <a class="btn-text"
@@ -65,7 +65,7 @@
                    v-for="(item,i) in schedules"
                    :key='i'>
                 <m-checkbox v-model='item.checked'
-                            :text='item.label'></m-checkbox>
+                            :text='$t(item.label)'></m-checkbox>
               </div>
             </div>
           </div>
@@ -86,10 +86,17 @@
   </div>
 </template>
 <script>
+import { schedules } from '@/util/constant';
+
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
   return s;
 };
+
+schedules.forEach(item => {
+  item.checked = true;
+});
+
 export default {
   data() {
     return {
@@ -108,43 +115,7 @@ export default {
         time_end: '23:59',
         schedule: []
       },
-      schedules: [
-        {
-          label: this.$t('trans0086'),
-          checked: false,
-          value: 'Mon'
-        },
-        {
-          label: this.$t('trans0087'),
-          checked: false,
-          value: 'Tue'
-        },
-        {
-          label: this.$t('trans0088'),
-          checked: false,
-          value: 'Wed'
-        },
-        {
-          label: this.$t('trans0089'),
-          checked: false,
-          value: 'Thu'
-        },
-        {
-          label: this.$t('trans0090'),
-          checked: false,
-          value: 'Fri'
-        },
-        {
-          label: this.$t('trans0091'),
-          checked: false,
-          value: 'Sat'
-        },
-        {
-          label: this.$t('trans0092'),
-          checked: false,
-          value: 'Sun'
-        }
-      ]
+      schedules
     };
   },
   mounted() {

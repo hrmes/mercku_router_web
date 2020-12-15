@@ -8,7 +8,7 @@
         <div class="smart-connect__inner">
           <label class="smart-connect__label">{{ $t('trans0397') }}</label>
           <m-switch class="smart-connect__switch"
-                    :onChange="changeSmartConnect"
+                    @change="changeSmartConnect"
                     v-model="form.smart_connect" />
         </div>
         <div class="smart-connect__tip">{{ $t('trans0398') }}</div>
