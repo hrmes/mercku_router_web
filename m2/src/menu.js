@@ -230,10 +230,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         super: false,
         customers: [
           Customers.internal,
+          Customers.mercku,
           Customers.cik,
           Customers.inverto,
           Customers.startca,
-          Customers.orion
+          Customers.orion,
+          Customers.realnett
         ]
       },
       {
@@ -252,7 +254,6 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     ]
   };
-
   const upgrade = {
     icon: 'upgrade',
     text: 'trans0197',
@@ -292,6 +293,5 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     });
   });
-
   return [wifi, setting, advance, upgrade];
 }

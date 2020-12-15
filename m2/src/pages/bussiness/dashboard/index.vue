@@ -1,7 +1,6 @@
 <template>
   <div class="dashboard customized">
-    <div ref="wrap"
-         class="net-info">
+    <div class="net-info">
       <div class="net-info__inner">
         <div class="device-container"
              :class="{'selected':$route.path.includes('device')}">
@@ -110,7 +109,6 @@ export default {
     }
   },
   mounted() {
-    this.fixWrapHeight();
     this.getWanStatus();
     this.getSsid();
     this.createIntercvalTask();
@@ -137,11 +135,6 @@ export default {
     });
   },
   methods: {
-    fixWrapHeight() {
-      const height = this.$refs.wrap.clientHeight;
-
-      this.$refs.wrap.style.height = `${height}px`;
-    },
     checkFrimwareLatest() {
       this.$http
         .firmwareList(undefined, {
@@ -274,13 +267,9 @@ export default {
   .net-info {
     background: url(../../../assets/images/dashboard_banner_bg.jpg) no-repeat
       center;
-    background-size: 100%;
+    background-size: cover;
     position: relative;
-    &::before {
-      content: '';
-      display: block;
-      padding-top: 14%;
-    }
+    height: 280px;
     .net-info__inner {
       display: flex;
       padding: 0 15%;
@@ -477,12 +466,8 @@ export default {
     .net-info {
       background: url(../../../assets/images/mobile/dashboard_banner_bg.jpg)
         no-repeat center;
-      background-size: 100%;
-      &::before {
-        content: '';
-        display: block;
-        padding-top: 42%;
-      }
+      background-size: cover;
+      height: 160px;
       .net-info__inner {
         padding: 0 30px;
         .icon-container {

@@ -119,6 +119,9 @@ input::-webkit-input-placeholder {
     display: none;
   }
 }
+label.with-colon {
+  margin-right: 5px;
+}
 
 @media screen and (max-width: 768px) {
   .page {

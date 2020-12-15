@@ -259,6 +259,26 @@ export default {
     margin-top: 5px;
     font-size: 16px;
     color: #333;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &::before {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 10px;
+      background: #333;
+      margin-right: 8px;
+    }
+    &::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 10px;
+      background: #333;
+      margin-left: 8px;
+    }
   }
   .step {
     text-align: center;

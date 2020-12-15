@@ -41,17 +41,35 @@ import wwa from 'pages/bussiness/advance/wwa.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
 
 Vue.use(Router);
-export default new Router({
+
+const prefix = '/web';
+
+const genNewLocation = location => {
+  let newLocation;
+  if (typeof location === 'string') {
+    newLocation = {
+      path: prefix + location
+    };
+  } else {
+    newLocation = {
+      ...location,
+      path: prefix + location.path
+    };
+  }
+  return newLocation;
+};
+const { push } = Router.prototype;
+Router.prototype.push = function customPush(location) {
+  return push.call(this, genNewLocation(location)).catch(err => err);
+};
+const { replace } = Router.prototype;
+Router.prototype.replace = function customReplace(location) {
+  return replace.call(this, genNewLocation(location));
+};
+
+const routes = {
   mode: 'history',
   routes: [
-    {
-      path: '*',
-      redirect: '/dashboard'
-    },
-    {
-      path: '/',
-      redirect: '/login'
-    },
     {
       path: '/login',
       name: 'login',
@@ -254,4 +272,31 @@ export default new Router({
       component: superConfig
     }
   ]
-});
+};
+
+const recursive = root => {
+  root.forEach(r => {
+    if (r.path) {
+      r.path = prefix + r.path;
+    }
+    if (r.redirect) {
+      r.redirect = prefix + r.redirect;
+    }
+    if (r.children) {
+      recursive(r.children);
+    }
+  });
+};
+recursive(routes.routes);
+Array.prototype.push.apply(routes.routes, [
+  {
+    path: '*',
+    redirect: `${prefix}/wlan`
+  },
+  {
+    path: '/',
+    redirect: `${prefix}/login`
+  }
+]);
+console.log(routes);
+export default new Router(routes);
