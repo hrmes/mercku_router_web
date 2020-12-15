@@ -87,13 +87,13 @@ export default {
       });
     },
     submit() {
+      const scheduleSelected = this.schedule.find(item => item.value === this.schedule[0].value);
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
         message: `${this.$t('trans0747').replace(
-          '%s',
-          this.schedule[0].label,
-          this.auto_upgrade.time
+          '%s~%s',
+          `${scheduleSelected.label}~${this.auto_upgrade.time}`
         )}`,
         callback: {
           ok: () => {

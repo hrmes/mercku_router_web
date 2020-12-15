@@ -132,6 +132,7 @@ export default {
       this.updateFirewall();
     },
     updateWanPing(enabled) {
+      console.log('enabled', enabled, 'ping.enabled', this.wan.ping.enabled);
       if (!enabled) {
         if (this.pingEnabledInitialized !== this.wan.ping.enabled) {
           this.updateFirewall();
