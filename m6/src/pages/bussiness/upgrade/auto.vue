@@ -45,6 +45,7 @@
 
 <script>
 import { schedules } from '@/util/constant';
+import { replaceTransStr } from '@/util/util';
 
 export default {
   data() {
@@ -87,14 +88,13 @@ export default {
       });
     },
     submit() {
-      const scheduleSelected = this.schedule.find(item => item.value === this.schedule[0].value);
+      const scheduleSelected = this.scheduleOption.find(
+        item => item.value === this.auto_upgrade.schedule[0]
+      );
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: `${this.$t('trans0747').replace(
-          '%s~%s',
-          `${scheduleSelected.label}~${this.auto_upgrade.time}`
-        )}`,
+        message: replaceTransStr('trans0747', '%s', scheduleSelected.label, this.auto_upgrade.time),
         callback: {
           ok: () => {
             this.updateMeshAutoUpgrade();

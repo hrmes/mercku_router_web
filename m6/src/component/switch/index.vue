@@ -2,13 +2,6 @@
   <div class="mk-switch">
     <label class="mk-switch__label"
            v-if="label">{{ label }}</label>
-    <input class="mk-switch__input"
-           type="checkbox"
-           @change="handleChange"
-           ref="input"
-           :true-value="true"
-           :false-value="false"
-           :disabled="disabled">
     <div class="mk-switch__inner"
          :class="{ checked: checked, disabled: disabled }"
          @click="switchValue"></div>
@@ -21,22 +14,30 @@ export default {
       type: Boolean,
       default: false
     },
-    value: { type: Boolean },
-    label: { type: String }
+    label: { type: String },
+    value: {
+      type: [Boolean, String, Number],
+      default: false
+    },
+    activeValue: {
+      type: [Boolean, String, Number],
+      default: true
+    },
+    inactiveValue: {
+      type: [Boolean, String, Number],
+      default: false
+    }
   },
   computed: {
     checked() {
-      return this.value;
+      return this.value === this.activeValue;
     }
   },
   methods: {
     handleChange() {
-      const val = !this.checked;
+      const val = this.checked ? this.inactiveValue : this.activeValue;
       this.$emit('input', val);
       this.$emit('change', val);
-      this.$nextTick(() => {
-        this.$refs.input.checked = this.checked;
-      });
     },
     switchValue() {
       !this.disabled && this.handleChange();
@@ -51,10 +52,6 @@ export default {
   .mk-switch__label {
     margin-right: 20px;
     font-weight: bold;
-  }
-  .mk-switch__input {
-    width: 0;
-    height: 0;
   }
   .mk-switch__inner {
     cursor: pointer;

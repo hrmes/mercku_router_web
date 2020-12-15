@@ -1,5 +1,5 @@
 <template>
-  <div class="time-picker-panel">
+  <div class="mk-time-picker-panel">
     <div class="input-wrap"
          @click="open">
       <input type="text"
@@ -170,7 +170,7 @@ export default {
 };
 </script>
 <style lang='scss'>
-.time-picker-panel {
+.mk-time-picker-panel {
   width: 160px;
   height: 36px;
   position: relative;

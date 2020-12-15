@@ -93,9 +93,10 @@ const formatTime = t => {
   return s;
 };
 
-schedules.forEach(item => {
-  item.checked = true;
-});
+const schedulesOptions = schedules.map(item => ({
+  ...item,
+  checked: true
+}));
 
 export default {
   data() {
@@ -115,7 +116,7 @@ export default {
         time_end: '23:59',
         schedule: []
       },
-      schedules
+      schedules: schedulesOptions
     };
   },
   mounted() {
