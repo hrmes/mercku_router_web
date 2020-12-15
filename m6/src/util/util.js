@@ -275,3 +275,9 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
 
   return fmt;
 };
+
+String.prototype.format = function(symbol, ...args) {
+  return args.reduce((sum, currentVal) => {
+    return sum.replace(symbol, currentVal);
+  }, this);
+};

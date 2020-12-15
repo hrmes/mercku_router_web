@@ -221,6 +221,8 @@ export default function getMenu(role, mode = RouterMode.router) {
         mode: [RouterMode.router],
         super: false,
         customers: [
+          Customers.demo,
+          Customers.mercku,
           Customers.cik,
           Customers.inverto,
           Customers.startca,
@@ -259,6 +261,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
+        mode: [RouterMode.router, RouterMode.bridge],
+        customers: allCustomers
+      },
+      {
+        url: '/upgrade/auto',
+        name: 'auto',
+        text: 'trans0743',
         mode: [RouterMode.router, RouterMode.bridge],
         customers: allCustomers
       }

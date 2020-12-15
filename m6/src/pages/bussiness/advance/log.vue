@@ -8,7 +8,7 @@
         <div class="form-item">
           <m-switch :label="$t('trans0462')"
                     v-model="enabled"
-                    :onChange="updateEnabled"></m-switch>
+                    @change="updateEnabled"></m-switch>
           <button v-if="enabled"
                   class="btn btn-small"
                   @click="getSyslog">{{$t('trans0481')}}</button>

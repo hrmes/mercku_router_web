@@ -15,6 +15,7 @@ import upnp from 'pages/bussiness/setting/upnp.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
+import auto from 'pages/bussiness/upgrade/auto.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
@@ -185,6 +186,11 @@ const routes = {
       path: '/upgrade/offline',
       name: 'offline',
       component: offline
+    },
+    {
+      path: '/upgrade/auto',
+      name: 'auto',
+      component: auto
     },
     {
       path: '/advance/portforwarding',

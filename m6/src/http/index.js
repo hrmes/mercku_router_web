@@ -107,7 +107,9 @@ const methods = {
   getSupportRegions: createMethod('mesh.region.supported.get'),
   setRegion: createMethod('mesh.region.update'),
   getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
-  setUPNPEnabled: createMethod('mesh.upnp.enabled.update')
+  setUPNPEnabled: createMethod('mesh.upnp.enabled.update'),
+  getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
+  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set')
 };
 
 class Http {
@@ -158,9 +160,7 @@ Http.prototype.getSysLog = function getSysLog() {
 
 // 上传镜像
 Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
-  const {
-    CancelToken
-  } = axios;
+  const { CancelToken } = axios;
   const source = CancelToken.source();
   return axios({
     url: '/firmware_upload',
@@ -178,9 +178,7 @@ Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
 
 // 上传文件
 Http.prototype.uploadFile = function uploadFile(params, callback) {
-  const {
-    CancelToken
-  } = axios;
+  const { CancelToken } = axios;
   const source = CancelToken.source();
   return axios({
     url: '/file_upload',
