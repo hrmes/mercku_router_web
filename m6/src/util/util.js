@@ -277,9 +277,6 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
 };
 
 String.prototype.format = function(symbol, ...args) {
-  // return args.reduce((sum, currentVal) => {
-  //   return sum.replace(symbol, currentVal);
-  // }, this);
   let _this = this;
   args.forEach(val => {
     _this = _this.replace(symbol, val);
