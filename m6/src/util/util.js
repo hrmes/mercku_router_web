@@ -276,10 +276,11 @@ export const formatDate = (date, fmt = 'yyyy-MM-dd hh:mm:ss') => {
   return fmt;
 };
 
-String.prototype.format = function(symbol, ...args) {
+String.prototype.format = function(...args) {
   let _this = this;
   args.forEach(val => {
-    _this = _this.replace(symbol, val);
+    _this = _this.replace(/%[abcdefghnostx]/, val);
+    console.log(_this);
   });
   return _this;
 };
