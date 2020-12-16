@@ -113,8 +113,8 @@ export default {
         if (!this.allowedIpsLen) {
           this.wan.ping.ip_limit.ip_list = [''];
         }
-      } else if (this.allowedIpsLen === 1 && this.wan.ping.ip_limit.ip_list[0] === '') {
-        this.wan.ping.ip_limit.ip_list = [];
+      } else {
+        this.wan.ping.ip_limit.ip_list = this.wan.ping.ip_limit.ip_list.filter(ip => !ip);
       }
     },
     addIp() {
