@@ -103,6 +103,7 @@ export default {
       node: {
         sn: '030000000000000',
         name: '',
+        is_gw: false,
         version: {
           current: '1.0.0'
         }
@@ -249,41 +250,48 @@ export default {
         })
         .catch(err => {
           console.log('in catch......', err);
-          // 这种情况是gw重启了，需要定时去检查gw是否重启完成
-          let timeout = 600000;
-          const interval = 5000;
-          let responsed = true;
+          if (this.node.is_gw) {
+            // 这种情况是gw重启了，需要定时去检查gw是否重启完成
+            let timeout = 600000;
+            const interval = 5000;
+            let responsed = true;
 
-          let timer = setInterval(() => {
-            timeout -= interval;
-            if (timeout <= 0) {
-              clearInterval(timer);
-              timer = null;
-              this.status = Statuses.install_timeout;
-            }
-            if (responsed) {
-              responsed = false;
-              this.$http
-                .getRouter(null, {
-                  noRedirect: true
-                })
-                .then(res => {
-                  responsed = true;
-                  const node = res.data.result;
-                  this.node = node;
-                  if (compareVersion(this.preVersion, node.version.current)) {
-                    this.status = Statuses.install_success;
-                  } else {
-                    this.status = Statuses.install_fail;
-                  }
-                  clearInterval(timer);
-                  timer = null;
-                })
-                .catch(() => {
-                  responsed = true;
-                });
-            }
-          }, interval);
+            let timer = setInterval(() => {
+              timeout -= interval;
+              if (timeout <= 0) {
+                clearInterval(timer);
+                timer = null;
+                this.status = Statuses.install_timeout;
+              }
+              if (responsed) {
+                responsed = false;
+                this.$http
+                  .getRouter(null, {
+                    noRedirect: true
+                  })
+                  .then(res => {
+                    responsed = true;
+                    const node = res.data.result;
+                    this.node = node;
+                    if (compareVersion(this.preVersion, node.version.current)) {
+                      this.status = Statuses.install_success;
+                    } else {
+                      this.status = Statuses.install_fail;
+                    }
+                    clearInterval(timer);
+                    timer = null;
+                  })
+                  .catch(() => {
+                    responsed = true;
+                  });
+              }
+            }, interval);
+          } else if (this.pageActive) {
+            // 有时候api会出现莫名其妙的错误，做兼容处理
+            this.timer = setTimeout(() => {
+              this.checkNodeStatus();
+            }, 5000);
+          }
         });
     }
   }
