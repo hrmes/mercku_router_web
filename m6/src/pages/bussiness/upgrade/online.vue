@@ -199,19 +199,15 @@ export default {
               message: this.$t('trans0669'),
               callback: {
                 ok: () => {
-                  this.nodes.forEach(node => {
-                    // 选中节点
-                    if (!node.isGW) {
-                      node.checked = true;
-                    }
-                  });
+                  const meshNodes = this.nodes.filter(n => !n.is_gw);
+                  if (meshNodes.length) {
+                    // 选中第一个节点
+                    meshNodes[0].checked = true;
+                  }
                 }
               }
             });
           }
-          // else if (this.nodes.length > 0) {
-          //   this.nodes[0].checked = true;
-          // }
         })
         .catch(err => {
           this.$loading.close();
