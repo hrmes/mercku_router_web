@@ -91,7 +91,6 @@ export default {
   computed: {
     tips() {
       return this.$t('trans0746').format(
-        '%s',
         this.auto_upgrade.traffic_threshold || maxTrafficThreshold
       );
     }
@@ -139,7 +138,7 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0747').format('%s', scheduleSelected.text, this.auto_upgrade.time),
+        message: this.$t('trans0747').format(scheduleSelected.text, this.auto_upgrade.time),
         callback: {
           ok: () => {
             this.updateMeshAutoUpgrade();
@@ -158,7 +157,6 @@ export default {
   .content__text {
     font-size: 14px;
     color: #333333;
-    text-align: justify;
   }
   .content__line {
     height: 1px;

@@ -22,7 +22,8 @@
                   class="content__item form">
             <m-checkbox class="form__checkbox"
                         v-model="isIpPointed"
-                        :text="$t('trans0575')"></m-checkbox>
+                        :text="$t('trans0575')"
+                        @change="changeIpPointed"></m-checkbox>
             <template v-if="isIpPointed">
               <m-form-item v-for="(value, index) in wan.ping.ip_limit.ip_list"
                            :key="index"
@@ -107,6 +108,15 @@ export default {
     this.getFirewall();
   },
   methods: {
+    changeIpPointed() {
+      if (this.isIpPointed) {
+        if (!this.allowedIpsLen) {
+          this.wan.ping.ip_limit.ip_list = [''];
+        }
+      } else {
+        this.wan.ping.ip_limit.ip_list = this.wan.ping.ip_limit.ip_list.filter(ip => !ip);
+      }
+    },
     addIp() {
       if (this.isMaxIpNum) {
         this.$toast(this.$t('trans0060'), 3000, 'error');
