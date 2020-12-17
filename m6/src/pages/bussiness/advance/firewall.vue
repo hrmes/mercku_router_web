@@ -32,7 +32,7 @@
                 <div class="form__item">
                   <m-input class="form__input"
                            type="text"
-                           :placeholder="$t('trans0492')"
+                           :placeholder="$t('trans0321')"
                            v-model="wan.ping.ip_limit.ip_list[index]" />
                   <div @click="reduceIp(index)"
                        class="form__reduce-btn"
