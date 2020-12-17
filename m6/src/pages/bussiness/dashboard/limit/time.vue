@@ -65,7 +65,7 @@
                    v-for="(item,i) in schedules"
                    :key='i'>
                 <m-checkbox v-model='item.checked'
-                            :text='$t(item.text)'></m-checkbox>
+                            :text='$t(item.label)'></m-checkbox>
               </div>
             </div>
           </div>
@@ -95,37 +95,37 @@ const formatTime = t => {
 
 const schedulesOptions = [
   {
-    text: 'trans0086',
+    label: 'trans0086',
     value: Weeks.mon,
     checked: true
   },
   {
-    text: 'trans0087',
+    label: 'trans0087',
     value: Weeks.tue,
     checked: true
   },
   {
-    text: 'trans0088',
+    label: 'trans0088',
     value: Weeks.wed,
     checked: true
   },
   {
-    text: 'trans0089',
+    label: 'trans0089',
     value: Weeks.thu,
     checked: true
   },
   {
-    text: 'trans0090',
+    label: 'trans0090',
     value: Weeks.fri,
     checked: true
   },
   {
-    text: 'trans0091',
+    label: 'trans0091',
     value: Weeks.sat,
     checked: true
   },
   {
-    text: 'trans0092',
+    label: 'trans0092',
     value: Weeks.sun,
     checked: true
   }
@@ -208,7 +208,7 @@ export default {
       arr.forEach(s => {
         this.schedules.forEach(v => {
           if (s === v.value) {
-            newArr.push(v.label);
+            newArr.push(this.$t(v.label));
           }
         });
       });
