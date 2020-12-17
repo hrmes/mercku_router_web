@@ -199,7 +199,7 @@ export default {
               message: this.$t('trans0669'),
               callback: {
                 ok: () => {
-                  const meshNodes = this.nodes.filter(n => !n.is_gw);
+                  const meshNodes = this.nodes.filter(n => !n.isGW);
                   if (meshNodes.length) {
                     // 选中第一个节点
                     meshNodes[0].checked = true;
