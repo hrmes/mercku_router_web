@@ -101,7 +101,7 @@ export default {
       Statuses,
       status: '',
       node: {
-        sn: '030000000000000',
+        sn: '060000000000000',
         name: '',
         is_gw: false,
         version: {

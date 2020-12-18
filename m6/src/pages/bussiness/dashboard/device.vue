@@ -16,7 +16,7 @@
           <div class="m-check-all-box">
             <m-checkbox v-model="checkAll"
                         :text="$t('trans0032')"
-                        :onChange="offCheckChange"></m-checkbox>
+                        @change="offCheckChange"></m-checkbox>
           </div>
           <div><button class="btn btn-small"
                     :disabled="!offlineCheckedMacs.length"
@@ -37,7 +37,7 @@
               <div class="column-check-box"
                    v-if="isOfflineDevices">
                 <m-checkbox v-model="checkAll"
-                            :onChange="offCheckChange"></m-checkbox>
+                            @change="offCheckChange"></m-checkbox>
               </div>
               {{$t('trans0005')}}
             </li>
@@ -470,10 +470,7 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return (
-        row.parent_control &&
-        row.parent_control.mode === BlacklistMode.blacklist
-      );
+      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -545,9 +542,7 @@ export default {
           this.devicesMap = {
             ...this.devicesMap,
             [curId]:
-              curId === 'offline'
-                ? this.fillterOfflineDevices(result)
-                : this.filterDevices(result)
+              curId === 'offline' ? this.fillterOfflineDevices(result) : this.filterDevices(result)
           };
         }
       } catch (err) {
@@ -560,7 +555,7 @@ export default {
       }
     },
     updateDeviceName() {
-      if (this.$refs.form.validate()) { 
+      if (this.$refs.form.validate()) {
         this.form.name = this.form.name.trim();
         const params = {
           device: {
@@ -596,9 +591,7 @@ export default {
             this.$http
               .addToblackList({ ...params })
               .then(() => {
-                this.devicesMap[this.id] = this.devicesMap[this.id].filter(
-                  v => v.mac !== row.mac
-                );
+                this.devicesMap[this.id] = this.devicesMap[this.id].filter(v => v.mac !== row.mac);
                 this.$toast(this.$t('trans0040'), 3000, 'success');
                 this.$loading.close();
               })
@@ -628,22 +621,13 @@ export default {
         return formatDate(date);
       }
       if (differ <= split[0] && differ > split[1]) {
-        return `${this.$t('trans0013').replace(
-          '%d',
-          parseInt(differ / split[1], 10)
-        )}`;
+        return `${this.$t('trans0013').replace('%d', parseInt(differ / split[1], 10))}`;
       }
       if (differ <= split[1] && differ > split[2]) {
-        return `${this.$t('trans0012').replace(
-          '%d',
-          parseInt(differ / split[2], 10)
-        )}`;
+        return `${this.$t('trans0012').replace('%d', parseInt(differ / split[2], 10))}`;
       }
       if (differ <= split[2] && differ > split[3]) {
-        return `${this.$t('trans0011').replace(
-          '%d',
-          parseInt(differ / split[4], 10)
-        )}`;
+        return `${this.$t('trans0011').replace('%d', parseInt(differ / split[4], 10))}`;
       }
       return '-';
     },
@@ -657,16 +641,10 @@ export default {
         return formatDate(now - date * 1000);
       }
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace(
-          '%d',
-          parseInt(date / split[1], 10)
-        )}`;
+        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
       }
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace(
-          '%d',
-          parseInt(date / split[2], 10)
-        )}`;
+        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
       }
       if (date <= split[2] && date > split[3]) {
         return `${this.$t('trans0011').replace('%d', parseInt(date, 10))}`;

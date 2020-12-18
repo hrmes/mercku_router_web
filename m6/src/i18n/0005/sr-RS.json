@@ -691,7 +691,7 @@
   "trans0696": "AUTO",
   "trans0697": "Seite nicht gefunden, bitte aktualisieren und erneut versuchen.",
   "trans0698": "Bitte setzen Sie das zuvor aktive Gerät auf die Werkseinstellungen zurück (drücken Sie die Reset-Taste für 5 Sekunden)",
-  "trans0699": "#### Internet getrennt, bitte überprüfen Sie, ob das Ethernet-Kabel richtig angeschlossen ist\n-Bitte schließen Sie das Ethernet-Kabel an einen beliebigen Port an\n\n-Schließen Sie das andere Ende des an den Router angeschlossenen Netzwerkkabels an den LAN-Anschluss des Modems an",
+  "trans0699": "#### Internet getrennt, bitte überprüfen Sie, ob das Ethernet-Kabel richtig angeschlossen ist\n- Bitte verbinden Sie das Ethernet-Kabel mit dem roten Port (WAN-Port)\n\n- Schließen Sie das andere Ende des an den Router angeschlossenen Netzwerkkabels an den LAN-Anschluss des Modems an",
   "trans0700": "IPv6 WAN Status",
   "trans0701": "WAN IP",
   "trans0702": "Bitte lesen Sie die Datenschutzbestimmungen",

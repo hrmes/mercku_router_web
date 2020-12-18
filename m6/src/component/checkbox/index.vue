@@ -26,10 +26,6 @@ export default {
       type: Boolean,
       default: false
     },
-    onChange: {
-      type: Function,
-      default: () => {}
-    },
     stopPropagation: {
       type: Boolean,
       default: false
@@ -42,7 +38,6 @@ export default {
     check(e) {
       if (!this.readonly) {
         this.checked = !this.checked;
-        this.onChange(this.checked);
         this.$emit('input', this.checked);
         this.$emit('change', this.checked);
         if (this.stopPropagation) {

@@ -6,7 +6,7 @@
       <div class="m-handle">
         <div class="m-check-box">
           <m-checkbox v-model="checkAll"
-                      :onChange="change"></m-checkbox>
+                      @change="change"></m-checkbox>
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
@@ -48,7 +48,7 @@
           <div class="column-name">
             <div class="column-check">
               <m-checkbox v-model="checkAll"
-                          :onChange="change"></m-checkbox>
+                          @change="change"></m-checkbox>
             </div>
             {{$t('trans0108')}}
           </div>
@@ -100,7 +100,7 @@
             </div>
             <div class="column-status">
               <m-switch v-model="item.enabled"
-                        :onChange="(v)=>update(v,item)"></m-switch>
+                        @change="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
               <a class="btn-text"

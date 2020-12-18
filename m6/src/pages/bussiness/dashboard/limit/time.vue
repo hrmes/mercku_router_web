@@ -25,7 +25,7 @@
           <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
           <div class="column-handle">
             <div class="check-wrap">
-              <m-switch :onChange="(v)=>changehandle(v,row)"
+              <m-switch @change="(v)=>changehandle(v,row)"
                         v-model="row.enabled" />
             </div>
             <a class="btn-text"
@@ -65,7 +65,7 @@
                    v-for="(item,i) in schedules"
                    :key='i'>
                 <m-checkbox v-model='item.checked'
-                            :text='item.label'></m-checkbox>
+                            :text='$t(item.label)'></m-checkbox>
               </div>
             </div>
           </div>
@@ -86,10 +86,51 @@
   </div>
 </template>
 <script>
+import { Weeks } from '@/util/constant';
+
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
   return s;
 };
+
+const schedulesOptions = [
+  {
+    label: 'trans0086',
+    value: Weeks.mon,
+    checked: true
+  },
+  {
+    label: 'trans0087',
+    value: Weeks.tue,
+    checked: true
+  },
+  {
+    label: 'trans0088',
+    value: Weeks.wed,
+    checked: true
+  },
+  {
+    label: 'trans0089',
+    value: Weeks.thu,
+    checked: true
+  },
+  {
+    label: 'trans0090',
+    value: Weeks.fri,
+    checked: true
+  },
+  {
+    label: 'trans0091',
+    value: Weeks.sat,
+    checked: true
+  },
+  {
+    label: 'trans0092',
+    value: Weeks.sun,
+    checked: true
+  }
+];
+
 export default {
   data() {
     return {
@@ -108,43 +149,7 @@ export default {
         time_end: '23:59',
         schedule: []
       },
-      schedules: [
-        {
-          label: this.$t('trans0086'),
-          checked: false,
-          value: 'Mon'
-        },
-        {
-          label: this.$t('trans0087'),
-          checked: false,
-          value: 'Tue'
-        },
-        {
-          label: this.$t('trans0088'),
-          checked: false,
-          value: 'Wed'
-        },
-        {
-          label: this.$t('trans0089'),
-          checked: false,
-          value: 'Thu'
-        },
-        {
-          label: this.$t('trans0090'),
-          checked: false,
-          value: 'Fri'
-        },
-        {
-          label: this.$t('trans0091'),
-          checked: false,
-          value: 'Sat'
-        },
-        {
-          label: this.$t('trans0092'),
-          checked: false,
-          value: 'Sun'
-        }
-      ]
+      schedules: schedulesOptions
     };
   },
   mounted() {
@@ -203,7 +208,7 @@ export default {
       arr.forEach(s => {
         this.schedules.forEach(v => {
           if (s === v.value) {
-            newArr.push(v.label);
+            newArr.push(this.$t(v.label));
           }
         });
       });
