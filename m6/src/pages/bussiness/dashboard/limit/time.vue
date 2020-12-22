@@ -52,11 +52,13 @@
           </div>
           <div class="item">
             <label for="">{{$t('trans0084')}}</label>
-            <m-time-picker v-model="form.time_begin" />
+            <m-time-picker class="time-picker"
+                           v-model="form.time_begin" />
           </div>
           <div class="item">
             <label for="">{{$t('trans0085')}}</label>
-            <m-time-picker v-model="form.time_end" />
+            <m-time-picker class="time-picker"
+                           v-model="form.time_end" />
           </div>
           <div class="item">
             <label for="">{{$t('trans0082')}}</label>

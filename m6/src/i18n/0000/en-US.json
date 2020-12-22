@@ -119,7 +119,7 @@
   "trans0118": "Password may only contain 6-24 digits, letters or special characters, or any combination of these.",
   "trans0119": "Are you sure you want to unbind the router \"%s\"?",
   "trans0120": "Privacy Policy",
-  "trans0121": " ",
+  "trans0121": "All connections will be interrupted for about 1 min for rebooting",
   "trans0122": "Reboot",
   "trans0123": "About {Your Name}",
   "trans0124": "Update",

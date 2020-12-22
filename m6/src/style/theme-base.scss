@@ -74,6 +74,7 @@ $header-nav-hide-popup-background-color: #fff;
 $header-nav-hide-popup-item-hover-background-color: #fff;
 $header-nav-hide-popup-item-hover-color: $primaryColor;
 $header-nav-hide-popup-item-selected-color: $primaryColor;
+$header-nav-hide-popup-item-checked-color: $primaryColor;
 
 $header-official-color: #333;
 $header-official-hover-color: #999;
@@ -93,6 +94,7 @@ $header-popup-item-hover-color: #fff;
 $header-popup-item-active-color: #333;
 $header-popup-item-hover-background-color: rgba(255, 255, 255, 0.2);
 $header-popup-item-selected-color: $primaryColor;
+$header-popup-item-checked-color: $primaryColor;
 $header-popup-border-color: #666;
 
 $header-nav-hide-i18n-mobile-background-color: #fff;
@@ -155,6 +157,7 @@ $tabs-border-color: #f1f1f1;
 $tab-hover-color: #999;
 $tab-active-color: #999;
 $tab-selected-color: $primaryColor;
+$tab-selected-text-color: $primaryColor;
 
 // timepicker
 $time-picker-pannel-border-color: #f1f1f1;

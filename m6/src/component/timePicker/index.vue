@@ -171,7 +171,7 @@ export default {
 </script>
 <style lang='scss'>
 .mk-time-picker-panel {
-  width: 160px;
+  width: 100%;
   height: 36px;
   position: relative;
   border: 1px solid $time-picker-pannel-border-color;
