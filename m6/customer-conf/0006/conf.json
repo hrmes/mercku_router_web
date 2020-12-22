@@ -1,0 +1,30 @@
+{
+  "id": "0006",
+  "host": "http://wifi.realnett.no",
+  "title": "real|wifi",
+  "accept": ".real",
+  "favicon": "customer-conf/0006/favicon.ico",
+  "policy": "https://www.realnett.no/privacy",
+  "allow2LevelAdmin": false,
+  "languages": ["zh-CN", "en-US", "nb-NO"],
+  "defaultLanguage": "nb-NO",
+  "routers": {
+    "M2": {
+      "name": "real|wifi M2 ruter",
+      "shortName": "M2"
+    },
+    "Bee": {
+      "name": "real|wifi mesh-node",
+      "shortName": "Bee"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#085182"
+  },
+  "website": {
+    "url": "https://www.realnett.no",
+    "text": "www.realnett.no"
+  },
+  "appDownloadUrl": "https://apk-realnett.merckuwifi.com"
+}
