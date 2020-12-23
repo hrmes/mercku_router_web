@@ -581,6 +581,7 @@ export default {
         font-weight: bold;
         text-align: left;
         width: 150px;
+        flex-shrink: 0;
       }
       span {
         display: inline-block;
@@ -597,7 +598,6 @@ export default {
     .form-warn {
       font-size: 16px;
       font-weight: 500;
-      text-align: justify;
       color: #d6001c;
       margin-bottom: 30px;
     }
