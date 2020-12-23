@@ -9,8 +9,14 @@ export default function getMenu(role, mode = RouterMode.router) {
   const allCustomers = Object.keys(Customers).map(key => Customers[key]);
   // 默认客户配置
   const defaultCustomerConfig = {
+    show: true,
     auth: [Role.admin],
     mode: [RouterMode.router, RouterMode.bridge]
+  };
+  const routerModeCustomerConfig = {
+    show: true,
+    auth: [Role.admin],
+    mode: [RouterMode.router]
   };
   const wifi = {
     icon: 'wifi',
@@ -20,7 +26,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0365',
         name: 'mesh',
         url: '/dashboard/mesh/topo',
-        customersConfig: defaultCustomerConfig
+        defaultCustomerConfig
         // super: false,
         // mode: [RouterMode.router, RouterMode.bridge],
         // customers: allCustomers
@@ -29,10 +35,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0235',
         name: 'device',
         url: '/dashboard/device/primary',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -41,7 +44,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0366',
         name: 'internet',
         url: '/dashboard/internet',
-        customersConfig: defaultCustomerConfig
+        defaultCustomerConfig
         // super: false,
         // mode: [RouterMode.router, RouterMode.bridge],
         // customers: allCustomers
@@ -56,7 +59,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0103',
         name: 'wifi',
         url: '/setting/wifi',
-        customersConfig: defaultCustomerConfig
+        defaultCustomerConfig
         // super: false,
         // mode: [RouterMode.router, RouterMode.bridge],
         // customers: allCustomers
@@ -65,10 +68,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -77,7 +77,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        customersConfig: defaultCustomerConfig
+        defaultCustomerConfig
         // super: false,
         // mode: [RouterMode.router, RouterMode.bridge],
         // customers: allCustomers
@@ -86,12 +86,14 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/super',
         name: 'guest',
         text: 'trans0576',
+        defaultCustomerConfig,
         customers: {
-          [Customers.cik]: defaultCustomerConfig,
-          [Customers.internal]: defaultCustomerConfig,
-          [Customers.startca]: defaultCustomerConfig,
-          [Customers.inverto]: defaultCustomerConfig,
-          [Customers.orion]: defaultCustomerConfig
+          [Customers.mercku]: {
+            show: false
+          },
+          [Customers.realnett]: {
+            show: false
+          }
         }
         // super: false,
         // mode: [RouterMode.router, RouterMode.bridge],
@@ -107,10 +109,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0020',
         name: 'blacklist',
         url: '/setting/blacklist',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -119,10 +118,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0272',
         name: 'timezone',
         url: '/setting/timezone',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -131,7 +127,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0639',
         name: 'region',
         url: '/setting/region',
-        customersConfig: defaultCustomerConfig
+        defaultCustomerConfig
         // super: false,
         // mode: [RouterMode.router, RouterMode.bridge],
         // customers: allCustomers
@@ -140,10 +136,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/guest',
         name: 'guest',
         text: 'trans0538',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -153,10 +146,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/upnp',
         name: 'upnp',
         text: 'trans0644',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -171,10 +161,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/portforwarding',
         name: 'advance-portforwarding',
         text: 'trans0422',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -183,10 +170,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/dmz',
         name: 'advance-dmz',
         text: 'trans0420',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -195,10 +179,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/dhcp',
         name: 'advance-dhcp',
         text: 'trans0417',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -207,10 +188,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/rsvdip',
         name: 'advance-rsvdip',
         text: 'trans0444',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -219,10 +197,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/mac',
         name: 'advance-mac',
         text: 'trans0474',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -231,10 +206,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/ddns',
         name: 'advance-ddns',
         text: 'trans0418',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -243,10 +215,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/vpn',
         name: 'advance-vpn',
         text: 'trans0402',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -268,10 +237,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/diagnosis',
         name: 'advance-diagnosis',
         text: 'trans0419',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: false,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -280,10 +246,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/log',
         name: 'advance-log',
         text: 'trans0421',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: true,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -292,10 +255,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        }
+        defaultCustomerConfig: routerModeCustomerConfig
         // super: true,
         // mode: [RouterMode.router],
         // customers: allCustomers
@@ -304,14 +264,10 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/wwa',
         name: 'advance.wwa',
         text: 'trans0511',
-        customersConfig: {
-          auth: [Role.admin],
-          mode: [RouterMode.router]
-        },
+        defaultCustomerConfig: routerModeCustomerConfig,
         customers: {
           [Customers.realnett]: {
-            auth: [Role.super],
-            mode: [RouterMode.router]
+            auth: [Role.super]
           }
         }
         // super: false,
@@ -322,22 +278,16 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/remote/tr069',
         name: 'advance-remote',
         text: 'trans0286',
+        defaultCustomerConfig,
         customers: {
-          [Customers.cik]: {
-            auth: [Role.admin],
-            mode: [RouterMode.router]
+          [Customers.mercku]: {
+            show: false
           },
-          [Customers.internal]: {
-            auth: [Role.admin],
-            mode: [RouterMode.router]
+          [Customers.inverto]: {
+            show: false
           },
-          [Customers.startca]: {
-            auth: [Role.admin],
-            mode: [RouterMode.router]
-          },
-          [Customers.orion]: {
-            auth: [Role.admin],
-            mode: [RouterMode.router]
+          [Customers.realnett]: {
+            show: false
           }
         }
         // mode: [RouterMode.router],
@@ -360,7 +310,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/upgrade/online',
         name: 'online',
         text: 'trans0202',
-        customersConfig: defaultCustomerConfig
+        defaultCustomerConfig
         // mode: [RouterMode.router, RouterMode.bridge],
         // customers: allCustomers
       },
@@ -368,7 +318,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
-        customersConfig: defaultCustomerConfig
+        defaultCustomerConfig
         // mode: [RouterMode.router, RouterMode.bridge],
         // customers: allCustomers
       },
@@ -376,47 +326,49 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/upgrade/auto',
         name: 'auto',
         text: 'trans0743',
-        customersConfig: defaultCustomerConfig
+        defaultCustomerConfig
         // mode: [RouterMode.router, RouterMode.bridge],
         // customers: allCustomers
       }
     ]
   };
+  role = Role.admin; // 测试时使用
   [wifi, setting, advance, upgrade].forEach(item => {
     // 构造菜单项的客户列表
     item.children.map(menu => {
-      // customersConfig：指“默认配置”，每个菜单项只需要配置一次，所有客户基于它生成当前菜单项的配置。
+      // defaultCustomerConfig：指“默认配置”，每个菜单项只需要配置一次，所有客户基于它生成当前菜单项的配置。
       // customers：指“客户自定义配置”，可以配置多个
-      // customersConfig与customers必须配置一个
-      // 存在customersConfig但不存在customers，所有客户基于customersConfig生成的配置
-      // 存在customers但不存在customersConfig，使用customers
-      // customersConfig与customers都存在，用customers部分替换基于customersConfig生成的配置
-
-      if (menu.customersConfig && !menu.customers) {
-        menu.customers = {};
-        const { customersConfig } = menu;
-        allCustomers.forEach(val => {
-          menu.customers[val] = customersConfig;
-        });
-        delete menu.customersConfig;
-      } else if (menu.customersConfig && menu.customers) {
-        const customers = Object.assign({}, menu.customers);
-        const customersKeyList = Object.keys(customers);
-        const { customersConfig } = menu;
-        allCustomers.forEach(val => {
-          customersKeyList.forEach(cVal => {
-            if (cVal === val) {
-              menu.customers[val] = customers[cVal];
-            } else {
-              menu.customers[val] = customersConfig;
+      // defaultCustomerConfig与customers必须配置一个
+      // 存在defaultCustomerConfig但不存在customers，所有客户基于defaultCustomerConfig生成的配置
+      // 存在customers但不存在defaultCustomerConfig，使用customers
+      // defaultCustomerConfig与customers都存在，用customers部分替换基于defaultCustomerConfig生成的配置
+      if (menu.defaultCustomerConfig) {
+        const customerConfig = menu.defaultCustomerConfig;
+        if (menu.customers) {
+          const menuCustomers = {};
+          const { customers } = menu;
+          const customersKeyList = Object.keys(customers);
+          allCustomers.forEach(val => {
+            menuCustomers[val] = customerConfig;
+            if (customersKeyList.includes(val)) {
+              menuCustomers[val] = {
+                ...menuCustomers[val],
+                ...customers[val]
+              };
             }
+            menu.customers = menuCustomers;
           });
-        });
-        delete menu.customersConfig;
+        } else {
+          menu.customers = {};
+          allCustomers.forEach(val => {
+            menu.customers[val] = customerConfig;
+          });
+        }
+        delete menu.defaultCustomerConfig;
       }
     });
 
-    // 根据id选择对应的菜单项
+    // 根据id与show选择对应的菜单项
     const filter = menu => {
       const { customers } = menu;
       const menuCustomers = Object.keys(customers);
@@ -426,7 +378,10 @@ export default function getMenu(role, mode = RouterMode.router) {
       menu.customers = {
         [nowCustomer]: customers[nowCustomer]
       };
-      return menuCustomers.includes(process.env.CUSTOMER_CONFIG.id);
+      return (
+        menuCustomers.includes(process.env.CUSTOMER_CONFIG.id) &&
+        customers[nowCustomer].show
+      );
     };
     item.children = item.children.filter(filter);
 
@@ -434,7 +389,9 @@ export default function getMenu(role, mode = RouterMode.router) {
     if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && role !== Role.super) {
       const filterAuth = menu => {
         const { customers } = menu;
-        return customers[process.env.CUSTOMER_CONFIG.id].auth[0] === Role.admin;
+        return customers[process.env.CUSTOMER_CONFIG.id].auth.includes(
+          Role.admin
+        );
       };
       item.children = item.children.filter(filterAuth);
     }
