@@ -385,12 +385,12 @@ export default function getMenu(role, mode = RouterMode.router) {
   [wifi, setting, advance, upgrade].forEach(item => {
     // 构造菜单项的客户列表
     item.children.map(menu => {
-      // customersConfig：指“默认配置”，每个菜单项只需要配置一次，所有客户基于它生成当前菜单项自己的配置。
+      // customersConfig：指“默认配置”，每个菜单项只需要配置一次，所有客户基于它生成当前菜单项的配置。
       // customers：指“客户自定义配置”，可以配置多个
       // customersConfig与customers必须配置一个
-      // 存在customersConfig但不存在customers，所有客户基于customersConfig生成自己的配置
+      // 存在customersConfig但不存在customers，所有客户基于customersConfig生成的配置
       // 存在customers但不存在customersConfig，使用customers
-      // customersConfig与customers都存在，用customers部分替换基于customersConfig生成自己的配置
+      // customersConfig与customers都存在，用customers部分替换基于customersConfig生成的配置
 
       if (menu.customersConfig && !menu.customers) {
         menu.customers = {};
@@ -429,11 +429,11 @@ export default function getMenu(role, mode = RouterMode.router) {
       return menuCustomers.includes(process.env.CUSTOMER_CONFIG.id);
     };
     item.children = item.children.filter(filter);
+
     // 如果支持多级管理员，根据角色过滤选择对应的菜单项
     if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && role !== Role.super) {
       const filterAuth = menu => {
         const { customers } = menu;
-        console.log('customers', customers);
         return customers[process.env.CUSTOMER_CONFIG.id].auth[0] === Role.admin;
       };
       item.children = item.children.filter(filterAuth);
