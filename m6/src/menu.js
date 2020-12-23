@@ -353,9 +353,8 @@ export default function getMenu(role, mode = RouterMode.router) {
           menu.customers = {};
           menu.customers[customerId] = customerConfig;
         }
-        console.log(menu.customers);
         delete menu.defaultCustomerConfig;
-      } else {
+      } else if (menu.customers) {
         menu.customers[customerId] = {
           ...menu.customers[customerId]
         };
