@@ -53,7 +53,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
-        super: false,
+        super: false, // true为超级管理员才有的功能
         mode: [RouterMode.router],
         customers: allCustomers
       },
@@ -219,15 +219,8 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'advance.wwa',
         text: 'trans0511',
         mode: [RouterMode.router],
-        super: false,
-        customers: [
-          Customers.demo,
-          Customers.mercku,
-          Customers.cik,
-          Customers.inverto,
-          Customers.startca,
-          Customers.orion
-        ]
+        super: [Customers.realnett],
+        customers: allCustomers
       },
       {
         url: '/advance/remote/tr069',
@@ -272,16 +265,38 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     ]
   };
-
   [wifi, setting, advance, upgrade].forEach(item => {
     // 根据id选择对应的菜单项
     const filter = c => c.customers.includes(process.env.CUSTOMER_CONFIG.id);
     item.children = item.children.filter(filter);
-
     // 如果支持多级管理员，根据角色过滤选择对应的菜单项
     if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && role !== Role.super) {
-      item.children = item.children.filter(a => !a.super);
+      const filterAuth = a => {
+        let flag = false;
+        // 不存在super时，当做false处理
+        if (!a.super) {
+          a.super = false;
+        }
+        // 如果super是boolean类型，处理与之前类似
+        if (typeof a.super === 'boolean') {
+          flag = !a.super;
+        }
+        // 如果super是array类型，为空数组时，当作false处理;
+        // 当为某些客户组成的数组时，这些客户当作false处理。
+        if (a.super instanceof Array) {
+          if (a.super.length) {
+            if (a.super.includes(process.env.CUSTOMER_CONFIG.id)) {
+              flag = false;
+            }
+          } else {
+            flag = !a.super.length;
+          }
+        }
+        return flag;
+      };
+      item.children = item.children.filter(filterAuth);
     }
+    console.log(item.children);
 
     // 根据模式选择对应的菜单项
     item.children.forEach(c => {
