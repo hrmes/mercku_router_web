@@ -1,5 +1,6 @@
 import { Role, RouterMode, Customers } from '@/util/constant';
 
+const customerId = process.env.CUSTOMER_CONFIG.id;
 export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');
   console.log(`customer id is: ${process.env.CUSTOMER_CONFIG.id}`);
@@ -332,7 +333,6 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     ]
   };
-  role = Role.admin; // 测试时使用
   [wifi, setting, advance, upgrade].forEach(item => {
     // 构造菜单项的客户列表
     item.children.map(menu => {
@@ -345,44 +345,24 @@ export default function getMenu(role, mode = RouterMode.router) {
       if (menu.defaultCustomerConfig) {
         const customerConfig = menu.defaultCustomerConfig;
         if (menu.customers) {
-          const menuCustomers = {};
-          const { customers } = menu;
-          const customersKeyList = Object.keys(customers);
-          allCustomers.forEach(val => {
-            menuCustomers[val] = customerConfig;
-            if (customersKeyList.includes(val)) {
-              menuCustomers[val] = {
-                ...menuCustomers[val],
-                ...customers[val]
-              };
-            }
-            menu.customers = menuCustomers;
-          });
+          menu.customers[customerId] = {
+            ...customerConfig,
+            ...menu.customers[customerId]
+          };
         } else {
           menu.customers = {};
-          allCustomers.forEach(val => {
-            menu.customers[val] = customerConfig;
-          });
+          menu.customers[customerId] = customerConfig;
         }
+        console.log(menu.customers);
         delete menu.defaultCustomerConfig;
+      } else {
+        menu.customers[customerId] = {
+          ...menu.customers[customerId]
+        };
       }
     });
-
     // 根据id与show选择对应的菜单项
-    const filter = menu => {
-      const { customers } = menu;
-      const menuCustomers = Object.keys(customers);
-      const nowCustomer = menuCustomers.find(
-        val => val === process.env.CUSTOMER_CONFIG.id
-      );
-      menu.customers = {
-        [nowCustomer]: customers[nowCustomer]
-      };
-      return (
-        menuCustomers.includes(process.env.CUSTOMER_CONFIG.id) &&
-        customers[nowCustomer].show
-      );
-    };
+    const filter = menu => menu.customers[customerId].show;
     item.children = item.children.filter(filter);
 
     // 如果支持多级管理员，根据角色过滤选择对应的菜单项
