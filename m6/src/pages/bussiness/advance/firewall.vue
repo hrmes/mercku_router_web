@@ -114,7 +114,7 @@ export default {
           this.wan.ping.ip_limit.ip_list = [''];
         }
       } else {
-        this.wan.ping.ip_limit.ip_list = this.wan.ping.ip_limit.ip_list.filter(ip => !ip);
+        this.wan.ping.ip_limit.ip_list = this.wan.ping.ip_limit.ip_list.filter(ip => !!ip);
       }
     },
     addIp() {
