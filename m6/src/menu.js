@@ -251,7 +251,6 @@ export default function getMenu(role, mode = RouterMode.router) {
   [wifi, setting, advance, upgrade].forEach(item => {
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
-      // debugger;
       menu.config = menu.config || config;
       const customers = menu.customers || {};
       const customerConfig = customers[process.env.CUSTOMER_CONFIG.id] || {};
