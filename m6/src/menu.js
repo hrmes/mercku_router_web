@@ -368,9 +368,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && role !== Role.super) {
       const filterAuth = menu => {
         const { customers } = menu;
-        return customers[process.env.CUSTOMER_CONFIG.id].auth.includes(
-          Role.admin
-        );
+        return customers[customerId].auth.includes(Role.admin);
       };
       item.children = item.children.filter(filterAuth);
     }
@@ -379,12 +377,9 @@ export default function getMenu(role, mode = RouterMode.router) {
     item.children.forEach(child => {
       child.disabled = false;
       const { customers } = child;
-      const menuCustomers = Object.keys(customers);
-      menuCustomers.forEach(val => {
-        if (!customers[val].mode.includes(mode)) {
-          child.disabled = true;
-        }
-      });
+      if (!customers[customerId].mode.includes(mode)) {
+        child.disabled = true;
+      }
     });
   });
 
