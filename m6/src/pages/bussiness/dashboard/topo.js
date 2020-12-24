@@ -59,40 +59,6 @@ function addConnection(source) {
     return s;
   });
 }
-// 去重
-function distinct(source) {
-  const result = source.map(r => {
-    const neighbors = [];
-    if (r.neighbors) {
-      r.neighbors.forEach(n => {
-        // 邻居节点
-        const node = source.filter(s => s.sn === n.sn)[0];
-        // 邻居中有该节点，但是该节点不在数据源中
-        if (!node) {
-          return;
-        }
-        // 邻居节点中的自己(n)
-        const nr = node.neighbors.filter(nnn => {
-          const sn = nnn.sn || nnn.entity.sn;
-          if (sn === r.sn) {
-            return true;
-          }
-          return false;
-        })[0];
-
-        node.neighbors = node.neighbors.filter(nn => nn.sn !== nr.sn);
-
-        neighbors.push({
-          entity: node,
-          origin: n
-        });
-      });
-    }
-    r.neighbors = neighbors;
-    return r;
-  });
-  return result;
-}
 
 // 找网关,此处认为sn为0就是网关
 function findGateway(source) {
@@ -100,25 +66,27 @@ function findGateway(source) {
 }
 
 // 找绿色的节点
-function findGreenNode(root, source, green) {
+function findGreenNode(root, source, visited) {
+  let green = [];
   root.neighbors.forEach(n => {
-    if (
-      !green.includes(n.entity) &&
-      isGood(n.origin.rssi) &&
-      root !== n.entity
-    ) {
-      green.push(n.entity);
-      findGreenNode(n.entity, source, green);
+    const node = source.find(s => s.sn === n.sn);
+    if (visited.includes(node)) {
+      return;
+    }
+    visited.push(node);
+    if (isGood(n.rssi)) {
+      green.push(node);
+      green = green.concat(findGreenNode(node, source, visited));
     }
   });
   return green;
 }
 
 // 找红色节点
-function findRedNode(gateway, green, source) {
+function findRedNode(green, nodes) {
   const red = [];
-  source.forEach(s => {
-    if (!green.includes(s) && s !== gateway) {
+  nodes.forEach(s => {
+    if (!green.includes(s)) {
       red.push(s);
     }
   });
@@ -198,7 +166,7 @@ function genNodes(gateway, green, red, offline) {
 }
 
 // 生成绘图需要的线条信息
-function genLines(gateway, green, red, fullLine) {
+function genLines(gateway, green, red, nodes, fullLine) {
   function genLine(source, target, color, value = 0) {
     return {
       source: `${source.sn}${source.name}`,
@@ -225,24 +193,26 @@ function genLines(gateway, green, red, fullLine) {
   const lines = [];
 
   gateway.neighbors.forEach(n => {
-    if (!exist(n.entity, gateway)) {
-      if (isGood(n.origin.rssi)) {
-        lines.push(genLine(gateway, n.entity, Color.good, n.origin.rssi));
-      } else if (red.includes(n.entity)) {
-        lines.push(genLine(gateway, n.entity, Color.bad, n.origin.rssi));
+    const node = nodes.find(s => s.sn === n.sn);
+    if (!exist(node, gateway)) {
+      if (isGood(n.rssi)) {
+        lines.push(genLine(gateway, node, Color.good, n.rssi));
+      } else if (red.includes(node)) {
+        lines.push(genLine(gateway, node, Color.bad, n.rssi));
       } else if (fullLine) {
-        lines.push(genLine(gateway, n.entity, Color.bad, n.origin.rssi));
+        lines.push(genLine(gateway, node, Color.bad, n.rssi));
       }
     }
   });
 
   red.forEach(r => {
     r.neighbors.forEach(n => {
-      if (!exist(n.entity, r)) {
-        if (isGood(n.origin.rssi)) {
-          lines.push(genLine(r, n.entity, Color.good, n.origin.rssi));
+      const node = nodes.find(s => s.sn === n.sn);
+      if (!exist(node, r)) {
+        if (isGood(n.rssi)) {
+          lines.push(genLine(r, node, Color.good, n.rssi));
         } else {
-          lines.push(genLine(r, n.entity, Color.bad, n.origin.rssi));
+          lines.push(genLine(r, node, Color.bad, n.rssi));
         }
       }
     });
@@ -250,13 +220,14 @@ function genLines(gateway, green, red, fullLine) {
 
   green.forEach(r => {
     r.neighbors.forEach(n => {
-      if (!exist(n.entity, r)) {
-        if (isGood(n.origin.rssi)) {
-          lines.push(genLine(r, n.entity, Color.good, n.origin.rssi));
-        } else if (!green.includes(n.entity)) {
-          lines.push(genLine(r, n.entity, Color.bad, n.origin.rssi));
+      const node = nodes.find(s => s.sn === n.sn);
+      if (!exist(node, r)) {
+        if (isGood(n.rssi)) {
+          lines.push(genLine(r, node, Color.good, n.rssi));
+        } else if (!green.includes(node)) {
+          lines.push(genLine(r, node, Color.bad, n.rssi));
         } else if (fullLine) {
-          lines.push(genLine(r, n.entity, Color.bad, n.origin.rssi));
+          lines.push(genLine(r, node, Color.bad, n.rssi));
         }
       }
     });
@@ -284,19 +255,24 @@ function genData(array, fullLine = false) {
   routers = findOfflineNode(routers, offline);
 
   routers = addConnection(routers);
+
   const gateway = findGateway(routers);
+  console.log(gateway);
 
-  const RouterDistincted = distinct(routers);
+  const visited = [gateway];
+  const green = findGreenNode(gateway, routers, visited);
+  console.log(green);
 
-  const green = [];
-  findGreenNode(gateway, RouterDistincted, green);
+  const meshNodes = routers.filter(r => r.sn !== gateway.sn);
 
-  const red = findRedNode(gateway, green, RouterDistincted);
+  const red = findRedNode(green, meshNodes);
+  console.log(red);
 
   const nodes = genNodes(gateway, green, red, offline);
 
-  const lines = genLines(gateway, green, red, fullLine);
+  const lines = genLines(gateway, green, red, routers, fullLine);
 
+  console.log(nodes, lines);
   return {
     nodes,
     lines

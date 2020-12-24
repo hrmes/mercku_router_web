@@ -9,7 +9,7 @@
           <div class="checkbox">
             <m-checkbox v-model="checkAllBlacklist"
                         :text="$t('trans0032')"
-                        :onChange="changeCheckboxAll"></m-checkbox>
+                        @change="changeCheckboxAll"></m-checkbox>
           </div>
           <div class="btns">
             <div class="btn btn-primary btn-small"
@@ -34,7 +34,10 @@
                       </div>
                       <div class="des">
                         <p>{{ item.name }}</p>
-                        <p>{{ $t('trans0188') }}：{{ formatMac(item.mac) }}</p>
+                        <p>
+                          <label for="">{{ $t('trans0188') }}:</label>
+                          <span>{{ formatMac(item.mac) }}</span>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -63,7 +66,7 @@
           <div class="name">
             <div class="checkbox">
               <m-checkbox v-model="checkAllBlacklist"
-                          :onChange="changeCheckboxAll"></m-checkbox>
+                          @change="changeCheckboxAll"></m-checkbox>
             </div>
             <div>{{ $t('trans0005') }}</div>
           </div>

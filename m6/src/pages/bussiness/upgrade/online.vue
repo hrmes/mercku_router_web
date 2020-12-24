@@ -33,9 +33,13 @@
               </div>
               <div class="info-container">
                 <p class="node-name">{{ node.name }}</p>
-                <p class="node-sn">{{ $t('trans0252') }}{{ node.sn }}</p>
+                <p class="node-sn">
+                  <label class="with-colon">{{ $t('trans0252') }}:</label>
+                  <span>{{ node.sn }}</span>
+                </p>
                 <p class="node-version">
-                  <span>{{ $t('trans0209') }}{{ node.version.current }}</span>
+                  <label class="with-colon">{{ $t('trans0209') }}:</label>
+                  <span>{{ node.version.current }}</span>
                 </p>
                 <p class="changelog"
                    @click.stop="showChangelog(node)">
@@ -195,19 +199,15 @@ export default {
               message: this.$t('trans0669'),
               callback: {
                 ok: () => {
-                  this.nodes.forEach(node => {
-                    // 选中节点
-                    if (!node.isGW) {
-                      node.checked = true;
-                    }
-                  });
+                  const meshNodes = this.nodes.filter(n => !n.isGW);
+                  if (meshNodes.length) {
+                    // 选中第一个节点
+                    meshNodes[0].checked = true;
+                  }
                 }
               }
             });
           }
-          // else if (this.nodes.length > 0) {
-          //   this.nodes[0].checked = true;
-          // }
         })
         .catch(err => {
           this.$loading.close();

@@ -119,7 +119,10 @@
                        :class="{'checked':node.selected}"></div>
                   <div class="info">
                     <p>{{getNodeName(node)}}</p>
-                    <p>{{$t('trans0252')}}{{node.sn}}</p>
+                    <p>
+                      <label class="with-colon">{{$t('trans0252')}}:</label>
+                      <span>{{node.sn}}</span>
+                    </p>
                   </div>
                 </div>
                 <img class="img"
@@ -336,9 +339,7 @@ export default {
         this.$toast(this.$t('trans0381'));
         return;
       }
-      const template = `<div class="add-mesh-tip">${this.$t(
-        'trans0195'
-      )}</div>`;
+      const template = `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`;
       this.$loading.open({ template });
       // 超时90秒，间隔3秒
       this.$http

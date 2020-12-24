@@ -69,28 +69,33 @@
                    :class="{'checkOpen':mobileShowHead}">
                 <m-checkbox v-model='item.checked'></m-checkbox>
               </div>
-              <span class="m-title">{{$t('trans0108')}}：</span>
+              <span class="m-title">{{$t('trans0108')}}:</span>
               <span class="name"
                     :title="item.name">{{item.name}}</span>
             </div>
             <div class="column-outside-ip">
-              <p> <span class="m-title">{{$t('trans0425')}}：</span>{{
-                item.remote.ip==='0.0.0.0'?$t('trans0109'):item.remote.ip}}</p>
               <p>
-                <span class="m-title">{{$t('trans0426')}}：</span>
-                {{item.remote.port.from}}-{{item.remote.port.to}}
+                <label class="m-title with-colon">{{$t('trans0425')}}:</label>
+                <span>{{item.remote.ip==='0.0.0.0'?$t('trans0109'):item.remote.ip}}</span>
+              </p>
+              <p>
+                <label class="m-title with-colon">{{$t('trans0426')}}:</label>
+                <span>{{item.remote.port.from}}-{{item.remote.port.to}}</span>
               </p>
             </div>
             <div class="column-local-ip">
-              <p><span class="m-title">{{$t('trans0427')}}：</span>{{item.local.ip}}</p>
               <p>
-                <span class="m-title">{{$t('trans0428')}}：</span>
-                {{item.local.port.from}}-{{item.local.port.to}}
+                <label class="m-title with-colon">{{$t('trans0427')}}:</label>
+                <span>{{item.local.ip}}</span>
+              </p>
+              <p>
+                <label class="m-title with-colon">{{$t('trans0428')}}:</label>
+                <span>{{item.local.port.from}}-{{item.local.port.to}}</span>
               </p>
             </div>
             <div class="column-protocol">
-              <span class="m-title">{{$t('trans0408')}}：</span>
-              {{item.protocol}}
+              <label class="m-title with-colon">{{$t('trans0408')}}:</label>
+              <span>{{item.protocol}}</span>
             </div>
             <div class="column-status">
               <m-switch v-model="item.enabled"

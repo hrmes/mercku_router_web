@@ -111,7 +111,7 @@
         <div class="form">
           <m-switch :label="$t('trans0462')"
                     v-model="telnet"
-                    :onChange="updateTelnet"></m-switch>
+                    @change="updateTelnet"></m-switch>
         </div>
       </div>
     </div>

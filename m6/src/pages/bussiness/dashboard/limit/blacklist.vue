@@ -3,7 +3,7 @@
   <div class="urllimit">
     <div class="handle">
       <label for="">{{$t('trans0462')}}</label>
-      <m-switch :onChange="changehandle"
+      <m-switch @change="changehandle"
                 v-model="mode" />
     </div>
     <div class='table'
@@ -190,9 +190,7 @@ export default {
           hosts: [row]
         })
         .then(() => {
-          this.parentControlLimitList = this.parentControlLimitList.filter(
-            v => v !== row
-          );
+          this.parentControlLimitList = this.parentControlLimitList.filter(v => v !== row);
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })

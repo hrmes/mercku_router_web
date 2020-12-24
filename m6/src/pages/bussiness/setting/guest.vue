@@ -22,7 +22,7 @@
             </div>
           </label>
           <m-switch v-model="form.enabled"
-                    :onChange="guestEnabledChange" />
+                    @change="guestEnabledChange" />
         </div>
         <div v-if="form.enabled&&showSettingPage">
           <label style="font-weight:bold;"> {{$t('trans0521')}} </label>
@@ -58,11 +58,11 @@
           <div v-if="!form.smart_connect"
                class="ssid">
             <div>
-              <span class="ssid-label">{{$t('trans0255')}}：</span>
+              <label class="ssid-label with-colon">{{$t('trans0255')}}:</label>
               <span class="ssid-name">{{form.ssid}}</span>
             </div>
             <div>
-              <span class="ssid-label">{{$t('trans0256')}}：</span>
+              <label class="ssid-label with-colon">{{$t('trans0256')}}:</label>
               <span class="ssid-name">{{ssid_5g}}</span>
             </div>
           </div>
@@ -79,26 +79,29 @@
         </div>
         <div v-if="form.enabled&&showStatusPage">
           <div class="setting-ssid-info">
-            <div class="title">
-              {{$t('trans0168')}}：
-            </div>
+            <label class="title with-colon">{{$t('trans0168')}}:</label>
             <div v-if="guest.smart_connect">
               <p class='name'>{{form.ssid}}</p>
             </div>
             <div v-else>
-              <p><span>2.4G：</span>{{form.ssid}}</p>
-              <p><span>5G：</span>{{ssid_5g}}</p>
+              <p>
+                <label class="with-colon">2.4G:</label>
+                <span>{{form.ssid}}</span>
+              </p>
+              <p>
+                <label class="with-colon">5G:</label>
+                <span>{{ssid_5g}}</span>
+              </p>
             </div>
           </div>
           <div class="remaining-time">
-            <div class="title">{{$t('trans0524')}}：</div>
+            <label class="title with-colon">{{$t('trans0524')}}:</label>
             <div class="time">
               {{formatTime(guest.remaining_duration)}}
             </div>
           </div>
           <div class="online-device">
-            <div class="title">{{$t('trans0235')}}：
-            </div>
+            <label class="title with-colon">{{$t('trans0235')}}:</label>
             <span>{{devicesCount}}</span>
           </div>
           <div class="form-button">
@@ -310,11 +313,9 @@ export default {
       return topStr;
     },
     getDevicesCount() {
-      this.$http
-        .getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] })
-        .then(res => {
-          this.devicesCount = res.data.result.count;
-        });
+      this.$http.getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] }).then(res => {
+        this.devicesCount = res.data.result.count;
+      });
     },
     getGuestWIFI() {
       this.$http.meshGuestGet().then(res => {
@@ -481,9 +482,9 @@ export default {
         margin-top: 10px;
       }
       font-family: Helvetica;
-      span {
+      label {
         display: inline-block;
-        width: 60px;
+        width: 40px;
         text-align: left;
       }
     }

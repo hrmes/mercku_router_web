@@ -26,9 +26,14 @@
                  :src="getNodeImage(node)"
                  alt="" />
             <div class="mk-upgrade-node__name">{{node.name}}</div>
-            <div class="mk-upgrade-node__sn">{{translate('trans0252')}}{{node.sn}}</div>
+            <div class="mk-upgrade-node__sn">
+              <label class="with-colon">{{translate('trans0252')}}:</label>
+              <span>{{node.sn}}</span>
+            </div>
             <div class="mk-upgrade-node__version">
-              {{translate('trans0342')}}：{{node.version.current}}</div>
+              <label class="with-colon">{{translate('trans0342')}}:</label>
+              <span>{{node.version.current}}</span>
+            </div>
           </div>
 
           <div class="mk-upgrade-result">
@@ -96,8 +101,9 @@ export default {
       Statuses,
       status: '',
       node: {
-        sn: '030000000000000',
+        sn: '060000000000000',
         name: '',
+        is_gw: false,
         version: {
           current: '1.0.0'
         }
@@ -176,10 +182,7 @@ export default {
         console.log('getMeshNode');
         console.log('nodes is ', nodes);
         [this.node] = nodes.filter(n => {
-          if (
-            n.status === Statuses.downloading ||
-            n.status === Statuses.installing
-          ) {
+          if (n.status === Statuses.downloading || n.status === Statuses.installing) {
             return true;
           }
           return false;
@@ -237,8 +240,7 @@ export default {
             }
           }
           if (
-            (node.status === Statuses.downloading ||
-              node.status === Statuses.installing) &&
+            (node.status === Statuses.downloading || node.status === Statuses.installing) &&
             this.pageActive
           ) {
             this.timer = setTimeout(() => {
@@ -248,41 +250,48 @@ export default {
         })
         .catch(err => {
           console.log('in catch......', err);
-          // 这种情况是gw重启了，需要定时去检查gw是否重启完成
-          let timeout = 600000;
-          const interval = 5000;
-          let responsed = true;
+          if (this.node.is_gw) {
+            // 这种情况是gw重启了，需要定时去检查gw是否重启完成
+            let timeout = 600000;
+            const interval = 5000;
+            let responsed = true;
 
-          let timer = setInterval(() => {
-            timeout -= interval;
-            if (timeout <= 0) {
-              clearInterval(timer);
-              timer = null;
-              this.status = Statuses.install_timeout;
-            }
-            if (responsed) {
-              responsed = false;
-              this.$http
-                .getRouter(null, {
-                  noRedirect: true
-                })
-                .then(res => {
-                  responsed = true;
-                  const node = res.data.result;
-                  this.node = node;
-                  if (compareVersion(this.preVersion, node.version.current)) {
-                    this.status = Statuses.install_success;
-                  } else {
-                    this.status = Statuses.install_fail;
-                  }
-                  clearInterval(timer);
-                  timer = null;
-                })
-                .catch(() => {
-                  responsed = true;
-                });
-            }
-          }, interval);
+            let timer = setInterval(() => {
+              timeout -= interval;
+              if (timeout <= 0) {
+                clearInterval(timer);
+                timer = null;
+                this.status = Statuses.install_timeout;
+              }
+              if (responsed) {
+                responsed = false;
+                this.$http
+                  .getRouter(null, {
+                    noRedirect: true
+                  })
+                  .then(res => {
+                    responsed = true;
+                    const node = res.data.result;
+                    this.node = node;
+                    if (compareVersion(this.preVersion, node.version.current)) {
+                      this.status = Statuses.install_success;
+                    } else {
+                      this.status = Statuses.install_fail;
+                    }
+                    clearInterval(timer);
+                    timer = null;
+                  })
+                  .catch(() => {
+                    responsed = true;
+                  });
+              }
+            }, interval);
+          } else if (this.pageActive) {
+            // 有时候api会出现莫名其妙的错误，做兼容处理
+            this.timer = setTimeout(() => {
+              this.checkNodeStatus();
+            }, 5000);
+          }
         });
     }
   }

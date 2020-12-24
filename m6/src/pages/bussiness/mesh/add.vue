@@ -79,11 +79,13 @@
                   <div class="router__info">
                     <p class="router__sn"
                        v-if="nodes[0].sn">
-                      {{$t('trans0252')}}{{nodes[0].sn}}
+                      <label class="with-colon">{{$t('trans0252')}}:</label>
+                      <span>{{nodes[0].sn}}</span>
                     </p>
                     <p class="router__mac"
                        v-else>
-                      {{$t('trans0188')}}：{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}
+                      <label class="with-colon">{{$t('trans0188')}}:</label>
+                      <span>{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}</span>
                     </p>
                   </div>
                 </div>
@@ -110,7 +112,7 @@
                 <img class="scan-result__image"
                      src="@/assets/images/img_default_empty.png"
                      alt="">
-                <p>{{$t('trans0181')}}</p>
+                <p class="scan-result__title">{{$t('trans0181')}}</p>
                 <span class="btn-help"
                       @click.stop="updateHelpVisible(true)">{{$t('trans0128')}}</span>
                 <div class="button-container">
@@ -269,9 +271,7 @@ export default {
         this.$toast(this.$t('trans0381'));
         return;
       }
-      const template = `<div class="add-mesh-tip">${this.$t(
-        'trans0195'
-      )}</div>`;
+      const template = `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`;
       this.$loading.open({ template });
       // 超时90秒，间隔3秒
       this.$http
@@ -299,21 +299,15 @@ export default {
                     if (meshNodes.length) {
                       const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
                       // 获取刚添加的节点的sn
-                      const meshNode = meshNodes.find(
-                        item => item.mac[type] === node.mac[type]
-                      );
+                      const meshNode = meshNodes.find(item => item.mac[type] === node.mac[type]);
                       if (meshNode) {
                         const { sn } = meshNode;
                         for (let i = 0; i < meshNodes.length; i += 1) {
                           const mNode = meshNodes[i];
                           if (mNode.sn !== sn && mNode.neighbors) {
-                            const neighborNood = mNode.neighbors.find(
-                              nItem => nItem.sn === sn
-                            );
+                            const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
                             if (neighborNood) {
-                              this.isWeakSignal = checkWeakSignal(
-                                neighborNood.rssi
-                              );
+                              this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
                               break;
                             }
                           }
@@ -453,7 +447,7 @@ export default {
     color: #999;
     width: 100%;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 .circle-animation {
@@ -511,10 +505,10 @@ export default {
     width: 100%;
   }
   .step {
-    width: 410px;
+    width: 340px;
   }
   .step-item {
-    width: 410px;
+    width: 340px;
     margin-top: 50px;
     .step-item__tip {
       margin: 0;
@@ -527,7 +521,7 @@ export default {
     }
     &.step-item--rich {
       img {
-        width: 300px;
+        width: 340px;
         display: block;
         margin: 0 auto;
       }
@@ -558,7 +552,8 @@ export default {
         }
         .scan-result__title {
           text-align: center;
-          font-size: 16px;
+          font-size: 14px;
+          // font-weight: bold;
           margin: 30px 0 0 0;
         }
         .scan-result__much {
@@ -570,6 +565,7 @@ export default {
         .scan-result__description {
           text-align: center;
           font-size: 14px;
+          color: #999;
           margin: 10px 0 0 0;
         }
       }
@@ -733,7 +729,7 @@ export default {
     }
     .step-item {
       width: 100%;
-      & .step-item--rich {
+      &.step-item--rich {
         margin-top: 30px;
         p {
           text-align: left;

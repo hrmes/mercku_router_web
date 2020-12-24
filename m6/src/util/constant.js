@@ -4,7 +4,8 @@ export const Customers = {
   internal: '0000',
   startca: '0003',
   inverto: '0004',
-  orion: '0005'
+  orion: '0005',
+  realnett: '0006'
 };
 export const EncryptMethod = {
   open: 'open',
@@ -96,4 +97,13 @@ export const defaultScrollbarOpt = {
     easeTime: 300
   },
   scrollbar: { fade: true }
+};
+export const Weeks = {
+  mon: 'Mon',
+  tue: 'Tue',
+  wed: 'Wed',
+  thu: 'Thu',
+  fri: 'Fri',
+  sat: 'Sat',
+  sun: 'Sun'
 };

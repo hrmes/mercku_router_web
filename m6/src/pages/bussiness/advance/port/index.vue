@@ -6,7 +6,7 @@
       <div class="m-handle">
         <div class="m-check-box">
           <m-checkbox v-model="checkAll"
-                      :onChange="change"></m-checkbox>
+                      @change="change"></m-checkbox>
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
@@ -48,7 +48,7 @@
           <div class="column-name">
             <div class="column-check">
               <m-checkbox v-model="checkAll"
-                          :onChange="change"></m-checkbox>
+                          @change="change"></m-checkbox>
             </div>
             {{$t('trans0108')}}
           </div>
@@ -69,32 +69,38 @@
                    :class="{'checkOpen':mobileShowHead}">
                 <m-checkbox v-model='item.checked'></m-checkbox>
               </div>
-              <span class="m-title">{{$t('trans0108')}}：</span>
+              <label class="m-title with-colon">{{$t('trans0108')}}:</label>
               <span class="name"
                     :title="item.name">{{item.name}}</span>
             </div>
             <div class="column-outside-ip">
-              <p> <span class="m-title">{{$t('trans0425')}}：</span>{{
-                item.remote.ip==='0.0.0.0'?$t('trans0109'):item.remote.ip}}</p>
               <p>
-                <span class="m-title">{{$t('trans0426')}}：</span>
-                {{item.remote.port.from}}-{{item.remote.port.to}}
+                <label class="m-title with-colon">{{$t('trans0425')}}:</label>
+                <span>{{
+                item.remote.ip==='0.0.0.0'?$t('trans0109'):item.remote.ip}}</span>
+              </p>
+              <p>
+                <label class="m-title with-colon">{{$t('trans0426')}}:</label>
+                <span>{{item.remote.port.from}}-{{item.remote.port.to}}</span>
               </p>
             </div>
             <div class="column-local-ip">
-              <p><span class="m-title">{{$t('trans0427')}}：</span>{{item.local.ip}}</p>
               <p>
-                <span class="m-title">{{$t('trans0428')}}：</span>
-                {{item.local.port.from}}-{{item.local.port.to}}
+                <label class="m-title with-colon">{{$t('trans0427')}}:</label>
+                <span>{{item.local.ip}}</span>
+              </p>
+              <p>
+                <label class="m-title with-colon">{{$t('trans0428')}}:</label>
+                <span>{{item.local.port.from}}-{{item.local.port.to}}</span>
               </p>
             </div>
             <div class="column-protocol">
-              <span class="m-title">{{$t('trans0408')}}：</span>
-              {{item.protocol}}
+              <label class="m-title with-colon">{{$t('trans0408')}}:</label>
+              <span>{{item.protocol}}</span>
             </div>
             <div class="column-status">
               <m-switch v-model="item.enabled"
-                        :onChange="(v)=>update(v,item)"></m-switch>
+                        @change="(v)=>update(v,item)"></m-switch>
             </div>
             <div class="column-handle">
               <a class="btn-text"

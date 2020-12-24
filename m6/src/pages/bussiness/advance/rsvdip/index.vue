@@ -6,7 +6,7 @@
       <div class="m-handle">
         <div class="m-check-box">
           <m-checkbox v-model="checkAll"
-                      :onChange="change"></m-checkbox>
+                      @change="change"></m-checkbox>
           <span>{{$t('trans0032')}}</span>
         </div>
         <div class="m-head-btn-wrap">
@@ -57,7 +57,7 @@
           <div class="column-name">
             <div class="column-check">
               <m-checkbox v-model="checkAll"
-                          :onChange="change"></m-checkbox>
+                          @change="change"></m-checkbox>
             </div>
             {{$t('trans0108')}}
           </div>
@@ -75,15 +75,15 @@
                    :class="{'checkOpen':mobileShowHead}">
                 <m-checkbox v-model="item.checked"></m-checkbox>
               </div>
-              <span class="m-title">{{$t('trans0108')}}：</span>
+              <label class="m-title with-colon">{{$t('trans0108')}}:</label>
               <span class="name">{{item.name}}</span>
             </div>
             <div class="column-local-ip">
-              <span class="m-title">{{$t('trans0188')}}：</span>
-              {{formatMac(item.mac)}}
+              <label class="m-title with-colon">{{$t('trans0188')}}:</label>
+              <span>{{formatMac(item.mac)}}</span>
             </div>
             <div class="column-local-port">
-              <span class="m-title">{{$t('trans0151')}}：</span>
+              <label class="m-title with-colon">{{$t('trans0151')}}:</label>
               {{item.ip}}
             </div>
             <div class="column-handle">

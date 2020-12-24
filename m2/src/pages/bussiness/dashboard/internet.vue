@@ -5,26 +5,26 @@
         <div class="section__title">{{$t('trans0301')}}</div>
         <div class="section__body">
           <div class="item">
-            <label class="item__label">{{$t('trans0317')}}：</label>
+            <label class="item__label">{{$t('trans0317')}}</label>
             <span class="item__value">{{ networkArr[localNetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0151')}}：</label>
+            <label class="item__label">{{$t('trans0151')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0152')}}：</label>
+            <label class="item__label">{{$t('trans0152')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.mask }}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0236')}}：</label>
+            <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
               {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
               :'-'}}
             </span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0153')}}：</label>
+            <label class="item__label">{{$t('trans0153')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.gateway}}</span>
           </div>
         </div>
@@ -164,19 +164,19 @@
         <div class="section__title">{{$t('trans0700')}}</div>
         <div class="section__body">
           <div class="item">
-            <label class="item__label">{{$t('trans0317')}}：</label>
+            <label class="item__label">{{$t('trans0317')}}</label>
             <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0701')}}：</label>
+            <label class="item__label">{{$t('trans0701')}}</label>
             <span class="item__value">{{ipv6NetInfo.ip}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0153')}}：</label>
+            <label class="item__label">{{$t('trans0153')}}</label>
             <span class="item__value">{{ipv6NetInfo.gateway}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0236')}}：</label>
+            <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
               {{ipv6NetInfo.dns}}
             </span>

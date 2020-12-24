@@ -1,12 +1,24 @@
 import { Role, RouterMode, Customers } from '@/util/constant';
 
+const customerId = process.env.CUSTOMER_CONFIG.id;
 export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');
-  console.log(`customer id is: ${process.env.CUSTOMER_CONFIG.id}`);
+  console.log(`customer id is: ${customerId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
 
-  const allCustomers = Object.keys(Customers).map(key => Customers[key]);
+  // 菜单默认配置
+  const config = {
+    show: true,
+    auth: [Role.admin, Role.super],
+    mode: [RouterMode.router, RouterMode.bridge]
+  };
+  // 第一种搭配策略
+  const strategyA = {
+    show: true,
+    auth: [Role.admin, Role.super],
+    mode: [RouterMode.router]
+  };
   const wifi = {
     icon: 'wifi',
     text: 'trans0173',
@@ -15,25 +27,19 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0365',
         name: 'mesh',
         url: '/dashboard/mesh/topo',
-        super: false,
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: allCustomers
+        config
       },
       {
         text: 'trans0235',
         name: 'device',
         url: '/dashboard/device/primary',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         text: 'trans0366',
         name: 'internet',
         url: '/dashboard/internet',
-        super: false,
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: allCustomers
+        config
       }
     ]
   };
@@ -45,81 +51,60 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0103',
         name: 'wifi',
         url: '/setting/wifi',
-        super: false,
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: allCustomers
+        config
       },
       {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',
-        super: false,
-        mode: [RouterMode.router],
-        customers: [
-          Customers.cik,
-          Customers.mercku,
-          Customers.internal,
-          Customers.startca,
-          Customers.inverto,
-          Customers.orion,
-          Customers.altima
-        ]
+        config: strategyA,
+        customers: {
+          [Customers.realnett]: {
+            show: false
+          }
+        }
       },
       {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        super: false,
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: allCustomers
+        config
       },
       {
         text: 'trans0020',
         name: 'blacklist',
         url: '/setting/blacklist',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         text: 'trans0272',
         name: 'timezone',
         url: '/setting/timezone',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         text: 'trans0639',
         name: 'region',
         url: '/setting/region',
-        super: false,
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: allCustomers
+        config
       },
       {
         url: '/setting/guest',
         name: 'guest',
         text: 'trans0538',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/setting/upnp',
         name: 'upnp',
         text: 'trans0644',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       }
     ]
   };
@@ -131,130 +116,114 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/portforwarding',
         name: 'advance-portforwarding',
         text: 'trans0422',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/dmz',
         name: 'advance-dmz',
         text: 'trans0420',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/dhcp',
         name: 'advance-dhcp',
         text: 'trans0417',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/rsvdip',
         name: 'advance-rsvdip',
         text: 'trans0444',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/mac',
         name: 'advance-mac',
         text: 'trans0474',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/ddns',
         name: 'advance-ddns',
         text: 'trans0418',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/vpn',
         name: 'advance-vpn',
         text: 'trans0402',
-        super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        super: false,
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: [
-          Customers.mercku,
-          Customers.inverto,
-          Customers.orion,
-          Customers.realnett,
-          Customers.altima,
-          Customers.internal
-        ]
+        config,
+        customers: {
+          [Customers.cik]: {
+            show: false
+          },
+          [Customers.startca]: {
+            show: false
+          }
+        }
       },
       {
         url: '/advance/diagnosis',
         name: 'advance-diagnosis',
         text: 'trans0419',
         super: false,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/log',
         name: 'advance-log',
         text: 'trans0421',
-        super: true,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        super: true,
-        mode: [RouterMode.router],
-        customers: allCustomers
+        config: strategyA
       },
       {
         url: '/advance/wwa',
         name: 'advance.wwa',
         text: 'trans0511',
-        mode: [RouterMode.router],
-        super: false,
-        customers: [
-          Customers.internal,
-          Customers.mercku,
-          Customers.cik,
-          Customers.inverto,
-          Customers.startca,
-          Customers.orion,
-          Customers.realnett
-        ]
+        config: strategyA,
+        customers: {
+          [Customers.altima]: {
+            show: false
+          },
+          [Customers.realnett]: {
+            auth: [Role.super]
+          }
+        }
       },
       {
         url: '/advance/remote/tr069',
         name: 'advance-remote',
         text: 'trans0286',
-        mode: [RouterMode.router],
-        super: true,
-        customers: [
-          Customers.cik,
-          Customers.internal,
-          Customers.startca,
-          Customers.inverto,
-          Customers.orion
-        ]
+        config: {
+          show: true,
+          auth: [Role.super],
+          mode: [RouterMode.router]
+        },
+        customers: {
+          [Customers.mercku]: {
+            show: false
+          },
+          [Customers.realnett]: {
+            show: false
+          },
+          [Customers.altima]: {
+            show: false
+          }
+        }
       }
     ]
   };
-
   const upgrade = {
     icon: 'upgrade',
     text: 'trans0197',
@@ -263,37 +232,43 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/upgrade/online',
         name: 'online',
         text: 'trans0202',
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: allCustomers
+        config
       },
       {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
-        mode: [RouterMode.router, RouterMode.bridge],
-        customers: allCustomers
+        config
       }
     ]
   };
 
   [wifi, setting, advance, upgrade].forEach(item => {
-    // 根据id选择对应的菜单项
-    const filter = c => c.customers.includes(process.env.CUSTOMER_CONFIG.id);
-    item.children = item.children.filter(filter);
+    // 根据编译客户生成菜单
+    item.children.forEach(menu => {
+      menu.config = menu.config || config;
+      const customers = menu.customers || {};
+      const customerConfig = customers[customerId] || {};
+      menu.config = Object.assign({}, menu.config, customerConfig);
+    });
 
-    // 如果支持多级管理员，根据角色过滤选择对应的菜单项
-    if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && role !== Role.super) {
-      item.children = item.children.filter(a => !a.super);
-    }
+    // 过滤不显示的菜单
+    item.children = item.children.filter(menu => {
+      let { show } = menu.config;
+      // 如果支持多级管理员，判断当前角色是否可以查看菜单
+      if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
+        show = menu.config.auth.includes(role);
+      }
+      return show;
+    });
 
     // 根据模式选择对应的菜单项
-    item.children.forEach(c => {
-      c.disabled = false;
-      if (!c.mode.includes(mode)) {
-        c.disabled = true;
+    item.children.forEach(menu => {
+      menu.disabled = false;
+      if (!menu.config.mode.includes(mode)) {
+        menu.disabled = true;
       }
     });
   });
-
   return [wifi, setting, advance, upgrade];
 }
