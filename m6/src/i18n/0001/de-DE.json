@@ -250,11 +250,7 @@
   "trans0249": "Erfolgreich zurückgesetzt",
   "trans0250": "Schwach",
   "trans0251": "SN",
-<<<<<<< HEAD
-  "trans0252": "SN：",
-=======
   "trans0252": "SN",
->>>>>>> develop
   "trans0253": "verbunden",
   "trans0254": "Bitte schalten Sie den Router ein. Nach dem Einschalten sollte die Gerätleuchte rot leuchten.",
   "trans0255": "2,4G",
@@ -729,11 +725,6 @@
   "trans0730": "Allgemeine Netzabdeckung",
   "trans0731": "Minimale Netzabdeckung",
   "trans0732": "Geschlossen",
-<<<<<<< HEAD
-  "trans0733": " ",
-  "trans0734": " "
-}
-=======
   "trans0733": "Anmeldeinformationen mit IPv4 teilen",
   "trans0734": " ",
   "trans0735": "Hinweis: Die Interneteinstellung des aktuellen Routers ist PPPoE über IPv4. Sie müssen PPPoE konfigurieren, um eine Verbindung herzustellen, wenn Sie IPv6 verwenden möchten.",
@@ -751,4 +742,3 @@
   "trans0747": "%s ~%s führt ein automatisches Upgrade durch",
   "trans0748": "Seite nicht gefunden, bitte aktualisieren und erneut versuchen."
 }
->>>>>>> develop
