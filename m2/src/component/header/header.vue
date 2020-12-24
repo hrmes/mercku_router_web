@@ -410,30 +410,6 @@ export default {
   @media screen and (max-width: 768px) {
     padding: 0 20px !important;
   }
-  .is-checked {
-    position: relative;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 16px;
-    height: 16px;
-    background-color: transparent;
-    border-radius: 100%;
-    &::after {
-      content: '';
-      position: absolute;
-      width: 50%;
-      height: 25%;
-      border-style: solid;
-      border-width: 3px;
-      border-color: $primaryColor;
-      border-radius: 1px;
-      border-top: none;
-      border-right: none;
-      background: transparent;
-      transform: rotate(-45deg);
-    }
-  }
   &.nav-hide {
     background: $header-nav-hide-background-color;
     color: $header-nav-hide-color;

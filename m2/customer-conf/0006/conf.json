@@ -1,11 +1,13 @@
 {
   "id": "0006",
+  "__host": "http://mywifi.mercku.tech",
   "host": "http://wifi.realnett.no",
   "title": "real|wifi",
   "accept": ".real",
   "favicon": "customer-conf/0006/favicon.ico",
   "policy": "https://www.realnett.no/privacy",
   "allow2LevelAdmin": false,
+  "disableIPv6": true,
   "languages": ["zh-CN", "en-US", "nb-NO"],
   "defaultLanguage": "nb-NO",
   "routers": {
