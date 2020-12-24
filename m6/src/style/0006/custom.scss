@@ -53,9 +53,11 @@
   .net-info {
     background: url(~@/assets/images/customer/realnett/dashboard_banner_bg.jpg)
       no-repeat center !important;
+    background-size: cover;
     @media screen and (max-width: 768px) {
       background: url(~@/assets/images/customer/realnett/dashboard_banner_bg_mobile.jpg)
         no-repeat center !important;
+      background-size: cover;
     }
   }
 }
