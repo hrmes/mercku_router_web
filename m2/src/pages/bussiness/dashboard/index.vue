@@ -335,8 +335,20 @@ export default {
         position: relative;
         transform: translateY(-15px);
         &.unconnected {
-          border-top: 2px dashed #fff;
+          display: flex;
           background: none;
+          &::before {
+            content: '';
+            height: 0;
+            border-top: 2px dashed #fff;
+            flex: 1;
+          }
+          &::after {
+            content: '';
+            height: 0;
+            border-top: 2px dashed #fff;
+            flex: 1;
+          }
         }
         &.testing {
           position: relative;
@@ -363,17 +375,14 @@ export default {
           }
         }
         .icon-unconnected-container {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
+          position: relative;
+          transform: translateY(-50%);
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
           width: 40px;
           height: 40px;
-          background: #050505;
           cursor: pointer;
           .icon__question {
             position: absolute;
