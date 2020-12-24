@@ -22,12 +22,8 @@
                   class="content__item form">
             <m-checkbox class="form__checkbox"
                         v-model="isIpPointed"
-<<<<<<< HEAD
-                        :text="$t('trans0575')"></m-checkbox>
-=======
                         :text="$t('trans0575')"
                         :onChange="changeIpPointed"></m-checkbox>
->>>>>>> develop
             <template v-if="isIpPointed">
               <m-form-item v-for="(value, index) in wan.ping.ip_limit.ip_list"
                            :key="index"
@@ -36,11 +32,7 @@
                 <div class="form__item">
                   <m-input class="form__input"
                            type="text"
-<<<<<<< HEAD
-                           :placeholder="$t('trans0492')"
-=======
                            :placeholder="$t('trans0321')"
->>>>>>> develop
                            v-model="wan.ping.ip_limit.ip_list[index]" />
                   <div @click="reduceIp(index)"
                        class="form__reduce-btn"
