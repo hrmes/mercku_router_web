@@ -10,7 +10,7 @@
   "defaultLanguage": "nb-NO",
   "routers": {
     "Bee": {
-      "name": "real|wifi mesh-node",
+      "name": "real|wifi mesh node",
       "shortName": "Bee"
     },
     "M6": {
