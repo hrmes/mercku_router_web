@@ -374,11 +374,10 @@ export default function getMenu(role, mode = RouterMode.router) {
     }
 
     // 根据模式选择对应的菜单项
-    item.children.forEach(child => {
-      child.disabled = false;
-      const { customers } = child;
-      if (!customers[customerId].mode.includes(mode)) {
-        child.disabled = true;
+    item.children.forEach(menu => {
+      menu.disabled = false;
+      if (!menu.mode.includes(mode)) {
+        menu.disabled = true;
       }
     });
   });
