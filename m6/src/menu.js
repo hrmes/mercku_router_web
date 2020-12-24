@@ -3,10 +3,9 @@ import { Role, RouterMode, Customers } from '@/util/constant';
 const customerId = process.env.CUSTOMER_CONFIG.id;
 export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');
-  console.log(`customer id is: ${process.env.CUSTOMER_CONFIG.id}`);
+  console.log(`customer id is: ${customerId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
-
   // 菜单默认配置
   const config = {
     show: true,
@@ -253,7 +252,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     item.children.forEach(menu => {
       menu.config = menu.config || config;
       const customers = menu.customers || {};
-      const customerConfig = customers[process.env.CUSTOMER_CONFIG.id] || {};
+      const customerConfig = customers[customerId] || {};
       menu.config = Object.assign({}, menu.config, customerConfig);
     });
 
