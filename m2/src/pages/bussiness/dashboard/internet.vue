@@ -274,8 +274,10 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    // disable ipv6 in realnett
-    // this.getMeshInfoWanNetIpv6();
+    // ge ipv6 info if ipv6 is enabled
+    if (!process.env.CUSTOMER_CONFIG.disableIPv6) {
+      this.getMeshInfoWanNetIpv6();
+    }
     this.createIntervalTask();
     this.getRouteMeta();
   },
