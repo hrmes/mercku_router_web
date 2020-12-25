@@ -730,5 +730,15 @@
   "trans0735": "Note: The Internet Setting of the current router is PPPoE through IPv4. You have to configure PPPoE to get a connection if you want to use IPv6.",
   "trans0736": "The account will delete this device after unbinding.",
   "trans0737": "Mode",
-  "trans0738": "Light"
+  "trans0738": "Light",
+  "trans0739": "Dark",
+  "trans0740": "Automatic",
+  "trans0741": "When enabled, Mercku App will automatically adjust dark mode to match your system settings",
+  "trans0742": "Timer",
+  "trans0743": "Automatic upgrade",
+  "trans0744": "Upgrade at a preset time",
+  "trans0745": "Upgrade time",
+  "trans0746": "When there is an internet traffic consuming activity(>%s kbps) running within Mercku's network, the automatic upgrade will not execute even with the preset automatic upgrade command.  ",
+  "trans0747": "%s ~%s will execute automatic upgrade",
+  "trans0748": "The access has expired, please refresh and retry."
 }
