@@ -168,9 +168,6 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.startca]: {
             show: false
-          },
-          [Customers.realnett]: {
-            show: false
           }
         }
       },

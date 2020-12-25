@@ -43,7 +43,8 @@ Object.keys(extra).forEach(ex => {
 });
 
 export const i18n = new VueI18n({
-  locale: localStorage.getItem('lang'),
+  locale:
+    localStorage.getItem('lang') || process.env.CUSTOMER_CONFIG.defaultLanguage,
   messages: Locales,
   numberFormats: NumberFormats
 });

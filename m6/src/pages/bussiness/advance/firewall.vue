@@ -82,6 +82,7 @@ export default {
           }
         }
       },
+      originalPingData: null,
       pingEnabledInitialized: false,
       isIpPointed: false,
       ipValidator: [
@@ -134,17 +135,22 @@ export default {
         const data = res.data.result;
         const { wan } = data;
         this.wan = wan;
+        this.originalPingData = JSON.parse(JSON.stringify(this.wan.ping));
         this.pingEnabledInitialized = this.wan.ping.enabled;
         this.isIpPointed = this.wan.ping.ip_limit.mode === Mode.whitelist;
       });
     },
     updateWanDos() {
-      this.updateFirewall();
+      const wan = {
+        dos: this.wan.dos,
+        ping: this.originalPingData
+      };
+      this.updateFirewall(wan);
     },
     updateWanPing(enabled) {
       if (!enabled) {
         if (this.pingEnabledInitialized !== this.wan.ping.enabled) {
-          this.updateFirewall();
+          this.updateFirewall(this.wan);
         }
       }
     },
@@ -153,13 +159,13 @@ export default {
         return;
       }
       this.wan.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
-      this.updateFirewall();
+      this.updateFirewall(this.wan);
     },
-    updateFirewall() {
+    updateFirewall(wan) {
       this.$loading.open();
       this.$http
         .updateFirewall({
-          wan: this.wan
+          wan
         })
         .then(() => {
           this.$loading.close();

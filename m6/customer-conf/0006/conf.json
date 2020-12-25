@@ -1,6 +1,6 @@
 {
   "id": "0006",
-  "__host": "http://wifi.realnett.no",
+  "host": "http://wifi.realnett.no",
   "title": "real|wifi R6 Mesh-sentral",
   "accept": ".real",
   "favicon": "customer-conf/0006/favicon.ico",
