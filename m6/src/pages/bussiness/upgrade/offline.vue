@@ -7,7 +7,7 @@
           <div class="description">
             <p>
               1.
-              <span>{{ $t('trans0332') }}</span>
+              <span>{{ $t('trans0332') }}&nbsp;</span>
               <a class="btn-text text-primary"
                  :href="$t('trans0468')"
                  target="_blank">{{

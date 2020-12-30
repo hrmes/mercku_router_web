@@ -75,12 +75,13 @@ export default {
     updateWWA() {
       if (this.$refs.wwa.validate()) {
         this.$loading.open();
+        const data = {
+          ...this.wwa,
+          port: Number(this.wwa.port),
+          allowed_ip: this.wwa.allowed_ip ? [this.wwa.allowed_ip] : []
+        };
         this.$http
-          .updateWWA({
-            ...this.wwa,
-            port: Number(this.wwa.port),
-            allowed_ip: [this.wwa.allowed_ip]
-          })
+          .updateWWA(data)
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
