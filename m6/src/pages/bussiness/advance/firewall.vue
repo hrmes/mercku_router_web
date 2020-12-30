@@ -27,7 +27,7 @@
             <template v-if="isIpPointed">
               <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
                            :key="index"
-                           :prop="`ip_limit.ip_list[${index}]`"
+                           :prop="`ping.ip_limit.ip_list[${index}]`"
                            :rules='ipValidator'>
                 <div class="form__item">
                   <m-input class="form__input"
@@ -167,7 +167,9 @@ export default {
     updateFirewall() {
       this.$loading.open();
       this.$http
-        .updateFirewall(this.wan)
+        .updateFirewall({
+          wan: this.wan
+        })
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
