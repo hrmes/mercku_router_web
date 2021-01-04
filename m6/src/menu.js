@@ -74,7 +74,7 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           },
           [Customers.realnett]: {
-            show: false
+            show: true
           }
         }
       },

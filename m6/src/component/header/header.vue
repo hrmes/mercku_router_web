@@ -267,9 +267,8 @@ export default {
       el.style.height = 0;
     },
     enter(el, done) {
-      // debugger;
-      const height = el.childElementCount * 38;
       setTimeout(() => {
+        const height = el.childElementCount * 38;
         Velocity(el, { height: `${height}px` }, { complete: done });
       });
     },

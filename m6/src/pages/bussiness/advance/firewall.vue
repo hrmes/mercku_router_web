@@ -63,6 +63,8 @@
 <script>
 import { isIP } from '@/util/util';
 
+const cloneDeep = require('lodash/cloneDeep');
+
 const maxIpNum = 10;
 const Mode = {
   free: 'free',
@@ -141,7 +143,7 @@ export default {
         const data = res.data.result;
         const { wan } = data;
         this.wan = wan;
-        this.ping = this.wan.ping;
+        this.ping = cloneDeep(wan.ping);
         this.pingEnabledInitialized = this.ping.enabled;
         this.isIpPointed = this.ping.ip_limit.mode === Mode.whitelist;
       });
