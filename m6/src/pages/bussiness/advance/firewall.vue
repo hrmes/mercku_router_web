@@ -141,7 +141,13 @@ export default {
         const data = res.data.result;
         const { wan } = data;
         this.wan = wan;
-        this.ping = JSON.parse(JSON.stringify(wan.ping));
+        this.ping = {
+          enabled: wan.ping.enabled,
+          ip_limit: {
+            mode: wan.ping.ip_limit.mode,
+            ip_list: wan.ping.ip_limit.ip_list
+          }
+        };
         this.pingEnabledInitialized = this.ping.enabled;
         this.isIpPointed = this.ping.ip_limit.mode === Mode.whitelist;
       });

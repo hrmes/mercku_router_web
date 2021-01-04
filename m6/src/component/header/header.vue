@@ -53,7 +53,7 @@
     </div>
 
     <div class="nav-wrap nav-wrap--mobile"
-         v-if="mobileNavVisible">
+         v-show="mobileNavVisible">
       <ul class="nav reset-ul">
         <li class="nav-item"
             :key="menu.key"
@@ -267,9 +267,8 @@ export default {
       el.style.height = 0;
     },
     enter(el, done) {
-      // debugger;
-      const height = el.childElementCount * 38;
       setTimeout(() => {
+        const height = el.childElementCount * 38;
         Velocity(el, { height: `${height}px` }, { complete: done });
       });
     },
