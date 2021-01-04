@@ -339,8 +339,20 @@ export default {
         position: relative;
         transform: translateY(-15px);
         &.unconnected {
-          border-top: 2px dashed #fff;
+          display: flex;
           background: none;
+          &::before {
+            content: '';
+            height: 0;
+            border-top: 2px dashed #fff;
+            flex: 1;
+          }
+          &::after {
+            content: '';
+            height: 0;
+            border-top: 2px dashed #fff;
+            flex: 1;
+          }
         }
         &.testing {
           position: relative;

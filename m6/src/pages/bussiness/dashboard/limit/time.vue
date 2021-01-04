@@ -402,10 +402,14 @@ export default {
         align-items: flex-start;
       }
       label {
-        width: 100px;
+        width: 120px;
         font-size: 14px;
         color: #333333;
         overflow: hidden;
+        flex-shrink: 0;
+      }
+      .time-picker {
+        width: 160px;
       }
       .date-wrap {
         display: flex;
@@ -594,7 +598,8 @@ export default {
           align-items: flex-start;
         }
         label {
-          width: 100px;
+          width: 110px;
+          flex-shrink: 0;
           @media screen and (max-width: 320px) {
             flex-shrink: 0;
             width: 60px;
@@ -604,6 +609,9 @@ export default {
           color: #333333;
           overflow: hidden;
           margin-right: 12px;
+        }
+        .time-picker {
+          width: 140px;
         }
         .date-wrap {
           display: flex;

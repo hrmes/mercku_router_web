@@ -14,7 +14,7 @@ import * as CONSTANTS from '@/util/constant';
 // import picBeeGood from '../../../assets/images/icon/ic_bee_green.png';
 // import picBeeBad from '../../../assets/images/icon/ic_bee_orange.png';
 // import picBeeOffline from '../../../assets/images/icon/ic_bee_offline.png';
-import picGateway from '@/assets/images/icon/ic_wifi6_gw_green.png';
+import picGateway from '@/assets/images/icon/ic_wifi6_gw_green.svg';
 import picifi6Good from '@/assets/images/icon/ic_wifi6_normal.png';
 import picWifi6Bad from '@/assets/images/icon/ic_wifi6_bad.png';
 import pciWifi6Offline from '@/assets/images/icon/ic_wifi6_offline.png';

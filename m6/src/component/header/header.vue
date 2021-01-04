@@ -53,7 +53,7 @@
     </div>
 
     <div class="nav-wrap nav-wrap--mobile"
-         v-show="mobileNavVisible">
+         v-if="mobileNavVisible">
       <ul class="nav reset-ul">
         <li class="nav-item"
             :key="menu.key"
