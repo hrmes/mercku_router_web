@@ -18,7 +18,7 @@
         </div>
         <template v-if="ping.enabled">
           <m-form ref="ipListForm"
-                  :model="wan"
+                  :model="ping"
                   class="content__item form">
             <m-checkbox class="form__checkbox"
                         v-model="isIpPointed"
