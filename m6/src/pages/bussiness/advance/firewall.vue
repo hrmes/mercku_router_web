@@ -13,10 +13,10 @@
         <div class="content__line"></div>
         <div class="content__item content__switch">
           <label for="">{{$t('trans0434')}}</label>
-          <m-switch v-model="ping.enabled"
+          <m-switch v-model="wan.ping.enabled"
                     @change="updateWanPing"></m-switch>
         </div>
-        <template v-if="ping.enabled">
+        <template v-if="wan.ping.enabled">
           <m-form ref="ipListForm"
                   :model="wan"
                   class="content__item form">
@@ -25,15 +25,15 @@
                         :text="$t('trans0575')"
                         @change="changeIpPointed"></m-checkbox>
             <template v-if="isIpPointed">
-              <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
+              <m-form-item v-for="(value, index) in wan.ping.ip_limit.ip_list"
                            :key="index"
-                           :prop="`ping.ip_limit.ip_list[${index}]`"
+                           :prop="`wan.ping.ip_limit.ip_list[${index}]`"
                            :rules='ipValidator'>
                 <div class="form__item">
                   <m-input class="form__input"
                            type="text"
                            :placeholder="$t('trans0321')"
-                           v-model="ping.ip_limit.ip_list[index]" />
+                           v-model="wan.ping.ip_limit.ip_list[index]" />
                   <div @click="reduceIp(index)"
                        class="form__reduce-btn"
                        v-if="index > 0">
@@ -91,6 +91,10 @@ export default {
           ip_list: []
         }
       },
+      ip_limit: {
+        mode: Mode.free,
+        ip_list: []
+      },
       pingEnabledInitialized: false,
       isIpPointed: false,
       ipValidator: [
@@ -107,7 +111,7 @@ export default {
   },
   computed: {
     allowedIpsLen() {
-      return this.ping.ip_limit.ip_list.length;
+      return this.wan.ping.ip_limit.ip_list.length;
     },
     isMaxIpNum() {
       return this.allowedIpsLen === maxIpNum;
@@ -120,10 +124,10 @@ export default {
     changeIpPointed() {
       if (this.isIpPointed) {
         if (!this.allowedIpsLen) {
-          this.ping.ip_limit.ip_list = [''];
+          this.wan.ping.ip_limit.ip_list = [''];
         }
       } else {
-        this.ping.ip_limit.ip_list = this.ping.ip_limit.ip_list.filter(ip => !!ip);
+        this.wan.ping.ip_limit.ip_list = this.wan.ping.ip_limit.ip_list.filter(ip => !!ip);
       }
     },
     addIp() {
@@ -131,10 +135,10 @@ export default {
         this.$toast(this.$t('trans0060'), 3000, 'error');
         return;
       }
-      this.ping.ip_limit.ip_list.push('');
+      this.wan.ping.ip_limit.ip_list.push('');
     },
     reduceIp(index) {
-      this.ping.ip_limit.ip_list.splice(index, 1);
+      this.wan.ping.ip_limit.ip_list.splice(index, 1);
     },
     getFirewall() {
       this.$loading.open();
@@ -143,17 +147,20 @@ export default {
         const data = res.data.result;
         const { wan } = data;
         this.wan = wan;
-        this.ping = cloneDeep(wan.ping);
+        this.ping = cloneDeep(this.wan.ping);
+        this.ip_limit = cloneDeep(this.wan.ping.ip_limit);
         this.pingEnabledInitialized = this.ping.enabled;
         this.isIpPointed = this.ping.ip_limit.mode === Mode.whitelist;
       });
     },
     updateWanDos() {
+      this.wan.ping = this.ping;
       this.updateFirewall();
     },
     updateWanPing(enabled) {
       if (!enabled) {
-        if (this.pingEnabledInitialized !== this.ping.enabled) {
+        if (this.pingEnabledInitialized !== this.wan.ping.enabled) {
+          this.wan.ping.ip_limit = this.ip_limit;
           this.updateFirewall();
         }
       }
@@ -162,8 +169,7 @@ export default {
       if (!this.$refs.ipListForm.validate()) {
         return;
       }
-      this.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
-      this.wan.ping = this.ping;
+      this.wan.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
       this.updateFirewall();
     },
     updateFirewall() {
@@ -175,6 +181,7 @@ export default {
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.getFirewall();
         })
         .catch(() => {
           this.$loading.close();
