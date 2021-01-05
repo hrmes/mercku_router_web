@@ -91,6 +91,10 @@ export default {
           ip_list: []
         }
       },
+      ip_limit: {
+        mode: Mode.free,
+        ip_list: []
+      },
       pingEnabledInitialized: false,
       isIpPointed: false,
       ipValidator: [
@@ -144,6 +148,7 @@ export default {
         const { wan } = data;
         this.wan = wan;
         this.ping = cloneDeep(wan.ping);
+        this.ip_limit = cloneDeep(this.wan.ping.ip_limit);
         this.pingEnabledInitialized = this.ping.enabled;
         this.isIpPointed = this.ping.ip_limit.mode === Mode.whitelist;
       });
@@ -154,6 +159,8 @@ export default {
     updateWanPing(enabled) {
       if (!enabled) {
         if (this.pingEnabledInitialized !== this.ping.enabled) {
+          this.wan.ping.ip_limit = this.ip_limit;
+          this.wan.ping.enabled = false;
           this.updateFirewall();
         }
       }
@@ -164,6 +171,7 @@ export default {
       }
       this.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
       this.wan.ping = this.ping;
+      this.ip_limit = cloneDeep(this.wan.ping.ip_limit);
       this.updateFirewall();
     },
     updateFirewall() {

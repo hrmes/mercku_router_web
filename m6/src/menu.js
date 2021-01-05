@@ -62,7 +62,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        config
+        config,
+        customers: {
+          [Customers.realnett]: {
+            auth: [Role.admin]
+          }
+        }
       },
       {
         url: '/setting/super',
@@ -74,7 +79,8 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           },
           [Customers.realnett]: {
-            show: true
+            show: true,
+            auth: [Role.super]
           }
         }
       },
