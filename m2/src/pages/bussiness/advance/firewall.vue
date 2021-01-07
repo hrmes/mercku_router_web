@@ -8,13 +8,13 @@
         <div class="content__item content__switch">
           <label for="">{{$t('trans0424')}}</label>
           <m-switch v-model="wan.dos"
-                    @change="updateWanDos"></m-switch>
+                    :onChange="updateWanDos"></m-switch>
         </div>
         <div class="content__line"></div>
         <div class="content__item content__switch">
           <label for="">{{$t('trans0434')}}</label>
           <m-switch v-model="ping.enabled"
-                    @change="updateWanPing"></m-switch>
+                    :onChange="updateWanPing"></m-switch>
         </div>
         <template v-if="ping.enabled">
           <m-form ref="ipListForm"
@@ -23,7 +23,7 @@
             <m-checkbox class="form__checkbox"
                         v-model="isIpPointed"
                         :text="$t('trans0575')"
-                        @change="changeIpPointed"></m-checkbox>
+                        :onChange="changeIpPointed"></m-checkbox>
             <template v-if="isIpPointed">
               <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
                            :key="index"
