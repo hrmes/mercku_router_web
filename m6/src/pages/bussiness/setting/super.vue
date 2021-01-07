@@ -51,6 +51,7 @@ export default {
           .updateSuper(this.form)
           .then(() => {
             this.$loading.close();
+            this.$router.push({ path: '/login' });
           })
           .catch(() => {
             this.$loading.close();
