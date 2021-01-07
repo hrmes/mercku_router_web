@@ -1,41 +1,46 @@
 <template>
   <div class="mk-switch">
     <label class="mk-switch__label"
-           v-if="label">{{label}}</label>
+           v-if="label">{{ label }}</label>
     <div class="mk-switch__inner"
-         :class="{'checked':value,'disabled':disabled}"
-         @click='!disabled && change()'></div>
+         :class="{ checked: checked, disabled: disabled }"
+         @click="switchValue"></div>
   </div>
 </template>
 <script>
 export default {
-  data() {
-    return {
-      checked: this.value
-    };
-  },
   props: {
-    onChange: {
-      type: Function,
-      default: () => {}
-    },
     disabled: {
       type: Boolean,
       default: false
     },
-    value: { type: Boolean },
-    label: { type: String }
+    label: { type: String },
+    value: {
+      type: [Boolean, String, Number],
+      default: false
+    },
+    activeValue: {
+      type: [Boolean, String, Number],
+      default: true
+    },
+    inactiveValue: {
+      type: [Boolean, String, Number],
+      default: false
+    }
   },
-  watch: {
-    value(v) {
-      this.checked = v;
+  computed: {
+    checked() {
+      return this.value === this.activeValue;
     }
   },
   methods: {
-    change(...args) {
-      this.checked = !this.checked;
-      this.$emit('input', this.checked);
-      this.onChange(this.checked, args);
+    handleChange() {
+      const val = this.checked ? this.inactiveValue : this.activeValue;
+      this.$emit('input', val);
+      this.$emit('change', val);
+    },
+    switchValue() {
+      !this.disabled && this.handleChange();
     }
   }
 };

@@ -8,7 +8,7 @@
         <div class="ipv6-page__switch">
           <label for="">{{$t('trans0620')}}</label>
           <m-switch v-model="enabled"
-                    :onChange="ipv6EnabledChange" />
+                    @change="ipv6EnabledChange" />
         </div>
       </div>
       <template v-if="enabled">

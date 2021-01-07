@@ -9,7 +9,7 @@
         <div class="smart-connect__inner">
           <label class="smart-connect__label">{{$t('trans0397')}}</label>
           <m-switch class="smart-connect__switch"
-                    :onChange="changeSmartConnect"
+                    @change="changeSmartConnect"
                     v-model="form.smart_connect" />
         </div>
         <div class="smart-connect__tip">{{$t('trans0398')}}</div>
@@ -325,9 +325,7 @@ export default {
                   bandwidth: this.form.b24g.channel.bandwidth
                 }
               };
-              const formBand = this.form.smart_connect
-                ? this.form.b24g
-                : this.form.b5g;
+              const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
               const b5g = {
                 hidden: formBand.hidden,
                 ssid: formBand.ssid,
