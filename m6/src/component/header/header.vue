@@ -589,7 +589,7 @@ export default {
         }
         .nav-item-child {
           display: none;
-          width: 260px;
+          width: 280px;
           position: absolute;
           z-index: 999;
           top: 100%;
