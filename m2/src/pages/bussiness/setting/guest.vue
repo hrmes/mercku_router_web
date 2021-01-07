@@ -24,7 +24,7 @@
           </label>
 
           <m-switch v-model="form.enabled"
-                    :onChange="guestEnabledChange" />
+                    @change="guestEnabledChange" />
         </div>
         <div v-if="form.enabled&&showSettingPage">
           <label style="font-weight:bold;"> {{$t('trans0521')}} </label>

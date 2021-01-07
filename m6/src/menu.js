@@ -71,7 +71,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       },
       {
         url: '/setting/super',
-        name: 'guest',
+        name: 'super',
         text: 'trans0576',
         config,
         customers: {

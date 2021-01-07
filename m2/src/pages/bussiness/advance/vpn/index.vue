@@ -27,7 +27,7 @@
                         :disabled="connecting"
                         v-model="vpn.enabled"
                         class="vpn-switch"
-                        :onChange="(v)=>start(v,vpn)"></m-switch>
+                        @change="(v)=>start(v,vpn)"></m-switch>
             </div>
 
             <div class="vpn-right">
@@ -78,15 +78,10 @@ export default {
   },
   methods: {
     isConnectingOrDisconnecting(vpn) {
-      return (
-        vpn.status === VPNStatus.connecting ||
-        vpn.status === VPNStatus.disconnecting
-      );
+      return vpn.status === VPNStatus.connecting || vpn.status === VPNStatus.disconnecting;
     },
     getSpinnerText(vpn) {
-      return vpn.status === VPNStatus.connecting
-        ? this.$t('trans0407')
-        : this.$t('trans0484');
+      return vpn.status === VPNStatus.connecting ? this.$t('trans0407') : this.$t('trans0484');
     },
     getColor(vpn) {
       return vpn.status === VPNStatus.connecting ? '#00d061' : '#ff0001';

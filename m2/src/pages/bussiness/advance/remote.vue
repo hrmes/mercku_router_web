@@ -114,12 +114,12 @@
           <m-form-item>
             <m-switch :label="$t('trans0497')"
                       v-model="remoteShell.telnet"
-                      :onChange="updateTelnet"></m-switch>
+                      @change="updateTelnet"></m-switch>
           </m-form-item>
           <m-form-item>
             <m-switch :label="$t('trans0628')"
                       v-model="remoteShell.ssh"
-                      :onChange="updateSsh"></m-switch>
+                      @change="updateSsh"></m-switch>
           </m-form-item>
         </m-form>
       </div>

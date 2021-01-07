@@ -25,7 +25,7 @@
           <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
           <div class="column-handle">
             <div class="check-wrap">
-              <m-switch :onChange="(v)=>changehandle(v,row)"
+              <m-switch @change="(v)=>changehandle(v,row)"
                         v-model="row.enabled" />
             </div>
             <a class="btn-text"
