@@ -739,6 +739,6 @@
   "trans0744": "Upgrade zu einem voreingestellten Zeitpunkt",
   "trans0745": "Upgrade Zeitpunkt",
   "trans0746": "Nach dem Einschalten des automatischen Upgrades überprüft der Router den Upgrade-Befehl automatisch und startet ihn, wenn die festgelegte Zeit erreicht ist (wenn der Router einen großen Datenverkehr hat (>%s kbps), wird das automatische Upgrade nicht durchgeführt).",
-  "trans0747": "%s ~%s führt ein automatisches Upgrade durch",
+  "trans0747": "%s ~ %s führt ein automatisches Upgrade durch",
   "trans0748": "Seite nicht gefunden, bitte aktualisieren und erneut versuchen."
 }
