@@ -739,6 +739,6 @@
   "trans0744": "Oppgrader på et forhåndsvalgt tidspunkt",
   "trans0745": "Oppgraderingstidspunkt",
   "trans0746": "Når det er en internettrafikkkrevende aktivitet (>%s kbps) som kjører i real|wifi sitt nettverk, vil den automatiske oppgraderingen ikke bli utført selv med den forhåndsinnstilte kommandoen for automatisk oppgradering.",
-  "trans0747": "%s ~%s vil utføre automatisk oppgradering",
+  "trans0747": "%s ~ %s vil utføre automatisk oppgradering",
   "trans0748": "Adgangen har utgått, vennligst oppdater siden og prøv på nytt."
 }
