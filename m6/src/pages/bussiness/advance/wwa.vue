@@ -79,7 +79,7 @@ export default {
           .updateWWA({
             ...this.wwa,
             port: Number(this.wwa.port),
-            allowed_ip: [this.wwa.allowed_ip]
+            allowed_ip: this.wwa.allowed_ip ? [this.wwa.allowed_ip] : []
           })
           .then(() => {
             this.$loading.close();

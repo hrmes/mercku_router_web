@@ -274,7 +274,10 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    this.getMeshInfoWanNetIpv6();
+    // ge ipv6 info if ipv6 is enabled
+    if (!process.env.CUSTOMER_CONFIG.disableIPv6) {
+      this.getMeshInfoWanNetIpv6();
+    }
     this.createIntervalTask();
     this.getRouteMeta();
   },
@@ -902,6 +905,11 @@ export default {
             align-items: center;
             .btn-wrap {
               padding-bottom: 20px;
+              .btn {
+                &:last-child {
+                  margin-left: 5px;
+                }
+              }
             }
             .content {
               flex-direction: column;

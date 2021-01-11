@@ -1,6 +1,16 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
+import intl from 'intl';
+import 'intl/locale-data/jsonp/en-US';
+import 'intl/locale-data/jsonp/zh';
+import 'intl/locale-data/jsonp/de-DE';
+import 'intl/locale-data/jsonp/nl-NL';
+import 'intl/locale-data/jsonp/sr';
+import 'intl/locale-data/jsonp/nb-NO';
+import 'intl/locale-data/jsonp/fr-FR';
+import 'intl/locale-data/jsonp/es-ES';
+
 import extra from './extra.json';
 import codeMap from './code-map.json';
 
@@ -67,12 +77,17 @@ export const toLocaleNumber = (
 ) => {
   // 有时候传入是不是数字，是占位符字符串
   if (typeof number === 'number') {
-    return i18n.n(number, {
-      key: defaultKey,
-      locale,
+    // 这里是采用浏览器自带的intl对象实现的，某些浏览器会存在兼容性问题，暂时注释
+    // return i18n.n(number, {
+    //   key: defaultKey,
+    //   locale,
+    //   minimumFractionDigits,
+    //   maximumFractionDigits
+    // });
+    return intl.NumberFormat.call(null, locale, {
       minimumFractionDigits,
       maximumFractionDigits
-    });
+    }).format(number);
   }
   return number;
 };

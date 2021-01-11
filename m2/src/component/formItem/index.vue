@@ -41,7 +41,6 @@ export default {
       path = path.replace(/\.(\w+)(?=\.|\[|$)/g, '[$1]');
       // replace start key
       path = path.replace(/^(\w+)/, '[$1]');
-
       // sometime path is empty when init, so match will get null
       let keyArr = path.match(/(?:\[)(.*?)(?:\])/g) || [];
       // remove [|]|"|' in key

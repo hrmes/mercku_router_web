@@ -13,19 +13,19 @@
         <div class="content__line"></div>
         <div class="content__item content__switch">
           <label for="">{{$t('trans0434')}}</label>
-          <m-switch v-model="wan.ping.enabled"
+          <m-switch v-model="ping.enabled"
                     @change="updateWanPing"></m-switch>
         </div>
-        <template v-if="wan.ping.enabled">
+        <template v-if="ping.enabled">
           <m-form ref="ipListForm"
-                  :model="wan"
+                  :model="ping"
                   class="content__item form">
             <m-checkbox class="form__checkbox"
                         v-model="isIpPointed"
                         :text="$t('trans0575')"
                         @change="changeIpPointed"></m-checkbox>
             <template v-if="isIpPointed">
-              <m-form-item v-for="(value, index) in wan.ping.ip_limit.ip_list"
+              <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
                            :key="index"
                            :prop="`ping.ip_limit.ip_list[${index}]`"
                            :rules='ipValidator'>
@@ -33,7 +33,7 @@
                   <m-input class="form__input"
                            type="text"
                            :placeholder="$t('trans0321')"
-                           v-model="wan.ping.ip_limit.ip_list[index]" />
+                           v-model="ping.ip_limit.ip_list[index]" />
                   <div @click="reduceIp(index)"
                        class="form__reduce-btn"
                        v-if="index > 0">
@@ -63,6 +63,8 @@
 <script>
 import { isIP } from '@/util/util';
 
+const cloneDeep = require('lodash/cloneDeep');
+
 const maxIpNum = 10;
 const Mode = {
   free: 'free',
@@ -82,6 +84,17 @@ export default {
           }
         }
       },
+      ping: {
+        enabled: false,
+        ip_limit: {
+          mode: Mode.free,
+          ip_list: []
+        }
+      },
+      ip_limit: {
+        mode: Mode.free,
+        ip_list: []
+      },
       pingEnabledInitialized: false,
       isIpPointed: false,
       ipValidator: [
@@ -98,7 +111,7 @@ export default {
   },
   computed: {
     allowedIpsLen() {
-      return this.wan.ping.ip_limit.ip_list.length;
+      return this.ping.ip_limit.ip_list.length;
     },
     isMaxIpNum() {
       return this.allowedIpsLen === maxIpNum;
@@ -111,10 +124,10 @@ export default {
     changeIpPointed() {
       if (this.isIpPointed) {
         if (!this.allowedIpsLen) {
-          this.wan.ping.ip_limit.ip_list = [''];
+          this.ping.ip_limit.ip_list = [''];
         }
       } else {
-        this.wan.ping.ip_limit.ip_list = this.wan.ping.ip_limit.ip_list.filter(ip => !ip);
+        this.ping.ip_limit.ip_list = this.ping.ip_limit.ip_list.filter(ip => !!ip);
       }
     },
     addIp() {
@@ -122,10 +135,10 @@ export default {
         this.$toast(this.$t('trans0060'), 3000, 'error');
         return;
       }
-      this.wan.ping.ip_limit.ip_list.push('');
+      this.ping.ip_limit.ip_list.push('');
     },
     reduceIp(index) {
-      this.wan.ping.ip_limit.ip_list.splice(index, 1);
+      this.ping.ip_limit.ip_list.splice(index, 1);
     },
     getFirewall() {
       this.$loading.open();
@@ -134,8 +147,10 @@ export default {
         const data = res.data.result;
         const { wan } = data;
         this.wan = wan;
-        this.pingEnabledInitialized = this.wan.ping.enabled;
-        this.isIpPointed = this.wan.ping.ip_limit.mode === Mode.whitelist;
+        this.ping = cloneDeep(wan.ping);
+        this.ip_limit = cloneDeep(this.wan.ping.ip_limit);
+        this.pingEnabledInitialized = this.ping.enabled;
+        this.isIpPointed = this.ping.ip_limit.mode === Mode.whitelist;
       });
     },
     updateWanDos() {
@@ -143,7 +158,9 @@ export default {
     },
     updateWanPing(enabled) {
       if (!enabled) {
-        if (this.pingEnabledInitialized !== this.wan.ping.enabled) {
+        if (this.pingEnabledInitialized !== this.ping.enabled) {
+          this.wan.ping.ip_limit = this.ip_limit;
+          this.wan.ping.enabled = false;
           this.updateFirewall();
         }
       }
@@ -152,7 +169,9 @@ export default {
       if (!this.$refs.ipListForm.validate()) {
         return;
       }
-      this.wan.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
+      this.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
+      this.wan.ping = this.ping;
+      this.ip_limit = cloneDeep(this.wan.ping.ip_limit);
       this.updateFirewall();
     },
     updateFirewall() {

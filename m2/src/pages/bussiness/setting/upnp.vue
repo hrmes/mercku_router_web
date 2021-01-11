@@ -8,7 +8,7 @@
         <m-switch class="form__switch"
                   v-model="form.enabled"
                   :label="$t('trans0644')"
-                  :onChange="onEnabledChange" />
+                  @change="onEnabledChange" />
         <div class="form__label">{{$t('trans0643')}}</div>
       </div>
     </div>

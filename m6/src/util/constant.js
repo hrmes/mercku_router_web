@@ -4,7 +4,8 @@ export const Customers = {
   internal: '0000',
   startca: '0003',
   inverto: '0004',
-  orion: '0005'
+  orion: '0005',
+  realnett: '0006'
 };
 export const EncryptMethod = {
   open: 'open',
