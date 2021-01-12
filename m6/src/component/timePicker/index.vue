@@ -127,8 +127,7 @@ export default {
       const sEl = el.querySelector('.selected');
       const cTop = sEl.offsetTop;
       const pTop = pEl.offsetTop;
-      const { scrollTop } = pEl;
-      const move = cTop - pTop + scrollTop;
+      const move = cTop - pTop;
       this.scrollTo(el, 0, move);
     },
     animateScroll() {
