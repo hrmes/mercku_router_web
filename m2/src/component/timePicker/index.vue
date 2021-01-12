@@ -125,10 +125,8 @@ export default {
       }
     },
     initScroll(el) {
-      const pEl = el;
       const sEl = el.querySelector('.selected');
       const cTop = sEl.offsetTop;
-      console.log(cTop);
       this.scrollTo(el, 0, cTop);
     },
     animateScroll() {
