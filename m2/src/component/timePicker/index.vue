@@ -128,9 +128,8 @@ export default {
       const pEl = el;
       const sEl = el.querySelector('.selected');
       const cTop = sEl.offsetTop;
-      const pTop = pEl.offsetTop;
-      const move = cTop - pTop;
-      this.scrollTo(el, 0, move);
+      console.log(cTop);
+      this.scrollTo(el, 0, cTop);
     },
     animateScroll() {
       if (this.animationEl.scrollTop >= this.distance) {
