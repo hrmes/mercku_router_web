@@ -5,6 +5,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
   console.log(`role is: ${role}`);
+  console.log(`mode is: ${mode}`);
 
   // 菜单默认配置
   const config = {
