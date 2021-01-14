@@ -67,6 +67,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.realnett]: {
             show: false
+          },
+          [Customers.orion]: {
+            show: false
           }
         }
       },
