@@ -171,7 +171,7 @@ const Languages = [
     show: false
   },
   {
-    text: 'Serbian',
+    text: 'Srpski',
     value: 'sr-RS',
     show: false
   },

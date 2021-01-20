@@ -165,6 +165,9 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.startca]: {
             show: false
+          },
+          [Customers.inverto]: {
+            show: false
           }
         }
       },

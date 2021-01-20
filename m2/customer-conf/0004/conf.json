@@ -1,5 +1,6 @@
 {
   "id": "0004",
+  "__host": "http://mywifi.mercku.tech",
   "host": "http://onenet.inverto.tv",
   "title": "Inverto.tv",
   "accept": ".tv",

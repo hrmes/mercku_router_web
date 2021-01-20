@@ -6,6 +6,7 @@
   "favicon": "customer-conf/0005/favicon.png",
   "policy": "https://laki.eu/files/uslovi-koriscenja-laki-wifi.pdf",
   "allow2LevelAdmin": true,
+  "disableIPv6": false,
   "languages": ["zh-CN", "en-US", "sr-RS"],
   "defaultLanguage": "sr-RS",
   "routers": {
