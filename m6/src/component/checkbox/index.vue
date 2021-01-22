@@ -3,7 +3,7 @@
     <div class="checkbox-container">
       <label @click="check">
         <div class="box"
-             :class="{'checked':checked,'circle-shape':!rect}"></div>
+             :class="classObject"></div>
         <div class="text"
              v-if="text">{{text}}</div>
       </label>
@@ -29,20 +29,34 @@ export default {
     stopPropagation: {
       type: Boolean,
       default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return { checked: this.value };
   },
+  computed: {
+    classObject() {
+      return {
+        checked: this.checked,
+        'circle-shape': !this.rect,
+        disabled: this.disabled
+      };
+    }
+  },
   methods: {
     check(e) {
-      if (!this.readonly) {
-        this.checked = !this.checked;
-        this.$emit('input', this.checked);
-        this.$emit('change', this.checked);
-        if (this.stopPropagation) {
-          e.stopPropagation();
-        }
+      if (this.readonly || this.disabled) {
+        return;
+      }
+      this.checked = !this.checked;
+      this.$emit('input', this.checked);
+      this.$emit('change', this.checked);
+      if (this.stopPropagation) {
+        e.stopPropagation();
       }
     }
   },
@@ -59,7 +73,6 @@ export default {
   height: 18px;
   display: inline-block;
   overflow: hidden;
-
   label {
     cursor: pointer;
     display: flex;
@@ -92,6 +105,11 @@ export default {
         transform: rotate(45deg);
         width: 3px;
       }
+    }
+    &.disabled {
+      background: #b3b3b3;
+      border: 1px solid #fff;
+      cursor: not-allowed;
     }
   }
   .text {

@@ -16,7 +16,7 @@
           <div class="m-check-all-box">
             <m-checkbox v-model="checkAll"
                         :text="$t('trans0032')"
-                        :onChange="offCheckChange"></m-checkbox>
+                        @change="offCheckChange"></m-checkbox>
           </div>
           <div><button class="btn btn-small"
                     :disabled="!offlineCheckedMacs.length"
@@ -37,7 +37,7 @@
               <div class="column-check-box"
                    v-if="isOfflineDevices">
                 <m-checkbox v-model="checkAll"
-                            :onChange="offCheckChange"></m-checkbox>
+                            @change="offCheckChange"></m-checkbox>
               </div>
               {{$t('trans0005')}}
             </li>
