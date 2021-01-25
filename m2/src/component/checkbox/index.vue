@@ -8,9 +8,7 @@
              v-if="text">{{text}}</div>
       </label>
     </div>
-
   </transition>
-
 </template>
 <script>
 export default {
@@ -27,10 +25,6 @@ export default {
     readonly: {
       type: Boolean,
       default: false
-    },
-    onChange: {
-      type: Function,
-      default: () => {}
     },
     stopPropagation: {
       type: Boolean,
@@ -59,7 +53,6 @@ export default {
         return;
       }
       this.checked = !this.checked;
-      this.onChange(this.checked);
       this.$emit('input', this.checked);
       this.$emit('change', this.checked);
       if (this.stopPropagation) {

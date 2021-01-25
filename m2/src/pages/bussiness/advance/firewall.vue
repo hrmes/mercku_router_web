@@ -23,7 +23,7 @@
             <m-checkbox class="form__checkbox"
                         v-model="isIpPointed"
                         :text="$t('trans0575')"
-                        :onChange="changeIpPointed"></m-checkbox>
+                        @change="changeIpPointed"></m-checkbox>
             <template v-if="isIpPointed">
               <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
                            :key="index"

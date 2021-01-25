@@ -10,7 +10,7 @@
           <div class="checkbox">
             <m-checkbox v-model="checkAllBlacklist"
                         :text="$t('trans0032')"
-                        :onChange="changeCheckboxAll"></m-checkbox>
+                        @change="changeCheckboxAll"></m-checkbox>
           </div>
           <div class="btns">
             <div class="btn btn-primary btn-small"
@@ -65,7 +65,7 @@
           <div class="name">
             <div class="checkbox">
               <m-checkbox v-model="checkAllBlacklist"
-                          :onChange="changeCheckboxAll"></m-checkbox>
+                          @change="changeCheckboxAll"></m-checkbox>
             </div>
             <div>{{$t('trans0005')}}</div>
           </div>
