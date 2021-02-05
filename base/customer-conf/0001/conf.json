@@ -1,0 +1,28 @@
+{
+  "id": "0001",
+  "title": "Mercku",
+  "accept": ".ma",
+  "favicon": "customer-conf/0001/favicon.ico",
+  "policy": "",
+  "allow2LevelAdmin": false,
+  "languages": ["zh-CN", "en-US", "de-DE", "fr-FR", "es-ES"],
+  "routers": {
+    "M2": {
+      "name": "M2 Standalone Wi-Fi router",
+      "shortName": "M2"
+    },
+    "Bee": {
+      "name": "M2 Bee Wi-Fi Mesh Node",
+      "shortName": "Bee"
+    }
+  },
+  "loading": {
+    "name": "loading.gif",
+    "color": "#d6001c"
+  },
+  "website": {
+    "url": "https://www.mercku.com",
+    "text": "mercku.com"
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
+}

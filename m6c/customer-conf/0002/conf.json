@@ -1,0 +1,22 @@
+{
+  "id": "0002",
+  "title": "CIK TELECOM",
+  "accept": ".ca",
+  "favicon": "customer-conf/0002/favicon.ico",
+  "policy": "https://www.ciktel.com/",
+  "allow2LevelAdmin": true,
+  "routers": {
+    "M2": {
+      "name": "M2 Standalone Wi-Fi router",
+      "shortName": "M2"
+    },
+    "Bee": {
+      "name": "M2 Bee Wi-Fi Mesh Node",
+      "shortName": "Bee"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#999999"
+  }
+}
