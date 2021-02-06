@@ -129,9 +129,10 @@ module.exports = {
   chainWebpack: config => {
     config.resolve.alias
       .set('vue$', 'vue/dist/vue.esm.js')
-      .set('components', resolve('./src/component'))
-      .set('pages', resolve('./src/pages'))
-      .set('style', resolve('./src/style'));
+      .set('base', resolve('../base'))
+      .set('components', resolve('src/component'))
+      .set('pages', resolve('src/pages'))
+      .set('style', resolve('src/style'));
     config.module
       .rule('html')
       .test(/\.html$/)
@@ -151,7 +152,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // @/ is an alias to src/
-        data: `@import "@/style/${CUSTOMER_ID}/theme.scss";`
+        data: `@import "../base/src/style/${CUSTOMER_ID}/theme.scss";`
       }
     }
   }
