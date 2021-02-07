@@ -213,12 +213,12 @@ export default {
       // margin-top: 14px;
       display: inline-block;
       &.hide {
-        background: url(../../assets/images/icon/ic_visible.png) no-repeat
+        background: url(~base-assets/images/icon/ic_visible.png) no-repeat
           center;
         background-size: 100%;
       }
       &.show {
-        background: url(../../assets/images/icon/ic_invisible.png) no-repeat
+        background: url(~base-assets/images/icon/ic_invisible.png) no-repeat
           center;
         background-size: 100%;
       }

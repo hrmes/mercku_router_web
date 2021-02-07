@@ -132,7 +132,13 @@ module.exports = {
       .set('components', resolve('src/component'))
       .set('pages', resolve('src/pages'))
       .set('style', resolve('src/style'))
-      .set('base', resolve('../base'));
+      .set('base', resolve('../base'))
+      .set('base-components', resolve('../base/src/component'))
+      .set('base-style', resolve('../base/src/style'))
+      .set('base-pages', resolve('../base/src/pages'))
+      .set('base-assets', resolve('../base/src/assets'))
+      .set('base-i18n', resolve('../base/src/i18n'))
+      .set('base-util', resolve('../base/src/util'));
     config.module
       .rule('html')
       .test(/\.html$/)

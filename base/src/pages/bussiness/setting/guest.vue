@@ -16,7 +16,7 @@
                          :title="$t('trans0538')"
                          :content="$t('trans0540')">
                 <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
+                     src="base-assets/images/icon/ic_question.png"
                      alt="">
               </m-popover>
 
@@ -118,7 +118,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from '../../../util/util';
+import { getStringByte, passwordRule } from 'base-util/util';
 
 const Bands = {
   b24g: '2.4G',

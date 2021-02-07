@@ -35,7 +35,7 @@
             {{$t('trans0370')}}
             <i>
               <img :class="{open:mobileSelect}"
-                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
+                   src="base-assets/images/icon/ic_arrow_pack_up.png"
                    alt>
             </i>
           </div>
@@ -95,7 +95,7 @@
           </div>
           <div class="empty"
                v-if="empty!==null && empty">
-            <img src="../../../../assets/images/img_default_empty.png"
+            <img src="base-assets/images/img_default_empty.png"
                  alt="">
             <p>{{$t('trans0278')}}</p>
             <button class="btn btn-middle"
@@ -108,7 +108,7 @@
   </div>
 </template>
 <script>
-import { formatMac } from '../../../../util/util';
+import { formatMac } from 'base-util/util';
 
 export default {
   data() {

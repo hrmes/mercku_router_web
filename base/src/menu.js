@@ -1,4 +1,4 @@
-import { Role, RouterMode, Customers } from './util/constant';
+import { Role, RouterMode, Customers } from 'base-util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 export default function getMenu(role, mode = RouterMode.router) {

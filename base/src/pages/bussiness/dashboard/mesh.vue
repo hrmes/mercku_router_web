@@ -41,7 +41,7 @@
                              :title="this.$t('trans0562')"
                              :content="this.$t('trans0558')">
                     <img width="14"
-                         src="../../../assets/images/icon/ic_question.png">
+                         src="base-assets/images/icon/ic_question.png">
                   </m-popover>
                 </div>
               </label>
@@ -58,7 +58,7 @@
                              :title="this.$t('trans0667')"
                              :content="this.$t('trans0668')">
                     <img width="14"
-                         src="../../../assets/images/icon/ic_question.png">
+                         src="base-assets/images/icon/ic_question.png">
                   </m-popover>
                 </div>
               </label>
@@ -108,13 +108,13 @@
                        @click.stop="onClickRouterName(router)">
                     <img class="btn-text icon-btn"
                          :title="$t('trans0034')"
-                         src="../../../assets/images/icon/ic_edit.png"
+                         src="base-assets/images/icon/ic_edit.png"
                          alt>
                   </div>
                 </div>
                 <div class="expand"
                      :class="{'expand':router.expand,'collapse':!router.expand}">
-                  <img src="../../../assets/images/icon/ic_side_bar_pick_up.png"
+                  <img src="base-assets/images/icon/ic_side_bar_pick_up.png"
                        alt>
                 </div>
               </div>
@@ -132,7 +132,7 @@
                   {{getRouterStationCount(router)}}
                 </span>
                 <img class="equipment__arrow"
-                     src="../../../assets/images/icon/ic_inter.png" />
+                     src="base-assets/images/icon/ic_inter.png" />
               </div>
               <div class="sn">
                 <span class="label">{{$t('trans0251')}}</span>
@@ -197,7 +197,7 @@
 
           <div class="examples">
             <div class="example error">
-              <img src="../../../assets/images/img_help_error.jpg"
+              <img src="base-assets/images/img_help_error.jpg"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -207,7 +207,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="../../../assets/images/img_help_right.jpg"
+              <img src="base-assets/images/img_help_right.jpg"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -235,7 +235,7 @@
       <m-modal-header class="header">
         <img @click="hideMeshListModal"
              class="header__btn--close"
-             src="../../../assets/images/icon/close.png"
+             src="base-assets/images/icon/close.png"
              alt="" />
       </m-modal-header>
       <m-modal-body class="table">
@@ -253,7 +253,7 @@
             <div class="table__column table__column--device">
               <span v-if="isThisMachine(item.ip)"
                     class="device__img">
-                <img src="../../../assets/images/icon/ic_user.png"
+                <img src="base-assets/images/icon/ic_user.png"
                      alt="">
               </span>
               <span class="device__host-name"
@@ -269,7 +269,7 @@
             <div class="table__column table__column--guest">
               <span class="laptop-show">{{bandMap[item.connected_network.band]}}</span>
               <img v-if="isGuest(item.connected_network.type)"
-                   src="../../../assets/images/icon/ic-guest-wifi.png"
+                   src="base-assets/images/icon/ic-guest-wifi.png"
                    alt="" />
               <span class="mobile-show">{{bandMap[item.connected_network.band]}}</span>
             </div>
@@ -277,7 +277,7 @@
         </div>
         <div class="table__empty"
              v-else>
-          <img src="../../../assets/images/img_default_empty.png"
+          <img src="base-assets/images/img_default_empty.png"
                alt="">
           <span>
             {{$t('trans0278')}}
@@ -289,8 +289,8 @@
 </template>
 <script>
 import marked from 'marked';
-import { formatMac, getStringByte } from '../../../util/util';
-import { RouterStatus, RouterMode } from '../../../util/constant';
+import { formatMac, getStringByte } from 'base-util/util';
+import { RouterStatus, RouterMode } from 'base-util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -1020,11 +1020,11 @@ export default {
               height: 12px;
               margin-left: 5px;
               cursor: pointer;
-              background: url(../../../assets/images/icon/ic_connection_quality.png)
+              background: url(~base-assets/images/icon/ic_connection_quality.png)
                 no-repeat center;
               background-size: 100%;
               &:hover {
-                background: url(../../../assets/images/icon/ic_connection_quality_hover.png)
+                background: url(~base-assets/images/icon/ic_connection_quality_hover.png)
                   no-repeat center;
                 background-size: 100%;
               }

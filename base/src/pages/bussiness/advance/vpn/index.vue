@@ -50,7 +50,7 @@
       </div>
       <div class="vpn-empty"
            v-if="hasVpns&&isEmpty">
-        <img src="../../../../assets/images/img_default_empty.png"
+        <img src="base-assets/images/img_default_empty.png"
              alt="">
         <p class="empty-text">{{$t('trans0278')}}</p>
         <button class="btn btn-middle"
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { VPNAction, VPNStatus } from '../../../../util/constant';
+import { VPNAction, VPNStatus } from 'base-util/constant';
 
 export default {
   data() {

@@ -15,7 +15,7 @@
          v-for="file in files"
          :key="file.lastModified">
       <div class="icon-wrap">
-        <img src="../../assets/images/icon/ic_folder.png" />
+        <img src="base-assets/images/icon/ic_folder.png" />
       </div>
       <div class="des-cnt">
         <div class="description">
@@ -43,7 +43,7 @@
       </div>
       <div class="delete-wrap">
         <img v-if="uploadLoading ||uploadFail"
-             src="../../assets/images/icon/ic_trash.png"
+             src="base-assets/images/icon/ic_trash.png"
              alt=""
              width="24"
              @click="cancel(file)" />
@@ -52,8 +52,8 @@
   </div>
 </template>
 <script>
-import { toLocaleNumber } from '@/i18n';
-import { UploadStatus } from '../../util/constant';
+import { toLocaleNumber } from 'base-i18n/index.js';
+import { UploadStatus } from 'base-util/constant.js';
 
 export default {
   props: {
@@ -229,7 +229,7 @@ export default {
         display: inline-block;
         width: 13px;
         height: 14px;
-        background: url(../../assets/images/icon/ic_delete.png);
+        background: url(~base-assets/images/icon/ic_delete.png);
         background-size: 100%;
         border-radius: 13px;
         cursor: pointer;

@@ -60,15 +60,15 @@
                   <div class="img-container">
                     <img class="img-m2"
                          v-if="fwInfo.model.id === RouterSnModel.M2"
-                         src="../../../assets/images/img_m2.png"
+                         src="base-assets/images/img_m2.png"
                          alt="" />
                     <img class="img-bee"
                          v-else-if="fwInfo.model.id === RouterSnModel.Bee"
-                         src="../../../assets/images/img_bee.png"
+                         src="base-assets/images/img_bee.png"
                          alt="" />
                     <img class="img-other"
                          v-else
-                         src="../../../assets/images/icon/ic_default_router.png"
+                         src="base-assets/images/icon/ic_default_router.png"
                          alt="" />
                   </div>
                   <div class="info-container">
@@ -102,15 +102,15 @@
       </div>
     </div>
     <div class="mobile-wrapper">
-      <img src="../../../assets/images/icon/ic_hint.png"
+      <img src="base-assets/images/icon/ic_hint.png"
            alt="" />
       <p>{{ $t('trans0343') }}</p>
     </div>
   </div>
 </template>
 <script>
-import { RouterSnModel, UploadStatus } from '../../../util/constant';
-import { getFileExtendName } from '../../../util/util';
+import { RouterSnModel, UploadStatus } from 'base-util/constant';
+import { getFileExtendName } from 'base-util/util';
 
 export default {
   data() {

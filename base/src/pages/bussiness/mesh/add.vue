@@ -156,7 +156,7 @@
           <div class="step-item step-item2">
             <div class="success"
                  v-if="added">
-              <img src="../../../assets/images/icon/ic_success.png"
+              <img src="base-assets/images/icon/ic_success.png"
                    alt="" />
               <p>{{$t('trans0192')}}</p>
               <div class="button-container">
@@ -166,7 +166,7 @@
             </div>
             <div class="fail"
                  v-if="!added">
-              <img src="../../../assets/images/icon/ic_fail.png"
+              <img src="base-assets/images/icon/ic_fail.png"
                    alt="" />
               <p>{{$t('trans0248')}}</p>
               <span class="btn-help"
@@ -206,7 +206,7 @@
   </div>
 </template>
 <script>
-import { RouterSnModel } from '../../../util/constant';
+import { RouterSnModel } from 'base-util/constant';
 
 const PageType = {
   tipPage: 'tipPage',
@@ -217,18 +217,18 @@ const PageType = {
 const Routers = [
   {
     name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
-    image: require('../../../assets/images/img_bee.png'),
-    powerOnImage: require('../../../assets/images/img_power_on_bee.jpg'),
-    lampImage: require('../../../assets/images/pic_node_1_redlight.jpg'),
-    tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
+    image: require('base-assets/images/img_bee.png'),
+    powerOnImage: require('base-assets/images/img_power_on_bee.jpg'),
+    lampImage: require('base-assets/images/pic_node_1_redlight.jpg'),
+    tipImage: require('base-assets/images/img_add_plug_bee.jpg'),
     sn: RouterSnModel.Bee
   },
   {
     name: process.env.CUSTOMER_CONFIG.routers.M2.name,
-    image: require('../../../assets/images/img_m2.png'),
-    powerOnImage: require('../../../assets/images/pic_router_m2.jpg'),
-    lampImage: require('../../../assets/images/img_power_on_m2.jpg'),
-    tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
+    image: require('base-assets/images/img_m2.png'),
+    powerOnImage: require('base-assets/images/pic_router_m2.jpg'),
+    lampImage: require('base-assets/images/img_power_on_m2.jpg'),
+    tipImage: require('base-assets/images/img_add_plug_m2.jpg'),
     sn: RouterSnModel.M2
   }
 ];
@@ -300,12 +300,12 @@ export default {
     getNodeImg(node) {
       const id = node.sn.slice(0, 2);
       if (id === this.RouterSnModel.M2) {
-        return require('../../../assets/images/img_m2.png');
+        return require('base-assets/images/img_m2.png');
       }
       if (id === this.RouterSnModel.Bee) {
-        return require('../../../assets/images/img_bee.png');
+        return require('base-assets/images/img_bee.png');
       }
-      return require('../../../assets/images/icon/ic_default_router.png');
+      return require('base-assets/images/icon/ic_default_router.png');
     },
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
@@ -497,7 +497,7 @@ export default {
   }
   .circle-animation {
     position: relative;
-    background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
+    background: url(~base-assets/images/add_node_tip_bj.jpg) no-repeat center;
     background-size: 100%;
     width: 340px;
     margin: 0 auto;
