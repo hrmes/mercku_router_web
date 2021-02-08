@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+
 import upgradeHelper from 'base/util/upgrade';
 import {
   formatSpeed,
@@ -13,14 +13,10 @@ import upgradeComponent from 'base/component/upgrade/index';
 import loading from 'base/component/loading/index';
 import App from 'base/App.vue';
 import registerComponents from 'base/register-components';
-import Http from 'base/http';
 import Store from 'base/store';
+import Http from './http';
 import { changeLanguage, i18n, translate, toLocaleNumber } from './i18n';
-import routers from './router';
-
-Vue.use(Router);
-
-const router = new Router(routers);
+import router from './router';
 
 // 不同客户特别的样式表
 require(`base/style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);

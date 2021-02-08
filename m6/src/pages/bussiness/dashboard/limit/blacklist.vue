@@ -71,8 +71,8 @@
   </div>
 </template>
 <script>
-import { hostRexp, isIP, getStringByte } from '@/util/util';
-import { BlacklistMode } from '@/util/constant';
+import { hostRexp, isIP, getStringByte } from 'base/util/util';
+import { BlacklistMode } from 'base/util/constant';
 
 export default {
   data() {

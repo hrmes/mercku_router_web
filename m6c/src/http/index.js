@@ -31,7 +31,6 @@ const methods = {
   isInMesh: createMethod('mesh.node.is_in_mesh'),
   meshLanUpdate: createMethod('mesh.config.lan.net.update'),
   updateAdmin: createMethod('mesh.config.admin.update'),
-  updateSuper: createMethod('mesh.config.super.update'),
   getAdmin: createMethod('router.config.admin.get'),
   firmwareList: createMethod('mesh.node.upgradability.get'),
   upgradeMeshNode: createMethod('mesh.node.upgrade'),
@@ -99,10 +98,13 @@ const methods = {
   getSupportChannel: createMethod('mesh.channel.supported.get'),
   getSupportRegions: createMethod('mesh.region.supported.get'),
   setRegion: createMethod('mesh.region.update'),
+  getSSHEnabled: createMethod('router.ssh.enabled.get'),
+  setSSHEnabled: createMethod('router.ssh.enabled.update'),
+  getMeshNodeStation: createMethod('mesh.node.station.get'),
+  getMeshInfoWanNetIpv6: createMethod('mesh.info.wan.net.ipv6.get'),
+  updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update'),
   getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
-  setUPNPEnabled: createMethod('mesh.upnp.enabled.update'),
-  getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
-  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set')
+  setUPNPEnabled: createMethod('mesh.upnp.enabled.update')
 };
 
 Object.keys(methods).forEach(methodName => {

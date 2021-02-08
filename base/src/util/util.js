@@ -12,6 +12,29 @@ export const IPAReg = /^10\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0
 export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 
+export const isFieldHasComma = value => {
+  if (value.indexOf(',') > -1) {
+    return false;
+  }
+  return true;
+};
+
+export const isValidInteger = (value, min = 8, max = 24) => {
+  if (!value) {
+    return false;
+  }
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]+$/;
+  return passwordRuleReg.test(value);
+};
+export const isValidFieldLength = (value, min = 1, max = 64) => {
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+  return true;
+};
 export const getIpBefore = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
   return pattern.exec(ip)[0];
@@ -33,18 +56,6 @@ export const isIP = (ip, type = IPv4) => {
       reg = ipReg;
   }
   return ip && reg.test(ip);
-};
-export const isValidInteger = (value, min, max) => {
-  const reg = /^[1-9]\d*$/;
-  let flag = false;
-  value += '';
-  if (reg.test(value)) {
-    const val = value * 1;
-    if (val >= min && val <= max) {
-      flag = true;
-    }
-  }
-  return flag;
 };
 export const hostRexp = host => {
   if (host && hostReg.test(host)) {
@@ -291,4 +302,13 @@ export const formatDuration = value => {
   // 添加剩下的秒数
   timeArr.push(value);
   return timeArr;
+};
+
+String.prototype.format = function(...args) {
+  let _this = this;
+  args.forEach(val => {
+    _this = _this.replace(/%[abcdefghnostx]/, val);
+    console.log(_this);
+  });
+  return _this;
 };

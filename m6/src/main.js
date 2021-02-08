@@ -1,17 +1,22 @@
 import Vue from 'vue';
-import loading from 'components/loading/index';
-import upgradeComponent from 'components/upgrade/index';
-import toast from 'components/toast/index';
-import dialog from 'components/dialog/index';
-import mProgress from 'components/progress/index.vue';
-import { formatSpeed, formatNetworkData, formatBandWidth } from '@/util/util';
-import upgradeHelper from '@/util/upgrade';
+
+import upgradeHelper from 'base/util/upgrade';
+import {
+  formatSpeed,
+  formatNetworkData,
+  formatBandWidth
+} from 'base/util/util';
+import toast from 'base/component/toast/index';
+import dialog from 'base/component/dialog/index';
+import mProgress from 'base/component/progress/index.vue';
+import upgradeComponent from 'base/component/upgrade/index';
+import loading from 'base/component/loading/index';
+import registerComponents from 'base/register-components';
+import App from 'base/App.vue';
+import Store from 'base/store';
+import Http from './http';
 import { changeLanguage, i18n, translate, toLocaleNumber } from './i18n';
 import router from './router';
-import App from './App.vue';
-import registerComponents from './register-components';
-import Http from './http';
-import store from './store';
 
 // 不同客户特别的样式表
 require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
@@ -198,6 +203,16 @@ const launch = () => {
     };
   };
 
+  const store = new Store(Vue, {
+    mode: localStorage.getItem('mode'),
+    role: localStorage.getItem('role'),
+    modules: {
+      limits: {},
+      portfw: {},
+      rsvdip: {},
+      vpn: {}
+    }
+  });
   new Vue({
     el: '#web',
     i18n,

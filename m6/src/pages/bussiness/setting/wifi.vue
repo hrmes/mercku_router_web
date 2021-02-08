@@ -179,8 +179,8 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword, isFieldHasComma } from '@/util/util';
-import { EncryptMethod, Bands } from '@/util/constant';
+import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
+import { EncryptMethod, Bands } from 'base/util/constant';
 import encryptMix from '@/mixins/encrypt-methods';
 
 export default {

@@ -14,6 +14,14 @@ export const IP = {
   IPv4: 'ipv4',
   IPv6: 'ipv6'
 };
+export const EncryptMethod = {
+  open: 'open',
+  wpa: 'wpa',
+  wpa2: 'wpa2',
+  wpawpa2: 'wpawpa2',
+  wpa3: 'wpa3',
+  wpa2wpa3: 'wpa2wpa3'
+};
 export const Role = {
   super: 'super',
   admin: 'admin'
@@ -41,7 +49,8 @@ export const WanNetStatus = {
 export const RouterSnModel = {
   AC: '00',
   M2: '01',
-  Bee: '02'
+  Bee: '02',
+  M6: '06'
 };
 export const SpeedTestStatus = {
   testing: 'testing',
@@ -96,4 +105,13 @@ export const defaultScrollbarOpt = {
     easeTime: 300
   },
   scrollbar: { fade: true }
+};
+export const Weeks = {
+  mon: 'Mon',
+  tue: 'Tue',
+  wed: 'Wed',
+  thu: 'Thu',
+  fri: 'Fri',
+  sat: 'Sat',
+  sun: 'Sun'
 };

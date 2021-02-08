@@ -267,9 +267,8 @@ export default {
       el.style.height = 0;
     },
     enter(el, done) {
-      // debugger;
-      const height = el.childElementCount * 38;
       setTimeout(() => {
+        const height = el.childElementCount * 38;
         Velocity(el, { height: `${height}px` }, { complete: done });
       });
     },
@@ -590,7 +589,7 @@ export default {
         }
         .nav-item-child {
           display: none;
-          width: 260px;
+          width: 280px;
           position: absolute;
           z-index: 999;
           top: 100%;

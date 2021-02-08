@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import Router from 'vue-router';
+
 import login from 'base/pages/login/index.vue';
 import dashboard from 'base/pages/bussiness/dashboard/index.vue';
 import device from 'base/pages/bussiness/dashboard/device.vue';
@@ -38,7 +41,9 @@ import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 
-export default {
+Vue.use(Router);
+
+export default new Router({
   routes: [
     {
       path: '*',
@@ -250,4 +255,4 @@ export default {
       component: wwa
     }
   ]
-};
+});

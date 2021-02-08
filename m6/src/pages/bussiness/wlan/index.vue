@@ -90,7 +90,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword, isFieldHasComma } from '@/util/util';
+import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 
 export default {
   data() {

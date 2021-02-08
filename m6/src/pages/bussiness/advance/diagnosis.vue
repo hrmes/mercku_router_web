@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import { isValidFieldLength } from '@/util/util';
+import { isValidFieldLength } from 'base/util/util';
 
 const TaskStatus = {
   done: 'done'

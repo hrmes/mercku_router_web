@@ -101,7 +101,7 @@
   </div>
 </template>
 <script>
-import { formatMac } from '@/util/util';
+import { formatMac } from 'base/util/util';
 
 export default {
   data() {

@@ -187,7 +187,7 @@
 </template>
 <script>
 import RouterModel from '@/mixins/router-model';
-import { Bands } from '@/util/constant';
+import { Bands } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',

@@ -208,7 +208,7 @@
   </div>
 </template>
 <script>
-import * as CONSTANTS from '@/util/constant';
+import * as CONSTANTS from 'base/util/constant';
 
 export default {
   data() {

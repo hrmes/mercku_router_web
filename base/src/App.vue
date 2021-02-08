@@ -50,7 +50,6 @@ export default {
     }
   },
   mounted() {
-    console.log('this is ', this);
     this.setHeight();
     window.addEventListener('resize', () => {
       this.setHeight();

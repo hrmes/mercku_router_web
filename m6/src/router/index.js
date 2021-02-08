@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
 import login from 'pages/login/index.vue';
 import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
@@ -304,5 +305,4 @@ Array.prototype.push.apply(routes.routes, [
     redirect: `${prefix}/login`
   }
 ]);
-console.log(routes);
 export default new Router(routes);

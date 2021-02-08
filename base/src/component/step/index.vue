@@ -28,7 +28,7 @@ export default {
   props: { option: { type: Object } },
   computed: {
     width() {
-      return `${(this.option.current * 100) / (this.option.steps.length - 1)}%`;
+      return `${(this.option.current * 100) / (this.length - 1)}%`;
     },
     length() {
       return this.option.steps.length;
@@ -66,10 +66,8 @@ export default {
           sum += current.clientWidth;
           return sum;
         }, 0);
-        console.log(width, stepItemWidth, this.length);
         const perOffset = ((width - stepItemWidth) / (this.length - 1) / width) * 100;
         stepItemArr.forEach((step, index) => {
-          console.log(`${(perOffset * index).toFixed(2)}%`);
           step.style.left = `${(perOffset * index).toFixed(2)}%`;
         });
         this.preLength = this.length;
@@ -101,10 +99,28 @@ export default {
     position: relative;
     z-index: 1;
     .step {
+      position: absolute;
+      display: flex;
+      top: 0;
       position: relative;
+      justify-content: center;
+      align-items: center;
+
+      &:first-child {
+        justify-content: flex-start;
+        .step-text {
+          text-align: center;
+        }
+      }
+      &:last-child {
+        justify-content: flex-end;
+        .step-text {
+          text-align: center;
+        }
+      }
       .step-content {
-        width: 56px;
-        height: 64px;
+        // width: 56px;
+        // height: 64px;
         background: $step-item-background-color;
         display: flex;
         justify-content: center;

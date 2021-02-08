@@ -118,7 +118,7 @@
   </div>
 </template>
 <script>
-import { portReg } from '@/util/util';
+import { portReg } from 'base/util/util';
 
 const Tabs = {
   isTR069: 'tr069',

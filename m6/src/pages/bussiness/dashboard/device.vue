@@ -268,8 +268,8 @@
   </div>
 </template>
 <script>
-import { BlacklistMode } from '@/util/constant';
-import { formatMac, getStringByte, formatDate } from '@/util/util';
+import { BlacklistMode } from 'base/util/constant';
+import { formatMac, getStringByte, formatDate } from 'base/util/util';
 
 export default {
   data() {

@@ -221,7 +221,7 @@
   </div>
 </template>
 <script>
-import * as CONSTANTS from '@/util/constant';
+import * as CONSTANTS from 'base/util/constant';
 import {
   getStringByte,
   isValidPassword,
@@ -230,7 +230,7 @@ import {
   isLoopback,
   isValidMask,
   ipReg
-} from '@/util/util';
+} from 'base/util/util';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -543,8 +543,7 @@ export default {
           if (this.isPppoe) {
             this.pppoeForm.account = this.netInfo.pppoe.account;
             this.pppoeForm.password = this.netInfo.pppoe.password;
-            this.pppoeForm.vlan =
-              this.netInfo.pppoe.vlan?.[0] ?? this.pppoeForm.vlan;
+            this.pppoeForm.vlan = this.netInfo.pppoe.vlan?.[0] ?? this.pppoeForm.vlan;
             this.autodns.pppoe = !this.netInfo.pppoe.dns?.length;
             this.pppoeForm.dns1 = this.netInfo.pppoe.dns?.[0] ?? '';
             this.pppoeForm.dns2 = this.netInfo.pppoe.dns?.[1] ?? '';

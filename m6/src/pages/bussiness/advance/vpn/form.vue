@@ -119,8 +119,8 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword } from '@/util/util';
-import { VPNType } from '@/util/constant';
+import { getStringByte, isValidPassword } from 'base/util/util';
+import { VPNType } from 'base/util/constant';
 
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {

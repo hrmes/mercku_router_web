@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-import { isValidFieldLength, isValidPassword } from '@/util/util';
+import { isValidFieldLength, isValidPassword } from 'base/util/util';
 
 export default {
   data() {

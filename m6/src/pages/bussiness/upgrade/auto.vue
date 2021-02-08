@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { Weeks } from '@/util/constant';
+import { Weeks } from 'base/util/constant';
 
 const maxTrafficThreshold = 500;
 export default {
