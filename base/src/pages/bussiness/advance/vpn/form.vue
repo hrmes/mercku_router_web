@@ -118,8 +118,8 @@
   </div>
 </template>
 <script>
-import { VPNType } from 'base-util/constant';
-import { getStringByte } from 'base-util/util';
+import { VPNType } from 'base/util/constant';
+import { getStringByte } from 'base/util/util';
 
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {

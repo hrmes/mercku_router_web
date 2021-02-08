@@ -1,7 +1,7 @@
 <template>
   <div class="disappear-container">
     <div class="inner">
-      <img src="~base-assets/images/img_no_network_access.png"
+      <img src="~base/assets/images/img_no_network_access.png"
            alt="">
       <div class="text">{{$t('trans0132')}}</div>
       <button @click="tohome"
@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import upgradeHelper from 'base-util/upgrade';
+import upgradeHelper from 'base/util/upgrade';
 
 export default {
   methods: {

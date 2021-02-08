@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import { passwordRule } from 'base-util/util';
+import { passwordRule } from 'base/util/util';
 
 export default {
   data() {

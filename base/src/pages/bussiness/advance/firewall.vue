@@ -61,7 +61,7 @@
   </div>
 </template>
 <script>
-import { isIP } from 'base-util/util';
+import { isIP } from 'base/util/util';
 
 const cloneDeep = require('lodash/cloneDeep');
 

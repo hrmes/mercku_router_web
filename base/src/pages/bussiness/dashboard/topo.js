@@ -6,14 +6,14 @@
  *
  *
  */
-import * as CONSTANTS from 'base-util/constant';
-import picGateway from 'base-assets/images/icon/ic_m2_gw_green.svg';
-import picM2Good from 'base-assets/images/icon/ic_m2_green.svg';
-import picM2Bad from 'base-assets/images/icon/ic_m2_orange.svg';
-import pciM2Offline from 'base-assets/images/icon/ic_m2_offline.svg';
-import picBeeGood from 'base-assets/images/icon/ic_bee_green.svg';
-import picBeeBad from 'base-assets/images/icon/ic_bee_orange.svg';
-import picBeeOffline from 'base-assets/images/icon/ic_bee_offline.svg';
+import * as CONSTANTS from 'base/util/constant';
+import picGateway from 'base/assets/images/icon/ic_m2_gw_green.svg';
+import picM2Good from 'base/assets/images/icon/ic_m2_green.svg';
+import picM2Bad from 'base/assets/images/icon/ic_m2_orange.svg';
+import pciM2Offline from 'base/assets/images/icon/ic_m2_offline.svg';
+import picBeeGood from 'base/assets/images/icon/ic_bee_green.svg';
+import picBeeBad from 'base/assets/images/icon/ic_bee_orange.svg';
+import picBeeOffline from 'base/assets/images/icon/ic_bee_offline.svg';
 
 const Color = {
   good: '#00d061',
