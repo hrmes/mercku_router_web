@@ -156,7 +156,7 @@
           <div class="step-item step-item2">
             <div class="success"
                  v-if="added">
-              <img src="base-assets/images/icon/ic_success.png"
+              <img src="~base-assets/images/icon/ic_success.png"
                    alt="" />
               <p>{{$t('trans0192')}}</p>
               <div class="button-container">
@@ -166,7 +166,7 @@
             </div>
             <div class="fail"
                  v-if="!added">
-              <img src="base-assets/images/icon/ic_fail.png"
+              <img src="~base-assets/images/icon/ic_fail.png"
                    alt="" />
               <p>{{$t('trans0248')}}</p>
               <span class="btn-help"

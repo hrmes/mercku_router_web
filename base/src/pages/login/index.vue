@@ -55,13 +55,13 @@
       <div class="stores">
         <div class="store">
           <div>
-            <img src="base-assets/images/icon/ic_android.png"
+            <img src="~base-assets/images/icon/ic_android.png"
                  alt="">
           </div>
           <span>Google Play</span>
         </div>
         <div class="store">
-          <div><img src="base-assets/images/icon/ic_apple.png"
+          <div><img src="~base-assets/images/icon/ic_apple.png"
                  alt=""></div>
           <span>App Store</span>
         </div>

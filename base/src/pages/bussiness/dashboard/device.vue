@@ -25,7 +25,7 @@
         </div>
         <div class="off-more-message"
              v-if="devicesMap[id]&&devicesMap[id].length>60">
-          <img src="base-assets/images/icon/ic_hint.png"
+          <img src="~base-assets/images/icon/ic_hint.png"
                alt="">
           {{$t('trans0517')}}
         </div>
@@ -91,7 +91,7 @@
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
                       <img v-if='row.local && !isOfflineDevices'
-                           src="base-assets/images/icon/ic_user.png"
+                           src="~base-assets/images/icon/ic_user.png"
                            alt=""
                            style="margin-right:5px;margin-left:0;">
                       <span :title='row.name'>{{row.name}}</span>
@@ -100,12 +100,12 @@
                            :title="$t('trans0034')"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
-                           src="base-assets/images/icon/ic_edit.png"
+                           src="~base-assets/images/icon/ic_edit.png"
                            alt="">
                     </a>
                     <div class="mobile-icon">
                       <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                           src="base-assets/images/icon/ic_side_bar_pick_up.png"
+                           src="~base-assets/images/icon/ic_side_bar_pick_up.png"
                            alt="">
                     </div>
                   </div>
@@ -137,7 +137,7 @@
                 <div class="speed-inner">
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="base-assets/images/icon/ic_device_upload.png"
+                         src="~base-assets/images/icon/ic_device_upload.png"
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
@@ -146,7 +146,7 @@
                   </div>
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="base-assets/images/icon/ic_device_download.png"
+                         src="~base-assets/images/icon/ic_device_download.png"
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
@@ -252,7 +252,7 @@
             </ul>
             <div class='table-empty'
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
-              <img src="base-assets/images/img_default_empty.png"
+              <img src="~base-assets/images/img_default_empty.png"
                    alt="">
               <span>{{$t('trans0278')}}</span>
             </div>

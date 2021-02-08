@@ -9,7 +9,7 @@
          class="offical"
          target="_blank"
          :href="website.url">
-        <img src="base-assets/images/icon/ic_web_home.png"
+        <img src="~base-assets/images/icon/ic_web_home.png"
              alt="">
         <span>{{website.text}}</span>
       </a>

@@ -60,15 +60,15 @@
                   <div class="img-container">
                     <img class="img-m2"
                          v-if="fwInfo.model.id === RouterSnModel.M2"
-                         src="base-assets/images/img_m2.png"
+                         src="~base-assets/images/img_m2.png"
                          alt="" />
                     <img class="img-bee"
                          v-else-if="fwInfo.model.id === RouterSnModel.Bee"
-                         src="base-assets/images/img_bee.png"
+                         src="~base-assets/images/img_bee.png"
                          alt="" />
                     <img class="img-other"
                          v-else
-                         src="base-assets/images/icon/ic_default_router.png"
+                         src="~base-assets/images/icon/ic_default_router.png"
                          alt="" />
                   </div>
                   <div class="info-container">
@@ -102,7 +102,7 @@
       </div>
     </div>
     <div class="mobile-wrapper">
-      <img src="base-assets/images/icon/ic_hint.png"
+      <img src="~base-assets/images/icon/ic_hint.png"
            alt="" />
       <p>{{ $t('trans0343') }}</p>
     </div>

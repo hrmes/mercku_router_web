@@ -15,7 +15,7 @@
          v-for="file in files"
          :key="file.lastModified">
       <div class="icon-wrap">
-        <img src="base-assets/images/icon/ic_folder.png" />
+        <img src="~base-assets/images/icon/ic_folder.png" />
       </div>
       <div class="des-cnt">
         <div class="description">
@@ -43,7 +43,7 @@
       </div>
       <div class="delete-wrap">
         <img v-if="uploadLoading ||uploadFail"
-             src="base-assets/images/icon/ic_trash.png"
+             src="~base-assets/images/icon/ic_trash.png"
              alt=""
              width="24"
              @click="cancel(file)" />

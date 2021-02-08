@@ -5,10 +5,10 @@
         width: auto;
       }
     }
+
     .logo-wrap {
       .logo-wrap__logo {
-        background: url(../../assets/images/customer/realnett/realnett_logo.png)
-          center no-repeat;
+        background: url(~base-assets/images/customer/realnett/realnett_logo.png) center no-repeat;
         background-size: 100%;
       }
     }
@@ -21,66 +21,70 @@
         &::before {
           padding-top: 33.98%;
         }
+
         width: 341px;
-        background: url(../../assets/images/customer/realnett/realnett_logo_text.png)
-          no-repeat center;
+        background: url(~base-assets/images/customer/realnett/realnett_logo_text.png) no-repeat center;
         background-size: 100%;
+
         @media screen and (max-width: 768px) {
           &::before {
             padding-top: 46.09%;
           }
+
           width: 236px;
         }
       }
     }
+
     .app-logo {
-      background: url(../../assets/images/customer/realnett/ic_launcher.jpg)
-        no-repeat center;
+      background: url(~base-assets/images/customer/realnett/ic_launcher.jpg) no-repeat center;
       background-size: 100%;
     }
+
     .download {
       .qr {
-        background: url(../../assets/images/customer/realnett/qr.png) no-repeat
-          center;
+        background: url(~base-assets/images/customer/realnett/qr.png) no-repeat center;
         background-size: 100%;
       }
     }
   }
+
   /**************************end登陆页面******************/
 }
+
 /******************deshboard页面背景图片***********/
 .dashboard {
   .net-info {
-    background: url(~@/assets/images/customer/realnett/dashboard_banner_bg.jpg)
-      no-repeat center !important;
+    background: url(~base-assets/images/customer/realnett/dashboard_banner_bg.jpg) no-repeat center !important;
+
     @media screen and (max-width: 768px) {
-      background: url(~@/assets/images/customer/realnett/dashboard_banner_bg_mobile.jpg)
-        no-repeat center !important;
+      background: url(~base-assets/images/customer/realnett/dashboard_banner_bg_mobile.jpg) no-repeat center !important;
     }
   }
 }
+
 /******************deshboard页面背景图片***********/
 /******************添加节点页面图片***********/
 .type-container {
   .circle-animation {
     position: relative;
-    background: url(~@/assets/images/customer/realnett/add_node_tip_bj.png)
-      no-repeat center !important;
+    background: url(~base-assets/images/customer/realnett/add_node_tip_bj.png) no-repeat center !important;
     background-size: 100% !important;
     width: 340px;
     margin: 0 auto;
     margin-bottom: 50px;
+
     &::before {
       content: '';
       display: block;
       padding-top: 72%;
     }
+
     .circle {
-      background: radial-gradient(
-        rgba(88, 175, 255, 0) 39%,
-        rgba(88, 175, 255, 0.6) 100%
-      ) !important;
+      background: radial-gradient(rgba(88, 175, 255, 0) 39%,
+          rgba(88, 175, 255, 0.6) 100%) !important;
     }
   }
 }
+
 /******************添加节点页面图片***********/

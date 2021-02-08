@@ -7,7 +7,7 @@
           <div class="icon-container"
                :class="{'disabled':!isRouter}">
             <img @click="isRouter && forward2page('/dashboard/device/primary')"
-                 src="base-assets/images/icon/ic_device.png"
+                 src="~base-assets/images/icon/ic_device.png"
                  alt="">
             <div class="text-container"
                  :class="{'disabled':!isRouter}">
@@ -21,7 +21,7 @@
              :class="{'selected':$route.path.includes('mesh')}">
           <div class="icon-container">
             <img @click="forward2page('/dashboard/mesh')"
-                 src="base-assets/images/icon/ic_router.png"
+                 src="~base-assets/images/icon/ic_router.png"
                  alt="">
             <div class="text-container">
               {{ssid||'-'}}
@@ -35,7 +35,7 @@
                @click.stop="showTips()"
                v-if="isLinked || isUnlinked">
             <img class="icon__question"
-                 src="base-assets/images/icon/ic_wifi_question.png"
+                 src="~base-assets/images/icon/ic_wifi_question.png"
                  alt="">
           </div>
         </div>
@@ -43,7 +43,7 @@
              :class="{'selected':$route.path.includes('internet')}">
           <div class="icon-container">
             <img @click="forward2page('/dashboard/internet')"
-                 src="base-assets/images/icon/ic_internet.png"
+                 src="~base-assets/images/icon/ic_internet.png"
                  alt="">
             <div class="text-container">
               {{$t('trans0366')}}

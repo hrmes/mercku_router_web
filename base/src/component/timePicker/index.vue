@@ -8,7 +8,7 @@
              readonly>
       <span class="icon-inner">
         <a class="icon">
-          <img src="base-assets/images/rescreen-time.png"
+          <img src="~base-assets/images/rescreen-time.png"
                alt="">
         </a>
       </span>
