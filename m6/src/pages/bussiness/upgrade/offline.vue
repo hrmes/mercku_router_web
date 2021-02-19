@@ -101,7 +101,7 @@
 <script>
 import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
-import RouterModel from '@/mixins/router-model';
+import RouterModel from 'base/mixins/router-model';
 
 export default {
   mixins: [RouterModel],

@@ -84,7 +84,7 @@
             </div>
             <div class="column-local-port">
               <label class="m-title with-colon">{{$t('trans0151')}}:</label>
-              {{item.ip}}
+              <span>{{item.ip}}</span>
             </div>
             <div class="column-handle">
               <a class="btn-text"

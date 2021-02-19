@@ -1,3 +1,5 @@
+import intl from 'intl';
+
 export const defaultKey = 'decimal';
 
 export const i18nBuilder = (VueI18n, locales, numberFormats) =>
@@ -27,7 +29,7 @@ export const toLocaleNumberBuilder = intl => (
 ) => {
   // 有时候传入是不是数字，是占位符字符串
   if (typeof number === 'number') {
-    // 这里是采用浏览器自带的intl对象实现的，某些浏览器会存在兼容性问题，暂时注释
+    // 这里是采用浏览器自带的intl对象实现的，某些浏览器会存在兼容性问题，暂时停止使用
     // return i18n.n(number, {
     //   key: defaultKey,
     //   locale,
@@ -41,3 +43,5 @@ export const toLocaleNumberBuilder = intl => (
   }
   return number;
 };
+
+export const toLocaleNumber = toLocaleNumberBuilder(intl);

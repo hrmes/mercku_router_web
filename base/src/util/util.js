@@ -29,6 +29,17 @@ export const isValidInteger = (value, min = 8, max = 24) => {
   const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]+$/;
   return passwordRuleReg.test(value);
 };
+export const isValidPassword = (value, min = 8, max = 24) => {
+  if (!value) {
+    return false;
+  }
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]+$/;
+  return passwordRuleReg.test(value);
+};
+
 export const isValidFieldLength = (value, min = 1, max = 64) => {
   if (value.length < min || value.length > max) {
     return false;

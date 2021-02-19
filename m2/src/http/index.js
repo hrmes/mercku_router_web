@@ -105,13 +105,14 @@ const methods = {
   getSupportChannel: createMethod('mesh.channel.supported.get'),
   getSupportRegions: createMethod('mesh.region.supported.get'),
   setRegion: createMethod('mesh.region.update'),
+  getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
+  setUPNPEnabled: createMethod('mesh.upnp.enabled.update'),
+  //
   getSSHEnabled: createMethod('router.ssh.enabled.get'),
   setSSHEnabled: createMethod('router.ssh.enabled.update'),
   getMeshNodeStation: createMethod('mesh.node.station.get'),
   getMeshInfoWanNetIpv6: createMethod('mesh.info.wan.net.ipv6.get'),
-  updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update'),
-  getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
-  setUPNPEnabled: createMethod('mesh.upnp.enabled.update')
+  updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update')
 };
 
 class Http {

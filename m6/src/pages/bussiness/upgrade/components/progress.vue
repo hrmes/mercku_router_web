@@ -75,9 +75,9 @@
 </template>
 <script>
 import { translate } from '@/i18n';
-import RouterModel from '@/mixins/router-model';
-import mSpinner from 'components/spinner/index.vue';
-import mLoading from 'components/loading/loading-new.vue';
+import RouterModel from 'base/mixins/router-model';
+import mSpinner from 'base/component/spinner/index.vue';
+import mLoading from 'base/component/loading/loading-new.vue';
 import { compareVersion } from 'base/util/util';
 
 const Statuses = {

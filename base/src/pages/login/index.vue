@@ -75,8 +75,8 @@
 export default {
   data() {
     return {
-      initial: null,
-      loading: null,
+      initial: false,
+      loading: false,
       password: ''
     };
   },

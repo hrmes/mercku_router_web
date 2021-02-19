@@ -96,7 +96,7 @@
 import marked from 'marked';
 import { compareVersion } from 'base/util/util';
 import { RouterSnModel } from 'base/util/constant';
-import RouterModel from '@/mixins/router-model';
+import RouterModel from 'base/mixins/router-model';
 import upgradeProcessDialog from './components/progress.vue';
 
 export default {

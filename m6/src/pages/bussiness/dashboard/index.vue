@@ -72,9 +72,9 @@
   </div>
 </template>
 <script>
+import marked from 'marked';
 import * as CONSTANTS from 'base/util/constant';
 import { compareVersion } from 'base/util/util';
-import marked from 'marked';
 // import axios from 'axios';
 
 export default {
@@ -387,7 +387,6 @@ export default {
           align-items: center;
           width: 40px;
           height: 40px;
-          cursor: pointer;
           cursor: pointer;
           .icon__question {
             position: absolute;

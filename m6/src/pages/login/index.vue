@@ -294,8 +294,8 @@ export default {
       .down-button-container {
         .down-button {
           text-decoration: none;
-          color: rgb(214, 0, 28);
-          border: 1px solid rgb(214, 0, 28);
+          color: $primaryColor;
+          border: 1px solid $primaryColor;
           padding: 12px 10px;
           border-radius: 2px;
           font-size: 14px;

@@ -186,7 +186,7 @@
   </div>
 </template>
 <script>
-import RouterModel from '@/mixins/router-model';
+import RouterModel from 'base/mixins/router-model';
 import { Bands } from 'base/util/constant';
 
 const PageStatus = {

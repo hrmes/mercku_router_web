@@ -116,7 +116,7 @@
 <script>
 import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 import { EncryptMethod } from 'base/util/constant';
-import encryptMix from '@/mixins/encrypt-methods';
+import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
   mixins: [encryptMix],

@@ -35,7 +35,8 @@
                       <div class="des">
                         <p>{{ item.name }}</p>
                         <p>
-                          <label for="">{{ $t('trans0188') }}:</label>
+                          <label class="with-colon"
+                                 for="">{{ $t('trans0188') }}:</label>
                           <span>{{ formatMac(item.mac) }}</span>
                         </p>
                       </div>
@@ -71,7 +72,7 @@
             <div>{{ $t('trans0005') }}</div>
           </div>
           <div class="mac">{{ $t('trans0188') }}</div>
-          <!-- <div class="operate">{{$t('trans0370')}}</div> -->
+          <!-- <div class="operate">{{ $t('trans0370') }}</div> -->
         </div>
         <div class="table-content">
           <div class="device"
@@ -86,7 +87,7 @@
             <div class="mac">{{ formatMac(device.mac) }}</div>
             <!-- <div class="operate">
               <span class="delete"
-                    @click="removeSingleBlacklist(device)">{{$t('trans0033')}}</span>
+                    @click="removeSingleBlacklist(device)">{{ $t('trans0033') }}</span>
             </div> -->
           </div>
           <div class="empty"

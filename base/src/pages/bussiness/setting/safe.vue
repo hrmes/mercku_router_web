@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import { passwordRule } from 'base/util/util';
+import { isValidPassword } from 'base/util/util';
 
 export default {
   data() {
@@ -36,7 +36,7 @@ export default {
       rules: {
         password: [
           {
-            rule: value => passwordRule.test(value),
+            rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
         ]
