@@ -11,15 +11,15 @@ import dialog from 'base/component/dialog/index';
 import mProgress from 'base/component/progress/index.vue';
 import upgradeComponent from 'base/component/upgrade/index';
 import loading from 'base/component/loading/index';
-import App from 'base/App.vue';
 import registerComponents from 'base/register-components';
+import App from 'base/App.vue';
 import Store from 'base/store';
 import Http from './http';
 import { changeLanguage, i18n, translate, toLocaleNumber } from './i18n';
 import router from './router';
 
 // 不同客户特别的样式表
-require(`base/style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
+require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
 
 const launch = () => {
   const http = new Http();
@@ -202,6 +202,7 @@ const launch = () => {
       unit: result.unit
     };
   };
+
   const store = new Store(Vue, {
     mode: localStorage.getItem('mode'),
     role: localStorage.getItem('role'),

@@ -1,5 +1,7 @@
+import intl from 'intl';
 import semver from 'semver';
 import * as CONSTANTS from './constant';
+import { toLocaleNumberBuilder } from '../i18n/index';
 
 const { IPv6, IPv4 } = CONSTANTS.IP;
 
@@ -11,6 +13,8 @@ export const portReg = /^([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0
 export const IPAReg = /^10\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
+
+export const toLocaleNumber = toLocaleNumberBuilder(intl);
 
 export const isFieldHasComma = value => {
   if (value.indexOf(',') > -1) {

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 axios.defaults.timeout = 60000;
 const defaultUrl = '/app';
+
 export const createMethod = (action, url = defaultUrl) => ({
   url,
   action
@@ -36,7 +37,7 @@ class Http {
   }
 }
 
-export const commonMethods = {
+const commonMethods = {
   checkLogin: createMethod('router.is_login'),
   login: createMethod('router.login'),
   loginout: createMethod('router.logout'),
@@ -146,7 +147,6 @@ Http.prototype.getHomePage = function getHomePage() {
 Http.prototype.getSysLog = function getSysLog() {
   return axios.get(`/log.log?t=${Date.now()}`);
 };
-
 // 上传镜像
 Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
   const { CancelToken } = axios;
@@ -162,7 +162,6 @@ Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
     }
   });
 };
-
 // 上传文件
 Http.prototype.uploadFile = function uploadFile(params, callback) {
   const { CancelToken } = axios;
@@ -178,5 +177,10 @@ Http.prototype.uploadFile = function uploadFile(params, callback) {
     }
   });
 };
+Object.keys(commonMethods).forEach(methodName => {
+  Http.prototype[methodName] = function name(params, httpConf) {
+    return this.request(commonMethods[methodName], params, httpConf);
+  };
+});
 
 export default Http;

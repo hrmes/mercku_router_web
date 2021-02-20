@@ -1,5 +1,3 @@
-import intl from 'intl';
-
 export const defaultKey = 'decimal';
 
 export const i18nBuilder = (VueI18n, locales, numberFormats) =>
@@ -43,5 +41,3 @@ export const toLocaleNumberBuilder = intl => (
   }
   return number;
 };
-
-export const toLocaleNumber = toLocaleNumberBuilder(intl);

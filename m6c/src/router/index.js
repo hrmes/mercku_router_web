@@ -1,58 +1,77 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import login from 'base/pages/login/index.vue';
-import dashboard from 'base/pages/bussiness/dashboard/index.vue';
-import device from 'base/pages/bussiness/dashboard/device.vue';
-import mesh from 'base/pages/bussiness/dashboard/mesh.vue';
-import internet from 'base/pages/bussiness/dashboard/internet.vue';
-import wan from 'base/pages/bussiness/setting/wan.vue';
-import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
-import upnp from 'base/pages/bussiness/setting/upnp.vue';
+import login from 'pages/login/index.vue';
+import dashboard from 'pages/bussiness/dashboard/index.vue';
+import device from 'pages/bussiness/dashboard/device.vue';
+import mesh from 'pages/bussiness/dashboard/mesh.vue';
+import internet from 'pages/bussiness/dashboard/internet.vue';
+import wan from 'pages/bussiness/setting/wan.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
-import wifi from 'base/pages/bussiness/setting/wifi.vue';
+import wifi from 'pages/bussiness/setting/wifi.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
-import wlan from 'base/pages/bussiness/wlan/index.vue';
-import unconnect from 'base/pages/error/unconnect/index.vue';
-import online from 'base/pages/bussiness/upgrade/online.vue';
-import offline from 'base/pages/bussiness/upgrade/offline.vue';
-import meshAdd from 'base/pages/bussiness/mesh/add.vue';
-import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
-import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
-import speedLimit from 'base/pages/bussiness/dashboard/limit/speed.vue';
+import wlan from 'pages/bussiness/wlan/index.vue';
+import upnp from 'base/pages/bussiness/setting/upnp.vue';
+import unconnect from 'pages/error/unconnect/index.vue';
+import online from 'pages/bussiness/upgrade/online.vue';
+import offline from 'pages/bussiness/upgrade/offline.vue';
+import auto from 'pages/bussiness/upgrade/auto.vue';
+import meshAdd from 'pages/bussiness/mesh/add.vue';
+import limit from 'pages/bussiness/dashboard/limit/index.vue';
+import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
+import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
 import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
-import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
-import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
+import rsvdipForm from 'pages/bussiness/advance/rsvdip/form.vue';
+import dhcp from 'pages/bussiness/advance/dhcp/index.vue';
 import dmz from 'base/pages/bussiness/advance/dmz.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
-import ddns from 'base/pages/bussiness/advance/ddns.vue';
-import mac from 'base/pages/bussiness/advance/mac.vue';
+import ddns from 'pages/bussiness/advance/ddns.vue';
+import mac from 'pages/bussiness/advance/mac.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
-import diagnosis from 'base/pages/bussiness/advance/diagnosis.vue';
+import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import vpn from 'base/pages/bussiness/advance/vpn/index.vue';
-import vpnForm from 'base/pages/bussiness/advance/vpn/form.vue';
-import guest from 'base/pages/bussiness/setting/guest.vue';
-import remote from 'base/pages/bussiness/advance/remote.vue';
+import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
+import guest from 'pages/bussiness/setting/guest.vue';
+import remote from 'pages/bussiness/advance/remote.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
-import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import wwa from 'pages/bussiness/advance/wwa.vue';
+import superConfig from 'pages/bussiness/setting/super.vue';
 
 Vue.use(Router);
 
-export default new Router({
+const prefix = '/web';
+
+const genNewLocation = location => {
+  let newLocation;
+  if (typeof location === 'string') {
+    newLocation = {
+      path: prefix + location
+    };
+  } else {
+    newLocation = {
+      ...location,
+      path: prefix + location.path
+    };
+  }
+  return newLocation;
+};
+const { push } = Router.prototype;
+Router.prototype.push = function customPush(location) {
+  return push.call(this, genNewLocation(location)).catch(err => err);
+};
+const { replace } = Router.prototype;
+Router.prototype.replace = function customReplace(location) {
+  return replace.call(this, genNewLocation(location));
+};
+
+const routes = {
+  mode: 'history',
   routes: [
-    {
-      path: '*',
-      redirect: '/dashboard'
-    },
-    {
-      path: '/',
-      redirect: '/login'
-    },
     {
       path: '/login',
       name: 'login',
@@ -115,11 +134,6 @@ export default new Router({
       component: wan
     },
     {
-      path: '/setting/ipv6',
-      name: 'ipv6',
-      component: ipv6
-    },
-    {
       path: '/setting/wifi',
       name: 'wifi',
       component: wifi
@@ -173,6 +187,11 @@ export default new Router({
       path: '/upgrade/offline',
       name: 'offline',
       component: offline
+    },
+    {
+      path: '/upgrade/auto',
+      name: 'auto',
+      component: auto
     },
     {
       path: '/advance/portforwarding',
@@ -253,6 +272,37 @@ export default new Router({
       path: '/advance/wwa',
       name: 'advance.wwa',
       component: wwa
+    },
+    {
+      path: '/setting/super',
+      name: 'setting.super',
+      component: superConfig
     }
   ]
-});
+};
+
+const recursive = root => {
+  root.forEach(r => {
+    if (r.path) {
+      r.path = prefix + r.path;
+    }
+    if (r.redirect) {
+      r.redirect = prefix + r.redirect;
+    }
+    if (r.children) {
+      recursive(r.children);
+    }
+  });
+};
+recursive(routes.routes);
+Array.prototype.push.apply(routes.routes, [
+  {
+    path: '*',
+    redirect: `${prefix}/wlan`
+  },
+  {
+    path: '/',
+    redirect: `${prefix}/login`
+  }
+]);
+export default new Router(routes);

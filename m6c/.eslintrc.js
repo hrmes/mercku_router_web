@@ -33,7 +33,10 @@ module.exports = {
       'after',
       { overrides: { '?': 'before', ':': 'before' } }
     ],
-    'linebreak-style': 0
+    'linebreak-style': 0,
+    'import/no-unresolved': 0,
+    'import/extensions': 0,
+    'implicit-arrow-linebreak': 0
   },
   settings: {
     'import/resolver': {

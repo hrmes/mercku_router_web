@@ -152,7 +152,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // @/ is an alias to src/
-        data: `@import "../base/src/style/${CUSTOMER_ID}/theme.scss";`
+        data: `@import "@/style/${CUSTOMER_ID}/theme.scss";`
       }
     }
   }

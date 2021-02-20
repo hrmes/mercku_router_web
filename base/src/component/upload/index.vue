@@ -52,7 +52,7 @@
   </div>
 </template>
 <script>
-import { toLocaleNumber } from 'base/i18n/index.js';
+import { toLocaleNumber } from 'base/util/util';
 import { UploadStatus } from 'base/util/constant.js';
 
 export default {
