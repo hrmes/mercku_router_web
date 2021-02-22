@@ -33,9 +33,14 @@ module.exports = {
       'after',
       { overrides: { '?': 'before', ':': 'before' } }
     ],
-    'linebreak-style': 0,
-    'import/no-unresolved': 0,
+    'import/no-unresolved': [
+      2,
+      {
+        ignore: ['base/']
+      }
+    ],
     'import/extensions': 0,
+    'linebreak-style': 0,
     'implicit-arrow-linebreak': 0
   },
   settings: {
