@@ -274,7 +274,7 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    // ge ipv6 info if ipv6 is enabled
+    // get ipv6 info if ipv6 is enabled
     if (!process.env.CUSTOMER_CONFIG.disableIPv6) {
       this.getMeshInfoWanNetIpv6();
     }

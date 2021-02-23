@@ -8,12 +8,12 @@ const methods = {
   updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update')
 };
 
-class MyHttp extends Http {}
+class M2Http extends Http {}
 
 Object.keys(methods).forEach(methodName => {
-  MyHttp.prototype[methodName] = function name(params, httpConf) {
+  M2Http.prototype[methodName] = function name(params, httpConf) {
     return this.request(methods[methodName], params, httpConf);
   };
 });
 
-export default MyHttp;
+export default M2Http;

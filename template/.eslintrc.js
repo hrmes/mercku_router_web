@@ -33,20 +33,15 @@ module.exports = {
       'after',
       { overrides: { '?': 'before', ':': 'before' } }
     ],
-    'import/no-unresolved': [
-      2,
-      {
-        ignore: ['base/']
-      }
-    ],
-    'import/extensions': 0,
     'linebreak-style': 0,
     'implicit-arrow-linebreak': 0
   },
   settings: {
     'import/resolver': {
       webpack: {
-        config: require.resolve('@vue/cli-service/webpack.config.js')
+        config: require.resolve(
+          'node_modules/@vue/cli-service/webpack.config.js'
+        )
       }
     }
   }

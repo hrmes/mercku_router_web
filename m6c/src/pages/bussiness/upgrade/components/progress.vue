@@ -74,11 +74,11 @@
   </transition>
 </template>
 <script>
-import { translate } from '@/i18n';
 import RouterModel from 'base/mixins/router-model';
 import mSpinner from 'base/component/spinner/index.vue';
 import mLoading from 'base/component/loading/loading-new.vue';
 import { compareVersion } from 'base/util/util';
+import { translate } from '@/i18n';
 
 const Statuses = {
   downloading: 'downloading',

@@ -1,7 +1,6 @@
 import intl from 'intl';
 import semver from 'semver';
 import * as CONSTANTS from './constant';
-import { toLocaleNumberBuilder } from '../i18n/index';
 
 const { IPv6, IPv4 } = CONSTANTS.IP;
 
@@ -14,7 +13,28 @@ export const IPAReg = /^10\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0
 export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 
-export const toLocaleNumber = toLocaleNumberBuilder(intl);
+export const toLocaleNumber = (
+  number,
+  locale = 'en-US',
+  minimumFractionDigits = 1,
+  maximumFractionDigits = 1
+) => {
+  // 有时候传入是不是数字，是占位符字符串
+  if (typeof number === 'number') {
+    // 这里是采用浏览器自带的intl对象实现的，某些浏览器会存在兼容性问题，暂时停止使用
+    // return i18n.n(number, {
+    //   key: defaultKey,
+    //   locale,
+    //   minimumFractionDigits,
+    //   maximumFractionDigits
+    // });
+    return intl.NumberFormat.call(null, locale, {
+      minimumFractionDigits,
+      maximumFractionDigits
+    }).format(number);
+  }
+  return number;
+};
 
 export const isFieldHasComma = value => {
   if (value.indexOf(',') > -1) {

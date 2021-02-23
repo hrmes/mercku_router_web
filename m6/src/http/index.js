@@ -6,12 +6,12 @@ const methods = {
   setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set')
 };
 
-class MyHttp extends Http {}
+class M6Http extends Http {}
 
 Object.keys(methods).forEach(methodName => {
-  MyHttp.prototype[methodName] = function name(params, httpConf) {
+  M6Http.prototype[methodName] = function name(params, httpConf) {
     return this.request(methods[methodName], params, httpConf);
   };
 });
 
-export default MyHttp;
+export default M6Http;

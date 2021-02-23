@@ -12,10 +12,10 @@ import mProgress from 'base/component/progress/index.vue';
 import upgradeComponent from 'base/component/upgrade/index';
 import loading from 'base/component/loading/index';
 import registerComponents from 'base/register-components';
-import Store from 'base/store';
+import store from './store';
 import App from './App.vue';
 import Http from './http';
-import { changeLanguage, i18n, translate, toLocaleNumber } from './i18n';
+import { i18n, changeLanguage, translate, toLocaleNumber } from './i18n';
 import router from './router';
 
 // 不同客户特别的样式表
@@ -202,17 +202,6 @@ const launch = () => {
       unit: result.unit
     };
   };
-
-  const store = new Store(Vue, {
-    mode: localStorage.getItem('mode'),
-    role: localStorage.getItem('role'),
-    modules: {
-      limits: {},
-      portfw: {},
-      rsvdip: {},
-      vpn: {}
-    }
-  });
   new Vue({
     el: '#web',
     i18n,

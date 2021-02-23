@@ -8,13 +8,12 @@
                :class="{'disabled':!isRouter}">
             <img @click="isRouter && forward2page('/dashboard/device/primary')"
                  src="../../../assets/images/icon/ic_device.png"
-                 alt="">
+                 alt="" />
             <div class="text-container"
                  :class="{'disabled':!isRouter}">
               {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
             </div>
           </div>
-
         </div>
         <div class="line"></div>
         <div class="wifi-container"
@@ -22,12 +21,11 @@
           <div class="icon-container">
             <img @click="forward2page('/dashboard/mesh/topo')"
                  src="../../../assets/images/icon/ic_router.png"
-                 alt="">
+                 alt="" />
             <div class="text-container">
               {{ssid||'-'}}
             </div>
           </div>
-
         </div>
         <div class="line"
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
@@ -36,7 +34,7 @@
                v-if="isLinked || isUnlinked">
             <img class="icon__question"
                  src="../../../assets/images/icon/ic_wifi_question.png"
-                 alt="">
+                 alt="" />
           </div>
         </div>
         <div class="internet-container"
@@ -44,12 +42,11 @@
           <div class="icon-container">
             <img @click="forward2page('/dashboard/internet')"
                  src="../../../assets/images/icon/ic_internet.png"
-                 alt="">
+                 alt="" />
             <div class="text-container">
               {{$t('trans0366')}}
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -184,6 +181,9 @@ export default {
     getSsid() {
       this.$http.getMeshMeta().then(res => {
         const band = res.data.result.bands[CONSTANTS.Bands.b24g];
+        console.log('result bands', res.data.result.bands);
+        console.log('CONSTANTS Bands', CONSTANTS.Bands.b24g);
+        console.log(band);
         this.ssid = band.ssid;
       });
     },

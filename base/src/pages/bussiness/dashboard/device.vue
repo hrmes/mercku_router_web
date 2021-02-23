@@ -1047,21 +1047,21 @@ export default {
             width: 23px;
             height: 23px;
             &.time-limit {
-              background: url(../../../assets/images/icon/ic_limit_time_close.png)
+              background: url(~base/assets/images/icon/ic_limit_time_close.png)
                 no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/icon/ic_limit_time.png)
+                background: url(~base/assets/images/icon/ic_limit_time.png)
                   no-repeat center;
                 background-size: 100%;
               }
             }
             &.speed-limit {
-              background: url(../../../assets/images/icon/ic_limit_speed_close.png)
+              background: url(~base/assets/images/icon/ic_limit_speed_close.png)
                 no-repeat center;
               background-size: 100%;
               &.active {
-                background: url(../../../assets/images/icon/ic_limit_speed.png)
+                background: url(~base/assets/images/icon/ic_limit_speed.png)
                   no-repeat center;
                 background-size: 100%;
               }

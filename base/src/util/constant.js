@@ -1,9 +1,9 @@
 export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
-  cik: '0002',
-  mercku: '0001',
   internal: '0000',
+  mercku: '0001',
+  cik: '0002',
   startca: '0003',
   inverto: '0004',
   orion: '0005',
@@ -59,7 +59,9 @@ export const SpeedTestStatus = {
 };
 export const Bands = {
   '2.4G': '2.4G',
-  '5G': '5G'
+  '5G': '5G',
+  b24g: '2.4G',
+  b5g: '5G'
 };
 export const AppMessage = {
   closewebpage: 'CLOSE_WEB_PAGE',

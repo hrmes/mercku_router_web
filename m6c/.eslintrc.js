@@ -34,14 +34,14 @@ module.exports = {
       { overrides: { '?': 'before', ':': 'before' } }
     ],
     'linebreak-style': 0,
-    'import/no-unresolved': 0,
-    'import/extensions': 0,
     'implicit-arrow-linebreak': 0
   },
   settings: {
     'import/resolver': {
       webpack: {
-        config: require.resolve('@vue/cli-service/webpack.config.js')
+        config: require.resolve(
+          'node_modules/@vue/cli-service/webpack.config.js'
+        )
       }
     }
   }
