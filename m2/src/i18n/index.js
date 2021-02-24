@@ -10,19 +10,31 @@ import 'intl/locale-data/jsonp/sr';
 import 'intl/locale-data/jsonp/nb-NO';
 import 'intl/locale-data/jsonp/fr-FR';
 import 'intl/locale-data/jsonp/es-ES';
-import BasicI18n from 'base/i18n';
-import extra from './extra.json';
-import codeMap from './code-map.json';
 
-const files = require.context(
+import BasicI18n from 'base/i18n';
+
+const transFiles = require.context(
   `./${process.env.CUSTOMER_CONFIG.id}`,
   false,
   /.*\.json/
 );
 
-const i18nInstance = new BasicI18n(Vue, VueI18n, files, extra, codeMap);
+const codeFiles = require.context('../i18n', false, /.*\.json/);
+
+const i18nInstance = new BasicI18n(Vue, VueI18n, intl, transFiles, codeFiles);
 const { i18n } = i18nInstance;
-const changeLanguage = i18nInstance.changeLanguage(i18n);
-const translate = i18nInstance.translate(i18n);
-const toLocaleNumber = i18nInstance.toLocaleNumber(intl);
+const changeLanguage = lang => i18nInstance.changeLanguage(lang);
+const translate = (key, locale) => i18nInstance.translate(key, locale);
+const toLocaleNumber = (
+  number,
+  locale,
+  minimumFractionDigits,
+  maximumFractionDigits
+) =>
+  i18nInstance.toLocaleNumber(
+    number,
+    locale,
+    minimumFractionDigits,
+    maximumFractionDigits
+  );
 export { i18n, changeLanguage, translate, toLocaleNumber };

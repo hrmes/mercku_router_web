@@ -39,9 +39,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       webpack: {
-        config: require.resolve(
-          'node_modules/@vue/cli-service/webpack.config.js'
-        )
+        config: require.resolve('@vue/cli-service/webpack.config.js')
       }
     }
   }
