@@ -183,6 +183,7 @@ const Bands = {
   b24g: '2.4G',
   b5g: '5G'
 };
+const AUTO_BAND_VALUE = 'auto';
 
 export default {
   data() {
@@ -281,6 +282,10 @@ export default {
             value: v
           };
         })
+      },
+      channel: {
+        b24g: '',
+        b5g: ''
       }
     };
   },
@@ -383,6 +388,17 @@ export default {
           this.form.b24g.hidden = b24g.hidden;
           this.form.b24g.channel.number = b24g.channel.number;
           this.form.b24g.channel.bandwidth = b24g.channel.bandwidth;
+          let autoText = this.$t('trans0455');
+          if (b24g.channel.mode === AUTO_BAND_VALUE) {
+            autoText = `${autoText}（${b24g.channel.number}）`;
+            this.channel.b24g = b24g.channel.mode;
+          } else {
+            this.channel.b24g = b24g.channel.number;
+          }
+          this.channels.b24g.unshift({
+            value: AUTO_BAND_VALUE,
+            text: autoText
+          });
 
           // 5G
           const b5g = wifi.bands[Bands.b5g];
@@ -392,6 +408,18 @@ export default {
           this.form.b5g.hidden = b5g.hidden;
           this.form.b5g.channel.number = b5g.channel.number;
           this.form.b5g.channel.bandwidth = b5g.channel.bandwidth;
+
+          autoText = this.$t('trans0455');
+          if (b5g.channel.mode === AUTO_BAND_VALUE) {
+            autoText = `${autoText}（${b5g.channel.number}）`;
+            this.channel.b5g = b5g.channel.mode;
+          } else {
+            this.channel.b5g = b5g.channel.number;
+          }
+          this.channels.b5g.unshift({
+            value: AUTO_BAND_VALUE,
+            text: autoText
+          });
 
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;

@@ -39,6 +39,7 @@ import remote from 'pages/bussiness/advance/remote.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import region from 'pages/bussiness/setting/region.vue';
 import wwa from 'pages/bussiness/advance/wwa.vue';
+import led from 'pages/bussiness/setting/led.vue';
 
 Vue.use(Router);
 export default new Router({
@@ -251,6 +252,11 @@ export default new Router({
       path: '/advance/wwa',
       name: 'advance.wwa',
       component: wwa
+    },
+    {
+      path: '/setting/led',
+      name: 'setting.led',
+      component: led
     }
   ]
 });

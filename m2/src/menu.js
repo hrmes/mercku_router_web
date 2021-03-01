@@ -105,6 +105,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'upnp',
         text: 'trans0644',
         config: strategyA
+      },
+      {
+        url: '/setting/led',
+        name: 'setting.led',
+        text: 'trans0779',
+        config: strategyA
       }
     ]
   };
