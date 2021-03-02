@@ -1,58 +1,53 @@
-const CodeKey = {
-  codeMap: 'code-map',
-  extra: 'extra'
-};
-const readFiles = (files, action) => {
-  files.keys().forEach(key => {
-    const matched = key.match(/([A-Za-z0-9-_]+)\./i);
-    if (matched && matched.length > 1) {
-      action(key, matched);
-    }
-  });
-};
-const parseCode = (Code, key, Locales) => {
-  Object.keys(Code[key]).forEach(code => {
-    Object.keys(Locales).forEach(locale => {
-      Locales[locale][code] = Locales[locale][Code[key][code]];
-    });
-  });
-  return Locales;
-};
 class BasicI18n {
-  constructor(Vue, VueI18n, intl, transFiles, codeFiles) {
-    let Locales = {};
-    const NumberFormats = {};
-    const defaultKey = 'decimal';
-    const Code = {
-      [CodeKey.codeMap]: null,
-      [CodeKey.extra]: null
-    };
-    readFiles(transFiles, (key, matched) => {
-      const locale = matched[1];
-      NumberFormats[locale] = {
-        [defaultKey]: {
-          style: 'decimal'
-        }
-      };
-      const source = transFiles(key);
-      Locales[locale] = source;
-    });
-    readFiles(codeFiles, (key, matched) => {
-      const keyParsed = matched[1];
-      const source = codeFiles(key);
-      Code[keyParsed] = source;
-    });
-    Locales = parseCode(Code, CodeKey.codeMap, Locales);
-    Locales = parseCode(Code, CodeKey.extra, Locales);
+  constructor(Vue, VueI18n, intl, context) {
+    this.context = context;
+    this.locales = {};
+    this.numberFormats = {};
+    this._buildLocales();
     Vue.use(VueI18n);
     this.i18n = new VueI18n({
       locale:
         localStorage.getItem('lang') ||
         process.env.CUSTOMER_CONFIG.defaultLanguage,
-      messages: Locales,
-      numberFormats: NumberFormats
+      messages: this.locales,
+      numberFormats: this.numberFormats
     });
     this.intl = intl;
+  }
+
+  _buildLocales() {
+    // 自定义文件列表
+    const customFileNames = ['code-map', 'extra'];
+
+    this.context.keys().forEach(key => {
+      // 特定客户语言包
+      if (key.startsWith(`./${process.env.CUSTOMER_CONFIG.id}`)) {
+        const matched = key.match(/([A-Za-z0-9-_]+)\./i);
+        if (matched && matched.length > 1) {
+          const locale = matched[1];
+          this.numberFormats[locale] = {
+            decimal: {
+              style: 'decimal'
+            }
+          };
+          this.locales[locale] = this.context(key);
+        }
+      }
+    });
+    // 自定义文件处理
+    customFileNames.forEach(cfn => {
+      const fileKey = this.context.keys().find(key => key.includes(cfn));
+      if (fileKey) {
+        const file = this.context(fileKey);
+        Object.keys(file).forEach(code => {
+          Object.keys(this.locales).forEach(locale => {
+            this.locales[locale][code] = this.locales[locale][file[code]];
+          });
+        });
+      }
+    });
+
+    console.log(this.locales);
   }
 
   changeLanguage(lang) {
