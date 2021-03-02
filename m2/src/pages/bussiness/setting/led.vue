@@ -53,7 +53,7 @@ export default {
     getLED() {
       this.$loading.open();
       this.$http.getLEDTimeLimit().then(res => {
-        this.form = res;
+        this.form = res.data.result;
       });
       this.$loading.close();
     }
