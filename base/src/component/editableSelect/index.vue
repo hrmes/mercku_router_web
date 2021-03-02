@@ -76,11 +76,7 @@ export default {
           const popupHeight = popupEl.clientHeight;
           const elHeight = selectEl.clientHeight;
           // 滚动到正中间的位置
-          scrollTo(
-            popupEl,
-            0,
-            selectEl.offsetTop - popupHeight / 2 + elHeight / 2
-          );
+          scrollTo(popupEl, 0, selectEl.offsetTop - popupHeight / 2 + elHeight / 2);
         }
       });
     },
@@ -219,7 +215,7 @@ export default {
       height: 6px;
       margin-top: 21px;
       display: inline-block;
-      background: url(../../assets/images/icon/ic_input_box_pull_down.png)
+      background: url(~base/assets/images/icon/ic_input_box_pull_down.png)
         no-repeat center;
       background-size: 100%;
       transition: transform 0.2s linear;

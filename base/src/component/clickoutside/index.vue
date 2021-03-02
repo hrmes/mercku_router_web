@@ -2,7 +2,7 @@
 export default {
   bind(el, binding) {
     function documentHandler(e) {
-      // alert(e.target);
+      // 判断是否点击自己及后代
       if (el.contains(e.target)) {
         return false;
       }

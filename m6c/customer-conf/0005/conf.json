@@ -6,9 +6,7 @@
   "favicon": "customer-conf/0005/favicon.png",
   "policy": "https://laki.eu/files/uslovi-koriscenja-laki-wifi.pdf",
   "allow2LevelAdmin": true,
-  "disableIPv6": false,
   "languages": ["zh-CN", "en-US", "sr-RS"],
-  "defaultLanguage": "sr-RS",
   "routers": {
     "M2": {
       "name": "Laki Core",
@@ -24,8 +22,8 @@
     "color": "#999999"
   },
   "website": {
-    "url": "https://www.laki.eu/magicwifi",
-    "text": "laki.eu"
+    "url": "https://oriontelekom.rs/",
+    "text": "oriontelekom.rs"
   },
   "appDownloadUrl": "http://onelink.to/lakiwifi"
 }

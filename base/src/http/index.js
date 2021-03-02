@@ -2,12 +2,42 @@ import axios from 'axios';
 
 axios.defaults.timeout = 60000;
 const defaultUrl = '/app';
-const createMethod = (action, url = defaultUrl) => ({
+
+export const createMethod = (action, url = defaultUrl) => ({
   url,
   action
 });
 
-const methods = {
+class Http {
+  constructor() {
+    this.exHandler = error => {
+      throw error;
+    };
+  }
+
+  setExHandler(fn) {
+    this.exHandler = fn;
+  }
+
+  request(config, params, axiosCfg = {}) {
+    const data = { method: config.action };
+
+    if (params) {
+      data.params = params;
+    }
+    const options = {
+      ...axiosCfg,
+      url: config.url,
+      method: 'post',
+      data
+    };
+    return axios(options).catch(err => {
+      this.exHandler(err, options);
+    });
+  }
+}
+
+const commonMethods = {
   checkLogin: createMethod('router.is_login'),
   login: createMethod('router.login'),
   loginout: createMethod('router.logout'),
@@ -105,49 +135,9 @@ const methods = {
   getSupportChannel: createMethod('mesh.channel.supported.get'),
   getSupportRegions: createMethod('mesh.region.supported.get'),
   setRegion: createMethod('mesh.region.update'),
-  getSSHEnabled: createMethod('router.ssh.enabled.get'),
-  setSSHEnabled: createMethod('router.ssh.enabled.update'),
-  getMeshNodeStation: createMethod('mesh.node.station.get'),
-  getMeshInfoWanNetIpv6: createMethod('mesh.info.wan.net.ipv6.get'),
-  updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update'),
   getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
   setUPNPEnabled: createMethod('mesh.upnp.enabled.update')
 };
-
-class Http {
-  constructor() {
-    this.exHandler = error => {
-      throw error;
-    };
-  }
-
-  setExHandler(fn) {
-    this.exHandler = fn;
-  }
-
-  request(config, params, axiosCfg = {}) {
-    const data = { method: config.action };
-
-    if (params) {
-      data.params = params;
-    }
-    const options = {
-      ...axiosCfg,
-      url: config.url,
-      method: 'post',
-      data
-    };
-    return axios(options).catch(err => {
-      this.exHandler(err, options);
-    });
-  }
-}
-
-Object.keys(methods).forEach(methodName => {
-  Http.prototype[methodName] = function name(params, httpConf) {
-    return this.request(methods[methodName], params, httpConf);
-  };
-});
 
 // 获取主页
 Http.prototype.getHomePage = function getHomePage() {
@@ -157,7 +147,6 @@ Http.prototype.getHomePage = function getHomePage() {
 Http.prototype.getSysLog = function getSysLog() {
   return axios.get(`/log.log?t=${Date.now()}`);
 };
-
 // 上传镜像
 Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
   const { CancelToken } = axios;
@@ -173,7 +162,6 @@ Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
     }
   });
 };
-
 // 上传文件
 Http.prototype.uploadFile = function uploadFile(params, callback) {
   const { CancelToken } = axios;
@@ -189,5 +177,10 @@ Http.prototype.uploadFile = function uploadFile(params, callback) {
     }
   });
 };
+Object.keys(commonMethods).forEach(methodName => {
+  Http.prototype[methodName] = function name(params, httpConf) {
+    return this.request(commonMethods[methodName], params, httpConf);
+  };
+});
 
 export default Http;

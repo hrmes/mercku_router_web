@@ -67,7 +67,7 @@ export default {
           const region = resArr[0].data.result;
           this.form.region = region;
 
-          let allRegion = require(`../../../assets/regions/${this.$i18n.locale}.json`);
+          let allRegion = require(`base/assets/regions/${this.$i18n.locale}.json`);
 
           allRegion = allRegion.map(r => ({
             text: r.name,

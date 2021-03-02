@@ -190,7 +190,7 @@
       <div class="speed-content">
         <div v-if="isSpeedTesting">
           <div class="test-info">
-            <img src="../../../assets/images/speed_test.gif"
+            <img src="~base/assets/images/speed_test.gif"
                  alt="">
           </div>
           <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
@@ -234,7 +234,7 @@
   </div>
 </template>
 <script>
-import * as CONSTANTS from '../../../util/constant';
+import * as CONSTANTS from 'base/util/constant';
 
 export default {
   data() {
@@ -274,7 +274,7 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    // ge ipv6 info if ipv6 is enabled
+    // get ipv6 info if ipv6 is enabled
     if (!process.env.CUSTOMER_CONFIG.disableIPv6) {
       this.getMeshInfoWanNetIpv6();
     }
@@ -640,37 +640,36 @@ export default {
       top: 12px;
       position: relative;
       &.speed__icon--up {
-        background: url('../../../assets/images/icon/ic_upload.png') no-repeat;
+        background: url('~base/assets/images/icon/ic_upload.png') no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--down {
-        background: url('../../../assets/images/icon/ic_download.png') no-repeat;
+        background: url('~base/assets/images/icon/ic_download.png') no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--trafficup {
         width: 20px;
         height: 29px;
-        background: url('../../../assets/images/icon/ic_upload.png') no-repeat;
+        background: url('~base/assets/images/icon/ic_upload.png') no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--trafficdown {
         width: 20px;
         height: 29px;
-        background: url('../../../assets/images/icon/ic_download.png') no-repeat;
+        background: url('~base/assets/images/icon/ic_download.png') no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--peekdown {
         width: 36px;
         height: 36px;
-        background: url('../../../assets/images/icon/ic_fast_download.png')
+        background: url('~base/assets/images/icon/ic_fast_download.png')
           no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--peekup {
         width: 36px;
         height: 36px;
-        background: url('../../../assets/images/icon/ic_fast_upload.png')
-          no-repeat;
+        background: url('~base/assets/images/icon/ic_fast_upload.png') no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -812,7 +811,7 @@ export default {
                 width: 20px;
                 height: 29px;
                 display: inline-block;
-                background: url('../../../assets/images/icon/ic_download.png')
+                background: url('~base/assets/images/icon/ic_download.png')
                   no-repeat;
                 background-size: 100% 100%;
                 margin-right: 5px;
@@ -821,7 +820,7 @@ export default {
                 width: 20px;
                 height: 29px;
                 display: inline-block;
-                background: url('../../../assets/images/icon/ic_upload.png')
+                background: url('~base/assets/images/icon/ic_upload.png')
                   no-repeat;
                 background-size: 100% 100%;
                 margin-right: 5px;

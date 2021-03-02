@@ -9,7 +9,7 @@
          class="offical"
          target="_blank"
          :href="website.url">
-        <img src="../../assets/images/icon/ic_web_home.png"
+        <img src="~base/assets/images/icon/ic_web_home.png"
              alt="">
         <span>{{website.text}}</span>
       </a>
@@ -267,9 +267,8 @@ export default {
       el.style.height = 0;
     },
     enter(el, done) {
-      // debugger;
-      const height = el.childElementCount * 38;
       setTimeout(() => {
+        const height = el.childElementCount * 38;
         Velocity(el, { height: `${height}px` }, { complete: done });
       });
     },
@@ -482,7 +481,7 @@ export default {
         }
         .menu-icon {
           &.language {
-            background: url(../../assets/images/icon/ic_languages_black.png)
+            background: url(~base/assets/images/icon/ic_languages_black.png)
               no-repeat center;
             background-size: 100%;
           }
@@ -590,7 +589,7 @@ export default {
         }
         .nav-item-child {
           display: none;
-          width: 260px;
+          width: 280px;
           position: absolute;
           z-index: 999;
           top: 100%;
@@ -950,14 +949,14 @@ export default {
           width: 20px;
           height: 20px;
           &.language {
-            background: url(../../assets/images/icon/ic_languages_white.png)
+            background: url(~base/assets/images/icon/ic_languages_white.png)
               no-repeat center;
             background-size: 100%;
           }
           &.menu {
             width: 24px;
             margin-left: 40px;
-            background: url(../../assets/images/icon/ic_top_bar_pull_down.png)
+            background: url(~base/assets/images/icon/ic_top_bar_pull_down.png)
               no-repeat center;
             background-size: 100%;
           }

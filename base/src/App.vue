@@ -19,8 +19,8 @@
   </div>
 </template>
 <script>
-import './style/common.scss';
-import getMenu from './menu';
+import 'base/style/common.scss';
+import getMenu from 'base/menu';
 
 export default {
   computed: {
@@ -50,7 +50,6 @@ export default {
     }
   },
   mounted() {
-    console.log('this is ', this);
     this.setHeight();
     window.addEventListener('resize', () => {
       this.setHeight();

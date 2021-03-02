@@ -131,7 +131,7 @@
                            :title="this.$t('trans0683')"
                            :content="this.$t('trans0682')">
                   <img width="14"
-                       src="../../../assets/images/icon/ic_question.png">
+                       src="~base/assets/images/icon/ic_question.png">
                 </m-popover>
               </div>
             </div>
@@ -223,8 +223,8 @@ import {
   isValidMask,
   ipReg,
   isValidInteger
-} from '../../../util/util';
-import * as CONSTANTS from '../../../util/constant';
+} from 'base/util/util';
+import * as CONSTANTS from 'base/util/constant';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);

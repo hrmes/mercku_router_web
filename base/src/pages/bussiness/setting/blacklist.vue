@@ -1,10 +1,9 @@
 <template>
   <div class="page">
-    <div class='page-header'>
-      <span class="title"> {{$t('trans0020')}}</span>
+    <div class="page-header">
+      <span class="title"> {{ $t('trans0020') }}</span>
     </div>
     <div class="page-content">
-
       <div class="table">
         <div class="tools">
           <div class="checkbox">
@@ -14,42 +13,44 @@
           </div>
           <div class="btns">
             <div class="btn btn-primary btn-small"
-                 @click.stop="deviceModalVisible=!deviceModalVisible">{{$t('trans0035')}}
+                 @click.stop="deviceModalVisible = !deviceModalVisible">
+              {{ $t('trans0035') }}
               <div class="modal"
                    v-show="deviceModalVisible"
                    @click.stop=""
-                   v-clickoutside="()=>deviceModalVisible=false">
+                   v-clickoutside="() => (deviceModalVisible = false)">
                 <div class="opcity"></div>
                 <div class="modal-content">
-                  <div class="modal__header">{{$t('trans0235')}}</div>
+                  <div class="modal__header">{{ $t('trans0235') }}</div>
                   <div v-if="devices"
                        class="list">
                     <div class="device-item"
                          @click="checkDevice(item)"
-                         v-for="(item,index) in devices"
+                         v-for="(item, index) in devices"
                          :key="index">
                       <div class="check">
                         <m-checkbox :readonly="true"
                                     v-model="item.checked"></m-checkbox>
                       </div>
                       <div class="des">
-                        <p>{{item.name}}</p>
+                        <p>{{ item.name }}</p>
                         <p>
-                          <label class="with-colon">{{$t('trans0188')}}:</label>
-                          {{formatMac(item.mac)}}
+                          <label class="with-colon"
+                                 for="">{{ $t('trans0188') }}:</label>
+                          <span>{{ formatMac(item.mac) }}</span>
                         </p>
                       </div>
                     </div>
                   </div>
                   <div class="empty-device"
                        v-if="!devices.length">
-                    <p>{{$t('trans0278')}}</p>
+                    <p>{{ $t('trans0278') }}</p>
                   </div>
                   <div class="btn-wrap">
                     <button class="btn btn-dialog-confirm"
                             @click="addBlacklist()"
                             :disabled="!someDevicesChecked">
-                      {{$t('trans0016')}}
+                      {{ $t('trans0016') }}
                     </button>
                   </div>
                 </div>
@@ -57,7 +58,8 @@
             </div>
             <button class="btn btn-small"
                     @click="removeBlacklist()"
-                    :disabled="!someBlacklistChecked">{{$t('trans0453')}}
+                    :disabled="!someBlacklistChecked">
+              {{ $t('trans0453') }}
             </button>
           </div>
         </div>
@@ -67,10 +69,10 @@
               <m-checkbox v-model="checkAllBlacklist"
                           @change="changeCheckboxAll"></m-checkbox>
             </div>
-            <div>{{$t('trans0005')}}</div>
+            <div>{{ $t('trans0005') }}</div>
           </div>
-          <div class="mac">{{$t('trans0188')}}</div>
-          <!-- <div class="operate">{{$t('trans0370')}}</div> -->
+          <div class="mac">{{ $t('trans0188') }}</div>
+          <!-- <div class="operate">{{ $t('trans0370') }}</div> -->
         </div>
         <div class="table-content">
           <div class="device"
@@ -80,19 +82,19 @@
               <div class="checkbox">
                 <m-checkbox v-model="device.checked"></m-checkbox>
               </div>
-              <div>{{device.name}}</div>
+              <div>{{ device.name }}</div>
             </div>
-            <div class="mac">{{formatMac(device.mac)}}</div>
+            <div class="mac">{{ formatMac(device.mac) }}</div>
             <!-- <div class="operate">
               <span class="delete"
-                    @click="removeSingleBlacklist(device)">{{$t('trans0033')}}</span>
+                    @click="removeSingleBlacklist(device)">{{ $t('trans0033') }}</span>
             </div> -->
           </div>
           <div class="empty"
                v-if="!blacklist.length">
-            <img src="../../../assets/images/img_default_empty.png"
-                 alt="">
-            <p>{{$t('trans0278')}}</p>
+            <img src="~base/assets/images/img_default_empty.png"
+                 alt="" />
+            <p>{{ $t('trans0278') }}</p>
           </div>
         </div>
       </div>
@@ -100,7 +102,7 @@
   </div>
 </template>
 <script>
-import { formatMac } from '../../../util/util';
+import { formatMac } from 'base/util/util';
 
 export default {
   data() {

@@ -1,3 +1,4 @@
+import intl from 'intl';
 import semver from 'semver';
 import * as CONSTANTS from './constant';
 
@@ -12,6 +13,63 @@ export const IPAReg = /^10\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0
 export const IPBReg = /^172\.(1[6789]|2[0-9]|3[01])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 export const IPCReg = /^192\.168\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[0-9])$/;
 
+export const toLocaleNumber = (
+  number,
+  locale = 'en-US',
+  minimumFractionDigits = 1,
+  maximumFractionDigits = 1
+) => {
+  // 有时候传入是不是数字，是占位符字符串
+  if (typeof number === 'number') {
+    // 这里是采用浏览器自带的intl对象实现的，某些浏览器会存在兼容性问题，暂时停止使用
+    // return i18n.n(number, {
+    //   key: defaultKey,
+    //   locale,
+    //   minimumFractionDigits,
+    //   maximumFractionDigits
+    // });
+    return intl.NumberFormat.call(null, locale, {
+      minimumFractionDigits,
+      maximumFractionDigits
+    }).format(number);
+  }
+  return number;
+};
+
+export const isFieldHasComma = value => {
+  if (value.indexOf(',') > -1) {
+    return false;
+  }
+  return true;
+};
+
+export const isValidInteger = (value, min = 8, max = 24) => {
+  if (!value) {
+    return false;
+  }
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]+$/;
+  return passwordRuleReg.test(value);
+};
+export const isValidPassword = (value, min = 8, max = 24) => {
+  if (!value) {
+    return false;
+  }
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]+$/;
+  return passwordRuleReg.test(value);
+};
+
+export const isValidFieldLength = (value, min = 1, max = 64) => {
+  if (value.length < min || value.length > max) {
+    return false;
+  }
+  return true;
+};
 export const getIpBefore = ip => {
   const pattern = /\d{1,3}\.\d{1,3}\.\d{1,3}\./;
   return pattern.exec(ip)[0];
@@ -33,18 +91,6 @@ export const isIP = (ip, type = IPv4) => {
       reg = ipReg;
   }
   return ip && reg.test(ip);
-};
-export const isValidInteger = (value, min, max) => {
-  const reg = /^[1-9]\d*$/;
-  let flag = false;
-  value += '';
-  if (reg.test(value)) {
-    const val = value * 1;
-    if (val >= min && val <= max) {
-      flag = true;
-    }
-  }
-  return flag;
 };
 export const hostRexp = host => {
   if (host && hostReg.test(host)) {
@@ -291,4 +337,13 @@ export const formatDuration = value => {
   // 添加剩下的秒数
   timeArr.push(value);
   return timeArr;
+};
+
+String.prototype.format = function(...args) {
+  let _this = this;
+  args.forEach(val => {
+    _this = _this.replace(/%[abcdefghnostx]/, val);
+    console.log(_this);
+  });
+  return _this;
 };

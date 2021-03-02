@@ -1,9 +1,9 @@
 export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
-  cik: '0002',
-  mercku: '0001',
   internal: '0000',
+  mercku: '0001',
+  cik: '0002',
   startca: '0003',
   inverto: '0004',
   orion: '0005',
@@ -13,6 +13,14 @@ export const Customers = {
 export const IP = {
   IPv4: 'ipv4',
   IPv6: 'ipv6'
+};
+export const EncryptMethod = {
+  open: 'open',
+  wpa: 'wpa',
+  wpa2: 'wpa2',
+  wpawpa2: 'wpawpa2',
+  wpa3: 'wpa3',
+  wpa2wpa3: 'wpa2wpa3'
 };
 export const Role = {
   super: 'super',
@@ -41,7 +49,8 @@ export const WanNetStatus = {
 export const RouterSnModel = {
   AC: '00',
   M2: '01',
-  Bee: '02'
+  Bee: '02',
+  M6: '06'
 };
 export const SpeedTestStatus = {
   testing: 'testing',
@@ -50,7 +59,9 @@ export const SpeedTestStatus = {
 };
 export const Bands = {
   '2.4G': '2.4G',
-  '5G': '5G'
+  '5G': '5G',
+  b24g: '2.4G',
+  b5g: '5G'
 };
 export const AppMessage = {
   closewebpage: 'CLOSE_WEB_PAGE',
@@ -96,4 +107,13 @@ export const defaultScrollbarOpt = {
     easeTime: 300
   },
   scrollbar: { fade: true }
+};
+export const Weeks = {
+  mon: 'Mon',
+  tue: 'Tue',
+  wed: 'Wed',
+  thu: 'Thu',
+  fri: 'Fri',
+  sat: 'Sat',
+  sun: 'Sun'
 };

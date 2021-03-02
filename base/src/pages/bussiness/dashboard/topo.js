@@ -6,14 +6,14 @@
  *
  *
  */
-import * as CONSTANTS from '../../../util/constant';
-import picGateway from '../../../assets/images/icon/ic_m2_gw_green.svg';
-import picM2Good from '../../../assets/images/icon/ic_m2_green.svg';
-import picM2Bad from '../../../assets/images/icon/ic_m2_orange.svg';
-import pciM2Offline from '../../../assets/images/icon/ic_m2_offline.svg';
-import picBeeGood from '../../../assets/images/icon/ic_bee_green.svg';
-import picBeeBad from '../../../assets/images/icon/ic_bee_orange.svg';
-import picBeeOffline from '../../../assets/images/icon/ic_bee_offline.svg';
+import * as CONSTANTS from 'base/util/constant';
+import picGateway from 'base/assets/images/icon/ic_m2_gw_green.svg';
+import picM2Good from 'base/assets/images/icon/ic_m2_green.svg';
+import picM2Bad from 'base/assets/images/icon/ic_m2_orange.svg';
+import picM2Offline from 'base/assets/images/icon/ic_m2_offline.svg';
+import picBeeGood from 'base/assets/images/icon/ic_bee_green.svg';
+import picBeeBad from 'base/assets/images/icon/ic_bee_orange.svg';
+import picBeeOffline from 'base/assets/images/icon/ic_bee_offline.svg';
 
 const Color = {
   good: '#00d061',
@@ -95,7 +95,7 @@ function genNodes(gateway, green, red, offline) {
     [CONSTANTS.RouterSnModel.M2]: {
       [Color.good]: picM2Good,
       [Color.bad]: picM2Bad,
-      [Color.offline]: pciM2Offline
+      [Color.offline]: picM2Offline
     },
     [CONSTANTS.RouterSnModel.Bee]: {
       [Color.good]: picBeeGood,

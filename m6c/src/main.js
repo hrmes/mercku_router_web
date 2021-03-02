@@ -1,24 +1,25 @@
 import Vue from 'vue';
-import upgradeHelper from 'base/src/util/upgrade';
+
+import upgradeHelper from 'base/util/upgrade';
 import {
   formatSpeed,
   formatNetworkData,
   formatBandWidth
-} from 'base/src/util/util';
-import toast from 'base/src/component/toast/index';
-import dialog from 'base/src/component/dialog/index';
-import mProgress from 'base/src/component/progress/index.vue';
-import upgradeComponent from 'base/src/component/upgrade/index';
-import loading from 'base/src/component/loading/index';
-import App from 'base/src/App.vue';
-import registerComponents from 'base/src/register-components';
-import Http from 'base/src/http';
-import Store from 'base/src/store';
-import { changeLanguage, i18n, translate, toLocaleNumber } from './i18n';
+} from 'base/util/util';
+import toast from 'base/component/toast/index';
+import dialog from 'base/component/dialog/index';
+import mProgress from 'base/component/progress/index.vue';
+import upgradeComponent from 'base/component/upgrade/index';
+import loading from 'base/component/loading/index';
+import registerComponents from 'base/register-components';
+import store from './store';
+import App from './App.vue';
+import Http from './http';
+import { i18n, changeLanguage, translate, toLocaleNumber } from './i18n';
 import router from './router';
 
 // 不同客户特别的样式表
-require(`base/src/style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
+require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
 
 const launch = () => {
   const http = new Http();
@@ -201,16 +202,6 @@ const launch = () => {
       unit: result.unit
     };
   };
-  const store = new Store(Vue, {
-    mode: localStorage.getItem('mode'),
-    role: localStorage.getItem('role'),
-    modules: {
-      limits: {},
-      portfw: {},
-      rsvdip: {},
-      vpn: {}
-    }
-  });
   new Vue({
     el: '#web',
     i18n,

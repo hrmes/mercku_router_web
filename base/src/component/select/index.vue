@@ -1,29 +1,30 @@
 <template>
   <div class="select-container"
        v-clickoutside="close">
-    <label for="">{{label}}</label>
+    <label for="">{{ label }}</label>
     <div class="select"
          @click="open()">
       <input class="select-text"
              :value="selected.text"
              readonly
-             :title="selected.text">
+             :title="selected.text" />
       <div class="icon-container">
         <span class="icon"
-              :class="{'open':opened,'close':!opened}"></span>
+              :class="{ 'open': opened, 'close': !opened }"></span>
       </div>
       <transition name="select">
         <ul class="select-popup reset-ul"
-            v-show="this.opened">
-          <li :class="{'selected':selected === option}"
+            v-show="opened">
+          <li :class="{ 'selected': selected === option }"
               :key="option.value"
               @click.stop="select(option)"
               v-for="option in options"
-              :title="option.text">{{option.text}}</li>
+              :title="option.text">
+            {{ option.text }}
+          </li>
         </ul>
       </transition>
     </div>
-
   </div>
 </template>
 
@@ -71,11 +72,7 @@ export default {
           const popupHeight = popupEl.clientHeight;
           const elHeight = selectEl.clientHeight;
           // 滚动到正中间的位置
-          scrollTo(
-            popupEl,
-            0,
-            selectEl.offsetTop - popupHeight / 2 + elHeight / 2
-          );
+          scrollTo(popupEl, 0, selectEl.offsetTop - popupHeight / 2 + elHeight / 2);
         }
       });
     },
@@ -83,6 +80,12 @@ export default {
       this.selected = option;
       this.opened = false;
       this.$emit('input', this.selected.value);
+      if (this.value !== this.selected.value) {
+        this.change();
+      }
+    },
+    change() {
+      this.$emit('change', this.selected.value, this.value);
     },
     open() {
       this.opened = !this.opened;
@@ -181,7 +184,7 @@ export default {
       width: 12px;
       height: 6px;
       display: inline-block;
-      background: url(../../assets/images/icon/ic_input_box_pull_down.png)
+      background: url(~base/assets/images/icon/ic_input_box_pull_down.png)
         no-repeat center;
       background-size: 100%;
       transition: transform 0.2s linear;

@@ -5,7 +5,7 @@
   "favicon": "customer-conf/0001/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
-  "languages": ["zh-CN", "en-US", "de-DE", "fr-FR", "es-ES"],
+  "languages": ["zh-CN", "en-US", "de-DE"],
   "routers": {
     "M2": {
       "name": "M2 Standalone Wi-Fi router",
@@ -14,6 +14,10 @@
     "Bee": {
       "name": "M2 Bee Wi-Fi Mesh Node",
       "shortName": "Bee"
+    },
+    "M6": {
+      "name": "M6 Wi-Fi6 Router",
+      "shortName": "M6"
     }
   },
   "loading": {

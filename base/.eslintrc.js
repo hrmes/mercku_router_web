@@ -33,13 +33,9 @@ module.exports = {
       'after',
       { overrides: { '?': 'before', ':': 'before' } }
     ],
-    'linebreak-style': 0
-  },
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: require.resolve('@vue/cli-service/webpack.config.js')
-      }
-    }
+    'linebreak-style': 0,
+    'import/no-unresolved': 0,
+    'import/extensions': 0,
+    'implicit-arrow-linebreak': 0
   }
 };

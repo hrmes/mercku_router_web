@@ -28,7 +28,13 @@ module.exports = {
     'class-methods-use-this': 0,
     'no-trailing-spaces': 0,
     'object-curly-newline': ['error', { consistent: true }],
-    'operator-linebreak': [2, 'after', { overrides: { '?': 'before', ':': 'before' } }]
+    'operator-linebreak': [
+      2,
+      'after',
+      { overrides: { '?': 'before', ':': 'before' } }
+    ],
+    'linebreak-style': 0,
+    'implicit-arrow-linebreak': 0
   },
   settings: {
     'import/resolver': {

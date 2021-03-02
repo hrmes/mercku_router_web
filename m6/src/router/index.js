@@ -1,17 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+
 import login from 'pages/login/index.vue';
 import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
-import timezone from 'pages/bussiness/setting/timezone.vue';
-import blacklist from 'pages/bussiness/setting/blacklist.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
-import safe from 'pages/bussiness/setting/safe.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
-import upnp from 'pages/bussiness/setting/upnp.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
@@ -20,26 +17,31 @@ import meshAdd from 'pages/bussiness/mesh/add.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
-import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
-import portforwarding from 'pages/bussiness/advance/port/index.vue';
-import portfwForm from 'pages/bussiness/advance/port/form.vue';
-import rsvdip from 'pages/bussiness/advance/rsvdip/index.vue';
 import rsvdipForm from 'pages/bussiness/advance/rsvdip/form.vue';
 import dhcp from 'pages/bussiness/advance/dhcp/index.vue';
-import dmz from 'pages/bussiness/advance/dmz.vue';
-import firewall from 'pages/bussiness/advance/firewall.vue';
 import ddns from 'pages/bussiness/advance/ddns.vue';
 import mac from 'pages/bussiness/advance/mac.vue';
-import log from 'pages/bussiness/advance/log.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
-import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
 import remote from 'pages/bussiness/advance/remote.vue';
-import mode from 'pages/bussiness/advance/mode.vue';
-import region from 'pages/bussiness/setting/region.vue';
 import wwa from 'pages/bussiness/advance/wwa.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
+
+import timezone from 'base/pages/bussiness/setting/timezone.vue';
+import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
+import safe from 'base/pages/bussiness/setting/safe.vue';
+import upnp from 'base/pages/bussiness/setting/upnp.vue';
+import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
+import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
+import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
+import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
+import dmz from 'base/pages/bussiness/advance/dmz.vue';
+import firewall from 'base/pages/bussiness/advance/firewall.vue';
+import log from 'base/pages/bussiness/advance/log.vue';
+import vpn from 'base/pages/bussiness/advance/vpn/index.vue';
+import mode from 'base/pages/bussiness/advance/mode.vue';
+import region from 'base/pages/bussiness/setting/region.vue';
 
 Vue.use(Router);
 
@@ -304,5 +306,4 @@ Array.prototype.push.apply(routes.routes, [
     redirect: `${prefix}/login`
   }
 ]);
-console.log(routes);
 export default new Router(routes);
