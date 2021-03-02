@@ -37,12 +37,5 @@ module.exports = {
     'import/no-unresolved': 0,
     'import/extensions': 0,
     'implicit-arrow-linebreak': 0
-  },
-  settings: {
-    'import/resolver': {
-      webpack: {
-        config: require.resolve('@vue/cli-service/webpack.config.js')
-      }
-    }
   }
 };
