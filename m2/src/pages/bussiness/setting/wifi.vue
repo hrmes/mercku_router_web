@@ -320,24 +320,30 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
+              const Keys = {
+                mode: 'mode',
+                number: 'number'
+              };
+              let key = this.form.b24g.channel.number === AUTO_BAND_VALUE ? Keys.mode : Keys.number;
               const b24g = {
                 hidden: this.form.b24g.hidden,
                 ssid: this.form.b24g.ssid,
                 password: this.form.b24g.password,
                 encrypt: this.form.b24g.encrypt,
                 channel: {
-                  number: this.form.b24g.channel.number,
+                  [key]: this.form.b24g.channel.number,
                   bandwidth: this.form.b24g.channel.bandwidth
                 }
               };
               const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
+              key = this.form.b5g.channel.number === AUTO_BAND_VALUE ? Keys.mode : Keys.number;
               const b5g = {
                 hidden: formBand.hidden,
                 ssid: formBand.ssid,
                 password: formBand.password,
                 encrypt: formBand.encrypt,
                 channel: {
-                  number: this.form.b5g.channel.number,
+                  [key]: this.form.b5g.channel.number,
                   bandwidth: this.form.b5g.channel.bandwidth
                 }
               };
@@ -386,14 +392,14 @@ export default {
           this.form.b24g.encrypt = b24g.encrypt;
           this.form.b24g.password = b24g.password;
           this.form.b24g.hidden = b24g.hidden;
-          this.form.b24g.channel.number = b24g.channel.number;
           this.form.b24g.channel.bandwidth = b24g.channel.bandwidth;
+
           let autoText = this.$t('trans0455');
           if (b24g.channel.mode === AUTO_BAND_VALUE) {
             autoText = `${autoText}（${b24g.channel.number}）`;
-            this.channel.b24g = b24g.channel.mode;
+            this.form.b24g.channel.number = AUTO_BAND_VALUE;
           } else {
-            this.channel.b24g = b24g.channel.number;
+            this.form.b24g.channel.number = b24g.channel.number;
           }
           this.channels.b24g.unshift({
             value: AUTO_BAND_VALUE,
@@ -406,15 +412,15 @@ export default {
           this.form.b5g.encrypt = b5g.encrypt;
           this.form.b5g.password = b5g.password;
           this.form.b5g.hidden = b5g.hidden;
-          this.form.b5g.channel.number = b5g.channel.number;
+
           this.form.b5g.channel.bandwidth = b5g.channel.bandwidth;
 
           autoText = this.$t('trans0455');
           if (b5g.channel.mode === AUTO_BAND_VALUE) {
             autoText = `${autoText}（${b5g.channel.number}）`;
-            this.channel.b5g = b5g.channel.mode;
+            this.form.b5g.channel.number = AUTO_BAND_VALUE;
           } else {
-            this.channel.b5g = b5g.channel.number;
+            this.form.b5g.channel.number = b5g.channel.number;
           }
           this.channels.b5g.unshift({
             value: AUTO_BAND_VALUE,
