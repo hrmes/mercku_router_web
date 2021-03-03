@@ -3,10 +3,10 @@ all: install
 install:
 	make build
 
-prd_depend: package.json package-lock.json check_npm_version
+prd_depend: package.json package-lock.json
 	npm ci
 
-dev_depend: package.json check_npm_version
+dev_depend: package.json
 	npm i
 
 dev:

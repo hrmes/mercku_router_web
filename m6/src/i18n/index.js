@@ -11,9 +11,4 @@ import BasicI18n from 'base/i18n';
 
 const context = require.context('./', true, /.*\.json/);
 
-const i18nInstance = new BasicI18n(context);
-const { i18n } = i18nInstance;
-const changeLanguage = (...args) => i18nInstance.changeLanguage(...args);
-const translate = (...args) => i18nInstance.translate(...args);
-const toLocaleNumber = (...args) => i18nInstance.toLocaleNumber(...args);
-export { i18n, changeLanguage, translate, toLocaleNumber };
+export default new BasicI18n(context);

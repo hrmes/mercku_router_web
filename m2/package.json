@@ -1,13 +1,10 @@
 {
-  "name": "mercku_router_web",
-  "version": "1.4.0",
+  "name": "mercku_m2_webpage",
+  "version": "1.9.2",
   "private": true,
   "scripts": {
     "build": "../node_modules/.bin/vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "dev": "../node_modules/.bin/vue-cli-service serve",
-    "__dev": "vue-cli-service serve",
-    "test:unit": "vue-cli-service test:unit"
+    "dev": "../node_modules/.bin/vue-cli-service serve"
   },
   "dependencies": {},
   "devDependencies": {

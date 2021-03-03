@@ -78,7 +78,7 @@ import RouterModel from 'base/mixins/router-model';
 import mSpinner from 'base/component/spinner/index.vue';
 import mLoading from 'base/component/loading/loading-new.vue';
 import { compareVersion } from 'base/util/util';
-import { translate } from '@/i18n';
+import i18nInstance from '@/i18n';
 
 const Statuses = {
   downloading: 'downloading',
@@ -97,7 +97,7 @@ export default {
   },
   data() {
     return {
-      translate,
+      translate: i18nInstance.translate.bind(this),
       Statuses,
       status: '',
       node: {

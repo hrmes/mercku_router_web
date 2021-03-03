@@ -17,7 +17,6 @@ class BasicI18n {
       messages: this.locales,
       numberFormats: this.numberFormats
     });
-    this.intl = intl;
   }
 
   _buildLocales() {
@@ -83,7 +82,7 @@ class BasicI18n {
       //   minimumFractionDigits,
       //   maximumFractionDigits
       // });
-      return this.intl.NumberFormat.call(null, locale, {
+      return intl.NumberFormat.call(null, locale, {
         minimumFractionDigits,
         maximumFractionDigits
       }).format(number);
