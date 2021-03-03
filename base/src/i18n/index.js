@@ -1,5 +1,10 @@
+import Vue from 'vue';
+import VueI18n from 'vue-i18n';
+
+import intl from 'intl';
+
 class BasicI18n {
-  constructor(Vue, VueI18n, intl, context) {
+  constructor(context) {
     this.context = context;
     this.locales = {};
     this.numberFormats = {};

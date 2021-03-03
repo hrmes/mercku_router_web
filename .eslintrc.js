@@ -1,10 +1,13 @@
+const path = require('path');
 module.exports = {
   root: true,
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
+    sourceType: 'module'
   },
   env: {
-    browser: true
+    browser: true,
+    es6: true
   },
   extends: ['plugin:vue/base', '@vue/airbnb'],
   // required to lint *.vue files
@@ -36,6 +39,10 @@ module.exports = {
     'linebreak-style': 0,
     'import/no-unresolved': 0,
     'import/extensions': 0,
-    'implicit-arrow-linebreak': 0
+    'implicit-arrow-linebreak': 0,
+    'import/no-extraneous-dependencies': [
+      'error',
+      { packageDir: [path.join(__dirname, './')] }
+    ]
   }
 };
