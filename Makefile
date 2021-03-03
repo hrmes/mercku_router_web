@@ -13,8 +13,8 @@ ifndef CUSTOMER_ID
 $(error CUSTOMER_ID is required)
 endif
 
-ifndef TARGET
-$(error TARGET is required)
+ifndef MODULE
+$(error MODULE is required)
 endif
 
 all: install
@@ -34,9 +34,9 @@ dev_depend: package.json check_npm_version
 	npm i
 
 build: prd_depend
-	cd $(TARGET) && make CUSTOMER=$(CUSTOMER_ID)
+	cd $(MODULE) && make CUSTOMER=$(CUSTOMER_ID)
 
 dev:
-	cd $(TARGET) && make dev CUSTOMER=$(CUSTOMER_ID)
+	cd $(MODULE) && make dev CUSTOMER=$(CUSTOMER_ID)
 
 .PHONY: all install check_npm_version prd_depend dev_depend dev build
