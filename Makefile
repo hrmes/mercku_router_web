@@ -10,7 +10,11 @@ IS_NPM_OK := $(shell [ $(CUR_NPM_VER_MAJOR) -gt $(MIN_NPM_VER_MAJOR) -o \( $(CUR
 
 
 ifndef CUSTOMER_ID
-$(error CUSTOMER_ID is not defined)
+$(error CUSTOMER_ID is required)
+endif
+
+ifndef TARGET
+$(error TARGET is required)
 endif
 
 all: install
@@ -29,19 +33,10 @@ prd_depend: package.json package-lock.json check_npm_version
 dev_depend: package.json check_npm_version
 	npm i
 
-dev:
-	@CUSTOMER_ID=$(CUSTOMER_ID) npm run dev
-
 build: prd_depend
-	@CUSTOMER_ID=$(CUSTOMER_ID) npm run build
+	cd $(TARGET) && make CUSTOMER=$(CUSTOMER_ID)
 
-lint:
-	@CUSTOMER_ID=$(CUSTOMER_ID) npm run lint
+dev:
+	cd $(TARGET) && make dev CUSTOMER=$(CUSTOMER_ID)
 
-test:
-	@CUSTOMER_ID=$(CUSTOMER_ID) npm run test:unit
-
-tar: dev build
-	tar cf web-dev.tar -C dist .
-
-.PHONY: all build depend check_npm_version dev build tar
+.PHONY: all install check_npm_version prd_depend dev_depend dev build
