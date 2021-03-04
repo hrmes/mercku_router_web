@@ -354,17 +354,24 @@ export default {
                   [Bands.b5g]: b5g
                 }
               };
-              this.$http.meshWifiUpdate(wifi).then(() => {
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  },
-                  timeout: 60
+              this.$loading.open();
+              this.$http
+                .meshWifiUpdate(wifi)
+                .then(() => {
+                  this.$loading.close();
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/dashboard' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    },
+                    timeout: 60
+                  });
+                })
+                .catch(() => {
+                  this.$loading.close();
                 });
-              });
             }
           }
         });
