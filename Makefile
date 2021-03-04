@@ -8,13 +8,8 @@ CUR_NPM_VER_MINOR := $(shell echo $(CUR_NPM_VER) | cut -f2 -d.)
 CUR_NPM_VER_PATCH := $(shell echo $(CUR_NPM_VER) | cut -f3 -d.)
 IS_NPM_OK := $(shell [ $(CUR_NPM_VER_MAJOR) -gt $(MIN_NPM_VER_MAJOR) -o \( $(CUR_NPM_VER_MAJOR) -eq $(MIN_NPM_VER_MAJOR) -a \( $(CUR_NPM_VER_MINOR) -gt $(MIN_NPM_VER_MINOR) -o \( $(CUR_NPM_VER_MINOR) -eq $(MIN_NPM_VER_MINOR) -a $(CUR_NPM_VER_PATCH) -ge $(MIN_NPM_VER_PATCH) \)  \) \) ] && echo true)
 
-
 CUSTOMER_LIST = 0001 0002 0003 0004 0005 0006 0007
-MODEL_LIST = M2R2 M6R0 M7R0
-FOLDER_M2R2=m2
-FOLDER_M6R0=m6
-FOLDER_M7R0=m6c
-
+MODEL_LIST = M2R2=m2 M6R0=m6 M7R0=m6c
 
 ifndef CUSTOMER_ID
 $(error CUSTOMER_ID required)
@@ -32,8 +27,7 @@ ifeq ($(shell echo $(MODEL_LIST) | grep $(MODEL_ID)),)
 $(error MODEL_ID should be oneof ($(MODEL_LIST)))
 endif
 
-MODEL=$(FOLDER_$(MODEL_ID))
-
+MODEL=$(subst $(MODEL_ID)=,,$(filter $(MODEL_ID)=%, $(MODEL_LIST)))
 
 all: install
 
