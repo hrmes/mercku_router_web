@@ -25,7 +25,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       {
         text: 'trans0365',
         name: 'mesh',
-        url: '/dashboard/mesh/topo',
+        url: '/dashboard/mesh/table',
         config
       },
       {

@@ -82,7 +82,7 @@ const routes = {
       path: '/dashboard',
       name: 'dashboard',
       component: dashboard,
-      redirect: '/dashboard/mesh/topo',
+      redirect: '/dashboard/mesh/table',
       children: [
         {
           path: '/dashboard/device/:id?',
