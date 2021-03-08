@@ -53,19 +53,7 @@
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
 
-        <m-form-item key="b24gchannelnumber"
-                     class="form__item">
-          <m-select :label="$t('trans0680')"
-                    v-model="form.b24g.channel.number"
-                    :options="channels.b24g"></m-select>
-        </m-form-item>
-        <m-form-item key="b24gbandwidth"
-                     class="form__item">
-          <m-select :label="$t('trans0632')"
-                    v-model="form.b24g.channel.bandwidth"
-                    :options="bandwidths.b24g"></m-select>
-        </m-form-item>
-        <m-form-item key="b5gchannelnumber-1"
+        <!-- <m-form-item key="b5gchannelnumber-1"
                      class="form__item"
                      v-if="form.smart_connect">
           <m-select :label="$t('trans0681')"
@@ -78,7 +66,7 @@
           <m-select :label="$t('trans0632')"
                     v-model="form.b5g.channel.bandwidth"
                     :options="bandwidths.b5g"></m-select>
-        </m-form-item>
+        </m-form-item> -->
 
         <div class="form-item check-info">
           <label for=""> {{$t('trans0110')}}
@@ -137,21 +125,6 @@
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
 
-        <m-form-item class="form__item"
-                     key="b5gchannelnumber"
-                     v-if="!form.smart_connect">
-          <m-select :label="$t('trans0681')"
-                    v-model="form.b5g.channel.number"
-                    :options="channels.b5g"></m-select>
-        </m-form-item>
-        <m-form-item key="b5gbandwidth"
-                     class="form__item"
-                     v-if="!form.smart_connect">
-          <m-select :label="$t('trans0632')"
-                    v-model="form.b5g.channel.bandwidth"
-                    :options="bandwidths.b5g"></m-select>
-        </m-form-item>
-
         <div class="form-item check-info">
           <label for=""> {{$t('trans0110')}}
             <div class="tool">
@@ -168,6 +141,66 @@
           <m-switch v-model="form.b5g.hidden" />
         </div>
       </m-form>
+
+      <m-form class="form">
+        <div class="form-header">
+          <span class="form-header__title">信道</span>
+        </div>
+        <m-form-item key="b24gchannelnumber"
+                     class="form__item">
+          <m-select :label="$t('trans0680')"
+                    :disabled="isAutoChannel"
+                    v-model="form.b24g.channel.number"
+                    :options="channels.b24g"></m-select>
+        </m-form-item>
+        <m-form-item class="form__item"
+                     key="b5gchannelnumber">
+          <m-select :label="$t('trans0681')"
+                    :disabled="isAutoChannel"
+                    v-model="form.b5g.channel.number"
+                    :options="channels.b5g"></m-select>
+        </m-form-item>
+
+        <m-form-item>
+          <m-checkbox v-model="isAutoChannel"
+                      text="自动信道"></m-checkbox>
+        </m-form-item>
+        <div v-if="isAutoChannel">
+          <m-form-item>
+            <m-select label="生效方式"
+                      v-model="acs.switch_strategy"
+                      :options="switch_strategies"></m-select>
+          </m-form-item>
+          <m-form-item v-if="SwitchStrategy.on_reboot !== acs.switch_strategy">
+            <m-select label="扫描间隔"
+                      v-model="acs.interval"
+                      :options="scan_interval"></m-select>
+          </m-form-item>
+          <m-form-item>
+            <m-select label="阈值"
+                      v-model="acs.traffic_threshold"
+                      :options="traffic_thresholds"></m-select>
+          </m-form-item>
+        </div>
+
+      </m-form>
+      <m-form class="form">
+        <div class="form-header">
+          <span class="form-header__title">频宽</span>
+        </div>
+        <m-form-item key="b24gbandwidth"
+                     class="form__item">
+          <m-select :label="$t('trans0632')"
+                    v-model="form.b24g.channel.bandwidth"
+                    :options="bandwidths.b24g"></m-select>
+        </m-form-item>
+        <m-form-item key="b5gbandwidth"
+                     class="form__item">
+          <m-select :label="$t('trans0632')"
+                    v-model="form.b5g.channel.bandwidth"
+                    :options="bandwidths.b5g"></m-select>
+        </m-form-item>
+      </m-form>
       <div class="form-button">
         <button class="btn"
                 v-defaultbutton
@@ -183,11 +216,24 @@ const Bands = {
   b24g: '2.4G',
   b5g: '5G'
 };
-const AUTO_BAND_VALUE = 'auto';
-
+const AUTO_CHANNEL_VALUE = 'auto';
+const SwitchStrategy = {
+  on_reboot: 'on_reboot',
+  all_day: 'all_day',
+  night_only: 'night_only',
+  in_time: 'in_time'
+};
+const TimeDuration = {
+  allday: {
+    begin: '00:00',
+    end: '23:59'
+  },
+  night: { begin: '01:00', end: '06:00' }
+};
 export default {
   data() {
     return {
+      SwitchStrategy,
       form: {
         smart_connect: true,
         b24g: {
@@ -210,6 +256,14 @@ export default {
             bandwidth: 80
           }
         }
+      },
+      isAutoChannel: false,
+      acs: {
+        switch_strategy: 'on_reboot',
+        begin_time: '',
+        end_time: '',
+        interval: 60,
+        traffic_threshold: 500
       },
       options: [
         {
@@ -267,6 +321,25 @@ export default {
         b24g: [],
         b5g: []
       },
+      switch_strategies: [
+        {
+          value: SwitchStrategy.on_reboot,
+          text: '重启触发'
+        },
+        {
+          value: SwitchStrategy.all_day,
+          text: '定时检查'
+        },
+        {
+          value: SwitchStrategy.night_only,
+          text: '夜间生效'
+        }
+      ],
+      scan_interval: [1, 2, 3, 6, 12, 24].map(v => ({ value: v * 60, text: v })),
+      traffic_thresholds: [1, 5, 10, 20, 50].map(v => ({
+        value: v * 1000 * 1000,
+        text: v
+      })),
       bandwidths: {
         b24g: new Array(2).fill(0).map((_, i) => {
           const v = Math.pow(2, i) * 20;
@@ -324,29 +397,56 @@ export default {
                 mode: 'mode',
                 number: 'number'
               };
-              let key = this.form.b24g.channel.number === AUTO_BAND_VALUE ? Keys.mode : Keys.number;
+
+              const acs = {};
+              if (this.isAutoChannel) {
+                acs.interval = this.acs.interval;
+                acs.traffic_threshold = this.acs.traffic_threshold;
+                if (this.acs.switch_strategy === SwitchStrategy.all_day) {
+                  acs.begin_time = TimeDuration.allday.begin;
+                  acs.end_time = TimeDuration.allday.end;
+                  acs.switch_strategy = SwitchStrategy.in_time;
+                } else if (this.acs.switch_strategy === SwitchStrategy.night_only) {
+                  acs.begin_time = TimeDuration.night.begin;
+                  acs.end_time = TimeDuration.night.end;
+                  acs.switch_strategy = SwitchStrategy.in_time;
+                } else {
+                  acs.switch_strategy = SwitchStrategy.on_reboot;
+                }
+              }
+
               const b24g = {
                 hidden: this.form.b24g.hidden,
                 ssid: this.form.b24g.ssid,
                 password: this.form.b24g.password,
                 encrypt: this.form.b24g.encrypt,
                 channel: {
-                  [key]: this.form.b24g.channel.number,
                   bandwidth: this.form.b24g.channel.bandwidth
                 }
               };
+              if (this.isAutoChannel) {
+                b24g.channel.mode = AUTO_CHANNEL_VALUE;
+                b24g.acs = acs;
+              } else {
+                b24g.number = this.form.b24g.channel.number;
+              }
               const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
-              key = this.form.b5g.channel.number === AUTO_BAND_VALUE ? Keys.mode : Keys.number;
+
               const b5g = {
                 hidden: formBand.hidden,
                 ssid: formBand.ssid,
                 password: formBand.password,
                 encrypt: formBand.encrypt,
                 channel: {
-                  [key]: this.form.b5g.channel.number,
                   bandwidth: this.form.b5g.channel.bandwidth
                 }
               };
+              if (this.isAutoChannel) {
+                b5g.channel.mode = AUTO_CHANNEL_VALUE;
+                b5g.acs = acs;
+              } else {
+                b5g.number = this.form.b24g.channel.number;
+              }
               const wifi = {
                 smart_connect: this.form.smart_connect,
                 bands: {
@@ -400,18 +500,24 @@ export default {
           this.form.b24g.password = b24g.password;
           this.form.b24g.hidden = b24g.hidden;
           this.form.b24g.channel.bandwidth = b24g.channel.bandwidth;
-
-          let autoText = this.$t('trans0455');
-          if (b24g.channel.mode === AUTO_BAND_VALUE) {
-            autoText = `${autoText}（${b24g.channel.number}）`;
-            this.form.b24g.channel.number = AUTO_BAND_VALUE;
-          } else {
-            this.form.b24g.channel.number = b24g.channel.number;
+          this.form.b24g.channel.number = b24g.channel.number;
+          if (b24g.channel.mode === AUTO_CHANNEL_VALUE) {
+            this.isAutoChannel === true;
+            this.acs.interval = b24g.acs.interval;
+            this.acs.traffic_threshold = b24g.acs.traffic_threshold;
+            if (b24g.acs.begin_time && b24g.acs.end_time) {
+              if (
+                b24g.acs.begin_time === TimeDuration.allday.begin &&
+                b24g.acs.end_time === TimeDuration.allday.end
+              ) {
+                this.acs.switch_strategy = SwitchStrategy.all_day;
+              } else {
+                this.acs.switch_strategy = SwitchStrategy.night_only;
+              }
+            } else {
+              this.acs.switch_strategy = SwitchStrategy.on_reboot;
+            }
           }
-          this.channels.b24g.unshift({
-            value: AUTO_BAND_VALUE,
-            text: autoText
-          });
 
           // 5G
           const b5g = wifi.bands[Bands.b5g];
@@ -419,20 +525,8 @@ export default {
           this.form.b5g.encrypt = b5g.encrypt;
           this.form.b5g.password = b5g.password;
           this.form.b5g.hidden = b5g.hidden;
-
           this.form.b5g.channel.bandwidth = b5g.channel.bandwidth;
-
-          autoText = this.$t('trans0455');
-          if (b5g.channel.mode === AUTO_BAND_VALUE) {
-            autoText = `${autoText}（${b5g.channel.number}）`;
-            this.form.b5g.channel.number = AUTO_BAND_VALUE;
-          } else {
-            this.form.b5g.channel.number = b5g.channel.number;
-          }
-          this.channels.b5g.unshift({
-            value: AUTO_BAND_VALUE,
-            text: autoText
-          });
+          this.form.b5g.channel.number = b5g.channel.number;
 
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
