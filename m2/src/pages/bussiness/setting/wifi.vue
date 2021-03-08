@@ -144,7 +144,7 @@
 
       <m-form class="form">
         <div class="form-header">
-          <span class="form-header__title">信道</span>
+          <span class="form-header__title">{{$t('trans0782')}}</span>
         </div>
         <m-form-item key="b24gchannelnumber"
                      class="form__item">
@@ -163,30 +163,31 @@
 
         <m-form-item>
           <m-checkbox v-model="isAutoChannel"
-                      text="自动信道"></m-checkbox>
+                      :text="$t('trans0781')"></m-checkbox>
         </m-form-item>
         <div v-if="isAutoChannel">
           <m-form-item>
-            <m-select label="生效方式"
+            <m-select :label="$t('trans0785')"
                       v-model="acs.switch_strategy"
                       :options="switch_strategies"></m-select>
           </m-form-item>
           <m-form-item v-if="SwitchStrategy.on_reboot !== acs.switch_strategy">
-            <m-select label="扫描间隔"
+            <m-select :label="$t('trans0790')"
                       v-model="acs.interval"
                       :options="scan_interval"></m-select>
           </m-form-item>
           <m-form-item>
-            <m-select label="阈值"
+            <m-select :label="$t('trans0789')"
                       v-model="acs.traffic_threshold"
                       :options="traffic_thresholds"></m-select>
+            <span class="form__tip">{{$t('trans0791')}}</span>
           </m-form-item>
         </div>
 
       </m-form>
       <m-form class="form">
         <div class="form-header">
-          <span class="form-header__title">频宽</span>
+          <span class="form-header__title">{{$t('trans0632')}}</span>
         </div>
         <m-form-item key="b24gbandwidth"
                      class="form__item">
@@ -263,7 +264,7 @@ export default {
         begin_time: '',
         end_time: '',
         interval: 60,
-        traffic_threshold: 500
+        traffic_threshold: 1000000
       },
       options: [
         {
@@ -589,6 +590,10 @@ export default {
     .form-header__title {
       color: #999;
     }
+  }
+  .form__tip {
+    color: #999;
+    font-size: 12px;
   }
   + .form {
     padding-top: 20px;
