@@ -325,21 +325,21 @@ export default {
       switch_strategies: [
         {
           value: SwitchStrategy.on_reboot,
-          text: '重启触发'
+          text: this.$t('trans0786')
         },
         {
           value: SwitchStrategy.all_day,
-          text: '定时检查'
+          text: this.$t('trans0787')
         },
         {
           value: SwitchStrategy.night_only,
-          text: '夜间生效'
+          text: this.$t('trans0788')
         }
       ],
       scan_interval: [1, 2, 3, 6, 12, 24].map(v => ({ value: v * 60, text: v })),
       traffic_thresholds: [1, 5, 10, 20, 50].map(v => ({
         value: v * 1000 * 1000,
-        text: v
+        text: `${v}Mbps`
       })),
       bandwidths: {
         b24g: new Array(2).fill(0).map((_, i) => {
@@ -394,23 +394,19 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
-              const Keys = {
-                mode: 'mode',
-                number: 'number'
-              };
-
               const acs = {};
               if (this.isAutoChannel) {
-                acs.interval = this.acs.interval;
                 acs.traffic_threshold = this.acs.traffic_threshold;
                 if (this.acs.switch_strategy === SwitchStrategy.all_day) {
                   acs.begin_time = TimeDuration.allday.begin;
                   acs.end_time = TimeDuration.allday.end;
                   acs.switch_strategy = SwitchStrategy.in_time;
+                  acs.interval = this.acs.interval;
                 } else if (this.acs.switch_strategy === SwitchStrategy.night_only) {
                   acs.begin_time = TimeDuration.night.begin;
                   acs.end_time = TimeDuration.night.end;
                   acs.switch_strategy = SwitchStrategy.in_time;
+                  acs.interval = this.acs.interval;
                 } else {
                   acs.switch_strategy = SwitchStrategy.on_reboot;
                 }
@@ -427,9 +423,9 @@ export default {
               };
               if (this.isAutoChannel) {
                 b24g.channel.mode = AUTO_CHANNEL_VALUE;
-                b24g.acs = acs;
+                b24g.channel.acs = acs;
               } else {
-                b24g.number = this.form.b24g.channel.number;
+                b24g.channel.number = this.form.b24g.channel.number;
               }
               const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
 
@@ -444,9 +440,9 @@ export default {
               };
               if (this.isAutoChannel) {
                 b5g.channel.mode = AUTO_CHANNEL_VALUE;
-                b5g.acs = acs;
+                b5g.channel.acs = acs;
               } else {
-                b5g.number = this.form.b24g.channel.number;
+                b5g.channel.number = this.form.b24g.channel.number;
               }
               const wifi = {
                 smart_connect: this.form.smart_connect,
