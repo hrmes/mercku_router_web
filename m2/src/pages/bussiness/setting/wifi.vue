@@ -442,7 +442,7 @@ export default {
                 b5g.channel.mode = AUTO_CHANNEL_VALUE;
                 b5g.channel.acs = acs;
               } else {
-                b5g.channel.number = this.form.b24g.channel.number;
+                b5g.channel.number = this.form.b5g.channel.number;
               }
               const wifi = {
                 smart_connect: this.form.smart_connect,
