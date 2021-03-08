@@ -498,14 +498,16 @@ export default {
           this.form.b24g.hidden = b24g.hidden;
           this.form.b24g.channel.bandwidth = b24g.channel.bandwidth;
           this.form.b24g.channel.number = b24g.channel.number;
+
           if (b24g.channel.mode === AUTO_CHANNEL_VALUE) {
-            this.isAutoChannel === true;
-            this.acs.interval = b24g.acs.interval;
-            this.acs.traffic_threshold = b24g.acs.traffic_threshold;
-            if (b24g.acs.begin_time && b24g.acs.end_time) {
+            this.isAutoChannel = true;
+            const { acs } = b24g.channel;
+            this.acs.interval = acs.interval;
+            this.acs.traffic_threshold = acs.traffic_threshold;
+            if (acs.begin_time && acs.end_time) {
               if (
-                b24g.acs.begin_time === TimeDuration.allday.begin &&
-                b24g.acs.end_time === TimeDuration.allday.end
+                acs.begin_time === TimeDuration.allday.begin &&
+                acs.end_time === TimeDuration.allday.end
               ) {
                 this.acs.switch_strategy = SwitchStrategy.all_day;
               } else {
