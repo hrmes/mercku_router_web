@@ -572,6 +572,7 @@ export default {
 .form {
   margin-top: 20px;
   display: flex;
+  width: 340px;
   flex-direction: column;
   justify-content: center;
 
