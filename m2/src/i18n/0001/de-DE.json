@@ -773,11 +773,15 @@
   "trans0778": "Schalten Sie das Gerät zu einer voreingestellten Zeit aus",
   "trans0779": "LED Autonome Steuerung",
   "trans0780": "Schalten Sie das Gerät zu einer voreingestellten Zeit ein",
-  "trans0781": " ",
-  "trans0782": " ",
-  "trans0783": " ",
-  "trans0784": " ",
-  "trans0785": " ",
-  "trans0786": " ",
-  "trans0787": " "
+  "trans0781": "Automatische Kanalumschaltung",
+  "trans0782": "Kanal",
+  "trans0783": "2,4 GHz Kanalbreite",
+  "trans0784": "5 GHz Kanalbreite",
+  "trans0785": "Auslösebedingungen",
+  "trans0786": "Beim Neustart durchführen",
+  "trans0787": "Scannen zu bestimmter Zeit",
+  "trans0788": "Scannen zu bestimmter Zeit_Nur Nachts",
+  "trans0789": "Wechseln wenn Nutzung niedriger ist als",
+  "trans0790": "Interval zum Kanalscannen (Stunde)",
+  "trans0791": "Wenn es Internetverkehr innerhalb des Mercku-Netzwerkes gibt, dann wird der automatische Kanalwechsel auch mit Voreingestellungen nicht durchgeführt."
 }
