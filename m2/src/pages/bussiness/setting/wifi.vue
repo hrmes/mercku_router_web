@@ -191,13 +191,13 @@
         </div>
         <m-form-item key="b24gbandwidth"
                      class="form__item">
-          <m-select :label="$t('trans0632')"
+          <m-select :label="$t('trans0783')"
                     v-model="form.b24g.channel.bandwidth"
                     :options="bandwidths.b24g"></m-select>
         </m-form-item>
         <m-form-item key="b5gbandwidth"
                      class="form__item">
-          <m-select :label="$t('trans0632')"
+          <m-select :label="$t('trans0784')"
                     v-model="form.b5g.channel.bandwidth"
                     :options="bandwidths.b5g"></m-select>
         </m-form-item>
@@ -339,7 +339,7 @@ export default {
       scan_interval: [1, 2, 3, 6, 12, 24].map(v => ({ value: v * 60, text: v })),
       traffic_thresholds: [1, 5, 10, 20, 50].map(v => ({
         value: v * 1000 * 1000,
-        text: `${v}Mbps`
+        text: `${v} Mbps`
       })),
       bandwidths: {
         b24g: new Array(2).fill(0).map((_, i) => {
