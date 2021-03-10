@@ -783,5 +783,8 @@
   "trans0788": "Scan at a preset time (Night only)",
   "trans0789": "Switch when traffic is lower than",
   "trans0790": "Channel scanning interval (Hour)",
-  "trans0791": "When there is an internet traffic consuming activity running within Mercku's network, the automatic channel switch will not execute even with the preset automatic channel command. "
+  "trans0791": "When there is an internet traffic consuming activity running within Mercku's network, the automatic channel switch will not execute even with the preset automatic channel command. ",
+  "trans0792": "Connect via WPS",
+  "trans0793": " ",
+  "trans0794": "WPS"
 }

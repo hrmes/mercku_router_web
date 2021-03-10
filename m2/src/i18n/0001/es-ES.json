@@ -783,5 +783,8 @@
   "trans0788": "Escaneo en un tiempo preestablecido (Noche solamente)",
   "trans0789": "Cambiar cuando el tráfico es inferior a",
   "trans0790": "Intervalo de exploración del canal (hora)",
-  "trans0791": "Cuando hay una actividad de consumo de tráfico de Internet que se ejecuta dentro de la red de Mercku, el conmutador de canal automático no se ejecutará incluso con el comando de canal automático preestablecido."
+  "trans0791": "Cuando hay una actividad de consumo de tráfico de Internet que se ejecuta dentro de la red de Mercku, el conmutador de canal automático no se ejecutará incluso con el comando de canal automático preestablecido.",
+  "trans0792": "Conectarse a través de WPS",
+  "trans0793": " ",
+  "trans0794": "WPS"
 }

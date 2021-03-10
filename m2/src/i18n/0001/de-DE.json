@@ -783,5 +783,8 @@
   "trans0788": "Scannen zu bestimmter Zeit (nur Nachts)",
   "trans0789": "Wechseln wenn Nutzung niedriger ist als",
   "trans0790": "Interval zum Kanalscannen (Stunde)",
-  "trans0791": "Wenn es Internetverkehr innerhalb des Mercku-Netzwerkes gibt, dann wird der automatische Kanalwechsel auch mit Voreingestellungen nicht durchgeführt."
+  "trans0791": "Wenn im Mercku Netzwerk eine Aktivität ausgeführt wird, die den Internetverkehr verbraucht, wird der automatische Kanalwechsel auch mit dem voreingestellten automatischen Kanalbefehl nicht ausgeführt.",
+  "trans0792": "Verbindung über WPS herstellen",
+  "trans0793": " ",
+  "trans0794": "WPS"
 }

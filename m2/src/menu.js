@@ -111,6 +111,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'setting.led',
         text: 'trans0779',
         config: strategyA
+      },
+      {
+        url: '/setting/wps',
+        name: 'setting.wps',
+        text: 'trans0794',
+        config: strategyA
       }
     ]
   };

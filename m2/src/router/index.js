@@ -40,6 +40,7 @@ import mode from 'pages/bussiness/advance/mode.vue';
 import region from 'pages/bussiness/setting/region.vue';
 import wwa from 'pages/bussiness/advance/wwa.vue';
 import led from 'pages/bussiness/setting/led.vue';
+import wps from 'pages/bussiness/setting/wps.vue';
 
 Vue.use(Router);
 export default new Router({
@@ -257,6 +258,11 @@ export default new Router({
       path: '/setting/led',
       name: 'setting.led',
       component: led
+    },
+    {
+      path: '/setting/wps',
+      name: 'setting.wps',
+      component: wps
     }
   ]
 });
