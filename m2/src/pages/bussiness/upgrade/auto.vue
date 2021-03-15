@@ -123,14 +123,19 @@ export default {
     },
     getMeshAutoUpgrade() {
       this.$loading.open();
-      this.$http.getMeshAutoUpgrade().then(res => {
-        this.$loading.close();
-        const { result } = res.data;
-        this.auto_upgrade.enabled = result.enabled;
-        [this.auto_upgrade.schedule] = result.schedule;
-        this.auto_upgrade.time = result.time;
-        this.enabledInitialized = this.auto_upgrade.enabled;
-      });
+      this.$http
+        .getMeshAutoUpgrade()
+        .then(res => {
+          this.$loading.close();
+          const { result } = res.data;
+          this.auto_upgrade.enabled = result.enabled;
+          [this.auto_upgrade.schedule] = result.schedule;
+          this.auto_upgrade.time = result.time;
+          this.enabledInitialized = this.auto_upgrade.enabled;
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     submit() {
       const scheduleSelected = this.scheduleOption.find(
