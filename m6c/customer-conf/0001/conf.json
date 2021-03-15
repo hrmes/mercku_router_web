@@ -18,6 +18,10 @@
     "M6": {
       "name": "M6 Wi-Fi6 Router",
       "shortName": "M6"
+    },
+    "M6c": {
+      "name": "M6c Wi-Fi6 Router",
+      "shortName": "M6c"
     }
   },
   "loading": {
