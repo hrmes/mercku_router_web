@@ -176,7 +176,7 @@
                       v-model="acs.interval"
                       :options="scan_interval"></m-select>
           </m-form-item>
-          <m-form-item>
+          <m-form-item v-if="SwitchStrategy.on_reboot !== acs.switch_strategy">
             <m-select :label="$t('trans0789')"
                       v-model="acs.traffic_threshold"
                       :options="traffic_thresholds"></m-select>
@@ -336,8 +336,8 @@ export default {
           text: this.$t('trans0788')
         }
       ],
-      scan_interval: [1, 2, 3, 6, 12, 24].map(v => ({ value: v * 60, text: v })),
-      traffic_thresholds: [1, 5, 10, 20, 50].map(v => ({
+      scan_interval: [1, 2, 3].map(v => ({ value: v * 60, text: v })),
+      traffic_thresholds: [1, 5, 10].map(v => ({
         value: v * 1000 * 1000,
         text: `${v} Mbps`
       })),

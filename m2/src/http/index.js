@@ -114,7 +114,9 @@ const methods = {
   setUPNPEnabled: createMethod('mesh.upnp.enabled.update'),
   getLEDTimeLimit: createMethod('mesh.led.time_limit.get'),
   updateLEDTimeLimit: createMethod('mesh.led.time_limit.update'),
-  startWPS: createMethod('mesh.wps.start')
+  startWPS: createMethod('mesh.wps.start'),
+  getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
+  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set')
 };
 
 class Http {

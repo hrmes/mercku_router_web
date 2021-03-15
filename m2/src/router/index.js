@@ -16,6 +16,7 @@ import wlan from 'pages/bussiness/wlan/index.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
+import auto from 'pages/bussiness/upgrade/auto.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
@@ -175,6 +176,11 @@ export default new Router({
       component: offline
     },
     {
+      path: '/upgrade/auto',
+      name: 'auto',
+      component: auto
+    },
+    {
       path: '/advance/portforwarding',
       name: 'advance-portforwarding',
       component: portforwarding
@@ -258,11 +264,11 @@ export default new Router({
       path: '/setting/led',
       name: 'setting.led',
       component: led
-    },
-    {
-      path: '/setting/wps',
-      name: 'setting.wps',
-      component: wps
     }
+    // {
+    //   path: '/setting/wps',
+    //   name: 'setting.wps',
+    //   component: wps
+    // }
   ]
 });

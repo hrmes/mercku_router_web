@@ -86,7 +86,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0272',
         name: 'timezone',
         url: '/setting/timezone',
-        config: strategyA
+        config
       },
       {
         text: 'trans0639',
@@ -111,13 +111,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'setting.led',
         text: 'trans0779',
         config
-      },
-      {
-        url: '/setting/wps',
-        name: 'setting.wps',
-        text: 'trans0794',
-        config
       }
+      // {
+      //   url: '/setting/wps',
+      //   name: 'setting.wps',
+      //   text: 'trans0794',
+      //   config
+      // }
     ]
   };
   const advance = {
@@ -250,6 +250,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
+        config
+      },
+      {
+        url: '/upgrade/auto',
+        name: 'auto',
+        text: 'trans0743',
         config
       }
     ]

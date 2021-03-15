@@ -5,19 +5,18 @@
     </div>
     <div class="page-content">
       <m-form class="form">
-        <m-form-item>
+        <m-form-item class="form__item--first">
           <m-switch :label="$t('trans0462')"
                     class="smart-connect__switch"
                     v-model="form.enabled" />
           <div class="tip__label">{{$t('trans0777')}}</div>
-
         </m-form-item>
-        <m-form-item class="form__switch">
+        <m-form-item class="form__item">
           <label class="form__label">{{$t('trans0778')}}</label>
           <m-time-picker class="time-picker"
                          v-model="form.begin_time" />
         </m-form-item>
-        <m-form-item class="form__switch">
+        <m-form-item class="form__item">
           <label class="form__label">{{$t('trans0780')}}</label>
           <m-time-picker class="time-picker"
                          v-model="form.end_time" />
@@ -81,6 +80,9 @@ export default {
         font-size: 14px;
       }
       .form-item {
+        &.form__item--first {
+          margin-bottom: 20px;
+        }
         .time-picker {
           height: 48px;
         }
@@ -90,6 +92,8 @@ export default {
         color: #999;
         margin-top: 10px;
         max-width: 340px;
+        border-bottom: 1px solid #ebebeb;
+        padding-bottom: 20px;
       }
     }
   }
