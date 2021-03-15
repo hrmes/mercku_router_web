@@ -111,7 +111,12 @@ const methods = {
   getMeshInfoWanNetIpv6: createMethod('mesh.info.wan.net.ipv6.get'),
   updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update'),
   getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
-  setUPNPEnabled: createMethod('mesh.upnp.enabled.update')
+  setUPNPEnabled: createMethod('mesh.upnp.enabled.update'),
+  getLEDTimeLimit: createMethod('mesh.led.time_limit.get'),
+  updateLEDTimeLimit: createMethod('mesh.led.time_limit.update'),
+  startWPS: createMethod('mesh.wps.start'),
+  getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
+  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set')
 };
 
 class Http {

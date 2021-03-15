@@ -16,6 +16,7 @@ import wlan from 'pages/bussiness/wlan/index.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
+import auto from 'pages/bussiness/upgrade/auto.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
@@ -39,6 +40,8 @@ import remote from 'pages/bussiness/advance/remote.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import region from 'pages/bussiness/setting/region.vue';
 import wwa from 'pages/bussiness/advance/wwa.vue';
+import led from 'pages/bussiness/setting/led.vue';
+import wps from 'pages/bussiness/setting/wps.vue';
 
 Vue.use(Router);
 export default new Router({
@@ -173,6 +176,11 @@ export default new Router({
       component: offline
     },
     {
+      path: '/upgrade/auto',
+      name: 'auto',
+      component: auto
+    },
+    {
       path: '/advance/portforwarding',
       name: 'advance-portforwarding',
       component: portforwarding
@@ -251,6 +259,16 @@ export default new Router({
       path: '/advance/wwa',
       name: 'advance.wwa',
       component: wwa
+    },
+    {
+      path: '/setting/led',
+      name: 'setting.led',
+      component: led
     }
+    // {
+    //   path: '/setting/wps',
+    //   name: 'setting.wps',
+    //   component: wps
+    // }
   ]
 });
