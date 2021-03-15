@@ -97,7 +97,7 @@ export default {
     }
   },
   mounted() {
-    // this.getMeshAutoUpgrade();
+    this.getMeshAutoUpgrade();
   },
   methods: {
     switchAutoUpgrade(enabled) {
