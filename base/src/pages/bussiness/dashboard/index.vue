@@ -7,7 +7,7 @@
           <div class="icon-container"
                :class="{'disabled':!isRouter}">
             <img @click="isRouter && forward2page('/dashboard/device/primary')"
-                 src="~base/assets/images/icon/ic_device.png"
+                 src="../../../assets/images/icon/ic_device.png"
                  alt="">
             <div class="text-container"
                  :class="{'disabled':!isRouter}">
@@ -21,7 +21,7 @@
              :class="{'selected':$route.path.includes('mesh')}">
           <div class="icon-container">
             <img @click="forward2page('/dashboard/mesh')"
-                 src="~base/assets/images/icon/ic_router.png"
+                 src="../../../assets/images/icon/ic_router.png"
                  alt="">
             <div class="text-container">
               {{ssid||'-'}}
@@ -35,7 +35,7 @@
                @click.stop="showTips()"
                v-if="isLinked || isUnlinked">
             <img class="icon__question"
-                 src="~base/assets/images/icon/ic_wifi_question.png"
+                 src="../../../assets/images/icon/ic_wifi_question.png"
                  alt="">
           </div>
         </div>
@@ -43,7 +43,7 @@
              :class="{'selected':$route.path.includes('internet')}">
           <div class="icon-container">
             <img @click="forward2page('/dashboard/internet')"
-                 src="~base/assets/images/icon/ic_internet.png"
+                 src="../../../assets/images/icon/ic_internet.png"
                  alt="">
             <div class="text-container">
               {{$t('trans0366')}}
@@ -73,8 +73,8 @@
 </template>
 <script>
 import marked from 'marked';
-import * as CONSTANTS from 'base/util/constant';
-import { compareVersion } from 'base/util/util';
+import * as CONSTANTS from '../../../util/constant';
+import { compareVersion } from '../../../util/util';
 // import axios from 'axios';
 
 export default {
@@ -265,7 +265,7 @@ export default {
   flex-direction: column;
   flex: auto;
   .net-info {
-    background: url(~base/assets/images/dashboard_banner_bg.jpg) no-repeat
+    background: url(../../../assets/images/dashboard_banner_bg.jpg) no-repeat
       center;
     background-size: cover;
     position: relative;
@@ -473,7 +473,7 @@ export default {
       padding: 0 20px;
     }
     .net-info {
-      background: url(~base/assets/images/mobile/dashboard_banner_bg.jpg)
+      background: url(../../../assets/images/mobile/dashboard_banner_bg.jpg)
         no-repeat center;
       background-size: cover;
       height: 160px;

@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import { isValidPassword } from 'base/util/util';
+import { isValidPassword } from '../../../util/util';
 
 export default {
   data() {

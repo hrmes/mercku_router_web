@@ -2,7 +2,7 @@
   &.header-container {
     .logo-wrap {
       .logo-wrap__logo {
-        background: url(~base/assets/images/customer/orion/laki_logo.png) center no-repeat;
+        background: url(../../assets/images/customer/orion/laki_logo.png) center no-repeat;
         background-size: 100%;
         width: 61px;
         height: 35px;
@@ -23,19 +23,19 @@
         }
 
         width: 256px;
-        background: url(~base/assets/images/customer/orion/laki_logo_text.png) no-repeat center;
+        background: url(../../assets/images/customer/orion/laki_logo_text.png) no-repeat center;
         background-size: 100%;
       }
     }
 
     .app-logo {
-      background: url(~base/assets/images/customer/orion/ic_launcher.png) no-repeat center;
+      background: url(../../assets/images/customer/orion/ic_launcher.png) no-repeat center;
       background-size: 100%;
     }
 
     .download {
       .qr {
-        background: url(~base/assets/images/customer/orion/qr.png) no-repeat center;
+        background: url(../../assets/images/customer/orion/qr.png) no-repeat center;
         background-size: 100%;
       }
     }
@@ -51,7 +51,7 @@
         .logo {
           width: 175px;
           margin-bottom: 42px;
-          background: url(~base/assets/images/customer/orion/laki_logo_text.png) no-repeat center;
+          background: url(../../assets/images/customer/orion/laki_logo_text.png) no-repeat center;
           background-size: 100%;
         }
       }
@@ -61,11 +61,11 @@
   /**************************end登陆页面******************/
   &.dashboard {
     .net-info {
-      background: url(~base/assets/images/dashboard_banner_bg_0005.jpg) no-repeat center;
+      background: url(../../assets/images/dashboard_banner_bg_0005.jpg) no-repeat center;
       background-size: cover;
 
       @media screen and (max-width: 768px) {
-        background: url(~base/assets/images/mobile/dashboard_banner_bg_0005.jpg) no-repeat center;
+        background: url(../../assets/images/mobile/dashboard_banner_bg_0005.jpg) no-repeat center;
         background-size: cover;
       }
     }

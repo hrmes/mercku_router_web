@@ -23,7 +23,7 @@
         <div class="form-header"
              v-if="!form.smart_connect">
           <img class="form-header__img"
-               src="~base/assets/images/icon/ic_wifi@2x.png"
+               src="../../../assets/images/icon/ic_wifi@2x.png"
                alt="">
           <span class="form-header__title">{{$t('trans0677')}}</span>
         </div>
@@ -88,7 +88,7 @@
                          :title="this.$t('trans0110')"
                          :content="this.$t('trans0325')">
                 <img width="14"
-                     src="~base/assets/images/icon/ic_question.png"
+                     src="../../../assets/images/icon/ic_question.png"
                      alt="">
               </m-popover>
 
@@ -107,7 +107,7 @@
               :rules='rules'>
         <div class="form-header">
           <img class="form-header__img"
-               src="~base/assets/images/icon/ic_wifi@2x.png"
+               src="../../../assets/images/icon/ic_wifi@2x.png"
                alt="">
           <span class="form-header__title">{{$t('trans0679')}}</span>
         </div>
@@ -160,7 +160,7 @@
                          :title="$t('trans0110')"
                          :content="$t('trans0325')">
                 <img width="14"
-                     src="~base/assets/images/icon/ic_question.png"
+                     src="../../../assets/images/icon/ic_question.png"
                      alt="">
               </m-popover>
             </div>
@@ -177,7 +177,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from 'base/util/util';
+import { getStringByte, passwordRule } from '../../../util/util';
 
 const Bands = {
   b24g: '2.4G',

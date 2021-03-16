@@ -9,7 +9,7 @@
          class="offical"
          target="_blank"
          :href="website.url">
-        <img src="~base/assets/images/icon/ic_web_home.png"
+        <img src="../../assets/images/icon/ic_web_home.png"
              alt="">
         <span>{{website.text}}</span>
       </a>
@@ -481,7 +481,7 @@ export default {
         }
         .menu-icon {
           &.language {
-            background: url(~base/assets/images/icon/ic_languages_black.png)
+            background: url(../../assets/images/icon/ic_languages_black.png)
               no-repeat center;
             background-size: 100%;
           }
@@ -949,14 +949,14 @@ export default {
           width: 20px;
           height: 20px;
           &.language {
-            background: url(~base/assets/images/icon/ic_languages_white.png)
+            background: url(../../assets/images/icon/ic_languages_white.png)
               no-repeat center;
             background-size: 100%;
           }
           &.menu {
             width: 24px;
             margin-left: 40px;
-            background: url(~base/assets/images/icon/ic_top_bar_pull_down.png)
+            background: url(../../assets/images/icon/ic_top_bar_pull_down.png)
               no-repeat center;
             background-size: 100%;
           }

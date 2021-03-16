@@ -190,7 +190,7 @@
       <div class="speed-content">
         <div v-if="isSpeedTesting">
           <div class="test-info">
-            <img src="~base/assets/images/speed_test.gif"
+            <img src="../../../assets/images/speed_test.gif"
                  alt="">
           </div>
           <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
@@ -234,7 +234,7 @@
   </div>
 </template>
 <script>
-import * as CONSTANTS from 'base/util/constant';
+import * as CONSTANTS from '../../../util/constant';
 
 export default {
   data() {
@@ -640,36 +640,37 @@ export default {
       top: 12px;
       position: relative;
       &.speed__icon--up {
-        background: url('~base/assets/images/icon/ic_upload.png') no-repeat;
+        background: url('../../../assets/images/icon/ic_upload.png') no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--down {
-        background: url('~base/assets/images/icon/ic_download.png') no-repeat;
+        background: url('../../../assets/images/icon/ic_download.png') no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--trafficup {
         width: 20px;
         height: 29px;
-        background: url('~base/assets/images/icon/ic_upload.png') no-repeat;
+        background: url('../../../assets/images/icon/ic_upload.png') no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--trafficdown {
         width: 20px;
         height: 29px;
-        background: url('~base/assets/images/icon/ic_download.png') no-repeat;
+        background: url('../../../assets/images/icon/ic_download.png') no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--peekdown {
         width: 36px;
         height: 36px;
-        background: url('~base/assets/images/icon/ic_fast_download.png')
+        background: url('../../../assets/images/icon/ic_fast_download.png')
           no-repeat;
         background-size: 100% 100%;
       }
       &.speed__icon--peekup {
         width: 36px;
         height: 36px;
-        background: url('~base/assets/images/icon/ic_fast_upload.png') no-repeat;
+        background: url('../../../assets/images/icon/ic_fast_upload.png')
+          no-repeat;
         background-size: 100% 100%;
       }
     }
@@ -811,7 +812,7 @@ export default {
                 width: 20px;
                 height: 29px;
                 display: inline-block;
-                background: url('~base/assets/images/icon/ic_download.png')
+                background: url('../../../assets/images/icon/ic_download.png')
                   no-repeat;
                 background-size: 100% 100%;
                 margin-right: 5px;
@@ -820,7 +821,7 @@ export default {
                 width: 20px;
                 height: 29px;
                 display: inline-block;
-                background: url('~base/assets/images/icon/ic_upload.png')
+                background: url('../../../assets/images/icon/ic_upload.png')
                   no-repeat;
                 background-size: 100% 100%;
                 margin-right: 5px;

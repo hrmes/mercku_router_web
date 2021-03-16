@@ -57,7 +57,7 @@
   </div>
 </template>
 <script>
-import { ipReg, privateIpReg, getIpBefore, getIpAfter } from 'base/util/util';
+import { ipReg, privateIpReg, getIpBefore, getIpAfter } from '../../../../util/util';
 
 const isVailidRange = input => {
   const value = Number(input);

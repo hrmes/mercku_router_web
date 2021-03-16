@@ -92,7 +92,7 @@
           </div>
           <div class="empty"
                v-if="!blacklist.length">
-            <img src="~base/assets/images/img_default_empty.png"
+            <img src="../../../assets/images/img_default_empty.png"
                  alt="" />
             <p>{{ $t('trans0278') }}</p>
           </div>
@@ -102,7 +102,7 @@
   </div>
 </template>
 <script>
-import { formatMac } from 'base/util/util';
+import { formatMac } from '../../../util/util';
 
 export default {
   data() {

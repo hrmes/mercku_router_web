@@ -19,8 +19,8 @@
   </div>
 </template>
 <script>
-import 'base/style/common.scss';
-import getMenu from 'base/menu';
+import './style/common.scss';
+import getMenu from './menu';
 
 export default {
   computed: {

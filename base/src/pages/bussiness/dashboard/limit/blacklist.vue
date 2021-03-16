@@ -31,7 +31,7 @@
         </div>
         <div class="empty"
              v-if="isEmpty">
-          <img src="~base/assets/images/img_default_empty.png"
+          <img src="../../../../assets/images/img_default_empty.png"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
         </div>
@@ -71,8 +71,8 @@
   </div>
 </template>
 <script>
-import { hostRexp, isIP, getStringByte } from 'base/util/util';
-import { BlacklistMode } from 'base/util/constant';
+import { hostRexp, isIP, getStringByte } from '../../../../util/util';
+import { BlacklistMode } from '../../../../util/constant';
 
 export default {
   data() {

@@ -92,7 +92,7 @@
   </div>
 </template>
 <script>
-import { ipReg, getStringByte, portReg } from 'base/util/util';
+import { ipReg, getStringByte, portReg } from '../../../../util/util';
 
 export default {
   data() {

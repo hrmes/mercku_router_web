@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import { portReg, isIP } from 'base/util/util';
+import { portReg, isIP } from '../../../util/util';
 
 export default {
   data() {

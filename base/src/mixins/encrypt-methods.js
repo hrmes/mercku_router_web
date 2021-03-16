@@ -1,4 +1,4 @@
-import { EncryptMethod } from 'base/util/constant';
+import { EncryptMethod } from '../util/constant';
 
 export default {
   data() {

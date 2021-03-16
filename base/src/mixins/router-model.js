@@ -1,4 +1,4 @@
-import { RouterSnModel } from 'base/util/constant';
+import { RouterSnModel } from '../util/constant';
 
 export default {
   methods: {
@@ -19,6 +19,9 @@ export default {
           image = require('@/assets/images/img_bee.png');
           break;
         case RouterSnModel.M6:
+          image = require('@/assets/images/img_wifi6.png');
+          break;
+        case RouterSnModel.M6c:
           image = require('@/assets/images/img_wifi6.png');
           break;
         default:
