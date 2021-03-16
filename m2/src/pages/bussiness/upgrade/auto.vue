@@ -115,6 +115,7 @@ export default {
       this.$http
         .setMeshAutoUpgrade(autoUpgrade)
         .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
           this.$loading.close();
         })
         .catch(() => {

@@ -44,17 +44,27 @@ export default {
   methods: {
     updateLED() {
       this.$loading.open();
-      this.$http.updateLEDTimeLimit(this.form).then(() => {
-        this.$toast(this.$t('trans0040'), 3000, 'success');
-      });
-      this.$loading.close();
+      this.$http
+        .updateLEDTimeLimit(this.form)
+        .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$loading.close();
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     getLED() {
       this.$loading.open();
-      this.$http.getLEDTimeLimit().then(res => {
-        this.form = res.data.result;
-      });
-      this.$loading.close();
+      this.$http
+        .getLEDTimeLimit()
+        .then(res => {
+          this.form = res.data.result;
+          this.$loading.close();
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     }
   },
   mounted() {
