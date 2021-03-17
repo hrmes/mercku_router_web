@@ -1,10 +1,10 @@
 {
   "id": "0006",
-  "host": "http://wifi.realnett.no",
+  "host": "http://min.realwifi.no",
   "title": "real|wifi R6 Mesh-sentral",
   "accept": ".real",
   "favicon": "customer-conf/0006/favicon.ico",
-  "policy": "https://www.realnett.no/privacy",
+  "policy": "https://www.realwifi.no/privacy",
   "allow2LevelAdmin": true,
   "languages": ["zh-CN", "en-US", "nb-NO"],
   "defaultLanguage": "nb-NO",
@@ -23,8 +23,8 @@
     "color": "#085182"
   },
   "website": {
-    "url": "https://www.realnett.no",
-    "text": "www.realnett.no"
+    "url": "https://www.realwifi.no",
+    "text": "www.realwifi.no"
   },
   "appDownloadUrl": "https://apk-realnett.merckuwifi.com"
 }

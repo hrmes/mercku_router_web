@@ -40,6 +40,9 @@ import remote from 'base/pages/bussiness/advance/remote.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import led from 'pages/bussiness/setting/led.vue';
+import wps from 'pages/bussiness/setting/wps.vue';
+import auto from 'pages/bussiness/upgrade/auto.vue';
 
 Vue.use(Router);
 
@@ -175,6 +178,11 @@ export default new Router({
       component: offline
     },
     {
+      path: '/upgrade/auto',
+      name: 'auto',
+      component: auto
+    },
+    {
       path: '/advance/portforwarding',
       name: 'advance-portforwarding',
       component: portforwarding
@@ -253,6 +261,16 @@ export default new Router({
       path: '/advance/wwa',
       name: 'advance.wwa',
       component: wwa
+    },
+    {
+      path: '/setting/led',
+      name: 'setting.led',
+      component: led
     }
+    // {
+    //   path: '/setting/wps',
+    //   name: 'setting.wps',
+    //   component: wps
+    // }
   ]
 });

@@ -338,7 +338,6 @@ export const formatDuration = value => {
   timeArr.push(value);
   return timeArr;
 };
-
 String.prototype.format = function(...args) {
   let _this = this;
   args.forEach(val => {

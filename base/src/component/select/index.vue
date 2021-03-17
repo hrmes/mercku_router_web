@@ -1,7 +1,8 @@
 <template>
   <div class="select-container"
+       :class="{'disabled':disabled}"
        v-clickoutside="close">
-    <label for="">{{ label }}</label>
+    <label for="">{{label}}</label>
     <div class="select"
          @click="open()">
       <input class="select-text"
@@ -44,6 +45,10 @@ export default {
     },
     height: {
       type: Number
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -88,9 +93,11 @@ export default {
       this.$emit('change', this.selected.value, this.value);
     },
     open() {
-      this.opened = !this.opened;
-      if (this.opened) {
-        this.scrollToSelect();
+      if (!this.disabled) {
+        this.opened = !this.opened;
+        if (this.opened) {
+          this.scrollToSelect();
+        }
       }
     },
     close() {
@@ -102,6 +109,18 @@ export default {
 <style lang="scss" scoped>
 .select-container {
   width: 340px;
+  &.disabled {
+    .select {
+      background: $select-disabled-background-color;
+      opacity: $select-disabled-opacity;
+      cursor: not-allowed;
+      input {
+        background: $select-disabled-background-color;
+        opacity: $select-disabled-opacity;
+        cursor: not-allowed;
+      }
+    }
+  }
   .select {
     height: 48px;
     width: 100%;

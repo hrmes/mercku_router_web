@@ -171,10 +171,11 @@ export default {
 .time-picker-panel {
   width: 100%;
   min-width: 120px;
-  height: 36px;
+  height: 100%;
   border: 1px solid $time-picker-pannel-border-color;
   position: relative;
   border-radius: 4px;
+  padding: 0 10px;
   .combox {
     position: absolute;
     background: $time-picker-combox-background-color;
@@ -259,7 +260,7 @@ export default {
     display: flex;
     align-items: center;
     width: 100%;
-    height: 36px;
+    height: 100%;
     cursor: pointer;
     input {
       cursor: pointer;
@@ -267,7 +268,7 @@ export default {
       text-decoration: none;
       outline: none;
       flex: 1;
-      padding-left: 5px;
+      padding: 0;
       height: 30px;
       width: 0;
       background: $time-picker-input-background-color;

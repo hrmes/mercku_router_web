@@ -1,4 +1,10 @@
-const path = require('path');
+let Service = require('@vue/cli-service/lib/Service');
+const context = process.cwd() + '/m6';
+const service = new Service(context);
+service.init(process.env.VUE_CLI_MODE || process.env.NODE_ENV);
+
+const config = service.resolveWebpackConfig();
+console.log(config);
 module.exports = {
   root: false,
   settings: {
@@ -6,9 +12,7 @@ module.exports = {
       webpack: {
         config: {
           resolve: {
-            alias: {
-              base: path.resolve(__dirname, '../base/src')
-            }
+            alias: config.resolve.alias
           }
         }
       }
