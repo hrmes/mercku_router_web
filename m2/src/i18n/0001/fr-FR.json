@@ -771,7 +771,7 @@
   "trans0776": "Déconnectez tous les appareils et restaurez les paramètres d'usine",
   "trans0777": "\nAprès le réglage, la tâche de synchronisation du routeur sera valide dans le fuseau horaire actuel.",
   "trans0778": "Éteindre à une heure prédéfinie",
-  "trans0779": "Contrôle autonome du voyant LED",
+  "trans0779": "Contrôle du voyant LED",
   "trans0780": "Allumer à une heure prédéfinie",
   "trans0781": "Changement automatique de canal",
   "trans0782": "Canal",
@@ -785,6 +785,6 @@
   "trans0790": "Intervalle de balayage des canaux (heure)",
   "trans0791": "Lorsqu'une activité consommatrice de trafic Internet s'exécute sur le réseau de Mercku, le changement automatique de canal ne s'exécutera pas même avec la commande de changement automatique de canal prédéfinie.",
   "trans0792": "Connectez-vous via WPS",
-  "trans0793": " ",
+  "trans0793": "Après l'activation, veuillez rapprocher l'appareil final du réseau Wi-Fi",
   "trans0794": "WPS"
 }

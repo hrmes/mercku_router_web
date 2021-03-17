@@ -785,5 +785,5 @@
   "trans0790": "Channel scanning interval (Hour)",
   "trans0791": "When there is an internet traffic consuming activity running within Mercku's network, the automatic channel switch will not execute even with the preset automatic channel command. ",
   "trans0792": "Connect via WPS",
-  "trans0793": " "
+  "trans0793": "After enabling, please move the end-device closer to the Wi-Fi network"
 }
