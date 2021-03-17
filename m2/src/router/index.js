@@ -40,9 +40,9 @@ import remote from 'base/pages/bussiness/advance/remote.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
-import led from 'pages/bussiness/setting/led.vue';
-import wps from 'pages/bussiness/setting/wps.vue';
-import auto from 'pages/bussiness/upgrade/auto.vue';
+import led from 'base/pages/bussiness/setting/led.vue';
+import wps from 'base/pages/bussiness/setting/wps.vue';
+import auto from 'base/pages/bussiness/upgrade/auto.vue';
 
 Vue.use(Router);
 
