@@ -9,7 +9,6 @@
           {{tab.text}}
         </m-tab>
       </m-tabs>
-
       <div class="offline-handle-wrapper"
            v-if="isOfflineDevices">
         <div class="check-info">

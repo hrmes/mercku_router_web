@@ -497,8 +497,7 @@ export default {
   }
   .circle-animation {
     position: relative;
-    background: url(~../../../assets/images/add_node_tip_bj.jpg) no-repeat
-      center;
+    background: url(../../../assets/images/add_node_tip_bj.jpg) no-repeat center;
     background-size: 100%;
     width: 340px;
     margin: 0 auto;

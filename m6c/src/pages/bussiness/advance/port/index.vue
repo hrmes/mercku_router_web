@@ -76,8 +76,7 @@
             <div class="column-outside-ip">
               <p>
                 <label class="m-title with-colon">{{$t('trans0425')}}:</label>
-                <span>{{
-                item.remote.ip==='0.0.0.0'?$t('trans0109'):item.remote.ip}}</span>
+                <span>{{item.remote.ip === '0.0.0.0' ? $t('trans0109') : item.remote.ip}}</span>
               </p>
               <p>
                 <label class="m-title with-colon">{{$t('trans0426')}}:</label>

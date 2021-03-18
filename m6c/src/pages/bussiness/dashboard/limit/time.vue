@@ -67,7 +67,7 @@
                    v-for="(item,i) in schedules"
                    :key='i'>
                 <m-checkbox v-model='item.checked'
-                            :text='$t(item.label)'></m-checkbox>
+                            :text='item.label'></m-checkbox>
               </div>
             </div>
           </div>
@@ -95,44 +95,6 @@ const formatTime = t => {
   return s;
 };
 
-const schedulesOptions = [
-  {
-    label: 'trans0086',
-    value: Weeks.mon,
-    checked: true
-  },
-  {
-    label: 'trans0087',
-    value: Weeks.tue,
-    checked: true
-  },
-  {
-    label: 'trans0088',
-    value: Weeks.wed,
-    checked: true
-  },
-  {
-    label: 'trans0089',
-    value: Weeks.thu,
-    checked: true
-  },
-  {
-    label: 'trans0090',
-    value: Weeks.fri,
-    checked: true
-  },
-  {
-    label: 'trans0091',
-    value: Weeks.sat,
-    checked: true
-  },
-  {
-    label: 'trans0092',
-    value: Weeks.sun,
-    checked: true
-  }
-];
-
 export default {
   data() {
     return {
@@ -151,7 +113,43 @@ export default {
         time_end: '23:59',
         schedule: []
       },
-      schedules: schedulesOptions
+      schedules: [
+        {
+          label: this.$t('trans0086'),
+          checked: false,
+          value: Weeks.mon
+        },
+        {
+          label: this.$t('trans0087'),
+          checked: false,
+          value: Weeks.tue
+        },
+        {
+          label: this.$t('trans0088'),
+          checked: false,
+          value: Weeks.wed
+        },
+        {
+          label: this.$t('trans0089'),
+          checked: false,
+          value: Weeks.thu
+        },
+        {
+          label: this.$t('trans0090'),
+          checked: false,
+          value: Weeks.fri
+        },
+        {
+          label: this.$t('trans0091'),
+          checked: false,
+          value: Weeks.sat
+        },
+        {
+          label: this.$t('trans0092'),
+          checked: false,
+          value: Weeks.sun
+        }
+      ]
     };
   },
   mounted() {
@@ -210,7 +208,7 @@ export default {
       arr.forEach(s => {
         this.schedules.forEach(v => {
           if (s === v.value) {
-            newArr.push(this.$t(v.label));
+            newArr.push(v.label);
           }
         });
       });

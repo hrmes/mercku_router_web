@@ -9,7 +9,6 @@
           {{tab.text}}
         </m-tab>
       </m-tabs>
-
       <div class="offline-handle-wrapper"
            v-if="isOfflineDevices">
         <div class="check-info">
@@ -114,7 +113,6 @@
                     </span>
                   </div>
                 </div>
-
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -149,7 +147,6 @@
                   <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
                 </span>
-
               </li>
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -220,7 +217,6 @@
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
                 </span>
-
                 <span class="btn-text text-primary btn-text-strange"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
@@ -238,7 +234,6 @@
         </div>
       </div>
     </div>
-
     <m-modal :visible.sync="modalShow"
              class="edit-name-modal">
       <div class="content">
@@ -796,7 +791,6 @@ export default {
       }
       .column-mac {
         display: none;
-
         span:first-child {
           display: none;
         }

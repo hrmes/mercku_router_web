@@ -88,6 +88,8 @@
   </div>
 </template>
 <script>
+import { Weeks } from '../../../../util/constant';
+
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
   return s;
@@ -114,37 +116,37 @@ export default {
         {
           label: this.$t('trans0086'),
           checked: false,
-          value: 'Mon'
+          value: Weeks.mon
         },
         {
           label: this.$t('trans0087'),
           checked: false,
-          value: 'Tue'
+          value: Weeks.tue
         },
         {
           label: this.$t('trans0088'),
           checked: false,
-          value: 'Wed'
+          value: Weeks.wed
         },
         {
           label: this.$t('trans0089'),
           checked: false,
-          value: 'Thu'
+          value: Weeks.thu
         },
         {
           label: this.$t('trans0090'),
           checked: false,
-          value: 'Fri'
+          value: Weeks.fri
         },
         {
           label: this.$t('trans0091'),
           checked: false,
-          value: 'Sat'
+          value: Weeks.sat
         },
         {
           label: this.$t('trans0092'),
           checked: false,
-          value: 'Sun'
+          value: Weeks.sun
         }
       ]
     };
@@ -612,7 +614,7 @@ export default {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          width: 140px;
+          width: 180px;
           .check-inner {
             width: 160px;
             margin-bottom: 12px;

@@ -69,14 +69,14 @@
                    :class="{'checkOpen':mobileShowHead}">
                 <m-checkbox v-model='item.checked'></m-checkbox>
               </div>
-              <span class="m-title">{{$t('trans0108')}}:</span>
+              <label class="m-title with-colon">{{$t('trans0108')}}:</label>
               <span class="name"
                     :title="item.name">{{item.name}}</span>
             </div>
             <div class="column-outside-ip">
               <p>
                 <label class="m-title with-colon">{{$t('trans0425')}}:</label>
-                <span>{{item.remote.ip==='0.0.0.0'?$t('trans0109'):item.remote.ip}}</span>
+                <span>{{item.remote.ip === '0.0.0.0' ? $t('trans0109') : item.remote.ip}}</span>
               </p>
               <p>
                 <label class="m-title with-colon">{{$t('trans0426')}}:</label>

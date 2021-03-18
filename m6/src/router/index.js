@@ -14,19 +14,13 @@ import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
 import auto from 'pages/bussiness/upgrade/auto.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
-import limit from 'pages/bussiness/dashboard/limit/index.vue';
-import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
-import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
-import rsvdipForm from 'pages/bussiness/advance/rsvdip/form.vue';
-import dhcp from 'pages/bussiness/advance/dhcp/index.vue';
 import ddns from 'pages/bussiness/advance/ddns.vue';
-import mac from 'pages/bussiness/advance/mac.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
 import remote from 'pages/bussiness/advance/remote.vue';
-import wwa from 'pages/bussiness/advance/wwa.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
+
 
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
@@ -34,7 +28,6 @@ import safe from 'base/pages/bussiness/setting/safe.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
-import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import dmz from 'base/pages/bussiness/advance/dmz.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
@@ -42,6 +35,14 @@ import log from 'base/pages/bussiness/advance/log.vue';
 import vpn from 'base/pages/bussiness/advance/vpn/index.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
+import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
+import speedLimit from 'base/pages/bussiness/dashboard/limit/speed.vue';
+import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
+import mac from 'base/pages/bussiness/advance/mac.vue';
+import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
+import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
+import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 
 Vue.use(Router);
 

@@ -285,7 +285,6 @@ export default {
         }
         return true;
       }, this.$t('trans0471'));
-
       this.$refs.localPortTo.extraValidate(() => {
         const rf = this.form.remotePortFrom;
         const rt = this.form.remotePortTo;

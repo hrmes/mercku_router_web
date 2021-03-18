@@ -181,9 +181,6 @@ export default {
     getSsid() {
       this.$http.getMeshMeta().then(res => {
         const band = res.data.result.bands[CONSTANTS.Bands.b24g];
-        console.log('result bands', res.data.result.bands);
-        console.log('CONSTANTS Bands', CONSTANTS.Bands.b24g);
-        console.log(band);
         this.ssid = band.ssid;
       });
     },

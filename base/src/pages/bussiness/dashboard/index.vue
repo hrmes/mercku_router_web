@@ -14,7 +14,6 @@
               {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
             </div>
           </div>
-
         </div>
         <div class="line"></div>
         <div class="wifi-container"
@@ -27,7 +26,6 @@
               {{ssid||'-'}}
             </div>
           </div>
-
         </div>
         <div class="line"
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
@@ -49,7 +47,6 @@
               {{$t('trans0366')}}
             </div>
           </div>
-
         </div>
       </div>
     </div>
