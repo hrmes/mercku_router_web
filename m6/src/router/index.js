@@ -12,16 +12,15 @@ import wlan from 'pages/bussiness/wlan/index.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
-import auto from 'pages/bussiness/upgrade/auto.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
-import ddns from 'pages/bussiness/advance/ddns.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
 import remote from 'pages/bussiness/advance/remote.vue';
+import auto from 'pages/bussiness/upgrade/auto.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
 
-
+import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
