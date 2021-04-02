@@ -1,163 +1,157 @@
 <template>
-  <div class="router-info">
-    <div class="section">
-      <div class="section__inner">
-        <div class="section__title">{{$t('trans0301')}}</div>
-        <div class="section__body">
-          <div class="item">
-            <label class="item__label">{{$t('trans0317')}}</label>
-            <span class="item__value">{{ networkArr[localNetInfo.type]}}</span>
-          </div>
-          <div class="item">
-            <label class="item__label">{{$t('trans0151')}}</label>
-            <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
-          </div>
-          <div class="item">
-            <label class="item__label">{{$t('trans0152')}}</label>
-            <span class="item__value">{{localNetInfo.netinfo.mask }}</span>
-          </div>
-          <div class="item">
-            <label class="item__label">{{$t('trans0236')}}</label>
-            <span class="item__value">
-              {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
-              :'-'}}
-            </span>
-          </div>
-          <div class="item">
-            <label class="item__label">{{$t('trans0153')}}</label>
-            <span class="item__value">{{localNetInfo.netinfo.gateway}}</span>
+  <div class="internet">
+    <div class="header">
+      <div class="header__uptime">
+        <button class="btn btn-middle btn-uptime">
+          <m-icon name="time"
+                  class="icon icon__time"></m-icon>
+          <span class="btn-uptime__text">{{$t('trans0537')}}</span>
+        </button>
+        <div class="running is-laptop">
+          <template v-if="uptimeArr[1]&&uptimeArr[1].length>0">
+            <div v-for="(bm, index) in uptimeArr[1]"
+                 :key="index"
+                 class="running__date date">
+              <div class="date__wrap">
+                <span class="date__value">{{bm.num}}</span>
+                <span class="date__unit">{{bm.unit}}</span>
+              </div>
+              <div class="date__splite-line"></div>
+            </div>
+          </template>
+          <div class="running__time">
+            {{uptimeArr[0]}}
           </div>
         </div>
       </div>
-    </div>
-    <div class="section"
-         v-if="isRouter">
-      <div class="section__inner">
-        <div class="section__title">{{$t('trans0303')}}</div>
-        <div class="section__body section__body--row">
-          <div class="speed">
-            <div class="speed__item">
-              <div class="speed__left">
-                <i class="speed__icon speed__icon--down"></i>
-              </div>
-              <div class="speed__right">
-                <span>
-                  <span class="speed__value">{{realtimeSpeedDown.value}}</span>
-                  <span class="speed__unit">{{realtimeSpeedDown.unit}}/s</span>
-                </span>
-                <label class="speed__title">{{$t('trans0305')}}</label>
-              </div>
-
-            </div>
-            <div class="speed__item">
-              <div class="speed__left">
-                <i class="speed__icon speed__icon--up"></i>
-              </div>
-              <div class="speed__right">
-                <span>
-                  <span class="speed__value">{{realtimeSpeedUp.value}}</span>
-                  <span class="speed__unit">{{realtimeSpeedUp.unit}}/s</span>
-                </span>
-                <label class="speed__title">{{$t('trans0304')}}</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="speed">
-            <div class="speed__item">
-              <div class="speed__left">
-                <i class="speed__icon speed__icon--peekdown"></i>
-              </div>
-              <div class="speed__right">
-                <span>
-                  <span class="speed__value">{{peekDown.value}}</span>
-                  <span class="speed__unit">{{peekDown.unit}}/s</span>
-                </span>
-                <label class="speed__title">{{$t('trans0307')}}</label>
-              </div>
-            </div>
-            <div class="speed__item">
-              <div class="speed__left">
-                <i class="speed__icon speed__icon--peekup"></i>
-              </div>
-              <div class="speed__right">
-                <span>
-                  <span class="speed__value">{{peekUp.value}}</span>
-                  <span class="speed__unit">{{peekUp.unit}}/s</span>
-                </span>
-                <label class="speed__title">{{$t('trans0306')}}</label>
-              </div>
-            </div>
-          </div>
-
-        </div>
+      <div class="header__speedtest">
+        <button class="btn btn-middle speedtest"
+                @click="startSpeedTest()"
+                :class="{'disabled':!isConnected}"
+                :disabled="!isConnected">{{$t('trans0008')}}</button>
       </div>
-
     </div>
-    <div class="section"
-         v-if="isRouter">
-      <div class="section__inner">
-        <div class="section__title">{{$t('trans0308')}}</div>
-        <div class="section__body section__body--row releative">
-          <div class="speed speed--traffic ">
-            <div class="speed__item">
-              <div class="speed__left">
-                <i class="speed__icon speed__icon--trafficdown"></i>
-              </div>
-              <div class="speed__right">
-                <span>
-                  <span class="speed__value">{{trafficDl.value}}</span>
-                  <span class="speed__unit">{{trafficDl.unit}}</span>
-                </span>
-                <label class="speed__title">{{$t('trans0309')}}</label>
-              </div>
-
+    <div class="main">
+      <!-- download -->
+      <div class="main__data trans-wrap">
+        <div class="trans">
+          <div class="trans__left trans__layout">
+            <m-icon name="download"
+                    class="icon icon__download"></m-icon>
+            <div class="trans__download trans__download--current label">
+              <span class="label__key">{{$t('trans0305')}}</span>
+              <span class="label__value">{{realtimeSpeedDown.value}}</span>
+              <span class="label__unit">{{realtimeSpeedDown.unit}}/s</span>
             </div>
-            <div class="speed__item">
-              <div class="speed__left">
-                <i class="speed__icon speed__icon--trafficup"></i>
-              </div>
-              <div class="speed__right">
-                <span>
-                  <span class="speed__value">{{trafficUl.value}}</span>
-                  <span class="speed__unit">{{trafficUl.unit}}</span>
-                </span>
-                <label class="speed__title">{{$t('trans0310')}}</label>
+          </div>
+          <div class="trans__right">
+            <div class="trans__layout">
+              <m-icon name="peak_download"
+                      class="icon icon__download"></m-icon>
+              <div class="trans__download trans__download--peack label">
+                <div class="label__wrap">
+                  <span class="label__value">{{peekDown.value}}</span>
+                  <span class="label__unit">{{peekDown.unit}}/s</span>
+                </div>
+                <span class="label__key">{{$t('trans0307')}}</span>
               </div>
             </div>
-            <div class="speedtest-btn-wrap">
-              <button class="btn btn-middle"
-                      @click="startSpeedTest()"
-                      :class="{'disabled':!isConnected}"
-                      :disabled="!isConnected">{{$t('trans0008')}}</button>
+            <div class="trans__layout">
+              <m-icon name="total_download"
+                      class="icon icon__download"></m-icon>
+              <div class="trans__download trans__download--total label">
+                <div class="label__wrap">
+                  <span class="label__value">{{trafficDl.value}}</span>
+                  <span class="label__unit">{{trafficDl.unit}}</span>
+                </div>
+                <span class="label__key">{{$t('trans0309')}}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="section">
-      <div class="section__inner">
-        <div class="section__title">{{$t('trans0537')}}</div>
-        <div class="section__body section__body--row releative">
-          <div class="uptime">
-            <div class="uptime__top"
-                 v-if="uptimeArr[1]&&uptimeArr[1].length>0">
-              <span v-for="(bm,index) in uptimeArr[1]"
-                    :key="index">
-                <span class="uptime__value">{{bm.num}}</span>
-                <span class="uptime__unit">{{bm.unit}}</span>
-                <span v-if="index!==uptimeArr[1].length-1">，</span>
-              </span>
+      <!-- upload -->
+      <div class="main__data trans-wrap">
+        <div class="trans">
+          <div class="trans__layout trans__left">
+            <m-icon name="upload"
+                    class="icon icon__download"></m-icon>
+            <div class="trans__download trans__download--current label">
+              <span class="label__key">{{$t('trans0304')}}</span>
+              <span class="label__value">{{realtimeSpeedUp.value}}</span>
+              <span class="label__unit">{{realtimeSpeedUp.unit}}/s</span>
             </div>
-            <div class="uptime__bottom"
-                 :class="{'padding-top':uptimeArr[1]&&uptimeArr[1].length>0}">{{uptimeArr[0]}}</div>
-            <img class="uptime__bg"
-                 src="../../../assets/images/img_router_time.png">
+          </div>
+          <div class="trans__right">
+            <div class="trans__layout">
+              <m-icon name="peak_upload"
+                      class="icon icon__download"></m-icon>
+              <div class="trans__download trans__download--peack label">
+                <div class="label__wrap">
+                  <span class="label__value">{{peekUp.value}}</span>
+                  <span class="label__unit">{{peekUp.unit}}/s</span>
+                </div>
+                <span class="label__key">{{$t('trans0306')}}</span>
+              </div>
+            </div>
+            <div class="trans__layout">
+              <m-icon name="total_upload"
+                      class="icon icon__download"></m-icon>
+              <div class="trans__download trans__download--total label">
+                <div class="label__wrap">
+                  <span class="label__value">{{trafficUl.value}}</span>
+                  <span class="label__unit">{{trafficUl.unit}}</span>
+                </div>
+                <span class="label__key">{{$t('trans0310')}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="main__data wan">
+        <h2 class="wan__title">{{$t('trans0301')}}</h2>
+        <div class="wan__table">
+          <div class="table">
+            <div class="table__item">
+              <div class="item">
+                <label class="item__key"
+                       for="">{{$t('trans0317')}}</label>
+                <span class="item__value">{{networkArr[localNetInfo.type]}}</span>
+              </div>
+            </div>
+            <div class="table__item">
+              <div class="item">
+                <label class="item__key"
+                       for="">{{$t('trans0152')}}</label>
+                <span class="item__value">{{localNetInfo.netinfo.mask }}</span>
+              </div>
+            </div>
+            <div class="table__item">
+              <div class="item">
+                <label class="item__key"
+                       for="">{{$t('trans0153')}}</label>
+                <span class="item__value">{{localNetInfo.netinfo.gateway}}</span>
+              </div>
+            </div>
+            <div class="table__item">
+              <div class="item">
+                <label class="item__key"
+                       for="">{{$t('trans0151')}}</label>
+                <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
+              </div>
+            </div>
+            <div class="table__item">
+              <div class="item">
+                <label class="item__key"
+                       for="">{{$t('trans0236')}}</label>
+                <span class="item__value">
+                  {{DNSText}}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
     <div class='speed-model-info'
          v-if='speedModelOpen'>
       <div class="shadow"></div>
@@ -207,6 +201,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import * as CONSTANTS from 'base/util/constant';
 
@@ -381,6 +376,11 @@ export default {
     },
     speedUp() {
       return this.formatBandWidth(this.localSpeedInfo.speed.up);
+    },
+    DNSText() {
+      return this.localNetInfo.netinfo.dns.length > 0
+        ? this.localNetInfo.netinfo.dns.join('/')
+        : '-';
     }
   },
   watch: {
@@ -497,164 +497,190 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
-.router-info {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 10px !important;
-  .section {
-    width: 33%;
-    padding: 0 10px;
-    margin-top: 20px;
-    height: 363px;
-    .section__inner {
-      background: #f1f1f1;
-      border-radius: 8px;
-      height: 100%;
+.internet {
+  .is-laptop {
+    visibility: visible;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    .header__uptime {
       display: flex;
-      flex-direction: column;
     }
-    .section__title {
-      margin: 0 20px;
-      padding: 12px 0;
-      font-size: 16px;
-      border-bottom: 1px solid #dbdbdb;
-    }
-    .section__body {
-      padding: 20px;
-      flex: 1;
-      &.section__body--row {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .btn-uptime {
+      display: flex;
+      align-items: center;
+      border-radius: 3px;
+      background-color: #ffebeb;
+      .btn-uptime__text {
+        font-size: 16px;
+        color: #d16e6e;
+        margin-left: 11px;
       }
     }
-  }
-  .item {
-    display: flex;
-    flex-direction: column;
-    + .item {
-      margin-top: 12px;
-    }
-    .item__label {
-      font-size: 14px;
-      color: #999;
-    }
-    .item__value {
-      font-size: 16px;
-      color: #333;
-      font-weight: bold;
-    }
-  }
-  .speed {
-    display: flex;
-    flex-direction: column;
-    & + .speed {
-      margin-left: 60px;
-    }
-    &.speed--traffic {
-      flex-direction: row;
-      .speed__item {
-        + .speed__item {
-          margin-top: 0px;
-          margin-left: 60px;
+    .running {
+      margin-left: 10px;
+      display: flex;
+      height: 38px;
+      box-sizing: border-box;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 3px;
+      border: solid 1px #ebebeb;
+      .running__date {
+        display: flex;
+        align-items: center;
+      }
+      .running__time {
+        font-size: 16px;
+        color: #333333;
+      }
+      .date {
+        .date__wrap {
+          .date__value {
+            margin-right: 2px;
+            font-size: 16px;
+            color: #333333;
+          }
+          .date__unit {
+            font-size: 16px;
+            color: #a3a3a3;
+          }
+        }
+        .date__splite-line {
+          width: 1px;
+          height: 14px;
+          margin: 0 10px;
+          border: solid 1px #ebebeb;
         }
       }
     }
-    .speed__item {
+    .speedtest {
+      background-color: #333333;
+      &.disabled {
+        background-color: #b2b2b2;
+      }
+    }
+  }
+  .main {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 25px;
+    .main__data {
+      border-radius: 8px;
+      background-color: #f1f1f1;
+      padding: 20px;
+    }
+    .trans-wrap {
       display: flex;
-      + .speed__item {
-        margin-top: 30px;
-      }
+      align-items: center;
+      justify-content: center;
+      width: 49%;
+      height: 200px;
     }
-    .speed__icon {
-      width: 10px;
-      height: 14.5px;
-      margin-right: 10px;
-      display: block;
-      top: 12px;
-      position: relative;
-      &.speed__icon--up {
-        background: url('../../../assets/images/icon/ic_upload.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--down {
-        background: url('../../../assets/images/icon/ic_download.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--trafficup {
-        width: 20px;
-        height: 29px;
-        background: url('../../../assets/images/icon/ic_upload.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--trafficdown {
-        width: 20px;
-        height: 29px;
-        background: url('../../../assets/images/icon/ic_download.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--peekdown {
-        width: 36px;
-        height: 36px;
-        background: url('../../../assets/images/icon/ic_fast_download.png')
-          no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--peekup {
-        width: 36px;
-        height: 36px;
-        background: url('../../../assets/images/icon/ic_fast_upload.png')
-          no-repeat;
-        background-size: 100% 100%;
-      }
-    }
-    .speed__right {
+    .trans {
       display: flex;
-      flex-direction: column;
-    }
-    .speed__title {
-      font-size: 14px;
-      color: #999;
-    }
-    .speed__value {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-    }
-  }
-  .speedtest-btn-wrap {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-  }
-  .releative {
-    position: relative;
-  }
-  .uptime {
-    .uptime__bg {
-      position: absolute;
-      width: 116px;
-      right: 0;
-      bottom: 0;
-    }
-    .uptime__top {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .uptime__value {
-    }
-    .uptime__unit {
-      margin-left: 5px;
-      font-size: 14px;
-      font-weight: normal;
-    }
-    .uptime__bottom {
-      font-size: 24px;
-      font-weight: bold;
-      &.padding-top {
-        padding-top: 10px;
+      .trans__right {
+        margin-left: 40px;
       }
+      .trans__layout {
+        display: flex;
+        align-items: center;
+      }
+      .trans__download {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10px;
+        span {
+          display: inline-block;
+        }
+      }
+      .trans__download--current {
+        &.label {
+          span {
+            width: 100px;
+            text-align: center;
+          }
+          .label__key {
+            font-size: 16px;
+            color: #999;
+          }
+          .label__value {
+            font-size: 48px;
+            color: #333;
+          }
+          .label__unit {
+            font-size: 14px;
+            color: #333;
+          }
+        }
+      }
+      .trans__download--peack,
+      .trans__download--total {
+        &.label {
+          .label__key {
+            font-size: 14px;
+            color: #999;
+          }
+          .label__value {
+            font-size: 24px;
+            color: #333;
+          }
+          .label__unit {
+            font-size: 14px;
+            color: #333;
+            margin-left: 4px;
+          }
+          .label__wrap {
+            margin-bottom: 2px;
+          }
+        }
+      }
+    }
+    .wan {
+      margin-top: 30px;
+      width: 100%;
+      padding: 15px 20px;
+      .wan__title {
+        font-size: 16px;
+        color: #3a3a3a;
+        padding-bottom: 15px;
+        border-bottom: solid 1px #dbdbdb;
+      }
+      .wan__table {
+        padding: 22px 0;
+        .table {
+          display: flex;
+          .table__item {
+            width: 20%;
+            .item {
+              display: flex;
+              flex-direction: column;
+              font-size: 14px;
+              .item__key {
+                color: #a3a3a3;
+              }
+              .item__value {
+                margin-top: 10px;
+                color: #333;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .icon {
+    &.icon__time {
+      width: 18px;
+      height: 18px;
+    }
+    &.icon__download {
+      width: 32px;
+      height: 32px;
     }
   }
   .speed-model-info {
@@ -804,26 +830,113 @@ export default {
     }
   }
 }
+
 @media screen and (min-width: 769px) and (max-width: 1280px) {
-  .router-info {
-    .section {
-      width: 50%;
+  .internet {
+    .main {
+      .trans {
+        .trans__right {
+          margin-left: 15px;
+        }
+      }
     }
   }
 }
 @media screen and (max-width: 768px) {
-  .router-info {
-    .section {
-      width: 100%;
-      padding: 0;
-      .section__title {
-        margin: 0 16px;
-        padding: 16px 0;
+  .internet {
+    .is-laptop {
+      visibility: hidden;
+    }
+    .header {
+      margin-top: 20px;
+    }
+    .main {
+      margin-top: 30px;
+      .trans-wrap {
+        width: 100%;
+        height: 152px;
+        &:nth-child(2) {
+          margin-top: 20px;
+        }
+      }
+      .trans {
+        .trans__right {
+          margin-left: 50px;
+        }
+        .trans__download {
+          margin-left: 5px;
+        }
+        .trans__download--current {
+          &.label {
+            span {
+              width: 60px;
+            }
+            .label__key {
+              font-size: 12px;
+            }
+            .label__value {
+              font-size: 32px;
+            }
+            .label__unit {
+              font-size: 12px;
+            }
+          }
+        }
+        .trans__download--peack,
+        .trans__download--total {
+          &.label {
+            .label__key {
+              font-size: 12px;
+            }
+            .label__value {
+              font-size: 12px;
+            }
+            .label__unit {
+              font-size: 14px;
+              margin-left: 2px;
+            }
+          }
+        }
+      }
+      .wan {
+        margin-top: 20px;
+        padding: 13px 16px;
+        .wan__title {
+          padding-bottom: 13px;
+          border-bottom: solid 1px #dbdbdb;
+        }
+        .wan__table {
+          padding: 20px 0;
+          .table {
+            display: flex;
+            .table__item {
+              width: 100%;
+              + .table__item {
+                margin-bottom: 12px;
+              }
+              .item {
+                .item__key {
+                  color: #a3a3a3;
+                }
+                .item__value {
+                  margin-top: 2px;
+                  color: #333;
+                }
+              }
+            }
+          }
+        }
       }
     }
-    .speedtest-btn-wrap {
-      left: 50%;
-      transform: translateX(-50%);
+    .icon {
+      &.icon__time {
+        width: 14px;
+        height: 14px;
+      }
+      &.icon__download {
+        width: 28px;
+        height: 28px;
+      }
     }
     .speed-model-info {
       .speed-content {
