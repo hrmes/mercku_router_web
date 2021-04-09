@@ -21,10 +21,12 @@ body {
 body {
   overflow: hidden;
 }
+
 // fix safari placeholder not vertical align
 input::-webkit-input-placeholder {
   line-height: normal !important;
 }
+
 input::-webkit-credentials-auto-fill-button {
   display: none !important;
   visibility: hidden;
@@ -48,9 +50,11 @@ input::-webkit-credentials-auto-fill-button {
 input::-webkit-input-placeholder {
   color: #bdbdbd;
 }
+
 * {
   -webkit-overflow-scrolling: touch;
 }
+
 ::-ms-clear,
 ::-ms-reveal {
   display: none;
@@ -119,6 +123,7 @@ input::-webkit-input-placeholder {
     display: none;
   }
 }
+
 label.with-colon {
   margin-right: 5px;
 }
@@ -132,6 +137,7 @@ label.with-colon {
   height: 16px;
   background-color: transparent;
   border-radius: 100%;
+
   &::after {
     content: '';
     position: absolute;
@@ -164,6 +170,7 @@ label.with-colon {
       padding: 20px;
     }
   }
+
   .form {
     width: 100%;
 
@@ -171,9 +178,11 @@ label.with-colon {
       width: 100%;
     }
   }
+
   .form-button {
     width: 100%;
   }
+
   .table {
     display: flex;
     flex-direction: column-reverse;
@@ -199,4 +208,5 @@ label.with-colon {
     }
   }
 }
+
 /**=============================E页面级公共样式=======================================**/

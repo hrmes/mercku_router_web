@@ -1,13 +1,21 @@
 <template>
   <div class="internet">
-    <div class="header">
+    <div class="header clearfix">
       <div class="header__uptime">
-        <button class="btn btn-middle btn-uptime">
+        <button class="btn btn-middle btn-uptime"
+                @click="openRunning">
           <m-icon name="time"
                   class="icon icon__time"></m-icon>
           <span class="btn-uptime__text">{{$t('trans0537')}}</span>
+          <m-icon name="dropdown_red"
+                  class="icon icon__triangle btn-uptime__triangle is-mobile"
+                  :class="{
+                    'btn-uptime__triangle--open': isMobileShowRunning,
+                    'btn-uptime__triangle--close': !isMobileShowRunning
+                  }"></m-icon>
         </button>
-        <div class="running is-laptop">
+        <div class="running"
+             v-show="isMobileShowRunning">
           <template v-if="uptimeArr[1]&&uptimeArr[1].length>0">
             <div v-for="(bm, index) in uptimeArr[1]"
                  :key="index"
@@ -229,13 +237,20 @@ export default {
       wanNetStatsTimer: null,
       speedTestTimer: null,
       wanInfoTimer: null,
-      uptimeTimer: null
+      uptimeTimer: null,
+      isMobile: false,
+      isMobileShowRunning: true
     };
   },
   mounted() {
     this.getWanNetInfo();
     this.createIntervalTask();
     this.getRouteMeta();
+    this.getIsMobile();
+    window.addEventListener('resize', this.getIsMobile);
+  },
+  beforeDestory() {
+    window.removeEventListener('resize', this.getIsMobile);
   },
   computed: {
     isRouter() {
@@ -389,9 +404,32 @@ export default {
       if (this.isRouter) {
         this.createIntervalTask();
       }
+    },
+    isMobile(val) {
+      this.isMobileShowRunning = !val;
     }
   },
   methods: {
+    openRunning() {
+      if (!this.isMobile) {
+        return;
+      }
+      this.isMobileShowRunning = !this.isMobileShowRunning;
+    },
+    getIsMobile() {
+      let w = 0;
+      if (window.innerWidth) {
+        w = window.innerWidth;
+      }
+      if (document.documentElement && document.documentElement.clientWidth) {
+        w = document.documentElement.clientWidth;
+      }
+      if (w <= 768) {
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+    },
     getRouteMeta() {
       this.$http.getRouter().then(res => {
         this.routerMeta = res.data.result;
@@ -500,17 +538,16 @@ export default {
 
 <style lang="scss">
 .internet {
-  .is-laptop {
-    visibility: visible;
-  }
   .header {
-    display: flex;
-    justify-content: space-between;
     .header__uptime {
-      display: flex;
+      display: inline-flex;
+      align-items: center;
+    }
+    .header__speedtest {
+      float: right;
     }
     .btn-uptime {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       border-radius: 3px;
       background-color: #ffebeb;
@@ -519,10 +556,20 @@ export default {
         color: #d16e6e;
         margin-left: 11px;
       }
+      .btn-uptime__triangle {
+        margin-left: 4px;
+        transition: transform 0.2s linear;
+        &.btn-uptime__triangle--open {
+          transform: rotate(180deg);
+        }
+        &.btn-uptime__triangle--close {
+          transform: rotate(0);
+        }
+      }
     }
     .running {
       margin-left: 10px;
-      display: flex;
+      display: inline-flex;
       height: 38px;
       box-sizing: border-box;
       align-items: center;
@@ -553,7 +600,7 @@ export default {
           width: 1px;
           height: 14px;
           margin: 0 10px;
-          border: solid 1px #ebebeb;
+          background-color: #ebebeb;
         }
       }
     }
@@ -681,6 +728,10 @@ export default {
     &.icon__download {
       width: 32px;
       height: 32px;
+    }
+    &.icon__triangle {
+      width: 20px;
+      height: 20px;
     }
   }
   .speed-model-info {
@@ -829,6 +880,21 @@ export default {
       }
     }
   }
+  .clearfix {
+    zoom: 1;
+
+    &::after {
+      content: '';
+      display: table;
+      clear: both;
+    }
+  }
+  .is-mobile {
+    display: none;
+  }
+  .is-laptop {
+    display: inline-block;
+  }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1280px) {
@@ -844,11 +910,40 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .internet {
-    .is-laptop {
-      visibility: hidden;
-    }
     .header {
       margin-top: 20px;
+      .header__uptime {
+        position: relative;
+      }
+      .running {
+        position: absolute;
+        left: 0;
+        top: 48px;
+        border-radius: 3px;
+        border: solid 1px #ebebeb;
+        background-color: #ffffff;
+        margin-left: 0;
+        z-index: 100;
+        white-space: nowrap;
+        .running__time {
+          font-size: 14px;
+        }
+        .date {
+          .date__wrap {
+            .date__value {
+              font-size: 14px;
+              color: #333;
+            }
+            .date__unit {
+              font-size: 14px;
+              color: #a3a3a3;
+            }
+          }
+          .date__splite-line {
+            margin: 0 5px;
+          }
+        }
+      }
     }
     .main {
       margin-top: 30px;
@@ -968,6 +1063,12 @@ export default {
           margin: 0 auto;
         }
       }
+    }
+    .is-mobile {
+      display: inline-block;
+    }
+    .is-laptop {
+      display: none;
     }
   }
 }
