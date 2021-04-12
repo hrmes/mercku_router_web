@@ -182,7 +182,6 @@ export const privateIpReg = ip => {
   const AIPMask = IPAReg.test(ip) && ipRule(ip, masks.A);
   const BIPMask = IPBReg.test(ip) && ipRule(ip, masks.B);
   const CIPMask = IPCReg.test(ip) && ipRule(ip, masks.C);
-  debugger;
   return AIPMask || BIPMask || CIPMask;
 };
 export const compareVersion = (version1, version2) => {
