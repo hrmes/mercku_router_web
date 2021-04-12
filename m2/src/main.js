@@ -1,20 +1,25 @@
 import Vue from 'vue';
-import loading from 'components/loading/index';
-import upgradeComponent from 'components/upgrade/index';
-import toast from 'components/toast/index';
-import dialog from 'components/dialog/index';
-import mProgress from 'components/progress/index.vue';
-import { formatSpeed, formatNetworkData, formatBandWidth } from '@/util/util';
-import upgradeHelper from '@/util/upgrade';
-import { changeLanguage, i18n, translate, toLocaleNumber } from './i18n';
-import router from './router';
-import App from './App.vue';
-import registerComponents from './register-components';
-import Http from './http';
+
+import upgradeHelper from 'base/util/upgrade';
+import {
+  formatSpeed,
+  formatNetworkData,
+  formatBandWidth
+} from 'base/util/util';
+import toast from 'base/component/toast/index';
+import dialog from 'base/component/dialog/index';
+import mProgress from 'base/component/progress/index.vue';
+import upgradeComponent from 'base/component/upgrade/index';
+import loading from 'base/component/loading/index';
+import App from 'base/App.vue';
+import registerComponents from 'base/register-components';
 import store from './store';
+import Http from './http';
+import i18nInstance from './i18n';
+import router from './router';
 
 // 不同客户特别的样式表
-require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
+require(`base/style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
 
 const launch = () => {
   const http = new Http();
@@ -36,7 +41,7 @@ const launch = () => {
     if (opt.showLoading) {
       loadingInstance = new (Vue.extend(mProgress))({
         propsData: {
-          label: translate('trans0315'),
+          label: i18nInstance.translate('trans0315'),
           during: opt.timeout
         }
       }).$mount();
@@ -88,8 +93,8 @@ const launch = () => {
   const upgrade = options => {
     upgrading = true;
     upgradeComponent.open({
-      title: translate('trans0212'),
-      tip: translate('trans0213')
+      title: i18nInstance.translate('trans0212'),
+      tip: i18nInstance.translate('trans0213')
     });
     const opt = {
       ...{
@@ -144,8 +149,8 @@ const launch = () => {
             if (!modeNotMatchDialogVisble) {
               modeNotMatchDialogVisble = true;
               dialog.info({
-                okText: translate('trans0024'),
-                message: translate('trans0583'),
+                okText: i18nInstance.translate('trans0024'),
+                message: i18nInstance.translate('trans0583'),
                 callback: {
                   ok: () => {
                     modeNotMatchDialogVisble = false;
@@ -157,7 +162,7 @@ const launch = () => {
 
             throw err;
           }
-          !options.hideToast && toast(translate(error.code));
+          !options.hideToast && toast(i18nInstance.translate(error.code));
         } else {
           router.push({ path: '/unconnect' });
         }
@@ -172,35 +177,43 @@ const launch = () => {
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
   Vue.prototype.$http = http;
-  Vue.prototype.changeLanguage = changeLanguage;
+  Vue.prototype.changeLanguage = i18nInstance.changeLanguage.bind(i18nInstance);
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
 
   Vue.prototype.formatNetworkData = value => {
     const result = formatNetworkData(value);
     return {
-      value: toLocaleNumber(result.value, i18n.locale),
+      value: i18nInstance.toLocaleNumber(
+        result.value,
+        i18nInstance.i18n.locale
+      ),
       unit: result.unit
     };
   };
   Vue.prototype.formatSpeed = value => {
     const result = formatSpeed(value);
     return {
-      value: toLocaleNumber(result.value, i18n.locale),
+      value: i18nInstance.toLocaleNumber(
+        result.value,
+        i18nInstance.i18n.locale
+      ),
       unit: result.unit
     };
   };
   Vue.prototype.formatBandWidth = value => {
     const result = formatBandWidth(value);
     return {
-      value: toLocaleNumber(result.value, i18n.locale),
+      value: i18nInstance.toLocaleNumber(
+        result.value,
+        i18nInstance.i18n.locale
+      ),
       unit: result.unit
     };
   };
-
   new Vue({
     el: '#web',
-    i18n,
+    i18n: i18nInstance.i18n,
     router,
     store,
     render: h => h(App)

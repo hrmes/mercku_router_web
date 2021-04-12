@@ -43,7 +43,7 @@
   </div>
 </template>
 <script>
-import { formatMac, isMac } from '@/util/util';
+import { formatMac, isMac } from 'base/util/util';
 
 export default {
   computed: {
@@ -77,12 +77,10 @@ export default {
     },
     format() {
       const cursorPosition = this.$refs.macInput.getCursorPosition();
-
       const beforeLength = this.mac.current.length;
       const mac = this.removeColonOfMac(this.mac.current);
       if (mac.length >= 2) {
         const result = mac.match(/.{1,2}/g).join(':');
-
         const afterLength = result.length;
         let diff = afterLength - beforeLength;
         this.$nextTick(() => {
