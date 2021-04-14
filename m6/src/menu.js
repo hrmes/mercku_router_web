@@ -59,6 +59,17 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA
       },
       {
+        text: 'trans0620',
+        name: 'ipv6',
+        url: '/setting/ipv6',
+        config: strategyA,
+        customers: {
+          [Customers.realnett]: {
+            show: false
+          }
+        }
+      },
+      {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
