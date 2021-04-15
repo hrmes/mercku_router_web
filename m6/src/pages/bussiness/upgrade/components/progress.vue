@@ -97,7 +97,6 @@ export default {
   },
   data() {
     return {
-      translate: i18nInstance.translate.bind(this),
       Statuses,
       status: '',
       node: {
@@ -129,12 +128,12 @@ export default {
         case Statuses.downloading:
         case Statuses.download_fail:
         case Statuses.installing:
-          text = translate('trans0385');
+          text = this.translate('trans0385');
           break;
         case Statuses.install_fail:
         case Statuses.install_success:
         case Statuses.install_timeout:
-          text = translate('trans0603');
+          text = this.translate('trans0603');
           break;
         default:
           text = '';
@@ -168,6 +167,9 @@ export default {
     }
   },
   methods: {
+    translate(...args) {
+      return i18nInstance.translate(args);
+    },
     afterLeave() {
       // const { parentNode } = this.$el;
       // parentNode.removeChild(this.$el);
