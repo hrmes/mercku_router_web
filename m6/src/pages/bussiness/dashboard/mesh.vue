@@ -202,8 +202,8 @@
 </template>
 <script>
 import marked from 'marked';
-import { formatMac, getStringByte } from '@/util/util';
-import { RouterStatus } from '@/util/constant';
+import { formatMac, getStringByte } from 'base/util/util';
+import { RouterStatus } from 'base/util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');

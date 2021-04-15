@@ -1,4 +1,4 @@
-import { Role, RouterMode, Customers } from '@/util/constant';
+import { Role, RouterMode, Customers } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 export default function getMenu(role, mode = RouterMode.router) {
@@ -207,9 +207,27 @@ export default function getMenu(role, mode = RouterMode.router) {
         }
       },
       {
-        url: '/advance/remote/tr069',
-        name: 'advance-remote',
-        text: 'trans0286',
+        url: '/advance/tr069',
+        name: 'advance.tr069',
+        text: 'trans0499',
+        config: {
+          show: true,
+          auth: [Role.super],
+          mode: [RouterMode.router]
+        },
+        customers: {
+          [Customers.mercku]: {
+            show: true
+          },
+          [Customers.realnett]: {
+            show: false
+          }
+        }
+      },
+      {
+        url: '/advance/telnet',
+        name: 'advance.telnet',
+        text: 'trans0497',
         config: {
           show: true,
           auth: [Role.super],

@@ -88,7 +88,7 @@
   </div>
 </template>
 <script>
-import { Weeks } from '@/util/constant';
+import { Weeks } from 'base/util/constant';
 
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();

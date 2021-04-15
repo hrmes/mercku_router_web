@@ -268,8 +268,8 @@
   </div>
 </template>
 <script>
-import { BlacklistMode } from '@/util/constant';
-import { formatMac, getStringByte, formatDate } from '@/util/util';
+import { BlacklistMode } from 'base/util/constant';
+import { formatMac, getStringByte, formatDate } from 'base/util/util';
 
 export default {
   data() {
@@ -438,7 +438,6 @@ export default {
             }
             return 0;
           }
-
           return a.online_info.online_duration - b.online_info.online_duration;
         });
       return newArr;
@@ -692,7 +691,6 @@ export default {
     align-items: center;
     padding-top: 20px;
     // padding-bottom: 0;
-
     .check-info {
       .m-check-all-box {
         display: none;
@@ -716,7 +714,6 @@ export default {
       }
     }
   }
-
   flex: auto;
   background: white;
   padding: 0 20px;
@@ -739,7 +736,6 @@ export default {
       li {
         text-decoration: none;
         list-style: none;
-
         display: flex;
         color: #333333;
         font-size: 14px;
@@ -807,6 +803,11 @@ export default {
         width: 150px;
       }
       .device-item {
+        .overflow-hidden {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         &.offline {
           span {
             &:last-child {
@@ -844,7 +845,6 @@ export default {
           }
         }
       }
-
       .table-head {
         height: 50px;
         background: #f1f1f1;
@@ -864,7 +864,6 @@ export default {
       }
       .des-inner {
         margin-top: 10px;
-
         .row {
           margin-right: 10px;
           display: inline-block;
@@ -884,7 +883,6 @@ export default {
       .name-inner {
         display: flex;
         justify-content: flex-start;
-
         a {
           flex: 1;
           text-align: left;
@@ -918,7 +916,6 @@ export default {
         .speed-wrap {
           display: flex;
           align-items: center;
-
           &:last-child {
             margin-top: 10px;
           }
@@ -1066,7 +1063,6 @@ export default {
         justify-content: space-between;
         align-items: center;
         // padding-bottom: 10px;
-
         width: 100%;
         .m-check-all-box {
           display: block;
@@ -1095,7 +1091,6 @@ export default {
       .table-inner {
         background: transparent;
         margin: 0;
-
         .column-check-box {
           width: auto;
           margin-left: 0;
@@ -1145,7 +1140,6 @@ export default {
                 padding: 0 20px;
                 &.off-name {
                   // padding: 0;
-
                   left: 0 !important;
                   a {
                     margin-left: 28px;
@@ -1219,10 +1213,8 @@ export default {
               .name-inner {
                 // height: 120px;
                 display: flex;
-
                 position: absolute;
                 align-items: center;
-
                 top: 0;
                 left: 0;
                 right: 0;
@@ -1311,7 +1303,6 @@ export default {
             .pc-mac {
               display: none;
             }
-
             span:first-child {
               display: block;
             }
