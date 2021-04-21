@@ -122,7 +122,7 @@
                        v-model="pppoeForm.dns2" />
             </m-form-item>
           </div>
-          <!-- <div class="pppoe-form__vlan">
+          <div class="pppoe-form__vlan">
             <div class="pppoe-form__label">
               <m-checkbox :rect="false"
                           :text="$t('trans0683')"
@@ -159,7 +159,7 @@
                           v-model="pppoeForm.vlan.ports[0].tagged"></m-switch>
               </m-form-item>
             </m-form>
-          </div> -->
+          </div>
         </m-form>
         <m-form key="static-form"
                 v-else-if="isStatic"
@@ -278,7 +278,7 @@ export default {
           ports: [
             {
               port: {
-                id: 0
+                id: 4
               },
               tagged: true
             }

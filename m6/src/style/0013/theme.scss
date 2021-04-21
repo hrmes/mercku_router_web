@@ -1,0 +1,16 @@
+// deine vars
+$primaryColor: #ff4000;
+// import theme after variables are defined
+@import '../theme-base.scss';
+
+// button
+$button-hover-color: #ff6633;
+$button-active-color: #cc3300;
+
+$button-default-active-text-color: #cc3300;
+$button-default-active-border-color: #cc3300;
+$button-default-hover-text-color: #ff6633;
+$button-default-hover-border-color: #ff6633;
+
+// header
+$header-background-color: #111;
