@@ -401,7 +401,12 @@ export default {
                 });
               } else {
                 this.$toast(this.$t('trans0040'), 3000, 'success');
-                this.routers = this.routers.filter(r => r.sn !== router.sn);
+                const node = this.routers.find(r => r.sn === router.sn);
+                node.status = RouterStatus.offline;
+                this.routers.forEach(r => {
+                  r.neighbors = r.neighbors.filter(rn => rn.sn !== node.sn);
+                });
+                this.drawTopo(this.routers);
               }
             });
           }
@@ -452,11 +457,10 @@ export default {
 
       const data = genData(routers);
       data.nodes.forEach(n => {
-        this.routers.forEach(r => {
-          if (n.sn === r.sn) {
-            this.$set(r, 'image', n.symbol.replace('image://', ''));
-          }
-        });
+        const node = this.routers.find(r => r.sn === n.sn);
+        if (node) {
+          this.$set(node, 'image', n.symbol.replace('image://', ''));
+        }
       });
       this.routers.forEach(r => {
         if (selected.includes(r.sn)) {
