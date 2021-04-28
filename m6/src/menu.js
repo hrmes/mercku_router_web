@@ -240,17 +240,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'advance.telnet',
         text: 'trans0497',
         config: {
-          show: true,
+          show: false,
           auth: [Role.super],
           mode: [RouterMode.router]
-        },
-        customers: {
-          [Customers.mercku]: {
-            show: false
-          },
-          [Customers.realnett]: {
-            show: false
-          }
         }
       }
     ]
