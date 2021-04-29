@@ -5,8 +5,8 @@ import login from 'pages/login/index.vue';
 import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
-import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
+import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
@@ -44,6 +44,7 @@ import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
+import internet from 'base/pages/bussiness/dashboard/internet.vue';
 
 Vue.use(Router);
 
@@ -135,6 +136,11 @@ const routes = {
       path: '/setting/wan',
       name: 'wan',
       component: wan
+    },
+    {
+      path: '/setting/ipv6',
+      name: 'ipv6',
+      component: ipv6
     },
     {
       path: '/setting/wifi',

@@ -16,3 +16,5 @@ mercku router pages, each router is in a directory.
 - make CUSTOMER_ID=xxxx MODEL=xxxx
   - CUSTOMER_ID should be oneof (0001 0002 0003 0004 0005 0006 0007)
   - MODEL should be oneof (M2R2 M6R0 M7R0)
+
+test

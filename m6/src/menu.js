@@ -59,6 +59,17 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA
       },
       {
+        text: 'trans0620',
+        name: 'ipv6',
+        url: '/setting/ipv6',
+        config: strategyA,
+        customers: {
+          [Customers.realnett]: {
+            show: false
+          }
+        }
+      },
+      {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
@@ -229,17 +240,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'advance.telnet',
         text: 'trans0497',
         config: {
-          show: true,
+          show: false,
           auth: [Role.super],
           mode: [RouterMode.router]
-        },
-        customers: {
-          [Customers.mercku]: {
-            show: false
-          },
-          [Customers.realnett]: {
-            show: false
-          }
         }
       }
     ]

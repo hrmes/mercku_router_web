@@ -68,8 +68,10 @@ function findGateway(source) {
 // 找绿色的节点
 function findGreenNode(root, source, visited) {
   let green = [];
+
   root.neighbors.forEach(n => {
     const node = source.find(s => s.sn === n.sn);
+
     if (visited.includes(node)) {
       return;
     }
