@@ -77,6 +77,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.realnett]: {
             auth: [Role.admin]
+          },
+          [Customers.fibrestream]: {
+            auth: [Role.admin]
           }
         }
       },
@@ -92,6 +95,10 @@ export default function getMenu(role, mode = RouterMode.router) {
           [Customers.realnett]: {
             show: true,
             auth: [Role.super]
+          },
+          [Customers.fibrestream]: {
+            show: true,
+            auth: [Role.super]
           }
         }
       },
@@ -105,7 +112,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0272',
         name: 'timezone',
         url: '/setting/timezone',
-        config: strategyA
+        config
       },
       {
         text: 'trans0639',
@@ -224,7 +231,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: {
           show: true,
           auth: [Role.super],
-          mode: [RouterMode.router]
+          mode: [RouterMode.router, RouterMode.bridge]
         },
         customers: {
           [Customers.mercku]: {

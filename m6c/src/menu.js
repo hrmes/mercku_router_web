@@ -94,7 +94,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0272',
         name: 'timezone',
         url: '/setting/timezone',
-        config: strategyA
+        config
       },
       {
         text: 'trans0639',

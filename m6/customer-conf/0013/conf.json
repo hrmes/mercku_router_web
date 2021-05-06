@@ -7,7 +7,7 @@
   "favicon": "customer-conf/0013/favicon.png",
   "policy": "http://www.fibrestream.ca/terms",
   "allow2LevelAdmin": true,
-  "languages": ["en-US", "fr-FR"],
+  "languages": ["en-US", "fr-FR", "zh-CN"],
   "defaultLanguage": "en-US",
   "routers": {
     "M2": {
