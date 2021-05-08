@@ -858,5 +858,15 @@
   "trans0863": "Long",
   "trans0864": "Copy URL",
   "trans0865": "After hiding the SSID, the Wi-Fi SSID will not be visible. You need to manually enter the Wi-Fi SSID to connect. At this time, you cannot add a new node to the Mesh network.",
-  "trans0866": "The speed test results are affected by many factors (such as the distance between the router and the speed test server, the busyness of the speed test server), the current value is for reference only"
+  "trans0866": "The speed test results are affected by many factors (such as the distance between the router and the speed test server, the busyness of the speed test server), the current value is for reference only",
+  "trans0867": " ",
+  "trans0868": " ",
+  "trans0869": "Help us understand",
+  "trans0870": "Select a layout that generally describes your home. We'll use it to give you suggestions on where to place your devices.",
+  "trans0871": " ",
+  "trans0872": "Shape",
+  "trans0873": "Floors",
+  "trans0874": "Square",
+  "trans0875": "Long",
+  "trans0876": "Billing & Support"
 }

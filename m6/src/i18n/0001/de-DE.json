@@ -795,7 +795,7 @@
   "trans0800": " ",
   "trans0801": "Neu hier？",
   "trans0802": "Ein Konto erstellen",
-  "trans0803": "-",
+  "trans0803": " ",
   "trans0804": "Anmelden mit Email",
   "trans0805": "E-Mail-Format ist falsch",
   "trans0806": "Diese E-Mail Adresse ist bereits registriert, ",
@@ -819,7 +819,7 @@
   "trans0824": "Hallo,\nVielen Dank, dass Sie ein Merckcu-Konto registriert haben.\nSie können den folgenden Code eingeben, um Folgendes zu verifizieren:\n\n(Um die Sicherheit Ihres Kontos zu schützen, \nschließen Sie bitte die Verifizierung innerhalb von 1 Stunde ab.)",
   "trans0825": "Antworten Sie nicht auf diese E-Mail; sie wurde automatisch von einer unkontrollierten E-Mail-Adresse gesendet.\nBei Rückfragen wenden Sie sich bitte an unseren technischen Support unter www.mercku.com.\n\n \nMit freundlichen Grüßen.\nMercku-Team",
   "trans0826": "Hallo,\nWir haben eine Anfrage zum Zurücksetzen des Passworts für Ihr Mercku-Konto erhalten. \nWenn Sie die Anforderung nicht übermittelt haben, ignorieren Sie bitte diese E-Mail und verwenden Sie weiterhin Ihr aktuelles Passwort.\n\nSie können diesen Code zur Verifizierung eingeben:\n \n\n(Um die Sicherheit Ihres Kontos zu schützen, \nschließen Sie bitte die Verifizierung innerhalb von 1 Stunde ab.)",
-  "trans0827": "-",
+  "trans0827": " ",
   "trans0828": "Wenn die oben genannten Maßnahmen das Problem nicht beheben können, wenden Sie sich bitte an den Support, wir werden Sie bei der Analyse des Problems Schritt für Schritt eingehend unterstützen.",
   "trans0829": "Anmeldemethode ändern",
   "trans0830": "Einloggen über Apple",
@@ -863,5 +863,12 @@
   "trans0868": " ",
   "trans0869": " ",
   "trans0870": " ",
-  "trans0871": " "
+  "trans0871": " ",
+  "trans0872": "Gestalten",
+  "trans0873": "Fußböden",
+  "trans0874": "Quadrat",
+  "trans0875": "Longue",
+  "trans0876": " ",
+  "trans0877": "Wi-Fi 5-Kompatibilität",
+  "trans0878": "Wenn einige Wi-Fi 5-Geräte (z. B. einige Laptops mit Intel-Netzwerkkarten) aufgrund ihrer älteren Treiber keine Wi-Fi 6-Signale scannen können, empfehlen wir, diesen Schalter einzuschalten"
 }

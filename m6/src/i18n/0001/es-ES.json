@@ -795,7 +795,7 @@
   "trans0800": " ",
   "trans0801": "¿Aún no tienes cuenta?",
   "trans0802": "Crear una cuenta",
-  "trans0803": "-",
+  "trans0803": " ",
   "trans0804": "Iniciar sesión con el correo electrónico",
   "trans0805": "El formato del email es incorrecto",
   "trans0806": "El correo electrónico ha sido registrado, ",
@@ -819,7 +819,7 @@
   "trans0824": "Hola\nGracias por registrar una cuenta Merkcu.\nPuede introducir este código para verificar:\n \n\n(Para proteger la seguridad de su cuenta, \npor favor, complete la verificación en el plazo de 1 hora).",
   "trans0825": "No responda a este correo electrónico; fue enviado desde una dirección de correo electrónico no supervisada.\nPara cualquier consulta, póngase en contacto con nuestro servicio técnico en www.mercku.com\n\n \nAtentamente,\nEl equipo de Mercku",
   "trans0826": "Hola,\nHemos recibido una solicitud para restablecer la contraseña de su cuenta Mercku. \nSi no ha enviado esta solicitud, puede ignorar este correo electrónico y seguir utilizando la misma contraseña.\n\nPuede introducir este código para verificar:\n \n\n(Para proteger la seguridad de su cuenta, \npor favor, complete la verificación en el plazo de 1 hora).",
-  "trans0827": "-",
+  "trans0827": " ",
   "trans0828": "Si con los métodos anteriores no ha podido solucionar el problema, por favor contacte con ayuda al cliente, le guiaremos para analizar el problema paso a paso en profundidad.",
   "trans0829": "Cambiar el método de inicio de sesión",
   "trans0830": "Iniciar sesión a través de Apple",
@@ -863,5 +863,12 @@
   "trans0868": " ",
   "trans0869": " ",
   "trans0870": " ",
-  "trans0871": " "
+  "trans0871": " ",
+  "trans0872": "Forma",
+  "trans0873": "Pisos",
+  "trans0874": "Cuadrado",
+  "trans0875": "Largo",
+  "trans0876": " ",
+  "trans0877": "Compatibilidad con Wi-Fi 5",
+  "trans0878": "Cuando algunos dispositivos Wi-Fi 5 (como algunas computadoras portátiles con tarjetas de red Intel) no pueden escanear señales de Wi-Fi 6 debido a sus controladores más antiguos, recomendamos activar este interruptor"
 }

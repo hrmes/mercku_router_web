@@ -795,7 +795,7 @@
   "trans0800": " ",
   "trans0801": "Nouveau?",
   "trans0802": "Créer un compte",
-  "trans0803": "-",
+  "trans0803": " ",
   "trans0804": "Se connecter avec l'adresse email",
   "trans0805": "Le format de l'adresse email est incorrect",
   "trans0806": "L'adresse email a été enregistrée, ",
@@ -819,7 +819,7 @@
   "trans0824": "Salut,\nMerci d'avoir créé un compte Merkcu.\nVous pouvez entrer ce code pour vérifier :\n \n\n(Afin de protéger la sécurité de votre compte, \nveuillez effectuer la vérification dans un délai de 1 heure).\"",
   "trans0825": "Ne répondez pas à cet email ; il a été envoyé depuis une adresse email non surveillée.\nPour toute question, veuillez contacter notre support technique à l'adresse www.mercku.com.\n\n \nCordialement,\nL'équipe Mercku",
   "trans0826": "Salut,\nNous avons reçu une demande de réinitialisation du mot de passe de votre compte Mercku. \nSi vous n'avez pas soumis la demande, veuillez ne pas tenir compte de cet e-mail et continuer à utiliser votre mot de passe actuel.\n\nVous pouvez entrer ce code pour vérifier :\n \n\n(Afin de protéger la sécurité de votre compte, \nveuillez effectuer la vérification dans un délai d'une heure).",
-  "trans0827": "-",
+  "trans0827": " ",
   "trans0828": "Si les solutions ci-dessus ne permettent toujours pas de résoudre le problème, veuillez contacter l'assistance technique. Nous vous aiderons à analyser le problème en profondeur, étape par étape.",
   "trans0829": "Changer de méthode de connexion",
   "trans0830": "Se connecter via Apple",
@@ -863,5 +863,12 @@
   "trans0868": " ",
   "trans0869": " ",
   "trans0870": " ",
-  "trans0871": " "
+  "trans0871": " ",
+  "trans0872": "Façonner",
+  "trans0873": "Planchers",
+  "trans0874": "Carré",
+  "trans0875": "Long",
+  "trans0876": "Facturation et assistance",
+  "trans0877": "Compatibilité Wi-Fi 5",
+  "trans0878": "Lorsque certains périphériques Wi-Fi 5 (tels que certains ordinateurs portables équipés de cartes réseau Intel) ne peuvent pas analyser les signaux Wi-Fi 6 en raison de leurs pilotes plus anciens, nous vous recommandons d'activer ce commutateur."
 }

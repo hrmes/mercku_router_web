@@ -13,6 +13,14 @@
         </div>
         <div class="smart-connect__tip">{{ $t('trans0398') }}</div>
       </div>
+      <div class="smart-connect">
+        <div class="smart-connect__inner">
+          <label class="smart-connect__label">{{ $t('trans0877') }}</label>
+          <m-switch class="smart-connect__switch"
+                    v-model="form.compatibility_mode" />
+        </div>
+        <div class="smart-connect__tip">{{ $t('trans0878') }}</div>
+      </div>
       <m-form class="form"
               ref="b24gForm"
               key="b24gform"
@@ -189,6 +197,7 @@ export default {
     return {
       form: {
         smart_connect: true,
+        compatibility_mode: false,
         b24g: {
           ssid: '',
           password: '',
@@ -353,6 +362,7 @@ export default {
               };
               const wifi = {
                 smart_connect: this.form.smart_connect,
+                compatibility_mode: this.form.compatibility_mode,
                 bands: {
                   [Bands.b24g]: b24g,
                   [Bands.b5g]: b5g
@@ -410,6 +420,7 @@ export default {
 
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
+          this.form.compatibility_mode = wifi.compatibility_mode;
 
           this.$loading.close();
         })
