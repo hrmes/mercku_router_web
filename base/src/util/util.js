@@ -44,14 +44,13 @@ export const isFieldHasComma = value => {
 };
 
 export const isValidInteger = (value, min = 8, max = 24) => {
-  if (!value) {
-    return false;
+  let flag = true;
+  const reg = /^-?[1-9]\d*$/;
+  const val = Number(value);
+  if (!reg.test(value) || val < min || val > max) {
+    flag = false;
   }
-  if (value.length < min || value.length > max) {
-    return false;
-  }
-  const passwordRuleReg = /^[a-zA-Z0-9\s!"#$%&'()*+,-./:;<=>?@[\\\]^_`{|}~`]+$/;
-  return passwordRuleReg.test(value);
+  return flag;
 };
 export const isValidPassword = (value, min = 8, max = 24) => {
   if (!value) {

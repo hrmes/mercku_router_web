@@ -136,7 +136,9 @@ const commonMethods = {
   getSupportRegions: createMethod('mesh.region.supported.get'),
   setRegion: createMethod('mesh.region.update'),
   getUPNPEnabled: createMethod('mesh.upnp.enabled.get'),
-  setUPNPEnabled: createMethod('mesh.upnp.enabled.update')
+  setUPNPEnabled: createMethod('mesh.upnp.enabled.update'),
+  getMeshInfoWanNetIpv6: createMethod('mesh.info.wan.net.ipv6.get'),
+  updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update')
 };
 
 // 获取主页

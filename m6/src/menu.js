@@ -59,12 +59,26 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA
       },
       {
+        text: 'trans0620',
+        name: 'ipv6',
+        url: '/setting/ipv6',
+        config: strategyA,
+        customers: {
+          [Customers.realnett]: {
+            show: false
+          }
+        }
+      },
+      {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
         config,
         customers: {
           [Customers.realnett]: {
+            auth: [Role.admin]
+          },
+          [Customers.fibrestream]: {
             auth: [Role.admin]
           }
         }
@@ -81,6 +95,10 @@ export default function getMenu(role, mode = RouterMode.router) {
           [Customers.realnett]: {
             show: true,
             auth: [Role.super]
+          },
+          [Customers.fibrestream]: {
+            show: true,
+            auth: [Role.super]
           }
         }
       },
@@ -94,7 +112,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0272',
         name: 'timezone',
         url: '/setting/timezone',
-        config: strategyA
+        config
       },
       {
         text: 'trans0639',
@@ -213,7 +231,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: {
           show: true,
           auth: [Role.super],
-          mode: [RouterMode.router]
+          mode: [RouterMode.router, RouterMode.bridge]
         },
         customers: {
           [Customers.mercku]: {
@@ -229,17 +247,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'advance.telnet',
         text: 'trans0497',
         config: {
-          show: true,
+          show: false,
           auth: [Role.super],
           mode: [RouterMode.router]
-        },
-        customers: {
-          [Customers.mercku]: {
-            show: false
-          },
-          [Customers.realnett]: {
-            show: false
-          }
         }
       }
     ]

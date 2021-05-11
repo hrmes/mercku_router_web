@@ -8,7 +8,8 @@ export const Customers = {
   inverto: '0004',
   orion: '0005',
   realnett: '0006',
-  altima: '0007'
+  altima: '0007',
+  fibrestream: '0013'
 };
 export const IP = {
   IPv4: 'ipv4',
