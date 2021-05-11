@@ -65,12 +65,12 @@
                      :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="`${$t('trans0410')}${$t('trans0411')}`"
+            <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
                      v-model="local.username"
                      :placeholder="$t('trans0321')"></m-input>
           </m-form-item>
           <m-form-item>
-            <m-input :label="`${$t('trans0003')}${$t('trans0411')}`"
+            <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
                      type="password"
                      v-model="local.password"
                      :placeholder="$t('trans0321')"></m-input>
