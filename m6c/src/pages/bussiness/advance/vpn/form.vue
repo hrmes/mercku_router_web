@@ -41,7 +41,7 @@
           <m-form-item key="password"
                        class="item"
                        prop='password'>
-            <m-input :label="`${$t('trans0003')}${$t('trans0411')}`"
+            <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
                      type='password'
                      :placeholder="`${$t('trans0321')}`"
                      v-model="form.password"></m-input>

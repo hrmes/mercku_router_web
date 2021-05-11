@@ -14,7 +14,7 @@
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="allowed_ip">
-          <m-input :label="`${$t('trans0575')}${$t('trans0411')}`"
+          <m-input :label="`${$t('trans0575')} ${$t('trans0411')}`"
                    v-model="wwa.allowed_ip"
                    :placeholder="$t('trans0492')"></m-input>
         </m-form-item>
