@@ -181,6 +181,7 @@ export default {
           wan: this.wan
         })
         .then(() => {
+          this.pingEnabledInitialized = this.wan.ping.enabled;
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
