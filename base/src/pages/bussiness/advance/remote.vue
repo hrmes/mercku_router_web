@@ -87,24 +87,6 @@ export default {
       remoteShell: {
         telnet: false,
         ssh: false
-      },
-      localRules: {
-        port: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0478')
-          }
-        ],
-        path: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
-        ]
       }
     };
   },
