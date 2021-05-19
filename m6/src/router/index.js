@@ -19,9 +19,9 @@ import guest from 'pages/bussiness/setting/guest.vue';
 import remote from 'pages/bussiness/advance/remote.vue';
 import auto from 'pages/bussiness/upgrade/auto.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
-import tr069 from 'pages/bussiness/advance/tr069.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 
+import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';

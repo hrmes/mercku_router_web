@@ -8,9 +8,9 @@
       <div class="tabs-container"
            :class="{'show':dropdownVisible}">
         <m-tabs class="tabs">
-          <m-tab :class="{'selected':isTR069}"
+          <!-- <m-tab :class="{'selected':isTR069}"
                  @click.native="forward2page('/advance/remote/tr069')">{{$t('trans0499')}}
-          </m-tab>
+          </m-tab> -->
           <m-tab :class="{'selected':isTFTP}"
                  @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
           </m-tab>
