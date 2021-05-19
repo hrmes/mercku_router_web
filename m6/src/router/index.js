@@ -16,7 +16,6 @@ import meshAdd from 'pages/bussiness/mesh/add.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
-import remote from 'pages/bussiness/advance/remote.vue';
 import auto from 'pages/bussiness/upgrade/auto.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
@@ -267,11 +266,6 @@ const routes = {
       name: 'advance-vpn-form',
       component: vpnForm
     },
-    // {
-    //   path: '/advance/remote/:category',
-    //   name: 'advance-remote',
-    //   component: remote
-    // },
     {
       path: '/advance/tr069',
       name: 'advance.tr069',

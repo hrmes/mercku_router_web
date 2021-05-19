@@ -16,10 +16,11 @@ import meshAdd from 'pages/bussiness/mesh/add.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
-import remote from 'pages/bussiness/advance/remote.vue';
 import auto from 'pages/bussiness/upgrade/auto.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
+import telnet from 'pages/bussiness/advance/telnet.vue';
 
+import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
@@ -260,9 +261,14 @@ const routes = {
       component: vpnForm
     },
     {
-      path: '/advance/remote/:category',
-      name: 'advance-remote',
-      component: remote
+      path: '/advance/tr069',
+      name: 'advance.tr069',
+      component: tr069
+    },
+    {
+      path: '/advance/telnet',
+      name: 'advance.telnet',
+      component: telnet
     },
     {
       path: '/advance/mode',
