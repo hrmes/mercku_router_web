@@ -8,9 +8,6 @@
       <div class="tabs-container"
            :class="{'show':dropdownVisible}">
         <m-tabs class="tabs">
-          <m-tab :class="{'selected':isTR069}"
-                 @click.native="forward2page('/advance/remote/tr069')">{{$t('trans0499')}}
-          </m-tab>
           <m-tab :class="{'selected':isTFTP}"
                  @click.native="forward2page('/advance/remote/tftp')">{{$t('trans0503')}}
           </m-tab>
@@ -21,71 +18,6 @@
     </div>
 
     <div class="page-content">
-      <div v-if="isTR069">
-        <m-form ref="remote"
-                class="form"
-                :model="remote"
-                :rules="remoateRules">
-          <div class="title">{{$t('trans0491')}}</div>
-          <m-form-item prop="url">
-            <m-input :label="`${$t('trans0498')}`"
-                     v-model="remote.url"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <m-form-item prop="username">
-            <m-input :label="$t('trans0410')"
-                     v-model="remote.username"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <m-form-item prop="password">
-            <m-input :label="$t('trans0003')"
-                     type="password"
-                     v-model="remote.password"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <m-form-item prop="interval">
-            <m-input :label="$t('trans0490')"
-                     v-model="remote.interval"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-        </m-form>
-        <m-form ref="local"
-                class="form"
-                :model="local"
-                :rules="localRules">
-          <div class="title">{{$t('trans0493')}}</div>
-          <m-form-item prop="path">
-            <m-input :label="$t('trans0494')"
-                     v-model="local.path"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <m-form-item prop="port">
-            <m-input :label="$t('trans0495')"
-                     v-model="local.port"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <m-form-item>
-            <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
-                     v-model="local.username"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <m-form-item>
-            <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
-                     type="password"
-                     v-model="local.password"
-                     :placeholder="$t('trans0321')"></m-input>
-          </m-form-item>
-          <div class="form-item">
-            <m-checkbox :text="$t('trans0462')"
-                        v-model="enabled"></m-checkbox>
-          </div>
-
-        </m-form>
-        <div class="form-button">
-          <button class="btn btn-primary"
-                  @click="updateTr069">{{$t('trans0081')}}</button>
-        </div>
-      </div>
       <div v-if="isTFTP">
         <m-form class="form"
                 :model="tftp"
@@ -152,76 +84,9 @@ export default {
         ]
       },
       enabled: true,
-      remote: {
-        username: '',
-        password: '',
-        interval: '',
-        url: ''
-      },
-      local: {
-        port: '',
-        path: '',
-        username: '',
-        password: ''
-      },
       remoteShell: {
         telnet: false,
         ssh: false
-      },
-      remoateRules: {
-        url: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
-        ],
-        username: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
-        ],
-        interval: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => /^\d*$/g.test(value),
-            message: this.$t('trans0500')
-          },
-          {
-            rule: value => {
-              const v = parseInt(value, 10);
-              if (Number.isNaN(v)) {
-                return false;
-              }
-              if (v <= 0 || v > 999999999) {
-                return false;
-              }
-              return true;
-            },
-            message: this.$t('trans0500')
-          }
-        ]
-      },
-      localRules: {
-        port: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => portReg.test(value),
-            message: this.$t('trans0478')
-          }
-        ],
-        path: [
-          {
-            rule: value => value,
-            message: this.$t('trans0232')
-          }
-        ]
       }
     };
   },
@@ -248,11 +113,6 @@ export default {
     this.$http.getSSHEnabled().then(res => {
       this.remoteShell.ssh = res.data.result.enabled;
     });
-    this.$http.getTr069().then(res => {
-      this.remote = res.data.result.remote;
-      this.local = res.data.result.local;
-      this.enabled = res.data.result.enabled;
-    });
     this.$http.getTFTP().then(res => {
       this.tftp = res.data.result;
     });
@@ -263,40 +123,6 @@ export default {
     },
     forward2page(url) {
       this.$router.push({ path: url });
-    },
-    updateTr069() {
-      if (this.$refs.remote.validate() && this.$refs.local.validate()) {
-        this.$loading.open();
-        const remote = {
-          username: this.remote.username,
-          interval: Number(this.remote.interval),
-          url: this.remote.url
-        };
-        const local = {
-          username: this.local.username,
-          port: Number(this.local.port),
-          path: this.local.path
-        };
-        if (this.remote.password) {
-          remote.password = this.remote.password;
-        }
-        if (this.local.password) {
-          local.password = this.local.password;
-        }
-        this.$http
-          .updateTr069({
-            remote,
-            local,
-            enabled: this.enabled
-          })
-          .then(() => {
-            this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
-      }
     },
     updateTelnet(v) {
       this.$loading.open();
