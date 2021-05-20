@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-import { isValidFieldLength, isValidPassword } from 'base/util/util';
+import { isValidPassword, getStringByte } from 'base/util/util';
 
 export default {
   data() {
@@ -75,7 +75,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => isValidFieldLength(value),
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0228')
           }
         ],
@@ -85,7 +85,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => isValidFieldLength(value),
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0261')
           }
         ],
