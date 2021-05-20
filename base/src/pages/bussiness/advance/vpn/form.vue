@@ -39,7 +39,8 @@
                      v-model="form.username" />
           </m-form-item>
           <m-form-item key="password"
-                       class="item">
+                       class="item"
+                       prop='password'>
             <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
                      type='password'
                      :placeholder="`${$t('trans0321')}`"
@@ -106,8 +107,8 @@
                        v-model="form.password"></m-input>
             </m-form-item>
           </div>
-
         </div>
+
       </m-form>
       <div class="btn-info form-button">
         <button class="btn"
@@ -119,7 +120,7 @@
 </template>
 <script>
 import { VPNType } from '../../../../util/constant';
-import { getStringByte } from '../../../../util/util';
+import { getStringByte, isValidPassword } from '../../../../util/util';
 
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {
@@ -155,11 +156,11 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           }
         ],
@@ -167,6 +168,10 @@ export default {
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => getStringByte(value) <= 64,
+            message: this.$t('trans0228')
           }
         ],
         username: [
@@ -181,8 +186,13 @@ export default {
         ],
         password: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
+            rule: value => {
+              if (!value) {
+                return true;
+              }
+              return isValidPassword(value, 1, 64);
+            },
+            message: this.$t('trans0125')
           }
         ]
       },
@@ -231,6 +241,7 @@ export default {
       return this.$route.params.id ? 'update' : 'add';
     },
     formParams() {
+      this.form.name = this.form.name.trim();
       const params = {
         id: this.form.id,
         name: this.form.name,
