@@ -23,7 +23,7 @@
         <m-form-item class="item"
                      prop="remoteIp"
                      ref="remoteIp">
-          <m-input :label="`${$t('trans0425')}${$t('trans0411')}`"
+          <m-input :label="`${$t('trans0425')} ${$t('trans0411')}`"
                    type="text"
                    :placeholder="$t('trans0492')"
                    v-model="form.remoteIp" />

@@ -14,14 +14,12 @@ import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
-import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
-import remote from 'pages/bussiness/advance/remote.vue';
 import auto from 'pages/bussiness/upgrade/auto.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
-import tr069 from 'pages/bussiness/advance/tr069.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 
+import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
@@ -34,6 +32,7 @@ import dmz from 'base/pages/bussiness/advance/dmz.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
 import vpn from 'base/pages/bussiness/advance/vpn/index.vue';
+import vpnForm from 'base/pages/bussiness/advance/vpn/form.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
@@ -268,11 +267,6 @@ const routes = {
       name: 'advance-vpn-form',
       component: vpnForm
     },
-    // {
-    //   path: '/advance/remote/:category',
-    //   name: 'advance-remote',
-    //   component: remote
-    // },
     {
       path: '/advance/tr069',
       name: 'advance.tr069',

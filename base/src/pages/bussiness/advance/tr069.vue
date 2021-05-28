@@ -4,11 +4,11 @@
       {{$t('trans0499')}}
     </div>
     <div class="page-content">
+      <div class="title">{{$t('trans0491')}}</div>
       <m-form ref="remote"
               class="form"
               :model="remote"
               :rules="remoteRules">
-        <div class="title">{{$t('trans0491')}}</div>
         <m-form-item prop="url">
           <m-input :label="`${$t('trans0498')}`"
                    v-model="remote.url"
@@ -31,11 +31,12 @@
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
       </m-form>
+      <div class="title">{{$t('trans0493')}}</div>
       <m-form ref="local"
               class="form"
               :model="local"
               :rules="localRules">
-        <div class="title">{{$t('trans0493')}}</div>
+
         <m-form-item prop="path">
           <m-input :label="$t('trans0494')"
                    v-model="local.path"
@@ -47,12 +48,12 @@
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item>
-          <m-input :label="`${$t('trans0410')}${$t('trans0411')}`"
+          <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
                    v-model="local.username"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item>
-          <m-input :label="`${$t('trans0003')}${$t('trans0411')}`"
+          <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
                    type="password"
                    v-model="local.password"
                    :placeholder="$t('trans0321')"></m-input>
@@ -73,7 +74,7 @@
 </template>
 
 <script>
-import { portReg } from 'base/util/util';
+import { portReg } from '../../../util/util';
 
 export default {
   data() {
@@ -223,13 +224,16 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    .title {
+      width: 100%;
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 30px;
+      font-weight: bold;
+      border-bottom: 1px solid #ebebeb;
+      padding-bottom: 17px;
+    }
     .form {
-      .title {
-        font-size: 14px;
-        color: #333;
-        margin-bottom: 30px;
-        font-weight: bold;
-      }
     }
   }
 }

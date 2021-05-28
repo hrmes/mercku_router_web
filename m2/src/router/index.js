@@ -43,6 +43,7 @@ import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
 import wps from 'base/pages/bussiness/setting/wps.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
+import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 
 Vue.use(Router);
 
@@ -261,6 +262,11 @@ export default new Router({
       path: '/advance/wwa',
       name: 'advance.wwa',
       component: wwa
+    },
+    {
+      path: '/advance/tr069',
+      name: 'advance.tr069',
+      component: tr069
     },
     {
       path: '/setting/led',

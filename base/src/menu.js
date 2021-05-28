@@ -214,7 +214,25 @@ export default function getMenu(role, mode = RouterMode.router) {
         }
       },
       {
-        url: '/advance/remote/tr069',
+        url: '/advance/tr069',
+        name: 'advance.tr069',
+        text: 'trans0499',
+        config: {
+          show: true,
+          auth: [Role.super],
+          mode: [RouterMode.router, RouterMode.bridge]
+        },
+        customers: {
+          [Customers.mercku]: {
+            show: true
+          },
+          [Customers.realnett]: {
+            show: false
+          }
+        }
+      },
+      {
+        url: '/advance/remote/tftp',
         name: 'advance-remote',
         text: 'trans0286',
         config: {
