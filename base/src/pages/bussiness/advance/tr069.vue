@@ -47,12 +47,12 @@
                    v-model="local.port"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item>
+        <m-form-item prop="username">
           <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
                    v-model="local.username"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item>
+        <m-form-item prop="password">
           <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
                    type="password"
                    v-model="local.password"
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { portReg } from '../../../util/util';
+import { portReg, getStringByte, isValidPassword } from '../../../util/util';
 
 export default {
   data() {
@@ -97,12 +97,30 @@ export default {
           {
             rule: value => value,
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => getStringByte(value) <= 64,
+            message: this.$t('trans0905')
           }
         ],
         username: [
           {
             rule: value => value,
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => getStringByte(value) <= 64,
+            message: this.$t('trans0261')
+          }
+        ],
+        password: [
+          {
+            rule: value => value,
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isValidPassword(value, 1, 64),
+            message: this.$t('trans0125')
           }
         ],
         interval: [
@@ -144,6 +162,22 @@ export default {
           {
             rule: value => value,
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => getStringByte(value) <= 64,
+            message: this.$t('trans0906')
+          }
+        ],
+        username: [
+          {
+            rule: value => getStringByte(value) <= 64,
+            message: this.$t('trans0261')
+          }
+        ],
+        password: [
+          {
+            rule: value => isValidPassword(value, 1, 64),
+            message: this.$t('trans0125')
           }
         ]
       }
