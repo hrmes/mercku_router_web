@@ -2,7 +2,8 @@
   &.header-container {
     .logo-wrap {
       .logo-wrap__logo {
-        background: url(../../assets/images/customer/inverto/inverto_logo.png) center no-repeat;
+        background: url(../../assets/images/customer/inverto/inverto_logo.png)
+          center no-repeat;
         background-size: 100%;
         width: 125px;
         height: 35px;
@@ -24,7 +25,8 @@
 
         // width: 138px !important;
         margin-bottom: 50px;
-        background: url(../../assets/images/customer/inverto/inverto_logo_text.png) no-repeat center;
+        background: url(../../assets/images/customer/inverto/inverto_logo_text.png)
+          no-repeat center;
         background-size: 100%;
       }
     }
@@ -40,7 +42,8 @@
         .logo {
           width: 195px;
           margin-bottom: 42px;
-          background: url(../../assetsimages/customer/inverto/inverto_logo_text.png) no-repeat center;
+          background: url(../../assets/images/customer/inverto/inverto_logo_text.png)
+            no-repeat center;
           background-size: 100%;
         }
       }
