@@ -81,7 +81,7 @@
               <m-popover position="bottom left"
                          style="top:-7px"
                          :title="this.$t('trans0110')"
-                         :content="this.$t('trans0325')">
+                         :content="form.smart_connect ? this.$t('trans0865'): this.$t('trans0325')">
                 <img width="14"
                      src="../../../assets/images/icon/ic_question.png"
                      alt="">
@@ -138,7 +138,7 @@
               <m-popover position="bottom left"
                          style="top:-7px"
                          :title="$t('trans0110')"
-                         :content="$t('trans0325')">
+                         :content="$t('trans0865')">
                 <img width="14"
                      src="../../../assets/images/icon/ic_question.png"
                      alt="">
