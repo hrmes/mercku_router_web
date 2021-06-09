@@ -28,7 +28,7 @@
                v-show="isStep(0)">
             <img src="@/assets/images/pic_add_m6_01.png"
                  alt="">
-            <p class="step-item__tip">{{$t('trans0634')}}</p>
+            <p class="step-item__tip">{{$t('trans0693')}}</p>
             <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
             <div class="button-container">
               <button @click="updateTipsVisible(true)"
