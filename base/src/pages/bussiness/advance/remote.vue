@@ -18,7 +18,8 @@
     </div>
 
     <div class="page-content">
-      <div v-if="isTFTP">
+      <div v-if="isTFTP"
+           key="tftp">
         <m-form class="form"
                 :model="tftp"
                 :rules="tftpRules"
@@ -39,7 +40,8 @@
                   @click="updateTFTP">{{$t('trans0081')}}</button>
         </div>
       </div>
-      <div v-if="isTelnet">
+      <div v-if="isTelnet"
+           key="telnet">
         <m-form class="form"
                 :model="remoteShell"
                 ref="remoteShell">
