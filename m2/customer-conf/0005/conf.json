@@ -1,5 +1,6 @@
 {
   "id": "0005",
+  "__host": "http://mywifi.mercku.tech",
   "host": "http://mywifi.laki.tech",
   "title": "Laki Wi-Fi",
   "accept": ".laki",
