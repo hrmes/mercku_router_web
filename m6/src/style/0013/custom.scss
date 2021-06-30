@@ -4,6 +4,14 @@
       .right-wrap {
         width: auto;
       }
+      .logo-wrap {
+        .logo-wrap__logo {
+          background: url(../../assets/images/customer/fiberstream/logo_navigation_bar_fibrestream_black@2x.png)
+            center no-repeat;
+          background-size: 100%;
+          width: 186px;
+        }
+      }
     }
     .logo-wrap {
       .logo-wrap__logo {
