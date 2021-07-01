@@ -216,7 +216,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         },
         customers: {
           [Customers.mercku]: {
-            show: true
+            show: false
           },
           [Customers.realnett]: {
             show: false
