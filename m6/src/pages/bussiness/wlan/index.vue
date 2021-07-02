@@ -9,22 +9,43 @@
     <div class="step-content">
       <div class="step-item step-item1"
            v-show="stepOption.current===0">
-        <m-form ref="form1"
-                :model="form1"
-                :rules="form1Rules">
+        <m-form ref="wifiForm"
+                :model="wifiForm"
+                :rules="wifiFormRules">
           <m-form-item class="form-item"
-                       prop="ssid">
-            <m-input :label="$t('trans0168')"
-                     :placeholder="$t('trans0321')"
-                     v-model="form1.ssid" />
+                       prop="smart_connect">
+            <m-switch :label="$t('trans0397')"
+                      @change="changeSmartConnect"
+                      v-model="wifiForm.smart_connect" />
           </m-form-item>
           <m-form-item class="form-item"
-                       prop="password">
+                       prop="ssid24g">
+            <m-input :label="$t('trans0168')"
+                     :placeholder="$t('trans0321')"
+                     v-model="wifiForm.ssid24g" />
+          </m-form-item>
+          <m-form-item class="form-item"
+                       prop="password24g">
             <m-input :label="$t('trans0172')"
                      type="password"
                      :placeholder="$t('trans0321')"
-                     v-model="form1.password" />
+                     v-model="wifiForm.password24g" />
           </m-form-item>
+          <template v-if="!wifiForm.smart_connect">
+            <m-form-item class="form-item"
+                         prop="ssid5g">
+              <m-input :label="$t('trans0168')"
+                       :placeholder="$t('trans0321')"
+                       v-model="wifiForm.ssid5g" />
+            </m-form-item>
+            <m-form-item class="form-item"
+                         prop="password5g">
+              <m-input :label="$t('trans0172')"
+                       type="password"
+                       :placeholder="$t('trans0321')"
+                       v-model="wifiForm.password5g" />
+            </m-form-item>
+          </template>
           <div class="button-container">
             <button @click="step1()"
                     class="btn">{{$t('trans0055')}}</button>
@@ -32,54 +53,26 @@
         </m-form>
 
       </div>
-      <div class="step-item step-item2"
-           v-show="stepOption.current===1">
-        <m-form ref="form2"
-                :model="form2"
-                :rules="form2Rules">
-          <m-form-item class="form-item"
-                       prop="admin_password">
-            <m-input :label="$t('trans0067')"
-                     type="password"
-                     :disabled="checked"
-                     :placeholder="$t('trans0321')"
-                     v-model="form2.admin_password" />
-          </m-form-item>
-          <m-form-item>
-            <m-checkbox class="checkbox"
-                        v-model="checked"
-                        @change="clearAdminPwd()"
-                        :text="$t('trans0293')"></m-checkbox>
-          </m-form-item>
-          <div class="button-container">
-            <button @click="step0()"
-                    class="btn btn-default ">{{$t('trans0057')}}</button>
-            <button @click="step2()"
-                    class="btn">{{$t('trans0081')}}</button>
-          </div>
-        </m-form>
-      </div>
       <div class="step-item step-item3"
-           v-show="stepOption.current===2">
+           v-show="stepOption.current===1">
         <m-loading :color="loadingColor"
                    :size="36"></m-loading>
         <p class="cutdown">{{countdown}}s</p>
-        <!-- <div class="tip">{{$t('trans0294')}}</div> -->
         <div class="tip"
              style="margin-top:5px;">{{$t('trans0171')}}</div>
         <div class="wifi-info">
           <div class="wifi-info-inner">
             <div>
               <span class="title">{{$t('trans0168')}}</span>:
-              <span class="value">{{form1.ssid}}</span>
+              <span class="value">{{wifiForm.ssid24g}}</span>
             </div>
             <div>
               <span class="title">{{$t('trans0172')}}</span>:
-              <span class="value">{{form1.password}}</span>
+              <span class="value">{{wifiForm.password24g}}</span>
             </div>
             <div>
               <span class="title">{{$t('trans0067')}}</span>:
-              <span class="value">{{form2.admin_password}}</span>
+              <span class="value">{{wifiForm.password24g}}</span>
             </div>
           </div>
         </div>
@@ -91,6 +84,7 @@
 </template>
 <script>
 import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
+import { Bands } from 'base/util/constant';
 
 export default {
   data() {
@@ -99,19 +93,20 @@ export default {
         current: 0,
         steps: [
           { text: '', success: true },
-          { text: '', success: false },
           { text: '', success: false }
         ]
       },
       current: 0,
-      checked: false,
       countdown: 60,
-      form1: {
-        ssid: '',
-        password: ''
+      wifiForm: {
+        smart_connect: false,
+        ssid24g: '',
+        password24g: '',
+        ssid5g: '',
+        password5g: ''
       },
-      form1Rules: {
-        ssid: [
+      wifiFormRules: {
+        ssid24g: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0237')
@@ -125,7 +120,7 @@ export default {
             message: this.$t('trans0451')
           }
         ],
-        password: [
+        password24g: [
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
@@ -134,11 +129,22 @@ export default {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
-        ]
-      },
-      form2: { admin_password: '' },
-      form2Rules: {
-        admin_password: [
+        ],
+        ssid5g: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0237')
+          },
+          {
+            rule: value => getStringByte(value) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
+          }
+        ],
+        password5g: [
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
@@ -152,22 +158,37 @@ export default {
     };
   },
   mounted() {
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-      });
+    // this.$http
+    //   .login(
+    //     { password: '' },
+    //     {
+    //       hideToast: true
+    //     }
+    //   )
+    //   .catch(() => {
+    //     // password is not empty, go to login page
+    //     this.$router.push({ path: '/login' });
+    //   });
+    this.$http.getMeshMeta().then(res => {
+      const wifi = res.data.result;
+      const b24g = wifi.bands[Bands.b24g];
+      const b5g = wifi.bands[Bands.b5g];
+      this.wifiForm.ssid24g = b24g.ssid;
+      this.wifiForm.password24g = b24g.password;
+      this.wifiForm.ssid5g = b5g.ssid;
+      this.wifiForm.password5g = b5g.password;
+      this.wifiForm.smart_connect = wifi.smart_connect;
+    });
   },
   methods: {
-    clearAdminPwd(v) {
-      if (!v) {
-        this.form2.admin_password = '';
+    changeSmartConnect(v) {
+      // 开关变化后
+      if (v) {
+        this.wifiForm.ssid5g = this.wifiForm.ssid24g;
+        this.wifiForm.password5g = this.wifiForm.password24g;
+      } else {
+        this.wifiForm.ssid5g = `${this.wifiForm.ssid24g}_5G`;
+        this.wifiForm.password5g = this.wifiForm.password24g;
       }
     },
     step0() {
@@ -175,18 +196,9 @@ export default {
       this.stepOption.steps[0].success = true;
     },
     step1() {
-      if (this.$refs.form1.validate()) {
+      if (this.$refs.wifiForm.validate()) {
         this.stepOption.current = 1;
         this.stepOption.steps[1].success = true;
-        // 默认勾选管理员密码与wifi密码一致
-        this.checked = true;
-        this.form2.admin_password = this.form1.password;
-      }
-    },
-    step2() {
-      if (this.$refs.form2.validate()) {
-        this.stepOption.current = 2;
-        this.stepOption.steps[2].success = true;
         const timer = setInterval(() => {
           this.countdown -= 1;
           if (this.countdown === 0) {
@@ -202,16 +214,16 @@ export default {
               wifi: {
                 bands: {
                   '2.4G': {
-                    ssid: this.form1.ssid,
-                    password: this.form1.password
+                    ssid: this.wifiForm.ssid24g,
+                    password: this.wifiForm.password24g
                   },
                   '5G': {
-                    ssid: this.form1.ssid,
-                    password: this.form1.password
+                    ssid: this.wifiForm.ssid5g,
+                    password: this.wifiForm.password5g
                   }
                 }
               },
-              admin: { password: this.form2.admin_password }
+              admin: { password: this.wifiForm.password24g }
             }
           })
           .then(() => {
@@ -228,13 +240,6 @@ export default {
               showLoading: false
             });
           });
-      }
-    }
-  },
-  watch: {
-    checked(newVal) {
-      if (newVal === true) {
-        this.form2.admin_password = this.form1.password;
       }
     }
   }
