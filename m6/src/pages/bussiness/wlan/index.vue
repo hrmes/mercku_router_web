@@ -27,7 +27,8 @@
                        prop="ssid24g">
             <m-input :label="$t('trans0168')"
                      :placeholder="$t('trans0321')"
-                     v-model="wifiForm.ssid24g" />
+                     v-model="wifiForm.ssid24g"
+                     :onBlur="onSsid24gChange" />
           </m-form-item>
           <m-form-item class="form-item"
                        :class="{
@@ -47,7 +48,8 @@
               <span class="form-header__title">{{$t('trans0679')}}</span>
             </div>
             <m-form-item class="form-item"
-                         prop="ssid5g">
+                         prop="ssid5g"
+                         ref="ssid5g">
               <m-input :label="$t('trans0168')"
                        :placeholder="$t('trans0321')"
                        v-model="wifiForm.ssid5g" />
@@ -79,7 +81,7 @@
             <span class="info__value">{{wifiForm.password24g}}</span>
           </div>
         </div>
-        <div class="tip tip-setting">{{$t('trans0921')}}</div>
+        <div class="tip tip-setting">{{tipsText}}</div>
         <div class="form-header"
              v-if="!wifiForm.smart_connect">
           <img class="form-header__img"
@@ -181,12 +183,7 @@ export default {
             message: this.$t('trans0451')
           },
           {
-            rule: value => {
-              if (!this.wifiForm.smart_connect && this.wifiForm.ssid24g) {
-                return this.wifiForm.ssid24g !== value;
-              }
-              return true;
-            },
+            rule: () => this.validateSsid5G(),
             message: this.$t('trans0660')
           }
         ],
@@ -202,6 +199,11 @@ export default {
         ]
       }
     };
+  },
+  computed: {
+    tipsText() {
+      return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
+    }
   },
   mounted() {
     this.$http
@@ -227,6 +229,17 @@ export default {
     });
   },
   methods: {
+    onSsid24gChange() {
+      if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
+        this.$refs.ssid5g.extraValidate(() => this.validateSsid5G(), this.$t('trans0660'));
+      }
+    },
+    validateSsid5G() {
+      if (!this.wifiForm.smart_connect && this.wifiForm.ssid24g) {
+        return this.wifiForm.ssid24g !== this.wifiForm.ssid5g;
+      }
+      return true;
+    },
     changeSmartConnect(v) {
       // 开关变化后
       if (v) {
