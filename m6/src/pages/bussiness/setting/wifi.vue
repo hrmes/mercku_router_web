@@ -320,7 +320,7 @@ export default {
   methods: {
     onSsid24gChange() {
       if (this.$refs.b5gssid && this.form.b5g.ssid) {
-        this.$refs.b5gssid.extraValidate(() => this.validateSsid5G(), this.$t('trans0660'));
+        this.$refs.b5gssid.extraValidate(this.validateSsid5G, this.$t('trans0660'));
       }
     },
     validateSsid5G() {

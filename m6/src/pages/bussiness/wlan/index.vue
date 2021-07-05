@@ -231,7 +231,7 @@ export default {
   methods: {
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
-        this.$refs.ssid5g.extraValidate(() => this.validateSsid5G(), this.$t('trans0660'));
+        this.$refs.ssid5g.extraValidate(this.validateSsid5G, this.$t('trans0660'));
       }
     },
     validateSsid5G() {
