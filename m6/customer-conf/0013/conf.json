@@ -1,7 +1,7 @@
 {
   "id": "0013",
-  "__host": "http://mywifi.fs",
-  "host": "http://mywifi.mercku.tech",
+  "host": "http://mywifi.fs",
+  "__host": "http://mywifi.mercku.tech",
   "title": "FibreStream Wi-Fi",
   "accept": ".fs",
   "favicon": "customer-conf/0013/favicon.png",

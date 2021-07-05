@@ -65,7 +65,6 @@
                     class="btn">{{$t('trans0055')}}</button>
           </div>
         </m-form>
-
       </div>
       <div class="step-item step-item3"
            v-show="stepOption.current===1">
@@ -223,10 +222,12 @@ export default {
       // 开关变化后
       if (v) {
         this.wifiForm.ssid5g = this.wifiForm.ssid24g;
+        this.wifiForm.password24g = '';
         this.wifiForm.password5g = this.wifiForm.password24g;
       } else {
         this.wifiForm.ssid5g = `${this.wifiForm.ssid24g}_5G`;
-        this.wifiForm.password5g = this.wifiForm.password24g;
+        this.wifiForm.password24g = '';
+        this.wifiForm.password5g = '';
       }
     },
     step0() {
@@ -235,6 +236,13 @@ export default {
     },
     step1() {
       if (this.$refs.wifiForm.validate()) {
+        if (!this.wifiForm.smart_connect) {
+          // 表单验证通过且ssid不一致
+          if (this.wifiForm.ssid24g === this.wifiForm.ssid5g) {
+            this.$toast(this.$t('trans0660'), 3000, 'error');
+            return;
+          }
+        }
         this.stepOption.current = 1;
         this.stepOption.steps[1].success = true;
         const timer = setInterval(() => {
@@ -244,7 +252,6 @@ export default {
             this.$router.push({ path: '/unconnect' });
           }
         }, 1000);
-
         // 提交表单
         this.$http
           .updateMeshConfig({
@@ -259,7 +266,8 @@ export default {
                     ssid: this.wifiForm.ssid5g,
                     password: this.wifiForm.password5g
                   }
-                }
+                },
+                smart_connect: this.wifiForm.smart_connect
               },
               admin: { password: this.wifiForm.password24g }
             }
