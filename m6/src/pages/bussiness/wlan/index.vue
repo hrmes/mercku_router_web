@@ -179,6 +179,15 @@ export default {
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
+          },
+          {
+            rule: value => {
+              if (!this.wifiForm.smart_connect && this.wifiForm.ssid24g) {
+                return this.wifiForm.ssid24g !== value;
+              }
+              return true;
+            },
+            message: this.$t('trans0660')
           }
         ],
         password5g: [
@@ -236,13 +245,6 @@ export default {
     },
     step1() {
       if (this.$refs.wifiForm.validate()) {
-        if (!this.wifiForm.smart_connect) {
-          // 表单验证通过且ssid不一致
-          if (this.wifiForm.ssid24g === this.wifiForm.ssid5g) {
-            this.$toast(this.$t('trans0660'), 3000, 'error');
-            return;
-          }
-        }
         this.stepOption.current = 1;
         this.stepOption.steps[1].success = true;
         const timer = setInterval(() => {
