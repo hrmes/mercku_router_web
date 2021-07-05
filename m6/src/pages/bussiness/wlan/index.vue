@@ -207,16 +207,16 @@ export default {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
       });
-    // this.$http.getMeshMeta().then(res => {
-    //   const wifi = res.data.result;
-    //   const b24g = wifi.bands[Bands.b24g];
-    //   const b5g = wifi.bands[Bands.b5g];
-    //   this.wifiForm.ssid24g = b24g.ssid;
-    //   this.wifiForm.password24g = b24g.password;
-    //   this.wifiForm.ssid5g = b5g.ssid;
-    //   this.wifiForm.password5g = b5g.password;
-    //   this.wifiForm.smart_connect = wifi.smart_connect;
-    // });
+    this.$http.getMeshMeta().then(res => {
+      const wifi = res.data.result;
+      const b24g = wifi.bands[Bands.b24g];
+      const b5g = wifi.bands[Bands.b5g];
+      this.wifiForm.ssid24g = b24g.ssid;
+      this.wifiForm.password24g = b24g.password;
+      this.wifiForm.ssid5g = b5g.ssid;
+      this.wifiForm.password5g = b5g.password;
+      this.wifiForm.smart_connect = wifi.smart_connect;
+    });
   },
   methods: {
     changeSmartConnect(v) {
