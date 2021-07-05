@@ -65,7 +65,6 @@
                     class="btn">{{$t('trans0055')}}</button>
           </div>
         </m-form>
-
       </div>
       <div class="step-item step-item3"
            v-show="stepOption.current===1">
@@ -180,6 +179,15 @@ export default {
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
+          },
+          {
+            rule: value => {
+              if (!this.wifiForm.smart_connect && this.wifiForm.ssid24g) {
+                return this.wifiForm.ssid24g !== value;
+              }
+              return true;
+            },
+            message: this.$t('trans0660')
           }
         ],
         password5g: [
@@ -223,10 +231,12 @@ export default {
       // 开关变化后
       if (v) {
         this.wifiForm.ssid5g = this.wifiForm.ssid24g;
+        this.wifiForm.password24g = '';
         this.wifiForm.password5g = this.wifiForm.password24g;
       } else {
         this.wifiForm.ssid5g = `${this.wifiForm.ssid24g}_5G`;
-        this.wifiForm.password5g = this.wifiForm.password24g;
+        this.wifiForm.password24g = '';
+        this.wifiForm.password5g = '';
       }
     },
     step0() {
@@ -244,7 +254,6 @@ export default {
             this.$router.push({ path: '/unconnect' });
           }
         }, 1000);
-
         // 提交表单
         this.$http
           .updateMeshConfig({
@@ -259,7 +268,8 @@ export default {
                     ssid: this.wifiForm.ssid5g,
                     password: this.wifiForm.password5g
                   }
-                }
+                },
+                smart_connect: this.wifiForm.smart_connect
               },
               admin: { password: this.wifiForm.password24g }
             }
