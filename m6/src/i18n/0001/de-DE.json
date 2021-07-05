@@ -912,5 +912,13 @@
   "trans0917": "Erweiterte Einstellungen",
   "trans0918": "Netzwerk Diagnose",
   "trans0919": "Senden",
-  "trans0920": "Testgeschwindigkeit"
+  "trans0920": "Testgeschwindigkeit",
+  "trans0921": "Das anfängliche Admin-Passwort ist das gleiche wie das 2,4-G-WLAN-Passwort und kann in den „Einstellungen“ geändert werden.",
+  "trans0922": "Das anfängliche Admin-Passwort ist das gleiche wie das Wi-Fi-Passwort und kann in den „Einstellungen“ geändert werden.",
+  "trans0923": "2.4G WLAN-Name",
+  "trans0924": "5G-WLAN-Name",
+  "trans0925": " ",
+  "trans0926": " ",
+  "trans0927": " ",
+  "trans0928": " "
 }

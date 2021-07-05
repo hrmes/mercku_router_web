@@ -912,5 +912,13 @@
   "trans0917": "More Advanced Settings",
   "trans0918": "Network Diagnosis",
   "trans0919": "Sending",
-  "trans0920": "Test speed"
+  "trans0920": "Test speed",
+  "trans0921": "The initial admin password is the same as the 2.4G Wi-Fi password and can be modified in ‘Settings’.",
+  "trans0922": "The initial admin password is the same as the Wi-Fi password and can be modified in ‘Settings’.",
+  "trans0923": "2.4G Wi-Fi name",
+  "trans0924": "5G Wi-Fi name",
+  "trans0925": " ",
+  "trans0926": " ",
+  "trans0927": " ",
+  "trans0928": " "
 }
