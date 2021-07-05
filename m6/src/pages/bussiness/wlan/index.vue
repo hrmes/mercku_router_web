@@ -1,30 +1,65 @@
 <template>
   <div class="wlan-container">
-
-    <div class="title">{{$t('trans0136')}}</div>
-    <div class="description">{{$t('trans0222')}}</div>
     <div class="step">
       <m-step :option="stepOption"></m-step>
     </div>
     <div class="step-content">
       <div class="step-item step-item1"
            v-show="stepOption.current===0">
-        <m-form ref="form1"
-                :model="form1"
-                :rules="form1Rules">
+        <m-form ref="wifiForm"
+                :model="wifiForm"
+                :rules="wifiFormRules">
           <m-form-item class="form-item"
-                       prop="ssid">
+                       prop="smart_connect">
+            <m-switch :label="$t('trans0397')"
+                      @change="changeSmartConnect"
+                      v-model="wifiForm.smart_connect" />
+            <div class="tip-label">{{$t('trans0398')}}</div>
+          </m-form-item>
+          <div class="form-header"
+               v-if="!wifiForm.smart_connect">
+            <img class="form-header__img"
+                 src="../../../assets/images/icon/ic_wifi@2x.png"
+                 alt="">
+            <span class="form-header__title">{{$t('trans0677')}}</span>
+          </div>
+          <m-form-item class="form-item"
+                       prop="ssid24g">
             <m-input :label="$t('trans0168')"
                      :placeholder="$t('trans0321')"
-                     v-model="form1.ssid" />
+                     v-model="wifiForm.ssid24g" />
           </m-form-item>
           <m-form-item class="form-item"
-                       prop="password">
+                       :class="{
+            'is-smart-connect': !wifiForm.smart_connect
+          }"
+                       prop="password24g">
             <m-input :label="$t('trans0172')"
                      type="password"
                      :placeholder="$t('trans0321')"
-                     v-model="form1.password" />
+                     v-model="wifiForm.password24g" />
           </m-form-item>
+          <template v-if="!wifiForm.smart_connect">
+            <div class="form-header">
+              <img class="form-header__img"
+                   src="../../../assets/images/icon/ic_wifi@2x.png"
+                   alt="">
+              <span class="form-header__title">{{$t('trans0679')}}</span>
+            </div>
+            <m-form-item class="form-item"
+                         prop="ssid5g">
+              <m-input :label="$t('trans0168')"
+                       :placeholder="$t('trans0321')"
+                       v-model="wifiForm.ssid5g" />
+            </m-form-item>
+            <m-form-item class="form-item"
+                         prop="password5g">
+              <m-input :label="$t('trans0172')"
+                       type="password"
+                       :placeholder="$t('trans0321')"
+                       v-model="wifiForm.password5g" />
+            </m-form-item>
+          </template>
           <div class="button-container">
             <button @click="step1()"
                     class="btn">{{$t('trans0055')}}</button>
@@ -32,65 +67,62 @@
         </m-form>
 
       </div>
-      <div class="step-item step-item2"
-           v-show="stepOption.current===1">
-        <m-form ref="form2"
-                :model="form2"
-                :rules="form2Rules">
-          <m-form-item class="form-item"
-                       prop="admin_password">
-            <m-input :label="$t('trans0067')"
-                     type="password"
-                     :disabled="checked"
-                     :placeholder="$t('trans0321')"
-                     v-model="form2.admin_password" />
-          </m-form-item>
-          <m-form-item>
-            <m-checkbox class="checkbox"
-                        v-model="checked"
-                        @change="clearAdminPwd()"
-                        :text="$t('trans0293')"></m-checkbox>
-          </m-form-item>
-          <div class="button-container">
-            <button @click="step0()"
-                    class="btn btn-default ">{{$t('trans0057')}}</button>
-            <button @click="step2()"
-                    class="btn">{{$t('trans0081')}}</button>
-          </div>
-        </m-form>
-      </div>
       <div class="step-item step-item3"
-           v-show="stepOption.current===2">
+           v-show="stepOption.current===1">
         <m-loading :color="loadingColor"
                    :size="36"></m-loading>
         <p class="cutdown">{{countdown}}s</p>
-        <!-- <div class="tip">{{$t('trans0294')}}</div> -->
         <div class="tip"
-             style="margin-top:5px;">{{$t('trans0171')}}</div>
-        <div class="wifi-info">
-          <div class="wifi-info-inner">
-            <div>
-              <span class="title">{{$t('trans0168')}}</span>:
-              <span class="value">{{form1.ssid}}</span>
-            </div>
-            <div>
-              <span class="title">{{$t('trans0172')}}</span>:
-              <span class="value">{{form1.password}}</span>
-            </div>
-            <div>
-              <span class="title">{{$t('trans0067')}}</span>:
-              <span class="value">{{form2.admin_password}}</span>
-            </div>
+             style="margin-top:5px;">{{$t('trans0294')}}</div>
+        <div class="info info-pw">
+          <div class="info__row">
+            <span class="info__title">{{$t('trans0561')}}</span>:
+            <span class="info__value">{{wifiForm.password24g}}</span>
           </div>
         </div>
-
+        <div class="tip tip-setting">{{$t('trans0921')}}</div>
+        <div class="form-header"
+             v-if="!wifiForm.smart_connect">
+          <img class="form-header__img"
+               src="../../../assets/images/icon/ic_wifi@2x.png"
+               alt="">
+          <span class="form-header__title">{{$t('trans0677')}}</span>
+        </div>
+        <div class="info">
+          <div class="info__row">
+            <span class="info__title">{{$t('trans0168')}}</span>:
+            <span class="info__value">{{wifiForm.ssid24g}}</span>
+          </div>
+          <div class="info__row">
+            <span class="info__title">{{$t('trans0172')}}</span>:
+            <span class="info__value">{{wifiForm.password24g}}</span>
+          </div>
+        </div>
+        <div class="form-header"
+             v-if="!wifiForm.smart_connect">
+          <img class="form-header__img"
+               src="../../../assets/images/icon/ic_wifi@2x.png"
+               alt="">
+          <span class="form-header__title">{{$t('trans0679')}}</span>
+        </div>
+        <div class="info"
+             v-if="!wifiForm.smart_connect">
+          <div class="info__row">
+            <span class="info__title">{{$t('trans0168')}}</span>:
+            <span class="info__value">{{wifiForm.ssid5g}}</span>
+          </div>
+          <div class="info__row">
+            <span class="info__title">{{$t('trans0168')}}</span>:
+            <span class="info__value">{{wifiForm.password5g}}</span>
+          </div>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 <script>
 import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
+import { Bands } from 'base/util/constant';
 
 export default {
   data() {
@@ -98,20 +130,21 @@ export default {
       stepOption: {
         current: 0,
         steps: [
-          { text: '', success: true },
-          { text: '', success: false },
-          { text: '', success: false }
+          { text: this.$t('trans0019'), success: true },
+          { text: this.$t('trans0018'), success: false }
         ]
       },
       current: 0,
-      checked: false,
       countdown: 60,
-      form1: {
-        ssid: '',
-        password: ''
+      wifiForm: {
+        smart_connect: false,
+        ssid24g: '',
+        password24g: '',
+        ssid5g: '',
+        password5g: ''
       },
-      form1Rules: {
-        ssid: [
+      wifiFormRules: {
+        ssid24g: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0237')
@@ -125,7 +158,7 @@ export default {
             message: this.$t('trans0451')
           }
         ],
-        password: [
+        password24g: [
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
@@ -134,11 +167,22 @@ export default {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
-        ]
-      },
-      form2: { admin_password: '' },
-      form2Rules: {
-        admin_password: [
+        ],
+        ssid5g: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0237')
+          },
+          {
+            rule: value => getStringByte(value) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
+          }
+        ],
+        password5g: [
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
@@ -163,11 +207,26 @@ export default {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
       });
+    this.$http.getMeshMeta().then(res => {
+      const wifi = res.data.result;
+      const b24g = wifi.bands[Bands.b24g];
+      const b5g = wifi.bands[Bands.b5g];
+      this.wifiForm.ssid24g = b24g.ssid;
+      this.wifiForm.password24g = b24g.password;
+      this.wifiForm.ssid5g = b5g.ssid;
+      this.wifiForm.password5g = b5g.password;
+      this.wifiForm.smart_connect = wifi.smart_connect;
+    });
   },
   methods: {
-    clearAdminPwd(v) {
-      if (!v) {
-        this.form2.admin_password = '';
+    changeSmartConnect(v) {
+      // 开关变化后
+      if (v) {
+        this.wifiForm.ssid5g = this.wifiForm.ssid24g;
+        this.wifiForm.password5g = this.wifiForm.password24g;
+      } else {
+        this.wifiForm.ssid5g = `${this.wifiForm.ssid24g}_5G`;
+        this.wifiForm.password5g = this.wifiForm.password24g;
       }
     },
     step0() {
@@ -175,18 +234,9 @@ export default {
       this.stepOption.steps[0].success = true;
     },
     step1() {
-      if (this.$refs.form1.validate()) {
+      if (this.$refs.wifiForm.validate()) {
         this.stepOption.current = 1;
         this.stepOption.steps[1].success = true;
-        // 默认勾选管理员密码与wifi密码一致
-        this.checked = true;
-        this.form2.admin_password = this.form1.password;
-      }
-    },
-    step2() {
-      if (this.$refs.form2.validate()) {
-        this.stepOption.current = 2;
-        this.stepOption.steps[2].success = true;
         const timer = setInterval(() => {
           this.countdown -= 1;
           if (this.countdown === 0) {
@@ -202,16 +252,16 @@ export default {
               wifi: {
                 bands: {
                   '2.4G': {
-                    ssid: this.form1.ssid,
-                    password: this.form1.password
+                    ssid: this.wifiForm.ssid24g,
+                    password: this.wifiForm.password24g
                   },
                   '5G': {
-                    ssid: this.form1.ssid,
-                    password: this.form1.password
+                    ssid: this.wifiForm.ssid5g,
+                    password: this.wifiForm.password5g
                   }
                 }
               },
-              admin: { password: this.form2.admin_password }
+              admin: { password: this.wifiForm.password24g }
             }
           })
           .then(() => {
@@ -230,13 +280,6 @@ export default {
           });
       }
     }
-  },
-  watch: {
-    checked(newVal) {
-      if (newVal === true) {
-        this.form2.admin_password = this.form1.password;
-      }
-    }
   }
 };
 </script>
@@ -248,38 +291,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  .title {
-    text-align: center;
-    font-weight: bold;
-    font-size: 21px;
-    color: #333;
-  }
-  .description {
-    text-align: center;
-    margin-top: 5px;
-    font-size: 16px;
-    color: #333;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &::before {
-      content: '';
-      display: block;
-      height: 1px;
-      width: 10px;
-      background: #333;
-      margin-right: 8px;
-    }
-    &::after {
-      content: '';
-      display: block;
-      height: 1px;
-      width: 10px;
-      background: #333;
-      margin-left: 8px;
-    }
-  }
   .step {
     text-align: center;
     width: 340px;
@@ -294,6 +305,20 @@ export default {
       width: 340px;
       text-align: center;
       &.step-item1 {
+        .tip-label {
+          font-size: 12px;
+          color: #999;
+          margin-top: 14px;
+          max-width: 340px;
+          border-bottom: 1px solid #ebebeb;
+          padding-bottom: 20px;
+        }
+        .form-item {
+          text-align: left;
+        }
+        .is-smart-connect {
+          margin-bottom: 40px;
+        }
         .button-container {
           margin-top: 60px;
         }
@@ -306,42 +331,43 @@ export default {
         }
         .tip {
           font-size: 12px;
-        }
-        .wifi-info {
-          margin-top: 30px;
-          display: flex;
-          .wifi-info-inner {
-            display: inline-block;
-            margin: 0 auto;
+          &.tip-setting {
+            margin-top: 10px;
             text-align: left;
-            > div {
-              margin-top: 10px;
-              &:first-child {
-                margin-top: 0;
-              }
-            }
-            .title {
-              color: #333;
-              font-weight: bold;
-              font-size: 14px;
-            }
-            .value {
-              color: #333;
-              font-size: 14px;
-              margin-left: 5px;
-            }
           }
         }
+        .tip-setting {
+        }
+        .info {
+          padding: 15px 20px;
+          font-size: 14px;
+          color: #333;
+          border-radius: 5px;
+          background-color: #f1f1f1;
+          margin-top: 7px;
+          &.info-pw {
+            margin-top: 30px;
+          }
+          .info__row {
+            text-align: left;
+            & + .info__row {
+              margin-top: 10px;
+            }
+          }
+          .info__title {
+            font-weight: bold;
+          }
+          .info__value {
+            margin-left: 10px;
+          }
+        }
+        .form-header {
+          margin-top: 20px;
+          border-bottom: none;
+          padding-bottom: 0;
+          margin-bottom: 0;
+        }
       }
-      img {
-        display: block;
-        margin: 0 auto;
-        width: 220px;
-      }
-      .form-item {
-        text-align: left;
-      }
-
       .button-container {
         margin-top: 60px;
         display: flex;
@@ -354,6 +380,23 @@ export default {
             margin-right: 0;
           }
         }
+      }
+    }
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      border-bottom: 1px solid #ebebeb;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      .form-header__img {
+        width: 16px;
+        margin-right: 10px;
+      }
+      .form-header__title {
+        color: #999;
+        font-size: 16px;
+        font-weight: 600;
       }
     }
   }
