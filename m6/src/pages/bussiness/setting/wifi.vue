@@ -207,6 +207,7 @@ import { EncryptMethod, Bands } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 const AUTO_CHANNEL_VALUE = 'auto';
+
 export default {
   mixins: [encryptMix],
   data() {
