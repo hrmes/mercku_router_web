@@ -40,7 +40,6 @@
           <m-input v-model="form.b24g.ssid"
                    :label="$t('trans0168')"
                    type='text'
-                   :onBlur="onSsid24gChange"
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
 
@@ -109,8 +108,7 @@
         </div>
         <m-form-item key="b5gssid"
                      class="item"
-                     prop='b5g.ssid'
-                     ref="b5gssid">
+                     prop='b5g.ssid'>
           <m-input v-model="form.b5g.ssid"
                    :label="$t('trans0168')"
                    type='text'
@@ -274,10 +272,6 @@ export default {
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
-          },
-          {
-            rule: () => this.validateSsid5G(),
-            message: this.$t('trans0660')
           }
         ],
         'b5g.password': [
@@ -318,17 +312,6 @@ export default {
     };
   },
   methods: {
-    onSsid24gChange() {
-      if (this.$refs.b5gssid && this.form.b5g.ssid) {
-        this.$refs.b5gssid.extraValidate(this.validateSsid5G, this.$t('trans0660'));
-      }
-    },
-    validateSsid5G() {
-      if (!this.form.smart_connect && this.form.b24g.ssid) {
-        return this.form.b24g.ssid !== this.form.b5g.ssid;
-      }
-      return true;
-    },
     onEncryptChange(path, nv, ov) {
       if (nv === EncryptMethod.wpa3) {
         this.$dialog.confirm({
