@@ -207,7 +207,8 @@ import { EncryptMethod, Bands } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 const AUTO_CHANNEL_VALUE = 'auto';
-
+const a = '  -/:;.ab  1234cd  ';
+const b = '  -/:;.ab  1234cd ';
 export default {
   mixins: [encryptMix],
   data() {
@@ -356,7 +357,7 @@ export default {
     },
     submit() {
       const validResult1 = this.$refs.b24gForm.validate();
-      const validResult2 = this.$refs.b5gForm.validate();
+      const validResult2 = this.form.smart_connect ? true : this.$refs.b5gForm.validate();
       if (validResult1 && validResult2) {
         this.form.b24g.ssid = this.form.b24g.ssid.trim();
         this.form.b5g.ssid = this.form.b5g.ssid.trim();
