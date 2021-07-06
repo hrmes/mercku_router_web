@@ -113,7 +113,7 @@
             <span class="info__value">{{wifiForm.ssid5g}}</span>
           </div>
           <div class="info__row">
-            <span class="info__title">{{$t('trans0168')}}</span>:
+            <span class="info__title">{{$t('trans0172')}}</span>:
             <span class="info__value">{{wifiForm.password5g}}</span>
           </div>
         </div>

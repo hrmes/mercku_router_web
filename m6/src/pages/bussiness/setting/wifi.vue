@@ -514,6 +514,8 @@ export default {
     }
     .form-header__title {
       color: #999;
+      font-size: 16px;
+      font-weight: 600;
     }
   }
   + .form {
