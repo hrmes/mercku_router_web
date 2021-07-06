@@ -40,6 +40,7 @@
           <m-input v-model="form.b24g.ssid"
                    :label="$t('trans0168')"
                    type='text'
+                   :onBlur="onSsid24gChange"
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
 
@@ -108,7 +109,8 @@
         </div>
         <m-form-item key="b5gssid"
                      class="item"
-                     prop='b5g.ssid'>
+                     prop='b5g.ssid'
+                     ref="b5gssid">
           <m-input v-model="form.b5g.ssid"
                    :label="$t('trans0168')"
                    type='text'
@@ -272,6 +274,10 @@ export default {
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
+          },
+          {
+            rule: () => this.validateSsid5G(),
+            message: this.$t('trans0660')
           }
         ],
         'b5g.password': [
@@ -312,6 +318,17 @@ export default {
     };
   },
   methods: {
+    onSsid24gChange() {
+      if (this.$refs.b5gssid && this.form.b5g.ssid) {
+        this.$refs.b5gssid.extraValidate(this.validateSsid5G, this.$t('trans0660'));
+      }
+    },
+    validateSsid5G() {
+      if (!this.form.smart_connect && this.form.b24g.ssid) {
+        return this.form.b24g.ssid !== this.form.b5g.ssid;
+      }
+      return true;
+    },
     onEncryptChange(path, nv, ov) {
       if (nv === EncryptMethod.wpa3) {
         this.$dialog.confirm({
@@ -327,10 +344,10 @@ export default {
         });
       }
     },
-    changeSmartConnect() {
+    changeSmartConnect(v) {
       // 开关变化后，始终保持5G的参数和2.4G的一致
+      this.form.b5g.ssid = v ? this.form.b24g.ssid : `${this.form.b24g.ssid}_5G`;
       this.form.b5g.hidden = this.form.b24g.hidden;
-      this.form.b5g.ssid = this.form.b24g.ssid;
       this.form.b5g.password = this.form.b24g.password;
       this.form.b5g.encrypt = this.form.b24g.encrypt;
     },
@@ -338,18 +355,8 @@ export default {
       return this.form[band].encrypt === EncryptMethod.open;
     },
     submit() {
-      let validResult1 = true;
-      let validResult2 = true;
-
-      validResult1 = this.$refs.b24gForm.validate();
-      if (!this.form.smart_connect) {
-        // 表单验证通过且ssid不一致
-        validResult2 = this.$refs.b5gForm.validate();
-        if (this.form.b24g.ssid === this.form.b5g.ssid) {
-          this.$toast(this.$t('trans0660'), 3000, 'error');
-          return;
-        }
-      }
+      const validResult1 = this.$refs.b24gForm.validate();
+      const validResult2 = this.form.smart_connect ? true : this.$refs.b5gForm.validate();
       if (validResult1 && validResult2) {
         this.form.b24g.ssid = this.form.b24g.ssid.trim();
         this.form.b5g.ssid = this.form.b5g.ssid.trim();
@@ -507,6 +514,8 @@ export default {
     }
     .form-header__title {
       color: #999;
+      font-size: 16px;
+      font-weight: 600;
     }
   }
   + .form {
