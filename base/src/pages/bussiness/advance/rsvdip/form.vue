@@ -145,12 +145,10 @@ export default {
       return this.$route.params.id ? 'update' : 'add';
     },
     devicesFiltered() {
-      let arrFilter = [];
-      arrFilter = this.devices.filter(item => {
+      return this.devices.filter(item => {
         item.checked = false;
         return this.formatMac(item.mac) !== this.form.mac;
       });
-      return arrFilter;
     }
   },
   mounted() {
