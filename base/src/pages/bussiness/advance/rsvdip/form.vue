@@ -25,7 +25,7 @@
               <div class="list">
                 <div class="device-item"
                      @click="checkDevice(item)"
-                     v-for="(item,index) in devices"
+                     v-for="(item,index) in devicesFiltered"
                      :key="index">
                   <div class="check">
                     <m-checkbox :readonly="true"
@@ -143,6 +143,14 @@ export default {
   computed: {
     formType() {
       return this.$route.params.id ? 'update' : 'add';
+    },
+    devicesFiltered() {
+      let arrFilter = [];
+      arrFilter = this.devices.filter(item => {
+        item.checked = false;
+        return this.formatMac(item.mac) !== this.form.mac;
+      });
+      return arrFilter;
     }
   },
   mounted() {
