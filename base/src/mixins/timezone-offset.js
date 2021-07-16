@@ -13,7 +13,7 @@ export default {
       const timezoneOffset = new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
       const timezoneOffsetAbs = Math.abs(timezoneOffset);
       const symbol = timezoneOffset < 0 ? '-' : '';
-      const hour = addZeroFront(timezoneOffsetAbs / 60);
+      const hour = addZeroFront(parseInt(timezoneOffsetAbs / 60, 10));
       const minute = addZeroFront(timezoneOffsetAbs % 60);
       const timezoneDetailNow = `GMT${symbol}${hour}:${minute}`;
       this.$http.getTimezone().then(res => {
@@ -21,6 +21,8 @@ export default {
         const { timezoneDetail } = this.timezones.find(
           item => item.offset === offset && item.position === position
         );
+        console.log(timezoneDetailNow, timezoneDetail);
+        debugger;
         if (timezoneDetailNow !== timezoneDetail) {
           this.$dialog.confirm({
             okText: this.$t('trans0024'),
