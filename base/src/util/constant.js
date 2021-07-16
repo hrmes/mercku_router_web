@@ -119,9 +119,3 @@ export const Weeks = {
   sat: 'Sat',
   sun: 'Sun'
 };
-// 设置后需跳转到时区设置并在时区设置保存成功后自动跳转回去的url组
-export const AutoBackUrlName = {
-  auto: 'auto',
-  led: 'setting.led',
-  deviceLimitTime: 'device-limit-time'
-};
