@@ -917,8 +917,8 @@
   "trans0922": "Das anfängliche Admin-Passwort ist das gleiche wie das Wi-Fi-Passwort und kann in den \"Einstellungen\" geändert werden.",
   "trans0923": "2.4G WLAN-Name",
   "trans0924": "5G WLAN-Name",
-  "trans0925": " ",
-  "trans0926": " ",
-  "trans0927": " ",
-  "trans0928": " "
+  "trans0925": "Die aktuelle Router-Zeitzone stimmt nicht mit der Systemzeitzone überein.\nMöchten Sie die Zeitzone des Routers so einstellen, dass sie mit der Systemzeitzone übereinstimmt?",
+  "trans0926": "Nicht jetzt",
+  "trans0927": "Zum Hochladen freigeben",
+  "trans0928": "Zum Hochladen von Dateien ziehen"
 }

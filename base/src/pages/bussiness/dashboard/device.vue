@@ -78,7 +78,6 @@
                 class="reset-ul">
               <li class="column-name"
                   @click.stop="expandTable(row)">
-
                 <div class="name-wrap"
                      :class="{'wired':isWired(row),'offline':isOfflineDevices}">
                   <div class="column-check-box"
@@ -121,14 +120,13 @@
                     </span>
                   </div>
                 </div>
-
               </li>
               <!-- 连接设备 -->
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span>{{$t('trans0618')}}</span>
                 <span class="overflow-hidden"
-                      :title="row.access_node.name">{{row.access_node.name}}</span>
+                      :title="accessNodeName(row)">{{accessNodeName(row)}}</span>
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -163,7 +161,6 @@
                   <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
                 </span>
-
               </li>
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -379,6 +376,9 @@ export default {
     this.timer = null;
   },
   methods: {
+    accessNodeName(row) {
+      return row?.access_node?.name ?? '-';
+    },
     isWired(row) {
       return row.online_info.band === 'wired';
     },

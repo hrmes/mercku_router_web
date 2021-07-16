@@ -26,12 +26,13 @@
           </div>
           <div class="upload">
             <m-upload ref="uploader"
+                      :drag="true"
                       :onChange="onChange"
                       :onCancel="onCancel"
+                      :label="$t('trans0042')"
                       :beforeUpload="beforeUpload"
                       :request="upload"
                       :packageInfo="packageInfo"
-                      :label="$t('trans0042')"
                       :accept="accept" />
           </div>
           <div class="nodes-wrapper"
