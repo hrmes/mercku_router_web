@@ -1,13 +1,23 @@
 <template>
-  <div class="dragger"
-       @dragover.prevent="handleDragOver"
-       @drop.prevent="handleDrop">
+  <div class="dragger is-drag-over"
+       @dragleave="handleDragLeave"
+       @dragover="handleDragOver"
+       @drop="handleDrop">
+    <div class="dragger__wrap"
+         v-if="isDragOver">
+      {{$t('trans0927')}}
+    </div>
     <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      isDragOver: false
+    };
+  },
   props: {
     uploadLoading: {
       type: Boolean,
@@ -15,12 +25,23 @@ export default {
     }
   },
   methods: {
-    handleDragOver() {},
+    handleDragOver(e) {
+      e.preventDefault();
+      this.isDragOver = true;
+      console.log('isDragOver', this.isDragOver);
+    },
+    handleDragLeave(e) {
+      e.preventDefault();
+      this.isDragOver = false;
+      console.log('isDragOver', this.isDragOver);
+    },
     handleDrop(e) {
+      e.preventDefault();
+      this.isDragOver = false;
+      console.log('isDragOver', this.isDragOver);
       if (this.uploadLoading) {
         return;
       }
-      this.isDragOver = false;
       const { files } = e.dataTransfer;
       this.$emit('file', files);
     }
@@ -39,5 +60,18 @@ export default {
   border-radius: 8px;
   border: dashed 1px #999999;
   position: relative;
+  .dragger__wrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: red;
+    pointer-events: none;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 </style>

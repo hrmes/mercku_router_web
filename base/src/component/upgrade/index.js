@@ -4,7 +4,7 @@ import upgradeComponent from './upgrade.vue';
 const defaultOptions = {
   tip: '',
   title: '',
-  during: 300
+  timeout: 300
 };
 const Upgrade = {
   instance: null,
@@ -19,7 +19,7 @@ const Upgrade = {
         data: {
           tip: opt.tip,
           title: opt.title,
-          during: opt.during
+          timeout: opt.timeout
         }
       }).$mount();
       this.instance.visible = true;

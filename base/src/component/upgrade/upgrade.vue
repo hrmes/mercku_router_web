@@ -34,7 +34,7 @@ export default {
       tip: '',
       styles: { width: 0 },
       percent: 0,
-      during: 0,
+      timeout: 0,
       countdown: 0,
       timer: null
     };
@@ -44,8 +44,8 @@ export default {
   },
   methods: {
     createTimer() {
-      this.countdown = this.during;
-      const average = 100 / this.during;
+      this.countdown = this.timeout;
+      const average = 100 / this.timeout;
       this.timer = setInterval(() => {
         if (!this.countdown) {
           this.cleanup();

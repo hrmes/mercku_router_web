@@ -19,7 +19,7 @@
           <div class="form-header"
                v-if="!wifiForm.smart_connect">
             <img class="form-header__img"
-                 src="../../../assets/images/icon/ic_wifi@2x.png"
+                 :src="wifiIcon"
                  alt="">
             <span class="form-header__title">{{$t('trans0677')}}</span>
           </div>
@@ -43,7 +43,7 @@
           <template v-if="!wifiForm.smart_connect">
             <div class="form-header">
               <img class="form-header__img"
-                   src="../../../assets/images/icon/ic_wifi@2x.png"
+                   :src="wifiIcon"
                    alt="">
               <span class="form-header__title">{{$t('trans0679')}}</span>
             </div>
@@ -85,7 +85,7 @@
         <div class="form-header"
              v-if="!wifiForm.smart_connect">
           <img class="form-header__img"
-               src="../../../assets/images/icon/ic_wifi@2x.png"
+               :src="wifiIcon"
                alt="">
           <span class="form-header__title">{{$t('trans0677')}}</span>
         </div>
@@ -102,7 +102,7 @@
         <div class="form-header"
              v-if="!wifiForm.smart_connect">
           <img class="form-header__img"
-               src="../../../assets/images/icon/ic_wifi@2x.png"
+               :src="wifiIcon"
                alt="">
           <span class="form-header__title">{{$t('trans0679')}}</span>
         </div>
@@ -124,10 +124,12 @@
 <script>
 import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 import { Bands } from 'base/util/constant';
+import wifiIcon from 'base/assets/images/icon/ic_wifi@2x.png';
 
 export default {
   data() {
     return {
+      wifiIcon,
       stepOption: {
         current: 0,
         steps: [

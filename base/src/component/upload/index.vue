@@ -1,7 +1,7 @@
 <template>
   <div class="upload">
     <div class="upload__box">
-      <upload-dragger v-if="drag"
+      <upload-dragger v-if="dragable"
                       :uploadLoading="uploadLoading"
                       @file="uploadDragFiles">
         <svg class="upload__icon"
@@ -109,7 +109,10 @@ export default {
     request: { type: Function },
     beforeUpload: { type: Function },
     packageInfo: {},
-    drag: false
+    dragable: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

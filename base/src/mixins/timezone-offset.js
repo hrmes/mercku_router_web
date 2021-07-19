@@ -1,4 +1,3 @@
-const addZeroFront = val => (val < 10 ? `0${val}` : val);
 export default {
   data() {
     return {
@@ -10,20 +9,19 @@ export default {
   },
   methods: {
     isSameTimezoneOffset() {
-      const timezoneOffset = new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
-      const timezoneOffsetAbs = Math.abs(timezoneOffset);
-      const symbol = timezoneOffset < 0 ? '-' : '';
-      const hour = addZeroFront(parseInt(timezoneOffsetAbs / 60, 10));
-      const minute = addZeroFront(timezoneOffsetAbs % 60);
-      const timezoneDetailNow = `GMT${symbol}${hour}:${minute}`;
+      const timezoneOffset = Math.abs(new Date().getTimezoneOffset()); // 获取本地时间与GMT的分钟差。
+      const reg = /(\d+)/g;
       this.$http.getTimezone().then(res => {
         const { offset, position } = res.data.result;
         const { timezoneDetail } = this.timezones.find(
           item => item.offset === offset && item.position === position
         );
-        console.log(timezoneDetailNow, timezoneDetail);
-        debugger;
-        if (timezoneDetailNow !== timezoneDetail) {
+        const timezoneArr = timezoneDetail.match(reg);
+        const timezone = parseInt(
+          `${timezoneArr[0] * 60 + parseInt(timezoneArr[1], 10)}`,
+          10
+        );
+        if (timezone !== timezoneOffset) {
           this.$dialog.confirm({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0926'),

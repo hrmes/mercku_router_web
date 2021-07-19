@@ -693,48 +693,46 @@ export default {
       const suffixs = [
         {
           key: 'year',
-          text: 'trans0531'
+          text: 'trans0531',
+          limitBefore: 1 // 向当前位的下多少位取值
         },
         {
           key: 'month',
-          text: 'trans0532'
+          text: 'trans0532',
+          limitBefore: 1
         },
         {
           key: 'day',
-          text: 'trans0533'
+          text: 'trans0533',
+          limitBefore: 1
         },
         {
           key: 'hour',
-          text: 'trans0534'
+          text: 'trans0534',
+          limitBefore: 1
         },
         {
           key: 'minute',
-          text: 'trans0535'
+          text: 'trans0535',
+          limitBefore: 0
         },
         {
           key: 'second',
-          text: 'trans0536'
+          text: 'trans0536',
+          limitBefore: 0
         }
       ];
-      let durationStr = '';
-      const maxIndex = suffixs.length - 1;
-      for (let i = 0; i <= maxIndex; i += 1) {
-        if (timeArr[i]) {
-          const next = i + 1;
-          if (i < maxIndex) {
-            if (timeArr[next]) {
-              durationStr =
-                i !== 4
-                  ? `${timeArr[i]} ${this.$t(suffixs[i].text)} ` +
-                    `${timeArr[next]} ${this.$t(suffixs[next].text)}`
-                  : `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
-            } else {
-              durationStr = `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
-            }
-          } else if (i === maxIndex) {
-            durationStr = `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
+      let dateIndex = timeArr.findIndex(val => val); // 找到第一个有值的日期
+      let suffix = suffixs[dateIndex];
+      let durationStr = `${timeArr[dateIndex]} ${this.$t(suffix.text)} `;
+      if (suffix.limitBefore) {
+        const len = suffix.limitBefore;
+        for (let i = 0; i < len; i += 1) {
+          dateIndex += 1;
+          suffix = suffixs[dateIndex];
+          if (timeArr[dateIndex]) {
+            durationStr += `${timeArr[dateIndex]} ${this.$t(suffix.text)} `;
           }
-          break;
         }
       }
       return durationStr;
