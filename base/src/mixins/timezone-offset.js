@@ -9,8 +9,8 @@ export default {
   },
   methods: {
     isSameTimezoneOffset() {
-      const timezoneOffset = Math.abs(new Date().getTimezoneOffset()); // 获取本地时间与GMT的分钟差。
-      const reg = /(\d+)/g;
+      const timezoneOffset = 0 - new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
+      const reg = /(\-|\+)|(\d+)/g;
       this.$http.getTimezone().then(res => {
         const { offset, position } = res.data.result;
         const { timezoneDetail } = this.timezones.find(
@@ -18,7 +18,8 @@ export default {
         );
         const timezoneArr = timezoneDetail.match(reg);
         const timezone = parseInt(
-          `${timezoneArr[0] * 60 + parseInt(timezoneArr[1], 10)}`,
+          `${timezoneArr[0]}${timezoneArr[1] * 60 +
+            parseInt(timezoneArr[2], 10)}`,
           10
         );
         if (timezone !== timezoneOffset) {

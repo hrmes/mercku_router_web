@@ -602,11 +602,6 @@ export default {
               form.dhcp.dns.push(this.dhcpForm.dns2);
             }
           }
-          if (this.dhcpForm.vlan.enabled) {
-            if (!form.dhcp) {
-              form.dhcp = {};
-            }
-          }
           this.save(form);
           break;
         case CONSTANTS.WanType.pppoe:

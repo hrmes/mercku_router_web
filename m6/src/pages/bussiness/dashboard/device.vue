@@ -689,8 +689,8 @@ export default {
       if (!zone || window.isNaN(zone) || parseInt(zone, 10) < 0 || !Number.isInteger(zone)) {
         return '-';
       }
-      const timeArr = formatDuration(zone);
-      const suffixs = [
+      let timeArr = formatDuration(zone);
+      let suffixs = [
         {
           key: 'year',
           text: 'trans0531',
@@ -722,19 +722,17 @@ export default {
           limitBefore: 0
         }
       ];
-      let dateIndex = timeArr.findIndex(val => val); // 找到第一个有值的日期
-      let suffix = suffixs[dateIndex];
-      let durationStr = `${timeArr[dateIndex]} ${this.$t(suffix.text)} `;
-      if (suffix.limitBefore) {
-        const len = suffix.limitBefore;
-        for (let i = 0; i < len; i += 1) {
-          dateIndex += 1;
-          suffix = suffixs[dateIndex];
-          if (timeArr[dateIndex]) {
-            durationStr += `${timeArr[dateIndex]} ${this.$t(suffix.text)} `;
-          }
+      const first = timeArr.findIndex(val => val); // 找到第一个有值的日期
+      const suffix = suffixs[first];
+      const last = first + suffix.limitBefore + 1;
+      timeArr = timeArr.slice(first, last);
+      suffixs = suffixs.slice(first, last);
+      let durationStr = '';
+      suffixs.forEach((item, i) => {
+        if (timeArr[i]) {
+          durationStr += `${timeArr[i]} ${suffixs[i].text} `;
         }
-      }
+      });
       return durationStr;
     }
   },
