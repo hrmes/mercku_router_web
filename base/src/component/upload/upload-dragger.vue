@@ -66,7 +66,8 @@ export default {
     top: 0;
     height: 100%;
     width: 100%;
-    background-color: red;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
     pointer-events: none;
     z-index: 100;
     display: flex;
