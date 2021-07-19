@@ -51,9 +51,9 @@
                 v-if="!isOfflineDevices">{{$t('trans0151')}} /
               {{$t('trans0188')}}</li>
             <!-- 接入时间 -->
-            <li class="column-ip"
+            <!-- <li class="column-ip"
                 v-if="isOfflineDevices">
-              {{$t('trans0374')}}</li>
+              {{$t('trans0374')}}</li> -->
             <!-- 在线时长 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
@@ -171,6 +171,12 @@
                 <span>{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
+              <!-- <li class="column-ip device-item"
+                  :class="{'offline':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+                <span>{{$t('trans0374')}}</span>
+                <span> {{transformOfflineDate(row.connected_time)}} </span>
+              </li> -->
               <!-- 在线时长 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
@@ -184,12 +190,6 @@
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0630')}}</span>
                 <span> {{transformOfflineDate(row.offline_time)}} </span>
-              </li>
-              <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span>{{$t('trans0374')}}</span>
-                <span> {{transformOfflineDate(row.connected_time)}} </span>
               </li>
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
@@ -730,7 +730,7 @@ export default {
       let durationStr = '';
       suffixs.forEach((item, i) => {
         if (timeArr[i]) {
-          durationStr += `${timeArr[i]} ${suffixs[i].text} `;
+          durationStr += `${timeArr[i]} ${this.$t(suffixs[i].text)} `;
         }
       });
       return durationStr;

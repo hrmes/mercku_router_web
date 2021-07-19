@@ -208,17 +208,17 @@ export default {
     }
   },
   mounted() {
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-      });
+    // this.$http
+    //   .login(
+    //     { password: '' },
+    //     {
+    //       hideToast: true
+    //     }
+    //   )
+    //   .catch(() => {
+    //     // password is not empty, go to login page
+    //     this.$router.push({ path: '/login' });
+    //   });
     this.$http.getMeshMeta().then(res => {
       const wifi = res.data.result;
       const b24g = wifi.bands[Bands.b24g];

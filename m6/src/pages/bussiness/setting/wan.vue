@@ -265,7 +265,7 @@ export default {
         ports: [
           {
             port: {
-              id: 0
+              id: 4
             },
             tagged: true
           }
@@ -588,9 +588,7 @@ export default {
     },
     submit() {
       const form = { type: this.netType };
-      if (this.vlan.enabled) {
-        form.vlan = [this.vlan];
-      }
+      form.vlan = [this.vlan];
       switch (this.netType) {
         case CONSTANTS.WanType.dhcp:
           if (!this.$refs.dhcpForm.validate()) {
