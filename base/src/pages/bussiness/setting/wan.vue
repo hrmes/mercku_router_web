@@ -567,7 +567,7 @@ export default {
               dns2: this.netInfo.static.netinfo.dns[1] || ''
             };
           }
-          if (this.netInfo.vlan.length) {
+          if (this.netInfo.vlan?.length) {
             [this.vlan] = this.netInfo.vlan;
           }
         }
@@ -597,9 +597,7 @@ export default {
     },
     submit() {
       const form = { type: this.netType };
-      if (this.vlan.enabled) {
-        form.vlan = [this.vlan];
-      }
+      form.vlan = [this.vlan];
       switch (this.netType) {
         case CONSTANTS.WanType.dhcp:
           if (!this.$refs.dhcpForm.validate()) {

@@ -140,7 +140,7 @@ export default {
       current: 0,
       countdown: 60,
       wifiForm: {
-        smart_connect: false,
+        smart_connect: true,
         ssid24g: '',
         password24g: '',
         ssid5g: '',
@@ -208,17 +208,17 @@ export default {
     }
   },
   mounted() {
-    // this.$http
-    //   .login(
-    //     { password: '' },
-    //     {
-    //       hideToast: true
-    //     }
-    //   )
-    //   .catch(() => {
-    //     // password is not empty, go to login page
-    //     this.$router.push({ path: '/login' });
-    //   });
+    this.$http
+      .login(
+        { password: '' },
+        {
+          hideToast: true
+        }
+      )
+      .catch(() => {
+        // password is not empty, go to login page
+        this.$router.push({ path: '/login' });
+      });
     this.$http.getMeshMeta().then(res => {
       const wifi = res.data.result;
       const b24g = wifi.bands[Bands.b24g];
@@ -269,6 +269,9 @@ export default {
             this.$router.push({ path: '/unconnect' });
           }
         }, 1000);
+        if (this.wifiForm.smart_connect) {
+          this.wifiForm.password5g = this.wifiForm.password24g;
+        }
         // 提交表单
         this.$http
           .updateMeshConfig({
