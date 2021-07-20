@@ -91,10 +91,12 @@ const launch = () => {
 
   let upgrading = false;
   const upgrade = options => {
+    const timeout = 600;
     upgrading = true;
     upgradeComponent.open({
       title: i18nInstance.translate('trans0212'),
-      tip: i18nInstance.translate('trans0213')
+      tip: i18nInstance.translate('trans0213'),
+      timeout
     });
     const opt = {
       ...{
@@ -106,7 +108,7 @@ const launch = () => {
             upgradeHelper(res.data);
           });
         },
-        timeout: 600
+        timeout
       },
       ...options
     };

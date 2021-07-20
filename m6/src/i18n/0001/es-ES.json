@@ -917,8 +917,8 @@
   "trans0922": "La contraseña de administrador inicial es la misma que la contraseña de Wi-Fi y se puede modificar en \"Configuración\".",
   "trans0923": "Nombre de Wi-Fi 2.4G",
   "trans0924": "Nombre de Wi-Fi 5G",
-  "trans0925": " ",
-  "trans0926": " ",
-  "trans0927": " ",
-  "trans0928": " "
+  "trans0925": "La zona horaria actual del enrutador no coincide con la zona horaria del sistema.\n¿Desea configurar la zona horaria del enrutador para que sea coherente con la zona horaria del sistema?",
+  "trans0926": "Ahora no",
+  "trans0927": "Suelte para cargar",
+  "trans0928": "Arrastra para subir archivos"
 }

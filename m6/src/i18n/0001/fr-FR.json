@@ -917,8 +917,8 @@
   "trans0922": "Le mot de passe administrateur initial est le même que le mot de passe Wi-Fi et peut être modifié dans «Paramètres».",
   "trans0923": "Nom Wifi 2.4G",
   "trans0924": "Nom Wifi 5G",
-  "trans0925": " ",
-  "trans0926": " ",
-  "trans0927": " ",
-  "trans0928": " "
+  "trans0925": "Le fuseau horaire actuel du routeur est incompatible avec le fuseau horaire du système.\nVoulez-vous que le fuseau horaire du routeur soit cohérent avec le fuseau horaire du système ?\n",
+  "trans0926": "Pas maintenant",
+  "trans0927": "Relâchez pour télécharger",
+  "trans0928": "Faites glisser pour télécharger des fichiers"
 }

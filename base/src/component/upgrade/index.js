@@ -3,7 +3,8 @@ import upgradeComponent from './upgrade.vue';
 
 const defaultOptions = {
   tip: '',
-  title: ''
+  title: '',
+  timeout: 300
 };
 const Upgrade = {
   instance: null,
@@ -17,7 +18,8 @@ const Upgrade = {
       this.instance = new Construtor({
         data: {
           tip: opt.tip,
-          title: opt.title
+          title: opt.title,
+          timeout: opt.timeout
         }
       }).$mount();
       this.instance.visible = true;

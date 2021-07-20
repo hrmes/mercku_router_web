@@ -31,7 +31,10 @@
   </div>
 </template>
 <script>
+import TimezoneOffset from '../../../mixins/timezone-offset';
+
 export default {
+  mixins: [TimezoneOffset],
   data() {
     return {
       form: {
@@ -49,6 +52,7 @@ export default {
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
           this.$loading.close();
+          this.isSameTimezoneOffset();
         })
         .catch(() => {
           this.$loading.close();

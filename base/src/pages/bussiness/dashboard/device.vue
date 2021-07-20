@@ -78,7 +78,6 @@
                 class="reset-ul">
               <li class="column-name"
                   @click.stop="expandTable(row)">
-
                 <div class="name-wrap"
                      :class="{'wired':isWired(row),'offline':isOfflineDevices}">
                   <div class="column-check-box"
@@ -121,14 +120,13 @@
                     </span>
                   </div>
                 </div>
-
               </li>
               <!-- 连接设备 -->
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span>{{$t('trans0618')}}</span>
                 <span class="overflow-hidden"
-                      :title="row.access_node.name">{{row.access_node.name}}</span>
+                      :title="accessNodeName(row)">{{accessNodeName(row)}}</span>
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -163,7 +161,6 @@
                   <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
                 </span>
-
               </li>
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -379,6 +376,9 @@ export default {
     this.timer = null;
   },
   methods: {
+    accessNodeName(row) {
+      return row?.access_node?.name ?? '-';
+    },
     isWired(row) {
       return row.online_info.band === 'wired';
     },
@@ -682,48 +682,46 @@ export default {
       const suffixs = [
         {
           key: 'year',
-          text: 'trans0531'
+          text: 'trans0531',
+          limitBefore: 1
         },
         {
           key: 'month',
-          text: 'trans0532'
+          text: 'trans0532',
+          limitBefore: 1
         },
         {
           key: 'day',
-          text: 'trans0533'
+          text: 'trans0533',
+          limitBefore: 1
         },
         {
           key: 'hour',
-          text: 'trans0534'
+          text: 'trans0534',
+          limitBefore: 1
         },
         {
           key: 'minute',
-          text: 'trans0535'
+          text: 'trans0535',
+          limitBefore: 0
         },
         {
           key: 'second',
-          text: 'trans0536'
+          text: 'trans0536',
+          limitBefore: 0
         }
       ];
-      let durationStr = '';
-      const maxIndex = suffixs.length - 1;
-      for (let i = 0; i <= maxIndex; i += 1) {
-        if (timeArr[i]) {
-          const next = i + 1;
-          if (i < maxIndex) {
-            if (timeArr[next]) {
-              durationStr =
-                i !== 4
-                  ? `${timeArr[i]} ${this.$t(suffixs[i].text)} ` +
-                    `${timeArr[next]} ${this.$t(suffixs[next].text)}`
-                  : `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
-            } else {
-              durationStr = `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
-            }
-          } else if (i === maxIndex) {
-            durationStr = `${timeArr[i]} ${this.$t(suffixs[i].text)}`;
+      let dateIndex = timeArr.findIndex(val => val); // 找到第一个有值的日期
+      let suffix = suffixs[dateIndex];
+      let durationStr = `${timeArr[dateIndex]} ${this.$t(suffix.text)} `;
+      if (suffix.limitBefore) {
+        const len = suffix.limitBefore;
+        for (let i = 0; i < len; i += 1) {
+          dateIndex += 1;
+          suffix = suffixs[dateIndex];
+          if (timeArr[dateIndex]) {
+            durationStr += `${timeArr[dateIndex]} ${this.$t(suffix.text)} `;
           }
-          break;
         }
       }
       return durationStr;

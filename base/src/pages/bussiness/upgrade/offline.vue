@@ -26,6 +26,7 @@
           </div>
           <div class="upload">
             <m-upload ref="uploader"
+                      dragable
                       :onChange="onChange"
                       :onCancel="onCancel"
                       :beforeUpload="beforeUpload"
