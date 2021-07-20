@@ -135,7 +135,7 @@
             </m-form-item>
             <m-form-item class="item"
                          prop="mask"
-                         ref="mast">
+                         ref="mask">
               <m-input :label="$t('trans0152')"
                        type="text"
                        placeholder="0.0.0.0"

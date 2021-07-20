@@ -10,7 +10,7 @@ export default {
   methods: {
     isSameTimezoneOffset() {
       const timezoneOffset = 0 - new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
-      const reg = /(\-|\+)|(\d+)/g;
+      const reg = /(\-|\+)|(\d+)/g; // /([-+])?(\d+)\:(\d+)/;
       this.$http.getTimezone().then(res => {
         const { offset, position } = res.data.result;
         const { timezoneDetail } = this.timezones.find(
