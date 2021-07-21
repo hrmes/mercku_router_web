@@ -10,18 +10,21 @@ export default {
   methods: {
     isSameTimezoneOffset() {
       const timezoneOffset = 0 - new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
-      const reg = /(\-|\+)|(\d+)/g; // /([-+])?(\d+)\:(\d+)/;
+      const reg = /([-+])?(\d+)\:(\d+)/;
       this.$http.getTimezone().then(res => {
         const { offset, position } = res.data.result;
         const { timezoneDetail } = this.timezones.find(
           item => item.offset === offset && item.position === position
         );
-        const timezoneArr = timezoneDetail.match(reg);
-        const timezone = parseInt(
+        const timezoneArr = timezoneDetail.match(reg).slice(1, 4);
+        let timezone = parseInt(
           `${timezoneArr[0]}${timezoneArr[1] * 60 +
             parseInt(timezoneArr[2], 10)}`,
           10
         );
+        if (this.isDST()) {
+          timezone += 60;
+        }
         if (timezone !== timezoneOffset) {
           this.$dialog.confirm({
             okText: this.$t('trans0024'),
@@ -35,6 +38,24 @@ export default {
           });
         }
       });
+    },
+    isDST() {
+      const now = new Date();
+      const Jan = new Date(now.getFullYear(), 0);
+      const Jul = new Date(now.getFullYear(), 6);
+      if (
+        Jan.getTimezoneOffset() > Jul.getTimezoneOffset() &&
+        now.getTimezoneOffset() !== Jan.getTimezoneOffset()
+      ) {
+        return true;
+      }
+      if (
+        Jan.getTimezoneOffset() < Jul.getTimezoneOffset() &&
+        now.getTimezoneOffset() !== Jul.getTimezoneOffset()
+      ) {
+        return true;
+      }
+      return false;
     }
   }
 };

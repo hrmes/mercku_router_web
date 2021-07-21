@@ -28,20 +28,18 @@ export default {
     handleDragOver(e) {
       e.preventDefault();
       this.isDragOver = true;
-      console.log('isDragOver', this.isDragOver);
     },
     handleDragLeave(e) {
       e.preventDefault();
       this.isDragOver = false;
-      console.log('isDragOver', this.isDragOver);
     },
     handleDrop(e) {
       e.preventDefault();
       this.isDragOver = false;
-      console.log('isDragOver', this.isDragOver);
       if (this.uploadLoading) {
         return;
       }
+      this.$parent.initUploadStatus();
       const { files } = e.dataTransfer;
       this.$emit('file', files);
     }
