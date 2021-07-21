@@ -34,8 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="form"
-           v-if="!isTesting">
+      <div class="form">
         <div class="item net-type">
           <m-select :label="$t('trans0317')"
                     v-model="netType"
@@ -256,7 +255,6 @@ export default {
         { value: true, text: this.$t('trans0399') },
         { value: false, text: this.$t('trans0400') }
       ],
-      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       netType: CONSTANTS.WanType.dhcp,
       netInfo: {},
       vlan: {
@@ -449,22 +447,9 @@ export default {
     }
   },
   mounted() {
-    this.getWanStatus();
     this.getWanNetInfo();
   },
   computed: {
-    isTesting() {
-      return this.netStatus === CONSTANTS.WanNetStatus.testing;
-    },
-    isConnected() {
-      return this.netStatus === CONSTANTS.WanNetStatus.connected;
-    },
-    isLinked() {
-      return this.netStatus === CONSTANTS.WanNetStatus.linked;
-    },
-    isUnlinked() {
-      return this.netStatus === CONSTANTS.WanNetStatus.unlinked;
-    },
     isPppoe() {
       return this.netType === CONSTANTS.WanType.pppoe;
     },
@@ -517,20 +502,6 @@ export default {
         this.staticForm.gateway,
         this.staticForm.mask
       );
-    },
-    getWanStatus() {
-      this.$loading.open();
-      this.netStatus = CONSTANTS.WanNetStatus.testing;
-      this.$http
-        .getWanStatus()
-        .then(res => {
-          this.$loading.close();
-          this.netStatus = res.data.result.status;
-        })
-        .catch(() => {
-          this.$loading.close();
-          this.netStatus = CONSTANTS.WanNetStatus.unlinked;
-        });
     },
     getWanNetInfo() {
       this.$http.getWanNetInfo().then(res => {

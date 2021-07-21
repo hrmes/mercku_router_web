@@ -155,13 +155,16 @@ export default {
       return `${toLocaleNumber(file.size / 1000 / 1000, this.$i18n.locale, 2, 2)}MB`;
     },
     click() {
+      this.initUploadStatus();
+      this.$refs.upload.click();
+      this.onChange && this.onChange();
+    },
+    initUploadStatus() {
       this.files = [];
       this.err = '';
       this.percentage = 0;
       this.status = UploadStatus.ready;
       this.$refs.upload.value = null;
-      this.$refs.upload.click();
-      this.onChange && this.onChange();
     },
     handleChange(ev) {
       const { files } = ev.target;
