@@ -98,11 +98,8 @@ export const hostRexp = host => {
   return false;
 };
 
-function ip2int(ip) {
-  return (
-    ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0
-  );
-}
+export const ip2int = ip =>
+  ip.split('.').reduce((total, next) => (total << 8) + Number(next), 0) >>> 0;
 
 export const isMulticast = ip => {
   const i = ip2int(ip);
@@ -183,6 +180,18 @@ export const privateIpReg = ip => {
   const CIPMask = IPCReg.test(ip) && ipRule(ip, masks.C);
   return AIPMask || BIPMask || CIPMask;
 };
+// 是否为私有地址
+export const isPrivateIP = ip =>
+  IPAReg.test(ip) || IPBReg.test(ip) || IPCReg.test(ip);
+
+// 根据子网掩码判断是否为有效的私有网络主机地址
+export const isValidGatewayIP = (ip, mask) => {
+  const AIPMask = ipRule(ip, mask);
+  const BIPMask = ipRule(ip, mask);
+  const CIPMask = ipRule(ip, mask);
+  return AIPMask || BIPMask || CIPMask;
+};
+export const getSubNetwork = (hostIP, mask) => ip2int(hostIP) & ip2int(mask);
 export const compareVersion = (version1, version2) => {
   if (!version2) {
     return false;
