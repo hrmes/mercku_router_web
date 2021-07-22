@@ -274,7 +274,8 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 300
+                  timeout: 300,
+                  progressVisible: true
                 });
               })
               .catch(() => {

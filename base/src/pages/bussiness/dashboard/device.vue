@@ -426,7 +426,7 @@ export default {
       });
     },
     fillterOfflineDevices(arr) {
-      return arr.sort((a, b) => b.connected_time - a.connected_time);
+      return arr.sort((a, b) => b.offline_time - a.offline_time);
     },
     filterDevices(arr) {
       const newArr = arr
