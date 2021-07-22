@@ -353,4 +353,3 @@ String.prototype.format = function(...args) {
   });
   return _this;
 };
-{"mode":"full","isActive":false}
