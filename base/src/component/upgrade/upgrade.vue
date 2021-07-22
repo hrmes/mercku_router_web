@@ -9,7 +9,8 @@
              class="title">{{title}}</div>
         <div v-html="tip"></div>
         <!-- 升级进度条 -->
-        <div class='progress-wrapper'>
+        <div class='progress-wrapper'
+             v-if="progressVisible">
           <div class="progress">
             <div class="progress-bar"
                  :style='styles'>
@@ -36,7 +37,8 @@ export default {
       percent: 0,
       timeout: 0,
       countdown: 0,
-      timer: null
+      timer: null,
+      progressVisible: false
     };
   },
   mounted() {

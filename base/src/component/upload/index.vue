@@ -112,6 +112,10 @@ export default {
     dragable: {
       type: Boolean,
       default: false
+    },
+    limit: {
+      type: Number,
+      default: 50 * 1000 * 1000
     }
   },
   data() {
@@ -176,8 +180,13 @@ export default {
       this.upload(postFiles);
     },
     upload(files) {
-      console.log('files', files);
       this.files = files;
+      const isLimitOver = !!this.files.find(file => file.size >= this.limit);
+      if (isLimitOver) {
+        this.status = UploadStatus.fail;
+        this.err = this.$t('trans0933');
+        return false;
+      }
       if (this.beforeUpload && !this.beforeUpload(this.files)) {
         this.status = UploadStatus.fail;
         return false;
