@@ -7,12 +7,21 @@
               :model="form"
               :rules='rules'>
         <m-form-item class="item"
-                     prop='ip'>
+                     prop='ip'
+                     ref="ip">
           <m-input :label="$t('trans0439')"
                    type="text"
-                   :onBlur="blur"
                    :placeholder="curIp"
                    v-model="form.ip" />
+        </m-form-item>
+        <m-form-item class="item"
+                     prop='mask'
+                     ref="mask">
+          <m-input :label="$t('trans0152')"
+                   type="text"
+                   :placeholder="$t('trans0321')"
+                   v-model="form.mask"
+                   :onBlur="maskChange" />
         </m-form-item>
         <div class="item">
           <label style="font-weight:bold;">{{$t('trans0483')}}</label>
@@ -21,7 +30,6 @@
                          prop='ip_start'
                          ref='ip_start'>
               <m-input class="ext-input"
-                       :addonBefore="ipBefore"
                        type="text"
                        :placeholder="$t('trans0441')"
                        v-model="form.ip_start"
@@ -31,7 +39,6 @@
                          prop='ip_end'
                          ref='ip_end'>
               <m-input class="ext-input"
-                       :addonBefore="ipBefore"
                        type="text"
                        :placeholder="$t('trans0442')"
                        v-model="form.ip_end" />
@@ -57,14 +64,23 @@
   </div>
 </template>
 <script>
-import { ipReg, privateIpReg, getIpBefore, getIpAfter } from '../../../../util/util';
+import {
+  ipReg,
+  privateIpReg,
+  getIpBefore,
+  getIpAfter,
+  isPrivateIP,
+  isValidGatewayIP,
+  getSubNetwork,
+  ip2int
+} from '../../../../util/util';
 
-const isVailidRange = input => {
-  const value = Number(input);
-  if (!Number.isInteger(value)) {
-    return false;
-  }
-  if (value < 1 || value >= 255) {
+const isSameSubNetwork = (ip, lanip, mask) => {
+  // 判断网络是否相同
+  const subnetwork = getSubNetwork(lanip, mask);
+  const subnetwork1 = getSubNetwork(ip, mask);
+  console.log(subnetwork, subnetwork1);
+  if (subnetwork !== subnetwork1) {
     return false;
   }
   return true;
@@ -106,11 +122,11 @@ export default {
       lanInfo: {},
       form: {
         ip: '',
+        mask: '',
         ip_start: '',
         ip_end: '',
         lease: 1 * 60 * 60
       },
-      ipBefore: '',
       rules: {
         ip: [
           {
@@ -118,7 +134,17 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipReg.test(value) && privateIpReg(value),
+            rule: value => ipReg.test(value) && isPrivateIP(value),
+            message: this.$t('trans0231')
+          }
+        ],
+        mask: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => ipReg.test(value),
             message: this.$t('trans0231')
           }
         ],
@@ -128,8 +154,12 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => isVailidRange(value),
-            message: this.$t('trans0395')
+            rule: value => ipReg.test(value),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => isSameSubNetwork(value, this.form.ip, this.form.mask),
+            message: this.$t('trans0231')
           }
         ],
         ip_end: [
@@ -137,14 +167,19 @@ export default {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
           },
+
           {
-            rule: value => isVailidRange(value),
-            message: this.$t('trans0395')
+            rule: value => ipReg.test(value),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => isSameSubNetwork(value, this.form.ip, this.form.mask),
+            message: this.$t('trans0231')
           },
           {
             rule: value => {
               if (this.form.ip_start) {
-                return Number(this.form.ip_start) < Number(value);
+                return ip2int(this.form.ip_start) < ip2int(value);
               }
               return true;
             },
@@ -162,11 +197,11 @@ export default {
       return {
         type: 'dhcp_server',
         dhcp_server: {
-          ip_start: `${this.ipBefore}${this.form.ip_start}`,
-          ip_end: `${this.ipBefore}${this.form.ip_end}`,
+          ip_start: this.form.ip_start,
+          ip_end: this.form.ip_end,
           lease: this.form.lease,
           // domain: 'mercku',
-          netinfo: { ip: this.form.ip }
+          netinfo: { ip: this.form.ip, mask: this.form.mask }
         }
       };
     }
@@ -179,20 +214,20 @@ export default {
       this.$refs.ip_end.extraValidate(() => {
         const start = this.form.ip_start;
         const end = this.form.ip_end;
-        if (start && end) {
-          return Number(end) > Number(start);
+        if (ipReg.test(start)) {
+          if (start && end) {
+            return ip2int(end) > ip2int(start);
+          }
+          return true;
         }
         return true;
       }, this.$t('trans0472'));
     },
-    blur() {
-      const v = this.form.ip;
-      if (ipReg.test(v) && this.privateIpReg(v)) {
-        this.ipBefore = this.getIpBefore(v);
-      }
-      if (v !== this.curIp) {
-        this.lanipChanged = true;
-      }
+    maskChange() {
+      this.$refs.ip.extraValidate(
+        () => isValidGatewayIP(this.form.ip, this.form.mask),
+        this.$t('trans0231')
+      );
     },
     getLanInfo() {
       this.$loading.open();
@@ -201,12 +236,12 @@ export default {
         .then(res => {
           this.$loading.close();
           this.lanInfo = res.data.result;
-          this.ipBefore = this.getIpBefore(this.lanInfo.netinfo.ip);
           this.curIp = this.lanInfo.netinfo.ip;
           this.form = {
             ip: this.lanInfo.netinfo.ip,
-            ip_start: this.getIpAfter(this.lanInfo.dhcp_server.ip_start),
-            ip_end: this.getIpAfter(this.lanInfo.dhcp_server.ip_end),
+            mask: this.lanInfo.netinfo.mask,
+            ip_start: this.lanInfo.dhcp_server.ip_start,
+            ip_end: this.lanInfo.dhcp_server.ip_end,
             lease: this.lanInfo.dhcp_server.lease
           };
         })
@@ -294,3 +329,4 @@ export default {
   }
 }
 </style>
+{"mode":"full","isActive":false}
