@@ -677,7 +677,7 @@
   "trans0682": "Ingrese el ID de VLAN provisto por su proveedor de Internet, de lo contrario, ignórelo.",
   "trans0683": "Ajustes avanzados",
   "trans0684": "VLAN ID de Internet",
-  "trans0685": "Etiquetado",
+  "trans0685": "Tagged",
   "trans0686": "Priodidad",
   "trans0687": "Valor entero 1 - 4094",
   "trans0688": "Falló, esta configuración no está disponible.",
@@ -917,8 +917,13 @@
   "trans0922": "La contraseña de administrador inicial es la misma que la contraseña de Wi-Fi y se puede modificar en \"Configuración\".",
   "trans0923": "Nombre de Wi-Fi 2.4G",
   "trans0924": "Nombre de Wi-Fi 5G",
-  "trans0925": "La zona horaria actual del enrutador no coincide con la zona horaria del sistema.\n¿Desea configurar la zona horaria del enrutador para que sea coherente con la zona horaria del sistema?",
+  "trans0925": "La zona horaria actual del enrutador no coincide con la zona horaria del sistema. ¿Desea configurar la zona horaria del enrutador para que sea coherente con la zona horaria del sistema?",
   "trans0926": "Ahora no",
   "trans0927": "Suelte para cargar",
-  "trans0928": "Arrastra para subir archivos"
+  "trans0928": "Arrastra para subir archivos",
+  "trans0929": " ",
+  "trans0930": " ",
+  "trans0931": " ",
+  "trans0932": " ",
+  "trans0933": " "
 }

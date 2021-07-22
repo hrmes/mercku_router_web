@@ -184,7 +184,7 @@ export default {
       const isLimitOver = !!this.files.find(file => file.size >= this.limit);
       if (isLimitOver) {
         this.status = UploadStatus.fail;
-        this.err = this.$t('trans0341');
+        this.err = this.$t('trans0933');
         return false;
       }
       if (this.beforeUpload && !this.beforeUpload(this.files)) {
