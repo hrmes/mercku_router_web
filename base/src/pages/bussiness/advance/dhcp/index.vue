@@ -329,4 +329,3 @@ export default {
   }
 }
 </style>
-{"mode":"full","isActive":false}
