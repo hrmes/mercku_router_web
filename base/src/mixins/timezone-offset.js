@@ -1,15 +1,17 @@
+const timezones = require('../timezones/zh-CN.json');
+
 export default {
   data() {
     return {
-      timezones: []
+      timezones,
+      timezone: []
     };
   },
-  created() {
-    this.timezones = require(`../timezones/${this.$i18n.locale}.json`);
+  mounted() {
+    this.getTimezone();
   },
   methods: {
-    isSameTimezoneOffset() {
-      const timezoneOffset = 0 - new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
+    getTimezone() {
       const reg = /([-+])?(\d+)\:(\d+)/;
       this.$http.getTimezone().then(res => {
         const { offset, position } = res.data.result;
@@ -25,19 +27,23 @@ export default {
         if (this.isDST()) {
           timezone += 60;
         }
-        if (timezone !== timezoneOffset) {
-          this.$dialog.confirm({
-            okText: this.$t('trans0024'),
-            cancelText: this.$t('trans0926'),
-            message: this.$t('trans0925'),
-            callback: {
-              ok: () => {
-                this.$router.push({ path: '/setting/timezone' });
-              }
-            }
-          });
-        }
+        this.timezone = timezone;
       });
+    },
+    isSameTimezoneOffset() {
+      const timezoneOffset = 0 - new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
+      if (this.timezone !== timezoneOffset) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0926'),
+          message: this.$t('trans0925'),
+          callback: {
+            ok: () => {
+              this.$router.push({ path: '/setting/timezone' });
+            }
+          }
+        });
+      }
     },
     isDST() {
       const now = new Date();

@@ -185,7 +185,8 @@
           </div>
           <m-form v-if="vlan.enabled"
                   class="form__inner"
-                  :model="vlan">
+                  :model="vlan"
+                  ref="vlanForm">
             <m-form-item class="form__item"
                          prop="id"
                          :rules="vlanIdRules">
@@ -478,6 +479,9 @@ export default {
       return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
+    },
+    vlanFormDisabled() {
+      return this.vlan.enabled && !this.$refs.vlanForm.validate();
     }
   },
   methods: {
@@ -558,8 +562,13 @@ export default {
       });
     },
     submit() {
+      if (this.vlanFormDisabled) {
+        return;
+      }
       const form = { type: this.netType };
-      form.vlan = [this.vlan];
+      if (this.vlan.enabled) {
+        form.vlan = [this.vlan];
+      }
       switch (this.netType) {
         case CONSTANTS.WanType.dhcp:
           if (!this.$refs.dhcpForm.validate()) {
