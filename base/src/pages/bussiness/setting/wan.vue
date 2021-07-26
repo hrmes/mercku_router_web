@@ -575,8 +575,10 @@ export default {
         return;
       }
       const form = { type: this.netType };
-      if (this.vlan.enabled) {
+      if (this.vlan.id) {
         form.vlan = [this.vlan];
+      } else {
+        form.vlan = [];
       }
       switch (this.netType) {
         case CONSTANTS.WanType.dhcp:
