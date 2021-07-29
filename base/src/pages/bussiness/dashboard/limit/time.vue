@@ -89,12 +89,14 @@
 </template>
 <script>
 import { Weeks } from '../../../../util/constant';
+import TimezoneOffset from '../../../../mixins/timezone-offset';
 
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
   return s;
 };
 export default {
+  mixins: [TimezoneOffset],
   data() {
     return {
       modalStatus: 'add',
@@ -315,6 +317,7 @@ export default {
             this.getList();
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.isSameTimezoneOffset();
           })
           .catch(() => {
             this.$loading.close();
@@ -350,6 +353,7 @@ export default {
 
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.isSameTimezoneOffset();
           })
           .catch(() => {
             this.$loading.close();

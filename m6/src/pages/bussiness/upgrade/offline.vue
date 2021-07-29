@@ -26,12 +26,13 @@
           </div>
           <div class="upload">
             <m-upload ref="uploader"
+                      dragable
                       :onChange="onChange"
                       :onCancel="onCancel"
+                      :label="$t('trans0042')"
                       :beforeUpload="beforeUpload"
                       :request="upload"
                       :packageInfo="packageInfo"
-                      :label="$t('trans0042')"
                       :accept="accept" />
           </div>
           <div class="nodes-wrapper"
@@ -264,7 +265,8 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 300
+                  timeout: 300,
+                  progressVisible: true
                 });
               })
               .catch(() => {

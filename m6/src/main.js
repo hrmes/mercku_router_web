@@ -92,10 +92,6 @@ const launch = () => {
   let upgrading = false;
   const upgrade = options => {
     upgrading = true;
-    upgradeComponent.open({
-      title: i18nInstance.translate('trans0212'),
-      tip: i18nInstance.translate('trans0213')
-    });
     const opt = {
       ...{
         onsuccess: () => {},
@@ -106,10 +102,17 @@ const launch = () => {
             upgradeHelper(res.data);
           });
         },
-        timeout: 600
+        timeout: 300,
+        progressVisible: false
       },
       ...options
     };
+    upgradeComponent.open({
+      title: i18nInstance.translate('trans0212'),
+      tip: i18nInstance.translate('trans0213'),
+      timeout: opt.timeout,
+      progressVisible: opt.progressVisible
+    });
     reconnect({
       onsuccess: () => {
         upgrading = false;

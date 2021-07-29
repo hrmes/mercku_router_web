@@ -677,7 +677,7 @@
   "trans0682": "Veuillez saisir l'indentification VLAN fourni par votre fournisseur d'accès Internet (FAI), sinon ignorez ce message.",
   "trans0683": "Paramètres Avancés",
   "trans0684": "ID de VLAN Internet",
-  "trans0685": "Étiqueté",
+  "trans0685": "Tagged",
   "trans0686": "Priorité",
   "trans0687": "Entier 1 - 4094",
   "trans0688": "Échoué, la configuration est indisponible.",
@@ -917,8 +917,13 @@
   "trans0922": "Le mot de passe administrateur initial est le même que le mot de passe Wi-Fi et peut être modifié dans «Paramètres».",
   "trans0923": "Nom Wifi 2.4G",
   "trans0924": "Nom Wifi 5G",
-  "trans0925": " ",
-  "trans0926": " ",
-  "trans0927": " ",
-  "trans0928": " "
+  "trans0925": "Le fuseau horaire actuel du routeur est incompatible avec le fuseau horaire du système. Voulez-vous que le fuseau horaire du routeur soit cohérent avec le fuseau horaire du système ?\n",
+  "trans0926": "Pas maintenant",
+  "trans0927": "Relâchez pour télécharger",
+  "trans0928": "Faites glisser pour télécharger des fichiers",
+  "trans0929": " ",
+  "trans0930": " ",
+  "trans0931": " ",
+  "trans0932": " ",
+  "trans0933": " "
 }

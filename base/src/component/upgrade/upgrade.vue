@@ -8,6 +8,15 @@
         <div v-if="title"
              class="title">{{title}}</div>
         <div v-html="tip"></div>
+        <!-- 升级进度条 -->
+        <div class='progress-wrapper'
+             v-if="progressVisible">
+          <div class="progress">
+            <div class="progress-bar"
+                 :style='styles'>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </transition>
@@ -23,8 +32,35 @@ export default {
       visible: false,
       template: '',
       title: '',
-      tip: ''
+      tip: '',
+      styles: { width: 0 },
+      percent: 0,
+      timeout: 0,
+      countdown: 0,
+      timer: null,
+      progressVisible: false
     };
+  },
+  mounted() {
+    this.createTimer();
+  },
+  methods: {
+    createTimer() {
+      this.countdown = this.timeout;
+      const average = 100 / this.timeout;
+      this.timer = setInterval(() => {
+        if (!this.countdown) {
+          this.cleanup();
+          return;
+        }
+        this.countdown -= 1;
+        this.percent += average;
+        this.styles.width = `${this.percent}%`;
+      }, 1000);
+    },
+    cleanup() {
+      clearTimeout(this.timer);
+    }
   }
 };
 </script>
@@ -71,6 +107,30 @@ export default {
     color: $upgrade-text-color;
     display: block;
     margin-top: 10px;
+  }
+  .progress-wrapper {
+    margin-top: 20px;
+    width: 300px;
+    display: inline-block;
+    .progress {
+      height: 10px;
+      background: $progress-background-color;
+      border-radius: 50px;
+    }
+    .progress-bar {
+      float: left;
+      width: 0;
+      height: 100%;
+      border-radius: 50px;
+      font-size: 12px;
+      max-width: 100%;
+      line-height: 20px;
+      overflow: hidden;
+      color: $progress-bar-color;
+      text-align: center;
+      background-color: $progress-bar-background-color;
+      transition: width 1s ease;
+    }
   }
 }
 </style>
