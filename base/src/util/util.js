@@ -191,6 +191,9 @@ export const isValidGatewayIP = (ip, mask) => {
   const CIPMask = ipRule(ip, mask);
   return AIPMask || BIPMask || CIPMask;
 };
+
+export const isNetworkIP = ip => {};
+export const isBoardcastIP = ip => {};
 export const getSubNetwork = (hostIP, mask) => ip2int(hostIP) & ip2int(mask);
 export const compareVersion = (version1, version2) => {
   if (!version2) {
