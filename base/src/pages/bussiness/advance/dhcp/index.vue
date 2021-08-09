@@ -73,7 +73,9 @@ import {
   isValidGatewayIP,
   getSubNetwork,
   ip2int,
-  isValidMask
+  isValidMask,
+  isNetworkIP,
+  isBoardcastIP
 } from '../../../../util/util';
 
 const isSameSubNetwork = (ip, lanip, mask) => {
@@ -137,6 +139,18 @@ export default {
           {
             rule: value => ipReg.test(value) && isPrivateIP(value),
             message: this.$t('trans0231')
+          },
+          {
+            rule: value => !isNetworkIP(value, this.form.mask),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => !isBoardcastIP(value, this.form.mask),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => isValidGatewayIP(value, this.form.mask),
+            message: this.$t('trans0231')
           }
         ],
         mask: [
@@ -163,6 +177,14 @@ export default {
             message: this.$t('trans0231')
           },
           {
+            rule: value => !isNetworkIP(value, this.form.mask),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => !isBoardcastIP(value, this.form.mask),
+            message: this.$t('trans0231')
+          },
+          {
             rule: value => isSameSubNetwork(value, this.form.ip, this.form.mask),
             message: this.$t('trans0231')
           }
@@ -175,6 +197,14 @@ export default {
 
           {
             rule: value => ipReg.test(value),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => !isNetworkIP(value, this.form.mask),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => !isBoardcastIP(value, this.form.mask),
             message: this.$t('trans0231')
           },
           {
