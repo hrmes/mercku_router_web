@@ -1,0 +1,31 @@
+{
+  "id": "0006",
+  "_host": "http://wifi.realnett.no",
+  "host": "http://mywifi.mercku.tech",
+  "title": "real|wifi R6 Mesh-sentral",
+  "accept": ".real",
+  "favicon": "customer-conf/0006/favicon.ico",
+  "policy": "https://www.realnett.no/privacy",
+  "allow2LevelAdmin": true,
+  "languages": ["zh-CN", "en-US", "nb-NO"],
+  "defaultLanguage": "nb-NO",
+  "routers": {
+    "Bee": {
+      "name": "real|wifi mesh node",
+      "shortName": "Bee"
+    },
+    "M6": {
+      "name": "real|wifi R6 ruter",
+      "shortName": "R6"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#085182"
+  },
+  "website": {
+    "url": "https://www.realnett.no",
+    "text": "www.realnett.no"
+  },
+  "appDownloadUrl": "https://apk-realnett.merckuwifi.com"
+}
