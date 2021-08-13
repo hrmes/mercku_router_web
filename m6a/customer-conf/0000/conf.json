@@ -1,0 +1,23 @@
+{
+  "id": "0000",
+  "title": "Demo",
+  "accept": "*.*",
+  "favicon": "customer-conf/0000/favicon.png",
+  "policy": "",
+  "allow2LevelAdmin": false,
+  "languages": ["zh-CN", "en-US", "nl-NL", "de-DE"],
+  "routers": {
+    "M2": {
+      "name": "M2 Standalone Wi-Fi router",
+      "shortName": "M2"
+    },
+    "Bee": {
+      "name": "M2 Bee Wi-Fi Mesh Node",
+      "shortName": "Bee"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#999999"
+  }
+}

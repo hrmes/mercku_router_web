@@ -1,0 +1,202 @@
+@import './button.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Helvetica, Arial, 'Microsoft Yahei', 'Hiragino Sans GB',
+    'Heiti SC', 'WenQuanYi Micro Hei', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+body {
+  overflow: hidden;
+}
+// fix safari placeholder not vertical align
+input::-webkit-input-placeholder {
+  line-height: normal !important;
+}
+input::-webkit-credentials-auto-fill-button {
+  display: none !important;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  /* 避免占用 input 元素额外的 padding，正常情况下存在 display: none!; 就可以了 */
+  right: 0;
+}
+
+.reset-ul {
+  margin: 0;
+  padding: 0;
+}
+
+.add-mesh-tip {
+  color: #fff;
+  display: block;
+  margin-top: 10px;
+}
+
+input::-webkit-input-placeholder {
+  color: #bdbdbd;
+}
+* {
+  -webkit-overflow-scrolling: touch;
+}
+::-ms-clear,
+::-ms-reveal {
+  display: none;
+}
+
+/**=============================S页面级公共样式=======================================**/
+.page {
+  position: relative;
+  flex: auto;
+  margin: 0 10%;
+
+  @media screen and (max-width: 1440px) {
+    margin: 0 50px;
+  }
+
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 8px;
+
+  .page-header {
+    border-bottom: 1px solid #f1f1f1;
+    font-size: 16px;
+    color: #333333;
+    font-weight: bold;
+    height: 50px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .page-content {
+    border-radius: 8px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form {
+    .form-item {
+      margin-bottom: 30px;
+      width: 100%;
+    }
+  }
+
+  .form-button {
+    margin-top: 20px;
+  }
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid #f1f1f1;
+  height: 50px;
+
+  img {
+    display: none;
+  }
+
+  .btn {
+    display: none;
+  }
+}
+label.with-colon {
+  margin-right: 5px;
+}
+
+.is-checked {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  background-color: transparent;
+  border-radius: 100%;
+  &::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 25%;
+    border-style: solid;
+    border-width: 3px;
+    border-color: $primaryColor;
+    border-radius: 1px;
+    border-top: none;
+    border-right: none;
+    background: transparent;
+    transform: rotate(-45deg);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page {
+    margin: 0;
+    padding: 0;
+
+    .page-header {
+      font-size: 16px;
+      font-weight: bold;
+      padding: 16px 20px;
+      height: 60px;
+    }
+
+    .page-content {
+      padding: 20px;
+    }
+  }
+  .form {
+    width: 100%;
+
+    .form-item {
+      width: 100%;
+    }
+  }
+  .form-button {
+    width: 100%;
+  }
+  .table {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .empty {
+      height: auto;
+      flex-direction: column;
+      border: none;
+
+      p {
+        margin: 0;
+      }
+
+      img {
+        width: 150px;
+        display: block;
+      }
+
+      .btn {
+        display: block;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+/**=============================E页面级公共样式=======================================**/
