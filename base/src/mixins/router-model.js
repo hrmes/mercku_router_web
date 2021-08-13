@@ -24,6 +24,9 @@ export default {
         case RouterSnModel.M6c:
           image = require('@/assets/images/img_wifi6.png');
           break;
+        case RouterSnModel.M6a:
+          image = require('@/assets/images/img_wifi6.png');
+          break;
         default:
           break;
       }
@@ -36,7 +39,8 @@ export default {
         [RouterSnModel.M2]: process.env.CUSTOMER_CONFIG.routers.M2,
         [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee,
         [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
-        [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c
+        [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
+        [RouterSnModel.M6a]: process.env.CUSTOMER_CONFIG.routers.M6a
       }
     };
   }
