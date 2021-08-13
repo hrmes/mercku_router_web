@@ -25,7 +25,7 @@
               <div class="list">
                 <div class="device-item"
                      @click="checkDevice(item)"
-                     v-for="(item,index) in devices"
+                     v-for="(item,index) in devicesFiltered"
                      :key="index">
                   <div class="check">
                     <m-checkbox :readonly="true"
@@ -53,7 +53,8 @@
                 <button class="btn btn-middle btn-default"
                         @click="()=>modalShow=false">{{$t('trans0025')}}</button>
                 <button class="btn btn-dialog-confirm"
-                        @click="chooseDevice">{{$t('trans0024')}}</button>
+                        @click="chooseDevice"
+                        v-if="devicesFiltered.length">{{$t('trans0024')}}</button>
               </div>
             </div>
           </div>
@@ -143,6 +144,12 @@ export default {
   computed: {
     formType() {
       return this.$route.params.id ? 'update' : 'add';
+    },
+    devicesFiltered() {
+      return this.devices.filter(item => {
+        item.checked = false;
+        return this.formatMac(item.mac) !== this.form.mac;
+      });
     }
   },
   mounted() {
@@ -191,16 +198,20 @@ export default {
       device.checked = !device.checked;
     },
     getDevices() {
-      this.$http
-        .getDeviceList({
+      Promise.all([
+        this.$http.meshRsvdipGet(),
+        this.$http.getDeviceList({
           filters: [
             { type: 'primary', status: ['online'] },
             { type: 'guest', status: ['online'] }
           ]
         })
-        .then(res => {
-          this.devices = res.data.result.map(v => ({ ...v, checked: false }));
-        });
+      ]).then(([res1, res2]) => {
+        const deviceMacBindedArr = res1.data.result.map(item => item.mac);
+        this.devices = res2.data.result
+          .filter(v => !deviceMacBindedArr.includes(v.mac))
+          .map(v => ({ ...v, checked: false }));
+      });
     },
     submit() {
       let fetchMethod = 'meshRsvdipAdd';
