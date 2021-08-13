@@ -677,7 +677,7 @@
   "trans0682": "Bitte fügen Sie, die von ihrem Internetanbieter zur Verfügung gestellt VAN ID, ein. Wenn Sie keine zur Verfügung gestellt bekommen haben ignorieren Sie das.",
   "trans0683": "Erweiterte Einstellungen",
   "trans0684": "Internet VLAN ID",
-  "trans0685": "Markiert",
+  "trans0685": "Tagged",
   "trans0686": "Priorität",
   "trans0687": "Ganzzahl 1 - 4094",
   "trans0688": "Fehlgeschlagen. Diese Konfiguration ist nicht verfügbar.",
@@ -917,8 +917,13 @@
   "trans0922": "Das anfängliche Admin-Passwort ist das gleiche wie das Wi-Fi-Passwort und kann in den \"Einstellungen\" geändert werden.",
   "trans0923": "2.4G WLAN-Name",
   "trans0924": "5G WLAN-Name",
-  "trans0925": " ",
-  "trans0926": " ",
-  "trans0927": " ",
-  "trans0928": " "
+  "trans0925": "Die aktuelle Router-Zeitzone stimmt nicht mit der Systemzeitzone überein. Möchten Sie die Zeitzone des Routers so einstellen, dass sie mit der Systemzeitzone übereinstimmt?",
+  "trans0926": "Nicht jetzt",
+  "trans0927": "Zum Hochladen freigeben",
+  "trans0928": "Zum Hochladen von Dateien ziehen",
+  "trans0929": " ",
+  "trans0930": " ",
+  "trans0931": " ",
+  "trans0932": " ",
+  "trans0933": " "
 }

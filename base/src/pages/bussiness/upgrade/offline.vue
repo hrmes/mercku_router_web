@@ -26,6 +26,7 @@
           </div>
           <div class="upload">
             <m-upload ref="uploader"
+                      dragable
                       :onChange="onChange"
                       :onCancel="onCancel"
                       :beforeUpload="beforeUpload"
@@ -273,7 +274,8 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 300
+                  timeout: 300,
+                  progressVisible: true
                 });
               })
               .catch(() => {

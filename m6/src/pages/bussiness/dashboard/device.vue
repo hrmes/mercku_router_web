@@ -9,7 +9,6 @@
           {{tab.text}}
         </m-tab>
       </m-tabs>
-
       <div class="offline-handle-wrapper"
            v-if="isOfflineDevices">
         <div class="check-info">
@@ -41,6 +40,9 @@
               </div>
               {{$t('trans0005')}}
             </li>
+            <!-- 连接设备 -->
+            <li class="column-real-time"
+                v-if="!isOfflineDevices">{{$t('trans0618')}}</li>
             <li class="column-real-time"
                 v-if="!isOfflineDevices">{{$t('trans0367')}}</li>
             <li class="column-band"
@@ -48,9 +50,18 @@
             <li class="column-ip"
                 v-if="!isOfflineDevices">{{$t('trans0151')}} /
               {{$t('trans0188')}}</li>
+            <!-- 接入时间 -->
+            <!-- <li class="column-ip"
+                v-if="isOfflineDevices">
+              {{$t('trans0374')}}</li> -->
+            <!-- 在线时长 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
-              {{$t('trans0374')}}</li>
+              {{$t('trans0631')}}</li>
+            <!-- 离线时间 -->
+            <li class="column-ip"
+                v-if="isOfflineDevices">
+              {{$t('trans0630')}}</li>
             <li class="column-ip"
                 v-if="isOfflineDevices">
               {{$t('trans0188')}}</li>
@@ -71,7 +82,6 @@
                 class="reset-ul">
               <li class="column-name"
                   @click.stop="expandTable(row)">
-
                 <div class="name-wrap"
                      :class="{'wired':isWired(row),'offline':isOfflineDevices}">
                   <div class="column-check-box"
@@ -114,7 +124,13 @@
                     </span>
                   </div>
                 </div>
-
+              </li>
+              <!-- 连接设备 -->
+              <li class="column-ip device-item"
+                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                <span>{{$t('trans0618')}}</span>
+                <span class="overflow-hidden"
+                      :title="accessNodeName(row)">{{accessNodeName(row)}}</span>
               </li>
               <li class="column-real-time"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
@@ -149,18 +165,31 @@
                   <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
                 </span>
-
               </li>
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span>{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
-              <li class="column-ip device-item"
+              <!-- <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
                 <span>{{$t('trans0374')}}</span>
                 <span> {{transformOfflineDate(row.connected_time)}} </span>
+              </li> -->
+              <!-- 在线时长 -->
+              <li class="column-ip device-item"
+                  :class="{'offline':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+                <span>{{$t('trans0631')}}</span>
+                <span> {{transformDuration(row.online_info.online_duration)}} </span>
+              </li>
+              <!-- 离线时间 -->
+              <li class="column-ip device-item"
+                  :class="{'offline':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+                <span>{{$t('trans0630')}}</span>
+                <span> {{transformOfflineDate(row.offline_time)}} </span>
               </li>
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
@@ -220,7 +249,6 @@
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
                 </span>
-
                 <span class="btn-text text-primary btn-text-strange"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
@@ -268,8 +296,8 @@
   </div>
 </template>
 <script>
+import { formatMac, getStringByte, formatDate, formatDuration } from 'base/util/util';
 import { BlacklistMode } from 'base/util/constant';
-import { formatMac, getStringByte, formatDate } from 'base/util/util';
 
 export default {
   data() {
@@ -358,6 +386,9 @@ export default {
     this.timer = null;
   },
   methods: {
+    accessNodeName(row) {
+      return row?.access_node?.name ?? '-';
+    },
     isWired(row) {
       return row.online_info.band === 'wired';
     },
@@ -405,7 +436,7 @@ export default {
       });
     },
     fillterOfflineDevices(arr) {
-      return arr.sort((a, b) => b.connected_time - a.connected_time);
+      return arr.sort((a, b) => b.offline_time - a.offline_time);
     },
     filterDevices(arr) {
       const newArr = arr
@@ -635,20 +666,74 @@ export default {
         return '-';
       }
       const split = [3600 * 24, 3600, 60, 5];
+      // 大于1天
       if (date > split[0]) {
         const now = new Date().getTime();
         return formatDate(now - date * 1000);
       }
+      // 小于1天大于1小时
       if (date <= split[0] && date > split[1]) {
         return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
       }
+      // 小于1小时大于1分钟
       if (date <= split[1] && date > split[2]) {
         return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
       }
+      // 小于1分钟大于5秒
       if (date <= split[2] && date > split[3]) {
         return `${this.$t('trans0011').replace('%d', parseInt(date, 10))}`;
       }
       return `${this.$t('trans0010')}`;
+    },
+    transformDuration(zone) {
+      if (!zone || window.isNaN(zone) || parseInt(zone, 10) < 0 || !Number.isInteger(zone)) {
+        return '-';
+      }
+      let timeArr = formatDuration(zone);
+      let suffixs = [
+        {
+          key: 'year',
+          text: 'trans0531',
+          limitBefore: 1 // 向当前位的下多少位取值
+        },
+        {
+          key: 'month',
+          text: 'trans0532',
+          limitBefore: 1
+        },
+        {
+          key: 'day',
+          text: 'trans0533',
+          limitBefore: 1
+        },
+        {
+          key: 'hour',
+          text: 'trans0534',
+          limitBefore: 1
+        },
+        {
+          key: 'minute',
+          text: 'trans0535',
+          limitBefore: 0
+        },
+        {
+          key: 'second',
+          text: 'trans0536',
+          limitBefore: 0
+        }
+      ];
+      const first = timeArr.findIndex(val => val); // 找到第一个有值的日期
+      const suffix = suffixs[first];
+      const last = first + suffix.limitBefore + 1;
+      timeArr = timeArr.slice(first, last);
+      suffixs = suffixs.slice(first, last);
+      let durationStr = '';
+      suffixs.forEach((item, i) => {
+        if (timeArr[i]) {
+          durationStr += `${timeArr[i]} ${this.$t(suffixs[i].text)} `;
+        }
+      });
+      return durationStr;
     }
   },
   watch: {
@@ -796,7 +881,6 @@ export default {
       }
       .column-mac {
         display: none;
-
         span:first-child {
           display: none;
         }

@@ -45,9 +45,11 @@
 
 <script>
 import { Weeks } from 'base/util/constant';
+import TimezoneOffset from 'base/mixins/timezone-offset';
 
 const maxTrafficThreshold = 500;
 export default {
+  mixins: [TimezoneOffset],
   data() {
     return {
       auto_upgrade: {
@@ -114,8 +116,9 @@ export default {
       this.$http
         .setMeshAutoUpgrade(autoUpgrade)
         .then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
           this.$loading.close();
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.isSameTimezoneOffset();
         })
         .catch(() => {
           this.$loading.close();

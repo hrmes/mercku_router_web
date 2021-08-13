@@ -901,8 +901,16 @@
   "trans0906": "The path is too long",
   "trans0907": "Historical result",
   "trans0908": "Date",
-  "trans0909": "0",
-  "trans0910": " ",
-  "trans0911": "0",
-  "trans0912": "0"
+  "trans0909": "Monitor the status of the router in real-time",
+  "trans0910": "APP control, easily block unwanted Wi-Fi users",
+  "trans0911": "One-click settings for Rate Limit, Time Limit\n, Website Blocklist",
+  "trans0912": "Guest Wi-Fi, Port Forwarding, DHCP, VPN, Bridge mode, Static DHCP Lease...",
+  "trans0913": "Possible reasons for mesh network anomalies",
+  "trans0914": "Router Management",
+  "trans0915": "Devices Management",
+  "trans0916": "Parental Control",
+  "trans0917": "More Advanced Settings",
+  "trans0918": "Network Diagnosis",
+  "trans0919": "Sending",
+  "trans0920": "Go test"
 }
