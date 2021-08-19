@@ -550,13 +550,15 @@ export default {
             expand: false,
             checked: false
           }));
-          if (this.isMobile && this.devicesMap[this.id].length > 0) {
-            this.devicesMap[this.id].forEach(n => {
-              result.forEach(m => {
-                if (n.mac === m.mac) {
-                  m.expand = n.expand;
-                }
-              });
+          const originDevices = this.devicesMap[this.id];
+          // 维持设备之前的附加属性
+          if (originDevices.length > 0) {
+            originDevices.forEach(n => {
+              const device = result.find(r => r.mac === n.mac);
+              if (device) {
+                device.expand = n.expand;
+                device.checked = n.checked;
+              }
             });
           }
           this.devicesMap = {
