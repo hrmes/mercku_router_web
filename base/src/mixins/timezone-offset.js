@@ -30,7 +30,7 @@ export default {
         this.timezone = timezone;
       });
     },
-    isSameTimezoneOffset() {
+    isSameTimezoneOffset(cbs = {}) {
       const timezoneOffset = 0 - new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
       if (this.timezone !== timezoneOffset) {
         this.$dialog.confirm({
@@ -39,7 +39,13 @@ export default {
           message: this.$t('trans0925'),
           callback: {
             ok: () => {
+              const { okCb } = cbs;
+              okCb && okCb();
               this.$router.push({ path: '/setting/timezone' });
+            },
+            cancel: () => {
+              const { cancelCb } = cbs;
+              cancelCb && cancelCb();
             }
           }
         });

@@ -316,8 +316,11 @@ export default {
             this.$loading.close();
             this.getList();
             this.modalShow = false;
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.isSameTimezoneOffset();
+            this.isSameTimezoneOffset({
+              cancelCb: () => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+              }
+            });
           })
           .catch(() => {
             this.$loading.close();
@@ -350,10 +353,12 @@ export default {
               }
               return v;
             });
-
             this.modalShow = false;
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.isSameTimezoneOffset();
+            this.isSameTimezoneOffset({
+              cancelCb: () => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+              }
+            });
           })
           .catch(() => {
             this.$loading.close();

@@ -117,9 +117,12 @@ export default {
       this.$http
         .setMeshAutoUpgrade(autoUpgrade)
         .then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
           this.$loading.close();
-          this.isSameTimezoneOffset();
+          this.isSameTimezoneOffset({
+            cancelCb: () => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+            }
+          });
         })
         .catch(() => {
           this.$loading.close();
