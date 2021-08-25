@@ -31,5 +31,6 @@
     "url": "https://www.fibrestream.ca",
     "text": "https://www.fibrestream.ca"
   },
-  "appDownloadUrl": "https://app-fibrestream.merckuwifi.com"
+  "appDownloadUrl": "https://app-fibrestream.merckuwifi.com",
+  "supportWPA3": true
 }
