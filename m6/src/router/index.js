@@ -3,7 +3,6 @@ import Router from 'vue-router';
 
 import login from 'pages/login/index.vue';
 import dashboard from 'pages/bussiness/dashboard/index.vue';
-import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
@@ -12,10 +11,11 @@ import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
-import guest from 'pages/bussiness/setting/guest.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 
+import device from 'base/pages/bussiness/dashboard/device.vue';
+import guest from 'base/pages/bussiness/setting/guest.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
 import wlan from 'base/pages/bussiness/wlan/index.vue';

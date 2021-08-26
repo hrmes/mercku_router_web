@@ -19,10 +19,8 @@
                      src="../../../assets/images/icon/ic_question.png"
                      alt="">
               </m-popover>
-
             </div>
           </label>
-
           <m-switch v-model="form.enabled"
                     @change="guestEnabledChange" />
         </div>
@@ -42,11 +40,12 @@
           <m-form-item class="item">
             <m-select :label="$t('trans0522')"
                       v-model="form.encrypt"
-                      :options="options"></m-select>
+                      @change="onEncryptChange"
+                      :options="encryptMethods"></m-select>
           </m-form-item>
           <m-form-item class="item"
                        prop='password'
-                       v-if="form.encrypt!=='open'">
+                       v-if="form.encrypt!== EncryptMethod.open">
             <m-input v-model="form.password"
                      :label="$t('trans0172')"
                      type='password'
@@ -80,20 +79,18 @@
         </div>
         <div v-if="form.enabled&&showStatusPage">
           <div class="setting-ssid-info">
-            <label class="title with-colon">
-              {{$t('trans0168')}}:
-            </label>
+            <label class="title with-colon">{{$t('trans0168')}}:</label>
             <div v-if="guest.smart_connect">
-              <p class='name'>{{form.ssid}}</p>
+              <p class='name'>{{guest.bands[Bands.b24g].ssid}}</p>
             </div>
             <div v-else>
               <p>
                 <label class="with-colon">2.4G:</label>
-                {{form.ssid}}
+                <span>{{guest.bands[Bands.b24g].ssid}}</span>
               </p>
               <p>
                 <label class="with-colon">5G:</label>
-                {{ssid_5g}}
+                <span>{{guest.bands[Bands.b5g].ssid}}</span>
               </p>
             </div>
           </div>
@@ -104,8 +101,7 @@
             </div>
           </div>
           <div class="online-device">
-            <label class="title with-colon">{{$t('trans0235')}}:
-            </label>
+            <label class="title with-colon">{{$t('trans0235')}}:</label>
             <span>{{devicesCount}}</span>
           </div>
           <div class="form-button">
@@ -118,15 +114,20 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from '../../../util/util';
+import encryptMix from '../../../mixins/encrypt-methods';
+import { EncryptMethod } from '../../../util/constant';
+import { getStringByte, isValidPassword, isFieldHasComma } from '../../../util/util';
 
 const Bands = {
   b24g: '2.4G',
   b5g: '5G'
 };
 export default {
+  mixins: [encryptMix],
   data() {
     return {
+      Bands,
+      EncryptMethod,
       showSettingPage: false,
       showStatusPage: false,
       showCancelBtn: false,
@@ -152,46 +153,36 @@ export default {
           value: 3 * 60 * 60
         }
       ],
-      options: [
-        {
-          value: 'open',
-          text: this.$t('trans0554')
-        },
-        {
-          value: 'wpawpa2',
-          text: this.$t('trans0557')
-        },
-        {
-          value: 'wpa2',
-          text: this.$t('trans0556')
-        },
-        {
-          value: 'wpa',
-          text: this.$t('trans0555')
-        }
-      ],
       form: {
         id: '',
         enabled: false,
         duration: -1,
         ssid: 'Mercku Guest',
-        encrypt: 'open',
+        encrypt: EncryptMethod.open,
         smart_connect: true
       },
       rules: {
         ssid: [
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0237')
+          },
+          {
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
           }
         ],
         password: [
           {
-            rule: value => passwordRule.test(value),
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
+          {
+            rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
         ]
@@ -200,6 +191,7 @@ export default {
   },
   computed: {
     ssid_5g() {
+      this.form.ssid = this.form.ssid.trim();
       return `${this.form.ssid}-5G`;
     },
     hasStatus() {
@@ -209,6 +201,7 @@ export default {
       let params = {};
       // 新建guest wifi
       if (this.form.enabled) {
+        this.form.ssid = this.form.ssid.trim();
         params = {
           id: this.form.id,
           enabled: this.form.enabled,
@@ -238,6 +231,21 @@ export default {
     }
   },
   methods: {
+    onEncryptChange(nv, ov) {
+      if (nv === EncryptMethod.wpa3) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0692'),
+          callback: {
+            cancel: () => {
+              this.form.encrypt = ov;
+              console.log('cancel', ov);
+            }
+          }
+        });
+      }
+    },
     cancel() {
       this.showStatusPage = true;
       this.showSettingPage = false;
@@ -259,7 +267,7 @@ export default {
           this.$dialog.confirm({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0025'),
-            message: this.$t('trans0229'),
+            message: this.$t('trans0559'),
             callback: {
               ok: () => {
                 this.updateGuestWIFIStatus(false);
@@ -318,8 +326,6 @@ export default {
       this.$http.meshGuestGet().then(res => {
         [this.guest] = res.data.result;
         const band24g = this.guest.bands[Bands.b24g];
-        const band5g = this.guest.bands[Bands.b5g];
-        console.log(band24g, band5g);
         this.form = {
           id: this.guest.id,
           enabled: this.guest.enabled,
@@ -468,6 +474,7 @@ export default {
   }
   .setting-ssid-info {
     display: flex;
+
     .name {
       // padding-left: 20px;
       // font-weight: bold
@@ -505,6 +512,7 @@ export default {
     }
     .tool {
       position: relative;
+
       display: inline-block;
       img {
         position: relative;

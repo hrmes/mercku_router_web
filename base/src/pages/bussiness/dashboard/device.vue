@@ -50,6 +50,10 @@
             <li class="column-ip"
                 v-if="!isOfflineDevices">{{$t('trans0151')}} /
               {{$t('trans0188')}}</li>
+            <!-- 接入时间 -->
+            <!-- <li class="column-ip"
+                v-if="isOfflineDevices">
+              {{$t('trans0374')}}</li> -->
             <!-- 在线时长 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
@@ -88,7 +92,7 @@
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
-                      <img v-if='row.local && !isOfflineDevices'
+                      <img v-if='row.local &&!isOfflineDevices'
                            src="../../../assets/images/icon/ic_user.png"
                            alt=""
                            style="margin-right:5px;margin-left:0;">
@@ -167,6 +171,12 @@
                 <span>{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
+              <!-- <li class="column-ip device-item"
+                  :class="{'offline':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
+                <span>{{$t('trans0374')}}</span>
+                <span> {{transformOfflineDate(row.connected_time)}} </span>
+              </li> -->
               <!-- 在线时长 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
@@ -325,11 +335,11 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !value.match(/^\s*$/),
+            rule: value => !value.trim().match(/^\s*$/),
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           }
         ]
@@ -425,43 +435,41 @@ export default {
         }
       });
     },
-    fillterOfflineDevices(arr) {
+    sortOfflineDevices(arr) {
       return arr.sort((a, b) => b.offline_time - a.offline_time);
     },
-    filterDevices(arr) {
-      const newArr = arr
-        .map(v => {
-          if (v.ip === this.localDeviceIP) {
-            return { ...v, local: true };
-          }
-          return { ...v, local: false };
-        })
-        .sort((a, b) => {
-          if (a.local || b.local) {
-            if (a.local) {
-              return -1;
+    sortDevices(arr) {
+      return (
+        arr
+          // 附件一个是否是本机的属性
+          .map(v => ({ ...v, local: v.ip === this.localDeviceIP }))
+          .sort((a, b) => {
+            // 本机放在最上面
+            if (a.local || b.local) {
+              if (a.local) {
+                return -1;
+              }
+              if (b.local) {
+                return 1;
+              }
+              return 0;
             }
-            if (b.local) {
-              return 1;
+            const wired = 'wired';
+            if (a.online_info.band === wired || b.online_info.band === wired) {
+              if (a.online_info.band === wired && b.online_info.band === wired) {
+                return a.name > b.name;
+              }
+              if (a.online_info.band === wired) {
+                return 1;
+              }
+              if (b.online_info.band === wired) {
+                return -1;
+              }
+              return 0;
             }
-            return 0;
-          }
-          const wired = 'wired';
-          if (a.online_info.band === wired || b.online_info.band === wired) {
-            if (a.online_info.band === wired && b.online_info.band === wired) {
-              return a.name > b.name;
-            }
-            if (a.online_info.band === wired) {
-              return 1;
-            }
-            if (b.online_info.band === wired) {
-              return -1;
-            }
-            return 0;
-          }
-          return a.online_info.online_duration - b.online_info.online_duration;
-        });
-      return newArr;
+            return a.online_info.online_duration - b.online_info.online_duration;
+          })
+      );
     },
     offCheckChange(v) {
       this.devicesMap[this.id].forEach(item => {
@@ -564,7 +572,7 @@ export default {
           this.devicesMap = {
             ...this.devicesMap,
             [curId]:
-              curId === 'offline' ? this.fillterOfflineDevices(result) : this.filterDevices(result)
+              curId === 'offline' ? this.sortOfflineDevices(result) : this.sortDevices(result)
           };
         }
       } catch (err) {
@@ -578,6 +586,7 @@ export default {
     },
     updateDeviceName() {
       if (this.$refs.form.validate()) {
+        this.form.name = this.form.name.trim();
         const params = {
           device: {
             name: this.form.name,
@@ -680,12 +689,12 @@ export default {
       if (!zone || window.isNaN(zone) || parseInt(zone, 10) < 0 || !Number.isInteger(zone)) {
         return '-';
       }
-      const timeArr = formatDuration(zone);
-      const suffixs = [
+      let timeArr = formatDuration(zone);
+      let suffixs = [
         {
           key: 'year',
           text: 'trans0531',
-          limitBefore: 1
+          limitBefore: 1 // 向当前位的下多少位取值
         },
         {
           key: 'month',
@@ -713,19 +722,17 @@ export default {
           limitBefore: 0
         }
       ];
-      let dateIndex = timeArr.findIndex(val => val); // 找到第一个有值的日期
-      let suffix = suffixs[dateIndex];
-      let durationStr = `${timeArr[dateIndex]} ${this.$t(suffix.text)} `;
-      if (suffix.limitBefore) {
-        const len = suffix.limitBefore;
-        for (let i = 0; i < len; i += 1) {
-          dateIndex += 1;
-          suffix = suffixs[dateIndex];
-          if (timeArr[dateIndex]) {
-            durationStr += `${timeArr[dateIndex]} ${this.$t(suffix.text)} `;
-          }
+      const first = timeArr.findIndex(val => val); // 找到第一个有值的日期
+      const suffix = suffixs[first];
+      const last = first + suffix.limitBefore + 1;
+      timeArr = timeArr.slice(first, last);
+      suffixs = suffixs.slice(first, last);
+      let durationStr = '';
+      suffixs.forEach((item, i) => {
+        if (timeArr[i]) {
+          durationStr += `${timeArr[i]} ${this.$t(suffixs[i].text)} `;
         }
-      }
+      });
       return durationStr;
     }
   },
