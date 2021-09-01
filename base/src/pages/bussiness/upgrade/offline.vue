@@ -59,18 +59,8 @@
                   <m-checkbox :readonly="true"
                               v-model="node.checked" />
                   <div class="img-container">
-                    <img class="img-m2"
-                         v-if="fwInfo.model.id === RouterSnModel.M2"
-                         src="../../../assets/images/img_m2.png"
-                         alt="" />
-                    <img class="img-bee"
-                         v-else-if="fwInfo.model.id === RouterSnModel.Bee"
-                         src="../../../assets/images/img_bee.png"
-                         alt="" />
-                    <img class="img-other"
-                         v-else
-                         src="../../../assets/images/icon/ic_default_router.png"
-                         alt="" />
+                    <img :src="getNodeImage(node)"
+                         alt="">
                   </div>
                   <div class="info-container">
                     <p class="node-name">{{ node.name }}</p>
@@ -110,14 +100,15 @@
   </div>
 </template>
 <script>
-import { RouterSnModel, UploadStatus } from '../../../util/constant';
-import { getFileExtendName } from '../../../util/util';
+import { UploadStatus } from 'base/util/constant';
+import { getFileExtendName } from 'base/util/util';
+import RouterModel from 'base/mixins/router-model';
 
 export default {
+  mixins: [RouterModel],
   data() {
     return {
       files: [],
-      RouterSnModel,
       accept: process.env.CUSTOMER_CONFIG.accept,
       localNodes: [],
       UploadStatus,
@@ -125,11 +116,7 @@ export default {
       cancelToken: null,
       packageInfo: {},
       fwInfo: {},
-      upgraded: false,
-      Products: {
-        M2: process.env.CUSTOMER_CONFIG.routers.M2,
-        Bee: process.env.CUSTOMER_CONFIG.routers.Bee
-      }
+      upgraded: false
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -160,14 +147,18 @@ export default {
       return this.localNodes.length > 0;
     },
     productName() {
-      return this.fwInfo.model.id === RouterSnModel.M2
-        ? this.Products.M2.name
-        : this.Products.Bee.name;
+      const product = this.Products[this.fwInfo.model.id];
+      if (product) {
+        return product.name;
+      }
+      return '';
     },
     modelName() {
-      return this.fwInfo.model.id === RouterSnModel.M2
-        ? this.Products.M2.shortName
-        : this.Products.Bee.shortName;
+      const product = this.Products[this.fwInfo.model.id];
+      if (product) {
+        return product.shortName;
+      }
+      return '';
     }
   },
   methods: {
@@ -398,13 +389,7 @@ export default {
         }
         .img-container {
           margin: 0 5px;
-          .img-m2 {
-            width: 80px;
-          }
-          .img-bee {
-            width: 80px;
-          }
-          .img-other {
+          img {
             width: 80px;
           }
         }

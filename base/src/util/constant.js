@@ -52,7 +52,8 @@ export const RouterSnModel = {
   M2: '01',
   Bee: '02',
   M6: '06',
-  M6c: '07'
+  M6c: '07',
+  M6a: '08'
 };
 export const SpeedTestStatus = {
   testing: 'testing',

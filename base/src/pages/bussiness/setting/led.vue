@@ -50,9 +50,12 @@ export default {
       this.$http
         .updateLEDTimeLimit(this.form)
         .then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
           this.$loading.close();
-          this.isSameTimezoneOffset();
+          this.isSameTimezoneOffset().then(result => {
+            if (result.same || !result.redirect) {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+            }
+          });
         })
         .catch(() => {
           this.$loading.close();
