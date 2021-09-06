@@ -66,5 +66,13 @@
       background-size: cover;
     }
   }
+  .mesh-container {
+    .mesh-info {
+      .btn-add,
+      .mobile-add {
+        display: none !important;
+      }
+    }
+  }
 }
 /******************deshboard页面背景图片***********/
