@@ -13,19 +13,19 @@ export default {
       let image = '';
       switch (id) {
         case RouterSnModel.M2:
-          image = require('@/assets/images/img_m2.png');
+          image = require('../assets/images/img_m2.png');
           break;
         case RouterSnModel.Bee:
-          image = require('@/assets/images/img_bee.png');
+          image = require('../assets/images/img_bee.png');
           break;
         case RouterSnModel.M6:
-          image = require('@/assets/images/img_wifi6.png');
+          image = require('../assets/images/img_wifi6.png');
           break;
         case RouterSnModel.M6c:
-          image = require('@/assets/images/img_wifi6.png');
+          image = require('../assets/images/img_wifi6.png');
           break;
         case RouterSnModel.M6a:
-          image = require('@/assets/images/img_wifi6.png');
+          image = require('../assets/images/img_wifi6.png');
           break;
         default:
           break;
