@@ -96,6 +96,10 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: true,
             auth: [Role.super]
           },
+          [Customers.inverto]: {
+            show: true,
+            auth: [Role.super]
+          },
           [Customers.fibrestream]: {
             show: true,
             auth: [Role.super]
