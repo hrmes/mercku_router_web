@@ -1,6 +1,7 @@
 {
   "id": "0004",
-  "host": "http://onenet.inverto.tv",
+  "_host": "http://onenet.inverto.tv",
+  "host": "http://mywifi.mercku.tech",
   "title": "Inverto.tv",
   "accept": ".tv",
   "favicon": "customer-conf/0004/favicon.png",
