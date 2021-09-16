@@ -80,6 +80,12 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.fibrestream]: {
             auth: [Role.admin]
+          },
+          [Customers.inverto]: {
+            auth: [Role.admin]
+          },
+          [Customers.orion]: {
+            auth: [Role.admin]
           }
         }
       },
@@ -97,6 +103,10 @@ export default function getMenu(role, mode = RouterMode.router) {
             auth: [Role.super]
           },
           [Customers.inverto]: {
+            show: true,
+            auth: [Role.super]
+          },
+          [Customers.orion]: {
             show: true,
             auth: [Role.super]
           },
