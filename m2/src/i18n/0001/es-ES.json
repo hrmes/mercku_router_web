@@ -945,7 +945,7 @@
   "trans0950": "Cheque",
   "trans0951": "Ignorar",
   "trans0952": "Active los permisos de notificación del sistema para recibir notificaciones sobre la incorporación de un nuevo dispositivo.",
-  "trans0953": "Ir a la configuración",
+  "trans0953": "Ir a configurar",
   "trans0954": "Ahora no",
   "trans0955": "Copiado al portapapeles",
   "trans0956": "El dispositivo no existe",
@@ -953,5 +953,8 @@
   "trans0958": "Dupdo",
   "trans0959": "Registración exitosa",
   "trans0960": "¡Felicidades!",
-  "trans0961": "Disfrutemos de una red potente y fácil de usar."
+  "trans0961": "Disfrutemos de una red potente y fácil de usar.",
+  "trans0962": " ",
+  "trans0963": " ",
+  "trans0964": " "
 }

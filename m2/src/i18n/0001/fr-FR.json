@@ -945,7 +945,7 @@
   "trans0950": "Vérifier",
   "trans0951": "Ignorer",
   "trans0952": "Veuillez activer les autorisations de notification du système pour recevoir une notification de l'adhésion d'un nouvel appareil.",
-  "trans0953": "Aller Réglage",
+  "trans0953": "Aller à la configuration",
   "trans0954": "Pas maintenant",
   "trans0955": "Copié dans le presse-papier",
   "trans0956": "L'appareil n'existe pas",
@@ -953,5 +953,8 @@
   "trans0958": "Copie",
   "trans0959": "Inscription réussie",
   "trans0960": "Toutes nos félicitations!",
-  "trans0961": "Profitons d'un réseau puissant et facile à utiliser."
+  "trans0961": "Profitons d'un réseau puissant et facile à utiliser.",
+  "trans0962": " ",
+  "trans0963": " ",
+  "trans0964": " "
 }
