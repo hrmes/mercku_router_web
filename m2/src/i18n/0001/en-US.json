@@ -945,7 +945,7 @@
   "trans0950": "Check",
   "trans0951": "Ignore",
   "trans0952": "Please turn on system notification permissions to receive notification of new device joining.",
-  "trans0953": "Go Setting",
+  "trans0953": "Go to set up",
   "trans0954": "Not Now",
   "trans0955": "Copied to clipboard",
   "trans0956": "Device does not exist",
@@ -953,5 +953,8 @@
   "trans0958": "Copy",
   "trans0959": "Registration success",
   "trans0960": "Congratulations！",
-  "trans0961": "Let's enjoying powerful and easy-to-use network."
+  "trans0961": "Let's enjoying powerful and easy-to-use network.",
+  "trans0962": " ",
+  "trans0963": " ",
+  "trans0964": " "
 }

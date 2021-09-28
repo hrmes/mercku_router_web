@@ -945,7 +945,7 @@
   "trans0950": "Prüfen",
   "trans0951": "Ignorieren",
   "trans0952": "Bitte aktivieren Sie die Systembenachrichtigungsberechtigungen, um Benachrichtigungen über den Beitritt eines neuen Geräts zu erhalten.",
-  "trans0953": "Go-Einstellung",
+  "trans0953": "Gehe zum Einrichten",
   "trans0954": "Nicht jetzt",
   "trans0955": "In die Zwischenablage kopiert",
   "trans0956": "Gerät existiert nicht",
@@ -953,5 +953,8 @@
   "trans0958": "Kopieren",
   "trans0959": "Registrierung erfolgreich",
   "trans0960": "Herzliche Glückwünsche!",
-  "trans0961": "Genießen Sie ein leistungsstarkes und benutzerfreundliches Netzwerk."
+  "trans0961": "Genießen Sie ein leistungsstarkes und benutzerfreundliches Netzwerk.",
+  "trans0962": " ",
+  "trans0963": " ",
+  "trans0964": " "
 }
