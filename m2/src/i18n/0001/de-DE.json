@@ -798,7 +798,7 @@
   "trans0803": " ",
   "trans0804": "Anmelden mit Email",
   "trans0805": "E-Mail-Format ist falsch",
-  "trans0806": "Diese E-Mail Adresse ist bereits registriert, ",
+  "trans0806": "Diese E-Mail Adresse ist bereits registriert,",
   "trans0807": "Mit Handynummer anmelden",
   "trans0808": "Wir haben eine E-Mail mit einem Verifizierungscode an %s gesendet, Bitte geben Sie den Code aus Ihrer E-Mail ein.",
   "trans0809": "Bitte Verifizierungscode eingeben",
@@ -807,7 +807,7 @@
   "trans0812": "Wenn Sie die Nachricht nicht erhalten? Bitte überprüfen Sie, ob es sich im Spam- / Werbe-Mail-Ordner befindet",
   "trans0813": "Der Verifizierungscode Captcha, ist abgelaufen und wurde erneut gesendet",
   "trans0814": "Wir haben eine Verifizierungscode-SMS an %s gesendet. Bitte geben Sie den Code von Ihrem Handy ein.",
-  "trans0815": "Diese Handynummer ist bereits registriert. ",
+  "trans0815": "Diese Handynummer ist bereits registriert.",
   "trans0816": "Bitte geben Sie die registrierte E-Mail-Adresse ein",
   "trans0817": "Bitte geben Sie die registrierte Handynummer ein",
   "trans0818": "Die Handynummer ist nicht registriert",
@@ -956,5 +956,7 @@
   "trans0961": "Genießen Sie ein leistungsstarkes und benutzerfreundliches Netzwerk.",
   "trans0962": " ",
   "trans0963": " ",
-  "trans0964": " "
+  "trans0964": " ",
+  "trans0965": " ",
+  "trans0966": " "
 }

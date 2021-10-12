@@ -24,6 +24,7 @@ import defaultButton from './component/default-button/index.vue';
 import mLoading from './component/loading/loading-new.vue';
 import mTag from './component/tag/index.vue';
 import MHeader from './component/header/header.vue';
+import MCheckboxGroup from './component/checkbox-group/index.vue';
 
 const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);

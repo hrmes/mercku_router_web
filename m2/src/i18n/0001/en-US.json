@@ -798,7 +798,7 @@
   "trans0803": " ",
   "trans0804": "Log in with Email",
   "trans0805": "Email format is incorrect",
-  "trans0806": "The Email has been registered, ",
+  "trans0806": "The Email has been registered,",
   "trans0807": "Sign up with mobile number",
   "trans0808": "We have sent a verification code email to %s, Please enter the code from your email.",
   "trans0809": "Please enter verification code",
@@ -817,7 +817,7 @@
   "trans0822": "%s is your Mercku password reset code[PIN]",
   "trans0823": "%s is your verify code",
   "trans0824": "Hi,\nThank you for registering a Merkcu account.\nYou can enter this code to verify:\n \n\n(In order to protect the security of your account, \nplease complete the verification within 1 hour.)",
-  "trans0825": "Do not reply to this email; it was sent from an unmonitored email address.\nFor inquiries, please contact our Technical Support at www.mercku.com\n\n      \nSincerely,\nMercku Team",
+  "trans0825": "Do not reply to this email; it was sent from an unmonitored email address.\nFor inquiries, please contact our Technical Support at www.mercku.com\n\n \nSincerely,\nMercku Team",
   "trans0826": "Hi,\nWe have received a request to reset the password for your Mercku account. \nIf you did not submit the request, please disregard this email and continue to use your current password.\n\nYou can enter this code to verify:\n \n\n(In order to protect the security of your account, \nplease complete the verification within 1 hour.)",
   "trans0827": " ",
   "trans0828": "If the above still cannot fix the problem, please contact support, we will guide you to analyze the issue step by step in-depth.",
@@ -954,7 +954,9 @@
   "trans0959": "Registration success",
   "trans0960": "Congratulations！",
   "trans0961": "Let's enjoying powerful and easy-to-use network.",
-  "trans0962": " ",
-  "trans0963": " ",
-  "trans0964": " "
+  "trans0962": "Wi-Fi Off Schedule",
+  "trans0963": "Repeat",
+  "trans0964": "Never",
+  "trans0965": "Start Time",
+  "trans0966": "End Time"
 }
