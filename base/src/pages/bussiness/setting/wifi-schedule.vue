@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       form: {
-        id: 0,
+        id: '0',
         enabled: false,
         time_begin: '22:00',
         time_end: '07:00',
