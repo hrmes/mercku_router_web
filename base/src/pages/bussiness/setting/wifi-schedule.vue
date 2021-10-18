@@ -139,11 +139,15 @@ export default {
         .then(() => {
           this.$loading.close();
           this.originEnabled = this.form.enabled;
-          this.isSameTimezoneOffset().then(result => {
-            if (result.same || !result.redirect) {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-            }
-          });
+          if (this.form.enabled) {
+            this.isSameTimezoneOffset().then(result => {
+              if (result.same || !result.redirect) {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+              }
+            });
+          } else {
+            this.$toast(this.$t('trans0040'), 3000, 'success');
+          }
         })
         .catch(() => {
           this.$loading.close();
