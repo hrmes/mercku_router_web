@@ -111,6 +111,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'setting.led',
         text: 'trans0779',
         config
+      },
+      {
+        url: '/setting/wifi-schedule',
+        name: 'setting.wifi-schedule',
+        text: 'trans0962',
+        config
       }
       // {
       //   url: '/setting/wps',
