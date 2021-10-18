@@ -141,8 +141,8 @@ const commonMethods = {
   updateMeshConfigWanNetIpv6: createMethod('mesh.config.wan.net.ipv6.update'),
   getLEDTimeLimit: createMethod('mesh.led.time_limit.get'),
   updateLEDTimeLimit: createMethod('mesh.led.time_limit.update'),
-  getWIFITimeLimit: createMethod('mesh.wifi.time_limit.get'),
-  updateWIFITimeLimit: createMethod('mesh.wifi.time_limit.update')
+  getWIFITimeLimit: createMethod('mesh.config.wifi.time_limit.get'),
+  updateWIFITimeLimit: createMethod('mesh.config.wifi.time_limit.update')
 };
 
 // 获取主页

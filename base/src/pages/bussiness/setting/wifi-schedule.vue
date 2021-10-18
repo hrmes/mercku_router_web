@@ -8,35 +8,42 @@
         <m-form-item class="form__item--first">
           <m-switch :label="$t('trans0462')"
                     class="smart-connect__switch"
-                    v-model="form.enabled" />
+                    v-model="form.enabled"
+                    @change="onEnableChange" />
         </m-form-item>
 
-        <m-form-item class="form__item schedule-item">
-          <label class="form__label">{{$t('trans0082')}}</label>
-          <div class="schedules">
-            <m-checkbox class="schedules__schedule"
-                        v-for="schedule in schedules"
-                        :key="schedule.value"
-                        v-model="schedule.checked"
-                        :text="schedule.label"></m-checkbox>
-            <label v-show="showErrorTip"
-                   class="schedules__error">{{$t('trans0388')}}</label>
-          </div>
+        <div class="form__advance"
+             v-show="form.enabled">
+          <m-form-item class="form__item schedule-item">
+            <label class="form__label">{{$t('trans0082')}}</label>
+            <div class="schedules">
+              <m-checkbox class="schedules__schedule"
+                          v-for="schedule in schedules"
+                          :key="schedule.value"
+                          v-model="schedule.checked"
+                          :text="schedule.label"></m-checkbox>
+              <label v-show="showErrorTip"
+                     class="schedules__error">{{$t('trans0388')}}</label>
+            </div>
 
-        </m-form-item>
+          </m-form-item>
 
-        <m-form-item class="form__item">
-          <label class="form__label">{{$t('trans0965')}}</label>
-          <m-time-picker class="time-picker"
-                         v-model="form.time_begin" />
-        </m-form-item>
-        <m-form-item class="form__item">
-          <label class="form__label">{{$t('trans0966')}}</label>
-          <m-time-picker class="time-picker"
-                         v-model="form.time_end" />
-        </m-form-item>
+          <m-form-item class="form__item">
+            <label class="form__label">{{$t('trans0965')}}</label>
+            <m-time-picker class="time-picker"
+                           v-model="form.time_begin" />
+          </m-form-item>
+
+          <m-form-item class="form__item">
+            <label class="form__label">{{$t('trans0966')}}</label>
+            <m-time-picker class="time-picker"
+                           v-model="form.time_end" />
+          </m-form-item>
+        </div>
+
       </m-form>
-      <div class="form-button">
+      <div class="form-button"
+           v-show="form.enabled">
         <button class="btn primary"
                 v-defaultbutton
                 @click="updateWIFITimeLimit">{{$t('trans0081')}}</button>
@@ -59,6 +66,7 @@ export default {
         time_end: '07:00',
         bands: ['2.4g', '5g']
       },
+      originEnabled: false,
       showErrorTip: false,
       schedules: [
         {
@@ -111,6 +119,11 @@ export default {
     }
   },
   methods: {
+    onEnableChange(enabled) {
+      if (!enabled && this.originEnabled) {
+        this.updateWIFITimeLimit();
+      }
+    },
     updateWIFITimeLimit() {
       const schedule = this.schedules.filter(s => s.checked).map(s => s.value);
       if (!schedule.length) {
@@ -125,6 +138,7 @@ export default {
         })
         .then(() => {
           this.$loading.close();
+          this.originEnabled = this.form.enabled;
           this.isSameTimezoneOffset().then(result => {
             if (result.same || !result.redirect) {
               this.$toast(this.$t('trans0040'), 3000, 'success');
@@ -141,6 +155,7 @@ export default {
         .getWIFITimeLimit()
         .then(res => {
           const [first] = res.data.result;
+          this.originEnabled = first.enabled;
           this.form = {
             id: first.id,
             enabled: first.enabled,
@@ -148,6 +163,11 @@ export default {
             time_end: first.time_end,
             bands: first.bands
           };
+          this.schedules.forEach(s => {
+            if (first.schedule.includes(s.value)) {
+              s.checked = true;
+            }
+          });
           this.$loading.close();
         })
         .catch(() => {
@@ -181,13 +201,13 @@ export default {
         &.schedule-item {
           margin-bottom: 15px;
         }
-        &.form__item--first {
-          padding-bottom: 20px;
-          border-bottom: 1px solid #ebebeb;
-        }
         .time-picker {
           height: 48px;
         }
+      }
+      .form__advance {
+        border-top: 1px solid #ebebeb;
+        padding-top: 20px;
       }
       .tip__label {
         font-size: 12px;
