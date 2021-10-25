@@ -45,6 +45,7 @@ import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import internet from 'base/pages/bussiness/dashboard/internet.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
+import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 
 Vue.use(Router);
 
@@ -296,6 +297,11 @@ const routes = {
       path: '/setting/led',
       name: 'setting.led',
       component: led
+    },
+    {
+      path: '/setting/wifi-schedule',
+      name: 'setting.wifi-schedule',
+      component: wifiSchedule
     }
   ]
 };

@@ -35,9 +35,9 @@
                 :key="child.key"
                 @click.stop="jump(child,menu)"
                 v-for="child in menu.children"
-                :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
+                :class="{'selected':$route.name === child.name,'disabled':child.disabled}">
               {{$t(child.text)}}
-              <i v-if="$route.name.includes(child.name)"
+              <i v-if="$route.name === child.name"
                  class="is-checked"></i>
             </li>
           </ul>

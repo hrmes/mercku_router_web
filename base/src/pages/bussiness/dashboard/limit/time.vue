@@ -376,7 +376,7 @@ export default {
   justify-content: center;
   align-items: center;
   .message {
-    padding-left: 70px;
+    padding-left: 120px;
     font-size: 12px;
     color: #ff0001;
     display: inline-block;

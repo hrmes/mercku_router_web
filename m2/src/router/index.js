@@ -44,6 +44,7 @@ import led from 'base/pages/bussiness/setting/led.vue';
 import wps from 'base/pages/bussiness/setting/wps.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
+import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 
 Vue.use(Router);
 
@@ -272,6 +273,11 @@ export default new Router({
       path: '/setting/led',
       name: 'setting.led',
       component: led
+    },
+    {
+      path: '/setting/wifi-schedule',
+      name: 'setting.wifi-schedule',
+      component: wifiSchedule
     }
     // {
     //   path: '/setting/wps',
