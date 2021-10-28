@@ -203,7 +203,10 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        config: strategyA
+        config: strategyA,
+        [Customers.realnett]: {
+          auth: [Role.super]
+        }
       },
       {
         url: '/advance/wwa',
