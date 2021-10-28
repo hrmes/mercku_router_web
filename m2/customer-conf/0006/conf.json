@@ -1,7 +1,7 @@
 {
   "id": "0006",
-  "__host": "http://mywifi.mercku.tech",
-  "host": "http://wifi.realnett.no",
+  "host": "http://mywifi.mercku.tech",
+  "__host": "http://wifi.realnett.no",
   "title": "real|wifi",
   "accept": ".real",
   "favicon": "customer-conf/0006/favicon.ico",
@@ -12,8 +12,8 @@
   "defaultLanguage": "nb-NO",
   "routers": {
     "M2": {
-      "name": "real|wifi M2 ruter",
-      "shortName": "M2"
+      "name": "real|wifi R2 ruter",
+      "shortName": "R2"
     },
     "Bee": {
       "name": "real|wifi mesh-node",
