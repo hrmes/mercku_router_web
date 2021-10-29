@@ -9,7 +9,8 @@ export const Customers = {
   orion: '0005',
   realnett: '0006',
   altima: '0007',
-  fibrestream: '0013'
+  fibrestream: '0013',
+  skymesh: '0014'
 };
 export const IP = {
   IPv4: 'ipv4',
