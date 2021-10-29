@@ -7,21 +7,21 @@
   "favicon": "customer-conf/0014/favicon.ico",
   "policy": "https://www.skymesh.net.au/support/legal-resources/privacy-policy",
   "allow2LevelAdmin": true,
-  "languages": ["zh-CN", "en-US", "fr-FR", "de-DE", "es-ES"],
+  "languages": ["en-US", "zh-CN"],
   "defaultLanguage": "en-US",
   "routers": {
     "M2": {
-      "name": "M2 Standalone Wi-Fi router",
+      "name": "SkyMesh M2 Router",
       "shortName": "M2"
     },
     "Bee": {
-      "name": "M2 Bee Wi-Fi Mesh Node",
+      "name": "SkyMesh M2 Wi-Fi Mesh Node",
       "shortName": "Bee"
     }
   },
   "loading": {
     "name": "loading.gif",
-    "color": "#d6001c"
+    "color": "#f15a29"
   },
   "website": {
     "url": "https://www.skymesh.net.au/",
