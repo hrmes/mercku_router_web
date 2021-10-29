@@ -1,0 +1,31 @@
+{
+  "id": "0014",
+  "__host": "http://mywifi.skymesh.net.au",
+  "host": "http://mywifi.mercku.tech",
+  "title": "SkyMesh",
+  "accept": ".sky",
+  "favicon": "customer-conf/0014/favicon.ico",
+  "policy": "https://www.skymesh.net.au/support/legal-resources/privacy-policy",
+  "allow2LevelAdmin": true,
+  "languages": ["en-US", "zh-CN"],
+  "defaultLanguage": "en-US",
+  "routers": {
+    "M2": {
+      "name": "SkyMesh M2 Router",
+      "shortName": "M2"
+    },
+    "Bee": {
+      "name": "SkyMesh M2 Wi-Fi Mesh Node",
+      "shortName": "Bee"
+    }
+  },
+  "loading": {
+    "name": "loading.gif",
+    "color": "#f15a29"
+  },
+  "website": {
+    "url": "https://www.skymesh.net.au/",
+    "text": "skymesh.net.au"
+  },
+  "appDownloadUrl": "http://onelink.to/skymesh-wifi"
+}
