@@ -9,11 +9,11 @@
           <m-tab :class="{'selected':showTable}"
                  @click.native="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</m-tab>
         </m-tabs>
-        <!-- <button class="btn btn-add btn-small"
+        <button class="btn btn-add btn-small"
                 @click="addMeshNode">{{$t('trans0194')}}</button>
 
         <button @click="addMeshNode"
-                class="btn mobile-add"></button> -->
+                class="btn mobile-add"></button>
 
       </div>
       <div class="content">

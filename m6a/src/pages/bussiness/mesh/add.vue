@@ -57,69 +57,8 @@
             <div class="button-container">
               <button @click="forward2step(1)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
-              <button @click="forward2step(3)"
+              <button @click="addMeshNode"
                       class="btn">{{$t('trans0055')}}</button>
-            </div>
-          </div>
-          <div class="step-item step-item--scan"
-               v-show="isStep(3)">
-            <div class="scaning"
-                 v-show="isScanning">
-              <m-loading :color="loadingColor"></m-loading>
-              <p>{{$t('trans0334')}}</p>
-            </div>
-            <div class="scan-result"
-                 v-show="isScanFinished">
-              <div class="scan-result__content"
-                   v-if="nodes.length === 1">
-                <div class="router">
-                  <img class="router__img"
-                       :src="getNodeImage(nodes[0])"
-                       alt="">
-                  <div class="router__info">
-                    <p class="router__sn"
-                       v-if="nodes[0].sn">
-                      <label class="with-colon">{{$t('trans0252')}}:</label>
-                      <span>{{nodes[0].sn}}</span>
-                    </p>
-                    <p class="router__mac"
-                       v-else>
-                      <label class="with-colon">{{$t('trans0188')}}:</label>
-                      <span>{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}</span>
-                    </p>
-                  </div>
-                </div>
-                <div class="button-container">
-                  <button @click="forward2step(2)"
-                          class="btn btn-default ">{{$t('trans0057')}}</button>
-                  <button @click="addMeshNode(nodes[0])"
-                          class="btn">{{$t('trans0194')}}</button>
-                </div>
-              </div>
-              <div v-else-if="nodes.length >1"
-                   class="scan-result__much">
-                <img src="@/assets/images/img_default_empty.png"
-                     alt="">
-                <p class="scan-result__title">{{$t('trans0637')}}</p>
-                <p class="scan-result__description">{{$t('trans0638')}}</p>
-                <div class="button-container">
-                  <button @click="forward2step(0)"
-                          class="btn">{{$t('trans0162')}}</button>
-                </div>
-              </div>
-              <div class="scan-result__empty"
-                   v-else>
-                <img class="scan-result__image"
-                     src="@/assets/images/img_default_empty.png"
-                     alt="">
-                <p class="scan-result__title">{{$t('trans0181')}}</p>
-                <span class="btn-help"
-                      @click.stop="updateHelpVisible(true)">{{$t('trans0128')}}</span>
-                <div class="button-container">
-                  <button @click="forward2step(0)"
-                          class="btn">{{$t('trans0162')}}</button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -187,7 +126,6 @@
 </template>
 <script>
 import RouterModel from 'base/mixins/router-model';
-import { Bands } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -205,7 +143,7 @@ export default {
       showTips: true,
       stepsOption: {
         current: 0,
-        steps: new Array(4).fill(0).map(() => ({ text: '', success: false }))
+        steps: new Array(3).fill(0).map(() => ({ text: '', success: false }))
       },
       pageStatus: '',
       nodes: [],
@@ -266,91 +204,50 @@ export default {
     backMesh() {
       this.$router.push({ path: '/dashboard/mesh/topo' });
     },
-    addMeshNode(node) {
-      if (!node) {
-        this.$toast(this.$t('trans0381'));
-        return;
-      }
+    addMeshNode() {
       const template = `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`;
       this.$loading.open({ template });
       // 超时90秒，间隔3秒
-      this.$http
-        .addMeshNode(
-          { node },
-          {
-            hideToast: true
-          }
-        )
-        .then(() => {
-          let timeout = this.addTimeout;
-          this.checkTimer = setInterval(() => {
-            if (timeout < 0) {
-              this.pageStatus = PageStatus.add_fail;
+      let timeout = this.addTimeout;
+      this.checkTimer = setInterval(() => {
+        if (timeout < 0) {
+          this.pageStatus = PageStatus.add_fail;
+          this.$loading.close();
+          clearInterval(this.checkTimer);
+        }
+        if (timeout % 3 === 0) {
+          this.$http.getNewMeshNodeInfo().then(res => {
+            if (res.data.result?.sn) {
               this.$loading.close();
-              clearInterval(this.checkTimer);
-            }
-            if (timeout % 3 === 0) {
-              this.$http.isInMesh({ node }).then(res => {
-                if (res.data.result.status) {
-                  this.$loading.close();
-                  this.pageStatus = PageStatus.add_success;
-                  this.$http.getMeshNode().then(meshNodeRes => {
-                    const meshNodes = meshNodeRes.data.result;
-                    if (meshNodes.length) {
-                      const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
-                      // 获取刚添加的节点的sn
-                      const meshNode = meshNodes.find(item => item.mac[type] === node.mac[type]);
-                      if (meshNode) {
-                        const { sn } = meshNode;
-                        for (let i = 0; i < meshNodes.length; i += 1) {
-                          const mNode = meshNodes[i];
-                          if (mNode.sn !== sn && mNode.neighbors) {
-                            const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
-                            if (neighborNood) {
-                              this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
-                              break;
-                            }
-                          }
-                        }
+              this.pageStatus = PageStatus.add_success;
+              const {
+                result: { sn }
+              } = res.data;
+              this.$http.getMeshNode().then(meshNodeRes => {
+                const meshNodes = meshNodeRes.data.result;
+                if (meshNodes.length) {
+                  for (let i = 0; i < meshNodes.length; i += 1) {
+                    const mNode = meshNodes[i];
+                    if (mNode.sn !== sn && mNode.neighbors) {
+                      const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
+                      if (neighborNood) {
+                        this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
+                        break;
                       }
                     }
-                  });
-                  clearInterval(this.checkTimer);
+                  }
                 }
               });
+              clearInterval(this.checkTimer);
             }
-            timeout -= 1;
-          }, 1000);
-        })
-        .catch(() => {
-          this.$loading.close();
-          this.pageStatus = PageStatus.add_fail;
-        });
+          });
+        }
+        timeout -= 1;
+      }, 1000);
     },
     forward2step(index, status = true) {
       this.stepsOption.current = index;
       this.stepsOption.steps[index].success = status;
-      // some special operation
-      switch (index) {
-        case 3:
-          this.scanHandler();
-          break;
-        default:
-          break;
-      }
-    },
-    scanHandler() {
-      this.pageStatus = PageStatus.scanning;
-
-      this.$http
-        .scanMeshNode()
-        .then(res => {
-          this.nodes = res.data.result.map(n => ({ ...n, selected: false }));
-          this.pageStatus = PageStatus.scan_finished;
-        })
-        .catch(() => {
-          this.pageStatus = PageStatus.scan_finished;
-        });
     }
   }
 };
@@ -524,50 +421,6 @@ export default {
         width: 340px;
         display: block;
         margin: 0 auto;
-      }
-    }
-    &.step-item--scan {
-      .scaning {
-        margin-top: 150px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        img {
-          display: block;
-          margin: 0 auto;
-        }
-      }
-      .scan-result {
-        .scan-result__empty {
-          text-align: center;
-          margin-top: 50px;
-          p {
-            font-size: 14px;
-            text-align: center;
-          }
-        }
-        .scan-result__image {
-          width: 200px;
-        }
-        .scan-result__title {
-          text-align: center;
-          font-size: 14px;
-          // font-weight: bold;
-          margin: 30px 0 0 0;
-        }
-        .scan-result__much {
-          text-align: center;
-          img {
-            width: 200px;
-          }
-        }
-        .scan-result__description {
-          text-align: center;
-          font-size: 14px;
-          color: #999;
-          margin: 10px 0 0 0;
-        }
       }
     }
   }
