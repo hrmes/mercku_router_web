@@ -11,11 +11,11 @@
   "defaultLanguage": "en-US",
   "routers": {
     "M2": {
-      "name": "SkyMesh M2 Router",
+      "name": "SkyMesh M2 Wi-Fi Router",
       "shortName": "M2"
     },
     "Bee": {
-      "name": "SkyMesh M2 Wi-Fi Mesh Node",
+      "name": "SkyMesh M2 Bee Wi-Fi Mesh Node",
       "shortName": "Bee"
     }
   },
