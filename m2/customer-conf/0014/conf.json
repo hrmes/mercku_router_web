@@ -1,7 +1,7 @@
 {
   "id": "0014",
-  "host": "http://mywifi.skymesh.net.au",
-  "__host": "http://mywifi.mercku.tech",
+  "__host": "http://mywifi.skymesh.net.au",
+  "host": "http://mywifi.mercku.tech",
   "title": "SkyMesh",
   "accept": ".sky",
   "favicon": "customer-conf/0014/favicon.ico",
