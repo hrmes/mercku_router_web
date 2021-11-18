@@ -212,7 +212,7 @@ export default {
       addTimeout: 90,
       showHelpDialog: false,
       showTipsDialog: false,
-      snAdded: '123456789910'
+      snAdded: ''
     };
   },
   computed: {
