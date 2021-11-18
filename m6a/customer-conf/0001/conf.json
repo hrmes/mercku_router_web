@@ -1,6 +1,7 @@
 {
   "id": "0001",
   "title": "Mercku",
+  "host": "http://mywifi.mercku.tech",
   "accept": ".ma",
   "favicon": "customer-conf/0001/favicon.ico",
   "policy": "",
