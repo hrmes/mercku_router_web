@@ -238,7 +238,7 @@ export default {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
     m6aText() {
-      return this.$t('trans0693').replace('%s', 'M6a');
+      return this.$t('trans0693').replace('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
     }
     // perfer this style = =!
     // isScanning() {
