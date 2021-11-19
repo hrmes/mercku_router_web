@@ -224,6 +224,9 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.realnett]: {
             auth: [Role.super]
+          },
+          [Customers.skymesh]: {
+            auth: [Role.super]
           }
         }
       },
