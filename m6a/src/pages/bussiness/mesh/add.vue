@@ -271,7 +271,7 @@ export default {
       this.showTipsDialog = visible;
     },
     backMesh() {
-      this.$router.push({ path: '/dashboard/mesh/table' });
+      this.$router.push({ path: '/dashboard/mesh/topo' });
     },
     retry() {
       this.stepsOption.current = 0;

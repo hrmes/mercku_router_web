@@ -3,9 +3,8 @@
     <div class="mesh-info">
       <div class="title">
         <m-tabs>
-          <!-- <m-tab :class="{'selected':!showTable}"
+          <m-tab :class="{'selected':!showTable}"
                  @click.native="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</m-tab>
-                  -->
           <m-tab :class="{'selected':showTable}"
                  @click.native="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</m-tab>
         </m-tabs>
