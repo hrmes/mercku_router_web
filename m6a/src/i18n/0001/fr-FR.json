@@ -999,6 +999,6 @@
   "trans1004": "Le processus de test peut durer 1 à 2 minutes",
   "trans1005": "Appuyez sur \"Suivant\" lorsque le voyant est en orange fixe.",
   "trans1006": "Nœud SN",
-  "trans1007": "Ajouté avec succès. Après le redémarrage du nœud (environ une minute, le voyant rouge clignote), vous pouvez le voir dans la liste",
-  "trans1008": "Après le redémarrage du nœud (environ une minute, le voyant rouge clignote), et observez les voyants pour justifier l'état du maillage :"
+  "trans1007": "Ajouté avec succès. Après le redémarrage du nœud (environ une minute), vous pouvez le voir dans la liste",
+  "trans1008": "Après le redémarrage du nœud (environ une minute), et observez les voyants pour justifier l'état du maillage :"
 }
