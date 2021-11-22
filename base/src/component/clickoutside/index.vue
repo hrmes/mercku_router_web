@@ -2,7 +2,7 @@
 export default {
   bind(el, binding) {
     function documentHandler(e) {
-      // 判断是否点击自己及后代;
+      console.log(e);
       if (el.contains(e.target)) {
         return false;
       }
@@ -13,7 +13,7 @@ export default {
     }
     el.__vueClickOutside__ = documentHandler;
     document.addEventListener('click', documentHandler);
-    document.addEventListener('touchstart', documentHandler);
+    // document.addEventListener('touchstart', documentHandler);
   },
   unbind(el) {
     document.removeEventListener('click', el.__vueClickOutside__);
