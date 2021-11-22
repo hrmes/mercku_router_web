@@ -3,17 +3,16 @@
     <div class="mesh-info">
       <div class="title">
         <m-tabs>
-          <!-- <m-tab :class="{'selected':!showTable}"
+          <m-tab :class="{'selected':!showTable}"
                  @click.native="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</m-tab>
-                  -->
           <m-tab :class="{'selected':showTable}"
                  @click.native="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</m-tab>
         </m-tabs>
-        <!-- <button class="btn btn-add btn-small"
+        <button class="btn btn-add btn-small"
                 @click="addMeshNode">{{$t('trans0194')}}</button>
 
         <button @click="addMeshNode"
-                class="btn mobile-add"></button> -->
+                class="btn mobile-add"></button>
 
       </div>
       <div class="content">
@@ -31,7 +30,7 @@
               <div class="legend-item">{{$t('trans0214')}}</div>
             </div>
           </div>
-          <div class="switch-wrap">
+          <!-- <div class="switch-wrap">
             <div class="switch-item">
               <label>
                 <span>{{$t('trans0562')}}</span>
@@ -49,7 +48,7 @@
               <m-switch v-model="mesh24g"
                         @change="(val)=>updateMeshBand(val)"></m-switch>
             </div>
-          </div>
+          </div> -->
           <div class="topo-wrap"
                id="topo-wrap">
             <div id="topo"></div>

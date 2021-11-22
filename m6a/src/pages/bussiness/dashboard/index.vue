@@ -19,7 +19,7 @@
         <div class="wifi-container"
              :class="{'selected':$route.path.includes('mesh')}">
           <div class="icon-container">
-            <img @click="forward2page('/dashboard/mesh/table')"
+            <img @click="forward2page('/dashboard/mesh/topo')"
                  src="../../../assets/images/icon/ic_router.png"
                  alt="" />
             <div class="text-container">

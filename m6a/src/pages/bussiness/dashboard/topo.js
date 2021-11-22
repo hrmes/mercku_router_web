@@ -110,6 +110,11 @@ function genNodes(gateway, green, red, offline) {
       [Color.good]: picifi6Good,
       [Color.bad]: picWifi6Bad,
       [Color.offline]: pciWifi6Offline
+    },
+    [CONSTANTS.RouterSnModel.M6a]: {
+      [Color.good]: picifi6Good,
+      [Color.bad]: picWifi6Bad,
+      [Color.offline]: pciWifi6Offline
     }
   };
 
