@@ -11,7 +11,7 @@
   "defaultLanguage": "en-US",
   "routers": {
     "M2": {
-      "name": "SkyMesh M2 Wi-Fi Router",
+      "name": "SkyMesh M2 Router",
       "shortName": "M2"
     },
     "Bee": {

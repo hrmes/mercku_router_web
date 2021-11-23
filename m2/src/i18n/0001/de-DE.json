@@ -999,6 +999,6 @@
   "trans1004": "Der Testvorgang kann 1 bis 2 Minuten dauern",
   "trans1005": "Drücken Sie \"Weiter\", wenn die Kontrollleuchte durchgehend orange leuchtet.",
   "trans1006": "Knoten-SN",
-  "trans1007": "Erfolgreich hinzugefügt. Nachdem der Knoten neu gestartet wurde (etwa eine Minute, das rote Licht blinkt), können Sie ihn in der Liste anzeigen",
-  "trans1008": "Nach dem Neustart des Knotens (etwa eine Minute lang blinkt das rote Licht) und beobachten Sie die Anzeigeleuchten, um den Mesh-Status zu rechtfertigen:"
+  "trans1007": "Erfolgreich hinzugefügt. Nachdem der Knoten neu gestartet wurde (etwa eine Minute), können Sie ihn in der Liste anzeigen",
+  "trans1008": "Nach dem Neustart des Knotens (etwa eine Minute) und beobachten Sie die Anzeigeleuchten, um den Mesh-Status zu rechtfertigen:"
 }
