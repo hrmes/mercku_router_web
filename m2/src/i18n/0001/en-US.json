@@ -999,6 +999,6 @@
   "trans1004": "The testing process may last 1 to 2 minutes",
   "trans1005": "Press \"Next\" when the indicator light is in solid orange.",
   "trans1006": "Node SN",
-  "trans1007": "Added successfully. After the node restarts (about one minute, the red light flashes), you can view it in the list",
-  "trans1008": "After the node restarts (about one minute, the red light flashes), and observe the indicator lights to justify mesh status:"
+  "trans1007": "Added successfully. After the node restarts (about one minute), you can view it in the list",
+  "trans1008": "After the node restarts (about one minute), and observe the indicator lights to justify mesh status:"
 }
