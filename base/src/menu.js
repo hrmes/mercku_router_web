@@ -116,7 +116,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/wifi-schedule',
         name: 'setting.wifi-schedule',
         text: 'trans0962',
-        config
+        config,
+        customers: {
+          [Customers.skymesh]: {
+            show: false
+          }
+        }
       }
       // {
       //   url: '/setting/wps',
@@ -219,6 +224,9 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.realnett]: {
             auth: [Role.super]
+          },
+          [Customers.skymesh]: {
+            auth: [Role.super]
           }
         }
       },
@@ -257,6 +265,9 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           },
           [Customers.altima]: {
+            show: false
+          },
+          [Customers.skymesh]: {
             show: false
           }
         }
