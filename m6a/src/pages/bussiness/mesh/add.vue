@@ -278,7 +278,7 @@ export default {
       this.pageStatus = '';
     },
     addMeshNode() {
-      const template = `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`;
+      const template = `<div class="add-mesh-tip">${this.$t('trans1003')}</div>`;
       this.$loading.open({ template });
       this.$http
         .addMeshNode()
