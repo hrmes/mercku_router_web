@@ -126,17 +126,18 @@ import { Bands } from '../../../util/constant';
 import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
 import { getStringByte, isValidPassword, isFieldHasComma } from '../../../util/util';
 
+const stepOptionInit = {
+  current: 0,
+  steps: [
+    { text: this.$t('trans0019'), success: true },
+    { text: this.$t('trans0018'), success: false }
+  ]
+};
 export default {
   data() {
     return {
       wifiIcon,
-      stepOption: {
-        current: 0,
-        steps: [
-          { text: this.$t('trans0019'), success: true },
-          { text: this.$t('trans0018'), success: false }
-        ]
-      },
+      stepOption: stepOptionInit,
       current: 0,
       countdown: 60,
       wifiForm: {
@@ -260,15 +261,6 @@ export default {
     },
     step1() {
       if (this.$refs.wifiForm.validate()) {
-        this.stepOption.current = 1;
-        this.stepOption.steps[1].success = true;
-        const timer = setInterval(() => {
-          this.countdown -= 1;
-          if (this.countdown === 0) {
-            clearInterval(timer);
-            this.$router.push({ path: '/unconnect' });
-          }
-        }, 1000);
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
@@ -293,6 +285,15 @@ export default {
             }
           })
           .then(() => {
+            this.stepOption.current = 1;
+            this.stepOption.steps[1].success = true;
+            const timer = setInterval(() => {
+              this.countdown -= 1;
+              if (this.countdown === 0) {
+                clearInterval(timer);
+                this.$router.push({ path: '/unconnect' });
+              }
+            }, 1000);
             // 尝试链接路由器
             this.$reconnect({
               onsuccess: () => {
@@ -305,6 +306,9 @@ export default {
               },
               showLoading: false
             });
+          })
+          .catch(() => {
+            this.stepOption = stepOptionInit;
           });
       }
     }
