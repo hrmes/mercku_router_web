@@ -126,18 +126,17 @@ import { Bands } from '../../../util/constant';
 import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
 import { getStringByte, isValidPassword, isFieldHasComma } from '../../../util/util';
 
-const stepOptionInit = {
-  current: 0,
-  steps: [
-    { text: this.$t('trans0019'), success: true },
-    { text: this.$t('trans0018'), success: false }
-  ]
-};
 export default {
   data() {
     return {
       wifiIcon,
-      stepOption: stepOptionInit,
+      stepOption: {
+        current: 0,
+        steps: [
+          { text: this.$t('trans0019'), success: true },
+          { text: this.$t('trans0018'), success: false }
+        ]
+      },
       current: 0,
       countdown: 60,
       wifiForm: {
@@ -308,7 +307,13 @@ export default {
             });
           })
           .catch(() => {
-            this.stepOption = stepOptionInit;
+            this.stepOption = {
+              current: 0,
+              steps: [
+                { text: this.$t('trans0019'), success: true },
+                { text: this.$t('trans0018'), success: false }
+              ]
+            };
           });
       }
     }
