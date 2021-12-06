@@ -14,6 +14,7 @@ if (process.env.CUSTOMER_ID) {
 }
 
 const CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
+console.log(process.env.MODEL);
 console.log(
   `get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`,
   JSON.stringify(CUSTOMER_CONFIG, null, 2)
@@ -88,6 +89,9 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: process.env.NODE_ENV,
+          MODEL_CONFIG: {
+            id: JSON.stringify(process.env.MODEL_ID)
+          },
           CUSTOMER_CONFIG: (() => {
             const result = {};
             Object.keys(CUSTOMER_CONFIG).forEach(key => {

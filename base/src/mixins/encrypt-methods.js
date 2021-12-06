@@ -1,31 +1,104 @@
-import { EncryptMethod } from '../util/constant';
+import { EncryptMethod, Models } from '../util/constant';
 
 export default {
   data() {
-    const encryptMethods = [
-      {
-        value: EncryptMethod.wpawpa2,
-        text: this.$t('trans0557')
-      },
-      {
-        value: EncryptMethod.wpa2,
-        text: this.$t('trans0556')
-      },
-      {
-        value: EncryptMethod.open,
-        text: this.$t('trans0554')
-      }
-    ];
-
-    if (process.env.CUSTOMER_CONFIG.supportWPA3) {
-      encryptMethods.splice(0, 0, {
-        value: EncryptMethod.wpa2wpa3,
-        text: this.$t('trans0573')
-      });
-      encryptMethods.splice(2, 0, {
-        value: EncryptMethod.wpa3,
-        text: this.$t('trans0572')
-      });
+    let encryptMethods = [];
+    switch (process.env.MODEL_CONFIG.id) {
+      case Models.m2:
+        encryptMethods = [
+          {
+            value: EncryptMethod.wpawpa2,
+            text: this.$t('trans0557')
+          },
+          {
+            value: EncryptMethod.wpa2,
+            text: this.$t('trans0556')
+          },
+          {
+            value: EncryptMethod.open,
+            text: this.$t('trans0554')
+          }
+        ];
+        break;
+      case Models.m6:
+        encryptMethods = [
+          {
+            value: EncryptMethod.wpa2wpa3,
+            text: this.$t('trans0573')
+          },
+          {
+            value: EncryptMethod.wpawpa2,
+            text: this.$t('trans0557')
+          },
+          {
+            value: EncryptMethod.wpa3,
+            text: this.$t('trans0572')
+          },
+          {
+            value: EncryptMethod.wpa2,
+            text: this.$t('trans0556')
+          },
+          {
+            value: EncryptMethod.open,
+            text: this.$t('trans0554')
+          }
+        ];
+        break;
+      case Models.m6c:
+        encryptMethods = [
+          {
+            value: EncryptMethod.wpa2wpa3,
+            text: this.$t('trans0573')
+          },
+          {
+            value: EncryptMethod.wpawpa2,
+            text: this.$t('trans0557')
+          },
+          {
+            value: EncryptMethod.wpa3,
+            text: this.$t('trans0572')
+          },
+          {
+            value: EncryptMethod.wpa2,
+            text: this.$t('trans0556')
+          },
+          {
+            value: EncryptMethod.open,
+            text: this.$t('trans0554')
+          }
+        ];
+        break;
+      case Models.m6a:
+        encryptMethods = [
+          {
+            value: EncryptMethod.open,
+            text: this.$t('trans0554')
+          },
+          {
+            value: EncryptMethod.wpa2,
+            text: this.$t('trans0556')
+          },
+          {
+            value: EncryptMethod.wpa3,
+            text: this.$t('trans0572')
+          }
+        ];
+        break;
+      default:
+        encryptMethods = [
+          {
+            value: EncryptMethod.wpawpa2,
+            text: this.$t('trans0557')
+          },
+          {
+            value: EncryptMethod.wpa2,
+            text: this.$t('trans0556')
+          },
+          {
+            value: EncryptMethod.open,
+            text: this.$t('trans0554')
+          }
+        ];
     }
 
     return {
