@@ -305,15 +305,6 @@ export default {
               },
               showLoading: false
             });
-          })
-          .catch(() => {
-            this.stepOption = {
-              current: 0,
-              steps: [
-                { text: this.$t('trans0019'), success: true },
-                { text: this.$t('trans0018'), success: false }
-              ]
-            };
           });
       }
     }

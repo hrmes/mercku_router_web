@@ -11,7 +11,6 @@ export default {
         value: EncryptMethod.wpa2,
         text: this.$t('trans0556')
       },
-
       {
         value: EncryptMethod.open,
         text: this.$t('trans0554')
