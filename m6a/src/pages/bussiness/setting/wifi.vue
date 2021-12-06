@@ -181,8 +181,10 @@
 <script>
 import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 import { EncryptMethod, Bands } from 'base/util/constant';
+import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
+  mixins: [encryptMix],
   data() {
     return {
       form: {

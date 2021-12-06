@@ -15,8 +15,8 @@ import superConfig from 'pages/bussiness/setting/super.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 
 import device from 'base/pages/bussiness/dashboard/device.vue';
-import guest from 'base/pages/bussiness/setting/guest.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
+import guest from 'base/pages/bussiness/setting/guest.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
 import wlan from 'base/pages/bussiness/wlan/index.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';

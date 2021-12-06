@@ -260,15 +260,6 @@ export default {
     },
     step1() {
       if (this.$refs.wifiForm.validate()) {
-        this.stepOption.current = 1;
-        this.stepOption.steps[1].success = true;
-        const timer = setInterval(() => {
-          this.countdown -= 1;
-          if (this.countdown === 0) {
-            clearInterval(timer);
-            this.$router.push({ path: '/unconnect' });
-          }
-        }, 1000);
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
@@ -293,6 +284,15 @@ export default {
             }
           })
           .then(() => {
+            this.stepOption.current = 1;
+            this.stepOption.steps[1].success = true;
+            const timer = setInterval(() => {
+              this.countdown -= 1;
+              if (this.countdown === 0) {
+                clearInterval(timer);
+                this.$router.push({ path: '/unconnect' });
+              }
+            }, 1000);
             // 尝试链接路由器
             this.$reconnect({
               onsuccess: () => {

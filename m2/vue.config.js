@@ -88,6 +88,9 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: process.env.NODE_ENV,
+          MODEL_CONFIG: {
+            id: JSON.stringify(process.env.MODEL_ID)
+          },
           CUSTOMER_CONFIG: (() => {
             const result = {};
             Object.keys(CUSTOMER_CONFIG).forEach(key => {

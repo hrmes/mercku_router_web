@@ -262,7 +262,6 @@ function genData(array, fullLine = false) {
   routers = addConnection(routers);
 
   const gateway = findGateway(routers);
-  console.log(gateway);
 
   const visited = [gateway];
   const green = findGreenNode(gateway, routers, visited);

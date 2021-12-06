@@ -46,10 +46,10 @@ dev_depend: package.json check_npm_version
 	npm i
 
 build: prd_depend
-	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID)
+	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 
 dev:
-	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID)
+	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 
 
 .PHONY: all install check_npm_version prd_depend dev_depend dev build

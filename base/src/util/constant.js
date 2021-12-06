@@ -121,3 +121,9 @@ export const Weeks = {
   sat: 'Sat',
   sun: 'Sun'
 };
+export const Models = {
+  m2: 'M2R2',
+  m6: 'M6R0',
+  m6c: 'M7R0',
+  m6a: 'M8R0'
+};
