@@ -278,11 +278,11 @@ export default {
       this.pageStatus = '';
     },
     addMeshNode() {
-      const template = `<div class="add-mesh-tip">${this.$t('trans1003')}</div>`;
-      this.$loading.open({ template });
       this.$http
         .addMeshNode()
         .then(() => {
+          const template = `<div class="add-mesh-tip">${this.$t('trans1003')}</div>`;
+          this.$loading.open({ template });
           // 超时90秒，间隔3秒
           let timeout = this.addTimeout;
           this.checkTimer = setInterval(() => {
@@ -305,8 +305,7 @@ export default {
           }, 1000);
         })
         .catch(() => {
-          this.$loading.close();
-          this.pageStatus = PageStatus.add_fail;
+          // this.pageStatus = PageStatus.add_fail;
         });
     },
     forward2step(index, status = true) {
