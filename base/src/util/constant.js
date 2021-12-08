@@ -10,7 +10,8 @@ export const Customers = {
   realnett: '0006',
   altima: '0007',
   fibrestream: '0013',
-  skymesh: '0014'
+  skymesh: '0014',
+  pentanet: '0015'
 };
 export const IP = {
   IPv4: 'ipv4',
