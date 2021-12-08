@@ -214,29 +214,32 @@ const PageType = {
   stepPage: 'stepPage',
   resultPage: 'resultPage'
 };
-const Routers = [
-  {
-    name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
-    image: require('../../../assets/images/img_bee.png'),
-    powerOnImage: require('../../../assets/images/img_power_on_bee.jpg'),
-    lampImage: require('../../../assets/images/pic_node_1_redlight.jpg'),
-    tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
-    sn: RouterSnModel.Bee
-  },
-  {
-    name: process.env.CUSTOMER_CONFIG.routers.M2.name,
-    image: require('../../../assets/images/img_m2.png'),
-    powerOnImage: require('../../../assets/images/pic_router_m2.jpg'),
-    lampImage: require('../../../assets/images/img_power_on_m2.jpg'),
-    tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
-    sn: RouterSnModel.M2
-  }
-];
+const Bee = {
+  name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
+  image: require('../../../assets/images/img_bee.png'),
+  powerOnImage: require('../../../assets/images/img_power_on_bee.jpg'),
+  lampImage: require('../../../assets/images/pic_node_1_redlight.jpg'),
+  tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
+  sn: RouterSnModel.Bee
+};
+const M2 = {
+  name: process.env.CUSTOMER_CONFIG.routers.M2.name,
+  image: require('../../../assets/images/img_m2.png'),
+  powerOnImage: require('../../../assets/images/pic_router_m2.jpg'),
+  lampImage: require('../../../assets/images/img_power_on_m2.jpg'),
+  tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
+  sn: RouterSnModel.M2
+};
+
 export default {
   data() {
+    let routers = [Bee, M2];
+    if (!process.env.CUSTOMER_CONFIG.routers.hasBee) {
+      routers = [M2];
+    }
     return {
       RouterSnModel,
-      routers: Routers,
+      routers,
       pageType: PageType.tipPage,
       stepsOption: {
         current: 0,
@@ -263,7 +266,7 @@ export default {
       nodes: [],
       added: false,
       addTimeout: 90,
-      selectedCategory: Routers[0],
+      selectedCategory: routers[0],
       showHelpDialog: false
     };
   },
