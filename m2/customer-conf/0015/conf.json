@@ -13,10 +13,6 @@
     "M2": {
       "name": "Pentanet Prism Wi-Fi Mesh Router",
       "shortName": "M2"
-    },
-    "Bee": {
-      "name": "Pentanet Prism Wi-Fi Mesh Node",
-      "shortName": "Bee"
     }
   },
   "loading": {
@@ -27,6 +23,5 @@
     "url": "https://pentanet.com.au/",
     "text": "pentanet.com.au"
   },
-  "appDownloadUrl": "http://app-pentanet.merckuwifi.com",
-  "hasBee": false
+  "appDownloadUrl": "http://app-pentanet.merckuwifi.com"
 }
