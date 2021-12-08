@@ -27,5 +27,6 @@
     "url": "https://pentanet.com.au/",
     "text": "pentanet.com.au"
   },
-  "appDownloadUrl": "http://app-pentanet.merckuwifi.com"
+  "appDownloadUrl": "http://app-pentanet.merckuwifi.com",
+  "hasBee": false
 }

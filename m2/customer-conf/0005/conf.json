@@ -28,5 +28,6 @@
     "url": "https://www.laki.eu/magicwifi",
     "text": "laki.eu"
   },
-  "appDownloadUrl": "http://onelink.to/lakiwifi"
+  "appDownloadUrl": "http://onelink.to/lakiwifi",
+  "hasBee": true
 }

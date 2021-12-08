@@ -19,5 +19,6 @@
   "loading": {
     "name": "loading-common.gif",
     "color": "#999999"
-  }
+  },
+  "hasBee": true
 }

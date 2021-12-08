@@ -27,5 +27,6 @@
     "url": "https://www.skymesh.net.au/",
     "text": "skymesh.net.au"
   },
-  "appDownloadUrl": "http://onelink.to/skymesh-wifi"
+  "appDownloadUrl": "http://onelink.to/skymesh-wifi",
+  "hasBee": true
 }
