@@ -278,35 +278,30 @@ export default {
       this.pageStatus = '';
     },
     addMeshNode() {
-      this.$http
-        .addMeshNode()
-        .then(() => {
-          const template = `<div class="add-mesh-tip">${this.$t('trans1003')}</div>`;
-          this.$loading.open({ template });
-          // 超时90秒，间隔3秒
-          let timeout = this.addTimeout;
-          this.checkTimer = setInterval(() => {
-            if (timeout < 0) {
-              this.pageStatus = PageStatus.add_fail;
-              this.$loading.close();
-              clearInterval(this.checkTimer);
-            }
-            if (timeout % 3 === 0) {
-              this.$http.getNewMeshNodeInfo().then(res => {
-                if (res.data.result?.sn) {
-                  this.$loading.close();
-                  this.snAdded = res.data.result.sn;
-                  this.pageStatus = PageStatus.add_success;
-                  clearInterval(this.checkTimer);
-                }
-              });
-            }
-            timeout -= 1;
-          }, 1000);
-        })
-        .catch(() => {
-          // this.pageStatus = PageStatus.add_fail;
-        });
+      this.$http.addMeshNode().then(() => {
+        const template = `<div class="add-mesh-tip">${this.$t('trans1003')}</div>`;
+        this.$loading.open({ template });
+        // 超时90秒，间隔3秒
+        let timeout = this.addTimeout;
+        this.checkTimer = setInterval(() => {
+          if (timeout < 0) {
+            this.pageStatus = PageStatus.add_fail;
+            this.$loading.close();
+            clearInterval(this.checkTimer);
+          }
+          if (timeout % 3 === 0) {
+            this.$http.getNewMeshNodeInfo().then(res => {
+              if (res.data.result?.sn) {
+                this.$loading.close();
+                this.snAdded = res.data.result.sn;
+                this.pageStatus = PageStatus.add_success;
+                clearInterval(this.checkTimer);
+              }
+            });
+          }
+          timeout -= 1;
+        }, 1000);
+      });
     },
     forward2step(index, status = true) {
       this.stepsOption.current = index;
