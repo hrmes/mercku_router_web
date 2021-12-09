@@ -239,7 +239,7 @@ export default {
     },
     m6aText() {
       return this.$t('trans0693').replace('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
-    }
+    },
     // perfer this style = =!
     // isScanning() {
     //   return this.pageStatus === PageStatus.scanning;
@@ -250,9 +250,9 @@ export default {
     // isAddSuccess() {
     //   return this.pageStatus === PageStatus.add_success;
     // }
-    // isAddFail() {
-    //   return this.pageStatus === PageStatus.add_fail;
-    // }
+    isAddFail() {
+      return true;
+    }
   },
   methods: {
     isStep(index) {
@@ -332,11 +332,10 @@ export default {
         background-color: #fafafa;
         margin-right: 15px;
         border-radius: 2px;
-        width: 335px;
+        width: 50%;
         text-align: center;
         img {
-          width: 300px;
-          height: 300px;
+          width: 100%;
         }
       }
       .list-item__text {
