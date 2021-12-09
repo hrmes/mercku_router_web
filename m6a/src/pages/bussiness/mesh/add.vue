@@ -239,7 +239,7 @@ export default {
     },
     m6aText() {
       return this.$t('trans0693').replace('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
-    },
+    }
     // perfer this style = =!
     // isScanning() {
     //   return this.pageStatus === PageStatus.scanning;
@@ -250,9 +250,9 @@ export default {
     // isAddSuccess() {
     //   return this.pageStatus === PageStatus.add_success;
     // }
-    isAddFail() {
-      return true;
-    }
+    // isAddFail() {
+    //   return this.pageStatus === PageStatus.add_fail;
+    // }
   },
   methods: {
     isStep(index) {
