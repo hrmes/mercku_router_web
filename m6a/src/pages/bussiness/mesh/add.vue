@@ -332,11 +332,10 @@ export default {
         background-color: #fafafa;
         margin-right: 15px;
         border-radius: 2px;
-        width: 335px;
+        width: 50%;
         text-align: center;
         img {
-          width: 300px;
-          height: 300px;
+          width: 100%;
         }
       }
       .list-item__text {
