@@ -214,26 +214,30 @@ const PageType = {
   stepPage: 'stepPage',
   resultPage: 'resultPage'
 };
-const Routers = [
-  {
-    name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
-    image: require('../../../assets/images/img_bee.png'),
-    powerOnImage: require('../../../assets/images/img_power_on_bee.jpg'),
-    lampImage: require('../../../assets/images/pic_node_1_redlight.jpg'),
-    tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
-    sn: RouterSnModel.Bee
-  },
-  {
-    name: process.env.CUSTOMER_CONFIG.routers.M2.name,
-    image: require('../../../assets/images/img_m2.png'),
-    powerOnImage: require('../../../assets/images/pic_router_m2.jpg'),
-    lampImage: require('../../../assets/images/img_power_on_m2.jpg'),
-    tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
-    sn: RouterSnModel.M2
-  }
-];
+
 export default {
   data() {
+    const Routers = [];
+    if (process.env.CUSTOMER_CONFIG.routers.Bee) {
+      Routers.push({
+        name: process.env.CUSTOMER_CONFIG.routers.Bee.name,
+        image: require('../../../assets/images/img_bee.png'),
+        powerOnImage: require('../../../assets/images/img_power_on_bee.jpg'),
+        lampImage: require('../../../assets/images/pic_node_1_redlight.jpg'),
+        tipImage: require('../../../assets/images/img_add_plug_bee.jpg'),
+        sn: RouterSnModel.Bee
+      });
+    }
+    if (process.env.CUSTOMER_CONFIG.routers.M2) {
+      Routers.push({
+        name: process.env.CUSTOMER_CONFIG.routers.M2.name,
+        image: require('../../../assets/images/img_m2.png'),
+        powerOnImage: require('../../../assets/images/pic_router_m2.jpg'),
+        lampImage: require('../../../assets/images/img_power_on_m2.jpg'),
+        tipImage: require('../../../assets/images/img_add_plug_m2.jpg'),
+        sn: RouterSnModel.M2
+      });
+    }
     return {
       RouterSnModel,
       routers: Routers,

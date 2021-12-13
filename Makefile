@@ -8,7 +8,7 @@ CUR_NPM_VER_MINOR := $(shell echo $(CUR_NPM_VER) | cut -f2 -d.)
 CUR_NPM_VER_PATCH := $(shell echo $(CUR_NPM_VER) | cut -f3 -d.)
 IS_NPM_OK := $(shell [ $(CUR_NPM_VER_MAJOR) -gt $(MIN_NPM_VER_MAJOR) -o \( $(CUR_NPM_VER_MAJOR) -eq $(MIN_NPM_VER_MAJOR) -a \( $(CUR_NPM_VER_MINOR) -gt $(MIN_NPM_VER_MINOR) -o \( $(CUR_NPM_VER_MINOR) -eq $(MIN_NPM_VER_MINOR) -a $(CUR_NPM_VER_PATCH) -ge $(MIN_NPM_VER_PATCH) \)  \) \) ] && echo true)
 
-CUSTOMER_LIST = 0001 0002 0003 0004 0005 0006 0007 0013 0014
+CUSTOMER_LIST = 0001 0002 0003 0004 0005 0006 0007 0013 0014 0015
 MODEL_LIST = M2R2=m2 M6R0=m6 M7R0=m6c M8R0=m6a
 
 ifndef CUSTOMER_ID
@@ -46,10 +46,10 @@ dev_depend: package.json check_npm_version
 	npm i
 
 build: prd_depend
-	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID)
+	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 
 dev:
-	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID)
+	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 
 
 .PHONY: all install check_npm_version prd_depend dev_depend dev build

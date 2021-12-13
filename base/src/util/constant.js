@@ -10,7 +10,8 @@ export const Customers = {
   realnett: '0006',
   altima: '0007',
   fibrestream: '0013',
-  skymesh: '0014'
+  skymesh: '0014',
+  pentanet: '0015'
 };
 export const IP = {
   IPv4: 'ipv4',
@@ -120,4 +121,10 @@ export const Weeks = {
   fri: 'Fri',
   sat: 'Sat',
   sun: 'Sun'
+};
+export const Models = {
+  m2: 'M2R2',
+  m6: 'M6R0',
+  m6c: 'M7R0',
+  m6a: 'M8R0'
 };

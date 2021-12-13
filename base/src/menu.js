@@ -120,6 +120,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.skymesh]: {
             show: false
+          },
+          [Customers.pentanet]: {
+            show: false
           }
         }
       }
@@ -227,6 +230,9 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.skymesh]: {
             auth: [Role.super]
+          },
+          [Customers.pentanet]: {
+            auth: [Role.super]
           }
         }
       },
@@ -268,6 +274,9 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           },
           [Customers.skymesh]: {
+            show: false
+          },
+          [Customers.pentanet]: {
             show: false
           }
         }

@@ -7,6 +7,7 @@ const UUID = require('uuid');
 // 没有customer id报错，导致eslint不能加载webpack配置文件
 // 最终导致eslint中的webpack import resolver失效
 let CUSTOMER_ID = '';
+
 if (process.env.CUSTOMER_ID) {
   CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
 } else {
@@ -88,6 +89,9 @@ module.exports = {
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: process.env.NODE_ENV,
+          MODEL_CONFIG: {
+            id: JSON.stringify(process.env.MODEL_ID)
+          },
           CUSTOMER_CONFIG: (() => {
             const result = {};
             Object.keys(CUSTOMER_CONFIG).forEach(key => {

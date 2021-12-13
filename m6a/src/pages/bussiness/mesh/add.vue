@@ -278,36 +278,30 @@ export default {
       this.pageStatus = '';
     },
     addMeshNode() {
-      const template = `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`;
-      this.$loading.open({ template });
-      this.$http
-        .addMeshNode()
-        .then(() => {
-          // 超时90秒，间隔3秒
-          let timeout = this.addTimeout;
-          this.checkTimer = setInterval(() => {
-            if (timeout < 0) {
-              this.pageStatus = PageStatus.add_fail;
-              this.$loading.close();
-              clearInterval(this.checkTimer);
-            }
-            if (timeout % 3 === 0) {
-              this.$http.getNewMeshNodeInfo().then(res => {
-                if (res.data.result?.sn) {
-                  this.$loading.close();
-                  this.snAdded = res.data.result.sn;
-                  this.pageStatus = PageStatus.add_success;
-                  clearInterval(this.checkTimer);
-                }
-              });
-            }
-            timeout -= 1;
-          }, 1000);
-        })
-        .catch(() => {
-          this.$loading.close();
-          this.pageStatus = PageStatus.add_fail;
-        });
+      this.$http.addMeshNode().then(() => {
+        const template = `<div class="add-mesh-tip">${this.$t('trans1003')}</div>`;
+        this.$loading.open({ template });
+        // 超时90秒，间隔3秒
+        let timeout = this.addTimeout;
+        this.checkTimer = setInterval(() => {
+          if (timeout < 0) {
+            this.pageStatus = PageStatus.add_fail;
+            this.$loading.close();
+            clearInterval(this.checkTimer);
+          }
+          if (timeout % 3 === 0) {
+            this.$http.getNewMeshNodeInfo().then(res => {
+              if (res.data.result?.sn) {
+                this.$loading.close();
+                this.snAdded = res.data.result.sn;
+                this.pageStatus = PageStatus.add_success;
+                clearInterval(this.checkTimer);
+              }
+            });
+          }
+          timeout -= 1;
+        }, 1000);
+      });
     },
     forward2step(index, status = true) {
       this.stepsOption.current = index;
@@ -338,11 +332,10 @@ export default {
         background-color: #fafafa;
         margin-right: 15px;
         border-radius: 2px;
-        width: 335px;
+        width: 50%;
         text-align: center;
         img {
-          width: 300px;
-          height: 300px;
+          width: 100%;
         }
       }
       .list-item__text {
