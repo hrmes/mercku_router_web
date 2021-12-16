@@ -1,10 +1,10 @@
 {
-  "id": "0015",
+  "id": "0019",
   "__host": "http://mywifi.mercku.tech",
   "host": "http://myprism.tech",
   "title": "Pentanet",
   "accept": ".pen",
-  "favicon": "customer-conf/0015/favicon.ico",
+  "favicon": "customer-conf/0019/favicon.ico",
   "policy": "https://pentanet.com.au/privacy-policy/",
   "allow2LevelAdmin": true,
   "languages": ["en-US", "zh-CN"],
