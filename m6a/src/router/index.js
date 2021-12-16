@@ -18,6 +18,7 @@ import device from 'base/pages/bussiness/dashboard/device.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import guest from 'base/pages/bussiness/setting/guest.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
+import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 import wlan from 'base/pages/bussiness/wlan/index.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 import ddns from 'base/pages/bussiness/advance/ddns.vue';
@@ -43,6 +44,8 @@ import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
+import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
+import led from 'base/pages/bussiness/setting/led.vue';
 
 Vue.use(Router);
 
@@ -136,6 +139,11 @@ const routes = {
       component: wan
     },
     {
+      path: '/setting/ipv6',
+      name: 'ipv6',
+      component: ipv6
+    },
+    {
       path: '/setting/wifi',
       name: 'wifi',
       component: wifi
@@ -169,6 +177,16 @@ const routes = {
       path: '/setting/upnp',
       name: 'upnp',
       component: upnp
+    },
+    {
+      path: '/setting/led',
+      name: 'led',
+      component: led
+    },
+    {
+      path: '/setting/wifi-schedule',
+      name: 'wifi-schedule',
+      component: wifiSchedule
     },
     {
       path: '/wlan',

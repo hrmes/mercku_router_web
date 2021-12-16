@@ -59,6 +59,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA
       },
       {
+        text: 'trans0620',
+        name: 'ipv6',
+        url: '/setting/ipv6',
+        config: strategyA
+      },
+      {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
@@ -113,6 +119,18 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'upnp',
         text: 'trans0644',
         config: strategyA
+      },
+      {
+        url: '/setting/led',
+        name: 'led',
+        text: 'trans0779',
+        config
+      },
+      {
+        url: '/setting/wifi-schedule',
+        name: 'setting.wifi-schedule',
+        text: 'trans0962',
+        config
       }
     ]
   };
