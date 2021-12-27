@@ -1,6 +1,6 @@
 .customized {
   &.header-container {
-    &.nav-hide {
+    &.is-login-nav {
       .right-wrap {
         width: auto;
       }
@@ -8,7 +8,8 @@
 
     .logo-wrap {
       .logo-wrap__logo {
-        background: url(../../assets/images/customer/mercku/mercku_logo.png) center no-repeat;
+        background: url(../../assets/images/customer/mercku/mercku_logo.png)
+          center no-repeat;
         background-size: 100%;
       }
     }
@@ -18,19 +19,22 @@
   &.login-container {
     .center-form {
       .logo {
-        background: url(../../assets/images/customer/mercku/mercku_logo_text.png) no-repeat center;
+        background: url(../../assets/images/customer/mercku/mercku_logo_text.png)
+          no-repeat center;
         background-size: 100%;
       }
     }
 
     .app-logo {
-      background: url(../../assets/images/customer/mercku/ic_launcher.jpg) no-repeat center;
+      background: url(../../assets/images/customer/mercku/ic_launcher.jpg)
+        no-repeat center;
       background-size: 100%;
     }
 
     .download {
       .qr {
-        background: url(../../assets/images/customer/mercku/qr.png) no-repeat center;
+        background: url(../../assets/images/customer/mercku/qr.png) no-repeat
+          center;
         background-size: 100%;
       }
     }

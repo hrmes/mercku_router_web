@@ -1,6 +1,10 @@
 <template>
   <header class="header-container customized"
-          :class="{'nav-hide':isLoginPage,'open':mobileNavVisible,'i18n-open':mobileI18nVisible}">
+          :class="{
+            'is-login-nav':isLoginPage,
+            'open':mobileNavVisible,
+            'i18n-open':mobileI18nVisible
+          }">
     <div class="logo-wrap">
       <div v-if="logoVisible"
            @click="forward2dashboard"
@@ -412,7 +416,7 @@ export default {
   @media screen and (max-width: 768px) {
     padding: 0 20px !important;
   }
-  &.nav-hide {
+  &.is-login-nav {
     background: $header-nav-hide-background-color;
     color: $header-nav-hide-color;
     padding: 0 50px;
