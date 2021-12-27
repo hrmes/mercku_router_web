@@ -1,6 +1,6 @@
 <template>
   <header class="header-container customized"
-          :class="{'nav-hide':!isLoginPage,'open':mobileNavVisible,'i18n-open':mobileI18nVisible}">
+          :class="{'nav-hide':isLoginPage,'open':mobileNavVisible,'i18n-open':mobileI18nVisible}">
     <div class="logo-wrap">
       <div v-if="logoVisible"
            @click="forward2dashboard"

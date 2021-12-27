@@ -6,7 +6,7 @@
              class="flex-wrap"
              :class="{'has-menu':!navVisible}">
           <m-header :navVisible="!navVisible"
-                    :isLoginPage="!isLoginPage"
+                    :isLoginPage="isLoginPage"
                     :logoVisible="!isLoginPage"
                     :navs="menus"
                     class="header"></m-header>
