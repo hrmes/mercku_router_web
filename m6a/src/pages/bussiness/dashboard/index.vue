@@ -4,14 +4,16 @@
       <div class="net-info__inner">
         <div class="device-container"
              :class="{'selected':$route.path.includes('device')}">
-          <div class="icon-container"
-               :class="{'disabled':!isRouter}">
-            <img @click="isRouter && forward2page('/dashboard/device/primary')"
+          <div class="icon-container">
+            <!-- :class="{'disabled':!isRouter}" -->
+            <img @click="forward2page('/dashboard/device/primary')"
                  src="../../../assets/images/icon/ic_device.png"
                  alt="" />
-            <div class="text-container"
-                 :class="{'disabled':!isRouter}">
-              {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
+            <!-- isRouter &&  -->
+            <div class="text-container">
+              <!-- :class="{'disabled':!isRouter}" -->
+              {{$t('trans0235')}}<span>&nbsp;({{deviceCount}})</span>
+              <!-- v-if="isRouter" -->
             </div>
           </div>
         </div>
@@ -58,7 +60,8 @@
                v-html="tips"></div>
         </div>
       </m-modal-body>
-      <m-modal-footer v-if="isRouter">
+      <m-modal-footer>
+        <!-- v-if="isRouter" -->
         <div class="form-button">
           <button class="btn btn-dialog-confirm"
                   @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
@@ -117,9 +120,10 @@ export default {
     '$store.mode': function watcher() {
       console.log(`watch task...mode is:${this.$store.mode}`);
       this.clearIntervalTask();
-      if (this.isRouter) {
-        this.createIntercvalTask();
-      }
+      // if (this.isRouter) {
+      //   this.createIntercvalTask();
+      // }
+      this.createIntercvalTask();
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -170,9 +174,10 @@ export default {
     },
     createIntercvalTask() {
       console.log(`createInterval task...mode is:${this.$store.mode}`);
-      if (this.isRouter) {
-        this.getDeviceCount();
-      }
+      // if (this.isRouter) {
+      //   this.getDeviceCount();
+      // }
+      this.getDeviceCount();
     },
     clearIntervalTask() {
       clearTimeout(this.deviceCountTimer);
