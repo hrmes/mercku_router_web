@@ -32,7 +32,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0235',
         name: 'device',
         url: '/dashboard/device/primary',
-        config: strategyA
+        config
       },
       {
         text: 'trans0366',
