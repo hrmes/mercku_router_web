@@ -126,12 +126,6 @@ export default function getMenu(role, mode = RouterMode.router) {
           }
         }
       },
-      {
-        text: 'trans0639',
-        name: 'region',
-        url: '/setting/region',
-        config
-      },
       // {
       //   url: '/setting/wps',
       //   name: 'setting.wps',
