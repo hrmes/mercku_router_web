@@ -125,13 +125,25 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           }
         }
-      }
+      },
+      {
+        text: 'trans0639',
+        name: 'region',
+        url: '/setting/region',
+        config
+      },
       // {
       //   url: '/setting/wps',
       //   name: 'setting.wps',
       //   text: 'trans0794',
       //   config
       // }
+      {
+        text: 'trans1010',
+        name: 'backup',
+        url: '/setting/backup',
+        config
+      }
     ]
   };
   const advance = {
