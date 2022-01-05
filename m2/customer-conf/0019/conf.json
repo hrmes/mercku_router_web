@@ -1,0 +1,27 @@
+{
+  "id": "0019",
+  "__host": "http://mywifi.mercku.tech",
+  "host": "http://myprism.tech",
+  "title": "Pentanet",
+  "accept": ".pen",
+  "favicon": "customer-conf/0019/favicon.ico",
+  "policy": "https://pentanet.com.au/privacy-policy/",
+  "allow2LevelAdmin": true,
+  "languages": ["en-US", "zh-CN"],
+  "defaultLanguage": "en-US",
+  "routers": {
+    "M2": {
+      "name": "Pentanet Prism Wi-Fi Mesh Router",
+      "shortName": "M2"
+    }
+  },
+  "loading": {
+    "name": "loading.gif",
+    "color": "#f8961d"
+  },
+  "website": {
+    "url": "https://pentanet.com.au/",
+    "text": "pentanet.com.au"
+  },
+  "appDownloadUrl": "http://app-pentanet.merckuwifi.com"
+}

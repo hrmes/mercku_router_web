@@ -158,6 +158,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'setting.wifi-schedule',
         text: 'trans0962',
         config
+      },
+      {
+        text: 'trans1010',
+        name: 'backup',
+        url: '/setting/backup',
+        config
       }
     ]
   };

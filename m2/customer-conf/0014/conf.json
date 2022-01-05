@@ -1,7 +1,7 @@
 {
   "id": "0014",
-  "__host": "http://mywifi.skymesh.net.au",
-  "host": "http://mywifi.mercku.tech",
+  "__host": "http://mywifi.mercku.tech",
+  "host": "http://mywifi.skymesh.net.au",
   "title": "SkyMesh",
   "accept": ".sky",
   "favicon": "customer-conf/0014/favicon.ico",
@@ -15,7 +15,7 @@
       "shortName": "M2"
     },
     "Bee": {
-      "name": "SkyMesh M2 Wi-Fi Mesh Node",
+      "name": "SkyMesh M2 Bee Wi-Fi Mesh Node",
       "shortName": "Bee"
     }
   },

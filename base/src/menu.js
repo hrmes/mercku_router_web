@@ -116,14 +116,34 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/wifi-schedule',
         name: 'setting.wifi-schedule',
         text: 'trans0962',
+        config,
+        customers: {
+          [Customers.skymesh]: {
+            show: false
+          },
+          [Customers.pentanet]: {
+            show: false
+          }
+        }
+      },
+      {
+        text: 'trans0639',
+        name: 'region',
+        url: '/setting/region',
         config
-      }
+      },
       // {
       //   url: '/setting/wps',
       //   name: 'setting.wps',
       //   text: 'trans0794',
       //   config
       // }
+      {
+        text: 'trans1010',
+        name: 'backup',
+        url: '/setting/backup',
+        config
+      }
     ]
   };
   const advance = {
@@ -219,6 +239,12 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.realnett]: {
             auth: [Role.super]
+          },
+          [Customers.skymesh]: {
+            auth: [Role.super]
+          },
+          [Customers.pentanet]: {
+            auth: [Role.super]
           }
         }
       },
@@ -257,6 +283,12 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           },
           [Customers.altima]: {
+            show: false
+          },
+          [Customers.skymesh]: {
+            show: false
+          },
+          [Customers.pentanet]: {
             show: false
           }
         }

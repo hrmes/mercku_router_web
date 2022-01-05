@@ -1101,7 +1101,7 @@ export default {
                 background: #fff;
               }
               &.expand {
-                height: 408px;
+                height: 470px;
                 margin: 0;
                 background: #f1f1f1;
                 padding: 0 20px;
