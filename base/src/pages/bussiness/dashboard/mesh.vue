@@ -653,10 +653,11 @@ export default {
                     nameFormatted = `${start}\n${end}`;
                   }
                   nameFormatted = name.match(/.{1,10}/g).join('\n');
-                  if (_this.isRouter) {
-                    return `{a|${nameFormatted}} {b|${stationsCount}}`;
-                  }
-                  return `{a|${nameFormatted}}`;
+                  // if (_this.isRouter) {
+                  //   return `{a|${nameFormatted}} {b|${stationsCount}}`;
+                  // }
+                  // return `{a|${nameFormatted}}`;
+                  return `{a|${nameFormatted}} {b|${stationsCount}}`;
                 },
                 rich: {
                   a: {
