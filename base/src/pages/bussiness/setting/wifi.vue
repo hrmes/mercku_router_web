@@ -40,7 +40,7 @@
                      class="item">
           <m-select :label="$t('trans0522')"
                     v-model="form.b24g.encrypt"
-                    :options="options"></m-select>
+                    :options="encryptMethods"></m-select>
         </m-form-item>
 
         <m-form-item key="b24gpassword"
@@ -112,7 +112,7 @@
                      class="item">
           <m-select :label="$t('trans0522')"
                     v-model="form.b5g.encrypt"
-                    :options="options"></m-select>
+                    :options="encryptMethods"></m-select>
         </m-form-item>
 
         <m-form-item v-if="!isOpen('b5g')"
@@ -212,6 +212,7 @@
 </template>
 <script>
 import { getStringByte, passwordRule } from '../../../util/util';
+import encryptMix from '../../../mixins/encrypt-methods';
 
 const Bands = {
   b24g: '2.4G',
@@ -232,6 +233,7 @@ const TimeDuration = {
   night: { begin: '01:00', end: '06:00' }
 };
 export default {
+  mixins: [encryptMix],
   data() {
     return {
       SwitchStrategy,
@@ -266,24 +268,6 @@ export default {
         interval: 60,
         traffic_threshold: 1000000
       },
-      options: [
-        {
-          value: 'open',
-          text: this.$t('trans0554')
-        },
-        {
-          value: 'wpawpa2',
-          text: this.$t('trans0557')
-        },
-        {
-          value: 'wpa2',
-          text: this.$t('trans0556')
-        },
-        {
-          value: 'wpa',
-          text: this.$t('trans0555')
-        }
-      ],
       rules: {
         'b24g.ssid': [
           {
