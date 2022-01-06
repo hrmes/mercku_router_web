@@ -406,5 +406,10 @@ export default {
       color: #ff0021;
     }
   }
+  @media screen and (max-width: 768px) {
+    .upload__files {
+      width: 100%;
+    }
+  }
 }
 </style>

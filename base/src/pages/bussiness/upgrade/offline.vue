@@ -1,101 +1,94 @@
 <template>
   <div class="page">
-    <div class="pc-wrapper">
-      <div class="page-header">{{ $t('trans0204') }}</div>
-      <div class="page-content">
-        <div class="form">
-          <div class="description">
-            <p>
-              1.
-              <span>{{ $t('trans0332') }}&nbsp;</span>
-              <a class="btn-text text-primary"
-                 :href="$t('trans0468')"
-                 target="_blank">{{
+    <div class="page-header">{{ $t('trans0204') }}</div>
+    <div class="page-content">
+      <div class="form">
+        <div class="description">
+          <p>
+            1.
+            <span>{{ $t('trans0332') }}&nbsp;</span>
+            <a class="btn-text text-primary"
+               :href="$t('trans0468')"
+               target="_blank">{{
                 $t('trans0482')
               }}</a>
-              <span>,&nbsp;{{ $t('trans0346') }}</span>
-            </p>
-            <p>
-              2.
-              <span>{{ $t('trans0339') }}</span>
-            </p>
-            <p>
-              3.
-              <span>{{ $t('trans0348') }}</span>
-            </p>
-          </div>
-          <div class="upload">
-            <m-upload ref="uploader"
-                      dragable
-                      :onChange="onChange"
-                      :onCancel="onCancel"
-                      :beforeUpload="beforeUpload"
-                      :request="upload"
-                      :packageInfo="packageInfo"
-                      :label="$t('trans0042')"
-                      :accept="accept" />
-          </div>
-          <div class="nodes-wrapper"
-               v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
-            <div class="title">
-              {{ $t('trans0333') }}
-              <div class="btn-info">
-                <button @click="upgrade()"
-                        class="btn btn-small re-btn">
-                  {{ $t('trans0225') }}
-                </button>
-              </div>
-            </div>
-            <div class="nodes-info">
-              <div v-for="node in localNodes"
-                   :key="node.sn"
-                   class="node">
-                <div class="badges">
-                  <m-tag v-if="node.isGW"
-                         class="gateway">{{ $t('trans0165') }}</m-tag>
-                </div>
-                <div class="message"
-                     @click="check(node)">
-                  <m-checkbox :readonly="true"
-                              v-model="node.checked" />
-                  <div class="img-container">
-                    <img :src="getNodeImage(node)"
-                         alt="">
-                  </div>
-                  <div class="info-container">
-                    <p class="node-name">{{ node.name }}</p>
-                    <p class="node-sn">
-                      <label class="with-colon">{{ $t('trans0252') }}:</label>
-                      <span>{{ node.sn }}</span>
-                    </p>
-                    <p class="node-version">
-                      <label class="with-colon">{{ $t('trans0209') }}:</label>
-                      <span>{{ node.version.current }}</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <span>,&nbsp;{{ $t('trans0346') }}</span>
+          </p>
+          <p>
+            2.
+            <span>{{ $t('trans0339') }}</span>
+          </p>
+          <p>
+            3.
+            <span>{{ $t('trans0348') }}</span>
+          </p>
+        </div>
+        <div class="upload">
+          <m-upload ref="uploader"
+                    dragable
+                    :onChange="onChange"
+                    :onCancel="onCancel"
+                    :beforeUpload="beforeUpload"
+                    :request="upload"
+                    :packageInfo="packageInfo"
+                    :label="$t('trans0042')"
+                    :accept="accept" />
+        </div>
+        <div class="nodes-wrapper"
+             v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
+          <div class="title">
+            {{ $t('trans0333') }}
+            <div class="btn-info">
+              <button @click="upgrade()"
+                      class="btn btn-small re-btn">
+                {{ $t('trans0225') }}
+              </button>
             </div>
           </div>
-          <div class="description-wrapper"
-               v-if="
-              uploadStatus === UploadStatus.success && !hasUpgradablityNodes
-            ">
-            <p>
-              <img src="../../../assets/images/icon/ic_hint.png"
-                   alt="" />
-              {{ $t('trans0336') }}
-            </p>
-            <p>{{ $t('trans0337') }}</p>
-            <p>{{ $t('trans0335') }}</p>
+          <div class="nodes-info">
+            <div v-for="node in localNodes"
+                 :key="node.sn"
+                 class="node">
+              <div class="badges">
+                <m-tag v-if="node.isGW"
+                       class="gateway">{{ $t('trans0165') }}</m-tag>
+              </div>
+              <div class="message"
+                   @click="check(node)">
+                <m-checkbox :readonly="true"
+                            v-model="node.checked" />
+                <div class="img-container">
+                  <img :src="getNodeImage(node)"
+                       alt="">
+                </div>
+                <div class="info-container">
+                  <p class="node-name">{{ node.name }}</p>
+                  <p class="node-sn">
+                    <label class="with-colon">{{ $t('trans0252') }}:</label>
+                    <span>{{ node.sn }}</span>
+                  </p>
+                  <p class="node-version">
+                    <label class="with-colon">{{ $t('trans0209') }}:</label>
+                    <span>{{ node.version.current }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="description-wrapper"
+             v-if="
+              uploadStatus === UploadStatus.success && !hasUpgradablityNodes
+            ">
+          <p>
+            <img src="../../../assets/images/icon/ic_hint.png"
+                 alt="" />
+            {{ $t('trans0336') }}
+          </p>
+          <p>{{ $t('trans0337') }}</p>
+          <p>{{ $t('trans0335') }}</p>
+        </div>
       </div>
-    </div>
-    <div class="mobile-wrapper">
-      <img src="../../../assets/images/icon/ic_hint.png"
-           alt="" />
-      <p>{{ $t('trans0343') }}</p>
     </div>
   </div>
 </template>
@@ -450,35 +443,6 @@ export default {
           }
         }
       }
-    }
-  }
-}
-@media screen and (min-width: 769px) {
-  .pc-wrapper {
-    display: block;
-  }
-  .mobile-wrapper {
-    display: none;
-  }
-}
-@media screen and (max-width: 768px) {
-  .pc-wrapper {
-    display: none;
-  }
-  .mobile-wrapper {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 14px;
-    color: #333333;
-    img {
-      width: 30px;
-    }
-    p {
-      width: 70%;
     }
   }
 }
