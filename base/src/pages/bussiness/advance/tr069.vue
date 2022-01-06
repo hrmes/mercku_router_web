@@ -115,7 +115,7 @@ export default {
               if (!value) {
                 return true;
               }
-              return isValidPassword(value, 1, 64, false);
+              return isValidPassword(value, 1, 64);
             },
             message: this.$t('trans0125')
           }
