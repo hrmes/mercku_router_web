@@ -111,7 +111,12 @@ export default {
         ],
         password: [
           {
-            rule: value => isValidPassword(value, 1, 64),
+            rule: value => {
+              if (!value) {
+                return true;
+              }
+              return isValidPassword(value, 1, 64);
+            },
             message: this.$t('trans0125')
           }
         ],
