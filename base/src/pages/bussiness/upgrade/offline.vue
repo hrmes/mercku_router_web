@@ -273,11 +273,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.pc-wrapper {
-  .page-content {
-    align-items: flex-start;
-  }
-}
 .form {
   width: 100%;
   .package-info {
@@ -442,6 +437,23 @@ export default {
             background: #00d061;
           }
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .nodes-wrapper {
+    .title {
+      flex-direction: column;
+      .btn-info {
+        margin-top: 15px;
+      }
+    }
+    .nodes-info {
+      .node {
+        width: 100%;
+        margin-right: 0;
       }
     }
   }

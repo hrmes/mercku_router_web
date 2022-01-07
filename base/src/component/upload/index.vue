@@ -44,17 +44,24 @@
           </div>
           <div class="des-cnt">
             <div class="description">
-              <span>
-                <span class="filename">{{file.name}}
-                  <span class="filesize">{{getSize(file)}}</span>
+              <div>
+                <span class="filename">
+                  {{file.name}}
+                  <span class="filesize">
+                    {{getSize(file)}}
+                  </span>
                 </span>
                 <span v-if="!uplodaSuccess"
                       class="percent">{{width}}</span>
-              </span>
+              </div>
               <div class="packageinfo"
                    v-if="uplodaSuccess && packageInfo.product && packageInfo.version">
-                <span class="product">{{packageInfo.product}}</span>
-                <span class="version">{{packageInfo.version}}</span>
+                <span class="product">
+                  {{packageInfo.product}}
+                </span>
+                <span class="version">
+                  {{packageInfo.version}}
+                </span>
               </div>
             </div>
 
@@ -65,7 +72,7 @@
             </div>
           </div>
           <div class="delete-wrap">
-            <img v-if="uploadLoading ||uploadFail"
+            <img v-if="uploadLoading || uploadFail"
                  src="../../assets/images/icon/ic_trash.png"
                  alt=""
                  width="24"
@@ -409,6 +416,24 @@ export default {
   @media screen and (max-width: 768px) {
     .upload__files {
       width: 100%;
+    }
+    .file {
+      .file__info {
+        .des-cnt {
+          .description {
+            .packageinfo {
+              display: inline-block;
+            }
+          }
+          .filename {
+            display: flex;
+            flex-direction: column;
+          }
+          .filesize {
+            margin-left: 0;
+          }
+        }
+      }
     }
   }
 }
