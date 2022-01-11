@@ -41,7 +41,7 @@ import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
 
 const backUp = 'backup';
-const fileSuffix = '.dat';
+const fileName = 'config.dat';
 
 export default {
   mixins: [RouterModel],
@@ -90,7 +90,7 @@ export default {
         .then(res => {
           this.$loading.close();
           if (res.status) {
-            window.location.href = `${process.env.CUSTOMER_CONFIG.host}/${backUp}${fileSuffix}`;
+            window.location.href = `${process.env.CUSTOMER_CONFIG.host}/${fileName}`;
           }
         })
         .catch(() => {
@@ -139,7 +139,7 @@ export default {
             }
           }
         })
-        .then(async res => {
+        .then(() => {
           uploader.status = UploadStatus.success;
           this.uploadStatus = UploadStatus.success;
         })

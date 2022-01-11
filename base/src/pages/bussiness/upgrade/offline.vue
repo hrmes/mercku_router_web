@@ -1,7 +1,5 @@
 <template>
-  <div class="page"
-       style="height: 2000px"
-       ref="offline">
+  <div class="page">
     <div class="page-header">{{ $t('trans0204') }}</div>
     <div class="page-content">
       <div class="form">
@@ -37,8 +35,7 @@
         </div>
         <div class="nodes-wrapper"
              v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
-          <div class="title"
-               ref="retitle">
+          <div class="title">
             {{ $t('trans0333') }}
             <div class="btn-info">
               <button @click="upgrade()"
