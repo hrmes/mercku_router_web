@@ -22,7 +22,7 @@
                   :beforeUpload="beforeUpload"
                   :request="upload"
                   :label="$t('trans1015')"
-                  :accept="accept" />
+                  :accept="fileSuffix" />
       </div>
       <div class="backup__notes">
         <p>{{$t('trans1018')}}</p>
@@ -41,13 +41,13 @@ import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
 
 const backUp = 'backup';
-const fileName = 'config.dat';
+const fileName = 'config';
 
 export default {
   mixins: [RouterModel],
   data() {
     return {
-      accept: '.dat',
+      fileSuffix: '.dat',
       UploadStatus,
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
@@ -90,7 +90,7 @@ export default {
         .then(res => {
           this.$loading.close();
           if (res.status) {
-            window.location.href = `${process.env.CUSTOMER_CONFIG.host}/${fileName}`;
+            window.location.href = `${process.env.CUSTOMER_CONFIG.host}/${fileName}${this.fileSuffix}`;
           }
         })
         .catch(() => {
@@ -108,7 +108,7 @@ export default {
       const file = files[0];
       const { uploader } = this.$refs;
       const entendName = getFileExtendName(file);
-      const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
+      const reg = new RegExp(`^${this.fileSuffix.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
         uploader.err = this.$t('trans0271');
         return false;

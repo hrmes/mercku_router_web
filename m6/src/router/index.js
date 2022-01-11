@@ -46,7 +46,7 @@ import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import internet from 'base/pages/bussiness/dashboard/internet.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
-import backupConfig from 'base/pages/bussiness/setting/backup-config.vue';
+import backup from 'base/pages/bussiness/setting/backup.vue';
 
 Vue.use(Router);
 
@@ -307,7 +307,7 @@ const routes = {
     {
       path: '/setting/backup',
       name: 'setting.backup',
-      component: backupConfig
+      component: backup
     }
   ]
 };
