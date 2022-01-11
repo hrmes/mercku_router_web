@@ -35,7 +35,11 @@
         </div>
         <div class="nodes-wrapper"
              v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
-          <div class="title">
+          <div class="title"
+               :style="{
+                 visibility: isRetitleFixed ? 'hidden' : 'visible'
+               }"
+               ref="retitle">
             {{ $t('trans0333') }}
             <div class="btn-info">
               <button @click="upgrade()"
@@ -89,13 +93,25 @@
         </div>
       </div>
     </div>
+    <div class="fixed-retitle"
+         v-show="uploadStatus === UploadStatus.success && hasUpgradablityNodes && isRetitleFixed">
+      {{ $t('trans0333') }}
+      <div class="fixed-retitle__btn-wrap">
+        <button @click="upgrade()"
+                class="btn btn-small fixed-retitle__btn">
+          {{ $t('trans0225') }}
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
+import _ from 'lodash';
 
+const mobileWidth = 768;
 export default {
   mixins: [RouterModel],
   data() {
@@ -108,7 +124,8 @@ export default {
       cancelToken: null,
       packageInfo: {},
       fwInfo: {},
-      upgraded: false
+      upgraded: false,
+      isRetitleFixed: false
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -153,7 +170,39 @@ export default {
       return '';
     }
   },
+  created() {
+    this.debounceScrollHandler = _.debounce(this.scrollHandler, 300);
+  },
+  mounted() {
+    window.addEventListener('scroll', this.debounceScrollHandler, true);
+    window.addEventListener('resize', this.debounceScrollHandler);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.debounceScrollHandler, true);
+    window.removeEventListener('resize', this.debounceScrollHandler);
+  },
   methods: {
+    risizeHandler() {
+      if (document.body.clientWidth > mobileWidth) {
+        this.isRetitleFixed = false;
+      } else {
+        this.scrollHandler();
+      }
+    },
+    scrollHandler() {
+      let flag = false;
+      if (this.$refs.retitle && document.body.clientWidth <= mobileWidth) {
+        const { scrollTop } = document.querySelector('#srcollbar-wrap');
+        const retitleOffsetTop = this.$refs.retitle.offsetTop;
+        const offset = retitleOffsetTop - scrollTop;
+        if (offset <= 0) {
+          flag = true;
+        }
+      }
+      this.$nextTick(() => {
+        this.isRetitleFixed = flag;
+      });
+    },
     check(node) {
       node.checked = !node.checked;
     },
@@ -438,6 +487,21 @@ export default {
         }
       }
     }
+  }
+}
+.fixed-retitle {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #fff;
+  padding: 20px 14px;
+  z-index: 1000;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  .fixed-retitle__btn-wrap {
+    margin-top: 15px;
+  }
+  .fixed-retitle__btn {
+    margin-left: 0;
   }
 }
 
