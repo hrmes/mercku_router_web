@@ -30,8 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="section"
-         v-if="isRouter">
+    <div class="section">
       <div class="section__inner">
         <div class="section__title">{{$t('trans0303')}}</div>
         <div class="section__body section__body--row">
@@ -94,8 +93,7 @@
       </div>
 
     </div>
-    <div class="section"
-         v-if="isRouter">
+    <div class="section">
       <div class="section__inner">
         <div class="section__title">{{$t('trans0308')}}</div>
         <div class="section__body section__body--row releative">
@@ -425,9 +423,7 @@ export default {
   watch: {
     '$store.mode': function watcher() {
       this.clearIntervalTask();
-      if (this.isRouter) {
-        this.createIntervalTask();
-      }
+      this.createIntervalTask();
     }
   },
   methods: {
@@ -445,9 +441,7 @@ export default {
       this.speedModelOpen = false;
     },
     createIntervalTask() {
-      if (this.isRouter) {
-        this.getWanNetStats();
-      }
+      this.getWanNetStats();
     },
     clearIntervalTask() {
       clearTimeout(this.wanNetStatsTimer);

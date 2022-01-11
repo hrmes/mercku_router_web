@@ -175,11 +175,11 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.debounceScrollHandler, true);
-    window.addEventListener('resize', this.debounceScrollHandler);
+    window.addEventListener('resize', this.risizeHandler);
   },
   destroyed() {
     window.removeEventListener('scroll', this.debounceScrollHandler, true);
-    window.removeEventListener('resize', this.debounceScrollHandler);
+    window.removeEventListener('resize', this.risizeHandler);
   },
   methods: {
     risizeHandler() {
@@ -195,9 +195,7 @@ export default {
         const { scrollTop } = document.querySelector('#srcollbar-wrap');
         const retitleOffsetTop = this.$refs.retitle.offsetTop;
         const offset = retitleOffsetTop - scrollTop;
-        if (offset <= 0) {
-          flag = true;
-        }
+        flag = offset <= 0;
       }
       this.$nextTick(() => {
         this.isRetitleFixed = flag;

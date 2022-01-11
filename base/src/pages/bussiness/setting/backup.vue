@@ -1,6 +1,5 @@
 <template>
-  <div class="page"
-       ref="backup">
+  <div class="page backup">
     <div class='page-header'>
       {{$t('trans1010')}}
     </div>
@@ -30,7 +29,7 @@
         <p>{{$t('trans1017')}}</p>
       </div>
       <button class="btn btn-middle btn-primary operate-btn"
-              @click="startBackup"
+              @click="restore"
               v-if="uplodaSuccess">{{$t('trans0006')}}</button>
     </div>
   </div>
@@ -90,7 +89,7 @@ export default {
         .then(res => {
           this.$loading.close();
           if (res.status) {
-            window.location.href = `${process.env.CUSTOMER_CONFIG.host}/${fileName}${this.fileSuffix}`;
+            window.location.href = `/${fileName}${this.fileSuffix}`;
           }
         })
         .catch(() => {
@@ -151,7 +150,7 @@ export default {
           }
         });
     },
-    startBackup() {
+    restore() {
       this.$http.restoreRouterConfig().then(res2 => {
         if (res2.status) {
           this.$reconnect({
