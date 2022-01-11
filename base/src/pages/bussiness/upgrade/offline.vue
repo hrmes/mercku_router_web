@@ -1,5 +1,7 @@
 <template>
-  <div class="page">
+  <div class="page"
+       style="height: 2000px"
+       ref="offline">
     <div class="page-header">{{ $t('trans0204') }}</div>
     <div class="page-content">
       <div class="form">
@@ -9,9 +11,8 @@
             <span>{{ $t('trans0332') }}&nbsp;</span>
             <a class="btn-text text-primary"
                :href="$t('trans0468')"
-               target="_blank">{{
-                $t('trans0482')
-              }}</a>
+               target="_blank">
+              {{ $t('trans0482') }}</a>
             <span>,&nbsp;{{ $t('trans0346') }}</span>
           </p>
           <p>
@@ -36,7 +37,8 @@
         </div>
         <div class="nodes-wrapper"
              v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
-          <div class="title">
+          <div class="title"
+               ref="retitle">
             {{ $t('trans0333') }}
             <div class="btn-info">
               <button @click="upgrade()"
@@ -446,6 +448,7 @@ export default {
   .nodes-wrapper {
     .title {
       flex-direction: column;
+      text-align: left;
       .btn-info {
         margin-top: 15px;
       }

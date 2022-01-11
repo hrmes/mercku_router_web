@@ -1,12 +1,13 @@
 <template>
-  <div class="page backup">
+  <div class="page"
+       ref="backup">
     <div class='page-header'>
       {{$t('trans1010')}}
     </div>
     <div class="backup__content">
       <p class="backup__tips--primary">{{$t('trans1011')}}</p>
       <p class="backup__tips--danger">*{{$t('trans1012')}}</p>
-      <button class="btn btn-middle btn-primary backup__btn"
+      <button class="btn btn-middle btn-primary operate-btn"
               @click="getRouterConfigBackup">{{$t('trans1013')}}</button>
     </div>
     <div class='page-header'>
@@ -29,6 +30,9 @@
         <p>{{$t('trans1016')}}</p>
         <p>{{$t('trans1017')}}</p>
       </div>
+      <button class="btn btn-middle btn-primary operate-btn"
+              @click="startBackup"
+              v-if="uplodaSuccess">{{$t('trans0006')}}</button>
     </div>
   </div>
 </template>
@@ -36,6 +40,9 @@
 import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
+
+const backUp = 'backup';
+const fileSuffix = '.dat';
 
 export default {
   mixins: [RouterModel],
@@ -46,7 +53,8 @@ export default {
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
       packageInfo: {},
-      fwInfo: {}
+      fwInfo: {},
+      upgraded: false
     };
   },
   computed: {
@@ -56,6 +64,32 @@ export default {
         return product.name;
       }
       return '';
+    },
+    uplodaSuccess() {
+      return this.uploadStatus === UploadStatus.success;
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    if (
+      this.uploadStatus === UploadStatus.success &&
+      !this.upgraded &&
+      !to.path.includes('/login')
+    ) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0230'),
+        callback: {
+          ok: () => {
+            next();
+          },
+          cancel: () => {
+            next(false);
+          }
+        }
+      });
+    } else {
+      next();
     }
   },
   methods: {
@@ -66,7 +100,7 @@ export default {
         .then(res => {
           this.$loading.close();
           if (res.status) {
-            window.location.href = `${process.env.CUSTOMER_CONFIG.host}/${process.env.CUSTOMER_CONFIG.backUpFileName}`;
+            window.location.href = `${process.env.CUSTOMER_CONFIG.host}/${backUp}${fileSuffix}`;
           }
         })
         .catch(() => {
@@ -97,7 +131,7 @@ export default {
     },
     upload(files) {
       const formData = new FormData();
-      formData.append('type', 'backup');
+      formData.append('type', backUp);
       formData.append('file', files[0]);
       const { uploader } = this.$refs;
       this.uploadStatus = UploadStatus.uploading;
@@ -139,31 +173,6 @@ export default {
           };
           uploader.status = UploadStatus.success;
           this.uploadStatus = UploadStatus.success;
-          // 上传成功后询问是否备份
-          this.$dialog.confirm({
-            okText: this.$t('trans0122'),
-            cancelText: this.$t('trans0025'),
-            message: this.$t('trans0121'),
-            callback: {
-              ok: () => {
-                this.$http.restoreRouterConfig().then(res2 => {
-                  if (res2.status) {
-                    this.$reconnect({
-                      timeout: 120,
-                      onsuccess: () => {
-                        this.$router.push({ path: '/login' });
-                      },
-                      ontimeout: () => {
-                        this.$router.push({ path: '/unconnect' });
-                      }
-                    });
-                  } else {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
-                  }
-                });
-              }
-            }
-          });
         })
         .catch(err => {
           uploader.status = UploadStatus.fail;
@@ -172,6 +181,23 @@ export default {
             uploader.err = this.$t(err.response.data.error.code);
           }
         });
+    },
+    startBackup() {
+      this.$http.restoreRouterConfig().then(res2 => {
+        if (res2.status) {
+          this.$reconnect({
+            timeout: 120,
+            onsuccess: () => {
+              this.$router.push({ path: '/login' });
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
+        } else {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        }
+      });
     }
   }
 };
@@ -184,6 +210,9 @@ export default {
     padding: 0;
     margin: 0;
   }
+  .operate-btn {
+    margin-top: 30px;
+  }
   .backup__content {
     padding: 30px 20px;
   }
@@ -195,9 +224,6 @@ export default {
     margin-top: 12px;
     font-size: 14px;
     color: #d6001c;
-  }
-  .backup__btn {
-    margin-top: 30px;
   }
   .backup__notes {
     margin-top: 20px;

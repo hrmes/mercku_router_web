@@ -44,36 +44,33 @@
           </div>
           <div class="des-cnt">
             <div class="description">
-              <div>
-                <span class="filename">
-                  {{file.name}}
-                  <span class="filesize">
-                    {{getSize(file)}}
-                  </span>
-                </span>
-                <span v-if="!uplodaSuccess"
-                      class="percent">{{width}}</span>
+              <div class="fileinfo">
+                <div class="fileinfo__wrap">
+                  <span class="fileinfo__name">{{file.name}}</span>
+                  <span class="fileinfo__size">{{getSize(file)}}</span>
+                </div>
+                <div v-if="uploadLoading"
+                     class="fileinfo__upload-percent">{{width}}</div>
               </div>
               <div class="packageinfo"
-                   v-if="uplodaSuccess && packageInfo.product && packageInfo.version">
-                <span class="product">
-                  {{packageInfo.product}}
-                </span>
-                <span class="version">
-                  {{packageInfo.version}}
-                </span>
+                   v-if="uploadSuccess && packageInfo.product && packageInfo.version">
+                <div class="packageinfo__product">
+                  <span class="single-line-text-omitted">{{packageInfo.product}}</span>
+                </div>
+                <div class="packageinfo__version">
+                  <span class="single-line-text-omitted">{{packageInfo.version}}</span>
+                </div>
               </div>
+              <div class="filesize">{{getSize(file)}}</div>
             </div>
-
             <div class="line"
-                 v-if="!uplodaSuccess">
+                 v-if="!uploadSuccess">
               <span :class="{'loading':uploadLoading,'fail':uploadFail}"
                     :style="{'width':width}"></span>
             </div>
           </div>
           <div class="delete-wrap">
-            <img v-if="uploadLoading || uploadFail"
-                 src="../../assets/images/icon/ic_trash.png"
+            <img src="../../assets/images/icon/ic_delete.png"
                  alt=""
                  width="24"
                  @click="cancel(file)" />
@@ -134,7 +131,7 @@ export default {
     };
   },
   computed: {
-    uplodaSuccess() {
+    uploadSuccess() {
       return this.status === UploadStatus.success;
     },
     uploadLoading() {
@@ -218,6 +215,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .upload {
+  .single-line-text-omitted {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
   .upload__box {
     position: relative;
     input {
@@ -313,70 +315,57 @@ export default {
           display: flex;
           // align-items: center;
           flex-direction: column;
-          > span {
+        }
+        .packageinfo {
+          display: flex;
+          .packageinfo__product,
+          .packageinfo__version {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            &::before {
+              content: '';
+              display: inline-block;
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              margin-right: 5px;
+              background: $upload-file-info-product-dot-color;
+            }
           }
-          .packageinfo {
-            display: flex;
-            .product,
-            .version {
-              display: flex;
-              align-items: center;
-              &::before {
-                content: '';
-                display: inline-block;
-                width: 5px;
-                height: 5px;
-                border-radius: 50%;
-                margin-right: 5px;
-                background: $upload-file-info-product-dot-color;
-              }
-            }
-            .product {
-              margin-right: 10px;
-            }
-            .version {
-              &::before {
-                background: $upload-file-info-version-dot-color;
-              }
+          .packageinfo__product {
+            margin-right: 10px;
+          }
+          .packageinfo__version {
+            &::before {
+              background: $upload-file-info-version-dot-color;
             }
           }
         }
-        .filename {
-          max-width: 320px;
-          white-space: nowrap;
-          flex: 1;
-          overflow: hidden;
-          text-overflow: ellipsis;
+        .fileinfo {
+          display: flex;
+          justify-content: space-between;
+          .fileinfo__wrap {
+            max-width: 320px;
+            flex: 1;
+          }
+          .fileinfo__name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .fileinfo__size {
+            margin-left: 5px;
+            color: $upload-file-text-color;
+          }
+          .fileinfo__upload-percent {
+            font-size: 12px;
+            color: $upload-file-text-color;
+            display: flex;
+            align-items: flex-end;
+          }
         }
         .filesize {
-          margin-left: 5px;
           color: $upload-file-text-color;
-        }
-        .percent {
-          font-size: 12px;
-          color: $upload-file-text-color;
-          display: flex;
-          align-items: flex-end;
-        }
-        .del-btn {
-          display: inline-block;
-          width: 13px;
-          height: 14px;
-          background: url(../../assets/images/icon/ic_delete.png);
-          background-size: 100%;
-          border-radius: 13px;
-          cursor: pointer;
-        }
-        img {
-          float: right;
-          margin-top: 5px;
-          cursor: pointer;
-          border: 1px red;
-          :hover {
-            border: 1px solid red;
-          }
         }
         .line {
           width: 100%;
@@ -413,26 +402,55 @@ export default {
       color: #ff0021;
     }
   }
-  @media screen and (max-width: 768px) {
+}
+@media screen and (min-width: 769px) {
+  .upload {
+    .file {
+      .file__info {
+        .des-cnt {
+          .fileinfo {
+            display: inline-block;
+          }
+          .filesize {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .upload {
     .upload__files {
       width: 100%;
     }
     .file {
       .file__info {
+        padding: 15px;
         .des-cnt {
-          .description {
-            .packageinfo {
-              display: inline-block;
-            }
-          }
-          .filename {
-            display: flex;
+          min-width: 193px;
+          margin-left: 15px;
+          .packageinfo {
             flex-direction: column;
           }
-          .filesize {
-            margin-left: 0;
+          .fileinfo {
+            display: inline-block;
+            width: 100%;
+            .fileinfo__name {
+              display: inline-block;
+              width: 100%;
+            }
+            .fileinfo__size {
+              display: none;
+            }
           }
         }
+        .delete-wrap {
+          margin-left: 15px;
+        }
+      }
+      .filesize {
+        display: block;
       }
     }
   }

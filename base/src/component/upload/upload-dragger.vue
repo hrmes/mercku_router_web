@@ -26,17 +26,14 @@ export default {
   },
   methods: {
     handleDragOver(e) {
-      e.stopPropagation(); // 解决火狐下拖动上传会打开标签的行为
       e.preventDefault();
       this.isDragOver = true;
     },
     handleDragLeave(e) {
-      e.stopPropagation();
       e.preventDefault();
       this.isDragOver = false;
     },
     handleDrop(e) {
-      e.stopPropagation();
       e.preventDefault();
       this.isDragOver = false;
       if (this.uploadLoading) {
