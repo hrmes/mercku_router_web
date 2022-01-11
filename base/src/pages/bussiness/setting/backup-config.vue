@@ -21,7 +21,6 @@
                   :onCancel="onCancel"
                   :beforeUpload="beforeUpload"
                   :request="upload"
-                  :packageInfo="packageInfo"
                   :label="$t('trans1015')"
                   :accept="accept" />
       </div>
@@ -52,19 +51,10 @@ export default {
       UploadStatus,
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
-      packageInfo: {},
-      fwInfo: {},
       upgraded: false
     };
   },
   computed: {
-    productName() {
-      const product = this.Products[this.fwInfo.model.id];
-      if (product) {
-        return product.name;
-      }
-      return '';
-    },
     uplodaSuccess() {
       return this.uploadStatus === UploadStatus.success;
     }
@@ -150,27 +140,6 @@ export default {
           }
         })
         .then(async res => {
-          const res1 = await this.$http.getMeshNode();
-          const gw = res1.data.result.filter(node => node.is_gw)[0];
-          let { nodes } = res.data.result;
-          nodes = nodes.map(node => {
-            let isGW = false;
-            if (node.sn === gw.sn) {
-              isGW = true;
-            }
-            return {
-              ...node,
-              isGW,
-              checked: false
-            };
-          });
-          this.localNodes = nodes;
-          this.fwInfo = res.data.result.fw_info;
-          this.packageInfo = {
-            product: this.productName,
-            version: this.fwInfo.version,
-            model: this.modelName
-          };
           uploader.status = UploadStatus.success;
           this.uploadStatus = UploadStatus.success;
         })
