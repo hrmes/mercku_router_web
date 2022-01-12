@@ -1,5 +1,6 @@
 <template>
-  <div class="page">
+  <div class="page"
+       style="height: 2000px">
     <div class="page-header">{{ $t('trans0204') }}</div>
     <div class="page-content">
       <div class="form">
@@ -34,21 +35,25 @@
                     :accept="accept" />
         </div>
         <div class="nodes-wrapper"
-             v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
-          <div class="title"
-               :style="{
-                 visibility: isRetitleFixed ? 'hidden' : 'visible'
+             v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes"
+             ref="renodes">
+          <div class="retitle"
+               :class="{
+                 'retitle--fixed': isRetitleFixed
                }"
                ref="retitle">
             {{ $t('trans0333') }}
-            <div class="btn-info">
+            <div class="retitle__btn-wrap">
               <button @click="upgrade()"
-                      class="btn btn-small re-btn">
+                      class="btn btn-small retitle__btn">
                 {{ $t('trans0225') }}
               </button>
             </div>
           </div>
-          <div class="nodes-info">
+          <div class="nodes-info"
+               :style="{
+            'margin-top': isRetitleFixed ? '114px' : 0
+          }">
             <div v-for="node in localNodes"
                  :key="node.sn"
                  class="node">
@@ -91,16 +96,6 @@
           <p>{{ $t('trans0337') }}</p>
           <p>{{ $t('trans0335') }}</p>
         </div>
-      </div>
-    </div>
-    <div class="fixed-retitle"
-         v-show="uploadStatus === UploadStatus.success && hasUpgradablityNodes && isRetitleFixed">
-      {{ $t('trans0333') }}
-      <div class="fixed-retitle__btn-wrap">
-        <button @click="upgrade()"
-                class="btn btn-small fixed-retitle__btn">
-          {{ $t('trans0225') }}
-        </button>
       </div>
     </div>
   </div>
@@ -191,11 +186,9 @@ export default {
     },
     scrollHandler() {
       let flag = false;
-      if (this.$refs.retitle && document.body.clientWidth <= mobileWidth) {
-        const { scrollTop } = document.querySelector('#srcollbar-wrap');
-        const retitleOffsetTop = this.$refs.retitle.offsetTop;
-        const offset = retitleOffsetTop - scrollTop;
-        flag = offset <= 0;
+      if (this.$refs.renodes && document.body.clientWidth <= mobileWidth) {
+        const { top } = this.$refs.renodes.getBoundingClientRect();
+        flag = top <= 0;
       }
       this.$nextTick(() => {
         this.isRetitleFixed = flag;
@@ -377,11 +370,28 @@ export default {
   }
 }
 .nodes-wrapper {
-  .title {
+  .retitle {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     padding: 20px 0 30px 0;
+    &.retitle--fixed {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      padding: 20px 20px 30px 20px;
+      .retitle__btn-wrap {
+        margin-top: 15px;
+      }
+      .retitle__btn {
+        margin-left: 0;
+      }
+    }
   }
   border-top: 1px solid #f1f1f1;
   margin-top: 30px;
@@ -487,28 +497,13 @@ export default {
     }
   }
 }
-.fixed-retitle {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: #fff;
-  padding: 20px 14px;
-  z-index: 1000;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
-  .fixed-retitle__btn-wrap {
-    margin-top: 15px;
-  }
-  .fixed-retitle__btn {
-    margin-left: 0;
-  }
-}
 
 @media screen and (max-width: 768px) {
   .nodes-wrapper {
-    .title {
+    .retitle {
       flex-direction: column;
       text-align: left;
-      .btn-info {
+      .retitle__btn-wrap {
         margin-top: 15px;
       }
     }
