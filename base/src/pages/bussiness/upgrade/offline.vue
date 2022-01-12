@@ -52,7 +52,7 @@
           </div>
           <div class="nodes-info"
                :style="{
-            'margin-top': isRetitleFixed ? '114px' : 0
+            'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
           }">
             <div v-for="node in localNodes"
                  :key="node.sn"
@@ -120,7 +120,8 @@ export default {
       packageInfo: {},
       fwInfo: {},
       upgraded: false,
-      isRetitleFixed: false
+      isRetitleFixed: false,
+      nodesInfoMarginTop: 114
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -163,6 +164,14 @@ export default {
         return product.shortName;
       }
       return '';
+    }
+  },
+  watch: {
+    isRetitleFixed(val) {
+      if (!val && this.$refs.retitle) {
+        const { height } = this.$refs.retitle.getBoundingClientRect();
+        this.nodesInfoMarginTop = height;
+      }
     }
   },
   created() {
