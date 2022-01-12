@@ -46,7 +46,7 @@ import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
-import backup from 'base/pages/bussiness/setting/backup.vue';
+import backup from 'base/pages/bussiness/advance/backup.vue';
 
 Vue.use(Router);
 

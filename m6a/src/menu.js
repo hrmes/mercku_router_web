@@ -131,12 +131,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'setting.wifi-schedule',
         text: 'trans0962',
         config
-      },
-      {
-        url: '/setting/backup',
-        name: 'setting.backup',
-        text: 'trans0962',
-        config
       }
     ]
   };
@@ -256,6 +250,12 @@ export default function getMenu(role, mode = RouterMode.router) {
           auth: [Role.super],
           mode: [RouterMode.router]
         }
+      },
+      {
+        url: '/setting/backup',
+        name: 'setting.backup',
+        text: 'trans0962',
+        config
       }
     ]
   };

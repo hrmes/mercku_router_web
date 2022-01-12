@@ -179,7 +179,7 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
+import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
 import { EncryptMethod, Bands } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
@@ -223,12 +223,20 @@ export default {
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           }
         ],
         'b24g.password': [
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
           },
           {
             rule: value => isValidPassword(value),
@@ -247,12 +255,20 @@ export default {
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           }
         ],
         'b5g.password': [
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
           },
           {
             rule: value => isValidPassword(value),
