@@ -393,6 +393,7 @@ export default {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
       z-index: 1000;
       padding: 20px 20px 30px 20px;
+      transition: margin-top 500ms;
       .retitle__btn-wrap {
         margin-top: 15px;
       }
