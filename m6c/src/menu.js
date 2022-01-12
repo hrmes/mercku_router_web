@@ -113,12 +113,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'upnp',
         text: 'trans0644',
         config: strategyA
-      },
-      {
-        url: '/setting/backup',
-        name: 'backup',
-        text: 'trans0962',
-        config
       }
     ]
   };
@@ -238,6 +232,12 @@ export default function getMenu(role, mode = RouterMode.router) {
           auth: [Role.super],
           mode: [RouterMode.router]
         }
+      },
+      {
+        url: '/setting/backup',
+        name: 'backup',
+        text: 'trans0962',
+        config
       }
     ]
   };

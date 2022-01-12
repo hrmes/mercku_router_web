@@ -43,7 +43,7 @@ import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
-import backup from 'base/pages/bussiness/setting/backup.vue';
+import backup from 'base/pages/bussiness/advance/backup.vue';
 
 Vue.use(Router);
 

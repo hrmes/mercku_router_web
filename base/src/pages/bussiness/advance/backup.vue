@@ -30,7 +30,7 @@
       </div>
       <button class="btn btn-middle btn-primary operate-btn"
               @click="restore"
-              v-if="uplodaSuccess">{{$t('trans0006')}}</button>
+              v-if="uplodaSuccess">{{$t('trans1027')}}</button>
     </div>
   </div>
 </template>
@@ -93,6 +93,7 @@ export default {
           }
         })
         .catch(() => {
+          this.$toast(this.$t('trans1023'), 3000, 'error');
           this.$loading.close();
         });
     },
@@ -101,6 +102,8 @@ export default {
       this.uploadStatus = uploader.status;
     },
     onCancel() {
+      const { uploader } = this.$refs;
+      this.uploadStatus = uploader.status;
       this.cancelToken.cancel('cancel');
     },
     beforeUpload(files) {
@@ -151,19 +154,19 @@ export default {
         });
     },
     restore() {
-      this.$http.restoreRouterConfig().then(res2 => {
-        if (res2.status) {
+      this.$loading.open();
+      this.$http.restoreRouterConfig().then(res => {
+        this.$loading.close();
+        if (res.status) {
           this.$reconnect({
             timeout: 120,
             onsuccess: () => {
-              this.$router.push({ path: '/login' });
+              this.$refs.uploader.initUploadStatus();
             },
             ontimeout: () => {
               this.$router.push({ path: '/unconnect' });
             }
           });
-        } else {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
         }
       });
     }

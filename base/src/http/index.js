@@ -144,7 +144,7 @@ const commonMethods = {
   getWIFITimeLimit: createMethod('mesh.config.wifi.time_limit.get'),
   updateWIFITimeLimit: createMethod('mesh.config.wifi.time_limit.update'),
   getRouterConfigBackup: createMethod('router.config.backup.create'),
-  restoreRouterConfig: createMethod('router.config.restore')
+  restoreRouterConfig: createMethod('router.config.backup.restore')
 };
 
 // 获取主页

@@ -53,7 +53,7 @@
                      class="fileinfo__upload-percent">{{width}}</div>
               </div>
               <div class="packageinfo"
-                   v-if="uploadSuccess && packageInfo.product && packageInfo.version">
+                   v-if="uploadSuccess && packageInfo && packageInfo.product && packageInfo.version">
                 <div class="packageinfo__product">
                   <span class="single-line-text-omitted">{{packageInfo.product}}</span>
                 </div>

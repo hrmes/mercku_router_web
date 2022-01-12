@@ -125,19 +125,13 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           }
         }
-      },
+      }
       // {
       //   url: '/setting/wps',
       //   name: 'setting.wps',
       //   text: 'trans0794',
       //   config
       // }
-      {
-        text: 'trans1010',
-        name: 'backup',
-        url: '/setting/backup',
-        config
-      }
     ]
   };
   const advance = {
@@ -286,6 +280,12 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           }
         }
+      },
+      {
+        text: 'trans1010',
+        name: 'backup',
+        url: '/setting/backup',
+        config
       }
     ]
   };

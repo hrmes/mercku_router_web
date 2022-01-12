@@ -43,6 +43,13 @@ export const isFieldHasComma = value => {
   return true;
 };
 
+export const isFieldHasSpaces = value => {
+  if (value.indexOf(' ') > -1) {
+    return false;
+  }
+  return true;
+};
+
 export const isValidInteger = (value, min = 8, max = 24) => {
   let flag = true;
   const reg = /^-?[1-9]\d*$/;

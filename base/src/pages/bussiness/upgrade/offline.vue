@@ -1,6 +1,5 @@
 <template>
-  <div class="page"
-       style="height: 2000px">
+  <div class="page">
     <div class="page-header">{{ $t('trans0204') }}</div>
     <div class="page-content">
       <div class="form">
@@ -175,7 +174,7 @@ export default {
     }
   },
   created() {
-    this.debounceScrollHandler = _.debounce(this.scrollHandler, 300);
+    this.debounceScrollHandler = _.debounce(this.scrollHandler, 50);
   },
   mounted() {
     window.addEventListener('scroll', this.debounceScrollHandler, true);
