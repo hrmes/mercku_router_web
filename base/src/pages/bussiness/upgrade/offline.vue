@@ -103,7 +103,6 @@
 import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
-import _ from 'lodash';
 
 const mobileWidth = 768;
 export default {
@@ -173,15 +172,12 @@ export default {
       }
     }
   },
-  created() {
-    this.debounceScrollHandler = _.debounce(this.scrollHandler, 50);
-  },
   mounted() {
-    window.addEventListener('scroll', this.debounceScrollHandler, true);
+    window.addEventListener('scroll', this.scrollHandler, true);
     window.addEventListener('resize', this.risizeHandler);
   },
   destroyed() {
-    window.removeEventListener('scroll', this.debounceScrollHandler, true);
+    window.removeEventListener('scroll', this.scrollHandler, true);
     window.removeEventListener('resize', this.risizeHandler);
   },
   methods: {
@@ -393,7 +389,6 @@ export default {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
       z-index: 1000;
       padding: 20px 20px 30px 20px;
-      transition: margin-top 500ms;
       .retitle__btn-wrap {
         margin-top: 15px;
       }
