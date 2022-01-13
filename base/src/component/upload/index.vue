@@ -46,7 +46,9 @@
             <div class="description">
               <div class="fileinfo">
                 <div class="fileinfo__wrap">
-                  <span class="fileinfo__name">{{file.name}}</span>
+                  <span class="fileinfo__name single-line-text-omitted">
+                    {{file.name}}
+                  </span>
                   <span class="fileinfo__size">{{getSize(file)}}</span>
                 </div>
                 <div v-if="uploadLoading"
@@ -345,13 +347,7 @@ export default {
           display: flex;
           justify-content: space-between;
           .fileinfo__wrap {
-            max-width: 320px;
             flex: 1;
-          }
-          .fileinfo__name {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
           }
           .fileinfo__size {
             margin-left: 5px;
@@ -428,7 +424,7 @@ export default {
       .file__info {
         padding: 15px;
         .des-cnt {
-          min-width: 193px;
+          // min-width: 193px;
           margin-left: 15px;
           .packageinfo {
             flex-direction: column;
@@ -436,7 +432,14 @@ export default {
           .fileinfo {
             display: inline-block;
             width: 100%;
+            .fileinfo__wrap {
+              flex: 1;
+              position: relative;
+              height: 27px;
+            }
             .fileinfo__name {
+              position: absolute;
+              top: 0;
               display: inline-block;
               width: 100%;
             }
