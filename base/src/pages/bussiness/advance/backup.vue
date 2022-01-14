@@ -89,7 +89,7 @@ export default {
         .then(res => {
           this.$loading.close();
           if (res.status) {
-            window.location.href = `/${fileName}${this.fileSuffix}`;
+            window.location.href = `/${fileName}${this.fileSuffix}?t=${Date.now()}`;
           }
         })
         .catch(() => {
