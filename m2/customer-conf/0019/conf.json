@@ -16,8 +16,8 @@
     }
   },
   "loading": {
-    "name": "loading.gif",
-    "color": "#f8961d"
+    "name": "loading-common.gif",
+    "color": "#999999"
   },
   "website": {
     "url": "https://pentanet.com.au/",

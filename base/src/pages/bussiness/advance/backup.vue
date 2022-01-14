@@ -40,7 +40,7 @@ import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
 
 const backUp = 'backup';
-const fileName = 'config';
+const fileName = 'configs';
 
 export default {
   mixins: [RouterModel],
