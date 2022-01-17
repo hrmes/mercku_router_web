@@ -56,7 +56,7 @@
                v-html="tips"></div>
         </div>
       </m-modal-body>
-      <m-modal-footer>
+      <m-modal-footer v-if="isRouter">
         <div class="form-button">
           <button class="btn btn-dialog-confirm"
                   @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>

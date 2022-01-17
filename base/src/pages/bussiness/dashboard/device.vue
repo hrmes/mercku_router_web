@@ -66,7 +66,7 @@
                 v-if="isOfflineDevices">
               {{$t('trans0188')}}</li>
             <li class="column-limit"
-                v-if="!isOfflineDevices">{{$t('trans0115')}}</li>
+                v-if="!isOfflineDevices & isRouter">{{$t('trans0115')}}</li>
             <li class="column-black-list">{{$t('trans0370')}}</li>
           </ul>
         </div>
@@ -203,7 +203,7 @@
                 <span>{{formatMac(row.mac)}}</span>
               </li>
               <li class="column-limit"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                  v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
                 <div class="limit-inner">
                   <div class="item device-item">
                     <span class="limit-icon time-limit"
@@ -241,7 +241,7 @@
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)'>
                 <span class="btn-text btn-text-strange setting"
-                      v-if="!isOfflineDevices"
+                      v-if="!isOfflineDevices && isRouter"
                       @click="()=>forward2limit(row)">
                   {{$t('trans0019')}}
                 </span>
@@ -297,7 +297,7 @@
 </template>
 <script>
 import { formatMac, getStringByte, formatDate, formatDuration } from '../../../util/util';
-import { BlacklistMode } from '../../../util/constant';
+import { BlacklistMode, RouterMode } from '../../../util/constant';
 
 export default {
   data() {
@@ -360,6 +360,9 @@ export default {
     },
     id() {
       return this.$route.params.id;
+    },
+    isRouter() {
+      return RouterMode.router === this.$store.mode;
     },
     isOfflineDevices() {
       return this.id === 'offline';

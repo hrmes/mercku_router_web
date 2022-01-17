@@ -88,13 +88,14 @@ export default {
       this.$http
         .getRouterConfigBackup()
         .then(res => {
-          this.$loading.close();
           if (res.status) {
             window.location.href = `/${fileName}${this.fileSuffix}?t=${Date.now()}`;
           }
         })
         .catch(() => {
           this.$toast(this.$t('trans1023'), 3000, 'error');
+        })
+        .finally(() => {
           this.$loading.close();
         });
     },
@@ -156,20 +157,25 @@ export default {
     },
     restore() {
       this.$loading.open();
-      this.$http.restoreRouterConfig().then(res => {
-        this.$loading.close();
-        if (res.status) {
-          this.$reconnect({
-            timeout: 120,
-            onsuccess: () => {
-              this.$refs.uploader.initUploadStatus();
-            },
-            ontimeout: () => {
-              this.$router.push({ path: '/unconnect' });
-            }
-          });
-        }
-      });
+      this.$http
+        .restoreRouterConfig()
+        .then(res => {
+          this.$loading.close();
+          if (res.status) {
+            this.$reconnect({
+              timeout: 120,
+              onsuccess: () => {
+                this.$router.push({ path: '/setting/backup' });
+              },
+              ontimeout: () => {
+                this.$router.push({ path: '/unconnect' });
+              }
+            });
+          }
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     }
   }
 };
