@@ -29,7 +29,7 @@
         <p>{{$t('trans1017')}}</p>
       </div>
       <button class="btn btn-middle btn-primary operate-btn"
-              @click="restore"
+              @click="restoreBackup"
               v-if="uplodaSuccess">{{$t('trans1027')}}</button>
     </div>
   </div>
@@ -155,7 +155,7 @@ export default {
           }
         });
     },
-    restore() {
+    restoreBackup() {
       this.$loading.open();
       this.$http
         .restoreRouterConfig()

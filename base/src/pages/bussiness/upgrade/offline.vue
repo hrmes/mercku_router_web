@@ -174,14 +174,14 @@ export default {
   },
   mounted() {
     window.addEventListener('scroll', this.scrollHandler, true);
-    window.addEventListener('resize', this.risizeHandler);
+    window.addEventListener('resize', this.resizeHandler);
   },
   destroyed() {
     window.removeEventListener('scroll', this.scrollHandler, true);
-    window.removeEventListener('resize', this.risizeHandler);
+    window.removeEventListener('resize', this.resizeHandler);
   },
   methods: {
-    risizeHandler() {
+    resizeHandler() {
       if (document.body.clientWidth > mobileWidth) {
         this.isRetitleFixed = false;
       } else {
