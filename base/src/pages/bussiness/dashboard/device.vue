@@ -66,7 +66,7 @@
                 v-if="isOfflineDevices">
               {{$t('trans0188')}}</li>
             <li class="column-limit"
-                v-if="!isOfflineDevices & isRouter">{{$t('trans0115')}}</li>
+                v-if="!isOfflineDevices && isRouter">{{$t('trans0115')}}</li>
             <li class="column-black-list">{{$t('trans0370')}}</li>
           </ul>
         </div>
