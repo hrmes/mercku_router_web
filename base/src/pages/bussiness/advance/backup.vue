@@ -62,7 +62,8 @@ export default {
     if (
       this.uploadStatus === UploadStatus.success &&
       !this.upgraded &&
-      !to.path.includes('/login')
+      !to.path.includes('/login') &&
+      !to.path.includes('/unconnect')
     ) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
