@@ -4,14 +4,12 @@
       <div class="net-info__inner">
         <div class="device-container"
              :class="{'selected':$route.path.includes('device')}">
-          <div class="icon-container"
-               :class="{'disabled':!isRouter}">
-            <img @click="isRouter && forward2page('/dashboard/device/primary')"
+          <div class="icon-container">
+            <img @click="forward2page('/dashboard/device/primary')"
                  src="../../../assets/images/icon/ic_device.png"
                  alt="" />
-            <div class="text-container"
-                 :class="{'disabled':!isRouter}">
-              {{$t('trans0235')}}<span v-if="isRouter">&nbsp;({{deviceCount}})</span>
+            <div class="text-container">
+              {{$t('trans0235')}}<span>&nbsp;({{deviceCount}})</span>
             </div>
           </div>
         </div>
@@ -117,9 +115,7 @@ export default {
     '$store.mode': function watcher() {
       console.log(`watch task...mode is:${this.$store.mode}`);
       this.clearIntervalTask();
-      if (this.isRouter) {
-        this.createIntercvalTask();
-      }
+      this.createIntercvalTask();
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -170,9 +166,7 @@ export default {
     },
     createIntercvalTask() {
       console.log(`createInterval task...mode is:${this.$store.mode}`);
-      if (this.isRouter) {
-        this.getDeviceCount();
-      }
+      this.getDeviceCount();
     },
     clearIntervalTask() {
       clearTimeout(this.deviceCountTimer);

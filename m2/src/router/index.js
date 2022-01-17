@@ -42,6 +42,7 @@ import region from 'base/pages/bussiness/setting/region.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
 import wps from 'base/pages/bussiness/setting/wps.vue';
+import backup from 'base/pages/bussiness/advance/backup.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
@@ -158,6 +159,11 @@ export default new Router({
       path: '/setting/upnp',
       name: 'upnp',
       component: upnp
+    },
+    {
+      path: '/setting/backup',
+      name: 'backup',
+      component: backup
     },
     {
       path: '/wlan',

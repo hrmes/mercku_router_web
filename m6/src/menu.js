@@ -32,7 +32,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0235',
         name: 'device',
         url: '/dashboard/device/primary',
-        config: strategyA
+        config
       },
       {
         text: 'trans0366',
@@ -231,7 +231,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/log',
         name: 'advance-log',
         text: 'trans0421',
-        config: strategyA
+        config
       },
       {
         url: '/advance/firewall',
@@ -282,6 +282,12 @@ export default function getMenu(role, mode = RouterMode.router) {
           auth: [Role.super],
           mode: [RouterMode.router]
         }
+      },
+      {
+        text: 'trans1010',
+        name: 'backup',
+        url: '/setting/backup',
+        config
       }
     ]
   };
