@@ -7,7 +7,7 @@
       <p class="backup__tips--primary">{{$t('trans1011')}}</p>
       <p class="backup__tips--danger">*{{$t('trans1012')}}</p>
       <button class="btn btn-middle btn-primary operate-btn"
-              @click="getRouterConfigBackup">{{$t('trans1013')}}</button>
+              @click="getBackupDebounce">{{$t('trans1013')}}</button>
     </div>
     <div class='page-header'>
       {{$t('trans1014')}}
@@ -38,6 +38,7 @@
 import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
+import _ from 'lodash';
 
 const backUp = 'backup';
 const fileName = 'configs';
@@ -58,9 +59,12 @@ export default {
       return this.uploadStatus === UploadStatus.success;
     }
   },
+  created() {
+    this.getBackupDebounce = _.debounce(this.getBackup);
+  },
   beforeRouteLeave(to, from, next) {
     if (
-      this.uploadStatus === UploadStatus.success &&
+      this.uplodaSuccess &&
       !this.upgraded &&
       !to.path.includes('/login') &&
       !to.path.includes('/unconnect')
@@ -83,7 +87,7 @@ export default {
     }
   },
   methods: {
-    getRouterConfigBackup() {
+    getBackup() {
       this.$loading.open();
       this.$http
         .getRouterConfigBackup()
@@ -114,7 +118,7 @@ export default {
       const entendName = getFileExtendName(file);
       const reg = new RegExp(`^${this.fileSuffix.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
-        uploader.err = this.$t('trans0271');
+        uploader.err = this.$t('trans1028');
         return false;
       }
       if (file.size === 0) {
@@ -162,10 +166,11 @@ export default {
         .then(res => {
           this.$loading.close();
           if (res.status) {
+            this.upgraded = true;
             this.$reconnect({
               timeout: 120,
               onsuccess: () => {
-                this.$router.push({ path: '/setting/backup' });
+                this.$router.push({ path: '/advance/backup' });
               },
               ontimeout: () => {
                 this.$router.push({ path: '/unconnect' });
