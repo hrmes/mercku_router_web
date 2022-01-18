@@ -246,7 +246,8 @@
                   {{$t('trans0019')}}
                 </span>
                 <span class="btn-text btn-text-strange"
-                      @click="()=>addToBlackList(row)">
+                      @click="()=>addToBlackList(row)"
+                      v-if="isRouter">
                   {{$t('trans0016')}}
                 </span>
                 <span class="btn-text text-primary btn-text-strange"
