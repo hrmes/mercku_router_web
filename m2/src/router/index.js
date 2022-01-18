@@ -161,11 +161,6 @@ export default new Router({
       component: upnp
     },
     {
-      path: '/setting/backup',
-      name: 'backup',
-      component: backup
-    },
-    {
       path: '/wlan',
       name: 'wlan',
       component: wlan
@@ -274,6 +269,11 @@ export default new Router({
       path: '/advance/tr069',
       name: 'advance.tr069',
       component: tr069
+    },
+    {
+      path: '/advance/backup',
+      name: 'advance.backup',
+      component: backup
     },
     {
       path: '/setting/led',

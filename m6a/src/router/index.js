@@ -190,11 +190,6 @@ const routes = {
       component: wifiSchedule
     },
     {
-      path: '/setting/backup',
-      name: 'backup',
-      component: backup
-    },
-    {
       path: '/wlan',
       name: 'wlan',
       component: wlan
@@ -303,6 +298,11 @@ const routes = {
       path: '/advance/wwa',
       name: 'advance.wwa',
       component: wwa
+    },
+    {
+      path: '/advance/backup',
+      name: 'advance.backup',
+      component: backup
     },
     {
       path: '/setting/super',
