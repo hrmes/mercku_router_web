@@ -236,7 +236,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       {
         url: '/advance/backup',
         name: 'advance.backup',
-        text: 'trans0962',
+        text: 'trans1010',
         config
       }
     ]
