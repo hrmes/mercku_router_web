@@ -7,7 +7,8 @@
       <p class="backup__tips--primary">{{$t('trans1011')}}</p>
       <p class="backup__tips--danger">*{{$t('trans1012')}}</p>
       <button class="btn btn-middle btn-primary operate-btn"
-              @click="getBackupDebounce">{{$t('trans1013')}}</button>
+              :disabled="isDownloading"
+              @click="getBackup">{{$t('trans1013')}}</button>
     </div>
     <div class='page-header'>
       {{$t('trans1014')}}
@@ -38,7 +39,6 @@
 import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
-import _ from 'lodash';
 
 const backUp = 'backup';
 const fileName = 'configs';
@@ -51,16 +51,15 @@ export default {
       UploadStatus,
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
-      upgraded: false
+      upgraded: false,
+      isDownloading: false,
+      downloadTimer: null
     };
   },
   computed: {
     uplodaSuccess() {
       return this.uploadStatus === UploadStatus.success;
     }
-  },
-  created() {
-    this.getBackupDebounce = _.debounce(this.getBackup);
   },
   beforeRouteLeave(to, from, next) {
     if (
@@ -86,17 +85,28 @@ export default {
       next();
     }
   },
+  beforeDestroy() {
+    clearTimeout(this.downloadTimer);
+    this.downloadTimer = null;
+  },
   methods: {
     getBackup() {
       this.$loading.open();
+      this.isDownloading = true;
       this.$http
         .getRouterConfigBackup()
         .then(res => {
           if (res.status) {
+            this.downloadTimer = setTimeout(() => {
+              this.isDownloading = false;
+              clearTimeout(this.downloadTimer);
+              this.downloadTimer = null;
+            }, 5000);
             window.location.href = `/${fileName}${this.fileSuffix}?t=${Date.now()}`;
           }
         })
         .catch(() => {
+          this.isDownloading = false;
           this.$toast(this.$t('trans1023'), 3000, 'error');
         })
         .finally(() => {
