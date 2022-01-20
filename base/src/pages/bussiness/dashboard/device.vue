@@ -67,7 +67,10 @@
               {{$t('trans0188')}}</li>
             <li class="column-limit"
                 v-if="!isOfflineDevices && isRouter">{{$t('trans0115')}}</li>
-            <li class="column-black-list">{{$t('trans0370')}}</li>
+            <li class="column-black-list"
+                v-if="!isOfflineDevices && isRouter">{{$t('trans0370')}}</li>
+            <li class="column-black-list"
+                v-if="isOfflineDevices">{{$t('trans0370')}}</li>
           </ul>
         </div>
         <div class="table-body small-device-body">
@@ -238,10 +241,9 @@
                 </div>
               </li>
               <li class="column-black-list"
-                  :class="{'off-btn-handle-info':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)'>
+                  v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
                 <span class="btn-text btn-text-strange setting"
-                      v-if="!isOfflineDevices && isRouter"
+                      v-if="!isOfflineDevices"
                       @click="()=>forward2limit(row)">
                   {{$t('trans0019')}}
                 </span>
@@ -249,6 +251,10 @@
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
                 </span>
+              </li>
+              <li class="column-black-list"
+                  :class="{'off-btn-handle-info':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand) && isOfflineDevices'>
                 <span class="btn-text text-primary btn-text-strange"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">

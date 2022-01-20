@@ -7,7 +7,8 @@
       <p class="backup__tips--primary">{{$t('trans1011')}}</p>
       <p class="backup__tips--danger">*{{$t('trans1012')}}</p>
       <button class="btn btn-middle btn-primary operate-btn"
-              @click="getRouterConfigBackup">{{$t('trans1013')}}</button>
+              :disabled="isDownloading"
+              @click="getBackup">{{$t('trans1013')}}</button>
     </div>
     <div class='page-header'>
       {{$t('trans1014')}}
@@ -50,7 +51,9 @@ export default {
       UploadStatus,
       uploadStatus: UploadStatus.ready,
       cancelToken: null,
-      upgraded: false
+      upgraded: false,
+      isDownloading: false,
+      downloadTimer: null
     };
   },
   computed: {
@@ -60,7 +63,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     if (
-      this.uploadStatus === UploadStatus.success &&
+      this.uplodaSuccess &&
       !this.upgraded &&
       !to.path.includes('/login') &&
       !to.path.includes('/unconnect')
@@ -82,17 +85,28 @@ export default {
       next();
     }
   },
+  beforeDestroy() {
+    clearTimeout(this.downloadTimer);
+    this.downloadTimer = null;
+  },
   methods: {
-    getRouterConfigBackup() {
+    getBackup() {
       this.$loading.open();
+      this.isDownloading = true;
       this.$http
         .getRouterConfigBackup()
         .then(res => {
           if (res.status) {
+            this.downloadTimer = setTimeout(() => {
+              this.isDownloading = false;
+              clearTimeout(this.downloadTimer);
+              this.downloadTimer = null;
+            }, 5000);
             window.location.href = `/${fileName}${this.fileSuffix}?t=${Date.now()}`;
           }
         })
         .catch(() => {
+          this.isDownloading = false;
           this.$toast(this.$t('trans1023'), 3000, 'error');
         })
         .finally(() => {
@@ -114,7 +128,7 @@ export default {
       const entendName = getFileExtendName(file);
       const reg = new RegExp(`^${this.fileSuffix.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
-        uploader.err = this.$t('trans0271');
+        uploader.err = this.$t('trans1028');
         return false;
       }
       if (file.size === 0) {
@@ -162,10 +176,11 @@ export default {
         .then(res => {
           this.$loading.close();
           if (res.status) {
+            this.upgraded = true;
             this.$reconnect({
               timeout: 120,
               onsuccess: () => {
-                this.$router.push({ path: '/setting/backup' });
+                this.$router.push({ path: '/advance/backup' });
               },
               ontimeout: () => {
                 this.$router.push({ path: '/unconnect' });
