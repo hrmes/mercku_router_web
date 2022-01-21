@@ -360,31 +360,21 @@ export default {
       return this.id === 'offline';
     },
     tabs() {
-      let list = [
+      const list = [
         {
           id: 'primary',
           text: this.$t('trans0514')
-        },
-        {
-          id: 'guest',
-          text: this.$t('trans0515')
         },
         {
           id: 'offline',
           text: this.$t('trans0516')
         }
       ];
-      if (!this.isRouter) {
-        list = [
-          {
-            id: 'primary',
-            text: this.$t('trans0514')
-          },
-          {
-            id: 'offline',
-            text: this.$t('trans0516')
-          }
-        ];
+      if (this.isRouter) {
+        list.splice(1, 0, {
+          id: 'guest',
+          text: this.$t('trans0515')
+        });
       }
       return list;
     }
