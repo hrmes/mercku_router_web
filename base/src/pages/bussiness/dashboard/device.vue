@@ -309,20 +309,6 @@ export default {
   data() {
     return {
       showLoading: false,
-      tabs: [
-        {
-          id: 'primary',
-          text: this.$t('trans0514')
-        },
-        {
-          id: 'guest',
-          text: this.$t('trans0515')
-        },
-        {
-          id: 'offline',
-          text: this.$t('trans0516')
-        }
-      ],
       BlacklistMode,
       formatMac,
       checkAll: false,
@@ -372,6 +358,25 @@ export default {
     },
     isOfflineDevices() {
       return this.id === 'offline';
+    },
+    tabs() {
+      const list = [
+        {
+          id: 'primary',
+          text: this.$t('trans0514')
+        },
+        {
+          id: 'offline',
+          text: this.$t('trans0516')
+        }
+      ];
+      if (this.isRouter) {
+        list.splice(1, 0, {
+          id: 'guest',
+          text: this.$t('trans0515')
+        });
+      }
+      return list;
     }
   },
   async mounted() {
