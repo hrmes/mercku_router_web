@@ -56,7 +56,10 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
-        config: strategyA
+        config: strategyA,
+        [Customers.realnett]: {
+          auth: [Role.super]
+        }
       },
       {
         text: 'trans0620',
