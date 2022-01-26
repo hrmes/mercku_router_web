@@ -142,7 +142,9 @@ const commonMethods = {
   getLEDTimeLimit: createMethod('mesh.led.time_limit.get'),
   updateLEDTimeLimit: createMethod('mesh.led.time_limit.update'),
   getWIFITimeLimit: createMethod('mesh.config.wifi.time_limit.get'),
-  updateWIFITimeLimit: createMethod('mesh.config.wifi.time_limit.update')
+  updateWIFITimeLimit: createMethod('mesh.config.wifi.time_limit.update'),
+  getRouterConfigBackup: createMethod('router.config.backup.create'),
+  restoreRouterConfig: createMethod('router.config.backup.restore')
 };
 
 // 获取主页

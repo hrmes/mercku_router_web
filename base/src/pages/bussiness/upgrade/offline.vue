@@ -1,101 +1,101 @@
 <template>
   <div class="page">
-    <div class="pc-wrapper">
-      <div class="page-header">{{ $t('trans0204') }}</div>
-      <div class="page-content">
-        <div class="form">
-          <div class="description">
-            <p>
-              1.
-              <span>{{ $t('trans0332') }}&nbsp;</span>
-              <a class="btn-text text-primary"
-                 :href="$t('trans0468')"
-                 target="_blank">{{
-                $t('trans0482')
-              }}</a>
-              <span>,&nbsp;{{ $t('trans0346') }}</span>
-            </p>
-            <p>
-              2.
-              <span>{{ $t('trans0339') }}</span>
-            </p>
-            <p>
-              3.
-              <span>{{ $t('trans0348') }}</span>
-            </p>
-          </div>
-          <div class="upload">
-            <m-upload ref="uploader"
-                      dragable
-                      :onChange="onChange"
-                      :onCancel="onCancel"
-                      :beforeUpload="beforeUpload"
-                      :request="upload"
-                      :packageInfo="packageInfo"
-                      :label="$t('trans0042')"
-                      :accept="accept" />
-          </div>
-          <div class="nodes-wrapper"
-               v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes">
-            <div class="title">
-              {{ $t('trans0333') }}
-              <div class="btn-info">
-                <button @click="upgrade()"
-                        class="btn btn-small re-btn">
-                  {{ $t('trans0225') }}
-                </button>
-              </div>
-            </div>
-            <div class="nodes-info">
-              <div v-for="node in localNodes"
-                   :key="node.sn"
-                   class="node">
-                <div class="badges">
-                  <m-tag v-if="node.isGW"
-                         class="gateway">{{ $t('trans0165') }}</m-tag>
-                </div>
-                <div class="message"
-                     @click="check(node)">
-                  <m-checkbox :readonly="true"
-                              v-model="node.checked" />
-                  <div class="img-container">
-                    <img :src="getNodeImage(node)"
-                         alt="">
-                  </div>
-                  <div class="info-container">
-                    <p class="node-name">{{ node.name }}</p>
-                    <p class="node-sn">
-                      <label class="with-colon">{{ $t('trans0252') }}:</label>
-                      <span>{{ node.sn }}</span>
-                    </p>
-                    <p class="node-version">
-                      <label class="with-colon">{{ $t('trans0209') }}:</label>
-                      <span>{{ node.version.current }}</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
+    <div class="page-header">{{ $t('trans0204') }}</div>
+    <div class="page-content">
+      <div class="form">
+        <div class="description">
+          <p>
+            1.
+            <span>{{ $t('trans0332') }}&nbsp;</span>
+            <a class="btn-text text-primary"
+               :href="$t('trans0468')"
+               target="_blank">
+              {{ $t('trans0482') }}</a>
+            <span>,&nbsp;{{ $t('trans0346') }}</span>
+          </p>
+          <p>
+            2.
+            <span>{{ $t('trans0339') }}</span>
+          </p>
+          <p>
+            3.
+            <span>{{ $t('trans0348') }}</span>
+          </p>
+        </div>
+        <div class="upload">
+          <m-upload ref="uploader"
+                    dragable
+                    :onChange="onChange"
+                    :onCancel="onCancel"
+                    :beforeUpload="beforeUpload"
+                    :request="upload"
+                    :packageInfo="packageInfo"
+                    :label="$t('trans0042')"
+                    :accept="accept" />
+        </div>
+        <div class="nodes-wrapper"
+             v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes"
+             ref="renodes">
+          <div class="retitle"
+               :class="{
+                 'retitle--fixed': isRetitleFixed
+               }"
+               ref="retitle">
+            {{ $t('trans0333') }}
+            <div class="retitle__btn-wrap">
+              <button @click="upgrade()"
+                      class="btn btn-small retitle__btn">
+                {{ $t('trans0225') }}
+              </button>
             </div>
           </div>
-          <div class="description-wrapper"
-               v-if="
-              uploadStatus === UploadStatus.success && !hasUpgradablityNodes
-            ">
-            <p>
-              <img src="../../../assets/images/icon/ic_hint.png"
-                   alt="" />
-              {{ $t('trans0336') }}
-            </p>
-            <p>{{ $t('trans0337') }}</p>
-            <p>{{ $t('trans0335') }}</p>
+          <div class="nodes-info"
+               :style="{
+            'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
+          }">
+            <div v-for="node in localNodes"
+                 :key="node.sn"
+                 class="node">
+              <div class="badges">
+                <m-tag v-if="node.isGW"
+                       class="gateway">{{ $t('trans0165') }}</m-tag>
+              </div>
+              <div class="message"
+                   @click="check(node)">
+                <m-checkbox :readonly="true"
+                            v-model="node.checked" />
+                <div class="img-container">
+                  <img :src="getNodeImage(node)"
+                       alt="">
+                </div>
+                <div class="info-container">
+                  <p class="node-name">{{ node.name }}</p>
+                  <p class="node-sn">
+                    <label class="with-colon">{{ $t('trans0252') }}:</label>
+                    <span>{{ node.sn }}</span>
+                  </p>
+                  <p class="node-version">
+                    <label class="with-colon">{{ $t('trans0209') }}:</label>
+                    <span>{{ node.version.current }}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="description-wrapper"
+             v-if="
+              uploadStatus === UploadStatus.success && !hasUpgradablityNodes
+            ">
+          <p>
+            <img src="../../../assets/images/icon/ic_hint.png"
+                 alt="" />
+            {{ $t('trans0336') }}
+          </p>
+          <p>{{ $t('trans0337') }}</p>
+          <p>{{ $t('trans0335') }}</p>
+        </div>
       </div>
-    </div>
-    <div class="mobile-wrapper">
-      <img src="../../../assets/images/icon/ic_hint.png"
-           alt="" />
-      <p>{{ $t('trans0343') }}</p>
     </div>
   </div>
 </template>
@@ -104,6 +104,7 @@ import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
 
+const mobileWidth = 768;
 export default {
   mixins: [RouterModel],
   data() {
@@ -116,7 +117,9 @@ export default {
       cancelToken: null,
       packageInfo: {},
       fwInfo: {},
-      upgraded: false
+      upgraded: false,
+      isRetitleFixed: false,
+      nodesInfoMarginTop: 114
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -161,7 +164,40 @@ export default {
       return '';
     }
   },
+  watch: {
+    isRetitleFixed(val) {
+      if (!val && this.$refs.retitle) {
+        const { height } = this.$refs.retitle.getBoundingClientRect();
+        this.nodesInfoMarginTop = height;
+      }
+    }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.scrollHandler, true);
+    window.addEventListener('resize', this.resizeHandler);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.scrollHandler, true);
+    window.removeEventListener('resize', this.resizeHandler);
+  },
   methods: {
+    resizeHandler() {
+      if (document.body.clientWidth > mobileWidth) {
+        this.isRetitleFixed = false;
+      } else {
+        this.scrollHandler();
+      }
+    },
+    scrollHandler() {
+      let flag = false;
+      if (this.$refs.renodes && document.body.clientWidth <= mobileWidth) {
+        const { top } = this.$refs.renodes.getBoundingClientRect();
+        flag = top <= 0;
+      }
+      this.$nextTick(() => {
+        this.isRetitleFixed = flag;
+      });
+    },
     check(node) {
       node.checked = !node.checked;
     },
@@ -280,11 +316,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.pc-wrapper {
-  .page-content {
-    align-items: flex-start;
-  }
-}
 .form {
   width: 100%;
   .package-info {
@@ -343,11 +374,28 @@ export default {
   }
 }
 .nodes-wrapper {
-  .title {
+  .retitle {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     padding: 20px 0 30px 0;
+    &.retitle--fixed {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      padding: 20px 20px 30px 20px;
+      .retitle__btn-wrap {
+        margin-top: 15px;
+      }
+      .retitle__btn {
+        margin-left: 0;
+      }
+    }
   }
   border-top: 1px solid #f1f1f1;
   margin-top: 30px;
@@ -453,32 +501,21 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) {
-  .pc-wrapper {
-    display: block;
-  }
-  .mobile-wrapper {
-    display: none;
-  }
-}
+
 @media screen and (max-width: 768px) {
-  .pc-wrapper {
-    display: none;
-  }
-  .mobile-wrapper {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 14px;
-    color: #333333;
-    img {
-      width: 30px;
+  .nodes-wrapper {
+    .retitle {
+      flex-direction: column;
+      text-align: left;
+      .retitle__btn-wrap {
+        margin-top: 15px;
+      }
     }
-    p {
-      width: 70%;
+    .nodes-info {
+      .node {
+        width: 100%;
+        margin-right: 0;
+      }
     }
   }
 }

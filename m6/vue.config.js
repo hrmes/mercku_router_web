@@ -80,6 +80,11 @@ module.exports = {
         target: host,
         changeOrigin: true,
         secure: true
+      },
+      '/configs.dat': {
+        target: host,
+        changeOrigin: true,
+        secure: true
       }
     }
   },

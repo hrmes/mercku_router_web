@@ -66,8 +66,11 @@
                 v-if="isOfflineDevices">
               {{$t('trans0188')}}</li>
             <li class="column-limit"
-                v-if="!isOfflineDevices">{{$t('trans0115')}}</li>
-            <li class="column-black-list">{{$t('trans0370')}}</li>
+                v-if="!isOfflineDevices && isRouter">{{$t('trans0115')}}</li>
+            <li class="column-black-list"
+                v-if="!isOfflineDevices && isRouter">{{$t('trans0370')}}</li>
+            <li class="column-black-list"
+                v-if="isOfflineDevices">{{$t('trans0370')}}</li>
           </ul>
         </div>
         <div class="table-body small-device-body">
@@ -203,7 +206,7 @@
                 <span>{{formatMac(row.mac)}}</span>
               </li>
               <li class="column-limit"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                  v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
                 <div class="limit-inner">
                   <div class="item device-item">
                     <span class="limit-icon time-limit"
@@ -238,8 +241,7 @@
                 </div>
               </li>
               <li class="column-black-list"
-                  :class="{'off-btn-handle-info':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)'>
+                  v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
                 <span class="btn-text btn-text-strange setting"
                       v-if="!isOfflineDevices"
                       @click="()=>forward2limit(row)">
@@ -249,6 +251,10 @@
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
                 </span>
+              </li>
+              <li class="column-black-list"
+                  :class="{'off-btn-handle-info':isOfflineDevices}"
+                  v-if='isMobileRow(row.expand) && isOfflineDevices'>
                 <span class="btn-text text-primary btn-text-strange"
                       v-if="isOfflineDevices"
                       @click="()=>delOfflineDevices([row.mac])">
@@ -297,26 +303,12 @@
 </template>
 <script>
 import { formatMac, getStringByte, formatDate, formatDuration } from '../../../util/util';
-import { BlacklistMode } from '../../../util/constant';
+import { BlacklistMode, RouterMode } from '../../../util/constant';
 
 export default {
   data() {
     return {
       showLoading: false,
-      tabs: [
-        {
-          id: 'primary',
-          text: this.$t('trans0514')
-        },
-        {
-          id: 'guest',
-          text: this.$t('trans0515')
-        },
-        {
-          id: 'offline',
-          text: this.$t('trans0516')
-        }
-      ],
       BlacklistMode,
       formatMac,
       checkAll: false,
@@ -361,8 +353,30 @@ export default {
     id() {
       return this.$route.params.id;
     },
+    isRouter() {
+      return RouterMode.router === this.$store.mode;
+    },
     isOfflineDevices() {
       return this.id === 'offline';
+    },
+    tabs() {
+      const list = [
+        {
+          id: 'primary',
+          text: this.$t('trans0514')
+        },
+        {
+          id: 'offline',
+          text: this.$t('trans0516')
+        }
+      ];
+      if (this.isRouter) {
+        list.splice(1, 0, {
+          id: 'guest',
+          text: this.$t('trans0515')
+        });
+      }
+      return list;
     }
   },
   async mounted() {

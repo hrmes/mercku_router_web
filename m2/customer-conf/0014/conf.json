@@ -20,8 +20,8 @@
     }
   },
   "loading": {
-    "name": "loading.gif",
-    "color": "#f15a29"
+    "name": "loading-common.gif",
+    "color": "#999999"
   },
   "website": {
     "url": "https://www.skymesh.net.au/",

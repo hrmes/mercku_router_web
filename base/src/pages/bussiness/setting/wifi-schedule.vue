@@ -11,7 +11,6 @@
                     v-model="form.enabled"
                     @change="onEnableChange" />
         </m-form-item>
-
         <div class="form__advance"
              v-show="form.enabled">
           <m-form-item class="form__item schedule-item">
