@@ -180,7 +180,11 @@ export default {
             this.$reconnect({
               timeout: 120,
               onsuccess: () => {
-                this.$router.push({ path: '/advance/backup' });
+                this.$http.getMeshMode().then(res1 => {
+                  const { mode } = res1.data.result;
+                  this.$store.mode = mode;
+                  localStorage.setItem('mode', mode);
+                });
               },
               ontimeout: () => {
                 this.$router.push({ path: '/unconnect' });
