@@ -28,7 +28,7 @@
                v-show="isStep(0)">
             <img src="@/assets/images/pic_add_m6_01.png"
                  alt="">
-            <p class="step-item__tip">{{$t('trans0693')}}</p>
+            <p class="step-item__tip">{{m6Text}}</p>
             <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
             <div class="button-container">
               <button @click="updateTipsVisible(true)"
@@ -235,6 +235,9 @@ export default {
     })(),
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
+    },
+    m6Text() {
+      return this.$t('trans0693').replace('%s', process.env.CUSTOMER_CONFIG.routers.M6.shortName);
     }
     // perfer this style = =!
     // isScanning() {

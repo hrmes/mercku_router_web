@@ -178,7 +178,7 @@ export default {
           if (res.status) {
             this.upgraded = true;
             this.$reconnect({
-              timeout: 120,
+              timeout: 150,
               onsuccess: () => {
                 this.$router.push({ path: '/login' });
               },
