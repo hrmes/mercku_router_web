@@ -7,6 +7,7 @@ import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
+import guest from 'pages/bussiness/setting/guest.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
@@ -16,7 +17,6 @@ import telnet from 'pages/bussiness/advance/telnet.vue';
 
 import device from 'base/pages/bussiness/dashboard/device.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
-import guest from 'base/pages/bussiness/setting/guest.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 import wlan from 'base/pages/bussiness/wlan/index.vue';
