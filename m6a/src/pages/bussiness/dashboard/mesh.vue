@@ -448,7 +448,6 @@ export default {
 
       const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       this.routers = routers;
-
       const data = genData(routers);
       data.nodes.forEach(n => {
         this.routers.forEach(r => {

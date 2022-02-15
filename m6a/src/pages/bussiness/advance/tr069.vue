@@ -164,7 +164,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 16,
+            rule: value => getStringByte(value) < 32,
             message: this.$t('trans0906')
           }
         ],
