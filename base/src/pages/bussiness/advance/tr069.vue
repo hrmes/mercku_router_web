@@ -15,12 +15,12 @@
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="username">
-          <m-input :label="$t('trans0410')"
+          <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
                    v-model="remote.username"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="password">
-          <m-input :label="$t('trans0003')"
+          <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
                    type="password"
                    v-model="remote.password"
                    :placeholder="$t('trans0321')"></m-input>

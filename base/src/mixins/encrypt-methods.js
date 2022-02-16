@@ -11,6 +11,10 @@ export default {
             text: this.$t('trans0557')
           },
           {
+            value: 'wpa',
+            text: this.$t('trans0555')
+          },
+          {
             value: EncryptMethod.wpa2,
             text: this.$t('trans0556')
           },
