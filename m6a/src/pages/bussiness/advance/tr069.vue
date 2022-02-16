@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { portReg, getStringByte, isValidPassword } from '../../../util/util';
+import { portReg, getStringByte, isValidPassword } from 'base/util/util';
 
 export default {
   data() {
