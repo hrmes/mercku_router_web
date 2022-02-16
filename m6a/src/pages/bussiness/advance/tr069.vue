@@ -15,12 +15,12 @@
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="username">
-          <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
+          <m-input :label="$t('trans0410')"
                    v-model="remote.username"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="password">
-          <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
+          <m-input :label="$t('trans0003')"
                    type="password"
                    v-model="remote.password"
                    :placeholder="$t('trans0321')"></m-input>
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { portReg, getStringByte, isValidPassword } from '../../../util/util';
+import { portReg, getStringByte, isValidPassword } from 'base/util/util';
 
 export default {
   data() {
@@ -164,7 +164,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 16,
+            rule: value => getStringByte(value) < 32,
             message: this.$t('trans0906')
           }
         ],
