@@ -123,7 +123,7 @@
   "trans0122": "Redémmarer",
   "trans0123": "À propos de Mercku",
   "trans0124": "Mettre à jour",
-  "trans0125": "Le mot de passe ne peut contenir que 1 à 64 chiffres, lettres ou caractères spéciaux, ou toute combinaison de ceux-ci.",
+  "trans0125": "Le mot de passe ne peut contenir que %d à %d chiffres, lettres ou caractères spéciaux, ou toute combinaison de ceux-ci.",
   "trans0126": "Journal de changements",
   "trans0127": "Gérez votre réseau n'importe où, n'importe quand",
   "trans0128": "Aide",
@@ -1022,5 +1022,18 @@
   "trans1027": "Restaurer",
   "trans1028": "Fichiers .dat seulement",
   "trans1029": "ou connectez-vous avec",
-  "trans1030": " "
+  "trans1030": " ",
+  "trans1031": " ",
+  "trans1032": " ",
+  "trans1033": " ",
+  "trans1034": " ",
+  "trans1035": " ",
+  "trans1036": " ",
+  "trans1037": " ",
+  "trans1038": " ",
+  "trans1039": " ",
+  "trans1040": " ",
+  "trans1041": " ",
+  "trans1042": " ",
+  "trans1043": " "
 }
