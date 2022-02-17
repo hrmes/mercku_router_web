@@ -99,7 +99,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 64,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0905')
           }
         ],
@@ -109,7 +109,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 64,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0261')
           }
         ],
@@ -164,13 +164,13 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 64,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0906')
           }
         ],
         username: [
           {
-            rule: value => getStringByte(value) < 64,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0261')
           }
         ],

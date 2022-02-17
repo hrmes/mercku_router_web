@@ -99,7 +99,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 64,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0905')
           }
         ],
@@ -109,7 +109,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 32,
+            rule: value => getStringByte(value) <= 32,
             message: this.$t('trans0261')
           }
         ],
@@ -120,7 +120,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 1, 32),
-            message: this.$t('trans0125')
+            message: this.$t('trans0125').format(1, 32)
           }
         ],
         interval: [
@@ -164,13 +164,13 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 32,
+            rule: value => getStringByte(value) <= 32,
             message: this.$t('trans0906')
           }
         ],
         username: [
           {
-            rule: value => getStringByte(value) < 32,
+            rule: value => getStringByte(value) <= 32,
             message: this.$t('trans0261')
           }
         ],
@@ -182,7 +182,7 @@ export default {
               }
               return isValidPassword(value, 1, 32);
             },
-            message: this.$t('trans0125')
+            message: this.$t('trans0125').format(1, 32)
           }
         ]
       }

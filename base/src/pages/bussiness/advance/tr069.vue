@@ -119,8 +119,8 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => isValidPassword(value, 1, 32),
-            message: this.$t('trans0125')
+            rule: value => isValidPassword(value, 1, 31),
+            message: this.$t('trans0125').format(1, 31)
           }
         ],
         interval: [
@@ -180,9 +180,9 @@ export default {
               if (!value) {
                 return true;
               }
-              return isValidPassword(value, 1, 32);
+              return isValidPassword(value, 1, 31);
             },
-            message: this.$t('trans0125')
+            message: this.$t('trans0125').format(1, 31)
           }
         ]
       }
