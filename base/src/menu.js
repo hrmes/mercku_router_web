@@ -282,7 +282,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         }
       },
       {
-        text: 'trans1010',
+        text: 'trans1019',
         name: 'backup',
         url: '/advance/backup',
         config
