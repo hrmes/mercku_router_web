@@ -59,6 +59,9 @@
           <div class="table-header">
             <div class="name">{{$t('trans0005')}}</div>
             <div class="type">{{$t('trans0068')}}</div>
+            <div class="equipment">
+              {{$t('trans0235')}}
+            </div>
             <div class="sn">{{$t('trans0251')}}</div>
             <div class="version">{{$t('trans0300')}}</div>
             <div class="ip">
@@ -101,6 +104,16 @@
                 <span class="label">{{$t('trans0068')}}</span>
                 <span class="value">{{router.is_gw ? $t('trans0165'):
                   $t('trans0186')}}</span>
+              </div>
+              <div class="equipment">
+                <span class="label">{{$t('trans0235')}}</span>
+                <span class="value equipment__value"
+                      :class="{'is-disabled':!router.stations}"
+                      @click.stop="showStationListModal(router)">
+                  {{getRouterStationCount(router)}}
+                </span>
+                <img class="equipment__arrow"
+                     src="../../../assets/images/icon/ic_inter.png" />
               </div>
               <div class="sn">
                 <span class="label">{{$t('trans0251')}}</span>
@@ -197,6 +210,62 @@
         </div>
       </m-modal-footer>
     </m-modal>
+    <!-- mesh列表弹框 -->
+    <m-modal :visible.sync="stationListModalVisible"
+             class="mesh-list-modal">
+      <m-modal-header class="header">
+        <img @click="hideMeshListModal"
+             class="header__btn--close"
+             src="../../../assets/images/icon/close.png"
+             alt="" />
+      </m-modal-header>
+      <m-modal-body class="table">
+        <div class="table__header">
+          <div class="table__column table__column--host"></div>
+          <div class="table__column table__column--device">{{$t('trans0005')}}</div>
+          <div class="table__column table__column--ip">{{$t('trans0184')}}</div>
+          <div class="table__column table__column--guest">{{$t('trans0375')}}</div>
+        </div>
+        <div class="table__body"
+             v-if="stationList.length">
+          <div class="table__row"
+               v-for="(item, index) in stationList"
+               :key="index">
+            <div class="table__column table__column--device">
+              <span v-if="isThisMachine(item.ip)"
+                    class="device__img">
+                <img src="../../../assets/images/icon/ic_user.png"
+                     alt="">
+              </span>
+              <span class="device__host-name"
+                    :class="hasPaddingLeft(item.ip)"
+                    :title="item.name">
+                {{item.name}}
+              </span>
+            </div>
+            <div class="table__column table__column--ip">
+              <div class="v4">{{item.ip}}</div>
+              <div class="v6">{{formatMac(item.mac)}}</div>
+            </div>
+            <div class="table__column table__column--guest">
+              <span class="laptop-show">{{bandMap[item.connected_network.band]}}</span>
+              <img v-if="isGuest(item.connected_network.type)"
+                   src="../../../assets/images/icon/ic-guest-wifi.png"
+                   alt="" />
+              <span class="mobile-show">{{bandMap[item.connected_network.band]}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="table__empty"
+             v-else>
+          <img src="../../../assets/images/img_default_empty.png"
+               alt="">
+          <span>
+            {{$t('trans0278')}}
+          </span>
+        </div>
+      </m-modal-body>
+    </m-modal>
   </div>
 </template>
 <script>
@@ -208,6 +277,7 @@ import genData from './topo';
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 
+const GUEST = 'guest'; // 是否是访客
 export default {
   data() {
     return {
@@ -257,13 +327,28 @@ export default {
         this.$t('trans0361'),
         this.$t('trans0362'),
         this.$t('trans0363')
-      ]
+      ],
+      stationListModalVisible: false,
+      stationList: [],
+      localDeviceIP: '',
+      bandMap: {
+        wired: this.$t('trans0253'),
+        '2.4g': this.$t('trans0255'),
+        '5g': this.$t('trans0256')
+      }
     };
   },
-  mounted() {
+  async mounted() {
     this.initChart();
     this.getMeshBand();
     this.createIntervalTask();
+    // 获取当前设备信息
+    try {
+      const selfInfo = await this.$http.getLocalDevice();
+      this.localDeviceIP = selfInfo.data.result.ip;
+    } catch {
+      this.localDeviceIP = '';
+    }
   },
   computed: {
     rssiTips() {
@@ -283,6 +368,33 @@ export default {
     }
   },
   methods: {
+    getRouterStationCount(router) {
+      if (!router.stations) {
+        return '-';
+      }
+      return router.stations.length;
+    },
+    showStationListModal(router) {
+      if (!router.stations) {
+        return;
+      }
+      this.stationList = router.stations;
+      this.stationListModalVisible = true;
+    },
+    hideMeshListModal() {
+      this.stationListModalVisible = false;
+    },
+    hasPaddingLeft(ip) {
+      return this.isThisMachine(ip) ? '' : 'has-padding-left';
+    },
+    // 是否是主机
+    isThisMachine(ip) {
+      return ip === this.localDeviceIP;
+    },
+    // 是否是访客
+    isGuest(type) {
+      return type === GUEST;
+    },
     showRssiModal() {
       this.rssiModalVisible = true;
     },
@@ -448,7 +560,6 @@ export default {
 
       const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       this.routers = routers;
-
       const data = genData(routers);
       data.nodes.forEach(n => {
         this.routers.forEach(r => {
@@ -559,8 +670,130 @@ export default {
     position: static !important;
   }
 }
+.mesh-list-modal {
+  .modal-content {
+    padding: 0 !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .mesh-list-modal {
+    .modal-content {
+      width: 90% !important;
+    }
+  }
+}
 </style>
 <style lang="scss" scoped>
+.mesh-list-modal {
+  .header {
+    display: none;
+  }
+  .table {
+    .table__header,
+    .table__row {
+      display: flex;
+    }
+    .table__header {
+      padding: 0 10px;
+    }
+    .table__body {
+      height: 350px;
+      overflow: auto;
+      overflow: overlay;
+      padding: 0 10px 10px 10px;
+    }
+    .table__empty {
+      height: 350px;
+      padding-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      img {
+        display: none;
+        width: 180px;
+      }
+    }
+    .table__header {
+      height: 37px;
+      background-color: #ebebeb;
+      .table__column {
+        font-size: 12px;
+        font-weight: 500;
+        &.table__column--device {
+          padding-left: 30px;
+          box-sizing: border-box;
+        }
+      }
+    }
+    .table__row {
+      border-bottom: solid 1px #f1f1f1;
+      .table__column {
+        font-size: 14px;
+        height: 60px;
+        background-color: #fff;
+      }
+      .table__column--device {
+        .device__img {
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          width: 30px;
+          img {
+            width: 16px;
+          }
+        }
+        .device__host-name {
+          width: 160px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          &.has-padding-left {
+            padding-left: 30px;
+          }
+        }
+      }
+      .table__column--ip {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+      }
+      .table__column--guest {
+        span {
+          width: 75px;
+          text-align: center;
+          padding: 3px 0;
+          border-radius: 3px;
+          border: solid 1px #333333;
+        }
+        img {
+          margin-left: 20px;
+          width: 38px;
+        }
+        .laptop-show {
+          display: inline-block;
+        }
+        .mobile-show {
+          display: none;
+        }
+      }
+    }
+    .table__column {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      color: #333333;
+      &.table__column--device {
+        width: 210px;
+      }
+      &.table__column--ip {
+        width: 180px;
+      }
+      &.table__column--guest {
+        width: 160px;
+      }
+    }
+  }
+}
 .rssi-modal {
   width: 660px;
   max-height: 400px;
@@ -814,6 +1047,9 @@ export default {
         .type {
           width: 150px;
         }
+        .equipment {
+          width: 150px;
+        }
         .version {
           width: 100px;
         }
@@ -854,6 +1090,21 @@ export default {
             }
             .mac {
               display: none;
+            }
+            .equipment {
+              .equipment__value {
+                cursor: pointer;
+                text-decoration: underline;
+                &.is-disabled {
+                  text-decoration: none;
+                  cursor: default;
+                }
+              }
+              .equipment__arrow {
+                display: none;
+                width: 8px;
+                margin-left: 8px;
+              }
             }
             .name {
               display: flex;
@@ -1146,6 +1397,14 @@ export default {
               .mac {
                 display: flex;
               }
+              .equipment {
+                .equipment__value {
+                  text-decoration: none;
+                }
+                .equipment__arrow {
+                  display: inline;
+                }
+              }
               .name {
                 .wrap {
                   flex: 1;
@@ -1161,6 +1420,74 @@ export default {
                 border-bottom: 0 !important;
               }
             }
+          }
+        }
+      }
+    }
+  }
+  .mesh-list-modal {
+    .header {
+      display: block;
+      height: 40px;
+      padding: 10px 10px 0 10px;
+      &::before {
+        content: '';
+        display: table;
+        clear: both;
+      }
+      .header__btn--close {
+        height: 24px;
+        float: right;
+      }
+    }
+    .table {
+      width: 100%;
+      padding: 0 10px 10px 10px;
+      .table__header {
+        display: none;
+      }
+      .table__row {
+        flex-wrap: wrap;
+        width: 100%;
+        padding-bottom: 10px;
+        border-bottom: solid 1px #ccc;
+        .table__column--device {
+          .device__host-name {
+            width: 100%;
+            &.has-padding-left {
+              padding-left: 0;
+            }
+          }
+        }
+      }
+      .table__empty {
+        img {
+          display: block;
+        }
+      }
+      .table__column {
+        &.table__column--device {
+          font-weight: bold;
+          height: 50px;
+          width: 100%;
+        }
+        &.table__column--ip {
+          height: 50px;
+          width: 50%;
+        }
+        &.table__column--guest {
+          justify-content: flex-end;
+          height: 50px;
+          width: 50%;
+          img {
+            margin-left: 0;
+          }
+          .laptop-show {
+            display: none;
+          }
+          .mobile-show {
+            display: inline-block;
+            margin-left: 10px;
           }
         }
       }

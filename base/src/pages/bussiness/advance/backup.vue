@@ -178,9 +178,9 @@ export default {
           if (res.status) {
             this.upgraded = true;
             this.$reconnect({
-              timeout: 120,
+              timeout: 150,
               onsuccess: () => {
-                this.$router.push({ path: '/advance/backup' });
+                this.$router.push({ path: '/login' });
               },
               ontimeout: () => {
                 this.$router.push({ path: '/unconnect' });
