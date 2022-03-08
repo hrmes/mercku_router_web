@@ -192,7 +192,9 @@
                     class="form__inner vlan-form"
                     :model="vlan"
                     ref="vlanForm">
-              <div class="vlan-form__row">
+              <div class="vlan-form__row"
+                   v-for="(item, index) in vlan.data"
+                   :key="index">
                 <m-form-item prop="id"
                              class="vlan-form__col"
                              :rules="vlanIdRules">
@@ -209,17 +211,17 @@
                 <m-form-item class="vlan-form__col">
                   <m-select :label="$t('LAN 1')"
                             v-model="vlan.priority"
-                            :options="priorities"></m-select>
+                            :options="tagList"></m-select>
                 </m-form-item>
                 <m-form-item class="vlan-form__col">
                   <m-select :label="$t('LAN 2')"
                             v-model="vlan.priority"
-                            :options="priorities"></m-select>
+                            :options="tagList"></m-select>
                 </m-form-item>
                 <m-form-item class="vlan-form__col">
                   <m-select :label="$t('WAN')"
                             v-model="vlan.priority"
-                            :options="priorities"></m-select>
+                            :options="tagList"></m-select>
                 </m-form-item>
               </div>
             </m-form>
@@ -246,6 +248,12 @@ import {
   isValidInteger
 } from 'base/util/util';
 import * as CONSTANTS from 'base/util/constant';
+
+const TagStatus = {
+  untagged: 'untagged',
+  tagged: 'tagged',
+  off: 'off'
+};
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -278,16 +286,14 @@ export default {
       netInfo: {},
       vlan: {
         enabled: true,
-        id: '',
-        ports: [
+        data: [
           {
-            port: {
-              id: 4
-            },
-            tagged: true
+            id: '',
+            priority: 0,
+            lan: [TagStatus.tagged, TagStatus.untagged],
+            wan: TagStatus.off
           }
-        ],
-        priority: 0
+        ]
       },
       staticForm: {
         ip: '',
@@ -399,6 +405,20 @@ export default {
         {
           rule: value => isValidInteger(value, 1, 4094),
           message: this.$t('trans0687')
+        }
+      ],
+      tagList: [
+        {
+          value: TagStatus.untagged,
+          text: this.$t('Untagged')
+        },
+        {
+          value: TagStatus.tagged,
+          text: this.$t('Tagged')
+        },
+        {
+          value: TagStatus.off,
+          text: this.$t('Off')
         }
       ]
     };
