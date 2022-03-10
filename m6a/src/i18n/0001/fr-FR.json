@@ -1042,5 +1042,6 @@
   "trans1047": "Bien",
   "trans1048": "Signal faible",
   "trans1049": "Débranché",
-  "trans1050": "Rechercher"
+  "trans1050": "Rechercher",
+  "trans1051": "L'ID VLAN ne peut pas être répété"
 }

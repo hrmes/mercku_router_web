@@ -679,7 +679,7 @@
   "trans0684": "Internet VLAN ID",
   "trans0685": "Tagged",
   "trans0686": "Priority",
-  "trans0687": "integer 1 - 4094",
+  "trans0687": "integer 2 - 4094",
   "trans0688": "Failed, this configuration is unavailable.",
   "trans0689": "Correct file",
   "trans0690": "Uploaded",
@@ -1042,5 +1042,6 @@
   "trans1047": "Good",
   "trans1048": "Weak",
   "trans1049": "Offline",
-  "trans1050": "Search"
+  "trans1050": "Search",
+  "trans1051": "VLAN ID cannot be repeated"
 }
