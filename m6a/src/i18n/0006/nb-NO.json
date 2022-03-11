@@ -685,7 +685,7 @@
   "trans0690": "Lastet opp",
   "trans0691": "Feil fil",
   "trans0692": "Enkelte enheter støtter ikke WiFi-6, det er derfor en mulighet for at WiFi-signalet ikke vises eller WiFi-tilkoblingen mislykkes hvis krypteringsmetoden er WPA3.",
-  "trans0693": "Vennligst og elektrifiser R6 som en ny node.",
+  "trans0693": "Vennligst og elektrifiser %s som en ny node.",
   "trans0694": "Prefikslengde",
   "trans0695": "IPv4 kan ikke koble til internett med PPPoE",
   "trans0696": "AUTO",
@@ -949,7 +949,7 @@
   "trans0954": "Ikke nå",
   "trans0955": "Kopiert til utklippstavle",
   "trans0956": "Enheten finnes ikke",
-  "trans0957": "Sette opp M6a-ruteren",
+  "trans0957": "Sette opp R6a-ruteren",
   "trans0958": "Kopi",
   "trans0959": "Registrering fullført",
   "trans0960": "Gratulerer!",
@@ -993,7 +993,7 @@
   "trans0998": "Ruterinnstillinger",
   "trans0999": " ",
   "trans1000": " ",
-  "trans1001": "Støtter: Mercku M6a",
+  "trans1001": "Støtter: RealNett M6a",
   "trans1002": "Et mesh-nettverk kan bare støtte opptil 7 mesh-punkter",
   "trans1003": "Søker, vennligst vent...",
   "trans1004": "Testprosessen kan vare 1 til 2 minutter",
@@ -1043,5 +1043,5 @@
   "trans1048": "Svak",
   "trans1049": "Frakoblet",
   "trans1050": "Søk",
-  "trans1051": " "
+  "trans1051": "VLAN ID kan ikke gjentas"
 }
