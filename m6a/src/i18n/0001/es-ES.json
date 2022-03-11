@@ -679,7 +679,7 @@
   "trans0684": "VLAN ID de Internet",
   "trans0685": "Tagged",
   "trans0686": "Priodidad",
-  "trans0687": "Valor entero 2 - 4094",
+  "trans0687": "Valor entero %d-%d",
   "trans0688": "Falló, esta configuración no está disponible.",
   "trans0689": "Archivo correcto",
   "trans0690": "Cargado",
