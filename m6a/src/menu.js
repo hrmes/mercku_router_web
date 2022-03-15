@@ -62,7 +62,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',
-        config: strategyA
+        config: strategyA,
+        customers: {
+          [Customers.realnett]: {
+            show: false
+          }
+        }
       },
       {
         text: 'trans0561',
@@ -210,7 +215,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        config: strategyA
+        config: strategyA,
+        customers: {
+          [Customers.realnett]: {
+            auth: [Role.super]
+          }
+        }
       },
       {
         url: '/advance/wwa',
