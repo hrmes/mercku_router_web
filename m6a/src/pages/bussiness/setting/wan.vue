@@ -189,41 +189,26 @@
                    alt="" />
             </div>
             <m-form v-if="vlan.enabled"
-                    class="form__inner vlan-form"
+                    class="form__inner"
                     :model="vlan"
                     ref="vlanForm">
-              <div class="vlan-form__row"
-                   v-for="(item, index) in vlan.data"
-                   :key="index">
-                <m-form-item prop="id"
-                             class="vlan-form__col"
-                             :rules="vlanIdRules">
-                  <m-input :label="$t('VLAN ID')"
-                           type="text"
-                           placeholder="1-4094"
-                           v-model.number="vlan.id"></m-input>
-                </m-form-item>
-                <m-form-item class="vlan-form__col">
-                  <m-select :label="$t('trans0686')"
-                            v-model="vlan.priority"
-                            :options="priorities"></m-select>
-                </m-form-item>
-                <m-form-item class="vlan-form__col">
-                  <m-select :label="$t('LAN 1')"
-                            v-model="vlan.priority"
-                            :options="tagList"></m-select>
-                </m-form-item>
-                <m-form-item class="vlan-form__col">
-                  <m-select :label="$t('LAN 2')"
-                            v-model="vlan.priority"
-                            :options="tagList"></m-select>
-                </m-form-item>
-                <m-form-item class="vlan-form__col">
-                  <m-select :label="$t('WAN')"
-                            v-model="vlan.priority"
-                            :options="tagList"></m-select>
-                </m-form-item>
-              </div>
+              <m-form-item class="form__item"
+                           prop="id"
+                           :rules="vlanIdRules">
+                <m-input :label="$t('trans0684')"
+                         type="text"
+                         placeholder="1-4094"
+                         v-model.number="vlan.id"></m-input>
+              </m-form-item>
+              <m-form-item class="form__item">
+                <m-select :label="$t('trans0686')"
+                          v-model="vlan.priority"
+                          :options="priorities"></m-select>
+              </m-form-item>
+              <m-form-item class="form__item">
+                <m-switch :label="$t('trans0685')"
+                          v-model="vlan.ports[0].tagged"></m-switch>
+              </m-form-item>
             </m-form>
           </div>
           <div class="form__submit">
@@ -740,21 +725,6 @@ export default {
       color: #333333;
       font-size: 14px;
       flex: 1;
-    }
-  }
-}
-.vlan-form {
-  .vlan-form__row {
-    display: flex;
-  }
-  .vlan-form__col {
-    width: 100px;
-    + .vlan-form__col {
-      margin-left: 10px;
-    }
-    .input-container,
-    .select-container {
-      width: 100%;
     }
   }
 }
