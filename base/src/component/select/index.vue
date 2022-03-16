@@ -26,7 +26,7 @@
               {{ option.text }}
             </li>
           </template>
-          <li class="select-popup__empty"
+          <li class="select-popup__item--empty"
               v-else>{{$t('trans0278')}}</li>
         </ul>
       </transition>
@@ -191,7 +191,7 @@ export default {
         color: $select-item-selected-color;
       }
     }
-    .select-popup__empty {
+    .select-popup__item--empty {
       display: flex;
       align-items: center;
       justify-content: center;
