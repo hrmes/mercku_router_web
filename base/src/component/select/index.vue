@@ -179,7 +179,6 @@ export default {
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
-
       &:active {
         background: $select-item-active-background-color;
         color: $select-item-active-color;
@@ -198,8 +197,8 @@ export default {
       justify-content: center;
       width: 100%;
       height: 84px;
-      background-color: #fff;
       font-size: 14px;
+      background-color: #fff;
       color: #999;
     }
   }
