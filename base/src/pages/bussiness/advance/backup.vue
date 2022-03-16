@@ -4,8 +4,9 @@
       {{$t('trans1010')}}
     </div>
     <div class="backup__content">
-      <p class="backup__tips--primary">{{$t('trans1011')}}</p>
-      <p class="backup__tips--danger">*{{$t('trans1012')}}</p>
+      <p class="backup__tips">{{$t('trans1011')}}</p>
+      <p class="backup__tips">{{$t('trans1036')}}</p>
+      <p class="backup__tips backup__tips--danger">*{{$t('trans1012')}}</p>
       <button class="btn btn-middle btn-primary operate-btn"
               :disabled="isDownloading"
               @click="getBackup">{{$t('trans1013')}}</button>
@@ -209,14 +210,15 @@ export default {
   .backup__content {
     padding: 30px 20px;
   }
-  .backup__tips--primary {
+  .backup__tips {
     font-size: 14px;
     color: #333;
-  }
-  .backup__tips--danger {
-    margin-top: 12px;
-    font-size: 14px;
-    color: #d6001c;
+    &.backup__tips--danger {
+      color: #d6001c;
+    }
+    & + .backup__tips {
+      margin-top: 12px;
+    }
   }
   .backup__notes {
     margin-top: 20px;
