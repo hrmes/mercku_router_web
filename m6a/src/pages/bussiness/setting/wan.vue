@@ -518,7 +518,7 @@ export default {
         },
         {
           rule: value => isValidInteger(value, 2, 4094),
-          message: this.$t('trans0687')
+          message: this.$t('trans0687').replace('%d', 2, 4094)
         }
       ],
       ipPhoneVlanIdRules: [
@@ -533,7 +533,7 @@ export default {
         },
         {
           rule: value => isValidInteger(value, 2, 4094),
-          message: this.$t('trans0687')
+          message: this.$t('trans0687').replace('%d', 2, 4094)
         }
       ],
       iptvVlanIdRules: [
@@ -548,7 +548,7 @@ export default {
         },
         {
           rule: value => isValidInteger(value, 2, 4094),
-          message: this.$t('trans0687')
+          message: this.$t('trans0687').replace('%d', 2, 4094)
         }
       ]
     };
