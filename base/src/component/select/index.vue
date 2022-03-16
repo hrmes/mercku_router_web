@@ -16,13 +16,18 @@
       <transition name="select">
         <ul class="select-popup reset-ul"
             v-show="opened">
-          <li :class="{ 'selected': selected === option }"
-              :key="option.value"
-              @click.stop="select(option)"
-              v-for="option in options"
-              :title="option.text">
-            {{ option.text }}
-          </li>
+          <template v-if="options.length">
+            <li class="select-popup__item"
+                :class="{ 'selected': selected === option }"
+                :key="option.value"
+                @click.stop="select(option)"
+                v-for="option in options"
+                :title="option.text">
+              {{ option.text }}
+            </li>
+          </template>
+          <li class="select-popup__empty"
+              v-else>{{$t('trans0278')}}</li>
         </ul>
       </transition>
     </div>
@@ -166,7 +171,7 @@ export default {
     border-radius: 5px;
     border: 1px solid $select-popup-border-color;
     overflow: auto;
-    li {
+    .select-popup__item {
       list-style: none;
       padding: 17px 10px;
       line-height: 1;
@@ -186,6 +191,16 @@ export default {
       &.selected {
         color: $select-item-selected-color;
       }
+    }
+    .select-popup__empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 84px;
+      background-color: #fff;
+      font-size: 14px;
+      color: #999;
     }
   }
   .icon-container {
@@ -229,7 +244,7 @@ export default {
     }
     .select-popup {
       top: 52px;
-      li {
+      .select-popup__item {
         padding: 17px 10px;
       }
     }
