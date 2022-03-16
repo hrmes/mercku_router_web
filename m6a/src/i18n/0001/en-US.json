@@ -1004,7 +1004,7 @@
   "trans1009": "Reboot Mesh Network",
   "trans1010": "Backup the configuration file",
   "trans1011": "Click ‘Backup’ to save current configurations to your local computer/phone as a dat file. ",
-  "trans1012": "The configuration file contains your personal data, please keep it properly.",
+  "trans1012": "The configuration file exported by backup contains your personal data, please keep it properly.",
   "trans1013": "Backup",
   "trans1014": "Restore the configuration file",
   "trans1015": "Upload .dat format files",
