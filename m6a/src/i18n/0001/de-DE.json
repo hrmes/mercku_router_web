@@ -1004,7 +1004,7 @@
   "trans1009": "Mesh-Netzwerk neu starten",
   "trans1010": "Sichern Sie die Konfigurationsdatei",
   "trans1011": "Klicken Sie auf „Backup“, um die aktuellen Konfigurationen als DAT-Datei auf Ihrem lokalen Computer/Telefon zu speichern.",
-  "trans1012": "Die Konfigurationsdatei enthält Ihre persönlichen Daten, bitte bewahren Sie diese ordnungsgemäß auf.",
+  "trans1012": "Die per Backup exportierte Konfigurationsdatei enthält Ihre persönlichen Daten, bitte bewahren Sie diese gut auf.",
   "trans1013": "Sicherung",
   "trans1014": "Wiederherstellen der Konfigurationsdatei",
   "trans1015": "Dateien im .dat-Format hochladen",
