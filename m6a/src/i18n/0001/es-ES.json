@@ -1004,7 +1004,7 @@
   "trans1009": "Reiniciar la red de malla",
   "trans1010": "Copia de seguridad del archivo de configuración",
   "trans1011": "Haga clic en \"Copia de seguridad\" para guardar las configuraciones actuales en su computadora / teléfono local como un archivo dat.",
-  "trans1012": "El archivo de configuración contiene sus datos personales, consérvelo correctamente.",
+  "trans1012": "El archivo de configuración exportado por la copia de seguridad contiene sus datos personales, consérvelo correctamente.",
   "trans1013": "Respaldo",
   "trans1014": "Restaurar el archivo de configuración",
   "trans1015": "Cargar archivos en formato .dat",
