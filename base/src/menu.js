@@ -116,15 +116,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/wifi-schedule',
         name: 'setting.wifi-schedule',
         text: 'trans0962',
-        config,
-        customers: {
-          [Customers.skymesh]: {
-            show: false
-          },
-          [Customers.pentanet]: {
-            show: false
-          }
-        }
+        config
       }
       // {
       //   url: '/setting/wps',

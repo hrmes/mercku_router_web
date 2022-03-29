@@ -16,13 +16,18 @@
       <transition name="select">
         <ul class="select-popup reset-ul"
             v-show="opened">
-          <li :class="{ 'selected': selected === option }"
-              :key="option.value"
-              @click.stop="select(option)"
-              v-for="option in options"
-              :title="option.text">
-            {{ option.text }}
-          </li>
+          <template v-if="options.length">
+            <li class="select-popup__item"
+                :class="{ 'selected': selected === option }"
+                :key="option.value"
+                @click.stop="select(option)"
+                v-for="option in options"
+                :title="option.text">
+              {{ option.text }}
+            </li>
+          </template>
+          <li class="select-popup__item--empty"
+              v-else>{{$t('trans0278')}}</li>
         </ul>
       </transition>
     </div>
@@ -166,7 +171,7 @@ export default {
     border-radius: 5px;
     border: 1px solid $select-popup-border-color;
     overflow: auto;
-    li {
+    .select-popup__item {
       list-style: none;
       padding: 17px 10px;
       line-height: 1;
@@ -174,7 +179,6 @@ export default {
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
-
       &:active {
         background: $select-item-active-background-color;
         color: $select-item-active-color;
@@ -186,6 +190,16 @@ export default {
       &.selected {
         color: $select-item-selected-color;
       }
+    }
+    .select-popup__item--empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 84px;
+      font-size: 14px;
+      background-color: #fff;
+      color: #999;
     }
   }
   .icon-container {
@@ -229,7 +243,7 @@ export default {
     }
     .select-popup {
       top: 52px;
-      li {
+      .select-popup__item {
         padding: 17px 10px;
       }
     }

@@ -57,7 +57,7 @@
             <div class="button-container">
               <button @click="forward2step(1)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
-              <button @click="addMeshNode"
+              <button @click="addMeshNodeDebounce"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
           </div>
@@ -189,6 +189,7 @@
 </template>
 <script>
 import RouterModel from 'base/mixins/router-model';
+import { debounce } from 'lodash';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -212,7 +213,8 @@ export default {
       addTimeout: 90,
       showHelpDialog: false,
       showTipsDialog: false,
-      snAdded: ''
+      snAdded: '',
+      checkTimer: null
     };
   },
   computed: {
@@ -254,6 +256,9 @@ export default {
     //   return this.pageStatus === PageStatus.add_fail;
     // }
   },
+  created() {
+    this.addMeshNodeDebounce = debounce(this.addMeshNode, 500);
+  },
   methods: {
     isStep(index) {
       return this.stepsOption.current === index;
@@ -283,11 +288,15 @@ export default {
         this.$loading.open({ template });
         // 超时90秒，间隔3秒
         let timeout = this.addTimeout;
+        if (this.checkTimer) {
+          return;
+        }
         this.checkTimer = setInterval(() => {
           if (timeout < 0) {
             this.pageStatus = PageStatus.add_fail;
             this.$loading.close();
             clearInterval(this.checkTimer);
+            this.checkTimer = null;
           }
           if (timeout % 3 === 0) {
             this.$http.getNewMeshNodeInfo().then(res => {
