@@ -751,27 +751,15 @@ export default {
         ) {
           return;
         }
-        if (this.ipPhoneVlan.enabled && !this.iptvVlan.enabled) {
-          if (this.ipPhoneVlan.id === this.vlan.id) {
-            this.$toast(this.$t('trans1051'), 3000, 'error');
-            return;
-          }
-        }
-        if (!this.ipPhoneVlan.enabled && this.iptvVlan.enabled) {
-          if (this.iptvVlan.id === this.vlan.id) {
-            this.$toast(this.$t('trans1051'), 3000, 'error');
-            return;
-          }
-        }
-        if (this.ipPhoneVlan.enabled && this.iptvVlan.enabled) {
-          if (
-            this.ipPhoneVlan.id === this.vlan.id ||
-            this.iptvVlan.id === this.vlan.id ||
-            this.ipPhoneVlan.id === this.iptvVlan.id
-          ) {
-            this.$toast(this.$t('trans1051'), 3000, 'error');
-            return;
-          }
+        if (
+          (this.ipPhoneVlan.id === this.vlan.id && this.ipPhoneVlan.enabled) ||
+          (this.iptvVlan.id === this.vlan.id && this.iptvVlan.enabled) ||
+          (this.ipPhoneVlan.id === this.iptvVlan.id &&
+            this.ipPhoneVlan.enabled &&
+            this.iptvVlan.enabled)
+        ) {
+          this.$toast(this.$t('trans1051'), 3000, 'error');
+          return;
         }
       }
       const form = { type: this.netType, vlan: [] };
