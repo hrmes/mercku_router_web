@@ -195,7 +195,7 @@
               <m-input :label="$t('trans0684')"
                        type="text"
                        placeholder="2-4094"
-                       v-model.number="vlan.id"></m-input>
+                       v-model="vlan.id"></m-input>
             </m-form-item>
             <m-form-item class="form__item">
               <m-select :label="$t('trans0686')"
@@ -228,7 +228,7 @@
                              ref="ipPhoneVlanId">
                   <m-input type="text"
                            placeholder="2-4094"
-                           v-model.number="ipPhoneVlan.id">
+                           v-model="ipPhoneVlan.id">
                   </m-input>
                 </m-form-item>
                 <m-form-item class="form__item">
@@ -258,7 +258,7 @@
                              ref="iptvVlanId">
                   <m-input type="text"
                            placeholder="2-4094"
-                           v-model.number="iptvVlan.id">
+                           v-model="iptvVlan.id">
                   </m-input>
                 </m-form-item>
                 <m-form-item class="form__item">
@@ -291,6 +291,7 @@ import {
   isValidInteger
 } from 'base/util/util';
 import * as CONSTANTS from 'base/util/constant';
+import { cloneDeep } from 'lodash';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -409,9 +410,9 @@ export default {
       ],
       netType: CONSTANTS.WanType.dhcp,
       netInfo: {},
-      vlan: VlanDefault,
-      ipPhoneVlan: IpPhoneVlanDefault,
-      iptvVlan: IptvVlanDefault,
+      vlan: cloneDeep(VlanDefault),
+      ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
+      iptvVlan: cloneDeep(IptvVlanDefault),
       staticForm: {
         ip: '',
         mask: '',
