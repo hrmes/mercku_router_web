@@ -765,12 +765,21 @@ export default {
       }
       const form = { type: this.netType, vlan: [] };
       if (this.vlan.enabled) {
-        form.vlan.push(this.vlan);
+        form.vlan.push({
+          ...this.vlan,
+          id: Number(this.vlan.id)
+        });
         if (this.ipPhoneVlan.enabled) {
-          form.vlan.push(this.ipPhoneVlan);
+          form.vlan.push({
+            ...this.ipPhoneVlan,
+            id: Number(this.ipPhoneVlan.id)
+          });
         }
         if (this.iptvVlan.enabled) {
-          form.vlan.push(this.iptvVlan);
+          form.vlan.push({
+            ...this.iptvVlan,
+            id: Number(this.iptvVlan.id)
+          });
         }
       }
       switch (this.netType) {
