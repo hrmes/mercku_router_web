@@ -410,9 +410,9 @@ export default {
       ],
       netType: CONSTANTS.WanType.dhcp,
       netInfo: {},
-      vlan: cloneDeep(VlanDefault),
-      ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
-      iptvVlan: cloneDeep(IptvVlanDefault),
+      vlan: VlanDefault,
+      ipPhoneVlan: IpPhoneVlanDefault,
+      iptvVlan: IptvVlanDefault,
       staticForm: {
         ip: '',
         mask: '',
@@ -687,11 +687,14 @@ export default {
           this.netType = this.netInfo.type;
           if (this.netInfo?.vlan?.length) {
             this.vlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.internet) || VlanDefault;
+              this.netInfo.vlan.find(item => item.name === VlanName.internet) ||
+              cloneDeep(VlanDefault);
             this.ipPhoneVlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.ipPhone) || IpPhoneVlanDefault;
+              this.netInfo.vlan.find(item => item.name === VlanName.ipPhone) ||
+              cloneDeep(IpPhoneVlanDefault);
             this.iptvVlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.iptv) || IptvVlanDefault;
+              this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
+              cloneDeep(IptvVlanDefault);
           }
           if (this.isDhcp) {
             if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
