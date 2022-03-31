@@ -410,9 +410,9 @@ export default {
       ],
       netType: CONSTANTS.WanType.dhcp,
       netInfo: {},
-      vlan: VlanDefault,
-      ipPhoneVlan: IpPhoneVlanDefault,
-      iptvVlan: IptvVlanDefault,
+      vlan: cloneDeep(VlanDefault),
+      ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
+      iptvVlan: cloneDeep(IptvVlanDefault),
       staticForm: {
         ip: '',
         mask: '',
