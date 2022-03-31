@@ -7,7 +7,7 @@
   "favicon": "customer-conf/0019/favicon.ico",
   "policy": "https://pentanet.com.au/privacy-policy/",
   "allow2LevelAdmin": true,
-  "languages": ["en-US", "zh-CN"],
+  "languages": ["en-US"],
   "defaultLanguage": "en-US",
   "routers": {
     "M2": {
