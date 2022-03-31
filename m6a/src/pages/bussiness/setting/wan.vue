@@ -308,8 +308,8 @@ const VlanDefault = {
     {
       port: {
         id: 4,
-        name: 'WAN',
-        type: 'WAN'
+        name: 'wan',
+        type: 'wan'
       },
       tagged: false
     }
@@ -325,24 +325,24 @@ const IpPhoneVlanDefault = {
     {
       port: {
         id: 4,
-        name: 'WAN',
-        type: 'WAN'
+        name: 'wan',
+        type: 'wan'
       },
       tagged: true
     },
     {
       port: {
         id: 0,
-        name: 'LAN1',
-        type: 'LAN'
+        name: 'lan1',
+        type: 'lan'
       },
       tagged: true
     },
     {
       port: {
         id: 1,
-        name: 'LAN2',
-        type: 'LAN'
+        name: 'lan2',
+        type: 'lan'
       },
       tagged: true
     }
@@ -358,24 +358,24 @@ const IptvVlanDefault = {
     {
       port: {
         id: 4,
-        name: 'WAN',
-        type: 'WAN'
+        name: 'wan',
+        type: 'wan'
       },
       tagged: true
     },
     {
       port: {
         id: 0,
-        name: 'LAN1',
-        type: 'LAN'
+        name: 'lan1',
+        type: 'lan'
       },
       tagged: true
     },
     {
       port: {
         id: 1,
-        name: 'LAN2',
-        type: 'LAN'
+        name: 'lan2',
+        type: 'lan'
       },
       tagged: true
     }
@@ -687,11 +687,14 @@ export default {
           this.netType = this.netInfo.type;
           if (this.netInfo?.vlan?.length) {
             this.vlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.internet) || VlanDefault;
+              this.netInfo.vlan.find(item => item.name === VlanName.internet) ||
+              cloneDeep(VlanDefault);
             this.ipPhoneVlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.ipPhone) || IpPhoneVlanDefault;
+              this.netInfo.vlan.find(item => item.name === VlanName.ipPhone) ||
+              cloneDeep(IpPhoneVlanDefault);
             this.iptvVlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.iptv) || IptvVlanDefault;
+              this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
+              cloneDeep(IptvVlanDefault);
           }
           if (this.isDhcp) {
             if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
@@ -752,10 +755,11 @@ export default {
         ) {
           return;
         }
+        // 经过上面的判断，到这里已经可以确定如果有值的话必定是数字，所以可以用部分等于
         if (
-          (this.ipPhoneVlan.id === this.vlan.id && this.ipPhoneVlan.enabled) ||
-          (this.iptvVlan.id === this.vlan.id && this.iptvVlan.enabled) ||
-          (this.ipPhoneVlan.id === this.iptvVlan.id &&
+          (this.ipPhoneVlan.id == this.vlan.id && this.ipPhoneVlan.enabled) ||
+          (this.iptvVlan.id == this.vlan.id && this.iptvVlan.enabled) ||
+          (this.ipPhoneVlan.id == this.iptvVlan.id &&
             this.ipPhoneVlan.enabled &&
             this.iptvVlan.enabled)
         ) {
