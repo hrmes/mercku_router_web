@@ -237,6 +237,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.realnett]: {
             auth: [Role.super]
+          },
+          [Customers.pentanet]: {
+            auth: [Role.super]
           }
         }
       },
