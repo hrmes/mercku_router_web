@@ -31,7 +31,7 @@
             </div>
           </div>
           <div class="switch-wrap">
-            <!-- <div class="switch-item">
+            <div class="switch-item">
               <label>
                 <span>{{$t('trans0562')}}</span>
                 <div class="tool"
@@ -47,7 +47,7 @@
               </label>
               <m-switch v-model="mesh24g"
                         @change="(val)=>updateMeshBand(val)"></m-switch>
-            </div> -->
+            </div>
           </div>
           <div class="topo-wrap"
                id="topo-wrap">
