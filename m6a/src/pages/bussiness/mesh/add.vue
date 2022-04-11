@@ -28,7 +28,7 @@
                v-show="isStep(0)">
             <img src="@/assets/images/pic_add_m6_01.png"
                  alt="">
-            <p class="step-item__tip">{{m6aText}}</p>
+            <p class="step-item__tip">{{transText('trans0693')}}</p>
             <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
             <div class="button-container">
               <button @click="updateTipsVisible(true)"
@@ -115,11 +115,9 @@
         </div>
       </div>
     </div>
-
     <!--loading for scan-->
     <div class="loading"
          v-if="isScanning"></div>
-
     <!--dialog for help-->
     <m-modal class="modal"
              :visible.sync="showHelpDialog">
@@ -156,7 +154,7 @@
                  alt="" />
           </div>
           <div class="list-item__text">
-            <p>{{$t('trans0760')}}</p>
+            <p>{{transText('trans0760')}}</p>
             <p>{{$t('trans0698')}}</p>
           </div>
         </div>
@@ -175,7 +173,7 @@
                  alt="" />
           </div>
           <div class="list-item__text">
-            <p>{{$t('trans0762')}}</p>
+            <p>{{transText('trans0762')}}</p>
             <p>{{$t('trans0763')}}</p>
           </div>
         </div>
@@ -238,9 +236,6 @@ export default {
     })(),
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
-    },
-    m6aText() {
-      return this.$t('trans0693').replace('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
     }
     // perfer this style = =!
     // isScanning() {
@@ -260,6 +255,9 @@ export default {
     this.addMeshNodeDebounce = debounce(this.addMeshNode, 500);
   },
   methods: {
+    transText(text) {
+      return this.$t(text).replace('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
+    },
     isStep(index) {
       return this.stepsOption.current === index;
     },
