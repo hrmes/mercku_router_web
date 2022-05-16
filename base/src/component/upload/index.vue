@@ -1,43 +1,53 @@
 <template>
   <div class="upload">
     <div class="upload__box">
-      <upload-dragger v-if="dragable"
-                      :uploadLoading="uploadLoading"
-                      @file="uploadDragFiles">
-        <svg class="upload__icon"
-             :class="uploadLoading ? 'is-upload-loading' : ''"
-             viewBox="0 0 1536 1024"
-             xmlns="http://www.w3.org/2000/svg">
-          <path d="M1241.6 378.24C1196.8 163.936 1004.8 0 768 0c-185.6 0-345.6 100.864-422.4 252.16C147.2 277.44 0 435.04 0 630.464c0 208.064 172.8 378.272 384 378.272h832c179.2 0 320-138.688 320-315.2 0-163.936-134.4-302.624-294.4-315.232zM896 567.424v252.16h-256v-252.16h-192l320-315.2 320 315.2h-192z"
-                fill="#D6001C"></path>
+      <upload-dragger
+        v-if="dragable"
+        :uploadLoading="uploadLoading"
+        @file="uploadDragFiles"
+      >
+        <svg
+          class="upload__icon"
+          :class="uploadLoading ? 'is-upload-loading' : ''"
+          viewBox="0 0 1536 1024"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1241.6 378.24C1196.8 163.936 1004.8 0 768 0c-185.6 0-345.6 100.864-422.4 252.16C147.2 277.44 0 435.04 0 630.464c0 208.064 172.8 378.272 384 378.272h832c179.2 0 320-138.688 320-315.2 0-163.936-134.4-302.624-294.4-315.232zM896 567.424v252.16h-256v-252.16h-192l320-315.2 320 315.2h-192z"
+            fill="#D6001C"
+          ></path>
         </svg>
         <p class="upload__text">
-          {{$t('trans0928')}}
+          {{ $t('trans0928') }}
         </p>
-        <button class="btn fileinput-button"
-                :disabled="uploadLoading"
-                @click="click">
-          <label>{{label}}</label>
+        <button
+          class="btn fileinput-button"
+          :disabled="uploadLoading"
+          @click="click"
+        >
+          <label>{{ label }}</label>
         </button>
       </upload-dragger>
       <template v-else>
-        <button class="btn fileinput-button"
-                :disabled="uploadLoading"
-                @click="click">
-          <label>{{label}}</label>
+        <button
+          class="btn fileinput-button"
+          :disabled="uploadLoading"
+          @click="click"
+        >
+          <label>{{ label }}</label>
         </button>
       </template>
-      <input type="file"
-             @change="handleChange"
-             ref='upload'
-             :multiple="multiple"
-             :accept="accept"
-             hidden="hidden" />
+      <input
+        type="file"
+        @change="handleChange"
+        ref="upload"
+        :multiple="multiple"
+        :accept="accept"
+        hidden="hidden"
+      />
     </div>
     <div class="upload__files">
-      <div class='file'
-           v-for="file in files"
-           :key="file.lastModified">
+      <div class="file" v-for="file in files" :key="file.lastModified">
         <div class="file__info">
           <div class="icon-wrap">
             <img :src="fileIcon" />
@@ -47,39 +57,55 @@
               <div class="fileinfo">
                 <div class="fileinfo__wrap">
                   <span class="fileinfo__name single-line-text-omitted">
-                    {{file.name}}
+                    {{ file.name }}
                   </span>
-                  <span class="fileinfo__size">{{getSize(file)}}</span>
+                  <span class="fileinfo__size">{{ getSize(file) }}</span>
                 </div>
-                <div v-if="uploadLoading"
-                     class="fileinfo__upload-percent">{{width}}</div>
+                <div v-if="uploadLoading" class="fileinfo__upload-percent">
+                  {{ width }}
+                </div>
               </div>
-              <div class="packageinfo"
-                   v-if="uploadSuccess && packageInfo && packageInfo.product && packageInfo.version">
+              <div
+                class="packageinfo"
+                v-if="
+                  uploadSuccess &&
+                    packageInfo &&
+                    packageInfo.product &&
+                    packageInfo.version
+                "
+              >
                 <div class="packageinfo__product">
-                  <span class="single-line-text-omitted">{{packageInfo.product}}</span>
+                  <span class="single-line-text-omitted">{{
+                    packageInfo.product
+                  }}</span>
                 </div>
                 <div class="packageinfo__version">
-                  <span class="single-line-text-omitted">{{packageInfo.version}}</span>
+                  <span class="single-line-text-omitted">{{
+                    packageInfo.version
+                  }}</span>
                 </div>
               </div>
-              <div class="filesize">{{getSize(file)}}</div>
+              <div class="filesize">{{ getSize(file) }}</div>
             </div>
-            <div class="line"
-                 v-if="!uploadSuccess">
-              <span :class="{'loading':uploadLoading,'fail':uploadFail}"
-                    :style="{'width':width}"></span>
+            <div class="line" v-if="!uploadSuccess">
+              <span
+                :class="{ loading: uploadLoading, fail: uploadFail }"
+                :style="{ width: width }"
+              ></span>
             </div>
           </div>
           <div class="delete-wrap">
-            <img src="../../assets/images/icon/ic_delete.png"
-                 alt=""
-                 width="24"
-                 @click="cancel(file)" />
+            <img
+              src="../../assets/images/icon/ic_delete.png"
+              alt=""
+              width="24"
+              @click="cancel(file)"
+            />
           </div>
         </div>
-        <div class="file__error"
-             v-if="uploadFail">{{err || $t('trans0341')}}</div>
+        <div class="file__error" v-if="uploadFail">
+          {{ err || $t('trans0341') }}
+        </div>
       </div>
     </div>
   </div>
@@ -162,7 +188,12 @@ export default {
       this.upload(postFiles);
     },
     getSize(file) {
-      return `${toLocaleNumber(file.size / 1000 / 1000, this.$i18n.locale, 2, 2)}MB`;
+      return `${toLocaleNumber(
+        file.size / 1000 / 1000,
+        this.$i18n.locale,
+        2,
+        2
+      )}MB`;
     },
     click() {
       this.initUploadStatus();
