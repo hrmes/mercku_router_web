@@ -256,7 +256,7 @@ export default {
   },
   methods: {
     transText(text) {
-      return this.$t(text).replace('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
+      return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
     },
     isStep(index) {
       return this.stepsOption.current === index;
