@@ -752,7 +752,7 @@
   "trans0757": "Scanning failed, please try using the Connect buttons to set up the mesh network.",
   "trans0758": "Try now",
   "trans0759": "Adding node by buttons",
-  "trans0760": "1) Plug in the %s node into a power source using the provided power adapter close to the main M6 gateway. Please note: the indicator light will be red as the system is booting up",
+  "trans0760": "1) Plug in the %s node into a power source using the provided power adapter close to the main %s gateway. Please note: the indicator light will be red as the system is booting up",
   "trans0761": "2) After start-up is complete, the indicator light will turn orange",
   "trans0762": "3) Please press the \"Connect\" button first on the gateway %s, then the node. The indicator light on the systems will blink blue, indicating that pairing is underway",
   "trans0763": "Please click \"Next\" to check the mesh status after finishing the above steps",
