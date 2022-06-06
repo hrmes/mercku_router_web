@@ -157,6 +157,32 @@
         </div>
       </div>
     </div>
+    <div class="section">
+      <div class="section__inner">
+        <div class="section__title">{{$t('trans0620')}} {{$t('trans0301')}}</div>
+        <div class="section__body">
+          <div class="item">
+            <label class="item__label">{{$t('trans0317')}}</label>
+            <span class="item__value">{{ipv6NetType}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0153')}}</label>
+            <span class="item__value">{{ipv6NetInfo.gateway}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0701')}}</label>
+            <span class="item__value">{{ipv6NetInfo.ip }}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0236')}}</label>
+            <span class="item__value">
+              {{ipv6NetInfo.dns}}
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
     <div class='speed-model-info'
          v-if='speedModelOpen'>
@@ -234,13 +260,21 @@ export default {
       wanNetStatsTimer: null,
       speedTestTimer: null,
       wanInfoTimer: null,
-      uptimeTimer: null
+      uptimeTimer: null,
+      ipv6Enabled: '-',
+      ipv6NetInfo: {
+        ip: '-',
+        gateway: '-',
+        dns: '-'
+      },
+      ipv6NetType: '-',
     };
   },
   mounted() {
     this.getWanNetInfo();
     this.createIntervalTask();
     this.getRouteMeta();
+    this.getIpv6NetInfo();
   },
   computed: {
     isRouter() {
@@ -487,7 +521,24 @@ export default {
             this.getWanNetInfo();
           }, 1000 * 3);
         });
-    }
+    },
+    getIpv6NetInfo() {
+      this.$http
+        .getMeshInfoWanNetIpv6()
+        .then(res => {
+          const { result } = res.data;
+          this.ipv6Enabled = result.enabled;
+          this.ipv6NetType = result.type ?? '-';
+          const { netinfo } = result;
+          this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip ?? '-';
+          this.ipv6NetInfo.gateway = netinfo.gateway?.ip ?? '-';
+          if (netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip) {
+            this.ipv6NetInfo.dns = netinfo.dns[0].ip;
+          } else {
+            this.ipv6NetInfo.dns = '-';
+          }
+        });
+    },
   },
   beforeDestroy() {
     this.pageActive = false;
@@ -541,9 +592,13 @@ export default {
       color: #999;
     }
     .item__value {
+      width: inherit;
       font-size: 16px;
       color: #333;
       font-weight: bold;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
   .speed {
