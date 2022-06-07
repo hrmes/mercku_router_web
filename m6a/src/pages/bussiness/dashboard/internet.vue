@@ -163,7 +163,7 @@
         <div class="section__body">
           <div class="item">
             <label class="item__label">{{$t('trans0317')}}</label>
-            <span class="item__value">{{ipv6NetType}}</span>
+            <span class="item__value">{{networkArr[ipv6NetType]}}</span>
           </div>
           <div class="item">
             <label class="item__label">{{$t('trans0153')}}</label>
@@ -246,7 +246,8 @@ export default {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
+        pppoe: this.$t('trans0144'),
+        auto: this.$t('trans0696')
       },
       testTimeout: 60,
       testSpeedNumber: 60,
