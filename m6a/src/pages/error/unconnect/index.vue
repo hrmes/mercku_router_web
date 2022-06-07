@@ -3,7 +3,7 @@
     <div class="inner">
       <img src="../../../assets/images/img_no_network_access.png"
            alt="">
-      <div class="text">{{$t('trans0132')}}</div>
+      <div class="text">{{tips}}</div>
       <button @click="tohome"
               class="btn">{{$t('trans0063')}}</button>
     </div>
@@ -31,6 +31,11 @@ export default {
           });
         });
       });
+    }
+  },
+  computed: {
+    tips() {
+      return this.$t('trans0132').replaceAll('%s', 'Prism Wi-Fi');
     }
   }
 };

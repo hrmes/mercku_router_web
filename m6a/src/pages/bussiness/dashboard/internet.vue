@@ -6,7 +6,7 @@
         <div class="section__body">
           <div class="item">
             <label class="item__label">{{$t('trans0317')}}</label>
-            <span class="item__value">{{ networkArr[localNetInfo.type]}}</span>
+            <span class="item__value">{{networkArr[localNetInfo.type]}}</span>
           </div>
           <div class="item">
             <label class="item__label">{{$t('trans0151')}}</label>
@@ -19,8 +19,7 @@
           <div class="item">
             <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
-              {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
-              :'-'}}
+              {{localNetInfo.netinfo.dns}}
             </span>
           </div>
           <div class="item">
@@ -157,32 +156,34 @@
         </div>
       </div>
     </div>
-    <div class="section">
-      <div class="section__inner">
-        <div class="section__title">{{$t('trans0620')}} {{$t('trans0301')}}</div>
-        <div class="section__body">
-          <div class="item">
-            <label class="item__label">{{$t('trans0317')}}</label>
-            <span class="item__value">{{ipv6NetType}}</span>
-          </div>
-          <div class="item">
-            <label class="item__label">{{$t('trans0153')}}</label>
-            <span class="item__value">{{ipv6NetInfo.gateway}}</span>
-          </div>
-          <div class="item">
-            <label class="item__label">{{$t('trans0701')}}</label>
-            <span class="item__value">{{ipv6NetInfo.ip }}</span>
-          </div>
-          <div class="item">
-            <label class="item__label">{{$t('trans0236')}}</label>
-            <span class="item__value">
-              {{ipv6NetInfo.dns}}
-            </span>
-          </div>
+    <transition name="fade">
+      <div class="section"
+           v-if="this.ipv6NetInfo.enabled">
+        <div class="section__inner">
+          <div class="section__title">{{$t('trans0700')}}</div>
+          <div class="section__body">
+            <div class="item">
+              <label class="item__label">{{$t('trans0317')}}</label>
+              <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0701')}}</label>
+              <span class="item__value">{{ipv6NetInfo.ip }}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0153')}}</label>
+              <span class="item__value">{{ipv6NetInfo.gateway}}</span>
+            </div>
 
+            <div class="item">
+              <label class="item__label">{{$t('trans0236')}}</label>
+              <span class="item__value">{{ipv6NetInfo.dns}}</span>
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
+    </transition>
 
     <div class='speed-model-info'
          v-if='speedModelOpen'>
@@ -235,18 +236,23 @@
 </template>
 <script>
 import * as CONSTANTS from 'base/util/constant';
+import axios from 'axios';
 
 export default {
   data() {
     return {
       routerMeta: {},
+      meshMode: null,
       uptime: 0,
       CONSTANTS,
       networkArr: {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
+        pppoe: this.$t('trans0144'),
+        auto: this.$t('trans0696'),
+        failObtain: this.$t('trans1058')
+
       },
       testTimeout: 60,
       testSpeedNumber: 60,
@@ -261,13 +267,13 @@ export default {
       speedTestTimer: null,
       wanInfoTimer: null,
       uptimeTimer: null,
-      ipv6Enabled: '-',
       ipv6NetInfo: {
+        enabled: null,
+        type: '-',
         ip: '-',
         gateway: '-',
-        dns: '-'
-      },
-      ipv6NetType: '-',
+        dns: '-',
+      }
     };
   },
   mounted() {
@@ -372,11 +378,16 @@ export default {
           ip: '-',
           mask: '-',
           gateway: '-', // 可选
-          dns: []
+          dns: '-'
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        return { ...local, ...this.netInfo };
+        local.type = this.netInfo.type ? this.netInfo.type : '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip ? this.netInfo.netinfo.ip : '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
+        local.netinfo.dns = this.netInfo.netinfo.dns?.[0] ?? '-';
+        return local;
       }
       return local;
     },
@@ -527,16 +538,26 @@ export default {
         .getMeshInfoWanNetIpv6()
         .then(res => {
           const { result } = res.data;
-          this.ipv6Enabled = result.enabled;
-          this.ipv6NetType = result.type ?? '-';
-          const { netinfo } = result;
-          this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip ?? '-';
-          this.ipv6NetInfo.gateway = netinfo.gateway?.ip ?? '-';
-          if (netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip) {
-            this.ipv6NetInfo.dns = netinfo.dns[0].ip;
-          } else {
-            this.ipv6NetInfo.dns = '-';
+          console.log('ipv6', result);
+          if (result.enabled === true) {
+            this.ipv6NetInfo.type = result.type ?? '-';
+            const { netinfo } = result;
+            this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip ?? '-';
+            this.ipv6NetInfo.gateway = netinfo.gateway?.ip ?? '-';
+            if (netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip) {
+              this.ipv6NetInfo.dns = netinfo.dns[0].ip;
+            } else {
+              this.ipv6NetInfo.dns = '-';
+            }
           }
+          this.ipv6NetInfo.enabled = result.enabled;
+        })
+        .catch(() => {
+          this.ipv6NetInfo.enabled = true;
+          this.ipv6NetInfo.type = 'failObtain';
+          this.ipv6NetInfo.ip = this.$t('trans1058');
+          this.ipv6NetInfo.gateway = this.$t('trans1058');
+          this.ipv6NetInfo.dns = this.$t('trans1058');
         });
     },
   },
@@ -549,6 +570,13 @@ export default {
 };
 </script>
 <style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .router-info {
   display: flex;
   flex-wrap: wrap;
