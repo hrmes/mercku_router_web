@@ -636,7 +636,12 @@ export default {
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        return { ...local, ...this.netInfo };
+        local.type = this.netInfo.type ? this.netInfo.type : '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip ? this.netInfo.netinfo.ip : '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
+        local.netinfo.dns = this.netInfo.netinfo.dns;
+        return local;
       }
       return local;
     },

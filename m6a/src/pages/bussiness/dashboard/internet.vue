@@ -19,7 +19,7 @@
           <div class="item">
             <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
-              {{localNetInfo.netinfo.dns}}
+              {{dnsText}}
             </span>
           </div>
           <div class="item">
@@ -236,7 +236,6 @@
 </template>
 <script>
 import * as CONSTANTS from 'base/util/constant';
-import axios from 'axios';
 
 export default {
   data() {
@@ -378,7 +377,7 @@ export default {
           ip: '-',
           mask: '-',
           gateway: '-', // 可选
-          dns: '-'
+          dns: []
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
@@ -386,10 +385,15 @@ export default {
         local.netinfo.ip = this.netInfo.netinfo.ip ? this.netInfo.netinfo.ip : '-';
         local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
-        local.netinfo.dns = this.netInfo.netinfo.dns?.[0] ?? '-';
+        local.netinfo.dns = this.netInfo.netinfo.dns;
         return local;
       }
       return local;
+    },
+    dnsText() {
+      return this.localNetInfo.netinfo.dns.length > 0
+        ? this.localNetInfo.netinfo.dns.join('/')
+        : '-';
     },
     localSpeedInfo() {
       const local = {
