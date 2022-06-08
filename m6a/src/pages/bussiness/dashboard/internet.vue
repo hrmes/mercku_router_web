@@ -158,7 +158,7 @@
     </div>
     <transition name="fade">
       <div class="section"
-           v-if="this.ipv6NetInfo.enabled">
+           v-if="isRouter&&this.ipv6NetInfo.enabled">
         <div class="section__inner">
           <div class="section__title">{{$t('trans0700')}}</div>
           <div class="section__body">
