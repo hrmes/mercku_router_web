@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     tips() {
-      return this.$t('trans0132').replaceAll('%s', 'Prism Wi-Fi');
+      return this.$t('trans0132').replaceAll('%s', process.env.CUSTOMER_CONFIG.wifi);
     }
   }
 };

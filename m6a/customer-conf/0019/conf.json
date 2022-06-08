@@ -9,6 +9,8 @@
   "allow2LevelAdmin": true,
   "languages": ["en-US"],
   "defaultLanguage": "en-US",
+  "deviceId": "Prism",
+  "wifi": "Prism Wi-Fi",
   "routers": {
     "M6a": {
       "name": "Pentanet Prism Edge Wi-Fi Mesh Router",

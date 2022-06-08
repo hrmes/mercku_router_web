@@ -89,7 +89,7 @@
                  src="~@/assets/images/img_default_empty.png"
                  alt="" />
           </div>
-          <div class="result-container__tips">{{resultTips}}</div>
+          <div class="result-container__tips">{{transDeviceId('trans0181')}}</div>
           <div class="text-center">
             <span class="result-container__help"
                   @click.stop="updateHelpVisible(true)">{{$t('trans0128')}}</span>
@@ -237,9 +237,6 @@ export default {
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
-    resultTips() {
-      return this.$t('trans0181').replaceAll('%s', 'Prism');
-    }
     // perfer this style = =!
     // isScanning() {
     //   return this.pageStatus === PageStatus.scanning;
@@ -260,6 +257,9 @@ export default {
   methods: {
     transText(text) {
       return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
+    },
+    transDeviceId(text) {
+      return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.deviceId);
     },
     isStep(index) {
       return this.stepsOption.current === index;
