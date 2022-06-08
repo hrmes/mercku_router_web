@@ -641,7 +641,6 @@ export default {
         local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
         local.netinfo.dns = this.netInfo.netinfo.dns;
-        console.log(local.netinfo.dns);
         return local;
       }
       return local;

@@ -236,7 +236,6 @@
 </template>
 <script>
 import * as CONSTANTS from 'base/util/constant';
-import axios from 'axios';
 
 export default {
   data() {
@@ -387,7 +386,6 @@ export default {
         local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
         local.netinfo.dns = this.netInfo.netinfo.dns;
-        console.log();
         return local;
       }
       return local;
