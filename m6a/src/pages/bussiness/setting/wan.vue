@@ -29,7 +29,7 @@
           <div>
             <label class="with-colon">{{ $t('trans0236') }}:</label>
             <span>
-              {{ localNetInfo.netinfo.dns }}
+              {{ dnsText }}
             </span>
           </div>
         </div>
@@ -632,20 +632,25 @@ export default {
           ip: '-',
           mask: '-',
           gateway: '-', // 可选
-          dns: '-'
+          dns: []
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        console.log(this.netInfo);
         local.type = this.netInfo.type ? this.netInfo.type : '-';
         local.netinfo.ip = this.netInfo.netinfo.ip ? this.netInfo.netinfo.ip : '-';
         local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
-        local.netinfo.dns = this.netInfo.netinfo.dns?.[0] ?? '-';
+        local.netinfo.dns = this.netInfo.netinfo.dns;
+        console.log(local.netinfo.dns);
         return local;
       }
       return local;
     },
+    dnsText() {
+      return this.localNetInfo.netinfo.dns.length > 0
+        ? this.localNetInfo.netinfo.dns.join('/')
+        : '-';
+    }
   },
   methods: {
     ipChange() {
