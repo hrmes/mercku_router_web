@@ -89,7 +89,7 @@
                  src="~@/assets/images/img_default_empty.png"
                  alt="" />
           </div>
-          <div class="result-container__tips">{{$t('trans0181')}}</div>
+          <div class="result-container__tips">{{transDeviceId('trans0181')}}</div>
           <div class="text-center">
             <span class="result-container__help"
                   @click.stop="updateHelpVisible(true)">{{$t('trans0128')}}</span>
@@ -124,7 +124,7 @@
       <div class="modal-content">
         <div class="help-dialog-content">
           <div>
-            <p>{{$t('trans1001')}}</p>
+            <p>{{transText('trans1001')}}</p>
             <p>{{$t('trans0215')}}</p>
             <p>{{$t('trans0651')}}</p>
             <p>{{$t('trans1002')}}</p>
@@ -154,7 +154,7 @@
                  alt="" />
           </div>
           <div class="list-item__text">
-            <p>{{transText('trans0760')}}</p>
+            <p>{{$t('trans0760')}}</p>
             <p>{{$t('trans0698')}}</p>
           </div>
         </div>
@@ -173,7 +173,7 @@
                  alt="" />
           </div>
           <div class="list-item__text">
-            <p>{{transText('trans0762')}}</p>
+            <p>{{$t('trans0762')}}</p>
             <p>{{$t('trans0763')}}</p>
           </div>
         </div>
@@ -236,7 +236,7 @@ export default {
     })(),
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
-    }
+    },
     // perfer this style = =!
     // isScanning() {
     //   return this.pageStatus === PageStatus.scanning;
@@ -257,6 +257,9 @@ export default {
   methods: {
     transText(text) {
       return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
+    },
+    transDeviceId(text) {
+      return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.deviceId);
     },
     isStep(index) {
       return this.stepsOption.current === index;

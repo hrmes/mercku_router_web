@@ -9,6 +9,8 @@
   "allow2LevelAdmin": true,
   "languages": ["en-US", "nb-NO"],
   "defaultLanguage": "nb-NO",
+  "deviceId": "real|wifi",
+  "wifi": "real|wifi",
   "routers": {
     "Bee": {
       "name": "real|wifi mesh node",
