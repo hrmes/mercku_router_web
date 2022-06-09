@@ -11,7 +11,8 @@ export const Customers = {
   altima: '0007',
   fibrestream: '0013',
   skymesh: '0014',
-  pentanet: '0019'
+  pentanet: '0019',
+  homeway: '0025'
 };
 export const IP = {
   IPv4: 'ipv4',
@@ -126,5 +127,6 @@ export const Models = {
   m2: 'M2R2',
   m6: 'M6R0',
   m6c: 'M7R0',
-  m6a: 'M8R0'
+  m6a: 'M8R0',
+  homeway: 'M8R1'
 };
