@@ -40,6 +40,7 @@
                 @click.stop="jump(child,menu)"
                 v-for="child in menu.children"
                 :class="{'selected':$route.name === child.name,'disabled':child.disabled}">
+              <!-- {{$route.name}}-{{child.name}} -->
               {{$t(child.text)}}
               <i v-if="$route.name === child.name"
                  class="is-checked"></i>
@@ -307,6 +308,7 @@ export default {
       menu.showChild = visible;
     },
     jump(menu, parent) {
+      console.log(this.$route.name, menu.name);
       if (!menu.disabled) {
         this.list.forEach(l => {
           if (l !== parent) {
