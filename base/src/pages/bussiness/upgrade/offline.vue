@@ -6,11 +6,11 @@
         <div class="description">
           <p>
             1.
-            <span>{{ $t('trans0332') }}&nbsp;</span>
+            <span>{{ $t('trans0849') }}&nbsp;</span>
             <a class="btn-text text-primary"
-               :href="$t('trans0468')"
+               :href="$t('trans0468').replaceAll('%s','mailto:support@pentanet.com.au')"
                target="_blank">
-              {{ $t('trans0482') }}</a>
+              {{ $t('trans0482').replaceAll('%s','support@pentanet.com.au') }}</a>
             <span>,&nbsp;{{ $t('trans0346') }}</span>
           </p>
           <p>
@@ -211,7 +211,7 @@ export default {
       const entendName = getFileExtendName(file);
       const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
-        uploader.err = this.$t('trans0271');
+        uploader.err = this.$t('trans0271').replaceAll('%s', '.pen');
         return false;
       }
       if (file.size === 0) {
