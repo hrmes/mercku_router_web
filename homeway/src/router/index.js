@@ -14,6 +14,7 @@ import mode from 'pages/bussiness/advance/mode.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
 import wifiSetting from 'pages/bussiness/wlan/wifiSetting.vue';
 import wifiSetting_230v from 'pages/bussiness/wlan/wifiSetting_230v.vue';
+import wan from 'pages/bussiness/setting/wan.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -92,6 +93,11 @@ const routes = {
       path: '/setting/safe',
       name: 'safe',
       component: safe
+    },
+    {
+      path: '/setting/wan',
+      name: 'wan',
+      component: wan
     },
     {
       path: '/setting/region',

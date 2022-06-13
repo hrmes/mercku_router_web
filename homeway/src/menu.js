@@ -1,6 +1,7 @@
-import { Role, RouterMode, Customers } from 'base/util/constant';
+import { Role, RouterMode, RouterSnModel } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
+
 export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
@@ -13,11 +14,11 @@ export default function getMenu(role, mode = RouterMode.router) {
     mode: [RouterMode.router, RouterMode.bridge]
   };
   // 第一种搭配策略
-  const strategyA = {
-    show: true,
-    auth: [Role.admin, Role.super],
-    mode: [RouterMode.router]
-  };
+  // const strategyA = {
+  //   show: true,
+  //   auth: [Role.admin, Role.super],
+  //   mode: [RouterMode.router]
+  // };
   const wifi = {
     icon: 'wifi',
     text: 'trans0173',
@@ -56,15 +57,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        config,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.admin]
-          },
-          [Customers.pentanet]: {
-            auth: [Role.admin]
-          }
-        }
+        config
       },
       {
         text: 'trans0272',
@@ -88,7 +81,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/childLock',
         name: 'childLock',
         text: 'trans1061',
-        config: strategyA
+        config
       },
       {
         url: '/setting/wifi-schedule',
@@ -106,7 +99,15 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        config
+        config,
+        RouterSnModel: {
+          [RouterSnModel.Homeway_PoE_1]: {
+            show: false
+          },
+          [RouterSnModel.Homeway_PoE_2]: {
+            show: false
+          }
+        }
       },
       {
         url: '/advance/log',

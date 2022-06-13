@@ -1,7 +1,6 @@
 <template>
   <div class="initialization-container">
     <div class="checklist">
-
       <div class="checklist-img">
         <img src="../../../assets/images/img_checklist.png"
              alt="">
@@ -11,7 +10,7 @@
       </div>
       <div class="checklist-container">
         <ul>
-          <li>- 1*Homeway PoE</li>
+          <li>- 1*Homeway {{currentRouter}}</li>
           <li>- 1*Phillips screwdriver</li>
           <li>- 1*test pencil</li>
           <li>- 1*Insulation tape</li>
@@ -19,7 +18,7 @@
         </ul>
       </div>
       <div class="btn-container">
-        <button @click="prepared"
+        <button @click="prepared(currentRouter)"
                 class="btn">OK, Well prepared</button>
       </div>
 
@@ -27,16 +26,62 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-
+      routerModel: {
+        m6a: '0',
+        homeway_230v: '1',
+        homgway_PoE_1: '2',
+        homeway_PoE_2: '3'
+      },
+      modelVersion: null,
+      currentRouter: null,
     };
   },
+  mounted() {
+    this.getRouter();
+  },
   methods: {
-    prepared() {
+    getRouter() {
+      // this.$http.getRouter()
+      //   .then(res => {
+      //     console.log('routerMeta@@@', res);
+      //     this.modelVersion = res.data.result.sn.slice(9, 10);
+      //     console.log('modelVersion', this.modelVersion.slice(9, 10));
+      //   })
+      axios({
+        methods: 'get',
+        url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
+      })
+        .then(res => {
+          console.log('routerMeta@@@', res);
+          this.modelVersion = res.data.result.sn.slice(9, 10);
+          console.log('modelVersion', this.modelVersion.slice(9, 10));
+        })
+        .then(() => {
+          switch (this.modelVersion) {
+            case this.routerModel.m6a:
+              break;
+            case this.routerModel.homeway_230v:
+              this.currentRouter = '230v';
+              break;
+            case this.routerModel.homgway_PoE_1:
+              this.currentRouter = 'PoE';
+              break;
+            case this.routerModel.homeway_PoE_2:
+              this.currentRouter = 'PoE';
+              break;
+            default:
+              break;
+          }
+        });
+    },
+    prepared(router) {
       console.log(this.$router);
-      this.$router.push({ path: '/wlan/wifiSetting' });
+      router === '230v' ? this.$router.push({ path: '/wlan/wifiSetting_230v' }) : this.$router.push({ path: '/wlan/wifiSetting' });
     }
   }
 };

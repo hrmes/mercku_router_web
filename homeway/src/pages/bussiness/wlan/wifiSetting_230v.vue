@@ -6,64 +6,24 @@
     <div class="step-content">
       <div class="step-item step-item1"
            v-show="stepOption.current===0">
-        <m-form ref="wifiForm"
-                :model="wifiForm"
+        <m-form ref="upperApForm"
+                :model="upperApForm"
                 :rules="wifiFormRules">
           <m-form-item class="form-item"
-                       prop="smart_connect">
-            <m-switch :label="$t('trans0397')"
-                      @change="changeSmartConnect"
-                      v-model="wifiForm.smart_connect" />
-            <div class="tip-label">{{$t('trans0398')}}</div>
-          </m-form-item>
-          <div class="form-header"
-               v-if="!wifiForm.smart_connect">
-            <img class="form-header__img"
-                 :src="wifiIcon"
-                 alt="">
-            <span class="form-header__title">{{$t('trans0677')}}</span>
-          </div>
-          <m-form-item class="form-item"
-                       prop="ssid24g">
-            <m-input :label="$t('trans0168')"
+                       prop="upperApSsid">
+            <m-input label="SSID"
                      :placeholder="$t('trans0321')"
-                     v-model="wifiForm.ssid24g"
-                     :onBlur="onSsid24gChange" />
+                     v-model="upperApForm.upperApSsid" />
           </m-form-item>
           <m-form-item class="form-item"
-                       :class="{
-            'is-smart-connect': !wifiForm.smart_connect
-          }"
-                       prop="password24g">
-            <m-input :label="$t('trans0172')"
+                       prop="upperApPassword">
+            <m-input :label="$t('trans0003')"
                      type="password"
                      :placeholder="$t('trans0321')"
-                     v-model="wifiForm.password24g" />
+                     v-model="upperApForm.upperApPassword" />
           </m-form-item>
-          <template v-if="!wifiForm.smart_connect">
-            <div class="form-header">
-              <img class="form-header__img"
-                   :src="wifiIcon"
-                   alt="">
-              <span class="form-header__title">{{$t('trans0679')}}</span>
-            </div>
-            <m-form-item class="form-item"
-                         prop="ssid5g"
-                         ref="ssid5g">
-              <m-input :label="$t('trans0168')"
-                       :placeholder="$t('trans0321')"
-                       v-model="wifiForm.ssid5g" />
-            </m-form-item>
-            <m-form-item class="form-item"
-                         prop="password5g">
-              <m-input :label="$t('trans0172')"
-                       type="password"
-                       :placeholder="$t('trans0321')"
-                       v-model="wifiForm.password5g" />
-            </m-form-item>
-          </template>
           <div class="button-container">
-            <button @click="step1()"
+            <button @click="step2()"
                     class="btn">{{$t('trans0055')}}</button>
           </div>
         </m-form>
@@ -127,13 +87,13 @@
             </m-form-item>
           </template>
           <div class="button-container">
-            <button @click="step1()"
+            <button @click="step3()"
                     class="btn">{{$t('trans0055')}}</button>
           </div>
         </m-form>
       </div>
       <div class="step-item step-item3"
-           v-show="stepOption.current===1">
+           v-show="stepOption.current===2">
         <m-loading :color="loadingColor"
                    :size="36"></m-loading>
         <p class="cutdown">{{countdown}}s</p>
@@ -183,6 +143,28 @@
         </div>
       </div>
     </div>
+    <!-- 插入有线，有线桥模式 弹窗提示 -->
+    <div class="tips">
+      <transition name="fade">
+        <div class="wiredBridge_tips"
+             v-if="isShowPopup">
+          <p>{{$t('trans1053')}}</p>
+          <p>{{$t('trans1054')}}</p>
+          <div class="btn-container">
+            <button class="btn-default"
+                    @click="isShowPopup=false">{{$t('trans1055')}}</button>
+            <button class="btn"
+                    @click="skipSetUpper">{{$t('trans0163')}}</button>
+          </div>
+        </div>
+      </transition>
+      <transition name="fade">
+        <div class="mask"
+             v-if="isShowPopup">
+        </div>
+      </transition>
+
+    </div>
   </div>
 </template>
 <script>
@@ -194,6 +176,7 @@ export default {
   data() {
     return {
       wifiIcon,
+      isShowPopup: false,
       stepOption: {
         current: 0,
         steps: [
@@ -204,6 +187,10 @@ export default {
       },
       current: 0,
       countdown: 60,
+      upperApForm: {
+        upperApSsid: '',
+        upperApPassword: ''
+      },
       wifiForm: {
         smart_connect: true,
         ssid24g: '',
@@ -212,6 +199,34 @@ export default {
         password5g: ''
       },
       wifiFormRules: {
+        upperApSsid: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0237')
+          },
+          {
+            rule: value => getStringByte(value) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
+          }
+        ],
+        upperApPassword: [
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
+          {
+            rule: value => isValidPassword(value),
+            message: this.$t('trans0169')
+          }
+        ],
         ssid24g: [
           {
             rule: value => !/^\s*$/g.test(value),
@@ -229,7 +244,7 @@ export default {
         password24g: [
           {
             rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            message: this.$t('trans1020')
           },
           {
             rule: value => isFieldHasComma(value),
@@ -261,7 +276,7 @@ export default {
         password5g: [
           {
             rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            message: this.$t('trans1020')
           },
           {
             rule: value => isFieldHasComma(value),
@@ -304,6 +319,10 @@ export default {
     });
   },
   methods: {
+    skipSetUpper() {
+      this.step2();
+      this.isShowPopup = false;
+    },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
         this.$refs.ssid5g.extraValidate(this.validateSsid5G, this.$t('trans0660'));
@@ -327,11 +346,12 @@ export default {
         this.wifiForm.password5g = '';
       }
     },
-    step0() {
-      this.stepOption.current = 0;
-      this.stepOption.steps[0].success = true;
+    step2() {
+      console.log('upperApForm', this.upperApForm);
+      this.stepOption.current = 1;
+      this.stepOption.steps[1].success = true;
     },
-    step1() {
+    step3() {
       if (this.$refs.wifiForm.validate()) {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
@@ -357,8 +377,8 @@ export default {
             }
           })
           .then(() => {
-            this.stepOption.current = 1;
-            this.stepOption.steps[1].success = true;
+            this.stepOption.current = 2;
+            this.stepOption.steps[2].success = true;
             const timer = setInterval(() => {
               this.countdown -= 1;
               if (this.countdown === 0) {
@@ -385,6 +405,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .wlan-container {
   width: 100%;
   flex: auto;
@@ -520,6 +547,56 @@ export default {
       }
     }
   }
+  .wiredBridge_tips {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    height: 228px;
+    padding: 30px;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: 10000;
+    > p {
+      width: 300px;
+      font-size: 14px;
+      margin: 0 0 30px;
+      text-align: center;
+    }
+    > .btn-container {
+      display: flex;
+      justify-content: space-evenly;
+      width: 300px;
+      > button {
+        width: 120px;
+        height: 38px;
+        cursor: pointer;
+      }
+      > .btn-default {
+        color: #153264;
+        border: 1px solid #0e6a99;
+        border-radius: 4px;
+        &:hover {
+          color: #138ac8;
+          border: 1px solid #138ac8;
+        }
+      }
+    }
+  }
+  .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
 }
 @media screen and(max-width: 768px) {
   .wlan-container {
@@ -528,10 +605,10 @@ export default {
     padding: 20px 16px;
     .step {
       width: 100%;
-      margin-top: 40px;
+      margin-top: 25px;
     }
     .step-content {
-      margin: 40px auto 0 auto;
+      margin: 65px auto 0 auto;
       width: 100%;
       .step-item {
         display: block;
@@ -544,6 +621,14 @@ export default {
         &:last-child {
           margin-top: 0;
         }
+      }
+    }
+    .wiredBridge_tips {
+      justify-content: center;
+      align-items: center;
+      width: 330px;
+      .btn {
+        margin: 0;
       }
     }
   }

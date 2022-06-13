@@ -50,7 +50,7 @@ export default {
     this.$http
       .isinitial()
       .then(res => {
-        console.log('####', res);
+        console.log('isInitial?', res);
         if (res.data.result.status) {
           this.$http.login({ password: '' }).then(() => {
             this.towlan();
