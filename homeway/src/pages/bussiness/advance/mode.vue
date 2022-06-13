@@ -32,8 +32,8 @@ export default {
           value: 'wirelessBridge'
         },
         {
-          text: this.$t('trans0542'),
-          value: 'bridge'
+          text: this.$t('trans1066'),
+          value: 'wiredBridge'
         }
       ]
     };

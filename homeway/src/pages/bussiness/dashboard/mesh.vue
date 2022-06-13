@@ -1096,7 +1096,6 @@ export default {
             }
             .equipment {
               .equipment__value {
-                text-align: center;
                 cursor: pointer;
                 text-decoration: underline;
                 &.is-disabled {

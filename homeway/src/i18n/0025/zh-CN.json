@@ -274,7 +274,7 @@
   "trans0273": "设置时区",
   "trans0274": "请求失败，请手动去系统设置页连接Mercku Wi-Fi",
   "trans0275": "重启中...",
-  "trans0276": "Copyright © %d Mercku Inc. All rights reserved.",
+  "trans0276": "Copyright © %d Homeway All rights reserved.",
   "trans0277": "暂无设备接入",
   "trans0278": "空空如也",
   "trans0279": "重新测速",
@@ -1058,10 +1058,10 @@
   "trans1063": "我们发现没有插入网线。",
   "trans1064": "继续",
   "trans1065": "你想继续吗？",
-  "trans1066": " ",
-  "trans1067": " ",
-  "trans1068": " ",
-  "trans1069": " ",
+  "trans1066": "有线桥模式",
+  "trans1067": "IPv4 IP",
+  "trans1068": "IPv6 IP",
+  "trans1069": "测试后续要删除",
   "trans1070": " ",
   "trans1071": " "
 }

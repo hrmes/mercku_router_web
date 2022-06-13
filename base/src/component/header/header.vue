@@ -788,6 +788,7 @@ export default {
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
+      padding: 0;
     }
     .nav-wrap {
       position: fixed;

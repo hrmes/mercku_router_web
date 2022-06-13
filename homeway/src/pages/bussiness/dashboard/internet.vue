@@ -9,11 +9,11 @@
             <span class="item__value">{{ networkArr[localNetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0151')}}</label>
+            <label class="item__label">{{$t('trans1067')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0700')}}</label>
+            <label class="item__label">{{$t('trans1068')}}</label>
             <span class="item__value">{{ipv6NetInfo.ip}}</span>
           </div>
           <!-- <div class="item">
