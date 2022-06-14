@@ -8,10 +8,10 @@
             1.
             <span>{{ $t('trans0332') }}&nbsp;</span>
             <a class="btn-text text-primary"
-               :href="$t('trans0468')"
+               :href="transWebsite('trans0338')"
                target="_blank">
-              {{ $t('trans0482') }}</a>
-            <span>,&nbsp;{{ $t('trans0346') }}</span>
+              {{ transWebsite('trans0338') }}</a>
+            <span>&nbsp;{{ $t('trans0377') }}</span>
           </p>
           <p>
             2.
@@ -181,6 +181,9 @@ export default {
     window.removeEventListener('resize', this.resizeHandler);
   },
   methods: {
+    transWebsite(text) {
+      return this.$t(text).replace('%s', process.env.CUSTOMER_CONFIG.website.url);
+    },
     resizeHandler() {
       if (document.body.clientWidth > mobileWidth) {
         this.isRetitleFixed = false;
@@ -211,7 +214,7 @@ export default {
       const entendName = getFileExtendName(file);
       const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
-        uploader.err = this.$t('trans0271');
+        uploader.err = this.$t('trans0271').replace('%s', process.env.CUSTOMER_CONFIG.uploadFileTypeLimit);
         return false;
       }
       if (file.size === 0) {
