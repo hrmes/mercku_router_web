@@ -85,7 +85,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       },
       {
         url: '/setting/wifi-schedule',
-        name: 'setting.wifi-schedule',
+        name: 'wifi-schedule',
         text: 'trans0962',
         config
       }

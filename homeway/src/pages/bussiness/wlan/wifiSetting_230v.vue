@@ -180,7 +180,7 @@ export default {
       stepOption: {
         current: 0,
         steps: [
-          { text: 'Upper-level AP', success: true },
+          { text: this.$t('trans1052'), success: true },
           { text: this.$t('trans0019'), success: false },
           { text: this.$t('trans0018'), success: false }
         ]
