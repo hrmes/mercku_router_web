@@ -307,7 +307,6 @@ export default {
       menu.showChild = visible;
     },
     jump(menu, parent) {
-      console.log(this.$route.name, menu.name);
       if (!menu.disabled) {
         this.list.forEach(l => {
           if (l !== parent) {
