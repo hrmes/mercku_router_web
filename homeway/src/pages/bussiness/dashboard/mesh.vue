@@ -1,20 +1,6 @@
 <template>
   <div class="mesh-container">
     <div class="mesh-info">
-      <!-- <div class="title">
-        <m-tabs>
-          <m-tab :class="{'selected':!showTable}"
-                 @click.native="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</m-tab>
-          <m-tab :class="{'selected':showTable}"
-                 @click.native="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</m-tab>
-        </m-tabs>
-        <button class="btn btn-add btn-small"
-                @click="addMeshNode">{{$t('trans0194')}}</button>
-
-        <button @click="addMeshNode"
-                class="btn mobile-add"></button>
-
-      </div> -->
       <div class="content">
         <div class="mesh-table">
           <div class="table-header">
@@ -33,81 +19,94 @@
             <div class="operate">{{$t('trans0370')}}</div>
           </div>
           <div class="table-content">
-            <div class="router"
-                 :class="{'expand':router.expand}"
-                 v-for="router in routers"
-                 :key="router.sn"
-                 @click="router.expand = !router.expand">
-              <div class="name">
-                <div class="icon">
-                  <img :src="router.image"
-                       alt>
-                </div>
-                <div class="wrap">
-                  <div class="text"
-                       :title="router.name">{{router.name}}</div>
-                  <div class="edit"
-                       v-if="!isRouterOffline(router)"
-                       @click.stop="onClickRouterName(router)">
-                    <img class="btn-text icon-btn"
-                         :title="$t('trans0034')"
-                         src="../../../assets/images/icon/ic_edit.png"
+            <!-- 加载状态模块 -->
+            <div class="loading-container"
+                 v-if="showLoading">
+              <m-loading :color="loadingColor"></m-loading>
+            </div>
+            <!-- mesh-Info模块 -->
+            <template v-if="!showLoading">
+              <div class="router"
+                   :class="{'expand':router.expand}"
+                   v-for="router in routers"
+                   :key="router.sn"
+                   @click="router.expand = !router.expand">
+                <div class="name">
+                  <div class="icon">
+                    <img src="../../../assets/images/icon/ic_homeway_gateway.png"
+                         alt>
+                  </div>
+                  <div class="wrap">
+                    <div class="text"
+                         :title="router.name">{{router.name}}</div>
+                    <div class="edit"
+                         v-if="!isRouterOffline(router)"
+                         @click.stop="onClickRouterName(router)">
+                      <img class="btn-text icon-btn"
+                           :title="$t('trans0034')"
+                           src="../../../assets/images/icon/ic_edit.png"
+                           alt>
+                    </div>
+                  </div>
+                  <div class="expand"
+                       :class="{'expand':router.expand,'collapse':!router.expand}">
+                    <img src="../../../assets/images/icon/ic_side_bar_pick_up.png"
                          alt>
                   </div>
                 </div>
-                <div class="expand"
-                     :class="{'expand':router.expand,'collapse':!router.expand}">
-                  <img src="../../../assets/images/icon/ic_side_bar_pick_up.png"
-                       alt>
+                <div class="type">
+                  <span class="label">{{$t('trans0068')}}</span>
+                  <span class="value">{{router.is_gw ? $t('trans0165'):
+                  $t('trans0186')}}</span>
+                </div>
+                <div class="equipment">
+                  <span class="label">{{$t('trans0235')}}</span>
+                  <span class="value equipment__value"
+                        :class="{'is-disabled':!router.stations}"
+                        @click.stop="showStationListModal(router)">
+                    {{getRouterStationCount(router)}}
+                  </span>
+                  <img class="equipment__arrow"
+                       src="../../../assets/images/icon/ic_inter.png" />
+                </div>
+                <div class="sn">
+                  <span class="label">{{$t('trans0251')}}</span>
+                  <span class="value">{{router.sn}}</span>
+                </div>
+                <div class="version">
+                  <span class="label">{{$t('trans0300')}}</span>
+                  <span class="value">{{router.version.current}}</span>
+                </div>
+                <div class="ip">
+                  <span class="label">{{$t('trans0151')}}</span>
+                  <span class="value">{{router.ip}}</span>
+                  <span class="value">{{formatMac(router.mac.lan)}}</span>
+                </div>
+                <div class="mac">
+                  <span class="label">{{$t('trans0188')}}</span>
+                  <span class="value">{{formatMac(router.mac.lan)}}</span>
+                </div>
+                <div class="operate">
+                  <span class="btn-text btn-text-strange"
+                        v-if="!isRouterOffline(router)"
+                        @click="rebootNode(router)">{{$t('trans0122')}}</span>
+                  <span v-if="router.is_gw"
+                        class="btn-text text-primary btn-text-strange"
+                        @click="resetNode(router)">{{$t('trans0205')}}</span>
                 </div>
               </div>
-              <div class="type">
-                <span class="label">{{$t('trans0068')}}</span>
-                <span class="value">{{router.is_gw ? $t('trans0165'):
-                  $t('trans0186')}}</span>
-              </div>
-              <div class="equipment">
-                <span class="label">{{$t('trans0235')}}</span>
-                <span class="value equipment__value"
-                      :class="{'is-disabled':!router.stations}"
-                      @click.stop="showStationListModal(router)">
-                  {{getRouterStationCount(router)}}
-                </span>
-                <img class="equipment__arrow"
-                     src="../../../assets/images/icon/ic_inter.png" />
-              </div>
-              <div class="sn">
-                <span class="label">{{$t('trans0251')}}</span>
-                <span class="value">{{router.sn}}</span>
-              </div>
-              <div class="version">
-                <span class="label">{{$t('trans0300')}}</span>
-                <span class="value">{{router.version.current}}</span>
-              </div>
-              <div class="ip">
-                <span class="label">{{$t('trans0151')}}</span>
-                <span class="value">{{router.ip}}</span>
-                <span class="value">{{formatMac(router.mac.lan)}}</span>
-              </div>
-              <div class="mac">
-                <span class="label">{{$t('trans0188')}}</span>
-                <span class="value">{{formatMac(router.mac.lan)}}</span>
-              </div>
-              <div class="operate">
-                <span class="btn-text btn-text-strange"
-                      v-if="!isRouterOffline(router)"
-                      @click="rebootNode(router)">{{$t('trans0122')}}</span>
-                <span v-if="router.is_gw"
-                      class="btn-text text-primary btn-text-strange"
-                      @click="resetNode(router)">{{$t('trans0205')}}</span>
-                <span v-if="!router.is_gw"
-                      class="btn-text text-primary btn-text-strange"
-                      @click="deleteNode(router)">{{$t('trans0033')}}</span>
-              </div>
+            </template>
+            <!-- 列表为空状态模块 -->
+            <div class='table-empty'
+                 v-if="!showLoading&&routers.length===0">
+              <img src="../../../assets/images/img_default_empty.png"
+                   alt="">
+              <span>{{$t('trans0278')}}</span>
             </div>
           </div>
         </div>
-        <div class="topo-container">
+        <div class="topo-container"
+             v-if="!showLoading">
           <div class="legend-wrap">
             <p class="legend-title">
               <span>{{$t('trans0302')}}</span>
@@ -122,11 +121,23 @@
           </div>
           <div class="topo-wrap"
                id="topo-wrap">
-            <div id="topo"></div>
+            <div id="topo">
+              <div class="upperAp-container"
+                   :class="[meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.status==='unlinked'?'offline':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
+              </div>
+              <div class="line-container "
+                   :class="[meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.status==='unlinked'?'offline':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair'
+                   ]">
+              </div>
+              <div class="gateway-container">
+
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- 修改设备名称弹框 -->
     <m-modal :visible.sync="showModal"
              class="edit-name-modal">
       <m-modal-body class="content">
@@ -148,6 +159,7 @@
         </div>
       </m-modal-body>
     </m-modal>
+    <!-- 连接质量说明弹框 -->
     <m-modal :visible.sync="rssiModalVisible">
       <m-modal-header>
         {{$t('trans0128')}}
@@ -228,9 +240,6 @@
             </div>
             <div class="table__column table__column--guest">
               <span class="laptop-show">{{bandMap[item.connected_network.band]}}</span>
-              <img v-if="isGuest(item.connected_network.type)"
-                   src="../../../assets/images/icon/ic-guest-wifi.png"
-                   alt="" />
               <span class="mobile-show">{{bandMap[item.connected_network.band]}}</span>
             </div>
           </div>
@@ -252,22 +261,21 @@ import marked from 'marked';
 import { formatMac, getStringByte } from 'base/util/util';
 import { RouterStatus } from 'base/util/constant';
 import axios from 'axios';
-import genData from './topo';
 
-const echarts = require('echarts/lib/echarts');
-require('echarts/lib/chart/graph');
-
-const GUEST = 'guest'; // 是否是访客
 export default {
   data() {
     return {
+      showLoading: false,
       rssiModalVisible: false,
       RouterStatus,
       formatMac,
       pageActive: true,
-      meshNode: [],
+      meshModeInfo: {
+        mode: 'bridge',
+        status: 'unlinked',
+        rssi: 0
+      },
       meshNodeTimer: null,
-      chart: null,
       routers: [],
       routerSelected: null,
       showModal: false,
@@ -319,9 +327,8 @@ export default {
     };
   },
   async mounted() {
-    this.initChart();
-    this.getMeshMode();
     this.createIntervalTask();
+    this.getMeshMode();
     // 获取当前设备信息
     try {
       const selfInfo = await this.$http.getLocalDevice();
@@ -334,18 +341,18 @@ export default {
     rssiTips() {
       return marked(this.$t('trans0595'), { sanitize: true });
     },
-    showTable() {
-      let result;
-      if (this.$route.params.category === 'topo') {
-        setTimeout(() => {
-          this.chart && this.chart.resize();
-        });
-        result = false;
-      } else {
-        result = true;
-      }
-      return result;
-    }
+    // showTable() {
+    //   let result;
+    //   if (this.$route.params.category === 'topo') {
+    //     setTimeout(() => {
+    //       this.chart && this.chart.resize();
+    //     });
+    //     result = false;
+    //   } else {
+    //     result = true;
+    //   }
+    //   return result;
+    // }
   },
   methods: {
     getRouterStationCount(router) {
@@ -370,10 +377,6 @@ export default {
     // 是否是主机
     isThisMachine(ip) {
       return ip === this.localDeviceIP;
-    },
-    // 是否是访客
-    isGuest(type) {
-      return type === GUEST;
     },
     showRssiModal() {
       this.rssiModalVisible = true;
@@ -429,10 +432,11 @@ export default {
       //   console.log('meshMode', res);
       // });
       axios({
-        url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=1',
+        url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=2',
         method: 'get',
       }).then((res) => {
         console.log('meshMode', res.data);
+        this.meshModeInfo = res.data;
       }).catch((err) => {
         console.log(err);
       });
@@ -469,21 +473,6 @@ export default {
             this.createIntervalTask();
           });
       }
-    },
-    deleteNode(router) {
-      this.$dialog.confirm({
-        okText: this.$t('trans0203'),
-        cancelText: this.$t('trans0025'),
-        message: this.$t('trans0218'),
-        callback: {
-          ok: () => {
-            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-              this.routers = this.routers.filter(r => r.sn !== router.sn);
-            });
-          }
-        }
-      });
     },
     rebootNode(router) {
       this.$dialog.confirm({
@@ -535,93 +524,8 @@ export default {
         }
       });
     },
-    // addMeshNode() {
-    //   this.$router.push('/mesh/add');
-    // },
-    initChart() {
-      const topoEl = document.getElementById('topo');
-      this.chart = echarts.init(topoEl);
-      // this.chart.on('click', () => {
-      //   this.$router.push('/dashboard/mesh/table');
-      // });
-      window.addEventListener('resize', () => {
-        this.chart && this.chart.resize();
-      });
-    },
-    drawTopo(routers) {
-      console.log('routers', routers);
-      const oldRouters = this.routers;
-      const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
-      this.routers = routers;
-      const data = genData(routers);
-      data.nodes.forEach(n => {
-        this.routers.forEach(r => {
-          if (n.sn === r.sn) {
-            this.$set(r, 'image', n.symbol.replace('image://', ''));
-          }
-        });
-      });
-      this.routers.forEach(r => {
-        if (selected.includes(r.sn)) {
-          this.$set(r, 'expand', true);
-        } else {
-          this.$set(r, 'expand', false);
-        }
-      });
-
-      const option = {
-        series: [
-          {
-            type: 'graph',
-            edgeSymbol: ['circle', 'circle'],
-            edgeSymbolSize: 3,
-            cursor: 'default',
-            layout: 'circular',
-            hoverAnimation: false,
-            edgeLabel: {
-              show: false,
-              formatter(series) {
-                return series.data.rssi;
-              }
-            },
-            label: {
-              normal: {
-                show: true,
-                position: 'bottom',
-                color: '#333',
-                backgroundColor: '#fff',
-                formatter(category) {
-                  // originName是节点的原始名称
-                  const name = category.data.originName;
-                  if (name.length <= 10) {
-                    return name;
-                  }
-                  const splitor = ' ';
-                  if (name.includes(splitor)) {
-                    const sp = name.split(splitor);
-                    let index = 1;
-                    let start = sp[0];
-                    while ((start + sp[index]).length < 10 && index < sp.length) {
-                      start += ` ${sp[index]}`;
-                      index += 1;
-                    }
-                    const end = sp.slice(index).join(splitor);
-                    return `${start}\n${end}`;
-                  }
-                  return name.match(/.{1,10}/g).join('\n');
-                }
-              }
-            },
-            data: data.nodes,
-            links: data.lines,
-            categories: [{ name: `${this.$t('trans0193')}` }, { name: `${this.$t('trans0196')}` }],
-            lineStyle: { width: 2 }
-          }
-        ]
-      };
-      this.chart.setOption(option);
-    },
     createIntervalTask() {
+      this.showLoading = true;
       this.getMeshNode();
     },
     clearIntervalTask() {
@@ -634,8 +538,17 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
-          console.log('meshNode', res.data.result);
-          this.drawTopo(res.data.result);
+          const oldRouters = this.routers;
+          const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
+          this.routers = res.data.result;
+          this.routers.forEach(r => {
+            if (selected.includes(r.sn)) {
+              this.$set(r, 'expand', true);
+            } else {
+              this.$set(r, 'expand', false);
+            }
+          });
+          this.showLoading = false;
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
@@ -643,6 +556,7 @@ export default {
           }
         })
         .catch(() => {
+          this.showLoading = true;
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
@@ -708,7 +622,7 @@ export default {
       flex-direction: column;
       align-items: center;
       img {
-        display: none;
+        // display: none;
         width: 180px;
       }
     }
@@ -929,6 +843,23 @@ export default {
       flex: auto;
       display: flex;
       flex-direction: column;
+      .table-empty {
+        padding-top: 30px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        img {
+          width: 180px;
+          // display: none;
+        }
+      }
+      .loading-container {
+        display: flex;
+        justify-content: center;
+        padding: 30px 0;
+      }
       .topo-container {
         position: relative;
         flex: 1;
@@ -1025,8 +956,97 @@ export default {
           // width: 100%;
           // height: 500px;
           #topo {
-            min-width: 500px;
-            height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-width: 450px;
+            height: 450px;
+            > div {
+              -webkit-user-drag: none;
+            }
+
+            .upperAp-container {
+              width: 60px;
+              height: 60px;
+              margin-bottom: 8px;
+              &.wired-bridge,
+              .wireless_bridge_excellent {
+                background: url(../../../assets/images/icon/ic_homeway_excellent.png)
+                  center no-repeat;
+                background-size: contain;
+              }
+              &.wireless_bridge_fair {
+                background: url(../../../assets/images/icon/ic_homeway_fair.png)
+                  center no-repeat;
+                background-size: contain;
+              }
+              &.offline {
+                background: url(../../../assets/images/icon/ic_homeway_offline.png)
+                  center no-repeat;
+                background-size: contain;
+              }
+            }
+            .line-container {
+              width: 2px;
+              height: 100px;
+              background-size: 100% 6px;
+              background-repeat: repeat-y;
+              &.wired-bridge {
+                background-image: linear-gradient(
+                  to bottom,
+                  #00d061 0%,
+                  #00d061 100%,
+                  transparent 50%
+                );
+              }
+              &.wireless_bridge_excellent {
+                background-image: linear-gradient(
+                  to bottom,
+                  #00d061 0%,
+                  #00d061 80%,
+                  transparent 50%
+                );
+              }
+              &.wireless_bridge_fair {
+                background-image: linear-gradient(
+                  to bottom,
+                  #ff6f00 0%,
+                  #ff6f00 80%,
+                  transparent 50%
+                );
+              }
+              &.offline {
+                position: relative;
+                background-image: linear-gradient(
+                  to bottom,
+                  #999999 0%,
+                  #999999 80%,
+                  transparent 50%
+                );
+                &::before {
+                  content: '';
+                  width: 14px;
+                  height: 14px;
+                  background: url(../../../assets/images/icon/ic_homeway_offline.svg)
+                    center no-repeat;
+                  background-size: contain;
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  border-radius: 50%;
+                }
+              }
+            }
+            .gateway-container {
+              width: 80px;
+              height: 80px;
+              margin-top: 8px;
+              background: url(../../../assets/images/icon/ic_homeway_gateway.png)
+                center no-repeat;
+              background-size: contain;
+            }
           }
         }
       }

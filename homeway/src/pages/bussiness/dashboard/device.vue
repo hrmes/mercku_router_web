@@ -85,7 +85,7 @@
                v-if="showLoading">
             <m-loading :color="loadingColor"></m-loading>
           </div>
-          <div v-show="!showLoading">
+          <div v-else>
             <ul v-for="(row,i) in devicesMap[id]"
                 :key='i'
                 :class="{'expand':row.expand}"
@@ -743,7 +743,7 @@ export default {
     align-items: center;
     img {
       width: 180px;
-      display: none;
+      // display: none;
     }
   }
   .offline-handle-wrapper {

@@ -10,17 +10,17 @@
                 :model="upperApForm"
                 :rules="wifiFormRules">
           <m-form-item class="form-item"
-                       prop="upperApSsid">
+                       prop="ssid">
             <m-input label="SSID"
                      :placeholder="$t('trans0321')"
-                     v-model="upperApForm.upperApSsid" />
+                     v-model="upperApForm.ssid" />
           </m-form-item>
           <m-form-item class="form-item"
-                       prop="upperApPassword">
+                       prop="password">
             <m-input :label="$t('trans0003')"
                      type="password"
                      :placeholder="$t('trans0321')"
-                     v-model="upperApForm.upperApPassword" />
+                     v-model="upperApForm.password" />
           </m-form-item>
           <div class="button-container">
             <button @click="step2()"
@@ -152,7 +152,7 @@
           <p>{{$t('trans1054')}}</p>
           <div class="btn-container">
             <button class="btn-default"
-                    @click="isShowPopup=false">{{$t('trans1055')}}</button>
+                    @click="isShowPopup = false">{{$t('trans1055')}}</button>
             <button class="btn"
                     @click="skipSetUpper">{{$t('trans0163')}}</button>
           </div>
@@ -177,6 +177,8 @@ export default {
     return {
       wifiIcon,
       isShowPopup: false,
+      // mesh工作模式默认为无线桥模式，插入网线即可切换为有线桥
+      meshMode: 'wireless_bridge',
       stepOption: {
         current: 0,
         steps: [
@@ -188,8 +190,8 @@ export default {
       current: 0,
       countdown: 60,
       upperApForm: {
-        upperApSsid: '',
-        upperApPassword: ''
+        ssid: '',
+        password: ''
       },
       wifiForm: {
         smart_connect: true,
@@ -317,9 +319,13 @@ export default {
       this.wifiForm.password5g = b5g.password;
       this.wifiForm.smart_connect = wifi.smart_connect;
     });
+    setTimeout(() => {
+      this.isShowPopup = true;
+    }, 2000);
   },
   methods: {
     skipSetUpper() {
+      this.meshMode = 'bridge';
       this.step2();
       this.isShowPopup = false;
     },
@@ -346,8 +352,29 @@ export default {
         this.wifiForm.password5g = '';
       }
     },
+    // 根据用户选择的不同mesh工作模式，分别设置对应的params
+    meshModeUpdate(mode) {
+      if (mode === 'bridge') {
+        this.modeUpdateParams = {
+          mode,
+        };
+      } else if (mode === 'wireless_bridge') {
+        this.modeUpdateParams = {
+          mode,
+          upper_info: this.upperApForm
+        };
+      }
+      console.log('modeUpdate的参数为', this.modeUpdateParams);
+      this.$http.updateMeshMode(this.modeUpdateParams)
+        .then(res => {
+          console.log('modeUpdate的返回值', res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     step2() {
-      console.log('upperApForm', this.upperApForm);
+      console.log('upperApInfo is', this.upperApForm);
       this.stepOption.current = 1;
       this.stepOption.steps[1].success = true;
     },
@@ -356,6 +383,7 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
+        this.meshModeUpdate(this.meshMode);
         // 提交表单
         this.$http
           .updateMeshConfig({

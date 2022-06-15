@@ -130,6 +130,7 @@ export default {
   data() {
     return {
       wifiIcon,
+      meshMode: 'bridge',
       stepOption: {
         current: 0,
         steps: [
@@ -239,6 +240,27 @@ export default {
     });
   },
   methods: {
+    // 根据用户选择的不同mesh工作模式，分别设置对应的params
+    meshModeUpdate(mode) {
+      if (mode === 'bridge') {
+        this.modeUpdateParams = {
+          mode,
+        };
+      } else if (mode === 'wireless_bridge') {
+        this.modeUpdateParams = {
+          mode,
+          upper_info: this.upperApForm
+        };
+      }
+      console.log('modeUpdate的参数为', this.modeUpdateParams);
+      this.$http.updateMeshMode(this.modeUpdateParams)
+        .then(res => {
+          console.log('modeUpdate的返回值', res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
         this.$refs.ssid5g.extraValidate(this.validateSsid5G, this.$t('trans0660'));

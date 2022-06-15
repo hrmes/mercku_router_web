@@ -28,13 +28,18 @@ export default {
       mode: 'router',
       modes: [
         {
-          text: this.$t('trans1059'),
-          value: 'wirelessBridge'
+          text: this.$t('trans1066'),
+          value: 'bridge'
         },
         {
-          text: this.$t('trans1066'),
-          value: 'wiredBridge'
-        }
+          text: this.$t('trans1059'),
+          value: 'wireless_bridge'
+        },
+
+        {
+          text: this.$t('trans0541'),
+          value: 'router'
+        },
       ]
     };
   },

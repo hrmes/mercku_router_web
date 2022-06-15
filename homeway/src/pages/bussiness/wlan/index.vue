@@ -50,16 +50,16 @@ export default {
       //   .then(res => {
       //     console.log('routerMeta@@@', res);
       //     this.modelVersion = res.data.result.sn.slice(9, 10);
-      //     console.log('modelVersion', this.modelVersion.slice(9, 10));
+      //     console.log('modelVersion', this.modelVersion);
       //   })
       axios({
         methods: 'get',
-        url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
+        url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=2'
       })
         .then(res => {
           console.log('routerMeta@@@', res);
           this.modelVersion = res.data.result.sn.slice(9, 10);
-          console.log('modelVersion', this.modelVersion.slice(9, 10));
+          console.log('modelVersion', this.modelVersion);
         })
         .then(() => {
           switch (this.modelVersion) {
