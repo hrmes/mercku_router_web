@@ -24,12 +24,12 @@
               <span>{{netInfo.ip}}</span>
             </div>
             <div class="info__item info__item--text">
-              <label class="with-colon">{{$t('trans0153')}}:</label>
-              <span>{{netInfo.gateway}}</span>
-            </div>
-            <div class="info__item info__item--text">
               <label class="with-colon">{{$t('trans0236')}}:</label>
               <span>{{netInfo.dns}}</span>
+            </div>
+            <div class="info__item info__item--text">
+              <label class="with-colon">{{$t('trans0153')}}:</label>
+              <span>{{netInfo.gateway}}</span>
             </div>
           </div>
         </div>

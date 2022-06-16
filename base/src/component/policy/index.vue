@@ -62,7 +62,7 @@ export default {
         如果没有%d，则不产生替换，也是正确的
         缺点是本地时间不准，这里得到的年份也是错的
       */
-      return copyright.replace('%d', now.getFullYear());
+      return copyright.replace('%d', now.getFullYear()).replace('%s', process.env.CUSTOMER_CONFIG.title);
     }
   }
 };
