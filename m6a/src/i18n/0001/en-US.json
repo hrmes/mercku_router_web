@@ -695,7 +695,7 @@
   "trans0700": "IPv6 WAN Status",
   "trans0701": "WAN IP",
   "trans0702": "Please read through the privacy policy",
-  "trans0703": "%s privacy policy will provide you with details about how we manage your personal information when using %s products and services. All permissions are not turned on by default, and only after you express consent will they be used for %s functions and services.\n\nPlease take some time to review our privacy policy, and if you have any questions, please contact us.",
+  "trans0703": "This Privacy Policy provides privacy details about how we manage your personal information disclosed when using %s products and services.\nAll permissions are not enabled by default, and will only be used to implement functions or services after express authorization.\nPlease take some time to familiarize yourself with our Privacy Policy and let us know if you have any questions.",
   "trans0704": "Account management",
   "trans0705": "Log in with phone number",
   "trans0706": "Log in with Facebook",

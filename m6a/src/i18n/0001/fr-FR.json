@@ -695,7 +695,7 @@
   "trans0700": "État du WAN IPv6",
   "trans0701": "WAN IP",
   "trans0702": "Veuillez lire la politique de confidentialité",
-  "trans0703": "Vos informations personnelles seront révélées à %s pour certaines utilisations de produits et de services. %s ne peut le voir qu'après votre allocation. Veuillez lire attentivement et laissez-nous savoir si vous avez des questions.",
+  "trans0703": "Cette politique de confidentialité fournit des détails sur la manière dont nous gérons les informations personnelles que vous divulguez lors de l'utilisation des produits et services %s.\nToutes les autorisations ne sont pas activées par défaut et ne seront utilisées pour mettre en œuvre des fonctions ou des services qu'après autorisation expresse.\nVeuillez prendre le temps de vous familiariser avec notre politique de confidentialité et faites-nous savoir si vous avez des questions.",
   "trans0704": "Gestion des comptes",
   "trans0705": "Connectez-vous avec le numéro de téléphone",
   "trans0706": "Connectez-vous avec Facebook",
@@ -1047,7 +1047,7 @@
   "trans1052": "Téléchargez une capture d'écran de la question, afin que les commentaires puissent être répondus plus rapidement ~ (supporte jusqu'à 6 images)",
   "trans1053": "Choisissez parmi l'album",
   "trans1054": "Photographier",
-  "trans1055": "Terminé (%d/%d)",
+  "trans1055": "Fini (%d/%d)",
   "trans1056": "RSSI",
   "trans1057": "Non activé, accédez à activer",
   "trans1058": "Échec de l'obtention, veuillez actualiser la page"
