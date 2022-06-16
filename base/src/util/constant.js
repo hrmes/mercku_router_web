@@ -37,8 +37,7 @@ export const RouterStatus = {
 export const RouterMode = {
   router: 'router',
   bridge: 'bridge',
-  wirelessBridge: 'wirelessBridge',
-  wiredBridge: 'wiredBridge'
+  wirelessBridge: 'wirelessBridge'
 };
 export const WanType = {
   pppoe: 'pppoe',
@@ -59,8 +58,8 @@ export const RouterSnModel = {
   M6: '06',
   M6c: '07',
   M6a: '08',
-  Homeway_230v: '08',
-  Homeway_PoE: '08'
+  Homeway_230v: '08-1',
+  Homeway_PoE: '08-2'
 };
 export const SpeedTestStatus = {
   testing: 'testing',

@@ -152,7 +152,7 @@
           <p>{{$t('trans1054')}}</p>
           <div class="btn-container">
             <button class="btn-default"
-                    @click="isShowPopup = false">{{$t('trans1055')}}</button>
+                    @click="isShowPopup=false">{{$t('trans1055')}}</button>
             <button class="btn"
                     @click="skipSetUpper">{{$t('trans0163')}}</button>
           </div>
@@ -163,7 +163,6 @@
              v-if="isShowPopup">
         </div>
       </transition>
-
     </div>
   </div>
 </template>
@@ -172,13 +171,15 @@ import { Bands } from '../../../../../base/src/util/constant';
 import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
 import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
 
+// Homeway_230v有两种工作模式，可以切换，所在初始化的时候，根据用户需求要做对应设置，要做区分等
+// Homeway工作模式默认为有线桥模式，插入网线有线桥模式才可用，同时我们会检测是否插入网线来提示用户是否进行模式切换
+// 提示为是否跳过上级设置，如用户点击跳过，则代表初始化时，不传递apClient字段，如果点击不跳过，则代表初始化要传递apClient字段
+// 默认有线桥模式，路由器会根据我们是否传递apClient字段来判断与切换Homeway的工作模式,传递了apClient，无论插没插网线，都切换为无线桥，；没传递apClient的情况分 1.默认的有线桥 2.用户点击跳过了上级的设置
 export default {
   data() {
     return {
       wifiIcon,
       isShowPopup: false,
-      // mesh工作模式默认为无线桥模式，插入网线即可切换为有线桥
-      meshMode: 'wireless_bridge',
       stepOption: {
         current: 0,
         steps: [
@@ -289,7 +290,8 @@ export default {
             message: this.$t('trans0169')
           }
         ]
-      }
+      },
+      config: null,
     };
   },
   computed: {
@@ -325,8 +327,9 @@ export default {
   },
   methods: {
     skipSetUpper() {
-      this.meshMode = 'bridge';
       this.step2();
+      this.upperApForm.ssid = '';
+      this.upperApForm.password = '';
       this.isShowPopup = false;
     },
     onSsid24gChange() {
@@ -383,27 +386,46 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
-        this.meshModeUpdate(this.meshMode);
+        if (this.upperApForm.ssid && this.upperApForm.password) {
+          this.config = {
+            wifi: {
+              bands: {
+                '2.4G': {
+                  ssid: this.wifiForm.ssid24g,
+                  password: this.wifiForm.password24g
+                },
+                '5G': {
+                  ssid: this.wifiForm.ssid5g,
+                  password: this.wifiForm.password5g
+                }
+              },
+              smart_connect: this.wifiForm.smart_connect
+            },
+            admin: { password: this.wifiForm.password24g },
+            apclient: { ssid: this.upperApForm.ssid, password: this.upperApForm.password }
+          };
+        } else {
+          this.config = {
+            wifi: {
+              bands: {
+                '2.4G': {
+                  ssid: this.wifiForm.ssid24g,
+                  password: this.wifiForm.password24g
+                },
+                '5G': {
+                  ssid: this.wifiForm.ssid5g,
+                  password: this.wifiForm.password5g
+                }
+              },
+              smart_connect: this.wifiForm.smart_connect
+            },
+            admin: { password: this.wifiForm.password24g },
+          };
+        }
+        console.log('config#######', this.config);
         // 提交表单
         this.$http
-          .updateMeshConfig({
-            config: {
-              wifi: {
-                bands: {
-                  '2.4G': {
-                    ssid: this.wifiForm.ssid24g,
-                    password: this.wifiForm.password24g
-                  },
-                  '5G': {
-                    ssid: this.wifiForm.ssid5g,
-                    password: this.wifiForm.password5g
-                  }
-                },
-                smart_connect: this.wifiForm.smart_connect
-              },
-              admin: { password: this.wifiForm.password24g }
-            }
-          })
+          .updateMeshConfig(this.config)
           .then(() => {
             this.stepOption.current = 2;
             this.stepOption.steps[2].success = true;

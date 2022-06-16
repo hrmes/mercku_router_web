@@ -10,13 +10,20 @@
   "device": "Homeway",
   "wifi": "Homeway",
   "routers": {
-    "Homeway_PoE": {
-      "name": "Homeway  Router PoE",
-      "shortName": "PoE"
-    },
     "Homeway_230v": {
       "name": "Homeway  Router 230v",
+      "sn": "08-1",
       "shortName": "230v"
+    },
+    "Homeway_PoE_1": {
+      "name": "Homeway  Router PoE_1",
+      "sn": "08 - 2",
+      "shortName": "PoE single"
+    },
+    "Homeway_PoE_2": {
+      "name": "Homeway  Router PoE_2",
+      "sn": "08 - 3",
+      "shortName": "PoE double"
     }
   },
   "loading": {

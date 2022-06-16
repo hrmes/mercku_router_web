@@ -1,4 +1,5 @@
 import { Role, RouterMode, RouterSnModel } from 'base/util/constant';
+import axios from 'axios';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 
@@ -7,6 +8,15 @@ export default function getMenu(role, mode = RouterMode.router) {
   console.log(`customer id is: ${customerId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
+
+  axios({
+    methods: 'get',
+    url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=2'
+  }).then(res => {
+    console.log('routerMeta@@@', res);
+    const modelVersion = res.data.result.sn.slice(9, 10);
+    console.log('modelVersion', modelVersion);
+  });
   // 菜单默认配置
   const config = {
     show: true,
@@ -15,9 +25,9 @@ export default function getMenu(role, mode = RouterMode.router) {
   };
   // 第一种搭配策略
   // const strategyA = {
-  //   show: true,
+  //   show: false,
   //   auth: [Role.admin, Role.super],
-  //   mode: [RouterMode.router]
+  //   mode: [RouterSnModel.Homeway_PoE_1, RouterSnModel.Homeway_PoE_2]
   // };
   const wifi = {
     icon: 'wifi',
@@ -99,15 +109,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        config,
-        RouterSnModel: {
-          [RouterSnModel.Homeway_PoE_1]: {
-            show: false
-          },
-          [RouterSnModel.Homeway_PoE_2]: {
-            show: false
-          }
-        }
+        config
       },
       {
         url: '/advance/log',
@@ -148,8 +150,10 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   [wifi, setting, advance, upgrade].forEach(item => {
+    console.log('wifi,setting,advance,upgrade', item);
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
+      console.log('childre', menu);
       menu.config = menu.config || config;
       const customers = menu.customers || {};
       const customerConfig = customers[customerId] || {};

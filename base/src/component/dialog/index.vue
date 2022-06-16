@@ -5,7 +5,15 @@
       <div class="dialog-content">
         <div v-if="title"
              class="dialog-title">{{title}}</div>
-        <div class="dialog-message">{{message}}</div>
+        <!-- 如果message传递的是数组，则弹窗内容为多行文本，遍历数组显示 -->
+        <div class="dialog-message"
+             v-if="message.constructor==Array">
+          <p v-for="(m,index) in message"
+             :key="index">{{m}}</p>
+        </div>
+        <!-- 如果传递的是字符串，弹窗内容为单行文本，直接展示 -->
+        <div class="dialog-message"
+             v-else>{{message}}</div>
         <div class="dialog-buttons">
           <button v-if="Types.info!==type"
                   @click="cancel()"
@@ -29,7 +37,11 @@ export default {
     return {
       Types,
       visible: false,
-      message: '',
+      // message定义可传递字符串和数组类型数据
+      message: {
+        type: [String, Array],
+        default: ''
+      },
       title: '',
       callback: {},
       okText: 'ok',
