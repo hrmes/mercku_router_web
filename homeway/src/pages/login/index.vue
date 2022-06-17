@@ -35,6 +35,9 @@
 
 </template>
 <script>
+
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -77,13 +80,22 @@ export default {
           const { role } = res.data.result;
           this.$store.role = role;
           localStorage.setItem('role', role);
-          this.$http.getMeshMode().then(res1 => {
-            this.$loading.close();
-            const { mode } = res1.data.result;
-            this.$store.mode = mode;
-            localStorage.setItem('mode', mode);
-            this.$router.replace({ path: '/dashboard' });
-          });
+          this.$http.getMeshMode()
+            .then(res1 => {
+              const { mode } = res1.data.result;
+              this.$store.mode = mode;
+              localStorage.setItem('mode', mode);
+              axios({
+                methods: 'get',
+                url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
+              }).then(res2 => {
+                this.currentModelVersion = res2.data.result.sn.slice(9, 10);
+                this.$store.modelVersion = this.currentModelVersion;
+                localStorage.setItem('modelVersion', this.currentModelVersion);
+                this.$loading.close();
+                this.$router.push({ path: '/dashboard' });
+              });
+            });
         })
         .catch(err => {
           this.$loading.close();

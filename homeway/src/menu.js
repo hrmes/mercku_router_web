@@ -1,33 +1,33 @@
 import { Role, RouterMode, RouterSnModel } from 'base/util/constant';
-import axios from 'axios';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 
-export default function getMenu(role, mode = RouterMode.router) {
+export default function getMenu(
+  role,
+  mode = RouterMode.router,
+  currentModelVersion
+) {
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
+  console.log(`modelVersion is: ${currentModelVersion}`);
 
-  axios({
-    methods: 'get',
-    url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=2'
-  }).then(res => {
-    console.log('routerMeta@@@', res);
-    const modelVersion = res.data.result.sn.slice(9, 10);
-    console.log('modelVersion', modelVersion);
-  });
   // 菜单默认配置
   const config = {
     show: true,
     auth: [Role.admin, Role.super],
-    mode: [RouterMode.router, RouterMode.bridge]
+    modelVersion: [
+      RouterSnModel.Homeway_230v,
+      RouterSnModel.Homeway_PoE_1,
+      RouterSnModel.Homeway_PoE_2
+    ]
   };
   // 第一种搭配策略
   // const strategyA = {
-  //   show: false,
+  //   show: true,
   //   auth: [Role.admin, Role.super],
-  //   mode: [RouterSnModel.Homeway_PoE_1, RouterSnModel.Homeway_PoE_2]
+  //   modelVersion: [RouterSnModel.Homeway_230v]
   // };
   const wifi = {
     icon: 'wifi',
@@ -109,7 +109,15 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        config
+        config,
+        modelVersion: {
+          [RouterSnModel.Homeway_PoE_1]: {
+            show: false
+          },
+          [RouterSnModel.Homeway_PoE_2]: {
+            show: false
+          }
+        }
       },
       {
         url: '/advance/log',
@@ -150,14 +158,12 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   [wifi, setting, advance, upgrade].forEach(item => {
-    console.log('wifi,setting,advance,upgrade', item);
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
-      console.log('childre', menu);
       menu.config = menu.config || config;
-      const customers = menu.customers || {};
-      const customerConfig = customers[customerId] || {};
-      menu.config = Object.assign({}, menu.config, customerConfig);
+      const modelVersion = menu.modelVersion || {};
+      const modelVersionConfig = modelVersion[currentModelVersion] || {};
+      menu.config = Object.assign({}, menu.config, modelVersionConfig);
     });
 
     // 过滤不显示的菜单
@@ -168,14 +174,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         show = menu.config.auth.includes(role);
       }
       return show;
-    });
-
-    // 根据模式选择对应的菜单项
-    item.children.forEach(menu => {
-      menu.disabled = false;
-      if (!menu.config.mode.includes(mode)) {
-        menu.disabled = true;
-      }
     });
   });
 

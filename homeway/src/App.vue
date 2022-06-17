@@ -35,7 +35,7 @@ export default {
       return !visible;
     },
     menus() {
-      return getMenu(this.$store.role, this.$store.mode);
+      return getMenu(this.$store.role, this.$store.mode, this.$store.modelVersion);
     }
   },
   methods: {
