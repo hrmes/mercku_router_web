@@ -8,6 +8,7 @@
       <input class="select-text"
              :value="selected.text"
              readonly
+             :placeholder="placeholder"
              :title="selected.text" />
       <div class="icon-container">
         <span class="icon"
@@ -26,8 +27,17 @@
               {{ option.text }}
             </li>
           </template>
-          <li class="select-popup__item--empty"
-              v-else>{{$t('trans0278')}}</li>
+          <template v-else>
+            <li v-if="this.loading"
+                class="select-popup__item--empty">
+              <m-loading :color="loadingColor"
+                         :size="36"></m-loading>
+              {{`正在扫描上级中...`}}
+            </li>
+            <li v-else
+                class="select-popup__item--empty">{{$t('trans0278')}}</li>
+          </template>
+
         </ul>
       </transition>
     </div>
@@ -52,6 +62,13 @@ export default {
       type: Number
     },
     disabled: {
+      type: Boolean,
+      default: false
+    },
+    placeholder: {
+      type: String,
+    },
+    loading: {
       type: Boolean,
       default: false
     }

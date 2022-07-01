@@ -189,7 +189,7 @@
         </div>
         <m-form-item key="wifiTxPower"
                      class="form__item">
-          <m-select label="WI-FI Tx Power (dbm)"
+          <m-select label="WI-FI Tx Power"
                     v-model="form.wifiTxPower"
                     :options="wifi_TxPowerList"></m-select>
         </m-form-item>
@@ -240,7 +240,7 @@ export default {
             bandwidth: 80
           }
         },
-        wifiTxPower: null,
+        wifiTxPower: 'high',
       },
       rules: {
         'b24g.ssid': [
@@ -312,7 +312,7 @@ export default {
         b24g: [],
         b5g: []
       },
-      wifi_TxPowerList: [{ value: 0, text: 'low' }, { value: 1, text: 'middle' }, { value: 2, text: 'high' }],
+      wifi_TxPowerList: [{ value: 'high', text: 'high' }, { value: 'medium', text: 'medium' }, { value: 'low', text: 'low' }],
       bandwidths: {
         b24g: new Array(2).fill(0).map((_, i) => {
           const v = Math.pow(2, i) * 20;
@@ -481,6 +481,9 @@ export default {
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
           this.form.compatibility_mode = wifi.compatibility_mode;
+
+          // wifi Tx_power
+          // this.form.wifiTxPower = wifi.tx_power
 
           this.$loading.close();
         })

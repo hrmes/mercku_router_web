@@ -1,4 +1,5 @@
 import intl from 'intl';
+import { delay } from 'lodash';
 import semver from 'semver';
 import * as CONSTANTS from './constant';
 
@@ -368,6 +369,23 @@ export const formatDuration = value => {
   timeArr.push(value);
   return timeArr;
 };
+
+export const throttle = (fn, delay) => {
+  let timer;
+  return function() {
+    let context = this; // 保存this指向
+    let args = arguments; // 拿到event对象
+
+    if (!timer) {
+      fn.apply(context, args);
+      timer = setTimeout(() => {
+        clearTimeout(timer);
+        timer = null;
+      }, delay);
+    }
+  };
+};
+
 String.prototype.format = function(...args) {
   let _this = this;
   args.forEach(val => {

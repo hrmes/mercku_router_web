@@ -54,7 +54,7 @@ export default {
       //   })
       axios({
         methods: 'get',
-        url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=2'
+        url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
       })
         .then(res => {
           console.log('routerMeta@@@', res);

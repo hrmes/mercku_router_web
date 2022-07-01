@@ -4,7 +4,8 @@ const methods = {
   getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
   setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set'),
   getChildLockStatus: createMethod('mesh.child_lock.enabled.get'),
-  updateChildLockStatus: createMethod('mesh.child_lock.enabled.update')
+  updateChildLockStatus: createMethod('mesh.child_lock.enabled.update'),
+  getMeshApclientScanList: createMethod('mesh.node.scan')
   // updateSuper: createMethod('mesh.config.super.update'),
   // getNewMeshNodeInfo: createMethod('mesh.node.new.info')
 };
