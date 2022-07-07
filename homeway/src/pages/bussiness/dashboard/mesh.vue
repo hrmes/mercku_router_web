@@ -432,7 +432,7 @@ export default {
       //   console.log('meshMode', res);
       // });
       axios({
-        url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=2',
+        url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=0',
         method: 'get',
       }).then((res) => {
         console.log('meshMode', res.data);
@@ -970,8 +970,12 @@ export default {
               width: 60px;
               height: 60px;
               margin-bottom: 8px;
-              &.wired-bridge,
-              .wireless_bridge_excellent {
+              &.wired-bridge {
+                background: url(../../../assets/images/icon/ic_homeway_excellent.png)
+                  center no-repeat;
+                background-size: contain;
+              }
+              &.wireless_bridge_excellent {
                 background: url(../../../assets/images/icon/ic_homeway_excellent.png)
                   center no-repeat;
                 background-size: contain;

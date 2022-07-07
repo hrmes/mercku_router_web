@@ -8,6 +8,7 @@
       <input class="select-text"
              :value="selected.text"
              readonly
+             :placeholder="placeholder"
              :title="selected.text" />
       <div class="icon-container">
         <span class="icon"
@@ -23,11 +24,28 @@
                 @click.stop="select(option)"
                 v-for="option in options"
                 :title="option.text">
-              {{ option.text }}
+              <div class="text__container"> {{ option.text }}
+              </div>
+              <div class="icon__container">
+                <span class="encrypt"
+                      v-if="option.encrypt!=='open'"></span>
+                <span class="rssi"
+                      :class="[option.rssi>-60?'good':option.rssi>-75? 'normal':'bad']"></span>
+              </div>
             </li>
           </template>
-          <li class="select-popup__item--empty"
-              v-else>{{$t('trans0278')}}</li>
+          <template v-else>
+            <li v-if="this.loading"
+                class="select-popup__item--loading">
+              <m-loading :color="loadingColor"
+                         :size="36"
+                         class="loading"></m-loading>
+              {{`${loadingText}...`}}
+            </li>
+            <li v-else
+                class="select-popup__item--empty">{{$t('trans0278')}}</li>
+          </template>
+
         </ul>
       </transition>
     </div>
@@ -54,6 +72,17 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    placeholder: {
+      type: String,
+    },
+    loading: {
+      type: Boolean,
+      default: false
+    },
+    loadingText: {
+      type: String,
+      default: '加载中'
     }
   },
   data() {
@@ -95,7 +124,7 @@ export default {
       }
     },
     change() {
-      this.$emit('change', this.selected.value, this.value);
+      this.$emit('change', this.selected, this.value);
     },
     open() {
       if (!this.disabled) {
@@ -107,7 +136,7 @@ export default {
     },
     close() {
       this.opened = false;
-    }
+    },
   }
 };
 </script>
@@ -158,6 +187,7 @@ export default {
     font-weight: bold;
     color: $select-label-color;
   }
+
   cursor: pointer;
   .select-popup {
     position: absolute;
@@ -171,6 +201,9 @@ export default {
     border: 1px solid $select-popup-border-color;
     overflow: auto;
     .select-popup__item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       list-style: none;
       padding: 17px 10px;
       line-height: 1;
@@ -189,6 +222,37 @@ export default {
       &.selected {
         color: $select-item-selected-color;
       }
+      .icon__container {
+        display: flex;
+        justify-content: center;
+        .rssi {
+          width: 14px;
+          height: 14px;
+          &.bad {
+            background: url(../../assets/images/icon/ic_wifi_bad.png) no-repeat
+              center;
+            background-size: 100%;
+          }
+          &.normal {
+            background: url(../../assets/images/icon/ic_wifi_normal.png)
+              no-repeat center;
+            background-size: 100%;
+          }
+          &.good {
+            background: url(../../assets/images/icon/ic_wifi_good.png) no-repeat
+              center;
+            background-size: 100%;
+          }
+        }
+        .encrypt {
+          width: 10px;
+          height: 14px;
+          margin-right: 10px;
+          background: url(../../assets/images/icon/ic_wifi_lock.svg) no-repeat
+            center;
+          background-size: 100%;
+        }
+      }
     }
     .select-popup__item--empty {
       display: flex;
@@ -199,6 +263,20 @@ export default {
       font-size: 14px;
       background-color: #fff;
       color: #999;
+    }
+    .select-popup__item--loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 250px;
+      font-size: 14px;
+      background-color: #fff;
+      color: #999;
+      > .loading {
+        margin-bottom: 10px;
+      }
     }
   }
   .icon-container {
@@ -244,6 +322,9 @@ export default {
       top: 52px;
       .select-popup__item {
         padding: 17px 10px;
+      }
+      .select-popup__item--loading {
+        height: 150px;
       }
     }
   }

@@ -7,6 +7,7 @@ import mFormItem from './component/formItem/index.vue';
 import mUpload from './component/upload/index.vue';
 import mProgress from './component/progress/index.vue';
 import mSelect from './component/select/index.vue';
+import mLoadingSelect from './component/select__loading&icon/index.vue';
 import mRadioGroup from './component/radioGroup/index.vue';
 import mSwitch from './component/switch/index.vue';
 import mPopover from './component/popover/index.vue';
@@ -38,6 +39,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-upload', mUpload);
   _Vue.component('m-progress', mProgress);
   _Vue.component('m-select', mSelect);
+  _Vue.component('m-loadingSelect', mLoadingSelect);
   _Vue.component('m-radio-group', mRadioGroup);
   _Vue.component('m-switch', mSwitch);
   _Vue.component('m-popover', mPopover);

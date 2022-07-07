@@ -162,7 +162,7 @@
       </div>
     </div>
 
-    <div class='speed-model-info'
+    <!-- <div class='speed-model-info'
          v-if='speedModelOpen'>
       <div class="shadow"></div>
       <div class="speed-content">
@@ -208,7 +208,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

@@ -13,29 +13,28 @@
       </div>
       <div class="form upperApForm"
            v-if="mode==='wireless_bridge'">
-        <!-- <div class="upperApForm__top"
-             v-if="hasScanedUpper">
-          <m-loading :color="loadingColor"
-                     :size="48"></m-loading>
-          <p>{{`正在扫描上级网关中...`}}</p>
-        </div> -->
         <div class="upperApForm__bottom">
           <h4>{{`Upper-level AP`}}</h4>
           <m-form ref="upperApForm"
                   :model="upperApForm"
-                  :rules="wifiFormRules">
+                  :rules="upperApFormRules">
             <m-form-item class="form-item"
-                         prop="ssid">
-              <m-select label="SSID"
-                        placeholder="请选择一个扫描到的ssid"
-                        v-model="upperApForm.ssid"
-                        :options="upperApList"
-                        :loading="selectIsLoading" />
+                         prop="upperApForm.ssid">
+              <m-loadingSelect label="SSID"
+                               placeholder="请选择一个扫描到的ssid"
+                               type='text'
+                               v-model="upperApForm.ssid"
+                               @change="selectedChange"
+                               :options="processedUpperApList"
+                               :loading="selectIsLoading"
+                               loadingText="正在扫描上级中" />
             </m-form-item>
-            <m-form-item class="form-item"
-                         prop="password">
+            <m-form-item v-show="!pwdDisabled"
+                         class="form-item"
+                         prop="upperApForm.password">
               <m-input :label="$t('trans0003')"
                        type="password"
+                       :disabled="pwdDisabled"
                        :placeholder="$t('trans0321')"
                        v-model="upperApForm.password" />
             </m-form-item>
@@ -54,10 +53,9 @@
 </template>
 <script>
 import axios from 'axios';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces, throttle } from '../../../../../base/src/util/util';
+import { isValidPassword, isFieldHasComma, isFieldHasSpaces, throttle } from '../../../../../base/src/util/util';
 
 export default {
-  computed: {},
   data() {
     return {
       currentMode: '',
@@ -79,41 +77,26 @@ export default {
         },
       ],
       upperApForm: {
-        ssid: '',
-        password: ''
+        ssid: '', // 必选
+        password: '', // 可选
+        bssid: '', // 必选
+        channel: '', // 必选
+        band: '', // 必选
+        security: '', // 必选
+        rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
       },
-      upperApList: [],
-      wifiFormRules: {
-        // upperApSsid: [
-        //   {
-        //     rule: value => !/^\s*$/g.test(value),
-        //     message: this.$t('trans0237')
-        //   },
-        //   {
-        //     rule: value => getStringByte(value) <= 20,
-        //     message: this.$t('trans0261')
-        //   },
-        //   {
-        //     rule: value => isFieldHasComma(value),
-        //     message: this.$t('trans0451')
-        //   }
-        // ],
-        upperApPassword: [
+      originalUpperList: [],
+      processedUpperApList: [],
+      upperApFormRules: {
+        // 这一套要验证ssid和密码
+        'upperApForm.ssid': [
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0237')
           },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
-          }
         ],
       },
-      hasScanedUpper: true,
+      pwdDisabled: true,
     };
   },
   mounted() {
@@ -121,20 +104,59 @@ export default {
   },
   watch: {
     mode(nv) {
+      this.upperApForm.ssid = '';
       if (this.currentMode === nv) {
         // 模式没变化，就隐藏修改模式按钮
         this.modeHasChange = false;
       } else {
         // 模式有变化，就展示修改模式按钮
         this.modeHasChange = true;
+        this.pwdDisabled = true;
       }
       switch (nv) {
         case 'wireless_bridge':
-          this.modeHasChange = false;
           this.getMeshApclientScanList();
           break;
         default:
           break;
+      }
+    },
+    // upperAp表单验证:由于密码是否验证是根据用户选择的上级是否有加密方式来决定的,所有制定两套验证规则
+    pwdDisabled(nv) {
+      if (nv === true) {
+        this.upperApFormRules = {
+          // 这一套只验证ssid是否为空
+          'upperApForm.ssid': [
+            {
+              rule: value => !/^\s*$/g.test(value.trim()),
+              message: this.$t('trans0237')
+            },
+          ],
+        };
+      } else {
+        this.upperApFormRules = {
+          // 这一套要验证ssid和密码
+          'upperApForm.ssid': [
+            {
+              rule: value => !/^\s*$/g.test(value.trim()),
+              message: this.$t('trans0237')
+            },
+          ],
+          'upperApForm.password': [
+            {
+              rule: value => isFieldHasSpaces(value),
+              message: this.$t('trans1020')
+            },
+            {
+              rule: value => isFieldHasComma(value),
+              message: this.$t('trans0452')
+            },
+            {
+              rule: value => isValidPassword(value),
+              message: this.$t('trans0169')
+            }
+          ],
+        };
       }
     }
   },
@@ -152,27 +174,50 @@ export default {
         });
     },
     updateMode() {
-      // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
-      if (this.mode === 'bridge') {
-        // TODO:监测网口是否插入网线接口待调用;
-        // 1.如果没有插入网线
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          message: [this.$t('trans1063'), this.$t('trans1065')],
-          callback: {
-            ok: () => {
-              this.confirmUpdateMeshMode();
-            }
+      switch (this.mode) {
+        // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
+        case 'bridge':
+          // TODO:监测网口是否插入网线接口待调用;
+          this.$http.getMeshMode()
+            .then(res => {
+              // TODO:网线接入的接口数据
+              // {status}=res.data
+              console.log(res);
+              // if (status === 'unlinked') { // 1.如果没有插入网线
+              this.$dialog.confirm({
+                okText: this.$t('trans0024'),
+                cancelText: this.$t('trans0025'),
+                message: [this.$t('trans1063'), this.$t('trans1065')],
+                callback: {
+                  ok: () => {
+                    // this.confirmUpdateMeshMode({ mode: this.mode });
+                  }
+                }
+              });
+              // } else { // 2.插入了网线,直接进行mode update
+              // this.confirmUpdateMeshMode({ mode: this.mode });
+              // }
+            });
+          break;
+        case 'wireless_bridge':
+          if (this.$refs.upperApForm.validate()) {
+            console.log('验证通过');
+            const params = {
+              mode: this.mode,
+              apclient: this.upperApForm
+            };
+            console.log(params);
+            // this.confirmUpdateMeshMode();
           }
-        });
-        // 2.插入了网线,直接进行mode update
+          break;
+        default:
+          break;
       }
     },
-    confirmUpdateMeshMode() {
+    confirmUpdateMeshMode(params) {
       this.$loading.open();
       this.$http
-        .updateMeshMode({ mode: this.mode })
+        .updateMeshMode(params)
         .then(() => {
           this.$loading.close();
           this.$reconnect({
@@ -194,30 +239,50 @@ export default {
           this.$loading.close();
         });
     },
-
     // eslint-disable-next-line func-names
     getMeshApclientScanList: throttle(function () {
+      // TODO:scanMeshList 接口调用
       axios({
         url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
         method: 'get'
       })
         .then(res => {
-          this.upperApList = [];
           setTimeout(() => {
-            console.log(res.data);
+            this.originalUpperList = [];
+            this.processedUpperApList = [];
             const { data } = res;
-            data.map(i => this.upperApList.push({
-              value: i.ssid, text: i.ssid
+            data.sort((a, b) => b.rssi - a.rssi);
+            this.originalUpperList = data;
+            data.map(i => this.processedUpperApList.push({
+              value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
             }));
-            console.log(this.upperApList);
-            this.hasScanedUpper = false;
-          }, 5000);
+          }, 100);
         });
       // this.$http.getMeshApclientScanList
       //   .then(res => {
-      //     console.log(res);
+      //   this.originalUpperList = [];
+      //       this.processedUpperApList = [];
+      //       const { data } = res;
+      //       data.sort((a, b) => b.rssi - a.rssi);
+      //       this.originalUpperList = data;
+      //       data.map(i => this.processedUpperApList.push({
+      //         value: i.ssid, text: i.ssid, encrypt: i.security, rssi: i.rssi
+      //       }));
       //   });
-    }, 7000)
+    }, 7000),
+    selectedChange(option) {
+      this.pwdDisabled = option.encrypt === 'open';
+      const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
+      this.upperApForm = {
+        ssid,
+        password,
+        bssid,
+        channel,
+        band,
+        security,
+        rssi
+      };
+    },
   }
 };
 </script>

@@ -8,17 +8,23 @@
            v-show="stepOption.current===0">
         <m-form ref="upperApForm"
                 :model="upperApForm"
-                :rules="wifiFormRules">
+                :rules="pwdDisabled? onlySsidRules:upperApFormRules">
           <m-form-item class="form-item"
-                       prop="ssid">
-            <m-input label="SSID"
-                     :placeholder="$t('trans0321')"
-                     v-model="upperApForm.ssid" />
+                       prop="upperApForm.ssid">
+            <m-loadingSelect label="SSID"
+                             placeholder="请选择一个扫描到的ssid"
+                             type='text'
+                             v-model="upperApForm.ssid"
+                             @change="selectedChange"
+                             :options="processedUpperApList"
+                             :loading="selectIsLoading"
+                             loadingText="正在扫描上级中" />
           </m-form-item>
           <m-form-item class="form-item"
-                       prop="password">
+                       prop="upperApForm.password">
             <m-input :label="$t('trans0003')"
                      type="password"
+                     :disabled="pwdDisabled"
                      :placeholder="$t('trans0321')"
                      v-model="upperApForm.password" />
           </m-form-item>
@@ -144,7 +150,7 @@
       </div>
     </div>
     <!-- 插入有线，有线桥模式 弹窗提示 -->
-    <div class="tips">
+    <!-- <div class="tips">
       <transition name="fade">
         <div class="wiredBridge_tips"
              v-if="isShowPopup">
@@ -163,10 +169,11 @@
              v-if="isShowPopup">
         </div>
       </transition>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
+import axios from 'axios';
 import { Bands } from '../../../../../base/src/util/constant';
 import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
 import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
@@ -179,7 +186,7 @@ export default {
   data() {
     return {
       wifiIcon,
-      isShowPopup: false,
+      meshMode: 'bridge',
       stepOption: {
         current: 0,
         steps: [
@@ -191,8 +198,13 @@ export default {
       current: 0,
       countdown: 60,
       upperApForm: {
-        ssid: '',
-        password: ''
+        ssid: '', // 必选
+        password: '', // 可选
+        bssid: '', // 必选
+        channel: '', // 必选
+        band: '', // 必选
+        security: '', // 必选
+        rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
       },
       wifiForm: {
         smart_connect: true,
@@ -202,34 +214,6 @@ export default {
         password5g: ''
       },
       wifiFormRules: {
-        upperApSsid: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
-          },
-          {
-            rule: value => getStringByte(value) <= 20,
-            message: this.$t('trans0261')
-          },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0451')
-          }
-        ],
-        upperApPassword: [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
-          }
-        ],
         ssid24g: [
           {
             rule: value => !/^\s*$/g.test(value),
@@ -291,7 +275,44 @@ export default {
           }
         ]
       },
+      // upperAp验证:由于密码是否验证是根据用户选择的上级是否有加密方式来决定的,所有制定两套验证规则
+      onlySsidRules: {
+        // 这一套只验证ssid是否为空
+        'upperApForm.ssid': [
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0237')
+          },
+        ],
+      },
+      upperApFormRules: {
+        // 这一套要验证ssid和密码
+        'upperApForm.ssid': [
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0237')
+          },
+        ],
+        'upperApForm.password': [
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
+          {
+            rule: value => isValidPassword(value),
+            message: this.$t('trans0169')
+          }
+        ],
+      },
       config: null,
+      selectIsLoading: true,
+      pwdDisabled: true,
+      originalUpperList: [],
+      processedUpperApList: [],
     };
   },
   computed: {
@@ -311,6 +332,7 @@ export default {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
       });
+    this.getMeshApclientScanList();
     this.$http.getMeshMeta().then(res => {
       const wifi = res.data.result;
       const b24g = wifi.bands[Bands.b24g];
@@ -321,16 +343,67 @@ export default {
       this.wifiForm.password5g = b5g.password;
       this.wifiForm.smart_connect = wifi.smart_connect;
     });
+
+    // this.$http.getMeshMode()
+    //   .then(res => {
+    //     TODO: 网线接入的接口数据
+    //     console.log(res);
+    //     { status }=res.data
+    //     if (status !== 'unlinked') { // 如果插入了网线，就弹窗提示，可跳过上级设置
+    //       this.$dialog.confirm({
+    //         okText: this.$t('trans0163'),
+    //         cancelText: this.$t('trans1055'),
+    //         message: [this.$t('trans1053'), this.$t('trans1054')],
+    //         callback: {
+    //           ok: () => {
+    //             this.skipSetUpper();
+    //             this.upperApForm = {
+    //               ssid: '', // 必选
+    //               password: '', // 可选
+    //               bssid: '', // 必选
+    //               channel: '', // 必选
+    //               band: '', // 必选
+    //               security: '', // 必选
+    //               rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选};
+    //             };
+    //           },
+    //           cancel: () => {
+    //             this.meshMode = 'wireless_bridge';
+    //           }
+    //         }
+    //       });
+    //     }
+    //   });
+
     setTimeout(() => {
-      this.isShowPopup = true;
+      this.$dialog.confirm({
+        okText: this.$t('trans0163'),
+        cancelText: this.$t('trans1055'),
+        message: [this.$t('trans1053'), this.$t('trans1054')],
+        callback: {
+          ok: () => {
+            this.skipSetUpper();
+          },
+          cancel: () => {
+            this.meshMode = 'wireless_bridge';
+          }
+        }
+      });
     }, 2000);
   },
   methods: {
     skipSetUpper() {
-      this.step2();
-      this.upperApForm.ssid = '';
-      this.upperApForm.password = '';
-      this.isShowPopup = false;
+      this.stepOption.current = 1;
+      this.stepOption.steps[1].success = true;
+      this.upperApForm = {
+        ssid: '', // 必选
+        password: '', // 可选
+        bssid: '', // 必选
+        channel: '', // 必选
+        band: '', // 必选
+        security: '', // 必选
+        rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选};
+      };
     },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
@@ -355,38 +428,62 @@ export default {
         this.wifiForm.password5g = '';
       }
     },
-    // 根据用户选择的不同mesh工作模式，分别设置对应的params
-    meshModeUpdate(mode) {
-      if (mode === 'bridge') {
-        this.modeUpdateParams = {
-          mode,
-        };
-      } else if (mode === 'wireless_bridge') {
-        this.modeUpdateParams = {
-          mode,
-          upper_info: this.upperApForm
-        };
-      }
-      console.log('modeUpdate的参数为', this.modeUpdateParams);
-      this.$http.updateMeshMode(this.modeUpdateParams)
+    getMeshApclientScanList() {
+      // TODO:meshScanList 接口调用
+      axios({
+        url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
+        method: 'get'
+      })
         .then(res => {
-          console.log('modeUpdate的返回值', res);
-        })
-        .catch(err => {
-          console.log(err);
+          setTimeout(() => {
+            this.originalUpperList = [];
+            this.processedUpperApList = [];
+            const { data } = res;
+            data.sort((a, b) => b.rssi - a.rssi);
+            this.originalUpperList = data;
+            data.map(i => this.processedUpperApList.push({
+              value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
+            }));
+          }, 7000);
         });
+      // this.$http.getMeshApclientScanList
+      //   .then(res => {
+      //     this.originalUpperList = [];
+      //     this.processedUpperApList = [];
+      //     const { data } = res;
+      //     data.sort((a, b) => b.rssi - a.rssi);
+      //     this.originalUpperList = data;
+      //     data.map(i => this.processedUpperApList.push({
+      //       value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
+      //     }));
+      //   });
+    },
+    selectedChange(option) {
+      const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
+      this.upperApForm = {
+        ssid,
+        password,
+        bssid,
+        channel,
+        band,
+        security,
+        rssi
+      };
+      this.pwdDisabled = option.encrypt === 'open';
     },
     step2() {
-      console.log('upperApInfo is', this.upperApForm);
-      this.stepOption.current = 1;
-      this.stepOption.steps[1].success = true;
+      if (this.$refs.upperApForm.validate()) {
+        console.log('upperApInfo is', this.upperApForm);
+        this.stepOption.current = 1;
+        this.stepOption.steps[1].success = true;
+      }
     },
     step3() {
       if (this.$refs.wifiForm.validate()) {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
-        if (this.upperApForm.ssid && this.upperApForm.password) {
+        if (this.meshMode === 'wireless_bridge') {
           this.config = {
             wifi: {
               bands: {
@@ -402,7 +499,7 @@ export default {
               smart_connect: this.wifiForm.smart_connect
             },
             admin: { password: this.wifiForm.password24g },
-            apclient: { ssid: this.upperApForm.ssid, password: this.upperApForm.password }
+            apclient: this.upperApForm
           };
         } else {
           this.config = {
@@ -422,33 +519,34 @@ export default {
             admin: { password: this.wifiForm.password24g },
           };
         }
+        console.log('meshMode', this.meshMode);
         console.log('config#######', this.config);
         // 提交表单
-        this.$http
-          .updateMeshConfig(this.config)
-          .then(() => {
-            this.stepOption.current = 2;
-            this.stepOption.steps[2].success = true;
-            const timer = setInterval(() => {
-              this.countdown -= 1;
-              if (this.countdown === 0) {
-                clearInterval(timer);
-                this.$router.push({ path: '/unconnect' });
-              }
-            }, 1000);
-            // 尝试链接路由器
-            this.$reconnect({
-              onsuccess: () => {
-                clearInterval(timer);
-                this.$router.push({ path: '/login' });
-              },
-              ontimeout: () => {
-                clearInterval(timer);
-                this.$router.push({ path: '/unconnect' });
-              },
-              showLoading: false
-            });
-          });
+        // this.$http
+        //   .updateMeshConfig({config:this.config})
+        //   .then(() => {
+        //     this.stepOption.current = 2;
+        //     this.stepOption.steps[2].success = true;
+        //     const timer = setInterval(() => {
+        //       this.countdown -= 1;
+        //       if (this.countdown === 0) {
+        //         clearInterval(timer);
+        //         this.$router.push({ path: '/unconnect' });
+        //       }
+        //     }, 1000);
+        //     // 尝试链接路由器
+        //     this.$reconnect({
+        //       onsuccess: () => {
+        //         clearInterval(timer);
+        //         this.$router.push({ path: '/login' });
+        //       },
+        //       ontimeout: () => {
+        //         clearInterval(timer);
+        //         this.$router.push({ path: '/unconnect' });
+        //       },
+        //       showLoading: false
+        //     });
+        //   });
       }
     }
   }
