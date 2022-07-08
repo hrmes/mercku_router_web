@@ -62,7 +62,7 @@ export default {
       modeHasChange: false,
       saveDisable: false,
       selectIsLoading: true,
-      mode: 'router',
+      mode: '',
       modes: [
         {
           text: this.$t('trans1059'),
@@ -105,7 +105,6 @@ export default {
   },
   watch: {
     mode(nv) {
-      this.upperApForm.ssid = '';
       if (this.currentMode === nv) {
         // 模式没变化，就隐藏修改模式按钮
         this.modeHasChange = false;
@@ -168,15 +167,44 @@ export default {
   methods: {
     getMode() {
       this.$loading.open();
-      this.$http
-        .getMeshMode()
-        .then(res => {
-          this.currentMode = res.data.result.mode;
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+      axios({
+        url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=0',
+        method: 'get'
+      }).then(res => {
+        const { data } = res;
+        console.log(data);
+        if (data.mode === 'wireless_bridge') {
+          this.upperApForm = data.apclient;
+          console.log(this.upperApForm);
+        }
+        this.mode = data.mode;
+        this.currentMode = data.mode;
+        this.$loading.close();
+      }).catch(() => {
+        this.$loading.close();
+      });
+      // this.$http
+      //   .getMeshMode()
+      //   .then(res => {
+      //     const { data: { result } } = res;
+      //     const resultForm = {
+      //       ssid: '测试ssid', // 必选
+      //       password: '1233333', // 可选
+      //       bssid: '测试mac', // 必选
+      //       channel: '40', // 必选
+      //       band: '2.4g', // 必选
+      //       security: 'wpa2', // 必选
+      //       rssi: '-4'// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
+      //     };
+      //     if (result.mode === 'wireless_bridge') {
+      //       this.upperApForm = result.apclient;
+      //     }
+      //     this.currentMode = res.data.result.mode;
+      //     this.$loading.close();
+      //   })
+      //   .catch(() => {
+      //     this.$loading.close();
+      //   });
     },
     updateMode() {
       switch (this.mode) {
