@@ -10,10 +10,12 @@
               :rules="wwaRules">
         <m-form-item prop="port">
           <m-input :label="$t('trans0495')"
+                   :disabled="isTetIdentifier"
                    v-model="wwa.port"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item prop="allowed_ip">
+        <m-form-item prop="allowed_ip"
+                     v-if="!isTetIdentifier">
           <m-input :label="`${$t('trans0575')} ${$t('trans0411')}`"
                    v-model="wwa.allowed_ip"
                    :placeholder="$t('trans0492')"></m-input>
@@ -36,6 +38,8 @@ import { portReg, isIP } from 'base/util/util';
 export default {
   data() {
     return {
+      // Tet定制需求：WEB WAN Access的端口为8443且置灰，ip地址输入框隐藏,用id标识符去做校验
+      isTetIdentifier: process.env.CUSTOMER_CONFIG.id === '0026',
       wwa: {
         port: '',
         enabled: false,

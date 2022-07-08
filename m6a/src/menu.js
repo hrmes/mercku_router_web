@@ -1,11 +1,14 @@
 import { Role, RouterMode, Customers } from 'base/util/constant';
+import { ipReg, ipv6Reg } from 'base/util/util';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
-export default function getMenu(role, mode = RouterMode.router) {
+export default function getMenu(role, mode = RouterMode.router, lanIp = '') {
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
+  console.log(`lanIp is: ${lanIp}`);
+
   // 菜单默认配置
   const config = {
     show: true,
@@ -18,6 +21,24 @@ export default function getMenu(role, mode = RouterMode.router) {
     auth: [Role.admin, Role.super],
     mode: [RouterMode.router]
   };
+  const strategyB = {
+    show: false,
+    auth: [Role.admin, Role.super],
+    mode: [RouterMode.router]
+  };
+  // 获取当前窗口的地址
+  const { hostname } = window.location;
+  // const hostname = '10.70.100.62';
+  // 首先判断当前访问的方式是域名访问还是ip地址访问
+  const isIP = ipReg.test(hostname) || ipv6Reg.test(hostname);
+  console.log('isIP', isIP);
+  console.log('hostname', hostname);
+  // 如果是ip地址，那么要判断是否和lan口ip一致，
+  // 如果是一致，则代表是lan口访问，不隐藏Upnp
+  // 如果不一致，则代表是wan口访问，隐藏Upnp
+  const UpnpStrategy = isIP && hostname !== lanIp ? strategyB : strategyA;
+  console.log('UpnpStrategy', UpnpStrategy);
+
   const wifi = {
     icon: 'wifi',
     text: 'trans0173',
@@ -99,6 +120,10 @@ export default function getMenu(role, mode = RouterMode.router) {
           [Customers.pentanet]: {
             show: true,
             auth: [Role.super]
+          },
+          [Customers.tet]: {
+            show: true,
+            auth: [Role.super]
           }
         }
       },
@@ -130,7 +155,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/upnp',
         name: 'upnp',
         text: 'trans0644',
-        config: strategyA
+        config: UpnpStrategy
       },
       {
         url: '/setting/led',
@@ -275,7 +300,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/backup',
         name: 'advance.backup',
         text: 'trans1019',
-        config
+        config,
+        customers: {
+          [Customers.tet]: {
+            show: true,
+            auth: [Role.super]
+          }
+        }
       }
     ]
   };
@@ -287,22 +318,41 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/upgrade/online',
         name: 'online',
         text: 'trans0202',
-        config
+        config,
+        customers: {
+          [Customers.tet]: {
+            show: true,
+            auth: [Role.super]
+          }
+        }
       },
       {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
-        config
+        config,
+        customers: {
+          [Customers.tet]: {
+            show: true,
+            auth: [Role.super]
+          }
+        }
       },
       {
         url: '/upgrade/auto',
         name: 'auto',
         text: 'trans0743',
-        config
+        config,
+        customers: {
+          [Customers.tet]: {
+            show: true,
+            auth: [Role.super]
+          }
+        }
       }
     ]
   };
+  const finalMenus = [];
   [wifi, setting, advance, upgrade].forEach(item => {
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
@@ -329,7 +379,11 @@ export default function getMenu(role, mode = RouterMode.router) {
         menu.disabled = true;
       }
     });
+    console.log(item.children);
+    if (item.children.length > 0) {
+      finalMenus.push(item);
+    }
   });
 
-  return [wifi, setting, advance, upgrade];
+  return finalMenus;
 }

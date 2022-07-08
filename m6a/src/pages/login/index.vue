@@ -77,7 +77,7 @@ export default {
     return {
       initial: false,
       loading: false,
-      password: ''
+      password: '',
     };
   },
   // in m6 router, if router is initial
@@ -123,7 +123,12 @@ export default {
             const { mode } = res1.data.result;
             this.$store.mode = mode;
             localStorage.setItem('mode', mode);
-            this.$router.push({ path: '/dashboard' });
+            this.$http.meshInfolanNetGet().then(res2 => {
+              const { data: { result: { netinfo: { ip } } } } = res2;
+              console.log(ip);
+              this.$store.lanIp = ip;
+              this.$router.push({ path: '/dashboard' });
+            });
           });
         })
         .catch(err => {

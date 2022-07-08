@@ -34,7 +34,7 @@ export default {
       return !visible;
     },
     menus() {
-      return getMenu(this.$store.role, this.$store.mode);
+      return getMenu(this.$store.role, this.$store.mode, this.$store.lanIp);
     }
   },
   methods: {
@@ -48,7 +48,7 @@ export default {
         height = contentMinHeight;
       }
       this.$refs.flexWrap.style.minHeight = `${height}px`;
-    }
+    },
   },
   mounted() {
     this.setHeight();
