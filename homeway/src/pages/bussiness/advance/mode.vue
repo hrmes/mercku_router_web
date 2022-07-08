@@ -34,7 +34,6 @@
                          prop="upperApForm.password">
               <m-input :label="$t('trans0003')"
                        type="password"
-                       :disabled="pwdDisabled"
                        :placeholder="$t('trans0321')"
                        v-model="upperApForm.password" />
             </m-form-item>
@@ -46,6 +45,7 @@
         <button class="btn primary"
                 v-defaultbutton
                 @click="updateMode"
+                :disabled="saveDisable"
                 v-show="modeHasChange">{{$t('trans0081')}}</button>
       </div>
     </div>
@@ -60,6 +60,7 @@ export default {
     return {
       currentMode: '',
       modeHasChange: false,
+      saveDisable: false,
       selectIsLoading: true,
       mode: 'router',
       modes: [
@@ -115,7 +116,11 @@ export default {
       }
       switch (nv) {
         case 'wireless_bridge':
+          this.saveDisable = true;
           this.getMeshApclientScanList();
+          break;
+        case 'bridge':
+          this.saveDisable = false;
           break;
         default:
           break;
@@ -158,7 +163,7 @@ export default {
           ],
         };
       }
-    }
+    },
   },
   methods: {
     getMode() {
@@ -271,6 +276,7 @@ export default {
       //   });
     }, 7000),
     selectedChange(option) {
+      this.saveDisable = false;
       this.pwdDisabled = option.encrypt === 'open';
       const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
       this.upperApForm = {

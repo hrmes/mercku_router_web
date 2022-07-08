@@ -8,7 +8,7 @@
            v-show="stepOption.current===0">
         <m-form ref="upperApForm"
                 :model="upperApForm"
-                :rules="pwdDisabled? onlySsidRules:upperApFormRules">
+                :rules="upperApFormRules">
           <m-form-item class="form-item"
                        prop="upperApForm.ssid">
             <m-loadingSelect label="SSID"
@@ -24,12 +24,13 @@
                        prop="upperApForm.password">
             <m-input :label="$t('trans0003')"
                      type="password"
-                     :disabled="pwdDisabled"
                      :placeholder="$t('trans0321')"
-                     v-model="upperApForm.password" />
+                     v-model="upperApForm.password"
+                     v-show="!pwdDisabled" />
           </m-form-item>
           <div class="button-container">
             <button @click="step2()"
+                    :disabled="saveDisable"
                     class="btn">{{$t('trans0055')}}</button>
           </div>
         </m-form>
@@ -275,37 +276,12 @@ export default {
           }
         ]
       },
-      // upperAp验证:由于密码是否验证是根据用户选择的上级是否有加密方式来决定的,所有制定两套验证规则
-      onlySsidRules: {
-        // 这一套只验证ssid是否为空
-        'upperApForm.ssid': [
-          {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
-          },
-        ],
-      },
       upperApFormRules: {
-        // 这一套要验证ssid和密码
         'upperApForm.ssid': [
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           },
-        ],
-        'upperApForm.password': [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
-          }
         ],
       },
       config: null,
@@ -313,12 +289,53 @@ export default {
       pwdDisabled: true,
       originalUpperList: [],
       processedUpperApList: [],
+      saveDisable: true,
     };
   },
   computed: {
     tipsText() {
       return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
     }
+  },
+  watch: {
+    // upperAp表单验证:由于密码是否验证是根据用户选择的上级是否有加密方式来决定的,所有制定两套验证规则
+    pwdDisabled(nv) {
+      if (nv === true) {
+        this.upperApFormRules = {
+          // 这一套只验证ssid是否为空
+          'upperApForm.ssid': [
+            {
+              rule: value => !/^\s*$/g.test(value.trim()),
+              message: this.$t('trans0237')
+            },
+          ],
+        };
+      } else {
+        this.upperApFormRules = {
+          // 这一套要验证ssid和密码
+          'upperApForm.ssid': [
+            {
+              rule: value => !/^\s*$/g.test(value.trim()),
+              message: this.$t('trans0237')
+            },
+          ],
+          'upperApForm.password': [
+            {
+              rule: value => isFieldHasSpaces(value),
+              message: this.$t('trans1020')
+            },
+            {
+              rule: value => isFieldHasComma(value),
+              message: this.$t('trans0452')
+            },
+            {
+              rule: value => isValidPassword(value),
+              message: this.$t('trans0169')
+            }
+          ],
+        };
+      }
+    },
   },
   mounted() {
     this.$http
@@ -459,6 +476,7 @@ export default {
       //   });
     },
     selectedChange(option) {
+      this.saveDisable = false;
       const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
       this.upperApForm = {
         ssid,
