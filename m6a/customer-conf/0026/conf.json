@@ -1,0 +1,29 @@
+{
+  "id": "0026",
+  "title": "Tet",
+  "host": "http://mywifi.mercku.tech",
+  "accept": ".ma",
+  "favicon": "customer-conf/0001/favicon.ico",
+  "policy": "",
+  "allow2LevelAdmin": true,
+  "languages": ["en-US", "de-DE", "zh-CN"],
+  "defaultLanguage": "en-US",
+  "deviceId": "Tet",
+  "wifi": "Tet Wi-Fi",
+  "uploadFileTypeLimit": ".ma",
+  "routers": {
+    "M6a": {
+      "name": "M6a Wi-Fi6 Router",
+      "shortName": "M6a"
+    }
+  },
+  "loading": {
+    "name": "loading.gif",
+    "color": "#d6001c"
+  },
+  "website": {
+    "url": "https://www.mercku.com",
+    "text": "mercku.com"
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
+}

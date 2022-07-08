@@ -15,6 +15,7 @@ import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
+import wwa from 'pages/bussiness/advance/wwa.vue';
 
 import device from 'base/pages/bussiness/dashboard/device.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
@@ -40,7 +41,6 @@ import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
 import speedLimit from 'base/pages/bussiness/dashboard/limit/speed.vue';
 import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
 import mac from 'base/pages/bussiness/advance/mac.vue';
-import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';

@@ -10,7 +10,7 @@ import * as CONSTANTS from 'base/util/constant';
 // import picGateway from '../../../assets/images/icon/ic_m2_gw_green.png';
 // import picM2Good from '../../../assets/images/icon/ic_m2_green.png';
 // import picM2Bad from '../../../assets/images/icon/ic_m2_orange.png';
-// import pciM2Offline from '../../../assets/images/icon/ic_m2_offline.png';
+// import picM2Offline from '../../../assets/images/icon/ic_m2_offline.png';
 // import picBeeGood from '../../../assets/images/icon/ic_bee_green.png';
 // import picBeeBad from '../../../assets/images/icon/ic_bee_orange.png';
 // import picBeeOffline from '../../../assets/images/icon/ic_bee_offline.png';
@@ -265,18 +265,15 @@ function genData(array, fullLine = false) {
 
   const visited = [gateway];
   const green = findGreenNode(gateway, routers, visited);
-  console.log(green);
 
   const meshNodes = routers.filter(r => r.sn !== gateway.sn);
 
   const red = findRedNode(green, meshNodes);
-  console.log(red);
 
   const nodes = genNodes(gateway, green, red, offline);
 
   const lines = genLines(gateway, green, red, routers, fullLine);
 
-  console.log(nodes, lines);
   return {
     nodes,
     lines

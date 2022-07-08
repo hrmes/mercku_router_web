@@ -156,7 +156,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -221,7 +221,7 @@ export default {
             this.netStatus = CONSTANTS.WanNetStatus.unlinked;
           });
       }, 1000);
-    }
+    },
   },
   beforeDestroy() {
     // clean up

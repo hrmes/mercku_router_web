@@ -4,6 +4,7 @@ import Store from 'base/store';
 const store = new Store(Vue, {
   mode: localStorage.getItem('mode'),
   role: localStorage.getItem('role'),
+  lanIp: '',
   modules: {
     limits: {},
     portfw: {},
