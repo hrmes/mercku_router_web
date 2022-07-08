@@ -116,7 +116,7 @@ export default {
         .login({ password: this.password })
         .then(res => {
           const { role } = res.data.result;
-          this.$store.role = 'role';
+          this.$store.role = role;
           localStorage.setItem('role', role);
           this.$http.getMeshMode().then(res1 => {
             this.$loading.close();
