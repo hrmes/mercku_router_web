@@ -13,6 +13,20 @@
       </div>
       <div class="form upperApForm"
            v-if="mode==='wireless_bridge'">
+        <div class="upperApForm__top"
+             v-if="currentUpperInfo.show">
+          <m-form>
+            <m-form-item class="form-item">
+              {{'当前连接上级ssid:'}}{{currentUpperInfo.ssid}}
+            </m-form-item>
+            <m-form-item class="form-item">
+              {{'加密方式:'}}{{currentUpperInfo.security}}
+            </m-form-item>
+            <m-form-item class="form-item">
+              {{'密码：'}}{{currentUpperInfo.security!=='open'?currentUpperInfo.password:'-'}}
+            </m-form-item>
+          </m-form>
+        </div>
         <div class="upperApForm__bottom">
           <h4>{{`Upper-level AP`}}</h4>
           <m-form ref="upperApForm"
@@ -86,6 +100,12 @@ export default {
         security: '', // 必选
         rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
       },
+      currentUpperInfo: {
+        show: false,
+        ssid: '',
+        security: 'open',
+        password: ''
+      },
       originalUpperList: [],
       processedUpperApList: [],
       upperApFormRules: {
@@ -105,6 +125,15 @@ export default {
   },
   watch: {
     mode(nv) {
+      this.upperApForm = {
+        ssid: '', // 必选
+        password: '', // 可选
+        bssid: '', // 必选
+        channel: '', // 必选
+        band: '', // 必选
+        security: '', // 必选
+        rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
+      };
       if (this.currentMode === nv) {
         // 模式没变化，就隐藏修改模式按钮
         this.modeHasChange = false;
@@ -174,7 +203,10 @@ export default {
         const { data } = res;
         console.log(data);
         if (data.mode === 'wireless_bridge') {
-          this.upperApForm = data.apclient;
+          this.currentUpperInfo.show = true;
+          this.currentUpperInfo.ssid = data.apclient.ssid;
+          this.currentUpperInfo.password = data.apclient.password;
+          this.currentUpperInfo.security = data.apclient.security;
           console.log(this.upperApForm);
         }
         this.mode = data.mode;
