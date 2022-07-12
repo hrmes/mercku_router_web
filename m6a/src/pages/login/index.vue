@@ -123,12 +123,14 @@ export default {
             const { mode } = res1.data.result;
             this.$store.mode = mode;
             localStorage.setItem('mode', mode);
-            this.$http.meshInfolanNetGet().then(res2 => {
-              const { data: { result: { netinfo: { ip } } } } = res2;
-              console.log(ip);
-              this.$store.lanIp = ip;
-              this.$router.push({ path: '/dashboard' });
-            });
+            if (mode === 'router') {
+              this.$http.meshInfolanNetGet().then(res2 => {
+                const { data: { result: { netinfo: { ip } } } } = res2;
+                console.log(ip);
+                this.$store.lanIp = ip;
+              });
+            }
+            this.$router.push({ path: '/dashboard' });
           });
         })
         .catch(err => {
