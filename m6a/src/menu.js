@@ -101,6 +101,9 @@ export default function getMenu(role, mode = RouterMode.router, lanIp = '') {
           },
           [Customers.pentanet]: {
             auth: [Role.admin]
+          },
+          [Customers.tet]: {
+            auth: [Role.admin]
           }
         }
       },
