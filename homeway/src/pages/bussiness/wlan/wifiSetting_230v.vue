@@ -283,6 +283,12 @@ export default {
             message: this.$t('trans0237')
           },
         ],
+        'upperApForm.password': [
+          {
+            rule: value => isValidPassword(value, 1, 63),
+            message: this.$t('trans0125')
+          }
+        ]
       },
       config: null,
       selectIsLoading: true,
@@ -349,64 +355,9 @@ export default {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
       });
+    this.getMeshMeta();
     this.getMeshApclientScanList();
-    this.$http.getMeshMeta().then(res => {
-      const wifi = res.data.result;
-      const b24g = wifi.bands[Bands.b24g];
-      const b5g = wifi.bands[Bands.b5g];
-      this.wifiForm.ssid24g = b24g.ssid;
-      this.wifiForm.password24g = b24g.password;
-      this.wifiForm.ssid5g = b5g.ssid;
-      this.wifiForm.password5g = b5g.password;
-      this.wifiForm.smart_connect = wifi.smart_connect;
-    });
-
-    // this.$http.getMeshMode()
-    //   .then(res => {
-    //     TODO: 网线接入的接口数据
-    //     console.log(res);
-    //     { status }=res.data
-    //     if (status !== 'unlinked') { // 如果插入了网线，就弹窗提示，可跳过上级设置
-    //       this.$dialog.confirm({
-    //         okText: this.$t('trans0163'),
-    //         cancelText: this.$t('trans1055'),
-    //         message: [this.$t('trans1053'), this.$t('trans1054')],
-    //         callback: {
-    //           ok: () => {
-    //             this.skipSetUpper();
-    //             this.upperApForm = {
-    //               ssid: '', // 必选
-    //               password: '', // 可选
-    //               bssid: '', // 必选
-    //               channel: '', // 必选
-    //               band: '', // 必选
-    //               security: '', // 必选
-    //               rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选};
-    //             };
-    //           },
-    //           cancel: () => {
-    //             this.meshMode = 'wireless_bridge';
-    //           }
-    //         }
-    //       });
-    //     }
-    //   });
-
-    setTimeout(() => {
-      this.$dialog.confirm({
-        okText: this.$t('trans0163'),
-        cancelText: this.$t('trans1055'),
-        message: [this.$t('trans1053'), this.$t('trans1054')],
-        callback: {
-          ok: () => {
-            this.skipSetUpper();
-          },
-          cancel: () => {
-            this.meshMode = 'wireless_bridge';
-          }
-        }
-      });
-    }, 2000);
+    this.getMeshMode();
   },
   methods: {
     skipSetUpper() {
@@ -445,35 +396,68 @@ export default {
         this.wifiForm.password5g = '';
       }
     },
-    getMeshApclientScanList() {
-      // TODO:meshScanList 接口调用
-      axios({
-        url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
-        method: 'get'
-      })
+    getMeshMeta() {
+      this.$http.getMeshMeta().then(res => {
+        const wifi = res.data.result;
+        const b24g = wifi.bands[Bands.b24g];
+        const b5g = wifi.bands[Bands.b5g];
+        this.wifiForm.ssid24g = b24g.ssid;
+        this.wifiForm.password24g = b24g.password;
+        this.wifiForm.ssid5g = b5g.ssid;
+        this.wifiForm.password5g = b5g.password;
+        this.wifiForm.smart_connect = wifi.smart_connect;
+      });
+    },
+    getMeshMode() {
+      this.$http.getMeshMode()
         .then(res => {
-          setTimeout(() => {
-            this.originalUpperList = [];
-            this.processedUpperApList = [];
-            const { data } = res;
-            data.sort((a, b) => b.rssi - a.rssi);
-            this.originalUpperList = data;
-            data.map(i => this.processedUpperApList.push({
-              value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
-            }));
-          }, 7000);
+          console.log(res);
+          const { status } = res.data;
+          if (status !== 'unlinked') { // 如果插入了网线，就弹窗提示，可跳过上级设置
+            this.$dialog.confirm({
+              okText: this.$t('trans0163'),
+              cancelText: this.$t('trans1055'),
+              message: [this.$t('trans1053'), this.$t('trans1054')],
+              callback: {
+                ok: () => {
+                  this.skipSetUpper();
+                },
+                cancel: () => {
+                  this.meshMode = 'wireless_bridge';
+                }
+              }
+            });
+          }
         });
-      // this.$http.getMeshApclientScanList
+    },
+    getMeshApclientScanList() {
+      // axios({
+      //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
+      //   method: 'get'
+      // })
       //   .then(res => {
-      //     this.originalUpperList = [];
-      //     this.processedUpperApList = [];
-      //     const { data } = res;
-      //     data.sort((a, b) => b.rssi - a.rssi);
-      //     this.originalUpperList = data;
-      //     data.map(i => this.processedUpperApList.push({
-      //       value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
-      //     }));
+      //     setTimeout(() => {
+      //       this.originalUpperList = [];
+      //       this.processedUpperApList = [];
+      //       const { data } = res;
+      //       data.sort((a, b) => b.rssi - a.rssi);
+      //       this.originalUpperList = data;
+      //       data.map(i => this.processedUpperApList.push({
+      //         value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
+      //       }));
+      //     }, 7000);
       //   });
+      this.$http.getMeshApclientScanList
+        .then(res => {
+          this.originalUpperList = [];
+          this.processedUpperApList = [];
+          const { data } = res;
+          data.sort((a, b) => b.rssi - a.rssi);
+          this.originalUpperList = data;
+          data.map(i => this.processedUpperApList.push({
+            value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
+          }));
+        });
     },
     selectedChange(option) {
       this.saveDisable = false;

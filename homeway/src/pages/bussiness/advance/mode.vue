@@ -13,22 +13,24 @@
       </div>
       <div class="form upperApForm"
            v-if="mode==='wireless_bridge'">
+        <h4>{{`Upper-level AP`}}</h4>
         <div class="upperApForm__top"
              v-if="currentUpperInfo.show">
-          <m-form>
-            <m-form-item class="form-item">
-              {{'当前连接上级ssid:'}}{{currentUpperInfo.ssid}}
-            </m-form-item>
-            <m-form-item class="form-item">
-              {{'加密方式:'}}{{currentUpperInfo.security}}
-            </m-form-item>
-            <m-form-item class="form-item">
-              {{'密码：'}}{{currentUpperInfo.security!=='open'?currentUpperInfo.password:'-'}}
-            </m-form-item>
-          </m-form>
+          <div class="current-ssid">
+            <span class="title">Currently SSID:</span>
+            <span class="content">{{currentUpperInfo.ssid}}</span>
+          </div>
+          <div class="current-security">
+            <span class="title">Currently Encrypt:</span>
+            <span class="content">{{currentUpperInfo.security}}</span>
+          </div>
+          <div class="current-pwd">
+            <span class="title">Currently Password:</span>
+            <span
+                  class="content">{{currentUpperInfo.security!=='open'?currentUpperInfo.password:'-'}}</span>
+          </div>
         </div>
         <div class="upperApForm__bottom">
-          <h4>{{`Upper-level AP`}}</h4>
           <m-form ref="upperApForm"
                   :model="upperApForm"
                   :rules="upperApFormRules">
@@ -56,11 +58,14 @@
 
       </div>
       <div class="form-button">
+        <!-- 提交按钮是否展示逻辑： -->
+        <!-- 1.如果模式有更新才显示save，模式没变不展示 -->
+        <!-- 2.或者只要upperApForm的ssid不为空，即选择了一个扫描到的上级，就展示save -->
         <button class="btn primary"
                 v-defaultbutton
                 @click="updateMode"
                 :disabled="saveDisable"
-                v-show="modeHasChange">{{$t('trans0081')}}</button>
+                v-show="modeHasChange||upperApForm.ssid!==''">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -73,7 +78,7 @@ export default {
   data() {
     return {
       currentMode: '',
-      modeHasChange: false,
+      modeHasChange: true,
       saveDisable: false,
       selectIsLoading: true,
       mode: '',
@@ -134,6 +139,7 @@ export default {
         security: '', // 必选
         rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
       };
+      this.pwdDisabled = true;
       if (this.currentMode === nv) {
         // 模式没变化，就隐藏修改模式按钮
         this.modeHasChange = false;
@@ -196,47 +202,41 @@ export default {
   methods: {
     getMode() {
       this.$loading.open();
-      axios({
-        url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=0',
-        method: 'get'
-      }).then(res => {
-        const { data } = res;
-        console.log(data);
-        if (data.mode === 'wireless_bridge') {
-          this.currentUpperInfo.show = true;
-          this.currentUpperInfo.ssid = data.apclient.ssid;
-          this.currentUpperInfo.password = data.apclient.password;
-          this.currentUpperInfo.security = data.apclient.security;
-          console.log(this.upperApForm);
-        }
-        this.mode = data.mode;
-        this.currentMode = data.mode;
-        this.$loading.close();
-      }).catch(() => {
-        this.$loading.close();
-      });
-      // this.$http
-      //   .getMeshMode()
-      //   .then(res => {
-      //     const { data: { result } } = res;
-      //     const resultForm = {
-      //       ssid: '测试ssid', // 必选
-      //       password: '1233333', // 可选
-      //       bssid: '测试mac', // 必选
-      //       channel: '40', // 必选
-      //       band: '2.4g', // 必选
-      //       security: 'wpa2', // 必选
-      //       rssi: '-4'// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
-      //     };
-      //     if (result.mode === 'wireless_bridge') {
-      //       this.upperApForm = result.apclient;
-      //     }
-      //     this.currentMode = res.data.result.mode;
-      //     this.$loading.close();
-      //   })
-      //   .catch(() => {
-      //     this.$loading.close();
-      //   });
+      this.$http.getMeshMode()
+        .then(res => {
+          const { data: { result } } = res;
+          console.log(result);
+          if (result.mode === 'wireless_bridge') {
+            this.currentUpperInfo.show = true;
+            this.currentUpperInfo.ssid = result.apclient.ssid;
+            this.currentUpperInfo.password = result.apclient.password;
+            this.currentUpperInfo.security = result.apclient.security;
+            console.log(this.upperApForm);
+          }
+          this.mode = result.mode;
+          this.currentMode = result.mode;
+          this.$loading.close();
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
+      // axios({
+      //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=0',
+      //   method: 'get'
+      // }).then(res => {
+      //   const { data } = res;
+      //   console.log(data);
+      //   if (data.mode === 'wireless_bridge') {
+      //     this.currentUpperInfo.show = true;
+      //     this.currentUpperInfo.ssid = data.apclient.ssid;
+      //     this.currentUpperInfo.password = data.apclient.password;
+      //     this.currentUpperInfo.security = data.apclient.security;
+      //     console.log(this.upperApForm);
+      //   }
+      //   this.mode = data.mode;
+      //   this.currentMode = data.mode;
+      //   this.$loading.close();
+      // })
     },
     updateMode() {
       switch (this.mode) {
@@ -246,22 +246,22 @@ export default {
           this.$http.getMeshMode()
             .then(res => {
               // TODO:网线接入的接口数据
-              // {status}=res.data
-              console.log(res);
-              // if (status === 'unlinked') { // 1.如果没有插入网线
-              this.$dialog.confirm({
-                okText: this.$t('trans0024'),
-                cancelText: this.$t('trans0025'),
-                message: [this.$t('trans1063'), this.$t('trans1065')],
-                callback: {
-                  ok: () => {
-                    // this.confirmUpdateMeshMode({ mode: this.mode });
+              const { status } = res.data;
+              console.log(status);
+              if (status === 'unlinked') { // 1.如果没有插入网线
+                this.$dialog.confirm({
+                  okText: this.$t('trans0024'),
+                  cancelText: this.$t('trans0025'),
+                  message: [this.$t('trans1063'), this.$t('trans1065')],
+                  callback: {
+                    ok: () => {
+                      this.confirmUpdateMeshMode({ mode: this.mode });
+                    }
                   }
-                }
-              });
-              // } else { // 2.插入了网线,直接进行mode update
-              // this.confirmUpdateMeshMode({ mode: this.mode });
-              // }
+                });
+              } else { // 2.插入了网线,直接进行mode update
+                this.confirmUpdateMeshMode({ mode: this.mode });
+              }
             });
           break;
         case 'wireless_bridge':
@@ -272,7 +272,7 @@ export default {
               apclient: this.upperApForm
             };
             console.log(params);
-            // this.confirmUpdateMeshMode();
+            this.confirmUpdateMeshMode();
           }
           break;
         default:
@@ -306,33 +306,33 @@ export default {
     },
     // eslint-disable-next-line func-names
     getMeshApclientScanList: throttle(function () {
-      // TODO:scanMeshList 接口调用
-      axios({
-        url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
-        method: 'get'
-      })
+      this.$http.getMeshApclientScanList
         .then(res => {
-          setTimeout(() => {
-            this.originalUpperList = [];
-            this.processedUpperApList = [];
-            const { data } = res;
-            data.sort((a, b) => b.rssi - a.rssi);
-            this.originalUpperList = data;
-            data.map(i => this.processedUpperApList.push({
-              value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
-            }));
-          }, 100);
+          this.originalUpperList = [];
+          this.originalUpperList = [];
+          this.processedUpperApList = [];
+          const { data } = res;
+          data.sort((a, b) => b.rssi - a.rssi);
+          this.originalUpperList = data;
+          data.map(i => this.processedUpperApList.push({
+            value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
+          }));
         });
-      // this.$http.getMeshApclientScanList
+      // axios({
+      //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
+      //   method: 'get'
+      // })
       //   .then(res => {
+      // setTimeout(() => {
       //   this.originalUpperList = [];
-      //       this.processedUpperApList = [];
-      //       const { data } = res;
-      //       data.sort((a, b) => b.rssi - a.rssi);
-      //       this.originalUpperList = data;
-      //       data.map(i => this.processedUpperApList.push({
-      //         value: i.ssid, text: i.ssid, encrypt: i.security, rssi: i.rssi
-      //       }));
+      //   this.processedUpperApList = [];
+      //   const { data } = res;
+      //   data.sort((a, b) => b.rssi - a.rssi);
+      //   this.originalUpperList = data;
+      //   data.map(i => this.processedUpperApList.push({
+      //     value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
+      //   }));
+      // }, 100);
       //   });
     }, 7000),
     selectedChange(option) {
@@ -372,13 +372,23 @@ export default {
   border-top: 1px solid #ebebeb;
   padding-top: 30px;
   .upperApForm__top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    width: 340px;
+    background: #f7f7f7;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    .title {
+      margin-right: 10px;
+      color: #808080;
+    }
+    .content {
+      font-weight: 600;
+    }
   }
   h4 {
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 }
 @media screen and (max-width: 768px) {

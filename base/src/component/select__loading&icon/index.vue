@@ -229,17 +229,17 @@ export default {
           width: 14px;
           height: 14px;
           &.bad {
-            background: url(../../assets/images/icon/ic_wifi_bad.png) no-repeat
+            background: url(~@/assets/images/icon/ic_wifi_bad.png) no-repeat
               center;
             background-size: 100%;
           }
           &.normal {
-            background: url(../../assets/images/icon/ic_wifi_normal.png)
-              no-repeat center;
+            background: url(~@/assets/images/icon/ic_wifi_normal.png) no-repeat
+              center;
             background-size: 100%;
           }
           &.good {
-            background: url(../../assets/images/icon/ic_wifi_good.png) no-repeat
+            background: url(~@/assets/images/icon/ic_wifi_good.png) no-repeat
               center;
             background-size: 100%;
           }

@@ -126,8 +126,7 @@
                    :class="[meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.status==='unlinked'?'offline':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
               </div>
               <div class="line-container "
-                   :class="[meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.status==='unlinked'?'offline':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair'
-                   ]">
+                   :class="[meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.status==='unlinked'?'offline':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
               </div>
               <div class="gateway-container">
 
@@ -428,18 +427,22 @@ export default {
       });
     },
     getMeshMode() {
-      // this.$http.getMeshMode().then(res => {
-      //   console.log('meshMode', res);
+      this.$http.getMeshMode()
+        .then(res => {
+          console.log('meshMode', res.data);
+          this.meshModeInfo = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      // axios({
+      //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=0',
+      //   method: 'get',
+      // }).then((res) => {
+      //   console.log('meshMode', res.data);
+      //   this.meshModeInfo = res.data;
+      // }).catch((err) => {
       // });
-      axios({
-        url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=0',
-        method: 'get',
-      }).then((res) => {
-        console.log('meshMode', res.data);
-        this.meshModeInfo = res.data;
-      }).catch((err) => {
-        console.log(err);
-      });
     },
     isRouterOffline(router) {
       return router.status === RouterStatus.offline;

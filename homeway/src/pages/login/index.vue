@@ -82,19 +82,30 @@ export default {
           localStorage.setItem('role', role);
           this.$http.getMeshMode()
             .then(res1 => {
-              const { mode } = res1.data.result;
+              const { data: { result: { mode } } } = res1;
               this.$store.mode = mode;
               localStorage.setItem('mode', mode);
-              axios({
-                methods: 'get',
-                url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
-              }).then(res2 => {
-                this.currentModelVersion = res2.data.result.sn.slice(9, 10);
-                this.$store.modelVersion = this.currentModelVersion;
-                localStorage.setItem('modelVersion', this.currentModelVersion);
-                this.$loading.close();
-                this.$router.push({ path: '/dashboard' });
-              });
+              this.$http.getRouter()
+                .then(res2 => {
+                  console.log(res2);
+                  const { data: { result: { sn } } } = res2;
+                  this.currentModelVersion = sn.slice(9, 10);
+                  this.$store.modelVersion = this.currentModelVersion;
+                  localStorage.setItem('modelVersion', this.currentModelVersion);
+                  this.$loading.close();
+                  this.$router.push({ path: '/dashboard' });
+                });
+              // axios({
+              //   methods: 'get',
+              //   url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
+              // }).then(res2 => {
+              //   console.log(res2);
+              //   this.currentModelVersion = res2.data.result.sn.slice(9, 10);
+              //   this.$store.modelVersion = this.currentModelVersion;
+              //   localStorage.setItem('modelVersion', this.currentModelVersion);
+              //   this.$loading.close();
+              //   this.$router.push({ path: '/dashboard' });
+              // });
             });
         })
         .catch(err => {

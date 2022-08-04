@@ -25,6 +25,7 @@ import region from 'base/pages/bussiness/setting/region.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
+import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 
 Vue.use(Router);
 
@@ -65,7 +66,7 @@ const routes = {
       path: '/dashboard',
       name: 'dashboard',
       component: dashboard,
-      redirect: '/dashboard/mesh/table',
+      redirect: '/dashboard/mesh/topo',
       children: [
         {
           path: '/dashboard/device/:id?',
@@ -88,6 +89,11 @@ const routes = {
       path: '/setting/wifi',
       name: 'wifi',
       component: wifi
+    },
+    {
+      path: '/setting/ipv6',
+      name: 'ipv6',
+      component: ipv6
     },
     {
       path: '/setting/safe',

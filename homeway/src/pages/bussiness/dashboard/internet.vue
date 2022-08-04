@@ -6,31 +6,26 @@
         <div class="section__body">
           <div class="item">
             <label class="item__label">{{$t('trans0317')}}</label>
-            <span class="item__value">{{ networkArr[localNetInfo.type]}}</span>
+            <span class="item__value">{{networkArr[localNetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans1067')}}</label>
+            <label class="item__label">{{$t('trans0151')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans1068')}}</label>
-            <span class="item__value">{{ipv6NetInfo.ip}}</span>
-          </div>
-          <!-- <div class="item">
             <label class="item__label">{{$t('trans0152')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.mask }}</span>
           </div>
           <div class="item">
             <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
-              {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
-              :'-'}}
+              {{dnsText}}
             </span>
           </div>
           <div class="item">
             <label class="item__label">{{$t('trans0153')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.gateway}}</span>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -161,6 +156,32 @@
         </div>
       </div>
     </div>
+    <transition name="fade">
+      <div class="section"
+           v-if="this.ipv6NetInfo.enabled">
+        <div class="section__inner">
+          <div class="section__title">{{$t('trans0700')}}</div>
+          <div class="section__body">
+            <div class="item">
+              <label class="item__label">{{$t('trans0317')}}</label>
+              <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0701')}}</label>
+              <span class="item__value">{{ipv6NetInfo.ip }}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0236')}}</label>
+              <span class="item__value">{{ipv6NetInfo.dns}}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0153')}}</label>
+              <span class="item__value">{{ipv6NetInfo.gateway}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
 
     <!-- <div class='speed-model-info'
          v-if='speedModelOpen'>
@@ -224,7 +245,9 @@ export default {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
+        pppoe: this.$t('trans0144'),
+        auto: this.$t('trans0696'),
+        failObtain: this.$t('trans1058')
       },
       testTimeout: 60,
       testSpeedNumber: 60,
@@ -241,7 +264,11 @@ export default {
       ipv6InfoTimer: null,
       uptimeTimer: null,
       ipv6NetInfo: {
-        ip: '-'
+        enabled: null,
+        type: '-',
+        ip: '-',
+        gateway: '-',
+        dns: '-',
       }
     };
   },
@@ -253,6 +280,7 @@ export default {
   },
   computed: {
     isRouter() {
+      console.log('2312313', this.$store.mode);
       return CONSTANTS.RouterMode.router === this.$store.mode;
     },
     uptimeArr() {
@@ -345,14 +373,25 @@ export default {
         type: '-',
         netinfo: {
           ip: '-',
+          mask: '-',
+          gateway: '-', // 可选
+          dns: []
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
         local.type = this.netInfo.type ? this.netInfo.type : '-';
         local.netinfo.ip = this.netInfo.netinfo.ip ? this.netInfo.netinfo.ip : '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
+        local.netinfo.dns = this.netInfo.netinfo.dns;
         return local;
       }
       return local;
+    },
+    dnsText() {
+      return this.localNetInfo.netinfo.dns.length > 0
+        ? this.localNetInfo.netinfo.dns.join('/')
+        : '-';
     },
     localSpeedInfo() {
       const local = {
@@ -500,20 +539,27 @@ export default {
       this.$http
         .getMeshInfoWanNetIpv6()
         .then(res => {
-          this.ipv6InfoTimer = null;
-          clearTimeout(this.ipv6InfoTimer);
           const { result } = res.data;
           console.log('ipv6', result);
           if (result.enabled === true) {
+            this.ipv6NetInfo.type = result.type ?? '-';
             const { netinfo } = result;
             this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip ?? '-';
+            this.ipv6NetInfo.gateway = netinfo.gateway?.ip ?? '-';
+            if (netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip) {
+              this.ipv6NetInfo.dns = netinfo.dns[0].ip;
+            } else {
+              this.ipv6NetInfo.dns = '-';
+            }
           }
           this.ipv6NetInfo.enabled = result.enabled;
         })
         .catch(() => {
-          this.ipv6InfoTimer = setTimeout(() => {
-            this.getIpv6NetInfo();
-          }, 1000 * 3);
+          this.ipv6NetInfo.enabled = true;
+          this.ipv6NetInfo.type = 'failObtain';
+          this.ipv6NetInfo.ip = this.$t('trans1058');
+          this.ipv6NetInfo.gateway = this.$t('trans1058');
+          this.ipv6NetInfo.dns = this.$t('trans1058');
         });
     },
   },
@@ -526,6 +572,13 @@ export default {
 };
 </script>
 <style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .router-info {
   display: flex;
   margin-top: 10px !important;

@@ -70,7 +70,6 @@
 import marked from 'marked';
 import * as CONSTANTS from '../../../util/constant';
 import { compareVersion } from '../../../util/util';
-// import axios from 'axios';
 
 export default {
   data() {
@@ -153,7 +152,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;

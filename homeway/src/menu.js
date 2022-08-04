@@ -64,6 +64,12 @@ export default function getMenu(
         config
       },
       {
+        text: 'trans0620',
+        name: 'ipv6',
+        url: '/setting/ipv6',
+        config
+      },
+      {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
