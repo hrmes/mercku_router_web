@@ -72,6 +72,8 @@
 
 </template>
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -82,25 +84,43 @@ export default {
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  // mounted() {
-  //   this.loading = true;
-  //   this.$http
-  //     .isinitial()
-  //     .then(res => {
-  //       if (res.data.result.status) {
-  //         this.$http.login({ password: '' }).then(() => {
-  //           this.towlan();
-  //         });
-  //       } else {
-  //         this.initial = false;
-  //         this.loading = false;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       this.initial = false;
-  //       this.loading = false;
-  //     });
-  // },
+  mounted() {
+    this.loading = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.$http.getRouter()
+              .then(res2 => {
+                console.log(res2);
+                const { data: { result: { sn } } } = res2;
+                this.currentModelVersion = sn.slice(9, 10);
+                this.$store.modelVersion = this.currentModelVersion;
+                localStorage.setItem('modelVersion', this.currentModelVersion);
+                this.towlan();
+              });
+            // axios({
+            //   methods: 'get',
+            //   url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
+            // }).then(res2 => {
+            //   console.log(res2);
+            //   this.currentModelVersion = res2.data.result.sn.slice(9, 10);
+            //   this.$store.modelVersion = this.currentModelVersion;
+            //   localStorage.setItem('modelVersion', this.currentModelVersion);
+            //   this.towlan();
+            // });
+          });
+        } else {
+          this.initial = false;
+          this.loading = false;
+        }
+      })
+      .catch(() => {
+        this.initial = false;
+        this.loading = false;
+      });
+  },
   computed: {
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
@@ -119,18 +139,37 @@ export default {
           this.$store.role = role;
           localStorage.setItem('role', role);
           this.$http.getMeshMode().then(res1 => {
-            this.$loading.close();
             const { mode } = res1.data.result;
             this.$store.mode = mode;
             localStorage.setItem('mode', mode);
-            this.$router.push({ path: '/dashboard' });
+            this.$http.getRouter()
+              .then(res2 => {
+                console.log(res2);
+                const { data: { result: { sn } } } = res2;
+                this.currentModelVersion = sn.slice(9, 10);
+                this.$store.modelVersion = this.currentModelVersion;
+                localStorage.setItem('modelVersion', this.currentModelVersion);
+                this.$router.push({ path: '/dashboard' });
+                this.$loading.close();
+              });
+            // axios({
+            //   methods: 'get',
+            //   url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
+            // }).then(res2 => {
+            //   console.log(res2);
+            //   this.currentModelVersion = res2.data.result.sn.slice(9, 10);
+            //   this.$store.modelVersion = this.currentModelVersion;
+            //   localStorage.setItem('modelVersion', this.currentModelVersion);
+            //   this.$router.push({ path: '/dashboard' });
+            //   this.$loading.close();
+            // });
           });
         })
         .catch(err => {
           this.$loading.close();
           this.$toast(this.$t(err.error.code));
         });
-    }
+    },
   }
 };
 </script>

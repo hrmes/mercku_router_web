@@ -48,6 +48,18 @@ import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
 
+import homewayMesh from '../pages/homeway-pages/bussiness/dashboard/mesh.vue';
+import homewayDevice from '../pages/homeway-pages/bussiness/dashboard/device.vue';
+import homewayInternet from '../pages/homeway-pages/bussiness/dashboard/internet.vue';
+import homewayWifi from '../pages/homeway-pages/bussiness/setting/wifi.vue';
+import homewayChildLock from '../pages/homeway-pages/bussiness/setting/childLock.vue';
+import homewayMode from '../pages/homeway-pages/bussiness/advance/mode.vue';
+import homewayWlan from '../pages/homeway-pages/bussiness/wlan/index.vue';
+import homewayWifisetting from '../pages/homeway-pages/bussiness/wlan/wifiSetting.vue';
+import homewayWifisetting230v from '../pages/homeway-pages/bussiness/wlan/wifiSetting_230v.vue';
+
+import { HomewaySnModel, Customers } from '../../../base/src/util/constant';
+
 Vue.use(Router);
 
 const prefix = '/web';
@@ -92,17 +104,59 @@ const routes = {
         {
           path: '/dashboard/device/:id?',
           name: 'device',
-          component: device
+          component: device,
+          beforeEnter: (to, from, next) => {
+            // eslint-disable-next-line no-nested-ternary
+            process.env.CUSTOMER_CONFIG.id !== Customers.homeway
+              ? next()
+              : localStorage.getItem('modelVersion') ===
+                HomewaySnModel.Homeway_M6a
+              ? next()
+              : next({ name: 'homewayDevice' });
+          }
         },
         {
           path: '/dashboard/mesh/:category',
           name: 'mesh',
-          component: mesh
+          component: mesh,
+          beforeEnter: (to, from, next) => {
+            // eslint-disable-next-line no-nested-ternary
+            process.env.CUSTOMER_CONFIG.id !== Customers.homeway
+              ? next()
+              : localStorage.getItem('modelVersion') ===
+                HomewaySnModel.Homeway_M6a
+              ? next()
+              : next({ name: 'homewayMesh' });
+          }
         },
         {
           path: '/dashboard/internet',
           name: 'internet',
-          component: internet
+          component: internet,
+          beforeEnter: (to, from, next) => {
+            // eslint-disable-next-line no-nested-ternary
+            process.env.CUSTOMER_CONFIG.id !== Customers.homeway
+              ? next()
+              : localStorage.getItem('modelVersion') ===
+                HomewaySnModel.Homeway_M6a
+              ? next()
+              : next({ name: 'homewayInternet' });
+          }
+        },
+        {
+          path: '/dashboard/mesh/topo',
+          name: 'homewayMesh',
+          component: homewayMesh
+        },
+        {
+          path: '/dashboard/mesh/device',
+          name: 'homewayDevice',
+          component: homewayDevice
+        },
+        {
+          path: '/dashboard/internet',
+          name: 'homewayInternet',
+          component: homewayInternet
         }
       ]
     },
@@ -147,7 +201,20 @@ const routes = {
     {
       path: '/setting/wifi',
       name: 'wifi',
-      component: wifi
+      component: wifi,
+      beforeEnter: (to, from, next) => {
+        // eslint-disable-next-line no-nested-ternary
+        process.env.CUSTOMER_CONFIG.id !== Customers.homeway
+          ? next()
+          : localStorage.getItem('modelVersion') === HomewaySnModel.Homeway_M6a
+          ? next()
+          : next({ name: 'homewayWifi' });
+      }
+    },
+    {
+      path: '/setting/wifi',
+      name: 'homewayWifi',
+      component: homewayWifi
     },
     {
       path: '/setting/safe',
@@ -185,6 +252,11 @@ const routes = {
       component: led
     },
     {
+      path: '/setting/child-lock',
+      name: 'child-lock',
+      component: homewayChildLock
+    },
+    {
       path: '/setting/wifi-schedule',
       name: 'wifi-schedule',
       component: wifiSchedule
@@ -192,7 +264,30 @@ const routes = {
     {
       path: '/wlan',
       name: 'wlan',
-      component: wlan
+      component: wlan,
+      beforeEnter: (to, from, next) => {
+        // eslint-disable-next-line no-nested-ternary
+        process.env.CUSTOMER_CONFIG.id !== Customers.homeway
+          ? next()
+          : localStorage.getItem('modelVersion') === HomewaySnModel.Homeway_M6a
+          ? next()
+          : next({ name: 'homeway-wlan' });
+      }
+    },
+    {
+      path: '/wlan',
+      name: 'homeway-wlan',
+      component: homewayWlan
+    },
+    {
+      path: '/wlan/wifisetting',
+      name: 'homeway-wifisetting',
+      component: homewayWifisetting
+    },
+    {
+      path: '/wlan/wifisetting-230v',
+      name: 'homeway-wifisetting-230v',
+      component: homewayWifisetting230v
     },
     {
       path: '/unconnect',
@@ -292,7 +387,20 @@ const routes = {
     {
       path: '/advance/mode',
       name: 'advance-mode',
-      component: mode
+      component: mode,
+      beforeEnter: (to, from, next) => {
+        // eslint-disable-next-line no-nested-ternary
+        process.env.CUSTOMER_CONFIG.id !== Customers.homeway
+          ? next()
+          : localStorage.getItem('modelVersion') === HomewaySnModel.Homeway_M6a
+          ? next()
+          : next({ name: 'homewayMode' });
+      }
+    },
+    {
+      path: '/advance/mode',
+      name: 'homewayMode',
+      component: homewayMode
     },
     {
       path: '/advance/wwa',
@@ -328,11 +436,11 @@ const recursive = root => {
 recursive(routes.routes);
 Array.prototype.push.apply(routes.routes, [
   {
-    path: '*',
+    path: '/',
     redirect: `${prefix}/wlan`
   },
   {
-    path: '/',
+    path: '*',
     redirect: `${prefix}/login`
   }
 ]);

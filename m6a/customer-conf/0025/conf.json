@@ -1,0 +1,42 @@
+{
+  "id": "0025",
+  "title": "Homeway",
+  "host": "http://mywifi.mercku.tech",
+  "accept": ".ma",
+  "favicon": "customer-conf/0025/homeway.ico",
+  "policy": "",
+  "allow2LevelAdmin": false,
+  "languages": ["zh-CN", "en-US", "de-DE"],
+  "device": "Homeway",
+  "wifi": "Homeway",
+  "routers": {
+    "Homeway_m6a": {
+      "name": "Homeway  Router m6a",
+      "sn": "0",
+      "shortName": "Homeway M6a"
+    },
+    "Homeway_230v": {
+      "name": "Homeway  Router 230v",
+      "sn": "1",
+      "shortName": "230v"
+    },
+    "Homeway_PoE_1": {
+      "name": "Homeway  Router PoE_1",
+      "sn": "2",
+      "shortName": "PoE single"
+    },
+    "Homeway_PoE_2": {
+      "name": "Homeway  Router PoE_2",
+      "sn": "3",
+      "shortName": "PoE double"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#0e6a99"
+  },
+  "website": {
+    "url": "https://www.homeway.com",
+    "text": "www.homeway.com"
+  }
+}

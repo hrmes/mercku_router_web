@@ -57,7 +57,10 @@ export const RouterSnModel = {
   Bee: '02',
   M6: '06',
   M6c: '07',
-  M6a: '08',
+  M6a: '08'
+};
+export const HomewaySnModel = {
+  Homeway_M6a: '0',
   Homeway_230v: '1',
   Homeway_PoE_1: '2',
   Homeway_PoE_2: '3'
