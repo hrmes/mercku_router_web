@@ -58,9 +58,7 @@ export const RouterSnModel = {
   M6: '06',
   M6c: '07',
   M6a: '08',
-  Homeway_230v: '1',
-  Homeway_PoE_1: '2',
-  Homeway_PoE_2: '3'
+  Homeway: '09'
 };
 export const SpeedTestStatus = {
   testing: 'testing',
@@ -132,5 +130,10 @@ export const Models = {
   m6: 'M6R0',
   m6c: 'M7R0',
   m6a: 'M8R0',
-  homeway: 'M8R1'
+  homeway: 'M9R0'
+};
+export const HomewayModel = {
+  homeway_230v: '0',
+  homeway_POE_1: '1',
+  homeway_POE_2: '2'
 };

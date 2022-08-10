@@ -150,27 +150,6 @@
         </div>
       </div>
     </div>
-    <!-- 插入有线，有线桥模式 弹窗提示 -->
-    <!-- <div class="tips">
-      <transition name="fade">
-        <div class="wiredBridge_tips"
-             v-if="isShowPopup">
-          <p>{{$t('trans1053')}}</p>
-          <p>{{$t('trans1054')}}</p>
-          <div class="btn-container">
-            <button class="btn-default"
-                    @click="isShowPopup=false">{{$t('trans1055')}}</button>
-            <button class="btn"
-                    @click="skipSetUpper">{{$t('trans0163')}}</button>
-          </div>
-        </div>
-      </transition>
-      <transition name="fade">
-        <div class="mask"
-             v-if="isShowPopup">
-        </div>
-      </transition>
-    </div> -->
   </div>
 </template>
 <script>

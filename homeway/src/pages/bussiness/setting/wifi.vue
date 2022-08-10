@@ -483,7 +483,7 @@ export default {
           this.form.compatibility_mode = wifi.compatibility_mode;
 
           // wifi Tx_power
-          // this.form.wifiTxPower = wifi.tx_power
+          this.form.wifiTxPower = wifi.tx_power;
 
           this.$loading.close();
         })

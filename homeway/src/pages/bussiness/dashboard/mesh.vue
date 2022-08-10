@@ -340,18 +340,6 @@ export default {
     rssiTips() {
       return marked(this.$t('trans0595'), { sanitize: true });
     },
-    // showTable() {
-    //   let result;
-    //   if (this.$route.params.category === 'topo') {
-    //     setTimeout(() => {
-    //       this.chart && this.chart.resize();
-    //     });
-    //     result = false;
-    //   } else {
-    //     result = true;
-    //   }
-    //   return result;
-    // }
   },
   methods: {
     getRouterStationCount(router) {
@@ -429,8 +417,9 @@ export default {
     getMeshMode() {
       this.$http.getMeshMode()
         .then(res => {
-          console.log('meshMode', res.data);
-          this.meshModeInfo = res.data;
+          console.log('meshMode', res.data.result);
+          this.meshModeInfo = res.data.result;
+          console.log(this.meshModeInfo);
         })
         .catch(err => {
           console.log(err);

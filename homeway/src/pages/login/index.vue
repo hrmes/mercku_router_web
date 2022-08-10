@@ -92,19 +92,19 @@ export default {
                   this.currentModelVersion = sn.slice(9, 10);
                   this.$store.modelVersion = this.currentModelVersion;
                   localStorage.setItem('modelVersion', this.currentModelVersion);
-                  this.$loading.close();
                   this.$router.push({ path: '/dashboard' });
+                  this.$loading.close();
                 });
               // axios({
               //   methods: 'get',
-              //   url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
+              //   url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=2'
               // }).then(res2 => {
               //   console.log(res2);
               //   this.currentModelVersion = res2.data.result.sn.slice(9, 10);
               //   this.$store.modelVersion = this.currentModelVersion;
               //   localStorage.setItem('modelVersion', this.currentModelVersion);
-              //   this.$loading.close();
               //   this.$router.push({ path: '/dashboard' });
+              //   this.$loading.close();
               // });
             });
         })

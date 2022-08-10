@@ -1,10 +1,10 @@
-import { Role, RouterMode, RouterSnModel } from 'base/util/constant';
+import { Role, RouterMode, HomewayModel } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 
 export default function getMenu(
   role,
-  mode = RouterMode.router,
+  mode = RouterMode.bridge,
   currentModelVersion
 ) {
   console.log('Init menus...');
@@ -18,9 +18,9 @@ export default function getMenu(
     show: true,
     auth: [Role.admin, Role.super],
     modelVersion: [
-      RouterSnModel.Homeway_230v,
-      RouterSnModel.Homeway_PoE_1,
-      RouterSnModel.Homeway_PoE_2
+      HomewayModel.homeway_230v,
+      HomewayModel.homeway_POE_1,
+      HomewayModel.homeway_POE_2
     ]
   };
   // 第一种搭配策略
@@ -117,10 +117,10 @@ export default function getMenu(
         text: 'trans0539',
         config,
         modelVersion: {
-          [RouterSnModel.Homeway_PoE_1]: {
+          [HomewayModel.homeway_POE_1]: {
             show: false
           },
-          [RouterSnModel.Homeway_PoE_2]: {
+          [HomewayModel.homeway_POE_2]: {
             show: false
           }
         }

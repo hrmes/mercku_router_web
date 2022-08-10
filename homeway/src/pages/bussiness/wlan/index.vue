@@ -27,16 +27,12 @@
 </template>
 <script>
 import axios from 'axios';
+import { HomewayModel } from '../../../../../base/src/util/constant';
 
 export default {
   data() {
     return {
-      routerModel: {
-        m6a: '0',
-        homeway_230v: '1',
-        homgway_PoE_1: '2',
-        homeway_PoE_2: '3'
-      },
+      HomewayModel,
       modelVersion: null,
       currentRouter: null,
     };
@@ -54,15 +50,13 @@ export default {
         })
         .then(() => {
           switch (this.modelVersion) {
-            case this.routerModel.m6a:
-              break;
-            case this.routerModel.homeway_230v:
+            case this.HomewayModel.homeway_230v:
               this.currentRouter = '230v';
               break;
-            case this.routerModel.homgway_PoE_1:
+            case this.HomewayModel.homgway_PoE_1:
               this.currentRouter = 'PoE';
               break;
-            case this.routerModel.homeway_PoE_2:
+            case this.HomewayModel.homeway_PoE_2:
               this.currentRouter = 'PoE';
               break;
             default:
@@ -98,7 +92,7 @@ export default {
     },
     prepared(router) {
       console.log(this.$router);
-      router === '230v' ? this.$router.push({ path: '/wlan/wifiSetting_230v' }) : this.$router.push({ path: '/wlan/wifiSetting' });
+      router === '230v' ? this.$router.push({ name: 'wifiSetting_230v' }) : this.$router.push({ name: 'wifiSetting' });
     }
   }
 };
