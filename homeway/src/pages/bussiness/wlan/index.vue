@@ -44,7 +44,6 @@ export default {
     getRouter() {
       this.$http.getRouter()
         .then(res => {
-          console.log('routerMeta@@@', res);
           this.modelVersion = res.data.result.sn.slice(9, 10);
           console.log('modelVersion', this.modelVersion);
         })

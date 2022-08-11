@@ -243,10 +243,10 @@ export default {
         // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
         case 'bridge':
           // TODO:监测网口是否插入网线接口待调用;
-          this.$http.getMeshMode()
+          this.$http.getWanStatus()
             .then(res => {
               // TODO:网线接入的接口数据
-              const { status } = res.data;
+              const { status } = res.data.result;
               console.log(status);
               if (status === 'unlinked') { // 1.如果没有插入网线
                 this.$dialog.confirm({
@@ -272,7 +272,7 @@ export default {
               apclient: this.upperApForm
             };
             console.log(params);
-            this.confirmUpdateMeshMode();
+            this.confirmUpdateMeshMode({ mode: this.mode });
           }
           break;
         default:
@@ -306,15 +306,15 @@ export default {
     },
     // eslint-disable-next-line func-names
     getMeshApclientScanList: throttle(function () {
-      this.$http.getMeshApclientScanList
+      this.$http.getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];
           this.originalUpperList = [];
           this.processedUpperApList = [];
-          const { data } = res;
-          data.sort((a, b) => b.rssi - a.rssi);
-          this.originalUpperList = data;
-          data.map(i => this.processedUpperApList.push({
+          const { result } = res.data;
+          result.sort((a, b) => b.rssi - a.rssi);
+          this.originalUpperList = result;
+          result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
           }));
         });

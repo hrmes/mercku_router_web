@@ -334,9 +334,9 @@ export default {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
       });
-    this.getMeshMeta();
     this.getMeshApclientScanList();
-    this.getMeshMode();
+    this.getWanStatus();
+    this.getMeshMeta();
   },
   methods: {
     skipSetUpper() {
@@ -387,11 +387,11 @@ export default {
         this.wifiForm.smart_connect = wifi.smart_connect;
       });
     },
-    getMeshMode() {
-      this.$http.getMeshMode()
+    getWanStatus() {
+      this.$http.getWanStatus()
         .then(res => {
           console.log(res);
-          const { status } = res.data;
+          const { status } = res.data.result;
           if (status !== 'unlinked') { // 如果插入了网线，就弹窗提示，可跳过上级设置
             this.$dialog.confirm({
               okText: this.$t('trans0163'),
@@ -426,14 +426,14 @@ export default {
       //       }));
       //     }, 7000);
       //   });
-      this.$http.getMeshApclientScanList
+      this.$http.getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];
           this.processedUpperApList = [];
-          const { data } = res;
-          data.sort((a, b) => b.rssi - a.rssi);
-          this.originalUpperList = data;
-          data.map(i => this.processedUpperApList.push({
+          const { result } = res.data;
+          result.sort((a, b) => b.rssi - a.rssi);
+          this.originalUpperList = result;
+          result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
           }));
         });
