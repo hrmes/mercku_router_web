@@ -306,7 +306,7 @@ const routes = {
     },
     {
       path: '/setting/super',
-      name: 'setting.super',
+      name: 'super',
       component: superConfig
     }
   ]

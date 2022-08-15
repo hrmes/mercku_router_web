@@ -9,6 +9,9 @@
   "allow2LevelAdmin": true,
   "languages": ["en-US"],
   "defaultLanguage": "en-US",
+  "deviceId": "Prism",
+  "wifi": "Prism Wi-Fi",
+  "uploadFileTypeLimit": ".pen",
   "routers": {
     "M6a": {
       "name": "Pentanet Prism Edge Wi-Fi Mesh Router",
@@ -20,8 +23,8 @@
     "color": "#999999"
   },
   "website": {
-    "url": "https://pentanet.com.au/",
+    "url": "https://pentanet.com.au",
     "text": "pentanet.com.au"
   },
-  "appDownloadUrl": "http://app-pentanet.merckuwifi.com"
+  "appDownloadUrl": "https://pentanet.com.au/prismapp"
 }

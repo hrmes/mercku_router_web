@@ -6,7 +6,7 @@
         <div class="section__body">
           <div class="item">
             <label class="item__label">{{$t('trans0317')}}</label>
-            <span class="item__value">{{ networkArr[localNetInfo.type]}}</span>
+            <span class="item__value">{{networkArr[localNetInfo.type]}}</span>
           </div>
           <div class="item">
             <label class="item__label">{{$t('trans0151')}}</label>
@@ -19,8 +19,7 @@
           <div class="item">
             <label class="item__label">{{$t('trans0236')}}</label>
             <span class="item__value">
-              {{localNetInfo.netinfo.dns.length>0?localNetInfo.netinfo.dns.join('/')
-              :'-'}}
+              {{dnsText}}
             </span>
           </div>
           <div class="item">
@@ -157,6 +156,32 @@
         </div>
       </div>
     </div>
+    <transition name="fade">
+      <div class="section"
+           v-if="isRouter&&this.ipv6NetInfo.enabled">
+        <div class="section__inner">
+          <div class="section__title">{{$t('trans0700')}}</div>
+          <div class="section__body">
+            <div class="item">
+              <label class="item__label">{{$t('trans0317')}}</label>
+              <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0701')}}</label>
+              <span class="item__value">{{ipv6NetInfo.ip }}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0236')}}</label>
+              <span class="item__value">{{ipv6NetInfo.dns}}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0153')}}</label>
+              <span class="item__value">{{ipv6NetInfo.gateway}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
 
     <div class='speed-model-info'
          v-if='speedModelOpen'>
@@ -214,13 +239,17 @@ export default {
   data() {
     return {
       routerMeta: {},
+      meshMode: null,
       uptime: 0,
       CONSTANTS,
       networkArr: {
         '-': '-',
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
+        pppoe: this.$t('trans0144'),
+        auto: this.$t('trans0696'),
+        failObtain: this.$t('trans1058')
+
       },
       testTimeout: 60,
       testSpeedNumber: 60,
@@ -234,13 +263,21 @@ export default {
       wanNetStatsTimer: null,
       speedTestTimer: null,
       wanInfoTimer: null,
-      uptimeTimer: null
+      uptimeTimer: null,
+      ipv6NetInfo: {
+        enabled: null,
+        type: '-',
+        ip: '-',
+        gateway: '-',
+        dns: '-',
+      }
     };
   },
   mounted() {
     this.getWanNetInfo();
     this.createIntervalTask();
     this.getRouteMeta();
+    this.getIpv6NetInfo();
   },
   computed: {
     isRouter() {
@@ -342,9 +379,19 @@ export default {
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        return { ...local, ...this.netInfo };
+        local.type = this.netInfo.type ? this.netInfo.type : '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip ? this.netInfo.netinfo.ip : '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
+        local.netinfo.dns = this.netInfo.netinfo.dns;
+        return local;
       }
       return local;
+    },
+    dnsText() {
+      return this.localNetInfo.netinfo.dns.length > 0
+        ? this.localNetInfo.netinfo.dns.join('/')
+        : '-';
     },
     localSpeedInfo() {
       const local = {
@@ -487,7 +534,34 @@ export default {
             this.getWanNetInfo();
           }, 1000 * 3);
         });
-    }
+    },
+    getIpv6NetInfo() {
+      this.$http
+        .getMeshInfoWanNetIpv6()
+        .then(res => {
+          const { result } = res.data;
+          console.log('ipv6', result);
+          if (result.enabled === true) {
+            this.ipv6NetInfo.type = result.type ?? '-';
+            const { netinfo } = result;
+            this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip ?? '-';
+            this.ipv6NetInfo.gateway = netinfo.gateway?.ip ?? '-';
+            if (netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip) {
+              this.ipv6NetInfo.dns = netinfo.dns[0].ip;
+            } else {
+              this.ipv6NetInfo.dns = '-';
+            }
+          }
+          this.ipv6NetInfo.enabled = result.enabled;
+        })
+        .catch(() => {
+          this.ipv6NetInfo.enabled = true;
+          this.ipv6NetInfo.type = 'failObtain';
+          this.ipv6NetInfo.ip = this.$t('trans1058');
+          this.ipv6NetInfo.gateway = this.$t('trans1058');
+          this.ipv6NetInfo.dns = this.$t('trans1058');
+        });
+    },
   },
   beforeDestroy() {
     this.pageActive = false;
@@ -498,6 +572,13 @@ export default {
 };
 </script>
 <style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 .router-info {
   display: flex;
   flex-wrap: wrap;
@@ -541,9 +622,13 @@ export default {
       color: #999;
     }
     .item__value {
+      width: inherit;
       font-size: 16px;
       color: #333;
       font-weight: bold;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
   .speed {

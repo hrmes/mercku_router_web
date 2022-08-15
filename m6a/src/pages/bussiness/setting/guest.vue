@@ -145,11 +145,11 @@ export default {
           value: 24 * 60 * 60
         },
         {
-          text: this.$t('trans0447'),
+          text: this.$t('trans0527').replaceAll('%d', 8),
           value: 8 * 60 * 60
         },
         {
-          text: this.$t('trans0527'),
+          text: this.$t('trans0527').replaceAll('%d', 3),
           value: 3 * 60 * 60
         }
       ],

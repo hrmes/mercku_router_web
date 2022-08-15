@@ -7,6 +7,9 @@
   "policy": "",
   "allow2LevelAdmin": false,
   "languages": ["zh-CN", "en-US", "de-DE"],
+  "deviceId": "Mercku",
+  "wifi": "Mercku Wi-Fi",
+  "uploadFileTypeLimit": ".ma",
   "routers": {
     "M2": {
       "name": "M2 Standalone Wi-Fi router",
