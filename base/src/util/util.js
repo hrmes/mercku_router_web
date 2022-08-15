@@ -386,6 +386,19 @@ export const throttle = (fn, delay) => {
   };
 };
 
+export const debounce = (fn, delay) => {
+  let timeout;
+  return function() {
+    let context = this; // 保存this指向
+    let args = arguments; // 拿到event对象
+
+    clearTimeout(timeout);
+    timeout = setTimeout(function() {
+      fn.apply(context, args);
+    }, delay);
+  };
+};
+
 String.prototype.format = function(...args) {
   let _this = this;
   args.forEach(val => {

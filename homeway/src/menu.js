@@ -64,6 +64,12 @@ export default function getMenu(
         config
       },
       {
+        text: 'trans0962',
+        name: 'wifi-switch',
+        url: '/setting/wifi-switch',
+        config
+      },
+      {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',
@@ -97,12 +103,6 @@ export default function getMenu(
         url: '/setting/childLock',
         name: 'childLock',
         text: 'trans1061',
-        config
-      },
-      {
-        url: '/setting/wifi-schedule',
-        name: 'wifi-schedule',
-        text: 'trans0962',
         config
       }
     ]

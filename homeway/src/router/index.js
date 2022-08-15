@@ -15,6 +15,8 @@ import wlan from 'pages/bussiness/wlan/index.vue';
 import wifiSetting from 'pages/bussiness/wlan/wifiSetting.vue';
 import wifiSetting_230v from 'pages/bussiness/wlan/wifiSetting_230v.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
+import wifiSwitch from 'pages/bussiness/setting/wifi-switch.vue';
+import led from 'pages/bussiness/setting/led.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -22,8 +24,6 @@ import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
-import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
-import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 
@@ -126,9 +126,9 @@ const routes = {
       component: led
     },
     {
-      path: '/setting/wifi-schedule',
-      name: 'wifi-schedule',
-      component: wifiSchedule
+      path: '/setting/wifi-switch',
+      name: 'wifi-switch',
+      component: wifiSwitch
     },
     {
       path: '/wlan',
