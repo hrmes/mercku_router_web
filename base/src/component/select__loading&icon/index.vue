@@ -35,15 +35,18 @@
             </li>
           </template>
           <template v-else>
-            <li v-if="this.loading"
+            <li v-if="loading===0"
+                class="select-popup__item--empty">{{$t('trans0278')}}</li>
+            <li v-else-if="this.loading===1"
                 class="select-popup__item--loading">
               <m-loading :color="loadingColor"
                          :size="36"
                          class="loading"></m-loading>
-              {{`${loadingText}...`}}
+              {{loadingText}}
             </li>
             <li v-else
-                class="select-popup__item--empty">{{$t('trans0278')}}</li>
+                class="select-popup__item--failed"
+                @click="rescanApclient">{{loadingText}}</li>
           </template>
 
         </ul>
@@ -77,8 +80,8 @@ export default {
       type: String,
     },
     loading: {
-      type: Boolean,
-      default: false
+      type: Number,
+      default: 0
     },
     loadingText: {
       type: String,
@@ -94,7 +97,7 @@ export default {
   watch: {
     value(val) {
       this.selected = this.getOptionByValue(val);
-    }
+    },
   },
   methods: {
     getOptionByValue(val) {
@@ -115,6 +118,9 @@ export default {
         }
       });
     },
+    rescanApclient() {
+      this.$emit('scanApclient');
+    },
     select(option) {
       this.selected = option;
       this.opened = false;
@@ -128,7 +134,7 @@ export default {
     },
     open() {
       if (!this.disabled) {
-        this.opened = !this.opened;
+        this.opened = true;
         if (this.opened) {
           this.scrollToSelect();
         }
@@ -254,7 +260,8 @@ export default {
         }
       }
     }
-    .select-popup__item--empty {
+    .select-popup__item--empty,
+    .select-popup__item--failed {
       display: flex;
       align-items: center;
       justify-content: center;

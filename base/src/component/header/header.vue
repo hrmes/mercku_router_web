@@ -716,7 +716,7 @@ export default {
 
       .popup {
         position: absolute;
-        width: 180px;
+        width: 153px;
         margin-top: 6px;
         border-radius: 2px;
         z-index: 999;

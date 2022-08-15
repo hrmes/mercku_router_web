@@ -141,7 +141,7 @@ const routes = {
       component: wifiSetting
     },
     {
-      path: '/wlan/wifiSetting',
+      path: '/wlan/wifiSetting-230V',
       name: 'wifiSetting_230v',
       component: wifiSetting_230v
     },

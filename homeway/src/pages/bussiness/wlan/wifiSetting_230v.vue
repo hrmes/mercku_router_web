@@ -7,6 +7,7 @@
       <div class="step-item step-item1"
            v-show="stepOption.current===0">
         <m-form ref="upperApForm"
+                class="upper-form"
                 :model="upperApForm"
                 :rules="upperApFormRules">
           <m-form-item class="form-item"
@@ -16,17 +17,18 @@
                              type='text'
                              v-model="upperApForm.ssid"
                              @change="selectedChange"
+                             @scanApclient="getMeshApclientScanList"
                              :options="processedUpperApList"
                              :loading="selectIsLoading"
-                             loadingText="正在扫描上级中" />
+                             :loadingText="loadingText" />
           </m-form-item>
-          <m-form-item class="form-item"
+          <m-form-item v-show="!pwdDisabled"
+                       class="form-item"
                        prop="upperApForm.password">
             <m-input :label="$t('trans0003')"
                      type="password"
                      :placeholder="$t('trans0321')"
-                     v-model="upperApForm.password"
-                     v-show="!pwdDisabled" />
+                     v-model="upperApForm.password" />
           </m-form-item>
           <div class="button-container">
             <button @click="step2()"
@@ -162,6 +164,13 @@ import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } fro
 // Homeway工作模式默认为有线桥模式，插入网线有线桥模式才可用，同时我们会检测是否插入网线来提示用户是否进行模式切换
 // 提示为是否跳过上级设置，如用户点击跳过，则代表初始化时，不传递apClient字段，如果点击不跳过，则代表初始化要传递apClient字段
 // 默认有线桥模式，路由器会根据我们是否传递apClient字段来判断与切换Homeway的工作模式,传递了apClient，无论插没插网线，都切换为无线桥，；没传递apClient的情况分 1.默认的有线桥 2.用户点击跳过了上级的设置
+
+const LoadingStatus = {
+  empty: 0,
+  loading: 1,
+  failed: 2
+};
+
 export default {
   data() {
     return {
@@ -270,11 +279,12 @@ export default {
         ]
       },
       config: null,
-      selectIsLoading: true,
       pwdDisabled: true,
       originalUpperList: [],
       processedUpperApList: [],
       saveDisable: true,
+      selectIsLoading: LoadingStatus.empty,
+      loadingText: '正在扫描上级中...'
     };
   },
   computed: {
@@ -329,14 +339,15 @@ export default {
         {
           hideToast: true
         }
-      )
+      ).then(() => {
+        this.getMeshApclientScanList();
+        this.getWanStatus();
+        this.getMeshMeta();
+      })
       .catch(() => {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
       });
-    this.getMeshApclientScanList();
-    this.getWanStatus();
-    this.getMeshMeta();
   },
   methods: {
     skipSetUpper() {
@@ -410,6 +421,7 @@ export default {
         });
     },
     getMeshApclientScanList() {
+      this.selectIsLoading = LoadingStatus.loading;
       // axios({
       //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
       //   method: 'get'
@@ -425,7 +437,14 @@ export default {
       //         value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
       //       }));
       //     }, 7000);
+      //   })
+      //   .catch(() => {
+      //     this.originalUpperList = [];
+      //     this.processedUpperApList = [];
+      //     this.loadingText = '扫描上级失败，点击重新扫描';
+      //     this.selectIsLoading = LoadingStatus.failed;
       //   });
+
       this.$http.getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];
@@ -436,9 +455,16 @@ export default {
           result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
           }));
+        })
+        .catch(() => {
+          this.originalUpperList = [];
+          this.processedUpperApList = [];
+          this.loadingText = '扫描上级失败，点击重新扫描';
+          this.selectIsLoading = LoadingStatus.failed;
         });
     },
     selectedChange(option) {
+      this.pwdDisabled = option.encrypt === 'open';
       this.saveDisable = false;
       const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
       this.upperApForm = {
@@ -450,7 +476,6 @@ export default {
         security,
         rssi
       };
-      this.pwdDisabled = option.encrypt === 'open';
     },
     step2() {
       if (this.$refs.upperApForm.validate()) {
@@ -725,6 +750,9 @@ export default {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     z-index: 9999;
+  }
+  .upper-form {
+    height: 300px;
   }
 }
 @media screen and(max-width: 768px) {
