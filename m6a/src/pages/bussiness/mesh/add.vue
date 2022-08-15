@@ -26,7 +26,7 @@
         <div class="step-content">
           <div class="step-item step-item--rich"
                v-show="isStep(0)">
-            <img src="@/assets/images/pic_add_m6_01.png"
+            <img :src="getM6aSeriesProductAddNodeImg(0)"
                  alt="">
             <p class="step-item__tip">{{transText('trans0693')}}</p>
             <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
@@ -51,7 +51,7 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(2)">
-            <img src="@/assets/images/pic_add_m6_03.png"
+            <img :src="getM6aSeriesProductAddNodeImg(2)"
                  alt="">
             <p class="step-item__tip">{{$t('trans0636')}}</p>
             <div class="button-container">
@@ -188,12 +188,19 @@
 <script>
 import RouterModel from 'base/mixins/router-model';
 import { debounce } from 'lodash';
+import { M6aRouterSnModelVsersion } from '../../../../../base/src/util/constant';
+
 
 const PageStatus = {
   scanning: 'scanning',
   scan_finished: 'scan_finished',
   add_success: 'add_success',
   add_fail: 'add_fail'
+};
+const Step = {
+  step1: 0,
+  step2: 1,
+  step3: 2
 };
 
 export default {
@@ -256,7 +263,12 @@ export default {
   },
   methods: {
     transText(text) {
-      return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
+      const modelVersion = localStorage.getItem('modelVersion');
+      if (modelVersion === M6aRouterSnModelVsersion.M6a) {
+        return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
+      } if (modelVersion === M6aRouterSnModelVsersion.M6a_Plus) {
+        return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName);
+      }
     },
     transDeviceId(text) {
       return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.deviceId);
@@ -316,6 +328,46 @@ export default {
     forward2step(index, status = true) {
       this.stepsOption.current = index;
       this.stepsOption.steps[index].success = status;
+    },
+    getM6aSeriesProductAddNodeImg(step) {
+      const modelVersion = localStorage.getItem('modelVersion');
+      console.log('modelVersion', modelVersion);
+      let img = '';
+      if (modelVersion === M6aRouterSnModelVsersion.M6a) {
+        switch (step) {
+          case Step.step1:
+            console.log('000001');
+            img = require('@/assets/images/pic_add_m6_01.png');
+            break;
+          case Step.step2:
+            console.log('000002');
+
+            img = require('@/assets/images/pic_add_m6_02.png');
+            break;
+          case Step.step3:
+            console.log('000003');
+
+            img = require('@/assets/images/pic_add_m6_03.png');
+            break;
+          default:
+            break;
+        }
+      } else if (modelVersion === M6aRouterSnModelVsersion.M6a_Plus) {
+        switch (step) {
+          case Step.step1:
+            img = require('../../../assets/images/model/m6a_plus/pic-add-m6a_plus-01.png');
+            break;
+          case Step.step2:
+            img = require('@/assets/images/pic_add_m6_02.png');
+            break;
+          case Step.step3:
+            img = require('../../../assets/images/model/m6a_plus/pic-add-m6a_plus-02.png');
+            break;
+          default:
+            break;
+        }
+      }
+      return img;
     }
   }
 };
