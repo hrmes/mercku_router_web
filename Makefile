@@ -47,6 +47,7 @@ dev_depend: package.json check_npm_version
 
 build: prd_depend
 	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+  ln -sf $(MODEL)/dist dist
 
 dev:
 	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
