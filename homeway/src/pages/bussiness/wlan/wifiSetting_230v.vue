@@ -340,7 +340,7 @@ export default {
           hideToast: true
         }
       ).then(() => {
-        this.getMeshApclientScanList();
+        // this.getMeshApclientScanList();
         this.getWanStatus();
         this.getMeshMeta();
       })
