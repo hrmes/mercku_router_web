@@ -453,27 +453,6 @@ export default {
     isMobileRow(expand) {
       return this.isMobile ? expand : true;
     },
-    isTimeLimit(row) {
-      if (row.time_limit && row.time_limit.length > 0) {
-        return row.time_limit.some(v => v.enabled);
-      }
-      return false;
-    },
-    isBlacklsitLimit(row) {
-      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
-    },
-    isSpeedLimit(row) {
-      return row.speed_limit && row.speed_limit.enabled;
-    },
-    forward2limit(row) {
-      this.$router.push({ path: `/limit/${row.mac}` });
-      const limits = {
-        parent_control: row.parent_control,
-        speed_limit: row.speed_limit,
-        time_limit: row.time_limit
-      };
-      this.$store.modules.limits[row.mac] = limits;
-    },
     expandTable(row) {
       if (this.isMobile) {
         this.devicesMap[this.id].forEach(v => {
@@ -1060,7 +1039,7 @@ export default {
               background-size: 100%;
             }
             &.connection-method {
-              width: 40px;
+              width: auto;
               height: 18px;
               line-height: 18px;
               text-align: center;
@@ -1068,6 +1047,7 @@ export default {
               border: solid 1px #333;
               color: #333;
               font-size: 12px;
+              padding: 0 10px;
             }
             &.rssi-value {
               width: 65px;

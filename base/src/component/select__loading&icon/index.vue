@@ -37,7 +37,7 @@
           <template v-else>
             <li v-if="loading===0"
                 class="select-popup__item--empty">{{$t('trans0278')}}</li>
-            <li v-else-if="this.loading===1"
+            <li v-else-if="loading===1"
                 class="select-popup__item--loading">
               <m-loading :color="loadingColor"
                          :size="36"
@@ -85,7 +85,7 @@ export default {
     },
     loadingText: {
       type: String,
-      default: '加载中'
+      default: 'Loading'
     }
   },
   data() {
@@ -268,6 +268,7 @@ export default {
       width: 100%;
       height: 84px;
       font-size: 14px;
+      text-align: center;
       background-color: #fff;
       color: #999;
     }

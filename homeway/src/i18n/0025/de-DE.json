@@ -954,7 +954,7 @@
   "trans0959": "Registrierung erfolgreich",
   "trans0960": "Herzliche Glückwünsche!",
   "trans0961": "Genießen Sie ein leistungsstarkes und benutzerfreundliches Netzwerk.",
-  "trans0962": "WLAN außerhalb des Zeitplans",
+  "trans0962": "Wi-Fi-Schalter",
   "trans0963": "Wiederholen",
   "trans0964": "Niemals",
   "trans0965": "Startzeit",
@@ -1061,7 +1061,15 @@
   "trans1066": "Kabelgebundener Bridge-Modus",
   "trans1067": "IPv4 IP",
   "trans1068": "IPv6 IP",
-  "trans1069": " ",
-  "trans1070": " ",
-  "trans1071": " "
+  "trans1069": "Bitte wählen Sie eine gescannte SSID aus",
+  "trans1070": "Scannen, bitte warten",
+  "trans1071": "Jetziges Passwort",
+  "trans1072": "Aktuelle SSID",
+  "trans1073": "Bitte bereiten Sie vor der Installation die folgenden Werkzeuge und Zubehörteile vor:",
+  "trans1074": "- 1*Homeway %s\n- 1*Kreuzschlitzschraubendreher\n- 1*Teststift\n- 1*Isolierband\n- 1*Isolierte Handschuhe\n……",
+  "trans1075": "Okay, gut vorbereitet",
+  "trans1076": " ",
+  "trans1077": " Das maximale Passwort beträgt nur 63 Zeichen, bitte erneut eingeben",
+  "trans1078": "Der Vorgesetzte konnte nicht gescannt werden, klicken Sie auf Erneut scannen",
+  "trans1079": "Wird geladen"
 }

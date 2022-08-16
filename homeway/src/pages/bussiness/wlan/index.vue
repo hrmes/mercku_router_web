@@ -9,19 +9,12 @@
         <p>{{'Please prepare the following tools and accessories before installation:'}}</p>
       </div>
       <div class="checklist-container">
-        <ul>
-          <li>- 1*Homeway {{currentRouter}}</li>
-          <li>- 1*Phillips screwdriver</li>
-          <li>- 1*test pencil</li>
-          <li>- 1*Insulation tape</li>
-          <li>- 1*Insulated Gloves</li>
-        </ul>
+        <p class="checklist-content">{{checklist}}</p>
       </div>
       <div class="btn-container">
         <button @click="prepared(currentRouter)"
-                class="btn">OK, Well prepared</button>
+                class="btn">{{$t('trans1075')}}</button>
       </div>
-
     </div>
   </div>
 </template>
@@ -35,12 +28,24 @@ export default {
       HomewayModel,
       modelVersion: null,
       currentRouter: null,
+      checklist: this.$t('trans1074').replaceAll('%s', '')
     };
+  },
+  created() {
+    this.isinitial();
   },
   mounted() {
     this.getRouter();
   },
   methods: {
+    isinitial() {
+      this.$http.isinitial()
+        .then(res => {
+          if (res.data.result.status) {
+            this.$router.push({ path: '/login' });
+          }
+        });
+    },
     getRouter() {
       this.$http.getRouter()
         .then(res => {
@@ -51,12 +56,15 @@ export default {
           switch (this.modelVersion) {
             case this.HomewayModel.homeway_230v:
               this.currentRouter = '230v';
+              this.checklist = this.$t('trans1074').replaceAll('%s', '230v');
               break;
             case this.HomewayModel.homgway_PoE_1:
               this.currentRouter = 'PoE';
+              this.checklist = this.$t('trans1074').replaceAll('%s', 'POE');
               break;
             case this.HomewayModel.homeway_PoE_2:
               this.currentRouter = 'PoE';
+              this.checklist = this.$t('trans1074').replaceAll('%s', 'POE');
               break;
             default:
               break;
@@ -90,10 +98,9 @@ export default {
       //   });
     },
     prepared(router) {
-      console.log(this.$router);
       router === '230v' ? this.$router.push({ name: 'wifiSetting_230v' }) : this.$router.push({ name: 'wifiSetting' });
     }
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -150,11 +157,10 @@ export default {
       padding: 10px 0 10px 15px;
       border-radius: 5px;
       overflow: hidden;
-      > ul {
-        > li {
-          list-style-type: none;
-          line-height: 25px;
-        }
+      .checklist-content {
+        white-space: pre-line;
+        line-height: 25px;
+        transition: all 0.3s ease-in-out;
       }
     }
     .btn-container {

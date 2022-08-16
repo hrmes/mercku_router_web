@@ -290,7 +290,8 @@ export default {
                 },
                 smart_connect: this.wifiForm.smart_connect
               },
-              admin: { password: this.wifiForm.password24g }
+              admin: { password: this.wifiForm.password24g },
+              mode: 'bridge'
             }
           })
           .then(() => {

@@ -20,11 +20,19 @@ export default {
         this.$http.getRouter().then(() => {
           this.$http.checkLogin().then(res => {
             if (res.data.result.status) {
-              // m6 session不会过期，修改模式后不会重新登录，不重新设置模式可能导致菜单不刷新
-              this.$http.getMeshMode().then(resp => {
-                this.$store.mode = resp.data.result.mode;
-                this.$router.push({ path: '/dashboard' });
-              });
+              this.$http.isinitial()
+                .then(res1 => {
+                  console.log(res1.data.result.status);
+                  if (res1.data.result.status) {
+                    this.$router.push({ path: '/wlan' });
+                  } else {
+                    // m6 session不会过期，修改模式后不会重新登录，不重新设置模式可能导致菜单不刷新
+                    this.$http.getMeshMode().then(resp => {
+                      this.$store.mode = resp.data.result.mode;
+                      this.$router.push({ path: '/dashboard' });
+                    });
+                  }
+                });
             } else {
               this.$router.push({ path: '/login' });
             }

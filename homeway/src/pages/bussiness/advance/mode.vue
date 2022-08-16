@@ -17,7 +17,7 @@
         <div class="upperApForm__top"
              v-if="currentUpperInfo.show">
           <div class="current-ssid">
-            <span class="title">Currently SSID:</span>
+            <span class="title">{{$t('trans1072')}}:</span>
             <span class="content">{{currentUpperInfo.ssid}}</span>
           </div>
           <div class="current-security">
@@ -25,7 +25,7 @@
             <span class="content">{{currentUpperInfo.security}}</span>
           </div>
           <div class="current-pwd">
-            <span class="title">Currently Password:</span>
+            <span class="title">{{$t('trans1071')}}:</span>
             <span
                   class="content">{{currentUpperInfo.security!=='open'?currentUpperInfo.password:'-'}}</span>
           </div>
@@ -37,13 +37,14 @@
             <m-form-item class="form-item"
                          prop="upperApForm.ssid">
               <m-loadingSelect label="SSID"
-                               placeholder="请选择一个扫描到的ssid"
+                               :placeholder="$t('trans1069')"
                                type='text'
                                v-model="upperApForm.ssid"
                                @change="selectedChange"
+                               @scanApclient="getMeshApclientScanList"
                                :options="processedUpperApList"
                                :loading="selectIsLoading"
-                               loadingText="正在扫描上级中" />
+                               :loadingText="loadingText" />
             </m-form-item>
             <m-form-item v-show="!pwdDisabled"
                          class="form-item"
@@ -74,13 +75,19 @@
 import axios from 'axios';
 import { isValidPassword, isFieldHasComma, isFieldHasSpaces, throttle } from '../../../../../base/src/util/util';
 
+
+const LoadingStatus = {
+  empty: 0,
+  loading: 1,
+  failed: 2
+};
 export default {
   data() {
     return {
       currentMode: '',
       modeHasChange: true,
       saveDisable: false,
-      selectIsLoading: true,
+      selectIsLoading: LoadingStatus.empty,
       mode: '',
       modes: [
         {
@@ -123,6 +130,7 @@ export default {
         ],
       },
       pwdDisabled: true,
+      loadingText: `${this.$t('trans1070')}...`
     };
   },
   mounted() {
@@ -306,6 +314,8 @@ export default {
     },
     // eslint-disable-next-line func-names
     getMeshApclientScanList: throttle(function () {
+      this.selectIsLoading = LoadingStatus.loading;
+
       this.$http.getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];
@@ -317,6 +327,12 @@ export default {
           result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
           }));
+        })
+        .catch(() => {
+          this.originalUpperList = [];
+          this.processedUpperApList = [];
+          this.loadingText = this.$t('trans1078');
+          this.selectIsLoading = LoadingStatus.failed;
         });
       // axios({
       //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',

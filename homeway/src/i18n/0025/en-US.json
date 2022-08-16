@@ -954,7 +954,7 @@
   "trans0959": "Registration success",
   "trans0960": "Congratulations！",
   "trans0961": "Let's enjoying powerful and easy-to-use network.",
-  "trans0962": "Wi-Fi Off Schedule",
+  "trans0962": "Wi-Fi Switch",
   "trans0963": "Repeat",
   "trans0964": "Never",
   "trans0965": "Start Time",
@@ -1061,7 +1061,15 @@
   "trans1066": "Wired Bridge Mode",
   "trans1067": "IPv4 IP",
   "trans1068": "IPv6 IP",
-  "trans1069": " ",
-  "trans1070": " ",
-  "trans1071": " "
+  "trans1069": "Please select a scanned SSID",
+  "trans1070": "Scanning, please wait",
+  "trans1071": "Current password",
+  "trans1072": "Current SSID",
+  "trans1073": "Please prepare the following tools and accessories before installation:",
+  "trans1074": "- 1*Homeway %s\n- 1*Phillips screwdriver\n- 1*test pencil\n- 1*Insulation tape\n- 1*Insulated Gloves\n……",
+  "trans1075": "OK, Well prepared",
+  "trans1076": " ",
+  "trans1077": "The maximum password is only 63 characters, please re-enter",
+  "trans1078": "Failed to scan the superior, click Rescan",
+  "trans1079": "Loading"
 }

@@ -6,7 +6,7 @@
     <div class="page-content">
       <m-form class="form">
         <m-form-item class="form__item">
-          <m-switch label="WI-FI Switch"
+          <m-switch :label="$t('trans0962')"
                     v-model="enabled"
                     @click="enabled=!enabled"
                     @change="updateWifiStatus" />

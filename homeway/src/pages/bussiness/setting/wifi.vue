@@ -345,6 +345,9 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.getInitData();
+  },
   methods: {
     onEncryptChange(path, nv, ov) {
       if (nv === EncryptMethod.wpa3) {
@@ -424,17 +427,17 @@ export default {
                 }
               };
               console.log('wifi', wifi);
-              // this.$http.meshWifiUpdate(wifi).then(() => {
-              //   this.$reconnect({
-              //     onsuccess: () => {
-              //       this.$router.push({ path: '/dashboard' });
-              //     },
-              //     ontimeout: () => {
-              //       this.$router.push({ path: '/unconnect' });
-              //     },
-              //     timeout: 60
-              //   });
-              // });
+              this.$http.meshWifiUpdate(wifi).then(() => {
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/dashboard' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  },
+                  timeout: 60
+                });
+              });
             }
           }
         });
@@ -483,7 +486,7 @@ export default {
           this.form.compatibility_mode = wifi.compatibility_mode;
 
           // wifi Tx_power
-          this.form.wifiTxPower = wifi.tx_power;
+          this.form.wifiTxPower = wifi.tx_power ?? 'high';
 
           this.$loading.close();
         })
@@ -492,9 +495,7 @@ export default {
         });
     }
   },
-  mounted() {
-    this.getInitData();
-  }
+
 };
 </script>
 <style lang="scss" scoped>

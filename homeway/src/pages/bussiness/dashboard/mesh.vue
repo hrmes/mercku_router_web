@@ -129,7 +129,6 @@
                    :class="[meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.status==='unlinked'?'offline':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
               </div>
               <div class="gateway-container">
-
               </div>
             </div>
           </div>

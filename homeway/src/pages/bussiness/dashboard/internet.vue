@@ -96,17 +96,9 @@ export default {
         auto: this.$t('trans0696'),
         failObtain: this.$t('trans1058')
       },
-      testTimeout: 60,
-      testSpeedNumber: 60,
-      speedStatus: CONSTANTS.SpeedTestStatus.testing,
-      speedModelOpen: false,
-      TextBandwidth: '-',
-      pageActive: true,
-      speedInfo: {},
       netInfo: {},
       traffic: {},
       wanNetStatsTimer: null,
-      speedTestTimer: null,
       wanInfoTimer: null,
       ipv6InfoTimer: null,
       uptimeTimer: null,
@@ -122,14 +114,9 @@ export default {
   mounted() {
     this.getWanNetInfo();
     this.getIpv6NetInfo();
-    this.createIntervalTask();
     this.getRouteMeta();
   },
   computed: {
-    isRouter() {
-      console.log('2312313', this.$store.mode);
-      return CONSTANTS.RouterMode.router === this.$store.mode;
-    },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
       const unit = [this.$t('trans0533'), this.$t('trans0532'), this.$t('trans0531')];
@@ -179,42 +166,7 @@ export default {
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
     },
-    isSpeedDone() {
-      return this.speedStatus === CONSTANTS.SpeedTestStatus.done;
-    },
-    isSpeedTesting() {
-      return this.speedStatus === CONSTANTS.SpeedTestStatus.testing;
-    },
-    isSpeedFailed() {
-      return this.speedStatus === CONSTANTS.SpeedTestStatus.failed;
-    },
-    localTraffic() {
-      const local = {
-        speed: {
-          peak: {
-            up: '-',
-            down: '-'
-          },
-          realtime: {
-            up: '-',
-            down: '-'
-          },
-          average: {
-            up: '-',
-            down: '-'
-          }
-        },
-        traffic: {
-          ul: '-',
-          dl: '-'
-        },
-        bandwidth: '-'
-      };
-      if (this.traffic && this.traffic.speed) {
-        return { ...local, ...this.traffic };
-      }
-      return { ...local };
-    },
+
     localNetInfo() {
       const local = {
         type: '-',
@@ -252,39 +204,9 @@ export default {
       }
       return local;
     },
-    realtimeSpeedDown() {
-      return this.formatSpeed(this.localTraffic.speed.realtime.down);
-    },
-    realtimeSpeedUp() {
-      return this.formatSpeed(this.localTraffic.speed.realtime.up);
-    },
-    peekUp() {
-      return this.formatSpeed(this.localTraffic.speed.peak.up);
-    },
-    peekDown() {
-      return this.formatSpeed(this.localTraffic.speed.peak.down);
-    },
-    trafficUl() {
-      return this.formatNetworkData(this.localTraffic.traffic.ul);
-    },
-    trafficDl() {
-      return this.formatNetworkData(this.localTraffic.traffic.dl);
-    },
-    speedDown() {
-      return this.formatBandWidth(this.localSpeedInfo.speed.down);
-    },
-    speedUp() {
-      return this.formatBandWidth(this.localSpeedInfo.speed.up);
-    }
+
   },
-  watch: {
-    '$store.mode': function watcher() {
-      this.clearIntervalTask();
-      if (this.isRouter) {
-        this.createIntervalTask();
-      }
-    }
-  },
+
   methods: {
     getRouteMeta() {
       this.$http.getRouter().then(res => {
@@ -294,79 +216,6 @@ export default {
           this.uptime += 1;
         }, 1000);
       });
-    },
-    closeSpeedModal() {
-      this.createIntervalTask();
-      this.speedModelOpen = false;
-    },
-    createIntervalTask() {
-      if (this.isRouter) {
-        this.getWanNetStats();
-      }
-    },
-    clearIntervalTask() {
-      clearTimeout(this.wanNetStatsTimer);
-      this.wanNetStatsTimer = null;
-    },
-    speedTest(force) {
-      if (force === undefined) {
-        force = false;
-      }
-      this.$http
-        .testSpeed({ force })
-        .then(res => {
-          this.speedStatus = res.data.result.status;
-          this.speedInfo = res.data.result;
-          if (res.data.result.status !== CONSTANTS.SpeedTestStatus.testing) {
-            clearInterval(this.speedTestTimer);
-            this.testSpeedNumber = this.testTimeout;
-          }
-        })
-        .catch(() => {
-          this.speedStatus = CONSTANTS.SpeedTestStatus.done;
-          clearInterval(this.speedTestTimer);
-          this.testSpeedNumber = this.testTimeout;
-        });
-    },
-    startSpeedTest(force) {
-      force = !!force;
-      this.speedModelOpen = true;
-      this.speedStatus = CONSTANTS.SpeedTestStatus.testing;
-      this.clearIntervalTask();
-      this.speedTest(force);
-      this.speedTestTimer = setInterval(() => {
-        if (this.testSpeedNumber <= 0) {
-          clearInterval(this.speedTestTimer);
-          this.speedStatus = CONSTANTS.SpeedTestStatus.done;
-          this.testSpeedNumber = this.testTimeout;
-          return;
-        }
-        if (this.testSpeedNumber % 5 === 0 && this.testSpeedNumber !== this.testTimeout) {
-          this.speedTest();
-        }
-        this.testSpeedNumber -= 1;
-      }, 1000);
-    },
-    getWanNetStats() {
-      clearTimeout(this.wanNetStatsTimer);
-      this.wanNetStatsTimer = null;
-      this.$http
-        .getWanNetStats()
-        .then(res => {
-          if (this.pageActive) {
-            this.traffic = res.data.result;
-            this.wanNetStatsTimer = setTimeout(() => {
-              this.getWanNetStats();
-            }, 10000);
-          }
-        })
-        .catch(() => {
-          if (this.pageActive) {
-            this.wanNetStatsTimer = setTimeout(() => {
-              this.getWanNetStats();
-            }, 10000);
-          }
-        });
     },
     getWanNetInfo() {
       this.$http
@@ -412,7 +261,6 @@ export default {
   },
   beforeDestroy() {
     this.pageActive = false;
-    this.clearIntervalTask();
     clearInterval(this.uptimeTimer);
     this.uptimeTimer = null;
   }
@@ -473,88 +321,7 @@ export default {
       font-weight: bold;
     }
   }
-  .speed {
-    display: flex;
-    flex-direction: column;
-    & + .speed {
-      margin-left: 60px;
-    }
-    &.speed--traffic {
-      flex-direction: row;
-      .speed__item {
-        + .speed__item {
-          margin-top: 0px;
-          margin-left: 60px;
-        }
-      }
-    }
-    .speed__item {
-      display: flex;
-      + .speed__item {
-        margin-top: 30px;
-      }
-    }
-    .speed__icon {
-      width: 10px;
-      height: 14.5px;
-      margin-right: 10px;
-      display: block;
-      top: 12px;
-      position: relative;
-      &.speed__icon--up {
-        background: url('../../../assets/images/icon/ic_upload.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--down {
-        background: url('../../../assets/images/icon/ic_download.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--trafficup {
-        width: 20px;
-        height: 29px;
-        background: url('../../../assets/images/icon/ic_upload.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--trafficdown {
-        width: 20px;
-        height: 29px;
-        background: url('../../../assets/images/icon/ic_download.png') no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--peekdown {
-        width: 36px;
-        height: 36px;
-        background: url('../../../assets/images/icon/ic_fast_download.png')
-          no-repeat;
-        background-size: 100% 100%;
-      }
-      &.speed__icon--peekup {
-        width: 36px;
-        height: 36px;
-        background: url('../../../assets/images/icon/ic_fast_upload.png')
-          no-repeat;
-        background-size: 100% 100%;
-      }
-    }
-    .speed__right {
-      display: flex;
-      flex-direction: column;
-    }
-    .speed__title {
-      font-size: 14px;
-      color: #999;
-    }
-    .speed__value {
-      font-size: 24px;
-      font-weight: bold;
-      color: #333;
-    }
-  }
-  .speedtest-btn-wrap {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-  }
+
   .releative {
     position: relative;
   }

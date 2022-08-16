@@ -13,7 +13,7 @@
           <m-form-item class="form-item"
                        prop="upperApForm.ssid">
             <m-loadingSelect label="SSID"
-                             placeholder="请选择一个扫描到的ssid"
+                             :placeholder="$t('trans1069')"
                              type='text'
                              v-model="upperApForm.ssid"
                              @change="selectedChange"
@@ -284,7 +284,7 @@ export default {
       processedUpperApList: [],
       saveDisable: true,
       selectIsLoading: LoadingStatus.empty,
-      loadingText: '正在扫描上级中...'
+      loadingText: `${this.$t('trans1070')}...`
     };
   },
   computed: {
@@ -441,7 +441,7 @@ export default {
       //   .catch(() => {
       //     this.originalUpperList = [];
       //     this.processedUpperApList = [];
-      //     this.loadingText = '扫描上级失败，点击重新扫描';
+      // this.loadingText = this.$t('trans1078');
       //     this.selectIsLoading = LoadingStatus.failed;
       //   });
 
@@ -459,7 +459,7 @@ export default {
         .catch(() => {
           this.originalUpperList = [];
           this.processedUpperApList = [];
-          this.loadingText = '扫描上级失败，点击重新扫描';
+          this.loadingText = this.$t('trans1078');
           this.selectIsLoading = LoadingStatus.failed;
         });
     },
@@ -505,6 +505,7 @@ export default {
               smart_connect: this.wifiForm.smart_connect
             },
             admin: { password: this.wifiForm.password24g },
+            mode: 'wireless_bridge',
             apclient: this.upperApForm
           };
         } else {
@@ -523,49 +524,43 @@ export default {
               smart_connect: this.wifiForm.smart_connect
             },
             admin: { password: this.wifiForm.password24g },
+            mode: 'bridge'
           };
         }
         console.log('meshMode', this.meshMode);
         console.log('config#######', this.config);
         // 提交表单
-        // this.$http
-        //   .updateMeshConfig({config:this.config})
-        //   .then(() => {
-        //     this.stepOption.current = 2;
-        //     this.stepOption.steps[2].success = true;
-        //     const timer = setInterval(() => {
-        //       this.countdown -= 1;
-        //       if (this.countdown === 0) {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/unconnect' });
-        //       }
-        //     }, 1000);
-        //     // 尝试链接路由器
-        //     this.$reconnect({
-        //       onsuccess: () => {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/login' });
-        //       },
-        //       ontimeout: () => {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/unconnect' });
-        //       },
-        //       showLoading: false
-        //     });
-        //   });
+        this.$http
+          .updateMeshConfig({ config: this.config })
+          .then(() => {
+            this.stepOption.current = 2;
+            this.stepOption.steps[2].success = true;
+            const timer = setInterval(() => {
+              this.countdown -= 1;
+              if (this.countdown === 0) {
+                clearInterval(timer);
+                this.$router.push({ path: '/unconnect' });
+              }
+            }, 1000);
+            // 尝试链接路由器
+            this.$reconnect({
+              onsuccess: () => {
+                clearInterval(timer);
+                this.$router.push({ path: '/login' });
+              },
+              ontimeout: () => {
+                clearInterval(timer);
+                this.$router.push({ path: '/unconnect' });
+              },
+              showLoading: false
+            });
+          });
       }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
 .wlan-container {
   width: 100%;
   flex: auto;
@@ -701,56 +696,6 @@ export default {
       }
     }
   }
-  .wiredBridge_tips {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 360px;
-    height: 228px;
-    padding: 30px;
-    border-radius: 5px;
-    background-color: #fff;
-    z-index: 10000;
-    > p {
-      width: 300px;
-      font-size: 14px;
-      margin: 0 0 30px;
-      text-align: center;
-    }
-    > .btn-container {
-      display: flex;
-      justify-content: space-evenly;
-      width: 300px;
-      > button {
-        width: 120px;
-        height: 38px;
-        cursor: pointer;
-      }
-      > .btn-default {
-        color: #153264;
-        border: 1px solid #0e6a99;
-        border-radius: 4px;
-        &:hover {
-          color: #138ac8;
-          border: 1px solid #138ac8;
-        }
-      }
-    }
-  }
-  .mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-  }
   .upper-form {
     height: 300px;
   }
@@ -778,14 +723,6 @@ export default {
         &:last-child {
           margin-top: 0;
         }
-      }
-    }
-    .wiredBridge_tips {
-      justify-content: center;
-      align-items: center;
-      width: 330px;
-      .btn {
-        margin: 0;
       }
     }
   }

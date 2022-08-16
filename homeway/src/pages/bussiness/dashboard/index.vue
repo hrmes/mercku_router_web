@@ -260,8 +260,6 @@ export default {
   flex-direction: column;
   flex: auto;
   .net-info {
-    background: url(~@/assets/images/customer/homeway/homeway_banner@1x.png)
-      no-repeat center;
     position: relative;
     height: 280px;
     .net-info__inner {
@@ -467,8 +465,6 @@ export default {
       padding: 0 20px;
     }
     .net-info {
-      background: url(~@/assets/images/customer/homeway/homeway_banner_mobile.png)
-        no-repeat center;
       height: 160px;
       background-size: cover;
       .net-info__inner {

@@ -6,7 +6,7 @@
   "favicon": "customer-conf/0025/homeway.ico",
   "policy": "",
   "allow2LevelAdmin": false,
-  "languages": ["zh-CN", "en-US", "de-DE"],
+  "languages": ["de-DE", "en-US"],
   "wifi": "Homeway WiFi",
   "routers": {
     "Homeway": {
