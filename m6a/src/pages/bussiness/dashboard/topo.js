@@ -8,10 +8,14 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picGateway from '@/assets/images/icon/ic_m6_gw_green.png';
-import picWifi6Good from '@/assets/images/icon/ic_m6_normal.png';
-import picWifi6Bad from '@/assets/images/icon/ic_m6_bad.png';
-import picWifi6Offline from '@/assets/images/icon/ic_m6_offline.png';
+import picM6Gateway from '@/assets/images/icon/ic_m6_gw_green.png';
+import picM6Wifi6Good from '@/assets/images/icon/ic_m6_normal.png';
+import picM6Wifi6Bad from '@/assets/images/icon/ic_m6_bad.png';
+import picM6Wifi6Offline from '@/assets/images/icon/ic_m6_offline.png';
+import picM6aGateway from '@/assets/images/icon/ic_m6a_gw_green.png';
+import picM6aWifi6Good from '@/assets/images/icon/ic_m6a_normal.png';
+import picM6aWifi6Bad from '@/assets/images/icon/ic_m6a_bad.png';
+import picM6aWifi6Offline from '@/assets/images/icon/ic_m6a_offline.png';
 import picM6aPlusGateway from '@/assets/images/model/m6a_plus/icons-m6a_plus-gateway.png';
 import picM6aPlusGood from '@/assets/images/model/m6a_plus/icons-m6a_plus-excellent.png';
 import picM6aPlusBad from '@/assets/images/model/m6a_plus/icons-m6a_plus-fair.png';
@@ -97,15 +101,15 @@ function findRedNode(green, nodes) {
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
     [CONSTANTS.RouterSnModel.M6]: {
-      [Color.good]: picWifi6Good,
-      [Color.bad]: picWifi6Bad,
-      [Color.offline]: picWifi6Offline
+      [Color.good]: picM6Wifi6Good,
+      [Color.bad]: picM6Wifi6Bad,
+      [Color.offline]: picM6Wifi6Offline
     },
     [CONSTANTS.RouterSnModel.M6a]: {
       [M6aRouterSnModelVsersion.M6a]: {
-        [Color.good]: picWifi6Good,
-        [Color.bad]: picWifi6Bad,
-        [Color.offline]: picWifi6Offline
+        [Color.good]: picM6aWifi6Good,
+        [Color.bad]: picM6aWifi6Bad,
+        [Color.offline]: picM6aWifi6Offline
       },
       [M6aRouterSnModelVsersion.M6a_Plus]: {
         [Color.good]: picM6aPlusGood,
@@ -122,7 +126,7 @@ function genNodes(gateway, green, red, offline) {
     if (node.is_gw) {
       switch (modelVersion) {
         case M6aRouterSnModelVsersion.M6a:
-          symbol = `${symbol}${picGateway}`;
+          symbol = `${symbol}${picM6aGateway}`;
           break;
         case M6aRouterSnModelVsersion.M6a_Plus:
           symbol = `${symbol}${picM6aPlusGateway}`;
@@ -133,7 +137,7 @@ function genNodes(gateway, green, red, offline) {
     } else {
       const id = (node.model && node.model.id) || node.sn.slice(0, 2);
       const modelConfig =
-        picModelColorMap[id][modelVersion] ?? picModelColorMap[id];
+        picModelColorMap[id]?.[modelVersion] ?? picModelColorMap[id];
       if (modelConfig) {
         symbol = `${symbol}${modelConfig[color]}`;
       }
