@@ -331,22 +331,16 @@ export default {
     },
     getM6aSeriesProductAddNodeImg(step) {
       const modelVersion = localStorage.getItem('modelVersion');
-      console.log('modelVersion', modelVersion);
       let img = '';
       if (modelVersion === M6aRouterSnModelVsersion.M6a) {
         switch (step) {
           case Step.step1:
-            console.log('000001');
             img = require('@/assets/images/pic_add_m6_01.png');
             break;
           case Step.step2:
-            console.log('000002');
-
             img = require('@/assets/images/pic_add_m6_02.png');
             break;
           case Step.step3:
-            console.log('000003');
-
             img = require('@/assets/images/pic_add_m6_03.png');
             break;
           default:
