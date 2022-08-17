@@ -258,7 +258,6 @@
 import marked from 'marked';
 import { formatMac, getStringByte } from 'base/util/util';
 import { RouterStatus } from 'base/util/constant';
-import axios from 'axios';
 
 export default {
   data() {
@@ -423,14 +422,6 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      // axios({
-      //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=0',
-      //   method: 'get',
-      // }).then((res) => {
-      //   console.log('meshMode', res.data);
-      //   this.meshModeInfo = res.data;
-      // }).catch((err) => {
-      // });
     },
     isRouterOffline(router) {
       return router.status === RouterStatus.offline;

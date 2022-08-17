@@ -70,7 +70,6 @@
 import marked from 'marked';
 import * as CONSTANTS from 'base/util/constant';
 import { compareVersion } from 'base/util/util';
-// import axios from 'axios';
 
 export default {
   data() {

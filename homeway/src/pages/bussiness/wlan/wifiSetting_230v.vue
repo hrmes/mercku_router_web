@@ -155,7 +155,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 import { Bands } from '../../../../../base/src/util/constant';
 import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
 import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
@@ -340,7 +339,7 @@ export default {
           hideToast: true
         }
       ).then(() => {
-        // this.getMeshApclientScanList();
+        this.getMeshApclientScanList();
         this.getWanStatus();
         this.getMeshMeta();
       })
@@ -422,28 +421,6 @@ export default {
     },
     getMeshApclientScanList() {
       this.selectIsLoading = LoadingStatus.loading;
-      // axios({
-      //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
-      //   method: 'get'
-      // })
-      //   .then(res => {
-      //     setTimeout(() => {
-      //       this.originalUpperList = [];
-      //       this.processedUpperApList = [];
-      //       const { data } = res;
-      //       data.sort((a, b) => b.rssi - a.rssi);
-      //       this.originalUpperList = data;
-      //       data.map(i => this.processedUpperApList.push({
-      //         value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
-      //       }));
-      //     }, 7000);
-      //   })
-      //   .catch(() => {
-      //     this.originalUpperList = [];
-      //     this.processedUpperApList = [];
-      // this.loadingText = this.$t('trans1078');
-      //     this.selectIsLoading = LoadingStatus.failed;
-      //   });
 
       this.$http.getMeshApclientScanList()
         .then(res => {

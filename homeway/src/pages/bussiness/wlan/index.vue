@@ -19,7 +19,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 import { HomewayModel } from '../../../../../base/src/util/constant';
 
 export default {
@@ -70,32 +69,6 @@ export default {
               break;
           }
         });
-      // axios({
-      //   methods: 'get',
-      //   url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
-      // })
-      //   .then(res => {
-      //     console.log('routerMeta@@@', res);
-      //     this.modelVersion = res.data.result.sn.slice(9, 10);
-      //     console.log('modelVersion', this.modelVersion);
-      //   })
-      //   .then(() => {
-      //     switch (this.modelVersion) {
-      //       case this.routerModel.m6a:
-      //         break;
-      //       case this.routerModel.homeway_230v:
-      //         this.currentRouter = '230v';
-      //         break;
-      //       case this.routerModel.homgway_PoE_1:
-      //         this.currentRouter = 'PoE';
-      //         break;
-      //       case this.routerModel.homeway_PoE_2:
-      //         this.currentRouter = 'PoE';
-      //         break;
-      //       default:
-      //         break;
-      //     }
-      //   });
     },
     prepared(router) {
       router === '230v' ? this.$router.push({ name: 'wifiSetting_230v' }) : this.$router.push({ name: 'wifiSetting' });

@@ -72,7 +72,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 import { isValidPassword, isFieldHasComma, isFieldHasSpaces, throttle } from '../../../../../base/src/util/util';
 
 
@@ -228,23 +227,6 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
-      // axios({
-      //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshMode?id=0',
-      //   method: 'get'
-      // }).then(res => {
-      //   const { data } = res;
-      //   console.log(data);
-      //   if (data.mode === 'wireless_bridge') {
-      //     this.currentUpperInfo.show = true;
-      //     this.currentUpperInfo.ssid = data.apclient.ssid;
-      //     this.currentUpperInfo.password = data.apclient.password;
-      //     this.currentUpperInfo.security = data.apclient.security;
-      //     console.log(this.upperApForm);
-      //   }
-      //   this.mode = data.mode;
-      //   this.currentMode = data.mode;
-      //   this.$loading.close();
-      // })
     },
     updateMode() {
       switch (this.mode) {
@@ -315,7 +297,6 @@ export default {
     // eslint-disable-next-line func-names
     getMeshApclientScanList: throttle(function () {
       this.selectIsLoading = LoadingStatus.loading;
-
       this.$http.getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];
@@ -334,22 +315,6 @@ export default {
           this.loadingText = this.$t('trans1078');
           this.selectIsLoading = LoadingStatus.failed;
         });
-      // axios({
-      //   url: 'http://127.0.0.1:4523/mock/1010011/getMeshApclientScanList?id=1',
-      //   method: 'get'
-      // })
-      //   .then(res => {
-      // setTimeout(() => {
-      //   this.originalUpperList = [];
-      //   this.processedUpperApList = [];
-      //   const { data } = res;
-      //   data.sort((a, b) => b.rssi - a.rssi);
-      //   this.originalUpperList = data;
-      //   data.map(i => this.processedUpperApList.push({
-      //     value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
-      //   }));
-      // }, 100);
-      //   });
     }, 7000),
     selectedChange(option) {
       this.saveDisable = false;
