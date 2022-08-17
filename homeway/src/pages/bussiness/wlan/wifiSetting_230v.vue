@@ -332,6 +332,7 @@ export default {
     },
   },
   mounted() {
+    this.getWanStatus();
     this.$http
       .login(
         { password: '' },
@@ -340,7 +341,6 @@ export default {
         }
       ).then(() => {
         this.getMeshApclientScanList();
-        this.getWanStatus();
         this.getMeshMeta();
       })
       .catch(() => {
