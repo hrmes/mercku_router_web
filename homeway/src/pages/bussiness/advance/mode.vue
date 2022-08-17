@@ -72,7 +72,7 @@
   </div>
 </template>
 <script>
-import { isValidPassword, isFieldHasComma, isFieldHasSpaces, throttle } from '../../../../../base/src/util/util';
+import { isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
 
 
 const LoadingStatus = {
@@ -190,16 +190,8 @@ export default {
           ],
           'upperApForm.password': [
             {
-              rule: value => isFieldHasSpaces(value),
-              message: this.$t('trans1020')
-            },
-            {
-              rule: value => isFieldHasComma(value),
-              message: this.$t('trans0452')
-            },
-            {
-              rule: value => isValidPassword(value),
-              message: this.$t('trans0169')
+              rule: value => isValidPassword(value, 1, 63),
+              message: this.$t('trans1077')
             }
           ],
         };
@@ -295,7 +287,7 @@ export default {
         });
     },
     // eslint-disable-next-line func-names
-    getMeshApclientScanList: throttle(function () {
+    getMeshApclientScanList() {
       this.selectIsLoading = LoadingStatus.loading;
       this.$http.getMeshApclientScanList()
         .then(res => {
@@ -315,7 +307,7 @@ export default {
           this.loadingText = this.$t('trans1078');
           this.selectIsLoading = LoadingStatus.failed;
         });
-    }, 7000),
+    },
     selectedChange(option) {
       this.saveDisable = false;
       this.pwdDisabled = option.encrypt === 'open';

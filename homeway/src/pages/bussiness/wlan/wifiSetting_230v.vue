@@ -273,7 +273,7 @@ export default {
         'upperApForm.password': [
           {
             rule: value => isValidPassword(value, 1, 63),
-            message: this.$t('trans0125')
+            message: this.$t('trans1077')
           }
         ]
       },

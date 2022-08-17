@@ -65,8 +65,8 @@ export default function getMenu(
       },
       {
         text: 'trans0962',
-        name: 'wifi-switch',
-        url: '/setting/wifi-switch',
+        name: 'switch',
+        url: '/setting/switch',
         config
       },
       {

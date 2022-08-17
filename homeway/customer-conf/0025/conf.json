@@ -2,11 +2,12 @@
   "id": "0025",
   "title": "Homeway",
   "host": "http://mywifi.mercku.tech",
-  "accept": ".ma",
+  "accept": ".hw",
   "favicon": "customer-conf/0025/homeway.ico",
   "policy": "",
   "allow2LevelAdmin": false,
   "languages": ["de-DE", "en-US"],
+  "defaultLanguage": "de-DE",
   "wifi": "Homeway WiFi",
   "routers": {
     "Homeway": {

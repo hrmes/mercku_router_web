@@ -1399,7 +1399,6 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 0;
           }
           .rssi-inner {
             justify-content: flex-end;

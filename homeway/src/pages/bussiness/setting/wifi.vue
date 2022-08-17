@@ -312,7 +312,7 @@ export default {
         b24g: [],
         b5g: []
       },
-      wifi_TxPowerList: [{ value: 'high', text: 'high' }, { value: 'medium', text: 'medium' }, { value: 'low', text: 'low' }],
+      wifi_TxPowerList: [{ value: 'high', text: this.$t('trans1080') }, { value: 'medium', text: this.$t('trans1081') }, { value: 'low', text: this.$t('trans1082') }],
       bandwidths: {
         b24g: new Array(2).fill(0).map((_, i) => {
           const v = Math.pow(2, i) * 20;
@@ -557,7 +557,6 @@ export default {
     // margin-top: 0;
     label {
       display: flex;
-      width: 120px;
       font-weight: bold;
     }
     .switch-container {

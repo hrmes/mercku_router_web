@@ -67,7 +67,6 @@
           <div class="nav-item-content">
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
-
           <transition name="nav-item-child__animation"
                       v-on:before-enter="beforeEnter"
                       v-on:enter="enter"

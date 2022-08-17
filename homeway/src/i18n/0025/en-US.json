@@ -1061,7 +1061,7 @@
   "trans1066": "Wired Bridge Mode",
   "trans1067": "IPv4 IP",
   "trans1068": "IPv6 IP",
-  "trans1069": "Please select a scanned SSID",
+  "trans1069": "Please choose",
   "trans1070": "Scanning, please wait",
   "trans1071": "Current password",
   "trans1072": "Current SSID",
@@ -1071,5 +1071,8 @@
   "trans1076": " ",
   "trans1077": "The maximum password is only 63 characters, please re-enter",
   "trans1078": "Failed to scan the superior, click Rescan",
-  "trans1079": "Loading"
+  "trans1079": "Loading",
+  "trans1080": "High",
+  "trans1081": "Medium",
+  "trans1082": "Low"
 }

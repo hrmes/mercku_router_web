@@ -37,10 +37,11 @@ export default {
     this.getRouter();
   },
   methods: {
+    // 如果已经初始化（即不是出厂设置），就转到login直接登录
     isinitial() {
       this.$http.isinitial()
         .then(res => {
-          if (res.data.result.status) {
+          if (!res.data.result.status) {
             this.$router.push({ path: '/login' });
           }
         });

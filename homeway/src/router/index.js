@@ -126,15 +126,14 @@ const routes = {
       component: led
     },
     {
-      path: '/setting/wifi-switch',
-      name: 'wifi-switch',
+      path: '/setting/switch',
+      name: 'switch',
       component: wifiSwitch
     },
     {
       path: '/wlan',
       name: 'wlan',
-      component: wlan,
-      beforeEnter: (to, from, next) => {}
+      component: wlan
     },
     {
       path: '/wlan/wifiSetting',

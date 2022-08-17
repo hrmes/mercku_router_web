@@ -1061,7 +1061,7 @@
   "trans1066": "Kabelgebundener Bridge-Modus",
   "trans1067": "IPv4 IP",
   "trans1068": "IPv6 IP",
-  "trans1069": "Bitte wählen Sie eine gescannte SSID aus",
+  "trans1069": "Bitte auswählen",
   "trans1070": "Scannen, bitte warten",
   "trans1071": "Jetziges Passwort",
   "trans1072": "Aktuelle SSID",
@@ -1071,5 +1071,8 @@
   "trans1076": " ",
   "trans1077": " Das maximale Passwort beträgt nur 63 Zeichen, bitte erneut eingeben",
   "trans1078": "Der Vorgesetzte konnte nicht gescannt werden, klicken Sie auf Erneut scannen",
-  "trans1079": "Wird geladen"
+  "trans1079": "Wird geladen",
+  "trans1080": "Hoch",
+  "trans1081": "Mitte",
+  "trans1082": "Niedrig"
 }
