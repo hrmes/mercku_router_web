@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   data() {
@@ -136,17 +135,6 @@ export default {
                 this.$router.push({ path: '/dashboard' });
                 this.$loading.close();
               });
-            // axios({
-            //   methods: 'get',
-            //   url: 'http://127.0.0.1:4523/mock/1010011/getRouterInfo?id=1'
-            // }).then(res2 => {
-            //   console.log(res2);
-            //   this.currentModelVersion = res2.data.result.sn.slice(9, 10);
-            //   this.$store.modelVersion = this.currentModelVersion;
-            //   localStorage.setItem('modelVersion', this.currentModelVersion);
-            //   this.$router.push({ path: '/dashboard' });
-            //   this.$loading.close();
-            // });
           });
         })
         .catch(err => {
