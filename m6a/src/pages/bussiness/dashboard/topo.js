@@ -8,7 +8,6 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6Gateway from '@/assets/images/icon/ic_m6_gw_green.png';
 import picM6Wifi6Good from '@/assets/images/icon/ic_m6_normal.png';
 import picM6Wifi6Bad from '@/assets/images/icon/ic_m6_bad.png';
 import picM6Wifi6Offline from '@/assets/images/icon/ic_m6_offline.png';
