@@ -1382,7 +1382,6 @@ export default {
           .device-item {
             height: 60px;
             width: 100%;
-            border-bottom: 1px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
             align-items: center;

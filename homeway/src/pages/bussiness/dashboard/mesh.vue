@@ -123,10 +123,10 @@
                id="topo-wrap">
             <div id="topo">
               <div class="upperAp-container"
-                   :class="[meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.status==='unlinked'?'offline':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
+                   :class="[meshModeInfo.status==='unlinked'?'offline':meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
               </div>
               <div class="line-container "
-                   :class="[meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.status==='unlinked'?'offline':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
+                   :class="[meshModeInfo.status==='unlinked'?'offline':meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
               </div>
               <div class="gateway-container">
               </div>
@@ -419,8 +419,10 @@ export default {
           this.meshModeInfo = res.data.result;
           console.log(this.meshModeInfo);
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
+          this.meshModeInfo = {
+            status: 'unlinked',
+          };
         });
     },
     isRouterOffline(router) {

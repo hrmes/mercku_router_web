@@ -72,7 +72,7 @@
   </div>
 </template>
 <script>
-import { isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
+import { isValidPassword } from '../../../../../base/src/util/util';
 
 
 const LoadingStatus = {
@@ -224,10 +224,10 @@ export default {
       switch (this.mode) {
         // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
         case 'bridge':
-          // TODO:监测网口是否插入网线接口待调用;
+          // 监测网口是否插入网线接口待调用;
           this.$http.getWanStatus()
             .then(res => {
-              // TODO:网线接入的接口数据
+              // 网线接入的接口数据
               const { status } = res.data.result;
               console.log(status);
               if (status === 'unlinked') { // 1.如果没有插入网线
@@ -254,7 +254,7 @@ export default {
               apclient: this.upperApForm
             };
             console.log(params);
-            this.confirmUpdateMeshMode({ mode: this.mode });
+            this.confirmUpdateMeshMode(params);
           }
           break;
         default:
@@ -298,7 +298,7 @@ export default {
           result.sort((a, b) => b.rssi - a.rssi);
           this.originalUpperList = result;
           result.map(i => this.processedUpperApList.push({
-            value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
+            value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
           }));
         })
         .catch(() => {
