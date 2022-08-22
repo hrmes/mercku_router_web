@@ -123,10 +123,10 @@
                id="topo-wrap">
             <div id="topo">
               <div class="upperAp-container"
-                   :class="[meshModeInfo.status==='unlinked'?'offline':meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
+                   :class="[{'offline':isOffline},{'wired-bridge':isWiredBridge},{'wireless_bridge_excellent':connectExcellent},{'wireless_bridge_fair':connectFair}]">
               </div>
               <div class="line-container "
-                   :class="[meshModeInfo.status==='unlinked'?'offline':meshModeInfo.mode==='bridge'?'wired-bridge':meshModeInfo.rssi>-60?'wireless_bridge_excellent':'wireless_bridge_fair']">
+                   :class="[{'offline':isOffline},{'wired-bridge':isWiredBridge},{'wireless_bridge_excellent':connectExcellent},{'wireless_bridge_fair':connectFair}]">
               </div>
               <div class="gateway-container">
               </div>
@@ -267,11 +267,7 @@ export default {
       RouterStatus,
       formatMac,
       pageActive: true,
-      meshModeInfo: {
-        mode: 'bridge',
-        status: 'unlinked',
-        rssi: 0
-      },
+      meshModeInfo: {},
       meshNodeTimer: null,
       routers: [],
       routerSelected: null,
@@ -338,6 +334,18 @@ export default {
     rssiTips() {
       return marked(this.$t('trans0595'), { sanitize: true });
     },
+    isOffline() {
+      return (this.meshModeInfo?.status ?? 'unlinked') === 'unlinked';
+    },
+    isWiredBridge() {
+      return this.meshModeInfo?.status !== 'unlinked' && this.meshModeInfo?.mode === 'bridge';
+    },
+    connectExcellent() {
+      return this.meshModeInfo?.status !== 'unlinked' && this.meshModeInfo?.mode === 'wireless_bridge' && this.meshModeInfo?.rssi > -60;
+    },
+    connectFair() {
+      return this.meshModeInfo?.status !== 'unlinked' && this.meshModeInfo?.mode === 'wireless_bridge' && this.meshModeInfo?.rssi <= -60;
+    }
   },
   methods: {
     getRouterStationCount(router) {
@@ -415,9 +423,7 @@ export default {
     getMeshMode() {
       this.$http.getMeshMode()
         .then(res => {
-          console.log('meshMode', res.data.result);
           this.meshModeInfo = res.data.result;
-          console.log(this.meshModeInfo);
         })
         .catch(() => {
           this.meshModeInfo = {
