@@ -1,5 +1,4 @@
 import intl from 'intl';
-import { delay } from 'lodash';
 import semver from 'semver';
 import * as CONSTANTS from './constant';
 
