@@ -1,4 +1,4 @@
-import { RouterSnModel } from '../util/constant';
+import { RouterSnModel, M6aRouterSnModelVsersion } from '../util/constant';
 
 export default {
   methods: {
@@ -10,6 +10,7 @@ export default {
     },
     getNodeImage(node) {
       const id = node.sn.slice(0, 2);
+      const modelVersion = node.sn.slice(9, 10);
       let image = '';
       switch (id) {
         case RouterSnModel.M2:
@@ -25,7 +26,11 @@ export default {
           image = require('../assets/images/img_wifi6.png');
           break;
         case RouterSnModel.M6a:
-          image = require('../assets/images/img_wifi6.png');
+          if (modelVersion === M6aRouterSnModelVsersion.M6a) {
+            image = require('../assets/images/img_wifi6.png');
+          } else if (modelVersion === M6aRouterSnModelVsersion.M6a_Plus) {
+            image = require('../assets/images/model/m6a_plus/img-m6a_plus.png');
+          }
           break;
         default:
           break;
@@ -40,7 +45,10 @@ export default {
         [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee,
         [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
         [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
-        [RouterSnModel.M6a]: process.env.CUSTOMER_CONFIG.routers.M6a
+        [RouterSnModel.M6a]:
+          this.$store.modelVersion === M6aRouterSnModelVsersion.M6a
+            ? process.env.CUSTOMER_CONFIG.routers.M6a
+            : process.env.CUSTOMER_CONFIG.routers.M6a_plus
       }
     };
   }

@@ -71,7 +71,9 @@
   </div>
 
 </template>
+
 <script>
+
 export default {
   data() {
     return {
@@ -123,7 +125,16 @@ export default {
             const { mode } = res1.data.result;
             this.$store.mode = mode;
             localStorage.setItem('mode', mode);
-            this.$router.push({ path: '/dashboard' });
+            this.$http.getRouter()
+              .then(res2 => {
+                console.log(res2);
+                const { data: { result: { sn } } } = res2;
+                this.currentModelVersion = sn.slice(9, 10);
+                this.$store.modelVersion = this.currentModelVersion;
+                localStorage.setItem('modelVersion', this.currentModelVersion);
+                this.$router.push({ path: '/dashboard' });
+                this.$loading.close();
+              });
           });
         })
         .catch(err => {

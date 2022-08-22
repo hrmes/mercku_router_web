@@ -57,6 +57,10 @@ export const RouterSnModel = {
   M6c: '07',
   M6a: '08'
 };
+export const M6aRouterSnModelVsersion = {
+  M6a: '0',
+  M6a_Plus: '1'
+};
 export const SpeedTestStatus = {
   testing: 'testing',
   done: 'done',
