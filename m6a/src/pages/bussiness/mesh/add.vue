@@ -169,7 +169,7 @@
         </div>
         <div class="mesh-add-tips-list__item list-item">
           <div class="list-item__img">
-            <img src="~@/assets/images/img_m6_networking.png"
+            <img :src="getM6aSeriesProductNetworkingImg()"
                  alt="" />
           </div>
           <div class="list-item__text">
@@ -360,6 +360,21 @@ export default {
           default:
             break;
         }
+      }
+      return img;
+    },
+    getM6aSeriesProductNetworkingImg() {
+      const modelVersion = localStorage.getItem('modelVersion');
+      let img = '';
+      switch (modelVersion) {
+        case M6aRouterSnModelVsersion.M6a:
+          img = require('@/assets/images/img_m6_networking.png');
+          break;
+        case M6aRouterSnModelVsersion.M6a_Plus:
+          img = require('@/assets/images/img_m6a-plus_networking.png');
+          break;
+        default:
+          break;
       }
       return img;
     }
