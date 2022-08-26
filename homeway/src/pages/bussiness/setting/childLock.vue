@@ -52,7 +52,7 @@ export default {
       this.$http
         .getChildLockStatus()
         .then(res => {
-          this.form.enabled = res.data.result.status;
+          this.form.enabled = res.data.result.enabled;
           this.$loading.close();
         })
         .catch(() => {

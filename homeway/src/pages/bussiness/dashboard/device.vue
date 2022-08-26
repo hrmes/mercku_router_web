@@ -1039,7 +1039,8 @@ export default {
               background-size: 100%;
             }
             &.connection-method {
-              width: auto;
+              min-width: 40px;
+              // max-width: 100px;
               height: 18px;
               line-height: 18px;
               text-align: center;
@@ -1047,7 +1048,7 @@ export default {
               border: solid 1px #333;
               color: #333;
               font-size: 12px;
-              padding: 0 10px;
+              padding: 0 7px;
             }
             &.rssi-value {
               width: 65px;
