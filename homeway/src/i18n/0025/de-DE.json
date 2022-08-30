@@ -269,7 +269,7 @@
   "trans0268": "Das Gerät wurde nicht verbunden",
   "trans0269": "Sie haben Mercku den Zugriff auf Ihre Kamera verweigert. Sie können dies in den Einstellungen autorisieren.",
   "trans0270": "Sie haben Mercku den Zugriff auf Ihren Speicher verweigert. Sie können dies in den Einstellungen autorisieren.",
-  "trans0271": "Es wird nur das Dateiformat .ma unterstützt. Bitte versuchen Sie es erneut.",
+  "trans0271": "Es wird nur das Dateiformat %s unterstützt. Bitte versuchen Sie es erneut.",
   "trans0272": "Zeitzone",
   "trans0273": "Zeitzone einstellen",
   "trans0274": "Fehlgeschlagen. Bitte verbinden Sie mit Mercku WLAN in den System Einstellungen.",

@@ -269,7 +269,7 @@
   "trans0268": "The device is not bound",
   "trans0269": "You have denied Mercku to use your camera. Please authorize in Settings",
   "trans0270": "You have denied Mercku to use your storage. Please authorize in Settings",
-  "trans0271": ".ma files supported only",
+  "trans0271": "%s files supported only",
   "trans0272": "Time Zone",
   "trans0273": "Set time zone",
   "trans0274": "Request failed. Please connect to your Mercku Wi-Fi in your system's settings",

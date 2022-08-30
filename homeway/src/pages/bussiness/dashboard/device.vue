@@ -889,7 +889,7 @@ export default {
         }
       }
       .column-rssi {
-        width: 9.375rem;
+        width: 155px;
       }
       .column-black-list {
         width: 230px;
@@ -1021,25 +1021,27 @@ export default {
           }
           .rssi-icon {
             display: block;
-            width: 16px;
             height: 16px;
             &.bad {
               background: url(../../../assets/images/icon/ic_wifi_bad.png)
                 no-repeat center;
               background-size: 100%;
+              width: 16px;
             }
             &.normal {
               background: url(../../../assets/images/icon/ic_wifi_normal.png)
                 no-repeat center;
               background-size: 100%;
+              width: 16px;
             }
             &.good {
               background: url(../../../assets/images/icon/ic_wifi_good.png)
                 no-repeat center;
               background-size: 100%;
+              width: 16px;
             }
             &.connection-method {
-              min-width: 40px;
+              min-width: 45px;
               // max-width: 100px;
               height: 18px;
               line-height: 18px;
@@ -1048,7 +1050,7 @@ export default {
               border: solid 1px #333;
               color: #333;
               font-size: 12px;
-              padding: 0 7px;
+              padding: 0 5px;
             }
             &.rssi-value {
               width: 65px;
