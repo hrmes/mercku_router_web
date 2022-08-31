@@ -97,10 +97,6 @@ export default {
           text: this.$t('trans1066'),
           value: 'bridge'
         },
-        {
-          text: this.$t('trans0541'),
-          value: 'router'
-        },
       ],
       upperApForm: {
         ssid: '', // 必选
@@ -295,7 +291,7 @@ export default {
           this.originalUpperList = [];
           this.processedUpperApList = [];
           const { result } = res.data;
-          result.sort((a, b) => b.rssi - a.rssi);
+          result.filter(item => item.ssid).sort((a, b) => b.rssi - a.rssi);
           this.originalUpperList = result;
           result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
@@ -343,7 +339,7 @@ export default {
 }
 .upperApForm {
   border-top: 1px solid #ebebeb;
-  padding-top: 30px;
+  padding-top: 20px;
   .upperApForm__top {
     width: 340px;
     background: #f7f7f7;
