@@ -421,9 +421,19 @@ export default {
       });
     },
     getMeshMode() {
-      this.$http.getMeshMode()
-        .then(res => {
-          this.meshModeInfo = res.data.result;
+      this.$http.getWanStatus()
+        .then(res1 => {
+          const { status } = res1.data.result;
+          this.$http.getMeshMode()
+            .then(res2 => {
+              this.meshModeInfo = res2.data.result;
+              this.meshModeInfo.status = status;
+            })
+            .catch(() => {
+              this.meshModeInfo = {
+                status: 'unlinked',
+              };
+            });
         })
         .catch(() => {
           this.meshModeInfo = {
