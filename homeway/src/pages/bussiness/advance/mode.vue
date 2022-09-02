@@ -73,7 +73,7 @@
 </template>
 <script>
 import axios from 'axios';
-import { get } from 'http';
+
 import { isValidPassword } from '../../../../../base/src/util/util';
 
 
@@ -293,7 +293,9 @@ export default {
           this.originalUpperList = [];
           this.processedUpperApList = [];
           let { result } = res.data;
-          result = result.filter(item => item.ssid !== '').sort((a, b) => b.rssi - a.rssi);
+          result = result.filter(item => item.ssid);
+          result.sort((a, b) => b.rssi - a.rssi);
+          console.log('@@@@@@@@@@', result);
           this.originalUpperList = result;
           result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
