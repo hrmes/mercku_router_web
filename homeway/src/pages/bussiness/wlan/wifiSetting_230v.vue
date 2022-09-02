@@ -426,8 +426,9 @@ export default {
         .then(res => {
           this.originalUpperList = [];
           this.processedUpperApList = [];
-          const { result } = res.data;
-          result.filter(item => item.ssid).sort((a, b) => b.rssi - a.rssi);
+          let { result } = res.data;
+          result = result.filter(item => item.ssid);
+          result.sort((a, b) => b.rssi - a.rssi);
           this.originalUpperList = result;
           result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
