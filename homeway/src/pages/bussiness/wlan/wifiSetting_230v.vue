@@ -427,7 +427,7 @@ export default {
           this.originalUpperList = [];
           this.processedUpperApList = [];
           let { result } = res.data;
-          result = result.filter(item => item.ssid);
+          result = result.filter(item => item.ssid !== ' ');
           result.sort((a, b) => b.rssi - a.rssi);
           this.originalUpperList = result;
           result.map(i => this.processedUpperApList.push({
