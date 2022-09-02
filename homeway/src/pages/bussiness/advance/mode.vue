@@ -72,7 +72,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 
 import { isValidPassword } from '../../../../../base/src/util/util';
 
