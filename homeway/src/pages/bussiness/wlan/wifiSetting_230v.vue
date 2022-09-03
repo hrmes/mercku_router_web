@@ -431,7 +431,7 @@ export default {
           result.sort((a, b) => b.rssi - a.rssi);
           this.originalUpperList = result;
           result.map(i => this.processedUpperApList.push({
-            value: i.ssid, text: `${i.ssid}  ${i.rssi}`, encrypt: i.security, rssi: i.rssi
+            value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
           }));
         })
         .catch(() => {
