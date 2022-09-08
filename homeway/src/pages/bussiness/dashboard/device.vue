@@ -1,26 +1,6 @@
 <template>
   <div class="device-container">
     <div class="device-wrapper">
-      <div class="offline-handle-wrapper"
-           v-if="isOfflineDevices">
-        <div class="check-info">
-          <div class="m-check-all-box">
-            <m-checkbox v-model="checkAll"
-                        :text="$t('trans0032')"
-                        @change="offCheckChange"></m-checkbox>
-          </div>
-          <div><button class="btn btn-small"
-                    :disabled="!offlineCheckedMacs.length"
-                    @click="delOfflineDevices(offlineCheckedMacs)">
-              {{$t('trans0453')}}</button></div>
-        </div>
-        <div class="off-more-message"
-             v-if="devicesMap[id]&&devicesMap[id].length>60">
-          <img src="../../../assets/images/icon/ic_hint.png"
-               alt="">
-          {{$t('trans0517')}}
-        </div>
-      </div>
       <div class="table-inner">
         <!-- 表头开始 -->
         <div class="table-head">
@@ -28,53 +8,23 @@
 
             <!-- 在线显示的表头 -->
             <!-- 设备名称device列 -->
-            <li class="column-name">
-              <div class="column-check-box"
-                   v-if="isOfflineDevices">
-                <m-checkbox v-model="checkAll"
-                            @change="offCheckChange"></m-checkbox>
-              </div>
-              {{$t('trans0005')}}
-            </li>
+            <li class="column-name">{{$t('trans0005')}}</li>
 
             <!-- 实时速率realtime speed列 -->
-            <li class="column-real-time"
-                v-if="!isOfflineDevices">{{$t('trans0367')}}</li>
+            <li class="column-real-time">{{$t('trans0367')}}</li>
 
             <!-- 设备吞吐量列throughput -->
-            <li class="column-band"
-                v-if="!isOfflineDevices">{{$t('trans0015')}}</li>
+            <li class="column-band">{{$t('trans0015')}}</li>
 
             <!-- RSSI -->
-            <li class="column-rssi"
-                v-if="!isOfflineDevices && isRouter">{{$t('trans1057')}}</li>
+            <li class="column-rssi">{{$t('trans1057')}}</li>
+
             <!-- 在线时长 -->
-            <li class="column-ip"
-                v-if="!isOfflineDevices">
-              {{$t('trans0631')}}</li>
+            <li class="column-ip">{{$t('trans0631')}}</li>
 
             <!-- IP地址/mac地址 -->
-            <li class="column-ip"
-                v-if="!isOfflineDevices">{{$t('trans0151')}} /
+            <li class="column-ip">{{$t('trans0151')}} /
               {{$t('trans0188')}}</li>
-
-            <!-- 离线显示的表头 -->
-            <!-- 在线时长 -->
-            <li class="column-ip"
-                v-if="isOfflineDevices">
-              {{$t('trans0631')}}</li>
-
-            <!-- 离线时间 -->
-            <li class="column-ip"
-                v-if="isOfflineDevices">
-              {{$t('trans0630')}}</li>
-
-            <!-- mac地址 -->
-            <li class="column-ip"
-                v-if="isOfflineDevices">
-              {{$t('trans0188')}}</li>
-            <li class="column-black-list"
-                v-if="isOfflineDevices">{{$t('trans0370')}}</li>
           </ul>
         </div>
         <!-- 表头结束 -->
@@ -95,15 +45,10 @@
               <li class="column-name"
                   @click.stop="expandTable(row)">
                 <div class="name-wrap">
-                  <div class="column-check-box"
-                       v-if="isOfflineDevices">
-                    <m-checkbox :stopPropagation="true"
-                                v-model="row.checked"></m-checkbox>
-                  </div>
-                  <div class="name-inner"
-                       :class="{'off-name':isOfflineDevices}">
+
+                  <div class="name-inner">
                     <a class="name_inner_a">
-                      <img v-if='row.local &&!isOfflineDevices'
+                      <img v-if='row.local'
                            src="../../../assets/images/icon/ic_user.png"
                            alt=""
                            class="current_visit_icon">
@@ -113,7 +58,7 @@
                            class="btn-text icon-btn"
                            :title="$t('trans0034')"
                            @click.stop='()=>nameModalOpen(row)'
-                           v-if='isMobileRow(row.expand)&&!isOfflineDevices'
+                           v-if='isMobileRow(row.expand)'
                            src="../../../assets/images/icon/ic_edit.png"
                            alt="">
                     </a>
@@ -139,7 +84,7 @@
               </li>
               <!-- 实时速率列数据 -->
               <li class="column-real-time"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                  v-if='isMobileRow(row.expand)'>
                 <span class="label">{{$t('trans0367')}}</span>
                 <div class="speed-inner">
                   <div class="speed-wrap">
@@ -164,7 +109,7 @@
               </li>
               <!-- 设备吞吐量列数据 -->
               <li class="column-band"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                  v-if='isMobileRow(row.expand)'>
                 <span class="label">{{$t('trans0015')}}</span>
                 <span class="value">
                   <span>{{formatNetworkData
@@ -175,7 +120,7 @@
               </li>
               <!-- RSSI列数据 -->
               <li class="column-rssi"
-                  v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
+                  v-if='isMobileRow(row.expand)'>
                 <span v-show="isMobile">{{$t('trans1057')}}</span>
                 <div class="rssi-inner">
                   <div class="item device-item">
@@ -195,36 +140,15 @@
               </li>
               <!-- 在线时长 -->
               <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                  v-if='isMobileRow(row.expand)'>
                 <span>{{$t('trans0631')}}</span>
                 <span> {{transformDuration(row.online_info.online_duration)}} </span>
               </li>
               <!-- ip地址/mac地址 -->
               <li class="column-ip device-item"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                  v-if='isMobileRow(row.expand)'>
                 <span>{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
-              </li>
-
-              <!-- 离线显示数据 -->
-              <!-- 离线时间 -->
-              <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span>{{$t('trans0630')}}</span>
-                <span> {{transformOfflineDate(row.offline_time)}} </span>
-              </li>
-              <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span>{{$t('trans0188')}}</span>
-                <span>{{formatMac(row.mac)}}</span>
-              </li>
-              <li class="column-mac device-item"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span>{{$t('trans0188')}}</span>
-                <span>{{formatMac(row.mac)}}</span>
               </li>
             </ul>
 
@@ -270,7 +194,7 @@
 </template>
 <script>
 import { formatMac, getStringByte, formatDate, formatDuration } from '../../../../../base/src/util/util';
-import { BlacklistMode, RouterMode } from '../../../../../base/src/util/constant';
+import { BlacklistMode } from '../../../../../base/src/util/constant';
 
 export default {
   data() {
@@ -319,12 +243,6 @@ export default {
     },
     id() {
       return this.$route.params.id;
-    },
-    isRouter() {
-      return RouterMode.router === this.$store.mode;
-    },
-    isOfflineDevices() {
-      return this.id === 'offline';
     },
   },
   async mounted() {

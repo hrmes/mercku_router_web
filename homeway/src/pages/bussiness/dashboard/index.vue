@@ -465,7 +465,7 @@ export default {
     }
     .net-info {
       height: 160px;
-      background-size: cover;
+      background-size: cover !important;
       .net-info__inner {
         padding: 0 30px;
         .icon-container {

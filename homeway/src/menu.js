@@ -64,18 +64,6 @@ export default function getMenu(
         config
       },
       {
-        text: 'trans0962',
-        name: 'switch',
-        url: '/setting/switch',
-        config
-      },
-      {
-        text: 'trans0620',
-        name: 'ipv6',
-        url: '/setting/ipv6',
-        config
-      },
-      {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
@@ -103,6 +91,18 @@ export default function getMenu(
         url: '/setting/childLock',
         name: 'childLock',
         text: 'trans1061',
+        config
+      },
+      {
+        text: 'trans0962',
+        name: 'switch',
+        url: '/setting/switch',
+        config
+      },
+      {
+        text: 'trans0620',
+        name: 'ipv6',
+        url: '/setting/ipv6',
         config
       }
     ]

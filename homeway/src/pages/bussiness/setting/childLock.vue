@@ -4,40 +4,38 @@
       {{$t('trans1061')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <m-switch class="form__switch"
-                  v-model="form.enabled"
-                  :label="$t('trans0462')"
-                  @change="print" />
-        <div class="form__label">{{$t('trans1060')}}</div>
-      </div>
-      <div class="form-button">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="onEnabledChange(form.enabled)">{{$t('trans0081')}}</button>
-      </div>
+      <m-form class="form">
+        <m-form-item class="form__item">
+          <m-switch class="form__switch"
+                    v-model="enabled"
+                    :label="$t('trans0462')"
+                    @click="enabled=!enabled"
+                    @change="updateChildLockStatus" />
+          <div class="form__label">{{$t('trans1060')}}</div>
+        </m-form-item>
+
+      </m-form>
     </div>
   </div>
 </template>
 <script>
+import { throttle } from '../../../../../base/src/util/util';
+
 export default {
   data() {
     return {
-      form: {
-        enabled: false
-      }
+
+      enabled: false
+
     };
   },
   methods: {
-    print() {
-      console.log(this.form.enabled);
-    },
-    onEnabledChange(newVal) {
-      console.log('newval', newVal);
+    // eslint-disable-next-line func-names
+    updateChildLockStatus: throttle(function () {
       this.$loading.open();
       this.$http
         .updateChildLockStatus({
-          enabled: newVal
+          enabled: this.enabled
         })
         .then(() => {
           this.$loading.close();
@@ -46,7 +44,7 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
-    },
+    }, 1000),
     getChildLockEnable() {
       this.$loading.open();
       this.$http

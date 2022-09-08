@@ -1074,5 +1074,7 @@
   "trans1079": "Wird geladen",
   "trans1080": "Hoch",
   "trans1081": "Mitte",
-  "trans1082": "Niedrig"
+  "trans1082": "Niedrig",
+  "trans1083": "IPv4-LAN-Status",
+  "trans1084": "IPv6-LAN-Status"
 }

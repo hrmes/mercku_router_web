@@ -56,8 +56,7 @@
                 </div>
                 <div class="type">
                   <span class="label">{{$t('trans0068')}}</span>
-                  <span class="value">{{router.is_gw ? $t('trans0165'):
-                  $t('trans0186')}}</span>
+                  <span class="value">AP</span>
                 </div>
                 <div class="equipment">
                   <span class="label">{{$t('trans0235')}}</span>
@@ -110,8 +109,8 @@
           <div class="legend-wrap">
             <p class="legend-title">
               <span>{{$t('trans0302')}}</span>
-              <span class="icon-quality"
-                    @click.stop="showRssiModal"></span>
+              <!-- <span class="icon-quality"
+                    @click.stop="showRssiModal"></span> -->
             </p>
             <div class="legend">
               <div class="legend-item">{{$t('trans0193')}}</div>
@@ -158,7 +157,7 @@
       </m-modal-body>
     </m-modal>
     <!-- 连接质量说明弹框 -->
-    <m-modal :visible.sync="rssiModalVisible">
+    <!-- <m-modal :visible.sync="rssiModalVisible">
       <m-modal-header>
         {{$t('trans0128')}}
       </m-modal-header>
@@ -198,7 +197,7 @@
                   @click="closeRssiModal">{{$t('trans0024')}}</button>
         </div>
       </m-modal-footer>
-    </m-modal>
+    </m-modal> -->
     <!-- mesh列表弹框 -->
     <m-modal :visible.sync="stationListModalVisible"
              class="mesh-list-modal">
@@ -263,7 +262,7 @@ export default {
   data() {
     return {
       showLoading: false,
-      rssiModalVisible: false,
+      // rssiModalVisible: false,
       RouterStatus,
       formatMac,
       pageActive: true,
@@ -371,12 +370,12 @@ export default {
     isThisMachine(ip) {
       return ip === this.localDeviceIP;
     },
-    showRssiModal() {
-      this.rssiModalVisible = true;
-    },
-    closeRssiModal() {
-      this.rssiModalVisible = false;
-    },
+    // showRssiModal() {
+    //   this.rssiModalVisible = true;
+    // },
+    // closeRssiModal() {
+    //   this.rssiModalVisible = false;
+    // },
     updateMeshBand(val) {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -657,8 +656,8 @@ export default {
         }
         .device__host-name {
           width: 160px;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          // overflow: hidden;
+          // text-overflow: ellipsis;
           white-space: nowrap;
           &.has-padding-left {
             padding-left: 30px;
@@ -1072,10 +1071,10 @@ export default {
           width: 150px;
         }
         .type {
-          width: 150px;
+          width: 100px;
         }
         .equipment {
-          width: 150px;
+          width: 100px;
         }
         .version {
           width: 100px;
@@ -1088,6 +1087,12 @@ export default {
         }
         .operate {
           width: 230px;
+          .text-primary {
+            color: #d6001c;
+            &:hover {
+              color: #e6586a;
+            }
+          }
         }
         .table-content {
           .router {

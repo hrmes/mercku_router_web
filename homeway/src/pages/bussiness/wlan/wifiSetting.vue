@@ -134,7 +134,7 @@ export default {
       stepOption: {
         current: 0,
         steps: [
-          { text: this.$t('trans0019'), success: true },
+          { text: this.$t('trans0103'), success: true },
           { text: this.$t('trans0018'), success: false }
         ]
       },

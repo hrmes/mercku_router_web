@@ -179,7 +179,7 @@ export default {
         current: 0,
         steps: [
           { text: this.$t('trans1052'), success: true },
-          { text: this.$t('trans0019'), success: false },
+          { text: this.$t('trans0103'), success: false },
           { text: this.$t('trans0018'), success: false }
         ]
       },

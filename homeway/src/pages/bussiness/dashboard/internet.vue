@@ -2,19 +2,23 @@
   <div class="router-info">
     <div class="section">
       <div class="section__inner">
-        <div class="section__title">{{$t('trans1062')}}</div>
+        <div class="section__title">{{$t('trans1083')}}</div>
         <div class="section__body">
           <div class="item">
             <label class="item__label">{{$t('trans0317')}}</label>
             <span class="item__value">{{networkArr[localNetInfo.type]}}</span>
           </div>
           <div class="item">
-            <label class="item__label">{{$t('trans0151')}}</label>
-            <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
-          </div>
-          <div class="item">
             <label class="item__label">{{$t('trans0152')}}</label>
             <span class="item__value">{{localNetInfo.netinfo.mask }}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0153')}}</label>
+            <span class="item__value">{{localNetInfo.netinfo.gateway}}</span>
+          </div>
+          <div class="item">
+            <label class="item__label">{{$t('trans0151')}}</label>
+            <span class="item__value">{{localNetInfo.netinfo.ip}}</span>
           </div>
           <div class="item">
             <label class="item__label">{{$t('trans0236')}}</label>
@@ -22,10 +26,7 @@
               {{dnsText}}
             </span>
           </div>
-          <div class="item">
-            <label class="item__label">{{$t('trans0153')}}</label>
-            <span class="item__value">{{localNetInfo.netinfo.gateway}}</span>
-          </div>
+
         </div>
       </div>
     </div>
@@ -55,7 +56,7 @@
       <div class="section"
            v-if="this.ipv6NetInfo.enabled">
         <div class="section__inner">
-          <div class="section__title">{{$t('trans0700')}}</div>
+          <div class="section__title">{{$t('trans1084')}}</div>
           <div class="section__body">
             <div class="item">
               <label class="item__label">{{$t('trans0317')}}</label>
