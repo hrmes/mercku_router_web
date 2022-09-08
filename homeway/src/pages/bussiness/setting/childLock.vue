@@ -24,9 +24,7 @@ import { throttle } from '../../../../../base/src/util/util';
 export default {
   data() {
     return {
-
       enabled: false
-
     };
   },
   methods: {
@@ -50,7 +48,7 @@ export default {
       this.$http
         .getChildLockStatus()
         .then(res => {
-          this.form.enabled = res.data.result.enabled;
+          this.enabled = res.data.result.enabled;
           this.$loading.close();
         })
         .catch(() => {
