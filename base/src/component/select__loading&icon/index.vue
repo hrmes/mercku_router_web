@@ -30,7 +30,7 @@
                 <span class="encrypt"
                       v-if="option.encrypt!=='open'"></span>
                 <span class="rssi"
-                      :class="[option.rssi>-60?'good':option.rssi>-75? 'normal':'bad']"></span>
+                      :class="[option.rssi>76?'good':option.rssi>50? 'normal':'bad']"></span>
               </div>
             </li>
           </template>
