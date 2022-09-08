@@ -34,7 +34,7 @@ export default {
       this.$http
         .getMeshWifiStatus()
         .then(res => {
-          this.wifiStatus = res.data.result.enabled;
+          this.enabled = res.data.result.enabled;
           this.$loading.close();
         })
         .catch(() => {
