@@ -656,8 +656,8 @@ export default {
         }
         .device__host-name {
           width: 160px;
-          // overflow: hidden;
-          // text-overflow: ellipsis;
+          overflow: hidden;
+          text-overflow: ellipsis;
           white-space: nowrap;
           &.has-padding-left {
             padding-left: 30px;

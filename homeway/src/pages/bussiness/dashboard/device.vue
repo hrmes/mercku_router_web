@@ -20,7 +20,7 @@
             <li class="column-rssi">{{$t('trans1057')}}</li>
 
             <!-- 在线时长 -->
-            <li class="column-ip">{{$t('trans0631')}}</li>
+            <li class="column-online-duration">{{$t('trans0631')}}</li>
 
             <!-- IP地址/mac地址 -->
             <li class="column-ip">{{$t('trans0151')}} /
@@ -139,7 +139,7 @@
                 </div>
               </li>
               <!-- 在线时长 -->
-              <li class="column-ip device-item"
+              <li class="column-online-duration device-item"
                   v-if='isMobileRow(row.expand)'>
                 <span>{{$t('trans0631')}}</span>
                 <span> {{transformDuration(row.online_info.online_duration)}} </span>
@@ -149,6 +149,12 @@
                   v-if='isMobileRow(row.expand)'>
                 <span>{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
+              </li>
+              <!-- 手机模式下显示的mac行 -->
+              <li class="column-mac device-item"
+                  v-if='isMobileRow(row.expand)'>
+                <span>{{$t('trans0188')}}</span>
+                <span>{{formatMac(row.mac)}}</span>
               </li>
             </ul>
 
@@ -759,7 +765,8 @@ export default {
         width: 13.75rem;
         overflow: visible;
       }
-      .column-ip {
+      .column-ip,
+      .column-online-duration {
         .pc-mac {
           display: block;
         }
@@ -1286,7 +1293,8 @@ export default {
               }
             }
           }
-          .column-ip {
+          .column-ip,
+          .column-online-duration {
             .pc-mac {
               display: none;
             }
