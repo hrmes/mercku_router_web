@@ -63,17 +63,18 @@
               <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
             </div>
             <div class="item">
-              <label class="item__label">{{$t('trans0701')}}</label>
+              <label class="item__label">{{$t('trans0153')}}</label>
+              <span class="item__value">{{ipv6NetInfo.gateway}}</span>
+            </div>
+            <div class="item">
+              <label class="item__label">{{$t('trans0151')}}</label>
               <span class="item__value">{{ipv6NetInfo.ip }}</span>
             </div>
             <div class="item">
               <label class="item__label">{{$t('trans0236')}}</label>
               <span class="item__value">{{ipv6NetInfo.dns}}</span>
             </div>
-            <div class="item">
-              <label class="item__label">{{$t('trans0153')}}</label>
-              <span class="item__value">{{ipv6NetInfo.gateway}}</span>
-            </div>
+
           </div>
         </div>
       </div>

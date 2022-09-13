@@ -240,7 +240,7 @@ export default {
             bandwidth: 80
           }
         },
-        wifiTxPower: 'high',
+        wifiTxPower: '',
       },
       rules: {
         'b24g.ssid': [
@@ -344,6 +344,14 @@ export default {
         }
       ]
     };
+  },
+  watch: {
+    form: {
+      deep: true,
+      handler: (nv) => {
+        console.log(nv);
+      }
+    }
   },
   mounted() {
     this.getInitData();

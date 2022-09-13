@@ -17,6 +17,7 @@ import wifiSetting_230v from 'pages/bussiness/wlan/wifiSetting_230v.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
 import wifiSwitch from 'pages/bussiness/setting/wifi-switch.vue';
 import led from 'pages/bussiness/setting/led.vue';
+import ipv6 from 'pages/bussiness/setting/ipv6.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -25,7 +26,6 @@ import safe from 'base/pages/bussiness/setting/safe.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
-import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 
 Vue.use(Router);
 
