@@ -24,10 +24,8 @@ import { HomewayModel } from '../../../../../base/src/util/constant';
 export default {
   data() {
     return {
-      HomewayModel,
       modelVersion: null,
       currentRouter: null,
-      checklist: this.$t('trans1074').replaceAll('%s', '')
     };
   },
   created() {
@@ -35,6 +33,19 @@ export default {
   },
   mounted() {
     this.getRouter();
+  },
+  computed: {
+    checklist() {
+      let checklist = '';
+      if (this.modelVersion === HomewayModel.homeway_230v) {
+        this.currentRouter = '230v';
+        checklist = this.$t('trans1074').replace('%s', '230v');
+      } else {
+        this.currentRouter = 'PoE';
+        checklist = this.$t('trans1074').replace('%s', 'POE');
+      }
+      return checklist;
+    }
   },
   methods: {
     // 如果已经初始化（即不是出厂设置），就转到login直接登录
@@ -51,24 +62,6 @@ export default {
         .then(res => {
           this.modelVersion = res.data.result.sn.slice(9, 10);
           console.log('modelVersion', this.modelVersion);
-        })
-        .then(() => {
-          switch (this.modelVersion) {
-            case this.HomewayModel.homeway_230v:
-              this.currentRouter = '230v';
-              this.checklist = this.$t('trans1074').replaceAll('%s', '230v');
-              break;
-            case this.HomewayModel.homgway_PoE_1:
-              this.currentRouter = 'PoE';
-              this.checklist = this.$t('trans1074').replaceAll('%s', 'POE');
-              break;
-            case this.HomewayModel.homeway_PoE_2:
-              this.currentRouter = 'PoE';
-              this.checklist = this.$t('trans1074').replaceAll('%s', 'POE');
-              break;
-            default:
-              break;
-          }
         });
     },
     prepared(router) {
