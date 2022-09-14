@@ -28,9 +28,9 @@
               </div>
               <div class="icon__container">
                 <span class="encrypt"
-                      v-if="option.encrypt!=='open'"></span>
+                      v-if="option.encrypt!=='OPEN'"></span>
                 <span class="rssi"
-                      :class="[option.rssi>76?'good':option.rssi>50? 'normal':'bad']"></span>
+                      :class="[option.rssi>76?'good':'normal']"></span>
               </div>
             </li>
           </template>
@@ -211,7 +211,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       list-style: none;
-      padding: 17px 10px;
+      padding: 17px 10px 17px 20px;
       line-height: 1;
       cursor: pointer;
       width: 100%;
@@ -226,7 +226,20 @@ export default {
         color: $select-item-hover-color;
       }
       &.selected {
+        position: relative;
         color: $select-item-selected-color;
+        ::before {
+          content: '';
+          width: 12px;
+          height: 12px;
+          background: url(../../../../homeway/src/assets/images/icon/ic_selected.svg)
+            center no-repeat;
+          background-size: cover;
+          position: absolute;
+          top: 52%;
+          left: 3px;
+          transform: translate(0, -50%);
+        }
       }
       .icon__container {
         display: flex;
@@ -329,7 +342,7 @@ export default {
     .select-popup {
       top: 52px;
       .select-popup__item {
-        padding: 17px 10px;
+        padding: 17px 10px 17px 20px;
       }
       .select-popup__item--loading {
         height: 150px;

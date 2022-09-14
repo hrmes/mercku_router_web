@@ -315,12 +315,8 @@ export default {
           ],
           'upperApForm.password': [
             {
-              rule: value => isFieldHasSpaces(value),
-              message: this.$t('trans1020')
-            },
-            {
-              rule: value => isFieldHasComma(value),
-              message: this.$t('trans0452')
+              rule: value => value !== '',
+              message: this.$t('trans0281')
             },
             {
               rule: value => isValidPassword(value),
@@ -421,12 +417,16 @@ export default {
     },
     getMeshApclientScanList() {
       this.selectIsLoading = LoadingStatus.loading;
-
       this.$http.getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];
           this.processedUpperApList = [];
           let { result } = res.data;
+          if (result.length === 0) {
+            this.loadingText = this.$t('trans1078');
+            this.selectIsLoading = LoadingStatus.failed;
+            return;
+          }
           result = result.filter(item => item.ssid !== ' ');
           result.sort((a, b) => b.rssi - a.rssi);
           this.originalUpperList = result;
@@ -442,7 +442,7 @@ export default {
         });
     },
     selectedChange(option) {
-      this.pwdDisabled = option.encrypt === 'open';
+      this.pwdDisabled = option.encrypt === 'OPEN';
       this.saveDisable = false;
       const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
       this.upperApForm = {

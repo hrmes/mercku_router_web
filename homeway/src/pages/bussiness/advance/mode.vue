@@ -27,7 +27,7 @@
           <div class="current-pwd">
             <span class="title">{{$t('trans1071')}}:</span>
             <span
-                  class="content">{{currentUpperInfo.security!=='open'?currentUpperInfo.password:'-'}}</span>
+                  class="content">{{currentUpperInfo.security!=='OPEN'?currentUpperInfo.password:'-'}}</span>
           </div>
         </div>
         <div class="upperApForm__bottom">
@@ -73,6 +73,7 @@
 </template>
 <script>
 
+import axios from 'axios';
 import { isValidPassword } from '../../../../../base/src/util/util';
 
 
@@ -111,7 +112,7 @@ export default {
       currentUpperInfo: {
         show: false,
         ssid: '',
-        security: 'open',
+        security: 'OPEN',
         password: ''
       },
       originalUpperList: [],
@@ -187,9 +188,13 @@ export default {
           ],
           'upperApForm.password': [
             {
+              rule: value => value !== '',
+              message: this.$t('trans0281')
+            },
+            {
               rule: value => isValidPassword(value, 1, 63),
               message: this.$t('trans1077')
-            }
+            },
           ],
         };
       }
@@ -292,6 +297,11 @@ export default {
           this.originalUpperList = [];
           this.processedUpperApList = [];
           let { result } = res.data;
+          if (result.length === 0) {
+            this.loadingText = this.$t('trans1078');
+            this.selectIsLoading = LoadingStatus.failed;
+            return;
+          }
           result = result.filter(item => item.ssid !== ' ');
           result.sort((a, b) => b.rssi - a.rssi);
           this.originalUpperList = result;
@@ -308,7 +318,7 @@ export default {
     },
     selectedChange(option) {
       this.saveDisable = false;
-      this.pwdDisabled = option.encrypt === 'open';
+      this.pwdDisabled = option.encrypt === 'OPEN';
       const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
       this.upperApForm = {
         ssid,

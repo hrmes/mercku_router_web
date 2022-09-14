@@ -240,7 +240,7 @@ export default {
             bandwidth: 80
           }
         },
-        wifiTxPower: '',
+        tx_power: '',
       },
       rules: {
         'b24g.ssid': [
@@ -345,14 +345,6 @@ export default {
       ]
     };
   },
-  watch: {
-    form: {
-      deep: true,
-      handler: (nv) => {
-        console.log(nv);
-      }
-    }
-  },
   mounted() {
     this.getInitData();
   },
@@ -428,7 +420,7 @@ export default {
               const wifi = {
                 smart_connect: this.form.smart_connect,
                 compatibility_mode: this.form.compatibility_mode,
-                wifi_TxPower: this.form.wifiTxPower,
+                tx_power: this.form.wifiTxPower,
                 bands: {
                   [Bands.b24g]: b24g,
                   [Bands.b5g]: b5g
