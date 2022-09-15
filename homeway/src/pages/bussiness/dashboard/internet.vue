@@ -96,7 +96,7 @@ export default {
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144'),
         auto: this.$t('trans0696'),
-        failObtain: this.$t('trans1058')
+        failObtain: this.$t('trans1085')
       },
       netInfo: {},
       traffic: {},
@@ -255,9 +255,9 @@ export default {
         .catch(() => {
           this.ipv6NetInfo.enabled = true;
           this.ipv6NetInfo.type = 'failObtain';
-          this.ipv6NetInfo.ip = this.$t('trans1058');
-          this.ipv6NetInfo.gateway = this.$t('trans1058');
-          this.ipv6NetInfo.dns = this.$t('trans1058');
+          this.ipv6NetInfo.ip = this.$t('trans1085');
+          this.ipv6NetInfo.gateway = this.$t('trans1085');
+          this.ipv6NetInfo.dns = this.$t('trans1085');
         });
     },
   },

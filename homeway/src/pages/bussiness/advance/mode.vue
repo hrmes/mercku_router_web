@@ -73,7 +73,6 @@
 </template>
 <script>
 
-import axios from 'axios';
 import { isValidPassword } from '../../../../../base/src/util/util';
 
 
@@ -264,29 +263,38 @@ export default {
       }
     },
     confirmUpdateMeshMode(params) {
-      this.$loading.open();
-      this.$http
-        .updateMeshMode(params)
-        .then(() => {
-          this.$loading.close();
-          this.$reconnect({
-            timeout: 120,
-            onsuccess: () => {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-              // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
-              if (this.$store.mode !== this.mode) {
-                this.$store.mode = this.mode;
-                this.$router.push({ path: '/login' });
-              }
-            },
-            ontimeout: () => {
-              this.$router.push({ path: '/unconnect' });
-            }
-          });
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0229'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            this.$http
+              .updateMeshMode(params)
+              .then(() => {
+                this.$loading.close();
+                this.$reconnect({
+                  timeout: 120,
+                  onsuccess: () => {
+                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                    // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+                    if (this.$store.mode !== this.mode) {
+                      this.$store.mode = this.mode;
+                      this.$router.push({ path: '/login' });
+                    }
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  }
+                });
+              })
+              .catch(() => {
+                this.$loading.close();
+              });
+          }
+        }
+      });
     },
     // eslint-disable-next-line func-names
     getMeshApclientScanList() {

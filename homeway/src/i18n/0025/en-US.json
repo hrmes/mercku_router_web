@@ -1076,5 +1076,6 @@
   "trans1081": "Medium",
   "trans1082": "Low",
   "trans1083": "IPv4 LAN Status",
-  "trans1084": "IPv6 LAN Status"
+  "trans1084": "IPv6 LAN Status",
+  "trans1085": "Failed to obtain, please refresh the page"
 }
