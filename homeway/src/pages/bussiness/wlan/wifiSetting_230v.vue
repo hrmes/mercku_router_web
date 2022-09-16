@@ -319,7 +319,7 @@ export default {
               message: this.$t('trans0281')
             },
             {
-              rule: value => isValidPassword(value),
+              rule: value => isValidPassword(value, 1, 63),
               message: this.$t('trans0169')
             }
           ],

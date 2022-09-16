@@ -444,7 +444,7 @@ export default {
   .wlan-container {
     position: static;
     overflow: hidden;
-    padding: 20px 16px;
+    padding: 20px 25px;
     .step {
       width: 100%;
       margin-top: 40px;
