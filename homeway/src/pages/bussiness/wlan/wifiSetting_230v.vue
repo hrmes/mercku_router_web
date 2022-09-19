@@ -329,35 +329,18 @@ export default {
   },
   mounted() {
     this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      ).then(() => {
-        this.getMeshApclientScanList();
+      .login({ password: '' }, { hideToast: true })
+      .then(() => {
         this.getWanStatus();
-        this.getMeshMeta();
+        this.getMeshApclientScanList();
       })
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
+      .catch(err => {
+        // // password is not empty, go to login page
+        // this.$router.push({ path: '/login' });
+        console.log(err);
       });
   },
   methods: {
-    skipSetUpper() {
-      this.stepOption.current = 1;
-      this.stepOption.steps[1].success = true;
-      this.upperApForm = {
-        ssid: '', // 必选
-        password: '', // 可选
-        bssid: '', // 必选
-        channel: '', // 必选
-        band: '', // 必选
-        security: '', // 必选
-        rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选};
-      };
-    },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
         this.$refs.ssid5g.extraValidate(this.validateSsid5G, this.$t('trans0660'));
@@ -381,17 +364,30 @@ export default {
         this.wifiForm.password5g = '';
       }
     },
-    getMeshMeta() {
-      this.$http.getMeshMeta().then(res => {
-        const wifi = res.data.result;
-        const b24g = wifi.bands[Bands.b24g];
-        const b5g = wifi.bands[Bands.b5g];
-        this.wifiForm.ssid24g = b24g.ssid;
-        this.wifiForm.password24g = b24g.password;
-        this.wifiForm.ssid5g = b5g.ssid;
-        this.wifiForm.password5g = b5g.password;
-        this.wifiForm.smart_connect = wifi.smart_connect;
-      });
+    skipSetUpper() {
+      this.$http.getMeshMeta()
+        .then(res => {
+          const wifi = res.data.result;
+          const b24g = wifi.bands[Bands.b24g];
+          const b5g = wifi.bands[Bands.b5g];
+          this.wifiForm.ssid24g = b24g.ssid;
+          this.wifiForm.password24g = b24g.password;
+          this.wifiForm.ssid5g = b5g.ssid;
+          this.wifiForm.password5g = b5g.password;
+          this.wifiForm.smart_connect = wifi.smart_connect;
+
+          this.stepOption.current = 1;
+          this.stepOption.steps[1].success = true;
+          this.upperApForm = {
+            ssid: '', // 必选
+            password: '', // 可选
+            bssid: '', // 必选
+            channel: '', // 必选
+            band: '', // 必选
+            security: '', // 必选
+            rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选};
+          };
+        });
     },
     getWanStatus() {
       this.$http.getWanStatus()

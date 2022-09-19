@@ -1057,7 +1057,7 @@
   "trans1062": "Bridge-Status",
   "trans1063": "Wir haben festgestellt, dass ein Netzwerkkabel nicht eingesteckt ist.",
   "trans1064": "Fortsetzen",
-  "trans1065": "Möchtest du weiter machen?",
+  "trans1065": "Dadurch werden alle Geräte getrennt. Möchtest du weiter machen?",
   "trans1066": "Kabelgebundener Bridge-Modus",
   "trans1067": "IPv4 IP",
   "trans1068": "IPv6 IP",
@@ -1077,5 +1077,6 @@
   "trans1082": "Niedrig",
   "trans1083": "IPv4-LAN-Status",
   "trans1084": "IPv6-LAN-Status",
-  "trans1085": "Abruf fehlgeschlagen, bitte aktualisieren Sie die Seite"
+  "trans1085": "Abruf fehlgeschlagen, bitte aktualisieren Sie die Seite",
+  "trans1086": " "
 }

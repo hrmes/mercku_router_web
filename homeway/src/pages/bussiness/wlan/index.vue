@@ -31,18 +31,24 @@ export default {
   created() {
     this.isinitial();
   },
-  mounted() {
-    this.getRouter();
-  },
   computed: {
     checklist() {
-      let checklist = '';
-      if (this.modelVersion === HomewayModel.homeway_230v) {
-        this.currentRouter = '230v';
-        checklist = this.$t('trans1074').replace('%s', '230v');
-      } else {
-        this.currentRouter = 'PoE';
-        checklist = this.$t('trans1074').replace('%s', 'POE');
+      let checklist = this.$t('trans1074').replace('%s', '');
+      switch (this.modelVersion) {
+        case HomewayModel.homeway_230v:
+          this.currentRouter = '230v';
+          checklist = this.$t('trans1074').replace('%s', '230v');
+          break;
+        case HomewayModel.homeway_POE_1:
+          this.currentRouter = 'POE';
+          checklist = this.$t('trans1074').replace('%s', 'POE');
+          break;
+        case HomewayModel.homeway_POE_2:
+          this.currentRouter = 'POE';
+          checklist = this.$t('trans1074').replace('%s', 'POE');
+          break;
+        default:
+          break;
       }
       return checklist;
     }
@@ -54,6 +60,8 @@ export default {
         .then(res => {
           if (!res.data.result.status) {
             this.$router.push({ path: '/login' });
+          } else {
+            this.getRouter();
           }
         });
     },
@@ -65,9 +73,23 @@ export default {
         });
     },
     prepared(router) {
-      router === '230v' ? this.$router.push({ name: 'wifiSetting_230v' }) : this.$router.push({ name: 'wifiSetting' });
+      switch (router) {
+        case '230v':
+          this.$router.push({ name: 'wifiSetting_230v' });
+          break;
+        case 'POE':
+          this.$router.push({ name: 'wifiSetting' });
+          break;
+        default:
+          break;
+      }
     }
   },
+  beforeRouterEnter: (to, from, next) => {
+    next(vm => {
+      vm.isinitial();
+    });
+  }
 };
 </script>
 <style lang="scss" scoped>

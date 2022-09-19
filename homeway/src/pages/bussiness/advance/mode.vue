@@ -74,6 +74,7 @@
 <script>
 
 import { isValidPassword } from '../../../../../base/src/util/util';
+import { HomewayWanStatus } from '../../../../../base/src/util/constant';
 
 
 const LoadingStatus = {
@@ -126,11 +127,13 @@ export default {
         ],
       },
       pwdDisabled: true,
+      wanStatus: HomewayWanStatus.unlinked,
       loadingText: `${this.$t('trans1070')}...`
     };
   },
   mounted() {
     this.getMode();
+    this.getWanStatus();
   },
   watch: {
     mode(nv) {
@@ -221,31 +224,45 @@ export default {
           this.$loading.close();
         });
     },
+    getWanStatus() {
+      // 监测网口是否插入网线接口;
+      this.$http.getWanStatus()
+        .then(res => {
+          const { status } = res.data.result;
+          this.wanStatus = status;
+          console.log(this.wanStatus);
+        });
+    },
     updateMode() {
       switch (this.mode) {
         // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
         case 'bridge':
-          // 监测网口是否插入网线接口待调用;
-          this.$http.getWanStatus()
-            .then(res => {
-              // 网线接入的接口数据
-              const { status } = res.data.result;
-              console.log(status);
-              if (status === 'unlinked') { // 1.如果没有插入网线
-                this.$dialog.confirm({
-                  okText: this.$t('trans0024'),
-                  cancelText: this.$t('trans0025'),
-                  message: [this.$t('trans1063'), this.$t('trans1065')],
-                  callback: {
-                    ok: () => {
-                      this.confirmUpdateMeshMode({ mode: this.mode });
-                    }
-                  }
-                });
-              } else { // 2.插入了网线,直接进行mode update
-                this.confirmUpdateMeshMode({ mode: this.mode });
+          // 切换为有线桥的时候 要判断一下wanStatus，如果是unlinked就要弹窗提示未插入网线
+          if (this.wanStatus === HomewayWanStatus.unlinked) {
+            this.$dialog.confirm({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              // 检测到未插入网线，提示则为目前未插入网线
+              message: [this.$t('trans1063'), this.$t('trans1065')],
+              callback: {
+                ok: () => {
+                  this.confirmUpdateMeshMode({ mode: this.mode });
+                }
               }
             });
+          } else { // 2.插入了网线,直接进行mode update
+            this.$dialog.confirm({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              // 提示为切换模式网络会中断
+              message: this.$t('trans0229'),
+              callback: {
+                ok: () => {
+                  this.confirmUpdateMeshMode({ mode: this.mode });
+                }
+              }
+            });
+          }
           break;
         case 'wireless_bridge':
           if (this.$refs.upperApForm.validate()) {
@@ -255,7 +272,17 @@ export default {
               apclient: this.upperApForm
             };
             console.log(params);
-            this.confirmUpdateMeshMode(params);
+            this.$dialog.confirm({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              // 提示为可能会让网络不可用
+              message: this.$t('trans0229'),
+              callback: {
+                ok: () => {
+                  this.confirmUpdateMeshMode({ mode: this.mode });
+                }
+              }
+            });
           }
           break;
         default:
@@ -263,38 +290,29 @@ export default {
       }
     },
     confirmUpdateMeshMode(params) {
-      this.$dialog.confirm({
-        okText: this.$t('trans0024'),
-        cancelText: this.$t('trans0025'),
-        message: this.$t('trans0229'),
-        callback: {
-          ok: () => {
-            this.$loading.open();
-            this.$http
-              .updateMeshMode(params)
-              .then(() => {
-                this.$loading.close();
-                this.$reconnect({
-                  timeout: 120,
-                  onsuccess: () => {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
-                    // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
-                    if (this.$store.mode !== this.mode) {
-                      this.$store.mode = this.mode;
-                      this.$router.push({ path: '/login' });
-                    }
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
-              })
-              .catch(() => {
-                this.$loading.close();
-              });
-          }
-        }
-      });
+      this.$loading.open();
+      this.$http
+        .updateMeshMode(params)
+        .then(() => {
+          this.$loading.close();
+          this.$reconnect({
+            timeout: 120,
+            onsuccess: () => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+              if (this.$store.mode !== this.mode) {
+                this.$store.mode = this.mode;
+                this.$router.push({ path: '/login' });
+              }
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     // eslint-disable-next-line func-names
     getMeshApclientScanList() {

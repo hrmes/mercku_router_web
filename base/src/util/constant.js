@@ -137,3 +137,9 @@ export const HomewayModel = {
   homeway_POE_1: '1',
   homeway_POE_2: '2'
 };
+
+export const HomewayWanStatus = {
+  linked: 'linked',
+  connected: 'connected',
+  unlinked: 'unlinked'
+};
