@@ -130,7 +130,7 @@
   "trans0129": "Welcome to Mercku",
   "trans0130": "Die Telefonnummer wurde bereits registriert",
   "trans0131": "Mit WLAN verbinden",
-  "trans0132": "Bitte mit MERCKU WLAN verbinden",
+  "trans0132": "Bitte mit Homeway WLAN verbinden",
   "trans0133": "Bitte verbinden Sie den Mercku Router mit dem Stromanschluss und dem Internet-Kabel und klicken Sie auf \"Verbindung herstellen\".",
   "trans0134": "Verbindung herstellen",
   "trans0135": "Gelesen und einverstanden",
@@ -1078,5 +1078,5 @@
   "trans1083": "IPv4-LAN-Status",
   "trans1084": "IPv6-LAN-Status",
   "trans1085": "Abruf fehlgeschlagen, bitte aktualisieren Sie die Seite",
-  "trans1086": " "
+  "trans1086": "Wenn Sie die übergeordneten AP-Einstellungen im Wireless-Bridge-Modus ändern müssen, setzen Sie sie bitte zurück"
 }

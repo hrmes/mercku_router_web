@@ -80,7 +80,8 @@ export default {
       ssid: '',
       deviceCount: 0,
       deviceCountTimer: null,
-      tipsModalVisible: false
+      tipsModalVisible: false,
+      checkFrimwareTimer: null
     };
   },
   computed: {
@@ -136,6 +137,8 @@ export default {
           hideToast: true
         })
         .then(res => {
+          clearTimeout(this.checkFrimwareTimer);
+          this.checkFrimwareTimer = null;
           let nodes = res.data.result;
           const filter = node => {
             const { current, latest } = node.version;
@@ -155,7 +158,11 @@ export default {
             });
           }
         })
-        .catch(() => { });
+        .catch(() => {
+          this.checkFrimwareTimer = setTimeout(() => {
+            this.checkFrimwareLatest();
+          }, 1000 * 3);
+        });
     },
     showTips() {
       this.tipsModalVisible = true;

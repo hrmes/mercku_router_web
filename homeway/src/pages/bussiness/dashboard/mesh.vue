@@ -319,8 +319,8 @@ export default {
     };
   },
   async mounted() {
-    this.createIntervalTask();
     this.getMeshMode();
+    this.createIntervalTask();
     // 获取当前设备信息
     try {
       const selfInfo = await this.$http.getLocalDevice();

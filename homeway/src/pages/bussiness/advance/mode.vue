@@ -11,26 +11,27 @@
                          direction="vertical"></m-radio-group>
         </m-form-item>
       </div>
+
       <div class="form upperApForm"
            v-if="mode==='wireless_bridge'">
-        <h4>{{`Upper-level AP`}}</h4>
         <div class="upperApForm__top"
              v-if="currentUpperInfo.show">
-          <div class="current-ssid">
-            <span class="title">{{$t('trans1072')}}:</span>
-            <span class="content">{{currentUpperInfo.ssid}}</span>
+          <h4>{{$t('trans1052')}}</h4>
+          <div class="upperApForm__top__upperinfo">
+            <div class="current-ssid">
+              <span class="title">{{$t('trans1072')}}:</span>
+              <span class="content">{{currentUpperInfo.ssid}}</span>
+            </div>
+            <div class="current-pwd">
+              <span class="title">{{$t('trans1071')}}:</span>
+              <span
+                    class="content">{{currentUpperInfo.security!=='OPEN'?currentUpperInfo.password:'-'}}</span>
+            </div>
           </div>
-          <div class="current-security">
-            <span class="title">Currently Encrypt:</span>
-            <span class="content">{{currentUpperInfo.security}}</span>
-          </div>
-          <div class="current-pwd">
-            <span class="title">{{$t('trans1071')}}:</span>
-            <span
-                  class="content">{{currentUpperInfo.security!=='OPEN'?currentUpperInfo.password:'-'}}</span>
-          </div>
+          <div class="tips">{{$t('trans1086')}}</div>
         </div>
-        <div class="upperApForm__bottom">
+        <div class="upperApForm__bottom"
+             v-else>
           <m-form ref="upperApForm"
                   :model="upperApForm"
                   :rules="upperApFormRules">
@@ -56,7 +57,6 @@
             </m-form-item>
           </m-form>
         </div>
-
       </div>
       <div class="form-button">
         <!-- 提交按钮是否展示逻辑： -->
@@ -150,11 +150,12 @@ export default {
       if (this.currentMode === nv) {
         // 模式没变化，就隐藏修改模式按钮
         this.modeHasChange = false;
-      } else {
-        // 模式有变化，就展示修改模式按钮
-        this.modeHasChange = true;
-        this.pwdDisabled = true;
+        return;
       }
+      // 模式有变化，就展示修改模式按钮
+      this.modeHasChange = true;
+      this.pwdDisabled = true;
+
       switch (nv) {
         case 'wireless_bridge':
           this.saveDisable = true;
@@ -279,7 +280,7 @@ export default {
               message: this.$t('trans0229'),
               callback: {
                 ok: () => {
-                  this.confirmUpdateMeshMode({ mode: this.mode });
+                  this.confirmUpdateMeshMode(params);
                 }
               }
             });
@@ -380,11 +381,14 @@ export default {
   padding-top: 20px;
   .upperApForm__top {
     width: 340px;
-    background: #f7f7f7;
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-bottom: 20px;
+
+    .upperApForm__top__upperinfo {
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #f7f7f7;
+      border-radius: 4px;
+      font-size: 14px;
+    }
     .title {
       margin-right: 10px;
       color: #808080;

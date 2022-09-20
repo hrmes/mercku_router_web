@@ -105,7 +105,7 @@ export default {
       ipv6InfoTimer: null,
       uptimeTimer: null,
       ipv6NetInfo: {
-        enabled: null,
+        enabled: false,
         type: '-',
         ip: '-',
         gateway: '-',
@@ -168,7 +168,6 @@ export default {
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
     },
-
     localNetInfo() {
       const local = {
         type: '-',
@@ -194,19 +193,6 @@ export default {
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
     },
-    localSpeedInfo() {
-      const local = {
-        speed: {
-          up: '-',
-          down: '-'
-        }
-      };
-      if (this.speedInfo && this.speedInfo.speed) {
-        return { ...local, ...this.speedInfo };
-      }
-      return local;
-    },
-
   },
 
   methods: {
@@ -234,9 +220,10 @@ export default {
         });
     },
     getIpv6NetInfo() {
-      this.$http
-        .getMeshInfoWanNetIpv6()
+      this.$http.getMeshInfoWanNetIpv6()
         .then(res => {
+          this.ipv6InfoTimer = null;
+          clearTimeout(this.ipv6InfoTimer);
           const { result } = res.data;
           console.log('ipv6', result);
           if (result.enabled === true) {
@@ -253,11 +240,21 @@ export default {
           this.ipv6NetInfo.enabled = result.enabled;
         })
         .catch(() => {
-          this.ipv6NetInfo.enabled = true;
-          this.ipv6NetInfo.type = 'failObtain';
-          this.ipv6NetInfo.ip = this.$t('trans1085');
-          this.ipv6NetInfo.gateway = this.$t('trans1085');
-          this.ipv6NetInfo.dns = this.$t('trans1085');
+          this.ipv6NetInfo = {
+            enabled: false,
+            type: '-',
+            ip: '-',
+            gateway: '-',
+            dns: '-',
+          };
+          this.ipv6InfoTimer = setTimeout(() => {
+            this.getIpv6NetInfo();
+          }, 1000 * 3);
+          // this.ipv6NetInfo.enabled = true;
+          // this.ipv6NetInfo.type = 'failObtain';
+          // this.ipv6NetInfo.ip = this.$t('trans1085');
+          // this.ipv6NetInfo.gateway = this.$t('trans1085');
+          // this.ipv6NetInfo.dns = this.$t('trans1085');
         });
     },
   },

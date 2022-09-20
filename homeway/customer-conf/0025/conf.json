@@ -1,7 +1,7 @@
 {
   "id": "0025",
   "title": "homeway",
-  "host": "http://mywifi.mercku.tech",
+  "host": "http://myhomeway.tech",
   "accept": ".hw",
   "favicon": "customer-conf/0025/homeway.ico",
   "policy": "",

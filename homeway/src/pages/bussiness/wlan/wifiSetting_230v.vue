@@ -165,7 +165,6 @@ import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } fro
 // 默认有线桥模式，路由器会根据我们是否传递apClient字段来判断与切换Homeway的工作模式,传递了apClient，无论插没插网线，都切换为无线桥，；没传递apClient的情况分 1.默认的有线桥 2.用户点击跳过了上级的设置
 
 const LoadingStatus = {
-  empty: 0,
   loading: 1,
   failed: 2
 };
@@ -282,8 +281,8 @@ export default {
       originalUpperList: [],
       processedUpperApList: [],
       saveDisable: true,
-      selectIsLoading: LoadingStatus.empty,
-      loadingText: `${this.$t('trans1070')}...`
+      selectIsLoading: LoadingStatus.loading,
+      loadingText: `${this.$t('trans1070')}...`,
     };
   },
   computed: {
@@ -332,7 +331,6 @@ export default {
       .login({ password: '' }, { hideToast: true })
       .then(() => {
         this.getWanStatus();
-        this.getMeshApclientScanList();
       })
       .catch(err => {
         // // password is not empty, go to login page
@@ -392,6 +390,8 @@ export default {
     getWanStatus() {
       this.$http.getWanStatus()
         .then(res => {
+          this.getMeshApclientScanList();
+
           console.log(res);
           const { status } = res.data.result;
           if (status !== 'unlinked') { // 如果插入了网线，就弹窗提示，可跳过上级设置
@@ -409,10 +409,15 @@ export default {
               }
             });
           }
+        })
+        .catch(() => {
+          this.getMeshApclientScanList();
         });
     },
     getMeshApclientScanList() {
       this.selectIsLoading = LoadingStatus.loading;
+      this.loadingText = `${this.$t('trans1070')}...`;
+
       this.$http.getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];
@@ -430,7 +435,8 @@ export default {
             value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
           }));
         })
-        .catch(() => {
+        .catch(err => {
+          console.log(err);
           this.originalUpperList = [];
           this.processedUpperApList = [];
           this.loadingText = this.$t('trans1078');

@@ -3,14 +3,15 @@
        :class="{'disabled':disabled}"
        v-clickoutside="close">
     <label for="">{{label}}</label>
-    <div class="select"
-         @click="open()">
+    <div class="select">
       <input class="select-text"
              :value="selected.text"
              readonly
              :placeholder="placeholder"
-             :title="selected.text" />
-      <div class="icon-container">
+             :title="selected.text"
+             @click="open()" />
+      <div class="icon-container"
+           @click="open()">
         <span class="icon"
               :class="{ 'open': opened, 'close': !opened }"></span>
       </div>
@@ -134,7 +135,7 @@ export default {
     },
     open() {
       if (!this.disabled) {
-        this.opened = true;
+        this.opened = !this.opened;
         if (this.opened) {
           this.scrollToSelect();
         }
