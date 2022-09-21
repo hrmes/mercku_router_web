@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       currentMode: '',
-      modeHasChange: true,
+      modeHasChange: false,
       saveDisable: false,
       selectIsLoading: LoadingStatus.empty,
       mode: '',
@@ -318,6 +318,7 @@ export default {
     // eslint-disable-next-line func-names
     getMeshApclientScanList() {
       this.selectIsLoading = LoadingStatus.loading;
+      this.loadingText = `${this.$t('trans1070')}...`;
       this.$http.getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];

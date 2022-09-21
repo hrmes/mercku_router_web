@@ -21,9 +21,9 @@
           <template v-if="options.length">
             <li class="select-popup__item"
                 :class="{ 'selected': selected === option }"
-                :key="option.value"
+                v-for="(option,index) in options"
+                :key="index"
                 @click.stop="select(option)"
-                v-for="option in options"
                 :title="option.text">
               <div class="text__container"> {{ option.text }}
               </div>
@@ -233,8 +233,8 @@ export default {
           content: '';
           width: 12px;
           height: 12px;
-          background: url(../../../../homeway/src/assets/images/icon/ic_selected.svg)
-            center no-repeat;
+          background: url(../../assets/images/icon/ic_selected.svg) center
+            no-repeat;
           background-size: cover;
           position: absolute;
           top: 52%;

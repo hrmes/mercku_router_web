@@ -25,7 +25,7 @@ const { favicon } = CUSTOMER_CONFIG;
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
-const host = CUSTOMER_CONFIG.host || 'http://myhomeway.tech';
+const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';
 
 module.exports = {
   publicPath: '/',

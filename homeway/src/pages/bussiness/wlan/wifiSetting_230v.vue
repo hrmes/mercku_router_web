@@ -271,6 +271,10 @@ export default {
         ],
         'upperApForm.password': [
           {
+            rule: value => value !== '',
+            message: this.$t('trans0281')
+          },
+          {
             rule: value => isValidPassword(value, 1, 63),
             message: this.$t('trans1077')
           }
@@ -319,7 +323,7 @@ export default {
             },
             {
               rule: value => isValidPassword(value, 1, 63),
-              message: this.$t('trans0169')
+              message: this.$t('trans1077')
             }
           ],
         };
@@ -331,6 +335,7 @@ export default {
       .login({ password: '' }, { hideToast: true })
       .then(() => {
         this.getWanStatus();
+        this.getMeshMeta();
       })
       .catch(err => {
         // // password is not empty, go to login page
@@ -362,7 +367,7 @@ export default {
         this.wifiForm.password5g = '';
       }
     },
-    skipSetUpper() {
+    getMeshMeta() {
       this.$http.getMeshMeta()
         .then(res => {
           const wifi = res.data.result;
@@ -373,19 +378,20 @@ export default {
           this.wifiForm.ssid5g = b5g.ssid;
           this.wifiForm.password5g = b5g.password;
           this.wifiForm.smart_connect = wifi.smart_connect;
-
-          this.stepOption.current = 1;
-          this.stepOption.steps[1].success = true;
-          this.upperApForm = {
-            ssid: '', // 必选
-            password: '', // 可选
-            bssid: '', // 必选
-            channel: '', // 必选
-            band: '', // 必选
-            security: '', // 必选
-            rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选};
-          };
         });
+    },
+    skipSetUpper() {
+      this.stepOption.current = 1;
+      this.stepOption.steps[1].success = true;
+      this.upperApForm = {
+        ssid: '', // 必选
+        password: '', // 可选
+        bssid: '', // 必选
+        channel: '', // 必选
+        band: '', // 必选
+        security: '', // 必选
+        rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选};
+      };
     },
     getWanStatus() {
       this.$http.getWanStatus()
@@ -418,7 +424,7 @@ export default {
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
 
-      this.$http.getMeshApclientScanList()
+      this.$http.getMeshApclientScanList({ band: '2.4G' })
         .then(res => {
           this.originalUpperList = [];
           this.processedUpperApList = [];
@@ -434,6 +440,16 @@ export default {
           result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
           }));
+          this.$http.getMeshApclientScanList({ band: '5G' })
+            .then(res2 => {
+              let { result: result5G } = res2.data;
+              if (result5G.length !== 0) {
+                result5G = result5G.filter(item => item.ssid !== ' ');
+                result5G.sort((a, b) => b.rssi - a.rssi);
+                this.originalUpperList = this.originalUpperList.concat(result5G);
+                this.processedUpperApList = this.processedUpperApList.concat(result5G);
+              }
+            });
         })
         .catch(err => {
           console.log(err);
