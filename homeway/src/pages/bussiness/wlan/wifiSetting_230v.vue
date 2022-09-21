@@ -440,16 +440,6 @@ export default {
           result.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
           }));
-          this.$http.getMeshApclientScanList({ band: '5G' })
-            .then(res2 => {
-              let { result: result5G } = res2.data;
-              if (result5G.length !== 0) {
-                result5G = result5G.filter(item => item.ssid !== ' ');
-                result5G.sort((a, b) => b.rssi - a.rssi);
-                this.originalUpperList = this.originalUpperList.concat(result5G);
-                this.processedUpperApList = this.processedUpperApList.concat(result5G);
-              }
-            });
         })
         .catch(err => {
           console.log(err);
@@ -457,6 +447,17 @@ export default {
           this.processedUpperApList = [];
           this.loadingText = this.$t('trans1078');
           this.selectIsLoading = LoadingStatus.failed;
+        });
+
+      this.$http.getMeshApclientScanList({ band: '5G' })
+        .then(res2 => {
+          let { result: result5G } = res2.data;
+          if (result5G.length !== 0) {
+            result5G = result5G.filter(item => item.ssid !== ' ');
+            result5G.sort((a, b) => b.rssi - a.rssi);
+            this.originalUpperList = this.originalUpperList.concat(result5G);
+            this.processedUpperApList = this.processedUpperApList.concat(result5G);
+          }
         });
     },
     selectedChange(option) {
