@@ -5,7 +5,7 @@
     </div>
     <div class="step-content">
       <div class="step-item step-item1"
-           v-show="stepOption.current===0">
+           v-if="stepOption.current===0">
         <m-form ref="upperApForm"
                 class="upper-form"
                 :model="upperApForm"
@@ -38,7 +38,7 @@
         </m-form>
       </div>
       <div class="step-item step-item2"
-           v-show="stepOption.current===1">
+           v-if="stepOption.current===1">
         <m-form ref="wifiForm"
                 :model="wifiForm"
                 :rules="wifiFormRules">
@@ -102,12 +102,12 @@
         </m-form>
       </div>
       <div class="step-item step-item3"
-           v-show="stepOption.current===2">
+           v-if="stepOption.current===2">
         <m-loading :color="loadingColor"
                    :size="36"></m-loading>
-        <p class="cutdown">{{countdown}}s</p>
+        <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
         <div class="tip"
-             style="margin-top:5px;">{{$t('trans0294')}}</div>
+             style="margin-top:5px;">{{$t('trans0171')}}</div>
         <div class="info info-pw">
           <div class="info__row">
             <span class="info__title">{{$t('trans0561')}}</span>:
@@ -269,16 +269,6 @@ export default {
             message: this.$t('trans0237')
           },
         ],
-        'upperApForm.password': [
-          {
-            rule: value => value !== '',
-            message: this.$t('trans0281')
-          },
-          {
-            rule: value => isValidPassword(value, 1, 63),
-            message: this.$t('trans1077')
-          }
-        ]
       },
       config: null,
       pwdDisabled: true,
@@ -424,74 +414,75 @@ export default {
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
 
-      Promise.all([this.$http.getMeshApclientScanList()])
-        .then(resArr => {
-          this.originalUpperList = [];
-          this.processedUpperApList = [];
-
-          let { result: result24G } = resArr[0].data;
-          let { result: result5G } = resArr[1].data;
-
-          if (result24G.length === 0 && result5G.length === 0) {
-            this.loadingText = this.$t('trans1078');
-            this.selectIsLoading = LoadingStatus.failed;
-            return;
-          }
-
-          result24G = result24G.filter(item => item.ssid !== ' ');
-          result5G = result5G.filter(item => item.ssid !== ' ');
-
-          this.originalUpperList = result24G.concat(result5G);
-
-          this.originalUpperList = this.originalUpperList.sort((a, b) => b.rssi - a.rssi);
-
-          this.originalUpperList.map(i => this.processedUpperApList.push({
-            value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
-          }));
-        })
-        .catch(errArr => {
-          console.log(errArr);
-          this.originalUpperList = [];
-          this.processedUpperApList = [];
-          this.loadingText = this.$t('trans1078');
-          this.selectIsLoading = LoadingStatus.failed;
-        });
-
-      // this.$http.getMeshApclientScanList({ band: '2.4G' })
-      //   .then(res => {
+      // Promise.all([this.$http.getMeshApclientScanList({ band: '2.4G' }), this.$http.getMeshApclientScanList({ band: '5G' })])
+      //   .then(resArr => {
       //     this.originalUpperList = [];
       //     this.processedUpperApList = [];
-      //     let { result } = res.data;
-      //     if (result.length === 0) {
+
+      //     let { result: result24G } = resArr[0].data;
+      //     let { result: result5G } = resArr[1].data;
+
+      //     if (result24G.length === 0 && result5G.length === 0) {
       //       this.loadingText = this.$t('trans1078');
       //       this.selectIsLoading = LoadingStatus.failed;
       //       return;
       //     }
-      //     result = result.filter(item => item.ssid !== ' ');
-      //     result.sort((a, b) => b.rssi - a.rssi);
-      //     this.originalUpperList = result;
-      //     result.map(i => this.processedUpperApList.push({
+
+      //     result24G = result24G.filter(item => item.ssid !== ' ');
+      //     result5G = result5G.filter(item => item.ssid !== ' ');
+
+      //     this.originalUpperList = result24G.concat(result5G);
+
+      //     this.originalUpperList = this.originalUpperList.sort((a, b) => b.rssi - a.rssi);
+
+      //     this.originalUpperList.map(i => this.processedUpperApList.push({
       //       value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
       //     }));
       //   })
-      //   .catch(err => {
-      //     console.log(err);
+      //   .catch(errArr => {
+      //     console.log(errArr);
       //     this.originalUpperList = [];
       //     this.processedUpperApList = [];
       //     this.loadingText = this.$t('trans1078');
       //     this.selectIsLoading = LoadingStatus.failed;
       //   });
 
-      // this.$http.getMeshApclientScanList({ band: '5G' })
-      //   .then(res2 => {
-      //     let { result: result5G } = res2.data;
-      //     if (result5G.length !== 0) {
-      //       result5G = result5G.filter(item => item.ssid !== ' ');
-      //       result5G.sort((a, b) => b.rssi - a.rssi);
-      //       this.originalUpperList = this.originalUpperList.concat(result5G);
-      //       this.processedUpperApList = this.processedUpperApList.concat(result5G);
-      //     }
-      //   });
+      this.$http.getMeshApclientScanList({ band: '2.4G' })
+        .then(res => {
+          this.originalUpperList = [];
+          this.processedUpperApList = [];
+          let { result } = res.data;
+          if (result.length === 0) {
+            this.loadingText = this.$t('trans1078');
+            this.selectIsLoading = LoadingStatus.failed;
+            return;
+          }
+          result = result.filter(item => item.ssid !== ' ');
+          result.sort((a, b) => b.rssi - a.rssi);
+          this.originalUpperList = result;
+          result.map(i => this.processedUpperApList.push({
+            value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
+          }));
+
+          this.$http.getMeshApclientScanList({ band: '5G' })
+            .then(res2 => {
+              let { result5G } = res2.data;
+              result5G = result5G.filter(item => item.ssid !== ' ');
+              result5G.sort((a, b) => b.rssi - a.rssi);
+
+              this.originalUpperList = this.originalUpperList.concat(result5G);
+              result5G.map(i => this.processedUpperApList.push({
+                value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
+              }));
+            });
+        })
+        .catch(err => {
+          console.log(err);
+          this.originalUpperList = [];
+          this.processedUpperApList = [];
+          this.loadingText = this.$t('trans1078');
+          this.selectIsLoading = LoadingStatus.failed;
+        });
     },
     selectedChange(option) {
       this.pwdDisabled = option.encrypt === 'OPEN';
@@ -652,13 +643,13 @@ export default {
       &.step-item3 {
         .cutdown {
           color: $primaryColor;
-          font-size: 24px;
+          font-size: 16px;
           margin: 10px 0;
         }
         .tip {
           font-size: 12px;
           &.tip-setting {
-            margin-top: 10px;
+            margin-top: 15px;
             text-align: left;
           }
         }
@@ -670,9 +661,9 @@ export default {
           color: #333;
           border-radius: 5px;
           background-color: #f1f1f1;
-          margin-top: 7px;
+          margin-top: 15px;
           &.info-pw {
-            margin-top: 30px;
+            margin-top: 20px;
           }
           .info__row {
             text-align: left;

@@ -5,7 +5,7 @@
     </div>
     <div class="step-content">
       <div class="step-item step-item1"
-           v-show="stepOption.current===0">
+           v-if="stepOption.current===0">
         <m-form ref="wifiForm"
                 :model="wifiForm"
                 :rules="wifiFormRules">
@@ -69,12 +69,12 @@
         </m-form>
       </div>
       <div class="step-item step-item3"
-           v-show="stepOption.current===1">
+           v-if="stepOption.current===1">
         <m-loading :color="loadingColor"
                    :size="36"></m-loading>
-        <p class="cutdown">{{countdown}}s</p>
+        <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
         <div class="tip"
-             style="margin-top:5px;">{{$t('trans0294')}}</div>
+             style="margin-top:5px;">{{$t('trans0171')}}</div>
         <div class="info info-pw">
           <div class="info__row">
             <span class="info__title">{{$t('trans0561')}}</span>:
@@ -365,13 +365,13 @@ export default {
       &.step-item3 {
         .cutdown {
           color: $primaryColor;
-          font-size: 24px;
+          font-size: 16px;
           margin: 10px 0;
         }
         .tip {
           font-size: 12px;
           &.tip-setting {
-            margin-top: 10px;
+            margin-top: 15px;
             text-align: left;
           }
         }
@@ -383,9 +383,9 @@ export default {
           color: #333;
           border-radius: 5px;
           background-color: #f1f1f1;
-          margin-top: 7px;
+          margin-top: 15px;
           &.info-pw {
-            margin-top: 30px;
+            margin-top: 20px;
           }
           .info__row {
             text-align: left;
