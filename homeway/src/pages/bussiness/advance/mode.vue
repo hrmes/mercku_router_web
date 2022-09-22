@@ -319,25 +319,34 @@ export default {
     getMeshApclientScanList() {
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
-      this.$http.getMeshApclientScanList()
-        .then(res => {
-          this.originalUpperList = [];
+
+      Promise.all([this.$http.getMeshApclientScanList({ brand: '2.4G' }), this.$http.getMeshApclientScanList({ brand: '5G' })])
+        .then(resArr => {
           this.originalUpperList = [];
           this.processedUpperApList = [];
-          let { result } = res.data;
-          if (result.length === 0) {
+
+          let { result: result24G } = resArr[0].data;
+          let { result: result5G } = resArr[1].data;
+
+          if (result24G.length === 0 && result5G.length === 0) {
             this.loadingText = this.$t('trans1078');
             this.selectIsLoading = LoadingStatus.failed;
             return;
           }
-          result = result.filter(item => item.ssid !== ' ');
-          result.sort((a, b) => b.rssi - a.rssi);
-          this.originalUpperList = result;
-          result.map(i => this.processedUpperApList.push({
+
+          result24G = result24G.filter(item => item.ssid !== ' ');
+          result5G = result5G.filter(item => item.ssid !== ' ');
+
+          this.originalUpperList = result24G.concat(result5G);
+
+          this.originalUpperList = this.originalUpperList.sort((a, b) => b.rssi - a.rssi);
+
+          this.originalUpperList.map(i => this.processedUpperApList.push({
             value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
           }));
         })
-        .catch(() => {
+        .catch(errArr => {
+          console.log(errArr);
           this.originalUpperList = [];
           this.processedUpperApList = [];
           this.loadingText = this.$t('trans1078');
