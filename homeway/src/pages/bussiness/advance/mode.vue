@@ -42,7 +42,7 @@
                                type='text'
                                v-model="upperApForm.ssid"
                                @change="selectedChange"
-                               @scanApclient="getMeshApclientScanList"
+                               @scanApclient="startApclientScan"
                                :options="processedUpperApList"
                                :loading="selectIsLoading"
                                :loadingText="loadingText" />
@@ -130,7 +130,8 @@ export default {
       },
       pwdDisabled: true,
       wanStatus: HomewayWanStatus.unlinked,
-      loadingText: `${this.$t('trans1070')}...`
+      loadingText: `${this.$t('trans1070')}...`,
+      getApclientScanTimer: null
     };
   },
   mounted() {
@@ -153,7 +154,7 @@ export default {
       switch (nv) {
         case 'wireless_bridge':
           this.saveDisable = true;
-          this.getMeshApclientScanList();
+          this.startApclientScan();
           break;
         case 'bridge':
           this.saveDisable = false;
@@ -311,38 +312,47 @@ export default {
         });
     },
     // eslint-disable-next-line func-names
-    getMeshApclientScanList() {
+    startApclientScan() {
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
 
       this.$http.startMeshApclientScan()
         .then(() => {
-          this.$http.getMeshApclientScanList()
-            .then(res => {
-              this.originalUpperList = [];
-              this.processedUpperApList = [];
-              let { result } = res.data;
-              if (result.length === 0) {
-                this.loadingText = this.$t('trans1078');
-                this.selectIsLoading = LoadingStatus.failed;
-                return;
-              }
-              result = result.filter(item => item.ssid !== ' ');
-              result.sort((a, b) => b.rssi - a.rssi);
-              this.originalUpperList = result;
-              result.map(i => this.processedUpperApList.push({
-                value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
-              }));
-            })
-            .catch(err => {
-              console.log(err);
-              this.originalUpperList = [];
-              this.processedUpperApList = [];
-              this.loadingText = this.$t('trans1078');
-              this.selectIsLoading = LoadingStatus.failed;
-            });
+          setTimeout(() => {
+            this.getApclientScanList();
+          }, 5000);
         })
         .catch(() => {
+          this.originalUpperList = [];
+          this.processedUpperApList = [];
+          this.loadingText = this.$t('trans1078');
+          this.selectIsLoading = LoadingStatus.failed;
+        });
+    },
+    getApclientScanList() {
+      this.$http.getMeshApclientScanList()
+        .then(res => {
+          this.originalUpperList = [];
+          this.processedUpperApList = [];
+
+          let { result } = res.data;
+          if (result.length) {
+            clearTimeout(this.getApclientScanTimer);
+            this.getApclientScanTimer = null;
+            result = result.filter(item => item.ssid !== ' ');
+            result.sort((a, b) => b.rssi - a.rssi);
+            this.originalUpperList = result;
+            result.map(i => this.processedUpperApList.push({
+              value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
+            }));
+          } else {
+            this.getApclientScanTimer = setTimeout(() => {
+              this.getApclientScanList();
+            }, 5000);
+          }
+        })
+        .catch(err => {
+          console.log(err);
           this.originalUpperList = [];
           this.processedUpperApList = [];
           this.loadingText = this.$t('trans1078');

@@ -98,13 +98,13 @@ export default function getMenu(
         name: 'switch',
         url: '/setting/switch',
         config
-      },
-      {
-        text: 'trans0620',
-        name: 'ipv6',
-        url: '/setting/ipv6',
-        config
       }
+      // {
+      //   text: 'trans0620',
+      //   name: 'ipv6',
+      //   url: '/setting/ipv6',
+      //   config
+      // }
     ]
   };
   const advance = {
