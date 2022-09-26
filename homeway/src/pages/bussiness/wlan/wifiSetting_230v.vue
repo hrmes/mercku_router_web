@@ -169,6 +169,16 @@ const LoadingStatus = {
   failed: 2
 };
 
+const UpperApInitForm = {
+  ssid: '', // 必选
+  password: '', // 可选
+  bssid: '', // 必选
+  channel: '', // 必选
+  band: '', // 必选
+  security: '', // 必选
+  rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
+};
+
 export default {
   data() {
     return {
@@ -184,15 +194,7 @@ export default {
       },
       current: 0,
       countdown: 60,
-      upperApForm: {
-        ssid: '', // 必选
-        password: '', // 可选
-        bssid: '', // 必选
-        channel: '', // 必选
-        band: '', // 必选
-        security: '', // 必选
-        rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
-      },
+      upperApForm: UpperApInitForm,
       wifiForm: {
         smart_connect: true,
         ssid24g: '',
@@ -333,6 +335,9 @@ export default {
         console.log(err);
       });
   },
+  beforeDestroy() {
+    this.upperApForm = UpperApInitForm;
+  },
   methods: {
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
@@ -373,15 +378,7 @@ export default {
     skipSetUpper() {
       this.stepOption.current = 1;
       this.stepOption.steps[1].success = true;
-      this.upperApForm = {
-        ssid: '', // 必选
-        password: '', // 可选
-        bssid: '', // 必选
-        channel: '', // 必选
-        band: '', // 必选
-        security: '', // 必选
-        rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选};
-      };
+      this.upperApForm = UpperApInitForm;
     },
     getWanStatus() {
       this.$http.getWanStatus()
@@ -414,70 +411,34 @@ export default {
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
 
-      // Promise.all([this.$http.getMeshApclientScanList({ band: '2.4G' }), this.$http.getMeshApclientScanList({ band: '5G' })])
-      //   .then(resArr => {
-      //     this.originalUpperList = [];
-      //     this.processedUpperApList = [];
-
-      //     let { result: result24G } = resArr[0].data;
-      //     let { result: result5G } = resArr[1].data;
-
-      //     if (result24G.length === 0 && result5G.length === 0) {
-      //       this.loadingText = this.$t('trans1078');
-      //       this.selectIsLoading = LoadingStatus.failed;
-      //       return;
-      //     }
-
-      //     result24G = result24G.filter(item => item.ssid !== ' ');
-      //     result5G = result5G.filter(item => item.ssid !== ' ');
-
-      //     this.originalUpperList = result24G.concat(result5G);
-
-      //     this.originalUpperList = this.originalUpperList.sort((a, b) => b.rssi - a.rssi);
-
-      //     this.originalUpperList.map(i => this.processedUpperApList.push({
-      //       value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
-      //     }));
-      //   })
-      //   .catch(errArr => {
-      //     console.log(errArr);
-      //     this.originalUpperList = [];
-      //     this.processedUpperApList = [];
-      //     this.loadingText = this.$t('trans1078');
-      //     this.selectIsLoading = LoadingStatus.failed;
-      //   });
-
-      this.$http.getMeshApclientScanList({ band: '2.4G' })
-        .then(res => {
-          this.originalUpperList = [];
-          this.processedUpperApList = [];
-          let { result } = res.data;
-          if (result.length === 0) {
-            this.loadingText = this.$t('trans1078');
-            this.selectIsLoading = LoadingStatus.failed;
-            return;
-          }
-          result = result.filter(item => item.ssid !== ' ');
-          result.sort((a, b) => b.rssi - a.rssi);
-          this.originalUpperList = result;
-          result.map(i => this.processedUpperApList.push({
-            value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
-          }));
-
-          this.$http.getMeshApclientScanList({ band: '5G' })
-            .then(res2 => {
-              let { result5G } = res2.data;
-              result5G = result5G.filter(item => item.ssid !== ' ');
-              result5G.sort((a, b) => b.rssi - a.rssi);
-
-              this.originalUpperList = this.originalUpperList.concat(result5G);
-              result5G.map(i => this.processedUpperApList.push({
+      this.$http.startMeshApclientScan()
+        .then(() => {
+          this.$http.getMeshApclientScanList()
+            .then(res => {
+              this.originalUpperList = [];
+              this.processedUpperApList = [];
+              let { result } = res.data;
+              if (result.length === 0) {
+                this.loadingText = this.$t('trans1078');
+                this.selectIsLoading = LoadingStatus.failed;
+                return;
+              }
+              result = result.filter(item => item.ssid !== ' ');
+              result.sort((a, b) => b.rssi - a.rssi);
+              this.originalUpperList = result;
+              result.map(i => this.processedUpperApList.push({
                 value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
               }));
+            })
+            .catch(err => {
+              console.log(err);
+              this.originalUpperList = [];
+              this.processedUpperApList = [];
+              this.loadingText = this.$t('trans1078');
+              this.selectIsLoading = LoadingStatus.failed;
             });
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
           this.originalUpperList = [];
           this.processedUpperApList = [];
           this.loadingText = this.$t('trans1078');
@@ -727,7 +688,7 @@ export default {
     overflow: hidden;
     padding: 20px 16px;
     .step {
-      width: 100%;
+      width: 95%;
       margin-top: 25px;
     }
     .step-content {
