@@ -432,15 +432,15 @@ export default {
           this.originalUpperList = [];
           this.processedUpperApList = [];
 
-          let { data } = res;
-          if (data.length) {
+          let { result } = res.data;
+          if (result.length) {
             clearTimeout(this.getApclientScanTimer);
             this.getApclientScanTimer = null;
 
-            data = data.filter(item => item.ssid !== ' ');
-            data.sort((a, b) => b.rssi - a.rssi);
-            this.originalUpperList = data;
-            data.map(i => this.processedUpperApList.push({
+            result = result.filter(item => item.ssid !== ' ');
+            result.sort((a, b) => b.rssi - a.rssi);
+            this.originalUpperList = result;
+            result.map(i => this.processedUpperApList.push({
               value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
             }));
           } else {
