@@ -9,7 +9,6 @@
   "languages": ["zh-CN", "en-US", "de-DE"],
   "deviceId": "Mercku",
   "wifi": "Mercku Wi-Fi",
-  "uploadFileTypeLimit": ".ma",
   "routers": {
     "M2": {
       "name": "M2 Standalone Wi-Fi router",
@@ -30,6 +29,10 @@
     "M6a": {
       "name": "M6a Wi-Fi6 Router",
       "shortName": "M6a"
+    },
+    "M6a_plus": {
+      "name": "M6a Plus Wi-Fi6 Router",
+      "shortName": "M6a Plus"
     }
   },
   "loading": {
