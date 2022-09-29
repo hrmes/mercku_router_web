@@ -24,8 +24,10 @@
             </div>
             <div class="current-pwd">
               <span class="title">{{$t('trans1071')}}:</span>
-              <span
-                    class="content">{{currentUpperInfo.security!=='OPEN'?currentUpperInfo.password:'-'}}</span>
+              <span class="content"
+                    :title="currentUpperInfo.security!=='OPEN'?currentUpperInfo.password:'-'">
+                {{currentUpperInfo.security!=='OPEN'?currentUpperInfo.password:'-'}}
+              </span>
             </div>
           </div>
           <div class="tips">{{$t('trans1086')}}</div>
@@ -72,7 +74,6 @@
   </div>
 </template>
 <script>
-
 import { isValidPassword } from '../../../../../base/src/util/util';
 import { HomewayWanStatus } from '../../../../../base/src/util/constant';
 
@@ -399,11 +400,18 @@ export default {
     width: 340px;
 
     .upperApForm__top__upperinfo {
+      width: inherit;
       padding: 10px;
       margin-bottom: 10px;
       background: #f7f7f7;
       border-radius: 4px;
       font-size: 14px;
+      .current-pwd {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
     .title {
       margin-right: 10px;

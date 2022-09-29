@@ -454,7 +454,7 @@ export default {
       margin-top: 40px;
     }
     .step-content {
-      margin: 40px auto 0 auto;
+      margin: 50x auto 0 auto;
       width: 100%;
       .step-item {
         display: block;

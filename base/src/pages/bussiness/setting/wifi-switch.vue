@@ -1,22 +1,22 @@
 <template>
   <div class="page led">
     <div class="page-header">
-      {{$t('trans0779')}}
+      {{$t('trans0962')}}
     </div>
     <div class="page-content">
       <m-form class="form">
         <m-form-item class="form__item">
-          <m-switch :label="$t('trans0779')"
+          <m-switch :label="$t('trans0962')"
                     v-model="enabled"
                     @click="enabled=!enabled"
-                    @change="updateLEDStatus" />
+                    @change="updateWifiStatus" />
         </m-form-item>
       </m-form>
     </div>
   </div>
 </template>
 <script>
-import { throttle } from '../../../../../base/src/util/util';
+import { throttle } from '../../../util/util';
 
 
 export default {
@@ -26,13 +26,13 @@ export default {
     };
   },
   mounted() {
-    this.getLEDStatus();
+    this.getWifiStatus();
   },
   methods: {
-    getLEDStatus() {
+    getWifiStatus() {
       this.$loading.open();
       this.$http
-        .getMeshLEDStatus()
+        .getMeshWifiStatus()
         .then(res => {
           this.enabled = res.data.result.enabled;
           this.$loading.close();
@@ -42,10 +42,9 @@ export default {
         });
     },
     // eslint-disable-next-line func-names
-    updateLEDStatus: throttle(function () {
+    updateWifiStatus: throttle(function () {
       this.$loading.open();
-      this.$http
-        .updateMeshLEDStatus({ enabled: this.enabled })
+      this.$http.updateMeshWifiStatus({ enabled: this.enabled })
         .then(() => {
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
@@ -54,7 +53,6 @@ export default {
           this.$loading.close();
         });
     }, 1000)
-
   },
 
 };
