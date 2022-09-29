@@ -6,7 +6,7 @@
              alt="">
       </div>
       <div class="checklist-tips">
-        <p>{{'Please prepare the following tools and accessories before installation:'}}</p>
+        <p>{{$t('trans1073')}}</p>
       </div>
       <div class="checklist-container">
         <p class="checklist-content">{{checklist}}</p>

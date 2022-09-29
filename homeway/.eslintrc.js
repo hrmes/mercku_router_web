@@ -1,5 +1,5 @@
 let Service = require('@vue/cli-service/lib/Service');
-const context = process.cwd() + '/m6c';
+const context = process.cwd() + '/wwax';
 const service = new Service(context);
 service.init(process.env.VUE_CLI_MODE || process.env.NODE_ENV);
 

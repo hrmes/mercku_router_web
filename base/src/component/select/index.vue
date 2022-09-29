@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     getOptionByValue(val) {
-      console.log('selectVal', val);
       const option = this.options.filter(o => o.value === val)[0] || {
         text: val
       };

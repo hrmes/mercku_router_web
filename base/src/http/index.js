@@ -29,9 +29,7 @@ class Http {
       ...axiosCfg,
       url: config.url,
       method: 'post',
-      data,
-      // `maxContentLength` 定义了node.js中允许的HTTP响应内容的最大字节数
-      maxContentLength: 10000
+      data
     };
     return axios(options).catch(err => {
       this.exHandler(err, options);
