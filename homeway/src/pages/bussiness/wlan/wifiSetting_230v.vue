@@ -183,7 +183,7 @@ export default {
   data() {
     return {
       wifiIcon,
-      meshMode: 'bridge',
+      meshMode: 'wireless_bridge',
       stepOption: {
         current: 0,
         steps: [
@@ -378,6 +378,7 @@ export default {
         });
     },
     skipSetUpper() {
+      this.meshMode = 'bridge';
       this.stepOption.current = 1;
       this.stepOption.steps[1].success = true;
       this.upperApForm = UpperApInitForm;
