@@ -96,7 +96,15 @@
             </m-form-item>
           </template>
           <div class="button-container">
-            <button @click="step3()"
+            <button v-if="isLoading"
+                    disabled="true"
+                    class="loading-btn">
+              <m-loading :color="loadingColor"
+                         :size="24"></m-loading>
+              <span>{{$t('trans1079')}}...</span>
+            </button>
+            <button v-else
+                    @click="step3()"
                     class="btn">{{$t('trans0055')}}</button>
           </div>
         </m-form>
@@ -160,9 +168,9 @@ import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
 import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
 
 // Homeway_230v有两种工作模式，可以切换，所在初始化的时候，根据用户需求要做对应设置，要做区分等
-// Homeway工作模式默认为有线桥模式，插入网线有线桥模式才可用，同时我们会检测是否插入网线来提示用户是否进行模式切换
+// 插入网线有线桥模式才可用，同时我们会检测是否插入网线来提示用户是否进行模式切换
 // 提示为是否跳过上级设置，如用户点击跳过，则代表初始化时，不传递apClient字段，如果点击不跳过，则代表初始化要传递apClient字段
-// 默认有线桥模式，路由器会根据我们是否传递apClient字段来判断与切换Homeway的工作模式,传递了apClient，无论插没插网线，都切换为无线桥，；没传递apClient的情况分 1.默认的有线桥 2.用户点击跳过了上级的设置
+// 路由器会根据我们是否传递apClient字段来判断与切换Homeway的工作模式,传递了apClient，无论插没插网线，都切换为无线桥，；没传递apClient的情况分 1.默认的有线桥 2.用户点击跳过了上级的设置
 
 const LoadingStatus = {
   loading: 1,
@@ -183,6 +191,7 @@ export default {
   data() {
     return {
       wifiIcon,
+      isLoading: false,
       meshMode: 'wireless_bridge',
       stepOption: {
         current: 0,
@@ -193,7 +202,7 @@ export default {
         ]
       },
       current: 0,
-      countdown: 60,
+      countdown: 120,
       upperApForm: UpperApInitForm,
       wifiForm: {
         smart_connect: true,
@@ -280,7 +289,6 @@ export default {
       selectIsLoading: LoadingStatus.loading,
       loadingText: `${this.$t('trans1070')}...`,
       getApclientScanTimer: null,
-      temp: 0
     };
   },
   computed: {
@@ -410,6 +418,25 @@ export default {
           this.startApclientScan();
         });
     },
+    // 去除扫描到的上级列表里面，重复的数据
+    deweight(arr) {
+      const fliteredArr = [];
+      arr.forEach((a) => {
+        const isTrue = fliteredArr.every((b) => {
+          // 先判断bssid即mac是否存在，不存在直接保存
+          if (a.bssid !== b.bssid) {
+            return true;
+            // 如果bssid已存在，那么判断一下两者的band是否一致，如果不一致则保存
+          } if (a.bssid === b.bssid && a.band !== b.band) {
+            return true;
+          }
+          // 否则就是重复数据，不保存
+          return false;
+        });
+        isTrue ? fliteredArr.push(a) : '';
+      });
+      return fliteredArr;
+    },
     startApclientScan() {
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
@@ -439,6 +466,8 @@ export default {
             this.getApclientScanTimer = null;
 
             result = result.filter(item => item.ssid !== ' ');
+            result = this.deweight(result);
+            console.log('deweight', result);
             result.sort((a, b) => b.rssi - a.rssi);
             this.originalUpperList = result;
             result.map(i => this.processedUpperApList.push({
@@ -481,6 +510,7 @@ export default {
     },
     step3() {
       if (this.$refs.wifiForm.validate()) {
+        this.isLoading = true;
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
@@ -549,6 +579,10 @@ export default {
               },
               showLoading: false
             });
+          })
+          .finally(() => {
+            this.loading = false;
+            this.upperApForm = UpperApInitForm;
           });
       }
     }
@@ -612,6 +646,16 @@ export default {
         }
         .button-container {
           margin-top: 60px;
+          .loading-btn {
+            width: 340px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            span {
+              margin-left: 5px;
+            }
+          }
         }
       }
       &.step-item3 {

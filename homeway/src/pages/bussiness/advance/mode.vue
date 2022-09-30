@@ -312,6 +312,25 @@ export default {
           this.$loading.close();
         });
     },
+    // 去除扫描到的上级列表里面，重复的数据
+    deweight(arr) {
+      const fliteredArr = [];
+      arr.forEach((a) => {
+        const isTrue = fliteredArr.every((b) => {
+          // 先判断bssid即mac是否存在，不存在直接保存
+          if (a.bssid !== b.bssid) {
+            return true;
+            // 如果bssid已存在，那么判断一下两者的band是否一致，如果不一致则保存
+          } if (a.bssid === b.bssid && a.band !== b.band) {
+            return true;
+          }
+          // 否则就是重复数据，不保存
+          return false;
+        });
+        isTrue ? fliteredArr.push(a) : '';
+      });
+      return fliteredArr;
+    },
     // eslint-disable-next-line func-names
     startApclientScan() {
       this.selectIsLoading = LoadingStatus.loading;
@@ -340,7 +359,10 @@ export default {
           if (result.length) {
             clearTimeout(this.getApclientScanTimer);
             this.getApclientScanTimer = null;
+
             result = result.filter(item => item.ssid !== ' ');
+            result = this.deweight(result);
+            console.log('deweight', result);
             result.sort((a, b) => b.rssi - a.rssi);
             this.originalUpperList = result;
             result.map(i => this.processedUpperApList.push({
