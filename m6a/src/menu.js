@@ -294,12 +294,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'offline',
         text: 'trans0204',
         config
-      },
-      {
-        url: '/upgrade/auto',
-        name: 'auto',
-        text: 'trans0743',
-        config
       }
     ]
   };
