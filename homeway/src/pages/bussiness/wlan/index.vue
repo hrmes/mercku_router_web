@@ -33,19 +33,19 @@ export default {
   },
   computed: {
     checklist() {
-      let checklist = this.$t('trans1074').replace('%s', '');
+      let checklist = this.$t('trans1074').format('');
       switch (this.modelVersion) {
         case HomewayModel.homeway_230v:
           this.currentRouter = '230v';
-          checklist = this.$t('trans1074').replace('%s', '230v');
+          checklist = this.$t('trans1074').format('230v');
           break;
         case HomewayModel.homeway_POE_1:
           this.currentRouter = 'POE';
-          checklist = this.$t('trans1074').replace('%s', 'POE');
+          checklist = this.$t('trans1074').format('POE');
           break;
         case HomewayModel.homeway_POE_2:
           this.currentRouter = 'POE';
-          checklist = this.$t('trans1074').replace('%s', 'POE');
+          checklist = this.$t('trans1074').format('POE');
           break;
         default:
           break;

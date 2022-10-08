@@ -29,16 +29,16 @@
               </div>
               <div class="icon__container">
                 <span class="encrypt"
-                      v-if="option.encrypt!=='OPEN'"></span>
+                      v-if="option.encrypt!==Encrypt.open"></span>
                 <span class="rssi"
-                      :class="[option.rssi>76?'good':'normal']"></span>
+                      :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
               </div>
             </li>
           </template>
           <template v-else>
-            <li v-if="loading===0"
+            <li v-if="loading===LoadingStatus.empty"
                 class="select-popup__item--empty">{{$t('trans0278')}}</li>
-            <li v-else-if="loading===1"
+            <li v-else-if="loading===LoadingStatus.loading"
                 class="select-popup__item--loading">
               <m-loading :color="loadingColor"
                          :size="36"
@@ -58,6 +58,20 @@
 
 <script>
 import scrollTo from '../utils/scroll-to';
+
+const Encrypt = {
+  open: 'OPEN'
+};
+const RssiStatus = {
+  good: 'good',
+  normal: 'normal'
+};
+const LoadingStatus = {
+  empty: 0,
+  loading: 1,
+  failed: 2
+};
+const GoodRssiValue = 76;
 
 export default {
   props: {
@@ -91,6 +105,10 @@ export default {
   },
   data() {
     return {
+      Encrypt,
+      RssiStatus,
+      GoodRssiValue,
+      LoadingStatus,
       selected: this.getOptionByValue(this.value),
       opened: false
     };

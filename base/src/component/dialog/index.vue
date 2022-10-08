@@ -5,15 +5,10 @@
       <div class="dialog-content">
         <div v-if="title"
              class="dialog-title">{{title}}</div>
-        <!-- 如果message传递的是数组，则弹窗内容为多行文本，遍历数组显示 -->
-        <div class="dialog-message"
-             v-if="message.constructor==Array">
-          <p v-for="(m,index) in message"
+        <div class="dialog-message">
+          <p v-for="(m,index) in dialogMessage"
              :key="index">{{m}}</p>
         </div>
-        <!-- 如果传递的是字符串，弹窗内容为单行文本，直接展示 -->
-        <div class="dialog-message"
-             v-else>{{message}}</div>
         <div class="dialog-buttons">
           <button v-if="Types.info!==type"
                   @click="cancel()"
@@ -47,6 +42,16 @@ export default {
       okText: 'ok',
       cancelText: 'cancel'
     };
+  },
+  computed: {
+    dialogMessage() {
+      const result = [];
+      if (this.message.constructor === Array) {
+        return this.message;
+      }
+      result.push(this.message);
+      return result;
+    }
   },
   methods: {
     close() {
