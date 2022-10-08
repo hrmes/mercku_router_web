@@ -25,8 +25,8 @@
             <div class="current-pwd">
               <span class="title">{{$t('trans1071')}}:</span>
               <span class="content"
-                    :title="currentUpperInfo.security!=='OPEN'?currentUpperInfo.password:'-'">
-                {{currentUpperInfo.security!=='OPEN'?currentUpperInfo.password:'-'}}
+                    :title="currentUpperInfo.security!==Encrypt.open?currentUpperInfo.password:'-'">
+                {{currentUpperInfo.security!==Encrypt.open?currentUpperInfo.password:'-'}}
               </span>
             </div>
           </div>
@@ -77,7 +77,9 @@
 import { isValidPassword } from '../../../../../base/src/util/util';
 import { HomewayWanStatus } from '../../../../../base/src/util/constant';
 
-
+const Encrypt = {
+  open: 'OPEN'
+};
 const LoadingStatus = {
   empty: 0,
   loading: 1,
@@ -96,6 +98,7 @@ const UpperApInitForm = {
 export default {
   data() {
     return {
+      Encrypt,
       currentMode: '',
       modeHasChange: false,
       saveDisable: false,
@@ -115,7 +118,7 @@ export default {
       currentUpperInfo: {
         show: false,
         ssid: '',
-        security: 'OPEN',
+        security: Encrypt.open,
         password: ''
       },
       originalUpperList: [],
@@ -384,7 +387,7 @@ export default {
     },
     selectedChange(option) {
       this.saveDisable = false;
-      this.pwdDisabled = option.encrypt === 'OPEN';
+      this.pwdDisabled = option.encrypt === Encrypt.open;
       const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
       this.upperApForm = {
         ssid,
