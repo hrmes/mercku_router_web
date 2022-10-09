@@ -6,6 +6,7 @@ import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
+import wifi from 'pages/bussiness/setting/wifi.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import childLock from 'pages/bussiness/setting/childLock.vue';
@@ -17,7 +18,6 @@ import wan from 'pages/bussiness/setting/wan.vue';
 
 // import ipv6 from 'pages/bussiness/setting/ipv6.vue';
 
-import wifi from 'base/pages/bussiness/setting/wifi.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
