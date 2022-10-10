@@ -189,7 +189,7 @@
         </div>
         <m-form-item key="wifiTxPower"
                      class="form__item">
-          <m-select label="WI-FI Tx Power"
+          <m-select :label="$t('trans1058')"
                     v-model="form.wifiTxPower"
                     :options="wifi_TxPowerList"></m-select>
         </m-form-item>

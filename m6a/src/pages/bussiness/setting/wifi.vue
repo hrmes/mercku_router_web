@@ -4,6 +4,7 @@
       {{ $t('trans0103') }}
     </div>
     <div class="page-content wifi">
+      <!-- smart wifi按钮 start -->
       <div class="smart-connect">
         <div class="smart-connect__inner">
           <label class="smart-connect__label">{{ $t('trans0397') }}</label>
@@ -21,6 +22,9 @@
         </div>
         <div class="smart-connect__tip">{{ $t('trans0878') }}</div>
       </div>
+      <!-- smart wifi end -->
+
+      <!-- 2.4g设置表格  start -->
       <m-form class="form"
               ref="b24gForm"
               key="b24gform"
@@ -41,6 +45,23 @@
                    type="text"
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
+        <div class="form-item check-info">
+          <m-checkbox v-model="form.b24g.hidden"
+                      style="margin-right:10px" />
+          <label for="">
+            {{ $t('trans0110') }}
+            <div class="tool">
+              <m-popover position="bottom left"
+                         style="top:2px"
+                         :title="this.$t('trans0110')"
+                         :content="this.$t('trans0325')">
+                <img width="14"
+                     src="../../../assets/images/icon/ic_question.png"
+                     alt="" />
+              </m-popover>
+            </div>
+          </label>
+        </div>
 
         <m-form-item key="b24gencrypt"
                      class="item">
@@ -59,52 +80,10 @@
                    type="password"
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
-
-        <m-form-item key="b24gchannelnumber"
-                     class="form__item">
-          <m-select :label="$t('trans0680')"
-                    v-model="form.b24g.channel.number"
-                    :options="channels.b24g"></m-select>
-        </m-form-item>
-        <m-form-item key="b24gbandwidth"
-                     class="form__item">
-          <m-select :label="$t('trans0632')"
-                    v-model="form.b24g.channel.bandwidth"
-                    :options="bandwidths.b24g"></m-select>
-        </m-form-item>
-        <m-form-item key="b5gchannelnumber-1"
-                     class="form__item"
-                     v-if="form.smart_connect">
-          <m-select :label="$t('trans0681')"
-                    v-model="form.b5g.channel.number"
-                    :options="channels.b5g"></m-select>
-        </m-form-item>
-        <m-form-item key="b5gbandwidth-1"
-                     class="form__item"
-                     v-if="form.smart_connect">
-          <m-select :label="$t('trans0632')"
-                    v-model="form.b5g.channel.bandwidth"
-                    :options="bandwidths.b5g"></m-select>
-        </m-form-item>
-
-        <div class="form-item check-info">
-          <label for="">
-            {{ $t('trans0110') }}
-            <div class="tool">
-              <m-popover position="bottom left"
-                         style="top:-7px"
-                         :title="this.$t('trans0110')"
-                         :content="this.$t('trans0325')">
-                <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
-                     alt="" />
-              </m-popover>
-            </div>
-          </label>
-          <m-switch v-model="form.b24g.hidden" />
-        </div>
       </m-form>
+      <!-- 2.4g设置表格  end -->
 
+      <!-- 5g设置表格 start -->
       <m-form v-if="!form.smart_connect"
               class="form"
               ref="b5gForm"
@@ -125,6 +104,24 @@
                    type="text"
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
+        <div class="form-item check-info">
+          <m-checkbox v-model="form.b5g.hidden"
+                      style="margin-right:10px" />
+
+          <label for="">
+            {{ $t('trans0110') }}
+            <div class="tool">
+              <m-popover position="bottom left"
+                         style="top:2px"
+                         :title="$t('trans0110')"
+                         :content="$t('trans0325')">
+                <img width="14"
+                     src="../../../assets/images/icon/ic_question.png"
+                     alt="" />
+              </m-popover>
+            </div>
+          </label>
+        </div>
 
         <m-form-item key="b5gencrypt"
                      class="item">
@@ -143,39 +140,62 @@
                    type="password"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
+      </m-form>
+      <!-- 5g设置表格 end -->
 
-        <m-form-item class="form__item"
-                     key="b5gchannelnumber"
-                     v-if="!form.smart_connect">
+      <!-- channel设置表格 start -->
+      <m-form class="form"
+              ref="channelForm"
+              key="channelform"
+              :model="form">
+        <div class="form-header">
+          <span class="form-header__title">{{$t('trans0782')}}</span>
+        </div>
+
+        <m-form-item key="b24gchannelnumber"
+                     class="form__item">
+          <m-select :label="$t('trans0680')"
+                    v-model="form.channel.b24gChannel.number"
+                    :options="channels.b24g"></m-select>
+        </m-form-item>
+        <m-form-item key="b24gbandwidth"
+                     class="form__item">
+          <m-select :label="$t('trans0632')"
+                    v-model="form.channel.b24gChannel.bandwidth"
+                    :options="bandwidths.b24g"></m-select>
+        </m-form-item>
+        <m-form-item key="b5gchannelnumber"
+                     class="form__item">
           <m-select :label="$t('trans0681')"
-                    v-model="form.b5g.channel.number"
+                    v-model="form.channel.b5gChannel.number"
                     :options="channels.b5g"></m-select>
         </m-form-item>
-        <m-form-item key="b5gbandwidth"
-                     class="form__item"
-                     v-if="!form.smart_connect">
+        <m-form-item key="b5gbandwidth-1"
+                     class="form__item">
           <m-select :label="$t('trans0632')"
-                    v-model="form.b5g.channel.bandwidth"
+                    v-model="form.channel.b5gChannel.bandwidth"
                     :options="bandwidths.b5g"></m-select>
         </m-form-item>
 
-        <div class="form-item check-info">
-          <label for="">
-            {{ $t('trans0110') }}
-            <div class="tool">
-              <m-popover position="bottom left"
-                         style="top:-7px"
-                         :title="$t('trans0110')"
-                         :content="$t('trans0325')">
-                <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
-                     alt="" />
-              </m-popover>
-            </div>
-          </label>
-          <m-switch v-model="form.b5g.hidden" />
-        </div>
       </m-form>
+      <!-- channel设置表格 end -->
+
+      <!-- wifi Tx power设置框 strat -->
+      <m-form class="form"
+              ref="wifiTxPowerForm"
+              key="wifiTxPowerform"
+              :model="form">
+        <div class="form-header">
+        </div>
+        <m-form-item key="wifiTxPower"
+                     class="form__item">
+          <m-select :label="$t('trans1088')"
+                    v-model="form.wifiTxPower"
+                    :options="wifi_TxPowerList"></m-select>
+        </m-form-item>
+      </m-form>
+      <!-- wifi Tx power设置框 end -->
+
       <div class="form-button">
         <button class="btn"
                 v-defaultbutton
@@ -203,21 +223,24 @@ export default {
           password: '',
           hidden: false,
           encrypt: EncryptMethod.wpawpa2,
-          channel: {
-            number: 0,
-            bandwidth: 20
-          }
         },
         b5g: {
           ssid: '',
           password: '',
           hidden: false,
           encrypt: EncryptMethod.wpawpa2,
-          channel: {
-            number: 0,
+        },
+        channel: {
+          b24gChannel: {
+            number: 1,
+            bandwidth: 20
+          },
+          b5gChannel: {
+            number: 1,
             bandwidth: 80
           }
-        }
+        },
+        tx_power: '',
       },
       rules: {
         'b24g.ssid': [
@@ -289,6 +312,7 @@ export default {
         b24g: [],
         b5g: []
       },
+      wifi_TxPowerList: [{ value: 'high', text: this.$t('trans1089') }, { value: 'medium', text: this.$t('trans1090') }, { value: 'low', text: this.$t('trans1091') }],
       bandwidths: {
         b24g: new Array(2).fill(0).map((_, i) => {
           const v = Math.pow(2, i) * 20;
@@ -320,6 +344,9 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    this.getInitData();
   },
   methods: {
     onEncryptChange(path, nv, ov) {
@@ -375,8 +402,8 @@ export default {
                 password: this.form.b24g.password,
                 encrypt: this.form.b24g.encrypt,
                 channel: {
-                  number: this.form.b24g.channel.number,
-                  bandwidth: this.form.b24g.channel.bandwidth
+                  number: this.form.channel.b24gChannel.number,
+                  bandwidth: this.form.channel.b24gChannel.bandwidth
                 }
               };
               const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
@@ -386,18 +413,20 @@ export default {
                 password: formBand.password,
                 encrypt: formBand.encrypt,
                 channel: {
-                  number: this.form.b5g.channel.number,
-                  bandwidth: this.form.b5g.channel.bandwidth
+                  number: this.form.channel.b5gChannel.number,
+                  bandwidth: this.form.channel.b5gChannel.bandwidth
                 }
               };
               const wifi = {
                 smart_connect: this.form.smart_connect,
                 compatibility_mode: this.form.compatibility_mode,
+                tx_power: this.form.wifiTxPower,
                 bands: {
                   [Bands.b24g]: b24g,
                   [Bands.b5g]: b5g
                 }
               };
+              console.log('wifi', wifi);
               this.$http.meshWifiUpdate(wifi).then(() => {
                 this.$reconnect({
                   onsuccess: () => {
@@ -416,11 +445,11 @@ export default {
     },
     getInitData() {
       this.$loading.open();
-
       Promise.all([this.$http.getMeshMeta(), this.$http.getSupportChannel()])
         .then(resultArr => {
           const wifi = resultArr[0].data.result;
           const channels = resultArr[1].data.result;
+          console.log('wifi data', wifi);
           this.channels.b24g = channels[Bands.b24g].numbers.map(number => ({
             value: number,
             text: number
@@ -429,6 +458,7 @@ export default {
             value: number,
             text: number
           }));
+          console.log('channel', this.channels);
 
           // 2.4G
           const b24g = wifi.bands[Bands.b24g];
@@ -436,8 +466,7 @@ export default {
           this.form.b24g.encrypt = b24g.encrypt;
           this.form.b24g.password = b24g.password;
           this.form.b24g.hidden = b24g.hidden;
-          this.form.b24g.channel.number = b24g.channel.number;
-          this.form.b24g.channel.bandwidth = b24g.channel.bandwidth;
+
 
           // 5G
           const b5g = wifi.bands[Bands.b5g];
@@ -445,12 +474,19 @@ export default {
           this.form.b5g.encrypt = b5g.encrypt;
           this.form.b5g.password = b5g.password;
           this.form.b5g.hidden = b5g.hidden;
-          this.form.b5g.channel.number = b5g.channel.number;
-          this.form.b5g.channel.bandwidth = b5g.channel.bandwidth;
+
+          // channel
+          this.form.channel.b24gChannel.number = b24g.channel.number;
+          this.form.channel.b24gChannel.bandwidth = b24g.channel.bandwidth;
+          this.form.channel.b5gChannel.number = b5g.channel.number;
+          this.form.channel.b5gChannel.bandwidth = b5g.channel.bandwidth;
 
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
           this.form.compatibility_mode = wifi.compatibility_mode;
+
+          // wifi Tx_power
+          this.form.wifiTxPower = wifi.tx_power ?? 'high';
 
           this.$loading.close();
         })
@@ -459,9 +495,7 @@ export default {
         });
     }
   },
-  mounted() {
-    this.getInitData();
-  }
+
 };
 </script>
 <style lang="scss" scoped>
@@ -523,7 +557,6 @@ export default {
     // margin-top: 0;
     label {
       display: flex;
-      width: 120px;
       font-weight: bold;
     }
     .switch-container {

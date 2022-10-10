@@ -6,11 +6,7 @@ const methods = {
   getChildLockStatus: createMethod('mesh.child_lock.enabled.get'),
   updateChildLockStatus: createMethod('mesh.child_lock.enabled.update'),
   startMeshApclientScan: createMethod('mesh.apclient.scan'),
-  getMeshApclientScanList: createMethod('mesh.apclient.get'),
-  getMeshWifiStatus: createMethod('mesh.config.wifi.status.get'),
-  updateMeshWifiStatus: createMethod('mesh.config.wifi.status.update'),
-  getMeshLEDStatus: createMethod('mesh.led.get'),
-  updateMeshLEDStatus: createMethod('mesh.led.update')
+  getMeshApclientScanList: createMethod('mesh.apclient.get')
   // updateSuper: createMethod('mesh.config.super.update'),
   // getNewMeshNodeInfo: createMethod('mesh.node.new.info')
 };
