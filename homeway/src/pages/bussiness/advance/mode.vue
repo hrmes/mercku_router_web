@@ -25,8 +25,8 @@
             <div class="current-pwd">
               <span class="title">{{$t('trans1071')}}:</span>
               <span class="content"
-                    :title="currentUpperInfo.security!==Encrypt.open?currentUpperInfo.password:'-'">
-                {{currentUpperInfo.security!==Encrypt.open?currentUpperInfo.password:'-'}}
+                    :title="currentUpperInfo.security!==EncryptMethod.OPEN?currentUpperInfo.password:'-'">
+                {{currentUpperInfo.security!==EncryptMethod.OPEN?currentUpperInfo.password:'-'}}
               </span>
             </div>
           </div>
@@ -75,11 +75,8 @@
 </template>
 <script>
 import { isValidPassword } from '../../../../../base/src/util/util';
-import { HomewayWanStatus } from '../../../../../base/src/util/constant';
+import { HomewayWanStatus, EncryptMethod } from '../../../../../base/src/util/constant';
 
-const Encrypt = {
-  open: 'OPEN'
-};
 const LoadingStatus = {
   empty: 0,
   loading: 1,
@@ -95,10 +92,16 @@ const UpperApInitForm = {
   security: '', // 必选
   rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
 };
+
+const HomewayWorkModel = {
+  wirelessBridge: 'wireless_bridge',
+  bridge: 'bridge'
+};
+
 export default {
   data() {
     return {
-      Encrypt,
+      EncryptMethod,
       currentMode: '',
       modeHasChange: false,
       saveDisable: false,
@@ -107,18 +110,18 @@ export default {
       modes: [
         {
           text: this.$t('trans1059'),
-          value: 'wireless_bridge'
+          value: HomewayWorkModel.wirelessBridge
         },
         {
           text: this.$t('trans1066'),
-          value: 'bridge'
+          value: HomewayWorkModel.bridge
         },
       ],
       upperApForm: UpperApInitForm,
       currentUpperInfo: {
         show: false,
         ssid: '',
-        security: Encrypt.open,
+        security: EncryptMethod.OPEN,
         password: ''
       },
       originalUpperList: [],
@@ -156,11 +159,11 @@ export default {
       this.pwdDisabled = true;
 
       switch (nv) {
-        case 'wireless_bridge':
+        case HomewayWorkModel.wirelessBridge:
           this.saveDisable = true;
           this.startApclientScan();
           break;
-        case 'bridge':
+        case HomewayWorkModel.bridge:
           this.saveDisable = false;
           break;
         default:
@@ -209,7 +212,7 @@ export default {
         .then(res => {
           const { data: { result } } = res;
           console.log(result);
-          if (result.mode === 'wireless_bridge') {
+          if (result.mode === HomewayWorkModel.wirelessBridge) {
             this.currentUpperInfo.show = true;
             this.currentUpperInfo.ssid = result.apclient.ssid;
             this.currentUpperInfo.password = result.apclient.password;
@@ -236,7 +239,7 @@ export default {
     updateMode() {
       switch (this.mode) {
         // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
-        case 'bridge':
+        case HomewayWorkModel.bridge:
           // 切换为有线桥的时候 要判断一下wanStatus，如果是unlinked就要弹窗提示未插入网线
           if (this.wanStatus === HomewayWanStatus.unlinked) {
             this.$dialog.confirm({
@@ -264,7 +267,7 @@ export default {
             });
           }
           break;
-        case 'wireless_bridge':
+        case HomewayWorkModel.wirelessBridge:
           if (this.$refs.upperApForm.validate()) {
             console.log('验证通过');
             const params = {
@@ -387,7 +390,7 @@ export default {
     },
     selectedChange(option) {
       this.saveDisable = false;
-      this.pwdDisabled = option.encrypt === Encrypt.open;
+      this.pwdDisabled = option.encrypt === EncryptMethod.OPEN;
       const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
       this.upperApForm = {
         ssid,

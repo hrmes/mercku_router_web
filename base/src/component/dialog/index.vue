@@ -46,7 +46,7 @@ export default {
   computed: {
     dialogMessage() {
       const result = [];
-      if (this.message.constructor === Array) {
+      if (Array.isArray(this.message)) {
         return this.message;
       }
       result.push(this.message);

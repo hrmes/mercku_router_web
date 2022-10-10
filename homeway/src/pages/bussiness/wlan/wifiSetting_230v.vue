@@ -163,7 +163,7 @@
   </div>
 </template>
 <script>
-import { Bands } from '../../../../../base/src/util/constant';
+import { Bands, EncryptMethod, WanNetStatus } from '../../../../../base/src/util/constant';
 import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
 import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
 
@@ -187,12 +187,17 @@ const UpperApInitForm = {
   rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
 };
 
+const HomewayWorkModel = {
+  wirelessBridge: 'wireless_bridge',
+  bridge: 'bridge'
+};
+
 export default {
   data() {
     return {
       wifiIcon,
       isLoading: false,
-      meshMode: 'wireless_bridge',
+      meshMode: HomewayWorkModel.wirelessBridge,
       stepOption: {
         current: 0,
         steps: [
@@ -386,7 +391,7 @@ export default {
         });
     },
     skipSetUpper() {
-      this.meshMode = 'bridge';
+      this.meshMode = HomewayWorkModel.bridge;
       this.stepOption.current = 1;
       this.stepOption.steps[1].success = true;
       this.upperApForm = UpperApInitForm;
@@ -398,7 +403,7 @@ export default {
 
           console.log(res);
           const { status } = res.data.result;
-          if (status !== 'unlinked') { // 如果插入了网线，就弹窗提示，可跳过上级设置
+          if (status !== WanNetStatus.unlinked) { // 如果插入了网线，就弹窗提示，可跳过上级设置
             this.$dialog.confirm({
               okText: this.$t('trans0163'),
               cancelText: this.$t('trans1055'),
@@ -408,7 +413,7 @@ export default {
                   this.skipSetUpper();
                 },
                 cancel: () => {
-                  this.meshMode = 'wireless_bridge';
+                  this.meshMode = HomewayWorkModel.wirelessBridge;
                 }
               }
             });
@@ -488,7 +493,7 @@ export default {
         });
     },
     selectedChange(option) {
-      this.pwdDisabled = option.encrypt === 'OPEN';
+      this.pwdDisabled = option.encrypt === EncryptMethod.OPEN;
       this.saveDisable = false;
       const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
       this.upperApForm = {
@@ -514,7 +519,7 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
-        if (this.meshMode === 'wireless_bridge') {
+        if (this.meshMode === HomewayWorkModel.wirelessBridge) {
           this.config = {
             wifi: {
               bands: {
@@ -530,7 +535,7 @@ export default {
               smart_connect: this.wifiForm.smart_connect
             },
             admin: { password: this.wifiForm.password24g },
-            mode: 'wireless_bridge',
+            mode: HomewayWorkModel.wirelessBridge,
             apclient: this.upperApForm
           };
         } else {
@@ -549,7 +554,7 @@ export default {
               smart_connect: this.wifiForm.smart_connect
             },
             admin: { password: this.wifiForm.password24g },
-            mode: 'bridge'
+            mode: HomewayWorkModel.bridge
           };
         }
         console.log('meshMode', this.meshMode);

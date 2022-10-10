@@ -29,7 +29,7 @@
               </div>
               <div class="icon__container">
                 <span class="encrypt"
-                      v-if="option.encrypt!==Encrypt.open"></span>
+                      v-if="option.encrypt!==EncryptMethod.OPEN"></span>
                 <span class="rssi"
                       :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
               </div>
@@ -58,10 +58,9 @@
 
 <script>
 import scrollTo from '../utils/scroll-to';
+import { EncryptMethod } from '../../util/constant';
 
-const Encrypt = {
-  open: 'OPEN'
-};
+
 const RssiStatus = {
   good: 'good',
   normal: 'normal'
@@ -105,7 +104,7 @@ export default {
   },
   data() {
     return {
-      Encrypt,
+      EncryptMethod,
       RssiStatus,
       GoodRssiValue,
       LoadingStatus,

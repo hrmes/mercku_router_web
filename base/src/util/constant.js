@@ -20,6 +20,7 @@ export const IP = {
 };
 export const EncryptMethod = {
   open: 'open',
+  OPEN: 'OPEN',
   wpa: 'wpa',
   wpa2: 'wpa2',
   wpawpa2: 'wpawpa2',

@@ -16,9 +16,6 @@
   </div>
 </template>
 <script>
-import { throttle } from '../../../util/util';
-
-
 export default {
   data() {
     return {
@@ -41,8 +38,7 @@ export default {
           this.$loading.close();
         });
     },
-    // eslint-disable-next-line func-names
-    updateLEDStatus: throttle(function () {
+    updateLEDStatus() {
       this.$loading.open();
       this.$http
         .updateMeshLEDStatus({ enabled: this.enabled })
@@ -53,8 +49,7 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
-    }, 1000)
-
+    }
   },
 
 };

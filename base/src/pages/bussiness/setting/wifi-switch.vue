@@ -16,9 +16,6 @@
   </div>
 </template>
 <script>
-import { throttle } from '../../../util/util';
-
-
 export default {
   data() {
     return {
@@ -41,8 +38,7 @@ export default {
           this.$loading.close();
         });
     },
-    // eslint-disable-next-line func-names
-    updateWifiStatus: throttle(function () {
+    updateWifiStatus() {
       this.$loading.open();
       this.$http.updateMeshWifiStatus({ enabled: this.enabled })
         .then(() => {
@@ -52,7 +48,7 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
-    }, 1000)
+    }
   },
 
 };
