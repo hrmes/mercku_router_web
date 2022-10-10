@@ -5,7 +5,10 @@
       <div class="dialog-content">
         <div v-if="title"
              class="dialog-title">{{title}}</div>
-        <div class="dialog-message">{{message}}</div>
+        <div class="dialog-message">
+          <p v-for="(m,index) in dialogMessage"
+             :key="index">{{m}}</p>
+        </div>
         <div class="dialog-buttons">
           <button v-if="Types.info!==type"
                   @click="cancel()"
@@ -29,12 +32,26 @@ export default {
     return {
       Types,
       visible: false,
-      message: '',
+      // message定义可传递字符串和数组类型数据
+      message: {
+        type: [String, Array],
+        default: ''
+      },
       title: '',
       callback: {},
       okText: 'ok',
       cancelText: 'cancel'
     };
+  },
+  computed: {
+    dialogMessage() {
+      const result = [];
+      if (Array.isArray(this.message)) {
+        return this.message;
+      }
+      result.push(this.message);
+      return result;
+    }
   },
   methods: {
     close() {

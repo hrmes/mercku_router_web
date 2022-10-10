@@ -1,0 +1,26 @@
+{
+  "id": "0025",
+  "title": "homeway",
+  "host": "http://myhomeway.tech",
+  "accept": ".hw",
+  "favicon": "customer-conf/0025/homeway.ico",
+  "policy": "",
+  "allow2LevelAdmin": false,
+  "languages": ["de-DE", "en-US"],
+  "defaultLanguage": "de-DE",
+  "wifi": "Homeway WiFi",
+  "routers": {
+    "Homeway": {
+      "name": "Homeway",
+      "shortName": "WWax"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#0e6a99"
+  },
+  "website": {
+    "url": "https://www.homeway.de",
+    "text": "www.homeway.de"
+  }
+}

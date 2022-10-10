@@ -4,6 +4,7 @@ export default {
   methods: {
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
+      // const modelVersion = node.sn.slice(9, 10);
       const num = node.sn.slice(-4);
       const category = this.Products[id] || { shortName: 'Unknown' };
       return `${category.shortName}-${num}`;
@@ -32,6 +33,9 @@ export default {
             image = require('../assets/images/model/m6a_plus/img-m6a_plus.png');
           }
           break;
+        case RouterSnModel.Homeway:
+          image = require('../assets/images/img_homeway.png');
+          break;
         default:
           break;
       }
@@ -45,6 +49,7 @@ export default {
         [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee,
         [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
         [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
+        [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
         [RouterSnModel.M6a]:
           this.$store.modelVersion === M6aRouterSnModelVsersion.M6a
             ? process.env.CUSTOMER_CONFIG.routers.M6a

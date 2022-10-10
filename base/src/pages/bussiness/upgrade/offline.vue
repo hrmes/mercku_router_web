@@ -225,6 +225,9 @@ export default {
     },
     onCancel() {
       this.cancelToken.cancel('cancel');
+      // 增加点击删除已上传的固件后，同时将可升级信息进行隐藏
+      const { uploader } = this.$refs;
+      this.uploadStatus = uploader.status;
     },
     upload(files) {
       const formData = new FormData();

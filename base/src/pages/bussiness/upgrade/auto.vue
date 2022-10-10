@@ -5,7 +5,6 @@
     </div>
     <div class="page-content">
       <div class="content">
-
         <div class="content__switch">
           <label for="">{{$t('trans0744')}}</label>
           <m-switch v-model="auto_upgrade.enabled"
