@@ -44,8 +44,8 @@ import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
-import wifiSwitch from 'base/pages/bussiness/setting/wifi-switch.vue';
-import ledSwitch from 'base/pages/bussiness/setting/led-switch.vue';
+import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
+import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
 
 Vue.use(Router);
@@ -180,14 +180,14 @@ const routes = {
       component: upnp
     },
     {
-      path: '/setting/led-switch',
-      name: 'led-switch',
-      component: ledSwitch
+      path: '/setting/led',
+      name: 'led',
+      component: led
     },
     {
-      path: '/setting/wifi-switch',
-      name: 'wifi-switch',
-      component: wifiSwitch
+      path: '/setting/wifi-schedule',
+      name: 'wifi-schedule',
+      component: wifiSchedule
     },
     {
       path: '/wlan',

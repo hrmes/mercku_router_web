@@ -133,15 +133,15 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA
       },
       {
-        url: '/setting/led-switch',
-        name: 'led-switch',
-        text: 'trans1092',
+        url: '/setting/led',
+        name: 'led',
+        text: 'trans0779',
         config
       },
       {
-        url: '/setting/wifi-switch',
-        name: 'setting.wifi-switch',
-        text: 'trans1093',
+        url: '/setting/wifi-schedule',
+        name: 'setting.wifi-schedule',
+        text: 'trans0962',
         config
       }
     ]
