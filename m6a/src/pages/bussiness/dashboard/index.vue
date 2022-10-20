@@ -232,7 +232,7 @@ export default {
           image = require('../../../assets/images/icon/ic_homepage_m6a_light.png');
           break;
         case M6aRouterSnModelVsersion.M6a_Plus:
-          image = require('../../..//assets/images/model/m6a_plus/icon-m6a_plus-homepage.png');
+          image = require('../../../assets/images/model/m6a_plus/icon-m6a_plus-homepage.png');
           break;
         default:
           break;
