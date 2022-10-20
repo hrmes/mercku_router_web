@@ -149,34 +149,37 @@
               key="channelform"
               :model="form">
         <div class="form-header">
-          <span class="form-header__title">{{$t('trans0782')}}</span>
+          <span class="form-header__title">{{ $t('trans0782') }}</span>
         </div>
 
         <m-form-item key="b24gchannelnumber"
                      class="form__item">
-          <m-select :label="$t('trans0680')"
+          <m-select :disabled="isWirelessBridge"
+                    :label="$t('trans0680')"
                     v-model="form.channel.b24gChannel.number"
                     :options="channels.b24g"></m-select>
         </m-form-item>
         <m-form-item key="b24gbandwidth"
                      class="form__item">
-          <m-select :label="$t('trans0632')"
+          <m-select :disabled="isWirelessBridge"
+                    :label="$t('trans0632')"
                     v-model="form.channel.b24gChannel.bandwidth"
                     :options="bandwidths.b24g"></m-select>
         </m-form-item>
         <m-form-item key="b5gchannelnumber"
                      class="form__item">
-          <m-select :label="$t('trans0681')"
+          <m-select :disabled="isWirelessBridge"
+                    :label="$t('trans0681')"
                     v-model="form.channel.b5gChannel.number"
                     :options="channels.b5g"></m-select>
         </m-form-item>
         <m-form-item key="b5gbandwidth-1"
                      class="form__item">
-          <m-select :label="$t('trans0632')"
+          <m-select :disabled="isWirelessBridge"
+                    :label="$t('trans0632')"
                     v-model="form.channel.b5gChannel.bandwidth"
                     :options="bandwidths.b5g"></m-select>
         </m-form-item>
-
       </m-form>
       <!-- channel设置表格 end -->
 
@@ -185,8 +188,7 @@
               ref="wifiTxPowerForm"
               key="wifiTxPowerform"
               :model="form">
-        <div class="form-header">
-        </div>
+        <div class="form-header"></div>
         <m-form-item key="wifiTxPower"
                      class="form__item">
           <m-select label="WI-FI Tx Power"
@@ -207,8 +209,13 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
-import { EncryptMethod, Bands } from 'base/util/constant';
+import {
+  getStringByte,
+  isValidPassword,
+  isFieldHasComma,
+  isFieldHasSpaces
+} from 'base/util/util';
+import { EncryptMethod, Bands, RouterMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
@@ -222,13 +229,13 @@ export default {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: EncryptMethod.wpawpa2,
+          encrypt: EncryptMethod.wpawpa2
         },
         b5g: {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: EncryptMethod.wpawpa2,
+          encrypt: EncryptMethod.wpawpa2
         },
         channel: {
           b24gChannel: {
@@ -240,7 +247,7 @@ export default {
             bandwidth: 80
           }
         },
-        tx_power: '',
+        tx_power: ''
       },
       rules: {
         'b24g.ssid': [
@@ -312,7 +319,11 @@ export default {
         b24g: [],
         b5g: []
       },
-      wifi_TxPowerList: [{ value: 'high', text: this.$t('trans1080') }, { value: 'medium', text: this.$t('trans1081') }, { value: 'low', text: this.$t('trans1082') }],
+      wifi_TxPowerList: [
+        { value: 'high', text: this.$t('trans1080') },
+        { value: 'medium', text: this.$t('trans1081') },
+        { value: 'low', text: this.$t('trans1082') }
+      ],
       bandwidths: {
         b24g: new Array(2).fill(0).map((_, i) => {
           const v = Math.pow(2, i) * 20;
@@ -342,11 +353,18 @@ export default {
           value: EncryptMethod.wpa3,
           text: this.$t('trans0572')
         }
-      ]
+      ],
+      mode: null
     };
+  },
+  computed: {
+    isWirelessBridge() {
+      return this.mode === RouterMode.wirelessBridge;
+    }
   },
   mounted() {
     this.getInitData();
+    this.mode = this.$store.mode;
   },
   methods: {
     onEncryptChange(path, nv, ov) {
@@ -396,6 +414,7 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
+              this.$loading.open();
               const b24g = {
                 hidden: this.form.b24g.hidden,
                 ssid: this.form.b24g.ssid,
@@ -406,7 +425,9 @@ export default {
                   bandwidth: this.form.channel.b24gChannel.bandwidth
                 }
               };
-              const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
+              const formBand = this.form.smart_connect
+                ? this.form.b24g
+                : this.form.b5g;
               const b5g = {
                 hidden: formBand.hidden,
                 ssid: formBand.ssid,
@@ -428,6 +449,7 @@ export default {
               };
               console.log('wifi', wifi);
               this.$http.meshWifiUpdate(wifi).then(() => {
+                this.$loading.close();
                 this.$reconnect({
                   onsuccess: () => {
                     this.$router.push({ path: '/dashboard' });
@@ -467,7 +489,6 @@ export default {
           this.form.b24g.password = b24g.password;
           this.form.b24g.hidden = b24g.hidden;
 
-
           // 5G
           const b5g = wifi.bands[Bands.b5g];
           this.form.b5g.ssid = b5g.ssid;
@@ -494,8 +515,7 @@ export default {
           this.$loading.close();
         });
     }
-  },
-
+  }
 };
 </script>
 <style lang="scss" scoped>

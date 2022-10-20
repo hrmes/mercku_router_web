@@ -4,7 +4,7 @@
   "host": "http://myhomeway.tech",
   "accept": ".hw",
   "favicon": "customer-conf/0025/homeway.ico",
-  "policy": "",
+  "policy": "https://www.homeway.de/datenschutz/",
   "allow2LevelAdmin": false,
   "languages": ["de-DE", "en-US"],
   "defaultLanguage": "de-DE",

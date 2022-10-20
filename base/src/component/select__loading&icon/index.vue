@@ -28,6 +28,9 @@
               <div class="text__container"> {{ option.text }}
               </div>
               <div class="icon__container">
+                <span class="band">
+                  {{option.band}}
+                </span>
                 <span class="encrypt"
                       v-if="option.encrypt!==EncryptMethod.OPEN"></span>
                 <span class="rssi"
@@ -259,9 +262,16 @@ export default {
           transform: translate(0, -50%);
         }
       }
+      .text__container {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
       .icon__container {
+        width: 79px;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         .rssi {
           width: 14px;
           height: 14px;
@@ -288,6 +298,20 @@ export default {
           background: url(../../assets/images/icon/ic_wifi_lock.svg) no-repeat
             center;
           background-size: 100%;
+        }
+        .band {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          font-size: 11px;
+          font-weight: 500;
+          color: #333333;
+          width: 35px;
+          height: 15px;
+          margin-right: 10px;
+          border-radius: 2px;
+          background: rgba(84, 84, 84, 0.15);
         }
       }
     }
