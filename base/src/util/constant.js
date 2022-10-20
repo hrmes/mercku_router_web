@@ -38,7 +38,7 @@ export const RouterStatus = {
 export const RouterMode = {
   router: 'router',
   bridge: 'bridge',
-  wirelessBridge: 'wirelessBridge'
+  wirelessBridge: 'wireless_bridge'
 };
 export const WanType = {
   pppoe: 'pppoe',

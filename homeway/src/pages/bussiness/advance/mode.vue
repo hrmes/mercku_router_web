@@ -300,21 +300,17 @@ export default {
           this.$reconnect({
             timeout: 120,
             onsuccess: () => {
-              this.$loading.close();
-
               this.$toast(this.$t('trans0040'), 3000, 'success');
               // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
               this.$store.mode = this.mode;
               this.$router.push({ path: '/login' });
             },
             ontimeout: () => {
-              this.$loading.close();
-
               this.$router.push({ path: '/unconnect' });
             }
           });
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
@@ -372,7 +368,7 @@ export default {
             result.sort((a, b) => b.rssi - a.rssi);
             this.originalUpperList = result;
             result.map(i => this.processedUpperApList.push({
-              value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi
+              value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi, band: i.band
             }));
           } else {
             this.getApclientScanTimer = setTimeout(() => {
