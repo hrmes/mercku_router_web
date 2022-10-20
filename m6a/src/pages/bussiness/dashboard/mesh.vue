@@ -31,7 +31,7 @@
             </div>
           </div>
           <div class="switch-wrap">
-            <div class="switch-item">
+            <!-- <div class="switch-item">
               <label>
                 <span>{{$t('trans0562')}}</span>
                 <div class="tool"
@@ -47,7 +47,7 @@
               </label>
               <m-switch v-model="mesh24g"
                         @change="(val)=>updateMeshBand(val)"></m-switch>
-            </div>
+            </div> -->
           </div>
           <div class="topo-wrap"
                id="topo-wrap">
@@ -401,44 +401,44 @@ export default {
     closeRssiModal() {
       this.rssiModalVisible = false;
     },
-    updateMeshBand(val) {
-      this.$dialog.confirm({
-        okText: this.$t('trans0024'),
-        cancelText: this.$t('trans0025'),
-        message: this.$t('trans0229'),
-        callback: {
-          ok: () => {
-            this.$loading.open();
-            this.$http
-              .updateMeshBand({
-                bands: {
-                  '5G': true,
-                  '2.4G': val
-                }
-              })
-              .then(() => {
-                this.$loading.close();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  },
-                  timeout: 60
-                });
-              })
-              .catch(() => {
-                this.mesh24g = !val;
-                this.$loading.close();
-              });
-          },
-          cancel: () => {
-            this.mesh24g = !this.mesh24g;
-          }
-        }
-      });
-    },
+    // updateMeshBand(val) {
+    //   this.$dialog.confirm({
+    //     okText: this.$t('trans0024'),
+    //     cancelText: this.$t('trans0025'),
+    //     message: this.$t('trans0229'),
+    //     callback: {
+    //       ok: () => {
+    //         this.$loading.open();
+    //         this.$http
+    //           .updateMeshBand({
+    //             bands: {
+    //               '5G': true,
+    //               '2.4G': val
+    //             }
+    //           })
+    //           .then(() => {
+    //             this.$loading.close();
+    //             this.$reconnect({
+    //               onsuccess: () => {
+    //                 this.$toast(this.$t('trans0040'), 3000, 'success');
+    //               },
+    //               ontimeout: () => {
+    //                 this.$router.push({ path: '/unconnect' });
+    //               },
+    //               timeout: 60
+    //             });
+    //           })
+    //           .catch(() => {
+    //             this.mesh24g = !val;
+    //             this.$loading.close();
+    //           });
+    //       },
+    //       cancel: () => {
+    //         this.mesh24g = !this.mesh24g;
+    //       }
+    //     }
+    //   });
+    // },
     getMeshBand() {
       this.$http.getMeshBand().then(res => {
         this.mesh24g = res.data.result['2.4G'];
@@ -1280,8 +1280,8 @@ export default {
           .switch-wrap {
             order: 1;
             padding-left: 0;
-            margin-bottom: 30px;
             width: 100%;
+            height: 0;
             .switch-item {
               width: auto;
               label {
