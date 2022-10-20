@@ -28,7 +28,7 @@ export default {
           break;
         case RouterSnModel.M6a:
           if (modelVersion === M6aRouterSnModelVsersion.M6a) {
-            image = require('../assets/images/img_wifi6.png');
+            image = require('../assets/images/img_m6a.png');
           } else if (modelVersion === M6aRouterSnModelVsersion.M6a_Plus) {
             image = require('../assets/images/model/m6a_plus/img-m6a_plus.png');
           }
