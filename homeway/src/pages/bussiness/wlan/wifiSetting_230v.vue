@@ -97,11 +97,9 @@
           </template>
           <div class="button-container">
             <button v-if="isLoading"
-                    disabled="true"
-                    class="loading-btn">
-              <m-loading :color="loadingColor"
+                    class="btn disabled">
+              <m-loading :color="'#fff'"
                          :size="24"></m-loading>
-              <span>{{$t('trans1079')}}...</span>
             </button>
             <button v-else
                     @click="step3()"
@@ -652,8 +650,6 @@ export default {
         .button-container {
           margin-top: 60px;
           .loading-btn {
-            width: 340px;
-            height: 48px;
             display: flex;
             justify-content: center;
             align-items: center;
