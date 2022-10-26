@@ -264,6 +264,8 @@ export default {
       }
       .text__container {
         max-width: 200px;
+        height: 18px;
+        line-height: 18px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
