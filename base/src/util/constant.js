@@ -11,7 +11,8 @@ export const Customers = {
   altima: '0007',
   fibrestream: '0013',
   skymesh: '0014',
-  pentanet: '0019'
+  pentanet: '0019',
+  homeway: '0025'
 };
 export const IP = {
   IPv4: 'ipv4',
@@ -19,6 +20,7 @@ export const IP = {
 };
 export const EncryptMethod = {
   open: 'open',
+  OPEN: 'OPEN',
   wpa: 'wpa',
   wpa2: 'wpa2',
   wpawpa2: 'wpawpa2',
@@ -35,7 +37,8 @@ export const RouterStatus = {
 };
 export const RouterMode = {
   router: 'router',
-  bridge: 'bridge'
+  bridge: 'bridge',
+  wirelessBridge: 'wireless_bridge'
 };
 export const WanType = {
   pppoe: 'pppoe',
@@ -55,7 +58,8 @@ export const RouterSnModel = {
   Bee: '02',
   M6: '06',
   M6c: '07',
-  M6a: '08'
+  M6a: '08',
+  Homeway: '09'
 };
 export const M6aRouterSnModelVsersion = {
   M6a: '0',
@@ -130,5 +134,17 @@ export const Models = {
   m2: 'M2R2',
   m6: 'M6R0',
   m6c: 'M7R0',
-  m6a: 'M8R0'
+  m6a: 'M8R0',
+  homeway: 'M9R0'
+};
+export const HomewayModel = {
+  homeway_230v: '0',
+  homeway_POE_1: '1',
+  homeway_POE_2: '2'
+};
+
+export const HomewayWanStatus = {
+  linked: 'linked',
+  connected: 'connected',
+  unlinked: 'unlinked'
 };

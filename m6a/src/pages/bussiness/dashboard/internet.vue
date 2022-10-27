@@ -249,7 +249,6 @@ export default {
         pppoe: this.$t('trans0144'),
         auto: this.$t('trans0696'),
         failObtain: this.$t('trans1058')
-
       },
       testTimeout: 60,
       testSpeedNumber: 60,

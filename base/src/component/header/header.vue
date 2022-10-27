@@ -67,7 +67,6 @@
           <div class="nav-item-content">
             <div class="nav-item__text">{{$t(menu.text)}}</div>
           </div>
-
           <transition name="nav-item-child__animation"
                       v-on:before-enter="beforeEnter"
                       v-on:enter="enter"
@@ -716,7 +715,7 @@ export default {
 
       .popup {
         position: absolute;
-        width: 180px;
+        width: 153px;
         margin-top: 6px;
         border-radius: 2px;
         z-index: 999;
@@ -788,6 +787,7 @@ export default {
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
+      padding: 0;
     }
     .nav-wrap {
       position: fixed;
