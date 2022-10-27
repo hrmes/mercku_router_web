@@ -68,7 +68,7 @@
                 v-defaultbutton
                 @click="updateMode"
                 :disabled="saveDisable"
-                v-show="modeHasChange||upperApForm.ssid!==''">{{$t('trans0081')}}</button>
+                v-show="modeHasChange||upperApForm.ssid!==''&&upperApForm.band!==''">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -211,13 +211,12 @@ export default {
       this.$http.getMeshMode()
         .then(res => {
           const { data: { result } } = res;
-          console.log(result);
           if (result.mode === HomewayWorkModel.wirelessBridge) {
-            this.currentUpperInfo.show = true;
             this.currentUpperInfo.ssid = result.apclient.ssid;
             this.currentUpperInfo.password = result.apclient.password;
             this.currentUpperInfo.security = result.apclient.security;
-            console.log(this.upperApForm);
+            this.currentUpperInfo.show = true;
+            console.log('upperApform', this.upperApForm);
           }
           this.mode = result.mode;
           this.currentMode = result.mode;
@@ -297,12 +296,13 @@ export default {
       this.$http
         .updateMeshMode(params)
         .then(() => {
+          this.$store.mode = params.mode;
+          localStorage.setItem('mode', params.mode);
           this.$reconnect({
             timeout: 120,
             onsuccess: () => {
               this.$toast(this.$t('trans0040'), 3000, 'success');
               // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
-              this.$store.mode = this.mode;
               this.$router.push({ path: '/login' });
             },
             ontimeout: () => {
