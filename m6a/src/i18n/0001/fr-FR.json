@@ -1067,14 +1067,14 @@
   "trans1072": "Find a device",
   "trans1073": "‘Alexa, ask Mesh Name to find Device’",
   "trans1074": "Enable/Disable Guest Wi-Fi",
-  "trans1075": "‘Alexa, ask my router to turn ON Mesh Name’s Guest Wi-Fi‘",
-  "trans1076": "‘Alexa, ask my router  to turn OFF Mesh Name’s Guest Wi-Fi’",
+  "trans1075": "‘Alexa, ask my router to turn ON Guest Wi-Fi on Mesh Name’",
+  "trans1076": "‘Alexa, ask my router to turn OFF Guest Wi-Fi on Mesh Name’",
   "trans1077": "Sign in your %s account and authorize Alexa to access your smart devices.",
   "trans1078": "For links, enable \"Open Supported links\" and tick all options.",
   "trans1079": "‘Alexa, ask my router to turn on Wi-Fi'",
   "trans1080": "‘Alexa, ask my router to turn off Wi-Fi'",
-  "trans1081": "‘Alexa, ask my router to turn on the router's LEDs'",
-  "trans1082": "‘Alexa,  ask my router to turn off the router's LEDs'",
+  "trans1081": "‘Alexa, ask my router to turn on the Mesh Name's LEDs'",
+  "trans1082": "‘Alexa,  ask my router to turn off the Mesh Name's LEDs'",
   "trans1083": "‘Sorry, this feature is not available currently, please stay tuned'",
   "trans1084": "‘The  Wi-Fi is ON '",
   "trans1085": "‘The Wi-Fi is turn-OFF'",
@@ -1085,5 +1085,6 @@
   "trans1090": "Moyen",
   "trans1091": "Bas",
   "trans1092": "Commutateur à DEL",
-  "trans1093": "Commutateur Wi-Fi"
+  "trans1093": "Commutateur Wi-Fi",
+  "trans1094": "Les modifications ne sont pas enregistrées, ne prend actuellement en charge que la modification de la configuration après l'activation du Wi-Fi"
 }
