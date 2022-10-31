@@ -262,6 +262,8 @@ export default {
     this.pageActive = false;
     clearInterval(this.uptimeTimer);
     this.uptimeTimer = null;
+    clearInterval(this.ipv6InfoTimer);
+    this.ipv6InfoTimer = null;
   }
 };
 </script>
