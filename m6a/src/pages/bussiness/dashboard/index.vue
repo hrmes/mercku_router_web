@@ -18,7 +18,7 @@
              :class="{'selected':$route.path.includes('mesh')}">
           <div class="icon-container">
             <img @click="forward2page('/dashboard/mesh/topo')"
-                 src="../../../assets/images/icon/ic_router.png"
+                 :src="getWifiIcon(this.$store.modelVersion)"
                  alt="" />
             <div class="text-container">
               {{ssid||'-'}}
@@ -70,7 +70,9 @@
 import marked from 'marked';
 import * as CONSTANTS from 'base/util/constant';
 import { compareVersion } from 'base/util/util';
+import { M6aRouterSnModelVsersion } from '../../../../../base/src/util/constant';
 // import axios from 'axios';
+
 
 export default {
   data() {
@@ -156,7 +158,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -221,6 +223,21 @@ export default {
             this.netStatus = CONSTANTS.WanNetStatus.unlinked;
           });
       }, 1000);
+    },
+    getWifiIcon(modelVersion) {
+      console.log('modelVersion', modelVersion);
+      let image = '';
+      switch (modelVersion) {
+        case M6aRouterSnModelVsersion.M6a:
+          image = require('../../../assets/images/icon/ic_homepage_m6a_light.png');
+          break;
+        case M6aRouterSnModelVsersion.M6a_Plus:
+          image = require('../../../assets/images/model/m6a_plus/icon-m6a_plus-homepage.png');
+          break;
+        default:
+          break;
+      }
+      return image;
     }
   },
   beforeDestroy() {

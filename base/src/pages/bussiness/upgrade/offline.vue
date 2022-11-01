@@ -214,7 +214,7 @@ export default {
       const entendName = getFileExtendName(file);
       const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
-        uploader.err = this.$t('trans0271').replace('%s', process.env.CUSTOMER_CONFIG.uploadFileTypeLimit);
+        uploader.err = this.$t('trans0271').replace('%s', process.env.CUSTOMER_CONFIG.accept);
         return false;
       }
       if (file.size === 0) {
@@ -225,6 +225,9 @@ export default {
     },
     onCancel() {
       this.cancelToken.cancel('cancel');
+      // 增加点击删除已上传的固件后，同时将可升级信息进行隐藏
+      const { uploader } = this.$refs;
+      this.uploadStatus = uploader.status;
     },
     upload(files) {
       const formData = new FormData();

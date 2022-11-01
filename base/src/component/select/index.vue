@@ -158,7 +158,6 @@ export default {
     font-weight: bold;
     color: $select-label-color;
   }
-
   cursor: pointer;
   .select-popup {
     position: absolute;

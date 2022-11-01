@@ -1,0 +1,56 @@
+.customized {
+  &.header-container {
+    &.is-login-nav {
+      .right-wrap {
+        width: auto;
+      }
+    }
+    .logo-wrap {
+      .logo-wrap__logo {
+        background: url(../../assets/images/customer/homeway/homeway_logo_white.svg)
+          center no-repeat;
+        background-size: 100%;
+        height: 40px;
+        width: 122px;
+      }
+    }
+  }
+
+  /************************* 登陆页面*********************/
+  &.login-container {
+    .center-form {
+      .logo {
+        background: url(../../assets/images/customer/homeway/homeway_logo.svg)
+          no-repeat center;
+        background-size: 100%;
+        width: 280px;
+        height: 92px;
+        &::before {
+          width: inherit;
+          height: inherit;
+          // padding-top: 19.7%;
+        }
+        @media screen and (max-width: 768px) {
+          width: 215px;
+          &::before {
+            padding-top: 19.53%;
+          }
+        }
+      }
+    }
+  }
+  /**************************end登陆页面******************/
+}
+/******************deshboard页面背景图片***********/
+.dashboard {
+  .net-info {
+    background: url(../../assets/images/customer/homeway/homeway_banner@1x.png)
+      no-repeat center !important;
+
+    @media screen and (max-width: 768px) {
+      background: url(../../assets/images/customer/homeway/homeway_banner_mobile.png)
+        no-repeat center !important;
+    }
+  }
+}
+/******************deshboard页面背景图片***********/
