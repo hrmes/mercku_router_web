@@ -761,26 +761,26 @@ export default {
     },
     save(params) {
       console.log(params);
-      // this.$dialog.confirm({
-      //   okText: this.$t('trans0024'),
-      //   cancelText: this.$t('trans0025'),
-      //   message: this.$t('trans0229'),
-      //   callback: {
-      //     ok: () => {
-      //       this.$http.meshWanUpdate(params).then(() => {
-      //         this.$reconnect({
-      //           onsuccess: () => {
-      //             this.$router.push({ path: '/dashboard' });
-      //           },
-      //           ontimeout: () => {
-      //             this.$router.push({ path: '/unconnect' });
-      //           },
-      //           timeout: 60
-      //         });
-      //       });
-      //     }
-      //   }
-      // });
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0229'),
+        callback: {
+          ok: () => {
+            this.$http.meshWanUpdate(params).then(() => {
+              this.$reconnect({
+                onsuccess: () => {
+                  this.$router.push({ path: '/dashboard' });
+                },
+                ontimeout: () => {
+                  this.$router.push({ path: '/unconnect' });
+                },
+                timeout: 60
+              });
+            });
+          }
+        }
+      });
     },
     submit() {
       if (this.vlan.enabled) {
