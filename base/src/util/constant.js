@@ -135,6 +135,7 @@ export const Models = {
   m6: 'M6R0',
   m6c: 'M7R0',
   m6a: 'M8R0',
+  m6aPlus: 'M8R1',
   homeway: 'M9R0'
 };
 export const HomewayModel = {

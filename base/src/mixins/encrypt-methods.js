@@ -50,6 +50,7 @@ export default {
         ];
         break;
       case Models.m6a:
+      case Models.m6aPlus:
         encryptMethods = [
           {
             value: EncryptMethod.open,
