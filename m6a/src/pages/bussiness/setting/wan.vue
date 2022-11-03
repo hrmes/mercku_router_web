@@ -296,6 +296,86 @@ import { cloneDeep } from 'lodash';
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
+function checkPortNums(modelID) {
+  let ports = null;
+  switch (modelID) {
+    case CONSTANTS.Models.m6a:
+      ports = [
+        {
+          port: {
+            id: 4,
+            name: 'wan',
+            type: 'wan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 0,
+            name: 'lan1',
+            type: 'lan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 1,
+            name: 'lan2',
+            type: 'lan'
+          },
+          tagged: true
+        }
+      ];
+      break;
+    case CONSTANTS.Models.m6aPlus:
+      ports = [
+        {
+          port: {
+            id: 4,
+            name: 'wan',
+            type: 'wan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 0,
+            name: 'lan1',
+            type: 'lan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 1,
+            name: 'lan2',
+            type: 'lan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 2,
+            name: 'lan3',
+            type: 'lan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 3,
+            name: 'lan4',
+            type: 'lan'
+          },
+          tagged: true
+        }
+      ];
+      break;
+    default:
+      break;
+  }
+  return ports;
+}
 const VlanName = {
   internet: 'internet',
   ipPhone: 'ip-phone',
@@ -321,32 +401,7 @@ const VlanDefault = {
 const IpPhoneVlanDefault = {
   enabled: false,
   id: '',
-  ports: [
-    {
-      port: {
-        id: 4,
-        name: 'wan',
-        type: 'wan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 0,
-        name: 'lan1',
-        type: 'lan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 1,
-        name: 'lan2',
-        type: 'lan'
-      },
-      tagged: true
-    }
-  ],
+  ports: checkPortNums(process.env.MODEL_CONFIG.id),
   priority: 0,
   is_bridged: false,
   name: VlanName.ipPhone
@@ -354,32 +409,7 @@ const IpPhoneVlanDefault = {
 const IptvVlanDefault = {
   enabled: false,
   id: '',
-  ports: [
-    {
-      port: {
-        id: 4,
-        name: 'wan',
-        type: 'wan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 0,
-        name: 'lan1',
-        type: 'lan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 1,
-        name: 'lan2',
-        type: 'lan'
-      },
-      tagged: true
-    }
-  ],
+  ports: checkPortNums(process.env.MODEL_CONFIG.id),
   priority: 0,
   is_bridged: false,
   name: VlanName.iptv
@@ -730,6 +760,7 @@ export default {
       });
     },
     save(params) {
+      console.log(params);
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
