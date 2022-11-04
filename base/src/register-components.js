@@ -9,6 +9,7 @@ import mProgress from './component/progress/index.vue';
 import mSelect from './component/select/index.vue';
 import mLoadingSelect from './component/select__loading&icon/index.vue';
 import mRadioGroup from './component/radioGroup/index.vue';
+import mRadioCardGroup from './component/radioCardGroup/index.vue';
 import mSwitch from './component/switch/index.vue';
 import mPopover from './component/popover/index.vue';
 import mEditableSelect from './component/editableSelect/index.vue';
@@ -41,6 +42,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-select', mSelect);
   _Vue.component('m-loadingSelect', mLoadingSelect);
   _Vue.component('m-radio-group', mRadioGroup);
+  _Vue.component('m-radio-card-group', mRadioCardGroup);
   _Vue.component('m-switch', mSwitch);
   _Vue.component('m-popover', mPopover);
   _Vue.component('m-editable-select', mEditableSelect);

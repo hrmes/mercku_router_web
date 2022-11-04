@@ -1078,5 +1078,13 @@
   "trans1083": "IPv4 LAN Status",
   "trans1084": "IPv6 LAN Status",
   "trans1085": "Failed to obtain, please refresh the page",
-  "trans1086": "If you need to modify the upper-level AP settings in wireless bridge mode, please reset"
+  "trans1086": "If you need to modify the upper-level AP settings in wireless bridge mode, please reset",
+  "trans1087": "AP Management",
+  "trans1088": "Game mode",
+  "trans1089": "Default mode",
+  "trans1090": "Silent mode",
+  "trans1091": "Make sure performance comes first. Using this mode for a long time will reduce the service life of the product to a certain extent.",
+  "trans1092": "Balanced performance noise. Dynamic speed regulation, limited to run at the highest wind speed B",
+  "trans1093": "Controlling noise takes priority. Dynamic speed regulation, limit the maximum running at C wind speed",
+  "trans1094": "Fan"
 }
