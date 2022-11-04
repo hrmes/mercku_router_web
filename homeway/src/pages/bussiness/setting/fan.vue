@@ -66,13 +66,13 @@ export default {
     getFanMode() {
       this.$http.getMeshFanMode()
         .then(res => {
-          const { result: { mode } } = res;
+          const { data: { result: { mode } } } = res;
           this.mode = mode;
         });
     },
     updateMode() {
-      console.log(this.mode);
-      this.$http.updateMeshFanMode(this.mode)
+      const params = { mode: this.mode };
+      this.$http.updateMeshFanMode(params)
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
