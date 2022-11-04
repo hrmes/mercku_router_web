@@ -34,7 +34,7 @@ export default function getMenu(
     text: 'trans0173',
     children: [
       {
-        text: 'trans0365',
+        text: 'trans1087',
         name: 'mesh',
         url: '/dashboard/mesh/table',
         config
@@ -61,6 +61,12 @@ export default function getMenu(
         text: 'trans0103',
         name: 'wifi',
         url: '/setting/wifi',
+        config
+      },
+      {
+        text: 'trans1094',
+        name: 'fan',
+        url: '/setting/fan',
         config
       },
       {
@@ -98,13 +104,13 @@ export default function getMenu(
         name: 'switch',
         url: '/setting/switch',
         config
-      },
-      {
-        text: 'trans0620',
-        name: 'ipv6',
-        url: '/setting/ipv6',
-        config
       }
+      // {
+      //   text: 'trans0620',
+      //   name: 'ipv6',
+      //   url: '/setting/ipv6',
+      //   config
+      // }
     ]
   };
   const advance = {

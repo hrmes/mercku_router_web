@@ -15,7 +15,8 @@ import wlan from 'pages/bussiness/wlan/index.vue';
 import wifiSetting from 'pages/bussiness/wlan/wifiSetting.vue';
 import wifiSetting_230v from 'pages/bussiness/wlan/wifiSetting_230v.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
-import ipv6 from 'pages/bussiness/setting/ipv6.vue';
+// import ipv6 from 'pages/bussiness/setting/ipv6.vue';
+import fan from 'pages/bussiness/setting/fan.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -91,10 +92,15 @@ const routes = {
       component: wifi
     },
     {
-      path: '/setting/ipv6',
-      name: 'ipv6',
-      component: ipv6
+      path: '/setting/fan',
+      name: 'fan',
+      component: fan
     },
+    // {
+    //   path: '/setting/ipv6',
+    //   name: 'ipv6',
+    //   component: ipv6
+    // },
     {
       path: '/setting/safe',
       name: 'safe',

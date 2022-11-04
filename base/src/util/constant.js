@@ -149,3 +149,9 @@ export const HomewayWanStatus = {
   connected: 'connected',
   unlinked: 'unlinked'
 };
+
+export const HomewayFanModel = {
+  game: 'game',
+  standard: 'standard',
+  sleep: 'sleep'
+};
