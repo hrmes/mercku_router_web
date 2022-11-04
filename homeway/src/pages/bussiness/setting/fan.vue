@@ -72,7 +72,8 @@ export default {
     },
     updateMode() {
       console.log(this.mode);
-      this.$http.updateMeshFanMode(this.mode)
+      const params = { mode: this.mode };
+      this.$http.updateMeshFanMode(params)
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
