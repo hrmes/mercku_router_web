@@ -65,7 +65,6 @@ export default {
     }
   }
   .option {
-    width: 400px;
     height: 130px;
     box-sizing: border-box;
     padding: 10px 15px;
@@ -158,7 +157,6 @@ export default {
       }
     }
     .option {
-      width: 340px;
       height: 160px;
       border: 0;
     }
@@ -169,7 +167,6 @@ export default {
     display: flex;
     flex-direction: column;
     .option {
-      width: 240px;
       height: 200px;
       padding: 10px 10px;
       .radio {
