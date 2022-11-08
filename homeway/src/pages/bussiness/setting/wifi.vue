@@ -193,13 +193,20 @@
                      class="form__item">
           <m-select :label="$t('trans1058')"
                     v-model="form.wifiTxPower"
+                    @change="getLanStatus"
                     :options="wifi_TxPowerList"></m-select>
         </m-form-item>
       </m-form>
       <!-- wifi Tx power设置框 end -->
 
       <div class="form-button">
-        <button class="btn"
+        <button v-if="isLoading"
+                class="btn disabled">
+          <m-loading :color="'#fff'"
+                     :size="24"></m-loading>
+        </button>
+        <button v-else
+                class="btn"
                 v-defaultbutton
                 @click="submit()">
           {{ $t('trans0081') }}
@@ -213,9 +220,15 @@ import {
   getStringByte,
   isValidPassword,
   isFieldHasComma,
-  isFieldHasSpaces
+  isFieldHasSpaces,
+  throttle
 } from 'base/util/util';
-import { EncryptMethod, Bands, RouterMode } from 'base/util/constant';
+import {
+  EncryptMethod,
+  Bands,
+  RouterMode,
+  HomewayWanStatus
+} from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
@@ -247,7 +260,7 @@ export default {
             bandwidth: 80
           }
         },
-        tx_power: ''
+        wifiTxPower: 'high'
       },
       rules: {
         'b24g.ssid': [
@@ -340,21 +353,9 @@ export default {
           };
         })
       },
-      encryptMethods: [
-        {
-          value: EncryptMethod.open,
-          text: this.$t('trans0554')
-        },
-        {
-          value: EncryptMethod.wpa2,
-          text: this.$t('trans0556')
-        },
-        {
-          value: EncryptMethod.wpa3,
-          text: this.$t('trans0572')
-        }
-      ],
-      mode: null
+      currentTxPower: null,
+      mode: null,
+      isLoading: false,
     };
   },
   computed: {
@@ -508,13 +509,32 @@ export default {
 
           // wifi Tx_power
           this.form.wifiTxPower = wifi.tx_power ?? 'high';
+          this.currentTxPower = wifi.tx_power ?? 'high';
 
           this.$loading.close();
         })
         .catch(() => {
           this.$loading.close();
         });
-    }
+    },
+    getLanStatus: throttle(function changeTxPower() {
+      this.isLoading = true;
+      this.$http.getWanStatus()
+        .then(res => {
+          const { data: { result: { status } } } = res;
+          if (status !== HomewayWanStatus.connected) {
+            this.form.wifiTxPower = this.currentTxPower;
+            this.$dialog.info({ okText: this.$t('trans0211'), message: this.$t('trans1096') });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.form.wifiTxPower = this.currentTxPower;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    }, 1000),
   }
 };
 </script>

@@ -136,7 +136,9 @@ export const Models = {
   m6c: 'M7R0',
   m6a: 'M8R0',
   m6aPlus: 'M8R1',
-  homeway: 'M9R0'
+  homeway_230V: 'M9R0',
+  homeway_POE1: 'M9R1',
+  homeway_POE2: 'M9R2'
 };
 export const HomewayModel = {
   homeway_230v: '0',

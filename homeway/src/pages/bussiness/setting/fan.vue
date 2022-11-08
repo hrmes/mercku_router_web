@@ -2,11 +2,14 @@
   <div class="page">
     <div class="page-header">{{$t('trans1094')}}</div>
     <div class="page-content">
-      <m-form>
+      <m-form class="flex-form">
         <m-form-item>
           <m-radio-card-group v-model="mode"
                               :options='modeArr'
                               direction=vertical></m-radio-card-group>
+        </m-form-item>
+        <m-form-item>
+          <p class="tips">{{$t('trans1095')}}</p>
         </m-form-item>
         <m-form-item>
           <button class="btn primary"
@@ -83,3 +86,19 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.flex-form {
+  width: 400px;
+}
+.tips {
+  color: #999999;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 768px) {
+  .flex-form {
+    width: 100%;
+  }
+}
+</style>
