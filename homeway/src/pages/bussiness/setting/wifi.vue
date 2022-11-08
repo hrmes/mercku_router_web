@@ -193,7 +193,7 @@
                      class="form__item">
           <m-select :label="$t('trans1058')"
                     v-model="form.wifiTxPower"
-                    @change="getLanStatus"
+                    @change="getWanStatus"
                     :options="wifi_TxPowerList"></m-select>
         </m-form-item>
       </m-form>
