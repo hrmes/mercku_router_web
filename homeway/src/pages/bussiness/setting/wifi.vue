@@ -517,7 +517,7 @@ export default {
           this.$loading.close();
         });
     },
-    getLanStatus: throttle(function changeTxPower() {
+    getWanStatus: throttle(function changeTxPower() {
       this.isLoading = true;
       this.$http.getWanStatus()
         .then(res => {
