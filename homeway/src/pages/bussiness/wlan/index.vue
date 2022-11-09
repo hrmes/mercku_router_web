@@ -12,45 +12,39 @@
         <p class="checklist-content">{{checklist}}</p>
       </div>
       <div class="btn-container">
-        <button @click="prepared(currentRouter)"
+        <button @click="prepared(modelId)"
                 class="btn">{{$t('trans1075')}}</button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { HomewayModel } from '../../../../../base/src/util/constant';
+import { Models } from '../../../../../base/src/util/constant';
 
 export default {
-  data() {
-    return {
-      modelVersion: null,
-      currentRouter: null,
-    };
-  },
   created() {
     this.isinitial();
   },
   computed: {
     checklist() {
       let checklist = this.$t('trans1074').format('');
-      switch (this.modelVersion) {
-        case HomewayModel.homeway_230v:
-          this.currentRouter = '230v';
+      switch (this.modelId) {
+        case Models.homeway_230v:
           checklist = this.$t('trans1074').format('230v');
           break;
-        case HomewayModel.homeway_POE_1:
-          this.currentRouter = 'POE';
+        case Models.homeway_POE1:
           checklist = this.$t('trans1074').format('POE');
           break;
-        case HomewayModel.homeway_POE_2:
-          this.currentRouter = 'POE';
+        case Models.homeway_POE2:
           checklist = this.$t('trans1074').format('POE');
           break;
         default:
           break;
       }
       return checklist;
+    },
+    modelId() {
+      return process.env.MODEL_CONFIG.id;
     }
   },
   methods: {
@@ -60,24 +54,16 @@ export default {
         .then(res => {
           if (!res.data.result.status) {
             this.$router.push({ path: '/login' });
-          } else {
-            this.getRouter();
           }
         });
     },
-    getRouter() {
-      this.$http.getRouter()
-        .then(res => {
-          this.modelVersion = res.data.result.sn.slice(9, 10);
-          console.log('modelVersion', this.modelVersion);
-        });
-    },
-    prepared(router) {
-      switch (router) {
-        case '230v':
+    prepared(modelId) {
+      switch (modelId) {
+        case Models.homeway_230v:
           this.$router.push({ name: 'wifiSetting_230v' });
           break;
-        case 'POE':
+        case Models.homeway_POE1:
+        case Models.homeway_POE2:
           this.$router.push({ name: 'wifiSetting' });
           break;
         default:
@@ -85,11 +71,6 @@ export default {
       }
     }
   },
-  beforeRouterEnter: (to, from, next) => {
-    next(vm => {
-      vm.isinitial();
-    });
-  }
 };
 </script>
 <style lang="scss" scoped>

@@ -227,7 +227,7 @@ import {
   EncryptMethod,
   Bands,
   RouterMode,
-  HomewayWanStatus
+  WanNetStatus
 } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
@@ -522,7 +522,7 @@ export default {
       this.$http.getWanStatus()
         .then(res => {
           const { data: { result: { status } } } = res;
-          if (status !== HomewayWanStatus.connected) {
+          if (status !== WanNetStatus.connected) {
             this.form.wifiTxPower = this.currentTxPower;
             this.$dialog.info({ okText: this.$t('trans0211'), message: this.$t('trans1096') });
           }

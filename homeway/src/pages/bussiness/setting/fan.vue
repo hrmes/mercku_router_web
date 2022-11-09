@@ -55,7 +55,7 @@ function getFanModeImg(model) {
 export default {
   data() {
     return {
-      mode: 'standard',
+      mode: '',
       modeArr: [
         { value: 'game', text: this.$t('trans1088'), description: this.$t('trans1091'), img: getFanModeImg('game') },
         { value: 'standard', text: this.$t('trans1089'), description: this.$t('trans1092'), img: getFanModeImg('standard') },
@@ -67,10 +67,14 @@ export default {
   },
   methods: {
     getFanMode() {
+      this.$loading.open();
       this.$http.getMeshFanMode()
         .then(res => {
           const { data: { result: { mode } } } = res;
           this.mode = mode;
+        })
+        .finally(() => {
+          this.$loading.close();
         });
     },
     updateMode() {
@@ -89,14 +93,14 @@ export default {
 
 <style lang="scss" scoped>
 .flex-form {
-  width: 400px;
+  width: 340px;
 }
 .tips {
   color: #999999;
   font-size: 14px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 760px) {
   .flex-form {
     width: 100%;
   }

@@ -75,7 +75,7 @@
 </template>
 <script>
 import { isValidPassword } from '../../../../../base/src/util/util';
-import { HomewayWanStatus, EncryptMethod } from '../../../../../base/src/util/constant';
+import { WanNetStatus, EncryptMethod } from '../../../../../base/src/util/constant';
 
 const LoadingStatus = {
   empty: 0,
@@ -136,7 +136,7 @@ export default {
         ],
       },
       pwdDisabled: true,
-      wanStatus: HomewayWanStatus.unlinked,
+      wanStatus: WanNetStatus.unlinked,
       loadingText: `${this.$t('trans1070')}...`,
       getApclientScanTimer: null
     };
@@ -240,7 +240,7 @@ export default {
         // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
         case HomewayWorkModel.bridge:
           // 切换为有线桥的时候 要判断一下wanStatus，如果是unlinked就要弹窗提示未插入网线
-          if (this.wanStatus === HomewayWanStatus.unlinked) {
+          if (this.wanStatus === WanNetStatus.unlinked) {
             this.$dialog.confirm({
               okText: this.$t('trans0024'),
               cancelText: this.$t('trans0025'),
