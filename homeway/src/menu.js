@@ -110,7 +110,7 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         name: 'advance-mode',
         text: 'trans0539',
         config,
-        modelIdObj: {
+        hiddenModelObj: {
           [Models.homeway_POE1]: {
             show: false
           },
@@ -161,9 +161,9 @@ export default function getMenu(role, mode = RouterMode.bridge) {
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
       menu.config = menu.config || config;
-      const modelIdObj = menu.modelIdObj || {};
-      const modelIdConfig = modelIdObj[modelId] || {};
-      menu.config = Object.assign({}, menu.config, modelIdConfig);
+      const hiddenModelObj = menu.hiddenModelObj || {};
+      const hiddenConfig = hiddenModelObj[modelId] || {};
+      menu.config = Object.assign({}, menu.config, hiddenConfig);
     });
 
     // 过滤不显示的菜单
