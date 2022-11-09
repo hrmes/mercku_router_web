@@ -72,8 +72,7 @@ export default {
     },
     login() {
       this.$loading.open();
-      this.$http
-        .login({ password: this.password })
+      this.$http.login({ password: this.password })
         .then(res => {
           const { role } = res.data.result;
           this.$store.role = role;
@@ -83,16 +82,8 @@ export default {
               const { data: { result: { mode } } } = res1;
               this.$store.mode = mode;
               localStorage.setItem('mode', mode);
-              this.$http.getRouter()
-                .then(res2 => {
-                  console.log(res2);
-                  const { data: { result: { sn } } } = res2;
-                  this.currentModelVersion = sn.slice(9, 10);
-                  this.$store.modelVersion = this.currentModelVersion;
-                  localStorage.setItem('modelVersion', this.currentModelVersion);
-                  this.$router.push({ path: '/dashboard' });
-                  this.$loading.close();
-                });
+              this.$router.push({ path: '/dashboard' });
+              this.$loading.close();
             });
         })
         .catch(err => {

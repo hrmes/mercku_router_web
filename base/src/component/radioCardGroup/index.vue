@@ -65,7 +65,7 @@ export default {
     }
   }
   .option {
-    height: 130px;
+    height: 100px;
     box-sizing: border-box;
     padding: 10px 15px;
     border-radius: 10px;
@@ -90,8 +90,8 @@ export default {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 7px;
-          height: 7px;
+          width: 6px;
+          height: 6px;
           background: $radio-card-item-selected-color;
           border-radius: 50%;
         }
@@ -103,8 +103,8 @@ export default {
       }
     }
     .radio {
-      width: 15px;
-      height: 15px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       border: 1px solid $radio-item-color;
     }
@@ -157,7 +157,6 @@ export default {
       }
     }
     .option {
-      height: 160px;
       border: 0;
     }
   }
@@ -167,7 +166,7 @@ export default {
     display: flex;
     flex-direction: column;
     .option {
-      height: 200px;
+      height: 120px;
       padding: 10px 10px;
       .radio {
         width: 12px;
