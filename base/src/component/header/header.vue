@@ -570,7 +570,7 @@ export default {
           &::after {
             content: '';
             display: block;
-            height: 2px;
+            height: 2.5px;
             background: $header-nav-item-selected-background-color;
             width: 100%;
             bottom: 0;
