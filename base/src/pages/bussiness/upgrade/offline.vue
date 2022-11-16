@@ -57,7 +57,9 @@
                  :key="node.sn"
                  class="node">
               <div class="badges">
-                <m-tag v-if="node.isGW"
+                <m-tag v-if="node.isGW&&isHomewayProduct"
+                       class="AP">{{`AP`}}</m-tag>
+                <m-tag v-else-if="node.isGW"
                        class="gateway">{{ $t('trans0165') }}</m-tag>
               </div>
               <div class="message"
@@ -100,7 +102,7 @@
   </div>
 </template>
 <script>
-import { UploadStatus } from 'base/util/constant';
+import { UploadStatus, Models } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
 
@@ -162,6 +164,19 @@ export default {
         return product.shortName;
       }
       return '';
+    },
+    isHomewayProduct() {
+      let result = false;
+      switch (process.env.MODEL_CONFIG.id) {
+        case Models.homeway_230v:
+        case Models.homeway_POE1:
+        case Models.homeway_POE2:
+          result = true;
+          break;
+        default:
+          break;
+      }
+      return result;
     }
   },
   watch: {
@@ -499,7 +514,8 @@ export default {
         z-index: 1;
         display: flex;
         .mk-tag {
-          &.gateway {
+          &.gateway,
+          &.AP {
             background: #00d061;
           }
         }
