@@ -56,7 +56,7 @@
                 </div>
                 <div class="type">
                   <span class="label">{{$t('trans0068')}}</span>
-                  <span class="value">AP</span>
+                  <span class="value">{{$t('trans1097')}}</span>
                 </div>
                 <div class="equipment">
                   <span class="label">{{$t('trans0235')}}</span>

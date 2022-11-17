@@ -1088,5 +1088,6 @@
   "trans1093": "Controlling noise takes priority. ",
   "trans1094": "Fan",
   "trans1095": "NOTE: When the internal temperature of the device is outside the normal operating temperature range, the device will attempt to regulate its own temperature to protect internal components.",
-  "trans1096": "There is currently no Internet connection, and the Wi-Fi Tx Power cannot be modified"
+  "trans1096": "There is currently no Internet connection, and the Wi-Fi Tx Power cannot be modified",
+  "trans1097": "AP"
 }
