@@ -384,9 +384,13 @@ export default {
       }
     },
     changeSmartConnect() {
-      // 开关变化后，始终保持5G的参数和2.4G的一致
+      if (!this.form.smart_connect) {
+        this.form.b5g.ssid = `${this.form.b24g.ssid}_5G`;
+      } else {
+        this.form.b5g.ssid = this.form.b24g.ssid;
+      }
+      // 开关变化后，始终让5G的剩余参数和2.4G的一致
       this.form.b5g.hidden = this.form.b24g.hidden;
-      this.form.b5g.ssid = this.form.b24g.ssid;
       this.form.b5g.password = this.form.b24g.password;
       this.form.b5g.encrypt = this.form.b24g.encrypt;
     },
