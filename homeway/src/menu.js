@@ -1,40 +1,28 @@
-import { Role, RouterMode, HomewayModel } from 'base/util/constant';
+import { Role, RouterMode, Models } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
+const modelId = process.env.MODEL_CONFIG.id;
 
-export default function getMenu(
-  role,
-  mode = RouterMode.bridge,
-  currentModelVersion
-) {
+export default function getMenu(role, mode = RouterMode.bridge) {
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
+  console.log(`model Id is: ${modelId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
-  console.log(`modelVersion is: ${currentModelVersion}`);
 
-  // 菜单默认配置
+  // homeway菜单默认配置
   const config = {
     show: true,
     auth: [Role.admin, Role.super],
-    modelVersion: [
-      HomewayModel.homeway_230v,
-      HomewayModel.homeway_POE_1,
-      HomewayModel.homeway_POE_2
-    ]
+    modelId: [Models.homeway_230v, Models.homeway_POE1, Models.homeway_POE2]
   };
-  // 第一种搭配策略
-  // const strategyA = {
-  //   show: true,
-  //   auth: [Role.admin, Role.super],
-  //   modelVersion: [RouterSnModel.Homeway_230v]
-  // };
+
   const wifi = {
     icon: 'wifi',
     text: 'trans0173',
     children: [
       {
-        text: 'trans0365',
+        text: 'trans1087',
         name: 'mesh',
         url: '/dashboard/mesh/table',
         config
@@ -61,6 +49,12 @@ export default function getMenu(
         text: 'trans0103',
         name: 'wifi',
         url: '/setting/wifi',
+        config
+      },
+      {
+        text: 'trans1094',
+        name: 'fan',
+        url: '/setting/fan',
         config
       },
       {
@@ -98,13 +92,13 @@ export default function getMenu(
         name: 'switch',
         url: '/setting/switch',
         config
-      },
-      {
-        text: 'trans0620',
-        name: 'ipv6',
-        url: '/setting/ipv6',
-        config
       }
+      // {
+      //   text: 'trans0620',
+      //   name: 'ipv6',
+      //   url: '/setting/ipv6',
+      //   config
+      // }
     ]
   };
   const advance = {
@@ -116,11 +110,11 @@ export default function getMenu(
         name: 'advance-mode',
         text: 'trans0539',
         config,
-        modelVersion: {
-          [HomewayModel.homeway_POE_1]: {
+        hiddenModelObj: {
+          [Models.homeway_POE1]: {
             show: false
           },
-          [HomewayModel.homeway_POE_2]: {
+          [Models.homeway_POE2]: {
             show: false
           }
         }
@@ -167,9 +161,9 @@ export default function getMenu(
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
       menu.config = menu.config || config;
-      const modelVersion = menu.modelVersion || {};
-      const modelVersionConfig = modelVersion[currentModelVersion] || {};
-      menu.config = Object.assign({}, menu.config, modelVersionConfig);
+      const hiddenModelObj = menu.hiddenModelObj || {};
+      const hiddenConfig = hiddenModelObj[modelId] || {};
+      menu.config = Object.assign({}, menu.config, hiddenConfig);
     });
 
     // 过滤不显示的菜单
