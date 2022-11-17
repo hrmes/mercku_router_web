@@ -19,8 +19,8 @@
                :key="node.sn"
                class="node">
             <div class="badges">
-              <m-tag class="gateway"
-                     v-if="node.isGW">{{$t('trans0165')}}</m-tag>
+              <m-tag class="AP"
+                     v-if="node.isGW">{{$t('trans1097')}}</m-tag>
               <m-tag>{{ node.version.latest }}</m-tag>
             </div>
             <div class="message"
@@ -361,7 +361,7 @@ export default {
         z-index: 1;
         display: flex;
         .mk-tag {
-          &.gateway {
+          &.AP {
             background: #00d061;
           }
         }

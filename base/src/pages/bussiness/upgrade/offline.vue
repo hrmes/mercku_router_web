@@ -58,7 +58,7 @@
                  class="node">
               <div class="badges">
                 <m-tag v-if="node.isGW&&isHomewayProduct"
-                       class="AP">{{`AP`}}</m-tag>
+                       class="AP">{{$t('trans1097')}}</m-tag>
                 <m-tag v-else-if="node.isGW"
                        class="gateway">{{ $t('trans0165') }}</m-tag>
               </div>

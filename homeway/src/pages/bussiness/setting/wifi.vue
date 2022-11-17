@@ -242,13 +242,13 @@ export default {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: EncryptMethod.wpawpa2
+          encrypt: EncryptMethod.wpa2
         },
         b5g: {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: EncryptMethod.wpawpa2
+          encrypt: EncryptMethod.wpa2
         },
         channel: {
           b24gChannel: {
