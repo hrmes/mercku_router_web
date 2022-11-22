@@ -1,0 +1,219 @@
+{
+  "id": "3783383",
+  "name": "Router Web V2",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "32980429",
+      "name": "ic_home_dark",
+      "font_class": "ic_home_dark1",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "32980430",
+      "name": "ic_home_light",
+      "font_class": "ic_home_light1",
+      "unicode": "e66e",
+      "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "32980431",
+      "name": "ic_home_settings_dark",
+      "font_class": "ic_home_settings_dark1",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
+      "icon_id": "32980432",
+      "name": "ic_upgrade_firmware_dark",
+      "font_class": "ic_upgrade_firmware_dark1",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
+      "icon_id": "32980433",
+      "name": "ic_upgrade_firmware_light",
+      "font_class": "ic_upgrade_firmware_light1",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    },
+    {
+      "icon_id": "32980435",
+      "name": "ic_home_settings_light",
+      "font_class": "ic_home_settings_light1",
+      "unicode": "e672",
+      "unicode_decimal": 58994
+    },
+    {
+      "icon_id": "32969197",
+      "name": "ic_advanced_settings_dark",
+      "font_class": "ic_advanced_settings_dark",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "32969198",
+      "name": "ic_home_selected_light",
+      "font_class": "ic_home_selected_light",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "32969199",
+      "name": "ic_home_selected_dark",
+      "font_class": "ic_home_selected_dark",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "32969200",
+      "name": "ic_advanced_settings_light",
+      "font_class": "ic_advanced_settings_light",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
+      "icon_id": "32969201",
+      "name": "ic_theme_dark",
+      "font_class": "ic_theme_dark",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "32969202",
+      "name": "ic_home_settings_selected_light",
+      "font_class": "ic_home_settings_selected_light",
+      "unicode": "e658",
+      "unicode_decimal": 58968
+    },
+    {
+      "icon_id": "32969204",
+      "name": "ic_theme_selected_dark",
+      "font_class": "ic_theme_selected_dark",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "32969205",
+      "name": "ic_home_settings_selected_dark",
+      "font_class": "ic_home_settings_selected_dark",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
+      "icon_id": "32969207",
+      "name": "ic_theme_light",
+      "font_class": "ic_theme_light",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "32969208",
+      "name": "ic_theme_selected_light",
+      "font_class": "ic_theme_selected_light",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "32969210",
+      "name": "ic_upgrade_firmware_selected_light",
+      "font_class": "ic_upgrade_firmware_selected_light",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
+      "icon_id": "32969212",
+      "name": "ic_upgrade_firmware_selected_dark",
+      "font_class": "ic_upgrade_firmware_selected_dark",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "32969300",
+      "name": "ic_homepage_devices_light",
+      "font_class": "ic_homepage_devices_light",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "32969301",
+      "name": "ic_homepage_m6a_light",
+      "font_class": "ic_homepage_m6a_light",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "32969302",
+      "name": "ic_homepage_internet_light",
+      "font_class": "ic_homepage_internet_light",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "32969303",
+      "name": "ic_homepage_m6a_dark",
+      "font_class": "ic_homepage_m6a_dark",
+      "unicode": "e666",
+      "unicode_decimal": 58982
+    },
+    {
+      "icon_id": "32969304",
+      "name": "ic_homepage_devices_dark",
+      "font_class": "ic_homepage_devices_dark",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "32969305",
+      "name": "ic_homepage_m6aplus_dark",
+      "font_class": "ic_homepage_m6aplus_dark",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "32969306",
+      "name": "ic_homepage_internet_dark",
+      "font_class": "ic_homepage_internet_dark",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "32969307",
+      "name": "ic_homepage_m6aplus_light",
+      "font_class": "ic_homepage_m6aplus_light",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
+      "icon_id": "32969308",
+      "name": "ic_homepage_router_dark",
+      "font_class": "ic_homepage_router_dark",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    },
+    {
+      "icon_id": "32969309",
+      "name": "ic_homepage_router_light",
+      "font_class": "ic_homepage_router_light",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "32969193",
+      "name": "ic_advanced_settings_selected_light",
+      "font_class": "ic_advanced_settings_selected_light",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "32969196",
+      "name": "ic_advanced_settings_selected_dark",
+      "font_class": "ic_advanced_settings_selected_dark",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    }
+  ]
+}

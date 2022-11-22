@@ -172,19 +172,19 @@ export default {
   width: 100%;
   min-width: 120px;
   height: 100%;
-  border: 1px solid $time-picker-pannel-border-color;
+  border: 1px solid var(--time-picker-pannel-border-color);
   position: relative;
   border-radius: 4px;
   padding: 0 10px;
   .combox {
     position: absolute;
-    background: $time-picker-combox-background-color;
+    background: var(--time-picker-combox-background-color);
     left: -1px;
     display: flex;
     flex-direction: column;
     width: 100%;
     z-index: 9999;
-    box-shadow: 0 2px 8px $time-picker-combox-shadow-color;
+    box-shadow: 0 2px 8px var(--time-picker-combox-shadow-color);
     background-clip: padding-box;
     overflow: hidden;
     transition: transform 0.3s;
@@ -192,22 +192,22 @@ export default {
       display: flex;
     }
     .button-wrap {
-      border-top: 1px solid $time-picker-buttons-border-color;
+      border-top: 1px solid var(--time-picker-buttons-border-color);
       button {
         height: 38px;
         width: 50%;
         border: none;
-        background: $time-picker-button-background-color;
+        background: var(--time-picker-button-background-color);
         cursor: pointer;
         outline: none;
         &:hover {
           opacity: 0.8;
         }
         &:first-child {
-          color: $time-picker-button-cancel-color;
+          color: var(--time-picker-button-cancel-color);
         }
         &:last-child {
-          color: $time-picker-button-confirm-color;
+          color: var(--time-picker-button-confirm-color);
         }
       }
     }
@@ -215,7 +215,7 @@ export default {
       flex: 1;
       height: 192px;
       overflow-y: scroll;
-      border-right: 1px solid $time-picker-popup-border-color;
+      border-right: 1px solid var(--time-picker-popup-border-color);
       &::-webkit-scrollbar {
         width: 4px;
       }
@@ -223,7 +223,7 @@ export default {
         background-color: transparent;
       }
       &::-webkit-scrollbar-thumb {
-        background: $time-picker-popup-scrollbar-color;
+        background: var(--time-picker-popup-scrollbar-color);
       }
       &:last-child {
         border-right: none;
@@ -243,15 +243,15 @@ export default {
         line-height: 36px;
         cursor: pointer;
         &:hover {
-          background: $time-picker-popup-item-hover-background-color;
-          color: $time-picker-popup-item-hover-color;
+          background: var(--time-picker-popup-item-hover-background-color);
+          color: var(--time-picker-popup-item-hover-color);
         }
         &:active {
-          background: $time-picker-popup-item-active-background-color;
-          color: $time-picker-popup-item-active-color;
+          background: var(--time-picker-popup-item-active-background-color);
+          color: var(--time-picker-popup-item-active-color);
         }
         &.selected {
-          color: $time-picker-popup-item-selected-color;
+          color: var(--time-picker-popup-item-selected-color);
         }
       }
     }
@@ -271,7 +271,7 @@ export default {
       padding: 0;
       height: 30px;
       width: 0;
-      background: $time-picker-input-background-color;
+      background: var(--time-picker-input-background-color);
     }
     .icon-inner {
       display: inline-block;

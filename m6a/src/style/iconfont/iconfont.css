@@ -1,0 +1,136 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3783383 */
+  src: url('iconfont.woff2?t=1669020337794') format('woff2'),
+       url('iconfont.woff?t=1669020337794') format('woff'),
+       url('iconfont.ttf?t=1669020337794') format('truetype'),
+       url('iconfont.svg?t=1669020337794#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ic_home_dark1:before {
+  content: "\e66d";
+}
+
+.icon-ic_home_light1:before {
+  content: "\e66e";
+}
+
+.icon-ic_home_settings_dark1:before {
+  content: "\e66f";
+}
+
+.icon-ic_upgrade_firmware_dark1:before {
+  content: "\e670";
+}
+
+.icon-ic_upgrade_firmware_light1:before {
+  content: "\e671";
+}
+
+.icon-ic_home_settings_light1:before {
+  content: "\e672";
+}
+
+.icon-ic_advanced_settings_dark:before {
+  content: "\e653";
+}
+
+.icon-ic_home_selected_light:before {
+  content: "\e654";
+}
+
+.icon-ic_home_selected_dark:before {
+  content: "\e655";
+}
+
+.icon-ic_advanced_settings_light:before {
+  content: "\e656";
+}
+
+.icon-ic_theme_dark:before {
+  content: "\e657";
+}
+
+.icon-ic_home_settings_selected_light:before {
+  content: "\e658";
+}
+
+.icon-ic_theme_selected_dark:before {
+  content: "\e65a";
+}
+
+.icon-ic_home_settings_selected_dark:before {
+  content: "\e65b";
+}
+
+.icon-ic_theme_light:before {
+  content: "\e65d";
+}
+
+.icon-ic_theme_selected_light:before {
+  content: "\e65e";
+}
+
+.icon-ic_upgrade_firmware_selected_light:before {
+  content: "\e660";
+}
+
+.icon-ic_upgrade_firmware_selected_dark:before {
+  content: "\e662";
+}
+
+.icon-ic_homepage_devices_light:before {
+  content: "\e663";
+}
+
+.icon-ic_homepage_m6a_light:before {
+  content: "\e664";
+}
+
+.icon-ic_homepage_internet_light:before {
+  content: "\e665";
+}
+
+.icon-ic_homepage_m6a_dark:before {
+  content: "\e666";
+}
+
+.icon-ic_homepage_devices_dark:before {
+  content: "\e667";
+}
+
+.icon-ic_homepage_m6aplus_dark:before {
+  content: "\e668";
+}
+
+.icon-ic_homepage_internet_dark:before {
+  content: "\e669";
+}
+
+.icon-ic_homepage_m6aplus_light:before {
+  content: "\e66a";
+}
+
+.icon-ic_homepage_router_dark:before {
+  content: "\e66b";
+}
+
+.icon-ic_homepage_router_light:before {
+  content: "\e66c";
+}
+
+.icon-ic_advanced_settings_selected_light:before {
+  content: "\e64f";
+}
+
+.icon-ic_advanced_settings_selected_dark:before {
+  content: "\e652";
+}
+

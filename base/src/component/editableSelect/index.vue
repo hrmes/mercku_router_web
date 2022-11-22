@@ -148,7 +148,7 @@ export default {
     width: 100%;
     border-radius: 4px;
     outline: 0;
-    border: 1px solid $select-input-border-color;
+    border: 1px solid var(--select-input-border-color);
     font-size: 14px;
     padding: 10px;
     line-height: 26px;
@@ -176,10 +176,10 @@ export default {
     left: -1px;
     right: -1px;
     top: 52px;
-    background: $select-popup-background-color;
+    background: var(--select-popup-background-color);
     border-radius: 5px;
     max-height: 200px;
-    border: 1px solid $select-popup-border-color;
+    border: 1px solid var(--select-popup-border-color);
     overflow: auto;
     li {
       list-style: none;
@@ -190,15 +190,15 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: $select-item-active-background-color;
-        color: $select-item-active-color;
+        background: var(--select-item-active-background-color);
+        color: var(--select-item-active-color);
       }
       &:hover {
-        background: $select-item-hover-background-color;
-        color: $select-item-active-color;
+        background: var(--select-item-hover-background-color);
+        color: var(--select-item-active-color);
       }
       &.selected {
-        color: $select-item-selected-color;
+        color: var(--select-item-selected-color);
       }
     }
   }

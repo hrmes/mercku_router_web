@@ -1,5 +1,8 @@
 <template>
-  <div class="policy-container">
+  <div class="policy-container"
+       :class="{
+        'is-login-nav':isLoginPage,
+        'is-not-login-nav':!isLoginPage,}">
     <span class="copy">{{ copyright }}</span>
     <span class="policy-text btn-text"
           @click.stop="showPolicy()">
@@ -33,7 +36,11 @@ export default {
     locale: {
       type: String,
       default: 'zh-CN'
-    }
+    },
+    isLoginPage: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return { show: false };
@@ -88,7 +95,12 @@ export default {
   }
   .policy-container {
     padding: 10px;
-    background: #fff;
+    &.is-login-nav {
+      background: var(--primaryBackgroundColor);
+    }
+    &.is-not-login-nav {
+      background: transparent;
+    }
     .copy,
     .policy-text {
       display: block;

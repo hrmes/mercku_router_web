@@ -19,7 +19,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     mode: [RouterMode.router]
   };
   const wifi = {
-    icon: 'wifi',
+    icon: 'icon-ic_home_light1',
     text: 'trans0173',
     children: [
       {
@@ -43,7 +43,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const setting = {
-    icon: 'setting',
+    icon: 'icon-ic_home_settings_light1',
     text: 'trans0019',
     children: [
       {
@@ -147,7 +147,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const advance = {
-    icon: 'advance',
+    icon: 'icon-ic_advanced_settings_dark',
     text: 'trans0416',
     children: [
       {
@@ -280,7 +280,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const upgrade = {
-    icon: 'upgrade',
+    icon: 'icon-ic_upgrade_firmware_light1',
     text: 'trans0197',
     children: [
       {

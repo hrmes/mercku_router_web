@@ -8,5 +8,6 @@
   font-size: 16px;
   font-weight: bold;
   padding-bottom: 20px;
+  color: var(--text-default-color);
 }
 </style>

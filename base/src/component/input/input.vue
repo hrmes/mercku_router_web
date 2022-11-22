@@ -151,11 +151,11 @@ export default {
     text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
-    color: $input-label-color;
+    color: var(--input-label-color);
     font-size: 14px;
   }
   .input-wrapper {
-    height: 48px;
+    height: 50px;
     width: 100%;
     border-radius: 4px;
     box-sizing: border-box;
@@ -186,15 +186,15 @@ export default {
         padding-left: 0px;
       }
       &:disabled {
-        background: $input-disabled-background-color;
-        opacity: $input-disabled-opacity;
+        background: var(--input-disabled-background-color);
+        opacity: var(--input-disabled-opacity);
         cursor: not-allowed;
       }
       &.has-icon {
         padding-right: 50px;
       }
     }
-    border: 1px solid $input-border-color;
+    border: 1.5px solid var(--input-border-color);
   }
   .icon-container {
     position: absolute;
@@ -212,6 +212,7 @@ export default {
       height: 20px;
       // margin-top: 14px;
       display: inline-block;
+      filter: var(--img-brightness);
       &.hide {
         background: url(../../assets/images/icon/ic_visible.png) no-repeat
           center;
@@ -242,7 +243,7 @@ export default {
     width: 100%;
     margin: 0 auto;
     .input-wrapper {
-      height: 48px;
+      height: 50px;
     }
     .icon-container {
       height: 48px;

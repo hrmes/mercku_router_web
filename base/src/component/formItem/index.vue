@@ -108,7 +108,7 @@ export default {
   margin-bottom: 30px;
   position: relative;
   .error-message {
-    color: $form-item-error-color;
+    color: var(--form-item-error-color);
     font-size: 12px;
     display: block;
     padding-top: 4px;
@@ -119,7 +119,7 @@ export default {
   }
   &.form-item-error {
     .input-wrapper {
-      border-color: $form-item-error-color !important;
+      border-color: var(--form-item-error-color) !important;
       transition: border 0.3 linear;
     }
   }

@@ -272,8 +272,6 @@ export default {
       border-bottom: 1px solid #ebebeb;
       padding-bottom: 17px;
     }
-    .form {
-    }
   }
 }
 
@@ -281,10 +279,10 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: $header-background-color;
+      background: var(--header-background-color);
       color: #fff;
       align-items: center;
-      border-top: 1px solid $header-nav-item-border-color;
+      border-top: 1px solid var(--header-nav-item-border-color);
       .page-header-trigger {
         display: block;
         &::before {
@@ -319,16 +317,16 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: $header-background-color;
+          background: var(--header-background-color);
           .tab {
             padding: 18px 0;
             color: #fff;
             font-size: 14px;
             margin: 0;
-            border-bottom: 1px solid $header-nav-item-border-color;
+            border-bottom: 1px solid var(--header-nav-item-border-color);
             &.selected {
-              border-bottom: 1px solid $header-nav-item-border-color;
-              color: $primaryColor;
+              border-bottom: 1px solid var(--header-nav-item-border-color);
+              color: var(--primaryColor);
               &::before {
                 display: none;
               }

@@ -11,7 +11,7 @@ export default {};
 .tabs {
   display: flex;
   padding: 0 20px;
-  border-bottom: 1px solid $tabs-border-color;
+  border-bottom: 1px solid var(--tabs-border-color);
   .tab {
     font-size: 18px;
     padding: 20px 0;
@@ -20,7 +20,7 @@ export default {};
     position: relative;
     &:hover,
     :active {
-      color: $tab-hover-color;
+      color: var(--tab-hover-color);
     }
     &.selected {
       &::before {
@@ -31,11 +31,11 @@ export default {};
         left: 0;
         width: 100%;
         height: 3px;
-        background: $tab-selected-color;
+        background: var(--tab-selected-color);
         border-radius: 5px;
       }
 
-      color: $tab-selected-color;
+      color: var(--tab-selected-color);
     }
     margin-left: 50px;
     &:first-child {

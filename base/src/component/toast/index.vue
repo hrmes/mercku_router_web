@@ -49,7 +49,7 @@ export default {
   }
 }
 .toast-container {
-  color: $toast-color;
+  color: var(--toast-color);
   // position: fixed;
   top: 0;
   padding: 10px 16px;
@@ -63,8 +63,8 @@ export default {
   display: flex;
   align-items: center;
   &.error {
-    background: $toast-error-background-color;
-    border: 0.5px solid $toast-error-border-color;
+    background: var(--toast-error-background-color);
+    border: 0.5px solid var(--toast-error-border-color);
     &::before {
       content: '';
       margin-right: 8px;
@@ -78,8 +78,8 @@ export default {
     }
   }
   &.success {
-    background: $toast-success-background-color;
-    border: 0.5px solid $toast-success-border-color;
+    background: var(--toast-success-background-color);
+    border: 0.5px solid var(--toast-success-border-color);
     &::before {
       content: '';
       margin-right: 8px;

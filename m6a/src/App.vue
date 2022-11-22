@@ -12,8 +12,17 @@
                     class="header"></m-header>
           <router-view></router-view>
           <m-policy :locale="$i18n.locale"
+                    :isLoginPage="!logoVisible"
                     :class="{ 'fix-bottom': !navVisible }"
                     class="policy" />
+          <img v-if="$route.path.includes('login')"
+               class="login-logo__left__top"
+               src="@/assets/images/customer/mercku/login_logo.png"
+               alt="">
+          <img v-if="$route.path.includes('login')"
+               class="login-logo__right__bottom"
+               src="@/assets/images/customer/mercku/login_logo.png"
+               alt="">
         </div>
       </div>
     </div>
@@ -66,6 +75,21 @@ export default {
 .flex-wrap {
   display: flex;
   flex-direction: column;
+  background-color: var(--flex-warp-bgc);
+  > img {
+    position: fixed;
+    width: 26.875rem;
+    height: 26.875rem;
+  }
+  .login-logo__left__top {
+    top: 0;
+    left: 0;
+  }
+  .login-logo__right__bottom {
+    bottom: 0;
+    right: 0;
+    transform: rotate(180deg);
+  }
 }
 .container {
   position: relative;
@@ -79,9 +103,9 @@ export default {
   .policy {
     width: 100%;
     text-align: center;
-    color: #333;
+    color: var(--text-default-color);
     &.fix-bottom {
-      background: #fff;
+      background: var(--primaryBackgroundColor);
     }
   }
 }
@@ -93,6 +117,10 @@ export default {
       &.fix-bottom {
         position: static;
       }
+    }
+    .login-logo__left__top,
+    .login-logo__right__bottom {
+      display: none;
     }
   }
 }

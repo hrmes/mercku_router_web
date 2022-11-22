@@ -353,7 +353,7 @@ export default {
       }
       &.step-item3 {
         .cutdown {
-          color: $primaryColor;
+          color: var(--primaryColor);
           font-size: 24px;
           margin: 10px 0;
         }

@@ -8,5 +8,6 @@
   // padding: 30px 30px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  color: var(--text-default-color) !important;
 }
 </style>

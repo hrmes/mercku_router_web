@@ -258,11 +258,11 @@ export default {
       width: 48px;
       height: 32px;
       path {
-        fill: $button-background-color;
+        fill: var(--button-background-color);
       }
       &.is-upload-loading {
         path {
-          fill: $upload-button-disabled-color;
+          fill: var(--upload-button-disabled-color);
         }
       }
     }
@@ -277,7 +277,7 @@ export default {
       min-width: 80px;
       cursor: pointer;
       &[disabled] {
-        background: $upload-button-disabled-color;
+        background: var(--upload-button-disabled-color);
         cursor: not-allowed;
         label {
           cursor: not-allowed;
@@ -313,12 +313,12 @@ export default {
       align-items: center;
       transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
       font-size: 14px;
-      color: $upload-file-text-color;
+      color: var(--upload-file-text-color);
       border-radius: 5px;
-      background: $upload-background-color;
+      background: var(--upload-background-color);
       padding: 20px;
       .icon-wrap {
-        background: $upload-icon-background-color;
+        background: var(--upload-icon-background-color);
         padding: 10px;
         border-radius: 50%;
         img {
@@ -332,7 +332,7 @@ export default {
         margin-left: 20px;
         flex: 1;
         .description {
-          color: $upload-file-description-color;
+          color: var(--upload-file-description-color);
           display: flex;
           // align-items: center;
           flex-direction: column;
@@ -350,7 +350,7 @@ export default {
               height: 5px;
               border-radius: 50%;
               margin-right: 5px;
-              background: $upload-file-info-product-dot-color;
+              background: var(--upload-file-info-product-dot-color);
             }
           }
           .packageinfo__product {
@@ -358,7 +358,7 @@ export default {
           }
           .packageinfo__version {
             &::before {
-              background: $upload-file-info-version-dot-color;
+              background: var(--upload-file-info-version-dot-color);
             }
           }
         }
@@ -370,24 +370,24 @@ export default {
           }
           .fileinfo__size {
             margin-left: 5px;
-            color: $upload-file-text-color;
+            color: var(--upload-file-text-color);
           }
           .fileinfo__upload-percent {
             font-size: 12px;
-            color: $upload-file-text-color;
+            color: var(--upload-file-text-color);
             display: flex;
             align-items: flex-end;
           }
         }
         .filesize {
-          color: $upload-file-text-color;
+          color: var(--upload-file-text-color);
         }
         .line {
           width: 100%;
           display: flex;
           flex-direction: column;
           height: 3px;
-          background: $upload-progress-color;
+          background: var(--upload-progress-color);
           margin-top: 10px;
           margin-bottom: 10px;
           border-radius: 1.5px;
@@ -395,12 +395,12 @@ export default {
             display: inline-block;
             height: 3px;
             transition: width 1s ease;
-            background: $upload-progress-completed-color;
+            background: var(--upload-progress-completed-color);
           }
           .fail {
             display: inline-block;
             height: 3px;
-            background: $upload-error-text-color;
+            background: var(--upload-error-text-color);
           }
         }
       }

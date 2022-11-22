@@ -83,19 +83,19 @@ export default {
     width: 18px;
     height: 18px;
     border-radius: 4px;
-    border: 1px solid $checkbox-border-color;
-    background: $checkbox-background-color;
+    border: 1px solid var(--check-border-color);
+    background: var(--check-background-color);
     &.circle-shape {
       border-radius: 50%;
     }
     &.checked {
       background: #333;
       position: relative;
-      border-color: $checkbox-checked-background-color;
+      border-color: var(--check-checked-background-color);
       &::after {
         content: '';
         display: block;
-        border: 1px solid $checkbox-checked-color;
+        border: 1px solid var(--check-checked-color);
         border-left: 0;
         border-top: 0;
         height: 8px;

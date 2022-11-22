@@ -1,3 +1,4 @@
+@import './iconfont/iconfont.css';
 @import './button.scss';
 
 * {
@@ -139,7 +140,7 @@ label.with-colon {
     height: 25%;
     border-style: solid;
     border-width: 3px;
-    border-color: $primaryColor;
+    border-color: var(--primaryColor);
     border-radius: 1px;
     border-top: none;
     border-right: none;

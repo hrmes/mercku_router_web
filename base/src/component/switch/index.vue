@@ -58,7 +58,7 @@ export default {
     width: 46px;
     height: 22px;
     position: relative;
-    background-color: $switch-background-color;
+    background-color: var(--switch-background-color);
     border-radius: 22px;
     background-clip: content-box;
     display: inline-block;
@@ -73,12 +73,12 @@ export default {
       top: 3px;
       left: 3px;
       border-radius: 16px;
-      background-color: $switch-circle-color;
+      background-color: var(--switch-circle-color);
       transition: left 0.3s;
     }
     &.checked {
-      border-color: $switch-chencked-color;
-      background-color: $switch-chencked-color;
+      border-color: var(--switch-chencked-color);
+      background-color: var(--switch-chencked-color);
       transition: border ease 0.4s, box-shadow ease 0.4s,
         background-color ease 1.2s;
       &::before {
