@@ -1,54 +1,181 @@
 <template>
   <div class="dashboard customized">
-    <div class="net-info">
-      <div class="net-info__inner">
-        <div class="device-container"
-             :class="{'selected':$route.path.includes('device')}">
+    <div class="mobile-net-info">
+      <div class="mobile-net-info__inner">
+        <div class="device-container">
           <div class="icon-container">
-            <img @click="forward2page('/dashboard/device/primary')"
-                 src="../../../assets/images/icon/ic_device.png"
-                 alt="" />
-            <div class="text-container">
-              {{$t('trans0235')}}<span>&nbsp;({{deviceCount}})</span>
-            </div>
-          </div>
-        </div>
-        <div class="line"></div>
-        <div class="wifi-container"
-             :class="{'selected':$route.path.includes('mesh')}">
-          <div class="icon-container">
-            <img @click="forward2page('/dashboard/mesh/topo')"
-                 :src="getWifiIcon(this.$store.modelVersion)"
-                 alt="" />
-            <div class="text-container">
-              {{ssid||'-'}}
-            </div>
-          </div>
-        </div>
-        <div class="line"
-             :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-          <div class="icon-unconnected-container"
-               @click.stop="showTips()"
-               v-if="isLinked || isUnlinked">
-            <img class="icon__question"
-                 src="../../../assets/images/icon/ic_wifi_question.png"
+            <img src="../../../assets/images/icon/ic_device.png"
                  alt="" />
           </div>
         </div>
-        <div class="internet-container"
-             :class="{'selected':$route.path.includes('internet')}">
+        <div class="line-container">
+          <div class="line"></div>
+        </div>
+        <div class="wifi-container">
           <div class="icon-container">
-            <img @click="forward2page('/dashboard/internet')"
-                 src="../../../assets/images/icon/ic_internet.png"
+            <img :src="getWifiIcon( MODEL)"
                  alt="" />
-            <div class="text-container">
-              {{$t('trans0366')}}
+          </div>
+        </div>
+        <div class="line-container">
+          <div class="line"
+               :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
+            <div class="icon-unconnected-container"
+                 @click.stop="showTips()">
             </div>
+          </div>
+        </div>
+        <div class="internet-container">
+          <div class="icon-container">
+            <img src="../../../assets/images/icon/ic_internet.png"
+                 alt="" />
           </div>
         </div>
       </div>
     </div>
-    <router-view class="router-view"></router-view>
+    <div class="laptop-net-info">
+      <ul class="laptop-net-info__inner">
+        <li @click="forward2page('/dashboard/device/primary')"
+            class="functional-module device-container">
+          <div class="icon-container">
+            <img src="../../../assets/images/icon/ic_device.png"
+                 alt="">
+          </div>
+          <div class="text-container">
+            <h3 class="main-text">{{$t('trans0174')}}</h3>
+          </div>
+          <div class="devices-num">
+            <span>{{deviceCount}}</span>
+          </div>
+          <div class="current-device-info-container">
+            <div v-if="deviceLoading"
+                 class="loading-container">
+              <m-loading :id="'deviceLoading'"
+                         :color="'#29b96c'"
+                         :size='20'></m-loading>
+            </div>
+            <div v-else
+                 class="info-wrap">
+              <span class="name"
+                    :title="localDeviceInfo.name">{{localDeviceInfo.name}}</span>
+              <div class="info">
+                <div class="band">{{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
+                <div v-if="!isWired"
+                     class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                </div>
+              </div>
+              <div class="current-icon">
+                <img src="../../../assets/images/icon/ic_user.png"
+                     alt="">
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="line-container">
+          <div class="line"></div>
+        </li>
+        <li @click="forward2page('/dashboard/mesh/topo')"
+            class="functional-module mesh-container">
+          <div class="icon-container">
+            <img :src="getWifiIcon(MODEL)"
+                 alt="">
+          </div>
+          <div class="text-container">
+            <h3 class="main-text">{{$t('trans0153')}}</h3>
+            <h6 class="sub-text router-type">{{meshInfo.gatewayName}}</h6>
+          </div>
+          <div class="wifi-container">
+            <div class="wifi-list">
+              <div v-if="meshLoading"
+                   class="loading-container">
+                <m-loading :id="'meshLoading'"
+                           :color="'#29b96c'"
+                           :size="20"></m-loading>
+              </div>
+              <ul v-else>
+                <li class="wifi">
+                  <span class="wifi__dot"></span>
+                  <span class="wifi__band">{{meshInfo.smartConnect?'WIFI:':'2.4G WIFI:'}}</span>
+                  <span class="wifi__name"
+                        :title="meshInfo.b24gWifi.ssid">{{meshInfo.b24gWifi.ssid}}</span>
+                </li>
+                <li v-if="!meshInfo.smartConnect"
+                    class="wifi">
+                  <span class="wifi__dot"></span>
+                  <span class="wifi__band">5G WIFI:</span>
+                  <span class="wifi__name"
+                        :title="meshInfo.b5gWifi.ssid">{{meshInfo.b5gWifi.ssid}}</span>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+          <div class="add-node-container">
+            <button class="btn btn-default add-btn">
+              <span>add a Node</span>
+            </button>
+          </div>
+        </li>
+        <li class="line-container">
+          <div class="line"
+               :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
+            <div class="icon-unconnected-container"
+                 @click.stop="showTips()">
+            </div>
+          </div>
+        </li>
+        <li @click="forward2page('/dashboard/internet')"
+            class="functional-module internet-container">
+          <div class="icon-container">
+            <img src="../../../assets/images/icon/ic_internet.png"
+                 alt="">
+          </div>
+          <div class="text-container">
+            <h3 class="main-text">{{$t('trans0366')}}</h3>
+            <h6 class="sub-text internet-type">{{networkTypeArr[netInfo.type]}}</h6>
+          </div>
+          <div class="speed-container">
+            <div class="speed-info upload-wrap">
+              <div class="speed-icon-wrap">
+                <img src="../../../assets/images/icon/ic_upload.webp"
+                     alt="">
+              </div>
+              <div class="speed-wrap">
+                <div class="speed-text-wrap">{{$t('trans0006')}}</div>
+                <div class="speed-num">{{realtimeSpeedUp.value}}</div>
+                <div class="speed-unit">{{realtimeSpeedUp.unit}}/s</div>
+              </div>
+            </div>
+            <div class="line-wrap">
+              <div class="line"></div>
+            </div>
+            <div class="speed-info download-wrap">
+              <div class="speed-icon-wrap">
+                <img src="../../../assets/images/icon/ic_download.webp"
+                     alt="">
+              </div>
+              <div class="speed-wrap">
+                <div class="speed-text-wrap">{{$t('trans0007')}}</div>
+                <div class="speed-num">{{realtimeSpeedDown.value}}</div>
+                <div class="speed-unit">{{realtimeSpeedDown.unit}}/s</div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="jump-app-info">
+      <div class="icon mercku">
+        <img src="../../../assets/images/customer/mercku/ic_launcher.png"
+             alt="">
+      </div>
+      <div class="text-container">Open in Mercku App</div>
+      <div class="icon qr">
+        <img src="../../../assets/images/customer/mercku/qr.png"
+             alt="">
+      </div>
+    </div>
+    <!-- <router-view class="router-view"></router-view> -->
     <m-modal :visible.sync="tipsModalVisible">
       <m-modal-body>
         <div class="tip-modal">
@@ -68,10 +195,7 @@
 <script>
 import marked from 'marked';
 import * as CONSTANTS from 'base/util/constant';
-import { compareVersion } from 'base/util/util';
-import { M6aRouterSnModelVsersion } from '../../../../../base/src/util/constant';
-// import axios from 'axios';
-
+import { compareVersion, formatDate } from 'base/util/util';
 
 export default {
   data() {
@@ -79,13 +203,50 @@ export default {
       CONSTANTS,
       netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       pageActive: true,
+      deviceLoading: true,
+      meshLoading: true,
       ssid: '',
       deviceCount: 0,
       deviceCountTimer: null,
-      tipsModalVisible: false
+      wanInfoTimer: null,
+      wanNetStatsTimer: null,
+      tipsModalVisible: false,
+      localDeviceInfo: {
+        name: '',
+        online_info: {
+          band: '',
+          online_duration: ''
+        }
+      },
+      meshInfo: {
+        smartConnect: true,
+        gatewayName: '',
+        b24gWifi: { ssid: '' },
+        b5gWifi: { ssid: '' }
+      },
+      netInfo: {
+        type: '-',
+        realUp: 0,
+        realDown: 0,
+      },
+      bandMap: {
+        wired: this.$t('trans0253'),
+        '2.4g': this.$t('trans0255'),
+        '5g': this.$t('trans0256')
+      },
+      networkTypeArr: {
+        '-': '-',
+        dhcp: this.$t('trans0146'),
+        static: this.$t('trans0148'),
+        pppoe: this.$t('trans0144'),
+        auto: this.$t('trans0696'),
+      }
     };
   },
   computed: {
+    MODEL() {
+      return process.env.MODEL_CONFIG.id;
+    },
     ...(() => {
       const result = {};
       Object.keys(CONSTANTS.WanNetStatus).forEach(key => {
@@ -105,12 +266,23 @@ export default {
     },
     isConnected() {
       return this.netStatus === CONSTANTS.WanNetStatus.connected;
-    }
+    },
+    isWired() {
+      return this.localDeviceInfo.online_info.band === 'wired';
+    },
+    realtimeSpeedUp() {
+      return this.formatSpeed(this.netInfo.realUp);
+    },
+    realtimeSpeedDown() {
+      return this.formatSpeed(this.netInfo.realDown);
+    },
   },
   mounted() {
-    this.getWanStatus();
-    this.getSsid();
+    this.getLocalDeviceInfo();
+    this.getMeshInfo();
+    this.getWanNetInfo();
     this.createIntercvalTask();
+    this.getWanStatus();
   },
   watch: {
     '$store.mode': function watcher() {
@@ -168,16 +340,36 @@ export default {
     createIntercvalTask() {
       console.log(`createInterval task...mode is:${this.$store.mode}`);
       this.getDeviceCount();
+      if (this.isRouter) {
+        this.getWanNetStats();
+      }
     },
     clearIntervalTask() {
       clearTimeout(this.deviceCountTimer);
       this.deviceCountTimer = null;
+      clearTimeout(this.wanNetStatsTimer);
+      this.wanNetStatsTimer = null;
     },
-    getSsid() {
-      this.$http.getMeshMeta().then(res => {
-        const band = res.data.result.bands[CONSTANTS.Bands.b24g];
-        this.ssid = band.ssid;
-      });
+    getMeshInfo() {
+      this.meshLoading = true;
+      this.$http.getMeshNode()
+        .then(res1 => {
+          const { data: { result: meshNodeList } } = res1;
+          const { 0: gatewayInfo } = meshNodeList.filter(item => item.is_gw);
+          this.meshInfo.gatewayName = gatewayInfo.name;
+        });
+      this.$http.getMeshMeta()
+        .then(res2 => {
+          const { data: { result: { smart_connect: smartConnect } } } = res2;
+          this.meshInfo.smartConnect = smartConnect;
+          this.meshInfo.b24gWifi = res2.data.result.bands[CONSTANTS.Bands.b24g];
+          if (!smartConnect) {
+            this.meshInfo.b5gWifi = res2.data.result.bands[CONSTANTS.Bands.b5g];
+          }
+        })
+        .finally(() => {
+          this.meshLoading = false;
+        });
     },
     getDeviceCount() {
       clearTimeout(this.deviceCountTimer);
@@ -223,21 +415,102 @@ export default {
           });
       }, 1000);
     },
-    getWifiIcon(modelVersion) {
-      console.log('modelVersion', modelVersion);
+    getLocalDeviceInfo() {
+      this.deviceLoading = true;
+      this.$http.getLocalDevice()
+        .then(res1 => {
+          const { data: { result: selfInfo } } = res1;
+          this.localDeviceIP = selfInfo.ip;
+          const params = { filters: [{ type: 'primary', status: ['online'] }] };
+          this.$http.getDeviceList(params)
+            .then(res2 => {
+              const { data: { result: deviceList } } = res2;
+              const { 0: localDeviceInfo } = deviceList.filter(item => item.ip === selfInfo.ip);
+              this.localDeviceInfo = localDeviceInfo;
+            })
+            .finally(() => {
+              this.deviceLoading = false;
+            });
+        });
+    },
+    getWanNetInfo() {
+      this.$http
+        .getWanNetInfo()
+        .then(res => {
+          this.wanInfoTimer = null;
+          clearTimeout(this.wanInfoTimer);
+          this.netInfo.type = res.data.result.type ? res.data.result.type : '-';
+        })
+        .catch(() => {
+          this.wanInfoTimer = setTimeout(() => {
+            this.getWanNetInfo();
+          }, 1000 * 3);
+        });
+    },
+    getWanNetStats() {
+      clearTimeout(this.wanNetStatsTimer);
+      this.wanNetStatsTimer = null;
+      this.$http
+        .getWanNetStats()
+        .then(res => {
+          if (this.pageActive) {
+            console.log('res.data.result', res.data.result);
+            this.netInfo.realUp = res.data.result.speed.realtime.up;
+            this.netInfo.realDown = res.data.result.speed.realtime.down;
+            this.wanNetStatsTimer = setTimeout(() => {
+              this.getWanNetStats();
+            }, 10000);
+          }
+        })
+        .catch(() => {
+          if (this.pageActive) {
+            this.wanNetStatsTimer = setTimeout(() => {
+              this.getWanNetStats();
+            }, 10000);
+          }
+        });
+    },
+    getWifiIcon(model) {
       let image = '';
-      switch (modelVersion) {
-        case M6aRouterSnModelVsersion.M6a:
-          image = require('../../../assets/images/icon/ic_homepage_m6a_light.png');
+      switch (model) {
+        case CONSTANTS.Models.m6a:
+          image = require('../../../assets/images/icon/ic_homepage_m6a.png');
           break;
-        case M6aRouterSnModelVsersion.M6a_Plus:
-          image = require('../../../assets/images/model/m6a_plus/icon-m6a_plus-homepage.png');
+        case CONSTANTS.Models.m6aPlus:
+          image = require('../../../assets/images/model/m6a_plus/ic_homepage_m6a-plus.png');
           break;
         default:
           break;
       }
       return image;
-    }
+    },
+    transformDate(date) {
+      if (!date) {
+        return '';
+      }
+      if (date < 0) {
+        return '-';
+      }
+      const split = [3600 * 24, 3600, 60, 5];
+      // 大于1天
+      if (date > split[0]) {
+        const now = new Date().getTime();
+        return formatDate(now - date * 1000);
+      }
+      // 小于1天大于1小时
+      if (date <= split[0] && date > split[1]) {
+        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+      }
+      // 小于1小时大于1分钟
+      if (date <= split[1] && date > split[2]) {
+        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+      }
+      // 小于1分钟大于5秒
+      if (date <= split[2] && date > split[3]) {
+        return `${this.$t('trans0011').replace('%d', parseInt(date, 10))}`;
+      }
+      return `${this.$t('trans0010')}`;
+    },
   },
   beforeDestroy() {
     // clean up
@@ -271,274 +544,830 @@ export default {
     width: auto;
   }
 }
+h3,
+h6,
+ul {
+  margin: 0;
+  padding: 0;
+}
 .dashboard {
   display: flex;
   flex-direction: column;
   flex: auto;
-  .net-info {
-    background: url(../../../assets/images/dashboard_banner_bg.jpg) no-repeat
-      center;
-    background-size: cover;
-    position: relative;
-    height: 280px;
-    .net-info__inner {
+  position: relative;
+  .mobile-net-info {
+    display: none;
+  }
+  .laptop-net-info {
+    display: block;
+    margin-top: calc(8%);
+    .laptop-net-info__inner {
       display: flex;
-      padding: 0 15%;
-      width: 100%;
-      height: 100%;
+      justify-content: center;
       align-items: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-      @media screen and (max-width: 1440px) {
-        padding: 0 50px;
-      }
-
-      .icon-container {
-        &.disabled {
-          img {
-            cursor: default;
-            background: #e1e1e1;
-            &:hover {
-              background: #e1e1e1;
-              & + .text-container {
-                color: #e1e1e1;
-                cursor: default;
-                text-decoration: none;
+      list-style: none;
+      > .functional-module {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--dashboard-icon-background-color);
+        border-radius: 20px;
+        box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.1);
+        position: relative;
+        text-align: center;
+        overflow: hidden;
+        cursor: pointer;
+        .icon-container {
+          position: relative;
+          height: 30%;
+          > img {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            filter: var(--img-brightness);
+          }
+        }
+        .text-container {
+          height: 20%;
+          padding: 20px 0;
+          .sub-text {
+            color: var(--dashboard-gery-color);
+          }
+        }
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          text-align: center;
+          padding: 10px;
+          border-radius: 5px;
+        }
+        &.device-container {
+          .devices-num {
+            height: 25%;
+            font-size: 40px;
+            font-weight: 600;
+            color: var(--text-default-color);
+          }
+          .current-device-info-container {
+            border-radius: 5px;
+            .info-wrap {
+              min-width: 150px;
+              display: inline-block;
+              position: relative;
+              color: var(--text-default-color);
+            }
+            .name {
+              display: inline-block;
+              min-width: 60px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              font-size: 16px;
+              font-weight: 500;
+            }
+            .info {
+              display: flex;
+              align-items: center;
+              font-size: 12px;
+              min-width: 30px;
+              .band {
+                padding: 0 6px;
+                border-radius: 3px;
+                color: #fff;
+                background-color: var(--dashboard-band-background-color);
+                margin-right: 10px;
+              }
+              .uptime {
+                color: var(--dashboard-gery-color);
+              }
+            }
+            .current-icon {
+              position: absolute;
+              top: 1px;
+              left: -5px;
+              transform: translateX(-100%);
+              width: 15px;
+              height: 14px;
+              > img {
+                width: 100%;
+                height: 100%;
+                filter: var(--img-brightness);
+              }
+              &::before {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 50%;
+                transform: translateX(-70%);
+                display: inline-block;
+                width: 2px;
+                height: 5px;
+                background-color: #d6001c;
+                z-index: 999;
               }
             }
           }
         }
-        img {
-          width: 50px;
-          height: 50px;
+        &.mesh-container {
+          .wifi-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30%;
+
+            .wifi-list {
+              padding: 10px;
+              border-radius: 5px;
+              background-color: var(--dashboard-wifi-background-color);
+              .wifi {
+                display: flex;
+                align-items: center;
+                color: var(--dashboard-gery-text-color);
+                .wifi__dot {
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  background: #29b96c;
+                  margin-right: 5px;
+                }
+                .wifi__band {
+                  margin-right: 5px;
+                  font-weight: 550;
+                }
+                .wifi__name {
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  text-align: left;
+                }
+              }
+            }
+          }
+          .add-node-container {
+            .add-btn {
+              > span {
+                position: relative;
+                &::before {
+                  content: '';
+                  display: block;
+                  height: 2px;
+                  border-radius: 2px;
+                  width: 15px;
+                  background: var(--button-default-text-color);
+                  position: absolute;
+                  top: 50%;
+                  left: -10px;
+                  transform: translate(-100%, -50%) rotate(0deg);
+                }
+                &::after {
+                  content: '';
+                  display: block;
+                  height: 2px;
+                  border-radius: 2px;
+                  width: 15px;
+                  background: var(--button-default-text-color);
+                  position: absolute;
+                  top: 50%;
+                  left: -10px;
+                  transform: translate(-100%, -50%) rotate(90deg);
+                }
+              }
+              &:hover {
+                > span {
+                  &::before {
+                    background: var(--button-default-hover-text-color);
+                  }
+                  &::after {
+                    background: var(--button-default-hover-text-color);
+                  }
+                }
+              }
+            }
+          }
+        }
+        &.internet-container {
+          .speed-container {
+            display: flex;
+            height: 50%;
+            .line-wrap {
+              display: flex;
+              align-items: center;
+              width: 2px;
+              .line {
+                width: 100%;
+                height: 35px;
+                background-color: var(--dashboard-dividing-line-color);
+              }
+            }
+            .speed-info {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              padding: 30px;
+              .speed-icon-wrap {
+                width: 30px;
+                height: 30px;
+                margin-bottom: 5px;
+                > img {
+                  width: 30px;
+                  height: 30px;
+                }
+              }
+              .speed-wrap {
+                font-weight: 600;
+                color: var(--text-default-color);
+                .speed-text-wrap {
+                  font-size: 12px;
+                  font-weight: 500;
+                  color: var(--dashboard-gery-color);
+                  margin-bottom: 10px;
+                }
+                .speed-num {
+                  font-size: 24px;
+                }
+                .speed-unit {
+                  font-size: 12px;
+                  margin-top: -5px;
+                }
+              }
+            }
+          }
+        }
+        &::before {
+          content: '';
           display: block;
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          width: 3px;
+          height: 3px;
+          border-top: 2px solid #808080;
+          border-right: 2px solid #808080;
+          border-bottom: 2px solid transparent;
+          border-left: 2px solid transparent;
+          border-radius: 2px;
+          transform: rotate(45deg);
+          transition: border 0.3s;
+          z-index: inherit;
+        }
+        &:hover {
+          &::before {
+            border-top-color: var(--primaryColor);
+            border-right-color: var(--primaryColor);
+          }
+        }
+        ul {
+          list-style: none;
+        }
+      }
+      > .line-container {
+        flex: 1;
+        .line {
+          width: 55%;
+          height: 2px;
+          background-color: #29b96c;
           margin: 0 auto;
-          border-radius: 50%;
-          background: #fff;
-          cursor: pointer;
-          &:hover {
-            background: #e1e1e1;
-            & + .text-container {
-              color: #999;
+          &.testing {
+            position: relative;
+            background: none;
+            &::after {
+              content: '';
+              display: block;
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 2px;
+              width: 100%;
+              background: linear-gradient(
+                to right,
+                #29b96c 0%,
+                #29b96c 50%,
+                transparent 50%
+              );
+              background-size: 10px 2px;
+              background-repeat: repeat-x;
+              animation: speed-test-line linear 0.5s infinite;
+            }
+          }
+          &.unconnected {
+            display: flex;
+            position: relative;
+            background: none;
+            &::after {
+              content: '';
+              display: block;
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 2px;
+              width: 100%;
+              background: var(--dashboard-unlinked-color);
+              background-size: 10px 2px;
+              background-repeat: repeat-x;
+            }
+            .icon-unconnected-container {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              width: 20px;
+              height: 20px;
+              background: var(--dashboard-unconnect-icon-background-color);
+              z-index: 999;
+              border-radius: 50%;
               cursor: pointer;
-              text-decoration: underline;
+              &::before {
+                content: '';
+                display: block;
+                height: 2px;
+                border-radius: 2px;
+                width: 10px;
+                background: var(--text-default-color);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+              }
+              &::after {
+                content: '';
+                display: block;
+                height: 2px;
+                border-radius: 2px;
+                width: 10px;
+                background: var(--text-default-color);
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-45deg);
+              }
             }
           }
         }
       }
-      .text-container {
-        &.disabled {
-          color: #e1e1e1;
-        }
-        margin-top: 10px;
-        font-size: 14px;
-        font-weight: bold;
-        text-align: center;
-        white-space: nowrap;
-        color: #fff;
-      }
-      .line {
-        flex: 1;
-        height: 2px;
-        background: #fff;
-        text-align: center;
-        position: relative;
-        transform: translateY(-15px);
-        &.unconnected {
-          display: flex;
-          background: none;
-          &::before {
-            content: '';
-            height: 0;
-            border-top: 2px dashed #fff;
-            flex: 1;
-          }
-          &::after {
-            content: '';
-            height: 0;
-            border-top: 2px dashed #fff;
-            flex: 1;
-          }
-        }
-        &.testing {
-          position: relative;
-          background: none;
-          &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: linear-gradient(
-              to right,
-              #fff 0%,
-              #fff 50%,
-              transparent 50%
-            );
-            background-size: 10px 2px;
-            background-repeat: repeat-x;
-            height: 2px;
-            width: 300px;
-
-            animation: speed-test-line linear 1s infinite;
-            width: 100%;
-          }
-        }
-        .icon-unconnected-container {
-          position: relative;
-          transform: translateY(-50%);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          width: 40px;
-          height: 40px;
-          cursor: pointer;
-          .icon__question {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 14px;
-            height: 14px;
-          }
-          &::before {
-            content: '';
-            display: block;
-            height: 2px;
-            border-radius: 2px;
-            width: 16px;
-            background: #fff;
-            transform: translate(-50%, -50%) rotate(45deg);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-          }
-          &::after {
-            content: '';
-            display: block;
-            height: 2px;
-            border-radius: 2px;
-            width: 16px;
-            background: #fff;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-          }
-        }
-      }
-      .device-container,
-      .wifi-container,
-      .internet-container {
-        width: 200px;
-        position: relative;
+    }
+  }
+  .jump-app-info {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+    padding: 10px 10px 10px 20px;
+    border-radius: 10px;
+    background: var(--dashboard-icon-background-color);
+    .text-container {
+      color: var(--text-default-color);
+      width: 85px;
+      height: 40px;
+    }
+    .icon {
+      width: 70px;
+      height: 70px;
+      img {
+        width: 100%;
         height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        position: relative;
-        &.selected {
-          &::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 0;
-            border: 12px solid #fff;
-            border-top: none;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
+      }
+      &.mercku {
+        display: none;
+      }
+      &.qr {
+        display: block;
+      }
+    }
+  }
+  // .router-view {
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   padding: 0 10%;
+  //   @media screen and (max-width: 1440px) {
+  //     padding: 0 50px;
+  //   }
+  // }
+}
+// 匹配1440px到无穷大
+@media screen and(min-width:1440px) {
+  .dashboard {
+    .laptop-net-info {
+      .laptop-net-info__inner {
+        padding: 0 220px;
+        > .functional-module {
+          width: 360px;
+          height: 430px;
+          &.device-container {
+            .current-device-info-container {
+              .name {
+                max-width: 280px;
+              }
+            }
+          }
+          &.mesh-container {
+            .wifi-list {
+              width: 320px;
+              .wifi {
+                .wifi__name {
+                  max-width: 70%;
+                }
+              }
+            }
+            .add-btn {
+              width: 320px;
+            }
           }
         }
       }
     }
-  }
-  .router-view {
-    width: 100%;
-    padding: 0 10%;
-    margin-top: 30px;
-    @media screen and (max-width: 1440px) {
-      padding: 0 50px;
+    .jump-app-info {
+      right: 35px;
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1440px) {
+// 匹配小于1440px
+@media screen and(max-width:1440px) {
   .dashboard {
-    .net-info {
-      .device-container,
-      .wifi-container,
-      .internet-container {
-        width: 100px;
+    .laptop-net-info {
+      .laptop-net-info__inner {
+        padding: 0 110px;
+        > .functional-module {
+          width: 320px;
+          height: 382px;
+          > .icon-container {
+            img {
+              width: 50px;
+              height: 50px;
+            }
+          }
+          &.device-container {
+            .current-device-info-container {
+              .name {
+                max-width: 240px;
+              }
+            }
+          }
+          &.mesh-container {
+            .wifi-list {
+              width: 280px;
+              .wifi {
+                .wifi__name {
+                  max-width: 63%;
+                }
+              }
+            }
+            .add-btn {
+              width: 280px;
+            }
+          }
+        }
       }
+    }
+    .jump-app-info {
+      right: 20px;
     }
   }
 }
 @media screen and (max-width: 768px) {
   .dashboard {
-    .router-view {
-      margin-top: 0;
-      padding: 0 20px;
-    }
-    .net-info {
-      background: url(../../../assets/images/mobile/dashboard_banner_bg.jpg)
-        no-repeat center;
-      background-size: cover;
-      height: 160px;
-      .net-info__inner {
-        padding: 0 30px;
+    // .router-view {
+    //   margin-top: 0;
+    //   padding: 0 20px;
+    // }
+    .mobile-net-info {
+      display: block;
+      height: 150px;
+      position: relative;
+      .mobile-net-info__inner {
+        display: flex;
+        padding: 0 20px;
+        width: 100%;
+        height: 150px;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
         .icon-container {
-          margin-top: -20px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 75px;
+          height: 75px;
+          margin: -20px auto 0;
+          border-radius: 50%;
+          background: var(--dashboard-icon-background-color);
+          overflow: hidden;
           img {
-            width: 40px;
-            height: 40px;
-            &:hover {
-              opacity: 1;
-            }
+            width: 60%;
+            height: 60%;
+            display: block;
+            filter: var(--img-brightness);
           }
         }
-        .text-container {
-          font-size: 12px;
-          font-weight: bold;
-          transform: translate(-50%);
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          margin-top: 20px;
-        }
-        .line {
-          height: 2px;
-          transform: translateY(-10px);
-          &.testing {
-            &::after {
-              animation: speed-test-line linear 0.5s infinite;
-              top: 0;
-            }
-          }
-          &.unconnected {
-            .icon-unconnected-container {
-              height: 20px;
-              width: 20px;
-              img {
-                width: 10px;
-                height: 10px;
-              }
-              .icon__question {
-                width: 10px;
-                height: 10px;
-                top: -5px;
-                right: -5px;
+        .line-container {
+          flex: 1;
+          .line {
+            width: 73%;
+            height: 2px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            transform: translateY(-10px);
+            background: #29b96c;
+            &.testing {
+              position: relative;
+              background: none;
+              &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 2px;
+                width: 100%;
+                background: linear-gradient(
+                  to right,
+                  #29b96c 0%,
+                  #29b96c 50%,
+                  transparent 50%
+                );
+                background-size: 10px 2px;
+                background-repeat: repeat-x;
+                animation: speed-test-line linear 0.5s infinite;
               }
             }
+            &.unconnected {
+              display: flex;
+              position: relative;
+              background: none;
+              &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 2px;
+                width: 100%;
+                background: var(--dashboard-unlinked-color);
+                background-size: 10px 2px;
+                background-repeat: repeat-x;
+              }
+              .icon-unconnected-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 15px;
+                height: 15px;
+                background: var(--primaryBackgroundColor);
+                z-index: 999;
+                border-radius: 50%;
+                &::before {
+                  content: '';
+                  display: block;
+                  height: 2px;
+                  border-radius: 2px;
+                  width: 10px;
+                  background: var(--text-default-color);
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%) rotate(45deg);
+                }
+                &::after {
+                  content: '';
+                  display: block;
+                  height: 2px;
+                  border-radius: 2px;
+                  width: 10px;
+                  background: var(--text-default-color);
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%) rotate(-45deg);
+                }
+              }
+            }
           }
         }
+
         .device-container,
         .wifi-container,
         .internet-container {
+          position: relative;
+          width: 75px;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+      }
+    }
+    .laptop-net-info {
+      margin: 0;
+      .laptop-net-info__inner {
+        padding: 0 20px;
+        flex-direction: column;
+        > .functional-module {
+          width: 100%;
+          height: auto;
+          display: block;
+          margin-bottom: 20px;
+          padding: 15px 20px;
+          text-align: left;
+          .icon-container {
+            display: none;
+          }
+          .text-container {
+            display: inline;
+            padding: 10px 0;
+            height: auto;
+            .main-text {
+              display: inline;
+              font-size: 16px;
+              font-weight: 600;
+              &::after {
+                content: ':';
+                display: inline-block;
+                width: 10px;
+                height: 5px;
+              }
+            }
+            .sub-text {
+              color: var(--text-default-color);
+              display: inline;
+              font-size: 16px;
+              font-weight: 600;
+            }
+          }
+          .loading-container {
+            background: var(--dashboard-wifi-background-color);
+          }
+          &.device-container {
+            .devices-num {
+              display: inline;
+              font-size: 16px;
+            }
+            .current-device-info-container {
+              height: 70px;
+              background: var(--dashboard-wifi-background-color);
+              margin-top: 15px;
+              padding: 10px;
+              .info-wrap {
+                margin-left: 20px;
+                .name {
+                  max-width: 260px;
+                }
+                .info {
+                  justify-content: flex-start;
+                }
+              }
+            }
+          }
+          &.mesh-container {
+            .wifi-list {
+              width: 100%;
+              margin: 15px 0;
+              .wifi {
+                .wifi__name {
+                  max-width: 65%;
+                }
+              }
+            }
+            .add-btn {
+              width: 100%;
+            }
+          }
+          &.internet-container {
+            .speed-container {
+              .speed-info {
+                padding: 0;
+                flex-direction: row;
+                justify-content: flex-start;
+                margin: 15px 0;
+                .speed-icon-wrap {
+                  padding-top: 5px;
+                }
+                .speed-wrap {
+                  position: relative;
+                  display: flex;
+                  align-items: baseline;
+                  .speed-text-wrap {
+                    position: absolute;
+                    bottom: -15px;
+                    left: 10px;
+                    margin: 0;
+                  }
+                  .speed-num {
+                    font-size: 20px;
+                    margin: 0 2px 0 10px;
+                  }
+                }
+              }
+              .line-wrap {
+                display: none;
+              }
+            }
+          }
+          &::before {
+            top: 20px;
+          }
+        }
+        > .line-container {
+          display: none;
+        }
+      }
+    }
+    .jump-app-info {
+      position: relative;
+      width: 90%;
+      height: 60px;
+      right: 0;
+      margin: 20px auto;
+      background-color: var(--dashboard-app-background-color);
+      .text-container {
+        flex: 1;
+        line-height: 40px;
+      }
+      .icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        &.mercku {
+          display: block;
+        }
+        &.qr {
+          display: none;
+        }
+      }
+    }
+  }
+}
+@media screen and(max-width:374px) {
+  .dashboard {
+    .mobile-net-info {
+      .mobile-net-info__inner {
+        .icon-container {
           width: 60px;
+          height: 60px;
+        }
+        .line-container {
+          .line {
+            width: 20px;
+            &.unconnected {
+              .icon-unconnected-container {
+                width: 5px;
+                height: 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .laptop-net-info {
+      .laptop-net-info__inner {
+        > .functional-module {
+          .text-container {
+            .main-text {
+              font-size: 12px;
+            }
+            .sub-text {
+              font-size: 12px;
+            }
+          }
+          &.device-container {
+            .devices-num {
+              font-size: 12px;
+            }
+            .current-device-info-container {
+              .name {
+                max-width: 27%;
+              }
+            }
+          }
+          &.mesh-container {
+            .wifi-list {
+              .wifi {
+                .wifi__name {
+                  max-width: 48%;
+                }
+              }
+            }
+          }
         }
       }
     }

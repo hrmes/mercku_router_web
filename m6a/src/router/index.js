@@ -3,6 +3,8 @@ import Router from 'vue-router';
 
 import login from 'pages/login/index.vue';
 import dashboard from 'pages/bussiness/dashboard/index.vue';
+import device from 'pages/bussiness/dashboard/device.vue';
+
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
@@ -16,7 +18,6 @@ import superConfig from 'pages/bussiness/setting/super.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
 
-import device from 'base/pages/bussiness/dashboard/device.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
@@ -86,25 +87,24 @@ const routes = {
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: dashboard,
-      redirect: '/dashboard/mesh/table',
-      children: [
-        {
-          path: '/dashboard/device/:id?',
-          name: 'device',
-          component: device
-        },
-        {
-          path: '/dashboard/mesh/:category',
-          name: 'mesh',
-          component: mesh
-        },
-        {
-          path: '/dashboard/internet',
-          name: 'internet',
-          component: internet
-        }
-      ]
+      component: dashboard
+      // redirect: '/dashboard/mesh/table',
+      // children: []
+    },
+    {
+      path: '/dashboard/device/:id?',
+      name: 'device',
+      component: device
+    },
+    {
+      path: '/dashboard/mesh/:category',
+      name: 'mesh',
+      component: mesh
+    },
+    {
+      path: '/dashboard/internet',
+      name: 'internet',
+      component: internet
     },
     {
       path: '/mesh/add',

@@ -17,7 +17,7 @@
   --text-default-color: #333;
   --img-brightness: brightness(0);
   --grey-background-color: #f7f7f7;
-  --flex-warp-bgc: #f7f7f7;
+  --flex-warp-has-menu-bgc: #f7f7f7;
 
   // button
   --button-text-color: #fff;
@@ -90,6 +90,8 @@
   --header-nav-hide-popup-item-selected-color: var(--primaryColor);
   --header-nav-hide-popup-item-checked-color: var(--primaryColor);
 
+  --header-dividing-color: #e1e1e1;
+
   --header-official-color: #333;
   --header-official-hover-color: #999;
 
@@ -98,11 +100,12 @@
   --header-nav-item-selected-background-color: var(--primaryColor);
   --header-nav-item-border-color: #666;
 
-  --header-popup-background-color: #ffffff;
+  --header-popup-background-color: #fff;
+  --mobile-header-popup-background-color: #f8f8f8;
   --header-popup-item-disabled-color: #999;
   --header-popup-item-disabled-background-color: #333;
   --header-popup-item-disabled-hover-color: #999;
-  --header-popup-shadow-color: rgba(128, 152, 213, 0.08);
+  --header-popup-shadow-color: rgba(0, 0, 0, 0.2);
   --header-popup-item-color: #fff;
   --header-popup-item-hover-color: #000000;
   --header-popup-item-active-color: #333;
@@ -117,7 +120,7 @@
   --header-nav-hide-i18n-mobile-item-border-color: #f1f1f1;
 
   --header-mobile-nav-item-hover-color: #fff;
-  --header-mobile-nav-item-color: #fff;
+  --header-mobile-nav-item-color: var(--text-default-color);
 
   // input
   --input-label-color: #808080;
@@ -223,6 +226,20 @@
   --download-tag-before-color: #d8d8d8;
   --download-ios-img-brightness: var(--img-brightness);
   --download-android-img-brightness: brightness(1);
+
+  //logout
+  --logout-btn-bgc: #f3f3f3;
+
+  //dashboard
+  --dashboard-unlinked-color: rgba(51, 51, 51, 0.3);
+  --dashboard-icon-background-color: #fff;
+  --dashboard-unconnect-icon-background-color: #fff;
+  --dashboard-band-background-color: #b3b3b3;
+  --dashboard-gery-color: #808080;
+  --dashboard-gery-text-color: #808080;
+  --dashboard-wifi-background-color: #f7f7f7;
+  --dashboard-dividing-line-color: #dfdfdf;
+  --dashboard-app-background-color: #ededed;
 }
 //深色主题，颜色定义
 @mixin dark-theme {
@@ -233,7 +250,7 @@
   --text-default-color: #fff;
   --img-brightness: brightness(100);
   --grey-background-color: #404040;
-  --flex-warp-bgc: #1a1a1a;
+  --flex-warp-has-menu-bgc: #1a1a1a;
 
   // button
   --button-text-color: #fff;
@@ -311,6 +328,8 @@
   --header-nav-hide-popup-item-selected-color: var(--primaryColor);
   --header-nav-hide-popup-item-checked-color: var(--primaryColor);
 
+  --header-dividing-color: #666;
+
   --header-official-color: #fff;
   --header-official-hover-color: rgba(255, 255, 255, 0.6);
 
@@ -320,10 +339,11 @@
   --header-nav-item-border-color: #666;
 
   --header-popup-background-color: #333;
+  --mobile-header-popup-background-color: #1e1e1e;
   --header-popup-item-disabled-color: #999;
   --header-popup-item-disabled-background-color: #333;
   --header-popup-item-disabled-hover-color: #999;
-  --header-popup-shadow-color: rgba(128, 152, 213, 0.08);
+  --header-popup-shadow-color: rgba(0, 0, 0, 0.2);
   --header-popup-item-color: #fff;
   --header-popup-item-hover-color: #fff;
   --header-popup-item-active-color: #333;
@@ -338,7 +358,7 @@
   --header-nav-hide-i18n-mobile-item-border-color: rgba(255, 255, 255, 0.15);
 
   --header-mobile-nav-item-hover-color: #fff;
-  --header-mobile-nav-item-color: #fff;
+  --header-mobile-nav-item-color: var(--text-default-color);
 
   // input
   --input-label-color: rgba(255, 255, 255, 0.6);
@@ -444,4 +464,18 @@
   --download-tag-before-color: #6c6c6c;
   --download-ios-img-brightness: var(--img-brightness);
   --download-android-img-brightness: brightness(1.2);
+
+  //logout
+  --logout-btn-bgc: #6a6a6a;
+
+  //dashboard
+  --dashboard-unlinked-color: #ffffff;
+  --dashboard-icon-background-color: #2e2e2e;
+  --dashboard-unconnect-icon-background-color: #6a6a6a;
+  --dashboard-band-background-color: rgba(192, 192, 192, 0.4);
+  --dashboard-gery-color: rgba(255, 255, 255, 0.6);
+  --dashboard-gery-text-color: #fff;
+  --dashboard-wifi-background-color: #1a1a1a;
+  --dashboard-dividing-line-color: rgba(255, 255, 255, 0.2);
+  --dashboard-app-background-color: #2e2e2e;
 }

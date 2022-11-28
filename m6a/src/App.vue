@@ -68,6 +68,9 @@ export default {
 };
 </script>
 <style lang="scss">
+* {
+  font-family: 'NotoSansCJKsc', 'PingFang SC';
+}
 .srcollbar-wrap {
   height: 100%;
   overflow: auto;
@@ -75,7 +78,7 @@ export default {
 .flex-wrap {
   display: flex;
   flex-direction: column;
-  background-color: var(--flex-warp-bgc);
+  background-color: var(--primaryBackgroundColor);
   > img {
     position: fixed;
     width: 26.875rem;
@@ -90,6 +93,9 @@ export default {
     right: 0;
     transform: rotate(180deg);
   }
+  &.has-menu {
+    background-color: var(--flex-warp-has-menu-bgc);
+  }
 }
 .container {
   position: relative;
@@ -99,6 +105,9 @@ export default {
     flex: 1;
     flex-direction: column;
     position: relative;
+  }
+  .header {
+    z-index: 1000;
   }
   .policy {
     width: 100%;

@@ -27,11 +27,11 @@
             :key="menu.key"
             v-for="menu in list"
             :class="{'selected':menu.selected}">
-          <div class="nav-item-content">
+          <div class="nav-item-content"
+               @click.stop="jump(menu)">
             <i class="el-menu-item__icon iconfont"
                :class="menu.icon"
                :title="$t(`${menu.text}`)"></i>
-            <!-- <div class="nav-item__text">{{$t(menu.text)}}</div> -->
           </div>
 
           <!-- <ul v-if="menu.children"
@@ -62,17 +62,23 @@
       <ul class="nav reset-ul">
         <li class="nav-item"
             :key="menu.key"
-            @click="showMobileMenu(menu)"
             v-for="menu in list"
             :class="{'selected':menu.selected}">
-          <div class="nav-item-content">
+          <div class="nav-item-content"
+               @click="showMobileMenu(menu)">
+            <i class="el-menu-item__icon iconfont"
+               :class="menu.icon"></i>
             <div class="nav-item__text">{{$t(menu.text)}}</div>
+            <span v-if="menu.children.length"
+                  class="mobile-trangle"></span>
+            <i v-if="!menu.children.length"
+               class="is-checked"></i>
           </div>
           <transition name="nav-item-child__animation"
                       v-on:before-enter="beforeEnter"
                       v-on:enter="enter"
                       v-on:leave="leave">
-            <ul v-if="menu.children"
+            <ul v-if="menu.children.length"
                 class="nav-item-child reset-ul"
                 v-show="menu.selected">
               <li class="nav-child__text"
@@ -86,11 +92,10 @@
               </li>
             </ul>
           </transition>
-
         </li>
-        <li class="nav-item nav-item__exit"
-            @click="exit()">
-          <div class="nav-item-content">
+        <li class="nav-item nav-item__exit">
+          <div class="nav-item-content"
+               @click="exit()">
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
 
@@ -275,7 +280,7 @@ export default {
     },
     enter(el, done) {
       setTimeout(() => {
-        const height = el.childElementCount * 38;
+        const height = el.childElementCount * 60;
         Velocity(el, { height: `${height}px` }, { complete: done });
       });
     },
@@ -285,6 +290,9 @@ export default {
       });
     },
     showMobileMenu(menu) {
+      if (!menu.children.length) {
+        this.jumpMobile(menu);
+      }
       this.list.forEach(l => {
         if (l !== menu) {
           l.selected = false;
@@ -295,7 +303,7 @@ export default {
     jumpMobile(child) {
       if (!child.disabled) {
         this.$router.push({ path: child.url });
-        this.current = child;
+        // this.current = child;
         this.mobileNavVisible = !this.mobileNavVisible;
       }
     },
@@ -306,35 +314,25 @@ export default {
     // setChildMenuVisible(menu, visible) {
     //   menu.showChild = visible;
     // },
-    jump(menu, parent) {
-      if (!menu.disabled) {
-        this.list.forEach(l => {
-          if (l !== parent) {
-            l.selected = false;
-          } else {
-            l.selected = true;
-          }
-        });
-        this.$router.push({ path: menu.url });
-        this.current = menu;
-        parent.showChild = false;
-      }
+    jump(menu) {
+      this.$router.push({ path: menu.url });
+      // this.current = menu;
     },
     getList() {
       const list = this.navs.map((m, index) => {
         m.key = index;
-        if (m.children) {
+        if (m.children.length) {
           let selected = false;
           const children = m.children.map((mm, ii) => {
             mm.index = ii;
-            if (this.$route.name.includes(mm.name)) {
+            if (this.$route.path.includes(mm.url)) {
               selected = true;
             }
             return { ...mm, children };
           });
           return { ...m, selected, showChild: false };
         }
-        const selected = this.$route.name.includes(m.name);
+        const selected = this.$route.path.includes(m.url);
         return { ...m, selected, showChild: false };
       });
       return list;
@@ -418,7 +416,6 @@ export default {
     padding: 0 20px !important;
   }
   .logo-wrap {
-    z-index: 999;
     width: 185px;
     height: 30px;
     .offical {
@@ -457,7 +454,6 @@ export default {
     .nav {
       display: flex;
       height: 100%;
-
       .nav-item {
         height: 100%;
         list-style: none;
@@ -467,8 +463,6 @@ export default {
         .nav-item-content {
           display: flex;
           .iconfont {
-            width: 24px;
-            height: 24px;
             font-size: 24px;
             color: var(--header-nav-iconfont-color);
           }
@@ -476,6 +470,7 @@ export default {
             height: 100%;
             display: flex;
             align-items: center;
+            margin-left: 20px;
             color: var(--header-popup-item-color);
           }
         }
@@ -483,20 +478,18 @@ export default {
           display: none;
           width: 280px;
           position: absolute;
-          z-index: 999;
           top: 100%;
           left: 0;
           margin-top: 6px;
           box-shadow: -10px 9px 21px 0 var(--header-popup-shadow-color);
           background-color: var(--header-popup-background-color);
-          padding: 25px 0;
           .nav-child__text {
             display: flex;
             justify-content: space-between;
             align-items: center;
             color: var(--header-popup-item-color);
             list-style: none;
-            padding: 0 30px;
+            padding: 0 23px 0 74px;
             line-height: 38px;
             &:hover {
               color: var(--header-popup-item-hover-color);
@@ -524,31 +517,11 @@ export default {
             display: block;
           }
         }
-        // &.open {
-        //   &::before {
-        //     content: '';
-        //     display: block;
-        //     position: absolute;
-        //     bottom: -6px;
-        //     height: 6px;
-        //     width: 260px;
-        //     left: 0;
-        //     background: transparent;
-        //     z-index: 999;
-        //   }
-        // }
         @media screen and (max-width: 1440px) {
           margin-right: 50px;
         }
         cursor: pointer;
         position: relative;
-        // &:hover {
-        //   .nav-item-content {
-        //     .nav-item__text {
-        //       color: var(--header-nav-item-hover-color);
-        //     }
-        //   }
-        // }
         &.selected {
           position: relative;
           .iconfont {
@@ -609,7 +582,6 @@ export default {
           width: 130px;
           left: 0;
           background: transparent;
-          z-index: 999;
         }
       }
       .current {
@@ -651,8 +623,7 @@ export default {
         width: 160px;
         margin-top: 6px;
         border-radius: 2px;
-        z-index: 999;
-        box-shadow: -10px 9px 21px 0 var(--header-popup-shadow-color);
+        box-shadow: 0 10px 15px 0 var(--header-popup-shadow-color);
         background-color: var(--header-popup-background-color);
         padding: 25px 0;
         opacity: 1;
@@ -708,7 +679,7 @@ export default {
   }
   &.is-login-nav {
     height: 80px;
-    background: var(--header-nav-hide-background-color);
+    background: transparent;
     color: var(--header-nav-hide-color);
     padding: 0 50px;
     .logo-wrap {
@@ -809,13 +780,15 @@ export default {
 @media screen and (max-width: 768px) {
   .header-container {
     height: 65px;
-    position: relative;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 999;
     &.open,
     &.i18n-open {
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 1000;
       width: 100%;
     }
     .logo-wrap {
@@ -832,7 +805,6 @@ export default {
       position: fixed;
       top: 65px;
       left: 0;
-      z-index: 1000;
       width: 100%;
       height: calc(100% - 65px);
       background: var(--header-background-color);
@@ -843,31 +815,29 @@ export default {
       &.nav-wrap--mobile {
         display: block;
         overflow: auto;
+        border-top: 1px solid var(--header-dividing-color);
       }
       .nav {
-        padding: 0 30px;
         flex-direction: column;
         height: auto;
-        border-top: 1px solid var(--header-nav-item-border-color);
         .nav-item {
           width: 100%;
           margin: 0;
           height: auto;
           flex-direction: column;
-          align-items: flex-start;
-          border-bottom: 1px solid var(--header-nav-item-border-color);
-          &:hover {
-            .nav-item-content {
-              .nav-item__text {
-                color: var(--header-mobile-nav-item-hover-color);
-              }
-            }
-          }
+          align-items: center;
           &.nav-item__exit {
             display: block;
           }
           &.nav-item__exit {
             .nav-item-content {
+              justify-content: center;
+              background: var(--logout-btn-bgc);
+              border-radius: 5px;
+              margin: 30px auto;
+              > .nav-item__text {
+                margin: 0;
+              }
               &::after {
                 display: none;
               }
@@ -876,27 +846,35 @@ export default {
           .nav-item-content {
             align-items: center;
             position: relative;
-            width: 100%;
-            &::after {
-              position: absolute;
-              content: '';
-              display: block;
-              width: 5px;
-              height: 5px;
-              border-right: 1px solid var(--header-mobile-nav-item-color);
-              border-bottom: 1px solid var(--header-mobile-nav-item-color);
-              border-left: 0;
-              border-top: 0;
-              transform: translateY(-50%) rotate(45deg);
-              top: 50%;
-              right: 0;
-              transition: all 0.3s linear;
-            }
+            width: 85%;
             .nav-item__text {
               color: var(--header-mobile-nav-item-color);
               line-height: 1;
               padding: 16px 0;
               font-size: 16px;
+              font-weight: 600;
+            }
+            .mobile-trangle {
+              position: absolute;
+              right: 0;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 0;
+              height: 0;
+              border-left: 6px solid var(--text-default-color);
+              border-right: 0px solid transparent;
+              border-top: 5px solid transparent;
+              border-bottom: 5px solid transparent;
+              transform-origin: top top;
+              transition: all 0.3s;
+              font-size: 10px;
+            }
+            .is-checked {
+              display: none;
+              position: absolute;
+              top: 50%;
+              right: -6px;
+              transform: translateY(-50%);
             }
           }
           &.selected {
@@ -904,21 +882,23 @@ export default {
               display: none;
             }
             .nav-item-content {
-              &::after {
-                transform: translateY(-50%) rotate(225deg);
+              & .mobile-trangle {
+                transform: translateY(-50%) rotate(90deg);
               }
               .nav-item__text {
                 color: var(--header-mobile-nav-item-color);
+              }
+              & .is-checked {
+                display: inline-flex;
               }
             }
           }
           .nav-item-child {
             position: static;
             display: block;
-            background: var(--header-popup-background-color);
+            background: var(--mobile-header-popup-background-color);
             box-shadow: none;
             width: 100%;
-            padding: 0;
             &.nav-item-child__animation-leave-active {
               overflow: hidden;
             }
@@ -927,20 +907,12 @@ export default {
             }
             .nav-child__text {
               display: flex;
+              height: 60px;
               justify-content: space-between;
               align-items: center;
-              padding: 0;
-              padding-left: 10px;
-              color: var(--header-popup-item-color);
+              color: var(--text-default-color);
               &.disabled {
                 background: var(--header-popup-item-disabled-background-color);
-              }
-              &:active {
-                color: var(--header-popup-item-active-color);
-              }
-              &:hover {
-                color: var(--header-popup-item-disabled-hover-color);
-                background: var(--header-popup-background-color);
               }
             }
           }
@@ -965,19 +937,19 @@ export default {
           left: 0;
           width: 100%;
           height: 100%;
-          background: var(--header-popup-background-color);
-          color: var(--header-popup-item-color);
+          background: var(--header-background-color);
+          color: var(--text-default-color);
+          border-top: 1px solid var(--header-dividing-color);
           padding: 0 30px;
-          z-index: 1000;
-          border-top: 1px solid
-            var(--header-nav-hide-i18n-mobile-item-border-color);
+          z-index: 999;
+          font-size: 16px;
           li {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 16px 0;
             list-style: none;
-            border-top: 1px solid var(--header-nav-item-border-color);
+            font-weight: 600;
             &.selected {
               color: var(--header-nav-item-selected-background-color);
               .is-checked {
@@ -1014,6 +986,9 @@ export default {
     }
     &.is-login-nav {
       height: 65px;
+    }
+    &.is-not-login-nav {
+      border-radius: 0;
     }
   }
 }
