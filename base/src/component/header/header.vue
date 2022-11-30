@@ -274,6 +274,9 @@ export default {
       if (this.navVisible) {
         this.$router.push({ path: '/dashboard' });
       }
+      if (this.mobileI18nVisible) {
+        this.mobileI18nVisible = false;
+      }
     },
     beforeEnter(el) {
       el.style.height = 0;
@@ -407,7 +410,7 @@ export default {
   display: flex;
   background: var(--header-background-color);
   color: var(--text-default-color);
-  padding: 0 10%;
+  padding: 0 5%;
   position: relative;
   @media screen and (max-width: 1440px) {
     padding: 0 50px;
@@ -780,9 +783,6 @@ export default {
 @media screen and (max-width: 768px) {
   .header-container {
     height: 65px;
-    position: sticky;
-    top: 0;
-    left: 0;
     z-index: 999;
     &.open,
     &.i18n-open {

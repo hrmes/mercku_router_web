@@ -343,5 +343,6 @@ export default function getMenu(role, mode = RouterMode.router) {
     });
   });
 
+  console.log([wifi, setting, advance, upgrade, theme]);
   return [wifi, setting, advance, upgrade, theme];
 }

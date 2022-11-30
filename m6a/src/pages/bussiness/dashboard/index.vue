@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard customized">
-    <div class="mobile-net-info">
+    <div v-if="isMobile"
+         class="mobile-net-info">
       <div class="mobile-net-info__inner">
         <div class="device-container">
           <div class="icon-container">
@@ -246,6 +247,9 @@ export default {
   computed: {
     MODEL() {
       return process.env.MODEL_CONFIG.id;
+    },
+    isMobile() {
+      return this.$store.isMobile;
     },
     ...(() => {
       const result = {};

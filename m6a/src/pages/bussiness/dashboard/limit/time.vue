@@ -2,15 +2,15 @@
   <div class="timelimit">
     <div class='table'
          :class="{'table--empty':!sortList.length}">
-      <div class="tools">
-        <button class="btn btn-small"
-                @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
-      </div>
       <div class="table-head">
         <div class="column-date-stop">{{$t('trans0084')}}</div>
         <div class="column-date-start">{{$t('trans0085')}}</div>
         <div class="column-repeat">{{$t('trans0082')}}</div>
-        <div class="column-handle">{{$t('trans0370')}}</div>
+        <div class="column-switch"></div>
+        <div class="column-handle">
+          <button class="btn btn-small"
+                  @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
+        </div>
       </div>
       <div class="table-body">
         <div class="table-row"
@@ -23,15 +23,31 @@
           </div>
           <div class="column-date-start">{{row.time_end}}</div>
           <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
+          <div class="column-switch check-wrap">
+            <m-switch @change="(v)=>changehandle(v,row)"
+                      v-model="row.enabled" />
+          </div>
           <div class="column-handle">
-            <div class="check-wrap">
-              <m-switch @change="(v)=>changehandle(v,row)"
-                        v-model="row.enabled" />
-            </div>
-            <a class="btn-text"
-               @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
-            <a class="btn-text text-primary"
-               @click="delRow(row)">{{$t('trans0033')}}</a>
+            <span class="btn-icon"
+                  @click.stop="modalOpen('edit',row)">
+              <i class="add-to-block iconfont icon-ic_settings_normal"></i>
+              <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
+            </span>
+            <span v-if="isMobile"
+                  class="label"
+                  @click="()=>addToBlackList(row)">
+              {{$t('trans0034')}}
+            </span>
+            <span class="btn-icon"
+                  @click="delRow(row)">
+              <i class="settings iconfont icon-ic_trash_normal"></i>
+              <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+            </span>
+            <span v-if="isMobile"
+                  class="label"
+                  @click="()=>forward2limit(row)">
+              {{$t('trans0033')}}
+            </span>
           </div>
         </div>
         <div class="empty"
@@ -173,6 +189,9 @@ export default {
     }
   },
   computed: {
+    isMobile() {
+      return this.$store.isMobile;
+    },
     isEmpty() {
       return !this.sortList.length;
     },
@@ -426,9 +445,6 @@ export default {
   width: 100%;
   .table {
     width: 100%;
-    .tools {
-      margin-bottom: 20px;
-    }
     .column-date-stop {
       width: 150px;
       .mobile-start {
@@ -439,17 +455,24 @@ export default {
       width: 150px;
     }
     .column-repeat {
+      width: 190px;
+    }
+    .column-switch {
       min-width: 150px;
       flex: 1;
     }
     .column-handle {
-      width: 250px;
+      width: 150px;
+      justify-content: flex-end;
     }
     .table-head {
       height: 50px;
-      background-color: #f1f1f1;
+      color: var(--table-header-text-color);
+      background-color: var(--table-row-background-color);
       display: flex;
       padding: 0 30px;
+      margin-bottom: 5px;
+      border-radius: 10px;
       div {
         display: flex;
         height: 50px;
@@ -457,12 +480,19 @@ export default {
       }
     }
     .table-body {
+      border-radius: 10px;
+
       .table-row {
         display: flex;
-        padding: 15px 30px;
-        border-bottom: 1px solid #f1f1f1;
+        padding: 20px 30px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        background-color: var(--table-row-background-color);
+        > div {
+          display: flex;
+          align-items: center;
+        }
         &:nth-child(2n) {
-          background: #f7f7f7;
           @media screen and(max-width:768px) {
             background: #fff;
           }
@@ -471,6 +501,8 @@ export default {
           display: flex;
           align-items: center;
           a {
+            width: 30px;
+            height: 30px;
             margin-left: 50px;
             &:last-child {
               margin-left: 30px;
@@ -507,33 +539,8 @@ export default {
       margin: 0;
       position: relative;
       &.table--empty {
-        .tools {
-          position: static;
-          justify-content: center;
-          border: 0;
-          margin: 0;
-          margin-top: 10px;
-          .btn {
-            min-width: 120px;
-            height: 38px;
-          }
-        }
-      }
-      .tools {
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding-bottom: 20px;
-        width: 100%;
-        border-bottom: 1px solid #f1f1f1;
-        display: flex;
-        justify-content: flex-end;
-        .btn {
-          margin: 0;
-        }
       }
       .table-body {
-        margin-top: 68px;
         .table-row {
           flex-direction: column;
           padding: 20px 0;

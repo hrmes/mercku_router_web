@@ -6,7 +6,9 @@
                @click.native="tabChange(tab.id)"
                v-for="tab in tabs"
                :class="{'selected':isCurrentTab(tab)}">
-          {{tab.text}}
+          <i class="iconfont icon"
+             :class="tab.icon"></i>
+          <span> {{tab.text}}</span>
         </m-tab>
       </m-tabs>
       <div class="offline-handle-wrapper"
@@ -68,7 +70,7 @@
             <li class="column-limit"
                 v-if="!isOfflineDevices && isRouter">{{$t('trans0115')}}</li>
             <li class="column-black-list"
-                v-if="!isOfflineDevices && isRouter">{{$t('trans0370')}}</li>
+                v-if="!isOfflineDevices && isRouter"></li>
             <li class="column-black-list"
                 v-if="isOfflineDevices">{{$t('trans0370')}}</li>
           </ul>
@@ -85,6 +87,11 @@
                 class="reset-ul">
               <li class="column-name"
                   @click.stop="expandTable(row)">
+                <div v-if="!isMobile"
+                     class="connect-type-wrap">
+                  <img :src="getConnectTypeIcon(row)"
+                       alt="">
+                </div>
                 <div class="name-wrap"
                      :class="{'wired':isWired(row),'offline':isOfflineDevices}">
                   <div class="column-check-box"
@@ -95,10 +102,13 @@
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
-                      <img v-if='row.local &&!isOfflineDevices'
-                           src="../../../assets/images/icon/ic_user.png"
-                           alt=""
-                           style="margin-right:5px;margin-left:0;">
+                      <span v-if='row.local &&!isOfflineDevices'
+                            class="local-device-wrapper">
+                        <img class="localDevice"
+                             src="../../../assets/images/icon/ic_localDevice.svg"
+                             alt=""
+                             title="LocalDevice">
+                      </span>
                       <span :title='row.name'>{{row.name}}</span>
                       <img style="cursor:pointer"
                            class="btn-text icon-btn"
@@ -110,7 +120,7 @@
                     </a>
                     <div class="mobile-icon">
                       <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                           src="../../../assets/images/icon/ic_side_bar_pick_up.png"
+                           src="../../../assets/images/icon/ic_side_bar_pick_up.svg"
                            alt="">
                     </div>
                   </div>
@@ -131,7 +141,7 @@
               <!-- 连接设备 -->
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span>{{$t('trans0618')}}</span>
+                <span class="label">{{$t('trans0618')}}</span>
                 <span class="overflow-hidden"
                       :title="accessNodeName(row)">{{accessNodeName(row)}}</span>
               </li>
@@ -171,7 +181,7 @@
               </li>
               <li class="column-ip device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span>{{$t('trans0151')}}</span>
+                <span class="label">{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
               <!-- <li class="column-ip device-item"
@@ -184,7 +194,7 @@
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span>{{$t('trans0631')}}</span>
+                <span class="label">{{$t('trans0631')}}</span>
                 <span> {{transformDuration(row.online_info.online_duration)}} </span>
               </li>
               <!-- 离线时间 -->
@@ -202,38 +212,41 @@
               </li>
               <li class="column-mac device-item"
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span>{{$t('trans0188')}}</span>
+                <span class="label">{{$t('trans0188')}}</span>
                 <span>{{formatMac(row.mac)}}</span>
               </li>
               <li class="column-limit"
                   v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
                 <div class="limit-inner">
                   <div class="item device-item">
-                    <span class="limit-icon time-limit"
-                          :title="$t('trans0075')"
-                          v-show="!isMobile"
-                          :class="{'active':isTimeLimit(row)}"></span>
-                    <span v-show="isMobile">{{$t('trans0075')}}</span>
+                    <i class="limit-icon time-limit iconfont icon-ic_limit_time_off"
+                       :title="$t('trans0075')"
+                       v-if="!isMobile"
+                       :class="{'active':isTimeLimit(row)}"></i>
+                    <span v-if="isMobile"
+                          class="label">{{$t('trans0075')}}</span>
                     <span class="status">
                       <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
                     </span>
                   </div>
                   <div class="item device-item">
-                    <span class="limit-icon speed-limit"
-                          :title="$t('trans0014')"
-                          v-show="!isMobile"
-                          :class="{'active':isSpeedLimit(row)}"></span>
-                    <span v-show="isMobile">{{$t('trans0014')}}</span>
+                    <i class="limit-icon speed-limit iconfont icon-ic_limit_speed_off"
+                       :title="$t('trans0014')"
+                       v-if="!isMobile"
+                       :class="{'active':isSpeedLimit(row)}"></i>
+                    <span v-if="isMobile"
+                          class="label">{{$t('trans0014')}}</span>
                     <span class="status">
                       <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
                     </span>
                   </div>
                   <div class="item device-item">
-                    <span class="limit-icon url-limit"
-                          v-show="!isMobile"
-                          :title="$t('trans0076')"
-                          :class="{'active':isBlacklsitLimit(row)}"></span>
-                    <span v-show="isMobile">{{$t('trans0076')}}</span>
+                    <i class="limit-icon url-limit iconfont icon-ic_limit_website_off"
+                       v-if="!isMobile"
+                       :title="$t('trans0076')"
+                       :class="{'active':isBlacklsitLimit(row)}"></i>
+                    <span v-if="isMobile"
+                          class="label">{{$t('trans0076')}}</span>
                     <span class="status">
                       <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
                     </span>
@@ -242,14 +255,25 @@
               </li>
               <li class="column-black-list"
                   v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
-                <span class="btn-text btn-text-strange setting"
-                      v-if="!isOfflineDevices"
-                      @click="()=>forward2limit(row)">
-                  {{$t('trans0019')}}
+                <span class="btn-icon"
+                      @click="()=>addToBlackList(row)">
+                  <i class="add-to-block iconfont icon-ic_blocklist_normal"></i>
+                  <span class="icon-hover-popover"> {{$t('trans0016')}}</span>
                 </span>
-                <span class="btn-text btn-text-strange"
+                <span v-if="isMobile"
+                      class="label"
                       @click="()=>addToBlackList(row)">
                   {{$t('trans0016')}}
+                </span>
+                <span class="btn-icon"
+                      @click="()=>forward2limit(row)">
+                  <i class="settings iconfont icon-ic_settings_normal"></i>
+                  <span class="icon-hover-popover"> {{$t('trans0019')}}</span>
+                </span>
+                <span v-if="!isOfflineDevices&&isMobile"
+                      class="label"
+                      @click="()=>forward2limit(row)">
+                  {{$t('trans0019')}}
                 </span>
               </li>
               <li class="column-black-list"
@@ -312,7 +336,6 @@ export default {
       BlacklistMode,
       formatMac,
       checkAll: false,
-      isMobile: false,
       modalShow: false,
       row: {},
       devicesMap: {},
@@ -340,6 +363,9 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      return this.$store.isMobile;
+    },
     offlineCheckedMacs() {
       const macs = [];
       if (this.devicesMap[this.id] && this.devicesMap[this.id].length > 0) {
@@ -363,33 +389,26 @@ export default {
       const list = [
         {
           id: 'primary',
-          text: this.$t('trans0514')
+          text: this.$t('trans0514'),
+          icon: 'icon-ic_devices_mywifi_normal'
         },
         {
           id: 'offline',
-          text: this.$t('trans0516')
+          text: this.$t('trans0516'),
+          icon: 'icon-ic_devices_offline_normal'
         }
       ];
       if (this.isRouter) {
         list.splice(1, 0, {
           id: 'guest',
-          text: this.$t('trans0515')
+          text: this.$t('trans0515'),
+          icon: 'icon-ic_devices_guest_normal'
         });
       }
       return list;
     }
   },
   async mounted() {
-    const that = this;
-    this.getIsMobile(that);
-    window.addEventListener('resize', () => {
-      const w = that.windowWidth();
-      if (w <= 768) {
-        that.isMobile = true;
-      } else {
-        that.isMobile = false;
-      }
-    });
     const selfInfo = await this.$http.getLocalDevice();
     this.localDeviceIP = selfInfo.data.result.ip;
     this.getDeviceList(true);
@@ -533,21 +552,6 @@ export default {
             v.expand = !v.expand;
           }
         });
-      }
-    },
-    windowWidth() {
-      if (window.innerWidth) return window.innerWidth;
-      if (document.documentElement && document.documentElement.clientWidth) {
-        return document.documentElement.clientWidth;
-      }
-      return 0;
-    },
-    getIsMobile(that) {
-      const w = that.windowWidth();
-      if (w <= 768) {
-        that.isMobile = true;
-      } else {
-        that.isMobile = false;
       }
     },
     async getDeviceList(showLoading) {
@@ -748,6 +752,22 @@ export default {
         }
       });
       return durationStr;
+    },
+    getConnectTypeIcon(row) {
+      let icon = '';
+      if (this.isWired(row)) {
+        icon = require('../../../assets/images/icon/ic_wired.svg');
+        return icon;
+      }
+      const { online_info: { rssi } } = row;
+      if (rssi > -76) {
+        icon = require('../../../assets/images/icon/ic_wireless_excellent.svg');
+      } else if (rssi < -76 && rssi > -90) {
+        icon = require('../../../assets/images/icon/ic_wireless_fair.svg');
+      } else {
+        icon = require('../../../assets/images/icon/ic_wireless_weak.svg');
+      }
+      return icon;
     }
   },
   watch: {
@@ -769,9 +789,13 @@ export default {
 <style lang="scss" scoped>
 .device-container {
   padding-bottom: 50px;
-  border-radius: 8px;
-  .tabs {
-    padding: 0;
+  border-radius: 10px;
+  .tab {
+    .icon {
+      font-size: 18px;
+      font-weight: 600;
+      margin-right: 5px;
+    }
   }
   .table-empty {
     padding-top: 30px;
@@ -814,14 +838,9 @@ export default {
     }
   }
   flex: auto;
-  background: white;
   padding: 0 20px;
   .device-wrapper {
     flex: 1;
-    .tab {
-      font-size: 16px;
-      font-weight: bold;
-    }
     .title {
       font-size: 16px;
       color: #333333;
@@ -830,20 +849,25 @@ export default {
       border-bottom: 1px solid #f1f1f1;
     }
     .table-inner {
-      margin-top: 20px;
+      margin-top: 10px;
       ul,
       li {
         text-decoration: none;
         list-style: none;
         display: flex;
-        color: #333333;
         font-size: 14px;
-        overflow: hidden;
+        // overflow: hidden;
       }
       .table-head {
+        height: 50px;
+        border-radius: 10px;
+        background: var(--table-row-background-color);
+        width: 100%;
+        margin-bottom: 5px;
         ul {
           height: 50px;
           padding: 0 20px;
+          color: var(--table-header-text-color);
         }
       }
       .table-body {
@@ -854,11 +878,11 @@ export default {
           padding: 30px 0;
         }
         ul {
-          border-bottom: 1px solid #f1f1f1;
-          padding: 15px 20px;
-          &:nth-child(2n) {
-            background: #f7f7f7;
-          }
+          padding: 15px;
+          border-radius: 10px;
+          margin-bottom: 5px;
+          color: var(--text-default-color);
+          background: var(--table-row-background-color);
         }
       }
       ul {
@@ -874,6 +898,20 @@ export default {
         flex-shrink: 0;
       }
       .column-name {
+        width: 300px;
+        position: relative;
+        .connect-type-wrap {
+          width: 50px;
+          height: 50px;
+          margin-right: 15px;
+          border-radius: 50%;
+          overflow: hidden;
+          background-color: var(--table-body-connect-icon-bgc);
+          > img {
+            width: 100%;
+            height: 100%;
+          }
+        }
         .name-wrap {
           &.offline {
             display: flex;
@@ -882,7 +920,6 @@ export default {
         .mobile-icon {
           display: none;
         }
-        width: 260px;
       }
       .column-ip {
         .pc-mac {
@@ -936,17 +973,7 @@ export default {
       }
       .column-black-list {
         width: 230px;
-        .btn-text {
-          margin-right: 30px;
-          &:last-child {
-            margin-right: 0;
-          }
-        }
-      }
-      .table-head {
-        height: 50px;
-        background: #f1f1f1;
-        width: 100%;
+        justify-content: flex-end;
       }
       .icon-inner {
         display: flex;
@@ -972,9 +999,12 @@ export default {
         }
         span {
           &:first-child {
-            padding: 2px 6px;
+            padding: 3px 6px;
             border-radius: 3px;
-            border: 1px solid #333;
+            font-size: 12px;
+            text-align: center;
+            color: #fff;
+            background: var(--dashboard-band-background-color);
           }
         }
       }
@@ -986,19 +1016,51 @@ export default {
           text-align: left;
           display: flex;
           cursor: pointer;
-          align-items: baseline;
+          align-items: center;
           span {
             display: inline-block;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: pre;
-            max-width: 200px;
+            max-width: 240px;
             flex-shrink: 0;
+            font-weight: 550;
           }
-          img {
-            width: 14px;
+          > img {
+            width: 15px;
             margin-left: 5px;
             flex-shrink: 0;
+            filter: var(--img-brightness);
+          }
+          .local-device-wrapper {
+            position: absolute;
+            bottom: -3px;
+            left: -3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--table-local-device-icon-bgc);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: default;
+            &::before {
+              content: '';
+              position: absolute;
+              bottom: 3px;
+              left: 50%;
+              transform: translateX(-50%);
+              display: inline-block;
+              width: 2px;
+              height: 6px;
+              background: var(--primaryColor);
+              z-index: 10;
+            }
+            img {
+              width: 70%;
+              height: 70%;
+              filter: var(--img-brightness);
+            }
           }
         }
         &.off-name {
@@ -1038,12 +1100,7 @@ export default {
           align-items: center;
           span {
             text-align: left;
-            color: #999999;
             font-size: 14px;
-            &:hover {
-              color: #333333;
-              text-decoration: underline;
-            }
           }
           img {
             width: 11px;
@@ -1063,38 +1120,10 @@ export default {
             margin-left: 0;
           }
           .limit-icon {
-            display: block;
-            width: 23px;
-            height: 23px;
-            &.time-limit {
-              background: url(../../../assets/images/icon/ic_limit_time_close.png)
-                no-repeat center;
-              background-size: 100%;
-              &.active {
-                background: url(../../../assets/images/icon/ic_limit_time.png)
-                  no-repeat center;
-                background-size: 100%;
-              }
-            }
-            &.speed-limit {
-              background: url(../../../assets/images/icon/ic_limit_speed_close.png)
-                no-repeat center;
-              background-size: 100%;
-              &.active {
-                background: url(../../../assets/images/icon/ic_limit_speed.png)
-                  no-repeat center;
-                background-size: 100%;
-              }
-            }
-            &.url-limit {
-              background: url(../../../assets/images/icon/ic_limit_website_close.png)
-                no-repeat center;
-              background-size: 100%;
-              &.active {
-                background: url(../../../assets/images/icon/ic_limit_website.png)
-                  no-repeat center;
-                background-size: 100%;
-              }
+            color: var(--table-limit-icon-color);
+            font-size: 20px;
+            &.active {
+              color: var(--primaryColor);
             }
           }
         }
@@ -1135,6 +1164,24 @@ export default {
     }
   }
 }
+@media screen and (max-width: 1440px) {
+  .device-container {
+    .device-wrapper {
+      .table-inner {
+        .column-name {
+          width: 285px;
+        }
+        .name-inner {
+          a {
+            span {
+              max-width: 180px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 768px) {
   .device-container {
     .table-empty {
@@ -1145,7 +1192,7 @@ export default {
     background: transparent;
     padding: 0 !important;
     .tabs {
-      padding: 0 20px;
+      padding: 0 15px;
       .tab {
         font-size: 14px;
       }
@@ -1176,8 +1223,6 @@ export default {
         justify-content: center;
         margin-left: 0;
         margin-bottom: 10px;
-        img {
-        }
       }
     }
     .device-wrapper {
@@ -1188,6 +1233,7 @@ export default {
       }
       .table-inner {
         background: transparent;
+        border-top: 1px solid var(--table-header-hr-color);
         margin: 0;
         .column-check-box {
           width: auto;
@@ -1200,20 +1246,14 @@ export default {
         .table-body {
           ul {
             flex-direction: column;
-            padding: 0;
+            padding: 0 10px;
             overflow: inherit;
-            background: white;
+            background: var(--table-row-background-color);
             border-radius: 3px;
-            margin: 0 20px;
+            margin: 5px 10px;
             width: auto;
             border: none;
-            &:nth-child(2n) {
-              background: #fff;
-            }
             &.expand {
-              margin: 0;
-              padding: 0 20px;
-              background: #f1f1f1;
               position: relative;
               .name-wrap {
                 height: 180px;
@@ -1234,25 +1274,29 @@ export default {
                 position: static;
               }
               .name-inner {
-                background: #fff;
-                padding: 0 20px;
+                padding: 0 10px;
+                border-bottom: 1px solid var(--table-body-hr-color);
                 &.off-name {
-                  // padding: 0;
                   left: 0 !important;
                   a {
                     margin-left: 28px;
                   }
                 }
               }
-            }
-            li {
-              border-bottom: 1px solid #e0e0e0;
-              background: #f1f1f1;
+              li {
+                border-bottom: 1px solid var(--table-body-hr-color);
+                &:last-of-type {
+                  border: 0;
+                }
+                .label {
+                  color: var(--table-header-text-color);
+                }
+              }
             }
           }
         }
         .small-device-body {
-          margin-bottom: 50px;
+          margin-bottom: 35px;
           .name-inner {
             a {
               &:hover {
@@ -1263,9 +1307,8 @@ export default {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: pre;
-                max-width: 130px;
-              }
-              img {
+                max-width: 200px;
+                font-weight: 400;
               }
             }
             &.off-name {
@@ -1283,13 +1326,13 @@ export default {
               display: block;
               display: flex;
               align-items: center;
-              // padding-right: 20px;
               img {
-                width: 14px;
-                height: 7px;
+                width: 12px;
+                height: 12px;
                 transition: all 0.3s;
+                filter: var(--img-brightness);
                 &.i-collapse {
-                  transform: rotate(180deg);
+                  transform: rotate(90deg);
                 }
                 &.i-expand {
                   transform: rotate(0deg);
@@ -1297,7 +1340,6 @@ export default {
               }
             }
             width: 100%;
-            background: white;
             border-radius: 3px;
             position: relative;
             overflow: inherit;
@@ -1326,7 +1368,6 @@ export default {
               }
               .des-inner {
                 width: 100%;
-                background: #f1f1f1;
                 height: 120px;
                 display: flex;
                 align-items: center;
@@ -1334,19 +1375,24 @@ export default {
                 flex-direction: column;
                 margin-top: 60px;
                 .row {
-                  border-bottom: 1px solid #e1e1e1;
+                  border-bottom: 1px solid var(--table-body-hr-color);
                   align-items: center;
                   display: flex;
                   width: 100%;
                   justify-content: space-between;
                   height: 60px;
                   padding: 0;
+                  background: transparent;
                   .label {
+                    color: var(--table-header-text-color);
+                    background: transparent;
                     padding: 0;
                     display: block;
                   }
                 }
                 span {
+                  color: var(--text-default-color);
+                  font-size: 14px;
                   border: 0;
                   margin: 0;
                 }
@@ -1414,10 +1460,13 @@ export default {
           .device-item {
             height: 60px;
             width: 100%;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid var(--table-body-hr-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            &:last-child {
+              border: 0;
+            }
             &.offline {
               span {
                 &:last-child {
@@ -1435,12 +1484,6 @@ export default {
             flex-direction: column;
             .item {
               margin-left: 0;
-              span {
-                color: #333333;
-                &:hover {
-                  text-decoration: none;
-                }
-              }
               .icon {
                 width: 11px;
                 display: none;
@@ -1483,18 +1526,32 @@ export default {
           }
           .column-black-list {
             width: 100%;
-            padding: 15px 0;
             display: flex;
-            justify-content: center;
-            padding-top: 30px !important;
-            padding-bottom: 30px !important;
-            border: 0;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 25px !important;
+            padding-bottom: 25px !important;
           }
           .li-expand {
             display: block;
           }
           .li-collapse {
             display: none;
+          }
+        }
+        .name-inner {
+          a {
+            .local-device-wrapper {
+              position: relative;
+              left: 0;
+              bottom: 0;
+              margin-right: 5px;
+              background: transparent;
+              > img {
+                width: 100%;
+                height: 100%;
+              }
+            }
           }
         }
       }

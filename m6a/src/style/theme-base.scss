@@ -171,8 +171,9 @@
   --switch-chencked-color: #00d061;
 
   // tab
-  --tabs-border-color: #f1f1f1;
+  --tab-icon-color: #808080;
   --tab-hover-color: #999;
+  --tab-hover-background-color: #f5f5f5;
   --tab-active-color: #999;
   --tab-selected-color: var(--primaryColor);
   --tab-selected-text-color: var(--primaryColor);
@@ -240,6 +241,25 @@
   --dashboard-wifi-background-color: #f7f7f7;
   --dashboard-dividing-line-color: #dfdfdf;
   --dashboard-app-background-color: #ededed;
+
+  //table
+  --table-row-background-color: #fafafa;
+  --table-header-text-color: #808080;
+  --table-body-connect-icon-bgc: #ebebeb;
+  --table-local-device-icon-bgc: #fff;
+  --table-limit-icon-color: #808080;
+  --table-action-icon-color: #979797;
+  --table-action-icon-bgc: #fff;
+  --table-action-popover-bgc: #333;
+  --table-header-hr-color: #f7f7f7;
+  --table-body-hr-color: #fafafa;
+
+  //aside
+  --aside-selected-text-color: #d6001c;
+  --asdie-selected-background: #ffe2e2;
+
+  // drawer
+  --drawer-background: #ffffff;
 }
 //深色主题，颜色定义
 @mixin dark-theme {
@@ -409,10 +429,11 @@
   --switch-chencked-color: #00d061;
 
   // tab
-  --tabs-border-color: #f1f1f1;
+  --tab-icon-color: #fff;
   --tab-hover-color: #999;
+  --tab-hover-background-color: rgba(255, 255, 255, 0.2);
   --tab-active-color: #999;
-  --tab-selected-color: var(--primaryColor);
+  --tab-selected-color: #ff334e;
   --tab-selected-text-color: var(--primaryColor);
 
   // timepicker
@@ -478,4 +499,23 @@
   --dashboard-wifi-background-color: #1a1a1a;
   --dashboard-dividing-line-color: rgba(255, 255, 255, 0.2);
   --dashboard-app-background-color: #2e2e2e;
+
+  //table
+  --table-row-background-color: #1a1a1a;
+  --table-header-text-color: rgba(255, 255, 255, 0.6);
+  --table-body-connect-icon-bgc: #3b3c3e;
+  --table-local-device-icon-bgc: #696969;
+  --table-limit-icon-color: #bababa;
+  --table-action-icon-color: #fff;
+  --table-action-icon-bgc: #595959;
+  --table-action-popover-bgc: #4d4d4d;
+  --table-header-hr-color: #2c2c2c;
+  --table-body-hr-color: #2a2a2a;
+
+  //aside
+  --aside-selected-text-color: #fff;
+  --asdie-selected-background: rgba(187, 27, 48, 0.7);
+
+  // drawer
+  --drawer-background: #4d4d4d;
 }

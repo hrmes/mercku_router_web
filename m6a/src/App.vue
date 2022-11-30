@@ -10,7 +10,9 @@
                     :logoVisible="logoVisible"
                     :navs="menus"
                     class="header"></m-header>
-          <router-view></router-view>
+          <component :is="layout"
+                     :hasBackWrap='hasBackWrap'
+                     :hasAside='hasAside'></component>
           <m-policy :locale="$i18n.locale"
                     :isLoginPage="!logoVisible"
                     :class="{ 'fix-bottom': !navVisible }"
@@ -30,10 +32,28 @@
 </template>
 <script>
 import './style/common.scss';
+import defaultLayout from './layouts/default.vue';
+import primaryLayout from './layouts/primary.vue';
 import getMenu from './menu';
 
 export default {
+  components: {
+    default: defaultLayout,
+    primary: primaryLayout,
+  },
   computed: {
+    layout() {
+      const { layout } = this.$route.meta;
+      return layout || 'default';
+    },
+    hasBackWrap() {
+      const { hasBackWrap } = this.$route.meta;
+      return hasBackWrap;
+    },
+    hasAside() {
+      const { hasAside } = this.$route.meta;
+      return hasAside;
+    },
     logoVisible() {
       return !this.$route.path.includes('login');
     },
@@ -57,7 +77,7 @@ export default {
         height = contentMinHeight;
       }
       this.$refs.flexWrap.style.minHeight = `${height}px`;
-    }
+    },
   },
   mounted() {
     this.setHeight();
@@ -108,6 +128,9 @@ export default {
   }
   .header {
     z-index: 1000;
+  }
+  .layout-wrap {
+    flex: 1;
   }
   .policy {
     width: 100%;

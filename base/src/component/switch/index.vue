@@ -55,8 +55,8 @@ export default {
   }
   .mk-switch__inner {
     cursor: pointer;
-    width: 46px;
-    height: 22px;
+    width: 40px;
+    height: 25px;
     position: relative;
     background-color: var(--switch-background-color);
     border-radius: 22px;
@@ -66,12 +66,19 @@ export default {
     user-select: none;
     outline: none;
     &::before {
-      content: '';
-      width: 16px;
-      height: 16px;
+      content: '\e667';
+      font-family: 'iconfont';
+      width: 20px;
+      height: 20px;
+      line-height: 21px;
+      text-align: center;
       position: absolute;
-      top: 3px;
-      left: 3px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #bdbdbd;
+      top: 50%;
+      left: 2px;
+      transform: translate(0, -51%);
       border-radius: 16px;
       background-color: var(--switch-circle-color);
       transition: left 0.3s;
@@ -82,7 +89,9 @@ export default {
       transition: border ease 0.4s, box-shadow ease 0.4s,
         background-color ease 1.2s;
       &::before {
-        left: 26px;
+        content: '\e65c';
+        left: 18px;
+        color: #0fc866;
       }
     }
     &.disabled {

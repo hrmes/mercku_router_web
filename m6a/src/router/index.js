@@ -17,6 +17,10 @@ import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
+import limit from 'pages/bussiness/dashboard/limit/index.vue';
+import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
+import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
+import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -27,7 +31,6 @@ import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
-import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import dmz from 'base/pages/bussiness/advance/dmz.vue';
@@ -37,12 +40,9 @@ import vpn from 'base/pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'base/pages/bussiness/advance/vpn/form.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
-import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
-import speedLimit from 'base/pages/bussiness/dashboard/limit/speed.vue';
 import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
 import mac from 'base/pages/bussiness/advance/mac.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
-import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
@@ -88,23 +88,41 @@ const routes = {
       path: '/dashboard',
       name: 'dashboard',
       component: dashboard
-      // redirect: '/dashboard/mesh/table',
-      // children: []
     },
     {
       path: '/dashboard/device/:id?',
       name: 'device',
-      component: device
+      component: device,
+      meta: {
+        text: 'Devices',
+        layout: 'primary',
+        hasBackWrap: true,
+        parentPath: '/dashboard'
+      }
     },
     {
       path: '/dashboard/mesh/:category',
       name: 'mesh',
-      component: mesh
+
+      component: mesh,
+      meta: {
+        text: 'Router Management',
+        layout: 'primary',
+        hasBackWrap: true,
+        parentPath: '/dashboard'
+      }
     },
     {
       path: '/dashboard/internet',
       name: 'internet',
-      component: internet
+
+      component: internet,
+      meta: {
+        text: 'Internet',
+        layout: 'primary',
+        hasBackWrap: true,
+        parentPath: '/dashboard'
+      }
     },
     {
       path: '/mesh/add',
@@ -118,19 +136,32 @@ const routes = {
       redirect: '/limit/:mac/time',
       children: [
         {
-          path: '/limit/:mac/speed',
-          name: 'device-limit-speed',
-          component: speedLimit
-        },
-        {
           path: '/limit/:mac/time',
           name: 'device-limit-time',
-          component: timeLimit
+          component: timeLimit,
+          meta: {
+            text: 'Time Limit',
+            parentPath: '/dashboard/device/primary'
+          }
+        },
+        {
+          path: '/limit/:mac/speed',
+          name: 'device-limit-speed',
+          component: speedLimit,
+          meta: {
+            text: 'Rate Limit',
+            parentPath: '/dashboard/device/primary'
+          }
         },
         {
           path: '/limit/:mac/url',
           name: 'device-limit-url',
-          component: urlLimit
+          component: urlLimit,
+          meta: {
+            text: 'Website Blocklist',
+
+            parentPath: '/dashboard/device/primary'
+          }
         }
       ]
     },
@@ -336,4 +367,5 @@ Array.prototype.push.apply(routes.routes, [
     redirect: `${prefix}/login`
   }
 ]);
+
 export default new Router(routes);

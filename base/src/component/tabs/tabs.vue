@@ -10,48 +10,59 @@ export default {};
 <style lang="scss" scoped>
 .tabs {
   display: flex;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--tabs-border-color);
+  padding: 10px 0;
   .tab {
-    font-size: 18px;
-    padding: 20px 0;
-    font-weight: bold;
-    cursor: pointer;
     position: relative;
-    &:hover,
-    :active {
-      color: var(--tab-hover-color);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 7px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease-out;
+    &:hover {
+      background: var(--tab-hover-background-color);
     }
     &.selected {
-      &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: var(--tab-selected-color);
-        border-radius: 5px;
-      }
-
       color: var(--tab-selected-color);
     }
-    margin-left: 50px;
-    &:first-child {
-      margin-left: 0;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -10px;
+      transform: translateY(-40%);
+      display: inline-block;
+      width: 1px;
+      height: 12px;
+      cursor: default;
+      border: 0.5px solid transparent;
+      border-left-color: #d8d8d8;
+    }
+    margin-right: 20px;
+    &:last-child {
+      margin: 0;
+      &::after {
+        display: none;
+      }
     }
   }
 }
 @media screen and (max-width: 768px) {
   .tabs {
     padding: 0;
+    justify-content: space-between;
     .tab {
+      // flex: 1;
       font-size: 14px;
       min-width: initial;
-      margin-left: 30px;
+      margin: 0;
+      padding: 7px 5px;
+      text-align: center;
       &:hover {
         background: none;
+      }
+      &::after {
+        right: -20%;
       }
     }
   }
