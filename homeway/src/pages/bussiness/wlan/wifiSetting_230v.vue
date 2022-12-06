@@ -171,8 +171,10 @@ import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } fro
 // 路由器会根据我们是否传递apClient字段来判断与切换Homeway的工作模式,传递了apClient，无论插没插网线，都切换为无线桥，；没传递apClient的情况分 1.默认的有线桥 2.用户点击跳过了上级的设置
 
 const LoadingStatus = {
+  empty: 0,
   loading: 1,
-  failed: 2
+  failed: 2,
+  default: 3
 };
 
 const UpperApInitForm = {
@@ -289,7 +291,7 @@ export default {
       originalUpperList: [],
       processedUpperApList: [],
       saveDisable: true,
-      selectIsLoading: LoadingStatus.loading,
+      selectIsLoading: LoadingStatus.default,
       loadingText: `${this.$t('trans1070')}...`,
       getApclientScanTimer: null,
     };
@@ -397,8 +399,6 @@ export default {
     getWanStatus() {
       this.$http.getWanStatus()
         .then(res => {
-          this.startApclientScan();
-
           console.log(res);
           const { status } = res.data.result;
           if (status !== WanNetStatus.unlinked) { // 如果插入了网线，就弹窗提示，可跳过上级设置
@@ -441,9 +441,10 @@ export default {
       return fliteredArr;
     },
     startApclientScan() {
+      console.log(this.selectIsLoading);
+      if (this.selectIsLoading === LoadingStatus.loading) return;
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
-
       this.$http.startMeshApclientScan()
         .then(() => {
           setTimeout(() => {
