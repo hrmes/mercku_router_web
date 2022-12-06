@@ -2,22 +2,21 @@
 
   <div class="urllimit">
     <div class="handle">
-      <label for="">{{$t('trans0462')}}</label>
       <m-switch @change="changehandle"
                 v-model="mode" />
+      <label for="">{{$t('trans0462')}}</label>
     </div>
     <div class='table'
          :class="{'table--empty':!sortList.length}">
-      <div class="tools">
+      <div v-if="!isMobile"
+           class="tools">
         <button class="btn btn-small"
                 @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
-
       </div>
       <div class="table-head">
         <div class="column-address">{{$t('trans0076')}}
-          <span>{{$t('trans0101')}}</span>
+          <span>({{$t('trans0101')}})</span>
         </div>
-        <div class="column-handle">{{$t('trans0370')}}</div>
       </div>
       <div class="table-body">
         <div class="table-row"
@@ -25,8 +24,11 @@
              :key='index'>
           <div class="column-address">{{row}}</div>
           <div class="column-handle">
-            <a class="btn-text text-primary"
-               @click="delRow(row)">{{$t('trans0033')}}</a>
+            <span class="btn-icon"
+                  @click="delRow(row)">
+              <i class="delete iconfont icon-ic_trash_normal"></i>
+              <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+            </span>
           </div>
         </div>
         <div class="empty"
@@ -34,6 +36,11 @@
           <img src="../../../../assets/images/img_default_empty.png"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
+        </div>
+        <div v-if="isMobile"
+             class="mobile-add-btn">
+          <button class="btn"
+                  @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
@@ -109,6 +116,9 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      return this.$store.isMobile;
+    },
     sortList() {
       const list = this.parentControlLimitList;
       return list.sort();
@@ -280,40 +290,38 @@ export default {
   width: 100%;
   position: relative;
   .handle {
+    position: absolute;
     display: flex;
     align-items: center;
-    position: absolute;
-    top: 3px;
-    right: 0;
     label {
-      padding: 0 30px 0 10px;
+      margin-left: 10px;
+      font-weight: 600;
     }
   }
   .table {
     width: 100%;
-
     .tools {
       margin-bottom: 20px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
-    }
-    .column-handle {
-      width: 250px;
     }
     .column-address {
       span {
-        padding-left: 20px;
+        padding-left: 10px;
         font-size: 12px;
         color: #999999;
       }
     }
     .table-head {
       height: 50px;
-      background-color: #f1f1f1;
+      background-color: var(--table-row-background-color);
       display: flex;
-      padding: 0 30px;
+      padding: 0 20px;
+      border-radius: 10px;
+      margin-bottom: 5px;
       justify-content: space-between;
+      color: var(--table-header-text-color);
       div {
         display: flex;
         height: 50px;
@@ -323,15 +331,11 @@ export default {
     .table-body {
       .table-row {
         display: flex;
-        padding: 15px 30px;
-        border-bottom: 1px solid #f1f1f1;
+        padding: 20px 20px;
         justify-content: space-between;
-        &:nth-child(2n) {
-          background: #f7f7f7;
-          @media screen and(max-width:768px) {
-            background: #fff;
-          }
-        }
+        border-radius: 10px;
+        margin-bottom: 5px;
+        background: var(--table-row-background-color);
         .column-handle {
           display: flex;
           align-items: center;
@@ -348,66 +352,36 @@ export default {
     }
   }
   .urllimit {
-    .tools {
-      .btn {
-        min-width: 120px;
-        height: 38px;
-      }
-    }
+    padding: 10px;
     .handle {
       display: flex;
       align-items: center;
-      right: initial;
-      left: 0;
-      top: 11px;
-      label {
-        padding: 0 30px 0 0px;
-      }
+      left: 10px;
+      top: 10px;
     }
     .table {
-      &.table--empty {
-        .tools {
-          position: static;
-          justify-content: center;
-          border: 0;
-          margin: 0;
-          margin-top: 10px;
-          .btn {
-            min-width: 120px;
-            height: 38px;
-          }
-        }
-      }
-      .tools {
-        position: absolute;
-        right: 0;
-        margin: 0;
-        top: 0;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        .btn {
-          margin: 0;
-        }
-      }
       .table-body {
-        margin-top: 68px;
+        margin-top: 45px;
         .table-row {
           flex-direction: row;
-          border-top: 1px solid #f1f1f1;
-          border-bottom: 0;
-          padding: 20px 0;
+          padding: 20px 10px;
           position: relative;
+        }
+        .mobile-add-btn {
+          margin-top: 30px;
+          padding-top: 30px;
+          border-top: 1px solid var(--table-body-hr-color);
         }
       }
       .column-address {
-        width: 200px;
-        overflow: height;
+        flex: 1;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .column-handle {
-        width: 100%;
         justify-content: flex-end;
-        // margin-top: 20px;
         a {
           margin-right: 0 !important;
           &:first-child {

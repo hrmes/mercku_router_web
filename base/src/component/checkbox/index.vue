@@ -82,28 +82,25 @@ export default {
     float: left;
     width: 18px;
     height: 18px;
-    border-radius: 4px;
-    border: 1px solid var(--check-border-color);
-    background: var(--check-background-color);
+    line-height: 18px;
+    text-align: center;
+    border-radius: 3px;
+    border: 1.5px solid var(--checkbox-border-color);
+    background: var(--checkbox-background-color);
     &.circle-shape {
       border-radius: 50%;
     }
     &.checked {
-      background: #333;
+      border: 0;
+      background: var(--checkbox-checked-background-color);
       position: relative;
-      border-color: var(--check-checked-background-color);
       &::after {
-        content: '';
-        display: block;
-        border: 1px solid var(--check-checked-color);
-        border-left: 0;
-        border-top: 0;
-        height: 8px;
-        left: 6px;
-        position: absolute;
-        top: 3px;
-        transform: rotate(45deg);
-        width: 3px;
+        content: '\e65c';
+        width: 10px;
+        height: 10px;
+        font-size: 10px;
+        font-family: 'iconfont';
+        color: #fff;
       }
     }
     &.disabled {
@@ -116,8 +113,9 @@ export default {
     display: inline;
     font-size: 14px;
     line-height: 1;
-    color: #333;
-    margin-left: 10px;
+    color: var(--text-default-color);
+    margin-left: 5px;
+    user-select: none;
   }
 }
 </style>

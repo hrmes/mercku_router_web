@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'iconfont'; /* Project id 3783383 */
-  src: url('iconfont.woff2?t=1669701938146') format('woff2'),
-    url('iconfont.woff?t=1669701938146') format('woff');
+  src: url('iconfont.woff2?t=1670312412539') format('woff2'),
+    url('iconfont.woff?t=1670312412539') format('woff');
 }
 
 .iconfont {
@@ -10,6 +10,86 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ic_speedtest:before {
+  content: '\e69c';
+}
+
+.icon-ic_file_error:before {
+  content: '\e69a';
+}
+
+.icon-ic_file:before {
+  content: '\e69b';
+}
+
+.icon-ic_enter:before {
+  content: '\e699';
+}
+
+.icon-ic_edit:before {
+  content: '\e698';
+}
+
+.icon-ic_guest:before {
+  content: '\e695';
+}
+
+.icon-ic_apple:before {
+  content: '\e696';
+}
+
+.icon-ic_android:before {
+  content: '\e697';
+}
+
+.icon-ic_device_upload:before {
+  content: '\e692';
+}
+
+.icon-ic_device_download:before {
+  content: '\e693';
+}
+
+.icon-ic_device_throughput:before {
+  content: '\e694';
+}
+
+.icon-ic_gateway_m2:before {
+  content: '\e683';
+}
+
+.icon-ic_node_bee_excellent_n:before {
+  content: '\e684';
+}
+
+.icon-ic_node_m2_excellent_n:before {
+  content: '\e686';
+}
+
+.icon-ic_gateway_m6:before {
+  content: '\e68c';
+}
+
+.icon-ic_node_m6_excellent_n:before {
+  content: '\e68d';
+}
+
+.icon-ic_node_m6a_excellent_n:before {
+  content: '\e68e';
+}
+
+.icon-ic_gateway_m6a:before {
+  content: '\e68f';
+}
+
+.icon-ic_gateway_m6aplus:before {
+  content: '\e690';
+}
+
+.icon-ic_node_m6aplus_excellent_n:before {
+  content: '\e691';
 }
 
 .icon-ic_equipment_wireless_excellent:before {

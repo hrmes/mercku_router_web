@@ -61,12 +61,6 @@ input::-webkit-input-placeholder {
 .page {
   position: relative;
   flex: auto;
-  // margin: 0 10%;
-
-  // @media screen and (max-width: 1440px) {
-  //   margin: 0 50px;
-  // }
-
   display: flex;
   flex-direction: column;
   background: #fff;
@@ -89,7 +83,6 @@ input::-webkit-input-placeholder {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
   }
 
   .form {
@@ -109,9 +102,7 @@ input::-webkit-input-placeholder {
   align-items: center;
   justify-content: center;
   width: 100%;
-  border-bottom: 1px solid #f1f1f1;
   height: 50px;
-
   img {
     display: none;
   }

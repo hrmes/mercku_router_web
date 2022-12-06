@@ -84,7 +84,6 @@ export default {
   },
   computed: {
     isMobile() {
-      console.log(this.$store.isMobile);
       return this.$store.isMobile;
     },
     litmitType() {
@@ -93,7 +92,6 @@ export default {
   },
   methods: {
     onBack(target) {
-      console.log(target);
       this.$router.replace({ path: target });
     },
     isCategory(category) {
@@ -271,7 +269,7 @@ export default {
           transform: translateY(100%);
           width: 100%;
           z-index: 1001;
-          transition: all 0.3s ease-in-out;
+          transition: all 0.2s ease-out;
           &.show {
             transform: translateY(0);
           }
@@ -317,6 +315,9 @@ export default {
       }
       .laptop-aside-wrap {
         display: none;
+      }
+      .page-content {
+        padding: 10px;
       }
     }
     .mask {

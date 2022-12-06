@@ -47,6 +47,7 @@ export default {
   },
   methods: {
     onBack(target) {
+      console.log(target);
       this.$router.replace({ path: target });
     },
     getIsMobile(that) {
@@ -114,7 +115,7 @@ export default {
 }
 @media screen and (max-width: 1440px) {
   .primary {
-    padding: 0 50px;
+    padding: 0 45px;
   }
 }
 @media screen and (max-width: 768px) {

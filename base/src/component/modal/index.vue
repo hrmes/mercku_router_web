@@ -59,7 +59,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
   &.modal-enter-active {
     transition: all 0.3s ease-in;
   }
@@ -85,7 +84,7 @@ export default {
 
   .modal-content {
     background: var(--modal-content-background);
-    padding: 20px;
+    padding: 30px;
     border-radius: 5px;
     box-shadow: 0 2px 12px 0 var(--modal-shadow-color);
   }

@@ -66,7 +66,7 @@
                 </div>
               </div>
               <div class="current-icon">
-                <img src="../../../assets/images/icon/ic_user.png"
+                <img src="../../../assets/images/icon/ic_local-device.svg"
                      alt="">
               </div>
             </div>
@@ -112,7 +112,8 @@
             </div>
           </div>
           <div class="add-node-container">
-            <button class="btn btn-default add-btn">
+            <button class="btn btn-default add-btn"
+                    @click.stop="addMeshNode">
               <span>add a Node</span>
             </button>
           </div>
@@ -293,6 +294,16 @@ export default {
       console.log(`watch task...mode is:${this.$store.mode}`);
       this.clearIntervalTask();
       this.createIntercvalTask();
+    },
+    netStatus: {
+      handler(val) {
+        console.log(val);
+        if (val === CONSTANTS.WanNetStatus.connected) {
+          this.$store.isConnected = true;
+        } else {
+          this.$store.isConnected = false;
+        }
+      }
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -458,7 +469,6 @@ export default {
         .getWanNetStats()
         .then(res => {
           if (this.pageActive) {
-            console.log('res.data.result', res.data.result);
             this.netInfo.realUp = res.data.result.speed.realtime.up;
             this.netInfo.realDown = res.data.result.speed.realtime.down;
             this.wanNetStatsTimer = setTimeout(() => {
@@ -514,6 +524,10 @@ export default {
         return `${this.$t('trans0011').replace('%d', parseInt(date, 10))}`;
       }
       return `${this.$t('trans0010')}`;
+    },
+    addMeshNode() {
+      console.log(111);
+      this.$router.push('/mesh/add');
     },
   },
   beforeDestroy() {
@@ -659,19 +673,7 @@ ul {
               > img {
                 width: 100%;
                 height: 100%;
-                filter: var(--img-brightness);
-              }
-              &::before {
-                content: '';
-                position: absolute;
-                bottom: -1px;
-                left: 50%;
-                transform: translateX(-70%);
-                display: inline-block;
-                width: 2px;
-                height: 5px;
-                background-color: #d6001c;
-                z-index: 999;
+                // filter: var(--img-brightness);
               }
             }
           }
@@ -1289,6 +1291,12 @@ ul {
           }
           &::before {
             top: 20px;
+          }
+          &:hover {
+            &::before {
+              border-top-color: #808080;
+              border-right-color: #808080;
+            }
           }
         }
         > .line-container {

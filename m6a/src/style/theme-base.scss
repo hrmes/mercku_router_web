@@ -15,6 +15,7 @@
   --primaryColor: #d6001c;
   --primaryBackgroundColor: #fff;
   --text-default-color: #333;
+  --text-gery-color: #737373;
   --img-brightness: brightness(0);
   --grey-background-color: #f7f7f7;
   --flex-warp-has-menu-bgc: #f7f7f7;
@@ -49,9 +50,10 @@
 
   // checkbox
   --checkbox-border-color: #999;
-  --checkbox-background-color: #fff;
-  --checkbox-checked-background-color: #333;
+  --checkbox-background-color: transparent;
+  --checkbox-checked-background-color: var(--primaryColor);
   --checkbox-checked-color: #fff;
+  --checkbox-text-color: #333;
 
   // dialog
   --dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
@@ -129,8 +131,10 @@
   --input-disabled-opacity: 0.8;
 
   // modal
-  --modal-mask-background-color: rgba(0, 0, 0, 0.3);
+  --modal-mask-background-color: rgba(0, 0, 0, 0.7);
+  --modal-header-background-color: #ebebeb;
   --modal-content-background: #fff;
+  --modal-content-hr-color: #f1f1f1;
   --modal-shadow-color: rgba(0, 0, 0, 0.1);
 
   // popover
@@ -179,12 +183,12 @@
   --tab-selected-text-color: var(--primaryColor);
 
   // timepicker
-  --time-picker-pannel-border-color: #f1f1f1;
+  --time-picker-pannel-border-color: #b3b3b3;
   --time-picker-combox-background-color: #fff;
   --time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
   --time-picker-buttons-border-color: #f1f1f1;
   --time-picker-button-background-color: #fff;
-  --time-picker-button-cancel-color: #999;
+  --time-picker-button-cancel-color: #333;
   --time-picker-button-confirm-color: var(--primaryColor);
   --time-picker-popup-border-color: #f1f1f1;
   --time-picker-popup-scrollbar-color: #e6e6e6;
@@ -252,7 +256,7 @@
   --table-action-icon-bgc: #fff;
   --table-action-popover-bgc: #333;
   --table-header-hr-color: #f7f7f7;
-  --table-body-hr-color: #fafafa;
+  --table-body-hr-color: #ebebeb;
 
   //aside
   --aside-selected-text-color: #d6001c;
@@ -260,6 +264,11 @@
 
   // drawer
   --drawer-background: #ffffff;
+
+  //internet color theme
+  --internet-background-color: #f7f7f7;
+  --internet-section-background-color: #fff;
+  --internet-section-hr-color: #dbdbdb;
 }
 //深色主题，颜色定义
 @mixin dark-theme {
@@ -268,6 +277,7 @@
   --primaryColor: #df2039;
   --primaryBackgroundColor: #1a1a1a;
   --text-default-color: #fff;
+  --text-gery-color: rgba(255, 255, 255, 0.6);
   --img-brightness: brightness(100);
   --grey-background-color: #404040;
   --flex-warp-has-menu-bgc: #1a1a1a;
@@ -301,10 +311,11 @@
   --button-text-stange-text-color: #fff;
 
   // checkbox
-  --checkbox-border-color: #999;
-  --checkbox-background-color: #fff;
-  --checkbox-checked-background-color: #333;
+  --checkbox-border-color: #fff;
+  --checkbox-background-color: transparent;
+  --checkbox-checked-background-color: var(--primaryColor);
   --checkbox-checked-color: #fff;
+  --checkbox-text-color: rgba(255, 255, 255, 0.8);
 
   // dialog
   --dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
@@ -387,8 +398,10 @@
   --input-disabled-opacity: 0.8;
 
   // modal
-  --modal-mask-background-color: rgba(0, 0, 0, 0.3);
+  --modal-mask-background-color: rgba(0, 0, 0, 0.8);
+  --modal-header-background-color: #383838;
   --modal-content-background: #404040;
+  --modal-content-hr-color: rgba(255, 255, 255, 0.2);
   --modal-shadow-color: rgba(0, 0, 0, 0.1);
 
   // popover
@@ -437,21 +450,21 @@
   --tab-selected-text-color: var(--primaryColor);
 
   // timepicker
-  --time-picker-pannel-border-color: #f1f1f1;
-  --time-picker-combox-background-color: #fff;
+  --time-picker-pannel-border-color: #b3b3b3;
+  --time-picker-combox-background-color: #666;
   --time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
   --time-picker-buttons-border-color: #f1f1f1;
-  --time-picker-button-background-color: #fff;
-  --time-picker-button-cancel-color: #999;
+  --time-picker-button-background-color: #666;
+  --time-picker-button-cancel-color: var(--text-default-color);
   --time-picker-button-confirm-color: var(--primaryColor);
   --time-picker-popup-border-color: #f1f1f1;
-  --time-picker-popup-scrollbar-color: #e6e6e6;
+  --time-picker-popup-scrollbar-color: #888888;
   --time-picker-popup-item-hover-color: #333;
   --time-picker-popup-item-hover-background-color: #f1f1f1;
   --time-picker-popup-item-active-color: #333;
   --time-picker-popup-item-active-background-color: #f1f1f1;
   --time-picker-popup-item-selected-color: var(--primaryColor);
-  --time-picker-input-background-color: #fff;
+  --time-picker-input-background-color: #404040;
 
   // toast
   --toast-color: rgba(0, 0, 0, 0.65);
@@ -518,4 +531,9 @@
 
   // drawer
   --drawer-background: #4d4d4d;
+
+  //internet color theme
+  --internet-background-color: #1a1a1a;
+  --internet-section-background-color: #2e2e2e;
+  --internet-section-hr-color: rgba(255, 255, 255, 0.2);
 }

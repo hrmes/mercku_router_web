@@ -11,26 +11,6 @@
           <span> {{tab.text}}</span>
         </m-tab>
       </m-tabs>
-      <div class="offline-handle-wrapper"
-           v-if="isOfflineDevices">
-        <div class="check-info">
-          <div class="m-check-all-box">
-            <m-checkbox v-model="checkAll"
-                        :text="$t('trans0032')"
-                        @change="offCheckChange"></m-checkbox>
-          </div>
-          <div><button class="btn btn-small"
-                    :disabled="!offlineCheckedMacs.length"
-                    @click="delOfflineDevices(offlineCheckedMacs)">
-              {{$t('trans0453')}}</button></div>
-        </div>
-        <div class="off-more-message"
-             v-if="devicesMap[id]&&devicesMap[id].length>60">
-          <img src="../../../assets/images/icon/ic_hint.png"
-               alt="">
-          {{$t('trans0517')}}
-        </div>
-      </div>
       <div class="table-inner">
         <div class="table-head">
           <ul class="reset-ul">
@@ -52,10 +32,6 @@
             <li class="column-ip"
                 v-if="!isOfflineDevices">{{$t('trans0151')}} /
               {{$t('trans0188')}}</li>
-            <!-- 接入时间 -->
-            <!-- <li class="column-ip"
-                v-if="isOfflineDevices">
-              {{$t('trans0374')}}</li> -->
             <!-- 在线时长 -->
             <li class="column-ip"
                 v-if="isOfflineDevices">
@@ -72,14 +48,45 @@
             <li class="column-black-list"
                 v-if="!isOfflineDevices && isRouter"></li>
             <li class="column-black-list"
-                v-if="isOfflineDevices">{{$t('trans0370')}}</li>
+                v-if="isOfflineDevices">
+              <div>
+                <button class="btn btn-small"
+                        :disabled="!offlineCheckedMacs.length"
+                        @click="delOfflineDevices(offlineCheckedMacs)">
+                  {{$t('trans0033')}}
+                </button>
+              </div>
+            </li>
           </ul>
         </div>
         <div class="table-body small-device-body">
+          <div class="offline-handle-wrapper"
+               v-if="isMobile&&isOfflineDevices">
+            <div class="check-info">
+              <div class="m-check-all-box">
+                <m-checkbox v-model="checkAll"
+                            :text="$t('trans0032')"
+                            @change="offCheckChange"></m-checkbox>
+              </div>
+              <div v-if="isMobile">
+                <button class="btn btn-small"
+                        :disabled="!offlineCheckedMacs.length"
+                        @click="delOfflineDevices(offlineCheckedMacs)">
+                  {{$t('trans0033')}}</button>
+              </div>
+            </div>
+            <div class="off-more-message"
+                 v-if="devicesMap[id]&&devicesMap[id].length>60">
+              <img src="../../../assets/images/icon/ic_hint.png"
+                   alt="">
+              {{$t('trans0517')}}
+            </div>
+          </div>
           <div class="loading-container"
                v-if="showLoading">
             <m-loading :color="loadingColor"></m-loading>
           </div>
+
           <div v-show="!showLoading">
             <ul v-for="(row,i) in devicesMap[id]"
                 :key='i'
@@ -87,6 +94,11 @@
                 class="reset-ul">
               <li class="column-name"
                   @click.stop="expandTable(row)">
+                <div class="column-check-box"
+                     v-if="isOfflineDevices">
+                  <m-checkbox :stopPropagation="true"
+                              v-model="row.checked"></m-checkbox>
+                </div>
                 <div v-if="!isMobile"
                      class="connect-type-wrap">
                   <img :src="getConnectTypeIcon(row)"
@@ -94,18 +106,13 @@
                 </div>
                 <div class="name-wrap"
                      :class="{'wired':isWired(row),'offline':isOfflineDevices}">
-                  <div class="column-check-box"
-                       v-if="isOfflineDevices">
-                    <m-checkbox :stopPropagation="true"
-                                v-model="row.checked"></m-checkbox>
-                  </div>
                   <div class="name-inner"
                        :class="{'off-name':isOfflineDevices}">
                     <a style="cursor:text">
                       <span v-if='row.local &&!isOfflineDevices'
                             class="local-device-wrapper">
                         <img class="localDevice"
-                             src="../../../assets/images/icon/ic_localDevice.svg"
+                             src="../../../assets/images/icon/ic_local-device.svg"
                              alt=""
                              title="LocalDevice">
                       </span>
@@ -173,6 +180,7 @@
                   v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
                 <span class="label">{{$t('trans0015')}}</span>
                 <span class="value">
+                  <i class="iconfont icon-ic_device_throughput"></i>
                   <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
                   <span>{{formatNetworkData
@@ -184,12 +192,6 @@
                 <span class="label">{{$t('trans0151')}}</span>
                 <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
               </li>
-              <!-- <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span>{{$t('trans0374')}}</span>
-                <span> {{transformOfflineDate(row.connected_time)}} </span>
-              </li> -->
               <!-- 在线时长 -->
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
@@ -201,13 +203,13 @@
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span>{{$t('trans0630')}}</span>
+                <span class="label">{{$t('trans0630')}}</span>
                 <span> {{transformOfflineDate(row.offline_time)}} </span>
               </li>
               <li class="column-ip device-item"
                   :class="{'offline':isOfflineDevices}"
                   v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span>{{$t('trans0188')}}</span>
+                <span class="label">{{$t('trans0188')}}</span>
                 <span>{{formatMac(row.mac)}}</span>
               </li>
               <li class="column-mac device-item"
@@ -279,11 +281,15 @@
               <li class="column-black-list"
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand) && isOfflineDevices'>
-                <span class="btn-text text-primary btn-text-strange"
-                      v-if="isOfflineDevices"
+                <span v-if="isOfflineDevices"
+                      class="btn-icon"
                       @click="()=>delOfflineDevices([row.mac])">
-                  {{$t('trans0033')}}
+                  <i class="add-to-block iconfont icon-ic_trash_normal"></i>
+                  <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
                 </span>
+                <span v-if="isMobile&&isOfflineDevices"
+                      @click="()=>delOfflineDevices([row.mac])"
+                      class="label">{{$t('trans0033')}}</span>
               </li>
             </ul>
             <div class='table-empty'
@@ -537,13 +543,15 @@ export default {
       return row.speed_limit && row.speed_limit.enabled;
     },
     forward2limit(row) {
+      console.log(row);
       this.$router.push({ path: `/limit/${row.mac}` });
       const limits = {
         parent_control: row.parent_control,
         speed_limit: row.speed_limit,
-        time_limit: row.time_limit
+        time_limit: row.time_limit ? row.time_limit.map(v => ({ ...v, expand: false })) : undefined
       };
       this.$store.modules.limits[row.mac] = limits;
+      console.log(this.$store.modules.limits);
     },
     expandTable(row) {
       if (this.isMobile) {
@@ -755,6 +763,14 @@ export default {
     },
     getConnectTypeIcon(row) {
       let icon = '';
+      if (this.isOfflineDevices) {
+        if (this.isWired(row)) {
+          icon = require('../../../assets/images/icon/ic_offline_wired.svg');
+          return icon;
+        }
+        icon = require('../../../assets/images/icon/ic_offline_wireless.svg');
+        return icon;
+      }
       if (this.isWired(row)) {
         icon = require('../../../assets/images/icon/ic_wired.svg');
         return icon;
@@ -806,14 +822,14 @@ export default {
     align-items: center;
     img {
       width: 180px;
-      display: none;
     }
   }
   .offline-handle-wrapper {
+    margin: 10px 10px 0px;
+    padding: 10px;
     display: flex;
     align-items: center;
-    padding-top: 20px;
-    // padding-bottom: 0;
+    background: var(--table-row-background-color);
     .check-info {
       .m-check-all-box {
         display: none;
@@ -866,7 +882,7 @@ export default {
         margin-bottom: 5px;
         ul {
           height: 50px;
-          padding: 0 20px;
+          padding: 0 15px;
           color: var(--table-header-text-color);
         }
       }
@@ -898,7 +914,7 @@ export default {
         flex-shrink: 0;
       }
       .column-name {
-        width: 300px;
+        width: 310px;
         position: relative;
         .connect-type-wrap {
           width: 50px;
@@ -915,6 +931,7 @@ export default {
         .name-wrap {
           &.offline {
             display: flex;
+            color: var(--text-default-color);
           }
         }
         .mobile-icon {
@@ -928,7 +945,10 @@ export default {
         span:first-child {
           display: none;
         }
-        width: 150px;
+        width: 160px;
+        &.offline {
+          // color: ;
+        }
       }
       .column-mac {
         display: none;
@@ -943,13 +963,6 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        &.offline {
-          span {
-            &:last-child {
-              color: #999;
-            }
-          }
-        }
       }
       .column-real-time {
         width: 150px;
@@ -963,6 +976,12 @@ export default {
           display: none;
         }
         .value {
+          display: flex;
+          align-items: baseline;
+          .iconfont {
+            color: #ffa953;
+            margin-right: 5px;
+          }
           span:last-child {
             margin-left: 2px;
           }
@@ -1044,27 +1063,13 @@ export default {
             height: 20px;
             border-radius: 50%;
             cursor: default;
-            &::before {
-              content: '';
-              position: absolute;
-              bottom: 3px;
-              left: 50%;
-              transform: translateX(-50%);
-              display: inline-block;
-              width: 2px;
-              height: 6px;
-              background: var(--primaryColor);
-              z-index: 10;
-            }
             img {
               width: 70%;
               height: 70%;
-              filter: var(--img-brightness);
             }
           }
         }
         &.off-name {
-          color: #999;
           a {
             span {
               max-width: 200px;
@@ -1177,6 +1182,13 @@ export default {
               max-width: 180px;
             }
           }
+          &.off-name {
+            a {
+              span {
+                max-width: 180px;
+              }
+            }
+          }
         }
       }
     }
@@ -1184,11 +1196,6 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .device-container {
-    .table-empty {
-      img {
-        display: block;
-      }
-    }
     background: transparent;
     padding: 0 !important;
     .tabs {
@@ -1199,15 +1206,10 @@ export default {
     }
     .offline-handle-wrapper {
       flex-direction: column-reverse;
-      padding: 10px 20px;
-      border-bottom: 1px solid #f1f1f1;
-      // padding-left: 0;
       .check-info {
-        // padding: 0 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        // padding-bottom: 10px;
         width: 100%;
         .m-check-all-box {
           display: block;
@@ -1253,6 +1255,10 @@ export default {
             margin: 5px 10px;
             width: auto;
             border: none;
+            > li,
+            .name-inner {
+              border-bottom: 1px solid transparent;
+            }
             &.expand {
               position: relative;
               .name-wrap {
@@ -1262,11 +1268,6 @@ export default {
                 }
                 &.offline {
                   height: 60px;
-                  .column-check-box {
-                    position: absolute;
-                    z-index: 100;
-                    left: 20px;
-                  }
                 }
               }
               .column-name {
@@ -1275,7 +1276,7 @@ export default {
               }
               .name-inner {
                 padding: 0 10px;
-                border-bottom: 1px solid var(--table-body-hr-color);
+                border-bottom-color: var(--table-body-hr-color);
                 &.off-name {
                   left: 0 !important;
                   a {
@@ -1284,7 +1285,7 @@ export default {
                 }
               }
               li {
-                border-bottom: 1px solid var(--table-body-hr-color);
+                border-bottom-color: var(--table-body-hr-color);
                 &:last-of-type {
                   border: 0;
                 }
@@ -1312,10 +1313,10 @@ export default {
               }
             }
             &.off-name {
-              color: #333;
+              color: var(--text-default-color);
               a {
                 span {
-                  max-width: 200px;
+                  max-width: 180px;
                 }
               }
             }
@@ -1467,13 +1468,6 @@ export default {
             &:last-child {
               border: 0;
             }
-            &.offline {
-              span {
-                &:last-child {
-                  color: #333;
-                }
-              }
-            }
           }
           .column-limit {
             width: 100%;
@@ -1553,6 +1547,17 @@ export default {
               }
             }
           }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 374px) {
+  .device-container {
+    .device-wrapper {
+      .tab {
+        .iconfont {
+          display: none;
         }
       }
     }

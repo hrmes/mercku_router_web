@@ -151,6 +151,7 @@ function genNodes(gateway, green, red, offline) {
       symbol,
       symbolSize
     };
+    console.log(n);
     return n;
   }
   const nodes = [];

@@ -115,7 +115,6 @@ const routes = {
     {
       path: '/dashboard/internet',
       name: 'internet',
-
       component: internet,
       meta: {
         text: 'Internet',

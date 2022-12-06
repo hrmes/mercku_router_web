@@ -13,9 +13,11 @@
         </div>
       </div>
       <div class="table-body">
-        <div class="table-row"
-             v-for="(row,index) in sortList"
-             :key='index'>
+        <div v-for="(row,index) in sortList"
+             :key='index'
+             class="table-row"
+             :class="{'open':row.expand}"
+             @click="openCollapse(row)">
           <div class="column-date-stop">
             <span>{{row.time_begin}}</span>
             <span class="mobile-start">&nbsp;-&nbsp;</span>
@@ -35,7 +37,7 @@
             </span>
             <span v-if="isMobile"
                   class="label"
-                  @click="()=>addToBlackList(row)">
+                  @click.stop="modalOpen('edit',row)">
               {{$t('trans0034')}}
             </span>
             <span class="btn-icon"
@@ -45,7 +47,7 @@
             </span>
             <span v-if="isMobile"
                   class="label"
-                  @click="()=>forward2limit(row)">
+                  @click="delRow(row)">
               {{$t('trans0033')}}
             </span>
           </div>
@@ -56,27 +58,33 @@
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
         </div>
+        <div v-if="isMobile"
+             @click.stop="modalOpen('add')"
+             class="mobile-add-btn-wrap">
+          <button class="btn">{{$t('trans0035')}}</button>
+        </div>
       </div>
     </div>
     <m-modal class="modal"
              :visible.sync="modalShow">
       <div class="modal-content">
         <div class="modal-form">
-          <div class="item">
+          <div class="item left-right">
+            <m-switch v-model="form.enabled"
+                      class="switch" />
             <label for="">{{$t('trans0075')}}</label>
-            <m-switch v-model="form.enabled" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0084')}}</label>
             <m-time-picker class="time-picker"
                            v-model="form.time_begin" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0085')}}</label>
             <m-time-picker class="time-picker"
                            v-model="form.time_end" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0082')}}</label>
             <div class="date-wrap">
               <div class='check-inner'
@@ -117,6 +125,7 @@ export default {
       modalStatus: 'add',
       isChoose: false,
       msgShow: false,
+      open: false,
       selectedRow: {},
       disabled: true,
       modalShow: false,
@@ -171,11 +180,13 @@ export default {
   mounted() {
     this.form.mac = this.$route.params.mac;
     const limit = this.$store.modules.limits[this.form.mac];
+    console.log(limit);
     if (limit && limit.time_limit) {
       this.timeLimitList = limit.time_limit;
     } else {
       this.getList();
     }
+    console.log(this.timeLimitList);
   },
   watch: {
     schedules: {
@@ -278,7 +289,7 @@ export default {
     },
     getList() {
       this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
-        this.timeLimitList = res.data.result;
+        this.timeLimitList = res.data.result.map(v => ({ ...v, expand: false }));
       });
     },
     changehandle(v, row) {
@@ -377,17 +388,23 @@ export default {
       } else {
         this.msgShow = true;
       }
+    },
+    openCollapse(row) {
+      console.log(row.expand);
+      if (this.isMobile) {
+        this.timeLimitList.forEach(v => {
+          if (v.id === row.id) {
+            v.expand = !v.expand;
+          }
+        });
+      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   .message {
-    padding-left: 70px;
     font-size: 12px;
     color: #ff0001;
     display: inline-block;
@@ -407,26 +424,36 @@ export default {
   }
   .modal-content {
     border-radius: 5px;
-    background-color: #ffffff;
     .item {
       display: flex;
-      align-items: center;
-      margin-top: 30px;
+      margin-top: 20px;
       &:first-child {
         margin: 0;
       }
       &:last-child {
         align-items: flex-start;
       }
+      &.left-right {
+        .switch {
+          margin-right: 10px;
+        }
+        label {
+          color: var(--text-default-color);
+        }
+      }
+      &.top-bottom {
+        flex-direction: column;
+        label {
+          margin-bottom: 10px;
+        }
+      }
       label {
         width: 120px;
+        font-weight: 600;
         font-size: 14px;
-        color: #333333;
+        color: var(--text-gery-color);
         overflow: hidden;
         flex-shrink: 0;
-      }
-      .time-picker {
-        width: 160px;
       }
       .date-wrap {
         display: flex;
@@ -434,7 +461,7 @@ export default {
         align-items: center;
         width: 320px;
         .check-inner {
-          width: 160px;
+          width: 105px;
           margin-bottom: 12px;
         }
       }
@@ -492,11 +519,6 @@ export default {
           display: flex;
           align-items: center;
         }
-        &:nth-child(2n) {
-          @media screen and(max-width:768px) {
-            background: #fff;
-          }
-        }
         .column-handle {
           display: flex;
           align-items: center;
@@ -543,40 +565,72 @@ export default {
       .table-body {
         .table-row {
           flex-direction: column;
-          padding: 20px 0;
+          padding: 15px 10px;
           position: relative;
-          &:first-child {
-            padding-top: 0;
+          &.open {
+            &::after {
+              transform: rotate(0);
+            }
+            .column-handle {
+              display: block;
+            }
+          }
+          .column-date-stop {
+            display: flex;
+            width: 100%;
+            font-size: 14px;
+            color: var(--text-default-color);
+            .mobile-start {
+              display: block;
+            }
+          }
+          .column-date-start {
+            display: none !important;
+            width: auto;
+          }
+          .column-repeat {
+            width: auto;
+            max-width: 70%;
+            margin: 5px 0 0 0;
+            color: var(--text-gery-color);
+            font-size: 12px;
+          }
+          .column-switch {
+            position: absolute;
+            right: 45px;
+            top: 12px;
+            min-width: 0;
+          }
+          .column-handle {
+            display: none;
+            width: 100%;
+            justify-content: flex-start;
+            margin-top: 10px;
+            padding-top: 10px;
+            color: var(--text-gery-color);
+            border-top: 1px solid var(--table-body-hr-color);
+            a {
+              margin-left: 30px !important;
+            }
+            .check-wrap {
+              position: absolute;
+              right: 0;
+              top: 20px;
+            }
+          }
+          &::after {
+            content: '\e65b';
+            font-family: 'iconfont';
+            position: absolute;
+            right: 18px;
+            top: 16px;
+            font-size: 10px;
+            transform: rotate(-90deg);
+            transition: all 0.3s;
           }
         }
-      }
-      .column-date-stop {
-        display: flex;
-        width: 100%;
-        .mobile-start {
-          display: block;
-        }
-      }
-      .column-date-start {
-        width: auto;
-        display: none;
-      }
-      .column-repeat {
-        width: 100%;
-        margin-top: 5px;
-        padding-right: 50px;
-      }
-      .column-handle {
-        width: 100%;
-        justify-content: flex-end;
-        margin-top: 20px;
-        a {
-          margin-left: 30px !important;
-        }
-        .check-wrap {
-          position: absolute;
-          right: 0;
-          top: 20px;
+        .mobile-add-btn-wrap {
+          margin-top: 20px;
         }
       }
       .table-head {
@@ -586,46 +640,11 @@ export default {
   }
   .modal {
     .modal-content {
-      border-radius: 5px;
-      background-color: #ffffff;
-      .btn-info {
-        margin-top: 10px;
-      }
       .item {
-        display: flex;
-        align-items: center;
-
-        margin-top: 20px;
-        &:first-child {
-          margin: 0;
-        }
-        &:last-child {
-          align-items: flex-start;
-        }
-        label {
-          width: 110px;
-          flex-shrink: 0;
-          @media screen and (max-width: 320px) {
-            flex-shrink: 0;
-            width: 60px;
-            margin-right: 5px;
-          }
-          font-size: 14px;
-          color: #333333;
-          overflow: hidden;
-          margin-right: 12px;
-        }
-        .time-picker {
-          width: 140px;
-        }
         .date-wrap {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          width: 180px;
+          width: 100%;
           .check-inner {
-            width: 160px;
-            margin-bottom: 12px;
+            width: 50%;
           }
         }
       }

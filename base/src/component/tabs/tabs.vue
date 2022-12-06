@@ -62,7 +62,7 @@ export default {};
         background: none;
       }
       &::after {
-        right: -20%;
+        display: none;
       }
     }
   }

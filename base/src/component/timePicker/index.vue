@@ -7,10 +7,8 @@
              v-model="inputValue"
              readonly>
       <span class="icon-inner">
-        <a class="icon">
-          <img src="../../assets/images/rescreen-time.png"
-               alt="">
-        </a>
+        <i class="iconfont icon-ic_clock">
+        </i>
       </span>
     </div>
     <div class="combox"
@@ -37,7 +35,6 @@
           </ul>
         </div>
       </div>
-
       <div class="button-wrap">
         <button @click="close">{{$t('trans0025')}}</button>
         <button @click="ok">{{$t('trans0024')}}</button>
@@ -130,12 +127,15 @@ export default {
       this.scrollTo(el, 0, cTop);
     },
     animateScroll() {
+      console.log('animationEl', this.animationEl.scrollTop);
+      console.log('distance', this.distance);
       if (this.animationEl.scrollTop >= this.distance) {
         cancelAnimationFrame(this.animationId);
         return;
       }
       let scroll = this.animationEl.scrollTop + 5;
       scroll = scroll > this.distance ? this.distance : scroll;
+      console.log('scroll', scroll);
       this.scrollTo(this.animationEl, 0, scroll);
       this.animationId = requestAnimationFrame(this.animateScroll);
     },
@@ -171,21 +171,24 @@ export default {
 .time-picker-panel {
   width: 100%;
   min-width: 120px;
-  height: 100%;
-  border: 1px solid var(--time-picker-pannel-border-color);
+  height: 48px;
+  border: 1.5px solid var(--time-picker-pannel-border-color);
   position: relative;
   border-radius: 4px;
   padding: 0 10px;
   .combox {
     position: absolute;
     background: var(--time-picker-combox-background-color);
-    left: -1px;
+    left: 50%;
+    bottom: -4px;
+    transform: translate(-50%, 100%);
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 102%;
     z-index: 9999;
     box-shadow: 0 2px 8px var(--time-picker-combox-shadow-color);
     background-clip: padding-box;
+    border-radius: 5px;
     overflow: hidden;
     transition: transform 0.3s;
     .select-wrap {
@@ -201,7 +204,7 @@ export default {
         cursor: pointer;
         outline: none;
         &:hover {
-          opacity: 0.8;
+          opacity: 0.6;
         }
         &:first-child {
           color: var(--time-picker-button-cancel-color);
