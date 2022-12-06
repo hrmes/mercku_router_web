@@ -449,7 +449,7 @@ export default {
         .then(() => {
           setTimeout(() => {
             this.getApclientScanList();
-          }, 5000);
+          }, 10000);
         })
         .catch(() => {
           this.originalUpperList = [];
@@ -480,7 +480,7 @@ export default {
           } else {
             this.getApclientScanTimer = setTimeout(() => {
               this.getApclientScanList();
-            }, 5000);
+            }, 10000);
           }
         })
         .catch(err => {
