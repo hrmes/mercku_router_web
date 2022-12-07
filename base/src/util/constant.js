@@ -145,3 +145,8 @@ export const HomewayFanModel = {
   standard: 'standard',
   sleep: 'sleep'
 };
+
+export const AddNodeType = {
+  wired: 'wired',
+  wireless: 'wireless'
+};

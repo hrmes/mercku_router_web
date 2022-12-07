@@ -1,10 +1,7 @@
 <template>
   <div class="page">
-    <div class='page-header'>
-      {{$t('trans0194')}}
-    </div>
     <div class="page-content">
-      <div class="tips"
+      <div class="tips center-wrap"
            v-if="showTips">
         <div class="circle-animation">
           <!-- <div class="circle circle1"></div>
@@ -16,10 +13,35 @@
           <button class="btn btn-large"
                   @click="updateTipsVisible(false)">{{$t('trans0467')}}</button>
         </div>
-        <p class="tips__text tips__text--add">{{tipsText}}</p>
+        <p class="tips__text tips__subtext">{{tipsText}}</p>
+      </div>
+
+      <div class="choose__add__type center-wrap"
+           v-if="showChooseType">
+        <p class="tips__text">{{$t('trans1095')}}</p>
+        <ul class="type__list">
+          <li class="wired__wrap">
+            <div class="card"
+                 @click="updateChooseTypeVisible(false,'wired')">
+              <span class="tips__text">{{$t('trans1096')}}</span>
+              <img src="../../../assets/images/icon/ic_mesh_add_wired.webp"
+                   alt="">
+            </div>
+            <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
+          </li>
+          <li class="wireless__wrap">
+            <div class="card"
+                 @click="updateChooseTypeVisible(false,'wireless')">
+              <span class="tips__text">{{$t('trans1098')}}</span>
+              <img src="../../../assets/images/icon/ic_mesh_add_wireless.webp"
+                   alt="">
+
+            </div>
+          </li>
+        </ul>
       </div>
       <div class="steps-container"
-           v-if="!showTips && !isAddSuccess && !isAddFail">
+           v-if="!showTips &&!showChooseType&& !isAddSuccess && !isAddFail">
         <div class="step">
           <m-step :option="stepsOption"></m-step>
         </div>
@@ -31,7 +53,7 @@
             <p class="step-item__tip">{{transText('trans0693')}}</p>
             <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
             <div class="button-container">
-              <button @click="updateTipsVisible(true)"
+              <button @click="updateChooseTypeVisible(true)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
               <button @click="forward2step(1)"
                       class="btn">{{$t('trans0055')}}</button>
@@ -51,11 +73,23 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(2)">
+            <img src="@/assets/images/pic_add_m6_03.webp"
+                 alt="">
+            <p class="step-item__tip">将网线连接主路由LAN口和节点LAN口，等待两分钟，节点路由和主路由呈白灯常亮即组网成功；</p>
+            <div class="button-container">
+              <button @click="forward2step(1)"
+                      class="btn btn-default ">{{$t('trans0057')}}</button>
+              <button @click="forward2step(3)"
+                      class="btn">{{$t('trans0055')}}</button>
+            </div>
+          </div>
+          <div class="step-item step-item--rich"
+               v-show="isStep(3)">
             <img :src="getM6aSeriesProductAddNodeImg(2)"
                  alt="">
             <p class="step-item__tip">{{$t('trans0636')}}</p>
             <div class="button-container">
-              <button @click="forward2step(1)"
+              <button @click="forward2step(2)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
               <button @click="addMeshNodeDebounce"
                       class="btn">{{$t('trans0055')}}</button>
@@ -188,7 +222,7 @@
 <script>
 import RouterModel from 'base/mixins/router-model';
 import { debounce } from 'lodash';
-import { M6aRouterSnModelVsersion } from '../../../../../base/src/util/constant';
+import { Models, AddNodeType } from '../../../../../base/src/util/constant';
 
 
 const PageStatus = {
@@ -209,9 +243,10 @@ export default {
     return {
       PageStatus,
       showTips: true,
+      showChooseType: false,
       stepsOption: {
         current: 0,
-        steps: new Array(3).fill(0).map(() => ({ text: '', success: false }))
+        steps: new Array(4).fill(0).map(() => ({ text: '', success: false }))
       },
       pageStatus: '',
       nodes: [],
@@ -219,7 +254,8 @@ export default {
       showHelpDialog: false,
       showTipsDialog: false,
       snAdded: '',
-      checkTimer: null
+      checkTimer: null,
+      addNodeType: AddNodeType.wired
     };
   },
   computed: {
@@ -244,6 +280,9 @@ export default {
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
+    modelId() {
+      return process.env.MODEL_CONFIG.id;
+    }
     // perfer this style = =!
     // isScanning() {
     //   return this.pageStatus === PageStatus.scanning;
@@ -263,12 +302,14 @@ export default {
   },
   methods: {
     transText(text) {
-      const modelVersion = localStorage.getItem('modelVersion');
-      if (modelVersion === M6aRouterSnModelVsersion.M6a) {
-        return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
-      } if (modelVersion === M6aRouterSnModelVsersion.M6a_Plus) {
-        return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName);
+      let resultText = '';
+      if (this.modelId === Models.m6a) {
+        resultText = this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
       }
+      if (this.modelId === Models.m6aPlus) {
+        resultText = this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName);
+      }
+      return resultText;
     },
     transDeviceId(text) {
       return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.deviceId);
@@ -278,8 +319,18 @@ export default {
     },
     updateTipsVisible(visible) {
       this.showTips = visible;
+      this.showChooseType = !visible;
+      // if (!visible) {
+      //   this.forward2step(0);
+      // }
+    },
+    updateChooseTypeVisible(visible, type) {
+      this.showChooseType = visible;
       if (!visible) {
         this.forward2step(0);
+      }
+      if (type) {
+        this.addNodeType = type;
       }
     },
     updateHelpVisible(visible) {
@@ -329,10 +380,9 @@ export default {
       this.stepsOption.current = index;
       this.stepsOption.steps[index].success = status;
     },
-    getM6aSeriesProductAddNodeImg(step) {
-      const modelVersion = localStorage.getItem('modelVersion');
+    getM6aSeriesProductAddNodeImg(step, addType) {
       let img = '';
-      if (modelVersion === M6aRouterSnModelVsersion.M6a) {
+      if (this.modelId === Models.m6a) {
         switch (step) {
           case Step.step1:
             img = require('@/assets/images/pic_add_m6_01.png');
@@ -346,16 +396,17 @@ export default {
           default:
             break;
         }
-      } else if (modelVersion === M6aRouterSnModelVsersion.M6a_Plus) {
+      }
+      if (this.modelId === Models.m6aPlus) {
         switch (step) {
           case Step.step1:
-            img = require('../../../assets/images/model/m6a_plus/pic-add-m6a_plus-01.png');
+            img = require('@/assets/images/model/m6a_plus/pic-add-m6a_plus-01.png');
             break;
           case Step.step2:
             img = require('@/assets/images/pic_add_m6_02.png');
             break;
           case Step.step3:
-            img = require('../../../assets/images/model/m6a_plus/pic-add-m6a_plus-02.png');
+            img = require('@/assets/images/model/m6a_plus/pic-add-m6a_plus-02.png');
             break;
           default:
             break;
@@ -364,13 +415,12 @@ export default {
       return img;
     },
     getM6aSeriesProductNetworkingImg() {
-      const modelVersion = localStorage.getItem('modelVersion');
       let img = '';
-      switch (modelVersion) {
-        case M6aRouterSnModelVsersion.M6a:
+      switch (this.modelId) {
+        case Models.m6a:
           img = require('@/assets/images/img_m6_networking.png');
           break;
-        case M6aRouterSnModelVsersion.M6a_Plus:
+        case Models.m6aPlus:
           img = require('@/assets/images/img_m6a-plus_networking.png');
           break;
         default:
@@ -382,71 +432,6 @@ export default {
 };
 </script>
 <style lang="scss">
-.mesh-add-tips-modal {
-  .modal-content {
-    width: 70%;
-  }
-  .mesh-add-tips-list {
-    display: flex;
-    flex-wrap: wrap;
-    .mesh-add-tips-list__item {
-      width: 50%;
-      &:nth-child(3) {
-        margin-top: 60px;
-      }
-    }
-    .list-item {
-      display: flex;
-      font-size: 14px;
-      color: #333;
-      .list-item__img {
-        background-color: #fafafa;
-        margin-right: 15px;
-        border-radius: 2px;
-        width: 50%;
-        text-align: center;
-        img {
-          width: 100%;
-        }
-      }
-      .list-item__text {
-        flex: 1;
-        p {
-          padding: 0;
-          margin: 0;
-          &:not(:first-child) {
-            margin-top: 20px;
-          }
-        }
-      }
-    }
-  }
-  @media screen and (max-width: 768px) {
-    .modal-content {
-      width: 95% !important;
-      height: 80%;
-      overflow: auto;
-    }
-    .mesh-add-tips-list {
-      .mesh-add-tips-list__item {
-        width: 100%;
-        &:not(:first-child) {
-          margin-top: 20px;
-        }
-      }
-      .list-item {
-        flex-direction: column;
-        .list-item__img {
-          margin-right: 0;
-          width: 100%;
-        }
-        .list-item__text {
-          margin-top: 20px;
-        }
-      }
-    }
-  }
-}
 </style>
 <style lang="scss" scoped>
 @keyframes ripple {
@@ -461,6 +446,14 @@ export default {
   100% {
     transform: scale(1.3);
     opacity: 0;
+  }
+}
+.page {
+  align-items: center;
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
   }
 }
 .loading {
@@ -519,36 +512,73 @@ export default {
     }
   }
 }
-.tips {
+.center-wrap {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
   align-items: center;
-  margin: 0 auto;
-  width: 100%;
-
+  margin: 5vh auto 0;
+  width: 340px;
+  @media screen and(min-width:1441px) {
+    width: 400px;
+  }
   .tips__text {
-    width: 340px;
+    width: 100%;
     margin: 0 auto;
     @media screen and(max-width:768px) {
       width: 100%;
     }
   }
-
-  .tips__text--add {
-    color: #999;
+  .tips__subtext {
+    color: var(--text-gery-color);
     width: 100%;
+    font-size: 12px;
+    white-space: pre-line;
+  }
+}
+.tips {
+  .tips__text,
+  .tips__subtext {
     text-align: center;
-    font-size: 14px;
+  }
+}
+.choose__add__type {
+  align-items: flex-start;
+  .type__list {
+    display: flex;
+    flex-direction: column;
+    .card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 120px;
+      border-radius: 10px;
+      background: var(--flex-warp-has-menu-bgc);
+      margin: 20px 0 10px;
+      padding: 20px 30px;
+      transition: outline 0.3s ease-out;
+      outline: 1.5px solid transparent;
+      cursor: pointer;
+      &:hover {
+        outline-color: var(--primaryColor);
+      }
+      img {
+        height: 100%;
+      }
+    }
+    .wired__wrap {
+    }
+    .wireless__wrap {
+    }
   }
 }
 .circle-animation {
   position: relative;
-  background: url(../../../assets/images/add_node_tip_bj.png) no-repeat center;
+  background: url(../../../assets/images/add_node_tip_bj.svg) no-repeat center;
   background-size: 100%;
-  width: 340px;
-
+  width: 100%;
   margin: 0 auto;
   margin-bottom: 50px;
   &::before {
@@ -607,7 +637,7 @@ export default {
       margin: 0;
       font-size: 14px;
       margin-top: 20px;
-      text-align: center;
+      text-align: left;
     }
     .step-item__tip--gray {
       color: #999;
@@ -742,7 +772,8 @@ export default {
     }
   }
 }
-
+.choose__add__type {
+}
 @media screen and (min-width: 769px) and (max-width: 1600px) {
   .help-dialog {
     padding: 250px;
@@ -793,7 +824,6 @@ export default {
       width: 100%;
     }
   }
-
   .steps-container {
     width: 100%;
     .step {

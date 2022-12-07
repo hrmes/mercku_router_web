@@ -85,6 +85,9 @@ export default {
   text-align: center;
   padding: 15px;
   font-size: 12px;
+  > span {
+    user-select: none;
+  }
   .policy-text {
     margin-left: 5px;
   }

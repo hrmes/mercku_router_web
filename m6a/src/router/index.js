@@ -126,7 +126,12 @@ const routes = {
     {
       path: '/mesh/add',
       name: 'mesh-add',
-      component: meshAdd
+      component: meshAdd,
+      meta: {
+        text: 'Add a node',
+        layout: 'primary',
+        hasBackWrap: true
+      }
     },
     {
       path: '/limit/:mac',

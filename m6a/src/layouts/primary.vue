@@ -47,8 +47,11 @@ export default {
   },
   methods: {
     onBack(target) {
-      console.log(target);
-      this.$router.replace({ path: target });
+      if (target) {
+        this.$router.replace({ path: target });
+      } else {
+        this.$router.go(-1);
+      }
     },
     getIsMobile(that) {
       const w = that.windowWidth();
