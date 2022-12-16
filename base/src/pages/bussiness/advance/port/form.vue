@@ -1,15 +1,17 @@
 <template>
   <div class="page">
-    <div class="page-header">{{$t('trans0422')}}</div>
+    <div v-if="$store.isMobile"
+         class="page-header">{{$t('trans0422')}}</div>
     <div class="page-content">
       <m-form ref="form"
               class="form"
               :model="form"
               :rules="rules">
         <div class="radio-wrap">
-          <span style="font-weight:bold;">{{$t('trans0408')}}</span>
+          <span style="font-weight:bold;margin-bottom:20px">{{$t('trans0408')}}</span>
           <m-radio-group class="radio-group"
                          v-model="form.protocol"
+                         direction='vertical'
                          :options="protocolOptions"></m-radio-group>
         </div>
         <m-form-item class="item"
@@ -85,7 +87,9 @@
         </div>
       </m-form>
       <div class="btn-info form-button">
-        <button class="btn"
+        <button class="btn btn-middle btn-default"
+                @click="$router.go(-1)">{{$t('trans0025')}}</button>
+        <button class="btn btn-middle"
                 @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
@@ -337,16 +341,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-content {
-  .btn-info {
-    margin-top: 60px;
-  }
+  // width: fit-content;
   .form {
+    width: fit-content;
     .ext-item {
       margin-bottom: 0;
       width: auto;
     }
     .item {
       margin-top: 30px;
+      label {
+        color: var(--input-label-color);
+      }
       .port-wrap {
         display: flex;
         justify-content: space-between;
@@ -355,6 +361,7 @@ export default {
         .ext-input {
           width: 120px;
         }
+
         i {
           width: 50px;
           height: 1px;
@@ -364,19 +371,30 @@ export default {
     }
     .radio-wrap {
       display: flex;
+      flex-direction: column;
       span {
         padding-right: 20px;
       }
     }
     .radio-group {
-      // min-width: 300px;
+      width: fit-content;
+    }
+  }
+  .form-button {
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
+    .btn {
+      width: 160px;
+      &:first-child {
+        margin-right: 20px;
+      }
     }
   }
 }
 @media screen and (max-width: 768px) {
   .form-button {
-    // width: 100%;
-    margin-top: 60px;
+    display: flex;
   }
   .form {
     // padding-bottom: 50px;/

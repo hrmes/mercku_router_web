@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class='page-header'>
+    <div v-if="$store.isMobile"
+         class='page-header'>
       {{$t('trans0420')}}
     </div>
     <div class="page-content">
@@ -84,17 +85,18 @@ export default {
 <style lang="scss" scoped>
 .form {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  align-items: center;
   .btn-wrapper {
     display: block;
     text-align: center !important;
   }
   .checkbox-wrapper {
-    margin-bottom: 30px;
-    width: 340px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid var(--hr-color);
   }
+}
+.form-button {
+  margin-top: 25px;
 }
 @media screen and (max-width: 768px) {
   .form {

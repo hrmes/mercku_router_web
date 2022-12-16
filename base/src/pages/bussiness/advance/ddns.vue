@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class='page-header'>
+    <div v-if="$store.isMobile"
+         class='page-header'>
       {{$t('trans0418')}}
     </div>
     <div class="page-content">
@@ -11,6 +12,8 @@
         <div class="form-item">
           <label style="font-weight:bold;">{{$t('trans0435')}}</label>
           <m-radio-group v-model="ddns.service"
+                         class="radio-group"
+                         direction='vertical'
                          :options="services"></m-radio-group>
         </div>
         <m-form-item class="item"
@@ -138,17 +141,18 @@ export default {
 <style lang="scss" scoped>
 .form {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  align-items: center;
   .form-item {
     &:first-child {
       label {
-        margin-right: 30px;
+        margin-bottom: 20px;
       }
-      width: 100%;
+      .radio-group {
+        width: fit-content;
+      }
+      width: fit-content;
       display: flex;
-      justify-content: flex-start;
+      flex-direction: column;
     }
     &:nth-last-child(2) {
       display: flex;
@@ -156,6 +160,11 @@ export default {
       width: 100%;
     }
   }
+}
+.form-button {
+  margin-top: 0;
+  padding-top: 25px;
+  border-top: 1px solid var(--hr-color);
 }
 @media screen and (max-width: 768px) {
   .form-item {

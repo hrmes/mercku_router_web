@@ -115,6 +115,7 @@
         </div>
         <transition name="popup">
           <ul class="popup reset-ul"
+              :class="{'move-to-right':needMoveToRight}"
               v-show="showPopup">
             <li :key="lang.value"
                 v-for="lang in Languages"
@@ -128,7 +129,7 @@
         </transition>
       </div>
       <div class="small-device">
-        <span @click="setMobleLangVisible()"
+        <span @click="setMobileLangVisible()"
               class="menu-icon language"
               :class="[$i18n.locale]"></span>
         <ul class="i18n-mobile reset-ul"
@@ -153,6 +154,45 @@
       </div>
     </div>
 
+    <!-- theme change modal -->
+    <m-modal class="theme-change-modal"
+             :visible.sync='ThemechangeVisiable'>
+      <m-modal-header>
+        <div class="theme-change-header">{{$t('trans0737')}}</div>
+      </m-modal-header>
+      <m-modal-body>
+        <div class="theme-change-body">
+          <div class="theme-option light"
+               @click="clickHandler('light')">
+            <img src="../../assets/images/img_theme_light.webp"
+                 alt="">
+            <m-checkbox class="checkbox"
+                        :rect="false"
+                        v-model="themeOptions.light.ischecked"></m-checkbox>
+          </div>
+          <div class="theme-option dark"
+               @click="clickHandler('dark')">
+            <img src="../../assets/images/img_theme_dark.webp"
+                 alt="">
+            <m-checkbox class="checkbox"
+                        :rect="false"
+                        v-model="themeOptions.dark.ischecked"></m-checkbox>
+          </div>
+          <div class="theme-option auto"
+               @click="clickHandler('auto')">
+            <img src="../../assets/images/img_theme_auto.webp"
+                 alt="">
+            <m-checkbox class="checkbox"
+                        :rect="false"
+                        v-model="themeOptions.auto.ischecked"></m-checkbox>
+          </div>
+        </div>
+      </m-modal-body>
+      <m-modal-footer class="theme-change-footer">
+        <button class="btn btn-dialog-confirm"
+                @click="changeThemeMode">{{$t('trans0081')}}</button>
+      </m-modal-footer>
+    </m-modal>
   </header>
 </template>
 <script>
@@ -239,9 +279,14 @@ export default {
       mobileI18nVisible: false,
       showPopup: false,
       Languages: Languages.filter(l => l.show),
-      current: null,
       list: [],
-      mobileNavVisible: false
+      mobileNavVisible: false,
+      ThemechangeVisiable: false,
+      themeOptions: {
+        light: { ischecked: false },
+        dark: { ischecked: false },
+        auto: { ischecked: true },
+      }
     };
   },
   mounted() {
@@ -252,6 +297,7 @@ export default {
       document.body.attachEvent('click', this.close);
     }
     this.list = this.getList();
+    this.checkTheme();
   },
   computed: {
     language() {
@@ -259,6 +305,9 @@ export default {
     },
     website() {
       return process.env.CUSTOMER_CONFIG.website;
+    },
+    needMoveToRight() {
+      return this.$route.path.includes('wlan') || this.$route.path.includes('unconnect');
     }
   },
   watch: {
@@ -277,6 +326,9 @@ export default {
       if (this.mobileI18nVisible) {
         this.mobileI18nVisible = false;
       }
+      if (this.mobileNavVisible) {
+        this.mobileNavVisible = false;
+      }
     },
     beforeEnter(el) {
       el.style.height = 0;
@@ -293,33 +345,55 @@ export default {
       });
     },
     showMobileMenu(menu) {
-      if (!menu.children.length) {
+      // 如果点击的是修改主题，则仅展示切换主题的modal，但不进行选中状态的变化
+      if (menu.key === this.list.length - 1) {
         this.jumpMobile(menu);
+        return;
       }
+      // 让菜单所有的选中状态变为false
       this.list.forEach(l => {
         if (l !== menu) {
           l.selected = false;
         }
       });
+      // 如果点击的菜单没有子菜单，就直接进行页面跳转，同时不反转选中状态
+      if (!menu.children.length) {
+        this.jumpMobile(menu);
+        menu.selected = true;
+        return;
+      }
       menu.selected = !menu.selected;
     },
+    jump(menu) {
+      // 如果点击的是header的最后一项，则为修改主题，不进行页面跳转，弹出修改主题modal
+      if (menu.key === this.list.length - 1) {
+        const current = localStorage.getItem('theme');
+        Object.keys(this.themeOptions).forEach((key) => {
+          this.themeOptions[key].ischecked = false;
+        });
+        this.themeOptions[current].ischecked = true;
+        this.ThemechangeVisiable = true;
+      } else {
+        this.$router.push({ path: menu.url });
+      }
+    },
     jumpMobile(child) {
-      if (!child.disabled) {
+      if (child.key === this.list.length - 1) {
+        const current = localStorage.getItem('theme');
+        Object.keys(this.themeOptions).forEach((key) => {
+          this.themeOptions[key].ischecked = false;
+        });
+        this.themeOptions[current].ischecked = true;
+        this.ThemechangeVisiable = true;
+      } else if (!child.disabled) {
         this.$router.push({ path: child.url });
-        // this.current = child;
         this.mobileNavVisible = !this.mobileNavVisible;
       }
+      console.log('current', this.current);
     },
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
       this.mobileI18nVisible = false;
-    },
-    // setChildMenuVisible(menu, visible) {
-    //   menu.showChild = visible;
-    // },
-    jump(menu) {
-      this.$router.push({ path: menu.url });
-      // this.current = menu;
     },
     getList() {
       const list = this.navs.map((m, index) => {
@@ -350,11 +424,10 @@ export default {
       }
       return language;
     },
-
     setLangPopupVisible(visible) {
       this.showPopup = visible;
     },
-    setMobleLangVisible() {
+    setMobileLangVisible() {
       this.mobileI18nVisible = !this.mobileI18nVisible;
       this.mobileNavVisible = false;
       // if (this.mobileI18nVisible) {
@@ -390,6 +463,34 @@ export default {
           }
         }
       });
+    },
+    clickHandler(mode) {
+      this.selectedTheme = mode;
+      Object.keys(this.themeOptions).forEach((key) => {
+        if (key === mode) {
+          this.themeOptions[key].ischecked = true;
+        } else {
+          this.themeOptions[key].ischecked = false;
+        }
+      });
+    },
+    checkTheme() {
+      const theme = localStorage.getItem('theme');
+      if (!theme || theme === undefined) {
+        localStorage.setItem('theme', 'auto');
+        this.themeOptions.auto.ischecked = true;
+      } else {
+        Object.keys(this.themeOptions).forEach((key) => {
+          this.themeOptions[key].ischecked = false;
+        });
+        this.themeOptions[theme].ischecked = true;
+      }
+      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
+    },
+    changeThemeMode() {
+      localStorage.setItem('theme', this.selectedTheme);
+      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
+      this.ThemechangeVisiable = false;
     }
   },
   beforeDestroy() {
@@ -402,6 +503,36 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.theme-change-modal {
+  .theme-change-body {
+    display: flex;
+    .theme-option {
+      position: relative;
+      width: 120px;
+      height: 194px;
+      margin: 0 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      outline: 3px solid transparent;
+      transition: outline 0.3s ease-out;
+      &:hover {
+        outline-color: var(--primaryColor);
+      }
+      > img {
+        width: 100%;
+      }
+      .checkbox {
+        position: absolute;
+        top: 7px;
+        right: 7px;
+      }
+    }
+  }
+
+  .btn-dialog-confirm {
+    width: 240px;
+  }
+}
 .header-container {
   width: 100%;
   height: 65px;
@@ -641,6 +772,9 @@ export default {
           transition: opacity 0.2s ease-out;
           opacity: 0;
         }
+        &.move-to-right {
+          right: 0;
+        }
         li {
           display: flex;
           justify-content: space-between;
@@ -781,16 +915,29 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .theme-change-modal {
+    .theme-change-body {
+      .theme-option {
+        height: auto;
+        &:hover {
+          outline-color: transparent;
+        }
+      }
+    }
+    .theme-change-footer {
+      padding-top: 20px;
+    }
+  }
   .header-container {
     height: 65px;
     z-index: 999;
-    &.open,
-    &.i18n-open {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-    }
+    // &.open,
+    // &.i18n-open {
+    //   position: fixed;
+    //   top: 0;
+    //   left: 0;
+    //   width: 100%;
+    // }
     .logo-wrap {
       display: block;
       position: absolute;

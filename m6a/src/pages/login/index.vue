@@ -87,25 +87,25 @@ export default {
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  // mounted() {
-  //   this.loading = true;
-  //   this.$http
-  //     .isinitial()
-  //     .then(res => {
-  //       if (res.data.result.status) {
-  //         this.$http.login({ password: '' }).then(() => {
-  //           this.towlan();
-  //         });
-  //       } else {
-  //         this.initial = false;
-  //         this.loading = false;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       this.initial = false;
-  //       this.loading = false;
-  //     });
-  // },
+  mounted() {
+    this.loading = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.towlan();
+          });
+        } else {
+          this.initial = false;
+          this.loading = false;
+        }
+      })
+      .catch(() => {
+        this.initial = false;
+        this.loading = false;
+      });
+  },
   computed: {
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;

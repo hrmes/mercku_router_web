@@ -1,21 +1,8 @@
 <template>
   <div class="page">
-    <div class="page-header"
-         :class="{'m-head':mobileShowHead}">
+    <div v-if="$store.isMobile"
+         class="page-header">
       <span class="title">{{$t('trans0444')}}</span>
-      <div class="m-handle">
-        <div class="m-check-box">
-          <m-checkbox v-model="checkAll"
-                      @change="change"></m-checkbox>
-          <span>{{$t('trans0032')}}</span>
-        </div>
-        <div class="m-head-btn-wrap">
-          <button class="btn btn-text text-primary m-btn-default"
-                  @click="mulDel"
-                  :disabled="!hasChecked">{{$t('trans0453')}}</button>
-          <span @click="()=>mobileShowHead=!mobileShowHead">{{$t('trans0025')}}</span>
-        </div>
-      </div>
     </div>
     <div class="page-content">
       <p class="reboot-info"
@@ -24,36 +11,25 @@
         <span class="btn-text text-primary"
               @click="updateEnabled">{{$t('trans0488')}}</span>
       </p>
-
+      <div v-if="$store.isMobile"
+           class="mobile-tools-bar">
+        <div class="checkbox">
+          <m-checkbox v-model="checkAll"
+                      :text="$t('trans0032')"
+                      @change="change"></m-checkbox>
+        </div>
+        <div class="btn-wrap">
+          <button class="btn btn-small"
+                  @click="mulDel"
+                  :disabled="!hasChecked">{{$t('trans0033')}}</button>
+          <button class="btn btn-small"
+                  @click="add">{{$t('trans0035')}}</button>
+        </div>
+      </div>
       <div class="table"
            :class="{'empty-table':empty!==null && empty}">
-        <div class="handle-info"
-             :class="{'openInfo':mobileShowHead}"
-             v-clickoutside="()=>mobileSelect=false">
-          <div class="select btn"
-               @click="()=>mobileSelect=!mobileSelect">
-            {{$t('trans0370')}}
-            <i>
-              <img :class="{open:mobileSelect}"
-                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
-                   alt>
-            </i>
-          </div>
-          <div class="btn-wrap"
-               :class="{open:mobileSelect}">
-            <button class="btn btn-small"
-                    @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
-            <button class="btn m-btn"
-                    @click="()=>{mobileShowHead=!mobileShowHead;mobileSelect=!mobileSelect}">
-              {{$t('trans0453')}}
-            </button>
-            <button class="btn btn-small"
-                    @click="mulDel"
-                    :disabled="!hasChecked">{{$t('trans0453')}}</button>
-          </div>
-        </div>
-
-        <div class="table-head">
+        <div v-if="!$store.isMobile"
+             class="table-head">
           <div class="column-name">
             <div class="column-check">
               <m-checkbox v-model="checkAll"
@@ -63,19 +39,29 @@
           </div>
           <div class="column-local-ip">{{$t('trans0188')}}</div>
           <div class="column-local-port">{{$t('trans0151')}}</div>
-          <div class="column-handle">{{$t('trans0370')}}</div>
+          <div class="column-handle">
+            <div class="btn-wrap"
+                 :class="{open:mobileSelect}">
+              <button class="btn btn-small"
+                      @click="mulDel"
+                      :disabled="!hasChecked">{{$t('trans0453')}}</button>
+              <button class="btn btn-small"
+                      @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
+            </div>
+          </div>
         </div>
         <div class="table-body">
           <div class="table-row"
+               :class="{'open':item.open}"
                v-for="(item,index ) in rsvdips"
                :key="index">
             <div class="column-name"
-                 :title="item.name">
-              <div class="column-check"
-                   :class="{'checkOpen':mobileShowHead}">
-                <m-checkbox v-model="item.checked"></m-checkbox>
+                 :title="item.name"
+                 @click.stop="item.open=!item.open">
+              <div class="column-check">
+                <m-checkbox v-model="item.checked"
+                            @click.native='stopDefault($event)'></m-checkbox>
               </div>
-              <label class="m-title with-colon">{{$t('trans0108')}}:</label>
               <span class="name">{{item.name}}</span>
             </div>
             <div class="column-local-ip">
@@ -87,10 +73,26 @@
               <span>{{item.ip}}</span>
             </div>
             <div class="column-handle">
-              <a class="btn-text"
-                 @click="editHandle(item)">{{$t('trans0034')}}</a>
-              <a class="btn-text text-primary"
-                 @click="del([item.id])">{{$t('trans0033')}}</a>
+              <span class="btn-icon"
+                    @click="editHandle(item)">
+                <i class="iconfont icon-ic_settings_normal"></i>
+                <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
+              </span>
+              <span v-if="$store.isMobile"
+                    class="label"
+                    @click="editHandle(item)">
+                {{$t('trans0034')}}
+              </span>
+              <span class="btn-icon"
+                    @click="del([item.id])">
+                <i class="iconfont icon-ic_trash_normal"></i>
+                <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+              </span>
+              <span v-if="$store.isMobile"
+                    class="label"
+                    @click="del([item.id])">
+                {{$t('trans0033')}}
+              </span>
             </div>
           </div>
           <div class="empty"
@@ -171,7 +173,7 @@ export default {
         .meshRsvdipGet()
         .then(res => {
           this.$loading.close();
-          this.rsvdips = res.data.result.map(v => ({ ...v, checked: false }));
+          this.rsvdips = res.data.result.map(v => ({ ...v, checked: false, open: false }));
           if (this.rsvdips.length > 0) {
             this.empty = false;
           } else {
@@ -248,6 +250,16 @@ export default {
           }
         }
       });
+    },
+    add() {
+      // if (this.portfws.length <= 20) {
+      //   this.$router.push('/advance/portforwarding/form');
+      // } else {
+      //   this.$toast(this.$t('trans0060'));
+      // }
+    },
+    stopDefault(e) {
+      e.stopPropagation();
     }
   }
 };
@@ -260,23 +272,10 @@ export default {
 }
 .table {
   width: 100%;
-  .handle-info {
-    .select {
-      display: none;
-    }
-    .btn-wrap {
-      margin-bottom: 20px;
-      display: flex;
-      .m-btn {
-        display: none;
-      }
-      .btn {
-        margin-right: 20px;
-      }
-    }
-  }
   .column-check {
     width: 40px;
+    // display: flex;
+    // align-items: center;
     flex-shrink: 0;
   }
   .column-name {
@@ -309,36 +308,40 @@ export default {
     width: 100px;
   }
   .column-handle {
-    width: 150px;
-    a {
-      &:last-child {
-        padding-left: 30px;
+    width: 180px;
+    display: flex;
+    justify-content: flex-end;
+    .btn-wrap {
+      .btn {
+        &:first-child {
+          margin-right: 10px;
+        }
       }
     }
   }
   .table-head {
-    height: 50px;
-    background-color: #f1f1f1;
+    background: var(--table-row-background-color);
     display: flex;
-    padding: 0 30px;
+    padding: 10px 20px;
     justify-content: space-between;
+    border-radius: 10px;
+    margin-bottom: 5px;
     div {
       display: flex;
-      height: 50px;
       align-items: center;
     }
   }
   .table-body {
     .table-row {
       display: flex;
-      padding: 15px 30px;
-      border-bottom: 1px solid #f1f1f1;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      background: var(--table-row-background-color);
       justify-content: space-between;
-      &:nth-child(2n) {
-        background: #f7f7f7;
-        @media screen and(max-width:768px) {
-          background: #fff;
-        }
+      > div {
+        display: flex;
+        align-items: center;
       }
       .m-title {
         display: none;
@@ -359,11 +362,39 @@ export default {
 }
 @media screen and (max-width: 768px) {
   .reboot-info {
-    font-size: 14px;
+    font-size: 12px;
     width: auto;
+    border-radius: 10px;
+    margin-bottom: 5px;
     &.extra {
-      background-color: #f1f1f1;
+      text-align: center;
+
+      background: var(--table-row-background-color);
       padding: 10px;
+    }
+  }
+  .mobile-tools-bar {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--table-row-background-color);
+    border-radius: 10px;
+    margin-bottom: 5px;
+    .checkbox {
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+    }
+    .btn-wrap {
+      display: flex;
+      .btn {
+        width: 60px;
+        min-width: 60px;
+        &:first-child {
+          margin-right: 5px;
+        }
+      }
     }
   }
   .page-header {
@@ -410,6 +441,9 @@ export default {
       }
     }
   }
+  .page-content {
+    padding: 10px 20px;
+  }
   .empty {
     .btn-warp {
       width: 100%;
@@ -419,123 +453,73 @@ export default {
     }
   }
   .table {
-    &.empty-table {
-      .handle-info {
-        display: none;
-      }
-    }
-    .handle-info {
-      z-index: 1;
-      display: block;
-      position: absolute;
-      top: 15px;
-      margin: 0;
-      right: 20px;
-      .select {
-        display: block;
-        width: 100px;
-        height: 30px;
-        border-radius: 4px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 0 10px;
-        font-size: 12px;
-        i {
-          img {
-            transition: all 0.3s;
-            width: 12px;
-            &.open {
-              transform: rotate(180deg);
-            }
-          }
-        }
-      }
-      .btn-wrap {
-        display: none;
-        .btn:nth-child(2) {
-          font-size: 12px;
-        }
-        .btn:nth-child(3) {
-          display: none;
-        }
-        .m-btn {
-          display: block;
-        }
-        &.open {
-          width: 140px;
-          border-radius: 2px;
-          box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-          border: solid 1px #f1f1f1;
-          background-color: #ffffff;
-          position: absolute;
-          top: 36px;
-          right: 0;
-          display: block;
-          .btn {
-            width: 140px;
-            height: 42px;
-            margin: 0;
-            background: white;
-            color: #333333;
-            text-align: left;
-            padding-left: 20px;
-            border: 0;
-          }
-        }
-      }
-    }
-    .openInfo {
-      display: none;
-    }
     .table-body {
       .table-row {
         .m-title {
           display: inline-block;
         }
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 20px 0;
-        &:first-child {
-          padding-top: 0;
-        }
+        flex-direction: column;
+        padding: 10px;
         position: relative;
+
         .column-local-ip,
-        .column-local-port,
-        .column-outside-ip,
-        .column-outside-port {
-          width: 100%;
-          margin-bottom: 8px;
-        }
-        .column-protocol,
-        .column-handle {
-          width: 100%;
-        }
-        .column-handle {
-          text-align: right;
-          margin-top: 10px;
-        }
-        .column-name {
-          width: calc(100% - 30px);
-          margin-bottom: 18px;
-        }
-        .column-check {
+        .column-local-port {
           display: none;
-          &.checkOpen {
-            display: block;
-            width: 30px;
+          width: 100%;
+          padding: 10px;
+          justify-content: space-between;
+          margin-bottom: 8px;
+          color: var(--text-gery-color);
+          border-bottom: 1px solid var(--table-body-hr-color);
+        }
+        .column-handle {
+          display: none;
+          padding-left: 10px;
+          justify-content: flex-start;
+          margin: 10px 0;
+          .label {
+            color: var(--text-gery-color);
           }
         }
-        .column-status {
-          position: absolute;
-          text-align: right;
-          right: 0;
-          top: 20px;
+        .column-name {
+          position: relative;
+          width: 100%;
+          padding: 10px 65px 10px 10px;
+          color: var(--text-default-color);
+          .column-check {
+            width: auto;
+            display: flex;
+            align-items: center;
+            margin-right: 12px;
+          }
+          &::after {
+            content: '\e65b';
+            font-family: 'iconfont';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 12px;
+            transition: transform 0.3s;
+          }
+        }
+        &.open {
+          .column-local-ip,
+          .column-outside-ip,
+          .column-outside-port,
+          .column-local-port,
+          .column-protocol,
+          .column-handle {
+            display: flex;
+          }
+          .column-name {
+            border-bottom: 1px solid var(--table-body-hr-color);
+            &::after {
+              transform: translateY(-50%) rotate(0);
+            }
+          }
         }
       }
-    }
-    .table-head {
-      display: none;
     }
   }
 }

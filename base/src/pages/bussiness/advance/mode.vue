@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.isMobile"
+         class="page-header">
       {{$t('trans0539')}}
     </div>
     <div class="page-content">
@@ -17,7 +18,7 @@
         <button class="btn primary"
                 v-defaultbutton
                 @click="updateMode">{{$t('trans0081')}}</button>
-      </div>`
+      </div>
     </div>
   </div>
 </template>
@@ -95,8 +96,6 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
 }
 .form {
   width: 340px;
@@ -107,6 +106,11 @@ export default {
     margin-top: 5px;
     padding-left: 26px;
   }
+}
+.form-button {
+  margin-top: 0;
+  padding-top: 25px;
+  border-top: 1px solid var(--hr-color);
 }
 @media screen and (max-width: 768px) {
   .form {

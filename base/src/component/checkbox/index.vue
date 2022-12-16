@@ -5,6 +5,7 @@
         <div class="box"
              :class="classObject"></div>
         <div class="text"
+             :class="{'bold':bold}"
              v-if="text">{{text}}</div>
       </label>
     </div>
@@ -18,6 +19,10 @@ export default {
       default: false
     },
     text: { type: String },
+    bold: {
+      type: Boolean,
+      default: false
+    },
     rect: {
       type: Boolean,
       default: true
@@ -82,7 +87,7 @@ export default {
     float: left;
     width: 18px;
     height: 18px;
-    line-height: 18px;
+    line-height: 17px;
     text-align: center;
     border-radius: 3px;
     border: 1.5px solid var(--checkbox-border-color);
@@ -96,26 +101,29 @@ export default {
       position: relative;
       &::after {
         content: '\e65c';
-        width: 10px;
-        height: 10px;
-        font-size: 10px;
+        width: 12px;
+        height: 12px;
+        font-size: 12px;
         font-family: 'iconfont';
         color: #fff;
       }
     }
     &.disabled {
       background: #b3b3b3;
-      border: 1px solid #fff;
+      border: none;
       cursor: not-allowed;
     }
   }
   .text {
     display: inline;
     font-size: 14px;
-    line-height: 1;
+    line-height: 18px;
     color: var(--text-default-color);
-    margin-left: 5px;
+    margin-left: 12px;
     user-select: none;
+    &.bold {
+      font-weight: 600;
+    }
   }
 }
 </style>

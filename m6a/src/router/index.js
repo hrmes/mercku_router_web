@@ -32,7 +32,6 @@ import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
-import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import dmz from 'base/pages/bussiness/advance/dmz.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
@@ -43,6 +42,7 @@ import region from 'base/pages/bussiness/setting/region.vue';
 import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
 import mac from 'base/pages/bussiness/advance/mac.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
@@ -88,6 +88,16 @@ const routes = {
       path: '/dashboard',
       name: 'dashboard',
       component: dashboard
+    },
+    {
+      path: '/wlan',
+      name: 'wlan',
+      component: wlan
+    },
+    {
+      path: '/unconnect',
+      name: 'unconnect',
+      component: unconnect
     },
     {
       path: '/dashboard/device/:id?',
@@ -172,177 +182,299 @@ const routes = {
     {
       path: '/setting/wan',
       name: 'wan',
-      component: wan
+      component: wan,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
     },
     {
       path: '/setting/ipv6',
       name: 'ipv6',
-      component: ipv6
+      component: ipv6,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
     },
     {
       path: '/setting/wifi',
       name: 'wifi',
-      component: wifi
+      component: wifi,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
     },
     {
       path: '/setting/safe',
       name: 'safe',
-      component: safe
-    },
-    {
-      path: '/setting/region',
-      name: 'region',
-      component: region
-    },
-    {
-      path: '/setting/guest',
-      name: 'guest',
-      component: guest
-    },
-    {
-      path: '/setting/timezone',
-      name: 'timezone',
-      component: timezone
-    },
-    {
-      path: '/setting/blacklist',
-      name: 'blacklist',
-      component: blacklist
-    },
-    {
-      path: '/setting/upnp',
-      name: 'upnp',
-      component: upnp
-    },
-    {
-      path: '/setting/led',
-      name: 'led',
-      component: led
-    },
-    {
-      path: '/setting/wifi-schedule',
-      name: 'wifi-schedule',
-      component: wifiSchedule
-    },
-    {
-      path: '/wlan',
-      name: 'wlan',
-      component: wlan
-    },
-    {
-      path: '/unconnect',
-      name: 'unconnect',
-      component: unconnect
-    },
-    {
-      path: '/upgrade/online',
-      name: 'online',
-      component: online
-    },
-    {
-      path: '/upgrade/offline',
-      name: 'offline',
-      component: offline
-    },
-    {
-      path: '/upgrade/auto',
-      name: 'auto',
-      component: auto
-    },
-    {
-      path: '/advance/portforwarding',
-      name: 'advance-portforwarding',
-      component: portforwarding
-    },
-    {
-      path: '/advance/portforwarding/form/:id?',
-      name: 'advance-portforwarding-form',
-      component: portfwForm
-    },
-    {
-      path: '/advance/rsvdip',
-      name: 'advance-rsvdip',
-      component: rsvdip
-    },
-    {
-      path: '/advance/rsvdip/form/:id?',
-      name: 'advance-rsvdip-form',
-      component: rsvdipForm
-    },
-    {
-      path: '/advance/dhcp',
-      name: 'advance-dhcp',
-      component: dhcp
-    },
-    {
-      path: '/advance/dmz',
-      name: 'advance-dmz',
-      component: dmz
-    },
-    {
-      path: '/advance/firewall',
-      name: 'advance-firewall',
-      component: firewall
-    },
-    {
-      path: '/advance/ddns',
-      name: 'advance-ddns',
-      component: ddns
-    },
-    {
-      path: '/advance/mac',
-      name: 'advance-mac',
-      component: mac
-    },
-    {
-      path: '/advance/log',
-      name: 'advance-log',
-      component: log
-    },
-    {
-      path: '/advance/diagnosis',
-      name: 'advance-diagnosis',
-      component: diagnosis
-    },
-    {
-      path: '/advance/vpn',
-      name: 'advance-vpn',
-      component: vpn
-    },
-    {
-      path: '/advance/vpn/form/:id?',
-      name: 'advance-vpn-form',
-      component: vpnForm
-    },
-    {
-      path: '/advance/tr069',
-      name: 'advance.tr069',
-      component: tr069
-    },
-    {
-      path: '/advance/telnet',
-      name: 'advance.telnet',
-      component: telnet
-    },
-    {
-      path: '/advance/mode',
-      name: 'advance-mode',
-      component: mode
-    },
-    {
-      path: '/advance/wwa',
-      name: 'advance.wwa',
-      component: wwa
-    },
-    {
-      path: '/advance/backup',
-      name: 'advance.backup',
-      component: backup
+      component: safe,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
     },
     {
       path: '/setting/super',
       name: 'super',
-      component: superConfig
+      component: superConfig,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/region',
+      name: 'region',
+      component: region,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/guest',
+      name: 'guest',
+      component: guest,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/timezone',
+      name: 'timezone',
+      component: timezone,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/blacklist',
+      name: 'blacklist',
+      component: blacklist,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/upnp',
+      name: 'upnp',
+      component: upnp,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/led',
+      name: 'led',
+      component: led,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/schedule',
+      name: 'schedule',
+      component: wifiSchedule,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/portforwarding',
+      name: 'advance-portforwarding',
+      component: portforwarding,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/portforwarding/form/:id?',
+      name: 'advance-portforwarding-form',
+      component: portfwForm,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/rsvdip',
+      name: 'advance-rsvdip',
+      component: rsvdip,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/rsvdip/form/:id?',
+      name: 'advance-rsvdip-form',
+      component: rsvdipForm,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/dhcp',
+      name: 'advance-dhcp',
+      component: dhcp,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/dmz',
+      name: 'advance-dmz',
+      component: dmz,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/firewall',
+      name: 'advance-firewall',
+      component: firewall,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/ddns',
+      name: 'advance-ddns',
+      component: ddns,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/mac',
+      name: 'advance-mac',
+      component: mac,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/log',
+      name: 'advance-log',
+      component: log,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/diagnosis',
+      name: 'advance-diagnosis',
+      component: diagnosis,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/vpn',
+      name: 'advance-vpn',
+      component: vpn,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/vpn/form/:id?',
+      name: 'advance-vpn-form',
+      component: vpnForm,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/tr069',
+      name: 'advance.tr069',
+      component: tr069,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/telnet',
+      name: 'advance.telnet',
+      component: telnet,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/mode',
+      name: 'advance-mode',
+      component: mode,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/wwa',
+      name: 'advance.wwa',
+      component: wwa,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/backup',
+      name: 'advance.backup',
+      component: backup,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/upgrade/online',
+      name: 'online',
+      component: online,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/upgrade/offline',
+      name: 'offline',
+      component: offline,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/upgrade/auto',
+      name: 'auto',
+      component: auto,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
     }
   ]
 };

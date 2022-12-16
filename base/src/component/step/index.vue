@@ -105,7 +105,6 @@ export default {
       position: relative;
       justify-content: center;
       align-items: center;
-
       &:first-child {
         justify-content: flex-start;
         .step-text {
@@ -119,9 +118,6 @@ export default {
         }
       }
       .step-content {
-        // width: 56px;
-        // height: 64px;
-        background: var(--step-item-background-color);
         display: flex;
         justify-content: center;
         text-align: center;
@@ -158,6 +154,10 @@ export default {
           &::before {
             content: '×';
             display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -55%);
             color: var(--step-item-failed-icon-color);
             font-style: normal;
             font-size: 24px;

@@ -12,7 +12,7 @@
                     class="header"></m-header>
           <component :is="layout"
                      :hasBackWrap='hasBackWrap'
-                     :hasAside='hasAside'></component>
+                     :asideInfo='asideInfo'></component>
           <m-policy :locale="$i18n.locale"
                     :isLoginPage="!logoVisible"
                     :class="{ 'fix-bottom': !navVisible }"
@@ -50,9 +50,27 @@ export default {
       const { hasBackWrap } = this.$route.meta;
       return hasBackWrap;
     },
-    hasAside() {
+    asideInfo() {
       const { hasAside } = this.$route.meta;
-      return hasAside;
+      let subMenu = [];
+      if (hasAside) {
+        const { 2: mainMenuName } = this.$route.path.split('/');
+        switch (mainMenuName) {
+          case 'setting':
+            subMenu = this.menus.filter(item => item.name === 'setting');
+            break;
+          case 'advance':
+            subMenu = this.menus.filter(item => item.name === 'advance');
+            break;
+          case 'upgrade':
+            subMenu = this.menus.filter(item => item.name === 'upgrade');
+            break;
+          default:
+            break;
+        }
+      }
+      const asideInfo = { hasAside, subMenu };
+      return asideInfo;
     },
     logoVisible() {
       return !this.$route.path.includes('login');

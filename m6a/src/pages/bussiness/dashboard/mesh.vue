@@ -28,10 +28,11 @@
           <div class="legend-wrap">
             <p class="legend-title">
               <span>{{$t('trans0302')}}</span>
-              <span class="icon-quality"
-                    @click.stop="showRssiModal"></span>
+              <i class="iconfont icon-ic_connection_quality icon-quality"
+                 @click.stop="showRssiModal"></i>
             </p>
             <div class="legend">
+
               <div class="legend-item">{{$t('trans0193')}}</div>
               <div class="legend-item">{{$t('trans0196')}}</div>
               <div class="legend-item">{{$t('trans0214')}}</div>
@@ -470,10 +471,13 @@ export default {
         message: this.$t('trans0218'),
         callback: {
           ok: () => {
-            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-              this.routers = this.routers.filter(r => r.sn !== router.sn);
-            });
+            this.$loading.open();
+            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
+              .then(() => {
+                this.$loading.close();
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
+              });
           }
         }
       });
@@ -642,13 +646,11 @@ export default {
         });
     },
     checkThemeMode(isDarkMode) {
-      console.log('dark', isDarkMode);
       if (isDarkMode) {
         this.isDarkMode = true;
       } else {
         this.isDarkMode = false;
       }
-      console.log(this.isDarkMode);
       this.getMeshNode();
     }
   },
@@ -1037,18 +1039,13 @@ export default {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            .icon-quality {
-              width: 12px;
-              height: 12px;
-              margin-left: 5px;
+            .iconfont {
+              margin-left: 10px;
+              font-size: 12px;
+              transform: translateX(25%);
               cursor: pointer;
-              background: url(../../../assets/images/icon/ic_connection_quality.png)
-                no-repeat center;
-              background-size: 100%;
               &:hover {
-                background: url(../../../assets/images/icon/ic_connection_quality_hover.png)
-                  no-repeat center;
-                background-size: 100%;
+                color: var(--text-gery-color);
               }
             }
           }
@@ -1321,11 +1318,14 @@ export default {
             order: 2;
             .legend-title {
               justify-content: flex-start;
+              .iconfont {
+                margin-left: 5px;
+              }
             }
             width: 100%;
             .legend {
               display: flex;
-
+              flex-wrap: wrap;
               .legend-item {
                 flex-direction: row-reverse;
                 margin-left: 0;
@@ -1569,7 +1569,7 @@ export default {
     }
   }
 }
-@media screen and (width: 320px) {
+@media screen and (width: 374px) {
   .mesh-container {
     .mesh-info {
       .title {

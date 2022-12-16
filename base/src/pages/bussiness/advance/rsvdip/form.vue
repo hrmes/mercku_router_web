@@ -1,10 +1,10 @@
 <template>
   <div class="page">
-    <div class='page-header'>
+    <div v-if="$store.isMobile"
+         class='page-header'>
       {{$t('trans0444')}}
     </div>
     <div class="page-content">
-
       <m-form ref="form"
               class="form"
               :model="form"
@@ -21,7 +21,6 @@
                v-clickoutside="()=>modalShow=false">
             <div class="opcity"></div>
             <div class="modal-content">
-              <div class="modal__header">{{$t('trans0235')}}</div>
               <div class="list">
                 <div class="device-item"
                      @click="checkDevice(item)"
@@ -248,17 +247,15 @@ export default {
   .empty-device {
     p {
       padding: 50px 0;
-      color: #333;
-      border-bottom: 1px solid #f1f1f1;
+      color: var(--text-default-color);
+      border-bottom: 1px solid var(--hr-color);
       margin: 0;
       text-align: center;
     }
   }
   .device {
-    width: 120px;
-    height: 36px;
-    border-radius: 4px;
-    color: white;
+    // width: 120px;
+    height: 46px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -277,10 +274,10 @@ export default {
     }
     .modal {
       position: absolute;
-      top: 42px;
+      top: 47px;
       z-index: 1;
       left: 0;
-      width: 480px;
+      width: 340px;
       border-radius: 4px;
       box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
       border: solid 1px #f1f1f1;

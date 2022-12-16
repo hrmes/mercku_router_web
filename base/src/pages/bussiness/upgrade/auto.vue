@@ -1,6 +1,7 @@
 <template>
   <div class="page auto-upgrade">
-    <div class='page-header'>
+    <div v-if="$store.isMobile"
+         class='page-header'>
       {{$t('trans0743')}}
     </div>
     <div class="page-content">
@@ -14,7 +15,6 @@
           {{tips}}
         </div>
         <template v-if="auto_upgrade.enabled">
-          <div class="content__line"></div>
           <m-form ref="autoUpgradeForm"
                   :model="auto_upgrade"
                   class="content__item form">
@@ -31,6 +31,7 @@
               <m-time-picker class="form__time-picker"
                              v-model="auto_upgrade.time" />
             </m-form-item>
+            <div class="content__line"></div>
             <m-form-item class="form-button">
               <button class="btn"
                       v-defaultbutton
@@ -164,15 +165,15 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-  margin: 0 auto;
-  width: 340px;
   .content__text {
+    width: 340px;
     font-size: 12px;
     color: #999;
     margin-top: 10px;
     padding-bottom: 20px;
   }
   .content__line {
+    width: 100%;
     height: 1px;
     background-color: #ebebeb;
     margin-bottom: 20px;
@@ -194,7 +195,7 @@ export default {
     color: #333;
   }
   .form__time-picker {
-    width: 100%;
+    width: 340px;
     height: 48px;
     border: solid 1px #e1e1e1;
     padding: 0 17px 0 10px;

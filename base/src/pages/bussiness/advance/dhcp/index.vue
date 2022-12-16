@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class='page-header'>{{$t('trans0417')}}</div>
+    <div v-if="$store.isMobile"
+         class='page-header'>{{$t('trans0417')}}</div>
     <div class="page-content">
       <m-form class="form"
               ref="form"
@@ -24,13 +25,14 @@
                    :onBlur="maskChange" />
         </m-form-item>
         <div class="item">
-          <label style="font-weight:bold;">{{$t('trans0483')}}</label>
+          <!-- <label style="font-weight:bold;">{{$t('trans0483')}}</label> -->
           <div>
             <m-form-item class="ext-item ext-item--first"
                          prop='ip_start'
                          ref='ip_start'>
               <m-input class="ext-input"
                        type="text"
+                       :label="$t('trans0483')"
                        :placeholder="$t('trans0441')"
                        v-model="form.ip_start"
                        :onBlur='ipStartChange' />
@@ -322,9 +324,8 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
   .form {
+    border-bottom: 1px solid var(--hr-color);
     .tip {
       color: red;
       width: 340px;
@@ -336,6 +337,9 @@ export default {
         display: block;
       }
     }
+  }
+  .form-button {
+    margin-top: 25px;
   }
 }
 .ext-item {

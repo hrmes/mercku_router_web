@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.isMobile"
+         class="page-header">
       {{ $t('trans0419') }}
     </div>
     <div class="page-content">
@@ -118,7 +119,6 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
-  align-items: center;
   justify-content: flex-start !important;
   flex: 1;
   .log-container {
@@ -138,6 +138,11 @@ export default {
       word-wrap: break-word;
     }
   }
+}
+.form-button {
+  margin-top: 0;
+  padding-top: 25px;
+  border-top: 1px solid var(--hr-color);
 }
 @media screen and(max-width:768px) {
   .page-content {

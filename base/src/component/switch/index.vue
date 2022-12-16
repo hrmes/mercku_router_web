@@ -1,10 +1,10 @@
 <template>
   <div class="mk-switch">
-    <label class="mk-switch__label"
-           v-if="label">{{ label }}</label>
     <div class="mk-switch__inner"
          :class="{ checked: checked, disabled: disabled }"
          @click="switchValue"></div>
+    <label class="mk-switch__label"
+           v-if="label">{{ label }}</label>
   </div>
 </template>
 <script>
@@ -50,7 +50,6 @@ export default {
   display: flex;
   align-items: center;
   .mk-switch__label {
-    margin-right: 20px;
     font-weight: bold;
   }
   .mk-switch__inner {
@@ -65,6 +64,7 @@ export default {
     -webkit-appearance: none;
     user-select: none;
     outline: none;
+    margin-right: 10px;
     &::before {
       content: '\e667';
       font-family: 'iconfont';

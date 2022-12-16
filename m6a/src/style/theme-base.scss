@@ -19,6 +19,8 @@
   --img-brightness: brightness(0);
   --grey-background-color: #f7f7f7;
   --flex-warp-has-menu-bgc: #f7f7f7;
+  --hr-color: #ebebeb;
+  --darker-hr-color: #e5e5e5;
 
   // button
   --button-text-color: #fff;
@@ -62,10 +64,10 @@
   --dialog-content-color: #333;
 
   // select and editableSelect
-  --select-label-color: #333;
-  --select-input-border-color: #e1e1e1;
+  --select-label-color: #808080;
+  --select-input-border-color: #b3b3b3;
   --select-popup-background-color: #fff;
-  --select-popup-border-color: #e1e1e1;
+  --select-popup-border-color: #eaeaea;
   --select-item-active-background-color: #f1f1f1;
   --select-item-active-color: #333;
   --select-item-hover-background-color: #f1f1f1;
@@ -148,26 +150,21 @@
   --progress-bar-color: #fff;
   --progress-bar-background-color: #00d061;
 
-  // radio
-  --radio-item-selected-color: #333;
-  --radio-item-color: #b6b6b6;
-  --radio-card-item-selected-color: #333;
-
   // step
-  --step-line-color: #bdbdbd;
+  --step-line-color: #f1f1f1;
   --step-item-steped-background-color: var(--primaryColor);
   --step-item-background-color: #fff;
   --step-item-border-color: #bdbdbd;
   --step-item-color: #bdbdbd;
-  --step-background-color: #fff;
-  --step-item-text-color: #333;
+  --step-background-color: var(--dashboard-icon-background-color);
+  --step-item-text-color: var(--text-default-color);
   --step-item-failed-background-color: #ffe6e9;
   --step-item-failed-border-color: #ffe6e9;
-  --step-item-failed-color: #fff;
-  --step-item-failed-icon-color: var(--primaryColor);
+  --step-item-failed-color: #d6001c;
+  --step-item-failed-icon-color: #d6001c;
   --step-item-success-background-color: #ffe6e9;
   --step-item-success-border-color: #ffe6e9;
-  --step-item-success-color: var(--primaryColor);
+  --step-item-success-color: #d6001c;
 
   // switch
   --switch-background-color: #b6b6b6;
@@ -197,7 +194,7 @@
   --time-picker-popup-item-active-color: #333;
   --time-picker-popup-item-active-background-color: #f1f1f1;
   --time-picker-popup-item-selected-color: var(--primaryColor);
-  --time-picker-input-background-color: #fff;
+  --time-picker-input-background-color: transparent;
 
   // toast
   --toast-color: rgba(0, 0, 0, 0.65);
@@ -261,6 +258,7 @@
   //aside
   --aside-selected-text-color: #d6001c;
   --asdie-selected-background: #ffe2e2;
+  --aside-hover-background-color: #f7f7f7;
 
   // drawer
   --drawer-background: #ffffff;
@@ -281,6 +279,8 @@
   --img-brightness: brightness(100);
   --grey-background-color: #404040;
   --flex-warp-has-menu-bgc: #1a1a1a;
+  --hr-color: rgba(255, 255, 255, 0.2);
+  --darker-hr-color: rgba(255, 255, 255, 0.2);
 
   // button
   --button-text-color: #fff;
@@ -324,14 +324,14 @@
   --dialog-content-color: #333;
 
   // select and editableSelect
-  --select-label-color: #333;
-  --select-input-border-color: #e1e1e1;
-  --select-popup-background-color: #fff;
-  --select-popup-border-color: #e1e1e1;
-  --select-item-active-background-color: #f1f1f1;
-  --select-item-active-color: #333;
-  --select-item-hover-background-color: #f1f1f1;
-  --select-item-hover-color: #333;
+  --select-label-color: rgba(255, 255, 255, 0.6);
+  --select-input-border-color: #b3b3b3;
+  --select-popup-background-color: #404040;
+  --select-popup-border-color: #4d4d4d;
+  --select-item-active-background-color: rgba(255, 255, 255, 0.15);
+  --select-item-active-color: #fff;
+  --select-item-hover-background-color: rgba(255, 255, 255, 0.15);
+  --select-item-hover-color: #fff;
   --select-item-selected-color: var(--primaryColor);
   --select-disabled-background-color: #e1e1e1;
   --select-disabled-opacity: 0.8;
@@ -405,7 +405,7 @@
   --modal-shadow-color: rgba(0, 0, 0, 0.1);
 
   // popover
-  --popover-background-color: #333;
+  --popover-background-color: #4d4d4d;
   --popover-color: #fff;
 
   // progress
@@ -421,20 +421,20 @@
   --radio-card-item-selected-color: #333;
 
   // step
-  --step-line-color: #bdbdbd;
+  --step-line-color: #5a5a5a;
   --step-item-steped-background-color: var(--primaryColor);
   --step-item-background-color: #fff;
   --step-item-border-color: #bdbdbd;
   --step-item-color: #bdbdbd;
-  --step-background-color: #fff;
-  --step-item-text-color: #333;
-  --step-item-failed-background-color: #ffe6e9;
-  --step-item-failed-border-color: #ffe6e9;
+  --step-background-color: var(--dashboard-icon-background-color);
+  --step-item-text-color: var(--text-default-color);
+  --step-item-failed-background-color: #da3d52;
+  --step-item-failed-border-color: #da3d52;
   --step-item-failed-color: #fff;
-  --step-item-failed-icon-color: var(--primaryColor);
-  --step-item-success-background-color: #ffe6e9;
-  --step-item-success-border-color: #ffe6e9;
-  --step-item-success-color: var(--primaryColor);
+  --step-item-failed-icon-color: #fff;
+  --step-item-success-background-color: #da3d52;
+  --step-item-success-border-color: #da3d52;
+  --step-item-success-color: #fff;
 
   // switch
   --switch-background-color: #b6b6b6;
@@ -464,7 +464,7 @@
   --time-picker-popup-item-active-color: #333;
   --time-picker-popup-item-active-background-color: #f1f1f1;
   --time-picker-popup-item-selected-color: var(--primaryColor);
-  --time-picker-input-background-color: #404040;
+  --time-picker-input-background-color: transparent;
 
   // toast
   --toast-color: rgba(0, 0, 0, 0.65);
@@ -528,6 +528,7 @@
   //aside
   --aside-selected-text-color: #fff;
   --asdie-selected-background: rgba(187, 27, 48, 0.7);
+  --aside-hover-background-color: rgba(255, 255, 255, 0.2);
 
   // drawer
   --drawer-background: #4d4d4d;

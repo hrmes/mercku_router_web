@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">{{ $t('trans0204') }}</div>
+    <div v-if="$store.isMobile"
+         class="page-header">{{ $t('trans0204') }}</div>
     <div class="page-content">
       <div class="form">
         <div class="description">

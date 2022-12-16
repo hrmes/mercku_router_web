@@ -181,7 +181,7 @@ export default {
       border: none;
       box-sizing: border-box;
       -webkit-appearance: none;
-
+      background: transparent;
       &.margin {
         padding-left: 0px;
       }

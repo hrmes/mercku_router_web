@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class='page-header'>
+    <div v-if="$store.isMobile"
+         class='page-header'>
       {{$t('trans0538')}}
     </div>
     <div class="page-content">
@@ -9,27 +10,28 @@
               :model="form"
               :rules='rules'>
         <div class="switch-wrap">
+          <m-switch v-model="form.enabled"
+                    @change="guestEnabledChange" />
           <label class="title"> {{$t('trans0538')}}
             <div class="tool">
               <m-popover position="bottom left"
                          style="top:-7px"
                          :title="$t('trans0538')"
                          :content="$t('trans0540')">
-                <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
-                     alt="">
+                <i class="iconfont icon-ic_help"></i>
               </m-popover>
             </div>
           </label>
-          <m-switch v-model="form.enabled"
-                    @change="guestEnabledChange" />
+
         </div>
-        <div v-if="form.enabled&&showSettingPage">
-          <label style="font-weight:bold;"> {{$t('trans0521')}} </label>
-          <div class="check-box-wrap">
+        <div v-if="form.enabled&&showSettingPage"
+             class="setting">
+          <m-form-item class="item"
+                       prop='duration'>
             <m-select v-model="form.duration"
+                      :label="$t('trans0521')"
                       :options='checkOps'></m-select>
-          </div>
+          </m-form-item>
           <m-form-item class="item"
                        prop='ssid'>
             <m-input v-model="form.ssid"
@@ -52,8 +54,11 @@
                      :placeholder="`${$t('trans0321')}`"></m-input>
           </m-form-item>
           <div class="switch-wrap">
-            <label> {{$t('trans0397')}} </label>
-            <m-switch v-model="form.smart_connect" />
+            <m-checkbox v-model="form.smart_connect"
+                        class="checkbox"
+                        :text="$t('trans0397')"
+                        :bold='true'
+                        :rect='false'></m-checkbox>
           </div>
           <div v-if="!form.smart_connect"
                class="ssid">
@@ -67,17 +72,19 @@
             </div>
           </div>
           <div class="form-button"
-               style="margin-top:50px"
                :class="{'cancel':setupAndStart}">
-            <button class="btn btn-middle"
-                    @click='submit()'>{{$t('trans0081')}}</button>
             <button class="btn btn-default btn-cancel btn-middle"
-                    style="margin-left:50px"
+                    style="margin-right:20px"
                     v-if="setupAndStart&&showCancelBtn"
                     @click='cancel'>{{$t('trans0025')}}</button>
+            <button class="btn"
+                    :class="{'btn-middle':showCancelBtn}"
+                    @click='submit()'>{{$t('trans0081')}}</button>
+
           </div>
         </div>
-        <div v-if="form.enabled&&showStatusPage">
+        <div v-if="form.enabled&&showStatusPage"
+             class="status">
           <div class="setting-ssid-info">
             <label class="title with-colon">{{$t('trans0168')}}:</label>
             <div v-if="guest.smart_connect">
@@ -331,6 +338,7 @@ export default {
       });
     },
     getGuestWIFI() {
+      this.$loading.open();
       this.$http.meshGuestGet().then(res => {
         [this.guest] = res.data.result;
         const band24g = this.guest.bands[Bands.b24g];
@@ -362,6 +370,7 @@ export default {
         this.showStatusPage = false;
         this.showCancelBtn = false;
       }
+      this.$loading.close();
     },
     createIntervalTask() {
       if (this.guest.remaining_duration > 0) {
@@ -436,32 +445,52 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
 }
 .form {
-  .btn-cancel {
-    margin-left: 10px !important;
+  .setting,
+  .status {
+    border-top: 1px solid var(--hr-color);
+    padding-top: 25px;
+    .form-button {
+      padding-top: 25px;
+      margin-top: 25px;
+      border-top: 1px solid var(--hr-color);
+      .btn-middle {
+        width: 160px;
+      }
+    }
+  }
+  .status {
+    .title {
+      width: 160px;
+    }
   }
   .ssid {
-    margin-bottom: 50px;
-    width: 100%;
-    margin-top: 20px;
-    background-color: #fafafa;
-    padding: 0 20px;
-    div {
-      padding: 10px 0;
+    overflow: hidden;
+    > div {
+      width: 340px;
+      padding: 10px 20px;
+      background-color: var(--table-row-background-color);
+      &:first-child {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      &:last-child {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
       .ssid-label {
-        width: 70px;
+        width: 40px;
         display: inline-block;
+        color: var(--text-gery-color);
       }
       &:first-child {
-        border-bottom: 1px solid #f1f1f1;
+        border-bottom: 1px solid var(--hr-color);
       }
     }
   }
   .online-device {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
     display: flex;
     span {
       font-size: 16px;
@@ -474,7 +503,7 @@ export default {
   }
   .remaining-time {
     display: flex;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     .time {
       font-size: 14px;
       font-weight: bold;
@@ -482,12 +511,7 @@ export default {
   }
   .setting-ssid-info {
     display: flex;
-
-    .name {
-      // padding-left: 20px;
-      // font-weight: bold
-    }
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     p {
       margin: 0;
       padding: 0;
@@ -502,34 +526,26 @@ export default {
       }
     }
   }
-  .check-box-wrap {
-    display: flex;
-    margin-bottom: 30px;
-    margin-top: 5px;
-    .item {
-      margin-right: 30px;
-    }
-  }
   .switch-wrap {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     display: flex;
     align-items: center;
     width: 340px;
+    .checkbox {
+      margin-right: 10px;
+    }
     .title {
       width: auto;
     }
     .tool {
       position: relative;
-
       display: inline-block;
-      img {
-        position: relative;
-        cursor: pointer;
+      .iconfont {
+        font-size: 12px;
       }
     }
     label {
       font-weight: bold;
-      padding-right: 20px;
     }
   }
   display: flex;
@@ -537,6 +553,9 @@ export default {
   justify-content: center;
 }
 @media screen and (max-width: 768px) {
+  .page-content {
+    width: 100vw;
+  }
   .form {
     .form-button {
       &.cancel {
@@ -544,6 +563,19 @@ export default {
         .btn {
           width: 50%;
         }
+      }
+    }
+  }
+}
+@media screen and (max-width: 374px) {
+  .form {
+    .status {
+      .title {
+        width: 100px;
+      }
+      .time {
+        display: flex;
+        align-items: center;
       }
     }
   }

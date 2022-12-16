@@ -23,7 +23,13 @@
                 @click.stop="select(option)"
                 v-for="option in options"
                 :title="option.text">
-              {{ option.text }}
+              <div v-if="needProcessing">
+                <div class="main-title">{{option.mainTitle}}</div>
+                <div class="sub-title">{{option.subTitle}}</div>
+              </div>
+              <div v-else>
+                {{ option.text }}
+              </div>
             </li>
           </template>
           <li class="select-popup__item--empty"
@@ -54,7 +60,11 @@ export default {
     disabled: {
       type: Boolean,
       default: false
-    }
+    },
+    needProcessing: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
@@ -131,7 +141,7 @@ export default {
     width: 100%;
     border-radius: 4px;
     outline: 0;
-    border: 1px solid var(--select-input-border-color);
+    border: 1.5px solid var(--select-input-border-color);
     font-size: 14px;
     padding: 0 10px;
     position: relative;
@@ -148,6 +158,7 @@ export default {
       outline: none;
       border: none;
       padding: 0;
+      background: transparent;
       cursor: pointer;
     }
   }
@@ -167,13 +178,14 @@ export default {
     top: 52px;
     max-height: 300px;
     background: var(--select-popup-background-color);
-    border-radius: 5px;
-    border: 1px solid var(--select-popup-border-color);
+    border-radius: 7px;
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
+    outline: 1px solid var(--select-popup-border-color);
     overflow: auto;
     .select-popup__item {
       list-style: none;
       padding: 17px 10px;
-      line-height: 1;
+      line-height: 1.2;
       cursor: pointer;
       width: 100%;
       overflow: hidden;
@@ -187,7 +199,29 @@ export default {
         color: var(--select-item-hover-color);
       }
       &.selected {
+        position: relative;
         color: var(--select-item-selected-color);
+        .main-title,
+        .sub-title {
+          color: var(--select-item-selected-color);
+        }
+        &::after {
+          content: '\e65c';
+          font-family: 'iconfont';
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+        }
+      }
+      .main-title {
+        color: var(--text-default-color);
+        font-weight: 600;
+      }
+      .sub-title {
+        color: var(--dashboard-gery-color);
+        font-size: 12px;
+        margin-top: 5px;
       }
     }
     .select-popup__item--empty {

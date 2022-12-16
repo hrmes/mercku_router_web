@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.isMobile"
+         class="page-header">
       {{ $t('trans0142') }}
     </div>
     <div class="page-content">
@@ -171,15 +172,16 @@
           <div class="form__label form__split-line">
             <m-checkbox :rect="false"
                         :text="$t('trans0683')"
+                        :bold='true'
                         v-model="vlan.enabled"></m-checkbox>
             <div class="tool"
                  style="width:14px;">
               <m-popover position="bottom left"
-                         style="top:-7px;left:2px;"
+                         style="left:5px;"
                          :title="this.$t('trans0683')"
                          :content="this.$t('trans0682')">
-                <img width="14"
-                     src="../../../assets/images/icon/ic_question.png" />
+                <i class="iconfont icon-ic_help"
+                   style="font-size:14px"></i>
               </m-popover>
             </div>
           </div>
@@ -203,8 +205,10 @@
                         :options="priorities"></m-select>
             </m-form-item>
             <m-form-item class="form__item">
-              <m-switch :label="$t('trans0685')"
-                        v-model="vlan.ports[0].tagged"></m-switch>
+              <m-checkbox :text="$t('trans0685')"
+                          :rect='false'
+                          style="margin-right:10px"
+                          v-model="vlan.ports[0].tagged"></m-checkbox>
             </m-form-item>
           </m-form>
           <template v-if="vlan.enabled">
@@ -716,48 +720,53 @@ export default {
       });
     },
     getWanNetInfo() {
-      this.$http.getWanNetInfo().then(res => {
-        if (res.data.result) {
-          this.netInfo = res.data.result;
-          this.netType = this.netInfo.type;
-          if (this.netInfo?.vlan?.length) {
-            this.vlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.internet) ||
-              cloneDeep(VlanDefault);
-            this.ipPhoneVlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.ipPhone) ||
-              cloneDeep(IpPhoneVlanDefault);
-            this.iptvVlan =
-              this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
-              cloneDeep(IptvVlanDefault);
-          }
-          if (this.isDhcp) {
-            if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
-              this.autodns.dhcp = false;
-              [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
-              this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
+      this.$loading.open();
+      this.$http.getWanNetInfo()
+        .then(res => {
+          if (res.data.result) {
+            this.netInfo = res.data.result;
+            this.netType = this.netInfo.type;
+            if (this.netInfo?.vlan?.length) {
+              this.vlan =
+                this.netInfo.vlan.find(item => item.name === VlanName.internet) ||
+                cloneDeep(VlanDefault);
+              this.ipPhoneVlan =
+                this.netInfo.vlan.find(item => item.name === VlanName.ipPhone) ||
+                cloneDeep(IpPhoneVlanDefault);
+              this.iptvVlan =
+                this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
+                cloneDeep(IptvVlanDefault);
+            }
+            if (this.isDhcp) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
+                this.autodns.dhcp = false;
+                [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
+                this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
+              }
+            }
+            if (this.isPppoe) {
+              this.pppoeForm.account = this.netInfo.pppoe.account;
+              this.pppoeForm.password = this.netInfo.pppoe.password;
+              if (this.netInfo.pppoe.dns) {
+                this.autodns.pppoe = false;
+                [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
+                this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
+              }
+            }
+            if (this.isStatic) {
+              this.staticForm = {
+                ip: this.netInfo.static.netinfo.ip,
+                mask: this.netInfo.static.netinfo.mask,
+                gateway: this.netInfo.static.netinfo.gateway,
+                dns1: this.netInfo.static.netinfo.dns[0],
+                dns2: this.netInfo.static.netinfo.dns[1] || ''
+              };
             }
           }
-          if (this.isPppoe) {
-            this.pppoeForm.account = this.netInfo.pppoe.account;
-            this.pppoeForm.password = this.netInfo.pppoe.password;
-            if (this.netInfo.pppoe.dns) {
-              this.autodns.pppoe = false;
-              [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
-              this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
-            }
-          }
-          if (this.isStatic) {
-            this.staticForm = {
-              ip: this.netInfo.static.netinfo.ip,
-              mask: this.netInfo.static.netinfo.mask,
-              gateway: this.netInfo.static.netinfo.gateway,
-              dns1: this.netInfo.static.netinfo.dns[0],
-              dns2: this.netInfo.static.netinfo.dns[1] || ''
-            };
-          }
-        }
-      });
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     },
     save(params) {
       console.log(params);
@@ -877,21 +886,24 @@ export default {
 </script>
 <style lang="scss" scoped>
 .form {
-  padding: 20px 0;
-  @media screen and (min-width: 769px) {
+  padding: 25px 0;
+  .item {
     width: 340px;
   }
+  // @media screen and (min-width: 769px) {
+  //   width: 340px;
+  // }
   .net-type {
     margin-bottom: 30px;
   }
   .note {
     font-size: 12px;
-    color: #999999;
     padding-top: 10px;
+    color: var(--text-gery-color);
   }
   .form__split-line {
-    padding-top: 20px;
-    border-top: 1px solid #e8e8e8;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
   }
   .form__internet-vlan {
     margin-top: 25px;
@@ -900,7 +912,7 @@ export default {
     display: flex;
   }
   .form__item {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     &.form__item--mb {
       margin-bottom: 0px;
     }
@@ -916,20 +928,19 @@ export default {
     font-size: 14px;
   }
   .form__submit {
-    margin-top: 50px !important;
-    margin-bottom: 90px;
+    margin-top: 25px !important;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
   }
 }
 .wan-info {
   display: flex;
-  width: 340px;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
   font-size: 16px;
-  color: #333333;
   text-align: center;
-  padding-bottom: 30px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--hr-color);
   img {
     width: 150px;
   }
@@ -940,7 +951,7 @@ export default {
     text-align: left;
   }
   .seccess-info {
-    width: 100%;
+    width: 340px;
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -951,25 +962,31 @@ export default {
     label {
       display: inline-block;
       font-size: 14px;
-      color: #333;
       font-weight: bold;
       text-align: left;
       width: 150px;
     }
     span {
-      color: #333333;
       font-size: 14px;
       flex: 1;
     }
   }
 }
 @media screen and(max-width:768px) {
-  .wan-info {
-    flex-direction: column;
-    width: 100%;
-    .seccess-info {
-      border: 0;
-      padding-left: 0;
+  .page-content {
+    width: 100vw;
+    .wan-info {
+      flex-direction: column;
+      width: 100%;
+      .seccess-info {
+        border: 0;
+        padding-left: 0;
+      }
+    }
+    .form {
+      .item {
+        width: auto;
+      }
     }
   }
 }

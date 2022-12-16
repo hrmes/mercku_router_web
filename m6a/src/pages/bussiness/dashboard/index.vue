@@ -952,17 +952,6 @@ ul {
       }
     }
   }
-  // .router-view {
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 100%;
-  //   padding: 0 10%;
-  //   @media screen and (max-width: 1440px) {
-  //     padding: 0 50px;
-  //   }
-  // }
 }
 // 匹配1440px到无穷大
 @media screen and(min-width:1440px) {
@@ -1329,7 +1318,7 @@ ul {
     }
   }
 }
-@media screen and(max-width:374px) {
+@media screen and (max-width: 374px) {
   .dashboard {
     .mobile-net-info {
       .mobile-net-info__inner {
@@ -1376,6 +1365,31 @@ ul {
               .wifi {
                 .wifi__name {
                   max-width: 48%;
+                }
+              }
+            }
+          }
+          &.internet-container {
+            .speed-container {
+              .speed-info {
+                .speed-icon-wrap {
+                  width: 20px;
+                  height: 20px;
+                  img {
+                    width: 20px;
+                    height: 20px;
+                  }
+                }
+                .speed-wrap {
+                  .speed-num {
+                    margin-left: 0;
+                    font-size: 18px;
+                  }
+                  .speed-unit {
+                    // font-size: ;
+                  }
+                }
+                &.upload-wrap {
                 }
               }
             }

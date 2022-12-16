@@ -1,12 +1,13 @@
 <template>
   <div class="page led">
-    <div class="page-header">
+    <div v-if="$store.isMobile"
+         class="page-header">
       {{$t('trans0779')}}
     </div>
     <div class="page-content">
       <m-form class="form">
         <m-form-item class="form__item--first">
-          <m-switch :label="$t('trans0462')"
+          <m-switch :label="$t('trans0779')"
                     class="smart-connect__switch"
                     v-model="form.enabled" />
           <div class="tip__label">{{$t('trans0777')}}</div>
@@ -81,10 +82,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page.led {
+.page {
   .page-content {
     .form {
-      width: 340px;
       .row {
         display: flex;
       }
@@ -93,12 +93,15 @@ export default {
         text-align: left;
         margin-bottom: 5px;
         font-weight: bold;
-        color: #333;
+        color: var(--text-default-color);
         font-size: 14px;
       }
       .form-item {
+        width: 340px;
         &.form__item--first {
-          margin-bottom: 20px;
+          width: auto;
+          padding-bottom: 25px;
+          border-bottom: 1px solid var(--hr-color);
         }
         .time-picker {
           height: 48px;
@@ -109,8 +112,23 @@ export default {
         color: #999;
         margin-top: 10px;
         max-width: 340px;
-        border-bottom: 1px solid #ebebeb;
-        padding-bottom: 20px;
+      }
+    }
+    .form-button {
+      margin-top: 0;
+      padding-top: 25px;
+      border-top: 1px solid var(--hr-color);
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .page {
+    .page-content {
+      width: 100vw;
+      .form {
+        .form-item {
+          width: auto;
+        }
       }
     }
   }

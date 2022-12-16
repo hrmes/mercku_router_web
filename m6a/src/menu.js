@@ -20,10 +20,9 @@ export default function getMenu(role, mode = RouterMode.router) {
     auth: [Role.admin, Role.super],
     mode: [RouterMode.router]
   };
-  const wifi = {
+  const dashboard = {
     icon: 'icon-ic_home_light1',
     text: 'trans0173',
-    name: 'wifi',
     url: '/dashboard',
     children: [
       // {
@@ -49,6 +48,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const setting = {
     icon: 'icon-ic_home_settings_light1',
     text: 'trans0019',
+    name: 'setting',
     url: '/setting/wifi',
     children: [
       {
@@ -144,8 +144,8 @@ export default function getMenu(role, mode = RouterMode.router) {
         config
       },
       {
-        url: '/setting/wifi-schedule',
-        name: 'setting.wifi-schedule',
+        url: '/setting/schedule',
+        name: 'schedule',
         text: 'trans0962',
         config
       }
@@ -154,6 +154,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const advance = {
     icon: 'icon-ic_advanced_settings_light',
     text: 'trans0416',
+    name: 'advance',
     url: '/advance/portforwarding',
     children: [
       {
@@ -288,6 +289,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const upgrade = {
     icon: 'icon-ic_upgrade_firmware_light1',
     text: 'trans0197',
+    name: 'upgrade',
     url: '/upgrade/online',
     children: [
       {
@@ -312,10 +314,10 @@ export default function getMenu(role, mode = RouterMode.router) {
   };
   const theme = {
     icon: 'icon-ic_theme_light',
-    text: 'trans0163',
+    text: 'trans0737',
     children: []
   };
-  [wifi, setting, advance, upgrade, theme].forEach(item => {
+  [dashboard, setting, advance, upgrade, theme].forEach(item => {
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
       menu.config = menu.config || config;
@@ -343,6 +345,6 @@ export default function getMenu(role, mode = RouterMode.router) {
     });
   });
 
-  console.log([wifi, setting, advance, upgrade, theme]);
-  return [wifi, setting, advance, upgrade, theme];
+  console.log([dashboard, setting, advance, upgrade, theme]);
+  return [dashboard, setting, advance, upgrade, theme];
 }

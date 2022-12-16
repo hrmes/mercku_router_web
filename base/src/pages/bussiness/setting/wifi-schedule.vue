@@ -1,45 +1,47 @@
 <template>
-  <div class="page led">
-    <div class="page-header">
+  <div class="page">
+    <div v-if="$store.isMobile"
+         class="page-header">
       {{$t('trans0962')}}
     </div>
     <div class="page-content">
       <m-form class="form">
         <m-form-item class="form__item--first">
-          <m-switch :label="$t('trans0462')"
+          <m-switch :label="$t('trans0962')"
                     class="smart-connect__switch"
                     v-model="form.enabled"
                     @change="onEnableChange" />
         </m-form-item>
-        <div class="form__advance"
-             v-show="form.enabled">
-          <m-form-item class="form__item schedule-item">
-            <label class="form__label">{{$t('trans0082')}}</label>
-            <div class="schedules">
-              <m-checkbox class="schedules__schedule"
-                          v-for="schedule in schedules"
-                          :key="schedule.value"
-                          v-model="schedule.checked"
-                          :text="schedule.label"></m-checkbox>
-              <label v-show="showErrorTip"
-                     class="schedules__error">{{$t('trans0388')}}</label>
-            </div>
+        <div v-show="form.enabled"
+             class="form-wrapper">
+          <div class="form__advance">
+            <m-form-item class="form__item schedule-item">
+              <label class="form__label">{{$t('trans0082')}}</label>
+              <div class="schedules">
+                <m-checkbox class="schedules__schedule"
+                            v-for="schedule in schedules"
+                            :key="schedule.value"
+                            v-model="schedule.checked"
+                            :text="schedule.label"></m-checkbox>
+                <label v-show="showErrorTip"
+                       class="schedules__error">{{$t('trans0388')}}</label>
+              </div>
 
-          </m-form-item>
+            </m-form-item>
 
-          <m-form-item class="form__item">
-            <label class="form__label">{{$t('trans0965')}}</label>
-            <m-time-picker class="time-picker"
-                           v-model="form.time_begin" />
-          </m-form-item>
+            <m-form-item class="form__item">
+              <label class="form__label">{{$t('trans0965')}}</label>
+              <m-time-picker class="time-picker"
+                             v-model="form.time_begin" />
+            </m-form-item>
 
-          <m-form-item class="form__item">
-            <label class="form__label">{{$t('trans0966')}}</label>
-            <m-time-picker class="time-picker"
-                           v-model="form.time_end" />
-          </m-form-item>
+            <m-form-item class="form__item">
+              <label class="form__label">{{$t('trans0966')}}</label>
+              <m-time-picker class="time-picker"
+                             v-model="form.time_end" />
+            </m-form-item>
+          </div>
         </div>
-
       </m-form>
       <div class="form-button"
            v-show="form.enabled">
@@ -185,10 +187,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page.led {
+.page {
   .page-content {
     .form {
-      width: 340px;
       .row {
         display: flex;
       }
@@ -201,6 +202,10 @@ export default {
         font-size: 14px;
       }
       .form-item {
+        &.form__item--first {
+          margin-bottom: 0;
+          padding-bottom: 25px;
+        }
         &.schedule-item {
           margin-bottom: 15px;
         }
@@ -208,9 +213,12 @@ export default {
           height: 48px;
         }
       }
+      .form-wrapper {
+        border-top: 1px solid var(--hr-color);
+      }
       .form__advance {
-        border-top: 1px solid #ebebeb;
-        padding-top: 20px;
+        width: 340px;
+        padding-top: 25px;
       }
       .tip__label {
         font-size: 12px;
@@ -221,7 +229,6 @@ export default {
         padding-bottom: 20px;
       }
     }
-
     .schedules {
       position: relative;
       padding-bottom: 15px;
@@ -240,6 +247,23 @@ export default {
         color: #ff0001;
         display: inline-block;
         height: 14px;
+      }
+    }
+    .form-button {
+      margin-top: 0;
+      padding-top: 25px;
+      border-top: 1px solid var(--hr-color);
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .page {
+    .page-content {
+      width: 100vw;
+      .form {
+        .form__advance {
+          width: auto;
+        }
       }
     }
   }

@@ -8,9 +8,19 @@
       </div>
       <div class="text-container">{{pageName}}</div>
     </div>
-    <div class="content-wrap">
-      <div v-if="hasAside"
-           class="left-aside"></div>
+    <div class="content-wrap"
+         :class="{'has-top-margin':!hasBackWrap}">
+      <div v-if="!isMobile&&asideInfo.hasAside"
+           class="left-aside">
+        <ul class="menu-result-list">
+          <li v-for="menu in asideInfo.subMenu[0].children"
+              :key='menu.name'
+              @click="$router.push({path:menu.url})"
+              :class="{'selected':$route.path.includes(menu.url)}">
+            {{$t(`${menu.text}`)}}
+          </li>
+        </ul>
+      </div>
       <router-view class="router-view">
       </router-view>
     </div>
@@ -23,9 +33,9 @@ export default {
       type: Boolean,
       default: false
     },
-    hasAside: {
-      type: Boolean,
-      default: false
+    asideInfo: {
+      type: Object,
+      default: () => ({ hasAside: false, subMenu: [] })
     }
   },
   mounted() {
@@ -44,6 +54,9 @@ export default {
     pageName() {
       return this.$route.meta.text;
     },
+    isMobile() {
+      return this.$store.isMobile;
+    }
   },
   methods: {
     onBack(target) {
@@ -106,13 +119,37 @@ export default {
     .left-aside {
       width: 17vw;
       margin-right: 10px;
-      background-color: lightblue;
+      padding: 25px 15px;
+      background: var(--dashboard-icon-background-color);
       border-radius: 10px;
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        color: var(--text-default-color);
+        > li {
+          padding: 10px 15px;
+          margin-bottom: 5px;
+          cursor: pointer;
+          transition: background 0.3s ease-out;
+          border-radius: 5px;
+          &.selected {
+            color: var(--aside-selected-text-color);
+            background: var(--asdie-selected-background) !important;
+          }
+          &:hover {
+            background: var(--aside-hover-background-color);
+          }
+        }
+      }
     }
     .router-view {
       flex: 1;
       background: var(--dashboard-icon-background-color);
       border-radius: 10px;
+    }
+    &.has-top-margin {
+      margin-top: 20px;
     }
   }
 }
