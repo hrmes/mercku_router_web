@@ -126,8 +126,6 @@
             <img src="../../../../assets/images/img_default_empty.webp"
                  alt="">
             <p>{{$t('trans0278')}}</p>
-            <button class="btn btn-middle"
-                    @click="add">{{$t('trans0035')}}</button>
           </div>
         </div>
 
@@ -330,9 +328,9 @@ export default {
     p {
       padding: 0;
       margin: 0;
-      &:first-child {
-        margin-bottom: 8px;
-      }
+      // &:first-child {
+      //   margin-bottom: 8px;
+      // }
     }
   }
   .column-local-port {

@@ -131,7 +131,9 @@
       <div class="small-device">
         <span @click="setMobileLangVisible()"
               class="menu-icon language"
-              :class="[$i18n.locale]"></span>
+              :class="[$i18n.locale]">
+          <i class="iconfont icon-a-ic_languages"></i>
+        </span>
         <ul class="i18n-mobile reset-ul"
             v-show="mobileI18nVisible">
           <li :key="lang.value"
@@ -145,7 +147,9 @@
         </ul>
         <span v-if="navVisible"
               @click="trigerMobileNav()"
-              class="menu-icon menu"></span>
+              class="menu-icon menu">
+          <i class="iconfont icon-ic_more"></i>
+        </span>
       </div>
       <div v-show="navVisible"
            class="exit"
@@ -478,8 +482,10 @@ export default {
       const theme = localStorage.getItem('theme');
       if (!theme || theme === undefined) {
         localStorage.setItem('theme', 'auto');
+        this.$store.theme = 'auto';
         this.themeOptions.auto.ischecked = true;
       } else {
+        this.$store.theme = theme;
         Object.keys(this.themeOptions).forEach((key) => {
           this.themeOptions[key].ischecked = false;
         });
@@ -489,8 +495,12 @@ export default {
     },
     changeThemeMode() {
       localStorage.setItem('theme', this.selectedTheme);
+      this.$store.theme = this.selectedTheme;
       document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
       this.ThemechangeVisiable = false;
+      if (this.mobileNavVisible) {
+        this.mobileNavVisible = false;
+      }
     }
   },
   beforeDestroy() {
@@ -1112,21 +1122,15 @@ export default {
         }
         .menu-icon {
           display: inline-block;
-          filter: var(--img-brightness);
-          &.language {
-            background: url(../../assets/images/icon/ic_languages_white.png)
-              no-repeat center;
-            background-size: 100%;
-            width: 20px;
-            height: 20px;
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          text-align: center;
+          .iconfont {
+            font-size: 20px;
           }
           &.menu {
             margin-left: 35px;
-            background: url(../../assets/images/icon/ic_top_bar_pull_down.png)
-              no-repeat center;
-            background-size: 100%;
-            width: 19px;
-            height: 19px;
           }
         }
       }

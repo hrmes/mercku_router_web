@@ -185,6 +185,21 @@
       display: block;
     }
   }
+  &.disabled {
+    cursor: not-allowed;
+    background-color: var(--button-icon-disabled-bgc);
+    .iconfont {
+      color: var(--button-icon-disabled-color);
+    }
+    &:hover {
+      .iconfont {
+        color: var(--button-icon-disabled-color);
+      }
+      .icon-hover-popover {
+        display: none;
+      }
+    }
+  }
 }
 @media screen and (min-width: 769px) {
   .btn {

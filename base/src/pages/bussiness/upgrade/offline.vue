@@ -43,7 +43,8 @@
                }"
                ref="retitle">
             {{ $t('trans0333') }}
-            <div class="retitle__btn-wrap">
+            <div v-if="$store.isMobile"
+                 class="retitle__btn-wrap">
               <button @click="upgrade()"
                       class="btn btn-small retitle__btn">
                 {{ $t('trans0225') }}
@@ -57,12 +58,6 @@
             <div v-for="node in localNodes"
                  :key="node.sn"
                  class="node">
-              <div class="badges">
-                <m-tag v-if="node.isGW&&isHomewayProduct"
-                       class="AP">{{$t('trans1097')}}</m-tag>
-                <m-tag v-else-if="node.isGW"
-                       class="gateway">{{ $t('trans0165') }}</m-tag>
-              </div>
               <div class="message"
                    @click="check(node)">
                 <m-checkbox :readonly="true"
@@ -81,9 +76,22 @@
                     <label class="with-colon">{{ $t('trans0209') }}:</label>
                     <span>{{ node.version.current }}</span>
                   </p>
+                  <div class="badges">
+                    <m-tag v-if="node.isGW&&isHomewayProduct"
+                           class="AP">{{$t('trans1097')}}</m-tag>
+                    <m-tag v-else-if="node.isGW"
+                           class="gateway">{{ $t('trans0165') }}</m-tag>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div v-if="!$store.isMobile"
+               class="btn-info">
+            <button class="btn"
+                    @click="submit()">
+              {{ $t('trans0225') }}
+            </button>
           </div>
         </div>
         <div class="description-wrapper"
@@ -356,7 +364,7 @@ export default {
   p {
     margin: 0;
     font-size: 14px;
-    color: #333333;
+    color: var(--text-default-color);
     margin-bottom: 10px;
     &:last-child {
       margin-bottom: 20px;
@@ -468,10 +476,8 @@ export default {
           flex-direction: column;
           align-items: flex-start;
           align-content: flex-start;
-          justify-content: flex-start;
+          justify-content: center;
           flex: 1;
-          padding-top: 38px;
-          padding-bottom: 20px;
           .node-name {
             // width: 100%;
             // overflow: hidden;
@@ -509,18 +515,26 @@ export default {
         }
       }
       .badges {
-        position: absolute;
-        right: 20px;
-        top: 10px;
-        z-index: 1;
+        padding-top: 10px;
         display: flex;
         .mk-tag {
           &.gateway,
           &.AP {
-            background: #00d061;
+            color: var(--tag-green-text-color);
+            font-weight: 600;
+            background: var(--tag-green-background-color);
           }
         }
       }
+    }
+  }
+  .btn-info {
+    margin-top: 0;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
+    text-align: left;
+    .btn {
+      width: 500px;
     }
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.isMobile"
+         class="page-header">
       {{ $t('trans0202') }}
-
       <div class="btn-info"
            v-if="nodes.length">
         <button class="btn btn-small"
@@ -18,11 +18,7 @@
           <div v-for="node in nodes"
                :key="node.sn"
                class="node">
-            <div class="badges">
-              <m-tag class="gateway"
-                     v-if="node.isGW">{{$t('trans0165')}}</m-tag>
-              <m-tag>{{ node.version.latest }}</m-tag>
-            </div>
+
             <div class="message"
                  @click="check(node)">
               <m-checkbox :readonly="true"
@@ -41,6 +37,11 @@
                   <label class="with-colon">{{ $t('trans0209') }}:</label>
                   <span>{{ node.version.current }}</span>
                 </p>
+                <div class="badges">
+                  <m-tag class="gateway"
+                         v-if="node.isGW">{{$t('trans0165')}}</m-tag>
+                  <m-tag>{{ node.version.latest }}</m-tag>
+                </div>
                 <p class="changelog"
                    @click.stop="showChangelog(node)">
                   {{ $t('trans0546') }}
@@ -48,6 +49,13 @@
               </div>
             </div>
           </div>
+        </div>
+        <div v-if="!$store.isMobile"
+             class="btn-info">
+          <button class="btn"
+                  @click="submit()">
+            {{ $t('trans0225') }}
+          </button>
         </div>
       </div>
       <div class="msg-wrapper"
@@ -267,9 +275,9 @@ export default {
     overflow: hidden;
     flex-wrap: wrap;
     .node {
-      width: 340px;
-      height: 136px;
-      border: 1px solid #dbdbdb;
+      width: 360px;
+      height: 160px;
+      border: 1px solid var(--tag-node-border-color);
       border-radius: 5px;
       margin-right: 20px;
       margin-bottom: 30px;
@@ -298,8 +306,8 @@ export default {
         .img-container {
           margin: 0 5px;
           img {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
           }
         }
 
@@ -309,8 +317,8 @@ export default {
           align-content: start;
           justify-content: center;
           flex: 1;
-          padding-top: 38px;
-          padding-bottom: 10px;
+          // padding-top: 38px;
+          // padding-bottom: 10px;
 
           .node-name {
             padding: 0;
@@ -345,31 +353,35 @@ export default {
           }
           .changelog {
             font-size: 12px;
+            font-weight: 600;
             text-decoration: underline;
-            color: #333;
+            color: var(--text-default-color);
             margin: 0;
-            align-self: flex-end;
-            color: #333;
-            padding-top: 10px;
+            padding-top: 7px;
           }
         }
       }
       .badges {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        z-index: 1;
         display: flex;
+        padding-top: 10px;
         .mk-tag {
           &.gateway {
-            background: #00d061;
+            color: var(--tag-green-text-color);
+            font-weight: 600;
+            background: var(--tag-green-background-color);
           }
         }
       }
     }
   }
   .btn-info {
-    margin-top: 120px;
+    margin-top: 0;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
+    text-align: left;
+    .btn {
+      width: 460px;
+    }
   }
 }
 .msg-wrapper {

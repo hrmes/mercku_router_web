@@ -13,8 +13,8 @@
   background: var(--tag-background-color);
   border-radius: 10px;
   font-size: 12px;
+  font-weight: 600;
   color: var(--tag-text-color);
-  font-weight: normal;
   + .mk-tag {
     margin-left: 5px;
   }

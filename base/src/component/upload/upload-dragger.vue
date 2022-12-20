@@ -53,10 +53,10 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 513px;
+  width: 500px;
   height: 188px;
   border-radius: 8px;
-  border: dashed 1px #999999;
+  border: dashed 1.5px #999999;
   position: relative;
   .dragger__wrap {
     position: absolute;

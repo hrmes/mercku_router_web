@@ -391,6 +391,19 @@ export default {
     isMobile() {
       return this.$store.isMobile;
     },
+    current() {
+      return this.$store.theme;
+    }
+  },
+  watch: {
+    current(nv) {
+      if (nv === 'dark') {
+        this.isDarkMode = true;
+      } else {
+        this.isDarkMode = false;
+      }
+      this.getMeshNode();
+    }
   },
   methods: {
     getRouterStationCount(router) {

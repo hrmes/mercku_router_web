@@ -14,7 +14,7 @@
         <p class="upload__text">
           {{ $t('trans0928') }}
         </p>
-        <button class="btn fileinput-button"
+        <button class="btn btn-default fileinput-button"
                 :disabled="uploadLoading"
                 @click="click">
           <label>{{ label }}</label>
@@ -83,10 +83,11 @@
             </div>
           </div>
           <div class="delete-wrap">
-            <img src="../../assets/images/icon/ic_delete.png"
+            <i class="iconfont icon-ic_close"></i>
+            <!-- <img src="../../assets/images/icon/ic_delete.png"
                  alt=""
                  width="24"
-                 @click="cancel(file)" />
+                 @click="cancel(file)" /> -->
           </div>
         </div>
         <div class="file__error"
@@ -101,8 +102,8 @@
 import { toLocaleNumber } from '../../util/util';
 import { UploadStatus } from '../../util/constant';
 import UploadDragger from './upload-dragger.vue';
-import folderIcon from '../../assets/images/icon/ic_folder.svg';
-import folderIconError from '../../assets/images/icon/ic_folder_error.svg';
+import folderIcon from '../../assets/images/icon/ic_folder.webp';
+import folderIconError from '../../assets/images/icon/ic_file_error.svg';
 
 export default {
   components: {
@@ -277,7 +278,8 @@ export default {
       min-width: 80px;
       cursor: pointer;
       &[disabled] {
-        background: var(--upload-button-disabled-color);
+        border-color: var(--upload-button-disabled-color);
+        color: var(--upload-button-disabled-color);
         cursor: not-allowed;
         label {
           cursor: not-allowed;
@@ -301,7 +303,7 @@ export default {
     }
   }
   .upload__files {
-    width: 513px;
+    width: 500px;
     margin-top: 20px;
   }
   .file {
@@ -405,8 +407,17 @@ export default {
         }
       }
       .delete-wrap {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background: var(--upload-delete-icon-bgc);
+        border-radius: 50%;
         margin-left: 20px;
-        img {
+        i {
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--text-default-color);
           cursor: pointer;
         }
       }

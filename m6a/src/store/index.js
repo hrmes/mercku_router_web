@@ -7,6 +7,7 @@ const store = new Store(Vue, {
   modelVersion: localStorage.getItem('modelVersion'),
   isMobile: false,
   isConnected: '',
+  theme: '',
   modules: {
     limits: {},
     portfw: {},

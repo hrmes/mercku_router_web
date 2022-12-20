@@ -79,7 +79,7 @@ export default {
     .radio {
       width: 18px;
       height: 18px;
-      line-height: 17px;
+      line-height: 18px;
       text-align: center;
       border-radius: 50%;
       border: 1.5px solid var(--checkbox-border-color);

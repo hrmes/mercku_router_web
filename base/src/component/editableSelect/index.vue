@@ -148,7 +148,7 @@ export default {
     width: 100%;
     border-radius: 4px;
     outline: 0;
-    border: 1px solid var(--select-input-border-color);
+    border: 1.5px solid var(--select-input-border-color);
     font-size: 14px;
     padding: 10px;
     line-height: 26px;
@@ -159,6 +159,7 @@ export default {
       width: 100%;
       border: none;
       outline: none;
+      background: transparent;
     }
   }
   label {
@@ -173,8 +174,8 @@ export default {
     // width: 100%;
     position: absolute;
     z-index: 999;
-    left: -1px;
-    right: -1px;
+    left: -2px;
+    right: -2px;
     top: 52px;
     background: var(--select-popup-background-color);
     border-radius: 5px;

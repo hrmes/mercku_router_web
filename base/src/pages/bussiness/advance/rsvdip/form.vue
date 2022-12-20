@@ -9,62 +9,66 @@
               class="form"
               :model="form"
               :rules='rules'>
-        <div class="device btn"
-             @click.stop="()=>modalShow=!modalShow">
-          <span>{{$t('trans0235')}}</span>
-          <i> <img :class="{open:modalShow}"
-                 src="../../../../assets/images/icon/ic_arrow_pack_up.png"
-                 alt=""></i>
-          <div class="modal"
-               v-show="modalShow"
-               @click.stop=""
-               v-clickoutside="()=>modalShow=false">
-            <div class="opcity"></div>
-            <div class="modal-content">
-              <div class="list">
-                <div class="device-item"
-                     @click="checkDevice(item)"
-                     v-for="(item,index) in devicesFiltered"
-                     :key="index">
-                  <div class="check">
-                    <m-checkbox :readonly="true"
-                                :rect="false"
-                                v-model="item.checked"></m-checkbox>
-                  </div>
-                  <div class="des">
-                    <p>{{item.name}}</p>
-                    <p>
-                      <label class="with-colon">{{$t('trans0188')}}:</label>{{formatMac(item.mac)}}
-                    </p>
-                    <p><label class="with-colon">{{$t('trans0151')}}:</label>{{item.ip}}</p>
-                  </div>
-                </div>
-              </div>
-              <div class="empty-device"
-                   v-if="!devices.length">
-                <p>{{$t('trans0278')}}</p>
-              </div>
-              <!-- <div class="empty"
-                   v-if="!devices.length">
-                <p style="color:#000;margin-top:50px;">{{$t('trans0278')}}</p>
-              </div> -->
-              <div class="btn-wrap">
-                <button class="btn btn-middle btn-default"
-                        @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-                <button class="btn btn-dialog-confirm"
-                        @click="chooseDevice"
-                        v-if="devicesFiltered.length">{{$t('trans0024')}}</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <m-form-item class="item"
+        <m-form-item class="item device-choose-wrap"
                      prop='name'
                      ref="name">
           <m-input :label="$t('trans0108')"
                    type="text"
                    :placeholder="$t('trans0321')"
                    v-model="form.name" />
+          <div class="device btn"
+               @click.stop="()=>modalShow=!modalShow">
+            <span>{{$t('trans0235')}}</span>
+            <i>
+              <img :class="{open:modalShow}"
+                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
+                   alt="">
+            </i>
+            <div class="modal"
+                 v-show="modalShow"
+                 @click.stop=""
+                 v-clickoutside="()=>modalShow=false">
+              <div class="opcity"
+                   @click="modalShow=false"></div>
+              <div class="modal-content">
+                <!-- <div class="modal__header">{{$t('trans0235')}}</div> -->
+                <div class="list">
+                  <div class="device-item"
+                       @click="checkDevice(item)"
+                       v-for="(item,index) in devicesFiltered"
+                       :key="index">
+                    <div class="check">
+                      <m-checkbox :readonly="true"
+                                  :rect="false"
+                                  v-model="item.checked"></m-checkbox>
+                    </div>
+                    <div class="des">
+                      <p>{{item.name}}</p>
+                      <p>
+                        <label
+                               class="with-colon">{{$t('trans0188')}}:</label>{{formatMac(item.mac)}}
+                      </p>
+                      <p><label class="with-colon">{{$t('trans0151')}}:</label>{{item.ip}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="empty-device"
+                     v-if="!devicesFiltered.length||!devices.length">
+                  <p>{{$t('trans0278')}}</p>
+                </div>
+                <!-- <div class="empty"
+                   v-if="!devices.length">
+                <p style="color:#000;margin-top:50px;">{{$t('trans0278')}}</p>
+              </div> -->
+                <div class="btn-wrap">
+                  <button class="btn btn-middle btn-default"
+                          @click="()=>modalShow=false">{{$t('trans0025')}}</button>
+                  <button class="btn btn-dialog-confirm"
+                          @click="chooseDevice">{{$t('trans0024')}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </m-form-item>
         <m-form-item class="item"
                      prop='mac'
@@ -85,7 +89,9 @@
         </m-form-item>
       </m-form>
       <div class="btn-info form-button">
-        <button class="btn"
+        <button class="btn btn-middle btn-default"
+                @click="$router.go(-1)">{{$t('trans0025')}}</button>
+        <button class="btn btn-middle"
                 @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
@@ -176,6 +182,8 @@ export default {
       }
     },
     chooseDevice() {
+      console.log('12312', this.devices);
+      console.log(this.devicesFiltered);
       this.devices.forEach(v => {
         if (v.checked) {
           this.form = {
@@ -189,6 +197,9 @@ export default {
       this.modalShow = false;
     },
     checkDevice(device) {
+      console.log(device);
+      console.log('$$$$', this.devices);
+      console.log(this.devicesFiltered);
       this.devices.forEach(d => {
         if (d !== device) {
           d.checked = false;
@@ -237,145 +248,196 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.form {
-  .btn-info {
-    margin-top: 60px;
-  }
-  .item {
-    margin-top: 30px;
-  }
-  .empty-device {
-    p {
-      padding: 50px 0;
-      color: var(--text-default-color);
-      border-bottom: 1px solid var(--hr-color);
-      margin: 0;
-      text-align: center;
-    }
-  }
-  .device {
-    // width: 120px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 10px;
-    position: relative;
-    cursor: pointer;
-    margin-left: 0;
-    i {
-      img {
-        width: 12px;
-        transition: all 0.3s;
-        &.open {
-          transform: rotate(180deg);
-        }
+.page-content {
+  .form {
+    .empty-device {
+      p {
+        padding: 50px 0;
+        color: var(--text-default-color);
+        margin: 0;
+        text-align: center;
       }
     }
-    .modal {
-      position: absolute;
-      top: 47px;
-      z-index: 1;
-      left: 0;
+    .device-choose-wrap {
+      display: flex;
       width: 340px;
-      border-radius: 4px;
-      box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-      border: solid 1px #f1f1f1;
-      background-color: #ffffff;
-      .modal-content {
-        .modal__header {
-          color: #333;
-          text-align: left;
-          font-weight: bold;
-          border-bottom: 1px solid #f1f1f1;
-
-          font-size: 14px;
-          padding: 20px 0 12px 0;
-          margin: 0 30px;
+      .device {
+        width: 100px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        align-self: flex-end;
+        justify-content: space-between;
+        padding: 0 10px;
+        margin-left: 10px;
+        position: relative;
+        cursor: pointer;
+        &.btn {
+          min-width: 100px;
         }
-        .list {
-          overflow: auto;
-          max-height: 400px;
-        }
-        .device-item {
+        i {
           display: flex;
-          align-items: flex-start;
-          padding: 20px 30px 0 30px;
-          &:hover {
-            background: #f1f1f1;
-            cursor: pointer;
-          }
-          .des {
-            flex: 1;
-            justify-content: flex-start;
-            margin-left: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #f1f1f1;
-            p {
-              color: #333333;
-              line-height: 1;
-              padding: 0;
-              margin: 0;
-              margin-bottom: 10px;
-              text-align: left;
-              &:first-child {
-                font-size: 14px;
-                font-weight: bold;
-              }
-              &:last-child {
-                margin-bottom: 0;
-              }
+          align-items: center;
+          img {
+            width: 10px;
+            transform: rotate(-90deg);
+            transition: all 0.3s;
+            &.open {
+              transform: rotate(0);
             }
           }
         }
-        .btn-wrap {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          .btn-default {
-            display: none;
+        .modal {
+          position: absolute;
+          top: 50px;
+          z-index: 1;
+          left: -240px;
+          width: 340px;
+          border-radius: 4px;
+          box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04),
+            0 2px 4px 0 rgba(0, 0, 0, 0.12);
+          border: solid 1px var(--table-body-hr-color);
+          background-color: var(--select-popup-background-color);
+          .modal-content {
+            .modal__header {
+              color: var(--text-default-color);
+              text-align: left;
+              font-weight: bold;
+              border-bottom: 1px solid var(--table-body-hr-color);
+
+              font-size: 14px;
+              padding: 20px 0 12px 0;
+              margin: 0 30px;
+            }
+            .list {
+              overflow: auto;
+              max-height: 400px;
+            }
+            .device-item {
+              display: flex;
+              align-items: flex-start;
+              padding: 20px 30px 0 30px;
+              &:hover {
+                background: var(--select-item-active-background-color);
+                cursor: pointer;
+              }
+              .des {
+                flex: 1;
+                justify-content: flex-start;
+                margin-left: 20px;
+                padding-bottom: 20px;
+                p {
+                  color: var(--text-default-color);
+                  line-height: 1;
+                  padding: 0;
+                  margin: 0;
+                  margin-bottom: 10px;
+                  text-align: left;
+                  &:first-child {
+                    font-size: 14px;
+                    font-weight: bold;
+                  }
+                  &:last-child {
+                    margin-bottom: 0;
+                  }
+                }
+              }
+            }
+            .btn-wrap {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              .btn-default {
+                display: none;
+              }
+              .btn {
+                margin: 0 auto;
+              }
+              padding-top: 15px;
+              // margin-top: 15px;
+              padding-bottom: 15px;
+              border-top: 1px solid var(--hr-color);
+            }
           }
-          .btn {
-            margin: 0 auto;
-          }
-          padding-top: 50px;
-          padding-bottom: 30px;
         }
+      }
+    }
+  }
+  .form-button {
+    display: flex;
+    margin-top: 0;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
+    .btn {
+      width: 160px;
+      &:first-child {
+        margin-right: 20px;
       }
     }
   }
 }
+
 @media screen and (max-width: 768px) {
-  .form {
-    width: 100%;
-    margin: 0 auto;
-    .ext-item {
-      margin-bottom: 0;
-    }
-    .item {
+  .page-content {
+    .form {
       width: 100%;
-      margin-top: 30px;
-    }
-    .device {
-      .modal {
-        position: fixed;
-        width: auto;
+      margin: 0 auto;
+      .empty-device {
+        position: absolute;
         top: 50%;
-        left: 20px;
-        right: 20px;
-        transform: translateY(-50%);
-        .modal-content {
-          .list {
-            width: 100%;
-            max-height: 250px;
-            background: white;
-            box-sizing: border-box;
-          }
-          .btn-wrap {
-            .btn {
-              display: inline-block;
-              width: 120px;
-              min-width: initial;
+        left: 50%;
+        transform: translate(-50%, -60%);
+      }
+      .ext-item {
+        margin-bottom: 0;
+      }
+      .item {
+        width: 100%;
+      }
+      .device-choose-wrap {
+        .device {
+          .modal {
+            position: fixed;
+            width: 100vw;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            padding-top: 65px;
+
+            background: transparent;
+            .opcity {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(0, 0, 0, 0.6);
+            }
+            .modal-content {
+              width: 100%;
+              height: 100%;
+              position: relative;
+              background: #fff;
+              border-top-left-radius: 10px;
+              border-top-right-radius: 10px;
+              overflow: hidden;
+              .list {
+                width: 100%;
+                max-height: 250px;
+                background: white;
+                box-sizing: border-box;
+              }
+              .btn-wrap {
+                width: 100%;
+                position: absolute;
+                bottom: 0;
+                .btn {
+                  display: inline-block;
+                  width: 120px;
+                  min-width: initial;
+                }
+              }
             }
           }
         }

@@ -50,12 +50,17 @@
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
 
+  --button-icon-disabled-bgc: #f0f0f0;
+  --button-icon-disabled-color: #cdcdcd;
+
   // checkbox
   --checkbox-border-color: #999;
   --checkbox-background-color: transparent;
   --checkbox-checked-background-color: var(--primaryColor);
   --checkbox-checked-color: #fff;
   --checkbox-text-color: #333;
+  --checkbox-disabled-bgc: #e6e6e6;
+  --checkbox-disabled-border-color: #ccc;
 
   // dialog
   --dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
@@ -218,10 +223,14 @@
   --upload-error-text-color: #ff0000;
   --upload-progress-completed-color: #333;
   --upload-progress-color: #e3e3e3;
+  --upload-delete-icon-bgc: #fff;
 
   // tag
-  --tag-background-color: var(--primaryColor);
-  --tag-text-color: rgba(255, 255, 255, 0.95);
+  --tag-background-color: #ffd2d8;
+  --tag-text-color: #d6001c;
+  --tag-green-background-color: #bcf8d8;
+  --tag-green-text-color: #0b7e40;
+  --tag-node-border-color: #dbdbdb;
 
   //Appdownload
   --download-tag-background-color: #fff;
@@ -310,12 +319,17 @@
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
 
+  --button-icon-disabled-bgc: #404040;
+  --button-icon-disabled-color: #666;
+
   // checkbox
   --checkbox-border-color: #fff;
   --checkbox-background-color: transparent;
   --checkbox-checked-background-color: var(--primaryColor);
   --checkbox-checked-color: #fff;
   --checkbox-text-color: rgba(255, 255, 255, 0.8);
+  --checkbox-disabled-bgc: #666;
+  --checkbox-disabled-border-color: #808080;
 
   // dialog
   --dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
@@ -479,19 +493,23 @@
 
   // upload
   --upload-button-disabled-color: #999;
-  --upload-file-text-color: #999;
-  --upload-file-description-color: #333;
-  --upload-background-color: #f1f1f1;
-  --upload-icon-background-color: #fff;
+  --upload-file-text-color: rgba(255, 255, 255, 0.6);
+  --upload-file-description-color: #fff;
+  --upload-background-color: #1a1a1a;
+  --upload-icon-background-color: #4d4d4d;
   --upload-file-info-product-dot-color: #00d061;
   --upload-file-info-version-dot-color: #ff6f00;
   --upload-error-text-color: #ff0000;
   --upload-progress-completed-color: #333;
   --upload-progress-color: #e3e3e3;
+  --upload-delete-icon-bgc: #717071;
 
   // tag
-  --tag-background-color: var(--primaryColor);
-  --tag-text-color: rgba(255, 255, 255, 0.95);
+  --tag-background-color: rgba(255, 93, 114, 0.4);
+  --tag-text-color: #ff93a2;
+  --tag-green-background-color: rgba(64, 206, 130, 0.5);
+  --tag-green-text-color: #6df5ac;
+  --tag-node-border-color: rgba(255, 255, 255, 0.5);
 
   //Appdownload
   --download-tag-background-color: #595959;

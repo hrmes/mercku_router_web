@@ -97,11 +97,9 @@
           </div>
           <div class="empty"
                v-if="empty!==null && empty">
-            <img src="../../../../assets/images/img_default_empty.png"
+            <img src="../../../../assets/images/img_default_empty.webp"
                  alt="">
             <p>{{$t('trans0278')}}</p>
-            <button class="btn btn-middle"
-                    @click="()=>$router.push('/advance/rsvdip/form')">{{$t('trans0035')}}</button>
           </div>
         </div>
       </div>
@@ -252,11 +250,11 @@ export default {
       });
     },
     add() {
-      // if (this.portfws.length <= 20) {
-      //   this.$router.push('/advance/portforwarding/form');
-      // } else {
-      //   this.$toast(this.$t('trans0060'));
-      // }
+      if (this.rsvdips.length <= 20) {
+        this.$router.push('/advance/rsvdip/form');
+      } else {
+        this.$toast(this.$t('trans0060'));
+      }
     },
     stopDefault(e) {
       e.stopPropagation();
@@ -389,8 +387,7 @@ export default {
     .btn-wrap {
       display: flex;
       .btn {
-        width: 60px;
-        min-width: 60px;
+        min-width: fit-content;
         &:first-child {
           margin-right: 5px;
         }

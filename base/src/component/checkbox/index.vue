@@ -87,7 +87,7 @@ export default {
     float: left;
     width: 18px;
     height: 18px;
-    line-height: 17px;
+    line-height: 18px;
     text-align: center;
     border-radius: 3px;
     border: 1.5px solid var(--checkbox-border-color);
@@ -109,8 +109,8 @@ export default {
       }
     }
     &.disabled {
-      background: #b3b3b3;
-      border: none;
+      background: var(--checkbox-disabled-bgc);
+      border: 1.5px solid var(--checkbox-disabled-border-color);
       cursor: not-allowed;
     }
   }

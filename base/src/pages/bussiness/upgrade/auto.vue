@@ -7,9 +7,9 @@
     <div class="page-content">
       <div class="content">
         <div class="content__switch">
-          <label for="">{{$t('trans0744')}}</label>
           <m-switch v-model="auto_upgrade.enabled"
                     @change="switchAutoUpgrade"></m-switch>
+          <label for="">{{$t('trans0744')}}</label>
         </div>
         <div class="content__text">
           {{tips}}
@@ -31,7 +31,7 @@
               <m-time-picker class="form__time-picker"
                              v-model="auto_upgrade.time" />
             </m-form-item>
-            <div class="content__line"></div>
+            <!-- <div class="content__line"></div> -->
             <m-form-item class="form-button">
               <button class="btn"
                       v-defaultbutton
@@ -172,11 +172,10 @@ export default {
     margin-top: 10px;
     padding-bottom: 20px;
   }
-  .content__line {
-    width: 100%;
-    height: 1px;
-    background-color: #ebebeb;
-    margin-bottom: 20px;
+  .form-button {
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
   }
   .content__switch {
     display: flex;
@@ -192,13 +191,10 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: #333;
+    color: var(--select-label-color);
   }
   .form__time-picker {
     width: 340px;
-    height: 48px;
-    border: solid 1px #e1e1e1;
-    padding: 0 17px 0 10px;
   }
 }
 </style>
