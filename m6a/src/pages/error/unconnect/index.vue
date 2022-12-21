@@ -1,7 +1,7 @@
 <template>
   <div class="disappear-container">
     <div class="inner">
-      <img src="../../../assets/images/img_no_network_access.png"
+      <img src="../../../assets/images/img_no_network_access.webp"
            alt="">
       <div class="text">{{tips}}</div>
       <button @click="tohome"

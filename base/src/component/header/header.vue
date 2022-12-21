@@ -6,7 +6,10 @@
             'open':mobileNavVisible,
             'i18n-open':mobileI18nVisible
           }">
-    <div class="logo-wrap">
+    <div class="logo-wrap"
+         :class="{'light':currentTheme!=='auto'&&!isMobile&&!isDarkMode,
+                  'dark':currentTheme!=='auto'&&!isMobile&&isDarkMode
+                  }">
       <div v-if="logoVisible"
            @click="forward2dashboard"
            class="logo-wrap__logo"></div>
@@ -290,7 +293,8 @@ export default {
         light: { ischecked: false },
         dark: { ischecked: false },
         auto: { ischecked: true },
-      }
+      },
+      isDarkMode: false
     };
   },
   mounted() {
@@ -312,6 +316,12 @@ export default {
     },
     needMoveToRight() {
       return this.$route.path.includes('wlan') || this.$route.path.includes('unconnect');
+    },
+    isMobile() {
+      return this.$store.isMobile;
+    },
+    currentTheme() {
+      return this.$store.theme;
     }
   },
   watch: {
@@ -320,6 +330,16 @@ export default {
     },
     menus() {
       this.list = this.getList();
+    },
+    currentTheme: {
+      handler(nv) {
+        if (nv === 'dark') {
+          this.isDarkMode = true;
+        } else {
+          this.isDarkMode = false;
+        }
+      },
+      immediate: true
     }
   },
   methods: {
