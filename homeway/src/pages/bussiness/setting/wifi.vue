@@ -184,7 +184,7 @@
       <!-- channel设置表格 end -->
 
       <!-- wifi Tx power设置框 strat -->
-      <m-form class="form"
+      <m-form class="form txpower"
               ref="wifiTxPowerForm"
               key="wifiTxPowerform"
               :model="form">
@@ -265,7 +265,7 @@ export default {
       rules: {
         'b24g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
+            rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0237')
           },
           {
@@ -276,10 +276,6 @@ export default {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          }
         ],
         'b24g.password': [
           {
@@ -297,7 +293,7 @@ export default {
         ],
         'b5g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
+            rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0237')
           },
           {
@@ -308,10 +304,6 @@ export default {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          }
         ],
         'b5g.password': [
           {
@@ -619,6 +611,9 @@ export default {
         cursor: pointer;
       }
     }
+  }
+  &.txpower {
+    padding-top: 0;
   }
 }
 .form-button {
