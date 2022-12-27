@@ -15,11 +15,11 @@
           </m-tab>
         </m-tabs>
         <button class="btn btn-add btn-small"
-                @click="addMeshNode">
+                @click.stop="$router.push('/mesh/add')">
           <span class="add-icon"></span>
           {{$t('trans0194')}}
         </button>
-        <button @click="addMeshNode"
+        <button @click.stop="$router.push('/mesh/add')"
                 class="btn mobile-add"></button>
       </div>
       <div class="content">
@@ -36,7 +36,14 @@
               <div class="legend-item">{{$t('trans0193')}}</div>
               <div class="legend-item">{{$t('trans0196')}}</div>
               <div class="legend-item">{{$t('trans0214')}}</div>
-              <div class="legend-tx_power">Tx power: High</div>
+              <div class="legend-tx_power">
+                <span>{{$t('trans1102')}}:</span>
+                <m-loading :size='18'
+                           class="value loading"
+                           v-if="!tx_power"></m-loading>
+                <span v-else
+                      class="value text">{{txPowerMap[tx_power]}}</span>
+              </div>
             </div>
           </div>
           <div class="switch-wrap">
@@ -104,8 +111,6 @@
                   {{getRouterStationCount(router)}}
                 </span>
                 <i class="equipment__arrow iconfont icon-ic_enter"></i>
-                <!-- <img class=""
-                     src="../../../assets/images/icon/ic_inter.png" /> -->
               </div>
               <div class="sn">
                 <span class="label">{{$t('trans0251')}}</span>
@@ -354,6 +359,13 @@ export default {
         '2.4g': this.$t('trans0255'),
         '5g': this.$t('trans0256')
       },
+      txPowerMap: {
+        high: this.$t('trans1089'),
+        medium: this.$t('trans1090'),
+        low: this.$t('trans1091')
+      },
+      tx_power: '',
+      txPowerTimer: null,
       isDarkMode: false
     };
   },
@@ -548,9 +560,6 @@ export default {
         }
       });
     },
-    addMeshNode() {
-      this.$router.push('/mesh/add');
-    },
     initChart() {
       const topoEl = document.getElementById('topo');
       this.chart = echarts.init(topoEl);
@@ -635,6 +644,7 @@ export default {
     },
     createIntervalTask() {
       this.getMeshNode();
+      this.getTxpower();
     },
     clearIntervalTask() {
       clearTimeout(this.meshNodeTimer);
@@ -657,6 +667,28 @@ export default {
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
+            }, 10000);
+          }
+        });
+    },
+    getTxpower() {
+      clearTimeout(this.txPowerTimer);
+      this.txPowerTimer = null;
+      this.$http
+        .getMeshMeta()
+        .then(res => {
+          console.log(res);
+          this.tx_power = res.data.result.tx_power;
+          if (this.pageActive) {
+            this.txPowerTimer = setTimeout(() => {
+              this.getTxpower();
+            }, 10000);
+          }
+        })
+        .catch(() => {
+          if (this.pageActive) {
+            this.txPowerTimer = setTimeout(() => {
+              this.getTxpower();
             }, 10000);
           }
         });
@@ -1091,6 +1123,19 @@ export default {
               &:nth-child(3) {
                 &::after {
                   background: rgb(158, 158, 158);
+                }
+              }
+            }
+            .legend-tx_power {
+              .value {
+                width: 20px;
+                text-align: right;
+                &.text {
+                  margin-right: -3px;
+                }
+                &.loading {
+                  margin-left: 5px;
+                  margin-right: -6px;
                 }
               }
             }

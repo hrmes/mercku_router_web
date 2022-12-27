@@ -83,11 +83,8 @@
             </div>
           </div>
           <div class="delete-wrap">
-            <i class="iconfont icon-ic_close"></i>
-            <!-- <img src="../../assets/images/icon/ic_delete.png"
-                 alt=""
-                 width="24"
-                 @click="cancel(file)" /> -->
+            <i class="iconfont icon-ic_close"
+               @click="cancel(file)"></i>
           </div>
         </div>
         <div class="file__error"

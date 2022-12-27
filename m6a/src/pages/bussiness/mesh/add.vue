@@ -629,10 +629,6 @@ export default {
         height: 100%;
       }
     }
-    .wired__wrap {
-    }
-    .wireless__wrap {
-    }
   }
 }
 .circle-animation {
@@ -964,6 +960,15 @@ export default {
   .tips {
     .tip {
       width: 100%;
+    }
+  }
+  .choose__add__type {
+    .type__list {
+      .card {
+        &:hover {
+          outline-color: transparent;
+        }
+      }
     }
   }
   .steps-container {

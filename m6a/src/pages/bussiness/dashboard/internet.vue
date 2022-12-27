@@ -259,6 +259,7 @@ export default {
       speedTestTimer: null,
       wanInfoTimer: null,
       uptimeTimer: null,
+      getIsConnnected: false,
       ipv6NetInfo: {
         enabled: null,
         type: '-',
@@ -269,8 +270,8 @@ export default {
     };
   },
   mounted() {
-    this.getIpv6NetInfo();
     this.getWanNetInfo();
+    this.getIpv6NetInfo();
     this.createIntervalTask();
     this.getRouteMeta();
   },
@@ -325,7 +326,7 @@ export default {
       return [topStr, bmStr];
     },
     isConnected() {
-      return this.$store.isConnected;
+      return this.$store.isConnected || this.getWanStatus() && this.getIsConnnected;
     },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
@@ -560,6 +561,23 @@ export default {
           this.ipv6NetInfo.dns = this.$t('trans1058');
         });
     },
+    getWanStatus() {
+      this.$http.getWanStatus()
+        .then(res => {
+          const { data: { result: { status: wanStatus } } } = res;
+          switch (wanStatus) {
+            case CONSTANTS.WanNetStatus.connected:
+              this.getIsConnnected = true;
+              break;
+            default:
+              this.getIsConnnected = false;
+              break;
+          }
+        })
+        .catch(() => { this.getIsConnnected = false; })
+        .finally(() => console.log('213123', this.getIsConnnected));
+      return true;
+    }
   },
   beforeDestroy() {
     this.pageActive = false;

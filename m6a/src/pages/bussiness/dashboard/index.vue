@@ -113,7 +113,7 @@
           </div>
           <div class="add-node-container">
             <button class="btn btn-default add-btn"
-                    @click.stop="addMeshNode">
+                    @click.stop="$router.push('/mesh/add')">
               <span>add a Node</span>
             </button>
           </div>
@@ -166,7 +166,8 @@
         </li>
       </ul>
     </div>
-    <div class="jump-app-info">
+    <div class="jump-app-info"
+         @click="jumpApp">
       <div class="icon mercku">
         <img src="../../../assets/images/customer/mercku/ic_launcher.png"
              alt="">
@@ -177,7 +178,6 @@
              alt="">
       </div>
     </div>
-    <!-- <router-view class="router-view"></router-view> -->
     <m-modal :visible.sync="tipsModalVisible">
       <m-modal-body>
         <div class="tip-modal">
@@ -525,10 +525,10 @@ export default {
       }
       return `${this.$t('trans0010')}`;
     },
-    addMeshNode() {
-      console.log(111);
-      this.$router.push('/mesh/add');
-    },
+    jumpApp() {
+      if (!this.$store.isMobile) return;
+      window.open(process.env.CUSTOMER_CONFIG.appDownloadUrl);
+    }
   },
   beforeDestroy() {
     // clean up

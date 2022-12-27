@@ -23,7 +23,6 @@
                 @click.stop="(e)=>select('h',v,e)"
                 :class="{'selected':time.h===v}">{{v}}</li>
           </ul>
-
         </div>
         <div class="select-inner"
              ref='m'>
@@ -127,15 +126,12 @@ export default {
       this.scrollTo(el, 0, cTop);
     },
     animateScroll() {
-      console.log('animationEl', this.animationEl.scrollTop);
-      console.log('distance', this.distance);
       if (this.animationEl.scrollTop >= this.distance) {
         cancelAnimationFrame(this.animationId);
         return;
       }
       let scroll = this.animationEl.scrollTop + 5;
       scroll = scroll > this.distance ? this.distance : scroll;
-      console.log('scroll', scroll);
       this.scrollTo(this.animationEl, 0, scroll);
       this.animationId = requestAnimationFrame(this.animateScroll);
     },
@@ -185,7 +181,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 102%;
-    z-index: 9999;
+    z-index: 1000;
     box-shadow: 0 2px 8px var(--time-picker-combox-shadow-color);
     background-clip: padding-box;
     border-radius: 5px;
@@ -219,8 +215,9 @@ export default {
       height: 192px;
       overflow-y: scroll;
       border-right: 1px solid var(--time-picker-popup-border-color);
+      box-sizing: border-box;
       &::-webkit-scrollbar {
-        width: 4px;
+        width: 0px;
       }
       &::-webkit-scrollbar-track {
         background-color: transparent;
@@ -240,21 +237,22 @@ export default {
         padding: 0;
         text-decoration: none;
         list-style: none;
-        text-align: left;
-        padding-left: 10px;
+        text-align: center;
         height: 36px;
         line-height: 36px;
+        color: var(--text-gery-color);
         cursor: pointer;
         &:hover {
           background: var(--time-picker-popup-item-hover-background-color);
-          color: var(--time-picker-popup-item-hover-color);
+          color: var(--text-gery-color);
         }
         &:active {
           background: var(--time-picker-popup-item-active-background-color);
           color: var(--time-picker-popup-item-active-color);
         }
         &.selected {
-          color: var(--time-picker-popup-item-selected-color);
+          color: #fff;
+          background: var(--time-picker-popup-item-selected-color);
         }
       }
     }

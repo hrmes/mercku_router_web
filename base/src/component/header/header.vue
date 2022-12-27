@@ -932,14 +932,6 @@ export default {
             }
           }
         }
-        .menu-icon {
-          &.language {
-            background: url(../../assets/images/icon/ic_languages_black.png)
-              no-repeat center;
-            background-size: 100%;
-            filter: var(--img-brightness);
-          }
-        }
       }
     }
   }

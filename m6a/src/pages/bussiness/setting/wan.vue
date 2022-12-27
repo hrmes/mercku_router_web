@@ -174,10 +174,9 @@
                         :text="$t('trans0683')"
                         :bold='true'
                         v-model="vlan.enabled"></m-checkbox>
-            <div class="tool"
-                 style="width:14px;">
+            <div class="tool">
               <m-popover position="bottom left"
-                         style="left:5px;"
+                         style="left:12px"
                          :title="this.$t('trans0683')"
                          :content="this.$t('trans0682')">
                 <i class="iconfont icon-ic_help"
@@ -910,6 +909,7 @@ export default {
   }
   .form__label {
     display: flex;
+    align-items: center;
   }
   .form__item {
     margin-bottom: 25px;
