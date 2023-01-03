@@ -7,8 +7,10 @@ const methods = {
   updateChildLockStatus: createMethod('mesh.child_lock.enabled.update'),
   startMeshApclientScan: createMethod('mesh.apclient.scan'),
   getMeshApclientScanList: createMethod('mesh.apclient.get'),
-  getMeshFanMode: createMethod('mesh.fan.mode.get'),
-  updateMeshFanMode: createMethod('mesh.fan.mode.update')
+  getMeshFanSpeed: createMethod('mesh.fan.speed.get'),
+  updateMeshFanSpeed: createMethod('mesh.fan.speed.update')
+  // getMeshFanMode: createMethod('mesh.fan.mode.get'),
+  // updateMeshFanMode: createMethod('mesh.fan.mode.update')
   // updateSuper: createMethod('mesh.config.super.update'),
   // getNewMeshNodeInfo: createMethod('mesh.node.new.info')
 };

@@ -46,26 +46,26 @@ export default {
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  mounted() {
-    this.loading = true;
-    this.$http
-      .isinitial()
-      .then(res => {
-        console.log('isInitial?', res);
-        if (res.data.result.status) {
-          this.$http.login({ password: '' }).then(() => {
-            this.towlan();
-          });
-        } else {
-          this.initial = false;
-          this.loading = false;
-        }
-      })
-      .catch(() => {
-        this.initial = false;
-        this.loading = false;
-      });
-  },
+  // mounted() {
+  //   this.loading = true;
+  //   this.$http
+  //     .isinitial()
+  //     .then(res => {
+  //       console.log('isInitial?', res);
+  //       if (res.data.result.status) {
+  //         this.$http.login({ password: '' }).then(() => {
+  //           this.towlan();
+  //         });
+  //       } else {
+  //         this.initial = false;
+  //         this.loading = false;
+  //       }
+  //     })
+  //     .catch(() => {
+  //       this.initial = false;
+  //       this.loading = false;
+  //     });
+  // },
   methods: {
     towlan() {
       this.$router.push({ path: '/wlan' });
