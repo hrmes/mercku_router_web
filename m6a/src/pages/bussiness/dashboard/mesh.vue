@@ -39,6 +39,7 @@
               <div class="legend-tx_power">
                 <span>{{$t('trans1102')}}:</span>
                 <m-loading :size='18'
+                           :color="'#29b96c'"
                            class="value loading"
                            v-if="!tx_power"></m-loading>
                 <span v-else
@@ -1104,6 +1105,7 @@ export default {
               align-items: center;
               justify-content: flex-end;
               margin-top: 10px;
+              color: var(--text-default-color);
             }
             .legend-item {
               &::after {
@@ -1131,7 +1133,9 @@ export default {
                 width: 20px;
                 text-align: right;
                 &.text {
+                  margin-left: 3px;
                   margin-right: -3px;
+                  width: fit-content;
                 }
                 &.loading {
                   margin-left: 5px;

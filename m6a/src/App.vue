@@ -116,6 +116,7 @@ export default {
 .flex-wrap {
   display: flex;
   flex-direction: column;
+  color: var(--text-default-color);
   background-color: var(--primaryBackgroundColor);
   > img {
     position: fixed;

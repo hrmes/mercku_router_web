@@ -770,7 +770,7 @@ export default {
     height: 200px;
   }
   .result-container__tips {
-    font-size: 16px;
+    font-size: 15px;
     text-align: center;
     color: var(--text-default-color);
     font-weight: bold;
