@@ -9,7 +9,7 @@
                               direction=vertical></m-radio-card-group>
         </m-form-item> -->
         <m-form-item>
-          <m-select label="风扇转速(%)"
+          <m-select :label="$t('trans1098')"
                     v-model="rotatingSpeed"
                     :options="selectOptions"></m-select>
         </m-form-item>
@@ -62,7 +62,7 @@ function generateOptionsRange(start, stop, step = 1) {
     .fill(start)
     .map((x, y) => x + y * step)
     .map(item => {
-      const temp = { text: item, value: item };
+      const temp = { text: `${item}%`, value: item };
       return temp;
     });
   return RangeArray;

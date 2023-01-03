@@ -1089,5 +1089,6 @@
   "trans1094": "Fan",
   "trans1095": "HINWEIS: Wenn die Innentemperatur des Geräts außerhalb des normalen Betriebstemperaturbereichs liegt, versucht das Gerät, seine eigene Temperatur zu regulieren, um interne Komponenten zu schützen.",
   "trans1096": "Es besteht derzeit keine Internetverbindung und die Wi-Fi Tx Power kann nicht geändert werden",
-  "trans1097": "AP"
+  "trans1097": "AP",
+  "trans1098": "Lüftergeschwindigkeit"
 }
