@@ -216,7 +216,7 @@ export default {
     font-size: 14px;
     color: var(--text-default-color);
     &.backup__tips--danger {
-      color: var(--primaryColor);
+      color: var(--warning-color);
     }
     & + .backup__tips {
       margin-top: 12px;

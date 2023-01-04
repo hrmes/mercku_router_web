@@ -33,23 +33,9 @@
           <div class="nav-item-content"
                @click.stop="jump(menu)">
             <i class="el-menu-item__icon iconfont"
-               :class="menu.icon"
-               :title="$t(`${menu.text}`)"></i>
+               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
+            <span class="el-menu-item__icon__popover">{{$t(menu.text)}}</span>
           </div>
-
-          <!-- <ul v-if="menu.children"
-              class="nav-item-child reset-ul"
-              :class="{'show':menu.showChild}">
-            <li class="nav-child__text"
-                :key="child.key"
-                @click.stop="jump(child,menu)"
-                v-for="child in menu.children"
-                :class="{'selected':$route.name === child.name,'disabled':child.disabled}">
-              {{$t(child.text)}}
-              <i v-if="$route.name === child.name"
-                 class="is-checked"></i>
-            </li>
-          </ul> -->
         </li>
         <li class="nav-item nav-item__exit"
             @click="exit()">
@@ -70,7 +56,7 @@
           <div class="nav-item-content"
                @click="showMobileMenu(menu)">
             <i class="el-menu-item__icon iconfont"
-               :class="menu.icon"></i>
+               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
             <div class="nav-item__text">{{$t(menu.text)}}</div>
             <span v-if="menu.children.length"
                   class="mobile-trangle"></span>
@@ -611,6 +597,14 @@ export default {
     &.nav-wrap--laptop {
       margin-left: 100px;
       display: block;
+      .nav-item-content {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        &:hover {
+          background: var(--header-nav-hover-background-color);
+        }
+      }
     }
     &.nav-wrap--mobile {
       display: none;
@@ -623,12 +617,35 @@ export default {
         list-style: none;
         display: flex;
         align-items: center;
-        margin-right: 80px;
+        margin-right: 60px;
         .nav-item-content {
           display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          &:hover {
+            .el-menu-item__icon__popover {
+              display: inline-block;
+            }
+          }
           .iconfont {
             font-size: 24px;
             color: var(--header-nav-iconfont-color);
+          }
+          .el-menu-item__icon__popover {
+            display: none;
+            position: absolute;
+            bottom: -100%;
+            left: 70%;
+            width: fit-content;
+            height: 30px;
+            padding: 5px 15px 5px;
+            color: #ffffff;
+            background: var(--table-action-popover-bgc);
+            border-radius: 5px;
+            white-space: nowrap;
+            box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+            cursor: default;
           }
           .nav-item__text {
             height: 100%;
@@ -682,24 +699,19 @@ export default {
           }
         }
         @media screen and (max-width: 1440px) {
-          margin-right: 50px;
+          margin-right: 30px;
         }
         cursor: pointer;
         position: relative;
         &.selected {
           position: relative;
+          .nav-item-content {
+            &:hover {
+              background: none;
+            }
+          }
           .iconfont {
             color: var(--header-nav-iconfont-selected-color);
-          }
-          &::after {
-            content: '';
-            display: block;
-            height: 2.5px;
-            background: var(--header-nav-item-selected-background-color);
-            width: 100%;
-            bottom: 0;
-            left: 0;
-            position: absolute;
           }
         }
         &.nav-item__exit {

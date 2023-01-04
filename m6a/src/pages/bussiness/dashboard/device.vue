@@ -809,7 +809,7 @@ export default {
   .tab {
     .icon {
       font-size: 18px;
-      font-weight: 600;
+      font-weight: 400;
       margin-right: 5px;
     }
   }

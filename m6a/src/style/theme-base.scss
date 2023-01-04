@@ -13,6 +13,7 @@
   color-scheme: light;
 
   --primaryColor: #d6001c;
+  --warning-color: #f12b2b;
   --primaryBackgroundColor: #fff;
   --text-default-color: #333;
   --text-gery-color: #737373;
@@ -50,6 +51,7 @@
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
 
+  --button-icon-hover-color: #d6001c;
   --button-icon-disabled-bgc: #f0f0f0;
   --button-icon-disabled-color: #cdcdcd;
 
@@ -98,6 +100,7 @@
   --header-nav-hide-popup-item-hover-color: var(--primaryColor);
   --header-nav-hide-popup-item-selected-color: var(--primaryColor);
   --header-nav-hide-popup-item-checked-color: var(--primaryColor);
+  --header-nav-hover-background-color: #f2f2f2;
 
   --header-dividing-color: #e1e1e1;
 
@@ -282,6 +285,7 @@
   color-scheme: dark;
 
   --primaryColor: #df2039;
+  --warning-color: #ff4d64;
   --primaryBackgroundColor: #1a1a1a;
   --text-default-color: #fff;
   --text-gery-color: rgba(255, 255, 255, 0.6);
@@ -319,6 +323,7 @@
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
 
+  --button-icon-hover-color: #ff334e;
   --button-icon-disabled-bgc: #404040;
   --button-icon-disabled-color: #666;
 
@@ -372,6 +377,7 @@
   --header-nav-hide-popup-item-hover-color: var(--primaryColor);
   --header-nav-hide-popup-item-selected-color: var(--primaryColor);
   --header-nav-hide-popup-item-checked-color: var(--primaryColor);
+  --header-nav-hover-background-color: rgba(255, 255, 255, 0.2);
 
   --header-dividing-color: #666;
 

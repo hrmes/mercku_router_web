@@ -1006,6 +1006,9 @@ export default {
     display: flex;
     .title {
       position: relative;
+      .iconfont {
+        font-weight: 400;
+      }
       .tab {
         font-size: 16px;
       }
