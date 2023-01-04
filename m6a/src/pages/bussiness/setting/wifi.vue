@@ -208,7 +208,7 @@
 </template>
 <script>
 import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
-import { EncryptMethod, Bands } from 'base/util/constant';
+import { EncryptMethod, Bands, channelMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
@@ -401,10 +401,16 @@ export default {
                 ssid: this.form.b24g.ssid,
                 password: this.form.b24g.password,
                 encrypt: this.form.b24g.encrypt,
-                channel: {
-                  number: this.form.channel.b24gChannel.number,
-                  bandwidth: this.form.channel.b24gChannel.bandwidth
-                }
+                channel:
+                  this.form.channel.b24gChannel.number === channelMode.auto
+                    ? {
+                      mode: channelMode.auto,
+                      bandwidth: this.form.channel.b24gChannel.bandwidth
+                    }
+                    : {
+                      number: this.form.channel.b24gChannel.number,
+                      bandwidth: this.form.channel.b24gChannel.bandwidth
+                    }
               };
               const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
               const b5g = {
@@ -412,10 +418,16 @@ export default {
                 ssid: formBand.ssid,
                 password: formBand.password,
                 encrypt: formBand.encrypt,
-                channel: {
-                  number: this.form.channel.b5gChannel.number,
-                  bandwidth: this.form.channel.b5gChannel.bandwidth
-                }
+                channel:
+                  this.form.channel.b5gChannel.number === channelMode.auto
+                    ? {
+                      mode: channelMode.auto,
+                      bandwidth: this.form.channel.b5gChannel.bandwidth
+                    }
+                    : {
+                      number: this.form.channel.b5gChannel.number,
+                      bandwidth: this.form.channel.b5gChannel.bandwidth
+                    }
               };
               const wifi = {
                 smart_connect: this.form.smart_connect,
@@ -458,6 +470,10 @@ export default {
             value: number,
             text: number
           }));
+
+          this.channels.b24g.unshift({ value: channelMode.auto, text: this.$t('trans0696') });
+          this.channels.b5g.unshift({ value: channelMode.auto, text: this.$t('trans0696') });
+
           console.log('channel', this.channels);
 
           // 2.4G
