@@ -71,7 +71,8 @@ const RssiStatus = {
 const LoadingStatus = {
   empty: 0,
   loading: 1,
-  failed: 2
+  failed: 2,
+  default: 3
 };
 const GoodRssiValue = 76;
 
@@ -155,6 +156,7 @@ export default {
     },
     open() {
       if (!this.disabled) {
+        this.rescanApclient();
         this.opened = !this.opened;
         if (this.opened) {
           this.scrollToSelect();
@@ -203,6 +205,7 @@ export default {
       word-break: break-all;
       outline: none;
       border: none;
+      user-select: none;
       padding: 0;
       cursor: pointer;
     }
@@ -234,6 +237,7 @@ export default {
       list-style: none;
       padding: 17px 10px 17px 20px;
       line-height: 1;
+      user-select: none;
       cursor: pointer;
       width: 100%;
       overflow: hidden;
