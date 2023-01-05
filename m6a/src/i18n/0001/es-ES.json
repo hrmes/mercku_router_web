@@ -211,7 +211,7 @@
   "trans0210": "Ultima versión",
   "trans0211": "De acuerdo",
   "trans0212": "Notificar",
-  "trans0213": "El Wi-Fi se desconectará durante la actualización y la luz indicadora parpadeará en rojo. Por favor, no desconecte la fuente de alimentación o reincie el router durante este proceso.",
+  "trans0213": "El Wi-Fi se cortará durante la actualización, y la luz indicadora primero parpadeará en rojo y luego se encenderá en rojo fijo. No desconecte la fuente de alimentación ni reinicie el dispositivo durante este proceso.",
   "trans0214": "Desconectado",
   "trans0215": "Asegúrese de que el router está encendido",
   "trans0216": "Los dispositivos no deben extenderse más de 10 metros (33 pies) y 2 habitaciones separadas",
@@ -1107,5 +1107,10 @@
   "trans1112": "‘Alexa, ask my router to turn OFF Guest Wi-Fi’",
   "trans1113": "¿Desarrollando habilidades para hacer que Alexa sea más inteligente? ¡Alexa puede ayudar! Esta habilidad está diseñada para que pueda controlar sus dispositivos de enrutador Mercku con Alexa-all a través de la voz.\n\nA medida que desarrolle sus habilidades, es probable que tenga preguntas sobre cómo enviar comandos de Alexa para controlar los dispositivos del enrutador. Simplemente habilita la habilidad de Mercku y pide ayuda a Alexa, como \"Alexa, abre la habilidad de Mercku\". Si tiene preguntas y necesita ayuda, también puede simplemente decir \"\"Ayuda\"\", y Alexa le dirá cómo usar comandos para controlar su dispositivo enrutador; por supuesto, también puede deshabilitar sus habilidades de Mercku en cualquier momento, solo necesita decir \"\"Cancelar\"\" o \"\"detener\"\".",
   "trans1114": "Conecte el puerto LAN del enrutador principal y el puerto LAN del nodo con un cable de red, luego espere aproximadamente un minuto, y cuando las luces del enrutador del nodo y el enrutador principal sean de color blanco fijo, lo que indica que la red es exitosa;",
-  "trans1115": "El control por voz se ha migrado al centro personal"
+  "trans1115": "El control por voz se ha migrado al centro personal",
+  "trans1116": "Descargar aplicación",
+  "trans1117": "Agregar nodo",
+  "trans1118": "Abrir en la aplicación Mercku",
+  "trans1119": "Temática",
+  "trans1120": "Cerrar sesión"
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class="page-header">
       {{ $t('trans0202') }}
       <div class="btn-info"
@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-        <div v-if="!$store.isMobile"
+        <div v-if="!$store.state.isMobile"
              class="btn-info">
           <button class="btn"
                   @click="submit()">

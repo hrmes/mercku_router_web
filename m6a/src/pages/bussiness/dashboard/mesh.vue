@@ -37,7 +37,7 @@
               <div class="legend-item">{{$t('trans0196')}}</div>
               <div class="legend-item">{{$t('trans0214')}}</div>
               <div class="legend-tx_power">
-                <span>{{$t('trans1102')}}:</span>
+                <span>{{$t('trans1088')}}:</span>
                 <m-loading :size='18'
                            :color="'#29b96c'"
                            class="value loading"
@@ -402,10 +402,10 @@ export default {
       return result;
     },
     isMobile() {
-      return this.$store.isMobile;
+      return this.$store.state.isMobile;
     },
     currentTheme() {
-      return this.$store.theme;
+      return this.$store.state.theme;
     }
   },
   watch: {

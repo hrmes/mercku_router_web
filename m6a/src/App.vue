@@ -81,7 +81,7 @@ export default {
       return !visible;
     },
     menus() {
-      return getMenu(this.$store.role, this.$store.mode);
+      return getMenu(this.$store.state.role, this.$store.state.mode);
     }
   },
   methods: {
@@ -105,6 +105,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 * {
   font-family: 'NotoSansCJKsc', 'PingFang SC';

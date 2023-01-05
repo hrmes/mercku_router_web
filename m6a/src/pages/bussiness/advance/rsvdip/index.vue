@@ -183,7 +183,7 @@ export default {
         });
     },
     editHandle(item) {
-      this.$store.modules = { ...this.$store.modules, rsvdip: item };
+      this.$store.state.modules = { ...this.$store.state.modules, rsvdip: item };
       this.$router.push(`/advance/rsvdip/form/${item.id}`);
     },
     update(v, item) {

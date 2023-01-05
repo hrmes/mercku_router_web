@@ -5,7 +5,7 @@
            @click="onBack($route.meta.parentPath)">
         <i class="iconfont icon-ic_back"></i>
       </div>
-      <div class="text-container"></div>
+      <div class="text-container">{{deviceName}}</div>
     </div>
     <div class="page-bottom">
       <div v-if="isMobile"
@@ -84,10 +84,13 @@ export default {
   },
   computed: {
     isMobile() {
-      return this.$store.isMobile;
+      return this.$store.state.isMobile;
     },
     litmitType() {
       return this.$route.meta.text;
+    },
+    deviceName() {
+      return this.$store.state.modules.limits[this.$route.params.mac].deviceName;
     }
   },
   methods: {

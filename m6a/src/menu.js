@@ -25,26 +25,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     selectedIcon: 'icon-ic_home_selected',
     text: 'trans0173',
     url: '/dashboard',
-    children: [
-      // {
-      //   text: 'trans0365',
-      //   name: 'mesh',
-      //   url: '/dashboard/mesh/table',
-      //   config
-      // },
-      // {
-      //   text: 'trans0235',
-      //   name: 'device',
-      //   url: '/dashboard/device/primary',
-      //   config
-      // },
-      // {
-      //   text: 'trans0366',
-      //   name: 'internet',
-      //   url: '/dashboard/internet',
-      //   config
-      // }
-    ]
+    children: []
   };
   const setting = {
     icon: 'icon-ic_home_settings_light1',
@@ -318,7 +299,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   };
   const theme = {
     icon: 'icon-ic_theme_light',
-    text: 'trans0737',
+    text: 'trans1119',
     children: []
   };
   [dashboard, setting, advance, upgrade, theme].forEach(item => {

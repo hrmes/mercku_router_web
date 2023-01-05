@@ -117,7 +117,7 @@ export default {
   },
   computed: {
     isMobile() {
-      return this.$store.isMobile;
+      return this.$store.state.isMobile;
     },
     sortList() {
       const list = this.parentControlLimitList;
@@ -129,7 +129,7 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const limit = this.$store.modules.limits[this.form.mac];
+    const limit = this.$store.state.modules.limits[this.form.mac];
     if (limit && limit.parent_control) {
       const parentControl = limit.parent_control;
       this.form.mode = parentControl.mode;

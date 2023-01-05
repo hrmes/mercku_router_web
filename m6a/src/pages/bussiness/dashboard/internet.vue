@@ -277,10 +277,10 @@ export default {
   },
   computed: {
     isMobile() {
-      return this.$store.isMobile;
+      return this.$store.state.isMobile;
     },
     isRouter() {
-      return CONSTANTS.RouterMode.router === this.$store.mode;
+      return CONSTANTS.RouterMode.router === this.$store.state.mode;
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
@@ -326,7 +326,7 @@ export default {
       return [topStr, bmStr];
     },
     isConnected() {
-      return this.$store.isConnected || this.getWanStatus() && this.getIsConnnected;
+      return this.$store.state.isConnected || this.getWanStatus() && this.getIsConnnected;
     },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
@@ -430,7 +430,7 @@ export default {
     }
   },
   watch: {
-    '$store.mode': function watcher() {
+    '$store.state.mode': function watcher() {
       this.clearIntervalTask();
       if (this.isRouter) {
         this.createIntervalTask();
@@ -574,8 +574,7 @@ export default {
               break;
           }
         })
-        .catch(() => { this.getIsConnnected = false; })
-        .finally(() => console.log('213123', this.getIsConnnected));
+        .catch(() => { this.getIsConnnected = false; });
       return true;
     }
   },

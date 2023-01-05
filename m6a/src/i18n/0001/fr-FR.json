@@ -211,7 +211,7 @@
   "trans0210": "Dernière version",
   "trans0211": "OK",
   "trans0212": "Avis",
-  "trans0213": "Le Wi-Fi sera coupé lors de la mise à niveau et le voyant clignotera en rouge. Veuillez ne pas débrancher l'alimentation ni réinitialiser le routeur pendant ce processus.",
+  "trans0213": "Le Wi-Fi sera coupé lors de la mise à niveau et le voyant clignotera d'abord en rouge, puis deviendra rouge fixe. Veuillez ne pas débrancher l'alimentation ni réinitialiser l'appareil pendant ce processus.",
   "trans0214": "Hors-ligne",
   "trans0215": "Veuillez vous assurer que le routeur est allumé",
   "trans0216": "Les appareils ne doivent pas être espacés de plus de 10 m (33 pi) et de deux pièces séparées.",
@@ -1107,5 +1107,10 @@
   "trans1112": "‘Alexa, ask my router to turn OFF Guest Wi-Fi’",
   "trans1113": "Développer des compétences pour rendre Alexa plus intelligente ? Alexa peut vous aider ! Cette compétence est conçue pour que vous puissiez contrôler vos appareils de routeur Mercku avec Alexa-all via la voix.\n\nAu fur et à mesure que vous développez vos compétences, vous aurez probablement des questions sur la façon d'envoyer des commandes Alexa pour contrôler les périphériques de routeur. Activez simplement la compétence Mercku et demandez de l'aide à Alexa, comme \"Alexa, ouvrez la compétence Mercku\". Si vous avez des questions et avez besoin d'aide, vous pouvez également simplement dire \"\" Aide \"\", et Alexa vous dira comment envoyer des commandes pour contrôler votre routeur ; bien sûr, vous pouvez également désactiver vos compétences Mercku à tout moment, il vous suffit de dire \"\"Annuler\"\" ou \"\"arrêter\"\".",
   "trans1114": "Connectez le port LAN du routeur principal et le port LAN du nœud avec un câble réseau, puis attendez environ une minute, et lorsque les voyants du routeur de nœud et du routeur principal sont blancs fixes, indiquant que la mise en réseau est réussie ;",
-  "trans1115": "Le contrôle vocal a été migré vers le centre personnel"
+  "trans1115": "Le contrôle vocal a été migré vers le centre personnel",
+  "trans1116": "Télécharger l'application",
+  "trans1117": "Ajouter un nœud",
+  "trans1118": "Ouvrir dans l'application Mercku",
+  "trans1119": "Thème",
+  "trans1120": "Se déconnecter"
 }

@@ -11,9 +11,9 @@ export default {
     window.addEventListener('resize', () => {
       const w = that.windowWidth();
       if (w <= 768) {
-        that.$store.isMobile = true;
+        that.$store.state.isMobile = true;
       } else {
-        that.$store.isMobile = false;
+        that.$store.state.isMobile = false;
       }
     });
   },
@@ -21,9 +21,9 @@ export default {
     getIsMobile(that) {
       const w = that.windowWidth();
       if (w <= 768) {
-        that.$store.isMobile = true;
+        that.$store.state.isMobile = true;
       } else {
-        that.$store.isMobile = false;
+        that.$store.state.isMobile = false;
       }
     },
     windowWidth() {

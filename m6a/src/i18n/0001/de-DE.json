@@ -211,7 +211,7 @@
   "trans0210": "Neueste Version",
   "trans0211": "OK",
   "trans0212": "Achtung",
-  "trans0213": "Das WLAN wird während des Upgrades unterbrochen und die Kontrollleuchte blinkt rot. \nTrennen Sie während dieses Vorgangs nicht die Stromversorgung und setzen Sie nicht den Router zurück.",
+  "trans0213": "Das Wi-Fi wird während des Upgrades unterbrochen und die Kontrollleuchte blinkt zuerst rot und wechselt dann zu einem konstanten roten Licht. Bitte trennen Sie während dieses Vorgangs nicht die Stromversorgung und setzen Sie das Gerät nicht zurück.",
   "trans0214": "Offline",
   "trans0215": "Bitte stellen Sie sicher, dass der Router eingeschaltet ist",
   "trans0216": "Die Geräte sollten nicht weiter als 10m und 2 Räume auseinander liegen",
@@ -1107,5 +1107,10 @@
   "trans1112": "‘Alexa, ask my router to turn OFF Guest Wi-Fi’",
   "trans1113": "Fähigkeiten aufbauen, um Alexa intelligenter zu machen? Alexa kann helfen! Dieser Skill ist so konzipiert, dass Sie Ihre Mercku-Routergeräte mit Alexa-all per Sprache steuern können.\n\nWährend Sie Ihre Fähigkeiten erweitern, werden Sie wahrscheinlich Fragen dazu haben, wie Sie Alexa-Befehle senden, um Router-Geräte zu steuern. Aktivieren Sie einfach den Mercku-Skill und bitten Sie Alexa um Hilfe, z. B. „Alexa, öffne Mercku-Skill“. Wenn Sie Fragen haben und Hilfe benötigen, können Sie auch einfach „Hilfe“ sagen, und Alexa wird Ihnen sagen, wie Sie Befehle zur Steuerung Ihres Router-Geräts auslesen können; Natürlich können Sie Ihre Mercku-Skills auch jederzeit deaktivieren, indem Sie einfach „Abbrechen“ oder „Stopp“ sagen.",
   "trans1114": "Verbinden Sie den LAN-Port des Hauptrouters und den LAN-Port des Knotens mit einem Netzwerkkabel, warten Sie dann etwa eine Minute, und wenn die Lichter des Knotenrouters und des Hauptrouters durchgehend weiß leuchten, zeigt dies an, dass das Netzwerk erfolgreich war;",
-  "trans1115": "Die Sprachsteuerung wurde in das Personal Center migriert"
+  "trans1115": "Die Sprachsteuerung wurde in das Personal Center migriert",
+  "trans1116": "Lade App herunter",
+  "trans1117": "Knoten hinzufügen",
+  "trans1118": "In der Mercku-App öffnen",
+  "trans1119": "Thema",
+  "trans1120": "Abmelden"
 }

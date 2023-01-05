@@ -9,6 +9,11 @@ import 'intl/locale-data/jsonp/es-ES';
 
 import BasicI18n from 'base/i18n';
 
+import VueI18n from 'vue-i18n';
+import Vue from 'vue';
+
+Vue.use(VueI18n);
+
 const context = require.context('./', true, /.*\.json/);
 
 export default new BasicI18n(context);

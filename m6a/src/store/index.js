@@ -1,19 +1,33 @@
 import Vue from 'vue';
-import Store from 'base/store';
+import Vuex from 'vuex';
 
-const store = new Store(Vue, {
-  mode: localStorage.getItem('mode'),
-  role: localStorage.getItem('role'),
-  modelVersion: localStorage.getItem('modelVersion'),
-  isMobile: false,
-  isConnected: '',
-  theme: '',
-  modules: {
-    limits: {},
-    portfw: {},
-    rsvdip: {},
-    vpn: {}
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  state: {
+    mode: localStorage.getItem('mode'),
+    role: localStorage.getItem('role'),
+    modelVersion: localStorage.getItem('modelVersion'),
+    isMobile: false,
+    isConnected: '',
+    theme: '',
+    cancelTokenArr: [], // 取消请求token数组
+    modules: {
+      limits: {},
+      portfw: {},
+      rsvdip: {},
+      vpn: {}
+    }
+  },
+  mutations: {
+    pushToken(state, payload) {
+      state.cancelTokenArr.push(payload.cancelToken);
+    },
+    clearToken({ cancelTokenArr }) {
+      cancelTokenArr.forEach(item => {
+        item('路由跳转取消请求');
+      });
+      cancelTokenArr = [];
+    }
   }
 });
-
-export default store;

@@ -179,7 +179,7 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const limit = this.$store.modules.limits[this.form.mac];
+    const limit = this.$store.state.modules.limits[this.form.mac];
     console.log(limit);
     if (limit && limit.time_limit) {
       this.timeLimitList = limit.time_limit;
@@ -201,7 +201,7 @@ export default {
   },
   computed: {
     isMobile() {
-      return this.$store.isMobile;
+      return this.$store.state.isMobile;
     },
     isEmpty() {
       return !this.sortList.length;

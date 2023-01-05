@@ -77,7 +77,7 @@ export default {
   },
   mounted() {
     this.mac = this.$route.params.mac;
-    const limit = this.$store.modules.limits[this.mac];
+    const limit = this.$store.state.modules.limits[this.mac];
     if (limit && limit.speed_limit) {
       const speed = limit.speed_limit;
       this.form = {

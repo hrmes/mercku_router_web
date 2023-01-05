@@ -304,10 +304,10 @@ export default {
       return this.$route.path.includes('wlan') || this.$route.path.includes('unconnect');
     },
     isMobile() {
-      return this.$store.isMobile;
+      return this.$store.state.isMobile;
     },
     currentTheme() {
-      return this.$store.theme;
+      return this.$store.state.theme;
     }
   },
   watch: {
@@ -488,10 +488,10 @@ export default {
       const theme = localStorage.getItem('theme');
       if (!theme || theme === undefined) {
         localStorage.setItem('theme', 'auto');
-        this.$store.theme = 'auto';
+        this.$store.state.theme = 'auto';
         this.themeOptions.auto.ischecked = true;
       } else {
-        this.$store.theme = theme;
+        this.$store.state.theme = theme;
         Object.keys(this.themeOptions).forEach((key) => {
           this.themeOptions[key].ischecked = false;
         });
@@ -501,7 +501,7 @@ export default {
     },
     changeThemeMode() {
       localStorage.setItem('theme', this.selectedTheme);
-      this.$store.theme = this.selectedTheme;
+      this.$store.state.theme = this.selectedTheme;
       document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {
@@ -598,9 +598,12 @@ export default {
       margin-left: 100px;
       display: block;
       .nav-item-content {
+        justify-content: center;
+        align-items: center;
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        transition: background 0.3s linear;
         &:hover {
           background: var(--header-nav-hover-background-color);
         }
@@ -620,8 +623,6 @@ export default {
         margin-right: 60px;
         .nav-item-content {
           display: flex;
-          justify-content: center;
-          align-items: center;
           position: relative;
           &:hover {
             .el-menu-item__icon__popover {
@@ -635,7 +636,7 @@ export default {
           .el-menu-item__icon__popover {
             display: none;
             position: absolute;
-            bottom: -100%;
+            bottom: -90%;
             left: 70%;
             width: fit-content;
             height: 30px;

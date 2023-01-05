@@ -78,7 +78,7 @@ export default {
       color: #bdbdbd;
       top: 50%;
       left: 2px;
-      transform: translate(0, -51%);
+      transform: translate(0, -49%);
       border-radius: 16px;
       background-color: var(--switch-circle-color);
       transition: left 0.3s;

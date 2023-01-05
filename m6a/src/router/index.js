@@ -49,6 +49,8 @@ import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
 
+import store from '../store';
+
 Vue.use(Router);
 
 const prefix = '/web';
@@ -504,4 +506,10 @@ Array.prototype.push.apply(routes.routes, [
   }
 ]);
 
-export default new Router(routes);
+const router = new Router(routes);
+router.beforeEach((to, from, next) => {
+  store.commit('clearToken'); // 取消请求
+  next();
+});
+
+export default router;

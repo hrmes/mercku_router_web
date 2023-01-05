@@ -114,7 +114,7 @@
           <div class="add-node-container">
             <button class="btn btn-default add-btn"
                     @click.stop="$router.push('/mesh/add')">
-              <span>add a Node</span>
+              <span>{{$t('trans1117')}}</span>
             </button>
           </div>
         </li>
@@ -172,7 +172,7 @@
         <img src="../../../assets/images/customer/mercku/ic_launcher.png"
              alt="">
       </div>
-      <div class="text-container">Open in Mercku App</div>
+      <div class="text-container">{{$t('trans1118')}}</div>
       <div class="icon qr">
         <img src="../../../assets/images/customer/mercku/qr.png"
              alt="">
@@ -250,7 +250,7 @@ export default {
       return process.env.MODEL_CONFIG.id;
     },
     isMobile() {
-      return this.$store.isMobile;
+      return this.$store.state.isMobile;
     },
     ...(() => {
       const result = {};
@@ -264,7 +264,7 @@ export default {
       return result;
     })(),
     isRouter() {
-      return CONSTANTS.RouterMode.router === this.$store.mode;
+      return CONSTANTS.RouterMode.router === this.$store.state.mode;
     },
     tips() {
       return marked(this.$t('trans0574'), { sanitize: true });
@@ -299,9 +299,9 @@ export default {
       handler(val) {
         console.log(val);
         if (val === CONSTANTS.WanNetStatus.connected) {
-          this.$store.isConnected = true;
+          this.$store.state.isConnected = true;
         } else {
-          this.$store.isConnected = false;
+          this.$store.state.isConnected = false;
         }
       }
     }
@@ -353,7 +353,7 @@ export default {
       this.$router.push({ path: url });
     },
     createIntercvalTask() {
-      console.log(`createInterval task...mode is:${this.$store.mode}`);
+      console.log(`createInterval task...mode is:${this.$store.state.mode}`);
       this.getDeviceCount();
       if (this.isRouter) {
         this.getWanNetStats();
@@ -441,6 +441,7 @@ export default {
             .then(res2 => {
               const { data: { result: deviceList } } = res2;
               const { 0: localDeviceInfo } = deviceList.filter(item => item.ip === selfInfo.ip);
+              console.log('localDeviceInfo', deviceList.filter(item => item.ip === selfInfo.ip));
               this.localDeviceInfo = localDeviceInfo;
             })
             .finally(() => {
@@ -526,7 +527,7 @@ export default {
       return `${this.$t('trans0010')}`;
     },
     jumpApp() {
-      if (!this.$store.isMobile) return;
+      if (!this.$store.state.isMobile) return;
       window.open(process.env.CUSTOMER_CONFIG.appDownloadUrl);
     }
   },

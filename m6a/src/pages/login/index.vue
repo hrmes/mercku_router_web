@@ -40,7 +40,7 @@
                    src="../../assets/images/icon/ic_android.png"
                    alt="">
             </div>
-            <span>Android Market</span>
+            <span>Google Play</span>
           </div>
           <div class="store">
             <div><img src="../../assets/images/icon/ic_apple.png"
@@ -113,7 +113,7 @@ export default {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
     },
     currentTheme() {
-      return this.$store.theme;
+      return this.$store.state.theme;
     }
   },
   watch: {
@@ -138,12 +138,12 @@ export default {
         .login({ password: this.password })
         .then(res => {
           const { role } = res.data.result;
-          this.$store.role = role;
+          this.$store.state.role = role;
           localStorage.setItem('role', role);
           this.$http.getMeshMode().then(res1 => {
             this.$loading.close();
             const { mode } = res1.data.result;
-            this.$store.mode = mode;
+            this.$store.state.mode = mode;
             localStorage.setItem('mode', mode);
 
             this.$router.push({ path: '/dashboard' });

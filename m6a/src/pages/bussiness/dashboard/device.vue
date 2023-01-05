@@ -370,7 +370,7 @@ export default {
   },
   computed: {
     isMobile() {
-      return this.$store.isMobile;
+      return this.$store.state.isMobile;
     },
     offlineCheckedMacs() {
       const macs = [];
@@ -386,7 +386,7 @@ export default {
       return this.$route.params.id;
     },
     isRouter() {
-      return RouterMode.router === this.$store.mode;
+      return RouterMode.router === this.$store.state.mode;
     },
     isOfflineDevices() {
       return this.id === 'offline';
@@ -543,15 +543,14 @@ export default {
       return row.speed_limit && row.speed_limit.enabled;
     },
     forward2limit(row) {
-      console.log(row);
-      this.$router.push({ path: `/limit/${row.mac}` });
       const limits = {
+        deviceName: row.name,
         parent_control: row.parent_control,
         speed_limit: row.speed_limit,
         time_limit: row.time_limit ? row.time_limit.map(v => ({ ...v, expand: false })) : undefined
       };
-      this.$store.modules.limits[row.mac] = limits;
-      console.log(this.$store.modules.limits);
+      this.$store.state.modules.limits[row.mac] = limits;
+      this.$router.push({ path: `/limit/${row.mac}` });
     },
     expandTable(row) {
       if (this.isMobile) {
