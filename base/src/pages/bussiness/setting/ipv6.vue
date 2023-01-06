@@ -1,6 +1,6 @@
 <template>
   <div class="page ipv6-page">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class='page-header'>
       {{$t('trans0620')}}
     </div>
@@ -652,6 +652,9 @@ export default {
     }
     .ipv6-page__internet-content {
       width: 100%;
+      .info__item {
+        flex-direction: column;
+      }
     }
   }
 }

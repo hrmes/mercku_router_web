@@ -1,12 +1,12 @@
 <template>
   <div class="page">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class="page-header">
       <span class="title"> {{ $t('trans0020') }}</span>
     </div>
     <div class="page-content">
       <div class="table">
-        <div v-if="$store.isMobile"
+        <div v-if="$store.state.isMobile"
              class="tools mobile">
           <div class="checkbox">
             <m-checkbox v-model="checkAllBlacklist"
@@ -75,7 +75,7 @@
             <div>{{ $t('trans0005') }}</div>
           </div>
           <div class="mac">{{ $t('trans0188') }}</div>
-          <div v-if="!$store.isMobile"
+          <div v-if="!$store.state.isMobile"
                class="tools laptop">
             <div class="btns">
               <button class="btn btn-small"

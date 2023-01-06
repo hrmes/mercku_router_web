@@ -1,6 +1,6 @@
 <template>
   <div class="page backup">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class='page-header'>
       {{$t('trans1010')}}
     </div>

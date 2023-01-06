@@ -1,6 +1,6 @@
 <template>
   <div class="page auto-upgrade">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class='page-header'>
       {{$t('trans0743')}}
     </div>
@@ -193,8 +193,12 @@ export default {
     font-weight: bold;
     color: var(--select-label-color);
   }
-  .form__time-picker {
-    width: 340px;
+}
+@media screen and (max-width: 768px) {
+  .content {
+    .form__time-picker {
+      width: 100%;
+    }
   }
 }
 </style>

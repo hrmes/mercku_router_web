@@ -1,11 +1,11 @@
 <template>
   <div class="page">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class='page-header'>
       <span class="title"> {{$t('trans0422')}}</span>
     </div>
     <div class="page-content">
-      <div v-if="$store.isMobile"
+      <div v-if="$store.state.isMobile"
            class="mobile-tools-bar">
         <div class="checkbox">
           <m-checkbox v-model="checkAll"
@@ -23,7 +23,7 @@
       </div>
       <div class='table'
            :class="{'empty-table':(empty !== null) && empty}">
-        <div v-if="!$store.isMobile"
+        <div v-if="!$store.state.isMobile"
              class="table-head">
           <div class="column-name">
             <div class="column-check">
@@ -69,7 +69,7 @@
                 <label class="m-title with-colon">{{$t('trans0425')}}:</label>
                 <span>{{item.remote.ip === '0.0.0.0' ? $t('trans0109') : item.remote.ip}}</span>
               </p>
-              <span v-if="!$store.isMobile"
+              <span v-if="!$store.state.isMobile"
                     style="margin:0 3px">/</span>
               <p>
                 <label class="m-title with-colon">{{$t('trans0426')}}:</label>
@@ -81,7 +81,7 @@
                 <label class="m-title with-colon">{{$t('trans0427')}}:</label>
                 <span>{{item.local.ip}}</span>
               </p>
-              <span v-if="!$store.isMobile"
+              <span v-if="!$store.state.isMobile"
                     style="margin:0 3px">/</span>
               <p>
                 <label class="m-title with-colon">{{$t('trans0428')}}:</label>
@@ -102,7 +102,7 @@
                 <i class=" iconfont icon-ic_settings_normal"></i>
                 <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
               </span>
-              <span v-if="$store.isMobile"
+              <span v-if="$store.state.isMobile"
                     class="label"
                     @click="editHandle(item)">
                 {{$t('trans0034')}}
@@ -112,7 +112,7 @@
                 <i class=" iconfont icon-ic_trash_normal"></i>
                 <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
               </span>
-              <span v-if="$store.isMobile"
+              <span v-if="$store.state.isMobile"
                     class="label"
                     @click="del([item.id])">
                 {{$t('trans0033')}}

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class="page-header">
       {{$t('trans0402')}}
     </div>
@@ -15,9 +15,9 @@
               </div>
               {{$t('trans0108')}}
             </div>
-            <div v-if="!$store.isMobile"
+            <div v-if="!$store.state.isMobile"
                  class="column-protocol">{{$t('trans0408')}}</div>
-            <div v-if="!$store.isMobile"
+            <div v-if="!$store.state.isMobile"
                  class="column-status">{{$t('trans0190')}}</div>
             <div class="column-handle">
               <div class="btn-wrap">
@@ -73,7 +73,7 @@
                 <i class=" iconfont icon-ic_settings_normal"></i>
                 <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
               </span>
-              <span v-if="$store.isMobile"
+              <span v-if="$store.state.isMobile"
                     class="label"
                     :class="{'disabled':connecting || vpn.enabled}"
                     @click="edit(vpn)">
@@ -85,7 +85,7 @@
                 <i class=" iconfont icon-ic_trash_normal"></i>
                 <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
               </span>
-              <span v-if="$store.isMobile"
+              <span v-if="$store.state.isMobile"
                     class="label"
                     :class="{'disabled':connecting || vpn.enabled}"
                     @click="del(vpn)">

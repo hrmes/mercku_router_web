@@ -1,6 +1,6 @@
 <template>
   <div class="page page__log">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class="page-header">
       {{$t('trans0421')}}
     </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class="page-header">
       <span class="title">{{$t('trans0444')}}</span>
     </div>
@@ -11,7 +11,7 @@
         <span class="btn-text text-primary"
               @click="updateEnabled">{{$t('trans0488')}}</span>
       </p>
-      <div v-if="$store.isMobile"
+      <div v-if="$store.state.isMobile"
            class="mobile-tools-bar">
         <div class="checkbox">
           <m-checkbox v-model="checkAll"
@@ -28,7 +28,7 @@
       </div>
       <div class="table"
            :class="{'empty-table':empty!==null && empty}">
-        <div v-if="!$store.isMobile"
+        <div v-if="!$store.state.isMobile"
              class="table-head">
           <div class="column-name">
             <div class="column-check">
@@ -78,7 +78,7 @@
                 <i class="iconfont icon-ic_settings_normal"></i>
                 <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
               </span>
-              <span v-if="$store.isMobile"
+              <span v-if="$store.state.isMobile"
                     class="label"
                     @click="editHandle(item)">
                 {{$t('trans0034')}}
@@ -88,7 +88,7 @@
                 <i class="iconfont icon-ic_trash_normal"></i>
                 <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
               </span>
-              <span v-if="$store.isMobile"
+              <span v-if="$store.state.isMobile"
                     class="label"
                     @click="del([item.id])">
                 {{$t('trans0033')}}
