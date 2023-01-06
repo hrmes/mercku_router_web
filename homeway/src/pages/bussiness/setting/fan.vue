@@ -3,24 +3,19 @@
     <div class="page-header">{{$t('trans1094')}}</div>
     <div class="page-content">
       <m-form class="flex-form">
-        <!-- <m-form-item>
+        <m-form-item>
           <m-radio-card-group v-model="mode"
                               :options='modeArr'
                               direction=vertical></m-radio-card-group>
-        </m-form-item> -->
-        <m-form-item>
-          <m-select :label="$t('trans1098')"
-                    v-model="rotatingSpeed"
-                    :options="selectOptions"></m-select>
         </m-form-item>
-        <!-- <m-form-item>
+        <m-form-item>
           <p class="tips">{{$t('trans1095')}}</p>
-        </m-form-item> -->
+        </m-form-item>
         <m-form-item>
           <button class="btn primary"
                   v-defaultbutton
                   style="width:100%"
-                  @click="updateFanSpeed">{{$t('trans0081')}}</button>
+                  @click="updateMode">{{$t('trans0081')}}</button>
         </m-form-item>
       </m-form>
     </div>
@@ -28,98 +23,65 @@
 </template>
 
 <script>
-// import { HomewayFanModel } from '../../../../../base/src/util/constant';
+import { HomewayFanModel } from '../../../../../base/src/util/constant';
 
-// function getFanModeImg(model) {
-//   let imgObj = null;
-//   switch (model) {
-//     case HomewayFanModel.game:
-//       imgObj = {
-//         unselected: require('../../../assets/images/icon/ic_fan_game.png'),
-//         selected: require('../../../assets/images/icon/ic_fan_game_selected.png')
-//       };
-//       break;
-//     case HomewayFanModel.standard:
-//       imgObj = {
-//         unselected: require('../../../assets/images/icon/ic_fan_standard.png'),
-//         selected: require('../../../assets/images/icon/ic_fan_standard_selected.png')
-//       };
-//       break;
-//     case HomewayFanModel.sleep:
-//       imgObj = {
-//         unselected: require('../../../assets/images/icon/ic_fan_sleep.png'),
-//         selected: require('../../../assets/images/icon/ic_fan_sleep_selected.png')
-//       };
-//       break;
-//     default:
-//       break;
-//   }
-//   return imgObj;
-// }
-
-function generateOptionsRange(start, stop, step = 1) {
-  const RangeArray = Array(Math.ceil((stop - start) / step))
-    .fill(start)
-    .map((x, y) => x + y * step)
-    .map(item => {
-      const temp = { text: `${item}%`, value: item };
-      return temp;
-    });
-  return RangeArray;
+function getFanModeImg(model) {
+  let imgObj = null;
+  switch (model) {
+    case HomewayFanModel.game:
+      imgObj = {
+        unselected: require('../../../assets/images/icon/ic_fan_game.png'),
+        selected: require('../../../assets/images/icon/ic_fan_game_selected.png')
+      };
+      break;
+    case HomewayFanModel.standard:
+      imgObj = {
+        unselected: require('../../../assets/images/icon/ic_fan_standard.png'),
+        selected: require('../../../assets/images/icon/ic_fan_standard_selected.png')
+      };
+      break;
+    case HomewayFanModel.sleep:
+      imgObj = {
+        unselected: require('../../../assets/images/icon/ic_fan_sleep.png'),
+        selected: require('../../../assets/images/icon/ic_fan_sleep_selected.png')
+      };
+      break;
+    default:
+      break;
+  }
+  return imgObj;
 }
+
 
 export default {
   data() {
     return {
-      selectOptions: generateOptionsRange(10, 101, 10),
-      rotatingSpeed: 50,
-      // mode: '',
-      // modeArr: [
-      //   { value: 'game', text: this.$t('trans1088'), description: this.$t('trans1091'), img: getFanModeImg('game') },
-      //   { value: 'standard', text: this.$t('trans1089'), description: this.$t('trans1092'), img: getFanModeImg('standard') },
-      //   { value: 'sleep', text: this.$t('trans1090'), description: this.$t('trans1093'), img: getFanModeImg('sleep') }]
+
+      mode: '',
+      modeArr: [
+        { value: 'game', text: this.$t('trans1088'), description: this.$t('trans1091'), img: getFanModeImg('game') },
+        { value: 'standard', text: this.$t('trans1089'), description: this.$t('trans1092'), img: getFanModeImg('standard') },
+        { value: 'sleep', text: this.$t('trans1090'), description: this.$t('trans1093'), img: getFanModeImg('sleep') }]
     };
   },
   mounted() {
-    this.getFanSpeed();
+    this.getFanMode();
   },
   methods: {
-    // getFanMode() {
-    //   this.$loading.open();
-    //   this.$http.getMeshFanMode()
-    //     .then(res => {
-    //       const { data: { result: { mode } } } = res;
-    //       this.mode = mode;
-    //     })
-    //     .finally(() => {
-    //       this.$loading.close();
-    //     });
-    // },
-    // updateMode() {
-    //   const params = { mode: this.mode };
-    // this.$http.updateMeshFanMode(params)
-    //   .then(() => {
-    //     this.$toast(this.$t('trans0040'), 3000, 'success');
-    //   })
-    //   .catch(() => {
-    //     this.$toast(this.$t('trans0077'), 3000, 'error');
-    //   });
-    // };
-    getFanSpeed() {
+    getFanMode() {
       this.$loading.open();
-      this.$http.getMeshFanSpeed()
+      this.$http.getMeshFanMode()
         .then(res => {
-          const { data: { result: { speed } } } = res;
-          this.rotatingSpeed = speed;
+          const { data: { result: { mode } } } = res;
+          this.mode = mode;
         })
         .finally(() => {
           this.$loading.close();
         });
     },
-    updateFanSpeed() {
-      const params = { speed: this.rotatingSpeed };
-      console.log(params);
-      this.$http.updateMeshFanSpeed(params)
+    updateMode() {
+      const params = { mode: this.mode };
+      this.$http.updateMeshFanMode(params)
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
