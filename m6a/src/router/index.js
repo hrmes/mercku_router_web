@@ -106,7 +106,7 @@ const routes = {
       name: 'device',
       component: device,
       meta: {
-        text: 'Devices',
+        text: 'trans0235',
         layout: 'primary',
         hasBackWrap: true,
         parentPath: '/dashboard'
@@ -118,7 +118,7 @@ const routes = {
 
       component: mesh,
       meta: {
-        text: 'Router Management',
+        text: 'trans0365',
         layout: 'primary',
         hasBackWrap: true,
         parentPath: '/dashboard'
@@ -129,7 +129,7 @@ const routes = {
       name: 'internet',
       component: internet,
       meta: {
-        text: 'Internet',
+        text: 'trans0366',
         layout: 'primary',
         hasBackWrap: true,
         parentPath: '/dashboard'
@@ -508,7 +508,9 @@ Array.prototype.push.apply(routes.routes, [
 
 const router = new Router(routes);
 router.beforeEach((to, from, next) => {
-  store.commit('clearToken'); // 取消请求
+  if (to.name !== from.name) {
+    store.commit('clearToken'); // 取消请求
+  }
   next();
 });
 

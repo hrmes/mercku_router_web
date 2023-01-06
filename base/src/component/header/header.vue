@@ -151,7 +151,7 @@
     <m-modal class="theme-change-modal"
              :visible.sync='ThemechangeVisiable'>
       <m-modal-header>
-        <div class="theme-change-header">{{$t('trans0737')}}</div>
+        <div class="theme-change-header">{{$t('trans1119')}}</div>
       </m-modal-header>
       <m-modal-body>
         <div class="theme-change-body">
@@ -159,6 +159,7 @@
                @click="clickHandler('light')">
             <img src="../../assets/images/img_theme_light.webp"
                  alt="">
+            <span class="label">{{$t('trans1122')}}</span>
             <m-checkbox class="checkbox"
                         :rect="false"
                         v-model="themeOptions.light.ischecked"></m-checkbox>
@@ -167,6 +168,7 @@
                @click="clickHandler('dark')">
             <img src="../../assets/images/img_theme_dark.webp"
                  alt="">
+            <span class="label">{{$t('trans1123')}}</span>
             <m-checkbox class="checkbox"
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
@@ -175,6 +177,7 @@
                @click="clickHandler('auto')">
             <img src="../../assets/images/img_theme_auto.webp"
                  alt="">
+            <span class="label">{{$t('trans1121')}}</span>
             <m-checkbox class="checkbox"
                         :rect="false"
                         v-model="themeOptions.auto.ischecked"></m-checkbox>
@@ -529,6 +532,7 @@ export default {
       margin: 0 10px;
       border-radius: 10px;
       cursor: pointer;
+      text-align: center;
       outline: 3px solid transparent;
       transition: outline 0.3s ease-out;
       &:hover {
@@ -536,6 +540,9 @@ export default {
       }
       > img {
         width: 100%;
+      }
+      .label {
+        color: var(--text-defult-color);
       }
       .checkbox {
         position: absolute;

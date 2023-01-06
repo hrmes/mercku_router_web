@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     pageName() {
-      return this.$route.meta.text;
+      return this.$t(this.$route.meta.text);
     },
     isMobile() {
       return this.$store.state.isMobile;

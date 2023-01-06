@@ -229,6 +229,10 @@ export default {
     .page-top {
       padding: 0 15px;
       height: 55px;
+      .btn-container {
+        width: 30px;
+        height: 30px;
+      }
     }
     .page-bottom {
       flex-direction: column;

@@ -32,13 +32,13 @@
                  @click.stop="showRssiModal"></i>
             </p>
             <div class="legend">
-
               <div class="legend-item">{{$t('trans0193')}}</div>
               <div class="legend-item">{{$t('trans0196')}}</div>
               <div class="legend-item">{{$t('trans0214')}}</div>
               <div class="legend-tx_power">
                 <span>{{$t('trans1088')}}:</span>
-                <m-loading :size='18'
+                <m-loading :id="'txpowerLoading'"
+                           :size='18'
                            :color="'#29b96c'"
                            class="value loading"
                            v-if="!tx_power"></m-loading>
@@ -72,100 +72,107 @@
             <div class="operate"></div>
           </div>
           <div class="table-content">
-            <div class="router"
-                 :class="{'expand':router.expand}"
-                 v-for="router in routers"
-                 :key="router.sn"
-                 @click="router.expand = !router.expand">
-              <div class="name">
-                <div class="icon">
-                  <img :src="router.image"
-                       alt>
-                </div>
-                <div class="wrap">
-                  <div class="text"
-                       :title="router.name">{{router.name}}</div>
-                  <div class="edit"
-                       v-if="!isRouterOffline(router)"
-                       @click.stop="onClickRouterName(router)">
-                    <img class="btn-text icon-btn"
-                         :title="$t('trans0034')"
-                         src="../../../assets/images/icon/ic_edit.png"
+            <tempalte v-if="routers.length">
+              <div class="router"
+                   :class="{'expand':router.expand}"
+                   v-for="router in routers"
+                   :key="router.sn"
+                   @click="router.expand = !router.expand">
+                <div class="name">
+                  <div class="icon">
+                    <img :src="router.image"
                          alt>
                   </div>
+                  <div class="wrap">
+                    <div class="text"
+                         :title="router.name">{{router.name}}</div>
+                    <div class="edit"
+                         v-if="!isRouterOffline(router)"
+                         @click.stop="onClickRouterName(router)">
+                      <img class="btn-text icon-btn"
+                           :title="$t('trans0034')"
+                           src="../../../assets/images/icon/ic_edit.png"
+                           alt>
+                    </div>
+                  </div>
+                  <div class="expand"
+                       :class="{'expand':router.expand,'collapse':!router.expand}">
+                    <i class="expand iconfont icon-ic_dropdown_small"></i>
+                  </div>
                 </div>
-                <div class="expand"
-                     :class="{'expand':router.expand,'collapse':!router.expand}">
-                  <i class="expand iconfont icon-ic_dropdown_small"></i>
-                </div>
-              </div>
-              <div class="type">
-                <span class="label">{{$t('trans0068')}}</span>
-                <span class="value">{{router.is_gw ? $t('trans0165'):
+                <div class="type">
+                  <span class="label">{{$t('trans0068')}}</span>
+                  <span class="value">{{router.is_gw ? $t('trans0165'):
                   $t('trans0186')}}</span>
+                </div>
+                <div class="equipment">
+                  <span class="label">{{$t('trans0235')}}</span>
+                  <span class="value equipment__value"
+                        :class="{'is-disabled':!router.stations}"
+                        @click.stop="showStationListModal(router)">
+                    {{getRouterStationCount(router)}}
+                  </span>
+                  <i class="equipment__arrow iconfont icon-ic_enter"></i>
+                </div>
+                <div class="sn">
+                  <span class="label">{{$t('trans0251')}}</span>
+                  <span class="value">{{router.sn}}</span>
+                </div>
+                <div class="version">
+                  <span class="label">{{$t('trans0300')}}</span>
+                  <span class="value">{{router.version.current}}</span>
+                </div>
+                <div class="ip">
+                  <span class="label">{{$t('trans0151')}}</span>
+                  <span class="value">{{router.ip}}</span>
+                  <span class="value">{{formatMac(router.mac.lan)}}</span>
+                </div>
+                <div class="mac">
+                  <span class="label">{{$t('trans0201')}}</span>
+                  <span class="value">{{formatMac(router.mac.lan)}}</span>
+                </div>
+                <div class="operate">
+                  <span v-if="!isRouterOffline(router)"
+                        class="btn-icon"
+                        @click="rebootNode(router)">
+                    <i class="reboot iconfont icon-ic_router_reboot_normal"></i>
+                    <span class="icon-hover-popover"> {{$t('trans0122')}}</span>
+                  </span>
+                  <span v-if="isMobile"
+                        class="label"
+                        @click="rebootNode(router)">
+                    {{$t('trans0122')}}
+                  </span>
+                  <span v-if="router.is_gw"
+                        class="btn-icon"
+                        @click="resetNode(router)">
+                    <i class="reset iconfont icon-ic_router_reset_normal"></i>
+                    <span class="icon-hover-popover"> {{$t('trans0205')}}</span>
+                  </span>
+                  <span v-if="isMobile"
+                        class="label"
+                        @click="resetNode(router)">
+                    {{$t('trans0205')}}
+                  </span>
+                  <span v-if="!router.is_gw"
+                        class="btn-icon"
+                        @click="deleteNode(router)">
+                    <i class="delete iconfont icon-ic_trash_normal"></i>
+                    <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+                  </span>
+                  <span v-if="isMobile&&!router.is_gw"
+                        class="label"
+                        @click="deleteNode(router)">
+                    {{$t('trans0033')}}
+                  </span>
+                </div>
               </div>
-              <div class="equipment">
-                <span class="label">{{$t('trans0235')}}</span>
-                <span class="value equipment__value"
-                      :class="{'is-disabled':!router.stations}"
-                      @click.stop="showStationListModal(router)">
-                  {{getRouterStationCount(router)}}
-                </span>
-                <i class="equipment__arrow iconfont icon-ic_enter"></i>
-              </div>
-              <div class="sn">
-                <span class="label">{{$t('trans0251')}}</span>
-                <span class="value">{{router.sn}}</span>
-              </div>
-              <div class="version">
-                <span class="label">{{$t('trans0300')}}</span>
-                <span class="value">{{router.version.current}}</span>
-              </div>
-              <div class="ip">
-                <span class="label">{{$t('trans0151')}}</span>
-                <span class="value">{{router.ip}}</span>
-                <span class="value">{{formatMac(router.mac.lan)}}</span>
-              </div>
-              <div class="mac">
-                <span class="label">{{$t('trans0201')}}</span>
-                <span class="value">{{formatMac(router.mac.lan)}}</span>
-              </div>
-              <div class="operate">
-                <span v-if="!isRouterOffline(router)"
-                      class="btn-icon"
-                      @click="rebootNode(router)">
-                  <i class="reboot iconfont icon-ic_router_reboot_normal"></i>
-                  <span class="icon-hover-popover"> {{$t('trans0122')}}</span>
-                </span>
-                <span v-if="isMobile"
-                      class="label"
-                      @click="rebootNode(router)">
-                  {{$t('trans0122')}}
-                </span>
-                <span v-if="router.is_gw"
-                      class="btn-icon"
-                      @click="resetNode(router)">
-                  <i class="reset iconfont icon-ic_router_reset_normal"></i>
-                  <span class="icon-hover-popover"> {{$t('trans0205')}}</span>
-                </span>
-                <span v-if="isMobile"
-                      class="label"
-                      @click="resetNode(router)">
-                  {{$t('trans0205')}}
-                </span>
-                <span v-if="!router.is_gw"
-                      class="btn-icon"
-                      @click="deleteNode(router)">
-                  <i class="delete iconfont icon-ic_trash_normal"></i>
-                  <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
-                </span>
-                <span v-if="isMobile&&!router.is_gw"
-                      class="label"
-                      @click="deleteNode(router)">
-                  {{$t('trans0033')}}
-                </span>
-              </div>
+            </tempalte>
+            <div class="loading-container"
+                 v-else>
+              <m-loading :id="'meshFormLoading'"></m-loading>
             </div>
+
           </div>
         </div>
       </div>
@@ -371,12 +378,13 @@ export default {
     };
   },
   async mounted() {
-    this.initChart();
-    this.getMeshBand();
-    this.createIntervalTask();
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
       this.checkThemeMode(event.matches);
     });
+    this.initChart();
+    this.createIntervalTask();
+    this.getMeshBand();
+
     // 获取当前设备信息
     try {
       const selfInfo = await this.$http.getLocalDevice();
@@ -1226,6 +1234,7 @@ export default {
           width: 230px;
         }
         .table-content {
+          text-align: center;
           .router {
             display: flex;
             padding: 15px 20px;
@@ -1313,6 +1322,9 @@ export default {
                 }
               }
             }
+          }
+          .loading-container {
+            padding: 30px 0;
           }
         }
       }
