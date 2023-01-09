@@ -76,9 +76,8 @@ export default {
       font-size: 13px;
       font-weight: 600;
       color: #bdbdbd;
-      top: 50%;
+      top: 2.3px;
       left: 2px;
-      transform: translate(0, -49%);
       border-radius: 16px;
       background-color: var(--switch-circle-color);
       transition: left 0.3s;

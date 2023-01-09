@@ -208,7 +208,7 @@ export default {
       deviceLoading: true,
       meshLoading: true,
       ssid: '',
-      deviceCount: 0,
+      deviceCount: '-',
       deviceCountTimer: null,
       wanInfoTimer: null,
       wanNetStatsTimer: null,

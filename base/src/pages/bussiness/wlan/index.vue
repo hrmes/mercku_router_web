@@ -19,9 +19,9 @@
                       v-model="wifiForm.smart_connect" />
             <div class="tip-label">{{$t('trans0398')}}</div>
           </m-form-item>
-          <div class="form-header"
-               v-if="!wifiForm.smart_connect">
-            <span class="form-header__title">{{$t('trans0677')}}</span>
+          <div class="form-header">
+            <span
+                  class="form-header__title">{{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}</span>
           </div>
           <m-form-item class="form-item"
                        prop="ssid24g">

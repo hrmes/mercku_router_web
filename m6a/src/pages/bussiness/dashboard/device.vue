@@ -550,6 +550,7 @@ export default {
         time_limit: row.time_limit ? row.time_limit.map(v => ({ ...v, expand: false })) : undefined
       };
       this.$store.state.modules.limits[row.mac] = limits;
+      sessionStorage.setItem('deviceName', limits.deviceName);
       this.$router.push({ path: `/limit/${row.mac}` });
     },
     expandTable(row) {

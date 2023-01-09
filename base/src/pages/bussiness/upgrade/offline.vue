@@ -89,7 +89,7 @@
           <div v-if="!$store.state.isMobile"
                class="btn-info">
             <button class="btn"
-                    @click="submit()">
+                    @click="upgrade()">
               {{ $t('trans0225') }}
             </button>
           </div>

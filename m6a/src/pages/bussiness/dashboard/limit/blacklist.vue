@@ -11,7 +11,7 @@
       <div v-if="!isMobile"
            class="tools">
         <button class="btn btn-small"
-                @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
+                @click.stop="modalOpen()">{{$t('trans0035')}}</button>
       </div>
       <div class="table-head">
         <div class="column-address">{{$t('trans0076')}}
@@ -40,7 +40,7 @@
         <div v-if="isMobile"
              class="mobile-add-btn">
           <button class="btn"
-                  @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
+                  @click.stop="modalOpen()">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
@@ -66,12 +66,8 @@
         <div class="btn-info">
           <button class="btn btn-default"
                   @click="closeModal">{{$t('trans0025')}}</button>
-          <button v-if="modalStatus==='add'"
-                  class="btn"
+          <button class="btn"
                   @click="submit">{{$t('trans0035')}}</button>
-          <button v-if="modalStatus==='edit'"
-                  class="btn"
-                  @click="updateSubmit">{{$t('trans0081')}}</button>
         </div>
       </div>
     </m-modal>
@@ -85,7 +81,6 @@ export default {
   data() {
     return {
       BlacklistMode,
-      modalStatus: 'add',
       selectedRow: {},
       disabled: true,
       modalShow: false,
@@ -125,13 +120,15 @@ export default {
     },
     isEmpty() {
       return !this.sortList.length;
+    },
+    blacklistLimit() {
+      return this.$store.state.modules.limits[this.form.mac];
     }
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const limit = this.$store.state.modules.limits[this.form.mac];
-    if (limit && limit.parent_control) {
-      const parentControl = limit.parent_control;
+    if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+      const parentControl = this.blacklistLimit.parent_control;
       this.form.mode = parentControl.mode;
       this.mode = parentControl.mode === BlacklistMode.blacklist;
       this.parentControlLimitList = parentControl.blacklist || [];
@@ -150,27 +147,22 @@ export default {
       };
       this.host = '';
     },
-    modalOpen(type, row) {
+    modalOpen(row) {
       if (this.parentControlLimitList.length === 15) {
         this.$toast(this.$t('trans0060'));
         return;
       }
       this.host = '';
       this.form.hosts = [];
-      this.modalStatus = type;
       this.selectedRow = row;
-      if (type === 'edit') {
-        this.form.hosts = [row];
-        this.host = row;
-      }
       this.modalShow = true;
     },
     getList() {
       this.$http.parentControlLimitGet({ mac: this.form.mac }).then(res => {
         if (res.data.result) {
           this.parentControlLimitList = res.data.result.blacklist || [];
-          this.mode = res.data.result.mode === BlacklistMode.blacklist;
           this.form.mode = res.data.result.mode;
+          this.mode = this.form.mode === BlacklistMode.blacklist;
         }
       });
     },
@@ -184,6 +176,9 @@ export default {
         })
         .then(() => {
           this.form.mode = changeMode;
+          if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+            this.blacklistLimit.parent_control.mode = this.form.mode;
+          }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
@@ -201,6 +196,9 @@ export default {
         })
         .then(() => {
           this.parentControlLimitList = this.parentControlLimitList.filter(v => v !== row);
+          if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+            this.blacklistLimit.parent_control.blacklist = this.parentControlLimitList;
+          }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
@@ -221,6 +219,7 @@ export default {
             this.$loading.close();
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.blacklistLimit.parent_control.blacklist = this.parentControlLimitList;
           })
           .catch(() => {
             this.$loading.close();

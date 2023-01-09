@@ -36,7 +36,7 @@
               <div class="legend-item">{{$t('trans0196')}}</div>
               <div class="legend-item">{{$t('trans0214')}}</div>
               <div class="legend-tx_power">
-                <span>{{$t('trans1088')}}:</span>
+                <span>{{$t('trans1102')}}:</span>
                 <m-loading :id="'txpowerLoading'"
                            :size='18'
                            :color="'#29b96c'"

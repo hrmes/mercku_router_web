@@ -90,7 +90,7 @@ export default {
       return this.$route.meta.text;
     },
     deviceName() {
-      return this.$store.state.modules.limits[this.$route.params.mac].deviceName;
+      return sessionStorage.getItem('deviceName');
     }
   },
   methods: {

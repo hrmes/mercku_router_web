@@ -179,14 +179,11 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const limit = this.$store.state.modules.limits[this.form.mac];
-    console.log(limit);
-    if (limit && limit.time_limit) {
-      this.timeLimitList = limit.time_limit;
+    if (this.limit && this.limit.time_limit) {
+      this.timeLimitList = this.limit.time_limit;
     } else {
       this.getList();
     }
-    console.log(this.timeLimitList);
   },
   watch: {
     schedules: {
@@ -218,6 +215,9 @@ export default {
         }
         return 0;
       });
+    },
+    limit() {
+      return this.$store.state.modules.limits[this.form.mac];
     }
   },
   methods: {
@@ -290,6 +290,9 @@ export default {
     getList() {
       this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
         this.timeLimitList = res.data.result.map(v => ({ ...v, expand: false }));
+        if (this.limit && this.limit.time_limit) {
+          this.limit.time_limit = this.timeLimitList;
+        }
       });
     },
     changehandle(v, row) {
@@ -322,6 +325,9 @@ export default {
         })
         .then(() => {
           this.timeLimitList = this.timeLimitList.filter(v => v.id !== row.id);
+          if (this.limit && this.limit.time_limit) {
+            this.limit.time_limit = this.timeLimitList;
+          }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
@@ -378,6 +384,9 @@ export default {
               }
               return v;
             });
+            if (this.limit && this.limit.time_limit) {
+              this.limit.time_limit = this.timeLimitList;
+            }
 
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
@@ -482,7 +491,8 @@ export default {
       width: 150px;
     }
     .column-repeat {
-      width: 190px;
+      width: 230px;
+      margin-right: 10px;
     }
     .column-switch {
       min-width: 150px;

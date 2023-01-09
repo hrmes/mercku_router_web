@@ -54,7 +54,7 @@ export default {
   top: 0;
   padding: 10px 16px;
   border-radius: 4px;
-  z-index: 1001;
+  z-index: 1005;
   left: 50%;
   position: fixed;
   transform: translate(-50%, 50%);

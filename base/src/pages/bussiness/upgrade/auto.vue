@@ -193,6 +193,9 @@ export default {
     font-weight: bold;
     color: var(--select-label-color);
   }
+  .form__time-picker {
+    width: 340px;
+  }
 }
 @media screen and (max-width: 768px) {
   .content {

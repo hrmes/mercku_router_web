@@ -250,6 +250,7 @@ export default {
       width: 12px;
       height: 6px;
       display: inline-block;
+      filter: var(--img-brightness);
       background: url(../../assets/images/icon/ic_input_box_pull_down.png)
         no-repeat center;
       background-size: 100%;
