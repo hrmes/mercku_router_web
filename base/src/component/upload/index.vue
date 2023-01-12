@@ -315,20 +315,20 @@ export default {
       color: var(--upload-file-text-color);
       border-radius: 5px;
       background: var(--upload-background-color);
-      padding: 20px;
+      padding: 20px 10px;
       .icon-wrap {
         background: var(--upload-icon-background-color);
         padding: 10px;
         border-radius: 50%;
         img {
-          width: 38px;
-          height: 38px;
+          width: 28px;
+          height: 28px;
           display: block;
         }
       }
       .des-cnt {
         position: relative;
-        margin-left: 20px;
+        margin-left: 10px;
         flex: 1;
         .description {
           color: var(--upload-file-description-color);
@@ -364,6 +364,9 @@ export default {
         .fileinfo {
           display: flex;
           justify-content: space-between;
+          .fileinfo__name {
+            font-weight: 600;
+          }
           .fileinfo__wrap {
             flex: 1;
           }
@@ -404,13 +407,13 @@ export default {
         }
       }
       .delete-wrap {
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
         text-align: center;
         background: var(--upload-delete-icon-bgc);
         border-radius: 50%;
-        margin-left: 20px;
+        margin-left: 10px;
         i {
           font-size: 14px;
           font-weight: 600;
@@ -449,7 +452,7 @@ export default {
     }
     .file {
       .file__info {
-        padding: 15px;
+        padding: 10px 10px 10px 5px;
         .des-cnt {
           // min-width: 193px;
           margin-left: 15px;

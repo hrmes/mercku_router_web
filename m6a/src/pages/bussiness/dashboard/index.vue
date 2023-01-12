@@ -57,18 +57,22 @@
             </div>
             <div v-else
                  class="info-wrap">
-              <span class="name"
-                    :title="localDeviceInfo.name">{{localDeviceInfo.name}}</span>
+              <div class="name"
+                   :title="localDeviceInfo.name">
+                <div class="current-icon">
+                  <img src="../../../assets/images/icon/ic_local-device.svg"
+                       alt="">
+                </div>
+                <span>{{localDeviceInfo.name}}
+                </span>
+              </div>
               <div class="info">
                 <div class="band">{{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
                 <div v-if="!isWired"
                      class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                 </div>
               </div>
-              <div class="current-icon">
-                <img src="../../../assets/images/icon/ic_local-device.svg"
-                     alt="">
-              </div>
+
             </div>
           </div>
         </li>
@@ -96,14 +100,14 @@
               <ul v-else>
                 <li class="wifi">
                   <span class="wifi__dot"></span>
-                  <span class="wifi__band">{{meshInfo.smartConnect?'WIFI:':'2.4G WIFI:'}}</span>
+                  <span class="wifi__band">{{meshInfo.smartConnect?'WI-FI:':$t('trans0677')}}</span>
                   <span class="wifi__name"
                         :title="meshInfo.b24gWifi.ssid">{{meshInfo.b24gWifi.ssid}}</span>
                 </li>
                 <li v-if="!meshInfo.smartConnect"
                     class="wifi">
                   <span class="wifi__dot"></span>
-                  <span class="wifi__band">5G WIFI:</span>
+                  <span class="wifi__band">{{$t('trans0679')}}:</span>
                   <span class="wifi__name"
                         :title="meshInfo.b5gWifi.ssid">{{meshInfo.b5gWifi.ssid}}</span>
                 </li>
@@ -634,19 +638,21 @@ ul {
           .current-device-info-container {
             border-radius: 5px;
             .info-wrap {
-              min-width: 150px;
-              display: inline-block;
-              position: relative;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
               color: var(--text-default-color);
             }
             .name {
-              display: inline-block;
-              min-width: 60px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
+              display: flex;
               font-size: 16px;
               font-weight: 500;
+              > span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
             }
             .info {
               display: flex;
@@ -658,19 +664,15 @@ ul {
                 border-radius: 3px;
                 color: #fff;
                 background-color: var(--dashboard-band-background-color);
-                margin-right: 10px;
               }
               .uptime {
                 color: var(--dashboard-gery-color);
               }
             }
             .current-icon {
-              position: absolute;
-              top: 1px;
-              left: -5px;
-              transform: translateX(-100%);
               width: 15px;
               height: 14px;
+              margin-right: 5px;
               > img {
                 width: 100%;
                 height: 100%;
@@ -966,7 +968,9 @@ ul {
           &.device-container {
             .current-device-info-container {
               .name {
-                max-width: 280px;
+                > span {
+                  max-width: 280px;
+                }
               }
             }
           }
@@ -1009,7 +1013,9 @@ ul {
           &.device-container {
             .current-device-info-container {
               .name {
-                max-width: 240px;
+                > span {
+                  max-width: 250px;
+                }
               }
             }
           }
@@ -1224,12 +1230,11 @@ ul {
               margin-top: 15px;
               padding: 10px;
               .info-wrap {
-                margin-left: 20px;
-                .name {
-                  max-width: 260px;
-                }
+                // margin-left: 20px;
+                display: inline-block;
                 .info {
                   justify-content: flex-start;
+                  margin-left: 20px;
                 }
               }
             }

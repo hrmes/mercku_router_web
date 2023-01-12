@@ -1298,8 +1298,8 @@ export default {
                 display: flex;
                 align-items: center;
                 img {
-                  width: 30px;
-                  height: 30px;
+                  width: 40px;
+                  height: 40px;
                 }
               }
               .text {
@@ -1546,6 +1546,12 @@ export default {
                 padding: 0;
                 width: 100%;
                 color: var(--text-default-color);
+                .icon {
+                  img {
+                    width: 35px;
+                    height: 35px;
+                  }
+                }
                 .wrap {
                   flex: 1;
                 }

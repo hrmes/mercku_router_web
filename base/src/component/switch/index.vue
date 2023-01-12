@@ -55,7 +55,7 @@ export default {
   .mk-switch__inner {
     cursor: pointer;
     width: 40px;
-    height: 25px;
+    height: 24px;
     position: relative;
     background-color: var(--switch-background-color);
     border-radius: 22px;
@@ -73,10 +73,11 @@ export default {
       line-height: 21px;
       text-align: center;
       position: absolute;
-      font-size: 13px;
+      font-size: 10px;
+      transform: scale(0.95);
       font-weight: 600;
       color: #bdbdbd;
-      top: 2.3px;
+      top: 2px;
       left: 2px;
       border-radius: 16px;
       background-color: var(--switch-circle-color);
