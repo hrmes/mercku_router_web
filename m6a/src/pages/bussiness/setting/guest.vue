@@ -86,30 +86,32 @@
         <div v-if="form.enabled&&showStatusPage"
              class="status">
           <div class="setting-ssid-info">
-            <label class="title with-colon">{{$t('trans0168')}}:</label>
-            <div v-if="guest.smart_connect">
-              <p class='name'>{{guest.bands[Bands.b24g].ssid}}</p>
-            </div>
+            <template v-if="guest.smart_connect">
+              <label class="title with-colon">{{$t('trans0168')}}:</label>
+              <div>
+                <p class='name value'>{{guest.bands[Bands.b24g].ssid}}</p>
+              </div>
+            </template>
             <div v-else>
               <p>
-                <label class="with-colon">2.4G:</label>
-                <span>{{guest.bands[Bands.b24g].ssid}}</span>
+                <label class="title with-colon">{{$t('trans0923')}}:</label>
+                <span class="name value">{{guest.bands[Bands.b24g].ssid}}</span>
               </p>
               <p>
-                <label class="with-colon">5G:</label>
-                <span>{{guest.bands[Bands.b5g].ssid}}</span>
+                <label class="title with-colon">{{$t('trans0924')}}:</label>
+                <span class="name value">{{guest.bands[Bands.b5g].ssid}}</span>
               </p>
             </div>
           </div>
           <div class="remaining-time">
             <label class="title with-colon">{{$t('trans0524')}}:</label>
-            <div class="time">
+            <div class="time value">
               {{formatTime(guest.remaining_duration)}}
             </div>
           </div>
           <div class="online-device">
             <label class="title with-colon">{{$t('trans0235')}}:</label>
-            <span>{{devicesCount}}</span>
+            <span class="value">{{devicesCount}}</span>
           </div>
           <div class="form-button">
             <button class="btn"
@@ -498,15 +500,19 @@ export default {
     }
   }
   .title {
-    font-weight: bold;
+    // font-weight: bold;
     width: 130px;
+  }
+  .value {
+    font-weight: 600;
   }
   .remaining-time {
     display: flex;
     margin-bottom: 20px;
     .time {
       font-size: 14px;
-      font-weight: bold;
+      font-weight: 600;
+      color: var(--tab-selected-color);
     }
   }
   .setting-ssid-info {
@@ -516,7 +522,7 @@ export default {
       margin: 0;
       padding: 0;
       &:nth-child(2) {
-        margin-top: 10px;
+        margin-top: 20px;
       }
       font-family: Helvetica;
       label {

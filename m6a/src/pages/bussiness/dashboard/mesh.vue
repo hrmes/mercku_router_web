@@ -1237,7 +1237,7 @@ export default {
           text-align: center;
           .router {
             display: flex;
-            padding: 15px 20px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             background: var(--table-row-background-color);
@@ -1298,8 +1298,8 @@ export default {
                 display: flex;
                 align-items: center;
                 img {
-                  width: 40px;
-                  height: 40px;
+                  width: 50px;
+                  height: 50px;
                 }
               }
               .text {

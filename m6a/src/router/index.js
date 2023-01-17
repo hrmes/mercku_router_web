@@ -140,7 +140,7 @@ const routes = {
       name: 'mesh-add',
       component: meshAdd,
       meta: {
-        text: 'Add a node',
+        text: 'trans1117',
         layout: 'primary',
         hasBackWrap: true
       }

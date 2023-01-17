@@ -81,7 +81,7 @@ export default {
       return !visible;
     },
     menus() {
-      return getMenu(this.$store.state.role, this.$store.state.mode);
+      return getMenu(this.$store.state.role, 'bridge');
     }
   },
   methods: {
@@ -108,7 +108,7 @@ export default {
 
 <style lang="scss">
 * {
-  font-family: 'NotoSansCJKsc', 'PingFang SC';
+  font-family: 'NotoSansCJKsc', 'PingFang SC ';
 }
 .srcollbar-wrap {
   height: 100%;

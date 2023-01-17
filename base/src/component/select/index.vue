@@ -126,12 +126,15 @@ export default {
   width: 340px;
   &.disabled {
     .select {
+      border: 1.5px solid transparent;
       background: var(--select-disabled-background-color);
       opacity: var(--select-disabled-opacity);
       cursor: not-allowed;
       input {
-        background: var(--select-disabled-background-color);
-        opacity: var(--select-disabled-opacity);
+        background: transparent;
+        cursor: not-allowed;
+      }
+      .icon-container {
         cursor: not-allowed;
       }
     }

@@ -14,7 +14,7 @@
         <p class="upload__text">
           {{ $t('trans0928') }}
         </p>
-        <button class="btn btn-default fileinput-button"
+        <button class="btn fileinput-button"
                 :disabled="uploadLoading"
                 @click="click">
           <label>{{ label }}</label>

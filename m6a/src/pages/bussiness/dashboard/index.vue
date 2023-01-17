@@ -87,7 +87,7 @@
           </div>
           <div class="text-container">
             <h3 class="main-text">{{$t('trans0153')}}</h3>
-            <h6 class="sub-text router-type">{{meshInfo.gatewayName}}</h6>
+            <h6 class="sub-text router-type">{{meshInfo.gatewayName?meshInfo.gatewayName:'-'}}</h6>
           </div>
           <div class="wifi-container">
             <div class="wifi-list">
@@ -100,7 +100,7 @@
               <ul v-else>
                 <li class="wifi">
                   <span class="wifi__dot"></span>
-                  <span class="wifi__band">{{meshInfo.smartConnect?'WI-FI:':$t('trans0677')}}</span>
+                  <span class="wifi__band">{{meshInfo.smartConnect?'Wi-Fi:':$t('trans0677')}}</span>
                   <span class="wifi__name"
                         :title="meshInfo.b24gWifi.ssid">{{meshInfo.b24gWifi.ssid}}</span>
                 </li>
@@ -661,6 +661,7 @@ ul {
               min-width: 30px;
               .band {
                 padding: 0 6px;
+                margin-right: 5px;
                 border-radius: 3px;
                 color: #fff;
                 background-color: var(--dashboard-band-background-color);

@@ -8,7 +8,7 @@
       <p class="backup__tips">{{$t('trans1011')}}</p>
       <p class="backup__tips">{{$t('trans1036')}}</p>
       <p class="backup__tips backup__tips--danger">*{{$t('trans1012')}}</p>
-      <button class="btn btn-middle btn-default operate-btn"
+      <button class="btn btn-middle operate-btn"
               :disabled="isDownloading"
               @click="getBackup">{{$t('trans1013')}}</button>
     </div>

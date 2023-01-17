@@ -28,7 +28,12 @@
                    v-clickoutside="() => (deviceModalVisible = false)">
                 <div class="opcity"></div>
                 <div class="modal-content">
-                  <div class="modal__header">{{ $t('trans0235') }}</div>
+                  <div class="modal__header"> <span>{{ $t('trans0235') }}</span>
+                    <div class="modal__header__close-btn"
+                         @click.stop="() => (deviceModalVisible = false)">
+                      <i class="iconfont icon-ic_close"></i>
+                    </div>
+                  </div>
                   <div v-if="devices"
                        class="list">
                     <div class="device-item"
@@ -92,7 +97,13 @@
                      v-clickoutside="() => (deviceModalVisible = false)">
                   <div class="opcity"></div>
                   <div class="modal-content">
-                    <div class="modal__header">{{ $t('trans0235') }}</div>
+                    <div class="modal__header">
+                      <span>{{ $t('trans0235') }}</span>
+                      <div class="modal__header__close-btn"
+                           @click.stop="() => (deviceModalVisible = false)">
+                        <i class="iconfont icon-ic_close"></i>
+                      </div>
+                    </div>
                     <div v-if="devices"
                          class="list">
                       <div class="device-item"
@@ -337,12 +348,30 @@ export default {
   background-color: var(--modal-content-background);
   .modal-content {
     .modal__header {
+      position: relative;
       color: var(--text-default-color);
       text-align: left;
       font-weight: bold;
       font-size: 14px;
       padding: 20px 0;
       margin: 0 15px;
+      cursor: default;
+      .modal__header__close-btn {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 28px;
+        border-radius: 50%;
+        background: var(--button-close-background-color);
+        cursor: pointer;
+        .iconfont {
+          font-size: 12px;
+        }
+      }
     }
     .list {
       overflow: auto;
@@ -387,6 +416,9 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      .btn {
+        width: 90%;
+      }
       .btn-default {
         display: none;
       }

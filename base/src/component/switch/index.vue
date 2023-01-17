@@ -2,7 +2,10 @@
   <div class="mk-switch">
     <div class="mk-switch__inner"
          :class="{ checked: checked, disabled: disabled }"
-         @click="switchValue"></div>
+         @click="switchValue">
+      <div class="mk-switch__circle"
+           :class="{ checked: checked, disabled: disabled }"></div>
+    </div>
     <label class="mk-switch__label"
            v-if="label">{{ label }}</label>
   </div>
@@ -65,33 +68,36 @@ export default {
     user-select: none;
     outline: none;
     margin-right: 10px;
-    &::before {
-      content: '\e667';
-      font-family: 'iconfont';
-      width: 20px;
-      height: 20px;
-      line-height: 21px;
-      text-align: center;
+    .mk-switch__circle {
       position: absolute;
-      font-size: 10px;
-      transform: scale(0.95);
-      font-weight: 600;
-      color: #bdbdbd;
       top: 2px;
       left: 2px;
-      border-radius: 16px;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
       background-color: var(--switch-circle-color);
+      border-radius: 16px;
       transition: left 0.3s;
+      &::before {
+        content: '\e667';
+        font-family: 'iconfont';
+        font-size: 12px;
+        font-weight: 600;
+        color: #bdbdbd;
+      }
     }
     &.checked {
       border-color: var(--switch-chencked-color);
       background-color: var(--switch-chencked-color);
       transition: border ease 0.4s, box-shadow ease 0.4s,
         background-color ease 1.2s;
-      &::before {
-        content: '\e65c';
+      & .mk-switch__circle {
         left: 18px;
-        color: #0fc866;
+        &::before {
+          content: '\e65c';
+          color: #0fc866;
+        }
       }
     }
     &.disabled {

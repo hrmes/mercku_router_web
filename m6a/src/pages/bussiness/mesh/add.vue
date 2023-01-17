@@ -96,7 +96,10 @@
             <span>{{$t('trans1006')}}:</span>
             {{snAdded}}
           </div>
-          <div class="result-container__tips">{{$t('trans1007')}}</div>
+          <div class="result-container__tips">
+            <p>{{$t('trans0192')}}</p>
+            <p style="font-weight:400">{{$t('trans1007')}}</p>
+          </div>
           <div class="button-container">
             <button @click="updateResultVisiable"
                     class="btn btn-large">{{$t('trans0055')}}</button>
@@ -619,6 +622,7 @@ export default {
       background: var(--flex-warp-has-menu-bgc);
       margin: 20px 0 10px;
       padding: 20px 30px;
+      font-size: 16px;
       transition: outline 0.3s ease-out;
       outline: 1.5px solid transparent;
       cursor: pointer;

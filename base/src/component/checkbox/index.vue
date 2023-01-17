@@ -87,8 +87,7 @@ export default {
     float: left;
     width: 18px;
     height: 18px;
-    line-height: 18px;
-    text-align: center;
+    line-height: 17px;
     border-radius: 3px;
     border: 1.5px solid var(--checkbox-border-color);
     background: var(--checkbox-background-color);
@@ -96,13 +95,14 @@ export default {
       border-radius: 50%;
     }
     &.checked {
-      border: 0;
+      border: none;
       background: var(--checkbox-checked-background-color);
+      padding-left: 2.6px;
       position: relative;
       &::after {
         content: '\e65c';
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
         font-size: 12px;
         font-family: 'iconfont';
         color: #fff;

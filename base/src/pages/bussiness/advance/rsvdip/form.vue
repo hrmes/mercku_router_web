@@ -294,9 +294,9 @@ export default {
           left: -240px;
           width: 340px;
           border-radius: 4px;
+          overflow: hidden;
           box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04),
             0 2px 4px 0 rgba(0, 0, 0, 0.12);
-          border: solid 1px var(--table-body-hr-color);
           background-color: var(--select-popup-background-color);
           .modal-content {
             .modal__header {
@@ -304,7 +304,6 @@ export default {
               text-align: left;
               font-weight: bold;
               border-bottom: 1px solid var(--table-body-hr-color);
-
               font-size: 14px;
               padding: 20px 0 12px 0;
               margin: 0 30px;
@@ -404,7 +403,6 @@ export default {
             left: 0;
             z-index: 1000;
             padding-top: 65px;
-
             background: transparent;
             .opcity {
               position: fixed;
@@ -415,23 +413,24 @@ export default {
               background: rgba(0, 0, 0, 0.6);
             }
             .modal-content {
+              display: flex;
+              flex-direction: column;
               width: 100%;
               height: 100%;
               position: relative;
-              background: #fff;
+              background-color: var(--select-popup-background-color);
               border-top-left-radius: 10px;
               border-top-right-radius: 10px;
               overflow: hidden;
               .list {
-                width: 100%;
-                max-height: 250px;
-                background: white;
+                flex: 1;
+                max-height: calc(100% - 70px);
+                background: transparent;
                 box-sizing: border-box;
               }
               .btn-wrap {
                 width: 100%;
-                position: absolute;
-                bottom: 0;
+                height: 70px;
                 .btn {
                   display: inline-block;
                   width: 120px;

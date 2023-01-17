@@ -15,8 +15,8 @@
         <ul class="menu-result-list">
           <li v-for="menu in asideInfo.subMenu[0].children"
               :key='menu.name'
-              @click="$router.push({path:menu.url})"
-              :class="{'selected':$route.path.includes(menu.url)}">
+              @click="jump(menu)"
+              :class="{'selected':$route.path.includes(menu.url),'disabled':menu.disabled}">
             {{$t(`${menu.text}`)}}
           </li>
         </ul>
@@ -81,6 +81,10 @@ export default {
       }
       return 0;
     },
+    jump(menu) {
+      if (menu.disabled) return;
+      this.$router.push({ path: menu.url });
+    }
   }
 };
 </script>
@@ -136,6 +140,13 @@ export default {
           &.selected {
             color: var(--aside-selected-text-color);
             background: var(--asdie-selected-background) !important;
+          }
+          &.disabled {
+            color: var(--aside-disabled-color);
+            cursor: not-allowed;
+            &:hover {
+              background: none;
+            }
           }
           &:hover {
             background: var(--aside-hover-background-color);

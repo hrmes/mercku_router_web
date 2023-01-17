@@ -328,6 +328,15 @@ export default function getMenu(role, mode = RouterMode.router) {
         menu.disabled = true;
       }
     });
+
+    // 根据最后生成的菜单，去设置父级菜单的url值指向哪一个子级菜单
+    item.children.length &&
+      item.children.some(menu => {
+        if (!menu.disabled) {
+          item.url = menu.url;
+          return true;
+        }
+      });
   });
 
   console.log([dashboard, setting, advance, upgrade, theme]);

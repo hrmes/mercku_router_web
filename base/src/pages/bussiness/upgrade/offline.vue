@@ -31,7 +31,7 @@
                     :beforeUpload="beforeUpload"
                     :request="upload"
                     :packageInfo="packageInfo"
-                    :label="$t('trans0042')"
+                    :label="$t('trans0339')"
                     :accept="accept" />
         </div>
         <div class="nodes-wrapper"
@@ -439,7 +439,7 @@ export default {
     overflow: hidden;
     flex-wrap: wrap;
     .node {
-      width: 340px;
+      width: 360px;
       height: 136px;
       border: 1px solid #dbdbdb;
       border-radius: 5px;
@@ -468,10 +468,9 @@ export default {
         .img-container {
           margin: 0 5px;
           img {
-            width: 80px;
+            width: 120px;
           }
         }
-
         .info-container {
           flex-direction: column;
           align-items: flex-start;
