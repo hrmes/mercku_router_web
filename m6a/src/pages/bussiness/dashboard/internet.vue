@@ -1,8 +1,8 @@
 <template>
   <div class="router-info">
-    <div class="layout-left-wrap">
-      <div class="speed__wrap section"
-           v-if="isRouter">
+    <div class="layout-left-wrap"
+         v-if="isRouter">
+      <div class="speed__wrap section">
         <div class="section__inner">
           <div class="section__body section__body--row">
             <div class="realtime__speed speed">
@@ -597,8 +597,9 @@ export default {
 .router-info {
   background: var(--internet-background-color) !important;
   display: flex;
+  justify-content: center;
   .layout-left-wrap {
-    width: 70%;
+    flex: 1;
     margin-right: 10px;
     transition: all 0.3s ease-in-out;
     .section {
@@ -612,7 +613,7 @@ export default {
   .layout-right-wrap {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    width: 30%;
     transition: all 0.3s ease-in-out;
     .section {
       height: auto;

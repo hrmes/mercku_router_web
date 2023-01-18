@@ -81,7 +81,7 @@ export default {
       return !visible;
     },
     menus() {
-      return getMenu(this.$store.state.role, 'bridge');
+      return getMenu(this.$store.state.role, this.$store.state.mode);
     }
   },
   methods: {
