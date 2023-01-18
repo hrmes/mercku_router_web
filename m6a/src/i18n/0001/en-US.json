@@ -920,7 +920,7 @@
   "trans0925": "The current router time zone is inconsistent with the system time zone. Do you want to set the router time zone to be consistent with the system?",
   "trans0926": "Not now",
   "trans0927": "Drop files here",
-  "trans0928": "Drag and drop files to upload",
+  "trans0928": "Drag a file here \nor browse a file to upload",
   "trans0929": "We couldn't update your settings",
   "trans0930": "Please check to make sure you entered the right values and try again.",
   "trans0931": "Lease Range",

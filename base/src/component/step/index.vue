@@ -84,7 +84,7 @@ export default {
     height: 2px;
     background: var(--step-line-color);
     position: absolute;
-    width: 100%;
+    width: 99%;
     top: 50%;
     transform: translateY(-50%);
     z-index: 0;

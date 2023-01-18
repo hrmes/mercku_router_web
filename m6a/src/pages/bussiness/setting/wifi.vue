@@ -37,7 +37,7 @@
                 :model="form"
                 :rules="rules">
           <div class="form-header">
-            <span class="form-header__title">{{ $t('trans0677') }}</span>
+            <span class="form-header__title">{{ form.smart_connect?'Wi-Fi':$t('trans0677') }}</span>
           </div>
           <m-form-item key="b24gssid"
                        class="item"
@@ -450,18 +450,21 @@ export default {
                 }
               };
               console.log('wifi', wifi);
-              this.$http.meshWifiUpdate(wifi).then(() => {
-                this.$loading.close();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  },
-                  timeout: 60
+              this.$http.meshWifiUpdate(wifi)
+                .then(() => {
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/dashboard' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    },
+                    timeout: 60
+                  });
+                })
+                .finally(() => {
+                  this.$loading.close();
                 });
-              });
             }
           }
         });
@@ -562,7 +565,7 @@ export default {
 .form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   &:first-child {
     margin-right: 40px;
   }

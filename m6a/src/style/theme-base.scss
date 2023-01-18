@@ -70,6 +70,7 @@
   --dialog-box-shadow-color: rgba(0, 0, 0, 0.1);
   --dialog-title-color: #333;
   --dialog-content-color: #333;
+  --dialog-content-bgc: #fff;
 
   // select and editableSelect
   --select-label-color: #808080;
@@ -217,7 +218,7 @@
   --upgrade-text-color: #fff;
 
   // upload
-  --upload-button-disabled-color: #fff;
+  --upload-button-disabled-color: rgba(214, 0, 28, 0.3);
   --upload-file-text-color: #999;
   --upload-file-description-color: #333;
   --upload-background-color: #f1f1f1;
@@ -342,8 +343,9 @@
   // dialog
   --dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
   --dialog-box-shadow-color: rgba(0, 0, 0, 0.1);
-  --dialog-title-color: #333;
-  --dialog-content-color: #333;
+  --dialog-title-color: #fff;
+  --dialog-content-color: rgba(255, 255, 255, 0.8);
+  --dialog-content-bgc: #4d4d4d;
 
   // select and editableSelect
   --select-label-color: rgba(255, 255, 255, 0.6);
@@ -501,7 +503,7 @@
   --upgrade-text-color: #fff;
 
   // upload
-  --upload-button-disabled-color: rgba(255, 255, 255, 0.4);
+  --upload-button-disabled-color: rgba(223, 32, 57, 0.3);
   --upload-file-text-color: rgba(255, 255, 255, 0.6);
   --upload-file-description-color: #fff;
   --upload-background-color: #1a1a1a;

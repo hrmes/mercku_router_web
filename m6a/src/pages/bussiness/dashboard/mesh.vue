@@ -76,9 +76,9 @@
               <div class="router"
                    :class="{'expand':router.expand}"
                    v-for="router in routers"
-                   :key="router.sn"
-                   @click="router.expand = !router.expand">
-                <div class="name">
+                   :key="router.sn">
+                <div class="name"
+                     @click="router.expand = !router.expand">
                   <div class="icon">
                     <img :src="router.image"
                          alt>

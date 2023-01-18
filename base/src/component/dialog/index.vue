@@ -99,7 +99,7 @@ export default {
   align-items: center;
   .dialog-content {
     text-align: center;
-    background: #fff;
+    background: var(--dialog-content-bgc);
     padding: 20px 20px 30px 20px;
     border-radius: 5px;
     box-shadow: 0 2px 12px 0 var(--dialog-box-shadow-color);

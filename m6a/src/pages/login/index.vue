@@ -298,14 +298,13 @@ export default {
       display: flex;
       flex-direction: column;
       width: 100%;
-      background: #f1f1f1;
       text-align: left;
       padding: 20px;
       border-radius: 4px;
       margin-top: 30px;
       align-items: center;
       justify-content: space-between;
-      background-color: var(--grey-background-color);
+      background: var(--grey-background-color);
       .top-wrap {
         display: flex;
         align-items: center;

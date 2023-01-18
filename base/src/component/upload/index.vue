@@ -266,8 +266,11 @@ export default {
     }
     .upload__text {
       font-size: 12px;
-      color: #999;
+      color: var(--upload-file-text-color);
       text-align: center;
+      white-space: pre-line;
+      padding: 0;
+      margin-top: 0;
     }
     .fileinput-button {
       width: auto;
@@ -275,8 +278,8 @@ export default {
       min-width: 80px;
       cursor: pointer;
       &[disabled] {
-        border-color: var(--upload-button-disabled-color);
-        color: var(--upload-button-disabled-color);
+        // border-color: var(--upload-button-disabled-color);
+        color: var(--button-disabled-text-color);
         cursor: not-allowed;
         label {
           cursor: not-allowed;

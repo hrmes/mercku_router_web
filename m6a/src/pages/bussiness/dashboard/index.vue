@@ -659,6 +659,7 @@ ul {
               align-items: center;
               font-size: 12px;
               min-width: 30px;
+              margin-top: 5px;
               .band {
                 padding: 0 6px;
                 margin-right: 5px;
@@ -672,12 +673,12 @@ ul {
             }
             .current-icon {
               width: 15px;
-              height: 14px;
+              height: 15px;
               margin-right: 5px;
+              margin-top: 1px;
               > img {
                 width: 100%;
                 height: 100%;
-                // filter: var(--img-brightness);
               }
             }
           }
@@ -1230,9 +1231,13 @@ ul {
               background: var(--dashboard-wifi-background-color);
               margin-top: 15px;
               padding: 10px;
+              .name {
+                > span {
+                  max-width: 90%;
+                }
+              }
               .info-wrap {
-                // margin-left: 20px;
-                display: inline-block;
+                display: block;
                 .info {
                   justify-content: flex-start;
                   margin-left: 20px;
@@ -1361,11 +1366,6 @@ ul {
             .devices-num {
               font-size: 12px;
             }
-            .current-device-info-container {
-              .name {
-                max-width: 27%;
-              }
-            }
           }
           &.mesh-container {
             .wifi-list {
@@ -1392,11 +1392,6 @@ ul {
                     margin-left: 0;
                     font-size: 18px;
                   }
-                  .speed-unit {
-                    // font-size: ;
-                  }
-                }
-                &.upload-wrap {
                 }
               }
             }
