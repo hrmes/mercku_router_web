@@ -48,7 +48,8 @@
           <div class="devices-num">
             <span>{{deviceCount}}</span>
           </div>
-          <div class="current-device-info-container">
+          <div class="current-device-info-container"
+               :class="{'empty':!localDeviceInfo.online_info.band}">
             <div v-if="deviceLoading"
                  class="loading-container">
               <m-loading :id="'deviceLoading'"
@@ -72,7 +73,6 @@
                      class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                 </div>
               </div>
-
             </div>
           </div>
         </li>
@@ -100,7 +100,7 @@
               <ul v-else>
                 <li class="wifi">
                   <span class="wifi__dot"></span>
-                  <span class="wifi__band">{{meshInfo.smartConnect?'Wi-Fi:':$t('trans0677')}}</span>
+                  <span class="wifi__band">{{meshInfo.smartConnect?'Wi-Fi':$t('trans0677')}}:</span>
                   <span class="wifi__name"
                         :title="meshInfo.b24gWifi.ssid">{{meshInfo.b24gWifi.ssid}}</span>
                 </li>
@@ -140,7 +140,8 @@
             <h3 class="main-text">{{$t('trans0366')}}</h3>
             <h6 class="sub-text internet-type">{{networkTypeArr[netInfo.type]}}</h6>
           </div>
-          <div class="speed-container">
+          <div v-if="isRouter"
+               class="speed-container">
             <div class="speed-info upload-wrap">
               <div class="speed-icon-wrap">
                 <img src="../../../assets/images/icon/ic_upload.webp"
@@ -166,6 +167,10 @@
                 <div class="speed-unit">{{realtimeSpeedDown.unit}}/s</div>
               </div>
             </div>
+          </div>
+          <div v-else
+               class="bridge-mode-tip">
+            {{$t('trans0984')}}
           </div>
         </li>
       </ul>
@@ -218,7 +223,7 @@ export default {
       wanNetStatsTimer: null,
       tipsModalVisible: false,
       localDeviceInfo: {
-        name: '',
+        name: this.$t('trans0278'),
         online_info: {
           band: '',
           online_duration: ''
@@ -287,11 +292,11 @@ export default {
     },
   },
   mounted() {
-    this.getLocalDeviceInfo();
     this.getMeshInfo();
     this.getWanNetInfo();
     this.createIntercvalTask();
     this.getWanStatus();
+    this.getLocalDeviceInfo();
   },
   watch: {
     '$store.mode': function watcher() {
@@ -375,6 +380,7 @@ export default {
         .then(res1 => {
           const { data: { result: meshNodeList } } = res1;
           const { 0: gatewayInfo } = meshNodeList.filter(item => item.is_gw);
+          console.log(gatewayInfo.name);
           this.meshInfo.gatewayName = gatewayInfo.name;
         });
       this.$http.getMeshMeta()
@@ -439,14 +445,19 @@ export default {
       this.$http.getLocalDevice()
         .then(res1 => {
           const { data: { result: selfInfo } } = res1;
+          console.log('selfInfo', selfInfo);
           this.localDeviceIP = selfInfo.ip;
           const params = { filters: [{ type: 'primary', status: ['online'] }] };
           this.$http.getDeviceList(params)
             .then(res2 => {
               const { data: { result: deviceList } } = res2;
-              const { 0: localDeviceInfo } = deviceList.filter(item => item.ip === selfInfo.ip);
-              console.log('localDeviceInfo', deviceList.filter(item => item.ip === selfInfo.ip));
-              this.localDeviceInfo = localDeviceInfo;
+              console.log(deviceList);
+              const localDeviceInfoArr = deviceList.filter(item => item.ip === selfInfo.ip);
+              console.log(localDeviceInfoArr);
+              if (localDeviceInfoArr.length) {
+                // eslint-disable-next-line prefer-destructuring
+                this.localDeviceInfo = localDeviceInfoArr[0];
+              }
             })
             .finally(() => {
               this.deviceLoading = false;
@@ -578,6 +589,14 @@ ul {
   flex-direction: column;
   flex: auto;
   position: relative;
+  .bridge-mode-tip {
+    width: 90%;
+    padding: 30px;
+    margin: 55px auto 0;
+    color: var(--bridge-tips-color);
+    background: var(--dashboard-wifi-background-color);
+    border-radius: 10px;
+  }
   .mobile-net-info {
     display: none;
   }
@@ -681,6 +700,13 @@ ul {
                 height: 100%;
               }
             }
+            &.empty {
+              .info-wrap {
+                .name {
+                  color: var(--dashboard-gery-color);
+                }
+              }
+            }
           }
         }
         &.mesh-container {
@@ -689,7 +715,6 @@ ul {
             justify-content: center;
             align-items: center;
             height: 30%;
-
             .wifi-list {
               padding: 10px;
               border-radius: 5px;
@@ -928,11 +953,14 @@ ul {
     }
   }
   .jump-app-info {
-    position: absolute;
-    bottom: 0;
+    // position: absolute;
+    // bottom: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    align-self: flex-end;
+    margin-top: calc(9%);
+    margin-right: calc(2%);
     width: 200px;
     padding: 10px 10px 10px 20px;
     border-radius: 10px;
@@ -965,8 +993,8 @@ ul {
       .laptop-net-info__inner {
         padding: 0 220px;
         > .functional-module {
-          width: 360px;
-          height: 430px;
+          width: 26%;
+          height: 45vh;
           &.device-container {
             .current-device-info-container {
               .name {
@@ -978,7 +1006,7 @@ ul {
           }
           &.mesh-container {
             .wifi-list {
-              width: 320px;
+              width: 87%;
               .wifi {
                 .wifi__name {
                   max-width: 70%;
@@ -986,15 +1014,15 @@ ul {
               }
             }
             .add-btn {
-              width: 320px;
+              width: 87%;
             }
           }
         }
       }
     }
-    .jump-app-info {
-      right: 35px;
-    }
+    // .jump-app-info {
+    //   right: 35px;
+    // }
   }
 }
 // 匹配小于1440px
@@ -1004,8 +1032,8 @@ ul {
       .laptop-net-info__inner {
         padding: 0 110px;
         > .functional-module {
-          width: 320px;
-          height: 382px;
+          width: 26%;
+          height: 45vh;
           > .icon-container {
             img {
               width: 50px;
@@ -1023,7 +1051,7 @@ ul {
           }
           &.mesh-container {
             .wifi-list {
-              width: 280px;
+              width: 87%;
               .wifi {
                 .wifi__name {
                   max-width: 63%;
@@ -1031,23 +1059,24 @@ ul {
               }
             }
             .add-btn {
-              width: 280px;
+              width: 87%;
             }
           }
         }
       }
     }
-    .jump-app-info {
-      right: 20px;
-    }
+    // .jump-app-info {
+    //   right: 20px;
+    // }
   }
 }
 @media screen and (max-width: 768px) {
   .dashboard {
-    // .router-view {
-    //   margin-top: 0;
-    //   padding: 0 20px;
-    // }
+    .bridge-mode-tip {
+      width: 100%;
+      margin-top: 15px;
+      text-align: center;
+    }
     .mobile-net-info {
       display: block;
       height: 150px;
@@ -1231,17 +1260,21 @@ ul {
               background: var(--dashboard-wifi-background-color);
               margin-top: 15px;
               padding: 10px;
-              .name {
-                > span {
-                  max-width: 90%;
-                }
-              }
               .info-wrap {
                 display: block;
+                .name {
+                  > span {
+                    max-width: 90%;
+                  }
+                }
                 .info {
                   justify-content: flex-start;
                   margin-left: 20px;
                 }
+              }
+              &.empty {
+                height: 60px;
+                text-align: center;
               }
             }
           }
@@ -1332,6 +1365,9 @@ ul {
 }
 @media screen and (max-width: 374px) {
   .dashboard {
+    .bridge-mode-tip {
+      padding: 20px;
+    }
     .mobile-net-info {
       .mobile-net-info__inner {
         .icon-container {
@@ -1370,6 +1406,9 @@ ul {
           &.mesh-container {
             .wifi-list {
               .wifi {
+                .wifi__band {
+                  font-size: 12px;
+                }
                 .wifi__name {
                   max-width: 48%;
                 }

@@ -161,6 +161,7 @@ export default {
       outline: none;
       border: none;
       padding: 0;
+      color: var(--text-default-color);
       background: transparent;
       cursor: pointer;
     }

@@ -427,7 +427,7 @@ export default {
       }
     }
   }
-  border-top: 1px solid #f1f1f1;
+  border-top: 1px solid var(--hr-color);
   margin-top: 30px;
   text-align: center;
   display: flex;
@@ -441,7 +441,7 @@ export default {
     .node {
       width: 360px;
       height: 136px;
-      border: 1px solid #dbdbdb;
+      border: 1px solid var(--tag-node-border-color);
       border-radius: 5px;
       margin-right: 20px;
       margin-bottom: 30px;

@@ -392,7 +392,7 @@ export default {
     width: 200px;
   }
   p {
-    color: #333333;
+    color: var(--text-default-color);
     font-size: 16px;
   }
 }

@@ -824,7 +824,7 @@ export default {
       }
       .table__column--guest {
         span {
-          width: 50px;
+          width: 75px;
           text-align: center;
           padding: 3px 0;
           border-radius: 3px;
@@ -835,6 +835,7 @@ export default {
         img {
           margin-left: 20px;
           width: 35px;
+          filter: var(--img-brightness);
         }
         .laptop-show {
           display: inline-block;

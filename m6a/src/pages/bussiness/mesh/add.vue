@@ -357,8 +357,8 @@ export default {
       this.$router.push({ path: '/dashboard/mesh/topo' });
     },
     retry() {
+      this.showChooseType = true;
       this.stepsOption.current = 0;
-
       this.pageStatus = '';
     },
     addMeshNode() {
@@ -545,7 +545,7 @@ export default {
       display: inline-block;
       width: 5px;
       height: 5px;
-      background-color: #333333;
+      background-color: var(--text-default-color);
       border-radius: 50%;
       margin-right: 10px;
     }

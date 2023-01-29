@@ -4,7 +4,7 @@
         'is-login-nav':isLoginPage,
         'is-not-login-nav':!isLoginPage,}">
     <span class="copy">{{ copyright }}</span>
-    <span class="policy-text btn-text"
+    <span class="policy-text"
           @click.stop="showPolicy()">
       {{$t('trans0139')}}
     </span>
@@ -89,7 +89,12 @@ export default {
     user-select: none;
   }
   .policy-text {
+    text-decoration: underline;
     margin-left: 5px;
+    cursor: pointer;
+    &:hover {
+      color: var(--text-default-color);
+    }
   }
 }
 @media screen and (max-width: 768px) {

@@ -182,6 +182,7 @@ export default {
       box-sizing: border-box;
       -webkit-appearance: none;
       background: transparent;
+      color: var(--text-default-color);
       &.margin {
         padding-left: 0px;
       }

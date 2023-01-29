@@ -108,7 +108,7 @@ export default {
 
 <style lang="scss">
 * {
-  font-family: 'NotoSansCJKsc', 'PingFang SC ';
+  font-family: 'NotoSansCJKsc', 'PingFang SC';
 }
 .srcollbar-wrap {
   height: 100%;
@@ -155,7 +155,7 @@ export default {
   .policy {
     width: 100%;
     text-align: center;
-    color: var(--text-default-color);
+    color: var(--text-gery-color);
     &.fix-bottom {
       background: var(--primaryBackgroundColor);
     }

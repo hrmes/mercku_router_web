@@ -1,10 +1,10 @@
 <template>
   <div class="router-info">
-    <div class="layout-left-wrap"
-         v-if="isRouter">
+    <div class="layout-left-wrap">
       <div class="speed__wrap section">
         <div class="section__inner">
-          <div class="section__body section__body--row">
+          <div v-if="isRouter"
+               class="section__body section__body--row">
             <div class="realtime__speed speed">
               <div class="speed__item">
                 <div class="speed__item__wrap">
@@ -33,7 +33,7 @@
                 </div>
               </div>
             </div>
-            <div class="peak__speed speed">
+            <!-- <div class="peak__speed speed">
               <div class="speed__item">
                 <div class="speed__item__wrap">
                   <span>
@@ -58,7 +58,7 @@
                   <label class="speed__title">{{$t('trans0306')}}</label>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="traffic speed">
               <div class="speed__item">
                 <div class="speed__item__wrap">
@@ -94,6 +94,12 @@
                 {{$t('trans0008')}}
               </button>
             </div>
+          </div>
+          <div v-else
+               class="section__body section__body--bridge">
+            <img src="../../../assets/images/img-bridge.webp"
+                 alt="">
+            <p>{{$t('trans0984')}}</p>
           </div>
         </div>
       </div>
@@ -617,6 +623,7 @@ export default {
     transition: all 0.3s ease-in-out;
     .section {
       height: auto;
+      background: var(--internet-section-background-color);
       &:first-child {
         margin-bottom: 10px;
       }
@@ -672,6 +679,16 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+      &.section__body--bridge {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        > img {
+          width: 200px;
+          height: 200px;
+        }
       }
     }
   }
