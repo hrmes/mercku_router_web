@@ -551,7 +551,7 @@ export default {
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
-            }, 10000);
+            }, 20000);
           }
         })
         .catch(() => {
@@ -559,7 +559,7 @@ export default {
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
-            }, 10000);
+            }, 20000);
           }
         });
     }

@@ -161,7 +161,7 @@ export default {
         .catch(() => {
           this.checkFrimwareTimer = setTimeout(() => {
             this.checkFrimwareLatest();
-          }, 1000 * 3);
+          }, 2000 * 3);
         });
     },
     showTips() {
@@ -206,7 +206,7 @@ export default {
           if (this.pageActive) {
             this.deviceCountTimer = setTimeout(() => {
               this.getDeviceCount();
-            }, 10000);
+            }, 20000);
           }
         });
     },
@@ -226,7 +226,7 @@ export default {
             clearTimeout(timer);
             this.netStatus = CONSTANTS.WanNetStatus.unlinked;
           });
-      }, 1000);
+      }, 2000);
     }
   },
   beforeDestroy() {
