@@ -184,7 +184,7 @@ export default {
     z-index: 1000;
     box-shadow: 0 2px 8px var(--time-picker-combox-shadow-color);
     background-clip: padding-box;
-    border-radius: 5px;
+    border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s;
     .select-wrap {
@@ -200,7 +200,7 @@ export default {
         cursor: pointer;
         outline: none;
         &:hover {
-          opacity: 0.6;
+          opacity: 0.7;
         }
         &:first-child {
           color: var(--time-picker-button-cancel-color);
@@ -240,11 +240,10 @@ export default {
         text-align: center;
         height: 36px;
         line-height: 36px;
-        color: var(--text-gery-color);
+        color: var(--time-picker-li-color);
         cursor: pointer;
         &:hover {
           background: var(--time-picker-popup-item-hover-background-color);
-          color: var(--text-gery-color);
         }
         &:active {
           background: var(--time-picker-popup-item-active-background-color);
@@ -273,6 +272,9 @@ export default {
       height: 30px;
       width: 0;
       background: var(--time-picker-input-background-color);
+      &::-webkit-input-placeholder {
+        color: var(--input-placehoder-color);
+      }
     }
     .icon-inner {
       display: inline-block;

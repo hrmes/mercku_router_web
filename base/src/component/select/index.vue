@@ -164,6 +164,9 @@ export default {
       color: var(--text-default-color);
       background: transparent;
       cursor: pointer;
+      &::-webkit-input-placeholder {
+        color: var(--input-placehoder-color);
+      }
     }
   }
   label {

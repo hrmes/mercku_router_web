@@ -141,6 +141,7 @@
   --input-border-color: #b3b3b3;
   --input-disabled-background-color: #f1f1f1;
   --input-disabled-opacity: 0.8;
+  --input-placehoder-color: #bdbdbd;
 
   // modal
   --modal-mask-background-color: rgba(0, 0, 0, 0.7);
@@ -190,14 +191,15 @@
   --tab-selected-text-color: var(--primaryColor);
 
   // timepicker
+  --time-picker-li-color: #000;
   --time-picker-pannel-border-color: #b3b3b3;
   --time-picker-combox-background-color: #fff;
   --time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
-  --time-picker-buttons-border-color: #f1f1f1;
+  --time-picker-buttons-border-color: #ebebeb;
   --time-picker-button-background-color: #fff;
   --time-picker-button-cancel-color: #333;
   --time-picker-button-confirm-color: var(--primaryColor);
-  --time-picker-popup-border-color: #f1f1f1;
+  --time-picker-popup-border-color: #ebebeb;
   --time-picker-popup-scrollbar-color: #e6e6e6;
   --time-picker-popup-item-hover-color: #333;
   --time-picker-popup-item-hover-background-color: #f1f1f1;
@@ -425,6 +427,7 @@
   --input-border-color: #b3b3b3;
   --input-disabled-background-color: rgba(255, 255, 255, 0.2);
   --input-disabled-opacity: 0.8;
+  --input-placehoder-color: rgba(255, 255, 255, 0.6);
 
   // modal
   --modal-mask-background-color: rgba(0, 0, 0, 0.8);
@@ -440,7 +443,7 @@
   // progress
   --progress-shadow-background-color: #000;
   --progress-shadow-opacity: 0.8;
-  --progress-background-color: #fff;
+  --progress-background-color: #4d4d4d;
   --progress-bar-color: #fff;
   --progress-bar-background-color: #00d061;
 
@@ -479,17 +482,18 @@
   --tab-selected-text-color: var(--primaryColor);
 
   // timepicker
+  --time-picker-li-color: #fff;
   --time-picker-pannel-border-color: #b3b3b3;
-  --time-picker-combox-background-color: #666;
+  --time-picker-combox-background-color: #4d4d4d;
   --time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
-  --time-picker-buttons-border-color: #f1f1f1;
-  --time-picker-button-background-color: #666;
+  --time-picker-buttons-border-color: rgba(255, 255, 255, 0.2);
+  --time-picker-button-background-color: #4d4d4d;
   --time-picker-button-cancel-color: var(--text-default-color);
   --time-picker-button-confirm-color: var(--primaryColor);
-  --time-picker-popup-border-color: #f1f1f1;
+  --time-picker-popup-border-color: rgba(255, 255, 255, 0.2);
   --time-picker-popup-scrollbar-color: #888888;
   --time-picker-popup-item-hover-color: #333;
-  --time-picker-popup-item-hover-background-color: #888;
+  --time-picker-popup-item-hover-background-color: rgba(255, 255, 255, 0.15);
   --time-picker-popup-item-active-color: #333;
   --time-picker-popup-item-active-background-color: #f1f1f1;
   --time-picker-popup-item-selected-color: var(--primaryColor);

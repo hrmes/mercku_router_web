@@ -183,6 +183,9 @@ export default {
       -webkit-appearance: none;
       background: transparent;
       color: var(--text-default-color);
+      &::-webkit-input-placeholder {
+        color: var(--input-placehoder-color);
+      }
       &.margin {
         padding-left: 0px;
       }

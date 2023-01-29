@@ -198,7 +198,7 @@ export default {
         text-align: left;
         margin-bottom: 5px;
         font-weight: bold;
-        color: #333;
+        color: var(--text-default-color);
         font-size: 14px;
       }
       .form-item {

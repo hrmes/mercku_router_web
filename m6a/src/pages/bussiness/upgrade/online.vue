@@ -40,7 +40,7 @@
                 <div class="badges">
                   <m-tag class="gateway"
                          v-if="node.isGW">{{$t('trans0165')}}</m-tag>
-                  <m-tag>{{ node.version.latest }}</m-tag>
+                  <m-tag><span :title="$t('trans0210')">{{ node.version.latest }}</span></m-tag>
                 </div>
                 <p class="changelog"
                    @click.stop="showChangelog(node)">
@@ -185,6 +185,7 @@ export default {
 
           const filter = node => {
             const { current, latest } = node.version;
+            console.log('compare', current, latest);
             return compareVersion(current, latest);
           };
           let containGW = false;
@@ -252,7 +253,7 @@ export default {
           }
         }
       });
-    }
+    },
   }
 };
 </script>

@@ -255,7 +255,7 @@ export default {
   .modal-content {
     width: 330px;
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: var(--modal-content-background);
     .item {
       display: flex;
       align-items: center;
