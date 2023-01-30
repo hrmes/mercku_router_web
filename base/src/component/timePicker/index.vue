@@ -272,6 +272,7 @@ export default {
       height: 30px;
       width: 0;
       background: var(--time-picker-input-background-color);
+      color: var(--text-default-color);
       &::-webkit-input-placeholder {
         color: var(--input-placehoder-color);
       }

@@ -490,8 +490,8 @@ export default {
     checkTheme() {
       const theme = localStorage.getItem('theme');
       if (!theme || theme === undefined) {
-        localStorage.setItem('theme', 'auto');
-        this.$store.state.theme = 'auto';
+        localStorage.setItem('theme', 'light');
+        this.$store.state.theme = 'light';
         this.themeOptions.auto.ischecked = true;
       } else {
         this.$store.state.theme = theme;

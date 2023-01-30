@@ -83,11 +83,10 @@
           </div>
         </div>
         <div class="tip tip-setting">{{tipsText}}</div>
-
         <div class="info-container wifi">
           <div class="form-header"
                v-if="wifiForm.smart_connect">
-            <span class="form-header__title">{{$t('trans0168')}}</span>
+            <span class="form-header__title">{{$t('trans0168')}}:</span>
           </div>
           <div class="info">
             <div class="info__row">
@@ -401,6 +400,7 @@ export default {
           .info__value {
             font-size: 14px;
             font-weight: 600;
+            white-space: pre;
           }
         }
         .form-header {

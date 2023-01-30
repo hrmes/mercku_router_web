@@ -102,6 +102,7 @@
                   <span class="wifi__dot"></span>
                   <span class="wifi__band">{{meshInfo.smartConnect?'Wi-Fi':$t('trans0677')}}:</span>
                   <span class="wifi__name"
+                        @click.stop="stopPropagation"
                         :title="meshInfo.b24gWifi.ssid">{{meshInfo.b24gWifi.ssid}}</span>
                 </li>
                 <li v-if="!meshInfo.smartConnect"
@@ -544,7 +545,7 @@ export default {
     jumpApp() {
       if (!this.$store.state.isMobile) return;
       window.open(process.env.CUSTOMER_CONFIG.appDownloadUrl);
-    }
+    },
   },
   beforeDestroy() {
     // clean up
@@ -589,14 +590,6 @@ ul {
   flex-direction: column;
   flex: auto;
   position: relative;
-  .bridge-mode-tip {
-    width: 90%;
-    padding: 30px;
-    margin: 55px auto 0;
-    color: var(--bridge-tips-color);
-    background: var(--dashboard-wifi-background-color);
-    border-radius: 10px;
-  }
   .mobile-net-info {
     display: none;
   }
@@ -611,6 +604,10 @@ ul {
       > .functional-module {
         display: flex;
         flex-direction: column;
+        width: 26%;
+        height: 45vh;
+        max-height: 430px;
+        min-height: 325px;
         background-color: var(--dashboard-icon-background-color);
         border-radius: 20px;
         box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.1);
@@ -662,6 +659,7 @@ ul {
               justify-content: center;
               align-items: center;
               color: var(--text-default-color);
+              padding: 0 20px;
             }
             .name {
               display: flex;
@@ -731,13 +729,15 @@ ul {
                   margin-right: 5px;
                 }
                 .wifi__band {
+                  width: fit-content;
                   margin-right: 5px;
                   font-weight: 550;
                 }
                 .wifi__name {
+                  flex: 1;
                   overflow: hidden;
                   text-overflow: ellipsis;
-                  white-space: nowrap;
+                  white-space: pre;
                   text-align: left;
                 }
               }
@@ -805,7 +805,6 @@ ul {
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              padding: 30px;
               .speed-icon-wrap {
                 width: 30px;
                 height: 30px;
@@ -833,6 +832,15 @@ ul {
                 }
               }
             }
+          }
+          .bridge-mode-tip {
+            width: 90%;
+            font-size: 18px;
+            padding: 30px;
+            margin: 45px auto 0;
+            color: var(--bridge-tips-color);
+            background: var(--dashboard-wifi-background-color);
+            border-radius: 10px;
           }
         }
         &::before {
@@ -959,7 +967,7 @@ ul {
     justify-content: space-between;
     align-items: center;
     align-self: flex-end;
-    margin-top: calc(9%);
+    margin-top: calc(7%);
     margin-right: calc(2%);
     width: 200px;
     padding: 10px 10px 10px 20px;
@@ -993,8 +1001,6 @@ ul {
       .laptop-net-info__inner {
         padding: 0 220px;
         > .functional-module {
-          width: 26%;
-          height: 45vh;
           &.device-container {
             .current-device-info-container {
               .name {
@@ -1007,11 +1013,6 @@ ul {
           &.mesh-container {
             .wifi-list {
               width: 87%;
-              .wifi {
-                .wifi__name {
-                  max-width: 70%;
-                }
-              }
             }
             .add-btn {
               width: 87%;
@@ -1032,12 +1033,12 @@ ul {
       .laptop-net-info__inner {
         padding: 0 110px;
         > .functional-module {
-          width: 26%;
-          height: 45vh;
           > .icon-container {
+            height: 25%;
             img {
               width: 50px;
               height: 50px;
+              bottom: 0;
             }
           }
           &.device-container {
@@ -1052,11 +1053,6 @@ ul {
           &.mesh-container {
             .wifi-list {
               width: 87%;
-              .wifi {
-                .wifi__name {
-                  max-width: 63%;
-                }
-              }
             }
             .add-btn {
               width: 87%;
@@ -1070,13 +1066,74 @@ ul {
     // }
   }
 }
+@media screen and(max-width:960px) {
+  .dashboard {
+    font-size: 12px;
+    .laptop-net-info {
+      .laptop-net-info__inner {
+        > .functional-module {
+          height: 50vh;
+          > .icon-container {
+            > img {
+              width: 40px;
+              height: 40px;
+            }
+          }
+          > .text-container {
+            padding: 10px 0;
+          }
+          &.device-container {
+            .devices-num {
+              font-size: 30px;
+            }
+            .current-device-info-container {
+              .name {
+                width: 90%;
+                font-size: 12px;
+              }
+              &.empty {
+                .name {
+                  width: 100%;
+                }
+              }
+            }
+          }
+          &.mesh-container {
+            .text-container {
+              height: fit-content;
+              padding-bottom: 10px;
+            }
+            .wifi-container {
+              height: 20%;
+            }
+            .add-node-container {
+              margin-top: 10px;
+            }
+          }
+          &.internet-container {
+            .speed-container {
+              .speed-info {
+                padding: 0;
+                .speed-wrap {
+                  .speed-num {
+                    font-size: 20px;
+                  }
+                }
+              }
+            }
+            .bridge-mode-tip {
+              font-size: 16px;
+              padding: 15px;
+              margin: 25px auto 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 768px) {
   .dashboard {
-    .bridge-mode-tip {
-      width: 100%;
-      margin-top: 15px;
-      text-align: center;
-    }
     .mobile-net-info {
       display: block;
       height: 150px;
@@ -1218,6 +1275,8 @@ ul {
         > .functional-module {
           width: 100%;
           height: auto;
+          max-height: auto;
+          min-height: auto;
           display: block;
           margin-bottom: 20px;
           padding: 15px 20px;
@@ -1282,14 +1341,10 @@ ul {
             .wifi-list {
               width: 100%;
               margin: 15px 0;
-              .wifi {
-                .wifi__name {
-                  max-width: 65%;
-                }
-              }
             }
             .add-btn {
               width: 100%;
+              height: 48px;
             }
           }
           &.internet-container {
@@ -1321,6 +1376,11 @@ ul {
               .line-wrap {
                 display: none;
               }
+            }
+            .bridge-mode-tip {
+              width: 100%;
+              margin-top: 15px;
+              text-align: center;
             }
           }
           &::before {
@@ -1367,6 +1427,7 @@ ul {
   .dashboard {
     .bridge-mode-tip {
       padding: 20px;
+      font-size: 14px;
     }
     .mobile-net-info {
       .mobile-net-info__inner {
@@ -1408,9 +1469,6 @@ ul {
               .wifi {
                 .wifi__band {
                   font-size: 12px;
-                }
-                .wifi__name {
-                  max-width: 48%;
                 }
               }
             }

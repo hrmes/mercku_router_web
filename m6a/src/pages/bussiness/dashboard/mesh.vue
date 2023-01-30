@@ -323,7 +323,6 @@ export default {
       routerSelected: null,
       showModal: false,
       form: { newName: '' },
-      mesh24g: false,
       rules: {
         newName: [
           {
@@ -383,7 +382,6 @@ export default {
     });
     this.initChart();
     this.createIntervalTask();
-    this.getMeshBand();
 
     // 获取当前设备信息
     try {
@@ -424,7 +422,7 @@ export default {
         } else {
           this.isDarkMode = false;
         }
-        this.getMeshNode();
+        this.drawTopo(this.routers);
       },
       immediate: true
     }
@@ -462,11 +460,6 @@ export default {
     },
     closeRssiModal() {
       this.rssiModalVisible = false;
-    },
-    getMeshBand() {
-      this.$http.getMeshBand().then(res => {
-        this.mesh24g = res.data.result['2.4G'];
-      });
     },
     isRouterOffline(router) {
       return router.status === RouterStatus.offline;
@@ -582,7 +575,7 @@ export default {
     drawTopo(routers) {
       const oldRouters = this.routers;
       const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
-      this.routers = routers;
+      // this.routers = routers;
       const data = genData(routers);
       data.nodes.forEach(n => {
         this.routers.forEach(r => {
@@ -665,7 +658,8 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
-          this.drawTopo(res.data.result);
+          this.routers = res.data.result;
+          this.drawTopo(this.routers);
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();

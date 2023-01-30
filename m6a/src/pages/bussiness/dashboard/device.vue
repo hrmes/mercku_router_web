@@ -946,9 +946,6 @@ export default {
           display: none;
         }
         width: 160px;
-        &.offline {
-          // color: ;
-        }
       }
       .column-mac {
         display: none;
@@ -965,13 +962,13 @@ export default {
         }
       }
       .column-real-time {
-        width: 150px;
+        width: 170px;
         .label {
           display: none;
         }
       }
       .column-band {
-        width: 170px;
+        width: 150px;
         .label {
           display: none;
         }
@@ -1041,7 +1038,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: pre;
-            max-width: 240px;
+            max-width: 225px;
             flex-shrink: 0;
             font-weight: 550;
           }
@@ -1174,18 +1171,18 @@ export default {
     .device-wrapper {
       .table-inner {
         .column-name {
-          width: 285px;
+          width: 275px;
         }
         .name-inner {
           a {
             span {
-              max-width: 180px;
+              max-width: 170px;
             }
           }
           &.off-name {
             a {
               span {
-                max-width: 180px;
+                max-width: 170px;
               }
             }
           }
