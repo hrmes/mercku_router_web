@@ -444,7 +444,7 @@ export default {
         this.uptime = this.routerMeta.uptime || 0;
         this.uptimeTimer = setInterval(() => {
           this.uptime += 1;
-        }, 1000);
+        }, 2000);
       });
     },
     closeSpeedModal() {
@@ -509,14 +509,14 @@ export default {
             this.traffic = res.data.result;
             this.wanNetStatsTimer = setTimeout(() => {
               this.getWanNetStats();
-            }, 10000);
+            }, 20000);
           }
         })
         .catch(() => {
           if (this.pageActive) {
             this.wanNetStatsTimer = setTimeout(() => {
               this.getWanNetStats();
-            }, 10000);
+            }, 20000);
           }
         });
     },

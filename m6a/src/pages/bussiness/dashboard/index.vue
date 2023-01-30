@@ -195,14 +195,14 @@ export default {
           if (this.pageActive) {
             this.deviceCountTimer = setTimeout(() => {
               this.getDeviceCount();
-            }, 10000);
+            }, 20000);
           }
         })
         .catch(() => {
           if (this.pageActive) {
             this.deviceCountTimer = setTimeout(() => {
               this.getDeviceCount();
-            }, 10000);
+            }, 20000);
           }
         });
     },
