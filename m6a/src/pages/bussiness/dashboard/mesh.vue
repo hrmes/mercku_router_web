@@ -262,6 +262,7 @@ require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 export default {
+  props: ['nodesInfo'],
   data() {
     return {
       rssiModalVisible: false,
@@ -275,7 +276,6 @@ export default {
       routerSelected: null,
       showModal: false,
       form: { newName: '' },
-      mesh24g: false,
       rules: {
         newName: [
           {
@@ -323,8 +323,8 @@ export default {
   },
   async mounted() {
     this.initChart();
-    this.getMeshBand();
-    this.createIntervalTask();
+    // this.$emit('updateNodesInfo');
+    // this.createIntervalTask();
     // 获取当前设备信息
     try {
       const selfInfo = await this.$http.getLocalDevice();
@@ -348,6 +348,16 @@ export default {
         result = true;
       }
       return result;
+    }
+  },
+  watch: {
+    nodesInfo: {
+      handler(nv) {
+        if (this.pageActive) {
+          this.drawTopo(nv);
+        }
+      },
+      deep: true,
     }
   },
   methods: {
@@ -384,11 +394,6 @@ export default {
     closeRssiModal() {
       this.rssiModalVisible = false;
     },
-    getMeshBand() {
-      this.$http.getMeshBand().then(res => {
-        this.mesh24g = res.data.result['2.4G'];
-      });
-    },
     isRouterOffline(router) {
       return router.status === RouterStatus.offline;
     },
@@ -414,11 +419,11 @@ export default {
             router.name = name;
             this.$loading.close();
             this.showModal = false;
-            this.createIntervalTask();
+            this.getMeshNode();
           })
           .catch(() => {
             this.$loading.close();
-            this.createIntervalTask();
+            this.getMeshNode();
           });
       }
     },
@@ -502,7 +507,6 @@ export default {
     },
     drawTopo(routers) {
       const oldRouters = this.routers;
-
       const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       this.routers = routers;
       const data = genData(routers);
@@ -580,6 +584,27 @@ export default {
       clearTimeout(this.meshNodeTimer);
       this.meshNodeTimer = null;
     },
+    // getMeshNode() {
+    //   clearTimeout(this.meshNodeTimer);
+    //   this.meshNodeTimer = null;
+    //   this.$http
+    //     .getMeshNode()
+    //     .then(res => {
+    //       this.drawTopo(res.data.result);
+    //       if (this.pageActive) {
+    //         this.meshNodeTimer = setTimeout(() => {
+    //           this.getMeshNode();
+    //         }, 20000);
+    //       }
+    //     })
+    //     .catch(() => {
+    //       if (this.pageActive) {
+    //         this.meshNodeTimer = setTimeout(() => {
+    //           this.getMeshNode();
+    //         }, 20000);
+    //       }
+    //     });
+    // }
     getMeshNode() {
       clearTimeout(this.meshNodeTimer);
       this.meshNodeTimer = null;
@@ -587,11 +612,6 @@ export default {
         .getMeshNode()
         .then(res => {
           this.drawTopo(res.data.result);
-          if (this.pageActive) {
-            this.meshNodeTimer = setTimeout(() => {
-              this.getMeshNode();
-            }, 20000);
-          }
         })
         .catch(() => {
           if (this.pageActive) {

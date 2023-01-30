@@ -48,7 +48,16 @@
         </div>
       </div>
     </div>
-    <router-view class="router-view"></router-view>
+
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"
+                   class="router-view"
+                   :nodesInfo="nodesInfo"
+                   @updateNodesInfo="getDeviceCount"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"
+                 class="router-view"></router-view>
+
     <m-modal :visible.sync="tipsModalVisible">
       <m-modal-body>
         <div class="tip-modal">
@@ -83,6 +92,7 @@ export default {
       ssid: '',
       deviceCount: 0,
       deviceCountTimer: null,
+      nodesInfo: {},
       tipsModalVisible: false
     };
   },
@@ -112,6 +122,7 @@ export default {
     this.getWanStatus();
     this.getSsid();
     this.createIntercvalTask();
+    console.log('keepalive', this.$route.meta.keepAlive);
   },
   watch: {
     '$store.mode': function watcher() {
@@ -184,14 +195,15 @@ export default {
       clearTimeout(this.deviceCountTimer);
       this.deviceCountTimer = null;
       this.$http
-        .getDeviceCount({
-          filters: [
-            { type: 'primary', status: ['online'] },
-            { type: 'guest', status: ['online'] }
-          ]
-        })
+        .getMeshNode()
         .then(res => {
-          this.deviceCount = res.data.result.count;
+          let deviceCountArr = [];
+          this.nodesInfo = res.data.result;
+          res.data.result.map(node => {
+            deviceCountArr = deviceCountArr.concat(node.stations);
+            return deviceCountArr;
+          });
+          this.deviceCount = deviceCountArr.length;
           if (this.pageActive) {
             this.deviceCountTimer = setTimeout(() => {
               this.getDeviceCount();

@@ -97,6 +97,7 @@ const routes = {
         {
           path: '/dashboard/mesh/:category',
           name: 'mesh',
+          meta: { keepAlive: true },
           component: mesh
         },
         {
