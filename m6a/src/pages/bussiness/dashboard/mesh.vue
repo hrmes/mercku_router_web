@@ -32,19 +32,19 @@
                  @click.stop="showRssiModal"></i>
             </p>
             <div class="legend">
-              <div class="legend-item">{{$t('trans0193')}}</div>
-              <div class="legend-item">{{$t('trans0196')}}</div>
+              <div class="legend-item">{{$t('trans1047')}}</div>
+              <div class="legend-item">{{$t('trans1048')}}</div>
               <div class="legend-item">{{$t('trans0214')}}</div>
-              <div class="legend-tx_power">
-                <span>{{$t('trans1102')}}:</span>
-                <m-loading :id="'txpowerLoading'"
-                           :size='18'
-                           :color="'#29b96c'"
-                           class="value loading"
-                           v-if="!tx_power"></m-loading>
-                <span v-else
-                      class="value text">{{txPowerMap[tx_power]}}</span>
-              </div>
+            </div>
+            <div class="legend-tx_power">
+              <span>{{$t('trans1102')}}:</span>
+              <m-loading v-if="!tx_power"
+                         :id="'txpowerLoading'"
+                         :size='18'
+                         :color="'#29b96c'"
+                         class="value loading"></m-loading>
+              <span v-else
+                    class="value text">{{txPowerMap[tx_power]}}</span>
             </div>
           </div>
           <div class="switch-wrap">
@@ -326,12 +326,12 @@ export default {
       rules: {
         newName: [
           {
-            rule: value => !/^\s*$/.test(value.trim()),
+            rule: value => !/^\s*$/.test(value),
             message: this.$t('trans0237')
           },
           {
             rule: value => {
-              const length = getStringByte(value.trim());
+              const length = getStringByte(value);
               if (length < 1 || length > 20) {
                 return false;
               }
@@ -480,7 +480,7 @@ export default {
         this.$http
           .updateMeshNode({
             node_id: router.sn,
-            data: { name: name.trim() }
+            data: { name }
           })
           .then(() => {
             router.name = name;
@@ -861,6 +861,9 @@ export default {
     flex-direction: column;
     .select-container {
       width: 100%;
+      .select-text {
+        white-space: pre;
+      }
     }
     .btn-inner {
       display: flex;
@@ -1134,19 +1137,27 @@ export default {
                 }
               }
             }
-            .legend-tx_power {
-              .value {
-                width: 20px;
-                text-align: right;
-                &.text {
-                  margin-left: 3px;
-                  margin-right: -3px;
-                  width: fit-content;
-                }
-                &.loading {
-                  margin-left: 5px;
-                  margin-right: -6px;
-                }
+          }
+          .legend-tx_power {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 12px;
+            margin-top: 10px;
+            .value {
+              width: 20px;
+              text-align: right;
+              &.text {
+                width: 18px;
+                height: 18px;
+                // margin-left: 3px;
+                margin-right: -3px;
+              }
+              &.loading {
+                width: 18px;
+                height: 18px;
+                margin-left: 5px;
+                margin-right: -6px;
               }
             }
           }
@@ -1300,7 +1311,6 @@ export default {
               .text {
                 font-size: 14px;
                 margin-right: 10px;
-                white-space: pre;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: pre;
@@ -1413,6 +1423,9 @@ export default {
                   margin-left: 0;
                 }
               }
+            }
+            .legend-tx_power {
+              justify-content: flex-start;
             }
           }
           .switch-wrap {

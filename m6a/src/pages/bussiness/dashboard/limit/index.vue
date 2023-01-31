@@ -87,7 +87,7 @@ export default {
       return this.$store.state.isMobile;
     },
     litmitType() {
-      return this.$route.meta.text;
+      return this.$t(this.$route.meta.text);
     },
     deviceName() {
       return sessionStorage.getItem('deviceName');

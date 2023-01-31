@@ -87,7 +87,8 @@
           </div>
           <div class="text-container">
             <h3 class="main-text">{{$t('trans0153')}}</h3>
-            <h6 class="sub-text router-type">{{meshInfo.gatewayName?meshInfo.gatewayName:'-'}}</h6>
+            <h6 class="sub-text router-type"
+                :title="meshInfo.gatewayName">{{meshInfo.gatewayName?meshInfo.gatewayName:'-'}}</h6>
           </div>
           <div class="wifi-container">
             <div class="wifi-list">
@@ -632,6 +633,11 @@ ul {
           height: 20%;
           padding: 20px 0;
           .sub-text {
+            width: 90%;
+            margin: 0 auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre;
             color: var(--dashboard-gery-color);
           }
         }
@@ -668,7 +674,8 @@ ul {
               > span {
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                white-space: pre;
+                height: 22px;
               }
             }
             .info {
@@ -1315,12 +1322,13 @@ ul {
               font-size: 16px;
             }
             .current-device-info-container {
-              height: 70px;
+              height: 60px;
               background: var(--dashboard-wifi-background-color);
               margin-top: 15px;
               padding: 10px;
               .info-wrap {
                 display: block;
+                padding: 0;
                 .name {
                   > span {
                     max-width: 90%;
@@ -1338,13 +1346,29 @@ ul {
             }
           }
           &.mesh-container {
+            .text-container {
+              display: flex;
+              align-items: center;
+              padding: 0;
+              .sub-text {
+                display: inline-block;
+                width: 70%;
+                margin: 0;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: pre;
+              }
+            }
             .wifi-list {
               width: 100%;
               margin: 15px 0;
             }
-            .add-btn {
-              width: 100%;
-              height: 48px;
+            .add-node-container {
+              margin-top: 0;
+              .add-btn {
+                width: 100%;
+                height: 48px;
+              }
             }
           }
           &.internet-container {

@@ -78,7 +78,7 @@
               <button @click="forward2step(1)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
               <button @click="checkAddNodeType"
-                      class="btn">{{$t('trans0055')}}</button>
+                      class="btn">{{this.addNodeType===AddNodeType.wired?$t('trans0018'):$t('trans0055')}}</button>
             </div>
           </div>
         </div>
@@ -102,7 +102,7 @@
           </div>
           <div class="button-container">
             <button @click="updateResultVisiable"
-                    class="btn btn-large">{{$t('trans0055')}}</button>
+                    class="btn btn-large">{{$t('trans0018')}}</button>
           </div>
         </div>
         <div class="result-container__fail"
@@ -186,7 +186,7 @@
         <p class="tips__text">{{$t('trans0175')}}</p>
         <div class="button-container">
           <button class="btn btn-large"
-                  @click="backMesh">{{$t('trans0018')}}</button>
+                  @click="backMesh">{{$t('trans0211')}}</button>
         </div>
       </div>
     </div>

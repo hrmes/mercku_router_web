@@ -149,7 +149,7 @@
               <div class="checkbox">
                 <m-checkbox v-model="device.checked"></m-checkbox>
               </div>
-              <div>{{ device.name }}</div>
+              <div class="name-container">{{ device.name }}</div>
             </div>
             <div class="mac">{{ formatMac(device.mac) }}</div>
             <!-- <div class="operate">
@@ -394,6 +394,7 @@ export default {
         flex: 1;
         justify-content: flex-start;
         margin-left: 20px;
+        overflow: hidden;
         // padding-bottom: 20px;
         p {
           line-height: 1;
@@ -405,6 +406,10 @@ export default {
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 7px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre;
           }
           &:nth-child(2) {
             color: var(--text-gery-color);
@@ -438,17 +443,19 @@ export default {
     flex: 1;
   }
   .name {
-    min-width: 25%;
-    max-width: 50%;
-    margin-right: 10px;
     display: flex;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    width: 30%;
+    margin-right: 20px;
     .checkbox {
       display: flex;
       align-items: center;
       margin-right: 22px;
+    }
+    .name-container {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: pre;
     }
   }
   .empty-device {
@@ -537,6 +544,9 @@ export default {
     .operate,
     .mac {
       margin-top: 10px;
+    }
+    .name {
+      width: 90%;
     }
     .operate {
       text-align: right;

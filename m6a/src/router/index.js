@@ -156,7 +156,7 @@ const routes = {
           name: 'device-limit-time',
           component: timeLimit,
           meta: {
-            text: 'Time Limit',
+            text: 'trans0075',
             parentPath: '/dashboard/device/primary'
           }
         },
@@ -165,7 +165,7 @@ const routes = {
           name: 'device-limit-speed',
           component: speedLimit,
           meta: {
-            text: 'Rate Limit',
+            text: 'trans0014',
             parentPath: '/dashboard/device/primary'
           }
         },
@@ -174,7 +174,7 @@ const routes = {
           name: 'device-limit-url',
           component: urlLimit,
           meta: {
-            text: 'Website Blocklist',
+            text: 'trans0076',
 
             parentPath: '/dashboard/device/primary'
           }

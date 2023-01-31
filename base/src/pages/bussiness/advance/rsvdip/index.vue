@@ -283,7 +283,7 @@ export default {
     .name {
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      white-space: pre;
       width: 140px;
     }
   }
@@ -481,13 +481,16 @@ export default {
         .column-name {
           position: relative;
           width: 100%;
-          padding: 10px 65px 10px 10px;
+          padding: 10px 35px 10px 10px;
           color: var(--text-default-color);
           .column-check {
             width: auto;
             display: flex;
             align-items: center;
             margin-right: 12px;
+          }
+          .name {
+            flex: 1;
           }
           &::after {
             content: '\e65b';

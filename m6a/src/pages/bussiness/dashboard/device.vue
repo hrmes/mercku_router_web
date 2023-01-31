@@ -356,11 +356,11 @@ export default {
       rules: {
         name: [
           {
-            rule: value => !value.trim().match(/^\s*$/),
+            rule: value => !value.match(/^\s*$/),
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
+            rule: value => getStringByte(value) <= 20,
             message: this.$t('trans0261')
           }
         ]
@@ -612,7 +612,6 @@ export default {
     },
     updateDeviceName() {
       if (this.$refs.form.validate()) {
-        this.form.name = this.form.name.trim();
         const params = {
           device: {
             name: this.form.name,
@@ -956,7 +955,7 @@ export default {
       }
       .device-item {
         .overflow-hidden {
-          white-space: nowrap;
+          white-space: pre;
           overflow: hidden;
           text-overflow: ellipsis;
         }
@@ -1549,12 +1548,12 @@ export default {
     }
   }
 }
-@media screen and (max-width: 374px) {
+@media screen and (max-width: 280px) {
   .device-container {
     .device-wrapper {
       .tab {
         .iconfont {
-          display: none;
+          display: block;
         }
       }
     }

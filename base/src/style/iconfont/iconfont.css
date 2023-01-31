@@ -1,7 +1,6 @@
 @font-face {
   font-family: 'iconfont'; /* Project id 3783383 */
-  src: url('iconfont.woff2?t=1672122233721') format('woff2'),
-    url('iconfont.woff?t=1672122233721') format('woff');
+  src: url('iconfont.ttf?t=1675153417392') format('truetype');
 }
 
 .iconfont {
@@ -10,6 +9,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-img_bridge:before {
+  content: '\e6a5';
 }
 
 .icon-img_default_empty:before {
