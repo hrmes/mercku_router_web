@@ -99,14 +99,16 @@
                            :size="20"></m-loading>
               </div>
               <ul v-else>
-                <li class="wifi">
-                  <span class="wifi__dot"></span>
+                <li class="wifi"
+                    @click.stop="$router.push('/setting/wifi')">
+                  <span class="
+                    wifi__dot"></span>
                   <span class="wifi__band">{{meshInfo.smartConnect?'Wi-Fi':$t('trans0677')}}:</span>
                   <span class="wifi__name"
-                        @click.stop="stopPropagation"
                         :title="meshInfo.b24gWifi.ssid">{{meshInfo.b24gWifi.ssid}}</span>
                 </li>
                 <li v-if="!meshInfo.smartConnect"
+                    @click.stop="$router.push('/setting/wifi')"
                     class="wifi">
                   <span class="wifi__dot"></span>
                   <span class="wifi__band">{{$t('trans0679')}}:</span>
@@ -633,7 +635,7 @@ ul {
           height: 20%;
           padding: 20px 0;
           .sub-text {
-            width: 90%;
+            width: 87%;
             margin: 0 auto;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -669,9 +671,23 @@ ul {
             }
             .name {
               display: flex;
+              justify-content: center;
+              width: 100%;
+              overflow: hidden;
               font-size: 16px;
               font-weight: 500;
+              .current-icon {
+                width: 15px;
+                height: 15px;
+                margin-right: 5px;
+                margin-top: 1px;
+                > img {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
               > span {
+                max-width: calc(100% - 20px);
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: pre;
@@ -695,16 +711,6 @@ ul {
                 color: var(--dashboard-gery-color);
               }
             }
-            .current-icon {
-              width: 15px;
-              height: 15px;
-              margin-right: 5px;
-              margin-top: 1px;
-              > img {
-                width: 100%;
-                height: 100%;
-              }
-            }
             &.empty {
               .info-wrap {
                 .name {
@@ -721,6 +727,8 @@ ul {
             align-items: center;
             height: 30%;
             .wifi-list {
+              width: 87%;
+
               padding: 10px;
               border-radius: 5px;
               background-color: var(--dashboard-wifi-background-color);
@@ -752,6 +760,7 @@ ul {
           }
           .add-node-container {
             .add-btn {
+              width: 87%;
               > span {
                 position: relative;
                 &::before {
@@ -1007,30 +1016,8 @@ ul {
     .laptop-net-info {
       .laptop-net-info__inner {
         padding: 0 220px;
-        > .functional-module {
-          &.device-container {
-            .current-device-info-container {
-              .name {
-                > span {
-                  max-width: 280px;
-                }
-              }
-            }
-          }
-          &.mesh-container {
-            .wifi-list {
-              width: 87%;
-            }
-            .add-btn {
-              width: 87%;
-            }
-          }
-        }
       }
     }
-    // .jump-app-info {
-    //   right: 35px;
-    // }
   }
 }
 // 匹配小于1440px
@@ -1048,29 +1035,9 @@ ul {
               bottom: 0;
             }
           }
-          &.device-container {
-            .current-device-info-container {
-              .name {
-                > span {
-                  max-width: 250px;
-                }
-              }
-            }
-          }
-          &.mesh-container {
-            .wifi-list {
-              width: 87%;
-            }
-            .add-btn {
-              width: 87%;
-            }
-          }
         }
       }
     }
-    // .jump-app-info {
-    //   right: 20px;
-    // }
   }
 }
 @media screen and(max-width:960px) {
@@ -1330,6 +1297,7 @@ ul {
                 display: block;
                 padding: 0;
                 .name {
+                  justify-content: flex-start;
                   > span {
                     max-width: 90%;
                   }
@@ -1360,7 +1328,7 @@ ul {
               }
             }
             .wifi-list {
-              width: 100%;
+              width: 100% !important;
               margin: 15px 0;
             }
             .add-node-container {

@@ -151,7 +151,13 @@
     <m-modal class="theme-change-modal"
              :visible.sync='ThemechangeVisiable'>
       <m-modal-header>
-        <div class="theme-change-header">{{$t('trans1119')}}</div>
+        <div class="theme-change-header">
+          <span>{{$t('trans1119')}}</span>
+          <div class="theme-change-header__close-btn"
+               @click.stop="() => (ThemechangeVisiable = false)">
+            <i class="iconfont icon-ic_close"></i>
+          </div>
+        </div>
       </m-modal-header>
       <m-modal-body>
         <div class="theme-change-body">
@@ -283,6 +289,7 @@ export default {
         dark: { ischecked: false },
         auto: { ischecked: true },
       },
+      selectedTheme: 'light',
       isDarkMode: false
     };
   },
@@ -489,10 +496,11 @@ export default {
     },
     checkTheme() {
       const theme = localStorage.getItem('theme');
+      console.log(theme, !theme);
       if (!theme || theme === undefined) {
         localStorage.setItem('theme', 'light');
         this.$store.state.theme = 'light';
-        this.themeOptions.auto.ischecked = true;
+        this.themeOptions.light.ischecked = true;
       } else {
         this.$store.state.theme = theme;
         Object.keys(this.themeOptions).forEach((key) => {
@@ -523,6 +531,31 @@ export default {
 </script>
 <style lang="scss" scoped>
 .theme-change-modal {
+  .theme-change-header {
+    position: relative;
+    .theme-change-header__close-btn {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--button-close-background-color);
+      cursor: pointer;
+      .iconfont {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+        &::before {
+          transform: scale(0.5);
+        }
+      }
+    }
+  }
+
   .theme-change-body {
     display: flex;
     .theme-option {

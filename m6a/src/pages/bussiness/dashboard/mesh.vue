@@ -1148,9 +1148,9 @@ export default {
               width: 20px;
               text-align: right;
               &.text {
-                width: 18px;
+                width: fit-content;
                 height: 18px;
-                // margin-left: 3px;
+                margin-left: 3px;
                 margin-right: -3px;
               }
               &.loading {

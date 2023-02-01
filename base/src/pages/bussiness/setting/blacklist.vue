@@ -361,15 +361,20 @@ export default {
         top: 50%;
         right: 0;
         transform: translateY(-50%);
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        line-height: 28px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         background: var(--button-close-background-color);
         cursor: pointer;
         .iconfont {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           font-size: 12px;
+          &::before {
+            transform: scale(0.5);
+          }
         }
       }
     }

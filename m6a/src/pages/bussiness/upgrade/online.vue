@@ -28,7 +28,8 @@
                      alt="" />
               </div>
               <div class="info-container">
-                <p class="node-name">{{ node.name }}</p>
+                <p class="node-name"
+                   :title="node.name">{{ node.name }}</p>
                 <p class="node-sn">
                   <label class="with-colon">{{ $t('trans0252') }}:</label>
                   <span>{{ node.sn }}</span>
@@ -318,6 +319,7 @@ export default {
           align-content: start;
           justify-content: center;
           flex: 1;
+          overflow: hidden;
           // padding-top: 38px;
           // padding-bottom: 10px;
 
@@ -330,6 +332,10 @@ export default {
             font-size: 14px;
             font-weight: bold;
             word-break: break-all;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre;
           }
           .node-sn {
             padding: 0;

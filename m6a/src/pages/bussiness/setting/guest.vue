@@ -205,7 +205,7 @@ export default {
   computed: {
     ssid_5g() {
       this.form.ssid = this.form.ssid;
-      return `${this.form.ssid}-5G`;
+      return `${this.form.ssid}_5G`;
     },
     hasStatus() {
       return this.setupAndStart;
@@ -424,9 +424,7 @@ export default {
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
-              console.log(this.$refs.form);
-              console.log(this.formParams);
-              // this.updateGuestWIFIStatus(true);
+              this.updateGuestWIFIStatus(true);
             }
           }
         });
@@ -461,7 +459,7 @@ export default {
   }
   .status {
     .title {
-      width: 160px;
+      width: 140px;
     }
   }
   .ssid {
@@ -517,6 +515,8 @@ export default {
     display: flex;
     margin-bottom: 20px;
     p {
+      display: flex;
+      width: inherit;
       margin: 0;
       padding: 0;
       &:nth-child(2) {
@@ -527,6 +527,11 @@ export default {
         display: inline-block;
         width: 40px;
         text-align: left;
+      }
+      .value {
+        flex: 1;
+        white-space: pre;
+        // height: 18px;
       }
     }
   }
@@ -566,6 +571,18 @@ export default {
         display: flex;
         .btn {
           width: 50%;
+        }
+      }
+    }
+    .setting-ssid-info {
+      > div {
+        width: 100%;
+        overflow: hidden;
+        p {
+          .value {
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
     }

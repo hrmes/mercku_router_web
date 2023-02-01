@@ -477,10 +477,13 @@ export default {
           align-content: flex-start;
           justify-content: center;
           flex: 1;
+          overflow: hidden;
+
           .node-name {
-            // width: 100%;
-            // overflow: hidden;
-            // text-overflow: ellipsis;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre;
             word-break: break-all;
             padding: 0;
             margin: 0;
