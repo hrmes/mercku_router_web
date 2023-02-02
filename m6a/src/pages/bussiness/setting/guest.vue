@@ -64,11 +64,13 @@
                class="ssid">
             <div>
               <label class="ssid-label with-colon">{{$t('trans0255')}}:</label>
-              <span class="ssid-name">{{form.ssid}}</span>
+              <span class="ssid-name"
+                    :title="form.ssid">{{form.ssid}}</span>
             </div>
             <div>
               <label class="ssid-label with-colon">{{$t('trans0256')}}:</label>
-              <span class="ssid-name">{{ssid_5g}}</span>
+              <span class="ssid-name"
+                    :title="ssid_5g">{{ssid_5g}}</span>
             </div>
           </div>
           <div class="form-button"
@@ -465,7 +467,9 @@ export default {
   .ssid {
     overflow: hidden;
     > div {
+      display: flex;
       width: 340px;
+      overflow: hidden;
       padding: 10px 20px;
       background-color: var(--table-row-background-color);
       &:first-child {
@@ -483,6 +487,9 @@ export default {
         color: var(--text-gery-color);
       }
       .ssid-name {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: pre;
       }
     }
@@ -572,6 +579,11 @@ export default {
         .btn {
           width: 50%;
         }
+      }
+    }
+    .ssid {
+      > div {
+        width: inherit;
       }
     }
     .setting-ssid-info {

@@ -43,7 +43,7 @@
                                   v-model="item.checked"></m-checkbox>
                     </div>
                     <div class="des">
-                      <p>{{item.name}}</p>
+                      <p :title="item.name">{{item.name}}</p>
                       <p>
                         <label
                                class="with-colon">{{$t('trans0188')}}:</label>{{formatMac(item.mac)}}
@@ -309,7 +309,7 @@ export default {
               margin: 0 30px;
             }
             .list {
-              overflow: auto;
+              overflow: hidden;
               max-height: 400px;
             }
             .device-item {
@@ -325,6 +325,7 @@ export default {
                 justify-content: flex-start;
                 margin-left: 20px;
                 padding-bottom: 20px;
+                overflow: hidden;
                 p {
                   color: var(--text-default-color);
                   line-height: 1;
@@ -333,6 +334,10 @@ export default {
                   margin-bottom: 10px;
                   text-align: left;
                   &:first-child {
+                    width: 100%;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: pre;
                     font-size: 14px;
                     font-weight: bold;
                   }
