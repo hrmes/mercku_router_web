@@ -326,12 +326,12 @@ export default {
                 this.upgraded = true;
                 this.$upgrade({
                   onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
+                    this.$router.push({ path: '/unconnect' });
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 300,
+                  timeout: 60,
                   progressVisible: true
                 });
               })
