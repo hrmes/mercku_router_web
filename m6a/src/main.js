@@ -107,7 +107,7 @@ const launch = () => {
             upgradeHelper(res.data);
           });
         },
-        timeout: 600
+        timeout: 60
       },
       ...options
     };
