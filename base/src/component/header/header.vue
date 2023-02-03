@@ -31,10 +31,10 @@
             v-for="menu in list"
             :class="{'selected':menu.selected}">
           <div class="nav-item-content"
-               @click.stop="jump(menu)">
+               @click.stop="jump(menu)"
+               :data-title="$t(menu.text)">
             <i class="el-menu-item__icon iconfont"
                :class="menu.selected? menu.selectedIcon : menu.icon"></i>
-            <span class="el-menu-item__icon__popover">{{$t(menu.text)}}</span>
           </div>
         </li>
         <li class="nav-item nav-item__exit"
@@ -664,29 +664,9 @@ export default {
         .nav-item-content {
           display: flex;
           position: relative;
-          &:hover {
-            .el-menu-item__icon__popover {
-              display: inline-block;
-            }
-          }
           .iconfont {
             font-size: 24px;
             color: var(--header-nav-iconfont-color);
-          }
-          .el-menu-item__icon__popover {
-            display: none;
-            position: absolute;
-            bottom: -90%;
-            left: 70%;
-            width: fit-content;
-            height: 30px;
-            padding: 5px 15px 5px;
-            color: #ffffff;
-            background: var(--table-action-popover-bgc);
-            border-radius: 5px;
-            white-space: nowrap;
-            box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
-            cursor: default;
           }
           .nav-item__text {
             height: 100%;

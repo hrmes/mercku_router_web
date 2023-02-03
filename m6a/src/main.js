@@ -106,6 +106,8 @@ const launch = () => {
           http.getHomePage().then(res => {
             upgradeHelper(res.data);
           });
+          upgrading = false;
+          upgradeComponent.close();
         },
         timeout: 60
       },
@@ -113,8 +115,6 @@ const launch = () => {
     };
     reconnect({
       onsuccess: () => {
-        upgrading = false;
-        upgradeComponent.close();
         opt.onsuccess();
       },
       ontimeout: () => {
