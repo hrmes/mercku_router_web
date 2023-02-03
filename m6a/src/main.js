@@ -101,10 +101,8 @@ const launch = () => {
       ...{
         onsuccess: () => {
           http.getHomePage().then(res => {
-            upgradeHelper(res.data);
+            upgradeHelper(res.data, upgrade, upgradeComponent);
           });
-          upgrading = false;
-          upgradeComponent.close();
         },
         ontimeout: () => {},
         onprogress: () => {},
