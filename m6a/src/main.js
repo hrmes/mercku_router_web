@@ -99,13 +99,14 @@ const launch = () => {
     });
     const opt = {
       ...{
-        onsuccess: () => {},
-        ontimeout: () => {},
-        onprogress: () => {},
-        onfinally: () => {
+        onsuccess: () => {
           http.getHomePage().then(res => {
             upgradeHelper(res.data);
           });
+        },
+        ontimeout: () => {},
+        onprogress: () => {},
+        onfinally: () => {
           upgrading = false;
           upgradeComponent.close();
         },
@@ -114,9 +115,7 @@ const launch = () => {
       ...options
     };
     reconnect({
-      onsuccess: () => {
-        opt.onsuccess();
-      },
+      onsuccess: opt.onsuccess,
       ontimeout: () => {
         upgrading = false;
         upgradeComponent.close();

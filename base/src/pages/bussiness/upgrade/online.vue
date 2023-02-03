@@ -218,9 +218,6 @@ export default {
               .then(() => {
                 this.$loading.close();
                 this.$upgrade({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/login' });
-                  },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   }

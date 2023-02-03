@@ -992,7 +992,7 @@ ul {
     .text-container {
       color: var(--text-default-color);
       width: 85px;
-      height: 40px;
+      // height: 40px;
     }
     .icon {
       width: 70px;
