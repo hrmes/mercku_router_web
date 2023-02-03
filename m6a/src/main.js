@@ -109,7 +109,7 @@ const launch = () => {
           upgrading = false;
           upgradeComponent.close();
         },
-        timeout: 60
+        timeout: 600
       },
       ...options
     };
