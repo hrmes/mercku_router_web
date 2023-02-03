@@ -103,13 +103,12 @@ const launch = () => {
           http.getHomePage().then(res => {
             upgradeHelper(res.data);
           });
-        },
-        ontimeout: () => {},
-        onprogress: () => {},
-        onfinally: () => {
           upgrading = false;
           upgradeComponent.close();
         },
+        ontimeout: () => {},
+        onprogress: () => {},
+        onfinally: () => {},
         timeout: 600
       },
       ...options
@@ -121,7 +120,7 @@ const launch = () => {
         upgradeComponent.close();
         opt.ontimeout();
       },
-      onfinally: opt.onfinally,
+      onfinally: () => {},
       timeout: opt.timeout,
       showLoading: false
     });
