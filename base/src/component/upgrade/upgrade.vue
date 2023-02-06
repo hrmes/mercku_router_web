@@ -94,6 +94,7 @@ export default {
     text-align: center;
     color: var(--upgrade-text-color);
     position: absolute;
+    width: 740px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

@@ -1,4 +1,4 @@
-export default function upgradeHelper(indexHtml) {
+export default function upgradeHelper(indexHtml, isUpgrading, component) {
   const meta = document.querySelector('meta[name="x-web-version-hash"]');
   let oldHash = '';
   let newHash = '';
@@ -18,8 +18,10 @@ export default function upgradeHelper(indexHtml) {
       'the x-web-version-hash is not same, i think router has upgrade '
     );
     // document.write(indexHtml); document.write not works sometimes
-    window.location.reload(true); // true means force reload
+    window.location.pathname = '/web/login'; // true means force reload
   } else {
     console.log('the x-web-version-hash is same, i think router not upgrade');
+    isUpgrading = false;
+    component.close();
   }
 }

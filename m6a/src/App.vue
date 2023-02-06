@@ -110,6 +110,31 @@ export default {
 * {
   font-family: 'NotoSansCJKsc', 'PingFang SC';
 }
+[data-title]:hover:after {
+  opacity: 1;
+  visibility: visible;
+}
+[data-title]:after {
+  content: attr(data-title);
+  position: absolute;
+  bottom: -90%;
+  left: 70%;
+  width: fit-content;
+  height: fit-content;
+  padding: 5px 15px 5px;
+  color: #ffffff;
+  background: var(--table-action-popover-bgc);
+  border-radius: 5px;
+  white-space: pre;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+  cursor: default;
+  opacity: 0;
+  z-index: 99999;
+  visibility: hidden;
+}
+[data-title] {
+  position: relative;
+}
 .srcollbar-wrap {
   height: 100%;
   overflow: auto;

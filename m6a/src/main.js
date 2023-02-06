@@ -99,30 +99,26 @@ const launch = () => {
     });
     const opt = {
       ...{
-        onsuccess: () => {},
-        ontimeout: () => {},
-        onprogress: () => {},
-        onfinally: () => {
+        onsuccess: () => {
           http.getHomePage().then(res => {
-            upgradeHelper(res.data);
+            upgradeHelper(res.data, upgrade, upgradeComponent);
           });
         },
-        timeout: 60
+        ontimeout: () => {},
+        onprogress: () => {},
+        onfinally: () => {},
+        timeout: 600
       },
       ...options
     };
     reconnect({
-      onsuccess: () => {
-        upgrading = false;
-        upgradeComponent.close();
-        opt.onsuccess();
-      },
+      onsuccess: opt.onsuccess,
       ontimeout: () => {
         upgrading = false;
         upgradeComponent.close();
         opt.ontimeout();
       },
-      onfinally: opt.onfinally,
+      onfinally: () => {},
       timeout: opt.timeout,
       showLoading: false
     });
