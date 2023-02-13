@@ -145,23 +145,25 @@
         <m-form-item key="b24gchannelnumber"
                      class="form__item">
           <m-select :label="$t('trans0680')"
+                    :disabled="isAutoChannel"
                     v-model="form.channel.b24gChannel.number"
                     :options="channels.b24g"></m-select>
         </m-form-item>
         <m-form-item key="b5gchannelnumber"
                      class="form__item">
           <m-select :label="$t('trans0681')"
+                    :disabled="isAutoChannel"
                     v-model="form.channel.b5gChannel.number"
                     :options="channels.b5g"></m-select>
         </m-form-item>
-        <!-- <m-form-item key="autochannel"
+        <m-form-item key="autochannel"
                      class="form__item">
           <m-checkbox v-model="isAutoChannel"
                       :rect='false'
                       :text="$t('trans0781')"
                       :bold='true'
                       style="margin-right:10px" />
-        </m-form-item> -->
+        </m-form-item>
       </m-form>
       <!-- channel width -->
       <m-form class="form"
@@ -337,6 +339,7 @@ export default {
           text: this.$t('trans0572')
         }
       ],
+      isAutoChannel: false,
     };
   },
   mounted() {
@@ -403,10 +406,15 @@ export default {
                 ssid: this.form.b24g.ssid,
                 password: this.form.b24g.password,
                 encrypt: this.form.b24g.encrypt,
-                channel: {
-                  number: this.form.channel.b24gChannel.number,
-                  bandwidth: this.form.channel.b24gChannel.bandwidth
-                }
+                channel: this.isAutoChannel
+                  ? {
+                    mode: channelMode.auto,
+                    bandwidth: this.form.channel.b24gChannel.bandwidth
+                  }
+                  : {
+                    number: this.form.channel.b24gChannel.number,
+                    bandwidth: this.form.channel.b24gChannel.bandwidth
+                  }
               };
               const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
               const b5g = {
@@ -414,10 +422,15 @@ export default {
                 ssid: formBand.ssid,
                 password: formBand.password,
                 encrypt: formBand.encrypt,
-                channel: {
-                  number: this.form.channel.b5gChannel.number,
-                  bandwidth: this.form.channel.b5gChannel.bandwidth
-                }
+                channel: this.isAutoChannel
+                  ? {
+                    mode: channelMode.auto,
+                    bandwidth: this.form.channel.b5gChannel.bandwidth
+                  }
+                  : {
+                    number: this.form.channel.b5gChannel.number,
+                    bandwidth: this.form.channel.b5gChannel.bandwidth
+                  }
               };
               const wifi = {
                 smart_connect: this.form.smart_connect,
@@ -486,6 +499,9 @@ export default {
           this.form.channel.b24gChannel.bandwidth = b24g.channel.bandwidth;
           this.form.channel.b5gChannel.number = b5g.channel.number;
           this.form.channel.b5gChannel.bandwidth = b5g.channel.bandwidth;
+          if (b24g.channel.mode === channelMode.auto && b5g.channel.mode === channelMode.auto) {
+            this.isAutoChannel = true;
+          }
 
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
