@@ -19,8 +19,9 @@ export default function upgradeHelper(indexHtml, isUpgrading, component) {
     );
     // document.write(indexHtml); document.write not works sometimes
     window.location.pathname = '/web/login'; // true means force reload
-  } else {
-    console.log('the x-web-version-hash is same, i think router not upgrade');
+  }
+  console.log('the x-web-version-hash is same, i think router not upgrade');
+  if (isUpgrading && component) {
     isUpgrading = false;
     component.close();
   }
