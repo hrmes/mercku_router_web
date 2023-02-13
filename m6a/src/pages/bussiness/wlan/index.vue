@@ -132,7 +132,7 @@ export default {
         ]
       },
       current: 0,
-      countdown: 60,
+      countdown: 150,
       wifiForm: {
         smart_connect: true,
         ssid24g: '',

@@ -107,9 +107,6 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  font-family: 'NotoSansCJKsc', 'PingFang SC';
-}
 [data-title]:hover:after {
   opacity: 1;
   visibility: visible;
