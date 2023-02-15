@@ -1,10 +1,13 @@
 <template>
   <div class="mk-switch">
-    <label class="mk-switch__label"
-           v-if="label">{{ label }}</label>
     <div class="mk-switch__inner"
          :class="{ checked: checked, disabled: disabled }"
-         @click="switchValue"></div>
+         @click="switchValue">
+      <div class="mk-switch__circle"
+           :class="{ checked: checked, disabled: disabled }"></div>
+    </div>
+    <label class="mk-switch__label"
+           v-if="label">{{ label }}</label>
   </div>
 </template>
 <script>
@@ -50,39 +53,51 @@ export default {
   display: flex;
   align-items: center;
   .mk-switch__label {
-    margin-right: 20px;
     font-weight: bold;
   }
   .mk-switch__inner {
     cursor: pointer;
-    width: 46px;
-    height: 22px;
+    width: 40px;
+    height: 24px;
     position: relative;
-    background-color: $switch-background-color;
+    background-color: var(--switch-background-color);
     border-radius: 22px;
     background-clip: content-box;
     display: inline-block;
     -webkit-appearance: none;
     user-select: none;
     outline: none;
-    &::before {
-      content: '';
-      width: 16px;
-      height: 16px;
+    margin-right: 10px;
+    .mk-switch__circle {
       position: absolute;
-      top: 3px;
-      left: 3px;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      text-align: center;
+      line-height: 20px;
+      background-color: var(--switch-circle-color);
       border-radius: 16px;
-      background-color: $switch-circle-color;
       transition: left 0.3s;
+      &::before {
+        content: '\e667';
+        font-family: 'iconfont';
+        font-size: 12px;
+        font-weight: 600;
+        color: #bdbdbd;
+      }
     }
     &.checked {
-      border-color: $switch-chencked-color;
-      background-color: $switch-chencked-color;
+      border-color: var(--switch-chencked-color);
+      background-color: var(--switch-chencked-color);
       transition: border ease 0.4s, box-shadow ease 0.4s,
         background-color ease 1.2s;
-      &::before {
-        left: 26px;
+      & .mk-switch__circle {
+        left: 18px;
+        &::before {
+          content: '\e65c';
+          color: #0fc866;
+        }
       }
     }
     &.disabled {

@@ -89,8 +89,8 @@ export default {
     top: 0;
     left: 0;
     z-index: -1;
-    background: $progress-shadow-background-color;
-    opacity: $progress-shadow-opacity;
+    background: var(--progress-shadow-background-color);
+    opacity: var(--progress-shadow-opacity);
   }
 
   .progress-wrapper {
@@ -98,7 +98,7 @@ export default {
     z-index: 2001;
     .progress {
       height: 10px;
-      background: $progress-background-color;
+      background: var(--progress-background-color);
       border-radius: 50px;
     }
     .progress-bar {
@@ -110,9 +110,9 @@ export default {
       max-width: 100%;
       line-height: 20px;
       overflow: hidden;
-      color: $progress-bar-color;
+      color: var(--progress-bar-color);
       text-align: center;
-      background-color: $progress-bar-background-color;
+      background-color: var(--progress-bar-background-color);
       transition: width 1s ease;
     }
   }
@@ -120,7 +120,7 @@ export default {
     margin-top: 20px;
     font-size: 18px;
     text-align: center;
-    color: $progress-bar-color !important;
+    color: var(--progress-bar-color) !important;
   }
 }
 

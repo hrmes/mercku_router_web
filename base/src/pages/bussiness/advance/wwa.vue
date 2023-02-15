@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{$t('trans0511')}}
     </div>
     <div class="page-content">
@@ -20,6 +21,8 @@
         </m-form-item>
         <div class="form-item">
           <m-checkbox :text="$t('trans0462')"
+                      :rect="false"
+                      :bold="true"
                       v-model="wwa.enabled"></m-checkbox>
         </div>
       </m-form>
@@ -103,7 +106,11 @@ export default {
   .page-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    .form-button {
+      margin-top: 0;
+      padding-top: 25px;
+      border-top: 1px solid var(--hr-color);
+    }
   }
 }
 </style>

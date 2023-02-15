@@ -1,13 +1,14 @@
 <template>
   <div class="page backup">
-    <div class='page-header'>
+    <div v-if="$store.state.isMobile"
+         class='page-header'>
       {{$t('trans1010')}}
     </div>
     <div class="backup__content">
       <p class="backup__tips">{{$t('trans1011')}}</p>
       <p class="backup__tips">{{$t('trans1036')}}</p>
       <p class="backup__tips backup__tips--danger">*{{$t('trans1012')}}</p>
-      <button class="btn btn-middle btn-primary operate-btn"
+      <button class="btn btn-middle operate-btn"
               :disabled="isDownloading"
               @click="getBackup">{{$t('trans1013')}}</button>
     </div>
@@ -200,21 +201,22 @@ export default {
 <style lang="scss" scoped>
 .backup {
   p {
-    width: 600px;
+    width: 500px;
     padding: 0;
     margin: 0;
   }
   .operate-btn {
     margin-top: 30px;
+    width: 500px;
   }
   .backup__content {
     padding: 30px 20px;
   }
   .backup__tips {
     font-size: 14px;
-    color: #333;
+    color: var(--text-default-color);
     &.backup__tips--danger {
-      color: #d6001c;
+      color: var(--warning-color);
     }
     & + .backup__tips {
       margin-top: 12px;
@@ -223,13 +225,16 @@ export default {
   .backup__notes {
     margin-top: 20px;
     font-size: 12px;
-    color: #333;
+    color: var(--text-default-color);
   }
   @media screen and (max-width: 768px) {
     .btn {
       margin-left: 0;
     }
     p {
+      width: 100%;
+    }
+    .operate-btn {
       width: 100%;
     }
     .backup__content {

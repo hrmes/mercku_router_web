@@ -1,14 +1,16 @@
 <template>
   <div class="page ipv6-page">
-    <div class='page-header'>
+    <div v-if="$store.state.isMobile"
+         class='page-header'>
       {{$t('trans0620')}}
     </div>
     <div class="ipv6-page__content">
       <div class="ipv6-page__switch-wrap">
         <div class="ipv6-page__switch">
-          <label for="">{{$t('trans0620')}}</label>
           <m-switch v-model="enabled"
                     @change="ipv6EnabledChange" />
+          <label for="">{{$t('trans0620')}}</label>
+
         </div>
       </div>
       <template v-if="enabled">
@@ -545,8 +547,8 @@ export default {
   }
   .ipv6-page__switch-wrap {
     display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
+    justify-content: flex-start;
+    margin-bottom: 25px;
   }
   .ipv6-page__switch {
     display: flex;
@@ -560,13 +562,13 @@ export default {
   .ipv6-page__internet-title {
     font-size: 14px;
     color: #999;
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid var(--hr-color);
     height: 50px;
     line-height: 50px;
   }
   .ipv6-page__internet-content {
-    width: 340px;
-    margin: 30px auto 50px auto;
+    // width: 340px;
+    margin: 25px 0 25px;
   }
   .ipv6-page__internet-content--info {
     width: 340px;
@@ -577,7 +579,6 @@ export default {
       label {
         display: inline-block;
         font-size: 14px;
-        color: #333;
         font-weight: bold;
         text-align: left;
         width: 150px;
@@ -585,7 +586,6 @@ export default {
       }
       span {
         display: inline-block;
-        color: #333333;
         font-size: 14px;
         flex: auto;
       }
@@ -598,15 +598,17 @@ export default {
     .form-warn {
       font-size: 16px;
       font-weight: 500;
-      color: #d6001c;
+      color: var(--primaryColor);
       margin-bottom: 30px;
     }
     .radio-group {
       margin-bottom: 30px;
     }
     .form-button {
-      margin-top: 50px !important;
-      margin-bottom: 90px;
+      width: 100%;
+      margin-top: 25px !important;
+      padding-top: 25px;
+      border-top: 1px solid var(--hr-color);
     }
     .auto-form {
       margin-top: 30px;
@@ -619,7 +621,7 @@ export default {
       .pppoe-form__item__note {
         font-size: 14px;
         color: #999999;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
       }
       .pppoe-form__item__checkbox {
         height: auto;
@@ -631,13 +633,14 @@ export default {
       .static-form__item__note {
         font-size: 14px;
         color: #999999;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
       }
     }
   }
 }
 @media screen and(max-width: 768px) {
   .ipv6-page {
+    width: 100vw;
     .ipv6-page__content {
       padding: 20px;
     }
@@ -649,6 +652,9 @@ export default {
     }
     .ipv6-page__internet-content {
       width: 100%;
+      .info__item {
+        flex-direction: column;
+      }
     }
   }
 }

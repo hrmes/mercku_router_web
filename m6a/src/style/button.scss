@@ -1,6 +1,6 @@
 .btn {
   outline: none;
-  border: 1px solid $button-border-color;
+  border: 1px solid var(--button-border-color);
   cursor: pointer;
   text-align: center;
   white-space: nowrap;
@@ -11,27 +11,27 @@
   height: 48px;
   user-select: none;
   position: relative;
-  color: $button-text-color;
-  background: $button-background-color;
+  color: var(--button-text-color);
+  background: var(--button-background-color);
   &:active {
-    background: $button-active-color;
+    background: var(--button-active-color);
   }
   &:hover {
-    background: $button-hover-color;
+    background: var(--button-hover-color);
   }
   &[disabled],
   &.disabled {
     cursor: not-allowed;
-    background: $button-disabled-background-color;
-    border-color: $button-disabled-border-color;
-    color: $button-disabled-text-color;
+    background: var(--button-disabled-background-color);
+    border-color: var(--button-disabled-border-color);
+    color: var(--button-disabled-text-color);
   }
   &.btn-middle {
     width: auto;
     min-width: 120px;
     height: 38px;
     line-height: 1;
-    padding: 12px 10px;
+    padding: 10px;
     font-size: 14px;
     border-radius: 4px;
     @media screen and (max-width: 320px) {
@@ -47,7 +47,7 @@
     font-size: 14px;
     border-radius: 4px;
     @media screen and (max-width: 320px) {
-      width: 200px;
+      width: 180px;
       min-width: initial;
     }
   }
@@ -61,38 +61,37 @@
     border-radius: 4px;
   }
   &.btn-default {
-    background: $button-default-background-color;
-    color: $button-default-text-color;
-    border: 1px solid $button-default-border-color;
-
+    background: var(--button-default-background-color);
+    color: var(--button-default-text-color);
+    border: 2px solid var(--button-default-border-color);
     &:active {
-      color: $button-default-active-text-color;
-      border-color: $button-default-active-border-color;
+      color: var(--button-default-active-text-color);
+      border-color: var(--button-default-active-border-color);
     }
 
     &:hover {
-      color: $button-default-hover-text-color;
-      border-color: $button-default-hover-border-color;
+      color: var(--button-default-hover-text-color);
+      border-color: var(--button-default-hover-border-color);
     }
 
     &[disabled],
     .disabled {
-      color: $button-default-disabled-text-color;
-      border-color: $button-default-disabled-border-color;
+      color: var(--button-default-disabled-text-color);
+      border-color: var(--button-default-disabled-border-color);
       cursor: not-allowed;
     }
   }
 }
 .btn-text {
-  color: $button-text-text-color;
+  color: var(--button-text-text-color);
   text-decoration: underline;
   cursor: pointer;
   &.btn-text-strange {
     @media screen and (max-width: 768px) {
       width: auto;
       min-width: 120px;
-      background: $button-text-stange-background-color;
-      color: $button-text-stange-text-color !important;
+      background: var(--button-text-stange-background-color);
+      color: var(--button-text-stange-text-color) !important;
       text-align: center;
       border-radius: 4px;
       height: 38px;
@@ -107,16 +106,16 @@
     }
   }
   &:hover {
-    color: $button-text-hover-color;
+    color: var(--button-text-hover-color);
   }
   &.text-primary {
-    color: $button-text-primary-text-color;
+    color: var(--button-text-primary-text-color);
     &:hover {
-      color: $button-text-primary-hover-color;
+      color: var(--button-text-primary-hover-color);
     }
     &.disabled {
       &:hover {
-        color: $button-text-primary-disabled-hover-color;
+        color: var(--button-text-primary-disabled-hover-color);
       }
     }
   }
@@ -136,6 +135,72 @@
     }
   }
 }
+.btn-icon {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin-right: 10%;
+  border-radius: 10px;
+  background-color: var(--table-action-icon-bgc);
+  box-shadow: 0 5px 10px -5px rgba(51, 51, 51, 0.3);
+  cursor: pointer;
+  .iconfont {
+    font-size: 18px;
+    color: var(--table-action-icon-color);
+    transition: color 0.3s ease-out;
+  }
+  .icon-hover-popover {
+    display: none;
+    position: absolute;
+    padding: 0px 8px;
+    font-size: 12px;
+    background: var(--table-action-popover-bgc);
+    color: #fff;
+    top: -8px;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    border-radius: 10px;
+    white-space: nowrap;
+    z-index: 10;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-top-color: var(--table-action-popover-bgc);
+    }
+  }
+  &:hover {
+    .iconfont {
+      color: var(--button-icon-hover-color);
+    }
+    .icon-hover-popover {
+      display: block;
+    }
+  }
+  &.disabled {
+    cursor: not-allowed;
+    background-color: var(--button-icon-disabled-bgc);
+    .iconfont {
+      color: var(--button-icon-disabled-color);
+    }
+    &:hover {
+      .iconfont {
+        color: var(--button-icon-disabled-color);
+      }
+      .icon-hover-popover {
+        display: none;
+      }
+    }
+  }
+}
 @media screen and (min-width: 769px) {
   .btn {
     min-width: 120px;
@@ -148,5 +213,24 @@
     width: 100%;
     height: 48px;
     margin: 0 auto;
+  }
+  .btn-icon {
+    margin: 0 3px 0 10px;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:hover {
+      .iconfont {
+        color: var(--table-action-icon-color);
+      }
+      .icon-hover-popover {
+        display: none;
+      }
+    }
+    &:active {
+      .iconfont {
+        color: var(--primaryColor);
+      }
+    }
   }
 }

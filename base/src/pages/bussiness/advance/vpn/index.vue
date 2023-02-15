@@ -1,24 +1,60 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{$t('trans0402')}}
     </div>
     <div class="page-content">
-      <div class="list"
-           v-if="hasVpns&&!isEmpty">
+      <div class="list">
         <div class="vpn-list">
+          <div class="vpn-list-header">
+            <div class="column-name">
+              <div class="column-check">
+                <m-checkbox v-model="checkAll"
+                            @change="change"></m-checkbox>
+              </div>
+              {{$t('trans0108')}}
+            </div>
+            <div v-if="!$store.state.isMobile"
+                 class="column-protocol">{{$t('trans0408')}}</div>
+            <div v-if="!$store.state.isMobile"
+                 class="column-status">{{$t('trans0190')}}</div>
+            <div class="column-handle">
+              <div class="btn-wrap">
+                <button class="btn btn-small"
+                        @click="mulDel"
+                        :disabled="!hasChecked">{{$t('trans0033')}}</button>
+
+                <button class="btn btn-small"
+                        @click="add"
+                        :disabled="connecting">{{$t('trans0035')}}</button>
+              </div>
+            </div>
+          </div>
           <div class="vpn"
+               :class="{'open':vpn.open}"
                v-for="vpn in vpns"
                :key="vpn.id">
-            <div class="vpn-left">
-              <div class="vpn-name">
-                <span>{{vpn.name}}</span>
-                <!-- <div class="spinner-container">
+            <div class="column-name"
+                 @click.stop="vpn.open=!vpn.open">
+              <div class="column-check">
+                <m-checkbox :disabled="connecting || vpn.enabled"
+                            :stopPropagation="true"
+                            v-model='vpn.checked'
+                            @click.stop=''></m-checkbox>
+              </div>
+              <span>{{vpn.name}}</span>
+              <!-- <div class="spinner-container">
                    <span class="spinner-text"
                         :style="{'color':getColor(vpn)}"
                         v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
                 </div> -->
-              </div>
+            </div>
+            <div class="column-protocol">
+              <label class="m-title with-colon">{{$t('trans0408')}}:</label>
+              {{vpn.protocol}}
+            </div>
+            <div class="column-status">
               <m-loading :size="24"
                          class="spinner"
                          :color="getColor(vpn)"
@@ -29,34 +65,43 @@
                         class="vpn-switch"
                         @change="(v)=>start(v,vpn)"></m-switch>
             </div>
-
-            <div class="vpn-right">
+            <div class="column-handle">
               <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
-
-              <div class="vpn-edit btn-text"
-                   @click="edit(vpn)"
-                   :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0034')}}</div>
-              <div class="vpn-del btn-text text-primary"
-                   @click="del(vpn)"
-                   :class="{'disabled':connecting || vpn.enabled}">{{$t('trans0033')}}</div>
+              <span class="btn-icon"
+                    :class="{'disabled':connecting || vpn.enabled}"
+                    @click="edit(vpn)">
+                <i class=" iconfont icon-ic_settings_normal"></i>
+                <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
+              </span>
+              <span v-if="$store.state.isMobile"
+                    class="label"
+                    :class="{'disabled':connecting || vpn.enabled}"
+                    @click="edit(vpn)">
+                {{$t('trans0034')}}
+              </span>
+              <span class="btn-icon"
+                    :class="{'disabled':connecting || vpn.enabled}"
+                    @click="del(vpn)">
+                <i class=" iconfont icon-ic_trash_normal"></i>
+                <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+              </span>
+              <span v-if="$store.state.isMobile"
+                    class="label"
+                    :class="{'disabled':connecting || vpn.enabled}"
+                    @click="del(vpn)">
+                {{$t('trans0033')}}
+              </span>
             </div>
           </div>
-        </div>
-        <div class="form-button">
-          <button class="btn"
-                  @click="add"
-                  :disabled="connecting">{{$t('trans0035')}}</button>
+          <div class="vpn-empty"
+               v-if="hasVpns&&isEmpty">
+            <img src="../../../../assets/images/img_default_empty.webp"
+                 alt="">
+            <p class="empty-text">{{$t('trans0278')}}</p>
+          </div>
         </div>
       </div>
-      <div class="vpn-empty"
-           v-if="hasVpns&&isEmpty">
-        <img src="../../../../assets/images/img_default_empty.png"
-             alt="">
-        <p class="empty-text">{{$t('trans0278')}}</p>
-        <button class="btn btn-middle"
-                @click="add"
-                :disabled="connecting">{{$t('trans0035')}}</button>
-      </div>
+
     </div>
   </div>
 </template>
@@ -67,10 +112,12 @@ import { VPNAction, VPNStatus } from '../../../../util/constant';
 export default {
   data() {
     return {
-      vpns: null,
+      vpns: [],
       VPNStatus,
       timer: null,
-      connecting: false
+      connecting: false,
+      checkAll: false,
+
     };
   },
   mounted() {
@@ -78,6 +125,7 @@ export default {
   },
   methods: {
     isConnectingOrDisconnecting(vpn) {
+      console.log('23123', vpn);
       return vpn.status === VPNStatus.connecting || vpn.status === VPNStatus.disconnecting;
     },
     getSpinnerText(vpn) {
@@ -188,21 +236,53 @@ export default {
       }
       this.$router.push({ path: '/advance/vpn/form' });
     },
+    mulDel() {
+      const deleteVpnArr = [];
+      this.vpns.forEach(v => {
+        if (v.checked) {
+          deleteVpnArr.push(v);
+        }
+      });
+      this.del(deleteVpnArr);
+    },
     del(vpn) {
-      if (!this.connecting && !vpn.enabled) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          message: this.$t('trans0376'),
-          callback: {
-            ok: () => {
-              this.$http.deleteVPN({ vpn_ids: [vpn.id] }).then(() => {
-                this.vpns = this.vpns.filter(v => v !== vpn);
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-              });
+      const vpnIds = [];
+      if (Array.isArray(vpn)) {
+        vpn.map(item => vpnIds.push(item.id));
+        if (!this.connecting && !vpn.every(i => i.enabled)) {
+          this.$dialog.confirm({
+            okText: this.$t('trans0024'),
+            cancelText: this.$t('trans0025'),
+            message: this.$t('trans0376'),
+            callback: {
+              ok: () => {
+                this.$http.deleteVPN({ vpn_ids: vpnIds }).then(() => {
+                  this.vpns = this.vpns.filter(v => v !== vpn);
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.getVPNList();
+                });
+              }
             }
-          }
-        });
+          });
+        }
+      } else {
+        vpnIds.push(vpn.id);
+        if (!this.connecting && !vpn.enabled) {
+          this.$dialog.confirm({
+            okText: this.$t('trans0024'),
+            cancelText: this.$t('trans0025'),
+            message: this.$t('trans0376'),
+            callback: {
+              ok: () => {
+                this.$http.deleteVPN({ vpn_ids: vpnIds }).then(() => {
+                  this.vpns = this.vpns.filter(v => v !== vpn);
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.getVPNList();
+                });
+              }
+            }
+          });
+        }
       }
     },
     getVPNList() {
@@ -242,14 +322,25 @@ export default {
               }
             }
 
-            return v;
+            return { ...v, checked: false, open: false };
           });
           this.$loading.close();
+          console.log('###', this.vpns);
         })
         .catch(() => {
           this.$loading.close();
         });
-    }
+    },
+    change(v) {
+      this.vpns.forEach(item => {
+        if (item.enabled) return;
+        if (v) {
+          item.checked = true;
+        } else {
+          item.checked = false;
+        }
+      });
+    },
   },
   computed: {
     hasVpns() {
@@ -257,6 +348,23 @@ export default {
     },
     isEmpty() {
       return this.vpns !== null && !this.vpns.length;
+    },
+    hasChecked() {
+      return this.vpns.some(i => i.checked);
+    }
+  },
+  watch: {
+    vpns: {
+      handler(nv) {
+        if (nv.length) {
+          if (nv.every(v => v.checked)) {
+            this.checkAll = true;
+          } else {
+            this.checkAll = false;
+          }
+        }
+      },
+      deep: true
     }
   },
   beforeDestroy() {
@@ -272,58 +380,67 @@ export default {
   justify-content: center;
   align-items: center;
   .btn {
-    margin-top: 30px;
+    // margin-top: 30px;
     align-self: flex-start;
   }
   .vpn-list {
+    width: 100%;
+    .vpn-list-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      margin-bottom: 5px;
+      height: 50px;
+      border-radius: 10px;
+      color: var(--text-gery-color);
+      background: var(--table-row-background-color);
+      > div {
+        display: flex;
+        align-items: center;
+      }
+    }
     .vpn {
-      width: 550px;
       height: 56px;
       display: flex;
-      border-radius: 4px;
-      border: solid 1px #dedede;
-      background-color: #fafafa;
+      justify-content: space-between;
+      border-radius: 10px;
+      color: var(--text-default-color);
+      background: var(--table-row-background-color);
       padding: 0px 20px;
-      margin-bottom: 20px;
+      margin-bottom: 5px;
       align-items: center;
-      .vpn-left {
+      > div {
         display: flex;
-        align-items: center;
-        flex: 1;
-        justify-content: space-between;
-        .vpn-name {
-          display: flex;
-          align-items: center;
-        }
-        .spinner-container {
-          display: flex;
-          align-items: center;
-          margin-left: 20px;
-          .spinner-text {
-            margin-left: 10px;
-          }
-        }
       }
-
-      .vpn-right {
+    }
+    .column-check {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+    }
+    .column-name {
+      width: 130px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .column-protocol {
+      width: 70px;
+      .m-title {
+        display: none;
+      }
+    }
+    .column-status {
+      width: 40px;
+    }
+    .column-handle {
+      width: 200px;
+      justify-content: flex-end;
+      .btn-wrap {
         display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        .vpn-switch {
-          margin-left: 10px;
-        }
-        .vpn-edit {
-          margin-left: 30px;
-          &.disabled {
-            color: #999;
-            cursor: not-allowed;
-          }
-        }
-        .vpn-del {
-          margin-left: 30px;
-          &.disabled {
-            color: #999;
-            cursor: not-allowed;
+        .btn {
+          &:first-child {
+            margin-right: 10px;
           }
         }
       }
@@ -337,7 +454,7 @@ export default {
   align-items: center;
   width: 100%;
   img {
-    width: 220px;
+    width: 180px;
   }
   .btn-middle {
     width: 340px;
@@ -346,6 +463,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .page-content {
+    padding-top: 10px;
+  }
   .list {
     width: 100%;
     .btn {
@@ -353,21 +473,76 @@ export default {
     }
     .vpn-list {
       width: 100%;
-      .vpn {
-        width: 100%;
-        flex-direction: column;
-        padding: 10px;
-        align-items: flex-start;
-        height: 80px;
-        .vpn-left {
-          width: 100%;
-          align-items: center;
-          margin-bottom: 10px;
-          justify-content: space-between;
-          height: 36px;
+      .vpn-list-header {
+        .btn-wrap {
+          .btn {
+            min-width: 60px;
+          }
         }
-        .vpn-right {
+      }
+      .vpn {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        padding: 10px 20px;
+        align-items: flex-start;
+        .column-name {
+          position: relative;
           width: 100%;
+          height: 50px;
+          border-bottom: 1px solid transparent;
+          span {
+            display: flex;
+            align-items: center;
+          }
+          &::after {
+            content: '\e65b';
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%) rotate(-90deg);
+            font-family: 'iconfont';
+          }
+        }
+        .column-protocol {
+          width: 100%;
+          height: 50px;
+          display: none;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid var(--table-body-hr-color);
+          .m-title {
+            display: block;
+          }
+        }
+        .column-status {
+          position: absolute;
+          top: 22px;
+          right: 50px;
+        }
+        .column-handle {
+          display: none;
+          height: 50px;
+          justify-content: flex-start;
+          align-items: center;
+          .label {
+            &.disabled {
+              color: var(--button-icon-disabled-color);
+            }
+          }
+        }
+        &.open {
+          .column-handle,
+          .column-protocol {
+            display: flex;
+          }
+          .column-name {
+            border-bottom-color: var(--table-body-hr-color);
+            &::after {
+              transform: translateY(-50%) rotate(0deg);
+            }
+          }
         }
       }
     }

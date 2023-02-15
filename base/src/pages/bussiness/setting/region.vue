@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{$t('trans0639')}}
     </div>
     <div class="page-content">
@@ -113,7 +114,9 @@ export default {
       }
     }
     .form-button {
-      margin-top: 30px;
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid var(--hr-color);
     }
   }
 }

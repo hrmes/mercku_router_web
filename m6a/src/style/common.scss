@@ -1,3 +1,4 @@
+@import './iconfont/iconfont.css';
 @import './button.scss';
 
 * {
@@ -60,21 +61,15 @@ input::-webkit-input-placeholder {
 .page {
   position: relative;
   flex: auto;
-  margin: 0 10%;
-
-  @media screen and (max-width: 1440px) {
-    margin: 0 50px;
-  }
-
   display: flex;
   flex-direction: column;
   background: #fff;
   border-radius: 8px;
 
   .page-header {
-    border-bottom: 1px solid #f1f1f1;
+    border-bottom: 1px solid var(--hr-color);
     font-size: 16px;
-    color: #333333;
+    color: var(--text-default-color);
     font-weight: bold;
     height: 50px;
     padding: 0 20px;
@@ -88,7 +83,6 @@ input::-webkit-input-placeholder {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
   }
 
   .form {
@@ -105,16 +99,14 @@ input::-webkit-input-placeholder {
 
 .empty {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
-  border-bottom: 1px solid #f1f1f1;
-  height: 50px;
-
-  img {
-    display: none;
+  > img {
+    width: 180px;
+    height: 180px;
   }
-
   .btn {
     display: none;
   }
@@ -139,7 +131,7 @@ label.with-colon {
     height: 25%;
     border-style: solid;
     border-width: 3px;
-    border-color: $primaryColor;
+    border-color: var(--primaryColor);
     border-radius: 1px;
     border-top: none;
     border-right: none;
@@ -149,17 +141,17 @@ label.with-colon {
 }
 
 @media screen and (max-width: 768px) {
+  .page-content {
+    width: 100vw;
+  }
   .page {
     margin: 0;
     padding: 0;
-
     .page-header {
       font-size: 16px;
       font-weight: bold;
-      padding: 16px 20px;
-      height: 60px;
+      padding: 15px 20px;
     }
-
     .page-content {
       padding: 20px;
     }
@@ -189,6 +181,7 @@ label.with-colon {
 
       img {
         width: 150px;
+        height: 150px;
         display: block;
       }
 
