@@ -249,17 +249,21 @@ export default {
       rules: {
         'b24g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
+          }
         ],
         'b24g.password': [
           {
@@ -277,17 +281,21 @@ export default {
         ],
         'b5g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
+          }
         ],
         'b5g.password': [
           {
@@ -392,8 +400,8 @@ export default {
         }
       }
       if (validResult1 && validResult2) {
-        this.form.b24g.ssid = this.form.b24g.ssid;
-        this.form.b5g.ssid = this.form.b5g.ssid;
+        this.form.b24g.ssid = this.form.b24g.ssid.trim();
+        this.form.b5g.ssid = this.form.b5g.ssid.trim();
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),

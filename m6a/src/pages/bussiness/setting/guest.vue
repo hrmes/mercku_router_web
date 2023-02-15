@@ -175,17 +175,21 @@ export default {
       rules: {
         ssid: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value) <= 20,
+            rule: value => getStringByte(value.trim()) <= 20,
             message: this.$t('trans0261')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
+          }
         ],
         password: [
           {
@@ -206,7 +210,7 @@ export default {
   },
   computed: {
     ssid_5g() {
-      this.form.ssid = this.form.ssid;
+      this.form.ssid = this.form.ssid.trim();
       return `${this.form.ssid}_5G`;
     },
     hasStatus() {
@@ -216,6 +220,7 @@ export default {
       let params = {};
       // 新建guest wifi
       if (this.form.enabled) {
+        this.form.ssid = this.form.ssid.trim();
         params = {
           id: this.form.id,
           enabled: this.form.enabled,
@@ -490,7 +495,7 @@ export default {
         flex: 1;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: pre;
+        white-space: nowrap;
       }
     }
   }
@@ -537,7 +542,7 @@ export default {
       }
       .value {
         flex: 1;
-        white-space: pre;
+        // white-space: pre;
         // height: 18px;
       }
     }
