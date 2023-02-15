@@ -1,6 +1,6 @@
 .btn {
   outline: none;
-  border: 1px solid $button-border-color;
+  border: 1px solid var(--button-border-color);
   cursor: pointer;
   text-align: center;
   white-space: nowrap;
@@ -11,20 +11,20 @@
   height: 48px;
   user-select: none;
   position: relative;
-  color: $button-text-color;
-  background: $button-background-color;
+  color: var(--button-text-color);
+  background: var(--button-background-color);
   &:active {
-    background: $button-active-color;
+    background: var(--button-active-color);
   }
   &:hover {
-    background: $button-hover-color;
+    background: var(--button-hover-color);
   }
   &[disabled],
   &.disabled {
     cursor: not-allowed;
-    background: $button-disabled-background-color;
-    border-color: $button-disabled-border-color;
-    color: $button-disabled-text-color;
+    background: var(--button-disabled-background-color);
+    border-color: var(--button-disabled-border-color);
+    color: var(--button-disabled-text-color);
   }
   &.btn-middle {
     width: auto;
@@ -61,38 +61,38 @@
     border-radius: 4px;
   }
   &.btn-default {
-    background: $button-default-background-color;
-    color: $button-default-text-color;
-    border: 1px solid $button-default-border-color;
+    background: var(--button-default-background-color);
+    color: var(--button-default-text-color);
+    border: 1px solid var(--button-default-border-color);
 
     &:active {
-      color: $button-default-active-text-color;
-      border-color: $button-default-active-border-color;
+      color: var(--button-default-active-text-color);
+      border-color: var(--button-default-active-border-color);
     }
 
     &:hover {
-      color: $button-default-hover-text-color;
-      border-color: $button-default-hover-border-color;
+      color: var(--button-default-hover-text-color);
+      border-color: var(--button-default-hover-border-color);
     }
 
     &[disabled],
     .disabled {
-      color: $button-default-disabled-text-color;
-      border-color: $button-default-disabled-border-color;
+      color: var(--button-default-disabled-text-color);
+      border-color: var(--button-default-disabled-border-color);
       cursor: not-allowed;
     }
   }
 }
 .btn-text {
-  color: $button-text-text-color;
+  color: var(--button-text-text-color);
   text-decoration: underline;
   cursor: pointer;
   &.btn-text-strange {
     @media screen and (max-width: 768px) {
       width: auto;
       min-width: 120px;
-      background: $button-text-stange-background-color;
-      color: $button-text-stange-text-color !important;
+      background: var(--button-text-stange-background-color);
+      color: var(--button-text-stange-text-color) !important;
       text-align: center;
       border-radius: 4px;
       height: 38px;
@@ -107,16 +107,16 @@
     }
   }
   &:hover {
-    color: $button-text-hover-color;
+    color: var(--button-text-hover-color);
   }
   &.text-primary {
-    color: $button-text-primary-text-color;
+    color: var(--button-text-primary-text-color);
     &:hover {
-      color: $button-text-primary-hover-color;
+      color: var(--button-text-primary-hover-color);
     }
     &.disabled {
       &:hover {
-        color: $button-text-primary-disabled-hover-color;
+        color: var(--button-text-primary-disabled-hover-color);
       }
     }
   }

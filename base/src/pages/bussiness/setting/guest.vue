@@ -192,7 +192,7 @@ export default {
   computed: {
     ssid_5g() {
       this.form.ssid = this.form.ssid.trim();
-      return `${this.form.ssid}-5G`;
+      return `${this.form.ssid}_5G`;
     },
     hasStatus() {
       return this.setupAndStart;

@@ -1,9 +1,13 @@
 <template>
-  <canvas id="canvas"></canvas>
+  <canvas :id="id"></canvas>
 </template>
 <script>
 export default {
   props: {
+    id: {
+      type: String,
+      default: 'canvas'
+    },
     color: {
       type: String,
       default: '#d6001c'
@@ -18,7 +22,7 @@ export default {
   },
   methods: {
     init() {
-      const canvas = document.getElementById('canvas');
+      const canvas = document.getElementById(this.id);
       const ctx = canvas.getContext('2d');
 
       const radio = this.getPixelRatio(ctx);

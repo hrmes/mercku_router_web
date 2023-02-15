@@ -20,6 +20,7 @@ import router from './router';
 
 // 不同客户特别的样式表
 require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
+require('./style/theme-mode.scss');
 
 const launch = () => {
   const http = new Http();
@@ -98,30 +99,26 @@ const launch = () => {
     });
     const opt = {
       ...{
-        onsuccess: () => {},
-        ontimeout: () => {},
-        onprogress: () => {},
-        onfinally: () => {
+        onsuccess: () => {
           http.getHomePage().then(res => {
-            upgradeHelper(res.data);
+            upgradeHelper(res.data, upgrade, upgradeComponent);
           });
         },
+        ontimeout: () => {},
+        onprogress: () => {},
+        onfinally: () => {},
         timeout: 600
       },
       ...options
     };
     reconnect({
-      onsuccess: () => {
-        upgrading = false;
-        upgradeComponent.close();
-        opt.onsuccess();
-      },
+      onsuccess: opt.onsuccess,
       ontimeout: () => {
         upgrading = false;
         upgradeComponent.close();
         opt.ontimeout();
       },
-      onfinally: opt.onfinally,
+      onfinally: () => {},
       timeout: opt.timeout,
       showLoading: false
     });

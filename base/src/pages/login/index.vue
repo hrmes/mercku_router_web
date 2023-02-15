@@ -154,7 +154,7 @@ export default {
   align-items: center;
   justify-content: center;
   background: #fff;
-  // background: $primaryColor;
+  // background: var(--primaryColor);
 
   .loadding {
     display: flex;
@@ -294,8 +294,8 @@ export default {
       .down-button-container {
         .down-button {
           text-decoration: none;
-          color: $primaryColor;
-          border: 1px solid $primaryColor;
+          color: var(--primaryColor);
+          border: 1px solid var(--primaryColor);
           padding: 12px 10px;
           border-radius: 2px;
           font-size: 14px;

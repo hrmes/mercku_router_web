@@ -5,6 +5,7 @@
         <div class="box"
              :class="classObject"></div>
         <div class="text"
+             :class="{'bold':bold}"
              v-if="text">{{text}}</div>
       </label>
     </div>
@@ -18,6 +19,10 @@ export default {
       default: false
     },
     text: { type: String },
+    bold: {
+      type: Boolean,
+      default: false
+    },
     rect: {
       type: Boolean,
       default: true
@@ -82,42 +87,43 @@ export default {
     float: left;
     width: 18px;
     height: 18px;
-    border-radius: 4px;
-    border: 1px solid $checkbox-border-color;
-    background: $checkbox-background-color;
+    line-height: 17px;
+    border-radius: 3px;
+    border: 1.5px solid var(--checkbox-border-color);
+    background: var(--checkbox-background-color);
     &.circle-shape {
       border-radius: 50%;
     }
     &.checked {
-      background: #333;
+      border: none;
+      background: var(--checkbox-checked-background-color);
+      padding-left: 2.6px;
       position: relative;
-      border-color: $checkbox-checked-background-color;
       &::after {
-        content: '';
-        display: block;
-        border: 1px solid $checkbox-checked-color;
-        border-left: 0;
-        border-top: 0;
-        height: 8px;
-        left: 6px;
-        position: absolute;
-        top: 3px;
-        transform: rotate(45deg);
-        width: 3px;
+        content: '\e65c';
+        width: 10px;
+        height: 10px;
+        font-size: 12px;
+        font-family: 'iconfont';
+        color: #fff;
       }
     }
     &.disabled {
-      background: #b3b3b3;
-      border: 1px solid #fff;
+      background: var(--checkbox-disabled-bgc);
+      border: 1.5px solid var(--checkbox-disabled-border-color);
       cursor: not-allowed;
     }
   }
   .text {
     display: inline;
     font-size: 14px;
-    line-height: 1;
-    color: #333;
-    margin-left: 10px;
+    line-height: 18px;
+    color: var(--text-default-color);
+    margin-left: 12px;
+    user-select: none;
+    &.bold {
+      font-weight: 600;
+    }
   }
 }
 </style>

@@ -174,12 +174,12 @@ export default {
   width: 340px;
   &.disabled {
     .select {
-      background: $select-disabled-background-color;
-      opacity: $select-disabled-opacity;
+      background: var(--select-disabled-background-color);
+      opacity: var(--select-disabled-opacity);
       cursor: not-allowed;
       input {
-        background: $select-disabled-background-color;
-        opacity: $select-disabled-opacity;
+        background: var(--select-disabled-background-color);
+        opacity: var(--select-disabled-opacity);
         cursor: not-allowed;
       }
     }
@@ -189,7 +189,7 @@ export default {
     width: 100%;
     border-radius: 4px;
     outline: 0;
-    border: 1px solid $select-input-border-color;
+    border: 1px solid var(--select-input-border-color);
     font-size: 14px;
     padding: 0 10px;
     position: relative;
@@ -215,7 +215,7 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: $select-label-color;
+    color: var(--select-label-color);
   }
 
   cursor: pointer;
@@ -226,9 +226,9 @@ export default {
     right: -1px;
     top: 52px;
     max-height: 300px;
-    background: $select-popup-background-color;
+    background: var(--select-popup-background-color);
     border-radius: 5px;
-    border: 1px solid $select-popup-border-color;
+    border: 1px solid var(--select-popup-border-color);
     overflow: auto;
     .select-popup__item {
       display: flex;
@@ -243,16 +243,16 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: $select-item-active-background-color;
-        color: $select-item-active-color;
+        background: var(--select-item-active-background-color);
+        color: var(--select-item-active-color);
       }
       &:hover {
-        background: $select-item-hover-background-color;
-        color: $select-item-hover-color;
+        background: var(--select-item-hover-background-color);
+        color: var(--select-item-hover-color);
       }
       &.selected {
         position: relative;
-        color: $select-item-selected-color;
+        color: var(--select-item-selected-color);
         ::before {
           content: '';
           width: 12px;

@@ -185,12 +185,25 @@ function genNodes(gateway, green, red, offline) {
 // 生成绘图需要的线条信息
 function genLines(gateway, green, red, nodes, fullLine) {
   function genLine(source, target, color, value = 0) {
+    // 有线实线显示，无线虚线显示
+    if (value === 5555) {
+      return {
+        source: `${source.sn}${source.name}`,
+        target: `${target.sn}${target.name}`,
+        rssi: value,
+        lineStyle: {
+          color,
+          type: 'solid'
+        }
+      };
+    }
     return {
       source: `${source.sn}${source.name}`,
       target: `${target.sn}${target.name}`,
       rssi: value,
       lineStyle: {
-        color
+        color,
+        type: 'dotted'
       }
     };
   }
@@ -208,9 +221,9 @@ function genLines(gateway, green, red, nodes, fullLine) {
   }
 
   const lines = [];
-
   gateway.neighbors.forEach(n => {
     const node = nodes.find(s => s.sn === n.sn);
+    console.log('nnnnn', n);
     if (!exist(node, gateway)) {
       if (isGood(n.rssi)) {
         lines.push(genLine(gateway, node, Color.good, n.rssi));

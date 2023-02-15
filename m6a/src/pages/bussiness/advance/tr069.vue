@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{$t('trans0499')}}
     </div>
     <div class="page-content">
@@ -31,6 +32,7 @@
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
       </m-form>
+      <div class="hr-line"></div>
       <div class="title">{{$t('trans0493')}}</div>
       <m-form ref="local"
               class="form"
@@ -60,6 +62,8 @@
         </m-form-item>
         <div class="form-item">
           <m-checkbox :text="$t('trans0462')"
+                      :bold='true'
+                      :rect='false'
                       v-model="enabled"></m-checkbox>
         </div>
 
@@ -262,17 +266,24 @@ export default {
   .page-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
     .title {
       width: 100%;
       font-size: 16px;
-      color: #333;
-      margin-bottom: 30px;
+      color: var(--text-default-color);
+      margin-bottom: 20px;
       font-weight: bold;
-      border-bottom: 1px solid #ebebeb;
-      padding-bottom: 17px;
     }
-    .form {
+    .hr-line {
+      width: 100%;
+      height: 0;
+      border-top: 1px solid var(--hr-color);
+      margin: 5px 0 30px;
+    }
+    .form-button {
+      margin-top: 0;
+      padding-top: 25px;
+      border-top: 1px solid var(--hr-color);
     }
   }
 }
@@ -281,10 +292,8 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: $header-background-color;
-      color: #fff;
+      background: var(--header-background-color);
       align-items: center;
-      border-top: 1px solid $header-nav-item-border-color;
       .page-header-trigger {
         display: block;
         &::before {
@@ -319,16 +328,16 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: $header-background-color;
+          background: var(--header-background-color);
           .tab {
             padding: 18px 0;
             color: #fff;
             font-size: 14px;
             margin: 0;
-            border-bottom: 1px solid $header-nav-item-border-color;
+            border-bottom: 1px solid var(--header-nav-item-border-color);
             &.selected {
-              border-bottom: 1px solid $header-nav-item-border-color;
-              color: $primaryColor;
+              border-bottom: 1px solid var(--header-nav-item-border-color);
+              color: var(--primaryColor);
               &::before {
                 display: none;
               }

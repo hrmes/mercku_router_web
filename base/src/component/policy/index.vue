@@ -1,7 +1,10 @@
 <template>
-  <div class="policy-container">
+  <div class="policy-container"
+       :class="{
+        'is-login-nav':isLoginPage,
+        'is-not-login-nav':!isLoginPage,}">
     <span class="copy">{{ copyright }}</span>
-    <span class="policy-text btn-text"
+    <span class="policy-text"
           @click.stop="showPolicy()">
       {{$t('trans0139')}}
     </span>
@@ -33,7 +36,11 @@ export default {
     locale: {
       type: String,
       default: 'zh-CN'
-    }
+    },
+    isLoginPage: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return { show: false };
@@ -78,8 +85,16 @@ export default {
   text-align: center;
   padding: 15px;
   font-size: 12px;
+  > span {
+    user-select: none;
+  }
   .policy-text {
+    text-decoration: underline;
     margin-left: 5px;
+    cursor: pointer;
+    &:hover {
+      color: var(--text-default-color);
+    }
   }
 }
 @media screen and (max-width: 768px) {
@@ -88,7 +103,12 @@ export default {
   }
   .policy-container {
     padding: 10px;
-    background: #fff;
+    &.is-login-nav {
+      background: var(--primaryBackgroundColor);
+    }
+    &.is-not-login-nav {
+      background: transparent;
+    }
     .copy,
     .policy-text {
       display: block;

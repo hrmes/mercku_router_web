@@ -72,7 +72,7 @@ export default {
   left: 0;
   right: 0;
   z-index: 1001;
-  background: $upgrade-background-color;
+  background: var(--upgrade-background-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,19 +92,20 @@ export default {
 
   .inner {
     text-align: center;
-    color: $upgrade-text-color;
+    color: var(--upgrade-text-color);
     position: absolute;
+    width: 740px;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     .title {
       font-size: 24px;
       // margin-top: 10px;
-      color: $upgrade-text-color;
+      color: var(--upgrade-text-color);
     }
   }
   .tip {
-    color: $upgrade-text-color;
+    color: var(--upgrade-text-color);
     display: block;
     margin-top: 10px;
   }
@@ -114,7 +115,7 @@ export default {
     display: inline-block;
     .progress {
       height: 10px;
-      background: $progress-background-color;
+      background: var(--progress-background-color);
       border-radius: 50px;
     }
     .progress-bar {
@@ -126,9 +127,9 @@ export default {
       max-width: 100%;
       line-height: 20px;
       overflow: hidden;
-      color: $progress-bar-color;
+      color: var(--progress-bar-color);
       text-align: center;
-      background-color: $progress-bar-background-color;
+      background-color: var(--progress-bar-background-color);
       transition: width 1s ease;
     }
   }

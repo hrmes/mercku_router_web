@@ -248,14 +248,14 @@ export default {
     }
     .form__add-btn {
       outline: none;
-      border: 1px solid $primaryColor;
+      border: 1px solid var(--primaryColor);
       cursor: pointer;
       white-space: nowrap;
       border-radius: 4px;
       width: 340px;
       height: 48px;
       user-select: none;
-      color: $primaryColor;
+      color: var(--primaryColor);
       background-color: #fff;
       span {
         display: inline-block;
@@ -270,7 +270,7 @@ export default {
           transform: translate(-50%, -50%);
           height: 20px;
           width: 2px;
-          background-color: $primaryColor;
+          background-color: var(--primaryColor);
         }
         &::after {
           content: '';
@@ -280,7 +280,7 @@ export default {
           transform: translate(-50%, -50%);
           width: 20px;
           height: 2px;
-          background-color: $primaryColor;
+          background-color: var(var(--primaryColor));
         }
       }
     }

@@ -83,10 +83,8 @@
             </div>
           </div>
           <div class="delete-wrap">
-            <img src="../../assets/images/icon/ic_delete.png"
-                 alt=""
-                 width="24"
-                 @click="cancel(file)" />
+            <i class="iconfont icon-ic_close"
+               @click="cancel(file)"></i>
           </div>
         </div>
         <div class="file__error"
@@ -101,8 +99,8 @@
 import { toLocaleNumber } from '../../util/util';
 import { UploadStatus } from '../../util/constant';
 import UploadDragger from './upload-dragger.vue';
-import folderIcon from '../../assets/images/icon/ic_folder.svg';
-import folderIconError from '../../assets/images/icon/ic_folder_error.svg';
+import folderIcon from '../../assets/images/icon/ic_folder.webp';
+import folderIconError from '../../assets/images/icon/ic_file_error.svg';
 
 export default {
   components: {
@@ -258,18 +256,21 @@ export default {
       width: 48px;
       height: 32px;
       path {
-        fill: $button-background-color;
+        fill: var(--button-background-color);
       }
       &.is-upload-loading {
         path {
-          fill: $upload-button-disabled-color;
+          fill: var(--upload-button-disabled-color);
         }
       }
     }
     .upload__text {
       font-size: 12px;
-      color: #999;
+      color: var(--upload-file-text-color);
       text-align: center;
+      white-space: pre-line;
+      padding: 0;
+      margin-top: 0;
     }
     .fileinput-button {
       width: auto;
@@ -277,7 +278,8 @@ export default {
       min-width: 80px;
       cursor: pointer;
       &[disabled] {
-        background: $upload-button-disabled-color;
+        // border-color: var(--upload-button-disabled-color);
+        color: var(--button-disabled-text-color);
         cursor: not-allowed;
         label {
           cursor: not-allowed;
@@ -301,7 +303,7 @@ export default {
     }
   }
   .upload__files {
-    width: 513px;
+    width: 500px;
     margin-top: 20px;
   }
   .file {
@@ -313,26 +315,26 @@ export default {
       align-items: center;
       transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
       font-size: 14px;
-      color: $upload-file-text-color;
+      color: var(--upload-file-text-color);
       border-radius: 5px;
-      background: $upload-background-color;
-      padding: 20px;
+      background: var(--upload-background-color);
+      padding: 20px 10px;
       .icon-wrap {
-        background: $upload-icon-background-color;
+        background: var(--upload-icon-background-color);
         padding: 10px;
         border-radius: 50%;
         img {
-          width: 38px;
-          height: 38px;
+          width: 28px;
+          height: 28px;
           display: block;
         }
       }
       .des-cnt {
         position: relative;
-        margin-left: 20px;
+        margin-left: 10px;
         flex: 1;
         .description {
-          color: $upload-file-description-color;
+          color: var(--upload-file-description-color);
           display: flex;
           // align-items: center;
           flex-direction: column;
@@ -350,7 +352,7 @@ export default {
               height: 5px;
               border-radius: 50%;
               margin-right: 5px;
-              background: $upload-file-info-product-dot-color;
+              background: var(--upload-file-info-product-dot-color);
             }
           }
           .packageinfo__product {
@@ -358,36 +360,39 @@ export default {
           }
           .packageinfo__version {
             &::before {
-              background: $upload-file-info-version-dot-color;
+              background: var(--upload-file-info-version-dot-color);
             }
           }
         }
         .fileinfo {
           display: flex;
           justify-content: space-between;
+          .fileinfo__name {
+            font-weight: 600;
+          }
           .fileinfo__wrap {
             flex: 1;
           }
           .fileinfo__size {
             margin-left: 5px;
-            color: $upload-file-text-color;
+            color: var(--upload-file-text-color);
           }
           .fileinfo__upload-percent {
             font-size: 12px;
-            color: $upload-file-text-color;
+            color: var(--upload-file-text-color);
             display: flex;
             align-items: flex-end;
           }
         }
         .filesize {
-          color: $upload-file-text-color;
+          color: var(--upload-file-text-color);
         }
         .line {
           width: 100%;
           display: flex;
           flex-direction: column;
           height: 3px;
-          background: $upload-progress-color;
+          background: var(--upload-progress-color);
           margin-top: 10px;
           margin-bottom: 10px;
           border-radius: 1.5px;
@@ -395,18 +400,27 @@ export default {
             display: inline-block;
             height: 3px;
             transition: width 1s ease;
-            background: $upload-progress-completed-color;
+            background: var(--upload-progress-completed-color);
           }
           .fail {
             display: inline-block;
             height: 3px;
-            background: $upload-error-text-color;
+            background: var(--upload-error-text-color);
           }
         }
       }
       .delete-wrap {
-        margin-left: 20px;
-        img {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        background: var(--upload-delete-icon-bgc);
+        border-radius: 50%;
+        margin-left: 10px;
+        i {
+          font-size: 14px;
+          font-weight: 600;
+          color: var(--text-default-color);
           cursor: pointer;
         }
       }
@@ -441,7 +455,7 @@ export default {
     }
     .file {
       .file__info {
-        padding: 15px;
+        padding: 10px 10px 10px 5px;
         .des-cnt {
           // min-width: 193px;
           margin-left: 15px;

@@ -1,4 +1,8 @@
-import { RouterSnModel, M6aRouterSnModelVsersion } from '../util/constant';
+import {
+  RouterSnModel,
+  M6aRouterSnModelVsersion,
+  Models
+} from '../util/constant';
 
 export default {
   methods: {
@@ -51,7 +55,7 @@ export default {
         [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
         [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
         [RouterSnModel.M6a]:
-          this.$store.modelVersion === M6aRouterSnModelVsersion.M6a
+          process.env.MODEL_CONFIG.id === Models.m6a
             ? process.env.CUSTOMER_CONFIG.routers.M6a
             : process.env.CUSTOMER_CONFIG.routers.M6a_plus
       }

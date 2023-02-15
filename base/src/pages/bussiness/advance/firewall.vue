@@ -1,20 +1,21 @@
 <template>
   <div class="page firewall">
-    <div class='page-header'>
+    <div v-if="$store.state.isMobile"
+         class='page-header'>
       {{$t('trans0424')}}
     </div>
     <div class="page-content">
       <div class="content">
         <div class="content__item content__switch">
-          <label for="">{{$t('trans0424')}}</label>
           <m-switch v-model="wan.dos"
                     @change="updateWanDos"></m-switch>
+          <label for="">{{$t('trans0424')}}</label>
         </div>
         <div class="content__line"></div>
         <div class="content__item content__switch">
-          <label for="">{{$t('trans0434')}}</label>
           <m-switch v-model="ping.enabled"
                     @change="updateWanPing"></m-switch>
+          <label for="">{{$t('trans0434')}}</label>
         </div>
         <template v-if="ping.enabled">
           <m-form ref="ipListForm"
@@ -23,24 +24,27 @@
             <m-checkbox class="form__checkbox"
                         v-model="isIpPointed"
                         :text="$t('trans0575')"
+                        :rect="false"
                         @change="changeIpPointed"></m-checkbox>
             <template v-if="isIpPointed">
-              <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
-                           :key="index"
-                           :prop="`ping.ip_limit.ip_list[${index}]`"
-                           :rules='ipValidator'>
-                <div class="form__item">
-                  <m-input class="form__input"
-                           type="text"
-                           :placeholder="$t('trans0321')"
-                           v-model="ping.ip_limit.ip_list[index]" />
-                  <div @click="reduceIp(index)"
-                       class="form__reduce-btn"
-                       v-if="index > 0">
-                    <span></span>
+              <div class="flex-container">
+                <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
+                             :key="index"
+                             :prop="`ping.ip_limit.ip_list[${index}]`"
+                             :rules='ipValidator'>
+                  <div class="form__item">
+                    <m-input class="form__input"
+                             type="text"
+                             :placeholder="$t('trans0321')"
+                             v-model="ping.ip_limit.ip_list[index]" />
+                    <div @click="reduceIp(index)"
+                         class="form__reduce-btn">
+                      <span></span>
+                    </div>
                   </div>
-                </div>
-              </m-form-item>
+                </m-form-item>
+              </div>
+
               <m-form-item>
                 <button v-if="!isMaxIpNum"
                         class="form__add-btn"
@@ -203,13 +207,16 @@ export default {
 .content {
   width: 100%;
   .content__item {
-    margin: 0 auto;
-    width: 380px;
+    width: 100%;
+    padding: 0 20px;
   }
   .content__switch {
     display: flex;
     align-items: center;
     height: 80px;
+
+    border-radius: 10px;
+    overflow: hidden;
     label {
       width: 75px;
       font-weight: bold;
@@ -218,7 +225,8 @@ export default {
   }
   .content__line {
     width: 100%;
-    border-top: solid 1px #f1f1f1;
+    height: 10px;
+    background: var(--flex-warp-has-menu-bgc);
   }
   .form {
     .form__checkbox {
@@ -249,15 +257,15 @@ export default {
     }
     .form__add-btn {
       outline: none;
-      border: 1px solid $primaryColor;
+      border: 1.5px solid var(--primaryColor);
       cursor: pointer;
       white-space: nowrap;
       border-radius: 4px;
       width: 340px;
       height: 48px;
       user-select: none;
-      color: $primaryColor;
-      background-color: #fff;
+      color: var(--primaryColor);
+      background-color: transparent;
       span {
         display: inline-block;
         width: 24px;
@@ -271,7 +279,7 @@ export default {
           transform: translate(-50%, -50%);
           height: 20px;
           width: 2px;
-          background-color: $primaryColor;
+          background-color: var(--primaryColor);
         }
         &::after {
           content: '';
@@ -281,16 +289,31 @@ export default {
           transform: translate(-50%, -50%);
           width: 20px;
           height: 2px;
-          background-color: $primaryColor;
+          background-color: var(--primaryColor);
         }
       }
     }
     .submit-btn__wrapper {
-      margin-top: 30px;
+      // margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid var(--hr-color);
+    }
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      > .form-item {
+        width: fit-content;
+        margin-right: 30px;
+        &:first-child {
+          .form__reduce-btn {
+            visibility: hidden;
+          }
+        }
+      }
     }
   }
   @media screen and(max-width: 768px) {
-    padding: 0 20px;
+    // padding: 0 20px;
     .content__item {
       width: 100%;
     }
@@ -312,6 +335,12 @@ export default {
       }
       .form__add-btn {
         width: 100%;
+      }
+      .flex-container {
+        > .form-item {
+          width: 100%;
+          margin-right: 0;
+        }
       }
     }
   }

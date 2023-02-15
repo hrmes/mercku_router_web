@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class='page-header'>
+    <div v-if="$store.isMobile"
+         class='page-header'>
       {{$t('trans0402')}}
     </div>
     <div class="page-content">
@@ -49,12 +50,15 @@
           <div class="opz-info"
                v-if="form.protocol===VPNType.pptp">
             <div class="opz">
-              <label style="font-weight:bold;">{{$t('trans0412')}}</label>
-              <m-switch v-model="pptp.mppe"></m-switch>
+
+              <m-checkbox v-model="pptp.mppe"
+                          :text="$t('trans0412')"
+                          :bold="true"></m-checkbox>
             </div>
             <div class="opz">
-              <label style="font-weight:bold;">{{$t('trans0413')}}</label>
-              <m-switch v-model="pptp.mppc"></m-switch>
+              <m-checkbox v-model="pptp.mppc"
+                          :text="$t('trans0413')"
+                          :bold="true"></m-checkbox>
             </div>
           </div>
         </div>
@@ -111,7 +115,9 @@
 
       </m-form>
       <div class="btn-info form-button">
-        <button class="btn"
+        <button class="btn btn-middle btn-default"
+                @click="$router.go(-1)">{{$t('trans0025')}}</button>
+        <button class="btn btn-middle"
                 @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
@@ -299,7 +305,7 @@ export default {
       const formData = new FormData();
       formData.append('type', 'openvpn');
       formData.append('file', this.openvpnConfigFile);
-      return this.$http.uploadFile(formData, () => {});
+      return this.$http.uploadFile(formData, () => { });
     },
     submitForm(method) {
       this.$http[method](this.formParams)
@@ -461,6 +467,18 @@ export default {
     color: #999;
     &.config-uploader__tip--error {
       color: #ff0000;
+    }
+  }
+}
+.form-button {
+  display: flex;
+  margin-top: 0;
+  padding-top: 25px;
+  border-top: 1px solid var(--hr-color);
+  .btn {
+    width: 160px;
+    &:first-child {
+      margin-right: 20px;
     }
   }
 }

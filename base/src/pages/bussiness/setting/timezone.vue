@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class='page-header'>
+    <div v-if="$store.state.isMobile"
+         class='page-header'>
       {{$t('trans0272')}}
     </div>
     <div class="page-content">
@@ -11,7 +12,8 @@
                      prop='password'>
           <m-select :label="$t('trans0273')"
                     v-model="form.timezone"
-                    :options="timezones"></m-select>
+                    :options="timezones"
+                    :needProcessing="true"></m-select>
         </m-form-item>
       </m-form>
       <div class="form-button">
@@ -39,6 +41,8 @@ export default {
     array = require(`../../../timezones/${this.$i18n.locale}.json`);
     this.timezones = array.map(t => ({
       text: `(${t.timezoneDetail}) ${t.coutryName}`,
+      mainTitle: t.timezoneDetail,
+      subTitle: t.coutryName,
       value: `${t.offset}:${t.position}`
     }));
   },
@@ -83,13 +87,17 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
   .form {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     align-items: center;
+  }
+  .form-button {
+    margin-top: 0;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
   }
 }
 

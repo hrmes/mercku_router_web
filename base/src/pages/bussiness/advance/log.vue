@@ -1,6 +1,7 @@
 <template>
   <div class="page page__log">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{$t('trans0421')}}
     </div>
     <div class="page-content">
@@ -153,10 +154,8 @@ export default {
   height: 100%;
   .form-item {
     display: flex;
+    justify-content: space-between;
     height: 30px;
-  }
-  .btn {
-    margin-left: 30px;
   }
   .log-container {
     border-radius: 4px;
@@ -169,11 +168,12 @@ export default {
     pre {
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
-      color: #000;
+      color: var(--text-defalut-color);
       white-space: pre-wrap;
       word-wrap: break-word;
+      font-weight: 600;
       &:first-child {
-        color: #ccc;
+        color: var(--text-gery-color);
       }
     }
   }

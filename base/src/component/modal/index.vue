@@ -51,7 +51,7 @@ export default {
 <style lang="scss" scoped>
 .modal-dialog {
   position: fixed;
-  z-index: 999;
+  z-index: 1001;
   top: 0;
   left: 0;
   right: 0;
@@ -59,7 +59,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
   &.modal-enter-active {
     transition: all 0.3s ease-in;
   }
@@ -80,14 +79,14 @@ export default {
     left: 0;
     top: 0;
     height: 100%;
-    background: $modal-mask-background-color;
+    background: var(--modal-mask-background-color);
   }
 
   .modal-content {
-    background: $modal-content-background;
-    padding: 20px;
+    background: var(--modal-content-background);
+    padding: 30px;
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 $modal-shadow-color;
+    box-shadow: 0 2px 12px 0 var(--modal-shadow-color);
   }
 }
 @media screen and (max-width: 768px) {

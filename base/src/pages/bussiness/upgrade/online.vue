@@ -218,9 +218,6 @@ export default {
               .then(() => {
                 this.$loading.close();
                 this.$upgrade({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   }
@@ -369,7 +366,7 @@ export default {
     width: 200px;
   }
   p {
-    color: #333333;
+    color: var(--text-default-color);
     font-size: 16px;
   }
 }

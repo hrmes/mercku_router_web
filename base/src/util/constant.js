@@ -76,6 +76,10 @@ export const Bands = {
   b24g: '2.4G',
   b5g: '5G'
 };
+export const channelMode = {
+  auto: 'auto',
+  manual: 'manual'
+};
 export const AppMessage = {
   closewebpage: 'CLOSE_WEB_PAGE',
   forward2wifi: 'JUMP_SYSTEM_WIFI_SETTING'
@@ -144,4 +148,9 @@ export const HomewayFanModel = {
   game: 'game',
   standard: 'standard',
   sleep: 'sleep'
+};
+
+export const AddNodeType = {
+  wired: 'wired',
+  wireless: 'wireless'
 };

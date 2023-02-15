@@ -7,10 +7,8 @@
              v-model="inputValue"
              readonly>
       <span class="icon-inner">
-        <a class="icon">
-          <img src="../../assets/images/rescreen-time.png"
-               alt="">
-        </a>
+        <i class="iconfont icon-ic_clock">
+        </i>
       </span>
     </div>
     <div class="combox"
@@ -25,7 +23,6 @@
                 @click.stop="(e)=>select('h',v,e)"
                 :class="{'selected':time.h===v}">{{v}}</li>
           </ul>
-
         </div>
         <div class="select-inner"
              ref='m'>
@@ -37,7 +34,6 @@
           </ul>
         </div>
       </div>
-
       <div class="button-wrap">
         <button @click="close">{{$t('trans0025')}}</button>
         <button @click="ok">{{$t('trans0024')}}</button>
@@ -171,43 +167,46 @@ export default {
 .time-picker-panel {
   width: 100%;
   min-width: 120px;
-  height: 100%;
-  border: 1px solid $time-picker-pannel-border-color;
+  height: 48px;
+  border: 1.5px solid var(--time-picker-pannel-border-color);
   position: relative;
   border-radius: 4px;
   padding: 0 10px;
   .combox {
     position: absolute;
-    background: $time-picker-combox-background-color;
-    left: -1px;
+    background: var(--time-picker-combox-background-color);
+    left: 50%;
+    bottom: -4px;
+    transform: translate(-50%, 100%);
     display: flex;
     flex-direction: column;
-    width: 100%;
-    z-index: 9999;
-    box-shadow: 0 2px 8px $time-picker-combox-shadow-color;
+    width: 102%;
+    z-index: 1000;
+    box-shadow: 0 2px 8px var(--time-picker-combox-shadow-color);
     background-clip: padding-box;
+    border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s;
     .select-wrap {
       display: flex;
     }
     .button-wrap {
-      border-top: 1px solid $time-picker-buttons-border-color;
+      border-top: 1px solid var(--time-picker-buttons-border-color);
       button {
         height: 38px;
         width: 50%;
         border: none;
-        background: $time-picker-button-background-color;
+        background: var(--time-picker-button-background-color);
         cursor: pointer;
         outline: none;
         &:hover {
-          opacity: 0.8;
+          opacity: 0.7;
         }
         &:first-child {
-          color: $time-picker-button-cancel-color;
+          color: var(--time-picker-button-cancel-color);
         }
         &:last-child {
-          color: $time-picker-button-confirm-color;
+          color: var(--time-picker-button-confirm-color);
         }
       }
     }
@@ -215,15 +214,16 @@ export default {
       flex: 1;
       height: 192px;
       overflow-y: scroll;
-      border-right: 1px solid $time-picker-popup-border-color;
+      border-right: 1px solid var(--time-picker-popup-border-color);
+      box-sizing: border-box;
       &::-webkit-scrollbar {
-        width: 4px;
+        width: 0px;
       }
       &::-webkit-scrollbar-track {
         background-color: transparent;
       }
       &::-webkit-scrollbar-thumb {
-        background: $time-picker-popup-scrollbar-color;
+        background: var(--time-picker-popup-scrollbar-color);
       }
       &:last-child {
         border-right: none;
@@ -237,21 +237,21 @@ export default {
         padding: 0;
         text-decoration: none;
         list-style: none;
-        text-align: left;
-        padding-left: 10px;
+        text-align: center;
         height: 36px;
         line-height: 36px;
+        color: var(--time-picker-li-color);
         cursor: pointer;
         &:hover {
-          background: $time-picker-popup-item-hover-background-color;
-          color: $time-picker-popup-item-hover-color;
+          background: var(--time-picker-popup-item-hover-background-color);
         }
         &:active {
-          background: $time-picker-popup-item-active-background-color;
-          color: $time-picker-popup-item-active-color;
+          background: var(--time-picker-popup-item-active-background-color);
+          color: var(--time-picker-popup-item-active-color);
         }
         &.selected {
-          color: $time-picker-popup-item-selected-color;
+          color: #fff;
+          background: var(--time-picker-popup-item-selected-color);
         }
       }
     }
@@ -271,7 +271,11 @@ export default {
       padding: 0;
       height: 30px;
       width: 0;
-      background: $time-picker-input-background-color;
+      background: var(--time-picker-input-background-color);
+      color: var(--text-default-color);
+      &::-webkit-input-placeholder {
+        color: var(--input-placehoder-color);
+      }
     }
     .icon-inner {
       display: inline-block;

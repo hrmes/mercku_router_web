@@ -1,9 +1,11 @@
 import { Role, RouterMode, Customers } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
+const modelId = process.env.MODEL_CONFIG.id;
 export default function getMenu(role, mode = RouterMode.router) {
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
+  console.log(`model id is: ${modelId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
   // 菜单默认配置
@@ -18,33 +20,19 @@ export default function getMenu(role, mode = RouterMode.router) {
     auth: [Role.admin, Role.super],
     mode: [RouterMode.router]
   };
-  const wifi = {
-    icon: 'wifi',
+  const dashboard = {
+    icon: 'icon-ic_home_light1',
+    selectedIcon: 'icon-ic_home_selected',
     text: 'trans0173',
-    children: [
-      {
-        text: 'trans0365',
-        name: 'mesh',
-        url: '/dashboard/mesh/table',
-        config
-      },
-      {
-        text: 'trans0235',
-        name: 'device',
-        url: '/dashboard/device/primary',
-        config
-      },
-      {
-        text: 'trans0366',
-        name: 'internet',
-        url: '/dashboard/internet',
-        config
-      }
-    ]
+    url: '/dashboard',
+    children: []
   };
   const setting = {
-    icon: 'setting',
+    icon: 'icon-ic_home_settings_light1',
+    selectedIcon: 'icon-ic_home_settings_selected_light',
     text: 'trans0019',
+    name: 'setting',
+    url: '/setting/wifi',
     children: [
       {
         text: 'trans0103',
@@ -139,16 +127,19 @@ export default function getMenu(role, mode = RouterMode.router) {
         config
       },
       {
-        url: '/setting/wifi-schedule',
-        name: 'setting.wifi-schedule',
+        url: '/setting/schedule',
+        name: 'schedule',
         text: 'trans0962',
         config
       }
     ]
   };
   const advance = {
-    icon: 'advance',
+    icon: 'icon-ic_advanced_settings_light',
+    selectedIcon: 'icon-ic_advanced_settings_selected_light',
     text: 'trans0416',
+    name: 'advance',
+    url: '/advance/portforwarding',
     children: [
       {
         url: '/advance/portforwarding',
@@ -280,8 +271,11 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const upgrade = {
-    icon: 'upgrade',
+    icon: 'icon-ic_upgrade_firmware_light1',
+    selectedIcon: 'icon-ic_upgrade_firmware_selected_light',
     text: 'trans0197',
+    name: 'upgrade',
+    url: '/upgrade/online',
     children: [
       {
         url: '/upgrade/online',
@@ -303,7 +297,12 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     ]
   };
-  [wifi, setting, advance, upgrade].forEach(item => {
+  const theme = {
+    icon: 'icon-ic_theme_light',
+    text: 'trans1119',
+    children: []
+  };
+  [dashboard, setting, advance, upgrade, theme].forEach(item => {
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
       menu.config = menu.config || config;
@@ -329,7 +328,17 @@ export default function getMenu(role, mode = RouterMode.router) {
         menu.disabled = true;
       }
     });
+
+    // 根据最后生成的菜单，去设置父级菜单的url值指向哪一个子级菜单
+    item.children.length &&
+      item.children.some(menu => {
+        if (!menu.disabled) {
+          item.url = menu.url;
+          return true;
+        }
+      });
   });
 
-  return [wifi, setting, advance, upgrade];
+  console.log([dashboard, setting, advance, upgrade, theme]);
+  return [dashboard, setting, advance, upgrade, theme];
 }

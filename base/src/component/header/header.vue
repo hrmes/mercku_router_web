@@ -2,10 +2,14 @@
   <header class="header-container customized"
           :class="{
             'is-login-nav':isLoginPage,
+            'is-not-login-nav':!isLoginPage,
             'open':mobileNavVisible,
             'i18n-open':mobileI18nVisible
           }">
-    <div class="logo-wrap">
+    <div class="logo-wrap"
+         :class="{'light':currentTheme!=='auto'&&!isMobile&&!isDarkMode,
+                  'dark':currentTheme!=='auto'&&!isMobile&&isDarkMode
+                  }">
       <div v-if="logoVisible"
            @click="forward2dashboard"
            class="logo-wrap__logo"></div>
@@ -24,34 +28,20 @@
           v-if="navVisible">
         <li class="nav-item"
             :key="menu.key"
-            @mouseenter="setChildMenuVisible(menu,true)"
-            @mouseleave="setChildMenuVisible(menu,false)"
             v-for="menu in list"
-            :class="{'selected':menu.selected,'open':menu.showChild}">
-          <div class="nav-item-content">
-            <div class="nav-item__text">{{$t(menu.text)}}</div>
+            :class="{'selected':menu.selected}">
+          <div class="nav-item-content"
+               @click.stop="jump(menu)"
+               :data-title="$t(menu.text)">
+            <i class="el-menu-item__icon iconfont"
+               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
           </div>
-
-          <ul v-if="menu.children"
-              class="nav-item-child reset-ul"
-              :class="{'show':menu.showChild}">
-            <li class="nav-child__text"
-                :key="child.key"
-                @click.stop="jump(child,menu)"
-                v-for="child in menu.children"
-                :class="{'selected':$route.name === child.name,'disabled':child.disabled}">
-              {{$t(child.text)}}
-              <i v-if="$route.name === child.name"
-                 class="is-checked"></i>
-            </li>
-          </ul>
         </li>
         <li class="nav-item nav-item__exit"
             @click="exit()">
           <div class="nav-item-content">
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
-
         </li>
       </ul>
     </div>
@@ -61,17 +51,23 @@
       <ul class="nav reset-ul">
         <li class="nav-item"
             :key="menu.key"
-            @click="showMobileMenu(menu)"
             v-for="menu in list"
             :class="{'selected':menu.selected}">
-          <div class="nav-item-content">
+          <div class="nav-item-content"
+               @click="showMobileMenu(menu)">
+            <i class="el-menu-item__icon iconfont"
+               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
             <div class="nav-item__text">{{$t(menu.text)}}</div>
+            <span v-if="menu.children.length"
+                  class="mobile-trangle"></span>
+            <i v-if="!menu.children.length"
+               class="is-checked"></i>
           </div>
           <transition name="nav-item-child__animation"
                       v-on:before-enter="beforeEnter"
                       v-on:enter="enter"
                       v-on:leave="leave">
-            <ul v-if="menu.children"
+            <ul v-if="menu.children.length"
                 class="nav-item-child reset-ul"
                 v-show="menu.selected">
               <li class="nav-child__text"
@@ -85,11 +81,10 @@
               </li>
             </ul>
           </transition>
-
         </li>
-        <li class="nav-item nav-item__exit"
-            @click="exit()">
-          <div class="nav-item-content">
+        <li class="nav-item nav-item__exit">
+          <div class="nav-item-content"
+               @click="exit()">
             <div class="nav-item__text">{{$t('trans0021')}}</div>
           </div>
 
@@ -105,10 +100,11 @@
         <div class="current">
           <span class="current-text">{{language.text}}</span>
           <span class="drop-trangle"
-                :class="{'down':!showPopup,'up':showPopup}"></span>
+                :class="{'right':!showPopup,'down':showPopup}"></span>
         </div>
         <transition name="popup">
           <ul class="popup reset-ul"
+              :class="{'move-to-right':needMoveToRight}"
               v-show="showPopup">
             <li :key="lang.value"
                 v-for="lang in Languages"
@@ -122,9 +118,11 @@
         </transition>
       </div>
       <div class="small-device">
-        <span @click="setMobleLangVisible()"
+        <span @click="setMobileLangVisible()"
               class="menu-icon language"
-              :class="[$i18n.locale]"></span>
+              :class="[$i18n.locale]">
+          <i class="iconfont icon-a-ic_languages"></i>
+        </span>
         <ul class="i18n-mobile reset-ul"
             v-show="mobileI18nVisible">
           <li :key="lang.value"
@@ -138,7 +136,9 @@
         </ul>
         <span v-if="navVisible"
               @click="trigerMobileNav()"
-              class="menu-icon menu"></span>
+              class="menu-icon menu">
+          <i class="iconfont icon-ic_more"></i>
+        </span>
       </div>
       <div v-show="navVisible"
            class="exit"
@@ -147,6 +147,54 @@
       </div>
     </div>
 
+    <!-- theme change modal -->
+    <m-modal class="theme-change-modal"
+             :visible.sync='ThemechangeVisiable'>
+      <m-modal-header>
+        <div class="theme-change-header">
+          <span>{{$t('trans1119')}}</span>
+          <div class="theme-change-header__close-btn"
+               @click.stop="() => (ThemechangeVisiable = false)">
+            <i class="iconfont icon-ic_close"></i>
+          </div>
+        </div>
+      </m-modal-header>
+      <m-modal-body>
+        <div class="theme-change-body">
+          <div class="theme-option light"
+               @click="clickHandler('light')">
+            <img src="../../assets/images/img_theme_light.webp"
+                 alt="">
+            <span class="label">{{$t('trans1122')}}</span>
+            <m-checkbox class="checkbox"
+                        :rect="false"
+                        v-model="themeOptions.light.ischecked"></m-checkbox>
+          </div>
+          <div class="theme-option dark"
+               @click="clickHandler('dark')">
+            <img src="../../assets/images/img_theme_dark.webp"
+                 alt="">
+            <span class="label">{{$t('trans1123')}}</span>
+            <m-checkbox class="checkbox"
+                        :rect="false"
+                        v-model="themeOptions.dark.ischecked"></m-checkbox>
+          </div>
+          <div class="theme-option auto"
+               @click="clickHandler('auto')">
+            <img src="../../assets/images/img_theme_auto.webp"
+                 alt="">
+            <span class="label">{{$t('trans1121')}}</span>
+            <m-checkbox class="checkbox"
+                        :rect="false"
+                        v-model="themeOptions.auto.ischecked"></m-checkbox>
+          </div>
+        </div>
+      </m-modal-body>
+      <m-modal-footer class="theme-change-footer">
+        <button class="btn btn-dialog-confirm"
+                @click="changeThemeMode">{{$t('trans0081')}}</button>
+      </m-modal-footer>
+    </m-modal>
   </header>
 </template>
 <script>
@@ -233,9 +281,16 @@ export default {
       mobileI18nVisible: false,
       showPopup: false,
       Languages: Languages.filter(l => l.show),
-      current: null,
       list: [],
-      mobileNavVisible: false
+      mobileNavVisible: false,
+      ThemechangeVisiable: false,
+      themeOptions: {
+        light: { ischecked: false },
+        dark: { ischecked: false },
+        auto: { ischecked: true },
+      },
+      selectedTheme: 'light',
+      isDarkMode: false
     };
   },
   mounted() {
@@ -246,6 +301,7 @@ export default {
       document.body.attachEvent('click', this.close);
     }
     this.list = this.getList();
+    this.checkTheme();
   },
   computed: {
     language() {
@@ -253,6 +309,15 @@ export default {
     },
     website() {
       return process.env.CUSTOMER_CONFIG.website;
+    },
+    needMoveToRight() {
+      return this.$route.path.includes('wlan') || this.$route.path.includes('unconnect');
+    },
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
+    currentTheme() {
+      return this.$store.state.theme;
     }
   },
   watch: {
@@ -261,6 +326,16 @@ export default {
     },
     menus() {
       this.list = this.getList();
+    },
+    currentTheme: {
+      handler(nv) {
+        if (nv === 'dark') {
+          this.isDarkMode = true;
+        } else {
+          this.isDarkMode = false;
+        }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -268,13 +343,19 @@ export default {
       if (this.navVisible) {
         this.$router.push({ path: '/dashboard' });
       }
+      if (this.mobileI18nVisible) {
+        this.mobileI18nVisible = false;
+      }
+      if (this.mobileNavVisible) {
+        this.mobileNavVisible = false;
+      }
     },
     beforeEnter(el) {
       el.style.height = 0;
     },
     enter(el, done) {
       setTimeout(() => {
-        const height = el.childElementCount * 38;
+        const height = el.childElementCount * 60;
         Velocity(el, { height: `${height}px` }, { complete: done });
       });
     },
@@ -284,56 +365,71 @@ export default {
       });
     },
     showMobileMenu(menu) {
+      // 如果点击的是修改主题，则仅展示切换主题的modal，但不进行选中状态的变化
+      if (menu.key === this.list.length - 1) {
+        this.jumpMobile(menu);
+        return;
+      }
+      // 让菜单所有的选中状态变为false
       this.list.forEach(l => {
         if (l !== menu) {
           l.selected = false;
         }
       });
+      // 如果点击的菜单没有子菜单，就直接进行页面跳转，同时不反转选中状态
+      if (!menu.children.length) {
+        this.jumpMobile(menu);
+        menu.selected = true;
+        return;
+      }
       menu.selected = !menu.selected;
     },
+    jump(menu) {
+      // 如果点击的是header的最后一项，则为修改主题，不进行页面跳转，弹出修改主题modal
+      if (menu.key === this.list.length - 1) {
+        const current = localStorage.getItem('theme');
+        Object.keys(this.themeOptions).forEach((key) => {
+          this.themeOptions[key].ischecked = false;
+        });
+        this.themeOptions[current].ischecked = true;
+        this.ThemechangeVisiable = true;
+      } else {
+        this.$router.push({ path: menu.url });
+      }
+    },
     jumpMobile(child) {
-      if (!child.disabled) {
+      if (child.key === this.list.length - 1) {
+        const current = localStorage.getItem('theme');
+        Object.keys(this.themeOptions).forEach((key) => {
+          this.themeOptions[key].ischecked = false;
+        });
+        this.themeOptions[current].ischecked = true;
+        this.ThemechangeVisiable = true;
+      } else if (!child.disabled) {
         this.$router.push({ path: child.url });
-        this.current = child;
         this.mobileNavVisible = !this.mobileNavVisible;
       }
+      console.log('current', this.current);
     },
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
       this.mobileI18nVisible = false;
     },
-    setChildMenuVisible(menu, visible) {
-      menu.showChild = visible;
-    },
-    jump(menu, parent) {
-      if (!menu.disabled) {
-        this.list.forEach(l => {
-          if (l !== parent) {
-            l.selected = false;
-          } else {
-            l.selected = true;
-          }
-        });
-        this.$router.push({ path: menu.url });
-        this.current = menu;
-        parent.showChild = false;
-      }
-    },
     getList() {
       const list = this.navs.map((m, index) => {
         m.key = index;
-        if (m.children) {
+        if (m.children.length) {
           let selected = false;
           const children = m.children.map((mm, ii) => {
             mm.index = ii;
-            if (this.$route.name.includes(mm.name)) {
+            if (this.$route.path.includes(mm.url)) {
               selected = true;
             }
             return { ...mm, children };
           });
           return { ...m, selected, showChild: false };
         }
-        const selected = this.$route.name.includes(m.name);
+        const selected = this.$route.path.includes(m.url);
         return { ...m, selected, showChild: false };
       });
       return list;
@@ -348,11 +444,10 @@ export default {
       }
       return language;
     },
-
     setLangPopupVisible(visible) {
       this.showPopup = visible;
     },
-    setMobleLangVisible() {
+    setMobileLangVisible() {
       this.mobileI18nVisible = !this.mobileI18nVisible;
       this.mobileNavVisible = false;
       // if (this.mobileI18nVisible) {
@@ -388,6 +483,41 @@ export default {
           }
         }
       });
+    },
+    clickHandler(mode) {
+      this.selectedTheme = mode;
+      Object.keys(this.themeOptions).forEach((key) => {
+        if (key === mode) {
+          this.themeOptions[key].ischecked = true;
+        } else {
+          this.themeOptions[key].ischecked = false;
+        }
+      });
+    },
+    checkTheme() {
+      const theme = localStorage.getItem('theme');
+      console.log(theme, !theme);
+      if (!theme || theme === undefined) {
+        localStorage.setItem('theme', 'light');
+        this.$store.state.theme = 'light';
+        this.themeOptions.light.ischecked = true;
+      } else {
+        this.$store.state.theme = theme;
+        Object.keys(this.themeOptions).forEach((key) => {
+          this.themeOptions[key].ischecked = false;
+        });
+        this.themeOptions[theme].ischecked = true;
+      }
+      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
+    },
+    changeThemeMode() {
+      localStorage.setItem('theme', this.selectedTheme);
+      this.$store.state.theme = this.selectedTheme;
+      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
+      this.ThemechangeVisiable = false;
+      if (this.mobileNavVisible) {
+        this.mobileNavVisible = false;
+      }
     }
   },
   beforeDestroy() {
@@ -400,14 +530,74 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.theme-change-modal {
+  .theme-change-header {
+    position: relative;
+    .theme-change-header__close-btn {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--button-close-background-color);
+      cursor: pointer;
+      .iconfont {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12px;
+        &::before {
+          transform: scale(0.5);
+        }
+      }
+    }
+  }
+
+  .theme-change-body {
+    display: flex;
+    .theme-option {
+      position: relative;
+      width: 120px;
+      height: 194px;
+      margin: 0 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      outline: 3px solid transparent;
+      transition: outline 0.3s ease-out;
+      &:hover {
+        outline-color: var(--primaryColor);
+      }
+      > img {
+        width: 100%;
+      }
+      .label {
+        color: var(--text-defult-color);
+      }
+      .checkbox {
+        position: absolute;
+        top: 7px;
+        right: 7px;
+      }
+    }
+  }
+
+  .btn-dialog-confirm {
+    width: 240px;
+  }
+}
 .header-container {
+  width: 100%;
   height: 65px;
   align-items: center;
   justify-content: center;
   display: flex;
-  background: $header-background-color;
-  color: $header-color;
-  padding: 0 10%;
+  background: var(--header-background-color);
+  color: var(--text-default-color);
+  padding: 0 5%;
   position: relative;
   @media screen and (max-width: 1440px) {
     padding: 0 50px;
@@ -415,91 +605,11 @@ export default {
   @media screen and (max-width: 768px) {
     padding: 0 20px !important;
   }
-  &.is-login-nav {
-    background: $header-nav-hide-background-color;
-    color: $header-nav-hide-color;
-    padding: 0 50px;
-    .right-wrap {
-      .lang-selector {
-        .drop-trangle {
-          &:hover {
-            .current {
-              .current-text {
-                color: $header-nav-item-hover-color;
-              }
-              .drop-trangle {
-                &::after {
-                  border-top-color: $header-nav-item-hover-color;
-                }
-              }
-            }
-          }
-          &.down {
-            &::after {
-              border-top-color: $header-nav-hide-trangle-color;
-            }
-          }
-        }
-        .popup {
-          box-shadow: 0 2px 8px 0 $header-nav-hide-popup-shadow-color;
-          background-color: $header-nav-hide-popup-background-color;
-          margin-top: 0;
-          right: 0;
-          top: 50px;
-          li {
-            list-style: none;
-            line-height: 38px;
-            padding: 0 30px;
-            &:hover {
-              background: $header-nav-hide-popup-item-hover-background-color;
-              color: $header-nav-hide-popup-item-hover-color;
-            }
-            &:last-child {
-              margin-bottom: 0;
-            }
-            &.selected {
-              color: $header-nav-hide-popup-item-selected-color;
-              .is-checked {
-                &::after {
-                  border-color: $header-nav-hide-popup-item-checked-color;
-                }
-              }
-            }
-          }
-        }
-      }
-      .small-device {
-        .i18n-mobile {
-          background: $header-nav-hide-i18n-mobile-background-color;
-          color: $header-nav-hide-i18n-mobile-color;
-          border-color: $header-nav-hide-i18n-mobile-border-color;
-          li {
-            border-color: $header-nav-hide-i18n-mobile-item-border-color;
-            &.selected {
-              color: $header-nav-hide-popup-item-selected-color;
-              .is-checked {
-                &::after {
-                  border-color: $header-nav-hide-popup-item-checked-color;
-                }
-              }
-            }
-          }
-        }
-        .menu-icon {
-          &.language {
-            background: url(../../assets/images/icon/ic_languages_black.png)
-              no-repeat center;
-            background-size: 100%;
-          }
-        }
-      }
-    }
-  }
   .logo-wrap {
-    z-index: 1001;
-    padding-right: 60px;
+    width: 185px;
+    height: 30px;
     .offical {
-      color: $header-official-color;
+      color: var(--header-official-color);
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -507,7 +617,7 @@ export default {
       line-height: 1;
       &:hover {
         text-decoration: underline;
-        color: $header-official-hover-color;
+        color: var(--header-official-hover-color);
       }
       img {
         width: 12px;
@@ -515,8 +625,8 @@ export default {
       }
     }
     .logo-wrap__logo {
-      width: 74px;
-      height: 25px;
+      width: 100%;
+      height: 100%;
       cursor: pointer;
     }
   }
@@ -525,7 +635,19 @@ export default {
     height: 100%;
 
     &.nav-wrap--laptop {
+      margin-left: 100px;
       display: block;
+      .nav-item-content {
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        transition: background 0.3s linear;
+        &:hover {
+          background: var(--header-nav-hover-background-color);
+        }
+      }
     }
     &.nav-wrap--mobile {
       display: none;
@@ -533,103 +655,62 @@ export default {
     .nav {
       display: flex;
       height: 100%;
-
       .nav-item {
         height: 100%;
         list-style: none;
         display: flex;
         align-items: center;
-        margin-right: 80px;
-        &.open {
-          &::before {
-            content: '';
-            display: block;
-            position: absolute;
-            bottom: -6px;
-            height: 6px;
-            width: 260px;
-            left: 0;
-            background: transparent;
-            z-index: 999;
-          }
-        }
-        @media screen and (max-width: 1440px) {
-          margin-right: 50px;
-        }
-        cursor: pointer;
-        position: relative;
-        &:hover {
-          .nav-item-content {
-            .nav-item__text {
-              color: $header-nav-item-hover-color;
-            }
-          }
-        }
-        &.selected {
-          position: relative;
-          &::after {
-            content: '';
-            display: block;
-            height: 2.5px;
-            background: $header-nav-item-selected-background-color;
-            width: 100%;
-            bottom: 0;
-            left: 0;
-            position: absolute;
-          }
-        }
-        &.nav-item__exit {
-          display: none;
-        }
-        &:last-child {
-          margin-right: 0;
-        }
+        margin-right: 60px;
         .nav-item-content {
           display: flex;
+          position: relative;
+          .iconfont {
+            font-size: 24px;
+            color: var(--header-nav-iconfont-color);
+          }
           .nav-item__text {
             height: 100%;
             display: flex;
             align-items: center;
-            color: $header-popup-item-color;
+            margin-left: 20px;
+            color: var(--header-popup-item-color);
           }
         }
         .nav-item-child {
           display: none;
           width: 280px;
           position: absolute;
-          z-index: 999;
           top: 100%;
           left: 0;
           margin-top: 6px;
-          box-shadow: -10px 9px 21px 0 $header-popup-shadow-color;
-          background-color: $header-popup-background-color;
-          padding: 25px 0;
+          box-shadow: -10px 9px 21px 0 var(--header-popup-shadow-color);
+          background-color: var(--header-popup-background-color);
           .nav-child__text {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: $header-popup-item-color;
+            color: var(--header-popup-item-color);
             list-style: none;
-            padding: 0 30px;
+            padding: 0 23px 0 74px;
             line-height: 38px;
             &:hover {
-              color: $header-popup-item-hover-color;
-              background: $header-popup-item-hover-background-color;
+              color: var(--header-popup-item-hover-color);
+              background: var(--header-popup-item-hover-background-color);
             }
             &.disabled {
-              color: $header-popup-item-disabled-color;
+              color: var(--header-popup-item-disabled-color);
               cursor: not-allowed;
-              background: $header-popup-item-disabled-background-color;
+              background: var(--header-popup-item-disabled-background-color);
               &:active,
               &:hover {
-                color: $header-popup-item-disabled-hover-color;
+                color: var(--header-popup-item-disabled-hover-color);
               }
             }
             &.selected {
-              color: $header-popup-item-selected-color;
+              color: var(--header-popup-item-selected-color);
               .is-checked {
                 &::after {
-                  border-color: $header-popup-item-checked-color;
+                  border-color: var(--header-popup-item-checked-color);
                 }
               }
             }
@@ -637,6 +718,28 @@ export default {
           &.show {
             display: block;
           }
+        }
+        @media screen and (max-width: 1440px) {
+          margin-right: 30px;
+        }
+        cursor: pointer;
+        position: relative;
+        &.selected {
+          position: relative;
+          .nav-item-content {
+            &:hover {
+              background: none;
+            }
+          }
+          .iconfont {
+            color: var(--header-nav-iconfont-selected-color);
+          }
+        }
+        &.nav-item__exit {
+          display: none;
+        }
+        &:last-child {
+          margin-right: 0;
         }
       }
     }
@@ -646,7 +749,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    z-index: 1001;
+    z-index: 999;
     .small-device {
       display: none;
     }
@@ -657,11 +760,11 @@ export default {
       &:hover {
         .current {
           .current-text {
-            color: $header-nav-item-hover-color;
+            color: var(--header-nav-item-hover-color);
           }
           .drop-trangle {
             &::after {
-              border-top-color: $header-nav-item-hover-color;
+              border-top-color: var(--header-nav-item-hover-color);
             }
           }
         }
@@ -676,7 +779,6 @@ export default {
           width: 130px;
           left: 0;
           background: transparent;
-          z-index: 999;
         }
       }
       .current {
@@ -699,30 +801,30 @@ export default {
             display: block;
             width: 0;
             height: 0;
-            border-top: 5px solid $header-nav-item-color;
+            border-top: 5px solid var(--text-default-color);
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
           }
-          transition: transform 0.3s linear;
-          &.up {
-            transform: rotate(180deg);
-          }
+          transition: transform 0.2s linear;
           &.down {
             transform: rotate(0);
+          }
+          &.right {
+            transform: rotate(-90deg);
           }
         }
       }
 
       .popup {
         position: absolute;
-        width: 153px;
+        width: 160px;
         margin-top: 6px;
         border-radius: 2px;
-        z-index: 999;
-        box-shadow: -10px 9px 21px 0 $header-popup-shadow-color;
-        background-color: $header-popup-background-color;
+        box-shadow: 0 10px 15px 0 var(--header-popup-shadow-color);
+        background-color: var(--header-popup-background-color);
         padding: 25px 0;
         opacity: 1;
+        border-radius: 10px;
         &.popup-enter-active {
           transition: opacity 0.2s ease-in;
         }
@@ -733,6 +835,9 @@ export default {
           transition: opacity 0.2s ease-out;
           opacity: 0;
         }
+        &.move-to-right {
+          right: 0;
+        }
         li {
           display: flex;
           justify-content: space-between;
@@ -741,17 +846,17 @@ export default {
           line-height: 38px;
           padding: 0 30px;
           &:hover {
-            background: $header-popup-item-hover-background-color;
-            color: $header-popup-item-hover-color;
+            background: var(--header-popup-item-hover-background-color);
+            color: var(--header-popup-item-hover-color);
           }
           &:last-child {
             margin-bottom: 0;
           }
           &.selected {
-            color: $header-popup-item-selected-color;
+            color: var(--header-popup-item-selected-color);
             .is-checked {
               &::after {
-                border-color: $header-popup-item-checked-color;
+                border-color: var(--header-popup-item-checked-color);
               }
             }
           }
@@ -763,27 +868,136 @@ export default {
       cursor: pointer;
       margin-left: 50px;
       &:hover {
-        color: $header-nav-item-hover-color;
+        color: var(--header-nav-item-hover-color);
+      }
+    }
+  }
+  &.is-not-login-nav {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+  }
+  &.is-login-nav {
+    height: 80px;
+    background: transparent;
+    color: var(--header-nav-hide-color);
+    padding: 0 50px;
+    .logo-wrap {
+      height: 14px;
+      img {
+        filter: var(--img-brightness);
+      }
+    }
+    .right-wrap {
+      height: 35px;
+      .lang-selector {
+        background-color: var(--grey-background-color);
+        width: 115px;
+        border-radius: 20px;
+        .current {
+          .current-text {
+            width: 88px;
+          }
+        }
+        .drop-trangle {
+          &:hover {
+            .current {
+              .current-text {
+                color: var(--header-nav-item-hover-color);
+              }
+              .drop-trangle {
+                &::after {
+                  border-top-color: var(--header-nav-item-hover-color);
+                }
+              }
+            }
+          }
+          &.right {
+            &::after {
+              border-top-color: var(--header-nav-hide-trangle-color);
+            }
+          }
+        }
+        .popup {
+          box-shadow: 0 2px 8px 0 var(--header-nav-hide-popup-shadow-color);
+          background-color: var(--header-nav-hide-popup-background-color);
+          margin-top: 0;
+          right: 0;
+          top: 40px;
+          li {
+            list-style: none;
+            line-height: 38px;
+            padding: 0 30px;
+            &:hover {
+              background: var(
+                --header-nav-hide-popup-item-hover-background-color
+              );
+              color: var(--text-default-color);
+            }
+            &:last-child {
+              margin-bottom: 0;
+            }
+            &.selected {
+              color: var(--header-nav-hide-popup-item-selected-color);
+              .is-checked {
+                &::after {
+                  border-color: var(--header-nav-hide-popup-item-checked-color);
+                }
+              }
+            }
+          }
+        }
+      }
+      .small-device {
+        .i18n-mobile {
+          background: var(--header-nav-hide-i18n-mobile-background-color);
+          color: var(--header-nav-hide-i18n-mobile-color);
+          border-color: var(--header-nav-hide-i18n-mobile-border-color);
+          li {
+            border-color: var(--header-nav-hide-i18n-mobile-item-border-color);
+            &.selected {
+              color: var(--header-nav-hide-popup-item-selected-color);
+              .is-checked {
+                &::after {
+                  border-color: var(--header-nav-hide-popup-item-checked-color);
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
 }
 @media screen and (max-width: 768px) {
+  .theme-change-modal {
+    .theme-change-body {
+      .theme-option {
+        height: auto;
+        &:hover {
+          outline-color: transparent;
+        }
+      }
+    }
+    .theme-change-footer {
+      padding-top: 20px;
+    }
+  }
   .header-container {
     height: 65px;
-    position: relative;
-    &.open,
-    &.i18n-open {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      width: 100%;
-    }
-
+    z-index: 999;
+    // &.open,
+    // &.i18n-open {
+    //   position: fixed;
+    //   top: 0;
+    //   left: 0;
+    //   width: 100%;
+    // }
     .logo-wrap {
       display: block;
       position: absolute;
+      width: 60px;
+      height: 20px;
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
@@ -793,42 +1007,39 @@ export default {
       position: fixed;
       top: 65px;
       left: 0;
-      z-index: 1000;
       width: 100%;
       height: calc(100% - 65px);
-      background: $header-background-color;
-      color: $header-color;
+      background: var(--header-background-color);
+      color: var(--header-color);
       &.nav-wrap--laptop {
         display: none;
       }
       &.nav-wrap--mobile {
         display: block;
         overflow: auto;
+        border-top: 1px solid var(--header-dividing-color);
       }
       .nav {
-        padding: 0 30px;
         flex-direction: column;
         height: auto;
-        border-top: 1px solid $header-nav-item-border-color;
         .nav-item {
           width: 100%;
           margin: 0;
           height: auto;
           flex-direction: column;
-          align-items: flex-start;
-          border-bottom: 1px solid $header-nav-item-border-color;
-          &:hover {
-            .nav-item-content {
-              .nav-item__text {
-                color: $header-mobile-nav-item-hover-color;
-              }
-            }
-          }
+          align-items: center;
           &.nav-item__exit {
             display: block;
           }
           &.nav-item__exit {
             .nav-item-content {
+              justify-content: center;
+              background: var(--logout-btn-bgc);
+              border-radius: 5px;
+              margin: 30px auto;
+              > .nav-item__text {
+                margin: 0;
+              }
               &::after {
                 display: none;
               }
@@ -837,27 +1048,35 @@ export default {
           .nav-item-content {
             align-items: center;
             position: relative;
-            width: 100%;
-            &::after {
-              position: absolute;
-              content: '';
-              display: block;
-              width: 5px;
-              height: 5px;
-              border-right: 1px solid $header-mobile-nav-item-color;
-              border-bottom: 1px solid $header-mobile-nav-item-color;
-              border-left: 0;
-              border-top: 0;
-              transform: translateY(-50%) rotate(45deg);
-              top: 50%;
-              right: 0;
-              transition: all 0.3s linear;
-            }
+            width: 85%;
             .nav-item__text {
-              color: $header-mobile-nav-item-color;
+              color: var(--header-mobile-nav-item-color);
               line-height: 1;
               padding: 16px 0;
               font-size: 16px;
+              font-weight: 600;
+            }
+            .mobile-trangle {
+              position: absolute;
+              right: 0;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 0;
+              height: 0;
+              border-left: 6px solid var(--text-default-color);
+              border-right: 0px solid transparent;
+              border-top: 5px solid transparent;
+              border-bottom: 5px solid transparent;
+              transform-origin: top top;
+              transition: all 0.3s;
+              font-size: 10px;
+            }
+            .is-checked {
+              display: none;
+              position: absolute;
+              top: 50%;
+              right: -6px;
+              transform: translateY(-50%);
             }
           }
           &.selected {
@@ -865,21 +1084,23 @@ export default {
               display: none;
             }
             .nav-item-content {
-              &::after {
-                transform: translateY(-50%) rotate(225deg);
+              & .mobile-trangle {
+                transform: translateY(-50%) rotate(90deg);
               }
               .nav-item__text {
-                color: $header-mobile-nav-item-color;
+                color: var(--header-mobile-nav-item-color);
+              }
+              & .is-checked {
+                display: inline-flex;
               }
             }
           }
           .nav-item-child {
             position: static;
             display: block;
-            background: $header-popup-background-color;
+            background: var(--mobile-header-popup-background-color);
             box-shadow: none;
             width: 100%;
-            padding: 0;
             &.nav-item-child__animation-leave-active {
               overflow: hidden;
             }
@@ -888,20 +1109,12 @@ export default {
             }
             .nav-child__text {
               display: flex;
+              height: 60px;
               justify-content: space-between;
               align-items: center;
-              padding: 0;
-              padding-left: 10px;
-              color: $header-popup-item-color;
+              color: var(--text-default-color);
               &.disabled {
-                background: $header-popup-item-disabled-background-color;
-              }
-              &:active {
-                color: $header-popup-item-active-color;
-              }
-              &:hover {
-                color: $header-popup-item-disabled-hover-color;
-                background: $header-popup-background-color;
+                background: var(--header-popup-item-disabled-background-color);
               }
             }
           }
@@ -926,23 +1139,24 @@ export default {
           left: 0;
           width: 100%;
           height: 100%;
-          background: $header-popup-background-color;
-          color: $header-popup-item-color;
+          background: var(--header-background-color);
+          color: var(--text-default-color);
+          border-top: 1px solid var(--header-dividing-color);
           padding: 0 30px;
-          z-index: 1000;
-          border-top: 1px solid $header-popup-border-color;
+          z-index: 999;
+          font-size: 16px;
           li {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 16px 0;
             list-style: none;
-            border-top: 1px solid $header-nav-item-border-color;
+            font-weight: 600;
             &.selected {
-              color: $header-nav-item-selected-background-color;
+              color: var(--header-nav-item-selected-background-color);
               .is-checked {
                 &::after {
-                  border-color: $header-popup-item-checked-color;
+                  border-color: var(--header-popup-item-checked-color);
                 }
               }
             }
@@ -955,20 +1169,22 @@ export default {
           display: inline-block;
           width: 20px;
           height: 20px;
-          &.language {
-            background: url(../../assets/images/icon/ic_languages_white.png)
-              no-repeat center;
-            background-size: 100%;
+          line-height: 20px;
+          text-align: center;
+          .iconfont {
+            font-size: 20px;
           }
           &.menu {
-            width: 24px;
-            margin-left: 40px;
-            background: url(../../assets/images/icon/ic_top_bar_pull_down.png)
-              no-repeat center;
-            background-size: 100%;
+            margin-left: 35px;
           }
         }
       }
+    }
+    &.is-login-nav {
+      height: 65px;
+    }
+    &.is-not-login-nav {
+      border-radius: 0;
     }
   }
 }

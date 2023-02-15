@@ -1,19 +1,26 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       <span class="title"> {{ $t('trans0020') }}</span>
     </div>
     <div class="page-content">
       <div class="table">
-        <div class="tools">
+        <div v-if="$store.state.isMobile"
+             class="tools mobile">
           <div class="checkbox">
             <m-checkbox v-model="checkAllBlacklist"
-                        :text="$t('trans0032')"
+                        :text="$t('trans0033')"
                         @change="changeCheckboxAll"></m-checkbox>
           </div>
           <div class="btns">
+            <button class="btn btn-small"
+                    @click="removeBlacklist()"
+                    :disabled="!someBlacklistChecked">
+              {{ $t('trans0453') }}
+            </button>
             <div class="btn btn-primary btn-small"
-                 @click.stop="deviceModalVisible = !deviceModalVisible">
+                 @click.stop="showDeviceModal">
               {{ $t('trans0035') }}
               <div class="modal"
                    v-show="deviceModalVisible"
@@ -21,11 +28,16 @@
                    v-clickoutside="() => (deviceModalVisible = false)">
                 <div class="opcity"></div>
                 <div class="modal-content">
-                  <div class="modal__header">{{ $t('trans0235') }}</div>
+                  <div class="modal__header"> <span>{{ $t('trans0235') }}</span>
+                    <div class="modal__header__close-btn"
+                         @click.stop="() => (deviceModalVisible = false)">
+                      <i class="iconfont icon-ic_close"></i>
+                    </div>
+                  </div>
                   <div v-if="devices"
                        class="list">
                     <div class="device-item"
-                         @click="checkDevice(item)"
+                         @click.stop="checkDevice(item)"
                          v-for="(item, index) in devices"
                          :key="index">
                       <div class="check">
@@ -56,11 +68,7 @@
                 </div>
               </div>
             </div>
-            <button class="btn btn-small"
-                    @click="removeBlacklist()"
-                    :disabled="!someBlacklistChecked">
-              {{ $t('trans0453') }}
-            </button>
+
           </div>
         </div>
         <div class="table-header">
@@ -72,7 +80,66 @@
             <div>{{ $t('trans0005') }}</div>
           </div>
           <div class="mac">{{ $t('trans0188') }}</div>
-          <!-- <div class="operate">{{ $t('trans0370') }}</div> -->
+          <div v-if="!$store.state.isMobile"
+               class="tools laptop">
+            <div class="btns">
+              <button class="btn btn-small"
+                      @click="removeBlacklist()"
+                      :disabled="!someBlacklistChecked">
+                {{ $t('trans0453') }}
+              </button>
+              <div class="btn btn-primary btn-small"
+                   @click.stop="deviceModalVisible = !deviceModalVisible">
+                {{ $t('trans0035') }}
+                <div class="modal"
+                     v-show="deviceModalVisible"
+                     @click.stop=""
+                     v-clickoutside="() => (deviceModalVisible = false)">
+                  <div class="opcity"></div>
+                  <div class="modal-content">
+                    <div class="modal__header">
+                      <span>{{ $t('trans0235') }}</span>
+                      <div class="modal__header__close-btn"
+                           @click.stop="() => (deviceModalVisible = false)">
+                        <i class="iconfont icon-ic_close"></i>
+                      </div>
+                    </div>
+                    <div v-if="devices"
+                         class="list">
+                      <div class="device-item"
+                           @click="checkDevice(item)"
+                           v-for="(item, index) in devices"
+                           :key="index">
+                        <div class="check">
+                          <m-checkbox :readonly="true"
+                                      v-model="item.checked"></m-checkbox>
+                        </div>
+                        <div class="des">
+                          <p>{{ item.name }}</p>
+                          <p>
+                            <label class="with-colon"
+                                   for="">{{ $t('trans0188') }}:</label>
+                            <span>{{ formatMac(item.mac) }}</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="empty-device"
+                         v-if="!devices.length">
+                      <p>{{ $t('trans0278') }}</p>
+                    </div>
+                    <div class="btn-wrap">
+                      <button class="btn btn-dialog-confirm"
+                              @click="addBlacklist()"
+                              :disabled="!someDevicesChecked">
+                        {{ $t('trans0016') }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="table-content">
           <div class="device"
@@ -82,7 +149,7 @@
               <div class="checkbox">
                 <m-checkbox v-model="device.checked"></m-checkbox>
               </div>
-              <div>{{ device.name }}</div>
+              <div class="name-container">{{ device.name }}</div>
             </div>
             <div class="mac">{{ formatMac(device.mac) }}</div>
             <!-- <div class="operate">
@@ -91,8 +158,8 @@
             </div> -->
           </div>
           <div class="empty"
-               v-if="!blacklist.length">
-            <img src="../../../assets/images/img_default_empty.png"
+               v-if="blacklist.length===0">
+            <img src="../../../assets/images/img_default_empty.webp"
                  alt="" />
             <p>{{ $t('trans0278') }}</p>
           </div>
@@ -145,6 +212,7 @@ export default {
   },
   methods: {
     checkDevice(device) {
+      console.log('$$$', device);
       device.checked = !device.checked;
     },
     changeCheckboxAll(v) {
@@ -237,6 +305,11 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
+    },
+    showDeviceModal() {
+      console.log(this.deviceModalVisible);
+      this.deviceModalVisible = !this.deviceModalVisible;
+      console.log(this.deviceModalVisible);
     }
   }
 };
@@ -247,70 +320,104 @@ export default {
   width: 100%;
   align-items: center;
   justify-content: flex-start;
-  margin-bottom: 20px;
+  &.laptop {
+    width: auto;
+  }
   .btns {
     display: flex;
   }
   .btn {
-    margin-left: 30px;
+    margin-left: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &:first-child {
       margin-left: 0;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   }
 }
 .modal {
   position: absolute;
-  top: 34px;
+  top: 35px;
   z-index: 1;
-  left: 0;
-  width: 480px;
-  border-radius: 4px;
+  right: 0;
+  width: 380px;
+  border-radius: 5px;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.04), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-  border: solid 1px #f1f1f1;
-  background-color: #ffffff;
+  background-color: var(--modal-content-background);
   .modal-content {
     .modal__header {
-      color: #333;
+      position: relative;
+      color: var(--text-default-color);
       text-align: left;
       font-weight: bold;
-      border-bottom: 1px solid #f1f1f1;
-
       font-size: 14px;
-      padding: 20px 0 12px 0;
-      margin: 0 30px;
+      padding: 20px 0;
+      margin: 0 15px;
+      cursor: default;
+      .modal__header__close-btn {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--button-close-background-color);
+        cursor: pointer;
+        .iconfont {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 12px;
+          &::before {
+            transform: scale(0.5);
+          }
+        }
+      }
     }
     .list {
       overflow: auto;
+      padding: 0 10px;
       max-height: 400px;
     }
     .device-item {
       display: flex;
-      align-items: flex-start;
-      padding: 20px 30px 0 30px;
+      align-items: center;
+      padding: 15px 20px;
+      border-radius: 10px;
+      background: var(--table-row-background-color);
+      overflow: hidden;
+      margin-bottom: 5px;
       &:hover {
-        background: #f1f1f1;
+        background: var(--select-item-hover-background-color);
         cursor: pointer;
       }
       .des {
         flex: 1;
         justify-content: flex-start;
         margin-left: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #f1f1f1;
+        overflow: hidden;
+        // padding-bottom: 20px;
         p {
-          color: #333333;
           line-height: 1;
           padding: 0;
           margin: 0;
           text-align: left;
           &:first-child {
+            color: var(--text-default-color);
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 7px;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: pre;
+          }
+          &:nth-child(2) {
+            color: var(--text-gery-color);
           }
         }
       }
@@ -319,10 +426,13 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      .btn {
+        width: 90%;
+      }
       .btn-default {
         display: none;
       }
-      padding-top: 50px;
+      padding-top: 30px;
       padding-bottom: 30px;
     }
   }
@@ -334,44 +444,48 @@ export default {
       display: none;
     }
   }
-  .name,
   .mac {
-    width: 50%;
+    flex: 1;
   }
   .name {
     display: flex;
+    width: 30%;
+    margin-right: 20px;
     .checkbox {
+      display: flex;
+      align-items: center;
       margin-right: 22px;
     }
+    .name-container {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: pre;
+    }
   }
-  // .operate {
-  //   width: 20%;
-  // }
   .empty-device {
     p {
       padding: 50px 0;
-      color: #333;
       margin: 0;
       text-align: center;
-      border-bottom: 1px solid #f1f1f1;
+      color: var(--text-default-color);
     }
   }
   .table-header {
     display: flex;
-    background: #f1f1f1;
+    align-items: center;
+    background: var(--table-row-background-color);
     padding: 15px 30px;
+    margin-bottom: 5px;
+    border-radius: 10px;
   }
   .table-content {
     .device {
       display: flex;
       padding: 15px 30px;
-      border-bottom: 1px solid #f1f1f1;
-      &:nth-child(2n) {
-        background: #f7f7f7;
-        @media screen and(max-width:768px) {
-          background: #fff;
-        }
-      }
+      background: var(--table-row-background-color);
+      border-radius: 10px;
+      margin-bottom: 5px;
       .name,
       .mac,
       .operate {
@@ -387,23 +501,41 @@ export default {
         }
       }
     }
+    .empty {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      p {
+        margin: 0;
+      }
+      img {
+        width: 180px;
+        height: 180px;
+      }
+    }
   }
 }
 @media screen and (max-width: 768px) {
+  .page-content {
+    padding-top: 10px;
+  }
   .modal {
-    position: fixed;
-    width: auto;
-    top: 50%;
-    left: 20px;
-    right: 20px;
-    transform: translateY(-50%);
+    position: absolute;
+    width: calc(100vw - 40px);
+    right: 0px;
+    top: 47px;
+    transform: translateX(15px);
     .modal-content {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      justify-content: space-between;
       .list {
-        max-height: 250px;
+        max-height: 31vh;
       }
       .device-item {
         &:hover {
-          background: none;
+          background: var(--table-row-background-color);
         }
       }
     }
@@ -418,28 +550,36 @@ export default {
     .mac {
       margin-top: 10px;
     }
+    .name {
+      width: 90%;
+    }
     .operate {
       text-align: right;
     }
     .tools {
-      border-bottom: 1px solid #f1f1f1;
-      padding: 10px 0px;
-      padding-top: 0;
       margin: 0;
       display: flex;
       justify-content: space-between;
       .checkbox {
-        display: block;
+        display: flex;
+        align-items: center;
       }
       .btns {
         display: flex;
       }
       .btn {
-        width: auto;
+        // position: static;
+        min-width: 70px;
         margin: 0;
         &:last-child {
-          margin-left: 20px;
+          margin-left: 10px;
         }
+      }
+      &.mobile {
+        padding: 15px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+        background: var(--table-row-background-color);
       }
     }
     .table-header {
@@ -448,10 +588,26 @@ export default {
     .table-content {
       .device {
         flex-direction: column;
-        padding: 20px 0;
+        padding: 15px;
         .mac {
           margin-left: 38px;
         }
+      }
+    }
+  }
+}
+@media screen and (max-width: 374px) {
+  .modal {
+    .modal-content {
+      .list {
+        max-height: 28vh;
+      }
+    }
+  }
+  .table {
+    .tools {
+      .btn {
+        min-width: 60px;
       }
     }
   }

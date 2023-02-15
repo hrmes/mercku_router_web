@@ -4,7 +4,6 @@
       {{$t('trans0103')}}
     </div>
     <div class="page-content wifi">
-
       <div class="smart-connect">
         <div class="smart-connect__inner">
           <label class="smart-connect__label">{{$t('trans0397')}}</label>

@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{$t('trans0474')}}
     </div>
     <div class="page-content">
@@ -159,8 +160,6 @@ export default {
 <style lang="scss" scoped>
 .page-content {
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
 }
 .form {
   width: 340px;
@@ -175,27 +174,28 @@ export default {
     &:before {
       content: '';
       position: absolute;
+      box-sizing: border-box;
       left: 0;
-      width: 12px;
-      height: 12px;
-      border-radius: 9px;
-      border: 1px solid #b6b6b6;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      border: 1.5px solid var(--checkbox-border-color);
     }
     &.selected {
-      &:before {
-        border-color: #333;
+      &::before {
+        border: 0;
+        background: var(--checkbox-checked-background-color);
       }
       &::after {
-        content: '';
-        display: block;
+        content: '\e65c';
         position: absolute;
-        left: 4px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
-        background: #333;
-        border-radius: 50%;
+        top: 1.5px;
+        left: 2px;
+        width: 10px;
+        height: 10px;
+        font-size: 10px;
+        font-family: 'iconfont';
+        color: #fff;
       }
     }
   }
@@ -203,10 +203,16 @@ export default {
     padding-left: 24px;
     margin: 10px 0;
     height: 20px;
+    color: var(--text-gery-color);
   }
   .input {
     margin-top: 10px;
   }
+}
+.form-button {
+  padding-top: 25px;
+  margin-top: 0;
+  border-top: 1px solid var(--hr-color);
 }
 @media screen and (max-width: 768px) {
   .form {

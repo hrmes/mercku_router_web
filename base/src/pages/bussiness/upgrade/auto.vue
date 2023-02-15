@@ -1,20 +1,20 @@
 <template>
   <div class="page auto-upgrade">
-    <div class='page-header'>
+    <div v-if="$store.state.isMobile"
+         class='page-header'>
       {{$t('trans0743')}}
     </div>
     <div class="page-content">
       <div class="content">
         <div class="content__switch">
-          <label for="">{{$t('trans0744')}}</label>
           <m-switch v-model="auto_upgrade.enabled"
                     @change="switchAutoUpgrade"></m-switch>
+          <label for="">{{$t('trans0744')}}</label>
         </div>
         <div class="content__text">
           {{tips}}
         </div>
         <template v-if="auto_upgrade.enabled">
-          <div class="content__line"></div>
           <m-form ref="autoUpgradeForm"
                   :model="auto_upgrade"
                   class="content__item form">
@@ -31,6 +31,7 @@
               <m-time-picker class="form__time-picker"
                              v-model="auto_upgrade.time" />
             </m-form-item>
+            <!-- <div class="content__line"></div> -->
             <m-form-item class="form-button">
               <button class="btn"
                       v-defaultbutton
@@ -164,18 +165,17 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-  margin: 0 auto;
-  width: 340px;
   .content__text {
+    width: 340px;
     font-size: 12px;
     color: #999;
     margin-top: 10px;
     padding-bottom: 20px;
   }
-  .content__line {
-    height: 1px;
-    background-color: #ebebeb;
-    margin-bottom: 20px;
+  .form-button {
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
   }
   .content__switch {
     display: flex;
@@ -191,13 +191,17 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: #333;
+    color: var(--select-label-color);
   }
   .form__time-picker {
-    width: 100%;
-    height: 48px;
-    border: solid 1px #e1e1e1;
-    padding: 0 17px 0 10px;
+    width: 340px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .content {
+    .form__time-picker {
+      width: 100%;
+    }
   }
 }
 </style>
