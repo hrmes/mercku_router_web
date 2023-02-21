@@ -414,6 +414,7 @@ export default {
   flex-direction: column;
   position: relative;
   .changelog {
+    word-wrap:break-word;
     p:first-child {
       margin-top: 0;
     }
