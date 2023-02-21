@@ -259,7 +259,7 @@ export default {
   mounted() {
     // 更新判断
     if (this.$route.params.id) {
-      const { portfw } = this.$store.modules;
+      const { portfw } = this.$store.state.modules;
       if (portfw.id) {
         this.form = {
           id: portfw.id,

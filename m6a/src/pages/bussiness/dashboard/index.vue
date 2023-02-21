@@ -1197,7 +1197,7 @@ ul {
                 align-items: center;
                 width: 15px;
                 height: 15px;
-                background: var(--primaryBackgroundColor);
+                background: var(--dashboard-unconnect-icon-background-color);
                 z-index: 999;
                 border-radius: 50%;
                 &::before {

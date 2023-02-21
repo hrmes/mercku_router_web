@@ -138,7 +138,7 @@
                     <i class="reboot iconfont icon-ic_router_reboot_normal"></i>
                     <span class="icon-hover-popover"> {{$t('trans0122')}}</span>
                   </span>
-                  <span v-if="isMobile"
+                  <span v-if="isMobile&&!isRouterOffline(router)"
                         class="label"
                         @click="rebootNode(router)">
                     {{$t('trans0122')}}
@@ -149,7 +149,7 @@
                     <i class="reset iconfont icon-ic_router_reset_normal"></i>
                     <span class="icon-hover-popover"> {{$t('trans0205')}}</span>
                   </span>
-                  <span v-if="isMobile"
+                  <span v-if="isMobile&&router.is_gw"
                         class="label"
                         @click="resetNode(router)">
                     {{$t('trans0205')}}
@@ -179,6 +179,7 @@
     </div>
     <!-- 编辑设备名称弹窗 -->
     <m-modal :visible.sync="showModal"
+             :closeOnClickMask="false"
              class="edit-name-modal">
       <m-modal-body class="content">
         <m-form :model="form"
@@ -422,7 +423,9 @@ export default {
         } else {
           this.isDarkMode = false;
         }
-        this.drawTopo(this.routers);
+        if (this.routers.length !== 0) {
+          this.drawTopo(this.routers);
+        }
       },
       immediate: true
     }
@@ -502,12 +505,11 @@ export default {
         callback: {
           ok: () => {
             this.$loading.open();
-            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
-              .then(() => {
-                this.$loading.close();
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                this.routers = this.routers.filter(r => r.sn !== router.sn);
-              });
+            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
+              this.$loading.close();
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              this.routers = this.routers.filter(r => r.sn !== router.sn);
+            });
           }
         }
       });
@@ -573,8 +575,8 @@ export default {
       });
     },
     drawTopo(routers) {
-      const oldRouters = this.routers;
-      const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
+      // const oldRouters = this.routers;
+      // const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       // this.routers = routers;
       const data = genData(routers);
       data.nodes.forEach(n => {
@@ -584,14 +586,6 @@ export default {
           }
         });
       });
-      this.routers.forEach(r => {
-        if (selected.includes(r.sn)) {
-          this.$set(r, 'expand', true);
-        } else {
-          this.$set(r, 'expand', false);
-        }
-      });
-
       const option = {
         series: [
           {
@@ -658,7 +652,22 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
-          this.routers = res.data.result;
+          const { result } = res.data;
+          const oldRouters = this.routers;
+          this.routers = result.map(v => ({
+            ...v,
+            expand: false
+          }));
+          // 维持设备之前的附加属性
+          if (oldRouters.length > 0) {
+            oldRouters.forEach(or => {
+              const device = this.routers.find(nr => nr.sn === or.sn);
+              if (device) {
+                device.expand = or.expand;
+              }
+            });
+          }
+          console.log('router', this.routers);
           this.drawTopo(this.routers);
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
@@ -680,7 +689,6 @@ export default {
       this.$http
         .getMeshMeta()
         .then(res => {
-          console.log(res);
           this.tx_power = res.data.result.tx_power;
           if (this.pageActive) {
             this.txPowerTimer = setTimeout(() => {

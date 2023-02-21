@@ -225,7 +225,7 @@ export default {
     },
     edit(vpn) {
       if (!this.connecting && !vpn.enabled) {
-        this.$store.modules.vpn = vpn;
+        this.$store.state.modules.vpn = vpn;
         this.$router.push(`/advance/vpn/form/${vpn.id}`);
       }
     },

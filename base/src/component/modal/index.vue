@@ -17,6 +17,10 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    closeOnClickMask: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -34,9 +38,11 @@ export default {
   },
   methods: {
     close() {
-      this.open = false;
-      document.body.style.position = this.position;
-      this.$emit('update:visible', false);
+      if (this.closeOnClickMask) {
+        this.open = false;
+        document.body.style.position = this.position;
+        this.$emit('update:visible', false);
+      }
     }
   },
   mounted() {

@@ -787,7 +787,6 @@ export default {
     margin-top: 20px;
     font-size: 14px;
     text-align: center;
-    color: #333;
     span {
       padding-right: 4px;
     }
