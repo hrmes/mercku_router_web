@@ -195,7 +195,7 @@ export default {
         });
     },
     editHandle(item) {
-      this.$store.modules = { ...this.$store.modules, portfw: item };
+      this.$store.state.modules = { ...this.$store.state.modules, portfw: item };
       this.$router.push(`/advance/portforwarding/form/${item.id}`);
     },
     update(v, item) {
@@ -344,9 +344,9 @@ export default {
     p {
       padding: 0;
       margin: 0;
-      &:first-child {
-        margin-bottom: 8px;
-      }
+      // &:first-child {
+      //   margin-bottom: 8px;
+      // }
     }
   }
   .column-outside-port {

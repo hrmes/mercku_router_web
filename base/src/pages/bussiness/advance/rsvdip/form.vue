@@ -161,7 +161,7 @@ export default {
     this.getDevices();
     // 更新判断
     if (this.$route.params.id) {
-      const { rsvdip } = this.$store.modules;
+      const { rsvdip } = this.$store.state.modules;
       if (rsvdip.id) {
         this.form = {
           id: rsvdip.id,
