@@ -94,10 +94,13 @@ export default {
     text-align: center;
     color: var(--upgrade-text-color);
     position: absolute;
-    width: 740px;
+    width: 50%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    @media screen and (max-width: 768px) {
+      width: 85%;
+    }
     .title {
       font-size: 24px;
       // margin-top: 10px;
