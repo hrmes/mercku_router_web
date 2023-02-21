@@ -223,7 +223,6 @@ function genLines(gateway, green, red, nodes, fullLine) {
   const lines = [];
   gateway.neighbors.forEach(n => {
     const node = nodes.find(s => s.sn === n.sn);
-    console.log('nnnnn', n);
     if (!exist(node, gateway)) {
       if (isGood(n.rssi)) {
         lines.push(genLine(gateway, node, Color.good, n.rssi));
@@ -290,18 +289,15 @@ function genData(array, fullLine = false) {
 
   const visited = [gateway];
   const green = findGreenNode(gateway, routers, visited);
-  console.log(green);
 
   const meshNodes = routers.filter(r => r.sn !== gateway.sn);
 
   const red = findRedNode(green, meshNodes);
-  console.log(red);
 
   const nodes = genNodes(gateway, green, red, offline);
 
   const lines = genLines(gateway, green, red, routers, fullLine);
 
-  console.log(nodes, lines);
   return {
     nodes,
     lines

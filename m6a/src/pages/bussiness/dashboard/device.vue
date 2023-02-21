@@ -304,6 +304,7 @@
     </div>
 
     <m-modal :visible.sync="modalShow"
+             :closeOnClickMask="false"
              class="edit-name-modal">
       <div class="content">
         <div class="select-wrapper">
@@ -913,7 +914,7 @@ export default {
         flex-shrink: 0;
       }
       .column-name {
-        width: 310px;
+        width: 275px;
         position: relative;
         .connect-type-wrap {
           width: 50px;
@@ -1037,7 +1038,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: pre;
-            max-width: 225px;
+            max-width: 185px;
             flex-shrink: 0;
             font-weight: 550;
           }
