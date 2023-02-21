@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div v-if="$store.isMobile"
+    <div v-if="$store.state.isMobile"
          class='page-header'>
       {{$t('trans0402')}}
     </div>
@@ -211,7 +211,7 @@ export default {
   },
   mounted() {
     if (this.$route.params.id) {
-      const { vpn } = this.$store.modules;
+      const { vpn } = this.$store.state.modules;
       // no records in store, redirect to list
       if (vpn.id) {
         this.form = {
