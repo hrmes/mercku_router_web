@@ -17,6 +17,7 @@ import wifiSetting_230v from 'pages/bussiness/wlan/wifiSetting_230v.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
 // import ipv6 from 'pages/bussiness/setting/ipv6.vue';
 import fan from 'pages/bussiness/setting/fan.vue';
+import guest from 'pages/bussiness/setting/guest.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -115,6 +116,11 @@ const routes = {
       path: '/setting/region',
       name: 'region',
       component: region
+    },
+    {
+      path: '/setting/guest',
+      name: 'guest',
+      component: guest
     },
     {
       path: '/setting/timezone',

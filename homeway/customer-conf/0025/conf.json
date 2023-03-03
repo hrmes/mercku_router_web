@@ -10,8 +10,8 @@
   "defaultLanguage": "de-DE",
   "wifi": "Homeway WiFi",
   "routers": {
-    "Homeway": {
-      "name": "Homeway",
+    "homeway": {
+      "name": "homeway",
       "shortName": "WWax"
     }
   },

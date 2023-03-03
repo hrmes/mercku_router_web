@@ -379,9 +379,9 @@ export default {
 }
 .description-wrapper {
   border-top: 1px solid #f1f1f1;
-  margin-top: 50px;
+  margin-top: 30px;
   text-align: center;
-  padding-top: 60px;
+  padding-top: 20px;
   color: #333333;
   font-size: 14px;
   :first-child {

@@ -76,6 +76,12 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         config
       },
       {
+        text: 'trans0538',
+        name: 'guest',
+        url: '/setting/guest',
+        config
+      },
+      {
         url: '/setting/led',
         name: 'led',
         text: 'trans0779',
