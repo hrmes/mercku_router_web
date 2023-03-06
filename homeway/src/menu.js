@@ -79,15 +79,7 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         text: 'trans0538',
         name: 'guest',
         url: '/setting/guest',
-        config,
-        hiddenModelObj: {
-          [Models.homeway_230v]: {
-            show: false
-          },
-          [Models.homeway_POE2]: {
-            show: false
-          }
-        }
+        config
       },
       {
         url: '/setting/led',
