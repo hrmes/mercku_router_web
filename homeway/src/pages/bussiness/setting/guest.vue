@@ -421,7 +421,7 @@ export default {
           callback: {
             ok: () => {
               console.log(this.formParams);
-              // this.updateGuestWIFIStatus(true);
+              this.updateGuestWIFIStatus(true);
             }
           }
         });
