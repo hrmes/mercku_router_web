@@ -117,7 +117,12 @@
 <script>
 import encryptMix from '../../../../../base/src/mixins/encrypt-methods';
 import { EncryptMethod } from '../../../../../base/src/util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma } from '../../../../../base/src/util/util';
+import {
+  getStringByte,
+  isValidPassword,
+  isFieldHasComma,
+  isFieldHasSpaces
+} from '../../../../../base/src/util/util';
 
 const Bands = {
   b24g: '2.4G',
@@ -178,6 +183,10 @@ export default {
           }
         ],
         password: [
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
@@ -412,7 +421,7 @@ export default {
           callback: {
             ok: () => {
               console.log(this.formParams);
-              this.updateGuestWIFIStatus(true);
+              // this.updateGuestWIFIStatus(true);
             }
           }
         });
