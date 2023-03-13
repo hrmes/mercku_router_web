@@ -9,10 +9,10 @@ import internet from 'pages/bussiness/dashboard/internet.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
+import offline from 'pages/bussiness/upgrade/offline.vue';
 import childLock from 'pages/bussiness/setting/childLock.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
-import wifiSetting from 'pages/bussiness/wlan/wifiSetting.vue';
 import wifiSetting_230v from 'pages/bussiness/wlan/wifiSetting_230v.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
 // import ipv6 from 'pages/bussiness/setting/ipv6.vue';
@@ -20,7 +20,6 @@ import fan from 'pages/bussiness/setting/fan.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
-import offline from 'base/pages/bussiness/upgrade/offline.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
@@ -147,13 +146,13 @@ const routes = {
       name: 'wlan',
       component: wlan
     },
+    // {
+    //   path: '/wlan/wifiSetting',
+    //   name: 'wifiSetting',
+    //   component: wifiSetting
+    // },
     {
       path: '/wlan/wifiSetting',
-      name: 'wifiSetting',
-      component: wifiSetting
-    },
-    {
-      path: '/wlan/wifiSetting-230v',
       name: 'wifiSetting_230v',
       component: wifiSetting_230v
     },

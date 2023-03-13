@@ -13,8 +13,8 @@ export default function getMenu(role, mode = RouterMode.bridge) {
   // homeway菜单默认配置
   const config = {
     show: true,
-    auth: [Role.admin, Role.super],
-    modelId: [Models.homeway_230v, Models.homeway_POE1, Models.homeway_POE2]
+    auth: [Role.admin, Role.super]
+    // modelId: [Models.homeway_230v, Models.homeway_POE1, Models.homeway_POE2]
   };
 
   const wifi = {
@@ -79,7 +79,12 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         text: 'trans0538',
         name: 'guest',
         url: '/setting/guest',
-        config
+        config,
+        hiddenModelObj: {
+          [Models.homeway_230v]: {
+            show: false
+          }
+        }
       },
       {
         url: '/setting/led',
@@ -115,15 +120,7 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        config,
-        hiddenModelObj: {
-          [Models.homeway_POE1]: {
-            show: false
-          },
-          [Models.homeway_POE2]: {
-            show: false
-          }
-        }
+        config
       },
       {
         url: '/advance/log',
