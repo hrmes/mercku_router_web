@@ -83,6 +83,9 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         hiddenModelObj: {
           [Models.homeway_230v]: {
             show: false
+          },
+          [Models.homeway_POE2]: {
+            show: false
           }
         }
       },
