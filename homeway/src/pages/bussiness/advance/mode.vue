@@ -237,12 +237,11 @@ export default {
     },
     getWanStatus() {
       // 监测网口是否插入网线接口;
-      this.$http.getWanStatus()
-        .then(res => {
-          const { status } = res.data.result;
-          this.wanStatus = status;
-          console.log(this.wanStatus);
-        });
+      this.$http.getWanStatus().then(res => {
+        const { status } = res.data.result;
+        this.wanStatus = status;
+        console.log(this.wanStatus);
+      });
     },
     updateMode() {
       switch (this.mode) {
@@ -356,7 +355,7 @@ export default {
         .then(() => {
           setTimeout(() => {
             this.getApclientScanList();
-          }, 10000);
+          }, 15000);
         })
         .catch(() => {
           this.originalUpperList = [];
@@ -416,15 +415,7 @@ export default {
     selectedChange(option) {
       this.saveDisable = false;
       this.pwdDisabled = option.encrypt === EncryptMethod.OPEN;
-      const {
-        ssid,
-        password,
-        bssid,
-        channel,
-        band,
-        security,
-        rssi
-      } = this.originalUpperList.find(
+      const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find(
         i => i.ssid === option.value
       );
       this.upperApForm = {

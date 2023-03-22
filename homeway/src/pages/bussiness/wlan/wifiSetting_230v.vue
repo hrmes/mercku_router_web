@@ -163,7 +163,12 @@
 <script>
 import { Bands, EncryptMethod, WanNetStatus } from '../../../../../base/src/util/constant';
 import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
-import { getStringByte, isFieldHasComma, isFieldHasSpaces, isValidPassword } from '../../../../../base/src/util/util';
+import {
+  getStringByte,
+  isFieldHasComma,
+  isFieldHasSpaces,
+  isValidPassword
+} from '../../../../../base/src/util/util';
 
 // Homeway_230v有两种工作模式，可以切换，所在初始化的时候，根据用户需求要做对应设置，要做区分等
 // 插入网线有线桥模式才可用，同时我们会检测是否插入网线来提示用户是否进行模式切换
@@ -379,17 +384,16 @@ export default {
       }
     },
     getMeshMeta() {
-      this.$http.getMeshMeta()
-        .then(res => {
-          const wifi = res.data.result;
-          const b24g = wifi.bands[Bands.b24g];
-          const b5g = wifi.bands[Bands.b5g];
-          this.wifiForm.ssid24g = b24g.ssid;
-          this.wifiForm.password24g = b24g.password;
-          this.wifiForm.ssid5g = b5g.ssid;
-          this.wifiForm.password5g = b5g.password;
-          this.wifiForm.smart_connect = wifi.smart_connect;
-        });
+      this.$http.getMeshMeta().then(res => {
+        const wifi = res.data.result;
+        const b24g = wifi.bands[Bands.b24g];
+        const b5g = wifi.bands[Bands.b5g];
+        this.wifiForm.ssid24g = b24g.ssid;
+        this.wifiForm.password24g = b24g.password;
+        this.wifiForm.ssid5g = b5g.ssid;
+        this.wifiForm.password5g = b5g.password;
+        this.wifiForm.smart_connect = wifi.smart_connect;
+      });
     },
     skipSetUpper() {
       this.meshMode = HomewayWorkModel.bridge;
@@ -454,7 +458,7 @@ export default {
         .then(() => {
           setTimeout(() => {
             this.getApclientScanList();
-          }, 10000);
+          }, 15000);
         })
         .catch(() => {
           this.originalUpperList = [];
@@ -514,15 +518,7 @@ export default {
     selectedChange(option) {
       this.pwdDisabled = option.encrypt === EncryptMethod.OPEN;
       this.saveDisable = false;
-      const {
-        ssid,
-        password,
-        bssid,
-        channel,
-        band,
-        security,
-        rssi
-      } = this.originalUpperList.find(
+      const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find(
         i => i.ssid === option.value
       );
       this.upperApForm = {
