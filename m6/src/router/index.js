@@ -14,8 +14,8 @@ import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
+import device from 'pages/bussiness/dashboard/device.vue';
 
-import device from 'base/pages/bussiness/dashboard/device.vue';
 import guest from 'base/pages/bussiness/setting/guest.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
