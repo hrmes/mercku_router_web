@@ -100,7 +100,7 @@
   </div>
 </template>
 <script>
-import { UploadStatus, Models } from 'base/util/constant';
+import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
 
