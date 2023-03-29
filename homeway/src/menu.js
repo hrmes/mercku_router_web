@@ -1,4 +1,4 @@
-import { Role, RouterMode, Models } from 'base/util/constant';
+import { Role, RouterMode } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 const modelId = process.env.MODEL_CONFIG.id;
@@ -79,15 +79,7 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         text: 'trans0538',
         name: 'guest',
         url: '/setting/guest',
-        config,
-        hiddenModelObj: {
-          [Models.homeway_230v]: {
-            show: false
-          },
-          [Models.homeway_POE2]: {
-            show: false
-          }
-        }
+        config
       },
       {
         url: '/setting/led',
@@ -167,9 +159,10 @@ export default function getMenu(role, mode = RouterMode.bridge) {
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
       menu.config = menu.config || config;
-      const hiddenModelObj = menu.hiddenModelObj || {};
-      const hiddenConfig = hiddenModelObj[modelId] || {};
-      menu.config = Object.assign({}, menu.config, hiddenConfig);
+      // const hiddenModelObj = menu.hiddenModelObj || {};
+      // const hiddenConfig = hiddenModelObj[modelId] || {};
+      // menu.config = Object.assign({}, menu.config, hiddenConfig);
+      menu.config = Object.assign({}, menu.config);
     });
 
     // 过滤不显示的菜单

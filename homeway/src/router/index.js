@@ -13,7 +13,7 @@ import offline from 'pages/bussiness/upgrade/offline.vue';
 import childLock from 'pages/bussiness/setting/childLock.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
-import wifiSetting_230v from 'pages/bussiness/wlan/wifiSetting_230v.vue';
+import wifiSetting from 'pages/bussiness/wlan/wifiSetting_230v.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
 // import ipv6 from 'pages/bussiness/setting/ipv6.vue';
 import fan from 'pages/bussiness/setting/fan.vue';
@@ -153,8 +153,8 @@ const routes = {
     // },
     {
       path: '/wlan/wifiSetting',
-      name: 'wifiSetting_230v',
-      component: wifiSetting_230v
+      name: 'wifiSetting',
+      component: wifiSetting
     },
     {
       path: '/unconnect',
