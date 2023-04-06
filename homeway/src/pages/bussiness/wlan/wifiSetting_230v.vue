@@ -163,7 +163,12 @@
 <script>
 import { Bands, EncryptMethod, WanNetStatus } from '../../../../../base/src/util/constant';
 import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
+import {
+  getStringByte,
+  isFieldHasComma,
+  isFieldHasSpaces,
+  isValidPassword
+} from '../../../../../base/src/util/util';
 
 // Homeway_230v有两种工作模式，可以切换，所在初始化的时候，根据用户需求要做对应设置，要做区分等
 // 插入网线有线桥模式才可用，同时我们会检测是否插入网线来提示用户是否进行模式切换
@@ -184,7 +189,7 @@ const UpperApInitForm = {
   channel: '', // 必选
   band: '', // 必选
   security: '', // 必选
-  rssi: ''// 可选,上级无线信号的强度.获取APClient时必选,更新时可选
+  rssi: '' // 可选,上级无线信号的强度.获取APClient时必选,更新时可选
 };
 
 const HomewayWorkModel = {
@@ -283,8 +288,8 @@ export default {
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
-          },
-        ],
+          }
+        ]
       },
       config: null,
       pwdDisabled: true,
@@ -294,6 +299,7 @@ export default {
       selectIsLoading: LoadingStatus.default,
       loadingText: `${this.$t('trans1070')}...`,
       getApclientScanTimer: null,
+      rescanCounts: 0
     };
   },
   computed: {
@@ -311,8 +317,8 @@ export default {
             {
               rule: value => !/^\s*$/g.test(value.trim()),
               message: this.$t('trans0237')
-            },
-          ],
+            }
+          ]
         };
       } else {
         this.upperApFormRules = {
@@ -321,7 +327,7 @@ export default {
             {
               rule: value => !/^\s*$/g.test(value.trim()),
               message: this.$t('trans0237')
-            },
+            }
           ],
           'upperApForm.password': [
             {
@@ -332,10 +338,10 @@ export default {
               rule: value => isValidPassword(value, 1, 63),
               message: this.$t('trans1077')
             }
-          ],
+          ]
         };
       }
-    },
+    }
   },
   mounted() {
     this.$http
@@ -378,17 +384,16 @@ export default {
       }
     },
     getMeshMeta() {
-      this.$http.getMeshMeta()
-        .then(res => {
-          const wifi = res.data.result;
-          const b24g = wifi.bands[Bands.b24g];
-          const b5g = wifi.bands[Bands.b5g];
-          this.wifiForm.ssid24g = b24g.ssid;
-          this.wifiForm.password24g = b24g.password;
-          this.wifiForm.ssid5g = b5g.ssid;
-          this.wifiForm.password5g = b5g.password;
-          this.wifiForm.smart_connect = wifi.smart_connect;
-        });
+      this.$http.getMeshMeta().then(res => {
+        const wifi = res.data.result;
+        const b24g = wifi.bands[Bands.b24g];
+        const b5g = wifi.bands[Bands.b5g];
+        this.wifiForm.ssid24g = b24g.ssid;
+        this.wifiForm.password24g = b24g.password;
+        this.wifiForm.ssid5g = b5g.ssid;
+        this.wifiForm.password5g = b5g.password;
+        this.wifiForm.smart_connect = wifi.smart_connect;
+      });
     },
     skipSetUpper() {
       this.meshMode = HomewayWorkModel.bridge;
@@ -397,11 +402,13 @@ export default {
       this.upperApForm = UpperApInitForm;
     },
     getWanStatus() {
-      this.$http.getWanStatus()
+      this.$http
+        .getWanStatus()
         .then(res => {
           console.log(res);
           const { status } = res.data.result;
-          if (status !== WanNetStatus.unlinked) { // 如果插入了网线，就弹窗提示，可跳过上级设置
+          if (status !== WanNetStatus.unlinked) {
+            // 如果插入了网线，就弹窗提示，可跳过上级设置
             this.$dialog.confirm({
               okText: this.$t('trans0163'),
               cancelText: this.$t('trans1055'),
@@ -424,13 +431,14 @@ export default {
     // 去除扫描到的上级列表里面，重复的数据
     deweight(arr) {
       const fliteredArr = [];
-      arr.forEach((a) => {
-        const isTrue = fliteredArr.every((b) => {
+      arr.forEach(a => {
+        const isTrue = fliteredArr.every(b => {
           // 先判断bssid即mac是否存在，不存在直接保存
           if (a.bssid !== b.bssid) {
             return true;
             // 如果bssid已存在，那么判断一下两者的band是否一致，如果不一致则保存
-          } if (a.bssid === b.bssid && a.band !== b.band) {
+          }
+          if (a.bssid === b.bssid && a.band !== b.band) {
             return true;
           }
           // 否则就是重复数据，不保存
@@ -445,11 +453,12 @@ export default {
       if (this.selectIsLoading === LoadingStatus.loading) return;
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
-      this.$http.startMeshApclientScan()
+      this.$http
+        .startMeshApclientScan()
         .then(() => {
           setTimeout(() => {
             this.getApclientScanList();
-          }, 10000);
+          }, 15000);
         })
         .catch(() => {
           this.originalUpperList = [];
@@ -459,7 +468,8 @@ export default {
         });
     },
     getApclientScanList() {
-      this.$http.getMeshApclientScanList()
+      this.$http
+        .getMeshApclientScanList()
         .then(res => {
           this.originalUpperList = [];
           this.processedUpperApList = [];
@@ -474,13 +484,27 @@ export default {
             console.log('deweight', result);
             result.sort((a, b) => b.rssi - a.rssi);
             this.originalUpperList = result;
-            result.map(i => this.processedUpperApList.push({
-              value: i.ssid, text: `${i.ssid}`, encrypt: i.security, rssi: i.rssi, band: i.band
-            }));
+            result.map(i =>
+              this.processedUpperApList.push({
+                value: i.ssid,
+                text: `${i.ssid}`,
+                encrypt: i.security,
+                rssi: i.rssi,
+                band: i.band
+              }));
           } else {
             this.getApclientScanTimer = setTimeout(() => {
-              this.getApclientScanList();
-            }, 10000);
+              if (this.rescanCounts < 2) {
+                // eslint-disable-next-line no-plusplus
+                this.rescanCounts++;
+                this.getApclientScanList();
+              } else {
+                this.originalUpperList = [];
+                this.processedUpperApList = [];
+                this.loadingText = this.$t('trans1078');
+                this.selectIsLoading = LoadingStatus.failed;
+              }
+            }, 5000);
           }
         })
         .catch(err => {
@@ -494,7 +518,9 @@ export default {
     selectedChange(option) {
       this.pwdDisabled = option.encrypt === EncryptMethod.OPEN;
       this.saveDisable = false;
-      const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find((i) => i.ssid === option.value);
+      const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find(
+        i => i.ssid === option.value
+      );
       this.upperApForm = {
         ssid,
         password,

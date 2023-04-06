@@ -1,4 +1,4 @@
-import { Role, RouterMode, Models } from 'base/util/constant';
+import { Role, RouterMode } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 const modelId = process.env.MODEL_CONFIG.id;
@@ -13,8 +13,8 @@ export default function getMenu(role, mode = RouterMode.bridge) {
   // homeway菜单默认配置
   const config = {
     show: true,
-    auth: [Role.admin, Role.super],
-    modelId: [Models.homeway_230v, Models.homeway_POE1, Models.homeway_POE2]
+    auth: [Role.admin, Role.super]
+    // modelId: [Models.homeway_230v, Models.homeway_POE1, Models.homeway_POE2]
   };
 
   const wifi = {
@@ -76,6 +76,12 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         config
       },
       {
+        text: 'trans0538',
+        name: 'guest',
+        url: '/setting/guest',
+        config
+      },
+      {
         url: '/setting/led',
         name: 'led',
         text: 'trans0779',
@@ -109,15 +115,7 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        config,
-        hiddenModelObj: {
-          [Models.homeway_POE1]: {
-            show: false
-          },
-          [Models.homeway_POE2]: {
-            show: false
-          }
-        }
+        config
       },
       {
         url: '/advance/log',
@@ -161,9 +159,10 @@ export default function getMenu(role, mode = RouterMode.bridge) {
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
       menu.config = menu.config || config;
-      const hiddenModelObj = menu.hiddenModelObj || {};
-      const hiddenConfig = hiddenModelObj[modelId] || {};
-      menu.config = Object.assign({}, menu.config, hiddenConfig);
+      // const hiddenModelObj = menu.hiddenModelObj || {};
+      // const hiddenConfig = hiddenModelObj[modelId] || {};
+      // menu.config = Object.assign({}, menu.config, hiddenConfig);
+      menu.config = Object.assign({}, menu.config);
     });
 
     // 过滤不显示的菜单

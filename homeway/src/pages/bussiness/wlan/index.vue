@@ -9,68 +9,33 @@
         <p>{{$t('trans1073')}}</p>
       </div>
       <div class="checklist-container">
-        <p class="checklist-content">{{checklist}}</p>
+        <p class="checklist-content">{{$t('trans1074')}}</p>
       </div>
       <div class="btn-container">
-        <button @click="prepared(modelId)"
+        <button @click="prepared"
                 class="btn">{{$t('trans1075')}}</button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { Models } from '../../../../../base/src/util/constant';
-
 export default {
   created() {
     this.isinitial();
   },
-  computed: {
-    checklist() {
-      let checklist = this.$t('trans1074').format('');
-      switch (this.modelId) {
-        case Models.homeway_230v:
-          checklist = this.$t('trans1074').format('230v');
-          break;
-        case Models.homeway_POE1:
-          checklist = this.$t('trans1074').format('POE');
-          break;
-        case Models.homeway_POE2:
-          checklist = this.$t('trans1074').format('POE');
-          break;
-        default:
-          break;
-      }
-      return checklist;
-    },
-    modelId() {
-      return process.env.MODEL_CONFIG.id;
-    }
-  },
   methods: {
     // 如果已经初始化（即不是出厂设置），就转到login直接登录
     isinitial() {
-      this.$http.isinitial()
-        .then(res => {
-          if (!res.data.result.status) {
-            this.$router.push({ path: '/login' });
-          }
-        });
+      this.$http.isinitial().then(res => {
+        if (!res.data.result.status) {
+          this.$router.push({ path: '/login' });
+        }
+      });
     },
-    prepared(modelId) {
-      switch (modelId) {
-        case Models.homeway_230v:
-          this.$router.push({ name: 'wifiSetting_230v' });
-          break;
-        case Models.homeway_POE1:
-        case Models.homeway_POE2:
-          this.$router.push({ name: 'wifiSetting' });
-          break;
-        default:
-          break;
-      }
+    prepared() {
+      this.$router.push({ path: '/wlan/wifiSetting' });
     }
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -124,10 +89,11 @@ export default {
     .checklist-container {
       width: inherit;
       background: #f1f1f1;
-      padding: 10px 0 10px 15px;
+      padding: 10px 15px;
       border-radius: 5px;
       overflow: hidden;
       .checklist-content {
+        word-break: keep-all;
         white-space: pre-line;
         line-height: 25px;
         transition: all 0.3s ease-in-out;

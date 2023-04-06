@@ -1066,7 +1066,7 @@
   "trans1071": "Current password",
   "trans1072": "Current SSID",
   "trans1073": "For installation please prepare:",
-  "trans1074": "- Paper and pen: write down passwords\n- Have the data of your main gateway or router ready: WLAN name (SSID)\nPasswords, encryption mode, e.g. WPA2\n- Country/region and time zone can be set in the \"Settings\" menu",
+  "trans1074": "- Paper and pen: write down passwords\n- Have the data of your main gateway or router ready: WLAN name (SSID), Passwords, encryption mode, e.g. WPA2\n- Country/region and time zone can be set in the \"Settings\" menu",
   "trans1075": "OK, Well prepared",
   "trans1076": " ",
   "trans1077": "The maximum password is only 63 characters, please re-enter",

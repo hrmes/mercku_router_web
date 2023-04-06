@@ -33,7 +33,7 @@ export default {
             image = require('../assets/images/model/m6a_plus/img-m6a_plus.png');
           }
           break;
-        case RouterSnModel.Homeway:
+        case RouterSnModel.homeway:
           image = require('../assets/images/img_homeway.png');
           break;
         default:
@@ -49,7 +49,7 @@ export default {
         [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee,
         [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
         [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
-        [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
+        [RouterSnModel.homeway]: process.env.CUSTOMER_CONFIG.routers.homeway,
         [RouterSnModel.M6a]:
           this.$store.modelVersion === M6aRouterSnModelVsersion.M6a
             ? process.env.CUSTOMER_CONFIG.routers.M6a
