@@ -1,6 +1,7 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="this.$store.isMobile"
+         class="page-header">
       {{ $t('trans0142') }}
     </div>
     <div class="page-content">
@@ -179,7 +180,7 @@
                          :title="this.$t('trans0683')"
                          :content="this.$t('trans0682')">
                 <img width="14"
-                     src="../../../assets/images/icon/ic_question.png" />
+                     src="@/assets/images/icon/ic_question.png" />
               </m-popover>
             </div>
           </div>
@@ -201,12 +202,13 @@
                         :options="priorities"></m-select>
             </m-form-item>
             <m-form-item class="form__item">
-              <m-switch :label="$t('trans0685')"
-                        v-model="vlan.ports[0].tagged"></m-switch>
+              <m-checkbox :rect="false"
+                          :text="$t('trans0685')"
+                          v-model="vlan.ports[0].tagged"></m-checkbox>
             </m-form-item>
           </m-form>
         </div>
-        <div class="form__submit">
+        <div class="form-button">
           <button class="btn"
                   v-defaultbutton
                   @click="submit()">
@@ -232,7 +234,6 @@ import * as CONSTANTS from 'base/util/constant';
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
-
 export default {
   data() {
     return {
@@ -626,9 +627,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .form {
-  padding: 20px 0;
+  padding: 25px 0;
   @media screen and (min-width: 769px) {
-    width: 340px;
+    // width: 340px;
   }
   .net-type {
     margin-bottom: 30px;
@@ -642,8 +643,8 @@ export default {
     margin-top: 30px;
   }
   .form__vlan {
-    padding-top: 20px;
-    border-top: 1px solid #e8e8e8;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
   }
   .form__label {
     display: flex;
@@ -651,21 +652,24 @@ export default {
   .form__item {
     margin-bottom: 30px;
   }
-  .form__submit {
-    margin-top: 50px !important;
-    margin-bottom: 90px;
+  .form-button {
+    width: 100%;
+    margin-top: 25px !important;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
   }
 }
 .wan-info {
   display: flex;
-  width: 340px;
+  // width: 340px;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   font-size: 16px;
-  color: #333333;
+  color: var(--text-default-color);
   text-align: center;
   padding-bottom: 30px;
+  border-bottom: 1px solid var(--hr-color);
   img {
     width: 150px;
   }
@@ -687,13 +691,11 @@ export default {
     label {
       display: inline-block;
       font-size: 14px;
-      color: #333;
       font-weight: bold;
       text-align: left;
       width: 150px;
     }
     span {
-      color: #333333;
       font-size: 14px;
       flex: 1;
     }

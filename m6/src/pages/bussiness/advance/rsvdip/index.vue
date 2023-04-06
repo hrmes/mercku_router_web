@@ -35,7 +35,7 @@
             {{$t('trans0370')}}
             <i>
               <img :class="{open:mobileSelect}"
-                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
+                   src="@/assets/images/icon/ic_arrow_pack_up.png"
                    alt>
             </i>
           </div>
@@ -95,7 +95,7 @@
           </div>
           <div class="empty"
                v-if="empty!==null && empty">
-            <img src="../../../../assets/images/img_default_empty.png"
+            <img src="@/assets/images/img_default_empty.png"
                  alt="">
             <p>{{$t('trans0278')}}</p>
             <button class="btn btn-middle"
@@ -183,7 +183,7 @@ export default {
         });
     },
     editHandle(item) {
-      this.$store.modules = { ...this.$store.modules, rsvdip: item };
+      this.$store.state.modules = { ...this.$store.state.modules, rsvdip: item };
       this.$router.push(`/advance/rsvdip/form/${item.id}`);
     },
     update(v, item) {
@@ -433,11 +433,11 @@ export default {
       right: 20px;
       .select {
         display: block;
-        width: 80px;
+        width: 100px;
         height: 30px;
         border-radius: 4px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         padding: 0 10px;
         font-size: 12px;

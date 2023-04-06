@@ -381,8 +381,8 @@ export default {
     }
   }
   .form-button {
-    margin-top: 50px;
-    padding-top: 40px;
+    margin-top: 25px;
+    padding-top: 25px;
     border-top: 1px solid var(--hr-color);
     .btn {
       width: 160px;

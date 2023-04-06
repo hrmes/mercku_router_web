@@ -1,9 +1,9 @@
 <template>
   <div class="disappear-container">
     <div class="inner">
-      <img src="../../../assets/images/img_no_network_access.png"
+      <img src="@/assets/images/img_no_network_access.webp"
            alt="">
-      <div class="text">{{$t('trans0132')}}</div>
+      <div class="text">{{tips}}</div>
       <button @click="tohome"
               class="btn">{{$t('trans0063')}}</button>
     </div>
@@ -17,20 +17,23 @@ export default {
     tohome() {
       this.$http.getHomePage().then(result => {
         upgradeHelper(result.data);
-        this.$http.getRouter().then(() => {
-          this.$http.checkLogin().then(res => {
-            if (res.data.result.status) {
-              // m6 session不会过期，修改模式后不会重新登录，不重新设置模式可能导致菜单不刷新
-              this.$http.getMeshMode().then(resp => {
-                this.$store.mode = resp.data.result.mode;
-                this.$router.push({ path: '/dashboard' });
-              });
-            } else {
-              this.$router.push({ path: '/login' });
-            }
-          });
+        this.$http.checkLogin().then(res1 => {
+          if (res1.data.result.status) {
+            // m6 session不会过期，修改模式后不会重新登录，不重新设置模式可能导致菜单不刷新
+            this.$http.getMeshMode().then(res3 => {
+              this.$store.state.mode = res3.data.result.mode;
+              this.$router.push({ path: '/dashboard' });
+            });
+          } else {
+            this.$router.push({ path: '/login' });
+          }
         });
       });
+    }
+  },
+  computed: {
+    tips() {
+      return this.$t('trans0132').replaceAll('%s', process.env.CUSTOMER_CONFIG.wifi);
     }
   }
 };
@@ -38,7 +41,7 @@ export default {
 
 <style lang="scss" scoped>
 .disappear-container {
-  background: #fff;
+  background: var(--primaryBackgroundColor);
   padding: 50px;
   flex: auto;
   min-height: 500px;

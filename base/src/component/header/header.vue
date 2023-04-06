@@ -7,8 +7,8 @@
             'i18n-open':mobileI18nVisible
           }">
     <div class="logo-wrap"
-         :class="{'light':currentTheme!=='auto'&&!isMobile&&!isDarkMode,
-                  'dark':currentTheme!=='auto'&&!isMobile&&isDarkMode
+         :class="{'light':currentTheme!=='auto'&&!isDarkMode,
+                  'dark':currentTheme!=='auto'&&isDarkMode
                   }">
       <div v-if="logoVisible"
            @click="forward2dashboard"
@@ -287,7 +287,7 @@ export default {
       themeOptions: {
         light: { ischecked: false },
         dark: { ischecked: false },
-        auto: { ischecked: true },
+        auto: { ischecked: true }
       },
       selectedTheme: 'light',
       isDarkMode: false
@@ -388,7 +388,7 @@ export default {
       // 如果点击的是header的最后一项，则为修改主题，不进行页面跳转，弹出修改主题modal
       if (menu.key === this.list.length - 1) {
         const current = localStorage.getItem('theme');
-        Object.keys(this.themeOptions).forEach((key) => {
+        Object.keys(this.themeOptions).forEach(key => {
           this.themeOptions[key].ischecked = false;
         });
         this.themeOptions[current].ischecked = true;
@@ -400,7 +400,7 @@ export default {
     jumpMobile(child) {
       if (child.key === this.list.length - 1) {
         const current = localStorage.getItem('theme');
-        Object.keys(this.themeOptions).forEach((key) => {
+        Object.keys(this.themeOptions).forEach(key => {
           this.themeOptions[key].ischecked = false;
         });
         this.themeOptions[current].ischecked = true;
@@ -486,7 +486,7 @@ export default {
     },
     clickHandler(mode) {
       this.selectedTheme = mode;
-      Object.keys(this.themeOptions).forEach((key) => {
+      Object.keys(this.themeOptions).forEach(key => {
         if (key === mode) {
           this.themeOptions[key].ischecked = true;
         } else {
@@ -503,7 +503,7 @@ export default {
         this.themeOptions.light.ischecked = true;
       } else {
         this.$store.state.theme = theme;
-        Object.keys(this.themeOptions).forEach((key) => {
+        Object.keys(this.themeOptions).forEach(key => {
           this.themeOptions[key].ischecked = false;
         });
         this.themeOptions[theme].ischecked = true;

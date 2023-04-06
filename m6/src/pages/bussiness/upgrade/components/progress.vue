@@ -6,9 +6,9 @@
       <div class="mk-upgrade__shadow"></div>
       <div class="mk-upgrade-body">
         <div class="mk-upgrade-header">
-          <img class="mk-upgrade-header__close"
+          <img v-if="upgradeCompleted"
+               class="mk-upgrade-header__close"
                @click="close"
-               v-if="upgradeCompleted"
                src="@/assets/images/icon/ic_close_gray@2x.png"
                alt="" />
         </div>
@@ -48,10 +48,11 @@
               </ul>
             </div>
             <div class="mk-upgrade-result__img">
-              <m-spinner color="#d6001c"
+              <m-spinner :color="themeColor"
                          :size="30"
                          v-if="status === Statuses.installing"></m-spinner>
               <m-loading :size="30"
+                         :color="themeColor"
                          v-if="status === Statuses.downloading"></m-loading>
               <img v-if="
                   status === Statuses.download_fail ||
@@ -157,6 +158,9 @@ export default {
     },
     success() {
       return this.status === Statuses.install_success;
+    },
+    themeColor() {
+      return process.env.CUSTOMER_CONFIG.loading.color;
     }
   },
   watch: {
@@ -348,14 +352,14 @@ export default {
         text-align: center;
         font-size: 14px;
         font-weight: bold;
-        color: #333;
+        color: var(--text-default-color);
       }
       .mk-upgrade-content__description {
         display: flex;
         margin-top: 5px;
         img {
-          width: 14px;
-          height: 14px;
+          width: 17px;
+          height: 17px;
           flex-shrink: 0;
           display: block;
           margin-top: 1px;
@@ -378,7 +382,7 @@ export default {
           text-align: center;
           font-size: 16px;
           font-weight: bold;
-          color: #333;
+          color: var(--text-default-color);
           line-height: 16px;
           height: 16px;
           margin-top: 10px;
@@ -420,70 +424,23 @@ export default {
             text-align: left;
             margin-top: 10px;
             font-size: 12px;
-            .mk-upgrade-reason {
-            }
           }
         }
       }
     }
-    background: #fff;
+    background: var(--progress-background-color);
     width: 420px;
     border-radius: 10px;
   }
 }
 @media screen and (max-width: 767px) {
   .mk-upgrade {
-    &.upgrade-enter {
-    }
-    &.upgrade-enter-active {
-    }
-    &.upgrade-leave-active {
-    }
-    .mk-upgrade__shadow {
-    }
-
     .mk-upgrade-body {
       width: 320px;
-      .mk-upgrade-header {
-        .mk-upgrade-header__close {
-        }
-      }
       .mk-upgrade-content {
         padding: 0 20px;
-        .mk-upgrade-content__title {
-        }
-        .mk-upgrade-content__description {
-          img {
-          }
-          span {
-          }
-        }
-        .mk-upgrade-node {
-          .mk-upgrade-node__img {
-          }
-          .mk-upgrade-node__name {
-          }
-          .mk-upgrade-node__sn {
-          }
-          .mk-upgrade-node__version {
-          }
-        }
         .mk-upgrade-result {
           margin-bottom: 25px;
-          .mk-upgrade-result__img {
-            img {
-            }
-          }
-          .mk-upgrade-result__status {
-          }
-          .mk-upgrade-result__description {
-            .mk-upgrade-result__title {
-            }
-            .mk-upgrade-reasons {
-              .mk-upgrade-reason {
-              }
-            }
-          }
         }
       }
     }

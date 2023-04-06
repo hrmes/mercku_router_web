@@ -7,17 +7,11 @@
  *
  */
 import * as CONSTANTS from 'base/util/constant';
-// import picGateway from '../../../assets/images/icon/ic_m2_gw_green.png';
-// import picM2Good from '../../../assets/images/icon/ic_m2_green.png';
-// import picM2Bad from '../../../assets/images/icon/ic_m2_orange.png';
-// import pciM2Offline from '../../../assets/images/icon/ic_m2_offline.png';
-// import picBeeGood from '../../../assets/images/icon/ic_bee_green.png';
-// import picBeeBad from '../../../assets/images/icon/ic_bee_orange.png';
-// import picBeeOffline from '../../../assets/images/icon/ic_bee_offline.png';
-import picGateway from '@/assets/images/icon/ic_m6_gw_green.png';
-import picifi6Good from '@/assets/images/icon/ic_m6_normal.png';
-import picWifi6Bad from '@/assets/images/icon/ic_m6_bad.png';
-import pciWifi6Offline from '@/assets/images/icon/ic_m6_offline.png';
+
+import picM6Gateway from '@/assets/images/icon/ic_m6_gw_green.png';
+import picM6Wifi6Good from '@/assets/images/icon/ic_m6_normal.png';
+import picM6Wifi6Bad from '@/assets/images/icon/ic_m6_bad.png';
+import picM6Wifi6Offline from '@/assets/images/icon/ic_m6_offline.png';
 
 const Color = {
   good: '#00d061',
@@ -68,10 +62,8 @@ function findGateway(source) {
 // 找绿色的节点
 function findGreenNode(root, source, visited) {
   let green = [];
-
   root.neighbors.forEach(n => {
     const node = source.find(s => s.sn === n.sn);
-
     if (visited.includes(node)) {
       return;
     }
@@ -98,27 +90,17 @@ function findRedNode(green, nodes) {
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
-    // [CONSTANTS.RouterSnModel.M2]: {
-    //   [Color.good]: picM2Good,
-    //   [Color.bad]: picM2Bad,
-    //   [Color.offline]: pciM2Offline
-    // },
-    // [CONSTANTS.RouterSnModel.Bee]: {
-    //   [Color.good]: picBeeGood,
-    //   [Color.bad]: picBeeBad,
-    //   [Color.offline]: picBeeOffline
-    // },
     [CONSTANTS.RouterSnModel.M6]: {
-      [Color.good]: picifi6Good,
-      [Color.bad]: picWifi6Bad,
-      [Color.offline]: pciWifi6Offline
+      [Color.good]: picM6Wifi6Good,
+      [Color.bad]: picM6Wifi6Bad,
+      [Color.offline]: picM6Wifi6Offline
     }
   };
 
   function genNode(node, color, symbolSize = 50) {
     let symbol = 'image://';
     if (node.is_gw) {
-      symbol = `${symbol}${picGateway}`;
+      symbol = `${symbol}${picM6Gateway}`;
     } else {
       const id = (node.model && node.model.id) || node.sn.slice(0, 2);
       const modelConfig = picModelColorMap[id];
@@ -170,12 +152,25 @@ function genNodes(gateway, green, red, offline) {
 // 生成绘图需要的线条信息
 function genLines(gateway, green, red, nodes, fullLine) {
   function genLine(source, target, color, value = 0) {
+    // 有线实线显示，无线虚线显示
+    if (value === 5555) {
+      return {
+        source: `${source.sn}${source.name}`,
+        target: `${target.sn}${target.name}`,
+        rssi: value,
+        lineStyle: {
+          color,
+          type: 'solid'
+        }
+      };
+    }
     return {
       source: `${source.sn}${source.name}`,
       target: `${target.sn}${target.name}`,
       rssi: value,
       lineStyle: {
-        color
+        color,
+        type: 'dotted'
       }
     };
   }
@@ -193,7 +188,6 @@ function genLines(gateway, green, red, nodes, fullLine) {
   }
 
   const lines = [];
-
   gateway.neighbors.forEach(n => {
     const node = nodes.find(s => s.sn === n.sn);
     if (!exist(node, gateway)) {
@@ -259,22 +253,18 @@ function genData(array, fullLine = false) {
   routers = addConnection(routers);
 
   const gateway = findGateway(routers);
-  console.log(gateway);
 
   const visited = [gateway];
   const green = findGreenNode(gateway, routers, visited);
-  console.log(green);
 
   const meshNodes = routers.filter(r => r.sn !== gateway.sn);
 
   const red = findRedNode(green, meshNodes);
-  console.log(red);
 
   const nodes = genNodes(gateway, green, red, offline);
 
   const lines = genLines(gateway, green, red, routers, fullLine);
 
-  console.log(nodes, lines);
   return {
     nodes,
     lines

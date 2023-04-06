@@ -2,6 +2,12 @@
   <div class="speedlimit">
     <div class='form'>
       <div class='input-info'>
+        <div class="form-item"
+             style="margin-bottom:20px">
+          <m-checkbox :text="$t('trans0462')"
+                      v-model="form.enabled"
+                      class="enable"></m-checkbox>
+        </div>
         <m-form ref="form"
                 :model="form"
                 :rules='rules'>
@@ -20,10 +26,7 @@
                      :placeholder="`${$t('trans0391')}`"></m-input>
           </m-form-item>
         </m-form>
-        <div class="form-item">
-          <m-checkbox :text="$t('trans0462')"
-                      v-model="form.enabled"></m-checkbox>
-        </div>
+        <div class="hr-line"></div>
         <div class="form-item">
           <button class="btn"
                   @click='submit'>{{$t('trans0081')}}</button>
@@ -74,7 +77,7 @@ export default {
   },
   mounted() {
     this.mac = this.$route.params.mac;
-    const limit = this.$store.modules.limits[this.mac];
+    const limit = this.$store.state.modules.limits[this.mac];
     if (limit && limit.speed_limit) {
       const speed = limit.speed_limit;
       this.form = {
@@ -126,6 +129,7 @@ export default {
             })
             .then(() => {
               this.$loading.close();
+              this.$store.state.modules.limits[this.mac].speed_limit = params;
               this.$toast(this.$t('trans0040'), 3000, 'success');
             })
             .catch(() => {
@@ -143,7 +147,13 @@ export default {
 .speedlimit {
   .form {
     display: flex;
-    justify-content: center;
+    width: 100%;
+    .input-info {
+      width: 100%;
+      .enable {
+        font-weight: 600;
+      }
+    }
     .check-info {
       display: flex;
       align-items: center;
@@ -154,15 +164,12 @@ export default {
         font-size: 14px;
         color: #333333;
       }
-      .tool {
-        position: relative;
-        width: 30px;
-        img {
-          position: relative;
-          top: -8px;
-          cursor: pointer;
-        }
-      }
+    }
+    .hr-line {
+      width: 100%;
+      height: 0;
+      border-top: 1px solid var(--table-body-hr-color);
+      margin-bottom: 30px;
     }
   }
 }
@@ -170,6 +177,7 @@ export default {
   .speedlimit {
     width: 100%;
     .form {
+      padding: 10px;
       .input-info {
         width: 100%;
       }

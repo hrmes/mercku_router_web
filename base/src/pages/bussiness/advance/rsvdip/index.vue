@@ -365,8 +365,6 @@ export default {
     border-radius: 10px;
     margin-bottom: 5px;
     &.extra {
-      text-align: center;
-
       background: var(--table-row-background-color);
       padding: 10px;
     }

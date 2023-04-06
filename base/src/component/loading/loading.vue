@@ -9,18 +9,12 @@
       <div class="template"
            v-if="template"
            v-html="template"></div>
-      <!-- <LoadingNew :size="60" /> -->
     </div>
   </transition>
 
 </template>
 <script>
-import LoadingNew from './loading-new.vue';
-
 export default {
-  components: {
-    LoadingNew
-  },
   data() {
     const { name } = process.env.CUSTOMER_CONFIG.loading;
     const url = require(`../../assets/images/loading/${name}`);

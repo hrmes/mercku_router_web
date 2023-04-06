@@ -1,0 +1,25 @@
+{
+  "id": "0029",
+  "title": "Junet",
+  "accept": ".jun",
+  "favicon": "customer-conf/0029/favicon.ico",
+  "policy": "https://www.junet.se/integritet/",
+  "allow2LevelAdmin": true,
+  "assetFolderName": "junet",
+  "languages": ["zh-CN", "en-US"],
+  "routers": {
+    "M6": {
+      "name": "M6 Wi-Fi6 Router",
+      "shortName": "J6"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#00b4e4"
+  },
+  "website": {
+    "url": "https://www.junet.se",
+    "text": "www.junet.se"
+  },
+  "appDownloadUrl": "https://mywifi.junet.se"
+}

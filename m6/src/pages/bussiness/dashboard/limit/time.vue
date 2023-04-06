@@ -2,20 +2,22 @@
   <div class="timelimit">
     <div class='table'
          :class="{'table--empty':!sortList.length}">
-      <div class="tools">
-        <button class="btn btn-small"
-                @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
-      </div>
       <div class="table-head">
         <div class="column-date-stop">{{$t('trans0084')}}</div>
         <div class="column-date-start">{{$t('trans0085')}}</div>
         <div class="column-repeat">{{$t('trans0082')}}</div>
-        <div class="column-handle">{{$t('trans0370')}}</div>
+        <div class="column-switch"></div>
+        <div class="column-handle">
+          <button class="btn btn-small"
+                  @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
+        </div>
       </div>
       <div class="table-body">
-        <div class="table-row"
-             v-for="(row,index) in sortList"
-             :key='index'>
+        <div v-for="(row,index) in sortList"
+             :key='index'
+             class="table-row"
+             :class="{'open':row.expand}"
+             @click="openCollapse(row)">
           <div class="column-date-stop">
             <span>{{row.time_begin}}</span>
             <span class="mobile-start">&nbsp;-&nbsp;</span>
@@ -23,22 +25,43 @@
           </div>
           <div class="column-date-start">{{row.time_end}}</div>
           <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
+          <div class="column-switch check-wrap">
+            <m-switch @change="(v)=>changehandle(v,row)"
+                      v-model="row.enabled" />
+          </div>
           <div class="column-handle">
-            <div class="check-wrap">
-              <m-switch @change="(v)=>changehandle(v,row)"
-                        v-model="row.enabled" />
-            </div>
-            <a class="btn-text"
-               @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
-            <a class="btn-text text-primary"
-               @click="delRow(row)">{{$t('trans0033')}}</a>
+            <span class="btn-icon"
+                  @click.stop="modalOpen('edit',row)">
+              <i class="add-to-block iconfont icon-ic_settings_normal"></i>
+              <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
+            </span>
+            <span v-if="isMobile"
+                  class="label"
+                  @click.stop="modalOpen('edit',row)">
+              {{$t('trans0034')}}
+            </span>
+            <span class="btn-icon"
+                  @click="delRow(row)">
+              <i class="settings iconfont icon-ic_trash_normal"></i>
+              <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+            </span>
+            <span v-if="isMobile"
+                  class="label"
+                  @click="delRow(row)">
+              {{$t('trans0033')}}
+            </span>
           </div>
         </div>
         <div class="empty"
              v-if="isEmpty">
-          <img src="../../../../assets/images/img_default_empty.png"
+          <img src="../../../../assets/images/img_default_empty.webp"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
+        </div>
+        <div v-if="isMobile"
+             @click.stop="modalOpen('add')"
+             class="mobile-add-btn-wrap">
+          <button class="btn">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
@@ -46,28 +69,29 @@
              :visible.sync="modalShow">
       <div class="modal-content">
         <div class="modal-form">
-          <div class="item">
+          <div class="item left-right">
+            <m-switch v-model="form.enabled"
+                      class="switch" />
             <label for="">{{$t('trans0075')}}</label>
-            <m-switch v-model="form.enabled" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0084')}}</label>
             <m-time-picker class="time-picker"
                            v-model="form.time_begin" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0085')}}</label>
             <m-time-picker class="time-picker"
                            v-model="form.time_end" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0082')}}</label>
             <div class="date-wrap">
               <div class='check-inner'
                    v-for="(item,i) in schedules"
                    :key='i'>
                 <m-checkbox v-model='item.checked'
-                            :text='$t(item.label)'></m-checkbox>
+                            :text='item.label'></m-checkbox>
               </div>
             </div>
           </div>
@@ -95,50 +119,13 @@ const formatTime = t => {
   return s;
 };
 
-const schedulesOptions = [
-  {
-    label: 'trans0086',
-    value: Weeks.mon,
-    checked: true
-  },
-  {
-    label: 'trans0087',
-    value: Weeks.tue,
-    checked: true
-  },
-  {
-    label: 'trans0088',
-    value: Weeks.wed,
-    checked: true
-  },
-  {
-    label: 'trans0089',
-    value: Weeks.thu,
-    checked: true
-  },
-  {
-    label: 'trans0090',
-    value: Weeks.fri,
-    checked: true
-  },
-  {
-    label: 'trans0091',
-    value: Weeks.sat,
-    checked: true
-  },
-  {
-    label: 'trans0092',
-    value: Weeks.sun,
-    checked: true
-  }
-];
-
 export default {
   data() {
     return {
       modalStatus: 'add',
       isChoose: false,
       msgShow: false,
+      open: false,
       selectedRow: {},
       disabled: true,
       modalShow: false,
@@ -151,14 +138,49 @@ export default {
         time_end: '23:59',
         schedule: []
       },
-      schedules: schedulesOptions
+      schedules: [
+        {
+          label: this.$t('trans0086'),
+          checked: false,
+          value: Weeks.mon
+        },
+        {
+          label: this.$t('trans0087'),
+          checked: false,
+          value: Weeks.tue
+        },
+        {
+          label: this.$t('trans0088'),
+          checked: false,
+          value: Weeks.wed
+        },
+        {
+          label: this.$t('trans0089'),
+          checked: false,
+          value: Weeks.thu
+        },
+        {
+          label: this.$t('trans0090'),
+          checked: false,
+          value: Weeks.fri
+        },
+        {
+          label: this.$t('trans0091'),
+          checked: false,
+          value: Weeks.sat
+        },
+        {
+          label: this.$t('trans0092'),
+          checked: false,
+          value: Weeks.sun
+        }
+      ]
     };
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const limit = this.$store.modules.limits[this.form.mac];
-    if (limit && limit.time_limit) {
-      this.timeLimitList = limit.time_limit;
+    if (this.limit && this.limit.time_limit) {
+      this.timeLimitList = this.limit.time_limit;
     } else {
       this.getList();
     }
@@ -175,6 +197,9 @@ export default {
     }
   },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     isEmpty() {
       return !this.sortList.length;
     },
@@ -190,6 +215,9 @@ export default {
         }
         return 0;
       });
+    },
+    limit() {
+      return this.$store.state.modules.limits[this.form.mac];
     }
   },
   methods: {
@@ -210,7 +238,7 @@ export default {
       arr.forEach(s => {
         this.schedules.forEach(v => {
           if (s === v.value) {
-            newArr.push(this.$t(v.label));
+            newArr.push(v.label);
           }
         });
       });
@@ -261,7 +289,10 @@ export default {
     },
     getList() {
       this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
-        this.timeLimitList = res.data.result;
+        this.timeLimitList = res.data.result.map(v => ({ ...v, expand: false }));
+        if (this.limit && this.limit.time_limit) {
+          this.limit.time_limit = this.timeLimitList;
+        }
       });
     },
     changehandle(v, row) {
@@ -294,6 +325,9 @@ export default {
         })
         .then(() => {
           this.timeLimitList = this.timeLimitList.filter(v => v.id !== row.id);
+          if (this.limit && this.limit.time_limit) {
+            this.limit.time_limit = this.timeLimitList;
+          }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
@@ -350,6 +384,9 @@ export default {
               }
               return v;
             });
+            if (this.limit && this.limit.time_limit) {
+              this.limit.time_limit = this.timeLimitList;
+            }
 
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
@@ -360,17 +397,23 @@ export default {
       } else {
         this.msgShow = true;
       }
+    },
+    openCollapse(row) {
+      console.log(row.expand);
+      if (this.isMobile) {
+        this.timeLimitList.forEach(v => {
+          if (v.id === row.id) {
+            v.expand = !v.expand;
+          }
+        });
+      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   .message {
-    padding-left: 70px;
     font-size: 12px;
     color: #ff0001;
     display: inline-block;
@@ -390,26 +433,36 @@ export default {
   }
   .modal-content {
     border-radius: 5px;
-    background-color: #ffffff;
     .item {
       display: flex;
-      align-items: center;
-      margin-top: 30px;
+      margin-top: 20px;
       &:first-child {
         margin: 0;
       }
       &:last-child {
         align-items: flex-start;
       }
+      &.left-right {
+        .switch {
+          margin-right: 10px;
+        }
+        label {
+          color: var(--text-default-color);
+        }
+      }
+      &.top-bottom {
+        flex-direction: column;
+        label {
+          margin-bottom: 10px;
+        }
+      }
       label {
         width: 120px;
+        font-weight: 600;
         font-size: 14px;
-        color: #333333;
+        color: var(--text-gery-color);
         overflow: hidden;
         flex-shrink: 0;
-      }
-      .time-picker {
-        width: 160px;
       }
       .date-wrap {
         display: flex;
@@ -417,7 +470,7 @@ export default {
         align-items: center;
         width: 320px;
         .check-inner {
-          width: 160px;
+          width: 105px;
           margin-bottom: 12px;
         }
       }
@@ -428,9 +481,6 @@ export default {
   width: 100%;
   .table {
     width: 100%;
-    .tools {
-      margin-bottom: 20px;
-    }
     .column-date-stop {
       width: 150px;
       .mobile-start {
@@ -441,17 +491,25 @@ export default {
       width: 150px;
     }
     .column-repeat {
+      width: 230px;
+      margin-right: 10px;
+    }
+    .column-switch {
       min-width: 150px;
       flex: 1;
     }
     .column-handle {
-      width: 250px;
+      width: 150px;
+      justify-content: flex-end;
     }
     .table-head {
       height: 50px;
-      background-color: #f1f1f1;
+      color: var(--table-header-text-color);
+      background-color: var(--table-row-background-color);
       display: flex;
       padding: 0 30px;
+      margin-bottom: 5px;
+      border-radius: 10px;
       div {
         display: flex;
         height: 50px;
@@ -459,20 +517,24 @@ export default {
       }
     }
     .table-body {
+      border-radius: 10px;
+
       .table-row {
         display: flex;
-        padding: 15px 30px;
-        border-bottom: 1px solid #f1f1f1;
-        &:nth-child(2n) {
-          background: #f7f7f7;
-          @media screen and(max-width:768px) {
-            background: #fff;
-          }
+        padding: 20px 30px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        background-color: var(--table-row-background-color);
+        > div {
+          display: flex;
+          align-items: center;
         }
         .column-handle {
           display: flex;
           align-items: center;
           a {
+            width: 30px;
+            height: 30px;
             margin-left: 50px;
             &:last-child {
               margin-left: 30px;
@@ -509,69 +571,76 @@ export default {
       margin: 0;
       position: relative;
       &.table--empty {
-        .tools {
-          position: static;
-          justify-content: center;
-          border: 0;
-          margin: 0;
-          margin-top: 10px;
-          .btn {
-            min-width: 120px;
-            height: 38px;
-          }
-        }
-      }
-      .tools {
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding-bottom: 20px;
-        width: 100%;
-        border-bottom: 1px solid #f1f1f1;
-        display: flex;
-        justify-content: flex-end;
-        .btn {
-          margin: 0;
-        }
       }
       .table-body {
-        margin-top: 68px;
         .table-row {
           flex-direction: column;
-          padding: 20px 0;
+          padding: 15px 10px;
           position: relative;
-          &:first-child {
-            padding-top: 0;
+          &.open {
+            &::after {
+              transform: rotate(0);
+            }
+            .column-handle {
+              display: block;
+            }
+          }
+          .column-date-stop {
+            display: flex;
+            width: 100%;
+            font-size: 14px;
+            color: var(--text-default-color);
+            .mobile-start {
+              display: block;
+            }
+          }
+          .column-date-start {
+            display: none !important;
+            width: auto;
+          }
+          .column-repeat {
+            width: auto;
+            max-width: 70%;
+            margin: 5px 0 0 0;
+            color: var(--text-gery-color);
+            font-size: 12px;
+          }
+          .column-switch {
+            position: absolute;
+            right: 45px;
+            top: 12px;
+            min-width: 0;
+          }
+          .column-handle {
+            display: none;
+            width: 100%;
+            justify-content: flex-start;
+            margin-top: 10px;
+            padding-top: 10px;
+            color: var(--text-gery-color);
+            border-top: 1px solid var(--table-body-hr-color);
+            a {
+              margin-left: 30px !important;
+            }
+            .check-wrap {
+              position: absolute;
+              right: 0;
+              top: 20px;
+            }
+          }
+          &::after {
+            content: '\e65b';
+            font-family: 'iconfont';
+            position: absolute;
+            right: 18px;
+            top: 16px;
+            font-size: 10px;
+            transform: rotate(-90deg);
+            transition: all 0.3s;
           }
         }
-      }
-      .column-date-stop {
-        display: flex;
-        width: 100%;
-        .mobile-start {
-          display: block;
-        }
-      }
-      .column-date-start {
-        width: auto;
-        display: none;
-      }
-      .column-repeat {
-        width: 100%;
-        margin-top: 5px;
-        padding-right: 50px;
-      }
-      .column-handle {
-        width: 100%;
-        justify-content: flex-end;
-        margin-top: 20px;
-        a {
-          margin-left: 30px !important;
-        }
-        .check-wrap {
-          position: absolute;
-          right: 0;
-          top: 20px;
+        .mobile-add-btn-wrap {
+          margin-top: 20px;
         }
       }
       .table-head {
@@ -581,46 +650,11 @@ export default {
   }
   .modal {
     .modal-content {
-      border-radius: 5px;
-      background-color: #ffffff;
-      .btn-info {
-        margin-top: 10px;
-      }
       .item {
-        display: flex;
-        align-items: center;
-
-        margin-top: 20px;
-        &:first-child {
-          margin: 0;
-        }
-        &:last-child {
-          align-items: flex-start;
-        }
-        label {
-          width: 110px;
-          flex-shrink: 0;
-          @media screen and (max-width: 320px) {
-            flex-shrink: 0;
-            width: 60px;
-            margin-right: 5px;
-          }
-          font-size: 14px;
-          color: #333333;
-          overflow: hidden;
-          margin-right: 12px;
-        }
-        .time-picker {
-          width: 140px;
-        }
         .date-wrap {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          width: 180px;
+          width: 100%;
           .check-inner {
-            width: 160px;
-            margin-bottom: 12px;
+            width: 50%;
           }
         }
       }
