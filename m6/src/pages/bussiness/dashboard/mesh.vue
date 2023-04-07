@@ -36,18 +36,25 @@
               <div class="legend-item">{{$t('trans1048')}}</div>
               <div class="legend-item">{{$t('trans0214')}}</div>
             </div>
-            <!-- <div class="legend-tx_power">
-              <span>{{$t('trans1102')}}:</span>
-              <m-loading v-if="!tx_power"
-                         :id="'txpowerLoading'"
-                         :size='18'
-                         :color="'#29b96c'"
-                         class="value loading"></m-loading>
-              <span v-else
-                    class="value text">{{txPowerMap[tx_power]}}</span>
-            </div> -->
           </div>
           <div class="switch-wrap">
+            <div class="switch-item">
+              <label>
+                <span>{{$t('trans0562')}}</span>
+                <div class="tool"
+                     style="width:14px;">
+                  <m-popover position="bottom left"
+                             style="top:-7px"
+                             :title="this.$t('trans0562')"
+                             :content="this.$t('trans0558')">
+                    <i class="iconfont icon-ic_help"
+                       style="font-size:14px"></i>
+                  </m-popover>
+                </div>
+              </label>
+              <m-switch v-model="mesh24g"
+                        @change="(val)=>updateMeshBand(val)"></m-switch>
+            </div>
           </div>
           <div class="topo-wrap"
                id="topo-wrap">
@@ -325,6 +332,7 @@ export default {
       routerSelected: null,
       showModal: false,
       form: { newName: '' },
+      mesh24g: false,
       rules: {
         newName: [
           {
@@ -368,18 +376,12 @@ export default {
         '2.4g': this.$t('trans0255'),
         '5g': this.$t('trans0256')
       },
-      // txPowerMap: {
-      //   high: this.$t('trans1089'),
-      //   medium: this.$t('trans1090'),
-      //   low: this.$t('trans1091')
-      // },
-      // tx_power: '',
-      // txPowerTimer: null,
       isDarkMode: false
     };
   },
   async mounted() {
     this.initChart();
+    this.getMeshBand();
     this.createIntervalTask();
     // 获取当前设备信息
     try {
@@ -466,6 +468,49 @@ export default {
     },
     closeRssiModal() {
       this.rssiModalVisible = false;
+    },
+    updateMeshBand(val) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0229'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            this.$http
+              .updateMeshBand({
+                bands: {
+                  '5G': true,
+                  '2.4G': val
+                }
+              })
+              .then(() => {
+                this.$loading.close();
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  },
+                  timeout: 60
+                });
+              })
+              .catch(() => {
+                this.mesh24g = !val;
+                this.$loading.close();
+              });
+          },
+          cancel: () => {
+            this.mesh24g = !this.mesh24g;
+          }
+        }
+      });
+    },
+    getMeshBand() {
+      this.$http.getMeshBand().then(res => {
+        this.mesh24g = res.data.result['2.4G'];
+      });
     },
     isRouterOffline(router) {
       return router.status === RouterStatus.offline;
@@ -643,7 +688,6 @@ export default {
     },
     createIntervalTask() {
       this.getMeshNode();
-      // this.getTxpower();
     },
     clearIntervalTask() {
       clearTimeout(this.meshNodeTimer);
@@ -682,27 +726,6 @@ export default {
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
-            }, 10000);
-          }
-        });
-    },
-    getTxpower() {
-      clearTimeout(this.txPowerTimer);
-      this.txPowerTimer = null;
-      this.$http
-        .getMeshMeta()
-        .then(res => {
-          this.tx_power = res.data.result.tx_power;
-          if (this.pageActive) {
-            this.txPowerTimer = setTimeout(() => {
-              this.getTxpower();
-            }, 10000);
-          }
-        })
-        .catch(() => {
-          if (this.pageActive) {
-            this.txPowerTimer = setTimeout(() => {
-              this.getTxpower();
             }, 10000);
           }
         });
@@ -1149,37 +1172,13 @@ export default {
               }
             }
           }
-          .legend-tx_power {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            font-size: 12px;
-            margin-top: 10px;
-            .value {
-              width: 20px;
-              text-align: right;
-              &.text {
-                width: fit-content;
-                height: 18px;
-                margin-left: 3px;
-                margin-right: -3px;
-              }
-              &.loading {
-                width: 18px;
-                height: 18px;
-                margin-left: 5px;
-                margin-right: -6px;
-              }
-            }
-          }
         }
         .switch-wrap {
           order: 1;
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          width: 200px;
-
+          width: 190px;
           .switch-item {
             display: flex;
             width: 100%;
@@ -1188,8 +1187,7 @@ export default {
             }
             label {
               display: flex;
-              margin-right: 15px;
-              // max-width: 200px;
+              margin: 0 10px;
               flex: 1;
               img {
                 position: relative;
@@ -1435,24 +1433,20 @@ export default {
                 }
               }
             }
-            .legend-tx_power {
-              justify-content: flex-start;
-            }
           }
           .switch-wrap {
             order: 1;
             padding-left: 0;
             width: 100%;
-            height: 0;
+            margin-bottom: 15px;
             .switch-item {
               width: auto;
               label {
                 flex: auto;
+                margin: 0 10px 0 0;
                 max-width: 200px;
                 span {
                   max-width: 100px;
-                  // overflow: hidden;
-                  // text-overflow: ellipsis;
                 }
               }
             }
