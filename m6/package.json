@@ -10,7 +10,6 @@
     "@vue/cli-plugin-babel": "^3.1.1"
   },
   "dependencies": {
-    "@lottiefiles/vue-lottie-player": "^1.1.0",
     "vuex": "^3.6.2"
   }
 }

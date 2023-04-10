@@ -211,7 +211,7 @@
   --upgrade-text-color: #fff;
 
   // upload
-  --upload-button-disabled-color: rgba(214, 0, 28, 0.3);
+  --upload-button-disabled-color: #b2e8f6;
   --upload-file-text-color: #999;
   --upload-file-description-color: #333;
   --upload-background-color: #f1f1f1;
@@ -273,7 +273,7 @@
 
   //bridge
   --bridge-tips-bgc: #fafafa;
-  --bridge-tips-color: #df2039;
+  --bridge-tips-color: var(--primaryColor);
 
   //internet color theme
   --internet-background-color: #f7f7f7;
@@ -503,7 +503,7 @@
   --upgrade-text-color: #fff;
 
   // upload
-  --upload-button-disabled-color: rgba(223, 32, 57, 0.3);
+  --upload-button-disabled-color: #124856;
   --upload-file-text-color: rgba(255, 255, 255, 0.6);
   --upload-file-description-color: #fff;
   --upload-background-color: #1a1a1a;
@@ -565,7 +565,7 @@
 
   //bridge
   --bridge-tips-bgc: #1a1a1a;
-  --bridge-tips-color: #ff4d64;
+  --bridge-tips-color: var(--primaryColor);
 
   //internet color theme
   --internet-background-color: #1a1a1a;

@@ -12,7 +12,6 @@ import mProgress from 'base/component/progress/index.vue';
 import upgradeComponent from 'base/component/upgrade/index';
 import loading from 'base/component/loading/index';
 import registerComponents from 'base/register-components';
-import LottieVuePlayer from '@lottiefiles/vue-lottie-player';
 import store from './store';
 import App from './App.vue';
 import Http from './http';
@@ -170,7 +169,6 @@ const launch = () => {
     throw err;
   });
 
-  Vue.use(LottieVuePlayer);
   Vue.prototype.loadingColor = process.env.CUSTOMER_CONFIG.loading.color;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
