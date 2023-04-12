@@ -11,6 +11,7 @@ import dialog from 'base/component/dialog/index';
 import mProgress from 'base/component/progress/index.vue';
 import upgradeComponent from 'base/component/upgrade/index';
 import loading from 'base/component/loading/index';
+import directives from 'base/directives';
 import registerComponents from 'base/register-components';
 import store from './store';
 import App from './App.vue';
@@ -169,6 +170,7 @@ const launch = () => {
     throw err;
   });
 
+  Vue.use(directives);
   Vue.prototype.loadingColor = process.env.CUSTOMER_CONFIG.loading.color;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;

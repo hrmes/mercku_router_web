@@ -509,6 +509,7 @@ export default {
       );
     },
     getWanNetInfo() {
+      this.$loading.open();
       this.$http.getWanNetInfo().then(res => {
         if (res.data.result) {
           this.netInfo = res.data.result;
@@ -538,6 +539,7 @@ export default {
             [this.vlan] = this.netInfo.vlan;
           }
         }
+        this.$loading.close();
       });
     },
     save(params) {

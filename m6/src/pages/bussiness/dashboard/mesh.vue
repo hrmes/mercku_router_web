@@ -319,6 +319,7 @@ require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 export default {
+  name: 'Mesh',
   data() {
     return {
       rssiModalVisible: false,

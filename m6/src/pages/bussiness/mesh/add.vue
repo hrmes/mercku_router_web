@@ -26,7 +26,7 @@
         </div>
         <div class="step-content">
           <div class="step-item step-item--rich"
-               v-show="isStep(0)">
+               v-if="isStep(0)">
             <div class="img-container">
               <img src="@/assets/images/img_m6_add_01.svg"
                    alt="">
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="step-item step-item--rich"
-               v-show="isStep(1)">
+               v-if="isStep(1)">
             <div class="img-container">
               <img src="@/assets/images/img_m6_add_02.svg"
                    alt="">
@@ -55,7 +55,7 @@
             </div>
           </div>
           <div class="step-item step-item--rich"
-               v-show="isStep(2)">
+               v-if="isStep(2)">
             <div class="img-container">
               <img src="@/assets/images/img_m6_add_03.svg"
                    alt="">
@@ -69,16 +69,18 @@
             </div>
           </div>
           <div class="step-item step-item--scan"
-               v-show="isStep(3)">
+               v-if="isStep(3)">
             <div class="scaning"
-                 v-show="isScanning">
-              <m-loading :color="loadingColor"></m-loading>
+                 v-if="isScanning">
+              <div class="icon-wrapper">
+                <m-lottieLoading></m-lottieLoading>
+              </div>
               <p>{{transformText($t('trans0334'))}}</p>
             </div>
             <div class="scan-result"
-                 v-show="isScanFinished">
-              <div class="scan-result__content"
-                   v-if="nodes.length === 1">
+                 v-if="isScanFinished">
+              <div v-if="nodes.length === 1"
+                   class="scan-result__content">
                 <div class="router">
                   <img class="router__img"
                        :src="getNodeImage(nodes[0])"
@@ -115,8 +117,8 @@
                           class="btn">{{$t('trans0162')}}</button>
                 </div>
               </div>
-              <div class="scan-result__empty"
-                   v-else>
+              <div v-else
+                   class="scan-result__empty">
                 <img class="scan-result__image"
                      src="@/assets/images/img_default_empty.webp"
                      alt="">
@@ -128,6 +130,13 @@
                           class="btn">{{$t('trans0162')}}</button>
                 </div>
               </div>
+            </div>
+            <div class="adding"
+                 v-if="isAdding">
+              <div class="icon-wrapper">
+                <m-lottieLoading :loadingType="'addNode'"></m-lottieLoading>
+              </div>
+              <p>{{$t('trans0195')}}</p>
             </div>
           </div>
         </div>
@@ -148,7 +157,7 @@
           </div>
         </div>
         <div class="result-container__fail"
-             v-if="!isAddFail">
+             v-if="isAddFail">
           <img class="scan-result__image"
                src="@/assets/images/img_error.webp"
                alt="">
@@ -166,7 +175,7 @@
 
     <!--loading for scan-->
     <div class="loading"
-         v-if="isScanning"></div>
+         v-if="isScanning||isAdding"></div>
 
     <!--dialog for help-->
     <m-modal class="modal"
@@ -205,6 +214,7 @@ import { Bands } from 'base/util/constant';
 const PageStatus = {
   scanning: 'scanning',
   scan_finished: 'scan_finished',
+  adding: 'adding',
   add_success: 'add_success',
   add_fail: 'add_fail'
 };
@@ -252,19 +262,6 @@ export default {
     m6Text() {
       return this.$t('trans0693').replace('%s', process.env.CUSTOMER_CONFIG.routers.M6.shortName);
     }
-    // perfer this style = =!
-    // isScanning() {
-    //   return this.pageStatus === PageStatus.scanning;
-    // },
-    // isScanFinished() {
-    //   return this.pageStatus === PageStatus.scan_finished;
-    // },
-    // isAddSuccess() {
-    //   return this.pageStatus === PageStatus.add_success;
-    // },
-    // isAddFail() {
-    //   return this.pageStatus === PageStatus.add_fail;
-    // }
   },
   methods: {
     isStep(index) {
@@ -287,8 +284,9 @@ export default {
         this.$toast(this.$t('trans0381'));
         return;
       }
-      const template = `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`;
-      this.$loading.open({ template });
+      this.pageStatus = PageStatus.adding;
+      // const template = `<div class="add-mesh-tip">${this.$t('trans0195')}</div>`;
+      // this.$loading.open({ template });
       // 超时90秒，间隔3秒
       this.$http
         .addMeshNode(
@@ -302,13 +300,13 @@ export default {
           this.checkTimer = setInterval(() => {
             if (timeout < 0) {
               this.pageStatus = PageStatus.add_fail;
-              this.$loading.close();
+              // this.$loading.close();
               clearInterval(this.checkTimer);
             }
             if (timeout % 3 === 0) {
               this.$http.isInMesh({ node }).then(res => {
                 if (res.data.result.status) {
-                  this.$loading.close();
+                  // this.$loading.close();
                   this.pageStatus = PageStatus.add_success;
                   this.$http.getMeshNode().then(meshNodeRes => {
                     const meshNodes = meshNodeRes.data.result;
@@ -339,7 +337,7 @@ export default {
           }, 1000);
         })
         .catch(() => {
-          this.$loading.close();
+          // this.$loading.close();
           this.pageStatus = PageStatus.add_fail;
         });
     },
@@ -551,12 +549,18 @@ export default {
       }
     }
     &.step-item--scan {
-      .scaning {
-        margin-top: 150px;
+      .scaning,
+      .adding {
+        margin-top: 120px;
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
+        .icon-wrapper {
+          position: relative;
+          width: 150px;
+          height: 150px;
+        }
         img {
           display: block;
           margin: 0 auto;

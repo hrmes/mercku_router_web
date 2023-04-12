@@ -23,7 +23,8 @@ import mModalBody from './component/modal/body.vue';
 import mModalFooter from './component/modal/footer.vue';
 import clickoutside from './component/clickoutside/index.vue';
 import defaultButton from './component/default-button/index.vue';
-import mLoading from './component/loading/loading-new.vue';
+import mLoading from './component/loading/loading-canvas.vue';
+import mLottieLoading from './component/loading/loading-lottie.vue';
 import mTag from './component/tag/index.vue';
 import MHeader from './component/header/header.vue';
 
@@ -55,6 +56,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-modal-body', mModalBody);
   _Vue.component('m-modal-footer', mModalFooter);
   _Vue.component('m-loading', mLoading);
+  _Vue.component('m-lottieLoading', mLottieLoading);
   _Vue.component('m-tag', mTag);
 };
 

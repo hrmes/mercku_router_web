@@ -1,5 +1,6 @@
 <template>
-  <div class="srcollbar-wrap">
+  <div class="srcollbar-wrap"
+       v-loading="$loading">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"

@@ -76,7 +76,7 @@
 <script>
 import RouterModel from 'base/mixins/router-model';
 import mSpinner from 'base/component/spinner/index.vue';
-import mLoading from 'base/component/loading/loading-new.vue';
+import mLoading from 'base/component/loading/loading-canvas.vue';
 import { compareVersion } from 'base/util/util';
 import i18nInstance from '@/i18n';
 

@@ -55,10 +55,12 @@ export default {
       });
     },
     getTimezone() {
+      this.$loading.open();
       this.$http.getTimezone().then(res => {
         const timezone = res.data.result;
         this.form.timezone = `${timezone.offset}:${timezone.position}`;
         this.getTimezoneText();
+        this.$loading.close();
       });
     },
     submit() {

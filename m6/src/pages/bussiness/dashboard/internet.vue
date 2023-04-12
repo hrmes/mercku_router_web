@@ -191,8 +191,7 @@
       <div class="speed-content">
         <div v-if="isSpeedTesting">
           <div class="test-info">
-            <img src="@/assets/images/speed_test.gif"
-                 alt="">
+            <m-lottieLoading :loadingType="'speedTest'"></m-lottieLoading>
           </div>
           <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
         </div>
@@ -884,9 +883,8 @@ export default {
       text-align: center;
       .test-info {
         position: relative;
-        img {
-          width: 100px;
-        }
+        width: 150px;
+        height: 150px;
       }
       p {
         color: #ffffff;
