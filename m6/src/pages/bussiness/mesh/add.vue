@@ -12,11 +12,12 @@
           <div class="circle circle3"></div> -->
         </div>
         <p class="tips__text">{{$t('trans0175')}}</p>
+        <p class="tips__text tips__text--add">{{tipsText}}</p>
+
         <div class="button-container">
           <button class="btn btn-large"
                   @click="updateTipsVisible(false)">{{$t('trans0467')}}</button>
         </div>
-        <p class="tips__text tips__text--add">{{tipsText}}</p>
       </div>
       <div class="steps-container"
            v-if="!showTips && !isAddSuccess && !isAddFail">
@@ -26,9 +27,11 @@
         <div class="step-content">
           <div class="step-item step-item--rich"
                v-show="isStep(0)">
-            <img src="@/assets/images/pic_add_m6_01.png"
-                 alt="">
-            <p class="step-item__tip">{{m6Text}}</p>
+            <div class="img-container">
+              <img src="@/assets/images/img_m6_add_01.svg"
+                   alt="">
+            </div>
+            <p class="step-item__tip">{{transformText($t('trans0693'))}}</p>
             <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
             <div class="button-container">
               <button @click="updateTipsVisible(true)"
@@ -39,9 +42,11 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(1)">
-            <img src="@/assets/images/pic_add_m6_02.png"
-                 alt="">
-            <p class="step-item__tip">{{$t('trans0713')}}</p>
+            <div class="img-container">
+              <img src="@/assets/images/img_m6_add_02.svg"
+                   alt="">
+            </div>
+            <p class="step-item__tip">{{transformText($t('trans0713')) }}</p>
             <div class="button-container">
               <button @click="forward2step(0)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
@@ -51,8 +56,10 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(2)">
-            <img src="@/assets/images/pic_add_m6_03.png"
-                 alt="">
+            <div class="img-container">
+              <img src="@/assets/images/img_m6_add_03.svg"
+                   alt="">
+            </div>
             <p class="step-item__tip">{{$t('trans0636')}}</p>
             <div class="button-container">
               <button @click="forward2step(1)"
@@ -66,7 +73,7 @@
             <div class="scaning"
                  v-show="isScanning">
               <m-loading :color="loadingColor"></m-loading>
-              <p>{{$t('trans0334')}}</p>
+              <p>{{transformText($t('trans0334'))}}</p>
             </div>
             <div class="scan-result"
                  v-show="isScanFinished">
@@ -77,6 +84,7 @@
                        :src="getNodeImage(nodes[0])"
                        alt="">
                   <div class="router__info">
+                    <h6 class="router__found">{{$t('trans0658')}}</h6>
                     <p class="router__sn"
                        v-if="nodes[0].sn">
                       <label class="with-colon">{{$t('trans0252')}}:</label>
@@ -98,7 +106,7 @@
               </div>
               <div v-else-if="nodes.length >1"
                    class="scan-result__much">
-                <img src="@/assets/images/img_default_empty.png"
+                <img src="@/assets/images/img_default_empty.webp"
                      alt="">
                 <p class="scan-result__title">{{$t('trans0637')}}</p>
                 <p class="scan-result__description">{{$t('trans0638')}}</p>
@@ -110,9 +118,9 @@
               <div class="scan-result__empty"
                    v-else>
                 <img class="scan-result__image"
-                     src="@/assets/images/img_default_empty.png"
+                     src="@/assets/images/img_default_empty.webp"
                      alt="">
-                <p class="scan-result__title">{{$t('trans0181')}}</p>
+                <p class="scan-result__title">{{transformText($t('trans0181')) }}</p>
                 <span class="btn-help"
                       @click.stop="updateHelpVisible(true)">{{$t('trans0128')}}</span>
                 <div class="button-container">
@@ -128,18 +136,23 @@
            v-show="isAddSuccess || isAddFail">
         <div class="result-container__success"
              v-if="isAddSuccess">
-          <div class="result-container__icon result-container__icon--success"></div>
-          <p>{{$t('trans0192')}}</p>
+          <img class="scan-result__image"
+               src="@/assets/images/img_m6_add_success.webp"
+               alt="">
+          <p class="title">{{$t('trans0192')}}</p>
           <p v-if="isWeakSignal">{{$t('trans0652')}}</p>
+          <span class="success-tips">{{$t('trans1007')}}</span>
           <div class="button-container">
             <button @click="backMesh"
                     class="btn">{{$t('trans0233')}}</button>
           </div>
         </div>
         <div class="result-container__fail"
-             v-if="isAddFail">
-          <div class="result-container__icon result-container__icon--fail"></div>
-          <p>{{$t('trans0248')}}</p>
+             v-if="!isAddFail">
+          <img class="scan-result__image"
+               src="@/assets/images/img_error.webp"
+               alt="">
+          <p class="title">{{$t('trans0248')}}</p>
           <span class="result-container__help"
                 @click.stop="updateHelpVisible(true)">{{$t('trans0128')}}</span>
           <div class="button-container">
@@ -164,7 +177,7 @@
       <div class="modal-content">
         <div class="help-dialog-content">
           <div>
-            <p>{{$t('trans0653')}}</p>
+            <p>{{transformText($t('trans0653')) }}</p>
             <p>{{$t('trans0215')}}</p>
             <p>{{$t('trans0651')}}</p>
             <p>{{$t('trans0175')}}</p>
@@ -267,7 +280,7 @@ export default {
       this.showHelpDialog = visible;
     },
     backMesh() {
-      this.$router.push({ path: '/dashboard/mesh/topo' });
+      this.$router.push({ path: '/dashboard' });
     },
     addMeshNode(node) {
       if (!node) {
@@ -354,6 +367,9 @@ export default {
         .catch(() => {
           this.pageStatus = PageStatus.scan_finished;
         });
+    },
+    transformText(text) {
+      return text.replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6.shortName);
     }
   }
 };
@@ -398,7 +414,7 @@ export default {
       display: inline-block;
       width: 5px;
       height: 5px;
-      background-color: #333333;
+      background-color: var(--text-default-color);
       border-radius: 50%;
       margin-right: 10px;
     }
@@ -413,7 +429,7 @@ export default {
   }
 }
 .button-container {
-  margin: 30px 0;
+  margin: 30px 0 0;
   display: flex;
   justify-content: center;
   .btn-large {
@@ -423,7 +439,7 @@ export default {
     display: inline-block;
     margin-right: 20px;
     min-width: 160px;
-    width: auto;
+    // width: auto;
     &:last-child {
       margin-right: 0;
     }
@@ -435,12 +451,13 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 30px auto 0;
   width: 100%;
-
   .tips__text {
     width: 340px;
     margin: 0 auto;
+    text-align: center;
+
     @media screen and(max-width:768px) {
       width: 100%;
     }
@@ -449,8 +466,8 @@ export default {
   .tips__text--add {
     color: #999;
     width: 100%;
-    text-align: center;
     font-size: 14px;
+    margin-top: 20px;
   }
 }
 .circle-animation {
@@ -500,6 +517,7 @@ export default {
   align-items: center;
 
   .btn-help {
+    color: var(--primaryColor);
     font-size: 12px;
     text-decoration: underline;
     cursor: pointer;
@@ -516,15 +534,18 @@ export default {
     .step-item__tip {
       margin: 0;
       font-size: 14px;
-      margin-top: 20px;
+      margin-top: 10px;
       text-align: center;
     }
     .step-item__tip--gray {
       color: #999;
     }
+    .img-container {
+      background: var(--table-row-background-color);
+    }
     &.step-item--rich {
       img {
-        width: 340px;
+        width: 300px;
         display: block;
         margin: 0 auto;
       }
@@ -542,9 +563,12 @@ export default {
         }
       }
       .scan-result {
+        .scan-result__content {
+          margin-top: 100px;
+        }
         .scan-result__empty {
           text-align: center;
-          margin-top: 50px;
+          margin-top: 100px;
           p {
             font-size: 14px;
             text-align: center;
@@ -581,8 +605,10 @@ export default {
     display: block;
     margin: 0 auto;
   }
-  .router__info {
+  .router__found {
+    font-size: 16px;
   }
+  .router__found,
   .router__mac,
   .router__sn {
     margin: 0;
@@ -595,10 +621,26 @@ export default {
   .result-container__fail {
     text-align: center;
     font-size: 16px;
-    margin-top: 50px;
+    margin-top: 100px;
+    img {
+      width: 200px;
+    }
+  }
+  .title {
+    margin: 30px 0 0;
+  }
+  .success-tips {
+    display: inline-block;
+    width: 340px;
+    font-size: 14px;
+    margin-top: 15px;
+    color: var(--text-gery-color);
   }
   .result-container__help {
+    color: var(--primaryColor);
     cursor: pointer;
+    font-size: 12px;
+    text-decoration: underline;
   }
   .result-container__icon {
     width: 60px;
@@ -617,59 +659,19 @@ export default {
       display: block;
       position: absolute;
     }
-    &.result-container__icon--success {
-      border-color: #55c630;
-      &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        background: #55c630;
-        width: 12px;
-        height: 3px;
-        top: 32px;
-        left: 15px;
-        border-radius: 2px;
-        transform: rotate(45deg);
-      }
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        background: #55c630;
-        width: 22px;
-        height: 3px;
-        top: 28px;
-        left: 21px;
-        border-radius: 2px;
-        transform: rotate(-45deg);
-      }
-    }
-    &.result-container__icon--fail {
-      border-color: #ff0001;
-      &::before {
-        content: '';
-        display: block;
-        position: absolute;
-        background: #ff0001;
-        width: 22px;
-        height: 3px;
-        top: 27px;
-        left: 16px;
-        border-radius: 3px;
-        transform: rotate(45deg);
-      }
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        background: #ff0001;
-        width: 22px;
-        height: 3px;
-        top: 27px;
-        left: 16px;
-        border-radius: 3px;
-        transform: rotate(-45deg);
-      }
+  }
+}
+@media screen and (min-width: 1441px) {
+  .steps-container {
+    .step-item {
+      margin-top: 100px;
+      // &.step-item--scan {
+      //   .scan-result {
+      //     .scan-result__empty {
+      //       margin-top: 100px;
+      //     }
+      //   }
+      // }
     }
   }
 }
@@ -689,7 +691,7 @@ export default {
     }
   }
   .circle-animation {
-    width: 280px;
+    width: 100%;
     .circle {
       width: 100px;
       height: 50px;
@@ -721,6 +723,11 @@ export default {
   }
   .tips {
     .tip {
+      width: 100%;
+    }
+  }
+  .result-container {
+    .success-tips {
       width: 100%;
     }
   }

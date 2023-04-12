@@ -999,7 +999,7 @@
   "trans1004": "The testing process may last 1 to 2 minutes",
   "trans1005": "Wait for about 2 minutes, when the indicator light turns from red to orange, go to next step.",
   "trans1006": "Node SN",
-  "trans1007": "Added successfully. After the node restarts (about one minute), you can view it in the list",
+  "trans1007": "After the node restarts (about one minute), you can view it in the list",
   "trans1008": "After the node restarts (about one minute), observe the indicator lights to justify mesh status:",
   "trans1009": "Reboot Mesh Network",
   "trans1010": "Backup the configuration file",

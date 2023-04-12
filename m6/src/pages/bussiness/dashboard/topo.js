@@ -152,25 +152,13 @@ function genNodes(gateway, green, red, offline) {
 // 生成绘图需要的线条信息
 function genLines(gateway, green, red, nodes, fullLine) {
   function genLine(source, target, color, value = 0) {
-    // 有线实线显示，无线虚线显示
-    if (value === 5555) {
-      return {
-        source: `${source.sn}${source.name}`,
-        target: `${target.sn}${target.name}`,
-        rssi: value,
-        lineStyle: {
-          color,
-          type: 'solid'
-        }
-      };
-    }
     return {
       source: `${source.sn}${source.name}`,
       target: `${target.sn}${target.name}`,
       rssi: value,
       lineStyle: {
         color,
-        type: 'dotted'
+        type: 'solid'
       }
     };
   }
