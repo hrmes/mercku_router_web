@@ -302,8 +302,8 @@
   </div>
 </template>
 <script>
-import { formatMac, getStringByte, formatDate, formatDuration } from '../../../util/util';
-import { BlacklistMode, RouterMode } from '../../../util/constant';
+import { formatMac, getStringByte, formatDate, formatDuration } from 'base/util/util';
+import { BlacklistMode, RouterMode } from 'base/util/constant';
 
 export default {
   data() {

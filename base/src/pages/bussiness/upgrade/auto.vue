@@ -46,7 +46,7 @@
 
 <script>
 import { Weeks } from 'base/util/constant';
-import TimezoneOffset from '../../../mixins/timezone-offset';
+import TimezoneOffset from 'base/mixins/timezone-offset';
 
 const maxTrafficThreshold = 500;
 export default {

@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import { VPNAction, VPNStatus } from '../../../../util/constant';
+import { VPNAction, VPNStatus } from 'base/util/constant';
 
 export default {
   data() {
@@ -116,8 +116,7 @@ export default {
       VPNStatus,
       timer: null,
       connecting: false,
-      checkAll: false,
-
+      checkAll: false
     };
   },
   mounted() {
@@ -340,7 +339,7 @@ export default {
           item.checked = false;
         }
       });
-    },
+    }
   },
   computed: {
     hasVpns() {

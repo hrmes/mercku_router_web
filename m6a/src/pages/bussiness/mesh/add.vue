@@ -236,8 +236,7 @@
 <script>
 import RouterModel from 'base/mixins/router-model';
 import { debounce } from 'lodash';
-import { Models, AddNodeType } from '../../../../../base/src/util/constant';
-
+import { Models, AddNodeType } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -307,10 +306,16 @@ export default {
     transText(text) {
       let resultText = '';
       if (this.modelId === Models.m6a) {
-        resultText = this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
+        resultText = this.$t(text).replaceAll(
+          '%s',
+          process.env.CUSTOMER_CONFIG.routers.M6a.shortName
+        );
       }
       if (this.modelId === Models.m6aPlus) {
-        resultText = this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName);
+        resultText = this.$t(text).replaceAll(
+          '%s',
+          process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName
+        );
       }
       return resultText;
     },

@@ -61,7 +61,7 @@
   </div>
 </template>
 <script>
-import { portReg } from '../../../util/util';
+import { portReg } from 'base/util/util';
 
 export default {
   data() {

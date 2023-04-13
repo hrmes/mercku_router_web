@@ -114,9 +114,9 @@
   </div>
 </template>
 <script>
-import encryptMix from '../../../mixins/encrypt-methods';
-import { EncryptMethod } from '../../../util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma } from '../../../util/util';
+import encryptMix from 'base/mixins/encrypt-methods';
+import { EncryptMethod } from 'base/util/constant';
+import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 
 const Bands = {
   b24g: '2.4G',

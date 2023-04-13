@@ -118,8 +118,8 @@
   </div>
 </template>
 <script>
-import { Bands } from '../../../../../base/src/util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
+import { Bands } from 'base/util/constant';
+import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
 
 export default {
   data() {
@@ -128,7 +128,7 @@ export default {
         current: 0,
         steps: [
           { text: this.$t('trans0019'), success: true },
-          { text: this.$t('trans0018'), success: false },
+          { text: this.$t('trans0018'), success: false }
         ]
       },
       current: 0,

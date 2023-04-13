@@ -78,7 +78,7 @@ import {
   isValidMask,
   isNetworkIP,
   isBoardcastIP
-} from '../../../../util/util';
+} from 'base/util/util';
 
 const isSameSubNetwork = (ip, lanip, mask) => {
   // 判断网络是否相同

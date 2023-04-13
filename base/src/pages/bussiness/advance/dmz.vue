@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import { isIP } from '../../../util/util';
+import { isIP } from 'base/util/util';
 
 export default {
   data() {

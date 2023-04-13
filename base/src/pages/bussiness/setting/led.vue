@@ -32,7 +32,7 @@
   </div>
 </template>
 <script>
-import TimezoneOffset from '../../../mixins/timezone-offset';
+import TimezoneOffset from 'base/mixins/timezone-offset';
 
 export default {
   mixins: [TimezoneOffset],

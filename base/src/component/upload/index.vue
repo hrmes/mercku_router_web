@@ -96,8 +96,8 @@
   </div>
 </template>
 <script>
-import { toLocaleNumber } from '../../util/util';
-import { UploadStatus } from '../../util/constant';
+import { toLocaleNumber } from 'base/util/util';
+import { UploadStatus } from 'base/util/constant';
 import UploadDragger from './upload-dragger.vue';
 import folderIcon from '../../assets/images/icon/ic_folder.webp';
 import folderIconError from '../../assets/images/icon/ic_file_error.svg';
@@ -173,12 +173,7 @@ export default {
       this.upload(postFiles);
     },
     getSize(file) {
-      return `${toLocaleNumber(
-        file.size / 1000 / 1000,
-        this.$i18n.locale,
-        2,
-        2
-      )}MB`;
+      return `${toLocaleNumber(file.size / 1000 / 1000, this.$i18n.locale, 2, 2)}MB`;
     },
     click() {
       this.initUploadStatus();

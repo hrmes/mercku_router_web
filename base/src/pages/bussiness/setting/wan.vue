@@ -225,8 +225,8 @@ import {
   isValidMask,
   ipReg,
   isValidInteger
-} from '../../../util/util';
-import * as CONSTANTS from '../../../util/constant';
+} from 'base/util/util';
+import * as CONSTANTS from 'base/util/constant';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);

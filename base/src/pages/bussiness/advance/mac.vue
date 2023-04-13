@@ -44,7 +44,7 @@
   </div>
 </template>
 <script>
-import { formatMac, isMac } from '../../../util/util';
+import { formatMac, isMac } from 'base/util/util';
 
 export default {
   computed: {

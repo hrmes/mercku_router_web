@@ -210,8 +210,8 @@
   </div>
 </template>
 <script>
-import { getStringByte, passwordRule } from '../../../util/util';
-import encryptMix from '../../../mixins/encrypt-methods';
+import { getStringByte, passwordRule } from 'base/util/util';
+import encryptMix from 'base/mixins/encrypt-methods';
 
 const Bands = {
   b24g: '2.4G',
