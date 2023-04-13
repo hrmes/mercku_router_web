@@ -187,7 +187,7 @@
       </div>
       <div class="text-container">{{$t('trans1118')}}</div>
       <div class="icon qr">
-        <img src="@/assets/images/customer/mercku/qr.png"
+        <img src="@/assets/images/customer/junet/qr.png"
              alt="">
       </div>
     </div>

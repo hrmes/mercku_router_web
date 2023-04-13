@@ -1179,7 +1179,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          width: 190px;
+          width: 202px;
           .switch-item {
             display: flex;
             width: 100%;

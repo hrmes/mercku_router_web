@@ -6,6 +6,7 @@ import 'intl/locale-data/jsonp/sr';
 import 'intl/locale-data/jsonp/nb-NO';
 import 'intl/locale-data/jsonp/fr-FR';
 import 'intl/locale-data/jsonp/es-ES';
+import 'intl/locale-data/jsonp/sv-SE';
 
 import BasicI18n from 'base/i18n';
 

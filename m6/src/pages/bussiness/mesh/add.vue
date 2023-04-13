@@ -26,7 +26,7 @@
         </div>
         <div class="step-content">
           <div class="step-item step-item--rich"
-               v-if="isStep(0)">
+               v-show="isStep(0)">
             <div class="img-container">
               <img src="@/assets/images/img_m6_add_01.svg"
                    alt="">
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="step-item step-item--rich"
-               v-if="isStep(1)">
+               v-show="isStep(1)">
             <div class="img-container">
               <img src="@/assets/images/img_m6_add_02.svg"
                    alt="">
@@ -55,7 +55,7 @@
             </div>
           </div>
           <div class="step-item step-item--rich"
-               v-if="isStep(2)">
+               v-show="isStep(2)">
             <div class="img-container">
               <img src="@/assets/images/img_m6_add_03.svg"
                    alt="">
@@ -69,7 +69,7 @@
             </div>
           </div>
           <div class="step-item step-item--scan"
-               v-if="isStep(3)">
+               v-show="isStep(3)">
             <div class="scaning"
                  v-if="isScanning">
               <div class="icon-wrapper">

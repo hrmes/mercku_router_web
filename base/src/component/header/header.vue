@@ -240,6 +240,11 @@ const Languages = [
     text: 'Español',
     value: 'es-ES',
     show: false
+  },
+  {
+    text: 'Svenska',
+    value: 'sv-SE',
+    show: false
   }
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;

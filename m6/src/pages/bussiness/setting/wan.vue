@@ -179,8 +179,8 @@
                          style="top:-7px;left:2px;"
                          :title="this.$t('trans0683')"
                          :content="this.$t('trans0682')">
-                <img width="14"
-                     src="@/assets/images/icon/ic_question.png" />
+                <i class="iconfont icon-ic_help"
+                   style="font-size:14px"></i>
               </m-popover>
             </div>
           </div>
