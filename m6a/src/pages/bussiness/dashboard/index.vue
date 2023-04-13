@@ -5,7 +5,7 @@
       <div class="mobile-net-info__inner">
         <div class="device-container">
           <div class="icon-container">
-            <img src="../../../assets/images/icon/ic_device.png"
+            <img src="@/assets/images/icon/ic_device.png"
                  alt="" />
           </div>
         </div>
@@ -28,7 +28,7 @@
         </div>
         <div class="internet-container">
           <div class="icon-container">
-            <img src="../../../assets/images/icon/ic_internet.png"
+            <img src="@/assets/images/icon/ic_internet.png"
                  alt="" />
           </div>
         </div>
@@ -39,7 +39,7 @@
         <li @click="forward2page('/dashboard/device/primary')"
             class="functional-module device-container">
           <div class="icon-container">
-            <img src="../../../assets/images/icon/ic_device.png"
+            <img src="@/assets/images/icon/ic_device.png"
                  alt="">
           </div>
           <div class="text-container">
@@ -61,7 +61,7 @@
               <div class="name"
                    :title="localDeviceInfo.name">
                 <div class="current-icon">
-                  <img src="../../../assets/images/icon/ic_local-device.svg"
+                  <img src="@/assets/images/icon/ic_local-device.svg"
                        alt="">
                 </div>
                 <span>{{localDeviceInfo.name}}
@@ -137,7 +137,7 @@
         <li @click="forward2page('/dashboard/internet')"
             class="functional-module internet-container">
           <div class="icon-container">
-            <img src="../../../assets/images/icon/ic_internet.png"
+            <img src="@/assets/images/icon/ic_internet.png"
                  alt="">
           </div>
           <div class="text-container">
@@ -148,7 +148,7 @@
                class="speed-container">
             <div class="speed-info upload-wrap">
               <div class="speed-icon-wrap">
-                <img src="../../../assets/images/icon/ic_upload.webp"
+                <img src="@/assets/images/icon/ic_upload.webp"
                      alt="">
               </div>
               <div class="speed-wrap">
@@ -162,7 +162,7 @@
             </div>
             <div class="speed-info download-wrap">
               <div class="speed-icon-wrap">
-                <img src="../../../assets/images/icon/ic_download.webp"
+                <img src="@/assets/images/icon/ic_download.webp"
                      alt="">
               </div>
               <div class="speed-wrap">
@@ -182,12 +182,12 @@
     <div class="jump-app-info"
          @click="jumpApp">
       <div class="icon mercku">
-        <img src="../../../assets/images/customer/mercku/ic_launcher.png"
+        <img src="@/assets/images/customer/mercku/ic_launcher.png"
              alt="">
       </div>
       <div class="text-container">{{$t('trans1118')}}</div>
       <div class="icon qr">
-        <img src="../../../assets/images/customer/mercku/qr.png"
+        <img src="@/assets/images/customer/mercku/qr.png"
              alt="">
       </div>
     </div>
@@ -242,7 +242,7 @@ export default {
       netInfo: {
         type: '-',
         realUp: 0,
-        realDown: 0,
+        realDown: 0
       },
       bandMap: {
         wired: this.$t('trans0253'),
@@ -254,7 +254,7 @@ export default {
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144'),
-        auto: this.$t('trans0696'),
+        auto: this.$t('trans0696')
       }
     };
   },
@@ -293,7 +293,7 @@ export default {
     },
     realtimeSpeedDown() {
       return this.formatSpeed(this.netInfo.realDown);
-    },
+    }
   },
   mounted() {
     this.getMeshInfo();
@@ -357,7 +357,7 @@ export default {
             });
           }
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -380,16 +380,22 @@ export default {
     },
     getMeshInfo() {
       this.meshLoading = true;
-      this.$http.getMeshNode()
-        .then(res1 => {
-          const { data: { result: meshNodeList } } = res1;
-          const { 0: gatewayInfo } = meshNodeList.filter(item => item.is_gw);
-          console.log(gatewayInfo.name);
-          this.meshInfo.gatewayName = gatewayInfo.name;
-        });
-      this.$http.getMeshMeta()
+      this.$http.getMeshNode().then(res1 => {
+        const {
+          data: { result: meshNodeList }
+        } = res1;
+        const { 0: gatewayInfo } = meshNodeList.filter(item => item.is_gw);
+        console.log(gatewayInfo.name);
+        this.meshInfo.gatewayName = gatewayInfo.name;
+      });
+      this.$http
+        .getMeshMeta()
         .then(res2 => {
-          const { data: { result: { smart_connect: smartConnect } } } = res2;
+          const {
+            data: {
+              result: { smart_connect: smartConnect }
+            }
+          } = res2;
           this.meshInfo.smartConnect = smartConnect;
           this.meshInfo.b24gWifi = res2.data.result.bands[CONSTANTS.Bands.b24g];
           if (!smartConnect) {
@@ -446,27 +452,31 @@ export default {
     },
     getLocalDeviceInfo() {
       this.deviceLoading = true;
-      this.$http.getLocalDevice()
-        .then(res1 => {
-          const { data: { result: selfInfo } } = res1;
-          console.log('selfInfo', selfInfo);
-          this.localDeviceIP = selfInfo.ip;
-          const params = { filters: [{ type: 'primary', status: ['online'] }] };
-          this.$http.getDeviceList(params)
-            .then(res2 => {
-              const { data: { result: deviceList } } = res2;
-              console.log(deviceList);
-              const localDeviceInfoArr = deviceList.filter(item => item.ip === selfInfo.ip);
-              console.log(localDeviceInfoArr);
-              if (localDeviceInfoArr.length) {
-                // eslint-disable-next-line prefer-destructuring
-                this.localDeviceInfo = localDeviceInfoArr[0];
-              }
-            })
-            .finally(() => {
-              this.deviceLoading = false;
-            });
-        });
+      this.$http.getLocalDevice().then(res1 => {
+        const {
+          data: { result: selfInfo }
+        } = res1;
+        console.log('selfInfo', selfInfo);
+        this.localDeviceIP = selfInfo.ip;
+        const params = { filters: [{ type: 'primary', status: ['online'] }] };
+        this.$http
+          .getDeviceList(params)
+          .then(res2 => {
+            const {
+              data: { result: deviceList }
+            } = res2;
+            console.log(deviceList);
+            const localDeviceInfoArr = deviceList.filter(item => item.ip === selfInfo.ip);
+            console.log(localDeviceInfoArr);
+            if (localDeviceInfoArr.length) {
+              // eslint-disable-next-line prefer-destructuring
+              this.localDeviceInfo = localDeviceInfoArr[0];
+            }
+          })
+          .finally(() => {
+            this.deviceLoading = false;
+          });
+      });
     },
     getWanNetInfo() {
       this.$http
@@ -508,10 +518,10 @@ export default {
       let image = '';
       switch (model) {
         case CONSTANTS.Models.m6a:
-          image = require('../../../assets/images/icon/ic_homepage_m6a.png');
+          image = require('@/assets/images/icon/ic_homepage_m6a.png');
           break;
         case CONSTANTS.Models.m6aPlus:
-          image = require('../../../assets/images/model/m6a_plus/ic_homepage_m6a-plus.png');
+          image = require('@/assets/images/model/m6a_plus/ic_homepage_m6a-plus.png');
           break;
         default:
           break;
@@ -548,7 +558,7 @@ export default {
     jumpApp() {
       if (!this.$store.state.isMobile) return;
       window.open(process.env.CUSTOMER_CONFIG.appDownloadUrl);
-    },
+    }
   },
   beforeDestroy() {
     // clean up

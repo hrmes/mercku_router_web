@@ -13,7 +13,7 @@
              @click.stop="()=>modalShow=!modalShow">
           <span>{{$t('trans0235')}}</span>
           <i> <img :class="{open:modalShow}"
-                 src="../../../../assets/images/icon/ic_arrow_pack_up.png"
+                 src="@/assets/images/icon/ic_arrow_pack_up.png"
                  alt=""></i>
           <div class="modal"
                v-show="modalShow"

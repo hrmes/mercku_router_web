@@ -63,7 +63,6 @@
 import scrollTo from '../utils/scroll-to';
 import { EncryptMethod } from '../../util/constant';
 
-
 const RssiStatus = {
   good: 'good',
   normal: 'normal'
@@ -95,7 +94,7 @@ export default {
       default: false
     },
     placeholder: {
-      type: String,
+      type: String
     },
     loading: {
       type: Number,
@@ -119,7 +118,7 @@ export default {
   watch: {
     value(val) {
       this.selected = this.getOptionByValue(val);
-    },
+    }
   },
   methods: {
     getOptionByValue(val) {
@@ -165,7 +164,7 @@ export default {
     },
     close() {
       this.opened = false;
-    },
+    }
   }
 };
 </script>

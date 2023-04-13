@@ -809,8 +809,6 @@ export default {
       margin-right: 100px;
       .speed__value {
         font-size: 48px;
-        > .speed_icon {
-        }
       }
       .speed__item {
         &:last-child {

@@ -182,10 +182,10 @@
     <div class="jump-app-info"
          @click="jumpApp">
       <div class="icon mercku">
-        <img src="@/assets/images/customer/mercku/ic_launcher.png"
+        <img src="@/assets/images/customer/junet/ic_launcher.png"
              alt="">
       </div>
-      <div class="text-container">{{$t('trans1118')}}</div>
+      <div class="text-container">{{openInAppText}}</div>
       <div class="icon qr">
         <img src="@/assets/images/customer/junet/qr.png"
              alt="">
@@ -293,6 +293,9 @@ export default {
     },
     realtimeSpeedDown() {
       return this.formatSpeed(this.netInfo.realDown);
+    },
+    openInAppText() {
+      return this.$t('trans1118').replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
     }
   },
   mounted() {
@@ -998,7 +1001,7 @@ ul {
     background: var(--dashboard-icon-background-color);
     .text-container {
       color: var(--text-default-color);
-      width: 85px;
+      width: 90px;
       // height: 40px;
     }
     .icon {

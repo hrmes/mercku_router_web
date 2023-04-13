@@ -59,7 +59,7 @@
             </div>
           </div>
           <div class="down-text">
-            <div>{{$t('trans0314')}}</div>
+            <div>{{appDownloadText}}</div>
             <div>
               {{$t('trans0292')}}</div>
           </div>
@@ -113,6 +113,9 @@ export default {
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    appDownloadText() {
+      return this.$t('trans0314').replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
     }
   },
   watch: {

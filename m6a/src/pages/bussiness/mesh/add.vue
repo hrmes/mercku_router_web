@@ -9,7 +9,7 @@
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wired')">
               <span class="tips__text">{{$t('trans1096')}}</span>
-              <img src="../../../assets/images/icon/ic_mesh_add_wired.webp"
+              <img src="@/assets/images/icon/ic_mesh_add_wired.webp"
                    alt="">
             </div>
             <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
@@ -18,7 +18,7 @@
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wireless')">
               <span class="tips__text">{{$t('trans1098')}}</span>
-              <img src="../../../assets/images/icon/ic_mesh_add_wireless.webp"
+              <img src="@/assets/images/icon/ic_mesh_add_wireless.webp"
                    alt="">
 
             </div>

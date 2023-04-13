@@ -91,7 +91,7 @@
                          @click.stop="onClickRouterName(router)">
                       <img class="btn-text icon-btn"
                            :title="$t('trans0034')"
-                           src="../../../assets/images/icon/ic_edit.png"
+                           src="@/assets/images/icon/ic_edit.png"
                            alt>
                     </div>
                   </div>
@@ -213,7 +213,7 @@
         <div class="connect-quality-modal-contnet">
           <div class="examples">
             <div class="example error">
-              <img src="../../../assets/images/img_help_error.webp"
+              <img src="@/assets/images/img_help_error.webp"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -222,7 +222,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="../../../assets/images/img_help_right.webp"
+              <img src="@/assets/images/img_help_right.webp"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -266,7 +266,7 @@
             <div class="table__column table__column--device">
               <span v-if="isThisMachine(item.ip)"
                     class="device__img">
-                <img src="../../../assets/images/icon/ic_local-device.svg"
+                <img src="@/assets/images/icon/ic_local-device.svg"
                      alt="">
               </span>
               <span class="device__host-name"
@@ -282,7 +282,7 @@
             <div class="table__column table__column--guest">
               <span class="laptop-show">{{bandMap[item.connected_network.band]}}</span>
               <img v-if="isGuest(item.connected_network.type)"
-                   src="../../../assets/images/icon/ic_guest.svg"
+                   src="@/assets/images/icon/ic_guest.svg"
                    alt="" />
               <span class="mobile-show">{{bandMap[item.connected_network.band]}}</span>
             </div>
@@ -290,7 +290,7 @@
         </div>
         <div class="table__empty"
              v-else>
-          <img src="../../../assets/images/img_default_empty.webp"
+          <img src="@/assets/images/img_default_empty.webp"
                alt="">
           <span>
             {{$t('trans0278')}}

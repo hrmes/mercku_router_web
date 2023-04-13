@@ -77,7 +77,7 @@
             </div>
             <div class="off-more-message"
                  v-if="devicesMap[id]&&devicesMap[id].length>60">
-              <img src="../../../assets/images/icon/ic_hint.png"
+              <img src="@/assets/images/icon/ic_hint.png"
                    alt="">
               {{$t('trans0517')}}
             </div>
@@ -112,7 +112,7 @@
                       <span v-if='row.local &&!isOfflineDevices'
                             class="local-device-wrapper">
                         <img class="localDevice"
-                             src="../../../assets/images/icon/ic_local-device.svg"
+                             src="@/assets/images/icon/ic_local-device.svg"
                              alt=""
                              title="LocalDevice">
                       </span>
@@ -122,12 +122,12 @@
                            :title="$t('trans0034')"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)&&!isOfflineDevices'
-                           src="../../../assets/images/icon/ic_edit.png"
+                           src="@/assets/images/icon/ic_edit.png"
                            alt="">
                     </a>
                     <div class="mobile-icon">
                       <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                           src="../../../assets/images/icon/ic_side_bar_pick_up.svg"
+                           src="@/assets/images/icon/ic_side_bar_pick_up.svg"
                            alt="">
                     </div>
                   </div>
@@ -158,7 +158,7 @@
                 <div class="speed-inner">
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="../../../assets/images/icon/ic_device_upload.png"
+                         src="@/assets/images/icon/ic_device_upload.png"
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
@@ -167,7 +167,7 @@
                   </div>
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="../../../assets/images/icon/ic_device_download.png"
+                         src="@/assets/images/icon/ic_device_download.png"
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
@@ -294,7 +294,7 @@
             </ul>
             <div class='table-empty'
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
-              <img src="../../../assets/images/img_default_empty.webp"
+              <img src="@/assets/images/img_default_empty.webp"
                    alt="">
               <span>{{$t('trans0278')}}</span>
             </div>
@@ -765,23 +765,25 @@ export default {
       let icon = '';
       if (this.isOfflineDevices) {
         if (this.isWired(row)) {
-          icon = require('../../../assets/images/icon/ic_offline_wired.svg');
+          icon = require('@/assets/images/icon/ic_offline_wired.svg');
           return icon;
         }
-        icon = require('../../../assets/images/icon/ic_offline_wireless.svg');
+        icon = require('@/assets/images/icon/ic_offline_wireless.svg');
         return icon;
       }
       if (this.isWired(row)) {
-        icon = require('../../../assets/images/icon/ic_wired.svg');
+        icon = require('@/assets/images/icon/ic_wired.svg');
         return icon;
       }
-      const { online_info: { rssi } } = row;
+      const {
+        online_info: { rssi }
+      } = row;
       if (rssi > -76) {
-        icon = require('../../../assets/images/icon/ic_wireless_excellent.svg');
+        icon = require('@/assets/images/icon/ic_wireless_excellent.svg');
       } else if (rssi < -76 && rssi > -90) {
-        icon = require('../../../assets/images/icon/ic_wireless_fair.svg');
+        icon = require('@/assets/images/icon/ic_wireless_fair.svg');
       } else {
-        icon = require('../../../assets/images/icon/ic_wireless_weak.svg');
+        icon = require('@/assets/images/icon/ic_wireless_weak.svg');
       }
       return icon;
     }

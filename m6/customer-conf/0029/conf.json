@@ -10,6 +10,7 @@
   "assetFolderName": "junet",
   "languages": ["en-US", "sv-SE"],
   "defaultLanguage": "en-US",
+  "wifi": "JUNET-WIFI",
   "routers": {
     "M6": {
       "name": "M6 Wi-Fi6 Router",
@@ -17,7 +18,6 @@
     }
   },
   "loading": {
-    "name": "loading-common.gif",
     "color": "#00b4e4"
   },
   "website": {

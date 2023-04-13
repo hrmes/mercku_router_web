@@ -97,7 +97,7 @@
           </div>
           <div v-else
                class="section__body section__body--bridge">
-            <img src="../../../assets/images/img-bridge.webp"
+            <img src="@/assets/images/img-bridge.webp"
                  alt="">
             <p>{{$t('trans0984')}}</p>
           </div>
@@ -124,7 +124,7 @@
                 {{uptimeArr[0]}}
               </div>
               <img class="uptime__bg"
-                   src="../../../assets/images/img_router_time.png">
+                   src="@/assets/images/img_router_time.png">
             </div>
           </div>
         </div>
@@ -191,8 +191,7 @@
       <div class="speed-content">
         <div v-if="isSpeedTesting">
           <div class="test-info">
-            <img src="../../../assets/images/speed_test.gif"
-                 alt="">
+            <m-lottieLoading :loadingType="'speedTest'"></m-lottieLoading>
           </div>
           <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
         </div>
@@ -271,7 +270,7 @@ export default {
         type: '-',
         ip: '-',
         gateway: '-',
-        dns: '-',
+        dns: '-'
       }
     };
   },
@@ -332,7 +331,7 @@ export default {
       return [topStr, bmStr];
     },
     isConnected() {
-      return this.$store.state.isConnected || this.getWanStatus() && this.getIsConnnected;
+      return this.$store.state.isConnected || (this.getWanStatus() && this.getIsConnnected);
     },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
@@ -568,9 +567,14 @@ export default {
         });
     },
     getWanStatus() {
-      this.$http.getWanStatus()
+      this.$http
+        .getWanStatus()
         .then(res => {
-          const { data: { result: { status: wanStatus } } } = res;
+          const {
+            data: {
+              result: { status: wanStatus }
+            }
+          } = res;
           switch (wanStatus) {
             case CONSTANTS.WanNetStatus.connected:
               this.getIsConnnected = true;
@@ -580,7 +584,9 @@ export default {
               break;
           }
         })
-        .catch(() => { this.getIsConnnected = false; });
+        .catch(() => {
+          this.getIsConnnected = false;
+        });
       return true;
     }
   },
@@ -877,9 +883,8 @@ export default {
       text-align: center;
       .test-info {
         position: relative;
-        img {
-          width: 100px;
-        }
+        width: 150px;
+        height: 150px;
       }
       p {
         color: #ffffff;
