@@ -1447,7 +1447,7 @@ export default {
                 margin: 0 10px 0 0;
                 max-width: 200px;
                 span {
-                  max-width: 100px;
+                  max-width: 120px;
                 }
               }
             }

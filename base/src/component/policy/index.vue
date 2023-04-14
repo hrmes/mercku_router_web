@@ -124,9 +124,11 @@ export default {
       background: transparent;
     }
     .copy,
-    .policy-text,
-    .power-by {
+    .policy-text {
       margin-left: 0;
+    }
+    .power-by {
+      margin-left: 5px;
     }
   }
 }

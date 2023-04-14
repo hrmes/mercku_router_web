@@ -1330,7 +1330,7 @@ ul {
               padding: 0;
               .sub-text {
                 display: inline-block;
-                width: 70%;
+                width: 60%;
                 margin: 0;
                 overflow: hidden;
                 text-overflow: ellipsis;
