@@ -1179,7 +1179,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          width: 202px;
+          width: 245px;
           .switch-item {
             display: flex;
             width: 100%;
@@ -1447,7 +1447,7 @@ export default {
                 margin: 0 10px 0 0;
                 max-width: 200px;
                 span {
-                  max-width: 120px;
+                  max-width: 100px;
                 }
               }
             }
