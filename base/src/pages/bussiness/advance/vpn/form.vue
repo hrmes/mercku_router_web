@@ -125,8 +125,8 @@
   </div>
 </template>
 <script>
-import { VPNType } from '../../../../util/constant';
-import { getStringByte, isValidPassword } from '../../../../util/util';
+import { VPNType } from 'base/util/constant';
+import { getStringByte, isValidPassword } from 'base/util/util';
 
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {
@@ -305,7 +305,7 @@ export default {
       const formData = new FormData();
       formData.append('type', 'openvpn');
       formData.append('file', this.openvpnConfigFile);
-      return this.$http.uploadFile(formData, () => { });
+      return this.$http.uploadFile(formData, () => {});
     },
     submitForm(method) {
       this.$http[method](this.formParams)

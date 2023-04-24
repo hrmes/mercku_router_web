@@ -8,7 +8,9 @@
           @click.stop="showPolicy()">
       {{$t('trans0139')}}
     </span>
-
+    <img v-if="isShowPowerBy"
+         class="power-by"
+         src="../../assets/images/img-power-by.webp" />
     <m-modal :visible.sync="show">
       <m-modal-header>
         <div class="dialog-title">{{ $t('trans0139') }}</div>
@@ -31,6 +33,7 @@
   </div>
 </template>
 <script>
+const MerckuCustomerId = '0001';
 export default {
   props: {
     locale: {
@@ -40,7 +43,7 @@ export default {
     isLoginPage: {
       type: Boolean,
       default: false
-    },
+    }
   },
   data() {
     return { show: false };
@@ -69,7 +72,12 @@ export default {
         如果没有%d，则不产生替换，也是正确的
         缺点是本地时间不准，这里得到的年份也是错的
       */
-      return copyright.replace('%d', now.getFullYear()).replace('%s', process.env.CUSTOMER_CONFIG.title);
+      return copyright
+        .replace('%d', now.getFullYear())
+        .replace('%s', process.env.CUSTOMER_CONFIG.title);
+    },
+    isShowPowerBy() {
+      return process.env.CUSTOMER_CONFIG.id !== MerckuCustomerId;
     }
   }
 };
@@ -83,7 +91,7 @@ export default {
 }
 .policy-container {
   text-align: center;
-  padding: 15px;
+  padding: 8px 15px 10px;
   font-size: 12px;
   > span {
     user-select: none;
@@ -95,6 +103,12 @@ export default {
     &:hover {
       color: var(--text-default-color);
     }
+  }
+  .power-by {
+    width: 150px;
+    height: 15px;
+    vertical-align: sub;
+    margin-left: 10px;
   }
 }
 @media screen and (max-width: 768px) {
@@ -111,9 +125,10 @@ export default {
     }
     .copy,
     .policy-text {
-      display: block;
-      padding: 5px;
       margin-left: 0;
+    }
+    .power-by {
+      margin-left: 5px;
     }
   }
 }

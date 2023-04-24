@@ -9,7 +9,7 @@
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wired')">
               <span class="tips__text">{{$t('trans1096')}}</span>
-              <img src="../../../assets/images/icon/ic_mesh_add_wired.webp"
+              <img src="@/assets/images/icon/ic_mesh_add_wired.webp"
                    alt="">
             </div>
             <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
@@ -18,7 +18,7 @@
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wireless')">
               <span class="tips__text">{{$t('trans1098')}}</span>
-              <img src="../../../assets/images/icon/ic_mesh_add_wireless.webp"
+              <img src="@/assets/images/icon/ic_mesh_add_wireless.webp"
                    alt="">
 
             </div>
@@ -236,8 +236,7 @@
 <script>
 import RouterModel from 'base/mixins/router-model';
 import { debounce } from 'lodash';
-import { Models, AddNodeType } from '../../../../../base/src/util/constant';
-
+import { Models, AddNodeType } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -307,10 +306,16 @@ export default {
     transText(text) {
       let resultText = '';
       if (this.modelId === Models.m6a) {
-        resultText = this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a.shortName);
+        resultText = this.$t(text).replaceAll(
+          '%s',
+          process.env.CUSTOMER_CONFIG.routers.M6a.shortName
+        );
       }
       if (this.modelId === Models.m6aPlus) {
-        resultText = this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName);
+        resultText = this.$t(text).replaceAll(
+          '%s',
+          process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName
+        );
       }
       return resultText;
     },

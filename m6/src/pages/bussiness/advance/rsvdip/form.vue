@@ -13,7 +13,7 @@
              @click.stop="()=>modalShow=!modalShow">
           <span>{{$t('trans0235')}}</span>
           <i> <img :class="{open:modalShow}"
-                 src="../../../../assets/images/icon/ic_arrow_pack_up.png"
+                 src="@/assets/images/icon/ic_arrow_pack_up.png"
                  alt=""></i>
           <div class="modal"
                v-show="modalShow"
@@ -153,7 +153,7 @@ export default {
     this.getDevices();
     // 更新判断
     if (this.$route.params.id) {
-      const { rsvdip } = this.$store.modules;
+      const { rsvdip } = this.$store.state.modules;
       if (rsvdip.id) {
         this.form = {
           id: rsvdip.id,

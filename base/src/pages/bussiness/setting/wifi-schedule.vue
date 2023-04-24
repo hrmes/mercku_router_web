@@ -53,8 +53,8 @@
   </div>
 </template>
 <script>
-import TimezoneOffset from '../../../mixins/timezone-offset';
-import { Weeks } from '../../../util/constant';
+import TimezoneOffset from 'base/mixins/timezone-offset';
+import { Weeks } from 'base/util/constant';
 
 export default {
   mixins: [TimezoneOffset],

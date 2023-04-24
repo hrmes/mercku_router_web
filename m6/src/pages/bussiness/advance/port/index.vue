@@ -27,7 +27,7 @@
                   @click="()=>mobileSelect=!mobileSelect">{{$t('trans0370')}}
             <i>
               <img :class="{open:mobileSelect}"
-                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
+                   src="@/assets/images/icon/ic_arrow_pack_up.png"
                    alt=""></i>
           </button>
           <div class="btn-wrap"
@@ -112,7 +112,7 @@
           </div>
           <div class="empty"
                v-if="(empty !== null) && empty">
-            <img src="../../../../assets/images/img_default_empty.png"
+            <img src="@/assets/images/img_default_empty.png"
                  alt="">
             <p>{{$t('trans0278')}}</p>
             <button class="btn btn-middle"

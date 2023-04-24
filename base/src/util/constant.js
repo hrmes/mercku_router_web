@@ -12,7 +12,8 @@ export const Customers = {
   fibrestream: '0013',
   skymesh: '0014',
   pentanet: '0019',
-  homeway: '0025'
+  homeway: '0025',
+  junet: '0029'
 };
 export const IP = {
   IPv4: 'ipv4',

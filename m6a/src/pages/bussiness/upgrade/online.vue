@@ -65,13 +65,13 @@
             !hasUpgradablityNodes &&
               requestResult.complete &&
               !requestResult.error">
-          <img src="../../../assets/images/img_new_version.webp"
+          <img src="@/assets/images/img_new_version.webp"
                alt=""
                width="220" />
           <p>{{ $t('trans0259') }}</p>
         </div>
         <div v-if="requestResult.error">
-          <img src="../../../assets/images/img_error.webp"
+          <img src="@/assets/images/img_error.webp"
                alt=""
                width="220" />
           <p>{{ requestResult.message }}</p>
@@ -254,7 +254,7 @@ export default {
           }
         }
       });
-    },
+    }
   }
 };
 </script>
@@ -414,7 +414,7 @@ export default {
   flex-direction: column;
   position: relative;
   .changelog {
-    word-wrap:break-word;
+    word-wrap: break-word;
     p:first-child {
       margin-top: 0;
     }

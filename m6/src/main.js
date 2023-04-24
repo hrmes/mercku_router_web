@@ -11,6 +11,7 @@ import dialog from 'base/component/dialog/index';
 import mProgress from 'base/component/progress/index.vue';
 import upgradeComponent from 'base/component/upgrade/index';
 import loading from 'base/component/loading/index';
+import directives from 'base/directives';
 import registerComponents from 'base/register-components';
 import store from './store';
 import App from './App.vue';
@@ -20,6 +21,7 @@ import router from './router';
 
 // 不同客户特别的样式表
 require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
+require('./style/theme-mode.scss');
 
 const launch = () => {
   const http = new Http();
@@ -92,39 +94,32 @@ const launch = () => {
   let upgrading = false;
   const upgrade = options => {
     upgrading = true;
+    upgradeComponent.open({
+      title: i18nInstance.translate('trans0212'),
+      tip: i18nInstance.translate('trans0213')
+    });
     const opt = {
       ...{
-        onsuccess: () => {},
-        ontimeout: () => {},
-        onprogress: () => {},
-        onfinally: () => {
+        onsuccess: () => {
           http.getHomePage().then(res => {
-            upgradeHelper(res.data);
+            upgradeHelper(res.data, upgrade, upgradeComponent);
           });
         },
-        timeout: 300,
-        progressVisible: false
+        ontimeout: () => {},
+        onprogress: () => {},
+        onfinally: () => {},
+        timeout: 600
       },
       ...options
     };
-    upgradeComponent.open({
-      title: i18nInstance.translate('trans0212'),
-      tip: i18nInstance.translate('trans0213'),
-      timeout: opt.timeout,
-      progressVisible: opt.progressVisible
-    });
     reconnect({
-      onsuccess: () => {
-        upgrading = false;
-        upgradeComponent.close();
-        opt.onsuccess();
-      },
+      onsuccess: opt.onsuccess,
       ontimeout: () => {
         upgrading = false;
         upgradeComponent.close();
         opt.ontimeout();
       },
-      onfinally: opt.onfinally,
+      onfinally: () => {},
       timeout: opt.timeout,
       showLoading: false
     });
@@ -175,6 +170,7 @@ const launch = () => {
     throw err;
   });
 
+  Vue.use(directives);
   Vue.prototype.loadingColor = process.env.CUSTOMER_CONFIG.loading.color;
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;

@@ -88,8 +88,8 @@
   </div>
 </template>
 <script>
-import { Weeks } from '../../../../util/constant';
-import TimezoneOffset from '../../../../mixins/timezone-offset';
+import { Weeks } from 'base/util/constant';
+import TimezoneOffset from 'base/mixins/timezone-offset';
 
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
