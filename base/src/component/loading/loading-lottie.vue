@@ -14,7 +14,7 @@ const Type = {
 };
 
 export default {
-  name: 'laoding-lottie',
+  name: 'loading-lottie',
   props: {
     loadingType: { type: String, default: 'loading' }
   },
