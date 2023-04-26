@@ -916,7 +916,7 @@ export default {
         flex-shrink: 0;
       }
       .column-name {
-        width: 275px;
+        width: 355px;
         position: relative;
         .connect-type-wrap {
           width: 50px;

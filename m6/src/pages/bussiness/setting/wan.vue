@@ -312,6 +312,8 @@ export default {
           {
             rule: value => isValidPassword(value, 1, 64),
             message: this.$t('trans0125')
+              .replace('%d', 1)
+              .replace('%d', 64)
           }
         ]
       },
@@ -386,10 +388,14 @@ export default {
         {
           rule: value => /^\d+$/.test(value),
           message: this.$t('trans0687')
+            .replace('%d', 1)
+            .replace('%d', 4094)
         },
         {
           rule: value => value >= 1 && value <= 4094,
           message: this.$t('trans0687')
+            .replace('%d', 1)
+            .replace('%d', 4094)
         }
       ]
     };
