@@ -1,17 +1,17 @@
 // loading.vue
 <template>
   <transition name="loading">
-    <div class="loading-container"
-         v-if="visible">
+    <div v-if="visible"
+         class="loading-container">
       <div class="loading-wrap">
         <div id="loadingImg" />
       </div>
+      <div v-if="title"
+           class="title">{{title}}</div>
+      <div v-if="template"
+           class="template"
+           v-html="template"></div>
     </div>
-    <div v-if="title"
-         class="title">{{title}}</div>
-    <div class="template"
-         v-if="template"
-         v-html="template"></div>
   </transition>
 </template>
 <script>
@@ -28,6 +28,7 @@ export default {
   mounted() {
     // 解决json动画找不到dom不渲染问题
     window.requestAnimationFrame(this.loadImg);
+    console.log(this.template);
   },
   computed: {
     animJson() {
@@ -84,11 +85,12 @@ export default {
   }
   .title {
     font-size: 24px;
-    margin-top: 10px;
+    margin-top: 190px;
     color: #fff;
   }
   .template {
     color: #fff;
+    margin-top: 200px;
   }
 }
 </style>

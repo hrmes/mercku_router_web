@@ -33,7 +33,7 @@ export default {
     isSameTimezoneOffset() {
       const timezoneOffset = 0 - new Date().getTimezoneOffset(); // 获取本地时间与GMT的分钟差。
       if (this.timezone !== timezoneOffset) {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
           this.$dialog.confirm({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0926'),

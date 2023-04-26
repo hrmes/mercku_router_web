@@ -113,6 +113,7 @@
 </template>
 <script>
 import { Weeks } from 'base/util/constant';
+import TimezoneOffset from 'base/mixins/timezone-offset';
 
 const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
@@ -120,6 +121,7 @@ const formatTime = t => {
 };
 
 export default {
+  mixins: [TimezoneOffset],
   data() {
     return {
       modalStatus: 'add',
@@ -351,7 +353,11 @@ export default {
             this.$loading.close();
             this.getList();
             this.modalShow = false;
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.isSameTimezoneOffset().then(result => {
+              if (result.same || !result.redirect) {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+              }
+            });
           })
           .catch(() => {
             this.$loading.close();
@@ -387,9 +393,14 @@ export default {
             if (this.limit && this.limit.time_limit) {
               this.limit.time_limit = this.timeLimitList;
             }
-
             this.modalShow = false;
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            if (this.form.enabled) {
+              this.isSameTimezoneOffset().then(result => {
+                if (result.same || !result.redirect) {
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                }
+              });
+            }
           })
           .catch(() => {
             this.$loading.close();

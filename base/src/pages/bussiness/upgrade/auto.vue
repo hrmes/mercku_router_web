@@ -118,11 +118,13 @@ export default {
         .setMeshAutoUpgrade(autoUpgrade)
         .then(() => {
           this.$loading.close();
-          this.isSameTimezoneOffset().then(result => {
-            if (result.same || !result.redirect) {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-            }
-          });
+          if (this.auto_upgrade.enabled) {
+            this.isSameTimezoneOffset().then(result => {
+              if (result.same || !result.redirect) {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+              }
+            });
+          }
         })
         .catch(() => {
           this.$loading.close();
