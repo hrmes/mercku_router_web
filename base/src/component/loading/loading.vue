@@ -28,7 +28,6 @@ export default {
   mounted() {
     // 解决json动画找不到dom不渲染问题
     window.requestAnimationFrame(this.loadImg);
-    console.log(this.template);
   },
   computed: {
     animJson() {
@@ -56,7 +55,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1001;
+  z-index: 9999;
   background: rgba(0, 0, 0, 0.85);
   display: flex;
   flex-direction: column;
@@ -73,24 +72,24 @@ export default {
     transition: all 0.3s ease-out;
   }
   .loading-wrap {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
+    width: 240px;
+    height: 240px;
+    // position: absolute;
+    // left: 0;
+    // right: 0;
+    // top: 0;
+    // bottom: 0;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // z-index: 9999;
   }
   .title {
     font-size: 24px;
-    margin-top: 190px;
     color: #fff;
   }
   .template {
     color: #fff;
-    margin-top: 200px;
   }
 }
 </style>
