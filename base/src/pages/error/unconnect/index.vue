@@ -3,7 +3,7 @@
     <div class="inner">
       <img src="../../../assets/images/img_no_network_access.png"
            alt="">
-      <div class="text">{{$t('trans0132')}}</div>
+      <div class="text">{{$t('trans0132').replace('%s',wifi)}}</div>
       <button @click="tohome"
               class="btn">{{$t('trans0063')}}</button>
     </div>
@@ -27,6 +27,11 @@ export default {
           });
         });
       });
+    }
+  },
+  computed: {
+    wifi() {
+      return process.env.CUSTOMER_CONFIG.wifi;
     }
   }
 };

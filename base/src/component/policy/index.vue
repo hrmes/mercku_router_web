@@ -87,6 +87,12 @@ export default {
   .policy-text {
     margin-left: 5px;
   }
+  .power-by {
+    width: 150px;
+    height: 15px;
+    vertical-align: sub;
+    margin-left: 10px;
+  }
 }
 @media screen and (max-width: 768px) {
   .dialog-content {
@@ -100,6 +106,10 @@ export default {
       display: block;
       padding: 5px;
       margin-left: 0;
+    }
+    .power-by {
+      display: none;
+      margin-left: 5px;
     }
   }
 }
