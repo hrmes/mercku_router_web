@@ -11,7 +11,8 @@ export const Customers = {
   altima: '0007',
   fibrestream: '0013',
   skymesh: '0014',
-  pentanet: '0019'
+  pentanet: '0019',
+  Netflash: '0039'
 };
 export const IP = {
   IPv4: 'ipv4',

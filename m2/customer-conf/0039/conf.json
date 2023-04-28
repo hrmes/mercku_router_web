@@ -1,0 +1,24 @@
+{
+  "id": "0039",
+  "title": "Netflash",
+  "accept": ".sh",
+  "favicon": "customer-conf/0039/favicon.ico",
+  "policy": "https://netflash.net/the-fine-print/privacy-policy/",
+  "allow2LevelAdmin": false,
+  "defaultLanguage": "en-US",
+  "languages": ["zh-CN", "en-US", "de-DE"],
+  "routers": {
+    "M2": {
+      "name": "M2 Standalone Wi-Fi router",
+      "shortName": "M2"
+    }
+  },
+  "loading": {
+    "name": "loading-common.gif",
+    "color": "#00548b"
+  },
+  "website": {
+    "url": "https://www.netflash.net",
+    "text": "https://www.netflash.net"
+  }
+}

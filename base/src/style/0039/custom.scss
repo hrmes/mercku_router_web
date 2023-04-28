@@ -1,0 +1,41 @@
+.customized {
+  &.header-container {
+    &.is-login-nav {
+      .right-wrap {
+        width: auto;
+      }
+    }
+
+    .logo-wrap {
+      .logo-wrap__logo {
+        width: 102px;
+        height: 38px;
+        background: url(../../assets/images/customer/Netflash/logo.png) center
+          no-repeat;
+        background-size: 100%;
+      }
+    }
+  }
+
+  /************************* 登陆页面*********************/
+  &.login-container {
+    .center-form {
+      .logo {
+        width: 240px;
+        height: 90px;
+        background: url(../../assets/images/customer/Netflash/login__logo.png)
+          no-repeat center;
+        background-size: 100%;
+      }
+    }
+  }
+  /**************************end登陆页面******************/
+
+  &.dashboard {
+    .net-info {
+      background: url(../../assets/images//customer/Netflash/banner.png)
+        no-repeat center;
+      background-size: cover;
+    }
+  }
+}

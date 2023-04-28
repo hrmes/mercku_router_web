@@ -5,7 +5,9 @@
           @click.stop="showPolicy()">
       {{$t('trans0139')}}
     </span>
-
+    <img v-if="isShowPowerBy"
+         class="power-by"
+         src="../../assets/images/img-power-by.webp" />
     <m-modal :visible.sync="show">
       <m-modal-header>
         <div class="dialog-title">{{ $t('trans0139') }}</div>
@@ -28,6 +30,7 @@
   </div>
 </template>
 <script>
+const MerckuCustomerId = '0001';
 export default {
   props: {
     locale: {
@@ -55,7 +58,7 @@ export default {
       return require('./policy-en.html');
     },
     copyright() {
-      const copyright = this.$t('trans0276');
+      const copyright = this.$t('trans0276').replace('%s', process.env.CUSTOMER_CONFIG.title);
       const now = new Date();
       /*
         兼容以前的翻译中的固定年份写法
@@ -63,6 +66,9 @@ export default {
         缺点是本地时间不准，这里得到的年份也是错的
       */
       return copyright.replace('%d', now.getFullYear());
+    },
+    isShowPowerBy() {
+      return process.env.CUSTOMER_CONFIG.id !== MerckuCustomerId;
     }
   }
 };

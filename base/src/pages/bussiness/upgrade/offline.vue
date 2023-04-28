@@ -8,9 +8,9 @@
             1.
             <span>{{ $t('trans0332') }}&nbsp;</span>
             <a class="btn-text text-primary"
-               :href="$t('trans0468')"
+               :href="supportUrl"
                target="_blank">
-              {{ $t('trans0482') }}</a>
+              {{ supportUrl }}</a>
             <span>,&nbsp;{{ $t('trans0346') }}</span>
           </p>
           <p>
@@ -162,6 +162,9 @@ export default {
         return product.shortName;
       }
       return '';
+    },
+    supportUrl() {
+      return process.env.CUSTOMER_CONFIG.website.text;
     }
   },
   watch: {

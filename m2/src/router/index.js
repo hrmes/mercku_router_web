@@ -17,7 +17,6 @@ import wlan from 'base/pages/bussiness/wlan/index.vue';
 import unconnect from 'base/pages/error/unconnect/index.vue';
 import online from 'base/pages/bussiness/upgrade/online.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
-import meshAdd from 'base/pages/bussiness/mesh/add.vue';
 import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from 'base/pages/bussiness/dashboard/limit/speed.vue';
@@ -41,11 +40,12 @@ import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
-import wps from 'base/pages/bussiness/setting/wps.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
+
+import meshAdd from '../pages/bussiness/mesh/add.vue';
 
 Vue.use(Router);
 

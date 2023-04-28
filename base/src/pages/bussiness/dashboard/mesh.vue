@@ -1281,9 +1281,8 @@ export default {
         .tabs {
           padding: 0 20px;
           .tab {
-            width: auto;
+            width: fit-content;
             font-size: 14px;
-            min-width: 100px;
           }
         }
       }

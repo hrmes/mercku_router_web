@@ -39,7 +39,7 @@ export default {
       return /^[1-9]\d*$/.test(v);
     }
     function Len(v) {
-      return /^[1-9]\d{0,5}$/.test(v);
+      return /^(1|[1-9]\d{0,4}|1[0-1]\d{4}|12[0-4]\d{3}|125000)$/.test(v);
     }
     return {
       mac: '',
