@@ -378,12 +378,12 @@ export default {
     };
   },
   async mounted() {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      this.checkThemeMode(event.matches);
-    });
     this.initChart();
     this.createIntervalTask();
 
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+      this.checkThemeMode(event.matches);
+    });
     // 获取当前设备信息
     try {
       const selfInfo = await this.$http.getLocalDevice();
@@ -521,22 +521,28 @@ export default {
         message: this.$t('trans0121'),
         callback: {
           ok: () => {
-            this.$http.reboot({ node_ids: [router.sn] }).then(() => {
-              if (router.is_gw) {
-                this.$reconnect({
-                  timeout: 90,
-                  onsuccess: () => {
-                    this.$router.push({ path: '/login' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
-              } else {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                this.routers = this.routers.filter(r => r.sn !== router.sn);
-              }
-            });
+            this.$loading.open();
+            this.$http
+              .reboot({ node_ids: [router.sn] })
+              .then(() => {
+                if (router.is_gw) {
+                  this.$reconnect({
+                    timeout: 90,
+                    onsuccess: () => {
+                      this.$router.push({ path: '/login' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                } else {
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.routers = this.routers.filter(r => r.sn !== router.sn);
+                }
+              })
+              .finally(() => {
+                this.$loading.close();
+              });
           }
         }
       });
@@ -578,14 +584,32 @@ export default {
       // const oldRouters = this.routers;
       // const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
       // this.routers = routers;
+
+      const oldRouters = this.routers;
+
       const data = genData(routers);
       data.nodes.forEach(n => {
-        this.routers.forEach(r => {
+        this.routers = routers.map(r => {
           if (n.sn === r.sn) {
             this.$set(r, 'image', n.symbol.replace('image://', ''));
           }
+          r.expand = false;
+          return r;
         });
       });
+      // this.routers = routers.map(v => ({
+      //   ...v,
+      //   expand: false
+      // }));
+      // 维持设备之前的附加属性
+      if (oldRouters.length > 0) {
+        oldRouters.forEach(or => {
+          const device = this.routers.find(nr => nr.sn === or.sn);
+          if (device) {
+            device.expand = or.expand;
+          }
+        });
+      }
       const option = {
         series: [
           {
@@ -645,6 +669,8 @@ export default {
     clearIntervalTask() {
       clearTimeout(this.meshNodeTimer);
       this.meshNodeTimer = null;
+      clearTimeout(this.txPowerTimer);
+      this.txPowerTimer = null;
     },
     getMeshNode() {
       clearTimeout(this.meshNodeTimer);
@@ -653,22 +679,8 @@ export default {
         .getMeshNode()
         .then(res => {
           const { result } = res.data;
-          const oldRouters = this.routers;
-          this.routers = result.map(v => ({
-            ...v,
-            expand: false
-          }));
-          // 维持设备之前的附加属性
-          if (oldRouters.length > 0) {
-            oldRouters.forEach(or => {
-              const device = this.routers.find(nr => nr.sn === or.sn);
-              if (device) {
-                device.expand = or.expand;
-              }
-            });
-          }
-          console.log('router', this.routers);
-          this.drawTopo(this.routers);
+          this.drawTopo(result);
+
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
@@ -775,7 +787,7 @@ export default {
       flex-direction: column;
       align-items: center;
       img {
-        display: none;
+        // display: none;
         width: 180px;
       }
     }
@@ -1503,7 +1515,7 @@ export default {
               position: relative;
               &.expand {
                 height: 470px;
-                margin: 0 10px;
+                margin: 0 10px 5px;
                 padding-top: 60px;
                 .name {
                   position: absolute;
@@ -1661,11 +1673,6 @@ export default {
               margin-left: 10px;
             }
           }
-        }
-      }
-      .table__empty {
-        img {
-          display: block;
         }
       }
     }

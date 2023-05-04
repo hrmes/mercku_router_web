@@ -789,6 +789,7 @@ export default {
     }
   }
   .node-sn {
+    color: var(--text-default-color);
     margin-top: 20px;
     font-size: 14px;
     text-align: center;
