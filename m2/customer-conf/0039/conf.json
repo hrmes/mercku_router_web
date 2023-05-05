@@ -12,7 +12,7 @@
   "wifi": "Netflash wifi",
   "routers": {
     "M2": {
-      "name": "M2 Standalone Wi-Fi router",
+      "name": "M2 Wi-Fi router",
       "shortName": "M2"
     }
   },
