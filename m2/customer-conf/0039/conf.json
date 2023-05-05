@@ -2,12 +2,14 @@
   "id": "0039",
   "title": "Netflash",
   "accept": ".sh",
+  "__host": "http://mywifi.mercku.tech",
+  "host": "http://mywifi.netflash.tech",
   "favicon": "customer-conf/0039/favicon.ico",
   "policy": "https://netflash.net/the-fine-print/privacy-policy/",
-  "allow2LevelAdmin": false,
+  "allow2LevelAdmin": true,
   "defaultLanguage": "en-US",
   "languages": ["zh-CN", "en-US", "de-DE"],
-  "wifi": "Netflash WIFI",
+  "wifi": "Netflash wifi",
   "routers": {
     "M2": {
       "name": "M2 Standalone Wi-Fi router",

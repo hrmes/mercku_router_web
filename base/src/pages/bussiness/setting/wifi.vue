@@ -347,12 +347,19 @@ export default {
     };
   },
   methods: {
-    changeSmartConnect() {
+    changeSmartConnect(v) {
+      if (v) {
+        this.form.b5g.hidden = this.form.b24g.hidden;
+        this.form.b5g.ssid = this.form.b24g.ssid;
+        this.form.b5g.password = this.form.b24g.password;
+        this.form.b5g.encrypt = this.form.b24g.encrypt;
+      } else {
+        this.form.b5g.hidden = this.form.b24g.hidden;
+        this.form.b5g.ssid = `${this.form.b24g.ssid}_5G`;
+        this.form.b5g.password = this.form.b24g.password;
+        this.form.b5g.encrypt = this.form.b24g.encrypt;
+      }
       // 开关变化后，始终保持5G的参数和2.4G的一致
-      this.form.b5g.hidden = this.form.b24g.hidden;
-      this.form.b5g.ssid = this.form.b24g.ssid;
-      this.form.b5g.password = this.form.b24g.password;
-      this.form.b5g.encrypt = this.form.b24g.encrypt;
     },
     isOpen(band) {
       return this.form[band].encrypt === 'open';

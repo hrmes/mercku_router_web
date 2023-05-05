@@ -278,6 +278,9 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.pentanet]: {
             show: false
+          },
+          [Customers.Netflash]: {
+            show: false
           }
         }
       },
