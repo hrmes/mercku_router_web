@@ -94,32 +94,39 @@ const launch = () => {
   let upgrading = false;
   const upgrade = options => {
     upgrading = true;
-    upgradeComponent.open({
-      title: i18nInstance.translate('trans0212'),
-      tip: i18nInstance.translate('trans0213')
-    });
     const opt = {
       ...{
-        onsuccess: () => {
+        onsuccess: () => {},
+        ontimeout: () => {},
+        onprogress: () => {},
+        onfinally: () => {
           http.getHomePage().then(res => {
             upgradeHelper(res.data, upgrade, upgradeComponent);
           });
         },
-        ontimeout: () => {},
-        onprogress: () => {},
-        onfinally: () => {},
-        timeout: 600
+        timeout: 300,
+        progressVisible: false
       },
       ...options
     };
+    upgradeComponent.open({
+      title: i18nInstance.translate('trans0212'),
+      tip: i18nInstance.translate('trans0213'),
+      timeout: opt.timeout,
+      progressVisible: opt.progressVisible
+    });
     reconnect({
-      onsuccess: opt.onsuccess,
+      onsuccess: () => {
+        upgrading = false;
+        upgradeComponent.close();
+        opt.onsuccess();
+      },
       ontimeout: () => {
         upgrading = false;
         upgradeComponent.close();
         opt.ontimeout();
       },
-      onfinally: () => {},
+      onfinally: opt.onfinally,
       timeout: opt.timeout,
       showLoading: false
     });

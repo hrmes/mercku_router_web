@@ -309,7 +309,7 @@ export default {
               margin: 0 30px;
             }
             .list {
-              overflow: hidden;
+              overflow-y: auto;
               max-height: 400px;
             }
             .device-item {
