@@ -17,7 +17,7 @@
         <button class="btn primary"
                 v-defaultbutton
                 @click="updateMode">{{$t('trans0081')}}</button>
-      </div>`
+      </div>
     </div>
   </div>
 </template>

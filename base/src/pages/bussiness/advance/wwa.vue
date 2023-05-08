@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-header">
-      {{$t('trans0511')}}
+      {{ $t('trans0511') }}
     </div>
     <div class="page-content">
       <m-form class="form"
@@ -10,23 +10,26 @@
               :rules="wwaRules">
         <m-form-item prop="port">
           <m-input :label="$t('trans0495')"
+                   disabled
                    v-model="wwa.port"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="allowed_ip">
           <m-input :label="`${$t('trans0575')} ${$t('trans0411')}`"
+                   disabled
                    v-model="wwa.allowed_ip"
                    :placeholder="$t('trans0492')"></m-input>
         </m-form-item>
         <div class="form-item">
-          <m-checkbox :text="$t('trans0462')"
+          <m-checkbox disabled
+                      :text="$t('trans0462')"
                       v-model="wwa.enabled"></m-checkbox>
         </div>
       </m-form>
-      <div class="form-button">
+      <!-- <div class="form-button">
         <button class="btn btn-primary"
                 @click="updateWWA">{{$t('trans0081')}}</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

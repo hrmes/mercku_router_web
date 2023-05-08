@@ -1,15 +1,16 @@
 <template>
   <div class="page">
-    <div class='page-header'>
-      {{$t('trans0538')}}
+    <div class="page-header">
+      {{ $t('trans0538') }}
     </div>
     <div class="page-content">
       <m-form class="form"
               ref="form"
               :model="form"
-              :rules='rules'>
+              :rules="rules">
         <div class="switch-wrap">
-          <label class="title"> {{$t('trans0538')}}
+          <label class="title">
+            {{ $t('trans0538') }}
             <div class="tool">
               <m-popover position="bottom left"
                          style="top:-7px"
@@ -17,24 +18,24 @@
                          :content="$t('trans0540')">
                 <img width="14"
                      src="../../../assets/images/icon/ic_question.png"
-                     alt="">
+                     alt="" />
               </m-popover>
             </div>
           </label>
           <m-switch v-model="form.enabled"
                     @change="guestEnabledChange" />
         </div>
-        <div v-if="form.enabled&&showSettingPage">
-          <label style="font-weight:bold;"> {{$t('trans0521')}} </label>
+        <div v-if="form.enabled && showSettingPage">
+          <label style="font-weight:bold;"> {{ $t('trans0521') }} </label>
           <div class="check-box-wrap">
             <m-select v-model="form.duration"
-                      :options='checkOps'></m-select>
+                      :options="checkOps"></m-select>
           </div>
           <m-form-item class="item"
-                       prop='ssid'>
+                       prop="ssid">
             <m-input v-model="form.ssid"
                      :label="$t('trans0168')"
-                     type='text'
+                     type="text"
                      :placeholder="`${$t('trans0321')}`"></m-input>
           </m-form-item>
           <m-form-item class="item">
@@ -44,69 +45,75 @@
                       :options="encryptMethods"></m-select>
           </m-form-item>
           <m-form-item class="item"
-                       prop='password'
-                       v-if="form.encrypt!== EncryptMethod.open">
+                       prop="password"
+                       v-if="form.encrypt !== EncryptMethod.open">
             <m-input v-model="form.password"
                      :label="$t('trans0172')"
-                     type='password'
+                     type="password"
                      :placeholder="`${$t('trans0321')}`"></m-input>
           </m-form-item>
           <div class="switch-wrap">
-            <label> {{$t('trans0397')}} </label>
+            <label> {{ $t('trans0397') }} </label>
             <m-switch v-model="form.smart_connect" />
           </div>
           <div v-if="!form.smart_connect"
                class="ssid">
             <div>
-              <label class="ssid-label with-colon">{{$t('trans0255')}}:</label>
-              <span class="ssid-name">{{form.ssid}}</span>
+              <label class="ssid-label with-colon">{{ $t('trans0255') }}:</label>
+              <span class="ssid-name">{{ form.ssid }}</span>
             </div>
             <div>
-              <label class="ssid-label with-colon">{{$t('trans0256')}}:</label>
-              <span class="ssid-name">{{ssid_5g}}</span>
+              <label class="ssid-label with-colon">{{ $t('trans0256') }}:</label>
+              <span class="ssid-name">{{ ssid_5g }}</span>
             </div>
           </div>
           <div class="form-button"
                style="margin-top:50px"
-               :class="{'cancel':setupAndStart}">
+               :class="{ cancel: setupAndStart }">
             <button class="btn btn-middle"
-                    @click='submit()'>{{$t('trans0081')}}</button>
+                    @click="submit()">
+              {{ $t('trans0081') }}
+            </button>
             <button class="btn btn-default btn-cancel btn-middle"
                     style="margin-left:50px"
-                    v-if="setupAndStart&&showCancelBtn"
-                    @click='cancel'>{{$t('trans0025')}}</button>
+                    v-if="setupAndStart && showCancelBtn"
+                    @click="cancel">
+              {{ $t('trans0025') }}
+            </button>
           </div>
         </div>
-        <div v-if="form.enabled&&showStatusPage">
+        <div v-if="form.enabled && showStatusPage">
           <div class="setting-ssid-info">
-            <label class="title with-colon">{{$t('trans0168')}}:</label>
+            <label class="title with-colon">{{ $t('trans0168') }}:</label>
             <div v-if="guest.smart_connect">
-              <p class='name'>{{guest.bands[Bands.b24g].ssid}}</p>
+              <p class="name">{{ guest.bands[Bands.b24g].ssid }}</p>
             </div>
             <div v-else>
               <p>
                 <label class="with-colon">2.4G:</label>
-                <span>{{guest.bands[Bands.b24g].ssid}}</span>
+                <span>{{ guest.bands[Bands.b24g].ssid }}</span>
               </p>
               <p>
                 <label class="with-colon">5G:</label>
-                <span>{{guest.bands[Bands.b5g].ssid}}</span>
+                <span>{{ guest.bands[Bands.b5g].ssid }}</span>
               </p>
             </div>
           </div>
           <div class="remaining-time">
-            <label class="title with-colon">{{$t('trans0524')}}:</label>
+            <label class="title with-colon">{{ $t('trans0524') }}:</label>
             <div class="time">
-              {{formatTime(guest.remaining_duration)}}
+              {{ formatTime(guest.remaining_duration) }}
             </div>
           </div>
           <div class="online-device">
-            <label class="title with-colon">{{$t('trans0235')}}:</label>
-            <span>{{devicesCount}}</span>
+            <label class="title with-colon">{{ $t('trans0235') }}:</label>
+            <span>{{ devicesCount }}</span>
           </div>
           <div class="form-button">
             <button class="btn"
-                    @click='toSetting'>{{$t('trans0019')}}</button>
+                    @click="toSetting">
+              {{ $t('trans0019') }}
+            </button>
           </div>
         </div>
       </m-form>
@@ -116,7 +123,11 @@
 <script>
 import encryptMix from '../../../mixins/encrypt-methods';
 import { EncryptMethod } from '../../../util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma } from '../../../util/util';
+import {
+  getStringByte,
+  isValidPassword,
+  isFieldHasComma
+} from '../../../util/util';
 
 const Bands = {
   b24g: '2.4G',
@@ -149,7 +160,7 @@ export default {
           value: 8 * 60 * 60
         },
         {
-          text: this.$t('trans0527'),
+          text: this.$t('trans0527').replace('%d', 3),
           value: 3 * 60 * 60
         }
       ],
@@ -318,9 +329,11 @@ export default {
       return topStr;
     },
     getDevicesCount() {
-      this.$http.getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] }).then(res => {
-        this.devicesCount = res.data.result.count;
-      });
+      this.$http
+        .getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] })
+        .then(res => {
+          this.devicesCount = res.data.result.count;
+        });
     },
     getGuestWIFI() {
       this.$http.meshGuestGet().then(res => {
