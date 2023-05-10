@@ -1,6 +1,7 @@
 <template>
   <div class="login-container customized">
-    <div class="center-form">
+    <div class="center-form"
+         :class="{'light':currentTheme!=='auto'&&!isDarkMode,'dark':currentTheme!=='auto'&&isDarkMode}">
       <div class="form">
         <div class="logo">
         </div>
@@ -24,22 +25,41 @@
             </div>
           </div>
         </div>
-        <div class="loadding"
+        <div class="loading"
              v-if="loading === true">
           <m-loading :color="loadingColor"
                      :size="36"></m-loading>
         </div>
       </div>
+      <div class="download"
+           v-if="appDownloadUrl">
+        <div class="stores">
+          <div class="store">
+            <div>
+              <img class="android-img"
+                   src="@/assets/images/icon/ic_android.png"
+                   alt="">
+            </div>
+            <span>Google Play</span>
+          </div>
+          <div class="store">
+            <div><img src="@/assets/images/icon/ic_apple.png"
+                   class="apple-img"
+                   alt=""></div>
+            <span>App Store</span>
+          </div>
+        </div>
+        <div class="qr"></div>
+      </div>
       <div class="small-device-download"
            v-if="appDownloadUrl">
-        <div class="left-wrap">
+        <div class="top-wrap">
           <div class="logo-container">
             <div class="app-logo">
-
             </div>
           </div>
           <div class="down-text">
-            <div>{{$t('trans0314')}}</div>
+            <div>{{appDownloadText}}</div>
             <div>
               {{$t('trans0292')}}</div>
           </div>
@@ -49,35 +69,21 @@
              :href="appDownloadUrl">{{$t('trans0262')}}</a>
         </div>
       </div>
+
     </div>
-    <div class="download"
-         v-if="appDownloadUrl">
-      <div class="stores">
-        <div class="store">
-          <div>
-            <img src="../../assets/images/icon/ic_android.png"
-                 alt="">
-          </div>
-          <span>Google Play</span>
-        </div>
-        <div class="store">
-          <div><img src="../../assets/images/icon/ic_apple.png"
-                 alt=""></div>
-          <span>App Store</span>
-        </div>
-      </div>
-      <div class="qr"></div>
-    </div>
+
   </div>
 
 </template>
+
 <script>
 export default {
   data() {
     return {
       initial: false,
       loading: false,
-      password: ''
+      password: '',
+      isDarkMode: false
     };
   },
   // in m6 router, if router is initial
@@ -104,6 +110,24 @@ export default {
   computed: {
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
+    },
+    currentTheme() {
+      return this.$store.state.theme;
+    },
+    appDownloadText() {
+      return this.$t('trans0314').replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
+    }
+  },
+  watch: {
+    currentTheme: {
+      handler(nv) {
+        if (nv === 'dark') {
+          this.isDarkMode = true;
+        } else {
+          this.isDarkMode = false;
+        }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -116,13 +140,13 @@ export default {
         .login({ password: this.password })
         .then(res => {
           const { role } = res.data.result;
-          this.$store.role = role;
+          this.$store.state.role = role;
           localStorage.setItem('role', role);
           this.$http.getMeshMode().then(res1 => {
-            this.$loading.close();
             const { mode } = res1.data.result;
-            this.$store.mode = mode;
+            this.$store.state.mode = mode;
             localStorage.setItem('mode', mode);
+            this.$loading.close();
             this.$router.push({ path: '/dashboard' });
           });
         })
@@ -144,53 +168,40 @@ export default {
 }
 .login-container {
   width: 100%;
-  flex: auto;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
   height: 100%;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  // background: $primaryColor;
-
-  .loadding {
+  z-index: 999;
+  .loading {
     display: flex;
     justify-content: center;
   }
   .small-device-download {
     display: none;
   }
-
   .center-form {
     display: flex;
     flex-direction: column;
-    text-align: center;
     justify-content: center;
+    align-items: center;
+    text-align: center;
     position: relative;
-    width: 100%;
-    transform: translateY(calc(-50% + 56px));
-    // flex: 1;
+    width: inherit;
+    height: inherit;
+    transform: translateY(calc(48px - 80px));
     .logo {
       width: 340px;
       margin: 0 auto;
-      &::before {
-        content: '';
-        display: block;
-        padding-top: 15%;
-      }
-      margin-bottom: 60px;
+      margin-bottom: 40px;
     }
-
     .form-item {
       margin-bottom: 30px;
     }
     .btn {
       width: 340px;
     }
-
     .welcome-text {
       font-size: 26px;
       color: #4c4c4c;
@@ -199,21 +210,27 @@ export default {
     }
   }
   .download {
-    position: fixed;
-    right: 50px;
-    bottom: 50px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 50px;
+    width: 340px;
+    height: 130px;
+    border-radius: 10px;
+    padding: 0 20px;
+    background-color: var(--grey-background-color);
     .stores {
       display: flex;
       flex-direction: column;
       margin-right: 20px;
       .store {
-        border: 1px solid #dbdbdb;
         padding: 6px 10px;
         border-radius: 4px;
         align-items: center;
         display: flex;
         margin-bottom: 14px;
+        border-radius: 4px;
+        background-color: var(--download-tag-background-color);
         &:last-child {
           margin: 0;
         }
@@ -223,16 +240,30 @@ export default {
         img {
           width: 14px;
           // height: 18px;
+          &.android-img {
+            filter: var(--download-android-img-brightness);
+          }
+          &.apple-img {
+            filter: var(--download-ios-img-brightness);
+          }
         }
         span {
+          position: relative;
+          display: inline-block;
+          width: 150px;
           margin-left: 10px;
+          color: var(--text-default-color);
           &::before {
             content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
             display: inline-block;
-            width: 0;
-            height: 10px;
+            width: 1px;
+            height: 15px;
             margin-right: 10px;
-            border-left: 1px solid #d8d8d8;
+            border-left: 1px solid var(--download-tag-before-color);
           }
         }
       }
@@ -261,18 +292,19 @@ export default {
     }
     .small-device-download {
       display: flex;
+      flex-direction: column;
       width: 100%;
-      background: #f1f1f1;
       text-align: left;
-      padding: 10px;
+      padding: 20px;
       border-radius: 4px;
       margin-top: 30px;
       align-items: center;
       justify-content: space-between;
-      .left-wrap {
-        flex: 1;
+      background: var(--grey-background-color);
+      .top-wrap {
         display: flex;
         align-items: center;
+        width: 100%;
         .logo-container {
           height: 48px;
           .app-logo {
@@ -283,21 +315,24 @@ export default {
         }
 
         .down-text {
-          margin-left: 12px;
-          margin-right: 12px;
-          text-align: left;
-          font-size: 10px;
-          color: #333;
+          flex: 1;
+          text-align: center;
+          font-size: 12px;
+          margin-left: 15px;
+          color: var(--text-default-color);
         }
       }
 
       .down-button-container {
+        margin-top: 15px;
+        width: 100%;
         .down-button {
           text-decoration: none;
-          color: $primaryColor;
-          border: 1px solid $primaryColor;
+          text-align: center;
+          color: var(--primaryColor);
+          border: 1.5px solid var(--primaryColor);
+          border-radius: 5px;
           padding: 12px 10px;
-          border-radius: 2px;
           font-size: 14px;
           line-height: 1;
           display: block;
@@ -329,18 +364,19 @@ export default {
     }
   }
 }
-@media screen and (width: 320px) {
+@media screen and (max-width: 320px) {
   .login-container {
     .small-device-download {
       .down-text {
         width: 80px;
+        font-size: 10px;
         margin-top: 5px;
-
         > div:last-child {
           display: none;
         }
       }
       .down-button-container {
+        margin-top: 10px;
         padding-top: 5px;
       }
     }

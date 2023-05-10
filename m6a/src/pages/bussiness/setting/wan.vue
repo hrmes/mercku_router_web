@@ -720,7 +720,8 @@ export default {
     },
     getWanNetInfo() {
       this.$loading.open();
-      this.$http.getWanNetInfo()
+      this.$http
+        .getWanNetInfo()
         .then(res => {
           if (res.data.result) {
             this.netInfo = res.data.result;

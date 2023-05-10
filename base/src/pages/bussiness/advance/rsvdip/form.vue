@@ -98,7 +98,7 @@
   </div>
 </template>
 <script>
-import { ipReg, getStringByte, isMac, formatMac } from '../../../../util/util';
+import { ipReg, getStringByte, isMac, formatMac } from 'base/util/util';
 
 export default {
   data() {
@@ -309,7 +309,7 @@ export default {
               margin: 0 30px;
             }
             .list {
-              overflow: hidden;
+              overflow-y: auto;
               max-height: 400px;
             }
             .device-item {

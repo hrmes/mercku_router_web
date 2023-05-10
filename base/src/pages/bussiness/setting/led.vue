@@ -32,7 +32,7 @@
   </div>
 </template>
 <script>
-import TimezoneOffset from '../../../mixins/timezone-offset';
+import TimezoneOffset from 'base/mixins/timezone-offset';
 
 export default {
   mixins: [TimezoneOffset],
@@ -52,11 +52,13 @@ export default {
         .updateLEDTimeLimit(this.form)
         .then(() => {
           this.$loading.close();
-          this.isSameTimezoneOffset().then(result => {
-            if (result.same || !result.redirect) {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-            }
-          });
+          if (this.form.enabled) {
+            this.isSameTimezoneOffset().then(result => {
+              if (result.same || !result.redirect) {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+              }
+            });
+          }
         })
         .catch(() => {
           this.$loading.close();

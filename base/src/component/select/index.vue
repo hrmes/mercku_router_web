@@ -64,7 +64,7 @@ export default {
     needProcessing: {
       type: Boolean,
       default: false
-    },
+    }
   },
   data() {
     return {
@@ -187,7 +187,7 @@ export default {
     background: var(--select-popup-background-color);
     border-radius: 7px;
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
-    outline: 1px solid var(--select-popup-border-color);
+    border: 1px solid var(--select-popup-border-color);
     overflow: auto;
     .select-popup__item {
       list-style: none;
@@ -284,6 +284,7 @@ export default {
     }
     .select-popup {
       top: 52px;
+      max-height: 200px;
       .select-popup__item {
         padding: 17px 10px;
       }

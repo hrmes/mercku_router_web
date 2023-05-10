@@ -2,22 +2,21 @@
 
   <div class="urllimit">
     <div class="handle">
-      <label for="">{{$t('trans0462')}}</label>
       <m-switch @change="changehandle"
                 v-model="mode" />
+      <label for="">{{$t('trans0462')}}</label>
     </div>
     <div class='table'
          :class="{'table--empty':!sortList.length}">
-      <div class="tools">
+      <div v-if="!isMobile"
+           class="tools">
         <button class="btn btn-small"
-                @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
-
+                @click.stop="modalOpen()">{{$t('trans0035')}}</button>
       </div>
       <div class="table-head">
         <div class="column-address">{{$t('trans0076')}}
-          <span>{{$t('trans0101')}}</span>
+          <span>({{$t('trans0101')}})</span>
         </div>
-        <div class="column-handle">{{$t('trans0370')}}</div>
       </div>
       <div class="table-body">
         <div class="table-row"
@@ -25,15 +24,23 @@
              :key='index'>
           <div class="column-address">{{row}}</div>
           <div class="column-handle">
-            <a class="btn-text text-primary"
-               @click="delRow(row)">{{$t('trans0033')}}</a>
+            <span class="btn-icon"
+                  @click="delRow(row)">
+              <i class="delete iconfont icon-ic_trash_normal"></i>
+              <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+            </span>
           </div>
         </div>
         <div class="empty"
              v-if="isEmpty">
-          <img src="../../../../assets/images/img_default_empty.png"
+          <img src="@/assets/images/img_default_empty.webp"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
+        </div>
+        <div v-if="isMobile"
+             class="mobile-add-btn">
+          <button class="btn"
+                  @click.stop="modalOpen()">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
@@ -59,12 +66,8 @@
         <div class="btn-info">
           <button class="btn btn-default"
                   @click="closeModal">{{$t('trans0025')}}</button>
-          <button v-if="modalStatus==='add'"
-                  class="btn"
+          <button class="btn"
                   @click="submit">{{$t('trans0035')}}</button>
-          <button v-if="modalStatus==='edit'"
-                  class="btn"
-                  @click="updateSubmit">{{$t('trans0081')}}</button>
         </div>
       </div>
     </m-modal>
@@ -78,7 +81,6 @@ export default {
   data() {
     return {
       BlacklistMode,
-      modalStatus: 'add',
       selectedRow: {},
       disabled: true,
       modalShow: false,
@@ -109,19 +111,24 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     sortList() {
       const list = this.parentControlLimitList;
       return list.sort();
     },
     isEmpty() {
       return !this.sortList.length;
+    },
+    blacklistLimit() {
+      return this.$store.state.modules.limits[this.form.mac];
     }
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const limit = this.$store.modules.limits[this.form.mac];
-    if (limit && limit.parent_control) {
-      const parentControl = limit.parent_control;
+    if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+      const parentControl = this.blacklistLimit.parent_control;
       this.form.mode = parentControl.mode;
       this.mode = parentControl.mode === BlacklistMode.blacklist;
       this.parentControlLimitList = parentControl.blacklist || [];
@@ -140,27 +147,22 @@ export default {
       };
       this.host = '';
     },
-    modalOpen(type, row) {
+    modalOpen(row) {
       if (this.parentControlLimitList.length === 15) {
         this.$toast(this.$t('trans0060'));
         return;
       }
       this.host = '';
       this.form.hosts = [];
-      this.modalStatus = type;
       this.selectedRow = row;
-      if (type === 'edit') {
-        this.form.hosts = [row];
-        this.host = row;
-      }
       this.modalShow = true;
     },
     getList() {
       this.$http.parentControlLimitGet({ mac: this.form.mac }).then(res => {
         if (res.data.result) {
           this.parentControlLimitList = res.data.result.blacklist || [];
-          this.mode = res.data.result.mode === BlacklistMode.blacklist;
           this.form.mode = res.data.result.mode;
+          this.mode = this.form.mode === BlacklistMode.blacklist;
         }
       });
     },
@@ -174,6 +176,9 @@ export default {
         })
         .then(() => {
           this.form.mode = changeMode;
+          if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+            this.blacklistLimit.parent_control.mode = this.form.mode;
+          }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
@@ -191,6 +196,9 @@ export default {
         })
         .then(() => {
           this.parentControlLimitList = this.parentControlLimitList.filter(v => v !== row);
+          if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+            this.blacklistLimit.parent_control.blacklist = this.parentControlLimitList;
+          }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
@@ -211,6 +219,7 @@ export default {
             this.$loading.close();
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.blacklistLimit.parent_control.blacklist = this.parentControlLimitList;
           })
           .catch(() => {
             this.$loading.close();
@@ -246,7 +255,7 @@ export default {
   .modal-content {
     width: 330px;
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: var(--modal-content-background);
     .item {
       display: flex;
       align-items: center;
@@ -280,40 +289,38 @@ export default {
   width: 100%;
   position: relative;
   .handle {
+    position: absolute;
     display: flex;
     align-items: center;
-    position: absolute;
-    top: 3px;
-    right: 0;
     label {
-      padding: 0 30px 0 10px;
+      margin-left: 10px;
+      font-weight: 600;
     }
   }
   .table {
     width: 100%;
-
     .tools {
       margin-bottom: 20px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
-    }
-    .column-handle {
-      width: 250px;
     }
     .column-address {
       span {
-        padding-left: 20px;
+        padding-left: 10px;
         font-size: 12px;
         color: #999999;
       }
     }
     .table-head {
       height: 50px;
-      background-color: #f1f1f1;
+      background-color: var(--table-row-background-color);
       display: flex;
-      padding: 0 30px;
+      padding: 0 20px;
+      border-radius: 10px;
+      margin-bottom: 5px;
       justify-content: space-between;
+      color: var(--table-header-text-color);
       div {
         display: flex;
         height: 50px;
@@ -323,15 +330,11 @@ export default {
     .table-body {
       .table-row {
         display: flex;
-        padding: 15px 30px;
-        border-bottom: 1px solid #f1f1f1;
+        padding: 20px 20px;
         justify-content: space-between;
-        &:nth-child(2n) {
-          background: #f7f7f7;
-          @media screen and(max-width:768px) {
-            background: #fff;
-          }
-        }
+        border-radius: 10px;
+        margin-bottom: 5px;
+        background: var(--table-row-background-color);
         .column-handle {
           display: flex;
           align-items: center;
@@ -348,66 +351,36 @@ export default {
     }
   }
   .urllimit {
-    .tools {
-      .btn {
-        min-width: 120px;
-        height: 38px;
-      }
-    }
+    padding: 10px;
     .handle {
       display: flex;
       align-items: center;
-      right: initial;
-      left: 0;
-      top: 11px;
-      label {
-        padding: 0 30px 0 0px;
-      }
+      left: 10px;
+      top: 10px;
     }
     .table {
-      &.table--empty {
-        .tools {
-          position: static;
-          justify-content: center;
-          border: 0;
-          margin: 0;
-          margin-top: 10px;
-          .btn {
-            min-width: 120px;
-            height: 38px;
-          }
-        }
-      }
-      .tools {
-        position: absolute;
-        right: 0;
-        margin: 0;
-        top: 0;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        .btn {
-          margin: 0;
-        }
-      }
       .table-body {
-        margin-top: 68px;
+        margin-top: 45px;
         .table-row {
           flex-direction: row;
-          border-top: 1px solid #f1f1f1;
-          border-bottom: 0;
-          padding: 20px 0;
+          padding: 20px 10px;
           position: relative;
+        }
+        .mobile-add-btn {
+          margin-top: 30px;
+          padding-top: 30px;
+          border-top: 1px solid var(--table-body-hr-color);
         }
       }
       .column-address {
-        width: 200px;
-        overflow: height;
+        flex: 1;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .column-handle {
-        width: 100%;
         justify-content: flex-end;
-        // margin-top: 20px;
         a {
           margin-right: 0 !important;
           &:first-child {

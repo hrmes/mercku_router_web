@@ -3,8 +3,9 @@
     <div class="upgrade-container"
          v-if="visible">
       <div class="inner">
-        <img :src="url"
-             alt="">
+        <div class="loading-wrap">
+          <div id="upgradeLoadingImg" />
+        </div>
         <div v-if="title"
              class="title">{{title}}</div>
         <div v-html="tip"></div>
@@ -23,12 +24,11 @@
 
 </template>
 <script>
+import lottie from 'lottie-web';
+
 export default {
   data() {
-    const { name } = process.env.CUSTOMER_CONFIG.loading;
-    const url = require(`../../assets/images/loading/${name}`);
     return {
-      url,
       visible: false,
       template: '',
       title: '',
@@ -42,7 +42,15 @@ export default {
     };
   },
   mounted() {
+    // 解决json动画找不到dom不渲染问题
     this.createTimer();
+    window.requestAnimationFrame(this.loadImg);
+  },
+  computed: {
+    animJson() {
+      const name = process.env.CUSTOMER_CONFIG.assetFolderName;
+      return require(`../../assets/lottie/${name}/loading.json`);
+    }
   },
   methods: {
     createTimer() {
@@ -60,6 +68,15 @@ export default {
     },
     cleanup() {
       clearTimeout(this.timer);
+    },
+    loadImg() {
+      lottie.loadAnimation({
+        container: document.getElementById('upgradeLoadingImg'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: this.animJson
+      });
     }
   }
 };
@@ -71,7 +88,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1001;
+  z-index: 9999;
   background: var(--upgrade-background-color);
   display: flex;
   justify-content: center;
@@ -100,6 +117,20 @@ export default {
     transform: translate(-50%, -50%);
     @media screen and (max-width: 768px) {
       width: 85%;
+    }
+    .loading-wrap {
+      width: 240px;
+      height: 240px;
+      margin: 0 auto;
+      // position: absolute;
+      // left: 0;
+      // right: 0;
+      // top: 0;
+      // bottom: 0;
+      // display: flex;
+      // align-items: center;
+      // justify-content: center;
+      // z-index: 9999;
     }
     .title {
       font-size: 24px;

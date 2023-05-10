@@ -37,13 +37,13 @@
           <div class="store">
             <div>
               <img class="android-img"
-                   src="../../assets/images/icon/ic_android.png"
+                   src="@/assets/images/icon/ic_android.png"
                    alt="">
             </div>
             <span>Google Play</span>
           </div>
           <div class="store">
-            <div><img src="../../assets/images/icon/ic_apple.png"
+            <div><img src="@/assets/images/icon/ic_apple.png"
                    class="apple-img"
                    alt=""></div>
             <span>App Store</span>
@@ -77,7 +77,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {

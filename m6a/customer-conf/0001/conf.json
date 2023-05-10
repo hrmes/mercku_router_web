@@ -7,6 +7,7 @@
   "policy": "",
   "allow2LevelAdmin": false,
   "languages": ["zh-CN", "en-US", "de-DE"],
+  "assetFolderName": "mercku",
   "deviceId": "Mercku",
   "wifi": "Mercku Wi-Fi",
   "routers": {
@@ -36,7 +37,6 @@
     }
   },
   "loading": {
-    "name": "loading.gif",
     "color": "#d6001c"
   },
   "website": {

@@ -4,16 +4,23 @@
       <div class="title">
         <m-tabs>
           <m-tab :class="{'selected':!showTable}"
-                 @click.native="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</m-tab>
+                 @click.native="$router.push('/dashboard/mesh/topo')">
+            <i class="iconfont icon-ic_devices_mesh_normal"></i>
+            {{$t('trans0312')}}
+          </m-tab>
           <m-tab :class="{'selected':showTable}"
-                 @click.native="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</m-tab>
+                 @click.native="$router.push('/dashboard/mesh/table')">
+            <i class="iconfont icon-ic_devices_list_normal"></i>
+            {{$t('trans0384')}}
+          </m-tab>
         </m-tabs>
         <button class="btn btn-add btn-small"
-                @click="addMeshNode">{{$t('trans0194')}}</button>
-
-        <button @click="addMeshNode"
+                @click.stop="$router.push('/mesh/add')">
+          <span class="add-icon"></span>
+          {{$t('trans0194')}}
+        </button>
+        <button @click.stop="$router.push('/mesh/add')"
                 class="btn mobile-add"></button>
-
       </div>
       <div class="content">
         <div class="topo-container"
@@ -21,12 +28,12 @@
           <div class="legend-wrap">
             <p class="legend-title">
               <span>{{$t('trans0302')}}</span>
-              <span class="icon-quality"
-                    @click.stop="showRssiModal"></span>
+              <i class="iconfont icon-ic_connection_quality icon-quality"
+                 @click.stop="showRssiModal"></i>
             </p>
             <div class="legend">
-              <div class="legend-item">{{$t('trans0193')}}</div>
-              <div class="legend-item">{{$t('trans0196')}}</div>
+              <div class="legend-item">{{$t('trans1047')}}</div>
+              <div class="legend-item">{{$t('trans1048')}}</div>
               <div class="legend-item">{{$t('trans0214')}}</div>
             </div>
           </div>
@@ -40,8 +47,8 @@
                              style="top:-7px"
                              :title="this.$t('trans0562')"
                              :content="this.$t('trans0558')">
-                    <img width="14"
-                         src="../../../assets/images/icon/ic_question.png">
+                    <i class="iconfont icon-ic_help"
+                       style="font-size:14px"></i>
                   </m-popover>
                 </div>
               </label>
@@ -53,7 +60,6 @@
                id="topo-wrap">
             <div id="topo"></div>
           </div>
-
         </div>
         <div class="mesh-table"
              v-show="showTable">
@@ -70,87 +76,118 @@
               <span>&nbsp;/&nbsp;{{$t('trans0201')}}</span>
             </div>
             <div class="mac">{{$t('trans0201')}}</div>
-            <div class="operate">{{$t('trans0370')}}</div>
+            <div class="operate"></div>
           </div>
           <div class="table-content">
-            <div class="router"
-                 :class="{'expand':router.expand}"
-                 v-for="router in routers"
-                 :key="router.sn"
-                 @click="router.expand = !router.expand">
-              <div class="name">
-                <div class="icon">
-                  <img :src="router.image"
-                       alt>
-                </div>
-                <div class="wrap">
-                  <div class="text"
-                       :title="router.name">{{router.name}}</div>
-                  <div class="edit"
-                       v-if="!isRouterOffline(router)"
-                       @click.stop="onClickRouterName(router)">
-                    <img class="btn-text icon-btn"
-                         :title="$t('trans0034')"
-                         src="../../../assets/images/icon/ic_edit.png"
+            <tempalte v-if="routers.length">
+              <div class="router"
+                   :class="{'expand':router.expand}"
+                   v-for="router in routers"
+                   :key="router.sn">
+                <div class="name"
+                     @click="router.expand = !router.expand">
+                  <div class="icon">
+                    <img :src="router.image"
                          alt>
                   </div>
+                  <div class="wrap">
+                    <div class="text"
+                         :title="router.name">{{router.name}}</div>
+                    <div class="edit"
+                         v-if="!isRouterOffline(router)"
+                         @click.stop="onClickRouterName(router)">
+                      <img class="btn-text icon-btn"
+                           :title="$t('trans0034')"
+                           src="@/assets/images/icon/ic_edit.png"
+                           alt>
+                    </div>
+                  </div>
+                  <div class="expand"
+                       :class="{'expand':router.expand,'collapse':!router.expand}">
+                    <i class="expand iconfont icon-ic_dropdown_small"></i>
+                  </div>
                 </div>
-                <div class="expand"
-                     :class="{'expand':router.expand,'collapse':!router.expand}">
-                  <img src="../../../assets/images/icon/ic_side_bar_pick_up.png"
-                       alt>
-                </div>
-              </div>
-              <div class="type">
-                <span class="label">{{$t('trans0068')}}</span>
-                <span class="value">{{router.is_gw ? $t('trans0165'):
+                <div class="type">
+                  <span class="label">{{$t('trans0068')}}</span>
+                  <span class="value">{{router.is_gw ? $t('trans0165'):
                   $t('trans0186')}}</span>
+                </div>
+                <div class="equipment">
+                  <span class="label">{{$t('trans0235')}}</span>
+                  <span class="value equipment__value"
+                        :class="{'is-disabled':!router.stations}"
+                        @click.stop="showStationListModal(router)">
+                    {{getRouterStationCount(router)}}
+                  </span>
+                  <i class="equipment__arrow iconfont icon-ic_enter"></i>
+                </div>
+                <div class="sn">
+                  <span class="label">{{$t('trans0251')}}</span>
+                  <span class="value">{{router.sn}}</span>
+                </div>
+                <div class="version">
+                  <span class="label">{{$t('trans0300')}}</span>
+                  <span class="value">{{router.version.current}}</span>
+                </div>
+                <div class="ip">
+                  <span class="label">{{$t('trans0151')}}</span>
+                  <span class="value">{{router.ip}}</span>
+                  <span class="value">{{formatMac(router.mac.lan)}}</span>
+                </div>
+                <div class="mac">
+                  <span class="label">{{$t('trans0201')}}</span>
+                  <span class="value">{{formatMac(router.mac.lan)}}</span>
+                </div>
+                <div class="operate">
+                  <span v-if="!isRouterOffline(router)"
+                        class="btn-icon"
+                        @click="rebootNode(router)">
+                    <i class="reboot iconfont icon-ic_router_reboot_normal"></i>
+                    <span class="icon-hover-popover"> {{$t('trans0122')}}</span>
+                  </span>
+                  <span v-if="isMobile&&!isRouterOffline(router)"
+                        class="label"
+                        @click="rebootNode(router)">
+                    {{$t('trans0122')}}
+                  </span>
+                  <span v-if="router.is_gw"
+                        class="btn-icon"
+                        @click="resetNode(router)">
+                    <i class="reset iconfont icon-ic_router_reset_normal"></i>
+                    <span class="icon-hover-popover"> {{$t('trans0205')}}</span>
+                  </span>
+                  <span v-if="isMobile&&router.is_gw"
+                        class="label"
+                        @click="resetNode(router)">
+                    {{$t('trans0205')}}
+                  </span>
+                  <span v-if="!router.is_gw"
+                        class="btn-icon"
+                        @click="deleteNode(router)">
+                    <i class="delete iconfont icon-ic_trash_normal"></i>
+                    <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+                  </span>
+                  <span v-if="isMobile&&!router.is_gw"
+                        class="label"
+                        @click="deleteNode(router)">
+                    {{$t('trans0033')}}
+                  </span>
+                </div>
               </div>
-              <!-- 接入设备 -->
-              <div class="equipment">
-                <span class="label">{{$t('trans0235')}}</span>
-                <span class="value equipment__value"
-                      :class="{'is-disabled':!router.stations}"
-                      @click.stop="showStationListModal(router)">
-                  {{getRouterStationCount(router)}}
-                </span>
-                <img class="equipment__arrow"
-                     src="../../../assets/images/icon/ic_inter.png" />
-              </div>
-              <div class="sn">
-                <span class="label">{{$t('trans0251')}}</span>
-                <span class="value">{{router.sn}}</span>
-              </div>
-              <div class="version">
-                <span class="label">{{$t('trans0300')}}</span>
-                <span class="value">{{router.version.current}}</span>
-              </div>
-              <div class="ip">
-                <span class="label">{{$t('trans0151')}}</span>
-                <span class="value">{{router.ip}}</span>
-                <span class="value">{{formatMac(router.mac.lan)}}</span>
-              </div>
-              <div class="mac">
-                <span class="label">{{$t('trans0201')}}</span>
-                <span class="value">{{formatMac(router.mac.lan)}}</span>
-              </div>
-              <div class="operate">
-                <span class="btn-text btn-text-strange"
-                      v-if="!isRouterOffline(router)"
-                      @click="rebootNode(router)">{{$t('trans0122')}}</span>
-                <span v-if="router.is_gw"
-                      class="btn-text text-primary btn-text-strange"
-                      @click="resetNode(router)">{{$t('trans0205')}}</span>
-                <span v-if="!router.is_gw"
-                      class="btn-text text-primary btn-text-strange"
-                      @click="deleteNode(router)">{{$t('trans0033')}}</span>
-              </div>
+            </tempalte>
+            <div class="loading-container"
+                 v-else>
+              <m-loading :id="'meshFormLoading'"
+                         :color="themeColor"></m-loading>
             </div>
+
           </div>
         </div>
       </div>
     </div>
+    <!-- 编辑设备名称弹窗 -->
     <m-modal :visible.sync="showModal"
+             :closeOnClickMask="false"
              class="edit-name-modal">
       <m-modal-body class="content">
         <m-form :model="form"
@@ -171,30 +208,32 @@
         </div>
       </m-modal-body>
     </m-modal>
-    <m-modal :visible.sync="rssiModalVisible">
-      <m-modal-header>
-        {{$t('trans0128')}}
+    <!-- 连接质量弹窗 -->
+    <m-modal :visible.sync="rssiModalVisible"
+             class="connect-quality-modal">
+      <m-modal-header class="header">
+        <span> {{$t('trans0128')}}</span>
+        <!-- <span class="btn__close">
+          <i class="iconfont icon-ic_close"></i>
+        </span> -->
       </m-modal-header>
       <m-modal-body>
-        <div class="rssi-modal">
-
+        <div class="connect-quality-modal-contnet">
           <div class="examples">
             <div class="example error">
-              <img src="../../../assets/images/img_help_error.png"
+              <img src="@/assets/images/img_help_error.webp"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
-
                 </span>
                 <span>{{$t('trans0599')}}</span>
               </div>
             </div>
             <div class="example right">
-              <img src="../../../assets/images/img_help_right.png"
+              <img src="@/assets/images/img_help_right.webp"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
-
                 </span>
                 <span>{{$t('trans0598')}}</span>
               </div>
@@ -202,7 +241,6 @@
           </div>
           <div class="markdown-body"
                v-html="rssiTips"></div>
-
         </div>
       </m-modal-body>
       <m-modal-footer>
@@ -212,15 +250,14 @@
         </div>
       </m-modal-footer>
     </m-modal>
-
     <!-- mesh列表弹框 -->
     <m-modal :visible.sync="stationListModalVisible"
              class="mesh-list-modal">
       <m-modal-header class="header">
-        <img @click="hideMeshListModal"
-             class="header__btn--close"
-             src="~base/assets/images/icon/close.png"
-             alt="" />
+        <div class="header__btn--close"
+             @click="hideMeshListModal">
+          <i class="iconfont icon-ic_close"></i>
+        </div>
       </m-modal-header>
       <m-modal-body class="table">
         <div class="table__header">
@@ -237,7 +274,7 @@
             <div class="table__column table__column--device">
               <span v-if="isThisMachine(item.ip)"
                     class="device__img">
-                <img src="~base/assets/images/icon/ic_user.png"
+                <img src="@/assets/images/icon/ic_local-device.svg"
                      alt="">
               </span>
               <span class="device__host-name"
@@ -253,7 +290,7 @@
             <div class="table__column table__column--guest">
               <span class="laptop-show">{{bandMap[item.connected_network.band]}}</span>
               <img v-if="isGuest(item.connected_network.type)"
-                   src="~base/assets/images/icon/ic-guest-wifi.png"
+                   src="@/assets/images/icon/ic_guest.svg"
                    alt="" />
               <span class="mobile-show">{{bandMap[item.connected_network.band]}}</span>
             </div>
@@ -261,7 +298,7 @@
         </div>
         <div class="table__empty"
              v-else>
-          <img src="~base/assets/images/img_default_empty.png"
+          <img src="@/assets/images/img_default_empty.webp"
                alt="">
           <span>
             {{$t('trans0278')}}
@@ -282,6 +319,7 @@ require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 export default {
+  name: 'Mesh',
   data() {
     return {
       rssiModalVisible: false,
@@ -299,12 +337,12 @@ export default {
       rules: {
         newName: [
           {
-            rule: value => !/^\s*$/.test(value.trim()),
+            rule: value => !/^\s*$/.test(value),
             message: this.$t('trans0237')
           },
           {
             rule: value => {
-              const length = getStringByte(value.trim());
+              const length = getStringByte(value);
               if (length < 1 || length > 20) {
                 return false;
               }
@@ -338,7 +376,8 @@ export default {
         wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
         '5g': this.$t('trans0256')
-      }
+      },
+      isDarkMode: false
     };
   },
   async mounted() {
@@ -352,6 +391,9 @@ export default {
     } catch {
       this.localDeviceIP = '';
     }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+      this.checkThemeMode(event.matches);
+    });
   },
   computed: {
     rssiTips() {
@@ -368,6 +410,30 @@ export default {
         result = true;
       }
       return result;
+    },
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
+    currentTheme() {
+      return this.$store.state.theme;
+    },
+    themeColor() {
+      return process.env.CUSTOMER_CONFIG.loading.color;
+    }
+  },
+  watch: {
+    currentTheme: {
+      handler(nv) {
+        if (nv === 'dark') {
+          this.isDarkMode = true;
+        } else {
+          this.isDarkMode = false;
+        }
+        if (this.routers.length !== 0) {
+          this.drawTopo(this.routers);
+        }
+      },
+      immediate: true
     }
   },
   methods: {
@@ -376,6 +442,16 @@ export default {
         return '-';
       }
       return router.stations.length;
+    },
+    showStationListModal(router) {
+      if (!router.stations) {
+        return;
+      }
+      this.stationList = router.stations;
+      this.stationListModalVisible = true;
+    },
+    hideMeshListModal() {
+      this.stationListModalVisible = false;
     },
     hasPaddingLeft(ip) {
       return this.isThisMachine(ip) ? '' : 'has-padding-left';
@@ -390,16 +466,6 @@ export default {
     },
     showRssiModal() {
       this.rssiModalVisible = true;
-    },
-    showStationListModal(router) {
-      if (!router.stations) {
-        return;
-      }
-      this.stationList = router.stations;
-      this.stationListModalVisible = true;
-    },
-    hideMeshListModal() {
-      this.stationListModalVisible = false;
     },
     closeRssiModal() {
       this.rssiModalVisible = false;
@@ -466,7 +532,7 @@ export default {
         this.$http
           .updateMeshNode({
             node_id: router.sn,
-            data: { name: name.trim() }
+            data: { name }
           })
           .then(() => {
             router.name = name;
@@ -487,7 +553,9 @@ export default {
         message: this.$t('trans0218'),
         callback: {
           ok: () => {
+            this.$loading.open();
             this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
+              this.$loading.close();
               this.$toast(this.$t('trans0040'), 3000, 'success');
               this.routers = this.routers.filter(r => r.sn !== router.sn);
             });
@@ -502,27 +570,28 @@ export default {
         message: this.$t('trans0121'),
         callback: {
           ok: () => {
-            this.$http.reboot({ node_ids: [router.sn] }).then(() => {
-              if (router.is_gw) {
-                this.$reconnect({
-                  timeout: 90,
-                  onsuccess: () => {
-                    this.$router.push({ path: '/login' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
-              } else {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                const node = this.routers.find(r => r.sn === router.sn);
-                node.status = RouterStatus.offline;
-                this.routers.forEach(r => {
-                  r.neighbors = r.neighbors.filter(rn => rn.sn !== node.sn);
-                });
-                this.drawTopo(this.routers);
-              }
-            });
+            this.$loading.open();
+            this.$http
+              .reboot({ node_ids: [router.sn] })
+              .then(() => {
+                if (router.is_gw) {
+                  this.$reconnect({
+                    timeout: 90,
+                    onsuccess: () => {
+                      this.$router.push({ path: '/login' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    }
+                  });
+                } else {
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.routers = this.routers.filter(r => r.sn !== router.sn);
+                }
+              })
+              .finally(() => {
+                this.$loading.close();
+              });
           }
         }
       });
@@ -550,9 +619,6 @@ export default {
         }
       });
     },
-    addMeshNode() {
-      this.$router.push('/mesh/add');
-    },
     initChart() {
       const topoEl = document.getElementById('topo');
       this.chart = echarts.init(topoEl);
@@ -564,26 +630,35 @@ export default {
       });
     },
     drawTopo(routers) {
-      const oldRouters = this.routers;
+      // const oldRouters = this.routers;
+      // const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
+      // this.routers = routers;
 
-      const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
-      this.routers = routers;
+      const oldRouters = this.routers;
 
       const data = genData(routers);
       data.nodes.forEach(n => {
-        const node = this.routers.find(r => r.sn === n.sn);
-        if (node) {
-          this.$set(node, 'image', n.symbol.replace('image://', ''));
-        }
+        this.routers = routers.map(r => {
+          if (n.sn === r.sn) {
+            this.$set(r, 'image', n.symbol.replace('image://', ''));
+          }
+          r.expand = false;
+          return r;
+        });
       });
-      this.routers.forEach(r => {
-        if (selected.includes(r.sn)) {
-          this.$set(r, 'expand', true);
-        } else {
-          this.$set(r, 'expand', false);
-        }
-      });
-
+      // this.routers = routers.map(v => ({
+      //   ...v,
+      //   expand: false
+      // }));
+      // 维持设备之前的附加属性
+      if (oldRouters.length > 0) {
+        oldRouters.forEach(or => {
+          const device = this.routers.find(nr => nr.sn === or.sn);
+          if (device) {
+            device.expand = or.expand;
+          }
+        });
+      }
       const option = {
         series: [
           {
@@ -603,8 +678,8 @@ export default {
               normal: {
                 show: true,
                 position: 'bottom',
-                color: '#333',
-                backgroundColor: '#fff',
+                color: this.isDarkMode ? '#fff' : '#333',
+                backgroundColor: 'transparent',
                 formatter(category) {
                   // originName是节点的原始名称
                   const name = category.data.originName;
@@ -649,7 +724,9 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
-          this.drawTopo(res.data.result);
+          const { result } = res.data;
+          this.drawTopo(result);
+
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
@@ -663,6 +740,14 @@ export default {
             }, 10000);
           }
         });
+    },
+    checkThemeMode(isDarkMode) {
+      if (isDarkMode) {
+        this.isDarkMode = true;
+      } else {
+        this.isDarkMode = false;
+      }
+      this.getMeshNode();
     }
   },
   beforeDestroy() {
@@ -686,7 +771,15 @@ export default {
 @media screen and (max-width: 768px) {
   .mesh-list-modal {
     .modal-content {
-      width: 90% !important;
+      width: 100% !important;
+      height: 100%;
+      border-radius: 0 !important;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: auto;
+      bottom: auto;
+      background: var(--grey-background-color) !important;
     }
   }
 }
@@ -703,6 +796,8 @@ export default {
     }
     .table__header {
       padding: 0 10px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
     }
     .table__body {
       height: 350px;
@@ -723,7 +818,8 @@ export default {
     }
     .table__header {
       height: 37px;
-      background-color: #ebebeb;
+      color: var(--dashboard-gery-color);
+      background-color: var(--modal-header-background-color);
       .table__column {
         font-size: 12px;
         font-weight: 500;
@@ -734,11 +830,11 @@ export default {
       }
     }
     .table__row {
-      border-bottom: solid 1px #f1f1f1;
+      border-bottom: 1px solid var(--modal-content-hr-color);
       .table__column {
         font-size: 14px;
         height: 60px;
-        background-color: #fff;
+        background-color: var(--modal-content-background);
       }
       .table__column--device {
         .device__img {
@@ -771,11 +867,14 @@ export default {
           text-align: center;
           padding: 3px 0;
           border-radius: 3px;
-          border: solid 1px #333333;
+          font-size: 12px;
+          color: #fff;
+          background: var(--dashboard-band-background-color);
         }
         img {
           margin-left: 20px;
-          width: 38px;
+          width: 35px;
+          filter: var(--img-brightness);
         }
         .laptop-show {
           display: inline-block;
@@ -789,7 +888,6 @@ export default {
       display: flex;
       align-items: center;
       height: 100%;
-      color: #333333;
       &.table__column--device {
         width: 210px;
       }
@@ -802,118 +900,166 @@ export default {
     }
   }
 }
-.rssi-modal {
-  width: 660px;
-  max-height: 400px;
-  padding: 0 10px;
-  overflow: auto;
-  overflow-x: hidden;
-  .markdown-body {
-    @media screen and (max-width: 768px) {
-      font-size: 14px;
-    }
-  }
-  @media screen and (max-width: 768px) {
-    width: auto;
-    height: 340px;
-    overflow: auto;
-  }
-  .examples {
+.edit-name-modal {
+  .content {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 30px;
-    @media screen and (max-width: 768px) {
-      flex-direction: column;
+    flex-direction: column;
+    .select-container {
+      width: 100%;
+      .select-text {
+        white-space: pre;
+      }
     }
-
-    .example {
-      .description {
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        .icon-circle {
-          width: 16px;
-          height: 16px;
-          border: 1px solid #333;
-          border-radius: 50%;
-          margin-right: 5px;
-          position: relative;
-        }
-      }
-      &.error {
-        .icon-circle {
-          &::before {
-            content: '';
-            display: block;
-            width: 7px;
-            height: 1px;
-            top: 7px;
-            left: 50%;
-            transform: translateX(-50%) rotate(45deg);
-            background: #333;
-            z-index: 999;
-            position: absolute;
-          }
-          &::after {
-            content: '';
-            display: block;
-            width: 7px;
-            height: 1px;
-            top: 7px;
-            left: 50%;
-            transform: translateX(-50%) rotate(-45deg);
-            background: #333;
-            z-index: 999;
-            position: absolute;
-          }
-        }
-      }
-      &.right {
-        .icon-circle {
-          border-color: #00d061;
-          &::after {
-            position: absolute;
-            content: '';
-            display: block;
-            width: 3px;
-            height: 6px;
-            border-right: 1px solid #00d061;
-            border-bottom: 1px solid #00d061;
-            border-left: 0;
-            border-top: 0;
-            transform: rotate(45deg);
-            top: 3px;
-            left: 5px;
-          }
-        }
-      }
-
-      img {
-        width: 300px;
-        @media screen and (max-width: 768px) {
-          width: 100%;
+    .btn-inner {
+      display: flex;
+      justify-content: center;
+      .btn {
+        width: 120px;
+        height: 42px;
+        &:last-child {
+          margin-left: 30px;
         }
       }
     }
-  }
-  .form-button {
-    margin: 20px 0;
-    text-align: center;
   }
 }
+.connect-quality-modal {
+  .header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    .btn__close {
+      position: absolute;
+      top: 0;
+      right: -5px;
+      // transform: translateY(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: #f1f1f1;
+      .iconfont {
+        font-size: 12px;
+        color: #333;
+      }
+    }
+  }
+  .connect-quality-modal-contnet {
+    width: 660px;
+    max-height: 400px;
+    padding: 0 10px;
+    overflow: auto;
+    overflow-x: hidden;
+    .markdown-body {
+      @media screen and (max-width: 768px) {
+        font-size: 14px;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      width: auto;
+      height: 340px;
+      overflow: auto;
+    }
+    .examples {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      @media screen and (max-width: 768px) {
+        flex-direction: column;
+      }
+
+      .example {
+        .description {
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          .icon-circle {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #ff4d64;
+            border-radius: 50%;
+            margin-right: 5px;
+            position: relative;
+          }
+        }
+        &.error {
+          .icon-circle {
+            &::before {
+              content: '';
+              display: block;
+              width: 7px;
+              height: 1px;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%) rotate(45deg);
+              background: #ff4d64;
+              z-index: 999;
+              position: absolute;
+            }
+            &::after {
+              content: '';
+              display: block;
+              width: 7px;
+              height: 1px;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%) rotate(-45deg);
+              background: #ff4d64;
+              z-index: 999;
+              position: absolute;
+            }
+          }
+        }
+        &.right {
+          .icon-circle {
+            border-color: #55c630;
+            &::after {
+              position: absolute;
+              content: '';
+              display: block;
+              width: 3px;
+              height: 6px;
+              border-right: 1px solid #55c630;
+              border-bottom: 1px solid #55c630;
+              border-left: 0;
+              border-top: 0;
+              transform: rotate(45deg);
+              top: 3px;
+              left: 5px;
+            }
+          }
+        }
+
+        img {
+          width: 300px;
+          @media screen and (max-width: 768px) {
+            width: 100%;
+          }
+        }
+      }
+    }
+    .form-button {
+      margin: 20px 0;
+      text-align: center;
+    }
+  }
+}
+
 .mesh-container {
   flex: auto;
   display: flex;
-
-  .tabs {
-    padding: 0;
-  }
   .mesh-info {
     display: flex;
     .title {
       position: relative;
+      .iconfont {
+        font-weight: 400;
+      }
       .tab {
         font-size: 16px;
       }
@@ -922,19 +1068,64 @@ export default {
       }
     }
     .btn-add {
+      height: auto;
       position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
+      right: -15px;
+      top: 0;
+      padding: 7px 10px;
+      border-radius: 5px;
+      transform: translateY(-150%);
+      .add-icon {
+        position: relative;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 5px;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: block;
+          height: 2px;
+          border-radius: 2px;
+          width: 15px;
+          // background: var(--button-default-text-color);
+          background-color: #fff;
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        &::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: block;
+          height: 2px;
+          border-radius: 2px;
+          width: 15px;
+          // background: var(--button-default-text-color);
+          background-color: #fff;
+          transform: translate(-50%, -50%) rotate(90deg);
+        }
+      }
+      > span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // font-weight: 600;
+        .iconfont {
+          transform: rotate(45deg);
+          margin-right: 10px;
+        }
+      }
     }
     width: 100%;
-    background: white;
     border-radius: 8px;
     box-sizing: border-box;
     padding: 0 20px;
     flex-direction: column;
     .content {
-      padding-top: 20px;
+      padding-top: 10px;
       flex: auto;
       display: flex;
       .topo-container {
@@ -946,34 +1137,31 @@ export default {
           width: 200px;
           .legend-title {
             font-size: 12px;
-            color: #333;
+            color: var(--text-default-color);
             margin: 0;
-
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            .icon-quality {
-              width: 12px;
-              height: 12px;
-              margin-left: 5px;
+            .iconfont {
+              margin-left: 10px;
+              font-size: 12px;
+              transform: translateX(25%);
               cursor: pointer;
-              background: url(../../../assets/images/icon/ic_connection_quality.png)
-                no-repeat center;
-              background-size: 100%;
               &:hover {
-                background: url(../../../assets/images/icon/ic_connection_quality_hover.png)
-                  no-repeat center;
-                background-size: 100%;
+                color: var(--text-gery-color);
               }
             }
           }
           .legend {
-            .legend-item {
+            > div {
               font-size: 12px;
               display: flex;
               align-items: center;
               justify-content: flex-end;
               margin-top: 10px;
+              color: var(--text-default-color);
+            }
+            .legend-item {
               &::after {
                 content: '';
                 margin-left: 15px;
@@ -1001,8 +1189,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          width: 200px;
-
+          width: 245px;
           .switch-item {
             display: flex;
             width: 100%;
@@ -1011,8 +1198,7 @@ export default {
             }
             label {
               display: flex;
-              margin-right: 15px;
-              // max-width: 200px;
+              margin: 0 10px;
               flex: 1;
               img {
                 position: relative;
@@ -1041,13 +1227,15 @@ export default {
         .table-header {
           display: flex;
           padding: 15px 20px;
-          background: #f1f1f1;
+          color: var(--text-gery-color);
+          background: var(--table-row-background-color);
           display: flex;
           justify-content: space-between;
+          border-radius: 10px;
+          margin-bottom: 5px;
         }
         .name {
           width: 250px;
-          padding-left: 50px;
         }
         .sn {
           width: 150px;
@@ -1068,21 +1256,19 @@ export default {
           display: none;
         }
         .operate {
+          justify-content: flex-end;
           width: 230px;
         }
         .table-content {
+          text-align: center;
           .router {
             display: flex;
-            padding: 15px 20px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid #f1f1f1;
-            &:nth-child(2n) {
-              background: #f7f7f7;
-            }
-            &:last-child {
-              border: 0;
-            }
+            background: var(--table-row-background-color);
+            margin-bottom: 5px;
+            border-radius: 10px;
             span.label {
               display: none;
             }
@@ -1120,16 +1306,13 @@ export default {
               padding-left: 0;
               .expand {
                 display: none;
-                img {
-                  width: 14px;
-                  height: 7px;
-                }
+                font-size: 12px;
                 transition: all 0.3s;
                 &.expand {
-                  transform: rotate(180deg);
+                  transform: rotate(0deg);
                 }
                 &.collapse {
-                  transform: rotate(0deg);
+                  transform: rotate(-90deg);
                 }
               }
               .wrap {
@@ -1141,15 +1324,13 @@ export default {
                 display: flex;
                 align-items: center;
                 img {
-                  width: 30px;
-                  height: 30px;
+                  width: 50px;
+                  height: 50px;
                 }
               }
               .text {
-                color: #333;
                 font-size: 14px;
                 margin-right: 10px;
-                white-space: pre;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: pre;
@@ -1162,38 +1343,14 @@ export default {
                 img {
                   width: 16px;
                   height: 16px;
-                }
-              }
-            }
-            .operate {
-              span {
-                margin-left: 20px;
-                &:first-child {
-                  margin-left: 0;
+                  filter: var(--img-brightness);
                 }
               }
             }
           }
-        }
-      }
-    }
-  }
-}
-.edit-name-modal {
-  .content {
-    display: flex;
-    flex-direction: column;
-    .select-container {
-      width: 100%;
-    }
-    .btn-inner {
-      display: flex;
-      justify-content: center;
-      .btn {
-        width: 120px;
-        height: 42px;
-        &:last-child {
-          margin-left: 30px;
+          .loading-container {
+            padding: 30px 0;
+          }
         }
       }
     }
@@ -1209,14 +1366,13 @@ export default {
           display: block;
           position: absolute;
           right: 20px;
-          top: 50%;
-          -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+          top: 0;
+          transform: translateY(-140%);
           width: 30px;
           height: 30px;
           border: 0;
           outline: 0;
-          border-radius: 50%;
+          // border-radius: 50%;
           &::before {
             content: '';
             display: block;
@@ -1224,8 +1380,9 @@ export default {
             height: 14px;
             background: #fff;
             position: absolute;
-            top: 8px;
-            left: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             border-radius: 2px;
           }
           &::after {
@@ -1234,16 +1391,17 @@ export default {
             display: block;
             width: 2px;
             height: 14px;
-            top: 8px;
-            left: 14px;
             background: #fff;
-            transform: rotate(90deg);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(90deg);
             border-radius: 2px;
           }
         }
-
         .tabs {
           padding: 0 20px;
+          border-bottom: 1px solid var(--table-header-hr-color);
+          justify-content: flex-start;
           .tab {
             width: auto;
             font-size: 14px;
@@ -1254,7 +1412,6 @@ export default {
       .btn-add {
         display: none;
       }
-
       .content {
         padding-top: 0;
         .topo-container {
@@ -1266,11 +1423,14 @@ export default {
             order: 2;
             .legend-title {
               justify-content: flex-start;
+              .iconfont {
+                margin-left: 5px;
+              }
             }
             width: 100%;
             .legend {
               display: flex;
-
+              flex-wrap: wrap;
               .legend-item {
                 flex-direction: row-reverse;
                 margin-left: 0;
@@ -1288,17 +1448,16 @@ export default {
           .switch-wrap {
             order: 1;
             padding-left: 0;
-            margin-bottom: 30px;
             width: 100%;
+            margin-bottom: 15px;
             .switch-item {
               width: auto;
               label {
                 flex: auto;
+                margin: 0 10px 0 0;
                 max-width: 200px;
                 span {
                   max-width: 100px;
-                  // overflow: hidden;
-                  // text-overflow: ellipsis;
                 }
               }
             }
@@ -1309,7 +1468,6 @@ export default {
             #topo {
               width: 100%;
               min-width: initial;
-              background: #fff;
             }
           }
         }
@@ -1317,11 +1475,9 @@ export default {
           .table-header {
             display: none;
           }
-
           .name {
             flex: none;
             height: 60px !important;
-
             .icon {
               width: 30px;
             }
@@ -1341,48 +1497,41 @@ export default {
           }
           .table-content {
             padding: 0;
-            background: #fff;
+            margin: 5px 0 10px;
             .router {
               display: flex;
               flex-direction: column;
-              // margin-bottom: 10px;
-              background: #fff;
+              background: var(--table-row-background-color);
+              color: var(--text-default-color);
               border-radius: 5px;
-              padding: 0;
+              padding: 0 10px;
               height: 60px;
               overflow: hidden;
-              // background: #f1f1f1;
-              margin: 0 20px;
+              margin: 0 10px 5px;
               position: relative;
-              &:nth-child(2n) {
-                background: #fff;
-              }
               &.expand {
                 height: 470px;
-                margin: 0;
-                background: #f1f1f1;
-                padding: 0 20px;
+                margin: 0 10px;
                 padding-top: 60px;
                 .name {
-                  background: #fff;
                   position: absolute;
                   width: 100%;
                   top: 0;
                   left: 0;
-                  padding: 0 20px;
+                  padding: 0 10px;
                 }
-                > div:not(:first-child) {
-                  background: #f1f1f1;
-                  border-bottom: 1px solid #e0e0e0;
+                > div {
+                  border-bottom-color: var(--table-body-hr-color);
                 }
               }
               span.label {
                 display: inline;
+                color: var(--text-gery-color);
               }
               > div {
                 width: auto;
-                padding: 15px 0;
-                border-bottom: 1px solid #f1f1f1;
+                padding: 15px 5px;
+                border-bottom: 1px solid transparent;
                 &:last-child {
                   border-bottom: 0;
                 }
@@ -1410,10 +1559,23 @@ export default {
                   text-decoration: none;
                 }
                 .equipment__arrow {
-                  display: inline;
+                  display: inline-block;
+                  // width: 15px;
+                  // height: 15px;
+                  font-size: 12px;
+                  color: var(--text-default-color);
                 }
               }
               .name {
+                padding: 0;
+                width: 100%;
+                color: var(--text-default-color);
+                .icon {
+                  img {
+                    width: 35px;
+                    height: 35px;
+                  }
+                }
                 .wrap {
                   flex: 1;
                 }
@@ -1423,9 +1585,12 @@ export default {
               }
               .operate {
                 display: flex;
-                justify-content: center;
-                padding: 30px 20px;
+                justify-content: flex-start;
                 border-bottom: 0 !important;
+                .label {
+                  width: auto;
+                  display: inline;
+                }
               }
             }
           }
@@ -1435,17 +1600,30 @@ export default {
   }
   .mesh-list-modal {
     .header {
+      position: relative;
       display: block;
-      height: 40px;
-      padding: 10px 10px 0 10px;
-      &::before {
+      padding: 10px 0;
+      margin: 0 10px;
+      border-bottom: 1px solid #ccc;
+      &::after {
         content: '';
-        display: table;
+        height: 0;
+        display: block;
         clear: both;
       }
       .header__btn--close {
-        height: 24px;
         float: right;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        color: var(--text-default-color);
+        background: var(--primaryBackgroundColor);
+        .iconfont {
+          font-size: 13px;
+        }
       }
     }
     .table {
@@ -1459,11 +1637,36 @@ export default {
         width: 100%;
         padding-bottom: 10px;
         border-bottom: solid 1px #ccc;
-        .table__column--device {
-          .device__host-name {
+        .table__column {
+          background-color: var(--grey-background-color);
+          &.table__column--device {
+            font-weight: bold;
+            height: 50px;
             width: 100%;
-            &.has-padding-left {
-              padding-left: 0;
+            .device__host-name {
+              width: 100%;
+              &.has-padding-left {
+                padding-left: 0;
+              }
+            }
+          }
+          &.table__column--ip {
+            height: 50px;
+            width: 50%;
+          }
+          &.table__column--guest {
+            justify-content: flex-end;
+            height: 50px;
+            width: 50%;
+            img {
+              margin-left: 0;
+            }
+            .laptop-show {
+              display: none;
+            }
+            .mobile-show {
+              display: inline-block;
+              margin-left: 10px;
             }
           }
         }
@@ -1473,36 +1676,10 @@ export default {
           display: block;
         }
       }
-      .table__column {
-        &.table__column--device {
-          font-weight: bold;
-          height: 50px;
-          width: 100%;
-        }
-        &.table__column--ip {
-          height: 50px;
-          width: 50%;
-        }
-        &.table__column--guest {
-          justify-content: flex-end;
-          height: 50px;
-          width: 50%;
-          img {
-            margin-left: 0;
-          }
-          .laptop-show {
-            display: none;
-          }
-          .mobile-show {
-            display: inline-block;
-            margin-left: 10px;
-          }
-        }
-      }
     }
   }
 }
-@media screen and (width: 320px) {
+@media screen and (width: 374px) {
   .mesh-container {
     .mesh-info {
       .title {

@@ -20,7 +20,7 @@ import picM6aPlusGood from '@/assets/images/model/m6a_plus/icons-m6a_plus-excell
 import picM6aPlusBad from '@/assets/images/model/m6a_plus/icons-m6a_plus-fair.png';
 import picM6aPlusOffline from '@/assets/images/model/m6a_plus/icons-m6a_plus-offline.png';
 
-import { M6aRouterSnModelVsersion } from '../../../../../base/src/util/constant';
+import { M6aRouterSnModelVsersion } from 'base/util/constant';
 
 const Color = {
   good: '#00d061',

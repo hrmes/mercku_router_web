@@ -1,35 +1,50 @@
+// loading.vue
 <template>
   <transition name="loading">
-    <div class="loading-container"
-         v-if="visible">
-      <img :src="url"
-           alt="">
+    <div v-if="visible"
+         class="loading-container">
+      <div class="loading-wrap">
+        <div id="loadingImg" />
+      </div>
       <div v-if="title"
            class="title">{{title}}</div>
-      <div class="template"
-           v-if="template"
+      <div v-if="template"
+           class="template"
            v-html="template"></div>
-      <!-- <LoadingNew :size="60" /> -->
     </div>
   </transition>
-
 </template>
 <script>
-import LoadingNew from './loading-new.vue';
+import lottie from 'lottie-web';
 
 export default {
-  components: {
-    LoadingNew
-  },
   data() {
-    const { name } = process.env.CUSTOMER_CONFIG.loading;
-    const url = require(`../../assets/images/loading/${name}`);
     return {
-      url,
       visible: false,
       template: '',
       title: ''
     };
+  },
+  mounted() {
+    // 解决json动画找不到dom不渲染问题
+    window.requestAnimationFrame(this.loadImg);
+  },
+  computed: {
+    animJson() {
+      const name = process.env.CUSTOMER_CONFIG.assetFolderName;
+      return require(`../../assets/lottie/${name}/loading.json`);
+    }
+  },
+  methods: {
+    loadImg() {
+      lottie.loadAnimation({
+        container: document.getElementById('loadingImg'),
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: this.animJson
+      });
+    }
   }
 };
 </script>
@@ -40,20 +55,12 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1001;
-  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  img {
-    width: 120px;
-  }
-  .inner-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-  }
   &.loading-enter {
     opacity: 0;
   }
@@ -64,9 +71,21 @@ export default {
     opacity: 0;
     transition: all 0.3s ease-out;
   }
+  .loading-wrap {
+    width: 240px;
+    height: 240px;
+    // position: absolute;
+    // left: 0;
+    // right: 0;
+    // top: 0;
+    // bottom: 0;
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // z-index: 9999;
+  }
   .title {
     font-size: 24px;
-    margin-top: 10px;
     color: #fff;
   }
   .template {

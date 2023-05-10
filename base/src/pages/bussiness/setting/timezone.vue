@@ -36,7 +36,6 @@ export default {
     };
   },
   created() {
-    this.getTimezone();
     let array = [];
     array = require(`../../../timezones/${this.$i18n.locale}.json`);
     this.timezones = array.map(t => ({
@@ -45,6 +44,7 @@ export default {
       subTitle: t.coutryName,
       value: `${t.offset}:${t.position}`
     }));
+    this.getTimezone();
   },
   methods: {
     getTimezoneText() {
@@ -55,10 +55,12 @@ export default {
       });
     },
     getTimezone() {
+      this.$loading.open();
       this.$http.getTimezone().then(res => {
         const timezone = res.data.result;
         this.form.timezone = `${timezone.offset}:${timezone.position}`;
         this.getTimezoneText();
+        this.$loading.close();
       });
     },
     submit() {

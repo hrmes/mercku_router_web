@@ -206,7 +206,7 @@
   </div>
 </template>
 <script>
-import { RouterSnModel } from '../../../util/constant';
+import { RouterSnModel } from 'base/util/constant';
 
 const PageType = {
   tipPage: 'tipPage',

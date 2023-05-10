@@ -15,7 +15,7 @@ export default function upgradeHelper(indexHtml, isUpgrading, component) {
   console.log(`new hash is: ${newHash}`);
   if (!oldHash || newHash !== oldHash) {
     console.log(
-      'the x-web-version-hash is not same, i think router has upgrade '
+      'the x-web-version-hash is not same, i think router has upgrade'
     );
     // document.write(indexHtml); document.write not works sometimes
     window.location.pathname = '/web/login'; // true means force reload

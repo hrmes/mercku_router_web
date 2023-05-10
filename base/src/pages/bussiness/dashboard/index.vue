@@ -68,8 +68,8 @@
 </template>
 <script>
 import marked from 'marked';
-import * as CONSTANTS from '../../../util/constant';
-import { compareVersion } from '../../../util/util';
+import * as CONSTANTS from 'base/util/constant';
+import { compareVersion } from 'base/util/util';
 
 export default {
   data() {
@@ -152,7 +152,7 @@ export default {
             });
           }
         })
-        .catch(() => { });
+        .catch(() => {});
     },
     showTips() {
       this.tipsModalVisible = true;
