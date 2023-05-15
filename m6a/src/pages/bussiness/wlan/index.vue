@@ -19,6 +19,13 @@
                       v-model="wifiForm.smart_connect" />
             <div class="tip-label">{{$t('trans0398')}}</div>
           </m-form-item>
+          <m-form-item class="form-item"
+                       prop="region">
+            <m-select :label="$t('trans0639')"
+                      v-model="region.id"
+                      :options="regionsList" />
+            <div class="tip-label">{{$t('trans0646')}}</div>
+          </m-form-item>
           <div class="form-header">
             <span
                   class="form-header__title">{{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}</span>
@@ -140,6 +147,8 @@ export default {
         ssid5g: '',
         password5g: ''
       },
+      regionsList: [],
+      region: { id: '' },
       wifiFormRules: {
         ssid24g: [
           {
@@ -229,7 +238,10 @@ export default {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
       });
-    this.$http.getMeshMeta().then(res => {
+    this.$loading.open();
+
+    this.$http.getMeshMeta()
+    .then(res => {
       const wifi = res.data.result;
       const b24g = wifi.bands[Bands.b24g];
       const b5g = wifi.bands[Bands.b5g];
@@ -238,6 +250,9 @@ export default {
       this.wifiForm.ssid5g = b5g.ssid;
       this.wifiForm.password5g = b5g.password;
       // this.wifiForm.smart_connect = wifi.smart_connect;
+    })
+    .then(() => {
+      this.getRegionInitData();
     });
   },
   methods: {
@@ -264,6 +279,37 @@ export default {
         this.wifiForm.password5g = '';
       }
     },
+    getRegionInitData() {
+      Promise.all([this.$http.getRegion(), this.$http.getSupportRegions()])
+        .then(resArr => {
+          const region = resArr[0].data.result;
+          this.region = region;
+
+          let allRegion = require(`@/assets/regions/${this.$i18n.locale}.json`);
+
+          allRegion = allRegion.map(r => ({
+            text: r.name,
+            value: parseInt(r.code, 10)
+          }));
+          // 从所有区域中过滤掉不支持选择的区域
+          const regions = [];
+          const supportRegions = resArr[1].data.result;
+
+          // 显示需要排序，原本的文件中是有序的，支持列表时无序的，所以以原本的文件为基准
+          allRegion.forEach(ar => {
+            // const id = `${sr.id}`; // change number to string
+            const t = supportRegions.filter(sr => sr.id === ar.value)[0];
+            if (t) {
+              regions.push(ar);
+            }
+          });
+          this.regionsList = regions;
+          this.$loading.close();
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
+    },
     step0() {
       this.stepOption.current = 0;
       this.stepOption.steps[0].success = true;
@@ -273,10 +319,7 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
-        // 提交表单
-        this.$http
-          .updateMeshConfig({
-            config: {
+        const temp = {
               wifi: {
                 bands: {
                   '2.4G': {
@@ -290,32 +333,54 @@ export default {
                 },
                 smart_connect: this.wifiForm.smart_connect
               },
-              admin: { password: this.wifiForm.password24g }
-            }
-          })
-          .then(() => {
-            this.stepOption.current = 1;
-            this.stepOption.steps[1].success = true;
-            const timer = setInterval(() => {
-              this.countdown -= 1;
-              if (this.countdown === 0) {
-                clearInterval(timer);
-                this.$router.push({ path: '/unconnect' });
-              }
-            }, 1000);
-            // 尝试链接路由器
-            this.$reconnect({
-              onsuccess: () => {
-                clearInterval(timer);
-                this.$router.push({ path: '/login' });
-              },
-              ontimeout: () => {
-                clearInterval(timer);
-                this.$router.push({ path: '/unconnect' });
-              },
-              showLoading: false
-            });
-          });
+              admin: { password: this.wifiForm.password24g },
+              id: this.region.id
+            };
+        console.log(temp);
+        // 提交表单
+        // this.$http
+        //   .updateMeshConfig({
+        //     config: {
+        //       wifi: {
+        //         bands: {
+        //           '2.4G': {
+        //             ssid: this.wifiForm.ssid24g,
+        //             password: this.wifiForm.password24g
+        //           },
+        //           '5G': {
+        //             ssid: this.wifiForm.ssid5g,
+        //             password: this.wifiForm.password5g
+        //           }
+        //         },
+        //         smart_connect: this.wifiForm.smart_connect
+        //       },
+        //       admin: { password: this.wifiForm.password24g },
+        //       id: this.region.id
+        //     }
+        //   })
+        //   .then(() => {
+        //     this.stepOption.current = 1;
+        //     this.stepOption.steps[1].success = true;
+        //     const timer = setInterval(() => {
+        //       this.countdown -= 1;
+        //       if (this.countdown === 0) {
+        //         clearInterval(timer);
+        //         this.$router.push({ path: '/unconnect' });
+        //       }
+        //     }, 1000);
+        //     // 尝试链接路由器
+        //     this.$reconnect({
+        //       onsuccess: () => {
+        //         clearInterval(timer);
+        //         this.$router.push({ path: '/login' });
+        //       },
+        //       ontimeout: () => {
+        //         clearInterval(timer);
+        //         this.$router.push({ path: '/unconnect' });
+        //       },
+        //       showLoading: false
+        //     });
+        //   });
       }
     }
   }
@@ -333,7 +398,7 @@ export default {
     text-align: center;
     width: 340px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 40px;
   }
   .step-content {
     margin: 50px 0;
@@ -348,8 +413,6 @@ export default {
           color: var(--text-gery-color);
           margin-top: 14px;
           max-width: 340px;
-          border-bottom: 1px solid var(--hr-color);
-          padding-bottom: 20px;
         }
         .form-item {
           text-align: left;
