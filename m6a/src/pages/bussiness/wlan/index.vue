@@ -319,7 +319,10 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
-        const temp = {
+        // 提交表单
+        this.$http
+          .updateMeshConfig({
+            config: {
               wifi: {
                 bands: {
                   '2.4G': {
@@ -335,52 +338,31 @@ export default {
               },
               admin: { password: this.wifiForm.password24g },
               id: this.region.id
-            };
-        console.log(temp);
-        // 提交表单
-        // this.$http
-        //   .updateMeshConfig({
-        //     config: {
-        //       wifi: {
-        //         bands: {
-        //           '2.4G': {
-        //             ssid: this.wifiForm.ssid24g,
-        //             password: this.wifiForm.password24g
-        //           },
-        //           '5G': {
-        //             ssid: this.wifiForm.ssid5g,
-        //             password: this.wifiForm.password5g
-        //           }
-        //         },
-        //         smart_connect: this.wifiForm.smart_connect
-        //       },
-        //       admin: { password: this.wifiForm.password24g },
-        //       id: this.region.id
-        //     }
-        //   })
-        //   .then(() => {
-        //     this.stepOption.current = 1;
-        //     this.stepOption.steps[1].success = true;
-        //     const timer = setInterval(() => {
-        //       this.countdown -= 1;
-        //       if (this.countdown === 0) {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/unconnect' });
-        //       }
-        //     }, 1000);
-        //     // 尝试链接路由器
-        //     this.$reconnect({
-        //       onsuccess: () => {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/login' });
-        //       },
-        //       ontimeout: () => {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/unconnect' });
-        //       },
-        //       showLoading: false
-        //     });
-        //   });
+            }
+          })
+          .then(() => {
+            this.stepOption.current = 1;
+            this.stepOption.steps[1].success = true;
+            const timer = setInterval(() => {
+              this.countdown -= 1;
+              if (this.countdown === 0) {
+                clearInterval(timer);
+                this.$router.push({ path: '/unconnect' });
+              }
+            }, 1000);
+            // 尝试链接路由器
+            this.$reconnect({
+              onsuccess: () => {
+                clearInterval(timer);
+                this.$router.push({ path: '/login' });
+              },
+              ontimeout: () => {
+                clearInterval(timer);
+                this.$router.push({ path: '/unconnect' });
+              },
+              showLoading: false
+            });
+          });
       }
     }
   }
