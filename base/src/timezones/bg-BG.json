@@ -1,0 +1,392 @@
+[
+  {
+    "coutryName": "Eniwetok, Kwajalein",
+    "timezoneDetail": "GMT-12:00",
+    "offset": 12,
+    "position": 1
+  },
+  {
+    "coutryName": "Midway Island, Самоа",
+    "timezoneDetail": "GMT-11:00",
+    "offset": 11,
+    "position": 1
+  },
+  {
+    "coutryName": "Хавай",
+    "timezoneDetail": "GMT-10:00",
+    "offset": 10,
+    "position": 1
+  },
+  {
+    "coutryName": "Аляска",
+    "timezoneDetail": "GMT-09:00",
+    "offset": 9,
+    "position": 1
+  },
+  {
+    "coutryName": "Тихоокеанско време (САЩ и Канада), Тихуана",
+    "timezoneDetail": "GMT-08:00",
+    "offset": 8,
+    "position": 1
+  },
+  {
+    "coutryName": "Аризона",
+    "timezoneDetail": "GMT-07:00",
+    "offset": 7,
+    "position": 1
+  },
+  {
+    "coutryName": "Планино време (САЩ и Канада)",
+    "timezoneDetail": "GMT-07:00",
+    "offset": 7,
+    "position": 2
+  },
+  {
+    "coutryName": "Централно време (САЩ и Канада)",
+    "timezoneDetail": "GMT-06:00",
+    "offset": 6,
+    "position": 1
+  },
+  {
+    "coutryName": "Мексико Сити, Тегучигалпа",
+    "timezoneDetail": "GMT-06:00",
+    "offset": 6,
+    "position": 2
+  },
+  {
+    "coutryName": "Саскачеван",
+    "timezoneDetail": "GMT-06:00",
+    "offset": 6,
+    "position": 3
+  },
+  {
+    "coutryName": "Богота, Лима, Кито",
+    "timezoneDetail": "GMT-05:00",
+    "offset": 5,
+    "position": 1
+  },
+  {
+    "coutryName": "Източно време (САЩ и Канада)",
+    "timezoneDetail": "GMT-05:00",
+    "offset": 5,
+    "position": 2
+  },
+  {
+    "coutryName": "Индиана (изток)",
+    "timezoneDetail": "GMT-05:00",
+    "offset": 5,
+    "position": 3
+  },
+  {
+    "coutryName": "Атлантическо време (Канада)",
+    "timezoneDetail": "GMT-04:00",
+    "offset": 4,
+    "position": 1
+  },
+  {
+    "coutryName": "Каракас, Ла Пас",
+    "timezoneDetail": "GMT-04:00",
+    "offset": 4,
+    "position": 2
+  },
+  {
+    "coutryName": "Сантяго",
+    "timezoneDetail": "GMT-04:00",
+    "offset": 4,
+    "position": 3
+  },
+  {
+    "coutryName": "Нюфаундленд",
+    "timezoneDetail": "GMT-03:30",
+    "offset": 3,
+    "position": 1
+  },
+  {
+    "coutryName": "Brasilia",
+    "timezoneDetail": "GMT-03:00",
+    "offset": 3,
+    "position": 2
+  },
+  {
+    "coutryName": "Буенос Айрес, Джорджтаун",
+    "timezoneDetail": "GMT-03:00",
+    "offset": 3,
+    "position": 3
+  },
+  {
+    "coutryName": "Средноатлантика",
+    "timezoneDetail": "GMT-02:00",
+    "offset": 2,
+    "position": 1
+  },
+  {
+    "coutryName": "Azores, Cape Verde е.",
+    "timezoneDetail": "GMT-01:00",
+    "offset": 1,
+    "position": 1
+  },
+  {
+    "coutryName": "Казабланка, Монровия",
+    "timezoneDetail": "GMT+00:00",
+    "offset": 0,
+    "position": 1
+  },
+  {
+    "coutryName": "Гринуич Средно време: Дъблин, Единбург, Лисабон, Лондон",
+    "timezoneDetail": "GMT+00:00",
+    "offset": 0,
+    "position": 2
+  },
+  {
+    "coutryName": "Амстердам, Берлин, Берн, Рим, Стокхолм, Виена",
+    "timezoneDetail": "GMT+01:00",
+    "offset": -1,
+    "position": 1
+  },
+  {
+    "coutryName": "Белград, Братислава, Будапеща, Любляна, Прага",
+    "timezoneDetail": "GMT+01:00",
+    "offset": -1,
+    "position": 2
+  },
+  {
+    "coutryName": "Барселона, Мадрид",
+    "timezoneDetail": "GMT+01:00",
+    "offset": -1,
+    "position": 3
+  },
+  {
+    "coutryName": "Брюксел, Копенхаген, Мадрид, Париж, Вилнюс",
+    "timezoneDetail": "GMT+01:00",
+    "offset": -1,
+    "position": 4
+  },
+  {
+    "coutryName": "Париж",
+    "timezoneDetail": "GMT+01:00",
+    "offset": -1,
+    "position": 5
+  },
+  {
+    "coutryName": "Sarajevo, Skopje, Sofija, Warsaw, Zagreb",
+    "timezoneDetail": "GMT+01:00",
+    "offset": -1,
+    "position": 6
+  },
+  {
+    "coutryName": "Атина, Истанбул, Минск",
+    "timezoneDetail": "GMT+02:00",
+    "offset": -2,
+    "position": 1
+  },
+  {
+    "coutryName": "Bucharest",
+    "timezoneDetail": "GMT+02:00",
+    "offset": -2,
+    "position": 2
+  },
+  {
+    "coutryName": "Кайро",
+    "timezoneDetail": "GMT+02:00",
+    "offset": -2,
+    "position": 3
+  },
+  {
+    "coutryName": "Хараре, Претория",
+    "timezoneDetail": "GMT+02:00",
+    "offset": -2,
+    "position": 4
+  },
+  {
+    "coutryName": "Хелзинки, Рига, Талин",
+    "timezoneDetail": "GMT+02:00",
+    "offset": -2,
+    "position": 5
+  },
+  {
+    "coutryName": "Йерусалим",
+    "timezoneDetail": "GMT+02:00",
+    "offset": -2,
+    "position": 6
+  },
+  {
+    "coutryName": "Багдад, Кувейт, Рияд",
+    "timezoneDetail": "GMT+03:00",
+    "offset": -3,
+    "position": 1
+  },
+  {
+    "coutryName": "Москва, Санкт Петербург, Волгоград",
+    "timezoneDetail": "GMT+03:00",
+    "offset": -3,
+    "position": 2
+  },
+  {
+    "coutryName": "Mairobi",
+    "timezoneDetail": "GMT+03:00",
+    "offset": -3,
+    "position": 3
+  },
+  {
+    "coutryName": "Техеран",
+    "timezoneDetail": "GMT+03:30",
+    "offset": -3,
+    "position": 4
+  },
+  {
+    "coutryName": "Абу Даби, Мускат",
+    "timezoneDetail": "GMT+04:00",
+    "offset": -4,
+    "position": 1
+  },
+  {
+    "coutryName": "Baku, Tbilisi",
+    "timezoneDetail": "GMT+04:00",
+    "offset": -4,
+    "position": 2
+  },
+  {
+    "coutryName": "Кабул",
+    "timezoneDetail": "GMT+04:30",
+    "offset": -4,
+    "position": 3
+  },
+  {
+    "coutryName": "Ekaterinburg",
+    "timezoneDetail": "GMT+05:00",
+    "offset": -5,
+    "position": 1
+  },
+  {
+    "coutryName": "Исламабад, Карачи, Ташкент",
+    "timezoneDetail": "GMT+05:00",
+    "offset": -5,
+    "position": 2
+  },
+  {
+    "coutryName": "Мумбай, Калкута, Мадрас, Ню Делхи",
+    "timezoneDetail": "GMT+05:30",
+    "offset": -5,
+    "position": 3
+  },
+  {
+    "coutryName": "Astana, Almaty, Dhaka",
+    "timezoneDetail": "GMT+06:00",
+    "offset": -6,
+    "position": 1
+  },
+  {
+    "coutryName": "Коломбо",
+    "timezoneDetail": "GMT+06:00",
+    "offset": -6,
+    "position": 2
+  },
+  {
+    "coutryName": "Bangkok, Hanoi, Jakarta",
+    "timezoneDetail": "GMT+07:00",
+    "offset": -7,
+    "position": 1
+  },
+  {
+    "coutryName": "Пекин, Chongqing, Хонконг, Urumqi",
+    "timezoneDetail": "GMT+08:00",
+    "offset": -8,
+    "position": 1
+  },
+  {
+    "coutryName": "Перт",
+    "timezoneDetail": "GMT+08:00",
+    "offset": -8,
+    "position": 2
+  },
+  {
+    "coutryName": "Сингапур",
+    "timezoneDetail": "GMT+08:00",
+    "offset": -8,
+    "position": 3
+  },
+  {
+    "coutryName": "Тайпе",
+    "timezoneDetail": "GMT+08:00",
+    "offset": -8,
+    "position": 4
+  },
+  {
+    "coutryName": "Osaka, Sapporo, Tokyo",
+    "timezoneDetail": "GMT+09:00",
+    "offset": -9,
+    "position": 1
+  },
+  {
+    "coutryName": "Сеул",
+    "timezoneDetail": "GMT+09:00",
+    "offset": -9,
+    "position": 2
+  },
+  {
+    "coutryName": "Yakutsk",
+    "timezoneDetail": "GMT+09:00",
+    "offset": -9,
+    "position": 3
+  },
+  {
+    "coutryName": "Аделаида",
+    "timezoneDetail": "GMT+09:30",
+    "offset": -9,
+    "position": 4
+  },
+  {
+    "coutryName": "Дарвин",
+    "timezoneDetail": "GMT+09:30",
+    "offset": -9,
+    "position": 5
+  },
+  {
+    "coutryName": "Бризбейн",
+    "timezoneDetail": "GMT+10:00",
+    "offset": -10,
+    "position": 1
+  },
+  {
+    "coutryName": "Канбера, Мелбърн, Сидни",
+    "timezoneDetail": "GMT+10:00",
+    "offset": -10,
+    "position": 2
+  },
+  {
+    "coutryName": "Гуам, Порт Морсби",
+    "timezoneDetail": "GMT+10:00",
+    "offset": -10,
+    "position": 3
+  },
+  {
+    "coutryName": "Хобарт",
+    "timezoneDetail": "GMT+10:00",
+    "offset": -10,
+    "position": 4
+  },
+  {
+    "coutryName": "Владивосток",
+    "timezoneDetail": "GMT+10:00",
+    "offset": -10,
+    "position": 5
+  },
+  {
+    "coutryName": "Магадан, Соломон е., Нова Каледония",
+    "timezoneDetail": "GMT+11:00",
+    "offset": -11,
+    "position": 1
+  },
+  {
+    "coutryName": "Auckland, Wllington",
+    "timezoneDetail": "GMT+12:00",
+    "offset": -12,
+    "position": 1
+  },
+  {
+    "coutryName": "Фиджи, Камчатка, Маршал е",
+    "timezoneDetail": "GMT+12:00",
+    "offset": -12,
+    "position": 2
+  }
+]

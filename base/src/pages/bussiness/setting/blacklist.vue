@@ -427,7 +427,8 @@ export default {
       justify-content: center;
       align-items: center;
       .btn {
-        width: 90%;
+        width: fit-content;
+        min-width: 90%;
       }
       .btn-default {
         display: none;

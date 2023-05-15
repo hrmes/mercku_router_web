@@ -390,7 +390,7 @@ export default {
       .btn-wrap {
         display: flex;
         .btn {
-          width: 60px;
+          width: fit-content;
           min-width: 60px;
           &:first-child {
             margin-right: 5px;

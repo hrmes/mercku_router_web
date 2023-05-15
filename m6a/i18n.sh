@@ -99,4 +99,6 @@ cp country_code/sr_RS_region_web.json $project_dir/src/assets/regions/sr-RS.json
 cp country_code/nb_NO_region_web.json $project_dir/src/assets/regions/nb-NO.json
 cp country_code/fr_FR_region_web.json $project_dir/src/assets/regions/fr-FR.json
 cp country_code/es_ES_region_web.json $project_dir/src/assets/regions/es-ES.json
+cp country_code/fi-FI_region_web.json $project_dir/src/assets/regions/fi-FI.json
+cp country_code/bg-BG_region_web.json $project_dir/src/assets/regions/bg-BG.json
 beautify_echo "complete copy timezones files..." success

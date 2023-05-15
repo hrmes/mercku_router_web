@@ -765,6 +765,7 @@ export default {
     display: none;
   }
   .table {
+    height: 100%;
     .table__header,
     .table__row {
       display: flex;
@@ -775,10 +776,13 @@ export default {
       border-top-right-radius: 5px;
     }
     .table__body {
-      height: 350px;
+      max-height: 600px;
       overflow: auto;
-      overflow: overlay;
-      padding: 0 10px 10px 10px;
+      padding: 0 10px 30px 10px;
+      @media screen and (max-width: 768px) {
+        max-height: none;
+        height: 100%;
+      }
     }
     .table__empty {
       height: 350px;
@@ -1632,7 +1636,7 @@ export default {
     }
     .table {
       width: 100%;
-      padding: 0 10px 10px 10px;
+      padding: 0 10px 30px 10px;
       .table__header {
         display: none;
       }
