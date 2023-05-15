@@ -227,6 +227,7 @@ export default {
     }
   },
   mounted() {
+     this.$loading.open();
     this.$http
       .login(
         { password: '' },
@@ -237,9 +238,8 @@ export default {
       .catch(() => {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
+        this.$loading.close();
       });
-    this.$loading.open();
-
     this.$http.getMeshMeta()
     .then(res => {
       const wifi = res.data.result;
@@ -337,7 +337,7 @@ export default {
                 smart_connect: this.wifiForm.smart_connect
               },
               admin: { password: this.wifiForm.password24g },
-              id: this.region.id
+              region_id: this.region.id
             }
           })
           .then(() => {
