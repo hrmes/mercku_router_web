@@ -27,8 +27,9 @@
             <div class="tip-label">{{$t('trans0646')}}</div>
           </m-form-item>
           <div class="form-header">
-            <span
-                  class="form-header__title">{{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}</span>
+            <span class="form-header__title">
+                  {{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}
+            </span>
           </div>
           <m-form-item class="form-item"
                        prop="ssid24g">
