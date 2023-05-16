@@ -79,7 +79,7 @@
             <div class="operate"></div>
           </div>
           <div class="table-content">
-            <tempalte v-if="routers.length">
+            <template v-if="routers.length">
               <div class="router"
                    :class="{'expand':router.expand}"
                    v-for="router in routers"
@@ -174,7 +174,7 @@
                   </span>
                 </div>
               </div>
-            </tempalte>
+            </template>
             <div class="loading-container"
                  v-else>
               <m-loading :id="'meshFormLoading'"
