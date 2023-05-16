@@ -245,7 +245,17 @@ const Languages = [
     text: 'Svenska',
     value: 'sv-SE',
     show: false
-  }
+  },
+  {
+    text: 'Suomi',
+    value: 'fi-FI',
+    show: false
+  },
+  {
+    text: 'български',
+    value: 'bg-BG',
+    show: false
+  },
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
 if (!supportLanguage) {

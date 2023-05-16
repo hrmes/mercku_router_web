@@ -536,6 +536,9 @@ export default {
           .column-protocol {
             display: flex;
           }
+          .column-handle {
+            width: fit-content;
+          }
           .column-name {
             border-bottom-color: var(--table-body-hr-color);
             &::after {

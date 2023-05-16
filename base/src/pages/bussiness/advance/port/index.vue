@@ -314,32 +314,35 @@ export default {
   }
   .column-name {
     display: flex;
-    width: 120px;
+    width: 100px;
     .name {
       display: inline-block;
-      width: 100px;
+      width: inherit;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    @media screen and (min-width: 1441px) {
+      width: 130px;
+    }
   }
   .column-local-ip {
-    width: 180px;
+    width: 200px;
+    @media screen and (min-width: 1441px) {
+      width: 245px;
+    }
     p {
       padding: 0;
       margin: 0;
-      // &:first-child {
-      //   margin-bottom: 8px;
-      // }
     }
   }
   .column-local-port {
     width: 100px;
   }
   .column-outside-ip {
-    width: 190px;
+    width: 200px;
     @media screen and (min-width: 1441px) {
-      width: 215px;
+      width: 245px;
     }
     p {
       padding: 0;
@@ -390,7 +393,7 @@ export default {
       .btn-wrap {
         display: flex;
         .btn {
-          width: 60px;
+          width: fit-content;
           min-width: 60px;
           &:first-child {
             margin-right: 5px;
@@ -442,6 +445,7 @@ export default {
         }
         .column-handle {
           display: none;
+          width: fit-content;
           padding-left: 10px;
           justify-content: flex-start;
           margin: 10px 0;
