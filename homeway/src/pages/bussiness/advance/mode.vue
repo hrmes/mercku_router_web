@@ -74,8 +74,8 @@
   </div>
 </template>
 <script>
-import { isValidPassword } from '../../../../../base/src/util/util';
-import { EncryptMethod, WanNetStatus } from '../../../../../base/src/util/constant';
+import { isValidPassword } from 'base/util/util';
+import { EncryptMethod, WanNetStatus } from 'base/util/constant';
 
 const LoadingStatus = {
   empty: 0,

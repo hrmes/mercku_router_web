@@ -88,7 +88,7 @@
               uploadStatus === UploadStatus.success && !hasUpgradablityNodes
             ">
           <p>
-            <img src="../../../assets/images/icon/ic_hint.png"
+            <img src="@/assets/images/icon/ic_hint.png"
                  alt="" />
             {{ $t('trans0336') }}
           </p>

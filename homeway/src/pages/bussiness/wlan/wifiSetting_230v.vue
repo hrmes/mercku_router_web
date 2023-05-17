@@ -161,14 +161,14 @@
   </div>
 </template>
 <script>
-import { Bands, EncryptMethod, WanNetStatus } from '../../../../../base/src/util/constant';
-import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
+import { Bands, EncryptMethod, WanNetStatus } from 'base/util/constant';
+import wifiIcon from '@/assets/images/icon/ic_wifi@2x.png';
 import {
   getStringByte,
   isFieldHasComma,
   isFieldHasSpaces,
   isValidPassword
-} from '../../../../../base/src/util/util';
+} from 'base/util/util';
 
 // Homeway_230v有两种工作模式，可以切换，所在初始化的时候，根据用户需求要做对应设置，要做区分等
 // 插入网线有线桥模式才可用，同时我们会检测是否插入网线来提示用户是否进行模式切换
@@ -350,10 +350,9 @@ export default {
         this.getWanStatus();
         this.getMeshMeta();
       })
-      .catch(err => {
+      .catch(() => {
         // // password is not empty, go to login page
-        // this.$router.push({ path: '/login' });
-        console.log(err);
+        this.$router.push({ path: '/login' });
       });
   },
   beforeDestroy() {

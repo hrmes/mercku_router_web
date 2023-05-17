@@ -179,7 +179,7 @@
                          :title="this.$t('trans0683')"
                          :content="this.$t('trans0682')">
                 <img width="14"
-                     src="../../../assets/images/icon/ic_question.png" />
+                     src="@/assets/images/icon/ic_question.png" />
               </m-popover>
             </div>
           </div>

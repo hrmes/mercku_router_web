@@ -122,9 +122,9 @@
   </div>
 </template>
 <script>
-import { Bands } from '../../../../../base/src/util/constant';
-import wifiIcon from '../../../assets/images/icon/ic_wifi@2x.png';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from '../../../../../base/src/util/util';
+import { Bands } from 'base/util/constant';
+import wifiIcon from '@/assets/images/icon/ic_wifi@2x.png';
+import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
 
 // PoE只有一种有线桥工作模式，所以不用区分也不能切换模式
 export default {

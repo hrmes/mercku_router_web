@@ -56,7 +56,7 @@
                          :title="this.$t('trans0110')"
                          :content="this.$t('trans0325')">
                 <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
+                     src="@/assets/images/icon/ic_question.png"
                      alt="" />
               </m-popover>
             </div>
@@ -116,7 +116,7 @@
                          :title="$t('trans0110')"
                          :content="$t('trans0325')">
                 <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
+                     src="@/assets/images/icon/ic_question.png"
                      alt="" />
               </m-popover>
             </div>

@@ -19,7 +19,7 @@
   </div>
 </template>
 <script>
-import { throttle } from '../../../../../base/src/util/util';
+import { throttle } from 'base/util/util';
 
 export default {
   data() {
