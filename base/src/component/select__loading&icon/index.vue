@@ -2,7 +2,12 @@
   <div class="select-container"
        :class="{'disabled':disabled}"
        v-clickoutside="close">
-    <label for="">{{label}}</label>
+    <label>
+      {{label}}
+      <span class="refresh-icon"
+            :class="{'clickable':isClickable}"
+            @click="refreshUpperlist"></span>
+    </label>
     <div class="select">
       <input class="select-text"
              :value="selected.text"
@@ -18,7 +23,7 @@
       <transition name="select">
         <ul class="select-popup reset-ul"
             v-show="opened">
-          <template v-if="options.length">
+          <template v-if="loading===LoadingStatus.success && options.length">
             <li class="select-popup__item"
                 :class="{ 'selected': selected === option }"
                 v-for="(option,index) in options"
@@ -71,7 +76,8 @@ const LoadingStatus = {
   empty: 0,
   loading: 1,
   failed: 2,
-  default: 3
+  success: 3,
+  default: 4
 };
 const GoodRssiValue = 76;
 
@@ -112,12 +118,17 @@ export default {
       GoodRssiValue,
       LoadingStatus,
       selected: this.getOptionByValue(this.value),
-      opened: false
+      opened: false,
     };
   },
   watch: {
     value(val) {
       this.selected = this.getOptionByValue(val);
+    }
+  },
+  computed: {
+    isClickable() {
+      return this.loading !== LoadingStatus.loading;
     }
   },
   methods: {
@@ -156,7 +167,7 @@ export default {
     open() {
       if (!this.disabled) {
         this.opened = !this.opened;
-        if (this.loading !== LoadingStatus.loading) {
+        if (this.loading === LoadingStatus.default) {
           this.rescanApclient();
         }
         if (this.opened) {
@@ -166,6 +177,12 @@ export default {
     },
     close() {
       this.opened = false;
+    },
+    refreshUpperlist() {
+      if (this.isClickable) {
+        this.rescanApclient();
+       this.opened = true;
+      }
     }
   }
 };
@@ -212,13 +229,27 @@ export default {
     }
   }
   label {
+    position: relative;
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
     color: $select-label-color;
+    .refresh-icon {
+      position: absolute;
+      top: 0;
+      right: 5px;
+      width: 20px;
+      height: 20px;
+      background-image: url(../../assets/images/icon/ic_refresh-disabled.svg);
+      background-size: contain;
+      cursor: not-allowed;
+      &.clickable {
+        cursor: pointer;
+        background-image: url(../../assets/images/icon/ic_refresh.svg);
+      }
+    }
   }
-
   cursor: pointer;
   .select-popup {
     position: absolute;

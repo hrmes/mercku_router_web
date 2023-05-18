@@ -5,8 +5,8 @@ doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
 
-folder=(demo_code m2_app_code cik_code startca_code inverto_code orion_code realnett_code pentanet_code homeway_code)
-customer=(0000 0001 0002 0003 0004 0005 0006 0019 0025)
+folder=(demo_code homeway_code)
+customer=(0000 0025)
 source=(en_US_web.json zh_CN_web.json de_DE_web.json)
 target=(en-US.json zh-CN.json de-DE.json)
 sourceerror=error_to_trans_web.json
@@ -94,9 +94,4 @@ beautify_echo "copy region files..." info
 cp country_code/zh_CN_region_web.json $project_dir/src/assets/regions/zh-CN.json
 cp country_code/en_US_region_web.json $project_dir/src/assets/regions/en-US.json
 cp country_code/de_DE_region_web.json $project_dir/src/assets/regions/de-DE.json
-cp country_code/nl_NL_region_web.json $project_dir/src/assets/regions/nl-NL.json
-cp country_code/sr_RS_region_web.json $project_dir/src/assets/regions/sr-RS.json
-cp country_code/nb_NO_region_web.json $project_dir/src/assets/regions/nb-NO.json
-cp country_code/fr_FR_region_web.json $project_dir/src/assets/regions/fr-FR.json
-cp country_code/es_ES_region_web.json $project_dir/src/assets/regions/es-ES.json
 beautify_echo "complete copy timezones files..." success

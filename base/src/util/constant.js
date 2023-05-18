@@ -61,7 +61,7 @@ export const RouterSnModel = {
   M6a: '08',
   homeway: '09'
 };
-export const M6aRouterSnModelVsersion = {
+export const M6aRouterSnModelVersion = {
   M6a: '0',
   M6a_Plus: '1'
 };

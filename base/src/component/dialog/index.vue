@@ -10,11 +10,12 @@
              :key="index">{{m}}</p>
         </div>
         <div class="dialog-buttons">
-          <button v-if="Types.info!==type"
+          <button v-if="type==Types.confirm"
                   @click="cancel()"
                   class="btn btn-default">{{cancelText}}</button>
           <button @click="ok()"
-                  class="btn">{{okText}}</button>
+                  class="btn"
+                  :class="{'single-btn':type==Types.info}">{{okText}}</button>
         </div>
       </div>
     </div>
@@ -77,6 +78,11 @@ export default {
       this.visible = false;
       this.close();
       this.callback.cancel && this.callback.cancel();
+    },
+    closeDialog() {
+      if (this.type === Types.info) {
+        this.ok();
+      }
     }
   },
   destroyed() {

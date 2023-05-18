@@ -31,9 +31,9 @@
                      v-model="upperApForm.password" />
           </m-form-item>
           <div class="button-container">
-            <button @click="step2()"
+            <button @click="connectUpperAp()"
                     :disabled="saveDisable"
-                    class="btn">{{$t('trans0055')}}</button>
+                    class="btn">{{$t('trans1101')}}</button>
           </div>
         </m-form>
       </div>
@@ -179,7 +179,8 @@ const LoadingStatus = {
   empty: 0,
   loading: 1,
   failed: 2,
-  default: 3
+  success: 3,
+  default: 4
 };
 
 const UpperApInitForm = {
@@ -299,7 +300,7 @@ export default {
       selectIsLoading: LoadingStatus.default,
       loadingText: `${this.$t('trans1070')}...`,
       getApclientScanTimer: null,
-      rescanCounts: 0
+      rescanCounts: 0,
     };
   },
   computed: {
@@ -448,7 +449,6 @@ export default {
       return fliteredArr;
     },
     startApclientScan() {
-      console.log(this.selectIsLoading);
       if (this.selectIsLoading === LoadingStatus.loading) return;
       this.selectIsLoading = LoadingStatus.loading;
       this.loadingText = `${this.$t('trans1070')}...`;
@@ -491,6 +491,7 @@ export default {
                 rssi: i.rssi,
                 band: i.band
               }));
+              this.selectIsLoading = LoadingStatus.success;
           } else {
             this.getApclientScanTimer = setTimeout(() => {
               if (this.rescanCounts < 2) {
@@ -530,11 +531,13 @@ export default {
         rssi
       };
     },
-    step2() {
+    connectUpperAp() {
       if (this.$refs.upperApForm.validate()) {
         console.log('upperApInfo is', this.upperApForm);
-        this.stepOption.current = 1;
-        this.stepOption.steps[1].success = true;
+        this.$loading.open({ template: this.$t('trans1105') });
+        setTimeout(() => {
+            this.checkoutMeshApclient();
+        }, 10000);
       }
     },
     step3() {
@@ -543,49 +546,27 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
-        if (this.meshMode === HomewayWorkModel.wirelessBridge) {
-          this.config = {
-            wifi: {
-              bands: {
-                '2.4G': {
-                  ssid: this.wifiForm.ssid24g,
-                  password: this.wifiForm.password24g
-                },
-                '5G': {
-                  ssid: this.wifiForm.ssid5g,
-                  password: this.wifiForm.password5g
-                }
+        this.config = {
+          wifi: {
+            bands: {
+              '2.4G': {
+                ssid: this.wifiForm.ssid24g,
+                password: this.wifiForm.password24g
               },
-              smart_connect: this.wifiForm.smart_connect
+              '5G': {
+                ssid: this.wifiForm.ssid5g,
+                password: this.wifiForm.password5g
+              }
             },
-            admin: { password: this.wifiForm.password24g },
-            mode: HomewayWorkModel.wirelessBridge,
-            apclient: this.upperApForm
-          };
-        } else {
-          this.config = {
-            wifi: {
-              bands: {
-                '2.4G': {
-                  ssid: this.wifiForm.ssid24g,
-                  password: this.wifiForm.password24g
-                },
-                '5G': {
-                  ssid: this.wifiForm.ssid5g,
-                  password: this.wifiForm.password5g
-                }
-              },
-              smart_connect: this.wifiForm.smart_connect
-            },
-            admin: { password: this.wifiForm.password24g },
-            mode: HomewayWorkModel.bridge
-          };
-        }
+            smart_connect: this.wifiForm.smart_connect
+          },
+          admin: { password: this.wifiForm.password24g },
+          mode: this.meshMode,
+        };
         console.log('meshMode', this.meshMode);
         console.log('config#######', this.config);
-        // 提交表单
-        this.$http
-          .updateMeshConfig({ config: this.config })
+        // 提交表单;
+        this.$http.updateMeshConfig({ config: this.config })
           .then(() => {
             this.stepOption.current = 2;
             this.stepOption.steps[2].success = true;
@@ -614,7 +595,30 @@ export default {
             this.upperApForm = UpperApInitForm;
           });
       }
-    }
+    },
+    checkoutMeshApclient() {
+      this.$http.checkoutMeshApclient(undefined, { hideToast: true })
+        .then(res => {
+          const { status } = res.data.result;
+          this.$loading.close();
+          if (status) {
+            this.stepOption.current = 1;
+            this.stepOption.steps[1].success = true;
+          } else {
+              this.$dialog.info({
+              okText: this.$t('trans0024'),
+              message: this.$t('trans1103')
+            });
+          }
+        })
+        .catch(() => {
+          this.$loading.close();
+          this.$dialog.info({
+             okText: this.$t('trans0024'),
+             message: this.$t('trans1103')
+           });
+        });
+    },
   }
 };
 </script>
