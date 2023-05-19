@@ -4,9 +4,17 @@
        v-clickoutside="close">
     <label>
       {{label}}
-      <span class="refresh-icon"
-            :class="{'clickable':isClickable}"
-            @click="refreshUpperlist"></span>
+      <svg class="refresh-icon"
+           :class="{'clickable':isClickable}"
+           @click="refreshUpperlist"
+           width="20"
+           height="20"
+           viewBox="0 0 20 20"
+           xmlns="http://www.w3.org/2000/svg">
+        <path :d="RefreshSVGPath"
+              :fill="svgColor"
+              fill-rule="nonzero" />
+      </svg>
     </label>
     <div class="select">
       <input class="select-text"
@@ -20,53 +28,53 @@
         <span class="icon"
               :class="{ 'open': opened, 'close': !opened }"></span>
       </div>
-      <transition name="select">
-        <ul class="select-popup reset-ul"
-            v-show="opened">
-          <template v-if="loading===LoadingStatus.success && options.length">
-            <li class="select-popup__item"
-                :class="{ 'selected': selected === option }"
-                v-for="(option,index) in options"
-                :key="index"
-                @click.stop="select(option)"
-                :title="option.text">
-              <div class="text__container"> {{ option.text }}
-              </div>
-              <div class="icon__container">
-                <span class="band">
-                  {{option.band}}
-                </span>
-                <span class="encrypt"
-                      v-if="option.encrypt!==EncryptMethod.OPEN"></span>
-                <span class="rssi"
-                      :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
-              </div>
-            </li>
-          </template>
-          <template v-else>
-            <li v-if="loading===LoadingStatus.empty"
-                class="select-popup__item--empty">{{$t('trans0278')}}</li>
-            <li v-else-if="loading===LoadingStatus.loading"
-                class="select-popup__item--loading">
-              <m-loading :color="loadingColor"
-                         :size="36"
-                         class="loading"></m-loading>
-              {{loadingText}}
-            </li>
-            <li v-else
-                class="select-popup__item--failed"
-                @click="rescanApclient">{{loadingText}}</li>
-          </template>
-
-        </ul>
-      </transition>
     </div>
+    <transition name="select">
+      <ul class="select-popup reset-ul"
+          v-show="opened">
+        <template v-if="loading===LoadingStatus.success && options.length">
+          <li class="select-popup__item"
+              :class="{ 'selected': selected === option }"
+              v-for="(option,index) in options"
+              :key="index"
+              @click.stop="select(option)"
+              :title="option.text">
+            <div class="text__container"> {{ option.text }}
+            </div>
+            <div class="icon__container">
+              <span class="band">
+                {{option.band}}
+              </span>
+              <span class="encrypt"
+                    v-if="option.encrypt!==EncryptMethod.OPEN"></span>
+              <span class="rssi"
+                    :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
+            </div>
+          </li>
+        </template>
+        <template v-else>
+          <li v-if="loading===LoadingStatus.empty"
+              class="select-popup__item--empty">{{$t('trans0278')}}</li>
+          <li v-else-if="loading===LoadingStatus.loading"
+              class="select-popup__item--loading">
+            <m-loading :color="loadingColor"
+                       :size="36"
+                       class="loading"></m-loading>
+            {{loadingText}}
+          </li>
+          <li v-else
+              class="select-popup__item--failed"
+              @click="rescanApclient">{{loadingText}}</li>
+        </template>
+
+      </ul>
+    </transition>
   </div>
 </template>
 
 <script>
 import scrollTo from '../utils/scroll-to';
-import { EncryptMethod } from '../../util/constant';
+import { EncryptMethod, RefreshSVGPath } from '../../util/constant';
 
 const RssiStatus = {
   good: 'good',
@@ -113,6 +121,7 @@ export default {
   },
   data() {
     return {
+      RefreshSVGPath,
       EncryptMethod,
       RssiStatus,
       GoodRssiValue,
@@ -129,6 +138,9 @@ export default {
   computed: {
     isClickable() {
       return this.loading !== LoadingStatus.loading;
+    },
+    svgColor() {
+      return this.isClickable ? '#0E6A99' : '#CCC';
     }
   },
   methods: {
@@ -241,27 +253,20 @@ export default {
       right: 5px;
       width: 20px;
       height: 20px;
-      background-image: url(../../assets/images/icon/ic_refresh-disabled.svg);
-      background-size: contain;
       cursor: not-allowed;
       &.clickable {
         cursor: pointer;
-        background-image: url(../../assets/images/icon/ic_refresh.svg);
       }
     }
   }
   cursor: pointer;
   .select-popup {
-    position: absolute;
-    z-index: 888;
-    left: -1px;
-    right: -1px;
-    top: 52px;
     max-height: 300px;
     background: $select-popup-background-color;
     border-radius: 5px;
     border: 1px solid $select-popup-border-color;
     overflow: auto;
+    margin-top: 3px;
     .select-popup__item {
       display: flex;
       justify-content: space-between;

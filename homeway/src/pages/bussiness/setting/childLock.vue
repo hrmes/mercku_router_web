@@ -12,6 +12,8 @@
                     @click="enabled=!enabled"
                     @change="updateChildLockStatus" />
           <div class="form__label">{{$t('trans1060')}}</div>
+          <div class="form__label"
+               style="margin-top:0">{{$t('trans1099')}}</div>
         </m-form-item>
 
       </m-form>

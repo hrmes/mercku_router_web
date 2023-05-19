@@ -19,6 +19,11 @@ const UpperApInitForm = {
   rssi: '' // 可选,上级无线信号的强度.获取APClient时必选,更新时可选
 };
 
+const PageTypes = {
+  Initialization: 'initialization',
+  ModeChange: 'modeChange'
+};
+
 export default {
   data() {
     return {
@@ -33,6 +38,7 @@ export default {
       },
       originalUpperList: [],
       processedUpperApList: [],
+      pwdDisabled: true,
       saveDisable: true,
       selectIsLoading: LoadingStatus.default,
       loadingText: `${this.$t('trans1070')}...`,
@@ -187,24 +193,32 @@ export default {
         rssi
       };
     },
-    connectUpperAp() {
+    connectUpperAp(pageType) {
       if (this.$refs.upperApForm.validate()) {
         console.log('upperApInfo is', this.upperApForm);
         this.$loading.open({ template: this.$t('trans1105') });
+        this.$http.updateMeshApclient(
+          { apclient: this.upperApForm },
+          { hideToast: true }
+        );
         setTimeout(() => {
-          this.checkoutMeshApclient();
+          this.checkMeshApclient(pageType);
         }, 10000);
       }
     },
-    checkoutMeshApclient() {
+    checkMeshApclient(pageType) {
       this.$http
-        .checkoutMeshApclient(undefined, { hideToast: true })
+        .checkMeshApclient(undefined, { hideToast: true })
         .then(res => {
           const { status } = res.data.result;
-          this.$loading.close();
           if (status) {
-            this.stepOption.current = 1;
-            this.stepOption.steps[1].success = true;
+            if (pageType === PageTypes.Initialization) {
+              this.$loading.close();
+              this.initializationHandle();
+            }
+            if (pageType === PageTypes.ModeChange) {
+              this.modeChangeHandle();
+            }
           } else {
             this.$dialog.info({
               okText: this.$t('trans0024'),
@@ -213,12 +227,22 @@ export default {
           }
         })
         .catch(() => {
-          this.$loading.close();
           this.$dialog.info({
             okText: this.$t('trans0024'),
             message: this.$t('trans1103')
           });
+          this.$loading.close();
         });
+    },
+    initializationHandle() {
+      this.stepOption.current = 1;
+      this.stepOption.steps[1].success = true;
+    },
+    modeChangeHandle() {
+      this.confirmUpdateMeshMode({ mode: this.mode });
     }
+  },
+  beforeDestroy() {
+    this.upperApForm = UpperApInitForm;
   }
 };

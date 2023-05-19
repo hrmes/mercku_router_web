@@ -8,7 +8,7 @@ const methods = {
   startMeshApclientScan: createMethod('mesh.apclient.scan'),
   getMeshApclientScanList: createMethod('mesh.apclient.get'),
   updateMeshApclient: createMethod('mesh.apclient.update'),
-  checkoutMeshApclient: createMethod('mesh.apclient.checkout'),
+  checkMeshApclient: createMethod('mesh.apclient.check'),
   getMeshFanMode: createMethod('mesh.fan.mode.get'),
   updateMeshFanMode: createMethod('mesh.fan.mode.update')
   // updateSuper: createMethod('mesh.config.super.update'),

@@ -30,15 +30,14 @@
               </span>
             </div>
           </div>
-          <div class="tips">{{$t('trans1086')}}</div>
+          <h4>{{$t('trans1102')}}</h4>
+          <div class="tips">{{$t('trans1104')}}</div>
         </div>
-        <div class="upperApForm__bottom"
-             v-else>
+        <div class="upperApForm__bottom">
           <m-form ref="upperApForm"
                   :model="upperApForm"
                   :rules="upperApFormRules">
-            <m-form-item class="form-item"
-                         prop="upperApForm.ssid">
+            <m-form-item prop="upperApForm.ssid">
               <m-loadingSelect label="SSID"
                                :placeholder="$t('trans1069')"
                                type='text'
@@ -50,7 +49,6 @@
                                :loadingText="loadingText" />
             </m-form-item>
             <m-form-item v-show="!pwdDisabled"
-                         class="form-item"
                          prop="upperApForm.password">
               <m-input :label="$t('trans0003')"
                        type="password"
@@ -74,14 +72,9 @@
   </div>
 </template>
 <script>
-import { isValidPassword } from 'base/util/util';
+// import { isValidPassword } from 'base/util/util';
 import { EncryptMethod, WanNetStatus } from 'base/util/constant';
-
-const LoadingStatus = {
-  empty: 0,
-  loading: 1,
-  failed: 2
-};
+import SettingUpperAp from '@/mixins/setting-upperAp';
 
 const UpperApInitForm = {
   ssid: '', // 必选
@@ -99,13 +92,13 @@ const HomewayWorkModel = {
 };
 
 export default {
+  mixins: [SettingUpperAp],
   data() {
     return {
       EncryptMethod,
       currentMode: '',
       modeHasChange: false,
       saveDisable: false,
-      selectIsLoading: LoadingStatus.empty,
       mode: '',
       modes: [
         {
@@ -117,7 +110,6 @@ export default {
           value: HomewayWorkModel.bridge
         }
       ],
-      upperApForm: UpperApInitForm,
       currentUpperInfo: {
         show: false,
         ssid: '',
@@ -125,21 +117,7 @@ export default {
         password: ''
       },
       originalUpperList: [],
-      processedUpperApList: [],
-      upperApFormRules: {
-        // 默认为只验证ssid，如果选择了加密方式不为OPEN的就改为验证ssi和pwd
-        'upperApForm.ssid': [
-          {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
-          }
-        ]
-      },
-      pwdDisabled: true,
       wanStatus: WanNetStatus.unlinked,
-      loadingText: `${this.$t('trans1070')}...`,
-      getApclientScanTimer: null,
-      rescanCounts: 0
     };
   },
   mounted() {
@@ -164,52 +142,14 @@ export default {
         case HomewayWorkModel.wirelessBridge:
           this.saveDisable = true;
           this.upperApForm.ssid = '';
-          // this.selectedChange(this.UpperApInitForm);
-
-          // this.startApclientScan();
           break;
         case HomewayWorkModel.bridge:
           this.saveDisable = false;
-          // this.upperApForm.ssid = '';
           break;
         default:
           break;
       }
     },
-    // upperAp表单验证:由于密码是否验证是根据用户选择的上级是否有加密方式来决定的,所有制定两套验证规则
-    pwdDisabled(nv) {
-      if (nv === true) {
-        this.upperApFormRules = {
-          // 这一套只验证ssid是否为空
-          'upperApForm.ssid': [
-            {
-              rule: value => !/^\s*$/g.test(value.trim()),
-              message: this.$t('trans0237')
-            }
-          ]
-        };
-      } else {
-        this.upperApFormRules = {
-          // 这一套要验证ssid和密码
-          'upperApForm.ssid': [
-            {
-              rule: value => !/^\s*$/g.test(value.trim()),
-              message: this.$t('trans0237')
-            }
-          ],
-          'upperApForm.password': [
-            {
-              rule: value => value !== '',
-              message: this.$t('trans0281')
-            },
-            {
-              rule: value => isValidPassword(value, 1, 63),
-              message: this.$t('trans1077')
-            }
-          ]
-        };
-      }
-    }
   },
   methods: {
     getMode() {
@@ -277,12 +217,6 @@ export default {
           break;
         case HomewayWorkModel.wirelessBridge:
           if (this.$refs.upperApForm.validate()) {
-            console.log('验证通过');
-            const params = {
-              mode: this.mode,
-              apclient: this.upperApForm
-            };
-            console.log(params);
             this.$dialog.confirm({
               okText: this.$t('trans0024'),
               cancelText: this.$t('trans0025'),
@@ -290,7 +224,7 @@ export default {
               message: this.$t('trans0229'),
               callback: {
                 ok: () => {
-                  this.confirmUpdateMeshMode(params);
+                  this.connectUpperAp('modeChange');
                 }
               }
             });
@@ -301,7 +235,9 @@ export default {
       }
     },
     confirmUpdateMeshMode(params) {
-      this.$loading.open();
+      if (params.mode === HomewayWorkModel.bridge) {
+        this.$loading.open();
+      }
       this.$http
         .updateMeshMode(params)
         .then(() => {
@@ -322,111 +258,6 @@ export default {
         .finally(() => {
           this.$loading.close();
         });
-    },
-    // 去除扫描到的上级列表里面，重复的数据
-    deweight(arr) {
-      const fliteredArr = [];
-      arr.forEach(a => {
-        const isTrue = fliteredArr.every(b => {
-          // 先判断bssid即mac是否存在，不存在直接保存
-          if (a.bssid !== b.bssid) {
-            return true;
-            // 如果bssid已存在，那么判断一下两者的band是否一致，如果不一致则保存
-          }
-          if (a.bssid === b.bssid && a.band !== b.band) {
-            return true;
-          }
-          // 否则就是重复数据，不保存
-          return false;
-        });
-        isTrue ? fliteredArr.push(a) : '';
-      });
-      return fliteredArr;
-    },
-    // eslint-disable-next-line func-names
-    startApclientScan() {
-      this.originalUpperList = [];
-      this.processedUpperApList = [];
-      this.selectIsLoading = LoadingStatus.loading;
-      this.loadingText = `${this.$t('trans1070')}...`;
-
-      this.$http
-        .startMeshApclientScan()
-        .then(() => {
-          setTimeout(() => {
-            this.getApclientScanList();
-          }, 15000);
-        })
-        .catch(() => {
-          this.originalUpperList = [];
-          this.processedUpperApList = [];
-          this.loadingText = this.$t('trans1078');
-          this.selectIsLoading = LoadingStatus.failed;
-        });
-    },
-    getApclientScanList() {
-      this.$http
-        .getMeshApclientScanList()
-        .then(res => {
-          this.originalUpperList = [];
-          this.processedUpperApList = [];
-
-          let { result } = res.data;
-          if (result.length) {
-            clearTimeout(this.getApclientScanTimer);
-            this.getApclientScanTimer = null;
-
-            result = result.filter(item => item.ssid !== ' ');
-            result = this.deweight(result);
-            console.log('deweight', result);
-            result.sort((a, b) => b.rssi - a.rssi);
-            this.originalUpperList = result;
-            result.map(i =>
-              this.processedUpperApList.push({
-                value: i.ssid,
-                text: `${i.ssid}`,
-                encrypt: i.security,
-                rssi: i.rssi,
-                band: i.band
-              }));
-          } else {
-            this.getApclientScanTimer = setTimeout(() => {
-              if (this.rescanCounts < 2) {
-                // eslint-disable-next-line no-plusplus
-                this.rescanCounts++;
-                this.getApclientScanList();
-              } else {
-                this.originalUpperList = [];
-                this.processedUpperApList = [];
-                this.loadingText = this.$t('trans1078');
-                this.selectIsLoading = LoadingStatus.failed;
-              }
-            }, 5000);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-          this.originalUpperList = [];
-          this.processedUpperApList = [];
-          this.loadingText = this.$t('trans1078');
-          this.selectIsLoading = LoadingStatus.failed;
-        });
-    },
-    selectedChange(option) {
-      this.saveDisable = false;
-      this.pwdDisabled = option.encrypt === EncryptMethod.OPEN;
-      const { ssid, password, bssid, channel, band, security, rssi } = this.originalUpperList.find(
-        i => i.ssid === option.value
-      );
-      this.upperApForm = {
-        ssid,
-        password,
-        bssid,
-        channel,
-        band,
-        security,
-        rssi
-      };
     }
   }
 };
@@ -452,7 +283,7 @@ export default {
   padding-top: 20px;
   .upperApForm__top {
     width: 340px;
-
+    margin-bottom: 30px;
     .upperApForm__top__upperinfo {
       width: inherit;
       padding: 10px;
