@@ -203,7 +203,7 @@ export default {
         );
         setTimeout(() => {
           this.checkMeshApclient(pageType);
-        }, 10000);
+        }, 15000);
       }
     },
     checkMeshApclient(pageType) {
@@ -224,6 +224,7 @@ export default {
               okText: this.$t('trans0024'),
               message: this.$t('trans1103')
             });
+            this.$loading.close();
           }
         })
         .catch(() => {
