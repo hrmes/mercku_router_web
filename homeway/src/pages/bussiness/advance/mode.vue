@@ -235,9 +235,10 @@ export default {
       }
     },
     confirmUpdateMeshMode(params) {
-      if (params.mode === HomewayWorkModel.bridge) {
-        this.$loading.open();
-      }
+      // if (params.mode === HomewayWorkModel.bridge) {
+      //   this.$loading.open();
+      // }
+      this.$loading.open();
       this.$http
         .updateMeshMode(params)
         .then(() => {

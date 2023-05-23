@@ -196,44 +196,52 @@ export default {
     connectUpperAp(pageType) {
       if (this.$refs.upperApForm.validate()) {
         console.log('upperApInfo is', this.upperApForm);
-        this.$loading.open({ template: this.$t('trans1105') });
-        this.$http.updateMeshApclient(
-          { apclient: this.upperApForm },
-          { hideToast: true }
-        );
-        setTimeout(() => {
-          this.checkMeshApclient(pageType);
-        }, 15000);
+        // this.$loading.open({ template: this.$t('trans1105') });
+        this.$http
+          .updateMeshApclient({ apclient: this.upperApForm })
+          .then(() => {
+            this.checkMeshApclient(pageType);
+          });
+        // setTimeout(() => {
+        //   this.checkMeshApclient(pageType);
+        // }, 60000);
       }
     },
     checkMeshApclient(pageType) {
-      this.$http
-        .checkMeshApclient(undefined, { hideToast: true })
-        .then(res => {
-          const { status } = res.data.result;
-          if (status) {
-            if (pageType === PageTypes.Initialization) {
-              this.$loading.close();
-              this.initializationHandle();
-            }
-            if (pageType === PageTypes.ModeChange) {
-              this.modeChangeHandle();
-            }
-          } else {
-            this.$dialog.info({
-              okText: this.$t('trans0024'),
-              message: this.$t('trans1103')
-            });
-            this.$loading.close();
-          }
-        })
-        .catch(() => {
-          this.$dialog.info({
-            okText: this.$t('trans0024'),
-            message: this.$t('trans1103')
-          });
-          this.$loading.close();
-        });
+      if (pageType === PageTypes.Initialization) {
+        // this.$loading.close();
+        this.initializationHandle();
+      }
+      if (pageType === PageTypes.ModeChange) {
+        this.modeChangeHandle();
+      }
+      // this.$http
+      //   .checkMeshApclient(undefined, { hideToast: true })
+      //   .then(res => {
+      //     const { status } = res.data.result;
+      //     if (status) {
+      //       if (pageType === PageTypes.Initialization) {
+      //         this.$loading.close();
+      //         this.initializationHandle();
+      //       }
+      //       if (pageType === PageTypes.ModeChange) {
+      //         this.modeChangeHandle();
+      //       }
+      //     } else {
+      //       this.$dialog.info({
+      //         okText: this.$t('trans0024'),
+      //         message: this.$t('trans1103')
+      //       });
+      //       this.$loading.close();
+      //     }
+      //   })
+      //   .catch(() => {
+      //     this.$dialog.info({
+      //       okText: this.$t('trans0024'),
+      //       message: this.$t('trans1103')
+      //     });
+      //     this.$loading.close();
+      //   });
     },
     initializationHandle() {
       this.stepOption.current = 1;
