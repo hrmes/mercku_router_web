@@ -27,8 +27,8 @@
         </div>
         <div class="line"
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
+          <!-- @click.stop="showTips()" -->
           <div class="icon-unconnected-container"
-               @click.stop="showTips()"
                v-if="isLinked || isUnlinked">
             <img class="icon__question"
                  src="@/assets/images/icon/ic_wifi_question.png"

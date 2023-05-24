@@ -261,12 +261,16 @@ export default {
   }
   cursor: pointer;
   .select-popup {
-    max-height: 300px;
+    position: absolute;
+    z-index: 888;
+    left: -1px;
+    right: -1px;
+    top: 78px;
+    max-height: 312px;
     background: $select-popup-background-color;
     border-radius: 5px;
     border: 1px solid $select-popup-border-color;
     overflow: auto;
-    margin-top: 3px;
     .select-popup__item {
       display: flex;
       justify-content: space-between;
@@ -425,7 +429,7 @@ export default {
       height: 48px;
     }
     .select-popup {
-      top: 52px;
+      max-height: 260px;
       .select-popup__item {
         padding: 17px 10px 17px 20px;
       }

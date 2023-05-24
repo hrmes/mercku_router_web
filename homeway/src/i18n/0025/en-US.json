@@ -1093,9 +1093,9 @@
   "trans1098": "Fan speed",
   "trans1099": "When the child lock is activated, press and hold \"reset\" for 5-10 seconds to disable the child lock.",
   "trans1100": "Invalid time",
-  "trans1101": "Connect",
+  "trans1101": "connect",
   "trans1102": "Setting Upper-level AP",
   "trans1103": "Failed to connect to the superior, please try again",
-  "trans1104": "When selecting the wireless bridge mode, please ensure that the upper-level SSID and password are correct and the current network status is good. If the wireless bridge fails, the working mode will remain the original mode.",
+  "trans1104": "When selecting the wireless bridge mode, please ensure that the upper-level SSID and password are correct and the current network status is good. ",
   "trans1105": "Connecting, please wait..."
 }

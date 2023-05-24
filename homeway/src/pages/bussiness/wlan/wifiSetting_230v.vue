@@ -33,7 +33,7 @@
           <div class="button-container">
             <button @click="connectUpperAp('initialization')"
                     :disabled="saveDisable"
-                    class="btn">{{$t('trans1101')}}</button>
+                    class="btn">{{$t('trans0969')}}</button>
           </div>
         </m-form>
       </div>

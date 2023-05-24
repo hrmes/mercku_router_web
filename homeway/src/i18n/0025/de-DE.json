@@ -1093,9 +1093,9 @@
   "trans1098": "Lüftergeschwindigkeit",
   "trans1099": "Wenn die Kindersicherung aktiviert ist, halten Sie „Reset“ 5–10 Sekunden lang gedrückt, um die Kindersicherung zu deaktivieren.",
   "trans1100": "Ungültige Zeit",
-  "trans1101": "Verbinden",
+  "trans1101": "verbinden",
   "trans1102": "Einstellen des AP der oberen Ebene",
   "trans1103": "Die Verbindung zum übergeordneten Gerät konnte nicht hergestellt werden. Bitte versuchen Sie es erneut",
-  "trans1104": "Stellen Sie bei der Auswahl des Wireless-Bridge-Modus sicher, dass die SSID und das Passwort der oberen Ebene korrekt sind und der aktuelle Netzwerkstatus gut ist. Wenn die Wireless-Bridge ausfällt, bleibt der Arbeitsmodus der ursprüngliche Modus.",
+  "trans1104": "Stellen Sie bei der Auswahl des Wireless-Bridge-Modus sicher, dass die SSID und das Passwort der oberen Ebene korrekt sind und der aktuelle Netzwerkstatus gut ist.",
   "trans1105": "Verbindung wird hergestellt. Bitte warten..."
 }
