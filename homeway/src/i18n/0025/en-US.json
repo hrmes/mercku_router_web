@@ -1097,5 +1097,6 @@
   "trans1102": "Setting Upper-level AP",
   "trans1103": "Failed to connect to the superior, please try again",
   "trans1104": "When selecting the wireless bridge mode, please ensure that the upper-level SSID and password are correct and the current network status is good. ",
-  "trans1105": "Connecting, please wait..."
+  "trans1105": "Connecting, please wait...",
+  "trans1106": "Modifications are not saved, currently only supports modifying the configuration after Wi-Fi is turned on"
 }

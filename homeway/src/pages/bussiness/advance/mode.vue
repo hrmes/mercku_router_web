@@ -30,10 +30,10 @@
               </span>
             </div>
           </div>
-          <h4>{{$t('trans1102')}}</h4>
-          <div class="tips">{{$t('trans1104')}}</div>
         </div>
         <div class="upperApForm__bottom">
+          <h4>{{$t('trans1102')}}</h4>
+          <div class="tips">{{$t('trans1104')}}</div>
           <m-form ref="upperApForm"
                   :model="upperApForm"
                   :rules="upperApFormRules">
@@ -305,6 +305,11 @@ export default {
     }
     .content {
       font-weight: 600;
+    }
+  }
+  .upperApForm__bottom {
+    .tips {
+      margin-bottom: 10px;
     }
   }
   h4 {
