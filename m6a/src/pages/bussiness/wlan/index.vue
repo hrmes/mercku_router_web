@@ -19,9 +19,17 @@
                       v-model="wifiForm.smart_connect" />
             <div class="tip-label">{{$t('trans0398')}}</div>
           </m-form-item>
+          <m-form-item class="form-item"
+                       prop="region">
+            <m-select :label="$t('trans0639')"
+                      v-model="region.id"
+                      :options="regionsList" />
+            <div class="tip-label">{{$t('trans0646')}}</div>
+          </m-form-item>
           <div class="form-header">
-            <span
-                  class="form-header__title">{{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}</span>
+            <span class="form-header__title">
+                  {{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}
+            </span>
           </div>
           <m-form-item class="form-item"
                        prop="ssid24g">
@@ -140,6 +148,8 @@ export default {
         ssid5g: '',
         password5g: ''
       },
+      regionsList: [],
+      region: { id: '' },
       wifiFormRules: {
         ssid24g: [
           {
@@ -218,6 +228,7 @@ export default {
     }
   },
   mounted() {
+     this.$loading.open();
     this.$http
       .login(
         { password: '' },
@@ -228,8 +239,10 @@ export default {
       .catch(() => {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
+        this.$loading.close();
       });
-    this.$http.getMeshMeta().then(res => {
+    this.$http.getMeshMeta()
+    .then(res => {
       const wifi = res.data.result;
       const b24g = wifi.bands[Bands.b24g];
       const b5g = wifi.bands[Bands.b5g];
@@ -238,6 +251,9 @@ export default {
       this.wifiForm.ssid5g = b5g.ssid;
       this.wifiForm.password5g = b5g.password;
       // this.wifiForm.smart_connect = wifi.smart_connect;
+    })
+    .then(() => {
+      this.getRegionInitData();
     });
   },
   methods: {
@@ -263,6 +279,37 @@ export default {
         this.wifiForm.password24g = '';
         this.wifiForm.password5g = '';
       }
+    },
+    getRegionInitData() {
+      Promise.all([this.$http.getRegion(), this.$http.getSupportRegions()])
+        .then(resArr => {
+          const region = resArr[0].data.result;
+          this.region = region;
+
+          let allRegion = require(`@/assets/regions/${this.$i18n.locale}.json`);
+
+          allRegion = allRegion.map(r => ({
+            text: r.name,
+            value: parseInt(r.code, 10)
+          }));
+          // 从所有区域中过滤掉不支持选择的区域
+          const regions = [];
+          const supportRegions = resArr[1].data.result;
+
+          // 显示需要排序，原本的文件中是有序的，支持列表时无序的，所以以原本的文件为基准
+          allRegion.forEach(ar => {
+            // const id = `${sr.id}`; // change number to string
+            const t = supportRegions.filter(sr => sr.id === ar.value)[0];
+            if (t) {
+              regions.push(ar);
+            }
+          });
+          this.regionsList = regions;
+          this.$loading.close();
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
     },
     step0() {
       this.stepOption.current = 0;
@@ -290,7 +337,8 @@ export default {
                 },
                 smart_connect: this.wifiForm.smart_connect
               },
-              admin: { password: this.wifiForm.password24g }
+              admin: { password: this.wifiForm.password24g },
+              region_id: this.region.id
             }
           })
           .then(() => {
@@ -333,7 +381,7 @@ export default {
     text-align: center;
     width: 340px;
     margin: 0 auto;
-    margin-top: 50px;
+    margin-top: 40px;
   }
   .step-content {
     margin: 50px 0;
@@ -348,8 +396,6 @@ export default {
           color: var(--text-gery-color);
           margin-top: 14px;
           max-width: 340px;
-          border-bottom: 1px solid var(--hr-color);
-          padding-bottom: 20px;
         }
         .form-item {
           text-align: left;

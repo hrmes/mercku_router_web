@@ -30,7 +30,7 @@
                    :placeholder="$t('trans0492')"
                    v-model="form.remoteIp" />
         </m-form-item>
-        <div class="item">
+        <div class="item more-clearance">
           <label style="font-weight:bold;">{{$t('trans0426')}}</label>
           <div class="port-wrap">
             <m-form-item class="ext-item"
@@ -62,7 +62,7 @@
                    :placeholder="$t('trans0321')"
                    v-model="form.localIp" />
         </m-form-item>
-        <div class="item">
+        <div class="item more-clearance">
           <label style="font-weight:bold;">{{$t('trans0428')}}</label>
           <div class="port-wrap">
             <m-form-item class="ext-item"
@@ -379,9 +379,12 @@ export default {
     .radio-group {
       width: fit-content;
     }
+    .more-clearance {
+      margin-bottom: 65px;
+    }
   }
   .form-button {
-    margin-top: 25px;
+    margin-top: 0px;
     padding-top: 25px;
     border-top: 1px solid var(--hr-color);
     .btn {

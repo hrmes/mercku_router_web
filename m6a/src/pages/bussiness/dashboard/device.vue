@@ -877,14 +877,14 @@ export default {
         // overflow: hidden;
       }
       .table-head {
-        height: 50px;
+        height: fit-content;
         border-radius: 10px;
         background: var(--table-row-background-color);
         width: 100%;
         margin-bottom: 5px;
         ul {
-          height: 50px;
-          padding: 0 15px;
+          height: fit-content;
+          padding: 15px;
           color: var(--table-header-text-color);
         }
       }
@@ -970,7 +970,8 @@ export default {
         }
       }
       .column-band {
-        width: 150px;
+        min-width: 150px;
+        max-width: 175px;
         .label {
           display: none;
         }
@@ -990,7 +991,8 @@ export default {
         width: 120px;
       }
       .column-black-list {
-        width: 230px;
+        max-width: 230px;
+        min-width: 100px;
         justify-content: flex-end;
       }
       .icon-inner {
@@ -1429,6 +1431,8 @@ export default {
             }
           }
           .column-band {
+            max-width: none;
+            min-width: none;
             width: 100%;
             height: 60px;
             display: flex;
@@ -1518,12 +1522,18 @@ export default {
             }
           }
           .column-black-list {
+            min-width: none;
+            max-width: none;
             width: 100%;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             padding-top: 25px !important;
             padding-bottom: 25px !important;
+            .label {
+              display: inline-block;
+              width: 40%;
+            }
           }
           .li-expand {
             display: block;

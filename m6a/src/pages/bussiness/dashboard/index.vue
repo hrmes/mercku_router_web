@@ -995,13 +995,13 @@ ul {
     align-self: flex-end;
     margin-top: calc(7%);
     margin-right: calc(2%);
-    width: 200px;
+    width: 210px;
     padding: 10px 10px 10px 20px;
     border-radius: 10px;
     background: var(--dashboard-icon-background-color);
     .text-container {
       color: var(--text-default-color);
-      width: 85px;
+      width: 95px;
       // height: 40px;
     }
     .icon {
@@ -1330,7 +1330,7 @@ ul {
               padding: 0;
               .sub-text {
                 display: inline-block;
-                width: 70%;
+                width: 50%;
                 margin: 0;
                 overflow: hidden;
                 text-overflow: ellipsis;
