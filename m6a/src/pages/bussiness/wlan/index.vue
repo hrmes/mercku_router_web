@@ -22,13 +22,13 @@
           <m-form-item class="form-item"
                        prop="region">
             <m-select :label="$t('trans0639')"
-                      v-model="region.id"
+                      v-model="region.ip_country_id"
                       :options="regionsList" />
             <div class="tip-label">{{$t('trans0646')}}</div>
           </m-form-item>
           <div class="form-header">
             <span class="form-header__title">
-                  {{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}
+              {{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}
             </span>
           </div>
           <m-form-item class="form-item"
@@ -149,7 +149,7 @@ export default {
         password5g: ''
       },
       regionsList: [],
-      region: { id: '' },
+      region: { id: '', ip_country_id: '' },
       wifiFormRules: {
         ssid24g: [
           {
@@ -338,7 +338,7 @@ export default {
                 smart_connect: this.wifiForm.smart_connect
               },
               admin: { password: this.wifiForm.password24g },
-              region_id: this.region.id
+              region_id: this.region.ip_country_id
             }
           })
           .then(() => {
