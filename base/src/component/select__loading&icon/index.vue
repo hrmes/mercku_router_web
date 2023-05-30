@@ -272,6 +272,9 @@ export default {
     border-radius: 5px;
     border: 1px solid $select-popup-border-color;
     overflow: auto;
+    @media screen and (max-height: 830px) {
+      position: static;
+    }
     .select-popup__item {
       display: flex;
       justify-content: space-between;
@@ -430,6 +433,7 @@ export default {
       height: 48px;
     }
     .select-popup {
+      position: absolute;
       max-height: 260px;
       .select-popup__item {
         padding: 17px 10px 17px 20px;
