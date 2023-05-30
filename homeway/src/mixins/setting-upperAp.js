@@ -144,7 +144,8 @@ export default {
                 text: `${i.ssid}`,
                 encrypt: i.security,
                 rssi: i.rssi,
-                band: i.band
+                band: i.band,
+                bssid: i.bssid
               })
             );
             this.selectIsLoading = LoadingStatus.success;
@@ -176,22 +177,23 @@ export default {
       this.saveDisable = false;
       const {
         ssid,
-        password,
         bssid,
+        password,
         channel,
         band,
         security,
         rssi
-      } = this.originalUpperList.find(i => i.ssid === option.value);
+      } = this.originalUpperList.find(i => i.bssid === option.bssid);
       this.upperApForm = {
         ssid,
-        password,
         bssid,
+        password,
         channel,
         band,
         security,
         rssi
       };
+      console.log('upperAp', this.upperApForm);
     },
     connectUpperAp(pageType) {
       if (this.$refs.upperApForm.validate()) {

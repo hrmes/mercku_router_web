@@ -41,9 +41,9 @@
               <m-loadingSelect label="SSID"
                                :placeholder="$t('trans1069')"
                                type='text'
-                               v-model="upperApForm.ssid"
                                @change="selectedChange"
                                @scanApclient="startApclientScan"
+                               :bssid="upperApForm.bssid"
                                :options="processedUpperApList"
                                :loading="selectIsLoading"
                                :loadingText="loadingText" />

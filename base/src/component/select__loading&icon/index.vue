@@ -95,7 +95,7 @@ export default {
       type: Array,
       default: () => []
     },
-    value: {},
+    bssid: {},
     label: {
       type: String,
       default: ''
@@ -126,13 +126,14 @@ export default {
       RssiStatus,
       GoodRssiValue,
       LoadingStatus,
-      selected: this.getOptionByValue(this.value),
+      selected: this.getOptionByBssid(this.bssid),
       opened: false,
     };
   },
   watch: {
-    value(val) {
-      this.selected = this.getOptionByValue(val);
+    bssid(val) {
+      console.log(val);
+      this.selected = this.getOptionByBssid(val);
     }
   },
   computed: {
@@ -144,9 +145,9 @@ export default {
     }
   },
   methods: {
-    getOptionByValue(val) {
-      const option = this.options.filter(o => o.value === val)[0] || {
-        text: val
+    getOptionByBssid(bssid) {
+      const option = this.options.filter(o => o.bssid === bssid)[0] || {
+        text: ''
       };
       return option;
     },
@@ -168,13 +169,13 @@ export default {
     select(option) {
       this.selected = option;
       this.opened = false;
-      this.$emit('input', this.selected.value);
-      if (this.value !== this.selected.value) {
+      this.$emit('input', this.selected.text);
+      if (this.bssid !== this.selected.bssid) {
         this.change();
       }
     },
     change() {
-      this.$emit('change', this.selected, this.value);
+      this.$emit('change', this.selected, this.bssid);
     },
     open() {
       if (!this.disabled) {
