@@ -158,20 +158,26 @@ export default {
     height: 30px;
   }
   .log-container {
+    display: flex;
+    flex-direction: column;
     border-radius: 4px;
     border: solid 1px #bdbdbd;
     flex: 1;
     padding: 10px;
     position: relative;
-    max-height: 600px;
+    max-height: 800px;
     overflow-x: hidden;
     pre {
+      width: 67vw;
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
       color: var(--text-defalut-color);
       white-space: pre-wrap;
       word-wrap: break-word;
       font-weight: 600;
+      @media screen and(min-width:1441px) {
+        width: 100%;
+      }
       &:first-child {
         color: var(--text-gery-color);
       }

@@ -60,7 +60,8 @@ export const RouterSnModel = {
   M6: '06',
   M6c: '07',
   M6a: '08',
-  Homeway: '09'
+  Homeway: '09',
+  M6s: '11'
 };
 export const M6aRouterSnModelVsersion = {
   M6a: '0',
@@ -141,6 +142,7 @@ export const Models = {
   m6c: 'M7R0',
   m6a: 'M8R0',
   m6aPlus: 'M8R1',
+  m6s: 'M11R0',
   homeway_230v: 'M9R0',
   homeway_POE1: 'M9R1',
   homeway_POE2: 'M9R2'

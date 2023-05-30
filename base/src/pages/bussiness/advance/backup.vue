@@ -1,244 +1,189 @@
 <template>
-  <div class="page backup">
+  <div class="page page__log">
     <div v-if="$store.state.isMobile"
-         class='page-header'>
-      {{$t('trans1010')}}
+         class="page-header">
+      {{$t('trans0421')}}
     </div>
-    <div class="backup__content">
-      <p class="backup__tips">{{$t('trans1011')}}</p>
-      <p class="backup__tips">{{$t('trans1036')}}</p>
-      <p class="backup__tips backup__tips--danger">*{{$t('trans1012')}}</p>
-      <button class="btn btn-middle operate-btn"
-              :disabled="isDownloading"
-              @click="getBackup">{{$t('trans1013')}}</button>
-    </div>
-    <div class='page-header'>
-      {{$t('trans1014')}}
-    </div>
-    <div class="backup__content">
-      <div class="backup__upload">
-        <m-upload ref="uploader"
-                  dragable
-                  :onChange="onChange"
-                  :onCancel="onCancel"
-                  :beforeUpload="beforeUpload"
-                  :request="upload"
-                  :label="$t('trans1015')"
-                  :accept="fileSuffix" />
+    <div class="page-content">
+      <div class="form">
+        <div class="form-item">
+          <m-switch :label="$t('trans0462')"
+                    v-model="enabled"
+                    @change="updateEnabled"></m-switch>
+          <button v-if="enabled"
+                  class="btn btn-small"
+                  @click="getSyslog">{{$t('trans0481')}}</button>
+        </div>
+        <div class="log-container"
+             v-show="enabled">
+          <pre>{{previous}}</pre>
+          <pre class="increase"
+               :class="{'not-empty':increase}">{{increase}}</pre>
+        </div>
       </div>
-      <div class="backup__notes">
-        <p>{{$t('trans1018')}}</p>
-        <p>{{$t('trans1016')}}</p>
-        <p>{{$t('trans1017')}}</p>
-      </div>
-      <button class="btn btn-middle btn-primary operate-btn"
-              @click="restoreBackup"
-              v-if="uplodaSuccess">{{$t('trans1027')}}</button>
     </div>
   </div>
 </template>
 <script>
-import { UploadStatus } from 'base/util/constant';
-import { getFileExtendName } from 'base/util/util';
-import RouterModel from 'base/mixins/router-model';
-
-const backUp = 'backup';
-const fileName = 'configs';
-
 export default {
-  mixins: [RouterModel],
   data() {
     return {
-      fileSuffix: '.dat',
-      UploadStatus,
-      uploadStatus: UploadStatus.ready,
-      cancelToken: null,
-      upgraded: false,
-      isDownloading: false,
-      downloadTimer: null
+      enabled: false,
+      previousArray: [],
+      increaseArray: [],
+      scrollbarOption: {
+        stopPropagation: true
+      }
     };
   },
   computed: {
-    uplodaSuccess() {
-      return this.uploadStatus === UploadStatus.success;
+    previous() {
+      return this.previousArray.join('\n');
+    },
+    increase() {
+      return this.increaseArray.join('\n');
     }
   },
-  beforeRouteLeave(to, from, next) {
-    if (
-      this.uplodaSuccess &&
-      !this.upgraded &&
-      !to.path.includes('/login') &&
-      !to.path.includes('/unconnect')
-    ) {
-      this.$dialog.confirm({
-        okText: this.$t('trans0024'),
-        cancelText: this.$t('trans0025'),
-        message: this.$t('trans0230'),
-        callback: {
-          ok: () => {
-            next();
-          },
-          cancel: () => {
-            next(false);
-          }
-        }
-      });
-    } else {
-      next();
-    }
-  },
-  beforeDestroy() {
-    clearTimeout(this.downloadTimer);
-    this.downloadTimer = null;
+  mounted() {
+    this.getSyslogEnabled();
   },
   methods: {
-    getBackup() {
+    scrollTo(el, x = 0, y = 0) {
+      if (el.scrollTo) {
+        el.scrollTo(x, y);
+      } else {
+        el.scrollLeft = x;
+        el.scrollTop = y;
+      }
+    },
+    updateEnabled() {
       this.$loading.open();
-      this.isDownloading = true;
       this.$http
-        .getRouterConfigBackup()
-        .then(res => {
-          if (res.status) {
-            this.downloadTimer = setTimeout(() => {
-              this.isDownloading = false;
-              clearTimeout(this.downloadTimer);
-              this.downloadTimer = null;
-            }, 5000);
-            window.location.href = `/${fileName}${this.fileSuffix}?t=${Date.now()}`;
+        .updateSyslogEnabled({ enabled: this.enabled })
+        .then(() => {
+          this.$loading.close();
+          if (!this.enabled) {
+            this.previousArray = [];
+            this.increaseArray = [];
+          } else {
+            this.getSyslog();
           }
         })
         .catch(() => {
-          this.isDownloading = false;
-          this.$toast(this.$t('trans1023'), 3000, 'error');
-        })
-        .finally(() => {
           this.$loading.close();
         });
     },
-    onChange() {
-      const { uploader } = this.$refs;
-      this.uploadStatus = uploader.status;
-    },
-    onCancel() {
-      const { uploader } = this.$refs;
-      this.uploadStatus = uploader.status;
-      this.cancelToken.cancel('cancel');
-    },
-    beforeUpload(files) {
-      const file = files[0];
-      const { uploader } = this.$refs;
-      const entendName = getFileExtendName(file);
-      const reg = new RegExp(`^${this.fileSuffix.slice(1)}$`, 'i');
-      if (!reg.test(entendName)) {
-        uploader.err = this.$t('trans1028');
-        return false;
-      }
-      if (file.size === 0) {
-        uploader.err = this.$t('trans0341');
-        return false;
-      }
-      return true;
-    },
-    upload(files) {
-      const formData = new FormData();
-      formData.append('type', backUp);
-      formData.append('file', files[0]);
-      const { uploader } = this.$refs;
-      this.uploadStatus = UploadStatus.uploading;
-      uploader.status = UploadStatus.uploading;
-      return this.$http
-        .uploadFile(formData, (progressEvent, token) => {
-          this.cancelToken = token;
-          const { loaded, total, lengthComputable } = progressEvent;
-          if (lengthComputable) {
-            uploader.percentage = Math.floor((loaded / total) * 100);
-            if (loaded >= total) {
-              uploader.status = UploadStatus.success;
-            } else {
-              uploader.status = UploadStatus.uploading;
-            }
-          }
-        })
-        .then(() => {
-          uploader.status = UploadStatus.success;
-          this.uploadStatus = UploadStatus.success;
-        })
-        .catch(err => {
-          uploader.status = UploadStatus.fail;
-          this.uploadStatus = UploadStatus.fail;
-          if (err.response && err.response.data && err.response.data.error) {
-            uploader.err = this.$t(err.response.data.error.code);
-          }
+    getSyslog() {
+      this.$http.getSyslogEnabled().then(() => {
+        this.$http.getSysLog().then(res => {
+          const preArray = [...this.previousArray, ...this.increaseArray];
+          const nowStr = res.data;
+          this.getIncremental(preArray, nowStr);
         });
+      });
     },
-    restoreBackup() {
+    getIncremental(preArray, nowStr) {
+      const nowArray = nowStr.split('\n').filter(n => n !== '');
+      if (!preArray.length) {
+        this.previousArray = [];
+        this.increaseArray = nowArray;
+      } else {
+        const preStart = preArray[0];
+        const preEnd = preArray[preArray.length - 1];
+        // 全包含
+        if (nowArray.includes(preStart) && nowArray.includes(preEnd)) {
+          this.previousArray = preArray;
+          const index = nowArray.lastIndexOf(preEnd);
+          this.increaseArray = nowArray.slice(index + 1);
+        } else {
+          // 部分包含,首先找到包含的起始位置
+          const index = nowArray.lastIndexOf(preEnd);
+          if (index === -1) {
+            this.previousArray = preArray;
+            this.increaseArray = nowArray;
+          } else {
+            this.previousArray = preArray;
+            this.increaseArray = nowArray.slice(index + 1);
+          }
+        }
+      }
+      this.$nextTick(() => {
+        const el = this.$el.querySelector('.increase');
+        const wrap = this.$el.querySelector('.log-container');
+        const offset = el.offsetTop;
+        this.scrollTo(wrap, 0, offset);
+      });
+    },
+    getSyslogEnabled() {
       this.$loading.open();
       this.$http
-        .restoreRouterConfig()
+        .getSyslogEnabled()
         .then(res => {
           this.$loading.close();
-          if (res.status) {
-            this.upgraded = true;
-            this.$reconnect({
-              timeout: 150,
-              onsuccess: () => {
-                this.$router.push({ path: '/login' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/unconnect' });
-              }
-            });
+          this.enabled = res.data.result.enabled;
+          if (this.enabled) {
+            this.getSyslog();
           }
         })
-        .finally(() => {
+        .catch(() => {
           this.$loading.close();
         });
     }
   }
 };
 </script>
-
+<style lang="scss">
+.page__log {
+  .form {
+    .mk-switch__label {
+      margin-right: 10px !important;
+    }
+  }
+}
+</style>
 <style lang="scss" scoped>
-.backup {
-  p {
-    width: 500px;
-    padding: 0;
-    margin: 0;
+.page-content {
+  flex-direction: column;
+  flex: 1;
+}
+.form {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .form-item {
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
   }
-  .operate-btn {
-    margin-top: 30px;
-    width: 500px;
+  .log-container {
+    border-radius: 4px;
+    border: solid 1px #bdbdbd;
+    flex: 1;
+    padding: 10px;
+    position: relative;
+    max-height: 600px;
+    overflow-x: hidden;
+    pre {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--text-defalut-color);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-weight: 600;
+      &:first-child {
+        color: var(--text-gery-color);
+      }
+    }
   }
-  .backup__content {
-    padding: 30px 20px;
-  }
-  .backup__tips {
-    font-size: 14px;
-    color: var(--text-default-color);
-    &.backup__tips--danger {
-      color: var(--warning-color);
-    }
-    & + .backup__tips {
-      margin-top: 12px;
-    }
-  }
-  .backup__notes {
-    margin-top: 20px;
-    font-size: 12px;
-    color: var(--text-default-color);
-  }
-  @media screen and (max-width: 768px) {
-    .btn {
-      margin-left: 0;
-    }
-    p {
-      width: 100%;
-    }
-    .operate-btn {
-      width: 100%;
-    }
-    .backup__content {
-      padding: 20px;
+}
+@media screen and(max-width:768px) {
+  .page-content {
+    .form {
+      pre {
+        position: relative;
+      }
     }
   }
 }
