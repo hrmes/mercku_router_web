@@ -269,6 +269,7 @@ export default {
                 responsed = false;
                 this.$http
                   .getRouter(null, {
+                    hideToast: true,
                     noRedirect: true
                   })
                   .then(res => {

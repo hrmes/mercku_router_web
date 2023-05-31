@@ -632,24 +632,43 @@ export default {
                 color: this.isDarkMode ? '#fff' : '#333',
                 backgroundColor: 'transparent',
                 formatter(category) {
+                  console.log(category.data);
+                  let nameFormatted = '';
+                  const { stationsCount } = category.data;
                   // originName是节点的原始名称
                   const name = category.data.originName;
                   if (name.length <= 10) {
-                    return name;
+                    nameFormatted = name;
                   }
                   const splitor = ' ';
                   if (name.includes(splitor)) {
                     const sp = name.split(splitor);
                     let index = 1;
                     let start = sp[0];
-                    while ((start + sp[index]).length < 10 && index < sp.length) {
+                    while ((start + sp[index]).length <= 10 && index < sp.length) {
                       start += ` ${sp[index]}`;
                       index += 1;
                     }
                     const end = sp.slice(index).join(splitor);
-                    return `${start}\n${end}`;
+                    nameFormatted = `${start}\n${end}`;
+                  } else {
+                    nameFormatted = name.match(/.{1,10}/g).join('\n');
                   }
-                  return name.match(/.{1,10}/g).join('\n');
+                  return `{a|${nameFormatted}} {b|${stationsCount}}`;
+                },
+                rich: {
+                  a: {
+                    color: this.isDarkMode ? '#fff' : '#333',
+                  },
+                  b: {
+                    width: 20,
+                    height: 16,
+                    color: '#fff',
+                    fontSize: 10,
+                    align: 'center',
+                    borderRadius: 3,
+                    backgroundColor: '#999'
+                  }
                 }
               }
             },

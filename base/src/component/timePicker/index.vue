@@ -15,23 +15,28 @@
          ref="combo"
          v-show="opened">
       <div class="select-wrap">
-        <div class="select-inner"
-             ref='h'>
-          <ul class="reset-ul">
-            <li v-for="(v,i) in hs"
-                :key='i'
-                @click.stop="(e)=>select('h',v,e)"
-                :class="{'selected':time.h===v}">{{v}}</li>
-          </ul>
+        <div class="select-inner">
+          <div class="select-inner-container"
+               ref='h'>
+            <ul id='hourList'>
+              <li v-for="(v,i) in hs"
+                  :key='i'
+                  :class="{'selected':time.h===v}"
+                  @click.stop="(e)=>select('h',v,e)">{{v}}</li>
+            </ul>
+          </div>
         </div>
-        <div class="select-inner"
-             ref='m'>
-          <ul class="reset-ul">
-            <li v-for="(v,i) in ms"
-                :key='i'
-                @click.stop="(e)=>select('m',v,e)"
-                :class="{'selected':time.m===v}">{{v}}</li>
-          </ul>
+        <div class="select-inner">
+          <div class="select-inner-container"
+               ref='m'>
+            <ul id='minList'>
+              <li v-for="(v,i) in ms"
+                  :key='i'
+                  :class="{'selected':time.m===v}"
+                  @click.stop="(e)=>select('m',v,e)">{{v}}</li>
+            </ul>
+          </div>
+
         </div>
       </div>
       <div class="button-wrap">
@@ -43,6 +48,7 @@
   </div>
 </template>
 <script>
+
 export default {
   props: { value: { type: String } },
   data() {
@@ -69,6 +75,14 @@ export default {
         h: v.split(':')[0],
         m: v.split(':')[1]
       };
+    },
+  },
+  computed: {
+    hsLength() {
+      return this.hs.length - 1;
+    },
+    msLength() {
+      return this.ms.length - 1;
     }
   },
   mounted() {
@@ -85,6 +99,8 @@ export default {
         }
       });
     }
+    this.addScrollListener('h');
+    this.addScrollListener('m');
   },
   beforeDestroy() {
     if (window.addEventListener) {
@@ -92,6 +108,8 @@ export default {
     } else if (window.attachEvent) {
       document.body.detachEvent('click', this.close);
     }
+    this.removeScrollListener('h');
+    this.removeScrollListener('m');
   },
   methods: {
     formatCount(v) {
@@ -99,7 +117,7 @@ export default {
     },
     scrollTo(el, x, y) {
       if (el.scrollTo) {
-        el.scrollTo(x, y);
+        el.scrollTo(x, y - 72);
       } else {
         el.scrollTop = y;
       }
@@ -126,14 +144,15 @@ export default {
       this.scrollTo(el, 0, cTop);
     },
     animateScroll() {
-      if (this.animationEl.scrollTop >= this.distance) {
-        cancelAnimationFrame(this.animationId);
-        return;
-      }
-      let scroll = this.animationEl.scrollTop + 5;
-      scroll = scroll > this.distance ? this.distance : scroll;
-      this.scrollTo(this.animationEl, 0, scroll);
-      this.animationId = requestAnimationFrame(this.animateScroll);
+      // if (this.animationEl.scrollTop >= this.distance) {
+      //   cancelAnimationFrame(this.animationId);
+      //   return;
+      // }
+      // let scroll = this.animationEl.scrollTop + 5;
+      // scroll = scroll > this.distance ? this.distance : scroll;
+      // this.scrollTo(this.animationEl, 0, scroll);
+      // this.animationId = requestAnimationFrame(this.animateScroll);
+      this.scrollTo(this.animationEl, 0, this.distance);
     },
     close() {
       if (!this.opened) {
@@ -153,17 +172,54 @@ export default {
 
       this.distance = sTop;
       this.animationEl = pEl;
+      this.animationEl.style.scrollBehavior = 'smooth';
       this.animateScroll();
+      this.animationEl.style.scrollBehavior = 'auto';
     },
     select(type, v, e) {
       this.selectScroll(e, type);
       this.time[type] = v;
       this.inputValue = `${this.time.h}:${this.time.m}`;
+    },
+    changeTimeValue(type) {
+      const { scrollTop } = this.$refs[type];
+      let index = (scrollTop / 36).toFixed(0);
+      index = this.formatCount(index);
+      this.time[type] = index;
+      this.inputValue = `${this.time.h}:${this.time.m}`;
+    },
+    addScrollListener(type) {
+      if (window.addEventListener) {
+        this.$refs[type].addEventListener('scroll', () => {
+          this.changeTimeValue(type);
+        });
+      } else if (window.attachEvent) {
+        this.$refs[type].attachEvent('onscroll', () => {
+          this.changeTimeValue(type);
+        });
+      }
+    },
+    removeScrollListener(type) {
+      if (window.addEventListener) {
+        this.$refs[type].removeEventListener('scroll', () => {
+          this.changeTimeValue(type);
+        });
+      } else if (window.attachEvent) {
+        this.$refs[type].detachEvent('onscroll', () => {
+          this.changeTimeValue(type);
+        });
+      }
     }
   }
 };
 </script>
 <style lang='scss' scoped>
+::-webkit-scrollbar {
+  width: 0px;
+}
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
 .time-picker-panel {
   width: 100%;
   min-width: 120px;
@@ -211,26 +267,37 @@ export default {
       }
     }
     .select-inner {
+      position: relative;
       flex: 1;
-      height: 192px;
-      overflow-y: scroll;
+      height: 180px;
+      // overflow-y: scroll;
       border-right: 1px solid var(--time-picker-popup-border-color);
       box-sizing: border-box;
-      &::-webkit-scrollbar {
-        width: 0px;
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        height: 36px;
+        background: var(--primaryColor);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        pointer-events: none;
+        z-index: -1;
       }
-      &::-webkit-scrollbar-track {
-        background-color: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        background: var(--time-picker-popup-scrollbar-color);
-      }
-      &:last-child {
-        border-right: none;
+      .select-inner-container {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        scroll-snap-type: y mandatory;
+        overscroll-behavior: none;
       }
       ul {
-        position: relative;
-        padding-bottom: 156px;
+        list-style: none;
+        margin: 0;
+        padding: 72px 0;
       }
       li {
         margin: 0;
@@ -242,16 +309,14 @@ export default {
         line-height: 36px;
         color: var(--time-picker-li-color);
         cursor: pointer;
-        &:hover {
-          background: var(--time-picker-popup-item-hover-background-color);
-        }
-        &:active {
-          background: var(--time-picker-popup-item-active-background-color);
-          color: var(--time-picker-popup-item-active-color);
-        }
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        transition: color 0.1s linear;
+        // &:hover {
+        //   background: var(--time-picker-popup-item-hover-background-color);
+        // }
         &.selected {
-          color: #fff;
-          background: var(--time-picker-popup-item-selected-color);
+          color: var(--time-picker-popup-item-selected-color);
         }
       }
     }
