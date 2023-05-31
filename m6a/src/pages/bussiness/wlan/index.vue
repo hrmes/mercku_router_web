@@ -22,7 +22,7 @@
           <m-form-item class="form-item"
                        prop="region">
             <m-select :label="$t('trans0639')"
-                      v-model="region.ip_country_id"
+                      v-model="region.id"
                       :options="regionsList" />
             <div class="tip-label">{{$t('trans0646')}}</div>
           </m-form-item>
@@ -149,7 +149,7 @@ export default {
         password5g: ''
       },
       regionsList: [],
-      region: { id: '', ip_country_id: '' },
+      region: { id: '' },
       wifiFormRules: {
         ssid24g: [
           {
@@ -283,8 +283,8 @@ export default {
     getRegionInitData() {
       Promise.all([this.$http.getRegion(), this.$http.getSupportRegions()])
         .then(resArr => {
-          const region = resArr[0].data.result;
-          this.region = region;
+          const { id, ip_country_id: wanId } = resArr[0].data.result.region;
+          this.region.id = wanId || id;
 
           let allRegion = require(`@/assets/regions/${this.$i18n.locale}.json`);
 
@@ -338,7 +338,7 @@ export default {
                 smart_connect: this.wifiForm.smart_connect
               },
               admin: { password: this.wifiForm.password24g },
-              region_id: this.region.ip_country_id
+              region_id: this.region.id
             }
           })
           .then(() => {
