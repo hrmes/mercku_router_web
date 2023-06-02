@@ -14,6 +14,7 @@ export default {
       return `${category.shortName}-${num}`;
     },
     getNodeImage(node) {
+      console.log(node);
       const id = node.sn.slice(0, 2);
       const modelVersion = node.sn.slice(9, 10);
       let image = '';
@@ -37,6 +38,9 @@ export default {
             image = require('../assets/images/model/m6a_plus/img-m6a_plus.png');
           }
           break;
+        case RouterSnModel.M6s:
+          image = require('../assets/images/img_m6s.svg');
+          break;
         case RouterSnModel.Homeway:
           image = require('../assets/images/img_homeway.png');
           break;
@@ -57,7 +61,8 @@ export default {
         [RouterSnModel.M6a]:
           process.env.MODEL_CONFIG.id === Models.m6a
             ? process.env.CUSTOMER_CONFIG.routers.M6a
-            : process.env.CUSTOMER_CONFIG.routers.M6a_plus
+            : process.env.CUSTOMER_CONFIG.routers.M6a_plus,
+        [RouterSnModel.M6s]: process.env.CUSTOMER_CONFIG.routers.M6s
       }
     };
   }
