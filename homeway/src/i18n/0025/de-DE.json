@@ -1098,5 +1098,6 @@
   "trans1103": "Die Verbindung zum übergeordneten Gerät konnte nicht hergestellt werden. Bitte versuchen Sie es erneut",
   "trans1104": "Stellen Sie bei der Auswahl des Wireless-Bridge-Modus sicher, dass die SSID und das Passwort der oberen Ebene korrekt sind und der aktuelle Netzwerkstatus gut ist.",
   "trans1105": "Verbindung wird hergestellt. Bitte warten...",
-  "trans1106": "Änderungen werden nicht gespeichert. Derzeit wird nur das Ändern der Konfiguration nach dem Einschalten von Wi-Fi unterstützt"
+  "trans1106": "Änderungen werden nicht gespeichert. Derzeit wird nur das Ändern der Konfiguration nach dem Einschalten von Wi-Fi unterstützt",
+  "trans1107": "Es wird nur das Scannen von Wi-Fi-Netzwerken mit Verschlüsselungsmethoden von Open, WPA und WPA2 auf dem Upper-Level-AP unterstützt."
 }

@@ -273,7 +273,8 @@ export default {
     border: 1px solid $select-popup-border-color;
     overflow: auto;
     @media screen and (max-height: 830px) {
-      position: static;
+      position: static !important;
+      margin-top: 3px;
     }
     .select-popup__item {
       display: flex;

@@ -21,6 +21,7 @@
                              :options="processedUpperApList"
                              :loading="selectIsLoading"
                              :loadingText="loadingText" />
+            <p class="tips">{{$t('trans1107')}}</p>
           </m-form-item>
           <m-form-item v-show="!pwdDisabled"
                        class="form-item"
@@ -558,6 +559,10 @@ export default {
   }
   .upper-form {
     height: 300px;
+    .tips {
+      font-size: 12px;
+      color: #333;
+    }
   }
 }
 @media screen and(max-width: 768px) {

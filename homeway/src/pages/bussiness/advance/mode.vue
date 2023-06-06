@@ -47,6 +47,7 @@
                                :options="processedUpperApList"
                                :loading="selectIsLoading"
                                :loadingText="loadingText" />
+              <p class="tips">{{$t('trans1107')}}</p>
             </m-form-item>
             <m-form-item v-show="!pwdDisabled"
                          prop="upperApForm.password">
@@ -309,6 +310,8 @@ export default {
   }
   .upperApForm__bottom {
     .tips {
+      color: #333;
+      font-size: 12px;
       margin-bottom: 10px;
     }
   }
