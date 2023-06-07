@@ -2,7 +2,7 @@
   <div class="initialization-container">
     <div class="checklist">
       <div class="checklist-img">
-        <img src="../../../assets/images/img_checklist.png"
+        <img src="@/assets/images/img_checklist.png"
              alt="">
       </div>
       <div class="checklist-tips">

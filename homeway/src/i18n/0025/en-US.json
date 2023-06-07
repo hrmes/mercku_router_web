@@ -954,7 +954,7 @@
   "trans0959": "Registration success",
   "trans0960": "Congratulations！",
   "trans0961": "Let's enjoying powerful and easy-to-use network.",
-  "trans0962": "Wi-Fi Switch",
+  "trans0962": "Wi-Fi Off Schedule",
   "trans0963": "Repeat",
   "trans0964": "Never",
   "trans0965": "Start Time",
@@ -1066,7 +1066,7 @@
   "trans1071": "Current password",
   "trans1072": "Current SSID",
   "trans1073": "For installation please prepare:",
-  "trans1074": "- Paper and pen: write down passwords\n- Have the data of your main gateway or router ready: WLAN name (SSID), Passwords, encryption mode, e.g. WPA2\n- Country/region and time zone can be set in the \"Settings\" menu",
+  "trans1074": "- Paper and pen: write down passwords\n- Have the data of your main gateway or router ready: WLAN name (SSID)\nPasswords, encryption mode, e.g. WPA2\n- Country/region and time zone can be set in the \"Settings\" menu",
   "trans1075": "OK, Well prepared",
   "trans1076": " ",
   "trans1077": "The maximum password is only 63 characters, please re-enter",
@@ -1090,5 +1090,14 @@
   "trans1095": "NOTE: When the internal temperature of the device is outside the normal operating temperature range, the device will attempt to regulate its own temperature to protect internal components.",
   "trans1096": "There is currently no Internet connection, and the Wi-Fi Tx Power cannot be modified",
   "trans1097": "AP",
-  "trans1098": "Fan speed"
+  "trans1098": "Fan speed",
+  "trans1099": "When the child lock is activated, press and hold \"reset\" for 5-10 seconds to disable the child lock.",
+  "trans1100": "Invalid time",
+  "trans1101": "connect",
+  "trans1102": "Setting Upper-level AP",
+  "trans1103": "Failed to connect to the superior, please try again",
+  "trans1104": "When selecting the wireless bridge mode, please ensure that the upper-level SSID and password are correct and the current network status is good. ",
+  "trans1105": "Connecting, please wait...",
+  "trans1106": "Modifications are not saved, currently only supports modifying the configuration after Wi-Fi is turned on",
+  "trans1107": "Only scanning of Wi-Fi networks with encryption methods of Open, WPA, and WPA2 is supported on the Upper-level AP."
 }

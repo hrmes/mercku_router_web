@@ -61,7 +61,7 @@ export const RouterSnModel = {
   M6a: '08',
   homeway: '09'
 };
-export const M6aRouterSnModelVsersion = {
+export const M6aRouterSnModelVersion = {
   M6a: '0',
   M6a_Plus: '1'
 };
@@ -136,12 +136,12 @@ export const Models = {
   m6c: 'M7R0',
   m6a: 'M8R0',
   m6aPlus: 'M8R1',
-  homeway_230v: 'M9R0',
-  homeway_POE1: 'M9R1',
-  homeway_POE2: 'M9R2'
+  homeway: 'M9'
 };
 export const HomewayFanModel = {
   game: 'game',
   standard: 'standard',
   sleep: 'sleep'
 };
+export const RefreshSVGPath =
+  'M7.505.57a.5.5 0 0 1 .692-.53l3.5 1.5a.5.5 0 0 1 .08.876l-3 2a.5.5 0 0 1-.772-.345l-.107-.75a7 7 0 1 0 6.123.949 1 1 0 0 1 1.151-1.636 9 9 0 1 1-7.56-1.314z';

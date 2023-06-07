@@ -23,27 +23,27 @@
 </template>
 
 <script>
-import { HomewayFanModel } from '../../../../../base/src/util/constant';
+import { HomewayFanModel } from 'base/util/constant';
 
 function getFanModeImg(model) {
   let imgObj = null;
   switch (model) {
     case HomewayFanModel.game:
       imgObj = {
-        unselected: require('../../../assets/images/icon/ic_fan_game.png'),
-        selected: require('../../../assets/images/icon/ic_fan_game_selected.png')
+        unselected: require('@/assets/images/icon/ic_fan_game.png'),
+        selected: require('@/assets/images/icon/ic_fan_game_selected.png')
       };
       break;
     case HomewayFanModel.standard:
       imgObj = {
-        unselected: require('../../../assets/images/icon/ic_fan_standard.png'),
-        selected: require('../../../assets/images/icon/ic_fan_standard_selected.png')
+        unselected: require('@/assets/images/icon/ic_fan_standard.png'),
+        selected: require('@/assets/images/icon/ic_fan_standard_selected.png')
       };
       break;
     case HomewayFanModel.sleep:
       imgObj = {
-        unselected: require('../../../assets/images/icon/ic_fan_sleep.png'),
-        selected: require('../../../assets/images/icon/ic_fan_sleep_selected.png')
+        unselected: require('@/assets/images/icon/ic_fan_sleep.png'),
+        selected: require('@/assets/images/icon/ic_fan_sleep_selected.png')
       };
       break;
     default:

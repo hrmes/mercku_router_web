@@ -33,7 +33,7 @@
                    @click="router.expand = !router.expand">
                 <div class="name">
                   <div class="icon">
-                    <img src="../../../assets/images/icon/ic_homeway_gateway.png"
+                    <img src="@/assets/images/icon/ic_homeway_gateway.png"
                          alt>
                   </div>
                   <div class="wrap">
@@ -44,13 +44,13 @@
                          @click.stop="onClickRouterName(router)">
                       <img class="btn-text icon-btn"
                            :title="$t('trans0034')"
-                           src="../../../assets/images/icon/ic_edit.png"
+                           src="@/assets/images/icon/ic_edit.png"
                            alt>
                     </div>
                   </div>
                   <div class="expand"
                        :class="{'expand':router.expand,'collapse':!router.expand}">
-                    <img src="../../../assets/images/icon/ic_side_bar_pick_up.png"
+                    <img src="@/assets/images/icon/ic_side_bar_pick_up.png"
                          alt>
                   </div>
                 </div>
@@ -66,7 +66,7 @@
                     {{getRouterStationCount(router)}}
                   </span>
                   <img class="equipment__arrow"
-                       src="../../../assets/images/icon/ic_inter.png" />
+                       src="@/assets/images/icon/ic_inter.png" />
                 </div>
                 <div class="sn">
                   <span class="label">{{$t('trans0251')}}</span>
@@ -98,7 +98,7 @@
             <!-- 列表为空状态模块 -->
             <div class='table-empty'
                  v-if="!showLoading&&routers.length===0">
-              <img src="../../../assets/images/img_default_empty.png"
+              <img src="@/assets/images/img_default_empty.png"
                    alt="">
               <span>{{$t('trans0278')}}</span>
             </div>
@@ -204,7 +204,7 @@
       <m-modal-header class="header">
         <img @click="hideMeshListModal"
              class="header__btn--close"
-             src="../../../assets/images/icon/close.png"
+             src="@/assets/images/icon/close.png"
              alt="" />
       </m-modal-header>
       <m-modal-body class="table">
@@ -222,7 +222,7 @@
             <div class="table__column table__column--device">
               <span v-if="isThisMachine(item.ip)"
                     class="device__img">
-                <img src="../../../assets/images/icon/ic_user.png"
+                <img src="@/assets/images/icon/ic_user.png"
                      alt="">
               </span>
               <span class="device__host-name"
@@ -243,7 +243,7 @@
         </div>
         <div class="table__empty"
              v-else>
-          <img src="../../../assets/images/img_default_empty.png"
+          <img src="@/assets/images/img_default_empty.png"
                alt="">
           <span>
             {{$t('trans0278')}}

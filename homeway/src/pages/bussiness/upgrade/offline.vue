@@ -88,7 +88,7 @@
               uploadStatus === UploadStatus.success && !hasUpgradablityNodes
             ">
           <p>
-            <img src="../../../assets/images/icon/ic_hint.png"
+            <img src="@/assets/images/icon/ic_hint.png"
                  alt="" />
             {{ $t('trans0336') }}
           </p>
@@ -100,7 +100,7 @@
   </div>
 </template>
 <script>
-import { UploadStatus, Models } from 'base/util/constant';
+import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
 

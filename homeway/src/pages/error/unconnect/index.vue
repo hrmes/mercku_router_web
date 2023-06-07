@@ -1,7 +1,7 @@
 <template>
   <div class="disappear-container">
     <div class="inner">
-      <img src="../../../assets/images/img_no_network_access.png"
+      <img src="@/assets/images/img_no_network_access.png"
            alt="">
       <div class="text">{{$t('trans0132')}}</div>
       <button @click="tohome"

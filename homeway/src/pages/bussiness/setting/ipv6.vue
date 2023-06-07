@@ -121,8 +121,8 @@
 </template>
 
 <script>
-import * as CONSTANTS from '../../../../../base/src/util/constant';
-import { isValidInteger, isIP } from '../../../../../base/src/util/util';
+import * as CONSTANTS from 'base/util/constant';
+import { isValidInteger, isIP } from 'base/util/util';
 
 const defaultPrefixLength = 64;
 const { IPv6 } = CONSTANTS.IP;

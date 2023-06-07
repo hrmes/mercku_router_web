@@ -6,7 +6,7 @@
              :class="{'selected':$route.path.includes('device')}">
           <div class="icon-container">
             <img @click="forward2page('/dashboard/device')"
-                 src="../../../assets/images/icon/ic_device.png"
+                 src="@/assets/images/icon/ic_device.png"
                  alt="" />
             <div class="text-container">
               {{$t('trans0235')}}<span>&nbsp;({{deviceCount}})</span>
@@ -18,7 +18,7 @@
              :class="{'selected':$route.path.includes('mesh')}">
           <div class="icon-container">
             <img @click="forward2page('/dashboard/mesh/topo')"
-                 src="../../../assets/images/icon/ic_wifi.png"
+                 src="@/assets/images/icon/ic_wifi.png"
                  alt="" />
             <div class="text-container">
               {{ssid||'-'}}
@@ -27,11 +27,11 @@
         </div>
         <div class="line"
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
+          <!-- @click.stop="showTips()" -->
           <div class="icon-unconnected-container"
-               @click.stop="showTips()"
                v-if="isLinked || isUnlinked">
             <img class="icon__question"
-                 src="../../../assets/images/icon/ic_wifi_question.png"
+                 src="@/assets/images/icon/ic_wifi_question.png"
                  alt="" />
           </div>
         </div>
@@ -39,7 +39,7 @@
              :class="{'selected':$route.path.includes('internet')}">
           <div class="icon-container">
             <img @click="forward2page('/dashboard/internet')"
-                 src="../../../assets/images/icon/ic_internet.png"
+                 src="@/assets/images/icon/ic_internet.png"
                  alt="" />
             <div class="text-container">
               {{$t('trans0366')}}

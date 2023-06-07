@@ -1,4 +1,4 @@
-import { RouterSnModel, M6aRouterSnModelVsersion } from '../util/constant';
+import { RouterSnModel, M6aRouterSnModelVersion } from '../util/constant';
 
 export default {
   methods: {
@@ -27,9 +27,9 @@ export default {
           image = require('../assets/images/img_wifi6.png');
           break;
         case RouterSnModel.M6a:
-          if (modelVersion === M6aRouterSnModelVsersion.M6a) {
+          if (modelVersion === M6aRouterSnModelVersion.M6a) {
             image = require('../assets/images/img_m6a.png');
-          } else if (modelVersion === M6aRouterSnModelVsersion.M6a_Plus) {
+          } else if (modelVersion === M6aRouterSnModelVersion.M6a_Plus) {
             image = require('../assets/images/model/m6a_plus/img-m6a_plus.png');
           }
           break;
@@ -51,7 +51,7 @@ export default {
         [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
         [RouterSnModel.homeway]: process.env.CUSTOMER_CONFIG.routers.homeway,
         [RouterSnModel.M6a]:
-          this.$store.modelVersion === M6aRouterSnModelVsersion.M6a
+          this.$store.modelVersion === M6aRouterSnModelVersion.M6a
             ? process.env.CUSTOMER_CONFIG.routers.M6a
             : process.env.CUSTOMER_CONFIG.routers.M6a_plus
       }

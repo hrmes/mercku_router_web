@@ -56,13 +56,13 @@
             !hasUpgradablityNodes &&
               requestResult.complete &&
               !requestResult.error">
-          <img src="../../../assets/images/img_new_version.png"
+          <img src="@/assets/images/img_new_version.png"
                alt=""
                width="220" />
           <p>{{ $t('trans0259') }}</p>
         </div>
         <div v-if="requestResult.error">
-          <img src="../../../assets/images/img_online_upgrade_error.png"
+          <img src="@/assets/images/img_online_upgrade_error.png"
                alt=""
                width="220" />
           <p>{{ requestResult.message }}</p>

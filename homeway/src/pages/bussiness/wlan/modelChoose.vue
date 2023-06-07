@@ -2,7 +2,7 @@
   <div class="model-container">
     <div class="m6a-router">
       <div class="model-img">
-        <img src="../../../assets/images/img_model_m6a.png"
+        <img src="@/assets/images/img_model_m6a.png"
              alt="">
       </div>
       <div class="router-name">
@@ -17,7 +17,7 @@
     </div>
     <div class="other-router">
       <div class="model-img">
-        <img src="../../../assets/images/img_model_other.png"
+        <img src="@/assets/images/img_model_other.png"
              alt="">
       </div>
       <div class="router-name">

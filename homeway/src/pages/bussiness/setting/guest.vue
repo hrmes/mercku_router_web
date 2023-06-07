@@ -16,7 +16,7 @@
                          :title="$t('trans0538')"
                          :content="$t('trans0540')">
                 <img width="14"
-                     src="../../../assets/images/icon/ic_question.png"
+                     src="@/assets/images/icon/ic_question.png"
                      alt="">
               </m-popover>
             </div>
@@ -115,14 +115,14 @@
   </div>
 </template>
 <script>
-import encryptMix from '../../../../../base/src/mixins/encrypt-methods';
-import { EncryptMethod } from '../../../../../base/src/util/constant';
+import encryptMix from 'base/mixins/encrypt-methods';
+import { EncryptMethod } from 'base/util/constant';
 import {
   getStringByte,
   isValidPassword,
   isFieldHasComma,
   isFieldHasSpaces
-} from '../../../../../base/src/util/util';
+} from 'base/util/util';
 
 const Bands = {
   b24g: '2.4G',

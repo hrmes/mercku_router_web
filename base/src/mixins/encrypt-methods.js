@@ -51,9 +51,7 @@ export default {
         break;
       case Models.m6a:
       case Models.m6aPlus:
-      case Models.homeway_230v:
-      case Models.homeway_POE1:
-      case Models.homeway_POE2:
+      case Models.homeway:
         encryptMethods = [
           {
             value: EncryptMethod.open,

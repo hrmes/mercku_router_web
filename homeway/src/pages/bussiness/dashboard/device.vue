@@ -49,7 +49,7 @@
                   <div class="name-inner">
                     <a class="name_inner_a">
                       <img v-if='row.local'
-                           src="../../../assets/images/icon/ic_user.png"
+                           src="@/assets/images/icon/ic_user.png"
                            alt=""
                            class="current_visit_icon">
                       <span class="device-name"
@@ -59,12 +59,12 @@
                            :title="$t('trans0034')"
                            @click.stop='()=>nameModalOpen(row)'
                            v-if='isMobileRow(row.expand)'
-                           src="../../../assets/images/icon/ic_edit.png"
+                           src="@/assets/images/icon/ic_edit.png"
                            alt="">
                     </a>
                     <div class="mobile-icon">
                       <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                           src="../../../assets/images/icon/ic_side_bar_pick_up.png"
+                           src="@/assets/images/icon/ic_side_bar_pick_up.png"
                            alt="">
                     </div>
                   </div>
@@ -89,7 +89,7 @@
                 <div class="speed-inner">
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="../../../assets/images/icon/ic_device_upload.png"
+                         src="@/assets/images/icon/ic_device_upload.png"
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
@@ -98,7 +98,7 @@
                   </div>
                   <div class="speed-wrap">
                     <img class='icon'
-                         src="../../../assets/images/icon/ic_device_download.png"
+                         src="@/assets/images/icon/ic_device_download.png"
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
@@ -160,7 +160,7 @@
 
             <div class='table-empty'
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
-              <img src="../../../assets/images/img_default_empty.png"
+              <img src="@/assets/images/img_default_empty.png"
                    alt="">
               <span>{{$t('trans0278')}}</span>
             </div>
@@ -199,8 +199,8 @@
   </div>
 </template>
 <script>
-import { formatMac, getStringByte, formatDate, formatDuration } from '../../../../../base/src/util/util';
-import { BlacklistMode } from '../../../../../base/src/util/constant';
+import { formatMac, getStringByte, formatDate, formatDuration } from 'base/util/util';
+import { BlacklistMode } from 'base/util/constant';
 
 export default {
   data() {
