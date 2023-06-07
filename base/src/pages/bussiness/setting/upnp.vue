@@ -10,7 +10,7 @@
                   v-model="form.enabled"
                   :label="$t('trans0644')"
                   @change="onEnabledChange" />
-        <div class="form__label">{{$t('trans0643')}}</div>
+        <p class="form__tips">{{$t('trans0643')}}</p>
       </div>
     </div>
   </div>
@@ -59,18 +59,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  .page-content {
-    .form {
-      .form__label {
-        font-size: 12px;
-        color: #999;
-        margin-top: 10px;
-        max-width: 340px;
-      }
-      .form__switch {
-      }
-    }
-  }
-}
 </style>

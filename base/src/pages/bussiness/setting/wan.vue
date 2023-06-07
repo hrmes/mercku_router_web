@@ -39,7 +39,7 @@
           <m-select :label="$t('trans0317')"
                     v-model="netType"
                     :options="options"></m-select>
-          <div class="note">{{ netNote[netType] }}</div>
+          <p class="form__label">{{ netNote[netType] }}</p>
         </div>
         <m-form key="dhcp-form"
                 v-if="isDhcp"

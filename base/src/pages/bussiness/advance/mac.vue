@@ -210,9 +210,7 @@ export default {
   }
 }
 .form-button {
-  padding-top: 25px;
   margin-top: 0;
-  border-top: 1px solid var(--hr-color);
 }
 @media screen and (max-width: 768px) {
   .form {

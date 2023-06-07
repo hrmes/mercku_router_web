@@ -87,13 +87,15 @@ input::-webkit-input-placeholder {
 
   .form {
     .form-item {
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       width: 100%;
     }
   }
 
   .form-button {
-    margin-top: 20px;
+    padding-top: 25px;
+    margin-top: 25px;
+    border-top: 1px solid var(--hr-color);
   }
 
   .form-header {
@@ -111,6 +113,12 @@ input::-webkit-input-placeholder {
       background: #808080;
       margin-right: 10px;
     }
+  }
+  .form__tips{
+    font-size: 12px;
+    color: var(--text-gery-color);
+    max-width: 340px;
+    margin: 10px 0;
   }
 }
 

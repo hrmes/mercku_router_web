@@ -11,7 +11,7 @@
                     v-model="form.region.id"
                     :options="regions"></m-select>
         </m-form-item>
-        <div class="form__label">{{$t('trans0646')}}</div>
+        <p class="form__tips">{{$t('trans0646')}}</p>
       </m-form>
       <div class="form-button">
         <button class="btn primary"
@@ -104,11 +104,6 @@ export default {
 .page {
   .page-content {
     .form {
-      .form__label {
-        font-size: 12px;
-        color: #999;
-        max-width: 340px;
-      }
       .form-item {
         margin-bottom: 10px;
       }

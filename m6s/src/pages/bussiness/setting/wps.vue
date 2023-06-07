@@ -1,19 +1,21 @@
 <template>
   <div class="page">
-    <div class='page-header'>
-      WPS
+    <div v-if="$store.state.isMobile"
+         class='page-header'>
+      {{$t('trans1168')}}
     </div>
     <div class="page-content">
       <m-form ref="form"
-              class='form'
-              :model="form"
-              :rules='rules'>
-        <m-form-item class="item"
-                     prop='password'>
-          <m-input :label="$t('trans0113')"
-                   type='password'
-                   :placeholder="`${$t('trans0321')}`"
-                   v-model="form.password"></m-input>
+              class='form'>
+        <m-form-item class="item">
+          <h4>{{$t('trans1168')}}</h4>
+          <p class="form__tips">{{$t('trans1169')}}</p>
+        </m-form-item>
+        <m-form-item class="item">
+          <m-select :label="$t('trans1170')"
+                    v-model="wpsBand"
+                    :options="bandList"></m-select>
+          <p class="form__tips">{{$t('trans1171')}}</p>
         </m-form-item>
       </m-form>
       <div class="form-button">
@@ -25,39 +27,30 @@
   </div>
 </template>
 <script>
-import { isValidPassword } from 'base/util/util';
+import { debounce } from 'base/util/util';
 
 export default {
   data() {
     return {
-      form: {
-        password: ''
-      },
-      rules: {
-        password: [
-          {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
-          }
-        ]
-      }
+      wpsBand: '2.4g',
+      bandList: [
+        { value: '2.4g', text: this.$t('trans0677') },
+        { value: '5g', text: this.$t('trans0679') }
+      ]
     };
   },
   methods: {
-    submit() {
-      if (this.$refs.form.validate()) {
-        this.$loading.open();
-        this.$http
-          .updateSuper(this.form)
-          .then(() => {
-            this.$loading.close();
-            this.$router.push({ path: '/login' });
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
-      }
-    }
+    submit: debounce(function updateWps() {
+      this.$loading.open();
+      this.$http
+        .updateMeshWps({ band: this.wpsBand })
+        .then(() => {
+           this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
+    }, 500)
   }
 };
 </script>
@@ -67,5 +60,12 @@ export default {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  h4 {
+    margin: 0;
+    padding: 0;
+  }
+}
+.form-button {
+  margin-top: 0;
 }
 </style>

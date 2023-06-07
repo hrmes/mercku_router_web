@@ -40,7 +40,7 @@
           <m-select :label="$t('trans0317')"
                     v-model="netType"
                     :options="options"></m-select>
-          <div class="note">{{ netNote[netType] }}</div>
+          <p class="form__tips">{{ netNote[netType] }}</p>
         </div>
         <m-form key="dhcp-form"
                 v-if="isDhcp"
@@ -892,16 +892,8 @@ export default {
   .item {
     width: 340px;
   }
-  // @media screen and (min-width: 769px) {
-  //   width: 340px;
-  // }
   .net-type {
     margin-bottom: 30px;
-  }
-  .note {
-    font-size: 12px;
-    padding-top: 10px;
-    color: var(--text-gery-color);
   }
   .form__split-line {
     padding-top: 25px;

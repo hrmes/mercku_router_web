@@ -6,7 +6,7 @@
     </div>
     <div class="page-content">
       <!-- smart_connect -->
-      <div>
+      <div class="has-border-bottom">
         <div class="smart-connect">
           <div class="smart-connect__inner">
             <m-switch class="smart-connect__switch"
@@ -14,22 +14,22 @@
                       v-model="form.smart_connect" />
             <label class="smart-connect__label">{{ $t('trans0397') }}</label>
           </div>
-          <div class="smart-connect__tip">{{ $t('trans0398') }}</div>
+          <p class="form__tips">{{ $t('trans0398') }}</p>
         </div>
       </div>
       <!-- compatible with wifi5 -->
-      <div>
+      <div class="has-border-bottom">
         <div class="smart-connect">
           <div class="smart-connect__inner">
             <m-switch class="smart-connect__switch"
                       v-model="form.compatibility_mode" />
             <label class="smart-connect__label">{{ $t('trans0877') }}</label>
           </div>
-          <div class="smart-connect__tip">{{ $t('trans0878') }}</div>
+          <p class="form__tips">{{ $t('trans0878') }}</p>
         </div>
       </div>
       <!-- wifi -->
-      <div class="wifi-form-container">
+      <div class="wifi-form-container has-border-bottom">
         <!-- 2.4g设置表格  start -->
         <m-form class="form"
                 ref="b24gForm"
@@ -135,7 +135,7 @@
         <!-- 5g设置表格 end -->
       </div>
       <!-- channel -->
-      <m-form class="form"
+      <m-form class="form has-border-bottom"
               ref="channelForm"
               key="channelform"
               :model="form">
@@ -166,7 +166,7 @@
         </m-form-item>
       </m-form>
       <!-- channel width -->
-      <m-form class="form"
+      <m-form class="form has-border-bottom"
               ref="channelWdithForm"
               key="channelWdithForm"
               :model="form">
@@ -522,12 +522,9 @@ export default {
 .page-content {
   flex-direction: column;
   justify-content: flex-start;
-  > div {
+  .has-border-bottom {
     border-bottom: 1px solid var(--hr-color);
     margin-bottom: 25px;
-  }
-  & div:last-of-type {
-    border-bottom: none;
   }
 }
 .smart-connect {
@@ -539,11 +536,6 @@ export default {
   }
   .smart-connect__label {
     font-weight: bold;
-  }
-  .smart-connect__tip {
-    font-size: 12px;
-    color: #999;
-    margin-top: 10px;
   }
 }
 .wifi-form-container {

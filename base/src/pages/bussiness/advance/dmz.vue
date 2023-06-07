@@ -90,13 +90,6 @@ export default {
     display: block;
     text-align: center !important;
   }
-  .checkbox-wrapper {
-    padding-bottom: 25px;
-    border-bottom: 1px solid var(--hr-color);
-  }
-}
-.form-button {
-  margin-top: 25px;
 }
 @media screen and (max-width: 768px) {
   .form {

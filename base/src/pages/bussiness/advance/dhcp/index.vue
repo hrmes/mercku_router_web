@@ -340,7 +340,7 @@ export default {
     }
   }
   .form-button {
-    margin-top: 25px;
+    margin-top: 0px;
   }
 }
 .ext-item {

@@ -135,7 +135,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       {
         url: '/setting/wps',
         name: 'wps',
-        text: 'WPS',
+        text: 'trans1168',
         config
       }
     ]

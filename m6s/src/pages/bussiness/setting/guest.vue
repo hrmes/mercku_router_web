@@ -24,7 +24,7 @@
             </div> -->
 
           </div>
-          <p class="des">{{$t('trans0540')}}</p>
+          <p class="form__tips">{{$t('trans0540')}}</p>
         </div>
         <div v-if="form.enabled&&showSettingPage"
              class="setting">
@@ -529,10 +529,9 @@ export default {
   .status {
     border-top: 1px solid var(--hr-color);
     padding-top: 25px;
+    margin-top: 5px;
     .form-button {
-      padding-top: 25px;
-      margin-top: 25px;
-      border-top: 1px solid var(--hr-color);
+      margin-top: 0px;
       .btn-middle {
         width: 160px;
       }
@@ -624,10 +623,6 @@ export default {
   .form-title {
     display: flex;
     flex-direction: column;
-  }
-  .des {
-    font-size: 12px;
-    color: #999;
   }
   display: flex;
   flex-direction: column;

@@ -563,8 +563,7 @@ export default {
     font-size: 14px;
     color: #999;
     border-bottom: 1px solid var(--hr-color);
-    height: 50px;
-    line-height: 50px;
+    padding: 10px 0;
   }
   .ipv6-page__internet-content {
     // width: 340px;

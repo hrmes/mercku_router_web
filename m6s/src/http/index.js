@@ -4,15 +4,14 @@ import store from '../store/index'; // 引入vuex
 
 const methods = {
   updateSuper: createMethod('mesh.config.super.update'),
-  getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
-  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set'),
-  getNewMeshNodeInfo: createMethod('mesh.node.new.info')
+  getNewMeshNodeInfo: createMethod('mesh.node.new.info'),
+  updateMeshWps: createMethod('mesh.wps.update')
 };
 
-class M6aHttp extends Http {}
+class M6sHttp extends Http {}
 
 Object.keys(methods).forEach(methodName => {
-  M6aHttp.prototype[methodName] = function name(params, httpConf) {
+  M6sHttp.prototype[methodName] = function name(params, httpConf) {
     return this.request(methods[methodName], params, httpConf);
   };
 });
@@ -37,4 +36,4 @@ axios.interceptors.response.use(
   }
 );
 
-export default M6aHttp;
+export default M6sHttp;

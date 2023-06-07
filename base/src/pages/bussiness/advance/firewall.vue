@@ -21,11 +21,13 @@
           <m-form ref="ipListForm"
                   :model="ping"
                   class="content__item form">
-            <m-checkbox class="form__checkbox"
-                        v-model="isIpPointed"
-                        :text="$t('trans0575')"
-                        :rect="false"
-                        @change="changeIpPointed"></m-checkbox>
+            <m-form-item>
+              <m-checkbox class="form__checkbox"
+                          v-model="isIpPointed"
+                          :text="$t('trans0575')"
+                          :rect="false"
+                          @change="changeIpPointed"></m-checkbox>
+            </m-form-item>
             <template v-if="isIpPointed">
               <div class="flex-container">
                 <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
@@ -229,9 +231,6 @@ export default {
     background: var(--flex-warp-has-menu-bgc);
   }
   .form {
-    .form__checkbox {
-      margin-bottom: 10px;
-    }
     .form__item {
       display: flex;
       align-items: center;

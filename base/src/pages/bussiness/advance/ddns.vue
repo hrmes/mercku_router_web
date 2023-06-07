@@ -163,8 +163,6 @@ export default {
 }
 .form-button {
   margin-top: 0;
-  padding-top: 25px;
-  border-top: 1px solid var(--hr-color);
 }
 @media screen and (max-width: 768px) {
   .form-item {
