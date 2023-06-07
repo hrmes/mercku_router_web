@@ -120,16 +120,22 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0644',
         config: strategyA
       },
+      // {
+      //   url: '/setting/led',
+      //   name: 'led',
+      //   text: 'trans0779',
+      //   config
+      // },
+      // {
+      //   url: '/setting/schedule',
+      //   name: 'schedule',
+      //   text: 'trans0962',
+      //   config
+      // }
       {
-        url: '/setting/led',
-        name: 'led',
-        text: 'trans0779',
-        config
-      },
-      {
-        url: '/setting/schedule',
-        name: 'schedule',
-        text: 'trans0962',
+        url: '/setting/wps',
+        name: 'wps',
+        text: 'WPS',
         config
       }
     ]

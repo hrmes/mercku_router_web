@@ -22,6 +22,7 @@ import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
+import wps from 'pages/bussiness/setting/wps.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -284,6 +285,15 @@ const routes = {
       path: '/setting/schedule',
       name: 'schedule',
       component: wifiSchedule,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/wps',
+      name: 'wps',
+      component: wps,
       meta: {
         layout: 'primary',
         hasAside: true

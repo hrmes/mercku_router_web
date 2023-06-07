@@ -237,6 +237,7 @@
                 <m-form-item class="form__item">
                   <m-select :label="$t('trans0686')"
                             v-model="ipPhoneVlan.priority"
+                            :popupTop="!iptvVlan.enabled"
                             :options="priorities"></m-select>
                 </m-form-item>
               </template>
@@ -267,6 +268,7 @@
                 <m-form-item class="form__item">
                   <m-select :label="$t('trans0686')"
                             v-model="iptvVlan.priority"
+                            :popupTop="true"
                             :options="priorities"></m-select>
                 </m-form-item>
               </template>

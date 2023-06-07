@@ -24,12 +24,6 @@
                    v-model="form.mask"
                    :onBlur="maskChange" />
         </m-form-item>
-        <m-form-item class="item"
-                     prop='lease'>
-          <m-select :label="$t('trans0443')"
-                    v-model="form.lease"
-                    :options="leases"></m-select>
-        </m-form-item>
         <div class="item">
           <!-- <label style="font-weight:bold;">{{$t('trans0483')}}</label> -->
           <div>
@@ -53,6 +47,13 @@
             </m-form-item>
           </div>
         </div>
+        <m-form-item class="item"
+                     prop='lease'>
+          <m-select :label="$t('trans0443')"
+                    v-model="form.lease"
+                    :popupTop="true"
+                    :options="leases"></m-select>
+        </m-form-item>
         <label class="tip"
                v-if="lanipChanged">{{$t('trans0476')}}</label>
       </m-form>

@@ -374,14 +374,13 @@ export default {
   }
 }
 .config-uploader {
-  width: 340px;
   margin-bottom: 20px;
   .config-uploader__inner {
     display: flex;
     align-items: center;
   }
   .config-uploader__label {
-    color: #333;
+    color: var(--text-default-color);
     margin-bottom: 5px;
     font-size: 14px;
     margin-right: 12px;

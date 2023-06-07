@@ -178,12 +178,20 @@ export default {
       blacklist: [],
       formatMac,
       checkAllBlacklist: false,
-      deviceModalVisible: false
+      deviceModalVisible: false,
+      deviceListTimer: null,
+      pageActive: true
     };
   },
   mounted() {
     this.getBlacklist();
     this.getDeviceList();
+  },
+   beforeDestroy() {
+    // clean up
+    this.pageActive = false;
+    clearTimeout(this.deviceListTimer);
+    this.deviceListTimer = null;
   },
   computed: {
     listOrdered() {
@@ -212,7 +220,6 @@ export default {
   },
   methods: {
     checkDevice(device) {
-      console.log('$$$', device);
       device.checked = !device.checked;
     },
     changeCheckboxAll(v) {
@@ -235,8 +242,7 @@ export default {
       const macs = devices.map(d => d.mac);
       if (devices.length) {
         this.$loading.open();
-        this.$http
-          .addToblackList({ devices })
+        this.$http.addToblackList({ devices })
           .then(() => {
             this.blacklist = this.blacklist.concat(
               devices.map(d => ({
@@ -254,6 +260,8 @@ export default {
       }
     },
     getDeviceList() {
+      clearTimeout(this.deviceListTimer);
+      this.deviceListTimer = null;
       Promise.all([
         this.$http.getDeviceList({
           filters: [
@@ -265,13 +273,26 @@ export default {
           ]
         }),
         this.$http.getLocalDevice()
-      ]).then(([res1, res2]) => {
+      ])
+      .then(([res1, res2]) => {
         this.devices = res1.data.result
           .map(d => ({
             ...d,
             checked: false
           }))
           .filter(d => d.ip !== res2.data.result.ip);
+        if (this.pageActive) {
+          this.deviceListTimer = setTimeout(() => {
+            this.getDeviceList();
+          }, 10000);
+          }
+      })
+      .catch(() => {
+        if (this.pageActive) {
+           this.deviceListTimer = setTimeout(() => {
+            this.getDeviceList();
+          }, 10000);
+        }
       });
     },
     getBlacklist() {

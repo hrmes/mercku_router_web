@@ -236,7 +236,7 @@
 <script>
 import RouterModel from 'base/mixins/router-model';
 import { debounce } from 'lodash';
-import { Models, AddNodeType } from 'base/util/constant';
+import { AddNodeType } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',

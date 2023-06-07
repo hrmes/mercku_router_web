@@ -15,6 +15,7 @@
       </div>
       <transition name="select">
         <ul class="select-popup reset-ul"
+            :class="{'popup-top':popupTop}"
             v-show="opened">
           <template v-if="options.length">
             <li class="select-popup__item"
@@ -64,6 +65,10 @@ export default {
     needProcessing: {
       type: Boolean,
       default: false
+    },
+    popupTop: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -75,7 +80,7 @@ export default {
   watch: {
     value(val) {
       this.selected = this.getOptionByValue(val);
-    }
+    },
   },
   methods: {
     getOptionByValue(val) {
@@ -117,7 +122,7 @@ export default {
     },
     close() {
       this.opened = false;
-    }
+    },
   }
 };
 </script>
@@ -189,6 +194,10 @@ export default {
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
     border: 1px solid var(--select-popup-border-color);
     overflow: auto;
+    &.popup-top {
+      top: -5px;
+      transform: translateY(-100%);
+    }
     .select-popup__item {
       list-style: none;
       padding: 17px 10px;
@@ -285,9 +294,6 @@ export default {
     .select-popup {
       top: 52px;
       max-height: 200px;
-      .select-popup__item {
-        padding: 17px 10px;
-      }
     }
   }
 }

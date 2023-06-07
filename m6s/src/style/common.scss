@@ -95,6 +95,23 @@ input::-webkit-input-placeholder {
   .form-button {
     margin-top: 20px;
   }
+
+  .form-header {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    .form-header__title {
+      font-weight: 600;
+    }
+    &::before {
+      content: '';
+      display: block;
+      width: 6px;
+      height: 24px;
+      background: #808080;
+      margin-right: 10px;
+    }
+  }
 }
 
 .empty {

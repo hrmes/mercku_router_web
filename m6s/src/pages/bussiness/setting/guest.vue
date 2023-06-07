@@ -9,20 +9,22 @@
               ref="form"
               :model="form"
               :rules='rules'>
-        <div class="switch-wrap">
-          <m-switch v-model="form.enabled"
-                    @change="guestEnabledChange" />
-          <label class="title"> {{$t('trans0538')}}
-            <div class="tool">
+        <div class="form-title">
+          <div class="switch-wrap">
+            <m-switch v-model="form.enabled"
+                      @change="guestEnabledChange" />
+            <label class="title"> {{$t('trans0538')}}</label>
+            <!-- <div class="tool">
               <m-popover position="bottom left"
                          style="top:-7px"
                          :title="$t('trans0538')"
                          :content="$t('trans0540')">
                 <i class="iconfont icon-ic_help"></i>
               </m-popover>
-            </div>
-          </label>
+            </div> -->
 
+          </div>
+          <p class="des">{{$t('trans0540')}}</p>
         </div>
         <div v-if="form.enabled&&showSettingPage"
              class="setting">
@@ -32,45 +34,65 @@
                       :label="$t('trans0521')"
                       :options='checkOps'></m-select>
           </m-form-item>
-          <m-form-item class="item"
-                       prop='ssid'>
-            <m-input v-model="form.ssid"
-                     :label="$t('trans0168')"
-                     type='text'
-                     :placeholder="`${$t('trans0321')}`"></m-input>
-          </m-form-item>
-          <m-form-item class="item">
-            <m-select :label="$t('trans0522')"
-                      v-model="form.encrypt"
-                      @change="onEncryptChange"
-                      :options="encryptMethods"></m-select>
-          </m-form-item>
-          <m-form-item class="item"
-                       prop='password'
-                       v-if="form.encrypt!== EncryptMethod.open">
-            <m-input v-model="form.password"
-                     :label="$t('trans0172')"
-                     type='password'
-                     :placeholder="`${$t('trans0321')}`"></m-input>
-          </m-form-item>
           <div class="switch-wrap">
-            <m-checkbox v-model="form.smart_connect"
-                        class="checkbox"
-                        :text="$t('trans0397')"
-                        :bold='true'
-                        :rect='false'></m-checkbox>
+            <m-switch v-model="form.smart_connect"
+                      @change="smartConnectChange" />
+            <label class="title"> {{$t('trans0397')}}</label>
           </div>
-          <div v-if="!form.smart_connect"
-               class="ssid">
-            <div>
-              <label class="ssid-label with-colon">{{$t('trans0255')}}:</label>
-              <span class="ssid-name"
-                    :title="form.ssid">{{form.ssid}}</span>
+          <div class="wifi-setting">
+            <div class="b24g">
+              <div v-if="!form.smart_connect"
+                   class="form-header">
+                <span class="form-header__title">{{ $t('trans0677') }}</span>
+              </div>
+              <m-form-item class="item"
+                           prop='b24g.ssid'>
+                <m-input v-model="form.b24g.ssid"
+                         :label="$t('trans0168')"
+                         type='text'
+                         :placeholder="`${$t('trans0321')}`"></m-input>
+              </m-form-item>
+              <m-form-item class="item">
+                <m-select :label="$t('trans0522')"
+                          v-model="form.b24g.encrypt"
+                          @change="onEncryptChange"
+                          :options="encryptMethods"></m-select>
+              </m-form-item>
+              <m-form-item class="item"
+                           prop='b24g.password'
+                           v-if="form.b24g.encrypt!== EncryptMethod.open">
+                <m-input v-model="form.b24g.password"
+                         :label="$t('trans0172')"
+                         type='password'
+                         :placeholder="`${$t('trans0321')}`"></m-input>
+              </m-form-item>
             </div>
-            <div>
-              <label class="ssid-label with-colon">{{$t('trans0256')}}:</label>
-              <span class="ssid-name"
-                    :title="ssid_5g">{{ssid_5g}}</span>
+            <div v-if="!form.smart_connect"
+                 class="b5g">
+              <div class="form-header">
+                <span class="form-header__title">{{ $t('trans0679') }}</span>
+              </div>
+              <m-form-item class="item"
+                           prop='b5g.ssid'>
+                <m-input v-model="form.b5g.ssid"
+                         :label="$t('trans0168')"
+                         type='text'
+                         :placeholder="`${$t('trans0321')}`"></m-input>
+              </m-form-item>
+              <m-form-item class="item">
+                <m-select :label="$t('trans0522')"
+                          v-model="form.b5g.encrypt"
+                          @change="onEncryptChange"
+                          :options="encryptMethods"></m-select>
+              </m-form-item>
+              <m-form-item class="item"
+                           prop='b5g.password'
+                           v-if="form.b5g.encrypt!== EncryptMethod.open">
+                <m-input v-model="form.b5g.password"
+                         :label="$t('trans0172')"
+                         type='password'
+                         :placeholder="`${$t('trans0321')}`"></m-input>
+              </m-form-item>
             </div>
           </div>
           <div class="form-button"
@@ -168,12 +190,20 @@ export default {
         id: '',
         enabled: false,
         duration: -1,
-        ssid: 'Mercku Guest',
-        encrypt: EncryptMethod.open,
+        b24g: {
+          ssid: 'Mercku Guest',
+          password: '',
+          encrypt: EncryptMethod.open,
+        },
+        b5g: {
+          ssid: 'Mercku Guest_5G',
+          password: '',
+          encrypt: EncryptMethod.open,
+        },
         smart_connect: true
       },
-      rules: {
-        ssid: [
+       rules: {
+        'b24g.ssid': [
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0237')
@@ -191,7 +221,39 @@ export default {
             message: this.$t('trans1021')
           }
         ],
-        password: [
+        'b24g.password': [
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
+            rule: value => isValidPassword(value),
+            message: this.$t('trans0169')
+          }
+        ],
+        'b5g.ssid': [
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0237')
+          },
+          {
+            rule: value => getStringByte(value.trim()) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
+          }
+        ],
+        'b5g.password': [
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
@@ -205,13 +267,10 @@ export default {
             message: this.$t('trans0169')
           }
         ]
-      }
+      },
     };
   },
   computed: {
-    ssid_5g() {
-      return `${this.form.ssid.trim()}_5G`;
-    },
     hasStatus() {
       return this.setupAndStart;
     },
@@ -219,7 +278,8 @@ export default {
       let params = {};
       // 新建guest wifi
       if (this.form.enabled) {
-        this.form.ssid = this.form.ssid.trim();
+        this.form.b24g.ssid = this.form.b24g.ssid.trim();
+        this.form.b5g.ssid = this.form.b5g.ssid.trim();
         params = {
           id: this.form.id,
           enabled: this.form.enabled,
@@ -227,14 +287,14 @@ export default {
           smart_connect: this.form.smart_connect,
           bands: {
             '2.4G': {
-              ssid: this.form.ssid,
-              password: this.form.password,
-              encrypt: this.form.encrypt
+              ssid: this.form.b24g.ssid,
+              password: this.form.b24g.password,
+              encrypt: this.form.b24g.encrypt
             },
             '5G': {
-              ssid: this.form.smart_connect ? this.form.ssid : this.ssid_5g,
-              password: this.form.password,
-              encrypt: this.form.encrypt
+              ssid: this.form.smart_connect ? this.form.b24g.ssid : this.form.b5g.ssid,
+              password: this.form.smart_connect ? this.form.b24g.password : this.form.b5g.password,
+              encrypt: this.form.smart_connect ? this.form.b24g.encrypt : this.form.b5g.encrypt
             }
           }
         };
@@ -249,6 +309,11 @@ export default {
     }
   },
   methods: {
+    smartConnectChange() {
+      if (!this.form.smart_connect) {
+        this.form.b5g.ssid = `${this.form.b24g.ssid}_5G`;
+      }
+    },
     onEncryptChange(nv, ov) {
       if (nv === EncryptMethod.wpa3) {
         this.$dialog.confirm({
@@ -345,13 +410,21 @@ export default {
       this.$http.meshGuestGet().then(res => {
         [this.guest] = res.data.result;
         const band24g = this.guest.bands[Bands.b24g];
+        const band5g = this.guest.bands[Bands.b5g];
         this.form = {
           id: this.guest.id,
           enabled: this.guest.enabled,
           duration: this.guest.duration,
-          ssid: band24g.ssid,
-          encrypt: band24g.encrypt,
-          password: band24g.password,
+          b24g: {
+            ssid: band24g.ssid,
+            encrypt: band24g.encrypt,
+            password: band24g.password
+          },
+          b5g: {
+             ssid: band5g.ssid,
+            encrypt: band5g.encrypt,
+            password: band5g.password
+          },
           smart_connect: this.guest.smart_connect
         };
         this.setGuestWIFIStatus(this.guest.enabled);
@@ -397,6 +470,8 @@ export default {
       this.timer = null;
     },
     updateGuestWIFIStatus(enabled) {
+      console.log(this.formParams);
+      console.log(this.formParams.duration);
       this.$loading.open();
       this.$http
         .meshGuestUpdate(this.formParams)
@@ -468,35 +543,14 @@ export default {
       width: 140px;
     }
   }
-  .ssid {
-    overflow: hidden;
+  .wifi-setting {
+    display: flex;
     > div {
-      display: flex;
-      width: 340px;
-      overflow: hidden;
-      padding: 10px 20px;
-      background-color: var(--table-row-background-color);
-      &:first-child {
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        border-bottom: 1px solid var(--hr-color);
-      }
-      &:last-child {
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-      }
-      .ssid-label {
-        width: 40px;
-        display: inline-block;
-        color: var(--text-gery-color);
-      }
-      .ssid-name {
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
+      margin-top: 30px;
     }
+  }
+  .b24g {
+    margin-right: 40px;
   }
   .online-device {
     margin-bottom: 25px;
@@ -547,7 +601,6 @@ export default {
     }
   }
   .switch-wrap {
-    margin-bottom: 25px;
     display: flex;
     align-items: center;
     width: 340px;
@@ -567,6 +620,14 @@ export default {
     label {
       font-weight: bold;
     }
+  }
+  .form-title {
+    display: flex;
+    flex-direction: column;
+  }
+  .des {
+    font-size: 12px;
+    color: #999;
   }
   display: flex;
   flex-direction: column;

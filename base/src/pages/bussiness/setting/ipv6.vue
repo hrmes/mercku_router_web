@@ -19,7 +19,7 @@
           <div class="ipv6-page__internet-content ipv6-page__internet-content--info">
             <div class="info__item info__item--text">
               <label class="with-colon">{{$t('trans0375')}}:</label>
-              <span>{{networkArr[netInfo.type]}}</span>
+              <span>{{networkArr[netInfo.type] ? networkArr[netInfo.type]:'-'}}</span>
             </div>
             <div class="info__item info__item--text">
               <label class="with-colon">{{$t('trans0151')}}:</label>

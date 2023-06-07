@@ -197,6 +197,7 @@
         <m-form-item key="wifiTxPower"
                      class="form__item">
           <m-select v-model="form.wifiTxPower"
+                    :popupTop="true"
                     :options="wifi_TxPowerList"></m-select>
         </m-form-item>
       </m-form>
@@ -226,13 +227,13 @@ export default {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: EncryptMethod.wpawpa2,
+          encrypt: EncryptMethod.wpa2,
         },
         b5g: {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: EncryptMethod.wpawpa2,
+          encrypt: EncryptMethod.wpa2,
         },
         channel: {
           b24gChannel: {
@@ -333,20 +334,6 @@ export default {
           };
         })
       },
-      encryptMethods: [
-        {
-          value: EncryptMethod.open,
-          text: this.$t('trans0554')
-        },
-        {
-          value: EncryptMethod.wpa2,
-          text: this.$t('trans0556')
-        },
-        {
-          value: EncryptMethod.wpa3,
-          text: this.$t('trans0572')
-        }
-      ],
       isAutoChannel: false,
     };
   },
@@ -568,22 +555,6 @@ export default {
   justify-content: flex-start;
   &:first-child {
     margin-right: 40px;
-  }
-  .form-header {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    .form-header__title {
-      font-weight: 600;
-    }
-    &::before {
-      content: '';
-      display: block;
-      width: 6px;
-      height: 24px;
-      background: #808080;
-      margin-right: 10px;
-    }
   }
   .check-info {
     display: flex;
