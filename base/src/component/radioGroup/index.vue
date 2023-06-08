@@ -63,24 +63,26 @@ export default {
     cursor: pointer;
     &.selected {
       .radio {
-        border: 0;
-        background: var(--checkbox-checked-background-color);
         position: relative;
         &::after {
-          content: '\e65c';
-          width: 12px;
-          height: 12px;
-          font-size: 12px;
-          font-family: 'iconfont';
-          color: #fff;
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 86%;
+          height: 86%;
+          border-radius: 50%;
+          background: var(--checkbox-checked-background-color);
         }
       }
     }
     .radio {
-      width: 18px;
-      height: 18px;
-      line-height: 18px;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       border: 1.5px solid var(--checkbox-border-color);
     }

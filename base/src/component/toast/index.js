@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import Toast from './index.vue';
 
-const toast = (text = '', duration = 3000, type = 'error', parentEl = '.srcollbar-wrap') => {
+const toast = (
+  text = '',
+  duration = 3000,
+  type = 'error',
+  parentEl = '.srcollbar-wrap'
+) => {
   const Construtor = Vue.extend(Toast);
   const instance = new Construtor({
     data: {
@@ -13,6 +18,9 @@ const toast = (text = '', duration = 3000, type = 'error', parentEl = '.srcollba
   instance.visible = true;
 
   const pEl = document.querySelector(parentEl);
+  if (pEl.querySelector('.toast-container')) {
+    pEl.removeChild(pEl.querySelector('.toast-container'));
+  }
   pEl.appendChild(instance.$el);
 
   const rect = pEl.getBoundingClientRect();

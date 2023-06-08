@@ -81,8 +81,10 @@
               </m-form-item>
               <m-form-item class="item">
                 <m-select :label="$t('trans0522')"
+                          class="b5g__encrypt"
                           v-model="form.b5g.encrypt"
                           @change="onEncryptChange"
+                          :popupTop='$store.state.isMobile'
                           :options="encryptMethods"></m-select>
               </m-form-item>
               <m-form-item class="item"
@@ -633,6 +635,19 @@ export default {
     width: 100vw;
   }
   .form {
+    .wifi-setting {
+      flex-direction: column;
+    }
+    .b24g {
+      margin-right: 0;
+    }
+    .b5g {
+      .b5g__encrypt {
+        .select-popup {
+          top: 0;
+        }
+      }
+    }
     .form-button {
       &.cancel {
         display: flex;

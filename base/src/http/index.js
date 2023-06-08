@@ -148,7 +148,9 @@ const commonMethods = {
   getMeshWifiStatus: createMethod('mesh.config.wifi.status.get'),
   updateMeshWifiStatus: createMethod('mesh.config.wifi.status.update'),
   getMeshLEDStatus: createMethod('mesh.led.get'),
-  updateMeshLEDStatus: createMethod('mesh.led.update')
+  updateMeshLEDStatus: createMethod('mesh.led.update'),
+  getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
+  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set')
 };
 
 // 获取主页
@@ -158,6 +160,10 @@ Http.prototype.getHomePage = function getHomePage() {
 // 系统日志
 Http.prototype.getSysLog = function getSysLog() {
   return axios.get(`/log.log?t=${Date.now()}`);
+};
+// 内核日志
+Http.prototype.getKernelLog = function getKernelLog() {
+  return axios.get(`/kernel.log?t=${Date.now()}`);
 };
 // 上传镜像
 Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {

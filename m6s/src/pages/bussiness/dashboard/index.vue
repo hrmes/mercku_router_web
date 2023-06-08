@@ -14,7 +14,7 @@
         </div>
         <div class="wifi-container">
           <div class="icon-container">
-            <img :src="getWifiIcon()"
+            <img src="@/assets/images/icon/ic_homepage_m6s.svg"
                  alt="" />
           </div>
         </div>
@@ -82,7 +82,7 @@
         <li @click="forward2page('/dashboard/mesh/topo')"
             class="functional-module mesh-container">
           <div class="icon-container">
-            <img :src="getWifiIcon()"
+            <img src="@/assets/images/icon/ic_homepage_m6s.svg"
                  alt="">
           </div>
           <div class="text-container">
@@ -510,9 +510,6 @@ export default {
             }, 10000);
           }
         });
-    },
-    getWifiIcon() {
-      return require('@/assets/images/icon/ic_homepage_m6s.svg');
     },
     transformDate(date) {
       if (!date) {

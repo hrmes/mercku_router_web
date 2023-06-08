@@ -16,14 +16,14 @@
             <m-input v-model="form.up"
                      :label="`${$t('trans0304')} (KB/s)`"
                      type='text'
-                     :placeholder="`${$t('trans0391')}`"></m-input>
+                     :placeholder="`${$t('trans1180')}`"></m-input>
           </m-form-item>
           <m-form-item class="item"
                        prop='down'>
             <m-input v-model="form.down"
                      :label=" `${$t('trans0305')} (KB/s)`"
                      type='text'
-                     :placeholder="`${$t('trans0391')}`"></m-input>
+                     :placeholder="`${$t('trans1180')}`"></m-input>
           </m-form-item>
         </m-form>
         <div class="hr-line"></div>
@@ -42,7 +42,7 @@ export default {
       return /^[1-9]\d*$/.test(v);
     }
     function Len(v) {
-      return /^(1|[1-9]\d{0,4}|1[0-1]\d{4}|12[0-4]\d{3}|125000)$/.test(v);
+      return v >= 1 && v <= 2400000;
     }
     return {
       mac: '',

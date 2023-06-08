@@ -2,7 +2,20 @@
   <div class="select-container"
        :class="{'disabled':disabled}"
        v-clickoutside="close">
-    <label for="">{{label}}</label>
+    <label>
+      {{label}}
+      <svg class="refresh-icon"
+           :class="{'clickable':isClickable}"
+           @click="refreshUpperlist"
+           width="20"
+           height="20"
+           viewBox="0 0 20 20"
+           xmlns="http://www.w3.org/2000/svg">
+        <path :d="RefreshSVGPath"
+              :fill="svgColor"
+              fill-rule="nonzero" />
+      </svg>
+    </label>
     <div class="select">
       <input class="select-text"
              :value="selected.text"
@@ -15,53 +28,52 @@
         <span class="icon"
               :class="{ 'open': opened, 'close': !opened }"></span>
       </div>
-      <transition name="select">
-        <ul class="select-popup reset-ul"
-            v-show="opened">
-          <template v-if="options.length">
-            <li class="select-popup__item"
-                :class="{ 'selected': selected === option }"
-                v-for="(option,index) in options"
-                :key="index"
-                @click.stop="select(option)"
-                :title="option.text">
-              <div class="text__container"> {{ option.text }}
-              </div>
-              <div class="icon__container">
-                <span class="band">
-                  {{option.band}}
-                </span>
-                <span class="encrypt"
-                      v-if="option.encrypt!==EncryptMethod.OPEN"></span>
-                <span class="rssi"
-                      :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
-              </div>
-            </li>
-          </template>
-          <template v-else>
-            <li v-if="loading===LoadingStatus.empty"
-                class="select-popup__item--empty">{{$t('trans0278')}}</li>
-            <li v-else-if="loading===LoadingStatus.loading"
-                class="select-popup__item--loading">
-              <m-loading :color="loadingColor"
-                         :size="36"
-                         class="loading"></m-loading>
-              {{loadingText}}
-            </li>
-            <li v-else
-                class="select-popup__item--failed"
-                @click="rescanApclient">{{loadingText}}</li>
-          </template>
-
-        </ul>
-      </transition>
     </div>
+    <transition name="select">
+      <ul class="select-popup reset-ul"
+          :class="{'popup-top':popupTop}"
+          v-show="opened">
+        <template v-if="loading===LoadingStatus.success && options.length">
+          <li class="select-popup__item"
+              :class="{ 'selected': selected === option }"
+              v-for="(option,index) in options"
+              :key="index"
+              @click.stop="select(option)"
+              :title="option.text">
+            <div class="text__container"> {{ option.text }}
+            </div>
+            <div class="icon__container">
+              <span class="band">
+                {{option.band}}
+              </span>
+              <span class="encrypt"
+                    v-if="option.encrypt!==EncryptMethod.OPEN"></span>
+              <span class="rssi"
+                    :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
+            </div>
+          </li>
+        </template>
+        <template v-else>
+          <li v-if="loading===LoadingStatus.empty"
+              class="select-popup__item--empty">{{$t('trans0278')}}</li>
+          <li v-else-if="loading===LoadingStatus.loading"
+              class="select-popup__item--loading">
+            <m-lottieLoading class="loading"></m-lottieLoading>
+            {{loadingText}}
+          </li>
+          <li v-else
+              class="select-popup__item--failed"
+              @click="rescanApclient">{{loadingText}}</li>
+        </template>
+
+      </ul>
+    </transition>
   </div>
 </template>
 
 <script>
 import scrollTo from '../utils/scroll-to';
-import { EncryptMethod } from '../../util/constant';
+import { EncryptMethod, RefreshSVGPath } from '../../util/constant';
 
 const RssiStatus = {
   good: 'good',
@@ -71,7 +83,8 @@ const LoadingStatus = {
   empty: 0,
   loading: 1,
   failed: 2,
-  default: 3
+  success: 3,
+  default: 4
 };
 const GoodRssiValue = 76;
 
@@ -81,7 +94,7 @@ export default {
       type: Array,
       default: () => []
     },
-    value: {},
+    bssid: {},
     label: {
       type: String,
       default: ''
@@ -96,6 +109,10 @@ export default {
     placeholder: {
       type: String
     },
+    popupTop: {
+      type: Boolean,
+      default: false
+    },
     loading: {
       type: Number,
       default: 0
@@ -107,23 +124,33 @@ export default {
   },
   data() {
     return {
+      RefreshSVGPath,
       EncryptMethod,
       RssiStatus,
       GoodRssiValue,
       LoadingStatus,
-      selected: this.getOptionByValue(this.value),
-      opened: false
+      selected: this.getOptionByBssid(this.bssid),
+      opened: false,
     };
   },
   watch: {
-    value(val) {
-      this.selected = this.getOptionByValue(val);
+    bssid(val) {
+      console.log(val);
+      this.selected = this.getOptionByBssid(val);
+    }
+  },
+  computed: {
+    isClickable() {
+      return this.loading !== LoadingStatus.loading;
+    },
+    svgColor() {
+      return this.isClickable ? '#d6001c' : '#CCC';
     }
   },
   methods: {
-    getOptionByValue(val) {
-      const option = this.options.filter(o => o.value === val)[0] || {
-        text: val
+    getOptionByBssid(bssid) {
+      const option = this.options.filter(o => o.bssid === bssid)[0] || {
+        text: ''
       };
       return option;
     },
@@ -145,18 +172,20 @@ export default {
     select(option) {
       this.selected = option;
       this.opened = false;
-      this.$emit('input', this.selected.value);
-      if (this.value !== this.selected.value) {
+      this.$emit('input', this.selected.text);
+      if (this.bssid !== this.selected.bssid) {
         this.change();
       }
     },
     change() {
-      this.$emit('change', this.selected, this.value);
+      this.$emit('change', this.selected, this.bssid);
     },
     open() {
       if (!this.disabled) {
-        this.rescanApclient();
         this.opened = !this.opened;
+        if (this.loading === LoadingStatus.default) {
+          this.rescanApclient();
+        }
         if (this.opened) {
           this.scrollToSelect();
         }
@@ -164,12 +193,19 @@ export default {
     },
     close() {
       this.opened = false;
+    },
+    refreshUpperlist() {
+      if (this.isClickable) {
+        this.rescanApclient();
+       this.opened = true;
+      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .select-container {
+  position: relative;
   width: 340px;
   &.disabled {
     .select {
@@ -188,7 +224,7 @@ export default {
     width: 100%;
     border-radius: 4px;
     outline: 0;
-    border: 1px solid var(--select-input-border-color);
+    border: 1.5px solid var(--select-input-border-color);
     font-size: 14px;
     padding: 0 10px;
     position: relative;
@@ -207,28 +243,48 @@ export default {
       user-select: none;
       padding: 0;
       cursor: pointer;
+      background: transparent;
     }
   }
   label {
+    position: relative;
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
     color: var(--select-label-color);
+    .refresh-icon {
+      position: absolute;
+      top: 0;
+      right: 5px;
+      width: 20px;
+      height: 20px;
+      cursor: not-allowed;
+      &.clickable {
+        cursor: pointer;
+      }
+    }
   }
-
   cursor: pointer;
   .select-popup {
     position: absolute;
     z-index: 888;
     left: -1px;
     right: -1px;
-    top: 52px;
+    top: 78px;
     max-height: 300px;
     background: var(--select-popup-background-color);
     border-radius: 5px;
     border: 1px solid var(--select-popup-border-color);
     overflow: auto;
+    &.popup-top {
+      top: -5px;
+      transform: translateY(-100%);
+    }
+    // @media screen and (max-height: 830px) {
+    //   position: static !important;
+    //   margin-top: 3px;
+    // }
     .select-popup__item {
       display: flex;
       justify-content: space-between;
@@ -241,6 +297,8 @@ export default {
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: var(--text-default-color);
+      background: var(--select-popup-background-color);
       &:active {
         background: var(--select-item-active-background-color);
         color: var(--select-item-active-color);
@@ -326,13 +384,12 @@ export default {
       align-items: center;
       justify-content: center;
       width: 100%;
-      height: 84px;
+      height: 250px;
       font-size: 14px;
       text-align: center;
-      background-color: #fff;
-      color: #999;
     }
     .select-popup__item--loading {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -340,9 +397,10 @@ export default {
       width: 100%;
       height: 250px;
       font-size: 14px;
-      background-color: #fff;
-      color: #999;
       > .loading {
+        position: static;
+        width: 100px;
+        height: 100px;
         margin-bottom: 10px;
       }
     }
@@ -387,13 +445,12 @@ export default {
       height: 48px;
     }
     .select-popup {
-      top: 52px;
       .select-popup__item {
         padding: 17px 10px 17px 20px;
       }
-      .select-popup__item--loading {
-        height: 150px;
-      }
+      // .select-popup__item--loading {
+      //   height: 150px;
+      // }
     }
   }
 }

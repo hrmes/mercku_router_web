@@ -21,7 +21,7 @@
           <m-form ref="ipListForm"
                   :model="ping"
                   class="content__item form">
-            <m-form-item>
+            <m-form-item style="margin-bottom:20px">
               <m-checkbox class="form__checkbox"
                           v-model="isIpPointed"
                           :text="$t('trans0575')"
@@ -46,10 +46,8 @@
                   </div>
                 </m-form-item>
               </div>
-
-              <m-form-item>
-                <button v-if="!isMaxIpNum"
-                        class="form__add-btn"
+              <m-form-item v-if="!isMaxIpNum">
+                <button class="form__add-btn"
                         @click="addIp">
                   <span></span>
                 </button>
@@ -216,11 +214,9 @@ export default {
     display: flex;
     align-items: center;
     height: 80px;
-
     border-radius: 10px;
     overflow: hidden;
     label {
-      width: 75px;
       font-weight: bold;
       margin-right: 10px;
     }
@@ -320,9 +316,6 @@ export default {
       height: 60px;
     }
     .form {
-      .form__checkbox {
-        margin-bottom: 20px;
-      }
       .form__item {
         position: relative;
       }

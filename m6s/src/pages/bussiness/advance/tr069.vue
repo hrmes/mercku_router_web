@@ -38,7 +38,6 @@
               class="form"
               :model="local"
               :rules="localRules">
-
         <m-form-item prop="path">
           <m-input :label="$t('trans0494')"
                    v-model="local.path"

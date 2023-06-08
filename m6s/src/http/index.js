@@ -5,7 +5,12 @@ import store from '../store/index'; // 引入vuex
 const methods = {
   updateSuper: createMethod('mesh.config.super.update'),
   getNewMeshNodeInfo: createMethod('mesh.node.new.info'),
-  updateMeshWps: createMethod('mesh.wps.update')
+  updateMeshWps: createMethod('mesh.wps.update'),
+  startMeshApclientScan: createMethod('mesh.apclient.scan'),
+  getMeshApclientScanList: createMethod('mesh.apclient.get'),
+  updateMeshApclient: createMethod('mesh.apclient.update'),
+  getMeshLogsSetting: createMethod('mesh.logs.setting.get'),
+  updateMeshLogsSetting: createMethod('mesh.logs.setting.update')
 };
 
 class M6sHttp extends Http {}
