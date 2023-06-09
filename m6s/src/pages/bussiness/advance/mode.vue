@@ -39,7 +39,7 @@
                   :rules="upperApFormRules">
             <m-form-item prop="upperApForm.ssid">
               <m-loadingSelect label="SSID"
-                               placeholder="请选择"
+                               :placeholder="$t('trans1182')"
                                type='text'
                                @change="selectedChange"
                                @scanApclient="startApclientScan"

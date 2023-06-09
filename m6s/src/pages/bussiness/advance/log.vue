@@ -24,8 +24,8 @@
           <m-input :label="$t('trans1156')"
                    v-model="logSetting.capacity"
                    type="number"
-                   :placeholder="`${$t('trans1158')}`"></m-input>
-          <span class="form__tips">{{$t('trans1158')}}</span>
+                   :placeholder="`${$t('trans1154')}`"></m-input>
+          <span class="form__tips">{{$t('trans1154')}}</span>
         </m-form-item>
         <m-form-item key="save"
                      class="item">

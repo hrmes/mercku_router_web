@@ -121,7 +121,8 @@
           </div>
           <div class="add-node-container">
             <button class="btn btn-default add-btn"
-                    @click.stop="$router.push('/mesh/add')">
+                    :class="{'disabled':isWirelessBridge}"
+                    @click.stop="jump2AddNode">
               <span>{{$t('trans1117')}}</span>
             </button>
           </div>
@@ -275,6 +276,9 @@ export default {
     })(),
     isRouter() {
       return CONSTANTS.RouterMode.router === this.$store.state.mode;
+    },
+    isWirelessBridge() {
+      return CONSTANTS.RouterMode.wirelessBridge === this.$store.state.mode;
     },
     tips() {
       return marked(this.$t('trans0574'), { sanitize: true });
@@ -541,6 +545,10 @@ export default {
     jumpApp() {
       if (!this.$store.state.isMobile) return;
       window.open(process.env.CUSTOMER_CONFIG.appDownloadUrl);
+    },
+    jump2AddNode() {
+      if (this.isWirelessBridge) return;
+      this.$router.push('/mesh/add');
     }
   },
   beforeDestroy() {
@@ -788,6 +796,17 @@ ul {
                   }
                   &::after {
                     background: var(--button-default-hover-text-color);
+                  }
+                }
+              }
+              &.disabled {
+                > span {
+                  position: relative;
+                  &::before {
+                    background: var(--button-default-disabled-text-color);
+                  }
+                  &::after {
+                    background: var(--button-default-disabled-text-color);
                   }
                 }
               }

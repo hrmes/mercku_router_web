@@ -409,7 +409,8 @@ export default {
     },
     getGuestWIFI() {
       this.$loading.open();
-      this.$http.meshGuestGet().then(res => {
+      this.$http.meshGuestGet()
+      .then(res => {
         [this.guest] = res.data.result;
         const band24g = this.guest.bands[Bands.b24g];
         const band5g = this.guest.bands[Bands.b5g];
@@ -430,6 +431,9 @@ export default {
           smart_connect: this.guest.smart_connect
         };
         this.setGuestWIFIStatus(this.guest.enabled);
+      })
+      .catch(() => {
+          this.$loading.close();
       });
     },
     setGuestWIFIStatus(enabled) {

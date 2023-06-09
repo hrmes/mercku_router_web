@@ -75,9 +75,9 @@
     }
 
     &[disabled],
-    .disabled {
-      color: var(--button-default-disabled-text-color);
-      border-color: var(--button-default-disabled-border-color);
+    &.disabled {
+      color: var(--button-default-disabled-text-color)!important;
+      border-color: var(--button-default-disabled-border-color)!important;
       cursor: not-allowed;
     }
   }

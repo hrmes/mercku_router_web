@@ -400,16 +400,16 @@ export default {
           icon: 'icon-ic_devices_mywifi_normal'
         },
         {
-          id: 'offline',
-          text: this.$t('trans0516'),
-          icon: 'icon-ic_devices_offline_normal'
-        }
-      ];
-      if (this.isRouter) {
-        list.splice(1, 0, {
           id: 'guest',
           text: this.$t('trans0515'),
           icon: 'icon-ic_devices_guest_normal'
+        },
+      ];
+      if (this.isRouter) {
+        list.push({
+          id: 'offline',
+          text: this.$t('trans0516'),
+          icon: 'icon-ic_devices_offline_normal'
         });
       }
       return list;

@@ -14,12 +14,14 @@
             {{$t('trans0384')}}
           </m-tab>
         </m-tabs>
-        <button class="btn btn-add btn-small"
+        <button v-if="!isWirelessBridge"
+                class="btn btn-add btn-small"
                 @click.stop="$router.push('/mesh/add')">
           <span class="add-icon"></span>
           {{$t('trans0194')}}
         </button>
-        <button @click.stop="$router.push('/mesh/add')"
+        <button v-if="!isWirelessBridge"
+                @click.stop="$router.push('/mesh/add')"
                 class="btn mobile-add"></button>
       </div>
       <div class="content">
@@ -303,7 +305,7 @@
 <script>
 import marked from 'marked';
 import { formatMac, getStringByte } from 'base/util/util';
-import { RouterStatus } from 'base/util/constant';
+import { RouterStatus, RouterMode } from 'base/util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -410,6 +412,9 @@ export default {
     },
     isMobile() {
       return this.$store.state.isMobile;
+    },
+    isWirelessBridge() {
+      return RouterMode.wirelessBridge === this.$store.state.mode;
     },
     currentTheme() {
       return this.$store.state.theme;
