@@ -124,7 +124,6 @@ export default {
   },
   methods: {
     isConnectingOrDisconnecting(vpn) {
-      console.log('23123', vpn);
       return vpn.status === VPNStatus.connecting || vpn.status === VPNStatus.disconnecting;
     },
     getSpinnerText(vpn) {

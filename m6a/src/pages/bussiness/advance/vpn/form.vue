@@ -72,14 +72,116 @@
           </div>
         </div>
         <div v-else-if="form.protocol === VPNType.wireguard">
-          <m-form-item key="privateKey"
-                       class="item"
-                       prop='privateKey'>
-            <m-input :label="$t('trans0409')"
-                     type="text"
-                     :placeholder="$t('trans0321')"
-                     v-model="form.server" />
-          </m-form-item>
+          <div class="interface__wrapper">
+            <m-form-item key="privateKey"
+                         class="item"
+                         prop="wireguard.interface.private_key"
+                         :rules="wireguardRules.key">
+              <m-input label="Private_key"
+                       type="text"
+                       :placeholder="$t('trans0321')"
+                       v-model="form.wireguard.interface.private_key" />
+            </m-form-item>
+            <m-form-item key="addresses"
+                         class="item"
+                         prop="wireguard.interface.addresses[0]"
+                         :rules="wireguardRules.ip">
+              <m-input label="IP"
+                       type="text"
+                       :placeholder="$t('trans0321')"
+                       v-model="form.wireguard.interface.addresses[0]" />
+            </m-form-item>
+            <m-form-item key="listen_port"
+                         class="item"
+                         prop="wireguard.interface.listen_port"
+                         :rules="wireguardRules.port">
+              <m-input label="Listen_port (optional)"
+                       type="number"
+                       :placeholder="$t('trans0478')"
+                       v-model="form.wireguard.interface.listen_port" />
+            </m-form-item>
+            <m-form-item key="mtu"
+                         class="item"
+                         prop="wireguard.interface.mtu"
+                         :rules="wireguardRules.mtu">
+              <m-input label="MTU (optional)"
+                       type="number"
+                       placeholder="64-1500"
+                       v-model="form.wireguard.interface.mtu" />
+            </m-form-item>
+          </div>
+          <div class="peers">
+            <h4 class="title">Peers</h4>
+            <div class="peer"
+                 v-for="(peer,index) in form.wireguard.peers"
+                 :key="index">
+              <m-form-item key="preshared_key"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].preshared_key`"
+                           :rules="wireguardRules.preshared_key">
+                <m-input label="Preshared_key (optional)"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="peer.preshared_key" />
+              </m-form-item>
+              <m-form-item key="public_key"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].public_key`"
+                           :rules="wireguardRules.key">
+                <m-input label="Public_key"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="peer.public_key" />
+              </m-form-item>
+              <m-form-item key="allowed_ips"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].allowed_ips[0]`"
+                           :rules="wireguardRules.ip">
+                <m-input label="Allowed_ips"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="peer.allowed_ips[0]" />
+              </m-form-item>
+              <m-form-item key="endpoint_host"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].endpoint_host`"
+                           :rules="wireguardRules.optional_ip">
+                <m-input label="Endpoint_host (optional)"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="peer.endpoint_host" />
+              </m-form-item>
+              <m-form-item key="endpoint_port"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].endpoint_port`"
+                           :rules="wireguardRules.port">
+                <m-input label="Endpoint_port (optional)"
+                         type="number"
+                         :placeholder="$t('trans0478')"
+                         v-model="peer.endpoint_port" />
+              </m-form-item>
+              <m-form-item key="route_allowed_ips"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].route_allowed_ips`">
+                <m-checkbox text="Route_allowed_ips"
+                            :bold="true"
+                            v-model="peer.route_allowed_ips" />
+              </m-form-item>
+              <m-form-item key="persistent_keepalive"
+                           class="item persistent-keepalive"
+                           :prop="`wireguard.peers[${index}].persistent_keepalive`">
+                <m-checkbox class="checkbox"
+                            text="Persistent Keep Alive (s)"
+                            :bold="true"
+                            v-model="peer.persistent_keepalive" />
+                <m-input v-if="peer.persistent_keepalive"
+                         type="text"
+                         :disabled="true"
+                         :placeholder="$t('trans0321')"
+                         :value="25" />
+              </m-form-item>
+            </div>
+          </div>
         </div>
         <div v-else>
           <m-form-item key="server"
@@ -134,9 +236,11 @@
 <script>
 import { VPNType } from 'base/util/constant';
 import { getStringByte, isValidPassword } from 'base/util/util';
+import wireguardConfig from '@/mixins/wireguard-config';
 
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {
+  mixins: [wireguardConfig],
   data() {
     return {
       VPNType,
@@ -158,11 +262,6 @@ export default {
           text: 'WireGuard'
         }
       ],
-      pptp: {
-        mppe: false,
-        mppc: false
-      },
-      protocol: VPNType.pptp, // L2TP or PPTP
       form: {
         id: '',
         name: '',
@@ -170,6 +269,10 @@ export default {
         server: '',
         username: '',
         password: '',
+      },
+      pptp: {
+        mppe: false,
+        mppc: false
       },
       openvpnForm: {
         advance: false,
@@ -218,7 +321,7 @@ export default {
             },
             message: this.$t('trans0125').format(1, 64)
           }
-        ]
+        ],
       },
       isEmptyFile: false
     };
@@ -264,12 +367,12 @@ export default {
     },
     formParams() {
       this.form.name = this.form.name.trim();
-      const params = {
+      let params = {
         id: this.form.id,
         name: this.form.name,
-        protocol: this.protocol
+        protocol: this.form.protocol
       };
-      if (this.protocol === VPNType.openvpn) {
+      if (this.form.protocol === VPNType.openvpn) {
         if (this.openvpnForm.advance) {
           params.username = this.form.username;
           params.password = this.form.password;
@@ -279,8 +382,21 @@ export default {
             url: this.openvpnForm.configUrl
           };
         }
-      } else if (this.protocol === VPNType.wireguard) {
-        console.log(123123);
+      } else if (this.form.protocol === VPNType.wireguard) {
+        params = JSON.parse(JSON.stringify(this.form));
+        params.wireguard.peers.forEach(peer => {
+          if (peer.persistent_keepalive) {
+            peer.persistent_keepalive = '25';
+          } else {
+            peer.persistent_keepalive = '0';
+          }
+
+          if (peer.route_allowed_ips) {
+            peer.route_allowed_ips = '1';
+          } else {
+            peer.route_allowed_ips = '0';
+          }
+        });
       } else {
         params.server = this.form.server;
         params.username = this.form.username;
@@ -305,7 +421,7 @@ export default {
         }
       }
       return false;
-    }
+    },
   },
   methods: {
     triggerFileInput() {
@@ -366,7 +482,7 @@ export default {
           this.submitForm(fetchMethod);
         }
       }
-    }
+    },
   }
 };
 </script>
@@ -496,6 +612,22 @@ export default {
     width: 160px;
     &:first-child {
       margin-right: 20px;
+    }
+  }
+}
+.peers {
+  .title {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text-default-color);
+    border-top: 1px solid var(--hr-color);
+    padding: 25px 0;
+  }
+  .persistent-keepalive {
+    display: flex;
+    flex-direction: column;
+    .checkbox {
+      margin-bottom: 10px;
     }
   }
 }
