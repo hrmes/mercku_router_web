@@ -1,5 +1,5 @@
 import { isValidPassword } from 'base/util/util';
-import { EncryptMethod } from 'base/util/constant';
+import { EncryptMethod, Bands } from 'base/util/constant';
 
 const LoadingStatus = {
   empty: 0,
@@ -83,11 +83,15 @@ export default {
     }
   },
   methods: {
-    // 去除扫描到的上级列表里面，重复的数据
-    deweight(arr) {
-      const fliteredArr = [];
-      arr.forEach(a => {
-        const isTrue = fliteredArr.every(b => {
+    // 预处理扫描获取到的上级列表
+    preprocessList(originalList) {
+      // 1.去除所有ssid为空的值
+      const noEmptyList = originalList.filter(item => item.ssid !== ' ');
+      const noDuplicateList = [];
+
+      // 2.去除所有mac地址重复的值
+      noEmptyList.forEach(a => {
+        const isTrue = noDuplicateList.every(b => {
           // 先判断bssid即mac是否存在，不存在直接保存
           if (a.bssid !== b.bssid) {
             return true;
@@ -99,9 +103,24 @@ export default {
           // 否则就是重复数据，不保存
           return false;
         });
-        isTrue ? fliteredArr.push(a) : '';
+        isTrue ? noDuplicateList.push(a) : '';
       });
-      return fliteredArr;
+
+      // 3.排序：按照第一优先级为rssi的大小，第二优先级为频宽，5G在前，2.4G在后
+      noDuplicateList.sort((a, b) => {
+        if (a.rssi !== b.rssi) {
+          return b.rssi - a.rssi;
+        }
+        if (a.band === Bands.b5g && b.band === Bands.b24g) {
+          return -1;
+        }
+        if (a.band === Bands.b24g && b.band === Bands.b5g) {
+          return 1;
+        }
+        return 0;
+      });
+
+      return noDuplicateList;
     },
     startApclientScan() {
       if (this.selectIsLoading === LoadingStatus.loading) return;
@@ -133,10 +152,8 @@ export default {
             clearTimeout(this.getApclientScanTimer);
             this.getApclientScanTimer = null;
 
-            result = result.filter(item => item.ssid !== ' ');
-            result = this.deweight(result);
+            result = this.preprocessList(result);
             console.log('deweight', result);
-            result.sort((a, b) => b.rssi - a.rssi);
             this.originalUpperList = result;
             result.map(i =>
               this.processedUpperApList.push({

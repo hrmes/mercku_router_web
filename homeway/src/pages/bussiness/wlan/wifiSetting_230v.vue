@@ -10,6 +10,9 @@
                 class="upper-form"
                 :model="upperApForm"
                 :rules="upperApFormRules">
+          <m-form-item class="form-item">
+            <p class="tips">{{$t('trans1108')}}</p>
+          </m-form-item>
           <m-form-item class="form-item"
                        prop="upperApForm.ssid">
             <m-loadingSelect label="SSID"
@@ -493,8 +496,6 @@ export default {
             text-align: left;
           }
         }
-        .tip-setting {
-        }
         .info {
           padding: 15px 20px;
           font-size: 14px;
@@ -558,7 +559,7 @@ export default {
     }
   }
   .upper-form {
-    height: 300px;
+    min-height: 340px;
     .tips {
       font-size: 12px;
       color: #333;
