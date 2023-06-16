@@ -238,12 +238,22 @@ import { VPNType } from 'base/util/constant';
 import { getStringByte, isValidPassword } from 'base/util/util';
 import wireguardConfig from '@/mixins/wireguard-config';
 
+const FormType = {
+  add: 'add',
+  update: 'update'
+};
+const Action = {
+  updateVPN: 'updateVPN',
+  addVPN: 'addVPN'
+};
+
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {
   mixins: [wireguardConfig],
   data() {
     return {
       VPNType,
+      FormType,
       protocolsList: [
         {
           value: VPNType.pptp,
@@ -329,6 +339,7 @@ export default {
   mounted() {
     if (this.$route.params.id) {
       const { vpn } = this.$store.state.modules;
+      console.log(vpn);
       // no records in store, redirect to list
       if (vpn.id) {
         this.form = {
@@ -344,7 +355,7 @@ export default {
             update: true
           };
         } else if (vpn.protocol === VPNType.wireguard) {
-          console.log(111);
+          this.form = JSON.parse(JSON.stringify(vpn));
         } else {
           this.form.server = vpn.server;
           this.form.username = vpn.username;
@@ -363,7 +374,7 @@ export default {
   },
   computed: {
     formType() {
-      return this.$route.params.id ? 'update' : 'add';
+      return this.$route.params.id ? FormType.update : FormType.add;
     },
     formParams() {
       this.form.name = this.form.name.trim();
@@ -462,7 +473,7 @@ export default {
         }
       }
       if (this.$refs.form.validate()) {
-        const fetchMethod = this.formType === 'update' ? 'updateVPN' : 'addVPN';
+        const fetchMethod = this.formType === FormType.update ? Action.updateVPN : Action.addVPN;
         this.$loading.open();
         if (this.formParams.protocol === VPNType.openvpn) {
           if (!this.openvpnForm.configFile.update) {
@@ -514,7 +525,7 @@ export default {
     align-items: center;
   }
   .config-uploader__label {
-    color: #333;
+    color: var(--text-default-color);
     margin-bottom: 5px;
     font-size: 14px;
     margin-right: 12px;

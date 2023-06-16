@@ -90,7 +90,7 @@ export default {
   },
   watch: {
     vpnType(nv) {
-      if (nv === VPNType.wireguard) {
+      if (this.formType === this.FormType.add && nv === VPNType.wireguard) {
         this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
       }
     }

@@ -345,17 +345,6 @@ export default {
 <style lang="scss" scoped>
 .form {
   width: 100%;
-  .package-info {
-    background: #f1f1f1;
-    border-radius: 3px;
-    margin-top: 30px;
-    display: inline-block;
-    padding: 0 20px;
-    .info-item {
-      display: inline-block;
-      margin-right: 50px;
-    }
-  }
 }
 .description {
   p {
@@ -373,22 +362,14 @@ export default {
     font-weight: normal;
     margin: 0;
     margin-bottom: 20px;
-    img {
-      width: 20px;
-      margin-right: 10px;
-      span {
-        font-size: 16px;
-        color: #333333;
-      }
-    }
   }
 }
 .description-wrapper {
-  border-top: 1px solid #f1f1f1;
+  border-top: 1px solidvar(--hr-color);
   margin-top: 50px;
   text-align: center;
   padding-top: 60px;
-  color: #333333;
+  color: var(--text-default-color);
   font-size: 14px;
   :first-child {
     display: flex;
@@ -406,16 +387,19 @@ export default {
     align-items: flex-start;
     justify-content: space-between;
     padding: 20px 0 30px 0;
+    border-radius: 0;
     &.retitle--fixed {
       display: block;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background-color: #fff;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+      background: var(--dashboard-icon-background-color);
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: var(--offline-box-shadow);
       z-index: 1000;
-      padding: 20px 20px 30px 20px;
+      padding: 20px;
       .retitle__btn-wrap {
         margin-top: 15px;
       }

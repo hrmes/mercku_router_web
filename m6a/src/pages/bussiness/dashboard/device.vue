@@ -278,7 +278,7 @@
                   {{$t('trans0019')}}
                 </span>
               </li>
-              <li class="column-black-list"
+              <li class="column-black-list operation"
                   :class="{'off-btn-handle-info':isOfflineDevices}"
                   v-if='isMobileRow(row.expand) && isOfflineDevices'>
                 <span v-if="isOfflineDevices"
@@ -1289,6 +1289,7 @@ export default {
                 border-bottom-color: var(--table-body-hr-color);
                 &:last-of-type {
                   border: 0;
+                  border-top: 1px solid var(--table-body-hr-color);
                 }
                 .label {
                   color: var(--table-header-text-color);

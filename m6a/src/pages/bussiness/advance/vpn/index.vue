@@ -289,7 +289,6 @@ export default {
         .then(result => {
           const info = result[0].data.result;
           const vpns = result[1].data.result;
-          console.log(info, vpns);
           this.vpns = vpns.map(v => {
             this.$set(v, 'enabled', false);
             this.$set(v, 'status', VPNStatus.disconnected);
