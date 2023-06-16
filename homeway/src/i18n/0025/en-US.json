@@ -1099,5 +1099,6 @@
   "trans1104": "When selecting the wireless bridge mode, please ensure that the upper-level SSID and password are correct and the current network status is good. ",
   "trans1105": "Connecting, please wait...",
   "trans1106": "Modifications are not saved, currently only supports modifying the configuration after Wi-Fi is turned on",
-  "trans1107": "Only scanning of Wi-Fi networks with encryption methods of Open, WPA, and WPA2 is supported on the Upper-level AP."
+  "trans1107": "Only scanning of Wi-Fi networks with encryption methods of Open, WPA, and WPA2 is supported on the Upper-level AP.",
+  "trans1108": "If the upper-level router enables dual-band integration, it may lead to unstable connections. It is recommended to disable it."
 }

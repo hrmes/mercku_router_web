@@ -34,6 +34,7 @@
         <div class="upperApForm__bottom">
           <h4>{{$t('trans1102')}}</h4>
           <div class="tips">{{$t('trans1104')}}</div>
+          <div class="tips">{{$t('trans1108')}}</div>
           <m-form ref="upperApForm"
                   :model="upperApForm"
                   :rules="upperApFormRules">
