@@ -102,6 +102,17 @@ export default {
     window.addEventListener('resize', () => {
       this.setHeight();
     });
+    this.$router.beforeEach((to, from, next) => {
+      // 判断是否是手机端
+      // eslint-disable-next-line max-len
+      const { isMobile } = this.$store.state;
+      const scrollPage = document.querySelector('.srcollbar-wrap');
+      // 判断是否是跳转到新页面
+      if (isMobile && to.path !== from.path) {
+          scrollPage.scrollTop = 0;
+      }
+      next();
+    });
   }
 };
 </script>
@@ -184,6 +195,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .flex-wrap {
+    padding-top: 65px;
+  }
   .container {
     flex-direction: column;
     .policy {
