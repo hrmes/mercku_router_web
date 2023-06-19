@@ -219,7 +219,7 @@ export default {
       let flag = false;
       if (this.$refs.renodes && document.body.clientWidth <= mobileWidth) {
         const { top } = this.$refs.renodes.getBoundingClientRect();
-        flag = top <= 0;
+        flag = top <= 65;
       }
       this.$nextTick(() => {
         this.isRetitleFixed = flag;
@@ -391,14 +391,14 @@ export default {
     &.retitle--fixed {
       display: block;
       position: fixed;
-      top: 0;
+      top: 65px;
       left: 0;
       right: 0;
       background: var(--dashboard-icon-background-color);
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       box-shadow: var(--offline-box-shadow);
-      z-index: 1000;
+      z-index: 999;
       padding: 20px;
       .retitle__btn-wrap {
         margin-top: 15px;
