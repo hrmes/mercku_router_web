@@ -77,7 +77,7 @@
                          class="item"
                          prop="wireguard.interface.private_key"
                          :rules="wireguardRules.key">
-              <m-input label="Private_key"
+              <m-input :label="$t('trans1177')"
                        type="text"
                        :placeholder="$t('trans0321')"
                        v-model="form.wireguard.interface.private_key" />
@@ -95,7 +95,7 @@
                          class="item"
                          prop="wireguard.interface.listen_port"
                          :rules="wireguardRules.port">
-              <m-input label="Listen_port (optional)"
+              <m-input :label="$t('trans1155')"
                        type="number"
                        :placeholder="$t('trans0478')"
                        v-model="form.wireguard.interface.listen_port" />
@@ -104,14 +104,14 @@
                          class="item"
                          prop="wireguard.interface.mtu"
                          :rules="wireguardRules.mtu">
-              <m-input label="MTU (optional)"
+              <m-input :label="$t('trans1164')"
                        type="number"
-                       placeholder="64-1500"
+                       :placeholder="$t('trans1184')"
                        v-model="form.wireguard.interface.mtu" />
             </m-form-item>
           </div>
           <div class="peers">
-            <h4 class="title">Peers</h4>
+            <h4 class="title">{{$t('trans1165')}}</h4>
             <div class="peer"
                  v-for="(peer,index) in form.wireguard.peers"
                  :key="index">
@@ -119,7 +119,7 @@
                            class="item"
                            :prop="`wireguard.peers[${index}].preshared_key`"
                            :rules="wireguardRules.preshared_key">
-                <m-input label="Preshared_key (optional)"
+                <m-input :label="$t('trans1166')"
                          type="text"
                          :placeholder="$t('trans0321')"
                          v-model="peer.preshared_key" />
@@ -128,7 +128,7 @@
                            class="item"
                            :prop="`wireguard.peers[${index}].public_key`"
                            :rules="wireguardRules.key">
-                <m-input label="Public_key"
+                <m-input :label="$t('trans1176')"
                          type="text"
                          :placeholder="$t('trans0321')"
                          v-model="peer.public_key" />
@@ -137,7 +137,7 @@
                            class="item"
                            :prop="`wireguard.peers[${index}].allowed_ips[0]`"
                            :rules="wireguardRules.ip">
-                <m-input label="Allowed_ips"
+                <m-input :label="$t('trans1175')"
                          type="text"
                          :placeholder="$t('trans0321')"
                          v-model="peer.allowed_ips[0]" />
@@ -146,7 +146,7 @@
                            class="item"
                            :prop="`wireguard.peers[${index}].endpoint_host`"
                            :rules="wireguardRules.optional_ip">
-                <m-input label="Endpoint_host (optional)"
+                <m-input :label="`${$t('trans1167')} ${$t('trans0411')}`"
                          type="text"
                          :placeholder="$t('trans0321')"
                          v-model="peer.endpoint_host" />
@@ -155,7 +155,7 @@
                            class="item"
                            :prop="`wireguard.peers[${index}].endpoint_port`"
                            :rules="wireguardRules.port">
-                <m-input label="Endpoint_port (optional)"
+                <m-input :label="`${$t('trans1178')} ${$t('trans0411')}`"
                          type="number"
                          :placeholder="$t('trans0478')"
                          v-model="peer.endpoint_port" />
@@ -163,7 +163,7 @@
               <m-form-item key="route_allowed_ips"
                            class="item"
                            :prop="`wireguard.peers[${index}].route_allowed_ips`">
-                <m-checkbox text="Route_allowed_ips"
+                <m-checkbox :text="$t('trans1157')"
                             :bold="true"
                             v-model="peer.route_allowed_ips" />
               </m-form-item>
@@ -171,7 +171,7 @@
                            class="item persistent-keepalive"
                            :prop="`wireguard.peers[${index}].persistent_keepalive`">
                 <m-checkbox class="checkbox"
-                            text="Persistent Keep Alive (s)"
+                            :text="$t('trans1179')"
                             :bold="true"
                             v-model="peer.persistent_keepalive" />
                 <m-input v-if="peer.persistent_keepalive"
@@ -269,7 +269,7 @@ export default {
         },
          {
           value: VPNType.wireguard,
-          text: 'WireGuard'
+          text: this.$t('trans1172')
         }
       ],
       form: {

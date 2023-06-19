@@ -72,11 +72,15 @@ export default {
         mtu: [
           {
             rule: value => (value ? !value.includes('.') : true),
-            message: '请输入整数'
+            message: this.$t('trans1158')
+              .replace('%d', 64)
+              .replace('%d', 1500)
           },
           {
             rule: value => (value ? value >= 64 && value <= 1500 : true),
-            message: '64-1500'
+            message: this.$t('trans1158')
+              .replace('%d', 64)
+              .replace('%d', 1500)
           }
         ],
         optional_ip: [
