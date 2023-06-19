@@ -287,6 +287,9 @@
   --internet-background-color: #f7f7f7;
   --internet-section-background-color: #fff;
   --internet-section-hr-color: #dbdbdb;
+
+   //offline
+   --offline-box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 //深色主题，颜色定义
 @mixin dark-theme {
@@ -577,4 +580,7 @@
   --internet-background-color: #1a1a1a;
   --internet-section-background-color: #2e2e2e;
   --internet-section-hr-color: rgba(255, 255, 255, 0.2);
+
+  //offline
+  --offline-box-shadow:0 8px 10px 0 rgba(0, 0, 0, 0.3);
 }
