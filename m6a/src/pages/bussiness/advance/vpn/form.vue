@@ -98,7 +98,7 @@
               <m-input :label="$t('trans1155')"
                        type="number"
                        :placeholder="$t('trans0478')"
-                       v-model="form.wireguard.interface.listen_port" />
+                       v-model.number="form.wireguard.interface.listen_port" />
             </m-form-item>
             <m-form-item key="mtu"
                          class="item"
@@ -107,7 +107,7 @@
               <m-input :label="$t('trans1164')"
                        type="number"
                        :placeholder="$t('trans1184')"
-                       v-model="form.wireguard.interface.mtu" />
+                       v-model.number="form.wireguard.interface.mtu" />
             </m-form-item>
           </div>
           <div class="peers">
@@ -158,7 +158,7 @@
                 <m-input :label="`${$t('trans1178')} ${$t('trans0411')}`"
                          type="number"
                          :placeholder="$t('trans0478')"
-                         v-model="peer.endpoint_port" />
+                         v-model.number="peer.endpoint_port" />
               </m-form-item>
               <m-form-item key="route_allowed_ips"
                            class="item"
@@ -173,12 +173,12 @@
                 <m-checkbox class="checkbox"
                             :text="$t('trans1179')"
                             :bold="true"
-                            v-model="peer.persistent_keepalive" />
-                <m-input v-if="peer.persistent_keepalive"
+                            v-model="isKeepAlive" />
+                <m-input v-if="isKeepAlive"
                          type="text"
                          :disabled="true"
                          :placeholder="$t('trans0321')"
-                         :value="25" />
+                         :value="peer.persistent_keepalive" />
               </m-form-item>
             </div>
           </div>
@@ -355,6 +355,7 @@ export default {
             update: true
           };
         } else if (vpn.protocol === VPNType.wireguard) {
+          console.log('123', vpn);
           this.form = JSON.parse(JSON.stringify(vpn));
         } else {
           this.form.server = vpn.server;
@@ -395,19 +396,7 @@ export default {
         }
       } else if (this.form.protocol === VPNType.wireguard) {
         params = JSON.parse(JSON.stringify(this.form));
-        params.wireguard.peers.forEach(peer => {
-          if (peer.persistent_keepalive) {
-            peer.persistent_keepalive = '25';
-          } else {
-            peer.persistent_keepalive = '0';
-          }
-
-          if (peer.route_allowed_ips) {
-            peer.route_allowed_ips = '1';
-          } else {
-            peer.route_allowed_ips = '0';
-          }
-        });
+        params = this.deepClean(params);
       } else {
         params.server = this.form.server;
         params.username = this.form.username;

@@ -4,6 +4,7 @@ import { getStringByte, ipReg } from 'base/util/util';
 export default {
   data() {
     return {
+      isKeepAlive: true,
       wireGuardInitForm: {
         id: '',
         name: '',
@@ -13,7 +14,7 @@ export default {
             private_key: '',
             addresses: [''],
             listen_port: null,
-            mtu: ''
+            mtu: null
           },
           peers: [
             {
@@ -21,8 +22,8 @@ export default {
               public_key: '',
               allowed_ips: ['0.0.0.0'],
               endpoint_host: '',
-              endpoint_port: '51820',
-              persistent_keepalive: true,
+              endpoint_port: 51820,
+              persistent_keepalive: 25,
               route_allowed_ips: false
             }
           ]
@@ -61,7 +62,7 @@ export default {
         ],
         port: [
           {
-            rule: value => (value ? !value.includes('.') : true),
+            rule: value => (value ? /^[0-9]+$/.test(value) : true),
             message: this.$t('trans0031')
           },
           {
@@ -71,7 +72,7 @@ export default {
         ],
         mtu: [
           {
-            rule: value => (value ? !value.includes('.') : true),
+            rule: value => (value ? /^[0-9]+$/.test(value) : true),
             message: this.$t('trans1158')
               .replace('%d', 64)
               .replace('%d', 1500)
@@ -95,13 +96,55 @@ export default {
   watch: {
     vpnType(nv) {
       if (this.formType === this.FormType.add && nv === VPNType.wireguard) {
+        // 先存一下vpn.name
+        this.wireGuardInitForm.name = this.form.name;
         this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
+      }
+    },
+    isKeepAlive: {
+      handler(nv) {
+        if (nv) {
+          this.form.wireguard.peers[0].persistent_keepalive = 25;
+        } else {
+          this.form.wireguard.peers[0].persistent_keepalive = 0;
+        }
       }
     }
   },
   computed: {
     vpnType() {
       return this.form.protocol;
+    }
+  },
+  methods: {
+    // 遍历params,删除params对象中值为空的键值对
+    deepClean(obj) {
+      if (Array.isArray(obj)) {
+        obj.forEach((val, i) => {
+          if (
+            Object.prototype.toString.call(val) === '[object Object]' ||
+            Object.prototype.toString.call(val) === '[object Array]'
+          ) {
+            this.deepClean(val);
+          } else if (val === null || val === '') {
+            obj.splice(i, 1);
+          }
+        });
+      } else if (Object.prototype.toString.call(obj) === '[object Object]') {
+        Object.entries(obj).forEach(([key, val]) => {
+          // 始终保留id键值对
+          if (key === 'id') return;
+          if (
+            Object.prototype.toString.call(val) === '[object Object]' ||
+            Object.prototype.toString.call(val) === '[object Array]'
+          ) {
+            this.deepClean(val);
+          } else if (val === null || val === '') {
+            delete obj[key];
+          }
+        });
+      }
+      return obj;
     }
   }
 };
