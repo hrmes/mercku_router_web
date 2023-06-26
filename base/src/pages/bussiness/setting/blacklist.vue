@@ -180,7 +180,6 @@ export default {
       checkAllBlacklist: false,
       deviceModalVisible: false,
       deviceListTimer: null,
-      pageActive: true
     };
   },
   mounted() {
@@ -189,7 +188,6 @@ export default {
   },
    beforeDestroy() {
     // clean up
-    this.pageActive = false;
     clearTimeout(this.deviceListTimer);
     this.deviceListTimer = null;
   },
@@ -281,18 +279,11 @@ export default {
             checked: false
           }))
           .filter(d => d.ip !== res2.data.result.ip);
-        if (this.pageActive) {
+      })
+      .finally(() => {
           this.deviceListTimer = setTimeout(() => {
             this.getDeviceList();
           }, 10000);
-          }
-      })
-      .catch(() => {
-        if (this.pageActive) {
-           this.deviceListTimer = setTimeout(() => {
-            this.getDeviceList();
-          }, 10000);
-        }
       });
     },
     getBlacklist() {
