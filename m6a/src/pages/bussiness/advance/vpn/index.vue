@@ -10,7 +10,8 @@
           <div class="vpn-list-header">
             <div class="column-name">
               <div class="column-check">
-                <m-checkbox v-model="checkAll"
+                <m-checkbox :disabled="connecting"
+                            v-model="checkAll"
                             @change="change"></m-checkbox>
               </div>
               {{$t('trans0108')}}
@@ -107,7 +108,7 @@
 </template>
 
 <script>
-import { VPNAction, VPNStatus } from 'base/util/constant';
+import { VPNType, VPNStatus, VPNAction } from 'base/util/constant';
 
 export default {
   data() {
@@ -143,13 +144,17 @@ export default {
             status: VPNAction.connect
           })
           .then(() => {
-            this.createIntervalTask(
-              vpn,
-              false,
-              VPNStatus.ready,
-              VPNStatus.connecting,
-              VPNStatus.connected
-            );
+            if (vpn.protocol === VPNType.wireguard) {
+              this.wireguardSwitchHandler(v, vpn);
+            } else {
+              this.createIntervalTask(
+                vpn,
+                false,
+                VPNStatus.ready,
+                VPNStatus.connecting,
+                VPNStatus.connected
+              );
+            }
           })
           .catch(() => {
             vpn.enabled = false;
@@ -165,13 +170,17 @@ export default {
             status: VPNAction.disconnect
           })
           .then(() => {
-            this.createIntervalTask(
-              vpn,
-              true,
-              VPNStatus.connected,
-              VPNStatus.disconnecting,
-              VPNStatus.disconnected
-            );
+            if (vpn.protocol === VPNType.wireguard) {
+              this.wireguardSwitchHandler(v, vpn);
+            } else {
+              this.createIntervalTask(
+                vpn,
+                true,
+                VPNStatus.connected,
+                VPNStatus.disconnecting,
+                VPNStatus.disconnected
+              );
+            }
           })
           .catch(() => {
             vpn.enabled = true;
@@ -290,10 +299,17 @@ export default {
           const info = result[0].data.result;
           const vpns = result[1].data.result;
           this.vpns = vpns.map(v => {
-            this.$set(v, 'enabled', false);
-            this.$set(v, 'status', VPNStatus.disconnected);
+            if (v.protocol === VPNType.wireguard) {
+              this.$set(v, 'enabled', false);
+              if (v.id === info.default_vpn) {
+                v.enabled = info.enabled;
+              }
+            } else {
+              this.$set(v, 'enabled', false);
+              this.$set(v, 'status', VPNStatus.disconnected);
+            }
 
-            if (v.id === info.default_vpn) {
+            if (v.protocol !== VPNType.wireguard && v.id === info.default_vpn) {
               v.status = info.status;
               if (info.status === VPNStatus.connected) {
                 v.enabled = true;
@@ -322,7 +338,6 @@ export default {
             return { ...v, checked: false, open: false };
           });
           this.$loading.close();
-          console.log('###', this.vpns);
         })
         .catch(() => {
           this.$loading.close();
@@ -336,6 +351,27 @@ export default {
         } else {
           item.checked = false;
         }
+      });
+    },
+    wireguardSwitchHandler(status, vpn) {
+      this.$reconnect({
+        onsuccess: () => {
+          if (status) {
+            this.vpns.forEach(vv => { vv.enabled = false; });
+            vpn.status = VPNStatus.connected;
+            vpn.enabled = true;
+          } else {
+            vpn.status = VPNStatus.disconnected;
+            vpn.enabled = false;
+            this.connecting = false;
+          }
+          this.connecting = false;
+        },
+        ontimeout: () => {
+          this.$router.push({ path: '/unconnect' });
+        },
+        timeout: 30,
+        showLoading: false
       });
     }
   },

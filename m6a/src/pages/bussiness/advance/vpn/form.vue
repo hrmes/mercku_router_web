@@ -267,7 +267,7 @@ export default {
           value: VPNType.openvpn,
           text: this.$t('trans0676')
         },
-         {
+        {
           value: VPNType.wireguard,
           text: this.$t('trans1172')
         }
@@ -339,7 +339,6 @@ export default {
   mounted() {
     if (this.$route.params.id) {
       const { vpn } = this.$store.state.modules;
-      console.log(vpn);
       // no records in store, redirect to list
       if (vpn.id) {
         this.form = {
@@ -355,8 +354,7 @@ export default {
             update: true
           };
         } else if (vpn.protocol === VPNType.wireguard) {
-          console.log('123', vpn);
-          this.form = JSON.parse(JSON.stringify(vpn));
+          this.form.wireguard = JSON.parse(JSON.stringify(vpn.wireguard));
         } else {
           this.form.server = vpn.server;
           this.form.username = vpn.username;
@@ -443,7 +441,6 @@ export default {
     submitForm(method) {
       this.$http[method](this.formParams)
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
           this.$router.push('/advance/vpn');
         })
