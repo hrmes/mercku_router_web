@@ -36,7 +36,7 @@
           </button>
         </m-form-item>
       </m-form>
-      <div v-if="logSetting.level !== DisableLogLevel"
+      <div v-if="showLogWrapper"
            class="log__wrapper">
         <div class="log__wrapper-bar">
           <div class="left log__type">
@@ -95,7 +95,7 @@ export default {
         { value: 7, text: `7. ${this.$t('trans1150')}` },
         { value: 8, text: `8. ${this.$t('trans1151')}` },
       ],
-      enabled: false,
+      showLogWrapper: false,
       logSetting: {
         level: 8,
         capacity: 64
@@ -116,7 +116,7 @@ export default {
             message: this.$t('trans1158').replace('%d', 16).replace('%d', 1024)
           },
            {
-            rule: value => !value.includes('.'),
+            rule: value => (value ? /^[0-9]+$/.test(value) : true),
             message: this.$t('trans1158').replace('%d', 16).replace('%d', 1024)
           },
         ],
@@ -154,7 +154,6 @@ export default {
       }
     },
     getlogs(target) {
-      // this.$http.getMeshLogsSetting().then(() => {
         let method;
         let fileName;
         switch (this.tabID) {
@@ -180,9 +179,9 @@ export default {
           }
         })
         .finally(() => {
+          this.showLogWrapper = true;
           this.$loading.close();
         });
-      // });
     },
     getIncremental(preArray, nowStr) {
       const nowArray = nowStr.split('\n').filter(n => n !== '');
@@ -218,28 +217,20 @@ export default {
     },
     getMeshLogsSetting() {
       this.$loading.open();
-      this.logSetting = { level: 6, capacity: 89 };
-      if (this.logSetting.level === DisableLogLevel) {
-        this.previousArray = [];
-        this.increaseArray = [];
-        this.$loading.close();
-      } else {
-        this.getlogs();
-      }
-      // this.$http
-      //   .getMeshLogsSetting()
-      //   .then(res => {
-      //     this.logSetting = res.data.result;
-      //     if (this.logSetting.level === DisableLogLevel) {
-      //       this.previousArray = [];
-      //       this.increaseArray = [];
-      //     } else {
-      //       this.getlogs();
-      //     }
-      //   })
-      //   .finally(() => {
-      //     this.$loading.close();
-      //   });
+      this.$http
+        .getMeshLogsSetting()
+        .then(res => {
+          this.logSetting = res.data.result;
+          if (this.logSetting.level === DisableLogLevel) {
+            this.previousArray = [];
+            this.increaseArray = [];
+          } else {
+            this.getlogs();
+          }
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     },
     updateSetting() {
       if (this.$refs.form.validate()) {
@@ -249,6 +240,7 @@ export default {
         this.$http.updateMeshLogsSetting(params)
         .then(() => {
           if (params.level === DisableLogLevel) {
+            this.showLogWrapper = false;
             this.previousArray = [];
             this.increaseArray = [];
             this.$loading.close();
@@ -263,6 +255,7 @@ export default {
     },
     tabChange(id) {
       this.tabID = id;
+      this.getlogs();
     },
     downloadTxtFile(content, fileName) {
       const blob = new Blob([content], { type: 'text/plain' });
