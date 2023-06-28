@@ -20,7 +20,7 @@ export default {
             {
               preshared_key: '',
               public_key: '',
-              allowed_ips: ['0.0.0.0'],
+              allowed_ips: ['0.0.0.0/0'],
               endpoint_host: '',
               endpoint_port: 51820,
               persistent_keepalive: 25,
