@@ -122,7 +122,7 @@ export default {
         }
         return 'password';
       }
-      return 'text';
+      return this.type;
     },
     isPwdInput() {
       return this.type === 'password';
@@ -131,6 +131,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
 .input-container {
   &.small {
     .input {

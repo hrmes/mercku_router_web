@@ -14,7 +14,7 @@
         </div>
         <div class="wifi-container">
           <div class="icon-container">
-            <img :src="getWifiIcon( MODEL)"
+            <img :src="getWifiIcon(MODELID)"
                  alt="" />
           </div>
         </div>
@@ -82,7 +82,7 @@
         <li @click="forward2page('/dashboard/mesh/topo')"
             class="functional-module mesh-container">
           <div class="icon-container">
-            <img :src="getWifiIcon(MODEL)"
+            <img :src="getWifiIcon(MODELID)"
                  alt="">
           </div>
           <div class="text-container">
@@ -259,8 +259,8 @@ export default {
     };
   },
   computed: {
-    MODEL() {
-      return process.env.MODEL_CONFIG.id;
+    MODELID() {
+      return this.$store.state.modelID;
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -514,13 +514,13 @@ export default {
           }
         });
     },
-    getWifiIcon(model) {
+    getWifiIcon(modelID) {
       let image = '';
-      switch (model) {
-        case CONSTANTS.Models.m6a:
+      switch (modelID) {
+        case CONSTANTS.M6aRouterSnModelVersion.M6a:
           image = require('@/assets/images/icon/ic_homepage_m6a.png');
           break;
-        case CONSTANTS.Models.m6aPlus:
+        case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
           image = require('@/assets/images/model/m6a_plus/ic_homepage_m6a-plus.png');
           break;
         default:

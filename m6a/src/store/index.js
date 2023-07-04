@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     mode: localStorage.getItem('mode'),
     role: localStorage.getItem('role'),
+    modelID: localStorage.getItem('modelID'),
     isMobile: false,
     isConnected: '',
     theme: '',

@@ -12,6 +12,12 @@
         </m-tab>
       </m-tabs>
       <div class="table-inner">
+        <div v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60"
+             class="off-more-message">
+          <img src="@/assets/images/icon/ic_hint.webp"
+               alt="">
+          {{$t('trans0517')}}
+        </div>
         <div class="table-head">
           <ul class="reset-ul">
             <li class="column-name">
@@ -74,12 +80,6 @@
                         @click="delOfflineDevices(offlineCheckedMacs)">
                   {{$t('trans0033')}}</button>
               </div>
-            </div>
-            <div class="off-more-message"
-                 v-if="devicesMap[id]&&devicesMap[id].length>60">
-              <img src="@/assets/images/icon/ic_hint.png"
-                   alt="">
-              {{$t('trans0517')}}
             </div>
           </div>
           <div class="loading-container"
@@ -831,28 +831,24 @@ export default {
     padding: 10px;
     display: flex;
     align-items: center;
+    border-radius: 3px;
     background: var(--table-row-background-color);
     .check-info {
       .m-check-all-box {
         display: none;
       }
     }
-    .off-more-message {
-      min-width: 161px;
-      height: 30px;
-      border-radius: 4px;
-      padding-right: 10px;
-      background-color: #fffbe6;
-      font-size: 12px;
-      color: rgba(0, 0, 0, 0.65);
-      margin-left: 20px;
-      display: flex;
-      align-items: center;
-      border: 1px solid #ffe58f;
-      img {
-        width: 14px;
-        margin: 0 5px 0 10px;
-      }
+  }
+  .off-more-message {
+    width: fit-content;
+    font-size: 12px;
+    color: var(--offline-more-color);
+    padding: 0 10px 10px;
+    img {
+      vertical-align: text-bottom;
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
     }
   }
   flex: auto;
@@ -1221,12 +1217,11 @@ export default {
         position: relative;
         right: 0;
       }
-      .off-more-message {
-        width: 100%;
-        justify-content: center;
-        margin-left: 0;
-        margin-bottom: 10px;
-      }
+    }
+    .off-more-message {
+      width: 100%;
+      margin-left: 10px;
+      padding: 10px 10px 0;
     }
     .device-wrapper {
       .title {
