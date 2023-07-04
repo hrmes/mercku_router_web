@@ -210,12 +210,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         config
       },
       {
-        url: '/advance/frozenCofig',
-        name: 'advance-frozen-cofig',
-        text: 'trans1186',
-        config
-      },
-      {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
