@@ -22,6 +22,7 @@ import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
+import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -338,6 +339,15 @@ const routes = {
       path: '/advance/dmz',
       name: 'advance-dmz',
       component: dmz,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/frozenCofig',
+      name: 'advance-frozen-cofig',
+      component: frozenConfig,
       meta: {
         layout: 'primary',
         hasAside: true
