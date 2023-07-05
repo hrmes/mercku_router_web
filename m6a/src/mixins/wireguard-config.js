@@ -4,7 +4,6 @@ import { getStringByte, ipRegWithMask, ipReg } from 'base/util/util';
 export default {
   data() {
     return {
-      isKeepAlive: true,
       wireGuardInitForm: {
         id: '',
         name: '',
@@ -90,7 +89,8 @@ export default {
             message: this.$t('trans0231')
           }
         ]
-      }
+      },
+      isKeepAlive: true
     };
   },
   watch: {
@@ -101,19 +101,32 @@ export default {
         this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
       }
     },
-    isKeepAlive: {
+    keepAliveTime: {
       handler(nv) {
         if (nv) {
-          this.form.wireguard.peers[0].persistent_keepalive = 25;
+          this.isKeepAlive = true;
         } else {
-          this.form.wireguard.peers[0].persistent_keepalive = 0;
+          this.isKeepAlive = false;
         }
-      }
+      },
+      immediate: true
     }
+    // isKeepAlive: {
+    //   handler(nv) {
+    //     if (nv) {
+    //       this.form.wireguard.peers[0].persistent_keepalive = 25;
+    //     } else {
+    //       this.form.wireguard.peers[0].persistent_keepalive = 0;
+    //     }
+    //   }
+    // }
   },
   computed: {
     vpnType() {
       return this.form.protocol;
+    },
+    keepAliveTime() {
+      return this.form?.wireguard?.peers[0]?.persistent_keepalive;
     }
   },
   methods: {

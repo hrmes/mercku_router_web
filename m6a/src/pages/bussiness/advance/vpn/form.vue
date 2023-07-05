@@ -173,7 +173,8 @@
                 <m-checkbox class="checkbox"
                             :text="$t('trans1179')"
                             :bold="true"
-                            v-model="isKeepAlive" />
+                            v-model="isKeepAlive"
+                            @change="handleClickKeepAlive" />
                 <m-input v-if="isKeepAlive"
                          type="text"
                          :disabled="true"
@@ -371,6 +372,7 @@ export default {
         this.$router.push('/advance/vpn');
       }
     }
+    console.log(this.keepAliveTime);
   },
   computed: {
     formType() {
@@ -483,6 +485,14 @@ export default {
         }
       }
     },
+    handleClickKeepAlive() {
+      console.log(this.isKeepAlive);
+      if (this.isKeepAlive) {
+        this.form.wireguard.peers[0].persistent_keepalive = 25;
+      } else {
+        this.form.wireguard.peers[0].persistent_keepalive = 0;
+      }
+    }
   }
 };
 </script>
