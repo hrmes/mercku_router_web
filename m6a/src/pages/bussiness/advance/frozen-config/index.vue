@@ -130,7 +130,7 @@ export default {
       }
       category.isCheckAll = val;
     },
-     handleCheckedConfigChange(category) {
+     handleCheckedConfigChange(val, category) {
       const configCount = Object.keys(category.children).length;
       const checkedCount = category.checkedConfigList?.length;
       category.isCheckAll = configCount === checkedCount;
@@ -142,8 +142,8 @@ export default {
       this.$loading.open();
       this.$http.getRouterFrozenConfig()
       .then(res => {
-        this.enabled = res.data.enabled;
-        this.frozenConfigList = res.data.configs;
+        this.enabled = res.data.result.enabled;
+        this.frozenConfigList = res.data.result.configs;
       })
       .finally(() => {
         this.$loading.close();
