@@ -333,6 +333,7 @@ export default {
           }
         ],
       },
+      formParams: null,
       isEmptyFile: false
     };
   },
@@ -375,36 +376,6 @@ export default {
     formType() {
       return this.$route.params.id ? FormType.update : FormType.add;
     },
-    formParams() {
-      this.form.name = this.form.name.trim();
-      let params = {
-        id: this.form.id,
-        name: this.form.name,
-        protocol: this.form.protocol
-      };
-      if (this.form.protocol === VPNType.openvpn) {
-        if (this.openvpnForm.advance) {
-          params.username = this.form.username;
-          params.password = this.form.password;
-        }
-        if (!this.openvpnForm.configFile.update) {
-          params.openvpn = {
-            url: this.openvpnForm.configUrl
-          };
-        }
-      } else if (this.form.protocol === VPNType.wireguard) {
-        params = JSON.parse(JSON.stringify(this.form));
-        params = this.deepClean(params);
-      } else {
-        params.server = this.form.server;
-        params.username = this.form.username;
-        params.password = this.form.password;
-        if (this.form.protocol === VPNType.pptp) {
-          params.pptp = this.pptp;
-        }
-      }
-      return params;
-    },
     isInvalidFile() {
       if (this.openvpnForm.configFile && !this.openvpnForm.configFile.update) {
         // Don't need validate config file extend name
@@ -438,6 +409,37 @@ export default {
       formData.append('file', this.openvpnForm.configFile);
       return this.$http.uploadFile(formData, () => {});
     },
+    updateFormParams() {
+       this.form.name = this.form.name.trim();
+      let params = {
+        id: this.form.id,
+        name: this.form.name,
+        protocol: this.form.protocol
+      };
+      if (this.form.protocol === VPNType.openvpn) {
+        if (this.openvpnForm.advance) {
+          params.username = this.form.username;
+          params.password = this.form.password;
+        }
+        if (!this.openvpnForm.configFile.update) {
+          params.openvpn = {
+            url: this.openvpnForm.configUrl
+          };
+        }
+      } else if (this.form.protocol === VPNType.wireguard) {
+        console.log(this.form);
+        params = JSON.parse(JSON.stringify(this.form));
+        params = this.deepClean(params);
+      } else {
+        params.server = this.form.server;
+        params.username = this.form.username;
+        params.password = this.form.password;
+        if (this.form.protocol === VPNType.pptp) {
+          params.pptp = this.pptp;
+        }
+      }
+      this.formParams = params;
+    },
     submitForm(method) {
       this.$http[method](this.formParams)
         .then(() => {
@@ -460,6 +462,7 @@ export default {
       }
       if (this.$refs.form.validate()) {
         const fetchMethod = this.formType === FormType.update ? Action.updateVPN : Action.addVPN;
+        this.updateFormParams();
         this.$loading.open();
         if (this.formParams.protocol === VPNType.openvpn) {
           if (!this.openvpnForm.configFile.update) {
