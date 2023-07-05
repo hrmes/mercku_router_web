@@ -346,14 +346,14 @@ export default {
           name: vpn.name,
           protocol: vpn.protocol.toLowerCase()
         };
-        if (vpn.protocol === VPNType.openvpn) {
+        if (vpn.protocol?.toLowerCase() === VPNType.openvpn) {
           this.form.username = vpn.username;
           this.form.password = vpn.password;
           this.openvpnForm.advance = !!(vpn.password || vpn.username);
           this.openvpnForm.configFile = {
             update: true
           };
-        } else if (vpn.protocol === VPNType.wireguard) {
+        } else if (vpn.protocol?.toLowerCase() === VPNType.wireguard) {
           this.form.wireguard = JSON.parse(JSON.stringify(vpn.wireguard));
         } else {
           this.form.server = vpn.server;
