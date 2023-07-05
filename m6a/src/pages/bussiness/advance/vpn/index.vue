@@ -334,6 +334,18 @@ export default {
                 );
               }
             }
+            // 处理vpn protocol文本显示
+            switch (v.protocol) {
+              case VPNType.wireguard:
+                v.protocol = this.$t('trans1172');
+                break;
+              case VPNType.openvpn:
+                v.protocol = this.$t('trans0676');
+                break;
+              default:
+                v.protocol = v.protocol?.toUpperCase();
+                break;
+            }
 
             return { ...v, checked: false, open: false };
           });

@@ -1,5 +1,5 @@
 import { VPNType } from 'base/util/constant';
-import { getStringByte, ipReg } from 'base/util/util';
+import { getStringByte, ipRegWithMask, ipReg } from 'base/util/util';
 
 export default {
   data() {
@@ -56,7 +56,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipReg.test(value),
+            rule: value => ipRegWithMask.test(value),
             message: this.$t('trans0231')
           }
         ],
