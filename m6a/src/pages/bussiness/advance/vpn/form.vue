@@ -22,7 +22,7 @@
                     v-model="form.protocol"
                     :options="protocolsList"></m-select>
         </m-form-item>
-        <div v-if="form.protocol === VPNType.openvpn">
+        <div v-if="form.protocol.toLowerCase() === VPNType.openvpn">
           <div class="config-uploader">
             <div class="config-uploader__label">{{$t('trans0673')}}</div>
             <div class="config-uploader__inner">
@@ -71,7 +71,7 @@
             </m-form-item>
           </div>
         </div>
-        <div v-else-if="form.protocol === VPNType.wireguard">
+        <div v-else-if="form.protocol.toLowerCase() === VPNType.wireguard">
           <div class="interface__wrapper">
             <m-form-item key="privateKey"
                          class="item"
@@ -372,7 +372,6 @@ export default {
         this.$router.push('/advance/vpn');
       }
     }
-    console.log(this.keepAliveTime);
   },
   computed: {
     formType() {

@@ -100,6 +100,15 @@ export default {
         this.wireGuardInitForm.name = this.form.name;
         this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
       }
+      if (
+        this.formType === this.FormType.update &&
+        nv === VPNType.wireguard &&
+        !this.form?.wireguard
+      ) {
+        // 先存一下vpn.name
+        this.wireGuardInitForm.name = this.form.name;
+        this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
+      }
     },
     keepAliveTime: {
       handler(nv) {
@@ -111,15 +120,6 @@ export default {
       },
       immediate: true
     }
-    // isKeepAlive: {
-    //   handler(nv) {
-    //     if (nv) {
-    //       this.form.wireguard.peers[0].persistent_keepalive = 25;
-    //     } else {
-    //       this.form.wireguard.peers[0].persistent_keepalive = 0;
-    //     }
-    //   }
-    // }
   },
   computed: {
     vpnType() {
