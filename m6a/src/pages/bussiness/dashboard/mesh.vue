@@ -575,7 +575,16 @@ export default {
     initChart() {
       const topoEl = document.getElementById('topo');
       this.chart = echarts.init(topoEl);
-      this.chart.on('click', () => {
+      this.chart.on('click', (e) => {
+        const { data: { sn } } = e;
+        if (this.isMobile && sn) {
+            this.routers.forEach(router => {
+              router.expand = false;
+              if (router.sn === sn) {
+                router.expand = true;
+              }
+            });
+        }
         this.$router.push('/dashboard/mesh/table');
       });
       window.addEventListener('resize', () => {
