@@ -97,7 +97,7 @@ export default {
     &.checked {
       border: none;
       background: var(--checkbox-checked-background-color);
-      padding-left: 2.6px;
+      padding-left: 2.5px;
       position: relative;
       &::after {
         content: '\e65c';
@@ -115,6 +115,10 @@ export default {
     }
   }
   .text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     display: inline;
     font-size: 14px;
     line-height: 18px;

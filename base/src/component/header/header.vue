@@ -618,6 +618,9 @@ export default {
     padding: 0 50px;
   }
   @media screen and (max-width: 768px) {
+    position: fixed;
+    left: 0;
+    top: 0;
     padding: 0 20px !important;
   }
   .logo-wrap {

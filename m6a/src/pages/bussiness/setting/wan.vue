@@ -295,6 +295,7 @@ import {
 } from 'base/util/util';
 import * as CONSTANTS from 'base/util/constant';
 import { cloneDeep } from 'lodash';
+import store from '@/store/index';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -302,7 +303,7 @@ function checkDNS(value) {
 function checkPortNums(modelID) {
   let ports = null;
   switch (modelID) {
-    case CONSTANTS.Models.m6a:
+    case CONSTANTS.M6aRouterSnModelVersion.M6a:
       ports = [
         {
           port: {
@@ -330,7 +331,7 @@ function checkPortNums(modelID) {
         }
       ];
       break;
-    case CONSTANTS.Models.m6aPlus:
+    case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
       ports = [
         {
           port: {
@@ -404,7 +405,7 @@ const VlanDefault = {
 const IpPhoneVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(process.env.MODEL_CONFIG.id),
+  ports: checkPortNums(store.state.modelID),
   priority: 0,
   is_bridged: false,
   name: VlanName.ipPhone
@@ -412,7 +413,7 @@ const IpPhoneVlanDefault = {
 const IptvVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(process.env.MODEL_CONFIG.id),
+  ports: checkPortNums(store.state.modelID),
   priority: 0,
   is_bridged: false,
   name: VlanName.iptv
@@ -682,6 +683,9 @@ export default {
       return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
+    },
+    modelID() {
+       return '0';
     }
   },
   methods: {

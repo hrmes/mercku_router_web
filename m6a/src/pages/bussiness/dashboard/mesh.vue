@@ -147,7 +147,9 @@
                         class="btn-icon"
                         @click="resetNode(router)">
                     <i class="reset iconfont icon-ic_router_reset_normal"></i>
-                    <span class="icon-hover-popover"> {{$t('trans0205')}}</span>
+                    <span class="icon-hover-popover"
+                          style="min-width:180px; max-width:500px; line-height:1.5;padding-bottom:18px;  white-space: pre-line;">
+                      {{$t('trans1188')}}</span>
                   </span>
                   <span v-if="isMobile&&router.is_gw"
                         class="label"
@@ -573,7 +575,16 @@ export default {
     initChart() {
       const topoEl = document.getElementById('topo');
       this.chart = echarts.init(topoEl);
-      this.chart.on('click', () => {
+      this.chart.on('click', (e) => {
+        const { data: { sn } } = e;
+        if (this.isMobile && sn) {
+            this.routers.forEach(router => {
+              router.expand = false;
+              if (router.sn === sn) {
+                router.expand = true;
+              }
+            });
+        }
         this.$router.push('/dashboard/mesh/table');
       });
       window.addEventListener('resize', () => {
