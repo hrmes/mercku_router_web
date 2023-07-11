@@ -95,8 +95,8 @@ export default function getMenu(role, mode = RouterMode.bridge) {
       },
       {
         text: 'trans0962',
-        name: 'switch',
-        url: '/setting/switch',
+        name: 'schedule',
+        url: '/setting/schedule',
         config
       }
       // {

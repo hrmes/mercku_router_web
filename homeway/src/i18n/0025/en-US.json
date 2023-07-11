@@ -1065,7 +1065,7 @@
   "trans1070": "Scanning, please wait",
   "trans1071": "Current password",
   "trans1072": "Current SSID",
-  "trans1073": "For installation please prepare:",
+  "trans1073": "Installation",
   "trans1074": "- Paper and pen: write down passwords\n- Have the data of your main gateway or router ready: WLAN name (SSID)\nPasswords, encryption mode, e.g. WPA2\n- Country/region and time zone can be set in the \"Settings\" menu",
   "trans1075": "OK, Well prepared",
   "trans1076": " ",
@@ -1099,6 +1099,8 @@
   "trans1104": "When selecting the wireless bridge mode, please ensure that the upper-level SSID and password are correct and the current network status is good. ",
   "trans1105": "Connecting, please wait...",
   "trans1106": "Modifications are not saved, currently only supports modifying the configuration after Wi-Fi is turned on",
-  "trans1107": "Only scanning of Wi-Fi networks with encryption methods of Open, WPA, and WPA2 is supported on the Upper-level AP.",
-  "trans1108": "If the upper-level router enables dual-band integration, it may lead to unstable connections. It is recommended to disable it."
+  "trans1107": "Should you not be able to see the Wi-Fi name SSID of your upper level gateway, please make sure that the WLAN security level is at least WPA 2 or higher. WPA (1) is not sufficient and supported, as it is not secure",
+  "trans1108": "If the upper-level router enables dual-band integration, it may lead to unstable connections. It is recommended to disable it.",
+  "trans1109": "If the physical button is triggered to turn on/off the Wi-Fi, the Wi-Fi off schedule task will no longer be effective.",
+  "trans1110": "Invalid Time"
 }

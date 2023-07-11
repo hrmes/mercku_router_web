@@ -7,8 +7,8 @@ project_dir=$(pwd)
 
 folder=(demo_code homeway_code)
 customer=(0000 0025)
-source=(en_US_web.json zh_CN_web.json de_DE_web.json)
-target=(en-US.json zh-CN.json de-DE.json)
+source=(en_US_web.json de_DE_web.json)
+target=(en-US.json de-DE.json)
 sourceerror=error_to_trans_web.json
 targeterror=code-map.json
 
@@ -91,7 +91,6 @@ beautify_echo "complete copy timezones files..." success
 
 # 拷贝区域文件
 beautify_echo "copy region files..." info
-cp country_code/zh_CN_region_web.json $project_dir/src/assets/regions/zh-CN.json
 cp country_code/en_US_region_web.json $project_dir/src/assets/regions/en-US.json
 cp country_code/de_DE_region_web.json $project_dir/src/assets/regions/de-DE.json
 beautify_echo "complete copy timezones files..." success

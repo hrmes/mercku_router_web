@@ -25,7 +25,7 @@ import safe from 'base/pages/bussiness/setting/safe.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
-import wifiSwitch from 'base/pages/bussiness/setting/wifi-switch.vue';
+import wifiOffSchedule from 'base/pages/bussiness/setting/wifi-schedule';
 import led from 'base/pages/bussiness/setting/led-switch.vue';
 
 Vue.use(Router);
@@ -137,9 +137,9 @@ const routes = {
       component: led
     },
     {
-      path: '/setting/switch',
-      name: 'switch',
-      component: wifiSwitch
+      path: '/setting/schedule',
+      name: 'schedule',
+      component: wifiOffSchedule
     },
     {
       path: '/wlan',

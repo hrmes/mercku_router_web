@@ -954,7 +954,7 @@
   "trans0959": "Registrierung erfolgreich",
   "trans0960": "Herzliche Glückwünsche!",
   "trans0961": "Genießen Sie ein leistungsstarkes und benutzerfreundliches Netzwerk.",
-  "trans0962": "WLAN außerhalb des Zeitplans",
+  "trans0962": "WLAN-Abschaltzeitplan",
   "trans0963": "Wiederholen",
   "trans0964": "Niemals",
   "trans0965": "Startzeit",
@@ -1065,8 +1065,8 @@
   "trans1070": "Scannen, bitte warten",
   "trans1071": "Jetziges Passwort",
   "trans1072": "Aktuelle SSID",
-  "trans1073": "Zur Installaiton bitte denken an:",
-  "trans1074": "- Papier und Stift: Passwörter notieren\n- Daten Ihres Haupt-Gateways bzw. Routers bereithalten: WLAN-Name (SSID)\nPasswörter, Verschlüsselungsmodus,z.B WPA2\n-Land/Region und Zeitzone lassen sich einstellen im Menü \"Einstellungen\"",
+  "trans1073": "Installation",
+  "trans1074": "- Papier und Stift: Passwörter notieren\n- Daten Ihres Haupt-Gateways bzw. Routers bereithalten: WLAN-Name (SSID)\nPasswörter, Verschlüsselungsmodus,z.B WPA2\n- Land/Region und Zeitzone lassen sich einstellen im Menü \"Einstellungen\"",
   "trans1075": "Okay, gut vorbereitet",
   "trans1076": " ",
   "trans1077": "Das maximale Passwort beträgt nur 63 Zeichen, bitte erneut eingeben",
@@ -1099,6 +1099,8 @@
   "trans1104": "Stellen Sie bei der Auswahl des Wireless-Bridge-Modus sicher, dass die SSID und das Passwort der oberen Ebene korrekt sind und der aktuelle Netzwerkstatus gut ist.",
   "trans1105": "Verbindung wird hergestellt. Bitte warten...",
   "trans1106": "Änderungen werden nicht gespeichert. Derzeit wird nur das Ändern der Konfiguration nach dem Einschalten von Wi-Fi unterstützt",
-  "trans1107": "Es wird nur das Scannen von Wi-Fi-Netzwerken mit Verschlüsselungsmethoden von Open, WPA und WPA2 auf dem Upper-Level-AP unterstützt.",
-  "trans1108": "Wenn der übergeordnete Router die Dualband-Integration aktiviert, kann dies zu instabilen Verbindungen führen. Es wird empfohlen, dies zu deaktivieren."
+  "trans1107": "Sollten Sie den WLAN-Namen (SSID) Ihres Routers/Gateways der oberen Ebene nicht sehen können, stellen Sie bitte sicher, dass dort die WLAN-Sicherheitsstufe mindestens WPA 2 oder höher ist. WPA (1) ist nicht ausreichend und wird aus Sicherheitsgründen nicht unterstützt.",
+  "trans1108": "Wenn der übergeordnete Router die Dualband-Integration aktiviert, kann dies zu instabilen Verbindungen führen. Es wird empfohlen, dies zu deaktivieren.",
+  "trans1109": "Wenn die physische Taste ausgelöst wird, um das WLAN ein-/auszuschalten, ist die Aufgabe zur WLAN-Abschaltung nicht mehr wirksam.",
+  "trans1110": "Ungültige Zeit"
 }
