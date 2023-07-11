@@ -144,7 +144,7 @@ export default {
             status: VPNAction.connect
           })
           .then(() => {
-            if (vpn.protocol === VPNType.wireguard) {
+            if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
               this.wireguardSwitchHandler(v, vpn);
             } else {
               this.createIntervalTask(
@@ -170,7 +170,7 @@ export default {
             status: VPNAction.disconnect
           })
           .then(() => {
-            if (vpn.protocol === VPNType.wireguard) {
+            if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
               this.wireguardSwitchHandler(v, vpn);
             } else {
               this.createIntervalTask(
