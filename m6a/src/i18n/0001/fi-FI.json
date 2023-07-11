@@ -1177,5 +1177,8 @@
   "trans1182": "Valitse",
   "trans1183": "Esimiehen skannaus epäonnistui, napsauta Skannaa uudelleen",
   "trans1184": "64-1500 tavua",
-  "trans1185": " "
+  "trans1185": "Wi-Fi-SSID/Salasana/Smart Connect",
+  "trans1186": "Jäädytetty kokoonpano",
+  "trans1187": "Jäädytetyn konfiguraation käyttöönoton jälkeen voit valita vastaavan toiminnallisen kokoonpanon, ja nämä konfigurointiparametrit säilyvät tehdasasetusten palauttamisen jälkeen. Jos ei ole käytössä, kaikki parametrit tyhjennetään oletusarvoisesti tehdasasetuksiin palauttamisen yhteydessä.",
+  "trans1188": "Palauta tehdasasetukset:\nVoit valita \"Frozen Configuration\" -kohdassa säilytettävän kokoonpanosisällön."
 }
