@@ -445,18 +445,21 @@ export default {
                 }
               };
               console.log('wifi', wifi);
-              this.$http.meshWifiUpdate(wifi).then(() => {
-                this.$loading.close();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  },
-                  timeout: 60
+              this.$http.meshWifiUpdate(wifi)
+                .then(() => {
+                  this.$reconnect({
+                    onsuccess: () => {
+                      this.$router.push({ path: '/dashboard' });
+                    },
+                    ontimeout: () => {
+                      this.$router.push({ path: '/unconnect' });
+                    },
+                    timeout: 60
+                  });
+                })
+                .finally(() => {
+                  this.$loading.close();
                 });
-              });
             }
           }
         });

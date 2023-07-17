@@ -1101,6 +1101,6 @@
   "trans1106": "Modifications are not saved, currently only supports modifying the configuration after Wi-Fi is turned on",
   "trans1107": "Should you not be able to see the Wi-Fi name SSID of your upper level gateway, please make sure that the WLAN security level is at least WPA 2 or higher. WPA (1) is not sufficient and supported, as it is not secure",
   "trans1108": "If the upper-level router enables dual-band integration, it may lead to unstable connections. It is recommended to disable it.",
-  "trans1109": "If the physical button is triggered to turn on/off the Wi-Fi, the Wi-Fi off schedule task will no longer be effective.",
+  "trans1109": "When Wi-Fi is off, the LED will also be off synchronously.If the physical button is triggered to turn on/off the Wi-Fi, the Wi-Fi off schedule task will no longer be effective.",
   "trans1110": "Invalid Time"
 }
