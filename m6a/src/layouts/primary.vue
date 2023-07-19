@@ -1,5 +1,6 @@
 <template>
-  <div class="layout-wrap  primary">
+  <div class="layout-wrap  primary"
+       transition-style="in:circle:top-left">
     <div v-if="hasBackWrap"
          class="back-wrap">
       <div class="btn-container"
@@ -189,5 +190,18 @@ export default {
       }
     }
   }
+}
+
+@keyframes circle-in-top-left {
+  from {
+    clip-path: circle(0%);
+  }
+  to {
+    clip-path: circle(150% at top left);
+  }
+}
+
+[transition-style='in:circle:top-left'] {
+  animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) circle-in-top-left both;
 }
 </style>

@@ -157,3 +157,15 @@ export const AddNodeType = {
   wired: 'wired',
   wireless: 'wireless'
 };
+
+export const ConnectionQuality = {
+  good: 'good',
+  weak: 'weak',
+  offline: 'offline'
+};
+
+export const Color = {
+  good: '#00d061',
+  bad: '#ff6f00',
+  offline: '#b3b3b3'
+};

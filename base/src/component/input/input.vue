@@ -16,7 +16,19 @@
                :value="addonBefore" />
         <!-- <div class="extra"
              v-if="addonBefore">{{addonBefore}}</div> -->
-        <input autocomplete="new-password"
+        <input v-if="inputType==='number'"
+               @focus="focus"
+               @blur="blur"
+               @input="onInput"
+               onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))"
+               ref="input"
+               :disabled="disabled"
+               v-model="inputValue"
+               :placeholder="placeholder"
+               :type="inputType"
+               pattern="[0-9]*">
+        <input v-else
+               autocomplete="new-password"
                @focus="focus"
                @blur="blur"
                @input="onInput"
@@ -97,7 +109,7 @@ export default {
     },
     focus() {
       this.$parent.$emit('focus');
-    }
+    },
   },
   computed: {
     computedWidth() {
@@ -126,7 +138,7 @@ export default {
     },
     isPwdInput() {
       return this.type === 'password';
-    }
+    },
   }
 };
 </script>

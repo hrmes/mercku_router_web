@@ -305,7 +305,7 @@
 <script>
 import marked from 'marked';
 import { formatMac, getStringByte } from 'base/util/util';
-import { RouterStatus } from 'base/util/constant';
+import { RouterStatus, Color } from 'base/util/constant';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -640,48 +640,42 @@ export default {
               normal: {
                 show: true,
                 position: 'bottom',
-                color: this.isDarkMode ? '#fff' : '#333',
+                distance: 10,
                 backgroundColor: 'transparent',
-                formatter(category) {
-                  console.log(category.data);
-                  let nameFormatted = '';
-                  const { stationsCount } = category.data;
-                  // originName是节点的原始名称
-                  const name = category.data.originName;
-                  if (name.length <= 10) {
-                    nameFormatted = name;
-                  }
-                  const splitor = ' ';
-                  if (name.includes(splitor)) {
-                    const sp = name.split(splitor);
-                    let index = 1;
-                    let start = sp[0];
-                    while ((start + sp[index]).length <= 10 && index < sp.length) {
-                      start += ` ${sp[index]}`;
-                      index += 1;
-                    }
-                    const end = sp.slice(index).join(splitor);
-                    nameFormatted = `${start}\n${end}`;
-                  } else {
-                    nameFormatted = name.match(/.{1,10}/g).join('\n');
-                  }
-                  return `{a|${nameFormatted}} {b|${stationsCount}}`;
-                },
+                formatter: (category) => this.labelFormatter(category),
                 rich: {
-                  a: {
+                  name: {
                     color: this.isDarkMode ? '#fff' : '#333',
                   },
-                  b: {
-                    width: 20,
-                    height: 16,
-                    color: '#fff',
-                    fontSize: 10,
+                  stationCount: {
+                    width: 18,
+                    height: 18,
+                    borderRadius: 5,
+                    borderColor: this.isDarkMode ? '#262626 ' : '#fff',
+                    borderWidth: 1.5,
+                    color: '#333333',
+                    backgroundColor: '#d8d8d8'
+                  },
+                  good: {
+                    color: '#29b96c',
                     align: 'center',
-                    borderRadius: 3,
-                    backgroundColor: '#999'
+                    fontSize: 13,
+                    lineHeight: 30,
+                  },
+                  bad: {
+                    color: '#e4752d',
+                    align: 'center',
+                    fontSize: 13,
+                    lineHeight: 30,
+                  },
+                  offline: {
+                    color: '#b3b3b3',
+                    align: 'center',
+                    fontSize: 13,
+                    lineHeight: 30,
                   }
                 }
-              }
+              },
             },
             data: data.nodes,
             links: data.lines,
@@ -753,6 +747,30 @@ export default {
         this.isDarkMode = false;
       }
       this.getMeshNode();
+    },
+    labelFormatter(category) {
+      // originName是节点的原始名称
+      let { originName: name } = category.data;
+      const { stationsCount } = category.data;
+      const { itemStyle: { color } } = category.data;
+      let result;
+      if (name.length > 12) {
+        name = `${name.substring(0, 12)}...`;
+      }
+      switch (color) {
+        case Color.good:
+          result = `{name|${name}}\n{good|${this.$t('trans0193')}} {stationCount|${stationsCount}}`;
+        break;
+        case Color.bad:
+          result = `{name|${name}}\n{bad|${this.$t('trans0196')}} {stationCount|${stationsCount}}`;
+        break;
+        case Color.offline:
+          result = `{name|${name}}\n{offline|${this.$t('trans0214')}} {stationCount|${stationsCount}}`;
+        break;
+        default:
+        break;
+      }
+      return result;
     }
   },
   beforeDestroy() {
