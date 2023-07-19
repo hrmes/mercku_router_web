@@ -63,7 +63,7 @@ export const RouterSnModel = {
   Homeway: '09',
   M6s: '11'
 };
-export const M6aRouterSnModelVsersion = {
+export const M6aRouterSnModelVersion = {
   M6a: '0',
   M6a_Plus: '1'
 };
@@ -100,7 +100,8 @@ export const BlacklistMode = {
 export const VPNType = {
   pptp: 'pptp',
   l2tp: 'l2tp',
-  openvpn: 'openvpn'
+  openvpn: 'openvpn',
+  wireguard: 'wireguard'
 };
 export const VPNStatus = {
   connected: 'connected',
@@ -140,9 +141,7 @@ export const Models = {
   m2: 'M2R2',
   m6: 'M6R0',
   m6c: 'M7R0',
-  m6a: 'M8R0',
-  m6aPlus: 'M8R1',
-  m6s: 'M11R1',
+  m6a: 'M8',
   homeway_230v: 'M9R0',
   homeway_POE1: 'M9R1',
   homeway_POE2: 'M9R2'
