@@ -250,7 +250,7 @@ export default {
       this.wifiForm.password24g = b24g.password;
       this.wifiForm.ssid5g = b5g.ssid;
       this.wifiForm.password5g = b5g.password;
-      // this.wifiForm.smart_connect = wifi.smart_connect;
+      this.wifiForm.smart_connect = wifi.smart_connect;
     })
     .then(() => {
       this.getRegionInitData();
