@@ -384,6 +384,11 @@ const IptvVlanDefault = {
   is_bridged: false,
   name: VlanName.iptv
 };
+const PentanetPPPoEDefaultInfo = {
+  username: 'pentanetcpe@acs.penta.net.au',
+  password: '3TE3G6XgcSfq'
+};
+
 export default {
   data() {
     return {
@@ -421,8 +426,8 @@ export default {
         dns2: ''
       },
       pppoeForm: {
-        account: '',
-        password: '',
+        account: PentanetPPPoEDefaultInfo.username,
+        password: PentanetPPPoEDefaultInfo.password,
         dns1: '',
         dns2: ''
       },
