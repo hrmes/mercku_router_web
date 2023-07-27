@@ -145,7 +145,7 @@ export default {
               }
               .is-checked {
                 &::after {
-                  border-color: var(--header-popup-item-checked-color);
+                  border-color: var(--header-popup_item-checked-color);
                 }
               }
             }

@@ -104,11 +104,25 @@ export default {
 };
 </script>
 <style lang="scss">
+@keyframes errorshake {
+  25% {
+    transform: translateX(6px);
+  }
+  50% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 .form-item {
   margin-bottom: 30px;
   position: relative;
   .error-message {
-    color: var(--form-item-error-color);
+    color: var(--input-error-text-color);
     font-size: 12px;
     display: block;
     padding-top: 4px;
@@ -119,8 +133,10 @@ export default {
   }
   &.form-item-error {
     .input-wrapper {
-      border-color: var(--form-item-error-color) !important;
-      transition: border 0.3 linear;
+      input {
+        border: 2px solid var(--input-error-text-color);
+      }
+      animation: errorshake 0.3s forwards;
     }
   }
 }

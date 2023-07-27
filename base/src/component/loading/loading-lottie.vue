@@ -1,7 +1,7 @@
 // loading.vue
 <template>
-  <div class="loading-wrap">
-    <div id="loadingImg"></div>
+  <div id="loading-wrap">
+    <div :id="id"></div>
   </div>
 </template>
 <script>
@@ -16,11 +16,17 @@ const Type = {
 export default {
   name: 'loading-lottie',
   props: {
-    loadingType: { type: String, default: 'loading' }
+    loadingType: { type: String, default: 'loading' },
+    id: { type: String, default: 'lottie' },
+    size: { type: Number, default: 36 }
   },
   mounted() {
     // 解决json动画找不到dom不渲染问题
     window.requestAnimationFrame(this.loadImg);
+
+    const myDiv = document.getElementById('loading-wrap');
+    myDiv.style.width = `${this.size}px`;
+    myDiv.style.height = `${this.size}px`;
   },
   computed: {
     animJson() {
@@ -43,8 +49,9 @@ export default {
   },
   methods: {
     loadImg() {
+      const { id } = this;
       lottie.loadAnimation({
-        container: document.getElementById('loadingImg'),
+        container: document.getElementById(id),
         renderer: 'svg',
         loop: true,
         autoplay: true,
@@ -54,16 +61,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.loading-wrap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-</style>

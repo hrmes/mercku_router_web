@@ -1,30 +1,21 @@
 <template>
-  <div class="srcollbar-wrap">
+  <div class="srcollbar-wrap"
+       :class="{'is-login-page':isLoginPage}">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"
              class="flex-wrap"
              :class="{ 'has-menu': navVisible }">
           <m-header :navVisible="navVisible"
-                    :isLoginPage="!logoVisible"
-                    :logoVisible="logoVisible"
-                    :navs="menus"
-                    class="header"></m-header>
+                    :isLoginPage="isLoginPage"
+                    :isWlanPage="isWlanPage"
+                    :navs="menus" />
           <component :is="layout"
                      :hasBackWrap='hasBackWrap'
                      :asideInfo='asideInfo'></component>
-          <m-policy :locale="$i18n.locale"
-                    :isLoginPage="!logoVisible"
-                    :class="{ 'fix-bottom': !navVisible }"
-                    class="policy" />
-          <img v-if="$route.path.includes('login')"
-               class="login-logo__left__top"
-               src="@/assets/images/customer/mercku/login_logo.png"
-               alt="">
-          <img v-if="$route.path.includes('login')"
-               class="login-logo__right__bottom"
-               src="@/assets/images/customer/mercku/login_logo.png"
-               alt="">
+          <m-footer :isLoginPage="isLoginPage "
+                    :isWlanPage="isWlanPage"
+                    :navVisible="navVisible" />
         </div>
       </div>
     </div>
@@ -72,8 +63,11 @@ export default {
       const asideInfo = { hasAside, subMenu };
       return asideInfo;
     },
-    logoVisible() {
-      return !this.$route.path.includes('login');
+    isLoginPage() {
+      return this.$route.path.includes('login');
+    },
+    isWlanPage() {
+      return this.$route.path.includes('wlan');
     },
     navVisible() {
       const { path } = this.$route;
@@ -126,10 +120,11 @@ export default {
 [data-title]:after {
   content: attr(data-title);
   position: absolute;
-  bottom: -90%;
-  left: 70%;
+  bottom: -95%;
+  right: 0;
   width: fit-content;
   height: fit-content;
+  font-size: 14px;
   padding: 5px 15px 5px;
   color: #ffffff;
   background: var(--table-action-popover-bgc);
@@ -138,37 +133,41 @@ export default {
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
   opacity: 0;
-  z-index: 99999;
+  z-index: 999;
   visibility: hidden;
+  transition: all 0.2s ease-in-out;
 }
 [data-title] {
   position: relative;
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .srcollbar-wrap {
   height: 100%;
   overflow: auto;
-}
-.flex-wrap {
-  display: flex;
-  flex-direction: column;
-  color: var(--text-default-color);
-  background-color: var(--primaryBackgroundColor);
-  > img {
-    position: fixed;
-    width: 26.875rem;
-    height: 26.875rem;
+  &.is-login-page {
+    background: var(--scrollbar_wrap-bgc__isLogin);
   }
-  .login-logo__left__top {
-    top: 0;
-    left: 0;
-  }
-  .login-logo__right__bottom {
-    bottom: 0;
-    right: 0;
-    transform: rotate(180deg);
-  }
-  &.has-menu {
-    background-color: var(--flex-warp-has-menu-bgc);
+  background: var(--scrollbar_wrap-bgc__isNotLogin);
+  @media screen and (min-width: 768px) {
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background-color: var(--scrollbar_wrap-track-color);
+      // border-radius: 100px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar_wrap-thumb-color);
+      border-radius: 100px;
+    }
   }
 }
 .container {
@@ -180,33 +179,22 @@ export default {
     flex-direction: column;
     position: relative;
   }
-  .header {
-    z-index: 1000;
-  }
   .layout-wrap {
     flex: 1;
   }
-  .policy {
-    width: 100%;
-    text-align: center;
-    color: var(--text-gery-color);
-    &.fix-bottom {
-      background: var(--primaryBackgroundColor);
-    }
-  }
 }
+.flex-wrap {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-default-color);
+}
+
 @media screen and (max-width: 768px) {
   .flex-wrap {
     padding-top: 65px;
   }
   .container {
     flex-direction: column;
-    .policy {
-      font-size: 12px;
-      &.fix-bottom {
-        position: static;
-      }
-    }
     .login-logo__left__top,
     .login-logo__right__bottom {
       display: none;

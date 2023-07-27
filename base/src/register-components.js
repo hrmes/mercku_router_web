@@ -1,4 +1,4 @@
-import mPolicy from './component/policy/index.vue';
+import mFooter from './component/footer/index.vue';
 import mInput from './component/input/input.vue';
 import mStep from './component/step/index.vue';
 import mCheckbox from './component/checkbox/index.vue';
@@ -32,7 +32,7 @@ const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);
   _Vue.directive('defaultbutton', defaultButton);
   _Vue.component('m-header', MHeader);
-  _Vue.component('m-policy', mPolicy);
+  _Vue.component('m-footer', mFooter);
   _Vue.component('m-input', mInput);
   _Vue.component('m-step', mStep);
   _Vue.component('m-checkbox', mCheckbox);

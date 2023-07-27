@@ -180,16 +180,13 @@
       </ul>
     </div>
     <div class="jump-app-info"
+         v-if="isMobile"
          @click="jumpApp">
       <div class="icon mercku">
         <img src="@/assets/images/customer/mercku/ic_launcher.png"
              alt="">
       </div>
       <div class="text-container">{{$t('trans1118')}}</div>
-      <div class="icon qr">
-        <img src="@/assets/images/customer/mercku/qr.png"
-             alt="">
-      </div>
     </div>
     <m-modal :visible.sync="tipsModalVisible">
       <m-modal-body>
@@ -986,39 +983,6 @@ ul {
       }
     }
   }
-  .jump-app-info {
-    // position: absolute;
-    // bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-self: flex-end;
-    margin-top: calc(7%);
-    margin-right: calc(2%);
-    width: 210px;
-    padding: 10px 10px 10px 20px;
-    border-radius: 10px;
-    background: var(--dashboard-icon-background-color);
-    .text-container {
-      color: var(--text-default-color);
-      width: 95px;
-      // height: 40px;
-    }
-    .icon {
-      width: 70px;
-      height: 70px;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-      &.mercku {
-        display: none;
-      }
-      &.qr {
-        display: block;
-      }
-    }
-  }
 }
 // 匹配1440px到无穷大
 @media screen and(min-width:1440px) {
@@ -1402,12 +1366,19 @@ ul {
     }
     .jump-app-info {
       position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      align-self: flex-end;
+      padding: 10px 10px 10px 20px;
+      border-radius: 10px;
       width: 90%;
       height: 60px;
       right: 0;
       margin: 20px auto;
       background-color: var(--dashboard-app-background-color);
       .text-container {
+        color: var(--text-default-color);
         flex: 1;
         line-height: 40px;
       }
@@ -1415,11 +1386,9 @@ ul {
         width: 40px;
         height: 40px;
         margin-right: 10px;
-        &.mercku {
-          display: block;
-        }
-        &.qr {
-          display: none;
+        img {
+          width: 100%;
+          height: 100%;
         }
       }
     }

@@ -1,5 +1,5 @@
 <template>
-  <router-view transition-style="out:circle:center">
+  <router-view>
   </router-view>
 </template>
 
@@ -36,18 +36,3 @@ export default {
   }
 };
 </script>
-
-<style >
-@keyframes circle-out-center {
-  from {
-    clip-path: circle(0%);
-  }
-  to {
-    clip-path: circle(125%);
-  }
-}
-
-[transition-style='out:circle:center'] {
-  animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) circle-out-center both;
-}
-</style>

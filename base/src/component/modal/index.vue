@@ -103,4 +103,11 @@ export default {
     }
   }
 }
+@media screen and (max-width: 320px) {
+  .modal-dialog {
+    .modal-content {
+      padding: 10px 12px;
+    }
+  }
+}
 </style>

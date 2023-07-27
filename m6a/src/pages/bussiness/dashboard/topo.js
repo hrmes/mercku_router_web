@@ -20,7 +20,7 @@ import picM6aPlusGood from '@/assets/images/model/m6a_plus/icons-m6a_plus-excell
 import picM6aPlusBad from '@/assets/images/model/m6a_plus/icons-m6a_plus-fair.png';
 import picM6aPlusOffline from '@/assets/images/model/m6a_plus/icons-m6a_plus-offline.png';
 
-import { Color } from 'base/util/constant';
+import { Color, M6aRouterSnModelVersion } from 'base/util/constant';
 
 // 大于-70均认为优秀
 const isGood = rssi => rssi >= -65;
@@ -143,7 +143,6 @@ function genNodes(gateway, green, red, offline) {
       itemStyle: {
         color
       },
-      stationsCount: node?.stations?.length ?? 0,
       symbol,
       symbolSize
     };

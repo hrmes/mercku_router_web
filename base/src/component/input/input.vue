@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       showPwd: false,
-      inputValue: this.value || ''
+      inputValue: this.value || '',
     };
   },
   watch: {
@@ -150,7 +150,9 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
 .input-container {
+  max-width: 340px;
   &.small {
     .input {
       height: 36px;
@@ -159,7 +161,8 @@ input[type='number'] {
   position: relative;
   &.disabled {
     .icon-container {
-      cursor: default;
+      opacity: 0.2;
+      cursor: not-allowed;
     }
   }
   .inputarea {
@@ -176,7 +179,7 @@ input[type='number'] {
   .input-wrapper {
     height: 50px;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 10px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -192,32 +195,40 @@ input[type='number'] {
     input {
       font-size: 14px;
       padding: 10px;
-      height: 46px;
+      height: 48px;
       line-height: 1;
       width: 100%;
       outline: 0;
-      border-radius: 4px;
-      border: none;
+      border-radius: 10px;
       box-sizing: border-box;
       -webkit-appearance: none;
       background: transparent;
+      border: 1.5px solid var(--input-border-color);
       color: var(--text-default-color);
+      transition: all 0.2s ease-in-out;
       &::-webkit-input-placeholder {
-        color: var(--input-placehoder-color);
+        color: var(--input-placeholder-color);
       }
       &.margin {
         padding-left: 0px;
       }
+      &:focus {
+        border-color: var(--input-focus-border-color);
+      }
       &:disabled {
+        border: none;
         background: var(--input-disabled-background-color);
         opacity: var(--input-disabled-opacity);
         cursor: not-allowed;
+      }
+      &:invalid {
+        animation: errorshake 0.3s forwards;
+        border: 2px solid var(--input-error-border-color);
       }
       &.has-icon {
         padding-right: 50px;
       }
     }
-    border: 1.5px solid var(--input-border-color);
   }
   .icon-container {
     position: absolute;

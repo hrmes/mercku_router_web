@@ -1,6 +1,6 @@
 <template>
   <div class="select-container"
-       :class="{'disabled':disabled}"
+       :class="{'disabled':disabled,'focus':opened}"
        v-clickoutside="close">
     <label for="">{{label}}</label>
     <div class="select"
@@ -8,12 +8,13 @@
       <input class="select-text"
              :value="selected.text"
              readonly
+             :disabled="disabled"
              :title="selected.text" />
       <div class="icon-container">
         <span class="icon"
               :class="{ 'open': opened, 'close': !opened }"></span>
       </div>
-      <transition name="select">
+      <transition name="fade">
         <ul class="select-popup reset-ul"
             :class="{'popup-top':popupTop}"
             v-show="opened">
@@ -128,32 +129,19 @@ export default {
 </script>
 <style lang="scss" scoped>
 .select-container {
-  width: 340px;
-  &.disabled {
-    .select {
-      border: 1.5px solid transparent;
-      background: var(--select-disabled-background-color);
-      opacity: var(--select-disabled-opacity);
-      cursor: not-allowed;
-      input {
-        background: transparent;
-        cursor: not-allowed;
-      }
-      .icon-container {
-        cursor: not-allowed;
-      }
-    }
-  }
+  max-width: 340px;
+  cursor: pointer;
   .select {
     height: 48px;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 10px;
     outline: 0;
-    border: 1.5px solid var(--select-input-border-color);
+    border: 1.5px solid var(--input-border-color);
     font-size: 14px;
     padding: 0 10px;
     position: relative;
     padding-right: 50px;
+    transition: all 0.3s ease-in-out;
     .select-text {
       font-size: 14px;
       overflow: hidden;
@@ -170,7 +158,7 @@ export default {
       background: transparent;
       cursor: pointer;
       &::-webkit-input-placeholder {
-        color: var(--input-placehoder-color);
+        color: var(--input-placeholder-color);
       }
     }
   }
@@ -179,9 +167,8 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: var(--select-label-color);
+    color: var(--input-label-color);
   }
-  cursor: pointer;
   .select-popup {
     position: absolute;
     z-index: 888;
@@ -247,8 +234,8 @@ export default {
       width: 100%;
       height: 84px;
       font-size: 14px;
-      background-color: #fff;
-      color: #999;
+      color: var(--text-default-color);
+      cursor: default;
     }
   }
   .icon-container {
@@ -277,6 +264,26 @@ export default {
       &.close {
         transform: rotate(0);
       }
+    }
+  }
+  &.disabled {
+    .select {
+      border: 1.5px solid transparent;
+      background: var(--input-disabled-background-color);
+      opacity: var(--input-disabled-opacity);
+      cursor: not-allowed;
+      input {
+        background: transparent;
+        cursor: not-allowed;
+      }
+      .icon-container {
+        cursor: not-allowed;
+      }
+    }
+  }
+  &.focus {
+    .select {
+      border-color: var(--input-focus-border-color);
     }
   }
 }

@@ -339,7 +339,7 @@ export default {
       background: var(--time-picker-input-background-color);
       color: var(--text-default-color);
       &::-webkit-input-placeholder {
-        color: var(--input-placehoder-color);
+        color: var(--input-placeholder-color);
       }
     }
     .icon-inner {

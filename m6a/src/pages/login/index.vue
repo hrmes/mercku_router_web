@@ -1,85 +1,93 @@
 <template>
-  <div class="login-container customized">
-    <div class="center-form"
-         :class="{'light':currentTheme!=='auto'&&!isDarkMode,'dark':currentTheme!=='auto'&&isDarkMode}">
-      <div class="form">
-        <div class="logo">
-        </div>
-        <div v-if="loading === false">
-          <button v-if="initial === true"
-                  class="btn"
-                  @click="towlan">{{$t('trans0222')}}</button>
-
-          <div class="login-form"
-               v-if="initial === false">
-            <div class="form-item">
-              <m-input :label="$t('trans0067')"
-                       :placeholder="$t('trans0321')"
-                       type="password"
-                       v-model="password" />
-            </div>
-            <div class="form-item">
-              <button class="btn"
-                      v-defaultbutton
-                      @click.stop="login()">{{this.$t('trans0001')}}</button>
-            </div>
-          </div>
-        </div>
-        <div class="loading"
-             v-if="loading === true">
-          <m-loading :color="loadingColor"
-                     :size="36"></m-loading>
-        </div>
-      </div>
-      <div class="download"
-           v-if="appDownloadUrl">
-        <div class="stores">
-          <div class="store">
-            <div>
-              <img class="android-img"
-                   src="@/assets/images/icon/ic_android.png"
-                   alt="">
-            </div>
-            <span>Google Play</span>
-          </div>
-          <div class="store">
-            <div><img src="@/assets/images/icon/ic_apple.png"
-                   class="apple-img"
-                   alt=""></div>
-            <span>App Store</span>
-          </div>
-        </div>
-        <div class="qr"></div>
-      </div>
-      <div class="small-device-download"
-           v-if="appDownloadUrl">
-        <div class="top-wrap">
-          <div class="logo-container">
-            <div class="app-logo">
-            </div>
-          </div>
-          <div class="down-text">
-            <div>{{$t('trans0314')}}</div>
-            <div>
-              {{$t('trans0292')}}</div>
-          </div>
-        </div>
-        <div class="down-button-container">
-          <a class="down-button"
-             :href="appDownloadUrl">{{$t('trans0262')}}</a>
-        </div>
-      </div>
-
+  <div class="login customized">
+    <div class="login__left"
+         v-if="!isMobile">
+      <div class="left-rotate_bg"></div>
+      <img :src="LoginImg"
+           class="left-img"
+           alt="">
     </div>
+    <div class="login__right">
+      <div class="center-form"
+           :class="{'light':isLightClass,'dark':isDrakClass}">
+        <div class="form">
+          <div class="logo">
+          </div>
+          <div class="loading"
+               v-if="loading">
+            <m-loading></m-loading>
+          </div>
+          <div v-else>
+            <button v-if="initial === true"
+                    class="btn"
+                    @click="towlan">{{$t('trans0222')}}</button>
+            <div class="login-form"
+                 v-if="initial === false">
+              <div class="form-item">
+                <m-input :label="$t('trans0067')"
+                         :placeholder="$t('trans0321')"
+                         type="password"
+                         v-model="password" />
+              </div>
+              <div class="form-item">
+                <button class="btn"
+                        v-defaultbutton
+                        @click.stop="login()">{{this.$t('trans0001')}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="download"
+             v-if="appDownloadUrl&&!isMobile">
+          <div class="stores">
+            <div class="store">
+              <div>
+                <img class="android-img"
+                     src="@/assets/images/icon/ic_android.png"
+                     alt="">
+              </div>
+              <span>Google Play</span>
+            </div>
+            <div class="store">
+              <div><img src="@/assets/images/icon/ic_apple.png"
+                     class="apple-img"
+                     alt=""></div>
+              <span>App Store</span>
+            </div>
+          </div>
+          <div class="qr"></div>
+        </div>
+        <div class="small-device-download"
+             v-if="appDownloadUrl && isMobile">
+          <div class="top-wrap">
+            <div class="logo-container">
+              <div class="app-logo">
+              </div>
+            </div>
+            <div class="down-text">
+              <div>{{$t('trans0314')}}</div>
+              <div>
+                {{$t('trans0292')}}</div>
+            </div>
+          </div>
+          <div class="down-button-container">
+            <a class="down-button"
+               :href="appDownloadUrl">{{$t('trans0262')}}</a>
+          </div>
+        </div>
 
+      </div>
+    </div>
   </div>
-
 </template>
 
 <script>
+import { LoginImg } from '@/assets/images/v3/base64-img/img.js';
+
 export default {
   data() {
     return {
+      LoginImg,
       initial: false,
       loading: false,
       password: '',
@@ -88,31 +96,43 @@ export default {
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  // mounted() {
-  //   this.loading = true;
-  //   this.$http
-  //     .isinitial()
-  //     .then(res => {
-  //       if (res.data.result.status) {
-  //         this.$http.login({ password: '' }).then(() => {
-  //           this.towlan();
-  //         });
-  //       } else {
-  //         this.initial = false;
-  //         this.loading = false;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       this.initial = false;
-  //       this.loading = false;
-  //     });
-  // },
+  mounted() {
+    this.loading = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.towlan();
+          });
+        } else {
+          this.initial = false;
+          this.loading = false;
+        }
+      })
+      .catch(() => {
+        this.initial = false;
+        this.loading = false;
+      });
+  },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
+     website() {
+      return process.env.CUSTOMER_CONFIG.website;
+    },
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    isLightClass() {
+      return this.currentTheme !== 'auto' && !this.isDarkMode;
+    },
+    isDrakClass() {
+      return this.currentTheme !== 'auto' && this.isDarkMode;
     }
   },
   watch: {
@@ -165,70 +185,76 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@media screen and(min-width: 769px) {
-  .login-container {
-    .form {
-      height: 262px;
-    }
-  }
-}
-.login-container {
+.login {
+  display: grid;
+  grid-template-rows: 100%;
+  grid-template-columns: 1fr 1.05fr;
   width: 100%;
   height: 100%;
+  min-width: 1280px;
+  min-height: 720px;
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
+  .login__left {
+    position: relative;
+    .left-rotate_bg {
+      width: 100%;
+      height: 120%;
+      border-radius: 35px;
+      transform-origin: bottom left;
+      transform: translate(20%, 12%) rotate(-40deg);
+      background-color: var(--login-left_rotate-bgcolor);
+    }
+    .left-img {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 78%;
+      height: auto;
+    }
+  }
+  .login__right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .loading {
     display: flex;
     justify-content: center;
   }
-  .small-device-download {
-    display: none;
-  }
   .center-form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     text-align: center;
     position: relative;
-    width: inherit;
-    height: inherit;
-    transform: translateY(calc(48px - 80px));
+    width: 400px;
+    height: 500px;
+    padding: 50px 0 30px;
+    background-color: var(--login-right_form-bgcolor);
+    box-shadow: var();
+    border-radius: 15px;
     .logo {
-      width: 340px;
+      width: 280px;
+      height: 38px;
       margin: 0 auto;
-      &::before {
-        content: '';
-        display: block;
-        padding-top: 15%;
-      }
-      margin-bottom: 60px;
-    }
-    .form-item {
-      margin-bottom: 30px;
+      margin-bottom: 50px;
     }
     .btn {
       width: 340px;
-    }
-    .welcome-text {
-      font-size: 26px;
-      color: #4c4c4c;
-      display: block;
-      margin-bottom: 50px;
     }
   }
   .download {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 30px;
     width: 340px;
     height: 130px;
     border-radius: 10px;
     padding: 0 20px;
-    background-color: var(--grey-background-color);
+    background-color: var(--login-right_form_download-bgcolor);
     .stores {
       display: flex;
       flex-direction: column;
@@ -287,13 +313,31 @@ export default {
       text-align: center;
     }
   }
+  .login-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    background: #dfe7f0;
+    transform-origin: center;
+    transform: translate(-50%, 0) rotate(-30deg);
+  }
 }
 @media screen and(max-width: 768px) {
-  .login-container {
-    height: auto;
+  .login {
+    width: 100%;
+    height: 100vh;
+    min-width: auto;
+    min-height: auto;
+    flex: 1;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    .login__right {
+      flex: 1;
+    }
     .small-device-image {
       display: block;
       img {
@@ -303,6 +347,7 @@ export default {
     .small-device-download {
       display: flex;
       flex-direction: column;
+      max-width: 340px;
       width: 100%;
       text-align: left;
       padding: 20px;
@@ -334,26 +379,40 @@ export default {
       }
 
       .down-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-top: 15px;
         width: 100%;
+        height: 48px;
+        border: 2px solid transparent;
+        border-radius: 30px;
+        overflow: hidden;
+        transition: all 0.1s ease-in-out;
+        background-clip: padding-box, border-box;
+        background-origin: padding-box, border-box;
+        background-image: linear-gradient(
+            to right,
+            var(--grey-background-color),
+            var(--grey-background-color)
+          ),
+          linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
         .down-button {
-          text-decoration: none;
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          line-height: 42px;
           text-align: center;
-          color: var(--primaryColor);
-          border: 1.5px solid var(--primaryColor);
-          border-radius: 5px;
-          padding: 12px 10px;
-          font-size: 14px;
-          line-height: 1;
-          display: block;
+          border-radius: 30px;
+          user-select: none;
+          text-decoration: none;
+          color: #ff677b;
         }
       }
     }
-    .download {
-      display: none;
-    }
     .center-form {
       // width: 80%;
+      background-color: transparent;
       padding: 0 20px;
       flex: 1;
       margin: 0 auto;
@@ -364,18 +423,14 @@ export default {
         width: 220px;
         margin-bottom: 30px;
       }
-      .welcome-text {
-        font-size: 18px;
-        margin-bottom: 30px;
-      }
       .btn {
-        width: 100%;
+        max-width: 340px;
       }
     }
   }
 }
 @media screen and (max-width: 320px) {
-  .login-container {
+  .login {
     .small-device-download {
       .down-text {
         width: 80px;

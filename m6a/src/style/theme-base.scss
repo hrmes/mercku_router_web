@@ -12,6 +12,33 @@
 @mixin light-theme {
   color-scheme: light;
 
+  // login Page color variable
+  --footer-policy_text-color:#808080;
+  --footer-qr_img-filter: brightness(0.5);
+  --footer-popup-shadow-color:rgba(0, 0, 0, 0.12);
+
+  // --footer-menu-hover-color:
+
+  --scrollbar_wrap-bgc__isNotLogin: linear-gradient(to bottom, #f7f7f7 58%, #e8e8e8 89%);
+  --scrollbar_wrap-bgc__isLogin: linear-gradient(316deg, #e4e4e4, #fafafa 47%);
+  --scrollbar_wrap-track-color:#f1f1f1;
+  --scrollbar_wrap-thumb-color:#c1c1c1;
+
+
+  --login-left_rotate-bgcolor:#dfe7f0;
+  --login-right_form-bgcolor:rgba(255, 255, 255, 0.9);
+  --login-right_form_download-bgcolor:#f8f8f8;
+
+  --wlan-hr-color:#e5e5e5;
+  --wlan-main_card-bgc:#fff;
+  --wlan-sub_card-bgc:#fafafa;
+  --wlan-tips-color:#333;
+
+  --mobile-menu-selected-color:var(--primaryColor);
+
+  --common-card-boxshadow:0 50px 40px -20px rgba(0, 0, 0, 0.1);
+
+
   --primaryColor: #d6001c;
   --warning-color: #f12b2b;
   --primaryBackgroundColor: #fff;
@@ -25,13 +52,11 @@
 
   // button
   --button-text-color: #fff;
-  --button-background-color: var(--primaryColor);
-  --button-border-color: transparent;
-  --button-active-color: var(--primaryColor);
-  --button-hover-color: #f42843;
-  --button-disabled-background-color: rgba(214, 0, 28, 0.3);
-  --button-disabled-border-color: transparent;
-  --button-disabled-text-color: #fff;
+  --button-background-color: linear-gradient(95deg,#d6001c,#ee1d4f 45%,#ff6734);
+  --button-box-shadow: 0 10px 20px -5px rgba(234, 24, 70, 0.2);
+  --button-active-opcity: 1.2;
+  --button-hover-opcity: 0.7;
+  --button-disabled-opcity: 0.4;
 
   --button-default-background-color: transparent;
   --button-default-text-color: var(--primaryColor);
@@ -73,10 +98,9 @@
   --dialog-content-bgc: #fff;
 
   // select and editableSelect
-  --select-label-color: #808080;
-  --select-input-border-color: #b3b3b3;
   --select-popup-background-color: #fff;
   --select-popup-border-color: #eaeaea;
+  --select-popup-shadow:0 10px 15px 0 rgba(0, 0, 0, 0.12);
   --select-item-active-background-color: #f1f1f1;
   --select-item-active-color: #333;
   --select-item-hover-background-color: #f1f1f1;
@@ -85,14 +109,10 @@
   --select-disabled-background-color: #f1f1f1;
   --select-disabled-opacity: 0.8;
 
-  // form
-  --form-item-error-color: #ff0000;
-
   // header
-  --header-background-color: var(--primaryBackgroundColor);
+  --header-background-color:#f7f7f7;
   --header-color: #fff;
   --header-nav-iconfont-color: #979797;
-  --header-nav-iconfont-selected-color: #d6001c;
   --header-nav-hide-background-color: var(--primaryBackgroundColor);
   --header-nav-hide-color: #333;
   --header-nav-hide-trangle-color: #333;
@@ -102,31 +122,20 @@
   --header-nav-hide-popup-item-hover-color: var(--primaryColor);
   --header-nav-hide-popup-item-selected-color: var(--primaryColor);
   --header-nav-hide-popup-item-checked-color: var(--primaryColor);
-  --header-nav-hover-background-color: #f2f2f2;
-
-  --header-dividing-color: #e1e1e1;
+  --header-nav-hover-background-color: rgba(0,0,0,0.05);
 
   --header-official-color: #333;
   --header-official-hover-color: #999;
 
   --header-nav-item-color: #fff;
   --header-nav-item-hover-color: #999;
-  --header-nav-item-selected-background-color: var(--primaryColor);
   --header-nav-item-border-color: #666;
 
-  --header-popup-background-color: #fff;
-  --mobile-header-popup-background-color: #f8f8f8;
-  --header-popup-item-disabled-color: #999;
-  --header-popup-item-disabled-background-color: #333;
-  --header-popup-item-disabled-hover-color: #999;
-  --header-popup-shadow-color: rgba(0, 0, 0, 0.2);
-  --header-popup-item-color: #fff;
-  --header-popup-item-hover-color: #000000;
-  --header-popup-item-active-color: #333;
-  --header-popup-item-hover-background-color: #f8f8f8;
-  --header-popup-item-selected-color: var(--primaryColor);
-  --header-popup-item-checked-color: var(--primaryColor);
-  --header-popup-border-color: #666;
+  --header-popup-bgc: #fff;
+  --mobile-header-popup-bgc: #fff;
+  --header-popup_item-disabled-color: #999;
+  --header-popup_item-disabled-bgc: #333;
+
 
   --header-nav-hide-i18n-mobile-background-color: var(--primaryBackgroundColor);
   --header-nav-hide-i18n-mobile-color: var(--text-default-color);
@@ -137,11 +146,14 @@
   --header-mobile-nav-item-color: var(--text-default-color);
 
   // input
-  --input-label-color: #808080;
-  --input-border-color: #b3b3b3;
+  --input-label-color: #595959;
+  --input-border-color: #d9d9d9;
+  --input-focus-border-color:#000000;
+  --input-error-border-color:#ff0000;
+  --input-error-text-color: var( --input-error-border-color);
   --input-disabled-background-color: #f1f1f1;
   --input-disabled-opacity: 0.8;
-  --input-placehoder-color: #bdbdbd;
+  --input-placeholder-color: #bdbdbd;
 
   // modal
   --modal-mask-background-color: rgba(0, 0, 0, 0.7);
@@ -178,9 +190,10 @@
   --step-item-success-color: #d6001c;
 
   // switch
-  --switch-background-color: #b6b6b6;
-  --switch-circle-color: #fff;
-  --switch-chencked-color: #00d061;
+  --switch-background-color: #b8b7b8;
+  --switch-off-icon-color: #bdbdbd;
+  --switch-on-icon-color:#ee1d4f;
+  --switch-chencked-color: linear-gradient(95deg,#d6001c,#ee1d4f 45%,#ff6734);
 
   // tab
   --tab-icon-color: #808080;
@@ -239,12 +252,14 @@
 
   //Appdownload
   --download-tag-background-color: #fff;
-  --download-tag-before-color: #d8d8d8;
+  --download-tag-before-color: #e4e4e4;
   --download-ios-img-brightness: var(--img-brightness);
   --download-android-img-brightness: brightness(1);
 
   //logout
-  --logout-btn-bgc: #f3f3f3;
+  --logout-btn-bgc: #fff;
+  --logout-btn-boxshadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+
 
   //dashboard
   --dashboard-unlinked-color: rgba(51, 51, 51, 0.3);
@@ -255,7 +270,7 @@
   --dashboard-gery-text-color: #808080;
   --dashboard-wifi-background-color: #f7f7f7;
   --dashboard-dividing-line-color: #dfdfdf;
-  --dashboard-app-background-color: #ededed;
+  --dashboard-app-background-color: #fff;
 
   //table
   --table-row-background-color: #fafafa;
@@ -294,9 +309,33 @@
 @mixin dark-theme {
   color-scheme: dark;
 
-  --primaryColor: #df2039;
+   // login Page color variable
+  --footer-policy_text-color:rgba(255, 255, 255, 0.6);
+  --footer-qr_img-filter: brightness(2);
+  --footer-popup-shadow-color:rgba(0, 0, 0, 0.2);
+
+
+  --scrollbar_wrap-bgc__isNotLogin:#262626;
+  --scrollbar_wrap-bgc__isLogin:#262626;
+  --scrollbar_wrap-track-color:#424242;
+  --scrollbar_wrap-thumb-color:#686868;
+
+  --login-left_rotate-bgcolor:#293c51;
+  --login-right_form-bgcolor:#333;
+  --login-right_form_download-bgcolor:#262626;
+
+  --wlan-hr-color:#5b5b5b;
+  --wlan-main_card-bgc:#333;
+  --wlan-sub_card-bgc:#262626;
+  --wlan-tips-color:rgba(255, 255, 255, 0.6);
+  --mobile-menu-selected-color:#ff677b;
+
+  --common-card-boxshadow:0 50px 40px -20px rgba(0, 0, 0, 0.4);
+
+
+  --primaryColor: #ff334e;
   --warning-color: #ff4d64;
-  --primaryBackgroundColor: #1a1a1a;
+  --primaryBackgroundColor: #333;
   --text-default-color: #fff;
   --text-gery-color: rgba(255, 255, 255, 0.6);
   --img-brightness: brightness(100);
@@ -307,13 +346,11 @@
 
   // button
   --button-text-color: #fff;
-  --button-background-color: var(--primaryColor);
-  --button-border-color: transparent;
-  --button-active-color: var(--primaryColor);
-  --button-hover-color: #e44459;
-  --button-disabled-background-color: rgba(223, 32, 57, 0.3);
-  --button-disabled-border-color: transparent;
-  --button-disabled-text-color: rgba(255, 255, 255, 0.4);
+  --button-background-color: linear-gradient(95deg,#e62342,#ec4f5b 45%,#fb6d53);
+  --button-box-shadow: 0 10px 10px -5px rgba(234, 24, 70, 0.3);
+  --button-active-opcity: 1.2;
+  --button-hover-opcity: 0.8;
+  --button-disabled-opcity: 0.5;
 
   --button-default-background-color: transparent;
   --button-default-text-color: #ff334e;
@@ -359,6 +396,7 @@
   --select-input-border-color: #b3b3b3;
   --select-popup-background-color: #404040;
   --select-popup-border-color: #4d4d4d;
+  --select-popup-shadow:0 10px 15px 0 rgba(0, 0, 0, 0.2);
   --select-item-active-background-color: rgba(255, 255, 255, 0.15);
   --select-item-active-color: #fff;
   --select-item-hover-background-color: rgba(255, 255, 255, 0.15);
@@ -367,14 +405,11 @@
   --select-disabled-background-color: rgba(255, 255, 255, 0.2);
   --select-disabled-opacity: 0.8;
 
-  // form
-  --form-item-error-color: #ff0000;
 
   // header
-  --header-background-color: #333;
+  --header-background-color: #262626;
   --header-color: #fff;
   --header-nav-iconfont-color: #ffffff;
-  --header-nav-iconfont-selected-color: #ff334e;
   --header-nav-hide-background-color: #1a1a1a;
   --header-nav-hide-color: #fff;
   --header-nav-hide-trangle-color: #fff;
@@ -391,29 +426,19 @@
   --header-nav-hide-popup-item-checked-color: var(--primaryColor);
   --header-nav-hover-background-color: rgba(255, 255, 255, 0.2);
 
-  --header-dividing-color: #666;
 
   --header-official-color: #fff;
   --header-official-hover-color: rgba(255, 255, 255, 0.6);
 
   --header-nav-item-color: #fff;
   --header-nav-item-hover-color: #999;
-  --header-nav-item-selected-background-color: var(--primaryColor);
   --header-nav-item-border-color: #666;
 
-  --header-popup-background-color: #333;
-  --mobile-header-popup-background-color: #1e1e1e;
-  --header-popup-item-disabled-color: #999;
-  --header-popup-item-disabled-background-color: #333;
-  --header-popup-item-disabled-hover-color: #999;
-  --header-popup-shadow-color: rgba(0, 0, 0, 0.2);
-  --header-popup-item-color: #fff;
-  --header-popup-item-hover-color: #fff;
-  --header-popup-item-active-color: #333;
-  --header-popup-item-hover-background-color: rgba(255, 255, 255, 0.15);
-  --header-popup-item-selected-color: var(--primaryColor);
-  --header-popup-item-checked-color: var(--primaryColor);
-  --header-popup-border-color: #666;
+  --header-popup-bgc: #333;
+  --mobile-header-popup-bgc: #333;
+  --header-popup_item-disabled-color: #999;
+  --header-popup_item-disabled-bgc: #333;
+
 
   --header-nav-hide-i18n-mobile-background-color: var(--primaryBackgroundColor);
   --header-nav-hide-i18n-mobile-color: var(--text-default-color);
@@ -426,9 +451,12 @@
   // input
   --input-label-color: rgba(255, 255, 255, 0.6);
   --input-border-color: #b3b3b3;
+  --input-focus-border-color:#ffffff;
+  --input-error-border-color:#ff4d64;
+  --input-error-text-color:var( --input-error-border-color);
   --input-disabled-background-color: rgba(255, 255, 255, 0.2);
   --input-disabled-opacity: 0.8;
-  --input-placehoder-color: rgba(255, 255, 255, 0.6);
+  --input-placeholder-color: rgba(255, 255, 255, 0.6);
 
   // modal
   --modal-mask-background-color: rgba(0, 0, 0, 0.8);
@@ -470,9 +498,10 @@
   --step-item-success-color: #fff;
 
   // switch
-  --switch-background-color: #b6b6b6;
-  --switch-circle-color: #fff;
-  --switch-chencked-color: #00d061;
+  --switch-background-color: #7e7e7e;
+  --switch-off-icon-color: #7e7e7e;
+  --switch-on-icon-color:#ec4f5b;
+  --switch-chencked-color: linear-gradient(95deg,#e62342,#ec4f5b 45%,#fb6d53);
 
   // tab
   --tab-icon-color: #fff;
@@ -530,13 +559,14 @@
   --tag-node-border-color: rgba(255, 255, 255, 0.5);
 
   //Appdownload
-  --download-tag-background-color: #595959;
-  --download-tag-before-color: #6c6c6c;
+  --download-tag-background-color: #333;
+  --download-tag-before-color: #b3b3b3;
   --download-ios-img-brightness: var(--img-brightness);
   --download-android-img-brightness: brightness(1.2);
 
   //logout
-  --logout-btn-bgc: #6a6a6a;
+  --logout-btn-bgc: #666;
+  --logout-btn-boxshadow:0 10px 20px -5px rgba(0, 0, 0, 0.2);
 
   //dashboard
   --dashboard-unlinked-color: #ffffff;
@@ -547,7 +577,7 @@
   --dashboard-gery-text-color: #fff;
   --dashboard-wifi-background-color: #1a1a1a;
   --dashboard-dividing-line-color: rgba(255, 255, 255, 0.2);
-  --dashboard-app-background-color: #2e2e2e;
+  --dashboard-app-background-color: #404040;
 
   //table
   --table-row-background-color: #1a1a1a;

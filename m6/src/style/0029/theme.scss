@@ -105,18 +105,18 @@
   --header-nav-item-selected-background-color: var(--primaryColor);
   --header-nav-item-border-color: #666;
 
-  --header-popup-background-color: #fff;
-  --mobile-header-popup-background-color: #f8f8f8;
-  --header-popup-item-disabled-color: #999;
-  --header-popup-item-disabled-background-color: #333;
-  --header-popup-item-disabled-hover-color: #999;
+  --header-popup-bgc: #fff;
+  --mobile-header-popup-bgc: #f8f8f8;
+  --header-popup_item-disabled-color: #999;
+  --header-popup_item-disabled-bgc: #333;
+  --header-popup_item-disabled-hover-color: #999;
   --header-popup-shadow-color: rgba(0, 0, 0, 0.2);
   --header-popup-item-color: #fff;
-  --header-popup-item-hover-color: #000000;
-  --header-popup-item-active-color: #333;
-  --header-popup-item-hover-background-color: #f8f8f8;
-  --header-popup-item-selected-color: var(--primaryColor);
-  --header-popup-item-checked-color: var(--primaryColor);
+  --header-popup_item-hover-color: #000000;
+  --header-popup_item-active-color: #333;
+  --header-popup_item-hover-bgc: #f8f8f8;
+  --header-popup_item-selected-color: var(--primaryColor);
+  --header-popup_item-checked-color: var(--primaryColor);
   --header-popup-border-color: #666;
 
   --header-nav-hide-i18n-mobile-background-color: var(--primaryBackgroundColor);
@@ -132,7 +132,7 @@
   --input-border-color: #b3b3b3;
   --input-disabled-background-color: #f1f1f1;
   --input-disabled-opacity: 0.8;
-  --input-placehoder-color: #bdbdbd;
+  --input-placeholder-color: #bdbdbd;
 
   // modal
   --modal-mask-background-color: rgba(0, 0, 0, 0.7);
@@ -390,18 +390,18 @@
   --header-nav-item-selected-background-color: var(--primaryColor);
   --header-nav-item-border-color: #666;
 
-  --header-popup-background-color: #333;
-  --mobile-header-popup-background-color: #1e1e1e;
-  --header-popup-item-disabled-color: #999;
-  --header-popup-item-disabled-background-color: #333;
-  --header-popup-item-disabled-hover-color: #999;
+  --header-popup-bgc: #333;
+  --mobile-header-popup-bgc: #1e1e1e;
+  --header-popup_item-disabled-color: #999;
+  --header-popup_item-disabled-bgc: #333;
+  --header-popup_item-disabled-hover-color: #999;
   --header-popup-shadow-color: rgba(0, 0, 0, 0.2);
   --header-popup-item-color: #fff;
-  --header-popup-item-hover-color: #fff;
-  --header-popup-item-active-color: #333;
-  --header-popup-item-hover-background-color: rgba(255, 255, 255, 0.15);
-  --header-popup-item-selected-color: var(--primaryColor);
-  --header-popup-item-checked-color: var(--primaryColor);
+  --header-popup_item-hover-color: #fff;
+  --header-popup_item-active-color: #333;
+  --header-popup_item-hover-bgc: rgba(255, 255, 255, 0.15);
+  --header-popup_item-selected-color: var(--primaryColor);
+  --header-popup_item-checked-color: var(--primaryColor);
   --header-popup-border-color: #666;
 
   --header-nav-hide-i18n-mobile-background-color: var(--primaryBackgroundColor);
@@ -417,7 +417,7 @@
   --input-border-color: #b3b3b3;
   --input-disabled-background-color: rgba(255, 255, 255, 0.2);
   --input-disabled-opacity: 0.8;
-  --input-placehoder-color: rgba(255, 255, 255, 0.6);
+  --input-placeholder-color: rgba(255, 255, 255, 0.6);
 
   // modal
   --modal-mask-background-color: rgba(0, 0, 0, 0.8);

@@ -76,7 +76,7 @@ export default {
       height: 20px;
       text-align: center;
       line-height: 20px;
-      background-color: var(--switch-circle-color);
+      background-color: #fff;
       border-radius: 16px;
       transition: left 0.3s;
       &::before {
@@ -84,19 +84,19 @@ export default {
         font-family: 'iconfont';
         font-size: 12px;
         font-weight: 600;
-        color: #bdbdbd;
+        color: var(--switch-off-icon-color);
       }
     }
     &.checked {
       border-color: var(--switch-chencked-color);
-      background-color: var(--switch-chencked-color);
+      background-image: var(--switch-chencked-color);
       transition: border ease 0.4s, box-shadow ease 0.4s,
-        background-color ease 1.2s;
+        background-image ease 1.2s;
       & .mk-switch__circle {
         left: 18px;
         &::before {
           content: '\e65c';
-          color: #0fc866;
+          color: var(--switch-on-icon-color);
         }
       }
     }
