@@ -63,8 +63,13 @@
             </m-form-item>
           </template>
           <div class="button-container">
-            <button @click="step1()"
+            <m-loading v-if="btnLoading"
+                       :color="loadingColor"
+                       :size="36"></m-loading>
+            <button v-else
+                    @click="step1()"
                     class="btn">{{$t('trans0055')}}</button>
+
           </div>
         </m-form>
       </div>
@@ -199,7 +204,8 @@ export default {
             message: this.$t('trans0169')
           }
         ]
-      }
+      },
+      btnLoading: false
     };
   },
   computed: {
@@ -228,6 +234,7 @@ export default {
       this.wifiForm.ssid5g = b5g.ssid;
       this.wifiForm.password5g = b5g.password;
       this.wifiForm.smart_connect = wifi.smart_connect;
+      this.$loading.close();
     });
   },
   methods: {
@@ -260,6 +267,7 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
+        this.btnLoading = true;
         // 提交表单
         this.$http
           .updateMeshConfig({
@@ -302,6 +310,9 @@ export default {
               },
               showLoading: false
             });
+          })
+          .finally(() => {
+            this.btnLoading = false;
           });
       }
     }
@@ -396,6 +407,8 @@ export default {
       .button-container {
         margin-top: 60px;
         display: flex;
+        justify-content: center;
+        align-items: center;
         button {
           display: inline-block;
           flex: 1;

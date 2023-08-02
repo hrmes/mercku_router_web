@@ -4,13 +4,11 @@
       <div class="form">
         <div class="logo">
         </div>
-        <div v-if="loading === false">
-          <button v-if="initial === true"
+        <div>
+          <!-- <button v-if="initial === true"
                   class="btn"
-                  @click="towlan">{{$t('trans0222')}}</button>
-
-          <div class="login-form"
-               v-if="initial === false">
+                  @click="towlan">{{$t('trans0222')}}</button> -->
+          <div class="login-form">
             <div class="form-item">
               <m-input :label="$t('trans0067')"
                        :placeholder="$t('trans0321')"
@@ -24,11 +22,11 @@
             </div>
           </div>
         </div>
-        <div class="loadding"
+        <!-- <div class="loading"
              v-if="loading === true">
           <m-loading :color="loadingColor"
                      :size="36"></m-loading>
-        </div>
+        </div> -->
       </div>
       <div class="small-device-download"
            v-if="appDownloadUrl">
@@ -76,30 +74,29 @@ export default {
   data() {
     return {
       initial: null,
-      loading: null,
       password: ''
     };
   },
   mounted() {
-    this.loading = true;
-    this.$http
-      .isinitial()
-      .then(res => {
-        if (res.data.result.status) {
-          this.$http.login({ password: '' }).then(() => {
-            this.initial = true;
-            this.loading = false;
-            this.towlan();
-          });
-        } else {
-          this.initial = false;
-          this.loading = false;
-        }
-      })
-      .catch(() => {
-        this.initial = false;
-        this.loading = false;
-      });
+    // this.loading = true;
+    // this.$http
+    //   .isinitial()
+    //   .then(res => {
+    //     if (res.data.result.status) {
+    //       this.$http.login({ password: '' }).then(() => {
+    //         this.initial = true;
+    //         this.loading = false;
+    //         this.towlan();
+    //       });
+    //     } else {
+    //       this.initial = false;
+    //       this.loading = false;
+    //     }
+    //   })
+    //   .catch(() => {
+    //     this.initial = false;
+    //     this.loading = false;
+    //   });
   },
   computed: {
     appDownloadUrl() {
@@ -110,26 +107,56 @@ export default {
     towlan() {
       this.$router.push({ path: '/wlan' });
     },
-    login() {
-      this.$loading.open();
-      this.$http
-        .login({ password: this.password })
-        .then(res => {
-          const { role } = res.data.result;
-          this.$store.role = role;
-          localStorage.setItem('role', role);
-          this.$http.getMeshMode().then(res1 => {
-            this.$loading.close();
-            const { mode } = res1.data.result;
-            this.$store.mode = mode;
-            localStorage.setItem('mode', mode);
-            this.$router.push({ path: '/dashboard' });
-          });
-        })
-        .catch(err => {
-          this.$loading.close();
-          this.$toast(this.$t(err.error.code));
-        });
+    // login() {
+    //  this.$loading.open();
+    //  this.$http
+    //    .login({ password: this.password })
+    //    .then(res => {
+    //      const { role } = res.data.result;
+    //      this.$store.role = role;
+    //      localStorage.setItem('role', role);
+    //      this.$http.getMeshMode().then(res1 => {
+    //        this.$loading.close();
+    //        const { mode } = res1.data.result;
+    //        this.$store.mode = mode;
+    //        localStorage.setItem('mode', mode);
+    //        this.$router.push({ path: '/dashboard' });
+    //      });
+    //    })
+    //    .catch(err => {
+    //      this.$loading.close();
+    //      this.$toast(this.$t(err.error.code));
+    //    });
+    // },
+    async login() {
+      try {
+        this.$loading.open();
+
+        const loginResponse = await this.$http.login({ password: this.password });
+        const { role } = loginResponse.data.result;
+
+        this.$store.role = role;
+        localStorage.setItem('role', role);
+
+        const initialResponse = await this.$http.isinitial();
+        const { status } = initialResponse.data.result;
+        if (status) {
+           this.towlan();
+           return;
+        }
+
+        const meshModeResponse = await this.$http.getMeshMode();
+        const { mode } = meshModeResponse.data.result;
+
+        this.$store.mode = mode;
+        localStorage.setItem('mode', mode);
+
+        this.$loading.close();
+        this.$router.push({ path: '/dashboard' });
+      } catch (err) {
+        this.$loading.close();
+        this.$toast(this.$t(err.error.code));
+      }
     }
   }
 };
@@ -154,12 +181,6 @@ export default {
   align-items: center;
   justify-content: center;
   background: #fff;
-  // background: $primaryColor;
-
-  .loadding {
-    display: flex;
-    justify-content: center;
-  }
   .small-device-download {
     display: none;
   }
