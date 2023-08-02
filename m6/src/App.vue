@@ -1,11 +1,11 @@
 <template>
   <div class="srcollbar-wrap"
+       :class="{ 'has-menu': navVisible }"
        v-loading="$loading">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"
-             class="flex-wrap"
-             :class="{ 'has-menu': navVisible }">
+             class="flex-wrap">
           <m-header :navVisible="navVisible"
                     :isLoginPage="!logoVisible"
                     :logoVisible="logoVisible"
@@ -107,6 +107,17 @@ export default {
     window.addEventListener('resize', () => {
       this.setHeight();
     });
+    this.$router.beforeEach((to, from, next) => {
+      // 判断是否是手机端
+      // eslint-disable-next-line max-len
+      const { isMobile } = this.$store.state;
+      const scrollPage = document.querySelector('.srcollbar-wrap');
+      // 判断是否是跳转到新页面
+      if (isMobile && to.path !== from.path) {
+          scrollPage.scrollTop = 0;
+      }
+      next();
+    });
   }
 };
 </script>
@@ -140,16 +151,20 @@ export default {
 .srcollbar-wrap {
   height: 100%;
   overflow: auto;
+  background-color: var(--primaryBackgroundColor);
+  &.has-menu {
+    background-color: var(--flex-warp-has-menu-bgc);
+  }
 }
 .flex-wrap {
   display: flex;
   flex-direction: column;
   color: var(--text-default-color);
-  background-color: var(--primaryBackgroundColor);
   > img {
     position: fixed;
     width: 26.875rem;
     height: 26.875rem;
+    z-index: 999;
   }
   .login-logo__left__top {
     top: 0;
@@ -159,9 +174,6 @@ export default {
     bottom: 0;
     right: 0;
     transform: rotate(180deg);
-  }
-  &.has-menu {
-    background-color: var(--flex-warp-has-menu-bgc);
   }
 }
 .container {
@@ -189,6 +201,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .flex-wrap {
+    padding-top: 65px;
+  }
   .container {
     flex-direction: column;
     .policy {

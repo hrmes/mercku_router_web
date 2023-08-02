@@ -98,7 +98,7 @@
             <!-- 列表为空状态模块 -->
             <div class='table-empty'
                  v-if="!showLoading&&routers.length===0">
-              <img src="../../../assets/images/img_default_empty.png"
+              <img src="../../../assets/images/img_default_empty.webp"
                    alt="">
               <span>{{$t('trans0278')}}</span>
             </div>
@@ -243,7 +243,7 @@
         </div>
         <div class="table__empty"
              v-else>
-          <img src="../../../assets/images/img_default_empty.png"
+          <img src="../../../assets/images/img_default_empty.webp"
                alt="">
           <span>
             {{$t('trans0278')}}

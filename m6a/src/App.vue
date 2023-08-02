@@ -1,10 +1,10 @@
 <template>
-  <div class="srcollbar-wrap">
+  <div class="srcollbar-wrap"
+       :class="{ 'has-menu': navVisible }">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"
-             class="flex-wrap"
-             :class="{ 'has-menu': navVisible }">
+             class="flex-wrap">
           <m-header :navVisible="navVisible"
                     :isLoginPage="!logoVisible"
                     :logoVisible="logoVisible"
@@ -147,12 +147,15 @@ export default {
 .srcollbar-wrap {
   height: 100%;
   overflow: auto;
+  background-color: var(--primaryBackgroundColor);
+  &.has-menu {
+    background-color: var(--flex-warp-has-menu-bgc);
+  }
 }
 .flex-wrap {
   display: flex;
   flex-direction: column;
   color: var(--text-default-color);
-  background-color: var(--primaryBackgroundColor);
   > img {
     position: fixed;
     width: 26.875rem;
@@ -166,9 +169,6 @@ export default {
     bottom: 0;
     right: 0;
     transform: rotate(180deg);
-  }
-  &.has-menu {
-    background-color: var(--flex-warp-has-menu-bgc);
   }
 }
 .container {

@@ -9,7 +9,6 @@
           <button v-if="initial === true"
                   class="btn"
                   @click="towlan">{{$t('trans0222')}}</button>
-
           <div class="login-form"
                v-if="initial === false">
             <div class="form-item">
@@ -59,7 +58,7 @@
             </div>
           </div>
           <div class="down-text">
-            <div>{{appDownloadText}}</div>
+            <div>{{$t('trans0314')}}</div>
             <div>
               {{$t('trans0292')}}</div>
           </div>
@@ -69,11 +68,8 @@
              :href="appDownloadUrl">{{$t('trans0262')}}</a>
         </div>
       </div>
-
     </div>
-
   </div>
-
 </template>
 
 <script>
@@ -113,9 +109,6 @@ export default {
     },
     currentTheme() {
       return this.$store.state.theme;
-    },
-    appDownloadText() {
-      return this.$t('trans0314').replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
     }
   },
   watch: {
@@ -173,7 +166,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
   .loading {
     display: flex;
     justify-content: center;
@@ -194,7 +186,12 @@ export default {
     .logo {
       width: 340px;
       margin: 0 auto;
-      margin-bottom: 40px;
+      &::before {
+        content: '';
+        display: block;
+        padding-top: 15%;
+      }
+      margin-bottom: 60px;
     }
     .form-item {
       margin-bottom: 30px;

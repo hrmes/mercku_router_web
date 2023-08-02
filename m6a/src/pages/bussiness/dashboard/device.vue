@@ -162,7 +162,7 @@
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
-                      <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}</span>
                     </label>
                   </div>
                   <div class="speed-wrap">
@@ -171,7 +171,7 @@
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
-                      <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}/s</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}</span>
                     </label>
                   </div>
                 </div>
