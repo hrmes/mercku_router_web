@@ -80,13 +80,6 @@
         <p class="cutdown">{{countdown}}s</p>
         <div class="tip"
              style="margin-top:5px;">{{$t('trans0294')}}</div>
-        <div class="info info-pw">
-          <div class="info__row">
-            <span class="info__title">{{$t('trans0561')}}</span>:
-            <span class="info__value">{{wifiForm.password24g}}</span>
-          </div>
-        </div>
-        <div class="tip tip-setting">{{tipsText}}</div>
         <div class="form-header"
              v-if="!wifiForm.smart_connect">
           <img class="form-header__img"
@@ -208,11 +201,6 @@ export default {
       btnLoading: false
     };
   },
-  computed: {
-    tipsText() {
-      return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
-    }
-  },
   mounted() {
     this.$http.getMeshMeta().then(res => {
       const wifi = res.data.result;
@@ -274,7 +262,6 @@ export default {
                 },
                 smart_connect: this.wifiForm.smart_connect
               },
-              admin: { password: this.wifiForm.password24g }
             }
           })
           .then(() => {
@@ -356,12 +343,6 @@ export default {
         }
         .tip {
           font-size: 12px;
-          &.tip-setting {
-            margin-top: 10px;
-            text-align: left;
-          }
-        }
-        .tip-setting {
         }
         .info {
           padding: 15px 20px;
@@ -370,9 +351,6 @@ export default {
           border-radius: 5px;
           background-color: #f1f1f1;
           margin-top: 7px;
-          &.info-pw {
-            margin-top: 30px;
-          }
           .info__row {
             text-align: left;
             & + .info__row {
