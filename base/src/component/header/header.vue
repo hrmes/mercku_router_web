@@ -595,7 +595,7 @@ export default {
         }
         .nav-item-child {
           display: none;
-          width: 280px;
+          min-width: 280px;
           position: absolute;
           z-index: 999;
           top: 100%;
@@ -610,8 +610,9 @@ export default {
             align-items: center;
             color: $header-popup-item-color;
             list-style: none;
-            padding: 0 30px;
+            padding: 0 20px;
             line-height: 38px;
+            white-space: nowrap;
             &:hover {
               color: $header-popup-item-hover-color;
               background: $header-popup-item-hover-background-color;

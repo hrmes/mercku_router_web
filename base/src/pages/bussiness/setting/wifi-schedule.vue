@@ -1,5 +1,5 @@
 <template>
-  <div class="page led">
+  <div class="page schedule">
     <div class="page-header">
       {{$t('trans0962')}}
     </div>
@@ -10,6 +10,7 @@
                     class="smart-connect__switch"
                     v-model="form.enabled"
                     @change="onEnableChange" />
+          <p class="tip__label">{{$t('trans1109')}}</p>
         </m-form-item>
         <div class="form__advance"
              v-show="form.enabled">
@@ -39,7 +40,6 @@
                            v-model="form.time_end" />
           </m-form-item>
         </div>
-
       </m-form>
       <div class="form-button"
            v-show="form.enabled">
@@ -51,8 +51,8 @@
   </div>
 </template>
 <script>
-import TimezoneOffset from '../../../mixins/timezone-offset';
-import { Weeks } from '../../../util/constant';
+import TimezoneOffset from 'base/mixins/timezone-offset';
+import { Weeks } from 'base/util/constant';
 
 export default {
   mixins: [TimezoneOffset],
@@ -129,6 +129,10 @@ export default {
         this.showErrorTip = true;
         return;
       }
+      if (this.form.time_begin === this.form.time_end) {
+        this.$toast(this.$t('trans1110'), 3000, 'error');
+        return;
+      }
       this.$loading.open();
       this.$http
         .updateWIFITimeLimit({
@@ -185,7 +189,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page.led {
+.page.schedule {
   .page-content {
     .form {
       width: 340px;
@@ -215,10 +219,8 @@ export default {
       .tip__label {
         font-size: 12px;
         color: #999;
-        margin-top: 10px;
+        margin-top: 20px;
         max-width: 340px;
-        border-bottom: 1px solid #ebebeb;
-        padding-bottom: 20px;
       }
     }
 
