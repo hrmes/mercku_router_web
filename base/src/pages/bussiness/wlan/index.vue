@@ -63,8 +63,13 @@
             </m-form-item>
           </template>
           <div class="button-container">
-            <button @click="step1()"
+            <m-loading v-if="btnLoading"
+                       :color="loadingColor"
+                       :size="36"></m-loading>
+            <button v-else
+                    @click="step1()"
                     class="btn">{{$t('trans0055')}}</button>
+
           </div>
         </m-form>
       </div>
@@ -75,13 +80,6 @@
         <p class="cutdown">{{countdown}}s</p>
         <div class="tip"
              style="margin-top:5px;">{{$t('trans0294')}}</div>
-        <div class="info info-pw">
-          <div class="info__row">
-            <span class="info__title">{{$t('trans0561')}}</span>:
-            <span class="info__value">{{wifiForm.password24g}}</span>
-          </div>
-        </div>
-        <div class="tip tip-setting">{{tipsText}}</div>
         <div class="form-header"
              v-if="!wifiForm.smart_connect">
           <img class="form-header__img"
@@ -199,26 +197,11 @@ export default {
             message: this.$t('trans0169')
           }
         ]
-      }
+      },
+      btnLoading: false
     };
   },
-  computed: {
-    tipsText() {
-      return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
-    }
-  },
   mounted() {
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-      });
     this.$http.getMeshMeta().then(res => {
       const wifi = res.data.result;
       const b24g = wifi.bands[Bands.b24g];
@@ -228,6 +211,7 @@ export default {
       this.wifiForm.ssid5g = b5g.ssid;
       this.wifiForm.password5g = b5g.password;
       this.wifiForm.smart_connect = wifi.smart_connect;
+      this.$loading.close();
     });
   },
   methods: {
@@ -260,6 +244,7 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
+        this.btnLoading = true;
         // 提交表单
         this.$http
           .updateMeshConfig({
@@ -277,7 +262,6 @@ export default {
                 },
                 smart_connect: this.wifiForm.smart_connect
               },
-              admin: { password: this.wifiForm.password24g }
             }
           })
           .then(() => {
@@ -302,6 +286,9 @@ export default {
               },
               showLoading: false
             });
+          })
+          .finally(() => {
+            this.btnLoading = false;
           });
       }
     }
@@ -356,12 +343,6 @@ export default {
         }
         .tip {
           font-size: 12px;
-          &.tip-setting {
-            margin-top: 10px;
-            text-align: left;
-          }
-        }
-        .tip-setting {
         }
         .info {
           padding: 15px 20px;
@@ -370,9 +351,6 @@ export default {
           border-radius: 5px;
           background-color: #f1f1f1;
           margin-top: 7px;
-          &.info-pw {
-            margin-top: 30px;
-          }
           .info__row {
             text-align: left;
             & + .info__row {
@@ -396,6 +374,8 @@ export default {
       .button-container {
         margin-top: 60px;
         display: flex;
+        justify-content: center;
+        align-items: center;
         button {
           display: inline-block;
           flex: 1;
