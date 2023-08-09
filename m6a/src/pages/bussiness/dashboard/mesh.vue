@@ -1,182 +1,170 @@
 <template>
   <div class="mesh-container">
     <div class="mesh-info">
-      <div class="title">
-        <m-tabs>
-          <m-tab :class="{'selected':!showTable}"
-                 @click.native="$router.push('/dashboard/mesh/topo')">
-            <i class="iconfont icon-ic_devices_mesh_normal"></i>
-            {{$t('trans0312')}}
-          </m-tab>
-          <m-tab :class="{'selected':showTable}"
-                 @click.native="$router.push('/dashboard/mesh/table')">
-            <i class="iconfont icon-ic_devices_list_normal"></i>
-            {{$t('trans0384')}}
-          </m-tab>
-        </m-tabs>
-        <button class="btn btn-add btn-small"
-                @click.stop="$router.push('/mesh/add')">
-          <span class="add-icon"></span>
-          {{$t('trans0194')}}
-        </button>
-        <button @click.stop="$router.push('/mesh/add')"
-                class="btn mobile-add"></button>
+      <div class="back-wrap">
+        <div class="btn-container"
+             @click="onBack($route.meta.parentPath)">
+          <i class="iconfont icon-ic_back"></i>
+        </div>
+        <div class="text-container">{{pageName}}</div>
       </div>
       <div class="content">
         <div class="topo-container"
-             v-show="!showTable">
+             :class="{'show-table':showTable}">
           <div class="legend-wrap">
-            <p class="legend-title">
-              <span>{{$t('trans0302')}}</span>
-              <i class="iconfont icon-ic_connection_quality icon-quality"
-                 @click.stop="showRssiModal"></i>
-            </p>
-            <div class="legend">
-              <div class="legend-item">{{$t('trans1047')}}</div>
-              <div class="legend-item">{{$t('trans1048')}}</div>
-              <div class="legend-item">{{$t('trans0214')}}</div>
-            </div>
-            <div class="legend-tx_power">
-              <span>{{$t('trans1102')}}:</span>
-              <m-loading v-if="!tx_power"
-                         :id="'txpowerLoading'"
-                         :size='18'
-                         :color="'#29b96c'"
-                         class="value loading"></m-loading>
-              <span v-else
-                    class="value text">{{txPowerMap[tx_power]}}</span>
-            </div>
-          </div>
-          <div class="switch-wrap">
-          </div>
-          <div class="topo-wrap"
-               id="topo-wrap">
-            <div id="topo"></div>
-          </div>
-        </div>
-        <div class="mesh-table"
-             v-show="showTable">
-          <div class="table-header">
-            <div class="name">{{$t('trans0005')}}</div>
-            <div class="type">{{$t('trans0068')}}</div>
-            <div class="equipment">
-              {{$t('trans0235')}}
-            </div>
-            <div class="sn">{{$t('trans0251')}}</div>
-            <div class="version">{{$t('trans0300')}}</div>
-            <div class="ip">
-              <span>{{$t('trans0151')}}</span>
-              <span>&nbsp;/&nbsp;{{$t('trans0201')}}</span>
-            </div>
-            <div class="mac">{{$t('trans0201')}}</div>
-            <div class="operate"></div>
-          </div>
-          <div class="table-content">
-            <template v-if="routers.length">
-              <div class="router"
-                   :class="{'expand':router.expand}"
-                   v-for="router in routers"
-                   :key="router.sn">
-                <div class="name"
-                     @click="router.expand = !router.expand">
-                  <div class="icon">
-                    <img :src="router.image"
-                         alt>
-                  </div>
-                  <div class="wrap">
-                    <div class="text"
-                         :title="router.name">{{router.name}}</div>
-                    <div class="edit"
-                         v-if="!isRouterOffline(router)"
-                         @click.stop="onClickRouterName(router)">
-                      <img class="btn-text icon-btn"
-                           :title="$t('trans0034')"
-                           src="@/assets/images/icon/ic_edit.png"
-                           alt>
-                    </div>
-                  </div>
-                  <div class="expand"
-                       :class="{'expand':router.expand,'collapse':!router.expand}">
-                    <i class="expand iconfont icon-ic_dropdown_small"></i>
-                  </div>
-                </div>
-                <div class="type">
-                  <span class="label">{{$t('trans0068')}}</span>
-                  <span class="value">{{router.is_gw ? $t('trans0165'):
-                  $t('trans0186')}}</span>
-                </div>
-                <div class="equipment">
-                  <span class="label">{{$t('trans0235')}}</span>
-                  <span class="value equipment__value"
-                        :class="{'is-disabled':!router.stations}"
-                        @click.stop="showStationListModal(router)">
-                    {{getRouterStationCount(router)}}
-                  </span>
-                  <i class="equipment__arrow iconfont icon-ic_enter"></i>
-                </div>
-                <div class="sn">
-                  <span class="label">{{$t('trans0251')}}</span>
-                  <span class="value">{{router.sn}}</span>
-                </div>
-                <div class="version">
-                  <span class="label">{{$t('trans0300')}}</span>
-                  <span class="value">{{router.version.current}}</span>
-                </div>
-                <div class="ip">
-                  <span class="label">{{$t('trans0151')}}</span>
-                  <span class="value">{{router.ip}}</span>
-                  <span class="value">{{formatMac(router.mac.lan)}}</span>
-                </div>
-                <div class="mac">
-                  <span class="label">{{$t('trans0201')}}</span>
-                  <span class="value">{{formatMac(router.mac.lan)}}</span>
-                </div>
-                <div class="operate">
-                  <span v-if="!isRouterOffline(router)"
-                        class="btn-icon"
-                        @click="rebootNode(router)">
-                    <i class="reboot iconfont icon-ic_router_reboot_normal"></i>
-                    <span class="icon-hover-popover"> {{$t('trans0122')}}</span>
-                  </span>
-                  <span v-if="isMobile&&!isRouterOffline(router)"
-                        class="label"
-                        @click="rebootNode(router)">
-                    {{$t('trans0122')}}
-                  </span>
-                  <span v-if="router.is_gw"
-                        class="btn-icon"
-                        @click="resetNode(router)">
-                    <i class="reset iconfont icon-ic_router_reset_normal"></i>
-                    <span class="icon-hover-popover"
-                          style="min-width:180px; max-width:500px; line-height:1.5;padding-bottom:18px;  white-space: pre-line;">
-                      {{$t('trans1188')}}</span>
-                  </span>
-                  <span v-if="isMobile&&router.is_gw"
-                        class="label"
-                        @click="resetNode(router)">
-                    {{$t('trans0205')}}
-                  </span>
-                  <span v-if="!router.is_gw"
-                        class="btn-icon"
-                        @click="deleteNode(router)">
-                    <i class="delete iconfont icon-ic_trash_normal"></i>
-                    <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
-                  </span>
-                  <span v-if="isMobile&&!router.is_gw"
-                        class="label"
-                        @click="deleteNode(router)">
-                    {{$t('trans0033')}}
-                  </span>
-                </div>
+            <span class="btn-icon"
+                  @click="resetChartPosition">
+              <i class=" iconfont icon-ic_router_reset_normal"></i>
+            </span>
+            <div class="info">
+              <div class="legend">
+                <div class="legend-item">{{$t('trans0193')}}</div>
+                <div class="legend-item">{{$t('trans0196')}}</div>
+                <div class="legend-item">{{$t('trans0214')}}</div>
               </div>
-            </template>
-            <div class="loading-container"
-                 v-else>
-              <m-loading :id="'meshFormLoading'"></m-loading>
+              <p class="legend-title">
+                <span>{{$t('trans0302')}}</span>
+                <i class="iconfont icon-ic_connection_quality icon-quality"
+                   @click.stop="showRssiModal"></i>
+              </p>
+              <div class="legend-tx_power">
+                <span>{{$t('trans1102')}}:</span>
+                <m-loading v-if="!tx_power"
+                           :id="'txpowerLoading'"
+                           :size='18'
+                           :color="'#29b96c'"
+                           class="value loading"></m-loading>
+                <span v-else
+                      class="value text">{{txPowerMap[tx_power]}}</span>
+              </div>
             </div>
 
           </div>
+          <!-- <div class="switch-wrap">
+          </div> -->
+          <div class="topo-wrap"
+               id="toppo-wrap">
+            <div id="topo"></div>
+          </div>
         </div>
+        <transition name="fade-slide"
+                    mode="out-in"
+                    @after-leave="handleTransitionEnd">
+          <div class="mesh-info-card"
+               v-if="showTable">
+            <div class="card-top">
+              <div class="card-top__header">
+                <span class="model-name info-label">M6a</span>
+                <span class="gateway-label info-label"
+                      v-if="isGateway">{{$t('trans0153')}}</span>
+                <span class="connect-quality info-label"
+                      :class="{'fair':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.fair,
+                               'offline':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.offline
+                              }"
+                      v-if="!isGateway">{{connectQuality(selectedNodeInfo.color)}}</span>
+                <span class="close btn-icon"
+                      @click="()=>showTable=false">
+                  <i class="iconfont icon-ic_close"></i>
+                </span>
+              </div>
+              <div class="card-top__main">
+                <div class="model__img"></div>
+                <div class="mesh-router__info">
+                  <div class="row-1">
+                    <div class="line-icon"></div>
+                    <span class="text"
+                          :title="selectedNodeInfo.name">{{selectedNodeInfo.name}}</span>
+                  </div>
+                  <div class="row-2">
+                    <span class="label">{{$t('trans0251')}}: </span>
+                    <span class="value">{{selectedNodeInfo.sn}}</span>
+                  </div>
+                  <div class="row-3">
+                    <span class="label">{{$t('trans0300')}}: </span>
+                    <span class="value">{{selectedNodeInfo.version.current}}</span>
+                  </div>
+                  <div class="row-4">
+                    <span class="label">{{$t('trans0151')}}: </span>
+                    <span class="value">{{selectedNodeInfo.ip?selectedNodeInfo.ip:'-'}}</span>
+                  </div>
+                  <div class="row-5">
+                    <span class="label">{{$t('trans0201')}}: </span>
+                    <span class="value">{{formatMac(selectedNodeInfo.mac.lan) }}</span>
+                  </div>
+                </div>
+                <div class="operation">
+                  <span class="btn-icon"
+                        v-if="!isRouterOffline(selectedNodeInfo)"
+                        @click.stop="onClickRouterName(selectedNodeInfo)">
+                    <i class="iconfont icon-ic_edit"></i>
+                    <span class="icon-hover-popover">Edit</span>
+                  </span>
+                  <span class="btn-icon"
+                        v-if="!isRouterOffline(selectedNodeInfo)"
+                        @click.stop="rebootNode(selectedNodeInfo)">
+                    <i class="iconfont icon-ic_router_reboot_normal"></i>
+                    <span class="icon-hover-popover">{{$t('trans0122')}}</span>
+                  </span>
+                  <span class="btn-icon"
+                        v-if="isGateway"
+                        @click.stop="resetNode(selectedNodeInfo)">
+                    <i class="iconfont icon-ic_router_reset_normal"></i>
+                    <span class="icon-hover-popover">{{$t('trans0205')}}</span>
+                  </span>
+                  <span class="btn-icon"
+                        v-if="!isGateway"
+                        @click.stop="deleteNode(selectedNodeInfo)">
+                    <i class="iconfont icon-ic_trash_normal"></i>
+                    <span class="icon-hover-popover">{{$t('trans0033')}}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="card-bottom">
+              <div class="card-bottom__header">
+                <div class="col-1">
+                  <span>{{$t('trans0174')}}</span>
+                  <span v-if="!isMobile">({{selectedNodeStationCount}})</span>
+                </div>
+                <div class="col-2"
+                     v-if="!isMobile">{{$t('trans0184')}}</div>
+                <div class="col-3"
+                     v-if="!isMobile">{{$t('trans0375')}}</div>
+              </div>
+              <ul class="card-bottom__main"
+                  v-if="selectedNodeInfo.stations.length>0">
+                <li v-for="sta in selectedNodeInfo.stations"
+                    :key="sta.ip">
+                  <div class="col-1">
+                    <span class="local-device"
+                          v-if="isThisMachine(sta.ip)"></span>
+                    <span>{{sta.name}}</span>
+                  </div>
+                  <div class="col-2">
+                    <div>
+                      <span v-if="isMobile">{{$t('trans0151')}}: </span>
+                      <span>{{sta.ip}}</span>
+                    </div>
+                    <div>
+                      <span v-if="isMobile">{{$t('trans0188')}}: </span>
+                      <span>{{formatMac(sta.mac)}}</span>
+                    </div>
+                  </div>
+                  <div class="col-3">
+                    <span class="band"
+                          :class="{'wired':isWired(sta.connected_network.band)}">{{bandMap[sta.connected_network.band]}}</span>
+                    <span class="guest"
+                          v-if="isGuest(sta.connected_network.type)"></span>
+                  </div>
+                </li>
+              </ul>
+              <ul class="card-bottom__empty"
+                  v-else>
+                <li>{{$t('trans0278')}}</li>
+              </ul>
+            </div>
+          </div>
+        </transition>
       </div>
     </div>
     <!-- 编辑设备名称弹窗 -->
@@ -190,14 +178,14 @@
                 ref="form">
           <m-form-item prop="newName">
             <m-editable-select :options="options"
-                               :label="$t('trans0005')"
+                               :label="$t('trans0108')"
                                v-model="form.newName"></m-editable-select>
           </m-form-item>
         </m-form>
         <div class="btn-inner">
           <button @click="closeUpdateModal"
                   class="btn btn-default">{{$t('trans0025')}}</button>
-          <button @click="updateMehsNode(routerSelected,form.newName)"
+          <button @click="updateMehsNode(selectedNodeInfo,form.newName)"
                   class="btn">{{$t('trans0024')}}</button>
         </div>
       </m-modal-body>
@@ -207,9 +195,6 @@
              class="connect-quality-modal">
       <m-modal-header class="header">
         <span> {{$t('trans0128')}}</span>
-        <!-- <span class="btn__close">
-          <i class="iconfont icon-ic_close"></i>
-        </span> -->
       </m-modal-header>
       <m-modal-body>
         <div class="connect-quality-modal-contnet">
@@ -244,62 +229,6 @@
         </div>
       </m-modal-footer>
     </m-modal>
-    <!-- mesh列表弹框 -->
-    <m-modal :visible.sync="stationListModalVisible"
-             class="mesh-list-modal">
-      <m-modal-header class="header">
-        <div class="header__btn--close"
-             @click="hideMeshListModal">
-          <i class="iconfont icon-ic_close"></i>
-        </div>
-      </m-modal-header>
-      <m-modal-body class="table">
-        <div class="table__header">
-          <div class="table__column table__column--host"></div>
-          <div class="table__column table__column--device">{{$t('trans0005')}}</div>
-          <div class="table__column table__column--ip">{{$t('trans0184')}}</div>
-          <div class="table__column table__column--guest">{{$t('trans0375')}}</div>
-        </div>
-        <div class="table__body"
-             v-if="stationList.length">
-          <div class="table__row"
-               v-for="(item, index) in stationList"
-               :key="index">
-            <div class="table__column table__column--device">
-              <span v-if="isThisMachine(item.ip)"
-                    class="device__img">
-                <img src="@/assets/images/icon/ic_local-device.svg"
-                     alt="">
-              </span>
-              <span class="device__host-name"
-                    :class="hasPaddingLeft(item.ip)"
-                    :title="item.name">
-                {{item.name}}
-              </span>
-            </div>
-            <div class="table__column table__column--ip">
-              <div class="v4">{{item.ip}}</div>
-              <div class="v6">{{formatMac(item.mac)}}</div>
-            </div>
-            <div class="table__column table__column--guest">
-              <span class="laptop-show">{{bandMap[item.connected_network.band]}}</span>
-              <img v-if="isGuest(item.connected_network.type)"
-                   src="@/assets/images/icon/ic_guest.svg"
-                   alt="" />
-              <span class="mobile-show">{{bandMap[item.connected_network.band]}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="table__empty"
-             v-else>
-          <img src="@/assets/images/img_default_empty.webp"
-               alt="">
-          <span>
-            {{$t('trans0278')}}
-          </span>
-        </div>
-      </m-modal-body>
-    </m-modal>
   </div>
 </template>
 <script>
@@ -319,11 +248,9 @@ export default {
       RouterStatus,
       formatMac,
       pageActive: true,
-      meshNode: [],
       meshNodeTimer: null,
       chart: null,
       routers: [],
-      routerSelected: null,
       showModal: false,
       form: { newName: '' },
       rules: {
@@ -361,13 +288,16 @@ export default {
         this.$t('trans0362'),
         this.$t('trans0363')
       ],
-      stationListModalVisible: false,
-      stationList: [],
       localDeviceIP: '',
       bandMap: {
         wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
         '5g': this.$t('trans0256')
+      },
+      ConnectionQualityMap: {
+        excellent: this.$t('trans0193'),
+        fair: this.$t('trans0196'),
+        offline: this.$t('trans0214')
       },
       txPowerMap: {
         high: this.$t('trans1089'),
@@ -376,11 +306,13 @@ export default {
       },
       tx_power: '',
       txPowerTimer: null,
-      isDarkMode: false
+      isDarkMode: false,
+      showTable: false,
+      selectedSN: '',
+      selectedNodeInfo: null
     };
   },
   async mounted() {
-    this.initChart();
     this.createIntervalTask();
 
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
@@ -395,20 +327,17 @@ export default {
     }
   },
   computed: {
+    pageName() {
+      return this.$t(this.$route.meta.text);
+    },
     rssiTips() {
       return marked(this.$t('trans0595'), { sanitize: true });
     },
-    showTable() {
-      let result;
-      if (this.$route.params.category === 'topo') {
-        setTimeout(() => {
-          this.chart && this.chart.resize();
-        });
-        result = false;
-      } else {
-        result = true;
-      }
-      return result;
+    isGateway() {
+      return this.selectedNodeInfo?.is_gw;
+    },
+    selectedNodeStationCount() {
+      return this.selectedNodeInfo.stations.length ?? '0';
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -433,24 +362,12 @@ export default {
     }
   },
   methods: {
-    getRouterStationCount(router) {
-      if (!router.stations) {
-        return '-';
+    onBack(target) {
+      if (target) {
+        this.$router.replace({ path: target });
+      } else {
+        this.$router.go(-1);
       }
-      return router.stations.length;
-    },
-    showStationListModal(router) {
-      if (!router.stations) {
-        return;
-      }
-      this.stationList = router.stations;
-      this.stationListModalVisible = true;
-    },
-    hideMeshListModal() {
-      this.stationListModalVisible = false;
-    },
-    hasPaddingLeft(ip) {
-      return this.isThisMachine(ip) ? '' : 'has-padding-left';
     },
     // 是否是主机
     isThisMachine(ip) {
@@ -459,6 +376,26 @@ export default {
     // 是否是访客
     isGuest(type) {
       return type === GUEST;
+    },
+    isWired(band) {
+      return band === 'wired';
+    },
+    connectQuality(color) {
+      let result = '';
+      switch (color) {
+        case Color.good:
+          result = this.ConnectionQualityMap.excellent;
+        break;
+        case Color.bad:
+          result = this.ConnectionQualityMap.fair;
+        break;
+        case Color.offline:
+          result = this.ConnectionQualityMap.offline;
+        break;
+        default:
+        break;
+      }
+      return result;
     },
     showRssiModal() {
       this.rssiModalVisible = true;
@@ -474,7 +411,6 @@ export default {
       this.showModal = false;
     },
     onClickRouterName(router) {
-      this.routerSelected = router;
       this.form.newName = router.name;
       this.showModal = true;
       this.clearIntervalTask();
@@ -577,50 +513,65 @@ export default {
       this.chart = echarts.init(topoEl);
       this.chart.on('click', (e) => {
         const { data: { sn } } = e;
-        if (this.isMobile && sn) {
-            this.routers.forEach(router => {
-              router.expand = false;
-              if (router.sn === sn) {
-                router.expand = true;
-              }
-            });
-        }
-        this.$router.push('/dashboard/mesh/table');
+        const { data: { itemStyle: { color } } } = e;
+        this.selectedSN = sn;
+        // eslint-disable-next-line prefer-destructuring
+        this.selectedNodeInfo = { ...this.routers.filter(route => route.sn === sn)[0], color };
+        console.log(this.selectedNodeInfo);
+        // if (this.isMobile && sn) {
+        //     this.routers.forEach(router => {
+        //       router.expand = false;
+        //       if (router.sn === sn) {
+        //         router.expand = true;
+        //       }
+        //     });
+        // }
+        this.showTable = true;
+        // 立即重新绘制图表，并在下一个更新周期前调整大小
+        this.chart.resize();
+        this.$nextTick(() => {
+          this.chart.resize();
+        });
       });
       window.addEventListener('resize', () => {
         this.chart && this.chart.resize();
       });
     },
+    // 定义一个函数，用于将图表复位到原始位置
+    resetChartPosition() {
+      this.chart.setOption({
+        series: [
+          {
+            center: ['50%', '50%'], // 设置原始位置为中央，上下水平居中
+          },
+        ],
+      });
+},
     drawTopo(routers) {
       // const oldRouters = this.routers;
-      // const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
-      // this.routers = routers;
-
-      const oldRouters = this.routers;
-
       const data = genData(routers);
+
       data.nodes.forEach(n => {
         this.routers = routers.map(r => {
           if (n.sn === r.sn) {
             this.$set(r, 'image', n.symbol.replace('image://', ''));
+            this.$set(r, 'color', n.itemStyle.color);
           }
-          r.expand = false;
           return r;
         });
       });
-      // this.routers = routers.map(v => ({
-      //   ...v,
-      //   expand: false
-      // }));
+
+      // eslint-disable-next-line prefer-destructuring
+      this.selectedNodeInfo = this.routers.filter(node => node.sn === this.selectedSN)[0];
       // 维持设备之前的附加属性
-      if (oldRouters.length > 0) {
-        oldRouters.forEach(or => {
-          const device = this.routers.find(nr => nr.sn === or.sn);
-          if (device) {
-            device.expand = or.expand;
-          }
-        });
-      }
+      // if (oldRouters.length > 0) {
+      //   oldRouters.forEach(or => {
+      //     const device = this.routers.find(nr => nr.sn === or.sn);
+      //     if (device) {
+      //       device.expand = or.expand;
+      //     }
+      //   });
+      // }
       const option = {
         series: [
           {
@@ -628,13 +579,11 @@ export default {
             edgeSymbol: ['circle', 'circle'],
             edgeSymbolSize: 3,
             cursor: 'pointer',
+            roam: 'move',
             layout: 'circular',
             hoverAnimation: false,
             edgeLabel: {
               show: false,
-              formatter(series) {
-                return series.data.rssi;
-              }
             },
             label: {
               normal: {
@@ -648,13 +597,13 @@ export default {
                     color: this.isDarkMode ? '#fff' : '#333',
                   },
                   stationCount: {
-                    width: 18,
                     height: 18,
+                    padding: [0, 4],
                     borderRadius: 5,
-                    borderColor: this.isDarkMode ? '#262626 ' : '#fff',
+                    borderColor: this.isDarkMode ? '#161616 ' : '#fff',
                     borderWidth: 1.5,
                     color: '#333333',
-                    backgroundColor: '#d8d8d8'
+                    backgroundColor: '#d8d8d8',
                   },
                   good: {
                     color: '#29b96c',
@@ -703,6 +652,10 @@ export default {
         .getMeshNode()
         .then(res => {
           const { result } = res.data;
+          console.log(result);
+          if (!this.chart) {
+            this.initChart();
+          }
           this.drawTopo(result);
 
           if (this.pageActive) {
@@ -753,24 +706,36 @@ export default {
       let { originName: name } = category.data;
       const { stationsCount } = category.data;
       const { itemStyle: { color } } = category.data;
+      const { isGateway } = category.data;
       let result;
       if (name.length > 12) {
         name = `${name.substring(0, 12)}...`;
       }
+      if (isGateway) {
+       result = `{name|${name}} {stationCount|${stationsCount}}`;
+       return result;
+      }
       switch (color) {
         case Color.good:
-          result = `{name|${name}}\n{good|${this.$t('trans0193')}} {stationCount|${stationsCount}}`;
+          result = `{name|${name}} {stationCount|${stationsCount}}\n{good|${this.$t('trans0193')}} `;
         break;
         case Color.bad:
-          result = `{name|${name}}\n{bad|${this.$t('trans0196')}} {stationCount|${stationsCount}}`;
+          result = `{name|${name}} {stationCount|${stationsCount}}\n{bad|${this.$t('trans0196')}} `;
         break;
         case Color.offline:
-          result = `{name|${name}}\n{offline|${this.$t('trans0214')}} {stationCount|${stationsCount}}`;
+          result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
         break;
         default:
         break;
       }
       return result;
+    },
+    handleTransitionEnd() {
+      // 过渡离开执行时立即重新绘制图表，并在下一个更新周期前调整大小
+      this.chart.resize();
+      this.$nextTick(() => {
+        this.chart.resize();
+      });
     }
   },
   beforeDestroy() {
@@ -780,153 +745,25 @@ export default {
 };
 </script>
 <style lang="scss">
+.fade-slide-enter-active {
+  transition: all 0.3s ease-in-out;
+}
+.fade-slide-leave-active {
+  transition: all 0.1s ease-out;
+}
+.fade-slide-enter,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateX(20px); /* 初始平移位置，可以根据需求调整 */
+}
 #topo {
   canvas {
     // hack for safari, fix canvas overlay div
     position: static !important;
   }
 }
-.mesh-list-modal {
-  .modal-content {
-    padding: 0 !important;
-  }
-}
-@media screen and (max-width: 768px) {
-  .mesh-list-modal {
-    .modal-content {
-      width: 100% !important;
-      height: 100%;
-      border-radius: 0 !important;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: auto;
-      bottom: auto;
-      background: var(--grey-background-color) !important;
-    }
-  }
-}
 </style>
 <style lang="scss" scoped>
-.mesh-list-modal {
-  .header {
-    display: none;
-  }
-  .table {
-    height: 100%;
-    .table__header,
-    .table__row {
-      display: flex;
-    }
-    .table__header {
-      padding: 0 10px;
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
-    }
-    .table__body {
-      max-height: 600px;
-      overflow: auto;
-      padding: 0 10px 30px 10px;
-      @media screen and (max-width: 768px) {
-        max-height: none;
-        height: 100%;
-      }
-    }
-    .table__empty {
-      height: 350px;
-      padding-top: 30px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      img {
-        // display: none;
-        width: 180px;
-      }
-    }
-    .table__header {
-      height: 37px;
-      color: var(--dashboard-gery-color);
-      background-color: var(--modal-header-background-color);
-      .table__column {
-        font-size: 12px;
-        font-weight: 500;
-        &.table__column--device {
-          padding-left: 30px;
-          box-sizing: border-box;
-        }
-      }
-    }
-    .table__row {
-      border-bottom: 1px solid var(--modal-content-hr-color);
-      .table__column {
-        font-size: 14px;
-        height: 60px;
-        background-color: var(--modal-content-background);
-      }
-      .table__column--device {
-        .device__img {
-          display: inline-flex;
-          justify-content: center;
-          align-items: center;
-          width: 30px;
-          img {
-            width: 16px;
-          }
-        }
-        .device__host-name {
-          width: 160px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          &.has-padding-left {
-            padding-left: 30px;
-          }
-        }
-      }
-      .table__column--ip {
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-      }
-      .table__column--guest {
-        span {
-          width: 75px;
-          text-align: center;
-          padding: 3px 0;
-          border-radius: 3px;
-          font-size: 12px;
-          color: #fff;
-          background: var(--dashboard-band-background-color);
-        }
-        img {
-          margin-left: 20px;
-          width: 35px;
-          filter: var(--img-brightness);
-        }
-        .laptop-show {
-          display: inline-block;
-        }
-        .mobile-show {
-          display: none;
-        }
-      }
-    }
-    .table__column {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      &.table__column--device {
-        width: 210px;
-      }
-      &.table__column--ip {
-        width: 180px;
-      }
-      &.table__column--guest {
-        width: 160px;
-      }
-    }
-  }
-}
 .edit-name-modal {
   .content {
     display: flex;
@@ -945,6 +782,9 @@ export default {
         height: 42px;
         &:last-child {
           margin-left: 30px;
+        }
+        &.btn-default {
+          // background-image: ;
         }
       }
     }
@@ -1076,99 +916,79 @@ export default {
     }
   }
 }
-
 .mesh-container {
-  flex: auto;
   display: flex;
   .mesh-info {
+    position: relative;
     display: flex;
-    .title {
-      position: relative;
-      .iconfont {
-        font-weight: 400;
-      }
-      .tab {
-        font-size: 16px;
-      }
-      .mobile-add {
-        display: none;
-      }
-    }
-    .btn-add {
-      height: auto;
-      position: absolute;
-      right: -15px;
-      top: 0;
-      padding: 7px 10px;
-      border-radius: 5px;
-      transform: translateY(-150%);
-      .add-icon {
-        position: relative;
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        margin-right: 5px;
-        &::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          display: block;
-          height: 2px;
-          border-radius: 2px;
-          width: 15px;
-          // background: var(--button-default-text-color);
-          background-color: #fff;
-          transform: translate(-50%, -50%) rotate(0deg);
-        }
-        &::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          display: block;
-          height: 2px;
-          border-radius: 2px;
-          width: 15px;
-          // background: var(--button-default-text-color);
-          background-color: #fff;
-          transform: translate(-50%, -50%) rotate(90deg);
-        }
-      }
-      > span {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        // font-weight: 600;
-        .iconfont {
-          transform: rotate(45deg);
-          margin-right: 10px;
-        }
-      }
-    }
     width: 100%;
     border-radius: 8px;
     box-sizing: border-box;
-    padding: 0 20px;
     flex-direction: column;
+    .back-wrap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 5;
+    }
     .content {
-      padding-top: 10px;
-      flex: auto;
+      width: 100%;
+      height: 100%;
       display: flex;
       .topo-container {
-        flex: 1;
-        display: flex;
-        // height: 500px;
+        position: relative;
+        width: 100%;
+        &.show-table {
+          width: 60%;
+        }
         .legend-wrap {
-          order: 3;
-          width: 200px;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          z-index: 3;
+          .btn-icon {
+            margin-bottom: 10px;
+          }
+          .legend {
+            display: flex;
+            margin-bottom: 10px;
+            > div {
+              font-size: 12px;
+              display: flex;
+              align-items: center;
+              margin-top: 10px;
+              color: var(--text-default-color);
+            }
+            .legend-item {
+              margin-right: 10px;
+              &::before {
+                content: '';
+                margin-right: 3px;
+                display: block;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: #00d061; //ff6f00
+              }
+              &:nth-child(2) {
+                &::before {
+                  background: #ff6f00;
+                }
+              }
+              &:nth-child(3) {
+                margin-right: 0;
+                &::before {
+                  background: rgb(158, 158, 158);
+                }
+              }
+            }
+          }
           .legend-title {
             font-size: 12px;
             color: var(--text-default-color);
             margin: 0;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
             .iconfont {
               margin-left: 10px;
               font-size: 12px;
@@ -1179,40 +999,8 @@ export default {
               }
             }
           }
-          .legend {
-            > div {
-              font-size: 12px;
-              display: flex;
-              align-items: center;
-              justify-content: flex-end;
-              margin-top: 10px;
-              color: var(--text-default-color);
-            }
-            .legend-item {
-              &::after {
-                content: '';
-                margin-left: 15px;
-                display: block;
-                width: 6px;
-                height: 6px;
-                border-radius: 50%;
-                background: #00d061; //ff6f00
-              }
-              &:nth-child(2) {
-                &::after {
-                  background: #ff6f00;
-                }
-              }
-              &:nth-child(3) {
-                &::after {
-                  background: rgb(158, 158, 158);
-                }
-              }
-            }
-          }
           .legend-tx_power {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
             font-size: 12px;
             margin-top: 10px;
@@ -1234,174 +1022,256 @@ export default {
             }
           }
         }
-        .switch-wrap {
-          order: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          width: 200px;
-
-          .switch-item {
-            display: flex;
-            width: 100%;
-            & + .switch-item {
-              margin-top: 20px;
-            }
-            label {
-              display: flex;
-              margin-right: 15px;
-              // max-width: 200px;
-              flex: 1;
-              img {
-                position: relative;
-                cursor: pointer;
-              }
-            }
-          }
-        }
         .topo-wrap {
-          order: 2;
-          flex: 1;
           display: flex;
           align-items: center;
           justify-content: center;
-          // width: 100%;
-          // height: 500px;
+          width: 100%;
+          height: 100%;
           #topo {
             min-width: 500px;
-            height: 500px;
+            width: 100%;
+            height: 100%;
           }
         }
       }
-
-      .mesh-table {
-        width: 100%;
-        .table-header {
+      .mesh-info-card {
+        display: flex;
+        flex-direction: column;
+        min-width: 540px;
+        min-height: 475px;
+        max-height: calc(100vh - 65px - 60px);
+        width: 40%;
+        height: 100%;
+        background: var(--common-card-bgc);
+        box-shadow: var(--common-card-boxshadow);
+        border-radius: 10px;
+        .card-top {
+          position: relative;
           display: flex;
-          padding: 15px 20px;
-          color: var(--text-gery-color);
-          background: var(--table-row-background-color);
-          display: flex;
-          justify-content: space-between;
-          border-radius: 10px;
-          margin-bottom: 5px;
-        }
-        .name {
-          width: 250px;
-        }
-        .sn {
-          width: 150px;
-        }
-        .type {
-          width: 150px;
-        }
-        .equipment {
-          width: 150px;
-        }
-        .version {
-          width: 100px;
-        }
-        .ip {
-          width: 160px;
-        }
-        .mac {
-          display: none;
-        }
-        .operate {
-          justify-content: flex-end;
-          width: 230px;
-        }
-        .table-content {
-          text-align: center;
-          .router {
-            display: flex;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            background: var(--table-row-background-color);
-            margin-bottom: 5px;
-            border-radius: 10px;
-            span.label {
-              display: none;
+          flex-direction: column;
+          width: 100%;
+          height: 236px;
+          padding: 20px;
+          .close {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            top: 15px;
+            right: 20px;
+            .iconfont {
+              font-size: 12px;
             }
+          }
+          .card-top__main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            margin-top: 25px;
+          }
+          .card-top__header {
+            display: flex;
+            align-items: center;
+            height: 26px;
+          }
+          .info-label {
+            vertical-align: baseline;
+            padding: 4px 10px;
+            border-radius: 5px;
+            color: #fff;
+            margin-right: 5px;
+            background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
+            &.model-name {
+              background-image: linear-gradient(117deg, #97006a, #f45199 100%);
+            }
+            &.fair {
+              background-image: linear-gradient(97deg, #ebb351 6%, #e16825 90%);
+            }
+            &.offline {
+              background-image: linear-gradient(
+                91deg,
+                #c2c2c2 35%,
+                #a2a2a2 90%
+              );
+            }
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+          .model__img {
+            width: 150px;
+            height: 150px;
+            aspect-ratio: 1/1;
+            background: url(../../../assets/images/v3/dashboard/m6/img_m6_black.png)
+              center no-repeat;
+            background-size: contain;
+          }
+          .mesh-router__info {
+            display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 45px 1fr 1fr 1fr 1fr;
+            flex: 1;
+            height: 100%;
             > div {
+              max-width: 430px;
               display: flex;
               align-items: center;
+              overflow: hidden;
             }
-            .ip {
-              display: flex;
-              flex-direction: column;
-              align-items: flex-start;
-              justify-content: center;
-            }
-            .mac {
-              display: none;
-            }
-            .equipment {
-              .equipment__value {
-                cursor: pointer;
-                text-decoration: underline;
-                &.is-disabled {
-                  text-decoration: none;
-                  cursor: default;
-                }
-              }
-              .equipment__arrow {
-                display: none;
-                width: 8px;
-                margin-left: 8px;
-              }
-            }
-            .name {
-              display: flex;
-              align-items: center;
-              padding-left: 0;
-              .expand {
-                display: none;
-                font-size: 12px;
-                transition: all 0.3s;
-                &.expand {
-                  transform: rotate(0deg);
-                }
-                &.collapse {
-                  transform: rotate(-90deg);
-                }
-              }
-              .wrap {
-                display: flex;
-                align-items: center;
-              }
-              .icon {
-                margin-right: 20px;
-                display: flex;
-                align-items: center;
-                img {
-                  width: 50px;
-                  height: 50px;
-                }
+            .row-1 {
+              margin-bottom: 5px;
+              .line-icon {
+                width: 40px;
+                height: 40px;
+                margin-right: 5px;
+                aspect-ratio: 1/1;
+                background: url(../../../assets/images/icon/ic_homepage_m6a.png)
+                  center no-repeat;
+                background-size: contain;
+                filter: var(--img-brightness);
               }
               .text {
-                font-size: 14px;
-                margin-right: 10px;
+                font-size: 18px;
+                font-weight: 500;
+                max-width: calc(100% - 45px);
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: pre;
-                max-width: 150px;
+                white-space: nowrap;
               }
-              .edit {
-                cursor: pointer;
-                width: 16px;
-                height: 16px;
-                img {
-                  width: 16px;
-                  height: 16px;
+            }
+            .row-2,
+            .row-3,
+            .row-4,
+            .row-5 {
+              font-size: 14px;
+              font-weight: 500;
+              color: var(--common-gery-color);
+              .label {
+                margin-right: 5px;
+              }
+            }
+          }
+          .operation {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            width: fit-content;
+            height: 100%;
+            margin-left: 10px;
+            > span {
+              background-color: var(--button-close-bgc);
+              margin-right: 10px;
+              &:last-child {
+                margin: 0;
+              }
+            }
+          }
+        }
+        .card-bottom {
+          height: calc(100% - 236px);
+          border-bottom-right-radius: 10px;
+          border-bottom-left-radius: 10px;
+          overflow: hidden;
+          .card-bottom__header {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            height: 35px;
+            color: var(--text-gery-color);
+            padding: 7px 0;
+            background-color: var(--mesh-table-header-bgc);
+            > div {
+              text-align: center;
+            }
+          }
+          .card-bottom__main {
+            height: calc(100% - 35px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            > li {
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              grid-template-rows: 100%;
+              align-items: center;
+              height: 60px;
+              font-size: 14px;
+              font-weight: 500;
+              text-align: center;
+              border-bottom: 1.5px solid var(--common-hr-color);
+              .col-1 {
+                padding: 0 10px;
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                .local-device {
+                  display: inline-block;
+                  width: 15px;
+                  height: 15px;
+                  margin-right: 5px;
+                  vertical-align: text-top;
+                  background: url(../../../assets/images/icon/ic_local-device.svg)
+                    center no-repeat;
+                  background-size: contain;
+                }
+              }
+              .col-2 {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                > span {
+                  margin-bottom: 5px;
+                  &:last-child {
+                    margin: 0;
+                  }
+                }
+              }
+              .col-3 {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                // align-items: center;
+                .band {
+                  min-width: 50px;
+                  padding: 1px 10px;
+                  border-radius: 5px;
+                  color: #fff;
+                  background-image: linear-gradient(
+                    97deg,
+                    #50cc83 6%,
+                    #3cc146 90%
+                  );
+                  &.wired {
+                    background-image: linear-gradient(
+                      294deg,
+                      #3da8ff 20%,
+                      #0c70b8
+                    );
+                  }
+                }
+                .guest {
+                  display: inline-block;
+                  height: 20px;
+                  aspect-ratio: 38/23;
+                  margin-left: 15px;
+                  background: url(../../../assets/images/icon/ic_guest.svg)
+                    center no-repeat;
+                  background-size: contain;
                   filter: var(--img-brightness);
                 }
               }
             }
           }
-          .loading-container {
-            padding: 30px 0;
+          .card-bottom__empty {
+            height: calc(100% - 35px);
+            > li {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100%;
+              height: 100%;
+            }
           }
         }
       }
@@ -1412,80 +1282,43 @@ export default {
   .mesh-container {
     padding: 0 !important;
     .mesh-info {
-      padding: 0;
-      .title {
-        .mobile-add {
-          display: block;
-          position: absolute;
-          right: 20px;
-          top: 0;
-          transform: translateY(-140%);
-          width: 30px;
-          height: 30px;
-          border: 0;
-          outline: 0;
-          // border-radius: 50%;
-          &::before {
-            content: '';
-            display: block;
-            width: 2px;
-            height: 14px;
-            background: #fff;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 2px;
-          }
-          &::after {
-            position: absolute;
-            content: '';
-            display: block;
-            width: 2px;
-            height: 14px;
-            background: #fff;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(90deg);
-            border-radius: 2px;
-          }
-        }
-        .tabs {
-          padding: 0 20px;
-          border-bottom: 1px solid var(--table-header-hr-color);
-          justify-content: flex-start;
-          .tab {
-            width: auto;
-            font-size: 14px;
-            min-width: 100px;
-          }
-        }
-      }
-      .btn-add {
-        display: none;
+      position: relative;
+      padding: 0 20px;
+      .back-wrap {
+        position: static;
+        padding: 0;
       }
       .content {
         padding-top: 0;
         .topo-container {
-          padding: 20px 20px 0 20px;
-          flex: 1;
+          height: 100%;
           display: flex;
           flex-direction: column;
+          &.show-table {
+            width: 100%;
+          }
           .legend-wrap {
-            order: 2;
+            width: 100%;
+            position: static;
+            display: flex;
+            flex-direction: column-reverse;
+            position: relative;
+            .info {
+              background-color: var(--common-card-bgc);
+              padding: 15px;
+              border-radius: 5px;
+            }
             .legend-title {
               justify-content: flex-start;
               .iconfont {
                 margin-left: 5px;
               }
             }
-            width: 100%;
             .legend {
               display: flex;
               flex-wrap: wrap;
               .legend-item {
-                flex-direction: row-reverse;
-                margin-left: 0;
+                margin: 0 20px 0 0;
                 margin-right: 20px;
                 &::after {
                   margin-right: 5px;
@@ -1499,230 +1332,112 @@ export default {
             .legend-tx_power {
               justify-content: flex-start;
             }
-          }
-          .switch-wrap {
-            order: 1;
-            padding-left: 0;
-            width: 100%;
-            height: 0;
-            .switch-item {
-              width: auto;
-              label {
-                flex: auto;
-                max-width: 200px;
-                span {
-                  max-width: 100px;
-                  // overflow: hidden;
-                  // text-overflow: ellipsis;
-                }
-              }
+            .btn-icon {
+              position: absolute;
+              bottom: -10px;
+              left: 0;
+              transform: translateY(100%);
+              margin: 0;
             }
           }
           .topo-wrap {
-            order: 3;
             padding-top: 0;
+            min-height: 430px;
             #topo {
               width: 100%;
               min-width: initial;
             }
           }
         }
-        .mesh-table {
-          .table-header {
-            display: none;
-          }
-          .name {
-            flex: none;
-            height: 60px !important;
-            .icon {
-              width: 30px;
-            }
-            .edit {
-              display: inline-block;
-            }
-          }
-          .ip {
-            .label {
-              span {
-                display: none;
-              }
-            }
-            .value:last-child {
-              display: none !important;
-            }
-          }
-          .table-content {
-            padding: 0;
-            margin: 5px 0 10px;
-            .router {
-              display: flex;
-              flex-direction: column;
-              background: var(--table-row-background-color);
-              color: var(--text-default-color);
-              border-radius: 5px;
-              padding: 0 10px;
-              height: 60px;
-              overflow: hidden;
-              margin: 0 10px 5px;
+        .mesh-info-card {
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 5;
+          width: calc(100% - 20px * 2);
+          min-width: auto;
+          min-height: 100%;
+          .card-top {
+            padding: 15px;
+            .card-top__main {
               position: relative;
-              &.expand {
-                height: 470px;
-                margin: 0 10px 5px;
-                padding-top: 60px;
-                .name {
-                  position: absolute;
-                  width: 100%;
-                  top: 0;
-                  left: 0;
-                  padding: 0 10px;
-                }
-                > div {
-                  border-bottom-color: var(--table-body-hr-color);
+              display: grid;
+              grid-template-rows: 110px 1fr;
+              grid-template-columns: 110px 1fr;
+            }
+            .model__img {
+              grid-row: 1 / 2; /* 第一行 */
+              grid-column: 1 / 2; /* 第一列 */
+              width: 100%;
+              height: auto;
+            }
+            .mesh-router__info {
+              grid-row: 1 / 2; /* 第一行 */
+              grid-column: 2 / 3; /* 第二列 */
+              .row-1 {
+                .line-icon {
+                  width: 30px;
                 }
               }
-              span.label {
-                display: inline;
-                color: var(--text-gery-color);
+              .row-2,
+              .row-3,
+              .row-4,
+              .row-5 {
+                font-size: 12px;
               }
-              > div {
-                width: auto;
-                padding: 15px 5px;
-                border-bottom: 1px solid transparent;
+            }
+            .operation {
+              grid-row: 2 / 3; /* 第二行 */
+              grid-column: 1 / 3; /* 横跨两列 */
+              width: 100%;
+              justify-content: center;
+              margin: 0;
+              > span {
+                margin: 0;
+                margin-right: 30px;
                 &:last-child {
-                  border-bottom: 0;
+                  margin: 0;
                 }
-                .label {
-                  width: 50%;
-                  display: inline-block;
+              }
+            }
+          }
+          .card-bottom {
+            .card-bottom__header {
+              .col-1 {
+                text-align: left;
+                padding-left: 10px;
+              }
+            }
+            .card-bottom__main {
+              > li {
+                height: auto;
+                display: grid;
+                grid-template-rows: 1fr 40px;
+                grid-template-columns: 1.4fr 1fr;
+                padding: 10px 0 5px;
+                .col-1 {
+                  grid-row: 1 / 2; /* 第二行 */
+                  grid-column: 1 / 3; /* 横跨两列 */
+                  width: 100%;
                   text-align: left;
+                  margin-bottom: 5px;
                 }
-                .value {
-                  width: 50%;
-                  display: inline-block;
-                  text-align: right;
-                  white-space: nowrap;
-                }
-              }
-              .ip {
-                flex-direction: row;
-                justify-content: flex-start;
-              }
-              .mac {
-                display: flex;
-              }
-              .equipment {
-                .equipment__value {
-                  text-decoration: none;
-                }
-                .equipment__arrow {
-                  display: inline-block;
-                  // width: 15px;
-                  // height: 15px;
+                .col-2 {
+                  padding: 0 10px;
                   font-size: 12px;
-                  color: var(--text-default-color);
-                }
-              }
-              .name {
-                padding: 0;
-                width: 100%;
-                color: var(--text-default-color);
-                .icon {
-                  img {
-                    width: 35px;
-                    height: 35px;
+                  align-items: flex-start;
+                  > span {
+                    text-align: left;
                   }
                 }
-                .wrap {
-                  flex: 1;
-                }
-                .expand {
-                  display: block;
-                }
-              }
-              .operate {
-                display: flex;
-                justify-content: flex-start;
-                border-bottom: 0 !important;
-                .label {
-                  width: auto;
-                  display: inline;
+                .col-3 {
+                  padding: 0 10px;
+                  justify-content: flex-end;
+                  font-size: 12px;
+                  height: 100%;
                 }
               }
-            }
-          }
-        }
-      }
-    }
-  }
-  .mesh-list-modal {
-    .header {
-      position: relative;
-      display: block;
-      padding: 10px 0;
-      margin: 0 10px;
-      border-bottom: 1px solid #ccc;
-      &::after {
-        content: '';
-        height: 0;
-        display: block;
-        clear: both;
-      }
-      .header__btn--close {
-        float: right;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        color: var(--text-default-color);
-        background: var(--primaryBackgroundColor);
-        .iconfont {
-          font-size: 13px;
-        }
-      }
-    }
-    .table {
-      width: 100%;
-      padding: 0 10px 30px 10px;
-      .table__header {
-        display: none;
-      }
-      .table__row {
-        flex-wrap: wrap;
-        width: 100%;
-        padding-bottom: 10px;
-        border-bottom: solid 1px #ccc;
-        .table__column {
-          background-color: var(--grey-background-color);
-          &.table__column--device {
-            font-weight: bold;
-            height: 50px;
-            width: 100%;
-            .device__host-name {
-              width: 100%;
-              &.has-padding-left {
-                padding-left: 0;
-              }
-            }
-          }
-          &.table__column--ip {
-            height: 50px;
-            width: 50%;
-          }
-          &.table__column--guest {
-            justify-content: flex-end;
-            height: 50px;
-            width: 50%;
-            img {
-              margin-left: 0;
-            }
-            .laptop-show {
-              display: none;
-            }
-            .mobile-show {
-              display: inline-block;
-              margin-left: 10px;
             }
           }
         }
@@ -1730,18 +1445,42 @@ export default {
     }
   }
 }
-@media screen and (width: 374px) {
+@media screen and (max-width: 300px) {
   .mesh-container {
     .mesh-info {
-      .title {
-        .tabs {
-          .tab {
-            font-size: 14px;
+      .content {
+        .mesh-info-card {
+          .card-top {
+            padding: 15px 5px;
+            .card-top__main {
+              grid-template-rows: 110px 1fr;
+              grid-template-columns: 60px 1fr;
+            }
+            .mesh-router__info {
+              .row-1 {
+                .text {
+                  font-size: 14px;
+                }
+                .line-icon {
+                  width: 20px;
+                }
+              }
+            }
+          }
+          .card-bottom {
+            .card-bottom__main {
+              > li {
+                grid-template-rows: 1fr 80px;
+
+                .col-2 {
+                  > div {
+                    text-align: left;
+                  }
+                }
+              }
+            }
           }
         }
-      }
-      .btn-add {
-        font-size: 12px;
       }
     }
   }

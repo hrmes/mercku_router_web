@@ -1,7 +1,25 @@
 <template>
-  <div class="device-container">
+  <div class="device">
     <div class="device-wrapper">
-      <m-tabs>
+      <div class="back-wrap">
+        <div class="btn-container"
+             @click="onBack($route.meta.parentPath)">
+          <i class="iconfont icon-ic_back"></i>
+        </div>
+        <div v-if="isMobile"
+             class="text-container">{{pageName}}</div>
+        <m-tabs v-if="!isMobile">
+          <m-tab :key="tab.id"
+                 @click.native="tabChange(tab.id)"
+                 v-for="tab in tabs"
+                 :class="{'selected':isCurrentTab(tab)}">
+            <i class="iconfont icon"
+               :class="tab.icon"></i>
+            <span> {{tab.text}}</span>
+          </m-tab>
+        </m-tabs>
+      </div>
+      <m-tabs v-if="isMobile">
         <m-tab :key="tab.id"
                @click.native="tabChange(tab.id)"
                v-for="tab in tabs"
@@ -12,70 +30,76 @@
         </m-tab>
       </m-tabs>
       <div class="table-inner">
-        <div v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60"
-             class="off-more-message">
+        <div class="off-more-message"
+             v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60">
           <img src="@/assets/images/icon/ic_hint.webp"
                alt="">
           {{$t('trans0517')}}
         </div>
-        <div class="table-head">
-          <ul class="reset-ul">
-            <li class="column-name">
-              <div class="column-check-box"
-                   v-if="isOfflineDevices">
-                <m-checkbox v-model="checkAll"
-                            @change="offCheckChange"></m-checkbox>
-              </div>
-              {{$t('trans0005')}}
-            </li>
-            <!-- 连接设备 -->
-            <li class="column-real-time"
-                v-if="!isOfflineDevices">{{$t('trans0618')}}</li>
-            <li class="column-real-time"
-                v-if="!isOfflineDevices">{{$t('trans0367')}}</li>
-            <li class="column-band"
-                v-if="!isOfflineDevices">{{$t('trans0015')}}</li>
-            <li class="column-ip"
-                v-if="!isOfflineDevices">{{$t('trans0151')}} /
-              {{$t('trans0188')}}</li>
-            <!-- 在线时长 -->
-            <li class="column-ip"
-                v-if="isOfflineDevices">
-              {{$t('trans0631')}}</li>
-            <!-- 离线时间 -->
-            <li class="column-ip"
-                v-if="isOfflineDevices">
-              {{$t('trans0630')}}</li>
-            <li class="column-ip"
-                v-if="isOfflineDevices">
-              {{$t('trans0188')}}</li>
-            <li class="column-limit"
-                v-if="!isOfflineDevices && isRouter">{{$t('trans0115')}}</li>
-            <li class="column-black-list"
-                v-if="!isOfflineDevices && isRouter"></li>
-            <li class="column-black-list"
-                v-if="isOfflineDevices">
-              <div>
-                <button class="btn btn-small"
-                        :disabled="!offlineCheckedMacs.length"
-                        @click="delOfflineDevices(offlineCheckedMacs)">
-                  {{$t('trans0033')}}
-                </button>
-              </div>
-            </li>
+        <div class="table-head"
+             v-if="!isMobile">
+          <ul class="reset-ul"
+              :class="{'offline':isOfflineDevices}">
+            <!-- 离线列表的内容 -->
+            <template v-if="isOfflineDevices">
+              <!-- 设备名称 -->
+              <li class="name">
+                <div class="column-check-box">
+                  <m-checkbox v-model="checkAll"
+                              @change="offCheckChange"></m-checkbox>
+                </div>
+                {{$t('trans0005')}}
+              </li>
+              <!-- 在线时长 -->
+              <li class="online-duration">
+                {{$t('trans0631')}}</li>
+              <!-- 离线时间 -->
+              <li class="offline-time">
+                {{$t('trans0630')}}</li>
+              <!-- mac -->
+              <li class="mac">
+                {{$t('trans0188')}}</li>
+              <!-- 删除按钮列 -->
+              <li class="delete">
+                <div>
+                  <button class="btn btn-default btn-small"
+                          :disabled="!offlineCheckedMacs.length"
+                          @click="delOfflineDevices(offlineCheckedMacs)">
+                    {{$t('trans0033')}}
+                  </button>
+                </div>
+              </li>
+            </template>
+            <!-- 在线、访客列表的内容-->
+            <template v-else>
+              <!-- 设备名称 -->
+              <li class="name">{{$t('trans0005')}}</li>
+              <!-- 连接设备 -->
+              <li class="connected-device">{{$t('trans0618')}}</li>
+              <!-- 实时速率 -->
+              <li class="speed">{{$t('trans0367')}}</li>
+              <!-- 流量消耗 -->
+              <li class="throughput">{{$t('trans0015')}}</li>
+              <!-- IP/MAC -->
+              <li class="ip-mac">{{$t('trans0151')}} / {{$t('trans0188')}}</li>
+              <!-- 家长控制 -->
+              <li class="control"
+                  v-if=" isRouter">{{$t('trans0115')}}</li>
+            </template>
           </ul>
         </div>
-        <div class="table-body small-device-body">
+        <div class="table-body">
+          <!-- 离线设备批量管理列 -->
           <div class="offline-handle-wrapper"
-               v-if="isMobile&&isOfflineDevices">
+               v-if="isMobile && isOfflineDevices">
             <div class="check-info">
               <div class="m-check-all-box">
                 <m-checkbox v-model="checkAll"
-                            :text="$t('trans0032')"
+                            :text="$t('trans0174')"
                             @change="offCheckChange"></m-checkbox>
               </div>
-              <div v-if="isMobile">
-                <button class="btn btn-small"
+              <div>
+                <button class="btn btn-default btn-small"
                         :disabled="!offlineCheckedMacs.length"
                         @click="delOfflineDevices(offlineCheckedMacs)">
                   {{$t('trans0033')}}</button>
@@ -86,211 +110,229 @@
                v-if="showLoading">
             <m-loading :color="loadingColor"></m-loading>
           </div>
-
-          <div v-show="!showLoading">
+          <div v-else>
             <ul v-for="(row,i) in devicesMap[id]"
                 :key='i'
-                :class="{'expand':row.expand}"
+                :class="{'expand':row.expand,
+                         'offline':isOfflineDevices,
+                         'online':!isOfflineDevices}"
                 class="reset-ul">
-              <li class="column-name"
-                  @click.stop="expandTable(row)">
-                <div class="column-check-box"
-                     v-if="isOfflineDevices">
-                  <m-checkbox :stopPropagation="true"
-                              v-model="row.checked"></m-checkbox>
-                </div>
-                <div v-if="!isMobile"
-                     class="connect-type-wrap">
-                  <img :src="getConnectTypeIcon(row)"
-                       alt="">
-                </div>
-                <div class="name-wrap"
-                     :class="{'wired':isWired(row),'offline':isOfflineDevices}">
-                  <div class="name-inner"
-                       :class="{'off-name':isOfflineDevices}">
-                    <a style="cursor:text">
-                      <span v-if='row.local &&!isOfflineDevices'
-                            class="local-device-wrapper">
-                        <img class="localDevice"
-                             src="@/assets/images/icon/ic_local-device.svg"
-                             alt=""
-                             title="LocalDevice">
-                      </span>
-                      <span :title='row.name'>{{row.name}}</span>
-                      <img style="cursor:pointer"
-                           class="btn-text icon-btn"
-                           :title="$t('trans0034')"
-                           @click.stop='()=>nameModalOpen(row)'
-                           v-if='isMobileRow(row.expand)&&!isOfflineDevices'
-                           src="@/assets/images/icon/ic_edit.png"
-                           alt="">
-                    </a>
-                    <div class="mobile-icon">
-                      <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                           src="@/assets/images/icon/ic_side_bar_pick_up.svg"
-                           alt="">
+              <!-- 离线列表体 -->
+              <template v-if="isOfflineDevices">
+                <!-- 设备名称 -->
+                <li class="name"
+                    @click.stop="expandTable(row)">
+                  <div class="column-check-box">
+                    <m-checkbox :stopPropagation="true"
+                                v-model="row.checked"></m-checkbox>
+                  </div>
+                  <div v-if="!isMobile"
+                       class="connect-type-wrap">
+                    <img :src="getConnectTypeIcon(row)"
+                         alt="">
+                  </div>
+                  <div class="name-wrap offline">
+                    <div class="name-inner off-name">
+                      <a style="cursor:text">
+                        <span :title='row.name'>{{row.name}}</span>
+                      </a>
+                      <div class="mobile-icon"
+                           v-if="isMobile">
+                        <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
+                             src="@/assets/images/icon/ic_side_bar_pick_up.svg"
+                             alt="">
+                      </div>
                     </div>
                   </div>
-                  <div class="des-inner"
-                       v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                    <span class="row">
-                      <span class="label">{{$t('trans0375')}}</span>
-                      <span class="value">{{bandMap[`${row.online_info.band}`]}}</span>
+                </li>
+                <!-- 在线时长 -->
+                <li class="online-duration"
+                    v-if='isMobileRow(row.expand)'>
+                  <span v-if="isMobile"
+                        class="label">{{$t('trans0631')}}</span>
+                  <span> {{transformDuration(row.online_info.online_duration)}} </span>
+                </li>
+                <!-- 离线时间 -->
+                <li class="offline-time"
+                    v-if='isMobileRow(row.expand)'>
+                  <span v-if="isMobile"
+                        class="label">{{$t('trans0630')}}</span>
+                  <span> {{transformOfflineDate(row.offline_time)}} </span>
+                </li>
+                <li class="mac"
+                    v-if='isMobileRow(row.expand)'>
+                  <span v-if="isMobile"
+                        class="label">{{$t('trans0188')}}</span>
+                  <span>{{formatMac(row.mac)}}</span>
+                </li>
+                <li class="delete"
+                    v-if='isMobileRow(row.expand)'>
+                  <span class="btn-icon"
+                        @click="()=>delOfflineDevices([row.mac])">
+                    <i class="add-to-block iconfont icon-ic_trash_normal"></i>
+                  </span>
+                </li>
+              </template>
+              <!-- 在线列表体 -->
+              <template v-else>
+                <!-- 设备名称 -->
+                <li class="name"
+                    @click.stop="expandTable(row)">
+                  <div v-if="!isMobile"
+                       class="connect-type-wrap">
+                    <img :src="getConnectTypeIcon(row)" />
+                    <span v-if='row.local'
+                          class="local-device-wrapper">
+                      <img class="localDevice"
+                           src="@/assets/images/icon/ic_local-device.svg"
+                           alt=""
+                           title="LocalDevice">
                     </span>
-                    <span class="row"
-                          v-if="!isWired(row)">
-                      <span class="label">{{$t('trans0374')}}</span>
-                      <span class="value">{{transformDate(row.online_info.online_duration)}}</span>
-                    </span>
                   </div>
-                </div>
-              </li>
-              <!-- 连接设备 -->
-              <li class="column-ip device-item"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span class="label">{{$t('trans0618')}}</span>
-                <span class="overflow-hidden"
-                      :title="accessNodeName(row)">{{accessNodeName(row)}}</span>
-              </li>
-              <li class="column-real-time"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span class="label">{{$t('trans0367')}}</span>
-                <div class="speed-inner">
-                  <div class="speed-wrap">
-                    <img class='icon'
-                         src="@/assets/images/icon/ic_device_upload.png"
-                         alt="">
-                    <label class="text-inner">
-                      <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
-                      <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
-                    </label>
+                  <div class="name-wrap"
+                       :class="{'wired':isWired(row)}">
+                    <div class="name-inner">
+                      <a style="cursor:text">
+                        <span v-if='isMobile && row.local'
+                              class="local-device-wrapper">
+                          <img class="localDevice"
+                               src="@/assets/images/icon/ic_local-device.svg"
+                               alt=""
+                               title="LocalDevice">
+                        </span>
+                        <span :title='row.name'
+                              class="overflow-hidden">{{row.name}}</span>
+                        <img style="cursor:pointer"
+                             class="btn-text icon-btn"
+                             :title="$t('trans0034')"
+                             @click.stop='()=>nameModalOpen(row)'
+                             src="@/assets/images/icon/ic_edit.png"
+                             alt="">
+                      </a>
+                      <div class="mobile-icon"
+                           v-if="isMobile">
+                        <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
+                             src="@/assets/images/icon/ic_side_bar_pick_up.svg"
+                             alt="">
+                      </div>
+                    </div>
+                    <div class="des-inner">
+                      <span class="band"
+                            :class="{'wired':isWired(row)}">
+                        <span class="value">{{bandMap[`${row.online_info.band}`]}}</span>
+                      </span>
+                      <span class="connect-quality"
+                            v-if="isMobile & !isWired(row)">
+                        <img :src="getConnectTypeIcon(row)" />
+                      </span>
+                      <span class="online-duration"
+                            v-if="!isWired(row)">
+                        <span
+                              class="value">{{transformDate(row.online_info.online_duration)}}</span>
+                      </span>
+                    </div>
                   </div>
-                  <div class="speed-wrap">
-                    <img class='icon'
-                         src="@/assets/images/icon/ic_device_download.png"
-                         alt="">
-                    <label class="text-inner">
-                      <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
-                      <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}/s</span>
-                    </label>
+                </li>
+                <!-- 连接设备 -->
+                <li class="connected-device"
+                    v-if='isMobileRow(row.expand)'>
+                  <span v-if="isMobile"
+                        class="label">{{$t('trans0618')}}</span>
+                  <span class="value overflow-hidden"
+                        :title="accessNodeName(row)">{{accessNodeName(row)}}</span>
+                </li>
+                <!-- 实时速率 -->
+                <li class="speed"
+                    v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                  <span v-if="isMobile"
+                        class="label">{{$t('trans0367')}}</span>
+                  <div class="speed-inner">
+                    <div class="speed-wrap">
+                      <img class='icon'
+                           src="@/assets/images/icon/ic-speed-upload.svg"
+                           alt="">
+                      <label class="text-inner">
+                        <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
+                        <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}</span>
+                      </label>
+                    </div>
+                    <div class="speed-wrap">
+                      <img class='icon'
+                           src="@/assets/images/icon/ic-speed-download.svg"
+                           alt="">
+                      <label class="text-inner">
+                        <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
+                        <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}</span>
+                      </label>
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li class="column-band"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span class="label">{{$t('trans0015')}}</span>
-                <span class="value">
-                  <i class="iconfont icon-ic_device_throughput"></i>
-                  <span>{{formatNetworkData
+                </li>
+                <!-- 吞吐量 -->
+                <li class="throughput"
+                    v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
+                  <span v-if="isMobile"
+                        class="label">{{$t('trans0015')}}</span>
+                  <span class="value">
+                    <i class="iconfont icon-ic_device_throughput"></i>
+                    <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
-                  <span>{{formatNetworkData
+                    <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).unit}}</span>
-                </span>
-              </li>
-              <li class="column-ip device-item"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span class="label">{{$t('trans0151')}}</span>
-                <span> {{row.ip}} <br /><span class="pc-mac">{{formatMac(row.mac)}}</span></span>
-              </li>
-              <!-- 在线时长 -->
-              <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span class="label">{{$t('trans0631')}}</span>
-                <span> {{transformDuration(row.online_info.online_duration)}} </span>
-              </li>
-              <!-- 离线时间 -->
-              <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span class="label">{{$t('trans0630')}}</span>
-                <span> {{transformOfflineDate(row.offline_time)}} </span>
-              </li>
-              <li class="column-ip device-item"
-                  :class="{'offline':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand)&&isOfflineDevices'>
-                <span class="label">{{$t('trans0188')}}</span>
-                <span>{{formatMac(row.mac)}}</span>
-              </li>
-              <li class="column-mac device-item"
-                  v-if='isMobileRow(row.expand)&&!isOfflineDevices'>
-                <span class="label">{{$t('trans0188')}}</span>
-                <span>{{formatMac(row.mac)}}</span>
-              </li>
-              <li class="column-limit"
-                  v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
-                <div class="limit-inner">
-                  <div class="item device-item">
-                    <i class="limit-icon time-limit iconfont icon-ic_limit_time_off"
-                       :title="$t('trans0075')"
-                       v-if="!isMobile"
-                       :class="{'active':isTimeLimit(row)}"></i>
-                    <span v-if="isMobile"
-                          class="label">{{$t('trans0075')}}</span>
-                    <span class="status">
-                      <span>{{isTimeLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
+                  </span>
+                </li>
+                <!-- IP/Mac -->
+                <li class="ip-mac"
+                    v-if="!isMobile">
+                  <span>
+                    {{row.ip}}
+                    <br />
+                    <span class="pc-mac">
+                      {{formatMac(row.mac)}}
+                    </span>
+                  </span>
+                </li>
+                <!-- IP -->
+                <li class="ip"
+                    v-if='isMobile&&isMobileRow(row.expand)'>
+                  <span class="label">IP</span>
+                  <span> {{row.ip}}</span>
+                </li>
+                <!-- Mac -->
+                <li class="mac"
+                    v-if='isMobile&&isMobileRow(row.expand)'>
+                  <span class="label">{{$t('trans0188')}}</span>
+                  <span>{{formatMac(row.mac)}}</span>
+                </li>
+                <!-- 家长控制 -->
+                <li class="control"
+                    v-if='isMobileRow(row.expand) && isRouter'>
+                  <div class="limit-inner">
+                    <span class="limit-icon"
+                          @click="()=>forward2limit(row,'time')">
+                      <i class="time-limit iconfont icon-ic_limit_time_off"
+                         :class="{'active':isTimeLimit(row)}"></i>
+                      <span class="hover-popover">{{$t('trans0075')}}</span>
+                    </span>
+                    <span class="limit-icon"
+                          @click="()=>forward2limit(row,'speed')">
+                      <i class="speed-limit iconfont icon-ic_limit_speed_off"
+                         :class="{'active':isSpeedLimit(row)}"></i>
+                      <span class="hover-popover">{{$t('trans0014')}}</span>
+                    </span>
+                    <span class="limit-icon"
+                          @click="()=>forward2limit(row,'url')">
+                      <i class="url-limit iconfont icon-ic_limit_website_off"
+                         :class="{'active':isBlacklsitLimit(row)}"></i>
+                      <span class="hover-popover">{{$t('trans0076')}}</span>
+                    </span>
+                    <span class="limit-icon"
+                          @click="()=>addToBlackList(row)">
+                      <i class="add-block iconfont icon-ic_blocklist_normal"></i>
+                      <span class="hover-popover">{{$t('trans0016')}}</span>
                     </span>
                   </div>
-                  <div class="item device-item">
-                    <i class="limit-icon speed-limit iconfont icon-ic_limit_speed_off"
-                       :title="$t('trans0014')"
-                       v-if="!isMobile"
-                       :class="{'active':isSpeedLimit(row)}"></i>
-                    <span v-if="isMobile"
-                          class="label">{{$t('trans0014')}}</span>
-                    <span class="status">
-                      <span>{{isSpeedLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                    </span>
-                  </div>
-                  <div class="item device-item">
-                    <i class="limit-icon url-limit iconfont icon-ic_limit_website_off"
-                       v-if="!isMobile"
-                       :title="$t('trans0076')"
-                       :class="{'active':isBlacklsitLimit(row)}"></i>
-                    <span v-if="isMobile"
-                          class="label">{{$t('trans0076')}}</span>
-                    <span class="status">
-                      <span>{{isBlacklsitLimit(row)?$t('trans0041'):$t('trans0017')}}</span>
-                    </span>
-                  </div>
-                </div>
-              </li>
-              <li class="column-black-list"
-                  v-if='isMobileRow(row.expand) && !isOfflineDevices && isRouter'>
-                <span class="btn-icon"
-                      @click="()=>addToBlackList(row)">
-                  <i class="add-to-block iconfont icon-ic_blocklist_normal"></i>
-                  <span class="icon-hover-popover"> {{$t('trans0016')}}</span>
-                </span>
-                <span v-if="isMobile"
-                      class="label"
-                      @click="()=>addToBlackList(row)">
-                  {{$t('trans0016')}}
-                </span>
-                <span class="btn-icon"
-                      @click="()=>forward2limit(row)">
-                  <i class="settings iconfont icon-ic_settings_normal"></i>
-                  <span class="icon-hover-popover"> {{$t('trans0019')}}</span>
-                </span>
-                <span v-if="!isOfflineDevices&&isMobile"
-                      class="label"
-                      @click="()=>forward2limit(row)">
-                  {{$t('trans0019')}}
-                </span>
-              </li>
-              <li class="column-black-list"
-                  :class="{'off-btn-handle-info':isOfflineDevices}"
-                  v-if='isMobileRow(row.expand) && isOfflineDevices'>
-                <span v-if="isOfflineDevices"
-                      class="btn-icon"
-                      @click="()=>delOfflineDevices([row.mac])">
-                  <i class="add-to-block iconfont icon-ic_trash_normal"></i>
-                  <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
-                </span>
-                <span v-if="isMobile&&isOfflineDevices"
-                      @click="()=>delOfflineDevices([row.mac])"
-                      class="label">{{$t('trans0033')}}</span>
-              </li>
+                </li>
+              </template>
             </ul>
             <div class='table-empty'
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
@@ -302,7 +344,6 @@
         </div>
       </div>
     </div>
-
     <m-modal :visible.sync="modalShow"
              :closeOnClickMask="false"
              class="edit-name-modal">
@@ -337,6 +378,7 @@ import { formatMac, getStringByte, formatDate, formatDuration } from 'base/util/
 import { BlacklistMode, RouterMode } from 'base/util/constant';
 
 export default {
+
   data() {
     return {
       showLoading: false,
@@ -354,6 +396,7 @@ export default {
         '2.4g': this.$t('trans0255'),
         '5g': this.$t('trans0256')
       },
+      timeLimitVisable: false,
       rules: {
         name: [
           {
@@ -372,6 +415,9 @@ export default {
   computed: {
     isMobile() {
       return this.$store.state.isMobile;
+    },
+    pageName() {
+      return this.$t(this.$route.meta.text);
     },
     offlineCheckedMacs() {
       const macs = [];
@@ -426,6 +472,13 @@ export default {
     this.timer = null;
   },
   methods: {
+     onBack(target) {
+      if (target) {
+        this.$router.replace({ path: target });
+      } else {
+        this.$router.go(-1);
+      }
+    },
     accessNodeName(row) {
       return row?.access_node?.name ?? '-';
     },
@@ -543,16 +596,16 @@ export default {
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
     },
-    forward2limit(row) {
+    forward2limit(row, suffix) {
       const limits = {
         deviceName: row.name,
         parent_control: row.parent_control,
         speed_limit: row.speed_limit,
-        time_limit: row.time_limit ? row.time_limit.map(v => ({ ...v, expand: false })) : undefined
+        time_limit: row.time_limit
       };
       this.$store.state.modules.limits[row.mac] = limits;
       sessionStorage.setItem('deviceName', limits.deviceName);
-      this.$router.push({ path: `/limit/${row.mac}` });
+      this.$router.push({ path: `/limit/${row.mac}/${suffix}` });
     },
     expandTable(row) {
       if (this.isMobile) {
@@ -660,11 +713,9 @@ export default {
       return true;
     },
     nameModalOpen(row) {
-      if (!(this.isMobile && !row.expand)) {
-        this.modalShow = true;
-        this.row = row;
-        this.form.name = row.name;
-      }
+      this.modalShow = true;
+      this.row = row;
+      this.form.name = row.name;
     },
     transformOfflineDate(date) {
       const now = new Date().getTime();
@@ -778,13 +829,22 @@ export default {
       const {
         online_info: { rssi }
       } = row;
-      if (rssi > -76) {
+      if (this.isMobile) {
+        if (rssi >= -76) {
+          icon = require('@/assets/images/v3/icon/ic_signal_excellent.svg');
+        } else if (rssi < -76 && rssi >= -90) {
+          icon = require('@/assets/images/v3/icon/ic_signal_good.svg');
+        } else {
+          icon = require('@/assets/images/v3/icon/ic_signal_bad.svg');
+        }
+      } else if (rssi >= -76) {
         icon = require('@/assets/images/icon/ic_wireless_excellent.svg');
-      } else if (rssi < -76 && rssi > -90) {
+      } else if (rssi < -76 && rssi >= -90) {
         icon = require('@/assets/images/icon/ic_wireless_fair.svg');
       } else {
         icon = require('@/assets/images/icon/ic_wireless_weak.svg');
       }
+
       return icon;
     }
   },
@@ -805,12 +865,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.device-container {
-  padding-bottom: 50px;
+.device {
   border-radius: 10px;
+  flex: auto;
   .tab {
     .icon {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 400;
       margin-right: 5px;
     }
@@ -826,227 +886,67 @@ export default {
       width: 180px;
     }
   }
-  .offline-handle-wrapper {
-    margin: 10px 10px 0px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    border-radius: 3px;
-    background: var(--table-row-background-color);
-    .check-info {
-      .m-check-all-box {
-        display: none;
-      }
-    }
-  }
   .off-more-message {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateY(-100%);
     width: fit-content;
     font-size: 12px;
     color: var(--offline-more-color);
     padding: 0 10px 10px;
     img {
-      vertical-align: text-bottom;
+      vertical-align: text-top;
       width: 15px;
       height: 15px;
       margin-right: 5px;
     }
   }
-  flex: auto;
-  padding: 0 20px;
+  .overflow-hidden {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   .device-wrapper {
     flex: 1;
-    .title {
-      font-size: 16px;
-      color: #333333;
-      font-weight: 600;
-      padding: 15px 0;
-      border-bottom: 1px solid #f1f1f1;
-    }
     .table-inner {
       margin-top: 10px;
-      ul,
-      li {
-        text-decoration: none;
-        list-style: none;
-        display: flex;
-        font-size: 14px;
-        // overflow: hidden;
-      }
-      .table-head {
+      position: relative;
+      .table-head ul,
+      .table-body ul {
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 2fr 1.5fr 1fr 1.5fr 1.2fr 2fr;
+        grid-template-areas: 'name connected-device speed throughput ip-mac control';
+        grid-column-gap: 10px;
         height: fit-content;
-        border-radius: 10px;
-        background: var(--table-row-background-color);
-        width: 100%;
-        margin-bottom: 5px;
-        ul {
-          height: fit-content;
-          padding: 15px;
-          color: var(--table-header-text-color);
-        }
-      }
-      .table-body {
-        margin-bottom: 50px;
-        .loading-container {
+        padding: 10px 20px;
+        color: var(--table-header-text-color);
+        font-size: 12px;
+        font-weight: 500;
+        > li {
+          width: 100%;
           display: flex;
-          justify-content: center;
-          padding: 30px 0;
+          align-items: center;
         }
-        ul {
-          padding: 15px;
-          border-radius: 10px;
-          margin-bottom: 5px;
-          color: var(--text-default-color);
-          background: var(--table-row-background-color);
-        }
-      }
-      ul {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .column-check-box {
-        width: 40px;
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-      }
-      .column-name {
-        width: 355px;
-        position: relative;
-        .connect-type-wrap {
-          width: 50px;
-          height: 50px;
-          margin-right: 15px;
-          border-radius: 50%;
-          overflow: hidden;
-          background-color: var(--table-body-connect-icon-bgc);
-          > img {
-            width: 100%;
-            height: 100%;
-          }
-        }
-        .name-wrap {
-          &.offline {
+        .name {
+          grid-area: name;
+          max-width: 350px;
+          min-width: 230px;
+          .connect-type-wrap {
+            position: relative;
             display: flex;
-            color: var(--text-default-color);
-          }
-        }
-        .mobile-icon {
-          display: none;
-        }
-      }
-      .column-ip {
-        .pc-mac {
-          display: block;
-        }
-        span:first-child {
-          display: none;
-        }
-        width: 160px;
-      }
-      .column-mac {
-        display: none;
-        span:first-child {
-          display: none;
-        }
-        width: 150px;
-      }
-      .device-item {
-        .overflow-hidden {
-          white-space: pre;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-      .column-real-time {
-        width: 170px;
-        .label {
-          display: none;
-        }
-      }
-      .column-band {
-        min-width: 150px;
-        max-width: 175px;
-        .label {
-          display: none;
-        }
-        .value {
-          display: flex;
-          align-items: baseline;
-          .iconfont {
-            color: #ffa953;
-            margin-right: 5px;
-          }
-          span:last-child {
-            margin-left: 2px;
-          }
-        }
-      }
-      .column-limit {
-        width: 120px;
-      }
-      .column-black-list {
-        max-width: 230px;
-        min-width: 100px;
-        justify-content: flex-end;
-      }
-      .icon-inner {
-        display: flex;
-        align-items: center;
-        .band {
-          display: flex;
-          align-items: center;
-        }
-        .band > img {
-          width: 22px;
-          height: 22px;
-        }
-      }
-      .des-inner {
-        margin-top: 10px;
-        .row {
-          margin-right: 10px;
-          display: inline-block;
-          line-height: 1;
-          .label {
-            display: none;
-          }
-        }
-        span {
-          &:first-child {
-            padding: 3px 6px;
-            border-radius: 3px;
-            font-size: 12px;
-            text-align: center;
-            color: #fff;
-            background: var(--dashboard-band-background-color);
-          }
-        }
-      }
-      .name-inner {
-        display: flex;
-        justify-content: flex-start;
-        a {
-          flex: 1;
-          text-align: left;
-          display: flex;
-          cursor: pointer;
-          align-items: center;
-          span {
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: pre;
-            max-width: 185px;
-            flex-shrink: 0;
-            font-weight: 550;
-          }
-          > img {
-            width: 15px;
-            margin-left: 5px;
-            flex-shrink: 0;
-            filter: var(--img-brightness);
+            justify-content: center;
+            align-items: center;
+            width: 50px;
+            height: 49px;
+            margin-right: 10px;
+            border-radius: 50%;
+            background: var(--device-connect_type-bgc);
+            img {
+              width: 90%;
+              height: 90%;
+            }
           }
           .local-device-wrapper {
             position: absolute;
@@ -1055,80 +955,244 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: var(--table-local-device-icon-bgc);
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            cursor: default;
+            background-color: #fff;
             img {
               width: 70%;
               height: 70%;
             }
           }
-        }
-        &.off-name {
-          a {
-            span {
-              max-width: 200px;
+          .name-wrap {
+            flex: 1;
+            overflow: hidden;
+            a {
+              display: flex;
+              align-items: center;
+              width: 97%;
+              overflow: hidden;
+              font-weight: 500;
+              > img {
+                width: 15px;
+                height: 15px;
+                margin-left: 5px;
+                filter: var(--img-brightness);
+              }
+            }
+            .des-inner {
+              color: #fff;
+              font-size: 12px;
+              margin-top: 3px;
+            }
+            .band {
+              display: inline-block;
+              padding: 0 5px;
+              min-width: 40px;
+              width: auto;
+              border-radius: 3px;
+              text-align: center;
+              background-image: linear-gradient(294deg, #1ad692 20%, #03aa56);
+              &.wired {
+                background-image: linear-gradient(294deg, #3da8ff 20%, #0c70b8);
+              }
+            }
+            .online-duration {
+              color: var(--common-gery-color);
+              margin-left: 10px;
             }
           }
         }
-      }
-      .speed-inner {
-        .speed-wrap {
-          display: flex;
-          align-items: center;
-          &:last-child {
-            margin-top: 10px;
-          }
-          .icon {
-            width: 13px;
-            margin-right: 6px;
-          }
-          .text-inner {
-            font-size: 14px;
-            span:last-child {
-              margin-left: 2px;
-            }
+        .connected-device {
+          grid-area: connected-device;
+          max-width: 200px;
+          min-width: 160px;
+          .value {
+            max-width: 100%;
           }
         }
-      }
-      .limit-inner {
-        display: flex;
-        align-items: center;
-        .item {
-          text-align: left;
-          display: flex;
-          align-items: center;
-          span {
-            text-align: left;
-            font-size: 14px;
+        .speed {
+          grid-area: speed;
+          max-width: 160px;
+          min-width: 90px;
+          .select-wrapper {
+            margin-bottom: 8px;
+            &:last-child {
+              margin-bottom: 0;
+            }
           }
           img {
-            width: 11px;
-            height: 8px;
-            margin-left: 3px;
-          }
-          .icon {
-            display: block;
-          }
-          .status {
-            display: none;
+            width: 15px;
+            height: 16px;
+            vertical-align: text-bottom;
+            margin-right: 5px;
           }
         }
-        .item {
-          margin-left: 10px;
-          &:first-child {
-            margin-left: 0;
+        .throughput {
+          grid-area: throughput;
+          max-width: 310px;
+          min-width: 180px;
+          .iconfont {
+            color: #f0a65e;
+            margin-right: 5px;
+          }
+        }
+        .ip-mac {
+          grid-area: ip-mac;
+          max-width: 200px;
+          min-width: 140px;
+        }
+        .control {
+          grid-area: control;
+          max-width: 350px;
+          min-width: 230px;
+          justify-content: center;
+          .limit-inner {
+            display: flex;
           }
           .limit-icon {
-            color: var(--table-limit-icon-color);
-            font-size: 20px;
-            &.active {
-              color: var(--primaryColor);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            .iconfont {
+              font-size: 20px;
+              color: var(--device-limit_icon-color);
+              font-weight: 500;
+              &.active {
+                color: var(--primaryColor);
+              }
+            }
+            .hover-popover {
+              display: none;
+              position: absolute;
+              padding: 5px 12px;
+              font-size: 12px;
+              background: var(--table-action-popover-bgc);
+              color: #fff;
+              top: -8px;
+              left: 50%;
+              transform: translate(-50%, -100%);
+              border-radius: 10px;
+              max-height: 190px;
+              word-break: keep-all;
+              white-space: nowrap;
+              z-index: 10;
+              &::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translate(-50%, 100%);
+                width: 0;
+                height: 0;
+                border: 6px solid transparent;
+                border-top-color: var(--table-action-popover-bgc);
+              }
+            }
+            @media screen and (max-width: 768px) {
+              .limit-icon {
+                color: red;
+                &:hover {
+                  background-color: transparent;
+                  .hover-popover {
+                    display: none;
+                  }
+                }
+              }
+            }
+            &:hover {
+              background-color: var(--device-limit_icon-hover-bgc);
+              .hover-popover {
+                display: block;
+              }
             }
           }
         }
+        &.offline {
+          grid-template-columns: 2fr 1.5fr 1fr 1.5fr 1fr;
+          grid-template-areas: 'name online-duration offline-time mac delete';
+          padding: 5px 20px;
+          .name {
+            grid-area: name;
+            max-width: 400px;
+            min-width: 230px;
+            font-weight: 700;
+            .column-check-box {
+              display: flex;
+              align-content: center;
+              width: 30px;
+            }
+          }
+          .online-duration {
+            grid-area: online-duration;
+            max-width: 230px;
+            min-width: 150px;
+          }
+          .offline-time {
+            grid-area: offline-time;
+            max-width: 230px;
+            min-width: 150px;
+          }
+          .mac {
+            grid-area: mac;
+            max-width: 230px;
+            min-width: 150px;
+          }
+          .delete {
+            grid-area: delete;
+            max-width: 350px;
+            min-width: 230px;
+            justify-content: flex-end;
+            .btn-default {
+              background-image: linear-gradient(
+                  to right,
+                  var(--table-head-background-color),
+                  var(--table-head-background-color)
+                ),
+                linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+            }
+            .btn-icon {
+              box-shadow: none;
+              background: transparent;
+              .iconfont {
+                font-size: 18px;
+              }
+            }
+          }
+        }
+      }
+      .table-head {
+        border-radius: 5px;
+        background: var(--table-head-background-color);
+        width: 100%;
+        margin-bottom: 5px;
+      }
+      .table-body {
+        font-size: 14px;
+        .loading-container {
+          display: flex;
+          justify-content: center;
+          padding: 30px 0;
+        }
+        ul {
+          border-radius: 5px;
+          margin-bottom: 5px;
+          font-size: 14px;
+          color: var(--text-default-color);
+          background: var(--common-card-bgc);
+        }
+      }
+      ul {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
     }
   }
@@ -1166,43 +1230,19 @@ export default {
     }
   }
 }
-@media screen and (max-width: 1440px) {
-  .device-container {
-    .device-wrapper {
-      .table-inner {
-        .column-name {
-          width: 275px;
-        }
-        .name-inner {
-          a {
-            span {
-              max-width: 170px;
-            }
-          }
-          &.off-name {
-            a {
-              span {
-                max-width: 170px;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
 @media screen and (max-width: 768px) {
-  .device-container {
-    background: transparent;
-    padding: 0 !important;
-    .tabs {
-      padding: 0 15px;
-      .tab {
-        font-size: 14px;
-      }
-    }
+  .device {
     .offline-handle-wrapper {
-      flex-direction: column-reverse;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 5px;
+      .check-info {
+        padding: 5px 10px;
+        background: var(--table-head-background-color);
+        border-radius: 5px;
+      }
       .check-info {
         display: flex;
         justify-content: space-between;
@@ -1216,339 +1256,159 @@ export default {
       .btn {
         position: relative;
         right: 0;
+        &.btn-default {
+          background-image: linear-gradient(
+              to right,
+              var(--table-head-background-color),
+              var(--table-head-background-color)
+            ),
+            linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+        }
       }
     }
     .off-more-message {
+      position: static;
       width: 100%;
-      margin-left: 10px;
-      padding: 10px 10px 0;
+      margin: 0 0 10px;
+      padding: 0 20px;
+      transform: none;
     }
     .device-wrapper {
-      .title {
-        border: none;
-        padding: 0;
-        font-size: 16px;
-      }
       .table-inner {
-        background: transparent;
-        border-top: 1px solid var(--table-header-hr-color);
-        margin: 0;
-        .column-check-box {
-          width: auto;
-          margin-left: 0;
-          margin-right: 10px;
-        }
-        .table-head {
-          display: none;
-        }
         .table-body {
           ul {
-            flex-direction: column;
-            padding: 0 10px;
-            overflow: inherit;
-            background: var(--table-row-background-color);
-            border-radius: 3px;
-            margin: 5px 10px;
-            width: auto;
-            border: none;
-            > li,
-            .name-inner {
-              border-bottom: 1px solid transparent;
-            }
-            &.expand {
-              position: relative;
-              .name-wrap {
-                height: 180px;
-                &.wired {
-                  height: 120px;
-                }
-                &.offline {
-                  height: 60px;
-                }
-              }
-              .column-name {
-                border: 0;
-                position: static;
-              }
-              .name-inner {
-                padding: 0 10px;
-                border-bottom-color: var(--table-body-hr-color);
-                &.off-name {
-                  left: 0 !important;
-                  a {
-                    margin-left: 28px;
-                  }
-                }
-              }
-              li {
-                border-bottom-color: var(--table-body-hr-color);
-                &:last-of-type {
-                  border: 0;
-                }
-                .label {
-                  color: var(--table-header-text-color);
-                }
-              }
-            }
-          }
-        }
-        .small-device-body {
-          margin-bottom: 35px;
-          .name-inner {
-            a {
-              &:hover {
-                text-decoration: none;
-              }
-              span {
-                display: inline-block;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: pre;
-                max-width: 200px;
-                font-weight: 400;
-              }
-            }
-            &.off-name {
-              color: var(--text-default-color);
-              a {
-                span {
-                  max-width: 180px;
-                }
-              }
-            }
-          }
-          .column-name {
-            // border: 0;
-            .mobile-icon {
-              display: block;
-              display: flex;
-              align-items: center;
-              img {
-                width: 12px;
-                height: 12px;
-                transition: all 0.3s;
-                filter: var(--img-brightness);
-                &.i-collapse {
-                  transform: rotate(90deg);
-                }
-                &.i-expand {
-                  transform: rotate(0deg);
-                }
-              }
-            }
-            width: 100%;
-            border-radius: 3px;
-            position: relative;
-            overflow: inherit;
-            .name-wrap {
-              flex: 1;
+            &.reset-ul {
               display: flex;
               flex-direction: column;
-              align-items: flex-start;
-              justify-content: center;
-              height: 60px;
-              .name-inner {
-                // height: 120px;
-                display: flex;
-                position: absolute;
-                align-items: center;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 60px;
-                &.off-name {
-                  // padding-left: 28px;
-                  left: 28px;
-                  // right: 20px;
-                  // width: auto;
-                }
-              }
-              .des-inner {
+              padding: 0 20px;
+              border-radius: 5px;
+              overflow: hidden;
+              background: transparent;
+              > li {
+                max-width: 100% !important;
+                min-width: inherit !important;
                 width: 100%;
-                height: 120px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                flex-direction: column;
-                margin-top: 60px;
-                .row {
-                  border-bottom: 1px solid var(--table-body-hr-color);
-                  align-items: center;
-                  display: flex;
-                  width: 100%;
-                  justify-content: space-between;
-                  height: 60px;
-                  padding: 0;
-                  background: transparent;
-                  .label {
-                    color: var(--table-header-text-color);
-                    background: transparent;
-                    padding: 0;
-                    display: block;
-                  }
+                height: 48px;
+                justify-content: space-between;
+                padding: 0 10px;
+                background: var(--common-card-bgc);
+                border-bottom: 1px solid var(--common-hr-color);
+                &:first-child {
+                  border-bottom: none;
+                  margin-bottom: 1px;
+                  border-radius: 5px;
                 }
-                span {
-                  color: var(--text-default-color);
-                  font-size: 14px;
-                  border: 0;
-                  margin: 0;
-                }
-              }
-            }
-          }
-          .column-real-time {
-            width: 100%;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .label {
-              display: block;
-            }
-            .speed-inner {
-              display: flex;
-              flex-direction: row;
-              .speed-wrap {
-                display: flex;
-                justify-content: center;
-                position: relative;
-                .icon {
-                  margin: 0;
-                }
-                .text-inner {
-                  padding-left: 2px;
+                &:nth-child(2) {
+                  border-top-left-radius: 5px;
+                  border-top-right-radius: 5px;
                 }
                 &:last-child {
-                  margin: 0;
-                  margin-left: 10px;
+                  border-bottom: none;
+                  border-bottom-left-radius: 5px;
+                  border-bottom-right-radius: 5px;
+                }
+              }
+              &.online {
+                > li {
+                  font-size: 13px;
+                  &:first-child {
+                    font-size: 14px;
+                    height: auto;
+                    padding: 10px;
+                  }
+                  .label {
+                    color: var(--text-gery-color);
+                  }
                 }
               }
             }
-          }
-          .column-band {
-            max-width: none;
-            min-width: none;
-            width: 100%;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .label {
-              display: block;
-            }
-            .value {
-              span {
-                display: inline-block;
+            .name {
+              position: relative;
+              justify-content: flex-start !important;
+              .name-wrap {
+                max-width: 260px;
+                @media screen and (max-width: 374px) {
+                  max-width: 170px;
+                }
               }
-            }
-          }
-          .column-ip {
-            .pc-mac {
-              display: none;
-            }
-            span:first-child {
-              display: block;
-            }
-          }
-          .column-mac {
-            display: block;
-            span:first-child {
-              display: block;
-            }
-          }
-          .device-item {
-            height: 60px;
-            width: 100%;
-            border-bottom: 1px solid var(--table-body-hr-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            &:last-child {
-              border: 0;
-            }
-          }
-          .column-limit {
-            width: 100%;
-            border: 0;
-          }
-          .limit-inner {
-            width: 100%;
-            flex-direction: column;
-            .item {
-              margin-left: 0;
-              .icon {
-                width: 11px;
-                display: none;
+              .name-inner {
+                display: flex;
+                align-items: center;
               }
-              .status {
+              .mobile-icon {
+                position: absolute;
+                top: 50%;
+                right: 10px;
+                transform: translateY(-50%);
                 display: block;
                 display: flex;
                 align-items: center;
                 img {
-                  width: 7px;
+                  width: 12px;
                   height: 12px;
-                  margin-left: 10px;
+                  transition: all 0.3s;
+                  filter: var(--img-brightness);
+                  &.i-collapse {
+                    transform: rotate(90deg);
+                  }
+                  &.i-expand {
+                    transform: rotate(0deg);
+                  }
+                }
+              }
+              .overflow-hidden {
+                max-width: calc(100% - 20px - 18px);
+              }
+              .local-device-wrapper {
+                position: static;
+                background: transparent;
+                img {
+                  width: 15px;
+                  height: 15px;
+                  margin-right: 3px;
+                }
+              }
+              .connect-quality {
+                display: inline-block;
+                width: 15px;
+                height: 15px;
+                margin-left: 5px;
+                > img {
+                  width: 100%;
+                  height: auto;
+                  vertical-align: sub;
+                }
+                // width: ;
+              }
+            }
+            .connected-device {
+              .value {
+                max-width: 180px;
+              }
+            }
+            .speed {
+              .speed-inner {
+                display: flex;
+                .speed-wrap {
+                  &:first-child {
+                    margin-right: 10px;
+                  }
                 }
               }
             }
-            .item:nth-child(1) {
-              .time-active {
+            .control {
+              justify-content: flex-end !important;
+              .limit-icon {
                 &:hover {
-                  color: none;
-                  text-decoration: none;
+                  background-color: transparent;
+                  .hover-popover {
+                    display: none;
+                  }
                 }
               }
             }
-            .item:nth-child(2) {
-              .speed-active {
-                &:hover {
-                  color: none;
-                  text-decoration: none;
-                }
-              }
-            }
-            .item:nth-child(3) {
-              .black-active {
-                &:hover {
-                  color: none;
-                  text-decoration: none;
-                }
-              }
-            }
-          }
-          .column-black-list {
-            min-width: none;
-            max-width: none;
-            width: 100%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding-top: 25px !important;
-            padding-bottom: 25px !important;
-            .label {
-              display: inline-block;
-              width: 40%;
-            }
-          }
-          .li-expand {
-            display: block;
-          }
-          .li-collapse {
-            display: none;
-          }
-        }
-        .name-inner {
-          a {
-            .local-device-wrapper {
-              position: relative;
-              left: 0;
-              bottom: 0;
-              margin-right: 5px;
-              background: transparent;
-              > img {
-                width: 100%;
-                height: 100%;
-              }
+            .delete {
+              justify-content: flex-end !important;
             }
           }
         }
@@ -1557,12 +1417,10 @@ export default {
   }
 }
 @media screen and (max-width: 280px) {
-  .device-container {
-    .device-wrapper {
-      .tab {
-        .iconfont {
-          display: block;
-        }
+  .device .device-wrapper .table-inner .table-body ul.reset-ul.online > li {
+    &.connected-device-device {
+      .value {
+        max-width: 180px;
       }
     }
   }

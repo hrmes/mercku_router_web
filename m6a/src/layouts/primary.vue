@@ -1,15 +1,6 @@
 <template>
   <div class="layout-wrap  primary">
-    <div v-if="hasBackWrap"
-         class="back-wrap">
-      <div class="btn-container"
-           @click="onBack($route.meta.parentPath)">
-        <i class="iconfont icon-ic_back"></i>
-      </div>
-      <div class="text-container">{{pageName}}</div>
-    </div>
-    <div class="content-wrap"
-         :class="{'has-top-margin':!hasBackWrap}">
+    <div class="content-wrap">
       <div v-if="!isMobile&&asideInfo.hasAside"
            class="left-aside">
         <ul class="menu-result-list">
@@ -51,9 +42,6 @@ export default {
     });
   },
   computed: {
-    pageName() {
-      return this.$t(this.$route.meta.text);
-    },
     isMobile() {
       return this.$store.state.isMobile;
     }
@@ -91,32 +79,10 @@ export default {
 
 <style lang="scss" scoped>
 .primary {
-  padding: 0 5%;
+  min-width: 1280px;
+  padding: 0 30px;
   display: flex;
   flex-direction: column;
-  .back-wrap {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    height: 60px;
-    color: var(--text-default-color);
-    .text-container {
-      font-size: 18px;
-      font-weight: 500;
-    }
-    .btn-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      margin-right: 10px;
-      cursor: pointer;
-      background: var(--dashboard-unconnect-icon-background-color);
-      box-shadow: 0 5px 10px -5px rgba(51, 51, 51, 0.3);
-    }
-  }
   .content-wrap {
     flex: 1;
     display: flex;
@@ -156,33 +122,14 @@ export default {
     }
     .router-view {
       flex: 1;
-      background: var(--dashboard-icon-background-color);
       border-radius: 10px;
     }
-    &.has-top-margin {
-      margin-top: 20px;
-    }
-  }
-}
-@media screen and (max-width: 1440px) {
-  .primary {
-    padding: 0 45px;
   }
 }
 @media screen and (max-width: 768px) {
   .primary {
+    min-width: auto;
     padding: 0 !important;
-    .back-wrap {
-      height: 55px;
-      padding: 0 15px;
-      .text-container {
-        font-size: 16px;
-      }
-      .btn-container {
-        width: 30px;
-        height: 30px;
-      }
-    }
     .content-wrap {
       .left-aside {
         display: none;

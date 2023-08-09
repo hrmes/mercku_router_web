@@ -283,8 +283,7 @@ export const formatMac = mac => {
 };
 
 export const formatSpeed = value => {
-  value /= 8;
-  const units = ['KB', 'MB', 'GB', 'TB', 'PB'];
+  const units = ['Kbps', 'Mbps', 'Gbps', 'Tbps', 'Pbps'];
   let index = -1;
   value = Number(value);
   if (!Number.isNaN(value)) {

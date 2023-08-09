@@ -1,7 +1,7 @@
 <template>
   <transition name="modal">
     <div class="modal-dialog"
-         v-show="open">
+         v-if="open">
       <div class="mask"
            @click="close"
            @touchstart="close"></div>
@@ -87,7 +87,6 @@ export default {
     height: 100%;
     background: var(--modal-mask-background-color);
   }
-
   .modal-content {
     background: var(--modal-content-background);
     padding: 30px;

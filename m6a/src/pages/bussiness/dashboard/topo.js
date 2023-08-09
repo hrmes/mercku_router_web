@@ -8,9 +8,6 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6Wifi6Good from '@/assets/images/icon/ic_m6_normal.png';
-import picM6Wifi6Bad from '@/assets/images/icon/ic_m6_bad.png';
-import picM6Wifi6Offline from '@/assets/images/icon/ic_m6_offline.png';
 import picM6aGateway from '@/assets/images/icon/ic_m6a_gw_green.png';
 import picM6aWifi6Good from '@/assets/images/icon/ic_m6a_normal.png';
 import picM6aWifi6Bad from '@/assets/images/icon/ic_m6a_bad.png';
@@ -23,7 +20,7 @@ import picM6aPlusOffline from '@/assets/images/model/m6a_plus/icons-m6a_plus-off
 import { Color, M6aRouterSnModelVersion } from 'base/util/constant';
 
 // 大于-70均认为优秀
-const isGood = rssi => rssi >= -65;
+const isGood = rssi => rssi >= -76;
 
 // 补充关系，a-b,b-a
 function addConnection(source) {
@@ -93,11 +90,6 @@ function findRedNode(green, nodes) {
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
-    [CONSTANTS.RouterSnModel.M6]: {
-      [Color.good]: picM6Wifi6Good,
-      [Color.bad]: picM6Wifi6Bad,
-      [Color.offline]: picM6Wifi6Offline
-    },
     [CONSTANTS.RouterSnModel.M6a]: {
       [M6aRouterSnModelVersion.M6a]: {
         [Color.good]: picM6aWifi6Good,
@@ -139,6 +131,7 @@ function genNodes(gateway, green, red, offline) {
       name: `${node.sn}${node.name}`, // 避免节点同名echarts报错不能绘图
       originName: node.name, // 用于节点的label显示
       sn: node.sn,
+      isGateway: node.is_gw,
       stationsCount: node?.stations?.length ?? 0,
       itemStyle: {
         color

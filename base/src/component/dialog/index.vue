@@ -114,6 +114,14 @@ export default {
           margin-left: 0;
         }
       }
+      .btn-default {
+        background-image: linear-gradient(
+            to right,
+            var(--dialog-content-bgc),
+            var(--dialog-content-bgc)
+          ),
+          linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734) !important;
+      }
     }
     .dialog-title {
       font-size: 16px;

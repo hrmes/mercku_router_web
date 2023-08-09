@@ -2,7 +2,9 @@
   <div class="select-container">
     <label for="">{{label}}</label>
     <div class="select"
-         @click.stop="open()">
+         ref="select"
+         v-clickoutside="close"
+         @click.stop="focus">
       <input @blur="blur"
              @focus="focus"
              ref="input"
@@ -60,13 +62,6 @@ export default {
       this.selected = val;
     }
   },
-  mounted() {
-    if (window.addEventListener) {
-      document.body.addEventListener('click', this.close);
-    } else if (window.attachEvent) {
-      document.body.attachEvent('click', this.close);
-    }
-  },
   methods: {
     scrollToSelect() {
       this.$nextTick(() => {
@@ -86,37 +81,50 @@ export default {
     select(option) {
       this.selected = option;
       this.$emit('input', this.selected);
-      this.opened = false;
-      this.$refs.input.focus();
-    },
-    open() {
-      this.opened = !this.opened;
-      if (this.opened) {
-        this.scrollToSelect();
-      }
+      this.close();
     },
     close() {
       this.opened = false;
+      this.onBlur && this.onBlur();
+      this.$refs.select.classList.remove('focus');
+      this.$parent.$emit('blur');
     },
     blur() {
+      if (this.opened) return;
       this.onBlur && this.onBlur();
+      this.$refs.select.classList.remove('focus');
       this.$parent.$emit('blur');
     },
     focus() {
+      this.$refs.select.classList.add('focus');
+      this.opened = true;
+      this.scrollToSelect();
       this.$parent.$emit('focus');
     }
   },
-  beforeDestroy() {
-    if (window.addEventListener) {
-      document.body.removeEventListener('click', this.close);
-    } else if (window.attachEvent) {
-      document.body.detachEvent('click', this.close);
-    }
-  }
 };
 </script>
 <style lang="scss" scoped>
 .select-container {
+  width: 340px;
+  cursor: pointer;
+  @media screen and (min-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: var(--scrollbar_wrap-track-color);
+      // border-radius: 100px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar_wrap-thumb-color);
+      border-radius: 100px;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
   &.small {
     .select {
       width: 100%;
@@ -142,24 +150,28 @@ export default {
       }
     }
   }
-  width: 340px;
   .select {
     height: 48px;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 10px;
     outline: 0;
-    border: 1.5px solid var(--select-input-border-color);
+    border: 1.5px solid var(--input-border-color);
     font-size: 14px;
     padding: 10px;
     line-height: 26px;
     position: relative;
     padding-right: 50px;
+    transition: border 0.3s ease-in-out;
     .select-text {
       height: 100%;
       width: 100%;
       border: none;
       outline: none;
+      color: var(--text-default-color);
       background: transparent;
+    }
+    &.focus {
+      border-color: var(--input-focus-border-color);
     }
   }
   label {
@@ -167,19 +179,18 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
+    color: var(--input-label-color);
   }
-
-  cursor: pointer;
   .select-popup {
-    // width: 100%;
     position: absolute;
-    z-index: 999;
-    left: -2px;
-    right: -2px;
+    z-index: 888;
+    left: -1px;
+    right: -1px;
     top: 52px;
+    max-height: 300px;
     background: var(--select-popup-background-color);
-    border-radius: 5px;
-    max-height: 200px;
+    border-radius: 7px;
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
     border: 1px solid var(--select-popup-border-color);
     overflow: auto;
     li {
@@ -196,10 +207,19 @@ export default {
       }
       &:hover {
         background: var(--select-item-hover-background-color);
-        color: var(--select-item-active-color);
+        color: var(--select-item-hover-color);
       }
       &.selected {
+        position: relative;
         color: var(--select-item-selected-color);
+        &::after {
+          content: '\e65c';
+          font-family: 'iconfont';
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+        }
       }
     }
   }

@@ -1,3 +1,4 @@
+import MHeader from './component/header/header.vue';
 import mFooter from './component/footer/index.vue';
 import mInput from './component/input/input.vue';
 import mStep from './component/step/index.vue';
@@ -26,7 +27,6 @@ import defaultButton from './component/default-button/index.vue';
 import mLoading from './component/loading/loading-canvas.vue';
 import mLottieLoading from './component/loading/loading-lottie.vue';
 import mTag from './component/tag/index.vue';
-import MHeader from './component/header/header.vue';
 
 const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);

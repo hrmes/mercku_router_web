@@ -75,9 +75,8 @@ export default {
   .unconnect {
     padding: 0;
     .inner {
+      border-radius: 0;
       padding: 0 15px;
-      .btn {
-      }
     }
   }
 }

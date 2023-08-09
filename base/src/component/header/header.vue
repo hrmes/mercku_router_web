@@ -158,7 +158,7 @@
       </m-modal-header>
       <m-modal-body>
         <div class="theme-change-body">
-          <div class="theme-option "
+          <div class="theme-option"
                @click="clickHandler('light')">
             <img src="../../assets/images/img_theme_light.webp"
                  alt="">
@@ -167,7 +167,7 @@
                         :rect="false"
                         v-model="themeOptions.light.ischecked"></m-checkbox>
           </div>
-          <div class="theme-option "
+          <div class="theme-option"
                @click="clickHandler('dark')">
             <img src="../../assets/images/img_theme_dark.webp"
                  alt="">
@@ -176,7 +176,7 @@
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
           </div>
-          <div class="theme-option "
+          <div class="theme-option"
                @click="clickHandler('auto')">
             <img src="../../assets/images/img_theme_auto.webp"
                  alt="">
@@ -451,7 +451,7 @@ export default {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: var(--button-close-background-color);
+      background: var(--button-close-bgc);
       cursor: pointer;
       .iconfont {
         position: absolute;
@@ -472,6 +472,7 @@ export default {
       position: relative;
       width: 120px;
       height: 194px;
+      aspect-ratio: 60/97;
       margin: 0 10px;
       border-radius: 10px;
       cursor: pointer;
@@ -548,7 +549,7 @@ export default {
         display: flex;
         align-items: center;
         cursor: pointer;
-        margin-right: 60px;
+        margin-right: 40px;
         .nav-item-content {
           display: flex;
           position: relative;
@@ -632,7 +633,11 @@ export default {
             }
           }
           .iconfont {
-            color: var(--primaryColor);
+            background-image: var(--header-selected-bgc);
+            -webkit-background-clip: text; /* Safari/Chrome */
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
           }
         }
         &:last-child {
@@ -690,8 +695,19 @@ export default {
 @media screen and (max-width: 768px) {
   .theme-change-modal {
     .theme-change-body {
+      flex-direction: column;
       .theme-option {
-        height: auto;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        width: 50px;
+        margin-bottom: 10px;
+        img {
+          margin-right: 20px;
+        }
+        &:last-child {
+          margin-bottom: 0;
+        }
         &:hover {
           outline-color: transparent;
         }
@@ -809,9 +825,6 @@ export default {
               > .nav-item__text {
                 margin: 0;
               }
-              // &::after {
-              //   display: none;
-              // }
             }
           }
           &.add-node {
@@ -822,7 +835,11 @@ export default {
           }
           &.selected {
             .iconfont {
-              color: var(--mobile-menu-selected-color);
+              background-image: var(--header-selected-bgc);
+              -webkit-background-clip: text; /* Safari/Chrome */
+              background-clip: text;
+              color: transparent;
+              text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
             }
             .nav-item-content {
               .nav-item__text {
@@ -901,9 +918,6 @@ export default {
     }
     &.is-not-position-nav {
       background-color: var(--header-background-color);
-      // border-bottom-left-radius: 25px;
-      // border-bottom-right-radius: 25px;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
     }
     &.open,
     &.i18n-open {

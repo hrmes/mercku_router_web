@@ -1,7 +1,8 @@
 <template>
-  <div class="time-picker-panel">
-    <div class="input-wrap"
-         @click="open">
+  <div class="time-picker-panel"
+       :class="{'open':opened}"
+       @click="open">
+    <div class="input-wrap">
       <input type="text"
              :placeholder="$t('trans0100')"
              v-model="inputValue"
@@ -40,11 +41,10 @@
         </div>
       </div>
       <div class="button-wrap">
-        <button @click="close">{{$t('trans0025')}}</button>
-        <button @click="ok">{{$t('trans0024')}}</button>
+        <button @click.stop="close">{{$t('trans0025')}}</button>
+        <button @click.stop="ok">{{$t('trans0024')}}</button>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -226,8 +226,12 @@ export default {
   height: 48px;
   border: 1.5px solid var(--time-picker-pannel-border-color);
   position: relative;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 0 10px;
+  transition: border 0.3s ease-in-out;
+  &.open {
+    border-color: var(--input-focus-border-color);
+  }
   .combox {
     position: absolute;
     background: var(--time-picker-combox-background-color);
@@ -238,7 +242,7 @@ export default {
     flex-direction: column;
     width: 102%;
     z-index: 1000;
-    box-shadow: 0 2px 8px var(--time-picker-combox-shadow-color);
+    box-shadow: var(--time-picker-combox-shadow);
     background-clip: padding-box;
     border-radius: 10px;
     overflow: hidden;
@@ -281,9 +285,9 @@ export default {
         width: 100%;
         height: 36px;
         background: var(--primaryColor);
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
-        border-top: 1px solid rgba(0, 0, 0, 0.12);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        box-shadow: var(--button-box-shadow);
+        // border-top: 1px solid rgba(0, 0, 0, 0.12);
+        // border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         pointer-events: none;
         z-index: -1;
       }
@@ -316,7 +320,7 @@ export default {
         //   background: var(--time-picker-popup-item-hover-background-color);
         // }
         &.selected {
-          color: var(--time-picker-popup-item-selected-color);
+          color: var(--primaryBackgroundColor);
         }
       }
     }

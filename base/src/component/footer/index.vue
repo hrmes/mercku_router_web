@@ -8,15 +8,13 @@
       <div class="footer__left-menu logout"
            v-if="navVisible"
            @click="exit()">
-        <img src="../../assets/images/v3/icon/ic_logout.png"
-             alt="">
+        <span class="icon"></span>
         {{$t('trans0021')}}
       </div>
       <div class="footer__left-menu lang"
            @mouseenter="setLangPopupVisible(true)"
            @mouseleave="setLangPopupVisible(false)">
-        <img src="../../assets/images/v3/icon/ic_lang.png"
-             alt="">
+        <span class="icon"></span>
         <div class="lang-selector"
              :class="{'open':showPopup}">
           <div class="current">
@@ -170,12 +168,29 @@ export default {
   max-height: 400px;
   overflow: auto;
   padding-right: 10px;
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--scrollbar_wrap-track-color);
+    // border-radius: 100px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar_wrap-thumb-color);
+    border-radius: 100px;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
 }
 .footer {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  z-index: 5;
   width: 100%;
-  color: var(--footer-policy_text-color);
+  color: var(--common-gery-color);
   padding: 0 30px;
   &.is-position-nav {
     position: absolute;
@@ -195,13 +210,14 @@ export default {
   .footer__left-menu {
     display: flex;
     align-items: center;
-    color: var(--text-default-color);
+    color: var(--footer-menu_text-color);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
-    > img {
+    > span {
+      display: inline-block;
       width: 20px;
-      height: auto;
+      height: 20px;
       margin-right: 3px;
     }
     &.lang {
@@ -274,6 +290,11 @@ export default {
           }
         }
       }
+      > span {
+        background: url(../../assets/images/v3/icon/ic_lang.png) center
+          no-repeat;
+        background-size: contain;
+      }
       &:hover {
         .current-text {
           color: var(--header-nav-item-hover-color);
@@ -283,6 +304,11 @@ export default {
     &.logout {
       position: relative;
       margin-right: 15px;
+      > span {
+        background: url(../../assets/images/v3/icon/ic_logout.png) center
+          no-repeat;
+        background-size: contain;
+      }
       &:hover {
         color: var(--header-nav-item-hover-color);
       }
@@ -393,6 +419,7 @@ export default {
       .copy,
       .policy-text {
         margin-left: 0;
+        text-align: center;
       }
       .power-by {
         margin-left: 5px;

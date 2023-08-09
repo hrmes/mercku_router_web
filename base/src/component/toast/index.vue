@@ -9,10 +9,6 @@
 </template>
 
 <script>
-// this.$toast({
-//   type:'success',
-//   text：''
-// })
 export default {
   data() {
     return {
@@ -26,45 +22,53 @@ export default {
   mounted() {
     this.startTimer();
   },
+  beforeDestroy() {
+    clearTimeout(this.timer);
+  },
   methods: {
     startTimer() {
       this.timer = setTimeout(() => {
         this.visible = false;
-        this.$el.addEventListener('transitionend', this.close);
       }, this.duration);
     },
-    close() {
-      this.timer = null;
-      this.$el.parentNode.removeChild(this.$el);
-    }
+    updateContent({ text = '', duration = 3000, type = 'success' }) {
+      this.text = text;
+      this.duration = duration;
+      this.type = type;
+      this.visible = true;
+      clearTimeout(this.timer);
+      this.startTimer();
+    },
   }
 };
 </script>
 <style lang="scss" scoped>
 @media screen and(max-width: 768px) {
   .toast-container {
-    width: 80%;
+    width: fit-content;
+    max-width: 70%;
+    min-width: 215px;
     white-space: normal !important;
     padding: 10px !important;
   }
 }
 .toast-container {
-  color: var(--toast-color);
-  // position: fixed;
-  top: 0;
+  position: fixed;
+  top: 65px;
+  left: 50%;
+  z-index: 1005;
+  transform: translate(-50%, 10%);
+  color: var(--text-deafult-color);
   padding: 10px 16px;
   border-radius: 4px;
-  z-index: 1005;
-  left: 50%;
-  position: fixed;
-  transform: translate(-50%, 50%);
   white-space: nowrap;
   text-align: center;
   display: flex;
+  justify-content: center;
   align-items: center;
   &.error {
     background: var(--toast-error-background-color);
-    border: 0.5px solid var(--toast-error-border-color);
+    box-shadow: var(--toast-error-shadow);
     &::before {
       content: '';
       margin-right: 8px;
@@ -72,35 +76,44 @@ export default {
       display: block;
       width: 14px;
       height: 14px;
-      background: url(../../assets/images/icon/ic_default_error.png) center
+      background: url(../../assets/images/v3/icon/ic_default_error.svg) center
         no-repeat;
       background-size: 100%;
     }
   }
   &.success {
     background: var(--toast-success-background-color);
-    border: 0.5px solid var(--toast-success-border-color);
+    box-shadow: var(--toast-success-shadow);
     &::before {
       content: '';
       margin-right: 8px;
       flex-shrink: 0;
       display: block;
-      width: 14px;
-      height: 14px;
-      background: url(../../assets/images/icon/ic_default_success.png) center
+      width: 15px;
+      height: 15px;
+      background: url(../../assets/images/v3/icon/ic_default_success.svg) center
         no-repeat;
-      background-size: 100%;
+      background-size: contain;
     }
   }
+  /* 淡入淡出效果 */
   &.toast-enter-active {
-    transition: all 0.3s ease-in;
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
   }
+
   &.toast-leave-active {
-    transition: all 0.3s ease-out;
-    // leave不知道为什么不生效
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+
+  /* 进场动画 - 从上到下淡入 */
+  &.toast-enter {
+    opacity: 0;
     transform: translate(-50%, -100%);
   }
-  &.toast-enter {
+
+  /* 离场动画 - 从下到上淡出 */
+  &.toast-leave-to {
+    opacity: 0;
     transform: translate(-50%, -100%);
   }
 }

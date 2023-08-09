@@ -1,5 +1,5 @@
 <template>
-  <div class="srcollbar-wrap"
+  <div class="scrollbar-wrap"
        :class="{'is-login-page':isLoginPage}">
     <div class="container">
       <div class="app-container router-view">
@@ -9,10 +9,19 @@
           <m-header :navVisible="navVisible"
                     :isLoginPage="isLoginPage"
                     :isWlanPage="isWlanPage"
-                    :navs="menus" />
-          <component :is="layout"
+                    :navs="menus"
+                    id="header" />
+          <component v-if="isMobile"
+                     :is="layout"
                      :hasBackWrap='hasBackWrap'
                      :asideInfo='asideInfo'></component>
+          <transition v-else
+                      :name="transitionName"
+                      mode="out-in">
+            <component :is="layout"
+                       :hasBackWrap='hasBackWrap'
+                       :asideInfo='asideInfo'></component>
+          </transition>
           <m-footer :isLoginPage="isLoginPage "
                     :isWlanPage="isWlanPage"
                     :navVisible="navVisible" />
@@ -33,9 +42,16 @@ export default {
     primary: primaryLayout,
   },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     layout() {
       const { layout } = this.$route.meta;
       return layout || 'default';
+    },
+    transitionName() {
+      const { transition } = this.$route.meta;
+      return transition;
     },
     hasBackWrap() {
       const { hasBackWrap } = this.$route.meta;
@@ -78,36 +94,49 @@ export default {
       return getMenu(this.$store.state.role, this.$store.state.mode);
     }
   },
+
   methods: {
     setHeight() {
-      // fix safari
+      const flexWrap = document.querySelector('.flex-wrap');
+       // fix safari
       const contentMinHeight = 600; // 定义内容区域最小高度
-      let height = 0;
-      if (document.body.clientHeight > contentMinHeight) {
-        height = document.body.clientHeight;
-      } else {
-        height = contentMinHeight;
-      }
-      this.$refs.flexWrap.style.minHeight = `${height}px`;
+      const height = Math.max(document.body.clientHeight, contentMinHeight);
+      flexWrap.style.minHeight = `${height}px`;
     },
+    // 滚动添加删除header的box-shadow
+    listenScroll() {
+      const header = document.querySelector('#header');
+      const scrollbar = document.querySelector('.scrollbar-wrap');
+      const handleScroll = () => {
+        if (this.isLoginPage || this.isWlanPage) return;
+        const scrollY = scrollbar.scrollTop;
+        header.classList.toggle('with-shadow', scrollY > 0);
+      };
+      scrollbar.addEventListener('scroll', handleScroll);
+    },
+    removeEventListeners() {
+      window.removeEventListener('resize', () => { this.setHeight(); });
+      const scrollbar = document.querySelector('.scrollbar-wrap');
+      scrollbar.removeEventListener('scroll', this.handleScroll);
+    }
   },
   mounted() {
     this.setHeight();
-    window.addEventListener('resize', () => {
-      this.setHeight();
-    });
+    this.listenScroll();
+    window.addEventListener('resize', () => { this.setHeight(); });
     this.$router.beforeEach((to, from, next) => {
       // 判断是否是手机端
       // eslint-disable-next-line max-len
-      const { isMobile } = this.$store.state;
-      const scrollPage = document.querySelector('.srcollbar-wrap');
-
+      const scrollPage = document.querySelector('.scrollbar-wrap');
       // 判断是否是跳转到新页面
-      if (isMobile && to.path !== from.path) {
-          scrollPage.scrollTop = 0;
+      if (this.isMobile && to.path !== from.path) {
+        scrollPage.scrollTop = 0;
       }
       next();
     });
+  },
+  beforeDestroy() {
+    this.removeEventListeners();
   }
 };
 </script>
@@ -142,31 +171,45 @@ export default {
 }
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease;
 }
+
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
 }
-
-.srcollbar-wrap {
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.scrollbar-wrap {
   height: 100%;
   overflow: auto;
+  font-family: 'PingFang', sans-serif;
+  background: var(--scrollbar_wrap-bgc__isNotLogin);
   &.is-login-page {
     background: var(--scrollbar_wrap-bgc__isLogin);
   }
-  background: var(--scrollbar_wrap-bgc__isNotLogin);
   @media screen and (min-width: 768px) {
-    &::-webkit-scrollbar {
+    &::-webkit-scrollbar,
+    ::-webkit-scrollbar {
       width: 6px;
+      height: 6px;
     }
-    &::-webkit-scrollbar-track {
+    &::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-track {
       background-color: var(--scrollbar_wrap-track-color);
       // border-radius: 100px;
     }
-    &::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb,
+    ::-webkit-scrollbar-thumb {
       background-color: var(--scrollbar_wrap-thumb-color);
       border-radius: 100px;
+      &:hover {
+        opacity: 0.5;
+      }
     }
   }
 }
@@ -190,6 +233,15 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
+  #header {
+    &.with-shadow {
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    }
+  }
+  .scrollbar-wrap {
+    min-height: 100dvh;
+    // height: 100%;
+  }
   .flex-wrap {
     padding-top: 65px;
   }

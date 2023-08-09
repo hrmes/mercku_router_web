@@ -96,7 +96,7 @@ export default {
     }
     &.checked {
       border: none;
-      background: var(--checkbox-checked-background-color);
+      background-image: var(--checkbox-checked-bgc);
       padding-left: 2.5px;
       position: relative;
       &::after {

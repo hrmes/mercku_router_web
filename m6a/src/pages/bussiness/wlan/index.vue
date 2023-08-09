@@ -256,33 +256,33 @@ export default {
     },
   },
   mounted() {
-    this.$loading.open();
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-        this.$loading.close();
-      });
-    this.$http.getMeshMeta()
-    .then(res => {
-      const wifi = res.data.result;
-      const b24g = wifi.bands[Bands.b24g];
-      const b5g = wifi.bands[Bands.b5g];
-      this.wifiForm.ssid24g = b24g.ssid;
-      this.wifiForm.password24g = b24g.password;
-      this.wifiForm.ssid5g = b5g.ssid;
-      this.wifiForm.password5g = b5g.password;
-      this.wifiForm.smart_connect = wifi.smart_connect;
-    })
-    .then(() => {
-      this.getRegionInitData();
-    });
+    // this.$loading.open();
+    // this.$http
+    //   .login(
+    //     { password: '' },
+    //     {
+    //       hideToast: true
+    //     }
+    //   )
+    //   .catch(() => {
+    //     // password is not empty, go to login page
+    //     this.$router.push({ path: '/login' });
+    //     this.$loading.close();
+    //   });
+    // this.$http.getMeshMeta()
+    // .then(res => {
+    //   const wifi = res.data.result;
+    //   const b24g = wifi.bands[Bands.b24g];
+    //   const b5g = wifi.bands[Bands.b5g];
+    //   this.wifiForm.ssid24g = b24g.ssid;
+    //   this.wifiForm.password24g = b24g.password;
+    //   this.wifiForm.ssid5g = b5g.ssid;
+    //   this.wifiForm.password5g = b5g.password;
+    //   this.wifiForm.smart_connect = wifi.smart_connect;
+    // })
+    // .then(() => {
+    //   this.getRegionInitData();
+    // });
   },
   methods: {
     onSsid24gChange() {
@@ -412,7 +412,7 @@ export default {
     width: 100%;
     height: 100%;
     text-align: center;
-    background: var(--wlan-main_card-bgc);
+    background: var(--common-card-bgc);
     border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--common-card-boxshadow);
@@ -530,7 +530,7 @@ export default {
           border-radius: 7px;
           padding: 10px 15px;
           margin-top: 20px;
-          background: var(--wlan-sub_card-bgc);
+          background: var(--common-sub_card-bgc);
         }
         .info {
           font-size: 14px;
@@ -582,7 +582,7 @@ export default {
       display: flex;
       flex-direction: column;
       padding: 15px;
-      background: var(--wlan-sub_card-bgc);
+      background: var(--common-sub_card-bgc);
       margin-bottom: 15px;
       border-radius: 15px;
       &:last-child {

@@ -1,12 +1,15 @@
 <template>
   <div class="timelimit">
-    <div class='table'
+    <div class='timelimit-table'
          :class="{'table--empty':!sortList.length}">
       <div class="table-head">
-        <div class="column-date-stop">{{$t('trans0084')}}</div>
-        <div class="column-date-start">{{$t('trans0085')}}</div>
-        <div class="column-repeat">{{$t('trans0082')}}</div>
-        <div class="column-switch"></div>
+        <div class="column-switch">Status</div>
+        <div class="column-date-stop"
+             v-if="!isMobile">{{$t('trans0084')}}</div>
+        <div class="column-date-start"
+             v-if="!isMobile">{{$t('trans0085')}}</div>
+        <div class="column-repeat"
+             v-if="!isMobile">{{$t('trans0082')}}</div>
         <div class="column-handle">
           <button class="btn btn-small"
                   @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
@@ -15,40 +18,33 @@
       <div class="table-body">
         <div v-for="(row,index) in sortList"
              :key='index'
-             class="table-row"
-             :class="{'open':row.expand}"
-             @click="openCollapse(row)">
-          <div class="column-date-stop">
-            <span>{{row.time_begin}}</span>
-            <span class="mobile-start">&nbsp;-&nbsp;</span>
-            <span class="mobile-start">{{row.time_end}}</span>
-          </div>
-          <div class="column-date-start">{{row.time_end}}</div>
-          <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
+             class="table-row">
           <div class="column-switch check-wrap">
             <m-switch @change="(v)=>changehandle(v,row)"
                       v-model="row.enabled" />
           </div>
+          <div class="column-date-stop">
+            <span>{{row.time_begin}}</span>
+            <span class="mobile-start"
+                  v-if="isMobile">&nbsp;-&nbsp;</span>
+            <span class="mobile-start"
+                  v-if="isMobile">{{row.time_end}}</span>
+          </div>
+          <div class="column-date-start"
+               v-if="!isMobile">
+            {{row.time_end}}
+          </div>
+          <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
           <div class="column-handle">
-            <span class="btn-icon"
+            <span class="limit-icon"
                   @click.stop="modalOpen('edit',row)">
-              <i class="add-to-block iconfont icon-ic_settings_normal"></i>
-              <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
+              <i class=" iconfont  icon-ic_settings_normal"></i>
+              <span class="hover-popover">{{$t('trans0034')}}</span>
             </span>
-            <span v-if="isMobile"
-                  class="label"
-                  @click.stop="modalOpen('edit',row)">
-              {{$t('trans0034')}}
-            </span>
-            <span class="btn-icon"
-                  @click="delRow(row)">
-              <i class="settings iconfont icon-ic_trash_normal"></i>
-              <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
-            </span>
-            <span v-if="isMobile"
-                  class="label"
-                  @click="delRow(row)">
-              {{$t('trans0033')}}
+            <span class="limit-icon"
+                  @click.stop="delRow(row)">
+              <i class=" iconfont  icon-ic_trash_normal"></i>
+              <span class="hover-popover">{{$t('trans0033')}}</span>
             </span>
           </div>
         </div>
@@ -57,11 +53,6 @@
           <img src="@/assets/images/img_default_empty.webp"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
-        </div>
-        <div v-if="isMobile"
-             @click.stop="modalOpen('add')"
-             class="mobile-add-btn-wrap">
-          <button class="btn">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
@@ -291,13 +282,15 @@ export default {
     },
     getList() {
       this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
-        this.timeLimitList = res.data.result.map(v => ({ ...v, expand: false }));
+        this.timeLimitList = res.data.result;
         if (this.limit && this.limit.time_limit) {
           this.limit.time_limit = this.timeLimitList;
         }
       });
     },
     changehandle(v, row) {
+      console.log(v);
+      console.log(row);
       this.$loading.open();
       const params = {
         mac: this.form.mac,
@@ -308,7 +301,7 @@ export default {
         .timeLimitUpdate({ ...params })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 1500, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -410,16 +403,15 @@ export default {
         this.msgShow = true;
       }
     },
-    openCollapse(row) {
-      console.log(row.expand);
-      if (this.isMobile) {
-        this.timeLimitList.forEach(v => {
-          if (v.id === row.id) {
-            v.expand = !v.expand;
-          }
-        });
-      }
-    }
+    // openCollapse(row) {
+    //   if (this.isMobile) {
+    //     this.timeLimitList.forEach(v => {
+    //       if (v.id === row.id) {
+    //         v.expand = !v.expand;
+    //       }
+    //     });
+    //   }
+    // }
   }
 };
 </script>
@@ -487,90 +479,106 @@ export default {
         }
       }
     }
+    .btn-default {
+      background-image: linear-gradient(
+          to right,
+          var(--modal-content-background),
+          var(--modal-content-background)
+        ),
+        linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734) !important;
+    }
   }
 }
 .timelimit {
   width: 100%;
-  .table {
+  .timelimit-table {
     width: 100%;
-    .column-date-stop {
-      width: 150px;
-      .mobile-start {
-        display: none;
-      }
-    }
-    .column-date-start {
-      width: 150px;
-    }
-    .column-repeat {
-      width: 230px;
-      margin-right: 10px;
-    }
-    .column-switch {
-      min-width: 150px;
-      flex: 1;
-    }
-    .column-handle {
-      width: 150px;
-      justify-content: flex-end;
-    }
     .table-head {
-      height: 50px;
+      display: grid;
+      grid-template-rows: 100%;
+      grid-template-columns: 120px 180px 200px 1fr 120px;
       color: var(--table-header-text-color);
-      background-color: var(--table-row-background-color);
-      display: flex;
-      padding: 0 30px;
+      background-color: var(--common-sub_card-bgc);
+      padding: 5px 5px 5px 30px;
       margin-bottom: 5px;
-      border-radius: 10px;
+      border-radius: 8px;
+      font-size: 13px;
       div {
         display: flex;
-        height: 50px;
         align-items: center;
+        &:last-child {
+          justify-content: flex-end;
+        }
       }
     }
     .table-body {
-      border-radius: 10px;
-
       .table-row {
-        display: flex;
-        padding: 20px 30px;
-        border-radius: 10px;
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 120px 180px 200px 1fr 120px;
+        height: 60px;
+        padding: 5px 5px 5px 30px;
         margin-bottom: 5px;
-        background-color: var(--table-row-background-color);
+        background-color: var(--common-sub_card-bgc);
+        border-radius: 10px;
         > div {
           display: flex;
           align-items: center;
-        }
-        .column-handle {
-          display: flex;
-          align-items: center;
-          a {
-            width: 30px;
-            height: 30px;
-            margin-left: 50px;
-            &:last-child {
-              margin-left: 30px;
-            }
+          &:last-child {
+            justify-content: flex-end;
+            padding-right: 5px;
           }
         }
       }
-    }
-  }
-}
-
-@media screen and (min-width: 769px) {
-  .timelimit {
-    .content {
-      .table {
-        .column-date-stop,
-        .column-date-start,
-        .column-repeat,
-        .column-handle {
-          display: flex;
-          align-items: center;
-          .check-wrap {
-            display: flex;
-            align-items: center;
+      .limit-icon {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.15s ease-in-out;
+        .iconfont {
+          font-size: 20px;
+          color: var(--device-limit_icon-color);
+          font-weight: 500;
+          &.active {
+            color: var(--primaryColor);
+          }
+        }
+        .hover-popover {
+          display: none;
+          position: absolute;
+          padding: 5px 12px;
+          font-size: 12px;
+          background: var(--table-action-popover-bgc);
+          color: #fff;
+          top: -8px;
+          left: 50%;
+          transform: translate(-50%, -100%);
+          border-radius: 10px;
+          max-height: 190px;
+          word-break: keep-all;
+          white-space: nowrap;
+          z-index: 10;
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 100%);
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+            border-top-color: var(--table-action-popover-bgc);
+          }
+        }
+        &:hover {
+          background-color: var(--device-limit_icon-hover-bgc);
+          .hover-popover {
+            display: block;
           }
         }
       }
@@ -578,88 +586,6 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .timelimit {
-    .table {
-      margin: 0;
-      position: relative;
-      &.table--empty {
-      }
-      .table-body {
-        .table-row {
-          flex-direction: column;
-          padding: 15px 10px;
-          position: relative;
-          &.open {
-            &::after {
-              transform: rotate(0);
-            }
-            .column-handle {
-              display: block;
-            }
-          }
-          .column-date-stop {
-            display: flex;
-            width: 100%;
-            font-size: 14px;
-            color: var(--text-default-color);
-            .mobile-start {
-              display: block;
-            }
-          }
-          .column-date-start {
-            display: none !important;
-            width: auto;
-          }
-          .column-repeat {
-            width: auto;
-            max-width: 70%;
-            margin: 5px 0 0 0;
-            color: var(--text-gery-color);
-            font-size: 12px;
-          }
-          .column-switch {
-            position: absolute;
-            right: 45px;
-            top: 12px;
-            min-width: 0;
-          }
-          .column-handle {
-            display: none;
-            width: 100%;
-            justify-content: flex-start;
-            margin-top: 10px;
-            padding-top: 10px;
-            color: var(--text-gery-color);
-            border-top: 1px solid var(--table-body-hr-color);
-            a {
-              margin-left: 30px !important;
-            }
-            .check-wrap {
-              position: absolute;
-              right: 0;
-              top: 20px;
-            }
-          }
-          &::after {
-            content: '\e65b';
-            font-family: 'iconfont';
-            position: absolute;
-            right: 18px;
-            top: 16px;
-            font-size: 10px;
-            transform: rotate(-90deg);
-            transition: all 0.3s;
-          }
-        }
-        .mobile-add-btn-wrap {
-          margin-top: 20px;
-        }
-      }
-      .table-head {
-        display: none;
-      }
-    }
-  }
   .modal {
     .modal-content {
       .item {
@@ -667,6 +593,42 @@ export default {
           width: 100%;
           .check-inner {
             width: 50%;
+          }
+        }
+      }
+    }
+  }
+  .timelimit {
+    .timelimit-table {
+      margin: 0;
+      position: relative;
+      .table-head {
+        grid-template-columns: 1fr 100px;
+        padding: 5px 5px 5px 15px;
+      }
+      .table-body {
+        .table-row {
+          position: relative;
+          grid-template-columns: 100%;
+          grid-template-rows: 30px auto 30px;
+          height: fit-content;
+          padding: 10px 15px;
+          position: relative;
+          .column-date-stop {
+            grid-row: 1;
+            margin-bottom: 5px;
+          }
+          .column-repeat {
+            grid-row: 2;
+            margin-bottom: 5px;
+          }
+          .column-switch {
+            grid-column: 1;
+            grid-row: 3;
+          }
+          .column-handle {
+            grid-column: 1;
+            grid-row: 3;
           }
         }
       }

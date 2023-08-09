@@ -1,5 +1,5 @@
 <template>
-  <div class="srcollbar-wrap">
+  <div class="scrollbar-wrap">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"
@@ -59,7 +59,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.srcollbar-wrap {
+.scrollbar-wrap {
   height: 100%;
   overflow: auto;
 }

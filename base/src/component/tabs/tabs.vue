@@ -12,31 +12,27 @@ export default {};
   display: flex;
   padding: 10px 0;
   .tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
     position: relative;
     font-size: 14px;
-    font-weight: 600;
-    padding: 7px 10px;
+    padding: 7px 30px;
     cursor: pointer;
     border-radius: 5px;
-    transition: background 0.3s ease-out;
-    &:hover {
-      background: var(--tab-hover-background-color);
+    color: var(--text-default-color);
+    background: var(--logout-btn-bgc);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease-in-out;
+    .iconfont {
+      color: var(--tab-icon-color);
     }
     &.selected {
-      color: var(--tab-selected-color);
-    }
-    &::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: -10px;
-      transform: translateY(-40%);
-      display: inline-block;
-      width: 1px;
-      height: 12px;
-      cursor: default;
-      border: 0.5px solid transparent;
-      border-left-color: #d8d8d8;
+      color: #fff;
+      background-image: var(--button-background-color);
+      box-shadow: var(--button-box-shadow);
     }
     margin-right: 20px;
     &:last-child {
@@ -49,20 +45,36 @@ export default {};
 }
 @media screen and (max-width: 768px) {
   .tabs {
-    padding: 0;
+    padding: 0 20px;
+    margin: 0 0 15px;
     justify-content: space-between;
     .tab {
-      // flex: 1;
+      flex: 1;
       font-size: 14px;
       min-width: initial;
-      margin: 0;
-      padding: 7px 5px;
+      margin-right: 10px;
+      padding: 7px 0;
       text-align: center;
-      &:hover {
-        background: none;
+      &:last-child {
+        margin: 0;
       }
-      &::after {
-        display: none;
+    }
+  }
+}
+@media screen and (max-width: 280px) {
+  .tabs {
+    padding: 0;
+    margin: 0 0 15px;
+    justify-content: space-between;
+    .tab {
+      flex: 1;
+      font-size: 13px;
+      min-width: initial;
+      margin-right: 3px;
+      padding: 7px 0;
+      text-align: center;
+      &:last-child {
+        margin: 0;
       }
     }
   }

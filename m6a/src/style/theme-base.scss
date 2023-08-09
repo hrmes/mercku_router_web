@@ -13,9 +13,9 @@
   color-scheme: light;
 
   // login Page color variable
-  --footer-policy_text-color:#808080;
   --footer-qr_img-filter: brightness(0.5);
   --footer-popup-shadow-color:rgba(0, 0, 0, 0.12);
+  --footer-menu_text-color:#333;
 
   // --footer-menu-hover-color:
 
@@ -30,13 +30,28 @@
   --login-right_form_download-bgcolor:#f8f8f8;
 
   --wlan-hr-color:#e5e5e5;
-  --wlan-main_card-bgc:#fff;
-  --wlan-sub_card-bgc:#fafafa;
   --wlan-tips-color:#333;
+
+  --device-connect_type-bgc:#e2e1e2;
+  --device-limit_icon-hover-bgc:#d9d9d9;
+  --device-limit_icon-color:#848384;
+
+  --internet-section-box-shadow:0 20px 20px -5px rgba(0, 0, 0, 0.1);
+  --internet-hr-color:#d8d8d8;
+
+  --mesh-table-header-bgc:#f7f7f7;
 
   --mobile-menu-selected-color:var(--primaryColor);
 
+  --back_wrapper-btn-shadow:0 8px 10px -5px rgba(0, 0, 0, 0.2);
+
   --common-card-boxshadow:0 50px 40px -20px rgba(0, 0, 0, 0.1);
+  --common-card-bgc:#fff;
+  --common-sub_card-bgc:#fafafa;
+  --common-gery-color:#808080;
+  --common-hr-color:#eaeaea;
+
+
 
 
   --primaryColor: #d6001c;
@@ -76,15 +91,15 @@
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
 
-  --button-icon-hover-color: #d6001c;
+  --button-icon-hover-color: #f12b2b;
   --button-icon-disabled-bgc: #f0f0f0;
   --button-icon-disabled-color: #cdcdcd;
-  --button-close-background-color: #f1f1f1;
+  --button-close-bgc: #f1f1f1;
 
   // checkbox
   --checkbox-border-color: #999;
   --checkbox-background-color: transparent;
-  --checkbox-checked-background-color: var(--primaryColor);
+  --checkbox-checked-bgc:linear-gradient(315deg, #ff6734 , #ee1d4f 55%, #d6001c);
   --checkbox-checked-color: #fff;
   --checkbox-text-color: #333;
   --checkbox-disabled-bgc: #e6e6e6;
@@ -110,6 +125,12 @@
   --select-disabled-opacity: 0.8;
 
   // header
+  --header-selected-bgc:linear-gradient(
+    225deg,
+    #ff6734 30%,
+    #ee1d4f 55%,
+    #d6001c
+  );
   --header-background-color:#f7f7f7;
   --header-color: #fff;
   --header-nav-iconfont-color: #979797;
@@ -196,8 +217,6 @@
   --switch-chencked-color: linear-gradient(95deg,#d6001c,#ee1d4f 45%,#ff6734);
 
   // tab
-  --tab-icon-color: #808080;
-  --tab-hover-color: #999;
   --tab-hover-background-color: #f5f5f5;
   --tab-active-color: #999;
   --tab-selected-color: var(--primaryColor);
@@ -205,9 +224,9 @@
 
   // timepicker
   --time-picker-li-color: #000;
-  --time-picker-pannel-border-color: #b3b3b3;
+  --time-picker-pannel-border-color: #d9d9d9;
   --time-picker-combox-background-color: #fff;
-  --time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
+  --time-picker-combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);;
   --time-picker-buttons-border-color: #ebebeb;
   --time-picker-button-background-color: #fff;
   --time-picker-button-cancel-color: #333;
@@ -220,11 +239,10 @@
   --time-picker-input-background-color: transparent;
 
   // toast
-  --toast-color: rgba(0, 0, 0, 0.65);
-  --toast-error-background-color: #fff1f0;
-  --toast-error-border-color: #ffa39e;
-  --toast-success-background-color: #f6ffed;
-  --toast-success-border-color: #b7eb8f;
+  --toast-error-background-color: #ffc7c7;
+  --toast-error-shadow: 0 10px 10px -5px rgba(255, 59, 59, 0.15);;
+  --toast-success-background-color: #c0e9d3;
+  --toast-success-shadow: 0 10px 10px -5px rgba(41, 185, 108, 0.12);
 
   // upgrade
   --upgrade-background-color: rgba(0, 0, 0, 0.8);
@@ -273,6 +291,7 @@
   --dashboard-app-background-color: #fff;
 
   //table
+  --table-head-background-color:#eaeaea;
   --table-row-background-color: #fafafa;
   --table-header-text-color: #808080;
   --table-body-connect-icon-bgc: #ebebeb;
@@ -310,9 +329,11 @@
   color-scheme: dark;
 
    // login Page color variable
-  --footer-policy_text-color:rgba(255, 255, 255, 0.6);
   --footer-qr_img-filter: brightness(2);
   --footer-popup-shadow-color:rgba(0, 0, 0, 0.2);
+  --footer-menu_text-color: rgba(255, 255, 255, 0.8);
+
+
 
 
   --scrollbar_wrap-bgc__isNotLogin:#262626;
@@ -325,12 +346,30 @@
   --login-right_form_download-bgcolor:#262626;
 
   --wlan-hr-color:#5b5b5b;
-  --wlan-main_card-bgc:#333;
-  --wlan-sub_card-bgc:#262626;
   --wlan-tips-color:rgba(255, 255, 255, 0.6);
+
+  --device-connect_type-bgc:#565656;
+  --device-limit_icon-hover-bgc:#808080;
+  --device-limit_icon-color:#fff;
+
+  --internet-section-box-shadow:0 20px 20px -5px rgba(0, 0, 0, 0.4);
+  --internet-hr-color:#808080;
+
+  --mesh-table-header-bgc:#4d4d4d;
+
+
+
   --mobile-menu-selected-color:#ff677b;
 
+  --back_wrapper-btn-shadow:0 8px 10px -5px rgba(0, 0, 0, 0.5);
+
+
   --common-card-boxshadow:0 50px 40px -20px rgba(0, 0, 0, 0.4);
+  --common-card-bgc:#333;
+  --common-sub_card-bgc:#262626;
+  --common-gery-color:rgba(255, 255, 255, 0.6);
+  --common-hr-color:#464646;
+
 
 
   --primaryColor: #ff334e;
@@ -370,15 +409,15 @@
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
 
-  --button-icon-hover-color: #ff334e;
+  --button-icon-hover-color: #ff4d64;
   --button-icon-disabled-bgc: #404040;
   --button-icon-disabled-color: #666;
-  --button-close-background-color: #949494;
+  --button-close-bgc: #949494;
 
   // checkbox
   --checkbox-border-color: #fff;
   --checkbox-background-color: transparent;
-  --checkbox-checked-background-color: var(--primaryColor);
+  --checkbox-checked-bgc: linear-gradient(315deg, #ff7242 , #ee1d4f 55%, #f0112e);
   --checkbox-checked-color: #fff;
   --checkbox-text-color: rgba(255, 255, 255, 0.8);
   --checkbox-disabled-bgc: #666;
@@ -407,6 +446,12 @@
 
 
   // header
+  --header-selected-bgc:linear-gradient(
+    225deg,
+    #fb6d53 30%,
+    #ec4f5b 55%,
+    #e62342
+  );
   --header-background-color: #262626;
   --header-color: #fff;
   --header-nav-iconfont-color: #ffffff;
@@ -425,7 +470,6 @@
   --header-nav-hide-popup-item-selected-color: var(--primaryColor);
   --header-nav-hide-popup-item-checked-color: var(--primaryColor);
   --header-nav-hover-background-color: rgba(255, 255, 255, 0.2);
-
 
   --header-official-color: #fff;
   --header-official-hover-color: rgba(255, 255, 255, 0.6);
@@ -504,8 +548,6 @@
   --switch-chencked-color: linear-gradient(95deg,#e62342,#ec4f5b 45%,#fb6d53);
 
   // tab
-  --tab-icon-color: #fff;
-  --tab-hover-color: #999;
   --tab-hover-background-color: rgba(255, 255, 255, 0.2);
   --tab-active-color: #999;
   --tab-selected-color: #ff334e;
@@ -515,7 +557,7 @@
   --time-picker-li-color: #fff;
   --time-picker-pannel-border-color: #b3b3b3;
   --time-picker-combox-background-color: #4d4d4d;
-  --time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
+  --time-picker-combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2);;
   --time-picker-buttons-border-color: rgba(255, 255, 255, 0.2);
   --time-picker-button-background-color: #4d4d4d;
   --time-picker-button-cancel-color: var(--text-default-color);
@@ -528,11 +570,10 @@
   --time-picker-input-background-color: transparent;
 
   // toast
-  --toast-color: rgba(0, 0, 0, 0.65);
-  --toast-error-background-color: #fff1f0;
-  --toast-error-border-color: #ffa39e;
-  --toast-success-background-color: #f6ffed;
-  --toast-success-border-color: #b7eb8f;
+  --toast-error-background-color: #a14949;
+  --toast-error-shadow:0 10px 10px -5px rgba(255, 59, 59, 0.15);
+  --toast-success-background-color: #2f694a;
+  --toast-success-shadow: 0 10px 10px -5px rgba(41, 185, 108, 0.2);
 
   // upgrade
   --upgrade-background-color: rgba(0, 0, 0, 0.8);
@@ -564,6 +605,7 @@
   --download-ios-img-brightness: var(--img-brightness);
   --download-android-img-brightness: brightness(1.2);
 
+
   //logout
   --logout-btn-bgc: #666;
   --logout-btn-boxshadow:0 10px 20px -5px rgba(0, 0, 0, 0.2);
@@ -580,6 +622,7 @@
   --dashboard-app-background-color: #404040;
 
   //table
+  --table-head-background-color:#4d4d4d;
   --table-row-background-color: #1a1a1a;
   --table-header-text-color: rgba(255, 255, 255, 0.6);
   --table-body-connect-icon-bgc: #3b3c3e;

@@ -1,33 +1,27 @@
 import Vue from 'vue';
 import Toast from './index.vue';
 
+let toastInstance = null;
 const toast = (
   text = '',
   duration = 3000,
   type = 'error',
-  parentEl = '.srcollbar-wrap'
+  parentEl = '.scrollbar-wrap'
 ) => {
-  const Construtor = Vue.extend(Toast);
-  const instance = new Construtor({
-    data: {
-      text,
-      duration,
-      type
-    }
-  }).$mount();
-  instance.visible = true;
-
-  const pEl = document.querySelector(parentEl);
-  if (pEl.querySelector('.toast-container')) {
-    pEl.removeChild(pEl.querySelector('.toast-container'));
+  if (!toastInstance) {
+    const Construtor = Vue.extend(Toast);
+    toastInstance = new Construtor({
+      data: {
+        text,
+        duration,
+        type
+      }
+    }).$mount();
+    const pEl = document.querySelector(parentEl);
+    pEl.appendChild(toastInstance.$el);
+    toastInstance.visible = true;
   }
-  pEl.appendChild(instance.$el);
-
-  const rect = pEl.getBoundingClientRect();
-
-  const left = rect.left + rect.width / 2;
-
-  instance.$el.style.left = `${left}px`;
+  toastInstance.updateContent({ text, duration, type });
 };
 
 export default toast;

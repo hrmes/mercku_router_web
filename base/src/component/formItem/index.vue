@@ -138,6 +138,12 @@ export default {
       }
       animation: errorshake 0.3s forwards;
     }
+    .select-container {
+      .select {
+        border: 2px solid var(--input-error-text-color);
+        animation: errorshake 0.3s forwards;
+      }
+    }
   }
 }
 </style>

@@ -4,9 +4,9 @@
       <div class='input-info'>
         <div class="form-item"
              style="margin-bottom:20px">
-          <m-checkbox :text="$t('trans0462')"
-                      v-model="form.enabled"
-                      class="enable"></m-checkbox>
+          <m-switch :label="$t('trans0462')"
+                    v-model="form.enabled"
+                    class="enable"></m-switch>
         </div>
         <m-form ref="form"
                 :model="form"
@@ -14,14 +14,14 @@
           <m-form-item class="item"
                        prop='up'>
             <m-input v-model="form.up"
-                     :label="`${$t('trans0304')} (KB/s)`"
+                     :label="`${$t('trans0304')} (Kbps)`"
                      type='text'
                      :placeholder="`${$t('trans0391')}`"></m-input>
           </m-form-item>
           <m-form-item class="item"
                        prop='down'>
             <m-input v-model="form.down"
-                     :label=" `${$t('trans0305')} (KB/s)`"
+                     :label=" `${$t('trans0305')} (Kbps)`"
                      type='text'
                      :placeholder="`${$t('trans0391')}`"></m-input>
           </m-form-item>
@@ -42,7 +42,9 @@ export default {
       return /^[1-9]\d*$/.test(v);
     }
     function Len(v) {
-      return /^(1|[1-9]\d{0,4}|1[0-1]\d{4}|12[0-4]\d{3}|125000)$/.test(v);
+      v = Number(v);
+      console.log(v);
+      return v >= 1 && v <= 1000000;
     }
     return {
       mac: '',

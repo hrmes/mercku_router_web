@@ -376,7 +376,7 @@ export default {
         width: 24px;
         height: 24px;
         border-radius: 50%;
-        background: var(--button-close-background-color);
+        background: var(--button-close-bgc);
         cursor: pointer;
         .iconfont {
           position: absolute;

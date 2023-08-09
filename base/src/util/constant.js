@@ -159,8 +159,8 @@ export const AddNodeType = {
 };
 
 export const ConnectionQuality = {
-  good: 'good',
-  weak: 'weak',
+  excellent: 'excellent',
+  fair: 'fair',
   offline: 'offline'
 };
 
