@@ -12,11 +12,20 @@
   </transition>
 </template>
 <script>
+const Types = {
+  info: 'info',
+  confirm: 'confirm'
+};
+
 export default {
   props: {
     visible: {
       type: Boolean,
       default: false
+    },
+    type: {
+      type: String,
+      default: Types.info
     },
     closeOnClickMask: {
       type: Boolean,
@@ -38,7 +47,7 @@ export default {
   },
   methods: {
     close() {
-      if (this.closeOnClickMask) {
+      if (this.type === Types.info && this.closeOnClickMask) {
         this.open = false;
         document.body.style.position = this.position;
         this.$emit('update:visible', false);
@@ -88,6 +97,7 @@ export default {
     background: var(--modal-mask-background-color);
   }
   .modal-content {
+    min-width: 380px;
     background: var(--modal-content-background);
     padding: 30px;
     border-radius: 5px;
@@ -98,6 +108,7 @@ export default {
   .modal-dialog {
     .modal-content {
       width: 80%;
+      min-width: auto;
       padding: 20px;
     }
   }

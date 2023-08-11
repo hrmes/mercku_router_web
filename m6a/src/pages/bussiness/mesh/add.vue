@@ -1,27 +1,29 @@
 <template>
-  <div class="page">
-    <div class="page-content">
+  <div class="add-node">
+    <div class="page-content"
+         :class="{'has-bgc':!showChooseType}">
       <div class="choose__add__type center-wrap"
            v-if="showChooseType">
-        <p class="tips__text">{{$t('trans1095')}}</p>
+        <span class="tips__text">{{$t('trans1095')}}</span>
         <ul class="type__list">
-          <li class="wired__wrap">
-            <div class="card"
-                 @click="updateChooseTypeVisible(false,'wired')">
-              <span class="tips__text">{{$t('trans1096')}}</span>
-              <img src="@/assets/images/icon/ic_mesh_add_wired.webp"
-                   alt="">
-            </div>
-            <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
-          </li>
           <li class="wireless__wrap">
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wireless')">
-              <span class="tips__text">{{$t('trans1098')}}</span>
-              <img src="@/assets/images/icon/ic_mesh_add_wireless.webp"
-                   alt="">
+              <div class="inner">
+                <span>{{$t('trans1098')}}</span>
 
+              </div>
             </div>
+          </li>
+          <li class="wired__wrap">
+            <div class="card"
+                 @click="updateChooseTypeVisible(false,'wired')">
+              <div class="inner">
+                <span>{{$t('trans1096')}}</span>
+
+              </div>
+            </div>
+            <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
           </li>
         </ul>
       </div>
@@ -33,12 +35,14 @@
         <div class="step-content">
           <div class="step-item step-item--rich"
                v-show="isStep(0)">
-            <div class="img-container">
-              <img :src="getM6aSeriesProductAddNodeImg(0)"
-                   alt="">
+            <div class="main-content">
+              <div class="img-container">
+                <img :src="getM6aSeriesProductAddNodeImg(0)"
+                     alt="">
+              </div>
+              <p class="step-item__tip">{{transText('trans0693')}}</p>
+              <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
             </div>
-            <p class="step-item__tip">{{transText('trans0693')}}</p>
-            <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
             <div class="button-container">
               <button @click="updateChooseTypeVisible(true)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
@@ -48,11 +52,13 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(1)">
-            <div class="img-container">
-              <img src="@/assets/images/img_m6a_add_02.svg"
-                   alt="">
+            <div class="main-content">
+              <div class="img-container">
+                <img src="@/assets/images/img_m6a_add_02.svg"
+                     alt="">
+              </div>
+              <p class="step-item__tip">{{$t('trans1005')}}</p>
             </div>
-            <p class="step-item__tip">{{$t('trans1005')}}</p>
             <div class="button-container">
               <button @click="forward2step(0)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
@@ -62,18 +68,20 @@
           </div>
           <div class="step-item step-item--rich"
                v-show="isStep(2)">
-            <div class="img-container">
-              <img :src="getM6aSeriesProductAddNodeImg(2,this.addNodeType)"
-                   alt="">
+            <div class="main-content">
+              <div class="img-container">
+                <img :src="getM6aSeriesProductAddNodeImg(2,this.addNodeType)"
+                     alt="">
+              </div>
+              <div v-if="addNodeType===AddNodeType.wired">
+                <p class="step-item__tip">{{$t('trans1114')}}</p>
+                <p class="step-item__tip--gray ">{{$t('trans1099')}}</p>
+              </div>
+              <p v-else
+                 class="step-item__tip">
+                {{$t('trans0636')}}
+              </p>
             </div>
-            <div v-if="addNodeType===AddNodeType.wired">
-              <p class="step-item__tip">{{$t('trans1114')}}</p>
-              <p class="step-item__tip--gray ">{{$t('trans1099')}}</p>
-            </div>
-            <p v-else
-               class="step-item__tip">
-              {{$t('trans0636')}}
-            </p>
             <div class="button-container">
               <button @click="forward2step(1)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
@@ -175,7 +183,6 @@
                   class="btn">{{$t('trans0055')}}</button>
         </div>
       </div>
-
       <div class="tips center-wrap"
            v-if="showTips">
         <div class="circle-animation">
@@ -186,7 +193,7 @@
         <p class="tips__text">{{$t('trans0175')}}</p>
         <div class="button-container">
           <button class="btn btn-large"
-                  @click="backMesh">{{$t('trans0211')}}</button>
+                  @click="()=>$router.push('/dashboard/mesh')">{{$t('trans0211')}}</button>
         </div>
       </div>
     </div>
@@ -254,6 +261,7 @@ export default {
   mixins: [RouterModel],
   data() {
     return {
+      scrollbar: document.querySelector('.scrollbar-wrap'),
       AddNodeType,
       PageStatus,
       showChooseType: true,
@@ -297,7 +305,10 @@ export default {
     },
     modelID() {
       return this.$store.state.modelID;
-    }
+    },
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
   },
   created() {
     this.addMeshNodeDebounce = debounce(this.addMeshNode, 500);
@@ -345,6 +356,7 @@ export default {
       if (type) {
         this.addNodeType = type;
       }
+      this.isMobile && this.scrollbarToTop();
     },
     updateHelpVisible(visible) {
       this.showHelpDialog = visible;
@@ -353,18 +365,22 @@ export default {
       this.showTipsDialog = visible;
       this.showChooseType = false;
       this.pageStatus = '';
+      this.isMobile && this.scrollbarToTop();
     },
     updateResultVisiable() {
       this.pageStatus = '';
       this.showTips = true;
     },
     backMesh() {
-      this.$router.push({ path: '/dashboard/mesh/topo' });
+      this.showTipsDialog = false;
+      this.showChooseType = true;
+      this.isMobile && this.scrollbarToTop();
     },
     retry() {
       this.showChooseType = true;
       this.stepsOption.current = 0;
       this.pageStatus = '';
+      this.isMobile && this.scrollbarToTop();
     },
     addMeshNode() {
       this.$http.addMeshNode().then(() => {
@@ -399,10 +415,11 @@ export default {
     forward2step(index, status = true) {
       this.stepsOption.current = index;
       this.stepsOption.steps[index].success = status;
+      this.isMobile && this.scrollbarToTop();
     },
     getM6aSeriesProductAddNodeImg(step, type) {
-      console.log('step', step);
-      console.log('type', type);
+      // console.log('step', step);
+      // console.log('type', type);
       let img = '';
       if (step === Step.step1) {
         switch (this.modelID) {
@@ -438,7 +455,7 @@ export default {
             break;
         }
       }
-      console.log(img);
+      // console.log(img);
       return img;
     },
     getM6aSeriesProductNetworkingImg() {
@@ -459,6 +476,7 @@ export default {
       switch (this.addNodeType) {
         case AddNodeType.wired:
           this.showTips = true;
+          this.isMobile && this.scrollbarToTop();
           break;
         case AddNodeType.wireless:
           this.addMeshNodeDebounce();
@@ -466,6 +484,9 @@ export default {
         default:
           break;
       }
+    },
+    scrollbarToTop() {
+      this.scrollbar.scrollTop = 0;
     }
   }
 };
@@ -473,6 +494,8 @@ export default {
 <style lang="scss">
 .wireless-mesh-tips-modal {
   .modal-content {
+    display: flex;
+    justify-content: center;
     padding: 20px !important;
   }
   .wireless-mesh-tips-modal-body {
@@ -514,15 +537,24 @@ export default {
     opacity: 0;
   }
 }
-.page {
+.add-node {
   align-items: center;
-  .page-content {
-    // height: 640px;
-  }
+  min-height: 600px;
   ul {
     padding: 0;
     margin: 0;
     list-style: none;
+  }
+}
+.page-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  &.has-bgc {
+    display: block;
+    background: var(--primaryBackgroundColor);
   }
 }
 .loading {
@@ -536,7 +568,7 @@ export default {
   z-index: 1000;
 }
 .help-dialog-content {
-  width: 600px;
+  width: 400px;
   p {
     &:first-child {
       margin-top: 0;
@@ -587,20 +619,22 @@ export default {
   justify-content: center;
   align-content: center;
   align-items: center;
-  margin: 5vh auto 0;
-  width: 340px;
-  @media screen and(min-width:1441px) {
-    width: 400px;
+  margin: 0 auto;
+  &.tips {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
   .tips__text {
-    width: 100%;
+    width: 360px;
     margin: 0 auto;
     @media screen and(max-width:768px) {
       width: 100%;
     }
   }
   .tips__subtext {
-    color: var(--text-gery-color);
+    color: var(--common-gery-color);
     width: 100%;
     font-size: 12px;
     white-space: pre-line;
@@ -613,29 +647,65 @@ export default {
   }
 }
 .choose__add__type {
-  align-items: flex-start;
+  align-items: center;
   .type__list {
     display: flex;
-    flex-direction: column;
+    > li {
+      width: 340px;
+      height: auto;
+      margin-right: 30px;
+      &:last-child {
+        margin: 0;
+      }
+      &.wireless__wrap {
+        .inner {
+          background: url(../../../assets/images/img_wireless.png) no-repeat
+            bottom;
+          background-size: contain;
+        }
+      }
+      &.wired__wrap {
+        .inner {
+          background: url(../../../assets/images/img_wired.png) no-repeat bottom;
+          background-size: contain;
+        }
+      }
+    }
     .card {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: relative;
       width: 100%;
-      height: 120px;
-      border-radius: 10px;
-      background: var(--flex-warp-has-menu-bgc);
-      margin: 20px 0 10px;
-      padding: 20px 30px;
+      aspect-ratio: 17/15;
+      margin: 20px 0;
+      padding: 30px;
       font-size: 16px;
-      transition: outline 0.3s ease-out;
-      outline: 1.5px solid transparent;
+      border-radius: 10px;
+      border: 3.5px solid var(--common-card-bgc);
+      background-image: linear-gradient(
+        to bottom,
+        var(--common-card-bgc),
+        var(--common-card-bgc)
+      );
+      background-clip: padding-box, border-box;
+      background-origin: padding-box, border-box;
+      box-shadow: var(--common-card-boxshadow);
       cursor: pointer;
       &:hover {
-        outline-color: var(--primaryColor);
+        border-color: transparent;
+        box-shadow: var(--common-card-hover-boxshadow);
+        background-image: linear-gradient(
+            to bottom,
+            var(--common-card-bgc),
+            var(--common-card-bgc)
+          ),
+          linear-gradient(225deg, #ff6734 30%, #ee1d4f 40%, #d6001c 80%);
       }
-      img {
+      .inner {
+        width: 100%;
         height: 100%;
+        > span {
+          font-size: 20px;
+          font-weight: 500;
+        }
       }
     }
   }
@@ -644,7 +714,7 @@ export default {
   position: relative;
   background: url(../../../assets/images/add_node_tip_bj.webp) no-repeat center;
   background-size: 100%;
-  width: 100%;
+  width: 400px;
   margin: 0 auto;
   margin-bottom: 50px;
   &::before {
@@ -679,28 +749,35 @@ export default {
   }
 }
 .steps-container {
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  height: 100%;
+  margin: 0 auto;
+  padding: 30px 0;
   .btn-help {
     font-size: 12px;
     text-decoration: underline;
     cursor: pointer;
   }
-  .step-content {
-    width: 100%;
-  }
   .step {
-    width: 340px;
+    width: 960px;
+  }
+  .step-content {
+    flex: 1;
   }
   .step-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 340px;
-    margin-top: 50px;
-    @media screen and(min-width:1441px) {
-      margin-top: 100px;
-    }
+    height: 100%;
+    max-height: 660px;
+    // margin-top: 40px;
+    // @media screen and(min-width:1441px) {
+    //   margin-top: 100px;
+    // }
     .step-item__tip {
       margin: 0;
       font-size: 14px;
@@ -725,6 +802,13 @@ export default {
         }
       }
     }
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-top: 15px;
+    }
   }
 }
 .router {
@@ -733,8 +817,7 @@ export default {
     display: block;
     margin: 0 auto;
   }
-  .router__info {
-  }
+
   .router__mac,
   .router__sn {
     margin: 0;
@@ -743,9 +826,15 @@ export default {
   }
 }
 .result-container {
+  height: 100%;
   .result-container__success,
   .result-container__fail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     font-size: 16px;
+    height: inherit;
   }
   .text-center {
     margin-top: 10px;
@@ -753,10 +842,10 @@ export default {
   }
   .result-container__success {
     .result-container__tips {
-      margin-top: 60px;
+      margin-top: 50px;
     }
     .button-container {
-      margin-top: 90px;
+      margin-top: 50px;
     }
   }
   .result-container__fail {
@@ -839,7 +928,7 @@ export default {
           display: inline-block;
           width: 5px;
           height: 5px;
-          background-color: #333333;
+          background-color: var(--text-default-color);
           border-radius: 50%;
           margin-right: 10px;
         }
@@ -855,15 +944,14 @@ export default {
   }
 }
 .wireless-mesh-add-fail-tips {
+  width: 100%;
+  height: 100%;
+  padding: 40px;
   .mesh-add-tips-list {
-    display: flex;
-    flex-wrap: wrap;
-    .mesh-add-tips-list__item {
-      width: 50%;
-      &:nth-child(3) {
-        margin-top: 40px;
-      }
-    }
+    display: grid;
+    grid-template-rows: repeat(2, 300px);
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
     .list-item {
       display: flex;
       font-size: 14px;
@@ -892,10 +980,10 @@ export default {
     }
   }
   .button-container {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
+    // position: absolute;
+    // bottom: 50px;
+    // left: 50%;
+    // transform: translateX(-50%);
     .btn {
       width: 340px;
     }
@@ -927,6 +1015,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .page-content {
+    padding: 20px;
+  }
   .help-dialog-content {
     width: 100%;
     max-height: 350px;
@@ -934,6 +1025,9 @@ export default {
     a {
       word-wrap: break-word;
     }
+  }
+  .center-wrap {
+    width: 100%;
   }
   .circle-animation {
     width: 280px;
@@ -973,7 +1067,14 @@ export default {
   }
   .choose__add__type {
     .type__list {
+      flex-direction: column;
+      > li {
+        margin-right: 0;
+        width: 100%;
+      }
       .card {
+        width: 100%;
+        aspect-ratio: 17/13;
         &:hover {
           outline-color: transparent;
         }
@@ -982,34 +1083,53 @@ export default {
   }
   .steps-container {
     width: 100%;
+    height: 100%;
+    padding: 0;
     .step {
       width: 100%;
     }
+    .step-content {
+      margin-top: 15px;
+    }
     .step-item {
       width: 100%;
+      max-height: 100%;
       &.step-item--rich {
-        margin-top: 30px;
         p {
           text-align: left;
         }
         img {
           width: 100%;
         }
+        .main-content {
+          margin-top: 0;
+        }
+        .button-container {
+          .btn {
+            margin: 0;
+            margin: 15px 0;
+          }
+        }
       }
     }
   }
-  .center-wrap {
-    width: 100%;
-  }
+
   .wireless-mesh-add-fail-tips {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0;
+    .mesh-add-tips-list {
+      grid-template-rows: repeat(3, auto);
+      grid-template-columns: 100%;
+      grid-column-gap: 0;
+      .list-item__text {
+        height: fit-content;
+      }
+    }
     .button-container {
-      position: static;
-      margin: 0 auto;
-      transform: none;
+      margin: 10px auto 0;
       .btn {
         width: 100%;
       }

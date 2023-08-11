@@ -20,7 +20,6 @@ import telnet from 'pages/bussiness/advance/telnet.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
-import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
@@ -160,16 +159,6 @@ const routes = {
           component: timeLimit,
           meta: {
             text: 'trans0075',
-            transition: 'fade',
-            parentPath: '/dashboard/device/primary'
-          }
-        },
-        {
-          path: '/limit/:mac/speed',
-          name: 'device-limit-speed',
-          component: speedLimit,
-          meta: {
-            text: 'trans0014',
             transition: 'fade',
             parentPath: '/dashboard/device/primary'
           }

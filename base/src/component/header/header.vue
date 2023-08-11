@@ -465,7 +465,6 @@ export default {
       }
     }
   }
-
   .theme-change-body {
     display: flex;
     .theme-option {
@@ -495,7 +494,6 @@ export default {
       }
     }
   }
-
   .btn-dialog-confirm {
     width: 240px;
   }

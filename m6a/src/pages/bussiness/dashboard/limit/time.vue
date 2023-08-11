@@ -57,7 +57,8 @@
       </div>
     </div>
     <m-modal class="modal"
-             :visible.sync="modalShow">
+             :visible.sync="modalShow"
+             :type="'confirm'">
       <div class="modal-content">
         <div class="modal-form">
           <div class="item left-right">
@@ -403,15 +404,6 @@ export default {
         this.msgShow = true;
       }
     },
-    // openCollapse(row) {
-    //   if (this.isMobile) {
-    //     this.timeLimitList.forEach(v => {
-    //       if (v.id === row.id) {
-    //         v.expand = !v.expand;
-    //       }
-    //     });
-    //   }
-    // }
   }
 };
 </script>
@@ -629,6 +621,14 @@ export default {
           .column-handle {
             grid-column: 1;
             grid-row: 3;
+          }
+        }
+        .limit-icon {
+          &:hover {
+            background-color: transparent;
+            .hover-popover {
+              display: none;
+            }
           }
         }
       }

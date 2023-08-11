@@ -40,12 +40,15 @@
   --internet-hr-color:#d8d8d8;
 
   --mesh-table-header-bgc:#f7f7f7;
+  --mesh-table-offline_tips-bgc:#ffe0e0;
+
 
   --mobile-menu-selected-color:var(--primaryColor);
 
   --back_wrapper-btn-shadow:0 8px 10px -5px rgba(0, 0, 0, 0.2);
 
   --common-card-boxshadow:0 50px 40px -20px rgba(0, 0, 0, 0.1);
+  --common-card-hover-boxshadow:0 50px 40px -20px rgba(214, 0, 28, 0.1);
   --common-card-bgc:#fff;
   --common-sub_card-bgc:#fafafa;
   --common-gery-color:#808080;
@@ -196,19 +199,14 @@
 
   // step
   --step-line-color: #f1f1f1;
-  --step-item-steped-background-color: var(--primaryColor);
-  --step-item-background-color: #fff;
-  --step-item-border-color: #bdbdbd;
-  --step-item-color: #bdbdbd;
-  --step-background-color: var(--dashboard-icon-background-color);
+  --step-item-border-color: #f1f1f1;
+  --step-item-color: #999999;
   --step-item-text-color: var(--text-default-color);
   --step-item-failed-background-color: #ffe6e9;
   --step-item-failed-border-color: #ffe6e9;
   --step-item-failed-color: #d6001c;
   --step-item-failed-icon-color: #d6001c;
-  --step-item-success-background-color: #ffe6e9;
-  --step-item-success-border-color: #ffe6e9;
-  --step-item-success-color: #d6001c;
+  --step-item-current-color: #e25668;
 
   // switch
   --switch-background-color: #b8b7b8;
@@ -356,7 +354,7 @@
   --internet-hr-color:#808080;
 
   --mesh-table-header-bgc:#4d4d4d;
-
+  --mesh-table-offline_tips-bgc:#8c4040;
 
 
   --mobile-menu-selected-color:#ff677b;
@@ -365,6 +363,7 @@
 
 
   --common-card-boxshadow:0 50px 40px -20px rgba(0, 0, 0, 0.4);
+  --common-card-hover-boxshadow:0 50px 40px -20px rgba(226, 54, 77, 0.2);
   --common-card-bgc:#333;
   --common-sub_card-bgc:#262626;
   --common-gery-color:rgba(255, 255, 255, 0.6);
@@ -527,19 +526,15 @@
 
   // step
   --step-line-color: #5a5a5a;
-  --step-item-steped-background-color: var(--primaryColor);
-  --step-item-background-color: #fff;
-  --step-item-border-color: #bdbdbd;
-  --step-item-color: #bdbdbd;
-  --step-background-color: var(--dashboard-icon-background-color);
+  --step-item-border-color: #808080;
+  --step-item-color: #999999;
   --step-item-text-color: var(--text-default-color);
   --step-item-failed-background-color: #da3d52;
   --step-item-failed-border-color: #da3d52;
   --step-item-failed-color: #fff;
   --step-item-failed-icon-color: #fff;
-  --step-item-success-background-color: #da3d52;
-  --step-item-success-border-color: #da3d52;
-  --step-item-success-color: #fff;
+  --step-item-current-color: #ff677b;
+
 
   // switch
   --switch-background-color: #7e7e7e;

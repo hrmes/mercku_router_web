@@ -344,6 +344,13 @@
         </div>
       </div>
     </div>
+    <transition name="fade">
+      <speed-Limit :visiable.sync="speedLimitInfo.visiable"
+                   v-if="speedLimitInfo.visiable"
+                   :mac="speedLimitInfo.mac"
+                   @speedLimitClose="()=>speedLimitInfo.visiable=false"
+                   @refreshDeviceList="updateDeviceList()"></speed-Limit>
+    </transition>
     <m-modal :visible.sync="modalShow"
              :closeOnClickMask="false"
              class="edit-name-modal">
@@ -376,9 +383,12 @@
 <script>
 import { formatMac, getStringByte, formatDate, formatDuration } from 'base/util/util';
 import { BlacklistMode, RouterMode } from 'base/util/constant';
+import speedLimit from 'base/component/limit/speed/index';
 
 export default {
-
+  components: {
+    speedLimit
+  },
   data() {
     return {
       showLoading: false,
@@ -396,7 +406,12 @@ export default {
         '2.4g': this.$t('trans0255'),
         '5g': this.$t('trans0256')
       },
-      timeLimitVisable: false,
+      speedLimitVisiable: false,
+      currentMac: '',
+      speedLimitInfo: {
+        visiable: false,
+        mac: ''
+      },
       rules: {
         name: [
           {
@@ -605,7 +620,12 @@ export default {
       };
       this.$store.state.modules.limits[row.mac] = limits;
       sessionStorage.setItem('deviceName', limits.deviceName);
+      if (suffix === 'speed') {
+        this.speedLimitInfo.mac = row.mac;
+        this.speedLimitInfo.visiable = true;
+      } else {
       this.$router.push({ path: `/limit/${row.mac}/${suffix}` });
+      }
     },
     expandTable(row) {
       if (this.isMobile) {
@@ -662,6 +682,36 @@ export default {
           this.getDeviceList();
         }, 15 * 1000);
         this.showLoading = false;
+      }
+    },
+   async updateDeviceList() {
+      const params = this.devicesParams();
+      if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
+
+      const curId = this.id;
+      const devicesInfo = await this.$http.getDeviceList(params);
+      if (curId === this.id) {
+        const res = devicesInfo.data.result;
+        const result = res.map(v => ({
+          ...v,
+          expand: false,
+          checked: false
+        }));
+        const originDevices = this.devicesMap[this.id];
+        // 维持设备之前的附加属性
+        if (originDevices.length > 0) {
+          originDevices.forEach(n => {
+            const device = result.find(r => r.mac === n.mac);
+            if (device) {
+              device.expand = n.expand;
+              device.checked = n.checked;
+            }
+          });
+        }
+        this.devicesMap = {
+          ...this.devicesMap,
+          [curId]: this.sortDevices(result)
+        };
       }
     },
     updateDeviceName() {

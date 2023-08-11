@@ -17,5 +17,22 @@
       ),
       linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734) !important;
   }
+  @media screen and (min-width: 768px) {
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: var(--scrollbar_wrap-track-color);
+      // border-radius: 100px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar_wrap-thumb-color);
+      border-radius: 100px;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
 }
 </style>

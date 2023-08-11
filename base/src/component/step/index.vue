@@ -1,11 +1,13 @@
 <template>
   <div class="step-container">
     <div class="steps">
-      <div class="step"
+      <div v-for="(step,index) in option.steps"
            :key="index"
-           :class="{'fail':!step.success && index <= option.current,
-           'success':step.success && index <= option.current}"
-           v-for="(step,index) in option.steps">
+           class="step"
+           :class="{
+                    'current':index==option.current,
+                    'fail':!step.success && index < option.current,
+                    'success':step.success && index < option.current}">
         <div class="step-content">
           <div class="step-number">
             <span v-show="(index === option.current && step.success)
@@ -32,7 +34,7 @@ export default {
     },
     length() {
       return this.option.steps.length;
-    }
+    },
   },
   data() {
     return {
@@ -59,49 +61,45 @@ export default {
   methods: {
     layout() {
       this.$nextTick(() => {
-        const width = this.$el.clientWidth;
-        const stepItems = this.$el.querySelectorAll('.step');
-        const stepItemArr = Array.from(stepItems);
-        const stepItemWidth = stepItemArr.reduce((sum, current) => {
-          sum += current.clientWidth;
-          return sum;
-        }, 0);
-        const perOffset = ((width - stepItemWidth) / (this.length - 1) / width) * 100;
-        stepItemArr.forEach((step, index) => {
-          step.style.left = `${(perOffset * index).toFixed(2)}%`;
-        });
+       const gridContainer = this.$el.querySelector('.steps');
+       gridContainer.style.gridTemplateColumns = `repeat(${this.length},1fr)`;
         this.preLength = this.length;
       });
-    }
+    },
   }
 };
 </script>
 <style lang="scss" scoped>
 .step-container {
-  height: 36px;
+  width: 100%;
+  height: 40px;
   position: relative;
   .line {
-    height: 2px;
+    height: 8px;
     background: var(--step-line-color);
     position: absolute;
-    width: 99%;
+    width: 100%;
     top: 50%;
     transform: translateY(-50%);
+    padding: 0 5px;
     z-index: 0;
+    border-radius: 20px;
     .steped {
-      background: var(--step-item-steped-background-color);
-      height: 2px;
+      transition: width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+      background-image: linear-gradient(to left, #ed8e77, #ed485e 100%);
+      height: 8px;
     }
   }
   .steps {
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-rows: 100%;
     position: relative;
     z-index: 1;
     .step {
-      position: absolute;
       display: flex;
-      top: 0;
+      justify-content: center;
+      align-items: center;
       position: relative;
       justify-content: center;
       align-items: center;
@@ -124,16 +122,24 @@ export default {
         position: relative;
       }
       .step-number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        border: 1px solid var(--step-item-border-color);
+        border: 6px solid var(--step-item-border-color);
+        background-image: linear-gradient(
+          to bottom,
+          var(--common-card-bgc),
+          var(--common-card-bgc)
+        );
+        background-clip: padding-box, border-box;
+        background-origin: padding-box, border-box;
         text-align: center;
-        width: 36px;
-        height: 36px;
-        line-height: 36px;
-        font-weight: bold;
-        font-size: 24px;
+        font-size: 21px;
+        font-weight: 600;
         color: var(--step-item-color);
-        background: var(--step-background-color);
       }
       .step-text {
         text-align: center;
@@ -145,12 +151,25 @@ export default {
         width: 180px;
         transform: translateX(-50%);
       }
+      &.current {
+        .step-number {
+          color: var(--step-item-current-color);
+          border-color: transparent;
+          background-image: linear-gradient(
+              to bottom,
+              var(--common-card-bgc),
+              var(--common-card-bgc)
+            ),
+            linear-gradient(to top, #ed8e77, #ed485e 100%);
+        }
+      }
       &.fail {
         .step-number {
-          background: var(--step-item-failed-background-color);
-          border-color: var(--step-item-failed-border-color);
-          color: var(--step-item-failed-color);
-          position: relative;
+          border-color: transparent;
+          background-image: linear-gradient(to top, #ed8e77, #ed485e 100%),
+            linear-gradient(to top, #ed8e77, #ed485e 100%);
+          color: #fff;
+          box-shadow: 0 4px 10px -5px #ed8875;
           &::before {
             content: '×';
             display: block;
@@ -158,7 +177,7 @@ export default {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -55%);
-            color: var(--step-item-failed-icon-color);
+            color: #fff;
             font-style: normal;
             font-size: 24px;
           }
@@ -166,9 +185,11 @@ export default {
       }
       &.success {
         .step-number {
-          background: var(--step-item-success-background-color);
-          border-color: var(--step-item-success-border-color);
-          color: var(--step-item-success-color);
+          border-color: transparent;
+          background-image: linear-gradient(to top, #ed8e77, #ed485e 100%),
+            linear-gradient(to top, #ed8e77, #ed485e 100%);
+          color: #fff;
+          box-shadow: 0 4px 10px -5px #ed8875;
         }
       }
     }

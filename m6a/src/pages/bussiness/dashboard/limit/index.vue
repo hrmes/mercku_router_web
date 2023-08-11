@@ -69,7 +69,7 @@ export default {
   .limit-wrapper__title {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 20px;

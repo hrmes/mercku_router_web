@@ -121,6 +121,11 @@
               </div>
             </div>
             <div class="card-bottom">
+              <div class="card-bottom__offline-tips"
+                   v-if="isRouterOffline(selectedNodeInfo)">
+                The device is offline
+                <span>{{$t('trans0128')}}</span>
+              </div>
               <div class="card-bottom__header">
                 <div class="col-1">
                   <span>{{$t('trans0174')}}</span>
@@ -443,8 +448,10 @@ export default {
         callback: {
           ok: () => {
             this.$loading.open();
-            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
+            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
+            .then(() => {
               this.$loading.close();
+              this.showTable = false;
               this.$toast(this.$t('trans0040'), 3000, 'success');
               this.routers = this.routers.filter(r => r.sn !== router.sn);
             });
@@ -1172,6 +1179,19 @@ export default {
           border-bottom-right-radius: 10px;
           border-bottom-left-radius: 10px;
           overflow: hidden;
+          .card-bottom__offline-tips {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            background-color: var(--mesh-table-offline_tips-bgc);
+            > span {
+              cursor: pointer;
+              color: var(--mobile-menu-selected-color);
+              margin-left: 7px;
+              text-decoration: underline;
+            }
+          }
           .card-bottom__header {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
