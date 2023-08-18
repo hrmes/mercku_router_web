@@ -8,8 +8,18 @@
               :key='menu.name'
               @click="jump(menu)"
               :class="{'selected':$route.path.includes(menu.url),'disabled':menu.disabled}">
-            {{$t(`${menu.text}`)}}
+            <span>{{$t(`${menu.text}`)}}</span>
+            <svg v-if="!isMobile"
+                 width="12"
+                 height="12"
+                 viewBox="-30 -30 360 360"
+                 class="triangle-svg">
+              <polygon class="triangle"
+                       stroke-linejoin="round"
+                       points="0,0 0,300 250,150" />
+            </svg>
           </li>
+
         </ul>
       </div>
       <router-view class="router-view">
@@ -87,25 +97,40 @@ export default {
     flex: 1;
     display: flex;
     .left-aside {
-      width: 17vw;
+      width: 15vw;
       margin-right: 10px;
-      padding: 25px 15px;
-      background: var(--dashboard-icon-background-color);
-      border-radius: 10px;
+      padding: 15px 15px 15px 0;
       ul {
         list-style: none;
         margin: 0;
         padding: 0;
         color: var(--text-default-color);
         > li {
+          position: relative;
           padding: 10px 15px;
           margin-bottom: 5px;
           cursor: pointer;
           transition: background 0.3s ease-out;
           border-radius: 5px;
+          .triangle-svg {
+            display: none;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translate(80%, -50%);
+            .triangle {
+              fill: var(--aside-after-bgc);
+              stroke: var(--aside-after-bgc);
+              stroke-width: 100;
+            }
+          }
           &.selected {
+            position: relative;
             color: var(--aside-selected-text-color);
-            background: var(--asdie-selected-background) !important;
+            background-image: var(--asdie-selected-background) !important;
+            .triangle-svg {
+              display: block;
+            }
           }
           &.disabled {
             color: var(--aside-disabled-color);

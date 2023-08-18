@@ -63,8 +63,8 @@
         <div class="modal-form">
           <div class="item left-right">
             <m-switch v-model="form.enabled"
+                      :label="$t('trans0075')"
                       class="switch" />
-            <label for="">{{$t('trans0075')}}</label>
           </div>
           <div class="item top-bottom">
             <label for="">{{$t('trans0084')}}</label>
@@ -416,16 +416,11 @@ export default {
     height: 14px;
   }
   .btn-info {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     margin-top: 20px;
     justify-content: center;
-    .btn {
-      width: 120px;
-      height: 42px;
-      &:last-child {
-        margin-left: 30px;
-      }
-    }
   }
   .modal-content {
     border-radius: 5px;
@@ -477,7 +472,7 @@ export default {
           var(--modal-content-background),
           var(--modal-content-background)
         ),
-        linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734) !important;
+        var(--common-btn_default-bgimg) !important;
     }
   }
 }

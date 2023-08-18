@@ -117,9 +117,9 @@
             </div>
             <div v-else
                  class="bridge-mode-tip">
-              <img src="../../../assets/images/img-bridge.webp"
-                   alt="">
-              {{$t('trans0984')}}
+              <img v-if="!isMobile"
+                   src="../../../assets/images/img-bridge.webp">
+              <span>{{$t('trans0984')}}</span>
             </div>
           </div>
         </div>
@@ -1191,6 +1191,13 @@ h6 {
           }
           .speed-unit {
             font-size: 18px;
+          }
+        }
+        .bridge-mode-tip {
+          font-size: 16px;
+          margin-top: 0;
+          span {
+            margin: 30px 0;
           }
         }
       }

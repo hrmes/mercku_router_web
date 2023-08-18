@@ -208,53 +208,6 @@
       </div>
       <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
     </div>
-
-    <!-- <div class='speed-model-info'
-         v-if='speedModelOpen'>
-      <div class="shadow"></div>
-      <div class="speed-content">
-        <div v-if="isSpeedTesting">
-          <div class="test-info">
-            <m-lottieLoading :loadingType="'speedTest'"></m-lottieLoading>
-          </div>
-          <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
-        </div>
-        <div v-if="isSpeedDone || isSpeedFailed"
-             class="speed-completed">
-          <div class="speed-result-info">
-            <div class="title">{{$t('trans0027')}}</div>
-            <div class="content">
-              <div class="extra">
-                <i class="p-dwon-icon"></i>
-                <div>
-                  <p class="note">{{$t('trans0007')}}</p>
-                  <p>
-                    <span class="speed">{{speedDown.value}}</span>
-                    <span class="unit">{{speedDown.unit}}</span>
-                  </p>
-                </div>
-              </div>
-              <div class="extra">
-                <i class="p-up-icon"></i>
-                <div>
-                  <p class="note">{{$t('trans0006')}}</p>
-                  <p>
-                    <span class="speed">{{speedUp.value}}</span>
-                    <span class="unit">{{speedUp.unit}}</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="btn-wrap">
-              <button class="btn btn-default"
-                      @click="startSpeedTest(true)">{{$t('trans0279')}}</button>
-              <button class="btn"
-                      @click="closeSpeedModal">{{$t('trans0018')}}</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -281,7 +234,6 @@ export default {
       testTimeout: 60,
       testSpeedNumber: 60,
       speedStatus: SpeedTestStatus.done,
-      speedModelOpen: false,
       TextBandwidth: '-',
       pageActive: true,
       speedInfo: {},
@@ -479,10 +431,7 @@ export default {
         }, 1000);
       });
     },
-    closeSpeedModal() {
-      this.createIntervalTask();
-      this.speedModelOpen = false;
-    },
+
     createIntervalTask() {
       if (this.isRouter) {
         this.getWanNetStats();
@@ -654,9 +603,27 @@ export default {
     flex: 1;
     margin-right: 10px;
     transition: all 0.3s ease-in-out;
+    .speed__wrap {
+      width: 100%;
+      height: 100%;
+    }
     .section__body {
       display: flex;
       flex-direction: column;
+      &.section__body--bridge {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        font-size: 18px;
+        font-weight: 500;
+        > img {
+          width: 25%;
+          aspect-ratio: 1;
+        }
+      }
     }
   }
   .layout-right-wrap {
@@ -669,6 +636,45 @@ export default {
       height: auto;
       background: var(--internet-section-background-color);
       box-shadow: var(--internet-section-box-shadow);
+      .section__inner {
+        height: auto;
+        // background: var(--internet-section-background-color);
+        display: flex;
+        flex-direction: column;
+        &.stretch {
+          height: 100%;
+        }
+        &.ipv6 {
+          .section__title {
+            padding-top: 25px;
+            border-top: 1px solid var(--internet-section-hr-color);
+            &::before {
+              top: 57%;
+            }
+          }
+        }
+      }
+      .section__title {
+        position: relative;
+        margin: 0 20px 0 30px;
+        padding: 15px 0;
+        font-size: 16px;
+        font-weight: 600;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: -5px;
+          transform: translate(-100%, -50%);
+          display: inline-block;
+          width: 5px;
+          height: 22px;
+          background: #808080;
+        }
+      }
+      .section__body {
+        padding: 0px 20px 15px;
+      }
       &:first-child {
         height: 160px;
         margin-bottom: 20px;
@@ -684,55 +690,6 @@ export default {
   .section {
     border-radius: 10px;
     overflow: hidden;
-    .section__inner {
-      height: auto;
-      // background: var(--internet-section-background-color);
-      display: flex;
-      flex-direction: column;
-      &.stretch {
-        height: 100%;
-      }
-      &.ipv6 {
-        .section__title {
-          padding-top: 25px;
-          border-top: 1px solid var(--internet-section-hr-color);
-          &::before {
-            top: 57%;
-          }
-        }
-      }
-    }
-    .section__title {
-      position: relative;
-      margin: 0 20px 0 30px;
-      padding: 15px 0;
-      font-size: 16px;
-      font-weight: 600;
-      &::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: -5px;
-        transform: translate(-100%, -50%);
-        display: inline-block;
-        width: 5px;
-        height: 22px;
-        background: #808080;
-      }
-    }
-    .section__body {
-      padding: 0px 20px 15px;
-      &.section__body--bridge {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        > img {
-          width: 200px;
-          height: 200px;
-        }
-      }
-    }
   }
   .item {
     display: flex;
@@ -947,6 +904,13 @@ export default {
       margin: 0;
       .section__body {
         flex-direction: column-reverse;
+        &.section__body--bridge {
+          margin: 30px 0;
+          font-size: 14px;
+          > img {
+            width: 40%;
+          }
+        }
       }
     }
     .layout-right-wrap {
@@ -1000,40 +964,6 @@ export default {
       }
       .realtime__speed {
         margin-bottom: 20px;
-      }
-    }
-    .speed-model-info {
-      .speed-content {
-        width: 100%;
-        .test-info {
-          width: 150px;
-          height: 150px;
-          margin: 0 auto;
-        }
-        .speed-completed {
-          height: auto;
-          .speed-result-info {
-            padding: 25px;
-            justify-content: center;
-            align-items: center;
-            .content {
-              width: 100%;
-              justify-content: space-evenly;
-            }
-            .btn-wrap {
-              flex-direction: column;
-              margin-top: 40px;
-              .btn {
-                margin: 0;
-                &:first-child {
-                  margin-bottom: 20px;
-                }
-              }
-            }
-          }
-          width: 90%;
-          margin: 0 auto;
-        }
       }
     }
   }

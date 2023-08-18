@@ -4,43 +4,39 @@
          key="main">
       <div class="main__title">
         <span>{{$t('trans0014')}}</span>
-        <!-- <span class="close btn-icon"
-                @click="()=>modalClose()">
-            <i class="iconfont icon-ic_close"></i>
-          </span> -->
       </div>
       <div class="main__content">
-        <div class='form'>
-          <div class="item">
+        <m-form ref="form"
+                :model="form"
+                :rules='rules'
+                class="form">
+          <m-form-item class="item">
             <m-switch :label="$t('trans0462')"
                       v-model="form.enabled"
                       class="enable"></m-switch>
-          </div>
-          <m-form ref="form"
-                  :model="form"
-                  :rules='rules'>
-            <m-form-item class="item"
-                         prop='up'>
-              <m-input v-model="form.up"
-                       :label="`${$t('trans0304')} (Kbps)`"
-                       type='text'
-                       :placeholder="`${$t('trans0391')}`"></m-input>
-            </m-form-item>
-            <m-form-item class="item"
-                         prop='down'>
-              <m-input v-model="form.down"
-                       :label=" `${$t('trans0305')} (Kbps)`"
-                       type='text'
-                       :placeholder="`${$t('trans0391')}`"></m-input>
-            </m-form-item>
-          </m-form>
+          </m-form-item>
+
+          <m-form-item class="form-item"
+                       prop='up'>
+            <m-input v-model="form.up"
+                     :label="`${$t('trans0304')} (Kbps)`"
+                     type='text'
+                     :placeholder="`${$t('trans0391')}`"></m-input>
+          </m-form-item>
+          <m-form-item class="form-item"
+                       prop='down'>
+            <m-input v-model="form.down"
+                     :label=" `${$t('trans0305')} (Kbps)`"
+                     type='text'
+                     :placeholder="`${$t('trans0391')}`"></m-input>
+          </m-form-item>
           <div class="btn-container">
             <button class="btn btn-default"
                     @click="()=>modalClose()">{{$t('trans0025')}}</button>
             <button class="btn"
                     @click='submit'>{{$t('trans0081')}}</button>
           </div>
-        </div>
+        </m-form>
       </div>
     </div>
   </div>
@@ -185,7 +181,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 380px;
-  padding: 20px;
+  padding: 30px;
   border-radius: 10px;
   box-shadow: 0 50px 40px -20px rgba(0, 0, 0, 0.1);
   background-color: var(--modal-content-background);
@@ -198,7 +194,7 @@ export default {
   width: 100%;
   font-size: 16px;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   .close {
     color: var(--text-default-color);
     background-color: var(--button-close-bgc);
@@ -234,7 +230,7 @@ export default {
           var(--modal-content-background),
           var(--modal-content-background)
         ),
-        linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734) !important;
+        var(--common-btn_default-bgimg) !important;
     }
   }
 }
@@ -243,6 +239,7 @@ export default {
     z-index: 1000;
     .main {
       width: 80%;
+      padding: 20px;
     }
   }
 }

@@ -121,6 +121,9 @@ export default {
 .form-item {
   margin-bottom: 30px;
   position: relative;
+  &.last {
+    margin-bottom: 0;
+  }
   .error-message {
     color: var(--input-error-text-color);
     font-size: 12px;

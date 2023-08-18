@@ -75,7 +75,7 @@ export default {
 <style lang="scss">
 .checkbox-container {
   text-align: left;
-  height: 18px;
+  height: 20px;
   display: inline-block;
   overflow: hidden;
   label {
@@ -110,7 +110,6 @@ export default {
     }
     &.disabled {
       background: var(--checkbox-disabled-bgc);
-      border: 1.5px solid var(--checkbox-disabled-border-color);
       cursor: not-allowed;
     }
   }

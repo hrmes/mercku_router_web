@@ -2,7 +2,7 @@
   <div class="page">
     <div class="limit-wrapper">
       <div class="limit-wrapper__title">
-        <div>
+        <div class="content">
           <div>{{litmitType}}</div>
           <div class="des"
                v-if="isUrlLimit">{{$t('trans0101')}}</div>
@@ -73,6 +73,10 @@ export default {
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 20px;
+    .content {
+      flex: 1;
+      max-width: calc(100% - 40px);
+    }
     .des {
       color: var(--common-gery-color);
       font-size: 12px;

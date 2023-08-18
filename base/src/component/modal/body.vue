@@ -15,7 +15,7 @@
         var(--modal-content-background),
         var(--modal-content-background)
       ),
-      linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734) !important;
+      var(--common-btn_default-bgimg) !important;
   }
   @media screen and (min-width: 768px) {
     ::-webkit-scrollbar {

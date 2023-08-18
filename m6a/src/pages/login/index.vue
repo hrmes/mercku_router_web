@@ -394,7 +394,7 @@ export default {
             var(--grey-background-color),
             var(--grey-background-color)
           ),
-          linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+          var(--common-btn_default-bgimg);
         .down-button {
           display: inline-block;
           width: 100%;

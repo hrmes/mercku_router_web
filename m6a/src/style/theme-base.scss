@@ -53,6 +53,7 @@
   --common-sub_card-bgc:#fafafa;
   --common-gery-color:#808080;
   --common-hr-color:#eaeaea;
+  --common-btn_default-bgimg:linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
 
 
 
@@ -188,7 +189,6 @@
 
   // popover
   --popover-background-color: #333;
-  --popover-color: #fff;
 
   // progress
   --progress-shadow-background-color: #000;
@@ -302,10 +302,11 @@
   --table-body-hr-color: #ebebeb;
 
   //aside
-  --aside-selected-text-color: #d6001c;
-  --asdie-selected-background: #ffe2e2;
-  --aside-hover-background-color: #f7f7f7;
+  --aside-selected-text-color: #fff;
+  --asdie-selected-background: linear-gradient(-50deg, #f92e53 30%, #d31414 80%);
+  --aside-hover-background-color: rgba(0, 0, 0, 0.05);
   --aside-disabled-color: #cccccc;
+  --aside-after-bgc:#f92e53;
 
   // drawer
   --drawer-background: #ffffff;
@@ -368,6 +369,8 @@
   --common-sub_card-bgc:#262626;
   --common-gery-color:rgba(255, 255, 255, 0.6);
   --common-hr-color:#464646;
+  --common-btn_default-bgimg:linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+
 
 
 
@@ -509,8 +512,7 @@
   --modal-shadow-color: rgba(0, 0, 0, 0.1);
 
   // popover
-  --popover-background-color: #4d4d4d;
-  --popover-color: #fff;
+  --popover-background-color: #656565;
 
   // progress
   --progress-shadow-background-color: #000;
@@ -631,9 +633,11 @@
 
   //aside
   --aside-selected-text-color: #fff;
-  --asdie-selected-background: rgba(187, 27, 48, 0.7);
+  --asdie-selected-background: linear-gradient(-50deg, #fb6d53 10%, #ec4f5b 45%, #e62342 100%);
   --aside-hover-background-color: rgba(255, 255, 255, 0.2);
   --aside-disabled-color: rgba(255, 255, 255, 0.3);
+  --aside-after-bgc:#fb6d53;
+
 
   // drawer
   --drawer-background: #4d4d4d;

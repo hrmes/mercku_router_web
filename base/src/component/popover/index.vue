@@ -118,7 +118,7 @@ export default {
     border-radius: 8px;
     // box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
     font-size: 12px;
-    color: var(--popover-color);
+    color: #fff;
     padding: 10px;
 
     &.bottom {

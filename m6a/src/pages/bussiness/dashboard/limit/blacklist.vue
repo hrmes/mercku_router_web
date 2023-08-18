@@ -232,22 +232,17 @@ export default {
   justify-content: center;
   align-items: center;
   .btn-info {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     margin-top: 30px;
-    justify-content: center;
-    .btn {
-      margin-right: 20px;
-      &:last-child {
-        margin: 0;
-      }
-    }
     .btn-default {
       background-image: linear-gradient(
           to right,
           var(--modal-content-background),
           var(--modal-content-background)
         ),
-        linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734) !important;
+        var(--common-btn_default-bgimg) !important;
     }
   }
   .modal-content {

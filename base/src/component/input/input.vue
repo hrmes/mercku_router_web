@@ -266,8 +266,9 @@ input[type='number'] {
     &.small {
       width: 100%;
     }
-    width: 340px;
     display: inline-block;
+    max-width: 340px;
+    width: 100%;
   }
 }
 
@@ -275,6 +276,7 @@ input[type='number'] {
   .input-container {
     display: block;
     width: 100%;
+    max-width: 100%;
     margin: 0 auto;
     .input-wrapper {
       height: 50px;

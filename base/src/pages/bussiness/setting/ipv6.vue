@@ -1,166 +1,177 @@
 <template>
-  <div class="page ipv6-page">
+  <div class="page">
     <div v-if="$store.state.isMobile"
          class='page-header'>
       {{$t('trans0620')}}
     </div>
-    <div class="ipv6-page__content">
-      <div class="ipv6-page__switch-wrap">
-        <div class="ipv6-page__switch">
-          <m-switch v-model="enabled"
-                    @change="ipv6EnabledChange" />
-          <label for="">{{$t('trans0620')}}</label>
+    <div class="page-content">
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <m-switch v-model="enabled"
+                        :label="$t('trans0620')"
+                        @change="ipv6EnabledChange" />
+            </m-form-item>
+          </div>
+        </div>
+        <div class="row-2">
+          <template v-if="enabled">
+            <div class="form card">
+              <div class="form-header">
+                <span class="form-header__title">{{ $t('trans0622') }}</span>
+              </div>
+              <div class="form-content">
+                <div>
+                  <label class="with-colon">{{$t('trans0375')}}:</label>
+                  <span>{{networkArr[netInfo.type] ? networkArr[netInfo.type]:'-'}}</span>
+                </div>
+                <div>
+                  <label class="with-colon">{{$t('trans0151')}}:</label>
+                  <span>{{netInfo.ip}}</span>
+                </div>
+                <div>
+                  <label class="with-colon">{{$t('trans0236')}}:</label>
+                  <span>{{netInfo.dns}}</span>
+                </div>
+                <div>
+                  <label class="with-colon">{{$t('trans0153')}}:</label>
+                  <span>{{netInfo.gateway}}</span>
+                </div>
+              </div>
+            </div>
+            <div class=" form card">
+              <div class="form-header">
+                <span class="form-header__title">{{ $t('trans0623') }}</span>
+              </div>
+              <div>
+                <div class="form-warn"
+                     v-if="isShowWarn">
+                  {{$t('trans0735')}}
+                </div>
+                <m-form-item>
+                  <m-select :label="$t('trans0317')"
+                            v-model="netType"
+                            :options="wanTypeOptions"></m-select>
+                  <div class="des-tips"
+                       v-if="isPppoe||isStatic">{{isPppoe?$t('trans0154'):$t('trans0150')}}</div>
+                </m-form-item>
 
+                <!-- auto -->
+                <m-form key="auto-form"
+                        v-if="isAuto"
+                        ref="autoForm"
+                        :model="autoForm"
+                        :rules="autoRules"
+                        class="auto-form">
+                  <m-form-item :class="{last:autodns}">
+                    <m-select label="DNS设置"
+                              v-model="autodns"
+                              :options="dnsOptions"></m-select>
+                  </m-form-item>
+                  <template v-if="!autodns">
+                    <m-form-item class="last"
+                                 prop='dns'
+                                 ref="dns">
+                      <m-input :label="$t('trans0236')"
+                               type="text"
+                               :placeholder="IPv6DefaultPlaceholder"
+                               v-model="autoForm.dns" />
+                    </m-form-item>
+                  </template>
+                </m-form>
+                <!-- pppoe -->
+                <m-form key="pppoe-form"
+                        v-else-if="isPppoe"
+                        ref="pppoeForm"
+                        :model="pppoeForm"
+                        :rules='pppoeRules'
+                        class="pppoe-form">
+                  <m-form-item prop='account'>
+                    <m-input :label="$t('trans0155')"
+                             type="text"
+                             :placeholder="`${$t('trans0321')}`"
+                             v-model="pppoeForm.account"></m-input>
+                  </m-form-item>
+                  <m-form-item prop='password'>
+                    <m-input :label="$t('trans0156')"
+                             type='password'
+                             :placeholder="`${$t('trans0321')}`"
+                             v-model="pppoeForm.password" />
+                  </m-form-item>
+                  <m-form-item>
+                    <m-checkbox v-model="pppoeForm.isUseIPv4"
+                                :text="$t('trans0733')"
+                                :rect="false"
+                                disabled
+                                class="pppoe-form__item__checkbox"></m-checkbox>
+                  </m-form-item>
+                  <m-form-item :class="{last:autodns}">
+                    <m-select label="DNS设置"
+                              v-model="autodns"
+                              :options="dnsOptions"></m-select>
+                  </m-form-item>
+                  <template v-if="!autodns">
+                    <m-form-item prop='dns'
+                                 ref="dns"
+                                 class="last">
+                      <m-input :label="$t('trans0236')"
+                               type="text"
+                               :placeholder="IPv6DefaultPlaceholder"
+                               v-model="pppoeForm.dns" />
+                    </m-form-item>
+                  </template>
+                </m-form>
+                <!-- static -->
+                <m-form key="static-form"
+                        v-else-if="isStatic"
+                        ref="staticForm"
+                        :model="staticForm"
+                        :rules='staticRules'
+                        class="static-form">
+                  <m-form-item prop="ip"
+                               ref="ip">
+                    <m-input :label="$t('trans0151')"
+                             type="text"
+                             :placeholder="IPv6DefaultPlaceholder"
+                             v-model="staticForm.ip" />
+                  </m-form-item>
+                  <m-form-item prop='prefixLength'
+                               ref="prefixLength">
+                    <m-input :label="$t('trans0694')"
+                             type="text"
+                             placeholder="1-128"
+                             v-model="staticForm.prefixLength" />
+                  </m-form-item>
+                  <m-form-item prop='gateway'
+                               ref="gateway">
+                    <m-input :label="$t('trans0153')"
+                             type="text"
+                             :placeholder="IPv6DefaultPlaceholder"
+                             v-model="staticForm.gateway" />
+                  </m-form-item>
+                  <m-form-item class="last"
+                               prop='dns'
+                               ref="dns">
+                    <m-input :label="$t('trans0236')"
+                             type="text"
+                             :placeholder="IPv6DefaultPlaceholder"
+                             v-model="staticForm.dns" />
+                  </m-form-item>
+                </m-form>
+              </div>
+            </div>
+          </template>
+        </div>
+
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </div>
-      <template v-if="enabled">
-        <div class="ipv6-page__internet-wrap">
-          <div class="ipv6-page__internet-title">{{$t('trans0622')}}</div>
-          <div class="ipv6-page__internet-content ipv6-page__internet-content--info">
-            <div class="info__item info__item--text">
-              <label class="with-colon">{{$t('trans0375')}}:</label>
-              <span>{{networkArr[netInfo.type] ? networkArr[netInfo.type]:'-'}}</span>
-            </div>
-            <div class="info__item info__item--text">
-              <label class="with-colon">{{$t('trans0151')}}:</label>
-              <span>{{netInfo.ip}}</span>
-            </div>
-            <div class="info__item info__item--text">
-              <label class="with-colon">{{$t('trans0236')}}:</label>
-              <span>{{netInfo.dns}}</span>
-            </div>
-            <div class="info__item info__item--text">
-              <label class="with-colon">{{$t('trans0153')}}:</label>
-              <span>{{netInfo.gateway}}</span>
-            </div>
-          </div>
-        </div>
-        <div class="ipv6-page__internet-wrap">
-          <div class="ipv6-page__internet-title">{{$t('trans0623')}}</div>
-          <div class="ipv6-page__internet-content ipv6-page__internet-content--config">
-            <div class="form-warn"
-                 v-if="isShowWarn">
-              {{$t('trans0735')}}
-            </div>
-            <m-select :label="$t('trans0317')"
-                      v-model="netType"
-                      :options="wanTypeOptions"></m-select>
-            <!-- auto -->
-            <m-form key="auto-form"
-                    v-if="isAuto"
-                    ref="autoForm"
-                    :model="autoForm"
-                    :rules="autoRules"
-                    class="auto-form">
-              <m-form-item class="item">
-                <m-radio-group class="radio-group"
-                               direction="vertical"
-                               v-model="autodns"
-                               :options="dnsOptions"></m-radio-group>
-              </m-form-item>
-              <template v-if="!autodns">
-                <m-form-item class="item"
-                             prop='dns'
-                             ref="dns">
-                  <m-input :label="$t('trans0236')"
-                           type="text"
-                           :placeholder="IPv6DefaultPlaceholder"
-                           v-model="autoForm.dns" />
-                </m-form-item>
-              </template>
-            </m-form>
-            <!-- pppoe -->
-            <m-form key="pppoe-form"
-                    v-else-if="isPppoe"
-                    ref="pppoeForm"
-                    :model="pppoeForm"
-                    :rules='pppoeRules'
-                    class="pppoe-form">
-              <div class="pppoe-form__item__note">{{$t('trans0154')}}</div>
-              <m-form-item class="item"
-                           prop='account'>
-                <m-input :label="$t('trans0155')"
-                         type="text"
-                         :placeholder="`${$t('trans0321')}`"
-                         v-model="pppoeForm.account"></m-input>
-              </m-form-item>
-              <m-form-item class="item"
-                           prop='password'>
-                <m-input :label="$t('trans0156')"
-                         type='password'
-                         :placeholder="`${$t('trans0321')}`"
-                         v-model="pppoeForm.password" />
-              </m-form-item>
-              <m-checkbox v-model="pppoeForm.isUseIPv4"
-                          :text="$t('trans0733')"
-                          disabled
-                          class="pppoe-form__item__checkbox"></m-checkbox>
-              <m-form-item class="item">
-                <m-radio-group class="radio-group"
-                               direction="vertical"
-                               v-model="autodns"
-                               :options="dnsOptions"></m-radio-group>
-              </m-form-item>
-              <template v-if="!autodns">
-                <m-form-item class="item"
-                             prop='dns'
-                             ref="dns">
-                  <m-input :label="$t('trans0236')"
-                           type="text"
-                           :placeholder="IPv6DefaultPlaceholder"
-                           v-model="pppoeForm.dns" />
-                </m-form-item>
-              </template>
-            </m-form>
-            <!-- static -->
-            <m-form key="static-form"
-                    v-else-if="isStatic"
-                    ref="staticForm"
-                    :model="staticForm"
-                    :rules='staticRules'
-                    class="static-form">
-              <div class="static-form__item__note">{{$t('trans0150')}}</div>
-              <m-form-item class="item"
-                           prop="ip"
-                           ref="ip">
-                <m-input :label="$t('trans0151')"
-                         type="text"
-                         :placeholder="IPv6DefaultPlaceholder"
-                         v-model="staticForm.ip" />
-              </m-form-item>
-              <m-form-item class="item"
-                           prop='prefixLength'
-                           ref="prefixLength">
-                <m-input :label="$t('trans0694')"
-                         type="text"
-                         placeholder="1-128"
-                         v-model="staticForm.prefixLength" />
-              </m-form-item>
-              <m-form-item class="item"
-                           prop='gateway'
-                           ref="gateway">
-                <m-input :label="$t('trans0153')"
-                         type="text"
-                         :placeholder="IPv6DefaultPlaceholder"
-                         v-model="staticForm.gateway" />
-              </m-form-item>
-              <m-form-item class="item"
-                           prop='dns'
-                           ref="dns">
-                <m-input :label="$t('trans0236')"
-                         type="text"
-                         :placeholder="IPv6DefaultPlaceholder"
-                         v-model="staticForm.dns" />
-              </m-form-item>
-            </m-form>
-            <div class="form-button">
-              <button class="btn"
-                      v-defaultbutton
-                      @click="submit()">{{$t('trans0081')}}</button>
-            </div>
-          </div>
-        </div>
-      </template>
     </div>
   </div>
 </template>
@@ -531,109 +542,21 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.ipv6-page {
-  .pppoe-form__item__checkbox {
-    label {
-      align-items: stretch !important;
-    }
-  }
-}
-</style>
 <style lang="scss" scoped>
-.ipv6-page {
-  .ipv6-page__content {
-    padding: 30px 20px;
-  }
-  .ipv6-page__switch-wrap {
+.form-content {
+  > div {
     display: flex;
-    justify-content: flex-start;
-    margin-bottom: 25px;
-  }
-  .ipv6-page__switch {
-    display: flex;
-    width: 340px;
-    label {
-      width: auto;
-      font-weight: bold;
-      padding-right: 20px;
-    }
-  }
-  .ipv6-page__internet-title {
+    align-items: center;
+    padding: 5px 0;
     font-size: 14px;
-    color: #999;
-    border-bottom: 1px solid var(--hr-color);
-    padding: 10px 0;
-  }
-  .ipv6-page__internet-content {
-    // width: 340px;
-    margin: 25px 0 25px;
-  }
-  .ipv6-page__internet-content--info {
-    width: 340px;
-    .info__item {
-      display: flex;
+    label {
+      font-weight: bold;
+      text-align: left;
+      flex: 1;
     }
-    .info__item--text {
-      label {
-        display: inline-block;
-        font-size: 14px;
-        font-weight: bold;
-        text-align: left;
-        width: 150px;
-        flex-shrink: 0;
-      }
-      span {
-        display: inline-block;
-        font-size: 14px;
-        flex: auto;
-      }
-      &:not(:last-child) {
-        margin-bottom: 10px;
-      }
-    }
-  }
-  .ipv6-page__internet-content--config {
-    .form-warn {
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--primaryColor);
-      margin-bottom: 30px;
-    }
-    .radio-group {
-      margin-bottom: 30px;
-    }
-    .form-button {
-      width: 100%;
-      margin-top: 25px !important;
-      padding-top: 25px;
-      border-top: 1px solid var(--hr-color);
-    }
-    .auto-form {
-      margin-top: 30px;
-    }
-    .pppoe-form,
-    .static-form {
-      margin-top: 10px;
-    }
-    .pppoe-form {
-      .pppoe-form__item__note {
-        font-size: 14px;
-        color: #999999;
-        margin-bottom: 25px;
-      }
-      .pppoe-form__item__checkbox {
-        height: auto;
-        margin-bottom: 10px;
-        width: 100%;
-      }
-    }
-    .static-form {
-      .static-form__item__note {
-        font-size: 14px;
-        color: #999999;
-        margin-bottom: 25px;
-      }
+    span {
+      display: inline-block;
+      width: 160px;
     }
   }
 }

@@ -63,7 +63,7 @@
                               }"
                       v-if="!isGateway">{{connectQuality(selectedNodeInfo.color)}}</span>
                 <span class="close btn-icon"
-                      @click="()=>showTable=false">
+                      @click.stop="()=>showTable=false">
                   <i class="iconfont icon-ic_close"></i>
                 </span>
               </div>
@@ -525,15 +525,8 @@ export default {
         // eslint-disable-next-line prefer-destructuring
         this.selectedNodeInfo = { ...this.routers.filter(route => route.sn === sn)[0], color };
         console.log(this.selectedNodeInfo);
-        // if (this.isMobile && sn) {
-        //     this.routers.forEach(router => {
-        //       router.expand = false;
-        //       if (router.sn === sn) {
-        //         router.expand = true;
-        //       }
-        //     });
-        // }
         this.showTable = true;
+
         // 立即重新绘制图表，并在下一个更新周期前调整大小
         this.chart.resize();
         this.$nextTick(() => {
