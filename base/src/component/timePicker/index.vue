@@ -214,12 +214,6 @@ export default {
 };
 </script>
 <style lang='scss' scoped>
-::-webkit-scrollbar {
-  width: 0px;
-}
-::-webkit-scrollbar-track {
-  background-color: transparent;
-}
 .time-picker-panel {
   width: 100%;
   min-width: 120px;
@@ -274,9 +268,14 @@ export default {
       position: relative;
       flex: 1;
       height: 180px;
-      // overflow-y: scroll;
       border-right: 1px solid var(--time-picker-popup-border-color);
       box-sizing: border-box;
+      ::-webkit-scrollbar {
+        width: 0px;
+      }
+      ::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
       &::after {
         content: '';
         position: absolute;
@@ -286,8 +285,6 @@ export default {
         height: 36px;
         background: var(--primaryColor);
         box-shadow: var(--button-box-shadow);
-        // border-top: 1px solid rgba(0, 0, 0, 0.12);
-        // border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         pointer-events: none;
         z-index: -1;
       }

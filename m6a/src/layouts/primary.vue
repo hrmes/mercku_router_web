@@ -10,8 +10,8 @@
               :class="{'selected':$route.path.includes(menu.url),'disabled':menu.disabled}">
             <span>{{$t(`${menu.text}`)}}</span>
             <svg v-if="!isMobile"
-                 width="12"
-                 height="12"
+                 width="9"
+                 height="9"
                  viewBox="-30 -30 360 360"
                  class="triangle-svg">
               <polygon class="triangle"

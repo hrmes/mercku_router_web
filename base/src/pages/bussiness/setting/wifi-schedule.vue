@@ -5,18 +5,23 @@
       {{$t('trans0962')}}
     </div>
     <div class="page-content">
-      <m-form class="form">
-        <m-form-item class="form__item--first">
-          <m-switch :label="$t('trans0962')"
-                    class="smart-connect__switch"
-                    v-model="form.enabled"
-                    @change="onEnableChange" />
-        </m-form-item>
-        <div v-show="form.enabled"
-             class="form-wrapper">
-          <div class="form__advance">
-            <m-form-item class="form__item schedule-item">
-              <label class="form__label">{{$t('trans0082')}}</label>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card switch__card"
+               :class="{on:form.enabled}">
+            <m-form-item class="last">
+              <m-switch :label="$t('trans0962')"
+                        class="smart-connect__switch"
+                        v-model="form.enabled"
+                        @change="onEnableChange" />
+            </m-form-item>
+          </div>
+        </div>
+        <div class="row-2"
+             v-show="form.enabled">
+          <div class="card">
+            <m-form-item class="last">
+              <label class="form-item__label schedules__label">{{$t('trans0082')}}</label>
               <div class="schedules">
                 <m-checkbox class="schedules__schedule"
                             v-for="schedule in schedules"
@@ -28,27 +33,30 @@
               </div>
 
             </m-form-item>
-
-            <m-form-item class="form__item">
-              <label class="form__label">{{$t('trans0965')}}</label>
+          </div>
+          <div class="card">
+            <m-form-item>
+              <label class="form-item__label">{{$t('trans0965')}}</label>
               <m-time-picker class="time-picker"
                              v-model="form.time_begin" />
             </m-form-item>
-
-            <m-form-item class="form__item">
-              <label class="form__label">{{$t('trans0966')}}</label>
+            <m-form-item class="last">
+              <label class="form-item__label">{{$t('trans0966')}}</label>
               <m-time-picker class="time-picker"
                              v-model="form.time_end" />
             </m-form-item>
           </div>
         </div>
-      </m-form>
-      <div class="form-button"
-           v-show="form.enabled">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="updateWIFITimeLimit">{{$t('trans0081')}}</button>
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper"
+             v-show="form.enabled">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="updateWIFITimeLimit">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -187,84 +195,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  .page-content {
-    .form {
-      .row {
-        display: flex;
-      }
-      .form__label {
-        display: block;
-        text-align: left;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: var(--text-default-color);
-        font-size: 14px;
-      }
-      .form-item {
-        &.form__item--first {
-          margin-bottom: 0;
-          padding-bottom: 25px;
-        }
-        &.schedule-item {
-          margin-bottom: 15px;
-        }
-        .time-picker {
-          height: 48px;
-        }
-      }
-      .form-wrapper {
-        border-top: 1px solid var(--hr-color);
-      }
-      .form__advance {
-        width: 340px;
-        padding-top: 25px;
-      }
-      .tip__label {
-        font-size: 12px;
-        color: #999;
-        margin-top: 10px;
-        max-width: 340px;
-        border-bottom: 1px solid #ebebeb;
-        padding-bottom: 20px;
-      }
-    }
-    .schedules {
-      position: relative;
-      padding-bottom: 15px;
-      .schedules__schedule {
-        width: 50%;
-        margin-bottom: 12px;
-        &:nth-last-of-type(1) {
-          margin-bottom: 0;
-        }
-      }
-      .schedules__error {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        font-size: 12px;
-        color: #ff0001;
-        display: inline-block;
-        height: 14px;
-      }
-    }
-    .form-button {
-      margin-top: 0;
-      padding-top: 25px;
-      border-top: 1px solid var(--hr-color);
-    }
-  }
+.schedules {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 150px);
+  grid-gap: 15px;
+  height: 100%;
+}
+.schedules__label {
+  margin-bottom: 20px;
+}
+.schedules__error {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateY(120%);
+  color: var(--warning-color);
 }
 @media screen and (max-width: 768px) {
-  .page {
-    .page-content {
-      width: 100vw;
-      .form {
-        .form__advance {
-          width: auto;
-        }
-      }
+  .switch__card {
+    border: none;
+    &.on {
+      border-bottom: 1px solid var(--hr-color);
     }
   }
 }

@@ -5,12 +5,18 @@
       {{$t('trans0644')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <m-switch class="form__switch"
-                  v-model="form.enabled"
-                  :label="$t('trans0644')"
-                  @change="onEnabledChange" />
-        <p class="form__tips">{{$t('trans0643')}}</p>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <m-switch class="form__switch"
+                        v-model="form.enabled"
+                        :label="$t('trans0644')"
+                        @change="onEnabledChange" />
+              <p class="des-tips">{{$t('trans0643')}}</p>
+            </m-form-item>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -59,4 +65,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.page {
+  .page-content__main {
+    .card {
+      border: none;
+    }
+  }
+}
 </style>

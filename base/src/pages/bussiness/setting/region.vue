@@ -5,19 +5,27 @@
       {{$t('trans0639')}}
     </div>
     <div class="page-content">
-      <m-form class="form">
-        <m-form-item class="form__switch">
-          <m-select :label="$t('trans0639')"
-                    v-model="form.region.id"
-                    :options="regions"></m-select>
-        </m-form-item>
-        <p class="form__tips">{{$t('trans0646')}}</p>
-      </m-form>
-      <div class="form-button">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="updateRegion">{{$t('trans0081')}}</button>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <m-select v-model="form.region.id"
+                        :label="$t('trans0639')"
+                        :isDrawerStyle="true"
+                        :options="regions"></m-select>
+              <p class="des-tips">{{$t('trans0646')}}</p>
+            </m-form-item>
+          </div>
+        </div>
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="updateRegion">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -99,20 +107,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.page {
-  .page-content {
-    .form {
-      .form-item {
-        margin-bottom: 10px;
-      }
-    }
-    .form-button {
-      margin-top: 25px;
-      padding-top: 25px;
-      border-top: 1px solid var(--hr-color);
-    }
-  }
-}
-</style>

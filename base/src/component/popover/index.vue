@@ -1,5 +1,4 @@
 <template>
-
   <div class="popover-container"
        v-clickoutside="handleClose"
        ref="container"
@@ -18,7 +17,6 @@
            v-if="title">{{title}}</div>
       <div class="content">{{content}}</div>
     </div>
-
   </div>
 </template>
 

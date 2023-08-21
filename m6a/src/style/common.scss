@@ -129,7 +129,7 @@ input::-webkit-input-placeholder {
     .des-tips{
       font-size: 12px;
       color: #999;
-      margin-top: 10px;
+      margin:10px 0 0;
     }
   }
 }
@@ -164,6 +164,15 @@ input::-webkit-input-placeholder {
     background: #808080;
     margin-right: 10px;
   }
+}
+
+.form-item__label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-default-color);
+  font-size: 14px;
 }
 
 .form-button__wrapper{

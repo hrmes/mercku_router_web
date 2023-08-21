@@ -5,21 +5,25 @@
       {{$t('trans0272')}}
     </div>
     <div class="page-content">
-      <m-form ref="form"
-              class='form'
-              :model="form">
-        <m-form-item class="item"
-                     prop='password'>
-          <m-select :label="$t('trans0273')"
-                    v-model="form.timezone"
-                    :options="timezones"
-                    :needProcessing="true"></m-select>
-        </m-form-item>
-      </m-form>
-      <div class="form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click="submit()">{{$t('trans0081')}}</button>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <m-select :label="$t('trans0273')"
+                        v-model="form.timezone"
+                        :options="timezones"
+                        :needProcessing="true"
+                        :isDrawerStyle="true"></m-select>
+            </m-form-item>
+          </div>
+        </div>
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -84,30 +88,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.page-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  .form {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    align-items: center;
-  }
-  .form-button {
-    margin-top: 0;
-    padding-top: 25px;
-    border-top: 1px solid var(--hr-color);
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .page-content {
-    .current-timezone {
-      width: 100%;
-    }
-  }
-}
-</style>

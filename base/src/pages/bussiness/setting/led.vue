@@ -1,33 +1,44 @@
 <template>
-  <div class="page led">
+  <div class="page">
     <div v-if="$store.state.isMobile"
          class="page-header">
       {{$t('trans0779')}}
     </div>
     <div class="page-content">
-      <m-form class="form">
-        <m-form-item class="form__item--first">
-          <m-switch :label="$t('trans0779')"
-                    class="smart-connect__switch"
-                    v-model="form.enabled" />
-          <div class="tip__label">{{$t('trans0777')}}</div>
-        </m-form-item>
-        <m-form-item class="form__item">
-          <label class="form__label">{{$t('trans0778')}}</label>
-          <m-time-picker class="time-picker"
-                         v-model="form.begin_time" />
-        </m-form-item>
-        <m-form-item class="form__item">
-          <label class="form__label">{{$t('trans0780')}}</label>
-          <m-time-picker class="time-picker"
-                         v-model="form.end_time" />
-        </m-form-item>
-      </m-form>
-      <div class="form-button">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="updateLED">{{$t('trans0081')}}</button>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <m-switch :label="$t('trans0779')"
+                        class="smart-connect__switch"
+                        v-model="form.enabled" />
+              <div class="des-tips">{{$t('trans0777')}}</div>
+            </m-form-item>
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="card">
+            <m-form-item>
+              <label class="form-item__label">{{$t('trans0778')}}</label>
+              <m-time-picker class="time-picker"
+                             v-model="form.begin_time" />
+            </m-form-item>
+            <m-form-item class="last">
+              <label class="form-item__label">{{$t('trans0780')}}</label>
+              <m-time-picker class="time-picker"
+                             v-model="form.end_time" />
+            </m-form-item>
+          </div>
+        </div>
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="updateLED">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -84,53 +95,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  .page-content {
-    .form {
-      .row {
-        display: flex;
-      }
-      .form__label {
-        display: block;
-        text-align: left;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: var(--text-default-color);
-        font-size: 14px;
-      }
-      .form-item {
-        width: 340px;
-        &.form__item--first {
-          width: auto;
-          padding-bottom: 25px;
-          border-bottom: 1px solid var(--hr-color);
-        }
-        .time-picker {
-          height: 48px;
-        }
-      }
-      .tip__label {
-        font-size: 12px;
-        color: #999;
-        margin-top: 10px;
-        max-width: 340px;
-      }
-    }
-    .form-button {
-      margin-top: 0;
-      padding-top: 25px;
-      border-top: 1px solid var(--hr-color);
-    }
-  }
-}
 @media screen and (max-width: 768px) {
   .page {
     .page-content {
-      width: 100vw;
-      .form {
-        .form-item {
-          width: auto;
-        }
+      .page-content__main {
+        flex: none;
       }
     }
   }

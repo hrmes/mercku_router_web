@@ -3,6 +3,7 @@
        :class="{'form-item-success':success,'form-item-error':error}">
     <slot></slot>
     <span class="error-message"
+          :class="{static:errorMsgIsStatic}"
           v-show="error">{{message}}</span>
   </div>
 </template>
@@ -15,6 +16,10 @@ export default {
     rules: {
       type: Array,
       default: () => []
+    },
+    errorMsgIsStatic: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -133,6 +138,9 @@ export default {
     position: absolute;
     top: 100%;
     left: 0;
+    &.static {
+      position: static;
+    }
   }
   &.form-item-error {
     .input-wrapper {

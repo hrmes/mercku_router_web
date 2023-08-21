@@ -14,10 +14,21 @@
         <span class="icon"
               :class="{ 'open': opened, 'close': !opened }"></span>
       </div>
-      <transition name="fade">
-        <ul class="select-popup reset-ul"
-            :class="{'popup-top':popupTop}"
+      <!-- 过渡样式默认为淡入淡出 -->
+      <!-- 如果是上下抽屉样式时，过渡效果切换为上下移动淡入淡出 -->
+      <transition :name="isDrawerStyle&&isMobile? 'slide-up' : 'fade'">
+        <ul key="popup-list"
+            class="select-popup reset-ul"
+            :class="{'popup-top':popupTop,'drawer':isDrawerStyle}"
             v-show="opened">
+          <div class="drawer-header"
+               v-if="isDrawerStyle"
+               @click.stop="">
+            <span class="btn-icon close"
+                  @click.stop="()=>opened=false">
+              <i class="iconfont  icon-ic_close"></i>
+            </span>
+          </div>
           <template v-if="options.length">
             <li class="select-popup__item"
                 :class="{ 'selected': selected === option }"
@@ -37,6 +48,12 @@
           <li class="select-popup__item--empty"
               v-else>{{$t('trans0278')}}</li>
         </ul>
+      </transition>
+      <!-- 抽屉样式下拉选项的遮罩 -->
+      <transition name="fade">
+        <div class="mask"
+             v-if="isDrawerStyle&&opened"
+             key="mask"></div>
       </transition>
     </div>
   </div>
@@ -63,11 +80,20 @@ export default {
       type: Boolean,
       default: false
     },
+    // 预处理传入的数据，修改可选项的展示样式
+    // 默认传入的option需要展示的就一个内容，如果有多个内容需要展示，需要预处理
     needProcessing: {
       type: Boolean,
       default: false
     },
+    // 用以定时下拉框的可选项弹出位置，默认是在下面弹出，true表示在select上方弹出
     popupTop: {
+      type: Boolean,
+      default: false
+    },
+    // 用以定义下拉弹出框的样式是否为上下抽屉样式
+    // 该样式的目的是用于下拉选项比较多，同时手机端下要尽量多展示可选项的情况
+    isDrawerStyle: {
       type: Boolean,
       default: false
     }
@@ -77,6 +103,11 @@ export default {
       selected: this.getOptionByValue(this.value),
       opened: false
     };
+  },
+  computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    }
   },
   watch: {
     value(val) {
@@ -128,6 +159,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.3s ease;
+}
+.slide-up-enter,
+.slide-up-leave-to {
+  transform: translateY(100%); /* 初始位置在底部 */
+}
 .select-container {
   max-width: 340px;
   cursor: pointer;
@@ -171,7 +210,7 @@ export default {
   }
   .select-popup {
     position: absolute;
-    z-index: 888;
+    z-index: 1000;
     left: -1px;
     right: -1px;
     top: 52px;
@@ -185,7 +224,7 @@ export default {
       top: -5px;
       transform: translateY(-100%);
     }
-    .select-popup__item {
+    & .select-popup__item {
       list-style: none;
       padding: 17px 10px;
       line-height: 1.2;
@@ -302,6 +341,35 @@ export default {
     .select-popup {
       top: 52px;
       max-height: 200px;
+      &.drawer {
+        position: fixed;
+        top: 65px;
+        max-height: initial;
+        height: calc(100% - 65px);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        .drawer-header {
+          position: sticky;
+          top: 0;
+          left: 0;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          height: 50px;
+          padding-right: 10px;
+          text-align: right;
+          background: var(--select-popup-background-color);
+        }
+      }
+    }
+    .mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 999;
+      background: rgba($color: #000000, $alpha: 0.7);
     }
   }
 }
