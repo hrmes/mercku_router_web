@@ -62,6 +62,8 @@
                             :options="encryptMethods"></m-select>
                 </m-form-item>
                 <m-form-item prop='b24g.password'
+                             class="last"
+                             :errorMsgIsStatic="true"
                              v-if="form.b24g.encrypt!== EncryptMethod.open">
                   <m-input v-model="form.b24g.password"
                            :label="$t('trans0172')"
@@ -87,6 +89,8 @@
                             :options="encryptMethods"></m-select>
                 </m-form-item>
                 <m-form-item prop='b5g.password'
+                             class="last"
+                             :errorMsgIsStatic="true"
                              v-if="form.b5g.encrypt!== EncryptMethod.open">
                   <m-input v-model="form.b5g.password"
                            :label="$t('trans0172')"
@@ -101,22 +105,26 @@
             <div class="row-2">
               <div class="card">
                 <div class="setting-ssid-info">
-                  <template v-if="guest.smart_connect">
-                    <label class="title with-colon">{{$t('trans0168')}}:</label>
-                    <div>
-                      <p class='name value'>{{guest.bands[Bands.b24g].ssid}}</p>
-                    </div>
-                  </template>
-                  <div v-else>
-                    <p>
-                      <label class="title with-colon">{{$t('trans0923')}}:</label>
-                      <span class="name value">{{guest.bands[Bands.b24g].ssid}}</span>
-                    </p>
-                    <p>
-                      <label class="title with-colon">{{$t('trans0924')}}:</label>
-                      <span class="name value">{{guest.bands[Bands.b5g].ssid}}</span>
-                    </p>
-                  </div>
+                  <p>
+                    <label class="title with-colon">
+                      {{
+                        guest.smart_connect
+                        ? $t('trans0168')
+                        : $t('trans0923')
+                      }}:
+                    </label>
+                    <span class="value"
+                          :title="guest.bands[Bands.b24g].ssid">
+                      {{guest.bands[Bands.b24g].ssid}}
+                    </span>
+                  </p>
+                  <p v-if="!guest.smart_connect">
+                    <label class="title with-colon">{{$t('trans0924')}}:</label>
+                    <span class="value"
+                          :title="guest.bands[Bands.b5g].ssid">
+                      {{guest.bands[Bands.b5g].ssid}}
+                    </span>
+                  </p>
                 </div>
                 <div class="remaining-time">
                   <label class="title with-colon">{{$t('trans0524')}}:</label>
@@ -130,25 +138,22 @@
                 </div>
               </div>
             </div>
-
           </div>
         </m-form>
       </div>
       <div class="page-content__bottom">
         <div class="form-button__wrapper"
              :class="{'cancel':setupAndStart}">
-          <button class="btn btn-default btn-cancel btn-middle"
+          <button class="btn btn-default btn-cancel btn-setting"
                   style="margin-right:20px"
                   v-if="setupAndStart&&showCancelBtn"
                   @click='cancel'>{{$t('trans0025')}}</button>
-          <button v-if="showSettingPage"
-                  class="btn"
-                  :class="{'btn-middle':showCancelBtn}"
-                  @click='submit()'>{{$t('trans0081')}}</button>
-          <button v-else
+          <button v-if="showStatusPage"
                   class="btn"
                   @click='toSetting'>{{$t('trans0019')}}</button>
-
+          <button v-else
+                  class="btn btn-setting"
+                  @click='submit()'>{{$t('trans0081')}}</button>
         </div>
       </div>
     </div>
@@ -157,7 +162,12 @@
 <script>
 import encryptMix from 'base/mixins/encrypt-methods';
 import { EncryptMethod } from 'base/util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
+import {
+  getStringByte,
+  isValidPassword,
+  isFieldHasComma,
+  isFieldHasSpaces
+} from 'base/util/util';
 
 const Bands = {
   b24g: '2.4G',
@@ -206,7 +216,7 @@ export default {
         b5g: {
           ssid: this.ssid_5g,
           encrypt: EncryptMethod.open
-        },
+        }
       },
       rules: {
         'b24g.ssid': [
@@ -281,7 +291,7 @@ export default {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
-        ],
+        ]
       }
     };
   },
@@ -296,24 +306,30 @@ export default {
       let params = {};
       // 新建guest wifi
       if (this.form.enabled) {
-          params = {
-            id: this.form.id,
-            enabled: this.form.enabled,
-            duration: this.form.duration,
-            smart_connect: this.form.smart_connect,
-            bands: {
-              '2.4G': {
-                ssid: this.form.b24g.ssid?.trim(),
-                password: this.form.b24g.password,
-                encrypt: this.form.b24g.encrypt
-              },
-              '5G': {
-                ssid: this.form.smart_connect ? this.form.b24g.ssid?.trim() : this.form.b5g.ssid?.trim(),
-                password: this.form.smart_connect ? this.form.b24g.password : this.form.b5g.password,
-                encrypt: this.form.smart_connect ? this.form.b24g.encrypt : this.form.b5g.encrypt
-              }
+        params = {
+          id: this.form.id,
+          enabled: this.form.enabled,
+          duration: this.form.duration,
+          smart_connect: this.form.smart_connect,
+          bands: {
+            '2.4G': {
+              ssid: this.form.b24g.ssid?.trim(),
+              password: this.form.b24g.password,
+              encrypt: this.form.b24g.encrypt
+            },
+            '5G': {
+              ssid: this.form.smart_connect
+                ? this.form.b24g.ssid?.trim()
+                : this.form.b5g.ssid?.trim(),
+              password: this.form.smart_connect
+                ? this.form.b24g.password
+                : this.form.b5g.password,
+              encrypt: this.form.smart_connect
+                ? this.form.b24g.encrypt
+                : this.form.b5g.encrypt
             }
-          };
+          }
+        };
       } else {
         // 关闭guest wifi
         params = {
@@ -412,9 +428,11 @@ export default {
       return topStr;
     },
     getDevicesCount() {
-      this.$http.getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] }).then(res => {
-        this.devicesCount = res.data.result.count;
-      });
+      this.$http
+        .getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] })
+        .then(res => {
+          this.devicesCount = res.data.result.count;
+        });
     },
     getGuestWIFI() {
       this.$loading.open();
@@ -483,6 +501,9 @@ export default {
                   ...this.formParams,
                   remaining_duration: this.formParams.duration
                 };
+                this.showStatusPage = true;
+                this.showSettingPage = false;
+                this.showCancelBtn = false;
               }
               this.setGuestWIFIStatus(enabled);
             },
@@ -499,7 +520,6 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         console.log(this.formParams);
-
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
@@ -515,7 +535,7 @@ export default {
     changeSmartConnect(val) {
       this.form.b5g = Object.assign({}, this.form.b24g);
       if (!val) {
-       this.form.b5g.ssid = `${this.form.b24g.ssid}_5G`;
+        this.form.b5g.ssid = `${this.form.b24g.ssid}_5G`;
       }
     }
   },
@@ -536,48 +556,91 @@ export default {
     grid-template-columns: repeat(auto-fill, 360px);
     gap: 15px;
   }
-}
-@media screen and (max-width: 768px) {
-  .page-content {
-    width: 100vw;
-  }
-  .form {
-    .form-button__wrapper {
-      &.cancel {
-        display: flex;
-        .btn {
-          width: 50%;
-        }
-      }
-    }
-    .ssid {
-      > div {
-        width: inherit;
-      }
+  .info {
+    .card {
+      background: transparent;
     }
     .setting-ssid-info {
-      > div {
-        width: 100%;
-        overflow: hidden;
+      p {
+        margin: 10px 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .remaining-time,
+    .online-device {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      margin: 10px 0;
+    }
+    .remaining-time {
+      .value {
+        color: var(--mobile-menu-selected-color);
+      }
+    }
+    .title {
+      color: var(--common-gery-color);
+    }
+    .value {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      max-width: 165px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+.page-content__bottom {
+  .cancel {
+    .btn-setting {
+      width: 240px;
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .page-content__main {
+    max-width: 100vw;
+    .row-3,
+    .row-4 {
+      margin-top: 0;
+    }
+    .row-3 {
+      grid-template-columns: 100%;
+      grid-template-rows: 100%;
+    }
+    .row-4 {
+      grid-template-columns: 100%;
+      grid-template-rows: repeat(auto-fill, 1fr);
+      gap: 0;
+    }
+    .info {
+      .setting-ssid-info {
         p {
-          .value {
-            overflow: hidden;
-            text-overflow: ellipsis;
+          grid-template-columns: 100%;
+          grid-template-rows: repeat(2, 1fr);
+          margin: 15px 0;
+          &:first-child {
+            margin-top: 0;
           }
         }
       }
+      .remaining-time,
+      .online-device {
+        grid-template-columns: 100%;
+        grid-template-rows: repeat(2, 1fr);
+        margin: 15px 0;
+      }
+      .online-device {
+        margin-bottom: 0;
+      }
     }
   }
-}
-@media screen and (max-width: 374px) {
-  .form {
-    .status {
-      .title {
-        width: 100px;
-      }
-      .time {
-        display: flex;
-        align-items: center;
+  .page-content__bottom {
+    .cancel {
+      .btn-setting {
+        width: 50%;
       }
     }
   }

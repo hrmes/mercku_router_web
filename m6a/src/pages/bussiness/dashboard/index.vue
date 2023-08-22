@@ -344,7 +344,7 @@ export default {
       if (this.isConnected) {
         this.$toast('Internet online', 1500, 'success');
       } else {
-      this.tipsModalVisible = true;
+        this.tipsModalVisible = true;
       }
     },
     forward2page(url) {
@@ -424,7 +424,11 @@ export default {
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
-            if (this.isConnected && this.pageActive && this.needCheckUpgradable) {
+            if (
+              this.isConnected &&
+              this.pageActive &&
+              this.needCheckUpgradable
+            ) {
               this.checkFrimwareLatest();
             }
           })
@@ -450,7 +454,9 @@ export default {
               data: { result: deviceList }
             } = res2;
             console.log(deviceList);
-            const localDeviceInfoArr = deviceList.filter(item => item.ip === selfInfo.ip);
+            const localDeviceInfoArr = deviceList.filter(
+              item => item.ip === selfInfo.ip
+            );
             console.log(localDeviceInfoArr);
             if (localDeviceInfoArr.length) {
               // eslint-disable-next-line prefer-destructuring
@@ -513,11 +519,17 @@ export default {
       }
       // 小于1天大于1小时
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(date / split[1], 10)
+        )}`;
       }
       // 小于1小时大于1分钟
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
       }
       // 小于1分钟大于5秒
       if (date <= split[2] && date > split[3]) {

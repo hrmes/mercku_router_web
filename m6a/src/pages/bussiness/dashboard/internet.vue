@@ -250,7 +250,7 @@ export default {
         ip: '-',
         gateway: '-',
         dns: '-'
-      },
+      }
     };
   },
   mounted() {
@@ -271,7 +271,11 @@ export default {
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
-      const unit = [this.$t('trans0533'), this.$t('trans0532'), this.$t('trans0531')];
+      const unit = [
+        this.$t('trans0533'),
+        this.$t('trans0532'),
+        this.$t('trans0531')
+      ];
       const temp = ['00', '00', '00'];
       let index = 0;
       let a = this.uptime;
@@ -313,7 +317,10 @@ export default {
       return [topStr, bmStr];
     },
     isConnected() {
-      return this.$store.state.isConnected || (this.getWanStatus() && this.getIsConnnected);
+      return (
+        this.$store.state.isConnected ||
+        (this.getWanStatus() && this.getIsConnnected)
+      );
     },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
@@ -362,9 +369,15 @@ export default {
       };
       if (this.netInfo && this.netInfo.netinfo) {
         local.type = this.netInfo.type ? this.netInfo.type : '-';
-        local.netinfo.ip = this.netInfo.netinfo.ip ? this.netInfo.netinfo.ip : '-';
-        local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
-        local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip
+          ? this.netInfo.netinfo.ip
+          : '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask
+          ? this.netInfo.netinfo.mask
+          : '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway
+          ? this.netInfo.netinfo.gateway
+          : '-';
         local.netinfo.dns = this.netInfo.netinfo.dns;
         return local;
       }
@@ -476,7 +489,10 @@ export default {
           this.testSpeedNumber = this.testTimeout;
           return;
         }
-        if (this.testSpeedNumber % 5 === 0 && this.testSpeedNumber !== this.testTimeout) {
+        if (
+          this.testSpeedNumber % 5 === 0 &&
+          this.testSpeedNumber !== this.testTimeout
+        ) {
           this.speedTest();
         }
         this.testSpeedNumber -= 1;
@@ -941,6 +957,7 @@ export default {
         }
       }
       .btn {
+        max-width: 340px;
         margin-bottom: 40px;
       }
     }

@@ -308,7 +308,7 @@ label.with-colon {
   }
   .table {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 
     .empty {
       height: auto;
