@@ -206,7 +206,10 @@ export default {
   },
   methods: {
     transWebsite(text) {
-      return this.$t(text).replace('%s', process.env.CUSTOMER_CONFIG.website.url);
+      return this.$t(text).replace(
+        '%s',
+        process.env.CUSTOMER_CONFIG.website.url
+      );
     },
     resizeHandler() {
       if (document.body.clientWidth > mobileWidth) {
@@ -238,7 +241,10 @@ export default {
       const entendName = getFileExtendName(file);
       const reg = new RegExp(`^${this.accept.slice(1)}$`, 'i');
       if (!reg.test(entendName)) {
-        uploader.err = this.$t('trans0271').replace('%s', process.env.CUSTOMER_CONFIG.accept);
+        uploader.err = this.$t('trans0271').replace(
+          '%s',
+          process.env.CUSTOMER_CONFIG.accept
+        );
         return false;
       }
       if (file.size === 0) {

@@ -216,7 +216,7 @@ export default {
     navs: {
       type: Array,
       default: () => []
-    },
+    }
   },
   data() {
     return {
@@ -253,7 +253,10 @@ export default {
       return process.env.CUSTOMER_CONFIG.website;
     },
     needMoveToRight() {
-      return this.$route.path.includes('wlan') || this.$route.path.includes('unconnect');
+      return (
+        this.$route.path.includes('wlan') ||
+        this.$route.path.includes('unconnect')
+      );
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -418,12 +421,16 @@ export default {
         });
         this.themeOptions[theme].ischecked = true;
       }
-      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
+      document
+        .querySelector('html')
+        .setAttribute('class', localStorage.getItem('theme'));
     },
     changeThemeMode() {
       localStorage.setItem('theme', this.selectedTheme);
       this.$store.state.theme = this.selectedTheme;
-      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
+      document
+        .querySelector('html')
+        .setAttribute('class', localStorage.getItem('theme'));
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;

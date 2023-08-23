@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       showPwd: false,
-      inputValue: this.value || '',
+      inputValue: this.value || ''
     };
   },
   watch: {
@@ -109,7 +109,7 @@ export default {
     },
     focus() {
       this.$parent.$emit('focus');
-    },
+    }
   },
   computed: {
     computedWidth() {
@@ -138,7 +138,7 @@ export default {
     },
     isPwdInput() {
       return this.type === 'password';
-    },
+    }
   }
 };
 </script>
@@ -150,7 +150,6 @@ input::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
-
 .input-container {
   max-width: 340px;
   &.small {

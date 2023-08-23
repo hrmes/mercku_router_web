@@ -16,14 +16,14 @@
             <m-input v-model="form.up"
                      :label="`${$t('trans0304')} (Kbps)`"
                      type='text'
-                     :placeholder="`${$t('trans0391')}`"></m-input>
+                     placeholder="1-1000000"></m-input>
           </m-form-item>
           <m-form-item class="item"
                        prop='down'>
             <m-input v-model="form.down"
                      :label=" `${$t('trans0305')} (Kbps)`"
                      type='text'
-                     :placeholder="`${$t('trans0391')}`"></m-input>
+                     placeholder="1-1000000"></m-input>
           </m-form-item>
         </m-form>
         <div class="hr-line"></div>

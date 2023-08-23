@@ -320,9 +320,11 @@ export default {
   async mounted() {
     this.createIntervalTask();
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      this.checkThemeMode(event.matches);
-    });
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', event => {
+        this.checkThemeMode(event.matches);
+      });
     // 获取当前设备信息
     try {
       const selfInfo = await this.$http.getLocalDevice();
@@ -390,15 +392,15 @@ export default {
       switch (color) {
         case Color.good:
           result = this.ConnectionQualityMap.excellent;
-        break;
+          break;
         case Color.bad:
           result = this.ConnectionQualityMap.fair;
-        break;
+          break;
         case Color.offline:
           result = this.ConnectionQualityMap.offline;
-        break;
+          break;
         default:
-        break;
+          break;
       }
       return result;
     },
@@ -448,13 +450,14 @@ export default {
         callback: {
           ok: () => {
             this.$loading.open();
-            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
-            .then(() => {
-              this.$loading.close();
-              this.showTable = false;
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-              this.routers = this.routers.filter(r => r.sn !== router.sn);
-            });
+            this.$http
+              .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
+              .then(() => {
+                this.$loading.close();
+                this.showTable = false;
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
+              });
           }
         }
       });
@@ -518,12 +521,21 @@ export default {
     initChart() {
       const topoEl = document.getElementById('topo');
       this.chart = echarts.init(topoEl);
-      this.chart.on('click', (e) => {
-        const { data: { sn } } = e;
-        const { data: { itemStyle: { color } } } = e;
+      this.chart.on('click', e => {
+        const {
+          data: { sn }
+        } = e;
+        const {
+          data: {
+            itemStyle: { color }
+          }
+        } = e;
         this.selectedSN = sn;
         // eslint-disable-next-line prefer-destructuring
-        this.selectedNodeInfo = { ...this.routers.filter(route => route.sn === sn)[0], color };
+        this.selectedNodeInfo = {
+          ...this.routers.filter(route => route.sn === sn)[0],
+          color
+        };
         console.log(this.selectedNodeInfo);
         this.showTable = true;
 
@@ -542,11 +554,11 @@ export default {
       this.chart.setOption({
         series: [
           {
-            center: ['50%', '50%'], // 设置原始位置为中央，上下水平居中
-          },
-        ],
+            center: ['50%', '50%'] // 设置原始位置为中央，上下水平居中
+          }
+        ]
       });
-},
+    },
     drawTopo(routers) {
       // const oldRouters = this.routers;
       const data = genData(routers);
@@ -562,7 +574,9 @@ export default {
       });
 
       // eslint-disable-next-line prefer-destructuring
-      this.selectedNodeInfo = this.routers.filter(node => node.sn === this.selectedSN)[0];
+      this.selectedNodeInfo = this.routers.filter(
+        node => node.sn === this.selectedSN
+      )[0];
       // 维持设备之前的附加属性
       // if (oldRouters.length > 0) {
       //   oldRouters.forEach(or => {
@@ -583,7 +597,7 @@ export default {
             layout: 'circular',
             hoverAnimation: false,
             edgeLabel: {
-              show: false,
+              show: false
             },
             label: {
               normal: {
@@ -591,10 +605,10 @@ export default {
                 position: 'bottom',
                 distance: 10,
                 backgroundColor: 'transparent',
-                formatter: (category) => this.labelFormatter(category),
+                formatter: category => this.labelFormatter(category),
                 rich: {
                   name: {
-                    color: this.isDarkMode ? '#fff' : '#333',
+                    color: this.isDarkMode ? '#fff' : '#333'
                   },
                   stationCount: {
                     height: 18,
@@ -603,32 +617,35 @@ export default {
                     borderColor: this.isDarkMode ? '#161616 ' : '#fff',
                     borderWidth: 1.5,
                     color: '#333333',
-                    backgroundColor: '#d8d8d8',
+                    backgroundColor: '#d8d8d8'
                   },
                   good: {
                     color: '#29b96c',
                     align: 'center',
                     fontSize: 13,
-                    lineHeight: 30,
+                    lineHeight: 30
                   },
                   bad: {
                     color: '#e4752d',
                     align: 'center',
                     fontSize: 13,
-                    lineHeight: 30,
+                    lineHeight: 30
                   },
                   offline: {
                     color: '#b3b3b3',
                     align: 'center',
                     fontSize: 13,
-                    lineHeight: 30,
+                    lineHeight: 30
                   }
                 }
-              },
+              }
             },
             data: data.nodes,
             links: data.lines,
-            categories: [{ name: `${this.$t('trans0193')}` }, { name: `${this.$t('trans0196')}` }],
+            categories: [
+              { name: `${this.$t('trans0193')}` },
+              { name: `${this.$t('trans0196')}` }
+            ],
             lineStyle: { width: 2 }
           }
         ]
@@ -705,28 +722,34 @@ export default {
       // originName是节点的原始名称
       let { originName: name } = category.data;
       const { stationsCount } = category.data;
-      const { itemStyle: { color } } = category.data;
+      const {
+        itemStyle: { color }
+      } = category.data;
       const { isGateway } = category.data;
       let result;
       if (name.length > 12) {
         name = `${name.substring(0, 12)}...`;
       }
       if (isGateway) {
-       result = `{name|${name}} {stationCount|${stationsCount}}`;
-       return result;
+        result = `{name|${name}} {stationCount|${stationsCount}}`;
+        return result;
       }
       switch (color) {
         case Color.good:
-          result = `{name|${name}} {stationCount|${stationsCount}}\n{good|${this.$t('trans0193')}} `;
-        break;
+          result = `{name|${name}} {stationCount|${stationsCount}}\n{good|${this.$t(
+            'trans0193'
+          )}} `;
+          break;
         case Color.bad:
-          result = `{name|${name}} {stationCount|${stationsCount}}\n{bad|${this.$t('trans0196')}} `;
-        break;
+          result = `{name|${name}} {stationCount|${stationsCount}}\n{bad|${this.$t(
+            'trans0196'
+          )}} `;
+          break;
         case Color.offline:
           result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
-        break;
+          break;
         default:
-        break;
+          break;
       }
       return result;
     },

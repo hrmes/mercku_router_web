@@ -150,7 +150,12 @@
 <script>
 import { Bands } from 'base/util/constant';
 import { WlanImg } from '@/assets/images/v3/base64-img/img.js';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
+import {
+  getStringByte,
+  isValidPassword,
+  isFieldHasComma,
+  isFieldHasSpaces
+} from 'base/util/util';
 
 export default {
   data() {
@@ -249,11 +254,13 @@ export default {
   },
   computed: {
     tipsText() {
-      return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
+      return this.wifiForm.smart_connect
+        ? this.$t('trans0922')
+        : this.$t('trans0921');
     },
     isMobile() {
       return this.$store.state.isMobile;
-    },
+    }
   },
   mounted() {
     // this.$loading.open();
@@ -287,7 +294,10 @@ export default {
   methods: {
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
-        this.$refs.ssid5g.extraValidate(this.validateSsid5G, this.$t('trans0660'));
+        this.$refs.ssid5g.extraValidate(
+          this.validateSsid5G,
+          this.$t('trans0660')
+        );
       }
     },
     validateSsid5G() {

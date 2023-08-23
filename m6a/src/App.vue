@@ -1,34 +1,39 @@
 <template>
-  <div class="scrollbar-wrap"
-       :class="{'is-login-page':isLoginPage}">
-    <div class="container">
-      <div class="app-container router-view">
-        <div ref="flexWrap"
-             class="flex-wrap"
-             :class="{ 'has-menu': navVisible }">
-          <m-header :navVisible="navVisible"
-                    :isLoginPage="isLoginPage"
-                    :isWlanPage="isWlanPage"
-                    :navs="menus"
-                    id="header" />
-          <component v-if="isMobile"
-                     :is="layout"
-                     :hasBackWrap='hasBackWrap'
-                     :asideInfo='asideInfo'></component>
-          <transition v-else
-                      :name="transitionName"
-                      mode="out-in">
-            <component :is="layout"
+  <<<<<<< HEAD
+          <div
+          class="scrollbar-wrap"
+          :class="{'is-login-page':isLoginPage}">
+    =======
+    <div class="srcollbar-wrap"
+         :class="{ 'nav-visiable': navVisible }">
+      >>>>>>> develop
+      <div class="container">
+        <div class="app-container router-view">
+          <div ref="flexWrap"
+               class="flex-wrap">
+            <m-header :navVisible="navVisible"
+                      :isLoginPage="isLoginPage"
+                      :isWlanPage="isWlanPage"
+                      :navs="menus"
+                      id="header" />
+            <component v-if="isMobile"
+                       :is="layout"
                        :hasBackWrap='hasBackWrap'
                        :asideInfo='asideInfo'></component>
-          </transition>
-          <m-footer :isLoginPage="isLoginPage "
-                    :isWlanPage="isWlanPage"
-                    :navVisible="navVisible" />
+            <transition v-else
+                        :name="transitionName"
+                        mode="out-in">
+              <component :is="layout"
+                         :hasBackWrap='hasBackWrap'
+                         :asideInfo='asideInfo'></component>
+            </transition>
+            <m-footer :isLoginPage="isLoginPage "
+                      :isWlanPage="isWlanPage"
+                      :navVisible="navVisible" />
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
 import './style/common.scss';
@@ -39,7 +44,7 @@ import getMenu from './menu';
 export default {
   components: {
     default: defaultLayout,
-    primary: primaryLayout,
+    primary: primaryLayout
   },
   computed: {
     isMobile() {
@@ -87,7 +92,10 @@ export default {
     },
     navVisible() {
       const { path } = this.$route;
-      const visible = path.includes('login') || path.includes('wlan') || path.includes('unconnect');
+      const visible =
+        path.includes('login') ||
+        path.includes('wlan') ||
+        path.includes('unconnect');
       return !visible;
     },
     menus() {
@@ -98,7 +106,7 @@ export default {
   methods: {
     setHeight() {
       const flexWrap = document.querySelector('.flex-wrap');
-       // fix safari
+      // fix safari
       const contentMinHeight = 600; // 定义内容区域最小高度
       const height = Math.max(document.body.clientHeight, contentMinHeight);
       flexWrap.style.minHeight = `${height}px`;
@@ -115,7 +123,9 @@ export default {
       scrollbar.addEventListener('scroll', handleScroll);
     },
     removeEventListeners() {
-      window.removeEventListener('resize', () => { this.setHeight(); });
+      window.removeEventListener('resize', () => {
+        this.setHeight();
+      });
       const scrollbar = document.querySelector('.scrollbar-wrap');
       scrollbar.removeEventListener('scroll', this.handleScroll);
     }
@@ -123,7 +133,9 @@ export default {
   mounted() {
     this.setHeight();
     this.listenScroll();
-    window.addEventListener('resize', () => { this.setHeight(); });
+    window.addEventListener('resize', () => {
+      this.setHeight();
+    });
     this.$router.beforeEach((to, from, next) => {
       // 判断是否是手机端
       // eslint-disable-next-line max-len
