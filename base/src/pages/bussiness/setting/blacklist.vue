@@ -294,17 +294,7 @@ export default {
 <style lang="scss" scoped>
 .table {
   .table-header {
-    display: grid;
-    grid-template-rows: 100%;
     grid-template-columns: 20px 2fr 2fr 1fr;
-    gap: 10px;
-    align-items: center;
-    background: var(--table-row-background-color);
-    padding: 10px 20px;
-    margin-bottom: 5px;
-    border-radius: 10px;
-    font-size: 12px;
-    color: var(--common-gery-color);
   }
   .table-content {
     .device {
@@ -313,7 +303,7 @@ export default {
       grid-template-columns: 20px 2fr 2fr 1fr;
       gap: 10px;
       width: 100%;
-      padding: 20px;
+      padding: 20px 15px;
       background: var(--table-row-background-color);
       border-radius: 10px;
       margin-bottom: 5px;
@@ -362,10 +352,6 @@ export default {
   justify-content: flex-end;
   .btn {
     margin-left: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     &:first-child {
       margin-left: 0;
     }
@@ -420,7 +406,6 @@ export default {
         grid-template-rows: 100%;
         grid-template-columns: 20px 1fr;
         width: 100%;
-        padding: 20px;
         background: var(--table-row-background-color);
         border-radius: 10px;
         margin-bottom: 5px;

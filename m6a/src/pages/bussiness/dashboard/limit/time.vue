@@ -403,7 +403,7 @@ export default {
       } else {
         this.msgShow = true;
       }
-    },
+    }
   }
 };
 </script>
@@ -517,58 +517,6 @@ export default {
           }
         }
       }
-      .limit-icon {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: all 0.15s ease-in-out;
-        .iconfont {
-          font-size: 20px;
-          color: var(--device-limit_icon-color);
-          font-weight: 500;
-          &.active {
-            color: var(--primaryColor);
-          }
-        }
-        .hover-popover {
-          display: none;
-          position: absolute;
-          padding: 5px 12px;
-          font-size: 12px;
-          background: var(--table-action-popover-bgc);
-          color: #fff;
-          top: -8px;
-          left: 50%;
-          transform: translate(-50%, -100%);
-          border-radius: 10px;
-          max-height: 190px;
-          word-break: keep-all;
-          white-space: nowrap;
-          z-index: 10;
-          &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translate(-50%, 100%);
-            width: 0;
-            height: 0;
-            border: 6px solid transparent;
-            border-top-color: var(--table-action-popover-bgc);
-          }
-        }
-        &:hover {
-          background-color: var(--device-limit_icon-hover-bgc);
-          .hover-popover {
-            display: block;
-          }
-        }
-      }
     }
   }
 }
@@ -616,14 +564,6 @@ export default {
           .column-handle {
             grid-column: 1;
             grid-row: 3;
-          }
-        }
-        .limit-icon {
-          &:hover {
-            background-color: transparent;
-            .hover-popover {
-              display: none;
-            }
           }
         }
       }
