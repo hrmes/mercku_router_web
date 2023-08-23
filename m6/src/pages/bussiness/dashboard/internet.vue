@@ -14,7 +14,7 @@
                       {{realtimeSpeedDown.value}}
                     </span>
                     <span class="speed__unit">
-                      {{realtimeSpeedDown.unit}}/s
+                      {{realtimeSpeedDown.unit}}
                     </span>
                   </span>
                   <label class="speed__title">{{$t('trans0305')}}</label>
@@ -27,38 +27,12 @@
                       <i class="speed__icon speed__icon--up"></i>
                       {{realtimeSpeedUp.value}}
                     </span>
-                    <span class="speed__unit">{{realtimeSpeedUp.unit}}/s</span>
+                    <span class="speed__unit">{{realtimeSpeedUp.unit}}</span>
                   </span>
                   <label class="speed__title">{{$t('trans0304')}}</label>
                 </div>
               </div>
             </div>
-            <!-- <div class="peak__speed speed">
-              <div class="speed__item">
-                <div class="speed__item__wrap">
-                  <span>
-                    <span class="speed__value">
-                      <i class="speed__icon speed__icon--peekdown"></i>
-                      {{peekDown.value}}
-                    </span>
-                    <span class="speed__unit">{{peekDown.unit}}/s</span>
-                  </span>
-                  <label class="speed__title">{{$t('trans0307')}}</label>
-                </div>
-              </div>
-              <div class="speed__item">
-                <div class="speed__item__wrap">
-                  <span>
-                    <span class="speed__value">
-                      <i class="speed__icon speed__icon--peekup"></i>
-                      {{peekUp.value}}
-                    </span>
-                    <span class="speed__unit">{{peekUp.unit}}/s</span>
-                  </span>
-                  <label class="speed__title">{{$t('trans0306')}}</label>
-                </div>
-              </div>
-            </div> -->
             <div class="traffic speed">
               <div class="speed__item">
                 <div class="speed__item__wrap">
@@ -414,12 +388,6 @@ export default {
     },
     realtimeSpeedUp() {
       return this.formatSpeed(this.localTraffic.speed.realtime.up);
-    },
-    peekUp() {
-      return this.formatSpeed(this.localTraffic.speed.peak.up);
-    },
-    peekDown() {
-      return this.formatSpeed(this.localTraffic.speed.peak.down);
     },
     trafficUl() {
       return this.formatNetworkData(this.localTraffic.traffic.ul);
