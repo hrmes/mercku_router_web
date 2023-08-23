@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     animJson() {
-      const name = process.env.CUSTOMER_CONFIG.assetFolderName;
+      const name = process.env.CUSTOMER_CONFIG.title.toLowerCase();
       return require(`../../assets/lottie/${name}/loading.json`);
     }
   },

@@ -147,9 +147,8 @@
                         class="btn-icon"
                         @click="resetNode(router)">
                     <i class="reset iconfont icon-ic_router_reset_normal"></i>
-                    <span class="icon-hover-popover"
-                          style="min-width:180px; max-width:500px; line-height:1.5;padding-bottom:18px;  white-space: pre-line;">
-                      {{$t('trans1188')}}</span>
+                    <span class="icon-hover-popover">
+                      {{$t('trans0205')}}</span>
                   </span>
                   <span v-if="isMobile&&router.is_gw"
                         class="label"
@@ -172,7 +171,8 @@
             </template>
             <div class="loading-container"
                  v-else>
-              <m-loading :id="'meshFormLoading'"></m-loading>
+              <m-loading :id="'meshFormLoading'"
+                         :color="loadingColor"></m-loading>
             </div>
 
           </div>
@@ -383,9 +383,11 @@ export default {
     this.initChart();
     this.createIntervalTask();
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      this.checkThemeMode(event.matches);
-    });
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', event => {
+        this.checkThemeMode(event.matches);
+      });
     // 获取当前设备信息
     try {
       const selfInfo = await this.$http.getLocalDevice();
@@ -507,11 +509,13 @@ export default {
         callback: {
           ok: () => {
             this.$loading.open();
-            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
-              this.$loading.close();
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-              this.routers = this.routers.filter(r => r.sn !== router.sn);
-            });
+            this.$http
+              .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
+              .then(() => {
+                this.$loading.close();
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.routers = this.routers.filter(r => r.sn !== router.sn);
+              });
           }
         }
       });
@@ -575,15 +579,17 @@ export default {
     initChart() {
       const topoEl = document.getElementById('topo');
       this.chart = echarts.init(topoEl);
-      this.chart.on('click', (e) => {
-        const { data: { sn } } = e;
+      this.chart.on('click', e => {
+        const {
+          data: { sn }
+        } = e;
         if (this.isMobile && sn) {
-            this.routers.forEach(router => {
-              router.expand = false;
-              if (router.sn === sn) {
-                router.expand = true;
-              }
-            });
+          this.routers.forEach(router => {
+            router.expand = false;
+            if (router.sn === sn) {
+              router.expand = true;
+            }
+          });
         }
         this.$router.push('/dashboard/mesh/table');
       });
@@ -653,7 +659,10 @@ export default {
                     const sp = name.split(splitor);
                     let index = 1;
                     let start = sp[0];
-                    while ((start + sp[index]).length < 10 && index < sp.length) {
+                    while (
+                      (start + sp[index]).length < 10 &&
+                      index < sp.length
+                    ) {
                       start += ` ${sp[index]}`;
                       index += 1;
                     }
@@ -666,7 +675,10 @@ export default {
             },
             data: data.nodes,
             links: data.lines,
-            categories: [{ name: `${this.$t('trans0193')}` }, { name: `${this.$t('trans0196')}` }],
+            categories: [
+              { name: `${this.$t('trans0193')}` },
+              { name: `${this.$t('trans0196')}` }
+            ],
             lineStyle: { width: 2 }
           }
         ]

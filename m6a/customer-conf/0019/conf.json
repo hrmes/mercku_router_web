@@ -1,7 +1,7 @@
 {
   "id": "0019",
-  "host": "http://mywifi.mercku.tech",
-  "__host": "http://myprism.tech",
+  "__host": "http://mywifi.mercku.tech",
+  "host": "http://myprism.tech",
   "title": "Pentanet",
   "accept": ".pen",
   "favicon": "customer-conf/0019/favicon.ico",

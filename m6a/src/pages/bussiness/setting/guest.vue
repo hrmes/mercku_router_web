@@ -127,7 +127,12 @@
 <script>
 import encryptMix from 'base/mixins/encrypt-methods';
 import { EncryptMethod } from 'base/util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
+import {
+  getStringByte,
+  isValidPassword,
+  isFieldHasComma,
+  isFieldHasSpaces
+} from 'base/util/util';
 
 const Bands = {
   b24g: '2.4G',
@@ -168,7 +173,7 @@ export default {
         id: '',
         enabled: false,
         duration: -1,
-        ssid: 'Mercku Guest',
+        ssid: 'Guest-WiFi',
         encrypt: EncryptMethod.open,
         smart_connect: true
       },
@@ -336,9 +341,11 @@ export default {
       return topStr;
     },
     getDevicesCount() {
-      this.$http.getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] }).then(res => {
-        this.devicesCount = res.data.result.count;
-      });
+      this.$http
+        .getDeviceCount({ filters: [{ type: 'guest', status: ['online'] }] })
+        .then(res => {
+          this.devicesCount = res.data.result.count;
+        });
     },
     getGuestWIFI() {
       this.$loading.open();

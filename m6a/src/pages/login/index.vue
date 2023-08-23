@@ -1,34 +1,25 @@
 <template>
   <div class="login-container customized">
     <div class="center-form"
-         :class="{'light':currentTheme!=='auto'&&!isDarkMode,'dark':currentTheme!=='auto'&&isDarkMode}">
+         :class="{
+          'light':currentTheme!=='auto'&&!isDarkMode,
+          'dark':currentTheme!=='auto'&&isDarkMode
+        }">
       <div class="form">
         <div class="logo">
         </div>
-        <div v-if="loading === false">
-          <button v-if="initial === true"
-                  class="btn"
-                  @click="towlan">{{$t('trans0222')}}</button>
-
-          <div class="login-form"
-               v-if="initial === false">
-            <div class="form-item">
-              <m-input :label="$t('trans0067')"
-                       :placeholder="$t('trans0321')"
-                       type="password"
-                       v-model="password" />
-            </div>
-            <div class="form-item">
-              <button class="btn"
-                      v-defaultbutton
-                      @click.stop="login()">{{this.$t('trans0001')}}</button>
-            </div>
+        <div class="login-form">
+          <div class="form-item">
+            <m-input :label="$t('trans0067')"
+                     :placeholder="$t('trans0321')"
+                     type="password"
+                     v-model="password" />
           </div>
-        </div>
-        <div class="loading"
-             v-if="loading === true">
-          <m-loading :color="loadingColor"
-                     :size="36"></m-loading>
+          <div class="form-item">
+            <button class="btn"
+                    v-defaultbutton
+                    @click.stop="login()">{{this.$t('trans0001')}}</button>
+          </div>
         </div>
       </div>
       <div class="download"
@@ -80,33 +71,10 @@
 export default {
   data() {
     return {
-      initial: false,
-      loading: false,
       password: '',
       isDarkMode: false
     };
   },
-  // in m6 router, if router is initial
-  // uhttpd will redirect to /wlan page directly
-  // mounted() {
-  //   this.loading = true;
-  //   this.$http
-  //     .isinitial()
-  //     .then(res => {
-  //       if (res.data.result.status) {
-  //         this.$http.login({ password: '' }).then(() => {
-  //           this.towlan();
-  //         });
-  //       } else {
-  //         this.initial = false;
-  //         this.loading = false;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       this.initial = false;
-  //       this.loading = false;
-  //     });
-  // },
   computed: {
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
@@ -131,47 +99,41 @@ export default {
     towlan() {
       this.$router.push({ path: '/wlan' });
     },
-    login() {
-      this.$loading.open();
-      this.$http
-        .login({ password: this.password })
-        .then(res => {
-          const { role } = res.data.result;
-          this.$store.state.role = role;
-          localStorage.setItem('role', role);
-          this.$http.getMeshMode()
-          .then(res1 => {
-            this.$loading.close();
-            const { mode } = res1.data.result;
-            this.$store.state.mode = mode;
-            localStorage.setItem('mode', mode);
+    async login() {
+      try {
+        this.$loading.open();
 
-            const { sn } = res1.data.result;
-            const modelID = sn.charAt(9);
-            // const modelID = '0';
-            this.$store.state.modelID = modelID;
-            localStorage.setItem('modelID', modelID);
+        const { role } = (await this.$http.login({ password: this.password }))
+          .data.result;
+        this.$store.role = role;
+        localStorage.setItem('role', role);
 
-            this.$router.push({ path: '/dashboard' });
-            this.$loading.close();
-          });
-        })
-        .catch(err => {
-          this.$loading.close();
-          this.$toast(this.$t(err.error.code));
-        });
+        const { status } = (await this.$http.isinitial()).data.result;
+        if (status) {
+          this.towlan();
+          return;
+        }
+
+        const { mode, sn } = (await this.$http.getMeshMode()).data.result;
+        const modelID = sn?.charAt(9);
+
+        this.$store.state.modelID = modelID;
+        localStorage.setItem('modelID', modelID);
+
+        this.$store.mode = mode;
+        localStorage.setItem('mode', mode);
+
+        this.$router.push({ path: '/dashboard' });
+      } catch (err) {
+        this.$toast(this.$t(err.error.code));
+      } finally {
+        this.$loading.close();
+      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-@media screen and(min-width: 769px) {
-  .login-container {
-    .form {
-      height: 262px;
-    }
-  }
-}
 .login-container {
   width: 100%;
   height: 100%;
@@ -179,10 +141,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  .loading {
-    display: flex;
-    justify-content: center;
-  }
   .small-device-download {
     display: none;
   }
@@ -197,14 +155,7 @@ export default {
     height: inherit;
     transform: translateY(calc(48px - 80px));
     .logo {
-      width: 340px;
       margin: 0 auto;
-      &::before {
-        content: '';
-        display: block;
-        padding-top: 15%;
-      }
-      margin-bottom: 60px;
     }
     .form-item {
       margin-bottom: 30px;
@@ -249,7 +200,6 @@ export default {
         }
         img {
           width: 14px;
-          // height: 18px;
           &.android-img {
             filter: var(--download-android-img-brightness);
           }
@@ -353,7 +303,6 @@ export default {
       display: none;
     }
     .center-form {
-      // width: 80%;
       padding: 0 20px;
       flex: 1;
       margin: 0 auto;

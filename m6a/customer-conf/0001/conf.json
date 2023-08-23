@@ -7,7 +7,6 @@
   "policy": "",
   "allow2LevelAdmin": false,
   "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG"],
-  "assetFolderName": "mercku",
   "deviceId": "Mercku",
   "wifi": "Mercku Wi-Fi",
   "routers": {

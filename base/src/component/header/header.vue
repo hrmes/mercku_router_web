@@ -161,7 +161,7 @@
       </m-modal-header>
       <m-modal-body>
         <div class="theme-change-body">
-          <div class="theme-option light"
+          <div class="theme-option"
                @click="clickHandler('light')">
             <img src="../../assets/images/img_theme_light.webp"
                  alt="">
@@ -170,7 +170,7 @@
                         :rect="false"
                         v-model="themeOptions.light.ischecked"></m-checkbox>
           </div>
-          <div class="theme-option dark"
+          <div class="theme-option"
                @click="clickHandler('dark')">
             <img src="../../assets/images/img_theme_dark.webp"
                  alt="">
@@ -179,7 +179,7 @@
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
           </div>
-          <div class="theme-option auto"
+          <div class="theme-option"
                @click="clickHandler('auto')">
             <img src="../../assets/images/img_theme_auto.webp"
                  alt="">
@@ -255,7 +255,7 @@ const Languages = [
     text: 'български',
     value: 'bg-BG',
     show: false
-  },
+  }
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
 if (!supportLanguage) {
@@ -326,7 +326,10 @@ export default {
       return process.env.CUSTOMER_CONFIG.website;
     },
     needMoveToRight() {
-      return this.$route.path.includes('wlan') || this.$route.path.includes('unconnect');
+      return (
+        this.$route.path.includes('wlan') ||
+        this.$route.path.includes('unconnect')
+      );
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -453,7 +456,9 @@ export default {
       this.showPopup = false;
     },
     getDefaultLanguage() {
-      const language = this.Languages.filter(l => l.value === this.$i18n.locale)[0];
+      const language = this.Languages.filter(
+        l => l.value === this.$i18n.locale
+      )[0];
       if (!language) {
         return this.Languages[0];
       }
@@ -523,12 +528,16 @@ export default {
         });
         this.themeOptions[theme].ischecked = true;
       }
-      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
+      document
+        .querySelector('html')
+        .setAttribute('class', localStorage.getItem('theme'));
     },
     changeThemeMode() {
       localStorage.setItem('theme', this.selectedTheme);
       this.$store.state.theme = this.selectedTheme;
-      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
+      document
+        .querySelector('html')
+        .setAttribute('class', localStorage.getItem('theme'));
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;

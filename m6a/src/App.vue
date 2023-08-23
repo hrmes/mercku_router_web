@@ -19,11 +19,11 @@
                     class="policy" />
           <img v-if="$route.path.includes('login')"
                class="login-logo__left__top"
-               src="@/assets/images/customer/mercku/login_logo.png"
+               :src="loginCircleImg"
                alt="">
           <img v-if="$route.path.includes('login')"
                class="login-logo__right__bottom"
-               src="@/assets/images/customer/mercku/login_logo.png"
+               :src="loginCircleImg"
                alt="">
         </div>
       </div>
@@ -85,6 +85,10 @@ export default {
     },
     menus() {
       return getMenu(this.$store.state.role, this.$store.state.mode);
+    },
+    loginCircleImg() {
+      const customerName = process.env.CUSTOMER_CONFIG.title.toLowerCase();
+      return require(`@/assets/images/customer/${customerName}/login_logo.png`);
     }
   },
   methods: {

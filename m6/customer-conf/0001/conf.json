@@ -5,7 +5,6 @@
   "favicon": "customer-conf/0001/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
-  "assetFolderName": "mercku",
   "languages": ["zh-CN", "en-US", "de-DE"],
   "routers": {
     "M2": {
