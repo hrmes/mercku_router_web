@@ -1,6 +1,6 @@
 <template>
   <div class="srcollbar-wrap"
-       :class="{ 'has-menu': navVisible }"
+       :class="{ 'nav-visiable': navVisible }"
        v-loading="$loading">
     <div class="container">
       <div class="app-container router-view">
@@ -78,7 +78,10 @@ export default {
     },
     navVisible() {
       const { path } = this.$route;
-      const visible = path.includes('login') || path.includes('wlan') || path.includes('unconnect');
+      const visible =
+        path.includes('login') ||
+        path.includes('wlan') ||
+        path.includes('unconnect');
       return !visible;
     },
     menus() {
@@ -114,7 +117,7 @@ export default {
       const scrollPage = document.querySelector('.srcollbar-wrap');
       // 判断是否是跳转到新页面
       if (isMobile && to.path !== from.path) {
-          scrollPage.scrollTop = 0;
+        scrollPage.scrollTop = 0;
       }
       next();
     });
@@ -152,7 +155,7 @@ export default {
   height: 100%;
   overflow: auto;
   background-color: var(--primaryBackgroundColor);
-  &.has-menu {
+  &.nav-visiable {
     background-color: var(--flex-warp-has-menu-bgc);
   }
 }
