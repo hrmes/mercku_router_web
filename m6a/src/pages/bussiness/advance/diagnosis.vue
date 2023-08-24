@@ -5,32 +5,46 @@
       {{ $t('trans0419') }}
     </div>
     <div class="page-content">
-      <m-form class="form"
-              :model="form"
-              ref="form"
-              :rules="rules">
-        <m-form-item>
-          <m-select v-model="job_type"
-                    :label="$t('trans0070')"
-                    :options="jobs"></m-select>
-        </m-form-item>
-        <m-form-item prop="host">
-          <m-input v-model="form.host"
-                   :label="label"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-      </m-form>
-      <div class="form-button">
-        <button class="btn btn-primary"
-                v-defaultbutton
-                @click="start">
-          {{ $t('trans0467') }}
-        </button>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form class="form"
+                    :model="form"
+                    ref="form"
+                    :rules="rules">
+              <m-form-item>
+                <m-select v-model="job_type"
+                          :label="$t('trans0070')"
+                          :options="jobs"></m-select>
+              </m-form-item>
+              <m-form-item class="last"
+                           prop="host">
+                <m-input v-model="form.host"
+                         :label="label"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+            </m-form>
+          </div>
+        </div>
+        <div class="row-2"
+             v-if="output">
+          <div class="card">
+            <div class="log-container">
+              <pre>{{ output }}</pre>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="log-container"
-           v-show="output">
-        <pre>{{ output }}</pre>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn btn-primary"
+                  v-defaultbutton
+                  @click="start">
+            {{ $t('trans0467') }}
+          </button>
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -117,41 +131,35 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
-  justify-content: flex-start !important;
-  flex: 1;
-  .log-container {
-    margin-top: 30px;
-    width: 100%;
-    flex: 1;
-    border: solid 1px #bdbdbd;
-    border-radius: 4px;
-    overflow: auto;
-    position: relative;
-    padding: 10px;
-    pre {
-      margin: 0;
-      max-height: 600px;
-      font-family: 'Courier New', Courier, monospace;
-      white-space: pre-wrap;
-      word-wrap: break-word;
+.page {
+  .page-content {
+    .page-content__main {
+      .row-2 {
+        grid-template-columns: 100%;
+      }
     }
   }
 }
-.form-button {
-  margin-top: 0;
-  padding-top: 25px;
-  border-top: 1px solid var(--hr-color);
+.log-container {
+  width: 100%;
+  max-height: 38vh;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  overflow: auto;
+  position: relative;
+  padding: 10px;
+  pre {
+    margin: 0;
+    max-height: 600px;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
 }
+
 @media screen and(max-width:768px) {
-  .page-content {
-    .log-container {
-      min-height: 300px;
-      pre {
-        position: relative;
-      }
-    }
+  .log-container {
+    max-height: 50vh;
   }
 }
 </style>

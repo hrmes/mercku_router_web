@@ -5,47 +5,38 @@
       <span class="title">{{$t('trans0422')}}</span>
     </div>
     <div class="page-content">
-      <div class="page-content__main">
-        <!-- <div v-if="$store.state.isMobile"
-             class="mobile-tools-bar">
-          <div class="checkbox">
-            <m-checkbox v-model="checkAll"
-                        :text="$t('trans0032')"
-                        @change="change"></m-checkbox>
-          </div>
-          <div class="btn-wrap"
-               :class="{open:mobileSelect}">
-            <button class="btn btn-small"
-                    @click="mulDel"
-                    :disabled="!hasChecked">{{$t('trans0033')}}</button>
-            <button class="btn btn-small"
-                    @click="add">{{$t('trans0035')}}</button>
-          </div>
-        </div> -->
+      <div class="page-content__main"
+           v-if="isShowList">
         <div class='table'
              :class="{'empty-table':(empty !== null) && empty}">
           <div class="table-header">
-            <div class="checkbox">
-              <m-checkbox v-model="checkAll"
-                          @change="change"></m-checkbox>
+            <div class="wrapper">
+              <div class="checkbox">
+                <m-checkbox v-model="checkAll"
+                            @change="change"></m-checkbox>
+              </div>
+              <div class="status"
+                   v-if="!isMobile">{{$t('trans0190')}}</div>
+              <div class="name">
+                {{$t('trans0108')}}
+              </div>
             </div>
-            <div class="status">{{$t('trans0190')}}</div>
-            <div class="name">
-              {{$t('trans0108')}}
-            </div>
-            <div class="outside-ip">
+            <div class="outside-ip"
+                 v-if="!isMobile">
               {{$t('trans0425')}} / {{$t('trans0426')}}
             </div>
-            <div class="local-ip">
+            <div class="local-ip"
+                 v-if="!isMobile">
               {{$t('trans0427')}} / {{$t('trans0428')}}
             </div>
-            <div class="protocol">{{$t('trans0408')}}</div>
+            <div class="protocol"
+                 v-if="!isMobile">{{$t('trans0408')}}</div>
             <div class="operator">
               <div class="btn-wrap"
                    :class="{open:mobileSelect}">
                 <button class="btn btn-small"
                         @click="mulDel"
-                        :disabled="!hasChecked">{{$t('trans0033')}}</button>
+                        :disabled="!hasChecked">{{$t('trans0453')}}</button>
                 <button class="btn btn-small"
                         @click="add">{{$t('trans0035')}}</button>
               </div>
@@ -53,49 +44,56 @@
           </div>
           <div class="table-body">
             <div class="table-row"
-                 :class="{'open':item.open}"
+                 :class="{'close':!item.open}"
                  v-for="(item,index ) in portfws"
                  :key='index'>
-              <div class="checkbox"
-                   :class="{'checkOpen':mobileShowHead}">
-                <m-checkbox v-model='item.checked'
-                            @click.native='stopDefault($event)'></m-checkbox>
-              </div>
-              <div class="status">
-                <m-switch v-model="item.enabled"
-                          @change="(v)=>update(v,item)"></m-switch>
-              </div>
-              <div class="name"
-                   @click.stop="item.open=!item.open">
-                <span class="name"
-                      :title="item.name">{{item.name}}</span>
+              <div class="wrapper">
+                <div class="checkbox"
+                     :class="{'checkOpen':mobileShowHead}">
+                  <m-checkbox v-model='item.checked'
+                              @click.native='stopDefault($event)'></m-checkbox>
+                </div>
+                <div class="status">
+                  <m-switch v-model="item.enabled"
+                            @change="(v)=>update(v,item)"></m-switch>
+                </div>
+                <div class="name"
+                     @click="clickWrapper(item)">
+                  <span class="name"
+                        :title="item.name">{{item.name}}</span>
+                </div>
               </div>
               <div class="outside-ip">
                 <p>
-                  <label class="m-title with-colon">{{$t('trans0425')}}:</label>
+                  <label class="m-title with-colon"
+                         v-if="isMobile">{{$t('trans0425')}}:</label>
                   <span>{{item.remote.ip === '0.0.0.0' ? $t('trans0109') : item.remote.ip}}</span>
                 </p>
-                <span v-if="!$store.state.isMobile"
+                <span v-if="!isMobile"
                       style="margin:0 3px">/</span>
                 <p>
-                  <label class="m-title with-colon">{{$t('trans0426')}}:</label>
+                  <label class="m-title with-colon"
+                         v-if="isMobile">{{$t('trans0426')}}:</label>
                   <span>{{item.remote.port.from}}-{{item.remote.port.to}}</span>
                 </p>
               </div>
               <div class="local-ip">
                 <p>
-                  <label class="m-title with-colon">{{$t('trans0427')}}:</label>
+                  <label class="m-title with-colon"
+                         v-if="isMobile">{{$t('trans0427')}}:</label>
                   <span>{{item.local.ip}}</span>
                 </p>
-                <span v-if="!$store.state.isMobile"
+                <span v-if="!isMobile"
                       style="margin:0 3px">/</span>
                 <p>
-                  <label class="m-title with-colon">{{$t('trans0428')}}:</label>
+                  <label class="m-title with-colon"
+                         v-if="isMobile">{{$t('trans0428')}}:</label>
                   <span>{{item.local.port.from}}-{{item.local.port.to}}</span>
                 </p>
               </div>
               <div class="protocol">
-                <label class="m-title with-colon">{{$t('trans0408')}}:</label>
+                <label class="m-title with-colon"
+                       v-if="isMobile">{{$t('trans0408')}}:</label>
                 <span>{{item.protocol}}</span>
               </div>
               <div class="operator">
@@ -118,15 +116,26 @@
               <p>{{$t('trans0278')}}</p>
             </div>
           </div>
-
         </div>
       </div>
-
+      <transition name="fade">
+        <portForwardForm v-if="isShowForm"
+                         :isEdit="isEdit"
+                         @closeForm="closeForm"
+                         @refreshList="getList"></portForwardForm>
+      </transition>
     </div>
   </div>
 </template>
 <script>
+import portForwardForm from './form.vue';
+
+const ScrollPage = document.querySelector('.scrollbar-wrap');
+
 export default {
+  components: {
+    portForwardForm
+  },
   data() {
     return {
       mobileSelect: false,
@@ -135,7 +144,9 @@ export default {
       checkAll: false,
       reverseCheck: false,
       portfws: [],
-      checkedArr: []
+      checkedArr: [],
+      isShowForm: false,
+      isEdit: false
     };
   },
   computed: {
@@ -144,6 +155,12 @@ export default {
     },
     hasChecked() {
       return this.portfws.some(i => i.checked);
+    },
+    isShowList() {
+      if (!this.isMobile) {
+        return true;
+      }
+      return !this.isShowForm;
     }
   },
   watch: {
@@ -166,7 +183,11 @@ export default {
   methods: {
     add() {
       if (this.portfws.length <= 20) {
-        this.$router.push('/advance/portforwarding/form');
+        this.isEdit = false;
+        if (this.isMobile) {
+          ScrollPage.scrollTop = 0;
+        }
+        this.isShowForm = true;
       } else {
         this.$toast(this.$t('trans0060'));
       }
@@ -176,7 +197,6 @@ export default {
       this.$http
         .meshPortfwGet()
         .then(res => {
-          this.$loading.close();
           this.portfws = res.data.result.map(v => ({
             ...v,
             checked: false,
@@ -189,7 +209,7 @@ export default {
             this.empty = true;
           }
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
@@ -198,7 +218,11 @@ export default {
         ...this.$store.state.modules,
         portfw: item
       };
-      this.$router.push(`/advance/portforwarding/form/${item.id}`);
+      this.isEdit = true;
+      if (this.isMobile) {
+        ScrollPage.scrollTop = 0;
+      }
+      this.isShowForm = true;
     },
     update(v, item) {
       this.$loading.open();
@@ -264,6 +288,14 @@ export default {
     },
     stopDefault(e) {
       e.stopPropagation();
+    },
+    clickWrapper(item) {
+      if (this.isMobile) {
+        item.open = !item.open;
+      }
+    },
+    closeForm() {
+      this.isShowForm = false;
     }
   }
 };
@@ -273,53 +305,42 @@ export default {
   width: 100%;
   font-size: 12px;
   .table-header {
-    grid-template-columns: 30px 80px 1fr 1.5fr 1.5fr 100px 1.2fr;
+    grid-template-columns: 2fr 1.5fr 1.5fr 100px 1.2fr;
     div {
       display: flex;
       align-items: center;
     }
+    .wrapper {
+      display: grid;
+      grid-template-rows: 100%;
+      grid-template-columns: 30px 80px 1fr;
+      gap: 10px;
+    }
   }
   .table-body {
     .table-row {
-      display: grid;
-      grid-template-rows: 100%;
-      grid-template-columns: 30px 80px 1fr 1.5fr 1.5fr 100px 1.2fr;
-      gap: 10px;
-      padding: 10px 15px;
-      margin-bottom: 5px;
-      align-items: center;
+      grid-template-columns: 2fr 1.5fr 1.5fr 100px 1.2fr;
       font-size: 13px;
-      font-weight: 600;
-      color: var(--text-default-color);
-      background: var(--table-row-background-color);
-      border-radius: 10px;
       div {
         display: flex;
         align-items: center;
       }
-      .m-title {
-        display: none;
+      .wrapper {
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 30px 80px 1fr;
+        gap: 10px;
       }
     }
   }
   .name {
-    max-width: 200px;
+    max-width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
   .operator {
     justify-content: flex-end;
-    .btn-icon {
-      width: 40px;
-      height: 40px;
-      font-weight: 400;
-      background: transparent;
-      margin-left: 15px;
-      &:first-child {
-        margin: 0;
-      }
-    }
     button {
       margin-left: 15px;
       &:first-child {
@@ -329,5 +350,112 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .page {
+    .page-content {
+      position: relative;
+    }
+    .page-content__main {
+      padding-bottom: 20px;
+    }
+  }
+
+  .table {
+    .table-header {
+      grid-template-columns: 1fr 2fr;
+      .wrapper {
+        grid-template-columns: 30px 1fr;
+        gap: 0;
+      }
+      .operator {
+        .btn {
+          width: auto;
+          min-width: auto;
+        }
+      }
+    }
+    .table-body {
+      .table-row {
+        grid-template-rows: 1fr 2fr 2fr 1fr 1fr;
+        grid-template-columns: 100%;
+        font-weight: 400;
+        color: var(--common-gery-color);
+        > div {
+          height: 50px;
+          border-bottom: 1px solid var(--hr-color);
+          &:last-child {
+            border: none;
+            padding: 0;
+          }
+        }
+        .wrapper {
+          grid-template-columns: 30px 2fr 0.7fr;
+          grid-template-areas: 'checkbox name status';
+          gap: 0;
+          .checkbox {
+            grid-area: checkbox;
+          }
+          .name {
+            grid-area: name;
+            color: var(--text-default-color);
+            height: 100%;
+            > span {
+              line-height: 50px;
+              max-width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+          .status {
+            grid-area: status;
+            position: relative;
+            &::after {
+              content: '\e65b';
+              font-family: 'iconfont';
+              position: absolute;
+              top: 50%;
+              right: 0;
+              transform: translateY(-50%) rotate(0deg);
+              font-size: 12px;
+              transition: transform 0.3s;
+              color: var(--text-default-color);
+            }
+          }
+        }
+        .outside-ip,
+        .local-ip {
+          display: grid;
+          height: 100px;
+          grid-template-rows: repeat(2, 1fr);
+          > p {
+            display: flex;
+            justify-content: space-between;
+            margin: 0;
+          }
+        }
+        .protocol {
+          justify-content: space-between;
+        }
+        &.close {
+          grid-template-rows: 100%;
+          .wrapper {
+            padding-bottom: 0;
+            border-color: transparent;
+            .status {
+              &::after {
+                transform: translateY(-50%) rotate(-90deg);
+              }
+            }
+          }
+          .outside-ip,
+          .local-ip,
+          .protocol,
+          .operator {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

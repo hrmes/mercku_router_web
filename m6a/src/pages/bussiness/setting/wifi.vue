@@ -59,7 +59,7 @@
                        type="password"
                        :placeholder="`${$t('trans0321')}`"></m-input>
             </m-form-item>
-            <m-form-item class=" check-info">
+            <m-form-item class="check-info">
               <m-checkbox v-model="form.b24g.hidden"
                           :rect='false'
                           :text="$t('trans0110')"
@@ -200,7 +200,12 @@
   </div>
 </template>
 <script>
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
+import {
+  getStringByte,
+  isValidPassword,
+  isFieldHasComma,
+  isFieldHasSpaces
+} from 'base/util/util';
 import { EncryptMethod, Bands, channelMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
@@ -215,13 +220,13 @@ export default {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: EncryptMethod.wpa2,
+          encrypt: EncryptMethod.wpa2
         },
         b5g: {
           ssid: '',
           password: '',
           hidden: false,
-          encrypt: EncryptMethod.wpa2,
+          encrypt: EncryptMethod.wpa2
         },
         channel: {
           b24gChannel: {
@@ -233,7 +238,7 @@ export default {
             bandwidth: '80'
           }
         },
-        tx_power: '',
+        tx_power: ''
       },
       rules: {
         'b24g.ssid': [
@@ -340,7 +345,7 @@ export default {
           text: this.$t('trans0572')
         }
       ],
-      isAutoChannel: false,
+      isAutoChannel: false
     };
   },
   mounted() {
@@ -365,7 +370,9 @@ export default {
     changeSmartConnect() {
       const { form } = this;
       form.b5g.hidden = form.b24g.hidden;
-      form.b5g.ssid = form.smart_connect ? form.b24g.ssid : `${form.b24g.ssid}_5G`;
+      form.b5g.ssid = form.smart_connect
+        ? form.b24g.ssid
+        : `${form.b24g.ssid}_5G`;
       form.b5g.password = form.b24g.password;
       form.b5g.encrypt = form.b24g.encrypt;
     },
@@ -375,7 +382,6 @@ export default {
     submit() {
       const validResult1 = this.$refs.b24gForm.validate();
       const validResult2 = this.$refs.b5gForm.validate();
-
 
       if (!validResult1 || !validResult2) {
         return;
@@ -396,10 +402,18 @@ export default {
           ok: () => {
             this.$loading.open();
 
-            const b24g = this.mapBandData(this.form.b24g, this.form.channel.b24gChannel);
+            const b24g = this.mapBandData(
+              this.form.b24g,
+              this.form.channel.b24gChannel
+            );
 
-            const b5gBandInfo = this.form.smart_connect ? this.form.b24g : this.form.b5g;
-            const b5g = this.mapBandData(b5gBandInfo, this.form.channel.b5gChannel);
+            const b5gBandInfo = this.form.smart_connect
+              ? this.form.b24g
+              : this.form.b5g;
+            const b5g = this.mapBandData(
+              b5gBandInfo,
+              this.form.channel.b5gChannel
+            );
 
             const wifi = {
               smart_connect: this.form.smart_connect,
@@ -408,7 +422,8 @@ export default {
               bands: { [Bands.b24g]: b24g, [Bands.b5g]: b5g }
             };
 
-            this.$http.meshWifiUpdate(wifi)
+            this.$http
+              .meshWifiUpdate(wifi)
               .then(() => {
                 this.$reconnect({
                   onsuccess: () => {
@@ -435,8 +450,12 @@ export default {
           const channels = channelsResult.data.result;
           console.log('wifi data', wifi);
 
-          this.channels.b24g = this.mapChannelNumbers(channels[Bands.b24g].numbers);
-          this.channels.b5g = this.mapChannelNumbers(channels[Bands.b5g].numbers);
+          this.channels.b24g = this.mapChannelNumbers(
+            channels[Bands.b24g].numbers
+          );
+          this.channels.b5g = this.mapChannelNumbers(
+            channels[Bands.b5g].numbers
+          );
           console.log('channel', this.channels);
 
           // 2.4G
@@ -445,7 +464,6 @@ export default {
           this.form.b24g.encrypt = b24g.encrypt;
           this.form.b24g.password = b24g.password;
           this.form.b24g.hidden = b24g.hidden;
-
 
           // 5G
           const b5g = wifi.bands[Bands.b5g];
@@ -459,7 +477,10 @@ export default {
           this.form.channel.b24gChannel.bandwidth = b24g.channel.bandwidth;
           this.form.channel.b5gChannel.number = b5g.channel.number;
           this.form.channel.b5gChannel.bandwidth = b5g.channel.bandwidth;
-          if (b24g.channel.mode === channelMode.auto && b5g.channel.mode === channelMode.auto) {
+          if (
+            b24g.channel.mode === channelMode.auto &&
+            b5g.channel.mode === channelMode.auto
+          ) {
             this.isAutoChannel = true;
           }
           console.log('123', this.form.channel.b24gChannel);
@@ -489,13 +510,12 @@ export default {
       };
     },
     mapChannelNumbers(numbers) {
-        return numbers.map(number => ({
-          value: number,
-          text: number
-        }));
+      return numbers.map(number => ({
+        value: number,
+        text: number
+      }));
     }
-  },
-
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -511,7 +531,6 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
 }
-
 @media screen and (max-width: 768px) {
   .smart-connect {
     width: 100%;

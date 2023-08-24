@@ -7,7 +7,8 @@
          v-for="option in options"
          :key="option.value">
       <div class="radio"></div>
-      <div class="text">{{option.text}}</div>
+      <div class="text"
+           :class="{bold}">{{option.text}}</div>
     </div>
   </div>
 </template>
@@ -18,6 +19,10 @@ export default {
     direction: {
       type: String,
       default: 'horizontal'
+    },
+    bold: {
+      type: Boolean,
+      default: false
     },
     options: Array
   },
@@ -73,7 +78,7 @@ export default {
           width: 86%;
           height: 86%;
           border-radius: 50%;
-          background: var(--checkbox-checked-background-color);
+          background: var(--primaryColor);
         }
       }
     }
@@ -89,6 +94,9 @@ export default {
     .text {
       margin-left: 12px;
       font-size: 14px;
+      &.bold {
+        font-weight: 600;
+      }
     }
   }
 }

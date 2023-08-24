@@ -5,20 +5,24 @@
       {{$t('trans0421')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <div class="form-item">
-          <m-switch :label="$t('trans0462')"
-                    v-model="enabled"
-                    @change="updateEnabled"></m-switch>
-          <button v-if="enabled"
-                  class="btn btn-small"
-                  @click="getSyslog">{{$t('trans0481')}}</button>
-        </div>
-        <div class="log-container"
-             v-show="enabled">
-          <pre>{{previous}}</pre>
-          <pre class="increase"
-               :class="{'not-empty':increase}">{{increase}}</pre>
+      <div class="page-content__main">
+        <div class="form">
+          <div class="form-item">
+            <m-switch :label="$t('trans0462')"
+                      v-model="enabled"
+                      @change="updateEnabled"></m-switch>
+            <div class="btn-wrap"
+                 v-if="enabled">
+              <button class="btn btn-small"
+                      @click="getSyslog">{{$t('trans0481')}}</button>
+            </div>
+          </div>
+          <div class="log-container"
+               v-show="enabled">
+            <pre>{{previous}}</pre>
+            <pre class="increase"
+                 :class="{'not-empty':increase}">{{increase}}</pre>
+          </div>
         </div>
       </div>
     </div>
@@ -142,10 +146,14 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
-  flex: 1;
+.page {
+  .page-content {
+    .page-content__main {
+      padding-bottom: 20px;
+    }
+  }
 }
+
 .form {
   width: 100%;
   flex: 1;
@@ -165,10 +173,10 @@ export default {
     flex: 1;
     padding: 10px;
     position: relative;
-    max-height: 800px;
+    max-height: 80vh;
     overflow-x: hidden;
     pre {
-      width: 67vw;
+      width: 75vw;
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
       color: var(--text-defalut-color);
@@ -187,6 +195,9 @@ export default {
 @media screen and(max-width:768px) {
   .page-content {
     .form {
+      .log-container {
+        max-height: 67vh;
+      }
       pre {
         position: relative;
       }

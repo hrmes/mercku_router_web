@@ -5,61 +5,65 @@
       {{$t('trans0424')}}
     </div>
     <div class="page-content">
-      <div class="content">
-        <div class="content__item content__switch">
-          <m-switch v-model="wan.dos"
-                    @change="updateWanDos"></m-switch>
-          <label for="">{{$t('trans0424')}}</label>
-        </div>
-        <div class="content__line"></div>
-        <div class="content__item content__switch">
-          <m-switch v-model="ping.enabled"
-                    @change="updateWanPing"></m-switch>
-          <label for="">{{$t('trans0434')}}</label>
-        </div>
-        <template v-if="ping.enabled">
-          <m-form ref="ipListForm"
-                  :model="ping"
-                  class="content__item form">
-            <m-form-item style="margin-bottom:20px">
-              <m-checkbox class="form__checkbox"
-                          v-model="isIpPointed"
-                          :text="$t('trans0575')"
-                          :rect="false"
-                          @change="changeIpPointed"></m-checkbox>
-            </m-form-item>
-            <template v-if="isIpPointed">
-              <div class="flex-container">
-                <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
-                             :key="index"
-                             :prop="`ping.ip_limit.ip_list[${index}]`"
-                             :rules='ipValidator'>
-                  <div class="form__item">
-                    <m-input class="form__input"
-                             type="text"
-                             :placeholder="$t('trans0321')"
-                             v-model="ping.ip_limit.ip_list[index]" />
-                    <div @click="reduceIp(index)"
-                         class="form__reduce-btn">
-                      <span></span>
-                    </div>
-                  </div>
-                </m-form-item>
-              </div>
-              <m-form-item v-if="!isMaxIpNum">
-                <button class="form__add-btn"
-                        @click="addIp">
-                  <span></span>
-                </button>
+      <div class="page-content__main">
+        <div class="content">
+          <div class="content__item content__switch">
+            <m-switch v-model="wan.dos"
+                      @change="updateWanDos"></m-switch>
+            <label for="">{{$t('trans0424')}}</label>
+          </div>
+          <div class="content__line"></div>
+          <div class="content__item content__switch">
+            <m-switch v-model="ping.enabled"
+                      @change="updateWanPing"></m-switch>
+            <label for="">{{$t('trans0434')}}</label>
+          </div>
+          <template v-if="ping.enabled">
+            <m-form ref="ipListForm"
+                    :model="ping"
+                    class="content__item form">
+              <m-form-item style="margin-bottom:20px">
+                <m-checkbox class="form__checkbox"
+                            v-model="isIpPointed"
+                            :text="$t('trans0575')"
+                            :rect="false"
+                            @change="changeIpPointed"></m-checkbox>
               </m-form-item>
-            </template>
-            <m-form-item class="submit-btn__wrapper">
-              <button class="btn"
-                      v-defaultbutton
-                      @click="submit">{{$t('trans0081')}}</button>
-            </m-form-item>
-          </m-form>
-        </template>
+              <template v-if="isIpPointed">
+                <div class="grid-container">
+                  <m-form-item v-for="(value, index) in ping.ip_limit.ip_list"
+                               :key="index"
+                               :prop="`ping.ip_limit.ip_list[${index}]`"
+                               :rules='ipValidator'>
+                    <div class="form__item">
+                      <m-input class="form__input"
+                               type="text"
+                               :placeholder="$t('trans0321')"
+                               v-model="ping.ip_limit.ip_list[index]" />
+                      <div @click="reduceIp(index)"
+                           class="form__reduce-btn">
+                        <span></span>
+                      </div>
+                    </div>
+                  </m-form-item>
+                  <m-form-item v-if="!isMaxIpNum">
+                    <button class="form__add-btn btn btn-default"
+                            @click="addIp">
+                      <span></span>
+                    </button>
+                  </m-form-item>
+                </div>
+              </template>
+            </m-form>
+          </template>
+        </div>
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit">{{$t('trans0081')}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -131,7 +135,9 @@ export default {
           this.ping.ip_limit.ip_list = [''];
         }
       } else {
-        this.ping.ip_limit.ip_list = this.ping.ip_limit.ip_list.filter(ip => !!ip);
+        this.ping.ip_limit.ip_list = this.ping.ip_limit.ip_list.filter(
+          ip => !!ip
+        );
       }
     },
     addIp() {
@@ -204,6 +210,13 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+.page {
+  .page-content {
+    .page-content__main {
+      padding: 0 0 40px;
+    }
+  }
+}
 .content {
   width: 100%;
   .content__item {
@@ -232,6 +245,9 @@ export default {
       align-items: center;
       height: 48px;
     }
+    .form__input {
+      flex: 1;
+    }
     .form__reduce-btn {
       display: flex;
       align-items: center;
@@ -251,16 +267,8 @@ export default {
       }
     }
     .form__add-btn {
-      outline: none;
-      border: 1.5px solid var(--primaryColor);
-      cursor: pointer;
-      white-space: nowrap;
-      border-radius: 4px;
-      width: 340px;
+      width: calc(100% - 24px - 12px);
       height: 48px;
-      user-select: none;
-      color: var(--primaryColor);
-      background-color: transparent;
       span {
         display: inline-block;
         width: 24px;
@@ -289,16 +297,15 @@ export default {
       }
     }
     .submit-btn__wrapper {
-      // margin-top: 25px;
       padding-top: 25px;
       border-top: 1px solid var(--hr-color);
     }
-    .flex-container {
-      display: flex;
-      flex-wrap: wrap;
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, 320px);
+      column-gap: 20px;
       > .form-item {
-        width: fit-content;
-        margin-right: 30px;
+        width: 100%;
         &:first-child {
           .form__reduce-btn {
             visibility: hidden;
@@ -307,8 +314,9 @@ export default {
       }
     }
   }
-  @media screen and(max-width: 768px) {
-    // padding: 0 20px;
+}
+@media screen and(max-width: 768px) {
+  .content {
     .content__item {
       width: 100%;
     }
@@ -328,7 +336,9 @@ export default {
       .form__add-btn {
         width: 100%;
       }
-      .flex-container {
+      .grid-container {
+        grid-template-columns: 100%;
+        column-gap: initial;
         > .form-item {
           width: 100%;
           margin-right: 0;

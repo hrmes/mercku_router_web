@@ -5,26 +5,34 @@
       {{$t('trans0420')}}
     </div>
     <div class="page-content">
-      <m-form ref="form"
-              class='form'
-              :model="dmz"
-              :rules='rules'>
-        <m-form-item class="item"
-                     prop='ip'>
-          <m-input :label="$t('trans0457')"
-                   :placeholder="`${$t('trans0321')}`"
-                   v-model="dmz.ip"></m-input>
-        </m-form-item>
-        <div class="checkbox-wrapper">
-          <m-checkbox v-model="dmz.enabled"
-                      :text="$t('trans0462')"></m-checkbox>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form ref="form"
+                    class='form'
+                    :model="dmz"
+                    :rules='rules'>
+              <m-form-item prop='ip'>
+                <m-input :label="$t('trans0457')"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="dmz.ip"></m-input>
+              </m-form-item>
+              <div class="checkbox-wrapper">
+                <m-checkbox v-model="dmz.enabled"
+                            :rect="false"
+                            :bold="true"
+                            :text="$t('trans0462')"></m-checkbox>
+              </div>
+            </m-form>
+          </div>
         </div>
-
-      </m-form>
-      <div class="form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click="submit()">{{$t('trans0081')}}</button>
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -82,20 +90,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  .btn-wrapper {
-    display: block;
-    text-align: center !important;
-  }
-}
-@media screen and (max-width: 768px) {
-  .form {
-    .checkbox-wrapper {
-      width: 100%;
-    }
-  }
-}
-</style>

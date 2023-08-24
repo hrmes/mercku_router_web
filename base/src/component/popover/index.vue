@@ -162,59 +162,6 @@ export default {
         border-right-color: transparent;
       }
     }
-
-    // &::before {
-    //   content: '';
-    //   position: absolute;
-    //   display: block;
-    //   width: 0;
-    //   height: 0;
-    //   overflow: hidden;
-    // }
-    // &::after {
-    //   content: '';
-    //   position: absolute;
-    //   display: block;
-    //   width: 0;
-    //   height: 0;
-    //   overflow: hidden;
-    // }
-    // &.top {
-    //   &::before {
-    //     left: 18px;
-    //     bottom: -10px;
-    //     border: 10px solid #333;
-    //     border-bottom: none;
-    //     border-left-color: transparent;
-    //     border-right-color: transparent;
-    //   }
-    //   &:after {
-    //     left: 20px;
-    //     bottom: -8px;
-    //     border: 8px solid #333;
-    //     border-bottom: none;
-    //     border-left-color: transparent;
-    //     border-right-color: transparent;
-    //   }
-    // }
-    // &.bottom {
-    //   &::before {
-    //     left: 18px;
-    //     top: -10px;
-    //     border: 10px solid #333;
-    //     border-top: none;
-    //     border-left-color: transparent;
-    //     border-right-color: transparent;
-    //   }
-    //   &:after {
-    //     left: 20px;
-    //     top: -8px;
-    //     border: 8px solid #333;
-    //     border-top: none;
-    //     border-left-color: transparent;
-    //     border-right-color: transparent;
-    //   }
-    // }
     .title {
       line-height: 1;
       box-sizing: border-box;

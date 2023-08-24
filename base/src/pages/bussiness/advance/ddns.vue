@@ -5,46 +5,53 @@
       {{$t('trans0418')}}
     </div>
     <div class="page-content">
-      <m-form ref="form"
-              class='form'
-              :model="ddns"
-              :rules='rules'>
-        <div class="form-item">
-          <label style="font-weight:bold;">{{$t('trans0435')}}</label>
-          <m-radio-group v-model="ddns.service"
-                         class="radio-group"
-                         direction='vertical'
-                         :options="services"></m-radio-group>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form ref="form"
+                    class='form'
+                    :model="ddns"
+                    :rules='rules'>
+              <m-form-item class="form-item">
+                <label style="font-weight:bold;">{{$t('trans0435')}}</label>
+                <m-radio-group v-model="ddns.service"
+                               class="radio-group"
+                               direction='vertical'
+                               :options="services"></m-radio-group>
+              </m-form-item>
+              <m-form-item prop='domain'>
+                <m-input :label="$t('trans0436')"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="ddns.domain"></m-input>
+              </m-form-item>
+              <m-form-item prop='username'>
+                <m-input :label="$t('trans0410')"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="ddns.username"></m-input>
+              </m-form-item>
+              <m-form-item prop='password'>
+                <m-input :label="$t('trans0003')"
+                         type="password"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="ddns.password"></m-input>
+              </m-form-item>
+              <m-form-item class="last">
+                <m-checkbox v-model="ddns.enabled"
+                            :rect="false"
+                            :text="$t('trans0462')"></m-checkbox>
+              </m-form-item>
+            </m-form>
+          </div>
         </div>
-        <m-form-item class="item"
-                     prop='domain'>
-          <m-input :label="$t('trans0436')"
-                   :placeholder="`${$t('trans0321')}`"
-                   v-model="ddns.domain"></m-input>
-        </m-form-item>
-        <m-form-item class="item"
-                     prop='username'>
-          <m-input :label="$t('trans0410')"
-                   :placeholder="`${$t('trans0321')}`"
-                   v-model="ddns.username"></m-input>
-        </m-form-item>
-        <m-form-item class="item"
-                     prop='password'>
-          <m-input :label="$t('trans0003')"
-                   type="password"
-                   :placeholder="`${$t('trans0321')}`"
-                   v-model="ddns.password"></m-input>
-        </m-form-item>
-        <div class="form-item">
-          <m-checkbox v-model="ddns.enabled"
-                      :text="$t('trans0462')"></m-checkbox>
-        </div>
-      </m-form>
-      <div class="form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click="submit()">{{$t('trans0081')}}</button>
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>

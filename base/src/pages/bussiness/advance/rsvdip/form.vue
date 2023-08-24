@@ -1,99 +1,98 @@
 <template>
-  <div class="page">
-    <div v-if="$store.state.isMobile"
-         class='page-header'>
-      {{$t('trans0444')}}
-    </div>
-    <div class="page-content">
-      <m-form ref="form"
-              class="form"
-              :model="form"
-              :rules='rules'>
-        <m-form-item class="item device-choose-wrap"
-                     prop='name'
-                     ref="name">
-          <m-input :label="$t('trans0108')"
-                   type="text"
-                   :placeholder="$t('trans0321')"
-                   v-model="form.name" />
-          <div class="device btn"
-               @click.stop="()=>modalShow=!modalShow">
-            <span>{{$t('trans0235')}}</span>
-            <i>
-              <img :class="{open:modalShow}"
-                   src="../../../../assets/images/icon/ic_arrow_pack_up.png"
-                   alt="">
-            </i>
-            <div class="modal"
-                 v-show="modalShow"
-                 @click.stop=""
-                 v-clickoutside="()=>modalShow=false">
-              <div class="opcity"
-                   @click="modalShow=false"></div>
-              <div class="modal-content">
-                <!-- <div class="modal__header">{{$t('trans0235')}}</div> -->
-                <div class="list">
-                  <div class="device-item"
-                       @click="checkDevice(item)"
-                       v-for="(item,index) in devicesFiltered"
-                       :key="index">
-                    <div class="check">
-                      <m-checkbox :readonly="true"
-                                  :rect="false"
-                                  v-model="item.checked"></m-checkbox>
-                    </div>
-                    <div class="des">
-                      <p :title="item.name">{{item.name}}</p>
-                      <p>
-                        <label
-                               class="with-colon">{{$t('trans0188')}}:</label>{{formatMac(item.mac)}}
-                      </p>
-                      <p><label class="with-colon">{{$t('trans0151')}}:</label>{{item.ip}}</p>
+  <div class="popup-page">
+    <div class="popup-page__content">
+      <div class="popup-page__content--main">
+        <m-form ref="form"
+                class="form"
+                :model="form"
+                :rules='rules'>
+          <m-form-item class="item device-choose-wrap"
+                       prop='name'
+                       ref="name">
+            <m-input :label="$t('trans0108')"
+                     type="text"
+                     :placeholder="$t('trans0321')"
+                     v-model="form.name" />
+            <div class="device btn"
+                 @click.stop="()=>modalShow=!modalShow">
+              <span>{{$t('trans0235')}}</span>
+              <i>
+                <img :class="{open:modalShow}"
+                     src="../../../../assets/images/icon/ic_arrow_pack_up.png"
+                     alt="">
+              </i>
+              <div class="modal"
+                   v-show="modalShow"
+                   @click.stop=""
+                   v-clickoutside="()=>modalShow=false">
+                <div class="opcity"
+                     @click="modalShow=false"></div>
+                <div class="modal-content">
+                  <!-- <div class="modal__header">{{$t('trans0235')}}</div> -->
+                  <div class="list">
+                    <div class="device-item"
+                         @click="checkDevice(item)"
+                         v-for="(item,index) in devicesFiltered"
+                         :key="index">
+                      <div class="check">
+                        <m-checkbox :readonly="true"
+                                    :rect="false"
+                                    v-model="item.checked"></m-checkbox>
+                      </div>
+                      <div class="des">
+                        <p :title="item.name">{{item.name}}</p>
+                        <p>
+                          <label
+                                 class="with-colon">{{$t('trans0188')}}:</label>{{formatMac(item.mac)}}
+                        </p>
+                        <p><label class="with-colon">{{$t('trans0151')}}:</label>{{item.ip}}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="empty-device"
-                     v-if="!devicesFiltered.length||!devices.length">
-                  <p>{{$t('trans0278')}}</p>
-                </div>
-                <!-- <div class="empty"
+                  <div class="empty-device"
+                       v-if="!devicesFiltered.length||!devices.length">
+                    <p>{{$t('trans0278')}}</p>
+                  </div>
+                  <!-- <div class="empty"
                    v-if="!devices.length">
                 <p style="color:#000;margin-top:50px;">{{$t('trans0278')}}</p>
               </div> -->
-                <div class="btn-wrap">
-                  <button class="btn btn-middle btn-default"
-                          @click="()=>modalShow=false">{{$t('trans0025')}}</button>
-                  <button class="btn btn-dialog-confirm"
-                          @click="chooseDevice">{{$t('trans0024')}}</button>
+                  <div class="btn-wrap">
+                    <button class="btn btn-middle btn-default"
+                            @click="()=>modalShow=false">{{$t('trans0025')}}</button>
+                    <button class="btn btn-dialog-confirm"
+                            @click="chooseDevice">{{$t('trans0024')}}</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </m-form-item>
-        <m-form-item class="item"
-                     prop='mac'
-                     ref="mac">
-          <m-input :label="$t('trans0188')"
-                   type="text"
-                   @input="format"
-                   :placeholder="$t('trans0321')"
-                   v-model="form.mac" />
-        </m-form-item>
-        <m-form-item class="item"
-                     prop='ip'
-                     ref="ip">
-          <m-input :label="$t('trans0151')"
-                   type="text"
-                   :placeholder="$t('trans0321')"
-                   v-model="form.ip" />
-        </m-form-item>
-      </m-form>
-      <div class="btn-info form-button">
-        <button class="btn btn-middle btn-default"
-                @click="$router.go(-1)">{{$t('trans0025')}}</button>
-        <button class="btn btn-middle"
-                @click="submit()">{{$t('trans0081')}}</button>
+          </m-form-item>
+          <m-form-item prop='mac'
+                       ref="mac">
+            <m-input :label="$t('trans0188')"
+                     type="text"
+                     @input="format"
+                     :placeholder="$t('trans0321')"
+                     v-model="form.mac" />
+          </m-form-item>
+          <m-form-item prop='ip'
+                       ref="ip">
+            <m-input :label="$t('trans0151')"
+                     type="text"
+                     :placeholder="$t('trans0321')"
+                     v-model="form.ip" />
+          </m-form-item>
+        </m-form>
       </div>
+      <div class="popup-page__content--bottom">
+        <div class="form-button__wrapper">
+          <button class="btn btn-middle btn-default"
+                  @click="closeForm">{{$t('trans0025')}}</button>
+          <button class="btn btn-middle"
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -243,12 +242,15 @@ export default {
             this.$loading.close();
           });
       }
+    },
+    closeForm() {
+      this.$emit('closeForm');
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
+.popup-page__content {
   .form {
     .empty-device {
       p {
@@ -368,20 +370,10 @@ export default {
       }
     }
   }
-  .form-button {
-    display: flex;
-    margin-top: 0;
-    padding-top: 25px;
-    border-top: 1px solid var(--hr-color);
-    .btn {
-      width: 160px;
-      &:first-child {
-        margin-right: 20px;
-      }
-    }
+  .form-button__wrapper {
+    justify-content: space-evenly;
   }
 }
-
 @media screen and (max-width: 768px) {
   .page-content {
     .form {

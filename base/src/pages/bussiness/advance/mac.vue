@@ -5,41 +5,52 @@
       {{$t('trans0474')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <div class="form-item">
-          <div @click="setSelected(true)"
-               class="radio"
-               :class="{'selected':isBoolDefault}">
-            {{$t('trans0459')}}
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <div class="form-item">
+              <div @click="setSelected(true)"
+                   class="wrapper"
+                   :class="{'selected':isBoolDefault}">
+                <div class="radio"></div>
+                <span>{{$t('trans0459')}}</span>
+              </div>
+              <p class="mac">{{mac.default}}</p>
+            </div>
+            <div class="form-item">
+              <div @click="setSelected(false)"
+                   class="wrapper"
+                   :class="{'selected':!isBoolDefault}">
+                <div class="radio"></div>
+                <span> {{$t('trans0460')}}</span>
+              </div>
+              <m-form ref="form"
+                      :model="mac"
+                      :rules="rules"
+                      v-show="!isBoolDefault">
+                <m-form-item class="last"
+                             prop="current"
+                             ref="current">
+                  <m-input class="input"
+                           ref="macInput"
+                           @input="format"
+                           v-model="mac.current"
+                           :placeholder="$t('trans0321')"></m-input>
+                </m-form-item>
+              </m-form>
+            </div>
           </div>
-          <p class="mac">{{mac.default}}</p>
         </div>
-        <div class="form-item">
-          <div @click="setSelected(false)"
-               class="radio"
-               :class="{'selected':!isBoolDefault}">
-            {{$t('trans0460')}}
-          </div>
-          <m-form ref="form"
-                  :model="mac"
-                  :rules="rules"
-                  v-show="!isBoolDefault">
-            <m-form-item prop="current"
-                         ref="current">
-              <m-input class="input"
-                       ref="macInput"
-                       @input="format"
-                       v-model="mac.current"
-                       :placeholder="$t('trans0321')"></m-input>
-            </m-form-item>
-          </m-form>
+
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="updateMac">{{$t('trans0081')}}</button>
         </div>
       </div>
-      <div class="form-button">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="updateMac">{{$t('trans0081')}}</button>
-      </div>
+
     </div>
   </div>
 </template>
@@ -58,7 +69,7 @@ export default {
         default: '',
         current: ''
       },
-      isDefault: null,
+      isDefault: true,
       rules: {
         current: [
           {
@@ -158,63 +169,51 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
+.form-item {
+  margin-bottom: 20px;
+  &:last-child {
+    margin: 0;
+  }
 }
-.form {
-  width: 340px;
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
   .radio {
-    display: flex;
-    align-items: center;
-    padding-left: 24px;
     position: relative;
-    cursor: pointer;
-    line-height: 1;
-    height: 14px;
-    &:before {
-      content: '';
-      position: absolute;
-      box-sizing: border-box;
-      left: 0;
-      width: 17px;
-      height: 17px;
-      border-radius: 50%;
-      border: 1.5px solid var(--checkbox-border-color);
-    }
-    &.selected {
-      &::before {
-        border: 0;
-        background: var(--checkbox-checked-background-color);
-      }
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--checkbox-border-color);
+    margin-right: 10px;
+  }
+  > span {
+    font-weight: 600;
+  }
+  &.selected {
+    .radio {
       &::after {
-        content: '\e65c';
+        content: '';
         position: absolute;
-        top: 1.5px;
-        left: 2px;
-        width: 10px;
-        height: 10px;
-        font-size: 10px;
-        font-family: 'iconfont';
-        color: #fff;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 86%;
+        height: 86%;
+        background-color: var(--primaryColor);
+        border-radius: 50%;
       }
     }
   }
-  .mac {
-    padding-left: 24px;
-    margin: 10px 0;
-    height: 20px;
-    color: var(--text-gery-color);
-  }
-  .input {
-    margin-top: 10px;
-  }
 }
-.form-button {
-  margin-top: 0;
+.mac {
+  font-size: 12px;
+  color: var(--common-grey-color);
+  margin: 0;
+  padding: 0 28px;
 }
-@media screen and (max-width: 768px) {
-  .form {
-    width: 100%;
-  }
+.mk-form {
+  padding-left: 28px;
 }
 </style>

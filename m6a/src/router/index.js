@@ -39,12 +39,11 @@ import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
-import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
+import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
 import mac from 'base/pages/bussiness/advance/mac.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
-import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
@@ -287,15 +286,6 @@ const routes = {
       path: '/advance/portforwarding',
       name: 'advance-portforwarding',
       component: portforwarding,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/advance/portforwarding/form/:id?',
-      name: 'advance-portforwarding-form',
-      component: portfwForm,
       meta: {
         layout: 'primary',
         hasAside: true

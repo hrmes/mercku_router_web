@@ -5,73 +5,82 @@
       {{$t('trans0499')}}
     </div>
     <div class="page-content">
-      <div class="title">{{$t('trans0491')}}</div>
-      <m-form ref="remote"
-              class="form"
-              :model="remote"
-              :rules="remoteRules">
-        <m-form-item prop="url">
-          <m-input :label="`${$t('trans0498')}`"
-                   v-model="remote.url"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="username">
-          <m-input :label="$t('trans0410')"
-                   v-model="remote.username"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="password">
-          <m-input :label="$t('trans0003')"
-                   type="password"
-                   v-model="remote.password"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="interval">
-          <m-input :label="$t('trans0490')"
-                   v-model="remote.interval"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-      </m-form>
-      <div class="hr-line"></div>
-      <div class="title">{{$t('trans0493')}}</div>
-      <m-form ref="local"
-              class="form"
-              :model="local"
-              :rules="localRules">
-
-        <m-form-item prop="path">
-          <m-input :label="$t('trans0494')"
-                   v-model="local.path"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="port">
-          <m-input :label="$t('trans0495')"
-                   v-model="local.port"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="username">
-          <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
-                   v-model="local.username"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="password">
-          <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
-                   type="password"
-                   v-model="local.password"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <div class="form-item">
-          <m-checkbox :text="$t('trans0462')"
-                      :bold='true'
-                      :rect='false'
-                      v-model="enabled"></m-checkbox>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <div class="title">{{$t('trans0491')}}</div>
+            <m-form ref="remote"
+                    class="form"
+                    :model="remote"
+                    :rules="remoteRules">
+              <m-form-item prop="url">
+                <m-input :label="`${$t('trans0498')}`"
+                         v-model="remote.url"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="username">
+                <m-input :label="$t('trans0410')"
+                         v-model="remote.username"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="password">
+                <m-input :label="$t('trans0003')"
+                         type="password"
+                         v-model="remote.password"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item class="last"
+                           prop="interval">
+                <m-input :label="$t('trans0490')"
+                         v-model="remote.interval"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+            </m-form>
+          </div>
+          <div class="card">
+            <div class="title">{{$t('trans0493')}}</div>
+            <m-form ref="local"
+                    class="form"
+                    :model="local"
+                    :rules="localRules">
+              <m-form-item prop="path">
+                <m-input :label="$t('trans0494')"
+                         v-model="local.path"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="port">
+                <m-input :label="$t('trans0495')"
+                         v-model="local.port"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="username">
+                <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
+                         v-model="local.username"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="password">
+                <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
+                         type="password"
+                         v-model="local.password"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item class="last">
+                <m-checkbox :text="$t('trans0462')"
+                            :bold='true'
+                            :rect='false'
+                            v-model="enabled"></m-checkbox>
+              </m-form-item>
+            </m-form>
+          </div>
         </div>
-
-      </m-form>
-      <div class="form-button">
-        <button class="btn btn-primary"
-                @click="updateTr069">{{$t('trans0081')}}</button>
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn btn-primary"
+                  @click="updateTr069">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 

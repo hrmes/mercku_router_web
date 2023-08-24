@@ -3,65 +3,65 @@
     <div v-if="$store.state.isMobile"
          class='page-header'>{{$t('trans0417')}}</div>
     <div class="page-content">
-      <m-form class="form"
-              ref="form"
-              :model="form"
-              :rules='rules'>
-        <m-form-item class="item"
-                     prop='ip'
-                     ref="ip">
-          <m-input :label="$t('trans0439')"
-                   type="text"
-                   :placeholder="curIp"
-                   v-model="form.ip" />
-        </m-form-item>
-        <m-form-item class="item"
-                     prop='mask'
-                     ref="mask">
-          <m-input :label="$t('trans0152')"
-                   type="text"
-                   :placeholder="$t('trans0321')"
-                   v-model="form.mask"
-                   :onBlur="maskChange" />
-        </m-form-item>
-        <div class="item">
-          <!-- <label style="font-weight:bold;">{{$t('trans0483')}}</label> -->
-          <div>
-            <m-form-item class="ext-item ext-item--first"
-                         prop='ip_start'
-                         ref='ip_start'>
-              <m-input class="ext-input"
-                       type="text"
-                       :label="$t('trans0483')"
-                       :placeholder="$t('trans0441')"
-                       v-model="form.ip_start"
-                       :onBlur='ipStartChange' />
-            </m-form-item>
-            <m-form-item class="ext-item"
-                         prop='ip_end'
-                         ref='ip_end'>
-              <m-input class="ext-input"
-                       type="text"
-                       :placeholder="$t('trans0442')"
-                       v-model="form.ip_end" />
-            </m-form-item>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form class="form"
+                    ref="form"
+                    :model="form"
+                    :rules='rules'>
+              <m-form-item prop='ip'
+                           ref="ip">
+                <m-input :label="$t('trans0439')"
+                         type="text"
+                         :placeholder="curIp"
+                         v-model="form.ip" />
+              </m-form-item>
+              <m-form-item prop='mask'
+                           ref="mask">
+                <m-input :label="$t('trans0152')"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="form.mask"
+                         :onBlur="maskChange" />
+              </m-form-item>
+              <div class="item">
+                <div>
+                  <m-form-item prop='ip_start'
+                               ref='ip_start'>
+                    <m-input type="text"
+                             :label="$t('trans0483')"
+                             :placeholder="$t('trans0441')"
+                             v-model="form.ip_start"
+                             :onBlur='ipStartChange' />
+                  </m-form-item>
+                  <m-form-item prop='ip_end'
+                               ref='ip_end'>
+                    <m-input type="text"
+                             :placeholder="$t('trans0442')"
+                             v-model="form.ip_end" />
+                  </m-form-item>
+                </div>
+              </div>
+              <m-form-item class="last"
+                           prop='lease'>
+                <m-select :label="$t('trans0443')"
+                          v-model="form.lease"
+                          :popupTop="true"
+                          :options="leases"></m-select>
+              </m-form-item>
+              <label class="tip"
+                     v-if="lanipChanged">{{$t('trans0476')}}</label>
+            </m-form>
           </div>
         </div>
-        <m-form-item class="item"
-                     prop='lease'>
-          <m-select :label="$t('trans0443')"
-                    v-model="form.lease"
-                    :popupTop="true"
-                    :options="leases"></m-select>
-        </m-form-item>
-        <label class="tip"
-               v-if="lanipChanged">{{$t('trans0476')}}</label>
-      </m-form>
-
-      <div class="btn-info form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click="submit()">{{$t('trans0081')}}</button>
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -188,7 +188,8 @@ export default {
             message: this.$t('trans0231')
           },
           {
-            rule: value => isSameSubNetwork(value, this.form.ip, this.form.mask),
+            rule: value =>
+              isSameSubNetwork(value, this.form.ip, this.form.mask),
             message: this.$t('trans0231')
           }
         ],
@@ -211,7 +212,8 @@ export default {
             message: this.$t('trans0231')
           },
           {
-            rule: value => isSameSubNetwork(value, this.form.ip, this.form.mask),
+            rule: value =>
+              isSameSubNetwork(value, this.form.ip, this.form.mask),
             message: this.$t('trans0231')
           },
           {
@@ -323,49 +325,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
-  .form {
-    border-bottom: 1px solid var(--hr-color);
-    .tip {
-      color: red;
-      width: 340px;
-      display: block;
-    }
-    .item {
-      label {
-        margin-bottom: 5px;
-        display: block;
-      }
-    }
-  }
-  .form-button {
-    margin-top: 0px;
-  }
-}
-.ext-item {
-  position: relative;
-  &.ext-item--first {
-    margin-bottom: 20px !important;
-  }
-  .ext-input {
-    input {
-      padding-left: 100px;
-    }
-  }
-  .ip {
-    width: 120px;
-    position: absolute;
-    top: 20px;
-  }
-}
 @media screen and (max-width: 768px) {
-  .page-content {
-    .form {
-      .tip {
-        width: 100%;
-      }
-    }
-  }
 }
 </style>

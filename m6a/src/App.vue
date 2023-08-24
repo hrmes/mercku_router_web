@@ -1,39 +1,33 @@
 <template>
-  <<<<<<< HEAD
-          <div
-          class="scrollbar-wrap"
-          :class="{'is-login-page':isLoginPage}">
-    =======
-    <div class="srcollbar-wrap"
-         :class="{ 'nav-visiable': navVisible }">
-      >>>>>>> develop
-      <div class="container">
-        <div class="app-container router-view">
-          <div ref="flexWrap"
-               class="flex-wrap">
-            <m-header :navVisible="navVisible"
-                      :isLoginPage="isLoginPage"
-                      :isWlanPage="isWlanPage"
-                      :navs="menus"
-                      id="header" />
-            <component v-if="isMobile"
-                       :is="layout"
+  <div class="scrollbar-wrap"
+       :class="{'is-login-page':isLoginPage}">
+    <div class="container">
+      <div class="app-container router-view">
+        <div ref="flexWrap"
+             class="flex-wrap">
+          <m-header :navVisible="navVisible"
+                    :isLoginPage="isLoginPage"
+                    :isWlanPage="isWlanPage"
+                    :navs="menus"
+                    id="header" />
+          <component v-if="isMobile"
+                     :is="layout"
+                     :hasBackWrap='hasBackWrap'
+                     :asideInfo='asideInfo'></component>
+          <transition v-else
+                      :name="transitionName"
+                      mode="out-in">
+            <component :is="layout"
                        :hasBackWrap='hasBackWrap'
                        :asideInfo='asideInfo'></component>
-            <transition v-else
-                        :name="transitionName"
-                        mode="out-in">
-              <component :is="layout"
-                         :hasBackWrap='hasBackWrap'
-                         :asideInfo='asideInfo'></component>
-            </transition>
-            <m-footer :isLoginPage="isLoginPage "
-                      :isWlanPage="isWlanPage"
-                      :navVisible="navVisible" />
-          </div>
+          </transition>
+          <m-footer :isLoginPage="isLoginPage "
+                    :isWlanPage="isWlanPage"
+                    :navVisible="navVisible" />
         </div>
       </div>
     </div>
+  </div>
 </template>
 <script>
 import './style/common.scss';

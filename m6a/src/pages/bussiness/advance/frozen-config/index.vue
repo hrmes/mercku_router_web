@@ -5,47 +5,56 @@
       {{$t('trans1186')}}
     </div>
     <div class="page-content">
-      <m-form class="form">
-        <m-form-item class="form__item--first">
-          <m-switch :label="$t('trans1186')"
-                    class="smart-connect__switch"
-                    v-model="enabled" />
-          <div class="tip__label">{{$t('trans1187')}}</div>
-        </m-form-item>
-        <template v-if="enabled">
-          <m-form-item v-for="category in configurations"
-                       :key="category.name"
-                       class="category">
-            <div class="config-wrapper">
-              <div class="config-item__name">
-                <m-checkbox :text='category.name'
-                            :bold='true'
-                            v-model="category.isCheckAll"
-                            @change="val => handleCheckCategoryChange(val, category)"></m-checkbox>
-              </div>
-              <div class="config-item__list">
-                <div v-for="config in category.children"
-                     class="config"
-                     :key='config.name'
-                     @change="val => handleCheckedConfigChange(val, category)">
-                  <input type="checkbox"
-                         :id="config.name"
-                         :value="config.value"
-                         v-model="category.checkedConfigList">
-                  <label :for="config.name"
-                         class="config__label">{{config.name}}</label>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <m-switch :label="$t('trans1186')"
+                        class="smart-connect__switch"
+                        v-model="enabled" />
+              <div class="des-tips">{{$t('trans1187')}}</div>
+            </m-form-item>
+          </div>
+        </div>
+        <div class="row-2"
+             v-if="enabled">
+          <div class="card form"
+               v-for="category in configurations"
+               :key="category.name">
+            <m-form-item class="category last">
+              <div class="config-wrapper">
+                <div class="config-item__name">
+                  <m-checkbox :text='category.name'
+                              :bold='true'
+                              v-model="category.isCheckAll"
+                              @change="val => handleCheckCategoryChange(val, category)"></m-checkbox>
+                </div>
+                <div class="config-item__list">
+                  <div v-for="config in category.children"
+                       class="config"
+                       :key='config.name'
+                       @change="val => handleCheckedConfigChange(val, category)">
+                    <input type="checkbox"
+                           :id="config.name"
+                           :value="config.value"
+                           v-model="category.checkedConfigList">
+                    <label :for="config.name"
+                           class="config__label">{{config.name}}</label>
+                  </div>
                 </div>
               </div>
-            </div>
-          </m-form-item>
-        </template>
-
-      </m-form>
-      <div class="form-button">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="save">{{$t('trans0081')}}</button>
+            </m-form-item>
+          </div>
+        </div>
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn primary"
+                  v-defaultbutton
+                  @click="save">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -74,7 +83,7 @@ export default {
             [routerConfigs.setting.ipv6]: {
               name: this.$t('trans0620'),
               value: routerConfigs.setting.ipv6
-            },
+            }
           }
         },
         advance: {
@@ -85,7 +94,7 @@ export default {
             [routerConfigs.advance.tr069]: {
               name: this.$t('trans0499'),
               value: routerConfigs.advance.tr069
-            },
+            }
           }
         }
       }
@@ -115,13 +124,17 @@ export default {
   computed: {
     formParams() {
       return {
-       enabled: this.enabled,
-       configs: this.enabled ? Object.values(this.configurations).flatMap(item => item.checkedConfigList) : []
+        enabled: this.enabled,
+        configs: this.enabled
+          ? Object.values(this.configurations).flatMap(
+              item => item.checkedConfigList
+            )
+          : []
       };
     }
   },
   methods: {
-     handleCheckCategoryChange(val, category) {
+    handleCheckCategoryChange(val, category) {
       category.checkedConfigList = [];
       if (val) {
         category.checkedConfigList = this.getcheckedConfigList(
@@ -130,7 +143,7 @@ export default {
       }
       category.isCheckAll = val;
     },
-     handleCheckedConfigChange(val, category) {
+    handleCheckedConfigChange(val, category) {
       const configCount = Object.keys(category.children).length;
       const checkedCount = category.checkedConfigList?.length;
       category.isCheckAll = configCount === checkedCount;
@@ -140,26 +153,28 @@ export default {
     },
     getRouterFrozenCofig() {
       this.$loading.open();
-      this.$http.getRouterFrozenConfig()
-      .then(res => {
-        this.enabled = res.data.result.enabled;
-        this.frozenConfigList = res.data.result.configs;
-      })
-      .finally(() => {
-        this.$loading.close();
-      });
+      this.$http
+        .getRouterFrozenConfig()
+        .then(res => {
+          this.enabled = res.data.result.enabled;
+          this.frozenConfigList = res.data.result.configs;
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     },
     save() {
       console.log(this.formParams);
       this.$loading.open();
-      this.$http.updateRouterFrozenConfig(this.formParams)
-      .then(() => {
-        this.$toast(this.$t('trans0040'), 3000, 'success');
-        this.getRouterFrozenCofig();
-      })
-     .finally(() => {
-      this.$loading.close();
-     });
+      this.$http
+        .updateRouterFrozenConfig(this.formParams)
+        .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.getRouterFrozenCofig();
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     }
   },
   mounted() {
@@ -178,12 +193,10 @@ export default {
         }
       }
       .category {
-        border-top: 1px solid var(--hr-color);
-        padding-top: 30px;
         .config-wrapper {
           max-width: 340px;
           border-radius: 10px;
-          background: var(--table-row-background-color);
+          // background: var(--table-row-background-color);
         }
         .config-item__name {
           padding: 15px 15px 5px;
