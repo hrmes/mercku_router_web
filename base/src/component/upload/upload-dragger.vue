@@ -53,7 +53,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 500px;
+  width: 100%;
   height: 188px;
   border-radius: 8px;
   border: dashed 1.5px #999999;

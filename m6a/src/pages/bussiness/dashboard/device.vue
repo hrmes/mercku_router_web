@@ -65,7 +65,7 @@
                   <button class="btn btn-default btn-small"
                           :disabled="!offlineCheckedMacs.length"
                           @click="delOfflineDevices(offlineCheckedMacs)">
-                    {{$t('trans0033')}}
+                    {{$t('trans0453')}}
                   </button>
                 </div>
               </li>

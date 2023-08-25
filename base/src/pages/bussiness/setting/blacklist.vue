@@ -447,6 +447,7 @@ export default {
   .tools {
     .btn {
       flex: 1;
+      min-width: auto;
       margin-left: 10px;
     }
   }
@@ -480,13 +481,6 @@ export default {
       button {
         width: auto;
       }
-    }
-  }
-}
-@media screen and (max-width: 375px) {
-  .tools {
-    .btn {
-      min-width: auto;
     }
   }
 }

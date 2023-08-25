@@ -1,39 +1,54 @@
 <template>
-  <div class="page backup">
-    <div v-if="$store.state.isMobile"
+  <div class="page">
+    <div v-if="isMobile"
          class='page-header'>
       {{$t('trans1010')}}
     </div>
-    <div class="backup__content">
-      <p class="backup__tips">{{$t('trans1011')}}</p>
-      <p class="backup__tips">{{$t('trans1036')}}</p>
-      <p class="backup__tips backup__tips--danger">*{{$t('trans1012')}}</p>
-      <button class="btn btn-middle operate-btn"
-              :disabled="isDownloading"
-              @click="getBackup">{{$t('trans1013')}}</button>
-    </div>
-    <div class='page-header'>
-      {{$t('trans1014')}}
-    </div>
-    <div class="backup__content">
-      <div class="backup__upload">
-        <m-upload ref="uploader"
-                  dragable
-                  :onChange="onChange"
-                  :onCancel="onCancel"
-                  :beforeUpload="beforeUpload"
-                  :request="upload"
-                  :label="$t('trans1015')"
-                  :accept="fileSuffix" />
+    <div class="page-content">
+      <div class="backup">
+        <div class="backup-wrapper">
+          <div class="backup-wrapper__content">
+            <p class="backup__tips">{{$t('trans1011')}}</p>
+            <p class="backup__tips backup__tips--danger">*{{$t('trans1036')}}</p>
+            <p class="backup__tips backup__tips--danger">*{{$t('trans1012')}}</p>
+          </div>
+          <button class="btn operate-btn"
+                  :class="{'btn-default':isMobile,'btn-middle':!isMobile}"
+                  :disabled="isDownloading"
+                  @click="getBackup">{{$t('trans1013')}}</button>
+        </div>
       </div>
-      <div class="backup__notes">
-        <p>{{$t('trans1018')}}</p>
-        <p>{{$t('trans1016')}}</p>
-        <p>{{$t('trans1017')}}</p>
+      <div class="page-content__main">
+        <div class="restore">
+          <div class='restore-header'>
+            {{$t('trans1014')}}
+          </div>
+          <div class="restore-notes">
+            <p>{{$t('trans1016')}}</p>
+            <p>{{$t('trans1017')}}</p>
+          </div>
+          <div class="backup__content">
+            <div class="backup__upload">
+              <m-upload ref="uploader"
+                        dragable
+                        :onChange="onChange"
+                        :onCancel="onCancel"
+                        :beforeUpload="beforeUpload"
+                        :request="upload"
+                        :label="$t('trans1015')"
+                        :accept="fileSuffix" />
+            </div>
+
+          </div>
+        </div>
       </div>
-      <button class="btn btn-middle btn-primary operate-btn"
-              @click="restoreBackup"
-              v-if="uplodaSuccess">{{$t('trans1027')}}</button>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn btn-primary"
+                  @click="restoreBackup"
+                  :disabled="!uplodaSuccess">{{$t('trans1027')}}</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +74,9 @@ export default {
     };
   },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     uplodaSuccess() {
       return this.uploadStatus === UploadStatus.success;
     }
@@ -104,7 +122,9 @@ export default {
               clearTimeout(this.downloadTimer);
               this.downloadTimer = null;
             }, 5000);
-            window.location.href = `/${fileName}${this.fileSuffix}?t=${Date.now()}`;
+            window.location.href = `/${fileName}${
+              this.fileSuffix
+            }?t=${Date.now()}`;
           }
         })
         .catch(() => {
@@ -199,46 +219,115 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.backup {
-  p {
-    width: 500px;
-    padding: 0;
-    margin: 0;
-  }
-  .operate-btn {
-    margin-top: 30px;
-    width: 500px;
-  }
-  .backup__content {
-    padding: 30px 20px;
-  }
-  .backup__tips {
-    font-size: 14px;
-    color: var(--text-default-color);
-    &.backup__tips--danger {
-      color: var(--warning-color);
+.page {
+  background-color: transparent;
+  .page-content {
+    .backup {
+      background-color: var(--common-card-bgc);
+      margin-bottom: 15px;
+      box-shadow: var(--common-card-boxshadow);
+      padding: 15px 30px;
+      border-radius: 10px;
+      .backup-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .backup__tips {
+        font-size: 15px;
+        font-weight: 600;
+        margin: 0 0 10px;
+        &:last-child {
+          margin: 0;
+        }
+      }
+      .backup__tips--danger {
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--primaryColor);
+      }
     }
-    & + .backup__tips {
-      margin-top: 12px;
+    .restore {
+      padding: 20px 30px;
+      .restore-header {
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .restore-notes {
+        font-size: 12px;
+        color: var(--common-gery-color);
+      }
+    }
+    .page-content__main {
+      padding: 0;
+      background-color: var(--common-card-bgc);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .page-content__bottom {
+      background-color: var(--common-card-bgc);
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
     }
   }
-  .backup__notes {
-    margin-top: 20px;
-    font-size: 12px;
-    color: var(--text-default-color);
-  }
-  @media screen and (max-width: 768px) {
-    .btn {
-      margin-left: 0;
-    }
-    p {
-      width: 100%;
-    }
-    .operate-btn {
-      width: 100%;
-    }
-    .backup__content {
-      padding: 20px;
+}
+@media screen and (max-width: 768px) {
+  .page {
+    .page-content {
+      .backup {
+        border-radius: 0;
+        padding: 20px;
+        .backup-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .backup__tips {
+          font-size: 15px;
+          font-weight: 500;
+          margin: 0 0 10px;
+          &:last-child {
+            margin-bottom: 20px;
+          }
+        }
+        .backup__tips--danger {
+          font-size: 12px;
+          font-weight: 400;
+          color: var(--primaryColor);
+        }
+        .operate-btn {
+          &.btn-default {
+            background-image: linear-gradient(
+                to right,
+                var(--common-card-bgc),
+                var(--common-card-bgc)
+              ),
+              linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+          }
+        }
+      }
+      .restore {
+        padding: 20px 30px;
+        .restore-header {
+          font-size: 15px;
+          font-weight: 500;
+        }
+        .restore-notes {
+          font-size: 12px;
+          color: var(--common-gery-color);
+        }
+      }
+      .page-content__main {
+        padding: 0;
+        background-color: var(--common-card-bgc);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      .page-content__bottom {
+        background-color: var(--common-card-bgc);
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
     }
   }
 }

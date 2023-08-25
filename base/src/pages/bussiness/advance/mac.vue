@@ -189,7 +189,7 @@ export default {
     margin-right: 10px;
   }
   > span {
-    font-weight: 600;
+    font-weight: 500;
   }
   &.selected {
     .radio {

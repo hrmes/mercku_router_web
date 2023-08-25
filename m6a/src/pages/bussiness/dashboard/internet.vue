@@ -595,6 +595,7 @@ export default {
 <style lang="scss">
 @font-face {
   font-family: 'DIN';
+  font-display: swap;
   src: url('../../../style/iconfont/DIN.ttf');
 }
 .router-info {

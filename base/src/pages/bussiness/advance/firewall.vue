@@ -5,14 +5,16 @@
       {{$t('trans0424')}}
     </div>
     <div class="page-content">
+      <div class="content">
+        <div class="content__item content__switch firewall">
+          <m-switch v-model="wan.dos"
+                    @change="updateWanDos"></m-switch>
+          <label for="">{{$t('trans0424')}}</label>
+        </div>
+      </div>
       <div class="page-content__main">
         <div class="content">
-          <div class="content__item content__switch">
-            <m-switch v-model="wan.dos"
-                      @change="updateWanDos"></m-switch>
-            <label for="">{{$t('trans0424')}}</label>
-          </div>
-          <div class="content__line"></div>
+          <!-- <div class="content__line"></div> -->
           <div class="content__item content__switch">
             <m-switch v-model="ping.enabled"
                       @change="updateWanPing"></m-switch>
@@ -211,14 +213,24 @@ export default {
 </style>
 <style lang="scss" scoped>
 .page {
+  background-color: transparent;
   .page-content {
     .page-content__main {
       padding: 0 0 40px;
+      background-color: var(--common-card-bgc);
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .page-content__bottom {
+      background-color: var(--common-card-bgc);
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
     }
   }
 }
 .content {
   width: 100%;
+  // height: 100%;
   .content__item {
     width: 100%;
     padding: 0 20px;
@@ -229,9 +241,14 @@ export default {
     height: 80px;
     border-radius: 10px;
     overflow: hidden;
+    margin-bottom: 15px;
     label {
       font-weight: bold;
       margin-right: 10px;
+    }
+    &.firewall {
+      background-color: var(--common-card-bgc);
+      box-shadow: var(--common-card-boxshadow);
     }
   }
   .content__line {
@@ -316,12 +333,26 @@ export default {
   }
 }
 @media screen and(max-width: 768px) {
+  .page {
+    .page-content {
+      background-color: transparent;
+      .page-content__main {
+        padding: 0 0 40px;
+        border-radius: 0;
+      }
+      .page-content__bottom {
+        border-radius: 0;
+      }
+    }
+  }
   .content {
     .content__item {
       width: 100%;
     }
     .content__switch {
       height: 60px;
+      border-radius: 0;
+      margin-bottom: 7px;
     }
     .form {
       .form__item {

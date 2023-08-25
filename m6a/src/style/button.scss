@@ -242,6 +242,17 @@
       border-top-color: var(--table-action-popover-bgc);
     }
   }
+  &[disabled],
+  &.disabled {
+    cursor: not-allowed;
+    opacity: var(--button-disabled-opcity);
+    &:hover {
+      background-color:transparent;
+      .hover-popover {
+        display: none;
+      }
+    }
+  }
   &:hover {
     background-color: var(--device-limit_icon-hover-bgc);
     .hover-popover {

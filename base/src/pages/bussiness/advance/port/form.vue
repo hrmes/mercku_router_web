@@ -98,7 +98,6 @@
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -343,8 +342,8 @@ export default {
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.closeForm();
             this.$emit('refreshList');
+            this.closeForm();
           })
           .catch(() => {
             this.$loading.close();

@@ -32,8 +32,7 @@
             <div class="protocol"
                  v-if="!isMobile">{{$t('trans0408')}}</div>
             <div class="operator">
-              <div class="btn-wrap"
-                   :class="{open:mobileSelect}">
+              <div class="btn-wrap">
                 <button class="btn btn-small"
                         @click="mulDel"
                         :disabled="!hasChecked">{{$t('trans0453')}}</button>
@@ -48,8 +47,7 @@
                  v-for="(item,index ) in portfws"
                  :key='index'>
               <div class="wrapper">
-                <div class="checkbox"
-                     :class="{'checkOpen':mobileShowHead}">
+                <div class="checkbox">
                   <m-checkbox v-model='item.checked'
                               @click.native='stopDefault($event)'></m-checkbox>
                 </div>
@@ -138,11 +136,8 @@ export default {
   },
   data() {
     return {
-      mobileSelect: false,
-      mobileShowHead: false,
       empty: null,
       checkAll: false,
-      reverseCheck: false,
       portfws: [],
       checkedArr: [],
       isShowForm: false,
@@ -252,7 +247,6 @@ export default {
       });
       if (this.portfws.length === 0) {
         this.empty = true;
-        this.mobileShowHead = false;
       }
     },
     mulDel() {
@@ -303,7 +297,6 @@ export default {
 <style lang="scss" scoped>
 .table {
   width: 100%;
-  font-size: 12px;
   .table-header {
     grid-template-columns: 2fr 1.5fr 1.5fr 100px 1.2fr;
     div {

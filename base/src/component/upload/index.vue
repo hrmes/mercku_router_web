@@ -173,7 +173,12 @@ export default {
       this.upload(postFiles);
     },
     getSize(file) {
-      return `${toLocaleNumber(file.size / 1000 / 1000, this.$i18n.locale, 2, 2)}MB`;
+      return `${toLocaleNumber(
+        file.size / 1000 / 1000,
+        this.$i18n.locale,
+        2,
+        2
+      )}MB`;
     },
     click() {
       this.initUploadStatus();
@@ -251,7 +256,7 @@ export default {
       width: 48px;
       height: 32px;
       path {
-        fill: var(--button-background-color);
+        fill: var(--mobile-menu-selected-color);
       }
       &.is-upload-loading {
         path {
@@ -273,8 +278,7 @@ export default {
       min-width: 80px;
       cursor: pointer;
       &[disabled] {
-        // border-color: var(--upload-button-disabled-color);
-        color: var(--button-disabled-text-color);
+        opacity: 0.3;
         cursor: not-allowed;
         label {
           cursor: not-allowed;
@@ -298,7 +302,7 @@ export default {
     }
   }
   .upload__files {
-    width: 500px;
+    width: 100%;
     margin-top: 20px;
   }
   .file {

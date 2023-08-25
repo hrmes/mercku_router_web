@@ -109,6 +109,16 @@ export default {
         this.wireGuardInitForm.name = this.form.name;
         this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
       }
+      if (nv !== VPNType.wireguard) {
+        this.form = {
+          id: '',
+          name: '',
+          protocol: nv, // L2TP or PPTP
+          server: '',
+          username: '',
+          password: ''
+        };
+      }
     },
     keepAliveTime: {
       handler(nv) {

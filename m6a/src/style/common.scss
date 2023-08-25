@@ -138,7 +138,7 @@ input::-webkit-input-placeholder {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 1000;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -229,7 +229,11 @@ input::-webkit-input-placeholder {
     font-size: 12px;
     color: var(--common-gery-color);
     background: var(--table-row-background-color);
-
+    .wrapper {
+      display: grid;
+      grid-template-rows: 100%;
+      gap: 10px;
+    }
   }
   .table-body {
     .table-row {
@@ -238,13 +242,17 @@ input::-webkit-input-placeholder {
       gap: 10px;
       padding: 10px 15px;
       margin-bottom: 5px;
-      font-size: 14px;
       font-weight: 500;
       align-items: center;
       font-size: 14px;
       color: var(--text-default-color);
       background: var(--table-row-background-color);
       border-radius: 10px;
+      .wrapper {
+        display: grid;
+        grid-template-rows: 100%;
+        gap: 10px;
+      }
     }
   }
 }
@@ -400,7 +408,16 @@ label.with-colon {
   .table {
     display: flex;
     flex-direction: column;
-
+    .table-header{
+      .wrapper{
+        gap: 0;
+      }
+    }
+    .table-body{
+      .wrapper{
+        gap: 0;
+      }
+    }
     .empty {
       height: auto;
       flex-direction: column;
