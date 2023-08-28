@@ -220,11 +220,6 @@ export default {
   },
   mounted() {
     this.$loading.open();
-    this.$http.login({ password: '' }, { hideToast: true }).catch(() => {
-      // password is not empty, go to login page
-      this.$router.push({ path: '/login' });
-      this.$loading.close();
-    });
     this.$http
       .getMeshMeta()
       .then(res => {
