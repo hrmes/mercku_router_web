@@ -320,7 +320,7 @@ export default {
       return resultText;
     },
     transDeviceId(text) {
-      return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.deviceId);
+      return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
     },
     isStep(index) {
       return this.stepsOption.current === index;
@@ -368,7 +368,9 @@ export default {
     },
     addMeshNode() {
       this.$http.addMeshNode().then(() => {
-        const template = `<div class="add-mesh-tip">${this.$t('trans1003')}</div>`;
+        const template = `<div class="add-mesh-tip">${this.$t(
+          'trans1003'
+        )}</div>`;
         this.$loading.open({ template });
         // 超时90秒，间隔3秒
         let timeout = this.addTimeout;
@@ -415,7 +417,11 @@ export default {
           default:
             break;
         }
-      } else if (step === Step.step3 && type && this.modelID === M6aRouterSnModelVersion.M6a) {
+      } else if (
+        step === Step.step3 &&
+        type &&
+        this.modelID === M6aRouterSnModelVersion.M6a
+      ) {
         switch (type) {
           case AddNodeType.wireless:
             img = require('@/assets/images/img_m6a_wireless_add_03.svg');
@@ -426,7 +432,11 @@ export default {
           default:
             break;
         }
-      } else if (step === Step.step3 && type && this.modelID === M6aRouterSnModelVersion.M6a_Plus) {
+      } else if (
+        step === Step.step3 &&
+        type &&
+        this.modelID === M6aRouterSnModelVersion.M6a_Plus
+      ) {
         switch (type) {
           case AddNodeType.wireless:
             img = require('@/assets/images/model/m6a_plus/img_m6aplus_wireless_add_03.svg');
