@@ -1,5 +1,5 @@
 <template>
-  <div class="disappear-container">
+  <div class="unconnect">
     <div class="inner">
       <img src="@/assets/images/img_no_network_access.webp"
            alt="">
@@ -40,37 +40,43 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.disappear-container {
-  background: var(--primaryBackgroundColor);
-  padding: 50px;
+.unconnect {
+  padding: 0 30px;
   flex: auto;
   min-height: 500px;
+  .inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    border-radius: 10px;
+    box-shadow: var(--common-card-boxshadow);
+    background: var(--primaryBackgroundColor);
+  }
   img {
     display: block;
     width: 200px;
     margin: 0 auto;
   }
   .text {
-    margin-top: 40px;
+    margin-top: 20px;
   }
   .btn {
-    display: block;
     margin: 0 auto;
-    margin-top: 60px;
+    margin-top: 40px;
   }
   text-align: center;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
-@media screen and(max-width: 678px) {
-  .disappear-container {
+@media screen and(max-width: 768px) {
+  .unconnect {
+    padding: 0;
     .inner {
-      width: 80%;
-      margin: 0 auto;
-      .btn {
-        margin-bottom: 40px;
-      }
+      border-radius: 0;
+      padding: 0 15px;
     }
   }
 }

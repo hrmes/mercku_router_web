@@ -1,30 +1,39 @@
 .btn {
   outline: none;
-  border: 1px solid var(--button-border-color);
+  border: none;
   cursor: pointer;
   text-align: center;
   white-space: nowrap;
   padding: 0 15px;
   font-size: 14px;
-  border-radius: 4px;
-  width: 340px;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 340px;
   height: 48px;
   user-select: none;
   position: relative;
   color: var(--button-text-color);
-  background: var(--button-background-color);
+  background-image: var(--button-background-color);
+  box-shadow: var(--button-box-shadow);
+  transition: background 0.3s ease-in-out;
   &:active {
-    background: var(--button-active-color);
+    opacity: var(--button-active-opcity);
   }
   &:hover {
-    background: var(--button-hover-color);
+    opacity: var(--button-hover-opcity);
   }
   &[disabled],
   &.disabled {
     cursor: not-allowed;
-    background: var(--button-disabled-background-color);
-    border-color: var(--button-disabled-border-color);
-    color: var(--button-disabled-text-color);
+    opacity: var(--button-disabled-opcity);
+  }
+  &.btn-small {
+    width: auto;
+    min-width: 80px;
+    height: 28px;
+    line-height: 1;
+    padding: 5px 10px;
+    font-size: 12px;
   }
   &.btn-middle {
     width: auto;
@@ -33,7 +42,6 @@
     line-height: 1;
     padding: 10px;
     font-size: 14px;
-    border-radius: 4px;
     @media screen and (max-width: 320px) {
       min-width: 100px;
     }
@@ -45,42 +53,22 @@
     line-height: 1;
     padding: 12px 10px;
     font-size: 14px;
-    border-radius: 4px;
     @media screen and (max-width: 320px) {
       width: 180px;
       min-width: initial;
     }
   }
-  &.btn-small {
-    width: auto;
-    min-width: 80px;
-    height: 28px;
-    line-height: 1;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 4px;
-  }
-  &.btn-default {
-    background: var(--button-default-background-color);
-    color: var(--button-default-text-color);
-    border: 2px solid var(--button-default-border-color);
-    &:active {
-      color: var(--button-default-active-text-color);
-      border-color: var(--button-default-active-border-color);
-    }
 
-    &:hover {
-      color: var(--button-default-hover-text-color);
-      border-color: var(--button-default-hover-border-color);
-    }
-
-    &[disabled],
-    &.disabled {
-      color: var(--button-default-disabled-text-color)!important;
-      border-color: var(--button-default-disabled-border-color)!important;
-      cursor: not-allowed;
-    }
-  }
+}
+.btn-default {
+  user-select: none;
+  color: var(--button-default-text-color);
+  border: 2px solid transparent;
+  background-clip: padding-box, border-box;
+	background-origin: padding-box, border-box;
+	background-image: linear-gradient(to right, var(--dashboard-icon-background-color), var(--dashboard-icon-background-color)),
+					var(--common-btn_default-bgimg);
+  transition: all 0.1s ease-in-out;
 }
 .btn-text {
   color: var(--button-text-text-color);
@@ -93,7 +81,6 @@
       background: var(--button-text-stange-background-color);
       color: var(--button-text-stange-text-color) !important;
       text-align: center;
-      border-radius: 4px;
       height: 38px;
       font-size: 12px;
       display: flex;
@@ -140,29 +127,32 @@
   display: inline-block;
   width: 30px;
   height: 30px;
-  line-height: 30px;
-  text-align: center;
-  margin-right: 10%;
-  border-radius: 10px;
-  background-color: var(--table-action-icon-bgc);
-  box-shadow: 0 5px 10px -5px rgba(51, 51, 51, 0.3);
+  border-radius: 50%;
+  background-color: var(--logout-btn-bgc);
+  box-shadow:  0 8px 10px -5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   .iconfont {
-    font-size: 18px;
-    color: var(--table-action-icon-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 16px;
+    color: var( --text-default-color);
     transition: color 0.3s ease-out;
   }
   .icon-hover-popover {
     display: none;
     position: absolute;
-    padding: 0px 8px;
-    font-size: 12px;
+    padding: 5px 8px;
+    font-size: 14px;
     background: var(--table-action-popover-bgc);
     color: #fff;
     top: -8px;
     left: 50%;
     transform: translate(-50%, -100%);
     border-radius: 10px;
+    max-height: 190px;
+    word-break: keep-all;
     white-space: nowrap;
     z-index: 10;
     &::after {
@@ -175,6 +165,12 @@
       height: 0;
       border: 6px solid transparent;
       border-top-color: var(--table-action-popover-bgc);
+    }
+  }
+  &.close{
+    background-color:var(--button-close-bgc);
+    .iconfont{
+      font-weight: 700;
     }
   }
   &:hover {
@@ -201,6 +197,69 @@
     }
   }
 }
+.limit-icon {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  .iconfont {
+    font-size: 20px;
+    color: var(--device-limit_icon-color);
+    font-weight: 500;
+    &.active {
+      color: var(--primaryColor);
+    }
+  }
+  .hover-popover {
+    display: none;
+    position: absolute;
+    padding: 5px 12px;
+    font-size: 12px;
+    background: var(--table-action-popover-bgc);
+    color: #fff;
+    top: -8px;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    border-radius: 10px;
+    max-height: 190px;
+    word-break: keep-all;
+    white-space: nowrap;
+    z-index: 10;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-top-color: var(--table-action-popover-bgc);
+    }
+  }
+  &[disabled],
+  &.disabled {
+    cursor: not-allowed;
+    opacity: var(--button-disabled-opcity);
+    &:hover {
+      background-color:transparent;
+      .hover-popover {
+        display: none;
+      }
+    }
+  }
+  &:hover {
+    background-color: var(--device-limit_icon-hover-bgc);
+    .hover-popover {
+      display: block;
+    }
+  }
+}
 @media screen and (min-width: 769px) {
   .btn {
     min-width: 120px;
@@ -210,9 +269,12 @@
 @media screen and (max-width: 768px) {
   .btn {
     display: block;
-    width: 100%;
     height: 48px;
     margin: 0 auto;
+    max-width: 100%;
+    &:hover {
+      opacity: 1;
+    }
   }
   .btn-icon {
     margin: 0 3px 0 10px;
@@ -230,6 +292,14 @@
     &:active {
       .iconfont {
         color: var(--primaryColor);
+      }
+    }
+  }
+  .limit-icon {
+    &:hover {
+      background-color: transparent;
+      .hover-popover {
+        display: none;
       }
     }
   }

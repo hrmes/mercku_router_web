@@ -1,30 +1,30 @@
 <template>
-  <div class="srcollbar-wrap">
+  <div class="scrollbar-wrap"
+       :class="{'is-login-page':isLoginPage}">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"
-             class="flex-wrap"
-             :class="{ 'has-menu': navVisible }">
+             class="flex-wrap">
           <m-header :navVisible="navVisible"
-                    :isLoginPage="!logoVisible"
-                    :logoVisible="logoVisible"
+                    :isLoginPage="isLoginPage"
+                    :isWlanPage="isWlanPage"
                     :navs="menus"
-                    class="header"></m-header>
-          <component :is="layout"
+                    id="header" />
+          <component v-if="isMobile"
+                     :is="layout"
                      :hasBackWrap='hasBackWrap'
                      :asideInfo='asideInfo'></component>
-          <m-policy :locale="$i18n.locale"
-                    :isLoginPage="!logoVisible"
-                    :class="{ 'fix-bottom': !navVisible }"
-                    class="policy" />
-          <img v-if="$route.path.includes('login')"
-               class="login-logo__left__top"
-               src="@/assets/images/customer/mercku/login_logo.png"
-               alt="">
-          <img v-if="$route.path.includes('login')"
-               class="login-logo__right__bottom"
-               src="@/assets/images/customer/mercku/login_logo.png"
-               alt="">
+          <transition v-else
+                      name="fade"
+                      :css="!isMobile"
+                      mode="out-in">
+            <component :is="layout"
+                       :hasBackWrap='hasBackWrap'
+                       :asideInfo='asideInfo'></component>
+          </transition>
+          <m-footer :isLoginPage="isLoginPage "
+                    :isWlanPage="isWlanPage"
+                    :navVisible="navVisible" />
         </div>
       </div>
     </div>
@@ -39,9 +39,12 @@ import getMenu from './menu';
 export default {
   components: {
     default: defaultLayout,
-    primary: primaryLayout,
+    primary: primaryLayout
   },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     layout() {
       const { layout } = this.$route.meta;
       return layout || 'default';
@@ -72,47 +75,71 @@ export default {
       const asideInfo = { hasAside, subMenu };
       return asideInfo;
     },
-    logoVisible() {
-      return !this.$route.path.includes('login');
+    isLoginPage() {
+      return this.$route.path.includes('login');
+    },
+    isWlanPage() {
+      return this.$route.path.includes('wlan');
     },
     navVisible() {
       const { path } = this.$route;
-      const visible = path.includes('login') || path.includes('wlan') || path.includes('unconnect');
+      const visible =
+        path.includes('login') ||
+        path.includes('wlan') ||
+        path.includes('unconnect');
       return !visible;
     },
     menus() {
       return getMenu(this.$store.state.role, this.$store.state.mode);
     }
   },
+
   methods: {
     setHeight() {
+      const flexWrap = document.querySelector('.flex-wrap');
       // fix safari
       const contentMinHeight = 600; // 定义内容区域最小高度
-      let height = 0;
-      if (document.body.clientHeight > contentMinHeight) {
-        height = document.body.clientHeight;
-      } else {
-        height = contentMinHeight;
-      }
-      this.$refs.flexWrap.style.minHeight = `${height}px`;
+      const height = Math.max(document.body.clientHeight, contentMinHeight);
+      flexWrap.style.minHeight = `${height}px`;
     },
+    // 滚动添加删除header的box-shadow
+    listenScroll() {
+      const header = document.querySelector('#header');
+      const scrollbar = document.querySelector('.scrollbar-wrap');
+      const handleScroll = () => {
+        if (this.isLoginPage || this.isWlanPage) return;
+        const scrollY = scrollbar.scrollTop;
+        header.classList.toggle('with-shadow', scrollY > 0);
+      };
+      scrollbar.addEventListener('scroll', handleScroll);
+    },
+    removeEventListeners() {
+      window.removeEventListener('resize', () => {
+        this.setHeight();
+      });
+      const scrollbar = document.querySelector('.scrollbar-wrap');
+      scrollbar.removeEventListener('scroll', this.handleScroll);
+    }
   },
   mounted() {
     this.setHeight();
+    this.listenScroll();
     window.addEventListener('resize', () => {
       this.setHeight();
     });
     this.$router.beforeEach((to, from, next) => {
       // 判断是否是手机端
       // eslint-disable-next-line max-len
-      const { isMobile } = this.$store.state;
-      const scrollPage = document.querySelector('.srcollbar-wrap');
+      const scrollPage = document.querySelector('.scrollbar-wrap');
       // 判断是否是跳转到新页面
-      if (isMobile && to.path !== from.path) {
-          scrollPage.scrollTop = 0;
+      if (this.isMobile && to.path !== from.path) {
+        scrollPage.scrollTop = 0;
       }
       next();
     });
+  },
+  beforeDestroy() {
+    this.removeEventListeners();
   }
 };
 </script>
@@ -125,10 +152,11 @@ export default {
 [data-title]:after {
   content: attr(data-title);
   position: absolute;
-  bottom: -90%;
-  left: 70%;
+  bottom: -95%;
+  right: 0;
   width: fit-content;
   height: fit-content;
+  font-size: 14px;
   padding: 5px 15px 5px;
   color: #ffffff;
   background: var(--table-action-popover-bgc);
@@ -137,37 +165,55 @@ export default {
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
   opacity: 0;
-  z-index: 99999;
+  z-index: 999;
   visibility: hidden;
+  transition: all 0.2s ease-in-out;
 }
 [data-title] {
   position: relative;
 }
-.srcollbar-wrap {
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+ul,
+li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.scrollbar-wrap {
   height: 100%;
   overflow: auto;
-}
-.flex-wrap {
-  display: flex;
-  flex-direction: column;
-  color: var(--text-default-color);
-  background-color: var(--primaryBackgroundColor);
-  > img {
-    position: fixed;
-    width: 26.875rem;
-    height: 26.875rem;
+  font-family: 'PingFang', sans-serif;
+  background: var(--scrollbar_wrap-bgc__isNotLogin);
+  &.is-login-page {
+    background: var(--scrollbar_wrap-bgc__isLogin);
   }
-  .login-logo__left__top {
-    top: 0;
-    left: 0;
-  }
-  .login-logo__right__bottom {
-    bottom: 0;
-    right: 0;
-    transform: rotate(180deg);
-  }
-  &.has-menu {
-    background-color: var(--flex-warp-has-menu-bgc);
+  @media screen and (min-width: 768px) {
+    &::-webkit-scrollbar,
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-track {
+      background-color: var(--scrollbar_wrap-track-color);
+      // border-radius: 100px;
+    }
+    &::-webkit-scrollbar-thumb,
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar_wrap-thumb-color);
+      border-radius: 100px;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
   }
 }
 .container {
@@ -179,33 +225,31 @@ export default {
     flex-direction: column;
     position: relative;
   }
-  .header {
-    z-index: 1000;
-  }
   .layout-wrap {
     flex: 1;
   }
-  .policy {
-    width: 100%;
-    text-align: center;
-    color: var(--text-gery-color);
-    &.fix-bottom {
-      background: var(--primaryBackgroundColor);
+}
+.flex-wrap {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-default-color);
+}
+
+@media screen and (max-width: 768px) {
+  #header {
+    &.with-shadow {
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
     }
   }
-}
-@media screen and (max-width: 768px) {
+  .scrollbar-wrap {
+    min-height: 100dvh;
+    // height: 100%;
+  }
   .flex-wrap {
     padding-top: 65px;
   }
   .container {
     flex-direction: column;
-    .policy {
-      font-size: 12px;
-      &.fix-bottom {
-        position: static;
-      }
-    }
     .login-logo__left__top,
     .login-logo__right__bottom {
       display: none;

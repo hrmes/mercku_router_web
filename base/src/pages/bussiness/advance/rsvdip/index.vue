@@ -69,12 +69,12 @@
               <div class="operator">
                 <span class="limit-icon"
                       @click="editHandle(item)">
-                  <i class="iconfont icon-ic_settings_normal"></i>
+                  <i class="iconfont ic_settings"></i>
                   <span class="hover-popover"> {{$t('trans0034')}}</span>
                 </span>
                 <span class="limit-icon"
                       @click="del([item.id])">
-                  <i class="iconfont icon-ic_trash_normal"></i>
+                  <i class="iconfont ic_trash"></i>
                   <span class="hover-popover"> {{$t('trans0033')}}</span>
                 </span>
               </div>
@@ -348,12 +348,12 @@ export default {
       .wrapper {
         position: relative;
         &::after {
-          content: '\e65b';
+          content: '\e6c2';
           font-family: 'iconfont';
           position: absolute;
           top: 50%;
           right: 0;
-          transform: translateY(-50%) rotate(0deg);
+          transform: translateY(-50%) rotate(90deg);
           font-size: 12px;
           transition: transform 0.3s;
           color: var(--text-default-color);
@@ -373,7 +373,7 @@ export default {
           padding-bottom: 0;
           border-color: transparent;
           &::after {
-            transform: translateY(-50%) rotate(-90deg);
+            transform: translateY(-50%) rotate(0deg);
           }
         }
         .mac,

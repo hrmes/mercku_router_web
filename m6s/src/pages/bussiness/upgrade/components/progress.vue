@@ -63,7 +63,7 @@
                    src="@/assets/images/icon/ic_default_success.png"
                    alt="" />
               <img v-if="status === Statuses.install_timeout"
-                   src="@/assets/images/icon/ic_hint.png"
+                   src="@/assets/images/icon/ic_hint.webp"
                    alt="" />
             </div>
             <div class="mk-upgrade-result__status">{{ translate(status) }}</div>
@@ -269,7 +269,6 @@ export default {
                 responsed = false;
                 this.$http
                   .getRouter(null, {
-                    hideToast: true,
                     noRedirect: true
                   })
                   .then(res => {

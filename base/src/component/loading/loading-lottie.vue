@@ -33,13 +33,13 @@ export default {
       let result;
       switch (this.loadingType) {
         case Type.loading:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.assetFolderName}/loading.json`);
+          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.title.toLowerCase()}/loading.json`);
           break;
         case Type.speedTest:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.assetFolderName}/speed-test.json`);
+          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.title.toLowerCase()}/speed-test.json`);
           break;
         case Type.addNode:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.assetFolderName}/add-node.json`);
+          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.title.toLowerCase()}/add-node.json`);
           break;
         default:
           break;

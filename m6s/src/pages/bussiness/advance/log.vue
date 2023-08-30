@@ -1,73 +1,74 @@
 <template>
-  <div class="page page__log">
+  <div class="page">
     <div v-if="$store.state.isMobile"
          class="page-header">
       {{$t('trans0421')}}
     </div>
     <div class="page-content">
-      <m-form class="form"
-              ref="form"
-              :model="logSetting"
-              :rules="rules">
-        <m-form-item>
-          <p class="des">{{$t('trans1137')}}</p>
-        </m-form-item>
-        <m-form-item class="item"
-                     prop="level">
-          <m-select :label="$t('trans1143')"
-                    v-model="logSetting.level"
-                    :options="logLevel"></m-select>
-          <span class="form__tips">{{$t('trans1152')}}</span>
-        </m-form-item>
-        <m-form-item class="item"
-                     prop="capacity">
-          <m-input :label="$t('trans1156')"
-                   v-model="logSetting.capacity"
-                   type="number"
-                   :placeholder="`${$t('trans1154')}`"></m-input>
-          <span class="form__tips">{{$t('trans1154')}}</span>
-        </m-form-item>
-        <m-form-item key="save"
-                     class="item">
-          <button class="btn"
-                  v-defaultbutton
-                  @click="updateSetting()">
-            {{ $t('trans0081') }}
-          </button>
-        </m-form-item>
-      </m-form>
-      <div v-if="showLogWrapper"
-           class="log__wrapper">
-        <div class="log__wrapper-bar">
-          <div class="left log__type">
-            <div v-for="tab in tabs"
-                 :key="tab.id"
-                 @click="tabChange(tab.id)"
-                 class="log__type-item"
-                 :class="{'active':tabID===tab.id}">{{tab.text}}</div>
+      <div class="page-content__main">
+        <m-form class="form"
+                ref="form"
+                :model="logSetting"
+                :rules="rules">
+          <m-form-item>
+            <p class="des">{{$t('trans1137')}}</p>
+          </m-form-item>
+          <div class="card">
+            <m-form-item prop="level">
+              <m-select :label="$t('trans1143')"
+                        v-model="logSetting.level"
+                        :options="logLevel"></m-select>
+              <p class="des-tips">{{$t('trans1152')}}</p>
+            </m-form-item>
+            <m-form-item prop="capacity">
+              <m-input :label="$t('trans1156')"
+                       v-model="logSetting.capacity"
+                       type="number"
+                       :placeholder="`${$t('trans1154')}`"></m-input>
+              <p class="des-tips">{{$t('trans1154')}}</p>
+            </m-form-item>
+            <m-form-item class="last">
+              <button class="btn"
+                      v-defaultbutton
+                      @click="updateSetting()">
+                {{ $t('trans0081') }}
+              </button>
+            </m-form-item>
           </div>
-          <div class="right tool">
+        </m-form>
+        <div class="log__wrapper"
+             v-if="showLogWrapper">
+          <div class="log__wrapper-bar">
+            <div class="left log__type">
+              <div v-for="tab in tabs"
+                   :key="tab.id"
+                   @click="tabChange(tab.id)"
+                   class="log__type-item"
+                   :class="{'active':tabID===tab.id}">{{tab.text}}</div>
+            </div>
+            <div class="right tool">
+              <button v-if="tabID === LogType.system"
+                      class="btn btn-default btn-middle refresh"
+                      @click="getlogs">{{$t('trans0481')}}</button>
+              <button class="btn btn-default btn-middle"
+                      @click="exportLog">{{$t('trans1139')}}</button>
+            </div>
+          </div>
+          <div class="log-container">
+            <pre>{{previous}}</pre>
+            <pre class="increase"
+                 :class="{'not-empty':increase}">{{increase}}</pre>
+          </div>
+          <div class="mobile tool">
             <button v-if="tabID === 'system'"
-                    class="btn btn-middle refresh"
+                    class="btn btn-default btn-middle refresh"
                     @click="getlogs">{{$t('trans0481')}}</button>
-            <button class="btn btn-middle"
-                    @click="exportLog">{{$t('trans1139')}}</button>
+            <button class="btn btn-default btn-middle">{{$t('trans1139')}}</button>
           </div>
         </div>
-        <div class="log-container">
-          <pre>{{previous}}</pre>
-          <pre class="increase"
-               :class="{'not-empty':increase}">{{increase}}</pre>
-        </div>
-        <div class="mobile tool">
-          <button v-if="tabID === 'system'"
-                  class="btn btn-middle refresh"
-                  @click="getlogs">{{$t('trans0481')}}</button>
-          <button class="btn btn-middle">{{$t('trans1139')}}</button>
-        </div>
+        <a href=""
+           id="exportLog"></a>
       </div>
-      <a href=""
-         id="exportLog"></a>
     </div>
   </div>
 </template>
@@ -84,6 +85,7 @@ const DisableLogLevel = 8;
 export default {
   data() {
     return {
+      LogType,
       DisableLogLevel,
       logLevel: [
         { value: 1, text: `1. ${this.$t('trans1144')}` },
@@ -93,7 +95,7 @@ export default {
         { value: 5, text: `5. ${this.$t('trans1148')}` },
         { value: 6, text: `6. ${this.$t('trans1149')}` },
         { value: 7, text: `7. ${this.$t('trans1150')}` },
-        { value: 8, text: `8. ${this.$t('trans1151')}` },
+        { value: 8, text: `8. ${this.$t('trans1151')}` }
       ],
       showLogWrapper: false,
       logSetting: {
@@ -115,18 +117,16 @@ export default {
             rule: value => value >= 16 && value <= 1024,
             message: this.$t('trans1158').replace('%d', 16).replace('%d', 1024)
           },
-           {
+          {
             rule: value => (value ? /^[0-9]+$/.test(value) : true),
             message: this.$t('trans1158').replace('%d', 16).replace('%d', 1024)
-          },
-        ],
+          }
+        ]
       },
       tabID: LogType.system,
       tabs: [
-        { id: LogType.system,
-          text: this.$t('trans1138') },
-        { id: LogType.kernel,
-          text: this.$t('trans1140') }
+        { id: LogType.system, text: this.$t('trans1138') },
+        { id: LogType.kernel, text: this.$t('trans1140') }
       ]
     };
   },
@@ -139,7 +139,7 @@ export default {
     },
     isCurrentTab(tab) {
       return tab.id === this.tabID;
-    },
+    }
   },
   mounted() {
     this.getMeshLogsSetting();
@@ -154,21 +154,21 @@ export default {
       }
     },
     getlogs(target) {
-        let method;
-        let fileName;
-        switch (this.tabID) {
-          case LogType.system:
-            method = this.$http.getSysLog;
-            fileName = 'syslog.txt';
+      let method;
+      let fileName;
+      switch (this.tabID) {
+        case LogType.system:
+          method = this.$http.getSysLog;
+          fileName = 'syslog.txt';
           break;
-          case LogType.kernel:
-            method = this.$http.getKernelLog;
-            fileName = 'syslog_k.txt';
+        case LogType.kernel:
+          method = this.$http.getKernelLog;
+          fileName = 'syslog_k.txt';
           break;
-          default:
+        default:
           break;
-        }
-        method()
+      }
+      method()
         .then(res => {
           if (target === Action.export) {
             this.downloadTxtFile(res.data, fileName);
@@ -237,20 +237,21 @@ export default {
         const params = this.logSetting;
 
         this.$loading.open();
-        this.$http.updateMeshLogsSetting(params)
-        .then(() => {
-          if (params.level === DisableLogLevel) {
-            this.showLogWrapper = false;
-            this.previousArray = [];
-            this.increaseArray = [];
+        this.$http
+          .updateMeshLogsSetting(params)
+          .then(() => {
+            if (params.level === DisableLogLevel) {
+              this.showLogWrapper = false;
+              this.previousArray = [];
+              this.increaseArray = [];
+              this.$loading.close();
+            } else {
+              this.getlogs();
+            }
+          })
+          .catch(() => {
             this.$loading.close();
-          } else {
-            this.getlogs();
-          }
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+          });
       }
     },
     tabChange(id) {
@@ -273,71 +274,66 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.page__log {
-  .form {
-    .mk-switch__label {
-      margin-right: 10px !important;
+<style lang="scss" scoped>
+.page {
+  .page-content {
+    .page-content__main {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 20px;
+      .card {
+        height: fit-content;
+      }
     }
   }
 }
-</style>
-<style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
-  flex: 1;
-  justify-content: start;
-}
+
 .form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
   .des {
     font-size: 14px;
     color: var(--text-defalut-color);
     padding: 0;
     margin: 0;
   }
-  .item {
-    position: relative;
-    .form__tips {
-      position: absolute;
-      top: 50%;
-      left: 350px;
-      transform: translateY(-50%);
-    }
-  }
 }
 .log__wrapper {
-  border-top: 1px solid var(--hr-color);
-  padding-top: 20px;
+  width: 100%;
 }
 .log__wrapper-bar {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-  .log__type {
-    display: flex;
-    .log__type-item {
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: 500;
-      color: var(--text-default-color);
-      background: var(--logout-btn-bgc);
-      cursor: pointer;
-      &:first-child {
-        margin-right: 10px;
-      }
-      &.active {
-        background: var(--text-default-color);
-        color: var(--primaryBackgroundColor);
-      }
+}
+.log__type {
+  display: flex;
+  .log__type-item {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 500;
+    color: var(--text-default-color);
+    background: var(--logout-btn-bgc);
+    cursor: pointer;
+    &:first-child {
+      margin-right: 10px;
+    }
+    &.active {
+      background: var(--text-default-color);
+      color: var(--primaryBackgroundColor);
     }
   }
 }
 .tool {
   display: flex;
   align-items: center;
+  .btn-default {
+    background-image: linear-gradient(
+        to right,
+        var(--common-card-bgc),
+        var(--common-card-bgc)
+      ),
+      var(--common-btn_default-bgimg);
+  }
   &.mobile {
     display: none;
   }
@@ -355,10 +351,10 @@ export default {
   flex: 1;
   padding: 10px;
   position: relative;
-  max-height: 500px;
+  max-height: 75vh;
   overflow-x: hidden;
   pre {
-    width: 67vw;
+    width: 100%;
     margin: 0;
     font-family: 'Courier New', Courier, monospace;
     color: var(--text-defalut-color);
@@ -377,27 +373,34 @@ export default {
   display: none;
 }
 @media screen and(max-width:768px) {
-  .page-content {
-    .form {
-      pre {
-        position: relative;
-      }
-      .form__tips {
-        position: static;
-      }
-    }
-    .tool {
-      &.right {
-        display: none;
-      }
-      &.mobile {
-        display: flex;
-        margin-top: 20px;
+  .page {
+    .page-content {
+      .page-content__main {
+        grid-template-rows: repeat(auto-fill);
+        grid-template-columns: 100%;
+        gap: 0;
       }
     }
-    .log-container {
-      max-height: 400px;
+  }
+  .form {
+    pre {
+      position: relative;
     }
+    .form__tips {
+      position: static;
+    }
+  }
+  .tool {
+    &.right {
+      display: none;
+    }
+    &.mobile {
+      display: flex;
+      margin-top: 20px;
+    }
+  }
+  .log-container {
+    max-height: 500px;
   }
 }
 </style>

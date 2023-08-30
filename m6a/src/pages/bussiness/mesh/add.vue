@@ -331,9 +331,10 @@ export default {
       return resultText;
     },
     transDeviceId(text) {
+      console.log(process.env.CUSTOMER_CONFIG.deviceId);
       return this.$t(text).replaceAll(
         '%s',
-        process.env.CUSTOMER_CONFIG.deviceId
+        process.env.CUSTOMER_CONFIG.deviceID
       );
     },
     isStep(index) {
@@ -432,7 +433,7 @@ export default {
             img = require('@/assets/images/img_m6a_add_01.svg');
             break;
           case M6aRouterSnModelVersion.M6a_Plus:
-            img = require('@/assets/images/model/m6a_plus/img_m6aplus_add_01.svg');
+            img = require('@/assets/images/m6a_plus/img_m6aplus_add_01.svg');
             break;
           default:
             break;
@@ -459,10 +460,10 @@ export default {
       ) {
         switch (type) {
           case AddNodeType.wireless:
-            img = require('@/assets/images/model/m6a_plus/img_m6aplus_wireless_add_03.svg');
+            img = require('@/assets/images/m6a_plus/img_m6aplus_wireless_add_03.svg');
             break;
           case AddNodeType.wired:
-            img = require('@/assets/images/model/m6a_plus/img_m6aplus_wired_add_03.svg');
+            img = require('@/assets/images/m6a_plus/img_m6aplus_wired_add_03.svg');
             break;
           default:
             break;
@@ -478,7 +479,7 @@ export default {
           img = require('@/assets/images/img_m6_networking.svg');
           break;
         case M6aRouterSnModelVersion.M6a_Plus:
-          img = require('@/assets/images/model/m6a_plus/img_m6aplus_networking.svg');
+          img = require('@/assets/images/m6a_plus/img_m6aplus_networking.svg');
           break;
         default:
           break;
@@ -787,10 +788,6 @@ export default {
     width: 340px;
     height: 100%;
     max-height: 660px;
-    // margin-top: 40px;
-    // @media screen and(min-width:1441px) {
-    //   margin-top: 100px;
-    // }
     .step-item__tip {
       margin: 0;
       font-size: 14px;
@@ -957,6 +954,10 @@ export default {
   }
 }
 .wireless-mesh-add-fail-tips {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 1fr 50px;
+  gap: 10px;
   width: 100%;
   height: 100%;
   padding: 40px;
@@ -993,10 +994,8 @@ export default {
     }
   }
   .button-container {
-    // position: absolute;
-    // bottom: 50px;
-    // left: 50%;
-    // transform: translateX(-50%);
+    height: 50px;
+    margin: 0;
     .btn {
       width: 340px;
     }
@@ -1142,9 +1141,10 @@ export default {
       }
     }
     .button-container {
-      margin: 10px auto 0;
+      margin: 30px auto 0;
       .btn {
         width: 100%;
+        margin: 0;
       }
     }
   }

@@ -9,7 +9,7 @@
   "allow2LevelAdmin": true,
   "languages": ["en-US", "nb-NO"],
   "defaultLanguage": "nb-NO",
-  "deviceId": "real|wifi",
+  "deviceID": "real|wifi",
   "wifi": "real|wifi",
   "routers": {
     "Bee": {

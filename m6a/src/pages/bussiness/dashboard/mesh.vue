@@ -69,7 +69,8 @@
                 <div class="model__img"></div>
                 <div class="mesh-router__info">
                   <div class="row-1">
-                    <div class="line-icon"></div>
+                    <div class="line-icon"
+                         :class="{'m6a_plus':modelID===M6aRouterSnModelVersion.M6a_Plus}"></div>
                     <span class="text"
                           :title="selectedNodeInfo.name">{{selectedNodeInfo.name}}</span>
                   </div>
@@ -103,7 +104,7 @@
                     <i class="iconfont ic_reboot"></i>
                     <span class="icon-hover-popover">{{$t('trans0122')}}</span>
                   </span>
-                  <span class="btn-icon"
+                  <span class="btn-icon reset"
                         v-if="isGateway"
                         @click.stop="resetNode(selectedNodeInfo)">
                     <i class="iconfont ic_reset"></i>
@@ -237,7 +238,11 @@
 <script>
 import marked from 'marked';
 import { formatMac } from 'base/util/util';
-import { RouterStatus, Color } from 'base/util/constant';
+import {
+  RouterStatus,
+  Color,
+  M6aRouterSnModelVersion
+} from 'base/util/constant';
 import meshEditMixin from '@/mixins/mesh-edit.js';
 import genData from './topo';
 
@@ -252,6 +257,7 @@ export default {
       rssiModalVisible: false,
       RouterStatus,
       formatMac,
+      M6aRouterSnModelVersion,
       pageActive: true,
       meshNodeTimer: null,
       chart: null,
@@ -314,8 +320,16 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
+    modelID() {
+      return this.$store.state.modelID;
+    },
     modelName() {
-      return process.env.CUSTOMER_CONFIG.routers.M6a.shortName;
+      const routerConfig = process.env.CUSTOMER_CONFIG.routers;
+      const name =
+        routerConfig[
+          this.modelID === M6aRouterSnModelVersion.M6a_Plus ? 'M6a_plus' : 'M6a'
+        ].shortName;
+      return name;
     }
   },
   watch: {
@@ -1090,6 +1104,11 @@ export default {
                   center no-repeat;
                 background-size: contain;
                 filter: var(--img-brightness);
+                &.m6a_plus {
+                  background: url(../../../assets/images/m6a_plus/ic_homepage_m6a-plus.png)
+                    center no-repeat;
+                  background-size: contain;
+                }
               }
               .text {
                 font-size: 18px;

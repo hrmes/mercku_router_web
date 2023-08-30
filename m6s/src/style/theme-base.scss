@@ -5,12 +5,48 @@
   1. theme.scss 用来描述主题色彩搭配
   2. custom.scss 用来描述一些自定义的布局或其他样式
   上述两个文件必须存在，因为在入口处默认被引入，因此即使没有自定义主题的需求，也应该复制默认的样式进行覆盖
-
 */
 
 //浅色主题，颜色定义
 @mixin light-theme {
   color-scheme: light;
+
+  --footer-qr_img-filter: brightness(0.5);
+  --footer-popup-shadow-color:rgba(0, 0, 0, 0.12);
+  --footer-menu_text-color:#333;
+
+  --scrollbar_wrap-bgc__isNotLogin: linear-gradient(to bottom, #f7f7f7 58%, #e8e8e8 89%);
+  --scrollbar_wrap-bgc__isLogin: linear-gradient(316deg, #e4e4e4, #fafafa 47%);
+  --scrollbar_wrap-track-color:#f1f1f1;
+  --scrollbar_wrap-thumb-color:#c1c1c1;
+
+  --login-left_rotate-bgcolor:#dfe7f0;
+  --login-right_form-bgcolor:rgba(255, 255, 255, 0.9);
+  --login-right_form_download-bgcolor:#f8f8f8;
+
+  --wlan-hr-color:#e5e5e5;
+  --wlan-tips-color:#333;
+
+  --device-connect_type-bgc:#e2e1e2;
+  --device-limit_icon-hover-bgc:#d9d9d9;
+  --device-limit_icon-color:#848384;
+
+  --internet-section-box-shadow:0 20px 20px -5px rgba(0, 0, 0, 0.1);
+  --internet-hr-color:#d8d8d8;
+
+  --mesh-table-header-bgc:#f7f7f7;
+  --mesh-table-offline_tips-bgc:#ffe0e0;
+
+  --mobile-menu-selected-color:var(--primaryColor);
+  --back_wrapper-btn-shadow:0 8px 10px -5px rgba(0, 0, 0, 0.2);
+
+  --common-card-boxshadow:0 50px 40px -20px rgba(0, 0, 0, 0.1);
+  --common-card-hover-boxshadow:0 50px 40px -20px rgba(214, 0, 28, 0.1);
+  --common-card-bgc:#fff;
+  --common-sub_card-bgc:#fafafa;
+  --common-gery-color:#808080;
+  --common-hr-color:#eaeaea;
+  --common-btn_default-bgimg:linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
 
   --primaryColor: #d6001c;
   --warning-color: #f12b2b;
@@ -22,28 +58,14 @@
   --flex-warp-has-menu-bgc: #f7f7f7;
   --hr-color: #ebebeb;
   --darker-hr-color: #e5e5e5;
-  --offline-more-color:#f12b2b;
-
   // button
   --button-text-color: #fff;
-  --button-background-color: var(--primaryColor);
-  --button-border-color: transparent;
-  --button-active-color: var(--primaryColor);
-  --button-hover-color: #f42843;
-  --button-disabled-background-color: rgba(214, 0, 28, 0.3);
-  --button-disabled-border-color: transparent;
-  --button-disabled-text-color: #fff;
-
-  --button-default-background-color: transparent;
+  --button-background-color: linear-gradient(95deg,#d6001c,#ee1d4f 45%,#ff6734);
+  --button-box-shadow: 0 10px 20px -5px rgba(234, 24, 70, 0.2);
+  --button-active-opcity: 1.2;
+  --button-hover-opcity: 0.7;
+  --button-disabled-opcity: 0.4;
   --button-default-text-color: var(--primaryColor);
-  --button-default-border-color: var(--primaryColor);
-  --button-default-active-text-color: #e6586a;
-  --button-default-active-border-color: #e6586a;
-  --button-default-hover-text-color: #f42843;
-  --button-default-hover-border-color: #f42843;
-  --button-default-disabled-text-color: rgba(214, 0, 28, 0.5);
-  --button-default-disabled-border-color: rgba(214, 0, 28, 0.5);
-
   --button-text-text-color: #333;
   --button-text-hover-color: #999;
   --button-text-primary-text-color: var(--primaryColor);
@@ -51,33 +73,27 @@
   --button-text-primary-disabled-hover-color: #999;
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
-
-  --button-icon-hover-color: #d6001c;
+  --button-icon-hover-color: #f12b2b;
   --button-icon-disabled-bgc: #f0f0f0;
   --button-icon-disabled-color: #cdcdcd;
   --button-close-bgc: #f1f1f1;
-
   // checkbox
   --checkbox-border-color: #999;
   --checkbox-background-color: transparent;
-  --checkbox-checked-background-color: var(--primaryColor);
-  --checkbox-checked-color: #fff;
-  --checkbox-text-color: #333;
+  --checkbox-checked-bgc:linear-gradient(315deg, #ff6734 , #ee1d4f 55%, #d6001c);
   --checkbox-disabled-bgc: #e6e6e6;
-  --checkbox-disabled-border-color: #ccc;
-
   // dialog
   --dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
   --dialog-box-shadow-color: rgba(0, 0, 0, 0.1);
   --dialog-title-color: #333;
   --dialog-content-color: #333;
   --dialog-content-bgc: #fff;
-
   // select and editableSelect
-  --select-label-color: #808080;
+   --select-label-color: rgba(255, 255, 255, 0.6);
   --select-input-border-color: #b3b3b3;
   --select-popup-background-color: #fff;
   --select-popup-border-color: #eaeaea;
+  --select-popup-shadow:0 10px 15px 0 rgba(0, 0, 0, 0.12);
   --select-item-active-background-color: #f1f1f1;
   --select-item-active-color: #333;
   --select-item-hover-background-color: #f1f1f1;
@@ -85,139 +101,87 @@
   --select-item-selected-color: var(--primaryColor);
   --select-disabled-background-color: #f1f1f1;
   --select-disabled-opacity: 0.8;
-
-  // form
-  --form-item-error-color: #ff0000;
-
   // header
-  --header-background-color: var(--primaryBackgroundColor);
+  --header-selected-bgc:linear-gradient(
+    225deg,
+    #ff6734 30%,
+    #ee1d4f 55%,
+    #d6001c
+  );
+  --header-background-color:#f7f7f7;
   --header-color: #fff;
   --header-nav-iconfont-color: #979797;
-  --header-nav-iconfont-selected-color: #d6001c;
-  --header-nav-hide-background-color: var(--primaryBackgroundColor);
-  --header-nav-hide-color: #333;
-  --header-nav-hide-trangle-color: #333;
-  --header-nav-hide-popup-shadow-color: rgba(0, 0, 0, 0.2);
-  --header-nav-hide-popup-background-color: #fff;
-  --header-nav-hide-popup-item-hover-background-color: #f8f8f8;
-  --header-nav-hide-popup-item-hover-color: var(--primaryColor);
-  --header-nav-hide-popup-item-selected-color: var(--primaryColor);
-  --header-nav-hide-popup-item-checked-color: var(--primaryColor);
-  --header-nav-hover-background-color: #f2f2f2;
-
-  --header-dividing-color: #e1e1e1;
-
+  --header-nav-hover-background-color: rgba(0,0,0,0.05);
   --header-official-color: #333;
   --header-official-hover-color: #999;
-
-  --header-nav-item-color: #fff;
   --header-nav-item-hover-color: #999;
-  --header-nav-item-selected-background-color: var(--primaryColor);
   --header-nav-item-border-color: #666;
-
   --header-popup-bgc: #fff;
-  --mobile-header-popup-bgc: #f8f8f8;
   --header-popup_item-disabled-color: #999;
   --header-popup_item-disabled-bgc: #333;
-  --header-popup_item-disabled-hover-color: #999;
-  --header-popup-shadow-color: rgba(0, 0, 0, 0.2);
-  --header-popup-item-color: #fff;
-  --header-popup_item-hover-color: #000000;
-  --header-popup_item-active-color: #333;
-  --header-popup_item-hover-bgc: #f8f8f8;
-  --header-popup_item-selected-color: var(--primaryColor);
-  --header-popup_item-checked-color: var(--primaryColor);
-  --header-popup-border-color: #666;
-
-  --header-nav-hide-i18n-mobile-background-color: var(--primaryBackgroundColor);
-  --header-nav-hide-i18n-mobile-color: var(--text-default-color);
-  --header-nav-hide-i18n-mobile-border-color: #f1f1f1;
-  --header-nav-hide-i18n-mobile-item-border-color: #f1f1f1;
-
-  --header-mobile-nav-item-hover-color: #fff;
   --header-mobile-nav-item-color: var(--text-default-color);
-
+  --mobile-header-popup-bgc: #fff;
   // input
-  --input-label-color: #808080;
-  --input-border-color: #b3b3b3;
+  --input-label-color: #595959;
+  --input-border-color: #d9d9d9;
+  --input-focus-border-color:#000000;
+  --input-error-border-color:#ff0000;
+  --input-error-text-color: var( --input-error-border-color);
   --input-disabled-background-color: #f1f1f1;
   --input-disabled-opacity: 0.8;
   --input-placeholder-color: #bdbdbd;
-
   // modal
   --modal-mask-background-color: rgba(0, 0, 0, 0.7);
   --modal-header-background-color: #ebebeb;
   --modal-content-background: #fff;
   --modal-content-hr-color: #f1f1f1;
   --modal-shadow-color: rgba(0, 0, 0, 0.1);
-
   // popover
   --popover-background-color: #333;
-  --popover-color: #fff;
-
   // progress
   --progress-shadow-background-color: #000;
   --progress-shadow-opacity: 0.8;
   --progress-background-color: #fff;
   --progress-bar-color: #fff;
   --progress-bar-background-color: #00d061;
-
+   // radio
+  --radio-item-color: #b6b6b6;
+  --radio-card-item-selected-color: #333;
   // step
   --step-line-color: #f1f1f1;
-  --step-item-steped-background-color: var(--primaryColor);
-  --step-item-background-color: #fff;
-  --step-item-border-color: #bdbdbd;
-  --step-item-color: #bdbdbd;
-  --step-background-color: var(--dashboard-icon-background-color);
+  --step-item-border-color: #f1f1f1;
+  --step-item-color: #999999;
   --step-item-text-color: var(--text-default-color);
-  --step-item-failed-background-color: #ffe6e9;
-  --step-item-failed-border-color: #ffe6e9;
-  --step-item-failed-color: #d6001c;
-  --step-item-failed-icon-color: #d6001c;
-  --step-item-success-background-color: #ffe6e9;
-  --step-item-success-border-color: #ffe6e9;
-  --step-item-success-color: #d6001c;
-
+  --step-item-current-color: #e25668;
   // switch
-  --switch-background-color: #b6b6b6;
-  --switch-circle-color: #fff;
-  --switch-chencked-color: #00d061;
-
+  --switch-background-color: #b8b7b8;
+  --switch-off-icon-color: #bdbdbd;
+  --switch-on-icon-color:#ee1d4f;
+  --switch-chencked-color: linear-gradient(95deg,#d6001c,#ee1d4f 45%,#ff6734);
   // tab
-  --tab-icon-color: #808080;
-  --tab-hover-color: #999;
   --tab-hover-background-color: #f5f5f5;
-  --tab-active-color: #999;
   --tab-selected-color: var(--primaryColor);
   --tab-selected-text-color: var(--primaryColor);
-
   // timepicker
   --time-picker-li-color: #000;
-  --time-picker-pannel-border-color: #b3b3b3;
+  --time-picker-pannel-border-color: #d9d9d9;
   --time-picker-combox-background-color: #fff;
-  --time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
+  --time-picker-combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);;
   --time-picker-buttons-border-color: #ebebeb;
   --time-picker-button-background-color: #fff;
   --time-picker-button-cancel-color: #333;
   --time-picker-button-confirm-color: var(--primaryColor);
   --time-picker-popup-border-color: #ebebeb;
-  --time-picker-popup-scrollbar-color: #e6e6e6;
-  --time-picker-popup-item-hover-color: #333;
   --time-picker-popup-item-hover-background-color: #f1f1f1;
-  --time-picker-popup-item-selected-color: #fff;
   --time-picker-input-background-color: transparent;
-
   // toast
-  --toast-color: rgba(0, 0, 0, 0.65);
-  --toast-error-background-color: #fff1f0;
-  --toast-error-border-color: #ffa39e;
-  --toast-success-background-color: #f6ffed;
-  --toast-success-border-color: #b7eb8f;
-
+  --toast-error-background-color: #ffc7c7;
+  --toast-error-shadow: 0 10px 10px -5px rgba(255, 59, 59, 0.15);;
+  --toast-success-background-color: #c0e9d3;
+  --toast-success-shadow: 0 10px 10px -5px rgba(41, 185, 108, 0.12);
   // upgrade
   --upgrade-background-color: rgba(0, 0, 0, 0.8);
   --upgrade-text-color: #fff;
-
   // upload
   --upload-button-disabled-color: rgba(214, 0, 28, 0.3);
   --upload-file-text-color: #999;
@@ -230,23 +194,20 @@
   --upload-progress-completed-color: #333;
   --upload-progress-color: #e3e3e3;
   --upload-delete-icon-bgc: #fff;
-
   // tag
   --tag-background-color: #ffd2d8;
   --tag-text-color: #d6001c;
   --tag-green-background-color: #bcf8d8;
   --tag-green-text-color: #0b7e40;
   --tag-node-border-color: #dbdbdb;
-
   //Appdownload
   --download-tag-background-color: #fff;
-  --download-tag-before-color: #d8d8d8;
+  --download-tag-before-color: #e4e4e4;
   --download-ios-img-brightness: var(--img-brightness);
   --download-android-img-brightness: brightness(1);
-
   //logout
-  --logout-btn-bgc: #f3f3f3;
-
+  --logout-btn-bgc: #fff;
+  --logout-btn-boxshadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
   //dashboard
   --dashboard-unlinked-color: rgba(51, 51, 51, 0.3);
   --dashboard-icon-background-color: #fff;
@@ -256,9 +217,9 @@
   --dashboard-gery-text-color: #808080;
   --dashboard-wifi-background-color: #f7f7f7;
   --dashboard-dividing-line-color: #dfdfdf;
-  --dashboard-app-background-color: #ededed;
-
+  --dashboard-app-background-color: #fff;
   //table
+  --table-head-background-color:#eaeaea;
   --table-row-background-color: #fafafa;
   --table-header-text-color: #808080;
   --table-body-connect-icon-bgc: #ebebeb;
@@ -269,35 +230,73 @@
   --table-action-popover-bgc: #333;
   --table-header-hr-color: #f7f7f7;
   --table-body-hr-color: #ebebeb;
-
   //aside
-  --aside-selected-text-color: #d6001c;
-  --asdie-selected-background: #ffe2e2;
-  --aside-hover-background-color: #f7f7f7;
+  --aside-selected-text-color: #fff;
+  --asdie-selected-background: linear-gradient(-50deg, #f92e53 30%, #d31414 80%);
+  --aside-hover-background-color: rgba(0, 0, 0, 0.05);
   --aside-disabled-color: #cccccc;
-
+  --aside-after-bgc:#f92e53;
   // drawer
   --drawer-background: #ffffff;
-
   //bridge
-  --bridge-tips-bgc: #fafafa;
   --bridge-tips-color: #df2039;
-
   //internet color theme
   --internet-background-color: #f7f7f7;
   --internet-section-background-color: #fff;
   --internet-section-hr-color: #dbdbdb;
-
-   //offline
-   --offline-box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  //offline
+  --offline-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 //深色主题，颜色定义
 @mixin dark-theme {
   color-scheme: dark;
 
-  --primaryColor: #df2039;
+   // login Page color variable
+  --footer-qr_img-filter: brightness(2);
+  --footer-popup-shadow-color: rgba(0, 0, 0, 0.2);
+  --footer-menu_text-color: rgba(255, 255, 255, 0.8);
+
+  --scrollbar_wrap-bgc__isNotLogin: #262626;
+  --scrollbar_wrap-bgc__isLogin: #262626;
+  --scrollbar_wrap-track-color: #424242;
+  --scrollbar_wrap-thumb-color: #686868;
+
+  --login-left_rotate-bgcolor: #293c51;
+  --login-right_form-bgcolor: #333;
+  --login-right_form_download-bgcolor: #262626;
+
+  --wlan-hr-color: #5b5b5b;
+  --wlan-tips-color: rgba(255, 255, 255, 0.6);
+
+  --device-connect_type-bgc: #565656;
+  --device-limit_icon-hover-bgc: #808080;
+  --device-limit_icon-color: #fff;
+
+  --internet-section-box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.4);
+  --internet-hr-color: #808080;
+
+  --mesh-table-header-bgc: #4d4d4d;
+  --mesh-table-offline_tips-bgc: #8c4040;
+
+  --mobile-menu-selected-color: #ff677b;
+
+  --back_wrapper-btn-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.5);
+
+
+  --common-card-boxshadow: 0 50px 40px -20px rgba(0, 0, 0, 0.4);
+  --common-card-hover-boxshadow: 0 50px 40px -20px rgba(226, 54, 77, 0.2);
+  --common-card-bgc: #333;
+  --common-sub_card-bgc: #262626;
+  --common-gery-color: rgba(255, 255, 255, 0.6);
+  --common-hr-color: #464646;
+  --common-btn_default-bgimg: linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+
+
+
+
+  --primaryColor: #ff334e;
   --warning-color: #ff4d64;
-  --primaryBackgroundColor: #1a1a1a;
+  --primaryBackgroundColor: #333;
   --text-default-color: #fff;
   --text-gery-color: rgba(255, 255, 255, 0.6);
   --img-brightness: brightness(100);
@@ -305,28 +304,14 @@
   --flex-warp-has-menu-bgc: #1a1a1a;
   --hr-color: rgba(255, 255, 255, 0.2);
   --darker-hr-color: rgba(255, 255, 255, 0.2);
-  --offline-more-color:#ff4d64;
-
   // button
   --button-text-color: #fff;
-  --button-background-color: var(--primaryColor);
-  --button-border-color: transparent;
-  --button-active-color: var(--primaryColor);
-  --button-hover-color: #e44459;
-  --button-disabled-background-color: rgba(223, 32, 57, 0.3);
-  --button-disabled-border-color: transparent;
-  --button-disabled-text-color: rgba(255, 255, 255, 0.4);
-
-  --button-default-background-color: transparent;
-  --button-default-text-color: #ff334e;
-  --button-default-border-color: #ff334e;
-  --button-default-active-text-color: #e44459;
-  --button-default-active-border-color: #e44459;
-  --button-default-hover-text-color: #e44459;
-  --button-default-hover-border-color: #e44459;
-  --button-default-disabled-text-color: rgba(255, 51, 78, 0.5);
-  --button-default-disabled-border-color: rgba(255, 51, 78, 0.5);
-
+  --button-background-color: linear-gradient(95deg,#e62342,#ec4f5b 45%,#fb6d53);
+  --button-box-shadow: 0 10px 10px -5px rgba(234, 24, 70, 0.3);
+  --button-active-opcity: 1.2;
+  --button-hover-opcity: 0.8;
+  --button-disabled-opcity: 0.5;
+  --button-default-text-color: #ff677b;
   --button-text-text-color: #fff;
   --button-text-hover-color: rgba(255, 255, 255, 0.6);
   --button-text-primary-text-color: var(--primaryColor);
@@ -334,33 +319,27 @@
   --button-text-primary-disabled-hover-color: #999;
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
-
-  --button-icon-hover-color: #ff334e;
+  --button-icon-hover-color: #ff4d64;
   --button-icon-disabled-bgc: #404040;
   --button-icon-disabled-color: #666;
   --button-close-bgc: #949494;
-
   // checkbox
   --checkbox-border-color: #fff;
   --checkbox-background-color: transparent;
-  --checkbox-checked-background-color: var(--primaryColor);
-  --checkbox-checked-color: #fff;
-  --checkbox-text-color: rgba(255, 255, 255, 0.8);
+  --checkbox-checked-bgc: linear-gradient(315deg, #ff7242 , #ee1d4f 55%, #f0112e);
   --checkbox-disabled-bgc: #666;
-  --checkbox-disabled-border-color: #808080;
-
   // dialog
   --dialog-shadow-background-color: rgba(0, 0, 0, 0.3);
   --dialog-box-shadow-color: rgba(0, 0, 0, 0.1);
   --dialog-title-color: #fff;
   --dialog-content-color: rgba(255, 255, 255, 0.8);
   --dialog-content-bgc: #4d4d4d;
-
   // select and editableSelect
   --select-label-color: rgba(255, 255, 255, 0.6);
   --select-input-border-color: #b3b3b3;
   --select-popup-background-color: #404040;
   --select-popup-border-color: #4d4d4d;
+  --select-popup-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2);
   --select-item-active-background-color: rgba(255, 255, 255, 0.15);
   --select-item-active-color: #fff;
   --select-item-hover-background-color: rgba(255, 255, 255, 0.15);
@@ -368,149 +347,87 @@
   --select-item-selected-color: var(--primaryColor);
   --select-disabled-background-color: rgba(255, 255, 255, 0.2);
   --select-disabled-opacity: 0.8;
-
-  // form
-  --form-item-error-color: #ff0000;
-
   // header
-  --header-background-color: #333;
+  --header-selected-bgc: linear-gradient(
+    225deg,
+    #fb6d53 30%,
+    #ec4f5b 55%,
+    #e62342
+  );
+  --header-background-color: #262626;
   --header-color: #fff;
   --header-nav-iconfont-color: #ffffff;
-  --header-nav-iconfont-selected-color: #ff334e;
-  --header-nav-hide-background-color: #1a1a1a;
-  --header-nav-hide-color: #fff;
-  --header-nav-hide-trangle-color: #fff;
-  --header-nav-hide-popup-shadow-color: rgba(0, 0, 0, 0.2);
-  --header-nav-hide-popup-background-color: #404040;
-  --header-nav-hide-popup-item-hover-background-color: rgba(
-    255,
-    255,
-    255,
-    0.15
-  );
-  --header-nav-hide-popup-item-hover-color: var(--primaryColor);
-  --header-nav-hide-popup-item-selected-color: var(--primaryColor);
-  --header-nav-hide-popup-item-checked-color: var(--primaryColor);
   --header-nav-hover-background-color: rgba(255, 255, 255, 0.2);
-
-  --header-dividing-color: #666;
-
   --header-official-color: #fff;
   --header-official-hover-color: rgba(255, 255, 255, 0.6);
-
-  --header-nav-item-color: #fff;
   --header-nav-item-hover-color: #999;
-  --header-nav-item-selected-background-color: var(--primaryColor);
   --header-nav-item-border-color: #666;
-
   --header-popup-bgc: #333;
-  --mobile-header-popup-bgc: #1e1e1e;
   --header-popup_item-disabled-color: #999;
   --header-popup_item-disabled-bgc: #333;
-  --header-popup_item-disabled-hover-color: #999;
-  --header-popup-shadow-color: rgba(0, 0, 0, 0.2);
-  --header-popup-item-color: #fff;
-  --header-popup_item-hover-color: #fff;
-  --header-popup_item-active-color: #333;
-  --header-popup_item-hover-bgc: rgba(255, 255, 255, 0.15);
-  --header-popup_item-selected-color: var(--primaryColor);
-  --header-popup_item-checked-color: var(--primaryColor);
-  --header-popup-border-color: #666;
-
-  --header-nav-hide-i18n-mobile-background-color: var(--primaryBackgroundColor);
-  --header-nav-hide-i18n-mobile-color: var(--text-default-color);
-  --header-nav-hide-i18n-mobile-border-color: rgba(255, 255, 255, 0.15);
-  --header-nav-hide-i18n-mobile-item-border-color: rgba(255, 255, 255, 0.15);
-
-  --header-mobile-nav-item-hover-color: #fff;
   --header-mobile-nav-item-color: var(--text-default-color);
-
+  --mobile-header-popup-bgc: #333;
   // input
   --input-label-color: rgba(255, 255, 255, 0.6);
   --input-border-color: #b3b3b3;
+  --input-focus-border-color:#ffffff;
+  --input-error-border-color:#ff4d64;
+  --input-error-text-color:var( --input-error-border-color);
   --input-disabled-background-color: rgba(255, 255, 255, 0.2);
   --input-disabled-opacity: 0.8;
   --input-placeholder-color: rgba(255, 255, 255, 0.6);
-
   // modal
   --modal-mask-background-color: rgba(0, 0, 0, 0.8);
   --modal-header-background-color: #383838;
   --modal-content-background: #404040;
   --modal-content-hr-color: rgba(255, 255, 255, 0.2);
   --modal-shadow-color: rgba(0, 0, 0, 0.1);
-
   // popover
-  --popover-background-color: #4d4d4d;
-  --popover-color: #fff;
-
+  --popover-background-color: #656565;
   // progress
   --progress-shadow-background-color: #000;
   --progress-shadow-opacity: 0.8;
   --progress-background-color: #4d4d4d;
   --progress-bar-color: #fff;
   --progress-bar-background-color: #00d061;
-
   // radio
-  --radio-item-selected-color: #333;
   --radio-item-color: #b6b6b6;
   --radio-card-item-selected-color: #333;
-
   // step
   --step-line-color: #5a5a5a;
-  --step-item-steped-background-color: var(--primaryColor);
-  --step-item-background-color: #fff;
-  --step-item-border-color: #bdbdbd;
-  --step-item-color: #bdbdbd;
-  --step-background-color: var(--dashboard-icon-background-color);
+  --step-item-border-color: #808080;
+  --step-item-color: #999999;
   --step-item-text-color: var(--text-default-color);
-  --step-item-failed-background-color: #da3d52;
-  --step-item-failed-border-color: #da3d52;
-  --step-item-failed-color: #fff;
-  --step-item-failed-icon-color: #fff;
-  --step-item-success-background-color: #da3d52;
-  --step-item-success-border-color: #da3d52;
-  --step-item-success-color: #fff;
-
+  --step-item-current-color: #ff677b;
   // switch
-  --switch-background-color: #b6b6b6;
-  --switch-circle-color: #fff;
-  --switch-chencked-color: #00d061;
-
+  --switch-background-color: #7e7e7e;
+  --switch-off-icon-color: #7e7e7e;
+  --switch-on-icon-color: #ec4f5b;
+  --switch-chencked-color: linear-gradient(95deg,#e62342,#ec4f5b 45%,#fb6d53);
   // tab
-  --tab-icon-color: #fff;
-  --tab-hover-color: #999;
   --tab-hover-background-color: rgba(255, 255, 255, 0.2);
-  --tab-active-color: #999;
   --tab-selected-color: #ff334e;
   --tab-selected-text-color: var(--primaryColor);
-
   // timepicker
   --time-picker-li-color: #fff;
   --time-picker-pannel-border-color: #b3b3b3;
   --time-picker-combox-background-color: #4d4d4d;
-  --time-picker-combox-shadow-color: rgba(0, 0, 0, 0.15);
+  --time-picker-combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2);;
   --time-picker-buttons-border-color: rgba(255, 255, 255, 0.2);
   --time-picker-button-background-color: #4d4d4d;
   --time-picker-button-cancel-color: var(--text-default-color);
   --time-picker-button-confirm-color: var(--primaryColor);
   --time-picker-popup-border-color: rgba(255, 255, 255, 0.2);
-  --time-picker-popup-scrollbar-color: #888888;
-  --time-picker-popup-item-hover-color: #333;
   --time-picker-popup-item-hover-background-color: rgba(255, 255, 255, 0.15);
-  --time-picker-popup-item-selected-color: #fff;
   --time-picker-input-background-color: transparent;
-
   // toast
-  --toast-color: rgba(0, 0, 0, 0.65);
-  --toast-error-background-color: #fff1f0;
-  --toast-error-border-color: #ffa39e;
-  --toast-success-background-color: #f6ffed;
-  --toast-success-border-color: #b7eb8f;
-
+  --toast-error-background-color: #a14949;
+  --toast-error-shadow: 0 10px 10px -5px rgba(255, 59, 59, 0.15);
+  --toast-success-background-color: #2f694a;
+  --toast-success-shadow: 0 10px 10px -5px rgba(41, 185, 108, 0.2);
   // upgrade
   --upgrade-background-color: rgba(0, 0, 0, 0.8);
   --upgrade-text-color: #fff;
-
   // upload
   --upload-button-disabled-color: rgba(223, 32, 57, 0.3);
   --upload-file-text-color: rgba(255, 255, 255, 0.6);
@@ -523,23 +440,20 @@
   --upload-progress-completed-color: #333;
   --upload-progress-color: #e3e3e3;
   --upload-delete-icon-bgc: #717071;
-
   // tag
   --tag-background-color: rgba(255, 93, 114, 0.4);
   --tag-text-color: #ff93a2;
   --tag-green-background-color: rgba(64, 206, 130, 0.5);
   --tag-green-text-color: #6df5ac;
   --tag-node-border-color: rgba(255, 255, 255, 0.5);
-
   //Appdownload
-  --download-tag-background-color: #595959;
-  --download-tag-before-color: #6c6c6c;
+  --download-tag-background-color: #333;
+  --download-tag-before-color: #b3b3b3;
   --download-ios-img-brightness: var(--img-brightness);
   --download-android-img-brightness: brightness(1.2);
-
   //logout
-  --logout-btn-bgc: #6a6a6a;
-
+  --logout-btn-bgc: #666;
+  --logout-btn-boxshadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
   //dashboard
   --dashboard-unlinked-color: #ffffff;
   --dashboard-icon-background-color: #2e2e2e;
@@ -549,9 +463,9 @@
   --dashboard-gery-text-color: #fff;
   --dashboard-wifi-background-color: #1a1a1a;
   --dashboard-dividing-line-color: rgba(255, 255, 255, 0.2);
-  --dashboard-app-background-color: #2e2e2e;
-
+  --dashboard-app-background-color: #404040;
   //table
+  --table-head-background-color:#4d4d4d;
   --table-row-background-color: #1a1a1a;
   --table-header-text-color: rgba(255, 255, 255, 0.6);
   --table-body-connect-icon-bgc: #3b3c3e;
@@ -562,25 +476,20 @@
   --table-action-popover-bgc: #4d4d4d;
   --table-header-hr-color: #2c2c2c;
   --table-body-hr-color: #2a2a2a;
-
   //aside
   --aside-selected-text-color: #fff;
-  --asdie-selected-background: rgba(187, 27, 48, 0.7);
+  --asdie-selected-background: linear-gradient(-50deg, #fb6d53 10%, #ec4f5b 45%, #e62342 100%);
   --aside-hover-background-color: rgba(255, 255, 255, 0.2);
   --aside-disabled-color: rgba(255, 255, 255, 0.3);
-
+  --aside-after-bgc:#fb6d53;
   // drawer
   --drawer-background: #4d4d4d;
-
   //bridge
-  --bridge-tips-bgc: #1a1a1a;
   --bridge-tips-color: #ff4d64;
-
   //internet color theme
   --internet-background-color: #1a1a1a;
   --internet-section-background-color: #2e2e2e;
   --internet-section-hr-color: rgba(255, 255, 255, 0.2);
-
   //offline
   --offline-box-shadow:0 8px 10px 0 rgba(0, 0, 0, 0.3);
 }

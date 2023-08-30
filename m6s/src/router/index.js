@@ -20,10 +20,11 @@ import telnet from 'pages/bussiness/advance/telnet.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
-import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
-import mode from 'pages/bussiness/advance/mode.vue';
+import vpn from 'pages/bussiness/advance/vpn/index.vue';
+import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import wps from 'pages/bussiness/setting/wps.vue';
+import mode from 'pages/bussiness/advance/mode.vue';
 import log from 'pages/bussiness/advance/log.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
@@ -37,15 +38,12 @@ import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
 import dmz from 'base/pages/bussiness/advance/dmz.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
-import vpn from 'base/pages/bussiness/advance/vpn/index.vue';
-import vpnForm from 'base/pages/bussiness/advance/vpn/form.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
-import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
+import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
 import mac from 'base/pages/bussiness/advance/mac.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
-import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
@@ -109,19 +107,16 @@ const routes = {
       meta: {
         text: 'trans0235',
         layout: 'primary',
-        hasBackWrap: true,
         parentPath: '/dashboard'
       }
     },
     {
-      path: '/dashboard/mesh/:category',
+      path: '/dashboard/mesh',
       name: 'mesh',
-
       component: mesh,
       meta: {
-        text: 'trans0365',
+        text: 'trans0312',
         layout: 'primary',
-        hasBackWrap: true,
         parentPath: '/dashboard'
       }
     },
@@ -132,7 +127,6 @@ const routes = {
       meta: {
         text: 'trans0366',
         layout: 'primary',
-        hasBackWrap: true,
         parentPath: '/dashboard'
       }
     },
@@ -142,8 +136,7 @@ const routes = {
       component: meshAdd,
       meta: {
         text: 'trans1117',
-        layout: 'primary',
-        hasBackWrap: true
+        layout: 'primary'
       }
     },
     {
@@ -162,21 +155,11 @@ const routes = {
           }
         },
         {
-          path: '/limit/:mac/speed',
-          name: 'device-limit-speed',
-          component: speedLimit,
-          meta: {
-            text: 'trans0014',
-            parentPath: '/dashboard/device/primary'
-          }
-        },
-        {
           path: '/limit/:mac/url',
           name: 'device-limit-url',
           component: urlLimit,
           meta: {
             text: 'trans0076',
-
             parentPath: '/dashboard/device/primary'
           }
         }
@@ -303,15 +286,6 @@ const routes = {
       path: '/advance/portforwarding',
       name: 'advance-portforwarding',
       component: portforwarding,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/advance/portforwarding/form/:id?',
-      name: 'advance-portforwarding-form',
-      component: portfwForm,
       meta: {
         layout: 'primary',
         hasAside: true

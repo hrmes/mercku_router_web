@@ -5,24 +5,38 @@
       {{$t('trans1168')}}
     </div>
     <div class="page-content">
-      <m-form ref="form"
-              class='form'>
-        <m-form-item class="item">
-          <h4>{{$t('trans1168')}}</h4>
-          <p class="form__tips">{{$t('trans1169')}}</p>
-        </m-form-item>
-        <m-form-item class="item">
-          <m-select :label="$t('trans1170')"
-                    v-model="wpsBand"
-                    :options="bandList"></m-select>
-          <p class="form__tips">{{$t('trans1171')}}</p>
-        </m-form-item>
-      </m-form>
-      <div class="form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click="submit()">{{$t('trans0081')}}</button>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <h4>{{$t('trans1168')}}</h4>
+              <p class="des-tips">{{$t('trans1169')}}</p>
+            </m-form-item>
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="card">
+            <m-form ref="form"
+                    class='form'>
+              <m-form-item class="last">
+                <m-select :label="$t('trans1170')"
+                          v-model="wpsBand"
+                          :options="bandList"></m-select>
+                <p class="des-tips">{{$t('trans1171')}}</p>
+              </m-form-item>
+            </m-form>
+          </div>
+        </div>
+
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -45,7 +59,7 @@ export default {
       this.$http
         .updateMeshWps({ band: this.wpsBand })
         .then(() => {
-           this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .finally(() => {
           this.$loading.close();
@@ -55,17 +69,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.form {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  h4 {
-    margin: 0;
-    padding: 0;
-  }
-}
-.form-button {
-  margin-top: 0;
+h4 {
+  margin: 0;
+  padding: 0;
 }
 </style>

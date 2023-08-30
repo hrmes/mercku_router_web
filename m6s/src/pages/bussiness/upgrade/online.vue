@@ -12,69 +12,73 @@
       </div>
     </div>
     <div class="page-content">
-      <div class="nodes-wrapper"
-           v-if="hasUpgradablityNodes">
-        <div class="nodes-info">
-          <div v-for="node in nodes"
-               :key="node.sn"
-               class="node">
+      <div class="page-content__main">
+        <div class="nodes-wrapper"
+             v-if="hasUpgradablityNodes">
+          <div class="nodes-info">
+            <div v-for="node in nodes"
+                 :key="node.sn"
+                 class="node">
 
-            <div class="message"
-                 @click="check(node)">
-              <m-checkbox :readonly="true"
-                          v-model="node.checked" />
-              <div class="img-container">
-                <img :src="getNodeImage(node)"
-                     alt="" />
-              </div>
-              <div class="info-container">
-                <p class="node-name"
-                   :title="node.name">{{ node.name }}</p>
-                <p class="node-sn">
-                  <label class="with-colon">{{ $t('trans0252') }}:</label>
-                  <span>{{ node.sn }}</span>
-                </p>
-                <p class="node-version">
-                  <label class="with-colon">{{ $t('trans0209') }}:</label>
-                  <span>{{ node.version.current }}</span>
-                </p>
-                <div class="badges">
-                  <m-tag class="gateway"
-                         v-if="node.isGW">{{$t('trans0165')}}</m-tag>
-                  <m-tag><span :title="$t('trans0210')">{{ node.version.latest }}</span></m-tag>
+              <div class="message"
+                   @click="check(node)">
+                <m-checkbox :readonly="true"
+                            v-model="node.checked" />
+                <div class="img-container">
+                  <img :src="getNodeImage(node)"
+                       alt="" />
                 </div>
-                <p class="changelog"
-                   @click.stop="showChangelog(node)">
-                  {{ $t('trans0546') }}
-                </p>
+                <div class="info-container">
+                  <p class="node-name"
+                     :title="node.name">{{ node.name }}</p>
+                  <p class="node-sn">
+                    <label class="with-colon">{{ $t('trans0252') }}:</label>
+                    <span>{{ node.sn }}</span>
+                  </p>
+                  <p class="node-version">
+                    <label class="with-colon">{{ $t('trans0209') }}:</label>
+                    <span>{{ node.version.current }}</span>
+                  </p>
+                  <div class="badges">
+                    <m-tag class="gateway"
+                           v-if="node.isGW">{{$t('trans0165')}}</m-tag>
+                    <m-tag><span :title="$t('trans0210')">{{ node.version.latest }}</span></m-tag>
+                  </div>
+                  <p class="changelog"
+                     @click.stop="showChangelog(node)">
+                    {{ $t('trans0546') }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div v-if="!$store.state.isMobile"
-             class="btn-info">
+        <div class="msg-wrapper"
+             v-else>
+          <div v-if="
+            !hasUpgradablityNodes &&
+              requestResult.complete &&
+              !requestResult.error">
+            <img src="@/assets/images/img_new_version.webp"
+                 alt=""
+                 width="220" />
+            <p>{{ $t('trans0259') }}</p>
+          </div>
+          <div v-if="requestResult.error">
+            <img src="@/assets/images/img_error.webp"
+                 alt=""
+                 width="220" />
+            <p>{{ requestResult.message }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="page-content__bottom"
+           v-if="!$store.state.isMobile && hasUpgradablityNodes">
+        <div class="form-button__wrapper">
           <button class="btn"
                   @click="submit()">
             {{ $t('trans0225') }}
           </button>
-        </div>
-      </div>
-      <div class="msg-wrapper"
-           v-else>
-        <div v-if="
-            !hasUpgradablityNodes &&
-              requestResult.complete &&
-              !requestResult.error">
-          <img src="@/assets/images/img_new_version.webp"
-               alt=""
-               width="220" />
-          <p>{{ $t('trans0259') }}</p>
-        </div>
-        <div v-if="requestResult.error">
-          <img src="@/assets/images/img_error.webp"
-               alt=""
-               width="220" />
-          <p>{{ requestResult.message }}</p>
         </div>
       </div>
     </div>
@@ -259,9 +263,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  align-items: flex-start;
-}
 .page-header {
   justify-content: space-between;
 }
@@ -392,9 +393,11 @@ export default {
   }
 }
 .msg-wrapper {
-  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
-  margin-top: 30px;
   img {
     width: 200px;
   }

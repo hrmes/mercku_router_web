@@ -4,9 +4,9 @@
       <div class='input-info'>
         <div class="form-item"
              style="margin-bottom:20px">
-          <m-checkbox :text="$t('trans0462')"
-                      v-model="form.enabled"
-                      class="enable"></m-checkbox>
+          <m-switch :label="$t('trans0462')"
+                    v-model="form.enabled"
+                    class="enable"></m-switch>
         </div>
         <m-form ref="form"
                 :model="form"
@@ -14,16 +14,16 @@
           <m-form-item class="item"
                        prop='up'>
             <m-input v-model="form.up"
-                     :label="`${$t('trans0304')} (KB/s)`"
+                     :label="`${$t('trans0304')} (Kbps)`"
                      type='text'
-                     :placeholder="`${$t('trans1180')}`"></m-input>
+                     placeholder="1-1000000"></m-input>
           </m-form-item>
           <m-form-item class="item"
                        prop='down'>
             <m-input v-model="form.down"
-                     :label=" `${$t('trans0305')} (KB/s)`"
+                     :label=" `${$t('trans0305')} (Kbps)`"
                      type='text'
-                     :placeholder="`${$t('trans1180')}`"></m-input>
+                     placeholder="1-1000000"></m-input>
           </m-form-item>
         </m-form>
         <div class="hr-line"></div>
@@ -42,7 +42,9 @@ export default {
       return /^[1-9]\d*$/.test(v);
     }
     function Len(v) {
-      return v >= 1 && v <= 2400000;
+      v = Number(v);
+      console.log(v);
+      return v >= 1 && v <= 1000000;
     }
     return {
       mac: '',
@@ -130,7 +132,7 @@ export default {
             .then(() => {
               this.$loading.close();
               this.$store.state.modules.limits[this.mac].speed_limit = params;
-              this.$toast(this.$t('trans0040'), 3000, 'success');
+              this.$toast(this.$t('trans0040'), 2000, 'success');
             })
             .catch(() => {
               this.$loading.close();

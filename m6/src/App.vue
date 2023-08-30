@@ -89,7 +89,7 @@ export default {
     },
     imgSrc() {
       console.log(process.env.CUSTOMER_CONFIG);
-      return require(`./assets/images/customer/${process.env.CUSTOMER_CONFIG.assetFolderName}/login_logo.png`);
+      return require(`./assets/images/customer/${process.env.CUSTOMER_CONFIG.title.toLowerCase()}/login_logo.png`);
     }
   },
   methods: {

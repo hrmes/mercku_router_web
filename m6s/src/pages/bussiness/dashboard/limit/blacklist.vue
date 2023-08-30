@@ -1,21 +1,17 @@
 <template>
-
   <div class="urllimit">
-    <div class="handle">
-      <m-switch @change="changehandle"
-                v-model="mode" />
-      <label for="">{{$t('trans0462')}}</label>
-    </div>
-    <div class='table'
+    <!--  -->
+    <div class='url-table'
          :class="{'table--empty':!sortList.length}">
-      <div v-if="!isMobile"
-           class="tools">
-        <button class="btn btn-small"
-                @click.stop="modalOpen()">{{$t('trans0035')}}</button>
-      </div>
       <div class="table-head">
-        <div class="column-address">{{$t('trans0076')}}
-          <span>({{$t('trans0101')}})</span>
+        <div class="handle">
+          <m-switch :label="$t('trans0462')"
+                    @change="changehandle"
+                    v-model="mode" />
+        </div>
+        <div class="tools">
+          <button class="btn btn-small"
+                  @click.stop="modalOpen()">{{$t('trans0035')}}</button>
         </div>
       </div>
       <div class="table-body">
@@ -24,10 +20,10 @@
              :key='index'>
           <div class="column-address">{{row}}</div>
           <div class="column-handle">
-            <span class="btn-icon"
+            <span class="limit-icon"
                   @click="delRow(row)">
-              <i class="delete iconfont icon-ic_trash_normal"></i>
-              <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
+              <i class="delete iconfont ic_trash"></i>
+              <span class="hover-popover"> {{$t('trans0033')}}</span>
             </span>
           </div>
         </div>
@@ -36,11 +32,6 @@
           <img src="@/assets/images/img_default_empty.webp"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
-        </div>
-        <div v-if="isMobile"
-             class="mobile-add-btn">
-          <button class="btn"
-                  @click.stop="modalOpen()">{{$t('trans0035')}}</button>
         </div>
       </div>
     </div>
@@ -180,7 +171,7 @@ export default {
             this.blacklistLimit.parent_control.mode = this.form.mode;
           }
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.mode = !v;
@@ -195,9 +186,12 @@ export default {
           hosts: [row]
         })
         .then(() => {
-          this.parentControlLimitList = this.parentControlLimitList.filter(v => v !== row);
+          this.parentControlLimitList = this.parentControlLimitList.filter(
+            v => v !== row
+          );
           if (this.blacklistLimit && this.blacklistLimit.parent_control) {
-            this.blacklistLimit.parent_control.blacklist = this.parentControlLimitList;
+            this.blacklistLimit.parent_control.blacklist =
+              this.parentControlLimitList;
           }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
@@ -218,8 +212,9 @@ export default {
             this.parentControlLimitList.push(this.host);
             this.$loading.close();
             this.modalShow = false;
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.blacklistLimit.parent_control.blacklist = this.parentControlLimitList;
+            this.$toast(this.$t('trans0040'), 2000, 'success');
+            this.blacklistLimit.parent_control.blacklist =
+              this.parentControlLimitList;
           })
           .catch(() => {
             this.$loading.close();
@@ -241,19 +236,20 @@ export default {
   justify-content: center;
   align-items: center;
   .btn-info {
-    display: flex;
-    margin-top: 50px;
-    justify-content: center;
-    .btn {
-      width: 120px;
-      height: 42px;
-      &:last-child {
-        margin-left: 30px;
-      }
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+    .btn-default {
+      background-image: linear-gradient(
+          to right,
+          var(--modal-content-background),
+          var(--modal-content-background)
+        ),
+        var(--common-btn_default-bgimg) !important;
     }
   }
   .modal-content {
-    width: 330px;
     border-radius: 5px;
     background-color: var(--modal-content-background);
     .item {
@@ -287,58 +283,42 @@ export default {
 }
 .urllimit {
   width: 100%;
-  position: relative;
-  .handle {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    label {
-      margin-left: 10px;
-      font-weight: 600;
-    }
-  }
-  .table {
+  .url-table {
     width: 100%;
-    .tools {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-    .column-address {
-      span {
-        padding-left: 10px;
-        font-size: 12px;
-        color: #999999;
-      }
-    }
     .table-head {
       height: 50px;
-      background-color: var(--table-row-background-color);
-      display: flex;
-      padding: 0 20px;
+      background-color: var(--common-sub_card-bgc);
+      display: grid;
+      grid-template-rows: 100%;
+      grid-template-columns: repeat(2, 1fr);
+      padding: 0 10px;
       border-radius: 10px;
       margin-bottom: 5px;
-      justify-content: space-between;
-      color: var(--table-header-text-color);
-      div {
+      > div {
         display: flex;
-        height: 50px;
         align-items: center;
+      }
+      .handle {
+        justify-content: flex-start;
+        color: var(--common-gery-color);
+      }
+      .tools {
+        justify-content: flex-end;
+        .btn {
+          margin: 0;
+        }
       }
     }
     .table-body {
       .table-row {
         display: flex;
-        padding: 20px 20px;
         justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        padding: 0 10px;
         border-radius: 10px;
         margin-bottom: 5px;
-        background: var(--table-row-background-color);
-        .column-handle {
-          display: flex;
-          align-items: center;
-        }
+        background: var(--common-sub_card-bgc);
       }
     }
   }
@@ -348,54 +328,6 @@ export default {
   .modal {
     .modal-content {
       width: auto;
-    }
-  }
-  .urllimit {
-    padding: 10px;
-    .handle {
-      display: flex;
-      align-items: center;
-      left: 10px;
-      top: 10px;
-    }
-    .table {
-      .table-body {
-        margin-top: 45px;
-        .table-row {
-          flex-direction: row;
-          padding: 20px 10px;
-          position: relative;
-        }
-        .mobile-add-btn {
-          margin-top: 30px;
-          padding-top: 30px;
-          border-top: 1px solid var(--table-body-hr-color);
-        }
-      }
-      .column-address {
-        flex: 1;
-
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      .column-handle {
-        justify-content: flex-end;
-        a {
-          margin-right: 0 !important;
-          &:first-child {
-            margin-right: 20px !important;
-          }
-        }
-        .check-wrap {
-          position: absolute;
-          right: 0;
-          top: 20px;
-        }
-      }
-      .table-head {
-        display: none;
-      }
     }
   }
 }

@@ -5,67 +5,85 @@
       {{$t('trans0539')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <m-form-item>
-          <m-radio-group v-model="mode"
-                         :options="modes"
-                         direction="vertical"></m-radio-group>
-          <p class="note">{{$t('trans0543')}}</p>
-        </m-form-item>
-      </div>
-      <div class="upperApForm"
-           v-if="mode===RouterMode.wirelessBridge">
-        <div class="upperApForm__top"
-             v-if="currentUpperInfo.show">
-          <h4>{{$t('trans1132')}}</h4>
-          <div class="upperApForm__top__upperinfo">
-            <div class="current-ssid">
-              <span class="title">{{$t('trans1133')}}</span>
-              <span class="content">{{currentUpperInfo.ssid}}</span>
-            </div>
-            <div class="current-pwd">
-              <span class="title">{{$t('trans1134')}}</span>
-              <span class="content"
-                    :title="pwdValue">
-                {{pwdValue}}
-              </span>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <div class="form">
+              <m-form-item class="last">
+                <m-radio-group v-model="mode"
+                               :options="modes"
+                               direction="vertical"></m-radio-group>
+                <p class="note">{{$t('trans0543')}}</p>
+              </m-form-item>
             </div>
           </div>
         </div>
-        <div class="upperApForm__bottom">
-          <h4>Set upper-level</h4>
-          <m-form ref="upperApForm"
-                  :model="upperApForm"
-                  :rules="upperApFormRules">
-            <m-form-item prop="upperApForm.ssid">
-              <m-loadingSelect label="SSID"
-                               :placeholder="$t('trans1182')"
-                               type='text'
-                               @change="selectedChange"
-                               @scanApclient="startApclientScan"
-                               :popupTop='currentUpperInfo.show||$store.state.isMobile'
-                               :bssid="upperApForm.bssid"
-                               :options="processedUpperApList"
-                               :loading="selectIsLoading"
-                               :loadingText="loadingText" />
-            </m-form-item>
-            <m-form-item v-show="!pwdDisabled"
-                         prop="upperApForm.password">
-              <m-input :label="$t('trans0003')"
-                       type="password"
-                       :placeholder="$t('trans0321')"
-                       v-model="upperApForm.password" />
-            </m-form-item>
-          </m-form>
+        <div class="row-2"
+             v-if="mode===RouterMode.wirelessBridge">
+          <div class="card"
+               v-if="currentUpperInfo.show">
+            <div class="upperApForm">
+              <div class="upperApForm__top">
+                <h4>{{$t('trans1132')}}</h4>
+                <div class="upperApForm__top__upperinfo">
+                  <div class="current-ssid">
+                    <span class="title">{{$t('trans1133')}}</span>
+                    <span class="content">{{currentUpperInfo.ssid}}</span>
+                  </div>
+                  <div class="current-pwd">
+                    <span class="title">{{$t('trans1134')}}</span>
+                    <span class="content"
+                          :title="pwdValue">
+                      {{pwdValue}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="upperApForm">
+              <div class="upperApForm__bottom">
+                <h4>Set upper-level</h4>
+                <m-form ref="upperApForm"
+                        :model="upperApForm"
+                        :rules="upperApFormRules">
+                  <m-form-item prop="upperApForm.ssid"
+                               :class="{last:pwdDisabled}">
+                    <m-loadingSelect label="SSID"
+                                     :placeholder="$t('trans1182')"
+                                     type='text'
+                                     @change="selectedChange"
+                                     @scanApclient="startApclientScan"
+                                     :popupTop='currentUpperInfo.show||$store.state.isMobile'
+                                     :bssid="upperApForm.bssid"
+                                     :options="processedUpperApList"
+                                     :loading="selectIsLoading"
+                                     :loadingText="loadingText" />
+                  </m-form-item>
+                  <m-form-item v-show="!pwdDisabled"
+                               prop="upperApForm.password">
+                    <m-input :label="$t('trans0003')"
+                             type="password"
+                             :placeholder="$t('trans0321')"
+                             v-model="upperApForm.password" />
+                  </m-form-item>
+                </m-form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="form-button">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="updateMode"
-                :disabled="saveDisable"
-                v-show="modeHasChange||upperApForm.ssid!==''&&upperApForm.band!==''">{{$t('trans0081')}}</button>
+      <div class="page-content__bottom"
+           v-show="modeHasChange||upperApForm.ssid!==''&&upperApForm.band!==''">
+        <div class="form-button__wrapper">
+          <button class="btn primary"
+                  v-defaultbutton
+                  @click="updateMode"
+                  :disabled="saveDisable">{{$t('trans0081')}}</button>
+        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -108,11 +126,11 @@ export default {
       ],
       currentUpperInfo: {
         show: false,
-        ssid: '',
+        ssid: '-',
         security: EncryptMethod.OPEN,
         password: ''
       },
-      originalUpperList: [],
+      originalUpperList: []
     };
   },
   mounted() {
@@ -141,11 +159,13 @@ export default {
           this.saveDisable = false;
           break;
       }
-    },
+    }
   },
   computed: {
     pwdValue() {
-      return this.currentUpperInfo.security !== EncryptMethod.OPEN ? this.currentUpperInfo.password : '-';
+      return this.currentUpperInfo.security !== EncryptMethod.OPEN
+        ? this.currentUpperInfo.password
+        : '-';
     }
   },
   methods: {
@@ -154,7 +174,9 @@ export default {
       this.$http
         .getMeshMode()
         .then(res => {
-          const { data: { result } } = res;
+          const {
+            data: { result }
+          } = res;
           if (result.mode === RouterMode.wirelessBridge) {
             this.currentUpperInfo.ssid = result.apclient.ssid;
             this.currentUpperInfo.password = result.apclient.password;
@@ -175,17 +197,17 @@ export default {
         // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
         case RouterMode.bridge:
         case RouterMode.router:
-            this.$dialog.confirm({
-              okText: this.$t('trans0024'),
-              cancelText: this.$t('trans0025'),
-              // 提示为切换模式网络会中断
-              message: this.$t('trans0229'),
-              callback: {
-                ok: () => {
-                  this.confirmUpdateMeshMode({ mode: this.mode });
-                }
+          this.$dialog.confirm({
+            okText: this.$t('trans0024'),
+            cancelText: this.$t('trans0025'),
+            // 提示为切换模式网络会中断
+            message: this.$t('trans0229'),
+            callback: {
+              ok: () => {
+                this.confirmUpdateMeshMode({ mode: this.mode });
               }
-            });
+            }
+          });
 
           break;
         case RouterMode.wirelessBridge:
@@ -208,40 +230,36 @@ export default {
       }
     },
     confirmUpdateMeshMode(params) {
-     // if (params.mode === HomewayWorkModel.bridge) {
-     //   this.$loading.open();
-     // }
-     this.$loading.open();
-     this.$http
-       .updateMeshMode(params)
-       .then(() => {
-         this.$store.mode = params.mode;
-         localStorage.setItem('mode', params.mode);
-         this.$reconnect({
-           timeout: 120,
-           onsuccess: () => {
-             this.$toast(this.$t('trans0040'), 3000, 'success');
-             // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
-             this.$router.push({ path: '/login' });
-           },
-           ontimeout: () => {
-             this.$router.push({ path: '/unconnect' });
-           }
-         });
-       })
-       .finally(() => {
-         this.$loading.close();
-       });
+      // if (params.mode === HomewayWorkModel.bridge) {
+      //   this.$loading.open();
+      // }
+      this.$loading.open();
+      this.$http
+        .updateMeshMode(params)
+        .then(() => {
+          this.$store.mode = params.mode;
+          localStorage.setItem('mode', params.mode);
+          this.$reconnect({
+            timeout: 120,
+            onsuccess: () => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+              this.$router.push({ path: '/login' });
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
-}
 .form {
-  width: 340px;
   .note {
     color: #999;
     font-size: 12px;
@@ -250,22 +268,12 @@ export default {
     padding-left: 26px;
   }
 }
-.form-button {
-  margin-top: 0;
-  padding-top: 25px;
-  border-top: 1px solid var(--hr-color);
-}
 .upperApForm {
-  border-top: 1px solid var(--hr-color);
-  padding-top: 25px;
   .upperApForm__top {
-    margin-bottom: 25px;
-    border-bottom: 1px solid var(--hr-color);
     color: var(--text-default-color);
     .upperApForm__top__upperinfo {
-      max-width: 340px;
+      width: 100%;
       padding: 10px;
-      margin-bottom: 25px;
       background: var(--flex-warp-has-menu-bgc);
       border-radius: 4px;
       font-size: 14px;
@@ -288,7 +296,6 @@ export default {
     .tips {
       color: var(--text-default-color);
       font-size: 12px;
-      margin-bottom: 10px;
     }
   }
   h4 {

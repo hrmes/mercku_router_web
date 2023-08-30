@@ -1,5 +1,5 @@
 .customized {
-  &.header-container {
+  &.header {
     &.is-login-nav {
       .right-wrap {
         width: auto;
@@ -52,35 +52,35 @@
   }
 
   /************************* 登陆页面*********************/
-  &.login-container {
-    background-color: var(--header-nav-hide-background-color);
+  &.login {
+    // background-color: var(--header-nav-hide-background-color);
     .center-form {
       &.light {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_light.png)
             no-repeat center;
-          background-size: 100%;
+          background-size: contain;
         }
       }
       &.dark {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_dark.png)
             no-repeat center;
-          background-size: 100%;
-        }
+            background-size: contain;
+          }
       }
       @media (prefers-color-scheme: light) {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_light.png)
             no-repeat center;
-          background-size: 100%;
+            background-size: contain;
         }
       }
       @media (prefers-color-scheme: dark) {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_dark.png)
             no-repeat center;
-          background-size: 100%;
+            background-size: contain;
         }
       }
     }

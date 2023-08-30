@@ -8,19 +8,15 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6sGateway from '@/assets/images/model//m6s/ic_m6s_gw_green.png';
-import picM6sWifi6Good from '@/assets/images/model/m6s/ic_m6s_normal.png';
-import picM6sWifi6Bad from '@/assets/images/model/m6s/ic_m6s_bad.png';
-import picM6sWifi6Offline from '@/assets/images/model/m6s/ic_m6s_offline.png';
+import picM6sGateway from '@/assets/images/m6s/ic_m6s_gw_green.png';
+import picM6sWifi6Good from '@/assets/images/m6s/ic_m6s_normal.png';
+import picM6sWifi6Bad from '@/assets/images/m6s/ic_m6s_bad.png';
+import picM6sWifi6Offline from '@/assets/images/m6s/ic_m6s_offline.png';
 
-const Color = {
-  good: '#00d061',
-  bad: '#ff6f00',
-  offline: '#000'
-};
+import { Color } from 'base/util/constant';
 
 // 大于-70均认为优秀
-const isGood = rssi => rssi >= -65;
+const isGood = rssi => rssi >= -76;
 
 // 补充关系，a-b,b-a
 function addConnection(source) {
@@ -99,14 +95,12 @@ function genNodes(gateway, green, red, offline) {
 
   function genNode(node, color, symbolSize = 50) {
     let symbol = 'image://';
-    const modelVersion = node.sn.slice(9, 10);
 
     if (node.is_gw) {
       symbol = `${symbol}${picM6sGateway}`;
     } else {
       const id = (node.model && node.model.id) || node.sn.slice(0, 2);
-      const modelConfig =
-        picModelColorMap[id]?.[modelVersion] ?? picModelColorMap[id];
+      const modelConfig = picModelColorMap[id];
       if (modelConfig) {
         symbol = `${symbol}${modelConfig[color]}`;
       }
@@ -114,8 +108,9 @@ function genNodes(gateway, green, red, offline) {
     const n = {
       name: `${node.sn}${node.name}`, // 避免节点同名echarts报错不能绘图
       originName: node.name, // 用于节点的label显示
-      stationsCount: node?.stations?.length ?? 0,
       sn: node.sn,
+      isGateway: node.is_gw,
+      stationsCount: node?.stations?.length ?? 0,
       itemStyle: {
         color
       },

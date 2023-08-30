@@ -166,7 +166,9 @@ export default {
             localStorage.setItem('mode', mode);
 
             const { sn } = res1.data.result;
-            const modelID = sn.charAt(9);
+            // const modelID = sn.charAt(9);
+            const modelID = '1';
+
             this.$store.state.modelID = modelID;
             localStorage.setItem('modelID', modelID);
 

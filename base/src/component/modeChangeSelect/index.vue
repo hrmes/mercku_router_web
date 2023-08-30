@@ -1,6 +1,6 @@
 <template>
   <div class="select-container"
-       :class="{'disabled':disabled}"
+       :class="{'disabled':disabled,'focus':opened}"
        v-clickoutside="close">
     <label>
       {{label}}
@@ -130,7 +130,7 @@ export default {
       GoodRssiValue,
       LoadingStatus,
       selected: this.getOptionByBssid(this.bssid),
-      opened: false,
+      opened: false
     };
   },
   watch: {
@@ -162,7 +162,11 @@ export default {
           const popupHeight = popupEl.clientHeight;
           const elHeight = selectEl.clientHeight;
           // 滚动到正中间的位置
-          scrollTo(popupEl, 0, selectEl.offsetTop - popupHeight / 2 + elHeight / 2);
+          scrollTo(
+            popupEl,
+            0,
+            selectEl.offsetTop - popupHeight / 2 + elHeight / 2
+          );
         }
       });
     },
@@ -197,7 +201,7 @@ export default {
     refreshUpperlist() {
       if (this.isClickable) {
         this.rescanApclient();
-       this.opened = true;
+        this.opened = true;
       }
     }
   }
@@ -206,19 +210,7 @@ export default {
 <style lang="scss" scoped>
 .select-container {
   position: relative;
-  width: 340px;
-  &.disabled {
-    .select {
-      background: var(--select-disabled-background-color);
-      opacity: var(--select-disabled-opacity);
-      cursor: not-allowed;
-      input {
-        background: var(--select-disabled-background-color);
-        opacity: var(--select-disabled-opacity);
-        cursor: not-allowed;
-      }
-    }
-  }
+  max-width: 340px;
   .select {
     height: 48px;
     width: 100%;
@@ -229,6 +221,8 @@ export default {
     padding: 0 10px;
     position: relative;
     padding-right: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
     .select-text {
       font-size: 14px;
       overflow: hidden;
@@ -265,7 +259,6 @@ export default {
       }
     }
   }
-  cursor: pointer;
   .select-popup {
     position: absolute;
     z-index: 888;
@@ -429,6 +422,23 @@ export default {
       }
       &.close {
         transform: rotate(0);
+      }
+    }
+  }
+  &.focus {
+    .select {
+      border-color: var(--input-focus-border-color);
+    }
+  }
+  &.disabled {
+    .select {
+      background: var(--select-disabled-background-color);
+      opacity: var(--select-disabled-opacity);
+      cursor: not-allowed;
+      input {
+        background: var(--select-disabled-background-color);
+        opacity: var(--select-disabled-opacity);
+        cursor: not-allowed;
       }
     }
   }

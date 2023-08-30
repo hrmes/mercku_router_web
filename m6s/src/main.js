@@ -69,7 +69,7 @@ const launch = () => {
         if (responsed) {
           responsed = false;
           http
-            .getRouter(undefined, { hideToast: true })
+            .getRouter()
             .then(() => {
               responsed = true;
               clearInterval(timer);

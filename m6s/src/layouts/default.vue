@@ -1,5 +1,5 @@
 <template>
-  <router-view>
+  <router-view class="default">
   </router-view>
 </template>
 
@@ -36,3 +36,13 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+.default {
+  min-width: 1280px;
+}
+@media screen and (max-width: 768px) {
+  .default {
+    min-width: auto;
+  }
+}
+</style>
