@@ -89,20 +89,20 @@ export default {
   computed: {
     isMobile() {
       return this.$store.state.isMobile;
-    },
+    }
   },
   mounted() {
-      const limit = this.$store.state.modules.limits[this.mac];
-      if (limit && limit.speed_limit) {
-        const speed = limit.speed_limit;
-        this.form = {
-          ...speed,
-          up: this.b_to_Kb(speed.up),
-          down: this.b_to_Kb(speed.down)
-        };
-      } else {
-        this.getSpeed();
-      }
+    const limit = this.$store.state.modules.limits[this.mac];
+    if (limit && limit.speed_limit) {
+      const speed = limit.speed_limit;
+      this.form = {
+        ...speed,
+        up: this.b_to_Kb(speed.up),
+        down: this.b_to_Kb(speed.down)
+      };
+    } else {
+      this.getSpeed();
+    }
   },
   methods: {
     modalClose() {
@@ -148,7 +148,7 @@ export default {
             .then(() => {
               this.$loading.close();
               this.$store.state.modules.limits[this.mac].speed_limit = params;
-              this.$toast(this.$t('trans0040'), 3000, 'success');
+              this.$toast(this.$t('trans0040'), 2000, 'success');
               this.modalClose();
               this.$emit('refreshDeviceList');
             })

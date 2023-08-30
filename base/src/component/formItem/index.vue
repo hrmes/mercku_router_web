@@ -154,6 +154,9 @@ export default {
         border: 2px solid var(--input-error-text-color);
         animation: errorshake 0.3s forwards;
       }
+      .icon-container {
+        border-left: 2px solid var(--input-error-text-color);
+      }
     }
   }
 }

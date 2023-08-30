@@ -4,7 +4,7 @@
       <div class="back-wrap">
         <div class="btn-container"
              @click="onBack($route.meta.parentPath)">
-          <i class="iconfont icon-ic_back"></i>
+          <i class="iconfont ic_back_large"></i>
         </div>
         <div class="text-container">{{pageName}}</div>
       </div>
@@ -14,7 +14,7 @@
           <div class="legend-wrap">
             <span class="btn-icon"
                   @click="resetChartPosition">
-              <i class=" iconfont icon-ic_router_reset_normal"></i>
+              <i class=" iconfont ic_center"></i>
             </span>
             <div class="info">
               <div class="legend">
@@ -40,8 +40,6 @@
             </div>
 
           </div>
-          <!-- <div class="switch-wrap">
-          </div> -->
           <div class="topo-wrap"
                id="toppo-wrap">
             <div id="topo"></div>
@@ -54,7 +52,7 @@
                v-if="showTable">
             <div class="card-top">
               <div class="card-top__header">
-                <span class="model-name info-label">M6a</span>
+                <span class="model-name info-label">{{modelName}}</span>
                 <span class="gateway-label info-label"
                       v-if="isGateway">{{$t('trans0153')}}</span>
                 <span class="connect-quality info-label"
@@ -64,7 +62,7 @@
                       v-if="!isGateway">{{connectQuality(selectedNodeInfo.color)}}</span>
                 <span class="close btn-icon"
                       @click.stop="()=>showTable=false">
-                  <i class="iconfont icon-ic_close"></i>
+                  <i class="iconfont ic_close"></i>
                 </span>
               </div>
               <div class="card-top__main">
@@ -96,25 +94,25 @@
                   <span class="btn-icon"
                         v-if="!isRouterOffline(selectedNodeInfo)"
                         @click.stop="onClickRouterName(selectedNodeInfo)">
-                    <i class="iconfont icon-ic_edit"></i>
-                    <span class="icon-hover-popover">Edit</span>
+                    <i class="iconfont ic_edit"></i>
+                    <span class="icon-hover-popover">{{$t('trans0034')}}</span>
                   </span>
                   <span class="btn-icon"
                         v-if="!isRouterOffline(selectedNodeInfo)"
                         @click.stop="rebootNode(selectedNodeInfo)">
-                    <i class="iconfont icon-ic_router_reboot_normal"></i>
+                    <i class="iconfont ic_reboot"></i>
                     <span class="icon-hover-popover">{{$t('trans0122')}}</span>
                   </span>
                   <span class="btn-icon"
                         v-if="isGateway"
                         @click.stop="resetNode(selectedNodeInfo)">
-                    <i class="iconfont icon-ic_router_reset_normal"></i>
+                    <i class="iconfont ic_reset"></i>
                     <span class="icon-hover-popover">{{$t('trans0205')}}</span>
                   </span>
                   <span class="btn-icon"
                         v-if="!isGateway"
                         @click.stop="deleteNode(selectedNodeInfo)">
-                    <i class="iconfont icon-ic_trash_normal"></i>
+                    <i class="iconfont ic_trash"></i>
                     <span class="icon-hover-popover">{{$t('trans0033')}}</span>
                   </span>
                 </div>
@@ -181,16 +179,16 @@
                 class="form"
                 :rules="rules"
                 ref="form">
-          <m-form-item prop="newName">
+          <m-form-item prop="name">
             <m-editable-select :options="options"
                                :label="$t('trans0108')"
-                               v-model="form.newName"></m-editable-select>
+                               v-model="form.name"></m-editable-select>
           </m-form-item>
         </m-form>
         <div class="btn-inner">
           <button @click="closeUpdateModal"
                   class="btn btn-default">{{$t('trans0025')}}</button>
-          <button @click="updateMehsNode(selectedNodeInfo,form.newName)"
+          <button @click="updateMehsNode(selectedNodeInfo,form.name)"
                   class="btn">{{$t('trans0024')}}</button>
         </div>
       </m-modal-body>
@@ -238,8 +236,9 @@
 </template>
 <script>
 import marked from 'marked';
-import { formatMac, getStringByte } from 'base/util/util';
+import { formatMac } from 'base/util/util';
 import { RouterStatus, Color } from 'base/util/constant';
+import meshEditMixin from '@/mixins/mesh-edit.js';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -247,6 +246,7 @@ require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 export default {
+  mixins: [meshEditMixin],
   data() {
     return {
       rssiModalVisible: false,
@@ -256,43 +256,6 @@ export default {
       meshNodeTimer: null,
       chart: null,
       routers: [],
-      showModal: false,
-      form: { newName: '' },
-      rules: {
-        newName: [
-          {
-            rule: value => !/^\s*$/.test(value),
-            message: this.$t('trans0237')
-          },
-          {
-            rule: value => {
-              const length = getStringByte(value);
-              if (length < 1 || length > 20) {
-                return false;
-              }
-              return true;
-            },
-            message: this.$t('trans0261')
-          }
-        ]
-      },
-      options: [
-        this.$t('trans0349'),
-        this.$t('trans0350'),
-        this.$t('trans0351'),
-        this.$t('trans0352'),
-        this.$t('trans0353'),
-        this.$t('trans0354'),
-        this.$t('trans0355'),
-        this.$t('trans0356'),
-        this.$t('trans0357'),
-        this.$t('trans0358'),
-        this.$t('trans0359'),
-        this.$t('trans0360'),
-        this.$t('trans0361'),
-        this.$t('trans0362'),
-        this.$t('trans0363')
-      ],
       localDeviceIP: '',
       bandMap: {
         wired: this.$t('trans0253'),
@@ -319,7 +282,6 @@ export default {
   },
   async mounted() {
     this.createIntervalTask();
-
     window
       .matchMedia('(prefers-color-scheme: dark)')
       .addEventListener('change', event => {
@@ -351,6 +313,9 @@ export default {
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    modelName() {
+      return process.env.CUSTOMER_CONFIG.routers.M6a.shortName;
     }
   },
   watch: {
@@ -413,34 +378,10 @@ export default {
     isRouterOffline(router) {
       return router.status === RouterStatus.offline;
     },
-    closeUpdateModal() {
-      this.form.newName = '';
-      this.showModal = false;
-    },
     onClickRouterName(router) {
-      this.form.newName = router.name;
+      this.form.name = router.name;
       this.showModal = true;
       this.clearIntervalTask();
-    },
-    updateMehsNode(router, name) {
-      if (this.$refs.form.validate()) {
-        this.$loading.open();
-        this.$http
-          .updateMeshNode({
-            node_id: router.sn,
-            data: { name }
-          })
-          .then(() => {
-            router.name = name;
-            this.$loading.close();
-            this.showModal = false;
-            this.createIntervalTask();
-          })
-          .catch(() => {
-            this.$loading.close();
-            this.createIntervalTask();
-          });
-      }
     },
     deleteNode(router) {
       this.$dialog.confirm({
@@ -455,7 +396,7 @@ export default {
               .then(() => {
                 this.$loading.close();
                 this.showTable = false;
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
                 this.routers = this.routers.filter(r => r.sn !== router.sn);
               });
           }
@@ -484,7 +425,7 @@ export default {
                     }
                   });
                 } else {
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$toast(this.$t('trans0040'), 2000, 'success');
                   this.routers = this.routers.filter(r => r.sn !== router.sn);
                 }
               })
@@ -805,9 +746,6 @@ export default {
         height: 42px;
         &:last-child {
           margin-left: 30px;
-        }
-        &.btn-default {
-          // background-image: ;
         }
       }
     }

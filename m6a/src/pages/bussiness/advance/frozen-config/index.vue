@@ -169,7 +169,7 @@ export default {
       this.$http
         .updateRouterFrozenConfig(this.formParams)
         .then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
           this.getRouterFrozenCofig();
         })
         .finally(() => {

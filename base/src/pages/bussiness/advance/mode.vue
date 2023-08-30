@@ -26,7 +26,6 @@
                   @click="updateMode">{{$t('trans0081')}}</button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -79,7 +78,7 @@ export default {
                 this.$reconnect({
                   timeout: 120,
                   onsuccess: () => {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                    this.$toast(this.$t('trans0040'), 2000, 'success');
                     // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
                     if (this.$store.mode !== this.mode) {
                       this.$store.mode = this.mode;

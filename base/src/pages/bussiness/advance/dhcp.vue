@@ -81,16 +81,9 @@ import {
   isBoardcastIP
 } from 'base/util/util';
 
-const isSameSubNetwork = (ip, lanip, mask) => {
-  // 判断网络是否相同
-  const subnetwork = getSubNetwork(lanip, mask);
-  const subnetwork1 = getSubNetwork(ip, mask);
-  console.log(subnetwork, subnetwork1);
-  if (subnetwork !== subnetwork1) {
-    return false;
-  }
-  return true;
-};
+const isSameSubNetwork = (ip, lanip, mask) =>
+  getSubNetwork(ip, mask) === getSubNetwork(lanip, mask);
+
 export default {
   data() {
     return {
@@ -305,7 +298,7 @@ export default {
                   this.$reconnect({
                     timeout: 60,
                     onsuccess: () => {
-                      this.$toast(this.$t('trans0040'), 3000, 'success');
+                      this.$toast(this.$t('trans0040'), 2000, 'success');
                       this.$router.push({ path: '/dashboard' });
                     },
                     ontimeout: () => {

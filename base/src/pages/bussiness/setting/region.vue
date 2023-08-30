@@ -56,7 +56,7 @@ export default {
               .then(() => {
                 this.$reconnect({
                   onsuccess: () => {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                    this.$toast(this.$t('trans0040'), 2000, 'success');
                   },
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });

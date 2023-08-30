@@ -112,7 +112,7 @@ export default {
   watch: {
     value(val) {
       this.selected = this.getOptionByValue(val);
-    },
+    }
   },
   methods: {
     getOptionByValue(val) {
@@ -129,7 +129,11 @@ export default {
           const popupHeight = popupEl.clientHeight;
           const elHeight = selectEl.clientHeight;
           // 滚动到正中间的位置
-          scrollTo(popupEl, 0, selectEl.offsetTop - popupHeight / 2 + elHeight / 2);
+          scrollTo(
+            popupEl,
+            0,
+            selectEl.offsetTop - popupHeight / 2 + elHeight / 2
+          );
         }
       });
     },
@@ -154,7 +158,7 @@ export default {
     },
     close() {
       this.opened = false;
-    },
+    }
   }
 };
 </script>
@@ -248,7 +252,7 @@ export default {
           color: var(--select-item-selected-color);
         }
         &::after {
-          content: '\e65c';
+          content: '\e6be';
           font-family: 'iconfont';
           position: absolute;
           top: 50%;
@@ -359,6 +363,7 @@ export default {
           padding-right: 10px;
           text-align: right;
           background: var(--select-popup-background-color);
+          z-index: 888;
         }
       }
     }

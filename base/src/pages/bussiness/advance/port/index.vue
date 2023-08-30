@@ -116,7 +116,8 @@
           </div>
         </div>
       </div>
-      <transition name="fade">
+      <transition name="fade"
+                  :css="!isMobile">
         <portForwardForm v-if="isShowForm"
                          :isEdit="isEdit"
                          @closeForm="closeForm"
@@ -128,14 +129,13 @@
 <script>
 import portForwardForm from './form.vue';
 
-const ScrollPage = document.querySelector('.scrollbar-wrap');
-
 export default {
   components: {
     portForwardForm
   },
   data() {
     return {
+      ScrollPage: document.querySelector('.scrollbar-wrap'),
       empty: null,
       checkAll: false,
       portfws: [],
@@ -152,22 +152,13 @@ export default {
       return this.portfws.some(i => i.checked);
     },
     isShowList() {
-      if (!this.isMobile) {
-        return true;
-      }
-      return !this.isShowForm;
+      return !this.isMobile || !this.isShowForm;
     }
   },
   watch: {
     portfws: {
       handler(nv) {
-        if (nv.length) {
-          if (nv.every(v => v.checked)) {
-            this.checkAll = true;
-          } else {
-            this.checkAll = false;
-          }
-        }
+        this.checkAll = nv.length > 0 && nv.every(v => v.checked);
       },
       deep: true
     }
@@ -180,7 +171,7 @@ export default {
       if (this.portfws.length <= 20) {
         this.isEdit = false;
         if (this.isMobile) {
-          ScrollPage.scrollTop = 0;
+          this.ScrollPage.scrollTop = 0;
         }
         this.isShowForm = true;
       } else {
@@ -215,7 +206,7 @@ export default {
       };
       this.isEdit = true;
       if (this.isMobile) {
-        ScrollPage.scrollTop = 0;
+        this.ScrollPage.scrollTop = 0;
       }
       this.isShowForm = true;
     },
@@ -225,7 +216,7 @@ export default {
         .meshPortfwUpdate({ ...item, enabled: item.enabled })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -234,20 +225,12 @@ export default {
     },
     change(v) {
       this.portfws.forEach(item => {
-        if (v) {
-          item.checked = true;
-        } else {
-          item.checked = false;
-        }
+        item.checked = v;
       });
     },
     filterList(ids) {
-      ids.forEach(v => {
-        this.portfws = this.portfws.filter(item => item.id !== v);
-      });
-      if (this.portfws.length === 0) {
-        this.empty = true;
-      }
+      this.portfws = this.portfws.filter(item => !ids.includes(item.id));
+      this.empty = this.portfws.length === 0;
     },
     mulDel() {
       const portfwIds = [];
@@ -270,7 +253,7 @@ export default {
               .meshPortfwDelete({ portfw_ids: portfwIds })
               .then(() => {
                 this.filterList(portfwIds);
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
                 this.$loading.close();
               })
               .catch(() => {

@@ -366,7 +366,7 @@ export default {
         // 表单验证通过且ssid不一致
         validResult2 = this.$refs.b5gForm.validate();
         if (this.form.b24g.ssid === this.form.b5g.ssid) {
-          this.$toast(this.$t('trans0660'), 3000, 'error');
+          this.$toast(this.$t('trans0660'), 2000, 'error');
           return;
         }
       }
@@ -385,7 +385,9 @@ export default {
                   acs.end_time = TimeDuration.allday.end;
                   acs.switch_strategy = SwitchStrategy.in_time;
                   acs.interval = this.acs.interval;
-                } else if (this.acs.switch_strategy === SwitchStrategy.night_only) {
+                } else if (
+                  this.acs.switch_strategy === SwitchStrategy.night_only
+                ) {
                   acs.begin_time = TimeDuration.night.begin;
                   acs.end_time = TimeDuration.night.end;
                   acs.switch_strategy = SwitchStrategy.in_time;
@@ -410,7 +412,9 @@ export default {
               } else {
                 b24g.channel.number = this.form.b24g.channel.number;
               }
-              const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
+              const formBand = this.form.smart_connect
+                ? this.form.b24g
+                : this.form.b5g;
 
               const b5g = {
                 hidden: formBand.hidden,

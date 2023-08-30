@@ -274,7 +274,7 @@ export default {
         .timeLimitUpdate({ ...params })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -294,7 +294,7 @@ export default {
         .then(() => {
           this.timeLimitList = this.timeLimitList.filter(v => v.id !== row.id);
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -319,7 +319,7 @@ export default {
             if (this.form.enabled) {
               this.isSameTimezoneOffset().then(result => {
                 if (result.same || !result.redirect) {
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$toast(this.$t('trans0040'), 2000, 'success');
                 }
               });
             }
@@ -359,7 +359,7 @@ export default {
             if (this.form.enabled) {
               this.isSameTimezoneOffset().then(result => {
                 if (result.same || !result.redirect) {
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$toast(this.$t('trans0040'), 2000, 'success');
                 }
               });
             }

@@ -68,11 +68,12 @@ export default {
   },
   watch: {
     job_type(v) {
-      if (v === this.jobs[0].value || v === this.jobs[1].value) {
-        this.label = this.$t('trans0463');
-      } else {
-        this.label = this.$t('trans0436');
-      }
+      const jobLabels = {
+        [this.jobs[0].value]: this.$t('trans0463'),
+        [this.jobs[1].value]: this.$t('trans0463')
+      };
+
+      this.label = jobLabels[v] || this.$t('trans0436');
     }
   },
   methods: {

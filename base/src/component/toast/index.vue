@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       visible: false,
-      duration: 3000,
+      duration: 2000,
       text: '',
       type: 'success',
       timer: null
@@ -31,14 +31,14 @@ export default {
         this.visible = false;
       }, this.duration);
     },
-    updateContent({ text = '', duration = 3000, type = 'success' }) {
+    updateContent({ text = '', duration = 2000, type = 'success' }) {
       this.text = text;
       this.duration = duration;
       this.type = type;
       this.visible = true;
       clearTimeout(this.timer);
       this.startTimer();
-    },
+    }
   }
 };
 </script>

@@ -3,108 +3,116 @@
     <div v-if="$store.state.isMobile"
          class="page-header">{{ $t('trans0204') }}</div>
     <div class="page-content">
-      <div class="form">
-        <div class="description">
-          <p>
-            1.
-            <span>{{ $t('trans0332') }}&nbsp;</span>
-            <a class="btn-text text-primary"
-               :href="transWebsite('trans0338')"
-               target="_blank">
-              {{ transWebsite('trans0338') }}</a>
-            <span>&nbsp;{{ $t('trans0377') }}</span>
-          </p>
-          <p>
-            2.
-            <span>{{ $t('trans0339') }}</span>
-          </p>
-          <p>
-            3.
-            <span>{{ $t('trans0348') }}</span>
-          </p>
-        </div>
-        <div class="upload">
-          <m-upload ref="uploader"
-                    dragable
-                    :onChange="onChange"
-                    :onCancel="onCancel"
-                    :beforeUpload="beforeUpload"
-                    :request="upload"
-                    :packageInfo="packageInfo"
-                    :label="$t('trans0339')"
-                    :accept="accept" />
-        </div>
-        <div class="nodes-wrapper"
-             v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes"
-             ref="renodes">
-          <div class="retitle"
-               :class="{
+      <div class="page-content__main">
+        <div class="form">
+          <div class="description">
+            <p>
+              1.
+              <span>{{ $t('trans0332') }}&nbsp;</span>
+              <a class="btn-text text-primary"
+                 :href="transWebsite('trans0338')"
+                 target="_blank">
+                {{ transWebsite('trans0338') }}</a>
+              <span>&nbsp;{{ $t('trans0377') }}</span>
+            </p>
+            <p>
+              2.
+              <span>{{ $t('trans0339') }}</span>
+            </p>
+            <p>
+              3.
+              <span>{{ $t('trans0348') }}</span>
+            </p>
+          </div>
+          <div class="upload">
+            <m-upload ref="uploader"
+                      dragable
+                      :onChange="onChange"
+                      :onCancel="onCancel"
+                      :beforeUpload="beforeUpload"
+                      :request="upload"
+                      :packageInfo="packageInfo"
+                      :label="$t('trans0339')"
+                      :accept="accept" />
+          </div>
+          <div class="nodes-wrapper"
+               v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes"
+               ref="renodes">
+            <div class="retitle"
+                 :class="{
                  'retitle--fixed': isRetitleFixed
                }"
-               ref="retitle">
-            {{ $t('trans0333') }}
-            <div v-if="$store.state.isMobile"
-                 class="retitle__btn-wrap">
-              <button @click="upgrade()"
-                      class="btn btn-small retitle__btn">
-                {{ $t('trans0225') }}
-              </button>
+                 ref="retitle">
+              {{ $t('trans0333') }}
+              <div v-if="$store.state.isMobile"
+                   class="retitle__btn-wrap">
+                <button @click="upgrade()"
+                        class="btn btn-small retitle__btn">
+                  {{ $t('trans0225') }}
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="nodes-info"
-               :style="{
+            <div class="nodes-info"
+                 :style="{
             'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
           }">
-            <div v-for="node in localNodes"
-                 :key="node.sn"
-                 class="node">
-              <div class="message"
-                   @click="check(node)">
-                <m-checkbox :readonly="true"
-                            v-model="node.checked" />
-                <div class="img-container">
-                  <img :src="getNodeImage(node)"
-                       alt="">
-                </div>
-                <div class="info-container">
-                  <p class="node-name">{{ node.name }}</p>
-                  <p class="node-sn">
-                    <label class="with-colon">{{ $t('trans0252') }}:</label>
-                    <span>{{ node.sn }}</span>
-                  </p>
-                  <p class="node-version">
-                    <label class="with-colon">{{ $t('trans0209') }}:</label>
-                    <span>{{ node.version.current }}</span>
-                  </p>
-                  <div class="badges">
-                    <m-tag v-if="node.isGW&&isHomewayProduct"
-                           class="AP">{{$t('trans1097')}}</m-tag>
-                    <m-tag v-else-if="node.isGW"
-                           class="gateway">{{ $t('trans0165') }}</m-tag>
+              <div v-for="node in localNodes"
+                   :key="node.sn"
+                   class="node">
+                <div class="message"
+                     @click="check(node)">
+                  <m-checkbox :readonly="true"
+                              v-model="node.checked" />
+                  <div class="img-container">
+                    <img :src="getNodeImage(node)"
+                         alt="">
+                  </div>
+                  <div class="info-container">
+                    <p class="node-name">{{ node.name }}</p>
+                    <p class="node-sn">
+                      <label class="with-colon">{{ $t('trans0252') }}:</label>
+                      <span>{{ node.sn }}</span>
+                    </p>
+                    <p class="node-version">
+                      <label class="with-colon">{{ $t('trans0209') }}:</label>
+                      <span>{{ node.version.current }}</span>
+                    </p>
+                    <div class="badges">
+                      <m-tag v-if="node.isGW&&isHomewayProduct"
+                             class="AP">{{$t('trans1097')}}</m-tag>
+                      <m-tag v-else-if="node.isGW"
+                             class="gateway">{{ $t('trans0165') }}</m-tag>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div v-if="!$store.state.isMobile"
-               class="btn-info">
-            <button class="btn"
-                    @click="upgrade()">
-              {{ $t('trans0225') }}
-            </button>
-          </div>
-        </div>
-        <div class="description-wrapper"
-             v-if="
+          <div class="description-wrapper"
+               v-if="
               uploadStatus === UploadStatus.success && !hasUpgradablityNodes
             ">
-          <p>
-            <img src="../../../assets/images/icon/ic_hint.png"
-                 alt="" />
-            {{ $t('trans0336') }}
-          </p>
-          <p>{{ $t('trans0337') }}</p>
-          <p>{{ $t('trans0335') }}</p>
+            <p>
+              <img src="../../../assets/images/icon/ic_hint.png"
+                   alt="" />
+              {{ $t('trans0336') }}
+            </p>
+            <p>{{ $t('trans0337') }}</p>
+            <p>{{ $t('trans0335') }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="page-content__bottom"
+           v-if="
+           !$store.state.isMobile
+           && uploadStatus === UploadStatus.success
+           && hasUpgradablityNodes
+           ">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  @click="upgrade()">
+            {{ $t('trans0225') }}
+          </button>
         </div>
       </div>
     </div>
@@ -374,7 +382,7 @@ export default {
   border-top: 1px solid var(--hr-color);
   margin-top: 50px;
   text-align: center;
-  padding-top: 60px;
+  padding-top: 35px;
   color: var(--text-default-color);
   font-size: 14px;
   :first-child {
@@ -392,8 +400,9 @@ export default {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 20px 0 30px 0;
+    padding: 0 0 20px;
     border-radius: 0;
+    word-break: keep-all;
     &.retitle--fixed {
       display: block;
       position: fixed;
@@ -414,8 +423,6 @@ export default {
       }
     }
   }
-  border-top: 1px solid var(--hr-color);
-  margin-top: 30px;
   text-align: center;
   display: flex;
   justify-content: space-between;
@@ -541,6 +548,15 @@ export default {
       .node {
         width: 100%;
         margin-right: 0;
+      }
+    }
+  }
+  .description-wrapper {
+    margin-top: 30px;
+    padding-top: 15px;
+    :first-child {
+      img {
+        width: 18px;
       }
     }
   }

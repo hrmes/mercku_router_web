@@ -4,7 +4,7 @@
       <div class="back-wrap">
         <div class="btn-container"
              @click="onBack($route.meta.parentPath)">
-          <i class="iconfont icon-ic_back"></i>
+          <i class="iconfont ic_back_large"></i>
         </div>
         <div class="text-container">{{pageName}}</div>
       </div>
@@ -103,7 +103,6 @@
                         @click="startSpeedTest()"
                         :class="{'disabled':!isConnected}"
                         :disabled="!isConnected">
-                  <i class="iconfont icon-ic_speedtest"></i>
                   {{$t('trans0008')}}
                 </button>
               </div>
@@ -595,8 +594,8 @@ export default {
 <style lang="scss">
 @font-face {
   font-family: 'DIN';
-  font-display: swap;
   src: url('../../../style/iconfont/DIN.ttf');
+  font-display: swap;
 }
 .router-info {
   position: relative;

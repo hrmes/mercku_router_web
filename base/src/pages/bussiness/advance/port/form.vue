@@ -331,23 +331,22 @@ export default {
     onLFChange() {
       this.validateLT();
     },
-    submit() {
-      let fetchMethod = 'meshPortfwAdd';
-      if (this.formType === 'update') {
-        fetchMethod = 'meshPortfwUpdate';
-      }
+    async submit() {
+      const fetchMethod =
+        this.formType === 'update' ? 'meshPortfwUpdate' : 'meshPortfwAdd';
+
       if (this.$refs.form.validate()) {
-        this.$loading.open();
-        this.$http[fetchMethod](this.formParams)
-          .then(() => {
-            this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.$emit('refreshList');
-            this.closeForm();
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
+        try {
+          this.$loading.open();
+          await this.$http[fetchMethod](this.formParams);
+          this.$toast(this.$t('trans0040'), 2000, 'success');
+          this.$emit('refreshList');
+          this.closeForm();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.$loading.close();
+        }
       }
     },
     closeForm() {

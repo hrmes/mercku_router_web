@@ -21,15 +21,15 @@ export default function getMenu(role, mode = RouterMode.router) {
     mode: [RouterMode.router]
   };
   const dashboard = {
-    icon: 'icon-ic_home_light1',
-    selectedIcon: 'icon-ic_home_selected',
+    icon: 'ic_home_light',
+    selectedIcon: 'ic_home_light',
     text: 'trans0173',
     url: '/dashboard',
     children: []
   };
   const setting = {
-    icon: 'icon-ic_home_settings_light1',
-    selectedIcon: 'icon-ic_home_settings_selected_light',
+    icon: 'ic_home_settings_light',
+    selectedIcon: 'ic_home_settings_light',
     text: 'trans0019',
     name: 'setting',
     url: '/setting/wifi',
@@ -135,8 +135,8 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const advance = {
-    icon: 'icon-ic_advanced_settings_light',
-    selectedIcon: 'icon-ic_advanced_settings_selected_light',
+    icon: 'ic_advanced_settings_light',
+    selectedIcon: 'ic_advanced_settings_light',
     text: 'trans0416',
     name: 'advance',
     url: '/advance/portforwarding',
@@ -277,8 +277,8 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const upgrade = {
-    icon: 'icon-ic_upgrade_firmware_light1',
-    selectedIcon: 'icon-ic_upgrade_firmware_selected_light',
+    icon: 'ic_upgrade_firmware_light',
+    selectedIcon: 'ic_upgrade_firmware_light',
     text: 'trans0197',
     name: 'upgrade',
     url: '/upgrade/online',
@@ -304,7 +304,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const theme = {
-    icon: 'icon-ic_theme_light',
+    icon: 'ic_theme_light',
     text: 'trans1119',
     children: []
   };

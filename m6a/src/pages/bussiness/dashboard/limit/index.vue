@@ -9,7 +9,7 @@
         </div>
         <span class="btn-icon close"
               @click="$router.go(-1)">
-          <i class="iconfont  icon-ic_close"></i>
+          <i class="iconfont ic_close"></i>
         </span>
       </div>
       <div class="limit-wrapper-__content">
@@ -51,7 +51,7 @@ export default {
     close() {
       this.dropdownVisible = false;
     }
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

@@ -60,7 +60,7 @@ import { formatMac, isMac } from 'base/util/util';
 export default {
   computed: {
     isBoolDefault() {
-      return this.isDefault === true;
+      return this.isDefault;
     }
   },
   data() {
@@ -150,7 +150,7 @@ export default {
                 this.$reconnect({
                   timeout: 60,
                   onsuccess: () => {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                    this.$toast(this.$t('trans0040'), 2000, 'success');
                     this.$router.push({ path: '/advance/mac' });
                   },
                   ontimeout: () => {

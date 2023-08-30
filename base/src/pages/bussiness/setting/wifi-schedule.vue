@@ -151,11 +151,11 @@ export default {
           if (this.form.enabled) {
             this.isSameTimezoneOffset().then(result => {
               if (result.same || !result.redirect) {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
               }
             });
           } else {
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$toast(this.$t('trans0040'), 2000, 'success');
           }
         })
         .catch(() => {

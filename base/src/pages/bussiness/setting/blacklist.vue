@@ -29,7 +29,7 @@
               </button>
             </div>
           </div>
-          <div class="table-content">
+          <div class="table-body">
             <div class="device"
                  v-for="device in listOrdered"
                  :key="device.mac">
@@ -62,7 +62,7 @@
           <span>{{ $t('trans0235') }}</span>
           <div class="btn-icon"
                @click.stop="() => (deviceModalVisible = false)">
-            <i class="iconfont icon-ic_close"></i>
+            <i class="iconfont ic_close"></i>
           </div>
         </m-modal-header>
         <m-modal-body class="modal-body table">
@@ -77,7 +77,7 @@
             <div class="mac"
                  v-if="!isMobile">{{ $t('trans0188') }}</div>
           </div>
-          <div class="table-content">
+          <div class="table-body">
             <div class="device"
                  @click.stop="checkDevice(item)"
                  v-for="(item, index) in devices"
@@ -214,7 +214,7 @@ export default {
               }))
             );
             this.devices = this.devices.filter(d => !macs.includes(d.mac));
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$toast(this.$t('trans0040'), 2000, 'success');
             this.$loading.close();
           })
           .catch(() => {
@@ -277,7 +277,7 @@ export default {
           });
           this.checkAllBlacklist = false;
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -296,7 +296,7 @@ export default {
   .table-header {
     grid-template-columns: 20px 2fr 2fr 1fr;
   }
-  .table-content {
+  .table-body {
     .device {
       display: grid;
       grid-template-rows: 100%;
@@ -314,10 +314,6 @@ export default {
       flex-direction: column;
       p {
         margin: 0;
-      }
-      img {
-        width: 180px;
-        height: 180px;
       }
     }
   }
@@ -368,7 +364,7 @@ export default {
 }
 .modal-body {
   height: 50vh;
-  .table-content {
+  .table-body {
     height: calc(100% - 45px);
     overflow-y: auto;
     .device {
@@ -400,7 +396,7 @@ export default {
     .table-header {
       grid-template-columns: 20px 1fr 1fr;
     }
-    .table-content {
+    .table-body {
       .device {
         display: grid;
         grid-template-rows: 100%;
@@ -428,10 +424,6 @@ export default {
         flex-direction: column;
         p {
           margin: 0;
-        }
-        img {
-          width: 180px;
-          height: 180px;
         }
       }
     }
@@ -461,7 +453,7 @@ export default {
         grid-template-rows: 100%;
       }
     }
-    .table-content {
+    .table-body {
       height: calc(100% - 45px);
       overflow-y: auto;
       .device {

@@ -6,7 +6,7 @@
          v-clickoutside="close">
       <input ref="input"
              class="select-text"
-             v-model="selected"
+             v-model="selectedText"
              @input="input"
              @focus="focus"
              :placeholder="placeholder" />
@@ -21,12 +21,17 @@
       </div>
       <transition name="select">
         <ul class="select-popup reset-ul"
-            v-show="this.opened">
-          <li :key="option"
-              :class="{'selected':selected === option}"
+            v-show="options.length>0 && this.opened">
+          <li :key="option.mac"
+              :class="{'selected':selectedObj[identifier] === option[identifier]}"
               @click.stop="select(option)"
-              v-for="option in options"
-              :title="option">{{option}}</li>
+              v-for="option in options">
+            <div class="main-title">{{option.name}}</div>
+            <div class="sub">
+              <span>{{$t('trans0188')}}: {{formatMac(option.mac)}}</span>
+              <span>{{$t('trans0151')}}: {{option.ip}}</span>
+            </div>
+          </li>
         </ul>
       </transition>
     </div>
@@ -36,6 +41,7 @@
 
 <script>
 import scrollTo from '../utils/scroll-to';
+import { formatMac } from '../../util/util';
 
 export default {
   props: {
@@ -51,23 +57,32 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    identifier: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
-      selected: this.value,
+      formatMac,
+      selectedText: this.value,
+      selectedObj: null,
       opened: false
     };
   },
   watch: {
     value(val) {
-      this.selected = val;
-      if (this.selected) {
+      this.selectedText = val;
+      if (this.selectedText) {
         this.$refs.clear.classList.add('show');
       } else {
         this.$refs.clear.classList.remove('show');
       }
     }
+  },
+  mounted() {
+    this.selectedObj = this.copyObjectStructure(this.options);
   },
   methods: {
     scrollToSelect() {
@@ -87,11 +102,13 @@ export default {
       });
     },
     input() {
-      this.$emit('input', this.selected);
+      this.$emit('input', this.selectedText);
     },
     select(option) {
-      this.selected = option;
-      this.$emit('input', this.selected);
+      this.selectedObj = option;
+      this.selectedText = option.name;
+      this.$emit('input', this.selectedText);
+      this.$emit('autofill', option);
       this.opened = false;
     },
     close() {
@@ -101,31 +118,54 @@ export default {
       this.$refs.clear.classList.remove('show');
       this.$parent.$emit('blur');
     },
+    blur() {
+      if (this.opened) return;
+      this.onBlur && this.onBlur();
+      this.$refs.select.classList.remove('focus');
+      this.$parent.$emit('blur');
+    },
     focus() {
       this.opened = false;
-      this.$parent.$emit('focus');
       this.$refs.select.classList.add('focus');
-      if (this.selected) {
+      this.$parent.$emit('focus');
+      if (this.selectedText) {
         this.$refs.clear.classList.add('show');
       }
     },
     handleIconClick() {
-      this.$refs.clear.classList.remove('show');
-      if (this.opened) {
-        this.opened = false;
-        this.$refs.select.classList.remove('focus');
-        this.$parent.$emit('blur');
-      } else {
-        this.opened = true;
-        this.$refs.select.classList.add('focus');
-        this.scrollToSelect();
-        this.$parent.$emit('focus');
+      if (this.options.length > 0) {
+        this.$refs.clear.classList.remove('show');
+        if (this.opened) {
+          this.opened = false;
+          this.$refs.select.classList.remove('focus');
+          this.$parent.$emit('blur');
+        } else {
+          this.opened = true;
+          this.$refs.select.classList.add('focus');
+          this.scrollToSelect();
+          this.$parent.$emit('focus');
+        }
       }
     },
     clearInput() {
-      this.selected = '';
-      this.$emit('input', this.selected);
+      this.selectedText = '';
+      this.$emit('input', this.selectedText);
       this.$refs.input.focus();
+    },
+    copyObjectStructure(obj) {
+      if (obj === null || typeof obj !== 'object') {
+        return null;
+      }
+      if (Array.isArray(obj)) {
+        return obj.map(item => this.copyObjectStructure(item));
+      }
+      const newObj = {};
+      Object.keys(obj).forEach(key => {
+        newObj[key] = this.copyObjectStructure(obj[key]);
+      });
+
+      console.log(newObj);
+      return newObj;
     }
   }
 };
@@ -148,6 +188,31 @@ export default {
       border-radius: 100px;
       &:hover {
         opacity: 0.5;
+      }
+    }
+  }
+  &.small {
+    .select {
+      width: 100%;
+      height: 36px;
+      padding: 2px 10px;
+      padding-right: 50px;
+      .icon-container {
+        height: 100%;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        .icon {
+          margin: 0;
+        }
+      }
+      .select-popup {
+        top: 36px;
+        li {
+          padding: 6px 10px;
+        }
       }
     }
   }
@@ -178,31 +243,6 @@ export default {
       }
     }
   }
-  &.small {
-    .select {
-      width: 100%;
-      height: 36px;
-      padding: 2px 10px;
-      padding-right: 50px;
-      .icon-container {
-        height: 100%;
-        width: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
-        .icon {
-          margin: 0;
-        }
-      }
-      .select-popup {
-        top: 36px;
-        li {
-          padding: 6px 10px;
-        }
-      }
-    }
-  }
   label {
     display: block;
     margin-bottom: 5px;
@@ -223,6 +263,8 @@ export default {
     border: 1px solid var(--select-popup-border-color);
     overflow: auto;
     li {
+      display: flex;
+      flex-direction: column;
       list-style: none;
       padding: 17px 10px;
       line-height: 1;
@@ -248,6 +290,27 @@ export default {
           top: 50%;
           right: 10px;
           transform: translateY(-50%);
+        }
+      }
+      &.select-popup__item--empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 80px;
+      }
+    }
+    .main-title {
+      font-weight: 600;
+    }
+    .sub {
+      display: flex;
+      flex-direction: column;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-gery-color);
+      > span {
+        &:first-child {
+          margin-bottom: 5px;
         }
       }
     }

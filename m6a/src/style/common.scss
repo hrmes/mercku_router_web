@@ -98,10 +98,10 @@ input::-webkit-input-placeholder {
 
   .page-content {
     flex: 1;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-
     .page-content__main{
       padding: 20px  20px 40px;
       flex: 1;
@@ -138,7 +138,7 @@ input::-webkit-input-placeholder {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 1001;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -258,6 +258,10 @@ input::-webkit-input-placeholder {
 }
 
 .empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -270,7 +274,7 @@ input::-webkit-input-placeholder {
   }
   > img {
     width: 180px;
-    height: 180px;
+    aspect-ratio: 1;
   }
   .btn {
     display: none;
@@ -418,25 +422,26 @@ label.with-colon {
         gap: 0;
       }
     }
-    .empty {
-      height: auto;
-      flex-direction: column;
-      border: none;
+  }
+  .empty {
+    position: static;
+    transform: initial;
+    height: auto;
+    flex-direction: column;
+    border: none;
+    margin-top: 40px;
 
-      p {
-        margin: 0;
-      }
+    p {
+      margin: 0;
+    }
 
-      img {
-        width: 150px;
-        height: 150px;
-        display: block;
-      }
+    img {
+      width: 150px;
+    }
 
-      .btn {
-        display: block;
-        margin-top: 10px;
-      }
+    .btn {
+      display: block;
+      margin-top: 10px;
     }
   }
   .back-wrap {

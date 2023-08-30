@@ -302,7 +302,12 @@
   </div>
 </template>
 <script>
-import { formatMac, getStringByte, formatDate, formatDuration } from 'base/util/util';
+import {
+  formatMac,
+  getStringByte,
+  formatDate,
+  formatDuration
+} from 'base/util/util';
 import { BlacklistMode, RouterMode } from 'base/util/constant';
 
 export default {
@@ -439,7 +444,7 @@ export default {
               .meshDevicesOfflineDel({ macs })
               .then(() => {
                 this.$loading.close();
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
                 this.getDeviceList();
               })
               .catch(() => {
@@ -470,7 +475,10 @@ export default {
             }
             const wired = 'wired';
             if (a.online_info.band === wired || b.online_info.band === wired) {
-              if (a.online_info.band === wired && b.online_info.band === wired) {
+              if (
+                a.online_info.band === wired &&
+                b.online_info.band === wired
+              ) {
                 return a.name > b.name;
               }
               if (a.online_info.band === wired) {
@@ -481,7 +489,9 @@ export default {
               }
               return 0;
             }
-            return a.online_info.online_duration - b.online_info.online_duration;
+            return (
+              a.online_info.online_duration - b.online_info.online_duration
+            );
           })
       );
     },
@@ -512,7 +522,10 @@ export default {
       return false;
     },
     isBlacklsitLimit(row) {
-      return row.parent_control && row.parent_control.mode === BlacklistMode.blacklist;
+      return (
+        row.parent_control &&
+        row.parent_control.mode === BlacklistMode.blacklist
+      );
     },
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
@@ -586,7 +599,9 @@ export default {
           this.devicesMap = {
             ...this.devicesMap,
             [curId]:
-              curId === 'offline' ? this.sortOfflineDevices(result) : this.sortDevices(result)
+              curId === 'offline'
+                ? this.sortOfflineDevices(result)
+                : this.sortDevices(result)
           };
         }
       } catch (err) {
@@ -608,7 +623,7 @@ export default {
           }
         };
         this.$http.meshDeviceUpdate({ ...params }).then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
           this.devicesMap[this.id] = this.devicesMap[this.id].map(v => {
             if (v.mac === this.row.mac) {
               return { ...v, name: this.form.name };
@@ -635,8 +650,10 @@ export default {
             this.$http
               .addToblackList({ ...params })
               .then(() => {
-                this.devicesMap[this.id] = this.devicesMap[this.id].filter(v => v.mac !== row.mac);
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.devicesMap[this.id] = this.devicesMap[this.id].filter(
+                  v => v.mac !== row.mac
+                );
+                this.$toast(this.$t('trans0040'), 2000, 'success');
                 this.$loading.close();
               })
               .catch(() => {
@@ -665,13 +682,22 @@ export default {
         return formatDate(date);
       }
       if (differ <= split[0] && differ > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(differ / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(differ / split[1], 10)
+        )}`;
       }
       if (differ <= split[1] && differ > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(differ / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(differ / split[2], 10)
+        )}`;
       }
       if (differ <= split[2] && differ > split[3]) {
-        return `${this.$t('trans0011').replace('%d', parseInt(differ / split[4], 10))}`;
+        return `${this.$t('trans0011').replace(
+          '%d',
+          parseInt(differ / split[4], 10)
+        )}`;
       }
       return '-';
     },
@@ -687,11 +713,17 @@ export default {
       }
       // 小于1天大于1小时
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(date / split[1], 10)
+        )}`;
       }
       // 小于1小时大于1分钟
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
       }
       // 小于1分钟大于5秒
       if (date <= split[2] && date > split[3]) {
@@ -700,7 +732,12 @@ export default {
       return `${this.$t('trans0010')}`;
     },
     transformDuration(zone) {
-      if (!zone || window.isNaN(zone) || parseInt(zone, 10) < 0 || !Number.isInteger(zone)) {
+      if (
+        !zone ||
+        window.isNaN(zone) ||
+        parseInt(zone, 10) < 0 ||
+        !Number.isInteger(zone)
+      ) {
         return '-';
       }
       let timeArr = formatDuration(zone);

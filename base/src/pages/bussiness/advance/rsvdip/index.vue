@@ -16,18 +16,21 @@
         <div class="table"
              :class="{'empty-table':empty!==null && empty}">
           <div class="table-header">
-            <div class="checkbox">
-              <m-checkbox v-model="checkAll"
-                          @change="change"></m-checkbox>
+            <div class="wrapper">
+              <div class="checkbox">
+                <m-checkbox v-model="checkAll"
+                            @change="change"></m-checkbox>
+              </div>
+              <div class="name">
+                {{$t('trans0108')}}
+              </div>
             </div>
-            <div class="name">
-              {{$t('trans0108')}}
-            </div>
-            <div class="mac">{{$t('trans0188')}}</div>
-            <div class="ip">{{$t('trans0151')}}</div>
+            <div class="mac"
+                 v-if="!isMobile">{{$t('trans0188')}}</div>
+            <div class="ip"
+                 v-if="!isMobile">{{$t('trans0151')}}</div>
             <div class="operator">
-              <div class="btn-wrap"
-                   :class="{open:mobileSelect}">
+              <div class="btn-wrap">
                 <button class="btn btn-small"
                         @click="mulDel"
                         :disabled="!hasChecked">{{$t('trans0453')}}</button>
@@ -38,26 +41,29 @@
           </div>
           <div class="table-body">
             <div class="table-row"
-                 :class="{'open':item.open}"
+                 :class="{'close':!item.open}"
                  v-for="(item,index ) in rsvdips"
                  :key="index">
-              <div class="checkbox">
-                <m-checkbox v-model="item.checked"
-                            @click.native='stopDefault($event)'></m-checkbox>
+              <div class="wrapper">
+                <div class="checkbox">
+                  <m-checkbox v-model="item.checked"
+                              @click.native='stopDefault($event)'></m-checkbox>
+                </div>
+                <div class="name"
+                     :title="item.name"
+                     @click.stop="item.open=!item.open">
+                  <span class="name">{{item.name}}</span>
+                </div>
               </div>
-              <div class="name"
-                   :title="item.name"
-                   @click.stop="item.open=!item.open">
-                <span class="name">{{item.name}}</span>
-              </div>
+
               <div class="mac">
                 <label class="m-title with-colon"
-                       v-if="isMobile">{{$t('trans0188')}}:</label>
+                       v-if="isMobile">{{$t('trans0188')}}</label>
                 <span>{{formatMac(item.mac)}}</span>
               </div>
               <div class="ip">
                 <label class="m-title with-colon"
-                       v-if="isMobile">{{$t('trans0151')}}:</label>
+                       v-if="isMobile">{{$t('trans0151')}}</label>
                 <span>{{item.ip}}</span>
               </div>
               <div class="operator">
@@ -82,7 +88,8 @@
           </div>
         </div>
       </div>
-      <transition name="fade">
+      <transition name="fade"
+                  :css="!isMobile">
         <rsvdipForm v-if="isShowForm"
                     :isEdit="isEdit"
                     @closeForm="closeForm"
@@ -95,17 +102,14 @@
 import { formatMac } from 'base/util/util';
 import rsvdipForm from './form.vue';
 
-const ScrollPage = document.querySelector('.scrollbar-wrap');
-
 export default {
   components: {
     rsvdipForm
   },
   data() {
     return {
+      ScrollPage: document.querySelector('.scrollbar-wrap'),
       formatMac,
-      mobileSelect: false,
-      mobileShowHead: false,
       empty: null,
       checkAll: false,
       reverseCheck: false,
@@ -123,22 +127,13 @@ export default {
       return this.rsvdips.some(i => i.checked);
     },
     isShowList() {
-      if (!this.isMobile) {
-        return true;
-      }
-      return !this.showForm;
+      return !this.isMobile || !this.isShowForm;
     }
   },
   watch: {
     rsvdips: {
-      handler: function temp(nv) {
-        if (nv.length) {
-          if (nv.every(v => v.checked)) {
-            this.checkAll = true;
-          } else {
-            this.checkAll = false;
-          }
-        }
+      handler(nv) {
+        this.checkAll = nv.length > 0 && nv.every(v => v.checked);
       },
       deep: true
     }
@@ -192,7 +187,11 @@ export default {
         ...this.$store.state.modules,
         rsvdip: item
       };
-      this.$router.push(`/advance/rsvdip/form/${item.id}`);
+      this.isEdit = true;
+      if (this.isMobile) {
+        this.ScrollPage.scrollTop = 0;
+      }
+      this.isShowForm = true;
     },
     update(v, item) {
       this.$loading.open();
@@ -200,7 +199,7 @@ export default {
         .meshRsvdipUpdate({ ...item, enabled: v })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -209,21 +208,12 @@ export default {
     },
     change(v) {
       this.rsvdips.forEach(item => {
-        if (v) {
-          item.checked = true;
-        } else {
-          item.checked = false;
-        }
+        item.checked = v;
       });
     },
     filterList(ids) {
-      ids.forEach(v => {
-        this.rsvdips = this.rsvdips.filter(item => item.id !== v);
-      });
-      if (this.rsvdips.length === 0) {
-        this.empty = true;
-        this.mobileShowHead = false;
-      }
+      this.rsvdips = this.rsvdips.filter(item => !ids.includes(item.id));
+      this.empty = this.rsvdips.length === 0;
     },
     mulDel() {
       const rsvdipIds = [];
@@ -261,7 +251,7 @@ export default {
       if (this.rsvdips.length <= 20) {
         this.isEdit = false;
         if (this.isMobile) {
-          ScrollPage.scrollTop = 0;
+          this.ScrollPage.scrollTop = 0;
         }
         this.isShowForm = true;
       } else {
@@ -279,11 +269,19 @@ export default {
 </script>
 <style lang="scss" scoped>
 .table-header {
-  grid-template-columns: 30px 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  .wrapper {
+    grid-template-columns: 30px 1fr;
+    gap: 10px;
+  }
 }
 .table-body {
   .table-row {
-    grid-template-columns: 30px 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    .wrapper {
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+    }
   }
 }
 .checkbox {
@@ -299,6 +297,9 @@ export default {
 .operator {
   display: flex;
   justify-content: flex-end;
+  .btn-wrap {
+    display: flex;
+  }
   button {
     margin-left: 20px;
     &:first-child {
@@ -318,6 +319,72 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .table-header {
+    grid-template-columns: 1fr 2fr;
+    .operator {
+      .btn {
+        width: auto;
+        min-width: auto;
+      }
+    }
+  }
+  .table-body {
+    .table-row {
+      grid-template-rows: repeat(4, 1fr);
+      grid-template-columns: 100%;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--common-gery-color);
+      > div {
+        display: flex;
+        align-items: center;
+        height: 50px;
+        border-bottom: 1px solid var(--hr-color);
+        &:last-child {
+          border: none;
+          padding: 0;
+        }
+      }
+      .wrapper {
+        position: relative;
+        &::after {
+          content: '\e65b';
+          font-family: 'iconfont';
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%) rotate(0deg);
+          font-size: 12px;
+          transition: transform 0.3s;
+          color: var(--text-default-color);
+        }
+      }
+      .name {
+        font-size: 14px;
+        color: var(--text-default-color);
+      }
+      .mac,
+      .ip {
+        justify-content: space-between;
+      }
+      &.close {
+        grid-template-rows: 100%;
+        .wrapper {
+          padding-bottom: 0;
+          border-color: transparent;
+          &::after {
+            transform: translateY(-50%) rotate(-90deg);
+          }
+        }
+        .mac,
+        .ip,
+        .operator {
+          display: none;
+        }
+      }
+    }
+  }
+
   .reboot-info {
     font-size: 12px;
     width: auto;

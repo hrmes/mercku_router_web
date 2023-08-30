@@ -8,7 +8,7 @@
              v-model="inputValue"
              readonly>
       <span class="icon-inner">
-        <i class="iconfont icon-ic_clock">
+        <i class="iconfont ic_clock">
         </i>
       </span>
     </div>
@@ -48,7 +48,6 @@
   </div>
 </template>
 <script>
-
 export default {
   props: { value: { type: String } },
   data() {
@@ -75,7 +74,7 @@ export default {
         h: v.split(':')[0],
         m: v.split(':')[1]
       };
-    },
+    }
   },
   computed: {
     hsLength() {

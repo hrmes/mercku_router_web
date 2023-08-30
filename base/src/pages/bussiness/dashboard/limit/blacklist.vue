@@ -175,7 +175,7 @@ export default {
         .then(() => {
           this.form.mode = changeMode;
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.mode = !v;
@@ -190,9 +190,11 @@ export default {
           hosts: [row]
         })
         .then(() => {
-          this.parentControlLimitList = this.parentControlLimitList.filter(v => v !== row);
+          this.parentControlLimitList = this.parentControlLimitList.filter(
+            v => v !== row
+          );
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -210,7 +212,7 @@ export default {
             this.parentControlLimitList.push(this.host);
             this.$loading.close();
             this.modalShow = false;
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$toast(this.$t('trans0040'), 2000, 'success');
           })
           .catch(() => {
             this.$loading.close();

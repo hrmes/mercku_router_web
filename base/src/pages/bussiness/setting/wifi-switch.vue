@@ -40,17 +40,17 @@ export default {
     },
     updateWifiStatus() {
       this.$loading.open();
-      this.$http.updateMeshWifiStatus({ enabled: this.enabled })
+      this.$http
+        .updateMeshWifiStatus({ enabled: this.enabled })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
         });
     }
-  },
-
+  }
 };
 </script>
 

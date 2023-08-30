@@ -14,7 +14,6 @@
       </div>
       <div class="page-content__main">
         <div class="content">
-          <!-- <div class="content__line"></div> -->
           <div class="content__item content__switch">
             <m-switch v-model="ping.enabled"
                       @change="updateWanPing"></m-switch>
@@ -195,7 +194,7 @@ export default {
         .then(() => {
           this.pingEnabledInitialized = this.wan.ping.enabled;
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();

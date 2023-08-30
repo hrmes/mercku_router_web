@@ -60,22 +60,22 @@ export default {
         el.scrollTop = y;
       }
     },
-    updateEnabled() {
+    async updateEnabled() {
       this.$loading.open();
-      this.$http
-        .updateSyslogEnabled({ enabled: this.enabled })
-        .then(() => {
-          this.$loading.close();
-          if (!this.enabled) {
-            this.previousArray = [];
-            this.increaseArray = [];
-          } else {
-            this.getSyslog();
-          }
-        })
-        .catch(() => {
-          this.$loading.close();
-        });
+      try {
+        await this.$http.updateSyslogEnabled({ enabled: this.enabled });
+
+        if (!this.enabled) {
+          this.previousArray = [];
+          this.increaseArray = [];
+        } else {
+          await this.getSyslog();
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      } finally {
+        this.$loading.close();
+      }
     },
     getSyslog() {
       this.$http.getSyslogEnabled().then(() => {

@@ -15,7 +15,8 @@
                      :hasBackWrap='hasBackWrap'
                      :asideInfo='asideInfo'></component>
           <transition v-else
-                      :name="transitionName"
+                      name="fade"
+                      :css="!isMobile"
                       mode="out-in">
             <component :is="layout"
                        :hasBackWrap='hasBackWrap'
@@ -47,10 +48,6 @@ export default {
     layout() {
       const { layout } = this.$route.meta;
       return layout || 'default';
-    },
-    transitionName() {
-      const { transition } = this.$route.meta;
-      return transition;
     },
     hasBackWrap() {
       const { hasBackWrap } = this.$route.meta;

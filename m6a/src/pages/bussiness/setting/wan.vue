@@ -642,9 +642,15 @@ export default {
       };
       if (this.netInfo && this.netInfo.netinfo) {
         local.type = this.netInfo.type ? this.netInfo.type : '-';
-        local.netinfo.ip = this.netInfo.netinfo.ip ? this.netInfo.netinfo.ip : '-';
-        local.netinfo.mask = this.netInfo.netinfo.mask ? this.netInfo.netinfo.mask : '-';
-        local.netinfo.gateway = this.netInfo.netinfo.gateway ? this.netInfo.netinfo.gateway : '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip
+          ? this.netInfo.netinfo.ip
+          : '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask
+          ? this.netInfo.netinfo.mask
+          : '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway
+          ? this.netInfo.netinfo.gateway
+          : '-';
         local.netinfo.dns = this.netInfo.netinfo.dns;
         return local;
       }
@@ -656,7 +662,7 @@ export default {
         : '-';
     },
     modelID() {
-       return '0';
+      return '0';
     }
   },
   methods: {
@@ -703,11 +709,13 @@ export default {
             this.netType = this.netInfo.type;
             if (this.netInfo?.vlan?.length) {
               this.vlan =
-                this.netInfo.vlan.find(item => item.name === VlanName.internet) ||
-                cloneDeep(VlanDefault);
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.internet
+                ) || cloneDeep(VlanDefault);
               this.ipPhoneVlan =
-                this.netInfo.vlan.find(item => item.name === VlanName.ipPhone) ||
-                cloneDeep(IpPhoneVlanDefault);
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.ipPhone
+                ) || cloneDeep(IpPhoneVlanDefault);
               this.iptvVlan =
                 this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
                 cloneDeep(IptvVlanDefault);
@@ -783,7 +791,7 @@ export default {
             this.ipPhoneVlan.enabled &&
             this.iptvVlan.enabled)
         ) {
-          this.$toast(this.$t('trans1051'), 3000, 'error');
+          this.$toast(this.$t('trans1051'), 2000, 'error');
           return;
         }
       }

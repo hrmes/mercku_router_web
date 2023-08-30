@@ -5,7 +5,8 @@
       {{$t('trans0402')}}
     </div>
     <div class="page-content">
-      <div class="page-content__main">
+      <div class="page-content__main"
+           v-if="isShowList">
         <div class="table">
           <div class="table-header">
             <div class="wrapper">
@@ -88,7 +89,8 @@
           </div>
         </div>
       </div>
-      <transition name="fade">
+      <transition name="fade"
+                  :css="!isMobile">
         <vpnForm v-if="isShowForm"
                  :isEdit="isEdit"
                  @closeForm="closeForm"
@@ -101,14 +103,13 @@
 import { VPNType, VPNStatus, VPNAction } from 'base/util/constant';
 import vpnForm from './form.vue';
 
-const ScrollPage = document.querySelector('.scrollbar-wrap');
-
 export default {
   components: {
     vpnForm
   },
   data() {
     return {
+      ScrollPage: document.querySelector('.scrollbar-wrap'),
       vpns: [],
       VPNStatus,
       timer: null,
@@ -220,7 +221,7 @@ export default {
                 });
               }
               if (vpn.status === eStatus) {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
                 vpn.enabled = !pEnabled;
               } else {
                 this.$toast(this.$t('trans0077'));
@@ -238,7 +239,7 @@ export default {
         this.$store.state.modules.vpn = vpn;
         this.isEdit = true;
         if (this.isMobile) {
-          ScrollPage.scrollTop = 0;
+          this.ScrollPage.scrollTop = 0;
         }
         this.isShowForm = true;
       }
@@ -250,7 +251,7 @@ export default {
       }
       this.isEdit = false;
       if (this.isMobile) {
-        ScrollPage.scrollTop = 0;
+        this.ScrollPage.scrollTop = 0;
       }
       this.isShowForm = true;
     },
@@ -276,7 +277,7 @@ export default {
               ok: () => {
                 this.$http.deleteVPN({ vpn_ids: vpnIds }).then(() => {
                   this.vpns = this.vpns.filter(v => v !== vpn);
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$toast(this.$t('trans0040'), 2000, 'success');
                   this.getVPNList();
                 });
               }
@@ -294,7 +295,7 @@ export default {
               ok: () => {
                 this.$http.deleteVPN({ vpn_ids: vpnIds }).then(() => {
                   this.vpns = this.vpns.filter(v => v !== vpn);
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$toast(this.$t('trans0040'), 2000, 'success');
                   this.getVPNList();
                 });
               }
@@ -415,6 +416,12 @@ export default {
     },
     hasChecked() {
       return this.vpns.some(i => i.checked);
+    },
+    isShowList() {
+      if (!this.isMobile) {
+        return true;
+      }
+      return !this.isShowForm;
     }
   },
   watch: {
@@ -479,13 +486,21 @@ export default {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  img {
-    width: 180px;
-  }
   .btn-middle {
     width: 340px;
     height: 48px;
     margin-top: 50px;
+  }
+}
+@media screen and (min-width: 770px) {
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s ease;
+  }
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
   }
 }
 @media screen and (max-width: 768px) {

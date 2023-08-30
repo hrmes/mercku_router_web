@@ -129,7 +129,7 @@ export default {
         })
         .catch(() => {
           this.isDownloading = false;
-          this.$toast(this.$t('trans1023'), 3000, 'error');
+          this.$toast(this.$t('trans1023'), 2000, 'error');
         })
         .finally(() => {
           this.$loading.close();

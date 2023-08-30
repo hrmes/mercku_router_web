@@ -38,12 +38,12 @@
           <div class="column-handle">
             <span class="limit-icon"
                   @click.stop="modalOpen('edit',row)">
-              <i class=" iconfont  icon-ic_settings_normal"></i>
+              <i class=" iconfont  ic_settings"></i>
               <span class="hover-popover">{{$t('trans0034')}}</span>
             </span>
             <span class="limit-icon"
                   @click.stop="delRow(row)">
-              <i class=" iconfont  icon-ic_trash_normal"></i>
+              <i class=" iconfont  ic_trash"></i>
               <span class="hover-popover">{{$t('trans0033')}}</span>
             </span>
           </div>
@@ -325,7 +325,7 @@ export default {
             this.limit.time_limit = this.timeLimitList;
           }
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -349,7 +349,7 @@ export default {
             this.modalShow = false;
             this.isSameTimezoneOffset().then(result => {
               if (result.same || !result.redirect) {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
               }
             });
           })
@@ -392,7 +392,7 @@ export default {
             if (this.form.enabled) {
               this.isSameTimezoneOffset().then(result => {
                 if (result.same || !result.redirect) {
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$toast(this.$t('trans0040'), 2000, 'success');
                 }
               });
             }

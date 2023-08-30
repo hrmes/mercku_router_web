@@ -4,7 +4,7 @@
       <div class="back-wrap">
         <div class="btn-container"
              @click="onBack($route.meta.parentPath)">
-          <i class="iconfont icon-ic_back"></i>
+          <i class="iconfont ic_back_large"></i>
         </div>
         <div v-if="isMobile"
              class="text-container">{{pageName}}</div>
@@ -169,7 +169,7 @@
                     v-if='isMobileRow(row.expand)'>
                   <span class="limit-icon"
                         @click="()=>delOfflineDevices([row.mac])">
-                    <i class="iconfont icon-ic_trash_normal"></i>
+                    <i class="iconfont ic_trash"></i>
                     <span class="hover-popover"> {{$t('trans0033')}}</span>
                   </span>
                 </li>
@@ -310,25 +310,25 @@
                   <div class="limit-inner">
                     <span class="limit-icon"
                           @click="()=>forward2limit(row,'time')">
-                      <i class="time-limit iconfont icon-ic_limit_time_off"
+                      <i class="time-limit iconfont ic_limit_time_off"
                          :class="{'active':isTimeLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0075')}}</span>
                     </span>
                     <span class="limit-icon"
                           @click="()=>forward2limit(row,'speed')">
-                      <i class="speed-limit iconfont icon-ic_limit_speed_off"
+                      <i class="speed-limit iconfont ic_limit_speed_off"
                          :class="{'active':isSpeedLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0014')}}</span>
                     </span>
                     <span class="limit-icon"
                           @click="()=>forward2limit(row,'url')">
-                      <i class="url-limit iconfont icon-ic_limit_website_off"
+                      <i class="url-limit iconfont ic_limit_website_off"
                          :class="{'active':isBlacklsitLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0076')}}</span>
                     </span>
                     <span class="limit-icon"
                           @click="()=>addToBlackList(row)">
-                      <i class="add-block iconfont icon-ic_blocklist_normal"></i>
+                      <i class="add-block iconfont ic_blocklist"></i>
                       <span class="hover-popover">{{$t('trans0016')}}</span>
                     </span>
                   </div>
@@ -464,19 +464,19 @@ export default {
         {
           id: 'primary',
           text: this.$t('trans0514'),
-          icon: 'icon-ic_devices_mywifi_normal'
+          icon: 'ic_devices_mywifi_normal'
         },
         {
           id: 'offline',
           text: this.$t('trans0516'),
-          icon: 'icon-ic_devices_offline_normal'
+          icon: 'ic_devices_guest_normal'
         }
       ];
       if (this.isRouter) {
         list.splice(1, 0, {
           id: 'guest',
           text: this.$t('trans0515'),
-          icon: 'icon-ic_devices_guest_normal'
+          icon: 'ic_devices_offline_normal'
         });
       }
       return list;
@@ -539,7 +539,7 @@ export default {
               .meshDevicesOfflineDel({ macs })
               .then(() => {
                 this.$loading.close();
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
                 this.getDeviceList();
               })
               .catch(() => {
@@ -739,7 +739,7 @@ export default {
           }
         };
         this.$http.meshDeviceUpdate({ ...params }).then(() => {
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
           this.devicesMap[this.id] = this.devicesMap[this.id].map(v => {
             if (v.mac === this.row.mac) {
               return { ...v, name: this.form.name };
@@ -769,7 +769,7 @@ export default {
                 this.devicesMap[this.id] = this.devicesMap[this.id].filter(
                   v => v.mac !== row.mac
                 );
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
                 this.$loading.close();
               })
               .catch(() => {
@@ -1153,7 +1153,11 @@ export default {
               color: var(--device-limit_icon-color);
               font-weight: 500;
               &.active {
-                color: var(--primaryColor);
+                background-image: var(--header-selected-bgc);
+                -webkit-background-clip: text; /* Safari/Chrome */
+                background-clip: text;
+                color: transparent;
+                text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
               }
             }
             .hover-popover {
@@ -1314,6 +1318,14 @@ export default {
         &:last-child {
           margin-left: 30px;
         }
+      }
+      .btn-default {
+        background-image: linear-gradient(
+            to right,
+            var(--modal-content-background),
+            var(--modal-content-background)
+          ),
+          var(--common-btn_default-bgimg) !important;
       }
     }
   }

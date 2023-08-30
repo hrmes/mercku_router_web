@@ -5,41 +5,45 @@
       {{$t('trans0743')}}
     </div>
     <div class="page-content">
-      <div class="content">
-        <div class="content__switch">
-          <m-switch v-model="auto_upgrade.enabled"
-                    @change="switchAutoUpgrade"></m-switch>
-          <label for="">{{$t('trans0744')}}</label>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card content">
+            <m-form-item :class="{last:!auto_upgrade.enabled}">
+              <m-switch v-model="auto_upgrade.enabled"
+                        :label="$t('trans0744')"
+                        @change="switchAutoUpgrade"></m-switch>
+              <div class="des-tips">{{ tips }}</div>
+            </m-form-item>
+            <template v-if="auto_upgrade.enabled">
+              <m-form ref="autoUpgradeForm"
+                      :model="auto_upgrade"
+                      class="content__item form">
+                <m-form-item key="schedule">
+                  <m-select :label="$t('trans0082')"
+                            v-model="auto_upgrade.schedule"
+                            :options="scheduleOption"></m-select>
+                </m-form-item>
+                <m-form-item key="time"
+                             class="last">
+                  <label class="item__label"
+                         for="">{{$t('trans0745')}}</label>
+                  <m-time-picker class="form__time-picker"
+                                 v-model="auto_upgrade.time" />
+                </m-form-item>
+              </m-form>
+            </template>
+          </div>
         </div>
-        <div class="content__text">
-          {{tips}}
-        </div>
-        <template v-if="auto_upgrade.enabled">
-          <m-form ref="autoUpgradeForm"
-                  :model="auto_upgrade"
-                  class="content__item form">
-            <m-form-item key="schedule"
-                         class="item">
-              <m-select :label="$t('trans0082')"
-                        v-model="auto_upgrade.schedule"
-                        :options="scheduleOption"></m-select>
-            </m-form-item>
-            <m-form-item key="time"
-                         class="item">
-              <label class="item__label"
-                     for="">{{$t('trans0745')}}</label>
-              <m-time-picker class="form__time-picker"
-                             v-model="auto_upgrade.time" />
-            </m-form-item>
-            <!-- <div class="content__line"></div> -->
-            <m-form-item class="form-button">
-              <button class="btn"
-                      v-defaultbutton
-                      @click="submit">{{$t('trans0081')}}</button>
-            </m-form-item>
-          </m-form>
-        </template>
       </div>
+      <div class="page-content__bottom"
+           v-if="auto_upgrade.enabled">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -121,9 +125,11 @@ export default {
           if (this.auto_upgrade.enabled) {
             this.isSameTimezoneOffset().then(result => {
               if (result.same || !result.redirect) {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
               }
             });
+          } else {
+            this.$toast(this.$t('trans0040'), 2000, 'success');
           }
         })
         .catch(() => {
@@ -153,7 +159,10 @@ export default {
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
-        message: this.$t('trans0747').format(scheduleSelected.text, this.auto_upgrade.time),
+        message: this.$t('trans0747').format(
+          scheduleSelected.text,
+          this.auto_upgrade.time
+        ),
         callback: {
           ok: () => {
             this.updateMeshAutoUpgrade();

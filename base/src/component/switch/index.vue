@@ -89,7 +89,7 @@ export default {
       border-radius: 50%;
       transition: left 0.3s;
       &::before {
-        content: '\e667';
+        content: '\e6b5';
         font-family: 'iconfont';
         font-size: 12px;
         font-weight: 600;
@@ -104,7 +104,7 @@ export default {
       & .mk-switch__circle {
         left: 23px;
         &::before {
-          content: '\e65c';
+          content: '\e6be';
           color: var(--switch-on-icon-color);
         }
       }

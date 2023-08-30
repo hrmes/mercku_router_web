@@ -15,8 +15,7 @@
           <m-form-item prop='protocol'>
             <m-select :label="$t('trans0408')"
                       v-model="form.protocol"
-                      :options="protocolsList"
-                      @change="changeSelect"></m-select>
+                      :options="protocolsList"></m-select>
           </m-form-item>
           <div v-if="form.protocol.toLowerCase() === VPNType.openvpn">
             <div class="config-uploader">
@@ -332,7 +331,6 @@ export default {
   mounted() {
     if (this.isEdit) {
       const { vpn } = this.$store.state.modules;
-      console.log(vpn);
       if (vpn.id) {
         this.form = {
           id: vpn.id,
@@ -435,7 +433,7 @@ export default {
         .then(() => {
           this.$emit('refreshList');
           this.closeForm();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -485,10 +483,6 @@ export default {
     },
     closeForm() {
       this.$emit('closeForm');
-    },
-    changeSelect(val) {
-      console.log(val);
-      console.log(this.form);
     }
   }
 };

@@ -100,7 +100,7 @@ export default {
       padding-left: 2.5px;
       position: relative;
       &::after {
-        content: '\e65c';
+        content: '\e6be';
         width: 10px;
         height: 10px;
         font-size: 12px;

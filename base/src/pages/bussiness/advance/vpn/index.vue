@@ -44,11 +44,6 @@
                             @click.stop=''></m-checkbox>
               </div>
               <span>{{vpn.name}}</span>
-              <!-- <div class="spinner-container">
-                   <span class="spinner-text"
-                        :style="{'color':getColor(vpn)}"
-                        v-if="isConnectingOrDisconnecting(vpn)">{{getSpinnerText(vpn)}}</span>
-                </div> -->
             </div>
             <div class="column-protocol">
               <label class="m-title with-colon">{{$t('trans0408')}}:</label>
@@ -66,7 +61,6 @@
                         @change="(v)=>start(v,vpn)"></m-switch>
             </div>
             <div class="column-handle">
-              <!-- <div v-if="vpn.duration" class="vpn-duration">{{vpn.duration}}</div> -->
               <span class="btn-icon"
                     :class="{'disabled':connecting || vpn.enabled}"
                     @click="edit(vpn)">
@@ -124,11 +118,15 @@ export default {
   },
   methods: {
     isConnectingOrDisconnecting(vpn) {
-      console.log('23123', vpn);
-      return vpn.status === VPNStatus.connecting || vpn.status === VPNStatus.disconnecting;
+      return (
+        vpn.status === VPNStatus.connecting ||
+        vpn.status === VPNStatus.disconnecting
+      );
     },
     getSpinnerText(vpn) {
-      return vpn.status === VPNStatus.connecting ? this.$t('trans0407') : this.$t('trans0484');
+      return vpn.status === VPNStatus.connecting
+        ? this.$t('trans0407')
+        : this.$t('trans0484');
     },
     getColor(vpn) {
       return vpn.status === VPNStatus.connecting ? '#00d061' : '#ff0001';
@@ -209,7 +207,7 @@ export default {
                 });
               }
               if (vpn.status === eStatus) {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
+                this.$toast(this.$t('trans0040'), 2000, 'success');
                 vpn.enabled = !pEnabled;
               } else {
                 this.$toast(this.$t('trans0077'));
@@ -257,7 +255,7 @@ export default {
               ok: () => {
                 this.$http.deleteVPN({ vpn_ids: vpnIds }).then(() => {
                   this.vpns = this.vpns.filter(v => v !== vpn);
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$toast(this.$t('trans0040'), 2000, 'success');
                   this.getVPNList();
                 });
               }
@@ -275,7 +273,7 @@ export default {
               ok: () => {
                 this.$http.deleteVPN({ vpn_ids: vpnIds }).then(() => {
                   this.vpns = this.vpns.filter(v => v !== vpn);
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  this.$toast(this.$t('trans0040'), 2000, 'success');
                   this.getVPNList();
                 });
               }

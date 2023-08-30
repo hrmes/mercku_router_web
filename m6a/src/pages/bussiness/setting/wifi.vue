@@ -69,7 +69,7 @@
                 <m-popover position="bottom left"
                            :title="this.$t('trans0110')"
                            :content="this.$t('trans0325')">
-                  <i class="iconfont icon-ic_help"
+                  <i class="iconfont ic_help"
                      style="font-size:14px"></i>
                 </m-popover>
               </div>
@@ -117,7 +117,7 @@
                 <m-popover position="bottom left"
                            :title="$t('trans0110')"
                            :content="$t('trans0325')">
-                  <i class="iconfont icon-ic_help"
+                  <i class="iconfont ic_help"
                      style="font-size:14px"></i>
                 </m-popover>
               </div>
@@ -389,7 +389,7 @@ export default {
 
       if (!this.form.smart_connect) {
         if (this.form.b24g.ssid === this.form.b5g.ssid) {
-          this.$toast(this.$t('trans0660'), 3000, 'error');
+          this.$toast(this.$t('trans0660'), 2000, 'error');
           return;
         }
       }

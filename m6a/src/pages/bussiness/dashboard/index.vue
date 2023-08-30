@@ -61,7 +61,7 @@
         <div class="mobile-icon-wrapper"
              v-if="isMobile">
           <span class="btn-icon">
-            <i class="iconfont icon-ic_edit"></i>
+            <i class="iconfont ic_edit"></i>
           </span>
           <span class="btn-icon">
             <m-loading v-if="isTesting"
@@ -71,7 +71,7 @@
                        :color="'#29b96c'"></m-loading>
             <div v-else
                  @click.stop="showTips()">
-              <i class="iconfont icon-ic_homepage_internet_light"></i>
+              <i class="iconfont ic_internet_light"></i>
               <i class="sub"
                  :class="{'connected':isConnected,'unconnected':!isConnected}"></i>
             </div>
@@ -127,11 +127,12 @@
       <div class="functional">
         <div class="row-1">
           <div class="mesh-name">
-            {{meshInfo.gatewayName?meshInfo.gatewayName:'-'}}
+            {{meshGatewayInfo.name}}
           </div>
           <span class="btn-icon"
-                v-if="!isMobile">
-            <i class="iconfont icon-ic_edit"></i>
+                v-if="!isMobile"
+                @click.stop="editMesh(meshGatewayInfo)">
+            <i class="iconfont ic_edit"></i>
             <span class="icon-hover-popover">Edit</span>
           </span>
         </div>
@@ -160,6 +161,30 @@
       </div>
 
     </div>
+    <!-- mesh编辑弹窗 -->
+    <m-modal :visible.sync="showModal"
+             :closeOnClickMask="false"
+             class="edit-name-modal">
+      <m-modal-body class="content">
+        <m-form :model="form"
+                class="form"
+                :rules="rules"
+                ref="form">
+          <m-form-item prop="name">
+            <m-editable-select :options="options"
+                               :label="$t('trans0108')"
+                               v-model="form.name"></m-editable-select>
+          </m-form-item>
+        </m-form>
+        <div class="btn-inner">
+          <button @click="closeUpdateModal"
+                  class="btn btn-default">{{$t('trans0025')}}</button>
+          <button @click="updateMehsNode(meshGatewayInfo,form.name)"
+                  class="btn">{{$t('trans0024')}}</button>
+        </div>
+      </m-modal-body>
+    </m-modal>
+    <!-- 无网弹窗 -->
     <m-modal :visible.sync="tipsModalVisible">
       <m-modal-body>
         <div class="tip-modal">
@@ -178,14 +203,19 @@
 </template>
 <script>
 import marked from 'marked';
-import * as CONSTANTS from 'base/util/constant';
+import {
+  WanNetStatus,
+  M6aRouterSnModelVersion,
+  RouterMode
+} from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
+import meshEditMixin from '@/mixins/mesh-edit.js';
 
 export default {
+  mixins: [meshEditMixin],
   data() {
     return {
-      CONSTANTS,
-      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       pageActive: true,
       deviceLoading: true,
       meshLoading: true,
@@ -202,12 +232,9 @@ export default {
           online_duration: ''
         }
       },
-      meshInfo: {
-        smartConnect: true,
-        gatewayName: '',
-        gatewayModel: { version: '' },
-        b24gWifi: { ssid: '' },
-        b5gWifi: { ssid: '' }
+      meshGatewayInfo: {
+        name: '-',
+        sn: ''
       },
       netInfo: {
         type: '-',
@@ -232,10 +259,10 @@ export default {
     ModelName() {
       let modelName = '';
       switch (this.$store.state.modelID) {
-        case CONSTANTS.M6aRouterSnModelVersion.M6a:
+        case M6aRouterSnModelVersion.M6a:
           modelName = 'M6a';
           break;
-        case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
+        case M6aRouterSnModelVersion.M6a_Plus:
           modelName = 'M6a Plus';
           break;
         default:
@@ -248,8 +275,8 @@ export default {
     },
     ...(() => {
       const result = {};
-      Object.keys(CONSTANTS.WanNetStatus).forEach(key => {
-        const value = CONSTANTS.WanNetStatus[key];
+      Object.keys(WanNetStatus).forEach(key => {
+        const value = WanNetStatus[key];
         const prop = value.slice(0, 1).toUpperCase() + value.slice(1);
         result[`is${prop}`] = function temp() {
           return this.netStatus === value;
@@ -258,13 +285,13 @@ export default {
       return result;
     })(),
     isRouter() {
-      return CONSTANTS.RouterMode.router === this.$store.state.mode;
+      return RouterMode.router === this.$store.state.mode;
     },
     tips() {
       return marked(this.$t('trans0574'), { sanitize: true });
     },
     isConnected() {
-      return this.netStatus === CONSTANTS.WanNetStatus.connected;
+      return this.netStatus === WanNetStatus.connected;
     },
     isWired() {
       return this.localDeviceInfo.online_info.band === 'wired';
@@ -291,12 +318,7 @@ export default {
     },
     netStatus: {
       handler(val) {
-        console.log(val);
-        if (val === CONSTANTS.WanNetStatus.connected) {
-          this.$store.state.isConnected = true;
-        } else {
-          this.$store.state.isConnected = false;
-        }
+        this.$store.state.isConnected = val === WanNetStatus.connected;
       }
     }
   },
@@ -313,32 +335,40 @@ export default {
     });
   },
   methods: {
-    checkFrimwareLatest() {
-      this.$http
-        .firmwareList(undefined, {
+    async checkFirmwareLatest() {
+      try {
+        const res = await this.$http.firmwareList(undefined, {
           hideToast: true
-        })
-        .then(res => {
-          let nodes = res.data.result;
-          const filter = node => {
-            const { current, latest } = node.version;
-            return compareVersion(current, latest);
-          };
-          nodes = nodes.filter(filter);
-          if (nodes.length) {
-            this.$dialog.confirm({
-              okText: this.$t('trans0225'),
-              cancelText: this.$t('trans0025'),
-              message: this.$t('trans0383'),
-              callback: {
-                ok: () => {
-                  this.$router.push({ path: '/upgrade/online' });
-                }
-              }
-            });
+        });
+
+        const nodes = res.data.result;
+        const nodesToUpdate = nodes.filter(node => {
+          const { current, latest } = node.version;
+          return compareVersion(current, latest);
+        });
+
+        if (nodesToUpdate.length > 0) {
+          await this.showFirmwareUpdateDialog();
+        }
+      } catch (error) {
+        console.error('Error fetching firmware list:', error);
+      }
+    },
+    async showFirmwareUpdateDialog() {
+      try {
+        await this.$dialog.confirm({
+          okText: this.$t('trans0225'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0383'),
+          callback: {
+            ok: () => {
+              this.$router.push({ path: '/upgrade/online' });
+            }
           }
-        })
-        .catch(() => {});
+        });
+      } catch (error) {
+        console.error('Error showing firmware update dialog:', error);
+      }
     },
     showTips() {
       if (this.isConnected) {
@@ -363,61 +393,47 @@ export default {
       clearTimeout(this.wanNetStatsTimer);
       this.wanNetStatsTimer = null;
     },
-    getMeshInfo() {
-      this.meshLoading = true;
-      this.$http.getMeshNode().then(res1 => {
-        const {
-          data: { result: meshNodeList }
-        } = res1;
-        const { 0: gatewayInfo } = meshNodeList.filter(item => item.is_gw);
-        this.meshInfo.gatewayName = gatewayInfo.name;
-      });
-      this.$http
-        .getMeshMeta()
-        .then(res2 => {
-          const {
-            data: {
-              result: { smart_connect: smartConnect }
-            }
-          } = res2;
-          this.meshInfo.smartConnect = smartConnect;
-          this.meshInfo.b24gWifi = res2.data.result.bands[CONSTANTS.Bands.b24g];
-          if (!smartConnect) {
-            this.meshInfo.b5gWifi = res2.data.result.bands[CONSTANTS.Bands.b5g];
-          }
-        })
-        .finally(() => {
-          this.meshLoading = false;
-        });
+    async getMeshInfo() {
+      try {
+        this.meshLoading = true;
+        const res1 = await this.$http.getMeshNode();
+        const meshNodeList = res1.data.result;
+
+        const gatewayInfo = meshNodeList.find(item => item.is_gw);
+        if (gatewayInfo) {
+          this.meshGatewayInfo.name = gatewayInfo.name;
+          this.meshGatewayInfo.sn = gatewayInfo.sn;
+        }
+      } catch (error) {
+        console.error('Error fetching mesh info:', error);
+      } finally {
+        this.meshLoading = false;
+      }
     },
-    getDeviceCount() {
+    async getDeviceCount() {
       clearTimeout(this.deviceCountTimer);
-      this.deviceCountTimer = null;
-      this.$http
-        .getDeviceCount({
+
+      try {
+        const res = await this.$http.getDeviceCount({
           filters: [
             { type: 'primary', status: ['online'] },
             { type: 'guest', status: ['online'] }
           ]
-        })
-        .then(res => {
-          this.deviceCount = res.data.result.count;
-          if (this.pageActive) {
-            this.deviceCountTimer = setTimeout(() => {
-              this.getDeviceCount();
-            }, 10000);
-          }
-        })
-        .catch(() => {
-          if (this.pageActive) {
-            this.deviceCountTimer = setTimeout(() => {
-              this.getDeviceCount();
-            }, 10000);
-          }
         });
+
+        this.deviceCount = res.data.result.count;
+      } catch (error) {
+        console.error('Error fetching device count:', error);
+      } finally {
+        if (this.pageActive) {
+          this.deviceCountTimer = setTimeout(() => {
+            this.getDeviceCount();
+          }, 10000);
+        }
+      }
     },
     getWanStatus() {
-      this.netStatus = CONSTANTS.WanNetStatus.testing;
+      this.netStatus = WanNetStatus.testing;
       const timer = setTimeout(() => {
         this.$http
           .getWanStatus()
@@ -429,80 +445,77 @@ export default {
               this.pageActive &&
               this.needCheckUpgradable
             ) {
-              this.checkFrimwareLatest();
+              this.checkFirmwareLatest();
             }
           })
           .catch(() => {
             clearTimeout(timer);
-            this.netStatus = CONSTANTS.WanNetStatus.unlinked;
+            this.netStatus = WanNetStatus.unlinked;
           });
       }, 1000);
     },
-    getLocalDeviceInfo() {
-      this.deviceLoading = true;
-      this.$http.getLocalDevice().then(res1 => {
-        const {
-          data: { result: selfInfo }
-        } = res1;
+    async getLocalDeviceInfo() {
+      try {
+        this.deviceLoading = true;
+
+        const res1 = await this.$http.getLocalDevice();
+        const selfInfo = res1.data.result;
         console.log('selfInfo', selfInfo);
         this.localDeviceIP = selfInfo.ip;
+
         const params = { filters: [{ type: 'primary', status: ['online'] }] };
-        this.$http
-          .getDeviceList(params)
-          .then(res2 => {
-            const {
-              data: { result: deviceList }
-            } = res2;
-            console.log(deviceList);
-            const localDeviceInfoArr = deviceList.filter(
-              item => item.ip === selfInfo.ip
-            );
-            console.log(localDeviceInfoArr);
-            if (localDeviceInfoArr.length) {
-              // eslint-disable-next-line prefer-destructuring
-              this.localDeviceInfo = localDeviceInfoArr[0];
-            }
-          })
-          .finally(() => {
-            this.deviceLoading = false;
-          });
-      });
+        const res2 = await this.$http.getDeviceList(params);
+        const deviceList = res2.data.result;
+        console.log(deviceList);
+
+        const localDeviceInfoArr = deviceList.filter(
+          item => item.ip === selfInfo.ip
+        );
+        console.log(localDeviceInfoArr);
+
+        if (localDeviceInfoArr.length > 0) {
+          [this.localDeviceInfo] = localDeviceInfoArr;
+        }
+      } catch (error) {
+        console.error('Error fetching local device info:', error);
+      } finally {
+        this.deviceLoading = false;
+      }
     },
-    getWanNetInfo() {
-      this.$http
-        .getWanNetInfo()
-        .then(res => {
-          this.wanInfoTimer = null;
-          clearTimeout(this.wanInfoTimer);
-          this.netInfo.type = res.data.result.type ? res.data.result.type : '-';
-        })
-        .catch(() => {
+    async getWanNetInfo() {
+      try {
+        const res = await this.$http.getWanNetInfo();
+        this.netInfo.type = res.data.result.type || '-';
+
+        clearTimeout(this.wanInfoTimer);
+        this.wanInfoTimer = null;
+      } catch {
+        if (!this.wanInfoTimer) {
           this.wanInfoTimer = setTimeout(() => {
             this.getWanNetInfo();
           }, 1000 * 3);
-        });
+        }
+      }
     },
-    getWanNetStats() {
+    async getWanNetStats() {
       clearTimeout(this.wanNetStatsTimer);
-      this.wanNetStatsTimer = null;
-      this.$http
-        .getWanNetStats()
-        .then(res => {
-          if (this.pageActive) {
-            this.netInfo.realUp = res.data.result.speed.realtime.up;
-            this.netInfo.realDown = res.data.result.speed.realtime.down;
-            this.wanNetStatsTimer = setTimeout(() => {
-              this.getWanNetStats();
-            }, 10000);
-          }
-        })
-        .catch(() => {
-          if (this.pageActive) {
-            this.wanNetStatsTimer = setTimeout(() => {
-              this.getWanNetStats();
-            }, 10000);
-          }
-        });
+
+      try {
+        const res = await this.$http.getWanNetStats();
+        if (this.pageActive) {
+          this.netInfo.realUp = res.data.result.speed.realtime.up;
+          this.netInfo.realDown = res.data.result.speed.realtime.down;
+          this.wanNetStatsTimer = setTimeout(() => {
+            this.getWanNetStats();
+          }, 10000);
+        }
+      } catch {
+        if (this.pageActive) {
+          this.wanNetStatsTimer = setTimeout(() => {
+            this.getWanNetStats();
+          }, 10000);
+        }
+      }
     },
     transformDate(date) {
       if (!date) {
@@ -557,7 +570,7 @@ h6 {
 }
 .btn-icon {
   margin: 0;
-  font-weight: 700;
+  font-weight: 500;
 }
 @keyframes speed-test-line {
   from {
@@ -578,6 +591,29 @@ h6 {
 
 [transition-style='out:circle:center'] {
   animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) 0.5s circle-out-center both;
+}
+.edit-name-modal {
+  .content {
+    display: flex;
+    flex-direction: column;
+    .select-container {
+      width: 100%;
+      .select-text {
+        white-space: pre;
+      }
+    }
+    .btn-inner {
+      display: flex;
+      justify-content: center;
+      .btn {
+        width: 120px;
+        height: 42px;
+        &:last-child {
+          margin-left: 30px;
+        }
+      }
+    }
+  }
 }
 .tip-modal {
   width: 500px;

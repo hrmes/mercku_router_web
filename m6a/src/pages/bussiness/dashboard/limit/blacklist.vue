@@ -22,7 +22,7 @@
           <div class="column-handle">
             <span class="limit-icon"
                   @click="delRow(row)">
-              <i class="delete iconfont icon-ic_trash_normal"></i>
+              <i class="delete iconfont ic_trash"></i>
               <span class="hover-popover"> {{$t('trans0033')}}</span>
             </span>
           </div>
@@ -171,7 +171,7 @@ export default {
             this.blacklistLimit.parent_control.mode = this.form.mode;
           }
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.mode = !v;
@@ -212,7 +212,7 @@ export default {
             this.parentControlLimitList.push(this.host);
             this.$loading.close();
             this.modalShow = false;
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$toast(this.$t('trans0040'), 2000, 'success');
             this.blacklistLimit.parent_control.blacklist =
               this.parentControlLimitList;
           })

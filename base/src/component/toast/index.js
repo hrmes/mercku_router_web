@@ -4,7 +4,7 @@ import Toast from './index.vue';
 let toastInstance = null;
 const toast = (
   text = '',
-  duration = 3000,
+  duration = 2000,
   type = 'error',
   parentEl = '.scrollbar-wrap'
 ) => {

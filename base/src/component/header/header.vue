@@ -48,12 +48,6 @@
             </button>
           </div>
         </li>
-        <!-- <li class="nav-item nav-item__exit"
-            @click="exit()">
-          <div class="nav-item-content">
-            <div class="nav-item__text">{{$t('trans0021')}}</div>
-          </div>
-        </li> -->
       </ul>
     </div>
     <template v-if="isMobile">
@@ -116,7 +110,7 @@
           <span @click="setMobileLangVisible()"
                 class="menu-icon language"
                 :class="[$i18n.locale]">
-            <i class="iconfont icon-a-ic_languages"></i>
+            <i class="iconfont a-ic_languages_moblie"></i>
           </span>
           <ul class="i18n-mobile reset-ul"
               v-show="mobileI18nVisible">
@@ -133,14 +127,9 @@
           <span v-if="navVisible"
                 @click="trigerMobileNav()"
                 class="menu-icon menu">
-            <i class="iconfont icon-ic_more"></i>
+            <i class="iconfont ic_more_moblie"></i>
           </span>
         </div>
-        <!-- <div v-show="navVisible"
-             class="exit"
-             @click="exit()">
-          {{$t('trans0021')}}
-        </div> -->
       </div>
     </template>
 
@@ -152,7 +141,7 @@
           <span>{{$t('trans1119')}}</span>
           <div class="theme-change-header__close-btn"
                @click.stop="() => (ThemechangeVisiable = false)">
-            <i class="iconfont icon-ic_close"></i>
+            <i class="iconfont ic_close"></i>
           </div>
         </div>
       </m-modal-header>

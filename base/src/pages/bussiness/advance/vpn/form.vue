@@ -311,7 +311,7 @@ export default {
       this.$http[method](this.formParams)
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
           this.$router.push('/advance/vpn');
         })
         .catch(() => {

@@ -14,14 +14,14 @@
         <p class="upload__text">
           {{ $t('trans0928') }}
         </p>
-        <button class="btn fileinput-button"
+        <button class="btn-default fileinput-button"
                 :disabled="uploadLoading"
                 @click="click">
           <label>{{ label }}</label>
         </button>
       </upload-dragger>
       <template v-else>
-        <button class="btn fileinput-button"
+        <button class="btn-default fileinput-button"
                 :disabled="uploadLoading"
                 @click="click">
           <label>{{ label }}</label>
@@ -273,9 +273,11 @@ export default {
       margin-top: 0;
     }
     .fileinput-button {
-      width: auto;
-      height: 28px;
+      width: 180px;
+      height: 30px;
       min-width: 80px;
+      border-radius: 20px;
+      padding: 5px 10px;
       cursor: pointer;
       &[disabled] {
         opacity: 0.3;
@@ -303,7 +305,7 @@ export default {
   }
   .upload__files {
     width: 100%;
-    margin-top: 20px;
+    margin: 20px 0;
   }
   .file {
     & + .file {
@@ -486,6 +488,11 @@ export default {
       }
       .filesize {
         display: block;
+      }
+    }
+    .upload__box {
+      .fileinput-button {
+        width: auto;
       }
     }
   }

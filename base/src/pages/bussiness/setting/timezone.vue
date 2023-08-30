@@ -78,7 +78,7 @@ export default {
         .setTimezone(data)
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
           this.getTimezoneText();
         })
         .catch(() => {

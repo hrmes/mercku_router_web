@@ -88,10 +88,7 @@ const routes = {
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: dashboard,
-      meta: {
-        transition: 'fade'
-      }
+      component: dashboard
     },
     {
       path: '/wlan',
@@ -109,7 +106,6 @@ const routes = {
       component: device,
       meta: {
         text: 'trans0235',
-        transition: 'fade',
         layout: 'primary',
         parentPath: '/dashboard'
       }
@@ -120,7 +116,6 @@ const routes = {
       component: mesh,
       meta: {
         text: 'trans0312',
-        transition: 'fade',
         layout: 'primary',
         parentPath: '/dashboard'
       }
@@ -131,7 +126,6 @@ const routes = {
       component: internet,
       meta: {
         text: 'trans0366',
-        transition: 'fade',
         layout: 'primary',
         parentPath: '/dashboard'
       }
@@ -142,7 +136,6 @@ const routes = {
       component: meshAdd,
       meta: {
         text: 'trans1117',
-        transition: 'fade',
         layout: 'primary'
       }
     },
@@ -158,7 +151,6 @@ const routes = {
           component: timeLimit,
           meta: {
             text: 'trans0075',
-            transition: 'fade',
             parentPath: '/dashboard/device/primary'
           }
         },
@@ -168,7 +160,6 @@ const routes = {
           component: urlLimit,
           meta: {
             text: 'trans0076',
-            transition: 'fade',
             parentPath: '/dashboard/device/primary'
           }
         }
