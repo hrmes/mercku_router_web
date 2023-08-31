@@ -424,8 +424,6 @@ export default {
       this.isMobile && this.scrollbarToTop();
     },
     getM6aSeriesProductAddNodeImg(step, type) {
-      // console.log('step', step);
-      // console.log('type', type);
       let img = '';
       if (step === Step.step1) {
         switch (this.modelID) {
@@ -469,7 +467,6 @@ export default {
             break;
         }
       }
-      // console.log(img);
       return img;
     },
     getM6aSeriesProductNetworkingImg() {

@@ -169,3 +169,10 @@ export const Color = {
   bad: '#ff6f00',
   offline: '#b3b3b3'
 };
+
+export const RouterColor = {
+  black: 'black',
+  white: 'white',
+  grey: 'grey',
+  red: 'red'
+};

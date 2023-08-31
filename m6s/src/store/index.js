@@ -11,6 +11,7 @@ export default new Vuex.Store({
     isConnected: '',
     theme: '',
     cancelTokenArr: [], // 取消请求token数组
+    deviceColor: localStorage.getItem('deviceColor') || 'black',
     modules: {
       limits: {},
       portfw: {},

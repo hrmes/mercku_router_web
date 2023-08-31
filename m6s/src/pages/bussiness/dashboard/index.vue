@@ -44,8 +44,8 @@
           <div class="line"></div>
         </div>
         <div class="wrapper">
-          <img key="mesh-img"
-               src="../../../assets/images/v3/dashboard/m6/img_m6_black.webp">
+          <div class="router__img"
+               :class="$store.state.deviceColor"></div>
           <div key="mesh-shadow"
                class="background-shadow"></div>
         </div>
@@ -60,7 +60,9 @@
         </div>
         <div class="mobile-icon-wrapper"
              v-if="isMobile">
-          <span class="btn-icon">
+          <span class="btn-icon"
+                :class="{disabled:!meshGatewayInfo.name}"
+                @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
           </span>
           <span class="btn-icon">
@@ -163,7 +165,7 @@
 
     </div>
     <!-- mesh编辑弹窗 -->
-    <m-modal :visible.sync="showModal"
+    <m-modal :visible.sync="showMeshEditModal"
              :closeOnClickMask="false"
              class="edit-name-modal">
       <m-modal-body class="content">
@@ -178,14 +180,16 @@
           </m-form-item>
           <m-form-item prop="color">
             <div class="color-select">
-              <h4 class="label"> Device Color
-              </h4>
+              <h4 class="label">Device Color</h4>
               <ul class="color-select__wrapper">
                 <li v-for="(color,index) in deviceColorArr"
                     :key="index"
                     class="limit-icon">
                   <div class="color"
-                       :style="{backgroundImage:color.value}"></div>
+                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
+                       :style="{backgroundImage:color.value}"
+                       @click="changeDeviceColor(color)">
+                  </div>
                   <span class="hover-popover"> {{color.name}}</span>
                 </li>
               </ul>
@@ -193,7 +197,7 @@
           </m-form-item>
         </m-form>
         <div class="btn-inner">
-          <button @click="closeUpdateModal"
+          <button @click="closeMeshEditModal"
                   class="btn btn-default">{{$t('trans0025')}}</button>
           <button @click="updateMehsNode(meshGatewayInfo,form.name)"
                   class="btn">{{$t('trans0024')}}</button>
@@ -221,10 +225,10 @@
 import marked from 'marked';
 import { WanNetStatus, RouterMode } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import meshEditMixin from '@/mixins/mesh-edit.js';
+import editMeshMixin from '@/mixins/mesh-edit.js';
 
 export default {
-  mixins: [meshEditMixin],
+  mixins: [editMeshMixin],
   data() {
     return {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
@@ -371,6 +375,11 @@ export default {
         console.error('Error showing firmware update dialog:', error);
       }
     },
+    editMesh() {
+      if (!this.meshGatewayInfo.name) return;
+      this.form.name = this.meshGatewayInfo.name;
+      this.showMeshEditModal = true;
+    },
     showTips() {
       if (this.isConnected) {
         this.$toast('Internet online', 1500, 'success');
@@ -461,18 +470,15 @@ export default {
 
         const res1 = await this.$http.getLocalDevice();
         const selfInfo = res1.data.result;
-        console.log('selfInfo', selfInfo);
         this.localDeviceIP = selfInfo.ip;
 
         const params = { filters: [{ type: 'primary', status: ['online'] }] };
         const res2 = await this.$http.getDeviceList(params);
         const deviceList = res2.data.result;
-        console.log(deviceList);
 
         const localDeviceInfoArr = deviceList.filter(
           item => item.ip === selfInfo.ip
         );
-        console.log(localDeviceInfoArr);
 
         if (localDeviceInfoArr.length > 0) {
           [this.localDeviceInfo] = localDeviceInfoArr;
@@ -612,30 +618,6 @@ h6 {
         height: 42px;
         &:last-child {
           margin-left: 30px;
-        }
-      }
-    }
-    .color-select {
-      .label {
-      }
-      .color-select__wrapper {
-        display: flex;
-        align-items: center;
-        margin-top: 5px;
-      }
-      .limit-icon {
-        width: 34px;
-        height: 34px;
-        margin-right: 10px;
-        cursor: pointer;
-        &:last-child {
-          margin: 0;
-        }
-        .color {
-          width: 23px;
-          height: 23px;
-          border-radius: 50%;
-          border: 1px solid #dcdcdc;
         }
       }
     }
@@ -810,6 +792,14 @@ h6 {
         border-radius: 0;
         background-color: transparent;
         box-shadow: none;
+        .router__img {
+          width: 100%;
+          min-width: 350px;
+          max-width: 440px;
+          aspect-ratio: 1;
+          position: relative;
+          z-index: 2;
+        }
         img {
           width: 100%;
           min-width: 350px;
@@ -1115,6 +1105,13 @@ h6 {
         order: 1;
         position: relative;
         .wrapper {
+          .router__img {
+            max-width: auto;
+            max-height: auto;
+            min-width: auto;
+            min-height: auto;
+            width: 195px;
+          }
           img {
             max-width: auto;
             max-height: auto;
@@ -1141,8 +1138,6 @@ h6 {
             margin-bottom: 25px;
             &:last-child {
               margin-bottom: 0;
-            }
-            &.connected {
             }
             .sub {
               position: absolute;
