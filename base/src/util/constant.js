@@ -14,7 +14,7 @@ export const Customers = {
   pentanet: '0019',
   homeway: '0025',
   junet: '0029',
-  Netflash: '0039'
+  netflash: '0039'
 };
 export const IP = {
   IPv4: 'ipv4',

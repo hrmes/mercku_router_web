@@ -87,6 +87,9 @@ export default function getMenu(role, mode = RouterMode.router) {
           [Customers.pentanet]: {
             show: true,
             auth: [Role.super]
+          },
+          [Customers.netflash]: {
+            show: false
           }
         }
       },
