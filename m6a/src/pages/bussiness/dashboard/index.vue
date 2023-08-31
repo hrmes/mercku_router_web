@@ -44,8 +44,8 @@
           <div class="line"></div>
         </div>
         <div class="wrapper">
-          <img key="mesh-img"
-               src="../../../assets/images/v3/dashboard/m6/img_m6_black.webp">
+          <div class="router__img"
+               :class="$store.state.deviceColor"></div>
           <div key="mesh-shadow"
                class="background-shadow"></div>
         </div>
@@ -60,7 +60,9 @@
         </div>
         <div class="mobile-icon-wrapper"
              v-if="isMobile">
-          <span class="btn-icon">
+          <span class="btn-icon"
+                :class="{disabled:!meshGatewayInfo.name}"
+                @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
           </span>
           <span class="btn-icon">
@@ -127,13 +129,14 @@
       <div class="functional">
         <div class="row-1">
           <div class="mesh-name">
-            {{meshGatewayInfo.name}}
+            {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
           </div>
           <span class="btn-icon"
+                :class="{disabled:!meshGatewayInfo.name}"
                 v-if="!isMobile"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
-            <span class="icon-hover-popover">Edit</span>
+            <span class="icon-hover-popover">{{$t('trans0034')}}</span>
           </span>
         </div>
         <div class="row-2">
@@ -162,7 +165,7 @@
 
     </div>
     <!-- mesh编辑弹窗 -->
-    <m-modal :visible.sync="showModal"
+    <m-modal :visible.sync="showMeshEditModal"
              :closeOnClickMask="false"
              class="edit-name-modal">
       <m-modal-body class="content">
@@ -175,9 +178,26 @@
                                :label="$t('trans0108')"
                                v-model="form.name"></m-editable-select>
           </m-form-item>
+          <m-form-item prop="color">
+            <div class="color-select">
+              <h4 class="label">Device Color</h4>
+              <ul class="color-select__wrapper">
+                <li v-for="(color,index) in deviceColorArr"
+                    :key="index"
+                    class="limit-icon">
+                  <div class="color"
+                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
+                       :style="{backgroundImage:color.value}"
+                       @click="changeDeviceColor(color)">
+                  </div>
+                  <span class="hover-popover"> {{color.name}}</span>
+                </li>
+              </ul>
+            </div>
+          </m-form-item>
         </m-form>
         <div class="btn-inner">
-          <button @click="closeUpdateModal"
+          <button @click="closeMeshEditModal"
                   class="btn btn-default">{{$t('trans0025')}}</button>
           <button @click="updateMehsNode(meshGatewayInfo,form.name)"
                   class="btn">{{$t('trans0024')}}</button>
@@ -369,6 +389,11 @@ export default {
       } catch (error) {
         console.error('Error showing firmware update dialog:', error);
       }
+    },
+    editMesh() {
+      if (!this.meshGatewayInfo.name) return;
+      this.form.name = this.meshGatewayInfo.name;
+      this.showMeshEditModal = true;
     },
     showTips() {
       if (this.isConnected) {
@@ -784,7 +809,7 @@ h6 {
         border-radius: 0;
         background-color: transparent;
         box-shadow: none;
-        img {
+        .router__img {
           width: 100%;
           min-width: 350px;
           max-width: 440px;
@@ -1089,7 +1114,7 @@ h6 {
         order: 1;
         position: relative;
         .wrapper {
-          img {
+          .router__img {
             max-width: auto;
             max-height: auto;
             min-width: auto;

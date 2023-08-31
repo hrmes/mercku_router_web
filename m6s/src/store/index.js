@@ -8,6 +8,7 @@ export default new Vuex.Store({
     mode: localStorage.getItem('mode'),
     role: localStorage.getItem('role'),
     isMobile: false,
+    hasTransition: true,
     isConnected: '',
     theme: '',
     cancelTokenArr: [], // 取消请求token数组

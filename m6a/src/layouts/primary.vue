@@ -39,18 +39,6 @@ export default {
       default: () => ({ hasAside: false, subMenu: [] })
     }
   },
-  mounted() {
-    const that = this;
-    this.getIsMobile(that);
-    window.addEventListener('resize', () => {
-      const w = that.windowWidth();
-      if (w <= 768) {
-        that.$store.state.isMobile = true;
-      } else {
-        that.$store.state.isMobile = false;
-      }
-    });
-  },
   computed: {
     isMobile() {
       return this.$store.state.isMobile;
@@ -63,21 +51,6 @@ export default {
       } else {
         this.$router.go(-1);
       }
-    },
-    getIsMobile(that) {
-      const w = that.windowWidth();
-      if (w <= 768) {
-        that.$store.state.isMobile = true;
-      } else {
-        that.$store.state.isMobile = false;
-      }
-    },
-    windowWidth() {
-      if (window.innerWidth) return window.innerWidth;
-      if (document.documentElement && document.documentElement.clientWidth) {
-        return document.documentElement.clientWidth;
-      }
-      return 0;
     },
     jump(menu) {
       if (menu.disabled) return;

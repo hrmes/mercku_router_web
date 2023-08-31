@@ -8,10 +8,12 @@ export default new Vuex.Store({
     mode: localStorage.getItem('mode'),
     role: localStorage.getItem('role'),
     modelID: localStorage.getItem('modelID'),
-    isMobile: false,
+    isMobile: true,
+    hasTransition: true,
     isConnected: '',
     theme: '',
     cancelTokenArr: [], // 取消请求token数组
+    deviceColor: localStorage.getItem('deviceColor') || 'black',
     modules: {
       limits: {},
       portfw: {},

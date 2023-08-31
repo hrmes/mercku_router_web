@@ -66,7 +66,8 @@
                 </span>
               </div>
               <div class="card-top__main">
-                <div class="model__img"></div>
+                <div class="router__img"
+                     :class="$store.state.deviceColor"></div>
                 <div class="mesh-router__info">
                   <div class="row-1">
                     <div class="line-icon"
@@ -172,7 +173,7 @@
       </div>
     </div>
     <!-- 编辑设备名称弹窗 -->
-    <m-modal :visible.sync="showModal"
+    <m-modal :visible.sync="showMeshEditModal"
              :closeOnClickMask="false"
              class="edit-name-modal">
       <m-modal-body class="content">
@@ -187,7 +188,7 @@
           </m-form-item>
         </m-form>
         <div class="btn-inner">
-          <button @click="closeUpdateModal"
+          <button @click="closeMeshEditModal"
                   class="btn btn-default">{{$t('trans0025')}}</button>
           <button @click="updateMehsNode(selectedNodeInfo,form.name)"
                   class="btn">{{$t('trans0024')}}</button>
@@ -394,7 +395,7 @@ export default {
     },
     onClickRouterName(router) {
       this.form.name = router.name;
-      this.showModal = true;
+      this.showMeshEditModal = true;
       this.clearIntervalTask();
     },
     deleteNode(router) {
@@ -1073,13 +1074,10 @@ export default {
               margin-right: 0;
             }
           }
-          .model__img {
+          .router__img {
             width: 150px;
             height: 150px;
             aspect-ratio: 1/1;
-            background: url(../../../assets/images/v3/dashboard/m6/img_m6_black.png)
-              center no-repeat;
-            background-size: contain;
           }
           .mesh-router__info {
             display: grid;
@@ -1359,7 +1357,7 @@ export default {
               grid-template-rows: 110px 1fr;
               grid-template-columns: 110px 1fr;
             }
-            .model__img {
+            .router__img {
               grid-row: 1 / 2; /* 第一行 */
               grid-column: 1 / 2; /* 第一列 */
               width: 100%;

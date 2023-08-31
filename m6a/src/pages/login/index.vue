@@ -96,25 +96,25 @@ export default {
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  mounted() {
-    this.loading = true;
-    this.$http
-      .isinitial()
-      .then(res => {
-        if (res.data.result.status) {
-          this.$http.login({ password: '' }).then(() => {
-            this.towlan();
-          });
-        } else {
-          this.initial = false;
-          this.loading = false;
-        }
-      })
-      .catch(() => {
-        this.initial = false;
-        this.loading = false;
-      });
-  },
+  // mounted() {
+  //   this.loading = true;
+  //   this.$http
+  //     .isinitial()
+  //     .then(res => {
+  //       if (res.data.result.status) {
+  //         this.$http.login({ password: '' }).then(() => {
+  //           this.towlan();
+  //         });
+  //       } else {
+  //         this.initial = false;
+  //         this.loading = false;
+  //       }
+  //     })
+  //     .catch(() => {
+  //       this.initial = false;
+  //       this.loading = false;
+  //     });
+  // },
   computed: {
     isMobile() {
       return this.$store.state.isMobile;
@@ -166,8 +166,7 @@ export default {
             localStorage.setItem('mode', mode);
 
             const { sn } = res1.data.result;
-            // const modelID = sn.charAt(9);
-            const modelID = '1';
+            const modelID = sn.charAt(9);
 
             this.$store.state.modelID = modelID;
             localStorage.setItem('modelID', modelID);

@@ -16,7 +16,7 @@
                      :asideInfo='asideInfo'></component>
           <transition v-else
                       name="fade"
-                      :css="!isMobile"
+                      :css="!isMobile && $store.state.hasTransition"
                       mode="out-in">
             <component :is="layout"
                        :hasBackWrap='hasBackWrap'
@@ -91,10 +91,34 @@ export default {
     },
     menus() {
       return getMenu(this.$store.state.role, this.$store.state.mode);
+    },
+    header() {
+      return document.querySelector('#header');
+    },
+    scrollbar() {
+      return document.querySelector('.scrollbar-wrap');
     }
   },
+  mounted() {
+    this.initializePage();
 
+    window.addEventListener('resize', () => {
+      this.setHeight();
+    });
+
+    this.$router.beforeEach(this.beforeRouteChange);
+  },
+  beforeDestroy() {
+    this.removeEventListeners();
+  },
   methods: {
+    initializePage() {
+      this.setHeight();
+      // 手机下，滚动添加删除header的box-shadow
+      if (this.isMobile) {
+        this.scrollbar.addEventListener('scroll', this.scrollHandler);
+      }
+    },
     setHeight() {
       const flexWrap = document.querySelector('.flex-wrap');
       // fix safari
@@ -102,44 +126,30 @@ export default {
       const height = Math.max(document.body.clientHeight, contentMinHeight);
       flexWrap.style.minHeight = `${height}px`;
     },
-    // 滚动添加删除header的box-shadow
-    listenScroll() {
-      const header = document.querySelector('#header');
-      const scrollbar = document.querySelector('.scrollbar-wrap');
-      const handleScroll = () => {
-        if (this.isLoginPage || this.isWlanPage) return;
-        const scrollY = scrollbar.scrollTop;
-        header.classList.toggle('with-shadow', scrollY > 0);
-      };
-      scrollbar.addEventListener('scroll', handleScroll);
+    scrollHandler() {
+      if (this.isLoginPage || this.isWlanPage) return;
+      const scrollY = this.scrollbar.scrollTop;
+      this.header.classList.toggle('with-shadow', scrollY > 0);
     },
     removeEventListeners() {
       window.removeEventListener('resize', () => {
         this.setHeight();
       });
-      const scrollbar = document.querySelector('.scrollbar-wrap');
-      scrollbar.removeEventListener('scroll', this.handleScroll);
-    }
-  },
-  mounted() {
-    this.setHeight();
-    this.listenScroll();
-    window.addEventListener('resize', () => {
-      this.setHeight();
-    });
-    this.$router.beforeEach((to, from, next) => {
-      // 判断是否是手机端
-      // eslint-disable-next-line max-len
-      const scrollPage = document.querySelector('.scrollbar-wrap');
-      // 判断是否是跳转到新页面
-      if (this.isMobile && to.path !== from.path) {
-        scrollPage.scrollTop = 0;
-      }
+      this.scrollbar.removeEventListener('scroll', this.scrollHandler);
+    },
+    beforeRouteChange(to, from, next) {
+      this.handleMobileScroll(to, from);
+      this.updateTransitionState(to);
       next();
-    });
-  },
-  beforeDestroy() {
-    this.removeEventListeners();
+    },
+    handleMobileScroll(to, from) {
+      if (this.isMobile && to.path !== from.path) {
+        this.scrollbar.scrollTop = 0;
+      }
+    },
+    updateTransitionState(to) {
+      this.$store.state.hasTransition = !to.path.includes('/login');
+    }
   }
 };
 </script>

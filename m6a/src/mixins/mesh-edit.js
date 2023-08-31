@@ -1,9 +1,12 @@
 import { getStringByte } from 'base/util/util';
+import { RouterColor } from 'base/util/constant';
+import store from '@/store/index';
 
 export default {
   data() {
     return {
-      showModal: false,
+      RouterColor,
+      showMeshEditModal: false,
       form: { name: '' },
       rules: {
         name: [
@@ -39,18 +42,16 @@ export default {
         this.$t('trans0361'),
         this.$t('trans0362'),
         this.$t('trans0363')
-      ]
+      ],
+      deviceColorArr: process.env.CUSTOMER_CONFIG.deviceColor,
+      selectedColorName: store.state.deviceColor
     };
   },
-
   methods: {
-    editMesh(gateway) {
-      this.form.name = gateway.name;
-      this.showModal = true;
-    },
-    closeUpdateModal() {
-      this.form.newName = '';
-      this.showModal = false;
+    closeMeshEditModal() {
+      this.showMeshEditModal = false;
+      this.selectedColorName = this.$store.state.deviceColor;
+      this.form.name = '';
     },
     updateMehsNode(router, name) {
       if (this.$refs.form.validate()) {
@@ -62,16 +63,22 @@ export default {
           })
           .then(() => {
             router.name = name;
-            this.$loading.close();
-            this.showModal = false;
+            this.$store.state.deviceColor = this.selectedColorName;
+            localStorage.setItem('deviceColor', this.selectedColorName);
             this?.createIntervalTask?.();
             this.$toast(this.$t('trans0040'), 2000, 'success');
+            this.showMeshEditModal = false;
           })
           .catch(() => {
-            this.$loading.close();
             this?.createIntervalTask?.();
+          })
+          .finally(() => {
+            this.$loading.close();
           });
       }
+    },
+    changeDeviceColor(val) {
+      this.selectedColorName = val.name;
     }
   }
 };
