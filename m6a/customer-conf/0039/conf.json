@@ -3,13 +3,14 @@
   "title": "Netflash",
   "accept": ".sh",
   "__host": "http://mywifi.mercku.tech",
-  "host": "http://mywifi.mercku.tech",
+  "host": "http://mywifi.netflash.tech",
   "favicon": "customer-conf/0039/favicon.ico",
   "policy": "https://netflash.net/the-fine-print/privacy-policy/",
   "allow2LevelAdmin": false,
   "defaultLanguage": "en-US",
   "languages": ["zh-CN", "en-US", "de-DE"],
-  "wifi": "Netflash wifi",
+  "deviceId": "Netflash",
+  "wifi": "Netflash Wi-Fi",
   "routers": {
     "M6a": {
       "name": "M6a Wi-Fi router",

@@ -320,7 +320,10 @@ export default {
       return resultText;
     },
     transDeviceId(text) {
-      return this.$t(text).replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
+      return this.$t(text).replaceAll(
+        '%s',
+        process.env.CUSTOMER_CONFIG.deviceId
+      );
     },
     isStep(index) {
       return this.stepsOption.current === index;
