@@ -253,7 +253,7 @@ export default {
         }
       },
       meshGatewayInfo: {
-        name: '-',
+        name: '',
         sn: ''
       },
       netInfo: {
