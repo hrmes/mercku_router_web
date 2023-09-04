@@ -1180,5 +1180,8 @@
   "trans1185": "Wi-Fi-SSID/Salasana/Smart Connect",
   "trans1186": "Jäädytetty kokoonpano",
   "trans1187": "Jäädytetyn konfiguraation käyttöönoton jälkeen voit valita vastaavan toiminnallisen kokoonpanon, ja nämä konfigurointiparametrit säilyvät tehdasasetusten palauttamisen jälkeen. Jos ei ole käytössä, kaikki parametrit tyhjennetään oletusarvoisesti tehdasasetuksiin palauttamisen yhteydessä.",
-  "trans1188": "Palauta tehdasasetukset:\nVoit valita \"Frozen Configuration\" -kohdassa säilytettävän kokoonpanosisällön."
+  "trans1188": "Palauta tehdasasetukset:\nVoit valita \"Frozen Configuration\" -kohdassa säilytettävän kokoonpanosisällön.",
+  "trans1189": "Jos valitset langattoman silta-tilan, irrota ensin WAN-portin verkkokaapeli.",
+  "trans1190": "Internet onnellinen",
+  "trans1191": "Internet ei ole käytettävissä"
 }

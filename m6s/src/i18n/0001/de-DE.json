@@ -14,7 +14,7 @@
   "trans0013": "seit %d Stunde(n)",
   "trans0014": "Geschwindigkeit begrenzen",
   "trans0015": "Genutztes Datenvolumen",
-  "trans0016": "Webseite Sperren",
+  "trans0016": "Zur Sperrliste hinzufügen",
   "trans0017": "Unbegrenzt",
   "trans0018": "Fertig",
   "trans0019": "Einstellungen",
@@ -1177,5 +1177,11 @@
   "trans1182": "Bitte auswählen",
   "trans1183": "Das Scannen des Vorgesetzten ist fehlgeschlagen. Klicken Sie auf „Erneut scannen“.",
   "trans1184": "64-1500 byte",
-  "trans1185": " "
+  "trans1185": "WLAN-SSID/Passwort/Smart Connect",
+  "trans1186": "Eingefrorene Konfiguration",
+  "trans1187": "Nachdem Sie die eingefrorene Konfiguration aktiviert haben, können Sie die entsprechende Funktionskonfiguration auswählen. Diese Konfigurationsparameter bleiben nach dem Wiederherstellen der Werkseinstellungen erhalten. Wenn diese Option nicht aktiviert ist, werden beim Wiederherstellen der Werkseinstellungen standardmäßig alle Parameter gelöscht.",
+  "trans1188": "Palauta tehdasasetukset:\nVoit valita \"Frozen Configuration\" -kohdassa säilytettävän kokoonpanosisällön.",
+  "trans1189": "Wenn Sie den Wireless-Bridge-Modus wählen, trennen Sie bitte zuerst das Netzwerkkabel des WAN-Ports.",
+  "trans1190": "Internet online",
+  "trans1191": "Internet offline"
 }

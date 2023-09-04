@@ -1338,7 +1338,7 @@ export default {
               grid-template-rows: 110px 1fr;
               grid-template-columns: 110px 1fr;
             }
-            .model__img {
+            .router__img {
               grid-row: 1 / 2; /* 第一行 */
               grid-column: 1 / 2; /* 第一列 */
               width: 100%;
