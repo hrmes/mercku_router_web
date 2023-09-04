@@ -3,7 +3,7 @@
     <div class='timelimit-table'
          :class="{'table--empty':!sortList.length}">
       <div class="table-head">
-        <div class="column-switch">Status</div>
+        <div class="column-switch">{{$t('trans0190')}}</div>
         <div class="column-date-stop"
              v-if="!isMobile">{{$t('trans0084')}}</div>
         <div class="column-date-start"

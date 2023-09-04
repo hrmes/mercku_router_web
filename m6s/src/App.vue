@@ -1,10 +1,10 @@
 <template>
-  <div class="scrollbar-wrap"
-       :class="{'is-login-page':isLoginPage}">
+  <div class="scrollbar-wrap">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"
-             class="flex-wrap">
+             class="flex-wrap"
+             :class="{'is-login-page':isLoginPage}">
           <m-header :navVisible="navVisible"
                     :isLoginPage="isLoginPage"
                     :isWlanPage="isWlanPage"
@@ -122,7 +122,7 @@ export default {
     setHeight() {
       const flexWrap = document.querySelector('.flex-wrap');
       // fix safari
-      const contentMinHeight = 600; // 定义内容区域最小高度
+      const contentMinHeight = window.innerHeight; // 定义内容区域最小高度
       const height = Math.max(document.body.clientHeight, contentMinHeight);
       flexWrap.style.minHeight = `${height}px`;
     },
@@ -201,10 +201,7 @@ li {
   height: 100%;
   overflow: auto;
   font-family: 'PingFang', sans-serif;
-  background: var(--scrollbar_wrap-bgc__isNotLogin);
-  &.is-login-page {
-    background: var(--scrollbar_wrap-bgc__isLogin);
-  }
+
   @media screen and (min-width: 768px) {
     &::-webkit-scrollbar,
     ::-webkit-scrollbar {
@@ -243,6 +240,10 @@ li {
   display: flex;
   flex-direction: column;
   color: var(--text-default-color);
+  background: var(--scrollbar_wrap-bgc__isNotLogin);
+  &.is-login-page {
+    background: var(--scrollbar_wrap-bgc__isLogin);
+  }
 }
 
 @media screen and (max-width: 768px) {

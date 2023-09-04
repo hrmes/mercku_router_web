@@ -26,6 +26,9 @@
   &.disabled {
     cursor: not-allowed;
     opacity: var(--button-disabled-opcity);
+    &:hover{
+      opacity: var(--button-disabled-opcity);
+    }
   }
   &.btn-small {
     width: auto;
