@@ -53,11 +53,34 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.getWps();
+  },
   methods: {
+    async getWps() {
+      try {
+        this.$loading.open();
+        const response = await this.$http.getMeshWps();
+        const {
+          data: {
+            result: { bands }
+          }
+        } = response.data;
+        bands.forEach(item => {
+          if (item.wps_enabled) {
+            this.wpsBand = item.band;
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.$loading.close();
+      }
+    },
     submit: debounce(function updateWps() {
       this.$loading.open();
       this.$http
-        .updateMeshWps({ band: this.wpsBand })
+        .updateMeshWps({ band: this.wpsBand, wps_enabled: true })
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })

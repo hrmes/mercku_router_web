@@ -50,26 +50,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            show: false
-          }
-        }
+        config: strategyA
       },
       {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        config,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.admin]
-          },
-          [Customers.pentanet]: {
-            auth: [Role.admin]
-          }
-        }
+        config
       },
       {
         url: '/setting/super',
@@ -79,14 +66,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.mercku]: {
             show: false
-          },
-          [Customers.realnett]: {
-            show: true,
-            auth: [Role.super]
-          },
-          [Customers.pentanet]: {
-            show: true,
-            auth: [Role.super]
           }
         }
       },
@@ -193,15 +172,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        config,
-        customers: {
-          [Customers.cik]: {
-            show: false
-          },
-          [Customers.startca]: {
-            show: false
-          }
-        }
+        config
       },
       {
         url: '/advance/diagnosis',
@@ -219,26 +190,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.super]
-          }
-        }
+        config: strategyA
       },
       {
         url: '/advance/wwa',
         name: 'advance.wwa',
         text: 'trans0511',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.super]
-          },
-          [Customers.pentanet]: {
-            auth: [Role.super]
-          }
-        }
+        config: strategyA
       },
       {
         url: '/advance/tr069',
@@ -252,9 +210,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.mercku]: {
             show: true
-          },
-          [Customers.realnett]: {
-            show: false
           }
         }
       },

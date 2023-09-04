@@ -12,10 +12,6 @@
   "deviceID": "real|wifi",
   "wifi": "real|wifi",
   "routers": {
-    "Bee": {
-      "name": "real|wifi mesh node",
-      "shortName": "Bee"
-    },
     "M6a": {
       "name": "real|wifi R6a ruter",
       "shortName": "R6a"

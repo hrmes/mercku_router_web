@@ -8,14 +8,6 @@
   "assetFolderName": "mercku",
   "languages": ["zh-CN", "en-US", "de-DE"],
   "routers": {
-    "M2": {
-      "name": "M2 Standalone Wi-Fi router",
-      "shortName": "M2"
-    },
-    "Bee": {
-      "name": "M2 Bee Wi-Fi Mesh Node",
-      "shortName": "Bee"
-    },
     "M6": {
       "name": "M6 Wi-Fi6 Router",
       "shortName": "M6"
