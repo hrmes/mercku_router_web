@@ -154,7 +154,7 @@
               <div class="speed-wrap">
                 <div class="speed-text-wrap">{{$t('trans0006')}}</div>
                 <div class="speed-num">{{realtimeSpeedUp.value}}</div>
-                <div class="speed-unit">{{realtimeSpeedUp.unit}}/s</div>
+                <div class="speed-unit">{{realtimeSpeedUp.unit}}</div>
               </div>
             </div>
             <div class="line-wrap">
@@ -168,7 +168,7 @@
               <div class="speed-wrap">
                 <div class="speed-text-wrap">{{$t('trans0007')}}</div>
                 <div class="speed-num">{{realtimeSpeedDown.value}}</div>
-                <div class="speed-unit">{{realtimeSpeedDown.unit}}/s</div>
+                <div class="speed-unit">{{realtimeSpeedDown.unit}}</div>
               </div>
             </div>
           </div>
@@ -182,13 +182,11 @@
     <div class="jump-app-info"
          @click="jumpApp">
       <div class="icon mercku">
-        <img src="@/assets/images/customer/junet/ic_launcher.png"
-             alt="">
+        <img :src="launcherIconSrc">
       </div>
       <div class="text-container">{{openInAppText}}</div>
       <div class="icon qr">
-        <img src="@/assets/images/customer/junet/qr.png"
-             alt="">
+        <img :src="qrImgSrc">
       </div>
     </div>
     <m-modal :visible.sync="tipsModalVisible">
@@ -293,6 +291,15 @@ export default {
     },
     realtimeSpeedDown() {
       return this.formatSpeed(this.netInfo.realDown);
+    },
+    folderName() {
+      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    },
+    launcherIconSrc() {
+      return require(`@/assets/images/customer/${this.folderName}/ic_launcher.png`);
+    },
+    qrImgSrc() {
+      return require(`@/assets/images/customer/${this.folderName}/qr.png`);
     },
     openInAppText() {
       return this.$t('trans1118').replaceAll('%s', process.env.CUSTOMER_CONFIG.title);

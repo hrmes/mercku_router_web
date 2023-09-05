@@ -8,9 +8,6 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6Wifi6Good from '@/assets/images/icon/ic_m6_normal.png';
-import picM6Wifi6Bad from '@/assets/images/icon/ic_m6_bad.png';
-import picM6Wifi6Offline from '@/assets/images/icon/ic_m6_offline.png';
 import picM6aGateway from '@/assets/images/icon/ic_m6a_gw_green.png';
 import picM6aWifi6Good from '@/assets/images/icon/ic_m6a_normal.png';
 import picM6aWifi6Bad from '@/assets/images/icon/ic_m6a_bad.png';
@@ -99,11 +96,6 @@ function findRedNode(green, nodes) {
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
-    [CONSTANTS.RouterSnModel.M6]: {
-      [Color.good]: picM6Wifi6Good,
-      [Color.bad]: picM6Wifi6Bad,
-      [Color.offline]: picM6Wifi6Offline
-    },
     [CONSTANTS.RouterSnModel.M6a]: {
       [M6aRouterSnModelVersion.M6a]: {
         [Color.good]: picM6aWifi6Good,

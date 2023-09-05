@@ -95,7 +95,7 @@
           </div>
           <div class="empty"
                v-if="empty!==null && empty">
-            <img src="../../../../assets/images/img_default_empty.png"
+            <img src="../../../../assets/images/img_default_empty.webp"
                  alt="">
             <p>{{$t('trans0278')}}</p>
             <button class="btn btn-middle"

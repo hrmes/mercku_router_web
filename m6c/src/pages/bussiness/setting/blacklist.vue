@@ -92,7 +92,7 @@
           </div>
           <div class="empty"
                v-if="!blacklist.length">
-            <img src="../../../assets/images/img_default_empty.png"
+            <img src="../../../assets/images/img_default_empty.webp"
                  alt="" />
             <p>{{ $t('trans0278') }}</p>
           </div>

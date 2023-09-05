@@ -12,6 +12,12 @@
         </m-tab>
       </m-tabs>
       <div class="table-inner">
+        <div v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60"
+             class="off-more-message">
+          <img src="@/assets/images/icon/ic_hint.webp"
+               alt="">
+          {{$t('trans0517')}}
+        </div>
         <div class="table-head">
           <ul class="reset-ul">
             <li class="column-name">
@@ -74,12 +80,6 @@
                         @click="delOfflineDevices(offlineCheckedMacs)">
                   {{$t('trans0033')}}</button>
               </div>
-            </div>
-            <div class="off-more-message"
-                 v-if="devicesMap[id]&&devicesMap[id].length>60">
-              <img src="@/assets/images/icon/ic_hint.png"
-                   alt="">
-              {{$t('trans0517')}}
             </div>
           </div>
           <div class="loading-container"
@@ -162,7 +162,7 @@
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
-                      <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}/s</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}</span>
                     </label>
                   </div>
                   <div class="speed-wrap">
@@ -171,7 +171,7 @@
                          alt="">
                     <label class="text-inner">
                       <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
-                      <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}/s</span>
+                      <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}</span>
                     </label>
                   </div>
                 </div>
@@ -831,28 +831,24 @@ export default {
     padding: 10px;
     display: flex;
     align-items: center;
+    border-radius: 3px;
     background: var(--table-row-background-color);
     .check-info {
       .m-check-all-box {
         display: none;
       }
     }
-    .off-more-message {
-      min-width: 161px;
-      height: 30px;
-      border-radius: 4px;
-      padding-right: 10px;
-      background-color: #fffbe6;
-      font-size: 12px;
-      color: rgba(0, 0, 0, 0.65);
-      margin-left: 20px;
-      display: flex;
-      align-items: center;
-      border: 1px solid #ffe58f;
-      img {
-        width: 14px;
-        margin: 0 5px 0 10px;
-      }
+  }
+  .off-more-message {
+    width: fit-content;
+    font-size: 12px;
+    color: var(--offline-more-color);
+    padding: 0 10px 10px;
+    img {
+      vertical-align: text-bottom;
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
     }
   }
   flex: auto;
@@ -877,14 +873,14 @@ export default {
         // overflow: hidden;
       }
       .table-head {
-        height: 50px;
+        height: fit-content;
         border-radius: 10px;
         background: var(--table-row-background-color);
         width: 100%;
         margin-bottom: 5px;
         ul {
-          height: 50px;
-          padding: 0 15px;
+          height: fit-content;
+          padding: 15px;
           color: var(--table-header-text-color);
         }
       }
@@ -970,7 +966,8 @@ export default {
         }
       }
       .column-band {
-        width: 150px;
+        min-width: 150px;
+        max-width: 175px;
         .label {
           display: none;
         }
@@ -990,7 +987,8 @@ export default {
         width: 120px;
       }
       .column-black-list {
-        width: 230px;
+        max-width: 230px;
+        min-width: 100px;
         justify-content: flex-end;
       }
       .icon-inner {
@@ -1219,12 +1217,11 @@ export default {
         position: relative;
         right: 0;
       }
-      .off-more-message {
-        width: 100%;
-        justify-content: center;
-        margin-left: 0;
-        margin-bottom: 10px;
-      }
+    }
+    .off-more-message {
+      width: 100%;
+      margin-left: 10px;
+      padding: 10px 10px 0;
     }
     .device-wrapper {
       .title {
@@ -1429,6 +1426,8 @@ export default {
             }
           }
           .column-band {
+            max-width: none;
+            min-width: none;
             width: 100%;
             height: 60px;
             display: flex;
@@ -1518,12 +1517,18 @@ export default {
             }
           }
           .column-black-list {
+            min-width: none;
+            max-width: none;
             width: 100%;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             padding-top: 25px !important;
             padding-bottom: 25px !important;
+            .label {
+              display: inline-block;
+              width: 40%;
+            }
           }
           .li-expand {
             display: block;

@@ -4,7 +4,7 @@
       <div class="app-container router-view">
         <div ref="flexWrap"
              class="flex-wrap"
-             :class="{ 'has-menu': navVisible }">
+             :class="{ 'nav-visiable': navVisible }">
           <m-header :navVisible="navVisible"
                     :isLoginPage="!logoVisible"
                     :logoVisible="logoVisible"
@@ -30,7 +30,10 @@ export default {
     },
     navVisible() {
       const { path } = this.$route;
-      const visible = path.includes('login') || path.includes('wlan') || path.includes('unconnect');
+      const visible =
+        path.includes('login') ||
+        path.includes('wlan') ||
+        path.includes('unconnect');
       return !visible;
     },
     menus() {

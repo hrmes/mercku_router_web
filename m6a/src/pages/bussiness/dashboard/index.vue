@@ -154,7 +154,7 @@
               <div class="speed-wrap">
                 <div class="speed-text-wrap">{{$t('trans0006')}}</div>
                 <div class="speed-num">{{realtimeSpeedUp.value}}</div>
-                <div class="speed-unit">{{realtimeSpeedUp.unit}}/s</div>
+                <div class="speed-unit">{{realtimeSpeedUp.unit}}</div>
               </div>
             </div>
             <div class="line-wrap">
@@ -168,7 +168,7 @@
               <div class="speed-wrap">
                 <div class="speed-text-wrap">{{$t('trans0007')}}</div>
                 <div class="speed-num">{{realtimeSpeedDown.value}}</div>
-                <div class="speed-unit">{{realtimeSpeedDown.unit}}/s</div>
+                <div class="speed-unit">{{realtimeSpeedDown.unit}}</div>
               </div>
             </div>
           </div>
