@@ -3,7 +3,7 @@
   "title": "Netflash",
   "accept": ".sh",
   "__host": "http://mywifi.mercku.tech",
-  "host": "http://mywifi.mercku.tech",
+  "host": "http://mywifi.netflash.tech",
   "favicon": "customer-conf/0039/favicon.ico",
   "policy": "https://netflash.net/the-fine-print/privacy-policy/",
   "allow2LevelAdmin": false,
