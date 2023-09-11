@@ -625,12 +625,12 @@ export default {
       this.chart.on('click', (e) => {
         const { data: { sn } } = e;
         if (this.isMobile && sn) {
-            this.routers.forEach(router => {
-              router.expand = false;
-              if (router.sn === sn) {
-                router.expand = true;
-              }
-            });
+          this.routers.forEach(router => {
+            router.expand = false;
+            if (router.sn === sn) {
+              router.expand = true;
+            }
+          });
         }
         this.$router.push('/dashboard/mesh/table');
       });
@@ -1198,7 +1198,7 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-          width: 245px;
+          width: 250px;
           .switch-item {
             display: flex;
             width: 100%;
@@ -1208,7 +1208,6 @@ export default {
             label {
               display: flex;
               margin: 0 10px;
-              flex: 1;
               img {
                 position: relative;
                 cursor: pointer;
@@ -1464,10 +1463,6 @@ export default {
               label {
                 flex: auto;
                 margin: 0 10px 0 0;
-                max-width: 200px;
-                span {
-                  max-width: 100px;
-                }
               }
             }
           }

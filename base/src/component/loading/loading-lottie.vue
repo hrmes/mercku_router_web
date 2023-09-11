@@ -23,17 +23,20 @@ export default {
     window.requestAnimationFrame(this.loadImg);
   },
   computed: {
+    ispFolderName() {
+      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    },
     animJson() {
       let result;
       switch (this.loadingType) {
         case Type.loading:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.title.toLowerCase()}/loading.json`);
+          result = require(`../../assets/lottie/${this.ispFolderName}/loading.json`);
           break;
         case Type.speedTest:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.title.toLowerCase()}/speed-test.json`);
+          result = require(`../../assets/lottie/${this.ispFolderName}/speed-test.json`);
           break;
         case Type.addNode:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.title.toLowerCase()}/add-node.json`);
+          result = require(`../../assets/lottie/${this.ispFolderName}/add-node.json`);
           break;
         default:
           break;

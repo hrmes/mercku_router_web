@@ -74,15 +74,6 @@
              style="margin-top:5px;">
           {{$t('trans0171')}}
         </div>
-        <div class="info-container">
-          <div class="info info-pw">
-            <div class="info__row">
-              <div class="info__title">{{$t('trans0561')}}:</div>
-              <div class="info__value">{{wifiForm.password24g}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="tip tip-setting">{{tipsText}}</div>
         <div class="info-container wifi">
           <div class="form-header"
                v-if="wifiForm.smart_connect">
@@ -202,27 +193,21 @@ export default {
     }
   },
   mounted() {
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
+    this.$loading.open();
+    this.$http.getMeshMeta()
+      .then(res => {
+        const wifi = res.data.result;
+        const b24g = wifi.bands[Bands.b24g];
+        const b5g = wifi.bands[Bands.b5g];
+        this.wifiForm.ssid24g = b24g.ssid;
+        this.wifiForm.password24g = b24g.password;
+        this.wifiForm.ssid5g = b5g.ssid;
+        this.wifiForm.password5g = b5g.password;
+        this.wifiForm.smart_connect = wifi.smart_connect;
+      })
+      .finally(() => {
+        this.$loading.close();
       });
-    this.$http.getMeshMeta().then(res => {
-      const wifi = res.data.result;
-      const b24g = wifi.bands[Bands.b24g];
-      const b5g = wifi.bands[Bands.b5g];
-      this.wifiForm.ssid24g = b24g.ssid;
-      this.wifiForm.password24g = b24g.password;
-      this.wifiForm.ssid5g = b5g.ssid;
-      this.wifiForm.password5g = b5g.password;
-      // this.wifiForm.smart_connect = wifi.smart_connect;
-    });
   },
   methods: {
     onSsid24gChange() {

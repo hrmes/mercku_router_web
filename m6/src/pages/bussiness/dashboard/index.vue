@@ -14,7 +14,7 @@
         </div>
         <div class="wifi-container">
           <div class="icon-container">
-            <img :src="getWifiIcon( MODEL)"
+            <img src="@/assets/images/icon/ic_homepage_m6.svg"
                  alt="" />
           </div>
         </div>
@@ -82,7 +82,7 @@
         <li @click="forward2page('/dashboard/mesh/topo')"
             class="functional-module mesh-container">
           <div class="icon-container">
-            <img :src="getWifiIcon(MODEL)"
+            <img src="@/assets/images/icon/ic_homepage_m6.svg"
                  alt="">
           </div>
           <div class="text-container">
@@ -180,6 +180,7 @@
       </ul>
     </div>
     <div class="jump-app-info"
+         v-if="appDownloadUrl"
          @click="jumpApp">
       <div class="icon mercku">
         <img :src="launcherIconSrc">
@@ -257,8 +258,8 @@ export default {
     };
   },
   computed: {
-    MODEL() {
-      return process.env.MODEL_CONFIG.id;
+    appDownloadUrl() {
+      return process.env.CUSTOMER_CONFIG.appDownloadUrl;
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -367,7 +368,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -524,17 +525,6 @@ export default {
           }
         });
     },
-    getWifiIcon(model) {
-      let image = '';
-      switch (model) {
-        case CONSTANTS.Models.m6:
-          image = require('@/assets/images/icon/ic_homepage_m6.svg');
-          break;
-        default:
-          break;
-      }
-      return image;
-    },
     transformDate(date) {
       if (!date) {
         return '';
@@ -653,6 +643,7 @@ ul {
           padding: 20px 0;
           .sub-text {
             width: 87%;
+            font-size: 12px;
             margin: 0 auto;
             overflow: hidden;
             text-overflow: ellipsis;
