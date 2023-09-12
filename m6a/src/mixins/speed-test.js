@@ -69,6 +69,7 @@ export default {
       });
     },
     calculateSpeedPeakValue(downSpeed) {
+      // 预定义测试峰值为500Mbps，如果测速实际结果超过500Mbps,那么动态修改峰值，让实际结果始终为峰值的90%
       let speedPeakValue = 500000000;
       if (downSpeed > speedPeakValue) {
         speedPeakValue = (downSpeed / 0.9).toFixed(0);
@@ -79,7 +80,7 @@ export default {
       return ((downSpeed / speedPeakValue) * 40).toFixed(0);
     },
     updateSpeedLottie(percent) {
-      this.speedLottie.setSpeed(0.6);
+      this.speedLottie.setSpeed(0.5);
       this.speedLottie.playSegments([0, percent], true);
     }
   }

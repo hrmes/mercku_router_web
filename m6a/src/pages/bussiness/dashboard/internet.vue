@@ -68,7 +68,8 @@
                 </div>
               </div>
               <div class="speedtest__wrap">
-                <div class="speedtest-dashboard">
+                <div class="speedtest-dashboard"
+                     id="animation-container">
                 </div>
                 <span class="speedtest-label">{{$t('trans0027')}}</span>
                 <div class="speedtest-result__wrapper speed">
@@ -100,9 +101,9 @@
                   </div>
                 </div>
                 <button class="btn"
-                        @click="startSpeedTest()"
                         :class="{'disabled':!isConnected}"
-                        :disabled="!isConnected">
+                        :disabled="!isConnected"
+                        @click="startSpeedTest()">
                   {{$t('trans0008')}}
                 </button>
               </div>
@@ -211,9 +212,11 @@
 </template>
 <script>
 import { SpeedTestStatus, RouterMode, WanNetStatus } from 'base/util/constant';
+import speedTestMixin from '@/mixins/speed-test';
 import countTo from 'vue-count-to';
 
 export default {
+  mixins: [speedTestMixin],
   components: {
     countTo
   },
@@ -249,8 +252,13 @@ export default {
         ip: '-',
         gateway: '-',
         dns: '-'
-      }
+      },
     };
+  },
+  created() {
+    this.$nextTick(() => {
+      this.loadSpeedTestAnimation();
+    });
   },
   mounted() {
     this.getWanNetInfo();
@@ -416,7 +424,7 @@ export default {
     },
     speedUp() {
       return this.formatBandWidth(this.localSpeedInfo.speed.up);
-    }
+    },
   },
   watch: {
     '$store.state.mode': function watcher() {
@@ -424,7 +432,7 @@ export default {
       if (this.isRouter) {
         this.createIntervalTask();
       }
-    }
+    },
   },
   methods: {
     onBack(target) {
@@ -443,7 +451,6 @@ export default {
         }, 1000);
       });
     },
-
     createIntervalTask() {
       if (this.isRouter) {
         this.getWanNetStats();
@@ -453,21 +460,24 @@ export default {
       clearTimeout(this.wanNetStatsTimer);
       this.wanNetStatsTimer = null;
     },
-    speedTest(force) {
-      if (force === undefined) {
-        force = false;
-      }
+    speedTest(force = false) {
       this.$http
         .testSpeed({ force })
         .then(res => {
           this.speedStatus = res.data.result.status;
-          this.speedInfo = res.data.result;
-          if (this.isSpeedDone) {
-            console.log('play animation');
-          }
+
           if (res.data.result.status !== SpeedTestStatus.testing) {
+            console.log('clear');
             clearInterval(this.speedTestTimer);
             this.testSpeedNumber = this.testTimeout;
+          }
+
+
+          if (res.data.result.status === SpeedTestStatus.done) {
+            this.speedInfo = res.data.result;
+            const speedPeakValue = this.calculateSpeedPeakValue(this.speedInfo.speed.down);
+            const percent = this.calculateSpeedPercent(this.speedInfo.speed.down, speedPeakValue);
+            this.updateSpeedLottie(percent);
           }
         })
         .catch(() => {
@@ -479,13 +489,17 @@ export default {
     startSpeedTest(force) {
       force = !!force;
       this.speedStatus = SpeedTestStatus.testing;
+      this.speedInfo = {};// 让速度值归零，等待后续重跑
+
+
       this.clearIntervalTask();
       this.speedTest(force);
       this.speedTestTimer = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
+          console.log('clear');
           clearInterval(this.speedTestTimer);
-          this.speedStatus = SpeedTestStatus.done;
           this.testSpeedNumber = this.testTimeout;
+          this.speedStatus = SpeedTestStatus.done;
           return;
         }
         if (
@@ -529,7 +543,7 @@ export default {
         .catch(() => {
           this.wanInfoTimer = setTimeout(() => {
             this.getWanNetInfo();
-          }, 1000 * 3);
+          }, 3000);
         });
     },
     getIpv6NetInfo() {
@@ -539,15 +553,17 @@ export default {
           const { result } = res.data;
           console.log('ipv6', result);
           if (result.enabled === true) {
-            this.ipv6NetInfo.type = result.type ?? '-';
             const { netinfo } = result;
-            this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip ?? '-';
-            this.ipv6NetInfo.gateway = netinfo.gateway?.ip ?? '-';
-            if (netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip) {
-              this.ipv6NetInfo.dns = netinfo.dns[0].ip;
-            } else {
-              this.ipv6NetInfo.dns = '-';
-            }
+
+            this.ipv6NetInfo.type = result.type || '-';
+            this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip || '-';
+            this.ipv6NetInfo.gateway = netinfo.gateway?.ip || '-';
+            this.ipv6NetInfo.dns =
+              netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip
+                ? netinfo.dns[0].ip
+                : '-';
+
+            this.ipv6NetInfo.enabled = true;
           }
           this.ipv6NetInfo.enabled = result.enabled;
         })
@@ -581,7 +597,7 @@ export default {
           this.getIsConnnected = false;
         });
       return true;
-    }
+    },
   },
   beforeDestroy() {
     this.pageActive = false;
@@ -592,11 +608,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@font-face {
-  font-family: 'DIN';
-  src: url('../../../style/iconfont/DIN.ttf');
-  font-display: swap;
-}
 .router-info {
   position: relative;
   display: flex;
@@ -763,12 +774,12 @@ export default {
       margin-bottom: 40px;
       .speed__item {
         .speed__unit {
-          font-family: 'DIN';
+          font-family: 'DINAlternate';
           font-size: 24px;
           line-height: 1.2;
         }
         .speed__value {
-          font-family: 'DIN';
+          font-family: 'DINAlternate';
           line-height: 1.2;
           font-size: 60px;
         }
@@ -843,8 +854,8 @@ export default {
     .speedtest-dashboard {
       width: 400px;
       aspect-ratio: 25/13;
-      background: lightcoral;
       margin-bottom: 5px;
+      overflow: hidden;
     }
     .speed__title {
       text-align: center;
@@ -879,7 +890,8 @@ export default {
       font-weight: normal;
     }
     .uptime__bottom {
-      font-size: 24px;
+      font-size: 30px;
+      font-family: 'DINAlternate', sans-serif;
       font-weight: bold;
       &.padding-top {
         padding-top: 10px;
@@ -891,7 +903,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

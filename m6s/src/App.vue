@@ -215,10 +215,6 @@ li {
   height: 100%;
   overflow: auto;
   font-family: 'PingFangSC', 'Microsoft Yahei', sans-serif;
-  background: var(--scrollbar_wrap-bgc__isNotLogin);
-  &.is-login-page {
-    background: var(--scrollbar_wrap-bgc__isLogin);
-  }
   @media screen and (min-width: 768px) {
     &::-webkit-scrollbar,
     ::-webkit-scrollbar {
@@ -257,6 +253,10 @@ li {
   display: flex;
   flex-direction: column;
   color: var(--text-default-color);
+  background: var(--scrollbar_wrap-bgc__isNotLogin);
+  &.is-login-page {
+    background: var(--scrollbar_wrap-bgc__isLogin);
+  }
 }
 
 @media screen and (max-width: 768px) {

@@ -101,6 +101,8 @@
                   </div>
                 </div>
                 <button class="btn"
+                        :class="{'disabled':!isConnected}"
+                        :disabled="!isConnected"
                         @click="startSpeedTest()">
                   {{$t('trans0008')}}
                 </button>
@@ -251,15 +253,18 @@ export default {
         gateway: '-',
         dns: '-'
       },
-      speedLottie: null,
     };
   },
+  created() {
+    this.$nextTick(() => {
+      this.loadSpeedTestAnimation();
+    });
+  },
   mounted() {
-    // this.getWanNetInfo();
-    // this.getIpv6NetInfo();
-    // this.createIntervalTask();
-    // this.getRouteMeta();
-    // window.requestAnimationFrame(this.loadSpeedTestAnimation);
+    this.getWanNetInfo();
+    this.getIpv6NetInfo();
+    this.createIntervalTask();
+    this.getRouteMeta();
   },
   computed: {
     isMobile() {
@@ -318,14 +323,12 @@ export default {
         .join(' : ');
       return [topStr, bmStr];
     },
-    // isConnected() {
-    //    :class="{'disabled':!isConnected}"
-    //                     :disabled="!isConnected"
-    //   return (
-    //     this.$store.state.isConnected ||
-    //     (this.getWanStatus() && this.getIsConnnected)
-    //   );
-    // },
+    isConnected() {
+      return (
+        this.$store.state.isConnected ||
+        (this.getWanStatus() && this.getIsConnnected)
+      );
+    },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
     },
@@ -457,26 +460,24 @@ export default {
       clearTimeout(this.wanNetStatsTimer);
       this.wanNetStatsTimer = null;
     },
-    speedTest(force) {
-      this.speedInfo = {};
-      if (force === undefined) {
-        force = false;
-      }
+    speedTest(force = false) {
       this.$http
         .testSpeed({ force })
         .then(res => {
           this.speedStatus = res.data.result.status;
-          this.speedInfo = res.data.result;
-          const percent = ((this.speedInfo.speed.down / 500000000) *
-            this.speedLottie.totalFrames).toFixed(0);
-          if (this.isSpeedDone) {
-            this.speedLottie.goToAndStop(0, true);// 将播放头重新定位到动画的开头
-            this.speedLottie.setSpeed(0.6); // 设置播放速度，speed为1表示正常速度
-            this.speedLottie.playSegments([0, percent], true);
-          }
+
           if (res.data.result.status !== SpeedTestStatus.testing) {
+            console.log('clear');
             clearInterval(this.speedTestTimer);
             this.testSpeedNumber = this.testTimeout;
+          }
+
+
+          if (res.data.result.status === SpeedTestStatus.done) {
+            this.speedInfo = res.data.result;
+            const speedPeakValue = this.calculateSpeedPeakValue(this.speedInfo.speed.down);
+            const percent = this.calculateSpeedPercent(this.speedInfo.speed.down, speedPeakValue);
+            this.updateSpeedLottie(percent);
           }
         })
         .catch(() => {
@@ -488,13 +489,17 @@ export default {
     startSpeedTest(force) {
       force = !!force;
       this.speedStatus = SpeedTestStatus.testing;
+      this.speedInfo = {};// 让速度值归零，等待后续重跑
+
+
       this.clearIntervalTask();
       this.speedTest(force);
       this.speedTestTimer = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
+          console.log('clear');
           clearInterval(this.speedTestTimer);
-          this.speedStatus = SpeedTestStatus.done;
           this.testSpeedNumber = this.testTimeout;
+          this.speedStatus = SpeedTestStatus.done;
           return;
         }
         if (
@@ -548,15 +553,17 @@ export default {
           const { result } = res.data;
           console.log('ipv6', result);
           if (result.enabled === true) {
-            this.ipv6NetInfo.type = result.type ?? '-';
             const { netinfo } = result;
-            this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip ?? '-';
-            this.ipv6NetInfo.gateway = netinfo.gateway?.ip ?? '-';
-            if (netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip) {
-              this.ipv6NetInfo.dns = netinfo.dns[0].ip;
-            } else {
-              this.ipv6NetInfo.dns = '-';
-            }
+
+            this.ipv6NetInfo.type = result.type || '-';
+            this.ipv6NetInfo.ip = netinfo.address?.[0]?.ip || '-';
+            this.ipv6NetInfo.gateway = netinfo.gateway?.ip || '-';
+            this.ipv6NetInfo.dns =
+              netinfo.dns && netinfo.dns[0] && netinfo.dns[0].ip
+                ? netinfo.dns[0].ip
+                : '-';
+
+            this.ipv6NetInfo.enabled = true;
           }
           this.ipv6NetInfo.enabled = result.enabled;
         })
@@ -847,8 +854,8 @@ export default {
     .speedtest-dashboard {
       width: 400px;
       aspect-ratio: 25/13;
-      // background: lightcoral;
       margin-bottom: 5px;
+      overflow: hidden;
     }
     .speed__title {
       text-align: center;
@@ -896,7 +903,7 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

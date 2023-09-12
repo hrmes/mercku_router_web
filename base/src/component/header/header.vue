@@ -149,28 +149,43 @@
         <div class="theme-change-body">
           <div class="theme-option"
                @click="clickHandler('light')">
+            <m-checkbox v-if="isMobile"
+                        class="checkbox static"
+                        :rect="false"
+                        v-model="themeOptions.light.ischecked"></m-checkbox>
             <img src="../../assets/images/img_theme_light.webp"
                  alt="">
             <span class="label">{{$t('trans1122')}}</span>
-            <m-checkbox class="checkbox"
+            <m-checkbox v-if="!isMobile"
+                        class="checkbox"
                         :rect="false"
                         v-model="themeOptions.light.ischecked"></m-checkbox>
           </div>
           <div class="theme-option"
                @click="clickHandler('dark')">
+            <m-checkbox v-if="isMobile"
+                        class="checkbox static"
+                        :rect="false"
+                        v-model="themeOptions.dark.ischecked"></m-checkbox>
             <img src="../../assets/images/img_theme_dark.webp"
                  alt="">
             <span class="label">{{$t('trans1123')}}</span>
-            <m-checkbox class="checkbox"
+            <m-checkbox v-if="!isMobile"
+                        class="checkbox"
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
           </div>
           <div class="theme-option"
                @click="clickHandler('auto')">
+            <m-checkbox v-if="isMobile"
+                        class="checkbox static"
+                        :rect="false"
+                        v-model="themeOptions.auto.ischecked"></m-checkbox>
             <img src="../../assets/images/img_theme_auto.webp"
                  alt="">
             <span class="label">{{$t('trans1121')}}</span>
-            <m-checkbox class="checkbox"
+            <m-checkbox v-if="!isMobile"
+                        class="checkbox"
                         :rect="false"
                         v-model="themeOptions.auto.ischecked"></m-checkbox>
           </div>
@@ -674,8 +689,17 @@ export default {
         align-items: center;
         width: 50px;
         margin-bottom: 10px;
+        margin-left: 20px;
         img {
+          margin-left: 10px;
           margin-right: 20px;
+        }
+        .checkbox {
+          &.static {
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+          }
         }
         &:last-child {
           margin-bottom: 0;
