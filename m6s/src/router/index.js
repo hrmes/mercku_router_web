@@ -4,7 +4,6 @@ import Router from 'vue-router';
 import login from 'pages/login/index.vue';
 import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
-
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';

@@ -68,7 +68,8 @@
                 </div>
               </div>
               <div class="speedtest__wrap">
-                <div class="speedtest-dashboard">
+                <div class="speedtest-dashboard"
+                     id="animation-container">
                 </div>
                 <span class="speedtest-label">{{$t('trans0027')}}</span>
                 <div class="speedtest-result__wrapper speed">
@@ -100,9 +101,7 @@
                   </div>
                 </div>
                 <button class="btn"
-                        @click="startSpeedTest()"
-                        :class="{'disabled':!isConnected}"
-                        :disabled="!isConnected">
+                        @click="startSpeedTest()">
                   {{$t('trans0008')}}
                 </button>
               </div>
@@ -211,9 +210,11 @@
 </template>
 <script>
 import { SpeedTestStatus, RouterMode, WanNetStatus } from 'base/util/constant';
+import speedTestMixin from '@/mixins/speed-test';
 import countTo from 'vue-count-to';
 
 export default {
+  mixins: [speedTestMixin],
   components: {
     countTo
   },
@@ -249,14 +250,16 @@ export default {
         ip: '-',
         gateway: '-',
         dns: '-'
-      }
+      },
+      speedLottie: null,
     };
   },
   mounted() {
-    this.getWanNetInfo();
-    this.getIpv6NetInfo();
-    this.createIntervalTask();
-    this.getRouteMeta();
+    // this.getWanNetInfo();
+    // this.getIpv6NetInfo();
+    // this.createIntervalTask();
+    // this.getRouteMeta();
+    // window.requestAnimationFrame(this.loadSpeedTestAnimation);
   },
   computed: {
     isMobile() {
@@ -315,12 +318,14 @@ export default {
         .join(' : ');
       return [topStr, bmStr];
     },
-    isConnected() {
-      return (
-        this.$store.state.isConnected ||
-        (this.getWanStatus() && this.getIsConnnected)
-      );
-    },
+    // isConnected() {
+    //    :class="{'disabled':!isConnected}"
+    //                     :disabled="!isConnected"
+    //   return (
+    //     this.$store.state.isConnected ||
+    //     (this.getWanStatus() && this.getIsConnnected)
+    //   );
+    // },
     bandwidth() {
       return this.formatBandWidth(this.localTraffic.bandwidth);
     },
@@ -416,7 +421,7 @@ export default {
     },
     speedUp() {
       return this.formatBandWidth(this.localSpeedInfo.speed.up);
-    }
+    },
   },
   watch: {
     '$store.state.mode': function watcher() {
@@ -424,7 +429,7 @@ export default {
       if (this.isRouter) {
         this.createIntervalTask();
       }
-    }
+    },
   },
   methods: {
     onBack(target) {
@@ -443,7 +448,6 @@ export default {
         }, 1000);
       });
     },
-
     createIntervalTask() {
       if (this.isRouter) {
         this.getWanNetStats();
@@ -454,6 +458,7 @@ export default {
       this.wanNetStatsTimer = null;
     },
     speedTest(force) {
+      this.speedInfo = {};
       if (force === undefined) {
         force = false;
       }
@@ -462,8 +467,12 @@ export default {
         .then(res => {
           this.speedStatus = res.data.result.status;
           this.speedInfo = res.data.result;
+          const percent = ((this.speedInfo.speed.down / 500000000) *
+            this.speedLottie.totalFrames).toFixed(0);
           if (this.isSpeedDone) {
-            console.log('play animation');
+            this.speedLottie.goToAndStop(0, true);// 将播放头重新定位到动画的开头
+            this.speedLottie.setSpeed(0.6); // 设置播放速度，speed为1表示正常速度
+            this.speedLottie.playSegments([0, percent], true);
           }
           if (res.data.result.status !== SpeedTestStatus.testing) {
             clearInterval(this.speedTestTimer);
@@ -529,7 +538,7 @@ export default {
         .catch(() => {
           this.wanInfoTimer = setTimeout(() => {
             this.getWanNetInfo();
-          }, 1000 * 3);
+          }, 3000);
         });
     },
     getIpv6NetInfo() {
@@ -581,7 +590,7 @@ export default {
           this.getIsConnnected = false;
         });
       return true;
-    }
+    },
   },
   beforeDestroy() {
     this.pageActive = false;
@@ -592,11 +601,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@font-face {
-  font-family: 'DIN';
-  src: url('../../../style/iconfont/DIN.ttf');
-  font-display: swap;
-}
 .router-info {
   position: relative;
   display: flex;
@@ -763,12 +767,12 @@ export default {
       margin-bottom: 40px;
       .speed__item {
         .speed__unit {
-          font-family: 'DIN';
+          font-family: 'DINAlternate';
           font-size: 24px;
           line-height: 1.2;
         }
         .speed__value {
-          font-family: 'DIN';
+          font-family: 'DINAlternate';
           line-height: 1.2;
           font-size: 60px;
         }
@@ -843,7 +847,7 @@ export default {
     .speedtest-dashboard {
       width: 400px;
       aspect-ratio: 25/13;
-      background: lightcoral;
+      // background: lightcoral;
       margin-bottom: 5px;
     }
     .speed__title {
@@ -879,7 +883,8 @@ export default {
       font-weight: normal;
     }
     .uptime__bottom {
-      font-size: 24px;
+      font-size: 30px;
+      font-family: 'DINAlternate', sans-serif;
       font-weight: bold;
       &.padding-top {
         padding-top: 10px;

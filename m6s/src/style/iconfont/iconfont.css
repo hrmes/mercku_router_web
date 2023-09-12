@@ -1,7 +1,7 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4193378 */
-  src: url('iconfont.woff2?t=1693304486344') format('woff2');
-  font-display: fallback;
+  font-display: swap;
+  src: url('iconfont.woff2?t=1694416654454') format('woff2'),
 }
 
 .iconfont {
@@ -10,6 +10,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.ic_home_settings_selected:before {
+  content: "\e69c";
+}
+
+.ic_upgrade_firmware_selected:before {
+  content: "\e6a1";
+}
+
+.ic_advanced_settings_selected:before {
+  content: "\e6ca";
+}
+
+.ic_home_selected:before {
+  content: "\e6cb";
 }
 
 .ic_note:before {

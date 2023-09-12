@@ -142,7 +142,7 @@ export default {
               this.processedUpperApList.push({
                 value: i.ssid,
                 text: `${i.ssid}`,
-                encrypt: i.security,
+                security: i.security,
                 rssi: i.rssi,
                 band: i.band,
                 bssid: i.bssid
@@ -173,7 +173,7 @@ export default {
         });
     },
     selectedChange(option) {
-      this.pwdDisabled = option.encrypt === EncryptMethod.OPEN;
+      this.pwdDisabled = option.security === EncryptMethod.OPEN;
       this.saveDisable = false;
       const {
         ssid,

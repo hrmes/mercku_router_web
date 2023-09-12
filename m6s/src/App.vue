@@ -100,10 +100,12 @@ export default {
     }
   },
   mounted() {
+    this.updateIsMobile(); // 初始检查
     this.initializePage();
 
     window.addEventListener('resize', () => {
       this.setHeight();
+      this.updateIsMobile();
     });
 
     this.$router.beforeEach(this.beforeRouteChange);
@@ -134,6 +136,7 @@ export default {
     removeEventListeners() {
       window.removeEventListener('resize', () => {
         this.setHeight();
+        this.updateIsMobile();
       });
       this.scrollbar.removeEventListener('scroll', this.scrollHandler);
     },
@@ -149,12 +152,23 @@ export default {
     },
     updateTransitionState(to) {
       this.$store.state.hasTransition = !to.path.includes('/login');
+    },
+    updateIsMobile() {
+      this.$store.state.isMobile = this.windowWidth() <= 768;
+    },
+    windowWidth() {
+      return window.innerWidth || document.documentElement.clientWidth || 0;
     }
   }
 };
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: 'DINAlternate';
+  src: url('./style/iconfont/DIN.ttf');
+  font-display: swap;
+}
 [data-title]:hover:after {
   opacity: 1;
   visibility: visible;
@@ -200,8 +214,11 @@ li {
 .scrollbar-wrap {
   height: 100%;
   overflow: auto;
-  font-family: 'PingFang', sans-serif;
-
+  font-family: 'PingFangSC', 'Microsoft Yahei', sans-serif;
+  background: var(--scrollbar_wrap-bgc__isNotLogin);
+  &.is-login-page {
+    background: var(--scrollbar_wrap-bgc__isLogin);
+  }
   @media screen and (min-width: 768px) {
     &::-webkit-scrollbar,
     ::-webkit-scrollbar {
@@ -240,10 +257,6 @@ li {
   display: flex;
   flex-direction: column;
   color: var(--text-default-color);
-  background: var(--scrollbar_wrap-bgc__isNotLogin);
-  &.is-login-page {
-    background: var(--scrollbar_wrap-bgc__isLogin);
-  }
 }
 
 @media screen and (max-width: 768px) {

@@ -398,7 +398,6 @@ export default {
     },
     checkTheme() {
       const theme = localStorage.getItem('theme');
-      console.log(theme, !theme);
       if (!theme || theme === undefined) {
         localStorage.setItem('theme', 'light');
         this.$store.state.theme = 'light';

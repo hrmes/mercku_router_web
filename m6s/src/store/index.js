@@ -7,10 +7,10 @@ export default new Vuex.Store({
   state: {
     mode: localStorage.getItem('mode'),
     role: localStorage.getItem('role'),
-    isMobile: false,
+    isMobile: true,
     hasTransition: true,
     isConnected: '',
-    theme: '',
+    theme: localStorage.getItem('theme') || 'light',
     cancelTokenArr: [], // 取消请求token数组
     deviceColor: localStorage.getItem('deviceColor') || 'black',
     modules: {

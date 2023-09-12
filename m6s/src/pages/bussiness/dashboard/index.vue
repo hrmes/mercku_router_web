@@ -718,7 +718,7 @@ h6 {
         bottom: 20%;
         left: 50%;
         transform: translateX(-50%);
-        font-size: 80px;
+        font-size: 90px;
         font-weight: 600;
         font-family: 'DINAlternate', sans-serif;
         text-align: center;
@@ -964,7 +964,7 @@ h6 {
       .speed-wrap {
         flex: 1;
         .speed-num {
-          font-size: 36px;
+          font-size: 40px;
           margin-right: 6px;
           font-weight: 600;
           line-height: 1;
@@ -1256,7 +1256,7 @@ h6 {
             align-items: flex-start;
           }
           .speed-num {
-            font-size: 30px;
+            font-size: 32px;
           }
           .speed-unit {
             font-size: 18px;

@@ -164,6 +164,11 @@ export default {
 </script>
 
 <style lang="scss">
+@font-face {
+  font-family: 'DINAlternate';
+  src: url('./style/iconfont/DIN.ttf');
+  font-display: swap;
+}
 [data-title]:hover:after {
   opacity: 1;
   visibility: visible;
@@ -209,7 +214,7 @@ li {
 .scrollbar-wrap {
   height: 100%;
   overflow: auto;
-  font-family: 'PingFang', sans-serif;
+  font-family: 'PingFang', 'Helvetica', sans-serif;
   background: var(--scrollbar_wrap-bgc__isNotLogin);
   &.is-login-page {
     background: var(--scrollbar_wrap-bgc__isLogin);
