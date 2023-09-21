@@ -308,7 +308,7 @@ export default {
   },
   watch: {
     '$store.mode': function watcher() {
-      console.log(`watch task...mode is:${this.$store.mode}`);
+      console.log(`watch task...mode is:${this.$store.state.mode}`);
       this.clearIntervalTask();
       this.createIntercvalTask();
     },
