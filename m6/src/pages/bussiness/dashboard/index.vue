@@ -276,7 +276,7 @@ export default {
       return result;
     })(),
     isRouter() {
-      return CONSTANTS.RouterMode.router === this.$store.state.mode;
+      return this.$store.state.mode === CONSTANTS.RouterMode.router;
     },
     tips() {
       return marked(this.$t('trans0574'), { sanitize: true });
@@ -315,7 +315,7 @@ export default {
   },
   watch: {
     '$store.mode': function watcher() {
-      console.log(`watch task...mode is:${this.$store.mode}`);
+      console.log(`watch task...mode is:${this.$store.state.mode}`);
       this.clearIntervalTask();
       this.createIntercvalTask();
     },
@@ -379,6 +379,7 @@ export default {
     createIntercvalTask() {
       console.log(`createInterval task...mode is:${this.$store.state.mode}`);
       this.getDeviceCount();
+      console.log('123123', this.isRouter);
       if (this.isRouter) {
         this.getWanNetStats();
       }

@@ -133,7 +133,7 @@ export default {
 
         const { role } = (await this.$http.login({ password: this.password }))
           .data.result;
-        this.$store.role = role;
+        this.$store.state.role = role;
         localStorage.setItem('role', role);
 
         const { status } = (await this.$http.isinitial()).data.result;
@@ -144,7 +144,7 @@ export default {
 
         const { mode } = (await this.$http.getMeshMode()).data.result;
 
-        this.$store.mode = mode;
+        this.$store.state.mode = mode;
         localStorage.setItem('mode', mode);
 
         this.$router.push({ path: '/dashboard' });
