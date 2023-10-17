@@ -161,9 +161,7 @@ const launch = () => {
           }
           !options?.hideToast && toast(i18nInstance.translate(error.code));
         } else {
-          !options?.isReconnect &&
-            router.push({ path: '/unconnect' }) &&
-            console.log('全局捕错跳至Unconnect');
+          !options?.isReconnect && router.push({ path: '/unconnect' });
         }
       }
       throw data;

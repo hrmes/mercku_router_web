@@ -647,6 +647,7 @@ ul {
           .sub-text {
             width: 87%;
             margin: 0 auto;
+            font-size: 12px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: pre;
