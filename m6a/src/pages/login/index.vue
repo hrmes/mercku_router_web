@@ -1,7 +1,9 @@
 <template>
   <div class="login-container customized">
     <div class="center-form"
-         :class="{'light':currentTheme!=='auto'&&!isDarkMode,'dark':currentTheme!=='auto'&&isDarkMode}">
+         :class="{'light':currentTheme!=='auto'
+                  &&!isDarkMode,'dark':currentTheme!=='auto'
+                  &&isDarkMode}">
       <div class="form">
         <div class="logo">
         </div>
@@ -88,25 +90,25 @@ export default {
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  // mounted() {
-  //   this.loading = true;
-  //   this.$http
-  //     .isinitial()
-  //     .then(res => {
-  //       if (res.data.result.status) {
-  //         this.$http.login({ password: '' }).then(() => {
-  //           this.towlan();
-  //         });
-  //       } else {
-  //         this.initial = false;
-  //         this.loading = false;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       this.initial = false;
-  //       this.loading = false;
-  //     });
-  // },
+  mounted() {
+    this.loading = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.towlan();
+          });
+        } else {
+          this.initial = false;
+          this.loading = false;
+        }
+      })
+      .catch(() => {
+        this.initial = false;
+        this.loading = false;
+      });
+  },
   computed: {
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
@@ -140,21 +142,21 @@ export default {
           this.$store.state.role = role;
           localStorage.setItem('role', role);
           this.$http.getMeshMode()
-          .then(res1 => {
-            this.$loading.close();
-            const { mode } = res1.data.result;
-            this.$store.state.mode = mode;
-            localStorage.setItem('mode', mode);
+            .then(res1 => {
+              this.$loading.close();
+              const { mode } = res1.data.result;
+              this.$store.state.mode = mode;
+              localStorage.setItem('mode', mode);
 
-            const { sn } = res1.data.result;
-            const modelID = sn.charAt(9);
-            // const modelID = '0';
-            this.$store.state.modelID = modelID;
-            localStorage.setItem('modelID', modelID);
+              const { sn } = res1.data.result;
+              const modelID = sn.charAt(9);
+              // const modelID = '0';
+              this.$store.state.modelID = modelID;
+              localStorage.setItem('modelID', modelID);
 
-            this.$router.push({ path: '/dashboard' });
-            this.$loading.close();
-          });
+              this.$router.push({ path: '/dashboard' });
+              this.$loading.close();
+            });
         })
         .catch(err => {
           this.$loading.close();

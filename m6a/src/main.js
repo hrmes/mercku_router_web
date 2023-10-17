@@ -69,7 +69,7 @@ const launch = () => {
         if (responsed) {
           responsed = false;
           http
-            .getRouter()
+            .getRouter(undefined, { isReconnect: true })
             .then(() => {
               responsed = true;
               clearInterval(timer);
@@ -159,9 +159,11 @@ const launch = () => {
 
             throw err;
           }
-          !options.hideToast && toast(i18nInstance.translate(error.code));
+          !options?.hideToast && toast(i18nInstance.translate(error.code));
         } else {
-          router.push({ path: '/unconnect' });
+          !options?.isReconnect &&
+            router.push({ path: '/unconnect' }) &&
+            console.log('全局捕错跳至Unconnect');
         }
       }
       throw data;
