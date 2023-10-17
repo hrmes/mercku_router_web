@@ -22,6 +22,9 @@ import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
+import vpn from 'pages/bussiness/advance/vpn/index.vue';
+import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
+import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -35,8 +38,6 @@ import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
 import dmz from 'base/pages/bussiness/advance/dmz.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import log from 'base/pages/bussiness/advance/log.vue';
-import vpn from 'base/pages/bussiness/advance/vpn/index.vue';
-import vpnForm from 'base/pages/bussiness/advance/vpn/form.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
@@ -338,6 +339,15 @@ const routes = {
       path: '/advance/dmz',
       name: 'advance-dmz',
       component: dmz,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/frozenCofig',
+      name: 'advance-frozen-cofig',
+      component: frozenConfig,
       meta: {
         layout: 'primary',
         hasAside: true
