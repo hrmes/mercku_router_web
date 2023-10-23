@@ -166,7 +166,7 @@
   "trans0165": "Mesh-hovedenhet",
   "trans0166": "Administratorpassordet er det samme som WiFi-passordet.",
   "trans0167": "Vennligst opprett navn på WiFi-nettet og angi et passord",
-  "trans0168": "WiFi-navn",
+  "trans0168": "-navn",
   "trans0169": "Passordet kan bare inneholde 8-24 sifre, bokstaver eller spesialtegn, eller en hvilken som helst kombinasjon av disse.",
   "trans0170": "Konfigurasjon fullført",
   "trans0171": "Vennligst vent et øyeblikk og koble til på nytt",
@@ -1048,5 +1048,14 @@
   "trans1053": "Aus Album auswählen",
   "trans1054": "Foto",
   "trans1055": "Fertig (%d/%d)",
-  "trans1056": "RSSI"
+  "trans1056": "RSSI",
+  "trans1057": " ",
+  "trans1058": " ",
+  "trans1059": " ",
+  "trans1060": " ",
+  "trans1061": " ",
+  "trans1062": " ",
+  "trans1063": " ",
+  "trans1064": " ",
+  "trans1065": " "
 }

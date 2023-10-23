@@ -7,45 +7,45 @@
     <div class="page-content">
       <m-form class="form"
               ref="stun"
-              :model="form"
+              :model="stun"
               :rules="rules">
-        <div class="section-title">STUN Server Settings</div>
-        <m-form-item prop="stun.server_address">
-          <m-input label="STUN Server Address"
-                   v-model="form.stun.server_address"
+        <div class="section-title">{{$t('trans1204')}}</div>
+        <m-form-item prop="server_address">
+          <m-input :label="$t('trans1205')"
+                   v-model="stun.server_address"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item prop="stun.server_port">
-          <m-input label="STUN Server Port (optional)"
-                   v-model="form.stun.server_port"
+        <m-form-item prop="server_port">
+          <m-input :label="$t('trans1206')"
+                   v-model="stun.server_port"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="stun.username">
-          <m-input label="STUN Server Username"
-                   v-model="form.stun.username"
+          <m-input :label="$t('trans0155')"
+                   v-model="stun.username"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="stun.password">
-          <m-input label="STUN Server Password"
+          <m-input :label="$t('trans0156')"
                    type="password"
-                   v-model="form.stun.password"
+                   v-model="stun.password"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item prop="stun.min_keepalive">
-          <m-input label="Min Keepalive Interval (s)"
-                   v-model="form.stun.min_keepalive"
+        <m-form-item prop="min_keepalive">
+          <m-input :label="$t('trans1207')"
+                   v-model="stun.min_keepalive"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item prop="stun.max_keepalive">
-          <m-input label="Max Keepalive Interval (s)"
-                   v-model="form.stun.max_keepalive"
+        <m-form-item prop="max_keepalive">
+          <m-input :label="$t('trans1208')"
+                   v-model="stun.max_keepalive"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <div class="form-item">
           <m-checkbox :text="$t('trans0462')"
                       :rect="false"
                       :bold="true"
-                      v-model="form.enabled"></m-checkbox>
+                      v-model="stunEnabled"></m-checkbox>
         </div>
       </m-form>
       <div class="form-button">
@@ -57,65 +57,55 @@
 </template>
 
 <script>
-import { getStringByte, isValidPassword, isFieldHasSpaces } from 'base/util/util';
+import { isIP } from 'base/util/util';
+
+const DomainRegex = /^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d{1,5})?(\/([\w-]+)?(\.\w+)?)*$/;
+const NumberReg = /^((http|https)?:\/\/)?[0-9.]+$/;
 
 export default {
   data() {
     return {
-      form: {
-        enabled: false,
-        stun: {
-          server_address: '',
-          server_port: '',
-          username: '',
-          password: '',
-          max_keepalive: null,
-          min_keepalive: null
-        }
+      stunEnabled: false,
+      stun: {
+        server_address: '',
+        server_port: '',
+        username: '',
+        password: '',
+        max_keepalive: null,
+        min_keepalive: null
       },
       rules: {
-        'stun.server_address': [
+        server_address: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
           },
-        ],
-        'stun.server_port': [
           {
-            rule: value => (value ? /^[0-9]+$/.test(value) : true),
-            message: this.$t('trans0031')
+            rule: value => {
+              if (value && !DomainRegex.test(value)) {
+                return false;
+              }
+              if (NumberReg.test(value)) {
+                if (value && !isIP(value)) {
+                  return false;
+                }
+              }
+              return true;
+            },
+            message: this.$t('trans0231')
+          },
+        ],
+        server_port: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0478')
           },
           {
             rule: value => (value ? value >= 1 && value <= 65535 : true),
             message: this.$t('trans0478')
           }
         ],
-        'stun.username': [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => getStringByte(value) <= 64,
-            message: this.$t('trans1174')
-          }
-        ],
-        'stun.password': [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => {
-              if (!value) {
-                return true;
-              }
-              return isValidPassword(value, 1, 64);
-            },
-            message: this.$t('trans0169').format(1, 64)
-          }
-        ],
-        'stun.max_keepalive': [
+        max_keepalive: [
           {
             rule: value => (/^[0-9]+$/.test(value)),
             message: this.$t('trans1158')
@@ -129,7 +119,7 @@ export default {
               .replace('%d', 999999999)
           }
         ],
-        'stun.min_keepalive': [
+        min_keepalive: [
           {
             rule: value => (/^[0-9]+$/.test(value)),
             message: this.$t('trans1158')
@@ -146,13 +136,34 @@ export default {
       }
     };
   },
+  computed: {
+    paramsStun() {
+      const { username, password } = this.stun;
+      const result = {
+        server_address: this.stun.server_address,
+        server_port: this.stun.server_port,
+        max_keepalive: this.stun.max_keepalive,
+        min_keepalive: this.stun.min_keepalive
+      };
+      if (username) {
+        result.username = username;
+      }
+      if (password) {
+        result.password = password;
+      }
+      return result;
+    }
+  },
+  mounted() {
+    this.getRouterStunConfig();
+  },
   methods: {
     getRouterStunConfig() {
       this.$loading.open();
       this.$http.getStunConfig()
         .then(res => {
-          this.form.enabled = res.data.result.enabled;
-          this.form.stun = res.data.result.stun;
+          this.stunEnabled = res.data.result.enabled;
+          this.stun = res.data.result.stun;
         })
         .finally(() => {
           this.$loading.close();
@@ -161,7 +172,10 @@ export default {
     updateRouterStunConfig() {
       if (this.$refs.stun.validate()) {
         this.$loading.open();
-        this.$http.updateStunConfig(this.form)
+        this.$http.updateStunConfig({
+          enabled: this.stunEnabled,
+          stun: this.paramsStun
+        })
           .then(() => {
             this.$toast(this.$t('trans0040'), 3000, 'success');
           })
