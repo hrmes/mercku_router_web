@@ -25,6 +25,7 @@ import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
+import stun from 'pages/bussiness/advance/stun.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -420,6 +421,15 @@ const routes = {
       path: '/advance/tr069',
       name: 'advance.tr069',
       component: tr069,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/stun',
+      name: 'advance.stun',
+      component: stun,
       meta: {
         layout: 'primary',
         hasAside: true

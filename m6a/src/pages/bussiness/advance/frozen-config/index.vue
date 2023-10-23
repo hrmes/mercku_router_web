@@ -115,13 +115,13 @@ export default {
   computed: {
     formParams() {
       return {
-       enabled: this.enabled,
-       configs: this.enabled ? Object.values(this.configurations).flatMap(item => item.checkedConfigList) : []
+        enabled: this.enabled,
+        configs: this.enabled ? Object.values(this.configurations).flatMap(item => item.checkedConfigList) : []
       };
     }
   },
   methods: {
-     handleCheckCategoryChange(val, category) {
+    handleCheckCategoryChange(val, category) {
       category.checkedConfigList = [];
       if (val) {
         category.checkedConfigList = this.getcheckedConfigList(
@@ -130,7 +130,7 @@ export default {
       }
       category.isCheckAll = val;
     },
-     handleCheckedConfigChange(val, category) {
+    handleCheckedConfigChange(val, category) {
       const configCount = Object.keys(category.children).length;
       const checkedCount = category.checkedConfigList?.length;
       category.isCheckAll = configCount === checkedCount;
@@ -141,25 +141,24 @@ export default {
     getRouterFrozenCofig() {
       this.$loading.open();
       this.$http.getRouterFrozenConfig()
-      .then(res => {
-        this.enabled = res.data.result.enabled;
-        this.frozenConfigList = res.data.result.configs;
-      })
-      .finally(() => {
-        this.$loading.close();
-      });
+        .then(res => {
+          this.enabled = res.data.result.enabled;
+          this.frozenConfigList = res.data.result.configs;
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     },
     save() {
-      console.log(this.formParams);
       this.$loading.open();
       this.$http.updateRouterFrozenConfig(this.formParams)
-      .then(() => {
-        this.$toast(this.$t('trans0040'), 3000, 'success');
-        this.getRouterFrozenCofig();
-      })
-     .finally(() => {
-      this.$loading.close();
-     });
+        .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.getRouterFrozenCofig();
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     }
   },
   mounted() {

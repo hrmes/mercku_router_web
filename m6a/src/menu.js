@@ -259,6 +259,21 @@ export default function getMenu(role, mode = RouterMode.router) {
         }
       },
       {
+        url: '/advance/stun',
+        name: 'advance.stun',
+        text: 'STUN',
+        config: {
+          show: false,
+          auth: [Role.admin, Role.super],
+          mode: [RouterMode.router, RouterMode.bridge]
+        },
+        customers: {
+          [Customers.mercku]: {
+            show: true
+          }
+        }
+      },
+      {
         url: '/advance/telnet',
         name: 'advance.telnet',
         text: 'trans0497',

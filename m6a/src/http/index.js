@@ -8,7 +8,9 @@ const methods = {
   setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set'),
   getNewMeshNodeInfo: createMethod('mesh.node.new.info'),
   getRouterFrozenConfig: createMethod('router.config.frozen.get'),
-  updateRouterFrozenConfig: createMethod('router.config.frozen.update')
+  updateRouterFrozenConfig: createMethod('router.config.frozen.update'),
+  getStunConfig: createMethod('router.stun.get'),
+  updateStunConfig: createMethod('router.stun.update')
 };
 
 class M6aHttp extends Http {}
