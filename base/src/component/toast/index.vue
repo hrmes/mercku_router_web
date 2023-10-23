@@ -69,32 +69,32 @@ export default {
   &.error {
     background: var(--toast-error-background-color);
     box-shadow: var(--toast-error-shadow);
-    &::before {
-      content: '';
-      margin-right: 8px;
-      flex-shrink: 0;
-      display: block;
-      width: 14px;
-      height: 14px;
-      background: url(../../assets/images/v3/icon/ic_default_error.svg) center
-        no-repeat;
-      background-size: 100%;
-    }
+    // &::before {
+    //   content: '';
+    //   margin-right: 8px;
+    //   flex-shrink: 0;
+    //   display: block;
+    //   width: 14px;
+    //   height: 14px;
+    //   background: url(../../assets/images/v3/icon/ic_default_error.svg) center
+    //     no-repeat;
+    //   background-size: 100%;
+    // }
   }
   &.success {
     background: var(--toast-success-background-color);
     box-shadow: var(--toast-success-shadow);
-    &::before {
-      content: '';
-      margin-right: 8px;
-      flex-shrink: 0;
-      display: block;
-      width: 15px;
-      height: 15px;
-      background: url(../../assets/images/v3/icon/ic_default_success.svg) center
-        no-repeat;
-      background-size: contain;
-    }
+    // &::before {
+    //   content: '';
+    //   margin-right: 8px;
+    //   flex-shrink: 0;
+    //   display: block;
+    //   width: 15px;
+    //   height: 15px;
+    //   background: url(../../assets/images/v3/icon/ic_default_success.svg) center
+    //     no-repeat;
+    //   background-size: contain;
+    // }
   }
   /* 淡入淡出效果 */
   &.toast-enter-active {

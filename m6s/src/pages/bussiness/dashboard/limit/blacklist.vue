@@ -29,7 +29,7 @@
         </div>
         <div class="empty"
              v-if="isEmpty">
-          <img src="@/assets/images/img_default_empty.webp"
+          <img src="@/assets/images/img_default_empty.png"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
         </div>
@@ -37,6 +37,7 @@
     </div>
 
     <m-modal class="modal"
+             :closeOnClickMask="false"
              :visible.sync="modalShow">
       <div class="modal-content">
         <div class="modal-form">
@@ -96,6 +97,10 @@ export default {
           {
             rule: value => getStringByte(value) <= 30,
             message: this.$t('trans0226')
+          },
+          {
+            rule: value => !this.parentControlLimitList.includes(value),
+            message: `${this.$t('trans0020')} ${this.$t('trans0082')}`
           }
         ]
       }
@@ -206,7 +211,8 @@ export default {
         this.$http
           .parentControlLimitAdd({
             mac: this.form.mac,
-            hosts: [this.host]
+            hosts: [this.host],
+            mode: this.mode ? BlacklistMode.blacklist : BlacklistMode.free
           })
           .then(() => {
             this.parentControlLimitList.push(this.host);

@@ -177,7 +177,7 @@ export default {
       }
     },
     submit() {
-      if (!this.$refs.ipListForm.validate()) {
+      if (this.wan.ping.enabled && !this.$refs.ipListForm.validate()) {
         return;
       }
       this.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;

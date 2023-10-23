@@ -50,13 +50,14 @@
         </div>
         <div class="empty"
              v-if="isEmpty">
-          <img src="@/assets/images/img_default_empty.webp"
+          <img src="@/assets/images/img_default_empty.png"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
         </div>
       </div>
     </div>
     <m-modal class="modal"
+             :closeOnClickMask="false"
              :visible.sync="modalShow"
              :type="'confirm'">
       <div class="modal-content">
@@ -173,7 +174,7 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    if (this.limit && this.limit.time_limit) {
+    if (this.limit && this.limit.time_limit.length) {
       this.timeLimitList = this.limit.time_limit;
     } else {
       this.getList();
@@ -236,7 +237,7 @@ export default {
           }
         });
       });
-      return newArr.join(' / ');
+      return newArr.join(', ');
     },
     clearForm() {
       this.schedules.forEach(v => {

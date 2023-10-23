@@ -120,6 +120,7 @@ export default {
             current: formatMac(res.data.result.current)
           };
           this.isDefault = !this.mac.current;
+          if (this.mac.current && this.mac.default === this.mac.current) this.isDefault = true;
           this.$loading.close();
         })
         .catch(() => {
@@ -151,6 +152,7 @@ export default {
                   timeout: 60,
                   onsuccess: () => {
                     this.$toast(this.$t('trans0040'), 2000, 'success');
+                    if (this.mac.default === this.mac.current) this.isDefault = true;
                     this.$router.push({ path: '/advance/mac' });
                   },
                   ontimeout: () => {

@@ -70,12 +70,8 @@ export default {
           ],
           'upperApForm.password': [
             {
-              rule: value => value !== '',
-              message: this.$t('trans0281')
-            },
-            {
-              rule: value => isValidPassword(value, 1, 63),
-              message: this.$t('trans1077')
+              rule: value => value,
+              message: this.$t('trans0232')
             }
           ]
         };
@@ -133,7 +129,7 @@ export default {
             clearTimeout(this.getApclientScanTimer);
             this.getApclientScanTimer = null;
 
-            result = result.filter(item => item.ssid !== ' ');
+            result = result.filter(item => !/^\s*$/.test(item.ssid));
             result = this.deweight(result);
             console.log('deweight', result);
             result.sort((a, b) => b.rssi - a.rssi);
@@ -173,7 +169,9 @@ export default {
         });
     },
     selectedChange(option) {
-      this.pwdDisabled = option.security === EncryptMethod.OPEN;
+      this.pwdDisabled =
+        option.security === EncryptMethod.OPEN ||
+        option.security === EncryptMethod.open;
       this.saveDisable = false;
       const {
         ssid,
@@ -195,14 +193,32 @@ export default {
       };
       console.log('upperAp', this.upperApForm);
     },
-    connectUpperAp(pageType) {
+    connectUpperAp(mode, pageType, reconnect) {
       if (this.$refs.upperApForm.validate()) {
         console.log('upperApInfo is', this.upperApForm);
         // this.$loading.open({ template: this.$t('trans1105') });
         this.$http
-          .updateMeshApclient({ apclient: this.upperApForm })
+          .updateMeshApclient({ mode, apclient: this.upperApForm })
           .then(() => {
+            this.$store.state.mode = mode;
+            localStorage.setItem('mode', mode);
+            if (reconnect) {
+              this.$reconnect({
+                timeout: 30,
+                onsuccess: () => {
+                  this.$toast(this.$t('trans0040'), 3000, 'success');
+                  // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+                  this.$router.push({ path: '/login' });
+                },
+                ontimeout: () => {
+                  this.$router.push({ path: '/unconnect' });
+                }
+              });
+            }
             this.checkMeshApclient(pageType);
+          })
+          .catch(() => {
+            this.$store.state.changeMode = false;
           });
         // setTimeout(() => {
         //   this.checkMeshApclient(pageType);
@@ -214,9 +230,9 @@ export default {
         // this.$loading.close();
         this.initializationHandle();
       }
-      if (pageType === PageTypes.ModeChange) {
-        this.modeChangeHandle();
-      }
+      // if (pageType === PageTypes.ModeChange) {
+      //   this.modeChangeHandle();
+      // }
       // this.$http
       //   .checkMeshApclient(undefined, { hideToast: true })
       //   .then(res => {

@@ -99,6 +99,5 @@
   { "name": "Venezuela", "code": "862" },
   { "name": "Vietnam", "code": "704" },
   { "name": "Yemen", "code": "887" },
-  { "name": "Zimbabwe", "code": "716" },
-  { "name": "Other", "code": "999" }
+  { "name": "Zimbabwe", "code": "716" }
 ]

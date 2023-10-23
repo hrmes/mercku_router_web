@@ -83,6 +83,7 @@
 
 <script>
 import { LoginImg } from '@/assets/images/v3/base64-img/img.js';
+import { setCookie, getCookie, clearCookie } from '../../util/cookie';
 
 export default {
   data() {
@@ -91,30 +92,39 @@ export default {
       initial: false,
       loading: false,
       password: '',
-      isDarkMode: false
+      isDarkMode: false,
+
+      lockCount: 5,
+      lockTime: 60,
+
+      isLocked: false,
+      lockTimer: null,
+
+      lockCountLeft: 5,
+      lockEndTime: 0
     };
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  // mounted() {
-  //   this.loading = true;
-  //   this.$http
-  //     .isinitial()
-  //     .then(res => {
-  //       if (res.data.result.status) {
-  //         this.$http.login({ password: '' }).then(() => {
-  //           this.towlan();
-  //         });
-  //       } else {
-  //         this.initial = false;
-  //         this.loading = false;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       this.initial = false;
-  //       this.loading = false;
-  //     });
-  // },
+  mounted() {
+    this.loading = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.towlan();
+          });
+        } else {
+          this.initial = false;
+          this.loading = false;
+        }
+      })
+      .catch(() => {
+        this.initial = false;
+        this.loading = false;
+      });
+  },
   computed: {
     isMobile() {
       return this.$store.state.isMobile;
@@ -147,16 +157,33 @@ export default {
       immediate: true
     }
   },
+  created() {
+    clearCookie('session');
+    this.checkLockStatus();
+  },
   methods: {
     towlan() {
       this.$router.push({ path: '/wlan' });
     },
     login() {
+      if (!this.password) {
+        this.$toast(this.$t('trans0799'));
+        return;
+      }
+      if (this.isLocked) {
+        this.$toast(this.$t('trans0665'));
+        return;
+      }
       this.$loading.open();
       this.$http
         .login({ password: this.password })
         .then(res => {
-          const { role } = res.data.result;
+          const { role, session } = res.data.result;
+
+          setCookie('session', session, 0);
+          setCookie('lockEndTime', 0, 1);
+          setCookie('lockCountLeft', this.lockCount, 1);
+
           this.$store.state.role = role;
           localStorage.setItem('role', role);
           this.$http.getMeshMode().then(res1 => {
@@ -169,9 +196,72 @@ export default {
             this.$loading.close();
           });
         })
-        .catch(() => {
+        .catch(error => {
           this.$loading.close();
+          this.curLockCount(error);
         });
+    },
+    curLockCount(err) {
+      this.lockCountLeft -= 1;
+      setCookie('lockCountLeft', this.lockCountLeft, 1);
+
+      if (this.lockCountLeft === 0) {
+        this.lockEndTime = new Date().getTime() + 1000 * this.lockTime;
+        setCookie('lockEndTime', this.lockEndTime, 1);
+        this.$toast(this.$t('trans0665'));
+        this.doLockTimer();
+      } else {
+        this.$toast(this.$t(err.error.code));
+      }
+    },
+    checkLockStatus() {
+      const lockEndTime = getCookie('lockEndTime');
+      const lockCountLeft = getCookie('lockCountLeft');
+      if (
+        lockEndTime == null ||
+        Number.isNaN(lockEndTime) === true ||
+        lockEndTime < 0
+      ) {
+        setCookie('lockEndTime', 0, 1);
+        this.lockEndTime = 0;
+      } else {
+        this.lockEndTime = lockEndTime;
+      }
+      if (
+        lockCountLeft == null ||
+        Number.isNaN(lockCountLeft) === true ||
+        parseInt(lockCountLeft, 10) < 0
+      ) {
+        setCookie('lockCountLeft', this.lockCount, 1);
+        this.lockCountLeft = this.lockCount;
+      } else {
+        this.lockCountLeft = parseInt(lockCountLeft, 10);
+      }
+
+      const curTime = new Date().getTime();
+      if (this.lockCountLeft === 0 && curTime < this.lockEndTime) {
+        this.doLockTimer();
+      } else if (this.lockCountLeft === 0 && curTime > this.lockEndTime) {
+        this.lockCountLeft = this.lockCount;
+        this.lockEndTime = 0;
+        setCookie('lockCountLeft', this.lockCount, 1);
+        setCookie('lockEndTime', 0, 1);
+      }
+    },
+    doLockTimer() {
+      this.isLocked = true;
+      let curTime = new Date().getTime();
+      this.lockTimer = setInterval(() => {
+        curTime += 1000;
+        if (curTime > this.lockEndTime) {
+          this.isLocked = false;
+          this.password = '';
+          this.lockCountLeft = this.lockCount;
+          this.lockEndTime = 0;
+          clearInterval(this.lockTimer);
+          this.lockTimer = null;
+        }
+      }, 1000);
     }
   }
 };

@@ -169,7 +169,7 @@ export default {
         ]
       },
       current: 0,
-      countdown: 150,
+      countdown: 60,
       wifiForm: {
         smart_connect: true,
         ssid24g: '',
@@ -290,6 +290,7 @@ export default {
       })
       .then(() => {
         this.getRegionInitData();
+        this.$loading.close();
       });
   },
   methods: {
@@ -320,30 +321,18 @@ export default {
       }
     },
     getRegionInitData() {
-      Promise.all([this.$http.getRegion(), this.$http.getSupportRegions()])
-        .then(resArr => {
-          const region = resArr[0].data.result;
-          this.region_id = region.ip_country_id || region.id;
+      this.$http
+        .getRegion()
+        .then(res => {
+          const region = res.data.result;
+          this.region_id = parseInt(region.ip_country_id || region.id, 10);
 
-          let allRegion = require(`base/assets/regions/${this.$i18n.locale}.json`);
+          const allRegion = require(`base/assets/regions/${this.$i18n.locale}.json`);
 
-          allRegion = allRegion.map(r => ({
+          this.regionsList = allRegion.map(r => ({
             text: r.name,
             value: parseInt(r.code, 10)
           }));
-          // 从所有区域中过滤掉不支持选择的区域
-          const regions = [];
-          const supportRegions = resArr[1].data.result;
-
-          // 显示需要排序，原本的文件中是有序的，支持列表时无序的，所以以原本的文件为基准
-          allRegion.forEach(ar => {
-            // const id = `${sr.id}`; // change number to string
-            const t = supportRegions.filter(sr => sr.id === ar.value)[0];
-            if (t) {
-              regions.push(ar);
-            }
-          });
-          this.regionsList = regions;
           this.$loading.close();
         })
         .catch(() => {
@@ -358,6 +347,7 @@ export default {
       if (this.$refs.wifiForm.validate()) {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
+          this.wifiForm.ssid5g = this.wifiForm.ssid24g;
         }
         this.isLoading = true;
         // 提交表单
@@ -377,7 +367,7 @@ export default {
                 },
                 smart_connect: this.wifiForm.smart_connect
               },
-              admin: { password: this.wifiForm.password24g },
+              admin: { username: 'admin', password: this.wifiForm.password24g },
               region_id: this.region_id
             }
           })

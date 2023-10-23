@@ -18,11 +18,15 @@ export default function upgradeHelper(indexHtml, isUpgrading, component) {
       'the x-web-version-hash is not same, i think router has upgrade'
     );
     // document.write(indexHtml); document.write not works sometimes
-    window.location.pathname = '/web/login'; // true means force reload
+    window.location.pathname = '/web/dashboard'; // true means force reload
   }
   console.log('the x-web-version-hash is same, i think router not upgrade');
+  const upgrade = isUpgrading && component;
   if (isUpgrading && component) {
     isUpgrading = false;
     component.close();
+  }
+  if (upgrade && newHash === oldHash) {
+    window.location.reload();
   }
 }

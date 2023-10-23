@@ -9,7 +9,7 @@
         <div class="row-1">
           <div class="seccess-info card">
             <div>
-              <label class="with-colon">上网方式:</label>
+              <label class="with-colon">{{$t('trans0317')}}:</label>
               <span>
                 {{ networkArr[localNetInfo.type] }}
               </span>
@@ -39,7 +39,7 @@
         <div class="row-2">
           <div class="net-type card">
             <m-form-item>
-              <m-select label="上网方式"
+              <m-select :label="$t('trans0317')"
                         v-model="netType"
                         :options="options"></m-select>
               <div class="des-tips">{{ netNote[netType] }}</div>
@@ -50,7 +50,7 @@
                     :model="dhcpForm"
                     :rules="dhcpRules">
               <m-form-item :class="{last:autodns.dhcp}">
-                <m-select label="DNS设置"
+                <m-select :label="$t('trans0401')"
                           v-model="autodns.dhcp"
                           :options="dnsOptions"></m-select>
               </m-form-item>
@@ -91,7 +91,7 @@
                          v-model="pppoeForm.password" />
               </m-form-item>
               <m-form-item :class="{'last':autodns.pppoe}">
-                <m-select label="DNS设置"
+                <m-select :label="$t('trans0401')"
                           v-model="autodns.pppoe"
                           :options="dnsOptions"></m-select>
               </m-form-item>
@@ -159,7 +159,7 @@
               </m-form-item>
             </m-form>
           </div>
-          <div class="form__vlan card">
+          <div class="form__vlan card" style="display: none;">
             <m-form-item :class="{last:!vlan.enabled}">
               <m-switch :label="$t('trans0683')"
                         v-model="vlan.enabled"></m-switch>
@@ -688,7 +688,7 @@ export default {
                 cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
-              if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp.dns.length) {
                 this.autodns.dhcp = false;
                 [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
                 this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
@@ -697,7 +697,7 @@ export default {
             if (this.isPppoe) {
               this.pppoeForm.account = this.netInfo.pppoe.account;
               this.pppoeForm.password = this.netInfo.pppoe.password;
-              if (this.netInfo.pppoe.dns) {
+              if (this.netInfo.pppoe.dns.length) {
                 this.autodns.pppoe = false;
                 [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
                 this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
@@ -734,7 +734,7 @@ export default {
                 ontimeout: () => {
                   this.$router.push({ path: '/unconnect' });
                 },
-                timeout: 60
+                timeout: 30
               });
             });
           }
@@ -843,7 +843,7 @@ export default {
   padding: 15px;
   div {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     padding: 5px 0;
     font-size: 14px;
   }
@@ -855,6 +855,7 @@ export default {
   span {
     display: inline-block;
     width: 160px;
+    word-wrap: break-word;
   }
 }
 @media screen and(max-width:768px) {

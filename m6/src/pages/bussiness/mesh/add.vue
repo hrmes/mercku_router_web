@@ -108,7 +108,7 @@
               </div>
               <div v-else-if="nodes.length >1"
                    class="scan-result__much">
-                <img src="@/assets/images/img_default_empty.webp"
+                <img src="@/assets/images/img_default_empty.png"
                      alt="">
                 <p class="scan-result__title">{{$t('trans0637')}}</p>
                 <p class="scan-result__description">{{$t('trans0638')}}</p>
@@ -120,7 +120,7 @@
               <div v-else
                    class="scan-result__empty">
                 <img class="scan-result__image"
-                     src="@/assets/images/img_default_empty.webp"
+                     src="@/assets/images/img_default_empty.png"
                      alt="">
                 <p class="scan-result__title">{{transformText($t('trans0181')) }}</p>
                 <span class="btn-help"
@@ -159,7 +159,7 @@
         <div class="result-container__fail"
              v-if="isAddFail">
           <img class="scan-result__image"
-               src="@/assets/images/img_error.webp"
+               src="@/assets/images/img_error.png"
                alt="">
           <p class="title">{{$t('trans0248')}}</p>
           <span class="result-container__help"

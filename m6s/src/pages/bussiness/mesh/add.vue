@@ -95,7 +95,7 @@
              v-if="isAddSuccess">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_m6s_add_success.webp"
+                 src="~@/assets/images/img_m6s_add_success.svg"
                  alt="" />
           </div>
           <div class="node-sn">
@@ -115,7 +115,7 @@
              v-if="isAddFail">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_default_empty.webp"
+                 src="~@/assets/images/img_default_empty.png"
                  alt="" />
           </div>
           <div class="result-container__tips">{{transDeviceId('trans0181')}}</div>
@@ -657,7 +657,7 @@ export default {
 }
 .circle-animation {
   position: relative;
-  background: url(../../../assets/images/add_node_tip_bj.webp) no-repeat center;
+  background: url(../../../assets/images/add_node_tip_bj.png) no-repeat center;
   background-size: 100%;
   width: 400px;
   margin: 0 auto;

@@ -50,7 +50,7 @@
         </div>
         <div class="empty"
              v-if="isEmpty">
-          <img src="@/assets/images/img_default_empty.webp"
+          <img src="@/assets/images/img_default_empty.png"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
         </div>

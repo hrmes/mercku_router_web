@@ -380,8 +380,9 @@ export default {
           font-weight: bold;
           color: var(--text-default-color);
           line-height: 16px;
-          height: 16px;
+          min-height: 16px;
           margin-top: 10px;
+          word-wrap: break-word;
         }
         .mk-upgrade-node__sn {
           font-size: 12px;

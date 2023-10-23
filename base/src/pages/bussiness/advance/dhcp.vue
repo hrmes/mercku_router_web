@@ -296,7 +296,7 @@ export default {
                 .then(() => {
                   this.$loading.close();
                   this.$reconnect({
-                    timeout: 60,
+                    timeout: 30,
                     onsuccess: () => {
                       this.$toast(this.$t('trans0040'), 2000, 'success');
                       this.$router.push({ path: '/dashboard' });

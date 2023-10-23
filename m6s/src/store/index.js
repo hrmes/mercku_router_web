@@ -11,6 +11,7 @@ export default new Vuex.Store({
     hasTransition: true,
     isConnected: '',
     theme: localStorage.getItem('theme') || 'light',
+    changeMode: true,
     cancelTokenArr: [], // 取消请求token数组
     deviceColor: localStorage.getItem('deviceColor') || 'black',
     modules: {

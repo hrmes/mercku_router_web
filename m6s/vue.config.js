@@ -67,6 +67,11 @@ module.exports = {
         changeOrigin: true,
         secure: true
       },
+      '/kernel.log': {
+        target: host,
+        changeOrigin: true,
+        secure: true
+      },
       '/index.html': {
         target: host,
         changeOrigin: true,

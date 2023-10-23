@@ -50,6 +50,10 @@ export default {
       rules: {
         ip: [
           {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
             rule: value => isIP(value),
             message: this.$t('trans0231')
           }

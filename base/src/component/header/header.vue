@@ -43,7 +43,8 @@
           <div class="nav-item-content"
                :data-title="$t('trans0194')">
             <button class="btn btn-small"
-                    @click.stop="$router.push('/mesh/add')">
+                    :class="{'disabled':isWirelessBridge}"
+                    @click.stop="jumpAddNode">
               <span class="add-icon"></span>
             </button>
           </div>
@@ -201,6 +202,7 @@
 <script>
 import Velocity from 'velocity-animate';
 import languageMixin from 'base/mixins/language';
+import { RouterMode } from 'base/util/constant';
 
 export default {
   mixins: [languageMixin],
@@ -267,6 +269,9 @@ export default {
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    isWirelessBridge() {
+      return RouterMode.wirelessBridge === this.$store.state.mode;
     }
   },
   watch: {
@@ -438,6 +443,10 @@ export default {
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;
       }
+    },
+    jumpAddNode() {
+      if (this.isWirelessBridge) return;
+      this.$router.push('/mesh/add');
     }
   },
   beforeDestroy() {

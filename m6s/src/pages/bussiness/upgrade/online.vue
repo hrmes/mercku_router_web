@@ -16,7 +16,7 @@
         <div class="nodes-wrapper"
              v-if="hasUpgradablityNodes">
           <div class="nodes-info">
-            <div v-for="node in nodes"
+            <div v-for="node in nodesOrdered"
                  :key="node.sn"
                  class="node">
 
@@ -59,13 +59,13 @@
             !hasUpgradablityNodes &&
               requestResult.complete &&
               !requestResult.error">
-            <img src="@/assets/images/img_new_version.webp"
+            <img src="@/assets/images/img_new_version.png"
                  alt=""
                  width="220" />
             <p>{{ $t('trans0259') }}</p>
           </div>
           <div v-if="requestResult.error">
-            <img src="@/assets/images/img_error.webp"
+            <img src="@/assets/images/img_error.png"
                  alt=""
                  width="220" />
             <p>{{ requestResult.message }}</p>
@@ -136,6 +136,14 @@ export default {
   computed: {
     hasUpgradablityNodes() {
       return this.nodes.length > 0;
+    },
+    nodesOrdered() {
+      return this.nodes.sort((a, b) => {
+        if (a.isGW) {
+          return -1;
+        }
+        return 0;
+      });
     }
   },
   mixins: [RouterModel],
@@ -247,7 +255,7 @@ export default {
             this.nodeChecked = nodeChecked;
             this.$loading.open();
             this.$http
-              .upgradeMeshNode({ node_ids: nodeChecked.map(n => n.sn) })
+              .upgradeMeshNode({ node_ids: nodeChecked.map(n => n.sn), local: false })
               .then(() => {
                 this.$loading.close();
                 this.processDialogVisible = true;

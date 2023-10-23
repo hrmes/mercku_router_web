@@ -46,9 +46,9 @@ import { debounce } from 'base/util/util';
 export default {
   data() {
     return {
-      wpsBand: '2.4g',
+      wpsBand: '2g',
       bandList: [
-        { value: '2.4g', text: this.$t('trans0677') },
+        { value: '2g', text: this.$t('trans0677') },
         { value: '5g', text: this.$t('trans0679') }
       ]
     };
@@ -65,12 +65,15 @@ export default {
           data: {
             result: { bands }
           }
-        } = response.data;
+        } = response;
+        let showFirst = false;
         bands.forEach(item => {
           if (item.wps_enabled) {
             this.wpsBand = item.band;
+            if (item.band === '2g') showFirst = true;
           }
         });
+        if (showFirst) this.wpsBand = '2g';
       } catch (error) {
         console.error(error);
       } finally {

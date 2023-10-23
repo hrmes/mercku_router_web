@@ -29,8 +29,7 @@
                 </div>
                 <div class="other">
                   <div class="band">{{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
-                  <div v-if="!isWired"
-                       class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                  <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
                 </div>
               </div>
@@ -120,7 +119,7 @@
             <div v-else
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
-                   src="../../../assets/images/img-bridge.webp">
+                   src="../../../assets/images/img-bridge.png">
               <span>{{$t('trans0984')}}</span>
             </div>
           </div>
@@ -180,7 +179,7 @@
           </m-form-item>
           <m-form-item prop="color">
             <div class="color-select">
-              <h4 class="label">Device Color</h4>
+              <h4 class="label">{{$t('trans1272')}}</h4>
               <ul class="color-select__wrapper">
                 <li v-for="(color,index) in deviceColorArr"
                     :key="index"
@@ -793,10 +792,11 @@ h6 {
         background-color: transparent;
         box-shadow: none;
         .router__img {
+          aspect-ratio: 1;
           width: 100%;
+          height: 100%;
           min-width: 350px;
           max-width: 440px;
-          aspect-ratio: 1;
           position: relative;
           z-index: 2;
         }

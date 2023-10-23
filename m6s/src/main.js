@@ -34,7 +34,9 @@ const launch = () => {
         onprogress: () => {},
         onfinally: () => {},
         timeout: 60,
-        showLoading: true
+        showLoading: true,
+        delayTime: 0,
+        text: 'trans0315'
       },
       ...options
     };
@@ -42,17 +44,20 @@ const launch = () => {
     if (opt.showLoading) {
       loadingInstance = new (Vue.extend(mProgress))({
         propsData: {
-          label: i18nInstance.translate('trans0315'),
+          label: i18nInstance.translate(opt.text),
           during: opt.timeout
         }
       }).$mount();
       document.body.appendChild(loadingInstance.$el);
     }
     let count = opt.timeout; // 60s重试时间
+    let countDelay = opt.delayTime; // 延迟执行时间
     const total = opt.timeout;
+    const isDelay = countDelay > 0;
     let responsed = true;
     const timer = setInterval(() => {
       count -= 1;
+      if (countDelay > 0) countDelay -= 1;
       const percent = ((total - count) / total).toFixed(2);
       opt.onprogress(percent);
       if (count === 0) {
@@ -66,7 +71,9 @@ const launch = () => {
           loadingInstance = null;
         }
       } else if (count !== total && count % 5 === 0) {
-        if (responsed) {
+        if (responsed && countDelay <= 0) {
+          // changeMode为false表示切换工作模式失败
+          if (isDelay && store.state.changeMode === false) return;
           responsed = false;
           http
             .getRouter()
@@ -111,17 +118,19 @@ const launch = () => {
       },
       ...options
     };
-    reconnect({
-      onsuccess: opt.onsuccess,
-      ontimeout: () => {
-        upgrading = false;
-        upgradeComponent.close();
-        opt.ontimeout();
-      },
-      onfinally: () => {},
-      timeout: opt.timeout,
-      showLoading: false
-    });
+    setTimeout(() => {
+      reconnect({
+        onsuccess: opt.onsuccess,
+        ontimeout: () => {
+          upgrading = false;
+          upgradeComponent.close();
+          opt.ontimeout();
+        },
+        onfinally: () => { upgrading = false; },
+        timeout: opt.timeout,
+        showLoading: false
+      });
+    }, 20000);
   };
 
   let modeNotMatchDialogVisble = false;
@@ -138,6 +147,7 @@ const launch = () => {
         if (error) {
           // 升级中
           if (error.code === 600402) {
+            console.log('upgrading===', upgrading)
             !upgrading && upgrade();
             throw err;
           }

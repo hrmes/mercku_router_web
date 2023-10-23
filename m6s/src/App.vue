@@ -224,7 +224,7 @@ li {
     &::-webkit-scrollbar-track,
     ::-webkit-scrollbar-track {
       background-color: var(--scrollbar_wrap-track-color);
-      // border-radius: 100px;
+      border-radius: 100px;
     }
     &::-webkit-scrollbar-thumb,
     ::-webkit-scrollbar-thumb {

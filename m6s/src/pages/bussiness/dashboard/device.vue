@@ -226,8 +226,7 @@
                             v-if="isMobile & !isWired(row)">
                         <img :src="getConnectTypeIcon(row)" />
                       </span>
-                      <span class="online-duration"
-                            v-if="!isWired(row)">
+                      <span class="online-duration">
                         <span
                               class="value">{{transformDate(row.online_info.online_duration)}}</span>
                       </span>
@@ -274,7 +273,7 @@
                   <span v-if="isMobile"
                         class="label">{{$t('trans0015')}}</span>
                   <span class="value">
-                    <i class="iconfont icon-ic_device_throughput"></i>
+                    <i class="iconfont ic_device_throughput"></i>
                     <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
                     <span>{{formatNetworkData
@@ -337,7 +336,7 @@
             </ul>
             <div class='table-empty'
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
-              <img src="@/assets/images/img_default_empty.webp"
+              <img src="@/assets/images/img_default_empty.png"
                    alt="">
               <span>{{$t('trans0278')}}</span>
             </div>
@@ -469,14 +468,14 @@ export default {
         {
           id: 'offline',
           text: this.$t('trans0516'),
-          icon: 'ic_devices_guest_normal'
+          icon: 'ic_devices_offline_normal'
         }
       ];
       if (this.isRouter) {
         list.splice(1, 0, {
           id: 'guest',
           text: this.$t('trans0515'),
-          icon: 'ic_devices_offline_normal'
+          icon: 'ic_devices_guest_normal'
         });
       }
       return list;
@@ -574,7 +573,14 @@ export default {
                 a.online_info.band === wired &&
                 b.online_info.band === wired
               ) {
-                return a.name > b.name;
+                const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+                if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
+                  return -1;
+                }
+                if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+                  return 1;
+                }
+                return a.name.localeCompare(b.name);
               }
               if (a.online_info.band === wired) {
                 return 1;
@@ -918,16 +924,16 @@ export default {
         online_info: { rssi }
       } = row;
       if (this.isMobile) {
-        if (rssi >= -76) {
+        if (rssi > -60) {
           icon = require('@/assets/images/v3/icon/ic_signal_excellent.svg');
-        } else if (rssi < -76 && rssi >= -90) {
+        } else if (rssi <= -60 && rssi > -75) {
           icon = require('@/assets/images/v3/icon/ic_signal_good.svg');
         } else {
           icon = require('@/assets/images/v3/icon/ic_signal_bad.svg');
         }
-      } else if (rssi >= -76) {
+      } else if (rssi > -60) {
         icon = require('@/assets/images/icon/ic_wireless_excellent.svg');
-      } else if (rssi < -76 && rssi >= -90) {
+      } else if (rssi <= -60 && rssi > -75) {
         icon = require('@/assets/images/icon/ic_wireless_fair.svg');
       } else {
         icon = require('@/assets/images/icon/ic_wireless_weak.svg');

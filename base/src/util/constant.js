@@ -142,6 +142,7 @@ export const Models = {
   m6: 'M6R0',
   m6c: 'M7R0',
   m6a: 'M8',
+  m6s: 'M11R1',
   homeway_230v: 'M9R0',
   homeway_POE1: 'M9R1',
   homeway_POE2: 'M9R2'

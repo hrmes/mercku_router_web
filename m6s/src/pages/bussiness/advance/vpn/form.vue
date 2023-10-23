@@ -269,7 +269,8 @@ export default {
         protocol: VPNType.pptp, // L2TP or PPTP
         server: '',
         username: '',
-        password: ''
+        password: '',
+        url: ''
       },
       pptp: {
         mppe: false,
@@ -338,6 +339,7 @@ export default {
           protocol: vpn.protocol.toLowerCase()
         };
         if (vpn.protocol?.toLowerCase() === VPNType.openvpn) {
+          this.form.url = vpn.openvpn.url;
           this.form.username = vpn.username;
           this.form.password = vpn.password;
           this.openvpnForm.advance = !!(vpn.password || vpn.username);
@@ -413,9 +415,12 @@ export default {
           params.openvpn = {
             url: this.openvpnForm.configUrl
           };
+        } else {
+          params.openvpn = {
+            url: this.form.url
+          };
         }
       } else if (this.form.protocol === VPNType.wireguard) {
-        console.log(this.form);
         params = JSON.parse(JSON.stringify(this.form));
         params = this.deepClean(params);
       } else {
@@ -459,6 +464,7 @@ export default {
             this.upload()
               .then(res => {
                 this.openvpnForm.configUrl = res.data.result.url;
+                this.formParams.openvpn.url = res.data.result.url;
                 this.submitForm(fetchMethod);
               })
               .catch(() => {

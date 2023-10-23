@@ -65,7 +65,7 @@
                         :rules="autoRules"
                         class="auto-form">
                   <m-form-item :class="{last:autodns}">
-                    <m-select label="DNS设置"
+                    <m-select :label="$t('trans0401')"
                               v-model="autodns"
                               :options="dnsOptions"></m-select>
                   </m-form-item>
@@ -107,7 +107,7 @@
                                 class="pppoe-form__item__checkbox"></m-checkbox>
                   </m-form-item>
                   <m-form-item :class="{last:autodns}">
-                    <m-select label="DNS设置"
+                    <m-select :label="$t('trans0401')"
                               v-model="autodns"
                               :options="dnsOptions"></m-select>
                   </m-form-item>
@@ -388,7 +388,7 @@ export default {
             ontimeout: () => {
               this.$router.push({ path: '/unconnect' });
             },
-            timeout: 60
+            timeout: 30
           });
         } else {
           this.$dialog.info({
@@ -546,7 +546,7 @@ export default {
 .form-content {
   > div {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     padding: 5px 0;
     font-size: 14px;
     label {
@@ -557,6 +557,7 @@ export default {
     span {
       display: inline-block;
       width: 160px;
+      word-wrap: break-word;
     }
   }
 }

@@ -56,7 +56,7 @@
                  :style="{
             'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
           }">
-              <div v-for="node in localNodes"
+              <div v-for="node in localNodesOrdered"
                    :key="node.sn"
                    class="node">
                 <div class="message"
@@ -194,6 +194,14 @@ export default {
           break;
       }
       return result;
+    },
+    localNodesOrdered() {
+      return this.localNodes.sort((a, b) => {
+        if (a.isGW) {
+          return -1;
+        }
+        return 0;
+      });
     }
   },
   watch: {
@@ -342,11 +350,12 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 300,
+                  timeout: 180,
                   progressVisible: true
                 });
               })
-              .catch(() => {
+              .catch(err => {
+                if (err.response.data.error.code === 600402) this.upgraded = true;
                 this.$loading.close();
               });
           }

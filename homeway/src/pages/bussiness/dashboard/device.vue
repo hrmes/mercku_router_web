@@ -160,7 +160,7 @@
 
             <div class='table-empty'
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
-              <img src="../../../assets/images/img_default_empty.webp"
+              <img src="../../../assets/images/img_default_empty.png"
                    alt="">
               <span>{{$t('trans0278')}}</span>
             </div>

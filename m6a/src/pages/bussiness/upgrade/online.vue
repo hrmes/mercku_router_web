@@ -65,7 +65,7 @@
             <p>{{ $t('trans0259') }}</p>
           </div>
           <div v-if="requestResult.error">
-            <img src="@/assets/images/img_error.webp"
+            <img src="@/assets/images/img_error.png"
                  alt=""
                  width="220" />
             <p>{{ requestResult.message }}</p>

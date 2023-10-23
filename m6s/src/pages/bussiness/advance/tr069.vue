@@ -177,13 +177,13 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) <= 32,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0906')
           }
         ],
         username: [
           {
-            rule: value => getStringByte(value) <= 32,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0261')
           }
         ],
@@ -193,9 +193,9 @@ export default {
               if (!value) {
                 return true;
               }
-              return isValidPassword(value, 1, 32);
+              return isValidPassword(value, 1, 64);
             },
-            message: this.$t('trans0125').format(1, 32)
+            message: this.$t('trans0125').format(1, 64)
           }
         ]
       }

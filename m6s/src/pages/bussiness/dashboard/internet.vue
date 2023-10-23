@@ -110,7 +110,7 @@
             </div>
             <div v-else
                  class="section__body section__body--bridge">
-              <img src="@/assets/images/img-bridge.webp"
+              <img src="@/assets/images/img-bridge.png"
                    alt="">
               <p>{{$t('trans0984')}}</p>
             </div>
@@ -805,12 +805,12 @@ export default {
         background-size: contain;
       }
       &.speed__icon--trafficup {
-        background: url('../../../assets/images/icon/ic_trafficup.webp')
+        background: url('../../../assets/images/icon/ic_trafficup.png')
           no-repeat center;
         background-size: contain;
       }
       &.speed__icon--trafficdown {
-        background: url('../../../assets/images/icon/ic_trafficdown.webp')
+        background: url('../../../assets/images/icon/ic_trafficdown.png')
           no-repeat center;
         background-size: contain;
       }

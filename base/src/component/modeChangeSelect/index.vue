@@ -47,7 +47,7 @@
                 {{option.band}}
               </span>
               <span class="encrypt"
-                    v-if="option.encrypt!==EncryptMethod.OPEN"></span>
+                    v-if="option.security!==EncryptMethod.OPEN && option.security!==EncryptMethod.open"></span>
               <span class="rssi"
                     :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
             </div>
@@ -86,7 +86,7 @@ const LoadingStatus = {
   success: 3,
   default: 4
 };
-const GoodRssiValue = 76;
+const GoodRssiValue = -66;
 
 export default {
   props: {
@@ -223,6 +223,7 @@ export default {
     padding-right: 50px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
+    background: var(--select-content-background);
     .select-text {
       font-size: 14px;
       overflow: hidden;
@@ -318,14 +319,14 @@ export default {
       }
       .text__container {
         max-width: 200px;
-        height: 18px;
+        height: 20px;
         line-height: 18px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
       .icon__container {
-        width: 79px;
+        // width: 79px;
         display: flex;
         justify-content: space-between;
         .rssi {

@@ -82,7 +82,7 @@
             </div>
             <div class="empty"
                  v-if="hasVpns&&isEmpty">
-              <img src="../../../../assets/images/img_default_empty.webp"
+              <img src="../../../../assets/images/img_default_empty.png"
                    alt="">
               <p class="empty-text">{{$t('trans0278')}}</p>
             </div>
@@ -309,8 +309,8 @@ export default {
       Promise.all([this.$http.getVPNInfo(), this.$http.getVPNlist()])
         .then(result => {
           const info = result[0].data.result;
-          const vpns = result[1].data.result;
-          this.vpns = vpns.map(v => {
+          const vpns = result[1].data.result.sort((a, b) => a.id - b.id);
+          this.vpns = vpns.map((v) => {
             if (v.protocol === VPNType.wireguard) {
               this.$set(v, 'enabled', false);
               if (v.id === info.default_vpn) {
@@ -325,26 +325,28 @@ export default {
               v.status = info.status;
               if (info.status === VPNStatus.connected) {
                 v.enabled = true;
+              } else {
+                v.status = VPNStatus.ready;
               }
-              if (info.status === VPNStatus.connecting) {
-                this.createIntervalTask(
-                  v,
-                  false,
-                  VPNStatus.ready,
-                  VPNStatus.connecting,
-                  VPNStatus.connected
-                );
-              }
-              if (info.status === VPNStatus.disconnecting) {
-                v.enabled = true;
-                this.createIntervalTask(
-                  v,
-                  true,
-                  VPNStatus.connected,
-                  VPNStatus.disconnecting,
-                  VPNStatus.disconnected
-                );
-              }
+              // if (info.status === VPNStatus.connecting) {
+              //   this.createIntervalTask(
+              //     v,
+              //     false,
+              //     VPNStatus.ready,
+              //     VPNStatus.connecting,
+              //     VPNStatus.connected
+              //   );
+              // }
+              // if (info.status === VPNStatus.disconnecting) {
+              //   v.enabled = true;
+              // this.createIntervalTask(
+              //   v,
+              //   true,
+              //   VPNStatus.connected,
+              //   VPNStatus.disconnecting,
+              //   VPNStatus.disconnected
+              // );
+              // }
             }
             // 处理vpn protocol文本显示
             switch (v.protocol) {

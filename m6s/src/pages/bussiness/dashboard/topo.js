@@ -16,7 +16,7 @@ import picM6sWifi6Offline from '@/assets/images/m6s/ic_m6s_offline.png';
 import { Color } from 'base/util/constant';
 
 // 大于-70均认为优秀
-const isGood = rssi => rssi >= -76;
+const isGood = rssi => rssi >= -65;
 
 // 补充关系，a-b,b-a
 function addConnection(source) {
@@ -58,17 +58,19 @@ function findGateway(source) {
 // 找绿色的节点
 function findGreenNode(root, source, visited) {
   let green = [];
-  root.neighbors.forEach(n => {
-    const node = source.find(s => s.sn === n.sn);
-    if (visited.includes(node)) {
-      return;
-    }
-    visited.push(node);
-    if (isGood(n.rssi)) {
-      green.push(node);
-      green = green.concat(findGreenNode(node, source, visited));
-    }
-  });
+  if (root && root.neighbors) {
+    root.neighbors.forEach(n => {
+      const node = source.find(s => s.sn === n.sn);
+      if (visited.includes(node)) {
+        return;
+      }
+      visited.push(node);
+      if (isGood(n.rssi)) {
+        green.push(node);
+        green = green.concat(findGreenNode(node, source, visited));
+      }
+    });
+  }
   return green;
 }
 
@@ -129,7 +131,7 @@ function genNodes(gateway, green, red, offline) {
   }
 
   // m2
-  nodes.push(genNode(gateway, Color.good, symbolSize[0]));
+  if (gateway) nodes.push(genNode(gateway, Color.good, symbolSize[0]));
 
   // 绿点
   green.forEach(g => {
@@ -163,13 +165,14 @@ function genLines(gateway, green, red, nodes, fullLine) {
         }
       };
     }
+    const neighbor = target.neighbors.find(n => n.sn === source.sn);
     return {
       source: `${source.sn}${source.name}`,
       target: `${target.sn}${target.name}`,
       rssi: value,
       lineStyle: {
         color,
-        type: 'dotted'
+        type: neighbor.backhaul_type === 'wired' ? 'solid' : 'dotted'
       }
     };
   }
@@ -187,18 +190,20 @@ function genLines(gateway, green, red, nodes, fullLine) {
   }
 
   const lines = [];
-  gateway.neighbors.forEach(n => {
-    const node = nodes.find(s => s.sn === n.sn);
-    if (!exist(node, gateway)) {
-      if (isGood(n.rssi)) {
-        lines.push(genLine(gateway, node, Color.good, n.rssi));
-      } else if (red.includes(node)) {
-        lines.push(genLine(gateway, node, Color.bad, n.rssi));
-      } else if (fullLine) {
-        lines.push(genLine(gateway, node, Color.bad, n.rssi));
+  if (gateway && gateway.neighbors) {
+    gateway.neighbors.forEach(n => {
+      const node = nodes.find(s => s.sn === n.sn);
+      if (!exist(node, gateway)) {
+        if (isGood(n.rssi)) {
+          lines.push(genLine(gateway, node, Color.good, n.rssi));
+        } else if (red.includes(node)) {
+          lines.push(genLine(gateway, node, Color.bad, n.rssi));
+        } else if (fullLine) {
+          lines.push(genLine(gateway, node, Color.bad, n.rssi));
+        }
       }
-    }
-  });
+    });
+  }
 
   red.forEach(r => {
     r.neighbors.forEach(n => {

@@ -50,7 +50,7 @@
             </div>
             <div class="empty"
                  v-if="blacklist.length===0">
-              <img src="../../../assets/images/img_default_empty.webp"
+              <img src="../../../assets/images/img_default_empty.png"
                    alt="" />
               <p>{{ $t('trans0278') }}</p>
             </div>
@@ -80,7 +80,7 @@
           <div class="table-body">
             <div class="device"
                  @click.stop="checkDevice(item)"
-                 v-for="(item, index) in devices"
+                 v-for="(item, index) in devicesOrdered"
                  :key="index">
               <div class="checkbox">
                 <m-checkbox :readonly="true"
@@ -99,7 +99,7 @@
             </div>
             <div class="empty"
                  v-if="devices.length===0">
-              <img src="../../../assets/images/img_default_empty.webp"
+              <img src="../../../assets/images/img_default_empty.png"
                    alt="" />
               <p>{{ $t('trans0278') }}</p>
             </div>
@@ -144,8 +144,42 @@ export default {
     isMobile() {
       return this.$store.state.isMobile;
     },
+    devicesOrdered() {
+      return this.devices.sort((a, b) => {
+        const wired = 'wired';
+        if (a.online_info.band === wired || b.online_info.band === wired) {
+          if (a.online_info.band === wired && b.online_info.band === wired) {
+            const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+            if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
+              return -1;
+            }
+            if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+              return 1;
+            }
+            return a.name.localeCompare(b.name);
+          }
+          if (a.online_info.band === wired) {
+            return 1;
+          }
+          if (b.online_info.band === wired) {
+            return -1;
+          }
+          return 0;
+        }
+        return a.online_info.online_duration - b.online_info.online_duration;
+      });
+    },
     listOrdered() {
-      return this.blacklist.sort((a, b) => a.name > b.name);
+      return this.blacklist.sort((a, b) => {
+        const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+        if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
+          return -1;
+        }
+        if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+          return 1;
+        }
+        return a.name.localeCompare(b.name);
+      });
     },
     someBlacklistChecked() {
       return this.blacklist.some(b => b.checked);
@@ -178,6 +212,15 @@ export default {
         }
       },
       deep: true
+    },
+    deviceModalVisible: {
+      handler(nv) {
+        if (!nv) {
+          this.devices.forEach(d => {
+            d.checked = false;
+          });
+        }
+      }
     }
   },
   methods: {
@@ -238,12 +281,27 @@ export default {
         this.$http.getLocalDevice()
       ])
         .then(([res1, res2]) => {
-          this.devices = res1.data.result
-            .map(d => ({
-              ...d,
-              checked: false
-            }))
-            .filter(d => d.ip !== res2.data.result.ip);
+          if (!this.deviceModalVisible) {
+            this.devices = res1.data.result
+              .map(d => ({
+                ...d,
+                checked: false
+              }))
+              .filter(d => d.ip !== res2.data.result.ip);
+          }
+          // let checkValue = false;
+          // let checkedDeviceMac = [];
+          // if (this.deviceModalVisible && this.checkAllDevicelist) checkValue = true;
+          // if (this.deviceModalVisible && !this.checkAllDevicelist) {
+          //   const checkedDevice = this.devices.filter(d => d.checked);
+          //   checkedDeviceMac = checkedDevice.map(c => c.mac);
+          // }
+          // this.devices = res1.data.result
+          //   .map(d => ({
+          //     ...d,
+          //     checked: checkedDeviceMac.includes(d.mac) ? true : checkValue
+          //   }))
+          //   .filter(d => d.ip !== res2.data.result.ip);
         })
         .finally(() => {
           this.deviceListTimer = setTimeout(() => {

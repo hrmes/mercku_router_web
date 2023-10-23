@@ -117,7 +117,7 @@
              v-if="isAddFail">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_default_empty.webp"
+                 src="~@/assets/images/img_default_empty.png"
                  alt="" />
           </div>
           <div class="result-container__tips">{{transDeviceId('trans0181')}}</div>

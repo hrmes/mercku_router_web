@@ -13,6 +13,12 @@
                 <m-radio-group v-model="mode"
                                :options="modes"
                                direction="vertical"></m-radio-group>
+                <p class="note"
+                   v-show="mode === RouterMode.bridge">{{$t('trans1270')}}</p>
+                <p class="note"
+                   v-show="mode === RouterMode.wirelessBridge">{{$t('trans1189')}}</p>
+                <p class="note"
+                   v-show="mode === RouterMode.wirelessBridge">{{$t('trans1192')}}</p>
                 <p class="note">{{$t('trans0543')}}</p>
               </m-form-item>
             </div>
@@ -44,7 +50,7 @@
           <div class="card">
             <div class="upperApForm">
               <div class="upperApForm__bottom">
-                <h4>Set upper-level</h4>
+                <h4>{{$t('trans1135')}}</h4>
                 <m-form ref="upperApForm"
                         :model="upperApForm"
                         :rules="upperApFormRules">
@@ -55,7 +61,7 @@
                                      type='text'
                                      @change="selectedChange"
                                      @scanApclient="startApclientScan"
-                                     :popupTop='currentUpperInfo.show||$store.state.isMobile'
+                                     :popupTop='$store.state.isMobile'
                                      :bssid="upperApForm.bssid"
                                      :options="processedUpperApList"
                                      :loading="selectIsLoading"
@@ -79,7 +85,7 @@
         <div class="form-button__wrapper">
           <button class="btn primary"
                   v-defaultbutton
-                  @click="updateMode"
+                  @click="checkWanStatus"
                   :disabled="saveDisable">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -88,7 +94,7 @@
   </div>
 </template>
 <script>
-import { EncryptMethod, RouterMode } from 'base/util/constant';
+import { EncryptMethod, RouterMode, WanNetStatus } from 'base/util/constant';
 import SettingUpperAp from '@/mixins/setting-upperAp';
 
 const UpperApInitForm = {
@@ -106,6 +112,7 @@ export default {
     return {
       EncryptMethod,
       RouterMode,
+      WanNetStatus,
       currentMode: '',
       modeHasChange: false,
       saveDisable: false,
@@ -130,7 +137,8 @@ export default {
         security: EncryptMethod.OPEN,
         password: ''
       },
-      originalUpperList: []
+      originalUpperList: [],
+      mesh: false
     };
   },
   mounted() {
@@ -149,6 +157,11 @@ export default {
       // 模式有变化，就展示修改模式按钮
       this.modeHasChange = true;
       this.pwdDisabled = true;
+
+      if (this.currentMode === RouterMode.wirelessBridge ||
+        nv === RouterMode.wirelessBridge) {
+        this.mesh = true;
+      }
 
       switch (nv) {
         case RouterMode.wirelessBridge:
@@ -204,7 +217,7 @@ export default {
             message: this.$t('trans0229'),
             callback: {
               ok: () => {
-                this.confirmUpdateMeshMode({ mode: this.mode });
+                this.checkMeshStatus();
               }
             }
           });
@@ -219,7 +232,7 @@ export default {
               message: this.$t('trans0229'),
               callback: {
                 ok: () => {
-                  this.connectUpperAp('modeChange');
+                  this.checkMeshStatus();
                 }
               }
             });
@@ -229,7 +242,7 @@ export default {
           break;
       }
     },
-    confirmUpdateMeshMode(params) {
+    confirmUpdateMeshMode(params, reconnect) {
       // if (params.mode === HomewayWorkModel.bridge) {
       //   this.$loading.open();
       // }
@@ -237,10 +250,64 @@ export default {
       this.$http
         .updateMeshMode(params)
         .then(() => {
-          this.$store.mode = params.mode;
+          this.$store.state.mode = params.mode;
           localStorage.setItem('mode', params.mode);
+          if (reconnect) {
+            this.$reconnect({
+              timeout: 120,
+              onsuccess: () => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+                this.$router.push({ path: '/login' });
+              },
+              ontimeout: () => {
+                this.$router.push({ path: '/unconnect' });
+              }
+            });
+          }
+        })
+        .catch(() => {
+          this.$store.state.changeMode = false;
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
+    },
+    checkWanStatus() {
+      if (this.mode === RouterMode.router) {
+        this.updateMode();
+        return;
+      }
+      this.$http
+        .getWanStatus()
+        .then((res) => {
+          let status = true;
+          // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
+          if (this.mode === RouterMode.bridge && res.data.result.status === WanNetStatus.unlinked) {
+            status = false;
+            this.$toast(this.$t('trans1270'), 3000);
+          }
+          // 如果提交的mode为无线桥，就要检测是否插入网线，插入就提示用户
+          if (this.$store.state.mode !== RouterMode.wirelessBridge && this.mode === RouterMode.wirelessBridge && res.data.result.status !== WanNetStatus.unlinked) {
+            status = false;
+            this.$toast(this.$t('trans1189'), 3000);
+          }
+          if (status) this.updateMode();
+        });
+    },
+    checkMeshStatus() {
+      if (this.mesh) {
+        const params = {
+          enable: this.mode === RouterMode.wirelessBridge ? 0 : 1,
+        };
+        this.$http.updateMeshEnabled(params).then(() => {
+          this.mesh = false;
+          this.$store.state.changeMode = true;
+
           this.$reconnect({
-            timeout: 120,
+            timeout: 180,
+            delayTime: 95, // 95秒后检测更改模式是否成功
+            text: 'trans1193',
             onsuccess: () => {
               this.$toast(this.$t('trans0040'), 3000, 'success');
               // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
@@ -250,10 +317,20 @@ export default {
               this.$router.push({ path: '/unconnect' });
             }
           });
-        })
-        .finally(() => {
-          this.$loading.close();
+
+          let timer = setTimeout(() => {
+            if (this.mode === RouterMode.wirelessBridge) {
+              this.connectUpperAp(this.mode, 'modeChange', false);
+            } else {
+              this.confirmUpdateMeshMode({ mode: this.mode }, false);
+              clearTimeout(timer);
+              timer = null;
+            }
+          }, 90 * 1000);
         });
+      } else if (this.mode === RouterMode.wirelessBridge) {
+        this.connectUpperAp(this.mode, 'modeChange', true);
+      } else { this.confirmUpdateMeshMode({ mode: this.mode }, true); }
     }
   }
 };

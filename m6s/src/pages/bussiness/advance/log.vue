@@ -36,36 +36,39 @@
             </m-form-item>
           </div>
         </m-form>
-        <div class="log__wrapper"
-             v-if="showLogWrapper">
-          <div class="log__wrapper-bar">
-            <div class="left log__type">
-              <div v-for="tab in tabs"
-                   :key="tab.id"
-                   @click="tabChange(tab.id)"
-                   class="log__type-item"
-                   :class="{'active':tabID===tab.id}">{{tab.text}}</div>
+        <transition name="fade">
+          <div class="log__wrapper"
+               v-if="showLogWrapper">
+            <div class="log__wrapper-bar">
+              <div class="left log__type">
+                <div v-for="tab in tabs"
+                     :key="tab.id"
+                     @click="tabChange(tab.id)"
+                     class="log__type-item"
+                     :class="{'active':tabID===tab.id}">{{tab.text}}</div>
+              </div>
+              <div class="right tool">
+                <button v-if="tabID === LogType.system"
+                        class="btn btn-default btn-middle refresh"
+                        @click="getlogs">{{$t('trans0481')}}</button>
+                <button class="btn btn-default btn-middle"
+                        @click="exportLog">{{$t('trans1139')}}</button>
+              </div>
             </div>
-            <div class="right tool">
-              <button v-if="tabID === LogType.system"
+            <div class="log-container">
+              <pre>{{previous}}</pre>
+              <pre class="increase"
+                   :class="{'not-empty':increase}">{{increase}}</pre>
+            </div>
+            <div class="mobile tool">
+              <button v-if="tabID === 'system'"
                       class="btn btn-default btn-middle refresh"
                       @click="getlogs">{{$t('trans0481')}}</button>
-              <button class="btn btn-default btn-middle"
-                      @click="exportLog">{{$t('trans1139')}}</button>
+              <button class="btn btn-default btn-middle">{{$t('trans1139')}}</button>
             </div>
           </div>
-          <div class="log-container">
-            <pre>{{previous}}</pre>
-            <pre class="increase"
-                 :class="{'not-empty':increase}">{{increase}}</pre>
-          </div>
-          <div class="mobile tool">
-            <button v-if="tabID === 'system'"
-                    class="btn btn-default btn-middle refresh"
-                    @click="getlogs">{{$t('trans0481')}}</button>
-            <button class="btn btn-default btn-middle">{{$t('trans1139')}}</button>
-          </div>
-        </div>
+        </transition>
+
         <a href=""
            id="exportLog"></a>
       </div>
@@ -170,11 +173,15 @@ export default {
       }
       method()
         .then(res => {
+          let { data } = res;
+          if (res.data.startsWith('<!DOCTYPE html>')) {
+            data = '';
+          }
           if (target === Action.export) {
-            this.downloadTxtFile(res.data, fileName);
+            this.downloadTxtFile(data, fileName);
           } else {
             const preArray = [...this.previousArray, ...this.increaseArray];
-            const nowStr = res.data;
+            const nowStr = data;
             this.getIncremental(preArray, nowStr);
           }
         })
@@ -211,8 +218,10 @@ export default {
       this.$nextTick(() => {
         const el = this.$el.querySelector('.increase');
         const wrap = this.$el.querySelector('.log-container');
-        const offset = el.offsetTop;
-        this.scrollTo(wrap, 0, offset);
+        if (el && wrap) {
+          const offset = el.offsetTop;
+          this.scrollTo(wrap, 0, offset);
+        }
       });
     },
     getMeshLogsSetting() {
@@ -234,6 +243,7 @@ export default {
     },
     updateSetting() {
       if (this.$refs.form.validate()) {
+        this.logSetting.capacity = Number(this.logSetting.capacity);
         const params = this.logSetting;
 
         this.$loading.open();
@@ -244,10 +254,11 @@ export default {
               this.showLogWrapper = false;
               this.previousArray = [];
               this.increaseArray = [];
-              this.$loading.close();
             } else {
               this.getlogs();
             }
+            this.$toast(this.$t('trans0040'), 2000, 'success');
+            this.$loading.close();
           })
           .catch(() => {
             this.$loading.close();
@@ -255,6 +266,8 @@ export default {
       }
     },
     tabChange(id) {
+      this.previousArray = [];
+      this.increaseArray = [];
       this.tabID = id;
       this.getlogs();
     },
@@ -299,6 +312,7 @@ export default {
 }
 .log__wrapper {
   width: 100%;
+  overflow: hidden;
 }
 .log__wrapper-bar {
   display: flex;
@@ -351,8 +365,8 @@ export default {
   flex: 1;
   padding: 10px;
   position: relative;
-  max-height: 75vh;
-  overflow-x: hidden;
+  height: 75vh;
+  overflow-y: auto;
   pre {
     width: 100%;
     margin: 0;
@@ -374,6 +388,7 @@ export default {
 }
 @media screen and(max-width:768px) {
   .page {
+    width: 100%;
     .page-content {
       .page-content__main {
         grid-template-rows: repeat(auto-fill);
@@ -400,6 +415,8 @@ export default {
     }
   }
   .log-container {
+    height: auto;
+    min-height: 100px;
     max-height: 500px;
   }
 }

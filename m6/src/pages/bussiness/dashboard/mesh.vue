@@ -298,7 +298,7 @@
         </div>
         <div class="table__empty"
              v-else>
-          <img src="@/assets/images/img_default_empty.webp"
+          <img src="@/assets/images/img_default_empty.png"
                alt="">
           <span>
             {{$t('trans0278')}}
@@ -625,12 +625,12 @@ export default {
       this.chart.on('click', (e) => {
         const { data: { sn } } = e;
         if (this.isMobile && sn) {
-            this.routers.forEach(router => {
-              router.expand = false;
-              if (router.sn === sn) {
-                router.expand = true;
-              }
-            });
+          this.routers.forEach(router => {
+            router.expand = false;
+            if (router.sn === sn) {
+              router.expand = true;
+            }
+          });
         }
         this.$router.push('/dashboard/mesh/table');
       });

@@ -71,30 +71,18 @@ export default {
     getInitData() {
       this.$loading.open();
 
-      Promise.all([this.$http.getRegion(), this.$http.getSupportRegions()])
-        .then(resArr => {
-          const region = resArr[0].data.result;
-          this.form.region = region;
+      this.$http.getRegion()
+        .then(res => {
+          const region = res.data.result;
+          this.form.region.id = parseInt(region.ip_country_id || region.id, 10);
 
-          let allRegion = require(`../../../assets/regions/${this.$i18n.locale}.json`);
+          const allRegion = require(`../../../assets/regions/${this.$i18n.locale}.json`);
 
-          allRegion = allRegion.map(r => ({
+          this.regions = allRegion.map(r => ({
             text: r.name,
             value: parseInt(r.code, 10)
           }));
-          // 从所有区域中过滤掉不支持选择的区域
-          const regions = [];
-          const supportRegions = resArr[1].data.result;
 
-          // 显示需要排序，原本的文件中是有序的，支持列表时无序的，所以以原本的文件为基准
-          allRegion.forEach(ar => {
-            // const id = `${sr.id}`; // change number to string
-            const t = supportRegions.filter(sr => sr.id === ar.value)[0];
-            if (t) {
-              regions.push(ar);
-            }
-          });
-          this.regions = regions;
           this.$loading.close();
         })
         .catch(() => {

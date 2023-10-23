@@ -6,7 +6,7 @@
   "favicon": "customer-conf/0001/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
-  "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG"],
+  "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG", "fr-FR"],
   "wifi": "Mercku Wi-Fi",
   "deviceID": "Mercku",
   "routers": {

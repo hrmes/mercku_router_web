@@ -83,7 +83,7 @@
             </div>
           </div>
           <div class="delete-wrap">
-            <i class="iconfont icon-ic_close"
+            <i class="iconfont ic_close"
                @click="cancel(file)"></i>
           </div>
         </div>

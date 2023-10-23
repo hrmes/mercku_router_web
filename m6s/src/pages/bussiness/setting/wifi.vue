@@ -133,13 +133,13 @@
             </div>
             <m-form-item key="b24gchannelnumber">
               <m-select :label="$t('trans0680')"
-                        :disabled="isAutoChannel"
+                        :disabled="isAutoChannel || isWirelessBridge"
                         v-model="form.channel.b24gChannel.number"
                         :options="channels.b24g"></m-select>
             </m-form-item>
             <m-form-item key="b5gchannelnumber">
               <m-select :label="$t('trans0681')"
-                        :disabled="isAutoChannel"
+                        :disabled="isAutoChannel || isWirelessBridge"
                         v-model="form.channel.b5gChannel.number"
                         :options="channels.b5g"></m-select>
             </m-form-item>
@@ -161,12 +161,14 @@
             </div>
             <m-form-item key="b24gbandwidth">
               <m-select :label="$t('trans0783')"
+                        :disabled="isWirelessBridge"
                         v-model="form.channel.b24gChannel.bandwidth"
                         :options="bandwidths.b24g"></m-select>
             </m-form-item>
             <m-form-item key="b5gbandwidth-1"
                          class="last">
               <m-select :label="$t('trans0784')"
+                        :disabled="isWirelessBridge"
                         v-model="form.channel.b5gChannel.bandwidth"
                         :options="bandwidths.b5g"></m-select>
             </m-form-item>
@@ -206,7 +208,7 @@ import {
   isFieldHasComma,
   isFieldHasSpaces
 } from 'base/util/util';
-import { EncryptMethod, Bands, channelMode } from 'base/util/constant';
+import { EncryptMethod, Bands, channelMode, RouterMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
@@ -230,11 +232,11 @@ export default {
         },
         channel: {
           b24gChannel: {
-            number: '1',
-            bandwidth: '20'
+            number: '11',
+            bandwidth: '40'
           },
           b5gChannel: {
-            number: '1',
+            number: '40',
             bandwidth: '80'
           }
         },
@@ -323,7 +325,7 @@ export default {
             value: v
           };
         }),
-        b5g: new Array(3).fill(0).map((_, i) => {
+        b5g: new Array(4).fill(0).map((_, i) => {
           const v = Math.pow(2, i) * 20;
           return {
             text: v,
@@ -333,8 +335,12 @@ export default {
       },
       encryptMethods: [
         {
-          value: EncryptMethod.open,
-          text: this.$t('trans0554')
+          value: EncryptMethod.wpa2wpa3,
+          text: this.$t('trans0573')
+        },
+        {
+          value: EncryptMethod.wpawpa2,
+          text: this.$t('trans0557')
         },
         {
           value: EncryptMethod.wpa2,
@@ -343,10 +349,33 @@ export default {
         {
           value: EncryptMethod.wpa3,
           text: this.$t('trans0572')
+        },
+        {
+          value: EncryptMethod.open,
+          text: this.$t('trans0554')
         }
       ],
       isAutoChannel: false
     };
+  },
+  watch: {
+    'form.channel.b5gChannel.bandwidth': {
+      handler(nv) {
+        if (nv === 20) {
+          const isExit = this.channels.b5g.find(c => c.value === 165);
+          if (!isExit) this.channels.b5g.push({ text: 165, value: 165 });
+        } else {
+          this.channels.b5g = this.channels.b5g.filter(c => c.value !== 165);
+          if (this.form.channel.b5gChannel.number === 165) this.form.channel.b5gChannel.number = 161;
+        }
+      },
+      immediate: true
+    }
+  },
+  computed: {
+    isWirelessBridge() {
+      return RouterMode.wirelessBridge === this.$store.state.mode;
+    },
   },
   mounted() {
     this.getInitData();
@@ -381,13 +410,16 @@ export default {
     },
     submit() {
       const validResult1 = this.$refs.b24gForm.validate();
-      const validResult2 = this.$refs.b5gForm.validate();
-
-      if (!validResult1 || !validResult2) {
+      if (!validResult1) {
         return;
       }
 
       if (!this.form.smart_connect) {
+        const validResult2 = this.$refs.b5gForm.validate();
+        if (!validResult2) {
+          return;
+        }
+
         if (this.form.b24g.ssid === this.form.b5g.ssid) {
           this.$toast(this.$t('trans0660'), 2000, 'error');
           return;
@@ -432,7 +464,7 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 60
+                  timeout: 30
                 });
               })
               .finally(() => {

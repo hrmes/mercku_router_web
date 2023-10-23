@@ -24,9 +24,9 @@
           <div class="drawer-header"
                v-if="isDrawerStyle"
                @click.stop="">
-            <span class="btn-icon close"
+            <span class="btn-icon close" v-if="isMobile"
                   @click.stop="()=>opened=false">
-              <i class="iconfont  icon-ic_close"></i>
+              <i class="iconfont  ic_close"></i>
             </span>
           </div>
           <template v-if="options.length">
@@ -185,6 +185,7 @@ export default {
     position: relative;
     padding-right: 50px;
     transition: all 0.3s ease-in-out;
+    background: var(--select-content-background);
     .select-text {
       font-size: 14px;
       overflow: hidden;
@@ -321,6 +322,9 @@ export default {
       }
       .icon-container {
         cursor: not-allowed;
+      }
+      .icon {
+        filter: var(--img-disabled-brightness)
       }
     }
   }

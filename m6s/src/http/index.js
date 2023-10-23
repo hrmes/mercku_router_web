@@ -9,9 +9,10 @@ const methods = {
   updateMeshWps: createMethod('mesh.wps.update'),
   startMeshApclientScan: createMethod('mesh.apclient.scan'),
   getMeshApclientScanList: createMethod('mesh.apclient.get'),
-  updateMeshApclient: createMethod('mesh.apclient.update'),
+  updateMeshApclient: createMethod('mesh.mode.update'),
   getMeshLogsSetting: createMethod('mesh.logs.setting.get'),
-  updateMeshLogsSetting: createMethod('mesh.logs.setting.update')
+  updateMeshLogsSetting: createMethod('mesh.logs.setting.update'),
+  updateMeshEnabled: createMethod('mesh_mode_cfg')
 };
 
 class M6sHttp extends Http {}

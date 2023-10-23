@@ -201,7 +201,7 @@ input[type='number'] {
       border-radius: 10px;
       box-sizing: border-box;
       -webkit-appearance: none;
-      background: transparent;
+      background: var(--input-content-background);
       border: 1.5px solid var(--input-border-color);
       color: var(--text-default-color);
       transition: all 0.2s ease-in-out;

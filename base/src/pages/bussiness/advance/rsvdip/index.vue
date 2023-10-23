@@ -81,7 +81,7 @@
             </div>
             <div class="empty"
                  v-if="empty!==null && empty">
-              <img src="../../../../assets/images/img_default_empty.webp"
+              <img src="../../../../assets/images/img_default_empty.png"
                    alt="">
               <p>{{$t('trans0278')}}</p>
             </div>
@@ -248,7 +248,7 @@ export default {
       });
     },
     add() {
-      if (this.rsvdips.length <= 20) {
+      if (this.rsvdips.length < 20) {
         this.isEdit = false;
         if (this.isMobile) {
           this.ScrollPage.scrollTop = 0;
