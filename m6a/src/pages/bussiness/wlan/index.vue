@@ -242,19 +242,19 @@ export default {
         this.$loading.close();
       });
     this.$http.getMeshMeta()
-    .then(res => {
-      const wifi = res.data.result;
-      const b24g = wifi.bands[Bands.b24g];
-      const b5g = wifi.bands[Bands.b5g];
-      this.wifiForm.ssid24g = b24g.ssid;
-      this.wifiForm.password24g = b24g.password;
-      this.wifiForm.ssid5g = b5g.ssid;
-      this.wifiForm.password5g = b5g.password;
-      // this.wifiForm.smart_connect = wifi.smart_connect;
-    })
-    .then(() => {
-      this.getRegionInitData();
-    });
+      .then(res => {
+        const wifi = res.data.result;
+        const b24g = wifi.bands[Bands.b24g];
+        const b5g = wifi.bands[Bands.b5g];
+        this.wifiForm.ssid24g = b24g.ssid;
+        this.wifiForm.password24g = b24g.password;
+        this.wifiForm.ssid5g = b5g.ssid;
+        this.wifiForm.password5g = b5g.password;
+        this.wifiForm.smart_connect = wifi.smart_connect;
+      })
+      .then(() => {
+        this.getRegionInitData();
+      });
   },
   methods: {
     onSsid24gChange() {
@@ -361,6 +361,7 @@ export default {
                 clearInterval(timer);
                 this.$router.push({ path: '/unconnect' });
               },
+              timeout: 150,
               showLoading: false
             });
           });

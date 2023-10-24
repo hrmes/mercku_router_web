@@ -212,7 +212,6 @@ export default {
   },
   methods: {
     checkDevice(device) {
-      console.log('$$$', device);
       device.checked = !device.checked;
     },
     changeCheckboxAll(v) {
@@ -307,9 +306,7 @@ export default {
         });
     },
     showDeviceModal() {
-      console.log(this.deviceModalVisible);
       this.deviceModalVisible = !this.deviceModalVisible;
-      console.log(this.deviceModalVisible);
     }
   }
 };

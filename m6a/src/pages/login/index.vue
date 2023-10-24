@@ -1,7 +1,9 @@
 <template>
   <div class="login-container customized">
     <div class="center-form"
-         :class="{'light':currentTheme!=='auto'&&!isDarkMode,'dark':currentTheme!=='auto'&&isDarkMode}">
+         :class="{'light':currentTheme!=='auto'
+                  &&!isDarkMode,'dark':currentTheme!=='auto'
+                  &&isDarkMode}">
       <div class="form">
         <div class="logo">
         </div>
@@ -139,22 +141,31 @@ export default {
           const { role } = res.data.result;
           this.$store.state.role = role;
           localStorage.setItem('role', role);
-          this.$http.getMeshMode()
-          .then(res1 => {
-            this.$loading.close();
-            const { mode } = res1.data.result;
-            this.$store.state.mode = mode;
-            localStorage.setItem('mode', mode);
+          Promise.all([
+            this.$http.getMeshMode(),
+            // this.$http.getFirewall()
+          ])
+            .then(resArr => {
+              this.$loading.close();
 
-            const { sn } = res1.data.result;
-            const modelID = sn.charAt(9);
-            // const modelID = '0';
-            this.$store.state.modelID = modelID;
-            localStorage.setItem('modelID', modelID);
+              const [res1] = resArr;
+              const { mode, sn } = res1.data.result;
+              this.$store.state.mode = mode;
+              localStorage.setItem('mode', mode);
 
-            this.$router.push({ path: '/dashboard' });
-            this.$loading.close();
-          });
+              const modelID = sn.charAt(9);
+              // const modelID = '0';
+              this.$store.state.modelID = modelID;
+              localStorage.setItem('modelID', modelID);
+
+              // const { nat } = res2.data.result;
+              // const nat = false;
+              // this.$store.state.natEnabled = nat;
+              // localStorage.setItem('natEnabled', nat);
+
+              this.$router.push({ path: '/dashboard' });
+              this.$loading.close();
+            });
         })
         .catch(err => {
           this.$loading.close();
