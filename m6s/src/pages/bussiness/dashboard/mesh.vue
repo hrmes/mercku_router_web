@@ -227,7 +227,7 @@
         <div class="connect-quality-modal-contnet">
           <div class="examples">
             <div class="example error">
-              <img src="@/assets/images/img_help_error.webp"
+              <img src="@/assets/images/img_help_error.png"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -236,7 +236,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="@/assets/images/img_help_right.webp"
+              <img src="@/assets/images/img_help_right.png"
                    alt="">
               <div class="description">
                 <span class="icon-circle">

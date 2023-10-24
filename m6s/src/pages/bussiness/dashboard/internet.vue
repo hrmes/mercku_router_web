@@ -795,13 +795,13 @@ export default {
       position: relative;
       margin-bottom: 13px;
       &.speed__icon--up {
-        background: url('../../../assets/images/icon/ic_upload.webp') no-repeat
+        background: url('../../../assets/images/icon/ic_upload.png') no-repeat
           center;
         background-size: contain;
       }
       &.speed__icon--down {
-        background: url('../../../assets/images/icon/ic_download.webp')
-          no-repeat center;
+        background: url('../../../assets/images/icon/ic_download.png') no-repeat
+          center;
         background-size: contain;
       }
       &.speed__icon--trafficup {
@@ -815,12 +815,12 @@ export default {
         background-size: contain;
       }
       &.speed__icon--peakup {
-        background: url('../../../assets/images/icon/ic_peak_upload.webp')
+        background: url('../../../assets/images/icon/ic_peak_upload.png')
           no-repeat center;
         background-size: contain;
       }
       &.speed__icon--peakdown {
-        background: url('../../../assets/images/icon/ic_peak_download.webp')
+        background: url('../../../assets/images/icon/ic_peak_download.png')
           no-repeat center;
         background-size: contain;
       }

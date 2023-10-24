@@ -58,14 +58,14 @@
               class="select-popup__item--empty">{{$t('trans0278')}}</li>
           <li v-else-if="loading===LoadingStatus.loading"
               class="select-popup__item--loading">
-            <m-lottieLoading class="loading"></m-lottieLoading>
+            <m-lottieLoading class="loading"
+                             :size="60"></m-lottieLoading>
             {{loadingText}}
           </li>
           <li v-else
               class="select-popup__item--failed"
               @click="rescanApclient">{{loadingText}}</li>
         </template>
-
       </ul>
     </transition>
   </div>
@@ -355,6 +355,7 @@ export default {
           background: url(../../assets/images/icon/ic_wifi_lock.svg) no-repeat
             center;
           background-size: 100%;
+          filter: var(--img-brightness);
         }
         .band {
           display: flex;
@@ -363,12 +364,12 @@ export default {
           text-align: center;
           font-size: 11px;
           font-weight: 500;
-          color: #333333;
+          color: var(--text-default-color);
           width: 35px;
           height: 15px;
           margin-right: 10px;
           border-radius: 2px;
-          background: rgba(84, 84, 84, 0.15);
+          background: var(--common-sub_card-bgc);
         }
       }
     }

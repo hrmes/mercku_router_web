@@ -617,6 +617,7 @@ export default {
       }
     }
     .card {
+      display: flex;
       position: relative;
       width: 100%;
       aspect-ratio: 17/15;
@@ -645,8 +646,7 @@ export default {
           linear-gradient(225deg, #ff6734 30%, #ee1d4f 40%, #d6001c 80%);
       }
       .inner {
-        width: 100%;
-        height: 100%;
+        flex: 1;
         > span {
           font-size: 20px;
           font-weight: 500;

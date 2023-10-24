@@ -91,7 +91,7 @@
                  class="speed">
               <div class="speed-info upload">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_upload.webp"
+                  <img src="@/assets/images/icon/ic_upload.png"
                        alt="">
                 </div>
                 <div class="speed-wrap">
@@ -104,7 +104,7 @@
               </div>
               <div class="speed-info download">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_download.webp"
+                  <img src="@/assets/images/icon/ic_download.png"
                        alt="">
                 </div>
                 <div class="speed-wrap">
@@ -794,7 +794,6 @@ h6 {
         .router__img {
           aspect-ratio: 1;
           width: 100%;
-          height: 100%;
           min-width: 350px;
           max-width: 440px;
           position: relative;
@@ -1151,12 +1150,12 @@ h6 {
               border: 2px solid var(--logout-btn-bgc);
               overflow: hidden;
               &.connected {
-                background: url(../../../assets/images/v3/icon/ic_mobile_connected.svg)
+                background: url(../../../assets/images/icon/ic_mobile_connected.svg)
                   center no-repeat;
                 background-size: contain;
               }
               &.unconnected {
-                background: url(../../../assets/images/v3/icon/ic_mobile_unconnect.svg)
+                background: url(../../../assets/images/icon/ic_mobile_unconnect.svg)
                   center no-repeat;
                 background-size: contain;
               }

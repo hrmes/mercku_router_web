@@ -1155,12 +1155,12 @@ h6 {
               border: 2px solid var(--logout-btn-bgc);
               overflow: hidden;
               &.connected {
-                background: url(../../../assets/images/v3/icon/ic_mobile_connected.svg)
+                background: url(../../../assets/images/icon/ic_mobile_connected.svg)
                   center no-repeat;
                 background-size: contain;
               }
               &.unconnected {
-                background: url(../../../assets/images/v3/icon/ic_mobile_unconnect.svg)
+                background: url(../../../assets/images/icon/ic_mobile_unconnect.svg)
                   center no-repeat;
                 background-size: contain;
               }

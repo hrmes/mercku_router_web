@@ -2,10 +2,9 @@
   <transition name="modal">
     <div class="modal-dialog"
          v-if="open">
-      <div class="mask"
-           @click="close"
-           @touchstart="close"></div>
-      <div class="modal-content">
+      <div class="mask"></div>
+      <div class="modal-content"
+           v-clickoutside="close">
         <slot></slot>
       </div>
     </div>

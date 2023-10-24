@@ -154,7 +154,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.light.ischecked"></m-checkbox>
-            <img src="../../assets/images/img_theme_light.webp"
+            <img src="../../assets/images/img_theme_light.png"
                  alt="">
             <span class="label">{{$t('trans1122')}}</span>
             <m-checkbox v-if="!isMobile"
@@ -168,7 +168,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
-            <img src="../../assets/images/img_theme_dark.webp"
+            <img src="../../assets/images/img_theme_dark.png"
                  alt="">
             <span class="label">{{$t('trans1123')}}</span>
             <m-checkbox v-if="!isMobile"
@@ -182,7 +182,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.auto.ischecked"></m-checkbox>
-            <img src="../../assets/images/img_theme_auto.webp"
+            <img src="../../assets/images/img_theme_auto.png"
                  alt="">
             <span class="label">{{$t('trans1121')}}</span>
             <m-checkbox v-if="!isMobile"

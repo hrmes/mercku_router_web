@@ -45,7 +45,7 @@
         </span>
         <img class="power-by"
              v-if="isShowPowerBy"
-             src="../../assets/images/img-power-by.webp" />
+             src="../../assets/images/img-power-by.png" />
       </div>
 
       <div class="footer__right__QR-container"

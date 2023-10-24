@@ -32,7 +32,7 @@
       <div class="table-inner">
         <div class="off-more-message"
              v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60">
-          <img src="@/assets/images/icon/ic_hint.webp"
+          <img src="@/assets/images/icon/ic_hint.png"
                alt="">
           {{$t('trans0517')}}
         </div>
@@ -925,11 +925,11 @@ export default {
       } = row;
       if (this.isMobile) {
         if (rssi > -60) {
-          icon = require('@/assets/images/v3/icon/ic_signal_excellent.svg');
+          icon = require('@/assets/images/icon/ic_signal_excellent.svg');
         } else if (rssi <= -60 && rssi > -75) {
-          icon = require('@/assets/images/v3/icon/ic_signal_good.svg');
+          icon = require('@/assets/images/icon/ic_signal_good.svg');
         } else {
-          icon = require('@/assets/images/v3/icon/ic_signal_bad.svg');
+          icon = require('@/assets/images/icon/ic_signal_bad.svg');
         }
       } else if (rssi > -60) {
         icon = require('@/assets/images/icon/ic_wireless_excellent.svg');
