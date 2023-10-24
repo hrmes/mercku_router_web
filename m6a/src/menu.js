@@ -210,8 +210,8 @@ export default function getMenu(role, mode = RouterMode.router) {
         config
       },
       {
-        url: '/advance/frozenCofig',
-        name: 'advance-frozen-cofig',
+        url: '/advance/frozenConfig',
+        name: 'advance-frozen-config',
         text: 'trans1186',
         config
       },

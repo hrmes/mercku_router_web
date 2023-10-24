@@ -346,8 +346,8 @@ const routes = {
       }
     },
     {
-      path: '/advance/frozenCofig',
-      name: 'advance-frozen-cofig',
+      path: '/advance/frozenConfig',
+      name: 'advance-frozen-config',
       component: frozenConfig,
       meta: {
         layout: 'primary',
