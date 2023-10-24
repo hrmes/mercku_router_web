@@ -1200,5 +1200,6 @@
   "trans1205": "Server Address",
   "trans1206": "Server Port",
   "trans1207": "Min Keepalive Interval(s)",
-  "trans1208": "Max Keepalive Interval(s)"
+  "trans1208": "Max Keepalive Interval(s)",
+  "trans1209": "Please make sure the input length is 44 characters"
 }

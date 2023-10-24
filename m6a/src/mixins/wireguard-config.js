@@ -35,18 +35,18 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) <= 64,
-            message: this.$t('trans1174')
+            rule: value => getStringByte(value) === 44,
+            message: this.$t('trans1209')
           }
         ],
         preshared_key: [
           {
-            rule: value => (value ? !/^\s*$/g.test(value) : true),
+            rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) <= 64,
-            message: this.$t('trans1174')
+            rule: value => getStringByte(value) === 44,
+            message: this.$t('trans1209')
           }
         ],
         ip: [
@@ -61,11 +61,17 @@ export default {
         ],
         port: [
           {
-            rule: value => (value ? /^[0-9]+$/.test(value) : true),
-            message: this.$t('trans0031')
+            rule: value => {
+              const stringVal = String(value);
+              return stringVal ? /^[0-9]+$/.test(value) : true;
+            },
+            message: this.$t('trans0478')
           },
           {
-            rule: value => (value ? value >= 1 && value <= 65535 : true),
+            rule: value => {
+              const stringVal = String(value);
+              return stringVal ? value >= 1 && value <= 65535 : true;
+            },
             message: this.$t('trans0478')
           }
         ],
