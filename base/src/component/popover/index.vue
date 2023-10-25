@@ -112,7 +112,7 @@ export default {
   .popover {
     position: absolute;
     padding: 0 10px;
-    z-index: 999;
+    z-index: var(--z-index-1);
     width: 200px;
     background-color: var(--popover-background-color);
     border-radius: 8px;

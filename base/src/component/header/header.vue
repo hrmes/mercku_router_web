@@ -781,7 +781,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    z-index: 999;
+    z-index: var(--z-index-1);
     .small-device {
       display: none;
     }
@@ -1038,7 +1038,7 @@ export default {
   }
   .header-container {
     height: 65px;
-    z-index: 999;
+    z-index: var(--z-index-1);
     // &.open,
     // &.i18n-open {
     //   position: fixed;
@@ -1196,7 +1196,7 @@ export default {
           color: var(--text-default-color);
           border-top: 1px solid var(--header-dividing-color);
           padding: 0 30px;
-          z-index: 999;
+          z-index: var(--z-index-1);
           font-size: 16px;
           li {
             display: flex;

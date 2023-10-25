@@ -323,7 +323,7 @@ export default {
         top: 100%;
         left: 0;
         width: 100%;
-        z-index: 999;
+        z-index: var(--z-index-1);
         .tabs {
           display: flex;
           flex-direction: column;

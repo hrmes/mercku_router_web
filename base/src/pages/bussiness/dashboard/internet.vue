@@ -738,7 +738,7 @@ export default {
     height: 100%;
     left: 0;
     top: 0;
-    z-index: 99999;
+    z-index: var(--z-index-3);
     display: flex;
     justify-content: center;
     align-items: center;

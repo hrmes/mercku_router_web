@@ -57,7 +57,7 @@ export default {
 <style lang="scss" scoped>
 .modal-dialog {
   position: fixed;
-  z-index: 1001;
+  z-index: var(--z-index-2);
   top: 0;
   left: 0;
   right: 0;
