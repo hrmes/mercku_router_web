@@ -58,10 +58,13 @@ export default {
         port: [
           {
             rule: value => {
+              if (value) {
+                return /^[0-9]+$/.test(value);
+              }
               if (value === 0) {
                 return false;
               }
-              return value ? /^[0-9]+$/.test(value) : true;
+              return true;
             },
             message: this.$t('trans0478')
           },
@@ -70,7 +73,10 @@ export default {
               if (value === 0) {
                 return false;
               }
-              return value ? value >= 1 && value <= 65535 : true;
+              if (value) {
+                return value >= 1 && value <= 65535;
+              }
+              return true;
             },
             message: this.$t('trans0478')
           }
