@@ -20,12 +20,12 @@
                    v-model="stun.server_port"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item prop="stun.username">
+        <m-form-item prop="username">
           <m-input :label="$t('trans0155')"
                    v-model="stun.username"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item prop="stun.password">
+        <m-form-item prop="password">
           <m-input :label="$t('trans0156')"
                    type="password"
                    v-model="stun.password"
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { isIP } from 'base/util/util';
+import { isIP, getStringByte, isValidPassword } from 'base/util/util';
 
 const DomainRegex = /^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d{1,5})?(\/([\w-]+)?(\.\w+)?)*$/;
 const NumberReg = /^((http|https)?:\/\/)?[0-9.]+$/;
@@ -103,6 +103,23 @@ export default {
           {
             rule: value => (value ? value >= 1 && value <= 65535 : true),
             message: this.$t('trans0478')
+          }
+        ],
+        username: [
+          {
+            rule: value => (value ? getStringByte(value) <= 64 : true),
+            message: this.$t('trans0261')
+          }
+        ],
+        password: [
+          {
+            rule: value => {
+              if (!value) {
+                return true;
+              }
+              return isValidPassword(value, 1, 64);
+            },
+            message: this.$t('trans0125').format(1, 64)
           }
         ],
         max_keepalive: [

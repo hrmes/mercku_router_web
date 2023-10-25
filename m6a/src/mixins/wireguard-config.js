@@ -41,11 +41,7 @@ export default {
         ],
         preshared_key: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => getStringByte(value) === 44,
+            rule: value => (value ? getStringByte(value) === 44 : true),
             message: this.$t('trans1209')
           }
         ],
@@ -62,15 +58,19 @@ export default {
         port: [
           {
             rule: value => {
-              const stringVal = String(value);
-              return stringVal ? /^[0-9]+$/.test(value) : true;
+              if (value === 0) {
+                return false;
+              }
+              return value ? /^[0-9]+$/.test(value) : true;
             },
             message: this.$t('trans0478')
           },
           {
             rule: value => {
-              const stringVal = String(value);
-              return stringVal ? value >= 1 && value <= 65535 : true;
+              if (value === 0) {
+                return false;
+              }
+              return value ? value >= 1 && value <= 65535 : true;
             },
             message: this.$t('trans0478')
           }
@@ -113,6 +113,7 @@ export default {
       ) {
         // 先存一下vpn.name
         this.wireGuardInitForm.name = this.form.name;
+        this.wireGuardInitForm.id = this.form.id;
         this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
       }
     },
