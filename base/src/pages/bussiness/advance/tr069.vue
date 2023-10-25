@@ -176,12 +176,7 @@ export default {
         ],
         password: [
           {
-            rule: value => {
-              if (!value) {
-                return true;
-              }
-              return isValidPassword(value, 1, 31);
-            },
+            rule: value => !value || isValidPassword(value, 1, 31),
             message: this.$t('trans0125').format(1, 31)
           }
         ]

@@ -33,11 +33,13 @@
         </m-form-item>
         <m-form-item prop="min_keepalive">
           <m-input :label="$t('trans1207')"
+                   type="number"
                    v-model="stun.min_keepalive"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="max_keepalive">
           <m-input :label="$t('trans1208')"
+                   type="number"
                    v-model="stun.max_keepalive"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
@@ -101,24 +103,19 @@ export default {
             message: this.$t('trans0478')
           },
           {
-            rule: value => (value ? value >= 1 && value <= 65535 : true),
+            rule: value => (value >= 1 && value <= 65535),
             message: this.$t('trans0478')
           }
         ],
         username: [
           {
-            rule: value => (value ? getStringByte(value) <= 64 : true),
+            rule: value => value === '' || getStringByte(value) <= 64,
             message: this.$t('trans0261')
           }
         ],
         password: [
           {
-            rule: value => {
-              if (!value) {
-                return true;
-              }
-              return isValidPassword(value, 1, 64);
-            },
+            rule: value => !value || isValidPassword(value, 1, 64),
             message: this.$t('trans0125').format(1, 64)
           }
         ],
