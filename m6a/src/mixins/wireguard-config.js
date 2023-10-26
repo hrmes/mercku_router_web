@@ -12,8 +12,8 @@ export default {
           interface: {
             private_key: '',
             addresses: [''],
-            listen_port: null,
-            mtu: null
+            listen_port: '',
+            mtu: ''
           },
           peers: [
             {
@@ -57,27 +57,23 @@ export default {
         ],
         port: [
           {
-            rule: value =>
-              value === '' || value === null || /^[0-9]+$/.test(value),
+            rule: value => value === '' || /^[0-9]+$/.test(value),
             message: this.$t('trans0478')
           },
           {
-            rule: value =>
-              value === null || value === '' || (value >= 1 && value <= 65535),
+            rule: value => value === '' || (value >= 1 && value <= 65535),
             message: this.$t('trans0478')
           }
         ],
         mtu: [
           {
-            rule: value =>
-              value === '' || value === null || /^[0-9]+$/.test(value),
+            rule: value => value === '' || /^[0-9]+$/.test(value),
             message: this.$t('trans1158')
               .replace('%d', 64)
               .replace('%d', 1500)
           },
           {
-            rule: value =>
-              value === '' || value === null || (value >= 64 && value <= 1500),
+            rule: value => value === '' || (value >= 64 && value <= 1500),
             message: this.$t('trans1158')
               .replace('%d', 64)
               .replace('%d', 1500)
