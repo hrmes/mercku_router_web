@@ -3,11 +3,12 @@
     <div class="modal-dialog"
          v-if="open">
       <div class="mask"></div>
-      <div class="modal-content"
-           v-clickoutside="close">
+      <div v-clickoutside="close"
+           class="modal-content">
         <slot></slot>
       </div>
     </div>
+
   </transition>
 </template>
 <script>
@@ -26,10 +27,7 @@ export default {
       type: String,
       default: Types.info
     },
-    closeOnClickMask: {
-      type: Boolean,
-      default: true
-    }
+
   },
   data() {
     return { open: false };
@@ -46,7 +44,7 @@ export default {
   },
   methods: {
     close() {
-      if (this.type === Types.info && this.closeOnClickMask) {
+      if (this.type === Types.info) {
         this.open = false;
         document.body.style.position = this.position;
         this.$emit('update:visible', false);

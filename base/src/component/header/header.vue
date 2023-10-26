@@ -24,43 +24,16 @@
            :class="{'is-wlan-page':isWlanPage}"></div>
     </div>
 
-    <div class="nav-wrap nav-wrap--laptop"
-         v-if="!isMobile">
-      <ul class="nav reset-ul"
-          v-if="navVisible">
-        <li class="nav-item"
-            :key="menu.key"
-            v-for="menu in list"
-            :class="{'selected':menu.selected}">
-          <div class="nav-item-content"
-               @click.stop="jump(menu)"
-               :data-title="$t(menu.text)">
-            <i class="el-menu-item__icon iconfont"
-               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
-          </div>
-        </li>
-        <li class="nav-item nav-item__add-node">
-          <div class="nav-item-content"
-               :data-title="$t('trans0194')">
-            <button class="btn btn-small"
-                    :class="{'disabled':isWirelessBridge}"
-                    @click.stop="jumpAddNode">
-              <span class="add-icon"></span>
-            </button>
-          </div>
-        </li>
-      </ul>
-    </div>
     <template v-if="isMobile">
       <div class="nav-wrap nav-wrap--mobile"
            v-show="mobileNavVisible">
         <ul class="nav reset-ul">
           <li class="nav-item"
+              :class="{'selected':menu.selected}"
               :key="menu.key"
               v-for="menu in list"
-              :class="{'selected':menu.selected}">
-            <div class="nav-item-content"
-                 @click="showMobileMenu(menu)">
+              @click="showMobileMenu(menu)">
+            <div class="nav-item-content">
               <i class="el-menu-item__icon iconfont"
                  :class="menu.selected? menu.selectedIcon : menu.icon"></i>
               <div class="nav-item__text">{{$t(menu.text)}}</div>
@@ -78,7 +51,7 @@
                   v-show="menu.selected">
                 <li class="nav-child__text"
                     :key="child.key"
-                    @click.stop="jumpMobile(child,menu)"
+                    @click.stop="jumpMobile(child)"
                     v-for="child in menu.children"
                     :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
                   {{$t(child.text)}}
@@ -88,7 +61,8 @@
               </ul>
             </transition>
           </li>
-          <li class="nav-item nav-item__exit add-node">
+          <li v-if="!isWirelessBridge"
+              class="nav-item nav-item__exit add-node">
             <div class="nav-item-content"
                  @click.stop="forward2Page('/mesh/add')">
               <button class="btn">
@@ -133,9 +107,37 @@
         </div>
       </div>
     </template>
+    <div class="nav-wrap nav-wrap--laptop"
+         v-else>
+      <ul class="nav reset-ul"
+          v-if="navVisible">
+        <li class="nav-item"
+            :key="menu.key"
+            v-for="menu in list"
+            :class="{'selected':menu.selected}">
+          <div class="nav-item-content"
+               @click.stop="jump(menu)"
+               :data-title="$t(menu.text)">
+            <i class="el-menu-item__icon iconfont"
+               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
+          </div>
+        </li>
+        <li class="nav-item nav-item__add-node">
+          <div class="nav-item-content"
+               :data-title="$t('trans0194')">
+            <button class="btn btn-small"
+                    :class="{'disabled':isWirelessBridge}"
+                    @click.stop="jumpAddNode">
+              <span class="add-icon"></span>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
 
     <!-- theme change modal -->
     <m-modal class="theme-change-modal"
+             :type="isMobile?'confirm':'info'"
              :visible.sync='ThemechangeVisiable'>
       <m-modal-header>
         <div class="theme-change-header">
@@ -351,19 +353,18 @@ export default {
         this.$router.push({ path: menu.url });
       }
     },
-    jumpMobile(child) {
-      if (child.key === this.list.length - 1) {
+    jumpMobile(menu) {
+      if (menu.key === this.list.length - 1) {
         const current = localStorage.getItem('theme');
         Object.keys(this.themeOptions).forEach(key => {
           this.themeOptions[key].ischecked = false;
         });
         this.themeOptions[current].ischecked = true;
         this.ThemechangeVisiable = true;
-      } else if (!child.disabled) {
-        this.$router.push({ path: child.url });
+      } else if (!menu.disabled) {
+        this.$router.push({ path: menu.url });
         this.mobileNavVisible = !this.mobileNavVisible;
       }
-      console.log('current', this.current);
     },
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;

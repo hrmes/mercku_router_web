@@ -353,7 +353,7 @@
                    @refreshDeviceList="updateDeviceList()"></speed-Limit>
     </transition>
     <m-modal :visible.sync="modalShow"
-             :closeOnClickMask="false"
+             :type="'confirm'"
              class="edit-name-modal">
       <div class="content">
         <div class="select-wrapper">

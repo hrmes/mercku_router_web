@@ -57,7 +57,6 @@
       </div>
     </div>
     <m-modal class="modal"
-             :closeOnClickMask="false"
              :visible.sync="modalShow"
              :type="'confirm'">
       <div class="modal-content">

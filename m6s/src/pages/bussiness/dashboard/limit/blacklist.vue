@@ -37,7 +37,7 @@
     </div>
 
     <m-modal class="modal"
-             :closeOnClickMask="false"
+             :type="'confirm'"
              :visible.sync="modalShow">
       <div class="modal-content">
         <div class="modal-form">

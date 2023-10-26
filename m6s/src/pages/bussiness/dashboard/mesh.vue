@@ -179,7 +179,7 @@
     </div>
     <!-- 编辑设备名称弹窗 -->
     <m-modal :visible.sync="showMeshEditModal"
-             :closeOnClickMask="false"
+             :type="'confirm'"
              class="edit-name-modal">
       <m-modal-body class="content">
         <m-form :model="form"

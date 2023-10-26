@@ -165,7 +165,7 @@
     </div>
     <!-- mesh编辑弹窗 -->
     <m-modal :visible.sync="showMeshEditModal"
-             :closeOnClickMask="false"
+             :type="'confirm'"
              class="edit-name-modal">
       <m-modal-body class="content">
         <m-form :model="form"

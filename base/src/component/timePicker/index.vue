@@ -217,11 +217,12 @@ export default {
   width: 100%;
   min-width: 120px;
   height: 48px;
+  background: var(--input-content-background);
   border: 1.5px solid var(--time-picker-pannel-border-color);
   position: relative;
   border-radius: 10px;
   padding: 0 10px;
-  transition: border 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
   &.open {
     border-color: var(--input-focus-border-color);
   }

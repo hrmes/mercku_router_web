@@ -138,7 +138,7 @@ export default {
         password: ''
       },
       originalUpperList: [],
-      mesh: false
+      meshNeedClose: false
     };
   },
   mounted() {
@@ -160,7 +160,7 @@ export default {
 
       if (this.currentMode === RouterMode.wirelessBridge ||
         nv === RouterMode.wirelessBridge) {
-        this.mesh = true;
+        this.meshNeedClose = true;
       }
 
       switch (nv) {
@@ -179,7 +179,16 @@ export default {
       return this.currentUpperInfo.security !== EncryptMethod.OPEN
         ? this.currentUpperInfo.password
         : '-';
-    }
+    },
+    isRouterMode() {
+      return this.mode === RouterMode.router;
+    },
+    isBirdgeMode() {
+      return this.mode === RouterMode.bridge;
+    },
+    isWirelessBirdgeMode() {
+      return this.mode === RouterMode.wirelessBridge;
+    },
   },
   methods: {
     getMode() {
@@ -188,40 +197,27 @@ export default {
         .getMeshMode()
         .then(res => {
           const {
-            data: { result }
+            data: { result: { mode, apclient } }
           } = res;
-          if (result.mode === RouterMode.wirelessBridge) {
-            this.currentUpperInfo.ssid = result.apclient.ssid;
-            this.currentUpperInfo.password = result.apclient.password;
-            this.currentUpperInfo.security = result.apclient.security;
+
+          this.mode = mode;
+          this.currentMode = mode;
+
+          if (this.isWirelessBirdgeMode) {
+            this.currentUpperInfo.ssid = apclient.ssid;
+            this.currentUpperInfo.password = apclient.password;
+            this.currentUpperInfo.security = apclient.security;
             this.currentUpperInfo.show = true;
             console.log('upperApform', this.upperApForm);
           }
-          this.mode = result.mode;
-          this.currentMode = result.mode;
-          this.$loading.close();
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
     updateMode() {
-      switch (this.mode) {
-        case RouterMode.wirelessBridge:
-          if (this.$refs.upperApForm.validate()) {
-            this.$dialog.confirm({
-              okText: this.$t('trans0024'),
-              cancelText: this.$t('trans0025'),
-              message: this.$t('trans0229'),
-              callback: {
-                ok: () => {
-                  this.checkMeshStatus();
-                }
-              }
-            });
-          }
-          break;
-        default:
+      if (this.isWirelessBirdgeMode) {
+        if (this.$refs.upperApForm.validate()) {
           this.$dialog.confirm({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0025'),
@@ -232,7 +228,18 @@ export default {
               }
             }
           });
-          break;
+        }
+      } else {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0229'),
+          callback: {
+            ok: () => {
+              this.checkMeshStatus();
+            }
+          }
+        });
       }
     },
     confirmUpdateMeshMode(params, reconnect) {
@@ -263,38 +270,40 @@ export default {
       //   this.$loading.close();
       // });
     },
-    checkWanStatus() {
-      if (this.mode === RouterMode.router) {
+    async checkWanStatus() {
+      if (this.isRouterMode) {
         this.updateMode();
         return;
       }
-      this.$http
-        .getWanStatus()
-        .then((res) => {
-          let status = true;
-          // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
-          if (this.mode === RouterMode.bridge &&
-            res.data.result.status === WanNetStatus.unlinked) {
-            status = false;
-            this.$toast(this.$t('trans1270'), 3000);
-          }
-          // 如果提交的mode为无线桥，就要检测是否插入网线，插入就提示用户
-          if (this.$store.state.mode !== RouterMode.wirelessBridge &&
-            this.mode === RouterMode.wirelessBridge &&
-            res.data.result.status !== WanNetStatus.unlinked) {
-            status = false;
-            this.$toast(this.$t('trans1189'), 3000);
-          }
-          if (status) this.updateMode();
-        });
+      try {
+        const res = await this.$http.getWanStatus();
+        let status = true;
+
+
+        const wanUnlinked = res.data.result.status === WanNetStatus.unlinked;
+
+        if (this.isBridgeMode && wanUnlinked) {
+          status = false;
+          this.$toast(this.$t('trans1270'), 3000);
+        } else if (this.isWirelessBridgeMode && !wanUnlinked) {
+          status = false;
+          this.$toast(this.$t('trans1189'), 3000);
+        }
+
+        if (status) {
+          this.updateMode();
+        }
+      } catch (error) {
+        console.error('Error while getting WAN status:', error);
+      }
     },
     checkMeshStatus() {
-      if (this.mesh) {
+      if (this.meshNeedClose) {
         const params = {
           enable: this.mode === RouterMode.wirelessBridge ? 0 : 1,
         };
         this.$http.updateMeshEnabled(params).then(() => {
-          this.mesh = false;
+          this.meshNeedClose = false;
           this.$store.state.changeMode = true;
 
           this.$reconnect({
