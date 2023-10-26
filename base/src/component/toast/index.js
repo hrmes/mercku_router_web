@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import Toast from './index.vue';
 
-const toast = (text = '', duration = 3000, type = 'error', parentEl = '.srcollbar-wrap') => {
+const toast = (
+  text = '',
+  duration = 3000,
+  type = 'error',
+  parentEl = '.srcollbar-wrap'
+) => {
   const Construtor = Vue.extend(Toast);
   const instance = new Construtor({
     data: {
@@ -20,6 +25,8 @@ const toast = (text = '', duration = 3000, type = 'error', parentEl = '.srcollba
   const left = rect.left + rect.width / 2;
 
   instance.$el.style.left = `${left}px`;
+
+  return instance; // 返回实例
 };
 
 export default toast;

@@ -275,7 +275,7 @@ export default {
           left: 0;
           transform: translateY(100%);
           width: 100%;
-          z-index: 1001;
+          z-index: var(--z-index-2);
           transition: all 0.2s ease-out;
           &.show {
             transform: translateY(0);
@@ -332,7 +332,7 @@ export default {
       height: 100vh;
       position: fixed;
       top: 0;
-      z-index: 1000;
+      z-index: var(--z-index-1);
       background: rgba(0, 0, 0, 0.6);
     }
   }

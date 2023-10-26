@@ -181,7 +181,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 102%;
-    z-index: 1000;
+    z-index: var(--z-index-1);
     box-shadow: 0 2px 8px var(--time-picker-combox-shadow-color);
     background-clip: padding-box;
     border-radius: 10px;

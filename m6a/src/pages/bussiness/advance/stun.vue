@@ -20,12 +20,12 @@
                    v-model="stun.server_port"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item prop="stun.username">
+        <m-form-item prop="username">
           <m-input :label="$t('trans0155')"
                    v-model="stun.username"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-        <m-form-item prop="stun.password">
+        <m-form-item prop="password">
           <m-input :label="$t('trans0156')"
                    type="password"
                    v-model="stun.password"
@@ -33,11 +33,13 @@
         </m-form-item>
         <m-form-item prop="min_keepalive">
           <m-input :label="$t('trans1207')"
+                   type="number"
                    v-model="stun.min_keepalive"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="max_keepalive">
           <m-input :label="$t('trans1208')"
+                   type="number"
                    v-model="stun.max_keepalive"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
@@ -57,7 +59,7 @@
 </template>
 
 <script>
-import { isIP } from 'base/util/util';
+import { isIP, getStringByte, isValidPassword } from 'base/util/util';
 
 const DomainRegex = /^(?=^.{3,255}$)(http(s)?:\/\/)?(www\.)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:\d{1,5})?(\/([\w-]+)?(\.\w+)?)*$/;
 const NumberReg = /^((http|https)?:\/\/)?[0-9.]+$/;
@@ -101,8 +103,20 @@ export default {
             message: this.$t('trans0478')
           },
           {
-            rule: value => (value ? value >= 1 && value <= 65535 : true),
+            rule: value => (value >= 1 && value <= 65535),
             message: this.$t('trans0478')
+          }
+        ],
+        username: [
+          {
+            rule: value => value === '' || getStringByte(value) <= 64,
+            message: this.$t('trans0261')
+          }
+        ],
+        password: [
+          {
+            rule: value => !value || isValidPassword(value, 1, 64),
+            message: this.$t('trans0125').format(1, 64)
           }
         ],
         max_keepalive: [

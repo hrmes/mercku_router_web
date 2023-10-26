@@ -176,12 +176,7 @@ export default {
         ],
         password: [
           {
-            rule: value => {
-              if (!value) {
-                return true;
-              }
-              return isValidPassword(value, 1, 31);
-            },
+            rule: value => !value || isValidPassword(value, 1, 31),
             message: this.$t('trans0125').format(1, 31)
           }
         ]
@@ -314,7 +309,7 @@ export default {
         top: 100%;
         left: 0;
         width: 100%;
-        z-index: 999;
+        z-index: var(--z-index-1);
         .tabs {
           display: flex;
           flex-direction: column;

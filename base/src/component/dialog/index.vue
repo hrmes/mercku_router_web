@@ -91,7 +91,7 @@ export default {
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 1001;
+  z-index: var(--z-index-1);
   background: var(--dialog-shadow-background-color);
   opacity: 1;
   display: flex;

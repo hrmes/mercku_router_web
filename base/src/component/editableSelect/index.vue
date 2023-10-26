@@ -171,9 +171,7 @@ export default {
 
   cursor: pointer;
   .select-popup {
-    // width: 100%;
     position: absolute;
-    z-index: 999;
     left: -2px;
     right: -2px;
     top: 52px;

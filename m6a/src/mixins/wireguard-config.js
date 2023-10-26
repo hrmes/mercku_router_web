@@ -12,8 +12,8 @@ export default {
           interface: {
             private_key: '',
             addresses: [''],
-            listen_port: null,
-            mtu: null
+            listen_port: '',
+            mtu: ''
           },
           peers: [
             {
@@ -41,11 +41,7 @@ export default {
         ],
         preshared_key: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => getStringByte(value) === 44,
+            rule: value => value === '' || getStringByte(value) === 44,
             message: this.$t('trans1209')
           }
         ],
@@ -61,29 +57,23 @@ export default {
         ],
         port: [
           {
-            rule: value => {
-              const stringVal = String(value);
-              return stringVal ? /^[0-9]+$/.test(value) : true;
-            },
+            rule: value => value === '' || /^[0-9]+$/.test(value),
             message: this.$t('trans0478')
           },
           {
-            rule: value => {
-              const stringVal = String(value);
-              return stringVal ? value >= 1 && value <= 65535 : true;
-            },
+            rule: value => value === '' || (value >= 1 && value <= 65535),
             message: this.$t('trans0478')
           }
         ],
         mtu: [
           {
-            rule: value => (value ? /^[0-9]+$/.test(value) : true),
+            rule: value => value === '' || /^[0-9]+$/.test(value),
             message: this.$t('trans1158')
               .replace('%d', 64)
               .replace('%d', 1500)
           },
           {
-            rule: value => (value ? value >= 64 && value <= 1500 : true),
+            rule: value => value === '' || (value >= 64 && value <= 1500),
             message: this.$t('trans1158')
               .replace('%d', 64)
               .replace('%d', 1500)
@@ -91,7 +81,7 @@ export default {
         ],
         optional_ip: [
           {
-            rule: value => (value ? ipReg.test(value) : true),
+            rule: value => !value || ipReg.test(value),
             message: this.$t('trans0231')
           }
         ]
@@ -113,6 +103,7 @@ export default {
       ) {
         // 先存一下vpn.name
         this.wireGuardInitForm.name = this.form.name;
+        this.wireGuardInitForm.id = this.form.id;
         this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
       }
     },
