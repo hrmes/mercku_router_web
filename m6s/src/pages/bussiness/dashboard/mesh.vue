@@ -776,7 +776,17 @@ export default {
           }
           break;
         case Color.offline:
-          result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
+          if (stationsCount > 99) {
+            result = `{name|${name}} {stationCountBig|${stationsCount}}\n{offline|${this.$t(
+              'trans0214'
+            )}} `;
+          } else if (stationsCount > 0) {
+            result = `{name|${name}} {stationCount|${stationsCount}}\n{offline|${this.$t(
+              'trans0214'
+            )}} `;
+          } else {
+            result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
+          }
           break;
         default:
           break;

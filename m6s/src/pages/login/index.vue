@@ -186,15 +186,19 @@ export default {
 
           this.$store.state.role = role;
           localStorage.setItem('role', role);
-          this.$http.getMeshMode().then(res1 => {
-            this.$loading.close();
-            const { mode } = res1.data.result;
-            this.$store.state.mode = mode;
-            localStorage.setItem('mode', mode);
+          this.$http.getMeshMode()
+            .then(res1 => {
+              this.$loading.close();
+              const { mode } = res1.data.result;
+              this.$store.state.mode = mode;
+              localStorage.setItem('mode', mode);
 
-            this.$router.push({ path: '/dashboard' });
-            this.$loading.close();
-          });
+              this.$router.push({ path: '/dashboard' });
+              this.$loading.close();
+            })
+            .finally(() => {
+              this.$loading.close();
+            });
         })
         .catch(error => {
           this.$loading.close();

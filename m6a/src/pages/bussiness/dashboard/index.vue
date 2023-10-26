@@ -658,7 +658,7 @@ h6 {
 }
 .dashboard {
   min-height: calc(780px - 65px - 60px);
-  flex: auto;
+  flex: 1;
   .net-info {
     display: grid;
     grid-template-rows: 85% 15%;

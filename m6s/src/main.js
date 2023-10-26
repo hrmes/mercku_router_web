@@ -76,7 +76,7 @@ const launch = () => {
           if (isDelay && store.state.changeMode === false) return;
           responsed = false;
           http
-            .getRouter()
+            .getRouter(undefined, { isReconnect: true })
             .then(() => {
               responsed = true;
               clearInterval(timer);
@@ -126,7 +126,9 @@ const launch = () => {
           upgradeComponent.close();
           opt.ontimeout();
         },
-        onfinally: () => { upgrading = false; },
+        onfinally: () => {
+          upgrading = false;
+        },
         timeout: opt.timeout,
         showLoading: false
       });
@@ -147,7 +149,6 @@ const launch = () => {
         if (error) {
           // 升级中
           if (error.code === 600402) {
-            console.log('upgrading===', upgrading)
             !upgrading && upgrade();
             throw err;
           }
@@ -169,9 +170,9 @@ const launch = () => {
 
             throw err;
           }
-          !options.hideToast && toast(i18nInstance.translate(error.code));
+          !options?.hideToast && toast(i18nInstance.translate(error.code));
         } else {
-          router.push({ path: '/unconnect' });
+          !options?.isReconnect && router.push({ path: '/unconnect' });
         }
       }
       throw data;

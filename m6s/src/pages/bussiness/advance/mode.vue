@@ -207,28 +207,11 @@ export default {
     },
     updateMode() {
       switch (this.mode) {
-        // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
-        case RouterMode.bridge:
-        case RouterMode.router:
-          this.$dialog.confirm({
-            okText: this.$t('trans0024'),
-            cancelText: this.$t('trans0025'),
-            // 提示为切换模式网络会中断
-            message: this.$t('trans0229'),
-            callback: {
-              ok: () => {
-                this.checkMeshStatus();
-              }
-            }
-          });
-
-          break;
         case RouterMode.wirelessBridge:
           if (this.$refs.upperApForm.validate()) {
             this.$dialog.confirm({
               okText: this.$t('trans0024'),
               cancelText: this.$t('trans0025'),
-              // 提示为可能会让网络不可用
               message: this.$t('trans0229'),
               callback: {
                 ok: () => {
@@ -239,14 +222,21 @@ export default {
           }
           break;
         default:
+          this.$dialog.confirm({
+            okText: this.$t('trans0024'),
+            cancelText: this.$t('trans0025'),
+            message: this.$t('trans0229'),
+            callback: {
+              ok: () => {
+                this.checkMeshStatus();
+              }
+            }
+          });
           break;
       }
     },
     confirmUpdateMeshMode(params, reconnect) {
-      // if (params.mode === HomewayWorkModel.bridge) {
-      //   this.$loading.open();
-      // }
-      this.$loading.open();
+      // this.$loading.open();
       this.$http
         .updateMeshMode(params)
         .then(() => {
@@ -268,10 +258,10 @@ export default {
         })
         .catch(() => {
           this.$store.state.changeMode = false;
-        })
-        .finally(() => {
-          this.$loading.close();
         });
+      // .finally(() => {
+      //   this.$loading.close();
+      // });
     },
     checkWanStatus() {
       if (this.mode === RouterMode.router) {
@@ -283,12 +273,15 @@ export default {
         .then((res) => {
           let status = true;
           // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
-          if (this.mode === RouterMode.bridge && res.data.result.status === WanNetStatus.unlinked) {
+          if (this.mode === RouterMode.bridge &&
+            res.data.result.status === WanNetStatus.unlinked) {
             status = false;
             this.$toast(this.$t('trans1270'), 3000);
           }
           // 如果提交的mode为无线桥，就要检测是否插入网线，插入就提示用户
-          if (this.$store.state.mode !== RouterMode.wirelessBridge && this.mode === RouterMode.wirelessBridge && res.data.result.status !== WanNetStatus.unlinked) {
+          if (this.$store.state.mode !== RouterMode.wirelessBridge &&
+            this.mode === RouterMode.wirelessBridge &&
+            res.data.result.status !== WanNetStatus.unlinked) {
             status = false;
             this.$toast(this.$t('trans1189'), 3000);
           }
@@ -305,9 +298,6 @@ export default {
           this.$store.state.changeMode = true;
 
           this.$reconnect({
-            timeout: 180,
-            delayTime: 95, // 95秒后检测更改模式是否成功
-            text: 'trans1193',
             onsuccess: () => {
               this.$toast(this.$t('trans0040'), 3000, 'success');
               // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
@@ -315,7 +305,9 @@ export default {
             },
             ontimeout: () => {
               this.$router.push({ path: '/unconnect' });
-            }
+            },
+            timeout: 180,
+            delayTime: 95, // 95秒后检测更改模式是否成功
           });
 
           let timer = setTimeout(() => {
@@ -330,7 +322,9 @@ export default {
         });
       } else if (this.mode === RouterMode.wirelessBridge) {
         this.connectUpperAp(this.mode, 'modeChange', true);
-      } else { this.confirmUpdateMeshMode({ mode: this.mode }, true); }
+      } else {
+        this.confirmUpdateMeshMode({ mode: this.mode }, true);
+      }
     }
   }
 };

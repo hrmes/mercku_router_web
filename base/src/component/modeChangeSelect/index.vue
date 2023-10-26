@@ -304,15 +304,15 @@ export default {
       &.selected {
         position: relative;
         color: var(--select-item-selected-color);
-        ::before {
-          content: '';
+        &::before {
+          content: '\e6be';
+          color: var(--primaryColor);
+          font-size: 12px;
+          font-family: 'iconfont';
           width: 12px;
           height: 12px;
-          background: url(../../assets/images/icon/ic_selected.svg) center
-            no-repeat;
-          background-size: cover;
           position: absolute;
-          top: 52%;
+          top: 50%;
           left: 3px;
           transform: translate(0, -50%);
         }

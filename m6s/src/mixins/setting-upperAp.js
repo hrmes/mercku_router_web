@@ -31,7 +31,7 @@ export default {
       upperApFormRules: {
         'upperApForm.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
+            rule: value => value,
             message: this.$t('trans0237')
           }
         ]
@@ -54,7 +54,7 @@ export default {
           // 这一套只验证ssid是否为空
           'upperApForm.ssid': [
             {
-              rule: value => !/^\s*$/g.test(value.trim()),
+              rule: value => value,
               message: this.$t('trans0237')
             }
           ]
@@ -64,7 +64,7 @@ export default {
           // 这一套要验证ssid和密码
           'upperApForm.ssid': [
             {
-              rule: value => !/^\s*$/g.test(value.trim()),
+              rule: value => value,
               message: this.$t('trans0237')
             }
           ],
@@ -129,7 +129,7 @@ export default {
             clearTimeout(this.getApclientScanTimer);
             this.getApclientScanTimer = null;
 
-            result = result.filter(item => !/^\s*$/.test(item.ssid));
+            // result = result.filter(item => !/^\s*$/.test(item.ssid));
             result = this.deweight(result);
             console.log('deweight', result);
             result.sort((a, b) => b.rssi - a.rssi);
