@@ -369,9 +369,11 @@ export default {
     },
     addMeshNode() {
       this.$http.addMeshNode().then(() => {
-        const template = `<div class="add-mesh-tip">${this.$t(
-          'trans1003'
-        )}</div>`;
+        const template = `
+                <div class="add-mesh-tip">
+                  ${this.$t('trans1003')}
+                </div>
+              `;
         this.$loading.open({ template });
         // 超时90秒，间隔3秒
         let timeout = this.addTimeout;

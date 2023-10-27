@@ -46,7 +46,6 @@ input::-webkit-credentials-auto-fill-button {
 }
 
 .add-mesh-tip {
-  color: var(--text-default-color);
   display: block;
   margin-top: 10px;
 }
@@ -342,14 +341,6 @@ label.with-colon {
   }
   &.white{
     background:url(../assets/images/v3/dashboard/img_white.png) no-repeat center;
-    background-size: contain;
-  }
-  &.grey{
-    background:url(../assets/images/v3/dashboard/img_grey.png) no-repeat center;
-    background-size: contain;
-  }
-  &.red{
-    background:url(../assets/images/v3/dashboard/img_red.png) no-repeat center;
     background-size: contain;
   }
 }

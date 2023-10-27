@@ -23,14 +23,6 @@
     {
       "name": "white",
       "value": "linear-gradient(298deg, #fff 30%, #ebebeb 70%)"
-    },
-    {
-      "name": "grey",
-      "value": " linear-gradient(298deg, #c4d4db 30%, #6a848a 70%)"
-    },
-    {
-      "name": "red",
-      "value": "linear-gradient(298deg, #f74949 30%, #c41b1b 70%)"
     }
   ],
   "loading": {

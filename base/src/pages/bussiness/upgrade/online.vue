@@ -20,7 +20,7 @@
                class="node">
             <div class="badges">
               <m-tag class="gateway"
-                     v-if="node.isGW">{{$t('trans0165')}}</m-tag>
+                     v-if="node.isGW">{{$t('trans0153')}}</m-tag>
               <m-tag>{{ node.version.latest }}</m-tag>
             </div>
             <div class="message"

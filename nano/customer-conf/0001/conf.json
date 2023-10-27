@@ -1,0 +1,36 @@
+{
+  "id": "0001",
+  "title": "Mercku",
+  "host": "http://mywifi.mercku.tech",
+  "accept": ".ma",
+  "favicon": "customer-conf/0001/favicon.ico",
+  "policy": "",
+  "allow2LevelAdmin": false,
+  "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG", "fr-FR"],
+  "wifi": "Mercku Wi-Fi",
+  "deviceID": "Mercku",
+  "routers": {
+    "Nano": {
+      "name": "M6s Nano Wi-Fi6 Router",
+      "shortName": "Nano"
+    }
+  },
+  "deviceColor": [
+    {
+      "name": "black",
+      "value": "linear-gradient(298deg, #515151 30%, #151515 70%)"
+    },
+    {
+      "name": "white",
+      "value": "linear-gradient(298deg, #fff 30%, #ebebeb 70%)"
+    }
+  ],
+  "loading": {
+    "color": "#d6001c"
+  },
+  "website": {
+    "url": "https://www.mercku.com",
+    "text": "www.mercku.com"
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
+}

@@ -41,7 +41,7 @@
                   </p>
                   <div class="badges">
                     <m-tag class="gateway"
-                           v-if="node.isGW">{{$t('trans0165')}}</m-tag>
+                           v-if="node.isGW">{{$t('trans0153')}}</m-tag>
                     <m-tag><span :title="$t('trans0210')">{{ node.version.latest }}</span></m-tag>
                   </div>
                   <p class="changelog"

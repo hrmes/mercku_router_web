@@ -81,7 +81,7 @@
                       <m-tag v-if="node.isGW&&isHomewayProduct"
                              class="AP">{{$t('trans1097')}}</m-tag>
                       <m-tag v-else-if="node.isGW"
-                             class="gateway">{{ $t('trans0165') }}</m-tag>
+                             class="gateway">{{ $t('trans0153') }}</m-tag>
                     </div>
                   </div>
                 </div>
@@ -545,6 +545,9 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
+  .page {
+    width: 100vw;
+  }
   .nodes-wrapper {
     .retitle {
       flex-direction: column;
@@ -556,6 +559,7 @@ export default {
     .nodes-info {
       .node {
         width: 100%;
+        max-width: calc(100vw - 40px);
         margin-right: 0;
       }
     }
@@ -570,13 +574,18 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1000px) {
+@media screen and (max-width: 374px) {
   .nodes-wrapper {
     .nodes-info {
       .node {
-        width: 340px;
-        margin-left: auto;
-        margin-right: auto;
+        .message {
+          padding: 0 10px;
+          .img-container {
+            img {
+              width: 60px;
+            }
+          }
+        }
       }
     }
   }

@@ -497,4 +497,27 @@ export default {
     }
   }
 }
+@media screen and (max-width: 374px) {
+  .upload {
+    .file {
+      .file__info {
+        .icon-wrap {
+          img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+        .delete-wrap {
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          margin-left: 3px;
+          i {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}
 </style>
