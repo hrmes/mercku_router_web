@@ -1220,7 +1220,7 @@ export default {
                 filter: var(--img-brightness);
               }
               .text {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 500;
                 max-width: calc(100% - 45px);
                 overflow: hidden;

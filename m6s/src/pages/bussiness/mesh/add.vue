@@ -72,7 +72,7 @@
                      alt="">
               </div>
               <div v-if="addNodeType===AddNodeType.wired">
-                <p class="step-item__tip">{{$t('trans1114')}}</p>
+                <p class="step-item__tip">{{$t('trans1194')}}</p>
                 <p class="step-item__tip--gray ">{{$t('trans1099')}}</p>
               </div>
               <p v-else

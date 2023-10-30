@@ -29,8 +29,9 @@
                        alt="" />
                 </div>
                 <div class="info-container">
-                  <p class="node-name"
-                     :title="node.name">{{ node.name }}</p>
+                  <div class="node-name">
+                    <p>{{ node.name }}</p>
+                  </div>
                   <p class="node-sn">
                     <label class="with-colon">{{ $t('trans0252') }}:</label>
                     <span>{{ node.sn }}</span>
@@ -325,18 +326,27 @@ export default {
           // padding-bottom: 10px;
 
           .node-name {
-            padding: 0;
-            margin: 0;
-            text-align: left;
-            line-height: 1;
+            display: flex;
+            align-items: center;
             padding-top: 0px;
             font-size: 14px;
             font-weight: bold;
             word-break: break-all;
             width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: pre;
+            height: 42px;
+            > p {
+              padding: 0;
+              margin: 0;
+              text-align: left;
+              width: 100%;
+              height: fit-content;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-all;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            }
           }
           .node-sn {
             padding: 0;
@@ -344,7 +354,7 @@ export default {
             text-align: left;
             font-size: 12px;
             line-height: 1;
-            padding-top: 10px;
+            padding-top: 5px;
             white-space: nowrap;
           }
           .node-version {
@@ -371,7 +381,7 @@ export default {
       }
       .badges {
         display: flex;
-        padding-top: 10px;
+        padding-top: 12px;
         .mk-tag {
           &.gateway {
             color: var(--tag-green-text-color);

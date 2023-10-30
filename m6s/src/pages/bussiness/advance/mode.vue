@@ -183,10 +183,10 @@ export default {
     isRouterMode() {
       return this.mode === RouterMode.router;
     },
-    isBirdgeMode() {
+    isBridgeMode() {
       return this.mode === RouterMode.bridge;
     },
-    isWirelessBirdgeMode() {
+    isWirelessBridgeMode() {
       return this.mode === RouterMode.wirelessBridge;
     },
   },
@@ -203,7 +203,7 @@ export default {
           this.mode = mode;
           this.currentMode = mode;
 
-          if (this.isWirelessBirdgeMode) {
+          if (this.isWirelessBridgeMode) {
             this.currentUpperInfo.ssid = apclient.ssid;
             this.currentUpperInfo.password = apclient.password;
             this.currentUpperInfo.security = apclient.security;
@@ -216,19 +216,17 @@ export default {
         });
     },
     updateMode() {
-      if (this.isWirelessBirdgeMode) {
-        if (this.$refs.upperApForm.validate()) {
-          this.$dialog.confirm({
-            okText: this.$t('trans0024'),
-            cancelText: this.$t('trans0025'),
-            message: this.$t('trans0229'),
-            callback: {
-              ok: () => {
-                this.checkMeshStatus();
-              }
+      if (this.isBridgeMode) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0229'),
+          callback: {
+            ok: () => {
+              this.checkMeshStatus();
             }
-          });
-        }
+          }
+        });
       } else {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
@@ -243,7 +241,9 @@ export default {
       }
     },
     confirmUpdateMeshMode(params, reconnect) {
-      // this.$loading.open();
+      if (reconnect) {
+        this.$loading.open();
+      }
       this.$http
         .updateMeshMode(params)
         .then(() => {
@@ -265,36 +265,35 @@ export default {
         })
         .catch(() => {
           this.$store.state.changeMode = false;
+        })
+        .finally(() => {
+          this.$loading.close();
         });
-      // .finally(() => {
-      //   this.$loading.close();
-      // });
     },
-    async checkWanStatus() {
-      if (this.isRouterMode) {
+    checkWanStatus() {
+      if (this.isWirelessBridgeMode) {
+        this.wirelessBridgeModeHandler();
+      } else {
         this.updateMode();
-        return;
       }
-      try {
-        const res = await this.$http.getWanStatus();
-        let status = true;
+    },
+    wirelessBridgeModeHandler() {
+      if (this.$refs.upperApForm.validate()) {
+        if (this.modeHasChange) {
+          this.$http.getWanStatus()
+            .then(res => {
+              const { result: { status: wanStatus } } = res.data;
+              const wanIsUnlinked = wanStatus === WanNetStatus.unlinked;
 
-
-        const wanUnlinked = res.data.result.status === WanNetStatus.unlinked;
-
-        if (this.isBridgeMode && wanUnlinked) {
-          status = false;
-          this.$toast(this.$t('trans1270'), 3000);
-        } else if (this.isWirelessBridgeMode && !wanUnlinked) {
-          status = false;
-          this.$toast(this.$t('trans1189'), 3000);
-        }
-
-        if (status) {
+              if (this.isWirelessBridgeMode && !wanIsUnlinked) {
+                this.$toast(this.$t('trans1189'), 3000);
+              } else {
+                this.updateMode();
+              }
+            });
+        } else {
           this.updateMode();
         }
-      } catch (error) {
-        console.error('Error while getting WAN status:', error);
       }
     },
     checkMeshStatus() {
@@ -302,33 +301,39 @@ export default {
         const params = {
           enable: this.mode === RouterMode.wirelessBridge ? 0 : 1,
         };
-        this.$http.updateMeshEnabled(params).then(() => {
-          this.meshNeedClose = false;
-          this.$store.state.changeMode = true;
+        this.$loading.open();
 
-          this.$reconnect({
-            onsuccess: () => {
-              this.$toast(this.$t('trans0040'), 3000, 'success');
-              // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
-              this.$router.push({ path: '/login' });
-            },
-            ontimeout: () => {
-              this.$router.push({ path: '/unconnect' });
-            },
-            timeout: 180,
-            delayTime: 95, // 95秒后检测更改模式是否成功
+        this.$http.updateMeshEnabled(params)
+          .then(() => {
+            this.meshNeedClose = false;
+            this.$store.state.changeMode = true;
+
+            this.$reconnect({
+              onsuccess: () => {
+                this.$toast(this.$t('trans0040'), 3000, 'success');
+                // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+                this.$router.push({ path: '/login' });
+              },
+              ontimeout: () => {
+                this.$router.push({ path: '/unconnect' });
+              },
+              timeout: 180,
+              delayTime: 95, // 95秒后检测更改模式是否成功
+            });
+
+            let timer = setTimeout(() => {
+              if (this.mode === RouterMode.wirelessBridge) {
+                this.connectUpperAp(this.mode, 'modeChange', false);
+              } else {
+                this.confirmUpdateMeshMode({ mode: this.mode }, false);
+                clearTimeout(timer);
+                timer = null;
+              }
+            }, 90 * 1000);
+          })
+          .finally(() => {
+            this.$loading.close();
           });
-
-          let timer = setTimeout(() => {
-            if (this.mode === RouterMode.wirelessBridge) {
-              this.connectUpperAp(this.mode, 'modeChange', false);
-            } else {
-              this.confirmUpdateMeshMode({ mode: this.mode }, false);
-              clearTimeout(timer);
-              timer = null;
-            }
-          }, 90 * 1000);
-        });
       } else if (this.mode === RouterMode.wirelessBridge) {
         this.connectUpperAp(this.mode, 'modeChange', true);
       } else {

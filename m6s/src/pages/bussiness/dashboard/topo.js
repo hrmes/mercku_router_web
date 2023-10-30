@@ -238,7 +238,7 @@ function genLines(gateway, green, red, nodes, fullLine) {
 // 找出离线节点
 function findOfflineNode(array, offline) {
   array = array.filter(a => {
-    if (a.status === CONSTANTS.RouterStatus.offline) {
+    if (a.status === CONSTANTS.RouterStatus.offline && !a.is_gw) {
       offline.push(a);
       return false;
     }
@@ -249,7 +249,21 @@ function findOfflineNode(array, offline) {
 
 // 生成所有绘图数据
 function genData(array, fullLine = false) {
+  if (!array[0].is_gw) {
+    // 将网关放在数组第一个，始终保证网关是绘图的起始node
+    array.sort((a, b) => {
+      if (a.is_gw && !b.is_gw) {
+        return -1; // a排在前面
+      }
+      if (!a.is_gw && b.is_gw) {
+        return 1; // b排在前面
+      }
+      return 0; // 保持原顺序
+    });
+  }
+
   let routers = JSON.parse(JSON.stringify(array));
+  console.log('123', routers);
 
   const offline = [];
   routers = findOfflineNode(routers, offline);

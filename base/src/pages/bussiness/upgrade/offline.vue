@@ -68,7 +68,9 @@
                          alt="">
                   </div>
                   <div class="info-container">
-                    <p class="node-name">{{ node.name }}</p>
+                    <div class="node-name">
+                      <p>{{ node.name }}</p>
+                    </div>
                     <p class="node-sn">
                       <label class="with-colon">{{ $t('trans0252') }}:</label>
                       <span>{{ node.sn }}</span>
@@ -481,27 +483,35 @@ export default {
           justify-content: center;
           flex: 1;
           overflow: hidden;
-
           .node-name {
-            width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: pre;
-            word-break: break-all;
-            padding: 0;
-            margin: 0;
-            text-align: left;
-            line-height: 1;
+            display: flex;
+            align-items: center;
             padding-top: 0px;
             font-size: 14px;
             font-weight: bold;
+            word-break: break-all;
+            width: 100%;
+            height: 42px;
+            > p {
+              padding: 0;
+              margin: 0;
+              text-align: left;
+              width: 100%;
+              height: fit-content;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-all;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            }
           }
           .node-sn {
             padding: 0;
             margin: 0;
             text-align: left;
             font-size: 12px;
-            padding-top: 10px;
+            padding-top: 5px;
             line-height: 1;
             white-space: nowrap;
           }
@@ -520,7 +530,7 @@ export default {
         }
       }
       .badges {
-        padding-top: 10px;
+        padding-top: 12px;
         display: flex;
         .mk-tag {
           &.gateway,
