@@ -51,7 +51,12 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipRegWithCIDR.test(value),
+            rule: value => {
+              if (value === '0.0.0.0') {
+                return false;
+              }
+              return ipRegWithCIDR.test(value);
+            },
             message: this.$t('trans0231')
           }
         ],
