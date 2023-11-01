@@ -95,7 +95,7 @@ function genNodes(gateway, green, red, offline) {
     }
   };
 
-  function genNode(node, color, symbolSize = 50) {
+  function genNode(node, color, symbolSize = 70) {
     let symbol = 'image://';
 
     if (node.is_gw) {
@@ -124,10 +124,10 @@ function genNodes(gateway, green, red, offline) {
   const nodes = [];
 
   const nodeCount = 1 + green.length + red.length + offline.length;
-  const symbolSize = [70, 50];
+  const symbolSize = [90, 70];
   if (nodeCount >= 8) {
-    symbolSize[0] = 50;
-    symbolSize[1] = 30;
+    symbolSize[0] = 70;
+    symbolSize[1] = 50;
   }
 
   // m2
