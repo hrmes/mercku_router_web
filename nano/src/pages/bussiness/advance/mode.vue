@@ -14,11 +14,11 @@
                                :options="modes"
                                direction="vertical"></m-radio-group>
                 <p class="note"
-                   v-show="mode === RouterMode.bridge">{{$t('trans1270')}}</p>
+                   v-show="mode === RouterMode.bridge">{{$t('trans1212')}}</p>
                 <p class="note"
                    v-show="mode === RouterMode.wirelessBridge">{{$t('trans1189')}}</p>
                 <p class="note"
-                   v-show="mode === RouterMode.wirelessBridge">{{$t('trans1192')}}</p>
+                   v-show="mode === RouterMode.wirelessBridge">{{$t('trans1211')}}</p>
                 <p class="note">{{$t('trans0543')}}</p>
               </m-form-item>
             </div>

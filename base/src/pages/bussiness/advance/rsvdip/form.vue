@@ -10,7 +10,7 @@
                        prop='name'
                        ref="name">
             <m-inputtable-select :label="$t('trans0108')"
-                                 :placeholder="$t('trans1271')"
+                                 :placeholder="$t('trans1213')"
                                  :options="devicesFiltered"
                                  :identifier="'mac'"
                                  v-model="form.name"

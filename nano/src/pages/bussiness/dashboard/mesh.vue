@@ -124,7 +124,7 @@
             <div class="card-bottom">
               <div class="card-bottom__offline-tips"
                    v-if="isRouterOffline(selectedNodeInfo)">
-                {{$t('trans1273')}}
+                {{$t('trans1215')}}
                 <span @click.stop="showHelpModal()">{{$t('trans0128')}}</span>
               </div>
               <div class="card-bottom__header">
@@ -193,7 +193,7 @@
           </m-form-item>
           <m-form-item prop="color">
             <div class="color-select">
-              <h4 class="label">{{$t('trans1272')}}</h4>
+              <h4 class="label">{{$t('trans1214')}}</h4>
               <ul class="color-select__wrapper">
                 <li v-for="(color,index) in deviceColorArr"
                     :key="index"
@@ -260,12 +260,11 @@
     <m-modal :visible.sync="helpModalVisible"
              class="help-modal">
       <m-modal-header class="header">
-        <span> {{$t('trans1274')}}</span>
+        <span> {{$t('trans1192')}}</span>
       </m-modal-header>
       <m-modal-body>
         <div class="help-modal-contnet">
-          <div> {{$t('trans1275')}}</div>
-          <div> {{$t('trans1276')}}</div>
+          <div> {{$t('trans1193')}}</div>
         </div>
       </m-modal-body>
       <m-modal-footer>
@@ -989,6 +988,9 @@ export default {
     width: 320px;
     height: auto;
     padding: 0;
+    > div {
+      white-space: pre-line;
+    }
     @media screen and (max-width: 768px) {
       width: auto;
     }
