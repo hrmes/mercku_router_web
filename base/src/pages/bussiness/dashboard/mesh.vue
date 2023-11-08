@@ -916,7 +916,7 @@ export default {
             left: 50%;
             transform: translateX(-50%) rotate(45deg);
             background: #333;
-            z-index: var(--z-index-1);
+            z-index: var(--z-index_pageElement);
             position: absolute;
           }
           &::after {
@@ -928,7 +928,7 @@ export default {
             left: 50%;
             transform: translateX(-50%) rotate(-45deg);
             background: #333;
-            z-index: var(--z-index-1);
+            z-index: var(--z-index_pageElement);
             position: absolute;
           }
         }

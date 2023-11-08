@@ -51,7 +51,7 @@ export default {
   top: 0;
   padding: 10px 16px;
   border-radius: 4px;
-  z-index: var(--z-index-top);
+  z-index: var(--z-index_toast);
   left: 50%;
   position: fixed;
   transform: translate(-50%, 50%);

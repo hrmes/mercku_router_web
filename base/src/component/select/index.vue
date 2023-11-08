@@ -179,7 +179,7 @@ export default {
   cursor: pointer;
   .select-popup {
     position: absolute;
-    z-index: var(--z-index-1);
+    z-index: var(--z-index_pageElement);
     left: -1px;
     right: -1px;
     top: 52px;

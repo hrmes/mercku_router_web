@@ -12,10 +12,10 @@
 //浅色主题，颜色定义
 @mixin light-theme {
   color-scheme: light;
-  --z-index-1:999;
-  --z-index-2:1000;
-  --z-index-3:1001;
-  --z-index-top:9999;
+  --z-index_toast:10000;
+  --z-index_dialog:1000;
+  --z-index_frame:999;
+  --z-index_pageElement:10;
 
   --primaryColor: #d6001c;
   --warning-color: #f12b2b;
@@ -300,10 +300,10 @@
 //深色主题，颜色定义
 @mixin dark-theme {
   color-scheme: dark;
-  --z-index-1:999;
-  --z-index-2:1000;
-  --z-index-3:1001;
-  --z-index-top:9999;
+  --z-index_toast:10000;
+  --z-index_dialog:1000;
+  --z-index_frame:999;
+  --z-index_pageElement:10;
 
 
   --primaryColor: #df2039;

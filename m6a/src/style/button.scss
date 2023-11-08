@@ -166,7 +166,7 @@
     max-height: 190px;
     word-break: keep-all;
     white-space: nowrap;
-    z-index: var(--z-index-1);
+    z-index: var(--z-index_pageElement);
     &::after {
       content: '';
       position: absolute;

@@ -141,7 +141,7 @@ export default {
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
   opacity: 0;
-  z-index: var(--z-index-3);
+  z-index: var(--z-index_pageElement);
   visibility: hidden;
 }
 [data-title] {
@@ -184,7 +184,7 @@ export default {
     position: relative;
   }
   .header {
-    z-index: var(--z-index-2);
+    z-index: var(--z-index_frame);
   }
   .layout-wrap {
     flex: 1;

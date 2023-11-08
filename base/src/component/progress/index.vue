@@ -80,7 +80,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: var(--z-index-2);
+  z-index: var(--z-index_dialog);
   flex-direction: column;
   .shadow {
     position: absolute;
@@ -95,7 +95,7 @@ export default {
 
   .progress-wrapper {
     width: 300px;
-    z-index: var(--z-index-2);
+    z-index: var(--z-index_dialog);
     .progress {
       height: 10px;
       background: var(--progress-background-color);

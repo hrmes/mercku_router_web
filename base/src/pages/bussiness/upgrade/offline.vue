@@ -398,7 +398,7 @@ export default {
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
       box-shadow: var(--offline-box-shadow);
-      z-index: var(--z-index-1);
+      z-index: var(--z-index_pageElement);
       padding: 20px;
       .retitle__btn-wrap {
         margin-top: 15px;
