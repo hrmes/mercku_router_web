@@ -671,7 +671,8 @@ export default {
             links: data.lines,
             categories: [
               { name: `${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0196')}` }
+              { name: `${this.$t('trans0196')}` },
+              { name: `${this.$t('trans0214')}` }
             ],
             lineStyle: { width: 2 }
           }

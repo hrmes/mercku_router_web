@@ -136,6 +136,7 @@ export default {
       margin-bottom: 45px;
       text-align: center;
       font-size: 14px;
+      white-space: pre-line;
     }
   }
   &.dialog-enter-active {

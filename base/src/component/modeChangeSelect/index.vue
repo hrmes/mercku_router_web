@@ -266,7 +266,7 @@ export default {
     left: -1px;
     right: -1px;
     top: 78px;
-    max-height: 300px;
+    max-height: 275px;
     background: var(--select-popup-background-color);
     border-radius: 5px;
     border: 1px solid var(--select-popup-border-color);

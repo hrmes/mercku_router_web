@@ -1207,5 +1207,11 @@
   "trans1212": "Jos valitset langallisen silta-tilan, yhdistä WAN-porttiin Ethernet-kaapeli ensin",
   "trans1213": "Valitse tai mukauta nimi",
   "trans1214": "Värivalinta",
-  "trans1215": "Laite on offline-tilassa"
+  "trans1215": "Laite on offline-tilassa",
+  "trans1216": "\"%s\" haluaa etsiä ja yhdistää laitteisiin paikallisessa verkossasi",
+  "trans1217": "Jos haluat ottaa tämän luvan käyttöön kieltämisen jälkeen, siirry kohtaan \"Asetukset - Yksityisyys - Paikallinen verkko\" muuttaaksesi paikallisen verkon luvan asetuksia",
+  "trans1218": "Kieltäydy pääsystä",
+  "trans1219": "Salli pääsy",
+  "trans1220": "Salasanan vähimmäispituus on %s merkkiä",
+  "trans1221": "että reititin on käynnistynyt (valkoinen tai oranssi valo)"
 }

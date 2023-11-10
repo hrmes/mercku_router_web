@@ -1207,5 +1207,11 @@
   "trans1212": "If you choose wired bridge mode, please connect the WAN port with an Ethernet cable",
   "trans1213": "Please select or customize the name",
   "trans1214": "Color selection",
-  "trans1215": "The device is in offline status"
+  "trans1215": "The device is in offline status",
+  "trans1216": "\"%s\" wants to discover and connect to devices on your local network",
+  "trans1217": "If you want to enable this permission after denying access, please go to \"Settings - Privacy - Local Network\" to modify the local network permission settings",
+  "trans1218": "Deny Access",
+  "trans1219": "Allow Access",
+  "trans1220": "Minimum password length is %s characters",
+  "trans1221": "please wait for the router to finish booting up (white or orange light)"
 }

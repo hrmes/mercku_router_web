@@ -39,7 +39,6 @@ export default {
       originalUpperList: [],
       processedUpperApList: [],
       pwdDisabled: true,
-      saveDisable: true,
       selectIsLoading: LoadingStatus.default,
       loadingText: `${this.$t('trans1181')}...`,
       getApclientScanTimer: null,
@@ -72,6 +71,10 @@ export default {
             {
               rule: value => value,
               message: this.$t('trans0232')
+            },
+            {
+              rule: value => isValidPassword(value, 8, 64),
+              message: this.$t('trans1220').replace('%s', 8)
             }
           ]
         };

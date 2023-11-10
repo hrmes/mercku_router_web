@@ -1207,5 +1207,11 @@
   "trans1212": "Wenn Sie den kabelgebundenen Bridge-Modus wählen, verbinden Sie bitte den WAN-Port mit einem Ethernet-Kabel",
   "trans1213": "Bitte wählen Sie einen Namen aus oder passen Sie ihn an",
   "trans1214": "Farbauswahl",
-  "trans1215": "Das Gerät ist offline"
+  "trans1215": "Das Gerät ist offline",
+  "trans1216": "\"%s\" möchte Geräte im lokalen Netzwerk suchen und verbinden",
+  "trans1217": "Wenn Sie diese Berechtigung nach dem Verweigern aktivieren möchten, gehen Sie bitte zu \"Einstellungen - Datenschutz - Lokales Netzwerk\", um die Einstellungen für die Berechtigung des lokalen Netzwerks zu ändern",
+  "trans1218": "Zugriff verweigern",
+  "trans1219": "Zugriff erlauben",
+  "trans1220": "Das Passwort muss mindestens %s Zeichen lang sein",
+  "trans1221": "Bitte warten Sie, bis der Router hochgefahren ist (weißes oder orangefarbenes Licht) "
 }

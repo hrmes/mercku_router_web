@@ -43,7 +43,7 @@
             </div>
             <div class="button-container">
               <button @click="updateChooseTypeVisible(true)"
-                      class="btn btn-default ">{{$t('trans0057')}}</button>
+                      class="btn btn-default">{{$t('trans0057')}}</button>
               <button @click="forward2step(1)"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
@@ -751,6 +751,14 @@ export default {
       flex-direction: column;
       justify-content: center;
       margin-top: 15px;
+    }
+    .btn-default {
+      background-image: linear-gradient(
+          to right,
+          var(--primaryBackgroundColor),
+          var(--primaryBackgroundColor)
+        ),
+        var(--common-btn_default-bgimg);
     }
   }
 }

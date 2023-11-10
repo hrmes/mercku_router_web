@@ -220,7 +220,7 @@ export default {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
-          message: `${this.$t('trans1212')},${this.$t('trans0229')}`,
+          message: `${this.$t('trans1212')}\n${this.$t('trans0229')}`,
           callback: {
             ok: () => {
               this.checkMeshStatus();
