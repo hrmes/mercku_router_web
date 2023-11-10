@@ -304,17 +304,6 @@ export default {
               if (v.id === info.default_vpn) {
                 v.enabled = info.enabled;
               }
-              if (v.wireguard.interface.listen_port === 0) {
-                v.wireguard.interface.listen_port = '';
-              }
-              if (v.wireguard.interface.mtu === 0) {
-                v.wireguard.interface.mtu = '';
-              }
-              v.wireguard.peers.forEach(peer => {
-                if (peer.endpoint_port === 0) {
-                  peer.endpoint_port = '';
-                }
-              });
             } else {
               this.$set(v, 'enabled', false);
               this.$set(v, 'status', VPNStatus.disconnected);
