@@ -146,6 +146,7 @@
             <m-form-item key="autochannel"
                          class="check-info">
               <m-switch v-model="isAutoChannel"
+                        :disabled="isWirelessBridge"
                         @change="()=>isAutoChannel!=isAutoChannel"
                         :label="$t('trans0781')"
                         :bold="false" />

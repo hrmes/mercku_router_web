@@ -908,6 +908,7 @@ export default {
     },
     getConnectTypeIcon(row) {
       let icon = '';
+
       if (this.isOfflineDevices) {
         if (this.isWired(row)) {
           icon = require('@/assets/images/icon/ic_offline_wired.svg');
@@ -916,13 +917,16 @@ export default {
         icon = require('@/assets/images/icon/ic_offline_wireless.svg');
         return icon;
       }
+
       if (this.isWired(row)) {
         icon = require('@/assets/images/icon/ic_wired.svg');
         return icon;
       }
+
       const {
         online_info: { rssi }
       } = row;
+
       if (this.isMobile) {
         if (rssi > -60) {
           icon = require('@/assets/images/icon/ic_signal_excellent.svg');

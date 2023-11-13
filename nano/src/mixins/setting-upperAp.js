@@ -39,7 +39,6 @@ export default {
       originalUpperList: [],
       processedUpperApList: [],
       pwdDisabled: true,
-      saveDisable: true,
       selectIsLoading: LoadingStatus.default,
       loadingText: `${this.$t('trans1181')}...`,
       getApclientScanTimer: null,
@@ -72,6 +71,10 @@ export default {
             {
               rule: value => value,
               message: this.$t('trans0232')
+            },
+            {
+              rule: value => isValidPassword(value, 8, 64),
+              message: this.$t('trans1220').replace('%s', 8)
             }
           ]
         };
@@ -195,8 +198,10 @@ export default {
     },
     connectUpperAp(mode, pageType, reconnect) {
       if (this.$refs.upperApForm.validate()) {
+        if (reconnect) {
+          this.$loading.open();
+        }
         console.log('upperApInfo is', this.upperApForm);
-        // this.$loading.open({ template: this.$t('trans1105') });
         this.$http
           .updateMeshApclient({ mode, apclient: this.upperApForm })
           .then(() => {
@@ -215,52 +220,52 @@ export default {
                 }
               });
             }
-            this.checkMeshApclient(pageType);
+            // this.checkMeshApclient(pageType);
           })
           .catch(() => {
             this.$store.state.changeMode = false;
+          })
+          .finally(() => {
+            this.$loading.close();
           });
-        // setTimeout(() => {
-        //   this.checkMeshApclient(pageType);
-        // }, 60000);
       }
     },
-    checkMeshApclient(pageType) {
-      if (pageType === PageTypes.Initialization) {
-        // this.$loading.close();
-        this.initializationHandle();
-      }
-      // if (pageType === PageTypes.ModeChange) {
-      //   this.modeChangeHandle();
-      // }
-      // this.$http
-      //   .checkMeshApclient(undefined, { hideToast: true })
-      //   .then(res => {
-      //     const { status } = res.data.result;
-      //     if (status) {
-      //       if (pageType === PageTypes.Initialization) {
-      //         this.$loading.close();
-      //         this.initializationHandle();
-      //       }
-      //       if (pageType === PageTypes.ModeChange) {
-      //         this.modeChangeHandle();
-      //       }
-      //     } else {
-      //       this.$dialog.info({
-      //         okText: this.$t('trans0024'),
-      //         message: this.$t('trans1103')
-      //       });
-      //       this.$loading.close();
-      //     }
-      //   })
-      //   .catch(() => {
-      //     this.$dialog.info({
-      //       okText: this.$t('trans0024'),
-      //       message: this.$t('trans1103')
-      //     });
-      //     this.$loading.close();
-      //   });
-    },
+    // checkMeshApclient(pageType) {
+    //   if (pageType === PageTypes.Initialization) {
+    //     this.$loading.close();
+    //     this.initializationHandle();
+    //   }
+    //   if (pageType === PageTypes.ModeChange) {
+    //     this.modeChangeHandle();
+    //   }
+    //   this.$http
+    //     .checkMeshApclient(undefined, { hideToast: true })
+    //     .then(res => {
+    //       const { status } = res.data.result;
+    //       if (status) {
+    //         if (pageType === PageTypes.Initialization) {
+    //           this.$loading.close();
+    //           this.initializationHandle();
+    //         }
+    //         if (pageType === PageTypes.ModeChange) {
+    //           this.modeChangeHandle();
+    //         }
+    //       } else {
+    //         this.$dialog.info({
+    //           okText: this.$t('trans0024'),
+    //           message: this.$t('trans1103')
+    //         });
+    //         this.$loading.close();
+    //       }
+    //     })
+    //     .catch(() => {
+    //       this.$dialog.info({
+    //         okText: this.$t('trans0024'),
+    //         message: this.$t('trans1103')
+    //       });
+    //       this.$loading.close();
+    //     });
+    // },
     initializationHandle() {
       this.stepOption.current = 1;
       this.stepOption.steps[1].success = true;

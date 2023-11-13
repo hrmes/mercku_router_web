@@ -56,7 +56,7 @@
                 <span class="gateway-label info-label"
                       v-if="isGateway">{{$t('trans0153')}}</span>
                 <span class="gateway-label info-label"
-                      v-if="!isGateway">{{$t('trans0165')}}</span>
+                      v-if="!isGateway">{{$t('trans1210')}}</span>
                 <span v-if="!isGateway"
                       class="connect-quality info-label"
                       :class="{'fair':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.fair,
@@ -108,7 +108,7 @@
                   </span>
                   <span class="btn-icon"
                         v-if="isGateway"
-                        @click.stop="resetNode(selectedNodeInfo)">
+                        @click.stop="resetNode">
                     <i class="iconfont ic_reset"></i>
                     <span class="icon-hover-popover">{{$t('trans0205')}}</span>
                   </span>
@@ -496,14 +496,20 @@ export default {
         }
       });
     },
-    resetNode(router) {
+    resetNode() {
+      const resetRouterSNArr = [];
+      this.routers.forEach(r => {
+        if (r.is_gw || r.status === RouterStatus.online) {
+          resetRouterSNArr.push(r.sn);
+        }
+      });
       this.$dialog.confirm({
         okText: this.$t('trans0205'),
         cancelText: this.$t('trans0025'),
         message: this.$t('trans0206'),
         callback: {
           ok: () => {
-            this.$http.resetMeshNode({ node_ids: [router.sn] }).then(() => {
+            this.$http.resetMeshNode({ node_ids: resetRouterSNArr }).then(() => {
               this.$reconnect({
                 timeout: 120,
                 delayTime: 10,
@@ -610,25 +616,39 @@ export default {
                 formatter: category => this.labelFormatter(category),
                 rich: {
                   name: {
-                    color: this.isDarkMode ? '#fff' : '#333'
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    fontWeight: 600,
+                    fontSize: 12
                   },
-                  stationCount: {
-                    width: 26,
-                    height: 26,
+                  stationCountUnits: {
+                    width: 18,
+                    height: 20,
                     borderRadius: 5,
                     borderColor: this.isDarkMode ? '#161616 ' : '#fff',
-                    borderWidth: 1.5,
-                    color: '#000000',
+                    borderWidth: 2,
+                    color: '#333',
                     backgroundColor: '#d8d8d8',
                     align: 'center'
                   },
-                  stationCountBig: {
-                    height: 26,
-                    padding: [0, 4],
+                  stationCountTens: {
+                    width: 23,
+                    height: 20,
+                    padding: [0, 1],
                     borderRadius: 5,
                     borderColor: this.isDarkMode ? '#161616 ' : '#fff',
-                    borderWidth: 1.5,
-                    color: '#000000',
+                    borderWidth: 2,
+                    color: '#333',
+                    backgroundColor: '#d8d8d8',
+                    align: 'center'
+                  },
+                  stationCountHundreds: {
+                    width: 26,
+                    height: 20,
+                    padding: [0, 2],
+                    borderRadius: 5,
+                    borderColor: this.isDarkMode ? '#161616 ' : '#fff',
+                    borderWidth: 2,
+                    color: '#333',
                     backgroundColor: '#d8d8d8',
                     align: 'center'
                   },
@@ -657,7 +677,8 @@ export default {
             links: data.lines,
             categories: [
               { name: `${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0196')}` }
+              { name: `${this.$t('trans0196')}` },
+              { name: `${this.$t('trans0214')}` }
             ],
             lineStyle: { width: 2 }
           }
@@ -740,49 +761,44 @@ export default {
       } = category.data;
       const { isGateway } = category.data;
       let result;
-      if (name.length > 12) {
-        name = `${name.substring(0, 12)}...`;
+      if (name.length > 15) {
+        name = `${name.substring(0, 15)}...`;
       }
+      const GatewayTopoTextMap = {
+        0: `{name|${name}} {stationCountUnits|${stationsCount}}`,
+        1: `{name|${name}} {stationCountTens|${stationsCount}}`,
+        2: `{name|${name}} {stationCountHundreds|${stationsCount}}`,
+      };
+      const NodeGoodTopoTextMap = {
+        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{good|${this.$t('trans0193')}} `,
+        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{good|${this.$t('trans0193')}}`,
+        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{good|${this.$t('trans0193')}}`,
+      };
+      const NodeBadTopoTextMap = {
+        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{bad|${this.$t('trans0196')}} `,
+        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{bad|${this.$t('trans0196')}}`,
+        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{bad|${this.$t('trans0196')}}`,
+      };
+      const NodeOfflineTopoTextMap = {
+        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{offline|${this.$t('trans0214')}} `,
+        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{offline|${this.$t('trans0214')}}`,
+        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{offline|${this.$t('trans0214')}}`,
+      };
+
       if (isGateway) {
-        if (stationsCount > 99) {
-          result = `{name|${name}} {stationCountBig|${stationsCount}}`;
-        } else {
-          result = `{name|${name}} {stationCount|${stationsCount}}`;
-        }
+        result = GatewayTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
         return result;
       }
       switch (color) {
         case Color.good:
-          if (stationsCount > 99) {
-            result = `{name|${name}} {stationCountBig|${stationsCount}}\n{good|${this.$t(
-              'trans0193'
-            )}} `;
-          } else {
-            result = `{name|${name}} {stationCount|${stationsCount}}\n{good|${this.$t(
-              'trans0193'
-            )}} `;
-          }
+          result = NodeGoodTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
           break;
         case Color.bad:
-          if (stationsCount > 99) {
-            result = `{name|${name}} {stationCountBig|${stationsCount}}\n{bad|${this.$t(
-              'trans0196'
-            )}} `;
-          } else {
-            result = `{name|${name}} {stationCount|${stationsCount}}\n{bad|${this.$t(
-              'trans0196'
-            )}} `;
-          }
+          result = NodeBadTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
           break;
         case Color.offline:
-          if (stationsCount > 99) {
-            result = `{name|${name}} {stationCountBig|${stationsCount}}\n{offline|${this.$t(
-              'trans0214'
-            )}} `;
-          } else if (stationsCount > 0) {
-            result = `{name|${name}} {stationCount|${stationsCount}}\n{offline|${this.$t(
-              'trans0214'
-            )}} `;
+          if (stationsCount > 0) {
+            result = NodeOfflineTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
           } else {
             result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
           }
@@ -1222,7 +1238,7 @@ export default {
                 filter: var(--img-brightness);
               }
               .text {
-                font-size: 18px;
+                font-size: 16px;
                 font-weight: 500;
                 max-width: calc(100% - 45px);
                 overflow: hidden;
@@ -1447,7 +1463,7 @@ export default {
           }
           .topo-wrap {
             padding-top: 0;
-            min-height: 430px;
+            min-height: 435px;
             #topo {
               width: 100%;
               min-width: initial;

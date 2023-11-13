@@ -43,7 +43,7 @@
             </div>
             <div class="button-container">
               <button @click="updateChooseTypeVisible(true)"
-                      class="btn btn-default ">{{$t('trans0057')}}</button>
+                      class="btn btn-default">{{$t('trans0057')}}</button>
               <button @click="forward2step(1)"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
@@ -68,11 +68,11 @@
                v-show="isStep(2)">
             <div class="main-content">
               <div class="img-container">
-                <img :src="getM6sSeriesProductAddNodeImg(this.addNodeType)"
+                <img :src="getNanoSeriesProductAddNodeImg(this.addNodeType)"
                      alt="">
               </div>
               <div v-if="addNodeType===AddNodeType.wired">
-                <p class="step-item__tip">{{$t('trans1114')}}</p>
+                <p class="step-item__tip">{{$t('trans1194')}}</p>
                 <p class="step-item__tip--gray ">{{$t('trans1099')}}</p>
               </div>
               <p v-else
@@ -369,9 +369,11 @@ export default {
     },
     addMeshNode() {
       this.$http.addMeshNode().then(() => {
-        const template = `<div class="add-mesh-tip">${this.$t(
-          'trans1003'
-        )}</div>`;
+        const template = `
+                <div class="add-mesh-tip">
+                  ${this.$t('trans1003')}
+                </div>
+              `;
         this.$loading.open({ template });
         // 超时90秒，间隔3秒
         let timeout = this.addTimeout;
@@ -404,7 +406,7 @@ export default {
       this.stepsOption.steps[index].success = status;
       this.isMobile && this.scrollbarToTop();
     },
-    getM6sSeriesProductAddNodeImg(type) {
+    getNanoSeriesProductAddNodeImg(type) {
       let img;
       switch (type) {
         case AddNodeType.wireless:
@@ -749,6 +751,14 @@ export default {
       flex-direction: column;
       justify-content: center;
       margin-top: 15px;
+    }
+    .btn-default {
+      background-image: linear-gradient(
+          to right,
+          var(--primaryBackgroundColor),
+          var(--primaryBackgroundColor)
+        ),
+        var(--common-btn_default-bgimg);
     }
   }
 }

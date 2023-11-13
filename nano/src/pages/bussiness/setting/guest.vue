@@ -58,6 +58,7 @@
                 <m-form-item :class="{last:form.b24g.encrypt === EncryptMethod.open}">
                   <m-select :label="$t('trans0522')"
                             v-model="form.b24g.encrypt"
+                            :popupTop="true"
                             @change="(nv, ov) => onEncryptChange('b24g', nv, ov)"
                             :options="encryptMethods"></m-select>
                 </m-form-item>
@@ -85,6 +86,7 @@
                 <m-form-item :class="{last:form.b5g.encrypt === EncryptMethod.open}">
                   <m-select :label="$t('trans0522')"
                             v-model="form.b5g.encrypt"
+                            :popupTop="true"
                             @change="(nv, ov) => onEncryptChange('b5g', nv, ov)"
                             :options="encryptMethods"></m-select>
                 </m-form-item>
@@ -142,7 +144,8 @@
         </m-form>
       </div>
       <div class="page-content__bottom">
-        <div class="form-button__wrapper" v-show="showBtn"
+        <div class="form-button__wrapper"
+             v-show="showBtn"
              :class="{'cancel':setupAndStart}">
           <button class="btn btn-default btn-cancel btn-setting"
                   style="margin-right:20px"

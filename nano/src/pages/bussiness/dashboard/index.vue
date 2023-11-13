@@ -127,7 +127,8 @@
       </div>
       <div class="functional">
         <div class="row-1">
-          <div class="mesh-name">
+          <div :title="meshGatewayInfo.name"
+               class="mesh-name">
             {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
           </div>
           <span class="btn-icon"
@@ -1023,7 +1024,7 @@ h6 {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-size: 30px;
+          font-size: 28px;
           font-weight: 600;
           text-align: center;
         }
