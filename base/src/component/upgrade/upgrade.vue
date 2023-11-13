@@ -88,7 +88,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: var(--z-index-3);
+  z-index: var(--z-index_dialog);
   background: var(--upgrade-background-color);
   display: flex;
   justify-content: center;

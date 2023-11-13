@@ -954,7 +954,7 @@ ul {
               width: 20px;
               height: 20px;
               background: var(--dashboard-unconnect-icon-background-color);
-              z-index: var(--z-index-1);
+              z-index: var(--z-index_pageElement);
               border-radius: 50%;
               cursor: pointer;
               &::before {
@@ -1209,7 +1209,7 @@ ul {
                 width: 15px;
                 height: 15px;
                 background: var(--dashboard-unconnect-icon-background-color);
-                z-index: var(--z-index-1);
+                z-index: var(--z-index_pageElement);
                 border-radius: 50%;
                 &::before {
                   content: '';

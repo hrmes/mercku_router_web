@@ -337,7 +337,7 @@ export default {
 .modal {
   position: absolute;
   top: 35px;
-  z-index: 1;
+  z-index: var(--z-index_dialog);
   right: 0;
   width: 380px;
   border-radius: 5px;

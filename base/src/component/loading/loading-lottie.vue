@@ -64,6 +64,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: var(--z-index-3);
+  z-index: var(--z-index_frame);
 }
 </style>

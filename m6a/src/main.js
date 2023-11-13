@@ -69,7 +69,7 @@ const launch = () => {
         if (responsed) {
           responsed = false;
           http
-            .getRouter(undefined, { isReconnect: true })
+            .getRouter(undefined, { isReconnect: true, hideToast: true })
             .then(() => {
               responsed = true;
               clearInterval(timer);

@@ -67,7 +67,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     pointer-events: none;
-    z-index: 100;
+    z-index: var(--z-index_pageElement);
     display: flex;
     align-items: center;
     justify-content: center;
