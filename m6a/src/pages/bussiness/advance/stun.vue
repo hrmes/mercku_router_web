@@ -17,16 +17,17 @@
         </m-form-item>
         <m-form-item prop="server_port">
           <m-input :label="$t('trans1206')"
-                   v-model="stun.server_port"
+                   type="number"
+                   v-model.number="stun.server_port"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="username">
-          <m-input :label="$t('trans0155')"
+          <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
                    v-model="stun.username"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="password">
-          <m-input :label="$t('trans0156')"
+          <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
                    type="password"
                    v-model="stun.password"
                    :placeholder="$t('trans0321')"></m-input>
@@ -34,13 +35,13 @@
         <m-form-item prop="min_keepalive">
           <m-input :label="$t('trans1207')"
                    type="number"
-                   v-model="stun.min_keepalive"
+                   v-model.number="stun.min_keepalive"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="max_keepalive">
           <m-input :label="$t('trans1208')"
                    type="number"
-                   v-model="stun.max_keepalive"
+                   v-model.number="stun.max_keepalive"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <div class="form-item">
@@ -73,8 +74,8 @@ export default {
         server_port: '',
         username: '',
         password: '',
-        max_keepalive: null,
-        min_keepalive: null
+        max_keepalive: '',
+        min_keepalive: ''
       },
       rules: {
         server_address: [
