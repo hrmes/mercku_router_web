@@ -108,7 +108,7 @@
                   </span>
                   <span class="btn-icon"
                         v-if="isGateway"
-                        @click.stop="resetNode(selectedNodeInfo)">
+                        @click.stop="resetNode">
                     <i class="iconfont ic_reset"></i>
                     <span class="icon-hover-popover">{{$t('trans0205')}}</span>
                   </span>
@@ -496,14 +496,20 @@ export default {
         }
       });
     },
-    resetNode(router) {
+    resetNode() {
+      const resetRouterSNArr = [];
+      this.routers.forEach(r => {
+        if (r.is_gw || r.status === RouterStatus.online) {
+          resetRouterSNArr.push(r.sn);
+        }
+      });
       this.$dialog.confirm({
         okText: this.$t('trans0205'),
         cancelText: this.$t('trans0025'),
         message: this.$t('trans0206'),
         callback: {
           ok: () => {
-            this.$http.resetMeshNode({ node_ids: [router.sn] }).then(() => {
+            this.$http.resetMeshNode({ node_ids: resetRouterSNArr }).then(() => {
               this.$reconnect({
                 timeout: 120,
                 delayTime: 10,
@@ -1457,7 +1463,7 @@ export default {
           }
           .topo-wrap {
             padding-top: 0;
-            min-height: 430px;
+            min-height: 435px;
             #topo {
               width: 100%;
               min-width: initial;
