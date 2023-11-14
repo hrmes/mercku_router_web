@@ -176,7 +176,6 @@ export default {
     autofill(val) {
       this.form.mac = formatMac(val.mac);
       this.form.ip = val.ip;
-      this.form.id = val?.id;
     }
   }
 };

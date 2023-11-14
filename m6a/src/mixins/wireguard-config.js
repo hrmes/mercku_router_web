@@ -1,5 +1,5 @@
 import { VPNType } from 'base/util/constant';
-import { getStringByte, ipRegWithMask, ipReg } from 'base/util/util';
+import { getStringByte, ipRegWithCIDR, ipReg } from 'base/util/util';
 
 export default {
   data() {
@@ -35,14 +35,14 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) <= 64,
-            message: this.$t('trans1174')
+            rule: value => getStringByte(value) === 44,
+            message: this.$t('trans1209')
           }
         ],
         preshared_key: [
           {
             rule: value => value === '' || getStringByte(value) === 44,
-            message: this.$t('trans0232')
+            message: this.$t('trans1209')
           }
         ],
         ip: [
@@ -51,14 +51,19 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => ipRegWithMask.test(value),
+            rule: value => {
+              if (value === '0.0.0.0') {
+                return false;
+              }
+              return ipRegWithCIDR.test(value);
+            },
             message: this.$t('trans0231')
           }
         ],
         port: [
           {
             rule: value => value === '' || /^[0-9]+$/.test(value),
-            message: this.$t('trans0031')
+            message: this.$t('trans0478')
           },
           {
             rule: value => value === '' || (value >= 1 && value <= 65535),
@@ -105,16 +110,6 @@ export default {
         this.wireGuardInitForm.name = this.form.name;
         this.wireGuardInitForm.id = this.form.id;
         this.form = JSON.parse(JSON.stringify(this.wireGuardInitForm));
-      }
-      if (nv !== VPNType.wireguard) {
-        this.form = {
-          id: '',
-          name: '',
-          protocol: nv, // L2TP or PPTP
-          server: '',
-          username: '',
-          password: ''
-        };
       }
     },
     keepAliveTime: {

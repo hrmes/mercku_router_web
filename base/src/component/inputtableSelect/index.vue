@@ -21,17 +21,25 @@
       </div>
       <transition name="select">
         <ul class="select-popup reset-ul"
-            v-show="options.length>0 && this.opened">
-          <li :key="option.mac"
-              :class="{'selected':selectedObj[identifier] === option[identifier]}"
-              @click.stop="select(option)"
-              v-for="option in options">
-            <div class="main-title">{{option.name}}</div>
-            <div class="sub">
-              <span>{{$t('trans0188')}}: {{formatMac(option.mac)}}</span>
-              <span>{{$t('trans0151')}}: {{option.ip}}</span>
-            </div>
-          </li>
+            v-show="this.opened">
+          <template v-if="options.length>0">
+            <li :key="option.mac"
+                :class="{'selected':selectedObj[identifier] === option[identifier]}"
+                @click.stop="select(option)"
+                v-for="option in options">
+              <div class="main-title">{{option.name}}</div>
+              <div class="sub">
+                <span>{{$t('trans0188')}}: {{formatMac(option.mac)}}</span>
+                <span>{{$t('trans0151')}}: {{option.ip}}</span>
+              </div>
+            </li>
+          </template>
+          <template v-else>
+            <li class="select-popup__item--empty">
+              <p>{{$t('trans0278')}}</p>
+            </li>
+          </template>
+
         </ul>
       </transition>
     </div>
@@ -113,16 +121,13 @@ export default {
     },
     close() {
       this.opened = false;
-      this.onBlur && this.onBlur();
       this.$refs.select.classList.remove('focus');
       this.$refs.clear.classList.remove('show');
-      this.$parent.$emit('blur');
     },
     blur() {
       if (this.opened) return;
       this.onBlur && this.onBlur();
       this.$refs.select.classList.remove('focus');
-      this.$parent.$emit('blur');
     },
     focus() {
       this.opened = false;
@@ -133,18 +138,14 @@ export default {
       }
     },
     handleIconClick() {
-      if (this.options.length > 0) {
-        this.$refs.clear.classList.remove('show');
-        if (this.opened) {
-          this.opened = false;
-          this.$refs.select.classList.remove('focus');
-          this.$parent.$emit('blur');
-        } else {
-          this.opened = true;
-          this.$refs.select.classList.add('focus');
-          this.scrollToSelect();
-          this.$parent.$emit('focus');
-        }
+      this.$refs.clear.classList.remove('show');
+      if (this.opened) {
+        this.opened = false;
+        this.$refs.select.classList.remove('focus');
+      } else {
+        this.opened = true;
+        this.$refs.select.classList.add('focus');
+        this.scrollToSelect();
       }
     },
     clearInput() {
@@ -164,7 +165,6 @@ export default {
         newObj[key] = this.copyObjectStructure(obj[key]);
       });
 
-      console.log(newObj);
       return newObj;
     }
   }
@@ -297,6 +297,10 @@ export default {
         justify-content: center;
         align-items: center;
         height: 80px;
+        &:hover {
+          background: var(--select-popup-background-color);
+          cursor: default;
+        }
       }
     }
     .main-title {

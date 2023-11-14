@@ -58,7 +58,7 @@
                 <m-form-item :class="{last:form.b24g.encrypt === EncryptMethod.open}">
                   <m-select :label="$t('trans0522')"
                             v-model="form.b24g.encrypt"
-                            @change="onEncryptChange"
+                            @change="(nv, ov) => onEncryptChange('b24g', nv, ov)"
                             :options="encryptMethods"></m-select>
                 </m-form-item>
                 <m-form-item prop='b24g.password'
@@ -85,7 +85,7 @@
                 <m-form-item :class="{last:form.b5g.encrypt === EncryptMethod.open}">
                   <m-select :label="$t('trans0522')"
                             v-model="form.b5g.encrypt"
-                            @change="onEncryptChange"
+                            @change="(nv, ov) => onEncryptChange('b5g', nv, ov)"
                             :options="encryptMethods"></m-select>
                 </m-form-item>
                 <m-form-item prop='b5g.password'
@@ -143,6 +143,7 @@
       </div>
       <div class="page-content__bottom">
         <div class="form-button__wrapper"
+             v-show="showBtn"
              :class="{'cancel':setupAndStart}">
           <button class="btn btn-default btn-cancel btn-setting"
                   style="margin-right:20px"
@@ -179,6 +180,7 @@ export default {
     return {
       Bands,
       EncryptMethod,
+      showBtn: true,
       showSettingPage: false,
       showStatusPage: false,
       showCancelBtn: false,
@@ -267,16 +269,16 @@ export default {
           {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1021')
-          },
-          {
-            rule: value => {
-              if (!this.form.smart_connect) {
-                return value.trim() !== this.form.b24g.ssid.trim();
-              }
-              return true;
-            },
-            message: '5G的ssid不能与2.4G的ssid一致'
           }
+          // {
+          //   rule: value => {
+          //     if (!this.form.smart_connect) {
+          //       return value.trim() !== this.form.b24g.ssid.trim();
+          //     }
+          //     return true;
+          //   },
+          //   message: this.$t('trans0660')
+          // }
         ],
         'b5g.password': [
           {
@@ -341,7 +343,7 @@ export default {
     }
   },
   methods: {
-    onEncryptChange(nv, ov) {
+    onEncryptChange(path, nv, ov) {
       if (nv === EncryptMethod.wpa3) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
@@ -349,7 +351,7 @@ export default {
           message: this.$t('trans0692'),
           callback: {
             cancel: () => {
-              this.form.encrypt = ov;
+              this.form[path].encrypt = ov;
               console.log('cancel', ov);
             }
           }
@@ -370,10 +372,12 @@ export default {
       if (enabled) {
         // 由关闭状态切换到启用状态
         this.showSettingPage = true;
+        this.showBtn = true;
       } else if (!enabled) {
         // 由启用状态切换到关闭状态
         if (this.setupAndStart) {
           // 编辑当前正在运行的访客wifi
+          this.showBtn = false;
           this.$dialog.confirm({
             okText: this.$t('trans0024'),
             cancelText: this.$t('trans0025'),
@@ -381,9 +385,11 @@ export default {
             callback: {
               ok: () => {
                 this.updateGuestWIFIStatus(false);
+                this.showBtn = true;
               },
               cancel: () => {
                 this.form.enabled = !enabled;
+                this.showBtn = true;
               }
             }
           });
@@ -447,6 +453,7 @@ export default {
           smart_connect: this.guest.smart_connect
         };
         this.setGuestWIFIStatus(this.guest.enabled);
+        this.showBtn = this.guest.enabled;
       });
     },
     setGuestWIFIStatus(enabled) {
@@ -518,15 +525,23 @@ export default {
         });
     },
     submit() {
+      if (!this.form.smart_connect && this.form.b24g.ssid.trim() === this.form.b5g.ssid.trim()) {
+        this.$toast(this.$t('trans0660'), 3000, 'error');
+        return;
+      }
       if (this.$refs.form.validate()) {
-        console.log(this.formParams);
+        if (!this.form.enabled) this.showBtn = false;
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
           message: this.$t('trans0229'),
           callback: {
             ok: () => {
+              this.showBtn = true;
               this.updateGuestWIFIStatus(true);
+            },
+            cancel: () => {
+              this.showBtn = true;
             }
           }
         });
@@ -588,7 +603,8 @@ export default {
       max-width: 165px;
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      // white-space: nowrap;
+      word-break: break-all;
     }
   }
 }
