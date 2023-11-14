@@ -8,10 +8,10 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6sGateway from '@/assets/images/m6s/ic_m6s_gw_green.png';
-import picM6sWifi6Good from '@/assets/images/m6s/ic_m6s_normal.png';
-import picM6sWifi6Bad from '@/assets/images/m6s/ic_m6s_bad.png';
-import picM6sWifi6Offline from '@/assets/images/m6s/ic_m6s_offline.png';
+import picM6sGateway from '@/assets/images/topo/ic_m6s_gw_green.png';
+import picM6sWifi6Good from '@/assets/images/topo/ic_m6s_normal.png';
+import picM6sWifi6Bad from '@/assets/images/topo/ic_m6s_bad.png';
+import picM6sWifi6Offline from '@/assets/images/topo/ic_m6s_offline.png';
 
 import { Color } from 'base/util/constant';
 

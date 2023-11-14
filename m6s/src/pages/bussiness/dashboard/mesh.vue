@@ -1227,7 +1227,7 @@ export default {
                 height: 40px;
                 margin-right: 5px;
                 aspect-ratio: 1/1;
-                background: url(../../../assets/images/m6s/ic_homepage_m6s.svg)
+                background: url(../../../assets/images/icon/ic_homepage.svg)
                   center no-repeat;
                 background-size: contain;
                 filter: var(--img-brightness);

@@ -1150,7 +1150,7 @@ export default {
                 background-size: contain;
                 filter: var(--img-brightness);
                 &.m6a_plus {
-                  background: url(../../../assets/images/m6a_plus/ic_homepage_m6a-plus.png)
+                  background: url(../../../assets/images/icon/ic_homepage_m6a-plus.png)
                     center no-repeat;
                   background-size: contain;
                 }

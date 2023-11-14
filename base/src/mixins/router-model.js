@@ -38,13 +38,16 @@ export default {
             image = require('../assets/images/img_m6a_plus.png');
           }
           break;
-        case RouterSnModel.M6s:
-        case RouterSnModel.Nano:
-          image = require('../assets/images/img_m6s.svg');
-          break;
         case RouterSnModel.Homeway:
           image = require('../assets/images/img_homeway.png');
           break;
+        case RouterSnModel.M6s:
+          image = require('../assets/images/img_m6s.svg');
+          break;
+        case RouterSnModel.Nano:
+          image = require('../assets/images/img_nano.svg');
+          break;
+
         default:
           break;
       }

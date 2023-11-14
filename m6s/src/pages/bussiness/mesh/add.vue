@@ -35,7 +35,7 @@
                v-show="isStep(0)">
             <div class="main-content">
               <div class="img-container">
-                <img src="~@/assets/images/img_m6s_add_01.svg"
+                <img src="~@/assets/images/add/img_add_01.svg"
                      alt="">
               </div>
               <p class="step-item__tip">{{transText('trans0693')}}</p>
@@ -52,7 +52,7 @@
                v-show="isStep(1)">
             <div class="main-content">
               <div class="img-container">
-                <img src="~@/assets/images/img_m6s_add_02.svg"
+                <img src="~@/assets/images/add/img_add_02.svg"
                      alt="">
               </div>
               <p class="step-item__tip">{{$t('trans1005')}}</p>
@@ -95,7 +95,7 @@
              v-if="isAddSuccess">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_m6s_add_success.svg"
+                 src="~@/assets/images/add/img_add_success.svg"
                  alt="" />
           </div>
           <div class="node-sn">
@@ -148,7 +148,7 @@
         <div class="mesh-add-tips-list">
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/img_m6s_power_on.svg"
+              <img src="~@/assets/images/add/img_power_on.svg"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -158,7 +158,7 @@
           </div>
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/img_m6s_add_02.svg"
+              <img src="~@/assets/images/add/img_add_02.svg"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -167,7 +167,7 @@
           </div>
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/img_m6s_networking.svg"
+              <img src="~@/assets/images/add/img_networking.svg"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -228,7 +228,7 @@
              :visible.sync='showWirelessMeshTipsDialog'>
       <m-modal-body class="wireless-mesh-tips-modal-body">
         <div class="img-container">
-          <img src="@/assets/images/img_m6s_together.svg"
+          <img src="@/assets/images/add/img_together.svg"
                alt="">
         </div>
         <p class="tips">{{$t('trans1100')}}</p>
@@ -410,10 +410,10 @@ export default {
       let img;
       switch (type) {
         case AddNodeType.wireless:
-          img = require('@/assets/images/img_m6s_wireless_add_03.svg');
+          img = require('@/assets/images/add/img_wireless_add_03.svg');
           break;
         case AddNodeType.wired:
-          img = require('@/assets/images/img_m6s_wired_add_03.svg');
+          img = require('@/assets/images/add/img_wired_add_03.svg');
           break;
         default:
           break;

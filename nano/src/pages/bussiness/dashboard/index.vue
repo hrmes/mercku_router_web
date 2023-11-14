@@ -814,7 +814,7 @@ h6 {
         top: 50%;
         left: 50%;
         z-index: 0;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -60%);
         z-index: 0;
         width: 150%;
         height: 40%;

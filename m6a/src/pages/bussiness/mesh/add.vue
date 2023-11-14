@@ -54,7 +54,7 @@
                v-show="isStep(1)">
             <div class="main-content">
               <div class="img-container">
-                <img src="@/assets/images/img_m6a_add_02.svg"
+                <img src="@/assets/images/add/img_add_02.svg"
                      alt="">
               </div>
               <p class="step-item__tip">{{$t('trans1005')}}</p>
@@ -97,7 +97,7 @@
              v-if="isAddSuccess">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_m6a_add_success.png"
+                 src="~@/assets/images/add/img_add_success.png"
                  alt="" />
           </div>
           <div class="node-sn">
@@ -150,7 +150,7 @@
         <div class="mesh-add-tips-list">
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/img_m6_power_on.svg"
+              <img src="~@/assets/images/add/img_power_on.svg"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -160,7 +160,7 @@
           </div>
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/img_m6_orangelight.png"
+              <img src="~@/assets/images/add/img_orangelight.png"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -230,7 +230,7 @@
              :visible.sync='showWirelessMeshTipsDialog'>
       <m-modal-body class="wireless-mesh-tips-modal-body">
         <div class="img-container">
-          <img src="@/assets/images/img_m6a_together.png"
+          <img src="@/assets/images/add/img_together.png"
                alt="">
         </div>
         <p class="tips">{{$t('trans1100')}}</p>
@@ -428,10 +428,10 @@ export default {
       if (step === Step.step1) {
         switch (this.modelID) {
           case M6aRouterSnModelVersion.M6a:
-            img = require('@/assets/images/img_m6a_add_01.svg');
+            img = require('@/assets/images/add/img_add_01.svg');
             break;
           case M6aRouterSnModelVersion.M6a_Plus:
-            img = require('@/assets/images/m6a_plus/img_m6aplus_add_01.svg');
+            img = require('@/assets/images/add/m6a_plus/img_add_01.svg');
             break;
           default:
             break;
@@ -443,10 +443,10 @@ export default {
       ) {
         switch (type) {
           case AddNodeType.wireless:
-            img = require('@/assets/images/img_m6a_wireless_add_03.svg');
+            img = require('@/assets/images/add/img_wireless_add_03.svg');
             break;
           case AddNodeType.wired:
-            img = require('@/assets/images/img_m6a_wired_add_03.svg');
+            img = require('@/assets/images/add/img_wired_add_03.svg');
             break;
           default:
             break;
@@ -458,10 +458,10 @@ export default {
       ) {
         switch (type) {
           case AddNodeType.wireless:
-            img = require('@/assets/images/m6a_plus/img_m6aplus_wireless_add_03.svg');
+            img = require('@/assets/images/add/m6a_plus/img_wireless_add_03.svg');
             break;
           case AddNodeType.wired:
-            img = require('@/assets/images/m6a_plus/img_m6aplus_wired_add_03.svg');
+            img = require('@/assets/images/add/m6a_plus/img_wired_add_03.svg');
             break;
           default:
             break;
@@ -473,10 +473,10 @@ export default {
       let img = '';
       switch (this.modelID) {
         case M6aRouterSnModelVersion.M6a:
-          img = require('@/assets/images/img_m6_networking.svg');
+          img = require('@/assets/images/add/img_networking.svg');
           break;
         case M6aRouterSnModelVersion.M6a_Plus:
-          img = require('@/assets/images/m6a_plus/img_m6aplus_networking.svg');
+          img = require('@/assets/images/add/m6a_plus/img_networking.svg');
           break;
         default:
           break;

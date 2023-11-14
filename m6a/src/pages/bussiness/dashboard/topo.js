@@ -8,14 +8,14 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6aGateway from '@/assets/images/icon/ic_m6a_gw_green.png';
-import picM6aWifi6Good from '@/assets/images/icon/ic_m6a_normal.png';
-import picM6aWifi6Bad from '@/assets/images/icon/ic_m6a_bad.png';
-import picM6aWifi6Offline from '@/assets/images/icon/ic_m6a_offline.png';
-import picM6aPlusGateway from '@/assets/images/m6a_plus/ic-m6a_plus-gateway.png';
-import picM6aPlusGood from '@/assets/images/m6a_plus/ic-m6a_plus-excellent.png';
-import picM6aPlusBad from '@/assets/images/m6a_plus/ic-m6a_plus-fair.png';
-import picM6aPlusOffline from '@/assets/images/m6a_plus/ic-m6a_plus-offline.png';
+import picM6aGateway from '@/assets/images/topo/ic_m6a_gw_green.png';
+import picM6aWifi6Good from '@/assets/images/topo/ic_m6a_normal.png';
+import picM6aWifi6Bad from '@/assets/images/topo/ic_m6a_bad.png';
+import picM6aWifi6Offline from '@/assets/images/topo/ic_m6a_offline.png';
+import picM6aPlusGateway from '@/assets/images/topo/ic_m6a_plus_gw_green.png';
+import picM6aPlusGood from '@/assets/images/topo/ic_m6a_plus_normal.png';
+import picM6aPlusBad from '@/assets/images/topo/ic_m6a_plus_bad.png';
+import picM6aPlusOffline from '@/assets/images/topo/ic_m6a_plus_offline.png';
 
 import { Color, M6aRouterSnModelVersion } from 'base/util/constant';
 
