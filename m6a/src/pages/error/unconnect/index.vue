@@ -1,7 +1,7 @@
 <template>
   <div class="unconnect">
     <div class="inner">
-      <img src="@/assets/images/img_no_network_access.webp"
+      <img src="@/assets/images/img_no_network_access.png"
            alt="">
       <div class="text">{{tips}}</div>
       <button @click="tohome"

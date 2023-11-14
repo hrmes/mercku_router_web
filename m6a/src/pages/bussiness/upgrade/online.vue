@@ -60,7 +60,7 @@
             !hasUpgradablityNodes &&
               requestResult.complete &&
               !requestResult.error">
-            <img src="@/assets/images/img_new_version.webp"
+            <img src="@/assets/images/img_new_version.png"
                  alt=""
                  width="220" />
             <p>{{ $t('trans0259') }}</p>

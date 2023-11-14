@@ -92,7 +92,7 @@
                  class="speed">
               <div class="speed-info upload">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_upload.webp"
+                  <img src="@/assets/images/icon/ic_upload.png"
                        alt="">
                 </div>
                 <div class="speed-wrap">
@@ -105,7 +105,7 @@
               </div>
               <div class="speed-info download">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_download.webp"
+                  <img src="@/assets/images/icon/ic_download.png"
                        alt="">
                 </div>
                 <div class="speed-wrap">
@@ -120,7 +120,7 @@
             <div v-else
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
-                   src="../../../assets/images/img-bridge.webp">
+                   src="../../../assets/images/img-bridge.png">
               <span>{{$t('trans0984')}}</span>
             </div>
           </div>

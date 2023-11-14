@@ -17,11 +17,6 @@
               <i class=" iconfont ic_center"></i>
             </span>
             <div class="info">
-              <!-- <div class="legend">
-                <div class="legend-item">{{$t('trans0193')}}</div>
-                <div class="legend-item">{{$t('trans0196')}}</div>
-                <div class="legend-item">{{$t('trans0214')}}</div>
-              </div> -->
               <p class="legend-title">
                 <span>{{$t('trans0302')}}</span>
                 <i class="iconfont ic_connection_quality icon-quality"

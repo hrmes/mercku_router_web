@@ -130,7 +130,6 @@ function genNodes(gateway, green, red, offline) {
     symbolSize[1] = 50;
   }
 
-  // m2
   if (gateway) nodes.push(genNode(gateway, Color.good, symbolSize[0]));
 
   // 绿点

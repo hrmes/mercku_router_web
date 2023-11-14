@@ -205,7 +205,7 @@
         <div class="connect-quality-modal-contnet">
           <div class="examples">
             <div class="example error">
-              <img src="@/assets/images/img_help_error.webp"
+              <img src="@/assets/images/img_help_error.png"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -214,7 +214,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="@/assets/images/img_help_right.webp"
+              <img src="@/assets/images/img_help_right.png"
                    alt="">
               <div class="description">
                 <span class="icon-circle">
@@ -564,16 +564,41 @@ export default {
                 formatter: category => this.labelFormatter(category),
                 rich: {
                   name: {
-                    color: this.isDarkMode ? '#fff' : '#333'
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    fontWeight: 600,
+                    fontSize: 12
                   },
-                  stationCount: {
-                    height: 18,
-                    padding: [0, 4],
+                  stationCountUnits: {
+                    width: 18,
+                    height: 20,
                     borderRadius: 5,
                     borderColor: this.isDarkMode ? '#161616 ' : '#fff',
-                    borderWidth: 1.5,
-                    color: '#333333',
-                    backgroundColor: '#d8d8d8'
+                    borderWidth: 2,
+                    color: '#333',
+                    backgroundColor: '#d8d8d8',
+                    align: 'center'
+                  },
+                  stationCountTens: {
+                    width: 23,
+                    height: 20,
+                    padding: [0, 1],
+                    borderRadius: 5,
+                    borderColor: this.isDarkMode ? '#161616 ' : '#fff',
+                    borderWidth: 2,
+                    color: '#333',
+                    backgroundColor: '#d8d8d8',
+                    align: 'center'
+                  },
+                  stationCountHundreds: {
+                    width: 26,
+                    height: 20,
+                    padding: [0, 2],
+                    borderRadius: 5,
+                    borderColor: this.isDarkMode ? '#161616 ' : '#fff',
+                    borderWidth: 2,
+                    color: '#333',
+                    backgroundColor: '#d8d8d8',
+                    align: 'center'
                   },
                   good: {
                     color: '#29b96c',
@@ -600,7 +625,8 @@ export default {
             links: data.lines,
             categories: [
               { name: `${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0196')}` }
+              { name: `${this.$t('trans0196')}` },
+              { name: `${this.$t('trans0214')}` }
             ],
             lineStyle: { width: 2 }
           }
@@ -683,26 +709,47 @@ export default {
       } = category.data;
       const { isGateway } = category.data;
       let result;
-      if (name.length > 12) {
-        name = `${name.substring(0, 12)}...`;
+      if (name.length > 15) {
+        name = `${name.substring(0, 15)}...`;
       }
+      const GatewayTopoTextMap = {
+        0: `{name|${name}} {stationCountUnits|${stationsCount}}`,
+        1: `{name|${name}} {stationCountTens|${stationsCount}}`,
+        2: `{name|${name}} {stationCountHundreds|${stationsCount}}`,
+      };
+      const NodeGoodTopoTextMap = {
+        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{good|${this.$t('trans0193')}} `,
+        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{good|${this.$t('trans0193')}}`,
+        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{good|${this.$t('trans0193')}}`,
+      };
+      const NodeBadTopoTextMap = {
+        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{bad|${this.$t('trans0196')}} `,
+        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{bad|${this.$t('trans0196')}}`,
+        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{bad|${this.$t('trans0196')}}`,
+      };
+      const NodeOfflineTopoTextMap = {
+        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{offline|${this.$t('trans0214')}} `,
+        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{offline|${this.$t('trans0214')}}`,
+        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{offline|${this.$t('trans0214')}}`,
+      };
+
       if (isGateway) {
-        result = `{name|${name}} {stationCount|${stationsCount}}`;
+        result = GatewayTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
         return result;
       }
       switch (color) {
         case Color.good:
-          result = `{name|${name}} {stationCount|${stationsCount}}\n{good|${this.$t(
-            'trans0193'
-          )}} `;
+          result = NodeGoodTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
           break;
         case Color.bad:
-          result = `{name|${name}} {stationCount|${stationsCount}}\n{bad|${this.$t(
-            'trans0196'
-          )}} `;
+          result = NodeBadTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
           break;
         case Color.offline:
-          result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
+          if (stationsCount > 0) {
+            result = NodeOfflineTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
+          } else {
+            result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
+          }
           break;
         default:
           break;

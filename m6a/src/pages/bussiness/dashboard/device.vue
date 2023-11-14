@@ -32,7 +32,7 @@
       <div class="table-inner">
         <div class="off-more-message"
              v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60">
-          <img src="@/assets/images/icon/ic_hint.webp"
+          <img src="@/assets/images/icon/ic_hint.png"
                alt="">
           {{$t('trans0517')}}
         </div>

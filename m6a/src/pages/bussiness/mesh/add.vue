@@ -45,7 +45,7 @@
             </div>
             <div class="button-container">
               <button @click="updateChooseTypeVisible(true)"
-                      class="btn btn-default ">{{$t('trans0057')}}</button>
+                      class="btn btn-default">{{$t('trans0057')}}</button>
               <button @click="forward2step(1)"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
@@ -97,7 +97,7 @@
              v-if="isAddSuccess">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_m6a_add_success.webp"
+                 src="~@/assets/images/img_m6a_add_success.png"
                  alt="" />
           </div>
           <div class="node-sn">
@@ -230,7 +230,7 @@
              :visible.sync='showWirelessMeshTipsDialog'>
       <m-modal-body class="wireless-mesh-tips-modal-body">
         <div class="img-container">
-          <img src="@/assets/images/img_m6a_together.webp"
+          <img src="@/assets/images/img_m6a_together.png"
                alt="">
         </div>
         <p class="tips">{{$t('trans1100')}}</p>
@@ -722,7 +722,7 @@ export default {
 }
 .circle-animation {
   position: relative;
-  background: url(../../../assets/images/add_node_tip_bj.webp) no-repeat center;
+  background: url(../../../assets/images/add_node_tip_bj.png) no-repeat center;
   background-size: 100%;
   width: 400px;
   margin: 0 auto;
@@ -814,6 +814,14 @@ export default {
       flex-direction: column;
       justify-content: center;
       margin-top: 15px;
+    }
+    .btn-default {
+      background-image: linear-gradient(
+          to right,
+          var(--primaryBackgroundColor),
+          var(--primaryBackgroundColor)
+        ),
+        var(--common-btn_default-bgimg);
     }
   }
 }
