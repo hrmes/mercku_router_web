@@ -812,8 +812,8 @@ export default {
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       margin-top: 15px;
+      padding-top: 30px;
     }
     .btn-default {
       background-image: linear-gradient(
@@ -1119,6 +1119,7 @@ export default {
         }
         .main-content {
           margin-top: 0;
+          padding-top: 10px;
         }
         .button-container {
           .btn {
