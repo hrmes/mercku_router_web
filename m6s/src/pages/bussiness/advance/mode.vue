@@ -56,16 +56,16 @@
                         :rules="upperApFormRules">
                   <m-form-item prop="upperApForm.ssid"
                                :class="{last:pwdDisabled}">
-                    <m-loadingSelect label="SSID"
-                                     :placeholder="$t('trans1182')"
-                                     type='text'
-                                     @change="selectedChange"
-                                     @scanApclient="startApclientScan"
-                                     :popupTop='$store.state.isMobile'
-                                     :bssid="upperApForm.bssid"
-                                     :options="processedUpperApList"
-                                     :loading="selectIsLoading"
-                                     :loadingText="loadingText" />
+                    <m-loading-select label="SSID"
+                                      :placeholder="$t('trans1182')"
+                                      type='text'
+                                      @change="selectedChange"
+                                      @scanApclient="startApclientScan"
+                                      :popupTop='$store.state.isMobile'
+                                      :bssid="upperApForm.bssid"
+                                      :options="processedUpperApList"
+                                      :loading="selectIsLoading"
+                                      :loadingText="loadingText" />
                   </m-form-item>
                   <m-form-item v-show="!pwdDisabled"
                                prop="upperApForm.password">

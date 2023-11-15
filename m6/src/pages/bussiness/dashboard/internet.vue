@@ -165,7 +165,7 @@
       <div class="speed-content">
         <div v-if="isSpeedTesting">
           <div class="test-info">
-            <m-lottieLoading :loadingType="'speedTest'"></m-lottieLoading>
+            <m-lottie-loading :loadingType="'speedTest'"></m-lottie-loading>
           </div>
           <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
         </div>

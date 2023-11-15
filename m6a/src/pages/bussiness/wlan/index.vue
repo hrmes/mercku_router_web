@@ -82,9 +82,9 @@
           </div>
           <div class="step-item step-item2"
                v-show="stepOption.current===1">
-            <m-lottieLoading class="configing-loading"
-                             :size="160"
-                             :id="'loading'" />
+            <m-lottie-loading class="configing-loading"
+                              :size="160"
+                              :id="'loading'" />
             <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
             <div class="tip"
                  style="margin-top:5px;">

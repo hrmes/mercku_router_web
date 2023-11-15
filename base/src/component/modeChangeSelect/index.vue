@@ -58,8 +58,8 @@
               class="select-popup__item--empty">{{$t('trans0278')}}</li>
           <li v-else-if="loading===LoadingStatus.loading"
               class="select-popup__item--loading">
-            <m-lottieLoading class="loading"
-                             :size="60"></m-lottieLoading>
+            <m-lottie-loading class="loading"
+                              :size="60"></m-lottie-loading>
             {{loadingText}}
           </li>
           <li v-else

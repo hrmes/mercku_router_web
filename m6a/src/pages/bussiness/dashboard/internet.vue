@@ -78,10 +78,10 @@
                       <i class="speed__icon speed__icon--peakdown"></i>
                       <label class="speed__title">{{$t('trans0307')}}</label>
                       <span class="speed__value">
-                        <count-to :startVal='0'
-                                  :endVal='Number(speedDown.value)'
-                                  :duration=3000
-                                  :decimals='1'></count-to>
+                        <m-count-to :startVal='0'
+                                    :endVal='Number(speedDown.value)'
+                                    :duration=3000
+                                    :decimals='1'></m-count-to>
                       </span>
                       <span class="speed__unit">{{speedDown.unit}}</span>
                     </div>
@@ -91,10 +91,10 @@
                       <i class="speed__icon speed__icon--peakup"></i>
                       <label class="speed__title">{{$t('trans0306')}}</label>
                       <span class="speed__value">
-                        <count-to :startVal='0'
-                                  :endVal='Number(speedUp.value)'
-                                  :duration=3000
-                                  :decimals='1'></count-to>
+                        <m-count-to :startVal='0'
+                                    :endVal='Number(speedUp.value)'
+                                    :duration=3000
+                                    :decimals='1'></m-count-to>
                       </span>
                       <span class="speed__unit">{{speedUp.unit}}</span>
                     </div>
@@ -203,8 +203,8 @@
     <div class="speedtest"
          v-if="isSpeedTesting">
       <div class="test-info">
-        <m-lottieLoading :loadingType="'speedTest'"
-                         :size="160"></m-lottieLoading>
+        <m-lottie-loading :loadingType="'speedTest'"
+                          :size="160"></m-lottie-loading>
       </div>
       <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
     </div>
@@ -212,14 +212,11 @@
 </template>
 <script>
 import { SpeedTestStatus, RouterMode, WanNetStatus } from 'base/util/constant';
+import { formatBandWidth } from 'base/util/util';
 import speedTestMixin from '@/mixins/speed-test';
-import countTo from 'vue-count-to';
 
 export default {
   mixins: [speedTestMixin],
-  components: {
-    countTo
-  },
   data() {
     return {
       routerMeta: {},
@@ -420,10 +417,10 @@ export default {
       return this.formatNetworkData(this.localTraffic.traffic.dl);
     },
     speedDown() {
-      return this.formatBandWidth(this.localSpeedInfo.speed.down);
+      return formatBandWidth(this.localSpeedInfo.speed.down);
     },
     speedUp() {
-      return this.formatBandWidth(this.localSpeedInfo.speed.up);
+      return formatBandWidth(this.localSpeedInfo.speed.up);
     },
   },
   watch: {

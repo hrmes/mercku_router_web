@@ -265,7 +265,7 @@ import {
   isValidInteger
 } from 'base/util/util';
 import * as CONSTANTS from 'base/util/constant';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import store from '@/store/index';
 
 function checkDNS(value) {

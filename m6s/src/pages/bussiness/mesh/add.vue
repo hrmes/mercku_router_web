@@ -188,7 +188,7 @@
           <div class="circle circle2"></div>
           <div class="circle circle3"></div> -->
         </div>
-        <p class="tips__text">{{$t('trans0175')}}</p>
+        <p class="tips__text successed">{{$t('trans0175')}}</p>
         <div class="button-container">
           <button class="btn btn-large"
                   @click="()=>$router.push('/dashboard/mesh')">{{$t('trans0211')}}</button>
@@ -240,7 +240,7 @@
 </template>
 <script>
 import RouterModel from 'base/mixins/router-model';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import { AddNodeType } from 'base/util/constant';
 
 const PageStatus = {
@@ -576,6 +576,9 @@ export default {
   }
   .tips__text {
     margin: 0 auto;
+    &.successed {
+      max-width: 400px;
+    }
     @media screen and(max-width:768px) {
       width: 100%;
     }
@@ -662,13 +665,9 @@ export default {
   background: url(../../../assets/images/add_node_tip_bj.png) no-repeat center;
   background-size: 100%;
   width: 400px;
+  aspect-ratio: 10/9;
   margin: 0 auto;
   margin-bottom: 50px;
-  &::before {
-    content: '';
-    display: block;
-    padding-top: 82%;
-  }
   .circle {
     width: 200px;
     height: 100px;

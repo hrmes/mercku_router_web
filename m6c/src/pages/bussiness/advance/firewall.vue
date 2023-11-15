@@ -63,7 +63,7 @@
 <script>
 import { isIP } from 'base/util/util';
 
-const cloneDeep = require('lodash/cloneDeep');
+import cloneDeep from 'lodash/cloneDeep';
 
 const maxIpNum = 10;
 const Mode = {

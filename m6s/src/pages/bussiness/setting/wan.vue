@@ -159,7 +159,8 @@
               </m-form-item>
             </m-form>
           </div>
-          <div class="form__vlan card" style="display: none;">
+          <div class="form__vlan card"
+               style="display: none;">
             <m-form-item :class="{last:!vlan.enabled}">
               <m-switch :label="$t('trans0683')"
                         v-model="vlan.enabled"></m-switch>
@@ -265,7 +266,7 @@ import {
   isValidInteger
 } from 'base/util/util';
 import * as CONSTANTS from 'base/util/constant';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);

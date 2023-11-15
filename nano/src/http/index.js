@@ -15,10 +15,10 @@ const methods = {
   updateMeshEnabled: createMethod('mesh_mode_cfg')
 };
 
-class M6sHttp extends Http {}
+class NanoHttp extends Http {}
 
 Object.keys(methods).forEach(methodName => {
-  M6sHttp.prototype[methodName] = function name(params, httpConf) {
+  NanoHttp.prototype[methodName] = function name(params, httpConf) {
     return this.request(methods[methodName], params, httpConf);
   };
 });
@@ -43,4 +43,4 @@ axios.interceptors.response.use(
   }
 );
 
-export default M6sHttp;
+export default NanoHttp;

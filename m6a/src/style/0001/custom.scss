@@ -8,7 +8,7 @@
     .logo-wrap {
       &.light {
         .logo-wrap__logo {
-          background: url(../../assets/images/customer/mercku/mercku_logo_text.webp)
+          background: url(../../assets/images/customer/mercku/mercku_logo_text_light.png)
             center no-repeat;
           background-size: 100%;
         }
@@ -36,7 +36,7 @@
       }
       @media (prefers-color-scheme: light) {
         .logo-wrap__logo {
-          background: url(../../assets/images/customer/mercku/mercku_logo_text.webp)
+          background: url(../../assets/images/customer/mercku/mercku_logo_text_light.png)
             center no-repeat;
           background-size: 100%;
         }

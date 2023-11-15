@@ -12,15 +12,15 @@
                 :rules="upperApFormRules">
           <m-form-item class="form-item"
                        prop="upperApForm.ssid">
-            <m-loadingSelect label="SSID"
-                             :placeholder="$t('trans1069')"
-                             type='text'
-                             v-model="upperApForm.ssid"
-                             @change="selectedChange"
-                             @scanApclient="startApclientScan"
-                             :options="processedUpperApList"
-                             :loading="selectIsLoading"
-                             :loadingText="loadingText" />
+            <m-loading-select label="SSID"
+                              :placeholder="$t('trans1069')"
+                              type='text'
+                              v-model="upperApForm.ssid"
+                              @change="selectedChange"
+                              @scanApclient="startApclientScan"
+                              :options="processedUpperApList"
+                              :loading="selectIsLoading"
+                              :loadingText="loadingText" />
           </m-form-item>
           <m-form-item v-show="!pwdDisabled"
                        class="form-item"

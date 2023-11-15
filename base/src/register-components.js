@@ -1,4 +1,4 @@
-import MHeader from './component/header/header.vue';
+import mHeader from './component/header/header.vue';
 import mFooter from './component/footer/index.vue';
 import mInput from './component/input/input.vue';
 import mStep from './component/step/index.vue';
@@ -23,16 +23,17 @@ import mModal from './component/modal/index.vue';
 import mModalHeader from './component/modal/header.vue';
 import mModalBody from './component/modal/body.vue';
 import mModalFooter from './component/modal/footer.vue';
-import clickoutside from './component/clickoutside/index.vue';
-import defaultButton from './component/default-button/index.vue';
+import clickOutside from './component/clickoutside/index.vue';
+import defaultButton from './component/defaultButton/index.vue';
 import mLoading from './component/loading/loading-canvas.vue';
 import mLottieLoading from './component/loading/loading-lottie.vue';
 import mTag from './component/tag/index.vue';
+import mCountTo from './component/countTo/index.vue';
 
 const registerComponents = _Vue => {
-  _Vue.directive('clickoutside', clickoutside);
+  _Vue.directive('clickoutside', clickOutside);
   _Vue.directive('defaultbutton', defaultButton);
-  _Vue.component('m-header', MHeader);
+  _Vue.component('m-header', mHeader);
   _Vue.component('m-footer', mFooter);
   _Vue.component('m-input', mInput);
   _Vue.component('m-step', mStep);
@@ -42,7 +43,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-upload', mUpload);
   _Vue.component('m-progress', mProgress);
   _Vue.component('m-select', mSelect);
-  _Vue.component('m-loadingSelect', mLoadingSelect);
+  _Vue.component('m-loading-select', mLoadingSelect);
   _Vue.component('m-radio-group', mRadioGroup);
   _Vue.component('m-radio-card-group', mRadioCardGroup);
   _Vue.component('m-switch', mSwitch);
@@ -58,8 +59,9 @@ const registerComponents = _Vue => {
   _Vue.component('m-modal-body', mModalBody);
   _Vue.component('m-modal-footer', mModalFooter);
   _Vue.component('m-loading', mLoading);
-  _Vue.component('m-lottieLoading', mLottieLoading);
+  _Vue.component('m-lottie-loading', mLottieLoading);
   _Vue.component('m-tag', mTag);
+  _Vue.component('m-count-to', mCountTo);
 };
 
 export default registerComponents;
