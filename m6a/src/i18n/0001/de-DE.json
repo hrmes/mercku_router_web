@@ -1186,7 +1186,7 @@
   "trans1191": "Internet offline",
   "trans1192": "Wie bringe ich einen Knotenpunkt wieder online?",
   "trans1193": "1. Trennen Sie den Knotenpunkt von der Stromversorgung und starten Sie ihn neu. \n2. Setzen Sie den Knotenpunkt zurück und stellen Sie die Netzwerkverbindung erneut her.",
-  "trans1194": "Verbinden Sie das Ethernet-Kabel mit dem LAN-Anschluss des Haupt-Routers und dem WAN-Anschluss des Knotens. Drücken Sie die Verbinden-Taste sowohl am Haupt-Router als auch am Knoten und warten Sie etwa eine Minute. Wenn der Knoten-Router und der Haupt-Router eine durchgehend weiße Beleuchtung haben, war die Netzwerkeinrichtung erfolgreich.",
+  "trans1194": "Verbinden Sie das Netzwerkkabel mit dem LAN-Port des Hauptrouters und dem WAN-Port des Knotens. Wenn die Knoten-LED weiß leuchtet, drücken Sie die Connect-Taste des Hauptrouters bzw. des Knotens und warten Sie etwa eine Minute. Der Knoten wird im Topologiediagramm angezeigt, was bedeutet, dass das kabelgebundene Netzwerk erfolgreich eingerichtet wurde (zu finden unter Topologiekarte in App oder Web anzeigen).",
   "trans1195": "Hinweis: \nNach erfolgreicher Verkabelung kann durch Herausziehen des WAN-Kabels auf drahtlose Vernetzung umgeschaltet werden.",
   "trans1196": "Es kann keine Verbindung zum Router hergestellt werden. Stellen Sie bitte eine ordnungsgemäße Internetverbindung sicher oder warten Sie, bis der Router hochgefahren ist (weißes oder orangefarbenes Licht).",
   "trans1197": " ",
@@ -1201,5 +1201,17 @@
   "trans1206": "Server-Port",
   "trans1207": "Minimales Keepalive-Intervall(s)",
   "trans1208": "Maximales Keepalive-Intervall(s)",
-  "trans1209": "Bitte stellen Sie sicher, dass die Eingabe eine Länge von 44 Zeichen hat"
+  "trans1209": "Bitte stellen Sie sicher, dass die Eingabe eine Länge von 44 Zeichen hat",
+  "trans1210": "Knotenpunkt",
+  "trans1211": "Wenn das Netzwerk bereits eingerichtet ist und in den drahtlosen Bridge-Modus gewechselt wird, wird Mesh deaktiviert",
+  "trans1212": "Wenn Sie den kabelgebundenen Bridge-Modus wählen, verbinden Sie bitte den WAN-Port mit einem Ethernet-Kabel",
+  "trans1213": "Bitte wählen Sie einen Namen aus oder passen Sie ihn an",
+  "trans1214": "Farbauswahl",
+  "trans1215": "Das Gerät ist offline",
+  "trans1216": "\"%s\" möchte Geräte im lokalen Netzwerk suchen und verbinden",
+  "trans1217": "Wenn Sie diese Berechtigung nach dem Verweigern aktivieren möchten, gehen Sie bitte zu \"Einstellungen - Datenschutz - Lokales Netzwerk\", um die Einstellungen für die Berechtigung des lokalen Netzwerks zu ändern",
+  "trans1218": "Zugriff verweigern",
+  "trans1219": "Zugriff erlauben",
+  "trans1220": "Das Passwort muss mindestens %s Zeichen lang sein",
+  "trans1221": "Bitte warten Sie, bis der Router hochgefahren ist (weißes oder orangefarbenes Licht) "
 }

@@ -1186,7 +1186,7 @@
   "trans1191": "Internet offline",
   "trans1192": "How to bring a node back online?",
   "trans1193": "1. Disconnect and restart the node.\n2. Reset the node and reestablish the network connection.",
-  "trans1194": "Connect the Ethernet cable to the LAN port of the main router and the WAN port of the node. Press the Connect button on both the main router and the node, and wait for about a minute. When the node router and the main router have solid white lights, the network setup is successful.",
+  "trans1194": "Connect the network cable to the LAN port of the main router and the WAN port of the node. When the node LED turns white, press the Connect button of the main router and the node respectively and wait for about a minute. The node appears in the topology diagram, which means the wired network is successfully established (can be found in View topology map on App or Web)",
   "trans1195": "Note: \nAfter successful wired networking, unplug the WAN cable to switch to wireless networking.",
   "trans1196": "Cannot connect to the router, please ensure a proper internet connection or wait for the router to finish booting up (white or orange light).",
   "trans1197": "1.Clicking the delete button below will remove all your account-related information in the Mercku app, including the binding relationship between your account and your devices. If you want to clear the configuration information of the devices, please manually restore them to factory settings.",
@@ -1201,5 +1201,17 @@
   "trans1206": "Server Port",
   "trans1207": "Min Keepalive Interval(s)",
   "trans1208": "Max Keepalive Interval(s)",
-  "trans1209": "Please make sure the input length is 44 characters"
+  "trans1209": "Please make sure the input length is 44 characters",
+  "trans1210": "Node",
+  "trans1211": "If the network has been set up and switched to wireless bridge mode, Mesh will be turned off",
+  "trans1212": "If you choose wired bridge mode, please connect the WAN port with an Ethernet cable",
+  "trans1213": "Please select or customize the name",
+  "trans1214": "Color selection",
+  "trans1215": "The device is in offline status",
+  "trans1216": "\"%s\" wants to discover and connect to devices on your local network",
+  "trans1217": "If you want to enable this permission after denying access, please go to \"Settings - Privacy - Local Network\" to modify the local network permission settings",
+  "trans1218": "Deny Access",
+  "trans1219": "Allow Access",
+  "trans1220": "Minimum password length is %s characters",
+  "trans1221": "please wait for the router to finish booting up (white or orange light)"
 }

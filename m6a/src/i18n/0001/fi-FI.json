@@ -1186,7 +1186,7 @@
   "trans1191": "Internet ei ole käytettävissä",
   "trans1192": "Kuinka saada solmu uudelleen verkossa?",
   "trans1193": "1. Irrota solmu sähköverkosta ja käynnistä se uudelleen. \n2. Palauta solmu tehdasasetuksiin ja muodosta verkko uudelleen.",
-  "trans1194": "Liitä Ethernet-kaapeli pääreitittimen LAN-porttiin ja solmun WAN-porttiin. Paina sekä pääreitittimen että solmun Connect-painiketta ja odota noin minuutti. Kun solmun reititin ja pääreititin ovat vakiona valkoisena, verkon asennus onnistui.",
+  "trans1194": "Liitä verkkokaapeli pääreitittimen LAN-porttiin ja solmun WAN-porttiin. Kun solmun merkkivalo muuttuu valkoiseksi, paina pääreitittimen ja solmun Connect-painiketta ja odota noin minuutti. Solmu näkyy topologiakaaviossa, mikä tarkoittaa, että langallinen verkko on muodostettu onnistuneesti (löytyy kohdasta Näytä topologiakartta sovelluksessa tai verkossa)",
   "trans1195": "Huomio: \nOnnistuneen kaapeliverkon muodostamisen jälkeen irrota WAN-kaapeli siirtyäksesi langattomaan verkkoon.",
   "trans1196": "\nEi voi muodostaa yhteyttä reitittimeen, varmista kunnollinen Internet-yhteys tai odota, että reititin on käynnistynyt (valkoinen tai oranssi valo).",
   "trans1197": " ",
@@ -1201,5 +1201,17 @@
   "trans1206": "Palvelimen portti",
   "trans1207": "Pienin aktiivisuuden ylläpitoväli(s)",
   "trans1208": "Suurin aktiivisuuden ylläpitoväli (s)",
-  "trans1209": "Varmista, että syötteen pituus on 44 merkkiä"
+  "trans1209": "Varmista, että syötteen pituus on 44 merkkiä",
+  "trans1210": "Solmupiste",
+  "trans1211": "Jos verkko on jo asetettu ja vaihdettu langattomalle silta-tilalle, Mesh sammutetaan",
+  "trans1212": "Jos valitset langallisen silta-tilan, yhdistä WAN-porttiin Ethernet-kaapeli ensin",
+  "trans1213": "Valitse tai mukauta nimi",
+  "trans1214": "Värivalinta",
+  "trans1215": "Laite on offline-tilassa",
+  "trans1216": "\"%s\" haluaa etsiä ja yhdistää laitteisiin paikallisessa verkossasi",
+  "trans1217": "Jos haluat ottaa tämän luvan käyttöön kieltämisen jälkeen, siirry kohtaan \"Asetukset - Yksityisyys - Paikallinen verkko\" muuttaaksesi paikallisen verkon luvan asetuksia",
+  "trans1218": "Kieltäydy pääsystä",
+  "trans1219": "Salli pääsy",
+  "trans1220": "Salasanan vähimmäispituus on %s merkkiä",
+  "trans1221": "että reititin on käynnistynyt (valkoinen tai oranssi valo)"
 }

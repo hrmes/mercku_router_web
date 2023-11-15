@@ -180,6 +180,7 @@ export default {
     max-height: 200px;
     border: 1px solid var(--select-popup-border-color);
     overflow: auto;
+    z-index: var(--z-index_pageElement);
     li {
       list-style: none;
       padding: 17px 10px;
