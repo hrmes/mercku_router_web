@@ -720,7 +720,6 @@ export default {
     justify-content: space-between;
     width: 340px;
     height: 100%;
-    max-height: 660px;
     .step-item__tip {
       margin: 0;
       font-size: 14px;
@@ -749,8 +748,9 @@ export default {
       flex: 1;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       margin-top: 15px;
-      padding-top: 30px;
+      padding-top: 15px;
     }
     .btn-default {
       background-image: linear-gradient(

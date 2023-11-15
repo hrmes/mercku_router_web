@@ -1186,7 +1186,7 @@
   "trans1191": "Internet ei ole käytettävissä",
   "trans1192": "Kuinka saada solmu uudelleen verkossa?",
   "trans1193": "1. Irrota solmu sähköverkosta ja käynnistä se uudelleen. \n2. Palauta solmu tehdasasetuksiin ja muodosta verkko uudelleen.",
-  "trans1194": "Liitä Ethernet-kaapeli pääreitittimen LAN-porttiin ja solmun WAN-porttiin. Paina sitten sekä pääreitittimen että solmun Connect-painiketta. Odota noin minuutti, ja kun solmu ilmestyy topologian kartalle, langallinen verkon asennus onnistui (voit tarkastella topologian karttaa sovelluksessa tai verkkosivustolla)",
+  "trans1194": "Liitä verkkokaapeli pääreitittimen LAN-porttiin ja solmun WAN-porttiin. Kun solmun merkkivalo muuttuu valkoiseksi, paina pääreitittimen ja solmun Connect-painiketta ja odota noin minuutti. Solmu näkyy topologiakaaviossa, mikä tarkoittaa, että langallinen verkko on muodostettu onnistuneesti (löytyy kohdasta Näytä topologiakartta sovelluksessa tai verkossa)",
   "trans1195": "Huomio: \nOnnistuneen kaapeliverkon muodostamisen jälkeen irrota WAN-kaapeli siirtyäksesi langattomaan verkkoon.",
   "trans1196": "\nEi voi muodostaa yhteyttä reitittimeen, varmista kunnollinen Internet-yhteys tai odota, että reititin on käynnistynyt (valkoinen tai oranssi valo).",
   "trans1197": " ",

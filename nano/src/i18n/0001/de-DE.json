@@ -1186,7 +1186,7 @@
   "trans1191": "Internet offline",
   "trans1192": "Wie bringe ich einen Knotenpunkt wieder online?",
   "trans1193": "1. Trennen Sie den Knotenpunkt von der Stromversorgung und starten Sie ihn neu. \n2. Setzen Sie den Knotenpunkt zurück und stellen Sie die Netzwerkverbindung erneut her.",
-  "trans1194": "Verbinden Sie das Ethernet-Kabel mit dem LAN-Anschluss des Haupt-Routers und dem WAN-Anschluss des Knotens. Drücken Sie jeweils die Verbinden-Taste auf dem Haupt-Router und dem Knoten. Warten Sie etwa eine Minute, und sobald der Knoten auf der Topologie-Karte erscheint, ist die kabelgebundene Netzwerkkonfiguration erfolgreich (Sie können die Topologie-Karte in der App oder im Web anzeigen)",
+  "trans1194": "Verbinden Sie das Netzwerkkabel mit dem LAN-Port des Hauptrouters und dem WAN-Port des Knotens. Wenn die Knoten-LED weiß leuchtet, drücken Sie die Connect-Taste des Hauptrouters bzw. des Knotens und warten Sie etwa eine Minute. Der Knoten wird im Topologiediagramm angezeigt, was bedeutet, dass das kabelgebundene Netzwerk erfolgreich eingerichtet wurde (zu finden unter Topologiekarte in App oder Web anzeigen).",
   "trans1195": "Hinweis: \nNach erfolgreicher Verkabelung kann durch Herausziehen des WAN-Kabels auf drahtlose Vernetzung umgeschaltet werden.",
   "trans1196": "Es kann keine Verbindung zum Router hergestellt werden. Stellen Sie bitte eine ordnungsgemäße Internetverbindung sicher oder warten Sie, bis der Router hochgefahren ist (weißes oder orangefarbenes Licht).",
   "trans1197": " ",
