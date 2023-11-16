@@ -9,10 +9,7 @@
 </template>
 
 <script>
-// this.$toast({
-//   type:'success',
-//   text：''
-// })
+
 export default {
   data() {
     return {
@@ -54,7 +51,7 @@ export default {
   top: 0;
   padding: 10px 16px;
   border-radius: 4px;
-  z-index: 1005;
+  z-index: var(--z-index_toast);
   left: 50%;
   position: fixed;
   transform: translate(-50%, 50%);

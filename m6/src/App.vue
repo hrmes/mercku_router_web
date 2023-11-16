@@ -145,7 +145,7 @@ export default {
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
   opacity: 0;
-  z-index: 99999;
+  z-index: var(--z-index_pageElement);
   visibility: hidden;
 }
 [data-title] {
@@ -167,7 +167,6 @@ export default {
     position: fixed;
     width: 26.875rem;
     height: 26.875rem;
-    z-index: 999;
   }
   .login-logo__left__top {
     top: 0;
@@ -189,7 +188,7 @@ export default {
     position: relative;
   }
   .header {
-    z-index: 1000;
+    z-index: var(--z-index_frame);
   }
   .layout-wrap {
     flex: 1;

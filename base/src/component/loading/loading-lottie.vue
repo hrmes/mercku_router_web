@@ -23,20 +23,20 @@ export default {
     window.requestAnimationFrame(this.loadImg);
   },
   computed: {
-    ispFolderName() {
+    ispName() {
       return process.env.CUSTOMER_CONFIG.title.toLowerCase();
     },
     animJson() {
       let result;
       switch (this.loadingType) {
         case Type.loading:
-          result = require(`../../assets/lottie/${this.ispFolderName}/loading.json`);
+          result = require(`../../assets/lottie/${this.ispName}/loading.json`);
           break;
         case Type.speedTest:
-          result = require(`../../assets/lottie/${this.ispFolderName}/speed-test.json`);
+          result = require(`../../assets/lottie/${this.ispName}/speed-test.json`);
           break;
         case Type.addNode:
-          result = require(`../../assets/lottie/${this.ispFolderName}/add-node.json`);
+          result = require(`../../assets/lottie/${this.ispName}/add-node.json`);
           break;
         default:
           break;
@@ -67,6 +67,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: var(--z-index_frame);
 }
 </style>

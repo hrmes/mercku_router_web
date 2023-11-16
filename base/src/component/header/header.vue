@@ -155,7 +155,7 @@
           <span>{{$t('trans1119')}}</span>
           <div class="theme-change-header__close-btn"
                @click.stop="() => (ThemechangeVisiable = false)">
-            <i class="iconfont icon-ic_close"></i>
+            <i class="iconfont ic_close"></i>
           </div>
         </div>
       </m-modal-header>
@@ -163,28 +163,43 @@
         <div class="theme-change-body">
           <div class="theme-option"
                @click="clickHandler('light')">
+            <m-checkbox v-if="isMobile"
+                        class="checkbox static"
+                        :rect="false"
+                        v-model="themeOptions.light.ischecked"></m-checkbox>
             <img src="../../assets/images/img_theme_light.webp"
                  alt="">
             <span class="label">{{$t('trans1122')}}</span>
-            <m-checkbox class="checkbox"
+            <m-checkbox v-if="!isMobile"
+                        class="checkbox"
                         :rect="false"
                         v-model="themeOptions.light.ischecked"></m-checkbox>
           </div>
           <div class="theme-option"
                @click="clickHandler('dark')">
+            <m-checkbox v-if="isMobile"
+                        class="checkbox static"
+                        :rect="false"
+                        v-model="themeOptions.dark.ischecked"></m-checkbox>
             <img src="../../assets/images/img_theme_dark.webp"
                  alt="">
             <span class="label">{{$t('trans1123')}}</span>
-            <m-checkbox class="checkbox"
+            <m-checkbox v-if="!isMobile"
+                        class="checkbox"
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
           </div>
           <div class="theme-option"
                @click="clickHandler('auto')">
+            <m-checkbox v-if="isMobile"
+                        class="checkbox static"
+                        :rect="false"
+                        v-model="themeOptions.auto.ischecked"></m-checkbox>
             <img src="../../assets/images/img_theme_auto.webp"
                  alt="">
             <span class="label">{{$t('trans1121')}}</span>
-            <m-checkbox class="checkbox"
+            <m-checkbox v-if="!isMobile"
+                        class="checkbox"
                         :rect="false"
                         v-model="themeOptions.auto.ischecked"></m-checkbox>
           </div>
@@ -255,7 +270,7 @@ const Languages = [
     text: 'български',
     value: 'bg-BG',
     show: false
-  }
+  },
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
 if (!supportLanguage) {
@@ -326,10 +341,7 @@ export default {
       return process.env.CUSTOMER_CONFIG.website;
     },
     needMoveToRight() {
-      return (
-        this.$route.path.includes('wlan') ||
-        this.$route.path.includes('unconnect')
-      );
+      return this.$route.path.includes('wlan') || this.$route.path.includes('unconnect');
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -456,9 +468,7 @@ export default {
       this.showPopup = false;
     },
     getDefaultLanguage() {
-      const language = this.Languages.filter(
-        l => l.value === this.$i18n.locale
-      )[0];
+      const language = this.Languages.filter(l => l.value === this.$i18n.locale)[0];
       if (!language) {
         return this.Languages[0];
       }
@@ -528,16 +538,12 @@ export default {
         });
         this.themeOptions[theme].ischecked = true;
       }
-      document
-        .querySelector('html')
-        .setAttribute('class', localStorage.getItem('theme'));
+      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
     },
     changeThemeMode() {
       localStorage.setItem('theme', this.selectedTheme);
       this.$store.state.theme = this.selectedTheme;
-      document
-        .querySelector('html')
-        .setAttribute('class', localStorage.getItem('theme'));
+      document.querySelector('html').setAttribute('class', localStorage.getItem('theme'));
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;
@@ -565,7 +571,7 @@ export default {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: var(--button-close-background-color);
+      background: var(--button-close-bgc);
       cursor: pointer;
       .iconfont {
         position: absolute;
@@ -579,13 +585,13 @@ export default {
       }
     }
   }
-
   .theme-change-body {
     display: flex;
     .theme-option {
       position: relative;
       width: 120px;
       height: 194px;
+      aspect-ratio: 60/97;
       margin: 0 10px;
       border-radius: 10px;
       cursor: pointer;
@@ -608,7 +614,6 @@ export default {
       }
     }
   }
-
   .btn-dialog-confirm {
     width: 240px;
   }
@@ -776,7 +781,7 @@ export default {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    z-index: 999;
+    z-index: var(--z-index_frame);
     .small-device {
       display: none;
     }
@@ -999,8 +1004,29 @@ export default {
 @media screen and (max-width: 768px) {
   .theme-change-modal {
     .theme-change-body {
+      flex-direction: column;
       .theme-option {
-        height: auto;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        width: 50px;
+        margin-bottom: 10px;
+        margin-left: 20px;
+        white-space: nowrap;
+        img {
+          margin-left: 10px;
+          margin-right: 20px;
+        }
+        .checkbox {
+          &.static {
+            top: 50%;
+            left: 0;
+            transform: translate(-50%, -50%);
+          }
+        }
+        &:last-child {
+          margin-bottom: 0;
+        }
         &:hover {
           outline-color: transparent;
         }
@@ -1012,7 +1038,7 @@ export default {
   }
   .header-container {
     height: 65px;
-    z-index: 999;
+    z-index: var(--z-index_frame);
     // &.open,
     // &.i18n-open {
     //   position: fixed;
@@ -1170,7 +1196,7 @@ export default {
           color: var(--text-default-color);
           border-top: 1px solid var(--header-dividing-color);
           padding: 0 30px;
-          z-index: 999;
+          z-index: var(--z-index_frame);
           font-size: 16px;
           li {
             display: flex;

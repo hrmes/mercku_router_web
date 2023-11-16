@@ -30,10 +30,12 @@ export default {
     window.requestAnimationFrame(this.loadImg);
   },
   computed: {
+    ispName() {
+      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    },
     animJson() {
-      const name = process.env.CUSTOMER_CONFIG.title.toLowerCase();
-      return require(`../../assets/lottie/${name}/loading.json`);
-    }
+      return require(`../../assets/lottie/${this.ispName}/loading.json`);
+    },
   },
   methods: {
     loadImg() {
@@ -55,8 +57,8 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.85);
+  z-index: var(--z-index_frame);
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,15 +76,6 @@ export default {
   .loading-wrap {
     width: 240px;
     height: 240px;
-    // position: absolute;
-    // left: 0;
-    // right: 0;
-    // top: 0;
-    // bottom: 0;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    // z-index: 9999;
   }
   .title {
     font-size: 24px;

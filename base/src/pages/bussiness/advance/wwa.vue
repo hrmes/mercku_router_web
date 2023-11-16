@@ -12,23 +12,24 @@
         <m-form-item prop="port">
           <m-input :label="$t('trans0495')"
                    v-model="wwa.port"
-                   :disabled="true"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
         <m-form-item prop="allowed_ip">
           <m-input :label="`${$t('trans0575')} ${$t('trans0411')}`"
                    v-model="wwa.allowed_ip"
-                   :disabled="true"
                    :placeholder="$t('trans0492')"></m-input>
         </m-form-item>
         <div class="form-item">
           <m-checkbox :text="$t('trans0462')"
                       :rect="false"
                       :bold="true"
-                      :disabled="true"
                       v-model="wwa.enabled"></m-checkbox>
         </div>
       </m-form>
+      <div class="form-button">
+        <button class="btn btn-primary"
+                @click="updateWWA">{{$t('trans0081')}}</button>
+      </div>
     </div>
   </div>
 </template>

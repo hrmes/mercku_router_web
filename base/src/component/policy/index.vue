@@ -4,16 +4,13 @@
         'is-login-nav':isLoginPage,
         'is-not-login-nav':!isLoginPage,}">
     <span class="copy">{{ copyright }}</span>
-    <div>
-      <span class="policy-text"
-            @click.stop="showPolicy()">
-        {{$t('trans0139')}}
-      </span>
-      <img v-if="isShowPowerBy"
-           class="power-by"
-           src="../../assets/images/img-power-by.webp" />
-    </div>
-
+    <span class="policy-text"
+          @click.stop="showPolicy()">
+      {{$t('trans0139')}}
+    </span>
+    <img v-if="isShowPowerBy"
+         class="power-by"
+         src="../../assets/images/img-power-by.webp" />
     <m-modal :visible.sync="show">
       <m-modal-header>
         <div class="dialog-title">{{ $t('trans0139') }}</div>
@@ -93,9 +90,7 @@ export default {
   padding-right: 10px;
 }
 .policy-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
   padding: 8px 15px 10px;
   font-size: 12px;
   > span {
@@ -121,9 +116,6 @@ export default {
     width: 100%;
   }
   .policy-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: 10px;
     &.is-login-nav {
       background: var(--primaryBackgroundColor);

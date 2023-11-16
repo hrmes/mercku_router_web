@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     animJson() {
-      const name = process.env.CUSTOMER_CONFIG.title.toLowerCase();
+      const name = process.env.CUSTOMER_CONFIG.assetFolderName;
       return require(`../../assets/lottie/${name}/loading.json`);
     }
   },
@@ -88,7 +88,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 9999;
+  z-index: var(--z-index_dialog);
   background: var(--upgrade-background-color);
   display: flex;
   justify-content: center;
@@ -122,15 +122,6 @@ export default {
       width: 240px;
       height: 240px;
       margin: 0 auto;
-      // position: absolute;
-      // left: 0;
-      // right: 0;
-      // top: 0;
-      // bottom: 0;
-      // display: flex;
-      // align-items: center;
-      // justify-content: center;
-      // z-index: 9999;
     }
     .title {
       font-size: 24px;

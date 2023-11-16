@@ -7,7 +7,7 @@ import mFormItem from './component/formItem/index.vue';
 import mUpload from './component/upload/index.vue';
 import mProgress from './component/progress/index.vue';
 import mSelect from './component/select/index.vue';
-import mLoadingSelect from './component/select__loading&icon/index.vue';
+import mLoadingSelect from './component/loadingSelect/index.vue';
 import mRadioGroup from './component/radioGroup/index.vue';
 import mRadioCardGroup from './component/radioCardGroup/index.vue';
 import mSwitch from './component/switch/index.vue';
@@ -21,17 +21,17 @@ import mModal from './component/modal/index.vue';
 import mModalHeader from './component/modal/header.vue';
 import mModalBody from './component/modal/body.vue';
 import mModalFooter from './component/modal/footer.vue';
-import clickoutside from './component/clickoutside/index.vue';
-import defaultButton from './component/default-button/index.vue';
+import clickoutside from './component/clickOutside/index.vue';
+import defaultbutton from './component/defaultButton/index.vue';
 import mLoading from './component/loading/loading-canvas.vue';
 import mLottieLoading from './component/loading/loading-lottie.vue';
 import mTag from './component/tag/index.vue';
-import MHeader from './component/header/header.vue';
+import mHeader from './component/header/header.vue';
 
 const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);
-  _Vue.directive('defaultbutton', defaultButton);
-  _Vue.component('m-header', MHeader);
+  _Vue.directive('defaultbutton', defaultbutton);
+  _Vue.component('m-header', mHeader);
   _Vue.component('m-policy', mPolicy);
   _Vue.component('m-input', mInput);
   _Vue.component('m-step', mStep);
@@ -41,7 +41,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-upload', mUpload);
   _Vue.component('m-progress', mProgress);
   _Vue.component('m-select', mSelect);
-  _Vue.component('m-loadingSelect', mLoadingSelect);
+  _Vue.component('m-loading-select', mLoadingSelect);
   _Vue.component('m-radio-group', mRadioGroup);
   _Vue.component('m-radio-card-group', mRadioCardGroup);
   _Vue.component('m-switch', mSwitch);
@@ -56,7 +56,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-modal-body', mModalBody);
   _Vue.component('m-modal-footer', mModalFooter);
   _Vue.component('m-loading', mLoading);
-  _Vue.component('m-lottieLoading', mLottieLoading);
+  _Vue.component('m-lottie-loading', mLottieLoading);
   _Vue.component('m-tag', mTag);
 };
 

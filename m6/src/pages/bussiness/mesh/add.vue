@@ -73,7 +73,7 @@
             <div class="scaning"
                  v-if="isScanning">
               <div class="icon-wrapper">
-                <m-lottieLoading></m-lottieLoading>
+                <m-lottie-loading></m-lottie-loading>
               </div>
               <p>{{transformText($t('trans0334'))}}</p>
             </div>
@@ -134,7 +134,7 @@
             <div class="adding"
                  v-if="isAdding">
               <div class="icon-wrapper">
-                <m-lottieLoading :loadingType="'addNode'"></m-lottieLoading>
+                <m-lottie-loading :loadingType="'addNode'"></m-lottie-loading>
               </div>
               <p>{{$t('trans0195')}}</p>
             </div>
@@ -395,7 +395,7 @@ export default {
   bottom: 0;
   background: #fff;
   opacity: 0;
-  z-index: 1000;
+  z-index: var(--z-index_dialog);
 }
 .help-dialog-content {
   width: 600px;

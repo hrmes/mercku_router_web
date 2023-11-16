@@ -8,14 +8,14 @@
       <div class="content">
         <div class="content__item content__switch">
           <m-switch v-model="wan.dos"
-                    @change="updateWanDos"></m-switch>
-          <label for="">{{$t('trans0424')}}</label>
+                    :label="$t('trans0424')"
+                    @change="updateFirewall"></m-switch>
         </div>
         <div class="content__line"></div>
         <div class="content__item content__switch">
           <m-switch v-model="ping.enabled"
+                    :label="$t('trans0434')"
                     @change="updateWanPing"></m-switch>
-          <label for="">{{$t('trans0434')}}</label>
         </div>
         <template v-if="ping.enabled">
           <m-form ref="ipListForm"
@@ -157,9 +157,6 @@ export default {
         this.isIpPointed = this.ping.ip_limit.mode === Mode.whitelist;
       });
     },
-    updateWanDos() {
-      this.updateFirewall();
-    },
     updateWanPing(enabled) {
       if (!enabled) {
         if (this.pingEnabledInitialized !== this.ping.enabled) {
@@ -186,13 +183,12 @@ export default {
         })
         .then(() => {
           this.pingEnabledInitialized = this.wan.ping.enabled;
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
-    }
+    },
   }
 };
 </script>
@@ -213,14 +209,12 @@ export default {
   .content__switch {
     display: flex;
     align-items: center;
-    height: 80px;
-
-    border-radius: 10px;
+    padding: 25px 20px;
     overflow: hidden;
-    label {
-      width: 75px;
-      font-weight: bold;
-      margin-right: 10px;
+    &.nat {
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
     }
   }
   .content__line {
@@ -312,13 +306,16 @@ export default {
       }
     }
   }
+  .tip__label {
+    font-size: 12px;
+    color: #999;
+    margin-top: 10px;
+    max-width: 340px;
+  }
   @media screen and(max-width: 768px) {
     // padding: 0 20px;
     .content__item {
       width: 100%;
-    }
-    .content__switch {
-      height: 60px;
     }
     .form {
       .form__checkbox {

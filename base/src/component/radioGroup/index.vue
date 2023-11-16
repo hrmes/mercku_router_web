@@ -63,27 +63,26 @@ export default {
     cursor: pointer;
     &.selected {
       .radio {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        border: 0;
+        background: var(--checkbox-checked-background-color);
         position: relative;
         &::after {
-          content: '';
-          width: 11px;
-          height: auto;
-          aspect-ratio: 1;
-          border-radius: 50%;
-          background: var(--checkbox-checked-background-color);
+          content: '\e65c';
+          width: 12px;
+          height: 12px;
+          font-size: 12px;
+          font-family: 'iconfont';
+          color: #fff;
         }
       }
     }
     .radio {
-      width: 15px;
-      height: 15px;
-      line-height: 15px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
       text-align: center;
       border-radius: 50%;
-      outline: 1.5px solid var(--checkbox-border-color);
+      border: 1.5px solid var(--checkbox-border-color);
     }
     .text {
       margin-left: 12px;

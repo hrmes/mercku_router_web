@@ -546,7 +546,7 @@ export default {
   bottom: 0;
   background: #fff;
   opacity: 0;
-  z-index: 1000;
+  z-index: var(--z-index_dialog);
 }
 .help-dialog-content {
   width: 600px;

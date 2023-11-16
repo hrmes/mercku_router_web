@@ -1,6 +1,10 @@
 //浅色主题，颜色定义
 @mixin light-theme {
   color-scheme: light;
+  --z-index_toast:10000;//toast的z-index，属于顶层
+  --z-index_dialog:1000;//dialog的z-index，基本需要遮挡住一切页面元素
+  --z-index_frame:999;//frame的z-index,header、footer的层级，需要高于页面内元素
+  --z-index_pageElement:10;//页面内元素的z-index，仅需要高于未设置z-index的页内元素即可
 
   --primaryColor: #00b4e4;
   --warning-color: #f12b2b;
@@ -283,6 +287,10 @@
 //深色主题，颜色定义
 @mixin dark-theme {
   color-scheme: dark;
+  --z-index_toast:10000;//toast的z-index，属于顶层
+  --z-index_dialog:1000;//dialog的z-index，基本需要遮挡住一切页面元素
+  --z-index_frame:999;//frame的z-index,header、footer的层级，需要高于页面内元素
+  --z-index_pageElement:10;//页面内元素的z-index，仅需要高于未设置z-index的页内元素即可
 
   --primaryColor: #00b4e4;
   --warning-color: #ff4d64;

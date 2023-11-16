@@ -344,7 +344,7 @@ export default {
         position: absolute;
         right: 10px;
         top: 10px;
-        z-index: 1;
+        z-index: var(--z-index_pageElement);
         display: flex;
         .mk-tag {
           &.gateway {

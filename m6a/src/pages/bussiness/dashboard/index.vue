@@ -361,7 +361,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -970,7 +970,7 @@ ul {
               width: 20px;
               height: 20px;
               background: var(--dashboard-unconnect-icon-background-color);
-              z-index: 999;
+              z-index: var(--z-index_pageElement);
               border-radius: 50%;
               cursor: pointer;
               &::before {
@@ -1225,7 +1225,7 @@ ul {
                 width: 15px;
                 height: 15px;
                 background: var(--dashboard-unconnect-icon-background-color);
-                z-index: 999;
+                z-index: var(--z-index_pageElement);
                 border-radius: 50%;
                 &::before {
                   content: '';

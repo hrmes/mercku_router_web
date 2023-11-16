@@ -179,11 +179,12 @@ const launch = () => {
 
   Vue.use(directives);
   Vue.prototype.loadingColor = process.env.CUSTOMER_CONFIG.loading.color;
+  Vue.prototype.customerID = process.env.CUSTOMER_CONFIG.id;
+  Vue.prototype.changeLanguage = i18nInstance.changeLanguage.bind(i18nInstance);
   Vue.prototype.$loading = loading;
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
   Vue.prototype.$http = http;
-  Vue.prototype.changeLanguage = i18nInstance.changeLanguage.bind(i18nInstance);
   Vue.prototype.$reconnect = reconnect;
   Vue.prototype.$upgrade = upgrade;
 

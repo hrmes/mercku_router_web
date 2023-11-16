@@ -119,7 +119,7 @@ export default {
         top: 100%;
         left: 0;
         width: 100%;
-        z-index: 999;
+        z-index: var(--z-index_pageElement);
         .tabs {
           display: flex;
           flex-direction: column;

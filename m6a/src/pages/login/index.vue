@@ -18,7 +18,7 @@
           <div class="form-item">
             <button class="btn"
                     v-defaultbutton
-                    @click.stop="login()">{{this.$t('trans0001')}}</button>
+                    @click.stop="checkCustomerID">{{this.$t('trans0001')}}</button>
           </div>
         </div>
       </div>
@@ -60,14 +60,12 @@
              :href="appDownloadUrl">{{$t('trans0262')}}</a>
         </div>
       </div>
-
     </div>
-
   </div>
-
 </template>
 
 <script>
+const NetFlashCustomerID = '0039';
 export default {
   data() {
     return {
@@ -75,12 +73,37 @@ export default {
       isDarkMode: false
     };
   },
+  // in m6a router, if router is initial
+  // uhttpd will redirect to /wlan page directly
+  mounted() {
+    console.log(this.customerID);
+    //   this.loading = true;
+    //   this.$http
+    //     .isinitial()
+    //     .then(res => {
+    //       if (res.data.result.status) {
+    //         this.$http.login({ password: '' }).then(() => {
+    //           this.towlan();
+    //         });
+    //       } else {
+    //         this.initial = false;
+    //         this.loading = false;
+    //       }
+    //     })
+    //     .catch(() => {
+    //       this.initial = false;
+    //       this.loading = false;
+    //     });
+  },
   computed: {
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    isNetFlash() {
+      return this.customerID === NetFlashCustomerID;
     }
   },
   watch: {
@@ -99,7 +122,57 @@ export default {
     towlan() {
       this.$router.push({ path: '/wlan' });
     },
-    async login() {
+    checkCustomerID() {
+      // NetFlash定制化需求：需要先登录再进行初始化，
+      // 所以需要先判断是否为NetFlash CustomerID
+      if (this.isNetFlash) {
+        this.wlanAfterlogin();
+      } else {
+        this.normalLogin();
+      }
+    },
+    normalLogin() {
+      this.$loading.open();
+      this.$http
+        .login({ password: this.password })
+        .then(res => {
+          const { role } = res.data.result;
+          this.$store.state.role = role;
+          localStorage.setItem('role', role);
+          Promise.all([
+            this.$http.getMeshMode(),
+            // this.$http.getFirewall()
+          ])
+            .then(resArr => {
+              this.$loading.close();
+
+              const [res1] = resArr;
+              const { mode, sn } = res1.data.result;
+              this.$store.state.mode = mode;
+              localStorage.setItem('mode', mode);
+
+              const modelID = sn.charAt(9);
+              // const modelID = '0';
+              this.$store.state.modelID = modelID;
+              localStorage.setItem('modelID', modelID);
+
+              // const { nat } = res2.data.result;
+              // const nat = false;
+              // this.$store.state.natEnabled = nat;
+              // localStorage.setItem('natEnabled', nat);
+
+              this.$router.push({ path: '/dashboard' });
+              this.$loading.close();
+            });
+        })
+        .catch(err => {
+          this.$loading.close();
+          this.$toast(this.$t(err.error.code));
+        });
+    },
+    async wlanAfterlogin() {
+      console.log(123);
+      // NetFlash定制化需求：需要先登录再进行初始化
       try {
         this.$loading.open();
 
@@ -155,7 +228,7 @@ export default {
     height: inherit;
     transform: translateY(calc(48px - 80px));
     .logo {
-      margin: 0 auto;
+      margin: 0 auto 35px;
     }
     .form-item {
       margin-bottom: 30px;
@@ -310,7 +383,6 @@ export default {
       justify-content: center;
       transform: translateY(0);
       .logo {
-        width: 220px;
         margin-bottom: 30px;
       }
       .welcome-text {
