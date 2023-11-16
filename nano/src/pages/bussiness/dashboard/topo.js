@@ -263,7 +263,6 @@ function genData(array, fullLine = false) {
   }
 
   let routers = JSON.parse(JSON.stringify(array));
-  console.log('123', routers);
 
   const offline = [];
   routers = findOfflineNode(routers, offline);

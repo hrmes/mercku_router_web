@@ -24,19 +24,19 @@
               <div class="form-content">
                 <div>
                   <label class="with-colon">{{$t('trans0375')}}:</label>
-                  <span>{{networkArr[netInfo.type]? networkArr[netInfo.type] : '-'}}</span>
+                  <span>{{networkArr[netInfo.type] || '-'}}</span>
                 </div>
                 <div>
                   <label class="with-colon">{{$t('trans0151')}}:</label>
-                  <span>{{netInfo.ip? netInfo.ip : '-'}}</span>
+                  <span>{{netInfo.ip || '-'}}</span>
                 </div>
                 <div>
                   <label class="with-colon">{{$t('trans0236')}}:</label>
-                  <span>{{netInfo.dns? netInfo.dns : '-'}}</span>
+                  <span>{{netInfo.dns || '-'}}</span>
                 </div>
                 <div>
                   <label class="with-colon">{{$t('trans0153')}}:</label>
-                  <span>{{netInfo.gateway? netInfo.gateway : '-'}}</span>
+                  <span>{{netInfo.gateway || '-'}}</span>
                 </div>
               </div>
             </div>

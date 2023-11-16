@@ -186,6 +186,23 @@
                                :label="$t('trans0108')"
                                v-model="form.name"></m-editable-select>
           </m-form-item>
+          <m-form-item prop="color">
+            <div class="color-select">
+              <h4 class="label">{{$t('trans1214')}}</h4>
+              <ul class="color-select__wrapper">
+                <li v-for="(color,index) in deviceColorArr"
+                    :key="index"
+                    class="limit-icon">
+                  <div class="color"
+                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
+                       :style="{backgroundImage:color.value}"
+                       @click="changeDeviceColor(color)">
+                  </div>
+                  <span class="hover-popover"> {{color.name}}</span>
+                </li>
+              </ul>
+            </div>
+          </m-form-item>
         </m-form>
         <div class="btn-inner">
           <button @click="closeMeshEditModal"

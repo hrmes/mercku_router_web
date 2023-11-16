@@ -2,6 +2,8 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 const UUID = require('uuid');
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+//   .BundleAnalyzerPlugin;
 
 // 这里给默认值的原因是vscode里面，eslint会自动从命令行启动进行检查
 // 没有customer id报错，导致eslint不能加载webpack配置文件
@@ -133,7 +135,7 @@ module.exports = {
       //   threshold: 10240,
       //   minRatio: 0.8
       // }),
-      // //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
+      //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
       // new BundleAnalyzerPlugin()
     ];
     if (process.env.NODE_ENV === 'production') {
