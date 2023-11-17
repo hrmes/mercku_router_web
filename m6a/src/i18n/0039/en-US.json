@@ -1088,7 +1088,7 @@
   "trans1093": "Wi-Fi switch",
   "trans1094": "Modifications are not saved, currently only supports modifying the configuration after Wi-Fi is turned on",
   "trans1095": "Please choose the way to add your node.",
-  "trans1096": "wired mesh",
+  "trans1096": "Wired mesh",
   "trans1097": "Notice:\n1. To ensure a better connection effect, the connecting node router and the main router network cable shall not exceed 100 meters;\n2. It is recommended to choose CAT5 or above network cable;",
   "trans1098": "Wireless mesh",
   "trans1099": "Notice:\nAfter the wired network is successfully established, it will become a wireless network after unplugging the network cable of the LAN port;",

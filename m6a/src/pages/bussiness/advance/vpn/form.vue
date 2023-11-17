@@ -247,6 +247,8 @@ const Action = {
   updateVPN: 'updateVPN',
   addVPN: 'addVPN'
 };
+const NetFlashCustomerID = '0039';
+
 
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {
@@ -255,24 +257,6 @@ export default {
     return {
       VPNType,
       FormType,
-      protocolsList: [
-        {
-          value: VPNType.pptp,
-          text: this.$t('trans0414')
-        },
-        {
-          value: VPNType.l2tp,
-          text: this.$t('trans0415')
-        },
-        {
-          value: VPNType.openvpn,
-          text: this.$t('trans0676')
-        },
-        {
-          value: VPNType.wireguard,
-          text: this.$t('trans1172')
-        }
-      ],
       form: {
         id: '',
         name: '',
@@ -404,6 +388,42 @@ export default {
         }
       }
       return false;
+    },
+    protocolsList() {
+      if (this.customerID === NetFlashCustomerID) {
+        return [
+          {
+            value: VPNType.pptp,
+            text: this.$t('trans0414')
+          },
+          {
+            value: VPNType.l2tp,
+            text: this.$t('trans0415')
+          },
+          {
+            value: VPNType.openvpn,
+            text: this.$t('trans0676')
+          },
+        ];
+      }
+      return [
+        {
+          value: VPNType.pptp,
+          text: this.$t('trans0414')
+        },
+        {
+          value: VPNType.l2tp,
+          text: this.$t('trans0415')
+        },
+        {
+          value: VPNType.openvpn,
+          text: this.$t('trans0676')
+        },
+        {
+          value: VPNType.wireguard,
+          text: this.$t('trans1172')
+        }
+      ];
     },
   },
   methods: {

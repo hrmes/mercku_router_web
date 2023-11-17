@@ -14,8 +14,8 @@ export default function getMenu(role, mode = RouterMode.router) {
     auth: [Role.admin, Role.super],
     mode: [RouterMode.router, RouterMode.bridge]
   };
-  // 第一种搭配策略
-  const strategyA = {
+  // 仅路由模式下生效的菜单策略
+  const strategyOnlyRouter = {
     show: true,
     auth: [Role.admin, Role.super],
     mode: [RouterMode.router]
@@ -44,13 +44,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',
-        config: strategyA,
+        config: strategyOnlyRouter,
         customers: {
           [Customers.realnett]: {
             show: false
@@ -97,7 +97,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0020',
         name: 'blacklist',
         url: '/setting/blacklist',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         text: 'trans0272',
@@ -115,13 +115,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/guest',
         name: 'guest',
         text: 'trans0538',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/setting/upnp',
         name: 'upnp',
         text: 'trans0644',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/setting/led',
@@ -148,43 +148,43 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/portforwarding',
         name: 'advance-portforwarding',
         text: 'trans0422',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/dmz',
         name: 'advance-dmz',
         text: 'trans0420',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/dhcp',
         name: 'advance-dhcp',
         text: 'trans0417',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/rsvdip',
         name: 'advance-rsvdip',
         text: 'trans0444',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/mac',
         name: 'advance-mac',
         text: 'trans0474',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/ddns',
         name: 'advance-ddns',
         text: 'trans0418',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/vpn',
         name: 'advance-vpn',
         text: 'trans0402',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/mode',
@@ -204,7 +204,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/diagnosis',
         name: 'advance-diagnosis',
         text: 'trans0419',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/log',
@@ -216,13 +216,22 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/frozenConfig',
         name: 'advance-frozen-config',
         text: 'trans1186',
-        config
+        config: {
+          show: false
+        },
+        customers: {
+          [Customers.mercku]: {
+            show: true,
+            auth: [Role.admin, Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
+          }
+        }
       },
       {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        config: strategyA,
+        config: strategyOnlyRouter,
         customers: {
           [Customers.realnett]: {
             auth: [Role.super]
@@ -233,7 +242,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/wwa',
         name: 'advance.wwa',
         text: 'trans0511',
-        config: strategyA,
+        config: strategyOnlyRouter,
         customers: {
           [Customers.realnett]: {
             auth: [Role.super]
@@ -253,9 +262,6 @@ export default function getMenu(role, mode = RouterMode.router) {
           mode: [RouterMode.router, RouterMode.bridge]
         },
         customers: {
-          [Customers.mercku]: {
-            show: true
-          },
           [Customers.realnett]: {
             show: false
           }
@@ -266,13 +272,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'advance.stun',
         text: 'STUN',
         config: {
-          show: false,
-          auth: [Role.admin, Role.super],
-          mode: [RouterMode.router, RouterMode.bridge]
+          show: false
         },
         customers: {
           [Customers.mercku]: {
-            show: true
+            show: true,
+            auth: [Role.admin, Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
           }
         }
       },

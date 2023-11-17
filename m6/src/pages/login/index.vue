@@ -1,33 +1,25 @@
 <template>
   <div class="login-container customized">
     <div class="center-form"
-         :class="{'light':currentTheme!=='auto'&&!isDarkMode,'dark':currentTheme!=='auto'&&isDarkMode}">
+         :class="{
+          'light':currentTheme!=='auto'&&!isDarkMode,
+          'dark':currentTheme!=='auto'&&isDarkMode
+        }">
       <div class="form">
         <div class="logo">
         </div>
-        <div v-if="loading === false">
-          <button v-if="initial === true"
-                  class="btn"
-                  @click="towlan">{{$t('trans0222')}}</button>
-          <div class="login-form"
-               v-if="initial === false">
-            <div class="form-item">
-              <m-input :label="$t('trans0067')"
-                       :placeholder="$t('trans0321')"
-                       type="password"
-                       v-model="password" />
-            </div>
-            <div class="form-item">
-              <button class="btn"
-                      v-defaultbutton
-                      @click.stop="login()">{{this.$t('trans0001')}}</button>
-            </div>
+        <div class="login-form">
+          <div class="form-item">
+            <m-input :label="$t('trans0067')"
+                     :placeholder="$t('trans0321')"
+                     type="password"
+                     v-model="password" />
           </div>
-        </div>
-        <div class="loading"
-             v-if="loading === true">
-          <m-loading :color="loadingColor"
-                     :size="36"></m-loading>
+          <div class="form-item">
+            <button class="btn"
+                    v-defaultbutton
+                    @click.stop="checkCustomerID">{{this.$t('trans0001')}}</button>
+          </div>
         </div>
       </div>
       <div class="download"
@@ -73,11 +65,10 @@
 </template>
 
 <script>
+const NetFlashCustomerID = '0039';
 export default {
   data() {
     return {
-      initial: false,
-      loading: false,
       password: '',
       isDarkMode: false
     };
@@ -109,6 +100,9 @@ export default {
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    isNetFlash() {
+      return this.customerID === NetFlashCustomerID;
     }
   },
   watch: {
@@ -127,7 +121,56 @@ export default {
     towlan() {
       this.$router.push({ path: '/wlan' });
     },
-    async login() {
+    checkCustomerID() {
+      // NetFlash定制化需求：需要先登录再进行初始化，
+      // 所以需要先判断是否为NetFlash CustomerID
+      if (this.isNetFlash) {
+        this.wlanAfterlogin();
+      } else {
+        this.normalLogin();
+      }
+    },
+    normalLogin() {
+      this.$loading.open();
+      this.$http
+        .login({ password: this.password })
+        .then(res => {
+          const { role } = res.data.result;
+          this.$store.state.role = role;
+          localStorage.setItem('role', role);
+          Promise.all([
+            this.$http.getMeshMode(),
+            // this.$http.getFirewall()
+          ])
+            .then(resArr => {
+              this.$loading.close();
+
+              const [res1] = resArr;
+              const { mode, sn } = res1.data.result;
+              this.$store.state.mode = mode;
+              localStorage.setItem('mode', mode);
+
+              const modelID = sn.charAt(9);
+              // const modelID = '0';
+              this.$store.state.modelID = modelID;
+              localStorage.setItem('modelID', modelID);
+
+              // const { nat } = res2.data.result;
+              // const nat = false;
+              // this.$store.state.natEnabled = nat;
+              // localStorage.setItem('natEnabled', nat);
+
+              this.$router.push({ path: '/dashboard' });
+              this.$loading.close();
+            });
+        })
+        .catch(err => {
+          this.$loading.close();
+          this.$toast(this.$t(err.error.code));
+        });
+    },
+    async wlanAfterlogin() {
+      // NetFlash定制化需求：需要先登录再进行初始化
       try {
         this.$loading.open();
 
@@ -142,14 +185,18 @@ export default {
           return;
         }
 
-        const { mode } = (await this.$http.getMeshMode()).data.result;
+        const { mode, sn } = (await this.$http.getMeshMode()).data.result;
+        const modelID = sn?.charAt(9);
+
+        this.$store.state.modelID = modelID;
+        localStorage.setItem('modelID', modelID);
 
         this.$store.state.mode = mode;
         localStorage.setItem('mode', mode);
 
         this.$router.push({ path: '/dashboard' });
       } catch (err) {
-        this.$loading.close();
+        this.$toast(this.$t(err.error.code));
       } finally {
         this.$loading.close();
       }
@@ -158,13 +205,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@media screen and(min-width: 769px) {
-  .login-container {
-    .form {
-      height: 262px;
-    }
-  }
-}
 .login-container {
   width: 100%;
   height: 100%;
@@ -172,10 +212,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  .loading {
-    display: flex;
-    justify-content: center;
-  }
   .small-device-download {
     display: none;
   }
@@ -190,14 +226,7 @@ export default {
     height: inherit;
     transform: translateY(calc(48px - 80px));
     .logo {
-      width: 340px;
-      margin: 0 auto;
-      &::before {
-        content: '';
-        display: block;
-        padding-top: 15%;
-      }
-      margin-bottom: 60px;
+      margin: 0 auto 35px;
     }
     .form-item {
       margin-bottom: 30px;
@@ -242,7 +271,6 @@ export default {
         }
         img {
           width: 14px;
-          // height: 18px;
           &.android-img {
             filter: var(--download-android-img-brightness);
           }
@@ -346,7 +374,6 @@ export default {
       display: none;
     }
     .center-form {
-      // width: 80%;
       padding: 0 20px;
       flex: 1;
       margin: 0 auto;
@@ -354,7 +381,6 @@ export default {
       justify-content: center;
       transform: translateY(0);
       .logo {
-        width: 220px;
         margin-bottom: 30px;
       }
       .welcome-text {

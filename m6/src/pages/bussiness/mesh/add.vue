@@ -1,15 +1,9 @@
 <template>
   <div class="page">
-    <!-- <div class='page-header'>
-      {{$t('trans0194')}}
-    </div> -->
     <div class="page-content">
       <div class="tips"
            v-if="showTips">
         <div class="circle-animation">
-          <!-- <div class="circle circle1"></div>
-          <div class="circle circle2"></div>
-          <div class="circle circle3"></div> -->
         </div>
         <p class="tips__text">{{$t('trans0175')}}</p>
         <p class="tips__text tips__text--add">{{tipsText}}</p>

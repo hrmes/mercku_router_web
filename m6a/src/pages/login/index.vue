@@ -75,26 +75,25 @@ export default {
   },
   // in m6a router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  mounted() {
-    console.log(this.customerID);
-    //   this.loading = true;
-    //   this.$http
-    //     .isinitial()
-    //     .then(res => {
-    //       if (res.data.result.status) {
-    //         this.$http.login({ password: '' }).then(() => {
-    //           this.towlan();
-    //         });
-    //       } else {
-    //         this.initial = false;
-    //         this.loading = false;
-    //       }
-    //     })
-    //     .catch(() => {
-    //       this.initial = false;
-    //       this.loading = false;
-    //     });
-  },
+  // mounted() {
+  //   this.loading = true;
+  //   this.$http
+  //     .isinitial()
+  //     .then(res => {
+  //       if (res.data.result.status) {
+  //         this.$http.login({ password: '' }).then(() => {
+  //           this.towlan();
+  //         });
+  //       } else {
+  //         this.initial = false;
+  //         this.loading = false;
+  //       }
+  //     })
+  //     .catch(() => {
+  //       this.initial = false;
+  //       this.loading = false;
+  //     });
+  // },
   computed: {
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
@@ -171,7 +170,6 @@ export default {
         });
     },
     async wlanAfterlogin() {
-      console.log(123);
       // NetFlash定制化需求：需要先登录再进行初始化
       try {
         this.$loading.open();

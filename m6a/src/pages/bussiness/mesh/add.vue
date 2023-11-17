@@ -20,7 +20,6 @@
               <span class="tips__text">{{$t('trans1098')}}</span>
               <img src="@/assets/images/icon/ic_mesh_add_wireless.webp"
                    alt="">
-
             </div>
           </li>
         </ul>
