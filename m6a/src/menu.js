@@ -213,6 +213,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         config
       },
       {
+        url: '/advance/frozenConfig',
+        name: 'advance-frozen-config',
+        text: 'trans1186',
+        config
+      },
+      {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
@@ -252,6 +258,21 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.realnett]: {
             show: false
+          }
+        }
+      },
+      {
+        url: '/advance/stun',
+        name: 'advance.stun',
+        text: 'STUN',
+        config: {
+          show: false,
+          auth: [Role.admin, Role.super],
+          mode: [RouterMode.router, RouterMode.bridge]
+        },
+        customers: {
+          [Customers.mercku]: {
+            show: true
           }
         }
       },

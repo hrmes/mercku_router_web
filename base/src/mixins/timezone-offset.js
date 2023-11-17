@@ -19,14 +19,11 @@ export default {
           item => item.offset === offset && item.position === position
         );
         const timezoneArr = timezoneDetail.match(reg).slice(1, 4);
-        let timezone = parseInt(
+        const timezone = parseInt(
           `${timezoneArr[0]}${timezoneArr[1] * 60 +
             parseInt(timezoneArr[2], 10)}`,
           10
         );
-        if (this.isDST()) {
-          timezone += 60;
-        }
         this.timezone = timezone;
       });
     },
@@ -60,24 +57,6 @@ export default {
         same: true,
         redirect: false
       });
-    },
-    isDST() {
-      const now = new Date();
-      const Jan = new Date(now.getFullYear(), 0);
-      const Jul = new Date(now.getFullYear(), 6);
-      if (
-        Jan.getTimezoneOffset() > Jul.getTimezoneOffset() &&
-        now.getTimezoneOffset() !== Jan.getTimezoneOffset()
-      ) {
-        return true;
-      }
-      if (
-        Jan.getTimezoneOffset() < Jul.getTimezoneOffset() &&
-        now.getTimezoneOffset() !== Jul.getTimezoneOffset()
-      ) {
-        return true;
-      }
-      return false;
     }
   }
 };

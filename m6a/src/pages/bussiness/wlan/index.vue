@@ -344,6 +344,7 @@ export default {
                 clearInterval(timer);
                 this.$router.push({ path: '/unconnect' });
               },
+              timeout: 150,
               showLoading: false
             });
           });
