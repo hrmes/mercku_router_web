@@ -1,3 +1,4 @@
+import mHeader from './component/header/header.vue';
 import mPolicy from './component/policy/index.vue';
 import mInput from './component/input/input.vue';
 import mStep from './component/step/index.vue';
@@ -21,12 +22,11 @@ import mModal from './component/modal/index.vue';
 import mModalHeader from './component/modal/header.vue';
 import mModalBody from './component/modal/body.vue';
 import mModalFooter from './component/modal/footer.vue';
-import clickoutside from './component/clickoutside/index.vue';
-import defaultbutton from './component/defaultbutton/index.vue';
 import mLoading from './component/loading/loading-canvas.vue';
 import mLottieLoading from './component/loading/loading-lottie.vue';
 import mTag from './component/tag/index.vue';
-import mHeader from './component/header/header.vue';
+import clickoutside from './component/clickoutside/index.vue';
+import defaultbutton from './component/default-button/index.vue';
 
 const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);
