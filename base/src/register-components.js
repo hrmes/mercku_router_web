@@ -28,7 +28,7 @@ import mLottieLoading from './component/loading/loading-lottie.vue';
 import mTag from './component/tag/index.vue';
 import mCountTo from './component/countTo/index.vue';
 import clickoutside from './component/clickoutside/index.vue';
-import defaultbutton from './component/defaultButton/index.vue';
+import defaultbutton from './component/default-button/index.vue';
 
 const registerComponents = _Vue => {
   _Vue.directive('clickoutside', clickoutside);
