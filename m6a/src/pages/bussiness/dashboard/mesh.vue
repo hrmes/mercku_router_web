@@ -147,10 +147,9 @@
                         class="btn-icon"
                         @click="resetNode(router)">
                     <i class="reset iconfont icon-ic_router_reset_normal"></i>
-                    <span class="icon-hover-popover"> {{$t('trans0205')}}</span>
-                    <!-- <span class="icon-hover-popover"
+                    <span class="icon-hover-popover"
                           style="min-width:180px; max-width:500px; line-height:1.5;padding-bottom:18px;  white-space: pre-line;">
-                      {{$t('trans1188')}}</span> -->
+                      {{$t('trans1188')}}</span>
                   </span>
                   <span v-if="isMobile&&router.is_gw"
                         class="label"
@@ -989,7 +988,7 @@ export default {
               left: 50%;
               transform: translate(-50%, -50%) rotate(45deg);
               background: #ff4d64;
-              z-index: 999;
+              z-index: var(--z-index_pageElement);
               position: absolute;
             }
             &::after {
@@ -1001,7 +1000,7 @@ export default {
               left: 50%;
               transform: translate(-50%, -50%) rotate(-45deg);
               background: #ff4d64;
-              z-index: 999;
+              z-index: var(--z-index_pageElement);
               position: absolute;
             }
           }

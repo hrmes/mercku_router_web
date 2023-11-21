@@ -1224,7 +1224,7 @@ export default {
                   height: 60px;
                   .column-check-box {
                     position: absolute;
-                    z-index: 100;
+                    z-index: var(--z-index_pageElement);
                     left: 20px;
                   }
                 }

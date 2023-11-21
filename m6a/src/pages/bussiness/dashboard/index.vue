@@ -357,7 +357,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -647,6 +647,7 @@ ul {
           .sub-text {
             width: 87%;
             margin: 0 auto;
+            font-size: 12px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: pre;
@@ -953,7 +954,7 @@ ul {
               width: 20px;
               height: 20px;
               background: var(--dashboard-unconnect-icon-background-color);
-              z-index: 999;
+              z-index: var(--z-index_pageElement);
               border-radius: 50%;
               cursor: pointer;
               &::before {
@@ -1208,7 +1209,7 @@ ul {
                 width: 15px;
                 height: 15px;
                 background: var(--dashboard-unconnect-icon-background-color);
-                z-index: 999;
+                z-index: var(--z-index_pageElement);
                 border-radius: 50%;
                 &::before {
                   content: '';

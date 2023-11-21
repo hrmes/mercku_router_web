@@ -212,7 +212,6 @@ export default {
   },
   methods: {
     checkDevice(device) {
-      console.log('$$$', device);
       device.checked = !device.checked;
     },
     changeCheckboxAll(v) {
@@ -307,9 +306,7 @@ export default {
         });
     },
     showDeviceModal() {
-      console.log(this.deviceModalVisible);
       this.deviceModalVisible = !this.deviceModalVisible;
-      console.log(this.deviceModalVisible);
     }
   }
 };
@@ -340,7 +337,7 @@ export default {
 .modal {
   position: absolute;
   top: 35px;
-  z-index: 1;
+  z-index: var(--z-index_dialog);
   right: 0;
   width: 380px;
   border-radius: 5px;

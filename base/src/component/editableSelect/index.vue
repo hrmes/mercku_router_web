@@ -171,9 +171,7 @@ export default {
 
   cursor: pointer;
   .select-popup {
-    // width: 100%;
     position: absolute;
-    z-index: 999;
     left: -2px;
     right: -2px;
     top: 52px;
@@ -182,6 +180,7 @@ export default {
     max-height: 200px;
     border: 1px solid var(--select-popup-border-color);
     overflow: auto;
+    z-index: var(--z-index_pageElement);
     li {
       list-style: none;
       padding: 17px 10px;

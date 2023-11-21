@@ -290,7 +290,7 @@ export default {
         .modal {
           position: absolute;
           top: 50px;
-          z-index: 1;
+          z-index: var(--z-index_dialog);
           left: -240px;
           width: 340px;
           border-radius: 4px;
@@ -407,7 +407,7 @@ export default {
             top: 0;
             bottom: 0;
             left: 0;
-            z-index: 1000;
+            z-index: var(--z-index_dialog);
             padding-top: 65px;
             background: transparent;
             .opcity {
