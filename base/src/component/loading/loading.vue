@@ -30,11 +30,9 @@ export default {
     window.requestAnimationFrame(this.loadImg);
   },
   computed: {
-    ispName() {
-      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
-    },
     animJson() {
-      return require(`../../assets/lottie/${this.ispName}/loading.json`);
+      const name = process.env.CUSTOMER_CONFIG.title.toLowerCase();
+      return require(`../../assets/lottie/${name}/loading.json`);
     },
   },
   methods: {
