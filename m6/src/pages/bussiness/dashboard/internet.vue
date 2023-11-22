@@ -575,7 +575,7 @@ export default {
   opacity: 0;
 }
 .router-info {
-  background: var(--internet-background-color) !important;
+  background: var(--internet-bgc) !important;
   display: flex;
   justify-content: center;
   .layout-left-wrap {
@@ -597,7 +597,7 @@ export default {
     transition: all 0.3s ease-in-out;
     .section {
       height: auto;
-      background: var(--internet-section-background-color);
+      background: var(--internet_section-bgc);
       &:first-child {
         margin-bottom: 10px;
       }
@@ -612,7 +612,7 @@ export default {
     overflow: hidden;
     .section__inner {
       height: auto;
-      background: var(--internet-section-background-color);
+      background: var(--internet_section-bgc);
       display: flex;
       flex-direction: column;
       &.stretch {
@@ -621,7 +621,7 @@ export default {
       &.ipv6 {
         .section__title {
           padding-top: 25px;
-          border-top: 1px solid var(--internet-section-hr-color);
+          border-top: 1px solid var(--internet_section_hr-color);
           &::before {
             top: 57%;
           }
@@ -674,12 +674,12 @@ export default {
     }
     .item__label {
       font-size: 14px;
-      color: var(--table-header-text-color);
+      color: var(--table_header_text-color);
     }
     .item__value {
       width: inherit;
       font-size: 16px;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       font-weight: bold;
       overflow: hidden;
       white-space: nowrap;
@@ -756,13 +756,13 @@ export default {
     }
     .speed__title {
       font-size: 14px;
-      color: var(--dashboard-gery-color);
+      color: var(--dashboard_gery-color);
     }
     .speed__value {
       position: relative;
       font-size: 24px;
       font-weight: bold;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       > .speed__icon {
         position: absolute;
         top: 50%;
@@ -858,7 +858,7 @@ export default {
       }
       .speed-completed {
         width: 450px;
-        background: var(--grey-background-color);
+        background: var(--grey-bgc);
         border-radius: 5px;
         display: flex;
         flex-direction: column;
@@ -872,14 +872,14 @@ export default {
             padding: 10px 0;
             width: 100%;
             line-height: 1;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
             position: relative;
             &:before {
               content: '';
               display: block;
               width: 60px;
               height: 1px;
-              background: var(--modal-content-hr-color);
+              background: var(--modal_content_hr-color);
               position: absolute;
               left: 50%;
               top: 50%;
@@ -888,7 +888,7 @@ export default {
             &:after {
               content: '';
               height: 1px;
-              background: var(--modal-content-hr-color);
+              background: var(--modal_content_hr-color);
               display: block;
               width: 60px;
               height: 1px;
@@ -933,20 +933,20 @@ export default {
               .speed {
                 font-size: 22px;
                 font-weight: bold;
-                color: var(--text-default-color);
+                color: var(--text_default-color);
               }
               .unit {
                 padding-left: 5px;
                 font-size: 12px;
                 font-weight: normal;
                 letter-spacing: -0.2px;
-                color: var(--text-default-color);
+                color: var(--text_default-color);
               }
               .note {
                 font-size: 12px;
                 letter-spacing: -0.1px;
                 margin: 10px 0;
-                color: var(--text-gery-color);
+                color: var(--text_gery-color);
               }
             }
           }

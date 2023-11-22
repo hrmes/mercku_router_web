@@ -178,7 +178,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
-  background: var(--modal-mask-background-color);
+  background: var(--modal_mask-bgc);
   z-index: 6;
 }
 .main {
@@ -188,7 +188,7 @@ export default {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 50px 40px -20px rgba(0, 0, 0, 0.1);
-  background-color: var(--modal-content-background);
+  background-color: var(--modal_content-bgc);
   z-index: 7;
 }
 .main__title {
@@ -200,8 +200,8 @@ export default {
   font-weight: 500;
   margin-bottom: 20px;
   .close {
-    color: var(--text-default-color);
-    background-color: var(--button-close-bgc);
+    color: var(--text_default-color);
+    background-color: var(--button_close-bgc);
     .iconfont {
       font-size: 12px;
       font-weight: 700;
@@ -231,10 +231,10 @@ export default {
     .btn-default {
       background-image: linear-gradient(
           to right,
-          var(--modal-content-background),
-          var(--modal-content-background)
+          var(--modal_content-bgc),
+          var(--modal_content-bgc)
         ),
-        var(--common-btn_default-bgimg) !important;
+        var(--common_btn_default-bgimg) !important;
     }
   }
 }

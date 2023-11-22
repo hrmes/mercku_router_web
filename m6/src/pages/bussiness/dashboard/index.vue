@@ -367,7 +367,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -628,7 +628,7 @@ ul {
         height: 45vh;
         max-height: 430px;
         min-height: 325px;
-        background-color: var(--dashboard-icon-background-color);
+        background-color: var(--dashboard_icon-bgc);
         border-radius: 20px;
         box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.1);
         position: relative;
@@ -657,7 +657,7 @@ ul {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: pre;
-            color: var(--dashboard-gery-color);
+            color: var(--dashboard_gery-color);
           }
         }
         .loading-container {
@@ -674,7 +674,7 @@ ul {
             height: 25%;
             font-size: 40px;
             font-weight: 600;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
           }
           .current-device-info-container {
             border-radius: 5px;
@@ -683,7 +683,7 @@ ul {
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              color: var(--text-default-color);
+              color: var(--text_default-color);
               padding: 0 20px;
             }
             .name {
@@ -722,16 +722,16 @@ ul {
                 margin-right: 5px;
                 border-radius: 3px;
                 color: #fff;
-                background-color: var(--dashboard-band-background-color);
+                background-color: var(--dashboard_band-bgc);
               }
               .uptime {
-                color: var(--dashboard-gery-color);
+                color: var(--dashboard_gery-color);
               }
             }
             &.empty {
               .info-wrap {
                 .name {
-                  color: var(--dashboard-gery-color);
+                  color: var(--dashboard_gery-color);
                 }
               }
             }
@@ -748,11 +748,11 @@ ul {
 
               padding: 10px;
               border-radius: 5px;
-              background-color: var(--dashboard-wifi-background-color);
+              background-color: var(--dashboard_wifi-bgc);
               .wifi {
                 display: flex;
                 align-items: center;
-                color: var(--dashboard-gery-text-color);
+                color: var(--dashboard_gery_text-color);
                 .wifi__dot {
                   width: 10px;
                   height: 10px;
@@ -786,7 +786,7 @@ ul {
                   height: 2px;
                   border-radius: 2px;
                   width: 15px;
-                  background: var(--button-default-text-color);
+                  background: var(--button_default_text-color);
                   position: absolute;
                   top: 50%;
                   left: -10px;
@@ -798,7 +798,7 @@ ul {
                   height: 2px;
                   border-radius: 2px;
                   width: 15px;
-                  background: var(--button-default-text-color);
+                  background: var(--button_default_text-color);
                   position: absolute;
                   top: 50%;
                   left: -10px;
@@ -829,7 +829,7 @@ ul {
               .line {
                 width: 100%;
                 height: 35px;
-                background-color: var(--dashboard-dividing-line-color);
+                background-color: var(--dashboard_dividing_line-color);
               }
             }
             .speed-info {
@@ -849,11 +849,11 @@ ul {
               }
               .speed-wrap {
                 font-weight: 600;
-                color: var(--text-default-color);
+                color: var(--text_default-color);
                 .speed-text-wrap {
                   font-size: 12px;
                   font-weight: 500;
-                  color: var(--dashboard-gery-color);
+                  color: var(--dashboard_gery-color);
                   margin-bottom: 10px;
                 }
                 .speed-num {
@@ -871,8 +871,8 @@ ul {
             font-size: 18px;
             padding: 30px;
             margin: 45px auto 0;
-            color: var(--bridge-tips-color);
-            background: var(--dashboard-wifi-background-color);
+            color: var(--bridge_tips-color);
+            background: var(--dashboard_wifi-bgc);
             border-radius: 10px;
           }
         }
@@ -895,8 +895,8 @@ ul {
         }
         &:hover {
           &::before {
-            border-top-color: var(--primaryColor);
-            border-right-color: var(--primaryColor);
+            border-top-color: var(--primary-color);
+            border-right-color: var(--primary-color);
           }
         }
         ul {
@@ -944,7 +944,7 @@ ul {
               left: 0;
               height: 2px;
               width: 100%;
-              background: var(--dashboard-unlinked-color);
+              background: var(--dashboard_unlinked-color);
               background-size: 10px 2px;
               background-repeat: repeat-x;
             }
@@ -959,7 +959,7 @@ ul {
               align-items: center;
               width: 20px;
               height: 20px;
-              background: var(--dashboard-unconnect-icon-background-color);
+              background: var(--dashboard_unconnect_icon-bgc);
               z-index: 999;
               border-radius: 50%;
               cursor: pointer;
@@ -969,7 +969,7 @@ ul {
                 height: 2px;
                 border-radius: 2px;
                 width: 10px;
-                background: var(--text-default-color);
+                background: var(--text_default-color);
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -981,7 +981,7 @@ ul {
                 height: 2px;
                 border-radius: 2px;
                 width: 10px;
-                background: var(--text-default-color);
+                background: var(--text_default-color);
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -1005,9 +1005,9 @@ ul {
     width: 200px;
     padding: 10px 10px 10px 20px;
     border-radius: 10px;
-    background: var(--dashboard-icon-background-color);
+    background: var(--dashboard_icon-bgc);
     .text-container {
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       width: 90px;
       // height: 40px;
     }
@@ -1146,7 +1146,7 @@ ul {
           height: 75px;
           margin: -20px auto 0;
           border-radius: 50%;
-          background: var(--dashboard-icon-background-color);
+          background: var(--dashboard_icon-bgc);
           overflow: hidden;
           img {
             width: 60%;
@@ -1199,7 +1199,7 @@ ul {
                 left: 0;
                 height: 2px;
                 width: 100%;
-                background: var(--dashboard-unlinked-color);
+                background: var(--dashboard_unlinked-color);
                 background-size: 10px 2px;
                 background-repeat: repeat-x;
               }
@@ -1214,7 +1214,7 @@ ul {
                 align-items: center;
                 width: 15px;
                 height: 15px;
-                background: var(--dashboard-unconnect-icon-background-color);
+                background: var(--dashboard_unconnect_icon-bgc);
                 z-index: 999;
                 border-radius: 50%;
                 &::before {
@@ -1223,7 +1223,7 @@ ul {
                   height: 2px;
                   border-radius: 2px;
                   width: 10px;
-                  background: var(--text-default-color);
+                  background: var(--text_default-color);
                   position: absolute;
                   top: 50%;
                   left: 50%;
@@ -1235,7 +1235,7 @@ ul {
                   height: 2px;
                   border-radius: 2px;
                   width: 10px;
-                  background: var(--text-default-color);
+                  background: var(--text_default-color);
                   position: absolute;
                   top: 50%;
                   left: 50%;
@@ -1291,14 +1291,14 @@ ul {
               }
             }
             .sub-text {
-              color: var(--text-default-color);
+              color: var(--text_default-color);
               display: inline;
               font-size: 16px;
               font-weight: 600;
             }
           }
           .loading-container {
-            background: var(--dashboard-wifi-background-color);
+            background: var(--dashboard_wifi-bgc);
           }
           &.device-container {
             .devices-num {
@@ -1307,7 +1307,7 @@ ul {
             }
             .current-device-info-container {
               height: 60px;
-              background: var(--dashboard-wifi-background-color);
+              background: var(--dashboard_wifi-bgc);
               margin-top: 15px;
               padding: 10px;
               .info-wrap {
@@ -1413,7 +1413,7 @@ ul {
       height: 60px;
       right: 0;
       margin: 20px auto;
-      background-color: var(--dashboard-app-background-color);
+      background-color: var(--dashboard_app-bgc);
       .text-container {
         flex: 1;
         line-height: 40px;

@@ -139,7 +139,7 @@ export default {
   height: fit-content;
   padding: 5px 15px 5px;
   color: #ffffff;
-  background: var(--table-action-popover-bgc);
+  background: var(--table_action_popover-bgc);
   border-radius: 5px;
   white-space: pre;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
@@ -154,15 +154,15 @@ export default {
 .srcollbar-wrap {
   height: 100%;
   overflow: auto;
-  background-color: var(--primaryBackgroundColor);
+  background-color: var(--primary-bgc);
   &.nav-visiable {
-    background-color: var(--flex-warp-has-menu-bgc);
+    background-color: var(--flexwarp_hasmenu-bgc);
   }
 }
 .flex-wrap {
   display: flex;
   flex-direction: column;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   > img {
     position: fixed;
     width: 26.875rem;
@@ -197,9 +197,9 @@ export default {
   .policy {
     width: 100%;
     text-align: center;
-    color: var(--text-gery-color);
+    color: var(--text_gery-color);
     &.fix-bottom {
-      background: var(--primaryBackgroundColor);
+      background: var(--primary-bgc);
     }
   }
 }

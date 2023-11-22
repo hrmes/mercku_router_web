@@ -412,7 +412,7 @@ export default {
       display: inline-block;
       width: 5px;
       height: 5px;
-      background-color: var(--text-default-color);
+      background-color: var(--text_default-color);
       border-radius: 50%;
       margin-right: 10px;
     }
@@ -515,7 +515,7 @@ export default {
   align-items: center;
 
   .btn-help {
-    color: var(--primaryColor);
+    color: var(--primary-color);
     font-size: 12px;
     text-decoration: underline;
     cursor: pointer;
@@ -539,7 +539,7 @@ export default {
       color: #999;
     }
     .img-container {
-      background: var(--table-row-background-color);
+      background: var(--table_row-bgc);
     }
     &.step-item--rich {
       img {
@@ -638,10 +638,10 @@ export default {
     width: 340px;
     font-size: 14px;
     margin-top: 15px;
-    color: var(--text-gery-color);
+    color: var(--text_gery-color);
   }
   .result-container__help {
-    color: var(--primaryColor);
+    color: var(--primary-color);
     cursor: pointer;
     font-size: 12px;
     text-decoration: underline;

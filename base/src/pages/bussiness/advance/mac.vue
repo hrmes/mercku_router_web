@@ -187,7 +187,7 @@ export default {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 1.5px solid var(--checkbox-border-color);
+    border: 1.5px solid var(--checkbox_border-color);
     margin-right: 10px;
   }
   > span {
@@ -203,7 +203,7 @@ export default {
         transform: translate(-50%, -50%);
         width: 86%;
         height: 86%;
-        background-color: var(--primaryColor);
+        background-color: var(--primary-color);
         border-radius: 50%;
       }
     }

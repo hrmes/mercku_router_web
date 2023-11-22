@@ -305,7 +305,7 @@ export default {
 .form {
   .des {
     font-size: 14px;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     padding: 0;
     margin: 0;
   }
@@ -325,15 +325,15 @@ export default {
     padding: 10px 20px;
     border-radius: 5px;
     font-weight: 500;
-    color: var(--text-default-color);
-    background: var(--logout-btn-bgc);
+    color: var(--text_default-color);
+    background: var(--logout_btn-bgc);
     cursor: pointer;
     &:first-child {
       margin-right: 10px;
     }
     &.active {
-      background: var(--text-default-color);
-      color: var(--primaryBackgroundColor);
+      background: var(--text_default-color);
+      color: var(--primary-bgc);
     }
   }
 }
@@ -343,10 +343,10 @@ export default {
   .btn-default {
     background-image: linear-gradient(
         to right,
-        var(--common-card-bgc),
-        var(--common-card-bgc)
+        var(--common_card-bgc),
+        var(--common_card-bgc)
       ),
-      var(--common-btn_default-bgimg);
+      var(--common_btn_default-bgimg);
   }
   &.mobile {
     display: none;
@@ -371,7 +371,7 @@ export default {
     width: 100%;
     margin: 0;
     font-family: 'Courier New', Courier, monospace;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     white-space: pre-wrap;
     word-wrap: break-word;
     font-weight: 700;
@@ -379,7 +379,7 @@ export default {
       width: 100%;
     }
     &:first-child {
-      color: var(--text-gery-color);
+      color: var(--text_gery-color);
       font-weight: 400;
     }
   }

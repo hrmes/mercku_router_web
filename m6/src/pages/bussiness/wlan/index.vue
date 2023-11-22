@@ -329,7 +329,7 @@ export default {
       &.step-item1 {
         .tip-label {
           font-size: 12px;
-          color: var(--text-gery-color);
+          color: var(--text_gery-color);
           margin-top: 14px;
           max-width: 340px;
           border-bottom: 1px solid var(--hr-color);
@@ -357,7 +357,7 @@ export default {
       }
       &.step-item2 {
         .cutdown {
-          color: var(--primaryColor);
+          color: var(--primary-color);
           font-size: 16px;
           margin: 10px 0;
         }
@@ -372,7 +372,7 @@ export default {
           border-radius: 5px;
           padding: 15px 20px;
           margin-top: 20px;
-          background: var(--grey-background-color);
+          background: var(--grey-bgc);
         }
         .info {
           font-size: 14px;
@@ -387,7 +387,7 @@ export default {
           .info__title {
             font-size: 12px;
             margin-bottom: 5px;
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
           }
           .info__value {
             font-size: 14px;
@@ -408,12 +408,12 @@ export default {
             margin-top: 5px;
           }
           .form-header__title {
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
           }
           .info {
             > :first-child {
               padding-bottom: 5px;
-              border-bottom: 1px solid var(--darker-hr-color);
+              border-bottom: 1px solid var(--darker_hr-color);
             }
           }
         }

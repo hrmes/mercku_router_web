@@ -183,7 +183,7 @@ export default {
   font-size: 14px;
   padding: 5px 15px 5px;
   color: #ffffff;
-  background: var(--table-action-popover-bgc);
+  background: var(--table_action_popover-bgc);
   border-radius: 5px;
   white-space: pre;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
@@ -221,12 +221,12 @@ export default {
     }
     &::-webkit-scrollbar-track,
     ::-webkit-scrollbar-track {
-      background-color: var(--scrollbar_wrap-track-color);
+      background-color: var(--scrollbar_wrap_track-color);
       // border-radius: 100px;
     }
     &::-webkit-scrollbar-thumb,
     ::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar_wrap-thumb-color);
+      background-color: var(--scrollbar_wrap_thumb-color);
       border-radius: 100px;
       &:hover {
         opacity: 0.5;
@@ -250,7 +250,7 @@ export default {
 .flex-wrap {
   display: flex;
   flex-direction: column;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
 }
 
 @media screen and (max-width: 768px) {

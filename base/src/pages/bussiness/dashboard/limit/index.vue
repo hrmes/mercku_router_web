@@ -86,10 +86,10 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: var(--header-background-color);
+      background: var(--header-bgc);
       color: #fff;
       align-items: center;
-      border-top: 1px solid var(--header-nav-item-border-color);
+      border-top: 1px solid var(--header_navitem_border-color);
       .page-header-trigger {
         display: block;
         &::before {
@@ -124,22 +124,22 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: var(--header-background-color);
+          background: var(--header-bgc);
           .tab {
             padding: 18px 0;
             color: #fff;
             font-size: 14px;
             // font-weight: bold;
             margin: 0;
-            border-bottom: 1px solid var(--header-nav-item-border-color);
+            border-bottom: 1px solid var(--header_navitem_border-color);
             display: flex;
             justify-content: space-between;
             .is-mobile {
               display: inline-block;
             }
             &.selected {
-              border-bottom: 1px solid var(--header-nav-item-border-color);
-              color: var(--tab-selected-text-color);
+              border-bottom: 1px solid var(--header_navitem_border-color);
+              color: var(--tab_selected_text-color);
               &::before {
                 display: none;
               }

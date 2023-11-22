@@ -9,7 +9,7 @@
         <div class="row-1">
           <div class="seccess-info card">
             <div>
-              <label class="with-colon">上网方式:</label>
+              <label class="with-colon">{{$t('trans0317')}}:</label>
               <span>
                 {{ networkArr[localNetInfo.type] }}
               </span>
@@ -39,7 +39,7 @@
         <div class="row-2">
           <div class="net-type card">
             <m-form-item>
-              <m-select label="上网方式"
+              <m-select :label="$t('trans0317')"
                         v-model="netType"
                         :options="options"></m-select>
               <div class="des-tips">{{ netNote[netType] }}</div>
@@ -50,7 +50,7 @@
                     :model="dhcpForm"
                     :rules="dhcpRules">
               <m-form-item :class="{last:autodns.dhcp}">
-                <m-select label="DNS设置"
+                <m-select :label="$t('trans0401')"
                           v-model="autodns.dhcp"
                           :options="dnsOptions"></m-select>
               </m-form-item>
@@ -91,7 +91,7 @@
                          v-model="pppoeForm.password" />
               </m-form-item>
               <m-form-item :class="{'last':autodns.pppoe}">
-                <m-select label="DNS设置"
+                <m-select :label="$t('trans0401')"
                           v-model="autodns.pppoe"
                           :options="dnsOptions"></m-select>
               </m-form-item>

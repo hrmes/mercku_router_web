@@ -249,15 +249,15 @@ export default {
     .btn-default {
       background-image: linear-gradient(
           to right,
-          var(--modal-content-background),
-          var(--modal-content-background)
+          var(--modal_content-bgc),
+          var(--modal_content-bgc)
         ),
-        var(--common-btn_default-bgimg) !important;
+        var(--common_btn_default-bgimg) !important;
     }
   }
   .modal-content {
     border-radius: 5px;
-    background-color: var(--modal-content-background);
+    background-color: var(--modal_content-bgc);
     .item {
       display: flex;
       align-items: center;
@@ -293,7 +293,7 @@ export default {
     width: 100%;
     .table-head {
       height: 50px;
-      background-color: var(--common-sub_card-bgc);
+      background-color: var(--common_sub_card-bgc);
       display: grid;
       grid-template-rows: 100%;
       grid-template-columns: repeat(2, 1fr);
@@ -306,7 +306,7 @@ export default {
       }
       .handle {
         justify-content: flex-start;
-        color: var(--common-gery-color);
+        color: var(--common_gery-color);
       }
       .tools {
         justify-content: flex-end;
@@ -324,7 +324,7 @@ export default {
         padding: 0 10px;
         border-radius: 10px;
         margin-bottom: 5px;
-        background: var(--common-sub_card-bgc);
+        background: var(--common_sub_card-bgc);
       }
     }
   }

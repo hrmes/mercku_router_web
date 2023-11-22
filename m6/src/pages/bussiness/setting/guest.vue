@@ -467,7 +467,7 @@ export default {
       width: 340px;
       overflow: hidden;
       padding: 10px 20px;
-      background-color: var(--table-row-background-color);
+      background-color: var(--table_row-bgc);
       &:first-child {
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
@@ -480,7 +480,7 @@ export default {
       .ssid-label {
         width: 40px;
         display: inline-block;
-        color: var(--text-gery-color);
+        color: var(--text_gery-color);
       }
       .ssid-name {
         flex: 1;
@@ -511,7 +511,7 @@ export default {
     .time {
       font-size: 14px;
       font-weight: 600;
-      color: var(--tab-selected-color);
+      color: var(--tab_selected-color);
     }
   }
   .setting-ssid-info {

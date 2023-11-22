@@ -91,14 +91,14 @@ export default {
     left: 0;
     top: 0;
     height: 100%;
-    background: var(--modal-mask-background-color);
+    background: var(--modal_mask-bgc);
   }
   .modal-content {
     min-width: 380px;
-    background: var(--modal-content-background);
+    background: var(--modal_content-bgc);
     padding: 30px;
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 var(--modal-shadow-color);
+    box-shadow: 0 2px 12px 0 var(--modal_shadow-color);
   }
 }
 @media screen and (max-width: 768px) {

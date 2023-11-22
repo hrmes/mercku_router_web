@@ -140,11 +140,11 @@ export default {
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background-color: var(--scrollbar_wrap-track-color);
+      background-color: var(--scrollbar_wrap_track-color);
       // border-radius: 100px;
     }
     ::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar_wrap-thumb-color);
+      background-color: var(--scrollbar_wrap_thumb-color);
       border-radius: 100px;
       &:hover {
         opacity: 0.5;
@@ -156,7 +156,7 @@ export default {
     width: 100%;
     border-radius: 10px;
     outline: 0;
-    border: 1.5px solid var(--input-border-color);
+    border: 1.5px solid var(--input_border-color);
     font-size: 14px;
     padding: 10px;
     line-height: 26px;
@@ -168,13 +168,13 @@ export default {
       width: 100%;
       border: none;
       outline: none;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       background: transparent;
     }
     &.focus {
-      border-color: var(--input-focus-border-color);
+      border-color: var(--input_focus_border-color);
       .icon-container {
-        border-color: var(--input-focus-border-color);
+        border-color: var(--input_focus_border-color);
       }
     }
   }
@@ -208,7 +208,7 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: var(--input-label-color);
+    color: var(--input_label-color);
   }
   .select-popup {
     position: absolute;
@@ -217,10 +217,10 @@ export default {
     right: -1px;
     top: 52px;
     max-height: 300px;
-    background: var(--select-popup-background-color);
+    background: var(--select_popup-bgc);
     border-radius: 7px;
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
-    border: 1px solid var(--select-popup-border-color);
+    border: 1px solid var(--select_popup_border-color);
     overflow: auto;
     li {
       list-style: none;
@@ -231,18 +231,18 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: var(--select-item-active-background-color);
-        color: var(--select-item-active-color);
+        background: var(--select_item_active-bgc);
+        color: var(--select_item_active-color);
       }
       &:hover {
-        background: var(--select-item-hover-background-color);
-        color: var(--select-item-hover-color);
+        background: var(--select_item_hover-bgc);
+        color: var(--select_item_hover-color);
       }
       &.selected {
         position: relative;
-        color: var(--select-item-selected-color);
+        color: var(--select_item_selected-color);
         &::after {
-          content: '\e65c';
+          content: '\e6be';
           font-family: 'iconfont';
           position: absolute;
           top: 50%;
@@ -260,7 +260,7 @@ export default {
     height: 45px;
     width: 40px;
     transition: border 0.3s ease-in-out;
-    border-left: 1.5px solid var(--input-border-color);
+    border-left: 1.5px solid var(--input_border-color);
     cursor: pointer;
     .icon {
       width: 12px;

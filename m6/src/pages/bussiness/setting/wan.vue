@@ -674,7 +674,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   font-size: 16px;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   text-align: center;
   padding-bottom: 30px;
   border-bottom: 1px solid var(--hr-color);

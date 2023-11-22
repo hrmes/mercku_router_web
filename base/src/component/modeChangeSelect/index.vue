@@ -216,7 +216,7 @@ export default {
     width: 100%;
     border-radius: 4px;
     outline: 0;
-    border: 1.5px solid var(--select-input-border-color);
+    border: 1.5px solid var(--select_input_border-color);
     font-size: 14px;
     padding: 0 10px;
     position: relative;
@@ -247,7 +247,7 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: var(--select-label-color);
+    color: var(--select_label-color);
     .refresh-icon {
       position: absolute;
       top: 0;
@@ -267,9 +267,9 @@ export default {
     right: -1px;
     top: 78px;
     max-height: 275px;
-    background: var(--select-popup-background-color);
+    background: var(--select_popup-bgc);
     border-radius: 5px;
-    border: 1px solid var(--select-popup-border-color);
+    border: 1px solid var(--select_popup_border-color);
     overflow: auto;
     &.popup-top {
       top: -5px;
@@ -291,22 +291,22 @@ export default {
       width: 100%;
       overflow: hidden;
       text-overflow: ellipsis;
-      color: var(--text-default-color);
-      background: var(--select-popup-background-color);
+      color: var(--text_default-color);
+      background: var(--select_popup-bgc);
       &:active {
-        background: var(--select-item-active-background-color);
-        color: var(--select-item-active-color);
+        background: var(--select_item_active-bgc);
+        color: var(--select_item_active-color);
       }
       &:hover {
-        background: var(--select-item-hover-background-color);
-        color: var(--select-item-hover-color);
+        background: var(--select_item_hover-bgc);
+        color: var(--select_item_hover-color);
       }
       &.selected {
         position: relative;
-        color: var(--select-item-selected-color);
+        color: var(--select_item_selected-color);
         &::before {
           content: '\e6be';
-          color: var(--primaryColor);
+          color: var(--primary-color);
           font-size: 12px;
           font-family: 'iconfont';
           width: 12px;
@@ -364,12 +364,12 @@ export default {
           text-align: center;
           font-size: 11px;
           font-weight: 500;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
           width: 35px;
           height: 15px;
           margin-right: 10px;
           border-radius: 2px;
-          background: var(--common-sub_card-bgc);
+          background: var(--common_sub_card-bgc);
         }
       }
     }
@@ -429,17 +429,17 @@ export default {
   }
   &.focus {
     .select {
-      border-color: var(--input-focus-border-color);
+      border-color: var(--input_focus_border-color);
     }
   }
   &.disabled {
     .select {
-      background: var(--select-disabled-background-color);
-      opacity: var(--select-disabled-opacity);
+      background: var(--select_disabled-bgc);
+      opacity: var(--select_disabled-opacity);
       cursor: not-allowed;
       input {
-        background: var(--select-disabled-background-color);
-        opacity: var(--select-disabled-opacity);
+        background: var(--select_disabled-bgc);
+        opacity: var(--select_disabled-opacity);
         cursor: not-allowed;
       }
     }

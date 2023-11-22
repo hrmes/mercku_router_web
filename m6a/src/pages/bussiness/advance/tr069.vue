@@ -279,7 +279,7 @@ export default {
     .title {
       width: 100%;
       font-size: 16px;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       margin-bottom: 20px;
       font-weight: bold;
     }
@@ -301,7 +301,7 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: var(--header-background-color);
+      background: var(--header-bgc);
       align-items: center;
       .page-header-trigger {
         display: block;
@@ -337,16 +337,16 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: var(--header-background-color);
+          background: var(--header-bgc);
           .tab {
             padding: 18px 0;
             color: #fff;
             font-size: 14px;
             margin: 0;
-            border-bottom: 1px solid var(--header-nav-item-border-color);
+            border-bottom: 1px solid var(--header_navitem_border-color);
             &.selected {
-              border-bottom: 1px solid var(--header-nav-item-border-color);
-              color: var(--primaryColor);
+              border-bottom: 1px solid var(--header_navitem_border-color);
+              color: var(--primary-color);
               &::before {
                 display: none;
               }

@@ -12,22 +12,22 @@
   height: 48px;
   user-select: none;
   position: relative;
-  color: var(--button-text-color);
-  background-image: var(--button-background-color);
-  box-shadow: var(--button-box-shadow);
+  color: var(--button_text-color);
+  background-image: var(--button-bgc);
+  box-shadow: var(--button-boxshadow);
   transition: background 0.3s ease-in-out;
   &:active {
-    opacity: var(--button-active-opcity);
+    opacity: var(--button_active-opcity);
   }
   &:hover {
-    opacity: var(--button-hover-opcity);
+    opacity: var(--button_hover-opcity);
   }
   &[disabled],
   &.disabled {
     cursor: not-allowed;
-    opacity: var(--button-disabled-opcity);
+    opacity: var(--button_disabled-opcity);
     &:hover{
-      opacity: var(--button-disabled-opcity);
+      opacity: var(--button_disabled-opcity);
     }
   }
   &.btn-small {
@@ -65,24 +65,24 @@
 }
 .btn-default {
   user-select: none;
-  color: var(--button-default-text-color);
+  color: var(--button_default_text-color);
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
 	background-origin: padding-box, border-box;
-	background-image: linear-gradient(to right, var(--dashboard-icon-background-color), var(--dashboard-icon-background-color)),
-					var(--common-btn_default-bgimg);
+	background-image: linear-gradient(to right, var(--dashboard_icon-bgc), var(--dashboard_icon-bgc)),
+					var(--common_btn_default-bgimg);
   transition: all 0.1s ease-in-out;
 }
 .btn-text {
-  color: var(--button-text-text-color);
+  color: var(--button_text_text-color);
   text-decoration: underline;
   cursor: pointer;
   &.btn-text-strange {
     @media screen and (max-width: 768px) {
       width: auto;
       min-width: 120px;
-      background: var(--button-text-stange-background-color);
-      color: var(--button-text-stange-text-color) !important;
+      background: var(--button_text_stange-bgc);
+      color: var(--button_text_stange_text-color) !important;
       text-align: center;
       height: 38px;
       font-size: 12px;
@@ -96,16 +96,16 @@
     }
   }
   &:hover {
-    color: var(--button-text-hover-color);
+    color: var(--button_text_hover-color);
   }
   &.text-primary {
-    color: var(--button-text-primary-text-color);
+    color: var(--button_text_primary_text-color);
     &:hover {
-      color: var(--button-text-primary-hover-color);
+      color: var(--button_text_primary_hover-color);
     }
     &.disabled {
       &:hover {
-        color: var(--button-text-primary-disabled-hover-color);
+        color: var(--button_text_primary_disabled_hover-color);
       }
     }
   }
@@ -131,7 +131,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: var(--logout-btn-bgc);
+  background-color: var(--logout_btn-bgc);
   box-shadow:  0 8px 10px -5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   .iconfont {
@@ -140,7 +140,7 @@
     left: 50%;
     transform: translate(-50%,-50%);
     font-size: 16px;
-    color: var( --text-default-color);
+    color: var( --text_default-color);
     transition: color 0.3s ease-out;
   }
   .icon-hover-popover {
@@ -148,7 +148,7 @@
     position: absolute;
     padding: 5px 8px;
     font-size: 14px;
-    background: var(--table-action-popover-bgc);
+    background: var(--table_action_popover-bgc);
     color: #fff;
     top: -8px;
     left: 50%;
@@ -158,41 +158,55 @@
     word-break: keep-all;
     white-space: nowrap;
     z-index: 10;
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translate(-50%, 100%);
-      width: 0;
-      height: 0;
-      border: 6px solid transparent;
-      border-top-color: var(--table-action-popover-bgc);
+    &.rightmost{
+      left: -70%;
     }
   }
+  &::after {
+    display: none;
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-top-color: var(--table_action_popover-bgc);
+  }
   &.close{
-    background-color:var(--button-close-bgc);
+    background-color:var(--button_close-bgc);
+    &::after{
+      display: none!important;
+    }
     .iconfont{
       font-weight: 700;
     }
   }
   &:hover {
     .iconfont {
-      color: var(--button-icon-hover-color);
+      color: var(--button_icon_hover-color);
     }
+    @media screen and (min-width: 768px) {
+      &::after{
+        display: block;
+      }
+    }
+   
     .icon-hover-popover {
       display: block;
     }
+    
   }
   &.disabled {
     cursor: not-allowed;
-    background-color: var(--button-icon-disabled-bgc);
+    background-color: var(--button_icon_disabled-bgc);
     .iconfont {
-      color: var(--button-icon-disabled-color);
+      color: var(--button_icon_disabled-color);
     }
     &:hover {
       .iconfont {
-        color: var(--button-icon-disabled-color);
+        color: var(--button_icon_disabled-color);
       }
       .icon-hover-popover {
         display: none;
@@ -212,10 +226,10 @@
   transition: all 0.15s ease-in-out;
   .iconfont {
     font-size: 20px;
-    color: var(--device-limit_icon-color);
+    color: var(--device_limit_icon-color);
     font-weight: 500;
     &.active {
-      color: var(--primaryColor);
+      color: var(--primary-color);
     }
   }
   .hover-popover {
@@ -223,7 +237,7 @@
     position: absolute;
     padding: 5px 12px;
     font-size: 12px;
-    background: var(--table-action-popover-bgc);
+    background: var(--table_action_popover-bgc);
     color: #fff;
     top: -8px;
     left: 50%;
@@ -242,13 +256,13 @@
       width: 0;
       height: 0;
       border: 6px solid transparent;
-      border-top-color: var(--table-action-popover-bgc);
+      border-top-color: var(--table_action_popover-bgc);
     }
   }
   &[disabled],
   &.disabled {
     cursor: not-allowed;
-    opacity: var(--button-disabled-opcity);
+    opacity: var(--button_disabled-opcity);
     &:hover {
       background-color:transparent;
       .hover-popover {
@@ -257,7 +271,7 @@
     }
   }
   &:hover {
-    background-color: var(--device-limit_icon-hover-bgc);
+    background-color: var(--device_limit_icon-hover-bgc);
     .hover-popover {
       display: block;
     }
@@ -286,7 +300,7 @@
     }
     &:hover {
       .iconfont {
-        color: var(--table-action-icon-color);
+        color: var(--table_action_icon-color);
       }
       .icon-hover-popover {
         display: none;
@@ -294,7 +308,7 @@
     }
     &:active {
       .iconfont {
-        color: var(--primaryColor);
+        color: var(--primary-color);
       }
     }
   }

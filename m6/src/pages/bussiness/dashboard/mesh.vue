@@ -788,7 +788,7 @@ export default {
       left: 0;
       right: auto;
       bottom: auto;
-      background: var(--grey-background-color) !important;
+      background: var(--grey-bgc) !important;
     }
   }
 }
@@ -827,8 +827,8 @@ export default {
     }
     .table__header {
       height: 37px;
-      color: var(--dashboard-gery-color);
-      background-color: var(--modal-header-background-color);
+      color: var(--dashboard_gery-color);
+      background-color: var(--modal_header-bgc);
       .table__column {
         font-size: 12px;
         font-weight: 500;
@@ -839,11 +839,11 @@ export default {
       }
     }
     .table__row {
-      border-bottom: 1px solid var(--modal-content-hr-color);
+      border-bottom: 1px solid var(--modal_content_hr-color);
       .table__column {
         font-size: 14px;
         height: 60px;
-        background-color: var(--modal-content-background);
+        background-color: var(--modal_content-bgc);
       }
       .table__column--device {
         .device__img {
@@ -878,7 +878,7 @@ export default {
           border-radius: 3px;
           font-size: 12px;
           color: #fff;
-          background: var(--dashboard-band-background-color);
+          background: var(--dashboard_band-bgc);
         }
         img {
           margin-left: 20px;
@@ -1099,7 +1099,7 @@ export default {
           height: 2px;
           border-radius: 2px;
           width: 15px;
-          // background: var(--button-default-text-color);
+          // background: var(--button_default_text-color);
           background-color: #fff;
           transform: translate(-50%, -50%) rotate(0deg);
         }
@@ -1112,7 +1112,7 @@ export default {
           height: 2px;
           border-radius: 2px;
           width: 15px;
-          // background: var(--button-default-text-color);
+          // background: var(--button_default_text-color);
           background-color: #fff;
           transform: translate(-50%, -50%) rotate(90deg);
         }
@@ -1146,7 +1146,7 @@ export default {
           width: 200px;
           .legend-title {
             font-size: 12px;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
             margin: 0;
             display: flex;
             align-items: center;
@@ -1157,7 +1157,7 @@ export default {
               transform: translateX(25%);
               cursor: pointer;
               &:hover {
-                color: var(--text-gery-color);
+                color: var(--text_gery-color);
               }
             }
           }
@@ -1168,7 +1168,7 @@ export default {
               align-items: center;
               justify-content: flex-end;
               margin-top: 10px;
-              color: var(--text-default-color);
+              color: var(--text_default-color);
             }
             .legend-item {
               &::after {
@@ -1236,8 +1236,8 @@ export default {
         .table-header {
           display: flex;
           padding: 15px 20px;
-          color: var(--text-gery-color);
-          background: var(--table-row-background-color);
+          color: var(--text_gery-color);
+          background: var(--table_row-bgc);
           display: flex;
           justify-content: space-between;
           border-radius: 10px;
@@ -1275,7 +1275,7 @@ export default {
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
-            background: var(--table-row-background-color);
+            background: var(--table_row-bgc);
             margin-bottom: 5px;
             border-radius: 10px;
             span.label {
@@ -1409,7 +1409,7 @@ export default {
         }
         .tabs {
           padding: 0 20px;
-          border-bottom: 1px solid var(--table-header-hr-color);
+          border-bottom: 1px solid var(--table_header_hr-color);
           justify-content: flex-start;
           .tab {
             width: auto;
@@ -1510,8 +1510,8 @@ export default {
             .router {
               display: flex;
               flex-direction: column;
-              background: var(--table-row-background-color);
-              color: var(--text-default-color);
+              background: var(--table_row-bgc);
+              color: var(--text_default-color);
               border-radius: 5px;
               padding: 0 10px;
               height: 60px;
@@ -1530,12 +1530,12 @@ export default {
                   padding: 0 10px;
                 }
                 > div {
-                  border-bottom-color: var(--table-body-hr-color);
+                  border-bottom-color: var(--table_body_hr-color);
                 }
               }
               span.label {
                 display: inline;
-                color: var(--text-gery-color);
+                color: var(--text_gery-color);
               }
               > div {
                 width: auto;
@@ -1572,13 +1572,13 @@ export default {
                   // width: 15px;
                   // height: 15px;
                   font-size: 12px;
-                  color: var(--text-default-color);
+                  color: var(--text_default-color);
                 }
               }
               .name {
                 padding: 0;
                 width: 100%;
-                color: var(--text-default-color);
+                color: var(--text_default-color);
                 .icon {
                   img {
                     width: 35px;
@@ -1628,8 +1628,8 @@ export default {
         width: 30px;
         height: 30px;
         border-radius: 50%;
-        color: var(--text-default-color);
-        background: var(--primaryBackgroundColor);
+        color: var(--text_default-color);
+        background: var(--primary-bgc);
         .iconfont {
           font-size: 13px;
         }
@@ -1647,7 +1647,7 @@ export default {
         padding-bottom: 10px;
         border-bottom: solid 1px #ccc;
         .table__column {
-          background-color: var(--grey-background-color);
+          background-color: var(--grey-bgc);
           &.table__column--device {
             font-weight: bold;
             height: 50px;

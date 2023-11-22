@@ -173,11 +173,11 @@ export default {
     height: 6px;
   }
   &::-webkit-scrollbar-track {
-    background-color: var(--scrollbar_wrap-track-color);
+    background-color: var(--scrollbar_wrap_track-color);
     // border-radius: 100px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar_wrap-thumb-color);
+    background-color: var(--scrollbar_wrap_thumb-color);
     border-radius: 100px;
     &:hover {
       opacity: 0.5;
@@ -190,7 +190,7 @@ export default {
   position: relative;
   z-index: 5;
   width: 100%;
-  color: var(--common-gery-color);
+  color: var(--common_gery-color);
   padding: 0 30px;
   &.is-position-nav {
     position: absolute;
@@ -210,7 +210,7 @@ export default {
   .footer__left-menu {
     display: flex;
     align-items: center;
-    color: var(--footer-menu_text-color);
+    color: var(--footer_menu_text-color);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -250,8 +250,8 @@ export default {
           width: 150px;
           margin-bottom: 30px;
           border-radius: 2px;
-          box-shadow: 4px -2px 15px 5px var(--footer-popup-shadow-color);
-          background-color: var(--select-popup-background-color);
+          box-shadow: 4px -2px 15px 5px var(--footer_popup_shadow-color);
+          background-color: var(--select_popup-bgc);
           padding: 10px 0;
           opacity: 1;
           border-radius: 10px;
@@ -273,17 +273,17 @@ export default {
             line-height: 38px;
             padding: 0 30px;
             &:hover {
-              background: var(--select-item-hover-background-color);
-              color: var(--select-item-hover-color);
+              background: var(--select_item_hover-bgc);
+              color: var(--select_item_hover-color);
             }
             &:last-child {
               margin-bottom: 0;
             }
             &.selected {
-              color: var(--select-item-selected-color);
+              color: var(--select_item_selected-color);
               .is-checked {
                 &::after {
-                  border-color: var(--select-item-selected-color);
+                  border-color: var(--select_item_selected-color);
                 }
               }
             }
@@ -297,7 +297,7 @@ export default {
       }
       &:hover {
         .current-text {
-          color: var(--header-nav-item-hover-color);
+          color: var(--header_navitem_hover-color);
         }
       }
     }
@@ -310,7 +310,7 @@ export default {
         background-size: contain;
       }
       &:hover {
-        color: var(--header-nav-item-hover-color);
+        color: var(--header_navitem_hover-color);
       }
     }
   }
@@ -324,7 +324,7 @@ export default {
       margin-left: 5px;
       cursor: pointer;
       &:hover {
-        color: var(--text-default-color);
+        color: var(--text_default-color);
       }
     }
     .power-by {
@@ -356,10 +356,10 @@ export default {
       width: 210px;
       padding: 10px 10px 10px 20px;
       border-radius: 10px;
-      background: var(--dashboard-app-background-color);
+      background: var(--dashboard_app-bgc);
       box-shadow: -6px -5px 10px 0 var(--footer-popup-shadow-color);
       .text-container {
-        color: var(--text-default-color);
+        color: var(--text_default-color);
         width: 95px;
         // height: 40px;
       }
@@ -386,13 +386,13 @@ export default {
         width: 0px;
         height: 0px;
         border: 7px solid transparent;
-        border-top: 7px solid var(--dashboard-app-background-color);
+        border-top: 7px solid var(--dashboard_app-bgc);
         z-index: inherit;
       }
     }
     &:hover {
       > img {
-        filter: var(--footer-qr_img-filter);
+        filter: var(--fotter_qr_img-filter);
       }
       .jump-app-info {
         display: flex;

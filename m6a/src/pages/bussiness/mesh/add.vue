@@ -565,7 +565,7 @@ export default {
   border-radius: 10px;
   &.has-bgc {
     display: block;
-    background: var(--primaryBackgroundColor);
+    background: var(--primary-bgc);
   }
 }
 .loading {
@@ -593,7 +593,7 @@ export default {
       display: inline-block;
       width: 5px;
       height: 5px;
-      background-color: var(--text-default-color);
+      background-color: var(--text_default-color);
       border-radius: 50%;
       margin-right: 10px;
     }
@@ -647,7 +647,7 @@ export default {
     }
   }
   .tips__subtext {
-    color: var(--common-gery-color);
+    color: var(--common_gery-color);
     width: 100%;
     font-size: 12px;
     white-space: pre-line;
@@ -692,23 +692,23 @@ export default {
       padding: 30px;
       font-size: 16px;
       border-radius: 10px;
-      border: 3.5px solid var(--common-card-bgc);
+      border: 3.5px solid var(--common_card-bgc);
       background-image: linear-gradient(
         to bottom,
-        var(--common-card-bgc),
-        var(--common-card-bgc)
+        var(--common_card-bgc),
+        var(--common_card-bgc)
       );
       background-clip: padding-box, border-box;
       background-origin: padding-box, border-box;
-      box-shadow: var(--common-card-boxshadow);
+      box-shadow: var(--common_card-boxshadow);
       cursor: pointer;
       &:hover {
         border-color: transparent;
-        box-shadow: var(--common-card-hover-boxshadow);
+        box-shadow: var(--common_card_hover-boxshadow);
         background-image: linear-gradient(
             to bottom,
-            var(--common-card-bgc),
-            var(--common-card-bgc)
+            var(--common_card-bgc),
+            var(--common_card-bgc)
           ),
           linear-gradient(225deg, #ff6734 30%, #ee1d4f 40%, #d6001c 80%);
       }
@@ -799,7 +799,7 @@ export default {
       .img-container {
         width: 100%;
         height: 300px;
-        background: var(--table-row-background-color);
+        background: var(--table_row-bgc);
         img {
           height: 100%;
           display: block;
@@ -818,10 +818,10 @@ export default {
     .btn-default {
       background-image: linear-gradient(
           to right,
-          var(--primaryBackgroundColor),
-          var(--primaryBackgroundColor)
+          var(--primary-bgc),
+          var(--primary-bgc)
         ),
-        var(--common-btn_default-bgimg);
+        var(--common_btn_default-bgimg);
     }
   }
 }
@@ -884,7 +884,7 @@ export default {
   .result-container__tips {
     font-size: 15px;
     text-align: center;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     font-weight: bold;
     width: 360px;
     @media screen and (max-width: 768px) {
@@ -892,7 +892,7 @@ export default {
     }
   }
   .node-sn {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     margin-top: 20px;
     font-size: 14px;
     text-align: center;
@@ -908,8 +908,8 @@ export default {
     padding: 15px 15px 20px;
     box-sizing: border-box;
     border-radius: 5px;
-    background: var(--flex-warp-has-menu-bgc);
-    color: var(--text-default-color);
+    background: var(--flexwarp_hasmenu-bgc);
+    color: var(--text_default-color);
 
     .tips__header {
       display: flex;
@@ -942,7 +942,7 @@ export default {
           display: inline-block;
           width: 5px;
           height: 5px;
-          background-color: var(--text-default-color);
+          background-color: var(--text_default-color);
           border-radius: 50%;
           margin-right: 10px;
         }
@@ -973,9 +973,9 @@ export default {
     .list-item {
       display: flex;
       font-size: 14px;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       .list-item__img {
-        background-color: var(--flex-warp-has-menu-bgc);
+        background-color: var(--flexwarp_hasmenu-bgc);
         margin-right: 15px;
         border-radius: 2px;
         width: 55%;

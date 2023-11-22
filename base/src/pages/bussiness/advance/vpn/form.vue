@@ -305,7 +305,7 @@ export default {
       const formData = new FormData();
       formData.append('type', 'openvpn');
       formData.append('file', this.openvpnConfigFile);
-      return this.$http.uploadFile(formData, () => {});
+      return this.$http.uploadFile(formData, () => { });
     },
     submitForm(method) {
       this.$http[method](this.formParams)
@@ -380,7 +380,7 @@ export default {
     align-items: center;
   }
   .config-uploader__label {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     margin-bottom: 5px;
     font-size: 14px;
     margin-right: 12px;

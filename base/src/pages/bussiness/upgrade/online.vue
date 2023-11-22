@@ -366,7 +366,7 @@ export default {
     width: 200px;
   }
   p {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     font-size: 16px;
   }
 }

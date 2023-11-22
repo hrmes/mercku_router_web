@@ -99,7 +99,7 @@ export default {
     justify-content: flex-start;
     align-items: center;
     height: 60px;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     .text-container {
       font-size: 18px;
       font-weight: 500;
@@ -113,7 +113,7 @@ export default {
       border-radius: 50%;
       margin-right: 10px;
       cursor: pointer;
-      background: var(--dashboard-unconnect-icon-background-color);
+      background: var(--dashboard_unconnect_icon-bgc);
       box-shadow: 0 5px 10px -5px rgba(51, 51, 51, 0.3);
     }
   }
@@ -124,13 +124,13 @@ export default {
       width: 17vw;
       margin-right: 10px;
       padding: 25px 15px;
-      background: var(--dashboard-icon-background-color);
+      background: var(--dashboard_icon-bgc);
       border-radius: 10px;
       ul {
         list-style: none;
         margin: 0;
         padding: 0;
-        color: var(--text-default-color);
+        color: var(--text_default-color);
         > li {
           padding: 10px 15px;
           margin-bottom: 5px;
@@ -138,25 +138,25 @@ export default {
           transition: background 0.3s ease-out;
           border-radius: 5px;
           &.selected {
-            color: var(--aside-selected-text-color);
-            background: var(--asdie-selected-background) !important;
+            color: var(--aside_selected_text-color);
+            background: var(--asdie_selected-bgc) !important;
           }
           &.disabled {
-            color: var(--aside-disabled-color);
+            color: var(--aside_disabled-color);
             cursor: not-allowed;
             &:hover {
               background: none;
             }
           }
           &:hover {
-            background: var(--aside-hover-background-color);
+            background: var(--aside_hover-bgc);
           }
         }
       }
     }
     .router-view {
       flex: 1;
-      background: var(--dashboard-icon-background-color);
+      background: var(--dashboard_icon-bgc);
       border-radius: 10px;
     }
     &.has-top-margin {

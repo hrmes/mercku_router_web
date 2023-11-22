@@ -46,7 +46,7 @@ input::-webkit-credentials-auto-fill-button {
 }
 
 .add-mesh-tip {
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   display: block;
   margin-top: 10px;
 }
@@ -59,12 +59,12 @@ input[type="checkbox"]{
   height: 18px;
   line-height: 17px;
   border-radius: 3px;
-  border: 1.5px solid var(--checkbox-border-color);
-  background: var(--checkbox-background-color);
+  border: 1.5px solid var(--checkbox_border-color);
+  background: var(--checkbox-bgc);
 }
 input[type="checkbox"]:checked {
   border: none;
-  background: var(--checkbox-checked-bgc);
+  background: var(--checkbox_checked-bgc);
   padding-left: 2.5px;
   position: relative;
   &::after {
@@ -94,7 +94,7 @@ input::-webkit-input-placeholder {
   flex: auto;
   display: flex;
   flex-direction: column;
-  background: var(--common-card-bgc);
+  background: var(--common_card-bgc);
 
   .page-content {
     flex: 1;
@@ -124,7 +124,7 @@ input::-webkit-input-placeholder {
 
   .card {
     padding: 20px 15px;
-    background-color: var(--common-sub_card-bgc);
+    background-color: var(--common_sub_card-bgc);
     border-radius: 15px;
     .des-tips{
       font-size: 12px;
@@ -152,7 +152,7 @@ input::-webkit-input-placeholder {
     max-height: 90vh;
     height: fit-content;
     flex: initial;
-    background: var(--primaryBackgroundColor);
+    background: var(--primary-bgc);
     border-radius: 10px;
     overflow: hidden;
     .popup-page__content--main {
@@ -203,7 +203,7 @@ input::-webkit-input-placeholder {
   text-align: left;
   margin-bottom: 5px;
   font-weight: bold;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   font-size: 14px;
 }
 
@@ -213,7 +213,11 @@ input::-webkit-input-placeholder {
   align-items: center;
   width: 100%;
   height: 100px;
-  border-top: 1px solid var(--common-hr-color);
+  border-top: 1px solid var(--common_hr-color);
+  >.btn-default{
+    background-image: linear-gradient(to right, var(--primary-bgc), var(--primary-bgc)),
+    var(--common_btn_default-bgimg);
+  }
 }
 
 .table{
@@ -227,8 +231,8 @@ input::-webkit-input-placeholder {
     padding: 10px 15px;
     border-radius: 10px;
     font-size: 12px;
-    color: var(--common-gery-color);
-    background: var(--table-row-background-color);
+    color: var(--common_gery-color);
+    background: var(--table_row-bgc);
     .wrapper {
       display: grid;
       grid-template-rows: 100%;
@@ -245,8 +249,8 @@ input::-webkit-input-placeholder {
       font-weight: 500;
       align-items: center;
       font-size: 14px;
-      color: var(--text-default-color);
-      background: var(--table-row-background-color);
+      color: var(--text_default-color);
+      background: var(--table_row-bgc);
       border-radius: 10px;
       .wrapper {
         display: grid;
@@ -301,7 +305,7 @@ label.with-colon {
     height: 25%;
     border-style: solid;
     border-width: 3px;
-    border-color: var(--mobile-menu-selected-color);
+    border-color: var(--mobile_menu_selected-color);
     border-radius: 1px;
     border-top: none;
     border-right: none;
@@ -315,7 +319,7 @@ label.with-colon {
   justify-content: flex-start;
   align-items: center;
   height: 60px;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   .text-container {
     font-size: 18px;
     font-weight: 500;
@@ -330,8 +334,8 @@ label.with-colon {
     margin-right: 10px;
     font-weight: 600;
     cursor: pointer;
-    background: var(--logout-btn-bgc);
-    box-shadow:var( --back_wrapper-btn-shadow);
+    background: var(--logout_btn-bgc);
+    box-shadow:var( --back_wrapper_btn-shadow);
   }
 }
 .router__img{
@@ -357,7 +361,7 @@ label.with-colon {
 
 .color-select {
   .label {
-    color: var(--input-label-color);
+    color: var(--input_label-color);
   }
   .color-select__wrapper {
     display: flex;
@@ -422,14 +426,14 @@ label.with-colon {
       align-items: center;
       padding: 15px 20px;
       font-size: 16px;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       background-color: transparent;
       font-weight: 600;
       height: 50px;
     }
     .page-content {
       padding: 0;
-      background-color: var(--common-card-bgc);
+      background-color: var(--common_card-bgc);
       .page-content__main{
         padding-bottom: 0;
         .row-1,

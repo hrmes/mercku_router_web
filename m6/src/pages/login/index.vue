@@ -215,7 +215,7 @@ export default {
     height: 130px;
     border-radius: 10px;
     padding: 0 20px;
-    background-color: var(--grey-background-color);
+    background-color: var(--grey-bgc);
     .stores {
       display: flex;
       flex-direction: column;
@@ -227,7 +227,7 @@ export default {
         display: flex;
         margin-bottom: 14px;
         border-radius: 4px;
-        background-color: var(--download-tag-background-color);
+        background-color: var(--download_tag-bgc);
         &:last-child {
           margin: 0;
         }
@@ -238,10 +238,10 @@ export default {
           width: 14px;
           // height: 18px;
           &.android-img {
-            filter: var(--download-android-img-brightness);
+            filter: var(--download_android_img-brightness);
           }
           &.apple-img {
-            filter: var(--download-ios-img-brightness);
+            filter: var(--download_ios_img-brightness);
           }
         }
         span {
@@ -249,7 +249,7 @@ export default {
           display: inline-block;
           width: 150px;
           margin-left: 10px;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
           &::before {
             content: '';
             position: absolute;
@@ -260,7 +260,7 @@ export default {
             width: 1px;
             height: 15px;
             margin-right: 10px;
-            border-left: 1px solid var(--download-tag-before-color);
+            border-left: 1px solid var(--download_tag_before-color);
           }
         }
       }
@@ -297,7 +297,7 @@ export default {
       margin-top: 30px;
       align-items: center;
       justify-content: space-between;
-      background: var(--grey-background-color);
+      background: var(--grey-bgc);
       .top-wrap {
         display: flex;
         align-items: center;
@@ -316,7 +316,7 @@ export default {
           text-align: center;
           font-size: 12px;
           margin-left: 15px;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
         }
       }
 
@@ -326,8 +326,8 @@ export default {
         .down-button {
           text-decoration: none;
           text-align: center;
-          color: var(--primaryColor);
-          border: 1.5px solid var(--primaryColor);
+          color: var(--primary-color);
+          border: 1.5px solid var(--primary-color);
           border-radius: 5px;
           padding: 12px 10px;
           font-size: 14px;

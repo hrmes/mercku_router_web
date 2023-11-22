@@ -41,7 +41,7 @@ export default {
 
 <style lang="scss" scoped>
 .disappear-container {
-  background: var(--primaryBackgroundColor);
+  background: var(--primary-bgc);
   padding: 50px;
   flex: auto;
   min-height: 500px;

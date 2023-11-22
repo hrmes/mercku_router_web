@@ -334,7 +334,7 @@ export default {
       grid-template-columns: 100%;
       font-size: 13px;
       font-weight: 400;
-      color: var(--common-gery-color);
+      color: var(--common_gery-color);
       > div {
         display: flex;
         align-items: center;
@@ -356,12 +356,12 @@ export default {
           transform: translateY(-50%) rotate(90deg);
           font-size: 12px;
           transition: transform 0.3s;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
         }
       }
       .name {
         font-size: 14px;
-        color: var(--text-default-color);
+        color: var(--text_default-color);
       }
       .mac,
       .ip {
@@ -391,7 +391,7 @@ export default {
     border-radius: 10px;
     margin-bottom: 5px;
     &.extra {
-      background: var(--table-row-background-color);
+      background: var(--table_row-bgc);
       padding: 10px;
     }
   }

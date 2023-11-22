@@ -256,29 +256,34 @@ export default {
       width: 48px;
       height: 32px;
       path {
-        fill: var(--mobile-menu-selected-color);
+        fill: var(--mobile_menu_selected-color);
       }
       &.is-upload-loading {
         path {
-          fill: var(--upload-button-disabled-color);
+          fill: var(--upload_button_disabled-color);
         }
       }
     }
     .upload__text {
       font-size: 12px;
-      color: var(--upload-file-text-color);
+      color: var(--upload_file_text-color);
       text-align: center;
       white-space: pre-line;
       padding: 0;
       margin-top: 0;
     }
     .fileinput-button {
-      width: 180px;
       height: 30px;
       min-width: 80px;
       border-radius: 20px;
       padding: 5px 10px;
       cursor: pointer;
+      background-image: linear-gradient(
+          to right,
+          var(--common_card-bgc),
+          var(--common_card-bgc)
+        ),
+        var(--common_btn_default-bgimg);
       &[disabled] {
         opacity: 0.3;
         cursor: not-allowed;
@@ -316,12 +321,12 @@ export default {
       align-items: center;
       transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
       font-size: 14px;
-      color: var(--upload-file-text-color);
+      color: var(--upload_file_text-color);
       border-radius: 5px;
-      background: var(--upload-background-color);
+      background: var(--upload-bgc);
       padding: 20px 10px;
       .icon-wrap {
-        background: var(--upload-icon-background-color);
+        background: var(--upload_icon-bgc);
         padding: 10px;
         border-radius: 50%;
         img {
@@ -335,7 +340,7 @@ export default {
         margin-left: 10px;
         flex: 1;
         .description {
-          color: var(--upload-file-description-color);
+          color: var(--upload_file_des-color);
           display: flex;
           // align-items: center;
           flex-direction: column;
@@ -353,7 +358,7 @@ export default {
               height: 5px;
               border-radius: 50%;
               margin-right: 5px;
-              background: var(--upload-file-info-product-dot-color);
+              background: var(--upload_fileinfo_productdot-color);
             }
           }
           .packageinfo__product {
@@ -361,7 +366,7 @@ export default {
           }
           .packageinfo__version {
             &::before {
-              background: var(--upload-file-info-version-dot-color);
+              background: var(--upload_fileinfo_versiondot-color);
             }
           }
         }
@@ -376,24 +381,24 @@ export default {
           }
           .fileinfo__size {
             margin-left: 5px;
-            color: var(--upload-file-text-color);
+            color: var(--upload_file_text-color);
           }
           .fileinfo__upload-percent {
             font-size: 12px;
-            color: var(--upload-file-text-color);
+            color: var(--upload_file_text-color);
             display: flex;
             align-items: flex-end;
           }
         }
         .filesize {
-          color: var(--upload-file-text-color);
+          color: var(--upload_file_text-color);
         }
         .line {
           width: 100%;
           display: flex;
           flex-direction: column;
           height: 3px;
-          background: var(--upload-progress-color);
+          background: var(--upload_progress-color);
           margin-top: 10px;
           margin-bottom: 10px;
           border-radius: 1.5px;
@@ -401,12 +406,12 @@ export default {
             display: inline-block;
             height: 3px;
             transition: width 1s ease;
-            background: var(--upload-progress-completed-color);
+            background: var(--upload_progress_completed-color);
           }
           .fail {
             display: inline-block;
             height: 3px;
-            background: var(--upload-error-text-color);
+            background: var(--upload_error_text-color);
           }
         }
       }
@@ -415,13 +420,13 @@ export default {
         height: 25px;
         line-height: 25px;
         text-align: center;
-        background: var(--upload-delete-icon-bgc);
+        background: var(--upload_delete_icon-bgc);
         border-radius: 50%;
         margin-left: 10px;
         i {
           font-size: 14px;
           font-weight: 600;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
           cursor: pointer;
         }
       }

@@ -255,7 +255,7 @@ export default {
   .modal-content {
     width: 330px;
     border-radius: 5px;
-    background-color: var(--modal-content-background);
+    background-color: var(--modal_content-bgc);
     .item {
       display: flex;
       align-items: center;
@@ -314,13 +314,13 @@ export default {
     }
     .table-head {
       height: 50px;
-      background-color: var(--table-row-background-color);
+      background-color: var(--table_row-bgc);
       display: flex;
       padding: 0 20px;
       border-radius: 10px;
       margin-bottom: 5px;
       justify-content: space-between;
-      color: var(--table-header-text-color);
+      color: var(--table_header_text-color);
       div {
         display: flex;
         height: 50px;
@@ -334,7 +334,7 @@ export default {
         justify-content: space-between;
         border-radius: 10px;
         margin-bottom: 5px;
-        background: var(--table-row-background-color);
+        background: var(--table_row-bgc);
         .column-handle {
           display: flex;
           align-items: center;
@@ -369,7 +369,7 @@ export default {
         .mobile-add-btn {
           margin-top: 30px;
           padding-top: 30px;
-          border-top: 1px solid var(--table-body-hr-color);
+          border-top: 1px solid var(--table_body_hr-color);
         }
       }
       .column-address {

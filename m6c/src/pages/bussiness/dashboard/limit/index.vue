@@ -86,7 +86,7 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: $header-background-color;
+      background: $header-bgc;
       color: #fff;
       align-items: center;
       border-top: 1px solid $header-nav-item-border-color;
@@ -124,7 +124,7 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: $header-background-color;
+          background: $header-bgc;
           .tab {
             padding: 18px 0;
             color: #fff;

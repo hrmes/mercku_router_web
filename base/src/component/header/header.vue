@@ -471,7 +471,7 @@ export default {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: var(--button-close-bgc);
+      background: var(--button_close-bgc);
       cursor: pointer;
       .iconfont {
         position: absolute;
@@ -499,7 +499,7 @@ export default {
       outline: 3px solid transparent;
       transition: outline 0.3s ease-out;
       &:hover {
-        outline-color: var(--primaryColor);
+        outline-color: var(--primary-color);
       }
       > img {
         width: 100%;
@@ -526,12 +526,12 @@ export default {
   width: 100%;
   height: 65px;
   padding: 0 30px;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   .logo-wrap {
     width: 185px;
     height: 30px;
     .offical {
-      color: var(--header-official-color);
+      color: var(--header_official-color);
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -539,7 +539,7 @@ export default {
       line-height: 1;
       &:hover {
         text-decoration: underline;
-        color: var(--header-official-hover-color);
+        color: var(--header_official_hover-color);
       }
       img {
         width: 12px;
@@ -578,11 +578,11 @@ export default {
           border-radius: 50%;
           transition: background 0.3s linear;
           &:hover {
-            background: var(--header-nav-hover-background-color);
+            background: var(--header_nav_hover-bgc);
           }
           .iconfont {
             font-size: 24px;
-            color: var(--header-nav-iconfont-color);
+            color: var(--header_nav_iconfont-color);
           }
           .nav-item__text {
             height: 100%;
@@ -599,8 +599,8 @@ export default {
           top: 100%;
           left: 0;
           margin-top: 6px;
-          box-shadow: var(--select-popup-shadow);
-          background-color: var(--header-popup-bgc);
+          box-shadow: var(--select_popup-shadow);
+          background-color: var(--header_popup-bgc);
           &.show {
             display: block;
           }
@@ -630,7 +630,7 @@ export default {
             }
           }
           .iconfont {
-            background-image: var(--header-selected-bgc);
+            background-image: var(--header_selected-bgc);
             -webkit-background-clip: text; /* Safari/Chrome */
             background-clip: text;
             color: transparent;
@@ -745,7 +745,7 @@ export default {
       left: 0;
       width: 100%;
       height: calc(100% - 65px);
-      background: var(--header-background-color);
+      background: var(--header-bgc);
       color: var(--header-color);
       .nav {
         flex-direction: column;
@@ -765,7 +765,7 @@ export default {
               background: transparent;
             }
             .nav-item__text {
-              color: var(--header-mobile-nav-item-color);
+              color: var(--header_mobile_navitem-color);
               line-height: 1;
               padding: 0;
               font-size: 16px;
@@ -778,7 +778,7 @@ export default {
               transform: translateY(-50%);
               width: 0;
               height: 0;
-              border-left: 6px solid var(--text-default-color);
+              border-left: 6px solid var(--text_default-color);
               border-right: 0px solid transparent;
               border-top: 5px solid transparent;
               border-bottom: 5px solid transparent;
@@ -797,7 +797,7 @@ export default {
           .nav-item-child {
             position: static;
             display: block;
-            background: var(--mobile-header-popup-bgc);
+            background: var(--mobile_header_popup-bgc);
             box-shadow: none;
             width: 100%;
             &.nav-item-child__animation-leave-active {
@@ -813,19 +813,19 @@ export default {
               list-style: none;
               height: 60px;
               padding: 0 23px 0 74px;
-              color: var(--text-default-color);
-              background: var(--header-popup-bgc);
+              color: var(--text_default-color);
+              background: var(--header_popup-bgc);
               cursor: not-allowed;
               &.disabled {
-                color: var(--header-popup_item-disabled-color);
+                color: var(--header_popup_item_disabled-color);
                 &:active,
                 &:hover {
-                  color: var(--header-popup_item-disabled-color);
-                  background: var(--header-popup-bgc);
+                  color: var(--header_popup_item_disabled-color);
+                  background: var(--header_popup-bgc);
                 }
               }
               &.selected {
-                color: var(--mobile-menu-selected-color);
+                color: var(--mobile_menu_selected-color);
               }
             }
           }
@@ -836,8 +836,8 @@ export default {
             .nav-item-content {
               height: 48px;
               justify-content: center;
-              background-color: var(--logout-btn-bgc) !important;
-              box-shadow: var(--logout-btn-boxshadow);
+              background-color: var(--logout_btn-bgc) !important;
+              box-shadow: var(--logout_btn-boxshadow);
               border-radius: 22px;
               margin: 0 auto;
               > .nav-item__text {
@@ -853,7 +853,7 @@ export default {
           }
           &.selected {
             .iconfont {
-              background-image: var(--header-selected-bgc);
+              background-image: var(--header_selected-bgc);
               -webkit-background-clip: text; /* Safari/Chrome */
               background-clip: text;
               color: transparent;
@@ -861,7 +861,7 @@ export default {
             }
             .nav-item-content {
               .nav-item__text {
-                color: var(--mobile-menu-selected-color);
+                color: var(--mobile_menu_selected-color);
               }
               & .is-checked {
                 display: inline-flex;
@@ -890,8 +890,8 @@ export default {
           left: 0;
           width: 100%;
           height: 100%;
-          background: var(--header-background-color);
-          color: var(--text-default-color);
+          background: var(--header-bgc);
+          color: var(--text_default-color);
           padding: 0 30px;
           z-index: 999;
           font-size: 16px;
@@ -903,10 +903,10 @@ export default {
             list-style: none;
             font-weight: 600;
             &.selected {
-              color: var(--mobile-menu-selected-color);
+              color: var(--mobile_menu_selected-color);
               .is-checked {
                 &::after {
-                  border-color: var(--mobile-menu-selected-color);
+                  border-color: var(--mobile_menu_selected-color);
                 }
               }
             }
@@ -935,7 +935,7 @@ export default {
       height: 65px;
     }
     &.is-not-position-nav {
-      background-color: var(--header-background-color);
+      background-color: var(--header-bgc);
     }
     &.open,
     &.i18n-open {

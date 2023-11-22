@@ -997,7 +997,7 @@ export default {
               display: flex;
               align-items: center;
               margin-top: 10px;
-              color: var(--text-default-color);
+              color: var(--text_default-color);
             }
             .legend-item {
               margin-right: 10px;
@@ -1025,7 +1025,7 @@ export default {
           }
           .legend-title {
             font-size: 12px;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
             margin: 0;
             display: flex;
             align-items: center;
@@ -1035,7 +1035,7 @@ export default {
               transform: translateX(25%);
               cursor: pointer;
               &:hover {
-                color: var(--text-gery-color);
+                color: var(--text_gery-color);
               }
             }
           }
@@ -1083,8 +1083,8 @@ export default {
         max-height: calc(100vh - 65px - 60px);
         width: 40%;
         height: 100%;
-        background: var(--common-card-bgc);
-        box-shadow: var(--common-card-boxshadow);
+        background: var(--common_card-bgc);
+        box-shadow: var(--common_card-boxshadow);
         border-radius: 10px;
         .card-top {
           position: relative;
@@ -1187,7 +1187,7 @@ export default {
             .row-5 {
               font-size: 14px;
               font-weight: 500;
-              color: var(--common-gery-color);
+              color: var(--common_gery-color);
               .label {
                 margin-right: 5px;
               }
@@ -1201,7 +1201,7 @@ export default {
             height: 100%;
             margin-left: 10px;
             > span {
-              background-color: var(--button-close-bgc);
+              background-color: var(--button_close-bgc);
               margin-right: 10px;
               &:last-child {
                 margin: 0;
@@ -1219,10 +1219,10 @@ export default {
             justify-content: center;
             align-items: center;
             height: 40px;
-            background-color: var(--mesh-table-offline_tips-bgc);
+            background-color: var(--mesh_table_offline_tips-bgc);
             > span {
               cursor: pointer;
-              color: var(--mobile-menu-selected-color);
+              color: var(--mobile_menu_selected-color);
               margin-left: 7px;
               text-decoration: underline;
             }
@@ -1231,9 +1231,9 @@ export default {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             height: 35px;
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
             padding: 7px 0;
-            background-color: var(--mesh-table-header-bgc);
+            background-color: var(--mesh_table_header-bgc);
             > div {
               text-align: center;
             }
@@ -1251,7 +1251,7 @@ export default {
               font-size: 14px;
               font-weight: 500;
               text-align: center;
-              border-bottom: 1.5px solid var(--common-hr-color);
+              border-bottom: 1.5px solid var(--common_hr-color);
               .col-1 {
                 padding: 0 10px;
                 max-width: 100%;
@@ -1359,7 +1359,7 @@ export default {
             flex-direction: column-reverse;
             position: relative;
             .info {
-              background-color: var(--common-card-bgc);
+              background-color: var(--common_card-bgc);
               padding: 15px;
               border-radius: 5px;
             }

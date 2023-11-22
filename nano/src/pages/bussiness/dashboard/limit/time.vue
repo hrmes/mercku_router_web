@@ -438,7 +438,7 @@ export default {
           margin-right: 10px;
         }
         label {
-          color: var(--text-default-color);
+          color: var(--text_default-color);
         }
       }
       &.top-bottom {
@@ -451,7 +451,7 @@ export default {
         width: 120px;
         font-weight: 600;
         font-size: 14px;
-        color: var(--text-gery-color);
+        color: var(--text_gery-color);
         overflow: hidden;
         flex-shrink: 0;
       }
@@ -469,10 +469,10 @@ export default {
     .btn-default {
       background-image: linear-gradient(
           to right,
-          var(--modal-content-background),
-          var(--modal-content-background)
+          var(--modal_content-bgc),
+          var(--modal_content-bgc)
         ),
-        var(--common-btn_default-bgimg) !important;
+        var(--common_btn_default-bgimg) !important;
     }
   }
 }
@@ -484,8 +484,8 @@ export default {
       display: grid;
       grid-template-rows: 100%;
       grid-template-columns: 120px 180px 200px 1fr 120px;
-      color: var(--table-header-text-color);
-      background-color: var(--common-sub_card-bgc);
+      color: var(--table_header_text-color);
+      background-color: var(--common_sub_card-bgc);
       padding: 5px 5px 5px 30px;
       margin-bottom: 5px;
       border-radius: 8px;
@@ -506,7 +506,7 @@ export default {
         height: 60px;
         padding: 5px 5px 5px 30px;
         margin-bottom: 5px;
-        background-color: var(--common-sub_card-bgc);
+        background-color: var(--common_sub_card-bgc);
         border-radius: 10px;
         > div {
           display: flex;

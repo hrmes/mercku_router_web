@@ -51,8 +51,8 @@ export default {
     align-items: center;
     flex: 1;
     border-radius: 10px;
-    box-shadow: var(--common-card-boxshadow);
-    background: var(--primaryBackgroundColor);
+    box-shadow: var(--common_card-boxshadow);
+    background: var(--primary-bgc);
   }
   img {
     display: block;

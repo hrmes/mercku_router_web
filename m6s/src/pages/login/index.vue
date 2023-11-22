@@ -289,7 +289,7 @@ export default {
       border-radius: 35px;
       transform-origin: bottom left;
       transform: translate(20%, 12%) rotate(-40deg);
-      background-color: var(--login-left_rotate-bgcolor);
+      background-color: var(--login_left_rotate-bgcolor);
     }
     .left-img {
       position: absolute;
@@ -318,7 +318,7 @@ export default {
     width: 400px;
     height: 500px;
     padding: 50px 0 30px;
-    background-color: var(--login-right_form-bgcolor);
+    background-color: var(--login_right_form-bgcolor);
     box-shadow: var();
     border-radius: 15px;
     .logo {
@@ -340,7 +340,7 @@ export default {
     height: 130px;
     border-radius: 10px;
     padding: 0 20px;
-    background-color: var(--login-right_form_download-bgcolor);
+    background-color: var(--login_right_form_download-bgcolor);
     .stores {
       display: flex;
       flex-direction: column;
@@ -352,7 +352,7 @@ export default {
         display: flex;
         margin-bottom: 14px;
         border-radius: 4px;
-        background-color: var(--download-tag-background-color);
+        background-color: var(--download_tag-bgc);
         &:last-child {
           margin: 0;
         }
@@ -363,10 +363,10 @@ export default {
           width: 14px;
           // height: 18px;
           &.android-img {
-            filter: var(--download-android-img-brightness);
+            filter: var(--download_android_img-brightness);
           }
           &.apple-img {
-            filter: var(--download-ios-img-brightness);
+            filter: var(--download_ios_img-brightness);
           }
         }
         span {
@@ -374,7 +374,7 @@ export default {
           display: inline-block;
           width: 150px;
           margin-left: 10px;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
           &::before {
             content: '';
             position: absolute;
@@ -385,7 +385,7 @@ export default {
             width: 1px;
             height: 15px;
             margin-right: 10px;
-            border-left: 1px solid var(--download-tag-before-color);
+            border-left: 1px solid var(--download_tag_before-color);
           }
         }
       }
@@ -441,7 +441,7 @@ export default {
       margin-top: 30px;
       align-items: center;
       justify-content: space-between;
-      background: var(--grey-background-color);
+      background: var(--grey-bgc);
       .top-wrap {
         display: flex;
         align-items: center;
@@ -460,7 +460,7 @@ export default {
           text-align: center;
           font-size: 12px;
           margin-left: 15px;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
         }
       }
 
@@ -479,10 +479,10 @@ export default {
         background-origin: padding-box, border-box;
         background-image: linear-gradient(
             to right,
-            var(--grey-background-color),
-            var(--grey-background-color)
+            var(--grey-bgc),
+            var(--grey-bgc)
           ),
-          var(--common-btn_default-bgimg);
+          var(--common_btn_default-bgimg);
         .down-button {
           display: inline-block;
           width: 100%;

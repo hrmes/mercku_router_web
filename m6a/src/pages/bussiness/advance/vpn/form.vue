@@ -533,7 +533,7 @@ export default {
     align-items: center;
   }
   .config-uploader__label {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     margin-bottom: 5px;
     font-size: 14px;
     margin-right: 12px;
@@ -638,7 +638,7 @@ export default {
   .title {
     margin: 0;
     font-size: 16px;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     border-top: 1px solid var(--hr-color);
     padding: 25px 0;
   }

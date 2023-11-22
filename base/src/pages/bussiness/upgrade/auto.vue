@@ -202,7 +202,7 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: var(--select-label-color);
+    color: var(--select_label-color);
   }
   .form__time-picker {
     width: 340px;

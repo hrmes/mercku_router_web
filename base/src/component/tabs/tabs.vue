@@ -21,8 +21,8 @@ export default {};
     padding: 7px 30px;
     cursor: pointer;
     border-radius: 5px;
-    color: var(--text-default-color);
-    background: var(--logout-btn-bgc);
+    color: var(--text_default-color);
+    background: var(--logout_btn-bgc);
     border-radius: 20px;
     box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
     transition: background 0.3s ease-in-out;
@@ -31,8 +31,8 @@ export default {};
     }
     &.selected {
       color: #fff;
-      background-image: var(--button-background-color);
-      box-shadow: var(--button-box-shadow);
+      background-image: var(--button-bgc);
+      box-shadow: var(--button-boxshadow);
     }
     margin-right: 20px;
     &:last-child {

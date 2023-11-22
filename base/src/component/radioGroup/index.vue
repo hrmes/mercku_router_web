@@ -78,7 +78,7 @@ export default {
           width: 86%;
           height: 86%;
           border-radius: 50%;
-          background: var(--primaryColor);
+          background: var(--primary-color);
         }
       }
     }
@@ -89,7 +89,7 @@ export default {
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      border: 1.5px solid var(--checkbox-border-color);
+      border: 1.5px solid var(--checkbox_border-color);
     }
     .text {
       margin-left: 12px;

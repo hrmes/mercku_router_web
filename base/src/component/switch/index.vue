@@ -55,9 +55,8 @@ export default {
   display: flex;
   align-items: center;
   .mk-switch__label {
+    flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
     &.bold {
       font-weight: 700;
     }
@@ -67,7 +66,7 @@ export default {
     width: 48px;
     height: 28px;
     position: relative;
-    background-color: var(--switch-background-color);
+    background-color: var(--switch-bgc);
     border-radius: 22px;
     background-clip: content-box;
     display: inline-block;
@@ -93,19 +92,19 @@ export default {
         font-family: 'iconfont';
         font-size: 12px;
         font-weight: 600;
-        color: var(--switch-off-icon-color);
+        color: var(--switch_off_icon-color);
       }
     }
     &.checked {
-      border-color: var(--switch-chencked-color);
-      background-image: var(--switch-chencked-color);
+      border-color: var(--switch_checked-color);
+      background-image: var(--switch_checked-color);
       transition: border ease 0.4s, box-shadow ease 0.4s,
         background-image ease 1.2s;
       & .mk-switch__circle {
         left: 23px;
         &::before {
           content: '\e6be';
-          color: var(--switch-on-icon-color);
+          color: var(--switch_on_icon-color);
         }
       }
     }

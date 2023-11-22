@@ -389,8 +389,8 @@ export default {
       margin-bottom: 5px;
       height: 50px;
       border-radius: 10px;
-      color: var(--text-gery-color);
-      background: var(--table-row-background-color);
+      color: var(--text_gery-color);
+      background: var(--table_row-bgc);
       > div {
         display: flex;
         align-items: center;
@@ -401,8 +401,8 @@ export default {
       display: flex;
       justify-content: space-between;
       border-radius: 10px;
-      color: var(--text-default-color);
-      background: var(--table-row-background-color);
+      color: var(--text_default-color);
+      background: var(--table_row-bgc);
       padding: 0px 20px;
       margin-bottom: 5px;
       align-items: center;
@@ -508,7 +508,7 @@ export default {
           display: none;
           justify-content: space-between;
           align-items: center;
-          border-bottom: 1px solid var(--table-body-hr-color);
+          border-bottom: 1px solid var(--table_body_hr-color);
           .m-title {
             display: block;
           }
@@ -525,7 +525,7 @@ export default {
           align-items: center;
           .label {
             &.disabled {
-              color: var(--button-icon-disabled-color);
+              color: var(--button_icon_disabled-color);
             }
           }
         }
@@ -538,7 +538,7 @@ export default {
             width: fit-content;
           }
           .column-name {
-            border-bottom-color: var(--table-body-hr-color);
+            border-bottom-color: var(--table_body_hr-color);
             &::after {
               transform: translateY(-50%) rotate(0deg);
             }

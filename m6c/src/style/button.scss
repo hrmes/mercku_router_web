@@ -12,7 +12,7 @@
   user-select: none;
   position: relative;
   color: $button-text-color;
-  background: $button-background-color;
+  background: $button-bgc;
   &:active {
     background: $button-active-color;
   }
@@ -22,7 +22,7 @@
   &[disabled],
   &.disabled {
     cursor: not-allowed;
-    background: $button-disabled-background-color;
+    background: $button-disabled-bgc;
     border-color: $button-disabled-border-color;
     color: $button-disabled-text-color;
   }
@@ -61,7 +61,7 @@
     border-radius: 4px;
   }
   &.btn-default {
-    background: $button-default-background-color;
+    background: $button-default-bgc;
     color: $button-default-text-color;
     border: 1px solid $button-default-border-color;
 
@@ -91,7 +91,7 @@
     @media screen and (max-width: 768px) {
       width: auto;
       min-width: 120px;
-      background: $button-text-stange-background-color;
+      background: $button-text-stange-bgc;
       color: $button-text-stange-text-color !important;
       text-align: center;
       border-radius: 4px;

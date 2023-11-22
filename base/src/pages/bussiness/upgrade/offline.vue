@@ -375,7 +375,7 @@ export default {
   p {
     margin: 0;
     font-size: 14px;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     margin-bottom: 10px;
     &:last-child {
       margin-bottom: 20px;
@@ -394,7 +394,7 @@ export default {
   margin-top: 50px;
   text-align: center;
   padding-top: 35px;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   font-size: 14px;
   :first-child {
     display: flex;
@@ -420,10 +420,10 @@ export default {
       top: 65px;
       left: 0;
       right: 0;
-      background: var(--dashboard-icon-background-color);
+      background: var(--dashboard_icon-bgc);
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-      box-shadow: var(--offline-box-shadow);
+      box-shadow: var(--offline-boxshadow);
       z-index: 999;
       padding: 20px;
       .retitle__btn-wrap {
@@ -446,7 +446,7 @@ export default {
     .node {
       width: 360px;
       height: 136px;
-      border: 1px solid var(--tag-node-border-color);
+      border: 1px solid var(--tag_node_border-color);
       border-radius: 5px;
       margin-right: 20px;
       margin-bottom: 30px;
@@ -535,9 +535,9 @@ export default {
         .mk-tag {
           &.gateway,
           &.AP {
-            color: var(--tag-green-text-color);
+            color: var(--tag_green_text-color);
             font-weight: 600;
-            background: var(--tag-green-background-color);
+            background: var(--tag_green-bgc);
           }
         }
       }

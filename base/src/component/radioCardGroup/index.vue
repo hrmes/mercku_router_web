@@ -76,12 +76,12 @@ export default {
     cursor: pointer;
     transition: all 0.5s;
     &:hover {
-      border-color: var(--radio-card-item-selected-color);
+      border-color: var(--radio_card_item_selected-color);
     }
     &.selected {
       background-color: #caedff;
       .radio {
-        border-color: var(--radio-card-item-selected-color);
+        border-color: var(--radio_card_item_selected-color);
         position: relative;
         &::after {
           content: '';
@@ -92,7 +92,7 @@ export default {
           transform: translate(-50%, -50%);
           width: 6px;
           height: 6px;
-          background: var(--radio-card-item-selected-color);
+          background: var(--radio_card_item_selected-color);
           border-radius: 50%;
         }
       }
@@ -106,7 +106,7 @@ export default {
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      border: 1px solid var(--radio-item-color);
+      border: 1px solid var(--radio_item-color);
     }
     .text-container {
       flex: 1;

@@ -287,7 +287,7 @@ export default {
     .node {
       width: 360px;
       height: 160px;
-      border: 1px solid var(--tag-node-border-color);
+      border: 1px solid var(--tag_node_border-color);
       border-radius: 5px;
       margin-right: 20px;
       margin-bottom: 30px;
@@ -376,7 +376,7 @@ export default {
             font-size: 12px;
             font-weight: 600;
             text-decoration: underline;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
             margin: 0;
             padding-top: 7px;
           }
@@ -387,9 +387,9 @@ export default {
         padding-top: 12px;
         .mk-tag {
           &.gateway {
-            color: var(--tag-green-text-color);
+            color: var(--tag_green_text-color);
             font-weight: 600;
-            background: var(--tag-green-background-color);
+            background: var(--tag_green-bgc);
           }
         }
       }
@@ -415,7 +415,7 @@ export default {
     width: 200px;
   }
   p {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     font-size: 16px;
   }
 }
@@ -458,6 +458,9 @@ export default {
       .node {
         margin-left: auto;
         margin-right: auto;
+        .message {
+          padding: 0 0 0 20px;
+        }
       }
     }
     .btn-info {

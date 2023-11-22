@@ -61,8 +61,8 @@ export default {
   methods: {
     layout() {
       this.$nextTick(() => {
-       const gridContainer = this.$el.querySelector('.steps');
-       gridContainer.style.gridTemplateColumns = `repeat(${this.length},1fr)`;
+        const gridContainer = this.$el.querySelector('.steps');
+        gridContainer.style.gridTemplateColumns = `repeat(${this.length},1fr)`;
         this.preLength = this.length;
       });
     },
@@ -76,7 +76,7 @@ export default {
   position: relative;
   .line {
     height: 8px;
-    background: var(--step-line-color);
+    background: var(--step_line-color);
     position: absolute;
     width: 100%;
     top: 50%;
@@ -128,23 +128,23 @@ export default {
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        border: 6px solid var(--step-item-border-color);
+        border: 6px solid var(--step_item_border-color);
         background-image: linear-gradient(
           to bottom,
-          var(--common-card-bgc),
-          var(--common-card-bgc)
+          var(--common_card-bgc),
+          var(--common_card-bgc)
         );
         background-clip: padding-box, border-box;
         background-origin: padding-box, border-box;
         text-align: center;
         font-size: 21px;
         font-weight: 600;
-        color: var(--step-item-color);
+        color: var(--step_item-color);
       }
       .step-text {
         text-align: center;
         font-size: 12px;
-        color: var(--step-item-text-color);
+        color: var(--step_item_text-color);
         position: absolute;
         left: 50%;
         top: 46px;
@@ -153,12 +153,12 @@ export default {
       }
       &.current {
         .step-number {
-          color: var(--step-item-current-color);
+          color: var(--step_item_current-color);
           border-color: transparent;
           background-image: linear-gradient(
               to bottom,
-              var(--common-card-bgc),
-              var(--common-card-bgc)
+              var(--common_card-bgc),
+              var(--common_card-bgc)
             ),
             linear-gradient(to top, #ed8e77, #ed485e 100%);
         }

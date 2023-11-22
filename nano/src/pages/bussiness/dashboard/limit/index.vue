@@ -64,7 +64,7 @@ export default {
     height: 100%;
     border-radius: 10px;
     padding: 20px;
-    background-color: var(--common-card-bgc);
+    background-color: var(--common_card-bgc);
   }
   .limit-wrapper__title {
     display: flex;
@@ -78,7 +78,7 @@ export default {
       max-width: calc(100% - 40px);
     }
     .des {
-      color: var(--common-gery-color);
+      color: var(--common_gery-color);
       font-size: 12px;
     }
   }
@@ -86,7 +86,7 @@ export default {
     flex: 1;
     justify-content: flex-start;
     height: 100%;
-    background-color: var(--dashboard-icon-background-color);
+    background-color: var(--dashboard_icon-bgc);
   }
 }
 @media screen and (max-width: 768px) {

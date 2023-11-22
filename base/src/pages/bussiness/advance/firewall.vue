@@ -216,12 +216,12 @@ export default {
   .page-content {
     .page-content__main {
       padding: 0 0 40px;
-      background-color: var(--common-card-bgc);
+      background-color: var(--common_card-bgc);
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
     }
     .page-content__bottom {
-      background-color: var(--common-card-bgc);
+      background-color: var(--common_card-bgc);
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
     }
@@ -246,14 +246,14 @@ export default {
       margin-right: 10px;
     }
     &.firewall {
-      background-color: var(--common-card-bgc);
-      box-shadow: var(--common-card-boxshadow);
+      background-color: var(--common_card-bgc);
+      box-shadow: var(--common_card-boxshadow);
     }
   }
   .content__line {
     width: 100%;
     height: 10px;
-    background: var(--flex-warp-has-menu-bgc);
+    background: var(--flexwarp_hasmenu-bgc);
   }
   .form {
     .form__item {
@@ -298,7 +298,7 @@ export default {
           transform: translate(-50%, -50%);
           height: 20px;
           width: 2px;
-          background-color: var(--primaryColor);
+          background-color: var(--primary-color);
         }
         &::after {
           content: '';
@@ -308,7 +308,7 @@ export default {
           transform: translate(-50%, -50%);
           width: 20px;
           height: 2px;
-          background-color: var(--primaryColor);
+          background-color: var(--primary-color);
         }
       }
     }

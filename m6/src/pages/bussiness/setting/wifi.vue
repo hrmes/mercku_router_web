@@ -370,13 +370,13 @@ export default {
                 encrypt: this.form.b24g.encrypt,
                 channel: this.isAutoChannel
                   ? {
-                      mode: channelMode.auto,
-                      bandwidth: this.form.channel.b24gChannel.bandwidth
-                    }
+                    mode: channelMode.auto,
+                    bandwidth: this.form.channel.b24gChannel.bandwidth
+                  }
                   : {
-                      number: this.form.channel.b24gChannel.number,
-                      bandwidth: this.form.channel.b24gChannel.bandwidth
-                    }
+                    number: this.form.channel.b24gChannel.number,
+                    bandwidth: this.form.channel.b24gChannel.bandwidth
+                  }
               };
               const formBand = this.form.smart_connect ? this.form.b24g : this.form.b5g;
               const b5g = {
@@ -386,13 +386,13 @@ export default {
                 encrypt: formBand.encrypt,
                 channel: this.isAutoChannel
                   ? {
-                      mode: channelMode.auto,
-                      bandwidth: this.form.channel.b5gChannel.bandwidth
-                    }
+                    mode: channelMode.auto,
+                    bandwidth: this.form.channel.b5gChannel.bandwidth
+                  }
                   : {
-                      number: this.form.channel.b5gChannel.number,
-                      bandwidth: this.form.channel.b5gChannel.bandwidth
-                    }
+                    number: this.form.channel.b5gChannel.number,
+                    bandwidth: this.form.channel.b5gChannel.bandwidth
+                  }
               };
               const wifi = {
                 smart_connect: this.form.smart_connect,
@@ -479,7 +479,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-header {
-  color: var(--text-default-color);
+  color: var(--text_default-color);
 }
 .page-content {
   flex-direction: column;

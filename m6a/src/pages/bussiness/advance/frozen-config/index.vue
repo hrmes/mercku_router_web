@@ -127,8 +127,8 @@ export default {
         enabled: this.enabled,
         configs: this.enabled
           ? Object.values(this.configurations).flatMap(
-              item => item.checkedConfigList
-            )
+            item => item.checkedConfigList
+          )
           : []
       };
     }
@@ -196,12 +196,12 @@ export default {
         .config-wrapper {
           max-width: 340px;
           border-radius: 10px;
-          // background: var(--table-row-background-color);
+          // background: var(--table_row-bgc);
         }
         .config-item__name {
           padding: 15px 15px 5px;
           margin-bottom: 15px;
-          border-bottom: 1.5px solid var(--dashboard-icon-background-color);
+          border-bottom: 1.5px solid var(--dashboard_icon-bgc);
         }
         .config-item__list {
           width: 100%;

@@ -78,10 +78,9 @@
                       <i class="speed__icon speed__icon--peakdown"></i>
                       <label class="speed__title">{{$t('trans0307')}}</label>
                       <span class="speed__value">
-                        <m-count-to
-                                  :endVal='Number(speedDown.value)'
-                                  :duration=3000
-                                  :decimals='1'></m-count-to>
+                        <m-count-to :endVal='Number(speedDown.value)'
+                                    :duration=3000
+                                    :decimals='1'></m-count-to>
                       </span>
                       <span class="speed__unit">{{speedDown.unit}}</span>
                     </div>
@@ -91,10 +90,9 @@
                       <i class="speed__icon speed__icon--peakup"></i>
                       <label class="speed__title">{{$t('trans0306')}}</label>
                       <span class="speed__value">
-                        <m-count-to
-                                  :endVal='Number(speedUp.value)'
-                                  :duration=3000
-                                  :decimals='1'></m-count-to>
+                        <m-count-to :endVal='Number(speedUp.value)'
+                                    :duration=3000
+                                    :decimals='1'></m-count-to>
                       </span>
                       <span class="speed__unit">{{speedUp.unit}}</span>
                     </div>
@@ -658,11 +656,11 @@ export default {
     transition: all 0.3s ease-in-out;
     .section {
       height: auto;
-      background: var(--internet-section-background-color);
-      box-shadow: var(--internet-section-box-shadow);
+      background: var(--internet_section-bgc);
+      box-shadow: var(--internet_section-boxshadow);
       .section__inner {
         height: auto;
-        // background: var(--internet-section-background-color);
+        // background: var(--internet_section-bgc);
         display: flex;
         flex-direction: column;
         &.stretch {
@@ -671,7 +669,7 @@ export default {
         &.ipv6 {
           .section__title {
             padding-top: 25px;
-            border-top: 1px solid var(--internet-section-hr-color);
+            border-top: 1px solid var(--internet_section_hr-color);
             &::before {
               top: 57%;
             }
@@ -723,12 +721,12 @@ export default {
     }
     .item__label {
       font-size: 14px;
-      color: var(--table-header-text-color);
+      color: var(--table_header_text-color);
     }
     .item__value {
       width: inherit;
       font-size: 16px;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       font-weight: bold;
       overflow: hidden;
       white-space: nowrap;
@@ -757,7 +755,7 @@ export default {
         right: 0;
         width: 4px;
         height: 50px;
-        background: var(--internet-hr-color);
+        background: var(--internet_hr-color);
         border-radius: 2px;
       }
       &.last {
@@ -830,14 +828,14 @@ export default {
     }
     .speed__title {
       font-size: 14px;
-      color: var(--dashboard-gery-color);
+      color: var(--dashboard_gery-color);
     }
     .speed__value {
       position: relative;
       font-size: 24px;
       font-weight: bold;
       font-family: 'DINAlternate', sans-serif;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
     }
     .speed__unit {
       font-size: 16px;
@@ -858,7 +856,7 @@ export default {
       text-align: center;
     }
     .speedtest-label {
-      color: var(--common-gery-color);
+      color: var(--common_gery-color);
       margin-bottom: 15px;
     }
     .btn {
@@ -976,8 +974,8 @@ export default {
       width: 100%;
       margin-top: 0;
       padding: 15px 0;
-      background: var(--internet-section-background-color);
-      box-shadow: var(--internet-section-box-shadow);
+      background: var(--internet_section-bgc);
+      box-shadow: var(--internet_section-boxshadow);
       margin-bottom: 20px;
       .speed__item {
         &::after {

@@ -423,10 +423,10 @@ export default {
     width: 100%;
     height: 100%;
     text-align: center;
-    background: var(--common-card-bgc);
+    background: var(--common_card-bgc);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: var(--common-card-boxshadow);
+    box-shadow: var(--common_card-boxshadow);
     .row-1 {
       display: grid;
       grid-template-rows: 100%;
@@ -455,7 +455,7 @@ export default {
         align-items: center;
         width: 100%;
         height: 100%;
-        border-top: 1px solid var(--wlan-hr-color);
+        border-top: 1px solid var(--wlan_hr-color);
         > button {
           width: 240px;
         }
@@ -475,7 +475,7 @@ export default {
         }
         .tip-label {
           font-size: 12px;
-          color: var(--text-gery-color);
+          color: var(--text_gery-color);
           margin-top: 10px;
         }
         .form-item {
@@ -524,7 +524,7 @@ export default {
           margin: 0 auto;
         }
         .cutdown {
-          color: var(--primaryColor);
+          color: var(--primary-color);
           font-size: 16px;
           margin: 10px 0;
         }
@@ -534,14 +534,14 @@ export default {
           &.tip-setting {
             margin: 10px 0 15px;
             text-align: left;
-            color: var(--wlan-tips-color);
+            color: var(--wlan_tips-color);
           }
         }
         .info-container {
           border-radius: 7px;
           padding: 10px 15px;
           margin-top: 20px;
-          background: var(--common-sub_card-bgc);
+          background: var(--common_sub_card-bgc);
         }
         .info {
           font-size: 14px;
@@ -556,7 +556,7 @@ export default {
           .info__title {
             font-size: 12px;
             margin-bottom: 5px;
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
           }
           .info__value {
             font-size: 14px;
@@ -575,12 +575,12 @@ export default {
         .wifi-24g,
         .wifi-5g {
           .form-header__title {
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
           }
           .info {
             > :first-child {
               padding-bottom: 5px;
-              border-bottom: 1px solid var(--darker-hr-color);
+              border-bottom: 1px solid var(--darker_hr-color);
             }
           }
         }
@@ -593,7 +593,7 @@ export default {
       display: flex;
       flex-direction: column;
       padding: 15px;
-      background: var(--common-sub_card-bgc);
+      background: var(--common_sub_card-bgc);
       margin-bottom: 15px;
       border-radius: 15px;
       &:last-child {

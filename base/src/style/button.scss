@@ -11,8 +11,8 @@
   height: 48px;
   user-select: none;
   position: relative;
-  color: var(--button-text-color);
-  background: var(--button-background-color);
+  color: var(--button_text-color);
+  background: var(--button-bgc);
   &:active {
     background: var(--button-active-color);
   }
@@ -22,7 +22,7 @@
   &[disabled],
   &.disabled {
     cursor: not-allowed;
-    background: var(--button-disabled-background-color);
+    background: var(--button-disabled-bgc);
     border-color: var(--button-disabled-border-color);
     color: var(--button-disabled-text-color);
   }
@@ -61,8 +61,8 @@
     border-radius: 4px;
   }
   &.btn-default {
-    background: var(--button-default-background-color);
-    color: var(--button-default-text-color);
+    background: var(--button-default-bgc);
+    color: var(--button_default_text-color);
     border: 1px solid var(--button-default-border-color);
 
     &:active {
@@ -84,15 +84,15 @@
   }
 }
 .btn-text {
-  color: var(--button-text-text-color);
+  color: var(--button_text_text-color);
   text-decoration: underline;
   cursor: pointer;
   &.btn-text-strange {
     @media screen and (max-width: 768px) {
       width: auto;
       min-width: 120px;
-      background: var(--button-text-stange-background-color);
-      color: var(--button-text-stange-text-color) !important;
+      background: var(--button-text-stange-bgc);
+      color: var(--button_text_stange_text-color) !important;
       text-align: center;
       border-radius: 4px;
       height: 38px;
@@ -107,16 +107,16 @@
     }
   }
   &:hover {
-    color: var(--button-text-hover-color);
+    color: var(--button_text_hover-color);
   }
   &.text-primary {
-    color: var(--button-text-primary-text-color);
+    color: var(--button_text_primary_text-color);
     &:hover {
-      color: var(--button-text-primary-hover-color);
+      color: var(--button_text_primary_hover-color);
     }
     &.disabled {
       &:hover {
-        color: var(--button-text-primary-disabled-hover-color);
+        color: var(--button_text_primary_disabled_hover-color);
       }
     }
   }

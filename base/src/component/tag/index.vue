@@ -10,11 +10,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--tag-background-color);
+  background: var(--tag-bgc);
   border-radius: 10px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--tag-text-color);
+  color: var(--tag_text-color);
   + .mk-tag {
     margin-left: 5px;
   }

@@ -348,7 +348,7 @@ export default {
         text-align: center;
         font-size: 14px;
         font-weight: bold;
-        color: var(--text-default-color);
+        color: var(--text_default-color);
       }
       .mk-upgrade-content__description {
         display: flex;
@@ -378,7 +378,7 @@ export default {
           text-align: center;
           font-size: 16px;
           font-weight: bold;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
           line-height: 16px;
           height: 16px;
           margin-top: 10px;
@@ -424,7 +424,7 @@ export default {
         }
       }
     }
-    background: var(--progress-background-color);
+    background: var(--progress-bgc);
     width: 420px;
     border-radius: 10px;
   }

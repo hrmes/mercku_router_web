@@ -116,13 +116,13 @@ export default {
 <style lang="scss" scoped>
 .page {
   padding: 0 5%;
-  background: var(--flex-warp-has-menu-bgc) !important;
+  background: var(--flexwarp_hasmenu-bgc) !important;
   .page-top {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     height: 60px;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     .text-container {
       font-size: 18px;
       font-weight: 500;
@@ -136,7 +136,7 @@ export default {
       border-radius: 50%;
       margin-right: 10px;
       cursor: pointer;
-      background: var(--dashboard-unconnect-icon-background-color);
+      background: var(--dashboard_unconnect_icon-bgc);
       box-shadow: 0 5px 10px -5px rgba(51, 51, 51, 0.3);
     }
   }
@@ -169,7 +169,7 @@ export default {
     .laptop-aside-wrap {
       width: 17vw;
       height: 100%;
-      background-color: var(--dashboard-icon-background-color);
+      background-color: var(--dashboard_icon-bgc);
       border-radius: 10px;
       margin-right: 10px;
       padding: 25px 15px;
@@ -182,22 +182,22 @@ export default {
           padding: 8px 15px;
           border-radius: 5px;
           margin-bottom: 5px;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
           transition: all 0.3s ease-out;
           cursor: pointer;
           > .iconfont {
             font-size: 20px;
-            color: var(--table-action-icon-color);
+            color: var(--table_action_icon-color);
             margin-right: 10px;
           }
           &:hover {
-            background: var(--tab-hover-background-color);
+            background: var(--tab_hover-bgc);
           }
           &.selected {
-            color: var(--aside-selected-text-color);
-            background: var(--asdie-selected-background);
+            color: var(--aside_selected_text-color);
+            background: var(--asdie_selected-bgc);
             > .iconfont {
-              color: var(--aside-selected-text-color);
+              color: var(--aside_selected_text-color);
             }
           }
         }
@@ -207,7 +207,7 @@ export default {
       flex: 1;
       justify-content: flex-start;
       height: 100%;
-      background-color: var(--dashboard-icon-background-color);
+      background-color: var(--dashboard_icon-bgc);
     }
     ul {
       list-style: none;
@@ -240,11 +240,11 @@ export default {
         margin: 0 15px 8px 15px;
         padding: 10px;
         border-radius: 5px;
-        background: var(--dashboard-icon-background-color);
+        background: var(--dashboard_icon-bgc);
         align-items: center;
         .mobile-menu__text {
           font-weight: 600;
-          color: var(--primaryColor);
+          color: var(--primary-color);
         }
         .mobile-menu-trigger {
           display: block;
@@ -257,7 +257,7 @@ export default {
             line-height: 15px;
             text-align: center;
             font-size: 10px;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
             transform: rotate(-90deg);
             position: relative;
             top: -2px;
@@ -284,7 +284,7 @@ export default {
             display: flex;
             flex-direction: column;
             padding: 0 25px;
-            background: var(--drawer-background);
+            background: var(--drawer-bgc);
             // background-color: lightskyblue;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -293,7 +293,7 @@ export default {
               align-items: center;
               position: relative;
               padding: 18px 0;
-              color: var(--text-default-color);
+              color: var(--text_default-color);
               font-size: 14px;
               .iconfont {
                 margin-right: 8px;
@@ -306,7 +306,7 @@ export default {
                 display: inline-block;
               }
               &.selected {
-                color: var(--tab-selected-text-color);
+                color: var(--tab_selected_text-color);
                 &::before {
                   display: none;
                 }

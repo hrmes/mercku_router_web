@@ -1019,7 +1019,7 @@ export default {
         grid-column-gap: 10px;
         height: fit-content;
         padding: 10px 20px;
-        color: var(--table-header-text-color);
+        color: var(--table_header_text-color);
         font-size: 12px;
         font-weight: 500;
         > li {
@@ -1040,7 +1040,7 @@ export default {
             height: 49px;
             margin-right: 10px;
             border-radius: 50%;
-            background: var(--device-connect_type-bgc);
+            background: var(--device_connect_type-bgc);
             img {
               width: 90%;
               height: 90%;
@@ -1096,7 +1096,7 @@ export default {
               }
             }
             .online-duration {
-              color: var(--common-gery-color);
+              color: var(--common_gery-color);
               margin-left: 10px;
             }
           }
@@ -1160,10 +1160,10 @@ export default {
             transition: all 0.15s ease-in-out;
             .iconfont {
               font-size: 20px;
-              color: var(--device-limit_icon-color);
+              color: var(--device_limit_icon-color);
               font-weight: 500;
               &.active {
-                background-image: var(--header-selected-bgc);
+                background-image: var(--header_selected-bgc);
                 -webkit-background-clip: text; /* Safari/Chrome */
                 background-clip: text;
                 color: transparent;
@@ -1175,7 +1175,7 @@ export default {
               position: absolute;
               padding: 5px 12px;
               font-size: 12px;
-              background: var(--table-action-popover-bgc);
+              background: var(--table_action_popover-bgc);
               color: #fff;
               top: -8px;
               left: 50%;
@@ -1194,7 +1194,7 @@ export default {
                 width: 0;
                 height: 0;
                 border: 6px solid transparent;
-                border-top-color: var(--table-action-popover-bgc);
+                border-top-color: var(--table_action_popover-bgc);
               }
             }
             @media screen and (max-width: 768px) {
@@ -1209,7 +1209,7 @@ export default {
               }
             }
             &:hover {
-              background-color: var(--device-limit_icon-hover-bgc);
+              background-color: var(--device_limit_icon-hover-bgc);
               .hover-popover {
                 display: block;
               }
@@ -1254,10 +1254,10 @@ export default {
             .btn-default {
               background-image: linear-gradient(
                   to right,
-                  var(--table-head-background-color),
-                  var(--table-head-background-color)
+                  var(--table_header-bgc),
+                  var(--table_header-bgc)
                 ),
-                var(--common-btn_default-bgimg);
+                var(--common_btn_default-bgimg);
             }
             .btn-icon {
               box-shadow: none;
@@ -1271,7 +1271,7 @@ export default {
       }
       .table-head {
         border-radius: 5px;
-        background: var(--table-head-background-color);
+        background: var(--table_header-bgc);
         width: 100%;
         margin-bottom: 5px;
       }
@@ -1286,8 +1286,8 @@ export default {
           border-radius: 5px;
           margin-bottom: 5px;
           font-size: 14px;
-          color: var(--text-default-color);
-          background: var(--common-card-bgc);
+          color: var(--text_default-color);
+          background: var(--common_card-bgc);
         }
       }
       ul {
@@ -1332,10 +1332,10 @@ export default {
       .btn-default {
         background-image: linear-gradient(
             to right,
-            var(--modal-content-background),
-            var(--modal-content-background)
+            var(--modal_content-bgc),
+            var(--modal_content-bgc)
           ),
-          var(--common-btn_default-bgimg) !important;
+          var(--common_btn_default-bgimg) !important;
       }
     }
   }
@@ -1350,7 +1350,7 @@ export default {
       margin-bottom: 5px;
       .check-info {
         padding: 5px 10px;
-        background: var(--table-head-background-color);
+        background: var(--table_header-bgc);
         border-radius: 5px;
       }
       .check-info {
@@ -1369,10 +1369,10 @@ export default {
         &.btn-default {
           background-image: linear-gradient(
               to right,
-              var(--table-head-background-color),
-              var(--table-head-background-color)
+              var(--table_header-bgc),
+              var(--table_header-bgc)
             ),
-            var(--common-btn_default-bgimg);
+            var(--common_btn_default-bgimg);
         }
       }
     }
@@ -1401,8 +1401,8 @@ export default {
                 height: 48px;
                 justify-content: space-between;
                 padding: 0 10px;
-                background: var(--common-card-bgc);
-                border-bottom: 1px solid var(--common-hr-color);
+                background: var(--common_card-bgc);
+                border-bottom: 1px solid var(--common_hr-color);
                 &:first-child {
                   border-bottom: none;
                   margin-bottom: 1px;
@@ -1427,7 +1427,7 @@ export default {
                     padding: 10px;
                   }
                   .label {
-                    color: var(--text-gery-color);
+                    color: var(--text_gery-color);
                   }
                 }
               }

@@ -832,7 +832,7 @@ export default {
     display: flex;
     align-items: center;
     border-radius: 3px;
-    background: var(--table-row-background-color);
+    background: var(--table_row-bgc);
     .check-info {
       .m-check-all-box {
         display: none;
@@ -875,13 +875,13 @@ export default {
       .table-head {
         height: fit-content;
         border-radius: 10px;
-        background: var(--table-row-background-color);
+        background: var(--table_row-bgc);
         width: 100%;
         margin-bottom: 5px;
         ul {
           height: fit-content;
           padding: 15px;
-          color: var(--table-header-text-color);
+          color: var(--table_header_text-color);
         }
       }
       .table-body {
@@ -895,8 +895,8 @@ export default {
           padding: 15px;
           border-radius: 10px;
           margin-bottom: 5px;
-          color: var(--text-default-color);
-          background: var(--table-row-background-color);
+          color: var(--text_default-color);
+          background: var(--table_row-bgc);
         }
       }
       ul {
@@ -920,7 +920,7 @@ export default {
           margin-right: 15px;
           border-radius: 50%;
           overflow: hidden;
-          background-color: var(--table-body-connect-icon-bgc);
+          background-color: var(--table_body_connect_icon-bgc);
           > img {
             width: 100%;
             height: 100%;
@@ -929,7 +929,7 @@ export default {
         .name-wrap {
           &.offline {
             display: flex;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
           }
         }
         .mobile-icon {
@@ -1020,7 +1020,7 @@ export default {
             font-size: 12px;
             text-align: center;
             color: #fff;
-            background: var(--dashboard-band-background-color);
+            background: var(--dashboard_band-bgc);
           }
         }
       }
@@ -1055,7 +1055,7 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            background: var(--table-local-device-icon-bgc);
+            background: var(--table_local_device_icon-bgc);
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -1125,7 +1125,7 @@ export default {
             color: var(--table-limit-icon-color);
             font-size: 20px;
             &.active {
-              color: var(--primaryColor);
+              color: var(--primary-color);
             }
           }
         }
@@ -1231,7 +1231,7 @@ export default {
       }
       .table-inner {
         background: transparent;
-        border-top: 1px solid var(--table-header-hr-color);
+        border-top: 1px solid var(--table_header_hr-color);
         margin: 0;
         .column-check-box {
           width: auto;
@@ -1246,7 +1246,7 @@ export default {
             flex-direction: column;
             padding: 0 10px;
             overflow: inherit;
-            background: var(--table-row-background-color);
+            background: var(--table_row-bgc);
             border-radius: 3px;
             margin: 5px 10px;
             width: auto;
@@ -1272,7 +1272,7 @@ export default {
               }
               .name-inner {
                 padding: 0 10px;
-                border-bottom-color: var(--table-body-hr-color);
+                border-bottom-color: var(--table_body_hr-color);
                 &.off-name {
                   left: 0 !important;
                   a {
@@ -1281,12 +1281,12 @@ export default {
                 }
               }
               li {
-                border-bottom-color: var(--table-body-hr-color);
+                border-bottom-color: var(--table_body_hr-color);
                 &:last-of-type {
                   border: 0;
                 }
                 .label {
-                  color: var(--table-header-text-color);
+                  color: var(--table_header_text-color);
                 }
               }
             }
@@ -1309,7 +1309,7 @@ export default {
               }
             }
             &.off-name {
-              color: var(--text-default-color);
+              color: var(--text_default-color);
               a {
                 span {
                   max-width: 180px;
@@ -1372,7 +1372,7 @@ export default {
                 flex-direction: column;
                 margin-top: 60px;
                 .row {
-                  border-bottom: 1px solid var(--table-body-hr-color);
+                  border-bottom: 1px solid var(--table_body_hr-color);
                   align-items: center;
                   display: flex;
                   width: 100%;
@@ -1381,14 +1381,14 @@ export default {
                   padding: 0;
                   background: transparent;
                   .label {
-                    color: var(--table-header-text-color);
+                    color: var(--table_header_text-color);
                     background: transparent;
                     padding: 0;
                     display: block;
                   }
                 }
                 span {
-                  color: var(--text-default-color);
+                  color: var(--text_default-color);
                   font-size: 14px;
                   border: 0;
                   margin: 0;
@@ -1459,7 +1459,7 @@ export default {
           .device-item {
             height: 60px;
             width: 100%;
-            border-bottom: 1px solid var(--table-body-hr-color);
+            border-bottom: 1px solid var(--table_body_hr-color);
             display: flex;
             justify-content: space-between;
             align-items: center;

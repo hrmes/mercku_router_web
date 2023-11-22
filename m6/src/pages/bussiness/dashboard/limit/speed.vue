@@ -170,7 +170,7 @@ export default {
     .hr-line {
       width: 100%;
       height: 0;
-      border-top: 1px solid var(--table-body-hr-color);
+      border-top: 1px solid var(--table_body_hr-color);
       margin-bottom: 30px;
     }
   }

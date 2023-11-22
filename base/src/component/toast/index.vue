@@ -67,8 +67,8 @@ export default {
   justify-content: center;
   align-items: center;
   &.error {
-    background: var(--toast-error-background-color);
-    box-shadow: var(--toast-error-shadow);
+    background: var(--toast_error-bgc);
+    box-shadow: var(--toast_error-shadow);
     // &::before {
     //   content: '';
     //   margin-right: 8px;
@@ -82,8 +82,8 @@ export default {
     // }
   }
   &.success {
-    background: var(--toast-success-background-color);
-    box-shadow: var(--toast-success-shadow);
+    background: var(--toast_success-bgc);
+    box-shadow: var(--toast_success-shadow);
     // &::before {
     //   content: '';
     //   margin-right: 8px;

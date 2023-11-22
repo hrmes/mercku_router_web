@@ -592,11 +592,11 @@ export default {
     }
     .remaining-time {
       .value {
-        color: var(--mobile-menu-selected-color);
+        color: var(--mobile_menu_selected-color);
       }
     }
     .title {
-      color: var(--common-gery-color);
+      color: var(--common_gery-color);
     }
     .value {
       display: flex;

@@ -179,7 +179,7 @@ export default {
       width: 75vw;
       margin: 0;
       font-family: 'Courier New', Courier, monospace;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       white-space: pre-wrap;
       word-wrap: break-word;
       font-weight: 600;
@@ -187,7 +187,7 @@ export default {
         width: 100%;
       }
       &:first-child {
-        color: var(--text-gery-color);
+        color: var(--text_gery-color);
       }
     }
   }

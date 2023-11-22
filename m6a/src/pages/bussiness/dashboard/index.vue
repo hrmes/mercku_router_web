@@ -685,8 +685,8 @@ h6 {
         margin-top: -40px;
         border-radius: 20px;
         cursor: pointer;
-        background-color: var(--common-card-bgc);
-        box-shadow: var(--common-card-boxshadow);
+        background-color: var(--common_card-bgc);
+        box-shadow: var(--common_card-boxshadow);
         &::before {
           content: '';
           display: block;
@@ -706,8 +706,8 @@ h6 {
         }
         &:hover {
           &::before {
-            border-top-color: var(--primaryColor);
-            border-right-color: var(--primaryColor);
+            border-top-color: var(--primary-color);
+            border-right-color: var(--primary-color);
           }
         }
       }
@@ -717,7 +717,7 @@ h6 {
       .sub-text {
         font-size: 13px;
         font-weight: 500;
-        color: var(--common-gery-color);
+        color: var(--common_gery-color);
       }
     }
     .device {
@@ -785,7 +785,7 @@ h6 {
             background-image: linear-gradient(294deg, #1ad692 20%, #03aa56);
           }
           .uptime {
-            color: var(--common-gery-color);
+            color: var(--common_gery-color);
           }
         }
         &.empty {
@@ -886,7 +886,7 @@ h6 {
               left: 0;
               height: 3px;
               width: 100%;
-              background: var(--dashboard-unlinked-color);
+              background: var(--dashboard_unlinked-color);
               background-size: 10px 2px;
               background-repeat: repeat-x;
               border-radius: 20px;
@@ -902,7 +902,7 @@ h6 {
               align-items: center;
               width: 20px;
               height: 20px;
-              background: var(--dashboard-unconnect-icon-background-color);
+              background: var(--dashboard_unconnect_icon-bgc);
               z-index: 999;
               border-radius: 50%;
               cursor: pointer;
@@ -912,7 +912,7 @@ h6 {
                 height: 2px;
                 border-radius: 2px;
                 width: 10px;
-                background: var(--text-default-color);
+                background: var(--text_default-color);
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -924,7 +924,7 @@ h6 {
                 height: 2px;
                 border-radius: 2px;
                 width: 10px;
-                background: var(--text-default-color);
+                background: var(--text_default-color);
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -985,7 +985,7 @@ h6 {
         }
       }
       .text-wrap {
-        color: var(--common-gery-color);
+        color: var(--common_gery-color);
       }
       .bridge-mode-tip {
         display: flex;
@@ -997,7 +997,7 @@ h6 {
         margin-top: 5%;
         border-radius: 5px;
         font-size: 16px;
-        background-color: var(--common-sub_card-bgc);
+        background-color: var(--common_sub_card-bgc);
         img {
           width: 120px;
           height: 120px;
@@ -1152,7 +1152,7 @@ h6 {
               color: #fff;
               border-radius: 50%;
               box-sizing: border-box;
-              border: 2px solid var(--logout-btn-bgc);
+              border: 2px solid var(--logout_btn-bgc);
               overflow: hidden;
               &.connected {
                 background: url(../../../assets/images/icon/ic_mobile_connected.svg)
@@ -1291,7 +1291,7 @@ h6 {
         margin-bottom: 20px;
       }
       .text-container {
-        color: var(--text-default-color);
+        color: var(--text_default-color);
         flex: 1;
       }
       .icon {

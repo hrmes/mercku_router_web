@@ -362,7 +362,7 @@ export default {
       gap: 10px;
       width: 100%;
       padding: 20px 15px;
-      background: var(--table-row-background-color);
+      background: var(--table_row-bgc);
       border-radius: 10px;
       margin-bottom: 5px;
     }
@@ -395,7 +395,7 @@ export default {
       padding: 50px 0;
       margin: 0;
       text-align: center;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
     }
   }
 }
@@ -417,7 +417,7 @@ export default {
   align-items: center;
   width: 660px;
   .btn-icon {
-    background: var(--button-close-bgc);
+    background: var(--button_close-bgc);
   }
 }
 .modal-body {
@@ -432,7 +432,7 @@ export default {
       cursor: pointer;
       transition: background 0.3s ease;
       &:hover {
-        background: var(--select-item-hover-background-color);
+        background: var(--select-item-hover-bgc);
       }
     }
   }
@@ -460,7 +460,7 @@ export default {
         grid-template-rows: 100%;
         grid-template-columns: 20px 1fr;
         width: 100%;
-        background: var(--table-row-background-color);
+        background: var(--table_row-bgc);
         border-radius: 10px;
         margin-bottom: 5px;
       }
@@ -473,7 +473,7 @@ export default {
         width: 100%;
         .mac {
           font-size: 12px;
-          color: var(--common-gery-color);
+          color: var(--common_gery-color);
         }
       }
       .empty {
@@ -490,7 +490,7 @@ export default {
         padding: 50px 0;
         margin: 0;
         text-align: center;
-        color: var(--text-default-color);
+        color: var(--text_default-color);
       }
     }
   }
@@ -521,7 +521,7 @@ export default {
         cursor: pointer;
         transition: background 0.3s ease;
         &:hover {
-          background: var(--select-item-hover-background-color);
+          background: var(--select-item-hover-bgc);
         }
       }
     }

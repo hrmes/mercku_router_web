@@ -355,11 +355,11 @@ export default {
 }
 .upperApForm {
   .upperApForm__top {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     .upperApForm__top__upperinfo {
       width: 100%;
       padding: 10px;
-      background: var(--flex-warp-has-menu-bgc);
+      background: var(--flexwarp_hasmenu-bgc);
       border-radius: 4px;
       font-size: 14px;
       .current-pwd {
@@ -371,7 +371,7 @@ export default {
     }
     .title {
       margin-right: 10px;
-      color: var(--dashboard-gery-color);
+      color: var(--dashboard_gery-color);
     }
     .content {
       font-weight: 600;
@@ -379,7 +379,7 @@ export default {
   }
   .upperApForm__bottom {
     .tips {
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       font-size: 12px;
     }
   }

@@ -77,7 +77,7 @@ export default {
         list-style: none;
         margin: 0;
         padding: 0;
-        color: var(--text-default-color);
+        color: var(--text_default-color);
         > li {
           position: relative;
           padding: 10px 15px;
@@ -92,28 +92,28 @@ export default {
             right: 0;
             transform: translate(80%, -50%);
             .triangle {
-              fill: var(--aside-after-bgc);
-              stroke: var(--aside-after-bgc);
+              fill: var(--aside_after-bgc);
+              stroke: var(--aside_after-bgc);
               stroke-width: 100;
             }
           }
           &.selected {
             position: relative;
-            color: var(--aside-selected-text-color);
-            background-image: var(--asdie-selected-background) !important;
+            color: var(--aside_selected_text-color);
+            background-image: var(--asdie_selected-bgc) !important;
             .triangle-svg {
               display: block;
             }
           }
           &.disabled {
-            color: var(--aside-disabled-color);
+            color: var(--aside_disabled-color);
             cursor: not-allowed;
             &:hover {
               background: none;
             }
           }
           &:hover {
-            background: var(--aside-hover-background-color);
+            background: var(--aside_hover-bgc);
           }
         }
       }

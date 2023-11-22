@@ -458,7 +458,7 @@ export default {
           margin-right: 10px;
         }
         label {
-          color: var(--text-default-color);
+          color: var(--text_default-color);
         }
       }
       &.top-bottom {
@@ -471,7 +471,7 @@ export default {
         width: 120px;
         font-weight: 600;
         font-size: 14px;
-        color: var(--text-gery-color);
+        color: var(--text_gery-color);
         overflow: hidden;
         flex-shrink: 0;
       }
@@ -515,8 +515,8 @@ export default {
     }
     .table-head {
       height: 50px;
-      color: var(--table-header-text-color);
-      background-color: var(--table-row-background-color);
+      color: var(--table_header_text-color);
+      background-color: var(--table_row-bgc);
       display: flex;
       padding: 0 30px;
       margin-bottom: 5px;
@@ -535,7 +535,7 @@ export default {
         padding: 20px 30px;
         border-radius: 10px;
         margin-bottom: 5px;
-        background-color: var(--table-row-background-color);
+        background-color: var(--table_row-bgc);
         > div {
           display: flex;
           align-items: center;
@@ -600,7 +600,7 @@ export default {
             display: flex;
             width: 100%;
             font-size: 14px;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
             .mobile-start {
               display: block;
             }
@@ -613,7 +613,7 @@ export default {
             width: auto;
             max-width: 70%;
             margin: 5px 0 0 0;
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
             font-size: 12px;
           }
           .column-switch {
@@ -628,8 +628,8 @@ export default {
             justify-content: flex-start;
             margin-top: 10px;
             padding-top: 10px;
-            color: var(--text-gery-color);
-            border-top: 1px solid var(--table-body-hr-color);
+            color: var(--text_gery-color);
+            border-top: 1px solid var(--table_body_hr-color);
             a {
               margin-left: 30px !important;
             }
