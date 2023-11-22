@@ -181,7 +181,7 @@
           <m-form-item prop="color">
             <div class="color-select">
               <h4 class="label">{{$t('trans1214')}}</h4>
-              <ul class="color-select__wrapper">
+              <ul class="color-select__wrapper reset-ul">
                 <li v-for="(color,index) in deviceColorArr"
                     :key="index"
                     class="limit-icon">

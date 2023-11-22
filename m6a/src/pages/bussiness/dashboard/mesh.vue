@@ -136,7 +136,7 @@
                 <div class="col-3"
                      v-if="!isMobile">{{$t('trans0375')}}</div>
               </div>
-              <ul class="card-bottom__main"
+              <ul class="card-bottom__main reset-ul"
                   v-if="selectedNodeInfo.stations.length>0">
                 <li v-for="sta in selectedNodeInfo.stations"
                     :key="sta.ip">
@@ -163,7 +163,7 @@
                   </div>
                 </li>
               </ul>
-              <ul class="card-bottom__empty"
+              <ul class="card-bottom__empty reset-ul"
                   v-else>
                 <li>{{$t('trans0278')}}</li>
               </ul>
@@ -189,7 +189,7 @@
           <m-form-item prop="color">
             <div class="color-select">
               <h4 class="label">{{$t('trans1214')}}</h4>
-              <ul class="color-select__wrapper">
+              <ul class="color-select__wrapper reset-ul">
                 <li v-for="(color,index) in deviceColorArr"
                     :key="index"
                     class="limit-icon">

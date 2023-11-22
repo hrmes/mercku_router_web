@@ -205,12 +205,6 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
-ul,
-li {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
 .scrollbar-wrap {
   height: 100%;
   overflow: auto;
