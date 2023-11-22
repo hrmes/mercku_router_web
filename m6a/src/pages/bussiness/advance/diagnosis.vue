@@ -152,6 +152,7 @@ export default {
     margin: 0;
     max-height: 600px;
     font-family: 'Courier New', Courier, monospace;
+    font-weight: 700;
     white-space: pre-wrap;
     word-wrap: break-word;
   }

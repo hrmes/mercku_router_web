@@ -305,7 +305,7 @@ export default {
 .form {
   .des {
     font-size: 14px;
-    color: var(--text-defalut-color);
+    color: var(--text-default-color);
     padding: 0;
     margin: 0;
   }
@@ -371,15 +371,16 @@ export default {
     width: 100%;
     margin: 0;
     font-family: 'Courier New', Courier, monospace;
-    color: var(--text-defalut-color);
+    color: var(--text-default-color);
     white-space: pre-wrap;
     word-wrap: break-word;
-    font-weight: 600;
+    font-weight: 700;
     @media screen and(min-width:1441px) {
       width: 100%;
     }
     &:first-child {
       color: var(--text-gery-color);
+      font-weight: 400;
     }
   }
 }
