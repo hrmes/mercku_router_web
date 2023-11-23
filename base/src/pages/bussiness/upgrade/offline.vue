@@ -300,17 +300,14 @@ export default {
           this.$http.getMeshNode().then(res1 => {
             const gw = res1.data.result.filter(node => node.is_gw)[0];
             let { nodes } = res.data.result;
-            nodes = nodes.map(node => {
-              let isGW = false;
-              if (node.sn === gw.sn) {
-                isGW = true;
-              }
-              return {
+            nodes = nodes
+              .map(node => ({
                 ...node,
-                isGW,
+                isGW: node.sn === gw.sn,
                 checked: false
-              };
-            });
+              }))
+              .sort((a, b) => (b.isGW ? 1 : -1)); // 将 isGW 为真的元素排在前面
+            console.log(nodes);
             this.localNodes = nodes;
             this.fwInfo = res.data.result.fw_info;
             this.packageInfo = {

@@ -8,10 +8,10 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6sGateway from '@/assets/images/topo/ic_nano_gw_green.png';
-import picM6sWifi6Good from '@/assets/images/topo/ic_nano_normal.png';
-import picM6sWifi6Bad from '@/assets/images/topo/ic_nano_bad.png';
-import picM6sWifi6Offline from '@/assets/images/topo/ic_nano_offline.png';
+import picNanoGateway from '@/assets/images/topo/ic_nano_gw_green.png';
+import picNanoWifi6Good from '@/assets/images/topo/ic_nano_normal.png';
+import picNanoWifi6Bad from '@/assets/images/topo/ic_nano_bad.png';
+import picNanoWifi6Offline from '@/assets/images/topo/ic_nano_offline.png';
 
 import { Color } from 'base/util/constant';
 
@@ -89,9 +89,9 @@ function findRedNode(green, nodes) {
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
     [CONSTANTS.RouterSnModel.Nano]: {
-      [Color.good]: picM6sWifi6Good,
-      [Color.bad]: picM6sWifi6Bad,
-      [Color.offline]: picM6sWifi6Offline
+      [Color.good]: picNanoWifi6Good,
+      [Color.bad]: picNanoWifi6Bad,
+      [Color.offline]: picNanoWifi6Offline
     }
   };
 
@@ -99,9 +99,10 @@ function genNodes(gateway, green, red, offline) {
     let symbol = 'image://';
 
     if (node.is_gw) {
-      symbol = `${symbol}${picM6sGateway}`;
+      symbol = `${symbol}${picNanoGateway}`;
     } else {
       const id = (node.model && node.model.id) || node.sn.slice(0, 2);
+      console.log('id', id);
       const modelConfig = picModelColorMap[id];
       if (modelConfig) {
         symbol = `${symbol}${modelConfig[color]}`;
@@ -250,16 +251,8 @@ function findOfflineNode(array, offline) {
 // 生成所有绘图数据
 function genData(array, fullLine = false) {
   if (!array[0].is_gw) {
-    // 将网关放在数组第一个，始终保证网关是绘图的起始node
-    array.sort((a, b) => {
-      if (a.is_gw && !b.is_gw) {
-        return -1; // a排在前面
-      }
-      if (!a.is_gw && b.is_gw) {
-        return 1; // b排在前面
-      }
-      return 0; // 保持原顺序
-    });
+    // 将网关放在数组第一个，始终保证网关是绘图的起始 node
+    array.sort((a, b) => (a.is_gw ? -1 : b.is_gw ? 1 : 0));
   }
 
   let routers = JSON.parse(JSON.stringify(array));

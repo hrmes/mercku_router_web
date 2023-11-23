@@ -14,7 +14,6 @@ export default {
       return `${category.shortName}-${num}`;
     },
     getNodeImage(node) {
-      console.log(node);
       const id = node.sn.slice(0, 2);
       const modelVersion = node.sn.slice(9, 10);
       let image = '';

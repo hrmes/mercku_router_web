@@ -206,7 +206,9 @@ export default {
               isGW,
               checked: false
             };
-          });
+          })
+            .sort((a, b) => (b.isGW ? 1 : -1)); // 将 isGW 为真的元素排在前面
+
           if (containGW && this.nodes.length > 1) {
             this.$dialog.confirm({
               okText: this.$t('trans0024'),

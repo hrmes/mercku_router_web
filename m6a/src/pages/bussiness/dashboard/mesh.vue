@@ -12,7 +12,7 @@
         <div class="topo-container"
              :class="{'show-table':showTable}">
           <div class="legend-wrap">
-            <span class="btn-icon"
+            <span class="btn-icon close"
                   @click="resetChartPosition">
               <i class=" iconfont ic_center"></i>
             </span>
@@ -109,7 +109,7 @@
                         v-if="isGateway"
                         @click.stop="resetNode(selectedNodeInfo)">
                     <i class="iconfont ic_reset"></i>
-                    <span class="icon-hover-popover">{{$t('trans0205')}}</span>
+                    <span class="icon-hover-popover rightmost">{{$t('trans0205')}}</span>
                   </span>
                   <span class="btn-icon"
                         v-if="!isGateway"
@@ -576,46 +576,50 @@ export default {
               normal: {
                 show: true,
                 position: 'bottom',
-                distance: 10,
+                distance: -15,
                 backgroundColor: 'transparent',
                 formatter: category => this.labelFormatter(category),
                 rich: {
                   name: {
                     color: this.isDarkMode ? '#fff' : '#333',
+                    padding: [0, 0, 25, 0],
+                    align: 'center',
                     fontWeight: 600,
                     fontSize: 12
                   },
-                  stationCountUnits: {
-                    width: 18,
-                    height: 20,
-                    borderRadius: 5,
-                    borderColor: this.isDarkMode ? '#161616 ' : '#fff',
-                    borderWidth: 2,
-                    color: '#333',
-                    backgroundColor: '#d8d8d8',
-                    align: 'center'
+                  nameStyle1: {
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    padding: [0, 0, 8, 0],
+                    align: 'center',
+                    width: 65,
+                    fontWeight: 600,
+                    fontSize: 12
                   },
-                  stationCountTens: {
-                    width: 23,
-                    height: 20,
-                    padding: [0, 1],
-                    borderRadius: 5,
-                    borderColor: this.isDarkMode ? '#161616 ' : '#fff',
-                    borderWidth: 2,
-                    color: '#333',
-                    backgroundColor: '#d8d8d8',
-                    align: 'center'
+                  nameStyle2: {
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    padding: [0, 0, 8, 0],
+                    align: 'center',
+                    width: 80,
+                    fontWeight: 600,
+                    fontSize: 12
                   },
-                  stationCountHundreds: {
-                    width: 26,
-                    height: 20,
-                    padding: [0, 2],
+                  nameStyle3: {
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    padding: [0, 0, 8, 0],
+                    align: 'center',
+                    width: 95,
+                    fontWeight: 600,
+                    fontSize: 12
+                  },
+                  stationCount: {
+                    height: 18,
+                    padding: [0, 5, 2, 5],
                     borderRadius: 5,
                     borderColor: this.isDarkMode ? '#161616 ' : '#fff',
                     borderWidth: 2,
-                    color: '#333',
+                    color: '#000000',
                     backgroundColor: '#d8d8d8',
-                    align: 'center'
+                    align: 'right',
                   },
                   good: {
                     color: '#29b96c',
@@ -726,47 +730,29 @@ export default {
       } = category.data;
       const { isGateway } = category.data;
       let result;
-      if (name.length > 15) {
-        name = `${name.substring(0, 15)}...`;
+      if (name.length > 12) {
+        name = `${name.substring(0, 12)}...`;
       }
-      const GatewayTopoTextMap = {
-        0: `{name|${name}} {stationCountUnits|${stationsCount}}`,
-        1: `{name|${name}} {stationCountTens|${stationsCount}}`,
-        2: `{name|${name}} {stationCountHundreds|${stationsCount}}`,
-      };
-      const NodeGoodTopoTextMap = {
-        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{good|${this.$t('trans0193')}} `,
-        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{good|${this.$t('trans0193')}}`,
-        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{good|${this.$t('trans0193')}}`,
-      };
-      const NodeBadTopoTextMap = {
-        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{bad|${this.$t('trans0196')}} `,
-        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{bad|${this.$t('trans0196')}}`,
-        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{bad|${this.$t('trans0196')}}`,
-      };
-      const NodeOfflineTopoTextMap = {
-        0: `{name|${name}} {stationCountUnits|${stationsCount}}\n{offline|${this.$t('trans0214')}} `,
-        1: `{name|${name}} {stationCountTens|${stationsCount}}\n{offline|${this.$t('trans0214')}}`,
-        2: `{name|${name}} {stationCountHundreds|${stationsCount}}\n{offline|${this.$t('trans0214')}}`,
-      };
-
+      let nameStyle = 'nameStyle1';
+      if (stationsCount > 9) nameStyle = 'nameStyle2';
+      if (stationsCount > 99) nameStyle = 'nameStyle3';
       if (isGateway) {
-        result = GatewayTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
+        result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}`;
         return result;
       }
       switch (color) {
         case Color.good:
-          result = NodeGoodTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}} \n{good|${this.$t(
+            'trans0193'
+          )}} `;
           break;
         case Color.bad:
-          result = NodeBadTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}} \n{bad|${this.$t(
+            'trans0196'
+          )}} `;
           break;
         case Color.offline:
-          if (stationsCount > 0) {
-            result = NodeOfflineTopoTextMap[Math.min(Math.floor(stationsCount / 10), 2)];
-          } else {
-            result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
-          }
+          result = stationsCount > 0 ? `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{offline|${this.$t('trans0214')}}` : `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
           break;
         default:
           break;

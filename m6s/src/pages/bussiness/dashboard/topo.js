@@ -249,16 +249,8 @@ function findOfflineNode(array, offline) {
 // 生成所有绘图数据
 function genData(array, fullLine = false) {
   if (!array[0].is_gw) {
-    // 将网关放在数组第一个，始终保证网关是绘图的起始node
-    array.sort((a, b) => {
-      if (a.is_gw && !b.is_gw) {
-        return -1; // a排在前面
-      }
-      if (!a.is_gw && b.is_gw) {
-        return 1; // b排在前面
-      }
-      return 0; // 保持原顺序
-    });
+    // 将网关放在数组第一个，始终保证网关是绘图的起始 node
+    array.sort((a, b) => (a.is_gw ? -1 : b.is_gw ? 1 : 0));
   }
 
   let routers = JSON.parse(JSON.stringify(array));
