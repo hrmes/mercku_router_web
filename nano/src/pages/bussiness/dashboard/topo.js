@@ -88,7 +88,7 @@ function findRedNode(green, nodes) {
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
-    [CONSTANTS.RouterSnModel.Nano]: {
+    [CONSTANTS.RouterSnModel.M6s_Nano]: {
       [Color.good]: picNanoWifi6Good,
       [Color.bad]: picNanoWifi6Bad,
       [Color.offline]: picNanoWifi6Offline
