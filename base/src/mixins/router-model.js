@@ -43,7 +43,7 @@ export default {
         case RouterSnModel.M6s:
           image = require('../assets/images/img_m6s.svg');
           break;
-        case RouterSnModel.Nano:
+        case RouterSnModel.M6s_Nano:
           image = require('../assets/images/img_nano.svg');
           break;
 
@@ -65,7 +65,8 @@ export default {
           process.env.MODEL_CONFIG.id === Models.m6a
             ? process.env.CUSTOMER_CONFIG.routers.M6a
             : process.env.CUSTOMER_CONFIG.routers.M6a_plus,
-        [RouterSnModel.M6s]: process.env.CUSTOMER_CONFIG.routers.M6s
+        [RouterSnModel.M6s]: process.env.CUSTOMER_CONFIG.routers.M6s,
+        [RouterSnModel.M6s_Nano]: process.env.CUSTOMER_CONFIG.routers.M6s_Nano
       }
     };
   }

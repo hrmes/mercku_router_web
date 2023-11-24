@@ -10,9 +10,9 @@
   "wifi": "Mercku Wi-Fi",
   "deviceID": "Mercku",
   "routers": {
-    "Nano": {
+    "M6s_Nano": {
       "name": "M6s Nano Wi-Fi6 Router",
-      "shortName": "Nano"
+      "shortName": "M6s Nano"
     }
   },
   "deviceColor": [

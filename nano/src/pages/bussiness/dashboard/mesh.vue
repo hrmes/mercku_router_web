@@ -358,7 +358,7 @@ export default {
       return this.$store.state.theme;
     },
     modelName() {
-      return process.env.CUSTOMER_CONFIG.routers.Nano.shortName;
+      return process.env.CUSTOMER_CONFIG.routers.M6s_Nano.shortName;
     },
     listOrdered() {
       return this.selectedNodeInfo.stations.sort((a, b) => {

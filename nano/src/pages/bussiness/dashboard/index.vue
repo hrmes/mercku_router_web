@@ -273,7 +273,7 @@ export default {
   },
   computed: {
     ModelName() {
-      return process.env.CUSTOMER_CONFIG.routers.Nano.shortName;
+      return process.env.CUSTOMER_CONFIG.routers.M6s_Nano.shortName;
     },
     isMobile() {
       return this.$store.state.isMobile;

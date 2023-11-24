@@ -62,7 +62,7 @@ export const RouterSnModel = {
   M6a: '08',
   Homeway: '09',
   M6s: '11',
-  Nano: '13'
+  M6s_Nano: '13'
 };
 export const M6aRouterSnModelVersion = {
   M6a: '0',
