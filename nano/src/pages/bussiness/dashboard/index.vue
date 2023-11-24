@@ -309,11 +309,11 @@ export default {
     }
   },
   mounted() {
-    this.getMeshInfo();
     this.getWanNetInfo();
     this.createIntercvalTask();
     this.getWanStatus();
     this.getLocalDeviceInfo();
+    this.getMeshInfo();
   },
   watch: {
     '$store.mode': function watcher() {
@@ -408,7 +408,13 @@ export default {
         this.meshLoading = true;
         const res1 = await this.$http.getMeshNode();
         const meshNodeList = res1.data.result;
-
+        if (meshNodeList.length === 0) {
+          console.log('retry');
+          setTimeout(() => {
+            this.getMeshInfo();
+          }, 1000);
+          return;
+        }
         const gatewayInfo = meshNodeList.find(item => item.is_gw);
         if (gatewayInfo) {
           this.meshGatewayInfo.name = gatewayInfo.name;

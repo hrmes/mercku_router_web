@@ -196,39 +196,37 @@ export default {
       };
       console.log('upperAp', this.upperApForm);
     },
-    connectUpperAp(mode, pageType, reconnect) {
-      if (this.$refs.upperApForm.validate()) {
-        if (reconnect) {
-          this.$loading.open();
-        }
-        console.log('upperApInfo is', this.upperApForm);
-        this.$http
-          .updateMeshApclient({ mode, apclient: this.upperApForm })
-          .then(() => {
-            this.$store.state.mode = mode;
-            localStorage.setItem('mode', mode);
-            if (reconnect) {
-              this.$reconnect({
-                timeout: 30,
-                onsuccess: () => {
-                  this.$toast(this.$t('trans0040'), 3000, 'success');
-                  // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
-                  this.$router.push({ path: '/login' });
-                },
-                ontimeout: () => {
-                  this.$router.push({ path: '/unconnect' });
-                }
-              });
+    connectUpperAp(mode) {
+      this.$loading.open();
+
+      console.log('upperApInfo is', this.upperApForm);
+      this.$http
+        .updateMeshApclient({ mode, apclient: this.upperApForm })
+        .then(() => {
+          this.$store.state.changeMode = true;
+          this.$store.state.mode = mode;
+          localStorage.setItem('mode', mode);
+
+          this.$reconnect({
+            timeout: 180,
+            delayTime: 95, // 95秒后检测更改模式是否成功
+            onsuccess: () => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+              this.$router.push({ path: '/login' });
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
             }
-            // this.checkMeshApclient(pageType);
-          })
-          .catch(() => {
-            this.$store.state.changeMode = false;
-          })
-          .finally(() => {
-            this.$loading.close();
           });
-      }
+          // this.checkMeshApclient(pageType);
+        })
+        .catch(() => {
+          this.$store.state.changeMode = false;
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     },
     // checkMeshApclient(pageType) {
     //   if (pageType === PageTypes.Initialization) {

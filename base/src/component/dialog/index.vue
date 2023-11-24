@@ -92,7 +92,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 1001;
-  background: var(--dialog-shadow-bgc);
+  background: var(--dialog_shadow-bgc);
   opacity: 1;
   display: flex;
   justify-content: center;
@@ -102,7 +102,7 @@ export default {
     background: var(--dialog_content-bgc);
     padding: 20px 20px 30px 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 var(--dialog_box_shadow-color);
+    box-shadow: 0 2px 12px 0 var(--dialog_shadow-color);
     .dialog-buttons {
       display: flex;
       justify-content: center;

@@ -138,7 +138,7 @@ export default {
         password: ''
       },
       originalUpperList: [],
-      meshNeedClose: false
+      meshStatusNeedChange: false
     };
   },
   mounted() {
@@ -158,10 +158,15 @@ export default {
       this.modeHasChange = true;
       this.pwdDisabled = true;
 
+      console.log(this.currentMode, nv);
       if (this.currentMode === RouterMode.wirelessBridge ||
-        nv === RouterMode.wirelessBridge) {
-        this.meshNeedClose = true;
+        nv === RouterMode.wirelessBridge
+      ) {
+        this.meshStatusNeedChange = true;
+      } else {
+        this.meshStatusNeedChange = false;
       }
+      console.log(this.meshStatusNeedChange);
 
       switch (nv) {
         case RouterMode.wirelessBridge:
@@ -240,28 +245,28 @@ export default {
         });
       }
     },
-    confirmUpdateMeshMode(params, reconnect) {
-      if (reconnect) {
-        this.$loading.open();
-      }
+    confirmUpdateMeshMode(params) {
+      this.$loading.open();
+
       this.$http
         .updateMeshMode(params)
         .then(() => {
+          this.$store.state.changeMode = true;
           this.$store.state.mode = params.mode;
           localStorage.setItem('mode', params.mode);
-          if (reconnect) {
-            this.$reconnect({
-              timeout: 120,
-              onsuccess: () => {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
-                this.$router.push({ path: '/login' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/unconnect' });
-              }
-            });
-          }
+
+          this.$reconnect({
+            timeout: 120,
+            delayTime: 30, // 95秒后检测更改模式是否成功
+            onsuccess: () => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+              this.$router.push({ path: '/login' });
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            }
+          });
         })
         .catch(() => {
           this.$store.state.changeMode = false;
@@ -297,47 +302,26 @@ export default {
       }
     },
     checkMeshStatus() {
-      if (this.meshNeedClose) {
+      console.log(this.meshStatusNeedChange);
+      if (this.meshStatusNeedChange) {
         const params = {
-          enable: this.mode === RouterMode.wirelessBridge ? 0 : 1,
+          enable: this.mode === RouterMode.wirelessBridge ? 0 : 1
         };
         this.$loading.open();
 
         this.$http.updateMeshEnabled(params)
           .then(() => {
-            this.meshNeedClose = false;
-            this.$store.state.changeMode = true;
-
-            this.$reconnect({
-              onsuccess: () => {
-                this.$toast(this.$t('trans0040'), 3000, 'success');
-                // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
-                this.$router.push({ path: '/login' });
-              },
-              ontimeout: () => {
-                this.$router.push({ path: '/unconnect' });
-              },
-              timeout: 180,
-              delayTime: 95, // 95秒后检测更改模式是否成功
-            });
-
-            let timer = setTimeout(() => {
-              if (this.mode === RouterMode.wirelessBridge) {
-                this.connectUpperAp(this.mode, 'modeChange', false);
-              } else {
-                this.confirmUpdateMeshMode({ mode: this.mode }, false);
-                clearTimeout(timer);
-                timer = null;
-              }
-            }, 90 * 1000);
-          })
-          .finally(() => {
-            this.$loading.close();
+            this.meshStatusNeedChange = false;
+            if (this.mode === RouterMode.wirelessBridge) {
+              this.connectUpperAp(this.mode);
+            } else {
+              this.confirmUpdateMeshMode({ mode: this.mode });
+            }
           });
       } else if (this.mode === RouterMode.wirelessBridge) {
         this.connectUpperAp(this.mode, 'modeChange', true);
       } else {
-        this.confirmUpdateMeshMode({ mode: this.mode }, true);
+        this.confirmUpdateMeshMode({ mode: this.mode });
       }
     }
   }
