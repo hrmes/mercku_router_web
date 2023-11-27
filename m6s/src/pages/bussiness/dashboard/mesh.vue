@@ -68,8 +68,7 @@
                 <div class="mesh-router__info">
                   <div class="row-1">
                     <div class="line-icon"></div>
-                    <span class="text"
-                          :title="selectedNodeInfo.name">{{selectedNodeInfo.name}}</span>
+                    <div class="text">{{selectedNodeInfo.name}}</div>
                   </div>
                   <div class="row-2">
                     <span class="label">{{$t('trans0251')}}: </span>
@@ -760,8 +759,8 @@ export default {
       } = category.data;
       const { isGateway } = category.data;
       let result;
-      if (name.length > 12) {
-        name = `${name.substring(0, 12)}...`;
+      if (name.length > 15) {
+        name = `${name.substring(0, 15)}...`;
       }
       let nameStyle = 'nameStyle1';
       if (stationsCount > 9) nameStyle = 'nameStyle2';
@@ -1219,12 +1218,16 @@ export default {
                 filter: var(--img-brightness);
               }
               .text {
+                flex: 1;
                 font-size: 16px;
                 font-weight: 500;
-                max-width: calc(100% - 45px);
+                line-height: 1;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                word-break: break-all;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
               }
             }
             .row-2,
@@ -1245,7 +1248,6 @@ export default {
             align-items: flex-end;
             width: fit-content;
             height: 100%;
-            margin-left: 10px;
             > span {
               background-color: var(--button_close-bgc);
               margin-right: 10px;

@@ -323,10 +323,9 @@ export default {
         line-height: 18px;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        white-space: pre;
       }
       .icon__container {
-        // width: 79px;
         display: flex;
         justify-content: space-between;
         .rssi {

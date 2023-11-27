@@ -460,7 +460,7 @@ export default {
         margin-left: auto;
         margin-right: auto;
         .message {
-          padding: 0 0 0 20px;
+          padding: 0 10px 0 20px;
         }
       }
     }

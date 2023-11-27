@@ -308,7 +308,7 @@ export default {
       let resultText = '';
       resultText = this.$t(text).replaceAll(
         '%s',
-        process.env.CUSTOMER_CONFIG.routers.Nano.shortName
+        process.env.CUSTOMER_CONFIG.routers.M6s_Nano.shortName
       );
       return resultText;
     },
