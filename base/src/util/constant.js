@@ -111,12 +111,10 @@ export const VPNStatus = {
   disconnected: 'disconnected',
   ready: 'ready'
 };
-
 export const VPNAction = {
   connect: 'connect',
   disconnect: 'disconnect'
 };
-
 export const defaultScrollbarOpt = {
   freeScroll: true,
   disableMouse: false,
@@ -160,19 +158,16 @@ export const AddNodeType = {
   wired: 'wired',
   wireless: 'wireless'
 };
-
 export const ConnectionQuality = {
   excellent: 'excellent',
   fair: 'fair',
   offline: 'offline'
 };
-
 export const Color = {
   good: '#00d061',
   bad: '#ff6f00',
   offline: '#b3b3b3'
 };
-
 export const RouterColor = {
   black: 'black',
   white: 'white',

@@ -60,7 +60,7 @@
       <m-modal :visible.sync="deviceModalVisible">
         <m-modal-header class="modal-header">
           <span>{{ $t('trans0235') }}</span>
-          <div class="btn-icon"
+          <div class="btn-icon close"
                @click.stop="() => (deviceModalVisible = false)">
             <i class="iconfont ic_close"></i>
           </div>
