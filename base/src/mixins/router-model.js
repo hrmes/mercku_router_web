@@ -46,7 +46,6 @@ export default {
         case RouterSnModel.M6s_Nano:
           image = require('../assets/images/img_nano.svg');
           break;
-
         default:
           break;
       }

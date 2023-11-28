@@ -516,7 +516,6 @@ export default {
           ) {
             this.isAutoChannel = true;
           }
-          console.log('123', this.form.channel.b24gChannel);
 
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;

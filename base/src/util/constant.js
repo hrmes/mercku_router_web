@@ -147,7 +147,7 @@ export const Models = {
   homeway_POE1: 'M9R1',
   homeway_POE2: 'M9R2',
   m6s: 'M11R1',
-  nano: 'M13R0'
+  m6s_nano: 'M13R0'
 };
 export const HomewayFanModel = {
   game: 'game',

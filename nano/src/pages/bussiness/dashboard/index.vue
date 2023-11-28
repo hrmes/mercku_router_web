@@ -409,10 +409,10 @@ export default {
         const res1 = await this.$http.getMeshNode();
         const meshNodeList = res1.data.result;
         if (meshNodeList.length === 0) {
-          console.log('retry');
+          console.log('retry gettig mesh name');
           setTimeout(() => {
             this.getMeshInfo();
-          }, 1000);
+          }, 1500);
           return;
         }
         const gatewayInfo = meshNodeList.find(item => item.is_gw);
