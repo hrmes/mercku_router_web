@@ -362,7 +362,7 @@ export default {
         this.isLoading = true;
         // 提交表单
         this.$http
-          .updateMeshConfig({
+          .updateRouterInitialize({
             config: {
               wifi: {
                 bands: {
@@ -403,6 +403,9 @@ export default {
               },
               showLoading: false
             });
+          })
+          .finally(() => {
+            this.isLoading = false;
           });
       }
     }
