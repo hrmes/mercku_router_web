@@ -467,62 +467,64 @@ export default {
     },
     submit() {
       const form = { type: this.netType };
-      if (this.isAuto) {
-        if (!this.$refs.autoForm.validate()) {
-          return;
-        }
-        form.auto = {
-          dns: []
-        };
-        if (!this.autodns) {
-          form.auto.dns.push({
-            ip: this.autoForm.dns,
-            prefix_length: defaultPrefixLength
-          });
-        }
-      }
-      if (this.isPppoe) {
-        if (!this.$refs.pppoeForm.validate()) {
-          return;
-        }
-        form.pppoe = {
-          share_ipv4_credentials: this.pppoeForm.isUseIPv4,
-          account: this.pppoeForm.account,
-          password: this.pppoeForm.password,
-          dns: []
-        };
-        if (!this.autodns) {
-          form.pppoe.dns.push({
-            ip: this.pppoeForm.dns,
-            prefix_length: defaultPrefixLength
-          });
-        }
-      }
-      if (this.isStatic) {
-        if (!this.$refs.staticForm.validate()) {
-          return;
-        }
-        form.static = {
-          netinfo: {
-            family: 'ipv6',
-            address: [
-              {
-                ip: this.staticForm.ip,
-                prefix_length: Number(this.staticForm.prefixLength)
-              }
-            ],
-            gateway: {
-              ip: this.staticForm.gateway,
-              prefix_length: defaultPrefixLength
-            },
-            dns: [
-              {
-                ip: this.staticForm.dns,
-                prefix_length: defaultPrefixLength
-              }
-            ]
+      if (this.enabled) {
+        if (this.isAuto) {
+          if (!this.$refs.autoForm.validate()) {
+            return;
           }
-        };
+          form.auto = {
+            dns: []
+          };
+          if (!this.autodns) {
+            form.auto.dns.push({
+              ip: this.autoForm.dns,
+              prefix_length: defaultPrefixLength
+            });
+          }
+        }
+        if (this.isPppoe) {
+          if (!this.$refs.pppoeForm.validate()) {
+            return;
+          }
+          form.pppoe = {
+            share_ipv4_credentials: this.pppoeForm.isUseIPv4,
+            account: this.pppoeForm.account,
+            password: this.pppoeForm.password,
+            dns: []
+          };
+          if (!this.autodns) {
+            form.pppoe.dns.push({
+              ip: this.pppoeForm.dns,
+              prefix_length: defaultPrefixLength
+            });
+          }
+        }
+        if (this.isStatic) {
+          if (!this.$refs.staticForm.validate()) {
+            return;
+          }
+          form.static = {
+            netinfo: {
+              family: 'ipv6',
+              address: [
+                {
+                  ip: this.staticForm.ip,
+                  prefix_length: Number(this.staticForm.prefixLength)
+                }
+              ],
+              gateway: {
+                ip: this.staticForm.gateway,
+                prefix_length: defaultPrefixLength
+              },
+              dns: [
+                {
+                  ip: this.staticForm.dns,
+                  prefix_length: defaultPrefixLength
+                }
+              ]
+            }
+          };
+        }
       }
       this.$dialog.confirm({
         okText: this.$t('trans0024'),

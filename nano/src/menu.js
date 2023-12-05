@@ -112,6 +112,12 @@ export default function getMenu(role, mode = RouterMode.router) {
       //   config
       // },
       {
+        url: '/setting/fan',
+        name: 'fan',
+        text: 'trans1222',
+        config
+      },
+      {
         url: '/setting/wps',
         name: 'wps',
         text: 'trans1168',
@@ -205,7 +211,11 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: {
           show: true,
           auth: [Role.super],
-          mode: [RouterMode.router, RouterMode.bridge, RouterMode.wirelessBridge]
+          mode: [
+            RouterMode.router,
+            RouterMode.bridge,
+            RouterMode.wirelessBridge
+          ]
         },
         customers: {
           [Customers.mercku]: {
