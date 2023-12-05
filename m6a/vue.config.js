@@ -103,7 +103,8 @@ module.exports = {
               result[key] = JSON.stringify(CUSTOMER_CONFIG[key]);
             });
             return result;
-          })()
+          })(),
+          IS_MVU: process.env.IS_MVU
         }
       })
     );

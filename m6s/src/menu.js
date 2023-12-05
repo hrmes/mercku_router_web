@@ -297,6 +297,7 @@ export default function getMenu(role, mode = RouterMode.router) {
           item.url = menu.url;
           return true;
         }
+        return false;
       });
   });
 

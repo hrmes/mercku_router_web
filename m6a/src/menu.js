@@ -8,6 +8,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   console.log(`model id is: ${modelId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
+  console.log(`is MVU? ${process.env.IS_MVU}`);
   // 菜单默认配置
   const config = {
     show: true,
@@ -15,11 +16,13 @@ export default function getMenu(role, mode = RouterMode.router) {
     mode: [RouterMode.router, RouterMode.bridge]
   };
   // 第一种搭配策略
-  const strategyA = {
+  const strategyOnlyRouter = {
     show: true,
     auth: [Role.admin, Role.super],
     mode: [RouterMode.router]
   };
+
+  // 菜单默认配置是生成全量功能菜单
   const dashboard = {
     icon: 'ic_home_light',
     selectedIcon: 'ic_home_selected',
@@ -27,7 +30,39 @@ export default function getMenu(role, mode = RouterMode.router) {
     url: '/dashboard',
     children: []
   };
-  const setting = {
+  const upgrade = {
+    icon: 'ic_upgrade_firmware_light',
+    selectedIcon: 'ic_upgrade_firmware_selected',
+    text: 'trans0197',
+    name: 'upgrade',
+    url: '/upgrade/online',
+    children: [
+      {
+        url: '/upgrade/offline',
+        name: 'offline',
+        text: 'trans0204',
+        config
+      },
+      {
+        url: '/upgrade/online',
+        name: 'online',
+        text: 'trans0202',
+        config
+      },
+      {
+        url: '/upgrade/auto',
+        name: 'auto',
+        text: 'trans0743',
+        config
+      }
+    ]
+  };
+  const theme = {
+    icon: 'ic_theme_light',
+    text: 'trans1119',
+    children: []
+  };
+  let setting = {
     icon: 'ic_home_settings_light',
     selectedIcon: 'ic_home_settings_selected',
     text: 'trans0019',
@@ -44,13 +79,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',
-        config: strategyA,
+        config: strategyOnlyRouter,
         customers: {
           [Customers.realnett]: {
             show: false
@@ -94,7 +129,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0020',
         name: 'blacklist',
         url: '/setting/blacklist',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         text: 'trans0272',
@@ -112,13 +147,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/guest',
         name: 'guest',
         text: 'trans0538',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/setting/upnp',
         name: 'upnp',
         text: 'trans0644',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/setting/led',
@@ -134,7 +169,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     ]
   };
-  const advance = {
+  let advance = {
     icon: 'ic_advanced_settings_light',
     selectedIcon: 'ic_advanced_settings_selected',
     text: 'trans0416',
@@ -145,43 +180,43 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/portforwarding',
         name: 'advance-portforwarding',
         text: 'trans0422',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/dmz',
         name: 'advance-dmz',
         text: 'trans0420',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/dhcp',
         name: 'advance-dhcp',
         text: 'trans0417',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/rsvdip',
         name: 'advance-rsvdip',
         text: 'trans0444',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/mac',
         name: 'advance-mac',
         text: 'trans0474',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/ddns',
         name: 'advance-ddns',
         text: 'trans0418',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/vpn',
         name: 'advance-vpn',
         text: 'trans0402',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/mode',
@@ -201,7 +236,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/diagnosis',
         name: 'advance-diagnosis',
         text: 'trans0419',
-        config: strategyA
+        config: strategyOnlyRouter
       },
       {
         url: '/advance/log',
@@ -219,7 +254,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        config: strategyA,
+        config: strategyOnlyRouter,
         customers: {
           [Customers.realnett]: {
             auth: [Role.super]
@@ -230,7 +265,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/wwa',
         name: 'advance.wwa',
         text: 'trans0511',
-        config: strategyA,
+        config: strategyOnlyRouter,
         customers: {
           [Customers.realnett]: {
             auth: [Role.super]
@@ -276,74 +311,116 @@ export default function getMenu(role, mode = RouterMode.router) {
       }
     ]
   };
-  const upgrade = {
-    icon: 'ic_upgrade_firmware_light',
-    selectedIcon: 'ic_upgrade_firmware_selected',
-    text: 'trans0197',
-    name: 'upgrade',
-    url: '/upgrade/online',
-    children: [
-      {
-        url: '/upgrade/offline',
-        name: 'offline',
-        text: 'trans0204',
-        config
-      },
-      {
-        url: '/upgrade/online',
-        name: 'online',
-        text: 'trans0202',
-        config
-      },
-      {
-        url: '/upgrade/auto',
-        name: 'auto',
-        text: 'trans0743',
-        config
-      }
-    ]
-  };
-  const theme = {
-    icon: 'ic_theme_light',
-    text: 'trans1119',
-    children: []
-  };
-  [dashboard, setting, advance, upgrade, theme].forEach(item => {
-    // 根据编译客户生成菜单
-    item.children.forEach(menu => {
-      menu.config = menu.config || config;
-      const customers = menu.customers || {};
-      const customerConfig = customers[customerId] || {};
-      menu.config = Object.assign({}, menu.config, customerConfig);
-    });
 
-    // 过滤不显示的菜单
-    item.children = item.children.filter(menu => {
-      let { show } = menu.config;
-      // 如果支持多级管理员，判断当前角色是否可以查看菜单
-      if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
-        show = menu.config.auth.includes(role);
-      }
-      return show;
-    });
+  // 如果是最小可用单元,需要省略部分功能菜单
+  if (process.env.IS_MVU) {
+    setting = {
+      icon: 'ic_home_settings_light',
+      selectedIcon: 'ic_home_settings_selected',
+      text: 'trans0019',
+      name: 'setting',
+      url: '/setting/wifi',
+      children: [
+        {
+          text: 'trans0103',
+          name: 'wifi',
+          url: '/setting/wifi',
+          config
+        },
+        {
+          text: 'trans0142',
+          name: 'wan',
+          url: '/setting/wan',
+          config: strategyOnlyRouter
+        },
+        {
+          text: 'trans0561',
+          name: 'safe',
+          url: '/setting/safe',
+          config,
+          customers: {
+            [Customers.realnett]: {
+              auth: [Role.admin]
+            },
+            [Customers.pentanet]: {
+              auth: [Role.admin]
+            }
+          }
+        },
+        {
+          url: '/setting/super',
+          name: 'super',
+          text: 'trans0576',
+          config,
+          customers: {
+            [Customers.mercku]: {
+              show: false
+            },
+            [Customers.realnett]: {
+              show: true,
+              auth: [Role.super]
+            },
+            [Customers.pentanet]: {
+              show: true,
+              auth: [Role.super]
+            }
+          }
+        }
+      ]
+    };
+    advance = {
+      icon: 'ic_advanced_settings_light',
+      selectedIcon: 'ic_advanced_settings_selected',
+      text: 'trans0416',
+      name: 'advance',
+      url: '/advance/portforwarding',
+      children: [
+        {
+          url: '/advance/mode',
+          name: 'advance-mode',
+          text: 'trans0539',
+          config
+        }
+      ]
+    };
 
-    // 根据模式选择对应的菜单项
-    item.children.forEach(menu => {
-      menu.disabled = false;
-      if (!menu.config.mode.includes(mode)) {
-        menu.disabled = true;
-      }
-    });
+    [setting, advance, upgrade].forEach(item => {
+      // 根据编译客户生成菜单
+      item.children.forEach(menu => {
+        menu.config = menu.config || config;
+        const customers = menu.customers || {};
+        const customerConfig = customers[customerId] || {};
+        menu.config = Object.assign({}, menu.config, customerConfig);
+      });
 
-    // 根据最后生成的菜单，去设置父级菜单的url值指向哪一个子级菜单
-    item.children.length &&
-      item.children.some(menu => {
-        if (!menu.disabled) {
-          item.url = menu.url;
-          return true;
+      // 过滤不显示的菜单
+      item.children = item.children.filter(menu => {
+        let { show } = menu.config;
+        // 如果支持多级管理员，判断当前角色是否可以查看菜单
+        if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
+          show = menu.config.auth.includes(role);
+        }
+        return show;
+      });
+
+      // 根据模式选择对应的菜单项
+      item.children.forEach(menu => {
+        menu.disabled = false;
+        if (!menu.config.mode.includes(mode)) {
+          menu.disabled = true;
         }
       });
-  });
+
+      // 根据最后生成的菜单，去设置父级菜单的url值指向哪一个子级菜单
+      item.children.length &&
+        item.children.some(menu => {
+          if (!menu.disabled) {
+            item.url = menu.url;
+            return true;
+          }
+        });
+    });
+  }
 
   console.log([dashboard, setting, advance, upgrade, theme]);
   return [dashboard, setting, advance, upgrade, theme];
