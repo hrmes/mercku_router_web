@@ -3,10 +3,10 @@
  * 该文件为最小可用单元的路由配置
  */
 import login from 'pages/login/index.vue';
-// import dashboard from 'pages/bussiness/dashboard/index.vue';
-// import device from 'pages/bussiness/dashboard/device.vue';
-// import mesh from 'pages/bussiness/dashboard/mesh.vue';
-// import internet from 'pages/bussiness/dashboard/internet.vue';
+import dashboard from 'pages/bussiness/dashboard/index.vue';
+import device from 'pages/bussiness/dashboard/device.vue';
+import mesh from 'pages/bussiness/dashboard/mesh.vue';
+import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
@@ -25,11 +25,11 @@ const mvuRoutes = [
     name: 'login',
     component: login
   },
-  // {
-  //   path: '/dashboard',
-  //   name: 'dashboard',
-  //   component: dashboard
-  // },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: dashboard
+  },
   {
     path: '/wlan',
     name: 'wlan',
@@ -40,36 +40,36 @@ const mvuRoutes = [
     name: 'unconnect',
     component: unconnect
   },
-  // {
-  //   path: '/dashboard/device/:id?',
-  //   name: 'device',
-  //   component: device,
-  //   meta: {
-  //     text: 'trans0235',
-  //     layout: 'primary',
-  //     parentPath: '/dashboard'
-  //   }
-  // },
-  // {
-  //   path: '/dashboard/mesh',
-  //   name: 'mesh',
-  //   component: mesh,
-  //   meta: {
-  //     text: 'trans0312',
-  //     layout: 'primary',
-  //     parentPath: '/dashboard'
-  //   }
-  // },
-  // {
-  //   path: '/dashboard/internet',
-  //   name: 'internet',
-  //   component: internet,
-  //   meta: {
-  //     text: 'trans0366',
-  //     layout: 'primary',
-  //     parentPath: '/dashboard'
-  //   }
-  // },
+  {
+    path: '/dashboard/device/:id?',
+    name: 'device',
+    component: device,
+    meta: {
+      text: 'trans0235',
+      layout: 'primary',
+      parentPath: '/dashboard'
+    }
+  },
+  {
+    path: '/dashboard/mesh',
+    name: 'mesh',
+    component: mesh,
+    meta: {
+      text: 'trans0312',
+      layout: 'primary',
+      parentPath: '/dashboard'
+    }
+  },
+  {
+    path: '/dashboard/internet',
+    name: 'internet',
+    component: internet,
+    meta: {
+      text: 'trans0366',
+      layout: 'primary',
+      parentPath: '/dashboard'
+    }
+  },
   {
     path: '/setting/wan',
     name: 'wan',
