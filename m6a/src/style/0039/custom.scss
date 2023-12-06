@@ -15,7 +15,7 @@
           background-size: contain;
         }
         @media screen and (max-width: 768px) {
-          width: 100px;
+          width: 150px;
           .logo-wrap__logo {
             background: url(../../assets/images/customer/netflash/logo_text_light.png)
               left no-repeat;
@@ -30,7 +30,7 @@
           background-size: contain;
         }
         @media screen and (max-width: 768px) {
-          width: 100px;
+          width: 150px;
           .logo-wrap__logo {
             background: url(../../assets/images/customer/netflash/logo_text_dark.png)
               left no-repeat;
@@ -42,14 +42,14 @@
         .logo-wrap__logo {
           background: url(../../assets/images/customer/netflash/logo_text_light.png)
             center no-repeat;
-          background-size: 100%;
+          background-size: contain;
         }
       }
       @media (prefers-color-scheme: dark) {
         .logo-wrap__logo {
           background: url(../../assets/images/customer/netflash/logo_text_dark.png)
             center no-repeat;
-          background-size: 100%;
+          background-size: contain;
         }
       }
     }

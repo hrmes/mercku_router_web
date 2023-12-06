@@ -1050,7 +1050,7 @@ export default {
       display: block;
       position: absolute;
       width: 60px;
-      height: 20px;
+      height: 40px;
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
