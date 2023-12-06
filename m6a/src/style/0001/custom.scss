@@ -6,6 +6,8 @@
       }
     }
     .logo-wrap {
+      aspect-ratio: 85/30;
+      width: 180px;
       &.light {
         .logo-wrap__logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text.webp)
@@ -13,9 +15,10 @@
           background-size: 100%;
         }
         @media screen and (max-width: 768px) {
+          width: 100px;
           .logo-wrap__logo {
             background: url(../../assets/images/customer/mercku/mercku_logo.png)
-              center no-repeat;
+              left no-repeat;
             background-size: contain;
           }
         }
@@ -23,10 +26,11 @@
       &.dark {
         .logo-wrap__logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_dark.png)
-            center no-repeat;
+          left no-repeat;
           background-size: 100%;
         }
         @media screen and (max-width: 768px) {
+          width: 100px;
           .logo-wrap__logo {
             background: url(../../assets/images/customer/mercku/mercku_logo.png)
               center no-repeat;
@@ -38,14 +42,14 @@
         .logo-wrap__logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text.webp)
             center no-repeat;
-          background-size: 100%;
+          background-size: contain;
         }
       }
       @media (prefers-color-scheme: dark) {
         .logo-wrap__logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_dark.png)
             center no-repeat;
-          background-size: 100%;
+          background-size: contain;
         }
       }
     }
@@ -56,22 +60,22 @@
     background-color: var(--header-nav-hide-background-color);
     .center-form {
       .logo {
-        width: 90%;
-        aspect-ratio: 85/13;
+        width: 85%;
+        aspect-ratio: 85/25;
       }
       &.light {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_light.png)
             no-repeat center;
-          background-size: 100%;
-        }
+            background-size: contain;
+          }
       }
       &.dark {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_dark.png)
             no-repeat center;
-          background-size: 100%;
-        }
+            background-size: contain;
+          }
       }
       @media  screen and(max-width: 768px) {
         .logo {
@@ -82,15 +86,15 @@
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_light.png)
             no-repeat center;
-          background-size: 100%;
-        }
+            background-size: contain;
+          }
       }
       @media (prefers-color-scheme: dark) {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_dark.png)
             no-repeat center;
-          background-size: 100%;
-        }
+            background-size: contain;
+          }
       }
     }
     .app-logo {

@@ -6,20 +6,19 @@
       }
     }
     .logo-wrap {
-      aspect-ratio: 61/23;
-      width: 122px;
-      height: auto;
+      aspect-ratio: 85/30;
+      width: 180px;
       &.light {
         .logo-wrap__logo {
           background: url(../../assets/images/customer/netflash/logo_text_light.png)
             center no-repeat;
-          background-size: cover;
+          background-size: contain;
         }
         @media screen and (max-width: 768px) {
           width: 100px;
           .logo-wrap__logo {
             background: url(../../assets/images/customer/netflash/logo_text_light.png)
-              center no-repeat;
+              left no-repeat;
             background-size: contain;
           }
         }
@@ -28,13 +27,13 @@
         .logo-wrap__logo {
           background: url(../../assets/images/customer/netflash/logo_text_dark.png)
             center no-repeat;
-          background-size: cover;
+          background-size: contain;
         }
         @media screen and (max-width: 768px) {
           width: 100px;
           .logo-wrap__logo {
             background: url(../../assets/images/customer/netflash/logo_text_dark.png)
-              center no-repeat;
+              left no-repeat;
             background-size: contain;
           }
         }
@@ -61,37 +60,36 @@
     background-color: var(--header-nav-hide-background-color);
     .center-form {
       .logo {
-        aspect-ratio: 8/3;
-        width: auto;
-        height: 90px;
+        width: 85%;
+        aspect-ratio: 85/25;
       }
       &.light {
         .logo {
           background: url(../../assets/images/customer/netflash/logo_text_light.png)
             no-repeat center;
-          background-size: 100%;
+          background-size: contain;
         }
       }
       &.dark {
         .logo {
           background: url(../../assets/images/customer/netflash/logo_text_dark.png)
             no-repeat center;
-          background-size: 100%;
-        }
+            background-size: contain;
+          }
       }
       @media (prefers-color-scheme: light) {
         .logo {
           background: url(../../assets/images/customer/netflash/logo_text_light.png)
             no-repeat center;
-          background-size: 100%;
-        }
+            background-size: contain;
+          }
       }
       @media (prefers-color-scheme: dark) {
         .logo {
           background: url(../../assets/images/customer/netflash/logo_text_dark.png)
             no-repeat center;
-          background-size: 100%;
-        }
+            background-size: contain;
+          }
       }
     }
   }

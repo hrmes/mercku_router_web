@@ -90,26 +90,28 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.realnett]: {
             show: true,
-            auth: [Role.super]
+            auth: [Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
           },
           [Customers.inverto]: {
             show: true,
-            auth: [Role.super]
+            auth: [Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
           },
           [Customers.orion]: {
             show: true,
-            auth: [Role.super]
+            auth: [Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
           },
           [Customers.fibrestream]: {
             show: true,
-            auth: [Role.super]
+            auth: [Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
           },
           [Customers.junet]: {
             show: true,
-            auth: [Role.super]
-          },
-          [Customers.netflash]: {
-            show: false
+            auth: [Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
           }
         }
       },

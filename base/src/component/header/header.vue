@@ -638,8 +638,8 @@ export default {
     padding: 0 20px !important;
   }
   .logo-wrap {
-    width: 185px;
-    height: 30px;
+    width: 180px;
+    height: 50px;
     .offical {
       color: var(--header-official-color);
       text-decoration: none;

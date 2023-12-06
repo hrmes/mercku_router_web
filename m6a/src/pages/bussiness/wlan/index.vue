@@ -91,7 +91,8 @@
             </div>
           </div>
         </div>
-        <div class="tip tip-setting">{{tipsText}}</div>
+        <div v-if="!isNetFlash"
+             class="tip tip-setting">{{tipsText}}</div>
         <div class="info-container wifi">
           <div class="form-header"
                v-if="wifiForm.smart_connect">
@@ -234,6 +235,9 @@ export default {
   },
   mounted() {
     this.$loading.open();
+    if (!this.isNetFlash) {
+      this.getSession();
+    }
     this.$http
       .getMeshMeta()
       .then(res => {
@@ -253,6 +257,9 @@ export default {
   computed: {
     isNetFlash() {
       return this.customerID === Customers.netflash;
+    },
+    tipsText() {
+      return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
     }
   },
   methods: {
@@ -368,6 +375,20 @@ export default {
             });
           });
       }
+    },
+    getSession() {
+      this.$http
+        .login(
+          { password: '' },
+          {
+            hideToast: true
+          }
+        )
+        .catch(() => {
+          // password is not empty, go to login page
+          this.$router.push({ path: '/login' });
+          this.$loading.close();
+        });
     }
   }
 };

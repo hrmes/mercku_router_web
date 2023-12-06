@@ -65,7 +65,10 @@
 </template>
 
 <script>
-const NetFlashCustomerID = '0039';
+import {
+  Customers
+} from 'base/util/constant';
+
 export default {
   data() {
     return {
@@ -102,7 +105,7 @@ export default {
       return this.$store.state.theme;
     },
     isNetFlash() {
-      return this.customerID === NetFlashCustomerID;
+      return this.customerID === Customers.netflash;
     }
   },
   watch: {

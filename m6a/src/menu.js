@@ -75,21 +75,19 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/super',
         name: 'super',
         text: 'trans0576',
-        config,
+        config: {
+          show: false
+        },
         customers: {
-          [Customers.mercku]: {
-            show: false
-          },
           [Customers.realnett]: {
             show: true,
-            auth: [Role.super]
+            auth: [Role.admin, Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
           },
           [Customers.pentanet]: {
             show: true,
-            auth: [Role.super]
-          },
-          [Customers.netflash]: {
-            show: false
+            auth: [Role.admin, Role.super],
+            mode: [RouterMode.router, RouterMode.bridge]
           }
         }
       },

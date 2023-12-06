@@ -74,6 +74,17 @@
              style="margin-top:5px;">
           {{$t('trans0171')}}
         </div>
+        <div v-if="!isNetFlash"
+             class="info-container">
+          <div class="info info-pw">
+            <div class="info__row">
+              <div class="info__title">{{$t('trans0561')}}:</div>
+              <div class="info__value">{{wifiForm.password24g}}</div>
+            </div>
+          </div>
+        </div>
+        <div v-if="!isNetFlash"
+             class="tip tip-setting">{{tipsText}}</div>
         <div class="info-container wifi">
           <div class="form-header"
                v-if="wifiForm.smart_connect">
@@ -109,8 +120,8 @@
   </div>
 </template>
 <script>
-import { Bands } from 'base/util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
+import { Bands, Customers } from 'base/util/constant';
+import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 
 export default {
   data() {
@@ -188,12 +199,18 @@ export default {
     };
   },
   computed: {
+    isNetFlash() {
+      return this.customerID === Customers.netflash;
+    },
     tipsText() {
       return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
     }
   },
   mounted() {
     this.$loading.open();
+    if (!this.isNetFlash) {
+      this.getSession();
+    }
     this.$http.getMeshMeta()
       .then(res => {
         const wifi = res.data.result;
@@ -286,6 +303,20 @@ export default {
             });
           });
       }
+    },
+    getSession() {
+      this.$http
+        .login(
+          { password: '' },
+          {
+            hideToast: true
+          }
+        )
+        .catch(() => {
+          // password is not empty, go to login page
+          this.$router.push({ path: '/login' });
+          this.$loading.close();
+        });
     }
   }
 };
