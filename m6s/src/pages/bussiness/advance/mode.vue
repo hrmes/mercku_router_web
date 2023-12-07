@@ -342,22 +342,30 @@ export default {
     color: var(--text_default-color);
     .upperApForm__top__upperinfo {
       width: 100%;
-      padding: 10px;
-      background: var(--flexwarp_hasmenu-bgc);
       border-radius: 4px;
       font-size: 14px;
-      .current-pwd {
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      > div {
+        display: flex;
+        flex-direction: column;
+        &:last-child {
+          margin-top: 5px;
+        }
+      }
+      .current-ssid {
+        white-space: pre;
+        .content {
+          white-space: pre;
+        }
       }
     }
     .title {
-      margin-right: 10px;
       color: var(--dashboard_gery-color);
     }
     .content {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       font-weight: 600;
     }
   }

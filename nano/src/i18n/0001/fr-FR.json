@@ -1217,5 +1217,7 @@
   "trans1222": "Mode de ventilateur",
   "trans1223": "Lorsque la température interne de l'appareil dépasse la plage de fonctionnement normale, l'appareil tentera de réguler sa propre température à travers le ventilateur pour protéger les composants internes.",
   "trans1224": "Mode de performance",
-  "trans1225": "Mode silencieux"
+  "trans1225": "Mode silencieux",
+  "trans1226": "Prend en charge uniquement le milieu avec de l'espace",
+  "trans1227": "Le mot de passe ne peut pas être uniquement des espaces"
 }

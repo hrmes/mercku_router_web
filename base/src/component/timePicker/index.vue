@@ -276,6 +276,20 @@ export default {
       ::-webkit-scrollbar-track {
         background-color: transparent;
       }
+      /* 针对Firefox浏览器的样式 */
+      /* Firefox不支持::-webkit-scrollbar，因此需要使用-moz-scrollbar */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+      }
+
+      *::-moz-scrollbar {
+        width: 0px;
+      }
+
+      *::-moz-scrollbar-track {
+        background-color: transparent;
+      }
       &::after {
         content: '';
         position: absolute;
@@ -311,7 +325,7 @@ export default {
         color: var(--time_picker_li-color);
         cursor: pointer;
         scroll-snap-align: center;
-        scroll-snap-stop: always;
+        // scroll-snap-stop: always;
         transition: color 0.1s linear;
         // &:hover {
         //   background: var(--time_picker_popup_item_hover-bgc);

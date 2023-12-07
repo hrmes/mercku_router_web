@@ -75,6 +75,14 @@ export default {
             {
               rule: value => isValidPassword(value, 8, 64),
               message: this.$t('trans1220').replace('%s', 8)
+            },
+            {
+              rule: value => value.trim() !== '',
+              message: this.$t('trans1227')
+            },
+            {
+              rule: value => value.trim() === value,
+              message: this.$t('trans1226')
             }
           ]
         };

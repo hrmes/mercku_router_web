@@ -34,7 +34,8 @@
                 <div class="upperApForm__top__upperinfo">
                   <div class="current-ssid">
                     <span class="title">{{$t('trans1133')}}</span>
-                    <span class="content">{{currentUpperInfo.ssid}}</span>
+                    <span class="content"
+                          :title="currentUpperInfo.ssid">{{currentUpperInfo.ssid}}</span>
                   </div>
                   <div class="current-pwd">
                     <span class="title">{{$t('trans1134')}}</span>
@@ -181,6 +182,7 @@ export default {
   },
   computed: {
     pwdValue() {
+      console.log(this.currentUpperInfo.password);
       return this.currentUpperInfo.security !== EncryptMethod.OPEN
         ? this.currentUpperInfo.password
         : '-';
@@ -342,22 +344,30 @@ export default {
     color: var(--text_default-color);
     .upperApForm__top__upperinfo {
       width: 100%;
-      padding: 10px;
-      background: var(--flexwarp_hasmenu-bgc);
       border-radius: 4px;
       font-size: 14px;
-      .current-pwd {
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      > div {
+        display: flex;
+        flex-direction: column;
+        &:last-child {
+          margin-top: 5px;
+        }
+      }
+      .current-ssid {
+        white-space: pre;
+        .content {
+          white-space: pre;
+        }
       }
     }
     .title {
-      margin-right: 10px;
       color: var(--dashboard_gery-color);
     }
     .content {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       font-weight: 600;
     }
   }
@@ -369,7 +379,7 @@ export default {
   }
   h4 {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 }
 @media screen and (max-width: 768px) {

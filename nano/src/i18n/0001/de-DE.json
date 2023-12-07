@@ -1217,5 +1217,7 @@
   "trans1222": "Lüftermodus ",
   "trans1223": "Wenn die Innentemperatur des Geräts den normalen Betriebsbereich überschreitet, versucht das Gerät, seine eigene Temperatur über den Lüfter zu regulieren, um interne Komponenten zu schützen.",
   "trans1224": "Leistungsmodus",
-  "trans1225": "Leiser Modus"
+  "trans1225": "Leiser Modus",
+  "trans1226": "Unterstützt nur die Mitte mit Platz",
+  "trans1227": "Das Passwort darf nicht aus lauter Leerzeichen bestehen"
 }
