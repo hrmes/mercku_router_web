@@ -23,7 +23,7 @@ import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
-import wps from 'pages/bussiness/setting/wps.vue';
+// import wps from 'pages/bussiness/setting/wps.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import log from 'pages/bussiness/advance/log.vue';
 import fan from 'pages/bussiness/setting/fan.vue';
@@ -283,15 +283,15 @@ const routes = {
         hasAside: true
       }
     },
-    {
-      path: '/setting/wps',
-      name: 'wps',
-      component: wps,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
+    // {
+    //   path: '/setting/wps',
+    //   name: 'wps',
+    //   component: wps,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
     {
       path: '/advance/portforwarding',
       name: 'advance-portforwarding',

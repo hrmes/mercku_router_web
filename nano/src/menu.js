@@ -116,13 +116,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'fan',
         text: 'trans1222',
         config
-      },
-      {
-        url: '/setting/wps',
-        name: 'wps',
-        text: 'trans1168',
-        config
       }
+      // {
+      //   url: '/setting/wps',
+      //   name: 'wps',
+      //   text: 'trans1168',
+      //   config
+      // }
     ]
   };
   const advance = {

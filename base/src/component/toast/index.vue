@@ -56,7 +56,7 @@ export default {
   position: fixed;
   top: 65px;
   left: 50%;
-  z-index: 1005;
+  z-index: 99999;
   transform: translate(-50%, 10%);
   color: var(--text-deafult-color);
   padding: 10px 16px;
