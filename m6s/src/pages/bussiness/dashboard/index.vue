@@ -1129,6 +1129,7 @@ h6 {
         .background-shadow {
           width: 375px;
           height: 135px;
+          transform: translate(-50%, -60%);
         }
         .mobile-icon-wrapper {
           position: absolute;

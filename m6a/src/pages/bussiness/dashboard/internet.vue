@@ -699,7 +699,6 @@ export default {
       }
       &:first-child {
         position: relative;
-        height: 180px;
         margin-bottom: 20px;
         .uptime__bg {
           position: absolute;
