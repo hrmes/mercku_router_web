@@ -90,12 +90,12 @@ export default function getMenu(role, mode = RouterMode.router) {
           }
         }
       },
-      {
-        text: 'trans0020',
-        name: 'blacklist',
-        url: '/setting/blacklist',
-        config: strategyA
-      },
+      // {
+      //   text: 'trans0020',
+      //   name: 'blacklist',
+      //   url: '/setting/blacklist',
+      //   config: strategyA
+      // },
       {
         text: 'trans0272',
         name: 'timezone',
@@ -114,12 +114,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0538',
         config: strategyA
       },
-      {
-        url: '/setting/upnp',
-        name: 'upnp',
-        text: 'trans0644',
-        config: strategyA
-      },
+      // {
+      //   url: '/setting/upnp',
+      //   name: 'upnp',
+      //   text: 'trans0644',
+      //   config: strategyA
+      // },
       {
         url: '/setting/led',
         name: 'led',
@@ -147,36 +147,36 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0422',
         config: strategyA
       },
-      {
-        url: '/advance/dmz',
-        name: 'advance-dmz',
-        text: 'trans0420',
-        config: strategyA
-      },
-      {
-        url: '/advance/dhcp',
-        name: 'advance-dhcp',
-        text: 'trans0417',
-        config: strategyA
-      },
+      // {
+      //   url: '/advance/dmz',
+      //   name: 'advance-dmz',
+      //   text: 'trans0420',
+      //   config: strategyA
+      // },
+      // {
+      //   url: '/advance/dhcp',
+      //   name: 'advance-dhcp',
+      //   text: 'trans0417',
+      //   config: strategyA
+      // },
       {
         url: '/advance/rsvdip',
         name: 'advance-rsvdip',
         text: 'trans0444',
         config: strategyA
       },
-      {
-        url: '/advance/mac',
-        name: 'advance-mac',
-        text: 'trans0474',
-        config: strategyA
-      },
-      {
-        url: '/advance/ddns',
-        name: 'advance-ddns',
-        text: 'trans0418',
-        config: strategyA
-      },
+      // {
+      //   url: '/advance/mac',
+      //   name: 'advance-mac',
+      //   text: 'trans0474',
+      //   config: strategyA
+      // },
+      // {
+      //   url: '/advance/ddns',
+      //   name: 'advance-ddns',
+      //   text: 'trans0418',
+      //   config: strategyA
+      // },
       {
         url: '/advance/vpn',
         name: 'advance-vpn',
@@ -196,84 +196,84 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           }
         }
-      },
-      {
-        url: '/advance/diagnosis',
-        name: 'advance-diagnosis',
-        text: 'trans0419',
-        config: strategyA
-      },
-      {
-        url: '/advance/log',
-        name: 'advance-log',
-        text: 'trans0421',
-        config
-      },
-      {
-        url: '/advance/frozenCofig',
-        name: 'advance-frozen-cofig',
-        text: 'trans1186',
-        config
-      },
-      {
-        url: '/advance/firewall',
-        name: 'advance-firewall',
-        text: 'trans0424',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.super]
-          }
-        }
-      },
-      {
-        url: '/advance/wwa',
-        name: 'advance.wwa',
-        text: 'trans0511',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.super]
-          },
-          [Customers.pentanet]: {
-            auth: [Role.super]
-          }
-        }
-      },
-      {
-        url: '/advance/tr069',
-        name: 'advance.tr069',
-        text: 'trans0499',
-        config: {
-          show: true,
-          auth: [Role.super],
-          mode: [RouterMode.router, RouterMode.bridge]
-        },
-        customers: {
-          [Customers.mercku]: {
-            show: true
-          },
-          [Customers.realnett]: {
-            show: false
-          }
-        }
-      },
-      {
-        url: '/advance/telnet',
-        name: 'advance.telnet',
-        text: 'trans0497',
-        config: {
-          show: false,
-          auth: [Role.super],
-          mode: [RouterMode.router]
-        }
-      },
-      {
-        url: '/advance/backup',
-        name: 'advance.backup',
-        text: 'trans1019',
-        config
       }
+      // {
+      //   url: '/advance/diagnosis',
+      //   name: 'advance-diagnosis',
+      //   text: 'trans0419',
+      //   config: strategyA
+      // },
+      // {
+      //   url: '/advance/log',
+      //   name: 'advance-log',
+      //   text: 'trans0421',
+      //   config
+      // },
+      // {
+      //   url: '/advance/frozenCofig',
+      //   name: 'advance-frozen-cofig',
+      //   text: 'trans1186',
+      //   config
+      // },
+      // {
+      //   url: '/advance/firewall',
+      //   name: 'advance-firewall',
+      //   text: 'trans0424',
+      //   config: strategyA,
+      //   customers: {
+      //     [Customers.realnett]: {
+      //       auth: [Role.super]
+      //     }
+      //   }
+      // },
+      // {
+      //   url: '/advance/wwa',
+      //   name: 'advance.wwa',
+      //   text: 'trans0511',
+      //   config: strategyA,
+      //   customers: {
+      //     [Customers.realnett]: {
+      //       auth: [Role.super]
+      //     },
+      //     [Customers.pentanet]: {
+      //       auth: [Role.super]
+      //     }
+      //   }
+      // },
+      // {
+      //   url: '/advance/tr069',
+      //   name: 'advance.tr069',
+      //   text: 'trans0499',
+      //   config: {
+      //     show: true,
+      //     auth: [Role.super],
+      //     mode: [RouterMode.router, RouterMode.bridge]
+      //   },
+      //   customers: {
+      //     [Customers.mercku]: {
+      //       show: true
+      //     },
+      //     [Customers.realnett]: {
+      //       show: false
+      //     }
+      //   }
+      // },
+      // {
+      //   url: '/advance/telnet',
+      //   name: 'advance.telnet',
+      //   text: 'trans0497',
+      //   config: {
+      //     show: false,
+      //     auth: [Role.super],
+      //     mode: [RouterMode.router]
+      //   }
+      // },
+      // {
+      //   url: '/advance/backup',
+      //   name: 'advance.backup',
+      //   text: 'trans1019',
+      //   config
+      // }
     ]
   };
   const upgrade = {
