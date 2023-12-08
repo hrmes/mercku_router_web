@@ -1213,5 +1213,11 @@
   "trans1218": "Zugriff verweigern",
   "trans1219": "Zugriff erlauben",
   "trans1220": "Das Passwort muss mindestens %s Zeichen lang sein",
-  "trans1221": "Bitte warten Sie, bis der Router hochgefahren ist (weißes oder orangefarbenes Licht) "
+  "trans1221": "Bitte warten Sie, bis der Router hochgefahren ist (weißes oder orangefarbenes Licht) ",
+  "trans1222": "Lüftermodus ",
+  "trans1223": "Wenn die Innentemperatur des Geräts den normalen Betriebsbereich überschreitet, versucht das Gerät, seine eigene Temperatur über den Lüfter zu regulieren, um interne Komponenten zu schützen.",
+  "trans1224": "Leistungsmodus",
+  "trans1225": "Leiser Modus",
+  "trans1226": "Unterstützt nur die Mitte mit Platz",
+  "trans1227": "Das Passwort darf nicht aus lauter Leerzeichen bestehen"
 }

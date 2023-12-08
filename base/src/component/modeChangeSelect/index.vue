@@ -247,7 +247,7 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: var(--select_label-color);
+    color: var(--input_label-color);
     .refresh-icon {
       position: absolute;
       top: 0;

@@ -23,9 +23,10 @@ import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
-import wps from 'pages/bussiness/setting/wps.vue';
+// import wps from 'pages/bussiness/setting/wps.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import log from 'pages/bussiness/advance/log.vue';
+import fan from 'pages/bussiness/setting/fan.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -44,8 +45,6 @@ import mac from 'base/pages/bussiness/advance/mac.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
-import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
-import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
 
 import store from '../store';
@@ -256,32 +255,23 @@ const routes = {
       }
     },
     {
-      path: '/setting/led',
-      name: 'led',
-      component: led,
+      path: '/setting/fan',
+      name: 'fan',
+      component: fan,
       meta: {
         layout: 'primary',
         hasAside: true
       }
     },
-    {
-      path: '/setting/schedule',
-      name: 'schedule',
-      component: wifiSchedule,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/setting/wps',
-      name: 'wps',
-      component: wps,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
+    // {
+    //   path: '/setting/wps',
+    //   name: 'wps',
+    //   component: wps,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
     {
       path: '/advance/portforwarding',
       name: 'advance-portforwarding',

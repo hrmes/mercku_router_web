@@ -1213,5 +1213,11 @@
   "trans1218": "Deny Access",
   "trans1219": "Allow Access",
   "trans1220": "Minimum password length is %s characters",
-  "trans1221": "please wait for the router to finish booting up (white or orange light)"
+  "trans1221": "please wait for the router to finish booting up (white or orange light)",
+  "trans1222": "Fan Mode",
+  "trans1223": "When the internal temperature of the device exceeds the normal operating range, the device will attempt to regulate its own temperature through the fan to protect internal components.",
+  "trans1224": "Performance Mode",
+  "trans1225": "Silent Mode",
+  "trans1226": "Only support the middle with space",
+  "trans1227": "The password cannot be all spaces"
 }

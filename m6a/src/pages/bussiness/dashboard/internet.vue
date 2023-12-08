@@ -78,9 +78,8 @@
                       <i class="speed__icon speed__icon--peakdown"></i>
                       <label class="speed__title">{{$t('trans0307')}}</label>
                       <span class="speed__value">
-                        <m-count-to :startVal='0'
-                                    :endVal='Number(speedDown.value)'
-                                    :duration=3000
+                        <m-count-to :endVal='Number(speedDown.value)'
+                                    :duration='3000'
                                     :decimals='1'></m-count-to>
                       </span>
                       <span class="speed__unit">{{speedDown.unit}}</span>
@@ -91,9 +90,8 @@
                       <i class="speed__icon speed__icon--peakup"></i>
                       <label class="speed__title">{{$t('trans0306')}}</label>
                       <span class="speed__value">
-                        <m-count-to :startVal='0'
-                                    :endVal='Number(speedUp.value)'
-                                    :duration=3000
+                        <m-count-to :endVal='Number(speedUp.value)'
+                                    :duration='3000'
                                     :decimals='1'></m-count-to>
                       </span>
                       <span class="speed__unit">{{speedUp.unit}}</span>
@@ -103,7 +101,7 @@
                 <button class="btn"
                         :class="{'disabled':!isConnected}"
                         :disabled="!isConnected"
-                        @click="startSpeedTest()">
+                        @click="startSpeedTest(true)">
                   {{$t('trans0008')}}
                 </button>
               </div>
@@ -117,7 +115,7 @@
           </div>
         </div>
         <div class="layout-right-wrap">
-          <div class="section uptime">
+          <div class="section">
             <div class="section__inner">
               <div class="section__title">{{$t('trans0537')}}</div>
               <div class="section__body">
@@ -153,7 +151,7 @@
                 </div>
                 <div class="item">
                   <label class="item__label">{{$t('trans0152')}}</label>
-                  <span class="item__value">{{localNetInfo.netinfo.mask }}</span>
+                  <span class="item__value">{{localNetInfo.netinfo.mask}}</span>
                 </div>
                 <div class="item">
                   <label class="item__label">{{$t('trans0153')}}</label>
@@ -179,19 +177,23 @@
                 <div class="section__body">
                   <div class="item">
                     <label class="item__label">{{$t('trans0317')}}</label>
-                    <span class="item__value">{{networkArr[ipv6NetInfo.type]}}</span>
+                    <span class="item__value"
+                          :title="networkArr[ipv6NetInfo.type]">{{networkArr[ipv6NetInfo.type]}}</span>
                   </div>
                   <div class="item">
                     <label class="item__label">{{$t('trans0701')}}</label>
-                    <span class="item__value">{{ipv6NetInfo.ip }}</span>
+                    <span class="item__value"
+                          :title="ipv6NetInfo.ip">{{ipv6NetInfo.ip}}</span>
                   </div>
                   <div class="item">
                     <label class="item__label">{{$t('trans0236')}}</label>
-                    <span class="item__value">{{ipv6NetInfo.dns}}</span>
+                    <span class="item__value"
+                          :title="ipv6NetInfo.dns">{{ipv6NetInfo.dns}}</span>
                   </div>
                   <div class="item">
                     <label class="item__label">{{$t('trans0153')}}</label>
-                    <span class="item__value">{{ipv6NetInfo.gateway}}</span>
+                    <span class="item__value"
+                          :title="ipv6NetInfo.gateway">{{ipv6NetInfo.gateway}}</span>
                   </div>
                 </div>
               </div>
@@ -464,7 +466,6 @@ export default {
           this.speedStatus = res.data.result.status;
 
           if (res.data.result.status !== SpeedTestStatus.testing) {
-            console.log('clear');
             clearInterval(this.speedTestTimer);
             this.testSpeedNumber = this.testTimeout;
           }
@@ -488,12 +489,10 @@ export default {
       this.speedStatus = SpeedTestStatus.testing;
       this.speedInfo = {};// 让速度值归零，等待后续重跑
 
-
       this.clearIntervalTask();
       this.speedTest(force);
       this.speedTestTimer = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
-          console.log('clear');
           clearInterval(this.speedTestTimer);
           this.testSpeedNumber = this.testTimeout;
           this.speedStatus = SpeedTestStatus.done;
@@ -548,7 +547,6 @@ export default {
         .getMeshInfoWanNetIpv6()
         .then(res => {
           const { result } = res.data;
-          console.log('ipv6', result);
           if (result.enabled === true) {
             const { netinfo } = result;
 
@@ -700,8 +698,15 @@ export default {
         padding: 0px 20px 15px;
       }
       &:first-child {
-        height: 160px;
+        position: relative;
+        height: 180px;
         margin-bottom: 20px;
+        .uptime__bg {
+          position: absolute;
+          width: 60px;
+          right: 0;
+          bottom: 0;
+        }
         .section__inner {
           height: 100%;
         }
@@ -869,27 +874,22 @@ export default {
     }
   }
   .uptime {
-    position: relative;
     margin-bottom: 10px;
-    .uptime__bg {
-      position: absolute;
-      width: 60px;
-      right: 0;
-      bottom: 0;
-    }
-    .uptime__top {
-      font-size: 24px;
-      font-weight: bold;
+    .uptime__value {
+      font-size: 30px;
+      font-family: 'DINAlternate', sans-serif;
+      font-weight: 700;
     }
     .uptime__unit {
+      color: var(--common_gery-color);
       margin-left: 5px;
-      font-size: 14px;
-      font-weight: normal;
+      font-size: 16px;
+      font-weight: 400;
     }
     .uptime__bottom {
       font-size: 30px;
       font-family: 'DINAlternate', sans-serif;
-      font-weight: bold;
+      font-weight: 700;
       &.padding-top {
         padding-top: 10px;
       }

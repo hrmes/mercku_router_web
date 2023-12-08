@@ -9,7 +9,8 @@
       <div class="radio"></div>
       <div class="text-container">
         <div class="mode"> {{option.text}}</div>
-        <p class="des">{{option.description}}</p>
+        <p class="des"
+           v-if="option.description">{{option.description}}</p>
       </div>
       <div class="icon">
         <img :src="selected===option.value?option.img.selected:option.img.unselected">
@@ -37,7 +38,6 @@ export default {
   },
   methods: {
     check(option) {
-      console.log(option);
       this.selected = option.value;
       this.$emit('input', this.selected);
     }
@@ -65,48 +65,38 @@ export default {
     }
   }
   .option {
+    display: flex;
+    align-items: center;
     height: 100px;
     box-sizing: border-box;
     padding: 10px 15px;
     border-radius: 10px;
-    background-color: #f7f7f7;
-    display: flex;
-    align-items: center;
-    border: 1.5px solid transparent;
+    background-color: var(--common_card-bgc);
     cursor: pointer;
-    transition: all 0.5s;
-    &:hover {
-      border-color: var(--radio_card_item_selected-color);
-    }
     &.selected {
-      background-color: #caedff;
       .radio {
-        border-color: var(--radio_card_item_selected-color);
         position: relative;
         &::after {
           content: '';
-          display: block;
           position: absolute;
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 6px;
-          height: 6px;
-          background: var(--radio_card_item_selected-color);
+          width: 86%;
+          height: 86%;
           border-radius: 50%;
-        }
-      }
-      .text-container {
-        .des {
-          color: #5d696f;
+          background: var(--primary-color);
         }
       }
     }
     .radio {
-      width: 14px;
-      height: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
-      border: 1px solid var(--radio_item-color);
+      border: 1.5px solid var(--checkbox_border-color);
     }
     .text-container {
       flex: 1;
@@ -116,28 +106,24 @@ export default {
       align-items: flex-start;
       margin: 0 18px 0 12px;
       font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--text_default-color);
       user-select: none;
-      .mode {
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 5px;
-        color: #333;
-      }
       .des {
         margin: 0;
         font-size: 12px;
-        color: #999;
+        color: var(--common_gery-color);
       }
     }
     .icon {
-      width: 60px;
-      height: 60px;
       display: flex;
       justify-content: center;
       align-items: center;
+      width: fit-content;
       > img {
-        widows: 60px;
-        height: 60px;
+        width: 60px;
+        aspect-ratio: 1;
       }
     }
   }
@@ -157,7 +143,15 @@ export default {
       }
     }
     .option {
-      border: 0;
+      background-color: var(--common_sub_card-bgc);
+      .icon {
+        > img {
+          width: 50px;
+        }
+      }
+      .text-container {
+        font-size: 12px;
+      }
     }
   }
 }
@@ -182,7 +176,6 @@ export default {
       .icon {
         > img {
           width: 40px;
-          height: 40px;
         }
       }
     }

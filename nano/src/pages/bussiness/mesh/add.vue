@@ -184,9 +184,6 @@
       <div class="tips center-wrap"
            v-if="showTips">
         <div class="circle-animation">
-          <!-- <div class="circle circle1"></div>
-          <div class="circle circle2"></div>
-          <div class="circle circle3"></div> -->
         </div>
         <p class="tips__text successed">{{$t('trans0175')}}</p>
         <div class="button-container">
@@ -211,10 +208,6 @@
             <p>{{$t('trans0175')}}</p>
             <p>{{$t('trans0698')}}</p>
             <p>{{$t('trans0661')}}</p>
-            <!-- <p>6. {{$t('trans0372')}}
-              <a :href="$t('trans0477')"
-                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}
-            </p> -->
           </div>
         </div>
       </div>
@@ -320,13 +313,6 @@ export default {
     },
     isStep(index) {
       return this.stepsOption.current === index;
-    },
-    updateTipsVisible(visible) {
-      this.showTips = visible;
-      this.showChooseType = !visible;
-      // if (!visible) {
-      //   this.forward2step(0);
-      // }
     },
     updateChooseTypeVisible(visible, type) {
       this.showChooseType = visible;
@@ -668,31 +654,6 @@ export default {
   aspect-ratio: 10/9;
   margin: 0 auto;
   margin-bottom: 50px;
-  .circle {
-    width: 200px;
-    height: 100px;
-    border-radius: 50%;
-    background: radial-gradient(
-      rgba(214, 0, 28, 0) 39%,
-      rgba(214, 0, 28, 0.29) 100%
-    );
-    transform: scale(1);
-    opacity: 0;
-    animation: ripple 1.4s linear 0.8s infinite;
-    position: absolute;
-    &.circle1 {
-      left: 50px;
-      top: 40px;
-    }
-    &.circle2 {
-      left: 150px;
-      top: 30px;
-    }
-    &.circle3 {
-      left: 80px;
-      top: 100px;
-    }
-  }
 }
 .steps-container {
   display: flex;
@@ -983,22 +944,6 @@ export default {
   }
   .circle-animation {
     width: 280px;
-    .circle {
-      width: 100px;
-      height: 50px;
-      &.circle1 {
-        left: 70px;
-        top: 60px;
-      }
-      &.circle2 {
-        left: 155px;
-        top: 50px;
-      }
-      &.circle3 {
-        left: 100px;
-        top: 110px;
-      }
-    }
   }
   .button-container {
     flex-direction: column-reverse;

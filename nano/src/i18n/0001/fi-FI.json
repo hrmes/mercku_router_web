@@ -1213,5 +1213,11 @@
   "trans1218": "Kieltäydy pääsystä",
   "trans1219": "Salli pääsy",
   "trans1220": "Salasanan vähimmäispituus on %s merkkiä",
-  "trans1221": "että reititin on käynnistynyt (valkoinen tai oranssi valo)"
+  "trans1221": "että reititin on käynnistynyt (valkoinen tai oranssi valo)",
+  "trans1222": "Tuulettimen tila",
+  "trans1223": "Kun laitteen sisäinen lämpötila ylittää normaalin käyttöalueen, laite yrittää säätää omaa lämpötilaansa tuulettimen avulla suojatakseen sisäisiä komponentteja.",
+  "trans1224": "Suorituskykytila",
+  "trans1225": "Hiljainen tila",
+  "trans1226": "Tukee vain tilaa keskellä",
+  "trans1227": "Salasana ei voi olla pelkkää välilyöntiä"
 }

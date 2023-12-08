@@ -44,8 +44,8 @@ import mac from 'base/pages/bussiness/advance/mac.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
-import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
-import led from 'base/pages/bussiness/setting/led.vue';
+// import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
+// import led from 'base/pages/bussiness/setting/led.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
 
 import store from '../store';
@@ -255,24 +255,24 @@ const routes = {
         hasAside: true
       }
     },
-    {
-      path: '/setting/led',
-      name: 'led',
-      component: led,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/setting/schedule',
-      name: 'schedule',
-      component: wifiSchedule,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
+    // {
+    //   path: '/setting/led',
+    //   name: 'led',
+    //   component: led,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
+    // {
+    //   path: '/setting/schedule',
+    //   name: 'schedule',
+    //   component: wifiSchedule,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
     {
       path: '/setting/wps',
       name: 'wps',
