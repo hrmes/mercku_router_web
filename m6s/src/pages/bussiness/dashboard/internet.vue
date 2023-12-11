@@ -215,7 +215,7 @@
 <script>
 import { SpeedTestStatus, RouterMode, WanNetStatus } from 'base/util/constant';
 import { formatBandWidth } from 'base/util/util';
-import speedTestMixin from '@/mixins/speed-test';
+import speedTestMixin from 'base/mixins/speed-test';
 
 export default {
   mixins: [speedTestMixin],

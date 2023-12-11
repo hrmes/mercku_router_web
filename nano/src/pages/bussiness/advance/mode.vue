@@ -96,7 +96,7 @@
 </template>
 <script>
 import { EncryptMethod, RouterMode, WanNetStatus } from 'base/util/constant';
-import SettingUpperAp from '@/mixins/setting-upperAp';
+import SettingUpperAp from 'base/mixins/setting-upperAp';
 
 const UpperApInitForm = {
   ssid: '', // 必选

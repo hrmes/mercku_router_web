@@ -2,6 +2,24 @@ import { getStringByte } from 'base/util/util';
 import { RouterColor } from 'base/util/constant';
 import store from '@/store/index';
 
+const DeviceColorList = [
+  {
+    name: 'black',
+    value: 'linear-gradient(298deg, #515151 30%, #151515 70%)'
+  },
+  {
+    name: 'white',
+    value: 'linear-gradient(298deg, #fff 30%, #ebebeb 70%)'
+  },
+  {
+    name: 'grey',
+    value: ' linear-gradient(298deg, #c4d4db 30%, #6a848a 70%)'
+  },
+  {
+    name: 'red',
+    value: 'linear-gradient(298deg, #f74949 30%, #c41b1b 70%)'
+  }
+];
 export default {
   data() {
     return {
@@ -43,9 +61,15 @@ export default {
         this.$t('trans0362'),
         this.$t('trans0363')
       ],
-      deviceColorArr: process.env.CUSTOMER_CONFIG.deviceColor,
       selectedColorName: store.state.deviceColor
     };
+  },
+  computed: {
+    availableDeviceColors() {
+      return DeviceColorList.filter(color =>
+        process.env.CUSTOMER_CONFIG.deviceColors.includes(color.name)
+      );
+    }
   },
   methods: {
     closeMeshEditModal() {

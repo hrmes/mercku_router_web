@@ -221,7 +221,7 @@
 <script>
 import { VPNType } from 'base/util/constant';
 import { getStringByte, isValidPassword } from 'base/util/util';
-// import wireguardConfig from '@/mixins/wireguard-config';
+// import wireguardConfig from 'base/mixins/wireguard-config';
 
 const FormType = {
   add: 'add',
