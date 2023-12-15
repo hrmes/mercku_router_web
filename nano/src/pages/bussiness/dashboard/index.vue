@@ -182,7 +182,7 @@
             <div class="color-select">
               <h4 class="label">{{$t('trans1214')}}</h4>
               <ul class="color-select__wrapper reset-ul">
-                <li v-for="(color,index) in deviceColorArr"
+                <li v-for="(color,index) in availableDeviceColors"
                     :key="index"
                     class="limit-icon">
                   <div class="color"
@@ -225,7 +225,7 @@
 import marked from 'marked';
 import { WanNetStatus, RouterMode } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import editMeshMixin from '@/mixins/mesh-edit.js';
+import editMeshMixin from 'base/mixins/mesh-edit.js';
 
 export default {
   mixins: [editMeshMixin],

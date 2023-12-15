@@ -180,13 +180,14 @@
           </m-form-item>
           <m-form-item prop="color">
             <div class="color-select">
-              <h4 class="label">Device Color</h4>
+              <h4 class="label">{{$t('trans1214')}}</h4>
               <ul class="color-select__wrapper reset-ul">
-                <li v-for="(color,index) in deviceColorArr"
+                <li v-for="(color,index) in availableDeviceColors"
                     :key="index"
                     class="limit-icon">
                   <div class="color"
-                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
+                       :class="{selected:selectedColorName===color.name,
+                              'light-color':color.name===RouterColor.white}"
                        :style="{backgroundImage:color.value}"
                        @click="changeDeviceColor(color)">
                   </div>
@@ -229,7 +230,7 @@ import {
   RouterMode
 } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import meshEditMixin from '@/mixins/mesh-edit.js';
+import meshEditMixin from 'base/mixins/mesh-edit.js';
 
 export default {
   mixins: [meshEditMixin],
