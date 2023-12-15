@@ -263,36 +263,47 @@ export default {
     }
   },
   mounted() {
-    this.$loading.open();
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-        this.$loading.close();
-      });
-    this.$http
-      .getMeshMeta()
-      .then(res => {
-        const wifi = res.data.result;
-        const b24g = wifi.bands[Bands.b24g];
-        const b5g = wifi.bands[Bands.b5g];
-        this.wifiForm.ssid24g = b24g.ssid;
-        this.wifiForm.password24g = b24g.password;
-        this.wifiForm.ssid5g = b5g.ssid;
-        this.wifiForm.password5g = b5g.password;
-        this.wifiForm.smart_connect = wifi.smart_connect;
-      })
-      .then(() => {
-        this.getRegionInitData();
-      });
+    this.authorize();
   },
   methods: {
+    authorize() {
+      this.$loading.open();
+      this.$http
+        .login(
+          { password: '' },
+          {
+            hideToast: true
+          }
+        )
+        .then(() => {
+          this.getMesh();
+        })
+        .catch(() => {
+          // password is not empty, go to login page
+          this.$router.push({ path: '/login' });
+          this.$loading.close();
+        });
+    },
+    getMesh() {
+      this.$http
+        .getMeshMeta()
+        .then(res => {
+          const wifi = res.data.result;
+          const b24g = wifi.bands[Bands.b24g];
+          const b5g = wifi.bands[Bands.b5g];
+          this.wifiForm.ssid24g = b24g.ssid;
+          this.wifiForm.password24g = b24g.password;
+          this.wifiForm.ssid5g = b5g.ssid;
+          this.wifiForm.password5g = b5g.password;
+          this.wifiForm.smart_connect = wifi.smart_connect;
+        })
+        .then(() => {
+          this.getRegionInitData();
+        })
+        .catch(() => {
+          this.$loading.open();
+        });
+    },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
         this.$refs.ssid5g.extraValidate(
@@ -344,9 +355,8 @@ export default {
             }
           });
           this.regionsList = regions;
-          this.$loading.close();
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
