@@ -271,6 +271,11 @@ const Languages = [
     value: 'bg-BG',
     show: false
   },
+   {
+    text: 'Italiano',
+    value: 'it-IT',
+    show: false
+  },
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
 if (!supportLanguage) {
