@@ -179,7 +179,8 @@
         </li>
       </ul>
     </div>
-    <div class="jump-app-info"
+    <div v-if="qrImgSrc"
+         class="jump-app-info"
          @click="jumpApp">
       <div class="icon mercku">
         <img :src="launcherIconSrc">
@@ -299,7 +300,10 @@ export default {
       return require(`@/assets/images/customer/${this.folderName}/ic_launcher.png`);
     },
     qrImgSrc() {
-      return require(`@/assets/images/customer/${this.folderName}/qr.png`);
+      if (process.env.CUSTOMER_CONFIG.appDownloadUrl) {
+        return require(`@/assets/images/customer/${this.folderName}/qr.png`);
+      }
+      return false;
     },
     openInAppText() {
       return this.$t('trans1118').replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
@@ -367,7 +371,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -653,6 +657,7 @@ ul {
           padding: 20px 0;
           .sub-text {
             width: 87%;
+            font-size: 12px;
             margin: 0 auto;
             overflow: hidden;
             text-overflow: ellipsis;

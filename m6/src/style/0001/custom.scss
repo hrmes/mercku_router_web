@@ -55,6 +55,9 @@
   &.login-container {
     background-color: var(--header-nav-hide-background-color);
     .center-form {
+      .logo {
+        height: 48px;
+      }
       &.light {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_light.png)

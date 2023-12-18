@@ -18,10 +18,12 @@
     }
   },
   "loading": {
-    "color": "#00b4e4"
+    "color": "#006bad"
   },
   "website": {
     "url": "https://vistabeam.com/",
-    "text": "vistabeam.com"
-  }
+    "text": "vistabeam.com",
+    "phoneNumber": "(888) 251-0920"
+  },
+  "appDownloadUrl": ""
 }

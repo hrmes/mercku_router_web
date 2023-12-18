@@ -963,7 +963,7 @@
   "trans0968": "Skip tutorial",
   "trans0969": "Next",
   "trans0970": "Easily share your Wi-Fi password using the QR code or by copying and pasting, and experience Mercku's high-speed network together.",
-  "trans0971": "In the personal center, you can view help or voice control, submit feedback, change password, switch login account, switch language, and clear cache.",
+  "trans0971": "In the personal center, you can view help or submit feedback, change password, switch login account, switch language, and clear cache.",
   "trans0972": "Switch to the mesh network view so you can better understand your current network status.",
   "trans0973": "Click this button to switch between your different networks.",
   "trans0974": "Weekend",
@@ -1115,5 +1115,15 @@
   "trans1120": "Login out",
   "trans1121": "AUTO",
   "trans1122": "Light",
-  "trans1123": "Dark"
+  "trans1123": "Dark",
+  "trans1124": "Please log in to your Junet account to delete the corresponding account information",
+  "trans1125": "1.Clicking the delete button below will remove all your account-related information in the Junet app, including the binding relationship between your account and your devices. If you want to clear the configuration information of the devices, please manually restore them to factory settings.",
+  "trans1126": "2.After confirming the deletion, you will not be able to log in again with this account in the Junet app.",
+  "trans1127": "3.Account data deletion is irreversible, please proceed with caution.",
+  "trans1128": "4.If you only want to unbind a specific device, please delete it from the device details page.",
+  "trans1129": "5.To delete device information and personal account information stored in the ISP system, please consult your broadband operator.",
+  "trans1130": " ",
+  "trans1131": " ",
+  "trans1132": " ",
+  "trans1133": " "
 }

@@ -6,7 +6,7 @@
   --z-index_frame:999;//frame的z-index,header、footer的层级，需要高于页面内元素
   --z-index_pageElement:10;//页面内元素的z-index，仅需要高于未设置z-index的页内元素即可
 
-  --primaryColor: #00b4e4;
+  --primaryColor: rgb(0, 107, 173);
   --warning-color: #f12b2b;
   --primaryBackgroundColor: #fff;
   --primaryBackgroundColor2: #fff;
@@ -23,25 +23,25 @@
   --button-background-color: var(--primaryColor);
   --button-border-color: transparent;
   --button-active-color: var(--primaryColor);
-  --button-hover-color: #00c9ff;
-  --button-disabled-background-color: #b2e8f6;
+  --button-hover-color:rgba(0,107,173,0.7);
+  --button-disabled-background-color: rgb(0, 107, 173,0.3);
   --button-disabled-border-color: transparent;
   --button-disabled-text-color: #fff;
 
   --button-default-background-color: transparent;
   --button-default-text-color: var(--primaryColor);
   --button-default-border-color: var(--primaryColor);
-  --button-default-active-text-color: #00a1cc;
-  --button-default-active-border-color: #00a1cc;
-  --button-default-hover-text-color: #00c9ff;
-  --button-default-hover-border-color: #00c9ff;
-  --button-default-disabled-text-color: #00b4e4;
-  --button-default-disabled-border-color: #00b4e4;
+  --button-default-active-text-color: rgb(0, 107, 173);
+  --button-default-active-border-color: rgb(0, 107, 173);
+  --button-default-hover-text-color: rgba(0, 107, 173,0.7);
+  --button-default-hover-border-color: rgba(0, 107, 173,0.7);
+  --button-default-disabled-text-color: rgba(0, 107, 173,0.3);
+  --button-default-disabled-border-color: rgba(0, 107, 173,0.3);
 
   --button-text-text-color: #333;
   --button-text-hover-color: #999;
   --button-text-primary-text-color: var(--primaryColor);
-  --button-text-primary-hover-color: #00c9ff;
+  --button-text-primary-hover-color: rgba(0, 107, 173,0.7);
   --button-text-primary-disabled-hover-color: #999;
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
@@ -168,8 +168,8 @@
   --step-item-failed-border-color: #ffe6e9;
   --step-item-failed-color: #d6001c;
   --step-item-failed-icon-color: #d6001c;
-  --step-item-success-background-color: #ccf0fa;
-  --step-item-success-border-color: #ccf0fa;
+  --step-item-success-background-color: #cce1ef;
+  --step-item-success-border-color: #cce1ef;
   --step-item-success-color: var(--primaryColor);
 
   // switch
@@ -268,7 +268,7 @@
 
   //aside
   --aside-selected-text-color: var(--primaryColor);
-  --asdie-selected-background: #d9f4fb;
+  --asdie-selected-background: #d9e9f3;
   --aside-hover-background-color: #f7f7f7;
   --aside-disabled-color: #cccccc;
 
@@ -292,7 +292,7 @@
   --z-index_frame:999;//frame的z-index,header、footer的层级，需要高于页面内元素
   --z-index_pageElement:10;//页面内元素的z-index，仅需要高于未设置z-index的页内元素即可
 
-  --primaryColor: #00b4e4;
+  --primaryColor: rgb(0, 163, 218);
   --warning-color: #ff4d64;
   --primaryBackgroundColor: #1a1a1a;
   --primaryBackgroundColor2: #2e2e2e;
@@ -309,8 +309,8 @@
   --button-background-color: var(--primaryColor);
   --button-border-color: transparent;
   --button-active-color: var(--primaryColor);
-  --button-hover-color: #1acfff;
-  --button-disabled-background-color: #124856;
+  --button-hover-color: rgba(0, 163, 218,0.7);
+  --button-disabled-background-color: rgba(0, 163, 218,0.3);
   --button-disabled-border-color: transparent;
   --button-disabled-text-color: rgba(255, 255, 255, 0.4);
 
@@ -319,15 +319,15 @@
   --button-default-border-color: var(--primaryColor);
   --button-default-active-text-color: var(--primaryColor);
   --button-default-active-border-color: var(--primaryColor);
-  --button-default-hover-text-color: #1acfff;
-  --button-default-hover-border-color: #1acfff;
-  --button-default-disabled-text-color: #124856;
-  --button-default-disabled-border-color: #124856;
+  --button-default-hover-text-color: rgba(0, 163, 218,0.7);
+  --button-default-hover-border-color: rgba(0, 163, 218,0.7);
+  --button-default-disabled-text-color: rgba(0, 163, 218,0.3);
+  --button-default-disabled-border-color: rgba(0, 163, 218,0.3);
 
   --button-text-text-color: #fff;
   --button-text-hover-color: rgba(255, 255, 255, 0.6);
   --button-text-primary-text-color: var(--primaryColor);
-  --button-text-primary-hover-color: #1acfff;
+  --button-text-primary-hover-color: rgba(0, 163, 218,0.7);
   --button-text-primary-disabled-hover-color: #999;
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
@@ -464,9 +464,9 @@
   --step-item-failed-border-color: #da3d52;
   --step-item-failed-color: #fff;
   --step-item-failed-icon-color: #fff;
-  --step-item-success-background-color: #1b6376;
-  --step-item-success-border-color: #1b6376;
-  --step-item-success-color: #00b4e4;
+  --step-item-success-background-color: #1b5c72;
+  --step-item-success-border-color: #1b5c72;
+  --step-item-success-color:  rgb(0, 163, 218);
 
   // switch
   --switch-background-color: #b6b6b6;
@@ -564,7 +564,7 @@
 
   //aside
   --aside-selected-text-color: #fff;
-  --asdie-selected-background: #1b6376;
+  --asdie-selected-background: #1b5c72;
   --aside-hover-background-color: rgba(255, 255, 255, 0.2);
   --aside-disabled-color: rgba(255, 255, 255, 0.3);
 
