@@ -38,7 +38,7 @@ import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
 // import log from 'base/pages/bussiness/advance/log.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
-// import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
+import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
 // import mac from 'base/pages/bussiness/advance/mac.vue';
 // import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
@@ -299,15 +299,15 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/advance/dhcp',
-    //   name: 'advance-dhcp',
-    //   component: dhcp,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/advance/dhcp',
+      name: 'advance-dhcp',
+      component: dhcp,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     // {
     //   path: '/advance/dmz',
     //   name: 'advance-dmz',

@@ -153,12 +153,12 @@ export default function getMenu(role, mode = RouterMode.router) {
       //   text: 'trans0420',
       //   config: strategyA
       // },
-      // {
-      //   url: '/advance/dhcp',
-      //   name: 'advance-dhcp',
-      //   text: 'trans0417',
-      //   config: strategyA
-      // },
+      {
+        url: '/advance/dhcp',
+        name: 'advance-dhcp',
+        text: 'trans0417',
+        config: strategyA
+      },
       {
         url: '/advance/rsvdip',
         name: 'advance-rsvdip',
