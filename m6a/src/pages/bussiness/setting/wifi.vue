@@ -76,7 +76,7 @@
             </m-form-item>
           </m-form>
           <!-- wifi 5g -->
-          <m-form v-if="!form.smart_connect"
+          <m-form v-show="!form.smart_connect"
                   class="form card"
                   ref="b5gForm"
                   key="b5gform"
