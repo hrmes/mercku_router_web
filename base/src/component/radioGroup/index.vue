@@ -61,25 +61,10 @@ export default {
     display: flex;
     align-items: center;
     cursor: pointer;
-    &.selected {
-      .radio {
-        border: 0;
-        background: var(--checkbox-checked-background-color);
-        position: relative;
-        &::after {
-          content: '\e65c';
-          width: 12px;
-          height: 12px;
-          font-size: 12px;
-          font-family: 'iconfont';
-          color: #fff;
-        }
-      }
-    }
     .radio {
       width: 18px;
       height: 18px;
-      line-height: 18px;
+      line-height: 17px;
       text-align: center;
       border-radius: 50%;
       border: 1.5px solid var(--checkbox-border-color);
@@ -87,6 +72,25 @@ export default {
     .text {
       margin-left: 12px;
       font-size: 14px;
+    }
+    &.selected {
+      .radio {
+        position: relative;
+        border: 0;
+        background: var(--checkbox-checked-background-color);
+        position: relative;
+        &::after {
+          content: '\e65c';
+          position: absolute;
+          top: 1px;
+          left: 2.5px;
+          width: 12px;
+          height: 12px;
+          font-size: 12px;
+          font-family: 'iconfont';
+          color: #fff;
+        }
+      }
     }
   }
 }

@@ -164,20 +164,21 @@ export default {
 .form {
   width: 340px;
   .radio {
+    position: relative;
     display: flex;
     align-items: center;
+    height: 18px;
     padding-left: 24px;
-    position: relative;
     cursor: pointer;
-    line-height: 1;
-    height: 14px;
+    user-select: none;
     &:before {
       content: '';
       position: absolute;
       box-sizing: border-box;
+      top: 0;
       left: 0;
-      width: 17px;
-      height: 17px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       border: 1.5px solid var(--checkbox-border-color);
     }
@@ -189,11 +190,11 @@ export default {
       &::after {
         content: '\e65c';
         position: absolute;
-        top: 1.5px;
-        left: 2px;
-        width: 10px;
-        height: 10px;
-        font-size: 10px;
+        top: 1px;
+        left: 2.5px;
+        width: 12px;
+        height: 12px;
+        font-size: 12px;
         font-family: 'iconfont';
         color: #fff;
       }
