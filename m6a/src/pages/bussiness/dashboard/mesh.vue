@@ -136,7 +136,7 @@
                      v-if="!isMobile">{{$t('trans0375')}}</div>
               </div>
               <ul class="card-bottom__main reset-ul"
-                  v-if="selectedNodeInfo.stations.length>0">
+                  v-if="selectedNodeStationCount">
                 <li v-for="sta in selectedNodeInfo.stations"
                     :key="sta.ip">
                   <div class="col-1">
@@ -329,7 +329,7 @@ export default {
       return this.selectedNodeInfo?.is_gw;
     },
     selectedNodeStationCount() {
-      return this.selectedNodeInfo.stations.length ?? '0';
+      return this.selectedNodeInfo?.stations?.length ?? '0';
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -347,7 +347,7 @@ export default {
           this.modelID === M6aRouterSnModelVersion.M6a_Plus ? 'M6a_plus' : 'M6a'
         ].shortName;
       return name;
-    }
+    },
   },
   watch: {
     currentTheme: {
@@ -357,7 +357,7 @@ export default {
         } else {
           this.isDarkMode = false;
         }
-        if (this.routers.length !== 0) {
+        if (this.routers?.length !== 0) {
           this.drawTopo(this.routers);
         }
       },
