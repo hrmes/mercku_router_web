@@ -1,14 +1,3 @@
-/*
-  此文件是主题样式基础文件，客户的主题文件应该默认导入此主题，
-  每个客户均需要有一个对应的文件样式目录，目录名为客户的CUSTOMER_ID
-  目录下面应该存在2个文件
-  1. theme.scss 用来描述主题色彩搭配
-  2. custom.scss 用来描述一些自定义的布局或其他样式
-  上述两个文件必须存在，因为在入口处默认被引入，因此即使没有自定义主题的需求，也应该复制默认的样式进行覆盖
-
-*/
-
-
 //浅色主题，颜色定义
 @mixin light-theme {
   color-scheme: light;
@@ -17,9 +6,10 @@
   --z-index_frame:999;//frame的z-index,header、footer的层级，需要高于页面内元素
   --z-index_pageElement:10;//页面内元素的z-index，仅需要高于未设置z-index的页内元素即可
 
-  --primaryColor: #d6001c;
+  --primaryColor: rgb(0, 107, 173);
   --warning-color: #f12b2b;
   --primaryBackgroundColor: #fff;
+  --primaryBackgroundColor2: #fff;
   --text-default-color: #333;
   --text-gery-color: #737373;
   --img-brightness: brightness(0);
@@ -33,30 +23,30 @@
   --button-background-color: var(--primaryColor);
   --button-border-color: transparent;
   --button-active-color: var(--primaryColor);
-  --button-hover-color: #f42843;
-  --button-disabled-background-color: rgba(214, 0, 28, 0.3);
+  --button-hover-color:rgba(0,107,173,0.7);
+  --button-disabled-background-color: rgb(0, 107, 173,0.3);
   --button-disabled-border-color: transparent;
   --button-disabled-text-color: #fff;
 
   --button-default-background-color: transparent;
   --button-default-text-color: var(--primaryColor);
   --button-default-border-color: var(--primaryColor);
-  --button-default-active-text-color: #e6586a;
-  --button-default-active-border-color: #e6586a;
-  --button-default-hover-text-color: #f42843;
-  --button-default-hover-border-color: #f42843;
-  --button-default-disabled-text-color: rgba(214, 0, 28, 0.5);
-  --button-default-disabled-border-color: rgba(214, 0, 28, 0.5);
+  --button-default-active-text-color: rgb(0, 107, 173);
+  --button-default-active-border-color: rgb(0, 107, 173);
+  --button-default-hover-text-color: rgba(0, 107, 173,0.7);
+  --button-default-hover-border-color: rgba(0, 107, 173,0.7);
+  --button-default-disabled-text-color: rgba(0, 107, 173,0.3);
+  --button-default-disabled-border-color: rgba(0, 107, 173,0.3);
 
   --button-text-text-color: #333;
   --button-text-hover-color: #999;
   --button-text-primary-text-color: var(--primaryColor);
-  --button-text-primary-hover-color: #e6586a;
+  --button-text-primary-hover-color: rgba(0, 107, 173,0.7);
   --button-text-primary-disabled-hover-color: #999;
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
 
-  --button-icon-hover-color: #d6001c;
+  --button-icon-hover-color: var(--primaryColor);
   --button-icon-disabled-bgc: #f0f0f0;
   --button-icon-disabled-color: #cdcdcd;
   --button-close-background-color: #f1f1f1;
@@ -97,7 +87,7 @@
   --header-background-color: var(--primaryBackgroundColor);
   --header-color: #fff;
   --header-nav-iconfont-color: #979797;
-  --header-nav-iconfont-selected-color: #d6001c;
+  --header-nav-iconfont-selected-color: var(--primaryColor);
   --header-nav-hide-background-color: var(--primaryBackgroundColor);
   --header-nav-hide-color: #333;
   --header-nav-hide-trangle-color: #333;
@@ -178,9 +168,9 @@
   --step-item-failed-border-color: #ffe6e9;
   --step-item-failed-color: #d6001c;
   --step-item-failed-icon-color: #d6001c;
-  --step-item-success-background-color: #ffe6e9;
-  --step-item-success-border-color: #ffe6e9;
-  --step-item-success-color: #d6001c;
+  --step-item-success-background-color: #cce1ef;
+  --step-item-success-border-color: #cce1ef;
+  --step-item-success-color: var(--primaryColor);
 
   // switch
   --switch-background-color: #b6b6b6;
@@ -225,7 +215,7 @@
   --upgrade-text-color: #fff;
 
   // upload
-  --upload-button-disabled-color: rgba(214, 0, 28, 0.3);
+  --upload-button-disabled-color: #b2e8f6;
   --upload-file-text-color: #999;
   --upload-file-description-color: #333;
   --upload-background-color: #f1f1f1;
@@ -277,8 +267,8 @@
   --table-body-hr-color: #ebebeb;
 
   //aside
-  --aside-selected-text-color: #d6001c;
-  --asdie-selected-background: #ffe2e2;
+  --aside-selected-text-color: var(--primaryColor);
+  --asdie-selected-background: #d9e9f3;
   --aside-hover-background-color: #f7f7f7;
   --aside-disabled-color: #cccccc;
 
@@ -287,28 +277,25 @@
 
   //bridge
   --bridge-tips-bgc: #fafafa;
-  --bridge-tips-color: #df2039;
+  --bridge-tips-color: var(--primaryColor);
 
   //internet color theme
   --internet-background-color: #f7f7f7;
   --internet-section-background-color: #fff;
   --internet-section-hr-color: #dbdbdb;
-
-  //offline
-  --offline-box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 //深色主题，颜色定义
 @mixin dark-theme {
   color-scheme: dark;
-  --z-index_toast:10000;
-  --z-index_dialog:1000;
-  --z-index_frame:999;
-  --z-index_pageElement:10;
+  --z-index_toast:10000;//toast的z-index，属于顶层
+  --z-index_dialog:1000;//dialog的z-index，基本需要遮挡住一切页面元素
+  --z-index_frame:999;//frame的z-index,header、footer的层级，需要高于页面内元素
+  --z-index_pageElement:10;//页面内元素的z-index，仅需要高于未设置z-index的页内元素即可
 
-
-  --primaryColor: #df2039;
+  --primaryColor: rgb(0, 163, 218);
   --warning-color: #ff4d64;
   --primaryBackgroundColor: #1a1a1a;
+  --primaryBackgroundColor2: #2e2e2e;
   --text-default-color: #fff;
   --text-gery-color: rgba(255, 255, 255, 0.6);
   --img-brightness: brightness(100);
@@ -322,30 +309,30 @@
   --button-background-color: var(--primaryColor);
   --button-border-color: transparent;
   --button-active-color: var(--primaryColor);
-  --button-hover-color: #e44459;
-  --button-disabled-background-color: rgba(223, 32, 57, 0.3);
+  --button-hover-color: rgba(0, 163, 218,0.7);
+  --button-disabled-background-color: rgba(0, 163, 218,0.3);
   --button-disabled-border-color: transparent;
   --button-disabled-text-color: rgba(255, 255, 255, 0.4);
 
   --button-default-background-color: transparent;
-  --button-default-text-color: #ff334e;
-  --button-default-border-color: #ff334e;
-  --button-default-active-text-color: #e44459;
-  --button-default-active-border-color: #e44459;
-  --button-default-hover-text-color: #e44459;
-  --button-default-hover-border-color: #e44459;
-  --button-default-disabled-text-color: rgba(255, 51, 78, 0.5);
-  --button-default-disabled-border-color: rgba(255, 51, 78, 0.5);
+  --button-default-text-color: var(--primaryColor);
+  --button-default-border-color: var(--primaryColor);
+  --button-default-active-text-color: var(--primaryColor);
+  --button-default-active-border-color: var(--primaryColor);
+  --button-default-hover-text-color: rgba(0, 163, 218,0.7);
+  --button-default-hover-border-color: rgba(0, 163, 218,0.7);
+  --button-default-disabled-text-color: rgba(0, 163, 218,0.3);
+  --button-default-disabled-border-color: rgba(0, 163, 218,0.3);
 
   --button-text-text-color: #fff;
   --button-text-hover-color: rgba(255, 255, 255, 0.6);
   --button-text-primary-text-color: var(--primaryColor);
-  --button-text-primary-hover-color: #e6586a;
+  --button-text-primary-hover-color: rgba(0, 163, 218,0.7);
   --button-text-primary-disabled-hover-color: #999;
   --button-text-stange-background-color: var(--primaryColor);
   --button-text-stange-text-color: #fff;
 
-  --button-icon-hover-color: #ff334e;
+  --button-icon-hover-color: var(--primaryColor);
   --button-icon-disabled-bgc: #404040;
   --button-icon-disabled-color: #666;
   --button-close-background-color: #949494;
@@ -386,7 +373,7 @@
   --header-background-color: #333;
   --header-color: #fff;
   --header-nav-iconfont-color: #ffffff;
-  --header-nav-iconfont-selected-color: #ff334e;
+  --header-nav-iconfont-selected-color: var(--primaryColor);
   --header-nav-hide-background-color: #1a1a1a;
   --header-nav-hide-color: #fff;
   --header-nav-hide-trangle-color: #fff;
@@ -477,9 +464,9 @@
   --step-item-failed-border-color: #da3d52;
   --step-item-failed-color: #fff;
   --step-item-failed-icon-color: #fff;
-  --step-item-success-background-color: #da3d52;
-  --step-item-success-border-color: #da3d52;
-  --step-item-success-color: #fff;
+  --step-item-success-background-color: #1b5c72;
+  --step-item-success-border-color: #1b5c72;
+  --step-item-success-color:  rgb(0, 163, 218);
 
   // switch
   --switch-background-color: #b6b6b6;
@@ -491,7 +478,7 @@
   --tab-hover-color: #999;
   --tab-hover-background-color: rgba(255, 255, 255, 0.2);
   --tab-active-color: #999;
-  --tab-selected-color: #ff334e;
+  --tab-selected-color: var(--primaryColor);
   --tab-selected-text-color: var(--primaryColor);
 
   // timepicker
@@ -524,7 +511,7 @@
   --upgrade-text-color: #fff;
 
   // upload
-  --upload-button-disabled-color: rgba(223, 32, 57, 0.3);
+  --upload-button-disabled-color: #124856;
   --upload-file-text-color: rgba(255, 255, 255, 0.6);
   --upload-file-description-color: #fff;
   --upload-background-color: #1a1a1a;
@@ -577,7 +564,7 @@
 
   //aside
   --aside-selected-text-color: #fff;
-  --asdie-selected-background: rgba(187, 27, 48, 0.7);
+  --asdie-selected-background: #1b5c72;
   --aside-hover-background-color: rgba(255, 255, 255, 0.2);
   --aside-disabled-color: rgba(255, 255, 255, 0.3);
 
@@ -586,13 +573,10 @@
 
   //bridge
   --bridge-tips-bgc: #1a1a1a;
-  --bridge-tips-color: #ff4d64;
+  --bridge-tips-color: var(--primaryColor);
 
   //internet color theme
   --internet-background-color: #1a1a1a;
   --internet-section-background-color: #2e2e2e;
   --internet-section-hr-color: rgba(255, 255, 255, 0.2);
-
-  //offline
-  --offline-box-shadow:0 8px 10px 0 rgba(0, 0, 0, 0.3);
 }

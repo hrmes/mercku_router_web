@@ -24,7 +24,7 @@
     "position": 1
   },
   {
-    "coutryName": "Pacific Time (USA & Kanada), Tijuana",
+    "coutryName": "Pacific Time (US & Canada), Tijuana",
     "timezoneDetail": "GMT-08:00",
     "offset": 8,
     "position": 1
@@ -36,19 +36,19 @@
     "position": 1
   },
   {
-    "coutryName": "Mountain Time (USA & Kanada)",
+    "coutryName": "Time di montagna (Stati Uniti e Canada)",
     "timezoneDetail": "GMT-07:00",
     "offset": 7,
     "position": 2
   },
   {
-    "coutryName": "Central Time (USA & Kanada)",
+    "coutryName": "ora centrale (US e Canada)",
     "timezoneDetail": "GMT-06:00",
     "offset": 6,
     "position": 1
   },
   {
-    "coutryName": "Mexico City, Tegucigalpa",
+    "coutryName": "Città del Messico, tegucigalpa",
     "timezoneDetail": "GMT-06:00",
     "offset": 6,
     "position": 2
@@ -66,19 +66,19 @@
     "position": 1
   },
   {
-    "coutryName": "Eastern Time (USA & Kanada)",
+    "coutryName": "Eastern Time (US e Canada)",
     "timezoneDetail": "GMT-05:00",
     "offset": 5,
     "position": 2
   },
   {
-    "coutryName": "Indiana (öst)",
+    "coutryName": "Indiana (est)",
     "timezoneDetail": "GMT-05:00",
     "offset": 5,
     "position": 3
   },
   {
-    "coutryName": "Atlantic Time (Kanada)",
+    "coutryName": "Atlantic Time (Canada)",
     "timezoneDetail": "GMT-04:00",
     "offset": 4,
     "position": 1
@@ -96,7 +96,7 @@
     "position": 3
   },
   {
-    "coutryName": "Newfoundland",
+    "coutryName": "Terranova",
     "timezoneDetail": "GMT-03:30",
     "offset": 3,
     "position": 1
@@ -120,7 +120,7 @@
     "position": 1
   },
   {
-    "coutryName": "Azorer, Cape Verde är.",
+    "coutryName": "Azzorre, Cape Verde è.",
     "timezoneDetail": "GMT-01:00",
     "offset": 1,
     "position": 1
@@ -132,61 +132,61 @@
     "position": 1
   },
   {
-    "coutryName": "Greenwich Medeltid: Dublin, Edinburgh, Lissabon, London",
+    "coutryName": "Greenwich Tempo medio: Dublino, Edimburgo, Lisbona, Londra",
     "timezoneDetail": "GMT+00:00",
     "offset": 0,
     "position": 2
   },
   {
-    "coutryName": "Amsterdam, Berlin, Bern, Rom, Stockholm, Wien",
+    "coutryName": "Amsterdam, Berlin, Bern, Roma, Stoccolma, Vienna",
     "timezoneDetail": "GMT+01:00",
     "offset": -1,
     "position": 1
   },
   {
-    "coutryName": "Belgrad, Bratislava, Budapest, Ljubljana, Prag",
+    "coutryName": "Belgrado, Bratislava, Budapest, Lubiana, Praga",
     "timezoneDetail": "GMT+01:00",
     "offset": -1,
     "position": 2
   },
   {
-    "coutryName": "Barcelona, ​​Madrid",
+    "coutryName": "Barcellona, ​​Madrid",
     "timezoneDetail": "GMT+01:00",
     "offset": -1,
     "position": 3
   },
   {
-    "coutryName": "Bryssel, Köpenhamn, Madrid, Paris, Vilnius",
+    "coutryName": "Bruxelles, Copenaghen, Madrid, Paris, Vilnius",
     "timezoneDetail": "GMT+01:00",
     "offset": -1,
     "position": 4
   },
   {
-    "coutryName": "Paris",
+    "coutryName": "Parigi",
     "timezoneDetail": "GMT+01:00",
     "offset": -1,
     "position": 5
   },
   {
-    "coutryName": "Sarajevo, Skopje, Sofija, Warszawa, Zagreb",
+    "coutryName": "Sarajevo, Skopje, Sofija, Varsavia, Zagabria",
     "timezoneDetail": "GMT+01:00",
     "offset": -1,
     "position": 6
   },
   {
-    "coutryName": "Aten, Istanbul, Minsk",
+    "coutryName": "Atene, Istanbul, Minsk",
     "timezoneDetail": "GMT+02:00",
     "offset": -2,
     "position": 1
   },
   {
-    "coutryName": "Bukarest",
+    "coutryName": "Bucarest",
     "timezoneDetail": "GMT+02:00",
     "offset": -2,
     "position": 2
   },
   {
-    "coutryName": "Kairo",
+    "coutryName": "Cairo",
     "timezoneDetail": "GMT+02:00",
     "offset": -2,
     "position": 3
@@ -198,25 +198,25 @@
     "position": 4
   },
   {
-    "coutryName": "Helsingfors, Riga, Tallinn",
+    "coutryName": "Helsinki, Riga, Tallinn",
     "timezoneDetail": "GMT+02:00",
     "offset": -2,
     "position": 5
   },
   {
-    "coutryName": "Jerusalem",
+    "coutryName": "Gerusalemme",
     "timezoneDetail": "GMT+02:00",
     "offset": -2,
     "position": 6
   },
   {
-    "coutryName": "Bagdad, Kuwait, Riyadh",
+    "coutryName": "Baghdad, Kuwait, Riyadh",
     "timezoneDetail": "GMT+03:00",
     "offset": -3,
     "position": 1
   },
   {
-    "coutryName": "Moskva, St. Petersburg, Volgograd",
+    "coutryName": "Mosca, San Pietroburgo, Volgograd",
     "timezoneDetail": "GMT+03:00",
     "offset": -3,
     "position": 2
@@ -264,7 +264,7 @@
     "position": 2
   },
   {
-    "coutryName": "Mumbai, Calcutta, Madras, New Delhi",
+    "coutryName": "Mumbai, Calcutta, Madras, Nuova Delhi",
     "timezoneDetail": "GMT+05:30",
     "offset": -5,
     "position": 3
@@ -288,7 +288,7 @@
     "position": 1
   },
   {
-    "coutryName": "Peking, Chongqing, Hong Kong, Urumqi",
+    "coutryName": "Pechino, Chongqing, Hong Kong, Urumqi",
     "timezoneDetail": "GMT+08:00",
     "offset": -8,
     "position": 1
@@ -372,7 +372,7 @@
     "position": 5
   },
   {
-    "coutryName": "Magadan, Solomon är., Nya Kaledonien",
+    "coutryName": "Magadan, Solomon è., Nuova Caledonia",
     "timezoneDetail": "GMT+11:00",
     "offset": -11,
     "position": 1
@@ -384,7 +384,7 @@
     "position": 1
   },
   {
-    "coutryName": "Fiji, Kamchatka, Marshall är",
+    "coutryName": "Fiji, Kamchatka, Marshall è",
     "timezoneDetail": "GMT+12:00",
     "offset": -12,
     "position": 2

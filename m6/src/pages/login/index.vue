@@ -186,12 +186,7 @@ export default {
     .logo {
       width: 340px;
       margin: 0 auto;
-      &::before {
-        content: '';
-        display: block;
-        padding-top: 15%;
-      }
-      margin-bottom: 60px;
+      margin-bottom: 50px;
     }
     .form-item {
       margin-bottom: 30px;

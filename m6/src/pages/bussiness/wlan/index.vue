@@ -119,7 +119,7 @@
 </template>
 <script>
 import { Bands } from 'base/util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
+import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 
 export default {
   data() {
@@ -202,29 +202,58 @@ export default {
     }
   },
   mounted() {
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-      });
-    this.$http.getMeshMeta().then(res => {
-      const wifi = res.data.result;
-      const b24g = wifi.bands[Bands.b24g];
-      const b5g = wifi.bands[Bands.b5g];
-      this.wifiForm.ssid24g = b24g.ssid;
-      this.wifiForm.password24g = b24g.password;
-      this.wifiForm.ssid5g = b5g.ssid;
-      this.wifiForm.password5g = b5g.password;
-      // this.wifiForm.smart_connect = wifi.smart_connect;
-    });
+    this.authorize();
+    // this.$http
+    //   .login(
+    //     { password: '' },
+    //     {
+    //       hideToast: true
+    //     }
+    //   )
+    //   .catch(() => {
+    //     // password is not empty, go to login page
+    //     this.$router.push({ path: '/login' });
+    //   });
+    // this.$http.getMeshMeta().then(res => {
+    //   const wifi = res.data.result;
+    //   const b24g = wifi.bands[Bands.b24g];
+    //   const b5g = wifi.bands[Bands.b5g];
+    //   this.wifiForm.ssid24g = b24g.ssid;
+    //   this.wifiForm.password24g = b24g.password;
+    //   this.wifiForm.ssid5g = b5g.ssid;
+    //   this.wifiForm.password5g = b5g.password;
+    //   this.wifiForm.smart_connect = wifi.smart_connect;
+    // });
   },
   methods: {
+    authorize() {
+      this.$http
+        .login(
+          { password: '' },
+          {
+            hideToast: true
+          }
+        )
+        .then(() => {
+          this.getMeshMeta();
+        })
+        .catch(() => {
+          // password is not empty, go to login page
+          this.$router.push({ path: '/login' });
+        });
+    },
+    getMeshMeta() {
+      this.$http.getMeshMeta().then(res => {
+        const wifi = res.data.result;
+        const b24g = wifi.bands[Bands.b24g];
+        const b5g = wifi.bands[Bands.b5g];
+        this.wifiForm.ssid24g = b24g.ssid;
+        this.wifiForm.password24g = b24g.password;
+        this.wifiForm.ssid5g = b5g.ssid;
+        this.wifiForm.password5g = b5g.password;
+        this.wifiForm.smart_connect = wifi.smart_connect;
+      });
+    },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
         this.$refs.ssid5g.extraValidate(this.validateSsid5G, this.$t('trans0660'));

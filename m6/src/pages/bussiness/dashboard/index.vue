@@ -14,7 +14,7 @@
         </div>
         <div class="wifi-container">
           <div class="icon-container">
-            <img :src="getWifiIcon( MODEL)"
+            <img src="@/assets/images/icon/ic_homepage_m6.svg"
                  alt="" />
           </div>
         </div>
@@ -82,7 +82,7 @@
         <li @click="forward2page('/dashboard/mesh/topo')"
             class="functional-module mesh-container">
           <div class="icon-container">
-            <img :src="getWifiIcon(MODEL)"
+            <img src="@/assets/images/icon/ic_homepage_m6.svg"
                  alt="">
           </div>
           <div class="text-container">
@@ -179,7 +179,8 @@
         </li>
       </ul>
     </div>
-    <div class="jump-app-info"
+    <div v-if="qrImgSrc"
+         class="jump-app-info"
          @click="jumpApp">
       <div class="icon mercku">
         <img :src="launcherIconSrc">
@@ -257,9 +258,6 @@ export default {
     };
   },
   computed: {
-    MODEL() {
-      return process.env.MODEL_CONFIG.id;
-    },
     isMobile() {
       return this.$store.state.isMobile;
     },
@@ -299,7 +297,10 @@ export default {
       return require(`@/assets/images/customer/${this.folderName}/ic_launcher.png`);
     },
     qrImgSrc() {
-      return require(`@/assets/images/customer/${this.folderName}/qr.png`);
+      if (process.env.CUSTOMER_CONFIG.appDownloadUrl) {
+        return require(`@/assets/images/customer/${this.folderName}/qr.png`);
+      }
+      return false;
     },
     openInAppText() {
       return this.$t('trans1118').replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
@@ -367,7 +368,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;
@@ -524,17 +525,6 @@ export default {
           }
         });
     },
-    getWifiIcon(model) {
-      let image = '';
-      switch (model) {
-        case CONSTANTS.Models.m6:
-          image = require('@/assets/images/icon/ic_homepage_m6.svg');
-          break;
-        default:
-          break;
-      }
-      return image;
-    },
     transformDate(date) {
       if (!date) {
         return '';
@@ -653,6 +643,7 @@ ul {
           padding: 20px 0;
           .sub-text {
             width: 87%;
+            font-size: 12px;
             margin: 0 auto;
             overflow: hidden;
             text-overflow: ellipsis;

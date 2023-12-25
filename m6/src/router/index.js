@@ -21,6 +21,7 @@ import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import speedLimit from 'pages/bussiness/dashboard/limit/speed.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
+import wwa from 'pages/bussiness/advance/wwa.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
@@ -39,7 +40,6 @@ import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import dhcp from 'base/pages/bussiness/advance/dhcp/index.vue';
 import mac from 'base/pages/bussiness/advance/mac.vue';
-import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
 import portfwForm from 'base/pages/bussiness/advance/port/form.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';

@@ -664,6 +664,9 @@ export default {
           height: 200px;
         }
       }
+      &.releative {
+        justify-content: flex-start;
+      }
     }
   }
   .item {
