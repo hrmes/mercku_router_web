@@ -78,7 +78,6 @@ export default {
         position: relative;
         border: 0;
         background: var(--checkbox-checked-background-color);
-        position: relative;
         &::after {
           content: '\e65c';
           position: absolute;

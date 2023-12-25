@@ -84,7 +84,6 @@ export default {
     align-items: center;
   }
   .box {
-    float: left;
     width: 18px;
     height: 18px;
     text-align: center;
@@ -96,13 +95,16 @@ export default {
       border-radius: 50%;
     }
     &.checked {
-      border: none;
-      background: var(--checkbox-checked-background-color);
       position: relative;
+      border: 0;
+      background: var(--checkbox-checked-background-color);
       &::after {
         content: '\e65c';
-        width: 10px;
-        height: 10px;
+        position: absolute;
+        top: 1px;
+        left: 2.5px;
+        width: 12px;
+        height: 12px;
         font-size: 12px;
         font-family: 'iconfont';
         color: #fff;
