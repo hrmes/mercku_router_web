@@ -77,6 +77,9 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.junet]: {
             auth: [Role.admin]
+          },
+          [Customers.vistabeam]: {
+            auth: [Role.admin]
           }
         }
       },
@@ -106,6 +109,10 @@ export default function getMenu(role, mode = RouterMode.router) {
             auth: [Role.super]
           },
           [Customers.junet]: {
+            show: true,
+            auth: [Role.super]
+          },
+          [Customers.vistabeam]: {
             show: true,
             auth: [Role.super]
           }
@@ -275,6 +282,10 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.junet]: {
             show: false
+          },
+          [Customers.vistabeam]: {
+            show: true,
+            auth: [Role.super, Role.admin]
           }
         }
       },
@@ -304,15 +315,15 @@ export default function getMenu(role, mode = RouterMode.router) {
     url: '/upgrade/online',
     children: [
       {
-        url: '/upgrade/online',
-        name: 'online',
-        text: 'trans0202',
-        config
-      },
-      {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
+        config
+      },
+      {
+        url: '/upgrade/online',
+        name: 'online',
+        text: 'trans0202',
         config
       },
       {

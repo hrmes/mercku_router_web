@@ -13,7 +13,8 @@ export const Customers = {
   skymesh: '0014',
   pentanet: '0019',
   homeway: '0025',
-  junet: '0029'
+  junet: '0029',
+  vistabeam: '0056'
 };
 export const IP = {
   IPv4: 'ipv4',

@@ -271,6 +271,11 @@ const Languages = [
     value: 'bg-BG',
     show: false
   },
+  {
+    text: 'Italiano',
+    value: 'it-IT',
+    show: false
+  },
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
 if (!supportLanguage) {
@@ -619,15 +624,16 @@ export default {
   }
 }
 .header-container {
-  width: 100%;
-  height: 65px;
+  position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
-  display: flex;
+  width: 100%;
+  height: 65px;
   background: var(--header-background-color);
   color: var(--text-default-color);
   padding: 0 5%;
-  position: relative;
+  z-index: var(--z-index_frame);
   @media screen and (max-width: 1440px) {
     padding: 0 50px;
   }
@@ -1038,7 +1044,6 @@ export default {
   }
   .header-container {
     height: 65px;
-    z-index: var(--z-index_frame);
     // &.open,
     // &.i18n-open {
     //   position: fixed;

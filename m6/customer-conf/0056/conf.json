@@ -1,0 +1,29 @@
+{
+  "id": "0056",
+  "host": "http://mywifi.vistabeam.tech",
+  "__host": "http://mywifi.mercku.tech",
+  "title": "Vistabeam",
+  "accept": ".vb",
+  "favicon": "customer-conf/0056/favicon.png",
+  "policy": "https://vistabeam.com/privacy-policy/",
+  "allow2LevelAdmin": true,
+  "assetFolderName": "vistabeam",
+  "languages": ["en-US", "de-DE", "it-IT", "fr-FR", "es-ES"],
+  "defaultLanguage": "en-US",
+  "wifi": "Vistabeam WIFI",
+  "routers": {
+    "M6": {
+      "name": "M6 Wi-Fi6 Router",
+      "shortName": "M6"
+    }
+  },
+  "loading": {
+    "color": "#006bad"
+  },
+  "website": {
+    "url": "https://vistabeam.com/",
+    "text": "vistabeam.com",
+    "phoneNumber": "(888) 251-0920"
+  },
+  "appDownloadUrl": "https://apk-vistabeam.merckuwifi.com/"
+}

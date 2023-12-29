@@ -9,9 +9,9 @@
             1.
             <span>{{ $t('trans0332') }}&nbsp;</span>
             <a class="btn-text text-primary"
-               :href="transWebsite('trans0338')"
-               target="_blank">
-              {{ transWebsite('trans0338') }}</a>
+               :href="aLinkHref"
+               :target="need2MakeCall?'_self':'_blank'">
+              {{ ispWebsite }}</a>
             <span>&nbsp;{{ $t('trans0377') }}</span>
           </p>
           <p>
@@ -111,7 +111,7 @@
   </div>
 </template>
 <script>
-import { UploadStatus, Models } from 'base/util/constant';
+import { UploadStatus, Models, Customers } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
 
@@ -186,7 +186,24 @@ export default {
           break;
       }
       return result;
-    }
+    },
+    // 这里是区分离线升级文案，公版是提示用户去运营商官网下载固件，有些定制客户需要提示用户通过打电话获取固件
+    need2MakeCall() {
+      const needCallList = [Customers.vistabeam];
+      return needCallList.includes(process.env.CUSTOMER_CONFIG.id);
+    },
+    ispWebsite() {
+      if (this.need2MakeCall) {
+        return process.env.CUSTOMER_CONFIG.website.phoneNumber;
+      }
+      return process.env.CUSTOMER_CONFIG.website.url;
+    },
+    aLinkHref() {
+      if (this.need2MakeCall) {
+        return `tel:${process.env.CUSTOMER_CONFIG.website.phoneNumber}`;
+      }
+      return process.env.CUSTOMER_CONFIG.website.url;
+    },
   },
   watch: {
     isRetitleFixed(val) {
@@ -206,6 +223,9 @@ export default {
   },
   methods: {
     transWebsite(text) {
+      if (this.need2MakeCall) {
+        return `${this.$t(text).replace('%s', process.env.CUSTOMER_CONFIG.website.phoneNumber)}`;
+      }
       return this.$t(text).replace('%s', process.env.CUSTOMER_CONFIG.website.url);
     },
     resizeHandler() {

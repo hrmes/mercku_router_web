@@ -17,6 +17,7 @@
         </m-form-item>
         <div class="checkbox-wrapper">
           <m-checkbox v-model="dmz.enabled"
+                      :rect="false"
                       :text="$t('trans0462')"></m-checkbox>
         </div>
 

@@ -167,7 +167,7 @@ export default {
     position: fixed;
     width: 26.875rem;
     height: 26.875rem;
-    z-index: 999;
+    z-index: var(--z-index_pageElement);
   }
   .login-logo__left__top {
     top: 0;
@@ -187,9 +187,6 @@ export default {
     flex: 1;
     flex-direction: column;
     position: relative;
-  }
-  .header {
-    z-index: 1000;
   }
   .layout-wrap {
     flex: 1;
