@@ -179,9 +179,11 @@
 <script>
 import * as CONSTANTS from 'base/util/constant';
 import { isValidInteger, isIP } from 'base/util/util';
+import { Models } from 'base/util/constant';
 
 const defaultPrefixLength = 64;
 const { IPv6 } = CONSTANTS.IP;
+const NoPPPoeList = [Models.m6s, Models.m6s_nano];
 export default {
   data() {
     return {
@@ -191,20 +193,6 @@ export default {
       IPv6DefaultPlaceholder: CONSTANTS.IPv6DefaultPlaceholder,
       netType: CONSTANTS.WanType.auto,
       netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
-      wanTypeOptions: [
-        {
-          value: CONSTANTS.WanType.auto,
-          text: this.$t('trans0696')
-        },
-        {
-          value: CONSTANTS.WanType.pppoe,
-          text: this.$t('trans0144')
-        },
-        {
-          value: CONSTANTS.WanType.static,
-          text: this.$t('trans0148')
-        }
-      ],
       networkArr: {
         auto: this.$t('trans0696'),
         static: this.$t('trans0148'),
@@ -305,6 +293,34 @@ export default {
     },
     isShowWarn() {
       return this.IPv4NetType === CONSTANTS.WanType.pppoe && !this.isPppoe;
+    },
+    wanTypeOptions() {
+      if (NoPPPoeList.includes(process.env.MODEL_CONFIG.id)) {
+        return [
+          {
+            value: CONSTANTS.WanType.auto,
+            text: this.$t('trans0696')
+          },
+          {
+            value: CONSTANTS.WanType.static,
+            text: this.$t('trans0148')
+          }
+        ];
+      }
+      return [
+        {
+          value: CONSTANTS.WanType.auto,
+          text: this.$t('trans0696')
+        },
+        {
+          value: CONSTANTS.WanType.pppoe,
+          text: this.$t('trans0144')
+        },
+        {
+          value: CONSTANTS.WanType.static,
+          text: this.$t('trans0148')
+        }
+      ];
     }
   },
   watch: {

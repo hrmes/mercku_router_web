@@ -216,38 +216,41 @@ export default {
                 this.checkNodeStatus();
               }, 5000);
             }
-            return;
-          }
-          const [node] = nodes.filter(n => n.sn === this.node.sn);
-          if (!node) {
-            return;
-          }
-          this.node = node;
-          // 状态已经变更
-          if (node.status !== this.preStatus) {
-            // 前一个状态是downloading，但是现在不是安装中，表示下载失败了
-            if (this.preStatus === Statuses.downloading) {
-              if (node.status !== Statuses.installing) {
-                this.status = Statuses.download_fail;
-              } else {
-                this.status = Statuses.installing;
-                this.preStatus = Statuses.installing;
+          } else {
+            const [node] = nodes.filter(n => n.sn === this.node.sn);
+            if (!node) {
+              this.timer = setTimeout(() => {
+                this.checkNodeStatus();
+              }, 5000);
+            } else {
+              this.node = node;
+              // 状态已经变更
+              if (node.status !== this.preStatus) {
+                // 前一个状态是downloading，但是现在不是安装中，表示下载失败了
+                if (this.preStatus === Statuses.downloading) {
+                  if (node.status !== Statuses.installing) {
+                    this.status = Statuses.download_fail;
+                  } else {
+                    this.status = Statuses.installing;
+                    this.preStatus = Statuses.installing;
+                  }
+                } else if (this.preStatus === Statuses.installing) {
+                  if (compareVersion(this.preVersion, node.version.current)) {
+                    this.status = Statuses.install_success;
+                  } else {
+                    this.status = Statuses.install_fail;
+                  }
+                }
               }
-            } else if (this.preStatus === Statuses.installing) {
-              if (compareVersion(this.preVersion, node.version.current)) {
-                this.status = Statuses.install_success;
-              } else {
-                this.status = Statuses.install_fail;
+              if (
+                (node.status === Statuses.downloading || node.status === Statuses.installing) &&
+                this.pageActive
+              ) {
+                this.timer = setTimeout(() => {
+                  this.checkNodeStatus();
+                }, 5000);
               }
             }
-          }
-          if (
-            (node.status === Statuses.downloading || node.status === Statuses.installing) &&
-            this.pageActive
-          ) {
-            this.timer = setTimeout(() => {
-              this.checkNodeStatus();
-            }, 5000);
           }
         })
         .catch(err => {
