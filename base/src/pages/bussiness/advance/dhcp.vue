@@ -228,7 +228,7 @@ export default {
     },
     formParams() {
       return {
-        type: 'dhcp_server',
+        lan_type: 'dhcp_server',
         dhcp_server: {
           ip_start: this.form.ip_start,
           ip_end: this.form.ip_end,

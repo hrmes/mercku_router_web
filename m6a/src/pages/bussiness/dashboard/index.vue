@@ -361,7 +361,6 @@ export default {
         const res = await this.$http.firmwareList(undefined, {
           hideToast: true
         });
-
         const nodes = res.data.result;
         const nodesToUpdate = nodes.filter(node => {
           const { current, latest } = node.version;

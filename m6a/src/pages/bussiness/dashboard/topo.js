@@ -22,9 +22,40 @@ import { Color, M6aRouterSnModelVersion } from 'base/util/constant';
 // 大于-70均认为优秀
 const isGood = rssi => rssi >= -76;
 
+function filterValidNeighbors(neighbors) {
+  const isValidNeighbor = n => {
+    if (
+      !Object.prototype.hasOwnProperty.call(n, 'sn') ||
+      !Object.prototype.hasOwnProperty.call(n, 'rssi') ||
+      !Object.prototype.hasOwnProperty.call(n, 'backhaul_type')
+    ) {
+      return false;
+    }
+    // 检查是否存在 sn 且值为字符串，长度为15，且只包含数字
+    if (typeof n.sn !== 'string' || n.sn.length !== 15 || !/^\d+$/.test(n.sn)) {
+      return false;
+    }
+    // 检查 backhaul_type 是否为合法值
+    const validBackhaulTypes = [
+      'wireless_2g',
+      'wireless_5g',
+      'wired',
+      'unknown'
+    ];
+    if (!validBackhaulTypes.includes(n.backhaul_type)) {
+      return false;
+    }
+    // 如果所有条件都满足，说明对象结构是合法的
+    return true;
+  };
+
+  // 使用 filter 函数过滤出符合条件的对象数组
+  return neighbors.filter(n => isValidNeighbor(n));
+}
 // 补充关系，a-b,b-a
 function addConnection(source) {
   return source.map(s => {
+    s.neighbors = filterValidNeighbors(s.neighbors);
     if (s.neighbors) {
       s.neighbors.forEach(n => {
         const rssi1 = n.rssi;
@@ -262,14 +293,12 @@ function findOfflineNode(array, offline) {
   });
   return array;
 }
-
 // 生成所有绘图数据
 function genData(array, fullLine = false) {
   let routers = JSON.parse(JSON.stringify(array));
 
   const offline = [];
   routers = findOfflineNode(routers, offline);
-
   routers = addConnection(routers);
 
   const gateway = findGateway(routers);
@@ -278,11 +307,9 @@ function genData(array, fullLine = false) {
   const green = findGreenNode(gateway, routers, visited);
 
   const meshNodes = routers.filter(r => r.sn !== gateway.sn);
-
   const red = findRedNode(green, meshNodes);
 
   const nodes = genNodes(gateway, green, red, offline);
-
   const lines = genLines(gateway, green, red, routers, fullLine);
 
   return {
