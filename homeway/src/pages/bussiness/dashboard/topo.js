@@ -156,9 +156,16 @@ function genLines(gateway, green, red, nodes, fullLine) {
       source: `${source.sn}${source.name}`,
       target: `${target.sn}${target.name}`,
       rssi: value,
-      lineStyle: {
-        color
-      }
+      lineStyle:
+        value === 5555
+          ? {
+              color,
+              type: 'solid'
+            }
+          : {
+              color,
+              type: 'dotted'
+            }
     };
   }
 

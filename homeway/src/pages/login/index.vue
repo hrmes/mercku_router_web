@@ -86,12 +86,13 @@ export default {
               this.$store.modelID = modelID;
               localStorage.setItem('modelID', modelID);
               this.$router.push({ path: '/dashboard' });
-              this.$loading.close();
             });
         })
         .catch(err => {
-          this.$loading.close();
           this.$toast(this.$t(err.error.code));
+        })
+        .finally(() => {
+          this.$loading.close();
         });
     }
   }
