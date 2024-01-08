@@ -80,10 +80,11 @@ export default {
           this.$http.getMeshMode()
             .then(res1 => {
               const { data: { result: { mode, sn } } } = res1;
+              const modelID = sn?.charAt(9) || '0';
               this.$store.mode = mode;
               localStorage.setItem('mode', mode);
-              this.$store.modelID = sn.charAt(9);
-              localStorage.setItem('modelID', sn.charAt(9));
+              this.$store.modelID = modelID;
+              localStorage.setItem('modelID', modelID);
               this.$router.push({ path: '/dashboard' });
               this.$loading.close();
             });

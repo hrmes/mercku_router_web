@@ -261,7 +261,7 @@ export default {
       return result;
     })(),
     modelID() {
-      return '3';
+      return localStorage.getItem('modelID');
     },
     isWiredMesh() {
       return this.addNodeType === AddNodeType.wired;
@@ -333,7 +333,7 @@ export default {
       let img;
       if (this.isWirelessMesh) {
         switch (this.modelID) {
-            case WwaxModelList['230v']:
+          case WwaxModelList['230v']:
             img = require('@/assets/images/wireless-step1_230v.png');
             break;
           case WwaxModelList.poe1:
