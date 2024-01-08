@@ -1,8 +1,23 @@
 <template>
   <div class="mesh-container">
     <div class="mesh-info">
+      <div class="title">
+        <m-tabs>
+          <m-tab :class="{'selected':!showTable}"
+                 @click.native="$router.push('/dashboard/mesh/topo')">{{$t('trans0312')}}</m-tab>
+          <m-tab :class="{'selected':showTable}"
+                 @click.native="$router.push('/dashboard/mesh/table')">{{$t('trans0384')}}</m-tab>
+        </m-tabs>
+        <button v-if="isWiredBridge"
+                class="btn btn-add btn-small"
+                @click="addMeshNode">{{$t('trans0194')}}</button>
+        <button v-if="isWiredBridge"
+                @click="addMeshNode"
+                class="btn mobile-add"></button>
+      </div>
       <div class="content">
-        <div class="mesh-table">
+        <div v-show="showTable"
+             class="mesh-table">
           <div class="table-header">
             <div class="name">{{$t('trans0005')}}</div>
             <div class="type">{{$t('trans0068')}}</div>
@@ -12,8 +27,7 @@
             <div class="sn">{{$t('trans0251')}}</div>
             <div class="version">{{$t('trans0300')}}</div>
             <div class="ip">
-              <span>{{$t('trans0151')}}</span>
-              <span>&nbsp;/&nbsp;{{$t('trans0188')}}</span>
+              <span>{{$t('trans0151')}} / {{$t('trans0188')}}</span>
             </div>
             <div class="mac">{{$t('trans0201')}}</div>
             <div class="operate">{{$t('trans0370')}}</div>
@@ -22,10 +36,11 @@
             <!-- 加载状态模块 -->
             <div class="loading-container"
                  v-if="showLoading">
-              <m-loading :color="loadingColor"></m-loading>
+              <m-loading :color="loadingColor"
+                         id="table-loading"></m-loading>
             </div>
             <!-- mesh-Info模块 -->
-            <template v-if="!showLoading">
+            <template v-else>
               <div class="router"
                    :class="{'expand':router.expand}"
                    v-for="router in routers"
@@ -56,7 +71,7 @@
                 </div>
                 <div class="type">
                   <span class="label">{{$t('trans0068')}}</span>
-                  <span class="value">{{$t('trans1097')}}</span>
+                  <span class="value">{{router.is_gw? $t('trans1097'):'Node'}}</span>
                 </div>
                 <div class="equipment">
                   <span class="label">{{$t('trans0235')}}</span>
@@ -88,10 +103,13 @@
                 <div class="operate">
                   <span class="btn-text btn-text-strange"
                         v-if="!isRouterOffline(router)"
-                        @click="rebootNode(router)">{{$t('trans0122')}}</span>
+                        @click.stop="rebootNode(router)">{{$t('trans0122')}}</span>
                   <span v-if="router.is_gw"
                         class="btn-text text-primary btn-text-strange"
-                        @click="resetNode(router)">{{$t('trans0205')}}</span>
+                        @click.stop="resetNode(router)">{{$t('trans0205')}}</span>
+                  <span v-if="!router.is_gw"
+                        class="btn-text text-primary btn-text-strange"
+                        @click.stop="deleteNode(router)">{{$t('trans0708')}}</span>
                 </div>
               </div>
             </template>
@@ -104,8 +122,8 @@
             </div>
           </div>
         </div>
-        <div class="topo-container"
-             v-if="!showLoading">
+        <div v-show="!showTable"
+             class="topo-container">
           <div class="legend-wrap">
             <p class="legend-title">
               <span>{{$t('trans0302')}}</span>
@@ -121,14 +139,6 @@
           <div class="topo-wrap"
                id="topo-wrap">
             <div id="topo">
-              <div class="upperAp-container"
-                   :class="[{'offline':isOffline},{'wired-bridge':isWiredBridge},{'wireless_bridge_excellent':connectExcellent},{'wireless_bridge_fair':connectFair}]">
-              </div>
-              <div class="line-container "
-                   :class="[{'offline':isOffline},{'wired-bridge':isWiredBridge},{'wireless_bridge_excellent':connectExcellent},{'wireless_bridge_fair':connectFair}]">
-              </div>
-              <div class="gateway-container">
-              </div>
             </div>
           </div>
         </div>
@@ -204,7 +214,7 @@
       <m-modal-header class="header">
         <img @click="hideMeshListModal"
              class="header__btn--close"
-             src="@/assets/images/icon/close.png"
+             src="@/assets/images/icon/ic_close.png"
              alt="" />
       </m-modal-header>
       <m-modal-body class="table">
@@ -256,8 +266,13 @@
 <script>
 import marked from 'marked';
 import { formatMac, getStringByte } from 'base/util/util';
-import { RouterStatus } from 'base/util/constant';
+import { RouterStatus, RouterMode } from 'base/util/constant';
+import genData from './topo';
 
+const echarts = require('echarts/lib/echarts');
+require('echarts/lib/chart/graph');
+
+const GUEST = 'guest'; // 是否是访客
 export default {
   data() {
     return {
@@ -319,7 +334,7 @@ export default {
     };
   },
   async mounted() {
-    this.getMeshMode();
+    this.initChart();
     this.createIntervalTask();
     // 获取当前设备信息
     try {
@@ -333,17 +348,20 @@ export default {
     rssiTips() {
       return marked(this.$t('trans0595'), { sanitize: true });
     },
-    isOffline() {
-      return (this.meshModeInfo?.status ?? 'unlinked') === 'unlinked';
+    showTable() {
+      let result;
+      if (this.$route.params.category === 'topo') {
+        setTimeout(() => {
+          this.chart && this.chart.resize();
+        });
+        result = false;
+      } else {
+        result = true;
+      }
+      return result;
     },
     isWiredBridge() {
-      return this.meshModeInfo?.status !== 'unlinked' && this.meshModeInfo?.mode === 'bridge';
-    },
-    connectExcellent() {
-      return this.meshModeInfo?.status !== 'unlinked' && this.meshModeInfo?.mode === 'wireless_bridge' && this.meshModeInfo?.rssi > -60;
-    },
-    connectFair() {
-      return this.meshModeInfo?.status !== 'unlinked' && this.meshModeInfo?.mode === 'wireless_bridge' && this.meshModeInfo?.rssi <= -60;
+      return this.$store.mode === RouterMode.bridge;
     }
   },
   methods: {
@@ -369,76 +387,6 @@ export default {
     // 是否是主机
     isThisMachine(ip) {
       return ip === this.localDeviceIP;
-    },
-    // showRssiModal() {
-    //   this.rssiModalVisible = true;
-    // },
-    // closeRssiModal() {
-    //   this.rssiModalVisible = false;
-    // },
-    updateMeshBand(val) {
-      this.$dialog.confirm({
-        okText: this.$t('trans0024'),
-        cancelText: this.$t('trans0025'),
-        message: this.$t('trans0229'),
-        callback: {
-          ok: () => {
-            this.$loading.open();
-            this.$http
-              .updateMeshBand({
-                bands: {
-                  '5G': true,
-                  '2.4G': val
-                }
-              })
-              .then(() => {
-                this.$loading.close();
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  },
-                  timeout: 60
-                });
-              })
-              .catch(() => {
-                this.mesh24g = !val;
-                this.$loading.close();
-              });
-          },
-          cancel: () => {
-            this.mesh24g = !this.mesh24g;
-          }
-        }
-      });
-    },
-    getMeshBand() {
-      this.$http.getMeshBand().then(res => {
-        this.mesh24g = res.data.result['2.4G'];
-      });
-    },
-    getMeshMode() {
-      this.$http.getWanStatus()
-        .then(res1 => {
-          const { status } = res1.data.result;
-          this.$http.getMeshMode()
-            .then(res2 => {
-              this.meshModeInfo = res2.data.result;
-              this.meshModeInfo.status = status;
-            })
-            .catch(() => {
-              this.meshModeInfo = {
-                status: 'unlinked',
-              };
-            });
-        })
-        .catch(() => {
-          this.meshModeInfo = {
-            status: 'unlinked',
-          };
-        });
     },
     isRouterOffline(router) {
       return router.status === RouterStatus.offline;
@@ -523,8 +471,114 @@ export default {
         }
       });
     },
+    deleteNode(router) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0203'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0218'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            this.$http.deleteMeshNode({ node: { sn: router.sn, mac: router.mac } }).then(() => {
+              this.$loading.close();
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              this.routers = this.routers.filter(r => r.sn !== router.sn);
+            });
+          }
+        }
+      });
+    },
+
+    initChart() {
+      const topoEl = document.getElementById('topo');
+      this.chart = echarts.init(topoEl);
+      this.chart.on('click', () => {
+        this.$router.push('/dashboard/mesh/table');
+      });
+      window.addEventListener('resize', () => {
+        this.chart && this.chart.resize();
+      });
+    },
+    drawTopo(routers) {
+      const oldRouters = this.routers;
+      const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
+      this.routers = routers;
+      const data = genData(routers);
+      data.nodes.forEach(n => {
+        this.routers.forEach(r => {
+          if (n.sn === r.sn) {
+            this.$set(r, 'image', n.symbol.replace('image://', ''));
+          }
+        });
+      });
+      this.routers.forEach(r => {
+        if (selected.includes(r.sn)) {
+          this.$set(r, 'expand', true);
+        } else {
+          this.$set(r, 'expand', false);
+        }
+      });
+      const option = {
+        series: [
+          {
+            type: 'graph',
+            edgeSymbol: ['circle', 'circle'],
+            edgeSymbolSize: 3,
+            cursor: 'pointer',
+            layout: 'circular',
+            hoverAnimation: false,
+            edgeLabel: {
+              show: false,
+              formatter(series) {
+                return series.data.rssi;
+              }
+            },
+            label: {
+              normal: {
+                show: true,
+                position: 'bottom',
+                color: '#333',
+                backgroundColor: '#fff',
+                formatter(category) {
+                  let nameFormatted = '';
+                  // originName是节点的原始名称
+                  const name = category.data.originName;
+                  if (name.length <= 10) {
+                    nameFormatted = name;
+                  }
+                  const splitor = ' ';
+                  if (name.includes(splitor)) {
+                    const sp = name.split(splitor);
+                    let index = 1;
+                    let start = sp[0];
+                    while ((start + sp[index]).length < 10 && index < sp.length) {
+                      start += ` ${sp[index]}`;
+                      index += 1;
+                    }
+                    const end = sp.slice(index).join(splitor);
+                    nameFormatted = `${start}\n${end}`;
+                  }
+                  nameFormatted = name.match(/.{1,10}/g).join('\n');
+                  return `{a|${nameFormatted}}`;
+                },
+                rich: {
+                  a: {
+                    color: '#000',
+                    backgroundColor: '#fff'
+                  }
+                }
+              }
+            },
+            data: data.nodes,
+            links: data.lines,
+            categories: [{ name: `${this.$t('trans0193')}` }, { name: `${this.$t('trans0196')}` }],
+            lineStyle: { width: 2 }
+          }
+        ]
+      };
+      this.chart.setOption(option);
+    },
     createIntervalTask() {
-      this.showLoading = true;
       this.getMeshNode();
     },
     clearIntervalTask() {
@@ -537,17 +591,7 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
-          const oldRouters = this.routers;
-          const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
-          this.routers = res.data.result;
-          this.routers.forEach(r => {
-            if (selected.includes(r.sn)) {
-              this.$set(r, 'expand', true);
-            } else {
-              this.$set(r, 'expand', false);
-            }
-          });
-          this.showLoading = false;
+          this.drawTopo(res.data.result);
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
@@ -555,14 +599,16 @@ export default {
           }
         })
         .catch(() => {
-          this.showLoading = true;
           if (this.pageActive) {
             this.meshNodeTimer = setTimeout(() => {
               this.getMeshNode();
             }, 10000);
           }
         });
-    }
+    },
+    addMeshNode() {
+      this.$router.push('/mesh/add');
+    },
   },
   beforeDestroy() {
     this.pageActive = false;
@@ -586,10 +632,11 @@ export default {
   .mesh-list-modal {
     .modal-content {
       position: fixed;
-      top: 65px;
+      top: 0;
       left: 0;
       width: 100% !important;
-      height: calc(100% - 65px);
+      height: 100%;
+      border-radius: 0 !important;
       overflow: scroll;
     }
   }
@@ -851,13 +898,15 @@ export default {
         align-items: center;
         img {
           width: 180px;
-          // display: none;
         }
       }
       .loading-container {
         display: flex;
         justify-content: center;
+        align-items: center;
+        height: fit-content;
         padding: 30px 0;
+        margin: 0 auto;
       }
       .topo-container {
         position: relative;
@@ -1229,6 +1278,7 @@ export default {
     .mesh-info {
       padding: 0;
       .title {
+        padding: 0 20px;
         .mobile-add {
           display: block;
           position: absolute;
@@ -1240,7 +1290,6 @@ export default {
           height: 30px;
           border: 0;
           outline: 0;
-          border-radius: 50%;
           &::before {
             content: '';
             display: block;
@@ -1362,7 +1411,6 @@ export default {
             .router {
               display: flex;
               flex-direction: column;
-              // margin-bottom: 10px;
               background: #fff;
               border-radius: 5px;
               padding: 0;
@@ -1490,6 +1538,12 @@ export default {
         }
       }
       .table__empty {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: fit-content;
+        padding: 0;
         img {
           display: block;
         }

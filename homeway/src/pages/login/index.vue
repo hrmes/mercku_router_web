@@ -82,6 +82,8 @@ export default {
               const { data: { result: { mode } } } = res1;
               this.$store.mode = mode;
               localStorage.setItem('mode', mode);
+              this.$store.modelID = '1';
+              localStorage.setItem('modelID', '1');
               this.$router.push({ path: '/dashboard' });
               this.$loading.close();
             });

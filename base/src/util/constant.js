@@ -143,5 +143,9 @@ export const HomewayFanModel = {
   standard: 'standard',
   sleep: 'sleep'
 };
+export const AddNodeType = {
+  wired: 'wired',
+  wireless: 'wireless'
+};
 export const RefreshSVGPath =
   'M7.505.57a.5.5 0 0 1 .692-.53l3.5 1.5a.5.5 0 0 1 .08.876l-3 2a.5.5 0 0 1-.772-.345l-.107-.75a7 7 0 1 0 6.123.949 1 1 0 0 1 1.151-1.636 9 9 0 1 1-7.56-1.314z';

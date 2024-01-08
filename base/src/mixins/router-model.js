@@ -4,7 +4,6 @@ export default {
   methods: {
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
-      // const modelVersion = node.sn.slice(9, 10);
       const num = node.sn.slice(-4);
       const category = this.Products[id] || { shortName: 'Unknown' };
       return `${category.shortName}-${num}`;
