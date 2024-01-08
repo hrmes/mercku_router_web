@@ -79,11 +79,11 @@ export default {
           localStorage.setItem('role', role);
           this.$http.getMeshMode()
             .then(res1 => {
-              const { data: { result: { mode } } } = res1;
+              const { data: { result: { mode, sn } } } = res1;
               this.$store.mode = mode;
               localStorage.setItem('mode', mode);
-              this.$store.modelID = '1';
-              localStorage.setItem('modelID', '1');
+              this.$store.modelID = sn.charAt(9);
+              localStorage.setItem('modelID', sn.charAt(9));
               this.$router.push({ path: '/dashboard' });
               this.$loading.close();
             });

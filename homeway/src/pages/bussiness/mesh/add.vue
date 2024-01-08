@@ -333,14 +333,14 @@ export default {
       let img;
       if (this.isWirelessMesh) {
         switch (this.modelID) {
+            case WwaxModelList['230v']:
+            img = require('@/assets/images/wireless-step1_230v.png');
+            break;
           case WwaxModelList.poe1:
             img = require('@/assets/images/wireless-step1_poe1.png');
             break;
           case WwaxModelList.poe2:
             img = require('@/assets/images/wireless-step1_poe2.png');
-            break;
-          case WwaxModelList['230v']:
-            img = require('@/assets/images/wireless-step1_230v.png');
             break;
           case WwaxModelList['230vPoe']:
             img = require('@/assets/images/wireless-step1_230v+poe.png');
