@@ -13,39 +13,39 @@ import guest from 'pages/bussiness/setting/guest.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
-// import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
+import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
-// import telnet from 'pages/bussiness/advance/telnet.vue';
-// import tr069 from 'pages/bussiness/advance/tr069.vue';
+import telnet from 'pages/bussiness/advance/telnet.vue';
+import tr069 from 'pages/bussiness/advance/tr069.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
-// import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
+import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
-// import ddns from 'base/pages/bussiness/advance/ddns.vue';
+import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
-// import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
+import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
-// import upnp from 'base/pages/bussiness/setting/upnp.vue';
+import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
-// import dmz from 'base/pages/bussiness/advance/dmz.vue';
-// import firewall from 'base/pages/bussiness/advance/firewall.vue';
-// import log from 'base/pages/bussiness/advance/log.vue';
+import dmz from 'base/pages/bussiness/advance/dmz.vue';
+import firewall from 'base/pages/bussiness/advance/firewall.vue';
+import log from 'base/pages/bussiness/advance/log.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
-// import mac from 'base/pages/bussiness/advance/mac.vue';
-// import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import mac from 'base/pages/bussiness/advance/mac.vue';
+import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
 import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
-// import backup from 'base/pages/bussiness/advance/backup.vue';
+import backup from 'base/pages/bussiness/advance/backup.vue';
 
 import store from '../store';
 
@@ -236,24 +236,24 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/setting/blacklist',
-    //   name: 'blacklist',
-    //   component: blacklist,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/setting/upnp',
-    //   name: 'upnp',
-    //   component: upnp,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/setting/blacklist',
+      name: 'blacklist',
+      component: blacklist,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/upnp',
+      name: 'upnp',
+      component: upnp,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     {
       path: '/setting/led',
       name: 'led',
@@ -308,69 +308,69 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/advance/dmz',
-    //   name: 'advance-dmz',
-    //   component: dmz,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/advance/frozenCofig',
-    //   name: 'advance-frozen-cofig',
-    //   component: frozenConfig,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/advance/firewall',
-    //   name: 'advance-firewall',
-    //   component: firewall,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/advance/ddns',
-    //   name: 'advance-ddns',
-    //   component: ddns,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/advance/mac',
-    //   name: 'advance-mac',
-    //   component: mac,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/advance/log',
-    //   name: 'advance-log',
-    //   component: log,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/advance/diagnosis',
-    //   name: 'advance-diagnosis',
-    //   component: diagnosis,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/advance/dmz',
+      name: 'advance-dmz',
+      component: dmz,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/frozenCofig',
+      name: 'advance-frozen-cofig',
+      component: frozenConfig,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/firewall',
+      name: 'advance-firewall',
+      component: firewall,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/ddns',
+      name: 'advance-ddns',
+      component: ddns,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/mac',
+      name: 'advance-mac',
+      component: mac,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/log',
+      name: 'advance-log',
+      component: log,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/diagnosis',
+      name: 'advance-diagnosis',
+      component: diagnosis,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     {
       path: '/advance/vpn',
       name: 'advance-vpn',
@@ -389,24 +389,24 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/advance/tr069',
-    //   name: 'advance.tr069',
-    //   component: tr069,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/advance/telnet',
-    //   name: 'advance.telnet',
-    //   component: telnet,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/advance/tr069',
+      name: 'advance.tr069',
+      component: tr069,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/telnet',
+      name: 'advance.telnet',
+      component: telnet,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     {
       path: '/advance/mode',
       name: 'advance-mode',
@@ -416,24 +416,24 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/advance/wwa',
-    //   name: 'advance.wwa',
-    //   component: wwa,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/advance/backup',
-    //   name: 'advance.backup',
-    //   component: backup,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/advance/wwa',
+      name: 'advance.wwa',
+      component: wwa,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/backup',
+      name: 'advance.backup',
+      component: backup,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     {
       path: '/upgrade/online',
       name: 'online',
