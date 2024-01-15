@@ -62,7 +62,7 @@ export default {
         this.wpsRemainingTime = remain;
         this.wpsEnabledBand = bands.find(band => band.wps_enabled).band;
 
-        if (this.wpsIsEnabled > 0) {
+        if (this.wpsIsEnabled) {
           this.setWpsCountdown();
         } else { // WPS是关闭的状态下，不再需要轮询getWps
           this.clearIntervalTask();
