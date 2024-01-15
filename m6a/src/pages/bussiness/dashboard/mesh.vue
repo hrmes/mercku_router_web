@@ -175,7 +175,6 @@
                    alt="">
               <div class="description">
                 <span class="icon-circle">
-
                 </span>
                 <span>{{$t('trans0598')}}</span>
               </div>
@@ -183,7 +182,6 @@
           </div>
           <div class="markdown-body"
                v-html="rssiTips"></div>
-
         </div>
       </m-modal-body>
       <m-modal-footer>

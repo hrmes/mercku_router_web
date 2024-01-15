@@ -5,7 +5,7 @@
         <div class="device-container"
              :class="{'selected':$route.path.includes('device')}">
           <div class="icon-container">
-            <img @click="forward2page('/dashboard/device')"
+            <img @click="forward2page('/dashboard/device/primary')"
                  src="@/assets/images/icon/ic_device.png"
                  alt="" />
             <div class="text-container">
@@ -27,12 +27,8 @@
         </div>
         <div class="line"
              :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-          <!-- @click.stop="showTips()" -->
           <div class="icon-unconnected-container"
                v-if="isLinked || isUnlinked">
-            <img class="icon__question"
-                 src="@/assets/images/icon/ic_wifi_question.png"
-                 alt="" />
           </div>
         </div>
         <div class="internet-container"
@@ -81,7 +77,11 @@ export default {
       deviceCount: 0,
       deviceCountTimer: null,
       tipsModalVisible: false,
-      checkFrimwareTimer: null
+      checkFrimwareTimer: null,
+      checkFrimwareCounts: 3,
+      isFirstEntry: true,
+      wanStatusTimer: null,
+      needCheckUpgradable: false
     };
   },
   computed: {
@@ -107,7 +107,6 @@ export default {
     }
   },
   mounted() {
-    this.getWanStatus();
     this.getSsid();
     this.createIntercvalTask();
   },
@@ -132,6 +131,10 @@ export default {
   },
   methods: {
     checkFrimwareLatest() {
+      // eslint-disable-next-line no-plusplus
+      this.checkFrimwareCounts--;
+      this.needCheckUpgradable = false;
+
       this.$http
         .firmwareList(undefined, {
           hideToast: true
@@ -159,9 +162,12 @@ export default {
           }
         })
         .catch(() => {
-          this.checkFrimwareTimer = setTimeout(() => {
-            this.checkFrimwareLatest();
-          }, 1000 * 3);
+          if (this.checkFrimwareCounts > 0) {
+            console.log('counts', this.checkFrimwareCounts);
+            this.checkFrimwareTimer = setTimeout(() => {
+              this.checkFrimwareLatest();
+            }, 1000 * 3);
+          }
         });
     },
     showTips() {
@@ -172,11 +178,14 @@ export default {
     },
     createIntercvalTask() {
       console.log(`createInterval task...mode is:${this.$store.mode}`);
+      this.getWanStatus();
       this.getDeviceCount();
     },
     clearIntervalTask() {
       clearTimeout(this.deviceCountTimer);
       this.deviceCountTimer = null;
+      clearTimeout(this.wanStatusTimer);
+      this.wanStatusTimer = null;
     },
     getSsid() {
       this.$http.getMeshMeta().then(res => {
@@ -211,22 +220,30 @@ export default {
         });
     },
     getWanStatus() {
-      this.netStatus = CONSTANTS.WanNetStatus.testing;
-      const timer = setTimeout(() => {
-        this.$http
-          .getWanStatus()
-          .then(res => {
-            clearTimeout(timer);
-            this.netStatus = res.data.result.status;
-            if (this.isConnected && this.pageActive && this.needCheckUpgradable) {
-              this.checkFrimwareLatest();
-            }
-          })
-          .catch(() => {
-            clearTimeout(timer);
-            this.netStatus = CONSTANTS.WanNetStatus.unlinked;
-          });
-      }, 1000);
+      if (this.isFirstEntry) {
+        this.netStatus = CONSTANTS.WanNetStatus.testing;
+      }
+      clearTimeout(this.wanStatusTimer);
+      this.wanStatusTimer = null;
+      this.$http
+        .getWanStatus()
+        .then(res => {
+          this.netStatus = res.data.result.status;
+          if (this.isConnected && this.pageActive && this.needCheckUpgradable) {
+            this.checkFrimwareLatest();
+          }
+          if (this.pageActive) {
+            this.wanStatusTimer = setTimeout(() => {
+              this.getWanStatus();
+            }, 10000);
+          }
+          this.isFirstEntry = false;
+        })
+        .catch(() => {
+          this.netStatus = CONSTANTS.WanNetStatus.unlinked;
+          clearTimeout(this.wanStatusTimer);
+          this.wanStatusTimer = null;
+        });
     }
   },
   beforeDestroy() {
@@ -381,7 +398,6 @@ export default {
           align-items: center;
           width: 40px;
           height: 40px;
-          cursor: pointer;
           .icon__question {
             position: absolute;
             right: 0;
@@ -447,7 +463,6 @@ export default {
   .router-view {
     width: 100%;
     padding: 0 10%;
-    margin-top: 30px;
     @media screen and (max-width: 1440px) {
       padding: 0 50px;
     }
@@ -467,12 +482,11 @@ export default {
 @media screen and (max-width: 768px) {
   .dashboard {
     .router-view {
-      margin-top: 0;
       padding: 0 20px;
     }
     .net-info {
       height: 160px;
-      background-size: cover !important;
+      background-size: cover;
       .net-info__inner {
         padding: 0 30px;
         .icon-container {

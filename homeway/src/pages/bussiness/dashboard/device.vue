@@ -1,6 +1,14 @@
 <template>
   <div class="device-container">
     <div class="device-wrapper">
+      <m-tabs>
+        <m-tab :key="tab.id"
+               @click.native="tabChange(tab.id)"
+               v-for="tab in tabs"
+               :class="{'selected':isCurrentTab(tab)}">
+          {{tab.text}}
+        </m-tab>
+      </m-tabs>
       <div class="table-inner">
         <!-- 表头开始 -->
         <div class="table-head">
@@ -216,6 +224,16 @@ export default {
       localDeviceIP: '',
       timer: null,
       form: { name: '' },
+      tabs: [
+        {
+          id: 'primary',
+          text: this.$t('trans0514')
+        },
+        {
+          id: 'guest',
+          text: this.$t('trans0515')
+        }
+      ],
       bandMap: {
         wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
@@ -638,7 +656,7 @@ export default {
     padding: 0;
   }
   .table-empty {
-    padding-top: 30px;
+    padding-top: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -646,7 +664,6 @@ export default {
     align-items: center;
     img {
       width: 180px;
-      // display: none;
     }
   }
   .offline-handle-wrapper {

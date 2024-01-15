@@ -7,7 +7,7 @@ import mFormItem from './component/formItem/index.vue';
 import mUpload from './component/upload/index.vue';
 import mProgress from './component/progress/index.vue';
 import mSelect from './component/select/index.vue';
-import mLoadingSelect from './component/select__loading&icon/index.vue';
+import mLoadingSelect from './component/remoteScanSelect/index.vue';
 import mRadioGroup from './component/radioGroup/index.vue';
 import mRadioCardGroup from './component/radioCardGroup/index.vue';
 import mSwitch from './component/switch/index.vue';

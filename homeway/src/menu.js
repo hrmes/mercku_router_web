@@ -24,7 +24,7 @@ export default function getMenu(role, mode = RouterMode.bridge) {
       {
         text: 'trans1087',
         name: 'mesh',
-        url: '/dashboard/mesh/table',
+        url: '/dashboard/mesh/topo',
         config
       },
       {
@@ -97,6 +97,12 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         text: 'trans0962',
         name: 'schedule',
         url: '/setting/schedule',
+        config
+      },
+      {
+        text: 'WPS',
+        name: 'wps',
+        url: '/setting/wps',
         config
       }
       // {

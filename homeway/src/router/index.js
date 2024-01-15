@@ -13,11 +13,13 @@ import offline from 'pages/bussiness/upgrade/offline.vue';
 import childLock from 'pages/bussiness/setting/childLock.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
-import wifiSetting from 'pages/bussiness/wlan/wifiSetting_230v.vue';
+import wifiSetting from 'pages/bussiness/wlan/setting.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
-// import ipv6 from 'pages/bussiness/setting/ipv6.vue';
 import fan from 'pages/bussiness/setting/fan.vue';
 import guest from 'pages/bussiness/setting/guest.vue';
+import wps from 'pages/bussiness/setting/wps.vue';
+import meshAdd from 'pages/bussiness/mesh/add.vue';
+// import ipv6 from 'pages/bussiness/setting/ipv6.vue';
 
 import auto from 'base/pages/bussiness/upgrade/auto.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
@@ -87,6 +89,11 @@ const routes = {
       ]
     },
     {
+      path: '/mesh/add',
+      name: 'mesh-add',
+      component: meshAdd
+    },
+    {
       path: '/setting/wifi',
       name: 'wifi',
       component: wifi
@@ -142,15 +149,15 @@ const routes = {
       component: wifiOffSchedule
     },
     {
+      path: '/setting/wps',
+      name: 'wps',
+      component: wps
+    },
+    {
       path: '/wlan',
       name: 'wlan',
       component: wlan
     },
-    // {
-    //   path: '/wlan/wifiSetting',
-    //   name: 'wifiSetting',
-    //   component: wifiSetting
-    // },
     {
       path: '/wlan/wifiSetting',
       name: 'wifiSetting',

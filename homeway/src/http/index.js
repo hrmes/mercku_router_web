@@ -10,7 +10,9 @@ const methods = {
   updateMeshApclient: createMethod('mesh.apclient.update'),
   checkMeshApclient: createMethod('mesh.apclient.check'),
   getMeshFanMode: createMethod('mesh.fan.mode.get'),
-  updateMeshFanMode: createMethod('mesh.fan.mode.update')
+  updateMeshFanMode: createMethod('mesh.fan.mode.update'),
+  getMeshWps: createMethod('mesh.wps.get'),
+  updateMeshWps: createMethod('mesh.wps.update')
   // updateSuper: createMethod('mesh.config.super.update'),
   // getNewMeshNodeInfo: createMethod('mesh.node.new.info')
 };

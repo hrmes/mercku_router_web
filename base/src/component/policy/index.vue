@@ -80,6 +80,9 @@ export default {
   font-size: 12px;
   .policy-text {
     margin-left: 5px;
+    &:hover {
+      color: #0e6a99;
+    }
   }
 }
 @media screen and (max-width: 768px) {
@@ -92,7 +95,6 @@ export default {
     .copy,
     .policy-text {
       display: block;
-      padding: 5px;
       margin-left: 0;
     }
   }

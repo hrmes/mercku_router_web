@@ -1,5 +1,5 @@
 <template>
-  <canvas id="canvas"></canvas>
+  <canvas :id="id"></canvas>
 </template>
 <script>
 export default {
@@ -11,6 +11,10 @@ export default {
     size: {
       type: Number,
       default: 36
+    },
+    id: {
+      type: String,
+      default: 'canvas'
     }
   },
   mounted() {
@@ -18,7 +22,7 @@ export default {
   },
   methods: {
     init() {
-      const canvas = document.getElementById('canvas');
+      const canvas = document.getElementById(this.id);
       const ctx = canvas.getContext('2d');
 
       const radio = this.getPixelRatio(ctx);

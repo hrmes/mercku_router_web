@@ -5,12 +5,13 @@
         <img src="@/assets/images/img_checklist.png"
              alt="">
       </div>
-      <div class="checklist-tips">
+      <div class="checklist-title">
         <p>{{$t('trans1073')}}</p>
       </div>
       <div class="checklist-container">
         <p class="checklist-content">{{$t('trans1074')}}</p>
       </div>
+      <div class="checklist-tips">{{$t('trans1119')}}</div>
       <div class="btn-container">
         <button @click="prepared"
                 class="btn">{{$t('trans1075')}}</button>
@@ -63,7 +64,7 @@ export default {
       margin-bottom: 30px;
     }
     > :nth-child(3) {
-      margin-bottom: 40px;
+      margin-bottom: 20px;
     }
     .checklist-img {
       width: 220px;
@@ -73,7 +74,7 @@ export default {
         height: inherit;
       }
     }
-    .checklist-tips {
+    .checklist-title {
       width: inherit;
       > p {
         font-size: 14px;
@@ -85,6 +86,9 @@ export default {
         padding: 0 7px;
         color: #333;
       }
+    }
+    .checklist-tips {
+      text-align: center;
     }
     .checklist-container {
       width: inherit;

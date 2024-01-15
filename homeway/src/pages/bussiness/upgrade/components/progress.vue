@@ -9,7 +9,7 @@
           <img class="mk-upgrade-header__close"
                @click="close"
                v-if="upgradeCompleted"
-               src="@/assets/images/icon/ic_close_gray@2x.png"
+               src="@/assets/images/icon/ic_close.png"
                alt="" />
         </div>
         <div class="mk-upgrade-content">
