@@ -45,7 +45,7 @@
                    :class="{'expand':router.expand}"
                    v-for="router in routers"
                    :key="router.sn"
-                   @click="router.expand = !router.expand">
+                   @click.stop="router.expand = !router.expand">
                 <div class="name">
                   <div class="icon">
                     <img src="@/assets/images/icon/ic_homeway_gateway.png"
@@ -488,12 +488,20 @@ export default {
         }
       });
     },
-
     initChart() {
       const topoEl = document.getElementById('topo');
       this.chart = echarts.init(topoEl);
-      this.chart.on('click', () => {
+      this.chart.on('click', (e) => {
         this.$router.push('/dashboard/mesh/table');
+        const { data: { sn } } = e;
+        if (sn) {
+          this.routers.forEach(router => {
+            router.expand = false;
+            if (router.sn === sn) {
+              router.expand = true;
+            }
+          });
+        }
       });
       window.addEventListener('resize', () => {
         this.chart && this.chart.resize();
@@ -501,23 +509,27 @@ export default {
     },
     drawTopo(routers) {
       const oldRouters = this.routers;
-      const selected = oldRouters.filter(or => or.expand).map(r => r.sn);
-      this.routers = routers;
+
       const data = genData(routers);
       data.nodes.forEach(n => {
-        this.routers.forEach(r => {
+        this.routers = routers.map(r => {
           if (n.sn === r.sn) {
             this.$set(r, 'image', n.symbol.replace('image://', ''));
           }
+          r.expand = false;
+          return r;
         });
       });
-      this.routers.forEach(r => {
-        if (selected.includes(r.sn)) {
-          this.$set(r, 'expand', true);
-        } else {
-          this.$set(r, 'expand', false);
-        }
-      });
+      // 维持设备之前的附加属性
+      if (oldRouters.length > 0) {
+        oldRouters.forEach(or => {
+          const device = this.routers.find(nr => nr.sn === or.sn);
+          if (device) {
+            device.expand = or.expand;
+          }
+        });
+      }
+
       const option = {
         series: [
           {
@@ -613,6 +625,9 @@ export default {
   beforeDestroy() {
     this.pageActive = false;
     this.clearIntervalTask();
+    window.removeEventListener('resize', () => {
+      this.chart && this.chart.resize();
+    });
   }
 };
 </script>

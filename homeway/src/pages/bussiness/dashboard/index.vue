@@ -78,8 +78,10 @@ export default {
       deviceCountTimer: null,
       tipsModalVisible: false,
       checkFrimwareTimer: null,
+      checkFrimwareCounts: 3,
       isFirstEntry: true,
-      wanStatusTimer: null
+      wanStatusTimer: null,
+
     };
   },
   computed: {
@@ -129,6 +131,8 @@ export default {
   },
   methods: {
     checkFrimwareLatest() {
+      // eslint-disable-next-line no-plusplus
+      this.checkFrimwareCounts--;
       this.$http
         .firmwareList(undefined, {
           hideToast: true
@@ -156,9 +160,11 @@ export default {
           }
         })
         .catch(() => {
-          this.checkFrimwareTimer = setTimeout(() => {
-            this.checkFrimwareLatest();
-          }, 1000 * 3);
+          if (this.checkFrimwareCounts > 0) {
+            this.checkFrimwareTimer = setTimeout(() => {
+              this.checkFrimwareLatest();
+            }, 1000 * 3);
+          }
         });
     },
     showTips() {

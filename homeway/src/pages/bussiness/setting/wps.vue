@@ -17,7 +17,8 @@
         <m-form-item>
           <button class="btn"
                   v-defaultbutton
-                  @click="submit()">{{wpsIsEnabled?'WPS正在启用中...':$t('trans0462')}}</button>
+                  :disabled="wpsIsEnabled"
+                  @click="submit()">{{wpsIsEnabled?`WPS启动中,请等待${formatTime(wpsRemainingTime)}`:$t('trans0462')}}</button>
         </m-form-item>
       </m-form>
     </div>
@@ -29,13 +30,19 @@ import { debounce } from 'base/util/util';
 export default {
   data() {
     return {
-      wpsIsEnabled: false,
+      wpsRemainingTime: 0,
       wpsEnabledBand: '2g',
       bandList: [
         { value: '2g', text: this.$t('trans0677') },
         { value: '5g', text: this.$t('trans0679') }
-      ]
+      ],
+      countdownTimer: null
     };
+  },
+  computed: {
+    wpsIsEnabled() {
+      return this.wpsRemainingTime > 0;
+    }
   },
   mounted() {
     this.getWps();
@@ -51,39 +58,28 @@ export default {
           this.$loading.open();
         }
         const response = await this.$http.getMeshWps();
-        const {
-          data: {
-            result: { bands }
-          }
-        } = response;
-        console.log(bands);
 
-        this.wpsIsEnabled = bands.some(item => {
-          if (item.wps_enabled) {
-            this.wpsIsEnabled = item.band;
-          }
-          return item.wps_enabled;
-        });
-        // WPS每开启一次,有效时长为2分钟, WPS启用期间需要轮询getWps接口,
-        // 目的为了界面能及时更新WPS2分钟超时之后的关闭的状态，在这之后WPS才能够再次触发
-        if (this.wpsIsEnabled) {
-          this.clearIntervalTask();
-          this.pollTimer = setTimeout(() => {
-            this.getWps(false);
-          }, 5000);
+        const { bands } = response;
+        const { remaining_duration: remain } = response;
+
+        this.wpsRemainingTime = remain;
+        this.wpsEnabledBand = bands.find(band => band.wps_enabled).band;
+
+        if (this.wpsIsEnabled > 0) {
+          this.setWpsCountdown();
         } else { // WPS是关闭的状态下，不再需要轮询getWps
           this.clearIntervalTask();
         }
       } catch (error) {
         this.clearIntervalTask();
-        this.wpsIsEnabled = false;
+        this.wpsRemainingTime = 0;
       } finally {
         this.$loading.close();
       }
     },
     clearIntervalTask() {
-      clearTimeout(this.pollTimer);
-      this.pollTimer = null;
+      clearInterval(this.countdownTimer);
+      this.countdownTimer = null;
     },
     submit: debounce(function updateWps() {
       this.$loading.open();
@@ -96,7 +92,60 @@ export default {
         .finally(() => {
           this.$loading.close();
         });
-    }, 500)
+    }, 500),
+    setWpsCountdown() {
+      this.clearIntervalTask();
+      if (this.wpsIsEnabled) {
+        this.createIntervalTask();
+      }
+    },
+    createIntervalTask() {
+      if (this.wpsRemainingTime > 0) {
+        this.clearIntervalTask();
+        this.wpsRemainingTime -= 1; // 倒计时应该少1s
+        this.countdownTimer = setInterval(() => {
+          this.wpsRemainingTime -= 1;
+          if (this.wpsRemainingTime <= 0) {
+            clearInterval(this.countdownTimer);
+            this.countdownTimer = null;
+          }
+        }, 1000);
+      }
+    },
+    formatTime(time) {
+      if (time === -1) {
+        return this.$t('trans0530');
+      }
+      const arr = [60, 60];
+      const temp = ['00', '00'];
+      let index = 0;
+      let a = time;
+      let b = 0;
+      const topArr = [];
+      while (index <= arr.length && a > 0) {
+        if (index === arr.length) {
+          b = a;
+        } else {
+          b = a % arr[index];
+        }
+        a = parseInt(a / arr[index], 10);
+        if (b < 10) {
+          b = `0${b}`;
+        }
+        topArr.push(b);
+        index += 1;
+      }
+      const topStr = temp
+        .map((n, j) => {
+          if (topArr[j]) {
+            return topArr[j];
+          }
+          return n;
+        })
+        .reverse()
+        .join(' : ');
+      return topStr;
+    },
   }
 };
 </script>

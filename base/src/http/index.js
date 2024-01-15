@@ -148,7 +148,8 @@ const commonMethods = {
   getMeshWifiStatus: createMethod('mesh.config.wifi.status.get'),
   updateMeshWifiStatus: createMethod('mesh.config.wifi.status.update'),
   getMeshLEDStatus: createMethod('mesh.led.get'),
-  updateMeshLEDStatus: createMethod('mesh.led.update')
+  updateMeshLEDStatus: createMethod('mesh.led.update'),
+  getNewMeshNodeInfo: createMethod('mesh.node.new.info')
 };
 
 // 获取主页

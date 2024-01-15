@@ -11,7 +11,7 @@
       <div class="checklist-container">
         <p class="checklist-content">{{$t('trans1074')}}</p>
       </div>
-      <div class="checklist-tips">若要作为节点组网使用，请先将homeway重置（使用针状物长按Reset大于10秒）</div>
+      <div class="checklist-tips">{{$t('trans1119')}}</div>
       <div class="btn-container">
         <button @click="prepared"
                 class="btn">{{$t('trans1075')}}</button>
