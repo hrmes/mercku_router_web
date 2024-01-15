@@ -18,7 +18,7 @@
           <button class="btn"
                   v-defaultbutton
                   :disabled="wpsIsEnabled"
-                  @click="submit()">{{wpsIsEnabled?`WPS启动中,请等待${formatTime(wpsRemainingTime)}`:$t('trans0462')}}</button>
+                  @click="submit()">{{wpsIsEnabled?`${$t('trans1124')}${formatTime(wpsRemainingTime)}`:$t('trans0462')}}</button>
         </m-form-item>
       </m-form>
     </div>
@@ -51,12 +51,9 @@ export default {
     this.clearIntervalTask();
   },
   methods: {
-    async getWps(isFirstEnterPage = true) {
+    async getWps() {
       try {
-        // Show loading when user is first entering into page
-        if (isFirstEnterPage) {
-          this.$loading.open();
-        }
+        this.$loading.open();
         const response = await this.$http.getMeshWps();
 
         const { bands } = response;

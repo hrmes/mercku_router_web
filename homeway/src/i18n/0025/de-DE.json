@@ -643,7 +643,7 @@
   "trans0648": "Update erfolgreich, Wi-Fi wird nach dem Neustart neu gestartet. Sie können auf der aktuellen Seite bleiben oder jederzeit zur Hauptseite zurückkehren.",
   "trans0649": "Update erfolgreich, wenn das Netzwerk nach dem Neustart getrennt wird, überprüfen Sie bitte die Anzeigelampe des Geräts.",
   "trans0650": " ",
-  "trans0651": "Während des Verbindungsvorgangs blinkt die Anzeigelampe weiß",
+  "trans0651": "Während des Meshvorgangs blinkt die Anzeigelampe blau",
   "trans0652": "Schwaches Signal, bewegen Sie das Gerät näher an das WLAN-Gerät, bis die Anzeigelampe konstant weiß leuchtet",
   "trans0653": "Unterstützt: homeway M6",
   "trans0654": "Hinzufügen des WLAN-Gerätes fehlgeschlagen, mögliche Gründe",
@@ -1114,5 +1114,7 @@
   "trans1119": "Um Homeway als Knotenpunkt für das Netzwerk zu verwenden, setzen Sie es bitte zuerst zurück (drücken Sie die Reset-Taste mit einer Nadel für mehr als 10 Sekunden)",
   "trans1120": "Die WPS-Funktion erfordert, dass der Wi-Fi-Verschlüsselungsmodus auf Open, WPA2 oder WPA2/WPA3 eingestellt ist, um wirksam zu sein. Nach dem Betreten des WPS-Modus blinkt die Anzeigelampe blau und verlässt nach 2 Minuten automatisch den WPS-Modus.",
   "trans1121": "Wählen Sie Wi-Fi aus",
-  "trans1122": "Die meisten Smart-Home-Geräte unterstützen keine 5G-Wi-Fi-Verbindungen. Es wird empfohlen, das 2,4-g-Frequenzband auszuwählen, um ihre normale Verwendung zu gewährleisten."
+  "trans1122": "Die meisten Smart-Home-Geräte unterstützen keine 5G-Wi-Fi-Verbindungen. Es wird empfohlen, das 2,4-g-Frequenzband auszuwählen, um ihre normale Verwendung zu gewährleisten.",
+  "trans1123": "Bitte stellen Sie sicher, dass nur Geräte vom Modell homeway mit diesem Switch verbunden sind. Das Anschließen anderer Modelle kann zu einem Ausfall des verkabelten Netzwerks führen (Massen-Hinzufügung nicht unterstützt).\n\n\n",
+  "trans1124": "Aktivierung läuft, bitte warten..."
 }
