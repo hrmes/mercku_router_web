@@ -56,8 +56,8 @@ export default {
         this.$loading.open();
         const response = await this.$http.getMeshWps();
 
-        const { bands } = response;
-        const { remaining_duration: remain } = response;
+        const { data: { result: { bands } } } = response;
+        const { data: { result: { remaining_duration: remain } } } = response;
 
         this.wpsRemainingTime = remain;
         this.wpsEnabledBand = bands.find(band => band.wps_enabled).band;

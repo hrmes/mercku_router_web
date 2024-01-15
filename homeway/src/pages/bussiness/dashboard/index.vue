@@ -81,7 +81,7 @@ export default {
       checkFrimwareCounts: 3,
       isFirstEntry: true,
       wanStatusTimer: null,
-
+      needCheckUpgradable: false
     };
   },
   computed: {
@@ -133,6 +133,8 @@ export default {
     checkFrimwareLatest() {
       // eslint-disable-next-line no-plusplus
       this.checkFrimwareCounts--;
+      this.needCheckUpgradable = false;
+
       this.$http
         .firmwareList(undefined, {
           hideToast: true
@@ -161,6 +163,7 @@ export default {
         })
         .catch(() => {
           if (this.checkFrimwareCounts > 0) {
+            console.log('counts', this.checkFrimwareCounts);
             this.checkFrimwareTimer = setTimeout(() => {
               this.checkFrimwareLatest();
             }, 1000 * 3);
@@ -219,7 +222,6 @@ export default {
     getWanStatus() {
       if (this.isFirstEntry) {
         this.netStatus = CONSTANTS.WanNetStatus.testing;
-        this.isFirstEntry = false;
       }
       clearTimeout(this.wanStatusTimer);
       this.wanStatusTimer = null;
@@ -235,6 +237,7 @@ export default {
               this.getWanStatus();
             }, 10000);
           }
+          this.isFirstEntry = false;
         })
         .catch(() => {
           this.netStatus = CONSTANTS.WanNetStatus.unlinked;
