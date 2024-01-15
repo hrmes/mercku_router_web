@@ -1,10 +1,11 @@
-import {
-  RouterSnModel,
-  M6aRouterSnModelVersion,
-  Models
-} from '../util/constant';
+import { RouterSnModel, M6aRouterSnModelVersion } from '../util/constant';
 
 export default {
+  computed: {
+    modelID() {
+      return localStorage.getItem('modelID');
+    }
+  },
   methods: {
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
@@ -35,6 +36,8 @@ export default {
             image = require('../assets/images/img_m6a.png');
           } else if (modelVersion === M6aRouterSnModelVersion.M6a_Plus) {
             image = require('../assets/images/img-m6a_plus.png');
+          } else if (modelVersion === M6aRouterSnModelVersion.M6c) {
+            image = require('../assets/images/img-m6c.png');
           }
           break;
         case RouterSnModel.Homeway:
@@ -44,6 +47,23 @@ export default {
           break;
       }
       return image;
+    },
+    getM6aProductsInfo() {
+      let res;
+      switch (this.modelID) {
+        case M6aRouterSnModelVersion.M6a:
+          res = process.env.CUSTOMER_CONFIG.routers.M6a;
+          break;
+        case M6aRouterSnModelVersion.M6a_Plus:
+          res = process.env.CUSTOMER_CONFIG.routers.M6a_Plus;
+          break;
+        case M6aRouterSnModelVersion.M6c:
+          res = process.env.CUSTOMER_CONFIG.routers.M6c;
+          break;
+        default:
+          break;
+      }
+      return res;
     }
   },
   data() {
@@ -54,10 +74,7 @@ export default {
         [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
         [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
         [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
-        [RouterSnModel.M6a]:
-          process.env.MODEL_CONFIG.id === Models.m6a
-            ? process.env.CUSTOMER_CONFIG.routers.M6a
-            : process.env.CUSTOMER_CONFIG.routers.M6a_plus
+        [RouterSnModel.M6a]: this.getM6aProductsInfo()
       }
     };
   }

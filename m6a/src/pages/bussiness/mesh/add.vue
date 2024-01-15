@@ -410,6 +410,7 @@ export default {
             img = require('@/assets/images/img_m6a_add_01.svg');
             break;
           case M6aRouterSnModelVersion.M6a_Plus:
+          case M6aRouterSnModelVersion.M6c:
             img = require('@/assets/images/model/m6a_plus/img_m6aplus_add_01.svg');
             break;
           default:
@@ -426,7 +427,7 @@ export default {
           default:
             break;
         }
-      } else if (step === Step.step3 && type && this.modelID === M6aRouterSnModelVersion.M6a_Plus) {
+      } else if (step === Step.step3 && type && (this.modelID === M6aRouterSnModelVersion.M6a_Plus || this.modelID === M6aRouterSnModelVersion.M6c)) {
         switch (type) {
           case AddNodeType.wireless:
             img = require('@/assets/images/model/m6a_plus/img_m6aplus_wireless_add_03.svg');

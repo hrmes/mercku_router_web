@@ -16,6 +16,10 @@ import picM6aPlusGateway from '@/assets/images/model/m6a_plus/icons-m6a_plus-gat
 import picM6aPlusGood from '@/assets/images/model/m6a_plus/icons-m6a_plus-excellent.png';
 import picM6aPlusBad from '@/assets/images/model/m6a_plus/icons-m6a_plus-fair.png';
 import picM6aPlusOffline from '@/assets/images/model/m6a_plus/icons-m6a_plus-offline.png';
+import picM6cGateway from '@/assets/images/model/m6c/icons-m6c-gateway.png';
+import picM6cGood from '@/assets/images/model/m6c/icons-m6c-excellent.png';
+import picM6cBad from '@/assets/images/model/m6c/icons-m6c-fair.png';
+import picM6cOffline from '@/assets/images/model/m6c/icons-m6c-offline.png';
 
 import { M6aRouterSnModelVersion } from 'base/util/constant';
 
@@ -106,6 +110,11 @@ function genNodes(gateway, green, red, offline) {
         [Color.good]: picM6aPlusGood,
         [Color.bad]: picM6aPlusBad,
         [Color.offline]: picM6aPlusOffline
+      },
+      [M6aRouterSnModelVersion.M6c]: {
+        [Color.good]: picM6cGood,
+        [Color.bad]: picM6cBad,
+        [Color.offline]: picM6cOffline
       }
     }
   };
@@ -121,6 +130,9 @@ function genNodes(gateway, green, red, offline) {
           break;
         case M6aRouterSnModelVersion.M6a_Plus:
           symbol = `${symbol}${picM6aPlusGateway}`;
+          break;
+        case M6aRouterSnModelVersion.M6c:
+          symbol = `${symbol}${picM6cGateway}`;
           break;
         default:
           break;
