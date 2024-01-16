@@ -234,7 +234,7 @@ export default {
       pageStatus: '',
       snAdded: '',
       checkTimer: null,
-      addTimeout: 90,
+      addTimeout: 120,
       nodes: [],
     };
   },
