@@ -523,6 +523,9 @@ export default {
         case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
           image = require('@/assets/images/model/m6a_plus/ic_homepage_m6a-plus.png');
           break;
+        case CONSTANTS.M6aRouterSnModelVersion.M6c:
+          image = require('@/assets/images/model/m6c/ic_homepage_m6c.png');
+          break;
         default:
           break;
       }
