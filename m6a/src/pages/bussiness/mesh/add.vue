@@ -179,9 +179,6 @@
       <div class="tips center-wrap"
            v-if="showTips">
         <div class="circle-animation">
-          <!-- <div class="circle circle1"></div>
-          <div class="circle circle2"></div>
-          <div class="circle circle3"></div> -->
         </div>
         <p class="tips__text">{{$t('trans0175')}}</p>
         <div class="button-container">
@@ -296,7 +293,7 @@ export default {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
     modelID() {
-      return this.$store.state.modelID;
+      return this.$store.state.modelID || localStorage.getItem('modelID');
     }
   },
   created() {
@@ -305,17 +302,27 @@ export default {
   methods: {
     transText(text) {
       let resultText = '';
-      if (this.modelID === M6aRouterSnModelVersion.M6a) {
-        resultText = this.$t(text).replaceAll(
-          '%s',
-          process.env.CUSTOMER_CONFIG.routers.M6a.shortName
-        );
-      }
-      if (this.modelID === M6aRouterSnModelVersion.M6a_Plus) {
-        resultText = this.$t(text).replaceAll(
-          '%s',
-          process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName
-        );
+      switch (this.modelID) {
+        case M6aRouterSnModelVersion.M6a:
+          resultText = this.$t(text).replaceAll(
+            '%s',
+            process.env.CUSTOMER_CONFIG.routers.M6a.shortName
+          );
+          break;
+        case M6aRouterSnModelVersion.M6a_Plus:
+          resultText = this.$t(text).replaceAll(
+            '%s',
+            process.env.CUSTOMER_CONFIG.routers.M6a_Plus.shortName
+          );
+          break;
+        case M6aRouterSnModelVersion.M6c:
+          resultText = this.$t(text).replaceAll(
+            '%s',
+            process.env.CUSTOMER_CONFIG.routers.M6c.shortName
+          );
+          break;
+        default:
+          break;
       }
       return resultText;
     },
@@ -328,9 +335,6 @@ export default {
     updateTipsVisible(visible) {
       this.showTips = visible;
       this.showChooseType = !visible;
-      // if (!visible) {
-      //   this.forward2step(0);
-      // }
     },
     updateChooseTypeVisible(visible, type) {
       this.showChooseType = visible;
@@ -427,7 +431,10 @@ export default {
           default:
             break;
         }
-      } else if (step === Step.step3 && type && (this.modelID === M6aRouterSnModelVersion.M6a_Plus || this.modelID === M6aRouterSnModelVersion.M6c)) {
+      } else if (
+        step === Step.step3 && type &&
+        (this.modelID === M6aRouterSnModelVersion.M6a_Plus ||
+          this.modelID === M6aRouterSnModelVersion.M6c)) {
         switch (type) {
           case AddNodeType.wireless:
             img = require('@/assets/images/model/m6a_plus/img_m6aplus_wireless_add_03.svg');
@@ -449,6 +456,7 @@ export default {
           img = require('@/assets/images/img_m6_networking.svg');
           break;
         case M6aRouterSnModelVersion.M6a_Plus:
+        case M6aRouterSnModelVersion.M6c:
           img = require('@/assets/images/model/m6a_plus/img_m6aplus_networking.svg');
           break;
         default:
@@ -652,31 +660,6 @@ export default {
     content: '';
     display: block;
     padding-top: 82%;
-  }
-  .circle {
-    width: 200px;
-    height: 100px;
-    border-radius: 50%;
-    background: radial-gradient(
-      rgba(214, 0, 28, 0) 39%,
-      rgba(214, 0, 28, 0.29) 100%
-    );
-    transform: scale(1);
-    opacity: 0;
-    animation: ripple 1.4s linear 0.8s infinite;
-    position: absolute;
-    &.circle1 {
-      left: 50px;
-      top: 40px;
-    }
-    &.circle2 {
-      left: 150px;
-      top: 30px;
-    }
-    &.circle3 {
-      left: 80px;
-      top: 100px;
-    }
   }
 }
 .steps-container {

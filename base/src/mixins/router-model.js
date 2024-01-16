@@ -1,22 +1,16 @@
 import { RouterSnModel, M6aRouterSnModelVersion } from '../util/constant';
 
 export default {
-  computed: {
-    modelID() {
-      return localStorage.getItem('modelID');
-    }
-  },
   methods: {
     getNodeName(node) {
       const id = node.sn.slice(0, 2);
-      // const modelVersion = node.sn.slice(9, 10);
       const num = node.sn.slice(-4);
       const category = this.Products[id] || { shortName: 'Unknown' };
       return `${category.shortName}-${num}`;
     },
     getNodeImage(node) {
       const id = node.sn.slice(0, 2);
-      const modelVersion = node.sn.slice(9, 10);
+      const modelID = localStorage.getItem('modelID');
       let image = '';
       switch (id) {
         case RouterSnModel.M2:
@@ -32,11 +26,11 @@ export default {
           image = require('../assets/images/img_wifi6.png');
           break;
         case RouterSnModel.M6a:
-          if (modelVersion === M6aRouterSnModelVersion.M6a) {
+          if (modelID === M6aRouterSnModelVersion.M6a) {
             image = require('../assets/images/img_m6a.png');
-          } else if (modelVersion === M6aRouterSnModelVersion.M6a_Plus) {
+          } else if (modelID === M6aRouterSnModelVersion.M6a_Plus) {
             image = require('../assets/images/img-m6a_plus.png');
-          } else if (modelVersion === M6aRouterSnModelVersion.M6c) {
+          } else if (modelID === M6aRouterSnModelVersion.M6c) {
             image = require('../assets/images/img-m6c.png');
           }
           break;
@@ -47,10 +41,13 @@ export default {
           break;
       }
       return image;
-    },
-    getM6aProductsInfo() {
+    }
+  },
+  data() {
+    function getM6aProductsInfo() {
       let res;
-      switch (this.modelID) {
+      const modelID = localStorage.getItem('modelID');
+      switch (modelID) {
         case M6aRouterSnModelVersion.M6a:
           res = process.env.CUSTOMER_CONFIG.routers.M6a;
           break;
@@ -65,8 +62,6 @@ export default {
       }
       return res;
     }
-  },
-  data() {
     return {
       Products: {
         [RouterSnModel.M2]: process.env.CUSTOMER_CONFIG.routers.M2,
@@ -74,7 +69,7 @@ export default {
         [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
         [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
         [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
-        [RouterSnModel.M6a]: this.getM6aProductsInfo()
+        [RouterSnModel.M6a]: getM6aProductsInfo()
       }
     };
   }
