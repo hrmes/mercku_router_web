@@ -14,9 +14,13 @@
       "name": "M6a Wi-Fi6 Router",
       "shortName": "M6a"
     },
-    "M6a_plus": {
+    "M6a_Plus": {
       "name": "M6a Plus Wi-Fi6 Router",
       "shortName": "M6a Plus"
+    },
+    "M6c": {
+      "name": "M6c Wi-Fi6 Router",
+      "shortName": "M6c"
     }
   },
   "deviceColors": ["black", "white", "grey", "red"],

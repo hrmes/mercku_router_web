@@ -296,7 +296,16 @@ export default {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
     modelID() {
-      return this.$store.state.modelID;
+      return this.$store.state.modelID || localStorage.getItem('modelID');
+    },
+    isM6a() {
+      return this.modelID === M6aRouterSnModelVersion.M6a;
+    },
+    isM6aPlus() {
+      return this.modelID === M6aRouterSnModelVersion.M6a_Plus;
+    },
+    isM6c() {
+      return this.modelID === M6aRouterSnModelVersion.M6c;
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -308,16 +317,22 @@ export default {
   methods: {
     transText(text) {
       let resultText = '';
-      if (this.modelID === M6aRouterSnModelVersion.M6a) {
+      if (this.isM6a) {
         resultText = this.$t(text).replaceAll(
           '%s',
           process.env.CUSTOMER_CONFIG.routers.M6a.shortName
         );
       }
-      if (this.modelID === M6aRouterSnModelVersion.M6a_Plus) {
+      if (this.isM6aPlus) {
         resultText = this.$t(text).replaceAll(
           '%s',
-          process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName
+          process.env.CUSTOMER_CONFIG.routers.M6a_Plus.shortName
+        );
+      }
+      if (this.isM6c) {
+        resultText = this.$t(text).replaceAll(
+          '%s',
+          process.env.CUSTOMER_CONFIG.routers.M6c.shortName
         );
       }
       return resultText;
@@ -416,16 +431,14 @@ export default {
             img = require('@/assets/images/add/img_add_01.svg');
             break;
           case M6aRouterSnModelVersion.M6a_Plus:
+          case M6aRouterSnModelVersion.M6c:
             img = require('@/assets/images/add/m6a_plus/img_add_01.svg');
             break;
           default:
             break;
         }
-      } else if (
-        step === Step.step3 &&
-        type &&
-        this.modelID === M6aRouterSnModelVersion.M6a
-      ) {
+      }
+      if (step === Step.step3 && type && this.isM6a) {
         switch (type) {
           case AddNodeType.wireless:
             img = require('@/assets/images/add/img_wireless_add_03.svg');
@@ -436,11 +449,8 @@ export default {
           default:
             break;
         }
-      } else if (
-        step === Step.step3 &&
-        type &&
-        this.modelID === M6aRouterSnModelVersion.M6a_Plus
-      ) {
+      }
+      if (step === Step.step3 && type && !this.isM6a) {
         switch (type) {
           case AddNodeType.wireless:
             img = require('@/assets/images/add/m6a_plus/img_wireless_add_03.svg');
@@ -461,6 +471,7 @@ export default {
           img = require('@/assets/images/add/img_networking.svg');
           break;
         case M6aRouterSnModelVersion.M6a_Plus:
+        case M6aRouterSnModelVersion.M6c:
           img = require('@/assets/images/add/m6a_plus/img_networking.svg');
           break;
         default:

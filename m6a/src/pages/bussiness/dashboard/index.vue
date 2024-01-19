@@ -280,13 +280,14 @@ export default {
     ModelName() {
       let modelName = '';
       switch (this.$store.state.modelID) {
-        case M6aRouterSnModelVersion.M6a:
-          modelName = 'M6a';
-          break;
         case M6aRouterSnModelVersion.M6a_Plus:
           modelName = 'M6a Plus';
           break;
+        case M6aRouterSnModelVersion.M6c:
+          modelName = 'M6c';
+          break;
         default:
+          modelName = 'M6a';
           break;
       }
       return modelName;
