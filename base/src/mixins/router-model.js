@@ -10,7 +10,7 @@ export default {
     },
     getNodeImage(node) {
       const id = node.sn.slice(0, 2);
-      const modelID = localStorage.getItem('modelID');
+      const modelID = node.sn.charAt(9);
       let image = '';
       switch (id) {
         case RouterSnModel.M2:
