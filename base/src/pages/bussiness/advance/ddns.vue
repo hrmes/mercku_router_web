@@ -9,13 +9,17 @@
               class='form'
               :model="ddns"
               :rules='rules'>
-        <div class="form-item">
-          <label style="font-weight:bold;">{{$t('trans0435')}}</label>
-          <m-radio-group v-model="ddns.service"
-                         class="radio-group"
-                         direction='vertical'
-                         :options="services"></m-radio-group>
-        </div>
+        <m-form-item class="item"
+                     prop="enabled">
+          <m-switch :label="$t('trans0462')"
+                    v-model="ddns.enabled"></m-switch>
+        </m-form-item>
+        <m-form-item class="item"
+                     prop="service">
+          <m-select :label="$t('trans0435')"
+                    v-model="ddns.service"
+                    :options="services"></m-select>
+        </m-form-item>
         <m-form-item class="item"
                      prop='domain'>
           <m-input :label="$t('trans0436')"
@@ -35,10 +39,6 @@
                    :placeholder="`${$t('trans0321')}`"
                    v-model="ddns.password"></m-input>
         </m-form-item>
-        <div class="form-item">
-          <m-checkbox v-model="ddns.enabled"
-                      :text="$t('trans0462')"></m-checkbox>
-        </div>
       </m-form>
       <div class="form-button">
         <button class="btn"
@@ -123,6 +123,7 @@ export default {
     },
     submit() {
       if (this.$refs.form.validate()) {
+        console.log(this.ddns);
         this.$loading.open();
         this.$http
           .updateDDNS(this.ddns)

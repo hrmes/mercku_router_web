@@ -156,13 +156,16 @@
                     v-model="form.channel.b5gChannel.number"
                     :options="channels.b5g"></m-select>
         </m-form-item>
+        <m-form-item key="dfs"
+                     class="form__item">
+          <m-switch v-model="form.dfs"
+                    @change="onDFSchange"
+                    :label="$t('trans1231')" />
+        </m-form-item>
         <m-form-item key="autochannel"
                      class="form__item">
-          <m-checkbox v-model="isAutoChannel"
-                      :rect='false'
-                      :text="$t('trans0781')"
-                      :bold='true'
-                      style="margin-right:10px" />
+          <m-switch v-model="isAutoChannel"
+                    :label="$t('trans0781')" />
         </m-form-item>
       </m-form>
       <!-- channel width -->
@@ -222,6 +225,7 @@ export default {
       form: {
         smart_connect: true,
         compatibility_mode: false,
+        dfs: true,
         b24g: {
           ssid: '',
           password: '',
@@ -375,16 +379,13 @@ export default {
     },
     changeSmartConnect() {
       if (this.form.smart_connect) {
-        this.form.b5g.hidden = this.form.b24g.hidden;
         this.form.b5g.ssid = this.form.b24g.ssid;
-        this.form.b5g.password = this.form.b24g.password;
-        this.form.b5g.encrypt = this.form.b24g.encrypt;
       } else {
-        this.form.b5g.hidden = this.form.b24g.hidden;
         this.form.b5g.ssid = `${this.form.b24g.ssid}_5G`;
-        this.form.b5g.password = this.form.b24g.password;
-        this.form.b5g.encrypt = this.form.b24g.encrypt;
       }
+      this.form.b5g.hidden = this.form.b24g.hidden;
+      this.form.b5g.password = this.form.b24g.password;
+      this.form.b5g.encrypt = this.form.b24g.encrypt;
       // 开关变化后，始终保持5G的参数和2.4G的一致
     },
     isOpen(band) {
@@ -448,6 +449,7 @@ export default {
                 smart_connect: this.form.smart_connect,
                 compatibility_mode: this.form.compatibility_mode,
                 tx_power: this.form.wifiTxPower,
+                dfs: this.form.dfs,
                 bands: {
                   [Bands.b24g]: b24g,
                   [Bands.b5g]: b5g
@@ -518,6 +520,7 @@ export default {
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
           this.form.compatibility_mode = wifi.compatibility_mode;
+          this.form.dfs = wifi.dfs || true;
 
           // wifi Tx_power
           this.form.wifiTxPower = wifi.tx_power ?? 'high';
@@ -527,6 +530,24 @@ export default {
         .catch(() => {
           this.$loading.close();
         });
+    },
+    onDFSchange(val) {
+      if (!val) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          title: this.$t('trans1233'),
+          message: this.$t('trans1234'),
+          callback: {
+            ok: () => {
+              this.form.dfs = false;
+            },
+            cancel: () => {
+              this.form.dfs = true;
+            }
+          }
+        });
+      }
     }
   },
 

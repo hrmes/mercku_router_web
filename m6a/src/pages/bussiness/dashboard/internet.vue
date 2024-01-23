@@ -59,7 +59,12 @@
                 </div>
               </div>
             </div>
-            <div class="speedtest-btn-wrap">
+            <div v-if="!wanIsPPPoE"
+                 class="speedtest-btn-wrap">
+              <p>{{$t('trans1232')}}</p>
+            </div>
+            <div v-else
+                 class="speedtest-btn-wrap">
               <button class="btn"
                       @click="startSpeedTest()"
                       :class="{'disabled':!isConnected}"
@@ -260,6 +265,9 @@ export default {
     },
     isRouter() {
       return CONSTANTS.RouterMode.router === this.$store.state.mode;
+    },
+    wanIsPPPoE() {
+      return this.netInfo.type === CONSTANTS.WanType.pppoe;
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
@@ -497,6 +505,7 @@ export default {
       this.$http
         .getWanNetInfo()
         .then(res => {
+          console.log('wan net info is', res);
           this.wanInfoTimer = null;
           clearTimeout(this.wanInfoTimer);
           this.netInfo = res.data.result;
@@ -556,7 +565,7 @@ export default {
           this.getIsConnnected = false;
         });
       return true;
-    }
+    },
   },
   beforeDestroy() {
     this.pageActive = false;
@@ -781,6 +790,11 @@ export default {
     bottom: 15%;
     left: 50%;
     transform: translateX(-50%);
+    > p {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
     .iconfont {
       margin-right: 5px;
     }

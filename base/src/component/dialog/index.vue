@@ -121,7 +121,7 @@ export default {
       color: var(--dialog-title-color);
       font-weight: bold;
       text-align: center;
-      margin-bottom: 10px;
+      margin: 10px auto;
     }
     .dialog-message {
       color: var(--dialog-content-color);
