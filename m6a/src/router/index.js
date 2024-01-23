@@ -91,11 +91,11 @@ const routes = {
       name: 'dashboard',
       component: dashboard
     },
-    {
-      path: '/wlan',
-      name: 'wlan',
-      component: wlan
-    },
+    // {
+    //   path: '/wlan',
+    //   name: 'wlan',
+    //   component: wlan
+    // },
     {
       path: '/unconnect',
       name: 'unconnect',
@@ -498,7 +498,7 @@ recursive(routes.routes);
 Array.prototype.push.apply(routes.routes, [
   {
     path: '*',
-    redirect: `${prefix}/wlan`
+    redirect: `${prefix}/login`
   },
   {
     path: '/',

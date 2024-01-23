@@ -96,9 +96,9 @@ export default {
     }
   },
   methods: {
-    towlan() {
-      this.$router.push({ path: '/wlan' });
-    },
+    // towlan() {
+    //   this.$router.push({ path: '/wlan' });
+    // },
     async login() {
       try {
         this.$loading.open();
@@ -108,11 +108,11 @@ export default {
         this.$store.state.role = role;
         localStorage.setItem('role', role);
 
-        const { status } = (await this.$http.isinitial()).data.result;
-        if (status) {
-          this.towlan();
-          return;
-        }
+        // const { status } = (await this.$http.isinitial()).data.result;
+        // if (status) {
+        //   this.towlan();
+        //   return;
+        // }
 
         const { mode, sn } = (await this.$http.getMeshMode()).data.result;
         const modelID = sn?.charAt(9);
