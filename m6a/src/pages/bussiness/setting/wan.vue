@@ -11,7 +11,7 @@
             <div>
               <label class="with-colon">{{$t('trans0317')}}:</label>
               <span>
-                {{ networkArr[localNetInfo.wan_type] }}
+                {{ networkArr[localNetInfo.type] }}
               </span>
             </div>
             <div>
@@ -392,7 +392,6 @@ const IptvVlanDefault = {
 export default {
   data() {
     return {
-      IPv6NetType: '',
       CONSTANTS,
       netNote: {
         dhcp: this.$t('trans0147'),
@@ -618,7 +617,6 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    // this.getIPv6WanNetInfo();
   },
   computed: {
     isPppoe() {
@@ -632,7 +630,7 @@ export default {
     },
     localNetInfo() {
       const local = {
-        wan_type: '-',
+        type: '-',
         netinfo: {
           ip: '-',
           mask: '-',
@@ -641,18 +639,11 @@ export default {
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        local.wan_type = this.netInfo.wan_type ? this.netInfo.wan_type : '-';
-        local.netinfo.ip = this.netInfo.netinfo.ip
-          ? this.netInfo.netinfo.ip
-          : '-';
-        local.netinfo.mask = this.netInfo.netinfo.mask
-          ? this.netInfo.netinfo.mask
-          : '-';
-        local.netinfo.gateway = this.netInfo.netinfo.gateway
-          ? this.netInfo.netinfo.gateway
-          : '-';
+        local.type = this.netInfo.type || '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip || '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask || '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
         local.netinfo.dns = this.netInfo.netinfo.dns;
-        return local;
       }
       return local;
     },
@@ -660,9 +651,6 @@ export default {
       return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
-    },
-    modelID() {
-      return '0';
     }
   },
   methods: {
@@ -688,17 +676,6 @@ export default {
         this.staticForm.mask
       );
     },
-    getIPv6WanNetInfo() {
-      this.$http.getMeshInfoWanNetIpv6().then(res => {
-        const { result } = res.data;
-        const pppoeData = result.pppoe;
-        this.IPv6NetType = result.type;
-        if (this.IPv6NetType === CONSTANTS.WanType.pppoe) {
-          this.pppoeForm.account = pppoeData.account;
-          this.pppoeForm.password = pppoeData.password;
-        }
-      });
-    },
     getWanNetInfo() {
       this.$loading.open();
       this.$http
@@ -706,7 +683,7 @@ export default {
         .then(res => {
           if (res.data.result) {
             this.netInfo = res.data.result;
-            this.netType = this.netInfo.wan_type;
+            this.netType = this.netInfo.type;
             if (this.netInfo?.vlan?.length) {
               this.vlan =
                 this.netInfo.vlan.find(
