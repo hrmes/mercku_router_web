@@ -176,14 +176,6 @@
     <!--dialog for help after failed-->
     <m-modal class="fail-help-modal"
              :visible.sync="failHelpVisible">
-      <m-modal-header>
-        <div class="close-btn__wrapper">
-          <span @click="()=>failHelpVisible=false">
-            <img src="~@/assets/images/icon/ic_close.svg"
-                 alt="">
-          </span>
-        </div>
-      </m-modal-header>
       <m-modal-body>
         <ul class="fail-help-list">
           <li>{{$t('trans1001')}}</li>
@@ -192,6 +184,8 @@
           <li>{{$t('trans0698')}}</li>
           <li>{{$t('trans0661')}}</li>
         </ul>
+        <button @click="()=>failHelpVisible=false"
+                class="btn btn-dialog-confirm">{{$t('trans0211')}}</button>
       </m-modal-body>
     </m-modal>
   </div>
@@ -434,7 +428,11 @@ export default {
   }
 }
 .fail-help-modal {
+  .modal-body {
+    text-align: center;
+  }
   .fail-help-list {
+    text-align: left;
     max-width: 400px;
     padding: 0 20px 20px;
     margin: 0;

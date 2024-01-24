@@ -85,7 +85,7 @@ export default {
 
   .modal-content {
     background: $modal-content-background;
-    padding: 20px;
+    padding: 25px;
     border-radius: 5px;
     box-shadow: 0 2px 12px 0 $modal-shadow-color;
   }
