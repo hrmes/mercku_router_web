@@ -300,6 +300,7 @@ export default {
     }
   },
   mounted() {
+    this.$loading.close();
     this.getMeshInfo();
     this.getWanNetInfo();
     this.createIntercvalTask();
@@ -361,7 +362,7 @@ export default {
             });
           }
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     showTips() {
       this.tipsModalVisible = true;

@@ -6,15 +6,14 @@
         <div ref="flexWrap"
              class="flex-wrap">
           <m-header :navVisible="navVisible"
-                    :isLoginPage="!logoVisible"
-                    :logoVisible="logoVisible"
+                    :isLoginPage="isLoginPage"
                     :navs="menus"
                     class="header"></m-header>
           <component :is="layout"
                      :hasBackWrap='hasBackWrap'
                      :asideInfo='asideInfo'></component>
           <m-policy :locale="$i18n.locale"
-                    :isLoginPage="!logoVisible"
+                    :isLoginPage="isLoginPage"
                     :class="{ 'fix-bottom': !navVisible }"
                     class="policy" />
           <img v-if="$route.path.includes('login')"
@@ -72,8 +71,8 @@ export default {
       const asideInfo = { hasAside, subMenu };
       return asideInfo;
     },
-    logoVisible() {
-      return !this.$route.path.includes('login');
+    isLoginPage() {
+      return this.$route.path.includes('login');
     },
     navVisible() {
       const { path } = this.$route;

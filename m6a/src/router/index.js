@@ -91,11 +91,11 @@ const routes = {
       name: 'dashboard',
       component: dashboard
     },
-    // {
-    //   path: '/wlan',
-    //   name: 'wlan',
-    //   component: wlan
-    // },
+    {
+      path: '/wlan',
+      name: 'wlan',
+      component: wlan
+    },
     {
       path: '/unconnect',
       name: 'unconnect',

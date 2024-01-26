@@ -10,10 +10,10 @@
          :class="{'light':currentTheme!=='auto'&&!isDarkMode,
                   'dark':currentTheme!=='auto'&&isDarkMode
                   }">
-      <div v-if="logoVisible"
+      <div v-if="!isLoginPage"
            @click="forward2dashboard"
            class="logo-wrap__logo"></div>
-      <a v-if="website && !logoVisible"
+      <a v-if="website && isLoginPage"
          class="offical"
          target="_blank"
          :href="website.url">
@@ -93,6 +93,13 @@
     </div>
 
     <div class="right-wrap">
+      <div v-if="isWlanPage&&!isMobile"
+           class="skip-initialization">
+        <button class="btn btn-default btn-middle"
+                @click="skipInitial">
+          {{$t('trans0163')}}
+        </button>
+      </div>
       <div class="lang-selector"
            :class="{'open':showPopup}"
            @mouseenter="setLangPopupVisible(true)"
@@ -118,6 +125,11 @@
         </transition>
       </div>
       <div class="small-device">
+        <span v-if="isWlanPage&&isMobile"
+              class="skip-initialization">
+          <button class="btn btn-default btn-small"
+                  @click="skipInitial">{{$t('trans0163')}}</button>
+        </span>
         <span @click="setMobileLangVisible()"
               class="menu-icon language"
               :class="[$i18n.locale]">
@@ -140,7 +152,7 @@
           <i class="iconfont icon-ic_more"></i>
         </span>
       </div>
-      <div v-show="navVisible"
+      <div v-if="navVisible"
            class="exit"
            @click="exit()">
         {{$t('trans0021')}}
@@ -286,10 +298,6 @@ export default {
       type: Array,
       default: () => []
     },
-    logoVisible: {
-      type: Boolean,
-      default: true
-    }
   },
   data() {
     return {
@@ -336,6 +344,9 @@ export default {
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    isWlanPage() {
+      return this.$route.path.includes('wlan');
     }
   },
   watch: {
@@ -367,6 +378,9 @@ export default {
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;
       }
+    },
+    skipInitial() {
+      this.$router.replace({ path: '/dashboard' });
     },
     beforeEnter(el) {
       el.style.height = 0;
@@ -898,6 +912,11 @@ export default {
         color: var(--header-nav-item-hover-color);
       }
     }
+    .skip-initialization {
+      margin-right: 25px;
+      font-size: 14px;
+      font-weight: 500;
+    }
   }
   &.is-not-login-nav {
     border-bottom-left-radius: 20px;
@@ -1156,7 +1175,8 @@ export default {
         display: none;
       }
       .small-device {
-        display: block;
+        display: flex;
+        align-items: center;
         position: absolute;
         right: 20px;
         top: 20px;
