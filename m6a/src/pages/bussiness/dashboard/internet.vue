@@ -67,7 +67,14 @@
                   </div>
                 </div>
               </div>
-              <div class="speedtest__wrap">
+              <div v-if="wanIsPPPoE"
+                   class="pppoe__wrap">
+                <img src="@/assets/images/img_pppoe.png"
+                     alt="">
+                <p>{{$t('trans1232')}}</p>
+              </div>
+              <div v-else
+                   class="speedtest__wrap">
                 <div class="speedtest-dashboard"
                      id="animation-container">
                 </div>
@@ -213,7 +220,7 @@
   </div>
 </template>
 <script>
-import { SpeedTestStatus, RouterMode, WanNetStatus } from 'base/util/constant';
+import { SpeedTestStatus, RouterMode, WanNetStatus, WanType } from 'base/util/constant';
 import { formatBandWidth } from 'base/util/util';
 import speedTestMixin from 'base/mixins/speed-test';
 
@@ -266,14 +273,17 @@ export default {
     this.getRouteMeta();
   },
   computed: {
-    isMobile() {
-      return this.$store.state.isMobile;
-    },
     pageName() {
       return this.$t(this.$route.meta.text);
     },
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     isRouter() {
       return RouterMode.router === this.$store.state.mode;
+    },
+    wanIsPPPoE() {
+      return this.netInfo.type === WanType.pppoe;
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
@@ -847,6 +857,20 @@ export default {
       font-size: 16px;
     }
   }
+  .pppoe__wrap {
+    width: 70%;
+    margin: 50px auto 0;
+    text-align: center;
+    img {
+      width: 200px;
+      height: 200px;
+    }
+    p {
+      width: 350px;
+      margin: 30px auto;
+      font-weight: 600;
+    }
+  }
   .speedtest__wrap {
     display: flex;
     flex-direction: column;
@@ -943,6 +967,18 @@ export default {
       .section {
         width: 100%;
         border-radius: 0;
+      }
+    }
+    .pppoe__wrap {
+      width: 80%;
+      margin-top: 20px;
+      img {
+        width: 150px;
+        height: 150px;
+      }
+      p {
+        width: fit-content;
+        margin: 10px auto 40px;
       }
     }
     .speedtest__wrap {

@@ -303,6 +303,7 @@ function checkPortNums(modelID) {
       ];
       break;
     case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
+    case CONSTANTS.M6aRouterSnModelVersion.M6c:
       ports = [
         {
           port: {

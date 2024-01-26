@@ -26,6 +26,7 @@
           <div class="restore-notes">
             <p>{{$t('trans1016')}}</p>
             <p>{{$t('trans1017')}}</p>
+            <p>{{$t('trans1230')}}</p>
           </div>
           <div class="backup__content">
             <div class="backup__upload">

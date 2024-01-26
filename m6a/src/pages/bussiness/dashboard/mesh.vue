@@ -71,7 +71,9 @@
                 <div class="mesh-router__info">
                   <div class="row-1">
                     <div class="line-icon"
-                         :class="{'m6a_plus':modelID===M6aRouterSnModelVersion.M6a_Plus}"></div>
+                         :class="{
+                          'm6a_plus':modelID===M6aRouterSnModelVersion.M6a_Plus,
+                          'm6c':modelID===M6aRouterSnModelVersion.M6c}"></div>
                     <div class="text">{{selectedNodeInfo.name}}</div>
                   </div>
                   <div class="row-2">
@@ -338,14 +340,24 @@ export default {
       return this.$store.state.theme;
     },
     modelID() {
-      return this.$store.state.modelID;
+      return this.$store.state.modelID || localStorage.getItem('modelID');
     },
     modelName() {
+      const modelID = this.selectedNodeInfo.sn.charAt(9);
       const routerConfig = process.env.CUSTOMER_CONFIG.routers;
-      const name =
-        routerConfig[
-          this.modelID === M6aRouterSnModelVersion.M6a_Plus ? 'M6a_plus' : 'M6a'
-        ].shortName;
+      let model;
+      switch (modelID) {
+        case M6aRouterSnModelVersion.M6a_Plus:
+          model = 'M6a Plus';
+          break;
+        case M6aRouterSnModelVersion.M6c:
+          model = 'M6c';
+          break;
+        default:
+          model = 'M6a';
+          break;
+      }
+      const name = routerConfig[model].shortName;
       return name;
     },
   },
@@ -1153,6 +1165,11 @@ export default {
                 filter: var(--img-brightness);
                 &.m6a_plus {
                   background: url(../../../assets/images/icon/ic_homepage_m6a-plus.png)
+                    center no-repeat;
+                  background-size: contain;
+                }
+                &.m6c {
+                  background: url(../../../assets/images/icon/ic_homepage_m6c.png)
                     center no-repeat;
                   background-size: contain;
                 }

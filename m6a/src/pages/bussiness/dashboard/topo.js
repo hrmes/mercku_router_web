@@ -8,14 +8,18 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6aGateway from '@/assets/images/topo/ic_m6a_gw_green.png';
+import picM6aGateway from '@/assets/images/topo/ic_m6a_gw.png';
 import picM6aWifi6Good from '@/assets/images/topo/ic_m6a_normal.png';
 import picM6aWifi6Bad from '@/assets/images/topo/ic_m6a_bad.png';
 import picM6aWifi6Offline from '@/assets/images/topo/ic_m6a_offline.png';
-import picM6aPlusGateway from '@/assets/images/topo/ic_m6a_plus_gw_green.png';
+import picM6aPlusGateway from '@/assets/images/topo/ic_m6a_plus_gw.png';
 import picM6aPlusGood from '@/assets/images/topo/ic_m6a_plus_normal.png';
 import picM6aPlusBad from '@/assets/images/topo/ic_m6a_plus_bad.png';
 import picM6aPlusOffline from '@/assets/images/topo/ic_m6a_plus_offline.png';
+import picM6cGateway from '@/assets/images/topo/ic_m6c_gw.png';
+import picM6cGood from '@/assets/images/topo/ic_m6c_normal.png';
+import picM6cBad from '@/assets/images/topo/ic_m6c_bad.png';
+import picM6cOffline from '@/assets/images/topo/ic_m6c_offline.png';
 
 import { Color, M6aRouterSnModelVersion } from 'base/util/constant';
 
@@ -131,6 +135,11 @@ function genNodes(gateway, green, red, offline) {
         [Color.good]: picM6aPlusGood,
         [Color.bad]: picM6aPlusBad,
         [Color.offline]: picM6aPlusOffline
+      },
+      [M6aRouterSnModelVersion.M6c]: {
+        [Color.good]: picM6cGood,
+        [Color.bad]: picM6cBad,
+        [Color.offline]: picM6cOffline
       }
     }
   };
@@ -141,13 +150,14 @@ function genNodes(gateway, green, red, offline) {
 
     if (node.is_gw) {
       switch (modelVersion) {
-        case M6aRouterSnModelVersion.M6a:
-          symbol = `${symbol}${picM6aGateway}`;
-          break;
         case M6aRouterSnModelVersion.M6a_Plus:
           symbol = `${symbol}${picM6aPlusGateway}`;
           break;
+        case M6aRouterSnModelVersion.M6c:
+          symbol = `${symbol}${picM6cGateway}`;
+          break;
         default:
+          symbol = `${symbol}${picM6aGateway}`;
           break;
       }
     } else {

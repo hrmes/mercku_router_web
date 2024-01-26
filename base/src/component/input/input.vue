@@ -14,8 +14,6 @@
                type="text"
                readonly
                :value="addonBefore" />
-        <!-- <div class="extra"
-             v-if="addonBefore">{{addonBefore}}</div> -->
         <input v-if="inputType==='number'"
                @focus="focus"
                @blur="blur"

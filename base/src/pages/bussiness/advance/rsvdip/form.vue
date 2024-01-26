@@ -6,13 +6,14 @@
                 class="form"
                 :model="form"
                 :rules='rules'>
-          <m-form-item class="item device-choose-wrap"
+          <m-form-item class="device-choose-wrap"
                        prop='name'
                        ref="name">
             <m-inputtable-select :label="$t('trans0108')"
                                  :placeholder="$t('trans1213')"
                                  :options="devicesFiltered"
                                  :identifier="'mac'"
+                                 :selectedObj="form"
                                  v-model="form.name"
                                  @autofill="autofill">
             </m-inputtable-select>
@@ -32,6 +33,11 @@
                      :placeholder="$t('trans0321')"
                      v-model="form.ip" />
           </m-form-item>
+          <!-- <m-form-item prop='ip'
+                       ref="ip">
+            <m-ip-input :label="$t('trans0151')"
+                        v-model="form.ip" />
+          </m-form-item> -->
         </m-form>
       </div>
       <div class="popup-page__content--bottom">
@@ -42,7 +48,6 @@
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -63,7 +68,7 @@ export default {
       devices: [],
       form: {
         id: '',
-        name: null,
+        name: '',
         mac: '',
         ip: ''
       },
@@ -107,7 +112,9 @@ export default {
     },
     devicesFiltered() {
       return this.devices.filter(
-        item => this.formatMac(item.mac) !== this.form.mac
+        item => item.name !== this.form.name ||
+          this.formatMac(item.mac) !== this.form.mac ||
+          item.ip !== this.form.ip
       );
     }
   },
@@ -152,7 +159,6 @@ export default {
     submit() {
       const fetchMethod =
         this.formType === 'update' ? 'meshRsvdipUpdate' : 'meshRsvdipAdd';
-
       if (this.$refs.form.validate()) {
         this.$loading.open();
 

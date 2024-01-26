@@ -42,7 +42,8 @@
                                :placeholder="$t('trans0321')"
                                v-model="ping.ip_limit.ip_list[index]" />
                       <div @click="reduceIp(index)"
-                           class="form__reduce-btn">
+                           class="form__reduce-btn"
+                           :class="{'is-plural':allowedIpsLenIsPlural}">
                         <span></span>
                       </div>
                     </div>
@@ -124,6 +125,9 @@ export default {
     },
     isMaxIpNum() {
       return this.allowedIpsLen === maxIpNum;
+    },
+    allowedIpsLenIsPlural() {
+      return this.allowedIpsLen > 1;
     }
   },
   mounted() {
@@ -322,9 +326,10 @@ export default {
       column-gap: 20px;
       > .form-item {
         width: 100%;
-        &:first-child {
-          .form__reduce-btn {
-            visibility: hidden;
+        .form__reduce-btn {
+          visibility: hidden;
+          &.is-plural {
+            visibility: visible;
           }
         }
       }

@@ -9,7 +9,6 @@ export default {
   methods: {
     validate() {
       let result = true;
-
       this.$children.forEach(child => {
         if (child.validate) {
           if (!child.validate()) {

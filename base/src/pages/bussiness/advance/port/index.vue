@@ -65,7 +65,7 @@
                 <p>
                   <label class="m-title with-colon"
                          v-if="isMobile">{{$t('trans0425')}}:</label>
-                  <span>{{item.remote.ip === '0.0.0.0' ? $t('trans0109') : item.remote.ip}}</span>
+                  <span>{{item.remote.ip === '0.0.0.0'||item.remote.ip==='' ? $t('trans0109') : item.remote.ip}}</span>
                 </p>
                 <span v-if="!isMobile"
                       style="margin:0 3px">/</span>

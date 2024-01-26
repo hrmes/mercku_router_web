@@ -27,6 +27,7 @@ import mLoading from './component/loading/loading-canvas.vue';
 import mLottieLoading from './component/loading/loading-lottie.vue';
 import mTag from './component/tag/index.vue';
 import mCountTo from './component/countTo/index.vue';
+import mIpInput from './component/ipInput/index.vue';
 import clickoutside from './component/clickoutside/index.vue';
 import defaultbutton from './component/default-button/index.vue';
 
@@ -62,6 +63,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-lottie-loading', mLottieLoading);
   _Vue.component('m-tag', mTag);
   _Vue.component('m-count-to', mCountTo);
+  _Vue.component('m-ip-input', mIpInput);
 };
 
 export default registerComponents;

@@ -12,25 +12,24 @@
              :placeholder="placeholder" />
       <div ref="clear"
            class="select-text__clear"
-           @click="clearInput">
-      </div>
+           @click="clearInput"></div>
       <div class="icon-container"
            @click="handleIconClick">
         <span class="icon"
-              :class="{'open':opened,'close':!opened}"></span>
+              :class="{open: opened, close: !opened}"></span>
       </div>
       <transition name="select">
         <ul class="select-popup reset-ul"
             v-show="this.opened">
-          <template v-if="options.length>0">
+          <template v-if="options.length > 0">
             <li :key="option.mac"
-                :class="{'selected':selectedObj[identifier] === option[identifier]}"
+                :class="{selected: highlightSelectedObj(option)}"
                 @click.stop="select(option)"
                 v-for="option in options">
-              <div class="main-title">{{option.name}}</div>
+              <div class="main-title">{{ option.name }}</div>
               <div class="sub">
-                <span>{{$t('trans0188')}}: {{formatMac(option.mac)}}</span>
-                <span>{{$t('trans0151')}}: {{option.ip}}</span>
+                <span>{{$t('trans0188')}}:{{formatMac(option.mac)}}</span>
+                <span>{{$t('trans0151')}}:{{option.ip}}</span>
               </div>
             </li>
           </template>
@@ -39,11 +38,9 @@
               <p>{{$t('trans0278')}}</p>
             </li>
           </template>
-
         </ul>
       </transition>
     </div>
-
   </div>
 </template>
 
@@ -69,13 +66,15 @@ export default {
     identifier: {
       type: String,
       default: ''
+    },
+    selectedObj: {
+      type: Object
     }
   },
   data() {
     return {
       formatMac,
       selectedText: this.value,
-      selectedObj: null,
       opened: false
     };
   },
@@ -88,9 +87,6 @@ export default {
         this.$refs.clear.classList.remove('show');
       }
     }
-  },
-  mounted() {
-    this.selectedObj = this.copyObjectStructure(this.options);
   },
   methods: {
     scrollToSelect() {
@@ -113,10 +109,10 @@ export default {
       this.$emit('input', this.selectedText);
     },
     select(option) {
-      this.selectedObj = option;
       this.selectedText = option.name;
       this.$emit('input', this.selectedText);
       this.$emit('autofill', option);
+      this.$parent.$emit('focus');
       this.opened = false;
     },
     close() {
@@ -153,19 +149,12 @@ export default {
       this.$emit('input', this.selectedText);
       this.$refs.input.focus();
     },
-    copyObjectStructure(obj) {
-      if (obj === null || typeof obj !== 'object') {
-        return null;
-      }
-      if (Array.isArray(obj)) {
-        return obj.map(item => this.copyObjectStructure(item));
-      }
-      const newObj = {};
-      Object.keys(obj).forEach(key => {
-        newObj[key] = this.copyObjectStructure(obj[key]);
-      });
-
-      return newObj;
+    highlightSelectedObj(option) {
+      return (
+        this.selectedObj.name === option.name &&
+        this.selectedObj.ip === option.ip &&
+        this.selectedObj.mac === formatMac(option.mac)
+      );
     }
   }
 };
@@ -174,6 +163,8 @@ export default {
 .select-container {
   width: 340px;
   cursor: pointer;
+  position: relative;
+  z-index: 9999;
   @media screen and (min-width: 768px) {
     ::-webkit-scrollbar {
       width: 6px;

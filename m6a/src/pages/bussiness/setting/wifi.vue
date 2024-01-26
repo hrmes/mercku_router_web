@@ -34,10 +34,12 @@
                   key="b24gform"
                   :model="form"
                   :rules="rules">
-            <div class="form-header">
-              <span
-                    class="form-header__title">{{ form.smart_connect?'Wi-Fi':$t('trans0677') }}</span>
-            </div>
+            <m-form-item key="b24genabled"
+                         prop="b24g.enabled">
+              <m-switch v-model="form.b24g.enabled"
+                        disabled
+                        :label="form.smart_connect?'Wi-Fi':$t('trans0677')"></m-switch>
+            </m-form-item>
             <m-form-item key="b24gssid"
                          prop="b24g.ssid">
               <m-input v-model="form.b24g.ssid"
@@ -82,9 +84,12 @@
                   key="b5gform"
                   :model="form"
                   :rules="rules">
-            <div class="form-header">
-              <span class="form-header__title">{{ $t('trans0679') }}</span>
-            </div>
+            <m-form-item key="b5genabled"
+                         prop="b5g.enabled">
+              <m-switch v-model="form.b5g.enabled"
+                        disabled
+                        :label="$t('trans0679')"></m-switch>
+            </m-form-item>
             <m-form-item key="b5gssid"
                          prop="b5g.ssid">
               <m-input v-model="form.b5g.ssid"
@@ -143,12 +148,17 @@
                         v-model="form.channel.b5gChannel.number"
                         :options="channels.b5g"></m-select>
             </m-form-item>
+            <!-- DFS -->
+            <m-form-item key="dfs">
+              <m-switch v-model="form.dfs"
+                        :label="$t('trans1231')"
+                        @change="onDFSChange" />
+            </m-form-item>
+            <!-- AUTO Channel -->
             <m-form-item key="autochannel"
                          class="check-info">
               <m-switch v-model="isAutoChannel"
-                        @change="()=>isAutoChannel!=isAutoChannel"
-                        :label="$t('trans0781')"
-                        :bold="false" />
+                        :label="$t('trans0781')" />
             </m-form-item>
           </m-form>
           <!-- channel width -->
@@ -216,15 +226,18 @@ export default {
       form: {
         smart_connect: true,
         compatibility_mode: false,
+        dfs: true,
         b24g: {
           ssid: '',
           password: '',
+          enabled: true,
           hidden: false,
           encrypt: EncryptMethod.wpa2
         },
         b5g: {
           ssid: '',
           password: '',
+          enabled: true,
           hidden: false,
           encrypt: EncryptMethod.wpa2
         },
@@ -369,6 +382,7 @@ export default {
     },
     changeSmartConnect() {
       const { form } = this;
+      form.b5g.enabled = form.b24g.enabled;
       form.b5g.hidden = form.b24g.hidden;
       form.b5g.ssid = form.smart_connect
         ? form.b24g.ssid
@@ -380,18 +394,21 @@ export default {
       return this.form[band].encrypt === EncryptMethod.open;
     },
     submit() {
-      const validResult1 = this.$refs.b24gForm.validate();
-      const validResult2 = this.$refs.b5gForm.validate();
+      let validResult1 = true;
+      let validResult2 = true;
 
-      if (!validResult1 || !validResult2) {
-        return;
-      }
-
+      validResult1 = this.$refs.b24gForm.validate();
       if (!this.form.smart_connect) {
+        // 表单验证通过且ssid不一致
+        validResult2 = this.$refs.b5gForm.validate();
         if (this.form.b24g.ssid === this.form.b5g.ssid) {
           this.$toast(this.$t('trans0660'), 2000, 'error');
           return;
         }
+      }
+
+      if (!validResult1 || !validResult2) {
+        return;
       }
 
       this.$dialog.confirm({
@@ -419,8 +436,10 @@ export default {
               smart_connect: this.form.smart_connect,
               compatibility_mode: this.form.compatibility_mode,
               tx_power: this.form.wifiTxPower,
+              dfs: this.form.dfs,
               bands: { [Bands.b24g]: b24g, [Bands.b5g]: b5g }
             };
+            console.log(wifi);
 
             this.$http
               .meshWifiUpdate(wifi)
@@ -448,7 +467,6 @@ export default {
         .then(([wifiResult, channelsResult]) => {
           const wifi = wifiResult.data.result;
           const channels = channelsResult.data.result;
-          console.log('wifi data', wifi);
 
           this.channels.b24g = this.mapChannelNumbers(
             channels[Bands.b24g].numbers
@@ -456,13 +474,13 @@ export default {
           this.channels.b5g = this.mapChannelNumbers(
             channels[Bands.b5g].numbers
           );
-          console.log('channel', this.channels);
 
           // 2.4G
           const b24g = wifi.bands[Bands.b24g];
           this.form.b24g.ssid = b24g.ssid;
           this.form.b24g.encrypt = b24g.encrypt;
           this.form.b24g.password = b24g.password;
+          this.form.b24g.enabled = b24g.enabled;
           this.form.b24g.hidden = b24g.hidden;
 
           // 5G
@@ -470,6 +488,7 @@ export default {
           this.form.b5g.ssid = b5g.ssid;
           this.form.b5g.encrypt = b5g.encrypt;
           this.form.b5g.password = b5g.password;
+          this.form.b5g.enabled = b5g.enabled;
           this.form.b5g.hidden = b5g.hidden;
 
           // channel
@@ -483,11 +502,12 @@ export default {
           ) {
             this.isAutoChannel = true;
           }
-          console.log('123', this.form.channel.b24gChannel);
 
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
           this.form.compatibility_mode = wifi.compatibility_mode;
+          // DFS
+          this.form.dfs = wifi.dfs || true;
 
           // wifi Tx_power
           this.form.wifiTxPower = wifi.tx_power || 'high';
@@ -500,6 +520,7 @@ export default {
     },
     mapBandData(formBand, channel) {
       return {
+        enabled: formBand.enabled,
         hidden: formBand.hidden,
         ssid: formBand.ssid,
         password: formBand.password,
@@ -514,6 +535,24 @@ export default {
         value: number,
         text: number
       }));
+    },
+    onDFSChange(val) {
+      if (!val) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          title: this.$t('trans1233'),
+          message: this.$t('trans1234'),
+          callback: {
+            ok: () => {
+              this.form.dfs = false;
+            },
+            cancel: () => {
+              this.form.dfs = true;
+            }
+          }
+        });
+      }
     }
   }
 };
