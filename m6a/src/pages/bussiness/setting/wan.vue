@@ -301,9 +301,6 @@ function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
 function checkPortNums(modelID) {
-  if (!modelID) {
-    modelID = localStorage.getItem('modelID');
-  }
   let ports = null;
   switch (modelID) {
     case CONSTANTS.M6aRouterSnModelVersion.M6a:
