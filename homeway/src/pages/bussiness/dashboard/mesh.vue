@@ -48,8 +48,7 @@
                    @click.stop="router.expand = !router.expand">
                 <div class="name">
                   <div class="icon">
-                    <img src="@/assets/images/icon/ic_homeway_gateway.png"
-                         alt>
+                    <img :src="router.image">
                   </div>
                   <div class="wrap">
                     <div class="text"
