@@ -301,6 +301,9 @@ function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
 function checkPortNums(modelID) {
+  if (!modelID) {
+    modelID = localStorage.getItem('modelID');
+  }
   let ports = null;
   switch (modelID) {
     case CONSTANTS.M6aRouterSnModelVersion.M6a:
@@ -332,6 +335,7 @@ function checkPortNums(modelID) {
       ];
       break;
     case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
+    case CONSTANTS.M6aRouterSnModelVersion.M6c:
       ports = [
         {
           port: {
@@ -421,7 +425,6 @@ const IptvVlanDefault = {
 export default {
   data() {
     return {
-      IPv6NetType: '',
       CONSTANTS,
       netNote: {
         dhcp: this.$t('trans0147'),
@@ -647,7 +650,6 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    // this.getIPv6WanNetInfo();
   },
   computed: {
     isPppoe() {
@@ -683,9 +685,6 @@ export default {
       return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
-    },
-    modelID() {
-       return '0';
     }
   },
   methods: {
@@ -710,17 +709,6 @@ export default {
         this.staticForm.gateway,
         this.staticForm.mask
       );
-    },
-    getIPv6WanNetInfo() {
-      this.$http.getMeshInfoWanNetIpv6().then(res => {
-        const { result } = res.data;
-        const pppoeData = result.pppoe;
-        this.IPv6NetType = result.type;
-        if (this.IPv6NetType === CONSTANTS.WanType.pppoe) {
-          this.pppoeForm.account = pppoeData.account;
-          this.pppoeForm.password = pppoeData.password;
-        }
-      });
     },
     getWanNetInfo() {
       this.$loading.open();
