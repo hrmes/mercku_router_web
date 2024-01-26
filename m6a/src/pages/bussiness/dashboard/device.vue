@@ -320,7 +320,7 @@
                          :class="{'active':isSpeedLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0014')}}</span>
                     </span>
-                    <!-- <span class="limit-icon"
+                    <span class="limit-icon"
                           @click="()=>forward2limit(row,'url')">
                       <i class="url-limit iconfont ic_limit_website_off"
                          :class="{'active':isBlacklsitLimit(row)}"></i>
@@ -330,7 +330,7 @@
                           @click="()=>addToBlackList(row)">
                       <i class="add-block iconfont ic_blocklist"></i>
                       <span class="hover-popover">{{$t('trans0016')}}</span>
-                    </span> -->
+                    </span>
                   </div>
                 </li>
               </template>

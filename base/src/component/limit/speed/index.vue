@@ -97,8 +97,8 @@ export default {
       const speed = limit.speed_limit;
       this.form = {
         ...speed,
-        up: this.b_to_Kb(speed.up),
-        down: this.b_to_Kb(speed.down)
+        up: this.bps_to_Kbps(speed.up),
+        down: this.bps_to_Kbps(speed.down)
       };
     } else {
       this.getSpeed();
@@ -108,13 +108,13 @@ export default {
     modalClose() {
       this.$emit('speedLimitClose');
     },
-    b_to_Kb(v) {
+    bps_to_Kbps(v) {
       if (!v) {
         return '';
       }
       return v / 1000;
     },
-    Kb_to_b(v) {
+    Kbps_to_bps(v) {
       return v * 1000;
     },
     getSpeed() {
@@ -138,12 +138,12 @@ export default {
           enabled: this.form.enabled
         };
         if (this.form.up) {
-          params.up = this.Kb_to_b(Number(this.form.up));
+          params.up = this.Kbps_to_bps(Number(this.form.up));
         } else {
           params.up = 0;
         }
         if (this.form.down) {
-          params.down = this.Kb_to_b(Number(this.form.down));
+          params.down = this.Kbps_to_bps(Number(this.form.down));
         } else {
           params.down = 0;
         }

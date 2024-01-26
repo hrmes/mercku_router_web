@@ -173,7 +173,10 @@ export default {
 
             this.$router.push({ path: '/dashboard' });
             this.$loading.close();
-          });
+          })
+            .finally(() => {
+              this.$loading.close();
+            });
         })
         .catch(() => {
           this.$loading.close();
