@@ -72,8 +72,9 @@
                   <div class="row-1">
                     <div class="line-icon"
                          :class="{
-                          'm6a_plus':modelID===M6aRouterSnModelVersion.M6a_Plus,
-                          'm6c':modelID===M6aRouterSnModelVersion.M6c}"></div>
+                          'm6a_plus':(selectedNodeInfo.sn.charAt(9)===M6aRouterSnModelVersion.M6a_Plus),
+                          'm6c':(selectedNodeInfo.sn.charAt(9)===M6aRouterSnModelVersion.M6c)}">
+                    </div>
                     <div class="text">{{selectedNodeInfo.name}}</div>
                   </div>
                   <div class="row-2">
