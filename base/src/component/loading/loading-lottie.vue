@@ -24,7 +24,7 @@ export default {
     const myDiv = document.getElementById('loading-wrap');
     myDiv.style.width = `${this.size}px`;
     myDiv.style.height = `${this.size}px`;
-     // 解决json动画找不到dom不渲染问题
+    // 解决json动画找不到dom不渲染问题
     window.requestAnimationFrame(this.loadImg);
   },
   computed: {
@@ -52,6 +52,7 @@ export default {
   methods: {
     loadImg() {
       const { id } = this;
+      console.log('id is', id);
       lottie.loadAnimation({
         container: document.getElementById(id),
         renderer: 'svg',

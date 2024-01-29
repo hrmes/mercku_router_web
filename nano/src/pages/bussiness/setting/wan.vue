@@ -363,7 +363,6 @@ function checkDNS(value) {
 export default {
   data() {
     return {
-      IPv6NetType: '',
       CONSTANTS,
       netNote: {
         dhcp: this.$t('trans0147'),
@@ -613,17 +612,10 @@ export default {
       };
       if (this.netInfo && this.netInfo.netinfo) {
         local.type = this.netInfo.type ? this.netInfo.type : '-';
-        local.netinfo.ip = this.netInfo.netinfo.ip
-          ? this.netInfo.netinfo.ip
-          : '-';
-        local.netinfo.mask = this.netInfo.netinfo.mask
-          ? this.netInfo.netinfo.mask
-          : '-';
-        local.netinfo.gateway = this.netInfo.netinfo.gateway
-          ? this.netInfo.netinfo.gateway
-          : '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip || '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask || '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
         local.netinfo.dns = this.netInfo.netinfo.dns;
-        return local;
       }
       return local;
     },
@@ -655,17 +647,6 @@ export default {
         this.staticForm.gateway,
         this.staticForm.mask
       );
-    },
-    getIPv6WanNetInfo() {
-      this.$http.getMeshInfoWanNetIpv6().then(res => {
-        const { result } = res.data;
-        const pppoeData = result.pppoe;
-        this.IPv6NetType = result.type;
-        if (this.IPv6NetType === CONSTANTS.WanType.pppoe) {
-          this.pppoeForm.account = pppoeData.account;
-          this.pppoeForm.password = pppoeData.password;
-        }
-      });
     },
     getWanNetInfo() {
       this.$loading.open();

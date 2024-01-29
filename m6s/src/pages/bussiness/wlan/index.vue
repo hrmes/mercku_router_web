@@ -81,10 +81,10 @@
             </m-form>
           </div>
           <div class="step-item step-item2"
-               v-show="stepOption.current===1">
+               v-if="stepOption.current===1">
             <m-lottie-loading class="configing-loading"
                               :size="160"
-                              :id="'config-loading'" />
+                              id="config-loading" />
             <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
             <div class="tip"
                  style="margin-top:5px;">
