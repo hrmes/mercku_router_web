@@ -102,7 +102,6 @@ export default {
     async login() {
       try {
         this.$loading.open();
-
         const { role } = (await this.$http.login({ password: this.password }))
           .data.result;
         this.$store.state.role = role;
@@ -110,7 +109,6 @@ export default {
 
         const { mode, sn } = (await this.$http.getMeshMode()).data.result;
         const modelID = sn?.charAt(9);
-
         this.$store.state.modelID = modelID;
         localStorage.setItem('modelID', modelID);
 
@@ -118,7 +116,7 @@ export default {
         localStorage.setItem('mode', mode);
 
         const { status } = (await this.$http.isinitial()).data.result;
-        if (!status) {
+        if (status) {
           this.towlan();
           return;
         }
