@@ -88,7 +88,7 @@ export default {
     loginCircleImg() {
       const customerName = process.env.CUSTOMER_CONFIG.title.toLowerCase();
       return require(`@/assets/images/customer/${customerName}/login_logo.png`);
-    }
+    },
   },
   methods: {
     setHeight() {

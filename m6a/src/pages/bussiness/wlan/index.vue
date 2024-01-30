@@ -5,7 +5,7 @@
     </div>
     <div class="step-content">
       <div class="step-item step-item1"
-           v-show="stepOption.current===0">
+           v-if="stepOption.current===0">
         <m-form ref="wifiForm"
                 :model="wifiForm"
                 :rules="wifiFormRules">
@@ -69,12 +69,17 @@
           </template>
           <div class="button-container">
             <button @click="step1()"
-                    class="btn">{{$t('trans0055')}}</button>
+                    class="btn ">{{$t('trans0055')}}</button>
+            <button v-if="showSkip"
+                    @click="skipInitial"
+                    class="btn btn-default">
+              {{$t('trans0163')}}
+            </button>
           </div>
         </m-form>
       </div>
       <div class="step-item step-item2"
-           v-show="stepOption.current===1">
+           v-if="stepOption.current===1">
         <m-loading :color="loadingColor"
                    :size="36"></m-loading>
         <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
@@ -236,6 +241,11 @@ export default {
         this.getRegionInitData();
       });
   },
+  computed: {
+    showSkip() {
+      return this.stepOption.current !== 1;
+    }
+  },
   methods: {
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
@@ -294,10 +304,6 @@ export default {
           this.$loading.close();
         });
     },
-    step0() {
-      this.stepOption.current = 0;
-      this.stepOption.steps[0].success = true;
-    },
     step1() {
       if (this.$refs.wifiForm.validate()) {
         if (this.wifiForm.smart_connect) {
@@ -320,7 +326,6 @@ export default {
                 },
                 smart_connect: this.wifiForm.smart_connect
               },
-              admin: { password: this.wifiForm.password24g },
               region_id: this.region_id
             }
           })
@@ -348,7 +353,10 @@ export default {
             });
           });
       }
-    }
+    },
+    skipInitial() {
+      this.$router.replace({ path: '/dashboard' });
+    },
   }
 };
 </script>

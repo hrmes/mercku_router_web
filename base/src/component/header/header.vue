@@ -93,13 +93,6 @@
     </div>
 
     <div class="right-wrap">
-      <div v-if="isWlanPage&&!isMobile"
-           class="skip-initialization">
-        <button class="btn btn-default btn-middle"
-                @click="skipInitial">
-          {{$t('trans0163')}}
-        </button>
-      </div>
       <div class="lang-selector"
            :class="{'open':showPopup}"
            @mouseenter="setLangPopupVisible(true)"
@@ -125,11 +118,6 @@
         </transition>
       </div>
       <div class="small-device">
-        <span v-if="isWlanPage&&isMobile"
-              class="skip-initialization">
-          <button class="btn btn-default btn-small"
-                  @click="skipInitial">{{$t('trans0163')}}</button>
-        </span>
         <span @click="setMobileLangVisible()"
               class="menu-icon language"
               :class="[$i18n.locale]">
@@ -317,6 +305,7 @@ export default {
     };
   },
   mounted() {
+    console.log(this.$parent.$children);
     this.$i18n.locale = this.language.value;
     if (window.addEventListener) {
       document.body.addEventListener('click', this.close);
@@ -345,7 +334,7 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    isWlanPage() {
+    showSkip() {
       return this.$route.path.includes('wlan');
     }
   },
@@ -378,9 +367,6 @@ export default {
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;
       }
-    },
-    skipInitial() {
-      this.$router.replace({ path: '/dashboard' });
     },
     beforeEnter(el) {
       el.style.height = 0;
