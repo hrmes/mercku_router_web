@@ -305,7 +305,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.$parent.$children);
     this.$i18n.locale = this.language.value;
     if (window.addEventListener) {
       document.body.addEventListener('click', this.close);
@@ -334,9 +333,6 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    showSkip() {
-      return this.$route.path.includes('wlan');
-    }
   },
   watch: {
     $route() {
