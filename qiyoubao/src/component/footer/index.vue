@@ -1,8 +1,8 @@
 <template>
   <div class="footer customized"
        :class="{
-        'is-position-nav':isLoginPage||isWlanPage,
-        'is-not-position-nav':!isLoginPage && !isWlanPage,}">
+        'is-position-nav':isLoginPage||isInitialPage,
+        'is-not-position-nav':!isLoginPage && !isInitialPage,}">
     <div class="footer__left"
          v-if="!isMobile">
       <div class="footer__left-menu logout"
@@ -111,7 +111,7 @@ export default {
       type: Boolean,
       default: false
     },
-    isWlanPage: {
+    isInitialPage: {
       type: Boolean,
       default: false
     },

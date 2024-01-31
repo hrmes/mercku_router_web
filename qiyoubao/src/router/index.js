@@ -8,7 +8,6 @@ import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
-import wlan from 'pages/bussiness/wlan/index.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
@@ -25,6 +24,8 @@ import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
 // import wps from 'pages/bussiness/setting/wps.vue';
 import mode from 'pages/bussiness/advance/mode.vue';
 import log from 'pages/bussiness/advance/log.vue';
+import wanInitial from 'pages/bussiness/initial/wan.vue';
+import wifiInitial from 'pages/bussiness/initial/wifi.vue';
 import restore from 'pages/bussiness/advance/restore.vue';
 import gameAcceleration from 'pages/bussiness/advance/game.vue';
 
@@ -87,14 +88,19 @@ const routes = {
       component: login
     },
     {
+      path: '/initial/wan',
+      name: 'initial.wan',
+      component: wanInitial
+    },
+    {
+      path: '/initial/wifi',
+      name: 'initial.wifi',
+      component: wifiInitial
+    },
+    {
       path: '/dashboard',
       name: 'dashboard',
       component: dashboard
-    },
-    {
-      path: '/wlan',
-      name: 'wlan',
-      component: wlan
     },
     {
       path: '/unconnect',
@@ -502,7 +508,7 @@ recursive(routes.routes);
 Array.prototype.push.apply(routes.routes, [
   {
     path: '*',
-    redirect: `${prefix}/wlan`
+    redirect: `${prefix}/login`
   },
   {
     path: '/',

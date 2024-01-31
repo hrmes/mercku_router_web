@@ -7,7 +7,7 @@
              :class="{'is-login-page':isLoginPage}">
           <qiyou-header :navVisible="navVisible"
                         :isLoginPage="isLoginPage"
-                        :isWlanPage="isWlanPage"
+                        :isInitialPage="isInitialPage"
                         :navs="menus"
                         id="header" />
           <component v-if="isMobile"
@@ -23,7 +23,7 @@
                        :asideInfo='asideInfo'></component>
           </transition>
           <qiyou-footer :isLoginPage="isLoginPage "
-                        :isWlanPage="isWlanPage"
+                        :isInitialPage="isInitialPage"
                         :navVisible="navVisible" />
         </div>
       </div>
@@ -83,14 +83,14 @@ export default {
     isLoginPage() {
       return this.$route.path.includes('login');
     },
-    isWlanPage() {
-      return this.$route.path.includes('wlan');
+    isInitialPage() {
+      return this.$route.path.includes('initial');
     },
     navVisible() {
       const { path } = this.$route;
       const visible =
         path.includes('login') ||
-        path.includes('wlan') ||
+        path.includes('initial') ||
         path.includes('unconnect');
       return !visible;
     },
@@ -134,7 +134,7 @@ export default {
       flexWrap.style.minHeight = `${height}px`;
     },
     scrollHandler() {
-      if (this.isLoginPage || this.isWlanPage) return;
+      if (this.isLoginPage || this.isInitialPage) return;
       const scrollY = this.scrollbar.scrollTop;
       this.header.classList.toggle('with-shadow', scrollY > 0);
     },

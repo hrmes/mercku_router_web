@@ -151,8 +151,8 @@
   --progress_bar-color: #fff;
   --progress_bar-bgc: #00d061;
   // radio
-  --radio_item-color: #b6b6b6;
-  --radio_card_item_selected-color: #333;
+  --radio_card_item_selected-color: #d9e7ff;
+  --radio_selected-border-color: var(--primary-color);
   // step
   --step_line-color: #f1f1f1;
   --step_line_completed-color: linear-gradient(to right, #2a74ef, #6dbfed);
@@ -180,7 +180,7 @@
   --time_picker_pannel_border-color: #d9d9d9;
   --time_picker_combox-bgc: #fff;
   --time_picker_combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
-  ;
+
   --time_picker_button_border-color: #ebebeb;
   --time_picker_button-bgc: #fff;
   --time_picker_button_cancel-color: #333;
@@ -191,7 +191,6 @@
   // toast
   --toast_error-bgc: #ffc7c7;
   --toast_error-shadow: 0 10px 10px -5px rgba(255, 59, 59, 0.15);
-  ;
   --toast_success-bgc: #c0e9d3;
   --toast_success-shadow: 0 10px 10px -5px rgba(41, 185, 108, 0.12);
   // upgrade
@@ -408,8 +407,8 @@
   --progress_bar-color: #fff;
   --progress_bar-bgc: #00d061;
   // radio
-  --radio_item-color: #b6b6b6;
-  --radio_card_item_selected-color: #333;
+  --radio_card_item_selected-color: #4183f1;
+  --radio_selected-border-color: #fff;
   // step
   --step_line-color: #5a5a5a;
   --step_line_completed-color: linear-gradient(to left, #6dbfed, #4183f1);

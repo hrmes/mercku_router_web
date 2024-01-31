@@ -11,9 +11,9 @@
   "wifi": "QiYou Wi-Fi",
   "deviceID": "QiYou",
   "routers": {
-    "M6f": {
-      "name": "M6f Wi-Fi6 Router",
-      "shortName": "M6f"
+    "X1_Pro": {
+      "name": "X1 Pro Wi-Fi6 Router",
+      "shortName": "X1 Pro"
     }
   },
   "deviceColors": ["black", "white"],

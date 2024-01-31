@@ -1,8 +1,8 @@
 <template>
   <header class="header customized"
           :class="{
-            'is-position-nav':isLoginPage||isWlanPage,
-            'is-not-position-nav':!isLoginPage && !isWlanPage,
+            'is-position-nav':isLoginPage||isInitialPage,
+            'is-not-position-nav':!isLoginPage && !isInitialPage,
             'open':mobileNavVisible,
             'i18n-open':mobileI18nVisible
           }">
@@ -22,7 +22,7 @@
            id="logo-wrap__logo"
            @click.stop="forward2Page('/dashboard')"
            class="logo-wrap__logo"
-           :class="{'is-wlan-page':isWlanPage}"></div>
+           :class="{'is-initial-page':isInitialPage}"></div>
     </div>
 
     <template v-if="isMobile">
@@ -218,7 +218,7 @@ export default {
       type: Boolean,
       default: false
     },
-    isWlanPage: {
+    isInitialPage: {
       type: Boolean,
       default: false
     },
@@ -263,7 +263,7 @@ export default {
     },
     needMoveToRight() {
       return (
-        this.$route.path.includes('wlan') ||
+        this.$route.path.includes('initial') ||
         this.$route.path.includes('unconnect')
       );
     },
@@ -553,7 +553,7 @@ export default {
       width: 100%;
       height: 100%;
       cursor: pointer;
-      &.is-wlan-page {
+      &.is-initial-page {
         cursor: default;
       }
     }

@@ -13,7 +13,7 @@
         <div class="form">
           <div class="welcome-text">
             <h4>欢迎使用奇游联机宝路由器</h4>
-            <h3>Q1</h3>
+            <h3>{{modelName}}</h3>
           </div>
           <div class="loading"
                v-if="loading">
@@ -24,7 +24,7 @@
                  class="form-item">
               <button class="btn"
                       :disabled="!agreementChecked"
-                      @click="towlan">{{$t('trans0222')}}</button>
+                      @click="toInitial">{{$t('trans0222')}}</button>
             </div>
             <div v-else
                  class="login-form">
@@ -126,6 +126,9 @@ export default {
     isMobile() {
       return this.$store.state.isMobile;
     },
+    modelName() {
+      return process.env.CUSTOMER_CONFIG.routers.X1_Pro.shortName;
+    },
     website() {
       return process.env.CUSTOMER_CONFIG.website;
     },
@@ -165,9 +168,14 @@ export default {
     this.checkLockStatus();
   },
   methods: {
-    towlan() {
+    toInitial() {
       this.$http.login({ password: '' }).then(() => {
-        this.$router.push({ path: '/wlan' });
+        this.$router.push({
+          name: 'initial.wan',
+          params: {
+            needCheck: true
+          }
+        });
       });
     },
     login() {

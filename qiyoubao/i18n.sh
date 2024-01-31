@@ -5,7 +5,7 @@ doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
 
-folder=(m2_app_code)
+folder=(qiyou_code)
 customer=(0059)
 source=(en_US_web.json zh_CN_web.json)
 target=(en-US.json zh-CN.json)

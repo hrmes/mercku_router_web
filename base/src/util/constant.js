@@ -46,7 +46,8 @@ export const WanType = {
   pppoe: 'pppoe',
   static: 'static',
   dhcp: 'dhcp',
-  auto: 'auto'
+  auto: 'auto',
+  wireless_dhcp: 'wireless_dhcp'
 };
 export const WanNetStatus = {
   testing: 'testing',

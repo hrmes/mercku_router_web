@@ -1,15 +1,30 @@
 <template>
-  <div class="wlan">
-    <div class="step-content">
+  <div class="initial">
+    <div v-if="needCheck && isChecking"
+         class="check-wan">
+      <m-lottie-loading id="checkLoading"
+                        :size="160"></m-lottie-loading>
+      <p>正在检测上网方式，请稍后…</p>
+    </div>
+    <div v-else
+         class="step-content">
       <div class="row-1">
         <div class="col-1"
              v-if="!isMobile">
-          <img :src="WlanImg">
+          <img :src="InitialImg">
         </div>
         <div class="col-2">
-          <div class="step-item step-item1"
-               v-if="stepOption.current===0">
-            <m-form ref="wifiForm"
+          <!-- v-if="stepOption.current===0" -->
+          <div class="step-item step-item1">
+            <m-form>
+              <p class="step-tips">请选择上网方式</p>
+              <m-form-item>
+                <qiyou-radio-card-group v-model="netType"
+                                        :options="options"
+                                        direction="vertical"></qiyou-radio-card-group>
+              </m-form-item>
+            </m-form>
+            <!-- <m-form ref="wifiForm"
                     :model="wifiForm"
                     :rules="wifiFormRules">
               <p class="step-tips">{{$t('trans0167').toUpperCase()}}</p>
@@ -18,7 +33,7 @@
                              class="no-validate">
                   <m-switch :label="$t('trans0397')"
                             v-model="wifiForm.smart_connect" />
-                  <!-- <div class="tip-label">{{$t('trans0398')}}</div> -->
+                  <div class="tip-label">{{$t('trans0398')}}</div>
                 </m-form-item>
               </div>
               <div class="card-wrapper">
@@ -83,10 +98,136 @@
 
               </div>
             </m-form>
+            <m-form key="dhcp-form"
+                    v-if="isDhcp"
+                    ref="dhcpForm"
+                    :model="dhcpForm"
+                    :rules="dhcpRules">
+              <m-form-item class="item">
+                <m-radio-group class="radio-group"
+                               direction="vertical"
+                               v-model="autodns.dhcp"
+                               :options="dnsOptions"></m-radio-group>
+              </m-form-item>
+              <div class="form__dns"
+                   v-if="!autodns.dhcp">
+                <m-form-item class="item"
+                             prop="dns1"
+                             ref="dns">
+                  <m-input :label="$t('trans0236')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="dhcpForm.dns1" />
+                </m-form-item>
+                <m-form-item class="item"
+                             prop="dns2"
+                             ref="backupdns">
+                  <m-input :label="$t('trans0320')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="dhcpForm.dns2" />
+                </m-form-item>
+              </div>
+            </m-form>
+            <m-form key="pppoe-form"
+                    v-else-if="isPppoe"
+                    ref="pppoeForm"
+                    :model="pppoeForm"
+                    :rules="pppoeRules">
+              <m-form-item class="item"
+                           prop="account">
+                <m-input :label="$t('trans0155')"
+                         type="text"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="pppoeForm.account"></m-input>
+              </m-form-item>
+              <m-form-item class="item"
+                           prop="password">
+                <m-input :label="$t('trans0156')"
+                         type="password"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="pppoeForm.password" />
+              </m-form-item>
+              <m-form-item class="item">
+                <m-radio-group class="radio-group"
+                               direction="vertical"
+                               v-model="autodns.pppoe"
+                               :options="dnsOptions"></m-radio-group>
+              </m-form-item>
+              <div class="form__dns"
+                   v-if="!autodns.pppoe">
+                <m-form-item class="item"
+                             prop="dns1"
+                             ref="dns">
+                  <m-input :label="$t('trans0236')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="pppoeForm.dns1" />
+                </m-form-item>
+                <m-form-item class="item"
+                             prop="dns2"
+                             ref="backupdns">
+                  <m-input :label="$t('trans0320')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="pppoeForm.dns2" />
+                </m-form-item>
+              </div>
+            </m-form>
+            <m-form key="static-form"
+                    v-else-if="isStatic"
+                    ref="staticForm"
+                    :model="staticForm"
+                    :rules="staticRules">
+              <div class="form__dns">
+                <m-form-item class="item"
+                             prop="ip"
+                             ref="ip">
+                  <m-input :label="$t('trans0151')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="staticForm.ip"
+                           :onBlur="ipChange" />
+                </m-form-item>
+                <m-form-item class="item"
+                             prop="mask"
+                             ref="mask">
+                  <m-input :label="$t('trans0152')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="staticForm.mask"
+                           :onBlur="maskChange" />
+                </m-form-item>
+                <m-form-item class="item"
+                             prop="gateway"
+                             ref="gateway">
+                  <m-input :label="$t('trans0153')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="staticForm.gateway" />
+                </m-form-item>
+                <m-form-item class="item"
+                             prop="dns1"
+                             ref="dns">
+                  <m-input :label="$t('trans0236')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="staticForm.dns1" />
+                </m-form-item>
+                <m-form-item class="item"
+                             prop="dns2"
+                             ref="backupdns">
+                  <m-input :label="$t('trans0320')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="staticForm.dns2" />
+                </m-form-item>
+              </div>
+            </m-form> -->
           </div>
-          <div class="step-item step-item2"
+          <!-- <div class="step-item step-item2"
                v-if="stepOption.current===1">
-            <m-lottie-loading class="configing-loading"
+            <m-lottie-loading class="configingLoading"
                               :size="160"
                               id="config-loading" />
             <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
@@ -146,388 +287,242 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
-      <div class="row-2"
-           v-if="stepOption.current===0">
-
-        <div v-if="isLoading">
-          <m-loading :color="loadingColor"
-                     :size="28"
-                     id="btnLoading"></m-loading>
-        </div>
-        <div class="button-container"
-             v-else>
-          <button class="btn btn-default">重新设置上网方式</button>
-          <button @click="step1()"
+      <!-- v-if="stepOption.current===0" -->
+      <div class="row-2">
+        <div class="button-container">
+          <button class="btn btn-default"
+                  @click="skipWanSetting">跳过</button>
+          <button @click="next2WifiInitial"
                   class="btn">{{ $t('trans0055')}}</button>
         </div>
-
       </div>
     </div>
   </div>
-  </div>
 </template>
 <script>
-import { Bands } from 'base/util/constant';
-import { WlanImg } from '@/assets/images/v3/base64-img/img.js';
+import { WanNetStatus, WanType } from 'base/util/constant';
 import {
-  getStringByte,
-  isValidPassword,
-  isFieldHasComma,
-  isFieldHasSpaces
-} from 'base/util/util';
 
+  isMulticast,
+  isLoopback,
+  isValidMask,
+  ipReg,
+
+} from 'base/util/util';
+import { InitialImg } from '@/assets/images/v3/base64-img/img.js';
+import radioCardGroup from '@/component/radioCardGroup';
+
+function checkDNS(value) {
+  return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
+}
 export default {
+  components: {
+    'qiyou-radio-card-group': radioCardGroup
+  },
   data() {
     return {
-      WlanImg,
-      stepOption: {
-        current: 0,
-        steps: [
-          { text: this.$t('trans0019'), success: true },
-          { text: this.$t('trans0018'), success: false }
-        ]
+      InitialImg,
+      isChecking: true,
+      netType: WanType.dhcp,
+      options: [
+        {
+          value: 'dhcp',
+          text: this.$t('trans0146')
+        },
+        {
+          value: 'static',
+          text: this.$t('trans0148')
+        },
+        {
+          value: 'pppoe',
+          text: this.$t('trans0144')
+        },
+        {
+          value: 'wireless_dhcp',
+          text: '无线中继'
+        }
+      ],
+      // stepOption: {
+      //   current: 0,
+      //   steps: [
+      //     { text: this.$t('trans0019'), success: true },
+      //     { text: this.$t('trans0018'), success: false }
+      //   ]
+      // },
+      staticForm: {
+        ip: '',
+        mask: '',
+        gateway: '',
+        dns1: '',
+        dns2: ''
       },
-      current: 0,
-      countdown: 60,
-      wifiForm: {
-        smart_connect: true,
-        ssid24g: '',
-        password24g: '',
-        ssidGame: '',
-        passwordGame: '',
-        passwordAdmin: ''
+      pppoeForm: {
+        account: '',
+        password: '',
+        dns1: '',
+        dns2: ''
       },
-      isLoading: false,
-      wifiFormRules: {
-        ssid24g: [
-          {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
-          },
-          {
-            rule: value => {
-              console.log('ssid24g Bytes is', getStringByte(value.trim()));
-              return getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31;
-            },
-            message: '请输入3-31个字节'
-          },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0451')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          },
-          {
-            rule: value => value !== this.wifiForm.ssidGame,
-            message: '不可设置为相同的无线名称，请更改'
-          }
-        ],
-        password24g: [
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0169')
-          }
-        ],
-        ssidGame: [
+      dhcpForm: {
+        dns1: '',
+        dns2: ''
+      },
+      pppoeRules: {
+        account: [
           {
             rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
-          },
-          {
-            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: '请输入3-31个字节'
-          },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0451')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          },
-          {
-            rule: value => this.wifiForm.ssid24g !== value &&
-              this.ssid5g !== value,
-            message: '不可设置为相同的无线名称，请更改'
+            message: this.$t('trans0232')
           }
         ],
-        passwordGame: [
+        password: [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0169')
-          }
-        ],
-        passwordAdmin: [
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0169')
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
           }
         ]
       },
-      copyB24gSsid: true
+      staticRules: {
+        ip: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => ipReg.test(value),
+            message: this.$t('trans0231')
+          }
+        ],
+        mask: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => ipReg.test(value),
+            message: this.$t('trans0231')
+          },
+          {
+            rule: value => isValidMask(value),
+            message: this.$t('trans0231')
+          }
+        ],
+        gateway: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => ipReg.test(value),
+            message: this.$t('trans0231')
+          }
+        ],
+        dns1: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => checkDNS(value),
+            message: this.$t('trans0231')
+          }
+        ],
+        dns2: [
+          {
+            rule: value => (value ? checkDNS(value) : true),
+            message: this.$t('trans0231')
+          }
+        ]
+      },
     };
   },
   computed: {
-    tipsText() {
-      return this.wifiForm.smart_connect
-        ? this.$t('trans0922')
-        : this.$t('trans0921');
+    needCheck() {
+      console.log(this.$route);
+      return this.$route.params.needCheck;
     },
     isMobile() {
       return this.$store.state.isMobile;
     },
-    ssid5g() {
-      if (this.wifiForm.smart_connect) {
-        return this.wifiForm.ssid24g.trim();
-      }
-      if (getStringByte(this.wifiForm.ssid24g.trim()) > 28) {
-        return this.truncateAndAppend(this.wifiForm.ssid24g.trim());
-      }
-      return `${this.wifiForm.ssid24g.trim()}-5G`;
+    isPppoe() {
+      return this.netType === WanType.pppoe;
     },
-    password5g() {
-      return this.wifiForm.password24g;
-    }
+    isStatic() {
+      return this.netType === WanType.static;
+    },
+    isDhcp() {
+      return this.netType === WanType.dhcp;
+    },
   },
   mounted() {
-    this.$loading.open();
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-        this.$loading.close();
-      });
-    this.$http
-      .getMeshMeta()
-      .then(res => {
-        const wifi = {
-          bands: {
-            '2.4G': {
-              ssid: 'MERCKU-0F4C',
-              password: '',
-              encrypt: 'open',
-              crypt: 'none',
-              enabled: true,
-              hidden: false,
-              mode: 'ap',
-              channel: {
-                mode: 'manual',
-                number: 11,
-                bandwidth: 40
-              }
-            },
-            '5G': {
-              ssid: 'MERCKU-0F4C-5G',
-              password: '',
-              encrypt: 'open',
-              crypt: 'none',
-              enabled: true,
-              hidden: false,
-              mode: 'ap',
-              channel: {
-                mode: 'manual',
-                number: 40,
-                bandwidth: 80
-              }
-            },
-            Game: {
-              ssid: 'MERCKU-0F4C-Game',
-              password: '',
-              encrypt: 'open',
-              crypt: 'none',
-              enabled: true,
-              hidden: false,
-              mode: 'ap',
-              channel: {
-                mode: 'manual',
-                number: 40,
-                bandwidth: 80
-              }
-            }
-          },
-          smart_connect: false,
-          compatibility_mode: false,
-          tx_power: 'high'
-        };
-        // const wifi=res.data.result;
-        const b24g = wifi.bands[Bands.b24g];
-        const b5g = wifi.bands[Bands.b5g];
-        const bGame = wifi.bands[Bands.bGame];
-        this.wifiForm.ssid24g = b24g.ssid;
-        this.wifiForm.password24g = b24g.password;
-        this.wifiForm.ssidGame = bGame.ssid;
-        this.wifiForm.passwordGame = bGame.password;
-        this.wifiForm.smart_connect = wifi.smart_connect;
-      })
-      .finally(() => {
-        this.$loading.close();
-      });
+    this.checkInternetAccess();
   },
   methods: {
-    truncateAndAppend(value) {
-      if (getStringByte(value) > 28) {
-        let truncatedValue = '';
-        let currentByteCount = 0;
-
-        // 遍历字符串，累计字节数，直到达到28字节为止
-        // eslint-disable-next-line no-restricted-syntax
-        for (const str of value) {
-          const charByteCount = new TextEncoder().encode(str).length;
-
-          // 检查是否超过字节限制
-          if (currentByteCount + charByteCount > 28) {
-            break;
+    checkInternetAccess() {
+      this.$http
+        .login(
+          { password: '' },
+          {
+            hideToast: true
           }
-
-          truncatedValue += str;
-          currentByteCount += charByteCount;
-        }
-
-        // 拼接上"-5G"
-        const newValue = `${truncatedValue}-5G`;
-        return newValue;
-      }
-
-      // 如果字节数不大于28，直接返回原值
-      return value;
-    },
-    step1() {
-      if (this.$refs.wifiForm.validate()) {
-        const config = {
-          wifi: {
-            bands: {
-              '2.4G': {
-                ssid: this.wifiForm.ssid24g,
-                password: this.wifiForm.password24g
-              },
-              '5G': {
-                ssid: this.ssid5g,
-                password: this.wifiForm.password24g
-              },
-              Game: {
-                ssid: this.wifiForm.ssidGame,
-                password: this.wifiForm.passwordGame
-              }
-            },
-            smart_connect: this.wifiForm.smart_connect
-          },
-          admin: {
-            username: 'admin',
-            password: this.copyB24gSsid ? this.wifiForm.password24g : this.wifiForm.passwordAdmin
-          },
-        };
-        console.log(config);
-        this.stepOption.current = 1;
-        this.stepOption.steps[1].success = true;
-        // this.isLoading = true;
-        // 提交表单
-        // this.$http
-        //   .updateMeshConfig({
-        //     config: {
-        //       wifi: {
-        //         bands: {
-        //           '2.4G': {
-        //             ssid: this.wifiForm.ssid24g,
-        //             password: this.wifiForm.password24g
-        //           },
-        //           '5G': {
-        //             ssid: this.ssid5g,
-        //             password: this.wifiForm.password24g
-        //           },
-        //           Game: {
-        //             ssid: this.wifiForm.ssidGame,
-        //             password: this.wifiForm.passwordGame
-        //           }
-        //         },
-        //         smart_connect: this.wifiForm.smart_connect
-        //       },
-        //       admin: {
-        //         username: 'admin',
-        //         password: this.customizedAdminPwd ? this.wifiForm.passwordAdmin : this.wifiForm.password24g
-        //       },
-        //     }
-        //   })
-        //   .then(() => {
-        //     this.stepOption.current = 1;
-        //     this.stepOption.steps[1].success = true;
-        //     const timer = setInterval(() => {
-        //       this.countdown -= 1;
-        //       if (this.countdown === 0) {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/unconnect' });
-        //       }
-        //     }, 1000);
-        //     // 尝试链接路由器
-        //     this.$reconnect({
-        //       onsuccess: () => {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/login' });
-        //       },
-        //       ontimeout: () => {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/unconnect' });
-        //       },
-        //       showLoading: false
-        //     });
-        //   });
-      }
-    },
-    customizedAdminPwd(val) {
-      if (val) {
-        this.wifiForm.passwordAdmin = this.wifiForm.password24g;
+        )
+        .catch(() => {
+          // password is not empty, go to login page
+          this.$router.push({ path: '/login' });
+        });
+      if (this.needCheck) {
+        setTimeout(() => {
+          this.getWanStatus();
+        }, 5000);
       } else {
-        this.wifiForm.passwordAdmin = '';
+        this.echoWanConfig();
       }
+    },
+    getWanStatus() {
+      this.$http
+        .getWanStatus()
+        .then(res => {
+          const {
+            data: {
+              result: { status: wanStatus }
+            }
+          } = res;
+          switch (wanStatus) {
+            case WanNetStatus.connected:
+              this.$router.push({ path: '/initial/wifi' });
+              break;
+            default:
+              this.isChecking = false;
+              break;
+          }
+        })
+        .catch(() => {
+          this.isChecking = false;
+        });
+      return true;
+    },
+    echoWanConfig() {
+      const wanConfig = localStorage.getItem('wanConfig');
+    },
+    skipWanSetting() {
+      this.$router.replace({ path: '/initial/wifi' });
+    },
+    next2WifiInitial() {
+      this.$router.push({ path: '/initial/wifi' });
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.wlan {
+.initial {
   width: 100%;
   height: 100%;
   min-width: 1280px;
   min-height: 940px;
   padding: 70px 30px 70px;
+  .check-wan,
   .step-content {
-    display: grid;
-    grid-template-rows: 1fr 10%;
-    grid-template-columns: 100%;
     width: 100%;
     height: 100%;
     text-align: center;
@@ -535,6 +530,18 @@ export default {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--common_card-boxshadow);
+  }
+  .check-wan {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .step-content {
+    display: grid;
+    grid-template-rows: 1fr 10%;
+    grid-template-columns: 100%;
+    // min-height: 940px;
     .row-1 {
       display: grid;
       grid-template-rows: 100%;
@@ -718,7 +725,7 @@ export default {
   }
 }
 @media screen and(max-width: 768px) {
-  .wlan {
+  .initial {
     flex: 1;
     min-width: auto;
     min-height: auto;
