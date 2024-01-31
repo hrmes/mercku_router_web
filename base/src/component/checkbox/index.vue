@@ -76,7 +76,8 @@ export default {
 .checkbox-container {
   text-align: left;
   height: 20px;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   overflow: hidden;
   label {
     cursor: pointer;

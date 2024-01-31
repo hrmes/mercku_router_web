@@ -1,0 +1,28 @@
+{
+  "id": "0059",
+  "title": "QiYou",
+  "host": "http://mywifi.mercku.tech",
+  "accept": ".ma",
+  "favicon": "customer-conf/0059/favicon.ico",
+  "agreement": "https://ljbweb.qiyou.cn/#/protocol",
+  "policy": "https://ljbweb.qiyou.cn/#/privacy",
+  "allow2LevelAdmin": false,
+  "languages": ["zh-CN", "en-US"],
+  "wifi": "QiYou Wi-Fi",
+  "deviceID": "QiYou",
+  "routers": {
+    "M6f": {
+      "name": "M6f Wi-Fi6 Router",
+      "shortName": "M6f"
+    }
+  },
+  "deviceColors": ["black", "white"],
+  "loading": {
+    "color": "#2a74ef"
+  },
+  "website": {
+    "url": "https://www.qiyou.cn/main/ljb-overview",
+    "text": "www.qiyou.cn"
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
+}

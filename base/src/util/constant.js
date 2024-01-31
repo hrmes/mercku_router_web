@@ -13,7 +13,8 @@ export const Customers = {
   skymesh: '0014',
   pentanet: '0019',
   homeway: '0025',
-  junet: '0029'
+  junet: '0029',
+  qiyou: '0059'
 };
 export const IP = {
   IPv4: 'ipv4',
@@ -77,8 +78,10 @@ export const SpeedTestStatus = {
 export const Bands = {
   '2.4G': '2.4G',
   '5G': '5G',
+  Game: 'Game',
   b24g: '2.4G',
-  b5g: '5G'
+  b5g: '5G',
+  bGame: 'Game'
 };
 export const channelMode = {
   auto: 'auto',

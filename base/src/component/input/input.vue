@@ -149,7 +149,7 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 .input-container {
-  max-width: 340px;
+  max-width: 370px;
   &.small {
     .input {
       height: 36px;
@@ -264,7 +264,7 @@ input[type='number'] {
       width: 100%;
     }
     display: inline-block;
-    max-width: 340px;
+    max-width: 370px;
     width: 100%;
   }
 }

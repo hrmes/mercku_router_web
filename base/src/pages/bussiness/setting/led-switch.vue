@@ -1,20 +1,27 @@
 <template>
-  <div class="page led">
-    <div class="page-header">
+  <div class="page">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{$t('trans0779')}}
     </div>
     <div class="page-content">
-      <m-form class="form">
-        <m-form-item class="form__item">
-          <m-switch :label="$t('trans0779')"
-                    v-model="enabled"
-                    @click="enabled=!enabled"
-                    @change="updateLEDStatus" />
-        </m-form-item>
-      </m-form>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <m-switch :label="$t('trans0779')"
+                        class="smart-connect__switch"
+                        v-model="enabled"
+                        @change="updateLEDStatus" />
+              <div class="des-tips">{{$t('trans0777')}}</div>
+            </m-form-item>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {

@@ -1,0 +1,112 @@
+.customized {
+  &.header {
+    &.is-login-nav {
+      .right-wrap {
+        width: auto;
+      }
+    }
+
+    .logo-wrap {
+      &.light {
+        .logo-wrap__logo {
+          background: url(../../assets/images/customer/qiyou/logo.png) center no-repeat;
+          background-size: 100%;
+        }
+
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../assets/images/customer/qiyou/logo.png) center no-repeat;
+            background-size: contain;
+          }
+        }
+      }
+
+      &.dark {
+        .logo-wrap__logo {
+          background: url(../../assets/images/customer/qiyou/logo.png) no-repeat;
+          background-size: contain;
+        }
+
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../assets/images/customer/qiyou/logo.png) no-repeat;
+            background-size: contain;
+          }
+        }
+      }
+
+      @media (prefers-color-scheme: light) {
+        .logo-wrap__logo {
+          background: url(../../assets/images/customer/qiyou/logo.png) no-repeat;
+          background-size: contain;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .logo-wrap__logo {
+          background: url(../../assets/images/customer/qiyou/logo.png) center no-repeat;
+          background-size: contain;
+        }
+      }
+    }
+  }
+
+  &.footer {
+    .company-logo {
+      width: 60px;
+      height: 22px;
+      margin-left: 15px;
+      background: url(../../assets/images/customer/qiyou/ic_qiyou.png) no-repeat;
+      background-size: contain;
+    }
+  }
+
+  /************************* 登陆页面*********************/
+  &.login {
+
+    // background-color: var(--header-nav-hide-bgc);
+    .center-form {
+      &.light {
+        .logo {
+          background: url(../../assets/images/customer/qiyou/logo.png) no-repeat center;
+          background-size: contain;
+        }
+      }
+
+      &.dark {
+        .logo {
+          background: url(../../assets/images/customer/qiyou/logo.png) no-repeat center;
+          background-size: contain;
+        }
+      }
+
+      @media (prefers-color-scheme: light) {
+        .logo {
+          background: url(../../assets/images/customer/qiyou/logo.png) no-repeat center;
+          background-size: contain;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .logo {
+          background: url(../../assets/images/customer/qiyou/logo.png) no-repeat center;
+          background-size: contain;
+        }
+      }
+    }
+
+    .app-logo {
+      background: url(../../assets/images/customer/qiyou/ic_launcher.png) no-repeat center;
+      background-size: 100%;
+    }
+
+    .download {
+      .qr {
+        background: url(../../assets/images/customer/qiyou/qr.png) no-repeat center;
+        background-size: 100%;
+      }
+    }
+  }
+
+  /**************************end登陆页面******************/
+}

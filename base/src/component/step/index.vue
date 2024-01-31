@@ -86,7 +86,7 @@ export default {
     border-radius: 20px;
     .steped {
       transition: width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
-      background-image: linear-gradient(to left, #ed8e77, #ed485e 100%);
+      background-image: var(--step_line_completed-color);
       height: 8px;
     }
   }
@@ -155,21 +155,15 @@ export default {
         .step-number {
           color: var(--step_item_current-color);
           border-color: transparent;
-          background-image: linear-gradient(
-              to bottom,
-              var(--common_card-bgc),
-              var(--common_card-bgc)
-            ),
-            linear-gradient(to top, #ed8e77, #ed485e 100%);
+          background-image: var(--step_item_number-current-bgc);
         }
       }
       &.fail {
         .step-number {
           border-color: transparent;
-          background-image: linear-gradient(to top, #ed8e77, #ed485e 100%),
-            linear-gradient(to top, #ed8e77, #ed485e 100%);
+          background-image: var(--step_item_number-completed-bgcc);
           color: #fff;
-          box-shadow: 0 4px 10px -5px #ed8875;
+          box-shadow: var(--step_item_number-complete-shadow);
           &::before {
             content: '×';
             display: block;
@@ -186,10 +180,9 @@ export default {
       &.success {
         .step-number {
           border-color: transparent;
-          background-image: linear-gradient(to top, #ed8e77, #ed485e 100%),
-            linear-gradient(to top, #ed8e77, #ed485e 100%);
+          background-image: var(--step_item_number-completed-bgc);
           color: #fff;
-          box-shadow: 0 4px 10px -5px #ed8875;
+          box-shadow: var(--step_item_number-complete-shadow);
         }
       }
     }
