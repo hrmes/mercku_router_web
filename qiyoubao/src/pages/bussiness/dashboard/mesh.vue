@@ -352,7 +352,7 @@ export default {
       return this.$store.state.theme;
     },
     modelName() {
-      return process.env.CUSTOMER_CONFIG.routers.M6f.shortName;
+      return process.env.CUSTOMER_CONFIG.routers.X1_Pro.shortName;
     },
     listOrdered() {
       return this.selectedNodeInfo.stations.sort((a, b) => {

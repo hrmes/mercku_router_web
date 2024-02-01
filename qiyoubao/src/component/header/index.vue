@@ -112,15 +112,13 @@
          v-else>
       <ul class="nav reset-ul"
           v-if="navVisible">
-        <li class="nav-item"
+        <li class="nav-item has-after"
             :key="menu.key"
             v-for="menu in list"
             :class="{'selected':menu.selected}">
           <div class="nav-item-content"
-               @click.stop="jump(menu)"
-               :data-title="$t(menu.text)">
-            <i class="el-menu-item__icon iconfont"
-               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
+               @click.stop="jump(menu)">
+            {{$t(menu.text)}}
           </div>
         </li>
         <li class="nav-item nav-item__add-node">
@@ -569,20 +567,15 @@ export default {
         list-style: none;
         display: flex;
         align-items: center;
-        cursor: pointer;
         margin-right: 40px;
         .nav-item-content {
           display: flex;
           position: relative;
           justify-content: center;
           align-items: center;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
+          width: fit-content;
           transition: background 0.3s linear;
-          &:hover {
-            background: var(--header_nav_hover-bgc);
-          }
+          cursor: pointer;
           .iconfont {
             font-size: 24px;
             color: var(--header_nav_iconfont-color);
@@ -614,6 +607,7 @@ export default {
         &.nav-item__add-node {
           .nav-item-content {
             width: 60px;
+            height: 40px;
             .btn-small {
               width: 60px;
               height: 32px;
@@ -642,6 +636,47 @@ export default {
         }
         &:last-child {
           margin-right: 0;
+        }
+      }
+    }
+    &.nav-wrap--laptop {
+      color: var(--header_laptop-color);
+      font-size: 14px;
+      font-weight: 500;
+      .nav-item {
+        &.has-after {
+          .nav-item-content {
+            &::after {
+              content: '';
+              position: absolute;
+              bottom: -5px;
+              left: 0;
+              width: 100%;
+              height: 4px;
+              border-radius: 17px;
+              background-color: var(--header_laptop-color);
+              opacity: 0;
+              visibility: hidden;
+              transition: all 0.3s ease-in-out;
+            }
+            &:hover {
+              &::after {
+                opacity: 1;
+                visibility: visible;
+              }
+            }
+          }
+          &.selected {
+            color: var(--primary-color);
+            .nav-item-content {
+              &::after {
+                background-color: var(--primary-color);
+                opacity: 1;
+                visibility: visible;
+                transition: unset;
+              }
+            }
+          }
         }
       }
     }
@@ -763,6 +798,7 @@ export default {
             align-items: center;
             position: relative;
             width: 85%;
+            height: 40px;
             &:hover {
               background: transparent;
             }

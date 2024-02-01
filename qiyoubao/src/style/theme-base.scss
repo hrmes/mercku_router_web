@@ -44,7 +44,7 @@
   --common_card_hover-bordercolor: linear-gradient(to bottom,
       var(--common_card-bgc),
       var(--common_card-bgc)),
-    linear-gradient(225deg, #2a74ef 30%, ##4c9aee 40%, #6dbfed 80%);
+    linear-gradient(225deg, #2a74ef 30%, #4c9aee 40%, #6dbfed 80%);
   --common_card_hover-boxshadow: 0 50px 40px -20px rgba(42, 116, 239, 0.1);
   --common_card-bgc: #fff;
   --common_sub_card-bgc: #fafafa;
@@ -115,6 +115,7 @@
   --header_selected-shadow: 0 3px 8px rgba(46, 82, 242, 0.3);
   --header-bgc: #f7f7f7;
   --header-color: #fff;
+  --header_laptop-color: #666;
   --header_nav_iconfont-color: #979797;
   --header_nav_hover-bgc: rgba(0, 0, 0, 0.05);
   --header_official-color: #333;
@@ -281,6 +282,7 @@
   --login_right_form-bgcolor: #333;
   --login_right_form_download-bgcolor: #262626;
 
+
   --wlan_hr-color: #5b5b5b;
   --wlan_tips-color: rgba(255, 255, 255, 0.6);
 
@@ -371,6 +373,7 @@
   --header_selected-shadow: 0 3px 8px rgba(46, 82, 242, 0.3);
   --header-bgc: #262626;
   --header-color: #fff;
+  --header_laptop-color: rgba(255, 255, 255, 0.8);
   --header_nav_iconfont-color: #ffffff;
   --header_nav_hover-bgc: rgba(255, 255, 255, 0.2);
   --header_official-color: #fff;

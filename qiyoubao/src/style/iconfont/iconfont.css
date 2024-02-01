@@ -12,6 +12,38 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.ic_device_game_selected:before {
+  content: "\e6d1";
+}
+
+.ic_device_game:before {
+  content: "\e6d2";
+}
+
+.ic_devices:before {
+  content: "\e6d3";
+}
+
+.ic_devices_selected:before {
+  content: "\e6cc";
+}
+
+.ic_game_mode_selected:before {
+  content: "\e6cd";
+}
+
+.ic_system_selected:before {
+  content: "\e6ce";
+}
+
+.ic_game_mode:before {
+  content: "\e6cf";
+}
+
+.ic_system:before {
+  content: "\e6d0";
+}
+
 .ic_home_settings_selected:before {
   content: "\e69c";
 }

@@ -327,6 +327,13 @@
                       <span class="hover-popover">{{$t('trans0076')}}</span>
                     </span>
                     <span class="limit-icon"
+                          @click="()=>setGameDevice(row)">
+                      <i class="set-game-device iconfont ic_device_game"
+                         :class="{'active':isGameDevice(row)}"></i>
+                      <span
+                            class="hover-popover">{{isGameDevice(row)?$t('trans1271'):$t('trans1270')}}</span>
+                    </span>
+                    <span class="limit-icon"
                           @click="()=>addToBlackList(row)">
                       <i class="add-block iconfont ic_blocklist"></i>
                       <span class="hover-popover">{{$t('trans0016')}}</span>
@@ -352,6 +359,7 @@
                    @speedLimitClose="()=>speedLimitInfo.visiable=false"
                    @refreshDeviceList="updateDeviceList()"></speed-Limit>
     </transition>
+    <!-- 编辑设备名称弹窗 -->
     <m-modal :visible.sync="modalShow"
              :type="'confirm'"
              class="edit-name-modal">
@@ -379,6 +387,45 @@
         </div>
       </div>
     </m-modal>
+    <!-- 取消设备游戏模式弹窗 -->
+    <m-modal :visible.sync="cancelGameModeVisible"
+             :type="'confirm'"
+             class="edit-name-modal">
+      <div class="content">
+        <div class="text"> {{$t('trans1273')}}</div>
+        <div class="no-remind">
+          <m-checkbox v-model="$store.state.cancelGameModeTipDisabled"
+                      :rect='false'
+                      :text="$t('trans1276')"></m-checkbox>
+        </div>
+        <div class="btn-inner">
+          <button @click="()=>cancelGameModeVisible=false"
+                  class="btn btn-default">{{$t('trans0025')}}</button>
+          <button class="btn"
+                  @click="sendCancelGameMode">{{$t('trans0024')}}</button>
+        </div>
+      </div>
+    </m-modal>
+    <!-- 开启设备游戏模式弹窗 -->
+    <m-modal :visible.sync="enableGameModeVisible"
+             :type="'confirm'"
+             class="edit-name-modal">
+      <div class="content">
+        <div class="text"> {{$t('trans1272')}}</div>
+        <div class="no-remind">
+          <m-checkbox v-model="$store.state.set2GameModeTipDisabled"
+                      :rect='false'
+                      :text="$t('trans1276')"></m-checkbox>
+        </div>
+        <div class="
+                      btn-inner">
+          <button @click="()=>enableGameModeVisible=false"
+                  class="btn btn-default">{{$t('trans0025')}}</button>
+          <button class="btn"
+                  @click="sendEnableGameMode">{{$t('trans0024')}}</button>
+        </div>
+      </div>
+    </m-modal>
   </div>
 </template>
 <script>
@@ -402,6 +449,8 @@ export default {
       formatMac,
       checkAll: false,
       modalShow: false,
+      cancelGameModeVisible: false,
+      enableGameModeVisible: false,
       row: {},
       devicesMap: {},
       localDeviceIP: '',
@@ -430,7 +479,8 @@ export default {
           }
         ]
       },
-      pageActive: true
+      pageActive: true,
+      operationDeviceMac: ''
     };
   },
   computed: {
@@ -472,18 +522,11 @@ export default {
           icon: 'ic_devices_offline_normal'
         }
       ];
-      // if (this.isRouter) {
-      //   list.splice(1, 0, {
-      //     id: 'guest',
-      //     text: this.$t('trans0515'),
-      //     icon: 'ic_devices_guest_normal'
-      //   });
-      // }
       return list;
     },
     hasBackWrap() {
       return this.$route.path.includes('/dashboard/device');
-    }
+    },
   },
   async mounted() {
     const selfInfo = await this.$http.getLocalDevice();
@@ -635,7 +678,14 @@ export default {
     isSpeedLimit(row) {
       return row.speed_limit && row.speed_limit.enabled;
     },
+    isGameDevice(row) {
+      return row.game_device;
+    },
     forward2limit(row, suffix) {
+      if (this.isGameDevice(row)) {
+        this.$toast(this.$t('trans1275'));
+        return;
+      }
       const limits = {
         deviceName: row.name,
         parent_control: row.parent_control,
@@ -668,7 +718,70 @@ export default {
       if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
       try {
         const curId = this.id;
-        const devicesInfo = await this.$http.getDeviceList(params);
+        const res = await this.$http.getDeviceList(params);
+        // const devicesInfo = {
+        //   devices: temp.data.result,
+        //   add_game_dev_tip_disable: true,
+        //   del_game_dev_tip_disable: false
+        // };
+        // devicesInfo.devices.forEach(item => {
+        //   item.game_device = true;
+        // });
+        // const devicesInfo = {
+        //   devices: [
+        //     {
+        //       mac: '000ec6ac8edf',
+        //       name: 'LAPTOP-HS5J1QO1',
+        //       connected_time: 0,
+        //       connected_network: {
+        //         type: 'primary'
+        //       },
+        //       ip: '192.168.127.149',
+        //       online_info: {
+        //         current_connected: true,
+        //         realtime_speed: {
+        //           up: 0,
+        //           down: 0
+        //         },
+        //         traffic: {
+        //           ul: 3699992,
+        //           dl: 2003392
+        //         },
+        //         band: 'wired',
+        //         online_duration: 4739
+        //       },
+        //       speed_limit: {
+        //         up: 0,
+        //         down: 0,
+        //         enabled: false
+        //       },
+        //       time_limit: [
+        //         {
+        //           id: '0',
+        //           time_begin: '00:00',
+        //           time_end: '23:59',
+        //           schedule: [
+        //             'Mon'
+        //           ],
+        //           enabled: false
+        //         }
+        //       ],
+        //       parent_control: {
+        //         mode: 'free',
+        //         blacklist: [],
+        //         whitelist: []
+        //       },
+        //       game_device: false,
+        //       access_node: {
+        //         sn: '110072343100003',
+        //         name: 'M6s-0003'
+        //       }
+        //     }
+        //   ],
+        //   add_game_dev_tip_disable: false,
+        //   del_game_dev_tip_disable: false
+        // };
+
         this.showLoading = false;
         if (curId === this.id) {
           if (this.pageActive) {
@@ -676,12 +789,19 @@ export default {
               this.getDeviceList();
             }, 15 * 1000);
           }
-          const res = devicesInfo.data.result;
-          const result = res.map(v => ({
+          const devicesInfo = res.data.result;
+
+          this.$store.state.set2GameModeTipDisabled = devicesInfo.add_game_dev_tip_disable;
+          localStorage.setItem('set2GameModeTipDisabled', devicesInfo.add_game_dev_tip_disable);
+          this.$store.state.cancelGameModeTipDisabled = devicesInfo.del_game_dev_tip_disable;
+          localStorage.setItem('cancelGameModeTipDisabled', devicesInfo.del_game_dev_tip_disable);
+
+          const result = devicesInfo.devices.map(v => ({
             ...v,
             expand: false,
             checked: false
           }));
+          console.log(result);
           const originDevices = this.devicesMap[this.id];
           // 维持设备之前的附加属性
           if (originDevices.length > 0) {
@@ -789,6 +909,56 @@ export default {
         }
       });
       return true;
+    },
+    setGameDevice(row) {
+      // 游戏加速按钮与所有家长控制按钮互斥
+      if (this.isTimeLimit(row) || this.isBlacklsitLimit(row) || this.isSpeedLimit(row)) {
+        this.$toast(this.$t('trans1274'));
+        return;
+      }
+      this.operationDeviceMac = row.mac;
+      if (row.game_device) {
+        // 关闭游戏模式,检查取消游戏模式弹窗是否不再提示
+        if (!this.$store.state.cancelGameModeTipDisabled) {
+          // 需要提示
+          this.cancelGameModeVisible = true;
+        } else {
+          // 直接下发关闭游戏模式
+          this.sendCancelGameMode();
+        }
+      } else if (!this.$store.state.set2GameModeTipDisabled) { // 开启游戏模式,检查开启游戏模式弹窗是否不再提示
+        //  需要提示
+        this.enableGameModeVisible = true;
+      } else {
+        // 直接下发开启游戏模式
+        this.sendEnableGameMode();
+      }
+    },
+    sendCancelGameMode() {
+      const params = {
+        enabled: false,
+        add_game_dev_tip_disable: this.$store.state.set2GameModeTipDisabled,
+        del_game_dev_tip_disable: this.$store.state.cancelGameModeTipDisabled,
+        mac: this.operationDeviceMac
+      };
+      this.cancelGameModeVisible = false;
+      this.$http.setMeshDeviceToGameMode(params)
+        .then(() => {
+          this.getDeviceList();
+        });
+    },
+    sendEnableGameMode() {
+      const params = {
+        enabled: true,
+        add_game_dev_tip_disable: this.$store.state.set2GameModeTipDisabled,
+        del_game_dev_tip_disable: this.$store.state.cancelGameModeTipDisabled,
+        mac: this.operationDeviceMac
+      };
+      this.enableGameModeVisible = false;
+      this.$http.setMeshDeviceToGameMode(params)
+        .then(() => {
+          this.getDeviceList();
+        });
     },
     nameModalOpen(row) {
       this.modalShow = true;
@@ -1171,7 +1341,7 @@ export default {
                 -webkit-background-clip: text; /* Safari/Chrome */
                 background-clip: text;
                 color: transparent;
-                text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+                text-shadow: 1px 1px 4px #99c3f7;
               }
             }
             .hover-popover {
@@ -1322,6 +1492,13 @@ export default {
         padding-left: 10px;
         margin-top: 10px;
       }
+    }
+    .text {
+      max-width: 340px;
+      margin-bottom: 20px;
+    }
+    .no-remind {
+      margin-bottom: 20px;
     }
     .btn-inner {
       display: flex;

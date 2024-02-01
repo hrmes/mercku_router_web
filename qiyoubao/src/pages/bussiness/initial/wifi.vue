@@ -324,56 +324,56 @@ export default {
     this.$http
       .getMeshMeta()
       .then(res => {
-        const wifi = {
-          bands: {
-            '2.4G': {
-              ssid: 'MERCKU-0F4C',
-              password: '',
-              encrypt: 'open',
-              crypt: 'none',
-              enabled: true,
-              hidden: false,
-              mode: 'ap',
-              channel: {
-                mode: 'manual',
-                number: 11,
-                bandwidth: 40
-              }
-            },
-            '5G': {
-              ssid: 'MERCKU-0F4C-5G',
-              password: '',
-              encrypt: 'open',
-              crypt: 'none',
-              enabled: true,
-              hidden: false,
-              mode: 'ap',
-              channel: {
-                mode: 'manual',
-                number: 40,
-                bandwidth: 80
-              }
-            },
-            Game: {
-              ssid: 'MERCKU-0F4C-Game',
-              password: '',
-              encrypt: 'open',
-              crypt: 'none',
-              enabled: true,
-              hidden: false,
-              mode: 'ap',
-              channel: {
-                mode: 'manual',
-                number: 40,
-                bandwidth: 80
-              }
-            }
-          },
-          smart_connect: false,
-          compatibility_mode: false,
-          tx_power: 'high'
-        };
-        // const wifi=res.data.result;
+        // const wifi = {
+        //   bands: {
+        //     '2.4G': {
+        //       ssid: 'MERCKU-0F4C',
+        //       password: '',
+        //       encrypt: 'open',
+        //       crypt: 'none',
+        //       enabled: true,
+        //       hidden: false,
+        //       mode: 'ap',
+        //       channel: {
+        //         mode: 'manual',
+        //         number: 11,
+        //         bandwidth: 40
+        //       }
+        //     },
+        //     '5G': {
+        //       ssid: 'MERCKU-0F4C-5G',
+        //       password: '',
+        //       encrypt: 'open',
+        //       crypt: 'none',
+        //       enabled: true,
+        //       hidden: false,
+        //       mode: 'ap',
+        //       channel: {
+        //         mode: 'manual',
+        //         number: 40,
+        //         bandwidth: 80
+        //       }
+        //     },
+        //     Game: {
+        //       ssid: 'MERCKU-0F4C-Game',
+        //       password: '',
+        //       encrypt: 'open',
+        //       crypt: 'none',
+        //       enabled: true,
+        //       hidden: false,
+        //       mode: 'ap',
+        //       channel: {
+        //         mode: 'manual',
+        //         number: 40,
+        //         bandwidth: 80
+        //       }
+        //     }
+        //   },
+        //   smart_connect: false,
+        //   compatibility_mode: false,
+        //   tx_power: 'high'
+        // };
+        const wifi = res.data.result;
         const b24g = wifi.bands[Bands.b24g];
         const bGame = wifi.bands[Bands.bGame];
         this.wifiForm.ssid24g = b24g.ssid;
@@ -442,57 +442,57 @@ export default {
         console.log(config);
         this.stepOption.current = 1;
         this.stepOption.steps[1].success = true;
-        // this.isLoading = true;
-        // 提交表单
-        // this.$http
-        //   .updateMeshConfig({
-        //     config: {
-        //       wifi: {
-        //         bands: {
-        //           '2.4G': {
-        //             ssid: this.wifiForm.ssid24g,
-        //             password: this.wifiForm.password24g
-        //           },
-        //           '5G': {
-        //             ssid: this.ssid5g,
-        //             password: this.wifiForm.password24g
-        //           },
-        //           Game: {
-        //             ssid: this.wifiForm.ssidGame,
-        //             password: this.wifiForm.passwordGame
-        //           }
-        //         },
-        //         smart_connect: this.wifiForm.smart_connect
-        //       },
-        //       admin: {
-        //         username: 'admin',
-        //         password: this.customizedAdminPwd ? this.wifiForm.passwordAdmin : this.wifiForm.password24g
-        //       },
-        //     }
-        //   })
-        //   .then(() => {
-        //     this.stepOption.current = 1;
-        //     this.stepOption.steps[1].success = true;
-        //     const timer = setInterval(() => {
-        //       this.countdown -= 1;
-        //       if (this.countdown === 0) {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/unconnect' });
-        //       }
-        //     }, 1000);
-        //     // 尝试链接路由器
-        //     this.$reconnect({
-        //       onsuccess: () => {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/login' });
-        //       },
-        //       ontimeout: () => {
-        //         clearInterval(timer);
-        //         this.$router.push({ path: '/unconnect' });
-        //       },
-        //       showLoading: false
-        //     });
-        //   });
+        this.isLoading = true;
+        // 提交表单;
+        this.$http
+          .updateMeshConfig({
+            config: {
+              wifi: {
+                bands: {
+                  '2.4G': {
+                    ssid: this.wifiForm.ssid24g,
+                    password: this.wifiForm.password24g
+                  },
+                  '5G': {
+                    ssid: this.ssid5g,
+                    password: this.wifiForm.password24g
+                  },
+                  Game: {
+                    ssid: this.wifiForm.ssidGame,
+                    password: this.wifiForm.passwordGame
+                  }
+                },
+                smart_connect: this.wifiForm.smart_connect
+              },
+              admin: {
+                username: 'admin',
+                password: this.customizedAdminPwd ? this.wifiForm.passwordAdmin : this.wifiForm.password24g
+              },
+            }
+          })
+          .then(() => {
+            this.stepOption.current = 1;
+            this.stepOption.steps[1].success = true;
+            const timer = setInterval(() => {
+              this.countdown -= 1;
+              if (this.countdown === 0) {
+                clearInterval(timer);
+                this.$router.push({ path: '/unconnect' });
+              }
+            }, 1000);
+            // 尝试链接路由器
+            this.$reconnect({
+              onsuccess: () => {
+                clearInterval(timer);
+                this.$router.push({ path: '/login' });
+              },
+              ontimeout: () => {
+                clearInterval(timer);
+                this.$router.push({ path: '/unconnect' });
+              },
+              showLoading: false
+            });
+          });
       }
     },
     customizedAdminPwd(val) {

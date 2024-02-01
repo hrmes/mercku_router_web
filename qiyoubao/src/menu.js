@@ -30,7 +30,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const setting = {
     icon: 'ic_home_settings_light',
     selectedIcon: 'ic_home_settings_selected',
-    text: '路由器设置',
+    text: 'trans0998',
     name: 'setting',
     url: '/setting/wifi',
     children: [
@@ -119,7 +119,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const game = {
     icon: 'ic_home_settings_light',
     selectedIcon: 'ic_home_settings_selected',
-    text: '游戏加速',
+    text: 'trans1265',
     name: 'game.acceleration',
     url: '/game/acceleration',
     children: []
@@ -127,7 +127,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const devices = {
     icon: 'ic_home_settings_light',
     selectedIcon: 'ic_home_settings_selected',
-    text: '接入设备',
+    text: 'trans0235',
     name: 'devices',
     url: '/access/devices/primary',
     children: []
@@ -244,7 +244,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const system = {
     icon: 'ic_upgrade_firmware_light',
     selectedIcon: 'ic_upgrade_firmware_selected',
-    text: '系统设置',
+    text: 'trans1266',
     name: 'system',
     url: '/system/upgrade/offline',
     children: [

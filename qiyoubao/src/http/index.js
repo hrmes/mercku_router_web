@@ -12,7 +12,8 @@ const methods = {
   updateMeshApclient: createMethod('mesh.mode.update'),
   getMeshLogsSetting: createMethod('mesh.logs.setting.get'),
   updateMeshLogsSetting: createMethod('mesh.logs.setting.update'),
-  updateMeshEnabled: createMethod('mesh_mode_cfg')
+  updateMeshEnabled: createMethod('mesh_mode_cfg'),
+  setMeshDeviceToGameMode: createMethod('mesh.device.game.set')
 };
 
 class M6sHttp extends Http {}

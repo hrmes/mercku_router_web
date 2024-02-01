@@ -13,7 +13,11 @@ export default new Vuex.Store({
     theme: localStorage.getItem('theme') || 'light',
     changeMode: true,
     cancelTokenArr: [], // 取消请求token数组
-    deviceColor: localStorage.getItem('deviceColor') || 'black',
+    deviceColor: localStorage.getItem('deviceColor') || 'white',
+    set2GameModeTipDisabled:
+      localStorage.getItem('set2GameModeTipDisabled') || false,
+    cancelGameModeTipDisabled:
+      localStorage.getItem('cancelGameModeTipDisabled') || false,
     modules: {
       limits: {},
       portfw: {},
