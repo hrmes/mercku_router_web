@@ -135,6 +135,7 @@ export default {
 
 @media screen and (max-width: 768px) {
   .qiyou-radio-card-group-container {
+    width: 100%;
     display: flex;
     flex-direction: column;
     &.horizontal {

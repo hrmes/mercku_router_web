@@ -1,10 +1,10 @@
 <template>
-  <div class="initial">
+  <div class="wan-initial">
     <div v-if="needCheck && isChecking"
          class="check-wan">
       <m-lottie-loading id="checkLoading"
                         :size="160"></m-lottie-loading>
-      <p>正在检测上网方式，请稍后…</p>
+      <p>{{$t('trans1239')}}</p>
     </div>
     <div v-else
          class="step-content">
@@ -14,344 +14,239 @@
           <img :src="InitialImg">
         </div>
         <div class="col-2">
-          <!-- v-if="stepOption.current===0" -->
           <div class="step-item step-item1">
             <m-form>
-              <p class="step-tips">请选择上网方式</p>
+              <p class="step-tips">{{$t('trans1241').toUpperCase()}}</p>
               <m-form-item>
                 <qiyou-radio-card-group v-model="netType"
                                         :options="options"
                                         direction="vertical"></qiyou-radio-card-group>
               </m-form-item>
             </m-form>
-            <!-- <m-form ref="wifiForm"
-                    :model="wifiForm"
-                    :rules="wifiFormRules">
-              <p class="step-tips">{{$t('trans0167').toUpperCase()}}</p>
-              <div class="card-wrapper">
-                <m-form-item prop="smart_connect"
-                             class="no-validate">
-                  <m-switch :label="$t('trans0397')"
-                            v-model="wifiForm.smart_connect" />
-                  <div class="tip-label">{{$t('trans0398')}}</div>
-                </m-form-item>
-              </div>
+            <m-form key="pppoe-form"
+                    v-if="isPppoe"
+                    ref="pppoeForm"
+                    :model="pppoeForm"
+                    :rules="pppoeRules">
               <div class="card-wrapper">
                 <div class="form-content">
-                  <m-form-item prop="ssid24g">
-                    <m-input :label="$t('trans0168')"
-                             :placeholder="$t('trans0321')"
-                             v-model="wifiForm.ssid24g" />
+                  <m-form-item prop="account">
+                    <m-input :label="$t('trans0155')"
+                             type="text"
+                             :placeholder="`${$t('trans0321')}`"
+                             v-model="pppoeForm.account"></m-input>
                   </m-form-item>
-                  <m-form-item v-if="!wifiForm.smart_connect"
-                               style="margin-bottom:10px">
-                    <div class="tip-label">
-                      <div class="title">{{`${$t('trans0255')} ${$t('trans0168')} :`}}</div>
-                      <div class="value">{{wifiForm.ssid24g}}</div>
-                    </div>
-                    <div class="tip-label">
-                      <div class="title"> {{`${$t('trans0256')} ${$t('trans0168')} :`}}</div>
-                      <div class="value">{{ssid5g}}</div>
-                    </div>
-                  </m-form-item>
-                  <m-form-item prop="password24g">
-                    <m-input :label="$t('trans0172')"
+                  <m-form-item prop="password">
+                    <m-input :label="$t('trans0156')"
                              type="password"
-                             :placeholder="$t('trans0321')"
-                             v-model="wifiForm.password24g" />
+                             :placeholder="`${$t('trans0321')}`"
+                             v-model="pppoeForm.password" />
                   </m-form-item>
-                  <m-form-item style="margin-top:10px">
-                    <m-switch label="将Wi-Fi密码作为路由器管理密码"
-                              v-model="copyB24gSsid"
-                              @change="customizedAdminPwd" />
-                  </m-form-item>
-                  <transition name="fade">
-                    <template v-if="!copyB24gSsid">
-                      <m-form-item prop="passwordAdmin">
-                        <m-input :label="$t('trans0067')"
-                                 type="password"
-                                 :placeholder="$t('trans0321')"
-                                 v-model="wifiForm.passwordAdmin" />
-                      </m-form-item>
-                    </template>
-                  </transition>
                 </div>
               </div>
+            </m-form>
+            <m-form key="static-form"
+                    v-if="isStatic"
+                    ref="staticForm"
+                    :model="staticForm"
+                    :rules="staticRules">
               <div class="card-wrapper">
-                <div class="form-header">
-                  <span class="form-header__title">Game Wi-Fi</span>
-                </div>
                 <div class="form-content">
-                  <m-form-item prop="ssidGame"
-                               ref="ssidGame">
-                    <m-input :label="$t('trans0168')"
-                             :placeholder="$t('trans0321')"
-                             v-model="wifiForm.ssidGame" />
+                  <m-form-item prop="ip"
+                               ref="ip">
+                    <m-input :label="$t('trans0151')"
+                             type="text"
+                             placeholder="0.0.0.0"
+                             v-model="staticForm.ip"
+                             :onBlur="ipChange" />
                   </m-form-item>
-                  <m-form-item prop="passwordGame">
-                    <m-input :label="$t('trans0172')"
-                             type="password"
-                             :placeholder="$t('trans0321')"
-                             v-model="wifiForm.passwordGame" />
+                  <m-form-item prop="mask"
+                               ref="mask">
+                    <m-input :label="$t('trans0152')"
+                             type="text"
+                             placeholder="0.0.0.0"
+                             v-model="staticForm.mask"
+                             :onBlur="maskChange" />
+                  </m-form-item>
+                  <m-form-item prop="gateway"
+                               ref="gateway">
+                    <m-input :label="$t('trans0153')"
+                             type="text"
+                             placeholder="0.0.0.0"
+                             v-model="staticForm.gateway" />
+                  </m-form-item>
+                  <m-form-item prop="dns1"
+                               ref="dns">
+                    <m-input :label="$t('trans0236')"
+                             type="text"
+                             placeholder="0.0.0.0"
+                             v-model="staticForm.dns1" />
+                  </m-form-item>
+                  <m-form-item prop="dns2"
+                               ref="backupdns">
+                    <m-input :label="$t('trans0320')"
+                             type="text"
+                             placeholder="0.0.0.0"
+                             v-model="staticForm.dns2" />
                   </m-form-item>
                 </div>
 
               </div>
             </m-form>
-            <m-form key="dhcp-form"
-                    v-if="isDhcp"
-                    ref="dhcpForm"
-                    :model="dhcpForm"
-                    :rules="dhcpRules">
-              <m-form-item class="item">
-                <m-radio-group class="radio-group"
-                               direction="vertical"
-                               v-model="autodns.dhcp"
-                               :options="dnsOptions"></m-radio-group>
-              </m-form-item>
-              <div class="form__dns"
-                   v-if="!autodns.dhcp">
-                <m-form-item class="item"
-                             prop="dns1"
-                             ref="dns">
-                  <m-input :label="$t('trans0236')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="dhcpForm.dns1" />
-                </m-form-item>
-                <m-form-item class="item"
-                             prop="dns2"
-                             ref="backupdns">
-                  <m-input :label="$t('trans0320')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="dhcpForm.dns2" />
-                </m-form-item>
+            <m-form key="wireless_dhcp-form"
+                    v-if="isWirelessDhcp"
+                    ref="upperApForm"
+                    :model="upperApForm"
+                    :rules="upperApFormRules">
+              <div class="card-wrapper">
+                <div class="form-content">
+                  <m-form-item prop="upperApForm.ssid"
+                               class="scan-upper">
+                    <qiyou-scan-upper-select :label="$t('trans0168')"
+                                             :placeholder="$t('trans1182')"
+                                             type='text'
+                                             ref='loadingSelect'
+                                             @change="selectedChange"
+                                             @scanApclient="startApclientScan"
+                                             :popupTop='$store.state.isMobile'
+                                             :bssid="upperApForm.bssid"
+                                             :ssid="upperApForm.ssid"
+                                             :options="processedUpperApList"
+                                             :loading="selectIsLoading"
+                                             :loadingText="loadingText"
+                                             v-model="upperApForm.ssid" />
+                    <span @click="()=>modalShow=true"
+                          class="btn-icon">
+                      <button class="btn btn-default btn-small">
+                        <span class="add-icon"></span>
+                      </button>
+                      <span class="icon-hover-popover">{{$t('trans1250')}}</span>
+                    </span>
+                  </m-form-item>
+                  <m-form-item v-show="!pwdDisabled"
+                               prop="upperApForm.password">
+                    <m-input :label="$t('trans0003')"
+                             type="password"
+                             :placeholder="$t('trans0321')"
+                             v-model="upperApForm.password" />
+                  </m-form-item>
+                </div>
               </div>
             </m-form>
-            <m-form key="pppoe-form"
-                    v-else-if="isPppoe"
-                    ref="pppoeForm"
-                    :model="pppoeForm"
-                    :rules="pppoeRules">
-              <m-form-item class="item"
-                           prop="account">
-                <m-input :label="$t('trans0155')"
-                         type="text"
-                         :placeholder="`${$t('trans0321')}`"
-                         v-model="pppoeForm.account"></m-input>
-              </m-form-item>
-              <m-form-item class="item"
-                           prop="password">
-                <m-input :label="$t('trans0156')"
-                         type="password"
-                         :placeholder="`${$t('trans0321')}`"
-                         v-model="pppoeForm.password" />
-              </m-form-item>
-              <m-form-item class="item">
-                <m-radio-group class="radio-group"
-                               direction="vertical"
-                               v-model="autodns.pppoe"
-                               :options="dnsOptions"></m-radio-group>
-              </m-form-item>
-              <div class="form__dns"
-                   v-if="!autodns.pppoe">
-                <m-form-item class="item"
-                             prop="dns1"
-                             ref="dns">
-                  <m-input :label="$t('trans0236')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="pppoeForm.dns1" />
-                </m-form-item>
-                <m-form-item class="item"
-                             prop="dns2"
-                             ref="backupdns">
-                  <m-input :label="$t('trans0320')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="pppoeForm.dns2" />
-                </m-form-item>
-              </div>
-            </m-form>
-            <m-form key="static-form"
-                    v-else-if="isStatic"
-                    ref="staticForm"
-                    :model="staticForm"
-                    :rules="staticRules">
-              <div class="form__dns">
-                <m-form-item class="item"
-                             prop="ip"
-                             ref="ip">
-                  <m-input :label="$t('trans0151')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="staticForm.ip"
-                           :onBlur="ipChange" />
-                </m-form-item>
-                <m-form-item class="item"
-                             prop="mask"
-                             ref="mask">
-                  <m-input :label="$t('trans0152')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="staticForm.mask"
-                           :onBlur="maskChange" />
-                </m-form-item>
-                <m-form-item class="item"
-                             prop="gateway"
-                             ref="gateway">
-                  <m-input :label="$t('trans0153')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="staticForm.gateway" />
-                </m-form-item>
-                <m-form-item class="item"
-                             prop="dns1"
-                             ref="dns">
-                  <m-input :label="$t('trans0236')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="staticForm.dns1" />
-                </m-form-item>
-                <m-form-item class="item"
-                             prop="dns2"
-                             ref="backupdns">
-                  <m-input :label="$t('trans0320')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="staticForm.dns2" />
-                </m-form-item>
-              </div>
-            </m-form> -->
           </div>
-          <!-- <div class="step-item step-item2"
-               v-if="stepOption.current===1">
-            <m-lottie-loading class="configingLoading"
-                              :size="160"
-                              id="config-loading" />
-            <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
-            <div class="tip"
-                 style="margin-top:5px;">
-              {{$t('trans0171')}}
-            </div>
-            <div class="info-container">
-              <div class="info info-pw">
-                <div class="info__row">
-                  <div class="info__title">{{$t('trans0561')}}:</div>
-                  <div class="info__value">
-                    {{this.copyB24gSsid ? this.wifiForm.password24g : this.wifiForm.passwordAdmin}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="info-container wifi-24g">
-              <div class="form-header"
-                   v-if="wifiForm.smart_connect">
-                <span class="form-header__title">{{$t('trans0168')}}:</span>
-              </div>
-              <div class="info">
-                <div class="info__row">
-                  <div v-if="!wifiForm.smart_connect"
-                       class="info__title">{{$t('trans0923')}}:</div>
-                  <div class="info__value">{{wifiForm.ssid24g}}</div>
-                </div>
-                <div class="info__row">
-                  <div class="info__title">{{$t('trans0172')}}:</div>
-                  <div class="info__value">{{wifiForm.password24g}}</div>
-                </div>
-              </div>
-            </div>
-            <div v-if="!wifiForm.smart_connect"
-                 class="info-container wifi-5g">
-              <div class="info">
-                <div class="info__row">
-                  <div class="info__title">{{$t('trans0924')}}:</div>
-                  <div class="info__value">{{ssid5g}}</div>
-                </div>
-                <div class="info__row">
-                  <div class="info__title">{{$t('trans0172')}}:</div>
-                  <div class="info__value">{{password5g}}</div>
-                </div>
-              </div>
-            </div>
-            <div class="info-container wifi-5g">
-              <div class="info">
-                <div class="info__row">
-                  <div class="info__title">{{$t('trans0924')}}:</div>
-                  <div class="info__value">{{wifiForm.ssidGame}}</div>
-                </div>
-                <div class="info__row">
-                  <div class="info__title">{{$t('trans0172')}}:</div>
-                  <div class="info__value">{{wifiForm.passwordGame}}</div>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
-      <!-- v-if="stepOption.current===0" -->
       <div class="row-2">
         <div class="button-container">
           <button class="btn btn-default"
-                  @click="skipWanSetting">跳过</button>
-          <button @click="next2WifiInitial"
+                  @click="next2WifiInitial()">{{$t('trans0163')}}</button>
+          <button @click="storeWanConfig"
                   class="btn">{{ $t('trans0055')}}</button>
         </div>
       </div>
     </div>
+    <m-modal :visible.sync="modalShow"
+             :type="'confirm'"
+             class="add-upper-manully-modal">
+      <div class="content">
+        <div class="content-header">
+          {{$t('trans1253')}}
+        </div>
+        <div class="content-form">
+          <m-form ref="manualUpperForm"
+                  :model="manualUpperForm"
+                  :rules='wirelessDhcpRules'>
+            <m-form-item prop="ssid">
+              <m-input :label="$t('trans0168')"
+                       type="text"
+                       :placeholder="$t('trans0321')"
+                       v-model="manualUpperForm.ssid" />
+            </m-form-item>
+            <m-form-item prop="security">
+              <m-select :label="$t('trans0522')"
+                        :placeholder="$t('trans1182')"
+                        v-model="manualUpperForm.security"
+                        :options="encryptMethods"
+                        @change="(nv, ov) => onEncryptChange(nv, ov)" />
+            </m-form-item>
+            <m-form-item prop="band">
+              <m-select :label="$t('trans0111')"
+                        :placeholder="$t('trans1182')"
+                        v-model="manualUpperForm.band"
+                        :options="bandOptions" />
+            </m-form-item>
+            <m-form-item v-if="!upperEncryptIsOpen"
+                         prop="password">
+              <m-input :label="$t('trans0003')"
+                       type="password"
+                       :placeholder="$t('trans0321')"
+                       v-model="manualUpperForm.password" />
+            </m-form-item>
+          </m-form>
+        </div>
+        <div class="btn-inner">
+          <button @click="()=>modalShow=false"
+                  class="btn btn-default">{{$t('trans0025')}}</button>
+          <button class="btn"
+                  @click="submitManualUpperForm">{{$t('trans0018')}}</button>
+        </div>
+      </div>
+    </m-modal>
   </div>
 </template>
 <script>
-import { WanNetStatus, WanType } from 'base/util/constant';
+import { InitialImg } from '@/assets/images/v3/base64-img/img.js';
+import { WanNetStatus, WanType, EncryptMethod } from 'base/util/constant';
 import {
-
+  ipRule,
   isMulticast,
   isLoopback,
   isValidMask,
   ipReg,
-
+  isFieldHasSpaces,
+  getStringByte,
+  isValidPassword
 } from 'base/util/util';
-import { InitialImg } from '@/assets/images/v3/base64-img/img.js';
+import SettingUpperAp from 'base/mixins/setting-upperAp';
+
 import radioCardGroup from '@/component/radioCardGroup';
+import scanUpperSelect from '@/component/scanUpperSelect';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
+const DefaultConfig = JSON.stringify({ type: WanType.dhcp });
+
 export default {
+  mixins: [SettingUpperAp],
   components: {
-    'qiyou-radio-card-group': radioCardGroup
+    'qiyou-radio-card-group': radioCardGroup,
+    'qiyou-scan-upper-select': scanUpperSelect
   },
   data() {
     return {
       InitialImg,
       isChecking: true,
       netType: WanType.dhcp,
+      modalShow: false,
       options: [
         {
           value: 'dhcp',
           text: this.$t('trans0146')
         },
         {
-          value: 'static',
-          text: this.$t('trans0148')
-        },
-        {
           value: 'pppoe',
           text: this.$t('trans0144')
         },
         {
+          value: 'static',
+          text: this.$t('trans0148')
+        },
+        {
           value: 'wireless_dhcp',
-          text: '无线中继'
+          text: this.$t('trans1242')
         }
       ],
-      // stepOption: {
-      //   current: 0,
-      //   steps: [
-      //     { text: this.$t('trans0019'), success: true },
-      //     { text: this.$t('trans0018'), success: false }
-      //   ]
-      // },
       staticForm: {
         ip: '',
         mask: '',
@@ -365,22 +260,32 @@ export default {
         dns1: '',
         dns2: ''
       },
-      dhcpForm: {
-        dns1: '',
-        dns2: ''
+      manualUpperForm: {
+        ssid: '',
+        password: '',
+        band: '2.4G',
+        security: EncryptMethod.wpa2
       },
       pppoeRules: {
         account: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
-          }
+          },
+          {
+            rule: value => getStringByte(value) <= 120,
+            message: this.$t('trans1174')
+          },
         ],
         password: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
-          }
+          },
+          {
+            rule: value => isValidPassword(value, 1, 120),
+            message: this.$t('trans1174')
+          },
         ]
       },
       staticRules: {
@@ -435,15 +340,65 @@ export default {
           }
         ]
       },
+      wirelessDhcpRules: {
+        ssid: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          }
+        ],
+        password: [
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
+            rule: value => isValidPassword(value, 8, 128),
+            message: this.$t('trans1252')
+          },
+        ]
+      },
+      bandOptions: [
+        { value: '2.4G', text: '2.4G' },
+        { value: '5G', text: '5G' }
+      ],
+      encryptMethods: [
+        {
+          value: EncryptMethod.wpawpa2,
+          text: this.$t('trans0557')
+        },
+        {
+          value: EncryptMethod.wpa2,
+          text: this.$t('trans0556')
+        },
+        {
+          value: EncryptMethod.wpa3,
+          text: this.$t('trans0572')
+        },
+        {
+          value: EncryptMethod.wpa2wpa3,
+          text: this.$t('trans0573')
+        },
+        {
+          value: EncryptMethod.open,
+          text: this.$t('trans0554')
+        }
+      ],
     };
   },
   computed: {
     needCheck() {
-      console.log(this.$route);
       return this.$route.params.needCheck;
     },
     isMobile() {
       return this.$store.state.isMobile;
+    },
+    isDhcp() {
+      return this.netType === WanType.dhcp;
     },
     isPppoe() {
       return this.netType === WanType.pppoe;
@@ -451,14 +406,54 @@ export default {
     isStatic() {
       return this.netType === WanType.static;
     },
-    isDhcp() {
-      return this.netType === WanType.dhcp;
+    isWirelessDhcp() {
+      return this.netType === WanType.wirelessDhcp;
     },
+    upperEncryptIsOpen() {
+      return this.manualUpperForm.security === EncryptMethod.open;
+    }
   },
   mounted() {
     this.checkInternetAccess();
   },
   methods: {
+    ipChange() {
+      this.$refs.ip.extraValidate(
+        ipRule,
+        this.$t('trans0231'),
+        this.staticForm.ip,
+        this.staticForm.mask
+      );
+    },
+    maskChange() {
+      this.$refs.ip.extraValidate(
+        ipRule,
+        this.$t('trans0231'),
+        this.staticForm.ip,
+        this.staticForm.mask
+      );
+      this.$refs.gateway.extraValidate(
+        ipRule,
+        this.$t('trans0231'),
+        this.staticForm.gateway,
+        this.staticForm.mask
+      );
+    },
+    onEncryptChange(nv, ov) {
+      if (nv === EncryptMethod.wpa3) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0692'),
+          callback: {
+            cancel: () => {
+              this.manualUpperForm.security = ov;
+              console.log('cancel', ov);
+            }
+          }
+        });
+      }
+    },
     checkInternetAccess() {
       this.$http
         .login(
@@ -472,9 +467,10 @@ export default {
           this.$router.push({ path: '/login' });
         });
       if (this.needCheck) {
+        localStorage.removeItem('wanConfig');
         setTimeout(() => {
           this.getWanStatus();
-        }, 5000);
+        }, 3000);
       } else {
         this.echoWanConfig();
       }
@@ -489,8 +485,9 @@ export default {
             }
           } = res;
           switch (wanStatus) {
-            case WanNetStatus.connected:
-              this.$router.push({ path: '/initial/wifi' });
+            case WanNetStatus.unconnect:
+              localStorage.setItem('wanConfig', DefaultConfig);
+              this.$router.replace({ path: '/initial/wifi' });
               break;
             default:
               this.isChecking = false;
@@ -503,19 +500,112 @@ export default {
       return true;
     },
     echoWanConfig() {
-      const wanConfig = localStorage.getItem('wanConfig');
+      this.netInfo = JSON.parse(localStorage.getItem('wanConfig')) || { type: WanType.dhcp };
+      this.netType = this.netInfo.type;
+      if (this.isPppoe) {
+        this.pppoeForm.account = this.netInfo.pppoe.account;
+        this.pppoeForm.password = this.netInfo.pppoe.password;
+      }
+      if (this.isStatic) {
+        this.staticForm = {
+          ip: this.netInfo.static.netinfo.ip,
+          mask: this.netInfo.static.netinfo.mask,
+          gateway: this.netInfo.static.netinfo.gateway,
+          dns1: this.netInfo.static.netinfo.dns[0],
+          dns2: this.netInfo.static.netinfo.dns[1] || ''
+        };
+      }
+      if (this.isWirelessDhcp) {
+        this.echoWirelessDhcp(this.netInfo.wireless_dhcp);
+      }
     },
-    skipWanSetting() {
+    storeWanConfig() {
+      const form = { type: this.netType };
+      switch (this.netType) {
+        case WanType.dhcp:
+          this.next2WifiInitial(form);
+          break;
+        case WanType.pppoe:
+          if (this.$refs.pppoeForm.validate()) {
+            form.pppoe = {
+              account: this.pppoeForm.account,
+              password: this.pppoeForm.password
+            };
+            this.next2WifiInitial(form);
+          }
+
+          break;
+        case WanType.static:
+          if (this.$refs.staticForm.validate()) {
+            form.static = {
+              netinfo: {
+                ip: this.staticForm.ip,
+                mask: this.staticForm.mask,
+                gateway: this.staticForm.gateway,
+                dns: [this.staticForm.dns1]
+              }
+            };
+            if (this.staticForm.dns2) {
+              form.static.netinfo.dns.push(this.staticForm.dns2);
+            }
+            this.next2WifiInitial(form);
+          }
+
+          break;
+        case WanType.wirelessDhcp:
+          if (this.$refs.upperApForm.validate()) {
+            form.wireless_dhcp = this.upperApForm;
+            this.$dialog.confirm({
+              okText: this.$t('trans0024'),
+              cancelText: this.$t('trans0025'),
+              message: this.$t('trans1249'),
+              callback: {
+                ok: () => {
+                  this.next2WifiInitial(form);
+                }
+              }
+            });
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    next2WifiInitial(config) {
+      if (config) {
+        localStorage.setItem('wanConfig', JSON.stringify(config));
+      } else {
+        localStorage.setItem('wanConfig', DefaultConfig);
+      }
       this.$router.replace({ path: '/initial/wifi' });
     },
-    next2WifiInitial() {
-      this.$router.push({ path: '/initial/wifi' });
+    echoWirelessDhcp(option) {
+      this.pwdDisabled =
+        option.security === EncryptMethod.OPEN ||
+        option.security === EncryptMethod.open;
+      this.upperApForm = option;
+    },
+    submitManualUpperForm() {
+      if (this.$refs.manualUpperForm.validate()) {
+        const form = { type: this.netType };
+        form.wireless_dhcp = this.manualUpperForm;
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans1249'),
+          callback: {
+            ok: () => {
+              this.next2WifiInitial(form);
+            }
+          }
+        });
+      }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.initial {
+.wan-initial {
   width: 100%;
   height: 100%;
   min-width: 1280px;
@@ -603,6 +693,53 @@ export default {
           &.no-validate {
             margin-bottom: 0;
           }
+          &.scan-upper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            .btn-icon {
+              width: auto;
+              height: auto;
+            }
+            .btn-small {
+              width: 90px;
+              height: 48px;
+              min-width: auto;
+              padding: 0;
+              opacity: 1;
+            }
+            .add-icon {
+              position: relative;
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              margin-right: 5px;
+              &::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                display: block;
+                height: 2.5px;
+                border-radius: 2px;
+                width: 15px;
+                background-color: var(--primary-color);
+                transform: translate(-50%, -50%) rotate(0deg);
+              }
+              &::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                display: block;
+                height: 2.5px;
+                border-radius: 2px;
+                width: 15px;
+                background-color: var(--primary-color);
+                transform: translate(-50%, -50%) rotate(90deg);
+              }
+            }
+          }
         }
         .form-content {
           display: grid;
@@ -614,87 +751,6 @@ export default {
           .input-container {
             width: 100%;
           }
-        }
-        .region-grid {
-          display: grid;
-          grid-template-rows: 100%;
-          grid-template-columns: repeat(2, 1fr);
-          grid-column-gap: 10px;
-          width: 100%;
-          .select-container {
-            width: inherit;
-          }
-        }
-      }
-      &.step-item2 {
-        width: 400px;
-        margin-left: 10%;
-        .configing-loading {
-          margin: 0 auto;
-        }
-        .cutdown {
-          color: var(--primary-color);
-          font-size: 16px;
-          margin: 10px 0;
-        }
-        .tip {
-          font-size: 12px;
-          word-break: keep-all;
-          &.tip-setting {
-            margin: 10px 0 15px;
-            text-align: left;
-            color: var(--wlan_tips-color);
-          }
-        }
-        .info-container {
-          border-radius: 7px;
-          padding: 10px 15px;
-          margin-top: 20px;
-          background: var(--common_sub_card-bgc);
-        }
-        .info {
-          font-size: 14px;
-          border-radius: 5px;
-          margin-top: 7px;
-          .info__row {
-            text-align: left;
-            & + .info__row {
-              margin-top: 10px;
-            }
-          }
-          .info__title {
-            font-size: 12px;
-            margin-bottom: 5px;
-            color: var(--text_gery-color);
-          }
-          .info__value {
-            font-size: 14px;
-            font-weight: 600;
-            // white-space: pre;
-          }
-        }
-        .form-header {
-          padding-bottom: 0;
-          margin-bottom: 0;
-          .form-header__title {
-            font-size: 12px;
-            font-weight: 400;
-          }
-        }
-        .wifi-24g,
-        .wifi-5g {
-          .form-header__title {
-            color: var(--text_gery-color);
-          }
-          .info {
-            > :first-child {
-              padding-bottom: 5px;
-              border-bottom: 1px solid var(--darker_hr-color);
-            }
-          }
-        }
-        .wifi-5g {
-          margin-top: 5px;
         }
       }
     }
@@ -724,24 +780,67 @@ export default {
     }
   }
 }
+.add-upper-manully-modal {
+  .content {
+    display: flex;
+    flex-direction: column;
+    .content-header {
+      margin-bottom: 15px;
+      font-size: 16px;
+      color: var(--text_default-color);
+    }
+    .content-form {
+      .form-item {
+        margin-bottom: 20px;
+      }
+    }
+    .btn-inner {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      .btn {
+        flex: 1;
+        height: 42px;
+        &:last-child {
+          margin-left: 30px;
+        }
+      }
+      .btn-default {
+        background-image: linear-gradient(
+            to right,
+            var(--modal_content-bgc),
+            var(--modal_content-bgc)
+          ),
+          var(--common_btn_default-bgimg) !important;
+      }
+    }
+  }
+}
 @media screen and(max-width: 768px) {
-  .initial {
+  .wan-initial {
     flex: 1;
     min-width: auto;
     min-height: auto;
     padding: 0;
+    .check-wan {
+      height: calc(100vh - 65px - 60px);
+      border-radius: 0;
+    }
     .step-content {
       display: flex;
       flex-direction: column;
       border-radius: 0;
+      min-height: calc(100vh - 65px - 60px);
       .row-1 {
+        flex: 1;
         display: block;
-        min-height: calc(100vh - 65px - 60px);
         .col-2 {
           padding: 20px 15px;
+          max-height: unset;
         }
       }
       .row-2 {
+        height: 80px;
         .button-container {
           padding: 15px;
           .btn {
@@ -756,9 +855,8 @@ export default {
           .mk-form {
             min-width: auto;
             max-width: auto;
-          }
-          .region-grid {
-            display: block;
+            margin: 0;
+            width: unset;
           }
           .form-content {
             display: flex;
@@ -768,9 +866,6 @@ export default {
               margin-bottom: 30px;
             }
           }
-        }
-        &.step-item2 {
-          width: 100%;
         }
       }
     }

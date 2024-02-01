@@ -10,13 +10,14 @@
   "languages": ["zh-CN", "en-US"],
   "wifi": "QiYou Wi-Fi",
   "deviceID": "QiYou",
+  "foundingYear": 2014,
   "routers": {
     "X1_Pro": {
       "name": "X1 Pro Wi-Fi6 Router",
       "shortName": "X1 Pro"
     }
   },
-  "deviceColors": ["black", "white"],
+  "deviceColors": ["white"],
   "loading": {
     "color": "#2a74ef"
   },

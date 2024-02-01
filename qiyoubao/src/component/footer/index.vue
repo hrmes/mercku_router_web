@@ -42,11 +42,11 @@
         <div class="link">
           <span class="policy-text"
                 @click.stop="showAgreement()">
-            用户协议
+            {{$t('trans0139')}}
           </span>
           <span class="policy-text"
                 @click.stop="showPolicy()">
-            隐私政策
+            {{$t('trans0120')}}
           </span>
           <span class="company-logo"
                 @click.stop="showOffcialPage"></span>
@@ -167,8 +167,8 @@ export default {
         缺点是本地时间不准，这里得到的年份也是错的
       */
       return copyright
-        .replace('%d', now.getFullYear())
-        .replace('%s', process.env.CUSTOMER_CONFIG.title);
+        .replace('%d', process.env.CUSTOMER_CONFIG.foundingYear)
+        .replace('%d', now.getFullYear());
     },
     isMobile() {
       return this.$store.state.isMobile;

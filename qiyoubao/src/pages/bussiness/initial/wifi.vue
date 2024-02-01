@@ -1,5 +1,5 @@
 <template>
-  <div class="initial">
+  <div class="wifi-initial">
     <div class="step-content">
       <div class="row-1">
         <div class="col-1"
@@ -46,7 +46,7 @@
                              v-model="wifiForm.password24g" />
                   </m-form-item>
                   <m-form-item style="margin-top:10px">
-                    <m-switch label="将Wi-Fi密码作为路由器管理密码"
+                    <m-switch :label="$t('trans1257')"
                               v-model="copyB24gSsid"
                               @change="customizedAdminPwd" />
                   </m-form-item>
@@ -64,7 +64,7 @@
               </div>
               <div class="card-wrapper">
                 <div class="form-header">
-                  <span class="form-header__title">Game Wi-Fi</span>
+                  <span class="form-header__title">{{$t('trans1260')}}</span>
                 </div>
                 <div class="form-content">
                   <m-form-item prop="ssidGame"
@@ -160,7 +160,7 @@
         <div class="button-container"
              v-else>
           <button class="btn btn-default"
-                  @click="back2WanInitial">重新设置上网方式</button>
+                  @click="back2WanInitial">{{$t('trans1259')}}</button>
           <button @click="step1()"
                   class="btn">{{ $t('trans0055')}}</button>
         </div>
@@ -213,7 +213,7 @@ export default {
               console.log('ssid24g Bytes is', getStringByte(value.trim()));
               return getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31;
             },
-            message: '请输入3-31个字节'
+            message: this.$t('trans1255')
           },
           {
             rule: value => isFieldHasComma(value),
@@ -225,7 +225,7 @@ export default {
           },
           {
             rule: value => value !== this.wifiForm.ssidGame,
-            message: '不可设置为相同的无线名称，请更改'
+            message: this.$t('trans1258')
           }
         ],
         password24g: [
@@ -249,7 +249,7 @@ export default {
           },
           {
             rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: '请输入3-31个字节'
+            message: this.$t('trans1255')
           },
           {
             rule: value => isFieldHasComma(value),
@@ -262,7 +262,7 @@ export default {
           {
             rule: value => this.wifiForm.ssid24g !== value &&
               this.ssid5g !== value,
-            message: '不可设置为相同的无线名称，请更改'
+            message: this.$t('trans1258')
           }
         ],
         passwordGame: [
@@ -514,7 +514,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.initial {
+.wifi-initial {
   width: 100%;
   height: 100%;
   min-width: 1280px;
@@ -716,7 +716,7 @@ export default {
   }
 }
 @media screen and(max-width: 768px) {
-  .initial {
+  .wifi-initial {
     flex: 1;
     min-width: auto;
     min-height: auto;

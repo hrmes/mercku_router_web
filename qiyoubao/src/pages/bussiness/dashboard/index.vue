@@ -276,7 +276,7 @@ export default {
   },
   computed: {
     ModelName() {
-      return process.env.CUSTOMER_CONFIG.routers.M6f.shortName;
+      return process.env.CUSTOMER_CONFIG.routers.X1_Pro.shortName;
     },
     isMobile() {
       return this.$store.state.isMobile;

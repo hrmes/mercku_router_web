@@ -1,4 +1,4 @@
-import { isValidPassword } from 'base/util/util';
+import { isValidPassword, isFieldHasSpaces } from 'base/util/util';
 import { EncryptMethod } from 'base/util/constant';
 
 const LoadingStatus = {
@@ -47,51 +47,50 @@ export default {
   },
   watch: {
     // upperAp表单验证:由于密码是否验证是根据用户选择的上级是否有加密方式来决定的,所有制定两套验证规则
-    pwdDisabled(nv) {
-      if (nv === true) {
-        this.upperApFormRules = {
-          // 这一套只验证ssid是否为空
-          'upperApForm.ssid': [
-            {
-              rule: value => value,
-              message: this.$t('trans0237')
-            }
-          ]
-        };
-      } else {
-        this.upperApFormRules = {
-          // 这一套要验证ssid和密码
-          'upperApForm.ssid': [
-            {
-              rule: value => value,
-              message: this.$t('trans0237')
-            }
-          ],
-          'upperApForm.password': [
-            {
-              rule: value => value,
-              message: this.$t('trans0232')
-            },
-            {
-              rule: value => isValidPassword(value, 8, 64),
-              message: this.$t('trans1220').replace('%s', 8)
-            },
-            {
-              rule: value => value.trim() !== '',
-              message: this.$t('trans1227')
-            },
-            {
-              rule: value => value.trim() === value,
-              message: this.$t('trans1226')
-            }
-          ]
-        };
-      }
+    pwdDisabled: {
+      handler(nv) {
+        if (nv === true) {
+          this.upperApFormRules = {
+            // 这一套只验证ssid是否为空
+            'upperApForm.ssid': [
+              {
+                rule: value => !/^\s*$/g.test(value),
+                message: this.$t('trans0232')
+              }
+            ]
+          };
+        } else {
+          this.upperApFormRules = {
+            // 这一套要验证ssid和密码
+            'upperApForm.ssid': [
+              {
+                rule: value => !/^\s*$/g.test(value),
+                message: this.$t('trans0232')
+              }
+            ],
+            'upperApForm.password': [
+              {
+                rule: value => !/^\s*$/g.test(value),
+                message: this.$t('trans0232')
+              },
+              {
+                rule: value => isFieldHasSpaces(value),
+                message: this.$t('trans1020')
+              },
+              {
+                rule: value => isValidPassword(value, 8, 128),
+                message: this.$t('trans1220')
+              }
+            ]
+          };
+        }
+      },
+      immediate: true
     }
   },
   methods: {
     // 去除扫描到的上级列表里面，重复的数据
-    deweight(arr) {
+    removeDuplicates(arr) {
       const fliteredArr = [];
       arr.forEach(a => {
         const isTrue = fliteredArr.every(b => {
@@ -141,9 +140,16 @@ export default {
             this.getApclientScanTimer = null;
 
             // result = result.filter(item => !/^\s*$/.test(item.ssid));
-            result = this.deweight(result);
-            console.log('deweight', result);
-            result.sort((a, b) => b.rssi - a.rssi);
+            result = this.removeDuplicates(result);
+            result.sort((a, b) => {
+              // 信号强度降序排列
+              if (b.rssi !== a.rssi) {
+                return b.rssi - a.rssi;
+              }
+              // 如果信号强度相同，按照 SSID 的字母/数字顺序升序排列
+              return a.ssid.localeCompare(b.ssid);
+            });
+            console.log('after remove duplicates', result);
             this.originalUpperList = result;
             result.map(i =>
               this.processedUpperApList.push({

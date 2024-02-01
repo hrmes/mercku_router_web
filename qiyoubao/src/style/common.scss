@@ -372,10 +372,10 @@ label.with-colon {
 .router__img {
   transition: background 0.5s linear;
 
-  &.black {
-    background: url(../assets/images/v3/dashboard/img_black.png) no-repeat center;
-    background-size: contain;
-  }
+  // &.black {
+  //   background: url(../assets/images/v3/dashboard/img_black.png) no-repeat center;
+  //   background-size: contain;
+  // }
 
   &.white {
     background: url(../assets/images/v3/dashboard/img_white.png) no-repeat center;

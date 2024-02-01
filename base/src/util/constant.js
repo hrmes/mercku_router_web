@@ -47,7 +47,7 @@ export const WanType = {
   static: 'static',
   dhcp: 'dhcp',
   auto: 'auto',
-  wireless_dhcp: 'wireless_dhcp'
+  wirelessDhcp: 'wireless_dhcp'
 };
 export const WanNetStatus = {
   testing: 'testing',
