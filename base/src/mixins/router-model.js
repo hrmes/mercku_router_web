@@ -20,6 +20,7 @@ export default {
           image = require('../assets/images/img_bee.png');
           break;
         case RouterSnModel.M6:
+        case RouterSnModel.X1_Pro:
           image = require('../assets/images/img_m6.png');
           break;
         case RouterSnModel.M6c:

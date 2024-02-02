@@ -8,10 +8,10 @@
  */
 import * as CONSTANTS from 'base/util/constant';
 
-import picM6sGateway from '@/assets/images/topo/ic_m6s_gw_green.png';
-import picM6sWifi6Good from '@/assets/images/topo/ic_m6s_normal.png';
-import picM6sWifi6Bad from '@/assets/images/topo/ic_m6s_bad.png';
-import picM6sWifi6Offline from '@/assets/images/topo/ic_m6s_offline.png';
+import picX1ProGateway from '@/assets/images/topo/ic_x1_pro_gw_green.png';
+import picX1ProWifi6Good from '@/assets/images/topo/ic_x1_pro_normal.png';
+import picX1ProWifi6Bad from '@/assets/images/topo/ic_x1_pro_bad.png';
+import picX1ProWifi6Offline from '@/assets/images/topo/ic_x1_pro_offline.png';
 
 import { Color } from 'base/util/constant';
 
@@ -89,9 +89,9 @@ function findRedNode(green, nodes) {
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
     [CONSTANTS.RouterSnModel.M6s]: {
-      [Color.good]: picM6sWifi6Good,
-      [Color.bad]: picM6sWifi6Bad,
-      [Color.offline]: picM6sWifi6Offline
+      [Color.good]: picX1ProWifi6Good,
+      [Color.bad]: picX1ProWifi6Bad,
+      [Color.offline]: picX1ProWifi6Offline
     }
   };
 
@@ -99,7 +99,7 @@ function genNodes(gateway, green, red, offline) {
     let symbol = 'image://';
 
     if (node.is_gw) {
-      symbol = `${symbol}${picM6sGateway}`;
+      symbol = `${symbol}${picX1ProGateway}`;
     } else {
       const id = (node.model && node.model.id) || node.sn.slice(0, 2);
       const modelConfig = picModelColorMap[id];

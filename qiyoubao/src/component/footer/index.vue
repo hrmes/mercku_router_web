@@ -7,7 +7,7 @@
          v-if="!isMobile">
       <div class="footer__left-menu logout"
            v-if="navVisible"
-           @click="exit()">
+           @click.stop="exit()">
         <span class="icon"></span>
         {{$t('trans0021')}}
       </div>
@@ -75,7 +75,7 @@
       </div>
     </div>
 
-    <m-modal :visible.sync="policyVisiable">
+    <!-- <m-modal :visible.sync="policyVisiable">
       <m-modal-header>
         <div class="dialog-title">{{ $t('trans0139') }}</div>
       </m-modal-header>
@@ -93,7 +93,7 @@
           </button>
         </div>
       </m-modal-footer>
-    </m-modal>
+    </m-modal> -->
   </div>
 </template>
 <script>
@@ -128,8 +128,6 @@ export default {
     showPolicy() {
       if (process.env.CUSTOMER_CONFIG.policy) {
         window.open(process.env.CUSTOMER_CONFIG.policy);
-      } else {
-        this.policyVisiable = true;
       }
     },
     showOffcialPage() {
@@ -155,9 +153,9 @@ export default {
     },
   },
   computed: {
-    policy() {
-      return require('./policy-en.html');
-    },
+    // policy() {
+    //   return require('./policy-en.html');
+    // },
     copyright() {
       const copyright = this.$t('trans0276');
       const now = new Date();

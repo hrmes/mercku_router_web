@@ -85,7 +85,7 @@
         <div class="form-button__wrapper">
           <button class="btn primary"
                   v-defaultbutton
-                  @click="checkWanStatus"
+                  @click.stop="checkWanStatus"
                   :disabled="saveDisable">{{$t('trans0081')}}</button>
         </div>
       </div>

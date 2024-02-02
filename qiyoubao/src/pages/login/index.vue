@@ -24,7 +24,7 @@
                  class="form-item">
               <button class="btn"
                       :disabled="!agreementChecked"
-                      @click="toInitial">{{$t('trans0222')}}</button>
+                      @click.stop="toInitial">{{$t('trans0222')}}</button>
             </div>
             <div v-else
                  class="login-form">
@@ -40,24 +40,28 @@
                         :disabled="!agreementChecked"
                         @click.stop="login()">{{this.$t('trans0001')}}</button>
               </div>
+              <div class="form-item">
+                <span class="forget-pwd"
+                      @click.stop="forgetPwdTip">{{$t('trans0058')}}?</span>
+              </div>
             </div>
           </div>
           <div class="agreement-wrap">
             <m-checkbox v-model="agreementChecked"></m-checkbox>
             <div class="agreement-text">
-              已阅读并同意
+              {{$t('trans0135')}}
               <a :href="agreement"
-                 target="blank">《用户协议》</a>
-              和
+                 target="blank">{{`《${$t('trans0139')}》`}}</a>
+              {{$t('trans1261')}}
               <a :href="policy"
-                 target="blank">《隐私政策》</a>
+                 target="blank">{{`《${$t('trans0120')}》`}}</a>
             </div>
           </div>
         </div>
         <div class="download"
              v-if="appDownloadUrl&&!isMobile">
           <div class="qr"></div>
-          <div class="text">扫码下载奇游联机宝App即刻领取免费加速时长</div>
+          <div class="text">{{$t('trans1238')}}</div>
         </div>
         <div class="small-device-download"
              v-if="appDownloadUrl && isMobile">
@@ -199,11 +203,11 @@ export default {
 
           this.$store.state.role = role;
           localStorage.setItem('role', role);
-          this.$http.getMeshMode()
+          this.$http.getWanNetInfo()
             .then(res1 => {
-              const { mode } = res1.data.result;
-              this.$store.state.mode = mode;
-              localStorage.setItem('mode', mode);
+              const { type: wanType } = res1.data.result;
+              this.$store.state.wanType = wanType;
+              localStorage.setItem('wanType', wanType);
 
               this.$router.push({ path: '/dashboard' });
             })
@@ -277,6 +281,12 @@ export default {
           this.lockTimer = null;
         }
       }, 1000);
+    },
+    forgetPwdTip() {
+      this.$dialog.info({
+        okText: this.$t('trans0211'),
+        message: this.$t('trans1264')
+      });
     }
   }
 };
@@ -346,6 +356,15 @@ export default {
       }
       margin: 0 auto;
       margin-bottom: 30px;
+    }
+    .login-form {
+      .form-item {
+        margin-bottom: 20px;
+      }
+      .forget-pwd {
+        color: var(--primary-color);
+        cursor: pointer;
+      }
     }
     .btn {
       width: 340px;

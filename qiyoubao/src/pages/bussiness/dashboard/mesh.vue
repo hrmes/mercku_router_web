@@ -13,7 +13,7 @@
              :class="{'show-table':showTable}">
           <div class="legend-wrap">
             <span class="btn-icon close"
-                  @click="resetChartPosition">
+                  @click.stop="resetChartPosition">
               <i class=" iconfont ic_center"></i>
             </span>
             <div class="info">

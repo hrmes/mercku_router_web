@@ -47,11 +47,11 @@
                   </m-form-item>
                   <m-form-item style="margin-top:10px">
                     <m-switch :label="$t('trans1257')"
-                              v-model="copyB24gSsid"
+                              v-model="copyB24gPwd"
                               @change="customizedAdminPwd" />
                   </m-form-item>
                   <transition name="fade">
-                    <template v-if="!copyB24gSsid">
+                    <template v-if="!copyB24gPwd">
                       <m-form-item prop="passwordAdmin">
                         <m-input :label="$t('trans0067')"
                                  type="password"
@@ -99,7 +99,7 @@
                 <div class="info__row">
                   <div class="info__title">{{$t('trans0561')}}:</div>
                   <div class="info__value">
-                    {{this.copyB24gSsid ? this.wifiForm.password24g : this.wifiForm.passwordAdmin}}
+                    {{this.copyB24gPwd ? this.wifiForm.password24g : this.wifiForm.passwordAdmin}}
                   </div>
                 </div>
               </div>
@@ -294,7 +294,7 @@ export default {
           }
         ]
       },
-      copyB24gSsid: true
+      copyB24gPwd: true
     };
   },
   computed: {
@@ -436,8 +436,9 @@ export default {
           },
           admin: {
             username: 'admin',
-            password: this.copyB24gSsid ? this.wifiForm.password24g : this.wifiForm.passwordAdmin
+            password: this.copyB24gPwd ? this.wifiForm.password24g : this.wifiForm.passwordAdmin
           },
+          wan: JSON.parse(localStorage.getItem('wanConfig'))
         };
         console.log(config);
         this.stepOption.current = 1;
@@ -445,34 +446,11 @@ export default {
         this.isLoading = true;
         // 提交表单;
         this.$http
-          .updateMeshConfig({
-            config: {
-              wifi: {
-                bands: {
-                  '2.4G': {
-                    ssid: this.wifiForm.ssid24g,
-                    password: this.wifiForm.password24g
-                  },
-                  '5G': {
-                    ssid: this.ssid5g,
-                    password: this.wifiForm.password24g
-                  },
-                  Game: {
-                    ssid: this.wifiForm.ssidGame,
-                    password: this.wifiForm.passwordGame
-                  }
-                },
-                smart_connect: this.wifiForm.smart_connect
-              },
-              admin: {
-                username: 'admin',
-                password: this.customizedAdminPwd ? this.wifiForm.passwordAdmin : this.wifiForm.password24g
-              },
-            }
-          })
+          .updateMeshConfig(config)
           .then(() => {
             this.stepOption.current = 1;
             this.stepOption.steps[1].success = true;
+            localStorage.removeItem('wanConfig');
             const timer = setInterval(() => {
               this.countdown -= 1;
               if (this.countdown === 0) {

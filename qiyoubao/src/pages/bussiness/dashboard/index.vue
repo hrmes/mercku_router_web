@@ -156,7 +156,7 @@
     </div>
     <div class="jump-app-info"
          v-if="isMobile"
-         @click="jumpApp">
+         @click.stop="jumpApp">
       <div class="wrapper">
         <div class="icon mercku">
           <img :src="appIconSrc"
@@ -261,9 +261,11 @@ export default {
         realDown: 0
       },
       bandMap: {
-        wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
-        '5g': this.$t('trans0256')
+        '5g': this.$t('trans0256'),
+        wired: this.$t('trans0253'),
+        game_wifi: this.$t('trans1267'),
+        game_wired: this.$t('trans1268')
       },
       networkTypeArr: {
         '-': '-',
@@ -375,7 +377,7 @@ export default {
           message: this.$t('trans0383'),
           callback: {
             ok: () => {
-              this.$router.push({ path: '/upgrade/online' });
+              this.$router.push({ path: '/system/upgrade/online' });
             }
           }
         });

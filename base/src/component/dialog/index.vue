@@ -2,7 +2,8 @@
   <transition name="dialog">
     <div class="dialog-container mask-layer"
          v-show="visible">
-      <div class="dialog-content">
+      <div class="dialog-content"
+           v-clickoutside="checkType">
         <div v-if="title"
              class="dialog-title">{{title}}</div>
         <div class="dialog-message">
@@ -10,11 +11,12 @@
              :key="index">{{m}}</p>
         </div>
         <div class="dialog-buttons">
-          <button v-if="Types.info!==type"
-                  @click="cancel()"
+          <button v-if="!isInfoDialog"
+                  @click.stop="cancel()"
                   class="btn btn-default">{{cancelText}}</button>
-          <button @click="ok()"
-                  class="btn">{{okText}}</button>
+          <button @click.stop="ok()"
+                  class="btn"
+                  :class="{'btn-info':isInfoDialog}">{{okText}}</button>
         </div>
       </div>
     </div>
@@ -51,6 +53,9 @@ export default {
       }
       result.push(this.message);
       return result;
+    },
+    isInfoDialog() {
+      return this.type === Types.info;
     }
   },
   methods: {
@@ -58,13 +63,13 @@ export default {
       const { parentNode } = this.$el;
       let transitionendTriggered = false;
       this.$el.addEventListener('transitionend', () => {
-        parentNode.removeChild(this.$el);
+        parentNode?.removeChild(this.$el);
         transitionendTriggered = true;
       });
       // to fix transitionend not trigger
       this.timer = setTimeout(() => {
         if (!transitionendTriggered) {
-          parentNode.removeChild(this.$el);
+          parentNode?.removeChild(this.$el);
         }
       }, 500);
     },
@@ -77,9 +82,15 @@ export default {
       this.visible = false;
       this.close();
       this.callback.cancel && this.callback.cancel();
+    },
+    checkType() {
+      if (this.isInfoDialog) {
+        this.cancel();
+      }
     }
   },
   destroyed() {
+    clearTimeout(this.timer);
     this.timer = null;
   }
 };
@@ -106,6 +117,9 @@ export default {
     .dialog-buttons {
       display: flex;
       justify-content: center;
+      .btn-info {
+        min-width: 240px;
+      }
       button {
         width: auto;
         height: 38px;

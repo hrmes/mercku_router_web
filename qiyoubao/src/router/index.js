@@ -10,7 +10,6 @@ import internet from 'pages/bussiness/dashboard/internet.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
-import online from 'pages/bussiness/upgrade/online.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
 import superConfig from 'pages/bussiness/setting/super.vue';
@@ -28,9 +27,11 @@ import wanInitial from 'pages/bussiness/initial/wan.vue';
 import wifiInitial from 'pages/bussiness/initial/wifi.vue';
 import restore from 'pages/bussiness/advance/restore.vue';
 import gameAcceleration from 'pages/bussiness/advance/game.vue';
+import upgrade from 'pages/bussiness/upgrade/index.vue';
+import online from 'pages/bussiness/upgrade/online.vue';
+import offline from 'pages/bussiness/upgrade/offline.vue';
+import auto from 'pages/bussiness/upgrade/auto.vue';
 
-import auto from 'base/pages/bussiness/upgrade/auto.vue';
-import offline from 'base/pages/bussiness/upgrade/offline.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
@@ -161,7 +162,7 @@ const routes = {
       name: 'game.acceleration',
       component: gameAcceleration,
       meta: {
-        text: '游戏加速',
+        text: 'trans1265',
         layout: 'primary'
       }
     },
@@ -435,32 +436,45 @@ const routes = {
       }
     },
     {
-      path: '/system/upgrade/online',
-      name: 'online',
-      component: online,
+      path: '/system/upgrade',
+      name: 'upgrade',
+      component: upgrade,
+      redirect: '/system/upgrade/offline',
       meta: {
         layout: 'primary',
         hasAside: true
-      }
+      },
+      children: [
+        {
+          path: '/system/upgrade/online',
+          name: 'online',
+          component: online,
+          meta: {
+            layout: 'primary',
+            hasAside: true
+          }
+        },
+        {
+          path: '/system/upgrade/offline',
+          name: 'offline',
+          component: offline,
+          meta: {
+            layout: 'primary',
+            hasAside: true
+          }
+        },
+        {
+          path: '/system/upgrade/auto',
+          name: 'auto',
+          component: auto,
+          meta: {
+            layout: 'primary',
+            hasAside: true
+          }
+        }
+      ]
     },
-    {
-      path: '/system/upgrade/offline',
-      name: 'offline',
-      component: offline,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/system/upgrade/auto',
-      name: 'auto',
-      component: auto,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
+
     {
       path: '/system/log',
       name: 'system.log',

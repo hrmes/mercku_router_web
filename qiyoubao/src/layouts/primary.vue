@@ -97,7 +97,7 @@ export default {
     flex: 1;
     display: flex;
     .left-aside {
-      width: 15vw;
+      width: 14.5vw;
       margin-right: 10px;
       padding: 15px 15px 15px 0;
       ul {

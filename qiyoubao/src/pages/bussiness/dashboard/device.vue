@@ -4,7 +4,7 @@
       <div class="back-wrap">
         <div v-if="hasBackWrap"
              class="btn-container"
-             @click="onBack($route.meta.parentPath)">
+             @click.stop="onBack($route.meta.parentPath)">
           <i class="iconfont ic_back_large"></i>
         </div>
         <div v-if="isMobile"
@@ -65,7 +65,7 @@
                 <div>
                   <button class="btn btn-default btn-small"
                           :disabled="!offlineCheckedMacs.length"
-                          @click="delOfflineDevices(offlineCheckedMacs)">
+                          @click.stop="delOfflineDevices(offlineCheckedMacs)">
                     {{$t('trans0453')}}
                   </button>
                 </div>
@@ -102,7 +102,7 @@
               <div>
                 <button class="btn btn-default btn-small"
                         :disabled="!offlineCheckedMacs.length"
-                        @click="delOfflineDevices(offlineCheckedMacs)">
+                        @click.stop="delOfflineDevices(offlineCheckedMacs)">
                   {{$t('trans0033')}}</button>
               </div>
             </div>
@@ -169,7 +169,7 @@
                 <li class="delete"
                     v-if='isMobileRow(row.expand)'>
                   <span class="limit-icon"
-                        @click="()=>delOfflineDevices([row.mac])">
+                        @click.stop="()=>delOfflineDevices([row.mac])">
                     <i class="iconfont ic_trash"></i>
                     <span class="hover-popover"> {{$t('trans0033')}}</span>
                   </span>
@@ -321,20 +321,20 @@
                       <span class="hover-popover">{{$t('trans0014')}}</span>
                     </span>
                     <span class="limit-icon"
-                          @click="()=>forward2limit(row,'url')">
+                          @click.stop="()=>forward2limit(row,'url')">
                       <i class="url-limit iconfont ic_limit_website_off"
                          :class="{'active':isBlacklsitLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0076')}}</span>
                     </span>
                     <span class="limit-icon"
-                          @click="()=>setGameDevice(row)">
+                          @click.stop="()=>setGameDevice(row)">
                       <i class="set-game-device iconfont ic_device_game"
                          :class="{'active':isGameDevice(row)}"></i>
                       <span
                             class="hover-popover">{{isGameDevice(row)?$t('trans1271'):$t('trans1270')}}</span>
                     </span>
                     <span class="limit-icon"
-                          @click="()=>addToBlackList(row)">
+                          @click.stop="()=>addToBlackList(row)">
                       <i class="add-block iconfont ic_blocklist"></i>
                       <span class="hover-popover">{{$t('trans0016')}}</span>
                     </span>
@@ -380,9 +380,9 @@
           </m-form>
         </div>
         <div class="btn-inner">
-          <button @click="()=>modalShow=false"
+          <button @click.stop="()=>modalShow=false"
                   class="btn btn-default">{{$t('trans0025')}}</button>
-          <button @click="updateDeviceName"
+          <button @click.stop="updateDeviceName"
                   class="btn">{{$t('trans0024')}}</button>
         </div>
       </div>
@@ -399,10 +399,10 @@
                       :text="$t('trans1276')"></m-checkbox>
         </div>
         <div class="btn-inner">
-          <button @click="()=>cancelGameModeVisible=false"
+          <button @click.stop="()=>cancelGameModeVisible=false"
                   class="btn btn-default">{{$t('trans0025')}}</button>
           <button class="btn"
-                  @click="sendCancelGameMode">{{$t('trans0024')}}</button>
+                  @click.stop="sendCancelGameMode">{{$t('trans0024')}}</button>
         </div>
       </div>
     </m-modal>
@@ -419,10 +419,10 @@
         </div>
         <div class="
                       btn-inner">
-          <button @click="()=>enableGameModeVisible=false"
+          <button @click.stop="()=>enableGameModeVisible=false"
                   class="btn btn-default">{{$t('trans0025')}}</button>
           <button class="btn"
-                  @click="sendEnableGameMode">{{$t('trans0024')}}</button>
+                  @click.stop="sendEnableGameMode">{{$t('trans0024')}}</button>
         </div>
       </div>
     </m-modal>
@@ -457,9 +457,11 @@ export default {
       timer: null,
       form: { name: '' },
       bandMap: {
-        wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
-        '5g': this.$t('trans0256')
+        '5g': this.$t('trans0256'),
+        wired: this.$t('trans0253'),
+        game_wifi: this.$t('trans1267'),
+        game_wired: this.$t('trans1268')
       },
       speedLimitVisiable: false,
       currentMac: '',
@@ -550,7 +552,7 @@ export default {
       return row?.access_node?.name ?? '-';
     },
     isWired(row) {
-      return row.online_info.band === 'wired';
+      return row.online_info.band === 'wired' || row.online_info.band === 'game_wired';
     },
     isCurrentTab(tab) {
       return tab.id === this.id;
@@ -718,69 +720,16 @@ export default {
       if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
       try {
         const curId = this.id;
-        const res = await this.$http.getDeviceList(params);
+        const { data: { result: devicesInfo } } = await this.$http.getDeviceList(params);
         // const devicesInfo = {
-        //   devices: temp.data.result,
+        //   devices: res.data.result,
         //   add_game_dev_tip_disable: true,
         //   del_game_dev_tip_disable: false
         // };
         // devicesInfo.devices.forEach(item => {
         //   item.game_device = true;
+        //   item.online_info.band = 'game_wired';
         // });
-        // const devicesInfo = {
-        //   devices: [
-        //     {
-        //       mac: '000ec6ac8edf',
-        //       name: 'LAPTOP-HS5J1QO1',
-        //       connected_time: 0,
-        //       connected_network: {
-        //         type: 'primary'
-        //       },
-        //       ip: '192.168.127.149',
-        //       online_info: {
-        //         current_connected: true,
-        //         realtime_speed: {
-        //           up: 0,
-        //           down: 0
-        //         },
-        //         traffic: {
-        //           ul: 3699992,
-        //           dl: 2003392
-        //         },
-        //         band: 'wired',
-        //         online_duration: 4739
-        //       },
-        //       speed_limit: {
-        //         up: 0,
-        //         down: 0,
-        //         enabled: false
-        //       },
-        //       time_limit: [
-        //         {
-        //           id: '0',
-        //           time_begin: '00:00',
-        //           time_end: '23:59',
-        //           schedule: [
-        //             'Mon'
-        //           ],
-        //           enabled: false
-        //         }
-        //       ],
-        //       parent_control: {
-        //         mode: 'free',
-        //         blacklist: [],
-        //         whitelist: []
-        //       },
-        //       game_device: false,
-        //       access_node: {
-        //         sn: '110072343100003',
-        //         name: 'M6s-0003'
-        //       }
-        //     }
-        //   ],
-        //   add_game_dev_tip_disable: false,
-        //   del_game_dev_tip_disable: false
-        // };
 
         this.showLoading = false;
         if (curId === this.id) {
@@ -789,7 +738,6 @@ export default {
               this.getDeviceList();
             }, 15 * 1000);
           }
-          const devicesInfo = res.data.result;
 
           this.$store.state.set2GameModeTipDisabled = devicesInfo.add_game_dev_tip_disable;
           localStorage.setItem('set2GameModeTipDisabled', devicesInfo.add_game_dev_tip_disable);

@@ -47,7 +47,7 @@ export const WanType = {
   static: 'static',
   dhcp: 'dhcp',
   auto: 'auto',
-  wirelessDhcp: 'wireless_dhcp'
+  wisp: 'wisp'
 };
 export const WanNetStatus = {
   testing: 'testing',
@@ -64,7 +64,8 @@ export const RouterSnModel = {
   M6a: '08',
   Homeway: '09',
   M6s: '11',
-  M6s_Nano: '13'
+  M6s_Nano: '13',
+  X1_Pro: '15'
 };
 export const M6aRouterSnModelVersion = {
   M6a: '0',
@@ -150,7 +151,8 @@ export const Models = {
   homeway_POE1: 'M9R1',
   homeway_POE2: 'M9R2',
   m6s: 'M11R1',
-  m6s_nano: 'M13R0'
+  m6s_nano: 'M13R0',
+  x1_pro: 'M15R0'
 };
 export const HomewayFanModel = {
   game: 'game',

@@ -70,6 +70,7 @@ export default {
         break;
       case Models.m6s:
       case Models.m6s_nano:
+      case Models.x1_pro:
         encryptMethods = [
           {
             value: EncryptMethod.wpawpa2,

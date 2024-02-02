@@ -2,9 +2,9 @@
   <div class="page">
     <div v-if="$store.state.isMobile"
          class="page-header">
-      {{ $t('trans0202') }}
-      <div class="btn-info"
-           v-if="nodes.length">
+      <!-- {{ $t('trans0202') }} -->
+      <div v-if="nodes.length"
+           class="btn-info">
         <button class="btn btn-small"
                 @click="submit()">
           {{ $t('trans0225') }}
@@ -272,9 +272,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.page-header {
-  justify-content: space-between;
-}
 .nodes-wrapper {
   text-align: center;
   display: flex;
@@ -453,6 +450,12 @@ export default {
 @media screen and (max-width: 768px) {
   .page {
     width: 100vw;
+    .page-header {
+      height: fit-content;
+      justify-content: flex-end;
+      background: var(--common_card-bgc);
+      padding-bottom: 0;
+    }
   }
   .nodes-wrapper {
     .nodes-info {

@@ -246,26 +246,26 @@ export default function getMenu(role, mode = RouterMode.router) {
     selectedIcon: 'ic_upgrade_firmware_selected',
     text: 'trans1266',
     name: 'system',
-    url: '/system/upgrade/offline',
+    url: '/system/upgrade',
     children: [
       {
-        url: '/system/upgrade/offline',
-        name: 'offline',
-        text: 'trans0204',
+        url: '/system/upgrade',
+        name: 'upgrade',
+        text: 'trans0197',
         config
       },
-      {
-        url: '/system/upgrade/online',
-        name: 'online',
-        text: 'trans0202',
-        config
-      },
-      {
-        url: '/system/upgrade/auto',
-        name: 'auto',
-        text: 'trans0743',
-        config
-      },
+      // {
+      //   url: '/system/upgrade/online',
+      //   name: 'online',
+      //   text: 'trans0202',
+      //   config
+      // },
+      // {
+      //   url: '/system/upgrade/auto',
+      //   name: 'auto',
+      //   text: 'trans0743',
+      //   config
+      // },
       {
         url: '/system/log',
         name: 'system.log',
@@ -281,7 +281,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       {
         url: '/system/restore',
         name: 'system.restore',
-        text: '恢复出厂设置',
+        text: 'trans0205',
         config
       }
     ]

@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    mode: localStorage.getItem('mode'),
+    mode: 'router',
+    wanType: localStorage.getItem('wanType'),
     role: localStorage.getItem('role'),
     isMobile: true,
     hasTransition: true,

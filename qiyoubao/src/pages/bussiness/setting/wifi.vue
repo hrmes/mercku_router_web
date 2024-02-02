@@ -123,6 +123,53 @@
               </div>
             </m-form-item>
           </m-form>
+          <!-- wifi game -->
+          <m-form class="form card"
+                  ref="bGameForm"
+                  key="bGameform"
+                  :model="form"
+                  :rules="rules">
+            <div class="form-header">
+              <span class="form-header__title">{{`${$t('trans1260')} (5G)`}}</span>
+            </div>
+            <m-form-item key="bGamessid"
+                         prop="bGame.ssid">
+              <m-input v-model="form.bGame.ssid"
+                       :label="$t('trans0168')"
+                       type="text"
+                       :placeholder="`${$t('trans0321')}`"></m-input>
+            </m-form-item>
+            <m-form-item key="bGameencrypt">
+              <m-select :label="$t('trans0522')"
+                        v-model="form.bGame.encrypt"
+                        @change="(nv, ov) => onEncryptChange('bGame', nv, ov)"
+                        :options="encryptMethods"></m-select>
+            </m-form-item>
+
+            <m-form-item v-if="!isOpen('bGame')"
+                         key="bGamepassword"
+                         prop="bGame.password">
+              <m-input v-model="form.bGame.password"
+                       :label="$t('trans0172')"
+                       type="password"
+                       :placeholder="$t('trans0321')"></m-input>
+            </m-form-item>
+            <m-form-item class="check-info">
+              <m-checkbox v-model="form.bGame.hidden"
+                          :rect='false'
+                          :text="$t('trans0110')"
+                          :bold='true'
+                          style="margin-right:10px" />
+              <div class="tool">
+                <m-popover position="bottom left"
+                           :title="$t('trans0110')"
+                           :content="$t('trans0325')">
+                  <i class="iconfont ic_help"
+                     style="font-size:14px"></i>
+                </m-popover>
+              </div>
+            </m-form-item>
+          </m-form>
           <!-- channel -->
           <m-form class="form card"
                   ref="channelForm"
@@ -133,20 +180,20 @@
             </div>
             <m-form-item key="b24gchannelnumber">
               <m-select :label="$t('trans0680')"
-                        :disabled="isAutoChannel || isWirelessBridge"
+                        :disabled="isAutoChannel || isWisp"
                         v-model="form.channel.b24gChannel.number"
                         :options="channels.b24g"></m-select>
             </m-form-item>
             <m-form-item key="b5gchannelnumber">
               <m-select :label="$t('trans0681')"
-                        :disabled="isAutoChannel || isWirelessBridge"
+                        :disabled="isAutoChannel || isWisp"
                         v-model="form.channel.b5gChannel.number"
                         :options="channels.b5g"></m-select>
             </m-form-item>
             <m-form-item key="autochannel"
                          class="check-info">
               <m-switch v-model="isAutoChannel"
-                        :disabled="isWirelessBridge"
+                        :disabled="isWisp"
                         @change="()=>isAutoChannel!=isAutoChannel"
                         :label="$t('trans0781')"
                         :bold="false" />
@@ -209,8 +256,9 @@ import {
   isFieldHasComma,
   isFieldHasSpaces
 } from 'base/util/util';
-import { EncryptMethod, Bands, channelMode, RouterMode } from 'base/util/constant';
+import { EncryptMethod, Bands, channelMode, RouterMode, WanType } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
+
 
 export default {
   mixins: [encryptMix],
@@ -226,6 +274,12 @@ export default {
           encrypt: EncryptMethod.wpa2
         },
         b5g: {
+          ssid: '',
+          password: '',
+          hidden: false,
+          encrypt: EncryptMethod.wpa2
+        },
+        bGame: {
           ssid: '',
           password: '',
           hidden: false,
@@ -250,17 +304,20 @@ export default {
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
-          },
-          {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1021')
-          }
+          },
+          {
+            rule: value => {
+              console.log('ssid24g Bytes is', getStringByte(value.trim()));
+              return getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31;
+            },
+            message: this.$t('trans1255')
+          },
         ],
         'b24g.password': [
           {
@@ -272,8 +329,8 @@ export default {
             message: this.$t('trans1020')
           },
           {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
+            rule: value => isValidPassword(value, 8, 31),
+            message: this.$t('trans0118')
           }
         ],
         'b5g.ssid': [
@@ -282,17 +339,20 @@ export default {
             message: this.$t('trans0237')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
-          },
-          {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1021')
-          }
+          },
+          {
+            rule: value => {
+              console.log('ssid5g Bytes is', getStringByte(value.trim()));
+              return getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31;
+            },
+            message: this.$t('trans1255')
+          },
         ],
         'b5g.password': [
           {
@@ -304,8 +364,40 @@ export default {
             message: this.$t('trans1020')
           },
           {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
+            rule: value => isValidPassword(value, 8, 31),
+            message: this.$t('trans0118')
+          }
+        ],
+        'bGame.ssid': [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0237')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
+          },
+          {
+            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
+            message: this.$t('trans1255')
+          },
+        ],
+        'bGame.password': [
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
+            rule: value => isValidPassword(value, 8, 31),
+            message: this.$t('trans0118')
           }
         ]
       },
@@ -374,8 +466,8 @@ export default {
     }
   },
   computed: {
-    isWirelessBridge() {
-      return RouterMode.wirelessBridge === this.$store.state.mode;
+    isWisp() {
+      return this.$store.state.wanType === WanType.wisp;
     },
   },
   mounted() {
@@ -396,36 +488,50 @@ export default {
           }
         });
       }
+      if (nv === EncryptMethod.open) {
+        this.form[path].password = '';
+      }
     },
     changeSmartConnect() {
       const { form } = this;
-      form.b5g.hidden = form.b24g.hidden;
       form.b5g.ssid = form.smart_connect
         ? form.b24g.ssid
         : `${form.b24g.ssid}_5G`;
       form.b5g.password = form.b24g.password;
       form.b5g.encrypt = form.b24g.encrypt;
+      form.b5g.hidden = form.b24g.hidden;
     },
     isOpen(band) {
       return this.form[band].encrypt === EncryptMethod.open;
     },
     submit() {
       const validResult1 = this.$refs.b24gForm.validate();
-      if (!validResult1) {
+      const validResult2 = this.$refs.bGameForm.validate();
+      if (!validResult1 || !validResult2) {
         return;
       }
 
       if (!this.form.smart_connect) {
-        const validResult2 = this.$refs.b5gForm.validate();
-        if (!validResult2) {
+        // 双频合一关闭,对 5G form 进行校验
+        const validResult3 = this.$refs.b5gForm.validate();
+        if (!validResult3) {
           return;
         }
-
-        if (this.form.b24g.ssid === this.form.b5g.ssid) {
-          this.$toast(this.$t('trans0660'), 2000, 'error');
+        // 双频合一关闭，三个wifi ssid(2.4G 5G Game)都不可相同
+        if (this.form.b24g.ssid === this.form.b5g.ssid ||
+          this.form.b24g.ssid === this.form.bGame.ssid ||
+          this.form.b5g.ssid === this.form.bGame.ssid) {
+          this.$toast(this.$t('trans1258'), 2000, 'error');
           return;
         }
+      } else if (
+        // 双频合一开启,只校验2.4G ssid 和 Game ssid 不可相同
+        this.form.b24g.ssid === this.form.bGame.ssid
+      ) {
+        this.$toast(this.$t('trans1258'), 2000, 'error');
+        return;
       }
+
 
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -433,7 +539,7 @@ export default {
         message: this.$t('trans0229'),
         callback: {
           ok: () => {
-            this.$loading.open();
+            // this.$loading.open();
 
             const b24g = this.mapBandData(
               this.form.b24g,
@@ -448,29 +554,35 @@ export default {
               this.form.channel.b5gChannel
             );
 
+            const bGame = this.mapBandData(
+              this.form.bGame,
+              this.form.channel.b5gChannel
+            );
+
             const wifi = {
               smart_connect: this.form.smart_connect,
               compatibility_mode: this.form.compatibility_mode,
               tx_power: this.form.wifiTxPower,
-              bands: { [Bands.b24g]: b24g, [Bands.b5g]: b5g }
+              bands: { [Bands.b24g]: b24g, [Bands.b5g]: b5g, [Bands.bGame]: bGame }
             };
+            console.log(wifi);
 
-            this.$http
-              .meshWifiUpdate(wifi)
-              .then(() => {
-                this.$reconnect({
-                  onsuccess: () => {
-                    this.$router.push({ path: '/dashboard' });
-                  },
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  },
-                  timeout: 30
-                });
-              })
-              .finally(() => {
-                this.$loading.close();
-              });
+            // this.$http
+            //   .meshWifiUpdate(wifi)
+            //   .then(() => {
+            //     this.$reconnect({
+            //       onsuccess: () => {
+            //         this.$router.push({ path: '/dashboard' });
+            //       },
+            //       ontimeout: () => {
+            //         this.$router.push({ path: '/unconnect' });
+            //       },
+            //       timeout: 30
+            //     });
+            //   })
+            //   .finally(() => {
+            //     this.$loading.close();
+            //   });
           }
         }
       });
@@ -504,6 +616,13 @@ export default {
           this.form.b5g.encrypt = b5g.encrypt;
           this.form.b5g.password = b5g.password;
           this.form.b5g.hidden = b5g.hidden;
+
+          // Game
+          const bGame = wifi.bands[Bands.bGame] || {};
+          this.form.bGame.ssid = bGame.ssid || '';
+          this.form.bGame.encrypt = bGame.encrypt || 'open';
+          this.form.bGame.password = bGame.password || '';
+          this.form.bGame.hidden = bGame.hidden || false;
 
           // channel
           this.form.channel.b24gChannel.number = b24g.channel.number;

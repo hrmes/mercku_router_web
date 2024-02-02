@@ -74,7 +74,7 @@
           </li>
           <li class="nav-item nav-item__exit">
             <div class="nav-item-content"
-                 @click="exit()">
+                 @click.stop="exit()">
               <div class="nav-item__text">{{$t('trans0021')}}</div>
             </div>
 

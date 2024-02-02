@@ -8,6 +8,7 @@
   "policy": "https://ljbweb.qiyou.cn/#/privacy",
   "allow2LevelAdmin": false,
   "languages": ["zh-CN", "en-US"],
+  "defaultLanguage": "zh-CN",
   "wifi": "QiYou Wi-Fi",
   "deviceID": "QiYou",
   "foundingYear": 2014,

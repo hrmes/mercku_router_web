@@ -305,7 +305,7 @@ export default {
                 var(--common_card-bgc),
                 var(--common_card-bgc)
               ),
-              linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+              var(--checkbox_checked-bgc);
           }
         }
       }

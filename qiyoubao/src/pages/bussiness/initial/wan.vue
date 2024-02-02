@@ -93,8 +93,8 @@
 
               </div>
             </m-form>
-            <m-form key="wireless_dhcp-form"
-                    v-if="isWirelessDhcp"
+            <m-form key="wisp-form"
+                    v-if="isWisp"
                     ref="upperApForm"
                     :model="upperApForm"
                     :rules="upperApFormRules">
@@ -115,7 +115,7 @@
                                              :loading="selectIsLoading"
                                              :loadingText="loadingText"
                                              v-model="upperApForm.ssid" />
-                    <span @click="()=>modalShow=true"
+                    <span @click.stop="()=>modalShow=true"
                           class="btn-icon">
                       <button class="btn btn-default btn-small">
                         <span class="add-icon"></span>
@@ -147,32 +147,32 @@
     </div>
     <m-modal :visible.sync="modalShow"
              :type="'confirm'"
-             class="add-upper-manully-modal">
+             class="add-upper-manual-modal">
       <div class="content">
         <div class="content-header">
           {{$t('trans1253')}}
         </div>
         <div class="content-form">
-          <m-form ref="manualUpperForm"
-                  :model="manualUpperForm"
-                  :rules='wirelessDhcpRules'>
+          <m-form ref="manualWispForm"
+                  :model="manualWispForm"
+                  :rules='manualWispRules'>
             <m-form-item prop="ssid">
               <m-input :label="$t('trans0168')"
                        type="text"
                        :placeholder="$t('trans0321')"
-                       v-model="manualUpperForm.ssid" />
+                       v-model="manualWispForm.ssid" />
             </m-form-item>
             <m-form-item prop="security">
               <m-select :label="$t('trans0522')"
                         :placeholder="$t('trans1182')"
-                        v-model="manualUpperForm.security"
+                        v-model="manualWispForm.security"
                         :options="encryptMethods"
                         @change="(nv, ov) => onEncryptChange(nv, ov)" />
             </m-form-item>
             <m-form-item prop="band">
               <m-select :label="$t('trans0111')"
                         :placeholder="$t('trans1182')"
-                        v-model="manualUpperForm.band"
+                        v-model="manualWispForm.band"
                         :options="bandOptions" />
             </m-form-item>
             <m-form-item v-if="!upperEncryptIsOpen"
@@ -180,12 +180,12 @@
               <m-input :label="$t('trans0003')"
                        type="password"
                        :placeholder="$t('trans0321')"
-                       v-model="manualUpperForm.password" />
+                       v-model="manualWispForm.password" />
             </m-form-item>
           </m-form>
         </div>
         <div class="btn-inner">
-          <button @click="()=>modalShow=false"
+          <button @click.stop="()=>modalShow=false"
                   class="btn btn-default">{{$t('trans0025')}}</button>
           <button class="btn"
                   @click="submitManualUpperForm">{{$t('trans0018')}}</button>
@@ -203,11 +203,10 @@ import {
   isLoopback,
   isValidMask,
   ipReg,
-  isFieldHasSpaces,
   getStringByte,
   isValidPassword
 } from 'base/util/util';
-import SettingUpperAp from 'base/mixins/setting-upperAp';
+import wispSettingUpper from '@/mixins/wisp_setting_upper';
 
 import radioCardGroup from '@/component/radioCardGroup';
 import scanUpperSelect from '@/component/scanUpperSelect';
@@ -218,7 +217,7 @@ function checkDNS(value) {
 const DefaultConfig = JSON.stringify({ type: WanType.dhcp });
 
 export default {
-  mixins: [SettingUpperAp],
+  mixins: [wispSettingUpper],
   components: {
     'qiyou-radio-card-group': radioCardGroup,
     'qiyou-scan-upper-select': scanUpperSelect
@@ -228,7 +227,6 @@ export default {
       InitialImg,
       isChecking: true,
       netType: WanType.dhcp,
-      modalShow: false,
       options: [
         {
           value: 'dhcp',
@@ -243,7 +241,7 @@ export default {
           text: this.$t('trans0148')
         },
         {
-          value: 'wireless_dhcp',
+          value: 'wisp',
           text: this.$t('trans1242')
         }
       ],
@@ -257,14 +255,6 @@ export default {
       pppoeForm: {
         account: '',
         password: '',
-        dns1: '',
-        dns2: ''
-      },
-      manualUpperForm: {
-        ssid: '',
-        password: '',
-        band: '2.4G',
-        security: EncryptMethod.wpa2
       },
       pppoeRules: {
         account: [
@@ -340,32 +330,6 @@ export default {
           }
         ]
       },
-      wirelessDhcpRules: {
-        ssid: [
-          {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0232')
-          }
-        ],
-        password: [
-          {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0232')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => isValidPassword(value, 8, 128),
-            message: this.$t('trans1252')
-          },
-        ]
-      },
-      bandOptions: [
-        { value: '2.4G', text: '2.4G' },
-        { value: '5G', text: '5G' }
-      ],
       encryptMethods: [
         {
           value: EncryptMethod.wpawpa2,
@@ -406,12 +370,6 @@ export default {
     isStatic() {
       return this.netType === WanType.static;
     },
-    isWirelessDhcp() {
-      return this.netType === WanType.wirelessDhcp;
-    },
-    upperEncryptIsOpen() {
-      return this.manualUpperForm.security === EncryptMethod.open;
-    }
   },
   mounted() {
     this.checkInternetAccess();
@@ -447,11 +405,14 @@ export default {
           message: this.$t('trans0692'),
           callback: {
             cancel: () => {
-              this.manualUpperForm.security = ov;
+              this.manualWispForm.security = ov;
               console.log('cancel', ov);
             }
           }
         });
+      }
+      if (nv === EncryptMethod.open) {
+        this.manualWispForm.password = '';
       }
     },
     checkInternetAccess() {
@@ -485,7 +446,7 @@ export default {
             }
           } = res;
           switch (wanStatus) {
-            case WanNetStatus.unconnect:
+            case WanNetStatus.connected:
               localStorage.setItem('wanConfig', DefaultConfig);
               this.$router.replace({ path: '/initial/wifi' });
               break;
@@ -515,8 +476,8 @@ export default {
           dns2: this.netInfo.static.netinfo.dns[1] || ''
         };
       }
-      if (this.isWirelessDhcp) {
-        this.echoWirelessDhcp(this.netInfo.wireless_dhcp);
+      if (this.isWisp) {
+        this.echoWisp(this.netInfo.wisp);
       }
     },
     storeWanConfig() {
@@ -552,9 +513,9 @@ export default {
           }
 
           break;
-        case WanType.wirelessDhcp:
+        case WanType.wisp:
           if (this.$refs.upperApForm.validate()) {
-            form.wireless_dhcp = this.upperApForm;
+            form.wisp = this.upperApForm;
             this.$dialog.confirm({
               okText: this.$t('trans0024'),
               cancelText: this.$t('trans0025'),
@@ -579,16 +540,16 @@ export default {
       }
       this.$router.replace({ path: '/initial/wifi' });
     },
-    echoWirelessDhcp(option) {
+    echoWisp(option) {
       this.pwdDisabled =
         option.security === EncryptMethod.OPEN ||
         option.security === EncryptMethod.open;
       this.upperApForm = option;
     },
     submitManualUpperForm() {
-      if (this.$refs.manualUpperForm.validate()) {
+      if (this.$refs.manualWispForm.validate()) {
         const form = { type: this.netType };
-        form.wireless_dhcp = this.manualUpperForm;
+        form.wisp = this.manualWispForm;
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
@@ -780,7 +741,7 @@ export default {
     }
   }
 }
-.add-upper-manully-modal {
+.add-upper-manual-modal {
   .content {
     display: flex;
     flex-direction: column;
