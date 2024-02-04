@@ -6,14 +6,14 @@
            v-if="showChooseType">
         <p class="tips__text">{{$t('trans0364')}}</p>
         <ul class="type__list">
-          <li class="wired__wrap">
+          <!-- <li class="wired__wrap">
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wired')">
               <span class="tips__text">{{$t('trans1112')}}</span>
               <img src="@/assets/images/icon/ic_mesh_add_wired.png"
                    alt="">
             </div>
-          </li>
+          </li> -->
           <li class="wireless__wrap">
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wireless')">
