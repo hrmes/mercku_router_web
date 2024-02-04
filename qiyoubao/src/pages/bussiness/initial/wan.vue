@@ -330,28 +330,6 @@ export default {
           }
         ]
       },
-      encryptMethods: [
-        {
-          value: EncryptMethod.wpawpa2,
-          text: this.$t('trans0557')
-        },
-        {
-          value: EncryptMethod.wpa2,
-          text: this.$t('trans0556')
-        },
-        {
-          value: EncryptMethod.wpa3,
-          text: this.$t('trans0572')
-        },
-        {
-          value: EncryptMethod.wpa2wpa3,
-          text: this.$t('trans0573')
-        },
-        {
-          value: EncryptMethod.open,
-          text: this.$t('trans0554')
-        }
-      ],
     };
   },
   computed: {
@@ -396,24 +374,6 @@ export default {
         this.staticForm.gateway,
         this.staticForm.mask
       );
-    },
-    onEncryptChange(nv, ov) {
-      if (nv === EncryptMethod.wpa3) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          message: this.$t('trans0692'),
-          callback: {
-            cancel: () => {
-              this.manualWispForm.security = ov;
-              console.log('cancel', ov);
-            }
-          }
-        });
-      }
-      if (nv === EncryptMethod.open) {
-        this.manualWispForm.password = '';
-      }
     },
     checkInternetAccess() {
       this.$http
@@ -477,7 +437,7 @@ export default {
         };
       }
       if (this.isWisp) {
-        this.echoWisp(this.netInfo.wisp);
+        this.echoWisp(this.netInfo.wisp.apclient);
       }
     },
     storeWanConfig() {
@@ -515,7 +475,9 @@ export default {
           break;
         case WanType.wisp:
           if (this.$refs.upperApForm.validate()) {
-            form.wisp = this.upperApForm;
+            form.wisp = {
+              apclient: this.upperApForm
+            };
             this.$dialog.confirm({
               okText: this.$t('trans0024'),
               cancelText: this.$t('trans0025'),
@@ -533,6 +495,7 @@ export default {
       }
     },
     next2WifiInitial(config) {
+      console.log(config);
       if (config) {
         localStorage.setItem('wanConfig', JSON.stringify(config));
       } else {
@@ -549,7 +512,7 @@ export default {
     submitManualUpperForm() {
       if (this.$refs.manualWispForm.validate()) {
         const form = { type: this.netType };
-        form.wisp = this.manualWispForm;
+        form.wisp.apclient = this.manualWispForm;
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),

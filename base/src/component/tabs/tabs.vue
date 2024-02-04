@@ -26,6 +26,7 @@ export default {};
     border-radius: 20px;
     box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
     transition: background 0.3s ease-in-out;
+    user-select: none;
     .iconfont {
       color: var(--tab-icon-color);
     }

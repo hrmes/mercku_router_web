@@ -137,7 +137,7 @@
             <div class="info-container wifi-game">
               <div class="info">
                 <div class="info__row">
-                  <div class="info__title">{{$t('trans0924')}}:</div>
+                  <div class="info__title">{{$t('trans1296')}}:</div>
                   <div class="info__value">{{wifiForm.ssidGame}}</div>
                 </div>
                 <div class="info__row">

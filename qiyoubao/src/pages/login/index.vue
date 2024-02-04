@@ -12,7 +12,7 @@
            :class="{'light':isLightClass,'dark':isDrakClass}">
         <div class="form">
           <div class="welcome-text">
-            <h4>欢迎使用奇游联机宝路由器</h4>
+            <h4>{{$t('trans0136')}}</h4>
             <h3>{{modelName}}</h3>
           </div>
           <div class="loading"
@@ -42,7 +42,7 @@
               </div>
               <div class="form-item">
                 <span class="forget-pwd"
-                      @click.stop="forgetPwdTip">{{$t('trans0058')}}?</span>
+                      @click.stop="forgetPwdTip">{{$t('trans1040')}}</span>
               </div>
             </div>
           </div>

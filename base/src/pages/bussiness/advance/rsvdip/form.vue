@@ -151,7 +151,7 @@ export default {
         })
       ]).then(([res1, res2]) => {
         const deviceMacBindedArr = res1.data.result.map(item => item.mac);
-        this.devices = res2.data.result.filter(
+        this.devices = res2.data.result.devices.filter(
           v => !deviceMacBindedArr.includes(v.mac)
         );
       });

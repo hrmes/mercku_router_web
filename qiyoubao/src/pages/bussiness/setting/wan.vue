@@ -14,6 +14,10 @@
                 {{ networkArr[localNetInfo.type] }}
               </span>
             </div>
+            <div v-if="isWisp">
+              <label class="with-colon">{{ $t('trans1291') }}:</label>
+              <span>{{wispStatus[wispRepeaterStatus]}}</span>
+            </div>
             <div>
               <label class="with-colon">{{ $t('trans0151') }}:</label>
               <span>{{ localNetInfo.netinfo.ip }}</span>
@@ -43,6 +47,9 @@
                         v-model="netType"
                         :options="options"></m-select>
               <div class="des-tips">{{ netNote[netType] }}</div>
+              <div v-if="isWisp"
+                   class="des-tips"
+                   style="margin-top:0px">{{ $t('trans1211') }}</div>
             </m-form-item>
             <m-form key="dhcp-form"
                     v-if="isDhcp"
@@ -272,7 +279,7 @@ import {
   getStringByte,
   isValidPassword
 } from 'base/util/util';
-import { WanType } from 'base/util/constant';
+import { WanType, EncryptMethod, RepeaterStatus } from 'base/util/constant';
 import wispSettingUpper from '@/mixins/wisp_setting_upper';
 
 import scanUpperSelect from '@/component/scanUpperSelect';
@@ -292,7 +299,7 @@ export default {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),
         pppoe: this.$t('trans0154'),
-        wisp: '123'
+        wisp: this.$t('trans1249')
       },
       networkArr: {
         '-': '-',
@@ -421,6 +428,15 @@ export default {
         ]
       },
       dhcpRules: {},
+      wispStatus: {
+        connected: this.$t('trans1293'),
+        connecting: this.$t('trans1295'),
+        failed: this.$t('trans1294'),
+        checking: this.$t('trans0564')
+      },
+      wispRepeaterStatus: RepeaterStatus.checking,
+      wispRepeaterStatsTimer: null,
+      pageActive: true
     };
   },
   watch: {
@@ -543,9 +559,33 @@ export default {
       this.$http
         .getWanNetInfo()
         .then(res => {
+          // res.data.result = {
+          //   type: 'wisp',
+          //   netinfo: {
+          //     ip: '10.70.109.226',
+          //     mask: '255.255.0.0',
+          //     gateway: '10.70.0.1',
+          //     dns: [
+          //       '10.70.0.1'
+          //     ]
+          //   },
+          //   wisp: {
+          //     apclient: {
+          //       ssid: 'upper_ssid', // 必选
+          //       password: '12345567', // 可选
+          //       bssid: 'uppder_mac', // 必选
+          //       channel: 40, // 必选
+          //       band: '2.4G', // 必选
+          //       security: 'wpa2', // 必选
+          //       rssi: 100 // 可选,上级无线信号的强度,当前是百分比表示.扫描SSID时必选,其他情况不传
+          //     }
+          //   }
+          // };
           if (res.data.result) {
             this.netInfo = res.data.result;
             this.netType = this.netInfo.type;
+            this.$store.state.wanType = this.netInfo.type;
+            localStorage.setItem('wanType', this.netInfo.type);
             if (this.isDhcp) {
               if (this.netInfo.dhcp && this.netInfo.dhcp.dns.length) {
                 this.autodns.dhcp = false;
@@ -571,6 +611,13 @@ export default {
                 dns2: this.netInfo.static.netinfo.dns[1] || ''
               };
             }
+            if (this.isWisp) {
+              this.createIntervalTask();
+              this.upperApForm = this.netInfo.wisp.apclient;
+              this.pwdDisabled =
+                this.netInfo.wisp.apclient.security === EncryptMethod.OPEN ||
+                this.netInfo.wisp.apclient.security === EncryptMethod.open;
+            }
           }
         })
         .finally(() => {
@@ -578,7 +625,7 @@ export default {
         });
     },
     save(params) {
-      console.log(params);
+      console.log('save', params);
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
@@ -588,7 +635,7 @@ export default {
             this.$http.meshWanUpdate(params).then(() => {
               this.$reconnect({
                 onsuccess: () => {
-                  this.$router.push({ path: '/dashboard' });
+                  this.$router.push({ path: '/login' });
                 },
                 ontimeout: () => {
                   this.$router.push({ path: '/unconnect' });
@@ -649,10 +696,64 @@ export default {
           }
           this.save(form);
           break;
+        case WanType.wisp:
+          if (!this.$refs.upperApForm.validate()) {
+            return;
+          }
+          form.wisp.apclient = this.upperApForm;
+          this.save(form);
+          break;
         default:
           break;
       }
+    },
+    submitManualUpperForm() {
+      if (this.$refs.manualWispForm.validate()) {
+        const form = { type: this.netType, vlan: [] };
+        form.wisp.apclient = this.manualWispForm;
+        this.save(form);
+      }
+    },
+    createIntervalTask() {
+      if (this.isWisp) {
+        this.getMeshRepeaterStatus();
+      }
+    },
+    getMeshRepeaterStatus() {
+      clearTimeout(this.wispRepeaterStatsTimer);
+      this.wispRepeaterStatsTimer = null;
+      this.$http
+        .getMeshRepeaterStatus(undefined, { hideToast: true })
+        .then(res => {
+          const {
+            data: {
+              result: { status }
+            }
+          } = res;
+          this.wispRepeaterStatus = status;
+          if (this.pageActive) {
+            this.wispRepeaterStatsTimer = setTimeout(() => {
+              this.getMeshRepeaterStatus();
+            }, 10000);
+          }
+        })
+        .catch(() => {
+          this.wispRepeaterStatus = RepeaterStatus.checking;
+          if (this.pageActive) {
+            this.wispRepeaterStatsTimer = setTimeout(() => {
+              this.getMeshRepeaterStatus();
+            }, 10000);
+          }
+        });
+    },
+    clearIntervalTask() {
+      clearTimeout(this.wispRepeaterStatsTimer);
+      this.wispRepeaterStatsTimer = null;
     }
+  },
+  beforeDestroy() {
+    this.pageActive = false;
+    this.clearIntervalTask();
   }
 };
 </script>

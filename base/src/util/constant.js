@@ -55,6 +55,12 @@ export const WanNetStatus = {
   linked: 'linked',
   unlinked: 'unlinked'
 };
+export const RepeaterStatus = {
+  connected: 'connected',
+  connecting: 'connecting',
+  failed: 'failed',
+  checking: 'checking'
+};
 export const RouterSnModel = {
   AC: '00',
   M2: '01',

@@ -62,7 +62,7 @@
               </ul>
             </transition>
           </li>
-          <li v-if="!isWirelessBridge"
+          <li v-if="!isWisp"
               class="nav-item nav-item__exit add-node">
             <div class="nav-item-content"
                  @click.stop="forward2Page('/mesh/add')">
@@ -121,11 +121,11 @@
             {{$t(menu.text)}}
           </div>
         </li>
-        <li class="nav-item nav-item__add-node">
+        <li v-if="!isWisp"
+            class="nav-item nav-item__add-node">
           <div class="nav-item-content"
                :data-title="$t('trans0194')">
             <button class="btn btn-small"
-                    :class="{'disabled':isWirelessBridge}"
                     @click.stop="jumpAddNode">
               <span class="add-icon"></span>
             </button>
@@ -203,7 +203,7 @@
 <script>
 import Velocity from 'velocity-animate';
 import languageMixin from 'base/mixins/language';
-import { RouterMode } from 'base/util/constant';
+import { WanType } from 'base/util/constant';
 
 export default {
   mixins: [languageMixin],
@@ -271,8 +271,8 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    isWirelessBridge() {
-      return RouterMode.wirelessBridge === this.$store.state.mode;
+    isWisp() {
+      return this.$store.state.wanType === WanType.wisp;
     }
   },
   watch: {
@@ -445,7 +445,7 @@ export default {
       }
     },
     jumpAddNode() {
-      if (this.isWirelessBridge) return;
+      if (this.isWisp) return;
       this.$router.push('/mesh/add');
     },
   },

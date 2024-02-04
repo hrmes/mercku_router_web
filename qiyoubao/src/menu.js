@@ -99,7 +99,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       {
         url: '/setting/led/switch',
         name: 'led.switch',
-        text: 'LED开关灯',
+        text: 'trans0779',
         config
       }
       // {
@@ -117,19 +117,19 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const game = {
-    icon: 'ic_home_settings_light',
-    selectedIcon: 'ic_home_settings_selected',
+    icon: 'ic_device_game',
+    selectedIcon: 'ic_game_mode_selected',
     text: 'trans1265',
     name: 'game.acceleration',
     url: '/game/acceleration',
     children: []
   };
   const devices = {
-    icon: 'ic_home_settings_light',
-    selectedIcon: 'ic_home_settings_selected',
+    icon: 'ic_devices',
+    selectedIcon: 'ic_devices_selected',
     text: 'trans0235',
     name: 'devices',
-    url: '/access/devices/primary',
+    url: '/access/devices',
     children: []
   };
   const advance = {
@@ -242,8 +242,8 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const system = {
-    icon: 'ic_upgrade_firmware_light',
-    selectedIcon: 'ic_upgrade_firmware_selected',
+    icon: 'ic_system',
+    selectedIcon: 'ic_system_selected',
     text: 'trans1266',
     name: 'system',
     url: '/system/upgrade',
@@ -254,18 +254,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0197',
         config
       },
-      // {
-      //   url: '/system/upgrade/online',
-      //   name: 'online',
-      //   text: 'trans0202',
-      //   config
-      // },
-      // {
-      //   url: '/system/upgrade/auto',
-      //   name: 'auto',
-      //   text: 'trans0743',
-      //   config
-      // },
       {
         url: '/system/log',
         name: 'system.log',

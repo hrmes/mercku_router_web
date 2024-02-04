@@ -11,7 +11,7 @@
                  :href="transWebsite('trans0338')"
                  target="_blank">
                 {{ transWebsite('trans0338') }}</a>
-              <span>&nbsp;{{ $t('trans0377') }}</span>
+              <span>&nbsp;{{ $t('trans0346') }}</span>
             </p>
             <p>
               2.

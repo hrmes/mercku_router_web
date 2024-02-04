@@ -149,6 +149,11 @@
                   <label class="item__label">{{$t('trans0317')}}</label>
                   <span class="item__value">{{networkArr[localNetInfo.type]}}</span>
                 </div>
+                <div v-if="isWisp"
+                     class="item">
+                  <label class="item__label">{{$t('trans1291')}}</label>
+                  <span class="item__value">{{wispStatus[wispRepeaterStatus]}}</span>
+                </div>
                 <div class="item">
                   <label class="item__label">{{$t('trans0152')}}</label>
                   <span class="item__value">{{localNetInfo.netinfo.mask}}</span>
@@ -213,7 +218,7 @@
   </div>
 </template>
 <script>
-import { SpeedTestStatus, RouterMode, WanNetStatus } from 'base/util/constant';
+import { SpeedTestStatus, RouterMode, WanNetStatus, WanType, RepeaterStatus } from 'base/util/constant';
 import { formatBandWidth } from 'base/util/util';
 import speedTestMixin from 'base/mixins/speed-test';
 
@@ -230,6 +235,7 @@ export default {
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144'),
         auto: this.$t('trans0696'),
+        wisp: this.$t('trans1242'),
         failObtain: this.$t('trans1058')
       },
       testTimeout: 60,
@@ -252,6 +258,14 @@ export default {
         gateway: '-',
         dns: '-'
       },
+      wispStatus: {
+        connected: this.$t('trans1293'),
+        connecting: this.$t('trans1295'),
+        failed: this.$t('trans1294'),
+        checking: this.$t('trans0564')
+      },
+      wispRepeaterStatus: RepeaterStatus.checking,
+      wispRepeaterStatsTimer: null,
     };
   },
   created() {
@@ -274,6 +288,9 @@ export default {
     },
     isRouter() {
       return RouterMode.router === this.$store.state.mode;
+    },
+    isWisp() {
+      return this.$store.state.wanType === WanType.wisp;
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
@@ -425,14 +442,6 @@ export default {
       return formatBandWidth(this.localSpeedInfo.speed.up);
     },
   },
-  watch: {
-    '$store.state.mode': function watcher() {
-      this.clearIntervalTask();
-      if (this.isRouter) {
-        this.createIntervalTask();
-      }
-    },
-  },
   methods: {
     onBack(target) {
       if (target) {
@@ -458,6 +467,10 @@ export default {
     clearIntervalTask() {
       clearTimeout(this.wanNetStatsTimer);
       this.wanNetStatsTimer = null;
+      clearInterval(this.uptimeTimer);
+      this.uptimeTimer = null;
+      clearInterval(this.wispRepeaterStatsTimer);
+      this.wispRepeaterStatsTimer = null;
     },
     speedTest(force = false) {
       this.$http
@@ -533,7 +546,32 @@ export default {
         .then(res => {
           this.wanInfoTimer = null;
           clearTimeout(this.wanInfoTimer);
+          // this.netInfo = {
+          //   type: 'wisp',
+          //   netinfo: {
+          //     ip: '10.70.109.226',
+          //     mask: '255.255.0.0',
+          //     gateway: '10.70.0.1',
+          //     dns: [
+          //       '10.70.0.1'
+          //     ]
+          //   },
+          //   wisp: {
+          //     ssid: 'upper_ssid', // 必选
+          //     password: '12345567', // 可选
+          //     bssid: 'uppder_mac', // 必选
+          //     channel: 40, // 必选
+          //     band: '2.4G', // 必选
+          //     security: 'wpa2', // 必选
+          //     rssi: 100 // 可选,上级无线信号的强度,当前是百分比表示.扫描SSID时必选,其他情况不传
+          //   }
+          // };
           this.netInfo = res.data.result;
+          this.$store.state.wanType = this.netInfo.type;
+          localStorage.setItem('wanType', this.netInfo.type);
+          if (this.isWisp) {
+            this.getMeshRepeaterStatus();
+          }
         })
         .catch(() => {
           this.wanInfoTimer = setTimeout(() => {
@@ -592,12 +630,37 @@ export default {
         });
       return true;
     },
+    getMeshRepeaterStatus() {
+      clearTimeout(this.wispRepeaterStatsTimer);
+      this.wispRepeaterStatsTimer = null;
+      this.$http
+        .getMeshRepeaterStatus(undefined, { hideToast: true })
+        .then(res => {
+          const {
+            data: {
+              result: { status }
+            }
+          } = res;
+          this.wispRepeaterStatus = status;
+          if (this.pageActive) {
+            this.wispRepeaterStatsTimer = setTimeout(() => {
+              this.getMeshRepeaterStatus();
+            }, 10000);
+          }
+        })
+        .catch(() => {
+          this.wispRepeaterStatus = RepeaterStatus.checking;
+          if (this.pageActive) {
+            this.wispRepeaterStatsTimer = setTimeout(() => {
+              this.getMeshRepeaterStatus();
+            }, 10000);
+          }
+        });
+    },
   },
   beforeDestroy() {
     this.pageActive = false;
     this.clearIntervalTask();
-    clearInterval(this.uptimeTimer);
-    this.uptimeTimer = null;
   }
 };
 </script>

@@ -258,7 +258,7 @@ export default {
       },
       pageStatus: '',
       nodes: [],
-      addTimeout: 90,
+      addTimeout: 10,
       showHelpDialog: false,
       showTipsDialog: false,
       showWirelessMeshTipsDialog: false,

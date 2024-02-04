@@ -165,7 +165,7 @@
       var(--common_card-bgc),
       var(--common_card-bgc)),
     linear-gradient(to right, #2a74ef, #6dbfed);
-  --step_item_number-completed-bgc: linear-gradient(to right, #2a74ef, #6dbfed);
+  --step_item_number-completed-bgc: linear-gradient(to right, #2a74ef, #6dbfed), linear-gradient(to right, #2a74ef, #6dbfed);
   --step_item_number-complete-shadow: 0 4px 10px -5px #6dbfed;
   // switch
   --switch-bgc: #b8b7b8;

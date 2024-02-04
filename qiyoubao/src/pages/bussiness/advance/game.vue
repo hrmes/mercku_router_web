@@ -91,7 +91,7 @@ export default {
     width: 600px;
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: 120px 175px 300px;
+    grid-template-rows: repeat(3, auto);
     grid-row-gap: 10px;
     > div {
       display: flex;
@@ -102,6 +102,7 @@ export default {
         font-size: 18px;
         font-weight: 600;
         color: var(--text_default-color);
+        margin-bottom: 5px;
       }
       .sub-title {
         font-size: 14px;
@@ -131,6 +132,10 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
+        .sub-title {
+          display: flex;
+          flex-wrap: wrap;
+        }
         .link {
           position: relative;
           .jump-app-info {
@@ -142,15 +147,14 @@ export default {
             justify-content: space-between;
             align-items: center;
             align-self: flex-end;
-            width: 210px;
             padding: 10px 10px 10px 20px;
             border-radius: 10px;
             background: var(--dashboard_app-bgc);
             box-shadow: 0px 5px 15px 3px rgba(0, 0, 0, 0.2);
             .text-container {
               color: var(--text_default-color);
-              width: 95px;
-              // height: 40px;
+              width: 100px;
+              margin-right: 10px;
             }
             .icon {
               width: 70px;
@@ -190,6 +194,9 @@ export default {
     .row-2 {
       flex-direction: column;
       justify-content: space-between;
+      .flex-bottom {
+        margin-top: 10px;
+      }
       .btn {
         width: 240px;
       }
@@ -208,9 +215,10 @@ export default {
         align-items: center;
         border-radius: 7px;
         background-color: var(--mesh_table_header-bgc);
+        padding: 10px;
         > img {
-          width: 90%;
-          height: 90%;
+          width: 100%;
+          aspect-ratio: 1;
         }
       }
     }

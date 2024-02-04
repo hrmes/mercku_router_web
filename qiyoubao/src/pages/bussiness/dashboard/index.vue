@@ -490,7 +490,7 @@ export default {
 
         const params = { filters: [{ type: 'primary', status: ['online'] }] };
         const res2 = await this.$http.getDeviceList(params);
-        const deviceList = res2.data.result;
+        const deviceList = res2.data.result.devices;
 
         const localDeviceInfoArr = deviceList.filter(
           item => item.ip === selfInfo.ip

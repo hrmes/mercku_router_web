@@ -282,7 +282,7 @@ export default {
       ])
         .then(([res1, res2]) => {
           if (!this.deviceModalVisible) {
-            this.devices = res1.data.result
+            this.devices = res1.data.result.devices
               .map(d => ({
                 ...d,
                 checked: false

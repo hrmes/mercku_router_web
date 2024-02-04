@@ -2,14 +2,16 @@
   <div class="device">
     <div class="device-wrapper">
       <div class="back-wrap">
-        <div v-if="hasBackWrap"
-             class="btn-container"
-             @click.stop="onBack($route.meta.parentPath)">
-          <i class="iconfont ic_back_large"></i>
+        <div class="text-container"
+             v-if="hasBackWrap">
+          <div class="btn-container"
+               @click.stop="onBack($route.meta.parentPath)">
+            <i class="iconfont ic_back_large"></i>
+          </div>
+          <div v-if="isMobile"
+               class="text-container">{{pageName}}</div>
         </div>
-        <div v-if="isMobile"
-             class="text-container">{{pageName}}</div>
-        <m-tabs v-if="!isMobile">
+        <m-tabs>
           <m-tab :key="tab.id"
                  @click.native="tabChange(tab.id)"
                  v-for="tab in tabs"
@@ -20,16 +22,6 @@
           </m-tab>
         </m-tabs>
       </div>
-      <m-tabs v-if="isMobile">
-        <m-tab :key="tab.id"
-               @click.native="tabChange(tab.id)"
-               v-for="tab in tabs"
-               :class="{'selected':isCurrentTab(tab)}">
-          <i class="iconfont icon"
-             :class="tab.icon"></i>
-          <span> {{tab.text}}</span>
-        </m-tab>
-      </m-tabs>
       <div class="table-inner">
         <div class="off-more-message"
              v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60">
@@ -330,8 +322,7 @@
                           @click.stop="()=>setGameDevice(row)">
                       <i class="set-game-device iconfont ic_device_game"
                          :class="{'active':isGameDevice(row)}"></i>
-                      <span
-                            class="hover-popover">{{isGameDevice(row)?$t('trans1271'):$t('trans1270')}}</span>
+                      <span class="hover-popover">{{$t('trans1270')}}</span>
                     </span>
                     <span class="limit-icon"
                           @click.stop="()=>addToBlackList(row)">
@@ -503,7 +494,8 @@ export default {
       return macs;
     },
     id() {
-      return this.$route.params.id;
+      console.log(this.$route);
+      return this.$route.params.id || 'primary';
     },
     isRouter() {
       return RouterMode.router === this.$store.state.mode;
@@ -1129,6 +1121,11 @@ export default {
   }
   .device-wrapper {
     flex: 1;
+    .back-wrap {
+      .text-container {
+        display: flex;
+      }
+    }
     .table-inner {
       margin-top: 10px;
       position: relative;
@@ -1513,6 +1510,16 @@ export default {
       transform: none;
     }
     .device-wrapper {
+      .back-wrap {
+        height: auto;
+        flex-wrap: wrap;
+        .text-container {
+          margin-bottom: 10px;
+        }
+        .tabs {
+          flex-basis: 100%;
+        }
+      }
       .table-inner {
         .table-body {
           ul {

@@ -95,7 +95,7 @@ export default {
       return !visible;
     },
     menus() {
-      return getMenu(this.$store.state.role, this.$store.state.mode);
+      return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.wanType);
     },
     header() {
       return document.querySelector('#header');

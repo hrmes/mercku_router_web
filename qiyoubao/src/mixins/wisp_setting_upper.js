@@ -63,6 +63,28 @@ export default {
         { value: '2.4G', text: '2.4G' },
         { value: '5G', text: '5G' }
       ],
+      encryptMethods: [
+        {
+          value: EncryptMethod.wpawpa2,
+          text: this.$t('trans0557')
+        },
+        {
+          value: EncryptMethod.wpa2,
+          text: this.$t('trans0556')
+        },
+        {
+          value: EncryptMethod.wpa3,
+          text: this.$t('trans0572')
+        },
+        {
+          value: EncryptMethod.wpa2wpa3,
+          text: this.$t('trans0573')
+        },
+        {
+          value: EncryptMethod.open,
+          text: this.$t('trans0554')
+        }
+      ],
       originalUpperList: [],
       processedUpperApList: [],
       pwdDisabled: true,
@@ -107,7 +129,7 @@ export default {
               },
               {
                 rule: value => isValidPassword(value, 8, 128),
-                message: this.$t('trans1220')
+                message: this.$t('trans1252')
               }
             ]
           };
@@ -229,7 +251,7 @@ export default {
       const {
         ssid,
         bssid,
-        password,
+        password = '',
         channel,
         band,
         security,
@@ -245,6 +267,24 @@ export default {
         rssi
       };
       console.log('upperAp', this.upperApForm);
+    },
+    onEncryptChange(nv, ov) {
+      if (nv === EncryptMethod.wpa3) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0692'),
+          callback: {
+            cancel: () => {
+              this.manualWispForm.security = ov;
+              console.log('cancel', ov);
+            }
+          }
+        });
+      }
+      if (nv === EncryptMethod.open) {
+        this.manualWispForm.password = '';
+      }
     }
   }
 };

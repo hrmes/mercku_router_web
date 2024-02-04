@@ -77,6 +77,7 @@
            v-if="!$store.state.isMobile && hasUpgradablityNodes">
         <div class="form-button__wrapper">
           <button class="btn"
+                  :disabled="!nodeChecked"
                   @click="submit()">
             {{ $t('trans0225') }}
           </button>
@@ -143,6 +144,9 @@ export default {
         }
         return 0;
       });
+    },
+    nodeChecked() {
+      return this.nodes.filter(n => n.checked).length;
     }
   },
   mixins: [RouterModel],

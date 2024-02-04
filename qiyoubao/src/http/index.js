@@ -13,7 +13,8 @@ const methods = {
   getMeshLogsSetting: createMethod('mesh.logs.setting.get'),
   updateMeshLogsSetting: createMethod('mesh.logs.setting.update'),
   updateMeshEnabled: createMethod('mesh_mode_cfg'),
-  setMeshDeviceToGameMode: createMethod('mesh.device.game.set')
+  setMeshDeviceToGameMode: createMethod('mesh.device.game.set'),
+  getMeshRepeaterStatus: createMethod('mesh.repeater.status.get')
 };
 
 class M6sHttp extends Http {}
