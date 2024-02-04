@@ -297,7 +297,9 @@ export default {
       bandMap: {
         wired: this.$t('trans0253'),
         '2.4g': this.$t('trans0255'),
-        '5g': this.$t('trans0256')
+        '5g': this.$t('trans0256'),
+        game_wifi: this.$t('trans1267'),
+        game_wired: this.$t('trans1268')
       },
       ConnectionQualityMap: {
         excellent: this.$t('trans0193'),

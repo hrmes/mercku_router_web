@@ -633,6 +633,7 @@ export default {
         callback: {
           ok: () => {
             this.$http.meshWanUpdate(params).then(() => {
+              localStorage.setItem('wanType', params.type);
               this.$reconnect({
                 onsuccess: () => {
                   this.$router.push({ path: '/login' });

@@ -884,6 +884,7 @@ export default {
       this.cancelGameModeVisible = false;
       this.$http.setMeshDeviceToGameMode(params)
         .then(() => {
+          this.$toast(this.$t('trans0040'), 2000, 'success');
           this.getDeviceList();
         });
     },
@@ -897,6 +898,7 @@ export default {
       this.enableGameModeVisible = false;
       this.$http.setMeshDeviceToGameMode(params)
         .then(() => {
+          this.$toast(this.$t('trans0040'), 2000, 'success');
           this.getDeviceList();
         });
     },

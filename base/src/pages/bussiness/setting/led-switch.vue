@@ -13,7 +13,7 @@
                         class="smart-connect__switch"
                         v-model="enabled"
                         @change="updateLEDStatus" />
-              <div class="des-tips">{{$t('trans0777')}}</div>
+              <!-- <div class="des-tips">{{$t('trans0777')}}</div> -->
             </m-form-item>
           </div>
         </div>

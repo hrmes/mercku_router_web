@@ -446,7 +446,7 @@ export default {
         this.isLoading = true;
         // 提交表单;
         this.$http
-          .updateMeshConfig(config)
+          .updateMeshConfig({ config })
           .then(() => {
             this.stepOption.current = 1;
             this.stepOption.steps[1].success = true;
