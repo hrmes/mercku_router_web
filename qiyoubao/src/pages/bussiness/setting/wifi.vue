@@ -209,14 +209,12 @@
             </div>
             <m-form-item key="b24gbandwidth">
               <m-select :label="$t('trans0783')"
-                        :disabled="isWirelessBridge"
                         v-model="form.channel.b24gChannel.bandwidth"
                         :options="bandwidths.b24g"></m-select>
             </m-form-item>
             <m-form-item key="b5gbandwidth-1"
                          class="last">
               <m-select :label="$t('trans0784')"
-                        :disabled="isWirelessBridge"
                         v-model="form.channel.b5gChannel.bandwidth"
                         :options="bandwidths.b5g"></m-select>
             </m-form-item>
@@ -256,7 +254,7 @@ import {
   isFieldHasComma,
   isFieldHasSpaces
 } from 'base/util/util';
-import { EncryptMethod, Bands, channelMode, RouterMode, WanType } from 'base/util/constant';
+import { EncryptMethod, Bands, channelMode, WanType } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 
@@ -539,7 +537,7 @@ export default {
         message: this.$t('trans0229'),
         callback: {
           ok: () => {
-            // this.$loading.open();
+            this.$loading.open();
 
             const b24g = this.mapBandData(
               this.form.b24g,
@@ -567,22 +565,22 @@ export default {
             };
             console.log(wifi);
 
-            // this.$http
-            //   .meshWifiUpdate(wifi)
-            //   .then(() => {
-            //     this.$reconnect({
-            //       onsuccess: () => {
-            //         this.$router.push({ path: '/dashboard' });
-            //       },
-            //       ontimeout: () => {
-            //         this.$router.push({ path: '/unconnect' });
-            //       },
-            //       timeout: 30
-            //     });
-            //   })
-            //   .finally(() => {
-            //     this.$loading.close();
-            //   });
+            this.$http
+              .meshWifiUpdate(wifi)
+              .then(() => {
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$router.push({ path: '/dashboard' });
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  },
+                  timeout: 30
+                });
+              })
+              .finally(() => {
+                this.$loading.close();
+              });
           }
         }
       });

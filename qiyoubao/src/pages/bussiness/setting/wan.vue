@@ -700,7 +700,9 @@ export default {
           if (!this.$refs.upperApForm.validate()) {
             return;
           }
-          form.wisp.apclient = this.upperApForm;
+          form.wisp = {
+            apclient: this.upperApForm
+          };
           this.save(form);
           break;
         default:
@@ -710,7 +712,9 @@ export default {
     submitManualUpperForm() {
       if (this.$refs.manualWispForm.validate()) {
         const form = { type: this.netType, vlan: [] };
-        form.wisp.apclient = this.manualWispForm;
+        form.wisp = {
+          apclient: this.manualWispForm
+        };
         this.save(form);
       }
     },
