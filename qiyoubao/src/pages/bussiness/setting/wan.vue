@@ -633,7 +633,11 @@ export default {
         callback: {
           ok: () => {
             this.$http.meshWanUpdate(params).then(() => {
+              this.$store.state.wanType = params.type;
               localStorage.setItem('wanType', params.type);
+              if (!this.isWisp) {
+                this.clearIntervalTask();
+              }
               this.$reconnect({
                 onsuccess: () => {
                   this.$router.push({ path: '/login' });
