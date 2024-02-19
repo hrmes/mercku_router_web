@@ -506,6 +506,8 @@ export default {
         callback: {
           ok: () => {
             this.$http.resetMeshNode({ node_ids: resetRouterSNArr }).then(() => {
+              this.pageActive = false;
+              this.clearIntervalTask();
               this.$reconnect({
                 timeout: 120,
                 delayTime: 10,

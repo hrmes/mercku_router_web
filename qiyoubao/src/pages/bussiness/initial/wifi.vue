@@ -239,7 +239,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0169')
+            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
           }
         ],
         ssidGame: [
@@ -276,7 +276,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0169')
+            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
           }
         ],
         passwordAdmin: [
@@ -290,7 +290,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0169')
+            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
           }
         ]
       },
@@ -324,55 +324,6 @@ export default {
     this.$http
       .getMeshMeta()
       .then(res => {
-        // const wifi = {
-        //   bands: {
-        //     '2.4G': {
-        //       ssid: 'MERCKU-0F4C',
-        //       password: '',
-        //       encrypt: 'open',
-        //       crypt: 'none',
-        //       enabled: true,
-        //       hidden: false,
-        //       mode: 'ap',
-        //       channel: {
-        //         mode: 'manual',
-        //         number: 11,
-        //         bandwidth: 40
-        //       }
-        //     },
-        //     '5G': {
-        //       ssid: 'MERCKU-0F4C-5G',
-        //       password: '',
-        //       encrypt: 'open',
-        //       crypt: 'none',
-        //       enabled: true,
-        //       hidden: false,
-        //       mode: 'ap',
-        //       channel: {
-        //         mode: 'manual',
-        //         number: 40,
-        //         bandwidth: 80
-        //       }
-        //     },
-        //     Game: {
-        //       ssid: 'MERCKU-0F4C-Game',
-        //       password: '',
-        //       encrypt: 'open',
-        //       crypt: 'none',
-        //       enabled: true,
-        //       hidden: false,
-        //       mode: 'ap',
-        //       channel: {
-        //         mode: 'manual',
-        //         number: 40,
-        //         bandwidth: 80
-        //       }
-        //     }
-        //   },
-        //   smart_connect: false,
-        //   compatibility_mode: false,
-        //   tx_power: 'high'
-        // };
         const wifi = res.data.result;
         const b24g = wifi.bands[Bands.b24g];
         const bGame = wifi.bands[Bands.bGame];
@@ -441,8 +392,6 @@ export default {
           wan: JSON.parse(localStorage.getItem('wanConfig'))
         };
         console.log(config);
-        this.stepOption.current = 1;
-        this.stepOption.steps[1].success = true;
         this.isLoading = true;
         // 提交表单;
         this.$http

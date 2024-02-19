@@ -334,7 +334,7 @@ export default {
   },
   computed: {
     needCheck() {
-      return this.$route.params.needCheck;
+      return this.$route.params.needCheck || this.$route.params.needCheck === undefined;
     },
     isMobile() {
       return this.$store.state.isMobile;

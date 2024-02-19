@@ -392,7 +392,7 @@ export default {
     },
     showTips() {
       if (this.isConnected) {
-        this.$toast('Internet online', 1500, 'success');
+        this.$toast(this.$t('trans1190'), 1500, 'success');
       } else {
         this.tipsModalVisible = true;
       }

@@ -1,8 +1,8 @@
 {
   "id": "0059",
   "title": "QiYou",
-  "host": "http://ljbwifi.com",
-  "accept": ".ma",
+  "host": "http://admin.ljbwifi.com",
+  "accept": ".qy",
   "favicon": "customer-conf/0059/favicon.ico",
   "agreement": "https://ljbweb.qiyou.cn/#/protocol",
   "policy": "https://ljbweb.qiyou.cn/#/privacy",
@@ -25,6 +25,5 @@
   "website": {
     "url": "https://www.qiyou.cn/main/ljb-overview",
     "text": "www.qiyou.cn"
-  },
-  "appDownloadUrl": "http://onelink.to/mn4tgv"
+  }
 }

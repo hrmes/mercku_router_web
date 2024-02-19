@@ -733,19 +733,23 @@ export default {
       flex-direction: column;
       .theme-option {
         flex: 1;
+        width: 100%;
+        aspect-ratio: unset;
         display: flex;
         align-items: center;
-        width: 50px;
         margin-bottom: 10px;
         margin-left: 20px;
         img {
+          width: 50px;
+          height: 80px;
           margin-left: 10px;
           margin-right: 20px;
         }
         .checkbox {
           &.static {
+            width: fit-content;
             top: 50%;
-            left: 0;
+            left: -10px;
             transform: translate(-50%, -50%);
           }
         }

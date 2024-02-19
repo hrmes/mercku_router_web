@@ -11,8 +11,8 @@ import wan from 'pages/bussiness/setting/wan.vue';
 import wifi from 'pages/bussiness/setting/wifi.vue';
 import unconnect from 'pages/error/unconnect/index.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
+import safe from 'pages/bussiness/setting/safe.vue';
 import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
-import superConfig from 'pages/bussiness/setting/super.vue';
 import telnet from 'pages/bussiness/advance/telnet.vue';
 import tr069 from 'pages/bussiness/advance/tr069.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
@@ -36,7 +36,6 @@ import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
-import safe from 'base/pages/bussiness/setting/safe.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
 import dmz from 'base/pages/bussiness/advance/dmz.vue';
@@ -120,7 +119,7 @@ const routes = {
     },
     {
       path: '/access/devices/:id?',
-      name: 'device',
+      name: 'devices',
       component: device,
       meta: {
         text: 'trans0235',
@@ -223,15 +222,6 @@ const routes = {
       path: '/setting/safe',
       name: 'safe',
       component: safe,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/setting/super',
-      name: 'super',
-      component: superConfig,
       meta: {
         layout: 'primary',
         hasAside: true

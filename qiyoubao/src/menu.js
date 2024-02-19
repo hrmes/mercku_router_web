@@ -59,20 +59,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         config
       },
       {
-        url: '/setting/super',
-        name: 'super',
-        text: 'trans0576',
-        config,
-        customers: {
-          [Customers.mercku]: {
-            show: false
-          },
-          [Customers.qiyou]: {
-            show: false
-          }
-        }
-      },
-      {
         text: 'trans0020',
         name: 'blacklist',
         url: '/setting/blacklist',

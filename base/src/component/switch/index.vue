@@ -90,7 +90,7 @@ export default {
       &::before {
         content: '\e6b5';
         font-family: 'iconfont';
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 600;
         color: var(--switch_off_icon-color);
       }
