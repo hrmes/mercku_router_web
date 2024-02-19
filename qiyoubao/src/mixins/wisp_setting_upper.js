@@ -1,4 +1,8 @@
-import { isValidPassword, isFieldHasSpaces } from 'base/util/util';
+import {
+  isValidPassword,
+  isFieldHasSpaces,
+  getStringByte
+} from 'base/util/util';
 import { EncryptMethod, WanType } from 'base/util/constant';
 
 const LoadingStatus = {
@@ -42,6 +46,10 @@ export default {
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => getStringByte(value) <= 32,
+            message: this.$t('trans0261')
           }
         ],
         password: [
