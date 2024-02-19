@@ -89,8 +89,7 @@
             <h6 class="sub-text internet-type">{{networkTypeArr[netInfo.type]}}</h6>
           </div>
           <div class="row-2">
-            <div v-if="isRouter"
-                 class="speed">
+            <div class="speed">
               <div class="speed-info upload">
                 <div class="speed-icon-wrap">
                   <img src="@/assets/images/icon/ic_upload.png"
@@ -117,12 +116,6 @@
                   <div class="text-wrap">{{$t('trans0007')}}</div>
                 </div>
               </div>
-            </div>
-            <div v-else
-                 class="bridge-mode-tip">
-              <img v-if="!isMobile"
-                   src="../../../assets/images/img-bridge.png">
-              <span>{{$t('trans0984')}}</span>
             </div>
           </div>
         </div>
@@ -215,7 +208,7 @@
                v-html="tips"></div>
         </div>
       </m-modal-body>
-      <m-modal-footer v-if="isRouter">
+      <m-modal-footer>
         <div class="form-button">
           <button class="btn btn-dialog-confirm"
                   @click="forward2page('/setting/wan')">{{$t('trans0601')}}</button>
@@ -226,7 +219,7 @@
 </template>
 <script>
 import marked from 'marked';
-import { WanNetStatus, RouterMode } from 'base/util/constant';
+import { WanNetStatus } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import editMeshMixin from 'base/mixins/mesh-edit.js';
 
@@ -243,6 +236,7 @@ export default {
       deviceCountTimer: null,
       wanInfoTimer: null,
       wanNetStatsTimer: null,
+      wanStatusTimer: null,
       tipsModalVisible: false,
       localDeviceInfo: {
         name: this.$t('trans0278'),
@@ -272,8 +266,10 @@ export default {
         dhcp: this.$t('trans0146'),
         static: this.$t('trans0148'),
         pppoe: this.$t('trans0144'),
-        auto: this.$t('trans0696')
-      }
+        auto: this.$t('trans0696'),
+        wisp: this.$t('trans1242')
+      },
+      firstEntry: true
     };
   },
   computed: {
@@ -294,9 +290,6 @@ export default {
       });
       return result;
     })(),
-    isRouter() {
-      return RouterMode.router === this.$store.state.mode;
-    },
     tips() {
       return marked(this.$t('trans0574'), { sanitize: true });
     },
@@ -321,16 +314,10 @@ export default {
   mounted() {
     this.getWanNetInfo();
     this.createIntercvalTask();
-    this.getWanStatus();
     this.getLocalDeviceInfo();
     this.getMeshInfo();
   },
   watch: {
-    '$store.mode': function watcher() {
-      console.log(`watch task...mode is:${this.$store.mode}`);
-      this.clearIntervalTask();
-      this.createIntercvalTask();
-    },
     netStatus: {
       handler(val) {
         this.$store.state.isConnected = val === WanNetStatus.connected;
@@ -403,15 +390,31 @@ export default {
     createIntercvalTask() {
       console.log(`createInterval task...mode is:${this.$store.state.mode}`);
       this.getDeviceCount();
-      if (this.isRouter) {
-        this.getWanNetStats();
-      }
+      this.getWanNetStats();
+      this.getWanStatusWrapperFunc();
     },
     clearIntervalTask() {
       clearTimeout(this.deviceCountTimer);
       this.deviceCountTimer = null;
       clearTimeout(this.wanNetStatsTimer);
       this.wanNetStatsTimer = null;
+      clearTimeout(this.wanStatusTimer);
+      this.wanStatusTimer = null;
+    },
+    async getWanNetInfo() {
+      try {
+        const res = await this.$http.getWanNetInfo();
+        this.netInfo.type = res.data.result.type || '-';
+
+        clearTimeout(this.wanInfoTimer);
+        this.wanInfoTimer = null;
+      } catch {
+        if (!this.wanInfoTimer) {
+          this.wanInfoTimer = setTimeout(() => {
+            this.getWanNetInfo();
+          }, 1000 * 3);
+        }
+      }
     },
     async getMeshInfo() {
       try {
@@ -435,50 +438,6 @@ export default {
       } finally {
         this.meshLoading = false;
       }
-    },
-    async getDeviceCount() {
-      clearTimeout(this.deviceCountTimer);
-
-      try {
-        const res = await this.$http.getDeviceCount({
-          filters: [
-            { type: 'primary', status: ['online'] },
-            { type: 'guest', status: ['online'] }
-          ]
-        });
-
-        this.deviceCount = res.data.result.count;
-      } catch (error) {
-        console.error('Error fetching device count:', error);
-      } finally {
-        if (this.pageActive) {
-          this.deviceCountTimer = setTimeout(() => {
-            this.getDeviceCount();
-          }, 10000);
-        }
-      }
-    },
-    getWanStatus() {
-      this.netStatus = WanNetStatus.testing;
-      const timer = setTimeout(() => {
-        this.$http
-          .getWanStatus()
-          .then(res => {
-            clearTimeout(timer);
-            this.netStatus = res.data.result.status;
-            if (
-              this.isConnected &&
-              this.pageActive &&
-              this.needCheckUpgradable
-            ) {
-              this.checkFirmwareLatest();
-            }
-          })
-          .catch(() => {
-            clearTimeout(timer);
-            this.netStatus = WanNetStatus.unlinked;
-          });
-      }, 1000);
     },
     async getLocalDeviceInfo() {
       try {
@@ -505,23 +464,29 @@ export default {
         this.deviceLoading = false;
       }
     },
-    async getWanNetInfo() {
-      try {
-        const res = await this.$http.getWanNetInfo();
-        this.netInfo.type = res.data.result.type || '-';
+    async getDeviceCount() {
+      clearTimeout(this.deviceCountTimer);
+      this.deviceCountTimer = null;
 
-        clearTimeout(this.wanInfoTimer);
-        this.wanInfoTimer = null;
-      } catch {
-        if (!this.wanInfoTimer) {
-          this.wanInfoTimer = setTimeout(() => {
-            this.getWanNetInfo();
-          }, 1000 * 3);
+      try {
+        const res = await this.$http.getDeviceCount({
+          filters: [
+            { type: 'primary', status: ['online'] },
+          ]
+        });
+        if (this.pageActive) {
+          this.deviceCount = res.data.result.count;
+          this.deviceCountTimer = setTimeout(() => {
+            this.getDeviceCount();
+          }, 10000);
         }
+      } catch (error) {
+        console.error('Error fetching device count:', error);
       }
     },
     async getWanNetStats() {
       clearTimeout(this.wanNetStatsTimer);
+      this.wanNetStatsTimer = null;
 
       try {
         const res = await this.$http.getWanNetStats();
@@ -539,6 +504,40 @@ export default {
           }, 10000);
         }
       }
+    },
+    getWanStatusWrapperFunc() {
+      if (this.firstEntry) {
+        this.netStatus = WanNetStatus.testing;
+        this.firstEntry = false;
+        setTimeout(() => {
+          this.getWanStatus();
+        }, 1000);
+      } else {
+        this.getWanStatus();
+      }
+      if (this.pageActive) {
+        this.wanStatusTimer = setTimeout(() => {
+          this.getWanStatusWrapperFunc();
+        }, 10000);
+      }
+      if (
+        this.isConnected &&
+        this.pageActive &&
+        this.needCheckUpgradable
+      ) {
+        this.needCheckUpgradable = false;
+        this.checkFirmwareLatest();
+      }
+    },
+    getWanStatus() {
+      this.$http
+        .getWanStatus()
+        .then(res => {
+          this.netStatus = res.data.result.status;
+        })
+        .catch(() => {
+          this.netStatus = WanNetStatus.unlinked;
+        });
     },
     transformDate(date) {
       if (!date) {
@@ -917,30 +916,6 @@ h6 {
                 width: 60%;
                 height: 60%;
               }
-              // &::before {
-              //   content: '';
-              //   display: block;
-              //   height: 2px;
-              //   border-radius: 2px;
-              //   width: 10px;
-              //   background: var(--text_default-color);
-              //   position: absolute;
-              //   top: 50%;
-              //   left: 50%;
-              //   transform: translate(-50%, -50%) rotate(45deg);
-              // }
-              // &::after {
-              //   content: '';
-              //   display: block;
-              //   height: 2px;
-              //   border-radius: 2px;
-              //   width: 10px;
-              //   background: var(--text_default-color);
-              //   position: absolute;
-              //   top: 50%;
-              //   left: 50%;
-              //   transform: translate(-50%, -50%) rotate(-45deg);
-              // }
             }
           }
         }
@@ -997,23 +972,6 @@ h6 {
       }
       .text-wrap {
         color: var(--common_gery-color);
-      }
-      .bridge-mode-tip {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 95%;
-        margin-top: 5%;
-        border-radius: 5px;
-        font-size: 16px;
-        background-color: var(--common_sub_card-bgc);
-        img {
-          width: 120px;
-          height: 120px;
-          margin-bottom: 10px;
-        }
       }
     }
     .functional {
@@ -1281,13 +1239,6 @@ h6 {
           }
           .speed-unit {
             font-size: 18px;
-          }
-        }
-        .bridge-mode-tip {
-          font-size: 16px;
-          margin-top: 0;
-          span {
-            margin: 30px 0;
           }
         }
       }

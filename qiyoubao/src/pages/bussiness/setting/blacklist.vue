@@ -24,7 +24,7 @@
                 {{ $t('trans0033') }}
               </button>
               <button class="btn btn-primary btn-small"
-                      @click.stop="deviceModalVisible = !deviceModalVisible">
+                      @click.stop="showDeviceModalVisible">
                 {{ $t('trans0035') }}
               </button>
             </div>
@@ -117,7 +117,7 @@
   </div>
 </template>
 <script>
-import { formatMac } from '../../../util/util';
+import { formatMac } from 'base/util/util';
 
 export default {
   data() {
@@ -274,10 +274,6 @@ export default {
         this.$http.getDeviceList({
           filters: [
             { type: 'primary', status: ['online'] },
-            {
-              type: 'guest',
-              status: ['online']
-            }
           ]
         }),
         this.$http.getLocalDevice()
@@ -348,6 +344,10 @@ export default {
       this.devices.forEach(device => {
         device.checked = val;
       });
+    },
+    showDeviceModalVisible() {
+      this.getDeviceList();
+      this.deviceModalVisible = true;
     }
   }
 };

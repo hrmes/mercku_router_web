@@ -14,7 +14,7 @@
                 {{ networkArr[localNetInfo.type] }}
               </span>
             </div>
-            <div v-if="isWisp">
+            <div v-if="isStaticWisp">
               <label class="with-colon">{{ $t('trans1291') }}:</label>
               <span>{{wispStatus[wispRepeaterStatus]}}</span>
             </div>
@@ -281,7 +281,6 @@ import {
 } from 'base/util/util';
 import { WanType, EncryptMethod, RepeaterStatus } from 'base/util/constant';
 import wispSettingUpper from '@/mixins/wisp_setting_upper';
-
 import scanUpperSelect from '@/component/scanUpperSelect';
 
 function checkDNS(value) {
@@ -506,6 +505,9 @@ export default {
     isDhcp() {
       return this.netType === WanType.dhcp;
     },
+    isStaticWisp() {
+      return this.netInfo.type === WanType.wisp;
+    },
     localNetInfo() {
       const local = {
         type: '-',
@@ -518,6 +520,10 @@ export default {
       };
       if (this.netInfo && this.netInfo.netinfo) {
         local.type = this.netInfo.type || '-';
+        if (this.isStaticWisp &&
+          this.wispRepeaterStatus !== RepeaterStatus.connected) {
+          return local;
+        }
         local.netinfo.ip = this.netInfo.netinfo.ip || '-';
         local.netinfo.mask = this.netInfo.netinfo.mask || '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
@@ -559,28 +565,6 @@ export default {
       this.$http
         .getWanNetInfo()
         .then(res => {
-          // res.data.result = {
-          //   type: 'wisp',
-          //   netinfo: {
-          //     ip: '10.70.109.226',
-          //     mask: '255.255.0.0',
-          //     gateway: '10.70.0.1',
-          //     dns: [
-          //       '10.70.0.1'
-          //     ]
-          //   },
-          //   wisp: {
-          //     apclient: {
-          //       ssid: 'upper_ssid', // 必选
-          //       password: '12345567', // 可选
-          //       bssid: 'uppder_mac', // 必选
-          //       channel: 40, // 必选
-          //       band: '2.4G', // 必选
-          //       security: 'wpa2', // 必选
-          //       rssi: 100 // 可选,上级无线信号的强度,当前是百分比表示.扫描SSID时必选,其他情况不传
-          //     }
-          //   }
-          // };
           if (res.data.result) {
             this.netInfo = res.data.result;
             this.netType = this.netInfo.type;
@@ -632,12 +616,11 @@ export default {
         message: this.$t('trans0229'),
         callback: {
           ok: () => {
+            this.$loading.open();
             this.$http.meshWanUpdate(params).then(() => {
               this.$store.state.wanType = params.type;
               localStorage.setItem('wanType', params.type);
-              if (!this.isWisp) {
-                this.clearIntervalTask();
-              }
+              this.clearIntervalTask();
               this.$reconnect({
                 onsuccess: () => {
                   this.$router.push({ path: '/login' });
@@ -645,8 +628,10 @@ export default {
                 ontimeout: () => {
                   this.$router.push({ path: '/unconnect' });
                 },
-                timeout: 30
+                timeout: this.isWisp ? 60 : 30
               });
+            }).finally(() => {
+              this.$loading.close();
             });
           }
         }

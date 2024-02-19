@@ -391,18 +391,14 @@ export default {
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        local.type = this.netInfo.type ? this.netInfo.type : '-';
-        local.netinfo.ip = this.netInfo.netinfo.ip
-          ? this.netInfo.netinfo.ip
-          : '-';
-        local.netinfo.mask = this.netInfo.netinfo.mask
-          ? this.netInfo.netinfo.mask
-          : '-';
-        local.netinfo.gateway = this.netInfo.netinfo.gateway
-          ? this.netInfo.netinfo.gateway
-          : '-';
+        local.type = this.netInfo.type || '-';
+        if (this.isWisp && this.wispRepeaterStatus !== RepeaterStatus.connected) {
+          return local;
+        }
+        local.netinfo.ip = this.netInfo.netinfo.ip || '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask || '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
         local.netinfo.dns = this.netInfo.netinfo.dns;
-        return local;
       }
       return local;
     },
@@ -546,26 +542,6 @@ export default {
         .then(res => {
           this.wanInfoTimer = null;
           clearTimeout(this.wanInfoTimer);
-          // this.netInfo = {
-          //   type: 'wisp',
-          //   netinfo: {
-          //     ip: '10.70.109.226',
-          //     mask: '255.255.0.0',
-          //     gateway: '10.70.0.1',
-          //     dns: [
-          //       '10.70.0.1'
-          //     ]
-          //   },
-          //   wisp: {
-          //     ssid: 'upper_ssid', // 必选
-          //     password: '12345567', // 可选
-          //     bssid: 'uppder_mac', // 必选
-          //     channel: 40, // 必选
-          //     band: '2.4G', // 必选
-          //     security: 'wpa2', // 必选
-          //     rssi: 100 // 可选,上级无线信号的强度,当前是百分比表示.扫描SSID时必选,其他情况不传
-          //   }
-          // };
           this.netInfo = res.data.result;
           this.$store.state.wanType = this.netInfo.type;
           localStorage.setItem('wanType', this.netInfo.type);

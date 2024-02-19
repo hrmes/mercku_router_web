@@ -111,28 +111,30 @@ const launch = () => {
             upgradeHelper(res.data, upgrade, upgradeComponent);
           });
         },
-        ontimeout: () => {},
+        ontimeout: () => {
+          upgrading = false;
+          upgradeComponent.close();
+          opt.ontimeout();
+        },
         onprogress: () => {},
         onfinally: () => {},
         timeout: 600
       },
       ...options
     };
-    setTimeout(() => {
-      reconnect({
-        onsuccess: opt.onsuccess,
-        ontimeout: () => {
-          upgrading = false;
-          upgradeComponent.close();
-          opt.ontimeout();
-        },
-        onfinally: () => {
-          upgrading = false;
-        },
-        timeout: opt.timeout,
-        showLoading: false
-      });
-    }, 20000);
+    reconnect({
+      onsuccess: opt.onsuccess,
+      ontimeout: () => {
+        upgrading = false;
+        upgradeComponent.close();
+        opt.ontimeout();
+      },
+      onfinally: () => {
+        upgrading = false;
+      },
+      timeout: opt.timeout,
+      showLoading: false
+    });
   };
 
   let modeNotMatchDialogVisble = false;

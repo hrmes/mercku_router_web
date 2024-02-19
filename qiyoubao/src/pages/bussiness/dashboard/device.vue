@@ -551,16 +551,10 @@ export default {
     },
     devicesParams() {
       let params = { filters: [{ type: 'primary', status: ['online'] }] };
-      if (this.id === 'primary') {
-        params = { filters: [{ type: 'primary', status: ['online'] }] };
-      }
-      if (this.id === 'guest') {
-        params = { filters: [{ type: 'guest', status: ['online'] }] };
-      }
+
       if (this.id === 'offline') {
         params = {
           filters: [
-            { type: 'guest', status: ['offline'] },
             { type: 'primary', status: ['offline'] }
           ]
         };
@@ -713,15 +707,6 @@ export default {
       try {
         const curId = this.id;
         const { data: { result: devicesInfo } } = await this.$http.getDeviceList(params);
-        // const devicesInfo = {
-        //   devices: res.data.result,
-        //   add_game_dev_tip_disable: true,
-        //   del_game_dev_tip_disable: false
-        // };
-        // devicesInfo.devices.forEach(item => {
-        //   item.game_device = true;
-        //   item.online_info.band = 'game_wired';
-        // });
 
         this.showLoading = false;
         if (curId === this.id) {

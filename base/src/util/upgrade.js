@@ -1,4 +1,4 @@
-export default function upgradeHelper(indexHtml, isUpgrading, component) {
+export default function upgradeHelper(indexHtml, upgrade, component) {
   const meta = document.querySelector('meta[name="x-web-version-hash"]');
   let oldHash = '';
   let newHash = '';
@@ -18,15 +18,11 @@ export default function upgradeHelper(indexHtml, isUpgrading, component) {
       'the x-web-version-hash is not same, i think router has upgrade'
     );
     // document.write(indexHtml); document.write not works sometimes
-    window.location.pathname = '/web/dashboard'; // true means force reload
+    window.location.pathname = '/web/login'; // true means force reload
   }
   console.log('the x-web-version-hash is same, i think router not upgrade');
-  const upgrade = isUpgrading && component;
-  if (isUpgrading && component) {
-    isUpgrading = false;
+  if (upgrade && component) {
+    // toast('当前上传的固件与路由器当前固件版本一致', 3000, 'error');
     component.close();
-  }
-  if (upgrade && newHash === oldHash) {
-    window.location.reload();
   }
 }
