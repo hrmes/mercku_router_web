@@ -349,7 +349,7 @@ export default {
       let model;
       switch (modelID) {
         case M6aRouterSnModelVersion.M6a_Plus:
-          model = 'M6a Plus';
+          model = 'M6a_Plus';
           break;
         case M6aRouterSnModelVersion.M6c:
           model = 'M6c';
