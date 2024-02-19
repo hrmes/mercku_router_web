@@ -206,7 +206,7 @@ export default {
         ssid24g: [
           {
             rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            message: this.$t('trans0232')
           },
           {
             rule: value => {
@@ -230,6 +230,10 @@ export default {
         ],
         password24g: [
           {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
           },
@@ -244,8 +248,8 @@ export default {
         ],
         ssidGame: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
@@ -267,6 +271,10 @@ export default {
         ],
         passwordGame: [
           {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
           },
@@ -280,6 +288,10 @@ export default {
           }
         ],
         passwordAdmin: [
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
