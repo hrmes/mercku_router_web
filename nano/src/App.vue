@@ -10,12 +10,7 @@
                     :isWlanPage="isWlanPage"
                     :navs="menus"
                     id="header" />
-          <component v-if="isMobile"
-                     :is="layout"
-                     :hasBackWrap='hasBackWrap'
-                     :asideInfo='asideInfo'></component>
-          <transition v-else
-                      name="fade"
+          <transition :name="!isMobile && $store.state.hasTransition?'fade':''"
                       :css="!isMobile && $store.state.hasTransition"
                       mode="out-in">
             <component :is="layout"
