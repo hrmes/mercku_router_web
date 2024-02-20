@@ -74,7 +74,7 @@ export default {
       this.$http.getRegion()
         .then(res => {
           const region = res.data.result;
-          this.form.region.id = parseInt(region.ip_country_id || region.id, 10);
+          this.form.region.id = parseInt(region.id, 10);
 
           const allRegion = require(`../../../assets/regions/${this.$i18n.locale}.json`);
 

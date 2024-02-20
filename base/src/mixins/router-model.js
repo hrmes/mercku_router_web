@@ -22,9 +22,6 @@ export default {
         case RouterSnModel.M6:
           image = require('../assets/images/img_m6.png');
           break;
-        case RouterSnModel.M6c:
-          image = require('../assets/images/img_m6.png');
-          break;
         case RouterSnModel.M6a:
           if (modelVersion === M6aRouterSnModelVersion.M6a) {
             image = require('../assets/images/img_m6a.png');
@@ -73,7 +70,6 @@ export default {
         [RouterSnModel.M2]: process.env.CUSTOMER_CONFIG.routers.M2,
         [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee,
         [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
-        [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
         [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
         [RouterSnModel.M6a]: getM6aProductsInfo(),
         [RouterSnModel.M6s]: process.env.CUSTOMER_CONFIG.routers.M6s,

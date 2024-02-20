@@ -58,7 +58,6 @@ export const RouterSnModel = {
   M2: '01',
   Bee: '02',
   M6: '06',
-  M6c: '07',
   M6a: '08',
   Homeway: '09',
   M6s: '11',
@@ -140,7 +139,6 @@ export const Weeks = {
 export const Models = {
   m2: 'M2R2',
   m6: 'M6R0',
-  m6c: 'M7R0',
   m6a: 'M8',
   homeway_230v: 'M9R0',
   homeway_POE1: 'M9R1',
